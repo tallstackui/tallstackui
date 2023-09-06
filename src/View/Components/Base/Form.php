@@ -1,6 +1,6 @@
 <?php
 
-namespace src\View\Components\Base;
+namespace TasteUi\View\Components\Base;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;

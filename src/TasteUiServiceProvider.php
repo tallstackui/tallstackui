@@ -1,6 +1,6 @@
 <?php
 
-namespace src;
+namespace TasteUi;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
@@ -16,6 +16,7 @@ class TasteUiServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->singleton('TasteUi', TasteUi::class);
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'taste-ui');
     }
 
     public function boot(): void
