@@ -15,7 +15,7 @@
         }
     },
     "require": {
-        "php": "^8.1",
+        "php": "^8.1|^8.2",
         "livewire/livewire": "^3.0",
         "laravel/framework": "^10.0"
     },
@@ -37,6 +37,14 @@
     "config": {
         "allow-plugins": {
             "pestphp/pest-plugin": true
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "TasteUi\\TasteUiServiceProvider"
+            ],
+            "aliases": []
         }
     },
     "minimum-stability": "dev",
