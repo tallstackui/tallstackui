@@ -4,8 +4,7 @@ namespace TasteUi;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
-use TasteUi\Facades\TasteUi;
-use TasteUi\View\Components\Input;
+use TasteUi\View\Components\Form\Input;
 
 class TasteUiServiceProvider extends ServiceProvider
 {
@@ -16,6 +15,7 @@ class TasteUiServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->singleton('TasteUi', TasteUi::class);
+
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'taste-ui');
     }
 
