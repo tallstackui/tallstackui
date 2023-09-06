@@ -1,0 +1,44 @@
+{
+    "name": "tasteui/tasteui",
+    "description": "A curated list of TallStack UI Components",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "AJ Meireles",
+            "email": "alvaro.meireles@live.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "TasteUi\\": "src/"
+        }
+    },
+    "require": {
+        "php": "^8.1",
+        "livewire/livewire": "^3.0",
+        "laravel/framework": "^10.0"
+    },
+    "require-dev": {
+        "pestphp/pest": "^2.17",
+        "laravel/pint": "^1.13",
+        "nunomaduro/larastan": "^2.0"
+    },
+    "scripts": {
+        "test": "./vendor/bin/pest",
+        "format": "./vendor/bin/pint",
+        "analyse": "./vendor/bin/phpstan analyse --memory-limit=2G",
+        "ci": [
+            "./vendor/bin/pest",
+            "./vendor/bin/pint --test",
+            "./vendor/bin/phpstan analyse --memory-limit=2G"
+        ]
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
