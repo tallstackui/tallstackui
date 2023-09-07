@@ -2,9 +2,10 @@
 
 namespace TasteUi\View\Components;
 
-use TasteUi\View\Components\Base\TasteUi;
+use Illuminate\Contracts\View\View;
+use Illuminate\View\Component;
 
-class Icon extends TasteUi
+class Icon extends Component
 {
     public function __construct(
         public ?string $name = null,
@@ -14,8 +15,8 @@ class Icon extends TasteUi
         $this->style = $this->solid !== null ? 'solid' : 'outline';
     }
 
-    public function blade(): string
+    public function render(): View
     {
-        return 'components.icon';
+        return view('taste-ui::components.icon');
     }
 }

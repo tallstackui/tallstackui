@@ -2,19 +2,21 @@
 
 namespace TasteUi\View\Components\Form;
 
-use TasteUi\View\Components\Base\TasteUi;
+use Illuminate\Contracts\View\View;
+use Illuminate\View\Component;
 
-class Label extends TasteUi
+class Label extends Component
 {
     public function __construct(
-        public ?string $text = null,
         public ?string $for = null,
+        public ?string $label = null,
+        public ?string $text = null,
     ) {
         //
     }
 
-    public function blade(): string
+    public function render(): View
     {
-        return 'components.form.label';
+        return view('taste-ui::components.form.label');
     }
 }

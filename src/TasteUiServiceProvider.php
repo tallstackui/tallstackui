@@ -5,11 +5,15 @@ namespace TasteUi;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
 use TasteUi\View\Components\Form\Input;
+use TasteUi\View\Components\Form\Label;
+use TasteUi\View\Components\Icon;
 
 class TasteUiServiceProvider extends ServiceProvider
 {
     protected const COMPONENTS = [
         'input' => Input::class,
+        'icon'  => Icon::class,
+        'label' => Label::class,
     ];
 
     public function register(): void
