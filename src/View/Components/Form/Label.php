@@ -11,6 +11,7 @@ class Label extends Component
         public ?string $for = null,
         public ?string $label = null,
         public ?string $text = null,
+        public bool $error = false,
     ) {
         //
     }

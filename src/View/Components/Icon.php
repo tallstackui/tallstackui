@@ -8,9 +8,10 @@ use Illuminate\View\Component;
 class Icon extends Component
 {
     public function __construct(
-        public ?string $name = null,
+        public ?string $icon = null,
         public ?string $solid = null,
         public ?string $style = null,
+        public bool $error = false,
     ) {
         $this->style = $this->solid !== null ? 'solid' : 'outline';
     }
