@@ -4,20 +4,9 @@ namespace TasteUi;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
-use TasteUi\View\Components\Alert;
-use TasteUi\View\Components\Form\Input;
-use TasteUi\View\Components\Form\Label;
-use TasteUi\View\Components\Icon;
 
 class TasteUiServiceProvider extends ServiceProvider
 {
-    protected const COMPONENTS = [
-        'input' => Input::class,
-        'icon' => Icon::class,
-        'label' => Label::class,
-        'alert' => Alert::class,
-    ];
-
     public function register(): void
     {
         $this->app->singleton('TasteUi', TasteUi::class);
@@ -27,13 +16,19 @@ class TasteUiServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        $this->registerConfig();
         $this->registerComponents();
+    }
+
+    public function registerConfig(): void
+    {
+        $this->mergeConfigFrom(__DIR__.'/../config/tasteui.php', 'tasteui');
     }
 
     private function registerComponents(): void
     {
         $this->callAfterResolving(BladeCompiler::class, static function (BladeCompiler $blade): void {
-            foreach (self::COMPONENTS as $alias => $class) {
+            foreach (config('tasteui.components') as $alias => $class) {
                 $blade->component($class, $alias);
             }
         });
