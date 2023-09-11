@@ -9,7 +9,7 @@ class Icon extends Component
 {
     public function __construct(
         public ?string $icon = null,
-        public ?string $solid = null,
+        public ?bool $solid = null,
         public ?string $style = null,
         public bool $error = false,
     ) {
