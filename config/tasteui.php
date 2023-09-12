@@ -13,5 +13,6 @@ return [
         'icon' => Components\Icon::class,
         'label' => Components\Form\Label::class,
         'alert' => Components\Alert::class,
+        'card' => Components\Card::class,
     ],
 ];
