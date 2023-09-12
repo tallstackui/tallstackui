@@ -59,12 +59,12 @@ class Alert extends Component
     private function title(): string
     {
         return [
-            'primary' => 'text-sm font-medium text-primary-800',
-            'secondary' => 'text-sm font-medium text-secondary-800',
-            'green' => 'text-sm font-medium text-green-800',
-            'red' => 'text-sm font-medium text-red-800',
-            'yellow' => 'text-sm font-medium text-yellow-800',
-            'blue' => 'text-sm font-medium text-blue-800',
+            'primary' => 'text-lg font-semibold text-primary-800',
+            'secondary' => 'text-lg font-semibold text-secondary-800',
+            'green' => 'text-lg font-semibold text-green-800',
+            'red' => 'text-lg font-semibold text-red-800',
+            'yellow' => 'text-lg font-semibold text-yellow-800',
+            'blue' => 'text-lg font-semibold text-blue-800',
         ][$this->color];
     }
 

@@ -19,7 +19,7 @@ class Password extends Component
     {
         return view('taste-ui::components.form.password', [
             'icon' => 'eye',
-            'position' => 'right'
+            'position' => 'right',
         ]);
     }
 }

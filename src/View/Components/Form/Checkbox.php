@@ -5,7 +5,7 @@ namespace TasteUi\View\Components\Form;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class Radiobox extends Component
+class Checkbox extends Component
 {
     public function __construct(
         public ?string $id = null,
@@ -16,7 +16,6 @@ class Radiobox extends Component
         public ?string $lg = null,
         public ?string $size = null,
         public bool $checked = false,
-        public ?string $square = null,
     ) {
         $this->id ??= uniqid();
         $this->size = $this->sm ? 'sm' : ($this->lg ? 'lg' : 'md');
@@ -24,6 +23,6 @@ class Radiobox extends Component
 
     public function render(): View
     {
-        return view('taste-ui::components.form.radiobox');
+        return view('taste-ui::components.form.checkbox');
     }
 }
