@@ -1,9 +1,7 @@
-@php($computed = $attributes->whereStartsWith('wire:model')->first())
-
 <div class="flex items-center">
     @if ($label && $position === 'left')
         <span class="mr-2 text-sm">
-            <span class="font-medium text-gray-700">{{ $label }}</span>
+            <p class="font-medium text-gray-700">{{ $label }}</p>
         </span>
     @endif
     <label @if ($id) for="{{ $id }}" @endif class="relative inline-flex cursor-pointer items-center">
@@ -26,7 +24,7 @@
     </label>
     @if ($label && $position === 'right')
         <span class="ml-2 text-sm">
-            <span class="font-medium text-gray-700">{{ $label }}</span>
+            <p class="font-medium text-gray-700">{{ $label }}</p>
         </span>
     @endif
 </div>

@@ -8,6 +8,7 @@ return [
         'textarea' => Components\Form\Textarea::class,
         'password' => Components\Form\Password::class,
         'toggle' => Components\Form\Toggle::class,
+        'radio' => Components\Form\Radio::class,
         'icon' => Components\Icon::class,
         'label' => Components\Form\Label::class,
         'alert' => Components\Alert::class,
