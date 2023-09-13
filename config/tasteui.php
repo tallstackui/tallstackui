@@ -15,5 +15,7 @@ return [
         'alert' => Components\Alert::class,
         'card' => Components\Card::class,
         'badge' => Components\Badge::class,
+        'avatar' => Components\Avatar\Index::class,
+        'avatar.modelable' => Components\Avatar\Modelable::class,
     ],
 ];

@@ -5,18 +5,23 @@ namespace TasteUi\View\Components;
 use Closure;
 use Illuminate\View\Component;
 
-class Badge extends Component
+//TODO: continue...
+class Button extends Component
 {
     public function __construct(
         public ?string $text = null,
         public ?string $icon = null,
         public ?string $position = 'right',
+        public ?string $xs = null,
+        public ?string $sm = null,
         public ?string $md = null,
         public ?string $lg = null,
+        public ?string $size = null,
         public ?string $solid = null,
         public ?string $outline = null,
         public ?string $color = 'primary',
-        public ?string $square = null,
+        public ?string $circle = null,
+        public ?string $link = null,
         private ?string $style = null,
     ) {
         $this->style = $this->solid ? 'solid' : 'outline';
@@ -25,7 +30,7 @@ class Badge extends Component
     public function render(): Closure
     {
         return function (array $data) {
-            return view('taste-ui::components.badge', $this->merge($data))->render();
+            return view('taste-ui::components.button', $this->merge($data))->render();
         };
     }
 
@@ -56,10 +61,6 @@ class Badge extends Component
                 'blue' => 'border border-blue-500 text-blue-800',
             ],
         ][$this->style][$this->color];
-
-        if (! $this->square) {
-            $class .= ' rounded-md';
-        }
 
         return $class;
     }
