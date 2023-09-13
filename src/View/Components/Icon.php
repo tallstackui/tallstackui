@@ -10,8 +10,8 @@ class Icon extends Component
     public function __construct(
         public ?string $icon = null,
         public ?bool $solid = null,
-        public ?string $style = null,
         public bool $error = false,
+        public ?string $style = null,
     ) {
         $this->style = $this->solid !== null ? 'solid' : 'outline';
     }

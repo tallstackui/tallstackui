@@ -2,14 +2,19 @@
 
 namespace TasteUi;
 
+use Illuminate\Foundation\AliasLoader;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
+use TasteUi\Facades\TasteUi as Facade;
 
 class TasteUiServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
         $this->app->singleton('TasteUi', TasteUi::class);
+        $loader = AliasLoader::getInstance();
+        $loader->alias('TasteUi', Facade::class);
 
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'taste-ui');
     }
@@ -18,11 +23,13 @@ class TasteUiServiceProvider extends ServiceProvider
     {
         $this->registerConfig();
         $this->registerComponents();
+        $this->registerBladeDirectives();
     }
 
     public function registerConfig(): void
     {
         $this->mergeConfigFrom(__DIR__.'/../config/tasteui.php', 'tasteui');
+        $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
     }
 
     private function registerComponents(): void
@@ -31,6 +38,21 @@ class TasteUiServiceProvider extends ServiceProvider
             foreach (config('tasteui.components') as $alias => $class) {
                 $blade->component($class, $alias);
             }
+        });
+    }
+
+    private function registerBladeDirectives(): void
+    {
+        Blade::directive('tasteUiScripts', static function (?string $attributes = ''): string {
+            if (!$attributes) {
+                $attributes = '[]';
+            }
+
+            return "{!! TasteUi::directives()->scripts(attributes: {$attributes}) !!}";
+        });
+
+        Blade::directive('tasteUiStyles', static function (): string {
+            return Facade::directives()->styles();
         });
     }
 }
