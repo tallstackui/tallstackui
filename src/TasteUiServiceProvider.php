@@ -15,8 +15,6 @@ class TasteUiServiceProvider extends ServiceProvider
         $this->app->singleton('TasteUi', TasteUi::class);
         $loader = AliasLoader::getInstance();
         $loader->alias('TasteUi', Facade::class);
-
-        $this->loadViewsFrom(__DIR__.'/../resources/views', 'taste-ui');
     }
 
     public function boot(): void
@@ -28,8 +26,9 @@ class TasteUiServiceProvider extends ServiceProvider
 
     public function registerConfig(): void
     {
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'taste-ui');
         $this->mergeConfigFrom(__DIR__.'/../config/tasteui.php', 'tasteui');
-        $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
+        $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
     }
 
     private function registerComponents(): void
@@ -44,7 +43,7 @@ class TasteUiServiceProvider extends ServiceProvider
     private function registerBladeDirectives(): void
     {
         Blade::directive('tasteUiScripts', static function (?string $attributes = ''): string {
-            if (!$attributes) {
+            if (! $attributes) {
                 $attributes = '[]';
             }
 

@@ -9,4 +9,3 @@ final class TasteUi
         return new TasteUiDirectives();
     }
 }
-

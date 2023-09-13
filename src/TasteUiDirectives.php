@@ -9,7 +9,7 @@ class TasteUiDirectives
     public function scripts(bool $absolute = true, array $attributes = []): string
     {
         $route = route('tasteui.scripts', absolute: $absolute);
-        $this->manifest("tasteui.js",$route);
+        $this->manifest('tasteui.js', $route);
 
         $attributes = new ComponentAttributeBag($attributes);
 
@@ -28,12 +28,12 @@ class TasteUiDirectives
 
     private function manifest(string $file, string &$route): void
     {
-        if (!file_exists($path = __DIR__ . '/../dist/mix-manifest.json')) {
+        if (! file_exists($path = __DIR__.'/../dist/mix-manifest.json')) {
             return;
         }
 
         $manifest = json_decode(file_get_contents($path), $assoc = true);
-        $version  = last(explode('=', $manifest["/{$file}"]));
+        $version = last(explode('=', $manifest["/{$file}"]));
 
         $route .= "?id={$version}";
     }
