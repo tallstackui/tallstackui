@@ -1,4 +1,6 @@
-<button type="button" {{ $attributes->class([
+@php($type = $href ? 'a' : 'button')
+
+<{{ $type }} @if ($href) href="{{ $href }}" @endif {{ $attributes->class([
         'outline-none inline-flex justify-center items-center group ease-in font-semibold',
         'focus:ring-2 focus:ring-offset-2 hover:shadow-sm disabled:opacity-50 disabled:cursor-not-allowed text-sm',
         'gap-x-2'      => $icon !== null,
@@ -11,18 +13,18 @@
         $color
     ]) }}>
     @if ($icon && $position === 'left')
-        <x-dynamic-component component="taste-ui::icons.solid.{{ $icon }}" @class([
+        <x-icon :$icon solid @class([
             'text-white',
-            'w-4 h-4' => $size === 'xs' || $size === 'sm',
-            'w-6 h-6' => $size === 'md' || $size === 'lg',
+            'w-4 h-4' => $size !== 'lg',
+            'w-6 h-6' => $size === 'lg',
         ]) />
     @endif
     {{ $text ?? $slot }}
     @if ($icon && $position === 'right')
-        <x-dynamic-component component="taste-ui::icons.solid.{{ $icon }}" @class([
+        <x-icon :$icon solid @class([
             'text-white',
-            'w-4 h-4' => $size === 'xs' || $size === 'sm',
-            'w-6 h-6' => $size === 'md' || $size === 'lg',
+            'w-4 h-4' => $size !== 'lg',
+            'w-6 h-6' => $size === 'lg',
         ]) />
     @endif
-</button>
+</{{ $type }}>

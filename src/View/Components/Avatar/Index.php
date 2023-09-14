@@ -21,7 +21,7 @@ class Index extends Component
     public function render(): Closure
     {
         return function (array $data) {
-            return view('taste-ui::components.avatar.index', $this->merge($data))->render();
+            return view('taste-ui::components.avatar', $this->merge($data))->render();
         };
     }
 

@@ -19,6 +19,7 @@ return [
         'avatar.modelable' => Components\Avatar\Modelable::class,
         'errors' => Components\Errors::class,
         'tooltip' => Components\Tooltip::class,
-        'button' => Components\Button::class,
+        'button' => Components\Button\Index::class,
+        'button.circle' => Components\Button\Circle::class,
     ],
 ];
