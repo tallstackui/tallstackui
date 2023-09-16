@@ -14,12 +14,39 @@ class Style extends Component
         public ?string $hint = null,
         public Collection|array $options = [],
         public ?string $multiple = null,
+        public ?string $select = null,
+        public ?array $selectable = [],
     ) {
-        //
+        $this->options();
     }
 
     public function render(): View
     {
         return view('taste-ui::components.select.style');
+    }
+
+    private function options(): void
+    {
+        if (! $this->select) {
+            return;
+        }
+
+        $select = explode('|', $this->select);
+        $label = explode(':', $select[0])[1];
+        $value = explode(':', $select[1])[1];
+
+        $this->options = collect($this->options)->map(function (array $item) use ($label, $value) {
+            return [
+                $label => $item[$label],
+                $value => $item[$value],
+            ];
+        })->toArray();
+
+        $this->selectable = [
+            'label' => $label,
+            'value' => $value,
+        ];
+
+        // dd($this->options, $this->selectable);
     }
 }
