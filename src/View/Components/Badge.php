@@ -19,7 +19,7 @@ class Badge extends Component
         public ?string $square = null,
         private ?string $style = null,
     ) {
-        $this->style = $this->solid ? 'solid' : 'outline';
+        $this->style = $this->outline ? 'outline' : 'solid';
     }
 
     public function render(): Closure
@@ -39,7 +39,7 @@ class Badge extends Component
     private function colors(): string
     {
         $class = [
-            'outline' => [
+            'solid' => [
                 'primary' => 'bg-primary-500 border border-primary-500 text-white',
                 'secondary' => 'bg-secondary-500 border border-secondary-500 text-white',
                 'green' => 'bg-green-500 border border-green-500 text-white',
@@ -47,7 +47,7 @@ class Badge extends Component
                 'yellow' => 'bg-yellow-500 border border-yellow-500 text-white',
                 'blue' => 'bg-blue-500 border border-blue-500 text-white',
             ],
-            'solid' => [
+            'outline' => [
                 'primary' => 'border border-primary-500 text-primary-800',
                 'secondary' => 'border border-secondary-500 text-secondary-800',
                 'green' => 'border border-green-500 text-green-800',
