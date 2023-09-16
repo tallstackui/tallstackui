@@ -20,7 +20,7 @@ class TasteUiDirectives
 
     public function styles(bool $absolute = true): string
     {
-        $route = route('wireui.assets.styles', $parameters = [], $absolute);
+        $route = route('tasteui.styles', $parameters = [], $absolute);
         $this->manifest('tasteui.css', $route);
 
         return "<link href=\"{$route}\" rel=\"stylesheet\" type=\"text/css\">";

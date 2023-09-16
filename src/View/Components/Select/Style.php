@@ -13,6 +13,7 @@ class Style extends Component
         public ?string $label = null,
         public ?string $hint = null,
         public Collection|array $options = [],
+        public ?bool $searchable = false,
         public ?string $multiple = null,
         public ?string $select = null,
         public ?array $selectable = [],
