@@ -15,7 +15,7 @@
                         'text-red-800'    => $color === 'red',
                         'text-yellow-800' => $color === 'yellow'
                     ])>
-                    {{ str_replace('$__count', $count, $title) }}
+                    {{ __($title, ['count' => $count]) }}
                 </span>
             </div>
             <div class="mt-2 ml-5 pl-1">

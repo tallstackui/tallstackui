@@ -29,6 +29,7 @@ class TasteUiServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'taste-ui');
         $this->mergeConfigFrom(__DIR__.'/../config/tasteui.php', 'tasteui');
         $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
+        $this->loadTranslationsFrom(__DIR__.'/../lang', 'taste-ui');
     }
 
     private function registerComponents(): void

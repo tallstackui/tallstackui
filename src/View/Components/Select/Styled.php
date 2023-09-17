@@ -22,7 +22,9 @@ class Styled extends Component
 
     public function render(): View
     {
-        return view('taste-ui::components.select.styled');
+        return view('taste-ui::components.select.styled', [
+            'placeholder' => __('taste-ui::messages.select.placeholder'),
+        ]);
     }
 
     private function options(): void

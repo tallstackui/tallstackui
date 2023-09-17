@@ -11,16 +11,18 @@
         searchable : @js($searchable),
         dimensional : @js($selectable !== []),
         selectable : @js($selectable),
-        placeholder : 'Selecione uma opção',
+        placeholder : @js($placeholder),
         init() {
-             this.selecteds = this.dimensional
-                ? this.options.filter(option => this.model.includes(option[this.selectable.value]))
-                : this.options.find(option => option === this.model);
+             if (this.model && options.length > 0) {
+                 this.selecteds = this.dimensional
+                    ? this.options.filter(option => this.model.includes(option[this.selectable.value]))
+                    : this.options.find(option => option === this.model);
 
-            if (this.selecteds) {
-                this.placeholder = this.dimensional
-                    ? this.selecteds[0][this.selectable.label]
-                    : this.selecteds;
+                if (this.selecteds) {
+                    this.placeholder = this.dimensional
+                        ? this.selecteds[0][this.selectable.label]
+                        : this.selecteds;
+                }
             }
         },
         select (option) {
@@ -78,7 +80,7 @@
             }
 
             this.model = null;
-            this.placeholder = 'Selecione uma opção';
+            this.placeholder = @js($placeholder);
             this.selecteds = [];
             this.search = '';
             this.show = false;
@@ -87,7 +89,7 @@
             return this.selecteds?.length;
         },
         get empty () {
-            return this.selecteds === undefined || this.selecteds.length === 0;
+            return !this.selecteds || this.selecteds?.length === 0;
         },
         get options () {
             const availables = @js($options);
@@ -119,7 +121,7 @@
                 <span @class(['truncate font-medium', 'text-red-500' => $error]) x-bind:class="{ 'text-gray-400': empty }" x-text="placeholder"></span>
             </div>
             <div class="mr-1 flex items-center">
-                <template x-if="selecteds">
+                <template x-if="!empty">
                     <button type="button" x-on:click="clear()">
                         <svg class="h-4 w-4 transition hover:text-red-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -160,8 +162,7 @@
                 <template x-if="options.length === 0">
                     <li class="m-2">
                         <span class="block w-full pr-2 text-gray-700">
-                            {{--TODO: translate--}}
-                            Nenhum resultado encontrado
+                            {{ __('taste-ui::messages.select.empty') }}
                         </span>
                     </li>
                 </template>

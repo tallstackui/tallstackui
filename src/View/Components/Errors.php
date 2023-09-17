@@ -13,8 +13,7 @@ class Errors extends Component
         public string|array|null $only = null,
         public ?string $color = 'red',
     ) {
-        // TODO: translate?
-        $this->title = 'There are $__count validation errors:';
+        $this->title ??= __('taste-ui::messages.errors.title');
     }
 
     public function render(): View
