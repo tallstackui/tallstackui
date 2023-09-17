@@ -3,29 +3,26 @@
     $error    = $errors->has($computed);
 @endphp
 
-<div x-cloak x-data="{
+<div x-data="{
         show : false,
         model : @entangle($computed),
         selecteds : [],
-        search: '',
+        search : '',
         searchable : @js($searchable),
         dimensional : @js($selectable !== []),
         selectable : @js($selectable),
-        multiple : @js($multiple),
+        multiple : @js($multiple !== null),
         placeholder : 'Selecione uma opção',
         init() {
-            this.selecteds = this.dimensional
-                ? this.options.find(option => option[this.selectable.value] === this.model)
-                : this.options.find(option => option === this.model);
-
-            if (this.selecteds) {
-                this.placeholder = this.dimensional
-                    ? this.selecteds[this.selectable.label]
-                    : this.selecteds;
-            }
-
-            if (this.multiple && !this.selecteds) {
-                this.selecteds = [];
+            if (this.multiple && this.model) {
+                this.selecteds = this.options.filter(option => this.model.includes(option[this.selectable.value]));
+            } else if (this.dimensional) {
+                const selected = this.options.find(option => option[this.selectable.value] === (this.model ?? this.model[0]));
+                this.selecteds = [selected];
+                this.placeholder = selected[this.selectable.label];
+            } else {
+                this.selecteds = this.options.find(option => option === this.model);
+                this.placeholder = this.selecteds;
             }
         },
         select (option) {
@@ -48,7 +45,6 @@
                 : [option];
 
             if (this.dimensional) {
-                console.log(this.selecteds);
                 this.model = this.multiple
                     ? this.selecteds.map(selected => selected[this.selectable.value])
                     : option[this.selectable.value];
@@ -70,12 +66,8 @@
                 return this.selecteds === option;
             }
 
-            const selecteds = this.multiple && this.selecteds.length === 1
-                ? this.selecteds[0]
-                : this.selecteds;
-
-            if (this.multiple && selecteds.length >= 1) {
-                return selecteds.some(selected => {
+            if (this.multiple && this.selecteds.length >= 1) {
+                return this.selecteds.some(selected => {
                     const keys   = Object.keys(selected);
                     const values = Object.values(selected);
 
@@ -87,22 +79,23 @@
                 });
             }
 
-            const keys   = Object.keys(selecteds);
-            const values = Object.values(selecteds);
+            const keys   = Object.keys(this.selecteds);
+            const values = Object.values(this.selecteds);
 
             if (keys.length === 0 && values.length === 0) {
                 return false;
             }
 
             return keys.every(key => {
-                return selecteds[key] === option[key];
+                return this.selecteds[key] === option;
             }) && values.every(value => {
-                return selecteds[value] === option[value];
+                return value === option;
             });
         },
-        clear(selected = null) {
+        clear (selected = null) {
             if (this.multiple && selected) {
                 this.selecteds = this.selecteds.filter(option => option !== selected);
+                this.model = this.selecteds.map(selected => selected[this.selectable.value]);
 
                 if (this.selecteds.length > 0) {
                     return;
@@ -119,6 +112,9 @@
         },
         get quantity() {
             return this.selecteds?.length;
+        },
+        get empty () {
+            return this.selecteds === undefined || this.selecteds.length === 0;
         },
         get options () {
             const availables = @js($options);
@@ -168,7 +164,7 @@
                     </div>
                 </template>
                 <template x-if="!multiple">
-                    <span @class(['truncate font-medium', 'text-red-500' => $error]) x-bind:class="{ 'text-gray-400': !selecteds }" x-text="placeholder"></span>
+                    <span @class(['truncate font-medium', 'text-red-500' => $error]) x-bind:class="{ 'text-gray-400': empty }" x-text="placeholder"></span>
                 </template>
             </div>
             <div class="mr-1 flex items-center">
@@ -183,43 +179,45 @@
             </div>
         </div>
         <!-- list -->
-        <ul wire:ignore x-ref="options" x-show="show" class="z-50 mt-1 max-h-60 w-full overflow-auto rounded-lg bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm" id="options" role="listbox">
-            <template x-if="searchable">
-                <li class="m-2">
-                    <!-- input --->
-                    <input type="text"
-                           name="account-number"
-                           id="account-number"
-                           class="block w-full rounded-md border-0 pr-10 placeholder:text-gray-400 text-gray-900 ring-1 ring-inset ring-gray-300 py-1.5 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                           placeholder="Procure alguma coisa"
-                           x-model.debounce.500ms="search"
-                    />
-                </li>
-            </template>
-            <template x-for="option in options" :key="option[selectable.label] ?? option">
-                <li x-on:click="select(option)"
-                    class="relative cursor-pointer select-none py-2 pr-2 pl-3 text-gray-700 transition hover:bg-gray-100"
-                    id="option-0"
-                    role="option"
-                    tabindex="-1"
-                    x-bind:class="{ 'font-semibold hover:text-white hover:bg-red-500': selected(option) }"
-                >
-                    <div wire:ignore class="flex items-center justify-between">
-                        <span class="ml-2 truncate" x-text="option[selectable.label] ?? option"></span>
-                        <svg x-show="selected(option)" class="h-5 w-5 font-bold text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/>
-                        </svg>
-                    </div>
-                </li>
-            </template>
-            <template x-if="options.length === 0">
-                <li class="m-2">
+        <div class="relative">
+            <ul wire:ignore x-show="show" class="absolute z-50 mt-1 max-h-60 w-full overflow-auto rounded-lg bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm" id="options" role="listbox">
+                <template x-if="searchable">
+                    <li class="m-2">
+                        <!-- input --->
+                        <input type="text"
+                               name="account-number"
+                               id="account-number"
+                               class="block w-full rounded-md border-0 pr-10 placeholder:text-gray-400 text-gray-900 ring-1 ring-inset ring-gray-300 py-1.5 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                               placeholder="Procure alguma coisa"
+                               x-model.debounce.500ms="search"
+                        />
+                    </li>
+                </template>
+                <template x-for="option in options" :key="option[selectable.label] ?? option">
+                    <li x-on:click="select(option)"
+                        class="relative cursor-pointer select-none py-2 pr-2 pl-3 text-gray-700 transition hover:bg-gray-100"
+                        id="option-0"
+                        role="option"
+                        tabindex="-1"
+                        x-bind:class="{ 'font-semibold hover:text-white hover:bg-red-500': selected(option) }"
+                    >
+                        <div wire:ignore class="flex items-center justify-between">
+                            <span class="ml-2 truncate" x-text="option[selectable.label] ?? option"></span>
+                            <svg x-show="selected(option)" class="h-5 w-5 font-bold text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/>
+                            </svg>
+                        </div>
+                    </li>
+                </template>
+                <template x-if="options.length === 0">
+                    <li class="m-2">
                     <span class="block w-full pr-2 text-gray-700">
                         Nenhum resultado encontrado
                     </span>
-                </li>
-            </template>
-        </ul>
+                    </li>
+                </template>
+            </ul>
+        </div>
     </div>
     @if ($hint && !$error)
         <span class="mt-2 text-sm text-secondary-500">

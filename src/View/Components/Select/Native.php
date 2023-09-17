@@ -6,15 +6,15 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Collection;
 use Illuminate\View\Component;
 
-class Style extends Component
+class Native extends Component
 {
     public function __construct(
         public ?string $id = null,
         public ?string $label = null,
         public ?string $hint = null,
+        public ?string $icon = null,
+        public ?string $position = null,
         public Collection|array $options = [],
-        public ?bool $searchable = false,
-        public ?string $multiple = null,
         public ?string $select = null,
         public ?array $selectable = [],
     ) {
@@ -23,7 +23,7 @@ class Style extends Component
 
     public function render(): View
     {
-        return view('taste-ui::components.select.style');
+        return view('taste-ui::components.select.native');
     }
 
     private function options(): void
@@ -47,7 +47,5 @@ class Style extends Component
             'label' => $label,
             'value' => $value,
         ];
-
-        // dd($this->options, $this->selectable);
     }
 }

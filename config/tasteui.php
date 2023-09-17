@@ -21,7 +21,8 @@ return [
         'tooltip' => Components\Tooltip::class,
         'button' => Components\Button\Index::class,
         'button.circle' => Components\Button\Circle::class,
-        'select' => Components\Select\Index::class,
-        'select.style' => Components\Select\Style::class,
+        'select.native' => Components\Select\Native::class,
+        'select.styled' => Components\Select\Styled::class,
+        'select.multiple' => Components\Select\Multiple::class,
     ],
 ];
