@@ -13,7 +13,7 @@
         selectable : @js($selectable),
         placeholder : @js($placeholder),
         init() {
-             if (this.model && options.length > 0) {
+             if (this.model && this.options.length > 0) {
                  this.selecteds = this.dimensional
                     ? this.options.filter(option => this.model.includes(option[this.selectable.value]))
                     : this.options.find(option => option === this.model);
