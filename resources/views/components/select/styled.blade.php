@@ -127,23 +127,17 @@
             <div class="mr-1 flex items-center">
                 <template x-if="!empty">
                     <button type="button" x-on:click="clear()">
-                        <svg class="h-4 w-4 transition hover:text-red-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
+                        <x-icon icon="x-mark" class="h-5 w-5 transition hover:text-red-500" />
                     </button>
                 </template>
             </div>
         </div>
         <div class="relative">
-            <ul wire:ignore x-show="show" class="absolute z-50 mt-1 max-h-60 w-full overflow-auto rounded-lg bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm" id="options" role="listbox">
+            <ul wire:ignore x-show="show" class="absolute z-50 mt-1 max-h-60 w-full overflow-auto rounded-lg bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm soft-scrollbar" id="options" role="listbox">
                 <template x-if="searchable">
                     <li class="m-2">
-                        <input type="text"
-                               name="account-number"
-                               id="account-number"
-                               class="block w-full rounded-md border-0 pr-10 placeholder:text-gray-400 text-gray-900 ring-1 ring-inset ring-gray-300 py-1.5 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                               placeholder="{{ __('taste-ui::messages.select.input') }}"
-                               x-model.debounce.500ms="search"
+                        <x-input placeholder="{{ __('taste-ui::messages.select.input') }}"
+                                 x-model.debounce.500ms="search"
                         />
                     </li>
                 </template>

@@ -5,6 +5,8 @@ import forms from '@tailwindcss/forms';
 module.exports = {
   content: [
     './resources/views/**/*.blade.php',
+    './resources/css/**/*.css',
+    './resources/js/**/*.js',
     './src/**/*.php'
   ],
   darkMode: 'class',

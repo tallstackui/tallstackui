@@ -13,6 +13,10 @@
         selectable : @js($selectable),
         placeholder : @js($placeholder),
         init() {
+            if (this.model.constructor !== Array) {
+                return console.warn('[TasteUi] The wire:model must be an array');
+            }
+
             this.selecteds = this.dimensional
                 ? this.options.filter(option => this.model.includes(option[this.selectable.value]))
                 : this.options.filter(option => this.model.includes(option));
@@ -35,7 +39,9 @@
                 this.model = this.selecteds.map(selected => selected[this.selectable.value])
                 this.placeholder = option[this.selectable.label];
             } else {
-                this.model = this.selecteds;
+                this.model = this.selecteds.construct === Array
+                    ? [...this.selecteds, option]
+                    : this.selecteds;
                 this.placeholder = option;
             }
 
@@ -128,11 +134,9 @@
                     </template>
                     <template x-for="(selected, index) in selecteds" :key="selected[selectable.label] ?? selected">
                         <a href="#" class="cursor-pointer" x-on:click="clear(selected);">
-                            <div class="inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
+                            <div class="inline-flex items-center rounded-lg bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10 space-x-1">
                                 <span x-text="selected[selectable.label] ?? selected"></span>
-                                <svg class="h-4 w-4 text-gray-700" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                                </svg>
+                                <x-icon icon="x-mark" class="h-4 w-4 transition text-gray-700 hover:text-red-500" />
                             </div>
                         </a>
                     </template>
@@ -141,23 +145,17 @@
             <div class="mr-1 flex items-center">
                 <template x-if="!empty">
                     <button type="button" x-on:click="clear()">
-                        <svg class="h-4 w-4 transition hover:text-red-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
+                        <x-icon icon="x-mark" class="h-5 w-5 transition hover:text-red-500" />
                     </button>
                 </template>
             </div>
         </div>
         <div class="relative">
-            <ul wire:ignore x-show="show" class="absolute z-50 mt-1 max-h-60 w-full overflow-auto rounded-lg bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm" id="options" role="listbox">
+            <ul wire:ignore x-show="show" class="absolute z-50 mt-1 max-h-60 w-full overflow-auto rounded-lg bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 soft-scrollbar focus:outline-none sm:text-sm" id="options" role="listbox">
                 <template x-if="searchable">
                     <li class="m-2">
-                        <input type="text"
-                               name="account-number"
-                               id="account-number"
-                               class="block w-full rounded-md border-0 pr-10 placeholder:text-gray-400 text-gray-900 ring-1 ring-inset ring-gray-300 py-1.5 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                               placeholder="{{ __('taste-ui::messages.select.input') }}"
-                               x-model.debounce.500ms="search"
+                        <x-input placeholder="{{ __('taste-ui::messages.select.input') }}"
+                                 x-model.debounce.500ms="search"
                         />
                     </li>
                 </template>
@@ -188,7 +186,7 @@
         </div>
     </div>
     @if ($hint && !$error)
-    <span class="mt-2 text-sm text-secondary-500">
+        <span class="mt-2 text-sm text-secondary-500">
         {{ $hint }}
     </span>
     @endif
