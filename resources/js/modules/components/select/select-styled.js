@@ -1,24 +1,29 @@
+import { warning } from "../../helpers";
+import { options as filtered, selected as selecteds } from "./helpers";
+
 export default (
-    show = false,
     model = null,
-    selecteds = null,
-    search = '',
     searchable = false,
-    dimensional = [],
-    selectable = [],
+    dimensional = false,
+    selectable = {},
     options = [],
-    placeholder = '',
-    originalPlaceholder = ''
+    placeholder = 'Select an option'
 ) => ({
     show : false,
     model : model,
-    selecteds : selecteds,
-    search : search,
+    selecteds : null,
+    search : '',
     searchable : searchable,
     dimensional : dimensional,
     selectable : selectable,
-    placeholder : placeholder,
+    placeholder : '',
     init() {
+        this.placeholder = placeholder;
+
+        if (this.model.constructor === Array) {
+            return warning('The wire:model can\'t be an array.');
+        }
+
         if (this.model && this.options.length > 0) {
             this.selecteds = this.dimensional
                 ? this.options.filter(option => {
@@ -66,16 +71,7 @@ export default (
             return this.selecteds === option;
         }
 
-        return this.selecteds.some(selected => {
-            const keys   = Object.keys(selected);
-            const values = Object.values(selected);
-
-            return keys.every(key => {
-                return selected[key] === option[key];
-            }) && values.every(value => {
-                return selected[value] === option[value];
-            });
-        });
+        return selecteds(this.selecteds, option);
     },
     clear (selected = null) {
         if (selected) {
@@ -90,28 +86,19 @@ export default (
         }
 
         this.model = null;
-        this.placeholder = originalPlaceholder;
+        this.placeholder = placeholder;
         this.selecteds = [];
         this.search = '';
         this.show = false;
-    },
-    get quantity() {
-        return this.selecteds?.length;
     },
     get empty () {
         return !this.selecteds || this.selecteds?.length === 0;
     },
     get options () {
-        const availables = options;
+        if (this.search === '') {
+            return options;
+        }
 
-        this.search = this.search.toLowerCase();
-
-        return this.search === ''
-            ? availables
-            : availables.filter(option => {
-                return this.dimensional
-                    ? option[this.selectable.label].toString().toLowerCase().indexOf(this.search) !== -1
-                    : option.toString().toLowerCase().indexOf(this.search) !== -1;
-            });
+        return filtered(this.search, this.dimensional, this.selectable, options);
     }
 });

@@ -1,6 +1,6 @@
-import tooltip from './modules/tooltip'
-import selectStyled from './modules/select-styled'
-import selectMultiple from './modules/select-multiple'
+import tooltip from './modules/components/tooltip'
+import selectStyled from './modules/components/select/select-styled'
+import selectMultiple from './modules/components/select/select-multiple'
 
 document.addEventListener("alpine:init", () => {
     window.Alpine.plugin(tooltip)
