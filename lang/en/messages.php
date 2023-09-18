@@ -7,6 +7,7 @@ return [
 
     'select' => [
         'placeholder' => 'Select an option',
+        'input' => 'Search something here',
         'empty' => 'No results found',
     ],
 ];

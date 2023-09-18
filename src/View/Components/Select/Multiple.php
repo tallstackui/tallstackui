@@ -4,12 +4,10 @@ namespace TasteUi\View\Components\Select;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Collection;
-use Illuminate\View\Component;
 
 class Multiple extends Styled
 {
     public function __construct(
-        public ?string $id = null,
         public ?string $label = null,
         public ?string $hint = null,
         public Collection|array $options = [],
@@ -18,7 +16,6 @@ class Multiple extends Styled
         public ?array $selectable = [],
     ) {
         parent::__construct(
-            id: $id,
             label: $label,
             hint: $hint,
             options: $options,
@@ -30,6 +27,8 @@ class Multiple extends Styled
 
     public function render(): View
     {
-        return view('taste-ui::components.select.multiple');
+        return view('taste-ui::components.select.multiple', [
+            'placeholder' => __('taste-ui::messages.select.placeholder'),
+        ]);
     }
 }

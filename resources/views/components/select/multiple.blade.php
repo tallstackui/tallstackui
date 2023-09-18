@@ -11,102 +11,78 @@
         searchable : @js($searchable),
         dimensional : @js($selectable !== []),
         selectable : @js($selectable),
-        multiple : @js($multiple !== null),
-        placeholder : 'Selecione uma opção',
+        placeholder : @js($placeholder),
         init() {
-            if (this.multiple && this.model) {
-                this.selecteds = this.options.filter(option => this.model.includes(option[this.selectable.value]));
-            } else if (this.dimensional) {
-                const selected = this.options.find(option => option[this.selectable.value] === (this.model ?? this.model[0]));
-                this.selecteds = [selected];
-                this.placeholder = selected[this.selectable.label];
-            } else {
-                this.selecteds = this.options.find(option => option === this.model);
-                this.placeholder = this.selecteds;
-            }
+            this.selecteds = this.dimensional
+                ? this.options.filter(option => this.model.includes(option[this.selectable.value]))
+                : this.options.filter(option => this.model.includes(option));
+
+            this.$watch('show', value => {
+                if (!value && this.search.length > 0) {
+                    this.search = '';
+                }
+            });
         },
         select (option) {
-            if (!this.multiple && this.selecteds && this.selected(option)) {
-                this.clear();
-                return;
-            }
-
-            if (this.multiple && this.selected(option)) {
+            if (this.selected(option)) {
                 this.clear(option);
                 return;
             }
 
-            if (this.multiple && !this.selecteds) {
-                this.selecteds = [];
-            }
-
-            this.selecteds = this.multiple
-                ? [...this.selecteds, option]
-                : [option];
+            this.selecteds = [...this.selecteds, option];
 
             if (this.dimensional) {
-                this.model = this.multiple
-                    ? this.selecteds.map(selected => selected[this.selectable.value])
-                    : option[this.selectable.value];
+                this.model = this.selecteds.map(selected => selected[this.selectable.value])
                 this.placeholder = option[this.selectable.label];
             } else {
-                this.model = this.multiple
-                    ? this.selecteds
-                    : option;
+                this.model = this.selecteds;
                 this.placeholder = option;
             }
 
-            this.show = this.multiple;
             this.search = '';
         },
         selected (option) {
-            if (!this.selecteds) return false;
+            if (this.empty) return false;
 
             if (!this.dimensional) {
-                return this.selecteds === option;
+                return this.selecteds.includes(option);
             }
 
-            if (this.multiple && this.selecteds.length >= 1) {
-                return this.selecteds.some(selected => {
-                    const keys   = Object.keys(selected);
-                    const values = Object.values(selected);
+            return this.selecteds.some(selected => {
+                const keys   = Object.keys(selected);
+                const values = Object.values(selected);
 
-                    return keys.every(key => {
-                        return selected[key] === option[key];
-                    }) && values.every(value => {
-                        return selected[value] === option[value];
-                    });
+                return keys.every(key => {
+                    return selected[key] === option[key];
+                }) && values.every(value => {
+                    return selected[value] === option[value];
                 });
-            }
-
-            const keys   = Object.keys(this.selecteds);
-            const values = Object.values(this.selecteds);
-
-            if (keys.length === 0 && values.length === 0) {
-                return false;
-            }
-
-            return keys.every(key => {
-                return this.selecteds[key] === option;
-            }) && values.every(value => {
-                return value === option;
             });
         },
         clear (selected = null) {
-            if (this.multiple && selected) {
-                this.selecteds = this.selecteds.filter(option => option !== selected);
-                this.model = this.selecteds.map(selected => selected[this.selectable.value]);
+            const placeholder = @js($placeholder);
 
-                if (this.selecteds.length > 0) {
-                    return;
+            if (selected) {
+                this.selecteds = this.selecteds.filter(option => {
+                    return this.dimensional
+                        ? option[this.selectable.value] !== selected[this.selectable.value]
+                        : option !== selected;
+                });
+
+                this.model = this.dimensional
+                    ? this.selecteds.map(selected => selected[this.selectable.value])
+                    : this.selecteds;
+
+                if (this.quantity === 0) {
+                    this.placeholder = placeholder;
                 }
 
-                this.clear();
+                return;
             }
 
-            this.model = null;
-            this.placeholder = 'Selecione uma opção';
+            this.model = this.dimensional ? [] : null;
             this.selecteds = [];
+            this.placeholder = placeholder;
             this.search = '';
             this.show = false;
         },
@@ -114,24 +90,26 @@
             return this.selecteds?.length;
         },
         get empty () {
-            return this.selecteds === undefined || this.selecteds.length === 0;
+            return !this.selecteds || this.selecteds.length === 0;
         },
         get options () {
             const availables = @js($options);
+
+            this.search = this.search.toLowerCase();
 
             return this.search === ''
                 ? availables
                 : availables.filter(option => {
                     return this.dimensional
-                        ? option[this.selectable.label].toLowerCase().includes(this.search.toLowerCase())
-                        : option.toLowerCase().includes(this.search.toLowerCase())
+                        ? option[this.selectable.label].toString().toLowerCase().indexOf(this.search) !== -1
+                        : option.toString().toLowerCase().indexOf(this.search) !== -1;
                 });
         }
-    }" x-on:click.outside="show = false">
+    }">
     @if ($label)
         <x-label :$label :$error />
     @endif
-    <div class="relative mt-2">
+    <div class="relative mt-2" x-on:click.outside="show = false">
         <div @class([
                 'flex w-full cursor-pointer items-center gap-x-2 rounded-md border-0 bg-white py-1.5 text-gray-900',
                 'shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6',
@@ -141,35 +119,27 @@
              aria-controls="options"
              aria-expanded="false">
             <div x-on:click="show = true" class="relative inset-y-0 left-0 flex w-full items-center overflow-hidden rounded-lg pl-2 transition space-x-2">
-                <template x-if="multiple">
-                    <div class="flex gap-2">
-                        <template x-if="quantity === 0">
-                            <span @class(['truncate font-medium', 'text-red-500' => $error]) x-bind:class="{ 'text-gray-400': selecteds }" x-text="placeholder"></span>
-                        </template>
-                        <!-- count -->
-                        <template x-if="quantity > 0">
-                            <span x-text="quantity"></span>
-                        </template>
-                        <!-- badges -->
-                        <template wire:ignore x-for="(selected, index) in selecteds" :key="selected[selectable.label] ?? selected">
-                            <a href="#" class="cursor-pointer" x-on:click="clear(selected);">
-                                <div class="inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
-                                    <span x-text="selected[selectable.label]"></span>
-                                    <svg class="h-4 w-4 text-gray-700" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                                    </svg>
-                                </div>
-                            </a>
-                        </template>
-                    </div>
-                </template>
-                <template x-if="!multiple">
-                    <span @class(['truncate font-medium', 'text-red-500' => $error]) x-bind:class="{ 'text-gray-400': empty }" x-text="placeholder"></span>
-                </template>
+                <div class="flex gap-2">
+                    <template x-if="quantity === 0">
+                        <span @class(['truncate font-medium', 'text-red-500' => $error]) x-bind:class="{ 'text-gray-400': empty }" x-text="placeholder"></span>
+                    </template>
+                    <template x-if="quantity > 0">
+                        <span x-text="quantity"></span>
+                    </template>
+                    <template x-for="(selected, index) in selecteds" :key="selected[selectable.label] ?? selected">
+                        <a href="#" class="cursor-pointer" x-on:click="clear(selected);">
+                            <div class="inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
+                                <span x-text="selected[selectable.label] ?? selected"></span>
+                                <svg class="h-4 w-4 text-gray-700" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </div>
+                        </a>
+                    </template>
+                </div>
             </div>
             <div class="mr-1 flex items-center">
-                <!-- clean up button -->
-                <template x-if="Object.keys(selecteds ?? []).length > 0">
+                <template x-if="!empty">
                     <button type="button" x-on:click="clear()">
                         <svg class="h-4 w-4 transition hover:text-red-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -178,17 +148,15 @@
                 </template>
             </div>
         </div>
-        <!-- list -->
         <div class="relative">
             <ul wire:ignore x-show="show" class="absolute z-50 mt-1 max-h-60 w-full overflow-auto rounded-lg bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm" id="options" role="listbox">
                 <template x-if="searchable">
                     <li class="m-2">
-                        <!-- input --->
                         <input type="text"
                                name="account-number"
                                id="account-number"
                                class="block w-full rounded-md border-0 pr-10 placeholder:text-gray-400 text-gray-900 ring-1 ring-inset ring-gray-300 py-1.5 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                               placeholder="Procure alguma coisa"
+                               placeholder="{{ __('taste-ui::messages.select.input') }}"
                                x-model.debounce.500ms="search"
                         />
                     </li>
@@ -211,16 +179,16 @@
                 </template>
                 <template x-if="options.length === 0">
                     <li class="m-2">
-                    <span class="block w-full pr-2 text-gray-700">
-                        Nenhum resultado encontrado
-                    </span>
+                        <span class="block w-full pr-2 text-gray-700">
+                            {{ __('taste-ui::messages.select.empty') }}
+                        </span>
                     </li>
                 </template>
             </ul>
         </div>
     </div>
     @if ($hint && !$error)
-        <span class="mt-2 text-sm text-secondary-500">
+    <span class="mt-2 text-sm text-secondary-500">
         {{ $hint }}
     </span>
     @endif

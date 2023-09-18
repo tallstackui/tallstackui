@@ -15,7 +15,11 @@
         init() {
              if (this.model && this.options.length > 0) {
                  this.selecteds = this.dimensional
-                    ? this.options.filter(option => this.model.includes(option[this.selectable.value]))
+                    ? this.options.filter(option => {
+                        return this.model.constructor === Array
+                            ? this.model.includes(option[this.selectable.value])
+                            : this.model === option[this.selectable.value];
+                    })
                     : this.options.find(option => option === this.model);
 
                 if (this.selecteds) {
@@ -100,15 +104,15 @@
                 ? availables
                 : availables.filter(option => {
                     return this.dimensional
-                        ? this.search === option[this.selectable.value].toString().toLowerCase()
-                        : this.search === option.toString().toLowerCase();
+                        ? option[this.selectable.label].toString().toLowerCase().indexOf(this.search) !== -1
+                        : option.toString().toLowerCase().indexOf(this.search) !== -1;
                 });
         }
-    }" x-on:click.outside="show = false">
+    }">
     @if ($label)
         <x-label :$label :$error />
     @endif
-    <div class="relative mt-2">
+    <div class="relative mt-2" x-on:click.outside="show = false">
         <div @class([
                 'flex w-full cursor-pointer items-center gap-x-2 rounded-md border-0 bg-white py-1.5 text-gray-900',
                 'shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6',
@@ -138,7 +142,7 @@
                                name="account-number"
                                id="account-number"
                                class="block w-full rounded-md border-0 pr-10 placeholder:text-gray-400 text-gray-900 ring-1 ring-inset ring-gray-300 py-1.5 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                               placeholder="Procure alguma coisa"
+                               placeholder="{{ __('taste-ui::messages.select.input') }}"
                                x-model.debounce.500ms="search"
                         />
                     </li>
