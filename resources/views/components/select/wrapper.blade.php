@@ -1,6 +1,11 @@
-@props(['alpine', 'header', 'label', 'computed', 'error', 'hint'])
+@props(['alpine', 'header', 'computed', 'error', 'label', 'hint'])
 
-<div @if ($alpine) {!! $alpine !!} @endif>
+@php
+    $computed = $attributes->whereStartsWith('wire:model')->first();
+    $error    = $errors->has($computed);
+@endphp
+
+<div x-data="{!! $alpine !!}">
     @if ($label)
         <x-label :$label :$error />
     @endif
@@ -13,10 +18,19 @@
              role="combobox"
              aria-controls="options"
              aria-expanded="false">
-            {!! $header !!}
+            <div x-on:click="show = true" class="relative inset-y-0 left-0 flex w-full items-center overflow-hidden rounded-lg pl-2 transition space-x-2">
+                {!! $header !!}
+            </div>
+            <div class="mr-1 flex items-center">
+                <template x-if="!empty">
+                    <button type="button" x-on:click="clear()">
+                        <x-icon icon="x-mark" class="h-5 w-5 transition hover:text-red-500" />
+                    </button>
+                </template>
+            </div>
         </div>
         <div class="relative">
-            <ul wire:ignore x-show="show" class="absolute z-50 mt-1 max-h-60 w-full overflow-auto rounded-lg bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm soft-scrollbar" id="options" role="listbox">
+            <ul wire:ignore x-show="show" class="absolute z-50 mt-1 max-h-60 w-full overflow-auto rounded-lg bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 soft-scrollbar focus:outline-none sm:text-sm" id="options" role="listbox">
                 <template x-if="searchable">
                     <li class="m-2">
                         <x-input placeholder="{{ __('taste-ui::messages.select.input') }}"
