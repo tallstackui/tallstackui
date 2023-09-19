@@ -1,6 +1,6 @@
-import { warning } from "../../helpers";
-import { options as filtered } from "./helpers";
-import axios from "axios";
+import { warning, error } from "../../helpers";
+import { options as filtered, body } from "./helpers";
+import axios from "../../axios";
 
 export default (
     request,
@@ -20,7 +20,7 @@ export default (
     response : [],
     loading : true,
     async init() {
-        if (this.multiple && this.model.constructor !== Array) {
+        if (this.multiple && (this.model !== null && this.model.constructor !== Array)) {
             return warning('The wire:model must be an array');
         }
 
@@ -34,7 +34,13 @@ export default (
             await this.send();
         });
 
-        this.$watch('search', async () => {
+        this.$watch('search', async (value) => {
+            if (value === '') {
+                this.loading = false;
+
+                return;
+            }
+
             this.loading = true;
             await this.send();
         });
@@ -56,16 +62,22 @@ export default (
     async send() {
         this.response = [];
 
-        const response = (await axios.get(this.request)).data
+        const request = body(this.request, this.search)
 
-        this.response = response.map(option => {
-            return {
-                ...option,
-                [this.selectable.label]: option[this.selectable.label].toString()
-            }
-        });
+        try {
+            const response = await axios(request);
 
-        this.loading = false;
+            this.response = response.data.map(option => {
+                return {
+                    ...option,
+                    [this.selectable.label]: option[this.selectable.label].toString()
+                }
+            });
+
+            this.loading = false;
+        } catch (e) {
+            error(e.message);
+        }
     },
     select (option) {
         if (this.selected(option)) {

@@ -34,3 +34,33 @@ export const selected = (selecteds, option) => {
         });
     });
 }
+
+/**
+ * @param request {Object|String}
+ * @param search {String}
+ * @returns {Object<url, method, params|data>}
+ */
+export const body = (request, search) => {
+    const simple = request.constructor === String;
+
+    const url = simple ? request : request.url;
+    const method = simple ? 'get' : request.method;
+    const params = simple ? {} : request.params;
+
+    const body = {url: url, method: method}
+
+    switch (method) {
+        case 'get':
+            body.params = {...params}
+
+            if (search !== '') body.params.search = search;
+            break;
+        case 'post':
+            body.data = {...params}
+
+            if (search !== '') body.data.search = search;
+            break;
+    }
+
+    return {...body};
+}
