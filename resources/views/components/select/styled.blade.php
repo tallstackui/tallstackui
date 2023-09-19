@@ -3,7 +3,7 @@
     $error    = $errors->has($computed);
 @endphp
 
-<x-taste-ui::select.wrapper :$label :$error :$computed :$hint :multiple="true">
+<x-taste-ui::select.wrapper :$label :$error :$computed :$hint>
     <x-slot name="alpine">
         tasteui_selectStyled(@entangle($computed), @js($searchable), @js($multiple), @js($selectable !== []), @js($selectable), @js($options), @js($placeholder))
     </x-slot>

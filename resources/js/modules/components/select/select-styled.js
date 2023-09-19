@@ -18,6 +18,7 @@ export default (
     multiple : multiple,
     dimensional : dimensional,
     selectable : selectable,
+    loading : false,
     placeholder : '',
     init() {
         this.placeholder = placeholder;
@@ -82,7 +83,7 @@ export default (
             }
         }
 
-        this.show = false;
+        this.show = this.multiple;
         this.search = '';
     },
     selected (option) {

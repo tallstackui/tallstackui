@@ -14,6 +14,7 @@ export default (
     model : model,
     selecteds : [],
     search : '',
+    searchable : true,
     selectable : selectable,
     multiple : multiple,
     placeholder : placeholder,
@@ -22,6 +23,10 @@ export default (
     async init() {
         if (this.multiple && (this.model !== null && this.model.constructor !== Array)) {
             return warning('The wire:model must be an array');
+        }
+
+        if (this.selectable.constructor === Array && this.selectable.length === 0) {
+            return warning('The select must be defined');
         }
 
         this.$watch('show', async (value) => {
@@ -35,12 +40,6 @@ export default (
         });
 
         this.$watch('search', async (value) => {
-            if (value === '') {
-                this.loading = false;
-
-                return;
-            }
-
             this.loading = true;
             await this.send();
         });

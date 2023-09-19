@@ -20,6 +20,7 @@ class Searchable extends Styled
         parent::__construct(
             label: $label,
             hint: $hint,
+            multiple: $multiple,
             select: $select,
             selectable: $selectable,
         );

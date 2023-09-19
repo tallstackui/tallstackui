@@ -1,4 +1,4 @@
-@props(['alpine', 'header', 'computed', 'multiple' => false, 'error', 'label', 'hint'])
+@props(['alpine', 'header', 'loading' => null, 'computed', 'error', 'label', 'hint'])
 
 @php
     $computed = $attributes->whereStartsWith('wire:model')->first();
@@ -27,13 +27,11 @@
                         <x-icon icon="x-mark" class="h-5 w-5 transition hover:text-red-500" />
                     </button>
                 </template>
-                @if ($multiple)
-                    <div class="mr-1 flex items-center">
-                        <button type="button" x-on:click="show = !show">
-                            <x-icon icon="chevron-up-down" class="h-5 w-5 text-secondary-500 transition" />
-                        </button>
-                    </div>
-                @endif
+                <div class="mr-1 flex items-center">
+                    <button type="button" x-on:click="show = !show">
+                        <x-icon icon="chevron-up-down" class="h-5 w-5 text-secondary-500 transition" />
+                    </button>
+                </div>
             </div>
         </div>
         <div class="relative">
@@ -45,6 +43,14 @@
                         />
                     </li>
                 </template>
+                @if ($loading)
+                    <div x-show="loading" class="flex items-center justify-center p-4 space-x-4">
+                        <svg class="h-12 w-12 animate-spin text-primary-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                    </div>
+                @endif
                 <template x-for="option in options" :key="option[selectable.label] ?? option">
                     <li x-on:click="select(option)"
                         class="relative cursor-pointer select-none py-2 pr-2 pl-3 text-gray-700 transition hover:bg-gray-100"
@@ -61,7 +67,7 @@
                         </div>
                     </li>
                 </template>
-                <template x-if="options.length === 0">
+                <template x-if="!loading && options.length === 0">
                     <li class="m-2">
                         <span class="block w-full pr-2 text-gray-700">
                             {{ __('taste-ui::messages.select.empty') }}
