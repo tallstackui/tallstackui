@@ -95,8 +95,13 @@ export default (
     },
     clear (selected = null) {
         if (selected) {
-            this.selecteds = this.selecteds.filter(option => option !== selected);
-            this.model = this.selecteds.map(selected => selected[this.selectable.value]);
+            this.selecteds = this.multiple
+                ? this.selecteds.filter(option => option !== selected)
+                : [];
+
+            this.model = this.multiple
+                ? this.selecteds.map(selected => selected[this.selectable.value])
+                : null;
 
             if (this.selecteds.length > 0) {
                 return;
