@@ -1,9 +1,10 @@
 import { warning } from "../../helpers";
-import { options as filtered, selected as selecteds } from "./helpers";
+import { options as filtered } from "./helpers";
 
 export default (
     model = null,
     searchable = false,
+    multiple = false,
     dimensional = false,
     selectable = {},
     options = [],
@@ -14,64 +15,82 @@ export default (
     selecteds : null,
     search : '',
     searchable : searchable,
+    multiple : multiple,
     dimensional : dimensional,
     selectable : selectable,
     placeholder : '',
     init() {
         this.placeholder = placeholder;
 
-        if (this.model !== null && this.model.constructor === Array) {
-            return warning('The wire:model can\'t be an array.');
+        if (this.multiple && (this.model !== null && this.model.constructor !== Array)) {
+            return warning('The wire:model must be an array');
         }
 
-        if (this.model && this.options.length > 0) {
+        if (this.multiple) {
             this.selecteds = this.dimensional
-                ? this.options.filter(option => {
-                    return this.model.constructor === Array
-                        ? this.model.includes(option[this.selectable.value])
-                        : this.model === option[this.selectable.value];
-                })
-                : this.options.find(option => option === this.model);
+                ? this.options.filter(option => this.model?.includes(option[this.selectable.value]))
+                : this.options.filter(option => this.model?.includes(option));
 
-            if (this.selecteds) {
+            if (!this.empty) {
                 this.placeholder = this.dimensional
                     ? this.selecteds[0][this.selectable.label]
                     : this.selecteds;
             }
+        } else {
+            this.selecteds = this.dimensional
+                ? this.options.find(option => this.model === option[this.selectable.value])
+                : this.options.find(option => this.model === option);
+
+            if (!this.empty) {
+                this.selecteds = this.dimensional
+                    ? [this.selecteds]
+                    : this.selecteds;
+            }
+
+            this.placeholder = this.dimensional
+                ? this.selecteds[0][this.selectable.label]
+                : this.selecteds;
         }
     },
     select (option) {
-        if (this.selecteds && this.selected(option)) {
-            this.clear();
-            return;
-        }
-
         if (this.selected(option)) {
             this.clear(option);
+
             return;
         }
 
-        this.selecteds = this.dimensional ? [option] : option;
+        if (this.multiple) {
+            this.selecteds = this.selecteds
+                ? [...this.selecteds, option]
+                : [option];
 
-        if (this.dimensional) {
-            this.model = option[this.selectable.value];
-            this.placeholder = option[this.selectable.label];
+            this.model = this.dimensional
+                ? this.selecteds.map(selected => selected[this.selectable.value])
+                : this.selecteds;
+
+            this.show = false;
+            this.search = '';
         } else {
-            this.model = option;
-            this.placeholder = option;
+            this.selecteds = this.dimensional ? [option] : option;
+
+            if (this.dimensional) {
+                this.model = option[this.selectable.value];
+                this.placeholder = option[this.selectable.label];
+            } else {
+                this.model = option;
+                this.placeholder = option;
+            }
         }
 
         this.show = false;
         this.search = '';
     },
     selected (option) {
-        if (!this.selecteds) return false;
+        if (this.empty) return false;
 
-        if (!this.dimensional) {
-            return this.selecteds === option;
-        }
-
-        return selecteds(this.selecteds, option);
+        return this.multiple
+            ? this.selecteds.some(selected => JSON.stringify(selected) === JSON.stringify(option))
+            : JSON.stringify(this.selecteds[0] ?? this.selecteds) === JSON.stringify(option);
     },
     clear (selected = null) {
         if (selected) {
@@ -91,8 +110,11 @@ export default (
         this.search = '';
         this.show = false;
     },
+    get quantity () {
+        return this.selecteds?.length;
+    },
     get empty () {
-        return !this.selecteds || this.selecteds?.length === 0;
+        return !this.selecteds || this.selecteds.length === 0;
     },
     get options () {
         if (this.search === '') {

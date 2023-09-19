@@ -18,24 +18,6 @@ export const options = (search, dimensional, selectable, options) => {
 };
 
 /**
- * @param selecteds {Array}
- * @param option {Object}
- * @returns {boolean}
- */
-export const selected = (selecteds, option) => {
-    return selecteds.some(selected => {
-        const keys   = Object.keys(selected);
-        const values = Object.values(selected);
-
-        return keys.every(key => {
-            return selected[key] === option[key];
-        }) && values.every(value => {
-            return selected[value] === option[value];
-        });
-    });
-}
-
-/**
  * @param request {Object|String}
  * @param search {String}
  * @returns {Object<url, method, params|data>}

@@ -15,6 +15,7 @@ class Styled extends Component
         public ?string $label = null,
         public ?string $hint = null,
         public Collection|array $options = [],
+        public ?bool $multiple = false,
         public ?bool $searchable = false,
         public ?string $select = null,
         public ?array $selectable = [],
