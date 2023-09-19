@@ -18,13 +18,13 @@ export default (
     selectable : selectable,
     placeholder : placeholder,
     init() {
-        if (this.model.constructor !== Array) {
+        if (this.model !== null && this.model.constructor !== Array) {
             return warning('The wire:model must be an array');
         }
 
         this.selecteds = this.dimensional
-            ? this.options.filter(option => this.model.includes(option[this.selectable.value]))
-            : this.options.filter(option => this.model.includes(option));
+            ? this.options.filter(option => this.model?.includes(option[this.selectable.value]))
+            : this.options.filter(option => this.model?.includes(option));
 
         this.$watch('show', value => {
             if (!value && this.search.length > 0) {

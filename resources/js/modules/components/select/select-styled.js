@@ -20,7 +20,7 @@ export default (
     init() {
         this.placeholder = placeholder;
 
-        if (this.model.constructor === Array) {
+        if (this.model !== null && this.model.constructor === Array) {
             return warning('The wire:model can\'t be an array.');
         }
 

@@ -1,4 +1,4 @@
-@props(['alpine', 'header', 'computed', 'error', 'label', 'hint'])
+@props(['alpine', 'header', 'computed', 'multiple' => false, 'error', 'label', 'hint'])
 
 @php
     $computed = $attributes->whereStartsWith('wire:model')->first();
@@ -27,6 +27,13 @@
                         <x-icon icon="x-mark" class="h-5 w-5 transition hover:text-red-500" />
                     </button>
                 </template>
+                @if ($multiple)
+                    <div class="mr-1 flex items-center">
+                        <button type="button" x-on:click="show = !show">
+                            <x-icon icon="chevron-up-down" class="h-5 w-5 text-secondary-500 transition" />
+                        </button>
+                    </div>
+                @endif
             </div>
         </div>
         <div class="relative">
