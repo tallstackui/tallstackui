@@ -1,4 +1,4 @@
-import tooltip from './modules/components/tooltip'
+import tooltip from './modules/directives/tooltip'
 import selectStyled from './modules/components/select/select-styled'
 import selectMultiple from './modules/components/select/select-multiple'
 

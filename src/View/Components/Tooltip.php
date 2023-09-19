@@ -16,6 +16,7 @@ class Tooltip extends Component
         public ?string $lg = null,
         public ?bool $solid = null,
         public ?string $size = null,
+        public ?string $position = 'top',
     ) {
         $this->size = $this->lg ? 'lg' : ($this->md ? 'md' : 'sm');
     }

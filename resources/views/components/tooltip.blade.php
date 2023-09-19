@@ -1,5 +1,6 @@
 <div class="inline-flex" x-data>
     <x-dynamic-component component="taste-ui::icons.{{ $solid ? 'solid' : 'outline' }}.{{ $icon }}"
+                         data-position="{{ $position }}"
                          x-tooltip="{!! $text !!}"
                         {{ $attributes->class([
                             'h-5 w-5'            => $size === 'sm',

@@ -5,7 +5,7 @@ export default function (Alpine) {
     Alpine.directive('tooltip', (el, { expression }) => {
         tippy(el, {
             content: expression,
-            animation: 'shift-away',
+            placement: el.dataset.position ?? 'top',
             duration: 0,
             allowHTML: true,
         })
