@@ -1,11 +1,10 @@
 import { warning } from "../../helpers";
-import { options as filtered, selected as selecteds } from "./helpers";
+import { options as filtered } from "./helpers";
 import axios from "axios";
 
 export default (
     request,
     model = null,
-    dimensional = false,
     selectable = {},
     multiple = false,
     placeholder = 'Select an option'
@@ -15,62 +14,58 @@ export default (
     model : model,
     selecteds : [],
     search : '',
-    dimensional : dimensional,
     selectable : selectable,
     multiple : multiple,
     placeholder : placeholder,
     response : [],
-    loading : false,
-    init() {
+    loading : true,
+    async init() {
         if (this.multiple && this.model.constructor !== Array) {
             return warning('The wire:model must be an array');
         }
 
-        //show element loading when request is sent
-        this.loading = true;
-
         this.$watch('show', async (value) => {
+            this.loading = true;
+
             if (!value) {
                 return;
             }
 
-            this.response = [];
-            this.loading = true;
-
-            const response = await this.send();
-
-            this.response = this.dimensional
-                ? response.map(option => {
-                    return {
-                        ...option,
-                        [this.selectable.label]: option[this.selectable.label].toString()
-                    }
-                })
-                : response.map(option => option.toString());
-
-            this.loading = false;
+            await this.send();
         });
 
         this.$watch('search', async () => {
             this.loading = true;
-
-            this.response = [];
-            const response = await this.send();
-
-            this.response = this.dimensional
-                ? response.map(option => {
-                    return {
-                        ...option,
-                        [this.selectable.label]: option[this.selectable.label].toString()
-                    }
-                })
-                : response.map(option => option.toString());
-
-            this.loading = false;
+            await this.send();
         });
+
+        if (this.model) {
+            await this.send();
+
+            this.selecteds = this.options.filter(option => {
+                    return this.multiple
+                        ? this.model.includes(option[this.selectable.value])
+                        : this.model === option[this.selectable.value];
+                });
+
+            if (!this.multiple) {
+                this.placeholder = this.selecteds[0][this.selectable.label];
+            }
+        }
     },
     async send() {
-        return (await axios.get(this.request)).data
+        this.response = [];
+
+        const response = (await axios.get(this.request)).data
+
+        this.response = response.map(option => {
+            return {
+                ...option,
+                [this.selectable.label]: option[this.selectable.label].toString()
+            }
+        });
+
+        this.loading = false;
     },
     select (option) {
         if (this.selected(option)) {
@@ -78,42 +73,32 @@ export default (
             return;
         }
 
-        this.selecteds = [...this.selecteds, option];
+        this.selecteds = this.multiple
+            ? [...this.selecteds, option]
+            : [option];
 
-        if (this.dimensional) {
-            this.model = this.multiple
-                ? this.selecteds.map(selected => selected[this.selectable.value])
-                : option[this.selectable.value];
+        this.model = this.multiple
+            ? this.selecteds.map(selected => selected[this.selectable.value])
+            : option[this.selectable.value];
+
+        if (!this.multiple) {
             this.placeholder = option[this.selectable.label];
-        } else {
-            this.model = this.selecteds.construct === Array && this.multiple
-                ? [...this.selecteds, option]
-                : this.selecteds;
-            this.placeholder = option;
         }
 
         this.search = '';
+        this.show = this.multiple;
     },
     selected (option) {
         if (this.empty) return false;
 
-        if (!this.dimensional) {
-            return this.selecteds.includes(option);
-        }
-
-        return selecteds(this.selecteds, option);
+        return this.multiple
+            ? this.selecteds.some(selected => JSON.stringify(selected) === JSON.stringify(option))
+            : JSON.stringify(this.selecteds[0]) === JSON.stringify(option);
     },
     clear (selected = null) {
         if (selected) {
-            this.selecteds = this.selecteds.filter(option => {
-                return this.dimensional
-                    ? option[this.selectable.value] !== selected[this.selectable.value]
-                    : option !== selected;
-            });
-
-            this.model = this.dimensional
-                ? this.selecteds.map(selected => selected[this.selectable.value])
-                : this.selecteds;
+            this.selecteds = this.selecteds.filter(option => option[this.selectable.value] !== selected[this.selectable.value]);
+            this.model = this.selecteds.map(selected => selected[this.selectable.value]);
 
             if (this.quantity === 0) {
                 this.placeholder = placeholder;
@@ -122,7 +107,7 @@ export default (
             return;
         }
 
-        this.model = this.dimensional ? [] : null;
+        this.model = this.multiple ? [] : null;
         this.selecteds = [];
         this.placeholder = placeholder;
         this.search = '';
@@ -139,6 +124,6 @@ export default (
             return this.response;
         }
 
-        return filtered(this.search, this.dimensional, this.selectable, this.response);
+        return filtered(this.search, true, this.selectable, this.response);
     }
 });

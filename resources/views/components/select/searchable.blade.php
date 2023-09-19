@@ -3,7 +3,7 @@
     $error    = $errors->has($computed);
 @endphp
 
-<div x-data="tasteui_selectSearchable(@js($request), @entangle($computed), @js($selectable !== []), @js($selectable), @js($multiple), @js($placeholder))">
+<div x-data="tasteui_selectSearchable(@js($request), @entangle($computed), @js($selectable), @js($multiple), @js($placeholder))">
     @if ($label)
         <x-label :$label :$error />
     @endif
@@ -18,20 +18,22 @@
              aria-expanded="false">
             <div x-on:click="show = true" class="relative inset-y-0 left-0 flex w-full items-center overflow-hidden rounded-lg pl-2 transition space-x-2">
                 <div class="flex gap-2">
-                    <template x-if="quantity === 0">
+                    <template x-if="!multiple || quantity === 0">
                         <span @class(['truncate font-medium', 'text-red-500' => $error]) x-bind:class="{ 'text-gray-400': empty }" x-text="placeholder"></span>
                     </template>
-                    <template x-if="quantity > 0">
+                    <template x-if="multiple && quantity > 0">
                         <span x-text="quantity"></span>
                     </template>
-                    <template x-for="(selected, index) in selecteds" :key="selected[selectable.label] ?? selected">
-                        <a href="#" class="cursor-pointer" x-on:click="clear(selected);">
-                            <div class="inline-flex items-center rounded-lg bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10 space-x-1">
-                                <span x-text="selected[selectable.label] ?? selected"></span>
-                                <x-icon icon="x-mark" class="h-4 w-4 text-gray-700 transition hover:text-red-500" />
-                            </div>
-                        </a>
-                    </template>
+                    <div x-show="multiple">
+                        <template x-for="(selected, index) in selecteds" :key="selected[selectable.label] ?? selected">
+                            <a href="#" class="cursor-pointer" x-on:click="clear(selected);">
+                                <div class="inline-flex items-center truncate rounded-lg bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10 space-x-1">
+                                    <span x-text="selected[selectable.label] ?? selected"></span>
+                                    <x-icon icon="x-mark" class="h-4 w-4 text-gray-700 transition hover:text-red-500" />
+                                </div>
+                            </a>
+                        </template>
+                    </div>
                 </div>
             </div>
             <div class="mr-1 flex items-center">
@@ -44,13 +46,13 @@
         </div>
         <div class="relative">
             <ul wire:ignore x-show="show" class="absolute z-50 mt-1 max-h-60 w-full overflow-auto rounded-lg bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 soft-scrollbar focus:outline-none sm:text-sm" id="options" role="listbox">
-                <li class="m-2">
+                <li class="sticky top-0 z-50 m-2 bg-white">
                     <x-input placeholder="{{ __('taste-ui::messages.select.input') }}"
                              x-model.debounce.500ms="search"
                     />
                 </li>
                 <div x-show="loading" class="flex items-center justify-center p-4 space-x-4">
-                    <svg class="animate-spin h-12 w-12 text-primary-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <svg class="h-12 w-12 animate-spin text-primary-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
