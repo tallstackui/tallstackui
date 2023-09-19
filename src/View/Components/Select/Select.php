@@ -7,7 +7,7 @@ use Illuminate\Support\Collection;
 use Illuminate\View\Component;
 use TasteUi\View\Components\Select\Traits\InteractsWithSelectOptions;
 
-class Native extends Component
+class Select extends Component
 {
     use InteractsWithSelectOptions;
 
@@ -26,6 +26,6 @@ class Native extends Component
 
     public function render(): View
     {
-        return view('taste-ui::components.select.native');
+        return view('taste-ui::components.select.select');
     }
 }
