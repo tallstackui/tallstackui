@@ -24,5 +24,6 @@ return [
         'select.native' => Components\Select\Native::class,
         'select.styled' => Components\Select\Styled::class,
         'select.multiple' => Components\Select\Multiple::class,
+        'select.searchable' => Components\Select\Searchable::class,
     ],
 ];
