@@ -37,7 +37,7 @@
         <div class="relative">
             <ul wire:ignore x-show="show" class="absolute z-50 mt-1 max-h-60 w-full overflow-auto rounded-lg bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 soft-scrollbar focus:outline-none sm:text-sm" id="options" role="listbox">
                 <template x-if="searchable">
-                    <li class="m-2">
+                    <li class="sticky top-0 z-50 m-2 bg-white">
                         <x-input placeholder="{{ __('taste-ui::messages.select.input') }}"
                                  x-model.debounce.500ms="search"
                         />
