@@ -24,12 +24,12 @@
             <div class="mr-1 flex items-center">
                 <template x-if="!empty">
                     <button type="button" x-on:click="clear()">
-                        <x-icon icon="x-mark" class="h-5 w-5 transition hover:text-red-500" />
+                        <x-icon icon="x-mark" @class(['h-5 w-5 transition hover:text-red-500', 'text-secondary-500' => !$error, 'text-red-500' => $error]) />
                     </button>
                 </template>
                 <div class="mr-1 flex items-center">
                     <button type="button" x-on:click="show = !show">
-                        <x-icon icon="chevron-up-down" class="h-5 w-5 text-secondary-500 transition" />
+                        <x-icon icon="chevron-up-down" @class(['h-5 w-5 transition', 'text-secondary-500' => !$error, 'text-red-500' => $error]) />
                     </button>
                 </div>
             </div>
