@@ -37,7 +37,7 @@ class Searchable extends Styled
     /** @throws Throwable */
     private function request(): void
     {
-        if (!is_array($this->request)) {
+        if (! is_array($this->request)) {
             return;
         }
 
@@ -62,13 +62,13 @@ class Searchable extends Styled
 
         throw_unless(
             in_array($this->request['method'], ['get', 'post']),
-            new InvalidArgumentException("The key: [method] must be get or post.")
+            new InvalidArgumentException('The key: [method] must be get or post.')
         );
 
         throw_if(
             isset($this->request['params']) &&
-            (empty($this->request['params']) || !is_array($this->request['params'])),
-            new InvalidArgumentException("The key: [params] must be an array.")
+            (empty($this->request['params']) || ! is_array($this->request['params'])),
+            new InvalidArgumentException('The key: [params] must be an array.')
         );
     }
 }

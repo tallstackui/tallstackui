@@ -9,7 +9,7 @@
     @endif
     <div class="relative mt-2" x-on:click.outside="show = false">
         <div @class([
-                'flex w-full cursor-pointer items-center gap-x-2 rounded-md border-0 bg-white py-1.5 text-gray-900',
+                'flex w-full cursor-pointer items-center gap-x-1 rounded-md border-0 bg-white py-1.5 text-gray-900',
                 'shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6',
                 'text-red-600 ring-1 ring-inset ring-red-300 focus:ring-2 focus:ring-inset focus:ring-red-500' => $error,
             ])
@@ -24,10 +24,10 @@
                     <template x-if="multiple && quantity > 0">
                         <span x-text="quantity"></span>
                     </template>
-                    <div x-show="multiple">
+                    <div class="truncate" x-show="multiple">
                         <template x-for="(selected, index) in selecteds" :key="selected[selectable.label] ?? selected">
                             <a href="#" class="cursor-pointer" x-on:click="clear(selected);">
-                                <div class="inline-flex items-center truncate rounded-lg bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10 space-x-1">
+                                <div class="inline-flex items-center rounded-lg bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10 space-x-1">
                                     <span x-text="selected[selectable.label] ?? selected"></span>
                                     <x-icon icon="x-mark" class="h-4 w-4 text-gray-700 transition hover:text-red-500" />
                                 </div>
@@ -36,12 +36,17 @@
                     </div>
                 </div>
             </div>
-            <div class="mr-1 flex items-center">
-                <template x-if="!empty">
+            <template x-if="!empty">
+                <div class="flex items-center">
                     <button type="button" x-on:click="clear()">
                         <x-icon icon="x-mark" class="h-5 w-5 transition hover:text-red-500" />
                     </button>
-                </template>
+                </div>
+            </template>
+            <div class="mr-1 flex items-center">
+                <button type="button" x-on:click="show = !show">
+                    <x-icon icon="chevron-up-down" class="h-5 w-5 text-secondary-500 transition" />
+                </button>
             </div>
         </div>
         <div class="relative">
