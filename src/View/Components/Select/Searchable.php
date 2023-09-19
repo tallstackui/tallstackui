@@ -54,11 +54,20 @@ class Searchable extends Styled
         ];
 
         foreach ($keys as $key) {
-            throw_unless(array_key_exists($key, $this->request), new InvalidArgumentException("The key: [{$key}] is required in the request array."));
+            throw_unless(
+                array_key_exists($key, $this->request),
+                new InvalidArgumentException("The key: [{$key}] is required in the request array.")
+            );
         }
 
         if (isset($this->request['method'])) {
             $this->request['method'] = strtolower($this->request['method']);
+        }
+
+        // We remove search from the request because
+        // the search will be attached on the javascript.
+        if (isset($this->request['search'])) {
+            unset($this->request['search']);
         }
 
         throw_unless(
