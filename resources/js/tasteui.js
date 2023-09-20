@@ -7,3 +7,6 @@ document.addEventListener("alpine:init", () => {
     window.Alpine.data('tasteui_selectStyled', selectStyled);
     window.Alpine.data('tasteui_selectSearchable', selectSearchable);
 })
+
+window.$modalOpen  = name => window.dispatchEvent(new Event(`${name}-open`));
+window.$modalClose = name => window.dispatchEvent(new Event(`${name}-close`));
