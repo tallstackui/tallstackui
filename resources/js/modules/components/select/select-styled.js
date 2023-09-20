@@ -52,6 +52,11 @@ export default (
                 ? this.selecteds[0][this.selectable.label]
                 : this.selecteds;
         }
+
+        if (this.selecteds === undefined) {
+            this.selecteds = [];
+            this.placeholder = placeholder;
+        }
     },
     select (option) {
         if (this.selected(option)) {

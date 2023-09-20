@@ -1,9 +1,6 @@
 @props(['alpine', 'header', 'loading' => null, 'computed', 'error', 'label', 'hint'])
 
-@php
-    $computed = $attributes->whereStartsWith('wire:model')->first();
-    $error    = $errors->has($computed);
-@endphp
+@php($error = $errors->has($computed))
 
 <div x-data="{!! $alpine !!}">
     @if ($label)
