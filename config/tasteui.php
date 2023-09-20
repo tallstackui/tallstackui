@@ -24,5 +24,6 @@ return [
         'select' => Components\Select\Select::class,
         'select.styled' => Components\Select\Styled::class,
         'select.searchable' => Components\Select\Searchable::class,
+        'modal' => Components\Modal::class,
     ],
 ];
