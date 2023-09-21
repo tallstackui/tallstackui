@@ -12,9 +12,5 @@
             {{ $hint }}
         </span>
     @endif
-    @error ($computed)
-    <span class="mt-2 text-sm text-red-500">
-            {{ $message }}
-        </span>
-    @enderror
+    <x-taste-ui::error :$computed :$error />
 </div>
