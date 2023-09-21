@@ -2,16 +2,9 @@
 
 namespace TasteUi\Actions;
 
-use Livewire\Component;
-
-class Notifications
+class Toast extends AbstractInteraction
 {
-    public function __construct(
-        public Component $component,
-        protected ?int $time = null,
-    ) {
-        //
-    }
+    protected string $event = 'tasteui:toast';
 
     public function time(int $time): self
     {
@@ -62,23 +55,6 @@ class Notifications
             'timeout' => $this->time,
             'confirm' => true,
             ...$data,
-        ]);
-    }
-
-    public function send(array $options): self
-    {
-        $this->component->dispatch('tasteui:notification', ...$options);
-
-        return $this;
-    }
-
-    private function base(string $title, string $description = null, string $type = null): self
-    {
-        return $this->send([
-            'title' => $title,
-            'description' => $description,
-            'type' => $type,
-            'timeout' => $this->time ?? 3000,
         ]);
     }
 }

@@ -1,14 +1,14 @@
-<div x-data="tasteui_notificationBase()"
+<div x-data="tasteui_toastBase()"
      x-cloak
-     x-on:tasteui:notification.window="add($event)"
+     x-on:tasteui:toast.window="add($event)"
      @class([
         'pointer-events-none fixed inset-0 flex flex-col items-end justify-end gap-y-2 px-4 py-4',
         'md:justify-start' => str_contains($position, 'top-'),
         'md:justify-end'   => str_contains($position, 'bottom-'),
         $zIndex
     ])>
-    <template x-for="notification in notifications" :key="notification.id">
-        <div x-data="tasteui_notificationLoop(notification)" x-show="show" @class([
+    <template x-for="toast in toasts" :key="toast.id">
+        <div x-data="tasteui_toastLoop(toast)" x-show="show" @class([
                 'flex w-full flex-col items-center space-y-4',
                 'md:items-start' => $position === 'top-left' || $position === 'bottom-left',
                 'md:items-end'   => $position === 'top-right' || $position === 'bottom-right',
@@ -20,33 +20,33 @@
                 <div class="p-4">
                     <div class="flex items-start">
                         <div class="flex-shrink-0">
-                            <div x-show="notification.type === 'success'">
+                            <div x-show="toast.type === 'success'">
                                 <x-icon icon="check-circle" class="h-6 w-6 text-green-400" />
                             </div>
-                            <div x-show="notification.type === 'error'">
+                            <div x-show="toast.type === 'error'">
                                 <x-icon icon="x-circle" class="h-6 w-6 text-red-400" />
                             </div>
-                            <div x-show="notification.type === 'info'">
+                            <div x-show="toast.type === 'info'">
                                 <x-icon icon="information-circle" class="h-6 w-6 text-blue-400" />
                             </div>
-                            <div x-show="notification.type === 'warning'">
+                            <div x-show="toast.type === 'warning'">
                                 <x-icon icon="exclamation-circle" class="h-6 w-6 text-yellow-400" />
                             </div>
-                            <div x-show="notification.type === 'question'">
+                            <div x-show="toast.type === 'question'">
                                 <x-icon icon="question-mark-circle" class="h-6 w-6 text-secondary-400" />
                             </div>
                         </div>
                         <div class="ml-3 w-0 flex-1 pt-0.5">
-                            <p class="text-sm text-gray-800" x-bind:class="{ 'font-medium' : !notification.confirm, 'font-semibold' : notification.confirm }" x-text="notification.title"></p>
-                            <p class="mt-1 text-sm text-gray-700" x-text="notification.description"></p>
-                            <template x-if="notification.type === 'question'">
+                            <p class="text-sm text-gray-800" x-bind:class="{ 'font-medium' : !toast.confirm, 'font-semibold' : toast.confirm }" x-text="toast.title"></p>
+                            <p class="mt-1 text-sm text-gray-700" x-text="toast.description"></p>
+                            <template x-if="toast.type === 'question'">
                                 <div class="mt-3 flex gap-x-3">
                                     <button class="rounded-md bg-white text-sm font-semibold text-primary-600 focus:outline-none"
-                                            x-on:click="accept(notification)"
-                                            x-text="notification.options.confirm.text"></button>
+                                            x-on:click="accept(toast)"
+                                            x-text="toast.options.confirm.text"></button>
                                     <button class="rounded-md bg-white text-sm font-medium text-secondary-700 focus:outline-none"
-                                            x-on:click="reject(notification)"
-                                            x-text="notification.options.cancel.text"></button>
+                                            x-on:click="reject(toast)"
+                                            x-text="toast.options.cancel.text"></button>
                                 </div>
                             </template>
                         </div>

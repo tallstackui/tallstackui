@@ -3,14 +3,14 @@
 namespace TasteUi\Traits;
 
 use Livewire\Component;
-use TasteUi\Actions\Notifications as Action;
+use TasteUi\Actions\Toast;
 
-trait Notifications
+trait Interactions
 {
-    public function notify(array $options = null): Action
+    public function toast(array $options = null): Toast
     {
         /** @var Component $this */
-        $notification = new Action($this);
+        $notification = new Toast($this);
 
         if ($options) {
             return $notification->send($options);
