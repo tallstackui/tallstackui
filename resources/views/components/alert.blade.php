@@ -6,7 +6,7 @@
             @endif
             @if ($closeable)
                 <button x-on:click="show = !show">
-                    <x-icon icon="x-mark" :class="$colors['icon']" />
+                    <x-icon name="x-mark" :class="$colors['icon']" />
                 </button>
             @endif
         </div>

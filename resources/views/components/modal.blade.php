@@ -41,7 +41,7 @@
                         <button class="rounded-full p-1 text-secondary-300 focus:ring-secondary-200 focus:outline-none focus:ring-0"
                                 x-on:click="show = false"
                                 tabindex="-1">
-                            <x-icon icon="x-mark" class="h-5 w-5 text-secondary-300" />
+                            <x-icon name="x-mark" class="h-5 w-5 text-secondary-300" />
                         </button>
                     </div>
                 @endif

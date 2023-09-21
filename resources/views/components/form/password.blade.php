@@ -10,8 +10,8 @@
     <div class="relative mt-2 rounded-md shadow-sm" x-data="{ show : false }">
         <div class="absolute inset-y-0 right-0 flex items-center pr-2.5">
             <div class="cursor-pointer" x-on:click="show = !show">
-                <x-icon icon="eye" :$error solid class="h-5 w-5" x-show="!show" />
-                <x-icon icon="eye-slash" :$error solid class="h-5 w-5" x-show="show" />
+                <x-icon name="eye" :$error solid class="h-5 w-5" x-show="!show" />
+                <x-icon name="eye-slash" :$error solid class="h-5 w-5" x-show="show" />
             </div>
         </div>
 

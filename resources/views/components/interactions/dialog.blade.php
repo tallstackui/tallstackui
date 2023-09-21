@@ -27,7 +27,7 @@
                  x-on:click.outside="remove()">
                 <div class="flex justify-end">
                     <button x-on:click="remove()">
-                        <x-icon icon="x-mark"
+                        <x-icon name="x-mark"
                                 class="h-5 w-5 cursor-pointer text-gray-400"
                         />
                     </button>
@@ -42,19 +42,19 @@
                             'bg-secondary-100' : dialog.type === 'question',
                         }">
                         <div x-show="dialog.type === 'success'">
-                            <x-icon icon="check-circle" class="h-8 w-8 text-green-600" />
+                            <x-icon name="check-circle" class="h-8 w-8 text-green-600" />
                         </div>
                         <div x-show="dialog.type === 'error'">
-                            <x-icon icon="x-circle" class="h-8 w-8 text-red-600" />
+                            <x-icon name="x-circle" class="h-8 w-8 text-red-600" />
                         </div>
                         <div x-show="dialog.type === 'info'">
-                            <x-icon icon="information-circle" class="h-8 w-8 text-blue-600" />
+                            <x-icon name="information-circle" class="h-8 w-8 text-blue-600" />
                         </div>
                         <div x-show="dialog.type === 'warning'">
-                            <x-icon icon="exclamation-circle" class="h-8 w-8 text-yellow-600" />
+                            <x-icon name="exclamation-circle" class="h-8 w-8 text-yellow-600" />
                         </div>
                         <div x-show="dialog.type === 'question'">
-                            <x-icon icon="question-mark-circle" class="h-8 w-8 text-secondary-600" />
+                            <x-icon name="question-mark-circle" class="h-8 w-8 text-secondary-600" />
                         </div>
                     </div>
                     <div class="mt-3 text-center sm:mt-5">

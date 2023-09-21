@@ -21,19 +21,19 @@
                     <div class="flex items-start">
                         <div class="flex-shrink-0">
                             <div x-show="toast.type === 'success'">
-                                <x-icon icon="check-circle" class="h-6 w-6 text-green-400" />
+                                <x-icon name="check-circle" class="h-6 w-6 text-green-400" />
                             </div>
                             <div x-show="toast.type === 'error'">
-                                <x-icon icon="x-circle" class="h-6 w-6 text-red-400" />
+                                <x-icon name="x-circle" class="h-6 w-6 text-red-400" />
                             </div>
                             <div x-show="toast.type === 'info'">
-                                <x-icon icon="information-circle" class="h-6 w-6 text-blue-400" />
+                                <x-icon name="information-circle" class="h-6 w-6 text-blue-400" />
                             </div>
                             <div x-show="toast.type === 'warning'">
-                                <x-icon icon="exclamation-circle" class="h-6 w-6 text-yellow-400" />
+                                <x-icon name="exclamation-circle" class="h-6 w-6 text-yellow-400" />
                             </div>
                             <div x-show="toast.type === 'question'">
-                                <x-icon icon="question-mark-circle" class="h-6 w-6 text-secondary-400" />
+                                <x-icon name="question-mark-circle" class="h-6 w-6 text-secondary-400" />
                             </div>
                         </div>
                         <div class="ml-3 w-0 flex-1 pt-0.5">
@@ -52,7 +52,7 @@
                         </div>
                         <div class="ml-4 flex flex-shrink-0">
                             <button x-on:click="hide()" type="button" class="inline-flex rounded-md bg-white text-gray-400 focus:outline-none focus:ring-0">
-                                <x-icon icon="x-mark" class="h-5 w-5" />
+                                <x-icon name="x-mark" class="h-5 w-5" />
                             </button>
                         </div>
                     </div>
