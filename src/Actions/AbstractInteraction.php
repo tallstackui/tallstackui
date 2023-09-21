@@ -29,7 +29,7 @@ abstract class AbstractInteraction
             'title' => $title,
             'description' => $description,
             'type' => $type,
-            'timeout' => $this->time ?? 3000,
+            'timeout' => $this->time ?? 3,
         ]);
     }
 

@@ -37,23 +37,25 @@ class Toast extends AbstractInteraction
     {
         $options['icon'] ??= 'question';
 
-        $this->time ??= 3000;
+        $this->time ??= 3;
+
+        $base = [
+            'type' => 'question',
+            'timeout' => $this->time,
+            'confirm' => true,
+        ];
 
         if (is_string($data)) {
             return $this->send([
+                ...$base,
                 'title' => $data,
                 'description' => $description,
-                'type' => 'question',
-                'confirm' => true,
-                'timeout' => $this->time,
                 'options' => $options,
             ]);
         }
 
         return $this->send([
-            'type' => 'question',
-            'timeout' => $this->time,
-            'confirm' => true,
+            ...$base,
             ...$data,
         ]);
     }

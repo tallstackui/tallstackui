@@ -4,7 +4,7 @@ export default (toast) => ({
     init() {
         this.$nextTick(() => this.show = true);
 
-        setTimeout(() => this.hide(), this.toast.timeout);
+        setTimeout(() => this.hide(), this.toast.timeout * 1000);
     },
     accept(toast) {
         let params = toast.options.confirm.params ?? null;
