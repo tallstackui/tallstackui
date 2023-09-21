@@ -2,6 +2,7 @@
 
 namespace TasteUi\Actions;
 
+use InvalidArgumentException;
 use Livewire\Component;
 
 abstract class AbstractInteraction
@@ -23,6 +24,8 @@ abstract class AbstractInteraction
 
     public function confirm(string|array $data, string $description = null, array $options = null): self
     {
+        throw_if(! $options, new InvalidArgumentException('You must provide options for the interaction'));
+
         $options['icon'] ??= 'question';
 
         $this->time ??= 3;
@@ -48,6 +51,13 @@ abstract class AbstractInteraction
         ]);
     }
 
+    public function send(array $options): self
+    {
+        $this->component->dispatch($this->event, ...$options);
+
+        return $this;
+    }
+
     protected function base(string $title, string $description = null, string $type = null): self
     {
         return $this->send([
@@ -56,12 +66,5 @@ abstract class AbstractInteraction
             'type' => $type,
             'timeout' => $this->time ?? 3,
         ]);
-    }
-
-    protected function send(array $options): self
-    {
-        $this->component->dispatch($this->event, ...$options);
-
-        return $this;
     }
 }

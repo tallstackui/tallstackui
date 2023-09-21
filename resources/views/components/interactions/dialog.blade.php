@@ -1,20 +1,5 @@
 <div x-cloak
-     x-data="{
-        show : false,
-        dialog : {},
-        add(dialog) {
-            console.log(dialog);
-
-            this.show = true;
-
-            this.dialog = dialog;
-        },
-        remove() {
-            this.show = false;
-
-            setTimeout(() => this.dialog = {}, 500);
-        }
-     }"
+     x-data="tasteui_dialog(@js(__('taste-ui::messages.dialog.button.ok')), @js(__('taste-ui::messages.dialog.button.confirm')), @js(__('taste-ui::messages.dialog.button.cancel')))"
      x-on:tasteui:dialog.window="add($event.detail)"
      class="relative {{ $zIndex }}"
      aria-labelledby="modal-title"
@@ -80,18 +65,25 @@
                         </div>
                     </div>
                 </div>
-                <div class="mt-5 sm:mt-6">
+                <div class="mt-5 sm:mt-6" x-bind:class="{ 'space-y-2 sm:flex sm:justify-end sm:space-x-2 sm:space-y-0' : dialog.type === 'question' }">
+                    <div x-show="dialog.type === 'question'">
+                        <button type="button" 
+                                @class([
+                                    'mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold',
+                                    'text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:ml-3 sm:w-auto',
+                                ]) x-on:click="reject(dialog)" x-text="cancelButtonText"></button>
+                    </div>
                     <button @class([
                             'inline-flex w-full items-center justify-center rounded px-4 py-2 text-sm transition',
                             'font-semibold text-white outline-none ease-in group focus:ring-2 focus:ring-offset-2',
                         ]) x-bind:class="{
+                            'sm:w-auto' : dialog.type === 'question',
                             'bg-green-600 hover:bg-green-700 focus:ring-green-500 focus:ring-offset-green-100' : dialog.type === 'success',
                             'bg-red-600 hover:bg-red-700 focus:ring-red-500 focus:ring-offset-red-100' : dialog.type === 'error',
                             'bg-blue-600 hover:bg-blue-700 focus:ring-blue-500 focus:ring-offset-blue-100' : dialog.type === 'info',
-                            'bg-yellow-600 hover:bg-yellow-700 focus:ring-yellow-500 focus:ring-offset-yellow-100' : dialog.type === 'warning'
-                        }" x-on:click="remove()">
-                        {{ __('taste-ui::messages.dialog.button.ok') }}
-                    </button>
+                            'bg-yellow-600 hover:bg-yellow-700 focus:ring-yellow-500 focus:ring-offset-yellow-100' : dialog.type === 'warning',
+                            'bg-primary-600 hover:bg-primary-700 focus:ring-primary-500 focus:ring-offset-primary-100' : dialog.type === 'question'
+                        }" x-on:click="accept(dialog)" x-text="confirmButtonText"></button>
                 </div>
             </div>
         </div>

@@ -14,6 +14,8 @@ return [
     'dialog' => [
         'button' => [
             'ok' => 'OK',
-        ]
-    ]
+            'confirm' => 'Confirm',
+            'cancel' => 'Cancel',
+        ],
+    ],
 ];

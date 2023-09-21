@@ -3,6 +3,7 @@ import selectStyled from './modules/components/select/select-styled'
 import selectSearchable from './modules/components/select/select-searchable'
 import toastBase from './modules/components/toast/toast-base'
 import toastLoop from './modules/components/toast/toast-loop'
+import dialog from './modules/components/dialog/dialog'
 
 document.addEventListener("alpine:init", () => {
     window.Alpine.plugin(tooltip)
@@ -10,6 +11,7 @@ document.addEventListener("alpine:init", () => {
     window.Alpine.data('tasteui_selectSearchable', selectSearchable);
     window.Alpine.data('tasteui_toastBase', toastBase);
     window.Alpine.data('tasteui_toastLoop', toastLoop);
+    window.Alpine.data('tasteui_dialog', dialog);
 })
 
 window.$modalOpen  = name => window.dispatchEvent(new Event(`${name}-open`));
