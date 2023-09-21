@@ -1,3 +1,5 @@
+import { dispatchEvent } from "../../helpers";
+
 export default (ok, confirm, cancel) => ({
     show : false,
     dialog : {},
@@ -23,6 +25,7 @@ export default (ok, confirm, cancel) => ({
 
         let params = dialog.options.confirm.params ?? null;
 
+        dispatchEvent('dialog:accepted', dialog);
         this.$dispatch(dialog.options.confirm.event, params.constructor !== Array ? [params] : [...params]);
 
         this.remove();
@@ -34,6 +37,7 @@ export default (ok, confirm, cancel) => ({
 
         let params = dialog.options.cancel.params ?? null;
 
+        dispatchEvent('dialog:rejected', dialog);
         this.$dispatch(dialog.options.cancel.event, params.constructor !== Array ? [params] : [...params]);
 
         this.remove();

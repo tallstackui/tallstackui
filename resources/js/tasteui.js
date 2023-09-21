@@ -14,5 +14,5 @@ document.addEventListener("alpine:init", () => {
     window.Alpine.data('tasteui_dialog', dialog);
 })
 
-window.$modalOpen  = name => window.dispatchEvent(new Event(`${name}-open`));
-window.$modalClose = name => window.dispatchEvent(new Event(`${name}-close`));
+window.$modalOpen = name => window.dispatchEvent(new Event(`modal:${name}-open`));
+window.$modalClose = name => window.dispatchEvent(new Event(`modal:${name}-close`));

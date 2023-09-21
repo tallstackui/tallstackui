@@ -13,8 +13,8 @@
      aria-modal="true"
      x-data="{ show : @if ($wire) @entangle($entangle) @else false @endif }"
      x-show="show"
-     x-on:{{ $open }}.window="show = true"
-     x-on:{{ $close }}.window="show = false"
+     x-on:modal:{{ $open }}.window="show = true"
+     x-on:modal:{{ $close }}.window="show = false"
      x-cloak>
     <div x-show="show"
          x-transition:enter="ease-out duration-300"
