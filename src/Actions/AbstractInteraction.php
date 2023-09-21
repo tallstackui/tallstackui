@@ -25,7 +25,7 @@ abstract class AbstractInteraction
     public function confirm(string|array $data, string $description = null, array $options = null): self
     {
         throw_if(
-            (is_string($data) && ! $options) || (is_array($data) && !isset($data['options'])),
+            (is_string($data) && ! $options) || (is_array($data) && ! isset($data['options'])),
             new InvalidArgumentException('You must provide options for the interaction')
         );
 

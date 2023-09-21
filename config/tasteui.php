@@ -3,6 +3,22 @@
 use TasteUi\View\Components;
 
 return [
+    /*
+    |--------------------------------------------------------------------------
+    | Default Icon Style
+    |--------------------------------------------------------------------------
+    |
+    | Supported: "solid", "outline"
+    */
+    'icon' => null,
+
+    /*
+    |--------------------------------------------------------------------------
+    | List of Components
+    |--------------------------------------------------------------------------
+    |
+    | <usage> => <structure>
+    */
     'components' => [
         'input' => Components\Form\Input::class,
         'textarea' => Components\Form\Textarea::class,

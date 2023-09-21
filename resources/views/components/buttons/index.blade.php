@@ -1,4 +1,7 @@
-@php($type = $href ? 'a' : 'button')
+@php
+    $type  = $href ? 'a' : 'button';
+    $style = config('tasteui.icon') ?? 'solid';
+@endphp
 
 <{{ $type }} @if ($href) href="{{ $href }}" @endif {{ $attributes->class([
         'outline-none inline-flex justify-center items-center group ease-in font-semibold',
@@ -13,7 +16,7 @@
         $color
     ]) }}>
     @if ($icon && $position === 'left')
-        <x-icon :$icon solid @class([
+        <x-icon :$icon style="{{ $style }}" @class([
             'text-white',
             'w-4 h-4' => $size !== 'lg',
             'w-6 h-6' => $size === 'lg',
@@ -21,7 +24,7 @@
     @endif
     {{ $text ?? $slot }}
     @if ($icon && $position === 'right')
-        <x-icon :$icon solid @class([
+        <x-icon :$icon style="{{ $style }}" @class([
             'text-white',
             'w-4 h-4' => $size !== 'lg',
             'w-6 h-6' => $size === 'lg',
