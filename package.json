@@ -1,7 +1,5 @@
 {
   "scripts": {
-    "watch": "mix watch",
-    "watch-poll": "mix watch -- --watch-options-poll=1000",
     "build": "mix --production"
   },
   "devDependencies": {
