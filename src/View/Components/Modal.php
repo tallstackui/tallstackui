@@ -9,6 +9,7 @@ class Modal extends Component
 {
     public function __construct(
         public ?string $id = 'modal',
+        public ?string $zIndex = 'z-50',
         public bool $wire = false,
         public ?string $entangle = 'modal',
         public ?string $title = null,

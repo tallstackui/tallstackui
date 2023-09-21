@@ -10,4 +10,10 @@ return [
         'input' => 'Search something here',
         'empty' => 'No results found',
     ],
+
+    'dialog' => [
+        'button' => [
+            'ok' => 'OK',
+        ]
+    ]
 ];

@@ -1,12 +1,12 @@
-<div x-data="tasteui_toastBase()"
-     x-cloak
+<div x-cloak
+     x-data="tasteui_toastBase()"
      x-on:tasteui:toast.window="add($event)"
      @class([
         'pointer-events-none fixed inset-0 flex flex-col items-end justify-end gap-y-2 px-4 py-4',
         'md:justify-start' => str_contains($position, 'top-'),
         'md:justify-end'   => str_contains($position, 'bottom-'),
         $zIndex
-    ])>
+    ]) x-show="show">
     <template x-for="toast in toasts" :key="toast.id">
         <div x-data="tasteui_toastLoop(toast)" x-show="show" @class([
                 'flex w-full flex-col items-center space-y-4',

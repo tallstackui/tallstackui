@@ -21,7 +21,32 @@ abstract class AbstractInteraction
 
     abstract public function warning(string $title, string $description = null): self;
 
-    abstract public function confirm(string|array $data, string $description = null, array $options = null): self;
+    public function confirm(string|array $data, string $description = null, array $options = null): self
+    {
+        $options['icon'] ??= 'question';
+
+        $this->time ??= 3;
+
+        $base = [
+            'type' => 'question',
+            'timeout' => $this->time,
+            'confirm' => true,
+        ];
+
+        if (is_string($data)) {
+            return $this->send([
+                ...$base,
+                'title' => $data,
+                'description' => $description,
+                'options' => $options,
+            ]);
+        }
+
+        return $this->send([
+            ...$base,
+            ...$data,
+        ]);
+    }
 
     protected function base(string $title, string $description = null, string $type = null): self
     {

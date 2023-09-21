@@ -25,6 +25,7 @@ return [
         'select.styled' => Components\Select\Styled::class,
         'select.searchable' => Components\Select\Searchable::class,
         'modal' => Components\Modal::class,
-        'toast' => Components\Toast::class,
+        'toast' => Components\Interactions\Toast::class,
+        'dialog' => Components\Interactions\Dialog::class,
     ],
 ];

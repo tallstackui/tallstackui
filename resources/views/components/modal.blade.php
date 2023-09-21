@@ -7,7 +7,7 @@
 @endphp
 
 <div @if ($id) id="{{ $id }}" @endif
-     class="relative z-50"
+     class="relative {{ $zIndex }}"
      aria-labelledby="modal-title"
      role="dialog"
      aria-modal="true"

@@ -2,9 +2,9 @@
 
 namespace TasteUi\Actions;
 
-class Toast extends AbstractInteraction
+class Dialog extends AbstractInteraction
 {
-    protected string $event = 'tasteui:toast';
+    protected string $event = 'tasteui:dialog';
 
     public function time(int $time): self
     {
