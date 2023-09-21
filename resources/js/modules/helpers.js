@@ -1,17 +1,17 @@
 /**
  * @param message
- * @returns {void}
+ * @return {void}
  */
 export const warning = (message) => {
-    console.warn(`[TasteUi] ${message}`);
+  console.warn(`[TasteUi] ${message}`);
 };
 
 /**
  * @param message
- * @returns {void}
+ * @return {void}
  */
 export const error = (message) => {
-    console.error(`[TasteUi] ${message}`);
+  console.error(`[TasteUi] ${message}`);
 };
 
 /**
@@ -19,7 +19,7 @@ export const error = (message) => {
  * @param params {Array|Object}
  */
 export const dispatchEvent = (name, params = null) => {
-    let event = `tasteui:${name}`;
+  const event = `tasteui:${name}`;
 
-    window.dispatchEvent(new CustomEvent(event, { detail: params }));
-}
+  window.dispatchEvent(new CustomEvent(event, {detail: params}));
+};

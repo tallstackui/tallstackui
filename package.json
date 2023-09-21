@@ -1,6 +1,8 @@
 {
   "scripts": {
-    "build": "mix --production"
+    "build": "mix --production",
+    "lint": "npx eslint --ext .js resources/js",
+    "lint:fix": "npx eslint --ext .js resources/js --fix"
   },
   "devDependencies": {
     "eslint": "^8.49.0",
