@@ -10,7 +10,7 @@ class Alert extends Component
 {
     public function __construct(
         public ?string $title = null,
-        public ?string $message = null,
+        public ?string $text = null,
         public string $color = 'primary',
         public ?string $class = null,
         public bool $closeable = false,
