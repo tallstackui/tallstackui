@@ -32,8 +32,8 @@ class Alert extends Component
     {
         return Arr::toCssClasses([
             'rounded-md p-4',
-            Color::get('bg', $this->color, '400') => ! $this->translucent,
-            Color::get('bg', $this->color, '100') => $this->translucent,
+            Color::set('bg', $this->color, '400') => ! $this->translucent,
+            Color::set('bg', $this->color, '100') => $this->translucent,
         ]);
     }
 
@@ -42,7 +42,7 @@ class Alert extends Component
      */
     public function titleElement(): array
     {
-        $color = Color::get('text', $this->color, '800');
+        $color = Color::set('text', $this->color, '800');
 
         return [
             'base' => Arr::toCssClasses([
@@ -63,7 +63,7 @@ class Alert extends Component
      */
     public function textElement(): array
     {
-        $color = Color::get('text', $this->color, '800');
+        $color = Color::set('text', $this->color, '800');
 
         return [
             'wrapper' => 'flex items-center justify-between',

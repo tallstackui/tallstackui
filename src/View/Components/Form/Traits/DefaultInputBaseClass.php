@@ -6,7 +6,7 @@ use Illuminate\Support\Arr;
 
 trait DefaultInputBaseClass
 {
-    private function defaultInputBaseClass(bool $error = false): string
+    private function baseInputClass(bool $error = false): string
     {
         return Arr::toCssClasses([
             'block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300',

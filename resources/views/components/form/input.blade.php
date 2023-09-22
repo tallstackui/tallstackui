@@ -1,7 +1,7 @@
 @php
     $computed = $attributes->whereStartsWith('wire:model')->first();
     $error    = $errors->has($computed);
-    $baseIcon = $getBaseIcon();
+    $baseIcon = $baseIcon();
 @endphp
 
 <x-taste-ui::form.wrapper.input :$computed :$error :$label :$hint>
@@ -11,5 +11,5 @@
         </div>
     @endif
 
-    <input @if ($id) id="{{ $id }}" @endif {{ $attributes->class($getBaseClass($error)) }}>
+    <input @if ($id) id="{{ $id }}" @endif {{ $attributes->class($baseClass($error)) }}>
 </x-taste-ui::form.wrapper.input>

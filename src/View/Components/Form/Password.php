@@ -26,18 +26,20 @@ class Password extends Component
         return view('taste-ui::components.form.password');
     }
 
-    public function getBaseClass(bool $error = false): string
+    public function baseClass(bool $error = false): string
     {
-        return $this->defaultInputBaseClass($error);
+        return $this->baseInputClass($error);
     }
 
-    public function getBaseIcon(bool $error = false): array
+    public function iconElement(bool $error = false): array
     {
         return [
-            'size' => 'h-5 w-5',
             'style' => config('tasteui.icon') ?? 'solid',
             'wrapper' => 'absolute inset-y-0 right-0 flex items-center pr-2.5',
-            'color' => Arr::toCssClasses(['text-gray-400' => ! $error]),
+            'class' => Arr::toCssClasses([
+                'h-5 w-5',
+                'text-gray-400' => ! $error,
+            ]),
         ];
     }
 }

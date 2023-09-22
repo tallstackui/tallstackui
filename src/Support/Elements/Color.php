@@ -3,10 +3,14 @@
 namespace TasteUi\Support\Elements;
 
 use InvalidArgumentException;
+use Stringable;
+use Throwable;
 
-final class Color
+final class Color implements Stringable
 {
-    private const ACCEPTABLES = [
+    protected string $class = '';
+
+    private const ACCEPTABLES_COLORS = [
         'primary',
         'secondary',
         'positive',
@@ -39,20 +43,17 @@ final class Color
         'rose',
     ];
 
-    public static function get(string $prefix, string $type, string $weight = null): string
+    private const ACCEPTABLES_PREFIXES = [
+        'bg-',
+        'text-',
+    ];
+
+    public function set(string $prefix, string $type, int $weight = null): self
     {
         $prefix = str_replace('-', '', $prefix);
         $type = str_replace('-', '', $type);
 
-        throw_if(
-            in_array($prefix, ['bg-', 'text-']),
-            new InvalidArgumentException('Prefix must be bg- or text-')
-        );
-
-        throw_if(
-            ! in_array($type, self::ACCEPTABLES),
-            new InvalidArgumentException('Selected type is not allowed')
-        );
+        $this->validate($prefix, $type);
 
         $base = '%s-%s-%s';
 
@@ -60,6 +61,39 @@ final class Color
             $base = str($base)->beforeLast('%s');
         }
 
-        return sprintf($base, $prefix, $type, $weight);
+        $this->class = empty($this->class)
+            ? sprintf($base, $prefix, $type, $weight)
+            : ($this->class.' '.sprintf($base, $prefix, $type, $weight));
+
+        return $this;
+    }
+
+    public function merge(string $prefix, string $type, string $weight = null): self
+    {
+        return $this->set($prefix, $type, $weight);
+    }
+
+    public function get(): string
+    {
+        return $this->class;
+    }
+
+    public function __toString(): string
+    {
+        return $this->get();
+    }
+
+    /** @throws Throwable */
+    private function validate(string $prefix, string $type)
+    {
+        throw_if(
+            in_array($prefix, self::ACCEPTABLES_PREFIXES),
+            new InvalidArgumentException('Prefix type is not allowed')
+        );
+
+        throw_unless(
+            in_array($type, self::ACCEPTABLES_COLORS),
+            new InvalidArgumentException('Selected type is not allowed')
+        );
     }
 }

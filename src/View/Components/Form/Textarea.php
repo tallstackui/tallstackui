@@ -29,7 +29,7 @@ class Textarea extends Component
     public function getBaseClass(bool $error = false): string
     {
         return Arr::toCssClasses([
-            $this->defaultInputBaseClass($error),
+            $this->baseInputClass($error),
             'resize-none' => $this->resize === null || $this->resize === 'none',
         ]);
     }

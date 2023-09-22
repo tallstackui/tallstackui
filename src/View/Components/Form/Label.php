@@ -22,17 +22,17 @@ class Label extends Component
         return view('taste-ui::components.form.label');
     }
 
-    public function getBaseClass(): string
-    {
-        return 'mb-1 flex justify-between';
-    }
-
-    public function getLabelClass(bool $error = false): string
+    public function baseClass(bool $error = false): string
     {
         return Arr::toCssClasses([
-            'block text-sm font-medium',
+            'mb-1 flex justify-between',
             'text-gray-700' => ! $error,
             'text-red-600' => $error,
         ]);
+    }
+
+    public function labelClass(): string
+    {
+        return 'block text-sm font-medium';
     }
 }

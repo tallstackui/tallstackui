@@ -1,9 +1,12 @@
-@php($content = $label ?? $slot->toHtml())
+@php
+    $content = $label ?? $slot->toHtml();
+    $baseContentClass = $baseContentClass();
+@endphp
 
-<div {{ $attributes->class($getBaseClass()) }}>
+<div {{ $attributes->class($baseClass()) }}>
     @if ($modelable)
-        <img @class($getBaseImageClass()) src="{{ $content }}" alt="{{ $alt() }}" />
+        <img @class($baseContentClass) src="{{ $content }}" alt="{{ $alt() }}" />
     @else
-        <span @class($getBaseSpanClass())>{{ $content }}</span>
+        <span @class($baseContentClass)>{{ $content }}</span>
     @endif
 </div>
