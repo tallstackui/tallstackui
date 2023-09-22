@@ -31,7 +31,11 @@ class Toggle extends Component
         return view('taste-ui::components.form.toggle');
     }
 
-    public function getBaseClass(bool $error = false): string
+    /**
+     * Default class to the input.
+     * TODO: it should implement the label personalizations, like Checkbox class.
+     */
+    public function baseClass(bool $error = false): string
     {
         return Arr::toCssClasses([
             'block rounded-full cursor-pointer transition ease-in-out duration-100 peer-focus:ring-2',
@@ -44,7 +48,7 @@ class Toggle extends Component
         ]);
     }
 
-    public function getInputBaseClass(): string
+    public function inputClass(): string
     {
         return Arr::toCssClasses([
             'absolute mx-0.5 my-auto inset-y-0 left-0.5 rounded-full border-0',

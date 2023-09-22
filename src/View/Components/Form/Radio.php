@@ -31,7 +31,11 @@ class Radio extends Component
         return view('taste-ui::components.form.radio');
     }
 
-    public function getBaseClass(bool $error = false): string
+    /**
+     * Default class to the input.
+     * TODO: it should implement the label personalizations, like Checkbox class.
+     */
+    public function baseClass(bool $error = false): string
     {
         return Arr::toCssClasses([
             'form-radio rounded-full transition ease-in-out duration-100',
