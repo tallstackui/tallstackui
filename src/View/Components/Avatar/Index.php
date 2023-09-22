@@ -5,7 +5,6 @@ namespace TasteUi\View\Components\Avatar;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
-use InvalidArgumentException;
 use TasteUi\Facades\TasteUi;
 
 class Index extends Component
@@ -16,16 +15,11 @@ class Index extends Component
         public ?string $sm = null,
         public ?string $md = null,
         public ?string $lg = null,
-        public ?string $size = null,
         public bool $square = false,
         public bool $modelable = false,
+        private ?string $size = null,
     ) {
-        $this->size ??= $this->sm ? 'sm' : ($this->lg ? 'lg' : 'md');
-
-        // TODO: refactor this to concentrate in a single place
-        if (! in_array($this->size, ['sm', 'md', 'lg'])) {
-            throw new InvalidArgumentException('Invalid size. Allowed values are: sm, md, lg.');
-        }
+        $this->size = $this->sm ? 'sm' : ($this->lg ? 'lg' : 'md');
     }
 
     public function render(): View

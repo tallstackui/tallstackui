@@ -19,7 +19,14 @@ class Modelable extends Index
         public ?string $color = 'FFFFFF',
         public bool $square = false,
     ) {
-        parent::__construct(label: $this->avatar(), sm: $sm, md: $md, lg: $lg, square: $square, modelable: true);
+        parent::__construct(
+            label: $this->avatar(),
+            sm: $sm,
+            md: $md,
+            lg: $lg,
+            square: $square,
+            modelable: true
+        );
     }
 
     /** @throws Throwable */
