@@ -1,20 +1,8 @@
-<div class="flex items-center">
-    @if ($label && $position === 'left')
-        <span class="mr-2 text-sm">
-            <p class="font-medium text-gray-700">{{ $label }}</p>
-        </span>
-    @endif
-    <label @if ($id) for="{{ $id }}" @endif class="relative inline-flex cursor-pointer items-center">
-        <input @if ($id) for="{{ $id }}" @endif type="radio" {{ $attributes->class([
-                'form-radio rounded-full transition ease-in-out duration-100',
-                'border-secondary-300 text-primary-600 focus:ring-primary-600 focus:border-primary-400',
-                'w-5 h-5' => $md !== null,
-                'w-6 h-6' => $lg !== null,
-            ]) }} @checked($checked)>
-    </label>
-    @if ($label && $position === 'right')
-        <span class="ml-2 text-sm">
-            <p class="font-medium text-gray-700">{{ $label }}</p>
-        </span>
-    @endif
-</div>
+@php
+    $computed = $attributes->whereStartsWith('wire:model')->first();
+    $error    = $errors->has($computed);
+@endphp
+
+<x-taste-ui::form.wrapper.radio-toggle :$computed :$error :$label :$position :$id>
+    <input @if ($id) id="{{ $id }}" @endif type="radio" {{ $attributes->class($getBaseClass($error)) }} @checked($checked)>
+</x-taste-ui::form.wrapper.radio-toggle>

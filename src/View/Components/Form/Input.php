@@ -26,10 +26,10 @@ class Input extends Component
         return view('taste-ui::components.form.input');
     }
 
-    public function getBaseClass(?bool $error = false): string
+    public function getBaseClass(bool $error = false): string
     {
         return Arr::toCssClasses([
-            $this->default($error),
+            $this->defaultInputBaseClass($error),
             'pl-10' => $this->icon && ($this->position === null || $this->position === 'left'),
         ]);
     }

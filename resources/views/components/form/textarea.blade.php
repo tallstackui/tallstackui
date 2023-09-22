@@ -3,6 +3,6 @@
     $error    = $errors->has($computed);
 @endphp
 
-<x-taste-ui::form.wrapper :$computed :$error :$label :$hint>
+<x-taste-ui::form.wrapper.input :$computed :$error :$label :$hint>
     <textarea @if ($id) id="{{ $id }}" @endif {{ $attributes->class($getBaseClass($error)) }} rows="{{ $rows }}">{{ $slot }}</textarea>
-</x-taste-ui::form.wrapper>
+</x-taste-ui::form.wrapper.input>

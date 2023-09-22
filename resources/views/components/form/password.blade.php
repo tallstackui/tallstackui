@@ -4,7 +4,7 @@
     $baseIcon = $getBaseIcon($error);
 @endphp
 
-<x-taste-ui::form.wrapper :$computed :$error :$label :$hint password>
+<x-taste-ui::form.wrapper.input :$computed :$error :$label :$hint password>
     <div @class($baseIcon['wrapper'])>
         <div class="cursor-pointer" x-on:click="show = !show">
             <x-icon name="eye" :$error style="{{ $baseIcon['style'] }}" @class([$baseIcon['size'],$baseIcon['color']]) x-show="!show" />
@@ -13,4 +13,4 @@
     </div>
 
     <input @if ($id) id="{{ $id }}" @endif {{ $attributes->class($getBaseClass($error)) }} :type="!show ? 'password' : 'text'">
-</x-taste-ui::form.wrapper>
+</x-taste-ui::form.wrapper.input>

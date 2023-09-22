@@ -27,12 +27,12 @@ class Label extends Component
         return 'mb-1 flex justify-between';
     }
 
-    public function getLabelClass(?bool $error = false): string
+    public function getLabelClass(bool $error = false): string
     {
         return Arr::toCssClasses([
             'block text-sm font-medium',
-            'text-gray-700' => !$error,
-            'text-red-600'  => $error,
+            'text-gray-700' => ! $error,
+            'text-red-600' => $error,
         ]);
     }
 }

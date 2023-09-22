@@ -44,4 +44,16 @@ return [
         'toast' => Components\Interactions\Toast::class,
         'dialog' => Components\Interactions\Dialog::class,
     ],
+
+    'wrappers' => [
+        'form' => [
+            'input' => [
+                'div' => 'relative mt-2 rounded-md shadow-sm',
+                'span' => 'mt-2 text-sm text-secondary-500',
+            ],
+            'radio-toggle' => [
+                'span' => 'relative inline-flex cursor-pointer items-center',
+            ],
+        ],
+    ],
 ];

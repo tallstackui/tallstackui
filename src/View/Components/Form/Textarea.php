@@ -26,10 +26,10 @@ class Textarea extends Component
         return view('taste-ui::components.form.textarea');
     }
 
-    public function getBaseClass(?bool $error = false): string
+    public function getBaseClass(bool $error = false): string
     {
         return Arr::toCssClasses([
-            $this->default($error),
+            $this->defaultInputBaseClass($error),
             'resize-none' => $this->resize === null || $this->resize === 'none',
         ]);
     }

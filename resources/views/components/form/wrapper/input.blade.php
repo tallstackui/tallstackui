@@ -4,11 +4,11 @@
     @if ($label)
         <x-label :$label :$error />
     @endif
-    <div class="relative mt-2 rounded-md shadow-sm" @if ($password) x-data="{ show : false }" @endif>
+    <div @class(config('tasteui.wrappers.form.input.div')) @if ($password) x-data="{ show : false }" @endif>
         {!! $slot !!}
     </div>
     @if ($hint && !$error)
-        <span class="mt-2 text-sm text-secondary-500">
+        <span @class(config('tasteui.wrappers.form.input.span'))>
             {{ $hint }}
         </span>
     @endif

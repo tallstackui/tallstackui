@@ -42,18 +42,18 @@ class Checkbox extends Component
         return 'relative inline-flex cursor-pointer items-center';
     }
 
-    public function getBaseWrapper(?bool $error = false): array
+    public function getBaseWrapper(bool $error = false): array
     {
         $text = Arr::toCssClasses([
             'font-medium',
-            'text-gray-700' => !$error,
-            'text-red-600'  => $error,
+            'text-gray-700' => ! $error,
+            'text-red-600' => $error,
         ]);
 
         return [
-            'left'  => 'mr-2 text-sm',
+            'left' => 'mr-2 text-sm',
             'right' => 'ml-2 text-sm',
-            'text'  => $text,
+            'text' => $text,
         ];
     }
 }
