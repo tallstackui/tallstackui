@@ -1,7 +1,7 @@
 @php
     $computed = $attributes->whereStartsWith('wire:model')->first();
     $error    = $errors->has($computed);
-    $baseIcon = $getBaseIcon();
+    $baseIcon = $getBaseIcon($error);
 @endphp
 
 <x-taste-ui::form.wrapper :$computed :$error :$label :$hint password>
