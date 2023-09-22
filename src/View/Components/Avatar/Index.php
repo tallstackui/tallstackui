@@ -2,41 +2,70 @@
 
 namespace TasteUi\View\Components\Avatar;
 
-use Closure;
+use Illuminate\Contracts\View\View;
+use Illuminate\Support\Arr;
 use Illuminate\View\Component;
+use InvalidArgumentException;
 
 class Index extends Component
 {
     public function __construct(
-        public ?string $label,
+        public string $label,
         public ?string $color = 'primary',
         public ?string $sm = null,
         public ?string $md = null,
         public ?string $lg = null,
-        public ?string $square = null,
+        public ?string $size = null,
+        public bool $square = false,
+        public bool $modelable = false,
     ) {
-        //
+        $this->size ??= $this->sm ? 'sm' : ($this->lg ? 'lg' : 'md');
+
+        // TODO: refactor this to concentrate in a single place
+        if (! in_array($this->size, ['sm', 'md', 'lg'])) {
+            throw new InvalidArgumentException('Invalid size. Allowed values are: sm, md, lg.');
+        }
     }
 
-    public function render(): Closure
+    public function render(): View
     {
-        return function (array $data) {
-            return view('taste-ui::components.avatar', $this->merge($data))->render();
-        };
+        return view('taste-ui::components.avatar');
     }
 
-    protected function merge(array $data): array
+    public function getBaseClass(): string
     {
-        $data['color'] = $this->colors();
+        $color = $this->colors();
 
-        return $data;
+        return Arr::toCssClasses([
+            'inline-flex shrink-0 items-center justify-center overflow-hidden bg-gray-500 text-xl',
+            'w-8 h-8' => $this->size === 'sm',
+            'w-12 h-12' => $this->size === 'md',
+            'w-14 h-14' => $this->size === 'lg',
+            'rounded-full' => ! $this->square,
+            $color,
+        ]);
     }
 
-    private function colors(): string
+    public function getBaseSpanClass(): string
     {
-        //TODO: it will continue here?
-        if (str_contains($this->label, 'http')) {
-            return '';
+        return 'font-semibold text-white';
+    }
+
+    public function getBaseImageClass(): string
+    {
+        return Arr::toCssClasses([
+            'shrink-0 object-cover object-center text-xl',
+            'w-8 h-8' => $this->size === 'sm',
+            'w-12 h-12' => $this->size === 'md',
+            'w-14 h-14' => $this->size === 'lg',
+            'rounded-full' => ! $this->square,
+        ]);
+    }
+
+    private function colors(): ?string
+    {
+        if ($this->modelable) {
+            return null;
         }
 
         return [
