@@ -8,6 +8,8 @@ return [
     | Default Icon Style
     |--------------------------------------------------------------------------
     |
+    | When configured, define the default icon type.
+    |
     | Supported: "solid", "outline"
     */
     'icon' => null,
