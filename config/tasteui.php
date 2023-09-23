@@ -7,7 +7,7 @@ return [
     |--------------------------------------------------------------------------
     | Default Icon Style
     |--------------------------------------------------------------------------
-    |
+    | // TODO: Add description here...
     | Supported: "solid", "outline"
     */
     'icon' => null,
@@ -16,7 +16,7 @@ return [
     |--------------------------------------------------------------------------
     | List of Components
     |--------------------------------------------------------------------------
-    |
+    | // TODO: Add description here...
     | <usage> => <structure>
     */
     'components' => [
@@ -45,6 +45,7 @@ return [
         'dialog' => Components\Interactions\Dialog::class,
     ],
 
+    // TODO: Add description here...
     'wrappers' => [
         'form' => [
             'input' => [
