@@ -2,8 +2,10 @@
 
 namespace TasteUi\View\Components;
 
-use Closure;
+use Illuminate\Contracts\View\View;
+use Illuminate\Support\Arr;
 use Illuminate\View\Component;
+use TasteUi\Facades\TasteUi;
 
 class Badge extends Component
 {
@@ -17,50 +19,34 @@ class Badge extends Component
         public ?string $outline = null,
         public ?string $color = 'primary',
         public ?string $square = null,
+        private ?string $size = null,
         private ?string $style = null,
     ) {
         $this->style = $this->outline ? 'outline' : 'solid';
+        $this->size = $this->lg ? 'lg' : ($this->md ? 'md' : 'sm');
     }
 
-    public function render(): Closure
+    public function render(): View
     {
-        return function (array $data) {
-            return view('taste-ui::components.badge', $this->merge($data))->render();
-        };
+        return view('taste-ui::components.badge');
     }
 
-    protected function merge(array $data): array
+    public function baseClass(): string
     {
-        $data['color'] = $this->colors();
-
-        return $data;
-    }
-
-    private function colors(): string
-    {
-        $class = [
-            'solid' => [
-                'primary' => 'bg-primary-500 border border-primary-500 text-white',
-                'secondary' => 'bg-secondary-500 border border-secondary-500 text-white',
-                'green' => 'bg-green-500 border border-green-500 text-white',
-                'red' => 'bg-red-500 border border-red-500 text-white',
-                'yellow' => 'bg-yellow-500 border border-yellow-500 text-white',
-                'blue' => 'bg-blue-500 border border-blue-500 text-white',
-            ],
-            'outline' => [
-                'primary' => 'border border-primary-500 text-primary-800',
-                'secondary' => 'border border-secondary-500 text-secondary-800',
-                'green' => 'border border-green-500 text-green-800',
-                'red' => 'border border-red-500 text-red-800',
-                'yellow' => 'border border-yellow-500 text-yellow-800',
-                'blue' => 'border border-blue-500 text-blue-800',
-            ],
-        ][$this->style][$this->color];
-
-        if (! $this->square) {
-            $class .= ' rounded-md';
-        }
-
-        return $class;
+        return Arr::toCssClasses([
+            'outline-none inline-flex items-center border px-2 py-0.5 font-bold',
+            'text-xs' => $this->size === 'sm',
+            'text-sm' => $this->size === 'md',
+            'text-md' => $this->size === 'lg',
+            'text-white' => $this->style === 'solid',
+            'rounded-md' => $this->square === null,
+            TasteUi::colors()
+                ->set('border', $this->color, 500)
+                ->mergeWhen($this->style === 'solid', 'bg', $this->color, 500)
+                ->get(),
+            TasteUi::colors()
+                ->set('text', $this->color, 500)
+                ->get() => $this->style === 'outline',
+        ]);
     }
 }

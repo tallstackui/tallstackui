@@ -4,5 +4,5 @@
 @endphp
 
 <x-taste-ui::form.wrapper.input :$computed :$error :$label :$hint>
-    <textarea @if ($id) id="{{ $id }}" @endif {{ $attributes->class($getBaseClass($error)) }} rows="{{ $rows }}">{{ $slot }}</textarea>
+    <textarea @if ($id) id="{{ $id }}" @endif {{ $attributes->class($baseClass($error)) }} rows="{{ $rows }}">{{ $slot }}</textarea>
 </x-taste-ui::form.wrapper.input>

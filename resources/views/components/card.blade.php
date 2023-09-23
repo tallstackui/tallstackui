@@ -1,18 +1,20 @@
-<div class="flex justify-center gap-4">
-    <div class="flex w-full flex-col rounded-lg bg-white shadow-md">
-        <div @class(['flex items-center justify-between', 'border-b px-4 py-2.5' => $header !== null])>
+@php($cardElement = $cardElement())
+
+<div @class($cardElement['wrapper']['first'])>
+    <div @class($cardElement['wrapper']['second'])>
+        <div @class($cardElement['title']['wrapper'])>
             @if ($header)
-                <h3 class="font-medium text-md text-secondary-700">
+                <h3 @class($cardElement['title']['text'])>
                     {{ $header }}
                 </h3>
             @endif
         </div>
-        <div {{ $attributes->class(['grow rounded-b-xl px-2 py-5 text-secondary-700 md:px-4']) }}>
+        <div {{ $attributes->class($baseClass()) }}>
             {{ $slot }}
         </div>
         @if ($footer)
-            <div class="rounded-lg rounded-t-none border-t px-4 py-4 bg-secondary-50 sm:px-6">
-                <div class="flex items-center justify-end gap-2">
+            <div @class($cardElement['footer']['wrapper'])>
+                <div @class($cardElement['footer']['text'])>
                     {{ $footer }}
                 </div>
             </div>

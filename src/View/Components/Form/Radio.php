@@ -5,7 +5,6 @@ namespace TasteUi\View\Components\Form;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
-use InvalidArgumentException;
 
 class Radio extends Component
 {
@@ -19,11 +18,7 @@ class Radio extends Component
         public ?string $size = null,
         public bool $checked = false,
     ) {
-        $this->size ??= $this->sm ? 'sm' : ($this->lg ? 'lg' : 'md');
-
-        if (! in_array($this->size, ['sm', 'md', 'lg'])) {
-            throw new InvalidArgumentException('Invalid size. Allowed values are: sm, md, lg.');
-        }
+        $this->size = $this->sm ? 'sm' : ($this->lg ? 'lg' : 'md');
     }
 
     public function render(): View

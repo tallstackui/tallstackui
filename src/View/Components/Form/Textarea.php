@@ -26,7 +26,10 @@ class Textarea extends Component
         return view('taste-ui::components.form.textarea');
     }
 
-    public function getBaseClass(bool $error = false): string
+    /**
+     * TODO: it should implement the label personalizations, like Checkbox class.
+     */
+    public function baseClass(bool $error = false): string
     {
         return Arr::toCssClasses([
             $this->baseInputClass($error),

@@ -34,7 +34,7 @@ class Input extends Component
         ]);
     }
 
-    public function baseIcon(): array
+    public function iconElement(): array
     {
         return [
             'size' => 'h-5 w-5',

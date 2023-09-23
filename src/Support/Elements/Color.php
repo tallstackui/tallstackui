@@ -44,8 +44,9 @@ final class Color implements Stringable
     ];
 
     private const ACCEPTABLES_PREFIXES = [
-        'bg-',
-        'text-',
+        'bg',
+        'border',
+        'text',
     ];
 
     public function set(string $prefix, string $type, int $weight = null): self
@@ -73,6 +74,24 @@ final class Color implements Stringable
         return $this->set($prefix, $type, $weight);
     }
 
+    public function mergeWhen(bool $condition, string $prefix, string $type, string $weight = null): self
+    {
+        if ($condition) {
+            $this->merge($prefix, $type, $weight);
+        }
+
+        return $this;
+    }
+
+    public function mergeUnless(bool $condition, string $prefix, string $type, string $weight = null): self
+    {
+        if (! $condition) {
+            $this->merge($prefix, $type, $weight);
+        }
+
+        return $this;
+    }
+
     public function get(): string
     {
         return $this->class;
@@ -86,7 +105,7 @@ final class Color implements Stringable
     /** @throws Throwable */
     private function validate(string $prefix, string $type)
     {
-        throw_if(
+        throw_unless(
             in_array($prefix, self::ACCEPTABLES_PREFIXES),
             new InvalidArgumentException('Prefix type is not allowed')
         );

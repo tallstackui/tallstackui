@@ -1,13 +1,13 @@
 @php
-    $computed = $attributes->whereStartsWith('wire:model')->first();
-    $error    = $errors->has($computed);
-    $baseIcon = $baseIcon();
+    $computed    = $attributes->whereStartsWith('wire:model')->first();
+    $error       = $errors->has($computed);
+    $iconElement = $iconElement();
 @endphp
 
 <x-taste-ui::form.wrapper.input :$computed :$error :$label :$hint>
     @if ($icon)
-        <div @class($baseIcon['base'])>
-            <x-icon :$icon :$error style="{{ $baseIcon['style'] }}" @class($baseIcon['size']) />
+        <div @class($iconElement['base'])>
+            <x-icon :$icon :$error style="{{ $iconElement['style'] }}" @class($iconElement['size']) />
         </div>
     @endif
 

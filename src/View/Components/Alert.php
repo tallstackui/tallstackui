@@ -5,7 +5,7 @@ namespace TasteUi\View\Components;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
-use TasteUi\Support\Elements\Color;
+use TasteUi\Facades\TasteUi;
 
 class Alert extends Component
 {
@@ -32,8 +32,12 @@ class Alert extends Component
     {
         return Arr::toCssClasses([
             'rounded-md p-4',
-            Color::set('bg', $this->color, '400') => ! $this->translucent,
-            Color::set('bg', $this->color, '100') => $this->translucent,
+            TasteUi::colors()
+                ->set('bg', $this->color, 400)
+                ->get() => ! $this->translucent,
+            TasteUi::colors()
+                ->set('bg', $this->color, 100)
+                ->get() => $this->translucent,
         ]);
     }
 
@@ -42,7 +46,9 @@ class Alert extends Component
      */
     public function titleElement(): array
     {
-        $color = Color::set('text', $this->color, '800');
+        $color = TasteUi::colors()
+            ->set('text', $this->color, 800)
+            ->get();
 
         return [
             'base' => Arr::toCssClasses([
@@ -63,7 +69,9 @@ class Alert extends Component
      */
     public function textElement(): array
     {
-        $color = Color::set('text', $this->color, '800');
+        $color = TasteUi::colors()
+            ->set('text', $this->color, 800)
+            ->get();
 
         return [
             'wrapper' => 'flex items-center justify-between',
