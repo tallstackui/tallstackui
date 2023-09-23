@@ -20,9 +20,7 @@ class Icon extends Component
         public bool $error = false,
         public ?string $style = null,
     ) {
-        $default = config('tasteui.icon');
-
-        $this->style ??= $default ?? 'solid';
+        $this->style ??= config('tasteui.icon') ?? 'solid';
 
         if (! in_array($this->style, self::ACCEPTABLES)) {
             throw new InvalidArgumentException('The icon style must be one of the following: [solid, outline].');

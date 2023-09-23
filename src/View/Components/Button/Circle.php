@@ -2,7 +2,7 @@
 
 namespace TasteUi\View\Components\Button;
 
-use Closure;
+use Illuminate\Contracts\View\View;
 
 class Circle extends Index
 {
@@ -16,10 +16,8 @@ class Circle extends Index
         parent::__construct(text: $text, icon: $icon, solid: $solid, outline: $outline, color: $color);
     }
 
-    public function render(): Closure
+    public function render(): View
     {
-        return function (array $data) {
-            return view('taste-ui::components.buttons.circle', $this->merge($data))->render();
-        };
+        return view('taste-ui::components.buttons.circle');
     }
 }

@@ -2,8 +2,11 @@
 
 namespace TasteUi\View\Components\Button;
 
-use Closure;
+use Illuminate\Contracts\View\View;
+use Illuminate\Support\Arr;
 use Illuminate\View\Component;
+use TasteUi\Facades\TasteUi;
+use TasteUi\Support\Elements\Color;
 
 class Index extends Component
 {
@@ -28,39 +31,54 @@ class Index extends Component
         $this->size = $this->xs ? 'xs' : ($this->sm ? 'sm' : ($this->lg ? 'lg' : 'md'));
     }
 
-    public function render(): Closure
+    public function render(): View
     {
-        return function (array $data) {
-            return view('taste-ui::components.buttons.index', $this->merge($data))->render();
-        };
+        return view('taste-ui::components.buttons.index');
     }
 
-    protected function merge(array $data): array
+    public function baseClass(): string
     {
-        $data['color'] = $this->colors();
-
-        return $data;
+        //TODO: black and white buttons
+        //TODO: hover in outline buttons
+        return Arr::toCssClasses([
+            'outline-none inline-flex justify-center items-center group ease-in font-semibold transition',
+            'focus:ring-2 focus:ring-offset-2 hover:shadow-sm disabled:opacity-50 disabled:cursor-not-allowed',
+            'gap-x-2' => $this->icon !== null,
+            'text-xs px-1 py-0.5' => $this->size === 'xs',
+            'text-sm px-2 py-1' => $this->size === 'sm',
+            'text-base px-4 py-2' => $this->size === 'md',
+            'text-base px-6 py-3' => $this->size === 'lg',
+            'rounded' => $this->square === null && $this->round === null,
+            'rounded-full' => $this->square === null && $this->round !== null,
+            TasteUi::colors()
+                ->set('ring', $this->color, 500)
+                ->when($this->style === 'solid', function (Color $color) {
+                    return $color->set('bg', $this->color, 500)
+                        ->set('hover:bg', $this->color, 600)
+                        ->set('hover:ring', $this->color, 600)
+                        ->set('text', 'white');
+                })
+                ->when($this->style === 'outline', function (Color $color) {
+                    return $color->set('text', $this->color, 500)
+                        ->set('border', $this->color, 500)
+                        ->set('hover:bg', $this->color, 50)
+                        ->set('hover:ring', $this->color, 600)
+                        ->append('border');
+                })
+                ->get(),
+        ]);
     }
 
-    private function colors(): string
+    public function iconClass(): string
     {
-        return [
-            'outline' => [
-                'primary' => 'ring-primary-500 text-primary-500 border border-primary-500 hover:bg-primary-50 hover:ring-primary-50',
-                'secondary' => 'ring-secondary-500 text-secondary-500 border border-secondary-500 hover:bg-secondary-50 hover:ring-secondary-50',
-                'green' => 'ring-green-500 text-green-500 border border-green-500 hover:bg-green-50 hover:ring-green-50',
-                'red' => 'ring-red-500 text-red-500 border border-red-500 hover:bg-red-50 hover:ring-red-50',
-                'yellow' => 'ring-yellow-500 text-yellow-500 border border-yellow-500 hover:bg-yellow-50 hover:ring-yellow-50',
-                'blue' => 'ring-blue-500 text-blue-500 border border-blue-500 hover:bg-blue-50 hover:ring-blue-50',
-            ],
-            'solid' => [
-                'primary' => 'ring-primary-500 text-white bg-primary-500 hover:bg-primary-600 hover:ring-primary-600',
-                'secondary' => 'ring-secondary-500 text-white bg-secondary-500 hover:bg-secondary-600 hover:ring-secondary-600',
-                'green' => 'ring-green-500 text-white bg-green-500 hover:bg-green-600 hover:ring-green-600',
-                'red' => 'ring-red-500 text-white bg-red-500 hover:bg-red-600 hover:ring-red-600',
-                'yellow' => 'ring-yellow-500 text-white bg-yellow-500 hover:bg-yellow-600 hover:ring-yellow-600',
-                'blue' => 'ring-blue-500 text-white bg-blue-500 hover:bg-blue-600 hover:ring-blue-600',
-            ],
-        ][$this->style][$this->color];
+        return Arr::toCssClasses([
+            'w-2 h-2' => $this->size === 'xs' || $this->size === 'sm',
+            'w-3 h-3' => $this->size === 'md',
+            'w-5 h-5' => $this->size === 'lg',
+            TasteUi::colors()
+                ->when($this->style === 'solid', fn (Color $color) => $color->set('text', 'white'))
+                ->when($this->style === 'outline', fn (Color $color) => $color->set('text', $this->color, 500))
+                ->get(),
+        ]);
     }
 }

@@ -90,4 +90,33 @@ abstract class DefaultTailwindCompilation
         'pink' => 'border-pink-50 border-pink-100 border-pink-200 border-pink-300 border-pink-400 border-pink-500 border-pink-600 border-pink-700 border-pink-800 border-pink-900',
         'rose' => 'border-rose-50 border-rose-100 border-rose-200 border-rose-300 border-rose-400 border-rose-500 border-rose-600 border-rose-700 border-rose-800 border-rose-900',
     ];
+
+    protected const RING = [
+        'primary' => 'ring-primary-50 ring-primary-100 ring-primary-200 ring-primary-300 ring-primary-400 ring-primary-500 ring-primary-600 ring-primary-700 ring-primary-800 ring-primary-900',
+        'secondary' => 'ring-secondary-50 ring-secondary-100 ring-secondary-200 ring-secondary-300 ring-secondary-400 ring-secondary-500 ring-secondary-600 ring-secondary-700 ring-secondary-800 ring-secondary-900',
+        'dark' => 'ring-gray-50 ring-gray-100 ring-gray-200 ring-gray-300 ring-gray-400 ring-gray-500 ring-gray-600 ring-gray-700 ring-gray-800 ring-gray-900',
+        'white' => 'ring-white',
+        'black' => 'ring-black',
+        'slate' => 'ring-slate-50 ring-slate-100 ring-slate-200 ring-slate-300 ring-slate-400 ring-slate-500 ring-slate-600 ring-slate-700 ring-slate-800 ring-slate-900',
+        'gray' => 'ring-gray-50 ring-gray-100 ring-gray-200 ring-gray-300 ring-gray-400 ring-gray-500 ring-gray-600 ring-gray-700 ring-gray-800 ring-gray-900',
+        'zinc' => 'ring-zinc-50 ring-zinc-100 ring-zinc-200 ring-zinc-300 ring-zinc-400 ring-zinc-500 ring-zinc-600 ring-zinc-700 ring-zinc-800 ring-zinc-900',
+        'neutral' => 'ring-neutral-50 ring-neutral-100 ring-neutral-200 ring-neutral-300 ring-neutral-400 ring-neutral-500 ring-neutral-600 ring-neutral-700 ring-neutral-800 ring-neutral-900',
+        'stone' => 'ring-stone-50 ring-stone-100 ring-stone-200 ring-stone-300 ring-stone-400 ring-stone-500 ring-stone-600 ring-stone-700 ring-stone-800 ring-stone-900',
+        'red' => 'ring-red-50 ring-red-100 ring-red-200 ring-red-300 ring-red-400 ring-red-500 ring-red-600 ring-red-700 ring-red-800 ring-red-900',
+        'orange' => 'ring-orange-50 ring-orange-100 ring-orange-200 ring-orange-300 ring-orange-400 ring-orange-500 ring-orange-600 ring-orange-700 ring-orange-800 ring-orange-900',
+        'amber' => 'ring-amber-50 ring-amber-100 ring-amber-200 ring-amber-300 ring-amber-400 ring-amber-500 ring-amber-600 ring-amber-700 ring-amber-800 ring-amber-900',
+        'lime' => 'ring-lime-50 ring-lime-100 ring-lime-200 ring-lime-300 ring-lime-400 ring-lime-500 ring-lime-600 ring-lime-700 ring-lime-800 ring-lime-900',
+        'green' => 'ring-green-50 ring-green-100 ring-green-200 ring-green-300 ring-green-400 ring-green-500 ring-green-600 ring-green-700 ring-green-800 ring-green-900',
+        'emerald' => 'ring-emerald-50 ring-emerald-100 ring-emerald-200 ring-emerald-300 ring-emerald-400 ring-emerald-500 ring-emerald-600 ring-emerald-700 ring-emerald-800 ring-emerald-900',
+        'teal' => 'ring-teal-50 ring-teal-100 ring-teal-200 ring-teal-300 ring-teal-400 ring-teal-500 ring-teal-600 ring-teal-700 ring-teal-800 ring-teal-900',
+        'cyan' => 'ring-cyan-50 ring-cyan-100 ring-cyan-200 ring-cyan-300 ring-cyan-400 ring-cyan-500 ring-cyan-600 ring-cyan-700 ring-cyan-800 ring-cyan-900',
+        'sky' => 'ring-sky-50 ring-sky-100 ring-sky-200 ring-sky-300 ring-sky-400 ring-sky-500 ring-sky-600 ring-sky-700 ring-sky-800 ring-sky-900',
+        'blue' => 'ring-blue-50 ring-blue-100 ring-blue-200 ring-blue-300 ring-blue-400 ring-blue-500 ring-blue-600 ring-blue-700 ring-blue-800 ring-blue-900',
+        'indigo' => 'ring-indigo-50 ring-indigo-100 ring-indigo-200 ring-indigo-300 ring-indigo-400 ring-indigo-500 ring-indigo-600 ring-indigo-700 ring-indigo-800 ring-indigo-900',
+        'violet' => 'ring-violet-50 ring-violet-100 ring-violet-200 ring-violet-300 ring-violet-400 ring-violet-500 ring-violet-600 ring-violet-700 ring-violet-800 ring-violet-900',
+        'purple' => 'ring-purple-50 ring-purple-100 ring-purple-200 ring-purple-300 ring-purple-400 ring-purple-500 ring-purple-600 ring-purple-700 ring-purple-800 ring-purple-900',
+        'fuchsia' => 'ring-fuchsia-50 ring-fuchsia-100 ring-fuchsia-200 ring-fuchsia-300 ring-fuchsia-400 ring-fuchsia-500 ring-fuchsia-600 ring-fuchsia-700 ring-fuchsia-800 ring-fuchsia-900',
+        'pink' => 'ring-pink-50 ring-pink-100 ring-pink-200 ring-pink-300 ring-pink-400 ring-pink-500 ring-pink-600 ring-pink-700 ring-pink-800 ring-pink-900',
+        'rose' => 'ring-rose-50 ring-rose-100 ring-rose-200 ring-rose-300 ring-rose-400 ring-rose-500 ring-rose-600 ring-rose-700 ring-rose-800 ring-rose-900',
+    ];
 }
