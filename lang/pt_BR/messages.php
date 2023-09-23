@@ -1,6 +1,5 @@
 <?php
 
-//TODO: Add translations en, fr, pt_PT...
 return [
     'errors' => [
         'title' => 'Há :count erros de validação:',
@@ -15,6 +14,8 @@ return [
     'dialog' => [
         'button' => [
             'ok' => 'OK',
+            'confirm' => 'Confirmar',
+            'cancel' => 'Cancelar',
         ],
     ],
 ];
