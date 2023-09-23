@@ -1,6 +1,5 @@
 <?php
 
-//TODO: Add translations en, fr, pt_PT...
 return [
     'errors' => [
         'title' => 'There are :count validation errors:',
