@@ -37,5 +37,5 @@ export default (toast, ok, confirm, cancel) => ({
     this.show = false;
 
     setTimeout(() => this.remove(this.toast), this.toast.timeout * 1000);
-  }
+  },
 });

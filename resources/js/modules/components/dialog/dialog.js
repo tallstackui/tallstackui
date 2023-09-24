@@ -41,5 +41,5 @@ export default (ok, confirm, cancel) => ({
     this.$dispatch(dialog.options.cancel.event, params.constructor !== Array ? [params] : [...params]);
 
     this.remove();
-  }
+  },
 });

@@ -54,9 +54,9 @@ export default (
       });
 
       if (!this.multiple) {
-        this.placeholder = this.model.constructor === Array && this.model.length > 0
-            ? this.selecteds[0][this.selectable.label]
-            : (this.selecteds[this.selectable.label] || placeholder);
+        this.placeholder = this.model.constructor === Array && this.model.length > 0 ?
+            this.selecteds[0][this.selectable.label] :
+            (this.selecteds[this.selectable.label] || placeholder);
       }
     }
   },
