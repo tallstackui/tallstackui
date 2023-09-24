@@ -11,6 +11,14 @@ return [
         'empty' => 'Nenhum resultado encontrado',
     ],
 
+    'toast' => [
+        'button' => [
+            'ok' => 'OK',
+            'confirm' => 'Confirmar',
+            'cancel' => 'Cancelar',
+        ],
+    ],
+
     'dialog' => [
         'button' => [
             'ok' => 'OK',

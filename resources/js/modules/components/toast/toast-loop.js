@@ -1,8 +1,13 @@
 import {dispatchEvent} from '../../helpers';
 
-export default (toast) => ({
+export default (toast, ok, confirm, cancel) => ({
   toast: toast,
   show: false,
+  text: {
+    ok: ok,
+    confirm: confirm,
+    cancel: cancel,
+  },
   init() {
     this.$nextTick(() => this.show = true);
 
@@ -33,4 +38,14 @@ export default (toast) => ({
 
     setTimeout(() => this.remove(this.toast), this.toast.timeout * 1000);
   },
+  get confirmButtonText () {
+    if (this.toast.type !== 'question') {
+      return this.text.ok;
+    }
+
+    return this.toast.text?.confirm.text ?? (this.text.confirm.length > 0 ? this.text.confirm : this.text.ok);
+  },
+  get cancelButtonText () {
+    return this.toast.text?.cancel.text ?? this.text.cancel;
+  }
 });

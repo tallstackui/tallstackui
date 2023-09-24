@@ -8,7 +8,7 @@
         $zIndex
     ]) x-show="show">
     <template x-for="toast in toasts" :key="toast.id">
-        <div x-data="tasteui_toastLoop(toast)" x-show="show" @class([
+        <div x-data="tasteui_toastLoop(toast, @js(__('taste-ui::messages.toast.button.ok')), @js(__('taste-ui::messages.toast.button.confirm')), @js(__('taste-ui::messages.toast.button.cancel')))" x-show="show" @class([
                 'flex w-full flex-col items-center space-y-4',
                 'md:items-start' => $position === 'top-left' || $position === 'bottom-left',
                 'md:items-end'   => $position === 'top-right' || $position === 'bottom-right',
@@ -21,19 +21,19 @@
                     <div class="flex items-start">
                         <div class="flex-shrink-0">
                             <div x-show="toast.type === 'success'">
-                                <x-icon name="check-circle" class="h-6 w-6 text-green-400" />
+                                <x-icon name="check-circle" style="outline" class="h-6 w-6 text-green-400" />
                             </div>
                             <div x-show="toast.type === 'error'">
-                                <x-icon name="x-circle" class="h-6 w-6 text-red-400" />
+                                <x-icon name="x-circle" style="outline" class="h-6 w-6 text-red-400" />
                             </div>
                             <div x-show="toast.type === 'info'">
-                                <x-icon name="information-circle" class="h-6 w-6 text-blue-400" />
+                                <x-icon name="information-circle" style="outline" class="h-6 w-6 text-blue-400" />
                             </div>
                             <div x-show="toast.type === 'warning'">
-                                <x-icon name="exclamation-circle" class="h-6 w-6 text-yellow-400" />
+                                <x-icon name="exclamation-circle" style="outline" class="h-6 w-6 text-yellow-400" />
                             </div>
                             <div x-show="toast.type === 'question'">
-                                <x-icon name="question-mark-circle" class="h-6 w-6 text-secondary-400" />
+                                <x-icon name="question-mark-circle" style="outline" class="h-6 w-6 text-secondary-400" />
                             </div>
                         </div>
                         <div class="ml-3 w-0 flex-1 pt-0.5">
@@ -43,10 +43,10 @@
                                 <div class="mt-3 flex gap-x-3">
                                     <button class="rounded-md bg-white text-sm font-semibold text-primary-600 focus:outline-none"
                                             x-on:click="accept(toast)"
-                                            x-text="toast.options.confirm.text"></button>
+                                            x-text="cancelButtonText"></button>
                                     <button class="rounded-md bg-white text-sm font-medium text-secondary-700 focus:outline-none"
                                             x-on:click="reject(toast)"
-                                            x-text="toast.options.cancel.text"></button>
+                                            x-text="confirmButtonText"></button>
                                 </div>
                             </template>
                         </div>
