@@ -2,7 +2,7 @@
     <div @class(['text-white font-semibold' => $icon === null])>
         @if ($icon)
             <x-icon :$icon
-                    style="{{ config('tasteui.icon') ?? 'solid' }}"
+                    type="{{ config('tasteui.icon') ?? 'solid' }}"
                     @class($iconClass())
             />
         @else

@@ -7,8 +7,8 @@
 <x-taste-ui::form.wrapper.input :$computed :$error :$label :$hint password>
     <div @class($iconElement['wrapper'])>
         <div class="cursor-pointer" x-on:click="show = !show">
-            <x-icon name="eye" :$error style="{{ $iconElement['style'] }}" @class([$iconElement['class']]) x-show="!show" />
-            <x-icon name="eye-slash" :$error style="{{ $iconElement['style'] }}" @class([$iconElement['class']]) x-show="show" />
+            <x-icon name="eye" :$error type="{{ $iconElement['style'] }}" @class([$iconElement['class']]) x-show="!show" />
+            <x-icon name="eye-slash" :$error type="{{ $iconElement['style'] }}" @class([$iconElement['class']]) x-show="show" />
         </div>
     </div>
 

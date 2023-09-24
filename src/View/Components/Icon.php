@@ -16,14 +16,15 @@ class Icon extends Component
     public function __construct(
         public ?string $icon = null,
         public ?string $name = null,
-        public ?bool $solid = null,
         public bool $error = false,
-        public ?string $style = null,
+        public ?string $solid = null,
+        public ?string $outline = null,
+        public ?string $type = null,
     ) {
-        $this->style ??= config('tasteui.icon') ?? 'solid';
+        $this->type ??= $this->outline ? 'outline' : ($this->solid ? 'solid' : config('tasteui.icon'));
 
-        if (! in_array($this->style, self::ACCEPTABLES)) {
-            throw new InvalidArgumentException('The icon style must be one of the following: [solid, outline].');
+        if (! in_array($this->type, self::ACCEPTABLES)) {
+            throw new InvalidArgumentException("The icon must be one of the following: [solid, outline]. Provided: [{$this->type}]");
         }
     }
 

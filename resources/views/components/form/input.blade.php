@@ -7,7 +7,7 @@
 <x-taste-ui::form.wrapper.input :$computed :$error :$label :$hint>
     @if ($icon)
         <div @class($iconElement['base'])>
-            <x-icon :$icon :$error style="{{ $iconElement['style'] }}" @class($iconElement['size']) />
+            <x-icon :$icon :$error type="{{ $iconElement['style'] }}" @class($iconElement['size']) />
         </div>
     @endif
 

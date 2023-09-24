@@ -21,19 +21,19 @@
                     <div class="flex items-start">
                         <div class="flex-shrink-0">
                             <div x-show="toast.type === 'success'">
-                                <x-icon name="check-circle" style="outline" class="h-6 w-6 text-green-400" />
+                                <x-icon name="check-circle" outline class="h-6 w-6 text-green-400" />
                             </div>
                             <div x-show="toast.type === 'error'">
-                                <x-icon name="x-circle" style="outline" class="h-6 w-6 text-red-400" />
+                                <x-icon name="x-circle" outline class="h-6 w-6 text-red-400" />
                             </div>
                             <div x-show="toast.type === 'info'">
-                                <x-icon name="information-circle" style="outline" class="h-6 w-6 text-blue-400" />
+                                <x-icon name="information-circle" outline class="h-6 w-6 text-blue-400" />
                             </div>
                             <div x-show="toast.type === 'warning'">
-                                <x-icon name="exclamation-circle" style="outline" class="h-6 w-6 text-yellow-400" />
+                                <x-icon name="exclamation-circle" outline class="h-6 w-6 text-yellow-400" />
                             </div>
                             <div x-show="toast.type === 'question'">
-                                <x-icon name="question-mark-circle" style="outline" class="h-6 w-6 text-secondary-400" />
+                                <x-icon name="question-mark-circle" outline class="h-6 w-6 text-secondary-400" />
                             </div>
                         </div>
                         <div class="ml-3 w-0 flex-1 pt-0.5">

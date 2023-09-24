@@ -51,10 +51,7 @@ class Alert extends Component
             ->get();
 
         return [
-            'base' => Arr::toCssClasses([
-                'text-lg font-semibold',
-                $color,
-            ]),
+            'base' => Arr::toCssClasses(['text-lg font-semibold', $color]),
             'wrapper' => 'flex items-center justify-between',
             'icon' => [
                 'wrapper' => 'ml-auto pl-3',
@@ -76,11 +73,7 @@ class Alert extends Component
         return [
             'wrapper' => 'flex items-center justify-between',
             'title' => [
-                'wrapper' => Arr::toCssClasses([
-                    'text-sm',
-                    'mt-2' => $this->title !== null,
-                    $color,
-                ]),
+                'wrapper' => Arr::toCssClasses(['text-sm', 'mt-2' => $this->title !== null, $color]),
                 'icon' => [
                     'wrapper' => 'flex items-center',
                     'style' => config('tasteui.icon') ?? 'solid',

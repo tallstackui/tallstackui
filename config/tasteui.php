@@ -10,7 +10,7 @@ return [
     | // TODO: Add description here...
     | Supported: "solid", "outline"
     */
-    'icon' => null,
+    'icon' => 'solid',
 
     /*
     |--------------------------------------------------------------------------

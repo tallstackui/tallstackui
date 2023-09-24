@@ -42,19 +42,19 @@
                             'bg-secondary-100' : dialog.type === 'question',
                         }">
                         <div x-show="dialog.type === 'success'">
-                            <x-icon name="check-circle" style="outline" class="h-8 w-8 text-green-600" />
+                            <x-icon name="check-circle" outline class="h-8 w-8 text-green-600" />
                         </div>
                         <div x-show="dialog.type === 'error'">
-                            <x-icon name="x-circle" style="outline" class="h-8 w-8 text-red-600" />
+                            <x-icon name="x-circle" outline class="h-8 w-8 text-red-600" />
                         </div>
                         <div x-show="dialog.type === 'info'">
-                            <x-icon name="information-circle" style="outline" class="h-8 w-8 text-blue-600" />
+                            <x-icon name="information-circle" outline class="h-8 w-8 text-blue-600" />
                         </div>
                         <div x-show="dialog.type === 'warning'">
-                            <x-icon name="exclamation-circle" style="outline" class="h-8 w-8 text-yellow-600" />
+                            <x-icon name="exclamation-circle" outline class="h-8 w-8 text-yellow-600" />
                         </div>
                         <div x-show="dialog.type === 'question'">
-                            <x-icon name="question-mark-circle" style="outline" class="h-8 w-8 text-secondary-600" />
+                            <x-icon name="question-mark-circle" outline class="h-8 w-8 text-secondary-600" />
                         </div>
                     </div>
                     <div class="mt-3 text-center sm:mt-5">

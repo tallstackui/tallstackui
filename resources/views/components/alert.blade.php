@@ -13,7 +13,7 @@
             @if ($closeable)
                 <div @class($titleElement ['icon']['wrapper'])>
                     <button x-on:click="show = false">
-                        <x-icon name="x-mark" style="{{ $titleElement ['icon']['style'] }}" :class="$titleElement['icon']['class']" />
+                        <x-icon name="x-mark" type="{{ $titleElement['icon']['style'] }}" @class($titleElement['icon']['class']) />
                     </button>
                 </div>
             @endif
@@ -27,7 +27,7 @@
         @if (!$title && $closeable)
         <div @class($textElement['title']['icon']['wrapper'])>
             <button x-on:click="show = false">
-                <x-icon name="x-mark" style="{{ $textElement['title']['icon']['style'] }}" :class="$textElement['title']['icon']['class']" />
+                <x-icon name="x-mark" type="{{ $textElement['title']['icon']['style'] }}" @class($textElement['title']['icon']['class']) />
             </button>
         </div>
         @endif
