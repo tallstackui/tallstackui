@@ -55,7 +55,6 @@ class Searchable extends Styled
     {
         $keys = [
             'url',
-            'method',
         ];
 
         foreach ($keys as $key) {
