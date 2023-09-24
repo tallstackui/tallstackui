@@ -2,7 +2,7 @@
     use Illuminate\Support\Str;
 
     $event = Str::slug(Str::kebab($id));
-    $open = $event . '-open';
+    $open  = $event . '-open';
     $close = $event . '-close';
 @endphp
 

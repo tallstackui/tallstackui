@@ -27,6 +27,7 @@ class Card extends Component
 
     public function cardElement(): array
     {
+        //TODO: divide into header and footer class.
         return [
             'wrapper' => [
                 'first' => 'flex justify-center gap-4',
