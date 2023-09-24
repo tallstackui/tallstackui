@@ -21,11 +21,7 @@ final class Color implements Stringable
     private const ACCEPTABLES_COLORS = [
         'primary',
         'secondary',
-        'positive',
-        'negative',
-        'warning',
-        'info',
-        'dark',
+        'yellow',
         'white',
         'black',
         'slate',
@@ -177,16 +173,16 @@ final class Color implements Stringable
      */
     private function validate(string $prefix, string $type)
     {
-//        $prefix = str_replace(['hover:', 'ring:'], '', $prefix);
-//
-//        throw_unless(
-//            in_array($prefix, self::ACCEPTABLES_PREFIXES),
-//            new InvalidArgumentException("Prefix type is not allowed: [$prefix]")
-//        );
-//
-//        throw_unless(
-//            in_array($type, self::ACCEPTABLES_COLORS),
-//            new InvalidArgumentException("Selected type is not allowed: [$type]")
-//        );
+        $prefix = str_replace(['hover:', 'ring:'], '', $prefix);
+
+        throw_unless(
+            in_array($prefix, self::ACCEPTABLES_PREFIXES),
+            new InvalidArgumentException("Prefix type is not allowed: [$prefix]")
+        );
+
+        throw_unless(
+            in_array($type, self::ACCEPTABLES_COLORS),
+            new InvalidArgumentException("Selected type is not allowed: [$type]")
+        );
     }
 }

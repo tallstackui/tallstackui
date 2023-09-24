@@ -2,7 +2,13 @@
 
 namespace TasteUi\Support;
 
-abstract class DefaultTailwindCompilation
+/**
+ * This is an unused class that aims to save all commonly used
+ * tailwindcss classes such as colors, hover, ring and others.
+ *
+ * @deprecated This class can not be used.
+ */
+abstract class TailwindSafelistClasses
 {
     protected const TEXT = [
         'primary' => 'text-primary-50 text-primary-100 text-primary-200 text-primary-300 text-primary-400 text-primary-500 text-primary-600 text-primary-700 text-primary-800 text-primary-900',
@@ -62,6 +68,35 @@ abstract class DefaultTailwindCompilation
         'rose' => 'bg-rose-50 bg-rose-100 bg-rose-200 bg-rose-300 bg-rose-400 bg-rose-500 bg-rose-600 bg-rose-700 bg-rose-800 bg-rose-900',
     ];
 
+    protected const HOVER_BG = [
+        'primary' => 'hover:bg-primary-50 hover:bg-primary-100 hover:bg-primary-200 hover:bg-primary-300 hover:bg-primary-400 hover:bg-primary-500 hover:bg-primary-600 hover:bg-primary-700 hover:bg-primary-800 hover:bg-primary-900',
+        'secondary' => 'hover:bg-secondary-50 hover:bg-secondary-100 hover:bg-secondary-200 hover:bg-secondary-300 hover:bg-secondary-400 hover:bg-secondary-500 hover:bg-secondary-600 hover:bg-secondary-700 hover:bg-secondary-800 hover:bg-secondary-900',
+        'dark' => 'hover:bg-gray-50 hover:bg-gray-100 hover:bg-gray-200 hover:bg-gray-300 hover:bg-gray-400 hover:bg-gray-500 hover:bg-gray-600 hover:bg-gray-700 hover:bg-gray-800 hover:bg-gray-900',
+        'white' => 'hover:bg-white',
+        'black' => 'hover:bg-black',
+        'slate' => 'hover:bg-slate-50 hover:bg-slate-100 hover:bg-slate-200 hover:bg-slate-300 hover:bg-slate-400 hover:bg-slate-500 hover:bg-slate-600 hover:bg-slate-700 hover:bg-slate-800 hover:bg-slate-900',
+        'gray' => 'hover:bg-gray-50 hover:bg-gray-100 hover:bg-gray-200 hover:bg-gray-300 hover:bg-gray-400 hover:bg-gray-500 hover:bg-gray-600 hover:bg-gray-700 hover:bg-gray-800 hover:bg-gray-900',
+        'zinc' => 'hover:bg-zinc-50 hover:bg-zinc-100 hover:bg-zinc-200 hover:bg-zinc-300 hover:bg-zinc-400 hover:bg-zinc-500 hover:bg-zinc-600 hover:bg-zinc-700 hover:bg-zinc-800 hover:bg-zinc-900',
+        'neutral' => 'hover:bg-neutral-50 hover:bg-neutral-100 hover:bg-neutral-200 hover:bg-neutral-300 hover:bg-neutral-400 hover:bg-neutral-500 hover:bg-neutral-600 hover:bg-neutral-700 hover:bg-neutral-800 hover:bg-neutral-900',
+        'stone' => 'hover:bg-stone-50 hover:bg-stone-100 hover:bg-stone-200 hover:bg-stone-300 hover:bg-stone-400 hover:bg-stone-500 hover:bg-stone-600 hover:bg-stone-700 hover:bg-stone-800 hover:bg-stone-900',
+        'red' => 'hover:bg-red-50 hover:bg-red-100 hover:bg-red-200 hover:bg-red-300 hover:bg-red-400 hover:bg-red-500 hover:bg-red-600 hover:bg-red-700 hover:bg-red-800 hover:bg-red-900',
+        'orange' => 'hover:bg-orange-50 hover:bg-orange-100 hover:bg-orange-200 hover:bg-orange-300 hover:bg-orange-400 hover:bg-orange-500 hover:bg-orange-600 hover:bg-orange-700 hover:bg-orange-800 hover:bg-orange-900',
+        'amber' => 'hover:bg-amber-50 hover:bg-amber-100 hover:bg-amber-200 hover:bg-amber-300 hover:bg-amber-400 hover:bg-amber-500 hover:bg-amber-600 hover:bg-amber-700 hover:bg-amber-800 hover:bg-amber-900',
+        'lime' => 'hover:bg-lime-50 hover:bg-lime-100 hover:bg-lime-200 hover:bg-lime-300 hover:bg-lime-400 hover:bg-lime-500 hover:bg-lime-600 hover:bg-lime-700 hover:bg-lime-800 hover:bg-lime-900',
+        'green' => 'hover:bg-green-50 hover:bg-green-100 hover:bg-green-200 hover:bg-green-300 hover:bg-green-400 hover:bg-green-500 hover:bg-green-600 hover:bg-green-700 hover:bg-green-800 hover:bg-green-900',
+        'emerald' => 'hover:bg-emerald-50 hover:bg-emerald-100 hover:bg-emerald-200 hover:bg-emerald-300 hover:bg-emerald-400 hover:bg-emerald-500 hover:bg-emerald-600 hover:bg-emerald-700 hover:bg-emerald-800 hover:bg-emerald-900',
+        'teal' => 'hover:bg-teal-50 hover:bg-teal-100 hover:bg-teal-200 hover:bg-teal-300 hover:bg-teal-400 hover:bg-teal-500 hover:bg-teal-600 hover:bg-teal-700 hover:bg-teal-800 hover:bg-teal-900',
+        'cyan' => 'hover:bg-cyan-50 hover:bg-cyan-100 hover:bg-cyan-200 hover:bg-cyan-300 hover:bg-cyan-400 hover:bg-cyan-500 hover:bg-cyan-600 hover:bg-cyan-700 hover:bg-cyan-800 hover:bg-cyan-900',
+        'sky' => 'hover:bg-sky-50 hover:bg-sky-100 hover:bg-sky-200 hover:bg-sky-300 hover:bg-sky-400 hover:bg-sky-500 hover:bg-sky-600 hover:bg-sky-700 hover:bg-sky-800 hover:bg-sky-900',
+        'blue' => 'hover:bg-blue-50 hover:bg-blue-100 hover:bg-blue-200 hover:bg-blue-300 hover:bg-blue-400 hover:bg-blue-500 hover:bg-blue-600 hover:bg-blue-700 hover:bg-blue-800 hover:bg-blue-900',
+        'indigo' => 'hover:bg-indigo-50 hover:bg-indigo-100 hover:bg-indigo-200 hover:bg-indigo-300 hover:bg-indigo-400 hover:bg-indigo-500 hover:bg-indigo-600 hover:bg-indigo-700 hover:bg-indigo-800 hover:bg-indigo-900',
+        'violet' => 'hover:bg-violet-50 hover:bg-violet-100 hover:bg-violet-200 hover:bg-violet-300 hover:bg-violet-400 hover:bg-violet-500 hover:bg-violet-600 hover:bg-violet-700 hover:bg-violet-800 hover:bg-violet-900',
+        'purple' => 'hover:bg-purple-50 hover:bg-purple-100 hover:bg-purple-200 hover:bg-purple-300 hover:bg-purple-400 hover:bg-purple-500 hover:bg-purple-600 hover:bg-purple-700 hover:bg-purple-800 hover:bg-purple-900',
+        'fuchsia' => 'hover:bg-fuchsia-50 hover:bg-fuchsia-100 hover:bg-fuchsia-200 hover:bg-fuchsia-300 hover:bg-fuchsia-400 hover:bg-fuchsia-500 hover:bg-fuchsia-600 hover:bg-fuchsia-700 hover:bg-fuchsia-800 hover:bg-fuchsia-900',
+        'pink' => 'hover:bg-pink-50 hover:bg-pink-100 hover:bg-pink-200 hover:bg-pink-300 hover:bg-pink-400 hover:bg-pink-500 hover:bg-pink-600 hover:bg-pink-700 hover:bg-pink-800 hover:bg-pink-900',
+        'rose' => 'hover:bg-rose-50 hover:bg-rose-100 hover:bg-rose-200 hover:bg-rose-300 hover:bg-rose-400 hover:bg-rose-500 hover:bg-rose-600 hover:bg-rose-700 hover:bg-rose-800 hover:bg-rose-900',
+    ];
+
     protected const BORDER = [
         'primary' => 'border-primary-50 border-primary-100 border-primary-200 border-primary-300 border-primary-400 border-primary-500 border-primary-600 border-primary-700 border-primary-800 border-primary-900',
         'secondary' => 'border-secondary-50 border-secondary-100 border-secondary-200 border-secondary-300 border-secondary-400 border-secondary-500 border-secondary-600 border-secondary-700 border-secondary-800 border-secondary-900',
@@ -118,5 +153,34 @@ abstract class DefaultTailwindCompilation
         'fuchsia' => 'ring-fuchsia-50 ring-fuchsia-100 ring-fuchsia-200 ring-fuchsia-300 ring-fuchsia-400 ring-fuchsia-500 ring-fuchsia-600 ring-fuchsia-700 ring-fuchsia-800 ring-fuchsia-900',
         'pink' => 'ring-pink-50 ring-pink-100 ring-pink-200 ring-pink-300 ring-pink-400 ring-pink-500 ring-pink-600 ring-pink-700 ring-pink-800 ring-pink-900',
         'rose' => 'ring-rose-50 ring-rose-100 ring-rose-200 ring-rose-300 ring-rose-400 ring-rose-500 ring-rose-600 ring-rose-700 ring-rose-800 ring-rose-900',
+    ];
+
+    protected const HOVER_RING = [
+        'primary' => 'hover:ring-primary-50 hover:ring-primary-100 hover:ring-primary-200 hover:ring-primary-300 hover:ring-primary-400 hover:ring-primary-500 hover:ring-primary-600 hover:ring-primary-700 hover:ring-primary-800 hover:ring-primary-900',
+        'secondary' => 'hover:ring-secondary-50 hover:ring-secondary-100 hover:ring-secondary-200 hover:ring-secondary-300 hover:ring-secondary-400 hover:ring-secondary-500 hover:ring-secondary-600 hover:ring-secondary-700 hover:ring-secondary-800 hover:ring-secondary-900',
+        'dark' => 'hover:ring-gray-50 hover:ring-gray-100 hover:ring-gray-200 hover:ring-gray-300 hover:ring-gray-400 hover:ring-gray-500 hover:ring-gray-600 hover:ring-gray-700 hover:ring-gray-800 hover:ring-gray-900',
+        'white' => 'hover:ring-white',
+        'black' => 'hover:ring-black',
+        'slate' => 'hover:ring-slate-50 hover:ring-slate-100 hover:ring-slate-200 hover:ring-slate-300 hover:ring-slate-400 hover:ring-slate-500 hover:ring-slate-600 hover:ring-slate-700 hover:ring-slate-800 hover:ring-slate-900',
+        'gray' => 'hover:ring-gray-50 hover:ring-gray-100 hover:ring-gray-200 hover:ring-gray-300 hover:ring-gray-400 hover:ring-gray-500 hover:ring-gray-600 hover:ring-gray-700 hover:ring-gray-800 hover:ring-gray-900',
+        'zinc' => 'hover:ring-zinc-50 hover:ring-zinc-100 hover:ring-zinc-200 hover:ring-zinc-300 hover:ring-zinc-400 hover:ring-zinc-500 hover:ring-zinc-600 hover:ring-zinc-700 hover:ring-zinc-800 hover:ring-zinc-900',
+        'neutral' => 'hover:ring-neutral-50 hover:ring-neutral-100 hover:ring-neutral-200 hover:ring-neutral-300 hover:ring-neutral-400 hover:ring-neutral-500 hover:ring-neutral-600 hover:ring-neutral-700 hover:ring-neutral-800 hover:ring-neutral-900',
+        'stone' => 'hover:ring-stone-50 hover:ring-stone-100 hover:ring-stone-200 hover:ring-stone-300 hover:ring-stone-400 hover:ring-stone-500 hover:ring-stone-600 hover:ring-stone-700 hover:ring-stone-800 hover:ring-stone-900',
+        'red' => 'hover:ring-red-50 hover:ring-red-100 hover:ring-red-200 hover:ring-red-300 hover:ring-red-400 hover:ring-red-500 hover:ring-red-600 hover:ring-red-700 hover:ring-red-800 hover:ring-red-900',
+        'orange' => 'hover:ring-orange-50 hover:ring-orange-100 hover:ring-orange-200 hover:ring-orange-300 hover:ring-orange-400 hover:ring-orange-500 hover:ring-orange-600 hover:ring-orange-700 hover:ring-orange-800 hover:ring-orange-900',
+        'amber' => 'hover:ring-amber-50 hover:ring-amber-100 hover:ring-amber-200 hover:ring-amber-300 hover:ring-amber-400 hover:ring-amber-500 hover:ring-amber-600 hover:ring-amber-700 hover:ring-amber-800 hover:ring-amber-900',
+        'lime' => 'hover:ring-lime-50 hover:ring-lime-100 hover:ring-lime-200 hover:ring-lime-300 hover:ring-lime-400 hover:ring-lime-500 hover:ring-lime-600 hover:ring-lime-700 hover:ring-lime-800 hover:ring-lime-900',
+        'green' => 'hover:ring-green-50 hover:ring-green-100 hover:ring-green-200 hover:ring-green-300 hover:ring-green-400 hover:ring-green-500 hover:ring-green-600 hover:ring-green-700 hover:ring-green-800 hover:ring-green-900',
+        'emerald' => 'hover:ring-emerald-50 hover:ring-emerald-100 hover:ring-emerald-200 hover:ring-emerald-300 hover:ring-emerald-400 hover:ring-emerald-500 hover:ring-emerald-600 hover:ring-emerald-700 hover:ring-emerald-800 hover:ring-emerald-900',
+        'teal' => 'hover:ring-teal-50 hover:ring-teal-100 hover:ring-teal-200 hover:ring-teal-300 hover:ring-teal-400 hover:ring-teal-500 hover:ring-teal-600 hover:ring-teal-700 hover:ring-teal-800 hover:ring-teal-900',
+        'cyan' => 'hover:ring-cyan-50 hover:ring-cyan-100 hover:ring-cyan-200 hover:ring-cyan-300 hover:ring-cyan-400 hover:ring-cyan-500 hover:ring-cyan-600 hover:ring-cyan-700 hover:ring-cyan-800 hover:ring-cyan-900',
+        'sky' => 'hover:ring-sky-50 hover:ring-sky-100 hover:ring-sky-200 hover:ring-sky-300 hover:ring-sky-400 hover:ring-sky-500 hover:ring-sky-600 hover:ring-sky-700 hover:ring-sky-800 hover:ring-sky-900',
+        'blue' => 'hover:ring-blue-50 hover:ring-blue-100 hover:ring-blue-200 hover:ring-blue-300 hover:ring-blue-400 hover:ring-blue-500 hover:ring-blue-600 hover:ring-blue-700 hover:ring-blue-800 hover:ring-blue-900',
+        'indigo' => 'hover:ring-indigo-50 hover:ring-indigo-100 hover:ring-indigo-200 hover:ring-indigo-300 hover:ring-indigo-400 hover:ring-indigo-500 hover:ring-indigo-600 hover:ring-indigo-700 hover:ring-indigo-800 hover:ring-indigo-900',
+        'violet' => 'hover:ring-violet-50 hover:ring-violet-100 hover:ring-violet-200 hover:ring-violet-300 hover:ring-violet-400 hover:ring-violet-500 hover:ring-violet-600 hover:ring-violet-700 hover:ring-violet-800 hover:ring-violet-900',
+        'purple' => 'hover:ring-purple-50 hover:ring-purple-100 hover:ring-purple-200 hover:ring-purple-300 hover:ring-purple-400 hover:ring-purple-500 hover:ring-purple-600 hover:ring-purple-700 hover:ring-purple-800 hover:ring-purple-900',
+        'fuchsia' => 'hover:ring-fuchsia-50 hover:ring-fuchsia-100 hover:ring-fuchsia-200 hover:ring-fuchsia-300 hover:ring-fuchsia-400 hover:ring-fuchsia-500 hover:ring-fuchsia-600 hover:ring-fuchsia-700 hover:ring-fuchsia-800 hover:ring-fuchsia-900',
+        'pink' => 'hover:ring-pink-50 hover:ring-pink-100 hover:ring-pink-200 hover:ring-pink-300 hover:ring-pink-400 hover:ring-pink-500 hover:ring-pink-600 hover:ring-pink-700 hover:ring-pink-800 hover:ring-pink-900',
+        'rose' => 'hover:ring-rose-50 hover:ring-rose-100 hover:ring-rose-200 hover:ring-rose-300 hover:ring-rose-400 hover:ring-rose-500 hover:ring-rose-600 hover:ring-rose-700 hover:ring-rose-800 hover:ring-rose-900',
     ];
 }

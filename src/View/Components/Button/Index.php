@@ -7,9 +7,12 @@ use Illuminate\Support\Arr;
 use Illuminate\View\Component;
 use TasteUi\Facades\TasteUi;
 use TasteUi\Support\Elements\Color;
+use TasteUi\View\Components\Button\Traits\DefaultButtonBaseColorClass;
 
 class Index extends Component
 {
+    use DefaultButtonBaseColorClass;
+
     public function __construct(
         public ?string $text = null,
         public ?string $icon = null,
@@ -39,7 +42,6 @@ class Index extends Component
     public function baseClass(): string
     {
         //TODO: black and white buttons
-        //TODO: hover in outline buttons
         return Arr::toCssClasses([
             'outline-none inline-flex justify-center items-center group ease-in font-semibold transition',
             'focus:ring-2 focus:ring-offset-2 hover:shadow-sm disabled:opacity-50 disabled:cursor-not-allowed',
@@ -50,22 +52,7 @@ class Index extends Component
             'text-base px-6 py-3' => $this->size === 'lg',
             'rounded' => $this->square === null && $this->round === null,
             'rounded-full' => $this->square === null && $this->round !== null,
-            TasteUi::colors()
-                ->set('ring', $this->color, 500)
-                ->when($this->style === 'solid', function (Color $color) {
-                    return $color->set('bg', $this->color, 500)
-                        ->set('hover:bg', $this->color, 600)
-                        ->set('hover:ring', $this->color, 600)
-                        ->set('text', 'white');
-                })
-                ->when($this->style === 'outline', function (Color $color) {
-                    return $color->set('text', $this->color, 500)
-                        ->set('border', $this->color, 500)
-                        ->set('hover:bg', $this->color, 50)
-                        ->set('hover:ring', $this->color, 600)
-                        ->append('border');
-                })
-                ->get(),
+            $this->baseButtonColor(),
         ]);
     }
 
