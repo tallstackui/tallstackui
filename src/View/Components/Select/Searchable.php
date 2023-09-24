@@ -39,8 +39,8 @@ class Searchable extends Styled
     private function request(): void
     {
         throw_if(
-            $this->select == null,
-            new InvalidArgumentException('The [selection] parameter must be defined and follow the format: label:name|value:id')
+            $this->select === null,
+            new InvalidArgumentException('The [selection] parameter must be defined.')
         );
 
         if (! is_array($this->request)) {
@@ -64,7 +64,7 @@ class Searchable extends Styled
             );
         }
 
-        $this->request['method'] = (isset($this->request['method'])) ? strtolower($this->request['method']) : 'get';
+        $this->request['method'] = isset($this->request['method']) ? strtolower($this->request['method']) : 'get';
 
         // We remove search from the request because
         // the search will be attached on the javascript.
