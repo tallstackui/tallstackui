@@ -29,11 +29,11 @@ abstract class AbstractInteraction
             new InvalidArgumentException('You must provide options for the interaction')
         );
 
-        $options['icon'] ??= 'question';
-
         $this->time ??= 3;
+        $options['confirm']['text'] ??= __('taste-ui::messages.toast.button.confirm');
+        $options['cancel']['text'] ??= __('taste-ui::messages.toast.button.cancel');
 
-        $base = [
+        $default = [
             'type' => 'question',
             'timeout' => $this->time,
             'confirm' => true,
@@ -41,17 +41,14 @@ abstract class AbstractInteraction
 
         if (is_string($data)) {
             return $this->send([
-                ...$base,
+                ...$default,
                 'title' => $data,
                 'description' => $description,
                 'options' => $options,
             ]);
         }
 
-        return $this->send([
-            ...$base,
-            ...$data,
-        ]);
+        return $this->send([...$default, ...$data]);
     }
 
     public function send(array $options): self

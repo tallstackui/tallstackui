@@ -71,7 +71,7 @@
                                 @class([
                                     'mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold',
                                     'text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:ml-3 sm:w-auto',
-                                ]) x-on:click="reject(dialog)" x-text="cancelButtonText"></button>
+                                ]) x-on:click="reject(dialog)" x-text="dialog.options?.cancel.text"></button>
                     </div>
                     <button @class([
                             'inline-flex w-full items-center justify-center rounded px-4 py-2 text-sm transition',
@@ -83,7 +83,7 @@
                             'bg-blue-600 hover:bg-blue-700 focus:ring-blue-500 focus:ring-offset-blue-100' : dialog.type === 'info',
                             'bg-yellow-600 hover:bg-yellow-700 focus:ring-yellow-500 focus:ring-offset-yellow-100' : dialog.type === 'warning',
                             'bg-primary-600 hover:bg-primary-700 focus:ring-primary-500 focus:ring-offset-primary-100' : dialog.type === 'question'
-                        }" x-on:click="accept(dialog)" x-text="confirmButtonText"></button>
+                        }" x-on:click="accept(dialog)" x-text="dialog.options?.confirm.text"></button>
                 </div>
             </div>
         </div>

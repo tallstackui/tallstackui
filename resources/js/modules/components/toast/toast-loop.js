@@ -37,15 +37,5 @@ export default (toast, ok, confirm, cancel) => ({
     this.show = false;
 
     setTimeout(() => this.remove(this.toast), this.toast.timeout * 1000);
-  },
-  get confirmButtonText () {
-    if (this.toast.type !== 'question') {
-      return this.text.ok;
-    }
-
-    return this.toast.text?.confirm.text ?? (this.text.confirm.length > 0 ? this.text.confirm : this.text.ok);
-  },
-  get cancelButtonText () {
-    return this.toast.text?.cancel.text ?? this.text.cancel;
   }
 });

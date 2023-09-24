@@ -43,10 +43,10 @@
                                 <div class="mt-3 flex gap-x-3">
                                     <button class="rounded-md bg-white text-sm font-semibold text-primary-600 focus:outline-none"
                                             x-on:click="accept(toast)"
-                                            x-text="cancelButtonText"></button>
+                                            x-text="toast.options.confirm.text"></button>
                                     <button class="rounded-md bg-white text-sm font-medium text-secondary-700 focus:outline-none"
                                             x-on:click="reject(toast)"
-                                            x-text="confirmButtonText"></button>
+                                            x-text="toast.options.cancel.text"></button>
                                 </div>
                             </template>
                         </div>

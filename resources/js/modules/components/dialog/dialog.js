@@ -41,15 +41,5 @@ export default (ok, confirm, cancel) => ({
     this.$dispatch(dialog.options.cancel.event, params.constructor !== Array ? [params] : [...params]);
 
     this.remove();
-  },
-  get cancelButtonText() {
-    return this.dialog.text?.cancel.text ?? this.text.cancel;
-  },
-  get confirmButtonText() {
-    if (this.dialog.type !== 'question') {
-      return this.text.ok;
-    }
-
-    return this.dialog.text?.confirm.text ?? (this.text.confirm.length > 0 ? this.text.confirm : this.text.ok);
-  },
+  }
 });
