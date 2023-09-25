@@ -90,8 +90,6 @@ final class Color implements Stringable
      * Merge classes into `$class`.
      *
      * @return $this
-     *
-     * @throws Throwable
      */
     public function merge(string $prefix, string $type, int $weight = null): self
     {

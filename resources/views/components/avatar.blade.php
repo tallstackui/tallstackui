@@ -1,12 +1,14 @@
 @php
-    $content = $label ?? $slot->toHtml();
-    $baseContentClass = $baseContentClass();
+    $customize = $customize();
+
+    $customize['main'] ??= $customMainClass();
+    $customize['content'] ??= $customContentClass();
 @endphp
 
-<div {{ $attributes->class($baseClass()) }}>
+<div {{ $attributes->class($customize['main']) }}>
     @if ($modelable)
-        <img @class($baseContentClass) src="{{ $content }}" alt="{{ $alt() }}" />
+        <img @class($customize['content']) src="{{ $label ?? $slot }}" alt="{{ $alt() }}" />
     @else
-        <span @class($baseContentClass)>{{ $content }}</span>
+        <span @class($customize['content'])>{{ $label ?? $slot }}</span>
     @endif
 </div>

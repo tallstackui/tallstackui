@@ -5,9 +5,10 @@ namespace TasteUi\View\Components\Avatar;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
+use TasteUi\Contracts\Customizable;
 use TasteUi\Facades\TasteUi;
 
-class Index extends Component
+class Index extends Component implements Customizable
 {
     public function __construct(
         public string $label,
@@ -27,7 +28,15 @@ class Index extends Component
         return view('taste-ui::components.avatar');
     }
 
-    public function baseClass(): string
+    public function customize(): array
+    {
+        return [
+            'main' => $this->customMainClass(),
+            'content' => $this->customContentClass(),
+        ];
+    }
+
+    public function customMainClass(): string
     {
         return Arr::toCssClasses([
             'inline-flex shrink-0 items-center justify-center overflow-hidden text-xl',
@@ -38,11 +47,11 @@ class Index extends Component
             TasteUi::colors()
                 ->set('bg', $this->color, 500)
                 ->merge('border', $this->color, 500)
-                ->get() => $this->modelable === false,
+                ->get() => !$this->modelable,
         ]);
     }
 
-    public function baseContentClass(): string
+    public function customContentClass(): string
     {
         return match ($this->modelable) {
             /* image */
