@@ -5,8 +5,9 @@ namespace TasteUi\View\Components\Form;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
+use TasteUi\Contracts\Customizable;
 
-class Toggle extends Component
+class Toggle extends Component implements Customizable
 {
     public function __construct(
         public ?string $id = null,
@@ -26,11 +27,15 @@ class Toggle extends Component
         return view('taste-ui::components.form.toggle');
     }
 
-    /**
-     * Default class to the input.
-     * TODO: it should implement the label personalizations, like Checkbox class.
-     */
-    public function baseClass(bool $error = false): string
+    public function customize(bool $error = false): array
+    {
+        return [
+            'main' => $this->customMainClasses($error),
+            'input' => $this->customInputClasses(),
+        ];
+    }
+
+    public function customMainClasses(bool $error = false): string
     {
         return Arr::toCssClasses([
             'block rounded-full cursor-pointer transition ease-in-out duration-100 peer-focus:ring-2',
@@ -43,7 +48,7 @@ class Toggle extends Component
         ]);
     }
 
-    public function inputClass(): string
+    public function customInputClasses(): string
     {
         return Arr::toCssClasses([
             'absolute mx-0.5 my-auto inset-y-0 left-0.5 rounded-full border-0',
