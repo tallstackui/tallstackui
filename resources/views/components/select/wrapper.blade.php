@@ -40,7 +40,7 @@
                         </div>
                         <x-input placeholder="{{ __('taste-ui::messages.select.input') }}" 
                                  x-model.debounce.500ms="search" 
-                                 x-ref="search" 
+                                 x-ref="search"
                                  class="px-10" 
                         />
                         <div class="pr-5">

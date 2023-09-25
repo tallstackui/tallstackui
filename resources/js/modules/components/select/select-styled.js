@@ -57,6 +57,14 @@ export default (
       this.selecteds = [];
       this.placeholder = placeholder;
     }
+
+    this.$watch('show', async (value) => {
+      if (!value || !this.searchable) {
+        return;
+      }
+
+      setTimeout(() => this.$refs.search.focus(), 100);
+    });
   },
   select(option) {
     if (this.selected(option)) {

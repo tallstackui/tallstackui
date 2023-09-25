@@ -37,10 +37,10 @@ export default (
       }
 
       await this.send();
-      this.$refs.search.focus();
+      setTimeout(() => this.$refs.search.focus(), 100);
     });
 
-    this.$watch('search', async (value) => {
+    this.$watch('search', async () => {
       this.loading = true;
       await this.send();
     });
