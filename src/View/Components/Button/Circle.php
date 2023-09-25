@@ -5,11 +5,12 @@ namespace TasteUi\View\Components\Button;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
+use TasteUi\Contracts\Customizable;
 use TasteUi\Facades\TasteUi;
 use TasteUi\Support\Elements\Color;
 use TasteUi\View\Components\Button\Traits\DefaultButtonBaseColorClass;
 
-class Circle extends Component
+class Circle extends Component implements Customizable
 {
     use DefaultButtonBaseColorClass;
 
@@ -29,7 +30,15 @@ class Circle extends Component
         return view('taste-ui::components.buttons.circle');
     }
 
-    public function baseClass(): string
+    public function customize(): array
+    {
+        return [
+            'main' => $this->customMainClasses(),
+            'icon' => $this->customIconClasses(),
+        ];
+    }
+
+    public function customMainClasses(): string
     {
         //TODO: black and white buttons
         return Arr::toCssClasses([
@@ -39,7 +48,7 @@ class Circle extends Component
         ]);
     }
 
-    public function iconClass(): string
+    public function customIconClasses(): string
     {
         return Arr::toCssClasses([
             'w-4 h-4',
