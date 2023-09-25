@@ -4,5 +4,5 @@ namespace TasteUi\Contracts;
 
 interface Customizable
 {
-    public function customize(): array;
+    public function customize(bool $error = false): array;
 }

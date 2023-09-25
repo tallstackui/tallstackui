@@ -8,11 +8,11 @@ use Illuminate\View\Component;
 use TasteUi\Contracts\Customizable;
 use TasteUi\Facades\TasteUi;
 use TasteUi\Support\Elements\Color;
-use TasteUi\View\Components\Button\Traits\DefaultButtonBaseColorClass;
+use TasteUi\View\Components\Button\Traits\DefaultButtonCustomColorClasses;
 
 class Index extends Component implements Customizable
 {
-    use DefaultButtonBaseColorClass;
+    use DefaultButtonCustomColorClasses;
 
     public function __construct(
         public ?string $text = null,
@@ -40,7 +40,7 @@ class Index extends Component implements Customizable
         return view('taste-ui::components.buttons.index');
     }
 
-    public function customize(): array
+    public function customize(bool $error = false): array
     {
         return [
             'main' => $this->customMainClasses(),
@@ -61,7 +61,7 @@ class Index extends Component implements Customizable
             'text-base px-6 py-3' => $this->size === 'lg',
             'rounded' => $this->square === null && $this->round === null,
             'rounded-full' => $this->square === null && $this->round !== null,
-            $this->baseButtonColor(),
+            $this->customColorClasses(),
         ]);
     }
 

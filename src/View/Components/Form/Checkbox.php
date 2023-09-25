@@ -5,8 +5,9 @@ namespace TasteUi\View\Components\Form;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
+use TasteUi\Contracts\Customizable;
 
-class Checkbox extends Component
+class Checkbox extends Component implements Customizable
 {
     public function __construct(
         public ?string $id = null,
@@ -26,10 +27,14 @@ class Checkbox extends Component
         return view('taste-ui::components.form.checkbox');
     }
 
-    /**
-     * Default class to the input.
-     */
-    public function baseClass(bool $error = false): string
+    public function customize(bool $error = false): array
+    {
+        return [
+            'main' => $this->customMainClasses($error),
+        ];
+    }
+
+    public function customMainClasses(bool $error = false): string
     {
         return Arr::toCssClasses([
             'form-checkbox rounded transition ease-in-out duration-100',
@@ -41,7 +46,6 @@ class Checkbox extends Component
     }
 
     /**
-     * Default class for the label.
      * TODO: it should be used when wrapper is ready to be personalized.
      */
     public function labelBaseClass(): string
@@ -50,7 +54,6 @@ class Checkbox extends Component
     }
 
     /**
-     * Default classes for the label element.
      * TODO: it should be used when wrapper is ready to be personalized.
      */
     public function labelElement(bool $error = false): array
