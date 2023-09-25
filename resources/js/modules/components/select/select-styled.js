@@ -46,11 +46,13 @@ export default (
         this.selecteds = this.dimensional ?
                     [this.selecteds] :
                     this.selecteds;
+      } else {
+        this.selecteds = [];
       }
 
       this.placeholder = this.dimensional ?
-                this.selecteds[0][this.selectable.label] :
-                this.selecteds;
+                this.selecteds[0]?.[this.selectable.label] ?? placeholder :
+          (!this.empty ? this.selecteds : placeholder);
     }
 
     if (this.selecteds === undefined) {
