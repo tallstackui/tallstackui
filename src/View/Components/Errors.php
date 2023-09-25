@@ -28,11 +28,11 @@ class Errors extends Component implements Customizable
     {
         return [
             'main' => [
-                'base'    => $this->customMainBaseClasses(),
+                'base' => $this->customMainBaseClasses(),
                 'wrapper' => $this->customMainWrapperClasses(),
             ],
             'title' => [
-                'base'    => $this->customTitleBaseClasses(),
+                'base' => $this->customTitleBaseClasses(),
                 'wrapper' => $this->customTitleWrapperClasses(),
             ],
             'body' => $this->customBodyClasses(),

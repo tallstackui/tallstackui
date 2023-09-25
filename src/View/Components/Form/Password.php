@@ -27,7 +27,6 @@ class Password extends Component implements Customizable
         return view('taste-ui::components.form.password');
     }
 
-
     public function customize(bool $error = false): array
     {
         return [

@@ -47,7 +47,7 @@ class Index extends Component implements Customizable
             TasteUi::colors()
                 ->set('bg', $this->color, 500)
                 ->merge('border', $this->color, 500)
-                ->get() => !$this->modelable,
+                ->get() => ! $this->modelable,
         ]);
     }
 
