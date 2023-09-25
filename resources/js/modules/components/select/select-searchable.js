@@ -37,6 +37,7 @@ export default (
       }
 
       await this.send();
+      this.$refs.search.focus();
     });
 
     this.$watch('search', async (value) => {
@@ -125,6 +126,10 @@ export default (
     this.placeholder = placeholder;
     this.search = '';
     this.show = false;
+  },
+  clearSearch() {
+    this.search = '';
+    this.$refs.search.focus();
   },
   get quantity() {
     return this.selecteds?.length;
