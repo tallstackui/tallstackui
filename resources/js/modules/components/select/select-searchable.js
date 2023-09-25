@@ -127,10 +127,6 @@ export default (
     this.search = '';
     this.show = false;
   },
-  clearSearch() {
-    this.search = '';
-    this.$refs.search.focus();
-  },
   get quantity() {
     return this.selecteds?.length;
   },
