@@ -26,7 +26,7 @@ class Alert extends Component implements Customizable
         return view('taste-ui::components.alert');
     }
 
-    public function customize(): array
+    public function customize(bool $error = false): array
     {
         return [
             'main' => $this->customMainClasses(),

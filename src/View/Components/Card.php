@@ -5,8 +5,9 @@ namespace TasteUi\View\Components;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
+use TasteUi\Contracts\Customizable;
 
-class Card extends Component
+class Card extends Component implements Customizable
 {
     public function __construct(
         public ?string $header = null,
@@ -20,30 +21,39 @@ class Card extends Component
         return view('taste-ui::components.card');
     }
 
-    public function baseClass(): string
+    public function customize(bool $error = false): array
     {
-        return 'grow rounded-b-xl px-2 py-5 text-secondary-700 md:px-4';
+        return [
+            'wrapper' => $this->customWrapperClasses(),
+            'title' => $this->customTitleClasses(),
+            'footer' => $this->customFooterClasses(),
+        ];
     }
 
-    public function cardElement(): array
+    public function customWrapperClasses(): array
     {
-        //TODO: divide into header and footer class.
         return [
-            'wrapper' => [
-                'first' => 'flex justify-center gap-4',
-                'second' => 'flex w-full flex-col rounded-lg bg-white shadow-md',
-            ],
-            'title' => [
-                'wrapper' => Arr::toCssClasses([
-                    'flex items-center justify-between',
-                    'border-b px-4 py-2.5' => $this->header !== null,
-                ]),
-                'text' => 'font-medium text-md text-secondary-700',
-            ],
-            'footer' => [
-                'wrapper' => 'rounded-lg rounded-t-none border-t px-4 py-4 bg-secondary-50 text-secondary-700 sm:px-6',
-                'text' => 'flex items-center justify-end gap-2',
-            ],
+            'first' => 'flex justify-center gap-4',
+            'second' => 'flex w-full flex-col rounded-lg bg-white shadow-md',
+        ];
+    }
+
+    public function customTitleClasses(): array
+    {
+        return [
+            'wrapper' => Arr::toCssClasses([
+                'flex items-center justify-between',
+                'border-b px-4 py-2.5' => $this->header !== null,
+            ]),
+            'text' => 'font-medium text-md text-secondary-700',
+        ];
+    }
+
+    public function customFooterClasses(): array
+    {
+        return [
+            'wrapper' => 'rounded-lg rounded-t-none border-t px-4 py-4 bg-secondary-50 text-secondary-700 sm:px-6',
+            'text' => 'flex items-center justify-end gap-2',
         ];
     }
 }

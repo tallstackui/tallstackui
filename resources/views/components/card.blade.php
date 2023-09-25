@@ -1,10 +1,16 @@
-@php($cardElement = $cardElement())
+@php
+    $customize = $customize();
 
-<div @class($cardElement['wrapper']['first'])>
-    <div @class($cardElement['wrapper']['second'])>
-        <div @class($cardElement['title']['wrapper'])>
+    $customize['wrapper'] ??= $customWrapperClasses();
+    $customize['title'] ??= $customTitleClasses();
+    $customize['footer'] ??= $customFooterClasses();
+@endphp
+
+<div @class($customize['wrapper']['first'])>
+    <div @class($customize['wrapper']['second'])>
+        <div @class($customize['title']['wrapper'])>
             @if ($header)
-                <h3 @class($cardElement['title']['text'])>
+                <h3 @class($customize['title']['text'])>
                     {{ $header }}
                 </h3>
             @endif
@@ -13,8 +19,8 @@
             {{ $slot }}
         </div>
         @if ($footer)
-            <div @class($cardElement['footer']['wrapper'])>
-                <div @class($cardElement['footer']['text'])>
+            <div @class($customize['footer']['wrapper'])>
+                <div @class($customize['footer']['text'])>
                     {{ $footer }}
                 </div>
             </div>
