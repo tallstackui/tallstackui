@@ -12,6 +12,7 @@ class Badge extends Component implements Customizable
 {
     public function __construct(
         public ?string $text = null,
+        // TODO: Add icon support
         public ?string $icon = null,
         public ?string $position = 'right',
         public ?string $md = null,
@@ -20,8 +21,8 @@ class Badge extends Component implements Customizable
         public ?string $outline = null,
         public ?string $color = 'primary',
         public ?string $square = null,
-        private ?string $size = null,
-        private ?string $style = null,
+        public ?string $size = null,
+        public ?string $style = null,
     ) {
         $this->style = $this->outline ? 'outline' : 'solid';
         $this->size = $this->lg ? 'lg' : ($this->md ? 'md' : 'sm');
@@ -35,11 +36,11 @@ class Badge extends Component implements Customizable
     public function customization(bool $error = false): array
     {
         return [
-            'main' => $this->customMainClasses(),
+            'main' => $this->tasteUiMainClasses(),
         ];
     }
 
-    public function customMainClasses(): string
+    public function tasteUiMainClasses(): string
     {
         return Arr::toCssClasses([
             'outline-none inline-flex items-center border px-2 py-0.5 font-bold',

@@ -9,6 +9,7 @@ use Illuminate\View\View;
 use InvalidArgumentException;
 use TasteUi\Contracts\Personalizable;
 use TasteUi\Support\Personalizations\Alert;
+use TasteUi\Support\Personalizations\Badge;
 
 class Personalization implements Arrayable
 {
@@ -16,6 +17,10 @@ class Personalization implements Arrayable
         'taste-ui::personalizations.alert' => [
             'personalize' => Alert::class,
             'component' => 'taste-ui::components.alert',
+        ],
+        'taste-ui::personalizations.badge' => [
+            'personalize' => Badge::class,
+            'component' => 'taste-ui::components.badge',
         ],
     ];
 
