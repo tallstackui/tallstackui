@@ -63,10 +63,10 @@ jobs:
       - name: Setup dusk/chrome
         run: vendor/bin/dusk-updater detect --auto-update
 
-      - name: Verifying pint
-        run: ./vendor/bin/pest --test
+      - name: Pint
+        run: ./vendor/bin/pint --test
 
-      - name: Run Tests
+      - name: Tests
         run: ./vendor/bin/pest
         env:
-          RUNNING_IN_CI: true
+          CI: true
