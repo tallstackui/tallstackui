@@ -43,15 +43,13 @@
                                  x-ref="search"
                                  class="px-10" 
                         />
-                        <div class="pr-5">
-                            <button type="button"
-                                    class="absolute inset-y-0 right-0 flex cursor-pointer items-center px-2"
-                                    x-on:click="search = ''; $refs.search.focus();"
-                                    x-show="search.length > 0"
-                            >
-                                <x-icon name="x-mark" class="h-5 w-5 transition text-secondary-500 hover:text-red-500" />
-                            </button>
-                        </div>
+                        <button type="button"
+                                class="absolute inset-y-0 right-0 flex cursor-pointer items-center px-2 pr-4"
+                                x-on:click="search = ''; $refs.search.focus();"
+                                x-show="search.length > 0"
+                        >
+                            <x-icon name="x-mark" class="h-5 w-5 transition text-secondary-500 hover:text-red-500" />
+                        </button>
                     </div>
                 </template>
                 <ul wire:ignore class="z-50 mt-1 max-h-60 w-full overflow-auto bg-white rounded-b-lg text-base soft-scrollbar focus:outline-none sm:text-sm" id="options" role="listbox">
