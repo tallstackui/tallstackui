@@ -19,18 +19,16 @@
             @endif
         </div>
     @endif
-    @if ($text)
-        <div @class($customize['text.wrapper'])>
-            <div @class($customize['text.title.wrapper'])>
-                <p>{{ $text ?? $slot }}</p>
-            </div>
-            @if (!$title && $closeable)
-                <div @class($customize['text.icon.wrapper'])>
-                    <button x-on:click="show = false">
-                        <x-icon icon="x-mark" @class($customize['text.icon.classes']) />
-                    </button>
-                </div>
-            @endif
+    <div @class($customize['text.wrapper'])>
+        <div @class($customize['text.title.wrapper'])>
+            <p>{{ $text ?? $slot }}</p>
         </div>
-    @endif
+        @if (!$title && $closeable)
+            <div @class($customize['text.title.icon.wrapper'])>
+                <button x-on:click="show = false">
+                    <x-icon icon="x-mark" @class($customize['text.title.icon.classes']) />
+                </button>
+            </div>
+        @endif
+    </div>
 </div>

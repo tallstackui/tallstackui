@@ -5,15 +5,15 @@ namespace TasteUi\View\Components;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
+use TasteUi\Contracts\Customizable;
 use TasteUi\Facades\TasteUi;
 
-class Alert extends Component
+class Alert extends Component implements Customizable
 {
     public function __construct(
         public ?string $title = null,
         public ?string $text = null,
         public string $color = 'primary',
-        public ?string $class = null,
         public bool $closeable = false,
         public bool $translucent = false,
     ) {

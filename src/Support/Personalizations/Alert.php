@@ -18,7 +18,7 @@ class Alert implements Arrayable, ShouldBePersonalized
         'title.icon.classes',
         'text.wrapper',
         'text.title.wrapper',
-        'text.icon.wrapper',
-        'text.icon.classes',
+        'text.title.icon.wrapper',
+        'text.title.icon.classes',
     ];
 }
