@@ -4,6 +4,15 @@
     $event = Str::slug(Str::kebab($id));
     $open  = $event . '-open';
     $close = $event . '-close';
+
+    $customize = $customize();
+
+    $customize['wrapper'] ??= [...$customWrapperClasses()];
+    $customize['title']['wrapper'] ??= $customTitleWrapperClasses();
+    $customize['title']['base'] ??= $customTitleBaseClasses();
+
+    $customize['body'] ??= $customBodyClasses();
+    $customize['footer'] ??= $customFooterClasses();
 @endphp
 
 <div @if ($id) id="{{ $id }}" @endif
@@ -23,9 +32,9 @@
          x-transition:leave="ease-in duration-200"
          x-transition:leave-start="opacity-100"
          x-transition:leave-end="opacity-0"
-         @class(['fixed inset-0 bg-gray-400 bg-opacity-50 transition-opacity', 'backdrop-blur-sm' => $blur])></div>
+         @class($customize['wrapper']['first'])></div>
     <div class="fixed inset-0 z-50 w-screen overflow-y-auto">
-        <div @class(['w-full min-h-full transform flex items-end justify-center mx-auto sm:items-start p-4', $size])>
+        <div @class($customize['wrapper']['second'])>
             <div x-show="show"
                  @if ($closeable) x-on:click.outside="show = false" @endif
                  x-transition:enter="ease-out duration-300"
@@ -34,10 +43,10 @@
                  x-transition:leave="ease-in duration-200"
                  x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
                  x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                 @class(['relative flex w-full transform flex-col overflow-auto rounded-lg bg-white text-left shadow-xl transition-all', $size])>
+                 @class($customize['wrapper']['third'])>
                 @if ($title)
-                    <div class="flex items-center justify-between border-b px-4 py-2.5 dark:border-0">
-                        <h3 class="whitespace-normal font-medium text-md text-secondary-600">{{ $title }}</h3>
+                    <div @class($customize['title']['wrapper'])>
+                        <h3 @class($customize['title']['base'])>{{ $title }}</h3>
                         <button class="rounded-full p-1 text-secondary-300 focus:ring-secondary-200 focus:outline-none focus:ring-0"
                                 x-on:click="show = false"
                                 tabindex="-1">
@@ -45,11 +54,11 @@
                         </button>
                     </div>
                 @endif
-                <div class="px-2 py-5 md:px-4 text-secondary-700 rounded-b-xl grow dark:text-secondary-400">
+                <div @class($customize['body'])>
                     {{ $slot }}
                 </div>
                 @if ($footer)
-                <div class="border-t border-t-gray-100 bg-gray-50 px-6 py-3">
+                <div @class($customize['footer'])>
                     {{ $footer }}
                 </div>
                 @endif
