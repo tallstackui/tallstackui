@@ -1,17 +1,6 @@
 @php
-    $customize = \TasteUi\Facades\TasteUi::personalization('taste-ui::personalizations.alert')->toArray();
-
-    $customize['main'] ??= $tasteUiMainClasses();
-
-    $customize['title.base'] ??= $tasteUiTitleBaseClasses();
-    $customize['title.wrapper'] ??= $tasteUiTitleWrapperClasses();
-    $customize['title.icon.wrapper'] ??= $tasteUiTitleIconWrapperClasses();
-    $customize['title.icon.classes'] ??= $tasteUiTitleIconBaseClasses();
-
-    $customize['text.wrapper'] ??= $tasteUiTextWrapperClasses();
-    $customize['text.title.wrapper'] ??= $tasteUiTextTitleWrapperClasses();
-    $customize['text.icon.classes'] ??= $tasteUiTextIconBaseClasses();
-    $customize['text.icon.wrapper'] ??= $tasteUiTextIconWrapperClasses();
+    $personalization = \TasteUi\Facades\TasteUi::personalization('taste-ui::personalizations.alert')->toArray();
+    $customize = tasteui_personalize($personalization, $customization());
 @endphp
 
 <div @class($customize['main'])
