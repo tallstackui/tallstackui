@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
 use TasteUi\Facades\TasteUi as Facade;
+use TasteUi\Support\Personalization;
 
 class TasteUiServiceProvider extends ServiceProvider
 {
@@ -21,6 +22,7 @@ class TasteUiServiceProvider extends ServiceProvider
     {
         $this->registerConfig();
         $this->registerComponents();
+        $this->registerComponentPersonalizations();
         $this->registerBladeDirectives();
     }
 
@@ -43,6 +45,15 @@ class TasteUiServiceProvider extends ServiceProvider
                 $blade->component($class, $alias);
             }
         });
+    }
+
+    public function registerComponentPersonalizations(): void
+    {
+        foreach (Personalization::COMPONENTS as $personalization => $configuration) {
+            $this->app->singleton($personalization, function () use ($configuration) {
+                return $this->app->make($configuration['personalize']);
+            });
+        }
     }
 
     private function registerBladeDirectives(): void

@@ -1,5 +1,5 @@
 @php
-    $customize = $customize();
+    $customize = $customization();
 
     $customize['main'] ??= $customMainClasses();
     $customize['icon'] ??= $customIconClasses();

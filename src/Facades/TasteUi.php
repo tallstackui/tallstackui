@@ -4,9 +4,11 @@ namespace TasteUi\Facades;
 
 use Illuminate\Support\Facades\Facade;
 use TasteUi\Support\Elements\Color;
+use TasteUi\Support\Personalization;
 use TasteUi\TasteUiDirectives;
 
 /**
+ * @method static Personalization personalization(string $component)
  * @method static Color colors()
  * @method static TasteUiDirectives directives()
  */

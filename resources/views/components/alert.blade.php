@@ -1,9 +1,6 @@
 @php
-    $customize = $customize();
-
-    $customize['main'] ??= $customMainClasses();
-    $customize['title'] ??= $customTitleClasses();
-    $customize['text'] ??= $customTextClasses();
+    $personalization = \TasteUi\Facades\TasteUi::personalization('taste-ui::personalizations.alert')->toArray();
+    $customize = tasteui_personalize($personalization, $customization());
 @endphp
 
 <div @class($customize['main'])
@@ -11,29 +8,27 @@
      x-show="show"
      x-transition.delay.50ms>
     @if ($title)
-        <div @class($customize['title']['wrapper'])>
-            <h3 @class($customize['title']['base'])>{{ $title }}</h3>
+        <div @class($customize['title.wrapper'])>
+            <h3 @class($customize['title.base'])>{{ $title }}</h3>
             @if ($closeable)
-                <div @class($customize['title']['icon']['wrapper'])>
-                    <button x-on:click="show = false">
-                        <x-icon name="x-mark" @class($customize['title']['icon']['class']) />
+                <div @class($customize['title.icon.wrapper'])>
+                    <button id="close" x-on:click="show = false">
+                        <x-icon icon="x-mark" @class($customize['title.icon.classes']) />
                     </button>
                 </div>
             @endif
         </div>
     @endif
-    @if ($text)
-    <div @class($customize['text']['wrapper'])>
-        <div @class($customize['text']['title']['wrapper'])>
+    <div @class($customize['text.wrapper'])>
+        <div @class($customize['text.title.wrapper'])>
             <p>{{ $text ?? $slot }}</p>
         </div>
         @if (!$title && $closeable)
-        <div @class($customize['text']['title']['icon']['wrapper'])>
-            <button x-on:click="show = false">
-                <x-icon name="x-mark" @class($customize['text']['title']['icon']['class']) />
-            </button>
-        </div>
+            <div @class($customize['text.title.icon.wrapper'])>
+                <button id="close" x-on:click="show = false">
+                    <x-icon icon="x-mark" @class($customize['text.title.icon.classes']) />
+                </button>
+            </div>
         @endif
     </div>
-    @endif
 </div>

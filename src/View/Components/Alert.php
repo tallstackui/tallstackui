@@ -14,7 +14,6 @@ class Alert extends Component implements Customizable
         public ?string $title = null,
         public ?string $text = null,
         public string $color = 'primary',
-        public ?string $class = null,
         public bool $closeable = false,
         public bool $translucent = false,
     ) {
@@ -26,16 +25,16 @@ class Alert extends Component implements Customizable
         return view('taste-ui::components.alert');
     }
 
-    public function customize(bool $error = false): array
+    public function customization(bool $error = false): array
     {
         return [
-            'main' => $this->customMainClasses(),
-            'title' => $this->customTitleClasses(),
-            'text' => $this->customTextClasses(),
+            'main' => $this->tasteUiMainClasses(),
+            ...$this->tasteUiTitleClasses(),
+            ...$this->tasteUiTextClasses(),
         ];
     }
 
-    public function customMainClasses(): string
+    public function tasteUiMainClasses(): string
     {
         return Arr::toCssClasses([
             'rounded-md p-4',
@@ -48,39 +47,37 @@ class Alert extends Component implements Customizable
         ]);
     }
 
-    public function customTitleClasses(): array
+    public function tasteUiTitleClasses(): array
     {
         $color = TasteUi::colors()
             ->set('text', $this->color, 800)
             ->get();
 
-        return [
+        return Arr::dot([
             'base' => Arr::toCssClasses(['text-lg font-semibold', $color]),
             'wrapper' => 'flex items-center justify-between',
             'icon' => [
                 'wrapper' => 'ml-auto pl-3',
-                'style' => config('tasteui.icon') ?? 'solid',
-                'class' => Arr::toCssClasses(['w-5 h-5', $color]),
+                'classes' => Arr::toCssClasses(['w-5 h-5', $color]),
             ],
-        ];
+        ], 'title.');
     }
 
-    public function customTextClasses(): array
+    public function tasteUiTextClasses(): array
     {
         $color = TasteUi::colors()
             ->set('text', $this->color, 800)
             ->get();
 
-        return [
+        return Arr::dot([
             'wrapper' => 'flex items-center justify-between',
             'title' => [
                 'wrapper' => Arr::toCssClasses(['text-sm', 'mt-2' => $this->title !== null, $color]),
                 'icon' => [
                     'wrapper' => 'flex items-center',
-                    'style' => config('tasteui.icon') ?? 'solid',
-                    'class' => Arr::toCssClasses(['w-5 h-5', $color]),
+                    'classes' => Arr::toCssClasses(['w-5 h-5', $color]),
                 ],
             ],
-        ];
+        ], 'text.');
     }
 }

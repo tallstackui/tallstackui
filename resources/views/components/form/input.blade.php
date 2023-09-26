@@ -2,7 +2,7 @@
     $computed    = $attributes->whereStartsWith('wire:model')->first();
     $error       = $errors->has($computed);
 
-    $customize = $customize($error);
+    $customize = $customization($error);
 
     $customize['main'] ??= $customMainClasses($error);
     $customize['icon'] ??= $customIconClasses();

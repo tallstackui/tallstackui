@@ -27,7 +27,7 @@ class Radio extends Component implements Customizable
         return view('taste-ui::components.form.radio');
     }
 
-    public function customize(bool $error = false): array
+    public function customization(bool $error = false): array
     {
         return [
             'main' => $this->customMainClasses($error),
