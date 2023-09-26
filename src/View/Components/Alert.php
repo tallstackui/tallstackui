@@ -5,10 +5,9 @@ namespace TasteUi\View\Components;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
-use TasteUi\Contracts\Customizable;
 use TasteUi\Facades\TasteUi;
 
-class Alert extends Component implements Customizable
+class Alert extends Component
 {
     public function __construct(
         public ?string $title = null,
@@ -26,16 +25,7 @@ class Alert extends Component implements Customizable
         return view('taste-ui::components.alert');
     }
 
-    public function customize(bool $error = false): array
-    {
-        return [
-            'main' => $this->customMainClasses(),
-            'title' => $this->customTitleClasses(),
-            'text' => $this->customTextClasses(),
-        ];
-    }
-
-    public function customMainClasses(): string
+    public function tasteUiMainClasses(): string
     {
         return Arr::toCssClasses([
             'rounded-md p-4',
@@ -48,7 +38,7 @@ class Alert extends Component implements Customizable
         ]);
     }
 
-    public function customTitleClasses(): array
+    public function tasteUiTitleClasses(): array
     {
         $color = TasteUi::colors()
             ->set('text', $this->color, 800)
@@ -65,7 +55,7 @@ class Alert extends Component implements Customizable
         ];
     }
 
-    public function customTextClasses(): array
+    public function tasteUiTextClasses(): array
     {
         $color = TasteUi::colors()
             ->set('text', $this->color, 800)

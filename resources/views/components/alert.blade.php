@@ -1,12 +1,16 @@
 @php
-    $customize = $customize();
+    use TasteUi\Facades\TasteUi;
+    $customize = [];
 
-    $customize['main'] ??= $customMainClasses();
-    $customize['title'] ??= $customTitleClasses();
-    $customize['text'] ??= $customTextClasses();
+    $main = TasteUi::personalization('taste-ui::personalizations.alert')->get('main');
+    $footer = TasteUi::personalization('taste-ui::personalizations.alert')->get('footer');
+
+    $customize['main'] ??= $tasteUiMainClasses();
+    $customize['title'] ??= $tasteUiTitleClasses();
+    $customize['text'] ??= $tasteUiTextClasses();
 @endphp
 
-<div @class($customize['main'])
+<div @class($main ?? $customize['main'])
      x-data="{ show : true }"
      x-show="show"
      x-transition.delay.50ms>
@@ -23,17 +27,18 @@
         </div>
     @endif
     @if ($text)
-    <div @class($customize['text']['wrapper'])>
-        <div @class($customize['text']['title']['wrapper'])>
-            <p>{{ $text ?? $slot }}</p>
+        <div @class($customize['text']['wrapper'])>
+            <div @class($customize['text']['title']['wrapper'])>
+                <p>{{ $text ?? $slot }}</p>
+                {{ $footer }}
+            </div>
+            @if (!$title && $closeable)
+                <div @class($customize['text']['title']['icon']['wrapper'])>
+                    <button x-on:click="show = false">
+                        <x-icon name="x-mark" @class($customize['text']['title']['icon']['class']) />
+                    </button>
+                </div>
+            @endif
         </div>
-        @if (!$title && $closeable)
-        <div @class($customize['text']['title']['icon']['wrapper'])>
-            <button x-on:click="show = false">
-                <x-icon name="x-mark" @class($customize['text']['title']['icon']['class']) />
-            </button>
-        </div>
-        @endif
-    </div>
     @endif
 </div>
