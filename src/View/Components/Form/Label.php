@@ -5,8 +5,9 @@ namespace TasteUi\View\Components\Form;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
+use TasteUi\Contracts\Customizable;
 
-class Label extends Component
+class Label extends Component implements Customizable
 {
     public function __construct(
         public ?string $for = null,
@@ -22,7 +23,15 @@ class Label extends Component
         return view('taste-ui::components.form.label');
     }
 
-    public function baseClass(bool $error = false): string
+    public function customize(bool $error = false): array
+    {
+        return [
+            'main' => $this->customMainClasses($error),
+            'label' => $this->customLabelClasses(),
+        ];
+    }
+
+    public function customMainClasses(bool $error = false): string
     {
         return Arr::toCssClasses([
             'mb-1 flex justify-between',
@@ -31,7 +40,7 @@ class Label extends Component
         ]);
     }
 
-    public function labelClass(): string
+    public function customLabelClasses(): string
     {
         return 'block text-sm font-medium';
     }

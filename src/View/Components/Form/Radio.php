@@ -5,8 +5,9 @@ namespace TasteUi\View\Components\Form;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
+use TasteUi\Contracts\Customizable;
 
-class Radio extends Component
+class Radio extends Component implements Customizable
 {
     public function __construct(
         public ?string $id = null,
@@ -26,11 +27,14 @@ class Radio extends Component
         return view('taste-ui::components.form.radio');
     }
 
-    /**
-     * Default class to the input.
-     * TODO: it should implement the label personalizations, like Checkbox class.
-     */
-    public function baseClass(bool $error = false): string
+    public function customize(bool $error = false): array
+    {
+        return [
+            'main' => $this->customMainClasses($error),
+        ];
+    }
+
+    public function customMainClasses(bool $error = false): string
     {
         return Arr::toCssClasses([
             'form-radio rounded-full transition ease-in-out duration-100',

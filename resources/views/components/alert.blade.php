@@ -1,33 +1,36 @@
 @php
-    $titleElement = $titleElement();
-    $textElement  = $textElement();
+    $customize = $customize();
+
+    $customize['main'] ??= $customMainClasses();
+    $customize['title'] ??= $customTitleClasses();
+    $customize['text'] ??= $customTextClasses();
 @endphp
 
-<div @class($baseClass())
+<div @class($customize['main'])
      x-data="{ show : true }"
      x-show="show"
      x-transition.delay.50ms>
     @if ($title)
-        <div @class($titleElement['wrapper'])>
-            <h3 @class($titleElement['base'])>{{ $title }}</h3>
+        <div @class($customize['title']['wrapper'])>
+            <h3 @class($customize['title']['base'])>{{ $title }}</h3>
             @if ($closeable)
-                <div @class($titleElement ['icon']['wrapper'])>
+                <div @class($customize['title']['icon']['wrapper'])>
                     <button x-on:click="show = false">
-                        <x-icon name="x-mark" type="{{ $titleElement['icon']['style'] }}" @class($titleElement['icon']['class']) />
+                        <x-icon name="x-mark" @class($customize['title']['icon']['class']) />
                     </button>
                 </div>
             @endif
         </div>
     @endif
     @if ($text)
-    <div @class($textElement['wrapper'])>
-        <div @class($textElement['title']['wrapper'])>
+    <div @class($customize['text']['wrapper'])>
+        <div @class($customize['text']['title']['wrapper'])>
             <p>{{ $text ?? $slot }}</p>
         </div>
         @if (!$title && $closeable)
-        <div @class($textElement['title']['icon']['wrapper'])>
+        <div @class($customize['text']['title']['icon']['wrapper'])>
             <button x-on:click="show = false">
-                <x-icon name="x-mark" type="{{ $textElement['title']['icon']['style'] }}" @class($textElement['title']['icon']['class']) />
+                <x-icon name="x-mark" @class($customize['text']['title']['icon']['class']) />
             </button>
         </div>
         @endif

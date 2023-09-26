@@ -5,13 +5,14 @@ namespace TasteUi\View\Components\Button;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
+use TasteUi\Contracts\Customizable;
 use TasteUi\Facades\TasteUi;
 use TasteUi\Support\Elements\Color;
-use TasteUi\View\Components\Button\Traits\DefaultButtonBaseColorClass;
+use TasteUi\View\Components\Button\Traits\DefaultButtonCustomColorClasses;
 
-class Index extends Component
+class Index extends Component implements Customizable
 {
-    use DefaultButtonBaseColorClass;
+    use DefaultButtonCustomColorClasses;
 
     public function __construct(
         public ?string $text = null,
@@ -39,7 +40,15 @@ class Index extends Component
         return view('taste-ui::components.buttons.index');
     }
 
-    public function baseClass(): string
+    public function customize(bool $error = false): array
+    {
+        return [
+            'main' => $this->customMainClasses(),
+            'icon' => $this->customIconClasses(),
+        ];
+    }
+
+    public function customMainClasses(): string
     {
         //TODO: black and white buttons
         return Arr::toCssClasses([
@@ -52,11 +61,11 @@ class Index extends Component
             'text-base px-6 py-3' => $this->size === 'lg',
             'rounded' => $this->square === null && $this->round === null,
             'rounded-full' => $this->square === null && $this->round !== null,
-            $this->baseButtonColor(),
+            $this->customColorClasses(),
         ]);
     }
 
-    public function iconClass(): string
+    public function customIconClasses(): string
     {
         return Arr::toCssClasses([
             'w-2 h-2' => $this->size === 'xs' || $this->size === 'sm',

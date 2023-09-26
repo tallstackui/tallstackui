@@ -5,9 +5,10 @@ namespace TasteUi\View\Components\Form;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
+use TasteUi\Contracts\Customizable;
 use TasteUi\View\Components\Form\Traits\DefaultInputBaseClass;
 
-class Input extends Component
+class Input extends Component implements Customizable
 {
     use DefaultInputBaseClass;
 
@@ -26,7 +27,15 @@ class Input extends Component
         return view('taste-ui::components.form.input');
     }
 
-    public function baseClass(bool $error = false): string
+    public function customize(bool $error = false): array
+    {
+        return [
+            'main' => $this->customMainClasses($error),
+            'icon' => $this->customIconClasses(),
+        ];
+    }
+
+    public function customMainClasses(bool $error = false): string
     {
         return Arr::toCssClasses([
             $this->baseInputClass($error),
@@ -34,16 +43,15 @@ class Input extends Component
         ]);
     }
 
-    public function iconElement(): array
+    public function customIconClasses(): array
     {
         return [
-            'size' => 'h-5 w-5',
-            'style' => config('tasteui.icon') ?? 'solid',
-            'base' => Arr::toCssClasses([
+            'wrapper' => Arr::toCssClasses([
                 'pointer-events-none absolute inset-y-0 flex items-center text-secondary-500',
                 'left-0 pl-3' => $this->position === null || $this->position === 'left',
                 'right-0 pr-3' => $this->position === 'right',
             ]),
+            'size' => 'h-5 w-5',
         ];
     }
 }

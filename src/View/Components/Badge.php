@@ -5,9 +5,10 @@ namespace TasteUi\View\Components;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
+use TasteUi\Contracts\Customizable;
 use TasteUi\Facades\TasteUi;
 
-class Badge extends Component
+class Badge extends Component implements Customizable
 {
     public function __construct(
         public ?string $text = null,
@@ -31,7 +32,14 @@ class Badge extends Component
         return view('taste-ui::components.badge');
     }
 
-    public function baseClass(): string
+    public function customize(bool $error = false): array
+    {
+        return [
+            'main' => $this->customMainClasses(),
+        ];
+    }
+
+    public function customMainClasses(): string
     {
         return Arr::toCssClasses([
             'outline-none inline-flex items-center border px-2 py-0.5 font-bold',

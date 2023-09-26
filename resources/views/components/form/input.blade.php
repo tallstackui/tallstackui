@@ -1,15 +1,19 @@
 @php
     $computed    = $attributes->whereStartsWith('wire:model')->first();
     $error       = $errors->has($computed);
-    $iconElement = $iconElement();
+
+    $customize = $customize($error);
+
+    $customize['main'] ??= $customMainClasses($error);
+    $customize['icon'] ??= $customIconClasses();
 @endphp
 
 <x-taste-ui::form.wrapper.input :$computed :$error :$label :$hint>
     @if ($icon)
-        <div @class($iconElement['base'])>
-            <x-icon :$icon :$error type="{{ $iconElement['style'] }}" @class($iconElement['size']) />
+        <div @class($customize['icon']['wrapper'])>
+            <x-icon :$icon :$error @class($customize['icon']['size']) />
         </div>
     @endif
 
-    <input @if ($id) id="{{ $id }}" @endif {{ $attributes->class($baseClass($error)) }}>
+    <input @if ($id) id="{{ $id }}" @endif {{ $attributes->class($customize['main']) }}>
 </x-taste-ui::form.wrapper.input>

@@ -5,9 +5,9 @@ namespace TasteUi\View\Components\Button\Traits;
 use TasteUi\Facades\TasteUi;
 use TasteUi\Support\Elements\Color;
 
-trait DefaultButtonBaseColorClass
+trait DefaultButtonCustomColorClasses
 {
-    public function baseButtonColor(): string
+    public function customColorClasses(): string
     {
         return TasteUi::colors()
             ->set('ring', $this->color, 500)

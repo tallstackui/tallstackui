@@ -3,9 +3,12 @@
 namespace TasteUi\View\Components;
 
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Arr;
 use Illuminate\View\Component;
+use TasteUi\Contracts\Customizable;
+use TasteUi\Facades\TasteUi;
 
-class Tooltip extends Component
+class Tooltip extends Component implements Customizable
 {
     public function __construct(
         public ?string $text = null,
@@ -24,5 +27,24 @@ class Tooltip extends Component
     public function render(): View
     {
         return view('taste-ui::components.tooltip');
+    }
+
+    public function customize(bool $error = false): array
+    {
+        return [
+            'main' => $this->customMainClasses(),
+        ];
+    }
+
+    public function customMainClasses(): string
+    {
+        return Arr::toCssClasses([
+            'h-5 w-5' => $this->size === 'sm',
+            'h-6 w-6' => $this->size === 'md',
+            'h-7 w-7' => $this->size === 'lg',
+            TasteUi::colors()
+                ->set('text', $this->color, 500)
+                ->get(),
+        ]);
     }
 }

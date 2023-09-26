@@ -30,6 +30,10 @@ class TasteUiServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__.'/../config/tasteui.php', 'tasteui');
         $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
         $this->loadTranslationsFrom(__DIR__.'/../lang', 'taste-ui');
+
+        $this->publishes([__DIR__.'/../config/tasteui.php' => config_path('tasteui.php')], 'tasteui.config');
+        $this->publishes([__DIR__.'/../lang' => lang_path('vendor/taste-ui')], 'tasteui.lang');
+        $this->publishes([__DIR__.'/../resources/views' => resource_path('views/vendor/taste-ui')], 'tasteui.views');
     }
 
     private function registerComponents(): void
