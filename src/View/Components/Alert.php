@@ -25,6 +25,7 @@ class Alert extends Component
         return view('taste-ui::components.alert');
     }
 
+    // main
     public function tasteUiMainClasses(): string
     {
         return Arr::toCssClasses([
@@ -35,6 +36,81 @@ class Alert extends Component
             TasteUi::colors()
                 ->set('bg', $this->color, 100)
                 ->get() => $this->translucent,
+        ]);
+    }
+
+    // title.base
+    public function tasteUiTitleBaseClasses(): string
+    {
+        return Arr::toCssClasses([
+            'text-lg font-semibold',
+            TasteUi::colors()
+                ->set('text', $this->color, 800)
+                ->get(),
+        ]);
+    }
+
+    // title.wrapper
+    public function tasteUiTitleWrapperClasses(): string
+    {
+        return 'flex items-center justify-between';
+    }
+
+    // title.icon.wrapper
+    public function tasteUiTitleIconBaseClasses(): string
+    {
+        return Arr::toCssClasses([
+            'w-5 h-5',
+            TasteUi::colors()
+                ->set('text', $this->color, 800)
+                ->get(),
+        ]);
+    }
+
+    // title.icon.classes
+    public function tasteUiTitleIconWrapperClasses(): string
+    {
+        return 'ml-auto pl-3';
+    }
+
+    // text.wrapper
+    public function tasteUiTextWrapperClasses(): string
+    {
+        return 'flex items-center justify-between';
+    }
+
+    // text.title.wrapper
+    public function tasteUiTextTitleWrapperClasses(): string
+    {
+        return Arr::toCssClasses([
+            'text-sm',
+            'mt-2' => $this->title !== null,
+            TasteUi::colors()
+                ->set('text', $this->color, 800)
+                ->get(),
+        ]);
+    }
+
+    // text.icon.classes
+    public function tasteUiTextIconBaseClasses(): string
+    {
+        return Arr::toCssClasses([
+            'w-5 h-5',
+            TasteUi::colors()
+                ->set('text', $this->color, 800)
+                ->get(),
+        ]);
+    }
+
+    // text.icon.wrapper
+    public function tasteUiTextIconWrapperClasses(): string
+    {
+        return Arr::toCssClasses([
+            'text-sm',
+            'mt-2' => $this->title !== null,
+            TasteUi::colors()
+                ->set('text', $this->color, 800)
+                ->get(),
         ]);
     }
 
@@ -49,7 +125,6 @@ class Alert extends Component
             'wrapper' => 'flex items-center justify-between',
             'icon' => [
                 'wrapper' => 'ml-auto pl-3',
-                'style' => config('tasteui.icon') ?? 'solid',
                 'class' => Arr::toCssClasses(['w-5 h-5', $color]),
             ],
         ];
@@ -67,7 +142,6 @@ class Alert extends Component
                 'wrapper' => Arr::toCssClasses(['text-sm', 'mt-2' => $this->title !== null, $color]),
                 'icon' => [
                     'wrapper' => 'flex items-center',
-                    'style' => config('tasteui.icon') ?? 'solid',
                     'class' => Arr::toCssClasses(['w-5 h-5', $color]),
                 ],
             ],

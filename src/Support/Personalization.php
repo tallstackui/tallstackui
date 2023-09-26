@@ -3,12 +3,13 @@
 namespace TasteUi\Support;
 
 use Closure;
+use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Facades\View as Facade;
 use Illuminate\View\View;
 use InvalidArgumentException;
 use TasteUi\Support\Personalizations\Alert;
 
-class Personalization
+class Personalization implements Arrayable
 {
     public const COMPONENTS = [
         'taste-ui::personalizations.alert' => [
@@ -31,17 +32,22 @@ class Personalization
 
     public function block(string $block, string|Closure $code): self
     {
-        if (! method_exists($this->instance, $block)) {
-            throw new InvalidArgumentException("Block [$block] not found in the personalization of the [$this->component] component");
+        if (! in_array($block, array_values($this->instance::EDITABLES))) {
+            throw new InvalidArgumentException("Block [$block] is not allowed to be personalized at the [$this->component] component.");
         }
 
-        Facade::composer($this->component, fn (View $view) => $this->instance->{$block} = is_string($code) ? $code : $code($view->getData()));
+        Facade::composer($this->component, fn (View $view) => $this->instance->set($block, is_string($code) ? $code : $code($view->getData())));
 
         return $this;
     }
 
     public function get(string $block): ?string
     {
-        return $this->instance->{$block}();
+        return $this->instance->get($block);
+    }
+
+    public function toArray(): array
+    {
+        return $this->instance->toArray();
     }
 }

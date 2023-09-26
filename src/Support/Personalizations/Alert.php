@@ -2,21 +2,23 @@
 
 namespace TasteUi\Support\Personalizations;
 
-class Alert
+use Illuminate\Contracts\Support\Arrayable;
+use TasteUi\Support\Personalizations\Contracts\ShouldBePersonalized;
+use TasteUi\Support\Personalizations\Traits\ShareablePersonalization;
+
+class Alert implements Arrayable, ShouldBePersonalized
 {
-    public function __construct(
-        public ?string $main = null,
-        public ?string $footer = null,
-    ) {
-    }
+    use ShareablePersonalization;
 
-    public function main(): ?string
-    {
-        return $this->main;
-    }
-
-    public function footer(): ?string
-    {
-        return $this->footer;
-    }
+    public const EDITABLES = [
+        'main',
+        'title.base',
+        'title.wrapper',
+        'title.icon.wrapper',
+        'title.icon.classes',
+        'text.wrapper',
+        'text.title.wrapper',
+        'text.icon.wrapper',
+        'text.icon.classes',
+    ];
 }
