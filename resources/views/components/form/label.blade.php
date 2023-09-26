@@ -1,5 +1,5 @@
 @php
-    $customize = $customize($error);
+    $customize = $customization($error);
 
     $customize['main'] ??= $customMainClasses($error);
     $customize['label'] ??= $customLabelClasses();

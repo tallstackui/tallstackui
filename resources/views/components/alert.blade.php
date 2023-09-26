@@ -12,7 +12,7 @@
             <h3 @class($customize['title.base'])>{{ $title }}</h3>
             @if ($closeable)
                 <div @class($customize['title.icon.wrapper'])>
-                    <button x-on:click="show = false">
+                    <button id="close" x-on:click="show = false">
                         <x-icon icon="x-mark" @class($customize['title.icon.classes']) />
                     </button>
                 </div>
@@ -25,7 +25,7 @@
         </div>
         @if (!$title && $closeable)
             <div @class($customize['text.title.icon.wrapper'])>
-                <button x-on:click="show = false">
+                <button id="close" x-on:click="show = false">
                     <x-icon icon="x-mark" @class($customize['text.title.icon.classes']) />
                 </button>
             </div>
