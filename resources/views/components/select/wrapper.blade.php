@@ -44,7 +44,7 @@
                                  class="px-10" 
                         />
                         <button type="button"
-                                class="absolute inset-y-0 right-0 flex cursor-pointer items-center px-2 pr-4"
+                                class="absolute inset-y-0 right-2 flex cursor-pointer items-center px-2"
                                 x-on:click="search = ''; $refs.search.focus();"
                                 x-show="search.length > 0"
                         >
