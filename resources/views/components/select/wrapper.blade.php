@@ -32,9 +32,9 @@
             </div>
         </div>
         <div class="relative">
-            <div x-show="show" class="absolute z-50 mt-1 w-full rounded-lg bg-white px-2 shadow-lg ring-1 ring-black ring-opacity-5">
+            <div x-show="show" class="absolute z-50 mt-1 w-full rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5">
                 <template x-if="searchable">
-                    <div class="relative">
+                    <div class="relative px-2">
                         <div class="pointer-events-none absolute inset-y-0 flex items-center px-2 z-[51]">
                            <x-icon name="magnifying-glass" class="h-5 w-5 text-secondary-500" />
                         </div>
@@ -43,18 +43,16 @@
                                  x-ref="search"
                                  class="px-10" 
                         />
-                        <div class="pr-5">
-                            <button type="button"
-                                    class="absolute inset-y-0 right-0 flex cursor-pointer items-center px-2"
-                                    x-on:click="search = ''; $refs.search.focus();"
-                                    x-show="search.length > 0"
-                            >
-                                <x-icon name="x-mark" class="h-5 w-5 transition text-secondary-500 hover:text-red-500" />
-                            </button>
-                        </div>
+                        <button type="button"
+                                class="absolute inset-y-0 right-2 flex cursor-pointer items-center px-2"
+                                x-on:click="search = ''; $refs.search.focus();"
+                                x-show="search.length > 0"
+                        >
+                            <x-icon name="x-mark" class="h-5 w-5 transition text-secondary-500 hover:text-red-500" />
+                        </button>
                     </div>
                 </template>
-                <ul wire:ignore class="z-50 mt-1 max-h-60 w-full overflow-auto bg-white py-1 text-base soft-scrollbar focus:outline-none sm:text-sm" id="options" role="listbox">
+                <ul wire:ignore class="z-50 mt-1 max-h-60 w-full overflow-auto bg-white rounded-b-lg text-base soft-scrollbar focus:outline-none sm:text-sm" id="options" role="listbox">
                     @if ($loading)
                         <div x-show="loading" class="flex items-center justify-center p-4 space-x-4">
                             <svg class="h-12 w-12 animate-spin text-primary-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -65,7 +63,7 @@
                     @endif
                     <template x-for="option in options" :key="option[selectable.label] ?? option">
                         <li x-on:click="select(option)"
-                            class="relative cursor-pointer select-none py-2 pr-2 text-gray-700 transition hover:bg-gray-100"
+                            class="relative cursor-pointer select-none py-2 px-2 text-gray-700 transition hover:bg-gray-100"
                             id="option-0"
                             role="option"
                             tabindex="-1"
