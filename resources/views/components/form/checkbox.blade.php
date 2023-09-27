@@ -1,8 +1,7 @@
 @php
-    $computed        = $attributes->whereStartsWith('wire:model')->first();
-    $error           = $errors->has($computed);
-    $personalization = \TasteUi\Facades\TasteUi::personalization('taste-ui::personalizations.form.checkbox')->toArray();
-    $customize       = tasteui_personalize($personalization, $customization($error));
+    $computed  = $attributes->whereStartsWith('wire:model')->first();
+    $error     = $errors->has($computed);
+    $customize = tasteui_personalization('form.checkbox', $customization($error));
 @endphp
 
 <x-taste-ui::form.wrapper.radio-toggle :$computed :$error :$label :$position :$id>

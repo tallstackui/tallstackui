@@ -1,7 +1,4 @@
-@php
-    $personalization = \TasteUi\Facades\TasteUi::personalization('taste-ui::personalizations.card')->toArray();
-    $customize = tasteui_personalize($personalization, $customization());
-@endphp
+@php($customize = tasteui_personalization('card', $customization()))
 
 <div @class($customize['wrapper.first'])>
     <div @class($customize['wrapper.second'])>

@@ -1,8 +1,7 @@
 @php
-    $computed        = $attributes->whereStartsWith('wire:model')->first();
-    $error           = $errors->has($computed);
-    $personalization = \TasteUi\Facades\TasteUi::personalization('taste-ui::personalizations.form.input')->toArray();
-    $customize       = tasteui_personalize($personalization, $customization($error));
+    $computed  = $attributes->whereStartsWith('wire:model')->first();
+    $error     = $errors->has($computed);
+    $customize = tasteui_personalization('form.input', $customization($error));
 @endphp
 
 <x-taste-ui::wrappers.form.input.wrapper :$computed :$error :$label :$hint>

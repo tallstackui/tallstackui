@@ -1,7 +1,4 @@
-@php
-    $personalization = \TasteUi\Facades\TasteUi::personalization('taste-ui::personalizations.errors')->toArray();
-    $customize = tasteui_personalize($personalization, $customization());
-@endphp
+@php($customize = tasteui_personalization('errors', $customization()))
 
 @if ($errors->count())
     <div @class($customize['base.wrapper.first'])>
@@ -11,7 +8,6 @@
                     {{ __($title, ['count' => $count($errors)]) }}
                 </span>
             </div>
-            {{-- TODO: body.wrapper --}}
             <div @class($customize['body.wrapper'])>
                 <ul @class($customize['body.list'])>
                     @foreach ($messages($errors) as $message)
