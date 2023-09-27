@@ -8,11 +8,11 @@ use Illuminate\View\Component;
 use TasteUi\Contracts\Customizable;
 use TasteUi\Facades\TasteUi;
 use TasteUi\Support\Elements\Color;
-use TasteUi\View\Components\Button\Traits\DefaultButtonCustomColorClasses;
+use TasteUi\View\Components\Button\Traits\DefaultButtonColorClasses;
 
 class Index extends Component implements Customizable
 {
-    use DefaultButtonCustomColorClasses;
+    use DefaultButtonColorClasses;
 
     public function __construct(
         public ?string $text = null,
@@ -43,38 +43,34 @@ class Index extends Component implements Customizable
     public function customization(bool $error = false): array
     {
         return [
-            'main' => $this->customMainClasses(),
-            'icon' => $this->customIconClasses(),
+            ...$this->tasteUiMainClasses(),
         ];
     }
 
-    public function customMainClasses(): string
+    public function tasteUiMainClasses(): array
     {
-        //TODO: black and white buttons
-        return Arr::toCssClasses([
-            'outline-none inline-flex justify-center items-center group ease-in font-semibold transition',
-            'focus:ring-2 focus:ring-offset-2 hover:shadow-sm disabled:opacity-50 disabled:cursor-not-allowed',
-            'gap-x-2' => $this->icon !== null,
-            'text-xs px-1 py-0.5' => $this->size === 'xs',
-            'text-sm px-2 py-1' => $this->size === 'sm',
-            'text-base px-4 py-2' => $this->size === 'md',
-            'text-base px-6 py-3' => $this->size === 'lg',
-            'rounded' => $this->square === null && $this->round === null,
-            'rounded-full' => $this->square === null && $this->round !== null,
-            $this->customColorClasses(),
-        ]);
-    }
-
-    public function customIconClasses(): string
-    {
-        return Arr::toCssClasses([
-            'w-2 h-2' => $this->size === 'xs' || $this->size === 'sm',
-            'w-3 h-3' => $this->size === 'md',
-            'w-5 h-5' => $this->size === 'lg',
-            TasteUi::colors()
-                ->when($this->style === 'solid', fn (Color $color) => $color->set('text', 'white'))
-                ->when($this->style === 'outline', fn (Color $color) => $color->set('text', $this->color, 500))
-                ->get(),
-        ]);
+        return Arr::dot([
+            'wrapper' => Arr::toCssClasses([
+                'outline-none inline-flex justify-center items-center group ease-in font-semibold transition',
+                'focus:ring-2 focus:ring-offset-2 hover:shadow-sm disabled:opacity-50 disabled:cursor-not-allowed',
+                'gap-x-2' => $this->icon !== null,
+                'text-xs px-1 py-0.5' => $this->size === 'xs',
+                'text-sm px-2 py-1' => $this->size === 'sm',
+                'text-base px-4 py-2' => $this->size === 'md',
+                'text-base px-6 py-3' => $this->size === 'lg',
+                'rounded' => $this->square === null && $this->round === null,
+                'rounded-full' => $this->square === null && $this->round !== null,
+                $this->tasteUiButtonColorClasses(),
+            ]),
+            'icon' => Arr::toCssClasses([
+                'w-2 h-2' => $this->size === 'xs' || $this->size === 'sm',
+                'w-3 h-3' => $this->size === 'md',
+                'w-5 h-5' => $this->size === 'lg',
+                TasteUi::colors()
+                    ->when($this->style === 'solid', fn (Color $color) => $color->set('text', 'white'))
+                    ->when($this->style === 'outline', fn (Color $color) => $color->set('text', $this->color, 500))
+                    ->get(),
+            ]),
+        ], 'main.');
     }
 }

@@ -1,17 +1,21 @@
 <?php
 
-namespace TasteUi\Support\Personalizations;
+namespace TasteUi\Support\Personalizations\Components;
 
 use Illuminate\Contracts\Support\Arrayable;
 use TasteUi\Support\Personalizations\Contracts\ShouldBePersonalized;
 use TasteUi\Support\Personalizations\Traits\ShareablePersonalization;
 
-class Tooltip implements Arrayable, ShouldBePersonalized
+class Errors implements Arrayable, ShouldBePersonalized
 {
     use ShareablePersonalization;
 
     public const EDITABLES = [
+        'main.base',
         'main.wrapper',
-        'main.icon',
+        'title.base',
+        'title.wrapper',
+        'body.lists',
+        'body.wrapper',
     ];
 }

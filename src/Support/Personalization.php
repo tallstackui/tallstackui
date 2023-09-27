@@ -8,12 +8,14 @@ use Illuminate\Support\Facades\View as Facade;
 use Illuminate\View\View;
 use InvalidArgumentException;
 use TasteUi\Contracts\Personalizable;
-use TasteUi\Support\Personalizations\Alert;
-use TasteUi\Support\Personalizations\Avatar;
-use TasteUi\Support\Personalizations\Badge;
-use TasteUi\Support\Personalizations\Card;
-use TasteUi\Support\Personalizations\Errors;
-use TasteUi\Support\Personalizations\Tooltip;
+use TasteUi\Support\Personalizations\Components\Alert;
+use TasteUi\Support\Personalizations\Components\Avatar;
+use TasteUi\Support\Personalizations\Components\Badge;
+use TasteUi\Support\Personalizations\Components\Button\Circle;
+use TasteUi\Support\Personalizations\Components\Button\Index;
+use TasteUi\Support\Personalizations\Components\Card;
+use TasteUi\Support\Personalizations\Components\Errors;
+use TasteUi\Support\Personalizations\Components\Tooltip;
 
 class Personalization implements Arrayable
 {
@@ -41,6 +43,14 @@ class Personalization implements Arrayable
         'taste-ui::personalizations.avatar' => [
             'personalize' => Avatar::class,
             'component' => 'taste-ui::components.avatar',
+        ],
+        'taste-ui::personalizations.button' => [
+            'personalize' => Index::class,
+            'component' => 'taste-ui::components.button',
+        ],
+        'taste-ui::personalizations.button.circle' => [
+            'personalize' => Circle::class,
+            'component' => 'taste-ui::components.button.circle',
         ],
     ];
 

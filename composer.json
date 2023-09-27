@@ -44,7 +44,7 @@
         "format": "./vendor/bin/pint",
         "analyse": "./vendor/bin/phpstan analyse --memory-limit=2G",
         "ci": [
-            "./vendor/bin/pest --test",
+            "./vendor/bin/pest",
             "CI=true ./vendor/bin/pint --test",
             "./vendor/bin/phpstan analyse --memory-limit=2G"
         ]

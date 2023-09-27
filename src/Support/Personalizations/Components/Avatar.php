@@ -1,6 +1,6 @@
 <?php
 
-namespace TasteUi\Support\Personalizations;
+namespace TasteUi\Support\Personalizations\Components;
 
 use Illuminate\Contracts\Support\Arrayable;
 use TasteUi\Support\Personalizations\Contracts\ShouldBePersonalized;
