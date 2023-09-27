@@ -30,21 +30,18 @@ class Password extends Component implements Customizable
     public function customization(bool $error = false): array
     {
         return [
-            'main' => $this->customMainClasses($error),
-            'icon' => $this->customIconClasses($error),
+            ...$this->tasteUiMainClasses($error),
         ];
     }
 
-    public function customMainClasses(bool $error = false): string
+    public function tasteUiMainClasses(bool $error = false): array
     {
-        return $this->tasteUiInputClasses($error);
-    }
-
-    public function customIconClasses(bool $error = false): array
-    {
-        return [
-            'wrapper' => 'absolute inset-y-0 right-0 flex items-center pr-2.5',
-            'class' => Arr::toCssClasses(['h-5 w-5', 'text-gray-400' => ! $error]),
-        ];
+        return Arr::dot([
+            'base' => $this->tasteUiInputClasses($error),
+            'icon' => [
+                'wrapper' => 'absolute inset-y-0 right-0 flex items-center pr-2.5',
+                'class' => Arr::toCssClasses(['h-5 w-5', 'text-gray-400' => ! $error]),
+            ],
+        ], 'main.');
     }
 }
