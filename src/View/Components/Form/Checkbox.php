@@ -30,19 +30,21 @@ class Checkbox extends Component implements Customizable
     public function customization(bool $error = false): array
     {
         return [
-            'main' => $this->customMainClasses($error),
+            ...$this->tasteUiMainClasses(),
         ];
     }
 
-    public function customMainClasses(bool $error = false): string
+    public function tasteUiMainClasses(bool $error = false): array
     {
-        return Arr::toCssClasses([
-            'form-checkbox rounded transition ease-in-out duration-100',
-            'border-secondary-300 text-primary-600 focus:ring-primary-600 focus:border-primary-400' => ! $error,
-            'border-red-300 text-red-600 focus:ring-red-600 focus:border-red-400' => $error,
-            'w-5 h-5' => $this->size === 'md',
-            'w-6 h-6' => $this->size === 'lg',
-        ]);
+        return Arr::dot([
+            'base' => Arr::toCssClasses([
+                'form-checkbox rounded transition ease-in-out duration-100',
+                'border-secondary-300 text-primary-600 focus:ring-primary-600 focus:border-primary-400' => ! $error,
+                'border-red-300 text-red-600 focus:ring-red-600 focus:border-red-400' => $error,
+                'w-5 h-5' => $this->size === 'md',
+                'w-6 h-6' => $this->size === 'lg',
+            ]),
+        ], 'main.');
     }
 
     /**
