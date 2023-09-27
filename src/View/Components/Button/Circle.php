@@ -14,6 +14,7 @@ class Circle extends Component implements Customizable
 {
     use DefaultButtonColorClasses;
 
+    //TODO: support a tag
     public function __construct(
         public ?string $text = null,
         public ?string $icon = null,
