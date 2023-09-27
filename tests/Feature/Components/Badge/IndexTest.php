@@ -46,7 +46,7 @@ it('can personalize', function () {
         ->assertDontSee('px-4');
 
     TasteUi::personalization('taste-ui::personalizations.badge')
-        ->block('main', function (array $data) {
+        ->block('base', function (array $data) {
             return Arr::toCssClasses([
                 'outline-none inline-flex items-center border px-4 py-0.5 font-bold',
                 'text-xs' => $data['size'] === 'sm',
