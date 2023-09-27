@@ -72,3 +72,31 @@ it('can personalize', function () {
         ->assertSee('rounded-full')
         ->assertDontSee('rounded-md');
 });
+
+it('cannot personalize wrong block', function () {
+    $this->expectException(InvalidArgumentException::class);
+
+    $this->blade('<x-alert text="Bar foo" />')
+        ->assertSee('Bar foo')
+        ->assertSee('bg-primary-400')
+        ->assertDontSee('rounded-full');
+
+    TasteUi::personalization('taste-ui::personalizations.alert')
+        ->block('foo-bar', function (array $data) {
+            return Arr::toCssClasses([
+                'rounded-full p-4',
+                TasteUi::colors()
+                    ->set('bg', $data['color'], 400)
+                    ->get() => ! $data['translucent'],
+                TasteUi::colors()
+                    ->set('bg', $data['color'], 100)
+                    ->get() => $data['translucent'],
+            ]);
+        });
+
+    $this->blade('<x-alert text="Bar foo" />')
+        ->assertSee('Bar foo')
+        ->assertSee('bg-primary-400')
+        ->assertSee('rounded-full')
+        ->assertDontSee('rounded-md');
+});

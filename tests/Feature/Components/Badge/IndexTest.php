@@ -70,3 +70,37 @@ it('can personalize', function () {
         ->assertSee('px-4')
         ->assertDontSee('px-2');
 });
+
+it('cannot personalize wrong block', function () {
+    $this->expectException(InvalidArgumentException::class);
+
+    $this->blade('<x-badge text="Bar foo" />')
+        ->assertSee('Bar foo')
+        ->assertSee('bg-primary-500')
+        ->assertDontSee('px-4');
+
+    TasteUi::personalization('taste-ui::personalizations.badge')
+        ->block('foo-bar', function (array $data) {
+            return Arr::toCssClasses([
+                'outline-none inline-flex items-center border px-4 py-0.5 font-bold',
+                'text-xs' => $data['size'] === 'sm',
+                'text-sm' => $data['size'] === 'md',
+                'text-md' => $data['size'] === 'lg',
+                'text-white' => $data['style'] === 'solid',
+                'rounded-md' => $data['square'] === null,
+                TasteUi::colors()
+                    ->set('border', $data['color'], 500)
+                    ->mergeWhen($data['style'] === 'solid', 'bg', $data['color'], 500)
+                    ->get(),
+                TasteUi::colors()
+                    ->set('text', $data['color'], 500)
+                    ->get() => $data['style'] === 'outline',
+            ]);
+        });
+
+    $this->blade('<x-badge text="Bar foo" />')
+        ->assertSee('Bar foo')
+        ->assertSee('bg-primary-500')
+        ->assertSee('px-4')
+        ->assertDontSee('px-2');
+});
