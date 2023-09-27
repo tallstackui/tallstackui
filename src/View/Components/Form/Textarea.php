@@ -6,11 +6,11 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
 use TasteUi\Contracts\Customizable;
-use TasteUi\View\Components\Form\Traits\DefaultInputBaseClass;
+use TasteUi\View\Components\Form\Traits\DefaultInputClasses;
 
 class Textarea extends Component implements Customizable
 {
-    use DefaultInputBaseClass;
+    use DefaultInputClasses;
 
     public function __construct(
         public ?string $id = null,
@@ -37,7 +37,7 @@ class Textarea extends Component implements Customizable
     public function customMainClasses(bool $error = false): string
     {
         return Arr::toCssClasses([
-            $this->baseInputClass($error),
+            $this->tasteUiInputClasses($error),
             'resize-none' => $this->resize === null || $this->resize === 'none',
         ]);
     }

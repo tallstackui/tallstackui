@@ -4,9 +4,9 @@ namespace TasteUi\View\Components\Form\Traits;
 
 use Illuminate\Support\Arr;
 
-trait DefaultInputBaseClass
+trait DefaultInputClasses
 {
-    private function baseInputClass(bool $error = false): string
+    private function tasteUiInputClasses(bool $error = false): string
     {
         return Arr::toCssClasses([
             'block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300',

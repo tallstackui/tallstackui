@@ -15,6 +15,7 @@ use TasteUi\Support\Personalizations\Components\Button\Circle;
 use TasteUi\Support\Personalizations\Components\Button\Index;
 use TasteUi\Support\Personalizations\Components\Card;
 use TasteUi\Support\Personalizations\Components\Errors;
+use TasteUi\Support\Personalizations\Components\Form\Input;
 use TasteUi\Support\Personalizations\Components\Tooltip;
 
 class Personalization implements Arrayable
@@ -51,6 +52,10 @@ class Personalization implements Arrayable
         'taste-ui::personalizations.button.circle' => [
             'personalize' => Circle::class,
             'component' => 'taste-ui::components.button.circle',
+        ],
+        'taste-ui::personalizations.form.input' => [
+            'personalize' => Input::class,
+            'component' => 'taste-ui::components.input',
         ],
     ];
 
