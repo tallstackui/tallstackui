@@ -10,5 +10,5 @@ class Badge implements Arrayable, ShouldBePersonalized
 {
     use ShareablePersonalization;
 
-    public const EDITABLES = ['main'];
+    public const EDITABLES = ['base'];
 }

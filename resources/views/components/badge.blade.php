@@ -3,6 +3,6 @@
     $customize = tasteui_personalize($personalization, $customization());
 @endphp
 
-<span {{ $attributes->class($customize['main']) }}>
+<span {{ $attributes->class($customize['base']) }}>
     {{ $text ?? $slot }}
 </span>

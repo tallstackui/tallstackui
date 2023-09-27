@@ -36,26 +36,28 @@ class Badge extends Component implements Customizable
     public function customization(bool $error = false): array
     {
         return [
-            'main' => $this->tasteUiMainClasses(),
+            ...$this->tasteUiMainClasses(),
         ];
     }
 
-    public function tasteUiMainClasses(): string
+    public function tasteUiMainClasses(): array
     {
-        return Arr::toCssClasses([
-            'outline-none inline-flex items-center border px-2 py-0.5 font-bold',
-            'text-xs' => $this->size === 'sm',
-            'text-sm' => $this->size === 'md',
-            'text-md' => $this->size === 'lg',
-            'text-white' => $this->style === 'solid',
-            'rounded-md' => $this->square === null,
-            TasteUi::colors()
-                ->set('border', $this->color, 500)
-                ->mergeWhen($this->style === 'solid', 'bg', $this->color, 500)
-                ->get(),
-            TasteUi::colors()
-                ->set('text', $this->color, 500)
-                ->get() => $this->style === 'outline',
+        return Arr::dot([
+            'base' => Arr::toCssClasses([
+                'outline-none inline-flex items-center border px-2 py-0.5 font-bold',
+                'text-xs' => $this->size === 'sm',
+                'text-sm' => $this->size === 'md',
+                'text-md' => $this->size === 'lg',
+                'text-white' => $this->style === 'solid',
+                'rounded-md' => $this->square === null,
+                TasteUi::colors()
+                    ->set('border', $this->color, 500)
+                    ->mergeWhen($this->style === 'solid', 'bg', $this->color, 500)
+                    ->get(),
+                TasteUi::colors()
+                    ->set('text', $this->color, 500)
+                    ->get() => $this->style === 'outline',
+            ]),
         ]);
     }
 }
