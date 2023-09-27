@@ -12,12 +12,12 @@ class Tooltip extends Component implements Customizable
 {
     public function __construct(
         public ?string $text = null,
-        public ?string $icon = null,
+        public ?string $icon = 'question-mark-circle',
         public string $color = 'primary',
         public ?string $sm = null,
         public ?string $md = null,
         public ?string $lg = null,
-        public ?bool $solid = null,
+        public bool $solid = true,
         public ?string $size = null,
         public ?string $position = 'top',
     ) {
@@ -32,19 +32,22 @@ class Tooltip extends Component implements Customizable
     public function customization(bool $error = false): array
     {
         return [
-            'main' => $this->customMainClasses(),
+            ...$this->tasteUiMainClasses(),
         ];
     }
 
-    public function customMainClasses(): string
+    public function tasteUiMainClasses(): array
     {
-        return Arr::toCssClasses([
-            'h-5 w-5' => $this->size === 'sm',
-            'h-6 w-6' => $this->size === 'md',
-            'h-7 w-7' => $this->size === 'lg',
-            TasteUi::colors()
-                ->set('text', $this->color, 500)
-                ->get(),
-        ]);
+        return Arr::dot([
+            'wrapper' => 'inline-flex',
+            'icon' => Arr::toCssClasses([
+                'h-5 w-5' => $this->size === 'sm',
+                'h-6 w-6' => $this->size === 'md',
+                'h-7 w-7' => $this->size === 'lg',
+                TasteUi::colors()
+                    ->set('text', $this->color, 500)
+                    ->get(),
+            ]),
+        ], 'main.');
     }
 }

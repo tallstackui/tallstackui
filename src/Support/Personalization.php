@@ -12,6 +12,7 @@ use TasteUi\Support\Personalizations\Alert;
 use TasteUi\Support\Personalizations\Badge;
 use TasteUi\Support\Personalizations\Card;
 use TasteUi\Support\Personalizations\Errors;
+use TasteUi\Support\Personalizations\Tooltip;
 
 class Personalization implements Arrayable
 {
@@ -31,6 +32,10 @@ class Personalization implements Arrayable
         'taste-ui::personalizations.errors' => [
             'personalize' => Errors::class,
             'component' => 'taste-ui::components.errors',
+        ],
+        'taste-ui::personalizations.tooltip' => [
+            'personalize' => Tooltip::class,
+            'component' => 'taste-ui::components.tooltip',
         ],
     ];
 
