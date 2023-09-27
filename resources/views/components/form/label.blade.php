@@ -1,12 +1,10 @@
 @php
-    $customize = $customization($error);
-
-    $customize['main'] ??= $customMainClasses($error);
-    $customize['label'] ??= $customLabelClasses();
+    $personalization = \TasteUi\Facades\TasteUi::personalization('taste-ui::personalizations.form.label')->toArray();
+    $customize       = tasteui_personalize($personalization, $customization($error));
 @endphp
 
-<div @class($customize['label'])>
-    <label @if ($for) for="{{ $for }}" @endif {{ $attributes->class($customize['main']) }}>
+<div @class($customize['main.wrapper'])>
+    <label @if ($for) for="{{ $for }}" @endif {{ $attributes->class($customize['main.text']) }}>
         {{ $text ?? $label ?? $slot }}
     </label>
 </div>

@@ -26,22 +26,19 @@ class Label extends Component implements Customizable
     public function customization(bool $error = false): array
     {
         return [
-            'main' => $this->customMainClasses($error),
-            'label' => $this->customLabelClasses(),
+            ...$this->tasteUiMainClasses($error),
         ];
     }
 
-    public function customMainClasses(bool $error = false): string
+    public function tasteUiMainClasses(bool $error = false): array
     {
-        return Arr::toCssClasses([
-            'mb-1 flex justify-between',
-            'text-gray-700' => ! $error,
-            'text-red-600' => $error,
-        ]);
-    }
-
-    public function customLabelClasses(): string
-    {
-        return 'block text-sm font-medium';
+        return Arr::dot([
+            'wrapper' => Arr::toCssClasses([
+                'mb-1 flex justify-between',
+                'text-gray-700' => ! $error,
+                'text-red-600' => $error,
+            ]),
+            'text' => 'block text-sm font-medium',
+        ], 'main.');
     }
 }

@@ -17,6 +17,7 @@ use TasteUi\Support\Personalizations\Components\Card;
 use TasteUi\Support\Personalizations\Components\Errors;
 use TasteUi\Support\Personalizations\Components\Form\Checkbox;
 use TasteUi\Support\Personalizations\Components\Form\Input;
+use TasteUi\Support\Personalizations\Components\Form\Label;
 use TasteUi\Support\Personalizations\Components\Tooltip;
 
 class Personalization implements Arrayable
@@ -57,6 +58,10 @@ class Personalization implements Arrayable
         'taste-ui::personalizations.form.input' => [
             'personalize' => Input::class,
             'component' => 'taste-ui::components.input',
+        ],
+        'taste-ui::personalizations.form.label' => [
+            'personalize' => Label::class,
+            'component' => 'taste-ui::components.label',
         ],
         'taste-ui::personalizations.form.checkbox' => [
             'personalize' => Checkbox::class,
