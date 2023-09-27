@@ -11,6 +11,7 @@ use TasteUi\Contracts\Personalizable;
 use TasteUi\Support\Personalizations\Alert;
 use TasteUi\Support\Personalizations\Badge;
 use TasteUi\Support\Personalizations\Card;
+use TasteUi\Support\Personalizations\Errors;
 
 class Personalization implements Arrayable
 {
@@ -26,6 +27,10 @@ class Personalization implements Arrayable
         'taste-ui::personalizations.card' => [
             'personalize' => Card::class,
             'component' => 'taste-ui::components.card',
+        ],
+        'taste-ui::personalizations.errors' => [
+            'personalize' => Errors::class,
+            'component' => 'taste-ui::components.errors',
         ],
     ];
 
