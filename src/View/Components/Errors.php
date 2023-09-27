@@ -27,70 +27,51 @@ class Errors extends Component implements Customizable
     public function customization(bool $error = false): array
     {
         return [
-            ...$this->tasteUiBodyClasses(),
             ...$this->tasteUiMainClasses(),
-            ...$this->tasteUiTitleClasses(),
         ];
     }
 
     public function tasteUiMainClasses(): array
     {
         return Arr::dot([
-            'base' => 'p-4 w-full',
-            'wrapper' => Arr::toCssClasses([
-                'rounded-lg p-4',
-                TasteUi::colors()
-                    ->set('bg', $this->color, 50)
-                    ->get(),
-            ]),
-        ], 'main.');
-    }
-
-    public function tasteUiTitleClasses(): array
-    {
-        return Arr::dot([
-            'base' => Arr::toCssClasses([
-                'text-sm font-semibold',
-                TasteUi::colors()
-                    ->set('text', $this->color, 800)
-                    ->get(),
-            ]),
-            'wrapper' => Arr::toCssClasses([
-                'flex items-center border-b-2 pb-3',
-                TasteUi::colors()
-                    ->set('text', $this->color, 800)
-                    ->get(),
-                TasteUi::colors()
-                    ->set('border', $this->color, 200)
-                    ->get(),
-            ]),
-        ], 'title.');
-    }
-
-    public function customTitleWrapperClasses(): string
-    {
-        return Arr::toCssClasses([
-            'flex items-center border-b-2 pb-3',
-            TasteUi::colors()
-                ->set('text', $this->color, 800)
-                ->get(),
-            TasteUi::colors()
-                ->set('border', $this->color, 200)
-                ->get(),
+            'base' => [
+                'wrapper' => [
+                    'first' => 'p-4 w-full',
+                    'second' => Arr::toCssClasses([
+                        'rounded-lg p-4',
+                        TasteUi::colors()
+                            ->set('bg', $this->color, 50)
+                            ->get(),
+                    ]),
+                ],
+            ],
+            'title' => [
+                'base' => Arr::toCssClasses([
+                    'text-sm font-semibold',
+                    TasteUi::colors()
+                        ->set('text', $this->color, 800)
+                        ->get(),
+                ]),
+                'wrapper' => Arr::toCssClasses([
+                    'flex items-center border-b-2 pb-3',
+                    TasteUi::colors()
+                        ->set('text', $this->color, 800)
+                        ->get(),
+                    TasteUi::colors()
+                        ->set('border', $this->color, 200)
+                        ->get(),
+                ]),
+            ],
+            'body' => [
+                'list' => Arr::toCssClasses([
+                    'list-disc text-sm space-y-1',
+                    TasteUi::colors()
+                        ->set('text', $this->color, 800)
+                        ->get(),
+                ]),
+                'wrapper' => 'mt-2 ml-5 pl-1',
+            ],
         ]);
-    }
-
-    public function tasteUiBodyClasses(): array
-    {
-        return Arr::dot([
-            'list' => Arr::toCssClasses([
-                'list-disc text-sm space-y-1',
-                TasteUi::colors()
-                    ->set('text', $this->color, 800)
-                    ->get(),
-            ]),
-            'wrapper' => 'mt-2 ml-5 pl-1',
-        ], 'body.');
     }
 
     public function messages(ViewErrorBag $errors): array

@@ -1,11 +1,11 @@
 @php
-    $personalization = \TasteUi\Facades\TasteUi::personalization('taste-ui::personalizations.alert')->toArray();
+    $personalization = \TasteUi\Facades\TasteUi::personalization('taste-ui::personalizations.errors')->toArray();
     $customize = tasteui_personalize($personalization, $customization());
 @endphp
 
 @if (($count = $errors->count()) > 0)
-    <div @class($customize['main.base'])>
-        <div {{ $attributes->class($customize['main.wrapper']) }}>
+    <div @class($customize['base.wrapper.first'])>
+        <div {{ $attributes->class($customize['base.wrapper.second']) }}>
             <div @class($customize['title.wrapper'])>
                 <span @class($customize['title.base'])>
                     {{ __($title, ['count' => $count]) }}

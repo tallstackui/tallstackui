@@ -11,11 +11,11 @@ class Errors implements Arrayable, ShouldBePersonalized
     use ShareablePersonalization;
 
     public const EDITABLES = [
-        'main.base',
-        'main.wrapper',
+        'base.wrapper.first',
+        'base.wrapper.second',
         'title.base',
         'title.wrapper',
-        'body.lists',
+        'body.list',
         'body.wrapper',
     ];
 }
