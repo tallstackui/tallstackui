@@ -23,6 +23,7 @@ use TasteUi\Support\Personalizations\Components\Form\Password;
 use TasteUi\Support\Personalizations\Components\Form\Radio;
 use TasteUi\Support\Personalizations\Components\Form\Textarea;
 use TasteUi\Support\Personalizations\Components\Form\Toggle;
+use TasteUi\Support\Personalizations\Components\Hint;
 use TasteUi\Support\Personalizations\Components\Tooltip;
 
 class Personalization implements Arrayable
@@ -39,6 +40,10 @@ class Personalization implements Arrayable
         'taste-ui::personalizations.card' => [
             'personalize' => Card::class,
             'component' => 'taste-ui::components.card',
+        ],
+        'taste-ui::personalizations.hint' => [
+            'personalize' => Hint::class,
+            'component' => 'taste-ui::components.hint',
         ],
         'taste-ui::personalizations.error' => [
             'personalize' => Error::class,

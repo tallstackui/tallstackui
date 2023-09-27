@@ -8,9 +8,7 @@
         {!! $slot !!}
     </div>
     @if ($hint && !$error)
-        <span @class(config('tasteui.wrappers.form.input.span'))>
-            {{ $hint }}
-        </span>
+        <x-hint :$hint />
     @endif
     <x-error :$computed :$error />
 </div>

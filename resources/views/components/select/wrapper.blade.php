@@ -89,9 +89,7 @@
         </div>
     </div>
     @if ($hint && !$error)
-    <span class="mt-2 text-sm text-secondary-500">
-        {{ $hint }}
-    </span>
+        <x-hint :$hint />
     @endif
     @error ($computed)
         <x-error :$computed :$error />

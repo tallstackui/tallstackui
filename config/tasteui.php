@@ -33,6 +33,7 @@ return [
         'badge' => Components\Badge::class,
         'avatar' => Components\Avatar\Index::class,
         'avatar.modelable' => Components\Avatar\Modelable::class,
+        'hint' => Components\Hint::class,
         'error' => Components\Error::class,
         'errors' => Components\Errors::class,
         'tooltip' => Components\Tooltip::class,
@@ -51,7 +52,6 @@ return [
         'form' => [
             'input' => [
                 'div' => 'relative mt-2 rounded-md shadow-sm',
-                'span' => 'mt-2 text-sm text-secondary-500',
             ],
             'radio-toggle' => [
                 'span' => 'relative inline-flex cursor-pointer items-center',
