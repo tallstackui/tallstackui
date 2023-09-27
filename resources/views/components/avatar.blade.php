@@ -3,10 +3,10 @@
     $customize = tasteui_personalize($personalization, $customization());
 @endphp
 
-<div {{ $attributes->class($customize['main.wrapper']) }}>
+<div {{ $attributes->class($customize['wrapper']) }}>
     @if ($modelable)
-        <img @class($customize['main.content']) src="{{ $label ?? $slot }}" alt="{{ $alt() }}" />
+        <img @class($customize['content']) src="{{ $label ?? $slot }}" alt="{{ $alt() }}" />
     @else
-        <span @class($customize['main.content'])>{{ $label ?? $slot }}</span>
+        <span @class($customize['content'])>{{ $label ?? $slot }}</span>
     @endif
 </div>

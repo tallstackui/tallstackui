@@ -61,6 +61,6 @@ class Index extends Component implements Customizable
                 /* text */
                 false => 'font-semibold text-white',
             },
-        ], 'main.');
+        ]);
     }
 }

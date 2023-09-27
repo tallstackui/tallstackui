@@ -11,7 +11,7 @@ class Avatar implements Arrayable, ShouldBePersonalized
     use ShareablePersonalization;
 
     public const EDITABLES = [
-        'main.wrapper',
-        'main.content',
+        'wrapper',
+        'content',
     ];
 }
