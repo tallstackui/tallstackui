@@ -47,14 +47,18 @@ return [
         'dialog' => Components\Interactions\Dialog::class,
     ],
 
-    // TODO: Remove this and adapt to the new concept of personalization
     'wrappers' => [
         'form' => [
             'input' => [
                 'div' => 'relative mt-2 rounded-md shadow-sm',
             ],
             'radio-toggle' => [
-                'span' => 'relative inline-flex cursor-pointer items-center',
+                'div' => 'flex items-center',
+                'label' => [
+                    'span' => 'mr-2 text-sm',
+                    'p' => 'font-medium text-gray-700'
+                ],
+                'slot' => 'relative inline-flex cursor-pointer items-center',
             ],
         ],
     ],
