@@ -48,6 +48,6 @@ class Tooltip extends Component implements Customizable
                     ->set('text', $this->color, 500)
                     ->get(),
             ]),
-        ], 'main.');
+        ]);
     }
 }
