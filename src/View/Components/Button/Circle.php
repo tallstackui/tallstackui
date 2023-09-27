@@ -14,13 +14,13 @@ class Circle extends Component implements Customizable
 {
     use DefaultButtonColorClasses;
 
-    //TODO: support a tag
     public function __construct(
         public ?string $text = null,
         public ?string $icon = null,
         public ?string $solid = null,
         public ?string $outline = null,
         public ?string $color = 'primary',
+        public ?string $href = null,
         private ?string $style = null,
     ) {
         $this->style = $this->outline ? 'outline' : 'solid';
