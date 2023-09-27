@@ -19,6 +19,7 @@ use TasteUi\Support\Personalizations\Components\Form\Checkbox;
 use TasteUi\Support\Personalizations\Components\Form\Input;
 use TasteUi\Support\Personalizations\Components\Form\Label;
 use TasteUi\Support\Personalizations\Components\Form\Password;
+use TasteUi\Support\Personalizations\Components\Form\Radio;
 use TasteUi\Support\Personalizations\Components\Tooltip;
 
 class Personalization implements Arrayable
@@ -71,6 +72,10 @@ class Personalization implements Arrayable
         'taste-ui::personalizations.form.checkbox' => [
             'personalize' => Checkbox::class,
             'component' => 'taste-ui::components.checkbox',
+        ],
+        'taste-ui::personalizations.form.radio' => [
+            'personalize' => Radio::class,
+            'component' => 'taste-ui::components.radio',
         ],
     ];
 
