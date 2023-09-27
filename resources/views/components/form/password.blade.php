@@ -1,4 +1,8 @@
-@php($customize = tasteui_personalization('form.password', $customization($error)))
+@php
+    $computed  = $attributes->whereStartsWith('wire:model')->first();
+    $error     = $errors->has($computed);
+    $customize = tasteui_personalization('form.password', $customization($error))
+@endphp
 
 <x-taste-ui::wrappers.form.input.wrapper :$computed :$error :$label :$hint password>
     <div @class($customize['icon.wrapper'])>

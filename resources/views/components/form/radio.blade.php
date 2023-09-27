@@ -1,4 +1,8 @@
-@php($customize = tasteui_personalization('form.radio', $customization($error)))
+@php
+    $computed  = $attributes->whereStartsWith('wire:model')->first();
+    $error     = $errors->has($computed);
+    $customize = tasteui_personalization('form.radio', $customization($error))
+@endphp
 
 <x-taste-ui::wrappers.form.radio-toggle.wrapper :$computed :$error :$label :$position :$id>
     <input @if ($id) id="{{ $id }}" @endif type="radio" {{ $attributes->class($customize['base']) }} @checked($checked)>

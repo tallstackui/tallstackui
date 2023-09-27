@@ -103,9 +103,12 @@ class Personalization implements Arrayable
         public ?string $component = null,
         public ?object $instance = null,
     ) {
+        // TODO: we need to refactor this to use only the "component index", for i.e: form.input -> taste-ui::personalizations.form.input
         if (! array_key_exists($this->component, self::COMPONENTS)) {
             throw new InvalidArgumentException("Personalization [$this->component] not found");
         }
+
+        // TODO: $this->component = 'taste-ui::personalizations.'.$this->component;
 
         $this->instance = app($this->component);
         $this->component = self::COMPONENTS[$this->component]['component'];
