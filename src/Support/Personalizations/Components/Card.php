@@ -11,7 +11,7 @@ class Card implements Arrayable, ShouldBePersonalized
     use ShareablePersonalization;
 
     public const EDITABLES = [
-        'main',
+        'base',
         'wrapper.first',
         'wrapper.second',
         'title.wrapper',
