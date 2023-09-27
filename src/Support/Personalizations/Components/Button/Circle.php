@@ -11,8 +11,8 @@ class Circle implements Arrayable, ShouldBePersonalized
     use ShareablePersonalization;
 
     public const EDITABLES = [
-        'main.base',
-        'main.wrapper',
-        'main.icon',
+        'base',
+        'wrapper',
+        'icon',
     ];
 }

@@ -11,7 +11,7 @@ class Index implements Arrayable, ShouldBePersonalized
     use ShareablePersonalization;
 
     public const EDITABLES = [
-        'main.wrapper',
-        'main.icon',
+        'wrapper',
+        'icon',
     ];
 }

@@ -3,12 +3,12 @@
     $customize = tasteui_personalize($personalization, $customization());
 @endphp
 
-<button type="button" role="button" {{ $attributes->class($customize['main.base']) }}>
-    <div @class($customize['main.wrapper'])>
+<button type="button" role="button" {{ $attributes->class($customize['base']) }}>
+    <div @class($customize['wrapper'])>
         @if ($icon)
             <x-icon :$icon
                     type="{{ config('tasteui.icon') ?? 'solid' }}"
-                    @class($customize['main.icon'])
+                    @class($customize['icon'])
             />
         @else
             {{ $text ?? $slot }}

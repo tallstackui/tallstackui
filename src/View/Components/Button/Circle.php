@@ -55,6 +55,6 @@ class Circle extends Component implements Customizable
                     ->when($this->style === 'outline', fn (Color $color) => $color->set('text', $this->color, 500))
                     ->get(),
             ]),
-        ], 'main.');
+        ]);
     }
 }
