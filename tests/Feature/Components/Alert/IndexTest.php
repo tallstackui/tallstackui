@@ -54,7 +54,7 @@ it('can personalize', function () {
         ->assertDontSee('rounded-full');
 
     TasteUi::personalization('taste-ui::personalizations.alert')
-        ->block('main', function (array $data) {
+        ->block('base', function (array $data) {
             return Arr::toCssClasses([
                 'rounded-full p-4',
                 TasteUi::colors()

@@ -3,7 +3,7 @@
     $customize = tasteui_personalize($personalization, $customization());
 @endphp
 
-<div @class($customize['main'])
+<div @class($customize['base'])
      x-data="{ show : true }"
      x-show="show"
      x-transition.delay.50ms>
