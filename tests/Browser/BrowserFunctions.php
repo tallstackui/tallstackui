@@ -43,7 +43,7 @@ trait BrowserFunctions
         Route::get('/tasteui-livewire/{component}', function (string $component) {
             $class = urldecode($component);
 
-            return app()->call(new $class());
+            return app()->call(app('livewire')->new($class));
         })->middleware('web');
     }
 }

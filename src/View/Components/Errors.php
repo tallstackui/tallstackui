@@ -74,6 +74,11 @@ class Errors extends Component implements Customizable
         ]);
     }
 
+    public function count(ViewErrorBag $errors): int
+    {
+        return count($this->messages($errors));
+    }
+
     public function messages(ViewErrorBag $errors): array
     {
         $messages = $errors->getMessages();
