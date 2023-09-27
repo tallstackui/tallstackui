@@ -27,7 +27,7 @@ class Errors extends Component implements Customizable
     public function customization(bool $error = false): array
     {
         return [
-            'body' => $this->tasteUiBodyClasses(),
+            ...$this->tasteUiBodyClasses(),
             ...$this->tasteUiMainClasses(),
             ...$this->tasteUiTitleClasses(),
         ];
@@ -80,14 +80,17 @@ class Errors extends Component implements Customizable
         ]);
     }
 
-    public function tasteUiBodyClasses(): string
+    public function tasteUiBodyClasses(): array
     {
-        return Arr::toCssClasses([
-            'list-disc text-sm space-y-1',
-            TasteUi::colors()
-                ->set('text', $this->color, 800)
-                ->get(),
-        ]);
+        return Arr::dot([
+            'list' => Arr::toCssClasses([
+                'list-disc text-sm space-y-1',
+                TasteUi::colors()
+                    ->set('text', $this->color, 800)
+                    ->get(),
+            ]),
+            'wrapper' => 'mt-2 ml-5 pl-1',
+        ], 'body.');
     }
 
     public function messages(ViewErrorBag $errors): array

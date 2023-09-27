@@ -15,6 +15,7 @@ class Errors implements Arrayable, ShouldBePersonalized
         'main.wrapper',
         'title.base',
         'title.wrapper',
-        'body'
+        'body.lists',
+        'body.wrapper',
     ];
 }

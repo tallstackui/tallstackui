@@ -12,8 +12,8 @@
                 </span>
             </div>
             {{-- TODO: body.wrapper --}}
-            <div class="mt-2 ml-5 pl-1">
-                <ul @class($customize['body'])>
+            <div @class($customize['body.wrapper'])>
+                <ul @class($customize['body.list'])>
                     @foreach ($messages($errors) as $message)
                         <li>{{ head($message) }}</li>
                     @endforeach
