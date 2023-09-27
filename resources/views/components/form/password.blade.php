@@ -5,7 +5,7 @@
     $customize       = tasteui_personalize($personalization, $customization($error));
 @endphp
 
-<x-taste-ui::form.wrapper.input :$computed :$error :$label :$hint password>
+<x-taste-ui::wrappers.form.input.wrapper :$computed :$error :$label :$hint password>
     <div @class($customize['icon.wrapper'])>
         <div class="cursor-pointer" x-on:click="show = !show">
             <x-icon name="eye" :$error @class($customize['icon.class']) x-show="!show" />
@@ -14,4 +14,4 @@
     </div>
 
     <input @if ($id) id="{{ $id }}" @endif {{ $attributes->class($customize['base']) }} :type="!show ? 'password' : 'text'">
-</x-taste-ui::form.wrapper.input>
+</x-taste-ui::wrappers.form.input.wrapper>

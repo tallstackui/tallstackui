@@ -5,7 +5,7 @@
     $customize       = tasteui_personalize($personalization, $customization($error));
 @endphp
 
-<x-taste-ui::form.wrapper.input :$computed :$error :$label :$hint>
+<x-taste-ui::wrappers.form.input.wrapper :$computed :$error :$label :$hint>
     @if ($icon)
         <div @class($customize['icon.wrapper'])>
             <x-icon :$icon :$error @class($customize['icon.size']) />
@@ -13,4 +13,4 @@
     @endif
 
     <input @if ($id) id="{{ $id }}" @endif {{ $attributes->class($customize['base']) }}>
-</x-taste-ui::form.wrapper.input>
+</x-taste-ui::wrappers.form.input.wrapper>
