@@ -53,11 +53,11 @@ class Personalization implements Arrayable
         ],
         'taste-ui::personalizations.button' => [
             'personalize' => Index::class,
-            'component' => 'taste-ui::components.button.index',
+            'component' => 'taste-ui::components.buttons.index',
         ],
         'taste-ui::personalizations.button.circle' => [
             'personalize' => Circle::class,
-            'component' => 'taste-ui::components.button.circle',
+            'component' => 'taste-ui::components.buttons.circle',
         ],
         'taste-ui::personalizations.form.input' => [
             'personalize' => Input::class,

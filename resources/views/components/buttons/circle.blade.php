@@ -6,10 +6,7 @@
 <button type="button" role="button" {{ $attributes->class($customize['base']) }}>
     <div @class($customize['wrapper'])>
         @if ($icon)
-            <x-icon :$icon
-                    type="{{ config('tasteui.icon') ?? 'solid' }}"
-                    @class($customize['icon'])
-            />
+            <x-icon :$icon @class($customize['icon']) />
         @else
             {{ $text ?? $slot }}
         @endif

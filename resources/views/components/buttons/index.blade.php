@@ -7,16 +7,12 @@
 
 <{{ $type }} @if ($href) href="{{ $href }}" @else type="button" role="button" @endif {{ $attributes->class($customize['wrapper']) }}>
     @if ($icon && $position === 'left')
-        <x-icon :$icon
-                type="{{ config('tasteui.icon') ?? 'solid' }}"
-                @class($customize['icon'])
+        <x-icon :$icon @class($customize['icon'])
         />
     @endif
     {{ $text ?? $slot }}
     @if ($icon && $position === 'right')
-        <x-icon :$icon
-                type="{{ config('tasteui.icon') ?? 'solid' }}"
-                @class($customize['icon'])
+        <x-icon :$icon @class($customize['icon'])
         />
     @endif
 </{{ $type }}>
