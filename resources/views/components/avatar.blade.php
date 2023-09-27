@@ -1,14 +1,12 @@
 @php
-    $customize = $customize();
-
-    $customize['main'] ??= $customMainClass();
-    $customize['content'] ??= $customContentClass();
+    $personalization = \TasteUi\Facades\TasteUi::personalization('taste-ui::personalizations.avatar')->toArray();
+    $customize = tasteui_personalize($personalization, $customization());
 @endphp
 
-<div {{ $attributes->class($customize['main']) }}>
+<div {{ $attributes->class($customize['main.wrapper']) }}>
     @if ($modelable)
-        <img @class($customize['content']) src="{{ $label ?? $slot }}" alt="{{ $alt() }}" />
+        <img @class($customize['main.content']) src="{{ $label ?? $slot }}" alt="{{ $alt() }}" />
     @else
-        <span @class($customize['content'])>{{ $label ?? $slot }}</span>
+        <span @class($customize['main.content'])>{{ $label ?? $slot }}</span>
     @endif
 </div>

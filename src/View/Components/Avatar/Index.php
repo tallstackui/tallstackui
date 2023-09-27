@@ -31,39 +31,36 @@ class Index extends Component implements Customizable
     public function customization(bool $error = false): array
     {
         return [
-            'main' => $this->customMainClass(),
-            'content' => $this->customContentClass(),
+            ...$this->tasteUiMainClasses(),
         ];
     }
 
-    public function customMainClass(): string
+    public function tasteUiMainClasses(): array
     {
-        return Arr::toCssClasses([
-            'inline-flex shrink-0 items-center justify-center overflow-hidden text-xl',
-            'w-8 h-8' => $this->size === 'sm',
-            'w-12 h-12' => $this->size === 'md',
-            'w-14 h-14' => $this->size === 'lg',
-            'rounded-full' => ! $this->square,
-            TasteUi::colors()
-                ->set('bg', $this->color, 500)
-                ->merge('border', $this->color, 500)
-                ->get() => ! $this->modelable,
-        ]);
-    }
-
-    public function customContentClass(): string
-    {
-        return match ($this->modelable) {
-            /* image */
-            true => Arr::toCssClasses([
-                'shrink-0 object-cover object-center text-xl',
+        return Arr::dot([
+            'wrapper' => Arr::toCssClasses([
+                'inline-flex shrink-0 items-center justify-center overflow-hidden text-xl',
                 'w-8 h-8' => $this->size === 'sm',
                 'w-12 h-12' => $this->size === 'md',
                 'w-14 h-14' => $this->size === 'lg',
                 'rounded-full' => ! $this->square,
+                TasteUi::colors()
+                    ->set('bg', $this->color, 500)
+                    ->merge('border', $this->color, 500)
+                    ->get() => ! $this->modelable,
             ]),
-            /* text */
-            false => 'font-semibold text-white',
-        };
+            'content' => match ($this->modelable) {
+                /* image */
+                true => Arr::toCssClasses([
+                    'shrink-0 object-cover object-center text-xl',
+                    'w-8 h-8' => $this->size === 'sm',
+                    'w-12 h-12' => $this->size === 'md',
+                    'w-14 h-14' => $this->size === 'lg',
+                    'rounded-full' => ! $this->square,
+                ]),
+                /* text */
+                false => 'font-semibold text-white',
+            },
+        ], 'main.');
     }
 }

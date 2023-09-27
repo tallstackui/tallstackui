@@ -9,6 +9,7 @@ use Illuminate\View\View;
 use InvalidArgumentException;
 use TasteUi\Contracts\Personalizable;
 use TasteUi\Support\Personalizations\Alert;
+use TasteUi\Support\Personalizations\Avatar;
 use TasteUi\Support\Personalizations\Badge;
 use TasteUi\Support\Personalizations\Card;
 use TasteUi\Support\Personalizations\Errors;
@@ -36,6 +37,10 @@ class Personalization implements Arrayable
         'taste-ui::personalizations.tooltip' => [
             'personalize' => Tooltip::class,
             'component' => 'taste-ui::components.tooltip',
+        ],
+        'taste-ui::personalizations.avatar' => [
+            'personalize' => Avatar::class,
+            'component' => 'taste-ui::components.avatar',
         ],
     ];
 
