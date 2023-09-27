@@ -38,7 +38,7 @@ class Tooltip extends Component implements Customizable
 
     public function tasteUiMainClasses(): array
     {
-        return Arr::dot([
+        return [
             'wrapper' => 'inline-flex',
             'icon' => Arr::toCssClasses([
                 'h-5 w-5' => $this->size === 'sm',
@@ -48,6 +48,6 @@ class Tooltip extends Component implements Customizable
                     ->set('text', $this->color, 500)
                     ->get(),
             ]),
-        ]);
+        ];
     }
 }

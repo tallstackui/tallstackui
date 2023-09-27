@@ -42,7 +42,7 @@ class Badge extends Component implements Customizable
 
     public function tasteUiMainClasses(): array
     {
-        return Arr::dot([
+        return [
             'base' => Arr::toCssClasses([
                 'outline-none inline-flex items-center border px-2 py-0.5 font-bold',
                 'text-xs' => $this->size === 'sm',
@@ -67,6 +67,6 @@ class Badge extends Component implements Customizable
                     ->set('text', $this->color, 500)
                     ->get() => $this->style === 'outline',
             ]),
-        ]);
+        ];
     }
 }

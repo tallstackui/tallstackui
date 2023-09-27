@@ -36,7 +36,7 @@ class Toggle extends Component implements Customizable
 
     public function tasteUiMainClasses(bool $error = false): array
     {
-        return Arr::dot([
+        return [
             'input' => Arr::toCssClasses([
                 'absolute mx-0.5 my-auto inset-y-0 left-0.5 rounded-full border-0',
                 'appearance-none translate-x-0 transform transition ease-in-out duration-200 cursor-pointer shadow',
@@ -54,6 +54,6 @@ class Toggle extends Component implements Customizable
                 'h-5 w-9' => $this->size === 'md',
                 'h-6 w-10' => $this->size === 'lg',
             ]),
-        ]);
+        ];
     }
 }

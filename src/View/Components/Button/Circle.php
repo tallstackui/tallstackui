@@ -40,7 +40,7 @@ class Circle extends Component implements Customizable
 
     public function tasteUiMainClasses(): array
     {
-        return Arr::dot([
+        return [
             'base' => Arr::toCssClasses([
                 'outline-none inline-flex justify-center items-center group transition ease-in duration-150 w-9 h-9',
                 'focus:ring-2 focus:ring-offset-2 hover:shadow-sm disabled:opacity-80 disabled:cursor-not-allowed rounded-full',
@@ -56,6 +56,6 @@ class Circle extends Component implements Customizable
                     ->when($this->style === 'outline', fn (Color $color) => $color->set('text', $this->color, 500))
                     ->get(),
             ]),
-        ]);
+        ];
     }
 }

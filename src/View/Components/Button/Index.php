@@ -49,7 +49,7 @@ class Index extends Component implements Customizable
 
     public function tasteUiMainClasses(): array
     {
-        return Arr::dot([
+        return [
             'wrapper' => Arr::toCssClasses([
                 'outline-none inline-flex justify-center items-center group ease-in font-semibold transition',
                 'focus:ring-2 focus:ring-offset-2 hover:shadow-sm disabled:opacity-50 disabled:cursor-not-allowed',
@@ -71,6 +71,6 @@ class Index extends Component implements Customizable
                     ->when($this->style === 'outline', fn (Color $color) => $color->set('text', $this->color, 500))
                     ->get(),
             ]),
-        ]);
+        ];
     }
 }

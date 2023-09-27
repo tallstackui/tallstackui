@@ -36,11 +36,11 @@ class Textarea extends Component implements Customizable
 
     public function tasteUiMainClasses(bool $error = false): array
     {
-        return Arr::dot([
+        return [
             'base' => Arr::toCssClasses([
                 $this->tasteUiInputClasses($error),
                 'resize-none' => $this->resize === null || $this->resize === 'none',
             ]),
-        ]);
+        ];
     }
 }

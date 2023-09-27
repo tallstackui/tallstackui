@@ -37,7 +37,7 @@ class Index extends Component implements Customizable
 
     public function tasteUiMainClasses(): array
     {
-        return Arr::dot([
+        return [
             'wrapper' => Arr::toCssClasses([
                 'inline-flex shrink-0 items-center justify-center overflow-hidden text-xl',
                 'w-8 h-8' => $this->size === 'sm',
@@ -61,6 +61,6 @@ class Index extends Component implements Customizable
                 /* text */
                 false => 'font-semibold text-white',
             },
-        ]);
+        ];
     }
 }
