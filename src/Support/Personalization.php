@@ -14,6 +14,7 @@ use TasteUi\Support\Personalizations\Components\Badge;
 use TasteUi\Support\Personalizations\Components\Button\Circle;
 use TasteUi\Support\Personalizations\Components\Button\Index;
 use TasteUi\Support\Personalizations\Components\Card;
+use TasteUi\Support\Personalizations\Components\Error;
 use TasteUi\Support\Personalizations\Components\Errors;
 use TasteUi\Support\Personalizations\Components\Form\Checkbox;
 use TasteUi\Support\Personalizations\Components\Form\Input;
@@ -38,6 +39,10 @@ class Personalization implements Arrayable
         'taste-ui::personalizations.card' => [
             'personalize' => Card::class,
             'component' => 'taste-ui::components.card',
+        ],
+        'taste-ui::personalizations.error' => [
+            'personalize' => Error::class,
+            'component' => 'taste-ui::components.error',
         ],
         'taste-ui::personalizations.errors' => [
             'personalize' => Errors::class,

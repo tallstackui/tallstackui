@@ -1,7 +1,12 @@
 @props(['computed', 'error'])
 
+@php
+    $personalization = \TasteUi\Facades\TasteUi::personalization('taste-ui::personalizations.error')->toArray();
+    $customize       = tasteui_personalize($personalization, $customization($error));
+@endphp
+
 @error ($computed)
-<span class="mt-2 text-sm text-red-500">
-    {{ $message }}
-</span>
+    <span @class($customize['base'])>
+        {{ $message }}
+    </span>
 @enderror

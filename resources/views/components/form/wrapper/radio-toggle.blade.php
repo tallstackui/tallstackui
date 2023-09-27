@@ -3,7 +3,7 @@
 <div>
     <div class="flex items-center">
         @if ($label && $position === 'left')
-            <span class="mr-2 text-sm">
+        <span class="mr-2 text-sm">
             <p class="font-medium text-gray-700">{{ $label }}</p>
         </span>
         @endif
@@ -11,10 +11,10 @@
             {!! $slot !!}
         </label>
         @if ($label && $position === 'right')
-            <span class="ml-2 text-sm">
+        <span class="ml-2 text-sm">
             <p class="font-medium text-gray-700">{{ $label }}</p>
         </span>
         @endif
     </div>
-    <x-taste-ui::error :$computed :$error />
+    <x-error :$computed :$error />
 </div>

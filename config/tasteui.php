@@ -33,6 +33,7 @@ return [
         'badge' => Components\Badge::class,
         'avatar' => Components\Avatar\Index::class,
         'avatar.modelable' => Components\Avatar\Modelable::class,
+        'error' => Components\Error::class,
         'errors' => Components\Errors::class,
         'tooltip' => Components\Tooltip::class,
         'button' => Components\Button\Index::class,

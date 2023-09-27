@@ -12,5 +12,5 @@
             {{ $hint }}
         </span>
     @endif
-    <x-taste-ui::error :$computed :$error />
+    <x-error :$computed :$error />
 </div>
