@@ -20,6 +20,7 @@ use TasteUi\Support\Personalizations\Components\Form\Input;
 use TasteUi\Support\Personalizations\Components\Form\Label;
 use TasteUi\Support\Personalizations\Components\Form\Password;
 use TasteUi\Support\Personalizations\Components\Form\Radio;
+use TasteUi\Support\Personalizations\Components\Form\Textarea;
 use TasteUi\Support\Personalizations\Components\Tooltip;
 
 class Personalization implements Arrayable
@@ -76,6 +77,10 @@ class Personalization implements Arrayable
         'taste-ui::personalizations.form.radio' => [
             'personalize' => Radio::class,
             'component' => 'taste-ui::components.radio',
+        ],
+        'taste-ui::personalizations.form.textarea' => [
+            'personalize' => Textarea::class,
+            'component' => 'taste-ui::components.textarea',
         ],
     ];
 

@@ -30,15 +30,17 @@ class Textarea extends Component implements Customizable
     public function customization(bool $error = false): array
     {
         return [
-            'main' => $this->customMainClasses($error),
+            ...$this->tasteUiMainClasses($error),
         ];
     }
 
-    public function customMainClasses(bool $error = false): string
+    public function tasteUiMainClasses(bool $error = false): array
     {
-        return Arr::toCssClasses([
-            $this->tasteUiInputClasses($error),
-            'resize-none' => $this->resize === null || $this->resize === 'none',
-        ]);
+        return Arr::dot([
+            'base' => Arr::toCssClasses([
+                $this->tasteUiInputClasses($error),
+                'resize-none' => $this->resize === null || $this->resize === 'none',
+            ]),
+        ], 'main.');
     }
 }
