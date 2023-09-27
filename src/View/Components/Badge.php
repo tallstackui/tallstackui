@@ -12,7 +12,6 @@ class Badge extends Component implements Customizable
 {
     public function __construct(
         public ?string $text = null,
-        // TODO: Add icon support
         public ?string $icon = null,
         public ?string $position = 'right',
         public ?string $md = null,
@@ -26,6 +25,7 @@ class Badge extends Component implements Customizable
     ) {
         $this->style = $this->outline ? 'outline' : 'solid';
         $this->size = $this->lg ? 'lg' : ($this->md ? 'md' : 'sm');
+        $this->position = $this->position === 'left' ? 'left' : 'right';
     }
 
     public function render(): View
@@ -54,6 +54,15 @@ class Badge extends Component implements Customizable
                     ->set('border', $this->color, 500)
                     ->mergeWhen($this->style === 'solid', 'bg', $this->color, 500)
                     ->get(),
+                TasteUi::colors()
+                    ->set('text', $this->color, 500)
+                    ->get() => $this->style === 'outline',
+            ]),
+            'icon' => Arr::toCssClasses([
+                'h-3 w-3',
+                'mr-1' => $this->position === 'left',
+                'ml-1' => $this->position === 'right',
+                'text-white' => $this->style === 'solid',
                 TasteUi::colors()
                     ->set('text', $this->color, 500)
                     ->get() => $this->style === 'outline',

@@ -41,6 +41,8 @@
         ],
         "test": "./vendor/bin/pest",
         "test:ci": "CI=true ./vendor/bin/pest",
+        "test:feature": "./vendor/bin/pest --filter=Feature",
+        "test:browser": "./vendor/bin/pest --filter=Browser",
         "format": "./vendor/bin/pint",
         "analyse": "./vendor/bin/phpstan analyse --memory-limit=2G",
         "ci": [

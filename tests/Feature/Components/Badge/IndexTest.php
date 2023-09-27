@@ -35,9 +35,19 @@ it('can render outline', function () {
         ->assertSee('border-primary-500 text-primary-500');
 });
 
-it('can render icon on left')->todo();
+it('can render icon on left', function () {
+    $this->blade('<x-badge icon="users" position="left" text="Foo bar" />')
+        ->assertSee('Foo bar')
+        ->assertSee('bg-primary-500')
+        ->assertSee('mr-1');
+});
 
-it('can render icon on right')->todo();
+it('can render icon on right', function () {
+    $this->blade('<x-badge icon="users" position="right" text="Foo bar" />')
+        ->assertSee('Foo bar')
+        ->assertSee('bg-primary-500')
+        ->assertSee('ml-1');
+});
 
 it('can personalize', function () {
     $this->blade('<x-badge text="Bar foo" />')
