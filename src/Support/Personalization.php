@@ -53,7 +53,7 @@ class Personalization implements Arrayable
         ],
         'taste-ui::personalizations.button' => [
             'personalize' => Index::class,
-            'component' => 'taste-ui::components.button',
+            'component' => 'taste-ui::components.button.index',
         ],
         'taste-ui::personalizations.button.circle' => [
             'personalize' => Circle::class,
@@ -61,31 +61,31 @@ class Personalization implements Arrayable
         ],
         'taste-ui::personalizations.form.input' => [
             'personalize' => Input::class,
-            'component' => 'taste-ui::components.input',
+            'component' => 'taste-ui::components.form.input',
         ],
         'taste-ui::personalizations.form.label' => [
             'personalize' => Label::class,
-            'component' => 'taste-ui::components.label',
+            'component' => 'taste-ui::components.form.label',
         ],
         'taste-ui::personalizations.form.password' => [
             'personalize' => Password::class,
-            'component' => 'taste-ui::components.password',
+            'component' => 'taste-ui::components.form.password',
         ],
         'taste-ui::personalizations.form.checkbox' => [
             'personalize' => Checkbox::class,
-            'component' => 'taste-ui::components.checkbox',
+            'component' => 'taste-ui::components.form.checkbox',
         ],
         'taste-ui::personalizations.form.radio' => [
             'personalize' => Radio::class,
-            'component' => 'taste-ui::components.radio',
+            'component' => 'taste-ui::components.form.radio',
         ],
         'taste-ui::personalizations.form.textarea' => [
             'personalize' => Textarea::class,
-            'component' => 'taste-ui::components.textarea',
+            'component' => 'taste-ui::components.form.textarea',
         ],
         'taste-ui::personalizations.form.toggle' => [
             'personalize' => Toggle::class,
-            'component' => 'taste-ui::components.toggle',
+            'component' => 'taste-ui::components.form.toggle',
         ],
     ];
 

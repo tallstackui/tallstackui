@@ -10,5 +10,5 @@ class Checkbox implements Arrayable, ShouldBePersonalized
 {
     use ShareablePersonalization;
 
-    public const EDITABLES = ['main.base'];
+    public const EDITABLES = ['base'];
 }

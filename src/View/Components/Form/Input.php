@@ -49,6 +49,6 @@ class Input extends Component implements Customizable
                 ]),
                 'size' => 'h-5 w-5',
             ],
-        ], 'main.');
+        ]);
     }
 }

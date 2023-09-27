@@ -11,7 +11,7 @@ class Toggle implements Arrayable, ShouldBePersonalized
     use ShareablePersonalization;
 
     public const EDITABLES = [
-        'main.input',
-        'main.base',
+        'input',
+        'base',
     ];
 }

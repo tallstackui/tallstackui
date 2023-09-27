@@ -39,6 +39,6 @@ class Label extends Component implements Customizable
                 'text-red-600' => $error,
             ]),
             'text' => 'block text-sm font-medium',
-        ], 'main.');
+        ]);
     }
 }

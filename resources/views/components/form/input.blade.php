@@ -7,10 +7,10 @@
 
 <x-taste-ui::form.wrapper.input :$computed :$error :$label :$hint>
     @if ($icon)
-        <div @class($customize['main.icon.wrapper'])>
-            <x-icon :$icon :$error @class($customize['main.icon.size']) />
+        <div @class($customize['icon.wrapper'])>
+            <x-icon :$icon :$error @class($customize['icon.size']) />
         </div>
     @endif
 
-    <input @if ($id) id="{{ $id }}" @endif {{ $attributes->class($customize['main.base']) }}>
+    <input @if ($id) id="{{ $id }}" @endif {{ $attributes->class($customize['base']) }}>
 </x-taste-ui::form.wrapper.input>

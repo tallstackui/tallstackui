@@ -54,6 +54,6 @@ class Toggle extends Component implements Customizable
                 'h-5 w-9' => $this->size === 'md',
                 'h-6 w-10' => $this->size === 'lg',
             ]),
-        ], 'main.');
+        ]);
     }
 }

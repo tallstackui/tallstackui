@@ -45,7 +45,7 @@ return [
         'dialog' => Components\Interactions\Dialog::class,
     ],
 
-    // TODO: Add description here...
+    // TODO: Remove this and adapt to the new concept of personalization
     'wrappers' => [
         'form' => [
             'input' => [

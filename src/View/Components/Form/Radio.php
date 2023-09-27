@@ -44,6 +44,6 @@ class Radio extends Component implements Customizable
                 'w-5 h-5' => $this->size === 'md',
                 'w-6 h-6' => $this->size === 'lg',
             ]),
-        ], 'main');
+        ]);
     }
 }

@@ -6,6 +6,6 @@
 @endphp
 
 <x-taste-ui::form.wrapper.radio-toggle :$computed :$error :$label :$position :$id>
-    <input @if ($id) id="{{ $id }}" @endif type="checkbox" {{ $attributes->class($customize['main.input']) }} @checked($checked)>
-    <div @class($customize['main.base'])></div>
+    <input @if ($id) id="{{ $id }}" @endif type="checkbox" {{ $attributes->class($customize['input']) }} @checked($checked)>
+    <div @class($customize['base'])></div>
 </x-taste-ui::form.wrapper.radio-toggle>

@@ -11,8 +11,8 @@ class Password implements Arrayable, ShouldBePersonalized
     use ShareablePersonalization;
 
     public const EDITABLES = [
-        'main.base',
-        'main.icon.wrapper',
-        'main.icon.classes',
+        'base',
+        'icon.wrapper',
+        'icon.classes',
     ];
 }

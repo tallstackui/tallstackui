@@ -11,8 +11,8 @@ class Input implements Arrayable, ShouldBePersonalized
     use ShareablePersonalization;
 
     public const EDITABLES = [
-        'main.base',
-        'main.icon.wrapper',
-        'main.icon.size',
+        'base',
+        'icon.wrapper',
+        'icon.size',
     ];
 }

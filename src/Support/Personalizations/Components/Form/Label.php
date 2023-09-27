@@ -11,7 +11,7 @@ class Label implements Arrayable, ShouldBePersonalized
     use ShareablePersonalization;
 
     public const EDITABLES = [
-        'main.wrapper',
-        'main.text',
+        'wrapper',
+        'text',
     ];
 }

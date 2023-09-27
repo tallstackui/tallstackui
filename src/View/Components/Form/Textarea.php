@@ -41,6 +41,6 @@ class Textarea extends Component implements Customizable
                 $this->tasteUiInputClasses($error),
                 'resize-none' => $this->resize === null || $this->resize === 'none',
             ]),
-        ], 'main.');
+        ]);
     }
 }

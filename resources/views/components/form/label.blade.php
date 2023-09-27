@@ -3,8 +3,8 @@
     $customize       = tasteui_personalize($personalization, $customization($error));
 @endphp
 
-<div @class($customize['main.wrapper'])>
-    <label @if ($for) for="{{ $for }}" @endif {{ $attributes->class($customize['main.text']) }}>
+<div @class($customize['wrapper'])>
+    <label @if ($for) for="{{ $for }}" @endif {{ $attributes->class($customize['text']) }}>
         {{ $text ?? $label ?? $slot }}
     </label>
 </div>
