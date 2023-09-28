@@ -36,9 +36,6 @@
         "orchestra/testbench-dusk": "^8.12"
     },
     "scripts": {
-        "post-autoload-dump": [
-            "./vendor/bin/dusk-updater detect --no-interaction"
-        ],
         "test": "./vendor/bin/pest",
         "test:ci": "CI=true ./vendor/bin/pest",
         "test:feature": "./vendor/bin/pest --filter=Feature",
