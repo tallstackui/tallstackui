@@ -108,12 +108,13 @@ class Personalization implements Arrayable
         public ?string $component = null,
         public ?object $instance = null,
     ) {
-        // TODO: we need to refactor this to use only the "component index", for i.e: form.input -> taste-ui::personalizations.form.input
+        if (! str_contains($this->component, 'taste-ui::personalizations')) {
+            $this->component = 'taste-ui::personalizations.'.$this->component;
+        }
+
         if (! array_key_exists($this->component, self::COMPONENTS)) {
             throw new InvalidArgumentException("Personalization [$this->component] not found");
         }
-
-        // TODO: $this->component = 'taste-ui::personalizations.'.$this->component;
 
         $this->instance = app($this->component);
         $this->component = self::COMPONENTS[$this->component]['component'];
@@ -124,8 +125,6 @@ class Personalization implements Arrayable
         if (! in_array($block, array_values($this->instance::EDITABLES))) {
             throw new InvalidArgumentException("Block [$block] is not allowed to be personalized at the [$this->component] component.");
         }
-
-        //check if has validation error
 
         Facade::composer($this->component, fn (View $view) => $this->instance->set($block, is_callable($code) ? $code($view->getData()) : $code));
 
