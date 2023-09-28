@@ -53,7 +53,7 @@ class Toggle extends Component implements Customizable
                 'h-5 w-9' => $this->size === 'md',
                 'h-6 w-10' => $this->size === 'lg',
             ]),
-            'error' => 'peer-checked:bg-red-600 peer-focus:ring-red-600 group-focus:ring-red-600',
+            'error' => 'bg-red-600 peer-checked:bg-red-600 peer-focus:ring-red-600 group-focus:ring-red-600',
         ];
     }
 }

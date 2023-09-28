@@ -1,7 +1,8 @@
 @php
-    $computed  = $attributes->whereStartsWith('wire:model')->first();
-    $error     = $errors->has($computed);
-    $customize = tasteui_personalization('form.toggle', $customization());
+    $computed          = $attributes->whereStartsWith('wire:model')->first();
+    $error             = $errors->has($computed);
+    $customize         = tasteui_personalization('form.toggle', $customization());
+    $customize['base'] = $error ? preg_replace('/bg-[^-]+-[^-]+/', '', $customize['base']) : $customize['base'];
 @endphp
 
 <x-taste-ui::wrappers.form.radio-toggle.wrapper :$computed :$error :$label :$position :$id>
