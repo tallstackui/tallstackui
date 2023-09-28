@@ -1,4 +1,4 @@
-@props(['computed', 'error', 'label', 'hint', 'validated', 'password' => null])
+@props(['computed', 'error', 'label', 'hint', 'validate', 'password' => null])
 
 <div>
     @if ($label)
@@ -10,7 +10,7 @@
     @if ($hint && !$error)
         <x-hint :$hint />
     @endif
-    @if($validated)
+    @if ($validate)
         <x-error :$computed :$error />
     @endif
 </div>

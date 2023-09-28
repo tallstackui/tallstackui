@@ -40,7 +40,7 @@
                                  x-ref="search"
                                  icon="magnifying-glass"
                                  class="px-10" 
-                                 :validated="false"
+                                 :validate="false"
                         />
                         <button type="button"
                                 class="absolute inset-y-0 right-2 flex cursor-pointer items-center px-2"

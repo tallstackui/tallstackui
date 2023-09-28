@@ -18,7 +18,7 @@ class Input extends Component implements Customizable
         public ?string $hint = null,
         public ?string $icon = null,
         public ?string $position = null,
-        public bool $validated = true,
+        public bool $validate = true,
     ) {
         //
     }
@@ -39,7 +39,7 @@ class Input extends Component implements Customizable
     {
         return Arr::dot([
             'base' => Arr::toCssClasses([
-                $this->tasteUiInputClasses($error, $this->validated),
+                $this->tasteUiInputClasses($error),
                 'pl-10' => $this->icon && ($this->position === null || $this->position === 'left'),
             ]),
             'icon' => [
