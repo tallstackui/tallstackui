@@ -24,43 +24,25 @@ use TasteUi\Support\Personalizations\Components\Form\Radio;
 use TasteUi\Support\Personalizations\Components\Form\Textarea;
 use TasteUi\Support\Personalizations\Components\Form\Toggle;
 use TasteUi\Support\Personalizations\Components\Hint;
+use TasteUi\Support\Personalizations\Components\Modal;
 use TasteUi\Support\Personalizations\Components\Select\Select;
 use TasteUi\Support\Personalizations\Components\Tooltip;
 
 class Personalization implements Arrayable
 {
+    //TODO: organize this as alphabetical order
     public const COMPONENTS = [
         'taste-ui::personalizations.alert' => [
             'personalize' => Alert::class,
             'component' => 'taste-ui::components.alert',
         ],
-        'taste-ui::personalizations.badge' => [
-            'personalize' => Badge::class,
-            'component' => 'taste-ui::components.badge',
-        ],
-        'taste-ui::personalizations.card' => [
-            'personalize' => Card::class,
-            'component' => 'taste-ui::components.card',
-        ],
-        'taste-ui::personalizations.hint' => [
-            'personalize' => Hint::class,
-            'component' => 'taste-ui::components.hint',
-        ],
-        'taste-ui::personalizations.error' => [
-            'personalize' => Error::class,
-            'component' => 'taste-ui::components.error',
-        ],
-        'taste-ui::personalizations.errors' => [
-            'personalize' => Errors::class,
-            'component' => 'taste-ui::components.errors',
-        ],
-        'taste-ui::personalizations.tooltip' => [
-            'personalize' => Tooltip::class,
-            'component' => 'taste-ui::components.tooltip',
-        ],
         'taste-ui::personalizations.avatar' => [
             'personalize' => Avatar::class,
             'component' => 'taste-ui::components.avatar',
+        ],
+        'taste-ui::personalizations.badge' => [
+            'personalize' => Badge::class,
+            'component' => 'taste-ui::components.badge',
         ],
         'taste-ui::personalizations.button' => [
             'personalize' => Index::class,
@@ -69,6 +51,18 @@ class Personalization implements Arrayable
         'taste-ui::personalizations.button.circle' => [
             'personalize' => Circle::class,
             'component' => 'taste-ui::components.buttons.circle',
+        ],
+        'taste-ui::personalizations.card' => [
+            'personalize' => Card::class,
+            'component' => 'taste-ui::components.card',
+        ],
+        'taste-ui::personalizations.error' => [
+            'personalize' => Error::class,
+            'component' => 'taste-ui::components.error',
+        ],
+        'taste-ui::personalizations.errors' => [
+            'personalize' => Errors::class,
+            'component' => 'taste-ui::components.errors',
         ],
         'taste-ui::personalizations.form.input' => [
             'personalize' => Input::class,
@@ -98,9 +92,21 @@ class Personalization implements Arrayable
             'personalize' => Toggle::class,
             'component' => 'taste-ui::components.form.toggle',
         ],
+        'taste-ui::personalizations.hint' => [
+            'personalize' => Hint::class,
+            'component' => 'taste-ui::components.hint',
+        ],
+        'taste-ui::personalizations.modal' => [
+            'personalize' => Modal::class,
+            'component' => 'taste-ui::components.modal',
+        ],
         'taste-ui::personalizations.select' => [
             'personalize' => Select::class,
             'component' => 'taste-ui::components.select.select',
+        ],
+        'taste-ui::personalizations.tooltip' => [
+            'personalize' => Tooltip::class,
+            'component' => 'taste-ui::components.tooltip',
         ],
     ];
 

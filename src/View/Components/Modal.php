@@ -20,68 +20,7 @@ class Modal extends Component implements Customizable
         public bool $closeable = true,
         public string $size = '2xl',
     ) {
-        $this->size = $this->size();
-    }
-
-    public function render(): View
-    {
-        return view('taste-ui::components.modal');
-    }
-
-    public function customization(): array
-    {
-        return [
-            'wrapper' => [...$this->customWrapperClasses()],
-            'title' => [
-                'wrapper' => $this->customTitleWrapperClasses(),
-                'base' => $this->customTitleBaseClasses(),
-            ],
-            'body' => $this->customBodyClasses(),
-            'footer' => $this->customFooterClasses(),
-        ];
-    }
-
-    public function customWrapperClasses(): array
-    {
-        return [
-            'first' => Arr::toCssClasses([
-                'fixed inset-0 bg-gray-400 bg-opacity-50 transition-opacity',
-                'backdrop-blur-sm' => $this->blur === true,
-            ]),
-            'second' => Arr::toCssClasses([
-                'w-full min-h-full transform flex items-end justify-center mx-auto sm:items-start p-4',
-                $this->size(),
-            ]),
-            'third' => Arr::toCssClasses([
-                'relative flex w-full transform flex-col overflow-auto rounded-lg bg-white text-left shadow-xl transition-all',
-                $this->size(),
-            ]),
-        ];
-    }
-
-    public function customTitleBaseClasses(): string
-    {
-        return 'whitespace-normal font-medium text-md text-secondary-600';
-    }
-
-    public function customTitleWrapperClasses(): string
-    {
-        return 'flex items-center justify-between border-b px-4 py-2.5 dark:border-0';
-    }
-
-    public function customBodyClasses(): string
-    {
-        return 'px-2 py-5 md:px-4 text-secondary-700 rounded-b-xl grow dark:text-secondary-400';
-    }
-
-    public function customFooterClasses(): string
-    {
-        return 'border-t border-t-gray-100 bg-gray-50 px-6 py-3';
-    }
-
-    public function size(): string
-    {
-        return match ($this->size) {
+        $this->size = match ($this->size) {
             'sm' => 'sm:max-w-sm',
             'md' => 'sm:max-w-md',
             'lg' => 'sm:max-w-lg',
@@ -93,5 +32,44 @@ class Modal extends Component implements Customizable
             '7xl' => 'sm:max-w-7xl',
             default => 'sm:max-w-2xl',
         };
+    }
+
+    public function render(): View
+    {
+        return view('taste-ui::components.modal');
+    }
+
+    public function customization(): array
+    {
+        return [
+            ...$this->tasteUiClasses(),
+        ];
+    }
+
+    public function tasteUiClasses(): array
+    {
+        return Arr::dot([
+            'wrapper' => [
+                'first' => Arr::toCssClasses([
+                    'fixed inset-0 bg-gray-400 bg-opacity-50 transition-opacity',
+                    'backdrop-blur-sm' => $this->blur === true,
+                ]),
+                'second' => 'fixed inset-0 z-50 w-screen overflow-y-auto',
+                'third' => Arr::toCssClasses([
+                    'w-full min-h-full transform flex items-end justify-center mx-auto sm:items-start p-4',
+                    $this->size,
+                ]),
+                'fourth' => Arr::toCssClasses([
+                    'relative flex w-full transform flex-col overflow-auto rounded-lg bg-white text-left shadow-xl transition-all',
+                    $this->size,
+                ]),
+            ],
+            'title' => [
+                'wrapper' => 'flex items-center justify-between border-b px-4 py-2.5',
+                'base' => 'whitespace-normal font-medium text-md text-secondary-600',
+            ],
+            'body' => 'px-2 py-5 md:px-4 text-secondary-700 rounded-b-xl grow dark:text-secondary-400',
+            'footer' => 'border-t border-t-gray-100 bg-gray-50 px-6 py-3',
+        ]);
     }
 }
