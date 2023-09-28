@@ -6,7 +6,6 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
 use TasteUi\Contracts\Customizable;
-use TasteUi\Facades\TasteUi;
 use TasteUi\View\Components\Button\Traits\DefaultButtonColorClasses;
 
 class Index extends Component implements Customizable
@@ -48,9 +47,6 @@ class Index extends Component implements Customizable
 
     public function tasteUiMainClasses(): array
     {
-        $colorClasses = TasteUi::colors();
-        $colorClasses = $this->tasteUiTextColorVariations($colorClasses);
-
         return [
             'wrapper' => Arr::toCssClasses([
                 'outline-none inline-flex justify-center items-center group ease-in font-semibold transition',
@@ -64,12 +60,7 @@ class Index extends Component implements Customizable
                 'rounded-full' => $this->square === null && $this->round !== null,
                 $this->tasteUiButtonColorClasses(),
             ]),
-            'icon' => Arr::toCssClasses([
-                'w-2 h-2' => $this->size === 'xs' || $this->size === 'sm',
-                'w-3 h-3' => $this->size === 'md',
-                'w-5 h-5' => $this->size === 'lg',
-                $colorClasses->get(),
-            ]),
+            'icon' => $this->tasteUiIconColorClasses(),
         ];
     }
 }

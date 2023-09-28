@@ -6,7 +6,6 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
 use TasteUi\Contracts\Customizable;
-use TasteUi\Facades\TasteUi;
 use TasteUi\View\Components\Button\Traits\DefaultButtonColorClasses;
 
 class Circle extends Component implements Customizable
@@ -39,19 +38,13 @@ class Circle extends Component implements Customizable
 
     public function tasteUiMainClasses(): array
     {
-        $colorClasses = TasteUi::colors();
-        $colorClasses = $this->tasteUiTextColorVariations($colorClasses);
-
         return [
             'base' => Arr::toCssClasses([
                 'outline-none inline-flex justify-center items-center group transition ease-in duration-150 w-9 h-9',
                 'focus:ring-2 focus:ring-offset-2 hover:shadow-sm disabled:opacity-80 disabled:cursor-not-allowed rounded-full',
                 $this->tasteUiButtonColorClasses(),
             ]),
-            'icon' => Arr::toCssClasses([
-                'w-4 h-4',
-                $colorClasses->get(),
-            ]),
+            'icon' => $this->tasteUiIconColorClasses(),
         ];
     }
 }
