@@ -41,7 +41,6 @@ class IndexTest extends BrowserTestCase
     {
         $this->browse(function (Browser $browser) {
             $this->visit($browser, ToastComponent::class)
-                // success
                 ->assertDontSee('Foo bar confirmation description')
                 ->click('#confirm')
                 ->pause(100)
