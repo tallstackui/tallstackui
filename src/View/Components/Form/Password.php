@@ -27,21 +27,22 @@ class Password extends Component implements Customizable
         return view('taste-ui::components.form.password');
     }
 
-    public function customization(bool $error = false): array
+    public function customization(): array
     {
         return [
-            ...$this->tasteUiMainClasses($error),
+            ...$this->tasteUiMainClasses(),
         ];
     }
 
-    public function tasteUiMainClasses(bool $error = false): array
+    public function tasteUiMainClasses(): array
     {
         return Arr::dot([
-            'base' => $this->tasteUiInputClasses($error),
+            'base' => $this->tasteUiInputClasses(),
             'icon' => [
                 'wrapper' => 'absolute inset-y-0 right-0 flex items-center pr-2.5',
-                'class' => Arr::toCssClasses(['h-5 w-5', 'text-gray-400' => ! $error]),
+                'class' => 'h-5 w-5 text-gray-400',
             ],
+            'error' => 'text-red-600 ring-1 ring-inset ring-red-300 placeholder:text-red-300 focus:ring-2 focus:ring-inset focus:ring-red-500',
         ]);
     }
 }

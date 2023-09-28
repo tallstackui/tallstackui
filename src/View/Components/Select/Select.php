@@ -31,7 +31,7 @@ class Select extends Component implements Customizable
         return view('taste-ui::components.select.select');
     }
 
-    public function customization(bool $error = false): array
+    public function customization(): array
     {
         return [
             ...$this->tasteUiMainClasses(),

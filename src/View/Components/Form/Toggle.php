@@ -27,14 +27,14 @@ class Toggle extends Component implements Customizable
         return view('taste-ui::components.form.toggle');
     }
 
-    public function customization(bool $error = false): array
+    public function customization(): array
     {
         return [
-            ...$this->tasteUiMainClasses($error),
+            ...$this->tasteUiMainClasses(),
         ];
     }
 
-    public function tasteUiMainClasses(bool $error = false): array
+    public function tasteUiMainClasses(): array
     {
         return [
             'input' => Arr::toCssClasses([
@@ -48,12 +48,12 @@ class Toggle extends Component implements Customizable
             'base' => Arr::toCssClasses([
                 'block rounded-full cursor-pointer transition ease-in-out duration-100 peer-focus:ring-2',
                 'peer-focus:ring-offset-2 group-focus:ring-2 group-focus:ring-offset-2 bg-secondary-200',
-                'peer-checked:bg-primary-600 peer-focus:ring-primary-600 group-focus:ring-primary-600' => ! $error,
-                'peer-checked:bg-red-600 peer-focus:ring-red-600 group-focus:ring-red-600' => $error,
+                'peer-checked:bg-primary-600 peer-focus:ring-primary-600 group-focus:ring-primary-600',
                 'h-4 w-7' => $this->size === 'sm',
                 'h-5 w-9' => $this->size === 'md',
                 'h-6 w-10' => $this->size === 'lg',
             ]),
+            'error' => 'peer-checked:bg-red-600 peer-focus:ring-red-600 group-focus:ring-red-600',
         ];
     }
 }

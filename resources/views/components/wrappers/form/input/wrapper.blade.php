@@ -1,4 +1,4 @@
-@props(['computed', 'error', 'label', 'hint', 'validate', 'password' => null])
+@props(['computed', 'error', 'label', 'hint', 'validate' => true, 'password' => null])
 
 <div>
     @if ($label)

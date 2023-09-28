@@ -27,20 +27,21 @@ class Textarea extends Component implements Customizable
         return view('taste-ui::components.form.textarea');
     }
 
-    public function customization(bool $error = false): array
+    public function customization(): array
     {
         return [
-            ...$this->tasteUiMainClasses($error),
+            ...$this->tasteUiMainClasses(),
         ];
     }
 
-    public function tasteUiMainClasses(bool $error = false): array
+    public function tasteUiMainClasses(): array
     {
         return [
             'base' => Arr::toCssClasses([
-                $this->tasteUiInputClasses($error),
+                $this->tasteUiInputClasses(),
                 'resize-none' => $this->resize === null || $this->resize === 'none',
             ]),
+            'error' => 'text-red-600 ring-1 ring-inset ring-red-300 placeholder:text-red-300 focus:ring-2 focus:ring-inset focus:ring-red-500',
         ];
     }
 }

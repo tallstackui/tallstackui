@@ -27,23 +27,23 @@ class Radio extends Component implements Customizable
         return view('taste-ui::components.form.radio');
     }
 
-    public function customization(bool $error = false): array
+    public function customization(): array
     {
         return [
-            ...$this->tasteUiMainClasses($error),
+            ...$this->tasteUiMainClasses(),
         ];
     }
 
-    public function tasteUiMainClasses(bool $error = false): array
+    public function tasteUiMainClasses(): array
     {
         return [
             'base' => Arr::toCssClasses([
                 'form-radio rounded-full transition ease-in-out duration-100',
-                'border-secondary-300 focus:ring-primary-600 focus:border-primary-400 text-primary-600' => ! $error,
-                'border-red-300 focus:ring-red-600 focus:border-red-400 text-red-600' => $error,
+                'border-secondary-300 focus:ring-primary-600 focus:border-primary-400 text-primary-600',
                 'w-5 h-5' => $this->size === 'md',
                 'w-6 h-6' => $this->size === 'lg',
             ]),
+            'error' => 'border-red-300 focus:ring-red-600 focus:border-red-400 text-red-600',
         ];
     }
 }

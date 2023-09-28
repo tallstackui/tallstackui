@@ -2,7 +2,7 @@
 
 namespace TasteUi\Support\Personalizations\Contracts;
 
-interface ShouldBePersonalized
+interface Personalizable
 {
     public function set(string $block, string $content): void;
 

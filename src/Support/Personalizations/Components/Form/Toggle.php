@@ -3,15 +3,16 @@
 namespace TasteUi\Support\Personalizations\Components\Form;
 
 use Illuminate\Contracts\Support\Arrayable;
-use TasteUi\Support\Personalizations\Contracts\ShouldBePersonalized;
+use TasteUi\Support\Personalizations\Contracts\Personalizable;
 use TasteUi\Support\Personalizations\Traits\ShareablePersonalization;
 
-class Toggle implements Arrayable, ShouldBePersonalized
+class Toggle implements Arrayable, Personalizable
 {
     use ShareablePersonalization;
 
     public const EDITABLES = [
         'input',
         'base',
+        'error',
     ];
 }

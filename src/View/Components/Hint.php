@@ -20,7 +20,7 @@ class Hint extends Component implements Customizable
         return view('taste-ui::components.hint');
     }
 
-    public function customization(bool $error = false): array
+    public function customization(): array
     {
         return [
             ...$this->tasteUiMainClasses(),

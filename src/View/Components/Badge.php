@@ -33,7 +33,7 @@ class Badge extends Component implements Customizable
         return view('taste-ui::components.badge');
     }
 
-    public function customization(bool $error = false): array
+    public function customization(): array
     {
         return [
             ...$this->tasteUiMainClasses(),

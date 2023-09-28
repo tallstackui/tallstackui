@@ -1,7 +1,7 @@
 @php
     $computed  = $attributes->whereStartsWith('wire:model')->first();
     $error     = $errors->has($computed);
-    $customize = tasteui_personalization('form.input', $customization($error));
+    $customize = tasteui_personalization('form.input', $customization());
 @endphp
 
 <x-taste-ui::wrappers.form.input.wrapper :$computed :$error :$label :$hint :$validate>
@@ -11,5 +11,5 @@
         </div>
     @endif
 
-    <input @if ($id) id="{{ $id }}" @endif {{ $attributes->class($customize['base']) }}>
+    <input @if ($id) id="{{ $id }}" @endif {{ $attributes->class([$customize['base'], $customize['error'] => $error && $validate]) }}>
 </x-taste-ui::wrappers.form.input.wrapper>

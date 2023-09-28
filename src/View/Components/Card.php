@@ -21,7 +21,7 @@ class Card extends Component implements Customizable
         return view('taste-ui::components.card');
     }
 
-    public function customization(bool $error = false): array
+    public function customization(): array
     {
         return [
             ...$this->tasteUiMainClasses(),
