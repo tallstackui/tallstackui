@@ -55,8 +55,9 @@ return [
             'radio-toggle' => [
                 'div' => 'flex items-center',
                 'label' => [
-                    'span' => 'mr-2 text-sm',
+                    'span' => 'text-sm',
                     'p' => 'font-medium text-gray-700',
+                    'error' => 'text-red-600',
                 ],
                 'slot' => 'relative inline-flex cursor-pointer items-center',
             ],

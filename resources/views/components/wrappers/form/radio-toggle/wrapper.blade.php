@@ -3,16 +3,22 @@
 <div>
     <div @class(config('tasteui.wrappers.form.radio-toggle.div'))>
         @if ($label && $position === 'left')
-        <span @class(config('tasteui.wrappers.form.radio-toggle.label.span'))>
-            <p @class(config('tasteui.wrappers.form.radio-toggle.label.p'))>{{ $label }}</p>
+        <span @class([config('tasteui.wrappers.form.radio-toggle.label.span'), 'mr-1'])>
+            <p @class([
+                    config('tasteui.wrappers.form.radio-toggle.label.p'),
+                    config('tasteui.wrappers.form.radio-toggle.label.error') => $error,
+                ])>{{ $label }}</p>
         </span>
         @endif
         <label @if ($id) for="{{ $id }}" @endif @class(config('tasteui.wrappers.form.radio-toggle.slot'))>
             {!! $slot !!}
         </label>
         @if ($label && $position === 'right')
-        <span @class(config('tasteui.wrappers.form.radio-toggle.label.span'))>
-            <p @class(config('tasteui.wrappers.form.radio-toggle.label.p'))>{{ $label }}</p>
+        <span @class([config('tasteui.wrappers.form.radio-toggle.label.span'), 'ml-1'])>
+            <p @class([
+                    config('tasteui.wrappers.form.radio-toggle.label.p'),
+                    config('tasteui.wrappers.form.radio-toggle.label.error') => $error,
+                ])>{{ $label }}</p>
         </span>
         @endif
     </div>
