@@ -40,7 +40,7 @@ class Circle extends Component implements Customizable
     public function tasteUiMainClasses(): array
     {
         $colorClasses = TasteUi::colors();
-        $colorClasses = $this->setTextColor($colorClasses);
+        $colorClasses = $this->tasteUiTextColorVariations($colorClasses);
 
         return [
             'base' => Arr::toCssClasses([

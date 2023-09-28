@@ -7,11 +7,11 @@ use TasteUi\Support\Elements\Color;
 
 trait DefaultButtonColorClasses
 {
-    private array $colorMap;
+    private array $map = [];
 
-    private function setColorMap(): void
+    private function map(): void
     {
-        $this->colorMap = match ($this->color) {
+        $this->map = match ($this->color) {
             'white', 'black' => [
                 'text' => 'neutral',
                 'ring' => 'neutral',
@@ -33,32 +33,38 @@ trait DefaultButtonColorClasses
 
     public function tasteUiButtonColorClasses(): string
     {
-        $this->setColorMap();
+        $this->map();
 
-        $colorClasses = TasteUi::colors();
-        $colorClasses = $this->setSolidColors($colorClasses);
-        $colorClasses = $this->setOutlineColors($colorClasses);
+        $color = TasteUi::colors();
+        $color = $this->tasteUiTextColorVariations($color);
 
-        return $colorClasses->get();
+        if ($this->style === 'solid') {
+            $color = $this->tasteUiSolidVariations($color);
+        } else {
+            $color = $this->tasteUiOutlineVariations($color);
+        }
+
+        return $color->get();
     }
 
-    private function setTextColor(Color $color): Color
+    private function tasteUiTextColorVariations(Color $color): Color
     {
-        if (empty($this->colorMap)) {
-            $this->setColorMap();
+        if (empty($this->map)) {
+            $this->map();
         }
 
         $weight = $this->color === 'white' ? 950 : 50;
+
         if ($this->style === 'outline') {
             $weight = in_array($this->color, ['black', 'white']) ? 950 : 500;
         }
 
-        return $color->set('text', $this->colorMap['text'], $weight);
+        return $color->set('text', $this->map['text'], $weight);
     }
 
-    private function setSolidColors(Color $color): Color
+    private function tasteUiSolidVariations(Color $color): Color
     {
-        $weightMap = match ($this->color) {
+        $map = match ($this->color) {
             'white' => [
                 'ring' => 200,
                 'hover:bg' => 200,
@@ -79,20 +85,15 @@ trait DefaultButtonColorClasses
             ]
         };
 
-        return $color->when($this->style === 'solid', function (Color $color) use ($weightMap) {
-            $textColor = $this->setTextColor($color);
-            $color = $textColor;
-
-            return $color->set('ring', $this->colorMap['ring'], $weightMap['ring'])
-                ->set('hover:bg', $this->colorMap['hover:bg'], $weightMap['hover:bg'])
-                ->set('hover:ring', $this->colorMap['hover:ring'], $weightMap['hover:ring'])
-                ->set('bg', $this->colorMap['bg'], $weightMap['bg']);
-        });
+        return $color->set('ring', $this->map['ring'], $map['ring'])
+            ->set('hover:bg', $this->map['hover:bg'], $map['hover:bg'])
+            ->set('hover:ring', $this->map['hover:ring'], $map['hover:ring'])
+            ->set('bg', $this->map['bg'], $map['bg']);
     }
 
-    private function setOutlineColors(Color $color): Color
+    private function tasteUiOutlineVariations(Color $color): Color
     {
-        $weightMap = match ($this->color) {
+        $map = match ($this->color) {
             'white' => [
                 'ring' => 200,
                 'hover:bg' => 200,
@@ -113,15 +114,10 @@ trait DefaultButtonColorClasses
             ]
         };
 
-        return $color->when($this->style === 'outline', function (Color $color) use ($weightMap) {
-            $textColor = $this->setTextColor($color);
-            $color = $textColor;
-
-            return $color->set('border', $this->colorMap['border'], $weightMap['border'])
-                ->set('ring', $this->colorMap['ring'], $weightMap['ring'])
-                ->set('hover:bg', $this->colorMap['hover:bg'], $weightMap['hover:bg'])
-                ->set('hover:ring', $this->colorMap['hover:ring'], $weightMap['hover:ring'])
-                ->append('border');
-        });
+        return $color->set('border', $this->map['border'], $map['border'])
+            ->set('ring', $this->map['ring'], $map['ring'])
+            ->set('hover:bg', $this->map['hover:bg'], $map['hover:bg'])
+            ->set('hover:ring', $this->map['hover:ring'], $map['hover:ring'])
+            ->append('border');
     }
 }
