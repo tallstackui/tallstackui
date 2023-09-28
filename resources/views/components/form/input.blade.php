@@ -4,10 +4,10 @@
     $customize = tasteui_personalization('form.input', $customization($error));
 @endphp
 
-<x-taste-ui::wrappers.form.input.wrapper :$computed :$error :$label :$hint>
+<x-taste-ui::wrappers.form.input.wrapper :$computed :$error :$label :$hint :$validate>
     @if ($icon)
         <div @class($customize['icon.wrapper'])>
-            <x-icon :$icon :$error @class($customize['icon.size']) />
+            <x-icon :$icon :$error @class([$customize['icon.size'], 'text-secondary-500' => !$validate]) />
         </div>
     @endif
 

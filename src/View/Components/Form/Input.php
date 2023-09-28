@@ -18,6 +18,7 @@ class Input extends Component implements Customizable
         public ?string $hint = null,
         public ?string $icon = null,
         public ?string $position = null,
+        public bool $validate = true,
     ) {
         //
     }

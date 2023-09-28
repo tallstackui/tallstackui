@@ -19,13 +19,13 @@
         @endforelse
     </select>
     @if ($hint && !$error)
-    <span class="mt-2 text-sm text-secondary-500">
-        {{ $hint }}
-    </span>
+        <span class="mt-2 text-sm text-secondary-500">
+            {{ $hint }}
+        </span>
     @endif
     @error ($computed)
-    <span class="mt-2 text-sm text-red-500">
-        {{ $message }}
-    </span>
+        <span class="mt-2 text-sm text-red-500">
+            {{ $message }}
+        </span>
     @enderror
 </div>
