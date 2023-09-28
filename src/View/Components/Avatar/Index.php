@@ -11,12 +11,13 @@ use TasteUi\Facades\TasteUi;
 class Index extends Component implements Customizable
 {
     public function __construct(
-        public string $label,
+        public ?string $label = null,
         public ?string $color = 'primary',
         public ?string $sm = null,
         public ?string $md = null,
         public ?string $lg = null,
         public bool $square = false,
+        public bool $placeholder = false,
         public bool $modelable = false,
         private ?string $size = null,
     ) {
@@ -40,9 +41,9 @@ class Index extends Component implements Customizable
         return [
             'wrapper' => Arr::toCssClasses([
                 'inline-flex shrink-0 items-center justify-center overflow-hidden text-xl',
-                'w-8 h-8' => $this->size === 'sm',
-                'w-12 h-12' => $this->size === 'md',
-                'w-14 h-14' => $this->size === 'lg',
+                'w-8 h-8 text-sm' => $this->size === 'sm',
+                'w-12 h-12 text-xl' => $this->size === 'md',
+                'w-14 h-14 text-2xl' => $this->size === 'lg',
                 'rounded-full' => ! $this->square,
                 TasteUi::colors()
                     ->set('bg', $this->color, 500)
@@ -53,9 +54,9 @@ class Index extends Component implements Customizable
                 /* image */
                 true => Arr::toCssClasses([
                     'shrink-0 object-cover object-center text-xl',
-                    'w-8 h-8' => $this->size === 'sm',
-                    'w-12 h-12' => $this->size === 'md',
-                    'w-14 h-14' => $this->size === 'lg',
+                    'w-8 h-8 text-sm' => $this->size === 'sm',
+                    'w-12 h-12 text-xl' => $this->size === 'md',
+                    'w-14 h-14 text-2xl' => $this->size === 'lg',
                     'rounded-full' => ! $this->square,
                 ]),
                 /* text */
