@@ -1,7 +1,4 @@
-@php
-    $personalization = \TasteUi\Facades\TasteUi::personalization('taste-ui::personalizations.alert')->toArray();
-    $customize = tasteui_personalize($personalization, $customization());
-@endphp
+@php($customize = tasteui_personalization('alert', $customization()))
 
 <div @class($customize['base'])
      x-data="{ show : true }"

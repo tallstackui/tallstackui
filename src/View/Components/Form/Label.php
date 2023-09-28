@@ -32,13 +32,13 @@ class Label extends Component implements Customizable
 
     public function tasteUiMainClasses(bool $error = false): array
     {
-        return Arr::dot([
+        return [
             'wrapper' => Arr::toCssClasses([
                 'mb-1 flex justify-between',
                 'text-gray-700' => ! $error,
                 'text-red-600' => $error,
             ]),
             'text' => 'block text-sm font-medium',
-        ]);
+        ];
     }
 }

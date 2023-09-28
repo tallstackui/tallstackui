@@ -1,18 +1,18 @@
 @props(['computed', 'error', 'label', 'position' => 'left', 'id' => null])
 
 <div>
-    <div class="flex items-center">
+    <div @class(config('tasteui.wrappers.form.radio-toggle.div'))>
         @if ($label && $position === 'left')
-        <span class="mr-2 text-sm">
-            <p class="font-medium text-gray-700">{{ $label }}</p>
+        <span @class(config('tasteui.wrappers.form.radio-toggle.label.span'))>
+            <p @class(config('tasteui.wrappers.form.radio-toggle.label.p'))>{{ $label }}</p>
         </span>
         @endif
-        <label @if ($id) for="{{ $id }}" @endif @class(config('tasteui.wrappers.form.radio-toggle.span'))>
+        <label @if ($id) for="{{ $id }}" @endif @class(config('tasteui.wrappers.form.radio-toggle.slot'))>
             {!! $slot !!}
         </label>
         @if ($label && $position === 'right')
-        <span class="ml-2 text-sm">
-            <p class="font-medium text-gray-700">{{ $label }}</p>
+        <span @class(config('tasteui.wrappers.form.radio-toggle.label.span'))>
+            <p @class(config('tasteui.wrappers.form.radio-toggle.label.p'))>{{ $label }}</p>
         </span>
         @endif
     </div>

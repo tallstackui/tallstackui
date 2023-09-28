@@ -51,7 +51,7 @@ class Index extends Component implements Customizable
         $colorClasses = TasteUi::colors();
         $colorClasses = $this->setTextColor($colorClasses);
 
-        return Arr::dot([
+        return [
             'wrapper' => Arr::toCssClasses([
                 'outline-none inline-flex justify-center items-center group ease-in font-semibold transition',
                 'focus:ring-2 focus:ring-offset-2 hover:shadow-sm disabled:opacity-50 disabled:cursor-not-allowed',
@@ -70,6 +70,6 @@ class Index extends Component implements Customizable
                 'w-5 h-5' => $this->size === 'lg',
                 $colorClasses->get(),
             ]),
-        ]);
+        ];
     }
 }
