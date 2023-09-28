@@ -3,11 +3,13 @@
 namespace TasteUi\View\Components\Select;
 
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\View\Component;
+use TasteUi\Contracts\Customizable;
 use TasteUi\View\Components\Select\Traits\InteractsWithSelectOptions;
 
-class Select extends Component
+class Select extends Component implements Customizable
 {
     use InteractsWithSelectOptions;
 
@@ -27,5 +29,23 @@ class Select extends Component
     public function render(): View
     {
         return view('taste-ui::components.select.select');
+    }
+
+    public function customization(bool $error = false): array
+    {
+        return [
+            ...$this->tasteUiMainClasses(),
+        ];
+    }
+
+    public function tasteUiMainClasses(bool $error = false): array
+    {
+        return [
+            'base' => Arr::toCssClasses([
+                'block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 sm:text-sm',
+                'ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-primary-600 sm:leading-6',
+                'text-red-600 ring-1 ring-inset ring-red-300 placeholder:text-red-300 focus:ring-2 focus:ring-inset focus:ring-red-500' => $error,
+            ]),
+        ];
     }
 }

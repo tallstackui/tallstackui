@@ -61,5 +61,8 @@ return [
                 'slot' => 'relative inline-flex cursor-pointer items-center',
             ],
         ],
+        'select' => [
+            // ...
+        ],
     ],
 ];

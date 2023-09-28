@@ -24,6 +24,7 @@ use TasteUi\Support\Personalizations\Components\Form\Radio;
 use TasteUi\Support\Personalizations\Components\Form\Textarea;
 use TasteUi\Support\Personalizations\Components\Form\Toggle;
 use TasteUi\Support\Personalizations\Components\Hint;
+use TasteUi\Support\Personalizations\Components\Select\Select;
 use TasteUi\Support\Personalizations\Components\Tooltip;
 
 class Personalization implements Arrayable
@@ -97,6 +98,10 @@ class Personalization implements Arrayable
             'personalize' => Toggle::class,
             'component' => 'taste-ui::components.form.toggle',
         ],
+        'taste-ui::personalizations.select' => [
+            'personalize' => Select::class,
+            'component' => 'taste-ui::components.select.select',
+        ],
     ];
 
     public function __construct(
@@ -119,6 +124,9 @@ class Personalization implements Arrayable
         if (! in_array($block, array_values($this->instance::EDITABLES))) {
             throw new InvalidArgumentException("Block [$block] is not allowed to be personalized at the [$this->component] component.");
         }
+
+        //check if has validation error
+
 
         Facade::composer($this->component, fn (View $view) => $this->instance->set($block, is_callable($code) ? $code($view->getData()) : $code));
 
