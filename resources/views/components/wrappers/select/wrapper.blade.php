@@ -35,13 +35,12 @@
             <div x-show="show" class="absolute z-50 mt-1 w-full rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5">
                 <template x-if="searchable">
                     <div class="relative px-2">
-                        <div class="pointer-events-none absolute inset-y-0 flex items-center px-2 z-[51]">
-                           <x-icon name="magnifying-glass" class="h-5 w-5 text-secondary-500" />
-                        </div>
                         <x-input placeholder="{{ __('taste-ui::messages.select.input') }}" 
                                  x-model.debounce.500ms="search" 
                                  x-ref="search"
+                                 icon="magnifying-glass"
                                  class="px-10" 
+                                 :validate="false"
                         />
                         <button type="button"
                                 class="absolute inset-y-0 right-2 flex cursor-pointer items-center px-2"
