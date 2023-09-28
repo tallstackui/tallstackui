@@ -127,7 +127,6 @@ class Personalization implements Arrayable
 
         //check if has validation error
 
-
         Facade::composer($this->component, fn (View $view) => $this->instance->set($block, is_callable($code) ? $code($view->getData()) : $code));
 
         return $this;
