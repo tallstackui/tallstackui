@@ -39,16 +39,12 @@ All PR is welcome as long as it follows some criteria created for our organizati
 8. The final structure should be: `packages/tasteui/tasteui`
 9. Open your `composer.json` and put the following content: 
 ```json
-// ...
-
 "repositories": [
     {
         "type": "path",
         "url": "./packages/tasteui/tasteui"
     }
 ],
-
-// ...
 ```
 10. Change the `minimum-stability` to `dev`
 11. Run the command:
