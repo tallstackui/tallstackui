@@ -41,10 +41,10 @@
                             <p class="mt-1 text-sm text-gray-700" x-text="toast.description"></p>
                             <template x-if="toast.type === 'question'">
                                 <div class="mt-3 flex gap-x-3">
-                                    <button class="rounded-md bg-white text-sm font-semibold text-primary-600 focus:outline-none"
+                                    <button id="confirmation" class="rounded-md bg-white text-sm font-semibold text-primary-600 focus:outline-none"
                                             x-on:click="accept(toast)"
                                             x-text="toast.options.confirm.text"></button>
-                                    <button class="rounded-md bg-white text-sm font-medium text-secondary-700 focus:outline-none"
+                                    <button id="cancellation" class="rounded-md bg-white text-sm font-medium text-secondary-700 focus:outline-none"
                                             x-on:click="reject(toast)"
                                             x-text="toast.options.cancel.text"></button>
                                 </div>

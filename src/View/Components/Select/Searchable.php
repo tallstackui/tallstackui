@@ -39,7 +39,7 @@ class Searchable extends Styled
     private function request(): void
     {
         throw_if(
-            !$this->select,
+            ! $this->select,
             new InvalidArgumentException('The [selection] parameter must be defined.')
         );
 
@@ -55,7 +55,7 @@ class Searchable extends Styled
     {
         throw_unless(
             isset($this->request['url']),
-            new InvalidArgumentException("The key: [url] is required in the request array.")
+            new InvalidArgumentException('The key: [url] is required in the request array.')
         );
 
         $this->request['method'] = isset($this->request['method']) ? strtolower($this->request['method']) : 'get';
