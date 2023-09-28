@@ -25,11 +25,11 @@ class Label extends Component implements Customizable
     public function customization(): array
     {
         return [
-            ...$this->tasteUiMainClasses(),
+            ...$this->tasteUiClasses(),
         ];
     }
 
-    public function tasteUiMainClasses(): array
+    public function tasteUiClasses(): array
     {
         return [
             'wrapper' => 'mb-1 flex justify-between text-gray-700',

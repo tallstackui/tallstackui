@@ -5,7 +5,7 @@
     $open  = $event . '-open';
     $close = $event . '-close';
 
-    $customize = $customize();
+    $customize = $customization();
 
     $customize['wrapper'] ??= [...$customWrapperClasses()];
     $customize['title']['wrapper'] ??= $customTitleWrapperClasses();

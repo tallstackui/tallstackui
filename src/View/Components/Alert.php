@@ -28,11 +28,11 @@ class Alert extends Component implements Customizable
     public function customization(): array
     {
         return [
-            ...$this->tasteUiMainClasses(),
+            ...$this->tasteUiClasses(),
         ];
     }
 
-    public function tasteUiMainClasses(): array
+    public function tasteUiClasses(): array
     {
         $color = TasteUi::colors()
             ->set('text', $this->color, 800)

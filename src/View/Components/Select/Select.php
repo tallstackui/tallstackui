@@ -34,11 +34,11 @@ class Select extends Component implements Customizable
     public function customization(): array
     {
         return [
-            ...$this->tasteUiMainClasses(),
+            ...$this->tasteUiClasses(),
         ];
     }
 
-    public function tasteUiMainClasses(bool $error = false): array
+    public function tasteUiClasses(bool $error = false): array
     {
         return [
             'base' => Arr::toCssClasses([

@@ -31,11 +31,11 @@ class Index extends Component implements Customizable
     public function customization(): array
     {
         return [
-            ...$this->tasteUiMainClasses(),
+            ...$this->tasteUiClasses(),
         ];
     }
 
-    public function tasteUiMainClasses(): array
+    public function tasteUiClasses(): array
     {
         return [
             'wrapper' => Arr::toCssClasses([

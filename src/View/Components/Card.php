@@ -24,11 +24,11 @@ class Card extends Component implements Customizable
     public function customization(): array
     {
         return [
-            ...$this->tasteUiMainClasses(),
+            ...$this->tasteUiClasses(),
         ];
     }
 
-    public function tasteUiMainClasses(): array
+    public function tasteUiClasses(): array
     {
         return Arr::dot([
             'base' => 'grow rounded-b-xl px-2 py-5 text-secondary-700 md:px-4',

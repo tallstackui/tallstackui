@@ -23,11 +23,11 @@ class Hint extends Component implements Customizable
     public function customization(): array
     {
         return [
-            ...$this->tasteUiMainClasses(),
+            ...$this->tasteUiClasses(),
         ];
     }
 
-    public function tasteUiMainClasses(): array
+    public function tasteUiClasses(): array
     {
         return [
             'base' => 'mt-2 text-sm text-secondary-500',
