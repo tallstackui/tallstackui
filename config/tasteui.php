@@ -5,19 +5,19 @@ use TasteUi\View\Components;
 return [
     /*
     |--------------------------------------------------------------------------
-    | Default Icon Style
+    | Icon Style
     |--------------------------------------------------------------------------
-    | // TODO: Add description here...
-    | Supported: "solid", "outline"
+    |
+    | Configure the default icon style for the components. Supported: "solid", "outline"
     */
     'icon' => 'solid',
 
     /*
     |--------------------------------------------------------------------------
-    | List of Components
+    | Components
     |--------------------------------------------------------------------------
-    | // TODO: Add description here...
-    | <usage> => <structure>
+    |
+    | List of all TasteUi components. <alias> => <component>
     */
     'components' => [
         'input' => Components\Form\Input::class,

@@ -7,6 +7,8 @@ use Livewire\Component;
 
 abstract class AbstractInteraction
 {
+    protected string $event = '';
+
     public function __construct(
         public Component $component,
         protected ?int $time = null,

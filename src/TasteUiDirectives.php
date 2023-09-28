@@ -2,20 +2,14 @@
 
 namespace TasteUi;
 
-use Illuminate\View\ComponentAttributeBag;
-
 class TasteUiDirectives
 {
-    public function scripts(bool $absolute = true, array $attributes = []): string
+    public function scripts(bool $absolute = true): string
     {
         $route = route('tasteui.scripts', absolute: $absolute);
         $this->manifest('tasteui.js', $route);
 
-        $attributes = new ComponentAttributeBag($attributes);
-
-        return <<<HTML
-            <script src="{$route}" defer {$attributes->toHtml()}></script>
-        HTML;
+        return "<script src=\"$route\" defer></script>";
     }
 
     public function styles(bool $absolute = true): string

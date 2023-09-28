@@ -30,7 +30,6 @@ use TasteUi\Support\Personalizations\Components\Tooltip;
 
 class Personalization implements Arrayable
 {
-    //TODO: organize this as alphabetical order
     public const COMPONENTS = [
         'taste-ui::personalizations.alert' => [
             'personalize' => Alert::class,

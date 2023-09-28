@@ -4,6 +4,6 @@ includes:
 parameters:
 
     paths:
-        - app/
+        - src/
 
     level: 5
