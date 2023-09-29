@@ -38,14 +38,14 @@ class Select extends Component implements Customizable
         ];
     }
 
-    public function tasteUiClasses(bool $error = false): array
+    public function tasteUiClasses(): array
     {
         return [
             'base' => Arr::toCssClasses([
                 'block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 sm:text-sm',
                 'ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-primary-600 sm:leading-6',
-                'text-red-600 ring-1 ring-inset ring-red-300 placeholder:text-red-300 focus:ring-2 focus:ring-inset focus:ring-red-500' => $error,
             ]),
+            'error' => 'text-red-600 ring-1 ring-inset ring-red-300 placeholder:text-red-300 focus:ring-2 focus:ring-inset focus:ring-red-500',
         ];
     }
 }

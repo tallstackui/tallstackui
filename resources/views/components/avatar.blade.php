@@ -2,8 +2,8 @@
 
 <div {{ $attributes->class($customize['wrapper']) }}>
     @if ($modelable)
-        <img @class($customize['content']) src="{{ $label ?? $slot }}" alt="{{ $alt() }}"/>
-    @elseif($label || $slot->isNotEmpty())
+        <img @class($customize['content']) src="{{ $label }}" alt="{{ $alt() }}"/>
+    @elseif ($label || $slot->isNotEmpty())
         <span @class($customize['content'])>{{ $label ?? $slot }}</span>
     @else
         <svg @class($customize['content']) fill="currentColor" viewBox="0 0 24 24" stroke="currentColor">

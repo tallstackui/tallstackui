@@ -89,6 +89,6 @@ class Errors extends Component implements Customizable
 
         $this->only = is_array($this->only) ? $this->only : [$this->only];
 
-        return array_filter($messages, fn ($name) => in_array($name, $this->only), ARRAY_FILTER_USE_KEY);
+        return array_filter($messages, fn (string $name) => in_array($name, $this->only), ARRAY_FILTER_USE_KEY);
     }
 }

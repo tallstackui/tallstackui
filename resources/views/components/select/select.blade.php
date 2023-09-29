@@ -1,14 +1,14 @@
 @php
     $computed  = $attributes->whereStartsWith('wire:model')->first();
     $error     = $errors->has($computed);
-    $customize = tasteui_personalization('select', $customization($error))
+    $customize = tasteui_personalization('select', $customization())
 @endphp
 
 <div>
     @if ($label)
         <x-label :$label :$error />
     @endif
-    <select @if ($id) id="{{ $id }}" @endif {{ $attributes->class($customize['base']) }}>
+    <select @if ($id) id="{{ $id }}" @endif {{ $attributes->class([$customize['base'], $customize['error'] => $error]) }}>
         @forelse ($options as $option)
             <option value="{{ $select ? $option[$selectable['value']] : $option }}">{{ $select ? $option[$selectable['label']] : $option }}</option>
         @empty
