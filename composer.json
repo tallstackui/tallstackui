@@ -33,13 +33,15 @@
         "laravel/pint": "^1.13",
         "nunomaduro/larastan": "^2.0",
         "orchestra/testbench": "^8.12",
-        "orchestra/testbench-dusk": "^8.12"
+        "orchestra/testbench-dusk": "^8.12",
+        "pestphp/pest-plugin-type-coverage": "^2.2"
     },
     "scripts": {
         "test": "./vendor/bin/pest",
         "test:ci": "CI=true ./vendor/bin/pest",
         "test:feature": "./vendor/bin/pest --filter=Feature",
         "test:browser": "./vendor/bin/pest --filter=Browser",
+        "type": "./vendor/bin/pest --type-coverage",
         "format": "./vendor/bin/pint",
         "analyse": "./vendor/bin/phpstan analyse --memory-limit=2G",
         "ci": [

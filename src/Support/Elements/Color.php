@@ -125,7 +125,7 @@ final class Color implements Stringable
         return $this->get();
     }
 
-    private function validate(string $prefix, string $type)
+    private function validate(string $prefix, string $type): void
     {
         $prefix = str_replace(['hover:', 'ring:'], '', $prefix);
 
