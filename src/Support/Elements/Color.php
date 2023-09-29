@@ -5,7 +5,6 @@ namespace TasteUi\Support\Elements;
 use Illuminate\Support\Traits\Conditionable;
 use InvalidArgumentException;
 use Stringable;
-use Throwable;
 
 final class Color implements Stringable
 {
@@ -15,10 +14,7 @@ final class Color implements Stringable
 
     protected string $class = '';
 
-    /**
-     * Acceptables tailwindcss colors.
-     */
-    private const ACCEPTABLES_COLORS = [
+    private const COLORS = [
         'primary',
         'secondary',
         'yellow',
@@ -47,21 +43,13 @@ final class Color implements Stringable
         'rose',
     ];
 
-    /**
-     * Acceptables tailwindcss prefixes.
-     */
-    private const ACCEPTABLES_PREFIXES = [
+    private const PREFIXES = [
         'bg',
         'border',
         'ring',
         'text',
     ];
 
-    /**
-     * Compile classes to the `$class`.
-     *
-     * @return $this
-     */
     public function set(string $prefix, string $type, int $weight = null): self
     {
         $prefix = str_replace('-', '', $prefix);
@@ -86,21 +74,11 @@ final class Color implements Stringable
         return $this;
     }
 
-    /**
-     * Merge classes into `$class`.
-     *
-     * @return $this
-     */
     public function merge(string $prefix, string $type, int $weight = null): self
     {
         return $this->set($prefix, $type, $weight);
     }
 
-    /**
-     * Merge classes into `$class` when condition is true.
-     *
-     * @return $this
-     */
     public function mergeWhen(bool $condition, string $prefix, string $type, int $weight = null): self
     {
         if ($condition) {
@@ -110,11 +88,6 @@ final class Color implements Stringable
         return $this;
     }
 
-    /**
-     * Merge classes into `$class` when condition is false.
-     *
-     * @return $this
-     */
     public function mergeUnless(bool $condition, string $prefix, string $type, int $weight = null): self
     {
         if (! $condition) {
@@ -124,9 +97,6 @@ final class Color implements Stringable
         return $this;
     }
 
-    /**
-     * Manual append classes into `$class`.
-     */
     public function prepend(string $class): self
     {
         $this->class = empty($this->class)
@@ -136,9 +106,6 @@ final class Color implements Stringable
         return $this;
     }
 
-    /**
-     * Manual append classes into `$class`.
-     */
     public function append(string $class): self
     {
         $this->class = empty($this->class)
@@ -148,38 +115,27 @@ final class Color implements Stringable
         return $this;
     }
 
-    /**
-     * Get the compiled classes.
-     */
     public function get(): string
     {
         return $this->class;
     }
 
-    /**
-     * Get the compiled classes.
-     */
     public function __toString(): string
     {
         return $this->get();
     }
 
-    /**
-     * Validate the prefix and type.
-     *
-     * @throws Throwable
-     */
     private function validate(string $prefix, string $type)
     {
         $prefix = str_replace(['hover:', 'ring:'], '', $prefix);
 
         throw_unless(
-            in_array($prefix, self::ACCEPTABLES_PREFIXES),
+            in_array($prefix, self::PREFIXES),
             new InvalidArgumentException("Prefix type is not allowed: [$prefix]")
         );
 
         throw_unless(
-            in_array($type, self::ACCEPTABLES_COLORS),
+            in_array($type, self::COLORS),
             new InvalidArgumentException("Selected type is not allowed: [$type]")
         );
     }

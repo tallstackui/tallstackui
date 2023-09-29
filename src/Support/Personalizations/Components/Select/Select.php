@@ -10,5 +10,5 @@ class Select implements Arrayable, Personalizable
 {
     use ShareablePersonalization;
 
-    public const EDITABLES = ['base'];
+    public const EDITABLES = ['base', 'error'];
 }
