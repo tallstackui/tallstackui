@@ -17,7 +17,6 @@ class Index extends Component implements Customizable
         public ?string $md = null,
         public ?string $lg = null,
         public bool $square = false,
-        public bool $placeholder = false,
         public bool $modelable = false,
         private ?string $size = null,
     ) {

@@ -43,7 +43,7 @@ it('can render square', function () {
 });
 
 it('can render placeholder', function () {
-    $this->blade('<x-avatar placeholder />')
+    $this->blade('<x-avatar />')
         ->assertSee('svg');
 });
 
