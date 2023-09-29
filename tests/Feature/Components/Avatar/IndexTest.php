@@ -42,6 +42,11 @@ it('can render square', function () {
         ->assertDontSee('rounded-full');
 });
 
+it('can render placeholder', function () {
+    $this->blade('<x-avatar />')
+        ->assertSee('svg');
+});
+
 it('can personalize', function () {
     $this->blade('<x-avatar label="AJ" />')
         ->assertSee('AJ');
