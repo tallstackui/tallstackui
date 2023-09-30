@@ -10,8 +10,6 @@
              x-show="show"
              @class($customize['wrapper.second'])>
             <div x-show="show"
-                 x-transition:enter="transform ease-out duration-300 transition"
-                 x-transition:enter-start="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
                  @class($customize['wrapper.third'])>
                 <div @class($customize['wrapper.fourth'])>
                     <div class="flex-shrink-0">
