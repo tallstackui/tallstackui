@@ -16,22 +16,22 @@ class IndexTest extends BrowserTestCase
                 // success
                 ->assertDontSee('Foo bar success')
                 ->click('#success')
-                ->pause(100)
+                ->pause(150)
                 ->assertSee('Foo bar success')
                 // error
                 ->assertDontSee('Foo bar error')
                 ->click('#error')
-                ->pause(100)
+                ->pause(150)
                 ->assertSee('Foo bar error')
                 // info
                 ->assertDontSee('Foo bar info')
                 ->click('#info')
-                ->pause(100)
+                ->pause(150)
                 ->assertSee('Foo bar info')
                 // warning
                 ->assertDontSee('Foo bar warning')
                 ->click('#warning')
-                ->pause(100)
+                ->pause(150)
                 ->assertSee('Foo bar warning');
         });
     }
@@ -43,11 +43,11 @@ class IndexTest extends BrowserTestCase
             $this->visit($browser, ToastComponent::class)
                 ->assertDontSee('Foo bar confirmation description')
                 ->click('#confirm')
-                ->pause(100)
+                ->pause(150)
                 ->assertSee('Foo bar confirmation description')
-                ->pause(100)
+                ->pause(150)
                 ->click('#confirmation')
-                ->pause(100)
+                ->pause(150)
                 ->assertDontSee('Foo bar confirmation description');
         });
     }
@@ -59,11 +59,11 @@ class IndexTest extends BrowserTestCase
             $this->visit($browser, ToastComponent::class)
                 ->assertDontSee('Foo bar confirmation description')
                 ->click('#confirm')
-                ->pause(100)
+                ->pause(150)
                 ->assertSee('Foo bar confirmation description')
-                ->pause(100)
+                ->pause(150)
                 ->click('#cancellation')
-                ->pause(100)
+                ->pause(150)
                 ->assertSee('Bar foo cancelled bar');
         });
     }

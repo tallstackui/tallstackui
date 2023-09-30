@@ -15,8 +15,6 @@ export default (ok, confirm, cancel) => ({
   },
   remove() {
     this.show = false;
-
-    setTimeout(() => this.dialog = {}, 500);
   },
   accept(dialog) {
     if (dialog.type !== 'question') {
@@ -26,7 +24,7 @@ export default (ok, confirm, cancel) => ({
     const params = dialog.options.confirm.params ?? null;
 
     dispatchEvent('dialog:accepted', dialog);
-    this.$dispatch(dialog.options.confirm.event, params.constructor !== Array ? [params] : [...params]);
+    setTimeout(() => this.$dispatch(dialog.options.confirm.event, params.constructor !== Array ? [params] : [...params]), 100);
 
     this.remove();
   },
@@ -38,7 +36,7 @@ export default (ok, confirm, cancel) => ({
     const params = dialog.options.cancel.params ?? null;
 
     dispatchEvent('dialog:rejected', dialog);
-    this.$dispatch(dialog.options.cancel.event, params.constructor !== Array ? [params] : [...params]);
+    setTimeout(() => this.$dispatch(dialog.options.cancel.event, params.constructor !== Array ? [params] : [...params]), 100);
 
     this.remove();
   },

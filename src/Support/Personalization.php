@@ -24,6 +24,7 @@ use TasteUi\Support\Personalizations\Components\Form\Radio;
 use TasteUi\Support\Personalizations\Components\Form\Textarea;
 use TasteUi\Support\Personalizations\Components\Form\Toggle;
 use TasteUi\Support\Personalizations\Components\Hint;
+use TasteUi\Support\Personalizations\Components\Interactions\Dialog;
 use TasteUi\Support\Personalizations\Components\Modal;
 use TasteUi\Support\Personalizations\Components\Select\Select;
 use TasteUi\Support\Personalizations\Components\Tooltip;
@@ -54,6 +55,10 @@ class Personalization implements Arrayable
         'taste-ui::personalizations.card' => [
             'personalize' => Card::class,
             'component' => 'taste-ui::components.card',
+        ],
+        'taste-ui::personalizations.dialog' => [
+            'personalize' => Dialog::class,
+            'component' => 'taste-ui::components.interactions.dialog',
         ],
         'taste-ui::personalizations.error' => [
             'personalize' => Error::class,
