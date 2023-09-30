@@ -56,7 +56,7 @@ it('can personalize', function () {
         ->assertSee('Foo bar')
         ->assertSee('inline-flex');
 
-    TasteUi::personalization('taste-ui::personalizations.tooltip')
+    TasteUi::personalize('tooltip')
         ->block('wrapper', function () {
             return 'justify-center';
         });
@@ -74,7 +74,7 @@ it('cannot personalize wrong block', function () {
         ->assertSee('Foo bar')
         ->assertSee('inline-flex');
 
-    TasteUi::personalization('taste-ui::personalizations.tooltip')
+    TasteUi::personalize('tooltip')
         ->block('foo-bar', function () {
             return 'justify-center';
         });

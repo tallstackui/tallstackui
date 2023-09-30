@@ -2,18 +2,16 @@
 
 namespace TasteUi\Support\Personalizations\Components;
 
-use Illuminate\Contracts\Support\Arrayable;
 use TasteUi\Support\Personalizations\Contracts\Personalizable;
 use TasteUi\Support\Personalizations\Traits\ShareablePersonalization;
+use TasteUi\View\Components\Error as Component;
 
-class Error implements Arrayable, Personalizable
+class Error implements Personalizable
 {
     use ShareablePersonalization;
 
-    public const EDITABLES = ['base'];
-
     public function component(): string
     {
-        return \TasteUi\View\Components\Error::class;
+        return Component::class;
     }
 }

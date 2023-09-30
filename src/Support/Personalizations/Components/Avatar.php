@@ -2,21 +2,16 @@
 
 namespace TasteUi\Support\Personalizations\Components;
 
-use Illuminate\Contracts\Support\Arrayable;
 use TasteUi\Support\Personalizations\Contracts\Personalizable;
 use TasteUi\Support\Personalizations\Traits\ShareablePersonalization;
+use TasteUi\View\Components\Avatar\Index as Component;
 
-class Avatar implements Arrayable, Personalizable
+class Avatar implements Personalizable
 {
     use ShareablePersonalization;
 
-    public const EDITABLES = [
-        'wrapper',
-        'content',
-    ];
-
     public function component(): string
     {
-        return \TasteUi\View\Components\Avatar\Index::class;
+        return Component::class;
     }
 }

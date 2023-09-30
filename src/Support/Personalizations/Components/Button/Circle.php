@@ -2,21 +2,16 @@
 
 namespace TasteUi\Support\Personalizations\Components\Button;
 
-use Illuminate\Contracts\Support\Arrayable;
 use TasteUi\Support\Personalizations\Contracts\Personalizable;
 use TasteUi\Support\Personalizations\Traits\ShareablePersonalization;
+use TasteUi\View\Components\Button\Circle as Component;
 
-class Circle implements Arrayable, Personalizable
+class Circle implements Personalizable
 {
     use ShareablePersonalization;
 
-    public const EDITABLES = [
-        'base',
-        'icon',
-    ];
-
     public function component(): string
     {
-        return \TasteUi\View\Components\Button\Circle::class;
+        return Component::class;
     }
 }

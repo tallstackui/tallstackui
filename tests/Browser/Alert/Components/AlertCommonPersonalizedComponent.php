@@ -9,7 +9,7 @@ class AlertCommonPersonalizedComponent extends Component
 {
     public function render(): string
     {
-        TasteUi::personalization('taste-ui::personalizations.alert')
+        TasteUi::personalize('alert')
             ->block('base', fn () => 'rounded-md p-6 bg-red-500');
 
         return <<<'HTML'

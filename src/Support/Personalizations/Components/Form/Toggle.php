@@ -2,22 +2,16 @@
 
 namespace TasteUi\Support\Personalizations\Components\Form;
 
-use Illuminate\Contracts\Support\Arrayable;
 use TasteUi\Support\Personalizations\Contracts\Personalizable;
 use TasteUi\Support\Personalizations\Traits\ShareablePersonalization;
+use TasteUi\View\Components\Form\Toggle as Component;
 
-class Toggle implements Arrayable, Personalizable
+class Toggle implements Personalizable
 {
     use ShareablePersonalization;
 
-    public const EDITABLES = [
-        'input',
-        'base',
-        'error',
-    ];
-
     public function component(): string
     {
-        return \TasteUi\View\Components\Form\Toggle::class;
+        return Component::class;
     }
 }

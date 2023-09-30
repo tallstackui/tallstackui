@@ -2,28 +2,16 @@
 
 namespace TasteUi\Support\Personalizations\Components;
 
-use Illuminate\Contracts\Support\Arrayable;
 use TasteUi\Support\Personalizations\Contracts\Personalizable;
 use TasteUi\Support\Personalizations\Traits\ShareablePersonalization;
+use TasteUi\View\Components\Alert as Component;
 
-class Alert implements Arrayable, Personalizable
+class Alert implements Personalizable
 {
     use ShareablePersonalization;
 
-    public const EDITABLES = [
-        'base',
-        'title.base',
-        'title.wrapper',
-        'title.icon.wrapper',
-        'title.icon.classes',
-        'text.wrapper',
-        'text.title.wrapper',
-        'text.title.icon.wrapper',
-        'text.title.icon.classes',
-    ];
-
     public function component(): string
     {
-        return \TasteUi\View\Components\Alert::class;
+        return Component::class;
     }
 }

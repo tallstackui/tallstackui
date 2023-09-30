@@ -2,18 +2,16 @@
 
 namespace TasteUi\Support\Personalizations\Components;
 
-use Illuminate\Contracts\Support\Arrayable;
 use TasteUi\Support\Personalizations\Contracts\Personalizable;
 use TasteUi\Support\Personalizations\Traits\ShareablePersonalization;
+use TasteUi\View\Components\Hint as Component;
 
-class Hint implements Arrayable, Personalizable
+class Hint implements Personalizable
 {
     use ShareablePersonalization;
 
-    public const EDITABLES = ['base'];
-
     public function component(): string
     {
-        return \TasteUi\View\Components\Hint::class;
+        return Component::class;
     }
 }

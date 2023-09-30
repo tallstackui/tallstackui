@@ -44,7 +44,7 @@ it('can personalize', function () {
     $this->blade('<x-card title="Lorem Ipsum" footer="Bar Baz">Foo bar</x-card>')
         ->assertSee('rounded-b-xl');
 
-    TasteUi::personalization('taste-ui::personalizations.card')
+    TasteUi::personalize('card')
         ->block('base', function () {
             return 'grow rounded-t-xl px-2 py-5 text-secondary-700 md:px-4';
         });
@@ -60,7 +60,7 @@ it('cannot personalize wrong block', function () {
     $this->blade('<x-card title="Lorem Ipsum" footer="Bar Baz">Foo bar</x-card>')
         ->assertSee('rounded-b-xl');
 
-    TasteUi::personalization('taste-ui::personalizations.card')
+    TasteUi::personalize('card')
         ->block('foo-bar', function () {
             return 'grow rounded-t-xl px-2 py-5 text-secondary-700 md:px-4';
         });

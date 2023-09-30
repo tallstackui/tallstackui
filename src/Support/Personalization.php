@@ -3,11 +3,11 @@
 namespace TasteUi\Support;
 
 use Closure;
-use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Facades\View as Facade;
 use Illuminate\View\View;
 use InvalidArgumentException;
-use TasteUi\Contracts\Personalizable;
+use TasteUi\Contracts\Customizable;
+use TasteUi\Contracts\Personalizable as PersonalizableClass;
 use TasteUi\Support\Personalizations\Components\Alert;
 use TasteUi\Support\Personalizations\Components\Avatar;
 use TasteUi\Support\Personalizations\Components\Badge;
@@ -29,8 +29,9 @@ use TasteUi\Support\Personalizations\Components\Interactions\Toast;
 use TasteUi\Support\Personalizations\Components\Modal;
 use TasteUi\Support\Personalizations\Components\Select\Select;
 use TasteUi\Support\Personalizations\Components\Tooltip;
+use TasteUi\Support\Personalizations\Contracts\Personalizable as PersonalizableContract;
 
-class Personalization implements Arrayable
+final class Personalization
 {
     public const COMPONENTS = [
         'taste-ui::personalizations.alert' => Alert::class,
@@ -57,42 +58,72 @@ class Personalization implements Arrayable
     ];
 
     public function __construct(
-        public ?string $component = null,
-        public ?object $instance = null,
+        public string $component,
+        private ?string $view = null,
+        private ?Customizable $instance = null,
+        private ?PersonalizableContract $personalization = null,
     ) {
-        if (! str_contains($this->component, 'taste-ui::personalizations')) {
-            $this->component = 'taste-ui::personalizations.'.$this->component;
+        if (! str_contains($component, 'taste-ui::personalizations')) {
+            $component = 'taste-ui::personalizations.'.$component;
         }
 
-        if (! array_key_exists($this->component, self::COMPONENTS)) {
-            throw new InvalidArgumentException("Personalization [$this->component] not found");
+        if (! array_key_exists($component, self::COMPONENTS)) {
+            throw new InvalidArgumentException("Personalization [$component] not found");
         }
 
-        $this->instance = app($this->component);
-        $personalizable = self::COMPONENTS[$this->component];
-
-        $personalizable = new $personalizable();
-        $this->component = app($personalizable->component())->render()->name();
+        $this->personalization = app($component);
+        $this->instance = $this->component();
+        $this->view = $this->instance->render()->name(); // @phpstan-ignore-line
     }
 
-    public function block(string $block, string|Closure|Personalizable $code): self
+    /**
+     * Set the personalization in the component block.
+     *
+     * @return $this
+     */
+    public function block(string $name, string|Closure|PersonalizableClass $code): self
     {
-        if (! in_array($block, array_values($this->instance::EDITABLES))) {
-            throw new InvalidArgumentException("Block [$block] is not allowed to be personalized at the [$this->component] component.");
+        if (! in_array($name, array_values($this->blocks()))) {
+            throw new InvalidArgumentException("Block [$name] is not allowed to be personalized at the [$this->view] component.");
         }
 
-        Facade::composer($this->component, fn (View $view) => $this->instance->set($block, is_callable($code) ? $code($view->getData()) : $code));
+        Facade::composer($this->view, fn (View $view) => $this->personalization->set($name, is_callable($code) ? $code($view->getData()) : $code));
 
         return $this;
     }
 
-    public function get(string $block): ?string
+    /**
+     * Alias to the `block` method.
+     *
+     * @return $this
+     */
+    public function in(string $block, string|Closure|PersonalizableClass $code): self
     {
-        return $this->instance->get($block);
+        return $this->block($block, $code);
     }
 
-    public function toArray(): array
+    /**
+     * Returns the instance of the personalization class.
+     */
+    public function instance(): PersonalizableContract
     {
-        return $this->instance->toArray();
+        return $this->personalization;
+    }
+
+    /**
+     * Retrieves the Blade component class instance.
+     */
+    private function component(): Customizable
+    {
+        return app($this->personalization->component());
+    }
+
+    /**
+     * Get all the blocks that can be personalized directly
+     * from the component class `tasteUiClasses` method.
+     */
+    private function blocks(): array
+    {
+        return array_keys($this->instance->tasteUiClasses());
     }
 }

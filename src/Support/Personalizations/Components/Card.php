@@ -2,26 +2,16 @@
 
 namespace TasteUi\Support\Personalizations\Components;
 
-use Illuminate\Contracts\Support\Arrayable;
 use TasteUi\Support\Personalizations\Contracts\Personalizable;
 use TasteUi\Support\Personalizations\Traits\ShareablePersonalization;
+use TasteUi\View\Components\Card as Component;
 
-class Card implements Arrayable, Personalizable
+class Card implements Personalizable
 {
     use ShareablePersonalization;
 
-    public const EDITABLES = [
-        'base',
-        'wrapper.first',
-        'wrapper.second',
-        'title.wrapper',
-        'title.text',
-        'footer.wrapper',
-        'footer.text',
-    ];
-
     public function component(): string
     {
-        return \TasteUi\View\Components\Card::class;
+        return Component::class;
     }
 }
