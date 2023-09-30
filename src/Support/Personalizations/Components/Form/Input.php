@@ -16,4 +16,9 @@ class Input implements Arrayable, Personalizable
         'icon.size',
         'error',
     ];
+
+    public function component(): string
+    {
+        return \TasteUi\View\Components\Form\Input::class;
+    }
 }

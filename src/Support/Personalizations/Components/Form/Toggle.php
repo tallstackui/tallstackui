@@ -15,4 +15,9 @@ class Toggle implements Arrayable, Personalizable
         'base',
         'error',
     ];
+
+    public function component(): string
+    {
+        return \TasteUi\View\Components\Form\Toggle::class;
+    }
 }
