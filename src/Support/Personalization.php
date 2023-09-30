@@ -32,86 +32,26 @@ use TasteUi\Support\Personalizations\Components\Tooltip;
 class Personalization implements Arrayable
 {
     public const COMPONENTS = [
-        'taste-ui::personalizations.alert' => [
-            'personalize' => Alert::class,
-            'component' => 'taste-ui::components.alert',
-        ],
-        'taste-ui::personalizations.avatar' => [
-            'personalize' => Avatar::class,
-            'component' => 'taste-ui::components.avatar',
-        ],
-        'taste-ui::personalizations.badge' => [
-            'personalize' => Badge::class,
-            'component' => 'taste-ui::components.badge',
-        ],
-        'taste-ui::personalizations.button' => [
-            'personalize' => Index::class,
-            'component' => 'taste-ui::components.buttons.index',
-        ],
-        'taste-ui::personalizations.button.circle' => [
-            'personalize' => Circle::class,
-            'component' => 'taste-ui::components.buttons.circle',
-        ],
-        'taste-ui::personalizations.card' => [
-            'personalize' => Card::class,
-            'component' => 'taste-ui::components.card',
-        ],
-        'taste-ui::personalizations.dialog' => [
-            'personalize' => Dialog::class,
-            'component' => 'taste-ui::components.interactions.dialog',
-        ],
-        'taste-ui::personalizations.error' => [
-            'personalize' => Error::class,
-            'component' => 'taste-ui::components.error',
-        ],
-        'taste-ui::personalizations.errors' => [
-            'personalize' => Errors::class,
-            'component' => 'taste-ui::components.errors',
-        ],
-        'taste-ui::personalizations.form.input' => [
-            'personalize' => Input::class,
-            'component' => 'taste-ui::components.form.input',
-        ],
-        'taste-ui::personalizations.form.label' => [
-            'personalize' => Label::class,
-            'component' => 'taste-ui::components.form.label',
-        ],
-        'taste-ui::personalizations.form.password' => [
-            'personalize' => Password::class,
-            'component' => 'taste-ui::components.form.password',
-        ],
-        'taste-ui::personalizations.form.checkbox' => [
-            'personalize' => Checkbox::class,
-            'component' => 'taste-ui::components.form.checkbox',
-        ],
-        'taste-ui::personalizations.form.radio' => [
-            'personalize' => Radio::class,
-            'component' => 'taste-ui::components.form.radio',
-        ],
-        'taste-ui::personalizations.form.textarea' => [
-            'personalize' => Textarea::class,
-            'component' => 'taste-ui::components.form.textarea',
-        ],
-        'taste-ui::personalizations.form.toggle' => [
-            'personalize' => Toggle::class,
-            'component' => 'taste-ui::components.form.toggle',
-        ],
-        'taste-ui::personalizations.hint' => [
-            'personalize' => Hint::class,
-            'component' => 'taste-ui::components.hint',
-        ],
-        'taste-ui::personalizations.modal' => [
-            'personalize' => Modal::class,
-            'component' => 'taste-ui::components.modal',
-        ],
-        'taste-ui::personalizations.select' => [
-            'personalize' => Select::class,
-            'component' => 'taste-ui::components.select.select',
-        ],
-        'taste-ui::personalizations.tooltip' => [
-            'personalize' => Tooltip::class,
-            'component' => 'taste-ui::components.tooltip',
-        ],
+        'taste-ui::personalizations.alert' => Alert::class,
+        'taste-ui::personalizations.avatar' => Avatar::class,
+        'taste-ui::personalizations.badge' => Badge::class,
+        'taste-ui::personalizations.button' => Index::class,
+        'taste-ui::personalizations.button.circle' => Circle::class,
+        'taste-ui::personalizations.card' => Card::class,
+        'taste-ui::personalizations.dialog' => Dialog::class,
+        'taste-ui::personalizations.error' => Error::class,
+        'taste-ui::personalizations.errors' => Errors::class,
+        'taste-ui::personalizations.form.input' => Input::class,
+        'taste-ui::personalizations.form.label' => Label::class,
+        'taste-ui::personalizations.form.password' => Password::class,
+        'taste-ui::personalizations.form.checkbox' => Checkbox::class,
+        'taste-ui::personalizations.form.radio' => Radio::class,
+        'taste-ui::personalizations.form.textarea' => Textarea::class,
+        'taste-ui::personalizations.form.toggle' => Toggle::class,
+        'taste-ui::personalizations.hint' => Hint::class,
+        'taste-ui::personalizations.modal' => Modal::class,
+        'taste-ui::personalizations.select' => Select::class,
+        'taste-ui::personalizations.tooltip' => Tooltip::class,
     ];
 
     public function __construct(
@@ -127,7 +67,11 @@ class Personalization implements Arrayable
         }
 
         $this->instance = app($this->component);
-        $this->component = self::COMPONENTS[$this->component]['component'];
+
+        $personalizable = self::COMPONENTS[$this->component];
+
+        $personalizable = new $personalizable();
+        $this->component = app($personalizable->component())->render()->name();
     }
 
     public function block(string $block, string|Closure|Personalizable $code): self

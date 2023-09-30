@@ -15,4 +15,9 @@ class Label implements Arrayable, Personalizable
         'text',
         'error',
     ];
+
+    public function component(): string
+    {
+        return \TasteUi\View\Components\Form\Label::class;
+    }
 }

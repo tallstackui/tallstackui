@@ -51,7 +51,7 @@ class TasteUiServiceProvider extends ServiceProvider
     {
         foreach (Personalization::COMPONENTS as $personalization => $configuration) {
             $this->app->singleton($personalization, function () use ($configuration) {
-                return $this->app->make($configuration['personalize']);
+                return $this->app->make($configuration);
             });
         }
     }

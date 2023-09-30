@@ -21,4 +21,9 @@ class Alert implements Arrayable, Personalizable
         'text.title.icon.wrapper',
         'text.title.icon.classes',
     ];
+
+    public function component(): string
+    {
+        return \TasteUi\View\Components\Alert::class;
+    }
 }

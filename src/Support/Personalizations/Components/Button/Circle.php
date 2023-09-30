@@ -14,4 +14,9 @@ class Circle implements Arrayable, Personalizable
         'base',
         'icon',
     ];
+
+    public function component(): string
+    {
+        return \TasteUi\View\Components\Button\Circle::class;
+    }
 }

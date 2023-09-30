@@ -11,4 +11,9 @@ class Textarea implements Arrayable, Personalizable
     use ShareablePersonalization;
 
     public const EDITABLES = ['base', 'error'];
+
+    public function component(): string
+    {
+        return \TasteUi\View\Components\Form\Textarea::class;
+    }
 }

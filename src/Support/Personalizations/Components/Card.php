@@ -19,4 +19,9 @@ class Card implements Arrayable, Personalizable
         'footer.wrapper',
         'footer.text',
     ];
+
+    public function component(): string
+    {
+        return \TasteUi\View\Components\Card::class;
+    }
 }

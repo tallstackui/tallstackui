@@ -20,4 +20,9 @@ class Modal implements Arrayable, Personalizable
         'body',
         'footer',
     ];
+
+    public function component(): string
+    {
+        return \TasteUi\View\Components\Modal::class;
+    }
 }

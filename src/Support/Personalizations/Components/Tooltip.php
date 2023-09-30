@@ -14,4 +14,9 @@ class Tooltip implements Arrayable, Personalizable
         'wrapper',
         'icon',
     ];
+
+    public function component(): string
+    {
+        return \TasteUi\View\Components\Tooltip::class;
+    }
 }

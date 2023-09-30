@@ -18,4 +18,9 @@ class Errors implements Arrayable, Personalizable
         'body.list',
         'body.wrapper',
     ];
+
+    public function component(): string
+    {
+        return \TasteUi\View\Components\Errors::class;
+    }
 }

@@ -14,4 +14,9 @@ class Avatar implements Arrayable, Personalizable
         'wrapper',
         'content',
     ];
+
+    public function component(): string
+    {
+        return \TasteUi\View\Components\Avatar\Index::class;
+    }
 }

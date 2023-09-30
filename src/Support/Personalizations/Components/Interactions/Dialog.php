@@ -25,4 +25,9 @@ class Dialog implements Arrayable, Personalizable
         'buttons.cancel',
         'buttons.confirm',
     ];
+
+    public function component(): string
+    {
+        return \TasteUi\View\Components\Interactions\Dialog::class;
+    }
 }

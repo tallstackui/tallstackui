@@ -16,4 +16,9 @@ class Password implements Arrayable, Personalizable
         'icon.classes',
         'error',
     ];
+
+    public function component(): string
+    {
+        return \TasteUi\View\Components\Form\Password::class;
+    }
 }
