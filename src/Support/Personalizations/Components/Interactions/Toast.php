@@ -2,11 +2,10 @@
 
 namespace TasteUi\Support\Personalizations\Components\Interactions;
 
-use Illuminate\Contracts\Support\Arrayable;
 use TasteUi\Support\Personalizations\Contracts\Personalizable;
 use TasteUi\Support\Personalizations\Traits\ShareablePersonalization;
 
-class Toast implements Arrayable, Personalizable
+class Toast implements Personalizable
 {
     use ShareablePersonalization;
 

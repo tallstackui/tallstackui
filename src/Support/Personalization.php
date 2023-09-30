@@ -7,7 +7,8 @@ use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Facades\View as Facade;
 use Illuminate\View\View;
 use InvalidArgumentException;
-use TasteUi\Contracts\Personalizable;
+use TasteUi\Contracts\Customizable;
+use TasteUi\Contracts\Personalizable as PersonalizableClass;
 use TasteUi\Support\Personalizations\Components\Alert;
 use TasteUi\Support\Personalizations\Components\Avatar;
 use TasteUi\Support\Personalizations\Components\Badge;
@@ -29,6 +30,7 @@ use TasteUi\Support\Personalizations\Components\Interactions\Toast;
 use TasteUi\Support\Personalizations\Components\Modal;
 use TasteUi\Support\Personalizations\Components\Select\Select;
 use TasteUi\Support\Personalizations\Components\Tooltip;
+use TasteUi\Support\Personalizations\Contracts\Personalizable as PersonalizableContract;
 
 class Personalization implements Arrayable
 {
@@ -57,42 +59,57 @@ class Personalization implements Arrayable
     ];
 
     public function __construct(
-        public ?string $component = null,
-        public ?object $instance = null,
+        public ?string $of = null,
+        private ?string $blade = null,
+        private ?Customizable $component = null,
+        private ?PersonalizableContract $personalization = null,
     ) {
-        if (! str_contains($this->component, 'taste-ui::personalizations')) {
-            $this->component = 'taste-ui::personalizations.'.$this->component;
+        if (! str_contains($of, 'taste-ui::personalizations')) {
+            $of = 'taste-ui::personalizations.'.$of;
         }
 
-        if (! array_key_exists($this->component, self::COMPONENTS)) {
-            throw new InvalidArgumentException("Personalization [$this->component] not found");
+        if (! array_key_exists($of, self::COMPONENTS)) {
+            throw new InvalidArgumentException("Personalization [$of] not found");
         }
 
-        $this->instance = app($this->component);
-        $personalizable = self::COMPONENTS[$this->component];
-
-        $personalizable = new $personalizable();
-        $this->component = app($personalizable->component())->render()->name();
+        $this->personalization = app($of);
+        $this->component = $this->instance();
+        $this->blade = $this->component->render()->name(); // @phpstan-ignore-line
     }
 
-    public function block(string $block, string|Closure|Personalizable $code): self
+    public function block(string $name, string|Closure|PersonalizableClass $code): self
     {
-        if (! in_array($block, array_values($this->instance::EDITABLES))) {
-            throw new InvalidArgumentException("Block [$block] is not allowed to be personalized at the [$this->component] component.");
+        if (! in_array($name, array_values($this->blocks()))) {
+            throw new InvalidArgumentException("Block [$name] is not allowed to be personalized at the [$this->blade] component.");
         }
 
-        Facade::composer($this->component, fn (View $view) => $this->instance->set($block, is_callable($code) ? $code($view->getData()) : $code));
+        Facade::composer($this->blade, fn (View $view) => $this->personalization->set($name, is_callable($code) ? $code($view->getData()) : $code));
 
         return $this;
     }
 
+    public function in(string $block, string|Closure|PersonalizableClass $code): self
+    {
+        return $this->block($block, $code);
+    }
+
     public function get(string $block): ?string
     {
-        return $this->instance->get($block);
+        return $this->personalization->get($block);
     }
 
     public function toArray(): array
     {
-        return $this->instance->toArray();
+        return $this->personalization->toArray();
+    }
+
+    private function instance(): Customizable
+    {
+        return app($this->personalization->component());
+    }
+
+    private function blocks(): array
+    {
+        return array_keys($this->component->tasteUiClasses());
     }
 }

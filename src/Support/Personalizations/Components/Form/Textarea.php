@@ -2,11 +2,10 @@
 
 namespace TasteUi\Support\Personalizations\Components\Form;
 
-use Illuminate\Contracts\Support\Arrayable;
 use TasteUi\Support\Personalizations\Contracts\Personalizable;
 use TasteUi\Support\Personalizations\Traits\ShareablePersonalization;
 
-class Textarea implements Arrayable, Personalizable
+class Textarea implements Personalizable
 {
     use ShareablePersonalization;
 

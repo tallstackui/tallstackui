@@ -9,4 +9,6 @@ interface Personalizable
     public function get(string $block): ?string;
 
     public function component(): string;
+
+    public function toArray(): array;
 }

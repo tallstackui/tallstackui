@@ -2,11 +2,10 @@
 
 namespace TasteUi\Support\Personalizations\Components;
 
-use Illuminate\Contracts\Support\Arrayable;
 use TasteUi\Support\Personalizations\Contracts\Personalizable;
 use TasteUi\Support\Personalizations\Traits\ShareablePersonalization;
 
-class Alert implements Arrayable, Personalizable
+class Alert implements Personalizable
 {
     use ShareablePersonalization;
 

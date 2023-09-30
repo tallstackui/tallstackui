@@ -2,11 +2,10 @@
 
 namespace TasteUi\Support\Personalizations\Components\Button;
 
-use Illuminate\Contracts\Support\Arrayable;
 use TasteUi\Support\Personalizations\Contracts\Personalizable;
 use TasteUi\Support\Personalizations\Traits\ShareablePersonalization;
 
-class Index implements Arrayable, Personalizable
+class Index implements Personalizable
 {
     use ShareablePersonalization;
 

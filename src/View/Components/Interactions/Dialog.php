@@ -24,11 +24,11 @@ class Dialog extends Component implements Customizable
     public function customization(): array
     {
         return [
-            ...$this->tasteUiMainClasses(),
+            ...$this->tasteUiClasses(),
         ];
     }
 
-    public function tasteUiMainClasses(): array
+    public function tasteUiClasses(): array
     {
         return Arr::dot([
             'background' => 'fixed inset-0 bg-gray-400 bg-opacity-75 transition-opacity',
