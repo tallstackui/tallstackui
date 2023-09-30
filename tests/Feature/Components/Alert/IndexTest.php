@@ -53,7 +53,7 @@ it('can personalize', function () {
         ->assertSee('bg-primary-400')
         ->assertDontSee('rounded-full');
 
-    TasteUi::personalization('alert')
+    TasteUi::personalize('alert')
         ->block('base', function (array $data) {
             return Arr::toCssClasses([
                 'rounded-full p-4',
@@ -81,7 +81,7 @@ it('cannot personalize wrong block', function () {
         ->assertSee('bg-primary-400')
         ->assertDontSee('rounded-full');
 
-    TasteUi::personalization('alert')
+    TasteUi::personalize('alert')
         ->block('foo-bar', function (array $data) {
             return Arr::toCssClasses([
                 'rounded-full p-4',

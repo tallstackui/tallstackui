@@ -18,7 +18,7 @@ class AlertCustomPersonalizedComponent extends Component
 {
     public function render(): string
     {
-        TasteUi::personalization('alert')
+        TasteUi::personalize('alert')
             ->block('base', new Personalize());
 
         return <<<'HTML'

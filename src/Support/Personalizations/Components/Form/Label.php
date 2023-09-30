@@ -9,12 +9,6 @@ class Label implements Personalizable
 {
     use ShareablePersonalization;
 
-    public const EDITABLES = [
-        'wrapper',
-        'text',
-        'error',
-    ];
-
     public function component(): string
     {
         return \TasteUi\View\Components\Form\Label::class;

@@ -9,11 +9,6 @@ class Avatar implements Personalizable
 {
     use ShareablePersonalization;
 
-    public const EDITABLES = [
-        'wrapper',
-        'content',
-    ];
-
     public function component(): string
     {
         return \TasteUi\View\Components\Avatar\Index::class;

@@ -9,8 +9,6 @@ class Badge implements Personalizable
 {
     use ShareablePersonalization;
 
-    public const EDITABLES = ['base', 'icon'];
-
     public function component(): string
     {
         return \TasteUi\View\Components\Badge::class;

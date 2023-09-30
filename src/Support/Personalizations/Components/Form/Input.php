@@ -9,13 +9,6 @@ class Input implements Personalizable
 {
     use ShareablePersonalization;
 
-    public const EDITABLES = [
-        'base',
-        'icon.wrapper',
-        'icon.size',
-        'error',
-    ];
-
     public function component(): string
     {
         return \TasteUi\View\Components\Form\Input::class;

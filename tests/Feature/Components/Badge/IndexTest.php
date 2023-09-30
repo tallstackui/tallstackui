@@ -55,7 +55,7 @@ it('can personalize', function () {
         ->assertSee('bg-primary-500')
         ->assertDontSee('px-4');
 
-    TasteUi::personalization('badge')
+    TasteUi::personalize('badge')
         ->block('base', function (array $data) {
             return Arr::toCssClasses([
                 'outline-none inline-flex items-center border px-4 py-0.5 font-bold',
@@ -89,7 +89,7 @@ it('cannot personalize wrong block', function () {
         ->assertSee('bg-primary-500')
         ->assertDontSee('px-4');
 
-    TasteUi::personalization('badge')
+    TasteUi::personalize('badge')
         ->block('foo-bar', function (array $data) {
             return Arr::toCssClasses([
                 'outline-none inline-flex items-center border px-4 py-0.5 font-bold',

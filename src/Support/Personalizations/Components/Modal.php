@@ -9,17 +9,6 @@ class Modal implements Personalizable
 {
     use ShareablePersonalization;
 
-    public const EDITABLES = [
-        'wrapper.first',
-        'wrapper.second',
-        'wrapper.third',
-        'wrapper.fourth',
-        'title.wrapper',
-        'title.base',
-        'body',
-        'footer',
-    ];
-
     public function component(): string
     {
         return \TasteUi\View\Components\Modal::class;

@@ -9,8 +9,6 @@ class Error implements Personalizable
 {
     use ShareablePersonalization;
 
-    public const EDITABLES = ['base'];
-
     public function component(): string
     {
         return \TasteUi\View\Components\Error::class;

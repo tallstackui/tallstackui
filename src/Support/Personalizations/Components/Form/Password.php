@@ -9,13 +9,6 @@ class Password implements Personalizable
 {
     use ShareablePersonalization;
 
-    public const EDITABLES = [
-        'base',
-        'icon.wrapper',
-        'icon.classes',
-        'error',
-    ];
-
     public function component(): string
     {
         return \TasteUi\View\Components\Form\Password::class;

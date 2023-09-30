@@ -9,12 +9,6 @@ class Toggle implements Personalizable
 {
     use ShareablePersonalization;
 
-    public const EDITABLES = [
-        'input',
-        'base',
-        'error',
-    ];
-
     public function component(): string
     {
         return \TasteUi\View\Components\Form\Toggle::class;

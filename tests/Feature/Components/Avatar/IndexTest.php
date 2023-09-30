@@ -51,7 +51,7 @@ it('can personalize', function () {
     $this->blade('<x-avatar label="AJ" />')
         ->assertSee('AJ');
 
-    TasteUi::personalization('avatar')
+    TasteUi::personalize('avatar')
         ->block('wrapper', function (array $data) {
             return Arr::toCssClasses([
                 'inline-flex shrink-0 items-center justify-center overflow-hidden text-xl w-20 h-20',
@@ -73,7 +73,7 @@ it('cannot personalize wrong block', function () {
     $this->blade('<x-avatar label="AJ" />')
         ->assertSee('AJ');
 
-    TasteUi::personalization('avatar')
+    TasteUi::personalize('avatar')
         ->block('foo-bar', function (array $data) {
             return Arr::toCssClasses([
                 'inline-flex shrink-0 items-center justify-center overflow-hidden text-xl w-20 h-20',

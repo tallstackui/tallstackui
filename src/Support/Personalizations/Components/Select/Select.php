@@ -9,8 +9,6 @@ class Select implements Personalizable
 {
     use ShareablePersonalization;
 
-    public const EDITABLES = ['base', 'error'];
-
     public function component(): string
     {
         return \TasteUi\View\Components\Select\Select::class;
