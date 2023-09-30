@@ -27,9 +27,9 @@
                  x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                  @class($customize['wrapper.third'])
                  x-on:click.outside="remove()">
-                <div class="flex justify-end">
+                <div @class($customize['buttons.close.wrapper'])>
                     <button x-on:click="remove()">
-                        <x-icon name="x-mark" class="h-5 w-5 cursor-pointer text-gray-400"/>
+                        <x-icon name="x-mark" @class($customize['buttons.close.base']) />
                     </button>
                 </div>
                 <div>
