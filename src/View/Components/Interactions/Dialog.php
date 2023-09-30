@@ -58,8 +58,8 @@ class Dialog extends Component implements Customizable
                 'confirm' => 'inline-flex w-full items-center justify-center rounded-md px-4 py-2 text-sm transition font-semibold text-white outline-none ease-in group focus:ring-2 focus:ring-offset-2',
                 'close' => [
                     'wrapper' => 'flex justify-end',
-                    'base' => 'h-5 w-5 cursor-pointer text-gray-400'
-                ]
+                    'base' => 'h-5 w-5 cursor-pointer text-gray-400',
+                ],
             ],
         ]);
     }
