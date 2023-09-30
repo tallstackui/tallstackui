@@ -4,6 +4,7 @@ namespace TasteUi\Support\Personalizations\Components;
 
 use TasteUi\Support\Personalizations\Contracts\Personalizable;
 use TasteUi\Support\Personalizations\Traits\ShareablePersonalization;
+use TasteUi\View\Components\Tooltip as Component;
 
 class Tooltip implements Personalizable
 {
@@ -11,6 +12,6 @@ class Tooltip implements Personalizable
 
     public function component(): string
     {
-        return \TasteUi\View\Components\Tooltip::class;
+        return Component::class;
     }
 }

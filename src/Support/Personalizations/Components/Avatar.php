@@ -4,6 +4,7 @@ namespace TasteUi\Support\Personalizations\Components;
 
 use TasteUi\Support\Personalizations\Contracts\Personalizable;
 use TasteUi\Support\Personalizations\Traits\ShareablePersonalization;
+use TasteUi\View\Components\Avatar\Index as Component;
 
 class Avatar implements Personalizable
 {
@@ -11,6 +12,6 @@ class Avatar implements Personalizable
 
     public function component(): string
     {
-        return \TasteUi\View\Components\Avatar\Index::class;
+        return Component::class;
     }
 }

@@ -4,6 +4,7 @@ namespace TasteUi\Support\Personalizations\Components;
 
 use TasteUi\Support\Personalizations\Contracts\Personalizable;
 use TasteUi\Support\Personalizations\Traits\ShareablePersonalization;
+use TasteUi\View\Components\Hint as Component;
 
 class Hint implements Personalizable
 {
@@ -11,6 +12,6 @@ class Hint implements Personalizable
 
     public function component(): string
     {
-        return \TasteUi\View\Components\Hint::class;
+        return Component::class;
     }
 }
