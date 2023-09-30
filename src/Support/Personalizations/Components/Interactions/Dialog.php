@@ -24,6 +24,8 @@ class Dialog implements Arrayable, Personalizable
         'buttons.wrapper',
         'buttons.cancel',
         'buttons.confirm',
+        'buttons.close.wrapper',
+        'buttons.close.base',
     ];
 
     public function component(): string

@@ -10,7 +10,7 @@ use TasteUi\Contracts\Customizable;
 class Dialog extends Component implements Customizable
 {
     public function __construct(
-        public ?string $zIndex = 'z-50',
+        public string $zIndex = 'z-50',
         public bool $blur = false,
     ) {
         //
@@ -56,6 +56,10 @@ class Dialog extends Component implements Customizable
                 'wrapper' => 'mt-5 space-y-2 sm:space-x-2 sm:space-y-0 sm:mt-6 sm:flex sm:justify-end',
                 'cancel' => 'inline-flex w-full items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-semibold text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300',
                 'confirm' => 'inline-flex w-full items-center justify-center rounded-md px-4 py-2 text-sm transition font-semibold text-white outline-none ease-in group focus:ring-2 focus:ring-offset-2',
+                'close' => [
+                    'wrapper' => 'flex justify-end',
+                    'base' => 'h-5 w-5 cursor-pointer text-gray-400'
+                ]
             ],
         ]);
     }

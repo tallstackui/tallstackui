@@ -25,6 +25,7 @@ use TasteUi\Support\Personalizations\Components\Form\Textarea;
 use TasteUi\Support\Personalizations\Components\Form\Toggle;
 use TasteUi\Support\Personalizations\Components\Hint;
 use TasteUi\Support\Personalizations\Components\Interactions\Dialog;
+use TasteUi\Support\Personalizations\Components\Interactions\Toast;
 use TasteUi\Support\Personalizations\Components\Modal;
 use TasteUi\Support\Personalizations\Components\Select\Select;
 use TasteUi\Support\Personalizations\Components\Tooltip;
@@ -51,6 +52,7 @@ class Personalization implements Arrayable
         'taste-ui::personalizations.hint' => Hint::class,
         'taste-ui::personalizations.modal' => Modal::class,
         'taste-ui::personalizations.select' => Select::class,
+        'taste-ui::personalizations.toast' => Toast::class,
         'taste-ui::personalizations.tooltip' => Tooltip::class,
     ];
 
@@ -67,7 +69,6 @@ class Personalization implements Arrayable
         }
 
         $this->instance = app($this->component);
-
         $personalizable = self::COMPONENTS[$this->component];
 
         $personalizable = new $personalizable();

@@ -6,28 +6,28 @@ use Illuminate\Contracts\Support\Arrayable;
 use TasteUi\Support\Personalizations\Contracts\Personalizable;
 use TasteUi\Support\Personalizations\Traits\ShareablePersonalization;
 
-class Dialog implements Arrayable, Personalizable
+class Toast implements Arrayable, Personalizable
 {
     use ShareablePersonalization;
 
     public const EDITABLES = [
-        'background',
         'wrapper.first',
         'wrapper.second',
         'wrapper.third',
-        'icon.wrapper',
+        'wrapper.fourth',
         'icon.size',
-        'text.wrapper',
-        'text.title',
-        'text.description.wrapper',
-        'text.description.text',
+        'content.wrapper',
+        'content.text',
+        'content.description',
         'buttons.wrapper',
-        'buttons.cancel',
         'buttons.confirm',
+        'buttons.cancel.wrapper',
+        'buttons.cancel.base',
+        'buttons.cancel.size',
     ];
 
     public function component(): string
     {
-        return \TasteUi\View\Components\Interactions\Dialog::class;
+        return \TasteUi\View\Components\Interactions\Toast::class;
     }
 }
