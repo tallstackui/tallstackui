@@ -1,6 +1,7 @@
 @php
-    $computed = $attributes->whereStartsWith('wire:model')->first();
-    $error    = $errors->has($computed);
+    $computed  = $attributes->whereStartsWith('wire:model')->first();
+    $error     = $errors->has($computed);
+    $customize = tasteui_personalization('select.searchable', $customization());
 @endphp
 
 <x-taste-ui::wrappers.select.wrapper :$label :$error :$computed :$hint loading>
@@ -18,9 +19,9 @@
             <div class="truncate" x-show="multiple">
                 <template x-for="(selected, index) in selecteds" :key="selected[selectable.label] ?? selected">
                     <a href="#" class="cursor-pointer" x-on:click="clear(selected);">
-                        <div class="inline-flex items-center rounded-lg bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10 space-x-1">
+                        <div @class($customize['multiple'])>
                             <span x-text="selected[selectable.label] ?? selected"></span>
-                            <x-icon name="x-mark" class="h-4 w-4 text-gray-700 transition hover:text-red-500" />
+                            <x-icon name="x-mark" @class($customize['icon']) />
                         </div>
                     </a>
                 </template>
