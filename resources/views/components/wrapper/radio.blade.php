@@ -4,10 +4,7 @@
     <div @class($customize['wrapper'])>
         @if ($label && $position === 'left')
         <span @class([$customize['label.span'], 'mr-1'])>
-            <p @class([
-                    $customize['label.base'],
-                    $customize['label.error'] => $error,
-                ])>{{ $label }}</p>
+            <p @class($customize['label.base'])>{{ $label }}</p>
         </span>
         @endif
         <label @if ($id) for="{{ $id }}" @endif @class($customize['slot'])>
@@ -15,10 +12,7 @@
         </label>
         @if ($label && $position === 'right')
         <span @class([$customize['label.span'], 'ml-1'])>
-            <p @class([
-                    $customize['label.base'],
-                    $customize['label.error'] => $error,
-                ])>{{ $label }}</p>
+            <p @class($customize['label.base'])>{{ $label }}</p>
         </span>
         @endif
     </div>
