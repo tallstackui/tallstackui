@@ -65,7 +65,7 @@ class Searchable extends Styled
             new InvalidArgumentException('The [select] parameter must be defined.')
         );
 
-        if (! is_array($this->request)) {
+        if ($this->request && ! is_array($this->request)) {
             return;
         }
 
@@ -75,12 +75,18 @@ class Searchable extends Styled
     /** @throws Throwable */
     private function validate(): void
     {
-        throw_unless(
-            isset($this->request['url']),
-            new InvalidArgumentException('The key: [url] is required in the request array.')
+        throw_if(
+            ! $this->request,
+            new InvalidArgumentException('The [request] parameter must be defined.')
         );
 
-        $this->request['method'] = isset($this->request['method']) ? strtolower($this->request['method']) : 'get';
+        throw_unless(
+            isset($this->request['url']),
+            new InvalidArgumentException('The [url] is required in the request array.')
+        );
+
+        $this->request['method'] ??= 'get';
+        $this->request['method'] = strtolower($this->request['method']);
 
         // We remove search from the request because
         // the search will be attached on the javascript.
@@ -90,13 +96,13 @@ class Searchable extends Styled
 
         throw_unless(
             in_array($this->request['method'], ['get', 'post']),
-            new InvalidArgumentException('The key: [method] must be get or post.')
+            new InvalidArgumentException('The [method] must be get or post.')
         );
 
         throw_if(
             isset($this->request['params']) &&
             (empty($this->request['params']) || ! is_array($this->request['params'])),
-            new InvalidArgumentException('The key: [params] must be an array.')
+            new InvalidArgumentException('The [params] must be an array.')
         );
     }
 }
