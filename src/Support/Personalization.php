@@ -27,7 +27,9 @@ use TasteUi\Support\Personalizations\Components\Hint;
 use TasteUi\Support\Personalizations\Components\Interactions\Dialog;
 use TasteUi\Support\Personalizations\Components\Interactions\Toast;
 use TasteUi\Support\Personalizations\Components\Modal;
+use TasteUi\Support\Personalizations\Components\Select\Searchable;
 use TasteUi\Support\Personalizations\Components\Select\Select;
+use TasteUi\Support\Personalizations\Components\Select\Styled;
 use TasteUi\Support\Personalizations\Components\Tooltip;
 use TasteUi\Support\Personalizations\Contracts\Personalizable as PersonalizableContract;
 
@@ -53,6 +55,8 @@ final class Personalization
         'taste-ui::personalizations.hint' => Hint::class,
         'taste-ui::personalizations.modal' => Modal::class,
         'taste-ui::personalizations.select' => Select::class,
+        'taste-ui::personalizations.select.searchable' => Searchable::class,
+        'taste-ui::personalizations.select.styled' => Styled::class,
         'taste-ui::personalizations.toast' => Toast::class,
         'taste-ui::personalizations.tooltip' => Tooltip::class,
     ];
@@ -115,7 +119,7 @@ final class Personalization
      */
     private function component(): Customizable
     {
-        return app($this->personalization->component());
+        return app($this->personalization->component(), ['ignoreValidations' => true]);
     }
 
     /**

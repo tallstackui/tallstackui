@@ -25,6 +25,10 @@ export default (
       return warning('The wire:model must be an array');
     }
 
+    if (!this.multiple && (this.model !== null && this.model.constructor === Array)) {
+      return warning('The wire:model must not be an array when is not multiple');
+    }
+
     if (this.selectable.constructor === Array && this.selectable.length === 0) {
       return warning('The select must be defined');
     }
@@ -55,9 +59,7 @@ export default (
       });
 
       if (!this.multiple) {
-        this.placeholder = this.model.constructor === Array && this.model.length > 0 ?
-            this.selecteds[0][this.selectable.label] :
-            (this.selecteds[this.selectable.label] || placeholder);
+        this.placeholder = this.selecteds[0][this.selectable.label] ?? placeholder;
       }
     }
   },
