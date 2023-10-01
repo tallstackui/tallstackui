@@ -1,41 +1,34 @@
-@props(['alpine', 'header', 'loading' => null, 'computed', 'error', 'label', 'hint'])
-
-@php($error = $errors->has($computed))
+@php
+    $customize = tasteui_personalization('wrapper.select', $customization());
+    $error = $errors->has($computed)
+@endphp
 
 <div x-data="{!! $alpine !!}" x-cloak>
     @if ($label)
         <x-label :$label :$error />
     @endif
-    <div @class(config('tasteui.wrappers.select.wrapper')) x-on:click.outside="show = false">
-        <div @class([config('tasteui.wrappers.select.div.input'), config('tasteui.wrappers.select.div.error') => $error])
+    <div @class($customize['wrapper']) x-on:click.outside="show = false">
+        <div @class($customize['div'])
              role="combobox"
              aria-controls="options"
              aria-expanded="false">
-            <div x-on:click="show = true" @class(config('tasteui.wrappers.select.header'))>
+            <div x-on:click="show = true" @class($customize['header'])>
                 {!! $header !!}
             </div>
-            <div @class(config('tasteui.wrappers.select.buttons.wrapper'))>
+            <div @class($customize['buttons.wrapper']))>
                 <template x-if="!empty">
                     <button type="button" x-on:click="clear()">
-                        <x-icon name="x-mark" @class([
-                            config('tasteui.wrappers.select.buttons.x-mark.base'),
-                            config('tasteui.wrappers.select.buttons.x-mark.normal') => !$error,
-                            config('tasteui.wrappers.select.buttons.x-mark.error') => $error
-                        ]) />
+                        <x-icon name="x-mark" @class($customize['buttons.x-mark']) />
                     </button>
                 </template>
                 <div class="mr-1 flex items-center">
                     <button type="button" x-on:click="show = !show">
-                        <x-icon name="chevron-up-down" @class([
-                            config('tasteui.wrappers.select.buttons.up-down.base'),
-                            config('tasteui.wrappers.select.buttons.up-down.normal') => !$error,
-                            config('tasteui.wrappers.select.buttons.up-down.error') => $error
-                        ]) />
+                        <x-icon name="chevron-up-down" @class($customize['buttons.up-down']) />
                     </button>
                 </div>
             </div>
         </div>
-        <div x-show="show" @class(config('tasteui.wrappers.select.box.wrapper'))>
+        <div x-show="show" @class($customize['box.wrapper'])>
             <template x-if="searchable">
                 <div class="relative px-2">
                     <x-input placeholder="{{ __('taste-ui::messages.select.input') }}"
@@ -44,17 +37,17 @@
                              :validate="false"
                     />
                     <button type="button"
-                            @class(config('tasteui.wrappers.select.box.button.base'))
+                            @class($customize['box.button.base']))
                             x-on:click="search = ''; $refs.search.focus();"
                             x-show="search.length > 0">
-                        <x-icon name="x-mark" @class(config('tasteui.wrappers.select.box.button.icon')) />
+                        <x-icon name="x-mark" @class($customize['box.button.icon']) />
                     </button>
                 </div>
             </template>
-            <ul wire:ignore @class(config('tasteui.wrappers.select.box.list.wrapper')) id="options" role="listbox">
+            <ul wire:ignore @class($customize['box.list.wrapper']) id="options" role="listbox">
                 @if ($loading)
-                    <div x-show="loading" @class(config('tasteui.wrappers.select.box.list.loading.wrapper')) class="flex items-center justify-center p-4 space-x-4">
-                        <svg @class(config('tasteui.wrappers.select.box.list.loading.base')) xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <div x-show="loading" @class($customize['box.list.loading.wrapper']) class="flex items-center justify-center p-4 space-x-4">
+                        <svg @class($customize['box.list.loading.base']) xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                         </svg>
@@ -62,13 +55,13 @@
                 @endif
                 <template x-for="option in options" :key="option[selectable.label] ?? option">
                     <li x-on:click="select(option)"
-                        @class(config('tasteui.wrappers.select.box.list.item.wrapper'))
+                        @class($customize['box.list.item.wrapper'])
                         id="option-0"
                         role="option"
                         tabindex="-1"
                         x-bind:class="{ 'font-semibold hover:text-white hover:bg-red-500': selected(option) }"
                     >
-                        <div wire:ignore @class(config('tasteui.wrappers.select.box.list.item.base'))>
+                        <div wire:ignore @class($customize['box.list.item.base'])>
                             <span class="ml-2 truncate" x-text="option[selectable.label] ?? option"></span>
                             <x-icon name="check" x-show="selected(option)" class="h-5 w-5 font-bold" />
                         </div>
@@ -76,7 +69,7 @@
                 </template>
                 <template x-if="!loading && options.length === 0">
                     <li class="m-2">
-                        <span @class(config('tasteui.wrappers.select.message'))>
+                        <span @class($customize['message'])>
                             {{ __('taste-ui::messages.select.empty') }}
                         </span>
                     </li>

@@ -4,7 +4,7 @@
     $customize = tasteui_personalization('select.styled', $customization());
 @endphp
 
-<x-taste-ui::wrappers.select.wrapper :$label :$error :$computed :$hint>
+<x-wrapper.select :$label :$error :$computed :$hint>
     <x-slot:alpine>
         tasteui_selectStyled(@entangle($computed), @js($searchable), @js($multiple), @js($selectable !== []), @js($selectable), @js($options), @js($placeholder))
     </x-slot:alpine>
@@ -28,4 +28,4 @@
             </div>
         </div>
     </x-slot:header>
-</x-taste-ui::wrappers.select.wrapper>
+</x-wrapper.select>

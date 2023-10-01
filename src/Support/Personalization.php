@@ -31,6 +31,9 @@ use TasteUi\Support\Personalizations\Components\Select\Searchable;
 use TasteUi\Support\Personalizations\Components\Select\Select;
 use TasteUi\Support\Personalizations\Components\Select\Styled;
 use TasteUi\Support\Personalizations\Components\Tooltip;
+use TasteUi\Support\Personalizations\Components\Wrapper\Input as InputWrapper;
+use TasteUi\Support\Personalizations\Components\Wrapper\Radio as RadioWrapper;
+use TasteUi\Support\Personalizations\Components\Wrapper\Select as SelectWrapper;
 use TasteUi\Support\Personalizations\Contracts\Personalizable as PersonalizableContract;
 
 final class Personalization
@@ -59,6 +62,9 @@ final class Personalization
         'taste-ui::personalizations.select.styled' => Styled::class,
         'taste-ui::personalizations.toast' => Toast::class,
         'taste-ui::personalizations.tooltip' => Tooltip::class,
+        'taste-ui::personalizations.wrapper.input' => InputWrapper::class,
+        'taste-ui::personalizations.wrapper.radio' => RadioWrapper::class,
+        'taste-ui::personalizations.wrapper.select' => SelectWrapper::class,
     ];
 
     public function __construct(
