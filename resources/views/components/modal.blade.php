@@ -41,7 +41,7 @@
                         <h3 @class($customize['title.base'])>{{ $title }}</h3>
                         <x-icon name="x-mark"
                                 x-on:click="show = false"
-                                class="h-5 w-5 text-secondary-300 cursor-pointer"
+                                @class($customize['title.close'])
                         />
                     </div>
                 @endif

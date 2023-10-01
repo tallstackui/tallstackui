@@ -35,11 +35,11 @@
             <div x-show="show" class="absolute z-50 mt-1 w-full rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5">
                 <template x-if="searchable">
                     <div class="relative px-2">
-                        <x-input placeholder="{{ __('taste-ui::messages.select.input') }}" 
-                                 x-model.debounce.500ms="search" 
+                        <x-input placeholder="{{ __('taste-ui::messages.select.input') }}"
+                                 x-model.debounce.500ms="search"
                                  x-ref="search"
                                  icon="magnifying-glass"
-                                 class="px-10" 
+                                 class="px-10"
                                  :validate="false"
                         />
                         <button type="button"
@@ -70,9 +70,7 @@
                         >
                             <div wire:ignore class="flex items-center justify-between">
                                 <span class="ml-2 truncate" x-text="option[selectable.label] ?? option"></span>
-                                <svg x-show="selected(option)" class="h-5 w-5 font-bold" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/>
-                                </svg>
+                                <x-icon name="check" x-show="selected(option)" class="h-5 w-5 font-bold" />
                             </div>
                         </li>
                     </template>
