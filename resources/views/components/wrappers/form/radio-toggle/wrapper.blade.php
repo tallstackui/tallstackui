@@ -1,7 +1,7 @@
 @props(['computed', 'error', 'label', 'position' => 'left', 'id' => null])
 
 <div>
-    <div @class(config('tasteui.wrappers.form.radio-toggle.div'))>
+    <div @class(config('tasteui.wrappers.form.radio-toggle.wrapper'))>
         @if ($label && $position === 'left')
         <span @class([config('tasteui.wrappers.form.radio-toggle.label.span'), 'mr-1'])>
             <p @class([

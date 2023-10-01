@@ -1,4 +1,4 @@
-import colors from "tailwindcss/colors";
+import colors from 'tailwindcss/colors';
 import forms from '@tailwindcss/forms';
 
 /** @type {import('tailwindcss').Config} */
@@ -7,7 +7,8 @@ module.exports = {
     './resources/views/**/*.blade.php',
     './resources/css/**/*.css',
     './resources/js/**/*.js',
-    './src/**/*.php'
+    './config/**/*.php',
+    './src/**/*.php',
   ],
   darkMode: 'class',
   theme: {
@@ -18,9 +19,9 @@ module.exports = {
         positive: colors.emerald,
         negative: colors.red,
         warning: colors.amber,
-        info: colors.blue
+        info: colors.blue,
       },
-    }
+    },
   },
   plugins: [forms],
-}
+};
