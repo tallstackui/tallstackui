@@ -4,6 +4,6 @@
     $customize = tasteui_personalization('form.checkbox', $customization());
 @endphp
 
-<x-taste-ui::wrappers.form.radio-toggle.wrapper :$computed :$error :$label :$position :$id>
+<x-wrapper.radio :$computed :$error :$label :$position :$id>
     <input @if ($id) id="{{ $id }}" @endif type="checkbox" {{ $attributes->class([$customize['base'], $customize['error'] => $error]) }} @checked($checked)>
-</x-taste-ui::wrappers.form.radio-toggle.wrapper>
+</x-wrapper.radio>

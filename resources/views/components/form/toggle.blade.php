@@ -5,7 +5,7 @@
     $customize['base'] = $error ? preg_replace('/bg-[^-]+-[^-]+/', '', $customize['base']) : $customize['base'];
 @endphp
 
-<x-taste-ui::wrappers.form.radio-toggle.wrapper :$computed :$error :$label :$position :$id>
+<x-wrapper.radio :$computed :$error :$label :$position :$id>
     <input @if ($id) id="{{ $id }}" @endif type="checkbox" {{ $attributes->class($customize['input']) }} @checked($checked)>
     <div @class([$customize['base'], $customize['error'] => $error])></div>
-</x-taste-ui::wrappers.form.radio-toggle.wrapper>
+</x-wrapper.radio>

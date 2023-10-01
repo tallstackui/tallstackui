@@ -46,8 +46,7 @@ return [
         'toast' => Components\Interaction\Toast::class,
         'dialog' => Components\Interaction\Dialog::class,
         'wrapper.input' => Components\Wrapper\Input::class,
-        //        'wrapper.radio' => Components\Wrapper\Radio::class,
-        //        'wrapper.toggle' => Components\Wrapper\Toggle::class,
+        'wrapper.radio' => Components\Wrapper\Radio::class,
         //        'wrapper.select' => Components\Wrapper\Select::class,
     ],
 
@@ -61,21 +60,6 @@ return [
     | base HTML of some components, such as: form input, radio, toggle and styled selects.
     */
     'wrappers' => [
-        /* Form Wrappers */
-        'form' => [
-            /* Input Wrapper */
-            'input' => 'relative mt-2 rounded-md shadow-sm',
-            /* Radio & Toggle Wrapper */
-            'radio-toggle' => [
-                'wrapper' => 'flex items-center',
-                'label' => [
-                    'span' => 'text-sm',
-                    'p' => 'font-medium text-gray-700',
-                    'error' => 'text-red-600',
-                ],
-                'slot' => 'relative inline-flex cursor-pointer items-center',
-            ],
-        ],
         /* Select Wrapper */
         'select' => [
             'wrapper' => 'relative mt-2',

@@ -1,23 +1,23 @@
-@props(['computed', 'error', 'label', 'position' => 'left', 'id' => null])
+@php($customize = tasteui_personalization('wrapper.radio', $customization()))
 
 <div>
-    <div @class(config('tasteui.wrappers.form.radio-toggle.wrapper'))>
+    <div @class($customize['wrapper'])>
         @if ($label && $position === 'left')
-        <span @class([config('tasteui.wrappers.form.radio-toggle.label.span'), 'mr-1'])>
+        <span @class([$customize['label.span'], 'mr-1'])>
             <p @class([
-                    config('tasteui.wrappers.form.radio-toggle.label.p'),
-                    config('tasteui.wrappers.form.radio-toggle.label.error') => $error,
+                    $customize['label.base'],
+                    $customize['label.error'] => $error,
                 ])>{{ $label }}</p>
         </span>
         @endif
-        <label @if ($id) for="{{ $id }}" @endif @class(config('tasteui.wrappers.form.radio-toggle.slot'))>
+        <label @if ($id) for="{{ $id }}" @endif @class($customize['slot'])>
             {!! $slot !!}
         </label>
         @if ($label && $position === 'right')
-        <span @class([config('tasteui.wrappers.form.radio-toggle.label.span'), 'ml-1'])>
+        <span @class([$customize['label.span'], 'ml-1'])>
             <p @class([
-                    config('tasteui.wrappers.form.radio-toggle.label.p'),
-                    config('tasteui.wrappers.form.radio-toggle.label.error') => $error,
+                    $customize['label.base'],
+                    $customize['label.error'] => $error,
                 ])>{{ $label }}</p>
         </span>
         @endif
