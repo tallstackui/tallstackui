@@ -43,8 +43,12 @@ return [
         'select.styled' => Components\Select\Styled::class,
         'select.searchable' => Components\Select\Searchable::class,
         'modal' => Components\Modal::class,
-        'toast' => Components\Interactions\Toast::class,
-        'dialog' => Components\Interactions\Dialog::class,
+        'toast' => Components\Interaction\Toast::class,
+        'dialog' => Components\Interaction\Dialog::class,
+        'wrapper.input' => Components\Wrapper\Input::class,
+        //        'wrapper.radio' => Components\Wrapper\Radio::class,
+        //        'wrapper.toggle' => Components\Wrapper\Toggle::class,
+        //        'wrapper.select' => Components\Wrapper\Select::class,
     ],
 
     /*

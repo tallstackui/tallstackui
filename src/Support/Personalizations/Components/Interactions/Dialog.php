@@ -4,7 +4,7 @@ namespace TasteUi\Support\Personalizations\Components\Interactions;
 
 use TasteUi\Support\Personalizations\Contracts\Personalizable;
 use TasteUi\Support\Personalizations\Traits\ShareablePersonalization;
-use TasteUi\View\Components\Interactions\Dialog as Component;
+use TasteUi\View\Components\Interaction\Dialog as Component;
 
 class Dialog implements Personalizable
 {

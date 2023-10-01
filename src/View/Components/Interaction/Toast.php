@@ -1,6 +1,6 @@
 <?php
 
-namespace TasteUi\View\Components\Interactions;
+namespace TasteUi\View\Components\Interaction;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
