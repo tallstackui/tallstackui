@@ -16,7 +16,7 @@ class Searchable extends Styled
         public ?bool $multiple = false,
         public ?string $select = null,
         public ?array $selectable = [],
-        private readonly bool $skipValidations = false,
+        private readonly bool $ignoreValidations = false,
     ) {
         parent::__construct(
             label: $label,
@@ -47,14 +47,16 @@ class Searchable extends Styled
     {
         return [
             'multiple' => 'inline-flex items-center rounded-lg bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10 space-x-1',
-            'icon' => 'h-4 w-4 text-gray-700 transition hover:text-red-500',
+            'icon' => 'h-4 w-4 text-red-500 transition hover:text-red-500',
         ];
     }
 
     /** @throws Throwable */
     private function request(): void
     {
-        if ($this->skipValidations) {
+        // we need to use a bypass to avoid the validations when
+        // the component is built by soft customization feature.
+        if ($this->ignoreValidations) {
             return;
         }
 

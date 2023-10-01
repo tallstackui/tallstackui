@@ -119,7 +119,7 @@ final class Personalization
      */
     private function component(): Customizable
     {
-        return app($this->personalization->component(), ['skipValidations' => true]);
+        return app($this->personalization->component(), ['ignoreValidations' => true]);
     }
 
     /**
