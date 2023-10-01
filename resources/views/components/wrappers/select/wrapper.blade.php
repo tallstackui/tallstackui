@@ -2,7 +2,7 @@
 
 @php($error = $errors->has($computed))
 
-<div x-data="{!! $alpine !!}">
+<div x-data="{!! $alpine !!}" x-cloak>
     @if ($label)
         <x-label :$label :$error />
     @endif
