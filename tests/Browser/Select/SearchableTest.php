@@ -17,8 +17,7 @@ class SearchableTest extends BrowserTestCase
                 ->assertSee('Select an option')
                 ->assertDontSee('delectus aut autem')
                 ->click('#tasteui_open_close')
-                ->pause(250)
-                ->assertSee('delectus aut autem');
+                ->waitForText('delectus aut autem');
         });
     }
 
@@ -32,7 +31,7 @@ class SearchableTest extends BrowserTestCase
                 ->assertDontSee('et porro tempora')
                 ->assertDontSee('quis ut nam facilis et officia qui')
                 ->click('#tasteui_open_close')
-                ->pause(250)
+                ->waitForText('delectus aut autem')
                 ->assertSee('delectus aut autem')
                 ->assertSee('et porro tempora')
                 ->assertSee('quis ut nam facilis et officia qui')
@@ -52,8 +51,7 @@ class SearchableTest extends BrowserTestCase
                 ->assertSee('Select an option')
                 ->assertDontSee('delectus aut autem')
                 ->click('#tasteui_open_close')
-                ->pause(250)
-                ->assertSee('delectus aut autem')
+                ->waitForText('delectus aut autem')
                 ->clickAtXPath('/html/body/div[3]/div/div[2]/div[2]/ul/li[1]')
                 ->pause(250)
                 ->assertSee('delectus aut autem')
