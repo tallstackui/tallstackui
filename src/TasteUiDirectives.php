@@ -9,7 +9,7 @@ class TasteUiDirectives
         $route = route('tasteui.scripts', absolute: $absolute);
         $this->manifest('tasteui.js', $route);
 
-        return "<script src=\"$route\"></script>";
+        return "<script src=\"$route\" defer></script>";
     }
 
     public function styles(bool $absolute = true): string
