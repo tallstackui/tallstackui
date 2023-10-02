@@ -54,13 +54,13 @@ class Modal extends Component implements Customizable
                     'fixed inset-0 bg-gray-400 bg-opacity-50 transition-opacity',
                     'backdrop-blur-sm' => $this->blur === true,
                 ]),
-                'second' => 'fixed inset-0 z-50 w-screen',
+                'second' => 'fixed inset-0 z-50 w-screen overflow-y-auto',
                 'third' => Arr::toCssClasses([
-                    'w-full min-h-full transform flex items-end justify-center mx-auto sm:items-start p-4',
+                    'w-full min-h-full transform flex items-center justify-center mx-auto sm:items-start p-4',
                     $this->size,
                 ]),
                 'fourth' => Arr::toCssClasses([
-                    'relative flex w-full transform flex-col rounded-lg bg-white text-left shadow-xl transition-all',
+                    'relative flex w-full transform flex-col overflow-auto rounded-lg bg-white text-left shadow-xl transition-all',
                     $this->size,
                 ]),
             ],
