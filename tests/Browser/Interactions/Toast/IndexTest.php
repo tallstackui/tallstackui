@@ -16,23 +16,19 @@ class IndexTest extends BrowserTestCase
                 // success
                 ->assertDontSee('Foo bar success')
                 ->click('#success')
-                ->pause(150)
-                ->assertSee('Foo bar success')
+                ->waitForText('Foo bar success')
                 // error
                 ->assertDontSee('Foo bar error')
                 ->click('#error')
-                ->pause(150)
-                ->assertSee('Foo bar error')
+                ->waitForText('Foo bar error')
                 // info
                 ->assertDontSee('Foo bar info')
                 ->click('#info')
-                ->pause(150)
-                ->assertSee('Foo bar info')
+                ->waitForText('Foo bar info')
                 // warning
                 ->assertDontSee('Foo bar warning')
                 ->click('#warning')
-                ->pause(150)
-                ->assertSee('Foo bar warning');
+                ->waitForText('Foo bar warning');
         });
     }
 
@@ -43,12 +39,9 @@ class IndexTest extends BrowserTestCase
             $this->visit($browser, ToastComponent::class)
                 ->assertDontSee('Foo bar confirmation description')
                 ->click('#confirm')
-                ->pause(150)
-                ->assertSee('Foo bar confirmation description')
-                ->pause(150)
+                ->waitForText('Foo bar confirmation description')
                 ->click('#tasteui_confirmation')
-                ->pause(150)
-                ->assertDontSee('Foo bar confirmation description');
+                ->waitUntilMissingText('Foo bar confirmation description');
         });
     }
 
@@ -59,12 +52,9 @@ class IndexTest extends BrowserTestCase
             $this->visit($browser, ToastComponent::class)
                 ->assertDontSee('Foo bar confirmation description')
                 ->click('#confirm')
-                ->pause(150)
-                ->assertSee('Foo bar confirmation description')
-                ->pause(150)
+                ->waitForText('Foo bar confirmation description')
                 ->click('#tasteui_cancellation')
-                ->pause(150)
-                ->assertSee('Bar foo cancelled bar');
+                ->waitForText('Bar foo cancelled bar');
         });
     }
 }

@@ -36,10 +36,9 @@ class SearchableTest extends BrowserTestCase
                 ->assertSee('et porro tempora')
                 ->assertSee('quis ut nam facilis et officia qui')
                 ->type('#tasteui_search_input', 'porro')
-                ->pause(500)
-                ->assertDontSee('delectus aut autem')
-                ->assertSee('et porro tempora')
-                ->assertDontSee('quis ut nam facilis et officia qui');
+                ->waitUntilMissingText('delectus aut autem')
+                ->waitForText('et porro tempora')
+                ->waitUntilMissingText('quis ut nam facilis et officia qui');
         });
     }
 

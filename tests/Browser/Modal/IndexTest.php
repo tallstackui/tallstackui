@@ -19,8 +19,7 @@ class IndexTest extends BrowserTestCase
                 ->assertSee('Open')
                 ->assertDontSee('Foo bar')
                 ->click('#open')
-                ->pause(50)
-                ->assertSee('Foo bar');
+                ->waitForText('Foo bar');
         });
     }
 
@@ -33,9 +32,8 @@ class IndexTest extends BrowserTestCase
                 ->assertDontSee('Foo bar')
                 ->assertDontSee('Bar baz')
                 ->click('#open')
-                ->pause(50)
-                ->assertSee('Foo bar')
-                ->assertSee('Bar baz');
+                ->waitForText('Foo bar')
+                ->waitForText('Bar baz');
         });
     }
 
@@ -47,8 +45,7 @@ class IndexTest extends BrowserTestCase
                 ->assertSee('Open')
                 ->assertDontSee('Foo bar')
                 ->click('#open')
-                ->pause(50)
-                ->assertSee('Foo bar');
+                ->waitForText('Foo bar');
         });
     }
 
@@ -60,8 +57,7 @@ class IndexTest extends BrowserTestCase
                 ->assertSee('Open')
                 ->assertDontSee('Foo bar')
                 ->click('#open')
-                ->pause(50)
-                ->assertSee('Foo bar');
+                ->waitForText('Foo bar');
         });
     }
 }
