@@ -2,6 +2,7 @@
 
 namespace Tests\Browser;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
@@ -40,10 +41,74 @@ trait BrowserFunctions
 
     protected function tasteUiRoutes(): void
     {
-        Route::get('/tasteui-livewire/{component}', function (string $component) {
-            $class = urldecode($component);
+        Route::middleware('web')
+            ->group(function () {
+                Route::get('/tasteui-livewire/{component}', function (string $component) {
+                    $class = urldecode($component);
 
-            return app()->call(app('livewire')->new($class));
-        })->middleware('web');
+                    return app()->call(app('livewire')->new($class));
+                });
+
+                Route::get('/searchable-simple', function () {
+                    return [
+                        [
+                            'label' => 'delectus aut autem',
+                            'value' => 1,
+                        ],
+                        [
+                            'label' => 'quis ut nam facilis et officia qui',
+                            'value' => 2,
+                        ],
+                        [
+                            'label' => 'fugiat veniam minus',
+                            'value' => 3,
+                        ],
+                        [
+                            'label' => 'et porro tempora',
+                            'value' => 4,
+                        ],
+                        [
+                            'label' => 'laboriosam mollitia et enim quasi adipisci quia provident illum',
+                            'value' => 5,
+                        ],
+                    ];
+                })->name('searchable.simple');
+
+                Route::get('/searchable-filtered', function (Request $request) {
+                    $options = collect([
+                        [
+                            'label' => 'delectus aut autem',
+                            'value' => 1,
+                        ],
+                        [
+                            'label' => 'quis ut nam facilis et officia qui',
+                            'value' => 2,
+                        ],
+                        [
+                            'label' => 'fugiat veniam minus',
+                            'value' => 3,
+                        ],
+                        [
+                            'label' => 'et porro tempora',
+                            'value' => 4,
+                        ],
+                        [
+                            'label' => 'laboriosam mollitia et enim quasi adipisci quia provident illum',
+                            'value' => 5,
+                        ],
+                    ]);
+
+                    if (! $request->has('search')) {
+                        return $options;
+                    }
+
+                    return [
+                        [
+                            'label' => 'et porro tempora',
+                            'value' => 4,
+                        ],
+                    ];
+                })->name('searchable.filtered');
+            });
     }
 }

@@ -54,8 +54,8 @@ export default (
 
       this.selecteds = this.options.filter((option) => {
         return this.multiple ?
-                        this.model.includes(option[this.selectable.value]) :
-                        this.model === option[this.selectable.value];
+          this.model.includes(option[this.selectable.value]) :
+          this.model === option[this.selectable.value];
       });
 
       if (!this.multiple) {
@@ -66,7 +66,9 @@ export default (
   async send() {
     this.response = [];
 
-    const request = body(this.request, this.search, this.model.constructor === Array ? this.model : [this.model]);
+    const request = body(this.request, this.search,
+      this.model ? (this.model.constructor === Array ? this.model : [this.model]) : [],
+    );
 
     try {
       const response = await axios(request);
@@ -90,12 +92,12 @@ export default (
     }
 
     this.selecteds = this.multiple ?
-            [...this.selecteds, option] :
-            [option];
+      [...this.selecteds, option] :
+      [option];
 
     this.model = this.multiple ?
-            this.selecteds.map((selected) => selected[this.selectable.value]) :
-            option[this.selectable.value];
+      this.selecteds.map((selected) => selected[this.selectable.value]) :
+      option[this.selectable.value];
 
     if (!this.multiple) {
       this.placeholder = option[this.selectable.label];
@@ -108,8 +110,8 @@ export default (
     if (this.empty) return false;
 
     return this.multiple ?
-            this.selecteds.some((selected) => JSON.stringify(selected) === JSON.stringify(option)) :
-            JSON.stringify(this.selecteds[0]) === JSON.stringify(option);
+      this.selecteds.some((selected) => JSON.stringify(selected) === JSON.stringify(option)) :
+      JSON.stringify(this.selecteds[0]) === JSON.stringify(option);
   },
   clear(selected = null) {
     if (selected) {

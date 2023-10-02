@@ -39,7 +39,7 @@ class Index extends Component implements Customizable
     {
         return [
             'wrapper' => Arr::toCssClasses([
-                'inline-flex shrink-0 items-center justify-center overflow-hidden text-xl',
+                'inline-flex shrink-0 items-center justify-center overflow-hidden text-xl border-2',
                 'w-8 h-8 text-sm' => $this->size === 'sm',
                 'w-12 h-12 text-xl' => $this->size === 'md',
                 'w-14 h-14 text-2xl' => $this->size === 'lg',
