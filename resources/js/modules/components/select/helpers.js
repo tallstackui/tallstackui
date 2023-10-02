@@ -9,20 +9,21 @@ export const options = (search, dimensional, selectable, options) => {
   search = search.toLowerCase();
 
   return search === '' ?
-        options :
-        options.filter((option) => {
-          return dimensional ?
-                option[selectable.label].toString().toLowerCase().indexOf(search) !== -1 :
-                option.toString().toLowerCase().indexOf(search) !== -1;
-        });
+    options :
+    options.filter((option) => {
+      return dimensional ?
+        option[selectable.label].toString().toLowerCase().indexOf(search) !== -1 :
+        option.toString().toLowerCase().indexOf(search) !== -1;
+    });
 };
 
 /**
  * @param request {Object|String}
  * @param search {String}
+ * @param selected {Array}
  * @return {Object<url, method, params|data>}
  */
-export const body = (request, search) => {
+export const body = (request, search, selected) => {
   const simple = request.constructor === String;
 
   const url = simple ? request : request.url;
@@ -36,11 +37,19 @@ export const body = (request, search) => {
       body.params = {...params};
 
       if (search !== '') body.params.search = search;
+
+      if (selected.length > 0) {
+        body.params.selected = JSON.stringify(selected);
+      }
       break;
     case 'post':
       body.data = {...params};
 
       if (search !== '') body.data.search = search;
+
+      if (selected.length > 0) {
+        body.data.selected = selected;
+      }
       break;
   }
 

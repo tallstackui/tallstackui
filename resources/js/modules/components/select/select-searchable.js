@@ -66,7 +66,7 @@ export default (
   async send() {
     this.response = [];
 
-    const request = body(this.request, this.search);
+    const request = body(this.request, this.search, this.model.constructor === Array ? this.model : [this.model]);
 
     try {
       const response = await axios(request);
