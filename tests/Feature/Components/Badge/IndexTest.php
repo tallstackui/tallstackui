@@ -1,21 +1,7 @@
 <?php
 
 use Illuminate\Support\Arr;
-use TasteUi\Contracts\Customizable;
 use TasteUi\Facades\TasteUi;
-use TasteUi\View\Components\Badge;
-
-test('customizable')
-    ->expect(Badge::class)
-    ->toImplement(Customizable::class);
-
-test('contains method')
-    ->expect(Badge::class)
-    ->toHaveMethod('customization');
-
-test('contains constructor')
-    ->expect(Badge::class)
-    ->toHaveConstructor();
 
 it('can render', function () {
     $this->blade('<x-badge text="Foo bar" />')

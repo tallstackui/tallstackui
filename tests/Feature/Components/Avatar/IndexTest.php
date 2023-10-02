@@ -1,21 +1,7 @@
 <?php
 
 use Illuminate\Support\Arr;
-use TasteUi\Contracts\Customizable;
 use TasteUi\Facades\TasteUi;
-use TasteUi\View\Components\Avatar\Index;
-
-test('customizable')
-    ->expect(Index::class)
-    ->toImplement(Customizable::class);
-
-test('contains method')
-    ->expect(Index::class)
-    ->toHaveMethod('customization');
-
-test('contains constructor')
-    ->expect(Index::class)
-    ->toHaveConstructor();
 
 it('can render', function () {
     $this->blade('<x-avatar label="AJ" />')

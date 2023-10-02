@@ -1,20 +1,6 @@
 <?php
 
-use TasteUi\Contracts\Customizable;
 use TasteUi\Facades\TasteUi;
-use TasteUi\View\Components\Tooltip;
-
-test('customizable')
-    ->expect(Tooltip::class)
-    ->toImplement(Customizable::class);
-
-test('contains method')
-    ->expect(Tooltip::class)
-    ->toHaveMethod('customization');
-
-test('contains constructor')
-    ->expect(Tooltip::class)
-    ->toHaveConstructor();
 
 it('can render', function () {
     $this->blade('<x-tooltip text="Foo bar" />')

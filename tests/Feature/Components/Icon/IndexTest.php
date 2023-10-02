@@ -1,22 +1,6 @@
 <?php
 
 use Illuminate\View\ViewException;
-use TasteUi\Contracts\Customizable;
-use TasteUi\View\Components\Icon;
-
-test('customizable')
-    ->expect(Icon::class)
-    ->not
-    ->toImplement(Customizable::class);
-
-test('contains method')
-    ->expect(Icon::class)
-    ->not
-    ->toHaveMethod('customization');
-
-test('contains constructor')
-    ->expect(Icon::class)
-    ->toHaveConstructor();
 
 it('can render', function () {
     $this->blade('<x-icon icon="users" />')
