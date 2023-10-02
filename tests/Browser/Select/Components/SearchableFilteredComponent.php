@@ -16,7 +16,7 @@ class SearchableFilteredComponent extends Component
                                  label="Select"
                                  hint="Select"
                                  request="{{ route('searchable.filtered') }}"
-                                 select="label:label|value:id"
+                                 select="label:label|value:value"
             />
         </div>
 HTML;

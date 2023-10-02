@@ -6,6 +6,7 @@ use Laravel\Dusk\Browser;
 use Tests\Browser\BrowserTestCase;
 use Tests\Browser\Select\Components\SearchableComponent;
 use Tests\Browser\Select\Components\SearchableFilteredComponent;
+use Tests\Browser\Select\Components\SearchableMultipleComponent;
 
 class SearchableTest extends BrowserTestCase
 {
@@ -56,6 +57,25 @@ class SearchableTest extends BrowserTestCase
                 ->click('#tasteui_clear')
                 ->assertDontSee('delectus aut autem')
                 ->assertSee('Select an option');
+        });
+    }
+
+    /** @test */
+    public function can_select_multiple(): void
+    {
+        $this->browse(function (Browser $browser) {
+            $this->visit($browser, SearchableMultipleComponent::class)
+                ->assertSee('Select an option')
+                ->assertDontSee('delectus aut autem')
+                ->assertDontSee('quis ut nam facilis et officia qui')
+                ->click('#tasteui_open_close')
+                ->waitForText('delectus aut autem')
+                ->waitForText('quis ut nam facilis et officia qui')
+                ->clickAtXPath('/html/body/div[3]/div/div[2]/div[2]/ul/li[1]')
+                ->clickAtXPath('/html/body/div[3]/div/div[2]/div[2]/ul/li[2]')
+                ->click('#tasteui_open_close')
+                ->click('#sync')
+                ->waitForText('[1,2]');
         });
     }
 }

@@ -9,23 +9,19 @@ use Tests\Browser\Interactions\Toast\Components\ToastComponent;
 class IndexTest extends BrowserTestCase
 {
     /** @test */
-    public function can_send_all(): void
+    public function can_send(): void
     {
         $this->browse(function (Browser $browser) {
             $this->visit($browser, ToastComponent::class)
-                // success
                 ->assertDontSee('Foo bar success')
                 ->click('#success')
                 ->waitForText('Foo bar success')
-                // error
                 ->assertDontSee('Foo bar error')
                 ->click('#error')
                 ->waitForText('Foo bar error')
-                // info
                 ->assertDontSee('Foo bar info')
                 ->click('#info')
                 ->waitForText('Foo bar info')
-                // warning
                 ->assertDontSee('Foo bar warning')
                 ->click('#warning')
                 ->waitForText('Foo bar warning');
