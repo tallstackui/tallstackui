@@ -4,9 +4,9 @@ namespace Tests\Browser\Select;
 
 use Laravel\Dusk\Browser;
 use Tests\Browser\BrowserTestCase;
-use Tests\Browser\Select\Components\SearchableComponent;
-use Tests\Browser\Select\Components\SearchableFilteredComponent;
-use Tests\Browser\Select\Components\SearchableMultipleComponent;
+use Tests\Browser\Select\Components\Searchable\SearchableComponent;
+use Tests\Browser\Select\Components\Searchable\SearchableFilteredComponent;
+use Tests\Browser\Select\Components\Searchable\SearchableMultipleComponent;
 
 class SearchableTest extends BrowserTestCase
 {

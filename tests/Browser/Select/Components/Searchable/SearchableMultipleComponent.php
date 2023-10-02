@@ -1,24 +1,25 @@
 <?php
 
-namespace Tests\Browser\Select\Components;
+namespace Tests\Browser\Select\Components\Searchable;
 
 use Livewire\Component;
 
-class SearchableComponent extends Component
+class SearchableMultipleComponent extends Component
 {
-    public ?int $int = null;
+    public ?array $array = null;
 
     public function render(): string
     {
         return <<<'HTML'
-        <div>
-            {{ $int }}
+        <div>        
+            @json($array)
 
-            <x-select.searchable wire:model="int"
+            <x-select.searchable wire:model="array"
                                  label="Select"
                                  hint="Select"
                                  request="{{ route('searchable.simple') }}"
                                  select="label:label|value:value"
+                                 multiple
             />
             
             <x-button id="sync" wire:click="sync">Sync</x-button>

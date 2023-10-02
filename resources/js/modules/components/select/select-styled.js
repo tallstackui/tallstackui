@@ -87,7 +87,7 @@ export default (
       this.show = false;
       this.search = '';
     } else {
-      this.selecteds = this.dimensional ? [option] : option;
+      this.selecteds = [option];
 
       if (this.dimensional) {
         this.model = option[this.selectable.value];
