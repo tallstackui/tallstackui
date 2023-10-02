@@ -2,6 +2,7 @@
 
 use TasteUi\Contracts\Customizable;
 use TasteUi\Support\Personalization;
+use TasteUi\Support\Personalizations\Contracts\Personalizable;
 
 test('should not use dangerous functions')
     ->expect(['dd', 'dump', 'exit', 'var_dump'])
@@ -31,7 +32,7 @@ describe('components from personalization', function () {
         $component = Personalization::PERSONALIZABLES[$index];
 
         $this->expect($component)
-            ->toImplement('TasteUi\Support\Personalizations\Contracts\Personalizable');
+            ->toImplement(Personalizable::class);
     })->with('personalizations');
 
     test('should returns component class path as string', function (string $index) {
