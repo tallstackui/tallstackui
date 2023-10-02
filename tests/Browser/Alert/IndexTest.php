@@ -17,13 +17,12 @@ class IndexTest extends BrowserTestCase
             $this->visit($browser, AlertComponent::class)
                 ->assertSee('Foo bar')
                 ->click('#close')
-                ->pause(500)
-                ->assertDontSee('Foo bar');
+                ->waitUntilMissingText('Foo bar');
         });
     }
 
     /** @test */
-    public function can_simple_personalize(): void
+    public function can_personalize(): void
     {
         $this->browse(function (Browser $browser) {
             $this->visit($browser, AlertCommonPersonalizedComponent::class);

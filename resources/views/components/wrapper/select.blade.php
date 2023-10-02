@@ -17,12 +17,12 @@
             </div>
             <div @class($customize['buttons.wrapper']))>
                 <template x-if="!empty">
-                    <button type="button" x-on:click="clear()">
+                    <button id="tasteui_clear" type="button" x-on:click="clear()">
                         <x-icon name="x-mark" @class([$customize['buttons.x-mark.base'], $customize['buttons.x-mark.error'] => $error]) />
                     </button>
                 </template>
                 <div class="mr-1 flex items-center">
-                    <button type="button" x-on:click="show = !show">
+                    <button id="tasteui_open_close" type="button" x-on:click="show = !show">
                         <x-icon name="chevron-up-down" @class([$customize['buttons.up-down.base'], $customize['buttons.up-down.error'] => $error]) />
                     </button>
                 </div>
@@ -34,6 +34,7 @@
                     <x-input placeholder="{{ __('taste-ui::messages.select.input') }}"
                              x-model.debounce.500ms="search"
                              x-ref="search"
+                             id="tasteui_search_input"
                              :validate="false"
                     />
                     <button type="button"

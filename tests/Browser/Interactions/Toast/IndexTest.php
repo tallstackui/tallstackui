@@ -9,30 +9,22 @@ use Tests\Browser\Interactions\Toast\Components\ToastComponent;
 class IndexTest extends BrowserTestCase
 {
     /** @test */
-    public function can_send_all(): void
+    public function can_send(): void
     {
         $this->browse(function (Browser $browser) {
             $this->visit($browser, ToastComponent::class)
-                // success
                 ->assertDontSee('Foo bar success')
                 ->click('#success')
-                ->pause(150)
-                ->assertSee('Foo bar success')
-                // error
+                ->waitForText('Foo bar success')
                 ->assertDontSee('Foo bar error')
                 ->click('#error')
-                ->pause(150)
-                ->assertSee('Foo bar error')
-                // info
+                ->waitForText('Foo bar error')
                 ->assertDontSee('Foo bar info')
                 ->click('#info')
-                ->pause(150)
-                ->assertSee('Foo bar info')
-                // warning
+                ->waitForText('Foo bar info')
                 ->assertDontSee('Foo bar warning')
                 ->click('#warning')
-                ->pause(150)
-                ->assertSee('Foo bar warning');
+                ->waitForText('Foo bar warning');
         });
     }
 
@@ -43,12 +35,9 @@ class IndexTest extends BrowserTestCase
             $this->visit($browser, ToastComponent::class)
                 ->assertDontSee('Foo bar confirmation description')
                 ->click('#confirm')
-                ->pause(150)
-                ->assertSee('Foo bar confirmation description')
-                ->pause(150)
+                ->waitForText('Foo bar confirmation description')
                 ->click('#tasteui_confirmation')
-                ->pause(150)
-                ->assertDontSee('Foo bar confirmation description');
+                ->waitUntilMissingText('Foo bar confirmation description');
         });
     }
 
@@ -59,12 +48,9 @@ class IndexTest extends BrowserTestCase
             $this->visit($browser, ToastComponent::class)
                 ->assertDontSee('Foo bar confirmation description')
                 ->click('#confirm')
-                ->pause(150)
-                ->assertSee('Foo bar confirmation description')
-                ->pause(150)
+                ->waitForText('Foo bar confirmation description')
                 ->click('#tasteui_cancellation')
-                ->pause(150)
-                ->assertSee('Bar foo cancelled bar');
+                ->waitForText('Bar foo cancelled bar');
         });
     }
 }

@@ -18,8 +18,7 @@ class IndexTest extends BrowserTestCase
                 ->assertSee('Save')
                 ->assertDontSee('There are 1 validation errors:')
                 ->click('#save')
-                ->pause(500)
-                ->assertSee('There are 1 validation errors:');
+                ->waitForText('There are 1 validation errors:');
 
             $this->assertNotNull($browser->element('.bg-red-50'));
         });
@@ -33,8 +32,7 @@ class IndexTest extends BrowserTestCase
                 ->assertSee('Save')
                 ->assertDontSee('There are 1 validation errors:')
                 ->click('#save')
-                ->pause(500)
-                ->assertSee('There are 1 validation errors:');
+                ->waitForText('There are 1 validation errors:');
 
             $this->assertNotNull($browser->element('.bg-pink-50'));
         });
@@ -49,8 +47,7 @@ class IndexTest extends BrowserTestCase
                 ->assertDontSee('description')
                 ->assertDontSee('name')
                 ->click('#save')
-                ->pause(500)
-                ->assertSee('There are 1 validation errors:')
+                ->waitForText('There are 1 validation errors:')
                 ->assertSee('name')
                 ->assertDontSee('description');
         });
