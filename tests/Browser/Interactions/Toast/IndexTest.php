@@ -46,7 +46,7 @@ class IndexTest extends BrowserTestCase
                 ->pause(150)
                 ->assertSee('Foo bar confirmation description')
                 ->pause(150)
-                ->click('#confirmation')
+                ->click('#tasteui_confirmation')
                 ->pause(150)
                 ->assertDontSee('Foo bar confirmation description');
         });
@@ -62,7 +62,7 @@ class IndexTest extends BrowserTestCase
                 ->pause(150)
                 ->assertSee('Foo bar confirmation description')
                 ->pause(150)
-                ->click('#cancellation')
+                ->click('#tasteui_cancellation')
                 ->pause(150)
                 ->assertSee('Bar foo cancelled bar');
         });

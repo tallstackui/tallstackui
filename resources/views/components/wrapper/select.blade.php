@@ -44,7 +44,7 @@
                     </button>
                 </div>
             </template>
-            <ul wire:ignore @class($customize['box.list.wrapper']) id="options" role="listbox">
+            <ul wire:ignore @class($customize['box.list.wrapper']) id="tasteui_options" role="listbox">
                 @if ($loading)
                     <div x-show="loading" @class($customize['box.list.loading.wrapper']) class="flex items-center justify-center p-4 space-x-4">
                         <svg @class($customize['box.list.loading.base']) xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -56,7 +56,6 @@
                 <template x-for="option in options" :key="option[selectable.label] ?? option">
                     <li x-on:click="select(option)"
                         @class($customize['box.list.item.wrapper'])
-                        id="option-0"
                         role="option"
                         tabindex="-1"
                         x-bind:class="{ 'font-semibold hover:text-white hover:bg-red-500': selected(option) }"

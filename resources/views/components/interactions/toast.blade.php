@@ -34,10 +34,10 @@
                         <p @class($customize['content.description']) x-text="toast.description"></p>
                         <template x-if="toast.type === 'question'">
                             <div @class($customize['buttons.wrapper'])>
-                                <button id="confirmation" @class($customize['buttons.confirm'])
+                                <button id="tasteui_confirmation" @class($customize['buttons.confirm'])
                                         x-on:click="accept(toast)"
                                         x-text="toast.options.confirm.text"></button>
-                                <button id="cancellation" @class($customize['buttons.cancel'])
+                                <button id="tasteui_cancellation" @class($customize['buttons.cancel'])
                                         x-on:click="reject(toast)"
                                         x-text="toast.options.cancel.text"></button>
                             </div>
