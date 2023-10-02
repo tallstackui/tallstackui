@@ -60,7 +60,7 @@ class Modal extends Component implements Customizable
                     $this->size,
                 ]),
                 'fourth' => Arr::toCssClasses([
-                    'relative flex w-full transform flex-col overflow-auto rounded-lg bg-white text-left shadow-xl transition-all',
+                    'relative flex w-full transform flex-col rounded-lg bg-white text-left shadow-xl transition-all',
                     $this->size,
                 ]),
             ],
