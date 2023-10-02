@@ -22,7 +22,7 @@ class SearchableTest extends BrowserTestCase
     }
 
     /** @test */
-    public function can_search_and_filter(): void
+    public function can_filter(): void
     {
         $this->browse(function (Browser $browser) {
             $this->visit($browser, SearchableFilteredComponent::class)
@@ -44,7 +44,7 @@ class SearchableTest extends BrowserTestCase
     }
 
     /** @test */
-    public function can_search_and_clear(): void
+    public function can_clear(): void
     {
         $this->browse(function (Browser $browser) {
             $this->visit($browser, SearchableFilteredComponent::class)
@@ -53,8 +53,7 @@ class SearchableTest extends BrowserTestCase
                 ->click('#tasteui_open_close')
                 ->waitForText('delectus aut autem')
                 ->clickAtXPath('/html/body/div[3]/div/div[2]/div[2]/ul/li[1]')
-                ->pause(250)
-                ->assertSee('delectus aut autem')
+                ->waitForText('delectus aut autem')
                 ->click('#tasteui_clear')
                 ->assertDontSee('delectus aut autem')
                 ->assertSee('Select an option');
