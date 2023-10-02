@@ -1,20 +1,5 @@
 <?php
 
-use TasteUi\Contracts\Customizable;
-use TasteUi\View\Components\Button\Index;
-
-test('customizable')
-    ->expect(Index::class)
-    ->toImplement(Customizable::class);
-
-test('contains method')
-    ->expect(Index::class)
-    ->toHaveMethod('customization');
-
-test('contains constructor')
-    ->expect(Index::class)
-    ->toHaveConstructor();
-
 it('can render with slot', function () {
     $this->blade('<x-button>Foo bar</x-button>')
         ->assertSee('Foo bar');

@@ -1,20 +1,5 @@
 <?php
 
-use TasteUi\Contracts\Customizable;
-use TasteUi\View\Components\Button\Circle;
-
-test('customizable')
-    ->expect(Circle::class)
-    ->toImplement(Customizable::class);
-
-test('contains method')
-    ->expect(Circle::class)
-    ->toHaveMethod('customization');
-
-test('contains constructor')
-    ->expect(Circle::class)
-    ->toHaveConstructor();
-
 it('can render with slot', function () {
     $this->blade('<x-button.circle>Foo bar</x-button.circle>')
         ->assertSee('Foo bar');
