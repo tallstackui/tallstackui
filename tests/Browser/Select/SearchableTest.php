@@ -61,6 +61,21 @@ class SearchableTest extends BrowserTestCase
     }
 
     /** @test */
+    public function can_select_single(): void
+    {
+        $this->browse(function (Browser $browser) {
+            $this->visit($browser, SearchableComponent::class)
+                ->assertSee('Select an option')
+                ->assertDontSee('laboriosam mollitia et enim quasi adipisci quia provident illum')
+                ->click('#tasteui_open_close')
+                ->waitForText('laboriosam mollitia et enim quasi adipisci quia provident illum')
+                ->clickAtXPath('/html/body/div[3]/div/div[2]/div[2]/ul/li[5]')
+                ->click('#sync')
+                ->waitForText('5');
+        });
+    }
+
+    /** @test */
     public function can_select_multiple(): void
     {
         $this->browse(function (Browser $browser) {
