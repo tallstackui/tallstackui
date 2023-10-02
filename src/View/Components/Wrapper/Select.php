@@ -35,22 +35,21 @@ class Select extends Component implements Customizable
     {
         return Arr::dot([
             'wrapper' => 'relative mt-2',
-            'div' => Arr::toCssClasses([
-                'flex w-full cursor-pointer items-center gap-x-2 rounded-md border-0 bg-white py-1.5 text-gray-900 shadow-sm',
-                'ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-6',
-                'text-red-600 ring-1 ring-inset ring-red-300 focus:ring-2 focus:ring-inset focus:ring-red-500' => $this->error,
-            ]),
+            'div' => [
+                'base' => 'flex w-full cursor-pointer items-center gap-x-2 rounded-md border-0 bg-white py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-6',
+                'error' => 'text-red-600 ring-1 ring-inset ring-red-300 focus:ring-2 focus:ring-inset focus:ring-red-500',
+            ],
             'header' => 'relative inset-y-0 left-0 flex w-full items-center overflow-hidden rounded-lg pl-2 transition space-x-2',
             'buttons' => [
                 'wrapper' => 'mr-1 flex items-center',
-                'x-mark' => Arr::toCssClasses([
-                    'h-5 w-5 transition text-secondary-500 hover:text-red-500',
-                    'text-red-500' => $this->error,
-                ]),
-                'up-down' => Arr::toCssClasses([
-                    'h-5 w-5 transition text-secondary-500',
-                    'text-red-500' => $this->error,
-                ]),
+                'x-mark' => [
+                    'base' => 'h-5 w-5 transition text-secondary-500 hover:text-red-500',
+                    'error' => 'text-red-500',
+                ],
+                'up-down' => [
+                    'base' => 'h-5 w-5 transition text-secondary-500',
+                    'error' => 'text-red-500',
+                ],
             ],
             'box' => [
                 'wrapper' => 'absolute z-50 mt-1 w-full rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5',

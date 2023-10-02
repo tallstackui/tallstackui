@@ -10,6 +10,5 @@
             <x-icon :$icon :$error @class([$customize['icon.size'], 'text-secondary-500' => !$validate]) />
         </div>
     @endif
-
     <input @if ($id) id="{{ $id }}" @endif {{ $attributes->class([$customize['base'], $customize['error'] => $error && $validate]) }}>
 </x-wrapper.input>

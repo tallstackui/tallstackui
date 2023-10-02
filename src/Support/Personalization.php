@@ -38,7 +38,7 @@ use TasteUi\Support\Personalizations\Contracts\Personalizable as PersonalizableC
 
 final class Personalization
 {
-    public const COMPONENTS = [
+    public const PERSONALIZABLES = [
         'taste-ui::personalizations.alert' => Alert::class,
         'taste-ui::personalizations.avatar' => Avatar::class,
         'taste-ui::personalizations.badge' => Badge::class,
@@ -77,7 +77,7 @@ final class Personalization
             $component = 'taste-ui::personalizations.'.$component;
         }
 
-        if (! array_key_exists($component, self::COMPONENTS)) {
+        if (! array_key_exists($component, self::PERSONALIZABLES)) {
             throw new InvalidArgumentException("Personalization [$component] not found");
         }
 
@@ -93,8 +93,8 @@ final class Personalization
      */
     public function block(string $name, string|Closure|PersonalizableClass $code): self
     {
-        if (! in_array($name, array_values($this->blocks()))) {
-            throw new InvalidArgumentException("Block [$name] is not allowed to be personalized at the [$this->view] component.");
+        if (! in_array($name, array_values($blocks = $this->blocks()))) {
+            throw new InvalidArgumentException("Block [$name] is not allowed to be personalized at the [$this->view] component. Alloweds: ".implode(', ', $blocks).'.');
         }
 
         Facade::composer($this->view, fn (View $view) => $this->personalization->set($name, is_callable($code) ? $code($view->getData()) : $code));

@@ -37,10 +37,10 @@ class Radio extends Component implements Customizable
             'wrapper' => 'flex items-center',
             'label' => [
                 'span' => 'text-sm',
-                'base' => Arr::toCssClasses([
-                    'font-medium text-gray-700',
-                    'text-red-600' => $this->error,
-                ]),
+                'base' => [
+                    'normal' => 'font-medium text-gray-700',
+                    'error' => 'text-red-600',
+                ],
             ],
             'slot' => 'relative inline-flex cursor-pointer items-center',
         ]);

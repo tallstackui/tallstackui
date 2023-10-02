@@ -49,7 +49,7 @@ class TasteUiServiceProvider extends ServiceProvider
 
     public function registerComponentPersonalizations(): void
     {
-        foreach (Personalization::COMPONENTS as $personalization => $configuration) {
+        foreach (Personalization::PERSONALIZABLES as $personalization => $configuration) {
             $this->app->singleton($personalization, function () use ($configuration) {
                 return $this->app->make($configuration);
             });

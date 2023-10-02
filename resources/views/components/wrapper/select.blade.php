@@ -1,6 +1,6 @@
 @php
     $customize = tasteui_personalization('wrapper.select', $customization());
-    $error = $errors->has($computed)
+    $error = $errors->has($computed);
 @endphp
 
 <div x-data="{!! $alpine !!}" x-cloak>
@@ -8,7 +8,7 @@
         <x-label :$label :$error />
     @endif
     <div @class($customize['wrapper']) x-on:click.outside="show = false">
-        <div @class($customize['div'])
+        <div @class([$customize['div.base'], $customize['div.error'] => $error])
              role="combobox"
              aria-controls="options"
              aria-expanded="false">
@@ -18,12 +18,12 @@
             <div @class($customize['buttons.wrapper']))>
                 <template x-if="!empty">
                     <button type="button" x-on:click="clear()">
-                        <x-icon name="x-mark" @class($customize['buttons.x-mark']) />
+                        <x-icon name="x-mark" @class([$customize['buttons.x-mark.base'], $customize['buttons.x-mark.error'] => $error]) />
                     </button>
                 </template>
                 <div class="mr-1 flex items-center">
                     <button type="button" x-on:click="show = !show">
-                        <x-icon name="chevron-up-down" @class($customize['buttons.up-down']) />
+                        <x-icon name="chevron-up-down" @class([$customize['buttons.up-down.base'], $customize['buttons.up-down.error'] => $error]) />
                     </button>
                 </div>
             </div>
