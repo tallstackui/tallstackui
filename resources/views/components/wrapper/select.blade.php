@@ -18,12 +18,12 @@
             <div @class($customize['buttons.wrapper']))>
                 <template x-if="!empty">
                     <button id="tasteui_select_clear" type="button" x-on:click="clear()">
-                        <x-icon name="x-mark" @class([$customize['buttons.x-mark.base'], $customize['buttons.x-mark.error'] => $error]) />
+                        <x-icon name="x-mark" @class([$customize['buttons.mark.base'], $customize['buttons.x-mark.error'] => $error]) />
                     </button>
                 </template>
                 <div class="mr-1 flex items-center">
                     <button id="tasteui_select_open_close" type="button" x-on:click="show = !show">
-                        <x-icon name="chevron-up-down" @class([$customize['buttons.up-down.base'], $customize['buttons.up-down.error'] => $error]) />
+                        <x-icon name="chevron-up-down" @class([$customize['buttons.down.base'], $customize['buttons.up-down.error'] => $error]) />
                     </button>
                 </div>
             </div>
