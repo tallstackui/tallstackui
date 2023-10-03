@@ -1,5 +1,8 @@
 <?php
 
+use TasteUi\Actions\AbstractInteraction;
+use TasteUi\Actions\Dialog;
+use TasteUi\Actions\Toast;
 use TasteUi\Contracts\Customizable;
 use TasteUi\Support\Personalization;
 use TasteUi\Support\Personalizations\Contracts\Personalizable;
@@ -45,4 +48,26 @@ describe('components from personalization', function () {
     test('throws exception if component name is wrong', function () {
         (new Personalization('LoremIpsum'))->instance();
     })->throws(InvalidArgumentException::class);
+});
+
+describe('abstract interaction', function () {
+    test('class should be abstract')
+        ->expect(AbstractInteraction::class)
+        ->toBeAbstract();
+
+    test('implements abstraction action class')
+        ->expect([Dialog::class, Toast::class])
+        ->toExtend(AbstractInteraction::class);
+
+    test('abstract action class has method', function (string $method) {
+        expect(AbstractInteraction::class)->toHaveMethod($method);
+    })->with([
+        'success',
+        'error',
+        'info',
+        'warning',
+        'confirm',
+        'send',
+        'base',
+    ]);
 });
