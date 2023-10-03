@@ -44,7 +44,7 @@ it('can personalize', function () {
 
     TasteUi::personalize()
         ->buttonCircle()
-        ->base(fn() => 'rounded-md');
+        ->base(fn () => 'rounded-md');
 
     $this->blade('<x-button.circle text="Foo bar" />')
         ->assertSee('Foo bar')
@@ -58,7 +58,7 @@ it('can personalize all blocks available', function () {
 
     TasteUi::personalize()
         ->buttonCircle()
-        ->base(fn() => 'rounded-md')
+        ->base(fn () => 'rounded-md')
         ->icon('w-4 h-4');
 
     $this->blade('<x-button.circle icon="user" />')

@@ -1,4 +1,5 @@
 <?php
+
 use TasteUi\Facades\TasteUi;
 use TasteUi\Support\Personalization;
 use TasteUi\Support\Personalizations\Components\Resource;

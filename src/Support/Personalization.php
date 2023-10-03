@@ -75,7 +75,7 @@ final class Personalization
             throw new InvalidArgumentException('No component has been set.');
         }
 
-        if(str_contains($this->component, 'taste-ui::personalizations')) {
+        if (str_contains($this->component, 'taste-ui::personalizations')) {
             $this->component = str_replace('taste-ui::personalizations.', '', $this->component);
         }
 

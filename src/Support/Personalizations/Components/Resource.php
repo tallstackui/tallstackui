@@ -9,7 +9,6 @@ use Illuminate\Support\Str;
 use Illuminate\View\View;
 use TasteUi\Contracts\Personalizable as PersonalizableClass;
 use TasteUi\Support\Personalization;
-use TasteUi\Support\Personalizations\Contracts\Personalizable;
 
 /**
  * @property-read Personalization $and

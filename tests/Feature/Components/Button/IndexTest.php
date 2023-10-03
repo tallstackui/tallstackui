@@ -68,7 +68,7 @@ it('can personalize', function () {
 
     TasteUi::personalize()
         ->button()
-        ->wrapper(fn() => 'rounded-md');
+        ->wrapper(fn () => 'rounded-md');
 
     $this->blade('<x-button text="Foo bar" />')
         ->assertSee('Foo bar')
@@ -82,7 +82,7 @@ it('can personalize all blocks available', function () {
 
     TasteUi::personalize()
         ->button()
-        ->wrapper(fn() => 'rounded-md')
+        ->wrapper(fn () => 'rounded-md')
         ->icon('w-4 h-4');
 
     $this->blade('<x-button icon="user" />')
