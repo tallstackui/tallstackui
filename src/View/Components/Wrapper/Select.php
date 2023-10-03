@@ -42,11 +42,11 @@ class Select extends Component implements Customizable
             'header' => 'relative inset-y-0 left-0 flex w-full items-center overflow-hidden rounded-lg pl-2 transition space-x-2',
             'buttons' => [
                 'wrapper' => 'mr-1 flex items-center',
-                'x-mark' => [
+                'mark' => [
                     'base' => 'h-5 w-5 transition text-secondary-500 hover:text-red-500',
                     'error' => 'text-red-500',
                 ],
-                'up-down' => [
+                'down' => [
                     'base' => 'h-5 w-5 transition text-secondary-500',
                     'error' => 'text-red-500',
                 ],
