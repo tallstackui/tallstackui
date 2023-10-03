@@ -17,7 +17,7 @@ class Textarea extends Component implements Customizable
         public ?string $label = null,
         public ?string $hint = null,
         public int $rows = 8,
-        public bool $resize = true,
+        public bool $resize = false,
     ) {
         //
     }
@@ -39,7 +39,7 @@ class Textarea extends Component implements Customizable
         return [
             'base' => Arr::toCssClasses([
                 $this->tasteUiInputClasses(),
-                'resize-none' => $this->resize,
+                'resize-none' => ! $this->resize,
             ]),
             'error' => 'text-red-600 ring-1 ring-inset ring-red-300 placeholder:text-red-300 focus:ring-2 focus:ring-inset focus:ring-red-500',
         ];

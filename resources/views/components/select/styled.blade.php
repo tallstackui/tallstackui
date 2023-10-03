@@ -1,13 +1,21 @@
 @php
-    $computed  = $attributes->whereStartsWith('wire:model')->first();
-    $error     = $errors->has($computed);
+    $computed  = $attributes->whereStartsWith('wire:model');
+    $directive = array_key_first($computed->getAttributes());
+    $property  = $computed[$directive];
+    $error     = $errors->has($property);
     $customize = tasteui_personalization('select.styled', $customization());
 @endphp
 
 <x-wrapper.select :$label :$error :$computed :$hint>
-    <x-slot:alpine>
-        tasteui_selectStyled(@entangle($computed), @js($searchable), @js($multiple), @js($selectable !== []), @js($selectable), @js($options), @js($placeholder))
-    </x-slot:alpine>
+    @if (!str($directive)->contains('.live'))
+        <x-slot:alpine>
+            tasteui_selectStyled(@entangle($property), @js($searchable), @js($multiple), @js($selectable !== []), @js($selectable), @js($options), @js($placeholder))
+        </x-slot:alpine>
+    @else
+        <x-slot:alpine>
+            tasteui_selectStyled(@entangle($property).live, @js($searchable), @js($multiple), @js($selectable !== []), @js($selectable), @js($options), @js($placeholder))
+        </x-slot:alpine>
+    @endif
     <x-slot:header>
         <div class="flex gap-2">
             <template x-if="(!multiple && !empty) || quantity === 0">

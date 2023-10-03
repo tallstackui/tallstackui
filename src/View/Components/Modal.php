@@ -70,7 +70,7 @@ class Modal extends Component implements Customizable
                 'close' => 'h-5 w-5 text-secondary-300 cursor-pointer',
             ],
             'body' => 'px-2 py-5 md:px-4 text-secondary-700 rounded-b-xl grow dark:text-secondary-400',
-            'footer' => 'rounded-b-xl border-t border-t-gray-100 bg-gray-50 px-6 py-3',
+            'footer' => 'flex justify-end gap-2 rounded-b-xl border-t border-t-gray-100 bg-gray-50 px-4 py-3',
         ]);
     }
 }

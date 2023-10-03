@@ -3,8 +3,8 @@ import {options as filtered, body} from './helpers';
 import axios from '../../axios';
 
 export default (
-    request,
     model = null,
+    request,
     selectable = {},
     multiple = false,
     placeholder = 'Select an option',
