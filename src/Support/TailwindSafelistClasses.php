@@ -10,7 +10,7 @@ namespace TasteUi\Support;
  */
 abstract class TailwindSafelistClasses
 {
-    protected const TEXT = [
+    public const TEXT = [
         'primary' => 'text-primary-50 text-primary-100 text-primary-200 text-primary-300 text-primary-400 text-primary-500 text-primary-600 text-primary-700 text-primary-800 text-primary-900 text-primary-950',
         'secondary' => 'text-secondary-50 text-secondary-100 text-secondary-200 text-secondary-300 text-secondary-400 text-secondary-500 text-secondary-600 text-secondary-700 text-secondary-800 text-secondary-900 text-secondary-950',
         'dark' => 'text-gray-50 text-gray-100 text-gray-200 text-gray-300 text-gray-400 text-gray-500 text-gray-600 text-gray-700 text-gray-800 text-gray-900 text-gray-950',
@@ -40,7 +40,7 @@ abstract class TailwindSafelistClasses
         'rose' => 'text-rose-50 text-rose-100 text-rose-200 text-rose-300 text-rose-400 text-rose-500 text-rose-600 text-rose-700 text-rose-800 text-rose-900 text-rose-950',
     ];
 
-    protected const BG = [
+    public const BG = [
         'primary' => 'bg-primary-50 bg-primary-100 bg-primary-200 bg-primary-300 bg-primary-400 bg-primary-500 bg-primary-600 bg-primary-700 bg-primary-800 bg-primary-900 bg-primary-950',
         'secondary' => 'bg-secondary-50 bg-secondary-100 bg-secondary-200 bg-secondary-300 bg-secondary-400 bg-secondary-500 bg-secondary-600 bg-secondary-700 bg-secondary-800 bg-secondary-900 bg-secondary-950',
         'dark' => 'bg-gray-50 bg-gray-100 bg-gray-200 bg-gray-300 bg-gray-400 bg-gray-500 bg-gray-600 bg-gray-700 bg-gray-800 bg-gray-900 bg-gray-950',
@@ -70,7 +70,7 @@ abstract class TailwindSafelistClasses
         'rose' => 'bg-rose-50 bg-rose-100 bg-rose-200 bg-rose-300 bg-rose-400 bg-rose-500 bg-rose-600 bg-rose-700 bg-rose-800 bg-rose-900 bg-rose-950',
     ];
 
-    protected const HOVER_BG = [
+    public const HOVER_BG = [
         'primary' => 'hover:bg-primary-50 hover:bg-primary-100 hover:bg-primary-200 hover:bg-primary-300 hover:bg-primary-400 hover:bg-primary-500 hover:bg-primary-600 hover:bg-primary-700 hover:bg-primary-800 hover:bg-primary-900 hover:bg-primary-950',
         'secondary' => 'hover:bg-secondary-50 hover:bg-secondary-100 hover:bg-secondary-200 hover:bg-secondary-300 hover:bg-secondary-400 hover:bg-secondary-500 hover:bg-secondary-600 hover:bg-secondary-700 hover:bg-secondary-800 hover:bg-secondary-900 hover:bg-secondary-950',
         'dark' => 'hover:bg-gray-50 hover:bg-gray-100 hover:bg-gray-200 hover:bg-gray-300 hover:bg-gray-400 hover:bg-gray-500 hover:bg-gray-600 hover:bg-gray-700 hover:bg-gray-800 hover:bg-gray-900 hover:bg-gray-950',
@@ -100,7 +100,7 @@ abstract class TailwindSafelistClasses
         'rose' => 'hover:bg-rose-50 hover:bg-rose-100 hover:bg-rose-200 hover:bg-rose-300 hover:bg-rose-400 hover:bg-rose-500 hover:bg-rose-600 hover:bg-rose-700 hover:bg-rose-800 hover:bg-rose-900 hover:bg-rose-950',
     ];
 
-    protected const BORDER = [
+    public const BORDER = [
         'primary' => 'border-primary-50 border-primary-100 border-primary-200 border-primary-300 border-primary-400 border-primary-500 border-primary-600 border-primary-700 border-primary-800 border-primary-900 border-primary-950',
         'secondary' => 'border-secondary-50 border-secondary-100 border-secondary-200 border-secondary-300 border-secondary-400 border-secondary-500 border-secondary-600 border-secondary-700 border-secondary-800 border-secondary-900 border-secondary-950',
         'dark' => 'border-gray-50 border-gray-100 border-gray-200 border-gray-300 border-gray-400 border-gray-500 border-gray-600 border-gray-700 border-gray-800 border-gray-900 border-gray-950',
@@ -130,7 +130,7 @@ abstract class TailwindSafelistClasses
         'rose' => 'border-rose-50 border-rose-100 border-rose-200 border-rose-300 border-rose-400 border-rose-500 border-rose-600 border-rose-700 border-rose-800 border-rose-900 border-rose-950',
     ];
 
-    protected const RING = [
+    public const RING = [
         'primary' => 'ring-primary-50 ring-primary-100 ring-primary-200 ring-primary-300 ring-primary-400 ring-primary-500 ring-primary-600 ring-primary-700 ring-primary-800 ring-primary-900 ring-primary-950',
         'secondary' => 'ring-secondary-50 ring-secondary-100 ring-secondary-200 ring-secondary-300 ring-secondary-400 ring-secondary-500 ring-secondary-600 ring-secondary-700 ring-secondary-800 ring-secondary-900 ring-secondary-950',
         'dark' => 'ring-gray-50 ring-gray-100 ring-gray-200 ring-gray-300 ring-gray-400 ring-gray-500 ring-gray-600 ring-gray-700 ring-gray-800 ring-gray-900 ring-gray-950',
@@ -160,7 +160,7 @@ abstract class TailwindSafelistClasses
         'rose' => 'ring-rose-50 ring-rose-100 ring-rose-200 ring-rose-300 ring-rose-400 ring-rose-500 ring-rose-600 ring-rose-700 ring-rose-800 ring-rose-900 ring-rose-950',
     ];
 
-    protected const HOVER_RING = [
+    public const HOVER_RING = [
         'primary' => 'hover:ring-primary-50 hover:ring-primary-100 hover:ring-primary-200 hover:ring-primary-300 hover:ring-primary-400 hover:ring-primary-500 hover:ring-primary-600 hover:ring-primary-700 hover:ring-primary-800 hover:ring-primary-900 hover:ring-primary-950',
         'secondary' => 'hover:ring-secondary-50 hover:ring-secondary-100 hover:ring-secondary-200 hover:ring-secondary-300 hover:ring-secondary-400 hover:ring-secondary-500 hover:ring-secondary-600 hover:ring-secondary-700 hover:ring-secondary-800 hover:ring-secondary-900 hover:ring-secondary-950',
         'dark' => 'hover:ring-gray-50 hover:ring-gray-100 hover:ring-gray-200 hover:ring-gray-300 hover:ring-gray-400 hover:ring-gray-500 hover:ring-gray-600 hover:ring-gray-700 hover:ring-gray-800 hover:ring-gray-900 hover:ring-gray-950',
