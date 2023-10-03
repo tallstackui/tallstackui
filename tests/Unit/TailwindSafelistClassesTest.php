@@ -32,7 +32,7 @@ const KEYS = [
     'rose',
 ];
 
-test('example', function ($name) {
+test('should have constant and keys', function ($name) {
     $constants = (new ReflectionClass(TailwindSafelistClasses::class))->getConstants();
 
     expect(array_keys($constants[$name]))->toBe(KEYS);

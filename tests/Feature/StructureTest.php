@@ -4,6 +4,7 @@ use TasteUi\Actions\AbstractInteraction;
 use TasteUi\Actions\Dialog;
 use TasteUi\Actions\Toast;
 use TasteUi\Contracts\Customizable;
+use TasteUi\Support\Elements\Color;
 use TasteUi\Support\Personalization;
 use TasteUi\Support\Personalizations\Contracts\Personalizable;
 
@@ -46,7 +47,7 @@ describe('components from personalization', function () {
     })->with('personalizations');
 
     test('throws exception if component name is wrong', function () {
-        (new Personalization('LoremIpsum'))->instance();
+        (new Personalization('foo-bar'))->instance();
     })->throws(InvalidArgumentException::class);
 });
 
@@ -69,5 +70,29 @@ describe('abstract interaction', function () {
         'confirm',
         'send',
         'base',
+    ]);
+});
+
+describe('color class', function () {
+    test('should be final')
+        ->expect(Color::class)
+        ->toBeFinal();
+
+    test('implements stringable')
+        ->expect(Color::class)
+        ->toImplement(Stringable::class);
+
+    test('should have methods', function (string $method) {
+        expect(Color::class)
+            ->toHaveMethod($method);
+    })->with([
+        'set',
+        'merge',
+        'mergeWhen',
+        'mergeUnless',
+        'prepend',
+        'append',
+        'get',
+        'validate',
     ]);
 });

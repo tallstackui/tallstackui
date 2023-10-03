@@ -23,9 +23,8 @@ All PR is welcome as long as it follows some criteria created for our organizati
 - English only
 - Based on [PSR-12](https://www.php-fig.org/psr/psr-12/)
 - Formatting using [Pint](https://laravel.com/docs/pint)
+- Analyses using [PHPStan](https://phpstan.org/)
 - Tests required - when applicable
-
-> In the future we will adjust the code based on the [PHPStan](https://phpstan.org/) standards.
 
 ## Guide
 
@@ -35,7 +34,7 @@ All PR is welcome as long as it follows some criteria created for our organizati
 4. Prepare any authentication way to access the `/dashboard`
 5. Create a folder in the project root called `packages`
 6. Inside the `packages` create another folder called `tasteui`
-7. Inside the `tasteui` folder, clone the repository
+7. Inside the `tasteui` folder, clone your TasteUi repository
 8. The final structure should be: `packages/tasteui/tasteui`
 9. Open your `composer.json` and put the following content: 
 ```json
@@ -81,7 +80,7 @@ Some of the TasteUi components use AlpineJs, which is only delivered when you ha
 
 ## Observations
 
-1. Sometimes it will be necessary to make changes to TasteUi that are reflected in Composer, so use the command: `composer update tasteui/tasteui`
+1. Sometimes it will be necessary to make changes to TasteUi that are reflected in Composer, so use the command: `composer update tasteui/tasteui` after make the changes.
 2. If you want to execute Browser tests, you will need to have Chrome installed. After that, run these commands:
 ```shell
 ./vendor/bin/dusk-updater detect --no-interaction
