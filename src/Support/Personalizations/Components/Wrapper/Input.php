@@ -2,15 +2,18 @@
 
 namespace TasteUi\Support\Personalizations\Components\Wrapper;
 
+use Closure;
+use TasteUi\Support\Personalizations\Components\Resource;
 use TasteUi\Support\Personalizations\Contracts\Personalizable;
 use TasteUi\Support\Personalizations\Traits\ShareablePersonalization;
 use TasteUi\View\Components\Wrapper\Input as Component;
-
-class Input implements Personalizable
+use TasteUi\Contracts\Personalizable as Customizable;
+/**
+ * @method $this base(string|Closure|Customizable $code)
+ */
+class Input extends Resource implements Personalizable
 {
-    use ShareablePersonalization;
-
-    public function component(): string
+    protected function component(): string
     {
         return Component::class;
     }

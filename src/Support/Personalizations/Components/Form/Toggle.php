@@ -2,15 +2,20 @@
 
 namespace TasteUi\Support\Personalizations\Components\Form;
 
+use Closure;
+use TasteUi\Contracts\Personalizable as Customizable;
+use TasteUi\Support\Personalizations\Components\Resource;
 use TasteUi\Support\Personalizations\Contracts\Personalizable;
-use TasteUi\Support\Personalizations\Traits\ShareablePersonalization;
 use TasteUi\View\Components\Form\Toggle as Component;
 
-class Toggle implements Personalizable
+/**
+ * @method $this input(string|Closure|Customizable $code)
+ * @method $this base(string|Closure|Customizable $code)
+ * @method $this error(string|Closure|Customizable $code)
+ */
+class Toggle extends Resource implements Personalizable
 {
-    use ShareablePersonalization;
-
-    public function component(): string
+    protected function component(): string
     {
         return Component::class;
     }

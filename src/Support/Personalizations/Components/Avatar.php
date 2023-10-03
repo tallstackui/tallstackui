@@ -2,15 +2,18 @@
 
 namespace TasteUi\Support\Personalizations\Components;
 
+use Closure;
+use TasteUi\Contracts\Personalizable as Customizable;
 use TasteUi\Support\Personalizations\Contracts\Personalizable;
-use TasteUi\Support\Personalizations\Traits\ShareablePersonalization;
 use TasteUi\View\Components\Avatar\Index as Component;
 
-class Avatar implements Personalizable
+/**
+ * @method $this wrapper(string|Closure|Customizable $code)
+ * @method $this content(string|Closure|Customizable $code)
+ */
+class Avatar extends Resource implements Personalizable
 {
-    use ShareablePersonalization;
-
-    public function component(): string
+    protected function component(): string
     {
         return Component::class;
     }
