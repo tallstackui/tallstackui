@@ -38,12 +38,14 @@ it('can render in left', function () {
 });
 
 it('can personalize', function () {
+
     $this->blade('<x-tooltip text="Foo bar" />')
         ->assertSee('Foo bar')
         ->assertSee('inline-flex');
 
-    TasteUi::personalize('tooltip')
-        ->block('wrapper', function () {
+    TasteUi::personalize()
+        ->tooltip()
+        ->wrapper(function () {
             return 'justify-center';
         });
 
@@ -60,8 +62,9 @@ it('cannot personalize wrong block', function () {
         ->assertSee('Foo bar')
         ->assertSee('inline-flex');
 
-    TasteUi::personalize('tooltip')
-        ->block('foo-bar', function () {
+    TasteUi::personalize()
+        ->tooltip()
+        ->wrong(function () {
             return 'justify-center';
         });
 
@@ -69,4 +72,21 @@ it('cannot personalize wrong block', function () {
         ->assertSee('Foo bar')
         ->assertSee('justify-center')
         ->assertDontSee('inline-flex');
+});
+
+it('can personalize all blocks available', function () {
+
+    $this->blade('<x-tooltip text="Foo bar" icon="user"   />')
+        ->assertSee('Foo bar')
+        ->assertSee('inline-flex');
+
+    TasteUi::personalize()
+        ->tooltip()
+        ->wrapper('justify-center')
+        ->icon('h-4 w-4');
+
+    $this->blade('<x-tooltip text="Foo bar" />')
+        ->assertSee('Foo bar')
+        ->assertSee('justify-center')
+        ->assertSee('h-4 w-4');
 });

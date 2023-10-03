@@ -41,8 +41,9 @@ it('can personalize', function () {
         ->assertSee('bg-primary-500')
         ->assertDontSee('px-4');
 
-    TasteUi::personalize('badge')
-        ->block('base', function (array $data) {
+    TasteUi::personalize()
+        ->badge()
+        ->base(function (array $data) {
             return Arr::toCssClasses([
                 'outline-none inline-flex items-center border px-4 py-0.5 font-bold',
                 'text-xs' => $data['size'] === 'sm',
@@ -75,8 +76,9 @@ it('cannot personalize wrong block', function () {
         ->assertSee('bg-primary-500')
         ->assertDontSee('px-4');
 
-    TasteUi::personalize('badge')
-        ->block('foo-bar', function (array $data) {
+    TasteUi::personalize()
+        ->badge()
+        ->wrong(function (array $data) {
             return Arr::toCssClasses([
                 'outline-none inline-flex items-center border px-4 py-0.5 font-bold',
                 'text-xs' => $data['size'] === 'sm',
@@ -99,4 +101,21 @@ it('cannot personalize wrong block', function () {
         ->assertSee('bg-primary-500')
         ->assertSee('px-4')
         ->assertDontSee('px-2');
+});
+
+it('can personalize all blocks available', function () {
+    $this->blade('<x-badge text="Bar foo" />')
+        ->assertSee('Bar foo')
+        ->assertSee('bg-primary-500')
+        ->assertDontSee('px-4');
+
+    TasteUi::personalize()
+        ->badge()
+        ->base('justify-between')
+        ->icon('w-4 h-4');
+
+    $this->blade('<x-badge text="Bar foo" icon="user" />')
+        ->assertSee('Bar foo')
+        ->assertSee('justify-between')
+        ->assertSee('w-4 h-4');
 });

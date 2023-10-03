@@ -1,5 +1,7 @@
 <?php
 
+use TasteUi\Facades\TasteUi;
+
 it('can render with slot', function () {
     $this->blade('<x-button>Foo bar</x-button>')
         ->assertSee('Foo bar');
@@ -56,4 +58,34 @@ it('can render colored', function () {
     $this->blade('<x-button text="Foo bar" color="red" />')->assertSee('bg-red-500');
     $this->blade('<x-button text="Foo bar" color="yellow" />')->assertSee('bg-yellow-500');
     $this->blade('<x-button text="Foo bar" color="blue" />')->assertSee('bg-blue-500');
+});
+
+it('can personalize', function () {
+    $this->blade('<x-button text="Foo bar" />')
+        ->assertSee('Foo bar')
+        ->assertSee('bg-primary-500')
+        ->assertDontSee('rounded-md');
+
+    TasteUi::personalize()
+        ->button()
+        ->wrapper(fn() => 'rounded-md');
+
+    $this->blade('<x-button text="Foo bar" />')
+        ->assertSee('Foo bar')
+        ->assertSee('rounded-md');
+});
+
+it('can personalize all blocks available', function () {
+    $this->blade('<x-button icon="user" />')
+        ->assertSee('bg-primary-500')
+        ->assertDontSee('rounded-md');
+
+    TasteUi::personalize()
+        ->button()
+        ->wrapper(fn() => 'rounded-md')
+        ->icon('w-4 h-4');
+
+    $this->blade('<x-button icon="user" />')
+        ->assertSee('rounded-md')
+        ->assertSee('w-4 h-4');
 });
