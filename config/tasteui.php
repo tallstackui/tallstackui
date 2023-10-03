@@ -48,5 +48,7 @@ return [
         'wrapper.input' => Components\Wrapper\Input::class,
         'wrapper.radio' => Components\Wrapper\Radio::class,
         'wrapper.select' => Components\Wrapper\Select::class,
+        'tabs' => Components\Tabs\Index::class,
+        'tabs.item' => Components\Tabs\Item::class,
     ],
 ];
