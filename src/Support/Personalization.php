@@ -37,6 +37,7 @@ use TasteUi\Support\Personalizations\Components\Wrapper\Input as InputWrapper;
 use TasteUi\Support\Personalizations\Components\Wrapper\Radio as RadioWrapper;
 use TasteUi\Support\Personalizations\Components\Wrapper\Select as SelectWrapper;
 use TasteUi\Support\Personalizations\Contracts\Personalizable as PersonalizableContract;
+use Illuminate\Support\Str;
 
 final class Personalization
 {
@@ -71,73 +72,183 @@ final class Personalization
         'taste-ui::personalizations.wrapper.select' => SelectWrapper::class,
     ];
 
-    public function __construct(
-        public string $component,
-        private ?string $view = null,
-        private ?Customizable $instance = null,
-        private ?PersonalizableContract $personalization = null,
-    ) {
-        if (! str_contains($component, 'taste-ui::personalizations')) {
-            $component = 'taste-ui::personalizations.'.$component;
-        }
-
-        if (! array_key_exists($component, self::PERSONALIZABLES)) {
-            throw new InvalidArgumentException("Personalization [$component] not found");
-        }
-
-        $this->personalization = app($component);
-        $this->instance = $this->component();
-        $this->view = $this->instance->render()->name(); // @phpstan-ignore-line
-    }
-
-    /**
-     * Set the personalization in the component block.
-     *
-     * @return $this
-     */
-    public function block(string $name, string|Closure|PersonalizableClass $code): self
+    public function __construct(public ?string $component = null)
     {
-        if (! in_array($name, array_values($blocks = $this->blocks()))) {
-            throw new InvalidArgumentException("Block [$name] is not allowed to be personalized at the [$this->view] component. Alloweds: ".implode(', ', $blocks).'.');
-        }
 
-        Facade::composer($this->view, fn (View $view) => $this->personalization->set($name, is_callable($code) ? $code($view->getData()) : $code));
-
-        return $this;
     }
 
-    /**
-     * Alias to the `block` method.
-     *
-     * @return $this
-     */
-    public function in(string $block, string|Closure|PersonalizableClass $code): self
+
+    public function block(string|array $name, string|Closure|PersonalizableClass $code = ''): PersonalizableContract
     {
-        return $this->block($block, $code);
+        return $this->instance()->block($name, $code);
     }
 
-    /**
-     * Returns the instance of the personalization class.
-     */
     public function instance(): PersonalizableContract
     {
-        return $this->personalization;
+
+        if (! $this->component) {
+            throw new InvalidArgumentException('No component has been set.');
+        }
+
+        if (str_contains($this->component, 'taste-ui::personalizations')) {
+            $this->component = str_replace('taste-ui::personalizations.', '', $this->component);
+        }
+
+        if (! method_exists($this, $method = $this->camel($this->component))) {
+            throw new InvalidArgumentException("The method [{$method}] is not supported.");
+        }
+
+        return call_user_func([$this, $method]);
+
     }
 
-    /**
-     * Retrieves the Blade component class instance.
-     */
-    private function component(): Customizable
+    private function camel(string $value): string
     {
-        return app($this->personalization->component(), ['ignoreValidations' => true]);
+        return Str::of($value)->replace('.', '_')->camel()->toString();
     }
 
-    /**
-     * Get all the blocks that can be personalized directly
-     * from the component class `tasteUiClasses` method.
-     */
-    private function blocks(): array
+    private function getComponent(string $class): string
     {
-        return array_keys($this->instance->tasteUiClasses());
+        return array_search($class, self::PERSONALIZABLES);
+    }
+
+    public function alert(): Alert
+    {
+        return app($this->getComponent(Alert::class));
+    }
+
+    public function modal(): Modal
+    {
+        return app($this->getComponent(Modal::class));
+    }
+
+    public function button(): Index
+    {
+        return app($this->getComponent(Index::class));
+    }
+
+    public function avatar(): Avatar
+    {
+        return app($this->getComponent(Avatar::class));
+    }
+
+    public function badge(): Badge
+    {
+        return app($this->getComponent(Badge::class));
+    }
+
+    public function buttonCircle(): Circle
+    {
+        return app($this->getComponent(Circle::class));
+    }
+
+    public function card(): Card
+    {
+        return app($this->getComponent(Card::class));
+    }
+
+    public function dialog(): Dialog
+    {
+        return app($this->getComponent(Dialog::class));
+    }
+
+    public function error(): Error
+    {
+        return app($this->getComponent(Error::class));
+    }
+
+    public function errors(): Errors
+    {
+        return app($this->getComponent(Errors::class));
+    }
+
+    public function formInput(): Input
+    {
+        return app($this->getComponent(Input::class));
+    }
+
+    public function formLabel(): Label
+    {
+        return app($this->getComponent(Label::class));
+    }
+
+    public function formPassword(): Password
+    {
+        return app($this->getComponent(Password::class));
+    }
+
+    public function formCheckbox(): Checkbox
+    {
+        return app($this->getComponent(Checkbox::class));
+    }
+
+    public function formRadio(): Radio
+    {
+        return app($this->getComponent(Radio::class));
+    }
+
+    public function formTextarea(): Textarea
+    {
+        return app($this->getComponent(Textarea::class));
+    }
+
+    public function formToggle(): Toggle
+    {
+        return app($this->getComponent(Toggle::class));
+    }
+
+    public function hint(): Hint
+    {
+        return app($this->getComponent(Hint::class));
+    }
+
+    public function select(): Select
+    {
+        return app($this->getComponent(Select::class));
+    }
+
+    public function selectSearchable(): Searchable
+    {
+        return app($this->getComponent(Searchable::class));
+    }
+
+    public function selectStyled(): Styled
+    {
+        return app($this->getComponent(Styled::class));
+    }
+
+    public function toast(): Toast
+    {
+        return app($this->getComponent(Toast::class));
+    }
+
+    public function tooltip(): Tooltip
+    {
+        return app($this->getComponent(Tooltip::class));
+    }
+
+    public function wrapperInput(): InputWrapper
+    {
+        return app($this->getComponent(InputWrapper::class));
+    }
+
+    public function wrapperRadio(): RadioWrapper
+    {
+        return app($this->getComponent(RadioWrapper::class));
+    }
+
+    public function wrapperSelect(): SelectWrapper
+    {
+        return app($this->getComponent(SelectWrapper::class));
+    }
+
+    public function tabs(): TabWrapper
+    {
+        return app($this->getComponent(TabWrapper::class));
+    }
+
+    public function tabsItem(): TabItem
+    {
+        return app($this->getComponent(TabItem::class));
     }
 }
