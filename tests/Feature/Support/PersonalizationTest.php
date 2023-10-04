@@ -2,7 +2,7 @@
 
 use TasteUi\Facades\TasteUi;
 use TasteUi\Support\Personalization;
-use TasteUi\Support\Personalizations\Components\Resource;
+use TasteUi\Support\Personalizations\Components\PersonalizationResource;
 use TasteUi\Support\Personalizations\Contracts\Personalizable;
 
 it('can be instantiated', function () {
@@ -37,7 +37,7 @@ it('can be instantiated all components personalization extends of resource', fun
 
     foreach (Personalization::PERSONALIZABLES as $personalization) {
 
-        $this->assertInstanceOf(Resource::class, new $personalization);
+        $this->assertInstanceOf(PersonalizationResource::class, new $personalization);
     }
 
 });

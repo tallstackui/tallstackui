@@ -5,7 +5,7 @@ namespace TasteUi\Support\Personalizations\Components;
 use TasteUi\Support\Personalizations\Contracts\Personalizable;
 use TasteUi\View\Components\Tooltip as Component;
 
-class Tooltip extends Resource implements Personalizable
+class Tooltip extends PersonalizationResource implements Personalizable
 {
     protected function component(): string
     {
