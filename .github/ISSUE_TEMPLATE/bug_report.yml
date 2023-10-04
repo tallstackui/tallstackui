@@ -20,7 +20,7 @@ body:
     attributes:
       label: How to Reproduce
       description: How did this occur, please add any config values used and provide a set of reliable steps if possible.
-      placeholder: Install a fresh Laravel app, install TasteUi, add a <x-button /> to a view, visit the page
+      placeholder: Install a fresh Laravel app, install TasteUi, add a <x-button /> to a Livewire component, visit the page
     validations:
       required: true
   - type: input
@@ -30,11 +30,19 @@ body:
       description: If possible, please provide a sample repository that reproduces the issue.
       placeholder: https://github.com.br/your-username/your-repository
   - type: input
+    id: livewire-version
+    attributes:
+      label: Livewire Version
+      description: What version of Livewire are you running? Please be as specific as possible
+      placeholder: For example, 3.0.5
+    validations:
+      required: true
+  - type: input
     id: tasteui-version
     attributes:
       label: TasteUi Version
       description: What version of our Package are you running? Please be as specific as possible
-      placeholder: 1.2.3
+      placeholder: For example, 1.2.3
     validations:
       required: true
   - type: input
@@ -42,7 +50,7 @@ body:
     attributes:
       label: PHP Version
       description: What version of PHP are you running? Please be as specific as possible
-      placeholder: 8.1.20
+      placeholder: For example, 8.1.20
     validations:
       required: true
   - type: dropdown
