@@ -49,5 +49,6 @@ it('can render squared', function () {
 HTML;
 
     $this->blade($component)
+        ->assertDontSee('rounded-t-lg')
         ->assertDontSee('rounded-bl-lg rounded-br-lg rounded-tr-lg');
 });
