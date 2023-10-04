@@ -3,7 +3,6 @@
 namespace TasteUi\Support;
 
 use Closure;
-use Illuminate\Support\Str;
 use InvalidArgumentException;
 use TasteUi\Contracts\Personalizable as PersonalizableClass;
 use TasteUi\Support\Personalizations\Components\Alert;
@@ -69,9 +68,10 @@ final class Personalization
         'taste-ui::personalizations.wrapper.select' => SelectWrapper::class,
     ];
 
-    public function __construct(public ?string $component = null)
-    {
-
+    public function __construct(
+        public ?string $component = null
+    ) {
+        //
     }
 
     public function block(string|array $name, string|Closure|PersonalizableClass $code = ''): PersonalizableContract
@@ -81,7 +81,6 @@ final class Personalization
 
     public function instance(): PersonalizableContract
     {
-
         if (! $this->component) {
             throw new InvalidArgumentException('No component has been set.');
         }
@@ -90,161 +89,160 @@ final class Personalization
             $this->component = str_replace('taste-ui::personalizations.', '', $this->component);
         }
 
-        if (! method_exists($this, $method = $this->camel($this->component))) {
+        $method = str($this->component)
+            ->replace('.', '_')
+            ->camel()
+            ->toString();
+
+        if (! method_exists($this, $method)) {
             throw new InvalidArgumentException("The method [{$method}] is not supported.");
         }
 
         return call_user_func([$this, $method]);
-
-    }
-
-    private function camel(string $value): string
-    {
-        return Str::of($value)->replace('.', '_')->camel()->toString();
-    }
-
-    private function getComponent(string $class): string
-    {
-        return array_search($class, self::PERSONALIZABLES);
     }
 
     public function alert(): Alert
     {
-        return app($this->getComponent(Alert::class));
+        return app($this->component(Alert::class));
     }
 
     public function modal(): Modal
     {
-        return app($this->getComponent(Modal::class));
+        return app($this->component(Modal::class));
     }
 
     public function button(): Index
     {
-        return app($this->getComponent(Index::class));
+        return app($this->component(Index::class));
     }
 
     public function avatar(): Avatar
     {
-        return app($this->getComponent(Avatar::class));
+        return app($this->component(Avatar::class));
     }
 
     public function badge(): Badge
     {
-        return app($this->getComponent(Badge::class));
+        return app($this->component(Badge::class));
     }
 
     public function buttonCircle(): Circle
     {
-        return app($this->getComponent(Circle::class));
+        return app($this->component(Circle::class));
     }
 
     public function card(): Card
     {
-        return app($this->getComponent(Card::class));
+        return app($this->component(Card::class));
     }
 
     public function dialog(): Dialog
     {
-        return app($this->getComponent(Dialog::class));
+        return app($this->component(Dialog::class));
     }
 
     public function error(): Error
     {
-        return app($this->getComponent(Error::class));
+        return app($this->component(Error::class));
     }
 
     public function errors(): Errors
     {
-        return app($this->getComponent(Errors::class));
+        return app($this->component(Errors::class));
     }
 
     public function formInput(): Input
     {
-        return app($this->getComponent(Input::class));
+        return app($this->component(Input::class));
     }
 
     public function formLabel(): Label
     {
-        return app($this->getComponent(Label::class));
+        return app($this->component(Label::class));
     }
 
     public function formPassword(): Password
     {
-        return app($this->getComponent(Password::class));
+        return app($this->component(Password::class));
     }
 
     public function formCheckbox(): Checkbox
     {
-        return app($this->getComponent(Checkbox::class));
+        return app($this->component(Checkbox::class));
     }
 
     public function formRadio(): Radio
     {
-        return app($this->getComponent(Radio::class));
+        return app($this->component(Radio::class));
     }
 
     public function formTextarea(): Textarea
     {
-        return app($this->getComponent(Textarea::class));
+        return app($this->component(Textarea::class));
     }
 
     public function formToggle(): Toggle
     {
-        return app($this->getComponent(Toggle::class));
+        return app($this->component(Toggle::class));
     }
 
     public function hint(): Hint
     {
-        return app($this->getComponent(Hint::class));
+        return app($this->component(Hint::class));
     }
 
     public function select(): Select
     {
-        return app($this->getComponent(Select::class));
+        return app($this->component(Select::class));
     }
 
     public function selectSearchable(): Searchable
     {
-        return app($this->getComponent(Searchable::class));
+        return app($this->component(Searchable::class));
     }
 
     public function selectStyled(): Styled
     {
-        return app($this->getComponent(Styled::class));
+        return app($this->component(Styled::class));
     }
 
     public function toast(): Toast
     {
-        return app($this->getComponent(Toast::class));
+        return app($this->component(Toast::class));
     }
 
     public function tooltip(): Tooltip
     {
-        return app($this->getComponent(Tooltip::class));
+        return app($this->component(Tooltip::class));
     }
 
     public function wrapperInput(): InputWrapper
     {
-        return app($this->getComponent(InputWrapper::class));
+        return app($this->component(InputWrapper::class));
     }
 
     public function wrapperRadio(): RadioWrapper
     {
-        return app($this->getComponent(RadioWrapper::class));
+        return app($this->component(RadioWrapper::class));
     }
 
     public function wrapperSelect(): SelectWrapper
     {
-        return app($this->getComponent(SelectWrapper::class));
+        return app($this->component(SelectWrapper::class));
     }
 
     public function tabs(): TabWrapper
     {
-        return app($this->getComponent(TabWrapper::class));
+        return app($this->component(TabWrapper::class));
     }
 
     public function tabsItem(): TabItem
     {
-        return app($this->getComponent(TabItem::class));
+        return app($this->component(TabItem::class));
+    }
+
+    private function component(string $class): string
+    {
+        return array_search($class, self::PERSONALIZABLES);
     }
 }
