@@ -1,18 +1,18 @@
 name: Feature Request
-description: Request a New Feature to the TasteUi
+description: Request a new feature to the TasteUi
 title: "[Feature Request]: "
 labels: ["feature"]
 body:
   - type: markdown
     attributes:
       value: |
-        Your suggestion is welcome, but we would like to inform you that some things are still pending in TasteUi, such as dark theme, slots for custom selects, some components, etc. Feel free to suggest anything, and also to contribute PR that at least initializes your suggestion.
+        Your suggestion is welcome, but **we would like to inform you that some things are still pending in TasteUi, such as dark theme, slots for custom selects, some components, etc.** Feel free to suggest anything, and also to contribute PR that at least initializes your suggestion.
   - type: textarea
     id: suggestion-theme
     attributes:
       label: Suggestion Theme
       description: Describe the main theme of your suggestion
-      placeholder: Buttons, Colors, Inputs, Themes, etc.
+      placeholder: Buttons, colors, inputs, themes, etc.
     validations:
       required: true
   - type: textarea
