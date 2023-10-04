@@ -10,11 +10,11 @@ use TasteUi\Contracts\Customizable;
 class Index extends Component implements Customizable
 {
     public function __construct(
-        public bool $square = false,
         public array $options = [],
         public ?string $selected = null,
+        private bool $square = false,
     ) {
-        //
+        $this->square = config('tasteui.personalizations.tabs.square');
     }
 
     public function render(): View
@@ -34,7 +34,10 @@ class Index extends Component implements Customizable
         return Arr::dot([
             'wrapper' => '-mb-px flex items-stretch overflow-auto',
             'item' => [
-                'wrapper' => 'inline-flex truncate px-5 py-2.5 text-gray-700 transition cursor-pointer rounded-t-lg',
+                'wrapper' => Arr::toCssClasses([
+                    'inline-flex truncate px-5 py-2.5 text-gray-700 transition cursor-pointer',
+                    'rounded-t-lg' => ! $this->square,
+                ]),
                 'selected' => 'bg-white text-primary font-semibold',
                 'unselected' => 'opacity-50',
             ],
