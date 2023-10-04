@@ -34,14 +34,13 @@ abstract class Resource
         facadeView::composer($this->view, fn (View $view) => $this->set($name, is_callable($code) ? $code($view->getData()) : $code));
     }
 
-
     public function block(string|array $name, string|Closure|PersonalizableClass $code = ''): static
     {
         if (is_string($name) && empty($code)) {
             throw new InvalidArgumentException('The second argument cannot be empty');
         }
 
-        if (is_array($name) && !empty($code)) {
+        if (is_array($name) && ! empty($code)) {
             throw new InvalidArgumentException('The second argument must be empty');
         }
 

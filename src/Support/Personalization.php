@@ -3,10 +3,8 @@
 namespace TasteUi\Support;
 
 use Closure;
-use Illuminate\Support\Facades\View as Facade;
-use Illuminate\View\View;
+use Illuminate\Support\Str;
 use InvalidArgumentException;
-use TasteUi\Contracts\Customizable;
 use TasteUi\Contracts\Personalizable as PersonalizableClass;
 use TasteUi\Support\Personalizations\Components\Alert;
 use TasteUi\Support\Personalizations\Components\Avatar;
@@ -37,7 +35,6 @@ use TasteUi\Support\Personalizations\Components\Wrapper\Input as InputWrapper;
 use TasteUi\Support\Personalizations\Components\Wrapper\Radio as RadioWrapper;
 use TasteUi\Support\Personalizations\Components\Wrapper\Select as SelectWrapper;
 use TasteUi\Support\Personalizations\Contracts\Personalizable as PersonalizableContract;
-use Illuminate\Support\Str;
 
 final class Personalization
 {
@@ -76,7 +73,6 @@ final class Personalization
     {
 
     }
-
 
     public function block(string|array $name, string|Closure|PersonalizableClass $code = ''): PersonalizableContract
     {

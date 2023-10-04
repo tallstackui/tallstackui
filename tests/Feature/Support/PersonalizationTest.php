@@ -41,5 +41,3 @@ it('can be instantiated all components personalization extends of resource', fun
     }
 
 });
-
-

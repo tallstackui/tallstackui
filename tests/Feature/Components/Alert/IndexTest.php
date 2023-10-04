@@ -87,7 +87,6 @@ it('cannot personalize wrong block', function () {
         ->assertDontSee('rounded-md');
 });
 
-
 it('can personalize multiples blocks', function () {
     $this->blade('<x-alert text="Bar foo" title="alert" />')
         ->assertSee('Bar foo')
@@ -97,8 +96,8 @@ it('can personalize multiples blocks', function () {
 
     TasteUi::personalize('alert')
         ->block([
-            'base' => fn() => 'rounded-full p-4',
-            'title.wrapper' => fn() => 'justify-start',
+            'base' => fn () => 'rounded-full p-4',
+            'title.wrapper' => fn () => 'justify-start',
         ]);
 
     $this->blade('<x-alert text="Bar foo" title="alert"/>')
