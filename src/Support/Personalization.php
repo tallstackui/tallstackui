@@ -30,6 +30,8 @@ use TasteUi\Support\Personalizations\Components\Modal;
 use TasteUi\Support\Personalizations\Components\Select\Searchable;
 use TasteUi\Support\Personalizations\Components\Select\Select;
 use TasteUi\Support\Personalizations\Components\Select\Styled;
+use TasteUi\Support\Personalizations\Components\Tabs\Index as TabWrapper;
+use TasteUi\Support\Personalizations\Components\Tabs\Item as TabItem;
 use TasteUi\Support\Personalizations\Components\Tooltip;
 use TasteUi\Support\Personalizations\Components\Wrapper\Input as InputWrapper;
 use TasteUi\Support\Personalizations\Components\Wrapper\Radio as RadioWrapper;
@@ -60,6 +62,8 @@ final class Personalization
         'taste-ui::personalizations.select' => Select::class,
         'taste-ui::personalizations.select.searchable' => Searchable::class,
         'taste-ui::personalizations.select.styled' => Styled::class,
+        'taste-ui::personalizations.tabs' => TabWrapper::class,
+        'taste-ui::personalizations.tabs.item' => TabItem::class,
         'taste-ui::personalizations.toast' => Toast::class,
         'taste-ui::personalizations.tooltip' => Tooltip::class,
         'taste-ui::personalizations.wrapper.input' => InputWrapper::class,

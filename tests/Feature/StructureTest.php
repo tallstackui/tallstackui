@@ -15,19 +15,19 @@ test('should not use dangerous functions')
 
 describe('tasteui components', function () {
     test('is customizable', function (string $index) {
-        $this->expect($index)->toImplement(Customizable::class);
+        expect($index)->toImplement(Customizable::class);
     })->with('components');
 
     test('contains tasteUiClasses method', function (string $index) {
-        $this->expect($index)->toHaveMethod('tasteUiClasses');
+        expect($index)->toHaveMethod('tasteUiClasses');
     })->with('components');
 
     test('contains customization method', function (string $index) {
-        $this->expect($index)->toHaveMethod('customization');
+        expect($index)->toHaveMethod('customization');
     })->with('components');
 
     test('contains constructor', function (string $index) {
-        $this->expect($index)->toHaveConstructor();
+        expect($index)->toHaveConstructor();
     })->with('components');
 });
 
@@ -35,15 +35,13 @@ describe('components from personalization', function () {
     test('should implements Personalizable contract', function (string $index) {
         $component = Personalization::PERSONALIZABLES[$index];
 
-        $this->expect($component)
-            ->toImplement(Personalizable::class);
+        expect($component)->toImplement(Personalizable::class);
     })->with('personalizations');
 
     test('should returns component class path as string', function (string $index) {
         $component = (new Personalization($index))->instance()->component();
 
-        $this->expect($component)
-            ->toBeString();
+        expect($component)->toBeString();
     })->with('personalizations');
 
     test('throws exception if component name is wrong', function () {
@@ -83,8 +81,7 @@ describe('color class', function () {
         ->toImplement(Stringable::class);
 
     test('should have methods', function (string $method) {
-        expect(Color::class)
-            ->toHaveMethod($method);
+        expect(Color::class)->toHaveMethod($method);
     })->with([
         'set',
         'merge',
