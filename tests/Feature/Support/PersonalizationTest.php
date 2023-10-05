@@ -6,38 +6,29 @@ use TasteUi\Support\Personalizations\Components\PersonalizationResource;
 use TasteUi\Support\Personalizations\Contracts\Personalizable;
 
 it('can be instantiated', function () {
-    $personalization = TasteUi::personalize();
-
-    expect($personalization)->toBeInstanceOf(Personalization::class);
+    expect(TasteUi::personalize())->toBeInstanceOf(Personalization::class);
 });
 
 it('can be instantiated with a component and alias block', function () {
-    $personalization = TasteUi::personalize('alert');
-
-    expect($personalization->block(['base' => fn () => 'string']))->toBeInstanceOf(Personalizable::class);
+    expect(TasteUi::personalize('alert')
+        ->block(['base' => fn () => 'string']))
+        ->toBeInstanceOf(Personalizable::class);
 });
 
-it('can be instantiated with a component', function () {
-    $personalization = TasteUi::personalize('alert');
+it('can instantiate all components', function (string $component) {
+    expect(TasteUi::personalize($component)->instance())->toBeInstanceOf(Personalizable::class);
+})->with('personalizations.keys');
 
-    expect($personalization->instance())->toBeInstanceOf(Personalizable::class);
-});
+it('can instanciate all components extends of resource', function (string $component) {
+    expect(new $component)->toBeInstanceOf(PersonalizationResource::class);
+})->with('personalizations.classes');
 
-it('can be instantiated all components personalization', function () {
+it('can personalize using reference of method')->todo();
 
-    foreach (Personalization::PERSONALIZABLES as $component => $personalization) {
-        $personalization = TasteUi::personalize($component);
+it('can personalize using component name')->todo();
 
-        expect($personalization->instance())->toBeInstanceOf(Personalizable::class);
-    }
+it('can personalize block using string')->todo();
 
-});
+it('can personalize block using array')->todo();
 
-it('can be instantiated all components personalization extends of resource', function () {
-
-    foreach (Personalization::PERSONALIZABLES as $personalization) {
-
-        $this->assertInstanceOf(PersonalizationResource::class, new $personalization);
-    }
-
-});
+it('can personalize in sequenece')->todo();

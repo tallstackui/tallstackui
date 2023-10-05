@@ -36,7 +36,7 @@ describe('components from personalization', function () {
         $component = Personalization::PERSONALIZABLES[$index];
 
         expect($component)->toImplement(Personalizable::class);
-    })->with('personalizations');
+    })->with('personalizations.keys');
 
     test('throws exception if component name is wrong', function () {
         (new Personalization('foo-bar'))->instance();
