@@ -29,6 +29,11 @@ class Modelable extends Index
         );
     }
 
+    public function alt(): mixed
+    {
+        return $this->model->getAttribute($this->property);
+    }
+
     /** @throws Throwable */
     private function avatar(): string
     {
@@ -38,10 +43,5 @@ class Modelable extends Index
         );
 
         return "https://ui-avatars.com/api/?name={$this->model->getAttribute($this->property)}&background={$this->background}&color={$this->color}";
-    }
-
-    public function alt(): mixed
-    {
-        return $this->model->getAttribute($this->property);
     }
 }

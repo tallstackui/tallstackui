@@ -27,7 +27,7 @@ use TasteUi\Support\Personalizations\Components\Modal;
 use TasteUi\Support\Personalizations\Components\Select\Searchable as SelectSearchable;
 use TasteUi\Support\Personalizations\Components\Select\Select;
 use TasteUi\Support\Personalizations\Components\Select\Styled as SelectStyled;
-use TasteUi\Support\Personalizations\Components\Tabs\Index as TabWrapper;
+use TasteUi\Support\Personalizations\Components\Tabs\Index as TabsWrapper;
 use TasteUi\Support\Personalizations\Components\Tabs\Item as TabItems;
 use TasteUi\Support\Personalizations\Components\Tooltip;
 use TasteUi\Support\Personalizations\Components\Wrapper\Input as InputWrapper;
@@ -59,7 +59,7 @@ final class Personalization
         'taste-ui::personalizations.select' => Select::class,
         'taste-ui::personalizations.select.searchable' => SelectSearchable::class,
         'taste-ui::personalizations.select.styled' => SelectStyled::class,
-        'taste-ui::personalizations.tabs' => TabWrapper::class,
+        'taste-ui::personalizations.tabs' => TabsWrapper::class,
         'taste-ui::personalizations.tabs.item' => TabItems::class,
         'taste-ui::personalizations.toast' => Toast::class,
         'taste-ui::personalizations.tooltip' => Tooltip::class,
@@ -74,7 +74,7 @@ final class Personalization
         //
     }
 
-    public function block(string|array $name, string|Closure|PersonalizableClass $code = ''): PersonalizableContract
+    public function block(string|array $name, string|Closure|PersonalizableClass $code = null): PersonalizableContract
     {
         return $this->instance()->block($name, $code);
     }
@@ -89,16 +89,15 @@ final class Personalization
             $this->component = str_replace('taste-ui::personalizations.', '', $this->component);
         }
 
-        $method = str($this->component)
-            ->replace('.', '_')
-            ->camel()
-            ->toString();
+        $parts = explode('.', $this->component);
+        $main = $parts[0];
+        $secondary = $parts[1] ?? null;
 
-        if (! method_exists($this, $method)) {
-            throw new InvalidArgumentException("The method [{$method}] is not supported.");
+        if (! method_exists($this, $main)) {
+            throw new InvalidArgumentException("The method [{$main}] is not supported.");
         }
 
-        return call_user_func([$this, $method]);
+        return call_user_func([$this, $main], $main === $secondary ?: $secondary);
     }
 
     public function alert(): Alert
@@ -151,13 +150,14 @@ final class Personalization
     public function form(string $component = null): Input|Label|Password|Checkbox|Radio|Textarea|Toggle
     {
         $class = match ($component) {
+            'input' => Input::class,
             'label' => Label::class,
             'password' => Password::class,
             'checkbox' => Checkbox::class,
             'radio' => Radio::class,
             'textarea' => Textarea::class,
             'toggle' => Toggle::class,
-            default => Input::class,
+            default => $component,
         };
 
         return app($this->component($class));
@@ -171,9 +171,10 @@ final class Personalization
     public function select(string $component = null): Select|SelectSearchable|SelectStyled
     {
         $class = match ($component) {
+            'select' => Select::class,
             'searchable' => SelectSearchable::class,
             'styled' => SelectStyled::class,
-            default => Select::class,
+            default => $component,
         };
 
         return app($this->component($class));
@@ -192,19 +193,21 @@ final class Personalization
     public function wrapper(string $component = null): InputWrapper|RadioWrapper|SelectWrapper
     {
         $class = match ($component) {
+            'input' => InputWrapper::class,
             'radio' => RadioWrapper::class,
             'select' => SelectWrapper::class,
-            default => InputWrapper::class,
+            default => $component,
         };
 
         return app($this->component($class));
     }
 
-    public function tabs(string $component = null): TabWrapper|TabItems
+    public function tabs(string $component = null): TabsWrapper|TabItems
     {
         $class = match ($component) {
+            'tabs' => TabsWrapper::class,
             'items' => TabItems::class,
-            default => TabWrapper::class,
+            default => $component,
         };
 
         return app($this->component($class));
@@ -212,6 +215,12 @@ final class Personalization
 
     private function component(string $class): string
     {
-        return array_search($class, self::PERSONALIZABLES);
+        $component = array_search($class, self::PERSONALIZABLES);
+
+        if (! $component) {
+            throw new InvalidArgumentException("Component [{$class}] is not allowed to be personalized");
+        }
+
+        return $component;
     }
 }
