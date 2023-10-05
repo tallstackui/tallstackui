@@ -99,11 +99,11 @@ class StyledTest extends BrowserTestCase
         });
     }
 
-     /** @test */
-     public function can_render_before(): void
-     {
-         $this->browse(function (Browser $browser) {
-             $this->visit($browser, StyledBeforeComponent::class)
+    /** @test */
+    public function can_render_before(): void
+    {
+        $this->browse(function (Browser $browser) {
+            $this->visit($browser, StyledBeforeComponent::class)
                 ->assertSee('Select an option')
                 ->assertDontSee('bar')
                 ->click('#tasteui_select_open_close')
@@ -115,6 +115,6 @@ class StyledTest extends BrowserTestCase
                 ->click('#tasteui_select_clear')
                 ->click('#sync')
                 ->waitUntilMissingText('bar');
-         });
-     }
+        });
+    }
 }
