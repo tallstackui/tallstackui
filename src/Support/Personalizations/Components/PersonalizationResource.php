@@ -11,9 +11,7 @@ use RuntimeException;
 use TasteUi\Contracts\Personalizable as PersonalizableClass;
 use TasteUi\Support\Personalization;
 
-/**
- * @property-read Personalization $and
- */
+/** @property-read Personalization $and */
 abstract class PersonalizationResource
 {
     public function __construct(
@@ -56,7 +54,7 @@ abstract class PersonalizationResource
         return $this->parts->toArray();
     }
 
-    public function __get(string $name): ?Personalization
+    public function __get(string $name): Personalization
     {
         if ($name === 'and') {
             return $this->personalization;
