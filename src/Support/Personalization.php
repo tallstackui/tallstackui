@@ -149,6 +149,8 @@ final class Personalization
 
     public function form(string $component = null): Input|Label|Password|Checkbox|Radio|Textarea|Toggle
     {
+        $component ??= 'input';
+
         $class = match ($component) {
             'input' => Input::class,
             'label' => Label::class,
@@ -170,6 +172,8 @@ final class Personalization
 
     public function select(string $component = null): Select|SelectSearchable|SelectStyled
     {
+        $component ??= 'select';
+
         $class = match ($component) {
             'select' => Select::class,
             'searchable' => SelectSearchable::class,
@@ -192,6 +196,8 @@ final class Personalization
 
     public function wrapper(string $component = null): InputWrapper|RadioWrapper|SelectWrapper
     {
+        $component ??= 'input';
+
         $class = match ($component) {
             'input' => InputWrapper::class,
             'radio' => RadioWrapper::class,
@@ -204,6 +210,8 @@ final class Personalization
 
     public function tabs(string $component = null): TabsWrapper|TabItems
     {
+        $component ??= 'tabs';
+
         $class = match ($component) {
             'tabs' => TabsWrapper::class,
             'items' => TabItems::class,
