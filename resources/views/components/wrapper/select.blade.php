@@ -46,7 +46,9 @@
                 </div>
             </template>
             <ul wire:ignore @class($customize['box.list.wrapper']) id="tasteui_select_options" role="listbox">
-                {!! $before !!}
+                <div>
+                    {!! $before !!}
+                </div>
                 @if ($loading)
                     <div x-show="loading" @class($customize['box.list.loading.wrapper']) class="flex items-center justify-center p-4 space-x-4">
                         <svg @class($customize['box.list.loading.base']) xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -75,7 +77,9 @@
                         </span>
                     </li>
                 </template>
-                {!! $after !!}
+                <div>
+                    {!! $after !!}
+                </div>
             </ul>
         </div>
     </div>
