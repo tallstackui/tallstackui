@@ -3,12 +3,12 @@
 it('can render', function () {
     $component = <<<'HTML'
     <x-tabs :options="['Foo', 'Bar']" selected="Foo">
-        <x-tabs.item tab="A">
+        <x-tabs.items tab="A">
             Foo
-        </x-tabs.item>
-        <x-tabs.item tab="B">
+        </x-tabs.items>
+        <x-tabs.items tab="B">
             Bar
-        </x-tabs.item>
+        </x-tabs.items>
     </x-tabs>
 HTML;
 
@@ -20,12 +20,12 @@ HTML;
 it('can render rounded', function () {
     $component = <<<'HTML'
     <x-tabs :options="['Foo', 'Bar']" selected="Foo">
-        <x-tabs.item tab="A">
+        <x-tabs.items tab="A">
             Foo
-        </x-tabs.item>
-        <x-tabs.item tab="B">
+        </x-tabs.items>
+        <x-tabs.items tab="B">
             Bar
-        </x-tabs.item>
+        </x-tabs.items>
     </x-tabs>
 HTML;
 
@@ -39,12 +39,12 @@ it('can render squared', function () {
 
     $component = <<<'HTML'
     <x-tabs :options="['Foo', 'Bar']" selected="Foo">
-        <x-tabs.item tab="A">
+        <x-tabs.items tab="A">
             Foo
-        </x-tabs.item>
-        <x-tabs.item tab="B">
+        </x-tabs.items>
+        <x-tabs.items tab="B">
             Bar
-        </x-tabs.item>
+        </x-tabs.items>
     </x-tabs>
 HTML;
 

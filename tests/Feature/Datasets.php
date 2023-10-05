@@ -23,7 +23,7 @@ use TasteUi\Support\Personalizations\Components\Select\Searchable;
 use TasteUi\Support\Personalizations\Components\Select\Select;
 use TasteUi\Support\Personalizations\Components\Select\Styled;
 use TasteUi\Support\Personalizations\Components\Tabs\Index as TabWrapper;
-use TasteUi\Support\Personalizations\Components\Tabs\Item as TabItem;
+use TasteUi\Support\Personalizations\Components\Tabs\Items as TabItem;
 use TasteUi\Support\Personalizations\Components\Tooltip;
 use TasteUi\Support\Personalizations\Components\Wrapper\Input as InputWrapper;
 use TasteUi\Support\Personalizations\Components\Wrapper\Radio as RadioWrapper;

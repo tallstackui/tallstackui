@@ -8,8 +8,8 @@ use TasteUi\Contracts\Personalizable as PersonalizableClass;
 use TasteUi\Support\Personalizations\Components\Alert;
 use TasteUi\Support\Personalizations\Components\Avatar;
 use TasteUi\Support\Personalizations\Components\Badge;
-use TasteUi\Support\Personalizations\Components\Button\Circle;
-use TasteUi\Support\Personalizations\Components\Button\Index;
+use TasteUi\Support\Personalizations\Components\Button\Circle as ButtonCircle;
+use TasteUi\Support\Personalizations\Components\Button\Index as Button;
 use TasteUi\Support\Personalizations\Components\Card;
 use TasteUi\Support\Personalizations\Components\Error;
 use TasteUi\Support\Personalizations\Components\Errors;
@@ -24,25 +24,25 @@ use TasteUi\Support\Personalizations\Components\Hint;
 use TasteUi\Support\Personalizations\Components\Interactions\Dialog;
 use TasteUi\Support\Personalizations\Components\Interactions\Toast;
 use TasteUi\Support\Personalizations\Components\Modal;
-use TasteUi\Support\Personalizations\Components\Select\Searchable;
+use TasteUi\Support\Personalizations\Components\Select\Searchable as SelectSearchable;
 use TasteUi\Support\Personalizations\Components\Select\Select;
-use TasteUi\Support\Personalizations\Components\Select\Styled;
-use TasteUi\Support\Personalizations\Components\Tabs\Index as TabWrapper;
-use TasteUi\Support\Personalizations\Components\Tabs\Item as TabItem;
+use TasteUi\Support\Personalizations\Components\Select\Styled as SelectStyled;
+use TasteUi\Support\Personalizations\Components\Tabs\Index as TabsWrapper;
+use TasteUi\Support\Personalizations\Components\Tabs\Items as TabsItems;
 use TasteUi\Support\Personalizations\Components\Tooltip;
 use TasteUi\Support\Personalizations\Components\Wrapper\Input as InputWrapper;
 use TasteUi\Support\Personalizations\Components\Wrapper\Radio as RadioWrapper;
 use TasteUi\Support\Personalizations\Components\Wrapper\Select as SelectWrapper;
 use TasteUi\Support\Personalizations\Contracts\Personalizable as PersonalizableContract;
 
-final class Personalization
+class Personalization
 {
     public const PERSONALIZABLES = [
         'taste-ui::personalizations.alert' => Alert::class,
         'taste-ui::personalizations.avatar' => Avatar::class,
         'taste-ui::personalizations.badge' => Badge::class,
-        'taste-ui::personalizations.button' => Index::class,
-        'taste-ui::personalizations.button.circle' => Circle::class,
+        'taste-ui::personalizations.button' => Button::class,
+        'taste-ui::personalizations.button.circle' => ButtonCircle::class,
         'taste-ui::personalizations.card' => Card::class,
         'taste-ui::personalizations.dialog' => Dialog::class,
         'taste-ui::personalizations.error' => Error::class,
@@ -57,10 +57,10 @@ final class Personalization
         'taste-ui::personalizations.hint' => Hint::class,
         'taste-ui::personalizations.modal' => Modal::class,
         'taste-ui::personalizations.select' => Select::class,
-        'taste-ui::personalizations.select.searchable' => Searchable::class,
-        'taste-ui::personalizations.select.styled' => Styled::class,
-        'taste-ui::personalizations.tabs' => TabWrapper::class,
-        'taste-ui::personalizations.tabs.item' => TabItem::class,
+        'taste-ui::personalizations.select.searchable' => SelectSearchable::class,
+        'taste-ui::personalizations.select.styled' => SelectStyled::class,
+        'taste-ui::personalizations.tabs' => TabsWrapper::class,
+        'taste-ui::personalizations.tabs.items' => TabsItems::class,
         'taste-ui::personalizations.toast' => Toast::class,
         'taste-ui::personalizations.tooltip' => Tooltip::class,
         'taste-ui::personalizations.wrapper.input' => InputWrapper::class,
@@ -74,7 +74,7 @@ final class Personalization
         //
     }
 
-    public function block(string|array $name, string|Closure|PersonalizableClass $code = ''): PersonalizableContract
+    public function block(string|array $name, string|Closure|PersonalizableClass $code = null): PersonalizableContract
     {
         return $this->instance()->block($name, $code);
     }
@@ -82,23 +82,22 @@ final class Personalization
     public function instance(): PersonalizableContract
     {
         if (! $this->component) {
-            throw new InvalidArgumentException('No component has been set.');
+            throw new InvalidArgumentException('No component has been set');
         }
 
         if (str_contains($this->component, 'taste-ui::personalizations')) {
             $this->component = str_replace('taste-ui::personalizations.', '', $this->component);
         }
 
-        $method = str($this->component)
-            ->replace('.', '_')
-            ->camel()
-            ->toString();
+        $parts = explode('.', $this->component);
+        $main = $parts[0];
+        $secondary = $parts[1] ?? null;
 
-        if (! method_exists($this, $method)) {
-            throw new InvalidArgumentException("The method [{$method}] is not supported.");
+        if (! method_exists($this, $main)) {
+            throw new InvalidArgumentException("The method [{$main}] is not supported");
         }
 
-        return call_user_func([$this, $method]);
+        return call_user_func([$this, $main], $main === $secondary ?: $secondary);
     }
 
     public function alert(): Alert
@@ -111,9 +110,11 @@ final class Personalization
         return app($this->component(Modal::class));
     }
 
-    public function button(): Index
+    public function button(string $component = null): Button|ButtonCircle
     {
-        return app($this->component(Index::class));
+        $class = $component === 'circle' ? ButtonCircle::class : Button::class;
+
+        return app($this->component($class));
     }
 
     public function avatar(): Avatar
@@ -124,11 +125,6 @@ final class Personalization
     public function badge(): Badge
     {
         return app($this->component(Badge::class));
-    }
-
-    public function buttonCircle(): Circle
-    {
-        return app($this->component(Circle::class));
     }
 
     public function card(): Card
@@ -151,39 +147,22 @@ final class Personalization
         return app($this->component(Errors::class));
     }
 
-    public function formInput(): Input
+    public function form(string $component = null): Input|Label|Password|Checkbox|Radio|Textarea|Toggle
     {
-        return app($this->component(Input::class));
-    }
+        $component ??= 'input';
 
-    public function formLabel(): Label
-    {
-        return app($this->component(Label::class));
-    }
+        $class = match ($component) {
+            'input' => Input::class,
+            'label' => Label::class,
+            'password' => Password::class,
+            'checkbox' => Checkbox::class,
+            'radio' => Radio::class,
+            'textarea' => Textarea::class,
+            'toggle' => Toggle::class,
+            default => $component,
+        };
 
-    public function formPassword(): Password
-    {
-        return app($this->component(Password::class));
-    }
-
-    public function formCheckbox(): Checkbox
-    {
-        return app($this->component(Checkbox::class));
-    }
-
-    public function formRadio(): Radio
-    {
-        return app($this->component(Radio::class));
-    }
-
-    public function formTextarea(): Textarea
-    {
-        return app($this->component(Textarea::class));
-    }
-
-    public function formToggle(): Toggle
-    {
-        return app($this->component(Toggle::class));
+        return app($this->component($class));
     }
 
     public function hint(): Hint
@@ -191,19 +170,18 @@ final class Personalization
         return app($this->component(Hint::class));
     }
 
-    public function select(): Select
+    public function select(string $component = null): Select|SelectSearchable|SelectStyled
     {
-        return app($this->component(Select::class));
-    }
+        $component ??= 'select';
 
-    public function selectSearchable(): Searchable
-    {
-        return app($this->component(Searchable::class));
-    }
+        $class = match ($component) {
+            'select' => Select::class,
+            'searchable' => SelectSearchable::class,
+            'styled' => SelectStyled::class,
+            default => $component,
+        };
 
-    public function selectStyled(): Styled
-    {
-        return app($this->component(Styled::class));
+        return app($this->component($class));
     }
 
     public function toast(): Toast
@@ -216,33 +194,41 @@ final class Personalization
         return app($this->component(Tooltip::class));
     }
 
-    public function wrapperInput(): InputWrapper
+    public function wrapper(string $component = null): InputWrapper|RadioWrapper|SelectWrapper
     {
-        return app($this->component(InputWrapper::class));
+        $component ??= 'input';
+
+        $class = match ($component) {
+            'input' => InputWrapper::class,
+            'radio' => RadioWrapper::class,
+            'select' => SelectWrapper::class,
+            default => $component,
+        };
+
+        return app($this->component($class));
     }
 
-    public function wrapperRadio(): RadioWrapper
+    public function tabs(string $component = null): TabsWrapper|TabsItems
     {
-        return app($this->component(RadioWrapper::class));
-    }
+        $component ??= 'tabs';
 
-    public function wrapperSelect(): SelectWrapper
-    {
-        return app($this->component(SelectWrapper::class));
-    }
+        $class = match ($component) {
+            'tabs' => TabsWrapper::class,
+            'items' => TabsItems::class,
+            default => $component,
+        };
 
-    public function tabs(): TabWrapper
-    {
-        return app($this->component(TabWrapper::class));
-    }
-
-    public function tabsItem(): TabItem
-    {
-        return app($this->component(TabItem::class));
+        return app($this->component($class));
     }
 
     private function component(string $class): string
     {
-        return array_search($class, self::PERSONALIZABLES);
+        $component = array_search($class, self::PERSONALIZABLES);
+
+        if (! $component) {
+            throw new InvalidArgumentException("Component [{$class}] is not allowed to be personalized");
+        }
+
+        return $component;
     }
 }

@@ -1,7 +1,5 @@
 <?php
 
-use TasteUi\Facades\TasteUi;
-
 it('can render', function () {
     $this->blade('<x-tooltip text="Foo bar" />')
         ->assertSee('h-5 w-5');
@@ -35,38 +33,4 @@ it('can render in right', function () {
 it('can render in left', function () {
     $this->blade('<x-tooltip text="Foo bar" position="left" />')
         ->assertSee('data-position="left"', false);
-});
-
-it('can personalize', function () {
-    $this->blade('<x-tooltip text="Foo bar" />')
-        ->assertSee('Foo bar')
-        ->assertSee('inline-flex');
-
-    TasteUi::personalize('tooltip')
-        ->block('wrapper', function () {
-            return 'justify-center';
-        });
-
-    $this->blade('<x-tooltip text="Foo bar" />')
-        ->assertSee('Foo bar')
-        ->assertSee('justify-center')
-        ->assertDontSee('inline-flex');
-});
-
-it('cannot personalize wrong block', function () {
-    $this->expectException(InvalidArgumentException::class);
-
-    $this->blade('<x-tooltip text="Foo bar" />')
-        ->assertSee('Foo bar')
-        ->assertSee('inline-flex');
-
-    TasteUi::personalize('tooltip')
-        ->block('foo-bar', function () {
-            return 'justify-center';
-        });
-
-    $this->blade('<x-tooltip text="Foo bar" />')
-        ->assertSee('Foo bar')
-        ->assertSee('justify-center')
-        ->assertDontSee('inline-flex');
 });

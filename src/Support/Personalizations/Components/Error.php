@@ -3,6 +3,7 @@
 namespace TasteUi\Support\Personalizations\Components;
 
 use TasteUi\Support\Personalizations\Contracts\Personalizable;
+use TasteUi\Support\Personalizations\PersonalizationResource;
 use TasteUi\View\Components\Error as Component;
 
 class Error extends PersonalizationResource implements Personalizable
