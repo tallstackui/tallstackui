@@ -28,7 +28,7 @@ use TasteUi\Support\Personalizations\Components\Select\Searchable as SelectSearc
 use TasteUi\Support\Personalizations\Components\Select\Select;
 use TasteUi\Support\Personalizations\Components\Select\Styled as SelectStyled;
 use TasteUi\Support\Personalizations\Components\Tabs\Index as TabsWrapper;
-use TasteUi\Support\Personalizations\Components\Tabs\Item as TabItems;
+use TasteUi\Support\Personalizations\Components\Tabs\Items as TabsItems;
 use TasteUi\Support\Personalizations\Components\Tooltip;
 use TasteUi\Support\Personalizations\Components\Wrapper\Input as InputWrapper;
 use TasteUi\Support\Personalizations\Components\Wrapper\Radio as RadioWrapper;
@@ -60,7 +60,7 @@ class Personalization
         'taste-ui::personalizations.select.searchable' => SelectSearchable::class,
         'taste-ui::personalizations.select.styled' => SelectStyled::class,
         'taste-ui::personalizations.tabs' => TabsWrapper::class,
-        'taste-ui::personalizations.tabs.items' => TabItems::class,
+        'taste-ui::personalizations.tabs.items' => TabsItems::class,
         'taste-ui::personalizations.toast' => Toast::class,
         'taste-ui::personalizations.tooltip' => Tooltip::class,
         'taste-ui::personalizations.wrapper.input' => InputWrapper::class,
@@ -208,13 +208,13 @@ class Personalization
         return app($this->component($class));
     }
 
-    public function tabs(string $component = null): TabsWrapper|TabItems
+    public function tabs(string $component = null): TabsWrapper|TabsItems
     {
         $component ??= 'tabs';
 
         $class = match ($component) {
             'tabs' => TabsWrapper::class,
-            'items' => TabItems::class,
+            'items' => TabsItems::class,
             default => $component,
         };
 
