@@ -97,13 +97,13 @@ class SearchableTest extends BrowserTestCase
     }
 
     /** @test */
-    public function can_render_after_option(): void
+    public function can_render_after_slot(): void
     {
         $this->browse(function (Browser $browser) {
             $this->visit($browser, SearchableAfterComponent::class)
                 ->assertSee('Select an option')
                 ->click('#tasteui_select_open_close')
-                ->assertSee('after test')
+                ->assertSee('Foo Bar')
                 ->assertDontSee('laboriosam mollitia et enim quasi adipisci quia provident illum')
                 ->waitForText('laboriosam mollitia et enim quasi adipisci quia provident illum')
                 ->clickAtXPath('/html/body/div[3]/div/div[2]/div[2]/ul/li[5]')
@@ -113,13 +113,13 @@ class SearchableTest extends BrowserTestCase
     }
 
     /** @test */
-    public function can_render_before_option(): void
+    public function can_render_before_slot(): void
     {
         $this->browse(function (Browser $browser) {
             $this->visit($browser, SearchableBeforeComponent::class)
                 ->assertSee('Select an option')
                 ->click('#tasteui_select_open_close')
-                ->assertSee('before test')
+                ->assertSee('Foo Bar')
                 ->assertDontSee('laboriosam mollitia et enim quasi adipisci quia provident illum')
                 ->waitForText('laboriosam mollitia et enim quasi adipisci quia provident illum')
                 ->clickAtXPath('/html/body/div[3]/div/div[2]/div[2]/ul/li[5]')

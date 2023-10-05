@@ -18,10 +18,9 @@ class SearchableAfterComponent extends Component
                                  label="Select"
                                  hint="Select"
                                  request="{{ route('searchable.simple') }}"
-                                 select="label:label|value:value"
-            >
+                                 select="label:label|value:value">
                 <x-slot:after>
-                    after test
+                    Foo Bar
                 </x-slot:after>
             </x-select.searchable>
             

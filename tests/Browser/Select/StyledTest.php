@@ -81,7 +81,7 @@ class StyledTest extends BrowserTestCase
     }
 
     /** @test */
-    public function can_render_after(): void
+    public function can_render_after_slot(): void
     {
         $this->browse(function (Browser $browser) {
             $this->visit($browser, StyledAfterComponent::class)
@@ -100,7 +100,7 @@ class StyledTest extends BrowserTestCase
     }
 
     /** @test */
-    public function can_render_before(): void
+    public function can_render_before_slot(): void
     {
         $this->browse(function (Browser $browser) {
             $this->visit($browser, StyledBeforeComponent::class)

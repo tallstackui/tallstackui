@@ -4,7 +4,9 @@ namespace Tests\Browser\Interactions\Toast;
 
 use Laravel\Dusk\Browser;
 use Tests\Browser\BrowserTestCase;
+use Tests\Browser\Interactions\Toast\Components\ToastCancellationComponent;
 use Tests\Browser\Interactions\Toast\Components\ToastComponent;
+use Tests\Browser\Interactions\Toast\Components\ToastConfirmationComponent;
 
 class IndexTest extends BrowserTestCase
 {
@@ -29,28 +31,28 @@ class IndexTest extends BrowserTestCase
     }
 
     /** @test */
-    public function can_send_confirmation(): void
-    {
-        $this->browse(function (Browser $browser) {
-            $this->visit($browser, ToastComponent::class)
-                ->assertDontSee('Foo bar confirmation description')
-                ->click('#confirm')
-                ->waitForText('Foo bar confirmation description')
-                ->click('#tasteui_toast_confirmation')
-                ->waitUntilMissingText('Foo bar confirmation description');
-        });
-    }
-
-    /** @test */
     public function can_send_cancellation(): void
     {
         $this->browse(function (Browser $browser) {
-            $this->visit($browser, ToastComponent::class)
+            $this->visit($browser, ToastCancellationComponent::class)
                 ->assertDontSee('Foo bar confirmation description')
                 ->click('#confirm')
                 ->waitForText('Foo bar confirmation description')
                 ->click('#tasteui_toast_rejection')
                 ->waitForText('Bar foo cancelled bar');
+        });
+    }
+
+    /** @test */
+    public function can_send_confirmation(): void
+    {
+        $this->browse(function (Browser $browser) {
+            $this->visit($browser, ToastConfirmationComponent::class)
+                ->assertDontSee('Foo bar confirmation description')
+                ->click('#confirm')
+                ->waitForText('Foo bar confirmation description')
+                ->click('#tasteui_toast_confirmation')
+                ->waitForText('Foo bar confirmed foo');
         });
     }
 }
