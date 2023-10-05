@@ -20,6 +20,8 @@ class Styled extends Component implements Customizable
         public ?bool $searchable = false,
         public ?string $select = null,
         public ?array $selectable = [],
+        public ?array $after = null,
+        public ?array $before = null,
     ) {
         $this->options();
     }

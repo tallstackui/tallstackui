@@ -6,7 +6,7 @@
     $customize = tasteui_personalization('select.searchable', $customization());
 @endphp
 
-<x-wrapper.select :$label :$error :$computed :$hint loading>
+<x-wrapper.select :$label :$error :$computed :$hint :$after :$before loading>
     @if (!str($directive)->contains('.live'))
         <x-slot:alpine>
             tasteui_selectSearchable(@entangle($property), @js($request), @js($selectable), @js($multiple), @js($placeholder))

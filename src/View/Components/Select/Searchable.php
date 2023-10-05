@@ -16,6 +16,8 @@ class Searchable extends Styled
         public ?bool $multiple = false,
         public ?string $select = null,
         public ?array $selectable = [],
+        public ?array $after = null,
+        public ?array $before = null,
         private readonly bool $ignoreValidations = false,
     ) {
         parent::__construct(
