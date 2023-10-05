@@ -38,15 +38,6 @@ class TasteUiServiceProvider extends ServiceProvider
         $this->publishes([__DIR__.'/../resources/views' => resource_path('views/vendor/taste-ui')], 'tasteui.views');
     }
 
-    private function registerComponents(): void
-    {
-        $this->callAfterResolving(BladeCompiler::class, static function (BladeCompiler $blade): void {
-            foreach (config('tasteui.components') as $alias => $class) {
-                $blade->component($class, $alias);
-            }
-        });
-    }
-
     public function registerComponentPersonalizations(): void
     {
         foreach (Personalization::PERSONALIZABLES as $personalization => $configuration) {
@@ -54,6 +45,15 @@ class TasteUiServiceProvider extends ServiceProvider
                 return $this->app->make($configuration);
             });
         }
+    }
+
+    private function registerComponents(): void
+    {
+        $this->callAfterResolving(BladeCompiler::class, static function (BladeCompiler $blade): void {
+            foreach (config('tasteui.components') as $alias => $class) {
+                $blade->component($class, $alias);
+            }
+        });
     }
 
     private function registerBladeDirectives(): void

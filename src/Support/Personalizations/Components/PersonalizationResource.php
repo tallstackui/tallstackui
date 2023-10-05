@@ -27,6 +27,15 @@ abstract class PersonalizationResource
             ->name();
     }
 
+    public function __get(string $name): Personalization
+    {
+        if ($name === 'and') {
+            return $this->and();
+        }
+
+        throw new RuntimeException("Property {$name} does not exist.");
+    }
+
     public function block(string|array $name, string|Closure|PersonalizableClass $code = null): static
     {
         if (is_string($name) && ! $code) {
@@ -54,13 +63,9 @@ abstract class PersonalizationResource
         return $this->parts->toArray();
     }
 
-    public function __get(string $name): Personalization
+    public function and(): Personalization
     {
-        if ($name === 'and') {
-            return $this->personalization;
-        }
-
-        throw new RuntimeException("Property {$name} does not exist.");
+        return $this->personalization;
     }
 
     protected function blocks(): array

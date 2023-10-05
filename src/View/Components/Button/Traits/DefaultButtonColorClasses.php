@@ -11,28 +11,6 @@ trait DefaultButtonColorClasses
 {
     private array $tasteUiVariations = [];
 
-    private function tasteUiMapColors(): void
-    {
-        $this->tasteUiVariations = match ($this->color) {
-            'white', 'black' => [
-                'text' => 'neutral',
-                'ring' => 'neutral',
-                'hover:bg' => 'neutral',
-                'hover:ring' => 'neutral',
-                'border' => 'neutral',
-                'bg' => 'neutral',
-            ],
-            default => [
-                'text' => $this->color,
-                'ring' => $this->color,
-                'hover:bg' => $this->color,
-                'hover:ring' => $this->color,
-                'border' => $this->color,
-                'bg' => $this->color,
-            ]
-        };
-    }
-
     public function tasteUiButtonColorClasses(): string
     {
         $this->tasteUiMapColors();
@@ -63,6 +41,28 @@ trait DefaultButtonColorClasses
         }
 
         return Arr::toCssClasses([...$classes, $color->get()]);
+    }
+
+    private function tasteUiMapColors(): void
+    {
+        $this->tasteUiVariations = match ($this->color) {
+            'white', 'black' => [
+                'text' => 'neutral',
+                'ring' => 'neutral',
+                'hover:bg' => 'neutral',
+                'hover:ring' => 'neutral',
+                'border' => 'neutral',
+                'bg' => 'neutral',
+            ],
+            default => [
+                'text' => $this->color,
+                'ring' => $this->color,
+                'hover:bg' => $this->color,
+                'hover:ring' => $this->color,
+                'border' => $this->color,
+                'bg' => $this->color,
+            ]
+        };
     }
 
     private function tasteUiTextColorVariations(Color $color): Color

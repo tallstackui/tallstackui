@@ -10,10 +10,6 @@ final class Color implements Stringable
 {
     use Conditionable;
 
-    protected string $color = '';
-
-    protected string $class = '';
-
     private const COLORS = [
         'primary',
         'secondary',
@@ -49,6 +45,15 @@ final class Color implements Stringable
         'ring',
         'text',
     ];
+
+    protected string $color = '';
+
+    protected string $class = '';
+
+    public function __toString(): string
+    {
+        return $this->get();
+    }
 
     public function set(string $prefix, string $type, int $weight = null): self
     {
@@ -118,11 +123,6 @@ final class Color implements Stringable
     public function get(): string
     {
         return $this->class;
-    }
-
-    public function __toString(): string
-    {
-        return $this->get();
     }
 
     private function validate(string $prefix, string $type): void
