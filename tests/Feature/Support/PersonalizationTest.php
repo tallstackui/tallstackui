@@ -2,8 +2,8 @@
 
 use TasteUi\Facades\TasteUi;
 use TasteUi\Support\Personalization;
-use TasteUi\Support\Personalizations\Components\PersonalizationResource;
 use TasteUi\Support\Personalizations\Contracts\Personalizable;
+use TasteUi\Support\Personalizations\PersonalizationResource;
 
 it('can be instantiated', function () {
     expect(TasteUi::personalize())->toBeInstanceOf(Personalization::class);

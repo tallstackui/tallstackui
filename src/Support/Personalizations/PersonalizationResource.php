@@ -1,6 +1,6 @@
 <?php
 
-namespace TasteUi\Support\Personalizations\Components;
+namespace TasteUi\Support\Personalizations;
 
 use Closure;
 use Illuminate\Support\Collection;
