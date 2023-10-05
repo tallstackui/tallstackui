@@ -9,7 +9,7 @@ it('can be instantiated', function () {
     expect(TasteUi::personalize())->toBeInstanceOf(Personalization::class);
 });
 
-it('can be instantiated with a component and alias block', function () {
+it('can be instantiated with a component', function () {
     expect(TasteUi::personalize('alert')
         ->block(['base' => fn () => 'string']))
         ->toBeInstanceOf(Personalizable::class);
@@ -22,6 +22,19 @@ it('can instantiate all components', function (string $component) {
 it('can instanciate all components extends of resource', function (string $component) {
     expect(new $component)->toBeInstanceOf(PersonalizationResource::class);
 })->with('personalizations.classes');
+
+it('can personalize using facade and string', function () {
+    $this->blade('<x-alert title="Foo bar" />')
+        ->assertSee('Foo bar')
+        ->assertSee('bg-primary-300');
+
+    TasteUi::personalize('alert')
+        ->block('base', 'rounded-md p-4');
+
+    $this->blade('<x-alert title="Foo bar" />')
+        ->assertSee('Foo bar')
+        ->assertDontSee('bg-primary-300');
+});
 
 it('can personalize using method and string', function () {
     $this->blade('<x-alert title="Foo bar" />')
