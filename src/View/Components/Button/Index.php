@@ -21,12 +21,12 @@ class Index extends Component implements Customizable
         public ?string $md = null,
         public ?string $lg = null,
         public ?string $size = null,
-        public ?string $solid = null,
-        public ?string $outline = null,
         public ?string $color = 'primary',
         public ?string $square = null,
         public ?string $round = null,
         public ?string $href = null,
+        public ?bool $solid = true,
+        public ?bool $outline = false,
         private ?string $style = null,
     ) {
         $this->style = $this->outline ? 'outline' : 'solid';

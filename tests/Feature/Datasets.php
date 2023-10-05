@@ -106,7 +106,7 @@ dataset('components', [
     TasteUi\View\Components\Error::class,
     TasteUi\View\Components\Errors::class,
     TasteUi\View\Components\Tabs\Index::class,
-    TasteUi\View\Components\Tabs\Item::class,
+    TasteUi\View\Components\Tabs\Items::class,
     TasteUi\View\Components\Tooltip::class,
     TasteUi\View\Components\Button\Index::class,
     TasteUi\View\Components\Button\Circle::class,

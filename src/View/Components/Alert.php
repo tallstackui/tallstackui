@@ -5,38 +5,21 @@ namespace TasteUi\View\Components;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
-use InvalidArgumentException;
 use TasteUi\Contracts\Customizable;
 use TasteUi\Facades\TasteUi;
-use Throwable;
+use TasteUi\Support\Elements\Color;
 
 class Alert extends Component implements Customizable
 {
-    private bool $isBlack;
-
-    private bool $isWhite;
-
-    /**
-     * @throws Throwable
-     */
     public function __construct(
         public ?string $title = null,
         public ?string $text = null,
         public string $color = 'primary',
         public bool $closeable = false,
-        public bool $outline = false,
         public bool $translucent = false,
         public string $style = 'solid',
     ) {
-        if ($outline && $translucent) {
-            throw new InvalidArgumentException('You can not use "outline" and "translucent" attributes together');
-        }
-
-        $this->style = $this->outline && $this->color !== 'white' ? 'outline' : $this->style;
-        $this->style = $this->translucent && $this->color !== 'white' ? 'translucent' : $this->style;
-
-        $this->isBlack = $this->color === 'black';
-        $this->isWhite = $this->color === 'white';
+        $this->style = $this->translucent && $this->color !== 'white' ? 'translucent' : 'solid';
     }
 
     public function render(): View
@@ -56,18 +39,30 @@ class Alert extends Component implements Customizable
         return Arr::dot([
             'base' => Arr::toCssClasses([
                 'rounded-md p-4',
-                $this->handleBackgroundColor(),
                 TasteUi::colors()
-                    ->set('border', $this->color, $this->isBlack ? null : 900)
-                    ->get() => $this->outline && ! $this->isWhite,
-                'border' => $this->outline && ! $this->isWhite,
+                    ->when(
+                        $this->style === 'solid',
+                        fn (Color $color) => $color->set('bg', $this->color, ! in_array($this->color, ['white', 'black']) ? 300 : null)
+                    )
+                    ->unless(
+                        $this->style === 'solid',
+                        fn (Color $color) => $color->set('bg', $this->color === 'black' ? 'neutral' : $this->color, $this->color === 'black' ? 200 : 100)
+                    )
+                    ->get(),
+                TasteUi::colors()
+                    ->set('border', $this->color, $this->color === 'black' ? null : 500)
+                    ->get() => $this->color !== 'white',
+                'border' => $this->color === 'white',
             ]),
             'title' => [
-                'base' => Arr::toCssClasses(['text-lg font-semibold', $this->handleTextColor()]),
+                'base' => Arr::toCssClasses([
+                    'text-lg font-semibold',
+                    $this->tasteUiTextColor() => $this->title !== null,
+                ]),
                 'wrapper' => 'flex items-center justify-between',
                 'icon' => [
                     'wrapper' => 'ml-auto pl-3',
-                    'classes' => Arr::toCssClasses(['w-5 h-5', $this->handleTextColor()]),
+                    'classes' => Arr::toCssClasses(['w-5 h-5', $this->tasteUiTextColor()]),
                 ],
             ],
             'text' => [
@@ -76,40 +71,28 @@ class Alert extends Component implements Customizable
                     'wrapper' => Arr::toCssClasses([
                         'text-sm',
                         'mt-2' => $this->title !== null,
-                        $this->handleTextColor(),
+                        $this->tasteUiTextColor(),
                     ]),
                     'icon' => [
                         'wrapper' => 'flex items-center',
-                        'classes' => Arr::toCssClasses(['w-5 h-5', $this->handleTextColor()]),
+                        'classes' => Arr::toCssClasses(['w-5 h-5', $this->tasteUiTextColor()]),
                     ],
                 ],
             ],
         ]);
     }
 
-    private function handleBackgroundColor(): string
+    private function tasteUiTextColor(): string
     {
-        if ($this->style === 'solid') {
-            $color = $this->color;
-            $variation = ! in_array($color, ['white', 'black']) ? 300 : null;
-        } else {
-            $color = $this->color === 'black' ? 'neutral' : $this->color;
-            $variation = $this->color === 'black' ? 200 : 100;
-        }
+        $weight = $this->color === 'black' || $this->color === 'white' ? null : 900;
 
-        return TasteUi::colors()->set('bg', $color, $variation)->get();
-    }
-
-    private function handleTextColor(): string
-    {
-        if ($this->style === 'solid') {
-            $color = $this->isBlack ? 'white' : ($this->isWhite ? 'black' : $this->color);
-        } else {
-            $color = $this->isWhite ? 'black' : $this->color;
-        }
-
-        $variation = $this->isBlack || $this->isWhite ? null : 900;
-
-        return TasteUi::colors()->set('text', $color, $variation)->get();
+        return TasteUi::colors()
+            ->when($this->style === 'solid',
+                fn (Color $color) => $color->set('text', $this->color === 'black' ? 'white' : ($this->color === 'white' ? 'black' : $this->color), $weight)
+            )
+            ->unless($this->style === 'solid',
+                fn (Color $color) => $color->set('text', $this->color === 'white' ? 'black' : $this->color, $weight)
+            )
+            ->get();
     }
 }

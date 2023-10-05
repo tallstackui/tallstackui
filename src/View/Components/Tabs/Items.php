@@ -7,7 +7,7 @@ use Illuminate\Support\Arr;
 use Illuminate\View\Component;
 use TasteUi\Contracts\Customizable;
 
-class Item extends Component implements Customizable
+class Items extends Component implements Customizable
 {
     public function __construct(
         public ?string $tab = null,

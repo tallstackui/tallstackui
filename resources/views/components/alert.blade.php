@@ -2,8 +2,7 @@
 
 <div @class($customize['base'])
      x-data="{ show : true }"
-     x-show="show"
-     x-transition.delay.50ms>
+     x-show="show">
     @if ($title)
         <div @class($customize['title.wrapper'])>
             <h3 @class($customize['title.base'])>{{ $title }}</h3>

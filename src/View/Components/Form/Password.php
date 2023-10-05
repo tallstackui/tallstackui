@@ -19,7 +19,7 @@ class Password extends Component implements Customizable
         public ?string $icon = 'eye',
         public ?string $position = 'right',
     ) {
-        //
+        $this->position = $this->position === 'right' ? 'right' : 'left';
     }
 
     public function render(): View

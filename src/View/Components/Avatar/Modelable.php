@@ -8,7 +8,6 @@ use Throwable;
 
 class Modelable extends Index
 {
-    /** @throws Throwable */
     public function __construct(
         public Model $model,
         public ?string $property = 'name',

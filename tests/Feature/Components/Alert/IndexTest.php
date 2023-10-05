@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\View\ViewException;
-
 it('can render title', function () {
     $this->blade('<x-alert title="Foo bar" />')
         ->assertSee('Foo bar')
@@ -32,15 +30,6 @@ it('can render translucent', function () {
         ->assertSee('bg-primary-100');
 });
 
-it('can render outline', function () {
-    $this->blade('<x-alert text="Foo bar" outline />')
-        ->assertSee('Foo bar')
-        ->assertDontSee('bg-primary-300')
-        ->assertSee('bg-primary-100')
-        ->assertSee('border')
-        ->assertSee('border-primary-900');
-});
-
 it('can render black background with white text', function () {
     $this->blade('<x-alert text="Foo bar" color="black" />')
         ->assertSee('Foo bar')
@@ -68,7 +57,3 @@ test('when outline and white, it does not render outline', function () {
         ->assertSee('Foo bar')
         ->assertSee('bg-white');
 });
-
-it('can not render outline and translucent on the same component', function () {
-    $this->blade('<x-alert text="Foo bar" outline translucent />');
-})->throws(ViewException::class);
