@@ -7,7 +7,7 @@ use TasteUi\Support\Personalization;
 
 final class TasteUi
 {
-    public function personalize(string $component): Personalization
+    public function personalize(string $component = null): Personalization
     {
         return new Personalization($component);
     }

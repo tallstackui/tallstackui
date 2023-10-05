@@ -36,13 +36,7 @@ describe('components from personalization', function () {
         $component = Personalization::PERSONALIZABLES[$index];
 
         expect($component)->toImplement(Personalizable::class);
-    })->with('personalizations');
-
-    test('should returns component class path as string', function (string $index) {
-        $component = (new Personalization($index))->instance()->component();
-
-        expect($component)->toBeString();
-    })->with('personalizations');
+    })->with('personalizations.keys');
 
     test('throws exception if component name is wrong', function () {
         (new Personalization('foo-bar'))->instance();

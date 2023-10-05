@@ -2,15 +2,13 @@
 
 namespace TasteUi\Support\Personalizations\Components\Interactions;
 
+use TasteUi\Support\Personalizations\Components\PersonalizationResource;
 use TasteUi\Support\Personalizations\Contracts\Personalizable;
-use TasteUi\Support\Personalizations\Traits\ShareablePersonalization;
 use TasteUi\View\Components\Interaction\Dialog as Component;
 
-class Dialog implements Personalizable
+class Dialog extends PersonalizationResource implements Personalizable
 {
-    use ShareablePersonalization;
-
-    public function component(): string
+    protected function component(): string
     {
         return Component::class;
     }
