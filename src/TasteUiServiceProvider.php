@@ -58,6 +58,13 @@ class TasteUiServiceProvider extends ServiceProvider
 
     private function registerBladeDirectives(): void
     {
+        Blade::directive('tasteUiDirectives', static function (): string {
+            $scripts = Facade::directives()->scripts();
+            $styles = Facade::directives()->styles();
+
+            return "{$scripts}\n{$styles}";
+        });
+
         Blade::directive('tasteUiScripts', static function (): string {
             return Facade::directives()->scripts();
         });
