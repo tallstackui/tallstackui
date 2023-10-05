@@ -13,7 +13,7 @@ it('can thrown exception when select was not set', function () {
     $this->expectException(ViewException::class);
     $this->expectExceptionMessage('The [select] parameter must be defined');
 
-    $component = <<<HTML
+    $component = <<<'HTML'
     <x-select.searchable label="Options" :request="[
             'url' => 'https://google.com.br',
             'method' => 'delete', 
@@ -28,7 +28,7 @@ it('can thrown exception when request is array using unaceptable method', functi
     $this->expectException(ViewException::class);
     $this->expectExceptionMessage('The [method] must be get or post');
 
-    $component = <<<HTML
+    $component = <<<'HTML'
     <x-select.searchable label="Options" :request="[
             'url' => 'https://google.com.br',
             'method' => 'delete', 
@@ -43,7 +43,7 @@ it('can thrown exception when request contains an empty array', function () {
     $this->expectException(ViewException::class);
     $this->expectExceptionMessage('The [params] must be an array and cannot be empty');
 
-    $component = <<<HTML
+    $component = <<<'HTML'
     <x-select.searchable label="Options" :request="[
             'url' => 'https://google.com.br',
             'method' => 'post', 
