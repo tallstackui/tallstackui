@@ -28,10 +28,9 @@ class Alert extends Component implements Customizable
         public bool $translucent = false,
         public string $style = 'solid',
     ) {
-        throw_if(
-            $outline && $translucent,
-            new InvalidArgumentException('You can not use "outline" and "translucent" attributes together.')
-        );
+        if ($outline && $translucent) {
+            throw new InvalidArgumentException('You can not use "outline" and "translucent" attributes together');
+        }
 
         $this->style = $this->outline && $this->color !== 'white' ? 'outline' : $this->style;
         $this->style = $this->translucent && $this->color !== 'white' ? 'translucent' : $this->style;

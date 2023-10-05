@@ -87,3 +87,28 @@ describe('color class', function () {
         'validate',
     ]);
 });
+
+test('personalization class should have all personalization methods', function (string $method) {
+    expect(Personalization::class)->toHaveMethod($method);
+})->with([
+    '__construct',
+    'block',
+    'instance',
+    'alert',
+    'modal',
+    'button',
+    'avatar',
+    'badge',
+    'card',
+    'dialog',
+    'error',
+    'errors',
+    'toast',
+    'form',
+    'hint',
+    'select',
+    'tabs',
+    'tooltip',
+    'wrapper',
+    'component',
+]);

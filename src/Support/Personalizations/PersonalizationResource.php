@@ -39,7 +39,7 @@ abstract class PersonalizationResource
     public function block(string|array $name, string|Closure|PersonalizableClass $code = null): static
     {
         if (is_string($name) && ! $code) {
-            throw new InvalidArgumentException('The second argument must be set when the first argument is a string');
+            throw new InvalidArgumentException('The second argument must be set when the first is a string');
         }
 
         if (is_array($name)) {

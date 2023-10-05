@@ -35,7 +35,7 @@ use TasteUi\Support\Personalizations\Components\Wrapper\Radio as RadioWrapper;
 use TasteUi\Support\Personalizations\Components\Wrapper\Select as SelectWrapper;
 use TasteUi\Support\Personalizations\Contracts\Personalizable as PersonalizableContract;
 
-final class Personalization
+class Personalization
 {
     public const PERSONALIZABLES = [
         'taste-ui::personalizations.alert' => Alert::class,
@@ -82,7 +82,7 @@ final class Personalization
     public function instance(): PersonalizableContract
     {
         if (! $this->component) {
-            throw new InvalidArgumentException('No component has been set.');
+            throw new InvalidArgumentException('No component has been set');
         }
 
         if (str_contains($this->component, 'taste-ui::personalizations')) {
@@ -94,7 +94,7 @@ final class Personalization
         $secondary = $parts[1] ?? null;
 
         if (! method_exists($this, $main)) {
-            throw new InvalidArgumentException("The method [{$main}] is not supported.");
+            throw new InvalidArgumentException("The method [{$main}] is not supported");
         }
 
         return call_user_func([$this, $main], $main === $secondary ?: $secondary);
