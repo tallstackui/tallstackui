@@ -20,7 +20,7 @@ class SearchableBeforeComponent extends Component
                                  request="{{ route('searchable.simple') }}"
                                  select="label:label|value:value">
                 <x-slot:before>
-                    Foo Bar
+                    Before Slot
                 </x-slot:before>
             </x-select.searchable>
             

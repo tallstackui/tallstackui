@@ -20,7 +20,7 @@ class SearchableAfterComponent extends Component
                                  request="{{ route('searchable.simple') }}"
                                  select="label:label|value:value">
                 <x-slot:after>
-                    Foo Bar
+                    After Slot
                 </x-slot:after>
             </x-select.searchable>
             

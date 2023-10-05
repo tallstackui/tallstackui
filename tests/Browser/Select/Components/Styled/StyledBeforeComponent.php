@@ -24,7 +24,7 @@ class StyledBeforeComponent extends Component
                              select="label:label|value:value"
             >
                 <x-slot:before>
-                    <div>Foo Bar</div>
+                    <div>Before Slot</div>
                 </x-slot:before>
             </x-select.styled>
 

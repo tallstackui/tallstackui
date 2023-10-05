@@ -23,7 +23,7 @@ class StyledAfterComponent extends Component
                              ]"
                              select="label:label|value:value">
                 <x-slot:after>
-                    Foo Bar
+                    After Slot
                 </x-slot:after>
             </x-select.styled>
             
