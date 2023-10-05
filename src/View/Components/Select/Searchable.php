@@ -8,7 +8,6 @@ use Throwable;
 
 class Searchable extends Styled
 {
-    /** @throws Throwable */
     public function __construct(
         public string|array|null $request = null,
         public ?string $label = null,
