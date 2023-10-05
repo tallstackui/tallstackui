@@ -21,10 +21,9 @@ class StyledAfterComponent extends Component
                                 ['label' => 'foo', 'value' => 'bar'],
                                 ['label' => 'bar', 'value' => 'foo'],
                              ]"
-                             select="label:label|value:value"
-            >
+                             select="label:label|value:value">
                 <x-slot:after>
-                    after test
+                    Foo Bar
                 </x-slot:after>
             </x-select.styled>
             
