@@ -8,7 +8,7 @@ use TasteUi\Support\Personalization;
 use TasteUi\TasteUiDirectives;
 
 /**
- * @method static Personalization personalize(string $component)
+ * @method static Personalization personalize(?string $component = null)
  * @method static Color colors()
  * @method static TasteUiDirectives directives()
  */

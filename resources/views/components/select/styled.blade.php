@@ -6,7 +6,7 @@
     $customize = tasteui_personalization('select.styled', $customization());
 @endphp
 
-<x-wrapper.select :$label :$error :$computed :$hint>
+<x-wrapper.select :$label :$error :$computed :$hint :$after :$before>
     @if (!str($directive)->contains('.live'))
         <x-slot:alpine>
             tasteui_selectStyled(@entangle($property), @js($searchable), @js($multiple), @js($selectable !== []), @js($selectable), @js($options), @js($placeholder))

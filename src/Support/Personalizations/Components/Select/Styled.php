@@ -3,14 +3,12 @@
 namespace TasteUi\Support\Personalizations\Components\Select;
 
 use TasteUi\Support\Personalizations\Contracts\Personalizable;
-use TasteUi\Support\Personalizations\Traits\ShareablePersonalization;
+use TasteUi\Support\Personalizations\PersonalizationResource;
 use TasteUi\View\Components\Select\Styled as Component;
 
-class Styled implements Personalizable
+class Styled extends PersonalizationResource implements Personalizable
 {
-    use ShareablePersonalization;
-
-    public function component(): string
+    protected function component(): string
     {
         return Component::class;
     }

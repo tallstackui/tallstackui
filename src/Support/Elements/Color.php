@@ -5,14 +5,11 @@ namespace TasteUi\Support\Elements;
 use Illuminate\Support\Traits\Conditionable;
 use InvalidArgumentException;
 use Stringable;
+use Throwable;
 
 final class Color implements Stringable
 {
     use Conditionable;
-
-    protected string $color = '';
-
-    protected string $class = '';
 
     private const COLORS = [
         'primary',
@@ -49,6 +46,15 @@ final class Color implements Stringable
         'ring',
         'text',
     ];
+
+    protected string $color = '';
+
+    protected string $class = '';
+
+    public function __toString(): string
+    {
+        return $this->get();
+    }
 
     public function set(string $prefix, string $type, int $weight = null): self
     {
@@ -120,23 +126,19 @@ final class Color implements Stringable
         return $this->class;
     }
 
-    public function __toString(): string
-    {
-        return $this->get();
-    }
-
+    /** @throws Throwable */
     private function validate(string $prefix, string $type): void
     {
         $prefix = str_replace(['hover:', 'ring:'], '', $prefix);
 
         throw_unless(
             in_array($prefix, self::PREFIXES),
-            new InvalidArgumentException("Prefix type is not allowed: [$prefix]")
+            new InvalidArgumentException("Prefix type [$prefix] is not allowed")
         );
 
         throw_unless(
             in_array($type, self::COLORS),
-            new InvalidArgumentException("Selected type is not allowed: [$type]")
+            new InvalidArgumentException("Selected type [$type] is not allowed")
         );
     }
 }

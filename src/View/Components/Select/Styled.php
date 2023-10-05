@@ -5,6 +5,7 @@ namespace TasteUi\View\Components\Select;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Collection;
 use Illuminate\View\Component;
+use InvalidArgumentException;
 use TasteUi\Contracts\Customizable;
 use TasteUi\View\Components\Select\Traits\InteractsWithSelectOptions;
 
@@ -20,8 +21,14 @@ class Styled extends Component implements Customizable
         public ?bool $searchable = false,
         public ?string $select = null,
         public ?array $selectable = [],
+        public ?string $after = null,
+        public ?string $before = null,
     ) {
         $this->options();
+
+        if (isset($this->options[0]) && is_array($this->options[0]) && ! $this->select) {
+            throw new InvalidArgumentException('The [select] parameter must be defined');
+        }
     }
 
     public function render(): View

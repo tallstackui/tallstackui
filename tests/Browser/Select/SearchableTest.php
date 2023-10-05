@@ -4,6 +4,8 @@ namespace Tests\Browser\Select;
 
 use Laravel\Dusk\Browser;
 use Tests\Browser\BrowserTestCase;
+use Tests\Browser\Select\Components\Searchable\SearchableAfterComponent;
+use Tests\Browser\Select\Components\Searchable\SearchableBeforeComponent;
 use Tests\Browser\Select\Components\Searchable\SearchableComponent;
 use Tests\Browser\Select\Components\Searchable\SearchableFilteredComponent;
 use Tests\Browser\Select\Components\Searchable\SearchableMultipleComponent;
@@ -91,6 +93,36 @@ class SearchableTest extends BrowserTestCase
                 ->click('#tasteui_select_open_close')
                 ->click('#sync')
                 ->waitForText('[1,2]');
+        });
+    }
+
+    /** @test */
+    public function can_render_after_slot(): void
+    {
+        $this->browse(function (Browser $browser) {
+            $this->visit($browser, SearchableAfterComponent::class)
+                ->assertSee('Select an option')
+                ->click('#tasteui_select_open_close')
+                ->waitForText('After Slot')
+                ->waitForText('laboriosam mollitia et enim quasi adipisci quia provident illum')
+                ->clickAtXPath('/html/body/div[3]/div/div[2]/div[2]/ul/li[5]')
+                ->click('#sync')
+                ->waitForText('5');
+        });
+    }
+
+    /** @test */
+    public function can_render_before_slot(): void
+    {
+        $this->browse(function (Browser $browser) {
+            $this->visit($browser, SearchableBeforeComponent::class)
+                ->assertSee('Select an option')
+                ->click('#tasteui_select_open_close')
+                ->waitForText('Before Slot')
+                ->waitForText('laboriosam mollitia et enim quasi adipisci quia provident illum')
+                ->clickAtXPath('/html/body/div[3]/div/div[2]/div[2]/ul/li[5]')
+                ->click('#sync')
+                ->waitForText('5');
         });
     }
 }

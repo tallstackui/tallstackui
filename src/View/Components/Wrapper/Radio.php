@@ -12,9 +12,9 @@ class Radio extends Component implements Customizable
     public function __construct(
         public ?string $id = null,
         public ?string $computed = null,
-        public bool $error = false,
         public ?string $label = null,
         public ?string $position = 'left',
+        public bool $error = false,
     ) {
         //
     }

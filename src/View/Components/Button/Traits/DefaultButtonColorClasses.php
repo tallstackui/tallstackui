@@ -9,11 +9,11 @@ use TasteUi\View\Components\Button\Index;
 
 trait DefaultButtonColorClasses
 {
-    private array $tasteUiVariations = [];
+    private array $variations = [];
 
-    private function tasteUiMapColors(): void
+    public function tasteUiButtonColorClasses(): string
     {
-        $this->tasteUiVariations = match ($this->color) {
+        $this->variations = match ($this->color) {
             'white', 'black' => [
                 'text' => 'neutral',
                 'ring' => 'neutral',
@@ -31,19 +31,11 @@ trait DefaultButtonColorClasses
                 'bg' => $this->color,
             ]
         };
-    }
-
-    public function tasteUiButtonColorClasses(): string
-    {
-        $this->tasteUiMapColors();
 
         $color = $this->tasteUiTextColorVariations(TasteUi::colors());
 
-        if ($this->style === 'solid') {
-            $this->tasteUiSolidVariations($color)->get();
-        } else {
-            $this->tasteUiOutlineVariations($color)->get();
-        }
+        $this->tasteUiButtonSolidVariations($color)->get();
+        $this->tasteUiButtonOutlineVariations($color)->get();
 
         return $color->get();
     }
@@ -73,10 +65,10 @@ trait DefaultButtonColorClasses
             $weight = in_array($this->color, ['black', 'white']) ? 950 : 500;
         }
 
-        return $color->set('text', $this->tasteUiVariations['text'], $weight);
+        return $color->set('text', $this->variations['text'], $weight);
     }
 
-    private function tasteUiSolidVariations(Color $color): Color
+    private function tasteUiButtonSolidVariations(Color $color): Color
     {
         $variation = match ($this->color) {
             'white' => [
@@ -99,13 +91,15 @@ trait DefaultButtonColorClasses
             ]
         };
 
-        return $color->set('ring', $this->tasteUiVariations['ring'], $variation['ring'])
-            ->set('hover:bg', $this->tasteUiVariations['hover:bg'], $variation['hover:bg'])
-            ->set('hover:ring', $this->tasteUiVariations['hover:ring'], $variation['hover:ring'])
-            ->set('bg', $this->tasteUiVariations['bg'], $variation['bg']);
+        return $color->when($this->style === 'solid', function (Color $color) use ($variation) {
+            return $color->set('ring', $this->variations['ring'], $variation['ring'])
+                ->set('hover:bg', $this->variations['hover:bg'], $variation['hover:bg'])
+                ->set('hover:ring', $this->variations['hover:ring'], $variation['hover:ring'])
+                ->set('bg', $this->variations['bg'], $variation['bg']);
+        });
     }
 
-    private function tasteUiOutlineVariations(Color $color): Color
+    private function tasteUiButtonOutlineVariations(Color $color): Color
     {
         $variation = match ($this->color) {
             'white' => [
@@ -128,10 +122,12 @@ trait DefaultButtonColorClasses
             ]
         };
 
-        return $color->set('border', $this->tasteUiVariations['border'], $variation['border'])
-            ->set('ring', $this->tasteUiVariations['ring'], $variation['ring'])
-            ->set('hover:bg', $this->tasteUiVariations['hover:bg'], $variation['hover:bg'])
-            ->set('hover:ring', $this->tasteUiVariations['hover:ring'], $variation['hover:ring'])
-            ->append('border');
+        return $color->when($this->style === 'outline', function (Color $color) use ($variation) {
+            return $color->set('border', $this->variations['border'], $variation['border'])
+                ->set('ring', $this->variations['ring'], $variation['ring'])
+                ->set('hover:bg', $this->variations['hover:bg'], $variation['hover:bg'])
+                ->set('hover:ring', $this->variations['hover:ring'], $variation['hover:ring'])
+                ->append('border');
+        });
     }
 }

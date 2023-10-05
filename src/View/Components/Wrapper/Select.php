@@ -12,9 +12,11 @@ class Select extends Component implements Customizable
     public function __construct(
         public bool $loading = false,
         public ?string $computed = null,
-        public bool $error = false,
         public ?string $label = null,
         public ?string $hint = null,
+        public ?string $after = null,
+        public ?string $before = null,
+        public bool $error = false,
     ) {
         //
     }

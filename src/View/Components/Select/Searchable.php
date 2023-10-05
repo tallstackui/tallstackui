@@ -8,7 +8,6 @@ use Throwable;
 
 class Searchable extends Styled
 {
-    /** @throws Throwable */
     public function __construct(
         public string|array|null $request = null,
         public ?string $label = null,
@@ -16,6 +15,8 @@ class Searchable extends Styled
         public ?bool $multiple = false,
         public ?string $select = null,
         public ?array $selectable = [],
+        public ?string $after = null,
+        public ?string $before = null,
         private readonly bool $ignoreValidations = false,
     ) {
         parent::__construct(
@@ -60,10 +61,9 @@ class Searchable extends Styled
             return;
         }
 
-        throw_if(
-            ! $this->select,
-            new InvalidArgumentException('The [select] parameter must be defined.')
-        );
+        if (! $this->select) {
+            throw new InvalidArgumentException('The [select] parameter must be defined');
+        }
 
         if ($this->request && ! is_array($this->request)) {
             return;
@@ -75,15 +75,13 @@ class Searchable extends Styled
     /** @throws Throwable */
     private function validate(): void
     {
-        throw_if(
-            ! $this->request,
-            new InvalidArgumentException('The [request] parameter must be defined.')
-        );
+        if (! $this->request) {
+            throw new InvalidArgumentException('The [request] parameter must be defined');
+        }
 
-        throw_unless(
-            isset($this->request['url']),
-            new InvalidArgumentException('The [url] is required in the request array.')
-        );
+        if (! isset($this->request['url'])) {
+            throw new InvalidArgumentException('The [url] is required in the request array');
+        }
 
         $this->request['method'] ??= 'get';
         $this->request['method'] = strtolower($this->request['method']);
@@ -94,15 +92,12 @@ class Searchable extends Styled
             unset($this->request['search']);
         }
 
-        throw_unless(
-            in_array($this->request['method'], ['get', 'post']),
-            new InvalidArgumentException('The [method] must be get or post.')
-        );
+        if (! in_array($this->request['method'], ['get', 'post'])) {
+            throw new InvalidArgumentException('The [method] must be get or post');
+        }
 
-        throw_if(
-            isset($this->request['params']) &&
-            (empty($this->request['params']) || ! is_array($this->request['params'])),
-            new InvalidArgumentException('The [params] must be an array.')
-        );
+        if (isset($this->request['params']) && blank($this->request['params'])) {
+            throw new InvalidArgumentException('The [params] must be an array and cannot be empty');
+        }
     }
 }

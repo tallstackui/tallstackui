@@ -1,0 +1,6 @@
+{
+  "preset": "laravel",
+  "rules": {
+    "ordered_class_elements": true
+  }
+}

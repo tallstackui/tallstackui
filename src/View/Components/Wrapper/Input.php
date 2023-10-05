@@ -10,9 +10,9 @@ class Input extends Component implements Customizable
 {
     public function __construct(
         public ?string $computed = null,
-        public bool $error = false,
         public ?string $label = null,
         public ?string $hint = null,
+        public bool $error = false,
         public bool $validate = false,
         public bool $password = false,
     ) {
