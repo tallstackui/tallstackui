@@ -17,11 +17,8 @@ trait DefaultButtonColorClasses
 
         $color = $this->tasteUiTextColorVariations(TasteUi::colors());
 
-        if ($this->style === 'solid') {
-            $this->tasteUiButtonSolidVariations($color)->get();
-        } else {
-            $this->tasteUiButtonOutlineVariations($color)->get();
-        }
+        $this->tasteUiButtonSolidVariations($color)->get();
+        $this->tasteUiButtonOutlineVariations($color)->get();
 
         return $color->get();
     }
@@ -99,10 +96,12 @@ trait DefaultButtonColorClasses
             ]
         };
 
-        return $color->set('ring', $this->tasteUiVariations['ring'], $variation['ring'])
-            ->set('hover:bg', $this->tasteUiVariations['hover:bg'], $variation['hover:bg'])
-            ->set('hover:ring', $this->tasteUiVariations['hover:ring'], $variation['hover:ring'])
-            ->set('bg', $this->tasteUiVariations['bg'], $variation['bg']);
+        return $color->when($this->style === 'solid', function (Color $color) use ($variation) {
+            return $color->set('ring', $this->tasteUiVariations['ring'], $variation['ring'])
+                ->set('hover:bg', $this->tasteUiVariations['hover:bg'], $variation['hover:bg'])
+                ->set('hover:ring', $this->tasteUiVariations['hover:ring'], $variation['hover:ring'])
+                ->set('bg', $this->tasteUiVariations['bg'], $variation['bg']);
+        });
     }
 
     private function tasteUiButtonOutlineVariations(Color $color): Color
@@ -128,10 +127,12 @@ trait DefaultButtonColorClasses
             ]
         };
 
-        return $color->set('border', $this->tasteUiVariations['border'], $variation['border'])
-            ->set('ring', $this->tasteUiVariations['ring'], $variation['ring'])
-            ->set('hover:bg', $this->tasteUiVariations['hover:bg'], $variation['hover:bg'])
-            ->set('hover:ring', $this->tasteUiVariations['hover:ring'], $variation['hover:ring'])
-            ->append('border');
+        return $color->when($this->style === 'outline', function (Color $color) use ($variation) {
+            return $color->set('border', $this->tasteUiVariations['border'], $variation['border'])
+                ->set('ring', $this->tasteUiVariations['ring'], $variation['ring'])
+                ->set('hover:bg', $this->tasteUiVariations['hover:bg'], $variation['hover:bg'])
+                ->set('hover:ring', $this->tasteUiVariations['hover:ring'], $variation['hover:ring'])
+                ->append('border');
+        });
     }
 }

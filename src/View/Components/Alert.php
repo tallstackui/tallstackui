@@ -8,7 +8,6 @@ use Illuminate\View\Component;
 use TasteUi\Contracts\Customizable;
 use TasteUi\Facades\TasteUi;
 use TasteUi\Support\Elements\Color;
-use Throwable;
 
 class Alert extends Component implements Customizable
 {
