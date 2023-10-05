@@ -13,12 +13,12 @@ class TabsComponent extends Component
         return <<<'HTML'
         <div>        
             <x-tabs :options="['Foo', 'Bar']" selected="Foo">
-                <x-tabs.item tab="Foo">
+                <x-tabs.items tab="Foo">
                     Foo bar baz
-                </x-tabs.item>
-                <x-tabs.item tab="Bar">
+                </x-tabs.items>
+                <x-tabs.items tab="Bar">
                     Baz bar foo
-                </x-tabs.item>
+                </x-tabs.items>
             </x-tabs>
         </div>
 HTML;

@@ -4,12 +4,12 @@ use TasteUi\Actions\AbstractInteraction;
 use TasteUi\Actions\Dialog;
 use TasteUi\Actions\Toast;
 use TasteUi\Contracts\Customizable;
+use TasteUi\Facades\TasteUi as Facade;
 use TasteUi\Http\Controllers\TasteUiAssetsController;
 use TasteUi\Support\Elements\Color;
 use TasteUi\Support\Personalization;
 use TasteUi\Support\Personalizations\Contracts\Personalizable;
 use TasteUi\Traits\Interactions;
-use TasteUi\Facades\TasteUi as Facade;
 
 test('should not use dangerous functions')
     ->expect(['dd', 'dump', 'exit', 'var_dump'])

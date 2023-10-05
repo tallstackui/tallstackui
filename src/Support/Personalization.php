@@ -60,7 +60,7 @@ class Personalization
         'taste-ui::personalizations.select.searchable' => SelectSearchable::class,
         'taste-ui::personalizations.select.styled' => SelectStyled::class,
         'taste-ui::personalizations.tabs' => TabsWrapper::class,
-        'taste-ui::personalizations.tabs.item' => TabItems::class,
+        'taste-ui::personalizations.tabs.items' => TabItems::class,
         'taste-ui::personalizations.toast' => Toast::class,
         'taste-ui::personalizations.tooltip' => Tooltip::class,
         'taste-ui::personalizations.wrapper.input' => InputWrapper::class,

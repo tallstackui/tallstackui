@@ -18,7 +18,7 @@ class Item extends Component implements Customizable
 
     public function render(): View
     {
-        return view('taste-ui::components.tabs.item');
+        return view('taste-ui::components.tabs.items');
     }
 
     public function customization(): array
