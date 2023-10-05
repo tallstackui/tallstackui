@@ -4,6 +4,8 @@ namespace Tests\Browser\Select;
 
 use Laravel\Dusk\Browser;
 use Tests\Browser\BrowserTestCase;
+use Tests\Browser\Select\Components\Styled\StyledAfterComponent;
+use Tests\Browser\Select\Components\Styled\StyledBeforeComponent;
 use Tests\Browser\Select\Components\Styled\StyledComponent;
 use Tests\Browser\Select\Components\Styled\StyledMultipleComponent;
 use Tests\Browser\Select\Components\Styled\StyledSearchableComponent;
@@ -75,6 +77,44 @@ class StyledTest extends BrowserTestCase
                 ->click('#tasteui_select_open_close')
                 ->click('#sync')
                 ->waitForText('["bar","foo"]');
+        });
+    }
+
+    /** @test */
+    public function can_render_after_slot(): void
+    {
+        $this->browse(function (Browser $browser) {
+            $this->visit($browser, StyledAfterComponent::class)
+                ->assertSee('Select an option')
+                ->assertDontSee('bar')
+                ->click('#tasteui_select_open_close')
+                ->assertSee('Foo Bar')
+                ->waitForText('foo')
+                ->clickAtXPath('/html/body/div[3]/div/div[2]/div[2]/ul/li[1]')
+                ->click('#sync')
+                ->waitForText('bar')
+                ->click('#tasteui_select_clear')
+                ->click('#sync')
+                ->waitUntilMissingText('bar');
+        });
+    }
+
+    /** @test */
+    public function can_render_before_slot(): void
+    {
+        $this->browse(function (Browser $browser) {
+            $this->visit($browser, StyledBeforeComponent::class)
+                ->assertSee('Select an option')
+                ->assertDontSee('bar')
+                ->click('#tasteui_select_open_close')
+                ->assertSee('Foo Bar')
+                ->waitForText('foo')
+                ->clickAtXPath('/html/body/div[3]/div/div[2]/div[2]/ul/li[1]')
+                ->click('#sync')
+                ->waitForText('bar')
+                ->click('#tasteui_select_clear')
+                ->click('#sync')
+                ->waitUntilMissingText('bar');
         });
     }
 }
