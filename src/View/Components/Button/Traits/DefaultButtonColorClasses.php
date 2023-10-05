@@ -18,9 +18,9 @@ trait DefaultButtonColorClasses
         $color = $this->tasteUiTextColorVariations(TasteUi::colors());
 
         if ($this->style === 'solid') {
-            $this->tasteUiSolidVariations($color)->get();
+            $this->tasteUiButtonSolidVariations($color)->get();
         } else {
-            $this->tasteUiOutlineVariations($color)->get();
+            $this->tasteUiButtonOutlineVariations($color)->get();
         }
 
         return $color->get();
@@ -76,7 +76,7 @@ trait DefaultButtonColorClasses
         return $color->set('text', $this->tasteUiVariations['text'], $weight);
     }
 
-    private function tasteUiSolidVariations(Color $color): Color
+    private function tasteUiButtonSolidVariations(Color $color): Color
     {
         $variation = match ($this->color) {
             'white' => [
@@ -105,7 +105,7 @@ trait DefaultButtonColorClasses
             ->set('bg', $this->tasteUiVariations['bg'], $variation['bg']);
     }
 
-    private function tasteUiOutlineVariations(Color $color): Color
+    private function tasteUiButtonOutlineVariations(Color $color): Color
     {
         $variation = match ($this->color) {
             'white' => [

@@ -23,11 +23,18 @@ return [
         'tabs' => [
             'square' => false,
         ],
+        'dialog' => [
+            'z-index' => 'z-50',
+        ],
+        'toast' => [
+            'z-index' => 'z-50',
+            'position' => 'top-right',
+        ],
     ],
 
     /*
     |--------------------------------------------------------------------------
-    | Components
+    | Components List
     |--------------------------------------------------------------------------
     |
     | List of all TasteUi components.
@@ -62,6 +69,6 @@ return [
         'wrapper.radio' => Components\Wrapper\Radio::class,
         'wrapper.select' => Components\Wrapper\Select::class,
         'tabs' => Components\Tabs\Index::class,
-        'tabs.items' => Components\Tabs\Item::class,
+        'tabs.items' => Components\Tabs\Items::class,
     ],
 ];

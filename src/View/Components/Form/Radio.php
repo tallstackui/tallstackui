@@ -19,6 +19,7 @@ class Radio extends Component implements Customizable
         public ?string $size = null,
         public bool $checked = false,
     ) {
+        $this->position = $this->position === 'right' ? 'right' : 'left';
         $this->size = $this->sm ? 'sm' : ($this->lg ? 'lg' : 'md');
     }
 

@@ -10,10 +10,10 @@ use TasteUi\Contracts\Customizable;
 class Dialog extends Component implements Customizable
 {
     public function __construct(
-        public string $zIndex = 'z-50',
+        public ?string $zIndex = null,
         public bool $blur = false,
     ) {
-        //
+        $this->zIndex ??= config('tasteui.personalizations.dialog.z-index');
     }
 
     public function render(): View

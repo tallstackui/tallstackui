@@ -11,10 +11,13 @@ use TasteUi\Contracts\Customizable;
 class Toast extends Component implements Customizable
 {
     public function __construct(
-        public string $zIndex = 'z-50',
-        public ?string $position = 'top-right',
+        public ?string $zIndex = null,
+        public ?string $position = null,
     ) {
-        if (! in_array($position, ['top-right', 'top-left', 'bottom-right', 'bottom-left'])) {
+        $this->zIndex ??= config('tasteui.personalizations.toast.z-index');
+        $this->position ??= config('tasteui.personalizations.toast.position');
+
+        if (! in_array($this->position, ['top-right', 'top-left', 'bottom-right', 'bottom-left'])) {
             throw new InvalidArgumentException("The position must be one of the following: ['top-right', 'top-left', 'bottom-right', 'bottom-left']");
         }
     }
