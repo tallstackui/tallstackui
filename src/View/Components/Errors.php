@@ -53,7 +53,7 @@ class Errors extends Component implements Customizable
                         ->get(),
                 ]),
                 'wrapper' => Arr::toCssClasses([
-                    'flex items-center border-b-2 pb-3',
+                    'flex items-center border-b pb-3',
                     TasteUi::colors()
                         ->set('text', $this->color, 800)
                         ->get(),
