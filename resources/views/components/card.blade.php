@@ -2,13 +2,13 @@
 
 <div @class($customize['wrapper.first'])>
     <div @class($customize['wrapper.second'])>
-        <div @class($customize['title.wrapper'])>
-            @if ($header)
+        @if ($header)
+            <div @class($customize['title.wrapper'])>
                 <h3 @class($customize['title.text'])>
                     {{ $header }}
                 </h3>
-            @endif
-        </div>
+            </div>
+        @endif
         <div {{ $attributes->class($customize['base']) }}>
             {{ $slot }}
         </div>
