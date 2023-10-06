@@ -1,6 +1,6 @@
 <?php
 
-namespace TasteUi\View\Components\Form\Traits;
+namespace TallStackUi\View\Components\Form\Traits;
 
 trait DefaultInputClasses
 {

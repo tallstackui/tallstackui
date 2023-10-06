@@ -1,10 +1,10 @@
 <?php
 
-namespace TasteUi\Support\Personalizations\Components\Interactions;
+namespace TallStackUi\Support\Personalizations\Components\Interactions;
 
-use TasteUi\Support\Personalizations\Contracts\Personalizable;
-use TasteUi\Support\Personalizations\PersonalizationResource;
-use TasteUi\View\Components\Interaction\Toast as Component;
+use TallStackUi\Support\Personalizations\Contracts\Personalizable;
+use TallStackUi\Support\Personalizations\PersonalizationResource;
+use TallStackUi\View\Components\Interaction\Toast as Component;
 
 class Toast extends PersonalizationResource implements Personalizable
 {

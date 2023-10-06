@@ -1,10 +1,10 @@
 <?php
 
-namespace TasteUi\View\Components;
+namespace TallStackUi\View\Components;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
-use TasteUi\Contracts\Customizable;
+use TallStackUi\Contracts\Customizable;
 
 class Hint extends Component implements Customizable
 {

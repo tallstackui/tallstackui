@@ -1,11 +1,11 @@
 <?php
 
-namespace TasteUi\View\Components\Interaction;
+namespace TallStackUi\View\Components\Interaction;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
-use TasteUi\Contracts\Customizable;
+use TallStackUi\Contracts\Customizable;
 
 class Dialog extends Component implements Customizable
 {

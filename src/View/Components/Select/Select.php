@@ -1,13 +1,13 @@
 <?php
 
-namespace TasteUi\View\Components\Select;
+namespace TallStackUi\View\Components\Select;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\View\Component;
-use TasteUi\Contracts\Customizable;
-use TasteUi\View\Components\Select\Traits\InteractsWithSelectOptions;
+use TallStackUi\Contracts\Customizable;
+use TallStackUi\View\Components\Select\Traits\InteractsWithSelectOptions;
 
 class Select extends Component implements Customizable
 {

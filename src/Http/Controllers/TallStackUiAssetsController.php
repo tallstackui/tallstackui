@@ -1,12 +1,12 @@
 <?php
 
-namespace TasteUi\Http\Controllers;
+namespace TallStackUi\Http\Controllers;
 
 use Livewire\Drawer\Utils;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Response;
 
-class TasteUiAssetsController
+class TallStackUiAssetsController
 {
     public function scripts(): Response|BinaryFileResponse
     {

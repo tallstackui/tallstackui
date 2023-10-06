@@ -1,6 +1,6 @@
 <?php
 
-use TasteUi\Support\TailwindSafelistClasses;
+use TallStackUi\Support\TailwindSafelistClasses;
 
 const KEYS = [
     'primary',

@@ -1,12 +1,12 @@
 <?php
 
-namespace TasteUi\View\Components\Interaction;
+namespace TallStackUi\View\Components\Interaction;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
 use InvalidArgumentException;
-use TasteUi\Contracts\Customizable;
+use TallStackUi\Contracts\Customizable;
 
 class Toast extends Component implements Customizable
 {

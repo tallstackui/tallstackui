@@ -1,10 +1,10 @@
 <?php
 
-namespace TasteUi\View\Components\Form;
+namespace TallStackUi\View\Components\Form;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
-use TasteUi\Contracts\Customizable;
+use TallStackUi\Contracts\Customizable;
 
 class Label extends Component implements Customizable
 {

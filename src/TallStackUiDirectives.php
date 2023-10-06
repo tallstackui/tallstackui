@@ -1,8 +1,8 @@
 <?php
 
-namespace TasteUi;
+namespace TallStackUi;
 
-class TasteUiDirectives
+class TallStackUiDirectives
 {
     public function scripts(bool $absolute = true): string
     {

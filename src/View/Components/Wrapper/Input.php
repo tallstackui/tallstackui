@@ -1,10 +1,10 @@
 <?php
 
-namespace TasteUi\View\Components\Wrapper;
+namespace TallStackUi\View\Components\Wrapper;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
-use TasteUi\Contracts\Customizable;
+use TallStackUi\Contracts\Customizable;
 
 class Input extends Component implements Customizable
 {

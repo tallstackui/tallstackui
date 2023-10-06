@@ -1,8 +1,8 @@
 <?php
 
-namespace TasteUi\View\Components\Select\Traits;
+namespace TallStackUi\View\Components\Select\Traits;
 
-use TasteUi\View\Components\Select\Searchable;
+use TallStackUi\View\Components\Select\Searchable;
 
 trait InteractsWithSelectOptions
 {

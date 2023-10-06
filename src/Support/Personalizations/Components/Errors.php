@@ -1,10 +1,10 @@
 <?php
 
-namespace TasteUi\Support\Personalizations\Components;
+namespace TallStackUi\Support\Personalizations\Components;
 
-use TasteUi\Support\Personalizations\Contracts\Personalizable;
-use TasteUi\Support\Personalizations\PersonalizationResource;
-use TasteUi\View\Components\Errors as Component;
+use TallStackUi\Support\Personalizations\Contracts\Personalizable;
+use TallStackUi\Support\Personalizations\PersonalizationResource;
+use TallStackUi\View\Components\Errors as Component;
 
 class Errors extends PersonalizationResource implements Personalizable
 {

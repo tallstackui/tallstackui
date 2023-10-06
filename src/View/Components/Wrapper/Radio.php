@@ -1,11 +1,11 @@
 <?php
 
-namespace TasteUi\View\Components\Wrapper;
+namespace TallStackUi\View\Components\Wrapper;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
-use TasteUi\Contracts\Customizable;
+use TallStackUi\Contracts\Customizable;
 
 class Radio extends Component implements Customizable
 {

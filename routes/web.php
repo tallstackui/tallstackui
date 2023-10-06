@@ -1,11 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use TasteUi\Http\Controllers\TasteUiAssetsController;
+use TallStackUi\Http\Controllers\TallStackUiAssetsController;
 
 Route::name('tasteui.')
     ->prefix('/tasteui')
-    ->controller(TasteUiAssetsController::class)
+    ->controller(TallStackUiAssetsController::class)
     ->group(function () {
         Route::get('/scripts', 'scripts')->name('scripts');
         Route::get('/styles', 'styles')->name('styles');

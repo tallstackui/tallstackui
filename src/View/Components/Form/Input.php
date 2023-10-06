@@ -1,12 +1,12 @@
 <?php
 
-namespace TasteUi\View\Components\Form;
+namespace TallStackUi\View\Components\Form;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
-use TasteUi\Contracts\Customizable;
-use TasteUi\View\Components\Form\Traits\DefaultInputClasses;
+use TallStackUi\Contracts\Customizable;
+use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
 
 class Input extends Component implements Customizable
 {

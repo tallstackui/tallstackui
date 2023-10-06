@@ -1,10 +1,10 @@
 <?php
 
-namespace TasteUi\Support\Personalizations\Components\Button;
+namespace TallStackUi\Support\Personalizations\Components\Button;
 
-use TasteUi\Support\Personalizations\Contracts\Personalizable;
-use TasteUi\Support\Personalizations\PersonalizationResource;
-use TasteUi\View\Components\Button\Circle as Component;
+use TallStackUi\Support\Personalizations\Contracts\Personalizable;
+use TallStackUi\Support\Personalizations\PersonalizationResource;
+use TallStackUi\View\Components\Button\Circle as Component;
 
 class Circle extends PersonalizationResource implements Personalizable
 {

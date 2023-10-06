@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\File;
 use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\Dusk\Options;
 use Orchestra\Testbench\Dusk\TestCase;
-use TasteUi\TasteUiServiceProvider;
+use TallStackUi\TallStackUiServiceProvider;
 
 class BrowserTestCase extends TestCase
 {
@@ -42,7 +42,7 @@ class BrowserTestCase extends TestCase
     {
         return [
             LivewireServiceProvider::class,
-            TasteUiServiceProvider::class,
+            TallStackUiServiceProvider::class,
         ];
     }
 

@@ -1,11 +1,11 @@
 <?php
 
-namespace TasteUi\View\Components\Tabs;
+namespace TallStackUi\View\Components\Tabs;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
-use TasteUi\Contracts\Customizable;
+use TallStackUi\Contracts\Customizable;
 
 class Items extends Component implements Customizable
 {

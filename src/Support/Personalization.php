@@ -1,39 +1,39 @@
 <?php
 
-namespace TasteUi\Support;
+namespace TallStackUi\Support;
 
 use Closure;
 use InvalidArgumentException;
-use TasteUi\Contracts\Personalizable as PersonalizableClass;
-use TasteUi\Support\Personalizations\Components\Alert;
-use TasteUi\Support\Personalizations\Components\Avatar;
-use TasteUi\Support\Personalizations\Components\Badge;
-use TasteUi\Support\Personalizations\Components\Button\Circle as ButtonCircle;
-use TasteUi\Support\Personalizations\Components\Button\Index as Button;
-use TasteUi\Support\Personalizations\Components\Card;
-use TasteUi\Support\Personalizations\Components\Error;
-use TasteUi\Support\Personalizations\Components\Errors;
-use TasteUi\Support\Personalizations\Components\Form\Checkbox;
-use TasteUi\Support\Personalizations\Components\Form\Input;
-use TasteUi\Support\Personalizations\Components\Form\Label;
-use TasteUi\Support\Personalizations\Components\Form\Password;
-use TasteUi\Support\Personalizations\Components\Form\Radio;
-use TasteUi\Support\Personalizations\Components\Form\Textarea;
-use TasteUi\Support\Personalizations\Components\Form\Toggle;
-use TasteUi\Support\Personalizations\Components\Hint;
-use TasteUi\Support\Personalizations\Components\Interactions\Dialog;
-use TasteUi\Support\Personalizations\Components\Interactions\Toast;
-use TasteUi\Support\Personalizations\Components\Modal;
-use TasteUi\Support\Personalizations\Components\Select\Searchable as SelectSearchable;
-use TasteUi\Support\Personalizations\Components\Select\Select;
-use TasteUi\Support\Personalizations\Components\Select\Styled as SelectStyled;
-use TasteUi\Support\Personalizations\Components\Tabs\Index as TabsWrapper;
-use TasteUi\Support\Personalizations\Components\Tabs\Items as TabsItems;
-use TasteUi\Support\Personalizations\Components\Tooltip;
-use TasteUi\Support\Personalizations\Components\Wrapper\Input as InputWrapper;
-use TasteUi\Support\Personalizations\Components\Wrapper\Radio as RadioWrapper;
-use TasteUi\Support\Personalizations\Components\Wrapper\Select as SelectWrapper;
-use TasteUi\Support\Personalizations\Contracts\Personalizable as PersonalizableContract;
+use TallStackUi\Contracts\Personalizable as PersonalizableClass;
+use TallStackUi\Support\Personalizations\Components\Alert;
+use TallStackUi\Support\Personalizations\Components\Avatar;
+use TallStackUi\Support\Personalizations\Components\Badge;
+use TallStackUi\Support\Personalizations\Components\Button\Circle as ButtonCircle;
+use TallStackUi\Support\Personalizations\Components\Button\Index as Button;
+use TallStackUi\Support\Personalizations\Components\Card;
+use TallStackUi\Support\Personalizations\Components\Error;
+use TallStackUi\Support\Personalizations\Components\Errors;
+use TallStackUi\Support\Personalizations\Components\Form\Checkbox;
+use TallStackUi\Support\Personalizations\Components\Form\Input;
+use TallStackUi\Support\Personalizations\Components\Form\Label;
+use TallStackUi\Support\Personalizations\Components\Form\Password;
+use TallStackUi\Support\Personalizations\Components\Form\Radio;
+use TallStackUi\Support\Personalizations\Components\Form\Textarea;
+use TallStackUi\Support\Personalizations\Components\Form\Toggle;
+use TallStackUi\Support\Personalizations\Components\Hint;
+use TallStackUi\Support\Personalizations\Components\Interactions\Dialog;
+use TallStackUi\Support\Personalizations\Components\Interactions\Toast;
+use TallStackUi\Support\Personalizations\Components\Modal;
+use TallStackUi\Support\Personalizations\Components\Select\Searchable as SelectSearchable;
+use TallStackUi\Support\Personalizations\Components\Select\Select;
+use TallStackUi\Support\Personalizations\Components\Select\Styled as SelectStyled;
+use TallStackUi\Support\Personalizations\Components\Tabs\Index as TabsWrapper;
+use TallStackUi\Support\Personalizations\Components\Tabs\Items as TabsItems;
+use TallStackUi\Support\Personalizations\Components\Tooltip;
+use TallStackUi\Support\Personalizations\Components\Wrapper\Input as InputWrapper;
+use TallStackUi\Support\Personalizations\Components\Wrapper\Radio as RadioWrapper;
+use TallStackUi\Support\Personalizations\Components\Wrapper\Select as SelectWrapper;
+use TallStackUi\Support\Personalizations\Contracts\Personalizable as PersonalizableContract;
 
 class Personalization
 {

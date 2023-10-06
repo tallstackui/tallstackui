@@ -3,13 +3,13 @@
 namespace Tests\Browser\Alert\Components;
 
 use Livewire\Component;
-use TasteUi\Facades\TasteUi;
+use TallStackUi\Facades\TallStackUi;
 
 class AlertCommonPersonalizedComponent extends Component
 {
     public function render(): string
     {
-        TasteUi::personalize('alert')
+        TallStackUi::personalize('alert')
             ->block('base', fn () => 'rounded-md p-6 bg-red-500');
 
         return <<<'HTML'

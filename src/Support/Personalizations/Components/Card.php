@@ -1,10 +1,10 @@
 <?php
 
-namespace TasteUi\Support\Personalizations\Components;
+namespace TallStackUi\Support\Personalizations\Components;
 
-use TasteUi\Support\Personalizations\Contracts\Personalizable;
-use TasteUi\Support\Personalizations\PersonalizationResource;
-use TasteUi\View\Components\Card as Component;
+use TallStackUi\Support\Personalizations\Contracts\Personalizable;
+use TallStackUi\Support\Personalizations\PersonalizationResource;
+use TallStackUi\View\Components\Card as Component;
 
 class Card extends PersonalizationResource implements Personalizable
 {

@@ -1,13 +1,13 @@
 <?php
 
-namespace TasteUi\View\Components;
+namespace TallStackUi\View\Components;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
-use TasteUi\Contracts\Customizable;
-use TasteUi\Facades\TasteUi;
-use TasteUi\Support\Elements\Color;
+use TallStackUi\Contracts\Customizable;
+use TallStackUi\Facades\TallStackUi;
+use TallStackUi\Support\Elements\Color;
 
 class Alert extends Component implements Customizable
 {
@@ -39,7 +39,7 @@ class Alert extends Component implements Customizable
         return Arr::dot([
             'base' => Arr::toCssClasses([
                 'rounded-md p-4',
-                TasteUi::colors()
+                TallStackUi::colors()
                     ->when(
                         $this->style === 'solid',
                         fn (Color $color) => $color->set('bg', $this->color, ! in_array($this->color, ['white', 'black']) ? 300 : null)
@@ -49,7 +49,7 @@ class Alert extends Component implements Customizable
                         fn (Color $color) => $color->set('bg', $this->color === 'black' ? 'neutral' : $this->color, $this->color === 'black' ? 200 : 100)
                     )
                     ->get(),
-                TasteUi::colors()
+                TallStackUi::colors()
                     ->set('border', $this->color, $this->color === 'black' ? null : 500)
                     ->get() => $this->color !== 'white',
                 'border' => $this->color === 'white',
@@ -86,7 +86,7 @@ class Alert extends Component implements Customizable
     {
         $weight = $this->color === 'black' || $this->color === 'white' ? null : 900;
 
-        return TasteUi::colors()
+        return TallStackUi::colors()
             ->when($this->style === 'solid',
                 fn (Color $color) => $color->set('text', $this->color === 'black' ? 'white' : ($this->color === 'white' ? 'black' : $this->color), $weight)
             )

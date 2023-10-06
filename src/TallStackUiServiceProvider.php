@@ -1,21 +1,21 @@
 <?php
 
-namespace TasteUi;
+namespace TallStackUi;
 
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
-use TasteUi\Facades\TasteUi as Facade;
-use TasteUi\Support\Personalization;
+use TallStackUi\Facades\TallStackUi as Facade;
+use TallStackUi\Support\Personalization;
 
-class TasteUiServiceProvider extends ServiceProvider
+class TallStackUiServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        $this->app->singleton('TasteUi', TasteUi::class);
+        $this->app->singleton('TallStackUi', TallStackUi::class);
         $loader = AliasLoader::getInstance();
-        $loader->alias('TasteUi', Facade::class);
+        $loader->alias('TallStackUi', Facade::class);
     }
 
     public function boot(): void
@@ -29,11 +29,11 @@ class TasteUiServiceProvider extends ServiceProvider
     public function registerConfig(): void
     {
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'taste-ui');
-        $this->mergeConfigFrom(__DIR__.'/../config/tasteui.php', 'tasteui');
+        $this->mergeConfigFrom(__DIR__ . '/../config/tallstackui.php', 'tasteui');
         $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
         $this->loadTranslationsFrom(__DIR__.'/../lang', 'taste-ui');
 
-        $this->publishes([__DIR__.'/../config/tasteui.php' => config_path('tasteui.php')], 'tasteui.config');
+        $this->publishes([__DIR__ . '/../config/tallstackui.php' => config_path('tasteui.php')], 'tasteui.config');
         $this->publishes([__DIR__.'/../lang' => lang_path('vendor/taste-ui')], 'tasteui.lang');
         $this->publishes([__DIR__.'/../resources/views' => resource_path('views/vendor/taste-ui')], 'tasteui.views');
     }
@@ -67,7 +67,7 @@ class TasteUiServiceProvider extends ServiceProvider
         });
 
         Blade::precompiler(static function (string $string): string {
-            $pattern = '/<\s*tasteui\:(scripts)\s*\/?>/';
+            $pattern = '/<\s*TallStackUi\:(scripts)\s*\/?>/';
 
             return preg_replace_callback($pattern, function (array $matches) {
                 $element = '';

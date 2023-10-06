@@ -1,11 +1,11 @@
 <?php
 
-namespace TasteUi\View\Components\Button\Traits;
+namespace TallStackUi\View\Components\Button\Traits;
 
 use Illuminate\Support\Arr;
-use TasteUi\Facades\TasteUi;
-use TasteUi\Support\Elements\Color;
-use TasteUi\View\Components\Button\Index;
+use TallStackUi\Facades\TallStackUi;
+use TallStackUi\Support\Elements\Color;
+use TallStackUi\View\Components\Button\Index;
 
 trait DefaultButtonColorClasses
 {
@@ -32,7 +32,7 @@ trait DefaultButtonColorClasses
             ]
         };
 
-        $color = $this->tasteUiTextColorVariations(TasteUi::colors());
+        $color = $this->tasteUiTextColorVariations(TallStackUi::colors());
 
         $this->tasteUiButtonSolidVariations($color)->get();
         $this->tasteUiButtonOutlineVariations($color)->get();
@@ -42,7 +42,7 @@ trait DefaultButtonColorClasses
 
     public function tasteUiIconColorClasses(): string
     {
-        $color = $this->tasteUiTextColorVariations(TasteUi::colors());
+        $color = $this->tasteUiTextColorVariations(TallStackUi::colors());
 
         if ($this instanceof Index) {
             $classes = [

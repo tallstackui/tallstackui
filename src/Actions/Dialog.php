@@ -1,6 +1,6 @@
 <?php
 
-namespace TasteUi\Actions;
+namespace TallStackUi\Actions;
 
 class Dialog extends AbstractInteraction
 {

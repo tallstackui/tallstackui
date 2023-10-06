@@ -1,6 +1,6 @@
 <?php
 
-namespace TasteUi\Support;
+namespace TallStackUi\Support;
 
 /**
  * This is an unused class that aims to save all commonly used

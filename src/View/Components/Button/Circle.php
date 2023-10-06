@@ -1,12 +1,12 @@
 <?php
 
-namespace TasteUi\View\Components\Button;
+namespace TallStackUi\View\Components\Button;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
-use TasteUi\Contracts\Customizable;
-use TasteUi\View\Components\Button\Traits\DefaultButtonColorClasses;
+use TallStackUi\Contracts\Customizable;
+use TallStackUi\View\Components\Button\Traits\DefaultButtonColorClasses;
 
 class Circle extends Component implements Customizable
 {

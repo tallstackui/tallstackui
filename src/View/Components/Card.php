@@ -1,11 +1,11 @@
 <?php
 
-namespace TasteUi\View\Components;
+namespace TallStackUi\View\Components;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
-use TasteUi\Contracts\Customizable;
+use TallStackUi\Contracts\Customizable;
 
 class Card extends Component implements Customizable
 {

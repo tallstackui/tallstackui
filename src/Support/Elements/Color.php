@@ -1,6 +1,6 @@
 <?php
 
-namespace TasteUi\Support\Elements;
+namespace TallStackUi\Support\Elements;
 
 use Illuminate\Support\Traits\Conditionable;
 use InvalidArgumentException;

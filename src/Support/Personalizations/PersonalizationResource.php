@@ -1,6 +1,6 @@
 <?php
 
-namespace TasteUi\Support\Personalizations;
+namespace TallStackUi\Support\Personalizations;
 
 use Closure;
 use Illuminate\Support\Collection;
@@ -8,8 +8,8 @@ use Illuminate\Support\Facades\View as FacadeView;
 use Illuminate\View\View;
 use InvalidArgumentException;
 use RuntimeException;
-use TasteUi\Contracts\Personalizable as PersonalizableClass;
-use TasteUi\Support\Personalization;
+use TallStackUi\Contracts\Personalizable as PersonalizableClass;
+use TallStackUi\Support\Personalization;
 
 /** @property-read Personalization $and */
 abstract class PersonalizationResource

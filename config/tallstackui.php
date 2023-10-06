@@ -1,6 +1,6 @@
 <?php
 
-use TasteUi\View\Components;
+use TallStackUi\View\Components;
 
 return [
     /*

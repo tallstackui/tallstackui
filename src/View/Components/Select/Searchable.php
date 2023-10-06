@@ -1,6 +1,6 @@
 <?php
 
-namespace TasteUi\View\Components\Select;
+namespace TallStackUi\View\Components\Select;
 
 use Illuminate\Contracts\View\View;
 use InvalidArgumentException;
