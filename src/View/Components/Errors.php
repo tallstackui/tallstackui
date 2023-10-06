@@ -16,22 +16,22 @@ class Errors extends Component implements Customizable
         public string|array|null $only = null,
         public ?string $color = 'red',
     ) {
-        $this->title ??= __('taste-ui::messages.errors.title');
+        $this->title ??= __('tallstack-ui::messages.errors.title');
     }
 
     public function render(): View
     {
-        return view('taste-ui::components.errors');
+        return view('tallstack-ui::components.errors');
     }
 
     public function customization(): array
     {
         return [
-            ...$this->tasteUiClasses(),
+            ...$this->tallStackUiClasses(),
         ];
     }
 
-    public function tasteUiClasses(): array
+    public function tallStackUiClasses(): array
     {
         return Arr::dot([
             'base' => [

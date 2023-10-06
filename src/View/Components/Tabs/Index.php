@@ -19,17 +19,17 @@ class Index extends Component implements Customizable
 
     public function render(): View
     {
-        return view('taste-ui::components.tabs.index');
+        return view('tallstack-ui::components.tabs.index');
     }
 
     public function customization(): array
     {
         return [
-            ...$this->tasteUiClasses(),
+            ...$this->tallStackUiClasses(),
         ];
     }
 
-    public function tasteUiClasses(): array
+    public function tallStackUiClasses(): array
     {
         return Arr::dot([
             'wrapper' => '-mb-px flex items-stretch overflow-auto',

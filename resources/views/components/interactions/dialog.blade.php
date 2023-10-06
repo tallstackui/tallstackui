@@ -1,7 +1,7 @@
 @php($customize = tasteui_personalization('dialog', $customization()))
 
 <div x-cloak
-     x-data="tasteui_dialog(@js(__('taste-ui::messages.dialog.button.ok')), @js(__('taste-ui::messages.dialog.button.confirm')), @js(__('taste-ui::messages.dialog.button.cancel')))"
+     x-data="tasteui_dialog(@js(__('tallstack-ui::messages.dialog.button.ok')), @js(__('tallstack-ui::messages.dialog.button.confirm')), @js(__('tallstack-ui::messages.dialog.button.cancel')))"
      x-on:tasteui:dialog.window="add($event.detail)"
      class="relative {{ $zIndex }}"
      aria-labelledby="modal-title"

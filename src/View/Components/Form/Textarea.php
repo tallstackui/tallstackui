@@ -24,17 +24,17 @@ class Textarea extends Component implements Customizable
 
     public function render(): View
     {
-        return view('taste-ui::components.form.textarea');
+        return view('tallstack-ui::components.form.textarea');
     }
 
     public function customization(): array
     {
         return [
-            ...$this->tasteUiClasses(),
+            ...$this->tallStackUiClasses(),
         ];
     }
 
-    public function tasteUiClasses(): array
+    public function tallStackUiClasses(): array
     {
         return [
             'base' => Arr::toCssClasses([

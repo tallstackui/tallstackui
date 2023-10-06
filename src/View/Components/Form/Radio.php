@@ -25,17 +25,17 @@ class Radio extends Component implements Customizable
 
     public function render(): View
     {
-        return view('taste-ui::components.form.radio');
+        return view('tallstack-ui::components.form.radio');
     }
 
     public function customization(): array
     {
         return [
-            ...$this->tasteUiClasses(),
+            ...$this->tallStackUiClasses(),
         ];
     }
 
-    public function tasteUiClasses(): array
+    public function tallStackUiClasses(): array
     {
         return [
             'base' => Arr::toCssClasses([

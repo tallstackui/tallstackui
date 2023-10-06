@@ -18,17 +18,17 @@ class Card extends Component implements Customizable
 
     public function render(): View
     {
-        return view('taste-ui::components.card');
+        return view('tallstack-ui::components.card');
     }
 
     public function customization(): array
     {
         return [
-            ...$this->tasteUiClasses(),
+            ...$this->tallStackUiClasses(),
         ];
     }
 
-    public function tasteUiClasses(): array
+    public function tallStackUiClasses(): array
     {
         return Arr::dot([
             'base' => 'grow rounded-b-xl px-2 py-5 text-secondary-700 md:px-4',

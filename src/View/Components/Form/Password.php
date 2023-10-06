@@ -24,17 +24,17 @@ class Password extends Component implements Customizable
 
     public function render(): View
     {
-        return view('taste-ui::components.form.password');
+        return view('tallstack-ui::components.form.password');
     }
 
     public function customization(): array
     {
         return [
-            ...$this->tasteUiClasses(),
+            ...$this->tallStackUiClasses(),
         ];
     }
 
-    public function tasteUiClasses(): array
+    public function tallStackUiClasses(): array
     {
         return Arr::dot([
             'base' => $this->tasteUiInputClasses(),

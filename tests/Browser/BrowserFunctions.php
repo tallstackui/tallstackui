@@ -15,19 +15,19 @@ trait BrowserFunctions
 {
     public function visit(Browser $browser, string $livewire, array $query = []): Browser|Testable
     {
-        $url = '/tasteui-livewire/'.urlencode($livewire).'?'.Arr::query($query);
+        $url = '/tallstackui-livewire/'.urlencode($livewire).'?'.Arr::query($query);
 
         return $browser->visit($url)->waitForLivewireToLoad();
     }
 
-    protected function tasteUiUpdateConfigurations(): void
+    protected function tallStackUiUpdateConfigurations(): void
     {
         app('session')->put('_token', 'taste-ui-testing-token');
         app('config')->set('view.paths', [__DIR__.'/views', resource_path('views')]);
         config()->set('app.debug', true);
     }
 
-    protected function tasteUiLoadComponents(): void
+    protected function tallStackUiLoadComponents(): void
     {
         collect(File::allFiles(__DIR__))
             ->map(function (SplFileInfo $file) {
@@ -39,11 +39,11 @@ trait BrowserFunctions
             })->each(fn (string $class) => app('livewire')->component($class));
     }
 
-    protected function tasteUiRoutes(): void
+    protected function tallStackUiRoutes(): void
     {
         Route::middleware('web')
             ->group(function () {
-                Route::get('/tasteui-livewire/{component}', function (string $component) {
+                Route::get('/tallstackui-livewire/{component}', function (string $component) {
                     $class = urldecode($component);
 
                     return app()->call(app('livewire')->new($class));

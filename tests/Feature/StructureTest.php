@@ -1,15 +1,15 @@
 <?php
 
-use TasteUi\Actions\AbstractInteraction;
-use TasteUi\Actions\Dialog;
-use TasteUi\Actions\Toast;
-use TasteUi\Contracts\Customizable;
-use TasteUi\Facades\TasteUi as Facade;
-use TasteUi\Http\Controllers\TasteUiAssetsController;
-use TasteUi\Support\Elements\Color;
-use TasteUi\Support\Personalization;
-use TasteUi\Support\Personalizations\Contracts\Personalizable;
-use TasteUi\Traits\Interactions;
+use TallStackUi\Actions\AbstractInteraction;
+use TallStackUi\Actions\Dialog;
+use TallStackUi\Actions\Toast;
+use TallStackUi\Contracts\Customizable;
+use TallStackUi\Facades\TallStackUi as Facade;
+use TallStackUi\Http\Controllers\TallStackUiAssetsController;
+use TallStackUi\Support\Elements\Color;
+use TallStackUi\Support\Personalization;
+use TallStackUi\Support\Personalizations\Contracts\Personalizable;
+use TallStackUi\Traits\Interactions;
 
 test('should not use dangerous functions')
     ->expect(['dd', 'dump', 'exit', 'var_dump'])
@@ -21,8 +21,8 @@ describe('tasteui components', function () {
         expect($index)->toImplement(Customizable::class);
     })->with('components');
 
-    test('contains tasteUiClasses method', function (string $index) {
-        expect($index)->toHaveMethod('tasteUiClasses');
+    test('contains tallStackUiClasses method', function (string $index) {
+        expect($index)->toHaveMethod('tallStackUiClasses');
     })->with('components');
 
     test('contains customization method', function (string $index) {
@@ -140,7 +140,7 @@ test('personalization class should have all personalization methods', function (
 
 describe('TasteUiAssetsController tests', function () {
     test('contains all methods', function () {
-        expect(TasteUiAssetsController::class)
+        expect(TallStackUiAssetsController::class)
             ->toHaveMethod('scripts')
             ->toHaveMethod('styles');
     });

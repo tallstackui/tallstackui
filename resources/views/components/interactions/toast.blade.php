@@ -6,7 +6,7 @@
      @class($customize['wrapper.first'])
      x-show="show">
     <template x-for="toast in toasts" :key="toast.id">
-        <div x-data="tasteui_toastLoop(toast, @js(__('taste-ui::messages.toast.button.ok')), @js(__('taste-ui::messages.toast.button.confirm')), @js(__('taste-ui::messages.toast.button.cancel')))"
+        <div x-data="tasteui_toastLoop(toast, @js(__('tallstack-ui::messages.toast.button.ok')), @js(__('tallstack-ui::messages.toast.button.confirm')), @js(__('tallstack-ui::messages.toast.button.cancel')))"
              x-show="show"
              @class($customize['wrapper.second'])>
             <div x-show="show"

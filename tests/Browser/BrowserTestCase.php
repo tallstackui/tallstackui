@@ -19,16 +19,16 @@ class BrowserTestCase extends TestCase
             Options::withoutUI();
         }
 
-        $this->afterApplicationCreated(fn () => $this->tasteUiClearState());
-        $this->beforeApplicationDestroyed(fn () => $this->tasteUiClearState());
+        $this->afterApplicationCreated(fn () => $this->tallStackUiClearState());
+        $this->beforeApplicationDestroyed(fn () => $this->tallStackUiClearState());
 
         parent::setUp();
 
         $this->tweakApplication(function () {
             $testCase = new self('browser');
-            $testCase->tasteUiLoadComponents();
-            $testCase->tasteUiRoutes();
-            $testCase->tasteUiUpdateConfigurations();
+            $testCase->tallStackUiLoadComponents();
+            $testCase->tallStackUiRoutes();
+            $testCase->tallStackUiUpdateConfigurations();
         });
     }
 
@@ -73,7 +73,7 @@ class BrowserTestCase extends TestCase
         return base_path('tests/Feature/Livewire'.($path ? '/'.$path : ''));
     }
 
-    private function tasteUiClearState(): void
+    private function tallStackUiClearState(): void
     {
         Artisan::call('view:clear');
 

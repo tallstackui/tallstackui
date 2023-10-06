@@ -14,8 +14,8 @@ class TallStackUiServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->singleton('TallStackUi', TallStackUi::class);
-        $loader = AliasLoader::getInstance();
-        $loader->alias('TallStackUi', Facade::class);
+
+        AliasLoader::getInstance()->alias('TallStackUi', Facade::class);
     }
 
     public function boot(): void
@@ -28,14 +28,14 @@ class TallStackUiServiceProvider extends ServiceProvider
 
     public function registerConfig(): void
     {
-        $this->loadViewsFrom(__DIR__.'/../resources/views', 'taste-ui');
-        $this->mergeConfigFrom(__DIR__ . '/../config/tallstackui.php', 'tasteui');
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'tallstack-ui');
+        $this->mergeConfigFrom(__DIR__.'/../config/tallstackui.php', 'tallstackui');
         $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
-        $this->loadTranslationsFrom(__DIR__.'/../lang', 'taste-ui');
+        $this->loadTranslationsFrom(__DIR__.'/../lang', 'tallstack-ui');
 
-        $this->publishes([__DIR__ . '/../config/tallstackui.php' => config_path('tasteui.php')], 'tasteui.config');
-        $this->publishes([__DIR__.'/../lang' => lang_path('vendor/taste-ui')], 'tasteui.lang');
-        $this->publishes([__DIR__.'/../resources/views' => resource_path('views/vendor/taste-ui')], 'tasteui.views');
+        $this->publishes([__DIR__.'/../config/tallstackui.php' => config_path('tallstackui.php')], 'tallstackui.config');
+        $this->publishes([__DIR__.'/../lang' => lang_path('vendor/tallstack-ui')], 'tallstackui.lang');
+        $this->publishes([__DIR__.'/../resources/views' => resource_path('views/vendor/tallstack-ui')], 'tallstackui.views');
     }
 
     public function registerComponentPersonalizations(): void
@@ -50,7 +50,7 @@ class TallStackUiServiceProvider extends ServiceProvider
     private function registerComponents(): void
     {
         $this->callAfterResolving(BladeCompiler::class, static function (BladeCompiler $blade): void {
-            foreach (config('tasteui.components') as $alias => $class) {
+            foreach (config('tallstackui.components') as $alias => $class) {
                 $blade->component($class, $alias);
             }
         });
@@ -58,16 +58,16 @@ class TallStackUiServiceProvider extends ServiceProvider
 
     private function registerBladeDirectives(): void
     {
-        Blade::directive('tasteUiScripts', static function (): string {
+        Blade::directive('tallStackUiScripts', static function (): string {
             return Facade::directives()->scripts();
         });
 
-        Blade::directive('tasteUiStyles', static function (): string {
+        Blade::directive('tallStackUiStyles', static function (): string {
             return Facade::directives()->styles();
         });
 
         Blade::precompiler(static function (string $string): string {
-            $pattern = '/<\s*TallStackUi\:(scripts)\s*\/?>/';
+            $pattern = '/<\s*tallstackui\:(scripts)\s*\/?>/';
 
             return preg_replace_callback($pattern, function (array $matches) {
                 $element = '';
@@ -76,7 +76,7 @@ class TallStackUiServiceProvider extends ServiceProvider
                     $scripts = Facade::directives()->scripts();
                     $styles = Facade::directives()->styles();
 
-                    $element = "<!-- TasteUi Scripts -->\n{$scripts}\n{$styles}";
+                    $element = "<!-- TallStackUi Scripts -->\n{$scripts}\n{$styles}";
                 }
 
                 return $element;

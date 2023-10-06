@@ -37,7 +37,7 @@ return [
     | Components List
     |--------------------------------------------------------------------------
     |
-    | List of all TasteUi components.
+    | List of all TallStackUi components.
     */
     'components' => [
         'input' => Components\Form\Input::class,

@@ -31,7 +31,7 @@
         <div x-show="show" @class($customize['box.wrapper'])>
             <template x-if="searchable">
                 <div class="relative px-2">
-                    <x-input placeholder="{{ __('taste-ui::messages.select.input') }}"
+                    <x-input placeholder="{{ __('tallstack-ui::messages.select.input') }}"
                              x-model.debounce.500ms="search"
                              x-ref="search"
                              id="tasteui_select_search_input"
@@ -73,7 +73,7 @@
                 <template x-if="!loading && options.length === 0">
                     <li class="m-2">
                         <span @class($customize['message'])>
-                            {{ __('taste-ui::messages.select.empty') }}
+                            {{ __('tallstack-ui::messages.select.empty') }}
                         </span>
                     </li>
                 </template>

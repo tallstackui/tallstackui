@@ -6,5 +6,5 @@ interface Customizable
 {
     public function customization(): array;
 
-    public function tasteUiClasses(): array;
+    public function tallStackUiClasses(): array;
 }

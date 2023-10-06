@@ -18,17 +18,17 @@ class Dialog extends Component implements Customizable
 
     public function render(): View
     {
-        return view('taste-ui::components.interactions.dialog');
+        return view('tallstack-ui::components.interactions.dialog');
     }
 
     public function customization(): array
     {
         return [
-            ...$this->tasteUiClasses(),
+            ...$this->tallStackUiClasses(),
         ];
     }
 
-    public function tasteUiClasses(): array
+    public function tallStackUiClasses(): array
     {
         return Arr::dot([
             'background' => 'fixed inset-0 bg-gray-400 bg-opacity-75 transition-opacity',

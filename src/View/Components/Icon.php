@@ -30,6 +30,6 @@ class Icon extends Component
 
     public function render(): View
     {
-        return view('taste-ui::components.icon');
+        return view('tallstack-ui::components.icon');
     }
 }

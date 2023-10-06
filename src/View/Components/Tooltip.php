@@ -6,7 +6,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
 use TallStackUi\Contracts\Customizable;
-use TallStackUi\Facades\TasteUi;
+use TallStackUi\Facades\TallStackUi;
 
 class Tooltip extends Component implements Customizable
 {
@@ -29,17 +29,17 @@ class Tooltip extends Component implements Customizable
 
     public function render(): View
     {
-        return view('taste-ui::components.tooltip');
+        return view('tallstack-ui::components.tooltip');
     }
 
     public function customization(): array
     {
         return [
-            ...$this->tasteUiClasses(),
+            ...$this->tallStackUiClasses(),
         ];
     }
 
-    public function tasteUiClasses(): array
+    public function tallStackUiClasses(): array
     {
         return [
             'wrapper' => 'inline-flex',
@@ -47,7 +47,7 @@ class Tooltip extends Component implements Customizable
                 'h-5 w-5' => $this->size === 'sm',
                 'h-6 w-6' => $this->size === 'md',
                 'h-7 w-7' => $this->size === 'lg',
-                TasteUi::colors()
+                TallStackUi::colors()
                     ->set('text', $this->color, 500)
                     ->get(),
             ]),

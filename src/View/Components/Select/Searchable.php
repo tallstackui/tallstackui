@@ -32,19 +32,19 @@ class Searchable extends Styled
 
     public function render(): View
     {
-        return view('taste-ui::components.select.searchable', [
-            'placeholder' => __('taste-ui::messages.select.placeholder'),
+        return view('tallstack-ui::components.select.searchable', [
+            'placeholder' => __('tallstack-ui::messages.select.placeholder'),
         ]);
     }
 
     public function customization(): array
     {
         return [
-            ...$this->tasteUiClasses(),
+            ...$this->tallStackUiClasses(),
         ];
     }
 
-    public function tasteUiClasses(): array
+    public function tallStackUiClasses(): array
     {
         return [
             'multiple' => 'inline-flex items-center rounded-lg bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10 space-x-1',

@@ -24,17 +24,17 @@ class Checkbox extends Component implements Customizable
 
     public function render(): View
     {
-        return view('taste-ui::components.form.checkbox');
+        return view('tallstack-ui::components.form.checkbox');
     }
 
     public function customization(): array
     {
         return [
-            ...$this->tasteUiClasses(),
+            ...$this->tallStackUiClasses(),
         ];
     }
 
-    public function tasteUiClasses(): array
+    public function tallStackUiClasses(): array
     {
         return Arr::dot([
             'base' => Arr::toCssClasses([

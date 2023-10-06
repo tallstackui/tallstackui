@@ -21,17 +21,17 @@ class Input extends Component implements Customizable
 
     public function render(): View
     {
-        return view('taste-ui::components.wrapper.input');
+        return view('tallstack-ui::components.wrapper.input');
     }
 
     public function customization(): array
     {
         return [
-            ...$this->tasteUiClasses(),
+            ...$this->tallStackUiClasses(),
         ];
     }
 
-    public function tasteUiClasses(): array
+    public function tallStackUiClasses(): array
     {
         return [
             'base' => 'relative mt-2 rounded-md shadow-sm',
