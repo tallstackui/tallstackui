@@ -17,11 +17,14 @@ class Tooltip extends Component implements Customizable
         public ?string $sm = null,
         public ?string $md = null,
         public ?string $lg = null,
-        public bool $solid = true,
+        public ?bool $solid = false,
+        public ?bool $outline = false,
         public ?string $size = null,
         public ?string $position = 'top',
+        public ?string $style = null,
     ) {
         $this->size = $this->lg ? 'lg' : ($this->md ? 'md' : 'sm');
+        $this->style = $this->outline ? 'outline' : ($this->solid ? 'solid' : config('tasteui.icon'));
     }
 
     public function render(): View
