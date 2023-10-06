@@ -1,4 +1,4 @@
-@php($customize = tasteui_personalization('alert', $customization()))
+@php($customize = tallstackui_personalization('alert', $customization()))
 
 <div @class($customize['base'])
      x-data="{ show : true }"

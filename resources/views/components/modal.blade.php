@@ -4,11 +4,11 @@
     $open  = $event . '-open';
     $close = $event . '-close';
 
-    $customize = tasteui_personalization('modal', $customization());
+    $customize = tallstackui_personalization('modal', $customization());
 @endphp
 
 <div @if ($id) id="{{ $id }}" @endif
-     class="relative {{ $zIndex }}"
+class="relative {{ $zIndex }}"
      aria-labelledby="modal-title"
      role="dialog"
      aria-modal="true"
@@ -24,7 +24,7 @@
          x-transition:leave="ease-in duration-200"
          x-transition:leave-start="opacity-100"
          x-transition:leave-end="opacity-0"
-         @class($customize['wrapper.first'])></div>
+            @class($customize['wrapper.first'])></div>
     <div @class($customize['wrapper.second'])>
         <div @class($customize['wrapper.third'])>
             <div x-show="show"
@@ -35,7 +35,7 @@
                  x-transition:leave="ease-in duration-200"
                  x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
                  x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                 @class($customize['wrapper.fourth'])>
+                    @class($customize['wrapper.fourth'])>
                 @if ($title)
                     <div @class($customize['title.wrapper'])>
                         <h3 @class($customize['title.base'])>{{ $title }}</h3>
@@ -45,9 +45,9 @@
                         />
                     </div>
                 @endif
-                    <div @class($customize['body'])>
-                        {{ $slot }}
-                    </div>
+                <div @class($customize['body'])>
+                    {{ $slot }}
+                </div>
                 @if ($footer)
                     <div @class($customize['footer'])>
                         {{ $footer }}

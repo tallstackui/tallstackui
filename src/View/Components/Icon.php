@@ -21,7 +21,7 @@ class Icon extends Component
         public ?string $outline = null,
         public ?string $type = null,
     ) {
-        $this->type ??= $this->outline ? 'outline' : ($this->solid ? 'solid' : config('tasteui.icon'));
+        $this->type ??= $this->outline ? 'outline' : ($this->solid ? 'solid' : config('tallstackui.icon'));
 
         if (! in_array($this->type, self::ACCEPTABLES)) {
             throw new InvalidArgumentException("The icon must be one of the following: [solid, outline]. Provided: [{$this->type}]");

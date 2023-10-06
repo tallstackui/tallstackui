@@ -13,7 +13,7 @@ class Dialog extends Component implements Customizable
         public ?string $zIndex = null,
         public bool $blur = false,
     ) {
-        $this->zIndex ??= config('tasteui.personalizations.dialog.z-index');
+        $this->zIndex ??= config('tallstackui.personalizations.dialog.z-index');
     }
 
     public function render(): View

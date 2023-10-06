@@ -1,11 +1,11 @@
 @php
-    $customize = tasteui_personalization('wrapper.select', $customization());
+    $customize = tallstackui_personalization('wrapper.select', $customization());
     $error = $errors->has($computed);
 @endphp
 
 <div x-data="{!! $alpine !!}" x-cloak>
     @if ($label)
-        <x-label :$label :$error />
+        <x-label :$label :$error/>
     @endif
     <div @class($customize['wrapper']) x-on:click.outside="show = false">
         <div @class([$customize['div.base'], $customize['div.error'] => $error])
@@ -50,10 +50,14 @@
                     {!! $before !!}
                 </div>
                 @if ($loading)
-                    <div x-show="loading" @class($customize['box.list.loading.wrapper']) class="flex items-center justify-center p-4 space-x-4">
-                        <svg @class($customize['box.list.loading.base']) xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    <div x-show="loading"
+                         @class($customize['box.list.loading.wrapper']) class="flex items-center justify-center p-4 space-x-4">
+                        <svg @class($customize['box.list.loading.base']) xmlns="http://www.w3.org/2000/svg" fill="none"
+                             viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                    stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor"
+                                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                         </svg>
                     </div>
                 @endif
@@ -66,7 +70,7 @@
                     >
                         <div wire:ignore @class($customize['box.list.item.base'])>
                             <span class="ml-2 truncate" x-text="option[selectable.label] ?? option"></span>
-                            <x-icon name="check" x-show="selected(option)" class="h-5 w-5 font-bold" />
+                            <x-icon name="check" x-show="selected(option)" class="h-5 w-5 font-bold"/>
                         </div>
                     </li>
                 </template>
@@ -84,9 +88,9 @@
         </div>
     </div>
     @if ($hint && !$error)
-        <x-hint :$hint />
+        <x-hint :$hint/>
     @endif
     @error ($computed)
-        <x-error :$computed :$error />
+    <x-error :$computed :$error/>
     @enderror
 </div>

@@ -1,7 +1,7 @@
 @php
     $computed  = $attributes->whereStartsWith('wire:model')->first();
     $error     = $errors->has($computed);
-    $customize = tasteui_personalization('form.input', $customization());
+    $customize = tallstackui_personalization('form.input', $customization());
 @endphp
 
 <x-wrapper.input :$computed :$error :$label :$hint :$validate>

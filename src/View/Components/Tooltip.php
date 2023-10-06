@@ -24,7 +24,7 @@ class Tooltip extends Component implements Customizable
         public ?string $style = null,
     ) {
         $this->size = $this->lg ? 'lg' : ($this->md ? 'md' : 'sm');
-        $this->style = $this->outline ? 'outline' : ($this->solid ? 'solid' : config('tasteui.icon'));
+        $this->style = $this->outline ? 'outline' : ($this->solid ? 'solid' : config('tallstackui.icon'));
     }
 
     public function render(): View

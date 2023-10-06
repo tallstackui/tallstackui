@@ -4,7 +4,7 @@ namespace TallStackUi\Actions;
 
 class Toast extends AbstractInteraction
 {
-    protected string $event = 'tasteui:toast';
+    protected string $event = 'tallstackui:toast';
 
     public function time(int $time): self
     {

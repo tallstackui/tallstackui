@@ -13,7 +13,7 @@ class Items extends Component implements Customizable
         public ?string $tab = null,
         private bool $square = false,
     ) {
-        $this->square = config('tasteui.personalizations.tabs.square');
+        $this->square = config('tallstackui.personalizations.tabs.square');
     }
 
     public function render(): View

@@ -1,9 +1,9 @@
-@php($customize = tasteui_personalization('tabs', $customization()))
+@php($customize = tallstackui_personalization('tabs', $customization()))
 
 <div x-data="tasteui_tabs(@js($selected))" class="w-full" x-cloak>
     <ul x-ref="tablist"
         role="tablist"
-        @class($customize['wrapper'])>
+            @class($customize['wrapper'])>
         @foreach ($options as $tab)
             <li id="{{ $tab }}"
                 @class($customize['item.wrapper'])
