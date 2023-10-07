@@ -31,5 +31,3 @@ test('can render styles', function () {
 
     expect(str_contains($styles, 'http://localhost/tallstackui/styles'))->toBeTrue();
 });
-
-test('test controller')->todo();
