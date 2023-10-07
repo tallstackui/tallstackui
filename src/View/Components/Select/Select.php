@@ -17,8 +17,6 @@ class Select extends Component implements Customizable
         public ?string $id = null,
         public ?string $label = null,
         public ?string $hint = null,
-        public ?string $icon = null,
-        public ?string $position = null,
         public Collection|array $options = [],
         public ?string $select = null,
         public ?array $selectable = [],
