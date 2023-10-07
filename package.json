@@ -1,4 +1,9 @@
 {
+  "name": "tallstackui",
+  "description": "TallStack UI Components",
+  "repository": "git@github.com:tallstackui/tallstackui.git",
+  "author": "AJ Meireles <alvaro.meireles@live.com>",
+  "license": "MIT",
   "scripts": {
     "build": "mix --production",
     "lint": "npx eslint --ext .js resources/js",
