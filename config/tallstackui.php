@@ -26,12 +26,12 @@ return [
         'dialog' => [
             'z-index' => 'z-50',
             'closeable' => true,
-            'square' => true,
+            'square' => false,
         ],
         'toast' => [
             'z-index' => 'z-50',
             'position' => 'top-right',
-            'square' => true,
+            'square' => false,
         ],
     ],
 
