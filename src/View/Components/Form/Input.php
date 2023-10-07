@@ -1,12 +1,12 @@
 <?php
 
-namespace TasteUi\View\Components\Form;
+namespace TallStackUi\View\Components\Form;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
-use TasteUi\Contracts\Customizable;
-use TasteUi\View\Components\Form\Traits\DefaultInputClasses;
+use TallStackUi\Contracts\Customizable;
+use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
 
 class Input extends Component implements Customizable
 {
@@ -25,21 +25,21 @@ class Input extends Component implements Customizable
 
     public function render(): View
     {
-        return view('taste-ui::components.form.input');
+        return view('tallstack-ui::components.form.input');
     }
 
     public function customization(): array
     {
         return [
-            ...$this->tasteUiClasses(),
+            ...$this->tallStackUiClasses(),
         ];
     }
 
-    public function tasteUiClasses(): array
+    public function tallStackUiClasses(): array
     {
         return Arr::dot([
             'base' => Arr::toCssClasses([
-                $this->tasteUiInputClasses(),
+                $this->tallStackUiInputClasses(),
                 'pl-10' => $this->icon && ($this->position === null || $this->position === 'left'),
             ]),
             'icon' => [

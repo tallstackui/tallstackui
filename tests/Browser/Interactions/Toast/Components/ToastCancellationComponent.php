@@ -4,7 +4,7 @@ namespace Tests\Browser\Interactions\Toast\Components;
 
 use Livewire\Attributes\On;
 use Livewire\Component;
-use TasteUi\Traits\Interactions;
+use TallStackUi\Traits\Interactions;
 
 class ToastCancellationComponent extends Component
 {

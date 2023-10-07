@@ -1,10 +1,10 @@
 <?php
 
-namespace TasteUi\View\Components;
+namespace TallStackUi\View\Components;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
-use TasteUi\Contracts\Customizable;
+use TallStackUi\Contracts\Customizable;
 
 class Hint extends Component implements Customizable
 {
@@ -17,17 +17,17 @@ class Hint extends Component implements Customizable
 
     public function render(): View
     {
-        return view('taste-ui::components.hint');
+        return view('tallstack-ui::components.hint');
     }
 
     public function customization(): array
     {
         return [
-            ...$this->tasteUiClasses(),
+            ...$this->tallStackUiClasses(),
         ];
     }
 
-    public function tasteUiClasses(): array
+    public function tallStackUiClasses(): array
     {
         return [
             'base' => 'mt-2 text-sm text-secondary-500',

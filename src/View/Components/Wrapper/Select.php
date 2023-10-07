@@ -1,11 +1,11 @@
 <?php
 
-namespace TasteUi\View\Components\Wrapper;
+namespace TallStackUi\View\Components\Wrapper;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
-use TasteUi\Contracts\Customizable;
+use TallStackUi\Contracts\Customizable;
 
 class Select extends Component implements Customizable
 {
@@ -23,17 +23,17 @@ class Select extends Component implements Customizable
 
     public function render(): View
     {
-        return view('taste-ui::components.wrapper.select');
+        return view('tallstack-ui::components.wrapper.select');
     }
 
     public function customization(): array
     {
         return [
-            ...$this->tasteUiClasses(),
+            ...$this->tallStackUiClasses(),
         ];
     }
 
-    public function tasteUiClasses(): array
+    public function tallStackUiClasses(): array
     {
         return Arr::dot([
             'wrapper' => 'relative mt-2',

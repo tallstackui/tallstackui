@@ -1,11 +1,11 @@
 <?php
 
-namespace TasteUi\View\Components\Interaction;
+namespace TallStackUi\View\Components\Interaction;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
-use TasteUi\Contracts\Customizable;
+use TallStackUi\Contracts\Customizable;
 
 class Dialog extends Component implements Customizable
 {
@@ -13,22 +13,22 @@ class Dialog extends Component implements Customizable
         public ?string $zIndex = null,
         public bool $blur = false,
     ) {
-        $this->zIndex ??= config('tasteui.personalizations.dialog.z-index');
+        $this->zIndex ??= config('tallstackui.personalizations.dialog.z-index');
     }
 
     public function render(): View
     {
-        return view('taste-ui::components.interactions.dialog');
+        return view('tallstack-ui::components.interactions.dialog');
     }
 
     public function customization(): array
     {
         return [
-            ...$this->tasteUiClasses(),
+            ...$this->tallStackUiClasses(),
         ];
     }
 
-    public function tasteUiClasses(): array
+    public function tallStackUiClasses(): array
     {
         return Arr::dot([
             'background' => 'fixed inset-0 bg-gray-400 bg-opacity-75 transition-opacity',

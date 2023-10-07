@@ -1,4 +1,4 @@
-@php($customize = tasteui_personalization('avatar', $customization()))
+@php($customize = tallstackui_personalization('avatar', $customization()))
 
 <div {{ $attributes->class($customize['wrapper']) }}>
     @if ($modelable)

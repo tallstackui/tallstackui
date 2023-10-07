@@ -1,10 +1,10 @@
 <?php
 
-namespace TasteUi\Actions;
+namespace TallStackUi\Actions;
 
 class Dialog extends AbstractInteraction
 {
-    protected string $event = 'tasteui:dialog';
+    protected string $event = 'tallstackui:dialog';
 
     public function success(string $title, string $description = null): AbstractInteraction
     {

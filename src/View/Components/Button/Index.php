@@ -1,12 +1,12 @@
 <?php
 
-namespace TasteUi\View\Components\Button;
+namespace TallStackUi\View\Components\Button;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
-use TasteUi\Contracts\Customizable;
-use TasteUi\View\Components\Button\Traits\DefaultButtonColorClasses;
+use TallStackUi\Contracts\Customizable;
+use TallStackUi\View\Components\Button\Traits\DefaultButtonColorClasses;
 
 class Index extends Component implements Customizable
 {
@@ -35,17 +35,17 @@ class Index extends Component implements Customizable
 
     public function render(): View
     {
-        return view('taste-ui::components.buttons.index');
+        return view('tallstack-ui::components.buttons.index');
     }
 
     public function customization(): array
     {
         return [
-            ...$this->tasteUiClasses(),
+            ...$this->tallStackUiClasses(),
         ];
     }
 
-    public function tasteUiClasses(): array
+    public function tallStackUiClasses(): array
     {
         return [
             'wrapper' => Arr::toCssClasses([
@@ -58,9 +58,9 @@ class Index extends Component implements Customizable
                 'text-base px-6 py-3' => $this->size === 'lg',
                 'rounded' => $this->square === null && $this->round === null,
                 'rounded-full' => $this->square === null && $this->round !== null,
-                $this->tasteUiButtonColorClasses(),
+                $this->tallStackUiButtonColorClasses(),
             ]),
-            'icon' => $this->tasteUiIconColorClasses(),
+            'icon' => $this->tallStackUiIconColorClasses(),
         ];
     }
 }

@@ -1,33 +1,33 @@
 <?php
 
-use TasteUi\Facades\TasteUi;
+use TallStackUi\Facades\TallStackUi;
 
 test('can mock `directives->scripts`', function () {
-    TasteUi::shouldReceive('directives->scripts')
+    TallStackUi::shouldReceive('directives->scripts')
         ->andReturn('foo-bar');
 
-    $script = TasteUi::directives()->scripts();
+    $script = TallStackUi::directives()->scripts();
 
     expect($script)->toBe('foo-bar');
 });
 
 test('can mock `directives->styles`', function () {
-    TasteUi::shouldReceive('directives->styles')
+    TallStackUi::shouldReceive('directives->styles')
         ->andReturn('foo-bar');
 
-    $styles = TasteUi::directives()->styles();
+    $styles = TallStackUi::directives()->styles();
 
     expect($styles)->toBe('foo-bar');
 });
 
 test('can render script', function () {
-    $script = TasteUi::directives()->scripts();
+    $script = TallStackUi::directives()->scripts();
 
-    expect(str_contains($script, 'http://localhost/tasteui/scripts'))->toBeTrue();
+    expect(str_contains($script, 'http://localhost/tallstackui/scripts'))->toBeTrue();
 });
 
 test('can render styles', function () {
-    $styles = TasteUi::directives()->styles();
+    $styles = TallStackUi::directives()->styles();
 
-    expect(str_contains($styles, 'http://localhost/tasteui/styles'))->toBeTrue();
+    expect(str_contains($styles, 'http://localhost/tallstackui/styles'))->toBeTrue();
 });

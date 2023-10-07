@@ -1,6 +1,6 @@
 <?php
 
-namespace TasteUi\View\Components\Avatar;
+namespace TallStackUi\View\Components\Avatar;
 
 use Exception;
 use Illuminate\Database\Eloquent\Model;

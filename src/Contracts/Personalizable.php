@@ -1,6 +1,6 @@
 <?php
 
-namespace TasteUi\Contracts;
+namespace TallStackUi\Contracts;
 
 interface Personalizable
 {

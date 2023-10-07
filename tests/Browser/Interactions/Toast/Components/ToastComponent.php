@@ -3,7 +3,7 @@
 namespace Tests\Browser\Interactions\Toast\Components;
 
 use Livewire\Component;
-use TasteUi\Traits\Interactions;
+use TallStackUi\Traits\Interactions;
 
 class ToastComponent extends Component
 {

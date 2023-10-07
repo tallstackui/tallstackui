@@ -1,6 +1,6 @@
 <?php
 
-namespace TasteUi\Actions;
+namespace TallStackUi\Actions;
 
 use InvalidArgumentException;
 use Livewire\Component;
@@ -32,8 +32,8 @@ abstract class AbstractInteraction
         );
 
         $this->time ??= 3;
-        $options['confirm']['text'] ??= __('taste-ui::messages.toast.button.confirm');
-        $options['cancel']['text'] ??= __('taste-ui::messages.toast.button.cancel');
+        $options['confirm']['text'] ??= __('tallstack-ui::messages.toast.button.confirm');
+        $options['cancel']['text'] ??= __('tallstack-ui::messages.toast.button.cancel');
 
         $default = [
             'type' => 'question',

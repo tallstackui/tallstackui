@@ -1,11 +1,11 @@
 <?php
 
-namespace TasteUi;
+namespace TallStackUi;
 
-use TasteUi\Support\Elements\Color;
-use TasteUi\Support\Personalization;
+use TallStackUi\Support\Elements\Color;
+use TallStackUi\Support\Personalization;
 
-class TasteUi
+class TallStackUi
 {
     public function personalize(string $component = null): Personalization
     {
@@ -17,8 +17,8 @@ class TasteUi
         return new Color();
     }
 
-    public function directives(): TasteUiDirectives
+    public function directives(): TallStackUiDirectives
     {
-        return new TasteUiDirectives();
+        return new TallStackUiDirectives();
     }
 }

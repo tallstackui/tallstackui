@@ -3,23 +3,24 @@
     $directive = array_key_first($computed->getAttributes());
     $property  = $computed[$directive];
     $error     = $errors->has($property);
-    $customize = tasteui_personalization('select.styled', $customization());
+    $customize = tallstackui_personalization('select.styled', $customization());
 @endphp
 
 <x-wrapper.select :$label :$error :$computed :$hint :$after :$before>
     @if (!str($directive)->contains('.live'))
         <x-slot:alpine>
-            tasteui_selectStyled(@entangle($property), @js($searchable), @js($multiple), @js($selectable !== []), @js($selectable), @js($options), @js($placeholder))
+            tallstackui_selectStyled(@entangle($property), @js($searchable), @js($multiple), @js($selectable !== []), @js($selectable), @js($options), @js($placeholder))
         </x-slot:alpine>
     @else
         <x-slot:alpine>
-            tasteui_selectStyled(@entangle($property).live, @js($searchable), @js($multiple), @js($selectable !== []), @js($selectable), @js($options), @js($placeholder))
+            tallstackui_selectStyled(@entangle($property).live, @js($searchable), @js($multiple), @js($selectable !== []), @js($selectable), @js($options), @js($placeholder))
         </x-slot:alpine>
     @endif
     <x-slot:header>
         <div class="flex gap-2">
             <template x-if="(!multiple && !empty) || quantity === 0">
-                <span @class(['truncate', 'text-red-500' => $error]) x-bind:class="{ 'text-gray-400': empty, 'text-gray-600': !empty }" x-text="placeholder"></span>
+                <span @class(['truncate', 'text-red-500' => $error]) x-bind:class="{ 'text-gray-400': empty, 'text-gray-600': !empty }"
+                      x-text="placeholder"></span>
             </template>
             <template x-if="multiple && quantity > 0">
                 <span x-text="quantity"></span>

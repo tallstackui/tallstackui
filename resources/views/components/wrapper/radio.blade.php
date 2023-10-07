@@ -1,9 +1,9 @@
-@php($customize = tasteui_personalization('wrapper.radio', $customization()))
+@php($customize = tallstackui_personalization('wrapper.radio', $customization()))
 
 <div>
     <div @class($customize['wrapper'])>
         @if ($label && $position === 'left')
-        <span @class([$customize['label.span'], 'mr-1'])>
+            <span @class([$customize['label.span'], 'mr-1'])>
             <p @class([$customize['label.base.normal'], $customize['label.base.error'] => $error])>{{ $label }}</p>
         </span>
         @endif
@@ -11,10 +11,10 @@
             {!! $slot !!}
         </label>
         @if ($label && $position === 'right')
-        <span @class([$customize['label.span'], 'ml-1'])>
+            <span @class([$customize['label.span'], 'ml-1'])>
             <p @class([$customize['label.base.normal'], $customize['label.base.error'] => $error])>{{ $label }}</p>
         </span>
         @endif
     </div>
-    <x-error :$computed :$error />
+    <x-error :$computed :$error/>
 </div>

@@ -1,5 +1,5 @@
 <!--
-Thank you for your interest in contributing to TasteUi.
+Thank you for your interest in contributing to TallStackUi.
 Please, fill in the form below correctly. This will help us to understand your PR.
 -->
 

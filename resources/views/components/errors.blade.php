@@ -1,4 +1,4 @@
-@php($customize = tasteui_personalization('errors', $customization()))
+@php($customize = tallstackui_personalization('errors', $customization()))
 
 @if ($errors->count())
     <div @class($customize['base.wrapper.first'])>

@@ -1,9 +1,9 @@
 <?php
 
-namespace TasteUi\Support\Personalizations\Contracts;
+namespace TallStackUi\Support\Personalizations\Contracts;
 
 use Closure;
-use TasteUi\Contracts\Personalizable as PersonalizableClass;
+use TallStackUi\Contracts\Personalizable as PersonalizableClass;
 
 interface Personalizable
 {

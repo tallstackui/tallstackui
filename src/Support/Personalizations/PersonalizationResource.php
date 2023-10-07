@@ -1,6 +1,6 @@
 <?php
 
-namespace TasteUi\Support\Personalizations;
+namespace TallStackUi\Support\Personalizations;
 
 use Closure;
 use Illuminate\Support\Collection;
@@ -8,8 +8,8 @@ use Illuminate\Support\Facades\View as FacadeView;
 use Illuminate\View\View;
 use InvalidArgumentException;
 use RuntimeException;
-use TasteUi\Contracts\Personalizable as PersonalizableClass;
-use TasteUi\Support\Personalization;
+use TallStackUi\Contracts\Personalizable as PersonalizableClass;
+use TallStackUi\Support\Personalization;
 
 /** @property-read Personalization $and */
 abstract class PersonalizationResource
@@ -70,7 +70,7 @@ abstract class PersonalizationResource
 
     protected function blocks(): array
     {
-        return array_keys(app($this->component(), ['ignoreValidations' => true])->tasteUiClasses());
+        return array_keys(app($this->component(), ['ignoreValidations' => true])->tallStackUiClasses());
     }
 
     protected function set(string $block, string $content): void
@@ -83,7 +83,7 @@ abstract class PersonalizationResource
     private function factory(string $block, string|Closure|PersonalizableClass $code): void
     {
         if (! in_array($block, array_values($blocks = $this->blocks()))) {
-            $component = str_replace('taste-ui::personalizations.', '', $this->view);
+            $component = str_replace('tallstack-ui::personalizations.', '', $this->view);
 
             throw new InvalidArgumentException("Component [$component] does not have the block [$block] to be personalized. Alloweds: ".implode(', ', $blocks));
         }
