@@ -1,10 +1,10 @@
 <?php
 
-namespace TasteUi\Traits;
+namespace TallStackUi\Traits;
 
 use Livewire\Component;
-use TasteUi\Actions\Dialog;
-use TasteUi\Actions\Toast;
+use TallStackUi\Actions\Dialog;
+use TallStackUi\Actions\Toast;
 
 trait Interactions
 {

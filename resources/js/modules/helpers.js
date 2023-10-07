@@ -3,7 +3,7 @@
  * @return {void}
  */
 export const warning = (message) => {
-  console.warn(`[TasteUi] ${message}`);
+  console.warn(`[TallStackUi] ${message}`);
 };
 
 /**
@@ -11,7 +11,7 @@ export const warning = (message) => {
  * @return {void}
  */
 export const error = (message) => {
-  console.error(`[TasteUi] ${message}`);
+  console.error(`[TallStackUi] ${message}`);
 };
 
 /**
@@ -19,7 +19,7 @@ export const error = (message) => {
  * @param params {Array|Object}
  */
 export const dispatchEvent = (name, params = null) => {
-  const event = `tasteui:${name}`;
+  const event = `tallstackui:${name}`;
 
   window.dispatchEvent(new CustomEvent(event, {detail: params}));
 };

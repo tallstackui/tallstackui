@@ -1,71 +1,71 @@
 <?php
 
-namespace TasteUi\Support;
+namespace TallStackUi\Support;
 
 use Closure;
 use InvalidArgumentException;
-use TasteUi\Contracts\Personalizable as PersonalizableClass;
-use TasteUi\Support\Personalizations\Components\Alert;
-use TasteUi\Support\Personalizations\Components\Avatar;
-use TasteUi\Support\Personalizations\Components\Badge;
-use TasteUi\Support\Personalizations\Components\Button\Circle as ButtonCircle;
-use TasteUi\Support\Personalizations\Components\Button\Index as Button;
-use TasteUi\Support\Personalizations\Components\Card;
-use TasteUi\Support\Personalizations\Components\Error;
-use TasteUi\Support\Personalizations\Components\Errors;
-use TasteUi\Support\Personalizations\Components\Form\Checkbox;
-use TasteUi\Support\Personalizations\Components\Form\Input;
-use TasteUi\Support\Personalizations\Components\Form\Label;
-use TasteUi\Support\Personalizations\Components\Form\Password;
-use TasteUi\Support\Personalizations\Components\Form\Radio;
-use TasteUi\Support\Personalizations\Components\Form\Textarea;
-use TasteUi\Support\Personalizations\Components\Form\Toggle;
-use TasteUi\Support\Personalizations\Components\Hint;
-use TasteUi\Support\Personalizations\Components\Interactions\Dialog;
-use TasteUi\Support\Personalizations\Components\Interactions\Toast;
-use TasteUi\Support\Personalizations\Components\Modal;
-use TasteUi\Support\Personalizations\Components\Select\Searchable as SelectSearchable;
-use TasteUi\Support\Personalizations\Components\Select\Select;
-use TasteUi\Support\Personalizations\Components\Select\Styled as SelectStyled;
-use TasteUi\Support\Personalizations\Components\Tabs\Index as TabsWrapper;
-use TasteUi\Support\Personalizations\Components\Tabs\Items as TabsItems;
-use TasteUi\Support\Personalizations\Components\Tooltip;
-use TasteUi\Support\Personalizations\Components\Wrapper\Input as InputWrapper;
-use TasteUi\Support\Personalizations\Components\Wrapper\Radio as RadioWrapper;
-use TasteUi\Support\Personalizations\Components\Wrapper\Select as SelectWrapper;
-use TasteUi\Support\Personalizations\Contracts\Personalizable as PersonalizableContract;
+use TallStackUi\Contracts\Personalizable as PersonalizableClass;
+use TallStackUi\Support\Personalizations\Components\Alert;
+use TallStackUi\Support\Personalizations\Components\Avatar;
+use TallStackUi\Support\Personalizations\Components\Badge;
+use TallStackUi\Support\Personalizations\Components\Button\Circle as ButtonCircle;
+use TallStackUi\Support\Personalizations\Components\Button\Index as Button;
+use TallStackUi\Support\Personalizations\Components\Card;
+use TallStackUi\Support\Personalizations\Components\Error;
+use TallStackUi\Support\Personalizations\Components\Errors;
+use TallStackUi\Support\Personalizations\Components\Form\Checkbox;
+use TallStackUi\Support\Personalizations\Components\Form\Input;
+use TallStackUi\Support\Personalizations\Components\Form\Label;
+use TallStackUi\Support\Personalizations\Components\Form\Password;
+use TallStackUi\Support\Personalizations\Components\Form\Radio;
+use TallStackUi\Support\Personalizations\Components\Form\Textarea;
+use TallStackUi\Support\Personalizations\Components\Form\Toggle;
+use TallStackUi\Support\Personalizations\Components\Hint;
+use TallStackUi\Support\Personalizations\Components\Interactions\Dialog;
+use TallStackUi\Support\Personalizations\Components\Interactions\Toast;
+use TallStackUi\Support\Personalizations\Components\Modal;
+use TallStackUi\Support\Personalizations\Components\Select\Searchable as SelectSearchable;
+use TallStackUi\Support\Personalizations\Components\Select\Select;
+use TallStackUi\Support\Personalizations\Components\Select\Styled as SelectStyled;
+use TallStackUi\Support\Personalizations\Components\Tabs\Index as TabsWrapper;
+use TallStackUi\Support\Personalizations\Components\Tabs\Items as TabsItems;
+use TallStackUi\Support\Personalizations\Components\Tooltip;
+use TallStackUi\Support\Personalizations\Components\Wrapper\Input as InputWrapper;
+use TallStackUi\Support\Personalizations\Components\Wrapper\Radio as RadioWrapper;
+use TallStackUi\Support\Personalizations\Components\Wrapper\Select as SelectWrapper;
+use TallStackUi\Support\Personalizations\Contracts\Personalizable as PersonalizableContract;
 
 class Personalization
 {
     public const PERSONALIZABLES = [
-        'taste-ui::personalizations.alert' => Alert::class,
-        'taste-ui::personalizations.avatar' => Avatar::class,
-        'taste-ui::personalizations.badge' => Badge::class,
-        'taste-ui::personalizations.button' => Button::class,
-        'taste-ui::personalizations.button.circle' => ButtonCircle::class,
-        'taste-ui::personalizations.card' => Card::class,
-        'taste-ui::personalizations.dialog' => Dialog::class,
-        'taste-ui::personalizations.error' => Error::class,
-        'taste-ui::personalizations.errors' => Errors::class,
-        'taste-ui::personalizations.form.input' => Input::class,
-        'taste-ui::personalizations.form.label' => Label::class,
-        'taste-ui::personalizations.form.password' => Password::class,
-        'taste-ui::personalizations.form.checkbox' => Checkbox::class,
-        'taste-ui::personalizations.form.radio' => Radio::class,
-        'taste-ui::personalizations.form.textarea' => Textarea::class,
-        'taste-ui::personalizations.form.toggle' => Toggle::class,
-        'taste-ui::personalizations.hint' => Hint::class,
-        'taste-ui::personalizations.modal' => Modal::class,
-        'taste-ui::personalizations.select' => Select::class,
-        'taste-ui::personalizations.select.searchable' => SelectSearchable::class,
-        'taste-ui::personalizations.select.styled' => SelectStyled::class,
-        'taste-ui::personalizations.tabs' => TabsWrapper::class,
-        'taste-ui::personalizations.tabs.items' => TabsItems::class,
-        'taste-ui::personalizations.toast' => Toast::class,
-        'taste-ui::personalizations.tooltip' => Tooltip::class,
-        'taste-ui::personalizations.wrapper.input' => InputWrapper::class,
-        'taste-ui::personalizations.wrapper.radio' => RadioWrapper::class,
-        'taste-ui::personalizations.wrapper.select' => SelectWrapper::class,
+        'tallstack-ui::personalizations.alert' => Alert::class,
+        'tallstack-ui::personalizations.avatar' => Avatar::class,
+        'tallstack-ui::personalizations.badge' => Badge::class,
+        'tallstack-ui::personalizations.button' => Button::class,
+        'tallstack-ui::personalizations.button.circle' => ButtonCircle::class,
+        'tallstack-ui::personalizations.card' => Card::class,
+        'tallstack-ui::personalizations.dialog' => Dialog::class,
+        'tallstack-ui::personalizations.error' => Error::class,
+        'tallstack-ui::personalizations.errors' => Errors::class,
+        'tallstack-ui::personalizations.form.input' => Input::class,
+        'tallstack-ui::personalizations.form.label' => Label::class,
+        'tallstack-ui::personalizations.form.password' => Password::class,
+        'tallstack-ui::personalizations.form.checkbox' => Checkbox::class,
+        'tallstack-ui::personalizations.form.radio' => Radio::class,
+        'tallstack-ui::personalizations.form.textarea' => Textarea::class,
+        'tallstack-ui::personalizations.form.toggle' => Toggle::class,
+        'tallstack-ui::personalizations.hint' => Hint::class,
+        'tallstack-ui::personalizations.modal' => Modal::class,
+        'tallstack-ui::personalizations.select' => Select::class,
+        'tallstack-ui::personalizations.select.searchable' => SelectSearchable::class,
+        'tallstack-ui::personalizations.select.styled' => SelectStyled::class,
+        'tallstack-ui::personalizations.tabs' => TabsWrapper::class,
+        'tallstack-ui::personalizations.tabs.items' => TabsItems::class,
+        'tallstack-ui::personalizations.toast' => Toast::class,
+        'tallstack-ui::personalizations.tooltip' => Tooltip::class,
+        'tallstack-ui::personalizations.wrapper.input' => InputWrapper::class,
+        'tallstack-ui::personalizations.wrapper.radio' => RadioWrapper::class,
+        'tallstack-ui::personalizations.wrapper.select' => SelectWrapper::class,
     ];
 
     public function __construct(
@@ -85,8 +85,8 @@ class Personalization
             throw new InvalidArgumentException('No component has been set');
         }
 
-        if (str_contains($this->component, 'taste-ui::personalizations')) {
-            $this->component = str_replace('taste-ui::personalizations.', '', $this->component);
+        if (str_contains($this->component, 'tallstack-ui::personalizations')) {
+            $this->component = str_replace('tallstack-ui::personalizations.', '', $this->component);
         }
 
         $parts = explode('.', $this->component);

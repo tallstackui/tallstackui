@@ -1,11 +1,11 @@
 <?php
 
-namespace TasteUi\View\Components\Tabs;
+namespace TallStackUi\View\Components\Tabs;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
-use TasteUi\Contracts\Customizable;
+use TallStackUi\Contracts\Customizable;
 
 class Index extends Component implements Customizable
 {
@@ -14,22 +14,22 @@ class Index extends Component implements Customizable
         public ?string $selected = null,
         private bool $square = false,
     ) {
-        $this->square = config('tasteui.personalizations.tabs.square');
+        $this->square = config('tallstackui.personalizations.tabs.square');
     }
 
     public function render(): View
     {
-        return view('taste-ui::components.tabs.index');
+        return view('tallstack-ui::components.tabs.index');
     }
 
     public function customization(): array
     {
         return [
-            ...$this->tasteUiClasses(),
+            ...$this->tallStackUiClasses(),
         ];
     }
 
-    public function tasteUiClasses(): array
+    public function tallStackUiClasses(): array
     {
         return Arr::dot([
             'wrapper' => '-mb-px flex items-stretch overflow-auto',

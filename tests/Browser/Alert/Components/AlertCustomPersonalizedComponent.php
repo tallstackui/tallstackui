@@ -3,8 +3,8 @@
 namespace Tests\Browser\Alert\Components;
 
 use Livewire\Component;
-use TasteUi\Contracts\Personalizable;
-use TasteUi\Facades\TasteUi;
+use TallStackUi\Contracts\Personalizable;
+use TallStackUi\Facades\TallStackUi;
 
 class Personalize implements Personalizable
 {
@@ -18,7 +18,7 @@ class AlertCustomPersonalizedComponent extends Component
 {
     public function render(): string
     {
-        TasteUi::personalize('alert')
+        TallStackUi::personalize('alert')
             ->block('base', new Personalize());
 
         return <<<'HTML'

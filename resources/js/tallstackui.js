@@ -9,13 +9,13 @@ import darkTheme from './modules/helpers/dark-theme';
 
 document.addEventListener('alpine:init', () => {
   window.Alpine.plugin(tooltip);
-  window.Alpine.data('tasteui_selectStyled', selectStyled);
-  window.Alpine.data('tasteui_selectSearchable', selectSearchable);
-  window.Alpine.data('tasteui_toastBase', toastBase);
-  window.Alpine.data('tasteui_toastLoop', toastLoop);
-  window.Alpine.data('tasteui_dialog', dialog);
-  window.Alpine.data('tasteui_tabs', tabs);
-  window.Alpine.data('tasteui_darkTheme', darkTheme);
+  window.Alpine.data('tallstackui_selectStyled', selectStyled);
+  window.Alpine.data('tallstackui_selectSearchable', selectSearchable);
+  window.Alpine.data('tallstackui_toastBase', toastBase);
+  window.Alpine.data('tallstackui_toastLoop', toastLoop);
+  window.Alpine.data('tallstackui_dialog', dialog);
+  window.Alpine.data('tallstackui_tabs', tabs);
+  window.Alpine.data('tallstackui_darkTheme', darkTheme);
 });
 
 window.$modalOpen = (name) => window.dispatchEvent(new Event(`modal:${name}-open`));

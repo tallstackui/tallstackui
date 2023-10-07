@@ -1,13 +1,13 @@
 <?php
 
-namespace TasteUi\View\Components\Select;
+namespace TallStackUi\View\Components\Select;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Collection;
 use Illuminate\View\Component;
 use InvalidArgumentException;
-use TasteUi\Contracts\Customizable;
-use TasteUi\View\Components\Select\Traits\InteractsWithSelectOptions;
+use TallStackUi\Contracts\Customizable;
+use TallStackUi\View\Components\Select\Traits\InteractsWithSelectOptions;
 
 class Styled extends Component implements Customizable
 {
@@ -33,19 +33,19 @@ class Styled extends Component implements Customizable
 
     public function render(): View
     {
-        return view('taste-ui::components.select.styled', [
-            'placeholder' => __('taste-ui::messages.select.placeholder'),
+        return view('tallstack-ui::components.select.styled', [
+            'placeholder' => __('tallstack-ui::messages.select.placeholder'),
         ]);
     }
 
     public function customization(): array
     {
         return [
-            ...$this->tasteUiClasses(),
+            ...$this->tallStackUiClasses(),
         ];
     }
 
-    public function tasteUiClasses(): array
+    public function tallStackUiClasses(): array
     {
         return [
             'multiple' => 'inline-flex items-center rounded-lg bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10 space-x-1',

@@ -1,22 +1,22 @@
 <?php
 
-use TasteUi\Facades\TasteUi;
-use TasteUi\Support\Personalization;
-use TasteUi\Support\Personalizations\Contracts\Personalizable;
-use TasteUi\Support\Personalizations\PersonalizationResource;
+use TallStackUi\Facades\TallStackUi;
+use TallStackUi\Support\Personalization;
+use TallStackUi\Support\Personalizations\Contracts\Personalizable;
+use TallStackUi\Support\Personalizations\PersonalizationResource;
 
 it('can be instantiated', function () {
-    expect(TasteUi::personalize())->toBeInstanceOf(Personalization::class);
+    expect(TallStackUi::personalize())->toBeInstanceOf(Personalization::class);
 });
 
 it('can be instantiated with a component', function () {
-    expect(TasteUi::personalize('alert')
+    expect(TallStackUi::personalize('alert')
         ->block(['base' => fn () => 'string']))
         ->toBeInstanceOf(Personalizable::class);
 });
 
 it('can instantiate all components', function (string $component) {
-    expect(TasteUi::personalize($component)->instance())->toBeInstanceOf(Personalizable::class);
+    expect(TallStackUi::personalize($component)->instance())->toBeInstanceOf(Personalizable::class);
 })->with('personalizations.keys');
 
 it('can instanciate all components extends of resource', function (string $component) {
@@ -28,7 +28,7 @@ it('can personalize using facade and string', function () {
         ->assertSee('Foo bar')
         ->assertSee('bg-primary-300');
 
-    TasteUi::personalize('alert')
+    TallStackUi::personalize('alert')
         ->block('base', 'rounded-md p-4');
 
     $this->blade('<x-alert title="Foo bar" />')
@@ -41,7 +41,7 @@ it('can personalize using method and string', function () {
         ->assertSee('Foo bar')
         ->assertSee('bg-primary-300');
 
-    TasteUi::personalize()
+    TallStackUi::personalize()
         ->alert()
         ->block('base', 'rounded-md p-4');
 
@@ -55,7 +55,7 @@ it('can personalize using method and closure', function () {
         ->assertSee('Foo bar')
         ->assertSee('bg-primary-300');
 
-    TasteUi::personalize()
+    TallStackUi::personalize()
         ->alert()
         ->block('base', fn () => 'rounded-md p-4');
 
@@ -69,7 +69,7 @@ it('can personalize using method and array', function () {
         ->assertSee('Foo bar')
         ->assertSee('bg-primary-300');
 
-    TasteUi::personalize()
+    TallStackUi::personalize()
         ->alert()
         ->block([
             'base' => 'rounded-md p-4',
@@ -88,7 +88,7 @@ it('can personalize in sequenece', function () {
     $this->blade('<x-avatar label="Lorem" md />')
         ->assertSee('w-12 h-12');
 
-    TasteUi::personalize()
+    TallStackUi::personalize()
         ->alert()
         ->block('base', 'rounded-md p-4')
         ->and()
@@ -107,7 +107,7 @@ it('can personalize in sequenece', function () {
 it('cannot personalize wrong component', function () {
     $this->expectException(InvalidArgumentException::class);
 
-    TasteUi::personalize()
+    TallStackUi::personalize()
         ->form('input2')
         ->block('base2', 'rounded-md p-4');
 });
@@ -115,7 +115,7 @@ it('cannot personalize wrong component', function () {
 it('cannot personalize wrong block', function () {
     $this->expectException(InvalidArgumentException::class);
 
-    TasteUi::personalize()
+    TallStackUi::personalize()
         ->alert()
         ->block('base2', 'rounded-md p-4');
 });

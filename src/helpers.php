@@ -1,12 +1,12 @@
 <?php
 
 use Illuminate\Support\Arr;
-use TasteUi\Facades\TasteUi;
+use TallStackUi\Facades\TallStackUi;
 
-if (! function_exists('tasteui_personalization')) {
-    function tasteui_personalization(string $personalization, array $customization): array
+if (! function_exists('tallstackui_personalization')) {
+    function tallstackui_personalization(string $personalization, array $customization): array
     {
-        $personalization = TasteUi::personalize($personalization)
+        $personalization = TallStackUi::personalize($personalization)
             ->instance()
             ->toArray();
 

@@ -1,5 +1,5 @@
 {
-    "name": "tasteui/tasteui",
+    "name": "tallstackui/tallstackui",
     "description": "A curated list of TallStack UI Components",
     "type": "library",
     "license": "MIT",
@@ -11,7 +11,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "TasteUi\\": "src/"
+            "TallStackUi\\": "src/"
         },
         "files": [
             "src/helpers.php"
@@ -58,7 +58,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "TasteUi\\TasteUiServiceProvider"
+                "TallStackUi\\TallStackUiServiceProvider"
             ],
             "aliases": []
         }

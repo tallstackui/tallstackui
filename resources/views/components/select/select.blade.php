@@ -1,12 +1,12 @@
 @php
     $computed  = $attributes->whereStartsWith('wire:model')->first();
     $error     = $errors->has($computed);
-    $customize = tasteui_personalization('select', $customization())
+    $customize = tallstackui_personalization('select', $customization())
 @endphp
 
 <div>
     @if ($label)
-        <x-label :$label :$error />
+        <x-label :$label :$error/>
     @endif
     <select @if ($id) id="{{ $id }}" @endif {{ $attributes->class([$customize['base'], $customize['error'] => $error]) }}>
         @forelse ($options as $option)
@@ -16,7 +16,7 @@
         @endforelse
     </select>
     @if ($hint && !$error)
-        <x-hint :$hint />
+        <x-hint :$hint/>
     @endif
-    <x-error :$computed :$error />
+    <x-error :$computed :$error/>
 </div>

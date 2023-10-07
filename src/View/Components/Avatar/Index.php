@@ -1,12 +1,12 @@
 <?php
 
-namespace TasteUi\View\Components\Avatar;
+namespace TallStackUi\View\Components\Avatar;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
-use TasteUi\Contracts\Customizable;
-use TasteUi\Facades\TasteUi;
+use TallStackUi\Contracts\Customizable;
+use TallStackUi\Facades\TallStackUi;
 
 class Index extends Component implements Customizable
 {
@@ -25,17 +25,17 @@ class Index extends Component implements Customizable
 
     public function render(): View
     {
-        return view('taste-ui::components.avatar');
+        return view('tallstack-ui::components.avatar');
     }
 
     public function customization(): array
     {
         return [
-            ...$this->tasteUiClasses(),
+            ...$this->tallStackUiClasses(),
         ];
     }
 
-    public function tasteUiClasses(): array
+    public function tallStackUiClasses(): array
     {
         return [
             'wrapper' => Arr::toCssClasses([
@@ -45,7 +45,7 @@ class Index extends Component implements Customizable
                 'w-14 h-14 text-2xl' => $this->size === 'lg',
                 'rounded-full' => ! $this->square,
                 'border-2' => ! $this->modelable,
-                TasteUi::colors()
+                TallStackUi::colors()
                     ->set('bg', $this->color, 500)
                     ->merge('border', $this->color, 500)
                     ->get() => ! $this->modelable,

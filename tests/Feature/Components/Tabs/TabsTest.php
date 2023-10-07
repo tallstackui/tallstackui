@@ -35,7 +35,7 @@ HTML;
 });
 
 it('can render squared', function () {
-    config()->set('tasteui.personalizations.tabs.square', true);
+    config()->set('tallstackui.personalizations.tabs.square', true);
 
     $component = <<<'HTML'
     <x-tabs :options="['Foo', 'Bar']" selected="Foo">

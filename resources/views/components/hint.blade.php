@@ -1,6 +1,6 @@
 @props(['hint' => null])
 
-@php($customize = tasteui_personalization('hint', $customization()))
+@php($customize = tallstackui_personalization('hint', $customization()))
 
 <span @class($customize['base'])>
     {{ $hint }}

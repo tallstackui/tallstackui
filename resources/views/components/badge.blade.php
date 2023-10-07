@@ -1,4 +1,4 @@
-@php($customize = tasteui_personalization('badge', $customization()))
+@php($customize = tallstackui_personalization('badge', $customization()))
 
 <span {{ $attributes->class($customize['base']) }}>
     @if ($icon && $position == 'left')

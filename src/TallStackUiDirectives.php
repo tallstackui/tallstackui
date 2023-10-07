@@ -1,21 +1,21 @@
 <?php
 
-namespace TasteUi;
+namespace TallStackUi;
 
-class TasteUiDirectives
+class TallStackUiDirectives
 {
     public function scripts(bool $absolute = true): string
     {
-        $route = route('tasteui.scripts', absolute: $absolute);
-        $this->manifest('tasteui.js', $route);
+        $route = route('tallstackui.scripts', absolute: $absolute);
+        $this->manifest('tallstackui.js', $route);
 
         return "<script src=\"$route\" defer></script>";
     }
 
     public function styles(bool $absolute = true): string
     {
-        $route = route('tasteui.styles', absolute: $absolute);
-        $this->manifest('tasteui.css', $route);
+        $route = route('tallstackui.styles', absolute: $absolute);
+        $this->manifest('tallstackui.css', $route);
 
         return "<link href=\"{$route}\" rel=\"stylesheet\" type=\"text/css\">";
     }

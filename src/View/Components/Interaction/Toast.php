@@ -1,12 +1,12 @@
 <?php
 
-namespace TasteUi\View\Components\Interaction;
+namespace TallStackUi\View\Components\Interaction;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
 use InvalidArgumentException;
-use TasteUi\Contracts\Customizable;
+use TallStackUi\Contracts\Customizable;
 
 class Toast extends Component implements Customizable
 {
@@ -14,8 +14,8 @@ class Toast extends Component implements Customizable
         public ?string $zIndex = null,
         public ?string $position = null,
     ) {
-        $this->zIndex ??= config('tasteui.personalizations.toast.z-index');
-        $this->position ??= config('tasteui.personalizations.toast.position');
+        $this->zIndex ??= config('tallstackui.personalizations.toast.z-index');
+        $this->position ??= config('tallstackui.personalizations.toast.position');
 
         if (! in_array($this->position, ['top-right', 'top-left', 'bottom-right', 'bottom-left'])) {
             throw new InvalidArgumentException("The position must be one of the following: ['top-right', 'top-left', 'bottom-right', 'bottom-left']");
@@ -24,17 +24,17 @@ class Toast extends Component implements Customizable
 
     public function render(): View
     {
-        return view('taste-ui::components.interactions.toast');
+        return view('tallstack-ui::components.interactions.toast');
     }
 
     public function customization(): array
     {
         return [
-            ...$this->tasteUiClasses(),
+            ...$this->tallStackUiClasses(),
         ];
     }
 
-    public function tasteUiClasses(): array
+    public function tallStackUiClasses(): array
     {
         return Arr::dot([
             'wrapper' => [

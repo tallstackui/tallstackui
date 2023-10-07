@@ -1,12 +1,12 @@
 <?php
 
-namespace TasteUi\View\Components;
+namespace TallStackUi\View\Components;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
-use TasteUi\Contracts\Customizable;
-use TasteUi\Facades\TasteUi;
+use TallStackUi\Contracts\Customizable;
+use TallStackUi\Facades\TallStackUi;
 
 class Badge extends Component implements Customizable
 {
@@ -30,17 +30,17 @@ class Badge extends Component implements Customizable
 
     public function render(): View
     {
-        return view('taste-ui::components.badge');
+        return view('tallstack-ui::components.badge');
     }
 
     public function customization(): array
     {
         return [
-            ...$this->tasteUiClasses(),
+            ...$this->tallStackUiClasses(),
         ];
     }
 
-    public function tasteUiClasses(): array
+    public function tallStackUiClasses(): array
     {
         return [
             'base' => Arr::toCssClasses([
@@ -50,11 +50,11 @@ class Badge extends Component implements Customizable
                 'text-md' => $this->size === 'lg',
                 'text-white' => $this->style === 'solid',
                 'rounded-md' => $this->square === null,
-                TasteUi::colors()
+                TallStackUi::colors()
                     ->set('border', $this->color, 500)
                     ->mergeWhen($this->style === 'solid', 'bg', $this->color, 500)
                     ->get(),
-                TasteUi::colors()
+                TallStackUi::colors()
                     ->set('text', $this->color, 500)
                     ->get() => $this->style === 'outline',
             ]),
@@ -63,7 +63,7 @@ class Badge extends Component implements Customizable
                 'mr-1' => $this->position === 'left',
                 'ml-1' => $this->position === 'right',
                 'text-white' => $this->style === 'solid',
-                TasteUi::colors()
+                TallStackUi::colors()
                     ->set('text', $this->color, 500)
                     ->get() => $this->style === 'outline',
             ]),

@@ -1,12 +1,12 @@
 <?php
 
-namespace TasteUi\View\Components\Form;
+namespace TallStackUi\View\Components\Form;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
-use TasteUi\Contracts\Customizable;
-use TasteUi\View\Components\Form\Traits\DefaultInputClasses;
+use TallStackUi\Contracts\Customizable;
+use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
 
 class Password extends Component implements Customizable
 {
@@ -24,20 +24,20 @@ class Password extends Component implements Customizable
 
     public function render(): View
     {
-        return view('taste-ui::components.form.password');
+        return view('tallstack-ui::components.form.password');
     }
 
     public function customization(): array
     {
         return [
-            ...$this->tasteUiClasses(),
+            ...$this->tallStackUiClasses(),
         ];
     }
 
-    public function tasteUiClasses(): array
+    public function tallStackUiClasses(): array
     {
         return Arr::dot([
-            'base' => $this->tasteUiInputClasses(),
+            'base' => $this->tallStackUiInputClasses(),
             'icon' => [
                 'wrapper' => 'absolute inset-y-0 right-0 flex items-center pr-2.5',
                 'class' => 'h-5 w-5 text-gray-400',

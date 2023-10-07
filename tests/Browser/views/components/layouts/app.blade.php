@@ -1,13 +1,13 @@
 <html>
 <head>
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    @tasteUiStyles
+    @tallStackUiStyles
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
     <x-dialog />
     <x-toast />
     {!! $slot !!}
-    @tasteUiScripts
+    @tallStackUiScripts
 </body>
 </html>

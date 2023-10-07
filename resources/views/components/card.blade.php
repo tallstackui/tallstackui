@@ -1,4 +1,4 @@
-@php($customize = tasteui_personalization('card', $customization()))
+@php($customize = tallstackui_personalization('card', $customization()))
 
 <div @class($customize['wrapper.first'])>
     <div @class($customize['wrapper.second'])>

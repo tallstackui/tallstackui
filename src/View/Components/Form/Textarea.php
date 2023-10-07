@@ -1,12 +1,12 @@
 <?php
 
-namespace TasteUi\View\Components\Form;
+namespace TallStackUi\View\Components\Form;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
-use TasteUi\Contracts\Customizable;
-use TasteUi\View\Components\Form\Traits\DefaultInputClasses;
+use TallStackUi\Contracts\Customizable;
+use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
 
 class Textarea extends Component implements Customizable
 {
@@ -24,21 +24,21 @@ class Textarea extends Component implements Customizable
 
     public function render(): View
     {
-        return view('taste-ui::components.form.textarea');
+        return view('tallstack-ui::components.form.textarea');
     }
 
     public function customization(): array
     {
         return [
-            ...$this->tasteUiClasses(),
+            ...$this->tallStackUiClasses(),
         ];
     }
 
-    public function tasteUiClasses(): array
+    public function tallStackUiClasses(): array
     {
         return [
             'base' => Arr::toCssClasses([
-                $this->tasteUiInputClasses(),
+                $this->tallStackUiInputClasses(),
                 'resize-none' => ! $this->resize,
             ]),
             'error' => 'text-red-600 ring-1 ring-inset ring-red-300 placeholder:text-red-300 focus:ring-2 focus:ring-inset focus:ring-red-500',
