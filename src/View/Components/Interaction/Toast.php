@@ -13,9 +13,11 @@ class Toast extends Component implements Customizable
     public function __construct(
         public ?string $zIndex = null,
         public ?string $position = null,
+        public bool $square = false,
     ) {
         $this->zIndex ??= config('tallstackui.personalizations.toast.z-index');
         $this->position ??= config('tallstackui.personalizations.toast.position');
+        $this->square = config('tallstackui.personalizations.toast.square');
 
         if (! in_array($this->position, ['top-right', 'top-left', 'bottom-right', 'bottom-left'])) {
             throw new InvalidArgumentException("The position must be one of the following: ['top-right', 'top-left', 'bottom-right', 'bottom-left']");
@@ -49,7 +51,10 @@ class Toast extends Component implements Customizable
                     'md:items-start' => $this->position === 'top-left' || $this->position === 'bottom-left',
                     'md:items-end' => $this->position === 'top-right' || $this->position === 'bottom-right',
                 ]),
-                'third' => 'pointer-events-auto w-full max-w-sm overflow-hidden rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5',
+                'third' => Arr::toCssClasses([
+                    'pointer-events-auto w-full max-w-sm overflow-hidden bg-white shadow-lg ring-1 ring-black ring-opacity-5',
+                    'rounded-lg' => ! $this->square,
+                ]),
                 'fourth' => 'flex items-start p-4',
             ],
             'icon' => [
@@ -62,11 +67,11 @@ class Toast extends Component implements Customizable
             ],
             'buttons' => [
                 'wrapper' => 'mt-3 flex gap-x-3',
-                'confirm' => 'rounded-md bg-white text-sm font-semibold text-primary-600 focus:outline-none',
-                'cancel' => 'rounded-md bg-white text-sm font-medium text-secondary-700 focus:outline-none',
+                'confirm' => 'bg-white text-sm font-semibold text-primary-600 focus:outline-none',
+                'cancel' => 'bg-white text-sm font-medium text-secondary-700 focus:outline-none',
                 'close' => [
                     'wrapper' => 'ml-4 flex flex-shrink-0',
-                    'base' => 'inline-flex rounded-md bg-white text-gray-400 focus:outline-none focus:ring-0',
+                    'base' => 'inline-flex bg-white text-gray-400 focus:outline-none focus:ring-0',
                     'size' => 'h-5 w-5',
                 ],
             ],
