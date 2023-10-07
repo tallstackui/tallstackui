@@ -12,8 +12,10 @@ class Dialog extends Component implements Customizable
     public function __construct(
         public ?string $zIndex = null,
         public bool $blur = false,
+        public bool $closeable = true,
     ) {
         $this->zIndex ??= config('tallstackui.personalizations.dialog.z-index');
+        $this->closeable = config('tallstackui.personalizations.dialog.closeable');
     }
 
     public function render(): View

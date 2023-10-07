@@ -26,7 +26,7 @@
                  x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
                  x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                  @class($customize['wrapper.third'])
-                 x-on:click.outside="remove()">
+                 @if ($closeable) x-on:click.outside="remove()" @endif>
                 <div @class($customize['buttons.close.wrapper'])>
                     <button x-on:click="remove()">
                         <x-icon name="x-mark" @class($customize['buttons.close.base']) />

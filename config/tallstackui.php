@@ -25,6 +25,7 @@ return [
         ],
         'dialog' => [
             'z-index' => 'z-50',
+            'closeable' => true,
         ],
         'toast' => [
             'z-index' => 'z-50',
