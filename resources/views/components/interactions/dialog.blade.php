@@ -1,8 +1,8 @@
 @php($customize = tallstackui_personalization('dialog', $customization()))
 
 <div x-cloak
-     x-data="tasteui_dialog(@js(__('tallstack-ui::messages.dialog.button.ok')), @js(__('tallstack-ui::messages.dialog.button.confirm')), @js(__('tallstack-ui::messages.dialog.button.cancel')))"
-     x-on:tasteui:dialog.window="add($event.detail)"
+     x-data="tallstackui_dialog(@js(__('tallstack-ui::messages.dialog.button.ok')), @js(__('tallstack-ui::messages.dialog.button.confirm')), @js(__('tallstack-ui::messages.dialog.button.cancel')))"
+     x-on:tallstackui:dialog.window="add($event.detail)"
      class="relative {{ $zIndex }}"
      aria-labelledby="modal-title"
      role="dialog"
@@ -69,7 +69,7 @@
                 </div>
                 <div @class($customize['buttons.wrapper'])>
                     <div x-show="dialog.type === 'question'">
-                        <button type="button" @class($customize['buttons.cancel']) id="tasteui_dialog_rejection"
+                        <button type="button" @class($customize['buttons.cancel']) id="tallstackui_dialog_rejection"
                                 x-on:click="reject(dialog)" x-text="dialog.options?.cancel.text"></button>
                     </div>
                     <button @class($customize['buttons.confirm']) x-bind:class="{
@@ -79,7 +79,7 @@
                             'bg-blue-600 hover:bg-blue-700 focus:ring-blue-500 focus:ring-offset-blue-100' : dialog.type === 'info',
                             'bg-yellow-600 hover:bg-yellow-700 focus:ring-yellow-500 focus:ring-offset-yellow-100' : dialog.type === 'warning',
                             'bg-primary-600 hover:bg-primary-700 focus:ring-primary-500 focus:ring-offset-primary-100' : dialog.type === 'question'
-                        }" id="tasteui_dialog_confirmation" x-on:click="accept(dialog)"
+                        }" id="tallstackui_dialog_confirmation" x-on:click="accept(dialog)"
                             x-text="dialog.type === 'question' ? dialog.options?.confirm.text : text.ok"></button>
                 </div>
             </div>

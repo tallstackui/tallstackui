@@ -58,9 +58,9 @@ class Index extends Component implements Customizable
                 'text-base px-6 py-3' => $this->size === 'lg',
                 'rounded' => $this->square === null && $this->round === null,
                 'rounded-full' => $this->square === null && $this->round !== null,
-                $this->tasteUiButtonColorClasses(),
+                $this->tallStackUiButtonColorClasses(),
             ]),
-            'icon' => $this->tasteUiIconColorClasses(),
+            'icon' => $this->tallStackUiIconColorClasses(),
         ];
     }
 }

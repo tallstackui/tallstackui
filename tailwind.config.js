@@ -7,7 +7,7 @@ module.exports = {
     './resources/views/**/*.blade.php',
     './resources/css/**/*.css',
     './resources/js/**/*.js',
-    './config/tasteui.php',
+    './config/tallstackui.php',
     './src/**/*.php',
   ],
   darkMode: 'class',

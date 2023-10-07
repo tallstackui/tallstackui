@@ -57,12 +57,12 @@ class Alert extends Component implements Customizable
             'title' => [
                 'base' => Arr::toCssClasses([
                     'text-lg font-semibold',
-                    $this->tasteUiTextColor() => $this->title !== null,
+                    $this->tallStackUiTextColor() => $this->title !== null,
                 ]),
                 'wrapper' => 'flex items-center justify-between',
                 'icon' => [
                     'wrapper' => 'ml-auto pl-3',
-                    'classes' => Arr::toCssClasses(['w-5 h-5', $this->tasteUiTextColor()]),
+                    'classes' => Arr::toCssClasses(['w-5 h-5', $this->tallStackUiTextColor()]),
                 ],
             ],
             'text' => [
@@ -71,18 +71,18 @@ class Alert extends Component implements Customizable
                     'wrapper' => Arr::toCssClasses([
                         'text-sm',
                         'mt-2' => $this->title !== null,
-                        $this->tasteUiTextColor(),
+                        $this->tallStackUiTextColor(),
                     ]),
                     'icon' => [
                         'wrapper' => 'flex items-center',
-                        'classes' => Arr::toCssClasses(['w-5 h-5', $this->tasteUiTextColor()]),
+                        'classes' => Arr::toCssClasses(['w-5 h-5', $this->tallStackUiTextColor()]),
                     ],
                 ],
             ],
         ]);
     }
 
-    private function tasteUiTextColor(): string
+    private function tallStackUiTextColor(): string
     {
         $weight = $this->color === 'black' || $this->color === 'white' ? null : 900;
 

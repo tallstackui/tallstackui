@@ -1,6 +1,6 @@
 @php($customize = tallstackui_personalization('tabs', $customization()))
 
-<div x-data="tasteui_tabs(@js($selected))" class="w-full" x-cloak>
+<div x-data="tallstackui_tabs(@js($selected))" class="w-full" x-cloak>
     <ul x-ref="tablist"
         role="tablist"
             @class($customize['wrapper'])>

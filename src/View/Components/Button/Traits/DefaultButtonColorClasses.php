@@ -11,7 +11,7 @@ trait DefaultButtonColorClasses
 {
     private array $variations = [];
 
-    public function tasteUiButtonColorClasses(): string
+    public function tallStackUiButtonColorClasses(): string
     {
         $this->variations = match ($this->color) {
             'white', 'black' => [
@@ -32,17 +32,17 @@ trait DefaultButtonColorClasses
             ]
         };
 
-        $color = $this->tasteUiTextColorVariations(TallStackUi::colors());
+        $color = $this->tallStackUiTextColorVariations(TallStackUi::colors());
 
-        $this->tasteUiButtonSolidVariations($color)->get();
-        $this->tasteUiButtonOutlineVariations($color)->get();
+        $this->tallStackUiButtonSolidVariations($color)->get();
+        $this->tallStackUiButtonOutlineVariations($color)->get();
 
         return $color->get();
     }
 
-    public function tasteUiIconColorClasses(): string
+    public function tallStackUiIconColorClasses(): string
     {
-        $color = $this->tasteUiTextColorVariations(TallStackUi::colors());
+        $color = $this->tallStackUiTextColorVariations(TallStackUi::colors());
 
         if ($this instanceof Index) {
             $classes = [
@@ -57,7 +57,7 @@ trait DefaultButtonColorClasses
         return Arr::toCssClasses([...$classes, $color->get()]);
     }
 
-    private function tasteUiTextColorVariations(Color $color): Color
+    private function tallStackUiTextColorVariations(Color $color): Color
     {
         $weight = $this->color === 'white' ? 950 : 50;
 
@@ -68,7 +68,7 @@ trait DefaultButtonColorClasses
         return $color->set('text', $this->variations['text'], $weight);
     }
 
-    private function tasteUiButtonSolidVariations(Color $color): Color
+    private function tallStackUiButtonSolidVariations(Color $color): Color
     {
         $variation = match ($this->color) {
             'white' => [
@@ -99,7 +99,7 @@ trait DefaultButtonColorClasses
         });
     }
 
-    private function tasteUiButtonOutlineVariations(Color $color): Color
+    private function tallStackUiButtonOutlineVariations(Color $color): Color
     {
         $variation = match ($this->color) {
             'white' => [

@@ -9,13 +9,11 @@
 <x-wrapper.select :$label :$error :$computed :$hint :$after :$before>
     @if (!str($directive)->contains('.live'))
         <x-slot:alpine>
-            tasteui_selectStyled(@entangle($property), @js($searchable), @js($multiple), @js($selectable !== [])
-            , @js($selectable), @js($options), @js($placeholder))
+            tallstackui_selectStyled(@entangle($property), @js($searchable), @js($multiple), @js($selectable !== []), @js($selectable), @js($options), @js($placeholder))
         </x-slot:alpine>
     @else
         <x-slot:alpine>
-            tasteui_selectStyled(@entangle($property).live, @js($searchable), @js($multiple), @js($selectable !== [])
-            , @js($selectable), @js($options), @js($placeholder))
+            tallstackui_selectStyled(@entangle($property).live, @js($searchable), @js($multiple), @js($selectable !== []), @js($selectable), @js($options), @js($placeholder))
         </x-slot:alpine>
     @endif
     <x-slot:header>

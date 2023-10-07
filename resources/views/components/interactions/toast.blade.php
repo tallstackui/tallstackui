@@ -1,12 +1,12 @@
 @php($customize = tallstackui_personalization('toast', $customization()))
 
 <div x-cloak
-     x-data="tasteui_toastBase()"
-     x-on:tasteui:toast.window="add($event)"
+     x-data="tallstackui_toastBase()"
+     x-on:tallstackui:toast.window="add($event)"
      @class($customize['wrapper.first'])
      x-show="show">
     <template x-for="toast in toasts" :key="toast.id">
-        <div x-data="tasteui_toastLoop(toast, @js(__('tallstack-ui::messages.toast.button.ok')), @js(__('tallstack-ui::messages.toast.button.confirm')), @js(__('tallstack-ui::messages.toast.button.cancel')))"
+        <div x-data="tallstackui_toastLoop(toast, @js(__('tallstack-ui::messages.toast.button.ok')), @js(__('tallstack-ui::messages.toast.button.confirm')), @js(__('tallstack-ui::messages.toast.button.cancel')))"
              x-show="show"
                 @class($customize['wrapper.second'])>
             <div x-show="show"
@@ -38,10 +38,10 @@
                         <p @class($customize['content.description']) x-text="toast.description"></p>
                         <template x-if="toast.type === 'question'">
                             <div @class($customize['buttons.wrapper'])>
-                                <button id="tasteui_toast_confirmation" @class($customize['buttons.confirm'])
+                                <button id="tallstackui_toast_confirmation" @class($customize['buttons.confirm'])
                                 x-on:click="accept(toast)"
                                         x-text="toast.options.confirm.text"></button>
-                                <button id="tasteui_toast_rejection" @class($customize['buttons.cancel'])
+                                <button id="tallstackui_toast_rejection" @class($customize['buttons.cancel'])
                                 x-on:click="reject(toast)"
                                         x-text="toast.options.cancel.text"></button>
                             </div>

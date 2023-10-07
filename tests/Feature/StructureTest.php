@@ -16,7 +16,7 @@ test('should not use dangerous functions')
     ->not
     ->toBeUsed();
 
-describe('tasteui components', function () {
+describe('tallstackui components', function () {
     test('is customizable', function (string $index) {
         expect($index)->toImplement(Customizable::class);
     })->with('components');
@@ -138,7 +138,7 @@ test('personalization class should have all personalization methods', function (
     'component',
 ]);
 
-describe('TasteUiAssetsController tests', function () {
+describe('TallStackUiAssetsController tests', function () {
     test('contains all methods', function () {
         expect(TallStackUiAssetsController::class)
             ->toHaveMethod('scripts')

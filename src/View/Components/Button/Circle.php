@@ -42,9 +42,9 @@ class Circle extends Component implements Customizable
             'base' => Arr::toCssClasses([
                 'outline-none inline-flex justify-center items-center group transition ease-in duration-150 w-9 h-9',
                 'focus:ring-2 focus:ring-offset-2 hover:shadow-sm disabled:opacity-80 disabled:cursor-not-allowed rounded-full',
-                $this->tasteUiButtonColorClasses(),
+                $this->tallStackUiButtonColorClasses(),
             ]),
-            'icon' => $this->tasteUiIconColorClasses(),
+            'icon' => $this->tallStackUiIconColorClasses(),
         ];
     }
 }

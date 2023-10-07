@@ -39,7 +39,7 @@ class Input extends Component implements Customizable
     {
         return Arr::dot([
             'base' => Arr::toCssClasses([
-                $this->tasteUiInputClasses(),
+                $this->tallStackUiInputClasses(),
                 'pl-10' => $this->icon && ($this->position === null || $this->position === 'left'),
             ]),
             'icon' => [

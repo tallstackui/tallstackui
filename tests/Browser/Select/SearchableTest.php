@@ -19,7 +19,7 @@ class SearchableTest extends BrowserTestCase
             $this->visit($browser, SearchableComponent::class)
                 ->assertSee('Select an option')
                 ->assertDontSee('delectus aut autem')
-                ->click('#tasteui_select_open_close')
+                ->click('#tallstackui_select_open_close')
                 ->waitForText('delectus aut autem');
         });
     }
@@ -33,12 +33,12 @@ class SearchableTest extends BrowserTestCase
                 ->assertDontSee('delectus aut autem')
                 ->assertDontSee('et porro tempora')
                 ->assertDontSee('quis ut nam facilis et officia qui')
-                ->click('#tasteui_select_open_close')
+                ->click('#tallstackui_select_open_close')
                 ->waitForText('delectus aut autem')
                 ->assertSee('delectus aut autem')
                 ->assertSee('et porro tempora')
                 ->assertSee('quis ut nam facilis et officia qui')
-                ->type('#tasteui_select_search_input', 'porro')
+                ->type('#tallstackui_select_search_input', 'porro')
                 ->waitUntilMissingText('delectus aut autem')
                 ->waitForText('et porro tempora')
                 ->waitUntilMissingText('quis ut nam facilis et officia qui');
@@ -52,11 +52,11 @@ class SearchableTest extends BrowserTestCase
             $this->visit($browser, SearchableFilteredComponent::class)
                 ->assertSee('Select an option')
                 ->assertDontSee('delectus aut autem')
-                ->click('#tasteui_select_open_close')
+                ->click('#tallstackui_select_open_close')
                 ->waitForText('delectus aut autem')
                 ->clickAtXPath('/html/body/div[3]/div/div[2]/div[2]/ul/li[1]')
                 ->waitForText('delectus aut autem')
-                ->click('#tasteui_select_clear')
+                ->click('#tallstackui_select_clear')
                 ->assertDontSee('delectus aut autem')
                 ->assertSee('Select an option');
         });
@@ -69,7 +69,7 @@ class SearchableTest extends BrowserTestCase
             $this->visit($browser, SearchableComponent::class)
                 ->assertSee('Select an option')
                 ->assertDontSee('laboriosam mollitia et enim quasi adipisci quia provident illum')
-                ->click('#tasteui_select_open_close')
+                ->click('#tallstackui_select_open_close')
                 ->waitForText('laboriosam mollitia et enim quasi adipisci quia provident illum')
                 ->clickAtXPath('/html/body/div[3]/div/div[2]/div[2]/ul/li[5]')
                 ->click('#sync')
@@ -85,12 +85,12 @@ class SearchableTest extends BrowserTestCase
                 ->assertSee('Select an option')
                 ->assertDontSee('delectus aut autem')
                 ->assertDontSee('quis ut nam facilis et officia qui')
-                ->click('#tasteui_select_open_close')
+                ->click('#tallstackui_select_open_close')
                 ->waitForText('delectus aut autem')
                 ->waitForText('quis ut nam facilis et officia qui')
                 ->clickAtXPath('/html/body/div[3]/div/div[2]/div[2]/ul/li[1]')
                 ->clickAtXPath('/html/body/div[3]/div/div[2]/div[2]/ul/li[2]')
-                ->click('#tasteui_select_open_close')
+                ->click('#tallstackui_select_open_close')
                 ->click('#sync')
                 ->waitForText('[1,2]');
         });
@@ -102,7 +102,7 @@ class SearchableTest extends BrowserTestCase
         $this->browse(function (Browser $browser) {
             $this->visit($browser, SearchableAfterComponent::class)
                 ->assertSee('Select an option')
-                ->click('#tasteui_select_open_close')
+                ->click('#tallstackui_select_open_close')
                 ->waitForText('After Slot')
                 ->waitForText('laboriosam mollitia et enim quasi adipisci quia provident illum')
                 ->clickAtXPath('/html/body/div[3]/div/div[2]/div[2]/ul/li[5]')
@@ -117,7 +117,7 @@ class SearchableTest extends BrowserTestCase
         $this->browse(function (Browser $browser) {
             $this->visit($browser, SearchableBeforeComponent::class)
                 ->assertSee('Select an option')
-                ->click('#tasteui_select_open_close')
+                ->click('#tallstackui_select_open_close')
                 ->waitForText('Before Slot')
                 ->waitForText('laboriosam mollitia et enim quasi adipisci quia provident illum')
                 ->clickAtXPath('/html/body/div[3]/div/div[2]/div[2]/ul/li[5]')
