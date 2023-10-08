@@ -1,6 +1,20 @@
-@php($customize = tallstackui_personalization('tabs', $customization()))
+@php
+    $computed  = $attributes->whereStartsWith('wire:model');
+    $directive = array_key_first($computed->getAttributes());
+    $property  = $computed[$directive];
+    $customize = tallstackui_personalization('tabs', $customization())
+@endphp
 
-<div @if ($entangle) x-data="tallstackui_tabs(@entangle($entangle))" @else x-data="tallstackui_tabs(@js($selected))" @endif class="w-full" x-cloak>
+<div @if ($property)
+         @if (!str($directive)->contains('.live'))
+            x-data="tallstackui_tabs(@entangle($property))"
+        @else
+            x-data="tallstackui_tabs(@entangle($property).live)"
+        @endif
+     @else
+         x-data="tallstackui_tabs(@js($selected))"
+     @endif class="w-full" x-cloak
+>
     <ul x-ref="tablist"
         role="tablist"
             @class($customize['wrapper'])>
