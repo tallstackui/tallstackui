@@ -13,7 +13,6 @@ abstract class TailwindSafelistClasses
     public const TEXT = [
         'primary' => 'text-primary-50 text-primary-100 text-primary-200 text-primary-300 text-primary-400 text-primary-500 text-primary-600 text-primary-700 text-primary-800 text-primary-900 text-primary-950',
         'secondary' => 'text-secondary-50 text-secondary-100 text-secondary-200 text-secondary-300 text-secondary-400 text-secondary-500 text-secondary-600 text-secondary-700 text-secondary-800 text-secondary-900 text-secondary-950',
-        'dark' => 'text-gray-50 text-gray-100 text-gray-200 text-gray-300 text-gray-400 text-gray-500 text-gray-600 text-gray-700 text-gray-800 text-gray-900 text-gray-950',
         'white' => 'text-white',
         'black' => 'text-black',
         'slate' => 'text-slate-50 text-slate-100 text-slate-200 text-slate-300 text-slate-400 text-slate-500 text-slate-600 text-slate-700 text-slate-800 text-slate-900 text-slate-950',
@@ -43,7 +42,6 @@ abstract class TailwindSafelistClasses
     public const BG = [
         'primary' => 'bg-primary-50 bg-primary-100 bg-primary-200 bg-primary-300 bg-primary-400 bg-primary-500 bg-primary-600 bg-primary-700 bg-primary-800 bg-primary-900 bg-primary-950',
         'secondary' => 'bg-secondary-50 bg-secondary-100 bg-secondary-200 bg-secondary-300 bg-secondary-400 bg-secondary-500 bg-secondary-600 bg-secondary-700 bg-secondary-800 bg-secondary-900 bg-secondary-950',
-        'dark' => 'bg-gray-50 bg-gray-100 bg-gray-200 bg-gray-300 bg-gray-400 bg-gray-500 bg-gray-600 bg-gray-700 bg-gray-800 bg-gray-900 bg-gray-950',
         'white' => 'bg-white',
         'black' => 'bg-black',
         'slate' => 'bg-slate-50 bg-slate-100 bg-slate-200 bg-slate-300 bg-slate-400 bg-slate-500 bg-slate-600 bg-slate-700 bg-slate-800 bg-slate-900 bg-slate-950',
@@ -73,7 +71,6 @@ abstract class TailwindSafelistClasses
     public const HOVER_BG = [
         'primary' => 'hover:bg-primary-50 hover:bg-primary-100 hover:bg-primary-200 hover:bg-primary-300 hover:bg-primary-400 hover:bg-primary-500 hover:bg-primary-600 hover:bg-primary-700 hover:bg-primary-800 hover:bg-primary-900 hover:bg-primary-950',
         'secondary' => 'hover:bg-secondary-50 hover:bg-secondary-100 hover:bg-secondary-200 hover:bg-secondary-300 hover:bg-secondary-400 hover:bg-secondary-500 hover:bg-secondary-600 hover:bg-secondary-700 hover:bg-secondary-800 hover:bg-secondary-900 hover:bg-secondary-950',
-        'dark' => 'hover:bg-gray-50 hover:bg-gray-100 hover:bg-gray-200 hover:bg-gray-300 hover:bg-gray-400 hover:bg-gray-500 hover:bg-gray-600 hover:bg-gray-700 hover:bg-gray-800 hover:bg-gray-900 hover:bg-gray-950',
         'white' => 'hover:bg-white',
         'black' => 'hover:bg-black',
         'slate' => 'hover:bg-slate-50 hover:bg-slate-100 hover:bg-slate-200 hover:bg-slate-300 hover:bg-slate-400 hover:bg-slate-500 hover:bg-slate-600 hover:bg-slate-700 hover:bg-slate-800 hover:bg-slate-900 hover:bg-slate-950',
@@ -103,7 +100,6 @@ abstract class TailwindSafelistClasses
     public const BORDER = [
         'primary' => 'border-primary-50 border-primary-100 border-primary-200 border-primary-300 border-primary-400 border-primary-500 border-primary-600 border-primary-700 border-primary-800 border-primary-900 border-primary-950',
         'secondary' => 'border-secondary-50 border-secondary-100 border-secondary-200 border-secondary-300 border-secondary-400 border-secondary-500 border-secondary-600 border-secondary-700 border-secondary-800 border-secondary-900 border-secondary-950',
-        'dark' => 'border-gray-50 border-gray-100 border-gray-200 border-gray-300 border-gray-400 border-gray-500 border-gray-600 border-gray-700 border-gray-800 border-gray-900 border-gray-950',
         'white' => 'border-white',
         'black' => 'border-black',
         'slate' => 'border-slate-50 border-slate-100 border-slate-200 border-slate-300 border-slate-400 border-slate-500 border-slate-600 border-slate-700 border-slate-800 border-slate-900 border-slate-950',
@@ -133,7 +129,6 @@ abstract class TailwindSafelistClasses
     public const RING = [
         'primary' => 'ring-primary-50 ring-primary-100 ring-primary-200 ring-primary-300 ring-primary-400 ring-primary-500 ring-primary-600 ring-primary-700 ring-primary-800 ring-primary-900 ring-primary-950',
         'secondary' => 'ring-secondary-50 ring-secondary-100 ring-secondary-200 ring-secondary-300 ring-secondary-400 ring-secondary-500 ring-secondary-600 ring-secondary-700 ring-secondary-800 ring-secondary-900 ring-secondary-950',
-        'dark' => 'ring-gray-50 ring-gray-100 ring-gray-200 ring-gray-300 ring-gray-400 ring-gray-500 ring-gray-600 ring-gray-700 ring-gray-800 ring-gray-900 ring-gray-950',
         'white' => 'ring-white',
         'black' => 'ring-black',
         'slate' => 'ring-slate-50 ring-slate-100 ring-slate-200 ring-slate-300 ring-slate-400 ring-slate-500 ring-slate-600 ring-slate-700 ring-slate-800 ring-slate-900 ring-slate-950',
@@ -163,7 +158,6 @@ abstract class TailwindSafelistClasses
     public const HOVER_RING = [
         'primary' => 'hover:ring-primary-50 hover:ring-primary-100 hover:ring-primary-200 hover:ring-primary-300 hover:ring-primary-400 hover:ring-primary-500 hover:ring-primary-600 hover:ring-primary-700 hover:ring-primary-800 hover:ring-primary-900 hover:ring-primary-950',
         'secondary' => 'hover:ring-secondary-50 hover:ring-secondary-100 hover:ring-secondary-200 hover:ring-secondary-300 hover:ring-secondary-400 hover:ring-secondary-500 hover:ring-secondary-600 hover:ring-secondary-700 hover:ring-secondary-800 hover:ring-secondary-900 hover:ring-secondary-950',
-        'dark' => 'hover:ring-gray-50 hover:ring-gray-100 hover:ring-gray-200 hover:ring-gray-300 hover:ring-gray-400 hover:ring-gray-500 hover:ring-gray-600 hover:ring-gray-700 hover:ring-gray-800 hover:ring-gray-900 hover:ring-gray-950',
         'white' => 'hover:ring-white',
         'black' => 'hover:ring-black',
         'slate' => 'hover:ring-slate-50 hover:ring-slate-100 hover:ring-slate-200 hover:ring-slate-300 hover:ring-slate-400 hover:ring-slate-500 hover:ring-slate-600 hover:ring-slate-700 hover:ring-slate-800 hover:ring-slate-900 hover:ring-slate-950',

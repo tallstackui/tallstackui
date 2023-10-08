@@ -46,8 +46,8 @@ class Index extends Component implements Customizable
                 'rounded-full' => ! $this->square,
                 'border-2' => ! $this->modelable,
                 TallStackUi::colors()
-                    ->set('bg', $this->color, 500)
-                    ->merge('border', $this->color, 500)
+                    ->set('bg', $this->color, $this->color === 'black' ? null : 500)
+                    ->merge('border', $this->color, $this->color === 'black' ? null : 500)
                     ->get() => ! $this->modelable,
             ]),
             'content' => match ($this->modelable) {
@@ -60,7 +60,11 @@ class Index extends Component implements Customizable
                     'rounded-full' => ! $this->square,
                 ]),
                 /* text */
-                false => 'font-semibold text-white',
+                false => Arr::toCssClasses([
+                    'font-semibold',
+                    'text-white' => $this->color !== 'white',
+                    'text-neutral' => $this->color === 'white' || $this->color === 'black',
+                ]),
             },
         ];
     }
