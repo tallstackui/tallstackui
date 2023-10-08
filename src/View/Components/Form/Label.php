@@ -12,9 +12,8 @@ class Label extends Component implements Customizable
         public ?string $for = null,
         public ?string $label = null,
         public ?string $text = null,
-        public bool    $error = false,
-    )
-    {
+        public bool $error = false,
+    ) {
         //
     }
 

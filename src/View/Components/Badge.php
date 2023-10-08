@@ -51,7 +51,7 @@ class Badge extends Component implements Customizable
                 'text-white' => $this->color !== 'white' && $this->style === 'solid',
                 'rounded-md' => $this->square === null,
                 TallStackUi::colors()
-                    ->set('border', $this->color,  $this->color === 'black' ? null : 500)
+                    ->set('border', $this->color, $this->color === 'black' ? null : 500)
                     ->mergeWhen($this->style === 'solid', 'bg', $this->color, $this->color === 'black' ? null : 500)
                     ->get(),
                 TallStackUi::colors()
