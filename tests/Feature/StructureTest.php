@@ -96,7 +96,6 @@ describe('Color tests', function () {
         'prepend',
         'append',
         'get',
-        'validate',
     ]);
 
     test('manage class', function () {

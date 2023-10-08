@@ -6,6 +6,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
 use TallStackUi\Contracts\Customizable;
+use TallStackUi\Facades\TallStackUi;
 
 class Toggle extends Component implements Customizable
 {
@@ -13,6 +14,7 @@ class Toggle extends Component implements Customizable
         public ?string $id = null,
         public ?string $label = null,
         public ?string $position = 'right',
+        public ?string $color = 'primary',
         public ?string $sm = null,
         public ?string $md = null,
         public ?string $lg = null,
@@ -49,10 +51,21 @@ class Toggle extends Component implements Customizable
             'base' => Arr::toCssClasses([
                 'block rounded-full cursor-pointer transition ease-in-out duration-100 peer-focus:ring-2',
                 'peer-focus:ring-offset-2 group-focus:ring-2 group-focus:ring-offset-2 bg-secondary-200',
-                'peer-checked:bg-primary-600 peer-focus:ring-primary-600 group-focus:ring-primary-600',
                 'h-4 w-7' => $this->size === 'sm',
                 'h-5 w-9' => $this->size === 'md',
                 'h-6 w-10' => $this->size === 'lg',
+                TallStackUi::colors()
+                    ->clean(false)
+                    ->set('peer-checked:bg', $this->color, $this->color === 'black' ? null : 600)
+                    ->set('peer-focus:ring', $this->color, $this->color === 'black' ? null : 600)
+                    ->set('group-focus:ring', $this->color, $this->color === 'black' ? null : 600)
+                    ->get() => $this->color !== 'white',
+                TallStackUi::colors()
+                    ->clean(false)
+                    ->set('peer-checked:bg', 'gray', 100)
+                    ->set('peer-focus:ring', 'gray', 100)
+                    ->set('group-focus:ring', 'gray', 100)
+                    ->get() => $this->color === 'white',
             ]),
             'error' => 'bg-red-600 peer-checked:bg-red-600 peer-focus:ring-red-600 group-focus:ring-red-600',
         ];

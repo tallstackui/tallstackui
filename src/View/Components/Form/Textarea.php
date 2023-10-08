@@ -16,7 +16,7 @@ class Textarea extends Component implements Customizable
         public ?string $id = null,
         public ?string $label = null,
         public ?string $hint = null,
-        public int $rows = 8,
+        public int $rows = 5,
         public bool $resize = false,
     ) {
         //
