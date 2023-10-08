@@ -16,10 +16,6 @@ module.exports = {
       colors: {
         primary: colors.indigo,
         secondary: colors.slate,
-        positive: colors.emerald,
-        negative: colors.red,
-        warning: colors.amber,
-        info: colors.blue,
       },
     },
   },
