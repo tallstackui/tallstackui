@@ -20,6 +20,7 @@ class Checkbox extends Component implements Customizable
         public bool $checked = false,
     ) {
         $this->size = $this->sm ? 'sm' : ($this->lg ? 'lg' : 'md');
+        $this->position = $this->position === 'right' ? 'right' : 'left';
     }
 
     public function render(): View
