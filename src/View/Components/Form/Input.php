@@ -18,9 +18,13 @@ class Input extends Component implements Customizable
         public ?string $hint = null,
         public ?string $icon = null,
         public ?string $position = 'left',
+        public bool $square = false,
+        public bool $round = false,
         public bool $validate = true,
     ) {
         $this->position = $this->position === 'left' ? 'left' : 'right';
+        $this->square = config('tallstackui.personalizations.input.square');
+        $this->round = config('tallstackui.personalizations.input.round');
     }
 
     public function render(): View

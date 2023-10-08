@@ -20,6 +20,10 @@ return [
     | General components settings.
     */
     'personalizations' => [
+        'input' => [
+            'square' => false,
+            'round' => false,
+        ],
         'tabs' => [
             'square' => false,
         ],

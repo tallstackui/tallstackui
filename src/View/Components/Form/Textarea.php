@@ -18,8 +18,9 @@ class Textarea extends Component implements Customizable
         public ?string $hint = null,
         public int $rows = 5,
         public bool $resize = false,
+        public bool $square = false,
     ) {
-        //
+        $this->square = config('tallstackui.personalizations.input.square');
     }
 
     public function render(): View
