@@ -15,6 +15,7 @@ class Errors extends Component implements Customizable
         public ?string $title = null,
         public string|array|null $only = null,
         public ?string $color = 'red',
+        public bool $pulse = false,
     ) {
         $this->title ??= __('tallstack-ui::messages.errors.title');
     }
@@ -36,7 +37,10 @@ class Errors extends Component implements Customizable
         return Arr::dot([
             'base' => [
                 'wrapper' => [
-                    'first' => 'p-4 w-full',
+                    'first' => Arr::toCssClasses([
+                        'p-4 w-full',
+                        'animate-pulse' => $this->pulse,
+                    ]),
                     'second' => Arr::toCssClasses([
                         'rounded-lg p-4',
                         TallStackUi::colors()

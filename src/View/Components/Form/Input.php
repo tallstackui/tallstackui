@@ -17,10 +17,10 @@ class Input extends Component implements Customizable
         public ?string $label = null,
         public ?string $hint = null,
         public ?string $icon = null,
-        public ?string $position = null,
+        public ?string $position = 'left',
         public bool $validate = true,
     ) {
-        //
+        $this->position = $this->position === 'left' ? 'left' : 'right';
     }
 
     public function render(): View

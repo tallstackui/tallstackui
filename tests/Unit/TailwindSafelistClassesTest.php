@@ -5,7 +5,6 @@ use TallStackUi\Support\TailwindSafelistClasses;
 const KEYS = [
     'primary',
     'secondary',
-    'dark',
     'white',
     'black',
     'slate',

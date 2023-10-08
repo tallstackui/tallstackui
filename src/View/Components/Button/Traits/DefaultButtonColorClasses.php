@@ -46,8 +46,8 @@ trait DefaultButtonColorClasses
 
         if ($this instanceof Index) {
             $classes = [
-                'w-2 h-2' => $this->size === 'xs' || $this->size === 'sm',
-                'w-3 h-3' => $this->size === 'md',
+                'w-3 h-3' => $this->size === 'xs' || $this->size === 'sm',
+                'w-4 h-4' => $this->size === 'md',
                 'w-5 h-5' => $this->size === 'lg',
             ];
         } else {

@@ -11,6 +11,5 @@
             <x-icon name="eye-slash" :$error @class($customize['icon.class']) x-show="show"/>
         </div>
     </div>
-    <input @if ($id) id="{{ $id }}"
-           @endif {{ $attributes->class([$customize['base'], $customize['error'] => $error]) }} :type="!show ? 'password' : 'text'">
+    <input @if ($id) id="{{ $id }}" @endif {{ $attributes->class([$customize['base'], $customize['error'] => $error]) }} :type="!show ? 'password' : 'text'">
 </x-wrapper.input>
