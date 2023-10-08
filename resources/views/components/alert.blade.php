@@ -17,6 +17,11 @@
     @endif
     <div @class($customize['text.wrapper'])>
         <div @class($customize['text.title.wrapper'])>
+            @if (!$title && $icon)
+                <div @class($customize['icon.wrapper'])>
+                    <x-icon :$icon @class($customize['icon.base']) />
+                </div>
+            @endif
             <p>{{ $text ?? $slot }}</p>
         </div>
         @if (!$title && $closeable)

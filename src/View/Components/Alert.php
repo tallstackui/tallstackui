@@ -14,6 +14,7 @@ class Alert extends Component implements Customizable
     public function __construct(
         public ?string $title = null,
         public ?string $text = null,
+        public ?string $icon = null,
         public string $color = 'primary',
         public bool $closeable = false,
         public bool $translucent = false,
@@ -70,6 +71,7 @@ class Alert extends Component implements Customizable
                 'title' => [
                     'wrapper' => Arr::toCssClasses([
                         'text-sm',
+                        'inline-flex' => $this->title === null && $this->icon !== null,
                         'mt-2' => $this->title !== null,
                         $this->tallStackUiTextColor(),
                     ]),
@@ -78,6 +80,15 @@ class Alert extends Component implements Customizable
                         'classes' => Arr::toCssClasses(['w-5 h-5', $this->tallStackUiTextColor()]),
                     ],
                 ],
+            ],
+            'icon' => [
+                'wrapper' => 'mr-2',
+                'base' => Arr::toCssClasses([
+                    'w-5 h-5',
+                    TallStackUi::colors()
+                        ->set('text', $this->color === 'black' ? 'white' : $this->color, $this->color === 'black' ? null : 500)
+                        ->get() => $this->color !== 'white',
+                ]),
             ],
         ]);
     }
