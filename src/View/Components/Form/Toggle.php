@@ -7,6 +7,7 @@ use Illuminate\Support\Arr;
 use Illuminate\View\Component;
 use TallStackUi\Contracts\Customizable;
 use TallStackUi\Facades\TallStackUi;
+use TallStackUi\Support\Elements\Color;
 
 class Toggle extends Component implements Customizable
 {
@@ -56,16 +57,17 @@ class Toggle extends Component implements Customizable
                 'h-6 w-10' => $this->size === 'lg',
                 TallStackUi::colors()
                     ->clean(false)
-                    ->set('peer-checked:bg', $this->color, $this->color === 'black' ? null : 600)
-                    ->set('peer-focus:ring', $this->color, $this->color === 'black' ? null : 600)
-                    ->set('group-focus:ring', $this->color, $this->color === 'black' ? null : 600)
-                    ->get() => $this->color !== 'white',
-                TallStackUi::colors()
-                    ->clean(false)
-                    ->set('peer-checked:bg', 'gray', 100)
-                    ->set('peer-focus:ring', 'gray', 100)
-                    ->set('group-focus:ring', 'gray', 100)
-                    ->get() => $this->color === 'white',
+                    ->when($this->color === 'white', function (Color $color) {
+                        return $color->set('peer-checked:bg', 'gray', 300)
+                            ->set('peer-focus:ring', 'gray', 300)
+                            ->set('group-focus:ring', 'gray', 300);
+                    })
+                    ->unless($this->color === 'white', function (Color $color) {
+                        return $color->set('peer-checked:bg', $this->color, $this->color === 'black' ? null : 600)
+                            ->set('peer-focus:ring', $this->color, $this->color === 'black' ? null : 600)
+                            ->set('group-focus:ring', $this->color, $this->color === 'black' ? null : 600);
+                    })
+                    ->get(),
             ]),
             'error' => 'bg-red-600 peer-checked:bg-red-600 peer-focus:ring-red-600 group-focus:ring-red-600',
         ];
