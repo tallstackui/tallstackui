@@ -34,7 +34,7 @@ class Input extends Component implements Customizable
     public function tallStackUiClasses(): array
     {
         return [
-            'base' => 'relative mt-2 rounded-md shadow-sm',
+            'base' => 'relative rounded-md shadow-sm',
         ];
     }
 }

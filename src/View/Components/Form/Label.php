@@ -12,8 +12,9 @@ class Label extends Component implements Customizable
         public ?string $for = null,
         public ?string $label = null,
         public ?string $text = null,
-        public bool $error = false,
-    ) {
+        public bool    $error = false,
+    )
+    {
         //
     }
 
@@ -32,8 +33,8 @@ class Label extends Component implements Customizable
     public function tallStackUiClasses(): array
     {
         return [
-            'wrapper' => 'mb-1 flex justify-between text-gray-700',
-            'text' => 'block text-sm font-medium',
+            'wrapper' => 'flex justify-between font-medium text-gray-600',
+            'text' => 'block text-sm font-semibold',
             'error' => 'text-red-600',
         ];
     }

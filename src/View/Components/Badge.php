@@ -25,7 +25,7 @@ class Badge extends Component implements Customizable
     ) {
         $this->style = $this->outline ? 'outline' : 'solid';
         $this->size = $this->lg ? 'lg' : ($this->md ? 'md' : 'sm');
-        $this->position = $this->position === 'left' ? 'left' : 'right';
+        $this->position = $this->position === 'right' ? 'right' : 'left';
     }
 
     public function render(): View
