@@ -7,7 +7,7 @@ use InvalidArgumentException;
 use Stringable;
 use Throwable;
 
-class Color implements Stringable
+final class Color implements Stringable
 {
     use Conditionable;
 
