@@ -48,21 +48,21 @@ class Badge extends Component implements Customizable
                 'text-xs' => $this->size === 'sm',
                 'text-sm' => $this->size === 'md',
                 'text-md' => $this->size === 'lg',
-                'text-white' => $this->style === 'solid',
+                'text-white' => $this->color !== 'white' && $this->style === 'solid',
                 'rounded-md' => $this->square === null,
                 TallStackUi::colors()
-                    ->set('border', $this->color, 500)
-                    ->mergeWhen($this->style === 'solid', 'bg', $this->color, 500)
+                    ->set('border', $this->color,  $this->color === 'black' ? null : 500)
+                    ->mergeWhen($this->style === 'solid', 'bg', $this->color, $this->color === 'black' ? null : 500)
                     ->get(),
                 TallStackUi::colors()
-                    ->set('text', $this->color, 500)
+                    ->set('text', $this->color === 'white' ? 'black' : $this->color, $this->color === 'white' ? null : 500)
                     ->get() => $this->style === 'outline',
             ]),
             'icon' => Arr::toCssClasses([
                 'h-3 w-3',
                 'mr-1' => $this->position === 'left',
                 'ml-1' => $this->position === 'right',
-                'text-white' => $this->style === 'solid',
+                'text-white' => $this->color !== 'white' && $this->style === 'solid',
                 TallStackUi::colors()
                     ->set('text', $this->color, 500)
                     ->get() => $this->style === 'outline',
