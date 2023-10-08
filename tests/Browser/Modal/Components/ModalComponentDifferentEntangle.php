@@ -12,7 +12,7 @@ class ModalComponentDifferentEntangle extends Component
     {
         return <<<'HTML'
         <div>        
-            <x-modal wire entangle="test">
+            <x-modal wire="test">
                 Foo bar
             </x-modal>
         

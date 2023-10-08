@@ -12,14 +12,16 @@ class Modal extends Component implements Customizable
     public function __construct(
         public ?string $id = 'modal',
         public ?string $zIndex = 'z-50',
-        public bool $wire = false,
-        public ?string $entangle = 'modal',
+        public string|bool|null $wire = null,
         public ?string $title = null,
         public ?string $footer = null,
         public bool $blur = false,
         public ?bool $uncloseable = false,
         public string $size = '2xl',
+        public string $entangle = 'modal',
     ) {
+        $this->entangle = is_string($this->wire) ? $this->wire : (! is_bool($this->wire) ? $this->entangle : 'modal');
+
         $this->size = match ($this->size) {
             'sm' => 'sm:max-w-sm',
             'md' => 'sm:max-w-md',
