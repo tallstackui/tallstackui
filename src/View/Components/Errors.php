@@ -36,7 +36,7 @@ class Errors extends Component implements Customizable
     public function tallStackUiClasses(): array
     {
         $text = TallStackUi::colors()
-            ->when($this->color === 'black', fn (Color $color) => $color->set('text', 'white'))
+            ->when($this->color === 'black', fn (Color $color) => $color->set('text', 'neutral', 800))
             ->unless($this->color === 'black', fn (Color $color) => $color->set('text', $this->color, 800))
             ->get();
 
@@ -51,7 +51,7 @@ class Errors extends Component implements Customizable
                         'rounded-lg p-4',
                         TallStackUi::colors()
                             ->when($this->color === 'white', fn (Color $color) => $color->set('bg', 'gray', 50))
-                            ->unless($this->color === 'white', fn (Color $color) => $color->set('bg', $this->color, $this->color === 'black' ? null : 50))
+                            ->unless($this->color === 'white', fn (Color $color) => $color->set('bg', $this->color === 'black' ? 'neutral' : $this->color, 50))
                             ->get(),
                     ]),
                 ],
