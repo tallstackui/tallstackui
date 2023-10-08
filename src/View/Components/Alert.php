@@ -18,6 +18,7 @@ class Alert extends Component implements Customizable
         public string $color = 'primary',
         public bool $closeable = false,
         public bool $translucent = false,
+        public bool $pulse = false,
         public string $style = 'solid',
     ) {
         $this->style = $this->translucent && $this->color !== 'white' ? 'translucent' : 'solid';
@@ -40,6 +41,7 @@ class Alert extends Component implements Customizable
         return Arr::dot([
             'base' => Arr::toCssClasses([
                 'rounded-md p-4',
+                'animate-pulse' => $this->pulse,
                 TallStackUi::colors()
                     ->when(
                         $this->style === 'solid',

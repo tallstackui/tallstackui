@@ -7,6 +7,7 @@ use Illuminate\Support\Arr;
 use Illuminate\View\Component;
 use TallStackUi\Contracts\Customizable;
 use TallStackUi\Facades\TallStackUi;
+use TallStackUi\Support\Elements\Color;
 
 class Tooltip extends Component implements Customizable
 {
@@ -48,7 +49,8 @@ class Tooltip extends Component implements Customizable
                 'h-6 w-6' => $this->size === 'md',
                 'h-7 w-7' => $this->size === 'lg',
                 TallStackUi::colors()
-                    ->set('text', $this->color, 500)
+                    ->when($this->color === 'white', fn (Color $color) => $color->set('text', 'gray', 300))
+                    ->unless($this->color === 'white', fn (Color $color) => $color->set('text', $this->color, 500))
                     ->get(),
             ]),
         ];

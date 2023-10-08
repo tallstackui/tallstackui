@@ -8,6 +8,7 @@ use Illuminate\Support\ViewErrorBag;
 use Illuminate\View\Component;
 use TallStackUi\Contracts\Customizable;
 use TallStackUi\Facades\TallStackUi;
+use TallStackUi\Support\Elements\Color;
 
 class Errors extends Component implements Customizable
 {
@@ -34,6 +35,11 @@ class Errors extends Component implements Customizable
 
     public function tallStackUiClasses(): array
     {
+        $text = TallStackUi::colors()
+            ->when($this->color === 'black', fn (Color $color) => $color->set('text', 'white'))
+            ->unless($this->color === 'black', fn (Color $color) => $color->set('text', $this->color, 800))
+            ->get();
+
         return Arr::dot([
             'base' => [
                 'wrapper' => [
@@ -44,7 +50,8 @@ class Errors extends Component implements Customizable
                     'second' => Arr::toCssClasses([
                         'rounded-lg p-4',
                         TallStackUi::colors()
-                            ->set('bg', $this->color, 50)
+                            ->when($this->color === 'white', fn (Color $color) => $color->set('bg', 'gray', 50))
+                            ->unless($this->color === 'white', fn (Color $color) => $color->set('bg', $this->color, $this->color === 'black' ? null : 50))
                             ->get(),
                     ]),
                 ],
@@ -52,15 +59,11 @@ class Errors extends Component implements Customizable
             'title' => [
                 'base' => Arr::toCssClasses([
                     'text-sm font-semibold',
-                    TallStackUi::colors()
-                        ->set('text', $this->color, 800)
-                        ->get(),
+                    $text,
                 ]),
                 'wrapper' => Arr::toCssClasses([
                     'flex items-center border-b pb-3',
-                    TallStackUi::colors()
-                        ->set('text', $this->color, 800)
-                        ->get(),
+                    $text,
                     TallStackUi::colors()
                         ->set('border', $this->color, 200)
                         ->get(),
@@ -69,9 +72,7 @@ class Errors extends Component implements Customizable
             'body' => [
                 'list' => Arr::toCssClasses([
                     'list-disc text-sm space-y-1',
-                    TallStackUi::colors()
-                        ->set('text', $this->color, 800)
-                        ->get(),
+                    $text,
                 ]),
                 'wrapper' => 'mt-2 ml-5 pl-1',
             ],

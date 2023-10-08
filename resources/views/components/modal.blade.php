@@ -24,18 +24,18 @@ class="relative {{ $zIndex }}"
          x-transition:leave="ease-in duration-200"
          x-transition:leave-start="opacity-100"
          x-transition:leave-end="opacity-0"
-            @class($customize['wrapper.first'])></div>
+         @class($customize['wrapper.first'])></div>
     <div @class($customize['wrapper.second'])>
         <div @class($customize['wrapper.third'])>
             <div x-show="show"
-                 @if ($closeable) x-on:click.outside="show = false" @endif
+                 @if ($uncloseable) x-on:click.outside="show = false" @endif
                  x-transition:enter="ease-out duration-300"
                  x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                  x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
                  x-transition:leave="ease-in duration-200"
                  x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
                  x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                    @class($customize['wrapper.fourth'])>
+                 @class($customize['wrapper.fourth'])>
                 @if ($title)
                     <div @class($customize['title.wrapper'])>
                         <h3 @class($customize['title.base'])>{{ $title }}</h3>

@@ -17,7 +17,7 @@ class Modal extends Component implements Customizable
         public ?string $title = null,
         public ?string $footer = null,
         public bool $blur = false,
-        public bool $closeable = true,
+        public ?bool $uncloseable = false,
         public string $size = '2xl',
     ) {
         $this->size = match ($this->size) {
