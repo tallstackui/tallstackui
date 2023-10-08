@@ -67,19 +67,13 @@ class TallStackUiServiceProvider extends ServiceProvider
         });
 
         Blade::precompiler(static function (string $string): string {
-            $pattern = '/<\s*tallstackui\:(scripts)\s*\/?>/';
+            $pattern = '/<\s*tallstackui\:(setup)\s*\/?>/';
 
-            return preg_replace_callback($pattern, function (array $matches) {
-                $element = '';
+            return preg_replace_callback($pattern, function () {
+                $scripts = Facade::directives()->scripts();
+                $styles = Facade::directives()->styles();
 
-                if ($matches[1] === 'scripts') {
-                    $scripts = Facade::directives()->scripts();
-                    $styles = Facade::directives()->styles();
-
-                    $element = "<!-- TallStackUi Scripts -->\n{$scripts}\n{$styles}";
-                }
-
-                return $element;
+                return "<!-- TallStackUi Setup -->\n{$scripts}\n{$styles}";
             }, $string);
         });
     }
