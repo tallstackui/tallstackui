@@ -19,7 +19,7 @@ HTML;
 
 it('can render entangled', function () {
     $component = <<<'HTML'
-    <x-tabs :options="['Foo', 'Bar']" wire:entangle="Foo">
+    <x-tabs :options="['Foo', 'Bar']" wire:model="Foo">
         <x-tabs.items tab="A">
             Foo
         </x-tabs.items>
