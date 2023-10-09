@@ -8,7 +8,7 @@ return [
     | Icon Style
     |--------------------------------------------------------------------------
     |
-    | Configure the default icon style. Supported: "solid", "outline"
+    | Configure the default icon style. Alloweds: "solid", "outline"
     */
     'icon' => 'solid',
 
@@ -21,7 +21,9 @@ return [
     */
     'personalizations' => [
         'input' => [
+            /* Input, Textarea & Password */
             'square' => false,
+            /* Input & Password Only */
             'round' => false,
         ],
         'tabs' => [
@@ -35,6 +37,7 @@ return [
         ],
         'toast' => [
             'z-index' => 'z-50',
+            /* Alloweds: "top-right", "top-left", "bottom-right", "bottom-left" */
             'position' => 'top-right',
             'square' => false,
         ],
