@@ -6,9 +6,9 @@ class Toast extends AbstractInteraction
 {
     protected string $event = 'tallstackui:toast';
 
-    public function time(int $time): self
+    public function timeout(int $seconds): self
     {
-        $this->time = $time;
+        $this->timeout = $seconds;
 
         return $this;
     }

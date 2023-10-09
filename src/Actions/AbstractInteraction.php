@@ -11,7 +11,7 @@ abstract class AbstractInteraction
 
     public function __construct(
         public Component $component,
-        protected ?int $time = null,
+        protected ?int $timeout = null,
     ) {
         //
     }
@@ -31,13 +31,13 @@ abstract class AbstractInteraction
             new InvalidArgumentException('You must provide options for the interaction')
         );
 
-        $this->time ??= 3;
+        $this->timeout ??= 3;
         $options['confirm']['text'] ??= __('tallstack-ui::messages.toast.button.confirm');
         $options['cancel']['text'] ??= __('tallstack-ui::messages.toast.button.cancel');
 
         $default = [
             'type' => 'question',
-            'timeout' => $this->time,
+            'timeout' => $this->timeout,
             'confirm' => true,
         ];
 
@@ -66,7 +66,7 @@ abstract class AbstractInteraction
             'title' => $title,
             'description' => $description,
             'type' => $type,
-            'timeout' => $this->time ?? 3,
+            'timeout' => $this->timeout ?? 3,
         ]);
     }
 }
