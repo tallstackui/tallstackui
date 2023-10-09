@@ -9,7 +9,7 @@ trait DefaultInputClasses
 {
     private function tallStackUiInputClasses(): string
     {
-        $round = rescue(fn () => $this->round, report: false);
+        $round = rescue(fn () => $this->round, report: false); // @phpstan-ignore-line
         $textarea = $this instanceof Textarea;
 
         return Arr::toCssClasses([

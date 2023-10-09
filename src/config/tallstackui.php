@@ -29,7 +29,8 @@ return [
         ],
         'dialog' => [
             'z-index' => 'z-50',
-            'closeable' => true,
+            'blur' => false,
+            'uncloseable' => false,
             'square' => false,
         ],
         'toast' => [

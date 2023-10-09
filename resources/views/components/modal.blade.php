@@ -7,16 +7,16 @@
     $customize = tallstackui_personalization('modal', $customization());
 @endphp
 
-<div @if ($id) id="{{ $id }}" @endif
-class="relative {{ $zIndex }}"
+<div x-cloak
+     @if ($id) id="{{ $id }}" @endif
+     @class(['relative', $zIndex])
      aria-labelledby="modal-title"
      role="dialog"
      aria-modal="true"
      x-data="{ show : @if ($wire) @entangle($entangle) @else false @endif }"
      x-show="show"
      x-on:modal:{{ $open }}.window="show = true"
-     x-on:modal:{{ $close }}.window="show = false"
-     x-cloak>
+     x-on:modal:{{ $close }}.window="show = false">
     <div x-show="show"
          x-transition:enter="ease-out duration-300"
          x-transition:enter-start="opacity-0"

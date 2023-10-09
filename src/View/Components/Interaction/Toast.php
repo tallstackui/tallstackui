@@ -15,8 +15,8 @@ class Toast extends Component implements Customizable
         public ?string $position = null,
         public bool $square = false,
     ) {
-        $this->zIndex ??= config('tallstackui.personalizations.toast.z-index');
-        $this->position ??= config('tallstackui.personalizations.toast.position');
+        $this->zIndex = config('tallstackui.personalizations.toast.z-index');
+        $this->position = config('tallstackui.personalizations.toast.position');
         $this->square = config('tallstackui.personalizations.toast.square');
 
         if (! in_array($this->position, ['top-right', 'top-left', 'bottom-right', 'bottom-left'])) {

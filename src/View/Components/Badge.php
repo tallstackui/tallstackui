@@ -19,7 +19,8 @@ class Badge extends Component implements Customizable
         public ?string $solid = null,
         public ?string $outline = null,
         public ?string $color = 'primary',
-        public ?string $square = null,
+        public ?bool $square = false,
+        public ?bool $round = false,
         public ?string $size = null,
         public ?string $style = null,
     ) {
@@ -49,7 +50,8 @@ class Badge extends Component implements Customizable
                 'text-sm' => $this->size === 'md',
                 'text-md' => $this->size === 'lg',
                 'text-white' => $this->color !== 'white' && $this->style === 'solid',
-                'rounded-md' => $this->square === null,
+                'rounded-md' => ! $this->round && ! $this->square,
+                'rounded-full' => $this->round,
                 TallStackUi::colors()
                     ->set('border', $this->color, $this->color === 'black' ? null : 500)
                     ->mergeWhen($this->style === 'solid', 'bg', $this->color, $this->color === 'black' ? null : 500)

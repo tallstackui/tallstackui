@@ -3,7 +3,7 @@
 <div x-cloak
      x-data="tallstackui_dialog(@js(__('tallstack-ui::messages.dialog.button.ok')), @js(__('tallstack-ui::messages.dialog.button.confirm')), @js(__('tallstack-ui::messages.dialog.button.cancel')))"
      x-on:tallstackui:dialog.window="add($event.detail)"
-     class="relative {{ $zIndex }}"
+     @class(['relative', $zIndex])
      aria-labelledby="modal-title"
      role="dialog"
      aria-modal="true"
@@ -26,7 +26,7 @@
                  x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
                  x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                  @class($customize['wrapper.third'])
-                 @if ($closeable) x-on:click.outside="remove()" @endif>
+                 @if (!$uncloseable) x-on:click.outside="remove()" @endif>
                 <div @class($customize['buttons.close.wrapper'])>
                     <button x-on:click="remove()">
                         <x-icon name="x-mark" @class($customize['buttons.close.base']) />
