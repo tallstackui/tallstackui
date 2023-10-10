@@ -10,7 +10,6 @@ use TallStackUi\Contracts\Customizable;
 class Index extends Component implements Customizable
 {
     public function __construct(
-        public array $options = [],
         public ?string $selected = null,
         private bool $square = false,
     ) {

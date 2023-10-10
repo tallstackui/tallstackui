@@ -18,18 +18,17 @@
     <ul x-ref="tablist"
         role="tablist"
             @class($customize['wrapper'])>
-        @foreach ($options as $tab)
-            <li id="{{ $tab }}"
-                @class($customize['item.wrapper'])
-                x-on:click="select(@js($tab))"
-                x-bind:aria-selected="selected(@js($tab))"
-                x-bind:class="selected(@js($tab)) ? '{{ $customize['item.selected']}}' : '{{ $customize['item.unselected']}}'"
+        <template x-for="tabItem in tabHeadings">
+            <li @class($customize['item.wrapper'])
+                x-on:click="select(tabItem)"
+                x-bind:aria-selected="selected(tabItem)"
+                x-bind:class="selected(tabItem) ? '{{ $customize['item.selected']}}' : '{{ $customize['item.unselected']}}'"
+                x-text="tabItem"
                 role="tab">
-                {{ $tab }}
             </li>
-        @endforeach
+        </template>
     </ul>
-    <div>
+    <div x-ref="tabs">
         {{ $slot }}
     </div>
 </div>
