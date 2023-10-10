@@ -1,6 +1,6 @@
 @php($customize = tallstackui_personalization('wrapper.input', $customization()))
 
-<div>
+<div @if ($alpine) x-data="{!! $alpine !!}" @endif>
     @if ($label)
         <x-label :$label :$error/>
     @endif
