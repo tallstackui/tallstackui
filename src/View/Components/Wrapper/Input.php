@@ -12,6 +12,7 @@ class Input extends Component implements Customizable
         public ?string $computed = null,
         public ?string $label = null,
         public ?string $hint = null,
+        public ?string $alpine = null,
         public bool $error = false,
         public bool $validate = false,
         public bool $password = false,

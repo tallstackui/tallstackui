@@ -5,5 +5,12 @@
 @endphp
 
 <x-wrapper.input :$computed :$error :$label :$hint validate>
-    <textarea @if ($id) id="{{ $id }}" @endif {{ $attributes->class([$customize['base'], $customize['error'] => $error]) }} rows="{{ $rows }}">{{ $slot }}</textarea>
+    @if ($autoResize)
+        <x-slot:alpine>
+            tallstackui_formTextArea()
+        </x-slot:alpine>
+    @endif
+    <textarea @if ($id) id="{{ $id }}" @endif
+        {{ $attributes->class([$customize['base'], $customize['error'] => $error]) }}
+        rows="{{ $rows }}" @if ($autoResize) x-on:input="resize()" @endif>{{ $slot }}</textarea>
 </x-wrapper.input>
