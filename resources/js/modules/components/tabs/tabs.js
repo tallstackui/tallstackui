@@ -1,6 +1,6 @@
 export default (selected) => ({
   tab: selected ?? null,
-  tabHeadings: [],
+  headings: [],
   select(tab) {
     this.tab = tab;
   },
@@ -8,7 +8,7 @@ export default (selected) => ({
     return this.tab === tab;
   },
   init() {
-    this.tabHeadings = [...this.$refs.tabs.children].map(function(tab) {
+    this.headings = [...this.$refs.tabs.children].map(function(tab) {
       return eval(`(${tab.getAttribute('x-data')})`)['name'];
     });
   },
