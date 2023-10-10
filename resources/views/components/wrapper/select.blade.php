@@ -81,7 +81,7 @@
                         </span>
                     </li>
                 </template>
-                <div @if($slotOnAction) x-show="options.length === 0" @endif>
+                <div @if ($slotOnAction) x-show="options.length === 0" @endif>
                     {!! $after !!}
                 </div>
             </ul>
