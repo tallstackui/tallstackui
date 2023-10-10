@@ -11,5 +11,5 @@ export default (selected) => ({
     this.tabHeadings = [...this.$refs.tabs.children].map(function(tab) {
       return eval(`(${tab.getAttribute('x-data')})`)['name'];
     });
-  }
+  },
 });
