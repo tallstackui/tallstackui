@@ -42,7 +42,7 @@ return [
             'square' => false,
         ],
         'select' => [
-            'slot-on-action' => true,
+            'slot-on-action' => false,
         ],
     ],
 
