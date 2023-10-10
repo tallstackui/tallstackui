@@ -19,6 +19,8 @@ class Circle extends Component implements Customizable
         public ?string $outline = null,
         public ?string $color = 'primary',
         public ?string $href = null,
+        public ?string $loading = null,
+        public ?string $delay = null,
         private ?string $style = null,
     ) {
         $this->style = $this->outline ? 'outline' : 'solid';
@@ -40,11 +42,12 @@ class Circle extends Component implements Customizable
     {
         return [
             'base' => Arr::toCssClasses([
-                'outline-none inline-flex justify-center items-center group transition ease-in duration-150 w-9 h-9',
+                'outline-none inline-flex justify-center items-center group transition ease-in duration-150 w-9 h-9 font-semibold',
                 'focus:ring-2 focus:ring-offset-2 hover:shadow-sm disabled:opacity-80 disabled:cursor-not-allowed rounded-full',
                 $this->tallStackUiButtonColorClasses(),
             ]),
             'icon' => $this->tallStackUiIconColorClasses(),
+            'icon.loading' => $this->tallStackUiButtonLoading(),
         ];
     }
 }
