@@ -41,6 +41,9 @@ return [
             'position' => 'top-right',
             'square' => false,
         ],
+        'select' => [
+            'slot-on-action' => true,
+        ],
     ],
 
     /*
