@@ -130,4 +130,16 @@ trait DefaultButtonColorClasses
                 ->append('border');
         });
     }
+
+    private function tallStackUiButtonLoading(): string
+    {
+        return Arr::toCssClasses([
+            'animate-spin w-4 h-4',
+            'ml-2' => $this instanceof Index,
+            TallStackUi::colors()
+                ->when($this->color === 'white', fn (Color $color) => $color->set('text', 'black'))
+                ->unless($this->color === 'white', fn (Color $color) => $color->set('text', 'white'))
+                ->get(),
+        ]);
+    }
 }
