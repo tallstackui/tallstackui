@@ -25,6 +25,8 @@ class Index extends Component implements Customizable
         public ?string $square = null,
         public ?string $round = null,
         public ?string $href = null,
+        public ?string $loading = null,
+        public ?string $delay = null,
         public ?bool $solid = true,
         public ?bool $outline = false,
         private ?string $style = null,
@@ -61,6 +63,7 @@ class Index extends Component implements Customizable
                 $this->tallStackUiButtonColorClasses(),
             ]),
             'icon' => $this->tallStackUiIconColorClasses(),
+            'icon.loading' => $this->tallStackUiButtonLoading(),
         ];
     }
 }
