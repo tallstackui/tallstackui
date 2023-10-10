@@ -42,7 +42,8 @@ return [
             'square' => false,
         ],
         'select' => [
-            'slot-on-action' => false,
+            /* True: slots displayed after search, False: always display the slots */
+            'static-slot' => false,
         ],
     ],
 

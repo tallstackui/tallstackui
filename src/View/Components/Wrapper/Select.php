@@ -17,9 +17,9 @@ class Select extends Component implements Customizable
         public ?string $after = null,
         public ?string $before = null,
         public bool $error = false,
-        public ?bool $slotOnAction = null,
+        public ?bool $staticSlot = null,
     ) {
-        $this->slotOnAction ??= config('tallstackui.personalizations.select.slot-on-action');
+        $this->staticSlot ??= config('tallstackui.personalizations.select.static-slot');
     }
 
     public function render(): View

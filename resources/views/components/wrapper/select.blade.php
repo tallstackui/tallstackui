@@ -46,7 +46,7 @@
                 </div>
             </template>
             <ul wire:ignore @class($customize['box.list.wrapper']) id="tallstackui_select_options" role="listbox">
-                <div @if ($slotOnAction) x-show="options.length === 0" @endif>
+                <div @if (!$staticSlot) x-show="options.length === 0" @endif>
                     {!! $before !!}
                 </div>
                 @if ($loading)
@@ -81,7 +81,7 @@
                         </span>
                     </li>
                 </template>
-                <div @if ($slotOnAction) x-show="options.length === 0" @endif>
+                <div @if (!$staticSlot) x-show="options.length === 0" @endif>
                     {!! $after !!}
                 </div>
             </ul>
