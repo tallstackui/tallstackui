@@ -8,8 +8,8 @@ export default (selected) => ({
     return this.tab === tab;
   },
   init() {
-    this.tabHeadings = [...this.$refs.tabs.children].map(function(tab){
+    this.tabHeadings = [...this.$refs.tabs.children].map(function(tab) {
       return eval(`(${tab.getAttribute('x-data')})`)['name'];
-    })
+    });
   }
 });
