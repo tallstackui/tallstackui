@@ -30,7 +30,7 @@
         </div>
         <div x-show="show" @class($customize['box.wrapper'])>
             <template x-if="searchable">
-                <div class="relative px-2">
+                <div class="relative mt-2 px-2">
                     <x-input placeholder="{{ __('tallstack-ui::messages.select.input') }}"
                              x-model.debounce.500ms="search"
                              x-ref="search"
