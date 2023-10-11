@@ -1,3 +1,5 @@
+import {autoUpdate, computePosition, flip, offset} from '@floating-ui/dom';
+
 /**
  * @param search {String}
  * @param dimensional {Boolean}
@@ -54,4 +56,37 @@ export const body = (request, search, selected) => {
   }
 
   return {...body};
+};
+
+/**
+ *
+ * @param root {HTMLElement}
+ * @param select {HTMLElement}
+ * @returns {() => void}
+ */
+export const sync = (root, select) => {
+  return autoUpdate(
+      root,
+      select,
+      () => update(root, select),
+  );
+};
+
+/**
+ * @param root {HTMLElement}
+ * @param select {HTMLElement}
+ */
+export const update = (root, select) => {
+  computePosition(root, select, {
+    placement: 'bottom',
+    middleware: [
+      offset(4),
+      flip(),
+    ],
+  }).then(({x, y}) => {
+    return Object.assign(select.style, {
+      left: `${x}px`,
+      top: `${y}px`,
+    });
+  });
 };

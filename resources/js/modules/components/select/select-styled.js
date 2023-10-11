@@ -1,5 +1,5 @@
 import {warning} from '../../helpers';
-import {options as filtered} from './helpers';
+import {options as filtered, sync} from './helpers';
 
 export default (
     model = null,
@@ -20,6 +20,7 @@ export default (
   selectable: selectable,
   loading: false,
   placeholder: '',
+  cleanup: null,
   init() {
     this.placeholder = placeholder;
 
@@ -62,10 +63,18 @@ export default (
 
     this.$watch('show', async (value) => {
       if (!value || !this.searchable) {
+        if (this.cleanup) {
+          this.cleanup();
+          this.cleanup = null;
+        }
         return;
       }
 
-      setTimeout(() => this.$refs.search.focus(), 100);
+      if (value && !this.cleanup) {
+        this.cleanup = sync(this.$root, this.$refs.select);
+
+        setTimeout(() => this.$refs.search.focus(), 100);
+      }
     });
   },
   select(option) {

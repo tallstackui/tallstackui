@@ -1,5 +1,5 @@
 import {warning, error} from '../../helpers';
-import {options as filtered, body} from './helpers';
+import {options as filtered, body, sync} from './helpers';
 import axios from '../../axios';
 
 export default (
@@ -20,6 +20,7 @@ export default (
   placeholder: placeholder,
   response: [],
   loading: true,
+  cleanup: null,
   async init() {
     if (this.multiple && (this.model !== null && this.model.constructor !== Array)) {
       return warning('The wire:model must be an array');
@@ -35,9 +36,18 @@ export default (
 
     this.$watch('show', async (value) => {
       this.loading = true;
-
       if (!value) {
+        if (this.cleanup) {
+          this.cleanup();
+          this.cleanup = null;
+        }
         return;
+      }
+
+      if (value && !this.cleanup) {
+        this.cleanup = sync(this.$root, this.$refs.select);
+
+        setTimeout(() => this.$refs.search.focus(), 100);
       }
 
       await this.send();

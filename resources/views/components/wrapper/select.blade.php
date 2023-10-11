@@ -28,7 +28,7 @@
                 </div>
             </div>
         </div>
-        <div x-show="show" @class($customize['box.wrapper'])>
+        <div x-show="show" x-cloak style="display: none;" @class($customize['box.wrapper']) x-ref="select">
             <template x-if="searchable">
                 <div class="relative mt-2 px-2">
                     <x-input placeholder="{{ __('tallstack-ui::messages.select.input') }}"
