@@ -78,6 +78,7 @@
                         </div>
                     </li>
                 </template>
+                @if (!$after)
                 <template x-if="!loading && options.length === 0">
                     <li class="m-2">
                         <span @class($customize['message'])>
@@ -85,6 +86,7 @@
                         </span>
                     </li>
                 </template>
+                @endif
                 <div x-show="!loading && options.length === 0">
                     {!! $after !!}
                 </div>
