@@ -15,7 +15,6 @@ class Select extends Component implements Customizable
         public ?string $label = null,
         public ?string $hint = null,
         public ?string $after = null,
-        public ?string $before = null,
         public bool $error = false,
     ) {
         //
