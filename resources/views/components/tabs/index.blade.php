@@ -7,14 +7,14 @@
 
 <div @if ($property)
          @if (!str($directive)->contains('.live'))
-            x-data="tallstackui_tabs(@entangle($property))"
-        @else
-            x-data="tallstackui_tabs(@entangle($property).live)"
-        @endif
+             x-data="tallstackui_tabs(@entangle($property))"
+         @else
+             x-data="tallstackui_tabs(@entangle($property).live)"
+         @endif
      @else
          x-data="tallstackui_tabs(@js($selected))"
-     @endif class="w-full" x-cloak
->
+     @endif
+    class="w-full" x-cloak>
     <ul x-ref="tablist"
         role="tablist"
             @class($customize['wrapper'])>

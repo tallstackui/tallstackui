@@ -1,18 +1,22 @@
-<div class="flex items-start justify-center" x-data="{ show : false, animate : @js($animate) }">
-    <div class="relative inline-block text-left" x-on:click.outside="show = false">
+@php($customize = tallstackui_personalization('dropdown', $customization()))
+
+<div @class($customize['wrapper.first']) x-data="{ show : false, animate : @js($animate) }">
+    <div @class($customize['wrapper.second']) x-on:click.outside="show = false">
         @if ($text)
-            <div class="inline-flex w-full gap-x-1.5">
-                <span class="text-sm text-gray-700">{{ $text }}</span>
+            <div @class($customize['action.wrapper'])>
+                <span @class($customize['action.text'])>{{ $text }}</span>
                 <x-icon name="chevron-down"
-                        class="h-5 w-5 cursor-pointer text-gray-400 transition"
+                        dusk="open-dropdown"
+                        @class($customize['action.icon'])
                         x-on:click="show = !show"
                         x-bind:class="{ 'transform rotate-180': animate && show }"
                 />
             </div>
         @elseif ($icon)
-            <div class="inline-flex w-full gap-x-1.5">
+            <div @class($customize['action.wrapper'])>
                 <x-icon :$icon
-                        class="h-5 w-5 cursor-pointer text-gray-400 transition"
+                        dusk="open-dropdown"
+                        @class($customize['action.icon'])
                         x-on:click="show = !show"
                         x-bind:class="{ 'transform rotate-180': animate && show }"
                 />
@@ -20,19 +24,15 @@
         @else
             {!! $action !!}
         @endif
-        <div x-show="show"
+        <div x-show="show" x-cloak
              x-transition:enter="transition ease-out duration-150"
              x-transition:enter-start="opacity-0 scale-50"
              x-transition:enter-end="opacity-100 scale-100"
              x-transition:leave="transition ease-in duration-75"
              x-transition:leave-start="opacity-100 scale-100"
              x-transition:leave-end="opacity-0 scale-50"
-             x-cloak
-            @class([
-                'absolute z-10 mt-2 w-56 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none',
-                'right-0 origin-top-right' => ! $right,
-                'left-0 origin-top-left' => $right,
-            ]) role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+             @class($customize['wrapper.third'])
+             role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
             <div class="px-1 py-1" role="none">
                 @if ($header)
                     <div class="my-1 mx-2">

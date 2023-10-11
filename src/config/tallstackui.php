@@ -61,7 +61,7 @@ return [
         'checkbox' => Components\Form\Checkbox::class,
         'dialog' => Components\Interaction\Dialog::class,
         'dropdown' => Components\Dropdown\Index::class,
-        'dropdown.items' => Components\Dropdown\Item::class,
+        'dropdown.items' => Components\Dropdown\Items::class,
         'error' => Components\Error::class,
         'errors' => Components\Errors::class,
         'hint' => Components\Hint::class,

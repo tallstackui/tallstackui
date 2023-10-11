@@ -17,7 +17,7 @@ class Index extends Component implements Customizable
         public ?bool $animate = false,
         public ?bool $right = false,
     ) {
-        //
+        $this->animate = $this->text ? true : $this->animate;
     }
 
     public function render(): View
@@ -39,11 +39,16 @@ class Index extends Component implements Customizable
                 'first' => 'flex items-start justify-center',
                 'second' => 'relative inline-block text-left',
                 'third' => Arr::toCssClasses([
-                    'absolute right-0 z-10 mt-2 w-56 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none',
-                    'right-0 origin-top-right' => $this->right,
-                    'left-0 origin-top-left' => ! $this->right,
-                ])
-            ]
+                    'absolute z-10 mt-2 w-56 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none',
+                    'right-0 origin-top-right' => ! $this->right,
+                    'left-0 origin-top-left' => $this->right,
+                ]),
+            ],
+            'action' => [
+                'text' => 'text-sm text-gray-700',
+                'wrapper' => 'inline-flex w-full gap-x-1.5',
+                'icon' => 'h-5 w-5 cursor-pointer text-gray-400 transition',
+            ],
         ]);
     }
 }
