@@ -1,5 +1,7 @@
 # TallStackUi
 
+<p align="center"><a href="https://tallstackui.com" target="_blank"><img src="https://raw.githubusercontent.com/tallstackui/website/main/arts/tallstackui.svg" width="500"></a></p>
+
 <p align="center">
     <a href="https://github.com/laravel/tallstackui/tallstackui">
         <img src="https://github.com/tallstackui/tallstackui/actions/workflows/tests.yml/badge.svg" alt="Build Status">
