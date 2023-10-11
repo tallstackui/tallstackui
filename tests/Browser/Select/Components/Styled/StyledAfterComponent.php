@@ -17,6 +17,7 @@ class StyledAfterComponent extends Component
             <x-select.styled wire:model="string"
                              label="Select"
                              hint="Select"
+                             searchable
                              :options="[
                                 ['label' => 'foo', 'value' => 'bar'],
                                 ['label' => 'bar', 'value' => 'foo'],

@@ -6,7 +6,7 @@
     $customize = tallstackui_personalization('select.styled', $customization());
 @endphp
 
-<x-wrapper.select :$label :$error :$computed :$hint :$after :$before>
+<x-wrapper.select :$label :$error :$computed :$hint :$after>
     @if (!str($directive)->contains('.live'))
         <x-slot:alpine>
             tallstackui_selectStyled(@entangle($property), @js($searchable), @js($multiple), @js($selectable !== []), @js($selectable), @js($options), @js($placeholder))
