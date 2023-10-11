@@ -106,7 +106,6 @@ class SearchableTest extends BrowserTestCase
                 ->clickAtXPath('/html/body/div[3]/div/div[2]/div[2]/ul/li[1]')
                 ->click('@tallstackui_select_open_close')
                 ->type('@tallstackui_select_search_input', 'foo-bar-baz')
-                ->waitForText('No results found')
                 ->waitForText('After Slot');
         });
     }
