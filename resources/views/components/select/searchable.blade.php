@@ -6,7 +6,7 @@
     $customize = tallstackui_personalization('select.searchable', $customization());
 @endphp
 
-<x-wrapper.select :$label :$error :$computed :$hint :$after :$before :$staticSlot loading>
+<x-wrapper.select :$label :$error :$computed :$hint :$after loading>
     @if (!str($directive)->contains('.live'))
         <x-slot:alpine>
             tallstackui_selectSearchable(@entangle($property), @js($request), @js($selectable), @js($multiple), @js($placeholder))

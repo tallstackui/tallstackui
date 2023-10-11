@@ -41,10 +41,6 @@ return [
             'position' => 'top-right',
             'square' => false,
         ],
-        'select' => [
-            /* True: slots displayed after search, False: always display the slots */
-            'static-slot' => false,
-        ],
     ],
 
     /*
