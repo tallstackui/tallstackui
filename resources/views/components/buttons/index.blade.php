@@ -5,7 +5,7 @@
 
 <{{ $tag }} @if ($href) href="{{ $href }}" @else
     type="button" role="button"
-@endif {{ $attributes->class($customize['wrapper']) }} @if ($loading) wire:loading.attr="disabled" wire:loading.class="!cursor-wait" @endif>
+@endif {{ $attributes->class($customize['wrapper']) }} wire:loading.attr="disabled" wire:loading.class="!cursor-wait">
 @if ($icon && $position === 'left')
     <x-icon :$icon @class($customize['icon']) />
 @endif

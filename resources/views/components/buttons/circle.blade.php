@@ -5,11 +5,15 @@
 
 <{{ $tag }} @if ($href) href="{{ $href }}" @else
     type="button" role="button"
-@endif {{ $attributes->class($customize['base']) }} @if ($loading) wire:loading.attr="disabled" wire:loading.class="!cursor-wait" @endif>
+@endif {{ $attributes->class($customize['base']) }} wire:loading.attr="disabled" wire:loading.class="!cursor-wait">
 @if ($icon)
-    <x-icon :$icon @class($customize['icon']) wire:loading.remove />
+    @if ($loading)
+        <x-icon :$icon @class($customize['icon']) wire:loading.remove />
+    @else
+        <x-icon :$icon @class($customize['icon']) />
+    @endif
 @else
-    <span wire:loading.remove>{{ $text ?? $slot }}</span>
+    <span @if ($loading) wire:loading.remove @endif>{{ $text ?? $slot }}</span>
 @endif
 @if ($loading)
     <svg @if ($loading !== "1") wire:target="{{ $loading }}" @endif
