@@ -13,10 +13,14 @@
      aria-labelledby="modal-title"
      role="dialog"
      aria-modal="true"
-     x-data="{ show : @if ($wire) @entangle($entangle) @else false @endif }"
+     @if ($wire)
+         x-data="tallstackui_modal(@entangle($entangle))"
+     @else
+         x-data="tallstackui_modal(@entangle($entangle))"
+     @endif
      x-show="show"
-     x-on:modal:{{ $open }}.window="show = true"
-     x-on:modal:{{ $close }}.window="show = false">
+     x-on:modal:{{ $open }}.window="show = true;"
+     x-on:modal:{{ $close }}.window="show = false;">
     <div x-show="show"
          x-transition:enter="ease-out duration-300"
          x-transition:enter-start="opacity-0"

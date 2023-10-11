@@ -1,4 +1,4 @@
-import {dispatchEvent} from '../../helpers';
+import {dispatchEvent, overflow} from '../../helpers';
 
 export default (ok, confirm, cancel) => ({
   show: false,
@@ -7,6 +7,9 @@ export default (ok, confirm, cancel) => ({
     ok: ok,
     confirm: confirm,
     cancel: cancel,
+  },
+  init() {
+    this.$watch('show', (value) => overflow(value));
   },
   add(dialog) {
     this.show = true;
