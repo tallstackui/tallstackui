@@ -44,8 +44,10 @@ export default (
         return;
       }
 
-      if (value && !this.cleanup) {
-        this.cleanup = sync(this.$root, this.$refs.select);
+      if (value) {
+        if (!this.cleanup) {
+          this.cleanup = sync(this.$root, this.$refs.select);
+        }
 
         setTimeout(() => this.$refs.search.focus(), 100);
       }

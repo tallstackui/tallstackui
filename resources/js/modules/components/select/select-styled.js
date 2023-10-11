@@ -62,7 +62,7 @@ export default (
     }
 
     this.$watch('show', async (value) => {
-      if (!value || !this.searchable) {
+      if (!value) {
         if (this.cleanup) {
           this.cleanup();
           this.cleanup = null;
@@ -70,10 +70,14 @@ export default (
         return;
       }
 
-      if (value && !this.cleanup) {
-        this.cleanup = sync(this.$root, this.$refs.select);
+      if (value) {
+        if (!this.cleanup) {
+          this.cleanup = sync(this.$root, this.$refs.select);
+        }
 
-        setTimeout(() => this.$refs.search.focus(), 100);
+        if (this.searchable) {
+          setTimeout(() => this.$refs.search.focus(), 100);
+        }
       }
     });
   },

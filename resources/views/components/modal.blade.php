@@ -16,7 +16,7 @@
      @if ($wire)
          x-data="tallstackui_modal(@entangle($entangle))"
      @else
-         x-data="tallstackui_modal(@entangle($entangle))"
+         x-data="tallstackui_modal(false)"
      @endif
      x-show="show"
      x-on:modal:{{ $open }}.window="show = true;"
