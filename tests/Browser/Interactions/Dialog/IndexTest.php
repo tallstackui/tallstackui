@@ -16,19 +16,19 @@ class IndexTest extends BrowserTestCase
                 ->assertDontSee('Foo bar success')
                 ->click('#success')
                 ->waitForText('Foo bar success')
-                ->click('#tallstackui_dialog_confirmation')
+                ->click('@tallstackui_dialog_confirmation')
                 ->assertDontSee('Foo bar error')
                 ->click('#error')
                 ->waitForText('Foo bar error')
-                ->click('#tallstackui_dialog_confirmation')
+                ->click('@tallstackui_dialog_confirmation')
                 ->assertDontSee('Foo bar info')
                 ->click('#info')
                 ->waitForText('Foo bar info')
-                ->click('#tallstackui_dialog_confirmation')
+                ->click('@tallstackui_dialog_confirmation')
                 ->assertDontSee('Foo bar warning')
                 ->click('#warning')
                 ->waitForText('Foo bar warning')
-                ->click('#tallstackui_dialog_confirmation');
+                ->click('@tallstackui_dialog_confirmation');
         });
     }
 
@@ -40,7 +40,7 @@ class IndexTest extends BrowserTestCase
                 ->assertDontSee('Foo bar confirmation description')
                 ->click('#confirm')
                 ->waitForText('Foo bar confirmation description')
-                ->click('#tallstackui_dialog_confirmation')
+                ->click('@tallstackui_dialog_confirmation')
                 ->waitUntilMissingText('Foo bar confirmation description');
         });
     }
@@ -53,7 +53,7 @@ class IndexTest extends BrowserTestCase
                 ->assertDontSee('Foo bar confirmation description')
                 ->click('#confirm')
                 ->waitForText('Foo bar confirmation description')
-                ->click('#tallstackui_dialog_rejection')
+                ->click('@tallstackui_dialog_rejection')
                 ->waitForText('Bar foo cancelled bar');
         });
     }

@@ -38,7 +38,7 @@ class IndexTest extends BrowserTestCase
                 ->assertDontSee('Foo bar confirmation description')
                 ->click('#confirm')
                 ->waitForText('Foo bar confirmation description')
-                ->click('#tallstackui_toast_rejection')
+                ->click('@tallstackui_toast_rejection')
                 ->waitForText('Bar foo cancelled bar');
         });
     }
@@ -51,7 +51,7 @@ class IndexTest extends BrowserTestCase
                 ->assertDontSee('Foo bar confirmation description')
                 ->click('#confirm')
                 ->waitForText('Foo bar confirmation description')
-                ->click('#tallstackui_toast_confirmation')
+                ->click('@tallstackui_toast_confirmation')
                 ->waitForText('Foo bar confirmed foo');
         });
     }

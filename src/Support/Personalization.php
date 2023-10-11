@@ -11,6 +11,8 @@ use TallStackUi\Support\Personalizations\Components\Badge;
 use TallStackUi\Support\Personalizations\Components\Button\Circle as ButtonCircle;
 use TallStackUi\Support\Personalizations\Components\Button\Index as Button;
 use TallStackUi\Support\Personalizations\Components\Card;
+use TallStackUi\Support\Personalizations\Components\Dropdown\Index as Dropdown;
+use TallStackUi\Support\Personalizations\Components\Dropdown\Items as DropdownItems;
 use TallStackUi\Support\Personalizations\Components\Error;
 use TallStackUi\Support\Personalizations\Components\Errors;
 use TallStackUi\Support\Personalizations\Components\Form\Checkbox;
@@ -45,6 +47,8 @@ class Personalization
         'tallstack-ui::personalizations.button.circle' => ButtonCircle::class,
         'tallstack-ui::personalizations.card' => Card::class,
         'tallstack-ui::personalizations.dialog' => Dialog::class,
+        'tallstack-ui::personalizations.dropdown' => Dropdown::class,
+        'tallstack-ui::personalizations.dropdown.items' => DropdownItems::class,
         'tallstack-ui::personalizations.error' => Error::class,
         'tallstack-ui::personalizations.errors' => Errors::class,
         'tallstack-ui::personalizations.form.input' => Input::class,
@@ -135,6 +139,19 @@ class Personalization
     public function dialog(): Dialog
     {
         return app($this->component(Dialog::class));
+    }
+
+    public function dropdown(string $component = null): Dropdown|DropdownItems
+    {
+        $component ??= 'dropdown';
+
+        $class = match ($component) {
+            'dropdown' => Dropdown::class,
+            'items' => DropdownItems::class,
+            default => $component,
+        };
+
+        return app($this->component($class));
     }
 
     public function error(): Error
