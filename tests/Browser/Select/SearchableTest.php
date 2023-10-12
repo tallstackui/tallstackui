@@ -8,6 +8,8 @@ use Tests\Browser\Select\Components\Searchable\SearchableAfterComponent;
 use Tests\Browser\Select\Components\Searchable\SearchableComponent;
 use Tests\Browser\Select\Components\Searchable\SearchableFilteredComponent;
 use Tests\Browser\Select\Components\Searchable\SearchableMultipleComponent;
+use Tests\Browser\Select\Components\Searchable\SearchableMultipleLiveEntangleComponent;
+use Tests\Browser\Select\Components\Searchable\SearchableMultipleLiveEntangleDefaultComponent;
 
 class SearchableTest extends BrowserTestCase
 {
@@ -92,6 +94,39 @@ class SearchableTest extends BrowserTestCase
                 ->click('@tallstackui_select_open_close')
                 ->click('#sync')
                 ->waitForText('[1,2]');
+        });
+    }
+
+    /** @test */
+    public function can_select_multiple_with_live_entangle_preserving_default(): void
+    {
+        $this->browse(function (Browser $browser) {
+            $this->visit($browser, SearchableMultipleLiveEntangleComponent::class)
+                ->assertSee('Select an option')
+                ->click('@tallstackui_select_open_close')
+                ->waitForText('delectus aut autem')
+                ->waitForText('quis ut nam facilis et officia qui')
+                ->clickAtXPath('/html/body/div[3]/div/div[2]/div[2]/ul/li[1]')
+                ->clickAtXPath('/html/body/div[3]/div/div[2]/div[2]/ul/li[2]')
+                ->click('@tallstackui_select_open_close')
+                ->waitForText('[1,2]');
+        });
+    }
+
+    /** @test */
+    public function can_deselect_single_in_multiple_with_live_entangle_preserving_others(): void
+    {
+        $this->browse(function (Browser $browser) {
+            $this->visit($browser, SearchableMultipleLiveEntangleDefaultComponent::class)
+                ->assertDontSee('Select an option')
+                ->click('@tallstackui_select_open_close')
+                ->waitForText('delectus aut autem')
+                ->waitForText('quis ut nam facilis et officia qui')
+                ->waitForText('fugiat veniam minus')
+                ->clickAtXPath('/html/body/div[3]/div/div[2]/div[2]/ul/li[3]')
+                ->clickAtXPath('/html/body/div[3]/div/div[2]/div[2]/ul/li[2]')
+                ->click('@tallstackui_select_open_close')
+                ->waitForText('[1,3]');
         });
     }
 
