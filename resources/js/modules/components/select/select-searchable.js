@@ -74,6 +74,26 @@ export default (
         this.placeholder = this.selecteds[0][this.selectable.label] ?? placeholder;
       }
     }
+
+    this.$watch('model', (value, old) => {
+      if (value === old) {
+        return;
+      }
+
+      if (this.multiple) {
+        this.selecteds = this.options.filter((option) => {
+          return value.includes(option[this.selectable.value]);
+        });
+      } else {
+        this.selecteds = this.options.filter((option) => {
+          return value.toString() === option[this.selectable.value].toString();
+        });
+
+        if (this.options.length > 0) {
+          this.placeholder = this.selecteds[0][this.selectable.label] ?? placeholder;
+        }
+      }
+    });
   },
   async send() {
     this.response = [];
