@@ -13,8 +13,7 @@
          @endif
      @else
          x-data="tallstackui_tabs(@js($selected))"
-     @endif
-    class="w-full" x-cloak>
+     @endif class="w-full" x-cloak>
     <ul x-ref="tablist"
         role="tablist"
             @class($customize['wrapper'])>

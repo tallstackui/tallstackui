@@ -34,7 +34,7 @@ class Index extends Component implements Customizable
             'wrapper' => '-mb-px flex items-stretch overflow-auto',
             'item' => [
                 'wrapper' => Arr::toCssClasses([
-                    'inline-flex truncate px-5 py-2.5 text-gray-700 transition cursor-pointer',
+                    'inline-flex justify-center truncate px-5 py-2.5 text-gray-700 transition cursor-pointer',
                     'rounded-t-lg' => ! $this->square,
                 ]),
                 'selected' => 'bg-white text-primary font-semibold',
