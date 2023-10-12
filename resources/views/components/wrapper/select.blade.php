@@ -32,15 +32,7 @@
                 </div>
             </div>
         </div>
-        <div wire:ignore x-show="show"
-             x-transition:enter="transition ease-out duration-150"
-             x-transition:enter-start="opacity-0 scale-0"
-             x-transition:enter-end="opacity-100 scale-100"
-             x-transition:leave="transition ease-in duration-75"
-             x-transition:leave-start="opacity-100 scale-100"
-             x-transition:leave-end="opacity-0 scale-0"
-             x-cloak style="display: none;" @class($customize['box.wrapper'])
-             x-ref="select">
+        <div wire:ignore x-show="show" x-cloak style="display: none;" @class($customize['box.wrapper']) x-ref="select">
             <template x-if="searchable">
                 <div class="relative mt-2 px-2">
                     <x-input placeholder="{{ __('tallstack-ui::messages.select.input') }}"
