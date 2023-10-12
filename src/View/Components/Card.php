@@ -36,12 +36,12 @@ class Card extends Component implements Customizable
                 'first' => 'flex justify-center gap-4',
                 'second' => 'flex w-full flex-col rounded-lg bg-white shadow-md',
             ],
-            'title' => [
-                'wrapper' => 'flex items-center justify-between border-b px-4 py-2',
+            'header' => [
+                'wrapper' => 'flex items-center justify-between border-b p-4',
                 'text' => 'font-medium text-md text-secondary-700',
             ],
             'footer' => [
-                'wrapper' => 'rounded-lg rounded-t-none border-t px-4 py-2 bg-secondary-50 text-secondary-700 sm:px-6',
+                'wrapper' => 'rounded-lg rounded-t-none border-t p-4 bg-secondary-50 text-secondary-700 sm:px-6',
                 'text' => 'flex items-center justify-end gap-2',
             ],
         ]);
