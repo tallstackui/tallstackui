@@ -85,6 +85,8 @@ export const update = (root, select) => {
     ],
   }).then(({x, y}) => {
     return Object.assign(select.style, {
+      position: 'absolute',
+      offset: offset(4),
       left: `${x}px`,
       top: `${y}px`,
     });

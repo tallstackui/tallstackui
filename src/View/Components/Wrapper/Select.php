@@ -54,7 +54,7 @@ class Select extends Component implements Customizable
                 ],
             ],
             'box' => [
-                'wrapper' => 'absolute z-10 mt-1 w-full rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5',
+                'wrapper' => 'absolute z-10 mt-1 w-full rounded-xl bg-white shadow-lg ring-1 ring-black ring-opacity-5',
                 'button' => [
                     'base' => 'absolute inset-y-0 right-2 flex cursor-pointer items-center px-2',
                     'icon' => 'h-5 w-5 transition text-secondary-500 hover:text-red-500',
