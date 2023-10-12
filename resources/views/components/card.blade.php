@@ -3,8 +3,8 @@
 <div @class($customize['wrapper.first'])>
     <div @class($customize['wrapper.second'])>
         @if ($header)
-            <div @class($customize['title.wrapper'])>
-                <h3 @class($customize['title.text'])>
+            <div @class($customize['header.wrapper'])>
+                <h3 @class($customize['header.text'])>
                     {{ $header }}
                 </h3>
             </div>

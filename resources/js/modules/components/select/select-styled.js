@@ -80,6 +80,30 @@ export default (
         }
       }
     });
+
+    this.$watch('model', (value, old) => {
+      if (value === old) {
+        return;
+      }
+
+      if (this.multiple) {
+        this.selecteds = this.dimensional ?
+                    this.options.filter((option) => value?.includes(option[this.selectable.value])) :
+                    this.options.filter((option) => value?.includes(option));
+      } else {
+        this.selecteds = this.dimensional ?
+                    this.options.find((option) => value.toString() === option[this.selectable.value].toString()) :
+                    this.options.find((option) => value.toString() === option.toString());
+
+        this.selecteds = this.dimensional ?
+                    [this.selecteds] :
+                    this.selecteds;
+
+        this.placeholder = this.dimensional ?
+                    this.selecteds[0]?.[this.selectable.label] ?? placeholder :
+            (!this.empty ? this.selecteds : placeholder);
+      }
+    });
   },
   select(option) {
     if (this.selected(option)) {

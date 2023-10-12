@@ -32,7 +32,7 @@
                 </div>
             </div>
         </div>
-        <div x-show="show" x-cloak style="display: none;" @class($customize['box.wrapper']) x-ref="select">
+        <div wire:ignore x-show="show" x-cloak style="display: none;" @class($customize['box.wrapper']) x-ref="select">
             <template x-if="searchable">
                 <div class="relative mt-2 px-2">
                     <x-input placeholder="{{ __('tallstack-ui::messages.select.input') }}"
@@ -49,7 +49,7 @@
                     </button>
                 </div>
             </template>
-            <ul wire:ignore @class($customize['box.list.wrapper']) dusk="tallstackui_select_options" role="listbox">
+            <ul @class($customize['box.list.wrapper']) dusk="tallstackui_select_options" role="listbox">
                 @if ($loading)
                     <div x-show="loading"
                          @class($customize['box.list.loading.wrapper']) class="flex items-center justify-center p-4 space-x-4">
