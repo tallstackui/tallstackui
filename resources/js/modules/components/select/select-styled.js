@@ -21,6 +21,7 @@ export default (
   loading: false,
   placeholder: '',
   cleanup: null,
+  internal: false,
   init() {
     this.placeholder = placeholder;
 
@@ -82,7 +83,12 @@ export default (
     });
 
     this.$watch('model', (value, old) => {
-      if (value === old) {
+      if (this.internal) {
+        this.internal = false;
+        return;
+      }
+
+      if (!value || value === old) {
         return;
       }
 
@@ -106,6 +112,8 @@ export default (
     });
   },
   select(option) {
+    this.internal = true;
+
     if (this.selected(option)) {
       this.clear(option);
 
@@ -113,7 +121,7 @@ export default (
     }
 
     if (this.multiple) {
-      this.selecteds = this.selecteds ?
+      this.selecteds = !this.empty ?
                 [...this.selecteds, option] :
                 [option];
 
@@ -147,15 +155,19 @@ export default (
   },
   clear(selected = null) {
     if (selected) {
-      this.selecteds = this.multiple ?
-                this.selecteds.filter((option) => option !== selected) :
-                [];
+      if (this.multiple) {
+        this.selecteds = this.dimensional ?
+                    this.selecteds.filter((option) => option[this.selectable.value] !== selected[this.selectable.value]) :
+                    this.selecteds.filter((option) => option !== selected);
 
-      this.model = this.multiple ?
-                this.selecteds.map((selected) => selected[this.selectable.value]) :
-                null;
+        this.model = this.dimensional ?
+                    this.selecteds.map((selected) => selected[this.selectable.value]) :
+                    this.selecteds;
+      } else {
+        this.selecteds = [];
+      }
 
-      if (this.selecteds.length > 0) {
+      if (this.quantity > 0) {
         return;
       }
 
