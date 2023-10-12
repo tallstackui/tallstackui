@@ -4,22 +4,23 @@ namespace Tests\Browser\Select\Components\Searchable;
 
 use Livewire\Component;
 
-class SearchableMultipleLiveEntangleDefaultComponent extends Component
+class SearchableLoadLiveEntangleComponent extends Component
 {
-    public ?array $array = [1, 2];
+    public ?int $int = null;
 
     public function render(): string
     {
         return <<<'HTML'
-        <div>        
-            @json($array)
+        <div>
+            {{ $int }}
 
-            <x-select.searchable wire:model.live="array"
+            <x-select wire:model.live="int" :options="[1,2,3]" />
+
+            <x-select.searchable wire:model.live="int"
                                  label="Select"
                                  hint="Select"
                                  request="{{ route('searchable.simple') }}"
                                  select="label:label|value:value"
-                                 multiple
             />
         </div>
 HTML;

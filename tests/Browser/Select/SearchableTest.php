@@ -7,6 +7,7 @@ use Tests\Browser\BrowserTestCase;
 use Tests\Browser\Select\Components\Searchable\SearchableAfterComponent;
 use Tests\Browser\Select\Components\Searchable\SearchableComponent;
 use Tests\Browser\Select\Components\Searchable\SearchableFilteredComponent;
+use Tests\Browser\Select\Components\Searchable\SearchableLoadLiveEntangleComponent;
 use Tests\Browser\Select\Components\Searchable\SearchableMultipleComponent;
 use Tests\Browser\Select\Components\Searchable\SearchableMultipleLiveEntangleComponent;
 use Tests\Browser\Select\Components\Searchable\SearchableMultipleLiveEntangleDefaultComponent;
@@ -127,6 +128,23 @@ class SearchableTest extends BrowserTestCase
                 ->clickAtXPath('/html/body/div[3]/div/div[2]/div[2]/ul/li[2]')
                 ->click('@tallstackui_select_open_close')
                 ->waitForText('[1,3]');
+        });
+    }
+
+    /** @test */
+    public function can_load_default_based_on_entangle_live(): void
+    {
+        $this->browse(function (Browser $browser) {
+            $this->visit($browser, SearchableLoadLiveEntangleComponent::class)
+                ->assertSee('Select an option')
+                ->click('@tallstackui_select_open_close')
+                ->waitForText('delectus aut autem')
+                ->waitForText('quis ut nam facilis et officia qui')
+                ->waitForText('fugiat veniam minus')
+                ->click('@tallstackui_select_open_close')
+                ->clickAtXPath('/html/body/div[3]/div[1]/select/option[2]')
+                ->waitForText('quis ut nam facilis et officia qui')
+                ->waitForText('2');
         });
     }
 
