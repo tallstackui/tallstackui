@@ -5,6 +5,7 @@ namespace TallStackUi\View\Components;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
+use InvalidArgumentException;
 use TallStackUi\Contracts\Customizable;
 
 class Modal extends Component implements Customizable
@@ -20,6 +21,10 @@ class Modal extends Component implements Customizable
         public string $size = '2xl',
         public string $entangle = 'modal',
     ) {
+        if (is_string($this->wire) && empty($this->wire)) {
+            throw new InvalidArgumentException('The wire property cannot be an empty string.');
+        }
+
         $this->entangle = is_string($this->wire) ? $this->wire : (! is_bool($this->wire) ? $this->entangle : 'modal');
 
         $this->size = match ($this->size) {
