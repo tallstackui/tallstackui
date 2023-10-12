@@ -15,7 +15,7 @@
             <div x-on:click="show = true" @class($customize['header'])>
                 {!! $header !!}
             </div>
-            <div @class($customize['buttons.wrapper']))>
+            <div @class($customize['buttons.wrapper'])>
                 <template x-if="!empty">
                     <button dusk="tallstackui_select_clear" type="button" x-on:click="clear()">
                         <x-icon name="x-mark" @class([$customize['buttons.x-mark.base'], $customize['buttons.x-mark.error'] => $error]) />
@@ -23,7 +23,11 @@
                 </template>
                 <div class="mr-1 flex items-center">
                     <button dusk="tallstackui_select_open_close" type="button" x-on:click="show = !show">
-                        <x-icon name="chevron-up-down" @class([$customize['buttons.up-down.base'], $customize['buttons.up-down.error'] => $error]) />
+                        <x-icon name="chevron-up-down" @class([
+                                $customize['buttons.up-down.base'],
+                                $customize['buttons.up-down.normal'] => !$error,
+                                $customize['buttons.up-down.error'] => $error
+                            ]) />
                     </button>
                 </div>
             </div>
@@ -38,7 +42,7 @@
                              :validate="false"
                     />
                     <button type="button"
-                            @class($customize['box.button.base']))
+                            @class([$customize['box.button.base']])
                             x-on:click="search = ''; $refs.search.focus();"
                             x-show="search.length > 0">
                         <x-icon name="x-mark" @class($customize['box.button.icon']) />

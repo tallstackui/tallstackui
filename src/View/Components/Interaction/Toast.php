@@ -53,7 +53,7 @@ class Toast extends Component implements Customizable
                 ]),
                 'third' => Arr::toCssClasses([
                     'pointer-events-auto w-full max-w-sm overflow-hidden bg-white shadow-lg ring-1 ring-black ring-opacity-5',
-                    'rounded-lg' => ! $this->square,
+                    'rounded-xl' => ! $this->square,
                 ]),
                 'fourth' => 'flex items-start p-4',
             ],

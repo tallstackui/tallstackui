@@ -45,7 +45,7 @@ class Dialog extends Component implements Customizable
                 'second' => 'flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0',
                 'third' => Arr::toCssClasses([
                     'relative w-full max-w-sm transform overflow-hidden bg-white p-4 text-left shadow-xl transition-all sm:my-8',
-                    'rounded-lg' => ! $this->square,
+                    'rounded-xl' => ! $this->square,
                 ]),
             ],
             'icon' => [
