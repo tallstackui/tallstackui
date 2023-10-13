@@ -57,7 +57,7 @@ class Toggle extends Component implements Customizable
                 'h-6 w-10' => $this->size === 'lg',
             ]),
             'error' => 'bg-red-600 peer-checked:bg-red-600 peer-focus:ring-red-600 group-focus:ring-red-600',
-            /* Interal Usage Only */
+            /* Internal Usage Only */
             'internal.wrapper.color' => TallStackUi::colors()
                 ->clean(false)
                 ->when($this->color === 'white', function (Color $color) {

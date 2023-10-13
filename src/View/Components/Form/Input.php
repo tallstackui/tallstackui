@@ -56,7 +56,7 @@ class Input extends Component implements Customizable
                 'size' => 'h-5 w-5',
             ],
             'error' => 'text-red-600 ring-1 ring-inset ring-red-300 placeholder:text-red-300 focus:ring-2 focus:ring-inset focus:ring-red-500',
-            /* Interal Usage Only */
+            /* Internal Usage Only */
             'internal' => [
                 'input.icon' => Arr::toCssClasses([
                     'pl-10' => $this->icon && ($this->position === null || $this->position === 'left'),

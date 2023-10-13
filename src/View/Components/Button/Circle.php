@@ -51,7 +51,7 @@ class Circle extends Component implements Customizable
                 'size' => 'w-4 h-4',
                 'loading' => 'animate-spin w-4 h-4',
             ],
-            /* Interal Usage Only */
+            /* Internal Usage Only */
             'internal' => [...$this->tallStackUiButtonsColors()],
         ]);
     }

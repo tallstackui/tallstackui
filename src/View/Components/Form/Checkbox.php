@@ -48,7 +48,7 @@ class Checkbox extends Component implements Customizable
                 'w-6 h-6' => $this->size === 'lg',
             ]),
             'error' => 'border border-red-300 text-red-600 focus:ring-red-600 focus:border-red-400',
-            /* Interal Usage Only */
+            /* Internal Usage Only */
             'internal.input.color' => $this->tallStackUiRadioCheckboxColors(),
         ];
     }

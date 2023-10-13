@@ -60,7 +60,7 @@ class Index extends Component implements Customizable
                     'text-neutral' => $this->color === 'white' || $this->color === 'black',
                 ]),
             ],
-            /* Interal Usage Only */
+            /* Internal Usage Only */
             'internal' => [
                 'wrapper.color' => Arr::toCssClasses([
                     TallStackUi::colors()

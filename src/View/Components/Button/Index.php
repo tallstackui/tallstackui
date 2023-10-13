@@ -76,7 +76,7 @@ class Index extends Component implements Customizable
                     'w-5 h-5' => $this->size === 'lg',
                 ]),
             ],
-            /* Interal Usage Only */
+            /* Internal Usage Only */
             'internal' => [...$this->tallStackUiButtonsColors()],
         ]);
     }

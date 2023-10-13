@@ -38,34 +38,19 @@ class Alert extends Component implements Customizable
 
     public function tallStackUiClasses(): array
     {
+        $color = $this->tallStackUiTextColor();
+
         return Arr::dot([
             'wrapper' => Arr::toCssClasses([
                 'rounded-md p-4',
                 'animate-pulse' => $this->pulse,
-                TallStackUi::colors()
-                    ->when(
-                        $this->style === 'solid',
-                        fn (Color $color) => $color->set('bg', $this->color, ! in_array($this->color, ['white', 'black']) ? 300 : null)
-                    )
-                    ->unless(
-                        $this->style === 'solid',
-                        fn (Color $color) => $color->set('bg', $this->color === 'black' ? 'neutral' : $this->color, $this->color === 'black' ? 200 : 100)
-                    )
-                    ->get(),
-                TallStackUi::colors()
-                    ->set('border', $this->color, $this->color === 'black' ? null : 500)
-                    ->get() => $this->color !== 'white',
-                'border' => $this->color === 'white',
             ]),
             'title' => [
-                'base' => Arr::toCssClasses([
-                    'text-lg font-semibold',
-                    $this->tallStackUiTextColor() => $this->title !== null,
-                ]),
+                'base' => 'text-lg font-semibold',
                 'wrapper' => 'flex items-center justify-between',
                 'icon' => [
                     'wrapper' => 'ml-auto pl-3',
-                    'classes' => Arr::toCssClasses(['w-5 h-5', $this->tallStackUiTextColor()]),
+                    'size' => 'w-5 h-5',
                 ],
             ],
             'text' => [
@@ -75,23 +60,36 @@ class Alert extends Component implements Customizable
                         'text-sm',
                         'inline-flex' => $this->title === null && $this->icon !== null,
                         'mt-2' => $this->title !== null,
-                        $this->tallStackUiTextColor(),
                     ]),
                     'icon' => [
                         'wrapper' => 'flex items-center',
-                        'classes' => Arr::toCssClasses(['w-5 h-5', $this->tallStackUiTextColor()]),
+                        'size' => 'w-5 h-5',
                     ],
                 ],
             ],
             'icon' => [
                 'wrapper' => 'mr-2',
-                'base' => Arr::toCssClasses([
-                    'w-5 h-5',
+                'size' => 'w-5 h-5',
+            ],
+            /* Internal Usage Only */
+            'internal' => [
+                'wrapper.color' => Arr::toCssClasses([
+                    TallStackUi::colors()
+                        ->when($this->style === 'solid', fn (Color $color) => $color->set('bg', $this->color, ! in_array($this->color, ['white', 'black']) ? 300 : null))
+                        ->unless($this->style === 'solid', fn (Color $color) => $color->set('bg', $this->color === 'black' ? 'neutral' : $this->color, $this->color === 'black' ? 200 : 100))
+                        ->get(),
+                    'border' => $this->color === 'white',
+                ]),
+                'title.base.color' => Arr::toCssClasses([$color => $this->title !== null]),
+                'title.icon.color' => $color,
+                'text.title.wrapper.color' => $color,
+                'text.title.icon.color' => $color,
+                'icon.color' => Arr::toCssClasses([
                     TallStackUi::colors()
                         ->set('text', $this->color === 'black' ? 'white' : $this->color, $this->color === 'black' ? null : 500)
                         ->get() => $this->color !== 'white',
                 ]),
-            ],
+            ]
         ]);
     }
 

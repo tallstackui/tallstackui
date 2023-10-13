@@ -45,7 +45,7 @@ class Password extends Component implements Customizable
                 'class' => 'h-5 w-5 text-gray-400',
             ],
             'error' => 'text-red-600 ring-1 ring-inset ring-red-300 placeholder:text-red-300 focus:ring-2 focus:ring-inset focus:ring-red-500',
-            /* Interal Usage Only */
+            /* Internal Usage Only */
             'internal' => [
                 'input.icon' => 'pr-10',
                 'input.round' => Arr::toCssClasses([
