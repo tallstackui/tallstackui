@@ -44,15 +44,16 @@ class Input extends Component implements Customizable
         return Arr::dot([
             'base' => Arr::toCssClasses([
                 $this->tallStackUiInputClasses(),
-                'pl-10' => $this->icon && ($this->position === null || $this->position === 'left'),
             ]),
             'icon' => [
-                'wrapper' => Arr::toCssClasses([
-                    'pointer-events-none absolute inset-y-0 flex items-center text-secondary-500',
-                    'left-0 pl-3' => $this->position === null || $this->position === 'left',
-                    'right-0 pr-3' => $this->position === 'right',
-                ]),
+                'wrapper' => 'pointer-events-none absolute inset-y-0 flex items-center text-secondary-500',
+                'padding.left' => 'left-0 pl-3',
+                'padding.right' => 'right-0 pr-3',
                 'size' => 'h-5 w-5',
+                'input.padding' => [
+                    'left' => 'pl-10',
+                    'right' => 'pr-10',
+                ],
             ],
             'error' => 'text-red-600 ring-1 ring-inset ring-red-300 placeholder:text-red-300 focus:ring-2 focus:ring-inset focus:ring-red-500',
         ]);

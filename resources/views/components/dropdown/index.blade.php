@@ -33,7 +33,7 @@
              x-transition:leave-end="opacity-0 scale-50"
              @class($customize['wrapper.third'])
              role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
-            <div class="px-1 py-1" role="none">
+            <div class="p-1" role="none">
                 @if ($header)
                     <div class="my-1 mx-2">
                         {!! $header !!}
