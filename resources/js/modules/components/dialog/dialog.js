@@ -39,7 +39,7 @@ export default (ok, confirm, cancel) => ({
     const params = dialog.options.cancel.params ?? null;
 
     dispatchEvent('dialog:rejected', dialog);
-    setTimeout(() => this.$dispatch(dialog.options.cancel.event, params.constructor !== Array ? [params] : [...params]), 100);
+    setTimeout(() => this.$dispatch(dialog.options.cancel.event, params?.constructor !== Array ? [params] : [...params]), 100);
 
     this.remove();
   },
