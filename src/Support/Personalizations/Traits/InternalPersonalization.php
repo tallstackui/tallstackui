@@ -133,7 +133,7 @@ trait InternalPersonalization
             ->get();
 
         return [
-            'base.wrapper.second.color' => TallStackUi::colors()
+            'wrapper.second.color' => TallStackUi::colors()
                 ->when($this->color === 'white', fn (Color $color) => $color->set('bg', 'gray', 50))
                 ->unless($this->color === 'white', fn (Color $color) => $color->set('bg', $this->color === 'black' ? 'neutral' : $this->color, 50))
                 ->get(),
