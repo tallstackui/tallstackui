@@ -53,9 +53,8 @@ class Index extends Component implements Customizable
     {
         return Arr::dot([
             'wrapper' => Arr::toCssClasses([
-                'outline-none inline-flex justify-center items-center group ease-in font-semibold transition',
+                'outline-none inline-flex justify-center items-center group ease-in font-semibold transition gap-x-2',
                 'focus:ring-2 focus:ring-offset-2 hover:shadow-sm disabled:opacity-50 disabled:cursor-not-allowed',
-                'gap-x-2' => $this->icon !== null,
                 'text-xs px-1 py-0.5' => $this->size === 'xs',
                 'text-sm px-2 py-1' => $this->size === 'sm',
                 'text-base px-4 py-2' => $this->size === 'md',
