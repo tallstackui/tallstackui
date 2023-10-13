@@ -66,7 +66,7 @@ class Dialog extends Component implements Customizable
                 ],
             ],
             'buttons' => [
-                'wrapper' => 'mt-5 space-y-2 sm:space-x-2 sm:space-y-0 sm:mt-6 sm:flex sm:justify-end',
+                'wrapper' => 'mt-5 space-y-2 sm:mt-6 sm:space-y-0 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3',
                 'cancel' => Arr::toCssClasses([
                     'inline-flex w-full items-center justify-center bg-white px-4 py-2 text-sm font-semibold text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300',
                     'rounded-md' => ! $this->square,
