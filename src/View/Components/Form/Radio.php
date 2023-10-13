@@ -6,11 +6,11 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
 use TallStackUi\Contracts\Customizable;
-use TallStackUi\View\Components\Form\Traits\DefaultSelectablesColorClasses;
+use TallStackUi\Support\Personalizations\Traits\InternalPersonalization;
 
 class Radio extends Component implements Customizable
 {
-    use DefaultSelectablesColorClasses;
+    use InternalPersonalization;
 
     public function __construct(
         public ?string $id = null,
@@ -48,8 +48,6 @@ class Radio extends Component implements Customizable
                 'w-6 h-6' => $this->size === 'lg',
             ]),
             'error' => 'border-red-300 focus:ring-red-600 focus:border-red-400 text-red-600',
-            /* Internal Usage Only */
-            'internal.input.color' => $this->tallStackUiRadioCheckboxColors(),
         ];
     }
 }

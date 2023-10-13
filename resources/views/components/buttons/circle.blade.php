@@ -1,30 +1,31 @@
 @php
     $tag = $href ? 'a' : 'button';
     $customize = tallstackui_personalization('button.circle', $customization());
+    $internal = $internals();
 @endphp
 
 <{{ $tag }} @if ($href) href="{{ $href }}" @else
     role="button"
-@endif {{ $attributes->class([$customize['wrapper'], $customize['internal.wrapper.color']]) }} wire:loading.attr="disabled" wire:loading.class="!cursor-wait">
+@endif {{ $attributes->class([$customize['wrapper'], $internal['wrapper.color']]) }} wire:loading.attr="disabled" wire:loading.class="!cursor-wait">
 @if ($icon)
     @if ($loading)
         @if ($delay === 'longest')
-            <x-icon :$icon @class([$customize['icon.size'], $customize['internal.icon.color']]) wire:loading.remove.delay.longest />
+            <x-icon :$icon @class([$customize['icon.size'], $internal['icon.color']]) wire:loading.remove.delay.longest />
         @elseif ($delay === 'longer')
-            <x-icon :$icon @class([$customize['icon.size'], $customize['internal.icon.color']]) wire:loading.remove.delay.longer />
+            <x-icon :$icon @class([$customize['icon.size'], $internal['icon.color']]) wire:loading.remove.delay.longer />
         @elseif ($delay === 'long')
-            <x-icon :$icon @class([$customize['icon.size'], $customize['internal.icon.color']]) wire:loading.remove.delay.long />
+            <x-icon :$icon @class([$customize['icon.size'], $internal['icon.color']]) wire:loading.remove.delay.long />
         @elseif ($delay === 'short')
-            <x-icon :$icon @class([$customize['icon.size'], $customize['internal.icon.color']]) wire:loading.remove.delay.short />
+            <x-icon :$icon @class([$customize['icon.size'], $internal['icon.color']]) wire:loading.remove.delay.short />
         @elseif ($delay === 'shorter')
-            <x-icon :$icon @class([$customize['icon.size'], $customize['internal.icon.color']]) wire:loading.remove.delay.shorter />
+            <x-icon :$icon @class([$customize['icon.size'], $internal['icon.color']]) wire:loading.remove.delay.shorter />
         @elseif ($delay === 'shortest')
-            <x-icon :$icon @class([$customize['icon.size'], $customize['internal.icon.color']]) wire:loading.remove.delay.shortest />
+            <x-icon :$icon @class([$customize['icon.size'], $internal['icon.color']]) wire:loading.remove.delay.shortest />
         @else
-            <x-icon :$icon @class([$customize['icon.size'], $customize['internal.icon.color']]) wire:loading.remove />
+            <x-icon :$icon @class([$customize['icon.size'], $internal['icon.color']]) wire:loading.remove />
         @endif
     @else
-        <x-icon :$icon @class([$customize['icon.size'], $customize['internal.icon.color']]) />
+        <x-icon :$icon @class([$customize['icon.size'], $internal['icon.color']]) />
     @endif
 @else
     <span @if ($loading) wire:loading.remove @endif>{{ $text ?? $slot }}</span>
@@ -32,7 +33,7 @@
 @if ($loading)
     <svg @if ($loading !== "1") wire:target="{{ $loading }}" @endif
     wire:loading.delay{{ $delay ? ".{$delay}" : "" }}
-    @class([$customize['icon.loading'], $customize['internal.icon.loading.color']])
+    @class([$customize['icon.loading'], $internal['icon.loading.color']])
     dusk="button-loading-spinner"
     xmlns="http://www.w3.org/2000/svg"
          fill="none"

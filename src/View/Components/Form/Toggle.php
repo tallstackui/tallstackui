@@ -6,11 +6,12 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
 use TallStackUi\Contracts\Customizable;
-use TallStackUi\Facades\TallStackUi;
-use TallStackUi\Support\Elements\Color;
+use TallStackUi\Support\Personalizations\Traits\InternalPersonalization;
 
 class Toggle extends Component implements Customizable
 {
+    use InternalPersonalization;
+
     public function __construct(
         public ?string $id = null,
         public ?string $label = null,
@@ -57,20 +58,6 @@ class Toggle extends Component implements Customizable
                 'h-6 w-10' => $this->size === 'lg',
             ]),
             'error' => 'bg-red-600 peer-checked:bg-red-600 peer-focus:ring-red-600 group-focus:ring-red-600',
-            /* Internal Usage Only */
-            'internal.wrapper.color' => TallStackUi::colors()
-                ->clean(false)
-                ->when($this->color === 'white', function (Color $color) {
-                    return $color->set('peer-checked:bg', 'gray', 300)
-                        ->set('peer-focus:ring', 'gray', 300)
-                        ->set('group-focus:ring', 'gray', 300);
-                })
-                ->unless($this->color === 'white', function (Color $color) {
-                    return $color->set('peer-checked:bg', $this->color, $this->color === 'black' ? null : 600)
-                        ->set('peer-focus:ring', $this->color, $this->color === 'black' ? null : 600)
-                        ->set('group-focus:ring', $this->color, $this->color === 'black' ? null : 600);
-                })
-                ->get(),
         ];
     }
 }

@@ -6,10 +6,12 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
 use TallStackUi\Contracts\Customizable;
-use TallStackUi\Facades\TallStackUi;
+use TallStackUi\Support\Personalizations\Traits\InternalPersonalization;
 
 class Index extends Component implements Customizable
 {
+    use InternalPersonalization;
+
     public function __construct(
         public ?string $text = null,
         public ?string $color = 'primary',
@@ -58,15 +60,6 @@ class Index extends Component implements Customizable
                     'font-semibold',
                     'text-white' => $this->color !== 'white',
                     'text-neutral' => $this->color === 'white' || $this->color === 'black',
-                ]),
-            ],
-            /* Internal Usage Only */
-            'internal' => [
-                'wrapper.color' => Arr::toCssClasses([
-                    TallStackUi::colors()
-                        ->set('bg', $this->color, $this->color === 'black' ? null : 500)
-                        ->merge('border', $this->color, $this->color === 'black' ? null : 500)
-                        ->get() => ! $this->modelable,
                 ]),
             ],
         ]);

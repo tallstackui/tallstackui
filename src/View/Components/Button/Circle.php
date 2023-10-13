@@ -6,11 +6,11 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
 use TallStackUi\Contracts\Customizable;
-use TallStackUi\View\Components\Button\Traits\DefaultButtonColorClasses;
+use TallStackUi\Support\Personalizations\Traits\InternalPersonalization;
 
 class Circle extends Component implements Customizable
 {
-    use DefaultButtonColorClasses;
+    use InternalPersonalization;
 
     public function __construct(
         public ?string $text = null,
@@ -51,8 +51,6 @@ class Circle extends Component implements Customizable
                 'size' => 'w-4 h-4',
                 'loading' => 'animate-spin w-4 h-4',
             ],
-            /* Internal Usage Only */
-            'internal' => [...$this->tallStackUiButtonsColors()],
         ]);
     }
 }

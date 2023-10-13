@@ -6,11 +6,11 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
 use TallStackUi\Contracts\Customizable;
-use TallStackUi\View\Components\Button\Traits\DefaultButtonColorClasses;
+use TallStackUi\Support\Personalizations\Traits\InternalPersonalization;
 
 class Index extends Component implements Customizable
 {
-    use DefaultButtonColorClasses;
+    use InternalPersonalization;
 
     public function __construct(
         public ?string $text = null,
@@ -76,8 +76,6 @@ class Index extends Component implements Customizable
                     'w-5 h-5' => $this->size === 'lg',
                 ]),
             ],
-            /* Internal Usage Only */
-            'internal' => [...$this->tallStackUiButtonsColors()],
         ]);
     }
 }

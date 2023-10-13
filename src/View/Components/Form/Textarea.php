@@ -6,11 +6,11 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
 use TallStackUi\Contracts\Customizable;
-use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
+use TallStackUi\Support\Personalizations\Traits\InternalPersonalization;
 
 class Textarea extends Component implements Customizable
 {
-    use DefaultInputClasses;
+    use InternalPersonalization;
 
     public function __construct(
         public ?string $id = null,
@@ -44,10 +44,6 @@ class Textarea extends Component implements Customizable
                 'resize-none' => ! $this->resize && ! $this->autoResize,
             ]),
             'error' => 'text-red-600 ring-1 ring-inset ring-red-300 placeholder:text-red-300 focus:ring-2 focus:ring-inset focus:ring-red-500',
-            /* Internal Usage Only */
-            'internal.input.round' => Arr::toCssClasses([
-                'rounded-md' => ! $this->square,
-            ]),
         ];
     }
 }
