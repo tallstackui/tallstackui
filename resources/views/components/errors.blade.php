@@ -15,7 +15,7 @@
                 </span>
             </div>
             <div @class($customize['body.wrapper'])>
-                <ul @class([$customize['body.list'], $internal['body.lists.color']])>
+                <ul @class([$customize['body.list'], $internal['body.list.color']])>
                     @foreach ($messages($errors) as $message)
                         <li>{{ head($message) }}</li>
                     @endforeach
