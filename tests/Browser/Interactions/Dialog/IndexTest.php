@@ -33,19 +33,6 @@ class IndexTest extends BrowserTestCase
     }
 
     /** @test */
-    public function can_send_confirmation(): void
-    {
-        $this->browse(function (Browser $browser) {
-            $this->visit($browser, DialogComponent::class)
-                ->assertDontSee('Foo bar confirmation description')
-                ->click('#confirm')
-                ->waitForText('Foo bar confirmation description')
-                ->click('@tallstackui_dialog_confirmation')
-                ->waitUntilMissingText('Foo bar confirmation description');
-        });
-    }
-
-    /** @test */
     public function can_send_cancellation(): void
     {
         $this->browse(function (Browser $browser) {
@@ -55,6 +42,19 @@ class IndexTest extends BrowserTestCase
                 ->waitForText('Foo bar confirmation description')
                 ->click('@tallstackui_dialog_rejection')
                 ->waitForText('Bar foo cancelled bar');
+        });
+    }
+
+    /** @test */
+    public function can_send_confirmation(): void
+    {
+        $this->browse(function (Browser $browser) {
+            $this->visit($browser, DialogComponent::class)
+                ->assertDontSee('Foo bar confirmation description')
+                ->click('#confirm')
+                ->waitForText('Foo bar confirmation description')
+                ->click('@tallstackui_dialog_confirmation')
+                ->waitUntilMissingText('Foo bar confirmation description');
         });
     }
 }

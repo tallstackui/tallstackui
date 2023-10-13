@@ -9,37 +9,9 @@ class DialogComponent extends Component
 {
     use Interactions;
 
-    public function render(): string
+    public function cancelled(string $message): void
     {
-        return <<<'HTML'
-        <div>
-            <x-button id="success" wire:click="success">Success</x-button>
-            <x-button id="error" wire:click="error">Error</x-button>
-            <x-button id="info" wire:click="info">Info</x-button>
-            <x-button id="warning" wire:click="warning">Error</x-button>
-            <x-button id="confirm" wire:click="confirm">Confirm</x-button>
-        </div>
-HTML;
-    }
-
-    public function success(): void
-    {
-        $this->dialog()->success('Foo bar success');
-    }
-
-    public function error(): void
-    {
-        $this->dialog()->error('Foo bar error');
-    }
-
-    public function info(): void
-    {
-        $this->dialog()->info('Foo bar info');
-    }
-
-    public function warning(): void
-    {
-        $this->dialog()->warning('Foo bar warning');
+        $this->dialog()->success($message);
     }
 
     public function confirm(): void
@@ -62,8 +34,36 @@ HTML;
         $this->dialog()->success($message);
     }
 
-    public function cancelled(string $message): void
+    public function error(): void
     {
-        $this->dialog()->success($message);
+        $this->dialog()->error('Foo bar error');
+    }
+
+    public function info(): void
+    {
+        $this->dialog()->info('Foo bar info');
+    }
+
+    public function render(): string
+    {
+        return <<<'HTML'
+        <div>
+            <x-button id="success" wire:click="success">Success</x-button>
+            <x-button id="error" wire:click="error">Error</x-button>
+            <x-button id="info" wire:click="info">Info</x-button>
+            <x-button id="warning" wire:click="warning">Error</x-button>
+            <x-button id="confirm" wire:click="confirm">Confirm</x-button>
+        </div>
+HTML;
+    }
+
+    public function success(): void
+    {
+        $this->dialog()->success('Foo bar success');
+    }
+
+    public function warning(): void
+    {
+        $this->dialog()->warning('Foo bar warning');
     }
 }

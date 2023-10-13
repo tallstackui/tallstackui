@@ -16,16 +16,16 @@ class Index extends Component implements Customizable
         $this->square = config('tallstackui.personalizations.tabs.square');
     }
 
-    public function render(): View
-    {
-        return view('tallstack-ui::components.tabs.index');
-    }
-
     public function customization(): array
     {
         return [
             ...$this->tallStackUiClasses(),
         ];
+    }
+
+    public function render(): View
+    {
+        return view('tallstack-ui::components.tabs.index');
     }
 
     public function tallStackUiClasses(): array

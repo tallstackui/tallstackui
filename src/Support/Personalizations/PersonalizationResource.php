@@ -36,6 +36,11 @@ abstract class PersonalizationResource
         throw new RuntimeException("Property [{$name}] does not exist.");
     }
 
+    public function and(): Personalization
+    {
+        return $this->personalization;
+    }
+
     public function block(string|array $name, string|Closure|PersonalizableClass $code = null): static
     {
         if (is_string($name) && ! $code) {
@@ -63,22 +68,17 @@ abstract class PersonalizationResource
         return $this->parts->toArray();
     }
 
-    public function and(): Personalization
-    {
-        return $this->personalization;
-    }
-
     protected function blocks(): array
     {
         return array_keys(app($this->component(), ['ignoreValidations' => true])->tallStackUiClasses());
     }
 
+    abstract protected function component(): string;
+
     protected function set(string $block, string $content): void
     {
         $this->parts[$block] = $content;
     }
-
-    abstract protected function component(): string;
 
     private function factory(string $block, string|Closure|PersonalizableClass $code): void
     {

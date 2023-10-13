@@ -24,16 +24,16 @@ class Select extends Component implements Customizable
         $this->options();
     }
 
-    public function render(): View
-    {
-        return view('tallstack-ui::components.select.select');
-    }
-
     public function customization(): array
     {
         return [
             ...$this->tallStackUiClasses(),
         ];
+    }
+
+    public function render(): View
+    {
+        return view('tallstack-ui::components.select.select');
     }
 
     public function tallStackUiClasses(): array

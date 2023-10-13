@@ -24,16 +24,16 @@ class Toast extends Component implements Customizable
         }
     }
 
-    public function render(): View
-    {
-        return view('tallstack-ui::components.interactions.toast');
-    }
-
     public function customization(): array
     {
         return [
             ...$this->tallStackUiClasses(),
         ];
+    }
+
+    public function render(): View
+    {
+        return view('tallstack-ui::components.interactions.toast');
     }
 
     public function tallStackUiClasses(): array

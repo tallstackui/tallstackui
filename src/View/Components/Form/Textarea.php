@@ -24,16 +24,16 @@ class Textarea extends Component implements Customizable
         $this->square = config('tallstackui.personalizations.input.square');
     }
 
-    public function render(): View
-    {
-        return view('tallstack-ui::components.form.textarea');
-    }
-
     public function customization(): array
     {
         return [
             ...$this->tallStackUiClasses(),
         ];
+    }
+
+    public function render(): View
+    {
+        return view('tallstack-ui::components.form.textarea');
     }
 
     public function tallStackUiClasses(): array

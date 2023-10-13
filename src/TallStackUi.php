@@ -7,11 +7,6 @@ use TallStackUi\Support\Personalization;
 
 class TallStackUi
 {
-    public function personalize(string $component = null): Personalization
-    {
-        return new Personalization($component);
-    }
-
     public function colors(): Color
     {
         return new Color();
@@ -20,5 +15,10 @@ class TallStackUi
     public function directives(): TallStackUiDirectives
     {
         return new TallStackUiDirectives();
+    }
+
+    public function personalize(string $component = null): Personalization
+    {
+        return new Personalization($component);
     }
 }

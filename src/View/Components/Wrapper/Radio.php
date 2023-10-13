@@ -19,16 +19,16 @@ class Radio extends Component implements Customizable
         //
     }
 
-    public function render(): View
-    {
-        return view('tallstack-ui::components.wrapper.radio');
-    }
-
     public function customization(): array
     {
         return [
             ...$this->tallStackUiClasses(),
         ];
+    }
+
+    public function render(): View
+    {
+        return view('tallstack-ui::components.wrapper.radio');
     }
 
     public function tallStackUiClasses(): array

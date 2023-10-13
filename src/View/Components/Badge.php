@@ -29,16 +29,16 @@ class Badge extends Component implements Customizable
         $this->position = $this->position === 'right' ? 'right' : 'left';
     }
 
-    public function render(): View
-    {
-        return view('tallstack-ui::components.badge');
-    }
-
     public function customization(): array
     {
         return [
             ...$this->tallStackUiClasses(),
         ];
+    }
+
+    public function render(): View
+    {
+        return view('tallstack-ui::components.badge');
     }
 
     public function tallStackUiClasses(): array

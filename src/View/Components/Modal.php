@@ -41,16 +41,16 @@ class Modal extends Component implements Customizable
         };
     }
 
-    public function render(): View
-    {
-        return view('tallstack-ui::components.modal');
-    }
-
     public function customization(): array
     {
         return [
             ...$this->tallStackUiClasses(),
         ];
+    }
+
+    public function render(): View
+    {
+        return view('tallstack-ui::components.modal');
     }
 
     public function tallStackUiClasses(): array

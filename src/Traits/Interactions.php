@@ -8,18 +8,6 @@ use TallStackUi\Actions\Toast;
 
 trait Interactions
 {
-    public function toast(array $options = null): Toast
-    {
-        /** @var Component $this */
-        $toast = new Toast($this);
-
-        if ($options) {
-            return $toast->send($options);
-        }
-
-        return $toast;
-    }
-
     public function dialog(array $options = null): Dialog
     {
         /** @var Component $this */
@@ -30,5 +18,17 @@ trait Interactions
         }
 
         return $dialog;
+    }
+
+    public function toast(array $options = null): Toast
+    {
+        /** @var Component $this */
+        $toast = new Toast($this);
+
+        if ($options) {
+            return $toast->send($options);
+        }
+
+        return $toast;
     }
 }

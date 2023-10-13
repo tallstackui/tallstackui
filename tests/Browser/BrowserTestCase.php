@@ -13,6 +13,26 @@ class BrowserTestCase extends TestCase
 {
     use BrowserFunctions;
 
+    protected function getEnvironmentSetUp($app): void
+    {
+        $app['config']->set('view.paths', [__DIR__.'/views', resource_path('views')]);
+        $app['config']->set('app.key', 'base64:bMQdVAbryqTAZYxrYqTplHFRv9JqKTaYEVwwrLsGo4Y=');
+        $app['config']->set('database.default', 'testbench');
+        $app['config']->set('database.connections.testbench', [
+            'driver' => 'sqlite',
+            'database' => ':memory:',
+            'prefix' => '',
+        ]);
+    }
+
+    protected function getPackageProviders($app): array
+    {
+        return [
+            LivewireServiceProvider::class,
+            TallStackUiServiceProvider::class,
+        ];
+    }
+
     protected function setUp(): void
     {
         if (isset($_SERVER['CI'])) {
@@ -38,39 +58,19 @@ class BrowserTestCase extends TestCase
         parent::tearDown();
     }
 
-    protected function getPackageProviders($app): array
-    {
-        return [
-            LivewireServiceProvider::class,
-            TallStackUiServiceProvider::class,
-        ];
-    }
-
-    protected function getEnvironmentSetUp($app): void
-    {
-        $app['config']->set('view.paths', [__DIR__.'/views', resource_path('views')]);
-        $app['config']->set('app.key', 'base64:bMQdVAbryqTAZYxrYqTplHFRv9JqKTaYEVwwrLsGo4Y=');
-        $app['config']->set('database.default', 'testbench');
-        $app['config']->set('database.connections.testbench', [
-            'driver' => 'sqlite',
-            'database' => ':memory:',
-            'prefix' => '',
-        ]);
-    }
-
     private function livewireClassesPath($path = ''): string
     {
         return app_path('Livewire'.($path ? '/'.$path : ''));
     }
 
-    private function livewireViewsPath($path = ''): string
-    {
-        return resource_path('views').'/livewire'.($path ? '/'.$path : '');
-    }
-
     private function livewireTestsPath($path = ''): string
     {
         return base_path('tests/Feature/Livewire'.($path ? '/'.$path : ''));
+    }
+
+    private function livewireViewsPath($path = ''): string
+    {
+        return resource_path('views').'/livewire'.($path ? '/'.$path : '');
     }
 
     private function tallStackUiClearState(): void

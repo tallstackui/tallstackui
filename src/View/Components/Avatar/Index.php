@@ -23,16 +23,16 @@ class Index extends Component implements Customizable
         $this->size = $this->sm ? 'sm' : ($this->lg ? 'lg' : 'md');
     }
 
-    public function render(): View
-    {
-        return view('tallstack-ui::components.avatar');
-    }
-
     public function customization(): array
     {
         return [
             ...$this->tallStackUiClasses(),
         ];
+    }
+
+    public function render(): View
+    {
+        return view('tallstack-ui::components.avatar');
     }
 
     public function tallStackUiClasses(): array

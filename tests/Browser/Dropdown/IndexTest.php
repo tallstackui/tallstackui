@@ -11,15 +11,15 @@ use Tests\Browser\Dropdown\Components\DropdownTitleComponent;
 class IndexTest extends BrowserTestCase
 {
     /** @test */
-    public function can_render_with_title(): void
+    public function can_render_with_action(): void
     {
         $this->browse(function (Browser $browser) {
-            $this->visit($browser, DropdownTitleComponent::class)
+            $this->visit($browser, DropdownActionComponent::class)
                 ->assertSee('FooBar')
-                ->click('@open-dropdown')
+                ->click('#action')
                 ->waitForText('Lorem')
                 ->waitForText('Ipsum')
-                ->click('@open-dropdown')
+                ->click('#action')
                 ->waitUntilMissingText('Lorem')
                 ->waitUntilMissingText('Ipsum');
         });
@@ -42,15 +42,15 @@ class IndexTest extends BrowserTestCase
     }
 
     /** @test */
-    public function can_render_with_action(): void
+    public function can_render_with_title(): void
     {
         $this->browse(function (Browser $browser) {
-            $this->visit($browser, DropdownActionComponent::class)
+            $this->visit($browser, DropdownTitleComponent::class)
                 ->assertSee('FooBar')
-                ->click('#action')
+                ->click('@open-dropdown')
                 ->waitForText('Lorem')
                 ->waitForText('Ipsum')
-                ->click('#action')
+                ->click('@open-dropdown')
                 ->waitUntilMissingText('Lorem')
                 ->waitUntilMissingText('Ipsum');
         });

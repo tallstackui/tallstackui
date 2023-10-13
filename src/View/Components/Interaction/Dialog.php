@@ -21,16 +21,16 @@ class Dialog extends Component implements Customizable
         $this->square = config('tallstackui.personalizations.dialog.square');
     }
 
-    public function render(): View
-    {
-        return view('tallstack-ui::components.interactions.dialog');
-    }
-
     public function customization(): array
     {
         return [
             ...$this->tallStackUiClasses(),
         ];
+    }
+
+    public function render(): View
+    {
+        return view('tallstack-ui::components.interactions.dialog');
     }
 
     public function tallStackUiClasses(): array

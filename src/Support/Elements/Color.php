@@ -9,9 +9,9 @@ final class Color implements Stringable
 {
     use Conditionable;
 
-    protected string $color = '';
-
     protected string $class = '';
+
+    protected string $color = '';
 
     private bool $clean = true;
 
@@ -20,10 +20,56 @@ final class Color implements Stringable
         return $this->get();
     }
 
+    public function append(string $class): self
+    {
+        $this->class = empty($this->class)
+            ? $class
+            : ($this->class.' '.$class);
+
+        return $this;
+    }
+
     /** Avoid character cleaning within the `set` method. */
     public function clean(bool $clean = true): self
     {
         $this->clean = $clean;
+
+        return $this;
+    }
+
+    public function get(): string
+    {
+        return $this->class;
+    }
+
+    public function merge(string $prefix, string $type, int $weight = null): self
+    {
+        return $this->set($prefix, $type, $weight);
+    }
+
+    public function mergeUnless(bool $condition, string $prefix, string $type, int $weight = null): self
+    {
+        if (! $condition) {
+            $this->merge($prefix, $type, $weight);
+        }
+
+        return $this;
+    }
+
+    public function mergeWhen(bool $condition, string $prefix, string $type, int $weight = null): self
+    {
+        if ($condition) {
+            $this->merge($prefix, $type, $weight);
+        }
+
+        return $this;
+    }
+
+    public function prepend(string $class): self
+    {
+        $this->class = empty($this->class)
+            ? $class
+            : ($class.' '.$this->class);
 
         return $this;
     }
@@ -50,51 +96,5 @@ final class Color implements Stringable
         }
 
         return $this;
-    }
-
-    public function merge(string $prefix, string $type, int $weight = null): self
-    {
-        return $this->set($prefix, $type, $weight);
-    }
-
-    public function mergeWhen(bool $condition, string $prefix, string $type, int $weight = null): self
-    {
-        if ($condition) {
-            $this->merge($prefix, $type, $weight);
-        }
-
-        return $this;
-    }
-
-    public function mergeUnless(bool $condition, string $prefix, string $type, int $weight = null): self
-    {
-        if (! $condition) {
-            $this->merge($prefix, $type, $weight);
-        }
-
-        return $this;
-    }
-
-    public function prepend(string $class): self
-    {
-        $this->class = empty($this->class)
-            ? $class
-            : ($class.' '.$this->class);
-
-        return $this;
-    }
-
-    public function append(string $class): self
-    {
-        $this->class = empty($this->class)
-            ? $class
-            : ($this->class.' '.$class);
-
-        return $this;
-    }
-
-    public function get(): string
-    {
-        return $this->class;
     }
 }

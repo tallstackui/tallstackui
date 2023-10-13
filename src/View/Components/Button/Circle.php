@@ -26,16 +26,16 @@ class Circle extends Component implements Customizable
         $this->style = $this->outline ? 'outline' : 'solid';
     }
 
-    public function render(): View
-    {
-        return view('tallstack-ui::components.buttons.circle');
-    }
-
     public function customization(): array
     {
         return [
             ...$this->tallStackUiClasses(),
         ];
+    }
+
+    public function render(): View
+    {
+        return view('tallstack-ui::components.buttons.circle');
     }
 
     public function tallStackUiClasses(): array

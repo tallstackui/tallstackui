@@ -16,16 +16,16 @@ class Items extends Component implements Customizable
         $this->square = config('tallstackui.personalizations.tabs.square');
     }
 
-    public function render(): View
-    {
-        return view('tallstack-ui::components.tabs.items');
-    }
-
     public function customization(): array
     {
         return [
             ...$this->tallStackUiClasses(),
         ];
+    }
+
+    public function render(): View
+    {
+        return view('tallstack-ui::components.tabs.items');
     }
 
     public function tallStackUiClasses(): array

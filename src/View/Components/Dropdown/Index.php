@@ -20,16 +20,16 @@ class Index extends Component implements Customizable
         $this->animate = $this->text ? true : $this->animate;
     }
 
-    public function render(): View
-    {
-        return view('tallstack-ui::components.dropdown.index');
-    }
-
     public function customization(): array
     {
         return [
             ...$this->tallStackUiClasses(),
         ];
+    }
+
+    public function render(): View
+    {
+        return view('tallstack-ui::components.dropdown.index');
     }
 
     public function tallStackUiClasses(): array

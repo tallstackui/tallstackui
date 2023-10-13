@@ -8,10 +8,10 @@ use Livewire\Component;
 class ErrorOnlyComponent extends Component
 {
     #[Rule('required')]
-    public ?string $name = null;
+    public ?string $description = null;
 
     #[Rule('required')]
-    public ?string $description = null;
+    public ?string $name = null;
 
     public function render(): string
     {

@@ -26,16 +26,16 @@ class Password extends Component implements Customizable
         $this->round = config('tallstackui.personalizations.input.round');
     }
 
-    public function render(): View
-    {
-        return view('tallstack-ui::components.form.password');
-    }
-
     public function customization(): array
     {
         return [
             ...$this->tallStackUiClasses(),
         ];
+    }
+
+    public function render(): View
+    {
+        return view('tallstack-ui::components.form.password');
     }
 
     public function tallStackUiClasses(): array

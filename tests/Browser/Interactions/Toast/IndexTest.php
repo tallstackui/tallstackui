@@ -29,19 +29,6 @@ class IndexTest extends BrowserTestCase
     }
 
     /** @test */
-    public function can_send_confirmation(): void
-    {
-        $this->browse(function (Browser $browser) {
-            $this->visit($browser, ToastComponent::class)
-                ->assertDontSee('Foo bar confirmation description')
-                ->click('#confirm')
-                ->waitForText('Foo bar confirmation description')
-                ->click('@tallstackui_toast_confirmation')
-                ->waitForText('Foo bar confirmed foo');
-        });
-    }
-
-    /** @test */
     public function can_send_cancellation(): void
     {
         $this->browse(function (Browser $browser) {
@@ -51,6 +38,19 @@ class IndexTest extends BrowserTestCase
                 ->waitForText('Foo bar confirmation description')
                 ->click('@tallstackui_toast_rejection')
                 ->waitForText('Bar foo cancelled bar');
+        });
+    }
+
+    /** @test */
+    public function can_send_confirmation(): void
+    {
+        $this->browse(function (Browser $browser) {
+            $this->visit($browser, ToastComponent::class)
+                ->assertDontSee('Foo bar confirmation description')
+                ->click('#confirm')
+                ->waitForText('Foo bar confirmation description')
+                ->click('@tallstackui_toast_confirmation')
+                ->waitForText('Foo bar confirmed foo');
         });
     }
 }

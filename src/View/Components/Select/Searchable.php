@@ -30,18 +30,18 @@ class Searchable extends Styled
         $this->request();
     }
 
-    public function render(): View
-    {
-        return view('tallstack-ui::components.select.searchable', [
-            'placeholder' => __('tallstack-ui::messages.select.placeholder'),
-        ]);
-    }
-
     public function customization(): array
     {
         return [
             ...$this->tallStackUiClasses(),
         ];
+    }
+
+    public function render(): View
+    {
+        return view('tallstack-ui::components.select.searchable', [
+            'placeholder' => __('tallstack-ui::messages.select.placeholder'),
+        ]);
     }
 
     public function tallStackUiClasses(): array

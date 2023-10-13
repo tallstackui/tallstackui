@@ -24,16 +24,16 @@ class Alert extends Component implements Customizable
         $this->style = $this->translucent && $this->color !== 'white' ? 'translucent' : 'solid';
     }
 
-    public function render(): View
-    {
-        return view('tallstack-ui::components.alert');
-    }
-
     public function customization(): array
     {
         return [
             ...$this->tallStackUiClasses(),
         ];
+    }
+
+    public function render(): View
+    {
+        return view('tallstack-ui::components.alert');
     }
 
     public function tallStackUiClasses(): array

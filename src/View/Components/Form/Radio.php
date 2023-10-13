@@ -27,16 +27,16 @@ class Radio extends Component implements Customizable
         $this->position = $this->position === 'right' ? 'right' : 'left';
     }
 
-    public function render(): View
-    {
-        return view('tallstack-ui::components.form.radio');
-    }
-
     public function customization(): array
     {
         return [
             ...$this->tallStackUiClasses(),
         ];
+    }
+
+    public function render(): View
+    {
+        return view('tallstack-ui::components.form.radio');
     }
 
     public function tallStackUiClasses(): array

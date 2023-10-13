@@ -28,16 +28,16 @@ class Tooltip extends Component implements Customizable
         $this->style = $this->outline ? 'outline' : ($this->solid ? 'solid' : config('tallstackui.icon'));
     }
 
-    public function render(): View
-    {
-        return view('tallstack-ui::components.tooltip');
-    }
-
     public function customization(): array
     {
         return [
             ...$this->tallStackUiClasses(),
         ];
+    }
+
+    public function render(): View
+    {
+        return view('tallstack-ui::components.tooltip');
     }
 
     public function tallStackUiClasses(): array

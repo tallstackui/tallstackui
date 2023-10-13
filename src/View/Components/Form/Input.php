@@ -27,16 +27,16 @@ class Input extends Component implements Customizable
         $this->round = config('tallstackui.personalizations.input.round');
     }
 
-    public function render(): View
-    {
-        return view('tallstack-ui::components.form.input');
-    }
-
     public function customization(): array
     {
         return [
             ...$this->tallStackUiClasses(),
         ];
+    }
+
+    public function render(): View
+    {
+        return view('tallstack-ui::components.form.input');
     }
 
     public function tallStackUiClasses(): array

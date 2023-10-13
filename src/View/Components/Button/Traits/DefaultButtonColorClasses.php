@@ -57,46 +57,16 @@ trait DefaultButtonColorClasses
         return Arr::toCssClasses([...$classes, $color->get()]);
     }
 
-    private function tallStackUiTextColorVariations(Color $color): Color
+    private function tallStackUiButtonLoading(): string
     {
-        $weight = $this->color === 'white' ? 950 : 50;
-
-        if ($this->style === 'outline') {
-            $weight = in_array($this->color, ['black', 'white']) ? 950 : 500;
-        }
-
-        return $color->set('text', $this->variations['text'], $weight);
-    }
-
-    private function tallStackUiButtonSolidVariations(Color $color): Color
-    {
-        $variation = match ($this->color) {
-            'white' => [
-                'bg' => 50,
-                'ring' => 200,
-                'hover:bg' => 200,
-                'hover:ring' => 200,
-            ],
-            'black' => [
-                'bg' => 950,
-                'ring' => 950,
-                'hover:bg' => 700,
-                'hover:ring' => 950,
-            ],
-            default => [
-                'bg' => 500,
-                'ring' => 500,
-                'hover:bg' => 600,
-                'hover:ring' => 600,
-            ]
-        };
-
-        return $color->when($this->style === 'solid', function (Color $color) use ($variation) {
-            return $color->set('ring', $this->variations['ring'], $variation['ring'])
-                ->set('hover:bg', $this->variations['hover:bg'], $variation['hover:bg'])
-                ->set('hover:ring', $this->variations['hover:ring'], $variation['hover:ring'])
-                ->set('bg', $this->variations['bg'], $variation['bg']);
-        });
+        return Arr::toCssClasses([
+            'animate-spin w-4 h-4',
+            'ml-2' => $this instanceof Index,
+            TallStackUi::colors()
+                ->when($this->color === 'white', fn (Color $color) => $color->set('text', 'black'))
+                ->unless($this->color === 'white', fn (Color $color) => $color->set('text', 'white'))
+                ->get(),
+        ]);
     }
 
     private function tallStackUiButtonOutlineVariations(Color $color): Color
@@ -131,15 +101,45 @@ trait DefaultButtonColorClasses
         });
     }
 
-    private function tallStackUiButtonLoading(): string
+    private function tallStackUiButtonSolidVariations(Color $color): Color
     {
-        return Arr::toCssClasses([
-            'animate-spin w-4 h-4',
-            'ml-2' => $this instanceof Index,
-            TallStackUi::colors()
-                ->when($this->color === 'white', fn (Color $color) => $color->set('text', 'black'))
-                ->unless($this->color === 'white', fn (Color $color) => $color->set('text', 'white'))
-                ->get(),
-        ]);
+        $variation = match ($this->color) {
+            'white' => [
+                'bg' => 50,
+                'ring' => 200,
+                'hover:bg' => 200,
+                'hover:ring' => 200,
+            ],
+            'black' => [
+                'bg' => 950,
+                'ring' => 950,
+                'hover:bg' => 700,
+                'hover:ring' => 950,
+            ],
+            default => [
+                'bg' => 500,
+                'ring' => 500,
+                'hover:bg' => 600,
+                'hover:ring' => 600,
+            ]
+        };
+
+        return $color->when($this->style === 'solid', function (Color $color) use ($variation) {
+            return $color->set('ring', $this->variations['ring'], $variation['ring'])
+                ->set('hover:bg', $this->variations['hover:bg'], $variation['hover:bg'])
+                ->set('hover:ring', $this->variations['hover:ring'], $variation['hover:ring'])
+                ->set('bg', $this->variations['bg'], $variation['bg']);
+        });
+    }
+
+    private function tallStackUiTextColorVariations(Color $color): Color
+    {
+        $weight = $this->color === 'white' ? 950 : 50;
+
+        if ($this->style === 'outline') {
+            $weight = in_array($this->color, ['black', 'white']) ? 950 : 500;
+        }
+
+        return $color->set('text', $this->variations['text'], $weight);
     }
 }

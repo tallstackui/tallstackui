@@ -20,13 +20,6 @@ trait BrowserFunctions
         return $browser->visit($url)->waitForLivewireToLoad();
     }
 
-    protected function tallStackUiUpdateConfigurations(): void
-    {
-        app('session')->put('_token', 'taste-ui-testing-token');
-        app('config')->set('view.paths', [__DIR__.'/views', resource_path('views')]);
-        config()->set('app.debug', true);
-    }
-
     protected function tallStackUiLoadComponents(): void
     {
         collect(File::allFiles(__DIR__))
@@ -110,5 +103,12 @@ trait BrowserFunctions
                     ];
                 })->name('searchable.filtered');
             });
+    }
+
+    protected function tallStackUiUpdateConfigurations(): void
+    {
+        app('session')->put('_token', 'taste-ui-testing-token');
+        app('config')->set('view.paths', [__DIR__.'/views', resource_path('views')]);
+        config()->set('app.debug', true);
     }
 }

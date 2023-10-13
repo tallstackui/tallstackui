@@ -18,16 +18,16 @@ class Items extends Component implements Customizable
         $this->position = $this->position === 'left' ? 'left' : 'right';
     }
 
-    public function render(): View
-    {
-        return view('tallstack-ui::components.dropdown.items');
-    }
-
     public function customization(): array
     {
         return [
             ...$this->tallStackUiClasses(),
         ];
+    }
+
+    public function render(): View
+    {
+        return view('tallstack-ui::components.dropdown.items');
     }
 
     public function tallStackUiClasses(): array
