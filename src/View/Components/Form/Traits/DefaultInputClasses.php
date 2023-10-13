@@ -3,7 +3,6 @@
 namespace TallStackUi\View\Components\Form\Traits;
 
 use Illuminate\Support\Arr;
-use TallStackUi\View\Components\Form\Textarea;
 
 trait DefaultInputClasses
 {

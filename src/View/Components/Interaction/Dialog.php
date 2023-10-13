@@ -5,6 +5,7 @@ namespace TallStackUi\View\Components\Interaction;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
+use InvalidArgumentException;
 use TallStackUi\Contracts\Customizable;
 
 class Dialog extends Component implements Customizable
@@ -19,6 +20,10 @@ class Dialog extends Component implements Customizable
         $this->blur = config('tallstackui.personalizations.dialog.blur');
         $this->uncloseable = config('tallstackui.personalizations.dialog.uncloseable');
         $this->square = config('tallstackui.personalizations.dialog.square');
+
+        if (! str_starts_with($this->zIndex, 'z-')) {
+            throw new InvalidArgumentException('The z-index must start with z- prefix.');
+        }
     }
 
     public function customization(): array

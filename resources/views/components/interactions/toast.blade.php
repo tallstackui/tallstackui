@@ -3,7 +3,7 @@
 <div x-cloak
      x-data="tallstackui_toastBase()"
      x-on:tallstackui:toast.window="add($event)"
-     @class($customize['wrapper.first'])
+     @class([$customize['wrapper.first'], $this->zIndex])
      x-show="show">
     <template x-for="toast in toasts" :key="toast.id">
         <div x-data="tallstackui_toastLoop(toast, @js(__('tallstack-ui::messages.toast.button.ok')), @js(__('tallstack-ui::messages.toast.button.confirm')), @js(__('tallstack-ui::messages.toast.button.cancel')))"

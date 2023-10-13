@@ -51,7 +51,7 @@ class Password extends Component implements Customizable
                 'input.round' => Arr::toCssClasses([
                     'rounded-md' => ! $this->square && ! $this->round,
                     'rounded-full' => $this->round,
-                ])
+                ]),
             ],
         ]);
     }

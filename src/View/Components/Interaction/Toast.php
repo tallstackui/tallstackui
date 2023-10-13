@@ -22,6 +22,10 @@ class Toast extends Component implements Customizable
         if (! in_array($this->position, ['top-right', 'top-left', 'bottom-right', 'bottom-left'])) {
             throw new InvalidArgumentException("The position must be one of the following: ['top-right', 'top-left', 'bottom-right', 'bottom-left']");
         }
+
+        if (! str_starts_with($this->zIndex, 'z-')) {
+            throw new InvalidArgumentException('The z-index must start with z- prefix.');
+        }
     }
 
     public function customization(): array
@@ -44,7 +48,6 @@ class Toast extends Component implements Customizable
                     'pointer-events-none fixed inset-0 flex flex-col items-end justify-end gap-y-2 px-4 py-4',
                     'md:justify-start' => str_contains($this->position, 'top-'),
                     'md:justify-end' => str_contains($this->position, 'bottom-'),
-                    $this->zIndex,
                 ]),
                 'second' => Arr::toCssClasses([
                     'flex w-full flex-col items-center space-y-4',
