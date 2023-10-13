@@ -27,7 +27,7 @@ export default (ok, confirm, cancel) => ({
     const params = dialog.options.confirm.params ?? null;
 
     dispatchEvent('dialog:accepted', dialog);
-    setTimeout(() => this.$dispatch(dialog.options.confirm.event, params.constructor !== Array ? [params] : [...params]), 100);
+    setTimeout(() => this.$dispatch(dialog.options.confirm.event, params?.constructor !== Array ? [params] : [...params]), 100);
 
     this.remove();
   },

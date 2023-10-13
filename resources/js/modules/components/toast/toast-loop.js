@@ -21,7 +21,7 @@ export default (toast, ok, confirm, cancel) => ({
     const params = toast.options.confirm.params ?? null;
 
     dispatchEvent('toast:accepted', toast);
-    this.$dispatch(toast.options.confirm.event, params.constructor !== Array ? [params] : [...params]);
+    this.$dispatch(toast.options.confirm.event, params?.constructor !== Array ? [params] : [...params]);
 
     this.hide();
   },
