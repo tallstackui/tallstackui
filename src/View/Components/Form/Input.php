@@ -42,21 +42,31 @@ class Input extends Component implements Customizable
     public function tallStackUiClasses(): array
     {
         return Arr::dot([
-            'base' => Arr::toCssClasses([
-                $this->tallStackUiInputClasses(),
-                'pl-10' => $this->icon && ($this->position === null || $this->position === 'left'),
-            ]),
+            'input' => $this->tallStackUiInputClasses(),
             'icon' => [
                 'wrapper' => Arr::toCssClasses([
                     'pointer-events-none absolute inset-y-0 flex items-center text-secondary-500',
                     'left-0 pl-3' => $this->position === null || $this->position === 'left',
                     'right-0 pr-3' => $this->position === 'right',
                 ]),
-                'padding.left' => 'left-0 pl-3',
-                'padding.right' => 'right-0 pr-3',
+                'padding' => [
+                    'left' => 'left-0 pl-3',
+                    'right' => 'right-0 pr-3',
+                ],
                 'size' => 'h-5 w-5',
             ],
             'error' => 'text-red-600 ring-1 ring-inset ring-red-300 placeholder:text-red-300 focus:ring-2 focus:ring-inset focus:ring-red-500',
+            /* Interal Usage Only */
+            'internal' => [
+                'input.icon' => Arr::toCssClasses([
+                    'pl-10' => $this->icon && ($this->position === null || $this->position === 'left'),
+                    'pr-10' => $this->icon && $this->position === 'right',
+                ]),
+                'input.round' => Arr::toCssClasses([
+                    'rounded-md' => ! $this->square && ! $this->round,
+                    'rounded-full' => $this->round,
+                ])
+            ],
         ]);
     }
 }

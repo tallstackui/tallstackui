@@ -5,5 +5,9 @@
 @endphp
 
 <x-wrapper.radio :$computed :$error :$label :$position :$id>
-    <input @if ($id) id="{{ $id }}" @endif type="radio" {{ $attributes->class([$customize['base'], $customize['error'] => $error]) }} @checked($checked)>
+    <input @if ($id) id="{{ $id }}" @endif type="radio" {{ $attributes->class([
+            $customize['input'],
+            $customize['internal.input.color'],
+            $customize['error'] => $error
+    ]) }} @checked($checked)>
 </x-wrapper.radio>

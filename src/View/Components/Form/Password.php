@@ -16,12 +16,10 @@ class Password extends Component implements Customizable
         public ?string $id = null,
         public ?string $label = null,
         public ?string $hint = null,
-        public ?string $icon = 'eye',
         public bool $square = false,
         public bool $round = false,
-        public ?string $position = 'right',
+        private readonly string $icon = 'eye',
     ) {
-        $this->position = $this->position === 'right' ? 'right' : 'left';
         $this->square = config('tallstackui.personalizations.input.square');
         $this->round = config('tallstackui.personalizations.input.round');
     }
@@ -41,12 +39,20 @@ class Password extends Component implements Customizable
     public function tallStackUiClasses(): array
     {
         return Arr::dot([
-            'base' => $this->tallStackUiInputClasses(),
+            'input' => $this->tallStackUiInputClasses(),
             'icon' => [
                 'wrapper' => 'absolute inset-y-0 right-0 flex items-center pr-2.5',
                 'class' => 'h-5 w-5 text-gray-400',
             ],
             'error' => 'text-red-600 ring-1 ring-inset ring-red-300 placeholder:text-red-300 focus:ring-2 focus:ring-inset focus:ring-red-500',
+            /* Interal Usage Only */
+            'internal' => [
+                'input.icon' => 'pr-10',
+                'input.round' => Arr::toCssClasses([
+                    'rounded-md' => ! $this->square && ! $this->round,
+                    'rounded-full' => $this->round,
+                ])
+            ],
         ]);
     }
 }

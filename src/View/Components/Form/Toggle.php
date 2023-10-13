@@ -49,27 +49,28 @@ class Toggle extends Component implements Customizable
                 'w-3.5 h-3.5 checked:translate-x-4' => $this->size === 'md',
                 'w-4 h-4 checked:translate-x-4' => $this->size === 'lg',
             ]),
-            'base' => Arr::toCssClasses([
+            'wrapper' => Arr::toCssClasses([
                 'block rounded-full cursor-pointer transition ease-in-out duration-100 peer-focus:ring-2',
                 'peer-focus:ring-offset-2 group-focus:ring-2 group-focus:ring-offset-2 bg-secondary-200',
                 'h-4 w-7' => $this->size === 'sm',
                 'h-5 w-9' => $this->size === 'md',
                 'h-6 w-10' => $this->size === 'lg',
-                TallStackUi::colors()
-                    ->clean(false)
-                    ->when($this->color === 'white', function (Color $color) {
-                        return $color->set('peer-checked:bg', 'gray', 300)
-                            ->set('peer-focus:ring', 'gray', 300)
-                            ->set('group-focus:ring', 'gray', 300);
-                    })
-                    ->unless($this->color === 'white', function (Color $color) {
-                        return $color->set('peer-checked:bg', $this->color, $this->color === 'black' ? null : 600)
-                            ->set('peer-focus:ring', $this->color, $this->color === 'black' ? null : 600)
-                            ->set('group-focus:ring', $this->color, $this->color === 'black' ? null : 600);
-                    })
-                    ->get(),
             ]),
             'error' => 'bg-red-600 peer-checked:bg-red-600 peer-focus:ring-red-600 group-focus:ring-red-600',
+            /* Interal Usage Only */
+            'internal.wrapper.color' => TallStackUi::colors()
+                ->clean(false)
+                ->when($this->color === 'white', function (Color $color) {
+                    return $color->set('peer-checked:bg', 'gray', 300)
+                        ->set('peer-focus:ring', 'gray', 300)
+                        ->set('group-focus:ring', 'gray', 300);
+                })
+                ->unless($this->color === 'white', function (Color $color) {
+                    return $color->set('peer-checked:bg', $this->color, $this->color === 'black' ? null : 600)
+                        ->set('peer-focus:ring', $this->color, $this->color === 'black' ? null : 600)
+                        ->set('group-focus:ring', $this->color, $this->color === 'black' ? null : 600);
+                })
+                ->get(),
         ];
     }
 }

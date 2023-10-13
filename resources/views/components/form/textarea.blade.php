@@ -10,7 +10,10 @@
             tallstackui_formTextArea()
         </x-slot:alpine>
     @endif
-    <textarea @if ($id) id="{{ $id }}" @endif
-        {{ $attributes->class([$customize['base'], $customize['error'] => $error]) }}
+    <textarea @if ($id) id="{{ $id }}" @endif {{ $attributes->class([
+            $customize['input'],
+            $customize['internal.input.round'],
+            $customize['error'] => $error
+        ]) }}
         rows="{{ $rows }}" @if ($autoResize) x-on:input="resize()" @endif>{{ $slot }}</textarea>
 </x-wrapper.input>

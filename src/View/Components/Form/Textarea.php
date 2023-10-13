@@ -39,11 +39,15 @@ class Textarea extends Component implements Customizable
     public function tallStackUiClasses(): array
     {
         return [
-            'base' => Arr::toCssClasses([
+            'input' => Arr::toCssClasses([
                 $this->tallStackUiInputClasses(),
                 'resize-none' => ! $this->resize && ! $this->autoResize,
             ]),
             'error' => 'text-red-600 ring-1 ring-inset ring-red-300 placeholder:text-red-300 focus:ring-2 focus:ring-inset focus:ring-red-500',
+            /* Interal Usage Only */
+            'internal.input.round' => Arr::toCssClasses([
+                'rounded-md' => ! $this->square,
+            ]),
         ];
     }
 }

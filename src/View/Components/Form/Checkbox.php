@@ -41,15 +41,15 @@ class Checkbox extends Component implements Customizable
 
     public function tallStackUiClasses(): array
     {
-        return Arr::dot([
-            'base' => Arr::toCssClasses([
-                'form-checkbox rounded transition ease-in-out duration-100',
-                'border-secondary-300',
+        return [
+            'input' => Arr::toCssClasses([
+                'form-checkbox rounded transition ease-in-out duration-100 border-secondary-300',
                 'w-5 h-5' => $this->size === 'md',
                 'w-6 h-6' => $this->size === 'lg',
-                $this->tallStackUiRadioCheckboxColors(),
             ]),
             'error' => 'border border-red-300 text-red-600 focus:ring-red-600 focus:border-red-400',
-        ]);
+            /* Interal Usage Only */
+            'internal.input.color' => $this->tallStackUiRadioCheckboxColors(),
+        ];
     }
 }
