@@ -45,11 +45,11 @@ class Select extends Component implements Customizable
                 'wrapper' => 'mr-1 flex items-center',
                 'x-mark' => [
                     'icon' => 'h-5 w-5 transition text-secondary-500 hover:text-red-500',
-                    'icon.error' => 'text-red-500',
+                    'error' => 'text-red-500',
                 ],
                 'up-down' => [
                     'icon' => 'h-5 w-5 transition ext-secondary-500',
-                    'icon.error' => 'text-red-500',
+                    'error' => 'text-red-500',
                 ],
             ],
             'box' => [

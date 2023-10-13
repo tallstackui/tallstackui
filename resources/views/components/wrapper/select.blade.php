@@ -18,14 +18,14 @@
             <div @class($customize['buttons.wrapper'])>
                 <template x-if="!empty">
                     <button dusk="tallstackui_select_clear" type="button" x-on:click="clear()">
-                        <x-icon name="x-mark" @class([$customize['buttons.x-mark.icon'], $customize['buttons.x-mark.icon.error'] => $error]) />
+                        <x-icon name="x-mark" @class([$customize['buttons.x-mark.icon'], $customize['buttons.x-mark.error'] => $error]) />
                     </button>
                 </template>
                 <div class="mr-1 flex items-center">
                     <button dusk="tallstackui_select_open_close" type="button" x-on:click="show = !show">
                         <x-icon name="chevron-up-down" @class([
                             $customize['buttons.up-down.icon'] => !$error,
-                            $customize['buttons.up-down.icon.error'] => $error
+                            $customize['buttons.up-down.error'] => $error
                         ]) />
                     </button>
                 </div>

@@ -8,6 +8,9 @@ use TallStackUi\Support\Elements\Color;
 
 trait DefaultInputClasses
 {
+    /**
+     * Input, Password & Textarea Classes
+     */
     private function inputClasses(): string
     {
         return Arr::toCssClasses([
@@ -18,6 +21,9 @@ trait DefaultInputClasses
         ]);
     }
 
+    /**
+     * Radio & Checkbox Classes
+     */
     private function radioColors(): string
     {
         return TallStackUi::colors()
