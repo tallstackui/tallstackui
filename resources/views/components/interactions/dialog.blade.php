@@ -29,7 +29,7 @@
                  @if (!$uncloseable) x-on:click.outside="remove()" @endif>
                 <div @class($customize['buttons.close.wrapper'])>
                     <button x-on:click="remove()">
-                        <x-icon name="x-mark" @class($customize['buttons.close.base']) />
+                        <x-icon name="x-mark" @class($customize['buttons.close.icon']) />
                     </button>
                 </div>
                 <div>

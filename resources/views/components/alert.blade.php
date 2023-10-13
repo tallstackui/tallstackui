@@ -8,7 +8,7 @@
      x-show="show">
     @if ($title)
         <div @class($customize['title.wrapper'])>
-            <h3 @class([$customize['title.base'], $internal['title.base.color']])>{{ $title }}</h3>
+            <h3 @class([$customize['title.text'], $internal['title.base.color']])>{{ $title }}</h3>
             @if ($closeable)
                 <div @class($customize['title.icon.wrapper'])>
                     <button id="close" x-on:click="show = false">

@@ -3,7 +3,7 @@
 @php($customize = tallstackui_personalization('error', $customization()))
 
 @error ($computed)
-<span @class($customize['base'])>
-        {{ $message }}
-    </span>
+<span @class($customize['text'])>
+    {{ $message }}
+</span>
 @enderror

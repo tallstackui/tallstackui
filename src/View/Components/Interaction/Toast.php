@@ -74,7 +74,7 @@ class Toast extends Component implements Customizable
                 'cancel' => 'bg-white text-sm font-medium text-secondary-700 focus:outline-none',
                 'close' => [
                     'wrapper' => 'ml-4 flex flex-shrink-0',
-                    'base' => 'inline-flex bg-white text-gray-400 focus:outline-none focus:ring-0',
+                    'class' => 'inline-flex bg-white text-gray-400 focus:outline-none focus:ring-0',
                     'size' => 'h-5 w-5',
                 ],
             ],

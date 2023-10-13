@@ -48,7 +48,7 @@
                         </template>
                     </div>
                     <div @class($customize['buttons.close.wrapper'])>
-                        <button x-on:click="hide()" type="button" @class($customize['buttons.close.base'])>
+                        <button x-on:click="hide()" type="button" @class($customize['buttons.close.class'])>
                             <x-icon name="x-mark" @class($customize['buttons.close.size']) />
                         </button>
                     </div>

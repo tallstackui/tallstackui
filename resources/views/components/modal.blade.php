@@ -42,7 +42,7 @@
                  @class($customize['wrapper.fourth'])>
                 @if ($title)
                     <div @class($customize['title.wrapper'])>
-                        <h3 @class($customize['title.base'])>{{ $title }}</h3>
+                        <h3 @class($customize['title.text'])>{{ $title }}</h3>
                         <x-icon name="x-mark"
                                 x-on:click="show = false"
                                 @class($customize['title.close'])

@@ -8,7 +8,7 @@
         <x-label :$label :$error/>
     @endif
     <div @class($customize['wrapper']) x-on:click.outside="show = false">
-        <div @class([$customize['div.base'], $customize['div.error'] => $error])
+        <div @class([$customize['input.wrapper'], $customize['input.error'] => $error])
              role="combobox"
              aria-controls="options"
              aria-expanded="false">
@@ -18,16 +18,15 @@
             <div @class($customize['buttons.wrapper'])>
                 <template x-if="!empty">
                     <button dusk="tallstackui_select_clear" type="button" x-on:click="clear()">
-                        <x-icon name="x-mark" @class([$customize['buttons.x-mark.base'], $customize['buttons.x-mark.error'] => $error]) />
+                        <x-icon name="x-mark" @class([$customize['buttons.x-mark.icon'], $customize['buttons.x-mark.icon.error'] => $error]) />
                     </button>
                 </template>
                 <div class="mr-1 flex items-center">
                     <button dusk="tallstackui_select_open_close" type="button" x-on:click="show = !show">
                         <x-icon name="chevron-up-down" @class([
-                                $customize['buttons.up-down.base'],
-                                $customize['buttons.up-down.normal'] => !$error,
-                                $customize['buttons.up-down.error'] => $error
-                            ]) />
+                            $customize['buttons.up-down.icon'] => !$error,
+                            $customize['buttons.up-down.icon.error'] => $error
+                        ]) />
                     </button>
                 </div>
             </div>
@@ -42,7 +41,7 @@
                              :validate="false"
                     />
                     <button type="button"
-                            @class([$customize['box.button.base']])
+                            @class([$customize['box.button.class']])
                             x-on:click="search = ''; $refs.search.focus();"
                             x-show="search.length > 0">
                         <x-icon name="x-mark" @class($customize['box.button.icon']) />
@@ -53,7 +52,7 @@
                 @if ($loading)
                     <div x-show="loading"
                          @class($customize['box.list.loading.wrapper']) class="flex items-center justify-center p-4 space-x-4">
-                        <svg @class($customize['box.list.loading.base'])
+                        <svg @class($customize['box.list.loading.class'])
                              xmlns="http://www.w3.org/2000/svg"
                              fill="none"
                              viewBox="0 0 24 24">
@@ -76,7 +75,7 @@
                         tabindex="-1"
                         x-bind:class="{ 'font-semibold hover:text-white hover:bg-red-500': selected(option) }"
                     >
-                        <div wire:ignore @class($customize['box.list.item.base'])>
+                        <div wire:ignore @class($customize['box.list.item.class'])>
                             <span class="ml-2 truncate" x-text="option[selectable.label] ?? option"></span>
                             <x-icon name="check" x-show="selected(option)" class="h-5 w-5 font-bold"/>
                         </div>

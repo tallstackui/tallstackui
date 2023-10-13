@@ -137,7 +137,7 @@ trait InternalPersonalization
                 ->when($this->color === 'white', fn (Color $color) => $color->set('bg', 'gray', 50))
                 ->unless($this->color === 'white', fn (Color $color) => $color->set('bg', $this->color === 'black' ? 'neutral' : $this->color, 50))
                 ->get(),
-            'title.base.color' => $text,
+            'title.text.color' => $text,
             'title.wrapper.color' => TallStackUi::colors()
                 ->set('border', $this->color, 200)
                 ->get(),

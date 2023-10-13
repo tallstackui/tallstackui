@@ -55,18 +55,16 @@ class Errors extends Component implements Customizable
     public function tallStackUiClasses(): array
     {
         return Arr::dot([
-            'base' => [
-                'wrapper' => [
-                    'first' => Arr::toCssClasses([
-                        'p-4 w-full',
-                        'animate-pulse' => $this->pulse,
-                    ]),
-                    'second' => 'rounded-lg p-4',
-                ],
+            'wrapper' => [
+                'first' => Arr::toCssClasses([
+                    'p-4 w-full',
+                    'animate-pulse' => $this->pulse,
+                ]),
+                'second' => 'rounded-lg p-4',
             ],
             'title' => [
-                'base' => 'text-sm font-semibold',
                 'wrapper' => 'flex items-center border-b pb-3',
+                'text' => 'text-sm font-semibold',
             ],
             'body' => [
                 'list' => 'list-disc text-sm space-y-1',

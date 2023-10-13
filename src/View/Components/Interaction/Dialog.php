@@ -77,7 +77,7 @@ class Dialog extends Component implements Customizable
                 ]),
                 'close' => [
                     'wrapper' => 'flex justify-end',
-                    'base' => 'h-5 w-5 cursor-pointer text-gray-400',
+                    'icon' => 'h-5 w-5 cursor-pointer text-gray-400',
                 ],
             ],
         ]);

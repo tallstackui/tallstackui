@@ -30,7 +30,7 @@ class Hint extends Component implements Customizable
     public function tallStackUiClasses(): array
     {
         return [
-            'base' => 'mt-2 text-sm text-secondary-500',
+            'text' => 'mt-2 text-sm text-secondary-500',
         ];
     }
 }

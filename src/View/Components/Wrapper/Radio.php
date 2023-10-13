@@ -36,7 +36,7 @@ class Radio extends Component implements Customizable
         return Arr::dot([
             'wrapper' => 'flex items-center',
             'label' => [
-                'base' => [
+                'wrapper' => [
                     'text' => 'text-sm font-medium text-gray-700',
                     'error' => 'text-red-600',
                 ],

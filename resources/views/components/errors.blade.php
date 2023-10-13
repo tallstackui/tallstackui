@@ -4,13 +4,13 @@
 @endphp
 
 @if ($errors->count())
-    <div @class($customize['base.wrapper.first'])>
+    <div @class($customize['wrapper.first'])>
         <div {{ $attributes->class([
-                $customize['base.wrapper.second'],
-                $internal['base.wrapper.second.color']
+                $customize['wrapper.second'],
+                $internal['wrapper.second.color']
             ]) }}>
             <div @class([$customize['title.wrapper'], $internal['title.wrapper.color']])>
-                <span @class([$customize['title.base'], $internal['title.base.color']])>
+                <span @class([$customize['title.text'], $internal['title.text.color']])>
                     {{ __($title, ['count' => $count($errors)]) }}
                 </span>
             </div>

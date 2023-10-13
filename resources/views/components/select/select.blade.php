@@ -8,7 +8,7 @@
     @if ($label)
         <x-label :$label :$error/>
     @endif
-    <select @if ($id) id="{{ $id }}" @endif {{ $attributes->class([$customize['base'], $customize['error'] => $error]) }}>
+    <select @if ($id) id="{{ $id }}" @endif {{ $attributes->class([$customize['wrapper'], $customize['error'] => $error]) }}>
         @forelse ($options as $option)
             <option value="{{ $select ? $option[$selectable['value']] : $option }}">{{ $select ? $option[$selectable['label']] : $option }}</option>
         @empty

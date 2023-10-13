@@ -73,11 +73,11 @@ class Modal extends Component implements Customizable
             ],
             'title' => [
                 'wrapper' => 'flex items-center justify-between border-b px-4 py-2.5',
-                'base' => 'whitespace-normal font-medium text-md text-secondary-600',
+                'text' => 'whitespace-normal font-medium text-md text-secondary-600',
                 'close' => 'h-5 w-5 text-secondary-300 cursor-pointer',
             ],
-            'body' => 'px-2 py-5 md:px-4 text-secondary-700 rounded-b-xl grow dark:text-secondary-400',
-            'footer' => 'flex justify-end gap-2 rounded-b-xl border-t border-t-gray-100 bg-gray-50 p-4',
+            'body' => 'px-2 py-5 md:px-4 text-gray-700 rounded-b-xl grow dark:text-secondary-400',
+            'footer' => 'flex justify-end gap-2 rounded-b-xl border-t border-t-gray-100 text-gray-700 bg-gray-50 p-4',
         ]);
     }
 }

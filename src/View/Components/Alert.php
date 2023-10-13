@@ -45,7 +45,7 @@ class Alert extends Component implements Customizable
                 'animate-pulse' => $this->pulse,
             ]),
             'title' => [
-                'base' => 'text-lg font-semibold',
+                'text' => 'text-lg font-semibold',
                 'wrapper' => 'flex items-center justify-between',
                 'icon' => [
                     'wrapper' => 'ml-auto pl-3',

@@ -3,7 +3,7 @@
 <div>
     <div @class($customize['wrapper'])>
         @if ($label && $position === 'left')
-        <p @class([$customize['label.base.text'], $customize['label.base.error'] => $error, 'mr-2'])>
+        <p @class([$customize['label.wrapper.text'], $customize['label.wrapper.error'] => $error, 'mr-2'])>
             {{ $label }}
         </p>
         @endif
