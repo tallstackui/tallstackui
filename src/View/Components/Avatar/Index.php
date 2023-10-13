@@ -11,7 +11,7 @@ use TallStackUi\Facades\TallStackUi;
 class Index extends Component implements Customizable
 {
     public function __construct(
-        public ?string $label = null,
+        public ?string $text = null,
         public ?string $color = 'primary',
         public ?string $sm = null,
         public ?string $md = null,
@@ -37,7 +37,7 @@ class Index extends Component implements Customizable
 
     public function tallStackUiClasses(): array
     {
-        return [
+        return Arr::dot([
             'wrapper' => Arr::toCssClasses([
                 'inline-flex shrink-0 items-center justify-center overflow-hidden text-xl',
                 'w-8 h-8 text-xs' => $this->size === 'sm',
@@ -45,27 +45,30 @@ class Index extends Component implements Customizable
                 'w-14 h-14 text-2xl' => $this->size === 'lg',
                 'rounded-full' => ! $this->square,
                 'border-2' => ! $this->modelable,
-                TallStackUi::colors()
-                    ->set('bg', $this->color, $this->color === 'black' ? null : 500)
-                    ->merge('border', $this->color, $this->color === 'black' ? null : 500)
-                    ->get() => ! $this->modelable,
             ]),
-            'content' => match ($this->modelable) {
-                /* image */
-                true => Arr::toCssClasses([
+            'content' => [
+                'image' => Arr::toCssClasses([
                     'shrink-0 object-cover object-center text-xl',
                     'w-8 h-8 text-sm' => $this->size === 'sm',
                     'w-12 h-12 text-xl' => $this->size === 'md',
                     'w-14 h-14 text-2xl' => $this->size === 'lg',
                     'rounded-full' => ! $this->square,
                 ]),
-                /* text */
-                false => Arr::toCssClasses([
+                'text' => Arr::toCssClasses([
                     'font-semibold',
                     'text-white' => $this->color !== 'white',
                     'text-neutral' => $this->color === 'white' || $this->color === 'black',
                 ]),
-            },
-        ];
+            ],
+            /* Interal Usage Only */
+            'internal' => [
+                'wrapper.color' => Arr::toCssClasses([
+                    TallStackUi::colors()
+                        ->set('bg', $this->color, $this->color === 'black' ? null : 500)
+                        ->merge('border', $this->color, $this->color === 'black' ? null : 500)
+                        ->get() => ! $this->modelable,
+                ])
+            ]
+        ]);
     }
 }
