@@ -21,6 +21,7 @@ use TallStackUi\View\Components\Form\Textarea;
 use TallStackUi\View\Components\Form\Toggle;
 use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
 use TallStackUi\View\Components\Form\Traits\DefaultSelectablesColorClasses;
+use TallStackUi\View\Components\Tooltip;
 
 trait InternalPersonalization
 {
@@ -63,6 +64,7 @@ trait InternalPersonalization
             Textarea::class => fn () => $this->textarea(),
             Radio::class, Checkbox::class => fn () => $this->radio(),
             Toggle::class => fn () => $this->toggle(),
+            Tooltip::class => fn () => $this->tooltip(),
             default => throw new Exception('Unexpected match value'),
         })();
 
@@ -184,6 +186,16 @@ trait InternalPersonalization
                         ->set('peer-focus:ring', $this->color, $this->color === 'black' ? null : 600)
                         ->set('group-focus:ring', $this->color, $this->color === 'black' ? null : 600);
                 })
+                ->get(),
+        ];
+    }
+
+    private function tooltip(): array
+    {
+        return [
+            'icon.color' => TallStackUi::colors()
+                ->when($this->color === 'white', fn (Color $color) => $color->set('text', 'gray', 300))
+                ->unless($this->color === 'white', fn (Color $color) => $color->set('text', $this->color, 500))
                 ->get(),
         ];
     }
