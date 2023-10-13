@@ -55,6 +55,8 @@ abstract class AbstractInteraction
 
     public function send(array $options): self
     {
+        $options['component'] = $this->component->getId();
+
         $this->component->dispatch($this->event, ...$options);
 
         return $this;

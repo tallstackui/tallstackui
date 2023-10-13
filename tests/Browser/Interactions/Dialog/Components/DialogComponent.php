@@ -2,7 +2,6 @@
 
 namespace Tests\Browser\Interactions\Dialog\Components;
 
-use Livewire\Attributes\On;
 use Livewire\Component;
 use TallStackUi\Traits\Interactions;
 
@@ -48,24 +47,21 @@ HTML;
         $this->dialog()->confirm('Foo bar confirmation', 'Foo bar confirmation description', [
             'confirm' => [
                 'text' => 'Confirm',
-                'event' => 'confirmed',
+                'method' => 'confirmed',
                 'params' => 'Foo bar confirmed foo',
             ],
             'cancel' => [
-                'text' => 'Cancel',
-                'event' => 'cancelled',
+                'method' => 'cancelled',
                 'params' => 'Bar foo cancelled bar',
             ],
         ]);
     }
 
-    #[On('confirmed')]
     public function confirmed(string $message): void
     {
         $this->dialog()->success($message);
     }
 
-    #[On('cancelled')]
     public function cancelled(string $message): void
     {
         $this->dialog()->success($message);

@@ -27,7 +27,9 @@ export default (ok, confirm, cancel) => ({
     const params = dialog.options.confirm.params ?? null;
 
     dispatchEvent('dialog:accepted', dialog);
-    setTimeout(() => this.$dispatch(dialog.options.confirm.event, params?.constructor !== Array ? [params] : [...params]), 100);
+    setTimeout(() => window.Livewire
+        .find(dialog.component)
+        .call(dialog.options.confirm.method, params?.constructor !== Array ? params : [...params]), 100);
 
     this.remove();
   },
@@ -36,10 +38,14 @@ export default (ok, confirm, cancel) => ({
       return this.remove();
     }
 
-    const params = dialog.options.cancel.params ?? null;
-
     dispatchEvent('dialog:rejected', dialog);
-    setTimeout(() => this.$dispatch(dialog.options.cancel.event, params?.constructor !== Array ? [params] : [...params]), 100);
+
+    if (dialog.options.cancel.method) {
+      const params = dialog.options.cancel.params ?? null;
+      setTimeout(() => window.Livewire
+          .find(dialog.component)
+          .call(dialog.options.cancel.method, params?.constructor !== Array ? params : [...params]), 100);
+    }
 
     this.remove();
   },

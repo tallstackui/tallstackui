@@ -21,15 +21,22 @@ export default (toast, ok, confirm, cancel) => ({
     const params = toast.options.confirm.params ?? null;
 
     dispatchEvent('toast:accepted', toast);
-    this.$dispatch(toast.options.confirm.event, params?.constructor !== Array ? [params] : [...params]);
+
+    window.Livewire
+        .find(toast.component)
+        .call(toast.options.confirm.method, params?.constructor !== Array ? params : [...params]);
 
     this.hide();
   },
   reject(toast) {
-    const params = toast.options.cancel.params ?? null;
-
     dispatchEvent('toast:rejected', toast);
-    this.$dispatch(toast.options.cancel.event, params?.constructor !== Array ? [params] : [...params]);
+
+    if (toast.options.cancel.method) {
+      const params = toast.options.cancel.params;
+      window.Livewire
+          .find(toast.component)
+          .call(toast.options.cancel.method, params?.constructor !== Array ? params : [...params]);
+    }
 
     this.hide();
   },

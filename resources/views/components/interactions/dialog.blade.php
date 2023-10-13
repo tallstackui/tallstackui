@@ -80,7 +80,7 @@
                             'bg-yellow-600 hover:bg-yellow-700 focus:ring-yellow-500 focus:ring-offset-yellow-100' : dialog.type === 'warning',
                             'bg-primary-600 hover:bg-primary-700 focus:ring-primary-500 focus:ring-offset-primary-100' : dialog.type === 'question'
                         }" dusk="tallstackui_dialog_confirmation" x-on:click="accept(dialog)"
-                            x-text="dialog.type === 'question' ? dialog.options?.confirm.text : text.ok"></button>
+                            x-text="dialog.type === 'question' ? dialog.options.confirm.text : text.ok"></button>
                 </div>
             </div>
         </div>
