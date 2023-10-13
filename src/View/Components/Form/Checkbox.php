@@ -6,11 +6,11 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
 use TallStackUi\Contracts\Customizable;
-use TallStackUi\View\Components\Form\Traits\DefaultSelectablesColorClasses;
+use TallStackUi\Support\Personalizations\Traits\InternalPersonalization;
 
 class Checkbox extends Component implements Customizable
 {
-    use DefaultSelectablesColorClasses;
+    use InternalPersonalization;
 
     public function __construct(
         public ?string $id = null,

@@ -5,7 +5,7 @@
 
 <div {{ $attributes->class([$customize['wrapper'], $internal['wrapper.color']]) }}>
     @if ($modelable)
-        <img @class($customize['content.image']) src="{{ $label }}" alt="{{ $alt() }}"/>
+        <img @class($customize['content.image']) src="{{ $text }}" alt="{{ $alt() }}"/>
     @elseif ($text || $slot->isNotEmpty())
         <span @class($customize['content.text'])>{{ $text ?? $slot }}</span>
     @else

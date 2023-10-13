@@ -39,7 +39,7 @@ class Password extends Component implements Customizable
     public function tallStackUiClasses(): array
     {
         return Arr::dot([
-            'input' => $this->tallStackUiInputClasses(),
+            'input' => $this->inputClasses(),
             'icon' => [
                 'wrapper' => 'absolute inset-y-0 right-0 flex items-center pr-2.5',
                 'class' => 'h-5 w-5 text-gray-400',

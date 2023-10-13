@@ -8,6 +8,7 @@ use TallStackUi\Facades\TallStackUi;
 use TallStackUi\Support\Elements\Color;
 use TallStackUi\View\Components\Alert;
 use TallStackUi\View\Components\Avatar\Index as Avatar;
+use TallStackUi\View\Components\Avatar\Modelable;
 use TallStackUi\View\Components\Badge;
 use TallStackUi\View\Components\Button\Circle as ButtonCircle;
 use TallStackUi\View\Components\Button\Index as Button;
@@ -20,7 +21,6 @@ use TallStackUi\View\Components\Form\Radio;
 use TallStackUi\View\Components\Form\Textarea;
 use TallStackUi\View\Components\Form\Toggle;
 use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
-use TallStackUi\View\Components\Form\Traits\DefaultSelectablesColorClasses;
 use TallStackUi\View\Components\Tooltip;
 
 /**
@@ -32,14 +32,13 @@ trait InternalPersonalization
 {
     use DefaultButtonColorClasses;
     use DefaultInputClasses;
-    use DefaultSelectablesColorClasses;
 
     /** @throws Exception */
     public function internals(): array
     {
         $internal = (match (static::class) {
             Alert::class => fn () => $this->alert(),
-            Avatar::class => fn () => $this->avatar(),
+            Avatar::class, Modelable::class => fn () => $this->avatar(),
             Badge::class => fn () => $this->badge(),
             Button::class, ButtonCircle::class => fn () => $this->button(),
             Errors::class => fn () => $this->errors(),
@@ -70,7 +69,7 @@ trait InternalPersonalization
                     ->when($this->style === 'solid', fn (Color $color) => $color->set('bg', $this->color, ! in_array($this->color, ['white', 'black']) ? 300 : null))
                     ->unless($this->style === 'solid', fn (Color $color) => $color->set('bg', $this->color === 'black' ? 'neutral' : $this->color, $this->color === 'black' ? 200 : 100))
                     ->get(),
-                'border' => $this->color === 'white',
+                'border border-gray-100' => $this->color === 'white',
             ]),
             'title.base.color' => Arr::toCssClasses([$color => $this->title !== null]),
             'title.icon.color' => $color,
@@ -176,7 +175,7 @@ trait InternalPersonalization
     /** Mandatory Radio & Checkbox Classes */
     private function radio(): array
     {
-        return ['input.color' => $this->tallStackUiRadioCheckboxColors()];
+        return ['input.color' => $this->radioColors()];
     }
 
     /** Mandatory Textarea Classes */
