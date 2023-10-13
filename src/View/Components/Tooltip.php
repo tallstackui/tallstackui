@@ -6,8 +6,6 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
 use TallStackUi\Contracts\Customizable;
-use TallStackUi\Facades\TallStackUi;
-use TallStackUi\Support\Elements\Color;
 use TallStackUi\Support\Personalizations\Traits\InternalPersonalization;
 
 class Tooltip extends Component implements Customizable
