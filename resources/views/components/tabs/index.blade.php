@@ -14,9 +14,7 @@
      @else
          x-data="tallstackui_tabs(@js($selected))"
      @endif class="w-full" x-cloak>
-    <ul x-ref="tablist"
-        role="tablist"
-            @class($customize['wrapper'])>
+    <ul x-ref="tablist" role="tablist" @class($customize['wrapper'])>
         <template x-for="item in headings">
             <li @class($customize['item.wrapper'])
                 x-on:click="select(item)"

@@ -26,7 +26,9 @@ class Styled extends Component implements Customizable
     ) {
         $this->options();
 
-        if (isset($this->options[0]) && is_array($this->options[0]) && ! $this->select) {
+        //TODO: refactor this $this->options[0]
+
+        if (isset($this->options[0]) && (is_array($this->options[0]) && ! $this->select)) {
             throw new InvalidArgumentException('The [select] parameter must be defined');
         }
     }
