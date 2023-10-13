@@ -1,6 +1,6 @@
 @php($customize = tallstackui_personalization('alert', $customization()))
 
-<div @class($customize['base'])
+<div @class($customize['wrapper'])
      x-data="{ show : true }"
      x-show="show">
     @if ($title)
