@@ -8,9 +8,11 @@ use TallStackUi\Facades\TallStackUi;
 use TallStackUi\Support\Elements\Color;
 use TallStackUi\View\Components\Alert;
 use TallStackUi\View\Components\Avatar\Index as Avatar;
+use TallStackUi\View\Components\Badge;
 use TallStackUi\View\Components\Button\Circle as ButtonCircle;
 use TallStackUi\View\Components\Button\Index as Button;
 use TallStackUi\View\Components\Button\Traits\DefaultButtonColorClasses;
+use TallStackUi\View\Components\Errors;
 use TallStackUi\View\Components\Form\Checkbox;
 use TallStackUi\View\Components\Form\Input;
 use TallStackUi\View\Components\Form\Password;
@@ -26,13 +28,36 @@ trait InternalPersonalization
     use DefaultInputClasses;
     use DefaultSelectablesColorClasses;
 
+    public function badge(): array
+    {
+        return [
+            'wrapper.color' => Arr::toCssClasses([
+                TallStackUi::colors()
+                    ->set('border', $this->color, $this->color === 'black' ? null : 500)
+                    ->mergeWhen($this->style === 'solid', 'bg', $this->color, $this->color === 'black' ? null : 500)
+                    ->get(),
+                TallStackUi::colors()
+                    ->set('text', $this->color === 'white' ? 'black' : $this->color, $this->color === 'white' ? null : 500)
+                    ->get() => $this->style === 'outline',
+            ]),
+            'icon.color' => Arr::toCssClasses([
+                'text-white' => $this->color !== 'white' && $this->style === 'solid',
+                TallStackUi::colors()
+                    ->set('text', $this->color, 500)
+                    ->get() => $this->style === 'outline',
+            ]),
+        ];
+    }
+
     /** @throws Exception */
     public function internals(): array
     {
         $internal = (match (static::class) {
             Alert::class => fn () => $this->alert(),
             Avatar::class => fn () => $this->avatar(),
+            Badge::class => fn () => $this->badge(),
             Button::class, ButtonCircle::class => fn () => $this->button(),
+            Errors::class => fn () => $this->errors(),
             Input::class => fn () => $this->input(),
             Password::class => fn () => $this->password(),
             Textarea::class => fn () => $this->textarea(),
@@ -87,6 +112,26 @@ trait InternalPersonalization
     private function button(): array
     {
         return $this->tallStackUiButtonsColors();
+    }
+
+    private function errors(): array
+    {
+        $text = TallStackUi::colors()
+            ->when($this->color === 'black', fn (Color $color) => $color->set('text', 'neutral', 800))
+            ->unless($this->color === 'black', fn (Color $color) => $color->set('text', $this->color, 800))
+            ->get();
+
+        return [
+            'base.wrapper.second.color' => TallStackUi::colors()
+                ->when($this->color === 'white', fn (Color $color) => $color->set('bg', 'gray', 50))
+                ->unless($this->color === 'white', fn (Color $color) => $color->set('bg', $this->color === 'black' ? 'neutral' : $this->color, 50))
+                ->get(),
+            'title.base.color' => $text,
+            'title.wrapper.color' => TallStackUi::colors()
+                ->set('border', $this->color, 200)
+                ->get(),
+            'body.list.color' => $text,
+        ];
     }
 
     private function input(): array
