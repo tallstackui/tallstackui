@@ -1,6 +1,6 @@
 @php
     $customize = tallstackui_personalization('alert', $customization());
-    $internal  = $internals();
+    $internal = $internals();
 @endphp
 
 <div @class([$customize['wrapper'], $internal['wrapper.color']])

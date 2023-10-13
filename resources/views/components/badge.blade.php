@@ -1,6 +1,6 @@
 @php
     $customize = tallstackui_personalization('badge', $customization());
-    $internal  = $internals();
+    $internal = $internals();
 @endphp
 
 <span {{ $attributes->class([$customize['wrapper'], $internal['wrapper.color']]) }}>

@@ -1,6 +1,6 @@
 @php
     $customize = tallstackui_personalization('errors', $customization());
-    $internal  = $internals();
+    $internal = $internals();
 @endphp
 
 @if ($errors->count())

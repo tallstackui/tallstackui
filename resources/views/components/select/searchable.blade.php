@@ -1,8 +1,8 @@
 @php
-    $computed  = $attributes->whereStartsWith('wire:model');
+    $computed = $attributes->whereStartsWith('wire:model');
     $directive = array_key_first($computed->getAttributes());
-    $property  = $computed[$directive];
-    $error     = $errors->has($property);
+    $property = $computed[$directive];
+    $error = $errors->has($property);
     $customize = tallstackui_personalization('select.searchable', $customization());
 @endphp
 

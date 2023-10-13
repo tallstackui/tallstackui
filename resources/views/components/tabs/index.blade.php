@@ -1,7 +1,7 @@
 @php
-    $computed  = $attributes->whereStartsWith('wire:model');
+    $computed = $attributes->whereStartsWith('wire:model');
     $directive = array_key_first($computed->getAttributes());
-    $property  = $computed[$directive];
+    $property = $computed[$directive];
     $customize = tallstackui_personalization('tabs', $customization());
 @endphp
 

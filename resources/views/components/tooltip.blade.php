@@ -1,6 +1,6 @@
 @php
     $customize = tallstackui_personalization('tooltip', $customization());
-    $internal  = $internals();
+    $internal = $internals();
 @endphp
 
 <div @class($customize['wrapper']) x-data>

@@ -1,8 +1,8 @@
 @php
-    $computed  = $attributes->whereStartsWith('wire:model')->first();
-    $error     = $errors->has($computed);
+    $computed = $attributes->whereStartsWith('wire:model')->first();
+    $error = $errors->has($computed);
     $customize = tallstackui_personalization('form.password', $customization());
-    $internal  = $internals();
+    $internal = $internals();
 @endphp
 
 <x-wrapper.input :$computed :$error :$label :$hint validate password>

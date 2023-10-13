@@ -1,8 +1,8 @@
 @php
-    $computed  = $attributes->whereStartsWith('wire:model')->first();
-    $error     = $errors->has($computed);
+    $computed = $attributes->whereStartsWith('wire:model')->first();
+    $error = $errors->has($computed);
     $customize = tallstackui_personalization('form.checkbox', $customization());
-    $internal  = $internals();
+    $internal = $internals();
 @endphp
 
 <x-wrapper.radio :$computed :$error :$label :$position :$id>

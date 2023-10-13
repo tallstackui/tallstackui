@@ -1,6 +1,6 @@
 @php
-    $computed  = $attributes->whereStartsWith('wire:model')->first();
-    $error     = $errors->has($computed);
+    $computed = $attributes->whereStartsWith('wire:model')->first();
+    $error = $errors->has($computed);
     $customize = tallstackui_personalization('select', $customization());
 @endphp
 
