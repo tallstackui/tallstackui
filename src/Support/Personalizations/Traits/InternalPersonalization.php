@@ -23,32 +23,16 @@ use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
 use TallStackUi\View\Components\Form\Traits\DefaultSelectablesColorClasses;
 use TallStackUi\View\Components\Tooltip;
 
+/**
+ * The purpose of this trait is to prepare internal content to be applied to
+ * components even when the components are personalized. In other words, these
+ * are classes outside the scope of component personalizations, even deep customization.
+ */
 trait InternalPersonalization
 {
     use DefaultButtonColorClasses;
     use DefaultInputClasses;
     use DefaultSelectablesColorClasses;
-
-    public function badge(): array
-    {
-        return [
-            'wrapper.color' => Arr::toCssClasses([
-                TallStackUi::colors()
-                    ->set('border', $this->color, $this->color === 'black' ? null : 500)
-                    ->mergeWhen($this->style === 'solid', 'bg', $this->color, $this->color === 'black' ? null : 500)
-                    ->get(),
-                TallStackUi::colors()
-                    ->set('text', $this->color === 'white' ? 'black' : $this->color, $this->color === 'white' ? null : 500)
-                    ->get() => $this->style === 'outline',
-            ]),
-            'icon.color' => Arr::toCssClasses([
-                'text-white' => $this->color !== 'white' && $this->style === 'solid',
-                TallStackUi::colors()
-                    ->set('text', $this->color, 500)
-                    ->get() => $this->style === 'outline',
-            ]),
-        ];
-    }
 
     /** @throws Exception */
     public function internals(): array
@@ -71,6 +55,7 @@ trait InternalPersonalization
         return [...$internal];
     }
 
+    /** Mandatory Alert Classes */
     private function alert(): array
     {
         $weight = $this->color === 'black' || $this->color === 'white' ? null : 900;
@@ -99,6 +84,7 @@ trait InternalPersonalization
         ];
     }
 
+    /** Mandatory Avatar Classes */
     private function avatar(): array
     {
         return [
@@ -111,11 +97,35 @@ trait InternalPersonalization
         ];
     }
 
+    /** Mandatory Badge Classes */
+    private function badge(): array
+    {
+        return [
+            'wrapper.color' => Arr::toCssClasses([
+                TallStackUi::colors()
+                    ->set('border', $this->color, $this->color === 'black' ? null : 500)
+                    ->mergeWhen($this->style === 'solid', 'bg', $this->color, $this->color === 'black' ? null : 500)
+                    ->get(),
+                TallStackUi::colors()
+                    ->set('text', $this->color === 'white' ? 'black' : $this->color, $this->color === 'white' ? null : 500)
+                    ->get() => $this->style === 'outline',
+            ]),
+            'icon.color' => Arr::toCssClasses([
+                'text-white' => $this->color !== 'white' && $this->style === 'solid',
+                TallStackUi::colors()
+                    ->set('text', $this->color, 500)
+                    ->get() => $this->style === 'outline',
+            ]),
+        ];
+    }
+
+    /** Mandatory Buttons Classes */
     private function button(): array
     {
         return $this->tallStackUiButtonsColors();
     }
 
+    /** Mandatory Errors Classes */
     private function errors(): array
     {
         $text = TallStackUi::colors()
@@ -136,6 +146,7 @@ trait InternalPersonalization
         ];
     }
 
+    /** Mandatory Input Classes */
     private function input(): array
     {
         return [
@@ -150,6 +161,7 @@ trait InternalPersonalization
         ];
     }
 
+    /** Mandatory Input Password Classes */
     private function password(): array
     {
         return [
@@ -161,16 +173,19 @@ trait InternalPersonalization
         ];
     }
 
+    /** Mandatory Radio & Checkbox Classes */
     private function radio(): array
     {
         return ['input.color' => $this->tallStackUiRadioCheckboxColors()];
     }
 
+    /** Mandatory Textarea Classes */
     private function textarea(): array
     {
         return ['input.round' => Arr::toCssClasses(['rounded-md' => ! $this->square])];
     }
 
+    /** Mandatory Toogle Classes */
     private function toggle(): array
     {
         return [
@@ -190,6 +205,7 @@ trait InternalPersonalization
         ];
     }
 
+    /** Mandatory Tooltip Classes */
     private function tooltip(): array
     {
         return [
