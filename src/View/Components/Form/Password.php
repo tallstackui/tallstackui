@@ -18,7 +18,6 @@ class Password extends Component implements Customizable
         public ?string $hint = null,
         public bool $square = false,
         public bool $round = false,
-        private readonly string $icon = 'eye',
     ) {
         $this->square = config('tallstackui.personalizations.input.square');
         $this->round = config('tallstackui.personalizations.input.round');
