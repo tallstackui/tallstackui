@@ -29,7 +29,7 @@ class Index extends Component implements Customizable
         public ?string $delay = null,
         public ?bool $solid = true,
         public ?bool $outline = false,
-        private ?string $style = null,
+        public ?string $style = null,
     ) {
         $this->style = $this->outline ? 'outline' : 'solid';
         $this->size = $this->xs ? 'xs' : ($this->sm ? 'sm' : ($this->lg ? 'lg' : 'md'));

@@ -11,7 +11,7 @@ class Items extends Component implements Customizable
 {
     public function __construct(
         public ?string $tab = null,
-        private bool $square = false,
+        public bool $square = false,
     ) {
         $this->square = config('tallstackui.personalizations.tabs.square');
     }

@@ -18,7 +18,7 @@ class Index extends Component implements Customizable
         public ?string $lg = null,
         public bool $square = false,
         public bool $modelable = false,
-        private ?string $size = null,
+        public ?string $size = null,
     ) {
         $this->size = $this->sm ? 'sm' : ($this->lg ? 'lg' : 'md');
     }

@@ -11,7 +11,7 @@ class Index extends Component implements Customizable
 {
     public function __construct(
         public ?string $selected = null,
-        private bool $square = false,
+        public bool $square = false,
     ) {
         $this->square = config('tallstackui.personalizations.tabs.square');
     }

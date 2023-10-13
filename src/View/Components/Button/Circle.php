@@ -21,7 +21,7 @@ class Circle extends Component implements Customizable
         public ?string $href = null,
         public ?string $loading = null,
         public ?string $delay = null,
-        private ?string $style = null,
+        public ?string $style = null,
     ) {
         $this->style = $this->outline ? 'outline' : 'solid';
     }
