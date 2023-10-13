@@ -67,8 +67,8 @@ class Index extends Component implements Customizable
                         ->set('bg', $this->color, $this->color === 'black' ? null : 500)
                         ->merge('border', $this->color, $this->color === 'black' ? null : 500)
                         ->get() => ! $this->modelable,
-                ])
-            ]
+                ]),
+            ],
         ]);
     }
 }

@@ -33,6 +33,8 @@ class Index extends Component implements Customizable
     ) {
         $this->style = $this->outline ? 'outline' : 'solid';
         $this->size = $this->xs ? 'xs' : ($this->sm ? 'sm' : ($this->lg ? 'lg' : 'md'));
+
+        $this->validateDelayOptions();
     }
 
     public function customization(): array
@@ -49,7 +51,7 @@ class Index extends Component implements Customizable
 
     public function tallStackUiClasses(): array
     {
-        return [
+        return Arr::dot([
             'wrapper' => Arr::toCssClasses([
                 'outline-none inline-flex justify-center items-center group ease-in font-semibold transition',
                 'focus:ring-2 focus:ring-offset-2 hover:shadow-sm disabled:opacity-50 disabled:cursor-not-allowed',
@@ -60,10 +62,22 @@ class Index extends Component implements Customizable
                 'text-base px-6 py-3' => $this->size === 'lg',
                 'rounded' => $this->square === null && $this->round === null,
                 'rounded-full' => $this->square === null && $this->round !== null,
-                $this->tallStackUiButtonColorClasses(),
             ]),
-            'icon' => $this->tallStackUiIconColorClasses(),
-            'icon.loading' => $this->tallStackUiButtonLoading(),
-        ];
+            'icon' => [
+                'size' => Arr::toCssClasses([
+                    'w-3 h-3' => $this->size === 'xs' || $this->size === 'sm',
+                    'w-4 h-4' => $this->size === 'md',
+                    'w-5 h-5' => $this->size === 'lg',
+                ]),
+                'loading' => Arr::toCssClasses([
+                    'animate-spin',
+                    'w-3 h-3' => $this->size === 'xs' || $this->size === 'sm',
+                    'w-4 h-4' => $this->size === 'md',
+                    'w-5 h-5' => $this->size === 'lg',
+                ]),
+            ],
+            /* Interal Usage Only */
+            'internal' => [...$this->tallStackUiButtonsColors()],
+        ]);
     }
 }

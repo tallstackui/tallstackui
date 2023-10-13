@@ -3,15 +3,42 @@
 namespace TallStackUi\View\Components\Button\Traits;
 
 use Illuminate\Support\Arr;
+use InvalidArgumentException;
 use TallStackUi\Facades\TallStackUi;
 use TallStackUi\Support\Elements\Color;
-use TallStackUi\View\Components\Button\Index;
 
 trait DefaultButtonColorClasses
 {
+    private array $delays = [
+        'longest',
+        'longer',
+        'long',
+        'short',
+        'shorter',
+        'shortest',
+    ];
+
     private array $variations = [];
 
-    public function tallStackUiButtonColorClasses(): string
+    public function tallStackUiButtonsColors(): array
+    {
+        return [
+            'wrapper.color' => $this->buttonColorClasses(),
+            'icon.color' => $this->iconColorClasses(),
+            'icon.loading.color' => Arr::toCssClasses([
+                TallStackUi::colors()
+                    ->when($this->color === 'white', fn (Color $color) => $color->set('text', 'black'))
+                    ->unless($this->color === 'white', fn (Color $color) => $color->set('text', 'white'))
+                    ->get() => $this->style === 'solid',
+                TallStackUi::colors()
+                    ->when($this->color === 'white', fn (Color $color) => $color->set('text', 'black'))
+                    ->unless($this->color === 'white', fn (Color $color) => $color->set('text', $this->color, 500))
+                    ->get() => $this->style === 'outline',
+            ]),
+        ];
+    }
+
+    private function buttonColorClasses(): string
     {
         $this->variations = match ($this->color) {
             'white', 'black' => [
@@ -32,44 +59,28 @@ trait DefaultButtonColorClasses
             ]
         };
 
-        $color = $this->tallStackUiTextColorVariations(TallStackUi::colors());
+        $color = $this->textColorClasses(TallStackUi::colors());
 
-        $this->tallStackUiButtonSolidVariations($color)->get();
-        $this->tallStackUiButtonOutlineVariations($color)->get();
+        $this->solid($color)->get();
+        $this->outline($color)->get();
 
         return $color->get();
     }
 
-    public function tallStackUiIconColorClasses(): string
+    private function iconColorClasses(): string
     {
-        $color = $this->tallStackUiTextColorVariations(TallStackUi::colors());
+        $weight = $this->color === 'white' ? 950 : 50;
 
-        if ($this instanceof Index) {
-            $classes = [
-                'w-3 h-3' => $this->size === 'xs' || $this->size === 'sm',
-                'w-4 h-4' => $this->size === 'md',
-                'w-5 h-5' => $this->size === 'lg',
-            ];
-        } else {
-            $classes = ['w-4 h-4'];
+        if ($this->style === 'outline') {
+            $weight = in_array($this->color, ['black', 'white']) ? 950 : 500;
         }
 
-        return Arr::toCssClasses([...$classes, $color->get()]);
+        return TallStackUi::colors()
+            ->set('text', $this->variations['text'], $weight)
+            ->get();
     }
 
-    private function tallStackUiButtonLoading(): string
-    {
-        return Arr::toCssClasses([
-            'animate-spin w-4 h-4',
-            'ml-2' => $this instanceof Index,
-            TallStackUi::colors()
-                ->when($this->color === 'white', fn (Color $color) => $color->set('text', 'black'))
-                ->unless($this->color === 'white', fn (Color $color) => $color->set('text', 'white'))
-                ->get(),
-        ]);
-    }
-
-    private function tallStackUiButtonOutlineVariations(Color $color): Color
+    private function outline(Color $color): Color
     {
         $variation = match ($this->color) {
             'white' => [
@@ -101,7 +112,7 @@ trait DefaultButtonColorClasses
         });
     }
 
-    private function tallStackUiButtonSolidVariations(Color $color): Color
+    private function solid(Color $color): Color
     {
         $variation = match ($this->color) {
             'white' => [
@@ -132,7 +143,7 @@ trait DefaultButtonColorClasses
         });
     }
 
-    private function tallStackUiTextColorVariations(Color $color): Color
+    private function textColorClasses(Color $color): Color
     {
         $weight = $this->color === 'white' ? 950 : 50;
 
@@ -141,5 +152,12 @@ trait DefaultButtonColorClasses
         }
 
         return $color->set('text', $this->variations['text'], $weight);
+    }
+
+    private function validateDelayOptions(): void
+    {
+        if (is_string($this->delay) && ! in_array($this->delay, $this->delays)) {
+            throw new InvalidArgumentException('Invalid delay provided.');
+        }
     }
 }

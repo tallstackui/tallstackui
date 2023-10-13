@@ -24,6 +24,8 @@ class Circle extends Component implements Customizable
         public ?string $style = null,
     ) {
         $this->style = $this->outline ? 'outline' : 'solid';
+
+        $this->validateDelayOptions();
     }
 
     public function customization(): array
@@ -40,14 +42,17 @@ class Circle extends Component implements Customizable
 
     public function tallStackUiClasses(): array
     {
-        return [
-            'base' => Arr::toCssClasses([
-                'outline-none inline-flex justify-center items-center group transition ease-in duration-150 w-9 h-9 font-semibold',
+        return Arr::dot([
+            'wrapper' => Arr::toCssClasses([
+                'outline-no ne inline-flex justify-center items-center group transition ease-in duration-150 w-9 h-9 font-semibold',
                 'focus:ring-2 focus:ring-offset-2 hover:shadow-sm disabled:opacity-50 disabled:cursor-not-allowed rounded-full',
-                $this->tallStackUiButtonColorClasses(),
             ]),
-            'icon' => $this->tallStackUiIconColorClasses(),
-            'icon.loading' => $this->tallStackUiButtonLoading(),
-        ];
+            'icon' => [
+                'size' => 'w-4 h-4',
+                'loading' => 'animate-spin w-4 h-4',
+            ],
+            /* Interal Usage Only */
+            'internal' => [...$this->tallStackUiButtonsColors()],
+        ]);
     }
 }
