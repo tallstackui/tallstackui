@@ -28,6 +28,7 @@ class Index extends Component implements Personalize
                 'second' => 'relative inline-block text-left',
                 'third' => Arr::toCssClasses([
                     'absolute z-10 mt-2 w-56 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none',
+                    // TODO: internal
                     'right-0 origin-top-right' => ! $this->right,
                     'left-0 origin-top-left' => $this->right,
                 ]),

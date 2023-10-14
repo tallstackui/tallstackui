@@ -33,6 +33,7 @@ class Index extends Component implements Personalize
                 'w-8 h-8 text-xs' => $this->size === 'sm',
                 'w-12 h-12 text-xl' => $this->size === 'md',
                 'w-14 h-14 text-2xl' => $this->size === 'lg',
+                // TODO: internal
                 'rounded-full' => ! $this->square,
                 'border-2' => ! $this->modelable,
             ]),

@@ -42,6 +42,7 @@ class Alert extends Component implements Personalize
                 'title' => [
                     'wrapper' => Arr::toCssClasses([
                         'text-sm',
+                        // TODO: internal
                         'inline-flex' => $this->title === null && $this->icon !== null,
                         'mt-2' => $this->title !== null,
                     ]),

@@ -27,6 +27,7 @@ class Modal extends Component implements Personalize
 
         $this->entangle = is_string($this->wire) ? $this->wire : (! is_bool($this->wire) ? $this->entangle : 'modal');
 
+        // TODO: internal
         $this->size = match ($this->size) {
             'sm' => 'sm:max-w-sm',
             'md' => 'sm:max-w-md',
@@ -47,6 +48,7 @@ class Modal extends Component implements Personalize
             'wrapper' => [
                 'first' => Arr::toCssClasses([
                     'fixed inset-0 bg-gray-400 bg-opacity-50 transition-opacity',
+                    // TODO: internal
                     'backdrop-blur-sm' => $this->blur === true,
                 ]),
                 'second' => 'fixed inset-0 z-50 w-screen overflow-y-auto',

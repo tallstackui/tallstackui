@@ -34,6 +34,7 @@ class Input extends Component implements Personalize
             'icon' => [
                 'wrapper' => Arr::toCssClasses([
                     'pointer-events-none absolute inset-y-0 flex items-center text-secondary-500',
+                    // TODO: internal
                     'left-0 pl-3' => $this->position === null || $this->position === 'left',
                     'right-0 pr-3' => $this->position === 'right',
                 ]),

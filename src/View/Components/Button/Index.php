@@ -47,6 +47,7 @@ class Index extends Component implements Personalize
                 'text-sm px-2 py-1' => $this->size === 'sm',
                 'text-base px-4 py-2' => $this->size === 'md',
                 'text-base px-6 py-3' => $this->size === 'lg',
+                // TODO: internal
                 'rounded' => $this->square === null && $this->round === null,
                 'rounded-full' => $this->square === null && $this->round !== null,
             ]),

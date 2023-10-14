@@ -39,12 +39,14 @@ class Badge extends Component implements Personalize
                 'text-xs' => $this->size === 'sm',
                 'text-sm' => $this->size === 'md',
                 'text-md' => $this->size === 'lg',
+                // TODO: internal
                 'text-white' => $this->color !== 'white' && $this->style === 'solid',
                 'rounded-md' => ! $this->round && ! $this->square,
                 'rounded-full' => $this->round,
             ]),
             'icon' => Arr::toCssClasses([
                 'h-3 w-3',
+                // TODO: internal
                 'mr-1' => $this->position === 'left',
                 'ml-1' => $this->position === 'right',
             ]),
