@@ -7,9 +7,12 @@ use Illuminate\Support\Arr;
 use Illuminate\View\Component;
 use InvalidArgumentException;
 use TallStackUi\Contracts\Customizable;
+use TallStackUi\Support\Personalizations\Traits\InternalPersonalization;
 
 class Toast extends Component implements Customizable
 {
+    use InternalPersonalization;
+
     public function __construct(
         public ?string $zIndex = null,
         public ?string $position = null,
@@ -44,20 +47,9 @@ class Toast extends Component implements Customizable
     {
         return Arr::dot([
             'wrapper' => [
-                'first' => Arr::toCssClasses([
-                    'pointer-events-none fixed inset-0 flex flex-col items-end justify-end gap-y-2 px-4 py-4',
-                    'md:justify-start' => str_contains($this->position, 'top-'),
-                    'md:justify-end' => str_contains($this->position, 'bottom-'),
-                ]),
-                'second' => Arr::toCssClasses([
-                    'flex w-full flex-col items-center space-y-4',
-                    'md:items-start' => $this->position === 'top-left' || $this->position === 'bottom-left',
-                    'md:items-end' => $this->position === 'top-right' || $this->position === 'bottom-right',
-                ]),
-                'third' => Arr::toCssClasses([
-                    'pointer-events-auto w-full max-w-sm overflow-hidden bg-white shadow-lg ring-1 ring-black ring-opacity-5',
-                    'rounded-xl' => ! $this->square,
-                ]),
+                'first' => 'pointer-events-none fixed inset-0 flex flex-col items-end justify-end gap-y-2 px-4 py-4',
+                'second' => 'flex w-full flex-col items-center space-y-4',
+                'third' => 'pointer-events-auto w-full max-w-sm overflow-hidden bg-white shadow-lg ring-1 ring-black ring-opacity-5',
                 'fourth' => 'flex items-start p-4',
             ],
             'icon' => [

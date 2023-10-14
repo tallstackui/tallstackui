@@ -4,7 +4,7 @@
 @endphp
 
 @if ($errors->count())
-    <div @class($customize['wrapper.first'])>
+    <div @class([$customize['wrapper.first'], 'animate-pulse' => $pulse])>
         <div {{ $attributes->class([
                 $customize['wrapper.second'],
                 $internal['wrapper.second.color']

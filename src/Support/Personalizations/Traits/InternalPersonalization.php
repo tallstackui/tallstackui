@@ -21,6 +21,7 @@ use TallStackUi\View\Components\Form\Radio;
 use TallStackUi\View\Components\Form\Textarea;
 use TallStackUi\View\Components\Form\Toggle;
 use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
+use TallStackUi\View\Components\Interaction\Toast;
 use TallStackUi\View\Components\Tooltip;
 
 /**
@@ -46,12 +47,27 @@ trait InternalPersonalization
             Password::class => fn () => $this->password(),
             Textarea::class => fn () => $this->textarea(),
             Radio::class, Checkbox::class => fn () => $this->radio(),
+            Toast::class => fn () => $this->toast(),
             Toggle::class => fn () => $this->toggle(),
             Tooltip::class => fn () => $this->tooltip(),
             default => throw new Exception('Unexpected match value'),
         })();
 
         return [...$internal];
+    }
+
+    public function toast(): array
+    {
+        return [
+            'wrapper.first.position' => Arr::toCssClasses([
+                'md:justify-start' => str_contains($this->position, 'top-'),
+                'md:justify-end' => str_contains($this->position, 'bottom-'),
+            ]),
+            'wrapper.second.position' => Arr::toCssClasses([
+                'md:items-start' => $this->position === 'top-left' || $this->position === 'bottom-left',
+                'md:items-end' => $this->position === 'top-right' || $this->position === 'bottom-right',
+            ]),
+        ];
     }
 
     /** Mandatory Alert Classes */

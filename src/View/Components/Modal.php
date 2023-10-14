@@ -62,14 +62,8 @@ class Modal extends Component implements Customizable
                     'backdrop-blur-sm' => $this->blur === true,
                 ]),
                 'second' => 'fixed inset-0 z-50 w-screen overflow-y-auto',
-                'third' => Arr::toCssClasses([
-                    'w-full min-h-full transform flex items-end justify-center mx-auto sm:items-start p-4',
-                    $this->size,
-                ]),
-                'fourth' => Arr::toCssClasses([
-                    'relative flex w-full transform flex-col rounded-xl bg-white text-left shadow-xl transition-all',
-                    $this->size,
-                ]),
+                'third' => 'w-full min-h-full transform flex items-end justify-center mx-auto sm:items-start p-4',
+                'fourth' => 'relative flex w-full transform flex-col rounded-xl bg-white text-left shadow-xl transition-all',
             ],
             'title' => [
                 'wrapper' => 'flex items-center justify-between border-b px-4 py-2.5',

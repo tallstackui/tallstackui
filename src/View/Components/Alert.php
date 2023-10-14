@@ -40,10 +40,7 @@ class Alert extends Component implements Customizable
     public function tallStackUiClasses(): array
     {
         return Arr::dot([
-            'wrapper' => Arr::toCssClasses([
-                'rounded-md p-4',
-                'animate-pulse' => $this->pulse,
-            ]),
+            'wrapper' => 'rounded-md p-4',
             'title' => [
                 'text' => 'text-lg font-semibold',
                 'wrapper' => 'flex items-center justify-between',

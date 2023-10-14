@@ -3,7 +3,7 @@
     $internal = $internals();
 @endphp
 
-<div @class([$customize['wrapper'], $internal['wrapper.color']])
+<div @class([$customize['wrapper'], 'animate-pulse' => $pulse, $internal['wrapper.color']])
      x-data="{ show : true }"
      x-show="show">
     @if ($title)

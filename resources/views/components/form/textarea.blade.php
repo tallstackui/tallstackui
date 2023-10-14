@@ -14,7 +14,8 @@
     <textarea @if ($id) id="{{ $id }}" @endif {{ $attributes->class([
             $customize['input'],
             $internal['input.round'],
-            $customize['error'] => $error
+            $customize['error'] => $error,
+            'resize-none' => !$resize && !$autoResize,
         ]) }}
         rows="{{ $rows }}" @if ($autoResize) x-on:input="resize()" @endif>{{ $slot }}</textarea>
 </x-wrapper.input>

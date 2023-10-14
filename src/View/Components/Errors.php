@@ -56,10 +56,7 @@ class Errors extends Component implements Customizable
     {
         return Arr::dot([
             'wrapper' => [
-                'first' => Arr::toCssClasses([
-                    'p-4 w-full',
-                    'animate-pulse' => $this->pulse,
-                ]),
+                'first' => 'p-4 w-full',
                 'second' => 'rounded-lg p-4',
             ],
             'title' => [
