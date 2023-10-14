@@ -7,9 +7,12 @@ use Illuminate\Support\Arr;
 use Illuminate\View\Component;
 use InvalidArgumentException;
 use TallStackUi\Contracts\Customizable;
+use TallStackUi\Support\Personalizations\Traits\InternalPersonalization;
 
 class Toast extends Component implements Customizable
 {
+    use InternalPersonalization;
+
     public function __construct(
         public ?string $zIndex = null,
         public ?string $position = null,
@@ -22,11 +25,10 @@ class Toast extends Component implements Customizable
         if (! in_array($this->position, ['top-right', 'top-left', 'bottom-right', 'bottom-left'])) {
             throw new InvalidArgumentException("The position must be one of the following: ['top-right', 'top-left', 'bottom-right', 'bottom-left']");
         }
-    }
 
-    public function render(): View
-    {
-        return view('tallstack-ui::components.interactions.toast');
+        if (! str_starts_with($this->zIndex, 'z-')) {
+            throw new InvalidArgumentException('The z-index must start with z- prefix.');
+        }
     }
 
     public function customization(): array
@@ -36,25 +38,18 @@ class Toast extends Component implements Customizable
         ];
     }
 
+    public function render(): View
+    {
+        return view('tallstack-ui::components.interactions.toast');
+    }
+
     public function tallStackUiClasses(): array
     {
         return Arr::dot([
             'wrapper' => [
-                'first' => Arr::toCssClasses([
-                    'pointer-events-none fixed inset-0 flex flex-col items-end justify-end gap-y-2 px-4 py-4',
-                    'md:justify-start' => str_contains($this->position, 'top-'),
-                    'md:justify-end' => str_contains($this->position, 'bottom-'),
-                    $this->zIndex,
-                ]),
-                'second' => Arr::toCssClasses([
-                    'flex w-full flex-col items-center space-y-4',
-                    'md:items-start' => $this->position === 'top-left' || $this->position === 'bottom-left',
-                    'md:items-end' => $this->position === 'top-right' || $this->position === 'bottom-right',
-                ]),
-                'third' => Arr::toCssClasses([
-                    'pointer-events-auto w-full max-w-sm overflow-hidden bg-white shadow-lg ring-1 ring-black ring-opacity-5',
-                    'rounded-xl' => ! $this->square,
-                ]),
+                'first' => 'pointer-events-none fixed inset-0 flex flex-col items-end justify-end gap-y-2 px-4 py-4',
+                'second' => 'flex w-full flex-col items-center space-y-4',
+                'third' => 'pointer-events-auto w-full max-w-sm overflow-hidden bg-white shadow-lg ring-1 ring-black ring-opacity-5',
                 'fourth' => 'flex items-start p-4',
             ],
             'icon' => [
@@ -71,7 +66,7 @@ class Toast extends Component implements Customizable
                 'cancel' => 'bg-white text-sm font-medium text-secondary-700 focus:outline-none',
                 'close' => [
                     'wrapper' => 'ml-4 flex flex-shrink-0',
-                    'base' => 'inline-flex bg-white text-gray-400 focus:outline-none focus:ring-0',
+                    'class' => 'inline-flex bg-white text-gray-400 focus:outline-none focus:ring-0',
                     'size' => 'h-5 w-5',
                 ],
             ],

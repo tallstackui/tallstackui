@@ -16,14 +16,6 @@ abstract class AbstractInteraction
         //
     }
 
-    abstract public function success(string $title, string $description = null): self;
-
-    abstract public function error(string $title, string $description = null): self;
-
-    abstract public function info(string $title, string $description = null): self;
-
-    abstract public function warning(string $title, string $description = null): self;
-
     public function confirm(string|array $data, string $description = null, array $options = null): self
     {
         throw_if(
@@ -53,6 +45,10 @@ abstract class AbstractInteraction
         return $this->send([...$default, ...$data]);
     }
 
+    abstract public function error(string $title, string $description = null): self;
+
+    abstract public function info(string $title, string $description = null): self;
+
     public function send(array $options): self
     {
         $options['component'] = $this->component->getId();
@@ -61,6 +57,10 @@ abstract class AbstractInteraction
 
         return $this;
     }
+
+    abstract public function success(string $title, string $description = null): self;
+
+    abstract public function warning(string $title, string $description = null): self;
 
     protected function base(string $title, string $description = null, string $type = null): self
     {

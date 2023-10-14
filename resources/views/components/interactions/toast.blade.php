@@ -1,16 +1,26 @@
-@php($customize = tallstackui_personalization('toast', $customization()))
+@php
+    $customize = tallstackui_personalization('toast', $customization());
+    $interal = $internals();
+@endphp
 
 <div x-cloak
      x-data="tallstackui_toastBase()"
      x-on:tallstackui:toast.window="add($event)"
-     @class($customize['wrapper.first'])
+     @class([
+        $customize['wrapper.first'],
+        $interal['wrapper.first.position'],
+        $zIndex
+    ])
      x-show="show">
     <template x-for="toast in toasts" :key="toast.id">
         <div x-data="tallstackui_toastLoop(toast, @js(__('tallstack-ui::messages.toast.button.ok')), @js(__('tallstack-ui::messages.toast.button.confirm')), @js(__('tallstack-ui::messages.toast.button.cancel')))"
              x-show="show"
-                @class($customize['wrapper.second'])>
+                @class([
+                    $customize['wrapper.second'],
+                    $interal['wrapper.second.position']
+                ])>
             <div x-show="show"
-                    @class($customize['wrapper.third'])>
+                    @class([$customize['wrapper.third'], 'rounded-xl' => !$square])>
                 <div @class($customize['wrapper.fourth'])>
                     <div class="flex-shrink-0">
                         <div x-show="toast.type === 'success'">
@@ -48,7 +58,7 @@
                         </template>
                     </div>
                     <div @class($customize['buttons.close.wrapper'])>
-                        <button x-on:click="hide()" type="button" @class($customize['buttons.close.base'])>
+                        <button x-on:click="hide()" type="button" @class($customize['buttons.close.class'])>
                             <x-icon name="x-mark" @class($customize['buttons.close.size']) />
                         </button>
                     </div>

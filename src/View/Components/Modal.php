@@ -41,16 +41,16 @@ class Modal extends Component implements Customizable
         };
     }
 
-    public function render(): View
-    {
-        return view('tallstack-ui::components.modal');
-    }
-
     public function customization(): array
     {
         return [
             ...$this->tallStackUiClasses(),
         ];
+    }
+
+    public function render(): View
+    {
+        return view('tallstack-ui::components.modal');
     }
 
     public function tallStackUiClasses(): array
@@ -62,22 +62,16 @@ class Modal extends Component implements Customizable
                     'backdrop-blur-sm' => $this->blur === true,
                 ]),
                 'second' => 'fixed inset-0 z-50 w-screen overflow-y-auto',
-                'third' => Arr::toCssClasses([
-                    'w-full min-h-full transform flex items-end justify-center mx-auto sm:items-start p-4',
-                    $this->size,
-                ]),
-                'fourth' => Arr::toCssClasses([
-                    'relative flex w-full transform flex-col rounded-xl bg-white text-left shadow-xl transition-all',
-                    $this->size,
-                ]),
+                'third' => 'w-full min-h-full transform flex items-end justify-center mx-auto sm:items-start p-4',
+                'fourth' => 'relative flex w-full transform flex-col rounded-xl bg-white text-left shadow-xl transition-all',
             ],
             'title' => [
                 'wrapper' => 'flex items-center justify-between border-b px-4 py-2.5',
-                'base' => 'whitespace-normal font-medium text-md text-secondary-600',
+                'text' => 'whitespace-normal font-medium text-md text-secondary-600',
                 'close' => 'h-5 w-5 text-secondary-300 cursor-pointer',
             ],
-            'body' => 'px-2 py-5 md:px-4 text-secondary-700 rounded-b-xl grow dark:text-secondary-400',
-            'footer' => 'flex justify-end gap-2 rounded-b-xl border-t border-t-gray-100 bg-gray-50 p-4',
+            'body' => 'px-2 py-5 md:px-4 text-gray-700 rounded-b-xl grow dark:text-secondary-400',
+            'footer' => 'flex justify-end gap-2 rounded-b-xl border-t border-t-gray-100 text-gray-700 bg-gray-50 p-4',
         ]);
     }
 }

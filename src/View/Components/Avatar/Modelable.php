@@ -19,7 +19,7 @@ class Modelable extends Index
         public bool $square = false,
     ) {
         parent::__construct(
-            label: $this->avatar(),
+            text: $this->avatar(),
             sm: $sm,
             md: $md,
             lg: $lg,

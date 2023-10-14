@@ -32,17 +32,41 @@ class StyledTest extends BrowserTestCase
     }
 
     /** @test */
-    public function can_select(): void
+    public function can_deselect_single_in_multiple_with_live_entangle_preserving_others()
     {
         $this->browse(function (Browser $browser) {
-            $this->visit($browser, StyledComponent::class)
+            $this->visit($browser, StyledMultipleLiveEntangleWithDefaultComponent::class)
+                ->assertSee('foo')
+                ->assertSee('bar')
+                ->click('@tallstackui_select_open_close')
+                ->waitForText('foo')
+                ->waitForText('bar')
+                ->waitForText('baz')
+                ->clickAtXPath('/html/body/div[3]/div/div[2]/div[2]/ul/li[3]')
+                ->clickAtXPath('/html/body/div[3]/div/div[2]/div[2]/ul/li[1]')
+                ->click('@tallstackui_select_open_close')
+                ->waitForText('["foo","baz"]');
+        });
+    }
+
+    /** @test */
+    public function can_render_after_slot(): void
+    {
+        $this->browse(function (Browser $browser) {
+            $this->visit($browser, StyledAfterComponent::class)
                 ->assertSee('Select an option')
                 ->assertDontSee('bar')
                 ->click('@tallstackui_select_open_close')
                 ->waitForText('foo')
                 ->clickAtXPath('/html/body/div[3]/div/div[2]/div[2]/ul/li[1]')
                 ->click('#sync')
-                ->waitForText('bar');
+                ->waitForText('bar')
+                ->click('@tallstackui_select_open_close')
+                ->type('@tallstackui_select_search_input', 'porro')
+                ->waitForText('After Slot')
+                ->click('@tallstackui_select_clear')
+                ->click('#sync')
+                ->waitUntilMissingText('bar');
         });
     }
 
@@ -59,6 +83,21 @@ class StyledTest extends BrowserTestCase
                 ->clickAtXPath('/html/body/div[3]/div/div[2]/div[2]/ul/li[1]')
                 ->click('#sync')
                 ->waitForText('foo');
+        });
+    }
+
+    /** @test */
+    public function can_select(): void
+    {
+        $this->browse(function (Browser $browser) {
+            $this->visit($browser, StyledComponent::class)
+                ->assertSee('Select an option')
+                ->assertDontSee('bar')
+                ->click('@tallstackui_select_open_close')
+                ->waitForText('foo')
+                ->clickAtXPath('/html/body/div[3]/div/div[2]/div[2]/ul/li[1]')
+                ->click('#sync')
+                ->waitForText('bar');
         });
     }
 
@@ -114,45 +153,6 @@ class StyledTest extends BrowserTestCase
                 ->clickAtXPath('/html/body/div[3]/div/div[2]/div[2]/ul/li[3]')
                 ->click('@tallstackui_select_open_close')
                 ->waitForText('["bar","foo","baz"]');
-        });
-    }
-
-    /** @test */
-    public function can_deselect_single_in_multiple_with_live_entangle_preserving_others()
-    {
-        $this->browse(function (Browser $browser) {
-            $this->visit($browser, StyledMultipleLiveEntangleWithDefaultComponent::class)
-                ->assertSee('foo')
-                ->assertSee('bar')
-                ->click('@tallstackui_select_open_close')
-                ->waitForText('foo')
-                ->waitForText('bar')
-                ->waitForText('baz')
-                ->clickAtXPath('/html/body/div[3]/div/div[2]/div[2]/ul/li[3]')
-                ->clickAtXPath('/html/body/div[3]/div/div[2]/div[2]/ul/li[1]')
-                ->click('@tallstackui_select_open_close')
-                ->waitForText('["foo","baz"]');
-        });
-    }
-
-    /** @test */
-    public function can_render_after_slot(): void
-    {
-        $this->browse(function (Browser $browser) {
-            $this->visit($browser, StyledAfterComponent::class)
-                ->assertSee('Select an option')
-                ->assertDontSee('bar')
-                ->click('@tallstackui_select_open_close')
-                ->waitForText('foo')
-                ->clickAtXPath('/html/body/div[3]/div/div[2]/div[2]/ul/li[1]')
-                ->click('#sync')
-                ->waitForText('bar')
-                ->click('@tallstackui_select_open_close')
-                ->type('@tallstackui_select_search_input', 'porro')
-                ->waitForText('After Slot')
-                ->click('@tallstackui_select_clear')
-                ->click('#sync')
-                ->waitUntilMissingText('bar');
         });
     }
 }

@@ -4,7 +4,7 @@
     @if ($label)
         <x-label :$label :$error/>
     @endif
-    <div @class($customize['base']) @if ($password) x-data="{ show : false }" @endif>
+    <div @class($customize['wrapper']) @if ($password) x-data="{ show : false }" @endif>
         {!! $slot !!}
     </div>
     @if ($hint && !$error)

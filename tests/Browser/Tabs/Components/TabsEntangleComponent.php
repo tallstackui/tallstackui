@@ -21,7 +21,7 @@ class TabsEntangleComponent extends Component
                 </x-tabs.items>
             </x-tabs>
 
-            <x-button id="change" wire:click="$set('tab', 'Foo')" />
+            <x-button id="change" wire:click="$set('tab', 'Foo')" text="Click" />
         </div>
 HTML;
     }

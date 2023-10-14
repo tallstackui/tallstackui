@@ -6,11 +6,12 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
 use TallStackUi\Contracts\Customizable;
-use TallStackUi\Facades\TallStackUi;
-use TallStackUi\Support\Elements\Color;
+use TallStackUi\Support\Personalizations\Traits\InternalPersonalization;
 
 class Tooltip extends Component implements Customizable
 {
+    use InternalPersonalization;
+
     public function __construct(
         public ?string $text = null,
         public ?string $icon = 'question-mark-circle',
@@ -28,16 +29,16 @@ class Tooltip extends Component implements Customizable
         $this->style = $this->outline ? 'outline' : ($this->solid ? 'solid' : config('tallstackui.icon'));
     }
 
-    public function render(): View
-    {
-        return view('tallstack-ui::components.tooltip');
-    }
-
     public function customization(): array
     {
         return [
             ...$this->tallStackUiClasses(),
         ];
+    }
+
+    public function render(): View
+    {
+        return view('tallstack-ui::components.tooltip');
     }
 
     public function tallStackUiClasses(): array
@@ -48,10 +49,6 @@ class Tooltip extends Component implements Customizable
                 'h-5 w-5' => $this->size === 'sm',
                 'h-6 w-6' => $this->size === 'md',
                 'h-7 w-7' => $this->size === 'lg',
-                TallStackUi::colors()
-                    ->when($this->color === 'white', fn (Color $color) => $color->set('text', 'gray', 300))
-                    ->unless($this->color === 'white', fn (Color $color) => $color->set('text', $this->color, 500))
-                    ->get(),
             ]),
         ];
     }

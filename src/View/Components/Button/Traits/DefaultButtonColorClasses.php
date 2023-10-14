@@ -3,15 +3,42 @@
 namespace TallStackUi\View\Components\Button\Traits;
 
 use Illuminate\Support\Arr;
+use InvalidArgumentException;
 use TallStackUi\Facades\TallStackUi;
 use TallStackUi\Support\Elements\Color;
-use TallStackUi\View\Components\Button\Index;
 
 trait DefaultButtonColorClasses
 {
+    private array $delays = [
+        'longest',
+        'longer',
+        'long',
+        'short',
+        'shorter',
+        'shortest',
+    ];
+
     private array $variations = [];
 
-    public function tallStackUiButtonColorClasses(): string
+    public function tallStackUiButtonsColors(): array
+    {
+        return [
+            'wrapper.color' => $this->buttonColorClasses(),
+            'icon.color' => $this->iconColorClasses(),
+            'icon.loading.color' => Arr::toCssClasses([
+                TallStackUi::colors()
+                    ->when($this->color === 'white', fn (Color $color) => $color->set('text', 'black'))
+                    ->unless($this->color === 'white', fn (Color $color) => $color->set('text', 'white'))
+                    ->get() => $this->style === 'solid',
+                TallStackUi::colors()
+                    ->when($this->color === 'white', fn (Color $color) => $color->set('text', 'black'))
+                    ->unless($this->color === 'white', fn (Color $color) => $color->set('text', $this->color, 500))
+                    ->get() => $this->style === 'outline',
+            ]),
+        ];
+    }
+
+    private function buttonColorClasses(): string
     {
         $this->variations = match ($this->color) {
             'white', 'black' => [
@@ -32,32 +59,15 @@ trait DefaultButtonColorClasses
             ]
         };
 
-        $color = $this->tallStackUiTextColorVariations(TallStackUi::colors());
+        $color = $this->textColorClasses(TallStackUi::colors());
 
-        $this->tallStackUiButtonSolidVariations($color)->get();
-        $this->tallStackUiButtonOutlineVariations($color)->get();
+        $this->solid($color)->get();
+        $this->outline($color)->get();
 
         return $color->get();
     }
 
-    public function tallStackUiIconColorClasses(): string
-    {
-        $color = $this->tallStackUiTextColorVariations(TallStackUi::colors());
-
-        if ($this instanceof Index) {
-            $classes = [
-                'w-3 h-3' => $this->size === 'xs' || $this->size === 'sm',
-                'w-4 h-4' => $this->size === 'md',
-                'w-5 h-5' => $this->size === 'lg',
-            ];
-        } else {
-            $classes = ['w-4 h-4'];
-        }
-
-        return Arr::toCssClasses([...$classes, $color->get()]);
-    }
-
-    private function tallStackUiTextColorVariations(Color $color): Color
+    private function iconColorClasses(): string
     {
         $weight = $this->color === 'white' ? 950 : 50;
 
@@ -65,41 +75,12 @@ trait DefaultButtonColorClasses
             $weight = in_array($this->color, ['black', 'white']) ? 950 : 500;
         }
 
-        return $color->set('text', $this->variations['text'], $weight);
+        return TallStackUi::colors()
+            ->set('text', $this->variations['text'], $weight)
+            ->get();
     }
 
-    private function tallStackUiButtonSolidVariations(Color $color): Color
-    {
-        $variation = match ($this->color) {
-            'white' => [
-                'bg' => 50,
-                'ring' => 200,
-                'hover:bg' => 200,
-                'hover:ring' => 200,
-            ],
-            'black' => [
-                'bg' => 950,
-                'ring' => 950,
-                'hover:bg' => 700,
-                'hover:ring' => 950,
-            ],
-            default => [
-                'bg' => 500,
-                'ring' => 500,
-                'hover:bg' => 600,
-                'hover:ring' => 600,
-            ]
-        };
-
-        return $color->when($this->style === 'solid', function (Color $color) use ($variation) {
-            return $color->set('ring', $this->variations['ring'], $variation['ring'])
-                ->set('hover:bg', $this->variations['hover:bg'], $variation['hover:bg'])
-                ->set('hover:ring', $this->variations['hover:ring'], $variation['hover:ring'])
-                ->set('bg', $this->variations['bg'], $variation['bg']);
-        });
-    }
-
-    private function tallStackUiButtonOutlineVariations(Color $color): Color
+    private function outline(Color $color): Color
     {
         $variation = match ($this->color) {
             'white' => [
@@ -131,15 +112,52 @@ trait DefaultButtonColorClasses
         });
     }
 
-    private function tallStackUiButtonLoading(): string
+    private function solid(Color $color): Color
     {
-        return Arr::toCssClasses([
-            'animate-spin w-4 h-4',
-            'ml-2' => $this instanceof Index,
-            TallStackUi::colors()
-                ->when($this->color === 'white', fn (Color $color) => $color->set('text', 'black'))
-                ->unless($this->color === 'white', fn (Color $color) => $color->set('text', 'white'))
-                ->get(),
-        ]);
+        $variation = match ($this->color) {
+            'white' => [
+                'bg' => 50,
+                'ring' => 200,
+                'hover:bg' => 200,
+                'hover:ring' => 200,
+            ],
+            'black' => [
+                'bg' => 950,
+                'ring' => 950,
+                'hover:bg' => 700,
+                'hover:ring' => 950,
+            ],
+            default => [
+                'bg' => 500,
+                'ring' => 500,
+                'hover:bg' => 600,
+                'hover:ring' => 600,
+            ]
+        };
+
+        return $color->when($this->style === 'solid', function (Color $color) use ($variation) {
+            return $color->set('ring', $this->variations['ring'], $variation['ring'])
+                ->set('hover:bg', $this->variations['hover:bg'], $variation['hover:bg'])
+                ->set('hover:ring', $this->variations['hover:ring'], $variation['hover:ring'])
+                ->set('bg', $this->variations['bg'], $variation['bg']);
+        });
+    }
+
+    private function textColorClasses(Color $color): Color
+    {
+        $weight = $this->color === 'white' ? 950 : 50;
+
+        if ($this->style === 'outline') {
+            $weight = in_array($this->color, ['black', 'white']) ? 950 : 500;
+        }
+
+        return $color->set('text', $this->variations['text'], $weight);
+    }
+
+    private function validateDelayOptions(): void
+    {
+        if (is_string($this->delay) && ! in_array($this->delay, $this->delays)) {
+            throw new InvalidArgumentException('Invalid delay provided.');
+        }
     }
 }

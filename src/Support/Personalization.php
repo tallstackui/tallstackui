@@ -78,47 +78,9 @@ class Personalization
         //
     }
 
-    public function block(string|array $name, string|Closure|PersonalizableClass $code = null): PersonalizableContract
-    {
-        return $this->instance()->block($name, $code);
-    }
-
-    public function instance(): PersonalizableContract
-    {
-        if (! $this->component) {
-            throw new InvalidArgumentException('No component has been set');
-        }
-
-        if (str_contains($this->component, 'tallstack-ui::personalizations')) {
-            $this->component = str_replace('tallstack-ui::personalizations.', '', $this->component);
-        }
-
-        $parts = explode('.', $this->component);
-        $main = $parts[0];
-        $secondary = $parts[1] ?? null;
-
-        if (! method_exists($this, $main)) {
-            throw new InvalidArgumentException("The method [{$main}] is not supported");
-        }
-
-        return call_user_func([$this, $main], $main === $secondary ?: $secondary);
-    }
-
     public function alert(): Alert
     {
         return app($this->component(Alert::class));
-    }
-
-    public function modal(): Modal
-    {
-        return app($this->component(Modal::class));
-    }
-
-    public function button(string $component = null): Button|ButtonCircle
-    {
-        $class = $component === 'circle' ? ButtonCircle::class : Button::class;
-
-        return app($this->component($class));
     }
 
     public function avatar(): Avatar
@@ -129,6 +91,18 @@ class Personalization
     public function badge(): Badge
     {
         return app($this->component(Badge::class));
+    }
+
+    public function block(string|array $name, string|Closure|PersonalizableClass $code = null): PersonalizableContract
+    {
+        return $this->instance()->block($name, $code);
+    }
+
+    public function button(string $component = null): Button|ButtonCircle
+    {
+        $class = $component === 'circle' ? ButtonCircle::class : Button::class;
+
+        return app($this->component($class));
     }
 
     public function card(): Card
@@ -187,6 +161,32 @@ class Personalization
         return app($this->component(Hint::class));
     }
 
+    public function instance(): PersonalizableContract
+    {
+        if (! $this->component) {
+            throw new InvalidArgumentException('No component has been set');
+        }
+
+        if (str_contains($this->component, 'tallstack-ui::personalizations')) {
+            $this->component = str_replace('tallstack-ui::personalizations.', '', $this->component);
+        }
+
+        $parts = explode('.', $this->component);
+        $main = $parts[0];
+        $secondary = $parts[1] ?? null;
+
+        if (! method_exists($this, $main)) {
+            throw new InvalidArgumentException("The method [{$main}] is not supported");
+        }
+
+        return call_user_func([$this, $main], $main === $secondary ?: $secondary);
+    }
+
+    public function modal(): Modal
+    {
+        return app($this->component(Modal::class));
+    }
+
     public function select(string $component = null): Select|SelectSearchable|SelectStyled
     {
         $component ??= 'select';
@@ -195,6 +195,19 @@ class Personalization
             'select' => Select::class,
             'searchable' => SelectSearchable::class,
             'styled' => SelectStyled::class,
+            default => $component,
+        };
+
+        return app($this->component($class));
+    }
+
+    public function tabs(string $component = null): TabsWrapper|TabsItems
+    {
+        $component ??= 'tabs';
+
+        $class = match ($component) {
+            'tabs' => TabsWrapper::class,
+            'items' => TabsItems::class,
             default => $component,
         };
 
@@ -219,19 +232,6 @@ class Personalization
             'input' => InputWrapper::class,
             'radio' => RadioWrapper::class,
             'select' => SelectWrapper::class,
-            default => $component,
-        };
-
-        return app($this->component($class));
-    }
-
-    public function tabs(string $component = null): TabsWrapper|TabsItems
-    {
-        $component ??= 'tabs';
-
-        $class = match ($component) {
-            'tabs' => TabsWrapper::class,
-            'items' => TabsItems::class,
             default => $component,
         };
 

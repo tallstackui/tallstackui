@@ -17,16 +17,16 @@ class Label extends Component implements Customizable
         //
     }
 
-    public function render(): View
-    {
-        return view('tallstack-ui::components.form.label');
-    }
-
     public function customization(): array
     {
         return [
             ...$this->tallStackUiClasses(),
         ];
+    }
+
+    public function render(): View
+    {
+        return view('tallstack-ui::components.form.label');
     }
 
     public function tallStackUiClasses(): array

@@ -3,17 +3,15 @@
 <div>
     <div @class($customize['wrapper'])>
         @if ($label && $position === 'left')
-            <span @class([$customize['label.span'], 'mr-1'])>
-            <p @class([$customize['label.base.normal'], $customize['label.base.error'] => $error])>{{ $label }}</p>
-        </span>
+        <p @class([$customize['label.wrapper.text'], $customize['label.wrapper.error'] => $error, 'mr-2'])>
+            {{ $label }}
+        </p>
         @endif
         <label @if ($id) for="{{ $id }}" @endif @class($customize['slot'])>
             {!! $slot !!}
         </label>
         @if ($label && $position === 'right')
-            <span @class([$customize['label.span'], 'ml-1'])>
-            <p @class([$customize['label.base.normal'], $customize['label.base.error'] => $error])>{{ $label }}</p>
-        </span>
+        <p @class([$customize['label.base.text'], $customize['label.base.error'] => $error, 'ml-2'])>{{ $label }}</p>
         @endif
     </div>
     <x-error :$computed :$error/>

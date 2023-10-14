@@ -30,13 +30,6 @@ class Searchable extends Styled
         $this->request();
     }
 
-    public function render(): View
-    {
-        return view('tallstack-ui::components.select.searchable', [
-            'placeholder' => __('tallstack-ui::messages.select.placeholder'),
-        ]);
-    }
-
     public function customization(): array
     {
         return [
@@ -44,10 +37,17 @@ class Searchable extends Styled
         ];
     }
 
+    public function render(): View
+    {
+        return view('tallstack-ui::components.select.searchable', [
+            'placeholder' => __('tallstack-ui::messages.select.placeholder'),
+        ]);
+    }
+
     public function tallStackUiClasses(): array
     {
         return [
-            'multiple' => 'inline-flex items-center rounded-lg bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10 space-x-1',
+            'item' => 'inline-flex items-center rounded-lg bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10 space-x-1',
             'icon' => 'h-4 w-4 text-red-500 transition hover:text-red-500',
         ];
     }

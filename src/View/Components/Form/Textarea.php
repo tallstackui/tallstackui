@@ -3,14 +3,13 @@
 namespace TallStackUi\View\Components\Form;
 
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Arr;
 use Illuminate\View\Component;
 use TallStackUi\Contracts\Customizable;
-use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
+use TallStackUi\Support\Personalizations\Traits\InternalPersonalization;
 
 class Textarea extends Component implements Customizable
 {
-    use DefaultInputClasses;
+    use InternalPersonalization;
 
     public function __construct(
         public ?string $id = null,
@@ -18,15 +17,10 @@ class Textarea extends Component implements Customizable
         public ?string $hint = null,
         public int $rows = 5,
         public bool $autoResize = false,
-        public bool $resize = false,
+        public bool $resize = true,
         public bool $square = false,
     ) {
         $this->square = config('tallstackui.personalizations.input.square');
-    }
-
-    public function render(): View
-    {
-        return view('tallstack-ui::components.form.textarea');
     }
 
     public function customization(): array
@@ -36,13 +30,15 @@ class Textarea extends Component implements Customizable
         ];
     }
 
+    public function render(): View
+    {
+        return view('tallstack-ui::components.form.textarea');
+    }
+
     public function tallStackUiClasses(): array
     {
         return [
-            'base' => Arr::toCssClasses([
-                $this->tallStackUiInputClasses(),
-                'resize-none' => ! $this->resize && ! $this->autoResize,
-            ]),
+            'input' => $this->inputClasses(),
             'error' => 'text-red-600 ring-1 ring-inset ring-red-300 placeholder:text-red-300 focus:ring-2 focus:ring-inset focus:ring-red-500',
         ];
     }

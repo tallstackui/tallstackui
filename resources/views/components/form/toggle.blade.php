@@ -1,11 +1,18 @@
 @php
-    $computed          = $attributes->whereStartsWith('wire:model')->first();
-    $error             = $errors->has($computed);
-    $customize         = tallstackui_personalization('form.toggle', $customization());
-    $customize['base'] = $error ? str_replace('bg-secondary-200', '', $customize['base']) : $customize['base'];
+    $computed = $attributes->whereStartsWith('wire:model')->first();
+    $error = $errors->has($computed);
+    $customize = tallstackui_personalization('form.toggle', $customization());
+    // We remove any bg color classes from the wrapper if there
+    // is an error to apply the red bg color to the input instead
+    $customize['wrapper'] = $error ? preg_replace('/\bbg-[a-zA-Z0-9-]+/', '', $customize['wrapper']) : $customize['wrapper'];
+    $internal = $internals();
 @endphp
 
 <x-wrapper.radio :$computed :$error :$label :$position :$id>
     <input @if ($id) id="{{ $id }}" @endif type="checkbox" {{ $attributes->class($customize['input']) }} @checked($checked)>
-    <div @class([$customize['base'], $customize['error'] => $error])></div>
+    <div @class([
+        $customize['wrapper'],
+        $internal['wrapper.color'],
+        $customize['error'] => $error
+    ])></div>
 </x-wrapper.radio>

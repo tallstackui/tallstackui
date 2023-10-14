@@ -6,11 +6,11 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
 use TallStackUi\Contracts\Customizable;
-use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
+use TallStackUi\Support\Personalizations\Traits\InternalPersonalization;
 
 class Input extends Component implements Customizable
 {
-    use DefaultInputClasses;
+    use InternalPersonalization;
 
     public function __construct(
         public ?string $id = null,
@@ -27,11 +27,6 @@ class Input extends Component implements Customizable
         $this->round = config('tallstackui.personalizations.input.round');
     }
 
-    public function render(): View
-    {
-        return view('tallstack-ui::components.form.input');
-    }
-
     public function customization(): array
     {
         return [
@@ -39,21 +34,25 @@ class Input extends Component implements Customizable
         ];
     }
 
+    public function render(): View
+    {
+        return view('tallstack-ui::components.form.input');
+    }
+
     public function tallStackUiClasses(): array
     {
         return Arr::dot([
-            'base' => Arr::toCssClasses([
-                $this->tallStackUiInputClasses(),
-                'pl-10' => $this->icon && ($this->position === null || $this->position === 'left'),
-            ]),
+            'input' => $this->inputClasses(),
             'icon' => [
                 'wrapper' => Arr::toCssClasses([
                     'pointer-events-none absolute inset-y-0 flex items-center text-secondary-500',
                     'left-0 pl-3' => $this->position === null || $this->position === 'left',
                     'right-0 pr-3' => $this->position === 'right',
                 ]),
-                'padding.left' => 'left-0 pl-3',
-                'padding.right' => 'right-0 pr-3',
+                'padding' => [
+                    'left' => 'left-0 pl-3',
+                    'right' => 'right-0 pr-3',
+                ],
                 'size' => 'h-5 w-5',
             ],
             'error' => 'text-red-600 ring-1 ring-inset ring-red-300 placeholder:text-red-300 focus:ring-2 focus:ring-inset focus:ring-red-500',

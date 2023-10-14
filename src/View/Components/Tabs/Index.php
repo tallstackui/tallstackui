@@ -16,11 +16,6 @@ class Index extends Component implements Customizable
         $this->square = config('tallstackui.personalizations.tabs.square');
     }
 
-    public function render(): View
-    {
-        return view('tallstack-ui::components.tabs.index');
-    }
-
     public function customization(): array
     {
         return [
@@ -28,15 +23,17 @@ class Index extends Component implements Customizable
         ];
     }
 
+    public function render(): View
+    {
+        return view('tallstack-ui::components.tabs.index');
+    }
+
     public function tallStackUiClasses(): array
     {
         return Arr::dot([
             'wrapper' => '-mb-px flex items-stretch overflow-auto',
             'item' => [
-                'wrapper' => Arr::toCssClasses([
-                    'inline-flex justify-center truncate px-5 py-2.5 text-gray-700 transition cursor-pointer',
-                    'rounded-t-lg' => ! $this->square,
-                ]),
+                'wrapper' => 'inline-flex justify-center truncate px-5 py-2.5 text-gray-700 transition cursor-pointer',
                 'selected' => 'bg-white text-primary font-semibold',
                 'unselected' => 'opacity-50',
             ],

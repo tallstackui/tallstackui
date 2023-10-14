@@ -20,11 +20,6 @@ class Input extends Component implements Customizable
         //
     }
 
-    public function render(): View
-    {
-        return view('tallstack-ui::components.wrapper.input');
-    }
-
     public function customization(): array
     {
         return [
@@ -32,10 +27,15 @@ class Input extends Component implements Customizable
         ];
     }
 
+    public function render(): View
+    {
+        return view('tallstack-ui::components.wrapper.input');
+    }
+
     public function tallStackUiClasses(): array
     {
         return [
-            'base' => 'relative rounded-md shadow-sm',
+            'wrapper' => 'relative rounded-md shadow-sm',
         ];
     }
 }

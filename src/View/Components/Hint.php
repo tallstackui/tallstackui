@@ -15,11 +15,6 @@ class Hint extends Component implements Customizable
         //
     }
 
-    public function render(): View
-    {
-        return view('tallstack-ui::components.hint');
-    }
-
     public function customization(): array
     {
         return [
@@ -27,10 +22,15 @@ class Hint extends Component implements Customizable
         ];
     }
 
+    public function render(): View
+    {
+        return view('tallstack-ui::components.hint');
+    }
+
     public function tallStackUiClasses(): array
     {
         return [
-            'base' => 'mt-2 text-sm text-secondary-500',
+            'text' => 'mt-2 text-sm text-secondary-500',
         ];
     }
 }

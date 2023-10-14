@@ -25,20 +25,6 @@ class IndexTest extends BrowserTestCase
     }
 
     /** @test */
-    public function can_open_and_see_title(): void
-    {
-        $this->browse(function (Browser $browser) {
-            $this->visit($browser, ModalComponentWithTitle::class)
-                ->assertSee('Open')
-                ->assertDontSee('Foo bar')
-                ->assertDontSee('Bar baz')
-                ->click('#open')
-                ->waitForText('Foo bar')
-                ->waitForText('Bar baz');
-        });
-    }
-
-    /** @test */
     public function can_open_and_see_footer(): void
     {
         $this->browse(function (Browser $browser) {
@@ -53,14 +39,16 @@ class IndexTest extends BrowserTestCase
     }
 
     /** @test */
-    public function can_open_using_helper(): void
+    public function can_open_and_see_title(): void
     {
         $this->browse(function (Browser $browser) {
-            $this->visit($browser, ModalComponentNotEntangled::class)
+            $this->visit($browser, ModalComponentWithTitle::class)
                 ->assertSee('Open')
                 ->assertDontSee('Foo bar')
+                ->assertDontSee('Bar baz')
                 ->click('#open')
-                ->waitForText('Foo bar');
+                ->waitForText('Foo bar')
+                ->waitForText('Bar baz');
         });
     }
 
@@ -69,6 +57,18 @@ class IndexTest extends BrowserTestCase
     {
         $this->browse(function (Browser $browser) {
             $this->visit($browser, ModalComponentDifferentEntangle::class)
+                ->assertSee('Open')
+                ->assertDontSee('Foo bar')
+                ->click('#open')
+                ->waitForText('Foo bar');
+        });
+    }
+
+    /** @test */
+    public function can_open_using_helper(): void
+    {
+        $this->browse(function (Browser $browser) {
+            $this->visit($browser, ModalComponentNotEntangled::class)
                 ->assertSee('Open')
                 ->assertDontSee('Foo bar')
                 ->click('#open')

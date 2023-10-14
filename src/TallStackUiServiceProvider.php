@@ -11,6 +11,14 @@ use TallStackUi\Support\Personalization;
 
 class TallStackUiServiceProvider extends ServiceProvider
 {
+    public function boot(): void
+    {
+        $this->registerConfig();
+        $this->registerComponents();
+        $this->registerComponentPersonalizations();
+        $this->registerBladeDirectives();
+    }
+
     public function register(): void
     {
         $this->app->singleton('TallStackUi', TallStackUi::class);
@@ -18,12 +26,13 @@ class TallStackUiServiceProvider extends ServiceProvider
         AliasLoader::getInstance()->alias('TallStackUi', Facade::class);
     }
 
-    public function boot(): void
+    public function registerComponentPersonalizations(): void
     {
-        $this->registerConfig();
-        $this->registerComponents();
-        $this->registerComponentPersonalizations();
-        $this->registerBladeDirectives();
+        foreach (Personalization::PERSONALIZABLES as $personalization => $configuration) {
+            $this->app->singleton($personalization, function () use ($configuration) {
+                return $this->app->make($configuration);
+            });
+        }
     }
 
     public function registerConfig(): void
@@ -36,24 +45,6 @@ class TallStackUiServiceProvider extends ServiceProvider
         $this->publishes([__DIR__.'/config/tallstackui.php' => config_path('tallstackui.php')], 'tallstackui.config');
         $this->publishes([__DIR__.'/../lang' => lang_path('vendor/tallstack-ui')], 'tallstackui.lang');
         $this->publishes([__DIR__.'/../resources/views' => resource_path('views/vendor/tallstack-ui')], 'tallstackui.views');
-    }
-
-    public function registerComponentPersonalizations(): void
-    {
-        foreach (Personalization::PERSONALIZABLES as $personalization => $configuration) {
-            $this->app->singleton($personalization, function () use ($configuration) {
-                return $this->app->make($configuration);
-            });
-        }
-    }
-
-    private function registerComponents(): void
-    {
-        $this->callAfterResolving(BladeCompiler::class, static function (BladeCompiler $blade): void {
-            foreach (config('tallstackui.components') as $alias => $class) {
-                $blade->component($class, $alias);
-            }
-        });
     }
 
     private function registerBladeDirectives(): void
@@ -75,6 +66,15 @@ class TallStackUiServiceProvider extends ServiceProvider
 
                 return "<!-- TallStackUi Setup -->\n{$scripts}\n{$styles}";
             }, $string);
+        });
+    }
+
+    private function registerComponents(): void
+    {
+        $this->callAfterResolving(BladeCompiler::class, static function (BladeCompiler $blade): void {
+            foreach (config('tallstackui.components') as $alias => $class) {
+                $blade->component($class, $alias);
+            }
         });
     }
 }

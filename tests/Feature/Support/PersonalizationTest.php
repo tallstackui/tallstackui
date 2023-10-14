@@ -11,7 +11,7 @@ it('can be instantiated', function () {
 
 it('can be instantiated with a component', function () {
     expect(TallStackUi::personalize('alert')
-        ->block(['base' => fn () => 'string']))
+        ->block(['wrapper' => fn () => 'string']))
         ->toBeInstanceOf(Personalizable::class);
 });
 
@@ -29,11 +29,11 @@ it('can personalize using facade and string', function () {
         ->assertSee('bg-primary-300');
 
     TallStackUi::personalize('alert')
-        ->block('base', 'rounded-md p-4');
+        ->block('wrapper', 'p-4');
 
     $this->blade('<x-alert title="Foo bar" />')
         ->assertSee('Foo bar')
-        ->assertDontSee('bg-primary-300');
+        ->assertDontSee('rounded-md');
 });
 
 it('can personalize using method and string', function () {
@@ -43,11 +43,11 @@ it('can personalize using method and string', function () {
 
     TallStackUi::personalize()
         ->alert()
-        ->block('base', 'rounded-md p-4');
+        ->block('wrapper', 'p-4');
 
     $this->blade('<x-alert title="Foo bar" />')
         ->assertSee('Foo bar')
-        ->assertDontSee('bg-primary-300');
+        ->assertDontSee('rounded-md');
 });
 
 it('can personalize using method and closure', function () {
@@ -57,11 +57,11 @@ it('can personalize using method and closure', function () {
 
     TallStackUi::personalize()
         ->alert()
-        ->block('base', fn () => 'rounded-md p-4');
+        ->block('wrapper', fn () => 'p-4');
 
     $this->blade('<x-alert title="Foo bar" />')
         ->assertSee('Foo bar')
-        ->assertDontSee('bg-primary-300');
+        ->assertDontSee('rounded-md');
 });
 
 it('can personalize using method and array', function () {
@@ -72,12 +72,12 @@ it('can personalize using method and array', function () {
     TallStackUi::personalize()
         ->alert()
         ->block([
-            'base' => 'rounded-md p-4',
+            'wrapper' => 'p-4',
         ]);
 
     $this->blade('<x-alert title="Foo bar" />')
         ->assertSee('Foo bar')
-        ->assertDontSee('bg-primary-300');
+        ->assertDontSee('rounded-md');
 });
 
 it('can personalize in sequenece', function () {
@@ -90,14 +90,14 @@ it('can personalize in sequenece', function () {
 
     TallStackUi::personalize()
         ->alert()
-        ->block('base', 'rounded-md p-4')
+        ->block('wrapper', 'p-4')
         ->and()
         ->avatar()
         ->block('wrapper', 'inline-flex shrink-0 items-center justify-center overflow-hidden text-xl w-20 h-20');
 
     $this->blade('<x-alert title="Foo bar" />')
         ->assertSee('Foo bar')
-        ->assertDontSee('bg-primary-300');
+        ->assertDontSee('rounded-md');
 
     $this->blade('<x-avatar label="Lorem" md />')
         ->assertSee('Lorem')

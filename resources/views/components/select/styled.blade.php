@@ -1,8 +1,8 @@
 @php
-    $computed  = $attributes->whereStartsWith('wire:model');
+    $computed = $attributes->whereStartsWith('wire:model');
     $directive = array_key_first($computed->getAttributes());
-    $property  = $computed[$directive];
-    $error     = $errors->has($property);
+    $property = $computed[$directive];
+    $error = $errors->has($property);
     $customize = tallstackui_personalization('select.styled', $customization());
 @endphp
 
@@ -28,7 +28,7 @@
             <div class="truncate" x-show="multiple">
                 <template x-for="(selected, index) in selecteds" :key="selected[selectable.label] ?? selected">
                     <a class="cursor-pointer" x-on:click="clear(selected);">
-                        <div @class($customize['multiple'])>
+                        <div @class($customize['item'])>
                             <span x-text="selected[selectable.label] ?? selected"></span>
                             <x-icon name="x-mark" @class($customize['icon']) />
                         </div>

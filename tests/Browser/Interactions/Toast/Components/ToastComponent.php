@@ -9,37 +9,9 @@ class ToastComponent extends Component
 {
     use Interactions;
 
-    public function render(): string
+    public function cancelled(string $message): void
     {
-        return <<<'HTML'
-        <div>
-            <x-button id="success" wire:click="success">Success</x-button>
-            <x-button id="error" wire:click="error">Error</x-button>
-            <x-button id="info" wire:click="info">Info</x-button>
-            <x-button id="warning" wire:click="warning">Error</x-button>
-            <x-button id="confirm" wire:click="confirm">Confirm</x-button>
-        </div>
-HTML;
-    }
-
-    public function success(): void
-    {
-        $this->toast()->success('Foo bar success');
-    }
-
-    public function error(): void
-    {
-        $this->toast()->error('Foo bar error');
-    }
-
-    public function info(): void
-    {
-        $this->toast()->info('Foo bar info');
-    }
-
-    public function warning(): void
-    {
-        $this->toast()->warning('Foo bar warning');
+        $this->toast()->success($message);
     }
 
     public function confirm(): void
@@ -62,8 +34,36 @@ HTML;
         $this->toast()->success($message);
     }
 
-    public function cancelled(string $message): void
+    public function error(): void
     {
-        $this->toast()->success($message);
+        $this->toast()->error('Foo bar error');
+    }
+
+    public function info(): void
+    {
+        $this->toast()->info('Foo bar info');
+    }
+
+    public function render(): string
+    {
+        return <<<'HTML'
+        <div>
+            <x-button id="success" wire:click="success">Success</x-button>
+            <x-button id="error" wire:click="error">Error</x-button>
+            <x-button id="info" wire:click="info">Info</x-button>
+            <x-button id="warning" wire:click="warning">Error</x-button>
+            <x-button id="confirm" wire:click="confirm">Confirm</x-button>
+        </div>
+HTML;
+    }
+
+    public function success(): void
+    {
+        $this->toast()->success('Foo bar success');
+    }
+
+    public function warning(): void
+    {
+        $this->toast()->warning('Foo bar warning');
     }
 }

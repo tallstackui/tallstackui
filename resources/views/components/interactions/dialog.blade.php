@@ -29,7 +29,7 @@
                  @if (!$uncloseable) x-on:click.outside="remove()" @endif>
                 <div @class($customize['buttons.close.wrapper'])>
                     <button x-on:click="remove()">
-                        <x-icon name="x-mark" @class($customize['buttons.close.base']) />
+                        <x-icon name="x-mark" @class($customize['buttons.close.icon']) />
                     </button>
                 </div>
                 <div>
@@ -74,6 +74,7 @@
                     </div>
                     <button @class($customize['buttons.confirm']) x-bind:class="{
                             'sm:w-auto' : dialog.type === 'question',
+                            'col-span-full' : dialog.type !== 'question',
                             'bg-green-600 hover:bg-green-700 focus:ring-green-500 focus:ring-offset-green-100' : dialog.type === 'success',
                             'bg-red-600 hover:bg-red-700 focus:ring-red-500 focus:ring-offset-red-100' : dialog.type === 'error',
                             'bg-blue-600 hover:bg-blue-700 focus:ring-blue-500 focus:ring-offset-blue-100' : dialog.type === 'info',

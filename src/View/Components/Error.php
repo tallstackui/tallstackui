@@ -15,11 +15,6 @@ class Error extends Component implements Customizable
         //
     }
 
-    public function render(): View
-    {
-        return view('tallstack-ui::components.error');
-    }
-
     public function customization(): array
     {
         return [
@@ -27,10 +22,15 @@ class Error extends Component implements Customizable
         ];
     }
 
+    public function render(): View
+    {
+        return view('tallstack-ui::components.error');
+    }
+
     public function tallStackUiClasses(): array
     {
         return [
-            'base' => 'mt-2 text-sm text-red-500',
+            'text' => 'mt-2 text-sm text-red-500',
         ];
     }
 }

@@ -15,14 +15,36 @@ use Tests\Browser\Select\Components\Searchable\SearchableMultipleLiveEntangleDef
 class SearchableTest extends BrowserTestCase
 {
     /** @test */
-    public function can_search(): void
+    public function can_clear(): void
     {
         $this->browse(function (Browser $browser) {
-            $this->visit($browser, SearchableComponent::class)
+            $this->visit($browser, SearchableFilteredComponent::class)
                 ->assertSee('Select an option')
                 ->assertDontSee('delectus aut autem')
                 ->click('@tallstackui_select_open_close')
-                ->waitForText('delectus aut autem');
+                ->waitForText('delectus aut autem')
+                ->clickAtXPath('/html/body/div[3]/div/div[2]/div[2]/ul/li[1]')
+                ->waitForText('delectus aut autem')
+                ->click('@tallstackui_select_clear')
+                ->assertDontSee('delectus aut autem')
+                ->assertSee('Select an option');
+        });
+    }
+
+    /** @test */
+    public function can_deselect_single_in_multiple_with_live_entangle_preserving_others(): void
+    {
+        $this->browse(function (Browser $browser) {
+            $this->visit($browser, SearchableMultipleLiveEntangleDefaultComponent::class)
+                ->assertDontSee('Select an option')
+                ->click('@tallstackui_select_open_close')
+                ->waitForText('delectus aut autem')
+                ->waitForText('quis ut nam facilis et officia qui')
+                ->waitForText('fugiat veniam minus')
+                ->clickAtXPath('/html/body/div[3]/div/div[2]/div[2]/ul/li[3]')
+                ->clickAtXPath('/html/body/div[3]/div/div[2]/div[2]/ul/li[2]')
+                ->click('@tallstackui_select_open_close')
+                ->waitForText('[1,3]');
         });
     }
 
@@ -48,34 +70,46 @@ class SearchableTest extends BrowserTestCase
     }
 
     /** @test */
-    public function can_clear(): void
+    public function can_load_default_based_on_entangle_live(): void
     {
         $this->browse(function (Browser $browser) {
-            $this->visit($browser, SearchableFilteredComponent::class)
+            $this->visit($browser, SearchableLoadLiveEntangleComponent::class)
                 ->assertSee('Select an option')
-                ->assertDontSee('delectus aut autem')
                 ->click('@tallstackui_select_open_close')
                 ->waitForText('delectus aut autem')
-                ->clickAtXPath('/html/body/div[3]/div/div[2]/div[2]/ul/li[1]')
-                ->waitForText('delectus aut autem')
-                ->click('@tallstackui_select_clear')
-                ->assertDontSee('delectus aut autem')
-                ->assertSee('Select an option');
+                ->waitForText('quis ut nam facilis et officia qui')
+                ->waitForText('fugiat veniam minus')
+                ->click('@tallstackui_select_open_close')
+                ->clickAtXPath('/html/body/div[3]/div[1]/select/option[2]')
+                ->waitForText('quis ut nam facilis et officia qui')
+                ->waitForText('2');
         });
     }
 
     /** @test */
-    public function can_select_single(): void
+    public function can_render_after_slot(): void
+    {
+        $this->browse(function (Browser $browser) {
+            $this->visit($browser, SearchableAfterComponent::class)
+                ->assertSee('Select an option')
+                ->click('@tallstackui_select_open_close')
+                ->type('@tallstackui_select_search_input', 'porro')
+                ->clickAtXPath('/html/body/div[3]/div/div[2]/div[2]/ul/li[1]')
+                ->click('@tallstackui_select_open_close')
+                ->type('@tallstackui_select_search_input', 'foo-bar-baz')
+                ->waitForText('After Slot');
+        });
+    }
+
+    /** @test */
+    public function can_search(): void
     {
         $this->browse(function (Browser $browser) {
             $this->visit($browser, SearchableComponent::class)
                 ->assertSee('Select an option')
-                ->assertDontSee('laboriosam mollitia et enim quasi adipisci quia provident illum')
+                ->assertDontSee('delectus aut autem')
                 ->click('@tallstackui_select_open_close')
-                ->waitForText('laboriosam mollitia et enim quasi adipisci quia provident illum')
-                ->clickAtXPath('/html/body/div[3]/div/div[2]/div[2]/ul/li[5]')
-                ->click('#sync')
-                ->waitForText('5');
+                ->waitForText('delectus aut autem');
         });
     }
 
@@ -115,51 +149,17 @@ class SearchableTest extends BrowserTestCase
     }
 
     /** @test */
-    public function can_deselect_single_in_multiple_with_live_entangle_preserving_others(): void
+    public function can_select_single(): void
     {
         $this->browse(function (Browser $browser) {
-            $this->visit($browser, SearchableMultipleLiveEntangleDefaultComponent::class)
-                ->assertDontSee('Select an option')
-                ->click('@tallstackui_select_open_close')
-                ->waitForText('delectus aut autem')
-                ->waitForText('quis ut nam facilis et officia qui')
-                ->waitForText('fugiat veniam minus')
-                ->clickAtXPath('/html/body/div[3]/div/div[2]/div[2]/ul/li[3]')
-                ->clickAtXPath('/html/body/div[3]/div/div[2]/div[2]/ul/li[2]')
-                ->click('@tallstackui_select_open_close')
-                ->waitForText('[1,3]');
-        });
-    }
-
-    /** @test */
-    public function can_load_default_based_on_entangle_live(): void
-    {
-        $this->browse(function (Browser $browser) {
-            $this->visit($browser, SearchableLoadLiveEntangleComponent::class)
+            $this->visit($browser, SearchableComponent::class)
                 ->assertSee('Select an option')
+                ->assertDontSee('laboriosam mollitia et enim quasi adipisci quia provident illum')
                 ->click('@tallstackui_select_open_close')
-                ->waitForText('delectus aut autem')
-                ->waitForText('quis ut nam facilis et officia qui')
-                ->waitForText('fugiat veniam minus')
-                ->click('@tallstackui_select_open_close')
-                ->clickAtXPath('/html/body/div[3]/div[1]/select/option[2]')
-                ->waitForText('quis ut nam facilis et officia qui')
-                ->waitForText('2');
-        });
-    }
-
-    /** @test */
-    public function can_render_after_slot(): void
-    {
-        $this->browse(function (Browser $browser) {
-            $this->visit($browser, SearchableAfterComponent::class)
-                ->assertSee('Select an option')
-                ->click('@tallstackui_select_open_close')
-                ->type('@tallstackui_select_search_input', 'porro')
-                ->clickAtXPath('/html/body/div[3]/div/div[2]/div[2]/ul/li[1]')
-                ->click('@tallstackui_select_open_close')
-                ->type('@tallstackui_select_search_input', 'foo-bar-baz')
-                ->waitForText('After Slot');
+                ->waitForText('laboriosam mollitia et enim quasi adipisci quia provident illum')
+                ->clickAtXPath('/html/body/div[3]/div/div[2]/div[2]/ul/li[5]')
+                ->click('#sync')
+                ->waitForText('5');
         });
     }
 }

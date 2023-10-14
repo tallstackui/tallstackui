@@ -19,11 +19,6 @@ class Radio extends Component implements Customizable
         //
     }
 
-    public function render(): View
-    {
-        return view('tallstack-ui::components.wrapper.radio');
-    }
-
     public function customization(): array
     {
         return [
@@ -31,14 +26,18 @@ class Radio extends Component implements Customizable
         ];
     }
 
+    public function render(): View
+    {
+        return view('tallstack-ui::components.wrapper.radio');
+    }
+
     public function tallStackUiClasses(): array
     {
         return Arr::dot([
             'wrapper' => 'flex items-center',
             'label' => [
-                'span' => 'text-sm',
-                'base' => [
-                    'normal' => 'font-medium text-gray-700',
+                'wrapper' => [
+                    'text' => 'text-sm font-medium text-gray-700',
                     'error' => 'text-red-600',
                 ],
             ],
