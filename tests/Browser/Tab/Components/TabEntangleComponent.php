@@ -1,10 +1,11 @@
 <?php
 
-namespace Tests\Browser\Tabs\Components;
+namespace Tests\Browser\Tab\Components;
 
 use Livewire\Component;
 
-class TabsEntangleComponent extends Component
+// TODO: write a test to entangle.live
+class TabEntangleComponent extends Component
 {
     public string $tab = 'Bar';
 
@@ -12,14 +13,14 @@ class TabsEntangleComponent extends Component
     {
         return <<<'HTML'
         <div>        
-            <x-tabs :options="['Foo', 'Bar']" wire:model="tab">
-                <x-tabs.items tab="Foo">
+            <x-tab wire:model="tab">
+                <x-tab.items tab="Foo">
                     Foo bar baz
-                </x-tabs.items>
-                <x-tabs.items tab="Bar">
+                </x-tab.items>
+                <x-tab.items tab="Bar">
                     Baz bar foo
-                </x-tabs.items>
-            </x-tabs>
+                </x-tab.items>
+            </x-tab>
 
             <x-button id="change" wire:click="$set('tab', 'Foo')" text="Click" />
         </div>

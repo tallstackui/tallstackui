@@ -4,7 +4,7 @@ namespace TallStackUi\Support\Personalizations\Components;
 
 use TallStackUi\Support\Personalizations\Contracts\Personalizable;
 use TallStackUi\Support\Personalizations\PersonalizationResource;
-use TallStackUi\View\Components\Avatar\Index as Component;
+use TallStackUi\View\Components\Avatar\Avatar as Component;
 
 class Avatar extends PersonalizationResource implements Personalizable
 {

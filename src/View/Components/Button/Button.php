@@ -8,7 +8,7 @@ use Illuminate\View\Component;
 use TallStackUi\Support\Personalizations\Contracts\Personalize;
 use TallStackUi\Support\Personalizations\Traits\InternalColorPersonalizations;
 
-class Index extends Component implements Personalize
+class Button extends Component implements Personalize
 {
     use InternalColorPersonalizations;
 

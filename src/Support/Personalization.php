@@ -8,10 +8,10 @@ use TallStackUi\Contracts\Personalizable as PersonalizableClass;
 use TallStackUi\Support\Personalizations\Components\Alert;
 use TallStackUi\Support\Personalizations\Components\Avatar;
 use TallStackUi\Support\Personalizations\Components\Badge;
-use TallStackUi\Support\Personalizations\Components\Button\Circle as ButtonCircle;
-use TallStackUi\Support\Personalizations\Components\Button\Index as Button;
+use TallStackUi\Support\Personalizations\Components\Button\Button;
+use TallStackUi\Support\Personalizations\Components\Button\Circle;
 use TallStackUi\Support\Personalizations\Components\Card;
-use TallStackUi\Support\Personalizations\Components\Dropdown\Index as Dropdown;
+use TallStackUi\Support\Personalizations\Components\Dropdown\Dropdown;
 use TallStackUi\Support\Personalizations\Components\Dropdown\Items as DropdownItems;
 use TallStackUi\Support\Personalizations\Components\Error;
 use TallStackUi\Support\Personalizations\Components\Errors;
@@ -29,8 +29,8 @@ use TallStackUi\Support\Personalizations\Components\Modal;
 use TallStackUi\Support\Personalizations\Components\Select\Searchable as SelectSearchable;
 use TallStackUi\Support\Personalizations\Components\Select\Select;
 use TallStackUi\Support\Personalizations\Components\Select\Styled as SelectStyled;
-use TallStackUi\Support\Personalizations\Components\Tabs\Index as TabsWrapper;
 use TallStackUi\Support\Personalizations\Components\Tabs\Items as TabsItems;
+use TallStackUi\Support\Personalizations\Components\Tabs\Tab;
 use TallStackUi\Support\Personalizations\Components\Tooltip;
 use TallStackUi\Support\Personalizations\Components\Wrapper\Input as InputWrapper;
 use TallStackUi\Support\Personalizations\Components\Wrapper\Radio as RadioWrapper;
@@ -44,7 +44,7 @@ class Personalization
         'tallstack-ui::personalizations.avatar' => Avatar::class,
         'tallstack-ui::personalizations.badge' => Badge::class,
         'tallstack-ui::personalizations.button' => Button::class,
-        'tallstack-ui::personalizations.button.circle' => ButtonCircle::class,
+        'tallstack-ui::personalizations.button.circle' => Circle::class,
         'tallstack-ui::personalizations.card' => Card::class,
         'tallstack-ui::personalizations.dialog' => Dialog::class,
         'tallstack-ui::personalizations.dropdown' => Dropdown::class,
@@ -63,7 +63,7 @@ class Personalization
         'tallstack-ui::personalizations.select' => Select::class,
         'tallstack-ui::personalizations.select.searchable' => SelectSearchable::class,
         'tallstack-ui::personalizations.select.styled' => SelectStyled::class,
-        'tallstack-ui::personalizations.tabs' => TabsWrapper::class,
+        'tallstack-ui::personalizations.tabs' => Tab::class,
         'tallstack-ui::personalizations.tabs.items' => TabsItems::class,
         'tallstack-ui::personalizations.toast' => Toast::class,
         'tallstack-ui::personalizations.tooltip' => Tooltip::class,
@@ -98,9 +98,9 @@ class Personalization
         return $this->instance()->block($name, $code);
     }
 
-    public function button(string $component = null): Button|ButtonCircle
+    public function button(string $component = null): Button|Circle
     {
-        $class = $component === 'circle' ? ButtonCircle::class : Button::class;
+        $class = $component === 'circle' ? Circle::class : Button::class;
 
         return app($this->component($class));
     }
@@ -201,12 +201,12 @@ class Personalization
         return app($this->component($class));
     }
 
-    public function tabs(string $component = null): TabsWrapper|TabsItems
+    public function tabs(string $component = null): Tab|TabsItems
     {
         $component ??= 'tabs';
 
         $class = match ($component) {
-            'tabs' => TabsWrapper::class,
+            'tabs' => Tab::class,
             'items' => TabsItems::class,
             default => $component,
         };

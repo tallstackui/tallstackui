@@ -1,12 +1,12 @@
 <?php
 
-namespace TallStackUi\Support\Personalizations\Components\Button;
+namespace TallStackUi\Support\Personalizations\Components\Tabs;
 
 use TallStackUi\Support\Personalizations\Contracts\Personalizable;
 use TallStackUi\Support\Personalizations\PersonalizationResource;
-use TallStackUi\View\Components\Button\Index as Component;
+use TallStackUi\View\Components\Tabs\Tab as Component;
 
-class Index extends PersonalizationResource implements Personalizable
+class Tab extends PersonalizationResource implements Personalizable
 {
     protected function component(): string
     {

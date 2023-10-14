@@ -7,7 +7,7 @@ use Illuminate\Support\Arr;
 use Illuminate\View\Component;
 use TallStackUi\Support\Personalizations\Contracts\Personalize;
 
-class Index extends Component implements Personalize
+class Tab extends Component implements Personalize
 {
     public function __construct(
         public ?string $selected = null,

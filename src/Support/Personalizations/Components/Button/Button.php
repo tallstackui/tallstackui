@@ -1,12 +1,12 @@
 <?php
 
-namespace TallStackUi\Support\Personalizations\Components\Dropdown;
+namespace TallStackUi\Support\Personalizations\Components\Button;
 
 use TallStackUi\Support\Personalizations\Contracts\Personalizable;
 use TallStackUi\Support\Personalizations\PersonalizationResource;
-use TallStackUi\View\Components\Dropdown\Index as Component;
+use TallStackUi\View\Components\Button\Button as Component;
 
-class Index extends PersonalizationResource implements Personalizable
+class Button extends PersonalizationResource implements Personalizable
 {
     protected function component(): string
     {

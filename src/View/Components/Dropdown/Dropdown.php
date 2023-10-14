@@ -7,7 +7,7 @@ use Illuminate\Support\Arr;
 use Illuminate\View\Component;
 use TallStackUi\Support\Personalizations\Contracts\Personalize;
 
-class Index extends Component implements Personalize
+class Dropdown extends Component implements Personalize
 {
     public function __construct(
         public ?string $text = null,

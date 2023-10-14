@@ -3,8 +3,8 @@
 use TallStackUi\Support\Personalizations\Components\Alert;
 use TallStackUi\Support\Personalizations\Components\Avatar;
 use TallStackUi\Support\Personalizations\Components\Badge;
+use TallStackUi\Support\Personalizations\Components\Button\Button;
 use TallStackUi\Support\Personalizations\Components\Button\Circle;
-use TallStackUi\Support\Personalizations\Components\Button\Index;
 use TallStackUi\Support\Personalizations\Components\Card;
 use TallStackUi\Support\Personalizations\Components\Error;
 use TallStackUi\Support\Personalizations\Components\Errors;
@@ -22,8 +22,8 @@ use TallStackUi\Support\Personalizations\Components\Modal;
 use TallStackUi\Support\Personalizations\Components\Select\Searchable;
 use TallStackUi\Support\Personalizations\Components\Select\Select;
 use TallStackUi\Support\Personalizations\Components\Select\Styled;
-use TallStackUi\Support\Personalizations\Components\Tabs\Index as TabWrapper;
 use TallStackUi\Support\Personalizations\Components\Tabs\Items as TabItem;
+use TallStackUi\Support\Personalizations\Components\Tabs\Tab as TabWrapper;
 use TallStackUi\Support\Personalizations\Components\Tooltip;
 use TallStackUi\Support\Personalizations\Components\Wrapper\Input as InputWrapper;
 use TallStackUi\Support\Personalizations\Components\Wrapper\Radio as RadioWrapper;
@@ -62,7 +62,7 @@ dataset('personalizations.classes', [
     Alert::class,
     Avatar::class,
     Badge::class,
-    Index::class,
+    Button::class,
     Circle::class,
     Card::class,
     Dialog::class,
@@ -100,15 +100,15 @@ dataset('components', [
     TallStackUi\View\Components\Alert::class,
     TallStackUi\View\Components\Card::class,
     TallStackUi\View\Components\Badge::class,
-    TallStackUi\View\Components\Avatar\Index::class,
+    TallStackUi\View\Components\Avatar\Avatar::class,
     TallStackUi\View\Components\Avatar\Modelable::class,
     TallStackUi\View\Components\Hint::class,
     TallStackUi\View\Components\Error::class,
     TallStackUi\View\Components\Errors::class,
-    TallStackUi\View\Components\Tabs\Index::class,
+    TallStackUi\View\Components\Tabs\Tab::class,
     TallStackUi\View\Components\Tabs\Items::class,
     TallStackUi\View\Components\Tooltip::class,
-    TallStackUi\View\Components\Button\Index::class,
+    TallStackUi\View\Components\Button\Button::class,
     TallStackUi\View\Components\Button\Circle::class,
     TallStackUi\View\Components\Select\Select::class,
     TallStackUi\View\Components\Select\Styled::class,
