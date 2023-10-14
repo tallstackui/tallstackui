@@ -2,7 +2,6 @@
     $computed = $attributes->whereStartsWith('wire:model')->first();
     $error = $errors->has($computed);
     $customize = tallstackui_personalization('form.input', $customization());
-    $internal = $internals();
 @endphp
 
 <x-wrapper.input :$computed :$error :$label :$hint :$validate>
@@ -13,8 +12,10 @@
     @endif
     <input @if ($id) id="{{ $id }}" @endif {{ $attributes->class([
             $customize['input'],
-            $internal['input.icon'],
-            $internal['input.round'],
+            'rounded-md' => !$square && !$round,
+            'rounded-full' => $round,
+            'pl-10' => $icon && ($position === null || $position === 'left'),
+            'pr-10' => $icon && $position === 'right',
             $customize['error'] => $error && $validate
     ]) }}>
 </x-wrapper.input>

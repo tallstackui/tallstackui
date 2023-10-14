@@ -1,14 +1,12 @@
-@php
-    $customize = tallstackui_personalization('toast', $customization());
-    $interal = $internals();
-@endphp
+@php($customize = tallstackui_personalization('toast', $customization()))
 
 <div x-cloak
      x-data="tallstackui_toastBase()"
      x-on:tallstackui:toast.window="add($event)"
      @class([
         $customize['wrapper.first'],
-        $interal['wrapper.first.position'],
+        'md:justify-start' => str_contains($position, 'top-'),
+        'md:justify-end' => str_contains($position, 'bottom-'),
         $zIndex
     ])
      x-show="show">
@@ -17,7 +15,8 @@
              x-show="show"
                 @class([
                     $customize['wrapper.second'],
-                    $interal['wrapper.second.position']
+                    'md:items-start' => $position === 'top-left' || $position === 'bottom-left',
+                    'md:items-end' => $position === 'top-right' || $position === 'bottom-right',
                 ])>
             <div x-show="show"
                     @class([$customize['wrapper.third'], 'rounded-xl' => !$square])>

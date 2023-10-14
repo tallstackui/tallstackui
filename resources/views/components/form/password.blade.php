@@ -2,7 +2,6 @@
     $computed = $attributes->whereStartsWith('wire:model')->first();
     $error = $errors->has($computed);
     $customize = tallstackui_personalization('form.password', $customization());
-    $internal = $internals();
 @endphp
 
 <x-wrapper.input :$computed :$error :$label :$hint validate password>
@@ -13,9 +12,10 @@
         </div>
     </div>
     <input @if ($id) id="{{ $id }}" @endif {{ $attributes->class([
+            'pr-10',
             $customize['input'],
-            $internal['input.icon'],
-            $internal['input.round'],
+            'rounded-md' => !$square && !$round,
+            'rounded-full' => $round,
             $customize['error'] => $error
     ]) }} :type="!show ? 'password' : 'text'">
 </x-wrapper.input>

@@ -15,8 +15,8 @@
          x-transition:leave="ease-in duration-200"
          x-transition:leave-start="opacity-100"
          x-transition:leave-end="opacity-0"
-            @class($customize['background'])></div>
-    <div @class($customize['wrapper.first'])>
+         @class($customize['background'])></div>
+    <div @class([$customize['wrapper.first'], 'backdrop-blur-sm' => $blur])>
         <div @class($customize['wrapper.second'])>
             <div x-show="show"
                  x-transition:enter="ease-out duration-300"
@@ -25,7 +25,7 @@
                  x-transition:leave="ease-in duration-200"
                  x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
                  x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                 @class($customize['wrapper.third'])
+                 @class([$customize['wrapper.third'], 'rounded-xl' => !$square])
                  @if (!$uncloseable) x-on:click.outside="remove()" @endif>
                 <div @class($customize['buttons.close.wrapper'])>
                     <button x-on:click="remove()">
@@ -69,10 +69,10 @@
                 </div>
                 <div @class($customize['buttons.wrapper'])>
                     <div x-show="dialog.type === 'question'">
-                        <button type="button" @class($customize['buttons.cancel']) dusk="tallstackui_dialog_rejection"
+                        <button type="button" @class([$customize['buttons.cancel'], 'rounded-md' => !$square]) dusk="tallstackui_dialog_rejection"
                                 x-on:click="reject(dialog)" x-text="dialog.options?.cancel.text"></button>
                     </div>
-                    <button @class($customize['buttons.confirm']) x-bind:class="{
+                    <button @class([$customize['buttons.confirm'], 'rounded-md' => !$square]) x-bind:class="{
                             'sm:w-auto' : dialog.type === 'question',
                             'col-span-full' : dialog.type !== 'question',
                             'bg-green-600 hover:bg-green-700 focus:ring-green-500 focus:ring-offset-green-100' : dialog.type === 'success',

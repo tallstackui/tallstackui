@@ -6,11 +6,11 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
 use TallStackUi\Contracts\Customizable;
-use TallStackUi\Support\Personalizations\Traits\InternalPersonalization;
+use TallStackUi\Support\Personalizations\Traits\InternalColorPersonalizations;
 
 class Alert extends Component implements Customizable
 {
-    use InternalPersonalization;
+    use InternalColorPersonalizations;
 
     public function __construct(
         public ?string $title = null,

@@ -43,15 +43,9 @@ class Dialog extends Component implements Customizable
         return Arr::dot([
             'background' => 'fixed inset-0 bg-gray-400 bg-opacity-75 transition-opacity',
             'wrapper' => [
-                'first' => Arr::toCssClasses([
-                    'fixed inset-0 z-10 w-screen overflow-y-auto',
-                    'backdrop-blur-sm' => $this->blur === true,
-                ]),
+                'first' => 'fixed inset-0 z-10 w-screen overflow-y-auto',
                 'second' => 'flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0',
-                'third' => Arr::toCssClasses([
-                    'relative w-full max-w-sm transform overflow-hidden bg-white p-4 text-left shadow-xl transition-all sm:my-8',
-                    'rounded-xl' => ! $this->square,
-                ]),
+                'third' => 'relative w-full max-w-sm transform overflow-hidden bg-white p-4 text-left shadow-xl transition-all sm:my-8',
             ],
             'icon' => [
                 'wrapper' => 'mx-auto flex h-12 w-12 items-center justify-center rounded-full',
@@ -67,14 +61,8 @@ class Dialog extends Component implements Customizable
             ],
             'buttons' => [
                 'wrapper' => 'mt-5 space-y-2 sm:mt-6 sm:space-y-0 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3',
-                'cancel' => Arr::toCssClasses([
-                    'inline-flex w-full items-center justify-center bg-white px-4 py-2 text-sm font-semibold text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300',
-                    'rounded-md' => ! $this->square,
-                ]),
-                'confirm' => Arr::toCssClasses([
-                    'inline-flex w-full items-center justify-center px-4 py-2 text-sm transition font-semibold text-white outline-none ease-in group focus:ring-2 focus:ring-offset-2',
-                    'rounded-md' => ! $this->square,
-                ]),
+                'cancel' => 'inline-flex w-full items-center justify-center bg-white px-4 py-2 text-sm font-semibold text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300',
+                'confirm' => 'inline-flex w-full items-center justify-center px-4 py-2 text-sm transition font-semibold text-white outline-none ease-in group focus:ring-2 focus:ring-offset-2',
                 'close' => [
                     'wrapper' => 'flex justify-end',
                     'icon' => 'h-5 w-5 cursor-pointer text-gray-400',

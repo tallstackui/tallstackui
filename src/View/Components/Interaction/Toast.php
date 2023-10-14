@@ -7,12 +7,9 @@ use Illuminate\Support\Arr;
 use Illuminate\View\Component;
 use InvalidArgumentException;
 use TallStackUi\Contracts\Customizable;
-use TallStackUi\Support\Personalizations\Traits\InternalPersonalization;
 
 class Toast extends Component implements Customizable
 {
-    use InternalPersonalization;
-
     public function __construct(
         public ?string $zIndex = null,
         public ?string $position = null,

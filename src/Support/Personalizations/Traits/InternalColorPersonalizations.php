@@ -15,13 +15,9 @@ use TallStackUi\View\Components\Button\Index as Button;
 use TallStackUi\View\Components\Button\Traits\DefaultButtonColorClasses;
 use TallStackUi\View\Components\Errors;
 use TallStackUi\View\Components\Form\Checkbox;
-use TallStackUi\View\Components\Form\Input;
-use TallStackUi\View\Components\Form\Password;
 use TallStackUi\View\Components\Form\Radio;
-use TallStackUi\View\Components\Form\Textarea;
 use TallStackUi\View\Components\Form\Toggle;
 use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
-use TallStackUi\View\Components\Interaction\Toast;
 use TallStackUi\View\Components\Tooltip;
 
 /**
@@ -29,7 +25,7 @@ use TallStackUi\View\Components\Tooltip;
  * components even when the components are personalized. In other words, these
  * are classes outside the scope of component personalizations, even deep customization.
  */
-trait InternalPersonalization
+trait InternalColorPersonalizations
 {
     use DefaultButtonColorClasses;
     use DefaultInputClasses;
@@ -43,31 +39,13 @@ trait InternalPersonalization
             Badge::class => fn () => $this->badge(),
             Button::class, ButtonCircle::class => fn () => $this->button(),
             Errors::class => fn () => $this->errors(),
-            Input::class => fn () => $this->input(),
-            Password::class => fn () => $this->password(),
-            Textarea::class => fn () => $this->textarea(),
             Radio::class, Checkbox::class => fn () => $this->radio(),
-            Toast::class => fn () => $this->toast(),
             Toggle::class => fn () => $this->toggle(),
             Tooltip::class => fn () => $this->tooltip(),
             default => throw new Exception('Unexpected match value'),
         })();
 
         return [...$internal];
-    }
-
-    public function toast(): array
-    {
-        return [
-            'wrapper.first.position' => Arr::toCssClasses([
-                'md:justify-start' => str_contains($this->position, 'top-'),
-                'md:justify-end' => str_contains($this->position, 'bottom-'),
-            ]),
-            'wrapper.second.position' => Arr::toCssClasses([
-                'md:items-start' => $this->position === 'top-left' || $this->position === 'bottom-left',
-                'md:items-end' => $this->position === 'top-right' || $this->position === 'bottom-right',
-            ]),
-        ];
     }
 
     /** Mandatory Alert Classes */
@@ -161,43 +139,10 @@ trait InternalPersonalization
         ];
     }
 
-    /** Mandatory Input Classes */
-    private function input(): array
-    {
-        return [
-            'input.icon' => Arr::toCssClasses([
-                'pl-10' => $this->icon && ($this->position === null || $this->position === 'left'),
-                'pr-10' => $this->icon && $this->position === 'right',
-            ]),
-            'input.round' => Arr::toCssClasses([
-                'rounded-md' => ! $this->square && ! $this->round,
-                'rounded-full' => $this->round,
-            ]),
-        ];
-    }
-
-    /** Mandatory Input Password Classes */
-    private function password(): array
-    {
-        return [
-            'input.icon' => 'pr-10',
-            'input.round' => Arr::toCssClasses([
-                'rounded-md' => ! $this->square && ! $this->round,
-                'rounded-full' => $this->round,
-            ]),
-        ];
-    }
-
     /** Mandatory Radio & Checkbox Classes */
     private function radio(): array
     {
         return ['input.color' => $this->radioColors()];
-    }
-
-    /** Mandatory Textarea Classes */
-    private function textarea(): array
-    {
-        return ['input.round' => Arr::toCssClasses(['rounded-md' => ! $this->square])];
     }
 
     /** Mandatory Toogle Classes */
