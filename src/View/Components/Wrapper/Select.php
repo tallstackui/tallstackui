@@ -48,7 +48,7 @@ class Select extends Component implements Customizable
                     'error' => 'text-red-500',
                 ],
                 'up-down' => [
-                    'icon' => 'h-5 w-5 transition ext-secondary-500',
+                    'icon' => 'h-5 w-5 transition text-secondary-500',
                     'error' => 'text-red-500',
                 ],
             ],

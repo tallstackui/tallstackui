@@ -86,10 +86,10 @@ export default (
         });
       } else {
         this.selecteds = this.options.filter((option) => {
-          return value.toString() === option[this.selectable.value].toString();
+          return value?.toString() === option[this.selectable.value].toString();
         });
 
-        if (this.options.length > 0) {
+        if (this.quantity > 0) {
           this.placeholder = this.selecteds[0][this.selectable.label] ?? placeholder;
         }
       }
