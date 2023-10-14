@@ -3,7 +3,7 @@
     $directive = array_key_first($computed->getAttributes());
     $property = $computed[$directive];
     $error = $errors->has($property);
-    $customize = tallstackui_personalization('select.searchable', $customization());
+    $customize = tallstackui_personalization('select.searchable', $personalization());
 @endphp
 
 <x-wrapper.select :$label :$error :computed="$property" :$hint :$after loading>

@@ -1,7 +1,7 @@
 @php
     $computed = $attributes->whereStartsWith('wire:model')->first();
     $error = $errors->has($computed);
-    $customize = tallstackui_personalization('form.radio', $customization());
+    $customize = tallstackui_personalization('form.radio', $personalization());
     $internal = $internals();
 @endphp
 

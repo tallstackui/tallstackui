@@ -1,5 +1,5 @@
 @php
-    $customize = tallstackui_personalization('errors', $customization());
+    $customize = tallstackui_personalization('errors', $personalization());
     $internal = $internals();
 @endphp
 

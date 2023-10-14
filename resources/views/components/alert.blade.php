@@ -1,5 +1,5 @@
 @php
-    $customize = tallstackui_personalization('alert', $customization());
+    $customize = tallstackui_personalization('alert', $personalization());
     $internal = $internals();
 @endphp
 

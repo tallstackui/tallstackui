@@ -5,9 +5,9 @@ namespace TallStackUi\View\Components;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
-use TallStackUi\Contracts\Customizable;
+use TallStackUi\Support\Personalizations\Contracts\Personalize;
 
-class Card extends Component implements Customizable
+class Card extends Component implements Personalize
 {
     public function __construct(
         public ?string $header = null,
@@ -16,19 +16,7 @@ class Card extends Component implements Customizable
         //
     }
 
-    public function customization(): array
-    {
-        return [
-            ...$this->tallStackUiClasses(),
-        ];
-    }
-
-    public function render(): View
-    {
-        return view('tallstack-ui::components.card');
-    }
-
-    public function tallStackUiClasses(): array
+    public function personalization(): array
     {
         return Arr::dot([
             'wrapper' => [
@@ -45,5 +33,10 @@ class Card extends Component implements Customizable
                 'text' => 'flex items-center justify-end gap-2',
             ],
         ]);
+    }
+
+    public function render(): View
+    {
+        return view('tallstack-ui::components.card');
     }
 }

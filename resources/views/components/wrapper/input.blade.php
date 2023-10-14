@@ -1,4 +1,4 @@
-@php($customize = tallstackui_personalization('wrapper.input', $customization()))
+@php($customize = tallstackui_personalization('wrapper.input', $personalization()))
 
 <div @if ($alpine) x-data="{!! $alpine !!}" @endif>
     @if ($label)

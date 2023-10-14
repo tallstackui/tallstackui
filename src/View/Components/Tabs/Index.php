@@ -5,9 +5,9 @@ namespace TallStackUi\View\Components\Tabs;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
-use TallStackUi\Contracts\Customizable;
+use TallStackUi\Support\Personalizations\Contracts\Personalize;
 
-class Index extends Component implements Customizable
+class Index extends Component implements Personalize
 {
     public function __construct(
         public ?string $selected = null,
@@ -16,19 +16,7 @@ class Index extends Component implements Customizable
         $this->square = config('tallstackui.personalizations.tabs.square');
     }
 
-    public function customization(): array
-    {
-        return [
-            ...$this->tallStackUiClasses(),
-        ];
-    }
-
-    public function render(): View
-    {
-        return view('tallstack-ui::components.tabs.index');
-    }
-
-    public function tallStackUiClasses(): array
+    public function personalization(): array
     {
         return Arr::dot([
             'wrapper' => '-mb-px flex items-stretch overflow-auto',
@@ -38,5 +26,10 @@ class Index extends Component implements Customizable
                 'unselected' => 'opacity-50',
             ],
         ]);
+    }
+
+    public function render(): View
+    {
+        return view('tallstack-ui::components.tabs.index');
     }
 }

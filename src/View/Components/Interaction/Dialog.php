@@ -6,9 +6,9 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
 use InvalidArgumentException;
-use TallStackUi\Contracts\Customizable;
+use TallStackUi\Support\Personalizations\Contracts\Personalize;
 
-class Dialog extends Component implements Customizable
+class Dialog extends Component implements Personalize
 {
     public function __construct(
         public ?string $zIndex = null,
@@ -26,19 +26,7 @@ class Dialog extends Component implements Customizable
         }
     }
 
-    public function customization(): array
-    {
-        return [
-            ...$this->tallStackUiClasses(),
-        ];
-    }
-
-    public function render(): View
-    {
-        return view('tallstack-ui::components.interactions.dialog');
-    }
-
-    public function tallStackUiClasses(): array
+    public function personalization(): array
     {
         return Arr::dot([
             'background' => 'fixed inset-0 bg-gray-400 bg-opacity-75 transition-opacity',
@@ -69,5 +57,10 @@ class Dialog extends Component implements Customizable
                 ],
             ],
         ]);
+    }
+
+    public function render(): View
+    {
+        return view('tallstack-ui::components.interactions.dialog');
     }
 }

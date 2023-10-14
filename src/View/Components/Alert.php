@@ -5,10 +5,10 @@ namespace TallStackUi\View\Components;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
-use TallStackUi\Contracts\Customizable;
+use TallStackUi\Support\Personalizations\Contracts\Personalize;
 use TallStackUi\Support\Personalizations\Traits\InternalColorPersonalizations;
 
-class Alert extends Component implements Customizable
+class Alert extends Component implements Personalize
 {
     use InternalColorPersonalizations;
 
@@ -25,19 +25,7 @@ class Alert extends Component implements Customizable
         $this->style = $this->translucent && $this->color !== 'white' ? 'translucent' : 'solid';
     }
 
-    public function customization(): array
-    {
-        return [
-            ...$this->tallStackUiClasses(),
-        ];
-    }
-
-    public function render(): View
-    {
-        return view('tallstack-ui::components.alert');
-    }
-
-    public function tallStackUiClasses(): array
+    public function personalization(): array
     {
         return Arr::dot([
             'wrapper' => 'rounded-md p-4',
@@ -68,5 +56,10 @@ class Alert extends Component implements Customizable
                 'size' => 'w-5 h-5',
             ],
         ]);
+    }
+
+    public function render(): View
+    {
+        return view('tallstack-ui::components.alert');
     }
 }

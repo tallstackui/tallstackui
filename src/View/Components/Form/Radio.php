@@ -5,10 +5,10 @@ namespace TallStackUi\View\Components\Form;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
-use TallStackUi\Contracts\Customizable;
+use TallStackUi\Support\Personalizations\Contracts\Personalize;
 use TallStackUi\Support\Personalizations\Traits\InternalColorPersonalizations;
 
-class Radio extends Component implements Customizable
+class Radio extends Component implements Personalize
 {
     use InternalColorPersonalizations;
 
@@ -27,19 +27,7 @@ class Radio extends Component implements Customizable
         $this->position = $this->position === 'right' ? 'right' : 'left';
     }
 
-    public function customization(): array
-    {
-        return [
-            ...$this->tallStackUiClasses(),
-        ];
-    }
-
-    public function render(): View
-    {
-        return view('tallstack-ui::components.form.radio');
-    }
-
-    public function tallStackUiClasses(): array
+    public function personalization(): array
     {
         return [
             'input' => Arr::toCssClasses([
@@ -49,5 +37,10 @@ class Radio extends Component implements Customizable
             ]),
             'error' => 'border-red-300 focus:ring-red-600 focus:border-red-400 text-red-600',
         ];
+    }
+
+    public function render(): View
+    {
+        return view('tallstack-ui::components.form.radio');
     }
 }

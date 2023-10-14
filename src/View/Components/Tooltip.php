@@ -5,10 +5,10 @@ namespace TallStackUi\View\Components;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
-use TallStackUi\Contracts\Customizable;
+use TallStackUi\Support\Personalizations\Contracts\Personalize;
 use TallStackUi\Support\Personalizations\Traits\InternalColorPersonalizations;
 
-class Tooltip extends Component implements Customizable
+class Tooltip extends Component implements Personalize
 {
     use InternalColorPersonalizations;
 
@@ -29,19 +29,7 @@ class Tooltip extends Component implements Customizable
         $this->style = $this->outline ? 'outline' : ($this->solid ? 'solid' : config('tallstackui.icon'));
     }
 
-    public function customization(): array
-    {
-        return [
-            ...$this->tallStackUiClasses(),
-        ];
-    }
-
-    public function render(): View
-    {
-        return view('tallstack-ui::components.tooltip');
-    }
-
-    public function tallStackUiClasses(): array
+    public function personalization(): array
     {
         return [
             'wrapper' => 'inline-flex',
@@ -51,5 +39,10 @@ class Tooltip extends Component implements Customizable
                 'h-7 w-7' => $this->size === 'lg',
             ]),
         ];
+    }
+
+    public function render(): View
+    {
+        return view('tallstack-ui::components.tooltip');
     }
 }

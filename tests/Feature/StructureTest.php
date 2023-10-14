@@ -3,12 +3,12 @@
 use TallStackUi\Actions\AbstractInteraction;
 use TallStackUi\Actions\Dialog;
 use TallStackUi\Actions\Toast;
-use TallStackUi\Contracts\Customizable;
 use TallStackUi\Facades\TallStackUi as Facade;
 use TallStackUi\Http\Controllers\TallStackUiAssetsController;
 use TallStackUi\Support\Elements\Color;
 use TallStackUi\Support\Personalization;
 use TallStackUi\Support\Personalizations\Contracts\Personalizable;
+use TallStackUi\Support\Personalizations\Contracts\Personalize;
 use TallStackUi\Traits\Interactions;
 
 test('should not use dangerous functions')
@@ -18,15 +18,11 @@ test('should not use dangerous functions')
 
 describe('tallstackui components', function () {
     test('is customizable', function (string $index) {
-        expect($index)->toImplement(Customizable::class);
+        expect($index)->toImplement(Personalize::class);
     })->with('components');
 
-    test('contains tallStackUiClasses method', function (string $index) {
-        expect($index)->toHaveMethod('tallStackUiClasses');
-    })->with('components');
-
-    test('contains customization method', function (string $index) {
-        expect($index)->toHaveMethod('customization');
+    test('contains personalization method', function (string $index) {
+        expect($index)->toHaveMethod('personalization');
     })->with('components');
 
     test('contains constructor', function (string $index) {

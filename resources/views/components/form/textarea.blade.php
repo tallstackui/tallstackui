@@ -1,7 +1,7 @@
 @php
     $computed = $attributes->whereStartsWith('wire:model')->first();
     $error = $errors->has($computed);
-    $customize = tallstackui_personalization('form.textarea', $customization());
+    $customize = tallstackui_personalization('form.textarea', $personalization());
 @endphp
 
 <x-wrapper.input :$computed :$error :$label :$hint validate>

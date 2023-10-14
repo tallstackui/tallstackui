@@ -6,10 +6,10 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Collection;
 use Illuminate\View\Component;
 use InvalidArgumentException;
-use TallStackUi\Contracts\Customizable;
+use TallStackUi\Support\Personalizations\Contracts\Personalize;
 use TallStackUi\View\Components\Select\Traits\InteractsWithSelectOptions;
 
-class Styled extends Component implements Customizable
+class Styled extends Component implements Personalize
 {
     use InteractsWithSelectOptions;
 
@@ -31,10 +31,11 @@ class Styled extends Component implements Customizable
         }
     }
 
-    public function customization(): array
+    public function personalization(): array
     {
         return [
-            ...$this->tallStackUiClasses(),
+            'item' => 'inline-flex items-center rounded-lg bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10 space-x-1',
+            'icon' => 'h-4 w-4 text-red-500 transition hover:text-red-500',
         ];
     }
 
@@ -43,13 +44,5 @@ class Styled extends Component implements Customizable
         return view('tallstack-ui::components.select.styled', [
             'placeholder' => __('tallstack-ui::messages.select.placeholder'),
         ]);
-    }
-
-    public function tallStackUiClasses(): array
-    {
-        return [
-            'item' => 'inline-flex items-center rounded-lg bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10 space-x-1',
-            'icon' => 'h-4 w-4 text-red-500 transition hover:text-red-500',
-        ];
     }
 }

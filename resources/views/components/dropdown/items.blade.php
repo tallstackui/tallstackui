@@ -1,4 +1,4 @@
-@php($customize = tallstackui_personalization('dropdown.items', $customization()))
+@php($customize = tallstackui_personalization('dropdown.items', $personalization()))
 
 <a {{ $attributes->class($customize['item']) }} role="menuitem" tabindex="-1" id="menu-item-0">
     @if ($icon && $position === 'left')

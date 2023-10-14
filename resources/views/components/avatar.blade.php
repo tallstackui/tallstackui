@@ -1,5 +1,5 @@
 @php
-    $customize = tallstackui_personalization('avatar', $customization());
+    $customize = tallstackui_personalization('avatar', $personalization());
     $internal = $internals();
 @endphp
 

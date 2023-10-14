@@ -6,9 +6,9 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
 use InvalidArgumentException;
-use TallStackUi\Contracts\Customizable;
+use TallStackUi\Support\Personalizations\Contracts\Personalize;
 
-class Toast extends Component implements Customizable
+class Toast extends Component implements Personalize
 {
     public function __construct(
         public ?string $zIndex = null,
@@ -28,19 +28,7 @@ class Toast extends Component implements Customizable
         }
     }
 
-    public function customization(): array
-    {
-        return [
-            ...$this->tallStackUiClasses(),
-        ];
-    }
-
-    public function render(): View
-    {
-        return view('tallstack-ui::components.interactions.toast');
-    }
-
-    public function tallStackUiClasses(): array
+    public function personalization(): array
     {
         return Arr::dot([
             'wrapper' => [
@@ -68,5 +56,10 @@ class Toast extends Component implements Customizable
                 ],
             ],
         ]);
+    }
+
+    public function render(): View
+    {
+        return view('tallstack-ui::components.interactions.toast');
     }
 }

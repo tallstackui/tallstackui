@@ -1,5 +1,5 @@
 @php
-    $customize = tallstackui_personalization('wrapper.select', $customization());
+    $customize = tallstackui_personalization('wrapper.select', $personalization());
     $error = $errors->has($computed);
 @endphp
 

@@ -1,7 +1,7 @@
 @php
     $computed = $attributes->whereStartsWith('wire:model')->first();
     $error = $errors->has($computed);
-    $customize = tallstackui_personalization('form.checkbox', $customization());
+    $customize = tallstackui_personalization('form.checkbox', $personalization());
     $internal = $internals();
 @endphp
 

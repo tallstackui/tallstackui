@@ -70,7 +70,7 @@ abstract class PersonalizationResource
 
     protected function blocks(): array
     {
-        return array_keys(app($this->component(), ['ignoreValidations' => true])->tallStackUiClasses());
+        return array_keys(app($this->component(), ['ignoreValidations' => true])->personalization());
     }
 
     abstract protected function component(): string;

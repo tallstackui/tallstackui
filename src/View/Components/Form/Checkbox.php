@@ -5,10 +5,10 @@ namespace TallStackUi\View\Components\Form;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
-use TallStackUi\Contracts\Customizable;
+use TallStackUi\Support\Personalizations\Contracts\Personalize;
 use TallStackUi\Support\Personalizations\Traits\InternalColorPersonalizations;
 
-class Checkbox extends Component implements Customizable
+class Checkbox extends Component implements Personalize
 {
     use InternalColorPersonalizations;
 
@@ -27,19 +27,7 @@ class Checkbox extends Component implements Customizable
         $this->position = $this->position === 'right' ? 'right' : 'left';
     }
 
-    public function customization(): array
-    {
-        return [
-            ...$this->tallStackUiClasses(),
-        ];
-    }
-
-    public function render(): View
-    {
-        return view('tallstack-ui::components.form.checkbox');
-    }
-
-    public function tallStackUiClasses(): array
+    public function personalization(): array
     {
         return [
             'input' => Arr::toCssClasses([
@@ -49,5 +37,10 @@ class Checkbox extends Component implements Customizable
             ]),
             'error' => 'border border-red-300 text-red-600 focus:ring-red-600 focus:border-red-400',
         ];
+    }
+
+    public function render(): View
+    {
+        return view('tallstack-ui::components.form.checkbox');
     }
 }

@@ -4,7 +4,7 @@
     $open = $event . '-open';
     $close = $event . '-close';
 
-    $customize = tallstackui_personalization('modal', $customization());
+    $customize = tallstackui_personalization('modal', $personalization());
 @endphp
 
 <div x-cloak

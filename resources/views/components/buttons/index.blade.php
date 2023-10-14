@@ -1,6 +1,6 @@
 @php
     $tag = $href ? 'a' : 'button';
-    $customize = tallstackui_personalization('button', $customization());
+    $customize = tallstackui_personalization('button', $personalization());
     $internal = $internals();
 @endphp
 

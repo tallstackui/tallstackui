@@ -1,5 +1,5 @@
 @php
-    $customize = tallstackui_personalization('tooltip', $customization());
+    $customize = tallstackui_personalization('tooltip', $personalization());
     $internal = $internals();
 @endphp
 

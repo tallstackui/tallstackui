@@ -5,10 +5,10 @@ namespace TallStackUi\View\Components\Form;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
-use TallStackUi\Contracts\Customizable;
+use TallStackUi\Support\Personalizations\Contracts\Personalize;
 use TallStackUi\Support\Personalizations\Traits\InternalColorPersonalizations;
 
-class Toggle extends Component implements Customizable
+class Toggle extends Component implements Personalize
 {
     use InternalColorPersonalizations;
 
@@ -27,19 +27,7 @@ class Toggle extends Component implements Customizable
         $this->position = $this->position === 'right' ? 'right' : 'left';
     }
 
-    public function customization(): array
-    {
-        return [
-            ...$this->tallStackUiClasses(),
-        ];
-    }
-
-    public function render(): View
-    {
-        return view('tallstack-ui::components.form.toggle');
-    }
-
-    public function tallStackUiClasses(): array
+    public function personalization(): array
     {
         return [
             'input' => Arr::toCssClasses([
@@ -59,5 +47,10 @@ class Toggle extends Component implements Customizable
             ]),
             'error' => 'bg-red-600 peer-checked:bg-red-600 peer-focus:ring-red-600 group-focus:ring-red-600',
         ];
+    }
+
+    public function render(): View
+    {
+        return view('tallstack-ui::components.form.toggle');
     }
 }

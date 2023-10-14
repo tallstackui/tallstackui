@@ -5,10 +5,10 @@ namespace TallStackUi\View\Components\Form;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
-use TallStackUi\Contracts\Customizable;
+use TallStackUi\Support\Personalizations\Contracts\Personalize;
 use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
 
-class Input extends Component implements Customizable
+class Input extends Component implements Personalize
 {
     use DefaultInputClasses;
 
@@ -27,19 +27,7 @@ class Input extends Component implements Customizable
         $this->round = config('tallstackui.personalizations.input.round');
     }
 
-    public function customization(): array
-    {
-        return [
-            ...$this->tallStackUiClasses(),
-        ];
-    }
-
-    public function render(): View
-    {
-        return view('tallstack-ui::components.form.input');
-    }
-
-    public function tallStackUiClasses(): array
+    public function personalization(): array
     {
         return Arr::dot([
             'input' => $this->inputClasses(),
@@ -57,5 +45,10 @@ class Input extends Component implements Customizable
             ],
             'error' => 'text-red-600 ring-1 ring-inset ring-red-300 placeholder:text-red-300 focus:ring-2 focus:ring-inset focus:ring-red-500',
         ]);
+    }
+
+    public function render(): View
+    {
+        return view('tallstack-ui::components.form.input');
     }
 }

@@ -5,9 +5,9 @@ namespace TallStackUi\View\Components\Wrapper;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
-use TallStackUi\Contracts\Customizable;
+use TallStackUi\Support\Personalizations\Contracts\Personalize;
 
-class Select extends Component implements Customizable
+class Select extends Component implements Personalize
 {
     public function __construct(
         public bool $loading = false,
@@ -20,19 +20,7 @@ class Select extends Component implements Customizable
         //
     }
 
-    public function customization(): array
-    {
-        return [
-            ...$this->tallStackUiClasses(),
-        ];
-    }
-
-    public function render(): View
-    {
-        return view('tallstack-ui::components.wrapper.select');
-    }
-
-    public function tallStackUiClasses(): array
+    public function personalization(): array
     {
         return Arr::dot([
             'wrapper' => 'relative',
@@ -72,5 +60,10 @@ class Select extends Component implements Customizable
             ],
             'message' => 'block w-full pr-2 text-gray-700',
         ]);
+    }
+
+    public function render(): View
+    {
+        return view('tallstack-ui::components.wrapper.select');
     }
 }

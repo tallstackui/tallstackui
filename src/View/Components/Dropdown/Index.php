@@ -5,9 +5,9 @@ namespace TallStackUi\View\Components\Dropdown;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
-use TallStackUi\Contracts\Customizable;
+use TallStackUi\Support\Personalizations\Contracts\Personalize;
 
-class Index extends Component implements Customizable
+class Index extends Component implements Personalize
 {
     public function __construct(
         public ?string $text = null,
@@ -20,19 +20,7 @@ class Index extends Component implements Customizable
         $this->animate = $this->text ? true : $this->animate;
     }
 
-    public function customization(): array
-    {
-        return [
-            ...$this->tallStackUiClasses(),
-        ];
-    }
-
-    public function render(): View
-    {
-        return view('tallstack-ui::components.dropdown.index');
-    }
-
-    public function tallStackUiClasses(): array
+    public function personalization(): array
     {
         return Arr::dot([
             'wrapper' => [
@@ -50,5 +38,10 @@ class Index extends Component implements Customizable
                 'icon' => 'h-5 w-5 cursor-pointer text-gray-400 transition',
             ],
         ]);
+    }
+
+    public function render(): View
+    {
+        return view('tallstack-ui::components.dropdown.index');
     }
 }

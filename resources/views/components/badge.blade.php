@@ -1,5 +1,5 @@
 @php
-    $customize = tallstackui_personalization('badge', $customization());
+    $customize = tallstackui_personalization('badge', $personalization());
     $internal = $internals();
 @endphp
 

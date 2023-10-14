@@ -6,9 +6,9 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
 use InvalidArgumentException;
-use TallStackUi\Contracts\Customizable;
+use TallStackUi\Support\Personalizations\Contracts\Personalize;
 
-class Modal extends Component implements Customizable
+class Modal extends Component implements Personalize
 {
     public function __construct(
         public ?string $id = 'modal',
@@ -41,19 +41,7 @@ class Modal extends Component implements Customizable
         };
     }
 
-    public function customization(): array
-    {
-        return [
-            ...$this->tallStackUiClasses(),
-        ];
-    }
-
-    public function render(): View
-    {
-        return view('tallstack-ui::components.modal');
-    }
-
-    public function tallStackUiClasses(): array
+    public function personalization(): array
     {
         return Arr::dot([
             'wrapper' => [
@@ -73,5 +61,10 @@ class Modal extends Component implements Customizable
             'body' => 'px-2 py-5 md:px-4 text-gray-700 rounded-b-xl grow dark:text-secondary-400',
             'footer' => 'flex justify-end gap-2 rounded-b-xl border-t border-t-gray-100 text-gray-700 bg-gray-50 p-4',
         ]);
+    }
+
+    public function render(): View
+    {
+        return view('tallstack-ui::components.modal');
     }
 }

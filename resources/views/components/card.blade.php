@@ -1,4 +1,4 @@
-@php($customize = tallstackui_personalization('card', $customization()))
+@php($customize = tallstackui_personalization('card', $personalization()))
 
 <div @class($customize['wrapper.first'])>
     <div @class($customize['wrapper.second'])>

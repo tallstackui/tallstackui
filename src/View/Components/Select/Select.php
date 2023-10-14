@@ -6,10 +6,10 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\View\Component;
-use TallStackUi\Contracts\Customizable;
+use TallStackUi\Support\Personalizations\Contracts\Personalize;
 use TallStackUi\View\Components\Select\Traits\InteractsWithSelectOptions;
 
-class Select extends Component implements Customizable
+class Select extends Component implements Personalize
 {
     use InteractsWithSelectOptions;
 
@@ -24,19 +24,7 @@ class Select extends Component implements Customizable
         $this->options();
     }
 
-    public function customization(): array
-    {
-        return [
-            ...$this->tallStackUiClasses(),
-        ];
-    }
-
-    public function render(): View
-    {
-        return view('tallstack-ui::components.select.select');
-    }
-
-    public function tallStackUiClasses(): array
+    public function personalization(): array
     {
         return [
             'wrapper' => Arr::toCssClasses([
@@ -45,5 +33,10 @@ class Select extends Component implements Customizable
             ]),
             'error' => 'text-red-600 ring-1 ring-inset ring-red-300 placeholder:text-red-300 focus:ring-2 focus:ring-inset focus:ring-red-500',
         ];
+    }
+
+    public function render(): View
+    {
+        return view('tallstack-ui::components.select.select');
     }
 }

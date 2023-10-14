@@ -5,9 +5,9 @@ namespace TallStackUi\View\Components\Dropdown;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
-use TallStackUi\Contracts\Customizable;
+use TallStackUi\Support\Personalizations\Contracts\Personalize;
 
-class Items extends Component implements Customizable
+class Items extends Component implements Personalize
 {
     public function __construct(
         public ?string $text = null,
@@ -18,19 +18,7 @@ class Items extends Component implements Customizable
         $this->position = $this->position === 'left' ? 'left' : 'right';
     }
 
-    public function customization(): array
-    {
-        return [
-            ...$this->tallStackUiClasses(),
-        ];
-    }
-
-    public function render(): View
-    {
-        return view('tallstack-ui::components.dropdown.items');
-    }
-
-    public function tallStackUiClasses(): array
+    public function personalization(): array
     {
         return Arr::dot([
             'item' => Arr::toCssClasses([
@@ -40,5 +28,10 @@ class Items extends Component implements Customizable
             ]),
             'icon' => 'h-5 w-5 text-gray-500',
         ]);
+    }
+
+    public function render(): View
+    {
+        return view('tallstack-ui::components.dropdown.items');
     }
 }

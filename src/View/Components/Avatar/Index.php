@@ -5,10 +5,10 @@ namespace TallStackUi\View\Components\Avatar;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
-use TallStackUi\Contracts\Customizable;
+use TallStackUi\Support\Personalizations\Contracts\Personalize;
 use TallStackUi\Support\Personalizations\Traits\InternalColorPersonalizations;
 
-class Index extends Component implements Customizable
+class Index extends Component implements Personalize
 {
     use InternalColorPersonalizations;
 
@@ -25,19 +25,7 @@ class Index extends Component implements Customizable
         $this->size = $this->sm ? 'sm' : ($this->lg ? 'lg' : 'md');
     }
 
-    public function customization(): array
-    {
-        return [
-            ...$this->tallStackUiClasses(),
-        ];
-    }
-
-    public function render(): View
-    {
-        return view('tallstack-ui::components.avatar');
-    }
-
-    public function tallStackUiClasses(): array
+    public function personalization(): array
     {
         return Arr::dot([
             'wrapper' => Arr::toCssClasses([
@@ -63,5 +51,10 @@ class Index extends Component implements Customizable
                 ]),
             ],
         ]);
+    }
+
+    public function render(): View
+    {
+        return view('tallstack-ui::components.avatar');
     }
 }

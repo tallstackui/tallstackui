@@ -4,9 +4,9 @@ namespace TallStackUi\View\Components\Wrapper;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
-use TallStackUi\Contracts\Customizable;
+use TallStackUi\Support\Personalizations\Contracts\Personalize;
 
-class Input extends Component implements Customizable
+class Input extends Component implements Personalize
 {
     public function __construct(
         public ?string $computed = null,
@@ -20,22 +20,13 @@ class Input extends Component implements Customizable
         //
     }
 
-    public function customization(): array
+    public function personalization(): array
     {
-        return [
-            ...$this->tallStackUiClasses(),
-        ];
+        return ['wrapper' => 'relative rounded-md shadow-sm'];
     }
 
     public function render(): View
     {
         return view('tallstack-ui::components.wrapper.input');
-    }
-
-    public function tallStackUiClasses(): array
-    {
-        return [
-            'wrapper' => 'relative rounded-md shadow-sm',
-        ];
     }
 }

@@ -5,10 +5,10 @@ namespace TallStackUi\View\Components;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
-use TallStackUi\Contracts\Customizable;
+use TallStackUi\Support\Personalizations\Contracts\Personalize;
 use TallStackUi\Support\Personalizations\Traits\InternalColorPersonalizations;
 
-class Badge extends Component implements Customizable
+class Badge extends Component implements Personalize
 {
     use InternalColorPersonalizations;
 
@@ -31,19 +31,7 @@ class Badge extends Component implements Customizable
         $this->position = $this->position === 'right' ? 'right' : 'left';
     }
 
-    public function customization(): array
-    {
-        return [
-            ...$this->tallStackUiClasses(),
-        ];
-    }
-
-    public function render(): View
-    {
-        return view('tallstack-ui::components.badge');
-    }
-
-    public function tallStackUiClasses(): array
+    public function personalization(): array
     {
         return [
             'wrapper' => Arr::toCssClasses([
@@ -61,5 +49,10 @@ class Badge extends Component implements Customizable
                 'ml-1' => $this->position === 'right',
             ]),
         ];
+    }
+
+    public function render(): View
+    {
+        return view('tallstack-ui::components.badge');
     }
 }

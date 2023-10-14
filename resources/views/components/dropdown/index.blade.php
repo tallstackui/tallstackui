@@ -1,4 +1,4 @@
-@php($customize = tallstackui_personalization('dropdown', $customization()))
+@php($customize = tallstackui_personalization('dropdown', $personalization()))
 
 <div @class($customize['wrapper.first']) x-data="{ show : false, animate : @js($animate) }">
     <div @class($customize['wrapper.second']) x-on:click.outside="show = false">

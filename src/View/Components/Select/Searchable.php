@@ -30,10 +30,11 @@ class Searchable extends Styled
         $this->request();
     }
 
-    public function customization(): array
+    public function personalization(): array
     {
         return [
-            ...$this->tallStackUiClasses(),
+            'item' => 'inline-flex items-center rounded-lg bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10 space-x-1',
+            'icon' => 'h-4 w-4 text-red-500 transition hover:text-red-500',
         ];
     }
 
@@ -42,14 +43,6 @@ class Searchable extends Styled
         return view('tallstack-ui::components.select.searchable', [
             'placeholder' => __('tallstack-ui::messages.select.placeholder'),
         ]);
-    }
-
-    public function tallStackUiClasses(): array
-    {
-        return [
-            'item' => 'inline-flex items-center rounded-lg bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10 space-x-1',
-            'icon' => 'h-4 w-4 text-red-500 transition hover:text-red-500',
-        ];
     }
 
     /** @throws Throwable */

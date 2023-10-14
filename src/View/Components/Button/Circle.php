@@ -5,10 +5,10 @@ namespace TallStackUi\View\Components\Button;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
-use TallStackUi\Contracts\Customizable;
+use TallStackUi\Support\Personalizations\Contracts\Personalize;
 use TallStackUi\Support\Personalizations\Traits\InternalColorPersonalizations;
 
-class Circle extends Component implements Customizable
+class Circle extends Component implements Personalize
 {
     use InternalColorPersonalizations;
 
@@ -28,19 +28,7 @@ class Circle extends Component implements Customizable
         $this->validateDelayOptions();
     }
 
-    public function customization(): array
-    {
-        return [
-            ...$this->tallStackUiClasses(),
-        ];
-    }
-
-    public function render(): View
-    {
-        return view('tallstack-ui::components.buttons.circle');
-    }
-
-    public function tallStackUiClasses(): array
+    public function personalization(): array
     {
         return Arr::dot([
             'wrapper' => Arr::toCssClasses([
@@ -52,5 +40,10 @@ class Circle extends Component implements Customizable
                 'loading' => 'animate-spin w-4 h-4',
             ],
         ]);
+    }
+
+    public function render(): View
+    {
+        return view('tallstack-ui::components.buttons.circle');
     }
 }

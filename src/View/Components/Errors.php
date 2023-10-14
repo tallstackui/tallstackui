@@ -6,10 +6,10 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\Support\ViewErrorBag;
 use Illuminate\View\Component;
-use TallStackUi\Contracts\Customizable;
+use TallStackUi\Support\Personalizations\Contracts\Personalize;
 use TallStackUi\Support\Personalizations\Traits\InternalColorPersonalizations;
 
-class Errors extends Component implements Customizable
+class Errors extends Component implements Personalize
 {
     use InternalColorPersonalizations;
 
@@ -27,13 +27,6 @@ class Errors extends Component implements Customizable
         return count($this->messages($errors));
     }
 
-    public function customization(): array
-    {
-        return [
-            ...$this->tallStackUiClasses(),
-        ];
-    }
-
     public function messages(ViewErrorBag $errors): array
     {
         $messages = $errors->getMessages();
@@ -47,12 +40,7 @@ class Errors extends Component implements Customizable
         return array_filter($messages, fn (string $name) => in_array($name, $this->only), ARRAY_FILTER_USE_KEY);
     }
 
-    public function render(): View
-    {
-        return view('tallstack-ui::components.errors');
-    }
-
-    public function tallStackUiClasses(): array
+    public function personalization(): array
     {
         return Arr::dot([
             'wrapper' => [
@@ -68,5 +56,10 @@ class Errors extends Component implements Customizable
                 'wrapper' => 'mt-2 ml-5 pl-1',
             ],
         ]);
+    }
+
+    public function render(): View
+    {
+        return view('tallstack-ui::components.errors');
     }
 }
