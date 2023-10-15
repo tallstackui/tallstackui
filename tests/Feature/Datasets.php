@@ -6,6 +6,7 @@ use TallStackUi\View\Personalizations\Components\Badge;
 use TallStackUi\View\Personalizations\Components\Button\Button;
 use TallStackUi\View\Personalizations\Components\Button\Circle;
 use TallStackUi\View\Personalizations\Components\Card;
+use TallStackUi\View\Personalizations\Components\Dropdown\Dropdown;
 use TallStackUi\View\Personalizations\Components\Error;
 use TallStackUi\View\Personalizations\Components\Errors;
 use TallStackUi\View\Personalizations\Components\Form\Checkbox;
@@ -37,6 +38,8 @@ dataset('personalizations.keys', [
     'tallstack-ui::personalizations.button.circle',
     'tallstack-ui::personalizations.card',
     'tallstack-ui::personalizations.dialog',
+    'tallstack-ui::personalizations.dropdown',
+    'tallstack-ui::personalizations.dropdown.items',
     'tallstack-ui::personalizations.error',
     'tallstack-ui::personalizations.errors',
     'tallstack-ui::personalizations.form.input',
@@ -51,6 +54,8 @@ dataset('personalizations.keys', [
     'tallstack-ui::personalizations.select',
     'tallstack-ui::personalizations.select.searchable',
     'tallstack-ui::personalizations.select.styled',
+    'tallstack-ui::personalizations.tab',
+    'tallstack-ui::personalizations.tab.items',
     'tallstack-ui::personalizations.toast',
     'tallstack-ui::personalizations.tooltip',
     'tallstack-ui::personalizations.wrapper.input',
@@ -66,6 +71,7 @@ dataset('personalizations.classes', [
     Circle::class,
     Card::class,
     Dialog::class,
+    Dropdown::class,
     Error::class,
     Errors::class,
     Input::class,
@@ -99,14 +105,16 @@ dataset('components', [
     TallStackUi\View\Components\Form\Label::class,
     TallStackUi\View\Components\Alert::class,
     TallStackUi\View\Components\Card::class,
+    TallStackUi\View\Components\Dropdown\Dropdown::class,
+    TallStackUi\View\Components\Dropdown\Items::class,
     TallStackUi\View\Components\Badge::class,
     TallStackUi\View\Components\Avatar\Avatar::class,
     TallStackUi\View\Components\Avatar\Modelable::class,
     TallStackUi\View\Components\Hint::class,
     TallStackUi\View\Components\Error::class,
     TallStackUi\View\Components\Errors::class,
-    TallStackUi\View\Components\Tabs\Tab::class,
-    TallStackUi\View\Components\Tabs\Items::class,
+    TallStackUi\View\Components\Tab\Tab::class,
+    TallStackUi\View\Components\Tab\Items::class,
     TallStackUi\View\Components\Tooltip::class,
     TallStackUi\View\Components\Button\Button::class,
     TallStackUi\View\Components\Button\Circle::class,

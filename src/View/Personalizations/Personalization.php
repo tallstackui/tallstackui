@@ -29,7 +29,7 @@ use TallStackUi\View\Personalizations\Components\Modal;
 use TallStackUi\View\Personalizations\Components\Select\Searchable as SelectSearchable;
 use TallStackUi\View\Personalizations\Components\Select\Select;
 use TallStackUi\View\Personalizations\Components\Select\Styled as SelectStyled;
-use TallStackUi\View\Personalizations\Components\Tabs\Items as TabsItems;
+use TallStackUi\View\Personalizations\Components\Tabs\Items as TabItems;
 use TallStackUi\View\Personalizations\Components\Tabs\Tab;
 use TallStackUi\View\Personalizations\Components\Tooltip;
 use TallStackUi\View\Personalizations\Components\Wrapper\Input as InputWrapper;
@@ -63,8 +63,8 @@ class Personalization
         'tallstack-ui::personalizations.select' => Select::class,
         'tallstack-ui::personalizations.select.searchable' => SelectSearchable::class,
         'tallstack-ui::personalizations.select.styled' => SelectStyled::class,
-        'tallstack-ui::personalizations.tabs' => Tab::class,
-        'tallstack-ui::personalizations.tabs.items' => TabsItems::class,
+        'tallstack-ui::personalizations.tab' => Tab::class,
+        'tallstack-ui::personalizations.tab.items' => TabItems::class,
         'tallstack-ui::personalizations.toast' => Toast::class,
         'tallstack-ui::personalizations.tooltip' => Tooltip::class,
         'tallstack-ui::personalizations.wrapper.input' => InputWrapper::class,
@@ -201,13 +201,13 @@ class Personalization
         return app($this->component($class));
     }
 
-    public function tabs(string $component = null): Tab|TabsItems
+    public function tab(string $component = null): Tab|TabItems
     {
         $component ??= 'tabs';
 
         $class = match ($component) {
             'tabs' => Tab::class,
-            'items' => TabsItems::class,
+            'items' => TabItems::class,
             default => $component,
         };
 

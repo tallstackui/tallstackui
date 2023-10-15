@@ -43,6 +43,6 @@ class Dropdown extends Component implements Personalize
 
     public function render(): View
     {
-        return view('tallstack-ui::components.dropdown.index');
+        return view('tallstack-ui::components.dropdown.dropdown');
     }
 }

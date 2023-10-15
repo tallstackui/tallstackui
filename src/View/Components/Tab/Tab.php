@@ -1,6 +1,6 @@
 <?php
 
-namespace TallStackUi\View\Components\Tabs;
+namespace TallStackUi\View\Components\Tab;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
@@ -30,6 +30,6 @@ class Tab extends Component implements Personalize
 
     public function render(): View
     {
-        return view('tallstack-ui::components.tabs.index');
+        return view('tallstack-ui::components.tab.tab');
     }
 }

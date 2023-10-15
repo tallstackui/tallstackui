@@ -2,7 +2,7 @@
     $computed = $attributes->whereStartsWith('wire:model');
     $directive = array_key_first($computed->getAttributes());
     $property = $computed[$directive];
-    $customize = tallstackui_personalization('tabs', $personalization());
+    $customize = tallstackui_personalization('tab', $personalization());
 @endphp
 
 <div @if ($property)

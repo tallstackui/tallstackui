@@ -60,6 +60,6 @@ class Toast extends Component implements Personalize
 
     public function render(): View
     {
-        return view('tallstack-ui::components.interactions.toast');
+        return view('tallstack-ui::components.interaction.toast');
     }
 }

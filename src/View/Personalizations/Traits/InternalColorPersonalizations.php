@@ -45,6 +45,8 @@ trait InternalColorPersonalizations
             default => throw new Exception('Unexpected match value'),
         })();
 
+        //ViewColorProvider::from($this);
+
         return [...$internal];
     }
 

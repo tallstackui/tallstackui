@@ -61,6 +61,6 @@ class Dialog extends Component implements Personalize
 
     public function render(): View
     {
-        return view('tallstack-ui::components.interactions.dialog');
+        return view('tallstack-ui::components.interaction.dialog');
     }
 }

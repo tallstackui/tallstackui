@@ -44,6 +44,6 @@ class Circle extends Component implements Personalize
 
     public function render(): View
     {
-        return view('tallstack-ui::components.buttons.circle');
+        return view('tallstack-ui::components.button.circle');
     }
 }
