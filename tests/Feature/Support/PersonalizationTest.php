@@ -93,7 +93,7 @@ it('can personalize in sequenece', function () {
         ->block('wrapper', 'p-4')
         ->and()
         ->avatar()
-        ->block('wrapper', 'inline-flex shrink-0 items-center justify-center overflow-hidden text-xl w-20 h-20');
+        ->block('wrapper.class', 'inline-flex shrink-0 items-center justify-center text-xl');
 
     $this->blade('<x-alert title="Foo bar" />')
         ->assertSee('Foo bar')
@@ -101,7 +101,7 @@ it('can personalize in sequenece', function () {
 
     $this->blade('<x-avatar label="Lorem" md />')
         ->assertSee('Lorem')
-        ->assertDontSee('w-12 h-12');
+        ->assertDontSee('overflow-hidden');
 });
 
 it('cannot personalize wrong component', function () {

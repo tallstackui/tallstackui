@@ -30,28 +30,30 @@ class Avatar extends Component implements Personalize
     public function personalization(): array
     {
         return Arr::dot([
-            'wrapper' => Arr::toCssClasses([
-                'inline-flex shrink-0 items-center justify-center overflow-hidden text-xl',
-                'w-8 h-8 text-xs' => $this->size === 'sm',
-                'w-12 h-12 text-xl' => $this->size === 'md',
-                'w-14 h-14 text-2xl' => $this->size === 'lg',
-                // TODO: internal
-                'rounded-full' => ! $this->square,
-                'border-2' => ! $this->modelable,
-            ]),
+            'wrapper' => [
+                'class' => 'inline-flex shrink-0 items-center justify-center overflow-hidden text-xl',
+                'sizes' => [
+                    'sm' => 'w-8 h-8 text-xs',
+                    'md' => 'w-12 h-12 text-xl',
+                    'lg' => 'w-14 h-14 text-2xl',
+                ],
+            ],
             'content' => [
-                'image' => Arr::toCssClasses([
-                    'shrink-0 object-cover object-center text-xl',
-                    'w-8 h-8 text-sm' => $this->size === 'sm',
-                    'w-12 h-12 text-xl' => $this->size === 'md',
-                    'w-14 h-14 text-2xl' => $this->size === 'lg',
-                    'rounded-full' => ! $this->square,
-                ]),
-                'text' => Arr::toCssClasses([
-                    'font-semibold',
-                    'text-white' => $this->color !== 'white',
-                    'text-neutral' => $this->color === 'white' || $this->color === 'black',
-                ]),
+                'image' => [
+                    'class' => 'shrink-0 object-cover object-center text-xl',
+                    'sizes' => [
+                        'sm' => 'w-8 h-8 text-sm',
+                        'md' => 'w-12 h-12 text-xl',
+                        'lg' => 'w-14 h-14 text-2xl',
+                    ],
+                ],
+                'text' => [
+                    'class' => 'font-semibold',
+                    'colors' => [
+                        'colorful' => 'text-white',
+                        'white-black' => 'text-neutral',
+                    ],
+                ],
             ],
         ]);
     }
