@@ -8,7 +8,7 @@ namespace TallStackUi\Support;
  *
  * @deprecated This class can not be used.
  */
-abstract class TailwindSafelistClasses
+final class TailwindSafelistClasses
 {
     public const BG = [
         'primary' => 'bg-primary-50 bg-primary-100 bg-primary-200 bg-primary-300 bg-primary-400 bg-primary-500 bg-primary-600 bg-primary-700 bg-primary-800 bg-primary-900 bg-primary-950',

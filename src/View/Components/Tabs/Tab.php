@@ -5,7 +5,7 @@ namespace TallStackUi\View\Components\Tabs;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
-use TallStackUi\Support\Personalizations\Contracts\Personalize;
+use TallStackUi\View\Personalizations\Contracts\Personalize;
 
 class Tab extends Component implements Personalize
 {

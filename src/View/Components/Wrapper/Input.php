@@ -4,7 +4,7 @@ namespace TallStackUi\View\Components\Wrapper;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
-use TallStackUi\Support\Personalizations\Contracts\Personalize;
+use TallStackUi\View\Personalizations\Contracts\Personalize;
 
 class Input extends Component implements Personalize
 {

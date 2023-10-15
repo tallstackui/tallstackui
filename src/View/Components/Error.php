@@ -4,7 +4,7 @@ namespace TallStackUi\View\Components;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
-use TallStackUi\Support\Personalizations\Contracts\Personalize;
+use TallStackUi\View\Personalizations\Contracts\Personalize;
 
 class Error extends Component implements Personalize
 {

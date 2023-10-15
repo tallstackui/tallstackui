@@ -3,9 +3,9 @@
 namespace TallStackUi\Facades;
 
 use Illuminate\Support\Facades\Facade;
-use TallStackUi\Support\Elements\Color;
-use TallStackUi\Support\Personalization;
+use TallStackUi\Support\Color;
 use TallStackUi\TallStackUiDirectives;
+use TallStackUi\View\Personalizations\Personalization;
 
 /**
  * @method static Personalization personalize(?string $component = null)

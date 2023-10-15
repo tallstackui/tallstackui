@@ -1,9 +1,9 @@
 <?php
 
 use TallStackUi\Facades\TallStackUi;
-use TallStackUi\Support\Personalization;
-use TallStackUi\Support\Personalizations\Contracts\Personalizable;
-use TallStackUi\Support\Personalizations\PersonalizationResource;
+use TallStackUi\View\Personalizations\Contracts\Personalizable;
+use TallStackUi\View\Personalizations\Personalization;
+use TallStackUi\View\Personalizations\PersonalizationResource;
 
 it('can be instantiated', function () {
     expect(TallStackUi::personalize())->toBeInstanceOf(Personalization::class);

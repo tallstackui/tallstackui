@@ -5,7 +5,7 @@ namespace TallStackUi\View\Components\Button\Traits;
 use Illuminate\Support\Arr;
 use InvalidArgumentException;
 use TallStackUi\Facades\TallStackUi;
-use TallStackUi\Support\Elements\Color;
+use TallStackUi\Support\Color;
 
 trait DefaultButtonColorClasses
 {

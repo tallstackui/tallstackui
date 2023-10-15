@@ -1,33 +1,33 @@
 <?php
 
-use TallStackUi\Support\Personalizations\Components\Alert;
-use TallStackUi\Support\Personalizations\Components\Avatar;
-use TallStackUi\Support\Personalizations\Components\Badge;
-use TallStackUi\Support\Personalizations\Components\Button\Button;
-use TallStackUi\Support\Personalizations\Components\Button\Circle;
-use TallStackUi\Support\Personalizations\Components\Card;
-use TallStackUi\Support\Personalizations\Components\Error;
-use TallStackUi\Support\Personalizations\Components\Errors;
-use TallStackUi\Support\Personalizations\Components\Form\Checkbox;
-use TallStackUi\Support\Personalizations\Components\Form\Input;
-use TallStackUi\Support\Personalizations\Components\Form\Label;
-use TallStackUi\Support\Personalizations\Components\Form\Password;
-use TallStackUi\Support\Personalizations\Components\Form\Radio;
-use TallStackUi\Support\Personalizations\Components\Form\Textarea;
-use TallStackUi\Support\Personalizations\Components\Form\Toggle;
-use TallStackUi\Support\Personalizations\Components\Hint;
-use TallStackUi\Support\Personalizations\Components\Interactions\Dialog;
-use TallStackUi\Support\Personalizations\Components\Interactions\Toast;
-use TallStackUi\Support\Personalizations\Components\Modal;
-use TallStackUi\Support\Personalizations\Components\Select\Searchable;
-use TallStackUi\Support\Personalizations\Components\Select\Select;
-use TallStackUi\Support\Personalizations\Components\Select\Styled;
-use TallStackUi\Support\Personalizations\Components\Tabs\Items as TabItem;
-use TallStackUi\Support\Personalizations\Components\Tabs\Tab as TabWrapper;
-use TallStackUi\Support\Personalizations\Components\Tooltip;
-use TallStackUi\Support\Personalizations\Components\Wrapper\Input as InputWrapper;
-use TallStackUi\Support\Personalizations\Components\Wrapper\Radio as RadioWrapper;
-use TallStackUi\Support\Personalizations\Components\Wrapper\Select as SelectWrapper;
+use TallStackUi\View\Personalizations\Components\Alert;
+use TallStackUi\View\Personalizations\Components\Avatar;
+use TallStackUi\View\Personalizations\Components\Badge;
+use TallStackUi\View\Personalizations\Components\Button\Button;
+use TallStackUi\View\Personalizations\Components\Button\Circle;
+use TallStackUi\View\Personalizations\Components\Card;
+use TallStackUi\View\Personalizations\Components\Error;
+use TallStackUi\View\Personalizations\Components\Errors;
+use TallStackUi\View\Personalizations\Components\Form\Checkbox;
+use TallStackUi\View\Personalizations\Components\Form\Input;
+use TallStackUi\View\Personalizations\Components\Form\Label;
+use TallStackUi\View\Personalizations\Components\Form\Password;
+use TallStackUi\View\Personalizations\Components\Form\Radio;
+use TallStackUi\View\Personalizations\Components\Form\Textarea;
+use TallStackUi\View\Personalizations\Components\Form\Toggle;
+use TallStackUi\View\Personalizations\Components\Hint;
+use TallStackUi\View\Personalizations\Components\Interactions\Dialog;
+use TallStackUi\View\Personalizations\Components\Interactions\Toast;
+use TallStackUi\View\Personalizations\Components\Modal;
+use TallStackUi\View\Personalizations\Components\Select\Searchable;
+use TallStackUi\View\Personalizations\Components\Select\Select;
+use TallStackUi\View\Personalizations\Components\Select\Styled;
+use TallStackUi\View\Personalizations\Components\Tabs\Items as TabItem;
+use TallStackUi\View\Personalizations\Components\Tabs\Tab as TabWrapper;
+use TallStackUi\View\Personalizations\Components\Tooltip;
+use TallStackUi\View\Personalizations\Components\Wrapper\Input as InputWrapper;
+use TallStackUi\View\Personalizations\Components\Wrapper\Radio as RadioWrapper;
+use TallStackUi\View\Personalizations\Components\Wrapper\Select as SelectWrapper;
 
 dataset('personalizations.keys', [
     'tallstack-ui::personalizations.alert',

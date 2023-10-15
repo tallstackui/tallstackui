@@ -6,7 +6,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
 use InvalidArgumentException;
-use TallStackUi\Support\Personalizations\Contracts\Personalize;
+use TallStackUi\View\Personalizations\Contracts\Personalize;
 
 class Modal extends Component implements Personalize
 {

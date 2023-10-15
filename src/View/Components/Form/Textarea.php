@@ -4,8 +4,8 @@ namespace TallStackUi\View\Components\Form;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
-use TallStackUi\Support\Personalizations\Contracts\Personalize;
 use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
+use TallStackUi\View\Personalizations\Contracts\Personalize;
 
 class Textarea extends Component implements Personalize
 {

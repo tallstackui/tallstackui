@@ -6,8 +6,8 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\Support\ViewErrorBag;
 use Illuminate\View\Component;
-use TallStackUi\Support\Personalizations\Contracts\Personalize;
-use TallStackUi\Support\Personalizations\Traits\InternalColorPersonalizations;
+use TallStackUi\View\Personalizations\Contracts\Personalize;
+use TallStackUi\View\Personalizations\Traits\InternalColorPersonalizations;
 
 class Errors extends Component implements Personalize
 {

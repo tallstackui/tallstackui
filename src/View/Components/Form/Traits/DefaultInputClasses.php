@@ -4,7 +4,7 @@ namespace TallStackUi\View\Components\Form\Traits;
 
 use Illuminate\Support\Arr;
 use TallStackUi\Facades\TallStackUi;
-use TallStackUi\Support\Elements\Color;
+use TallStackUi\Support\Color;
 
 trait DefaultInputClasses
 {

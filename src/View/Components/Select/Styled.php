@@ -6,8 +6,8 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Collection;
 use Illuminate\View\Component;
 use InvalidArgumentException;
-use TallStackUi\Support\Personalizations\Contracts\Personalize;
 use TallStackUi\View\Components\Select\Traits\InteractsWithSelectOptions;
+use TallStackUi\View\Personalizations\Contracts\Personalize;
 
 class Styled extends Component implements Personalize
 {
