@@ -6,6 +6,7 @@ use Laravel\Dusk\Browser;
 use Tests\Browser\BrowserTestCase;
 use Tests\Browser\Tab\Components\TabComponent;
 use Tests\Browser\Tab\Components\TabEntangleComponent;
+use Tests\Browser\Tab\Components\TabEntangleLiveComponent;
 
 class IndexTest extends BrowserTestCase
 {
@@ -53,6 +54,22 @@ class IndexTest extends BrowserTestCase
                 ->assertDontSee('Foo bar baz')
                 ->click('#change')
                 ->waitForText('Foo bar baz')
+                ->assertDontSee('Baz bar foo');
+        });
+    }
+
+    /** @test */
+    public function can_select_with_entangle_live(): void
+    {
+        $this->browse(function (Browser $browser) {
+            $this->visit($browser, TabEntangleLiveComponent::class)
+                ->assertSee('Foo')
+                ->assertSee('Bar')
+                ->assertSee('Baz bar foo')
+                ->assertDontSee('Foo bar baz')
+                ->clickAtXPath('/html/body/div[3]/div/ul/li[1]')
+                ->waitForText('Foo bar baz')
+                ->assertSee('Bar')
                 ->assertDontSee('Baz bar foo');
         });
     }
