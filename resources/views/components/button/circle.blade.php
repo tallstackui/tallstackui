@@ -32,7 +32,11 @@
 @if ($loading)
     <svg @if ($loading !== "1") wire:target="{{ $loading }}" @endif
     wire:loading.delay{{ $delay ? ".{$delay}" : "" }}
-    @class([$customize['icon.loading'], $colors['icon.loading.color']])
+    @class([
+        'animate-spin',
+        $customize['icon.size'],
+        $colors['icon.loading.color']
+    ])
     dusk="button-loading-spinner"
     xmlns="http://www.w3.org/2000/svg"
          fill="none"
