@@ -1,6 +1,6 @@
 <?php
 
-namespace TallStackUi\Support;
+namespace TallStackUi\View\Personalizations\Support;
 
 /**
  * This is an unused class that aims to save all commonly used

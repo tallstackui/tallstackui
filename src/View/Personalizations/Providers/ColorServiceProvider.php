@@ -36,8 +36,6 @@ class ColorServiceProvider
     /** @throws Exception */
     public static function from(object $component): void
     {
-        $class = new static($component);
-
         $method = match (get_class($component) ?? null) {
             Alert::class => 'alert',
             Avatar::class, Modelable::class => 'avatar',
@@ -47,8 +45,14 @@ class ColorServiceProvider
             Radio::class, Checkbox::class => 'radio',
             Toggle::class => 'toggle',
             Tooltip::class => 'tooltip',
-            default => throw new Exception('Unexpected match value'),
+            default => null,
         };
+
+        if (! $method) {
+            return;
+        }
+
+        $class = new static($component);
 
         FacadeView::composer($component->render()->name(), fn (View $view) => $view->with('colors', [...$class->$method($component)])); // @phpstan-ignore-line
     }
@@ -79,7 +83,10 @@ class ColorServiceProvider
 
     private function button(): array
     {
-        return (new ButtonColors())();
+        /** @var Button|Circle $component */
+        $component = $this->component;
+
+        return (new ButtonColors())($component);
     }
 
     private function errors(): array

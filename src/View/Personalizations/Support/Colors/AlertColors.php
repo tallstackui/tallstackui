@@ -4,8 +4,8 @@ namespace TallStackUi\View\Personalizations\Support\Colors;
 
 use Illuminate\Support\Arr;
 use TallStackUi\Facades\TallStackUi;
-use TallStackUi\Support\Color;
 use TallStackUi\View\Components\Alert;
+use TallStackUi\View\Personalizations\Support\Color;
 
 class AlertColors
 {

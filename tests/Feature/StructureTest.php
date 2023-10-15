@@ -5,11 +5,11 @@ use TallStackUi\Actions\Dialog;
 use TallStackUi\Actions\Toast;
 use TallStackUi\Facades\TallStackUi as Facade;
 use TallStackUi\Http\Controllers\TallStackUiAssetsController;
-use TallStackUi\Support\Color;
 use TallStackUi\Traits\Interactions;
 use TallStackUi\View\Personalizations\Contracts\Personalizable;
 use TallStackUi\View\Personalizations\Contracts\Personalize;
 use TallStackUi\View\Personalizations\Personalization;
+use TallStackUi\View\Personalizations\Support\Color;
 
 test('should not use dangerous functions')
     ->expect(['dd', 'dump', 'exit', 'var_dump'])

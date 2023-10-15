@@ -1,6 +1,6 @@
 <?php
 
-namespace TallStackUi\Support;
+namespace TallStackUi\View\Personalizations\Support;
 
 use Illuminate\Support\Traits\Conditionable;
 use Stringable;
