@@ -1,16 +1,19 @@
 <?php
 
-namespace TallStackUi\View\Personalizations\Providers;
+namespace TallStackUi\View\Personalizations\Support;
 
 use Exception;
 use InvalidArgumentException;
 use TallStackUi\View\Components\Interaction\Dialog;
 use TallStackUi\View\Components\Interaction\Toast;
 
-class ValidationProvider
+/**
+ * @internal This class is not meant to be used directly.
+ */
+class Validation
 {
     /** @throws Exception */
-    public static function resolve(object $component): void
+    public static function from(object $component): void
     {
         $class = new self();
 
@@ -23,7 +26,7 @@ class ValidationProvider
 
     private function dialog(): void
     {
-        $configuration = config('tallstackui.personalizations.toast');
+        $configuration = config('tallstackui.personalizations.dialog');
 
         if (! str_starts_with($configuration['z-index'], 'z-')) {
             throw new InvalidArgumentException('The dialog z-index must start with z- prefix.');

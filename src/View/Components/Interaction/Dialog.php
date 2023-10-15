@@ -7,15 +7,17 @@ use Illuminate\Support\Arr;
 use Illuminate\View\Component;
 use TallStackUi\View\Personalizations\Contracts\Personalize;
 use TallStackUi\View\Personalizations\Traits\InteractWithProviders;
+use TallStackUi\View\Personalizations\Traits\InteractWithValidations;
 
 class Dialog extends Component implements Personalize
 {
     use InteractWithProviders;
+    use InteractWithValidations;
 
     public function __construct()
     {
         $this->configurations();
-        $this->validations();
+        $this->validate();
     }
 
     public function personalization(): array

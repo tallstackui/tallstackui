@@ -10,7 +10,11 @@ use InvalidArgumentException;
 use RuntimeException;
 use TallStackUi\Contracts\Personalizable as PersonalizableClass;
 
-/** @property-read Personalization $and */
+/**
+ * @internal This class is not meant to be used directly.
+ *
+ * @property-read Personalization $and
+ */
 abstract class PersonalizationResource
 {
     public function __construct(

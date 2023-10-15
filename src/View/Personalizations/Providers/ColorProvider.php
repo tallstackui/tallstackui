@@ -25,7 +25,9 @@ use TallStackUi\View\Personalizations\Support\Colors\RadioColors;
 use TallStackUi\View\Personalizations\Support\Colors\ToggleColors;
 use TallStackUi\View\Personalizations\Support\Colors\TooltipColors;
 
-// TODO: test this class
+/**
+ * @internal This class is not meant to be used directly.
+ */
 class ColorProvider
 {
     public function __construct(

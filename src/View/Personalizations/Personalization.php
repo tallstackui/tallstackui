@@ -37,6 +37,9 @@ use TallStackUi\View\Personalizations\Components\Wrapper\Radio as RadioWrapper;
 use TallStackUi\View\Personalizations\Components\Wrapper\Select as SelectWrapper;
 use TallStackUi\View\Personalizations\Contracts\Personalizable as PersonalizableContract;
 
+/**
+ * @internal This class is not meant to be used directly.
+ */
 class Personalization
 {
     public const PERSONALIZABLES = [

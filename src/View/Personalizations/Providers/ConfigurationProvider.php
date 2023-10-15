@@ -13,6 +13,9 @@ use TallStackUi\View\Components\Interaction\Toast;
 use TallStackUi\View\Components\Tab\Items;
 use TallStackUi\View\Components\Tab\Tab;
 
+/**
+ * @internal This class is not meant to be used directly.
+ */
 class ConfigurationProvider
 {
     /** @throws Exception */
