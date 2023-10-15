@@ -14,8 +14,8 @@
     <input @if ($id) id="{{ $id }}" @endif {{ $attributes->class([
             'pr-10',
             $customize['input'],
-            'rounded-md' => !$square && !$round,
-            'rounded-full' => $round,
+            'rounded-md' => !$configurations['square'] && !$configurations['round'],
+            'rounded-full' => $configurations['round'],
             $customize['error'] => $error
     ]) }} :type="!show ? 'password' : 'text'">
 </x-wrapper.input>

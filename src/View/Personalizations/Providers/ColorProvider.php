@@ -26,7 +26,7 @@ use TallStackUi\View\Personalizations\Support\Colors\ToggleColors;
 use TallStackUi\View\Personalizations\Support\Colors\TooltipColors;
 
 // TODO: test this class
-class ColorServiceProvider
+class ColorProvider
 {
     public function __construct(
         private readonly object $component
@@ -48,10 +48,6 @@ class ColorServiceProvider
             Tooltip::class => 'tooltip',
             default => throw new Exception('No colors available for this component'),
         };
-
-        if (! $method) {
-            return;
-        }
 
         $class = new static($component);
 

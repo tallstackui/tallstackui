@@ -13,7 +13,7 @@
     <textarea @if ($id) id="{{ $id }}" @endif {{ $attributes->class([
             $customize['input'],
             $customize['error'] => $error,
-            'rounded-md' => !$square,
+            'rounded-md' => !$configurations['square'],
             'resize-none' => !$resize && !$autoResize,
         ]) }}
         rows="{{ $rows }}" @if ($autoResize) x-on:input="resize()" @endif>{{ $slot }}</textarea>
