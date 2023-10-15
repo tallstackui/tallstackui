@@ -26,17 +26,15 @@ class ConfigurationProvider
             default => throw new Exception('No configuration available for this component'),
         };
 
-        FacadeView::composer($component->render()->name(), fn (View $view) => $view->with('configurations', [...(new self())->$method($component)]));
+        FacadeView::composer($component->render()->name(), fn (View $view) => $view->with('configurations', [...(new self())->$method()]));
     }
 
-    private function dialog(Dialog $dialog): array
+    private function dialog(): array
     {
         $configuration = config('tallstackui.personalizations.dialog');
 
-        ValidationProvider::resolve($dialog, ...$configuration);
-
         return collect($configuration)
-            ->mapWithKeys(fn (mixed $value, string $key) => [$key => $value])->toArray();
+            ->mapWithKeys(fn (string|bool|array $value, string $key) => [$key => $value])->toArray();
     }
 
     private function input(): array
@@ -44,7 +42,7 @@ class ConfigurationProvider
         $configuration = config('tallstackui.personalizations.input');
 
         return collect($configuration)
-            ->mapWithKeys(fn (mixed $value, string $key) => [$key => $value])->toArray();
+            ->mapWithKeys(fn (string|bool|array $value, string $key) => [$key => $value])->toArray();
     }
 
     private function tab(): array
@@ -52,16 +50,14 @@ class ConfigurationProvider
         $configuration = config('tallstackui.personalizations.tab');
 
         return collect($configuration)
-            ->mapWithKeys(fn (mixed $value, string $key) => [$key => $value])->toArray();
+            ->mapWithKeys(fn (string|bool|array $value, string $key) => [$key => $value])->toArray();
     }
 
-    private function toast(Toast $toast): array
+    private function toast(): array
     {
         $configuration = config('tallstackui.personalizations.toast');
 
-        ValidationProvider::resolve($toast, ...$configuration);
-
         return collect($configuration)
-            ->mapWithKeys(fn (mixed $value, string $key) => [$key => $value])->toArray();
+            ->mapWithKeys(fn (string|bool|array $value, string $key) => [$key => $value])->toArray();
     }
 }

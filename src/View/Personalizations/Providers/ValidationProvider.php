@@ -10,31 +10,35 @@ use TallStackUi\View\Components\Interaction\Toast;
 class ValidationProvider
 {
     /** @throws Exception */
-    public static function resolve(object $component, ...$parameters): void
+    public static function resolve(object $component): void
     {
         $class = new self();
 
         (match (get_class($component)) {
-            Dialog::class => fn () => $class->dialog($parameters),
-            Toast::class => fn () => $class->toast($parameters),
+            Dialog::class => fn () => $class->dialog(),
+            Toast::class => fn () => $class->toast(),
             default => throw new Exception('No validation available for this component'),
         })();
     }
 
-    private function dialog(array $parameters): void
+    private function dialog(): void
     {
-        if (! str_starts_with($parameters['z-index'], 'z-')) {
+        $configuration = config('tallstackui.personalizations.toast');
+
+        if (! str_starts_with($configuration['z-index'], 'z-')) {
             throw new InvalidArgumentException('The dialog z-index must start with z- prefix.');
         }
     }
 
-    private function toast(array $parameters): void
+    private function toast(): void
     {
-        if (! in_array($parameters['position'], ['top-right', 'top-left', 'bottom-right', 'bottom-left'])) {
+        $configuration = config('tallstackui.personalizations.toast');
+
+        if (! in_array($configuration['position'], ['top-right', 'top-left', 'bottom-right', 'bottom-left'])) {
             throw new InvalidArgumentException("The toast position must be one of the following: ['top-right', 'top-left', 'bottom-right', 'bottom-left']");
         }
 
-        if (! str_starts_with($parameters['z-index'], 'z-')) {
+        if (! str_starts_with($configuration['z-index'], 'z-')) {
             throw new InvalidArgumentException('The toast z-index must start with z- prefix.');
         }
     }

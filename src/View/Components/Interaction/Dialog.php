@@ -15,6 +15,7 @@ class Dialog extends Component implements Personalize
     public function __construct()
     {
         $this->configurations();
+        $this->validations();
     }
 
     public function personalization(): array
