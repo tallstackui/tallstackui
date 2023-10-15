@@ -17,7 +17,7 @@ class Items extends Component implements Personalize
 
     public function personalization(): array
     {
-        return ['item' => 'bg-white dark:bg-gray-600 p-6'];
+        return ['item' => 'bg-white p-6'];
     }
 
     public function render(): View

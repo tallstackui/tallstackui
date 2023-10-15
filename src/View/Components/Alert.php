@@ -41,17 +41,9 @@ class Alert extends Component implements Personalize
             ],
             'text' => [
                 'wrapper' => 'flex items-center justify-between',
-                'title' => [
-                    'wrapper' => Arr::toCssClasses([
-                        'text-sm',
-                        // TODO: internal
-                        'inline-flex' => $this->title === null && $this->icon !== null,
-                        'mt-2' => $this->title !== null,
-                    ]),
-                    'icon' => [
-                        'wrapper' => 'flex items-center',
-                        'size' => 'w-5 h-5',
-                    ],
+                'icon' => [
+                    'wrapper' => 'flex items-center',
+                    'size' => 'w-5 h-5',
                 ],
             ],
             'icon' => [

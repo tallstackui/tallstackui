@@ -27,7 +27,6 @@ class Modal extends Component implements Personalize
 
         $this->entangle = is_string($this->wire) ? $this->wire : (! is_bool($this->wire) ? $this->entangle : 'modal');
 
-        // TODO: internal
         $this->size = match ($this->size) {
             'sm' => 'sm:max-w-sm',
             'md' => 'sm:max-w-md',
@@ -57,7 +56,7 @@ class Modal extends Component implements Personalize
                 'text' => 'whitespace-normal font-medium text-md text-secondary-600',
                 'close' => 'h-5 w-5 text-secondary-300 cursor-pointer',
             ],
-            'body' => 'px-2 py-5 md:px-4 text-gray-700 rounded-b-xl grow dark:text-secondary-400',
+            'body' => 'px-2 py-5 md:px-4 text-gray-700 rounded-b-xl grow',
             'footer' => 'flex justify-end gap-2 rounded-b-xl border-t border-t-gray-100 text-gray-700 bg-gray-50 p-4',
         ]);
     }

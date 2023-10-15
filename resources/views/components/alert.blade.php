@@ -16,7 +16,12 @@
         </div>
     @endif
     <div @class($customize['text.wrapper'])>
-        <div @class([$customize['text.title.wrapper'], $colors['text.title.wrapper.color']])>
+        <div @class([
+                'text-sm',
+                'inline-flex' => !$title && $icon,
+                'mt-2' => $title,
+                $colors['text.title.wrapper.color'],
+            ])>
             @if (!$title && $icon)
                 <div @class($customize['icon.wrapper'])>
                     <x-icon :$icon @class([$customize['icon.size'], $colors['icon.color']]) />
@@ -25,9 +30,9 @@
             <p>{{ $text ?? $slot }}</p>
         </div>
         @if (!$title && $closeable)
-            <div @class($customize['text.title.icon.wrapper'])>
+            <div @class($customize['text.icon.wrapper'])>
                 <button id="close" x-on:click="show = false">
-                    <x-icon icon="x-mark" @class([$customize['text.title.icon.size'], $colors['text.title.icon.color']]) />
+                    <x-icon icon="x-mark" @class([$customize['text.icon.size'], $colors['text.icon.color']]) />
                 </button>
             </div>
         @endif
