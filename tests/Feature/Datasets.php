@@ -1,33 +1,34 @@
 <?php
 
-use TallStackUi\Support\Personalizations\Components\Alert;
-use TallStackUi\Support\Personalizations\Components\Avatar;
-use TallStackUi\Support\Personalizations\Components\Badge;
-use TallStackUi\Support\Personalizations\Components\Button\Circle;
-use TallStackUi\Support\Personalizations\Components\Button\Index;
-use TallStackUi\Support\Personalizations\Components\Card;
-use TallStackUi\Support\Personalizations\Components\Error;
-use TallStackUi\Support\Personalizations\Components\Errors;
-use TallStackUi\Support\Personalizations\Components\Form\Checkbox;
-use TallStackUi\Support\Personalizations\Components\Form\Input;
-use TallStackUi\Support\Personalizations\Components\Form\Label;
-use TallStackUi\Support\Personalizations\Components\Form\Password;
-use TallStackUi\Support\Personalizations\Components\Form\Radio;
-use TallStackUi\Support\Personalizations\Components\Form\Textarea;
-use TallStackUi\Support\Personalizations\Components\Form\Toggle;
-use TallStackUi\Support\Personalizations\Components\Hint;
-use TallStackUi\Support\Personalizations\Components\Interactions\Dialog;
-use TallStackUi\Support\Personalizations\Components\Interactions\Toast;
-use TallStackUi\Support\Personalizations\Components\Modal;
-use TallStackUi\Support\Personalizations\Components\Select\Searchable;
-use TallStackUi\Support\Personalizations\Components\Select\Select;
-use TallStackUi\Support\Personalizations\Components\Select\Styled;
-use TallStackUi\Support\Personalizations\Components\Tabs\Index as TabWrapper;
-use TallStackUi\Support\Personalizations\Components\Tabs\Items as TabItem;
-use TallStackUi\Support\Personalizations\Components\Tooltip;
-use TallStackUi\Support\Personalizations\Components\Wrapper\Input as InputWrapper;
-use TallStackUi\Support\Personalizations\Components\Wrapper\Radio as RadioWrapper;
-use TallStackUi\Support\Personalizations\Components\Wrapper\Select as SelectWrapper;
+use TallStackUi\View\Personalizations\Components\Alert;
+use TallStackUi\View\Personalizations\Components\Avatar;
+use TallStackUi\View\Personalizations\Components\Badge;
+use TallStackUi\View\Personalizations\Components\Button\Button;
+use TallStackUi\View\Personalizations\Components\Button\Circle;
+use TallStackUi\View\Personalizations\Components\Card;
+use TallStackUi\View\Personalizations\Components\Dropdown\Dropdown;
+use TallStackUi\View\Personalizations\Components\Error;
+use TallStackUi\View\Personalizations\Components\Errors;
+use TallStackUi\View\Personalizations\Components\Form\Checkbox;
+use TallStackUi\View\Personalizations\Components\Form\Input;
+use TallStackUi\View\Personalizations\Components\Form\Label;
+use TallStackUi\View\Personalizations\Components\Form\Password;
+use TallStackUi\View\Personalizations\Components\Form\Radio;
+use TallStackUi\View\Personalizations\Components\Form\Textarea;
+use TallStackUi\View\Personalizations\Components\Form\Toggle;
+use TallStackUi\View\Personalizations\Components\Hint;
+use TallStackUi\View\Personalizations\Components\Interactions\Dialog;
+use TallStackUi\View\Personalizations\Components\Interactions\Toast;
+use TallStackUi\View\Personalizations\Components\Modal;
+use TallStackUi\View\Personalizations\Components\Select\Searchable;
+use TallStackUi\View\Personalizations\Components\Select\Select;
+use TallStackUi\View\Personalizations\Components\Select\Styled;
+use TallStackUi\View\Personalizations\Components\Tabs\Items as TabItem;
+use TallStackUi\View\Personalizations\Components\Tabs\Tab as TabWrapper;
+use TallStackUi\View\Personalizations\Components\Tooltip;
+use TallStackUi\View\Personalizations\Components\Wrapper\Input as InputWrapper;
+use TallStackUi\View\Personalizations\Components\Wrapper\Radio as RadioWrapper;
+use TallStackUi\View\Personalizations\Components\Wrapper\Select as SelectWrapper;
 
 dataset('personalizations.keys', [
     'tallstack-ui::personalizations.alert',
@@ -37,6 +38,8 @@ dataset('personalizations.keys', [
     'tallstack-ui::personalizations.button.circle',
     'tallstack-ui::personalizations.card',
     'tallstack-ui::personalizations.dialog',
+    'tallstack-ui::personalizations.dropdown',
+    'tallstack-ui::personalizations.dropdown.items',
     'tallstack-ui::personalizations.error',
     'tallstack-ui::personalizations.errors',
     'tallstack-ui::personalizations.form.input',
@@ -51,6 +54,8 @@ dataset('personalizations.keys', [
     'tallstack-ui::personalizations.select',
     'tallstack-ui::personalizations.select.searchable',
     'tallstack-ui::personalizations.select.styled',
+    'tallstack-ui::personalizations.tab',
+    'tallstack-ui::personalizations.tab.items',
     'tallstack-ui::personalizations.toast',
     'tallstack-ui::personalizations.tooltip',
     'tallstack-ui::personalizations.wrapper.input',
@@ -62,10 +67,11 @@ dataset('personalizations.classes', [
     Alert::class,
     Avatar::class,
     Badge::class,
-    Index::class,
+    Button::class,
     Circle::class,
     Card::class,
     Dialog::class,
+    Dropdown::class,
     Error::class,
     Errors::class,
     Input::class,
@@ -99,16 +105,18 @@ dataset('components', [
     TallStackUi\View\Components\Form\Label::class,
     TallStackUi\View\Components\Alert::class,
     TallStackUi\View\Components\Card::class,
+    TallStackUi\View\Components\Dropdown\Dropdown::class,
+    TallStackUi\View\Components\Dropdown\Items::class,
     TallStackUi\View\Components\Badge::class,
-    TallStackUi\View\Components\Avatar\Index::class,
+    TallStackUi\View\Components\Avatar\Avatar::class,
     TallStackUi\View\Components\Avatar\Modelable::class,
     TallStackUi\View\Components\Hint::class,
     TallStackUi\View\Components\Error::class,
     TallStackUi\View\Components\Errors::class,
-    TallStackUi\View\Components\Tabs\Index::class,
-    TallStackUi\View\Components\Tabs\Items::class,
+    TallStackUi\View\Components\Tab\Tab::class,
+    TallStackUi\View\Components\Tab\Items::class,
     TallStackUi\View\Components\Tooltip::class,
-    TallStackUi\View\Components\Button\Index::class,
+    TallStackUi\View\Components\Button\Button::class,
     TallStackUi\View\Components\Button\Circle::class,
     TallStackUi\View\Components\Select\Select::class,
     TallStackUi\View\Components\Select\Styled::class,

@@ -2,14 +2,14 @@
 
 it('can render', function () {
     $component = <<<'HTML'
-    <x-tabs :options="['Foo', 'Bar']" selected="Foo">
-        <x-tabs.items tab="A">
+    <x-tab :options="['Foo', 'Bar']" selected="Foo">
+        <x-tab.items tab="A">
             Foo
-        </x-tabs.items>
-        <x-tabs.items tab="B">
+        </x-tab.items>
+        <x-tab.items tab="B">
             Bar
-        </x-tabs.items>
-    </x-tabs>
+        </x-tab.items>
+    </x-tab>
 HTML;
 
     $this->blade($component)
@@ -19,14 +19,14 @@ HTML;
 
 it('can render entangled', function () {
     $component = <<<'HTML'
-    <x-tabs :options="['Foo', 'Bar']" wire:model="Foo">
-        <x-tabs.items tab="A">
+    <x-tab :options="['Foo', 'Bar']" wire:model="Foo">
+        <x-tab.items tab="A">
             Foo
-        </x-tabs.items>
-        <x-tabs.items tab="B">
+        </x-tab.items>
+        <x-tab.items tab="B">
             Bar
-        </x-tabs.items>
-    </x-tabs>
+        </x-tab.items>
+    </x-tab>
 HTML;
 
     $this->blade($component)
@@ -36,14 +36,14 @@ HTML;
 
 it('can render rounded', function () {
     $component = <<<'HTML'
-    <x-tabs :options="['Foo', 'Bar']" selected="Foo">
-        <x-tabs.items tab="A">
+    <x-tab :options="['Foo', 'Bar']" selected="Foo">
+        <x-tab.items tab="A">
             Foo
-        </x-tabs.items>
-        <x-tabs.items tab="B">
+        </x-tab.items>
+        <x-tab.items tab="B">
             Bar
-        </x-tabs.items>
-    </x-tabs>
+        </x-tab.items>
+    </x-tab>
 HTML;
 
     $this->blade($component)
@@ -55,14 +55,14 @@ it('can render squared', function () {
     config()->set('tallstackui.personalizations.tabs.square', true);
 
     $component = <<<'HTML'
-    <x-tabs :options="['Foo', 'Bar']" selected="Foo">
-        <x-tabs.items tab="A">
+    <x-tab :options="['Foo', 'Bar']" selected="Foo">
+        <x-tab.items tab="A">
             Foo
-        </x-tabs.items>
-        <x-tabs.items tab="B">
+        </x-tab.items>
+        <x-tab.items tab="B">
             Bar
-        </x-tabs.items>
-    </x-tabs>
+        </x-tab.items>
+    </x-tab>
 HTML;
 
     $this->blade($component)

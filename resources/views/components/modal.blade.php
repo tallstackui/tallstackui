@@ -4,7 +4,7 @@
     $open = $event . '-open';
     $close = $event . '-close';
 
-    $customize = tallstackui_personalization('modal', $customization());
+    $customize = tallstackui_personalization('modal', $personalization());
 @endphp
 
 <div x-cloak
@@ -28,7 +28,10 @@
          x-transition:leave="ease-in duration-200"
          x-transition:leave-start="opacity-100"
          x-transition:leave-end="opacity-0"
-         @class($customize['wrapper.first'])></div>
+         @class([
+            $customize['wrapper.first'],
+            $customize['blur'] => $blur,
+         ])></div>
     <div @class($customize['wrapper.second'])>
         <div @class([$customize['wrapper.third'], $size])>
             <div x-show="show"

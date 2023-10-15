@@ -4,10 +4,10 @@ namespace TallStackUi\View\Components\Form;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
-use TallStackUi\Contracts\Customizable;
 use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
+use TallStackUi\View\Personalizations\Contracts\Personalize;
 
-class Textarea extends Component implements Customizable
+class Textarea extends Component implements Personalize
 {
     use DefaultInputClasses;
 
@@ -23,23 +23,16 @@ class Textarea extends Component implements Customizable
         $this->square = config('tallstackui.personalizations.input.square');
     }
 
-    public function customization(): array
+    public function personalization(): array
     {
         return [
-            ...$this->tallStackUiClasses(),
+            'input' => $this->inputClasses(),
+            'error' => 'text-red-600 ring-1 ring-inset ring-red-300 placeholder:text-red-300 focus:ring-2 focus:ring-inset focus:ring-red-500',
         ];
     }
 
     public function render(): View
     {
         return view('tallstack-ui::components.form.textarea');
-    }
-
-    public function tallStackUiClasses(): array
-    {
-        return [
-            'input' => $this->inputClasses(),
-            'error' => 'text-red-600 ring-1 ring-inset ring-red-300 placeholder:text-red-300 focus:ring-2 focus:ring-inset focus:ring-red-500',
-        ];
     }
 }

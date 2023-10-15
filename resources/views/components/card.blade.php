@@ -1,4 +1,4 @@
-@php($customize = tallstackui_personalization('card', $customization()))
+@php($customize = tallstackui_personalization('card', $personalization()))
 
 <div @class($customize['wrapper.first'])>
     <div @class($customize['wrapper.second'])>
@@ -9,7 +9,7 @@
                 </h3>
             </div>
         @endif
-        <div {{ $attributes->class($customize['main']) }}>
+        <div {{ $attributes->class($customize['body']) }}>
             {{ $slot }}
         </div>
         @if ($footer)

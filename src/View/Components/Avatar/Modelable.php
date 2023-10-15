@@ -6,7 +6,7 @@ use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Throwable;
 
-class Modelable extends Index
+class Modelable extends Avatar
 {
     public function __construct(
         public Model $model,

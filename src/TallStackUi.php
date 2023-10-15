@@ -2,8 +2,8 @@
 
 namespace TallStackUi;
 
-use TallStackUi\Support\Elements\Color;
-use TallStackUi\Support\Personalization;
+use TallStackUi\View\Personalizations\Personalization;
+use TallStackUi\View\Personalizations\Support\Color;
 
 class TallStackUi
 {

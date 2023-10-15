@@ -1,6 +1,6 @@
 @props(['computed', 'error'])
 
-@php($customize = tallstackui_personalization('error', $customization()))
+@php($customize = tallstackui_personalization('error', $personalization()))
 
 @error ($computed)
 <span @class($customize['text'])>

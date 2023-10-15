@@ -6,12 +6,12 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\Support\ViewErrorBag;
 use Illuminate\View\Component;
-use TallStackUi\Contracts\Customizable;
-use TallStackUi\Support\Personalizations\Traits\InternalColorPersonalizations;
+use TallStackUi\View\Personalizations\Contracts\Personalize;
+use TallStackUi\View\Personalizations\Traits\InteractWithProviders;
 
-class Errors extends Component implements Customizable
+class Errors extends Component implements Personalize
 {
-    use InternalColorPersonalizations;
+    use InteractWithProviders;
 
     public function __construct(
         public ?string $title = null,
@@ -20,18 +20,13 @@ class Errors extends Component implements Customizable
         public bool $pulse = false,
     ) {
         $this->title ??= __('tallstack-ui::messages.errors.title');
+
+        $this->colors();
     }
 
     public function count(ViewErrorBag $errors): int
     {
         return count($this->messages($errors));
-    }
-
-    public function customization(): array
-    {
-        return [
-            ...$this->tallStackUiClasses(),
-        ];
     }
 
     public function messages(ViewErrorBag $errors): array
@@ -47,12 +42,7 @@ class Errors extends Component implements Customizable
         return array_filter($messages, fn (string $name) => in_array($name, $this->only), ARRAY_FILTER_USE_KEY);
     }
 
-    public function render(): View
-    {
-        return view('tallstack-ui::components.errors');
-    }
-
-    public function tallStackUiClasses(): array
+    public function personalization(): array
     {
         return Arr::dot([
             'wrapper' => [
@@ -64,9 +54,14 @@ class Errors extends Component implements Customizable
                 'text' => 'text-sm font-semibold',
             ],
             'body' => [
-                'list' => 'list-disc text-sm space-y-1',
                 'wrapper' => 'mt-2 ml-5 pl-1',
+                'list' => 'list-disc text-sm space-y-1',
             ],
         ]);
+    }
+
+    public function render(): View
+    {
+        return view('tallstack-ui::components.errors');
     }
 }

@@ -5,12 +5,12 @@ namespace TallStackUi\View\Components;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
-use TallStackUi\Contracts\Customizable;
-use TallStackUi\Support\Personalizations\Traits\InternalColorPersonalizations;
+use TallStackUi\View\Personalizations\Contracts\Personalize;
+use TallStackUi\View\Personalizations\Traits\InteractWithProviders;
 
-class Alert extends Component implements Customizable
+class Alert extends Component implements Personalize
 {
-    use InternalColorPersonalizations;
+    use InteractWithProviders;
 
     public function __construct(
         public ?string $title = null,
@@ -23,21 +23,11 @@ class Alert extends Component implements Customizable
         public string $style = 'solid',
     ) {
         $this->style = $this->translucent && $this->color !== 'white' ? 'translucent' : 'solid';
+
+        $this->colors();
     }
 
-    public function customization(): array
-    {
-        return [
-            ...$this->tallStackUiClasses(),
-        ];
-    }
-
-    public function render(): View
-    {
-        return view('tallstack-ui::components.alert');
-    }
-
-    public function tallStackUiClasses(): array
+    public function personalization(): array
     {
         return Arr::dot([
             'wrapper' => 'rounded-md p-4',
@@ -51,16 +41,9 @@ class Alert extends Component implements Customizable
             ],
             'text' => [
                 'wrapper' => 'flex items-center justify-between',
-                'title' => [
-                    'wrapper' => Arr::toCssClasses([
-                        'text-sm',
-                        'inline-flex' => $this->title === null && $this->icon !== null,
-                        'mt-2' => $this->title !== null,
-                    ]),
-                    'icon' => [
-                        'wrapper' => 'flex items-center',
-                        'size' => 'w-5 h-5',
-                    ],
+                'icon' => [
+                    'wrapper' => 'flex items-center',
+                    'size' => 'w-5 h-5',
                 ],
             ],
             'icon' => [
@@ -68,5 +51,10 @@ class Alert extends Component implements Customizable
                 'size' => 'w-5 h-5',
             ],
         ]);
+    }
+
+    public function render(): View
+    {
+        return view('tallstack-ui::components.alert');
     }
 }

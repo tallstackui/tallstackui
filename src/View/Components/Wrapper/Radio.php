@@ -5,9 +5,9 @@ namespace TallStackUi\View\Components\Wrapper;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
-use TallStackUi\Contracts\Customizable;
+use TallStackUi\View\Personalizations\Contracts\Personalize;
 
-class Radio extends Component implements Customizable
+class Radio extends Component implements Personalize
 {
     public function __construct(
         public ?string $id = null,
@@ -19,19 +19,7 @@ class Radio extends Component implements Customizable
         //
     }
 
-    public function customization(): array
-    {
-        return [
-            ...$this->tallStackUiClasses(),
-        ];
-    }
-
-    public function render(): View
-    {
-        return view('tallstack-ui::components.wrapper.radio');
-    }
-
-    public function tallStackUiClasses(): array
+    public function personalization(): array
     {
         return Arr::dot([
             'wrapper' => 'flex items-center',
@@ -43,5 +31,10 @@ class Radio extends Component implements Customizable
             ],
             'slot' => 'relative inline-flex cursor-pointer items-center',
         ]);
+    }
+
+    public function render(): View
+    {
+        return view('tallstack-ui::components.wrapper.radio');
     }
 }

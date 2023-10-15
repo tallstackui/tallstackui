@@ -3,13 +3,12 @@
 namespace TallStackUi\View\Components\Select;
 
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\View\Component;
-use TallStackUi\Contracts\Customizable;
 use TallStackUi\View\Components\Select\Traits\InteractsWithSelectOptions;
+use TallStackUi\View\Personalizations\Contracts\Personalize;
 
-class Select extends Component implements Customizable
+class Select extends Component implements Personalize
 {
     use InteractsWithSelectOptions;
 
@@ -24,26 +23,16 @@ class Select extends Component implements Customizable
         $this->options();
     }
 
-    public function customization(): array
+    public function personalization(): array
     {
         return [
-            ...$this->tallStackUiClasses(),
+            'wrapper' => 'focus:ring-primary-600 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-700 ring-1 ring-inset ring-gray-300 focus:ring-2 sm:text-sm sm:leading-6',
+            'error' => 'text-red-600 ring-1 ring-inset ring-red-300 placeholder:text-red-300 focus:ring-2 focus:ring-inset focus:ring-red-500',
         ];
     }
 
     public function render(): View
     {
         return view('tallstack-ui::components.select.select');
-    }
-
-    public function tallStackUiClasses(): array
-    {
-        return [
-            'wrapper' => Arr::toCssClasses([
-                'block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-700 sm:text-sm',
-                'ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-primary-600 sm:leading-6',
-            ]),
-            'error' => 'text-red-600 ring-1 ring-inset ring-red-300 placeholder:text-red-300 focus:ring-2 focus:ring-inset focus:ring-red-500',
-        ];
     }
 }

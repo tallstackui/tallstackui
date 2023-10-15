@@ -5,12 +5,12 @@ namespace TallStackUi\View\Components;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
-use TallStackUi\Contracts\Customizable;
-use TallStackUi\Support\Personalizations\Traits\InternalColorPersonalizations;
+use TallStackUi\View\Personalizations\Contracts\Personalize;
+use TallStackUi\View\Personalizations\Traits\InteractWithProviders;
 
-class Tooltip extends Component implements Customizable
+class Tooltip extends Component implements Personalize
 {
-    use InternalColorPersonalizations;
+    use InteractWithProviders;
 
     public function __construct(
         public ?string $text = null,
@@ -27,29 +27,24 @@ class Tooltip extends Component implements Customizable
     ) {
         $this->size = $this->lg ? 'lg' : ($this->md ? 'md' : 'sm');
         $this->style = $this->outline ? 'outline' : ($this->solid ? 'solid' : config('tallstackui.icon'));
+
+        $this->colors();
     }
 
-    public function customization(): array
+    public function personalization(): array
     {
-        return [
-            ...$this->tallStackUiClasses(),
-        ];
+        return Arr::dot([
+            'wrapper' => 'inline-flex',
+            'sizes' => [
+                'sm' => 'h-5 w-5',
+                'md' => 'h-6 w-6',
+                'lg' => 'h-7 w-7',
+            ],
+        ]);
     }
 
     public function render(): View
     {
         return view('tallstack-ui::components.tooltip');
-    }
-
-    public function tallStackUiClasses(): array
-    {
-        return [
-            'wrapper' => 'inline-flex',
-            'icon' => Arr::toCssClasses([
-                'h-5 w-5' => $this->size === 'sm',
-                'h-6 w-6' => $this->size === 'md',
-                'h-7 w-7' => $this->size === 'lg',
-            ]),
-        ];
     }
 }

@@ -6,9 +6,9 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
 use InvalidArgumentException;
-use TallStackUi\Contracts\Customizable;
+use TallStackUi\View\Personalizations\Contracts\Personalize;
 
-class Modal extends Component implements Customizable
+class Modal extends Component implements Personalize
 {
     public function __construct(
         public ?string $id = 'modal',
@@ -41,37 +41,28 @@ class Modal extends Component implements Customizable
         };
     }
 
-    public function customization(): array
-    {
-        return [
-            ...$this->tallStackUiClasses(),
-        ];
-    }
-
-    public function render(): View
-    {
-        return view('tallstack-ui::components.modal');
-    }
-
-    public function tallStackUiClasses(): array
+    public function personalization(): array
     {
         return Arr::dot([
             'wrapper' => [
-                'first' => Arr::toCssClasses([
-                    'fixed inset-0 bg-gray-400 bg-opacity-50 transition-opacity',
-                    'backdrop-blur-sm' => $this->blur === true,
-                ]),
+                'first' => 'fixed inset-0 bg-gray-400 bg-opacity-50 transition-opacity',
                 'second' => 'fixed inset-0 z-50 w-screen overflow-y-auto',
                 'third' => 'w-full min-h-full transform flex items-end justify-center mx-auto sm:items-start p-4',
                 'fourth' => 'relative flex w-full transform flex-col rounded-xl bg-white text-left shadow-xl transition-all',
             ],
+            'blur' => 'backdrop-blur-sm',
             'title' => [
                 'wrapper' => 'flex items-center justify-between border-b px-4 py-2.5',
                 'text' => 'whitespace-normal font-medium text-md text-secondary-600',
                 'close' => 'h-5 w-5 text-secondary-300 cursor-pointer',
             ],
-            'body' => 'px-2 py-5 md:px-4 text-gray-700 rounded-b-xl grow dark:text-secondary-400',
+            'body' => 'px-2 py-5 md:px-4 text-gray-700 rounded-b-xl grow',
             'footer' => 'flex justify-end gap-2 rounded-b-xl border-t border-t-gray-100 text-gray-700 bg-gray-50 p-4',
         ]);
+    }
+
+    public function render(): View
+    {
+        return view('tallstack-ui::components.modal');
     }
 }

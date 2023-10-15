@@ -1,4 +1,4 @@
-@php($customize = tallstackui_personalization('wrapper.radio', $customization()))
+@php($customize = tallstackui_personalization('wrapper.radio', $personalization()))
 
 <div>
     <div @class($customize['wrapper'])>

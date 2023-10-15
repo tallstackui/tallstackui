@@ -3,13 +3,13 @@
 use TallStackUi\Actions\AbstractInteraction;
 use TallStackUi\Actions\Dialog;
 use TallStackUi\Actions\Toast;
-use TallStackUi\Contracts\Customizable;
 use TallStackUi\Facades\TallStackUi as Facade;
 use TallStackUi\Http\Controllers\TallStackUiAssetsController;
-use TallStackUi\Support\Elements\Color;
-use TallStackUi\Support\Personalization;
-use TallStackUi\Support\Personalizations\Contracts\Personalizable;
 use TallStackUi\Traits\Interactions;
+use TallStackUi\View\Personalizations\Contracts\Personalizable;
+use TallStackUi\View\Personalizations\Contracts\Personalize;
+use TallStackUi\View\Personalizations\Personalization;
+use TallStackUi\View\Personalizations\Support\Color;
 
 test('should not use dangerous functions')
     ->expect(['dd', 'dump', 'exit', 'var_dump'])
@@ -18,15 +18,11 @@ test('should not use dangerous functions')
 
 describe('tallstackui components', function () {
     test('is customizable', function (string $index) {
-        expect($index)->toImplement(Customizable::class);
+        expect($index)->toImplement(Personalize::class);
     })->with('components');
 
-    test('contains tallStackUiClasses method', function (string $index) {
-        expect($index)->toHaveMethod('tallStackUiClasses');
-    })->with('components');
-
-    test('contains customization method', function (string $index) {
-        expect($index)->toHaveMethod('customization');
+    test('contains personalization method', function (string $index) {
+        expect($index)->toHaveMethod('personalization');
     })->with('components');
 
     test('contains constructor', function (string $index) {
@@ -125,13 +121,14 @@ test('personalization class should have all personalization methods', function (
     'badge',
     'card',
     'dialog',
+    'dropdown',
     'error',
     'errors',
     'toast',
     'form',
     'hint',
     'select',
-    'tabs',
+    'tab',
     'tooltip',
     'wrapper',
     'component',
