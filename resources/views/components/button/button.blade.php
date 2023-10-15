@@ -5,11 +5,26 @@
 
 <{{ $tag }} @if ($href) href="{{ $href }}" @else
     role="button"
-@endif {{ $attributes->class([$customize['wrapper'], $colors['wrapper.color']]) }}
+@endif {{ $attributes->class([
+        $customize['wrapper.class'],
+        $customize['wrapper.sizes.xs'] => $size === 'xs',
+        $customize['wrapper.sizes.sm'] => $size === 'sm',
+        $customize['wrapper.sizes.md'] => $size === 'md',
+        $customize['wrapper.sizes.lg'] => $size === 'lg',
+        $colors['wrapper.color'],
+        'rounded' => !$square && !$round,
+        'rounded-full' => !$square && $round !== null,
+    ]) }}
     wire:loading.attr="disabled"
     wire:loading.class="!cursor-wait">
     @if ($icon && $position === 'left')
-        <x-icon :$icon @class([$customize['icon.size'], $colors['icon.color']]) />
+        <x-icon :$icon @class([
+                $customize['icon.sizes.xs'] => $size === 'xs',
+                $customize['icon.sizes.sm'] => $size === 'sm',
+                $customize['icon.sizes.md'] => $size === 'md',
+                $customize['icon.sizes.lg'] => $size === 'lg',
+                $colors['icon.color']
+            ]) />
     @endif
     {{ $text ?? $slot }}
     @if ($icon && $position === 'right')
@@ -18,7 +33,14 @@
     @if ($loading)
         <svg @if ($loading !== "1") wire:target="{{ $loading }}" @endif
              wire:loading.delay{{ $delay ? ".{$delay}" : "" }}
-             @class([$customize['icon.loading'], $colors['icon.loading.color']])
+             @class([
+                'animate-spin',
+                $customize['icon.loading.sizes.xs'] => $size === 'xs',
+                $customize['icon.loading.sizes.sm'] => $size === 'sm',
+                $customize['icon.loading.sizes.md'] => $size === 'md',
+                $customize['icon.loading.sizes.lg'] => $size === 'lg',
+                $colors['icon.loading.color'],
+             ])
              dusk="button-loading-spinner"
              xmlns="http://www.w3.org/2000/svg"
              fill="none"
