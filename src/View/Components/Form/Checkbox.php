@@ -21,9 +21,8 @@ class Checkbox extends Component implements Personalize
         public ?string $md = null,
         public ?string $lg = null,
         public ?string $size = null,
-        public bool    $checked = false,
-    )
-    {
+        public bool $checked = false,
+    ) {
         $this->size = $this->sm ? 'sm' : ($this->lg ? 'lg' : 'md');
         $this->position = $this->position === 'right' ? 'right' : 'left';
 

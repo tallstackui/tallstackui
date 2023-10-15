@@ -30,15 +30,16 @@ class Input extends Component implements Personalize
     public function personalization(): array
     {
         return Arr::dot([
-            'input' => $this->inputClasses(),
+            'input' => [
+                'class' => $this->inputClasses(),
+                'paddings' => [
+                    'left' => 'pl-10',
+                    'right' => 'pr-10',
+                ]
+            ],
             'icon' => [
-                'wrapper' => Arr::toCssClasses([
-                    'pointer-events-none absolute inset-y-0 flex items-center text-secondary-500',
-                    // TODO: internal
-                    'left-0 pl-3' => $this->position === null || $this->position === 'left',
-                    'right-0 pr-3' => $this->position === 'right',
-                ]),
-                'padding' => [
+                'wrapper' => 'pointer-events-none absolute inset-y-0 flex items-center text-secondary-500',
+                'paddings' => [
                     'left' => 'left-0 pl-3',
                     'right' => 'right-0 pr-3',
                 ],

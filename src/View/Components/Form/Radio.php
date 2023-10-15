@@ -31,14 +31,17 @@ class Radio extends Component implements Personalize
 
     public function personalization(): array
     {
-        return [
-            'input' => Arr::toCssClasses([
-                'form-radio rounded-full transition ease-in-out duration-100 border-secondary-300',
-                'w-5 h-5' => $this->size === 'md',
-                'w-6 h-6' => $this->size === 'lg',
-            ]),
+        return Arr::dot([
+            'input' => [
+                'class' => 'form-radio rounded-full transition ease-in-out duration-100 border-secondary-300',
+                'sizes' => [
+                    'sm' => 'w-4 h-4',
+                    'md' => 'w-5 h-5',
+                    'lg' => 'w-6 h-6',
+                ],
+            ],
             'error' => 'border-red-300 focus:ring-red-600 focus:border-red-400 text-red-600',
-        ];
+        ]);
     }
 
     public function render(): View
