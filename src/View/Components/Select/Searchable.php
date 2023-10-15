@@ -16,7 +16,7 @@ class Searchable extends Styled
         public ?string $select = null,
         public ?array $selectable = [],
         public ?string $after = null,
-        public ?string $before = null,
+        public ?string $placeholder = null,
         private readonly bool $ignoreValidations = false,
     ) {
         parent::__construct(
@@ -28,22 +28,21 @@ class Searchable extends Styled
         );
 
         $this->request();
+
+        $this->placeholder = __('tallstack-ui::messages.select.placeholder');
     }
 
     public function personalization(): array
     {
         return [
             'item' => 'inline-flex items-center rounded-lg bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10 space-x-1',
-            'icon' => 'h-4 w-4 text-red-500 transition hover:text-red-500',
+            'icon' => 'h-4 w-4 text-red-500',
         ];
     }
 
     public function render(): View
     {
-        return view('tallstack-ui::components.select.searchable', [
-            //TODO: remove from here!
-            'placeholder' => __('tallstack-ui::messages.select.placeholder'),
-        ]);
+        return view('tallstack-ui::components.select.searchable');
     }
 
     /** @throws Throwable */
@@ -82,15 +81,13 @@ class Searchable extends Styled
 
         // We remove search from the request because
         // the search will be attached on the javascript.
-        if (isset($this->request['search'])) {
-            unset($this->request['search']);
-        }
+        unset($this->request['search']);
 
         if (! in_array($this->request['method'], ['get', 'post'])) {
             throw new InvalidArgumentException('The [method] must be get or post');
         }
 
-        if (isset($this->request['params']) && blank($this->request['params'])) {
+        if (isset($this->request['params']) && (!is_array($this->request)) || blank($this->request['params'])) {
             throw new InvalidArgumentException('The [params] must be an array and cannot be empty');
         }
     }
