@@ -8,6 +8,6 @@ trait InteractWithProviders
 {
     public function colors(): void
     {
-        ColorServiceProvider::from($this);
+        ColorServiceProvider::resolve($this);
     }
 }

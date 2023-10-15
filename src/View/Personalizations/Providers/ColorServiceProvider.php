@@ -25,6 +25,7 @@ use TallStackUi\View\Personalizations\Support\Colors\RadioColors;
 use TallStackUi\View\Personalizations\Support\Colors\ToggleColors;
 use TallStackUi\View\Personalizations\Support\Colors\TooltipColors;
 
+// TODO: test this class
 class ColorServiceProvider
 {
     public function __construct(
@@ -34,7 +35,7 @@ class ColorServiceProvider
     }
 
     /** @throws Exception */
-    public static function from(object $component): void
+    public static function resolve(object $component): void
     {
         $method = match (get_class($component) ?? null) {
             Alert::class => 'alert',
@@ -45,7 +46,7 @@ class ColorServiceProvider
             Radio::class, Checkbox::class => 'radio',
             Toggle::class => 'toggle',
             Tooltip::class => 'tooltip',
-            default => null,
+            default => throw new Exception('No colors available for this component'),
         };
 
         if (! $method) {
@@ -99,7 +100,10 @@ class ColorServiceProvider
 
     private function radio(): array
     {
-        return (new RadioColors())();
+        /** @var Radio|Checkbox $component */
+        $component = $this->component;
+
+        return (new RadioColors())($component);
     }
 
     private function toggle(): array

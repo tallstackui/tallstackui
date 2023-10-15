@@ -3,8 +3,6 @@
 namespace TallStackUi\View\Components\Form\Traits;
 
 use Illuminate\Support\Arr;
-use TallStackUi\Facades\TallStackUi;
-use TallStackUi\View\Personalizations\Support\Color;
 
 trait DefaultInputClasses
 {
@@ -19,22 +17,5 @@ trait DefaultInputClasses
             'disabled:bg-gray-50 disabled:text-gray-500 disabled:ring-gray-200 overflow-hidden',
             'read-only:bg-gray-100 read-only:text-gray-500 read-only:ring-gray-200',
         ]);
-    }
-
-    /**
-     * Radio & Checkbox Classes
-     */
-    private function radioColors(): string
-    {
-        return TallStackUi::colors()
-            ->when($this->color === 'white', function (Color $color) {
-                return $color->set('text', 'gray', 300)
-                    ->set('focus:ring', 'gray', 300);
-            })
-            ->unless($this->color === 'white', function (Color $color) {
-                return $color->set('text', $this->color, $this->color === 'black' ? null : 700)
-                    ->set('focus:ring', $this->color, $this->color === 'black' ? null : 700);
-            })
-            ->get();
     }
 }
