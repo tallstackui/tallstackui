@@ -52,7 +52,7 @@ HTML;
 });
 
 it('can render squared', function () {
-    config()->set('tallstackui.personalizations.tabs.square', true);
+    config()->set('tallstackui.personalizations.tab.square', true);
 
     $component = <<<'HTML'
     <x-tab :options="['Foo', 'Bar']" selected="Foo">
