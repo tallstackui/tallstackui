@@ -33,14 +33,14 @@ class Tooltip extends Component implements Personalize
 
     public function personalization(): array
     {
-        return [
+        return Arr::dot([
             'wrapper' => 'inline-flex',
-            'icon' => Arr::toCssClasses([
-                'h-5 w-5' => $this->size === 'sm',
-                'h-6 w-6' => $this->size === 'md',
-                'h-7 w-7' => $this->size === 'lg',
-            ]),
-        ];
+            'sizes' => [
+                'sm' => 'h-5 w-5',
+                'md' => 'h-6 w-6',
+                'lg' => 'h-7 w-7',
+            ],
+        ]);
     }
 
     public function render(): View

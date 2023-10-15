@@ -4,6 +4,6 @@
     <x-dynamic-component component="tallstack-ui::icon.{{ $style }}.{{ $icon }}"
                          data-position="{{ $position }}"
                          x-tooltip="{!! $text !!}"
-            {{ $attributes->class([$customize['icon'], $colors['icon.color']]) }}
+                        {{ $attributes->class([ $customize['sizes.sm'] => $size === 'sm', $customize['sizes.md'] => $size === 'md', $customize['sizes.lg'] => $size === 'lg', $colors['icon.color']]) }}
     />
 </div>

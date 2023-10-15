@@ -54,8 +54,8 @@ class Errors extends Component implements Personalize
                 'text' => 'text-sm font-semibold',
             ],
             'body' => [
-                'list' => 'list-disc text-sm space-y-1',
                 'wrapper' => 'mt-2 ml-5 pl-1',
+                'list' => 'list-disc text-sm space-y-1',
             ],
         ]);
     }
