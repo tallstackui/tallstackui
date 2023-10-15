@@ -28,7 +28,7 @@ class AlertColors
             'title.base.color' => Arr::toCssClasses([$color => $alert->title !== null]),
             'title.icon.color' => $color,
             'text.title.wrapper.color' => $color,
-            'text.title.icon.color' => $color,
+            'text.icon.color' => $color,
             'icon.color' => Arr::toCssClasses([
                 TallStackUi::colors()
                     ->set('text', $alert->color === 'black' ? 'white' : $alert->color, $alert->color === 'black' ? null : 500)
