@@ -4,15 +4,17 @@ namespace Tests\Browser\Tab\Components;
 
 use Livewire\Component;
 
-class TabEntangleComponent extends Component
+class TabEntangleLiveComponent extends Component
 {
     public string $tab = 'Bar';
 
     public function render(): string
     {
         return <<<'HTML'
-        <div>        
-            <x-tab wire:model="tab">
+        <div>
+            {{ $tab }}
+
+            <x-tab wire:model.live="tab">
                 <x-tab.items tab="Foo">
                     Foo bar baz
                 </x-tab.items>
@@ -20,8 +22,6 @@ class TabEntangleComponent extends Component
                     Baz bar foo
                 </x-tab.items>
             </x-tab>
-
-            <x-button id="change" wire:click="$set('tab', 'Foo')" text="Click" />
         </div>
 HTML;
     }

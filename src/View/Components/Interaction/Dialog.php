@@ -5,25 +5,19 @@ namespace TallStackUi\View\Components\Interaction;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
-use InvalidArgumentException;
 use TallStackUi\View\Personalizations\Contracts\Personalize;
+use TallStackUi\View\Personalizations\Traits\InteractWithProviders;
+use TallStackUi\View\Personalizations\Traits\InteractWithValidations;
 
 class Dialog extends Component implements Personalize
 {
-    public function __construct(
-        public ?string $zIndex = null,
-        public bool $blur = false,
-        public bool $uncloseable = true,
-        public bool $square = false,
-    ) {
-        $this->zIndex = config('tallstackui.personalizations.dialog.z-index');
-        $this->blur = config('tallstackui.personalizations.dialog.blur');
-        $this->uncloseable = config('tallstackui.personalizations.dialog.uncloseable');
-        $this->square = config('tallstackui.personalizations.dialog.square');
+    use InteractWithProviders;
+    use InteractWithValidations;
 
-        if (! str_starts_with($this->zIndex, 'z-')) {
-            throw new InvalidArgumentException('The z-index must start with z- prefix.');
-        }
+    public function __construct()
+    {
+        $this->configurations();
+        $this->validate();
     }
 
     public function personalization(): array

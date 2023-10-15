@@ -7,10 +7,12 @@ use Illuminate\Support\Arr;
 use Illuminate\View\Component;
 use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
 use TallStackUi\View\Personalizations\Contracts\Personalize;
+use TallStackUi\View\Personalizations\Traits\InteractWithProviders;
 
 class Input extends Component implements Personalize
 {
     use DefaultInputClasses;
+    use InteractWithProviders;
 
     public function __construct(
         public ?string $id = null,
@@ -18,13 +20,11 @@ class Input extends Component implements Personalize
         public ?string $hint = null,
         public ?string $icon = null,
         public ?string $position = 'left',
-        public bool $square = false,
-        public bool $round = false,
         public bool $validate = true,
     ) {
         $this->position = $this->position === 'left' ? 'left' : 'right';
-        $this->square = config('tallstackui.personalizations.input.square');
-        $this->round = config('tallstackui.personalizations.input.round');
+
+        $this->configurations();
     }
 
     public function personalization(): array

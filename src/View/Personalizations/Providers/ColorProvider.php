@@ -25,8 +25,10 @@ use TallStackUi\View\Personalizations\Support\Colors\RadioColors;
 use TallStackUi\View\Personalizations\Support\Colors\ToggleColors;
 use TallStackUi\View\Personalizations\Support\Colors\TooltipColors;
 
-// TODO: test this class
-class ColorServiceProvider
+/**
+ * @internal This class is not meant to be used directly.
+ */
+class ColorProvider
 {
     public function __construct(
         private readonly object $component
@@ -37,7 +39,7 @@ class ColorServiceProvider
     /** @throws Exception */
     public static function resolve(object $component): void
     {
-        $method = match (get_class($component) ?? null) {
+        $method = match (get_class($component)) {
             Alert::class => 'alert',
             Avatar::class, Modelable::class => 'avatar',
             Badge::class => 'badge',
@@ -49,13 +51,9 @@ class ColorServiceProvider
             default => throw new Exception('No colors available for this component'),
         };
 
-        if (! $method) {
-            return;
-        }
+        $class = new self($component);
 
-        $class = new static($component);
-
-        FacadeView::composer($component->render()->name(), fn (View $view) => $view->with('colors', [...$class->$method($component)])); // @phpstan-ignore-line
+        FacadeView::composer($component->render()->name(), fn (View $view) => $view->with('colors', [...$class->$method($component)]));
     }
 
     private function alert(): array

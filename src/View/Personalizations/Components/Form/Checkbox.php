@@ -6,6 +6,9 @@ use TallStackUi\View\Components\Form\Checkbox as Component;
 use TallStackUi\View\Personalizations\Contracts\Personalizable;
 use TallStackUi\View\Personalizations\PersonalizationResource;
 
+/**
+ * @internal This class is not meant to be used directly.
+ */
 class Checkbox extends PersonalizationResource implements Personalizable
 {
     protected function component(): string

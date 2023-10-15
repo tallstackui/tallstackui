@@ -5,9 +5,9 @@
      x-on:tallstackui:toast.window="add($event)"
      @class([
         $customize['wrapper.first'],
-        'md:justify-start' => str_contains($position, 'top-'),
-        'md:justify-end' => str_contains($position, 'bottom-'),
-        $zIndex
+        'md:justify-start' => str_contains($configurations['position'], 'top-'),
+        'md:justify-end' => str_contains($configurations['position'], 'bottom-'),
+        $configurations['z-index']
     ])
      x-show="show">
     <template x-for="toast in toasts" :key="toast.id">
@@ -15,11 +15,11 @@
              x-show="show"
                 @class([
                     $customize['wrapper.second'],
-                    'md:items-start' => $position === 'top-left' || $position === 'bottom-left',
-                    'md:items-end' => $position === 'top-right' || $position === 'bottom-right',
+                    'md:items-start' => $configurations['position'] === 'top-left' || $configurations['position'] === 'bottom-left',
+                    'md:items-end' => $configurations['position'] === 'top-right' || $configurations['position'] === 'bottom-right',
                 ])>
             <div x-show="show"
-                    @class([$customize['wrapper.third'], 'rounded-xl' => !$square])>
+                    @class([$customize['wrapper.third'], 'rounded-xl' => !$configurations['square']])>
                 <div @class($customize['wrapper.fourth'])>
                     <div class="flex-shrink-0">
                         <div x-show="toast.type === 'success'">

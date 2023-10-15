@@ -5,6 +5,9 @@ namespace TallStackUi\Actions;
 use InvalidArgumentException;
 use Livewire\Component;
 
+/**
+ * @internal This trait is not meant to be used directly.
+ */
 abstract class AbstractInteraction
 {
     protected string $event = '';

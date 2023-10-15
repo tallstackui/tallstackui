@@ -26,7 +26,7 @@ return [
             /* Input & Password Only */
             'round' => false,
         ],
-        'tabs' => [
+        'tab' => [
             'square' => false,
         ],
         'dialog' => [

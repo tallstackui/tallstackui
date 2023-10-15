@@ -7,7 +7,7 @@
     @if ($label)
         <x-label :$label :$error/>
     @endif
-    <div @class($customize['wrapper']) x-on:click.outside="show = false">
+    <div class="relative" x-on:click.outside="show = false">
         <div @class([$customize['input.wrapper'], $customize['input.error'] => $error])
              role="combobox"
              aria-controls="options"

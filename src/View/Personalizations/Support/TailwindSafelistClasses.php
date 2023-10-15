@@ -6,6 +6,8 @@ namespace TallStackUi\View\Personalizations\Support;
  * This is an unused class that aims to save all commonly used
  * tailwindcss classes such as colors, hover, ring and others.
  *
+ * @internal This class is not meant to be used directly.
+ *
  * @deprecated This class can not be used.
  */
 final class TailwindSafelistClasses

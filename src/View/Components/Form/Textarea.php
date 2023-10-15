@@ -6,10 +6,12 @@ use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
 use TallStackUi\View\Personalizations\Contracts\Personalize;
+use TallStackUi\View\Personalizations\Traits\InteractWithProviders;
 
 class Textarea extends Component implements Personalize
 {
     use DefaultInputClasses;
+    use InteractWithProviders;
 
     public function __construct(
         public ?string $id = null,
@@ -18,9 +20,8 @@ class Textarea extends Component implements Personalize
         public int $rows = 5,
         public bool $autoResize = false,
         public bool $resize = true,
-        public bool $square = false,
     ) {
-        $this->square = config('tallstackui.personalizations.input.square');
+        $this->configurations();
     }
 
     public function personalization(): array

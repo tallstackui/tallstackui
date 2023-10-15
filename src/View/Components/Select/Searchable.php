@@ -87,7 +87,7 @@ class Searchable extends Styled
             throw new InvalidArgumentException('The [method] must be get or post');
         }
 
-        if (isset($this->request['params']) && (! is_array($this->request)) || blank($this->request['params'])) {
+        if (isset($this->request['params']) && (! is_array($this->request['params'])) || blank($this->request['params'])) {
             throw new InvalidArgumentException('The [params] must be an array and cannot be empty');
         }
     }

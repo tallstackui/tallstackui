@@ -7,20 +7,19 @@ use Illuminate\Support\Arr;
 use Illuminate\View\Component;
 use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
 use TallStackUi\View\Personalizations\Contracts\Personalize;
+use TallStackUi\View\Personalizations\Traits\InteractWithProviders;
 
 class Password extends Component implements Personalize
 {
     use DefaultInputClasses;
+    use InteractWithProviders;
 
     public function __construct(
         public ?string $id = null,
         public ?string $label = null,
         public ?string $hint = null,
-        public bool $square = false,
-        public bool $round = false,
     ) {
-        $this->square = config('tallstackui.personalizations.input.square');
-        $this->round = config('tallstackui.personalizations.input.round');
+        $this->configurations();
     }
 
     public function personalization(): array

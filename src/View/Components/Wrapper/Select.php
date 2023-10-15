@@ -23,8 +23,6 @@ class Select extends Component implements Personalize
     public function personalization(): array
     {
         return Arr::dot([
-            //TODO: remove this wrapper
-            'wrapper' => 'relative',
             'input' => [
                 'wrapper' => 'flex w-full cursor-pointer items-center gap-x-2 rounded-md border-0 bg-white py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-6',
                 'error' => 'text-red-600 ring-1 ring-inset ring-red-300 focus:ring-2 focus:ring-inset focus:ring-red-500',

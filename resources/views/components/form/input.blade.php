@@ -16,8 +16,8 @@
     @endif
     <input @if ($id) id="{{ $id }}" @endif {{ $attributes->class([
             $customize['input.class'],
-            'rounded-md' => !$square && !$round,
-            'rounded-full' => $round,
+            'rounded-md' => !$configurations['square'] && !$configurations['round'],
+            'rounded-full' => $configurations['round'],
             $customize['input.paddings.left'] => $icon && ($position === null || $position === 'left'),
             $customize['input.paddings.right'] => $icon && $position === 'right',
             $customize['error'] => $error && $validate

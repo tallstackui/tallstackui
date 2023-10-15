@@ -2,12 +2,21 @@
 
 namespace TallStackUi\View\Personalizations\Traits;
 
-use TallStackUi\View\Personalizations\Providers\ColorServiceProvider;
+use TallStackUi\View\Personalizations\Providers\ColorProvider;
+use TallStackUi\View\Personalizations\Providers\ConfigurationProvider;
 
+/**
+ * @internal This trait is not meant to be used directly.
+ */
 trait InteractWithProviders
 {
     public function colors(): void
     {
-        ColorServiceProvider::resolve($this);
+        ColorProvider::resolve($this);
+    }
+
+    public function configurations(): void
+    {
+        ConfigurationProvider::resolve($this);
     }
 }

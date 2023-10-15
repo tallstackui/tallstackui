@@ -5,27 +5,19 @@ namespace TallStackUi\View\Components\Interaction;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
-use InvalidArgumentException;
 use TallStackUi\View\Personalizations\Contracts\Personalize;
+use TallStackUi\View\Personalizations\Traits\InteractWithProviders;
+use TallStackUi\View\Personalizations\Traits\InteractWithValidations;
 
 class Toast extends Component implements Personalize
 {
-    public function __construct(
-        public ?string $zIndex = null,
-        public ?string $position = null,
-        public bool $square = false,
-    ) {
-        $this->zIndex = config('tallstackui.personalizations.toast.z-index');
-        $this->position = config('tallstackui.personalizations.toast.position');
-        $this->square = config('tallstackui.personalizations.toast.square');
+    use InteractWithProviders;
+    use InteractWithValidations;
 
-        if (! in_array($this->position, ['top-right', 'top-left', 'bottom-right', 'bottom-left'])) {
-            throw new InvalidArgumentException("The position must be one of the following: ['top-right', 'top-left', 'bottom-right', 'bottom-left']");
-        }
-
-        if (! str_starts_with($this->zIndex, 'z-')) {
-            throw new InvalidArgumentException('The z-index must start with z- prefix.');
-        }
+    public function __construct()
+    {
+        $this->configurations();
+        $this->validate();
     }
 
     public function personalization(): array
