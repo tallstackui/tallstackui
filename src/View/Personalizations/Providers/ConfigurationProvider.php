@@ -15,16 +15,10 @@ use TallStackUi\View\Components\Tab\Tab;
 
 class ConfigurationProvider
 {
-    public function __construct(
-        private readonly object $component
-    ) {
-        //
-    }
-
     /** @throws Exception */
     public static function resolve(object $component): void
     {
-        $method = match (get_class($component) ?? null) {
+        $method = match (get_class($component)) {
             Input::class, Password::class, Textarea::class => 'input',
             Tab::class, Items::class => 'tab',
             Dialog::class => 'dialog',
@@ -32,7 +26,7 @@ class ConfigurationProvider
             default => throw new Exception('No configuration available for this component'),
         };
 
-        FacadeView::composer($component->render()->name(), fn (View $view) => $view->with('configurations', [...(new static($component))->$method($component)])); // @phpstan-ignore-line
+        FacadeView::composer($component->render()->name(), fn (View $view) => $view->with('configurations', [...(new self())->$method($component)]));
     }
 
     private function dialog(Dialog $dialog): array

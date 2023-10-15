@@ -12,9 +12,9 @@ class ValidationProvider
     /** @throws Exception */
     public static function resolve(object $component, ...$parameters): void
     {
-        $class = new static();
+        $class = new self();
 
-        (match (get_class($component) ?? null) {
+        (match (get_class($component)) {
             Dialog::class => fn () => $class->dialog($parameters),
             Toast::class => fn () => $class->toast($parameters),
             default => throw new Exception('No validation available for this component'),

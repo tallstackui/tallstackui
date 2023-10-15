@@ -37,7 +37,7 @@ class ColorProvider
     /** @throws Exception */
     public static function resolve(object $component): void
     {
-        $method = match (get_class($component) ?? null) {
+        $method = match (get_class($component)) {
             Alert::class => 'alert',
             Avatar::class, Modelable::class => 'avatar',
             Badge::class => 'badge',
@@ -49,9 +49,9 @@ class ColorProvider
             default => throw new Exception('No colors available for this component'),
         };
 
-        $class = new static($component);
+        $class = new self($component);
 
-        FacadeView::composer($component->render()->name(), fn (View $view) => $view->with('colors', [...$class->$method($component)])); // @phpstan-ignore-line
+        FacadeView::composer($component->render()->name(), fn (View $view) => $view->with('colors', [...$class->$method($component)]));
     }
 
     private function alert(): array
