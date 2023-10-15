@@ -6,11 +6,11 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
 use TallStackUi\View\Personalizations\Contracts\Personalize;
-use TallStackUi\View\Personalizations\Traits\InternalColorPersonalizations;
+use TallStackUi\View\Personalizations\Traits\InteractWithProviders;
 
 class Alert extends Component implements Personalize
 {
-    use InternalColorPersonalizations;
+    use InteractWithProviders;
 
     public function __construct(
         public ?string $title = null,
@@ -23,6 +23,8 @@ class Alert extends Component implements Personalize
         public string $style = 'solid',
     ) {
         $this->style = $this->translucent && $this->color !== 'white' ? 'translucent' : 'solid';
+
+        $this->colors();
     }
 
     public function personalization(): array

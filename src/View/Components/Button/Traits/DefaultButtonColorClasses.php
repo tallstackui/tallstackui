@@ -3,7 +3,6 @@
 namespace TallStackUi\View\Components\Button\Traits;
 
 use Illuminate\Support\Arr;
-use InvalidArgumentException;
 use TallStackUi\Facades\TallStackUi;
 use TallStackUi\Support\Color;
 
@@ -152,12 +151,5 @@ trait DefaultButtonColorClasses
         }
 
         return $color->set('text', $this->variations['text'], $weight);
-    }
-
-    private function validateDelayOptions(): void
-    {
-        if (is_string($this->delay) && ! in_array($this->delay, $this->delays)) {
-            throw new InvalidArgumentException('Invalid delay provided.');
-        }
     }
 }

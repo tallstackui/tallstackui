@@ -6,11 +6,11 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
 use TallStackUi\View\Personalizations\Contracts\Personalize;
-use TallStackUi\View\Personalizations\Traits\InternalColorPersonalizations;
+use TallStackUi\View\Personalizations\Traits\InteractWithProviders;
 
 class Button extends Component implements Personalize
 {
-    use InternalColorPersonalizations;
+    use InteractWithProviders;
 
     public function __construct(
         public ?string $text = null,
@@ -34,7 +34,7 @@ class Button extends Component implements Personalize
         $this->style = $this->outline ? 'outline' : 'solid';
         $this->size = $this->xs ? 'xs' : ($this->sm ? 'sm' : ($this->lg ? 'lg' : 'md'));
 
-        $this->validateDelayOptions();
+        $this->colors();
     }
 
     public function personalization(): array

@@ -6,11 +6,11 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
 use TallStackUi\View\Personalizations\Contracts\Personalize;
-use TallStackUi\View\Personalizations\Traits\InternalColorPersonalizations;
+use TallStackUi\View\Personalizations\Traits\InteractWithProviders;
 
 class Badge extends Component implements Personalize
 {
-    use InternalColorPersonalizations;
+    use InteractWithProviders;
 
     public function __construct(
         public ?string $text = null,
@@ -29,6 +29,8 @@ class Badge extends Component implements Personalize
         $this->style = $this->outline ? 'outline' : 'solid';
         $this->size = $this->lg ? 'lg' : ($this->md ? 'md' : 'sm');
         $this->position = $this->position === 'right' ? 'right' : 'left';
+
+        $this->colors();
     }
 
     public function personalization(): array

@@ -1,25 +1,24 @@
 @php
     $tag = $href ? 'a' : 'button';
     $customize = tallstackui_personalization('button', $personalization());
-    $internal = $internals();
 @endphp
 
 <{{ $tag }} @if ($href) href="{{ $href }}" @else
     role="button"
-@endif {{ $attributes->class([$customize['wrapper'], $internal['wrapper.color']]) }}
+@endif {{ $attributes->class([$customize['wrapper'], $colors['wrapper.color']]) }}
     wire:loading.attr="disabled"
     wire:loading.class="!cursor-wait">
     @if ($icon && $position === 'left')
-        <x-icon :$icon @class([$customize['icon.size'], $internal['icon.color']]) />
+        <x-icon :$icon @class([$customize['icon.size'], $colors['icon.color']]) />
     @endif
     {{ $text ?? $slot }}
     @if ($icon && $position === 'right')
-        <x-icon :$icon @class([$customize['icon.size'], $internal['icon.color']]) />
+        <x-icon :$icon @class([$customize['icon.size'], $colors['icon.color']]) />
     @endif
     @if ($loading)
         <svg @if ($loading !== "1") wire:target="{{ $loading }}" @endif
              wire:loading.delay{{ $delay ? ".{$delay}" : "" }}
-             @class([$customize['icon.loading'], $internal['icon.loading.color']])
+             @class([$customize['icon.loading'], $colors['icon.loading.color']])
              dusk="button-loading-spinner"
              xmlns="http://www.w3.org/2000/svg"
              fill="none"

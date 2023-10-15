@@ -1,9 +1,6 @@
-@php
-    $customize = tallstackui_personalization('avatar', $personalization());
-    $internal = $internals();
-@endphp
+@php($customize = tallstackui_personalization('avatar', $personalization()))
 
-<div {{ $attributes->class([$customize['wrapper'], $internal['wrapper.color']]) }}>
+<div {{ $attributes->class([$customize['wrapper'], $colors['wrapper.color']]) }}>
     @if ($modelable)
         <img @class($customize['content.image']) src="{{ $text }}" alt="{{ $alt() }}"/>
     @elseif ($text || $slot->isNotEmpty())

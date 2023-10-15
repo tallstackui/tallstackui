@@ -7,11 +7,11 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\ViewErrorBag;
 use Illuminate\View\Component;
 use TallStackUi\View\Personalizations\Contracts\Personalize;
-use TallStackUi\View\Personalizations\Traits\InternalColorPersonalizations;
+use TallStackUi\View\Personalizations\Traits\InteractWithProviders;
 
 class Errors extends Component implements Personalize
 {
-    use InternalColorPersonalizations;
+    use InteractWithProviders;
 
     public function __construct(
         public ?string $title = null,
@@ -20,6 +20,8 @@ class Errors extends Component implements Personalize
         public bool $pulse = false,
     ) {
         $this->title ??= __('tallstack-ui::messages.errors.title');
+
+        $this->colors();
     }
 
     public function count(ViewErrorBag $errors): int

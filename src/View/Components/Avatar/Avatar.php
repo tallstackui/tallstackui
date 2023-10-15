@@ -6,11 +6,11 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
 use TallStackUi\View\Personalizations\Contracts\Personalize;
-use TallStackUi\View\Personalizations\Traits\InternalColorPersonalizations;
+use TallStackUi\View\Personalizations\Traits\InteractWithProviders;
 
 class Avatar extends Component implements Personalize
 {
-    use InternalColorPersonalizations;
+    use InteractWithProviders;
 
     public function __construct(
         public ?string $text = null,
@@ -23,6 +23,8 @@ class Avatar extends Component implements Personalize
         public ?string $size = null,
     ) {
         $this->size = $this->sm ? 'sm' : ($this->lg ? 'lg' : 'md');
+
+        $this->colors();
     }
 
     public function personalization(): array
