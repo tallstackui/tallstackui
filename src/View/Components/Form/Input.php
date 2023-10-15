@@ -35,7 +35,7 @@ class Input extends Component implements Personalize
                 'paddings' => [
                     'left' => 'pl-10',
                     'right' => 'pr-10',
-                ]
+                ],
             ],
             'icon' => [
                 'wrapper' => 'pointer-events-none absolute inset-y-0 flex items-center text-secondary-500',

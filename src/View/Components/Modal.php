@@ -46,15 +46,12 @@ class Modal extends Component implements Personalize
     {
         return Arr::dot([
             'wrapper' => [
-                'first' => Arr::toCssClasses([
-                    'fixed inset-0 bg-gray-400 bg-opacity-50 transition-opacity',
-                    // TODO: internal
-                    'backdrop-blur-sm' => $this->blur === true,
-                ]),
+                'first' => 'fixed inset-0 bg-gray-400 bg-opacity-50 transition-opacity',
                 'second' => 'fixed inset-0 z-50 w-screen overflow-y-auto',
                 'third' => 'w-full min-h-full transform flex items-end justify-center mx-auto sm:items-start p-4',
                 'fourth' => 'relative flex w-full transform flex-col rounded-xl bg-white text-left shadow-xl transition-all',
             ],
+            'blur' => 'backdrop-blur-sm',
             'title' => [
                 'wrapper' => 'flex items-center justify-between border-b px-4 py-2.5',
                 'text' => 'whitespace-normal font-medium text-md text-secondary-600',

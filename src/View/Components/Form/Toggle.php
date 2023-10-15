@@ -38,7 +38,7 @@ class Toggle extends Component implements Personalize
                     'sm' => 'w-3 h-3 checked:translate-x-2.5',
                     'md' => 'w-3.5 h-3.5 checked:translate-x-4',
                     'lg' => 'w-4 h-4 checked:translate-x-4',
-                ]
+                ],
             ],
             'wrapper' => [
                 'class' => 'bg-secondary-200 block cursor-pointer rounded-full transition duration-100 ease-in-out group-focus:ring-2 group-focus:ring-offset-2 peer-focus:ring-2 peer-focus:ring-offset-2',
@@ -46,7 +46,7 @@ class Toggle extends Component implements Personalize
                     'sm' => 'h-4 w-7',
                     'md' => 'h-5 w-9',
                     'lg' => 'h-6 w-10',
-                ]
+                ],
             ],
             'error' => 'bg-red-600 peer-checked:bg-red-600 peer-focus:ring-red-600 group-focus:ring-red-600',
         ]);

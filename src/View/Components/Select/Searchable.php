@@ -41,6 +41,7 @@ class Searchable extends Styled
     public function render(): View
     {
         return view('tallstack-ui::components.select.searchable', [
+            //TODO: remove from here!
             'placeholder' => __('tallstack-ui::messages.select.placeholder'),
         ]);
     }
