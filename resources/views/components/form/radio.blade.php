@@ -7,9 +7,9 @@
 <x-wrapper.radio :$computed :$error :$label :$position :$id>
     <input @if ($id) id="{{ $id }}" @endif type="radio" {{ $attributes->class([
             $customize['input.class'],
-            $customize['input.sizes.sm'] => $sm,
-            $customize['input.sizes.md'] => $md,
-            $customize['input.sizes.lg'] => $lg,
+            $customize['input.sizes.sm'] => $size === 'sm',
+            $customize['input.sizes.md'] => $size === 'md',
+            $customize['input.sizes.lg'] => $size === 'lg',
             $colors['input.color'],
             $customize['error'] => $error
     ]) }} @checked($checked)>
