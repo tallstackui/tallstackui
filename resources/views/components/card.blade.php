@@ -9,7 +9,7 @@
                 </h3>
             </div>
         @endif
-        <div {{ $attributes->class($customize['main']) }}>
+        <div {{ $attributes->class($customize['body']) }}>
             {{ $slot }}
         </div>
         @if ($footer)
