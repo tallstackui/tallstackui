@@ -16,10 +16,10 @@ class Button extends Component implements Personalize
         public ?string $text = null,
         public ?string $icon = null,
         public ?string $position = 'left',
-        public ?string $xs = null,
-        public ?string $sm = null,
-        public ?string $md = null,
-        public ?string $lg = null,
+        public ?bool $xs = null,
+        public ?bool $sm = null,
+        public ?bool $md = null,
+        public ?bool $lg = null,
         public ?string $size = null,
         public ?string $color = 'primary',
         public ?string $square = null,
@@ -51,14 +51,14 @@ class Button extends Component implements Personalize
             ],
             'icon' => [
                 'sizes' => [
-                    'xs' => 'w-3 h-3',
+                    'xs' => 'w-2 h-2',
                     'sm' => 'w-3 h-3',
                     'md' => 'w-4 h-4',
                     'lg' => 'w-5 h-5',
                 ],
                 'loading' => [
                     'sizes' => [
-                        'xs' => 'w-3 h-3',
+                        'xs' => 'w-2 h-2',
                         'sm' => 'w-3 h-3',
                         'md' => 'w-4 h-4',
                         'lg' => 'w-5 h-5',

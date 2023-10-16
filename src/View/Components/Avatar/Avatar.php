@@ -15,9 +15,9 @@ class Avatar extends Component implements Personalize
     public function __construct(
         public ?string $text = null,
         public ?string $color = 'primary',
-        public ?string $sm = null,
-        public ?string $md = null,
-        public ?string $lg = null,
+        public ?bool $sm = null,
+        public ?bool $md = null,
+        public ?bool $lg = null,
         public bool $square = false,
         public bool $modelable = false,
         public ?string $size = null,
