@@ -6,7 +6,7 @@ use Exception;
 use Illuminate\Support\Facades\View as FacadeView;
 use Illuminate\View\View;
 use TallStackUi\View\Components\Alert;
-use TallStackUi\View\Components\Avatar\Avatar;
+use TallStackUi\View\Components\Avatar;
 use TallStackUi\View\Components\Avatar\Modelable;
 use TallStackUi\View\Components\Badge;
 use TallStackUi\View\Components\Button\Button;

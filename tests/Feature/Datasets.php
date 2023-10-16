@@ -108,7 +108,7 @@ dataset('components', [
     TallStackUi\View\Components\Dropdown\Dropdown::class,
     TallStackUi\View\Components\Dropdown\Items::class,
     TallStackUi\View\Components\Badge::class,
-    TallStackUi\View\Components\Avatar\Avatar::class,
+    \TallStackUi\View\Components\Avatar::class,
     TallStackUi\View\Components\Avatar\Modelable::class,
     TallStackUi\View\Components\Hint::class,
     TallStackUi\View\Components\Error::class,

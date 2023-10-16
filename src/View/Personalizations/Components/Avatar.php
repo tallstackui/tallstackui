@@ -2,7 +2,7 @@
 
 namespace TallStackUi\View\Personalizations\Components;
 
-use TallStackUi\View\Components\Avatar\Avatar as Component;
+use TallStackUi\View\Components\Avatar as Component;
 use TallStackUi\View\Personalizations\Contracts\Personalizable;
 use TallStackUi\View\Personalizations\PersonalizationResource;
 

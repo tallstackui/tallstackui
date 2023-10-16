@@ -7,9 +7,9 @@
         $customize['wrapper.sizes.md'] => $size === 'md',
         $customize['wrapper.sizes.lg'] => $size === 'lg',
         'rounded-full' => !$square,
-        'border-2' => !$modelable,
+        'border-2' => !$model,
     ]) }}>
-    @if ($modelable)
+    @if ($model)
         <img @class([
             $customize['content.image.class'],
             $customize['content.image.sizes.sm'] => $size === 'sm',

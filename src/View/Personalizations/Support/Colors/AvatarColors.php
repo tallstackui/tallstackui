@@ -4,7 +4,7 @@ namespace TallStackUi\View\Personalizations\Support\Colors;
 
 use Illuminate\Support\Arr;
 use TallStackUi\Facades\TallStackUi;
-use TallStackUi\View\Components\Avatar\Avatar;
+use TallStackUi\View\Components\Avatar;
 
 class AvatarColors
 {
@@ -26,7 +26,7 @@ class AvatarColors
                 TallStackUi::colors()
                     ->set('bg', $colors, $weight)
                     ->merge('border', $colors, $weight)
-                    ->get() => ! $avatar->modelable,
+                    ->get() => ! $avatar->model,
             ]),
         ];
     }
