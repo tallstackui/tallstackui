@@ -17,7 +17,7 @@ it('can render', function () {
 
 it('can thrown exception when wire is empty', function () {
     $this->expectException(ViewException::class);
-    $this->expectExceptionMessage('The wire property cannot be an empty string.');
+    $this->expectExceptionMessage('The [wire] property cannot be an empty string');
 
     $modal = <<<'HTML'
     <x-modal wire="">

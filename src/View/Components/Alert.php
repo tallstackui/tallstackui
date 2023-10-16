@@ -34,14 +34,14 @@ class Alert extends Component implements Personalize
             'title' => [
                 'text' => 'text-lg font-semibold',
                 'wrapper' => 'flex items-center justify-between',
-                'icon' => [
+                'close' => [
                     'wrapper' => 'ml-auto pl-3',
                     'size' => 'w-5 h-5',
                 ],
             ],
             'text' => [
                 'wrapper' => 'flex items-center justify-between',
-                'icon' => [
+                'close' => [
                     'wrapper' => 'flex items-center',
                     'size' => 'w-5 h-5',
                 ],

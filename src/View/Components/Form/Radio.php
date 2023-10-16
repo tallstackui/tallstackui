@@ -33,7 +33,7 @@ class Radio extends Component implements Personalize
     {
         return Arr::dot([
             'input' => [
-                'class' => 'form-radio rounded-full transition ease-in-out duration-100 border-secondary-300',
+                'class' => 'form-radio rounded-full transition ease-in-out duration-100 border-secondary-200',
                 'sizes' => [
                     'sm' => 'w-4 h-4',
                     'md' => 'w-5 h-5',

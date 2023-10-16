@@ -14,7 +14,7 @@ class IndexTest extends BrowserTestCase
         $this->browse(function (Browser $browser) {
             $this->visit($browser, AlertComponent::class)
                 ->assertSee('Foo bar')
-                ->click('#close')
+                ->click('@alert-close-button')
                 ->waitUntilMissingText('Foo bar');
         });
     }

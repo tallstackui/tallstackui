@@ -4,25 +4,29 @@ namespace TallStackUi\View\Personalizations\Support\Colors;
 
 use TallStackUi\Facades\TallStackUi;
 use TallStackUi\View\Components\Form\Toggle;
-use TallStackUi\View\Personalizations\Support\Color;
 
 class ToggleColors
 {
     public function __invoke(Toggle $toggle): array
     {
+        $colors = match ($toggle->color) {
+            'white' => 'gray',
+            'black' => 'neutral',
+            default => $toggle->color,
+        };
+
+        $weight = match ($toggle->color) {
+            'white' => 300,
+            'black' => 700,
+            default => 500,
+        };
+
         return [
             'wrapper.color' => TallStackUi::colors()
                 ->clean(false)
-                ->when($toggle->color === 'white', function (Color $color) {
-                    return $color->set('peer-checked:bg', 'gray', 300)
-                        ->set('peer-focus:ring', 'gray', 300)
-                        ->set('group-focus:ring', 'gray', 300);
-                })
-                ->unless($toggle->color === 'white', function (Color $color) use ($toggle) {
-                    return $color->set('peer-checked:bg', $toggle->color, $toggle->color === 'black' ? null : 600)
-                        ->set('peer-focus:ring', $toggle->color, $toggle->color === 'black' ? null : 600)
-                        ->set('group-focus:ring', $toggle->color, $toggle->color === 'black' ? null : 600);
-                })
+                ->set('peer-checked:bg', $colors, $weight)
+                ->set('peer-focus:ring', $colors, $weight)
+                ->set('group-focus:ring', $colors, $weight)
                 ->get(),
         ];
     }

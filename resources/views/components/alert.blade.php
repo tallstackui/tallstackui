@@ -7,9 +7,9 @@
         <div @class($customize['title.wrapper'])>
             <h3 @class([$customize['title.text'], $colors['title.base.color']])>{{ $title }}</h3>
             @if ($closeable)
-                <div @class($customize['title.icon.wrapper'])>
-                    <button id="close" x-on:click="show = false">
-                        <x-icon icon="x-mark" @class([$customize['title.icon.size'], $colors['title.icon.color']]) />
+                <div @class($customize['title.close.wrapper'])>
+                    <button dusk="alert-close-button" class="cursor-pointer" x-on:click="show = false">
+                        <x-icon icon="x-mark" @class([$customize['title.close.size'], $colors['title.close.color']]) />
                     </button>
                 </div>
             @endif
@@ -30,9 +30,9 @@
             <p>{{ $text ?? $slot }}</p>
         </div>
         @if (!$title && $closeable)
-            <div @class($customize['text.icon.wrapper'])>
-                <button id="close" x-on:click="show = false">
-                    <x-icon icon="x-mark" @class([$customize['text.icon.size'], $colors['text.icon.color']]) />
+            <div @class($customize['text.close.wrapper'])>
+                <button dusk="alert-close-button" class="cursor-pointer" x-on:click="show = false">
+                    <x-icon icon="x-mark" @class([$customize['text.close.size'], $colors['text.close.color']]) />
                 </button>
             </div>
         @endif

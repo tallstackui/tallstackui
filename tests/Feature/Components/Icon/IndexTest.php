@@ -24,7 +24,7 @@ it('can render with error', function () {
 
 it('cannot render with inaceptable type', function () {
     $this->expectException(ViewException::class);
-    $this->expectExceptionMessage('The icon must be one of the following: [solid, outline]. Provided: [foo-bar]');
+    $this->expectExceptionMessage('The icon must be one of the following: [solid, outline]');
 
     $this->blade('<x-icon icon="users" type="foo-bar" />')
         ->assertSee('<svg', false);

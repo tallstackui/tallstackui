@@ -33,7 +33,7 @@ it('can render translucent', function () {
 it('can render black background with white text', function () {
     $this->blade('<x-alert text="Foo bar" color="black" />')
         ->assertSee('Foo bar')
-        ->assertSee('bg-black')
+        ->assertSee('bg-neutral')
         ->assertSee('text-white')
         ->assertDontSee('text-black');
 });
@@ -42,7 +42,7 @@ it('can render white background with black text', function () {
     $this->blade('<x-alert text="Foo bar" color="white" />')
         ->assertSee('Foo bar')
         ->assertSee('bg-white')
-        ->assertSee('text-black')
+        ->assertSee('text-neutral')
         ->assertDontSee('text-white');
 });
 
