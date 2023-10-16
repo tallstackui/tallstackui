@@ -37,7 +37,8 @@ class ConfigurationProvider
         $configuration = config('tallstackui.personalizations.dialog');
 
         return collect($configuration)
-            ->mapWithKeys(fn (string|bool|array $value, string $key) => [$key => $value])->toArray();
+            ->mapWithKeys(fn (string|bool|array $value, string $key) => [$key => $value])
+            ->toArray();
     }
 
     private function input(): array
@@ -45,7 +46,8 @@ class ConfigurationProvider
         $configuration = config('tallstackui.personalizations.input');
 
         return collect($configuration)
-            ->mapWithKeys(fn (string|bool|array $value, string $key) => [$key => $value])->toArray();
+            ->mapWithKeys(fn (string|bool|array $value, string $key) => [$key => $value])
+            ->toArray();
     }
 
     private function tab(): array
@@ -53,7 +55,8 @@ class ConfigurationProvider
         $configuration = config('tallstackui.personalizations.tab');
 
         return collect($configuration)
-            ->mapWithKeys(fn (string|bool|array $value, string $key) => [$key => $value])->toArray();
+            ->mapWithKeys(fn (string|bool|array $value, string $key) => [$key => $value])
+            ->toArray();
     }
 
     private function toast(): array
@@ -61,6 +64,7 @@ class ConfigurationProvider
         $configuration = config('tallstackui.personalizations.toast');
 
         return collect($configuration)
-            ->mapWithKeys(fn (string|bool|array $value, string $key) => [$key => $value])->toArray();
+            ->mapWithKeys(fn (string|bool|array $value, string $key) => [$key => $value])
+            ->toArray();
     }
 }

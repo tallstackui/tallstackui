@@ -31,7 +31,7 @@ class Avatar extends Component implements Personalize
     {
         return Arr::dot([
             'wrapper' => [
-                'class' => 'inline-flex shrink-0 items-center justify-center overflow-hidden text-xl',
+                'class' => 'inline-flex shrink-0 items-center justify-center overflow-hidden',
                 'sizes' => [
                     'sm' => 'w-8 h-8 text-xs',
                     'md' => 'w-12 h-12 text-xl',
@@ -51,7 +51,7 @@ class Avatar extends Component implements Personalize
                     'class' => 'font-semibold',
                     'colors' => [
                         'colorful' => 'text-white',
-                        'white-black' => 'text-neutral',
+                        'white' => 'text-neutral-700',
                     ],
                 ],
             ],

@@ -82,13 +82,13 @@ class ButtonColors
             'white' => [
                 'border' => 200,
                 'ring' => 200,
-                'hover:bg' => 200,
+                'hover:bg' => 50,
                 'hover:ring' => 200,
             ],
             'black' => [
                 'border' => 950,
                 'ring' => 950,
-                'hover:bg' => 200,
+                'hover:bg' => 50,
                 'hover:ring' => 950,
             ],
             default => [
@@ -141,12 +141,18 @@ class ButtonColors
 
     private function text(Color $color): Color
     {
-        $weight = $this->component->color === 'white' ? 950 : 50;
+        $weights = [
+            'solid' => match ($this->component->color) {
+                'white' => 700,
+                default => 50,
+            },
+            'outline' => match ($this->component->color) {
+                'white' => 700,
+                'black' => 950,
+                default => 500,
+            },
+        ];
 
-        if ($this->component->style === 'outline') {
-            $weight = in_array($this->component->color, ['black', 'white']) ? 950 : 500;
-        }
-
-        return $color->set('text', $this->variations['text'], $weight);
+        return $color->set('text', $this->variations['text'], $weights[$this->component->style]);
     }
 }

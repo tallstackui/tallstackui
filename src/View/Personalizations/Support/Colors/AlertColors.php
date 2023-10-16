@@ -11,9 +11,10 @@ class AlertColors
 {
     public function __invoke(Alert $alert): array
     {
-        $weight = $alert->color === 'black' || $alert->color === 'white' ? null : 900;
+        $weight = $alert->color === 'white' ? 700 : ($alert->color === 'black' ? null : 700);
+
         $color = TallStackUi::colors()
-            ->when($alert->style === 'solid', fn (Color $color) => $color->set('text', $alert->color === 'black' ? 'white' : ($alert->color === 'white' ? 'black' : $alert->color), $weight))
+            ->when($alert->style === 'solid', fn (Color $color) => $color->set('text', $alert->color === 'black' ? 'white' : ($alert->color === 'white' ? 'neutral' : $alert->color), $weight))
             ->unless($alert->style === 'solid', fn (Color $color) => $color->set('text', $alert->color === 'white' ? 'black' : $alert->color, $weight))
             ->get();
 
