@@ -9,32 +9,73 @@ use TallStackUi\View\Personalizations\Support\Color;
 
 class AlertColors
 {
+    protected Alert $alert;
+
     public function __invoke(Alert $alert): array
     {
-        $weight = $alert->color === 'white' ? 700 : ($alert->color === 'black' ? null : 700);
-
-        $color = TallStackUi::colors()
-            ->when($alert->style === 'solid', fn (Color $color) => $color->set('text', $alert->color === 'black' ? 'white' : ($alert->color === 'white' ? 'neutral' : $alert->color), $weight))
-            ->unless($alert->style === 'solid', fn (Color $color) => $color->set('text', $alert->color === 'white' ? 'black' : $alert->color, $weight))
-            ->get();
+        $this->alert = $alert;
+        $text = $this->text();
 
         return [
-            'wrapper.color' => Arr::toCssClasses([
-                TallStackUi::colors()
-                    ->when($alert->style === 'solid', fn (Color $color) => $color->set('bg', $alert->color, ! in_array($alert->color, ['white', 'black']) ? 300 : null))
-                    ->unless($alert->style === 'solid', fn (Color $color) => $color->set('bg', $alert->color === 'black' ? 'neutral' : $alert->color, $alert->color === 'black' ? 200 : 100))
-                    ->get(),
-                'border border-gray-100' => $alert->color === 'white',
-            ]),
-            'title.base.color' => Arr::toCssClasses([$color => $alert->title !== null]),
-            'title.icon.color' => $color,
-            'text.title.wrapper.color' => $color,
-            'text.icon.color' => $color,
+            'wrapper.color' => Arr::toCssClasses([$this->background(), 'border border-gray-100' => $this->alert->color === 'white']),
+            'title.base.color' => Arr::toCssClasses([$text => $alert->title !== null]),
+            'title.icon.color' => $text,
+            'text.title.wrapper.color' => $text,
+            'text.icon.color' => $text,
             'icon.color' => Arr::toCssClasses([
                 TallStackUi::colors()
                     ->set('text', $alert->color === 'black' ? 'white' : $alert->color, $alert->color === 'black' ? null : 500)
                     ->get() => $alert->color !== 'white',
             ]),
         ];
+    }
+
+    private function background(): string
+    {
+        $colors = match ($this->alert->color) {
+            'black' => 'neutral',
+            default => $this->alert->color,
+        };
+
+        return TallStackUi::colors()
+            ->when($this->alert->style === 'solid', function (Color $color) use ($colors) {
+                $weight = match ($this->alert->color) {
+                    'black' => 700,
+                    'white' => null,
+                    default => 300,
+                };
+
+                return $color->set('bg', $colors, $weight);
+            })
+            ->when($this->alert->style === 'translucent', function (Color $color) use ($colors) {
+                $weight = match ($this->alert->color) {
+                    'black' => 200,
+                    default => 100,
+                };
+
+                return $color->set('bg', $colors, $weight);
+            })
+            ->get();
+    }
+
+    private function text(): string
+    {
+        $weight = $this->alert->color === 'white' ? 900 : ($this->alert->color === 'black' ? null : 900);
+
+        return TallStackUi::colors()
+            ->when($this->alert->style === 'solid', function (Color $color) use ($weight) {
+                return (match ($this->alert->color) {
+                    'black' => fn () => $color->set('text', 'white'),
+                    'white' => fn () => $color->set('text', 'neutral', 900),
+                    default => fn () => $color->set('text', $this->alert->color, $weight),
+                })();
+            })
+            ->when($this->alert->style === 'translucent', function (Color $color) use ($weight) {
+                return (match ($this->alert->color === 'black' || $this->alert->color === 'white') {
+                    true => fn () => $color->set('text', 'neutral', 900),
+                    default => fn () => $color->set('text', $this->alert->color, $weight),
+                })();
+            })
+            ->get();
     }
 }
