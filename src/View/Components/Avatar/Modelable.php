@@ -11,9 +11,9 @@ class Modelable extends Avatar
     public function __construct(
         public Model $model,
         public ?string $property = 'name',
-        public ?string $sm = null,
-        public ?string $md = null,
-        public ?string $lg = null,
+        public ?bool $sm = null,
+        public ?bool $md = null,
+        public ?bool $lg = null,
         public ?string $background = '0D8ABC',
         public ?string $color = 'FFFFFF',
         public bool $square = false,
