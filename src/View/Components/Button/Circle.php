@@ -30,7 +30,7 @@ class Circle extends Component implements Personalize
     public function personalization(): array
     {
         return [
-            'wrapper' => 'outline-no ne inline-flex justify-center items-center group transition ease-in duration-150 w-9 h-9 font-semibold focus:ring-2 focus:ring-offset-2 hover:shadow-sm disabled:opacity-50 disabled:cursor-not-allowed rounded-full',
+            'wrapper' => 'outline-none inline-flex justify-center items-center group transition ease-in duration-150 w-9 h-9 font-semibold focus:ring-2 focus:ring-offset-2 hover:shadow-sm disabled:opacity-50 disabled:cursor-not-allowed rounded-full',
             'icon.size' => 'w-4 h-4',
         ];
     }

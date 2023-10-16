@@ -2,7 +2,7 @@
 
 use TallStackUi\Facades\TallStackUi;
 
-test('can mock `directives->scripts`', function () {
+test('can mock directives->scripts', function () {
     TallStackUi::shouldReceive('directives->scripts')
         ->andReturn('foo-bar');
 
@@ -11,7 +11,7 @@ test('can mock `directives->scripts`', function () {
     expect($script)->toBe('foo-bar');
 });
 
-test('can mock `directives->styles`', function () {
+test('can mock directives->styles', function () {
     TallStackUi::shouldReceive('directives->styles')
         ->andReturn('foo-bar');
 
