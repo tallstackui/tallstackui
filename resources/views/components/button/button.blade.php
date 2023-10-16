@@ -28,7 +28,13 @@
     @endif
     {{ $text ?? $slot }}
     @if ($icon && $position === 'right')
-        <x-icon :$icon @class([$customize['icon.size'], $colors['icon.color']]) />
+        <x-icon :$icon @class([
+                $customize['icon.sizes.xs'] => $size === 'xs',
+                $customize['icon.sizes.sm'] => $size === 'sm',
+                $customize['icon.sizes.md'] => $size === 'md',
+                $customize['icon.sizes.lg'] => $size === 'lg',
+                $colors['icon.color']
+            ]) />
     @endif
     @if ($loading)
         <svg @if ($loading !== "1") wire:target="{{ $loading }}" @endif

@@ -11,7 +11,9 @@
             {!! $slot !!}
         </label>
         @if ($label && $position === 'right')
-        <p @class([$customize['label.base.text'], $customize['label.base.error'] => $error, 'ml-2'])>{{ $label }}</p>
+        <p @class([$customize['label.wrapper.text'], $customize['label.wrapper.error'] => $error, 'ml-2'])>
+            {{ $label }}
+        </p>
         @endif
     </div>
     <x-error :$computed :$error/>

@@ -6,7 +6,7 @@
         $customize['wrapper.sizes.md'] => $size == 'md',
         $customize['wrapper.sizes.lg'] => $size == 'lg',
         $colors['wrapper.color'],
-        'text-white' => $color !== 'white' && $style === 'solid',
+        'text-white' => $style === 'solid' && $color !== 'white',
         'rounded-md' => !$round && !$square,
         'rounded-full' => $round,
     ]) }}>

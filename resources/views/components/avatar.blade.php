@@ -11,7 +11,7 @@
     ]) }}>
     @if ($modelable)
         <img @class([
-            $customize['content.image'],
+            $customize['content.image.class'],
             $customize['content.image.sizes.sm'] => $size === 'sm',
             $customize['content.image.sizes.md'] => $size === 'md',
             $customize['content.image.sizes.lg'] => $size === 'lg',
