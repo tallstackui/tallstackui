@@ -1,6 +1,6 @@
 @php($customize = tallstackui_personalization('dropdown', $personalization()))
 
-<div @class($customize['wrapper.first']) x-data="{ show : false }">
+<div @class($customize['wrapper.first']) x-data="{ show : false, animate : @js($static) }">
     <div @class($customize['wrapper.second']) x-on:click.outside="show = false">
         @if ($text)
             <div @class($customize['action.wrapper'])>
@@ -9,7 +9,7 @@
                         dusk="open-dropdown"
                         @class($customize['action.icon'])
                         x-on:click="show = !show"
-                        x-bind:class="{ 'transform rotate-180': show }"
+                        x-bind:class="{ 'transform rotate-180': !animate && show }"
                 />
             </div>
         @elseif ($icon)
@@ -18,7 +18,7 @@
                         dusk="open-dropdown"
                         @class($customize['action.icon'])
                         x-on:click="show = !show"
-                        x-bind:class="{ 'transform rotate-180': show }"
+                        x-bind:class="{ 'transform rotate-180': !animate && show }"
                 />
             </div>
         @else

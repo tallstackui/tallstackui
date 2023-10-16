@@ -15,6 +15,7 @@ class Dropdown extends Component implements Personalize
         public ?string $header = null,
         public ?string $action = null,
         public ?bool $right = false,
+        public ?bool $static = false,
     ) {
         //
     }
