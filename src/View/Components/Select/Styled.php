@@ -27,10 +27,10 @@ class Styled extends Component implements Personalize
         $this->options();
 
         if (isset($this->options[0]) && (is_array($this->options[0]) && ! $this->select)) {
-            throw new InvalidArgumentException('The [select] parameter must be defined');
+            throw new InvalidArgumentException('The [select] parameter must be defined.');
         }
 
-        $this->placeholder = __('tallstack-ui::messages.select.placeholder');
+        $this->placeholder ??= __('tallstack-ui::messages.select.placeholder');
     }
 
     public function personalization(): array

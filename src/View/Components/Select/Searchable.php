@@ -29,7 +29,7 @@ class Searchable extends Styled
 
         $this->request();
 
-        $this->placeholder = __('tallstack-ui::messages.select.placeholder');
+        $this->placeholder ??= __('tallstack-ui::messages.select.placeholder');
     }
 
     public function personalization(): array

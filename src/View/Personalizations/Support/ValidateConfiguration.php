@@ -10,7 +10,7 @@ use TallStackUi\View\Components\Interaction\Toast;
 /**
  * @internal This class is not meant to be used directly.
  */
-class Validation
+class ValidateConfiguration
 {
     /** @throws Exception */
     public static function from(object $component): void

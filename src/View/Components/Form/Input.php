@@ -31,7 +31,7 @@ class Input extends Component implements Personalize
     {
         return Arr::dot([
             'input' => [
-                'class' => $this->inputClasses(),
+                'class' => $this->input(),
                 'paddings' => [
                     'left' => 'pl-10',
                     'right' => 'pr-10',
