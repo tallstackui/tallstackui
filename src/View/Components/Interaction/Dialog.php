@@ -42,9 +42,8 @@ class Dialog extends Component implements Personalize
                 ],
             ],
             'buttons' => [
-                'wrapper' => 'mt-5 space-y-2 sm:mt-6 sm:space-y-0 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3',
-                'cancel' => 'inline-flex w-full items-center justify-center bg-white px-4 py-2 text-sm font-semibold text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300',
-                'confirm' => 'inline-flex w-full items-center justify-center px-4 py-2 text-sm transition font-semibold text-white outline-none ease-in group focus:ring-2 focus:ring-offset-2',
+                'wrapper' => 'mt-5 space-y-2 sm:mt-6 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3 sm:space-y-0',
+                'confirm' => 'group inline-flex w-full items-center justify-center rounded px-4 py-2 text-sm font-semibold text-white outline-none transition ease-in focus:ring-2 focus:ring-offset-2',
                 'close' => [
                     'wrapper' => 'flex justify-end',
                     'icon' => 'h-5 w-5 cursor-pointer text-gray-400',
