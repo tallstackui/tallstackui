@@ -2,7 +2,7 @@
 
 use TallStackUi\Http\Controllers\TallStackUiAssetsController;
 
-describe('TallStackUiAssetsController tests', function () {
+describe('TallStackUiAssetsController', function () {
     test('contains all methods', function () {
         expect(TallStackUiAssetsController::class)
             ->toHaveMethod('scripts')

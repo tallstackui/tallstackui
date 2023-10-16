@@ -4,9 +4,9 @@ namespace Tests\Browser\Select\Components\Styled;
 
 use Livewire\Component;
 
-class StyledMultipleLiveEntangleComponent extends Component
+class StyledMultipleEntangleLiveWithDefaultComponent extends Component
 {
-    public ?array $options = [];
+    public ?array $options = ['bar', 'foo'];
 
     public function render(): string
     {
@@ -20,6 +20,7 @@ class StyledMultipleLiveEntangleComponent extends Component
                              :options="[
                                 ['label' => 'foo', 'value' => 'bar'],
                                 ['label' => 'bar', 'value' => 'foo'],
+                                ['label' => 'baz', 'value' => 'baz'],
                              ]"
                              select="label:label|value:value"
                              searchable

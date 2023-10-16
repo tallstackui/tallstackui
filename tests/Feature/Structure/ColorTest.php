@@ -3,7 +3,7 @@
 use TallStackUi\Facades\TallStackUi as Facade;
 use TallStackUi\View\Personalizations\Support\Color;
 
-describe('Color tests', function () {
+describe('Color', function () {
     test('should be final')
         ->expect(Color::class)
         ->toBeFinal();
@@ -24,7 +24,7 @@ describe('Color tests', function () {
         'get',
     ]);
 
-    test('manage class', function () {
+    test('should work', function () {
         $color = Facade::colors()
             ->set('bg', 'red', '100')
             ->merge('bg', 'blue', '200')

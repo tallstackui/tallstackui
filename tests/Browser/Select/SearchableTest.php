@@ -9,8 +9,8 @@ use Tests\Browser\Select\Components\Searchable\SearchableComponent;
 use Tests\Browser\Select\Components\Searchable\SearchableFilteredComponent;
 use Tests\Browser\Select\Components\Searchable\SearchableLoadLiveEntangleComponent;
 use Tests\Browser\Select\Components\Searchable\SearchableMultipleComponent;
-use Tests\Browser\Select\Components\Searchable\SearchableMultipleLiveEntangleComponent;
-use Tests\Browser\Select\Components\Searchable\SearchableMultipleLiveEntangleDefaultComponent;
+use Tests\Browser\Select\Components\Searchable\SearchableMultipleEntangleLiveComponent;
+use Tests\Browser\Select\Components\Searchable\SearchableMultipleEntangleLiveDefaultComponent;
 
 class SearchableTest extends BrowserTestCase
 {
@@ -35,7 +35,7 @@ class SearchableTest extends BrowserTestCase
     public function can_deselect_single_in_multiple_with_live_entangle_preserving_others(): void
     {
         $this->browse(function (Browser $browser) {
-            $this->visit($browser, SearchableMultipleLiveEntangleDefaultComponent::class)
+            $this->visit($browser, SearchableMultipleEntangleLiveDefaultComponent::class)
                 ->assertDontSee('Select an option')
                 ->click('@tallstackui_select_open_close')
                 ->waitForText('delectus aut autem')
@@ -136,7 +136,7 @@ class SearchableTest extends BrowserTestCase
     public function can_select_multiple_with_live_entangle_preserving_default(): void
     {
         $this->browse(function (Browser $browser) {
-            $this->visit($browser, SearchableMultipleLiveEntangleComponent::class)
+            $this->visit($browser, SearchableMultipleEntangleLiveComponent::class)
                 ->assertSee('Select an option')
                 ->click('@tallstackui_select_open_close')
                 ->waitForText('delectus aut autem')

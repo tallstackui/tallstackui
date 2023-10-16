@@ -7,8 +7,8 @@ use Tests\Browser\BrowserTestCase;
 use Tests\Browser\Select\Components\Styled\StyledAfterComponent;
 use Tests\Browser\Select\Components\Styled\StyledComponent;
 use Tests\Browser\Select\Components\Styled\StyledMultipleComponent;
-use Tests\Browser\Select\Components\Styled\StyledMultipleLiveEntangleComponent;
-use Tests\Browser\Select\Components\Styled\StyledMultipleLiveEntangleWithDefaultComponent;
+use Tests\Browser\Select\Components\Styled\StyledMultipleEntangleLiveComponent;
+use Tests\Browser\Select\Components\Styled\StyledMultipleEntangleLiveWithDefaultComponent;
 use Tests\Browser\Select\Components\Styled\StyledSearchableComponent;
 
 class StyledTest extends BrowserTestCase
@@ -35,7 +35,7 @@ class StyledTest extends BrowserTestCase
     public function can_deselect_single_in_multiple_with_live_entangle_preserving_others()
     {
         $this->browse(function (Browser $browser) {
-            $this->visit($browser, StyledMultipleLiveEntangleWithDefaultComponent::class)
+            $this->visit($browser, StyledMultipleEntangleLiveWithDefaultComponent::class)
                 ->assertSee('foo')
                 ->assertSee('bar')
                 ->click('@tallstackui_select_open_close')
@@ -124,7 +124,7 @@ class StyledTest extends BrowserTestCase
     public function can_select_multiple_with_live_entangle()
     {
         $this->browse(function (Browser $browser) {
-            $this->visit($browser, StyledMultipleLiveEntangleComponent::class)
+            $this->visit($browser, StyledMultipleEntangleLiveComponent::class)
                 ->assertSee('Select an option')
                 ->assertDontSee('foo')
                 ->assertDontSee('bar')
@@ -142,7 +142,7 @@ class StyledTest extends BrowserTestCase
     public function can_select_multiple_with_live_entangle_preserving_default()
     {
         $this->browse(function (Browser $browser) {
-            $this->visit($browser, StyledMultipleLiveEntangleWithDefaultComponent::class)
+            $this->visit($browser, StyledMultipleEntangleLiveWithDefaultComponent::class)
                 ->assertSee('foo')
                 ->assertSee('bar')
                 ->assertDontSee('["bar","foo","baz"]')

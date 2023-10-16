@@ -2,7 +2,7 @@
 
 use TallStackUi\View\Personalizations\Personalization;
 
-test('personalization class should have all personalization methods', function (string $method) {
+test('Personalization', function (string $method) {
     expect(Personalization::class)->toHaveMethod($method);
 })->with([
     '__construct',

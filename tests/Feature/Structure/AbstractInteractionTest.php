@@ -4,7 +4,7 @@ use TallStackUi\Actions\AbstractInteraction;
 use TallStackUi\Actions\Dialog;
 use TallStackUi\Actions\Toast;
 
-describe('AbstractInteraction class tests', function () {
+describe('AbstractInteraction', function () {
     test('class should be abstract')
         ->expect(AbstractInteraction::class)
         ->toBeAbstract();

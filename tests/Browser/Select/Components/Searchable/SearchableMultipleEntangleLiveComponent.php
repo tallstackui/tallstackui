@@ -4,7 +4,7 @@ namespace Tests\Browser\Select\Components\Searchable;
 
 use Livewire\Component;
 
-class SearchableMultipleLiveEntangleComponent extends Component
+class SearchableMultipleEntangleLiveComponent extends Component
 {
     public ?array $array = null;
 

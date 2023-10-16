@@ -109,6 +109,7 @@ trait BrowserFunctions
     {
         app('session')->put('_token', 'taste-ui-testing-token');
         app('config')->set('view.paths', [__DIR__.'/views', resource_path('views')]);
+        config()->set('app.env', 'testing');
         config()->set('app.debug', true);
     }
 }
