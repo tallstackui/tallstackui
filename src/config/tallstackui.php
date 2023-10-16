@@ -23,7 +23,7 @@ return [
         'input' => [
             /* Input, Textarea & Password */
             'square' => false,
-            /* Input & Password Only */
+            /* Input & Password */
             'round' => false,
         ],
         'tab' => [
