@@ -86,10 +86,10 @@ class ButtonColors
                 'hover:ring' => 200,
             ],
             'black' => [
-                'border' => 950,
-                'ring' => 950,
+                'border' => 700,
+                'ring' => 700,
                 'hover:bg' => 50,
-                'hover:ring' => 950,
+                'hover:ring' => 700,
             ],
             default => [
                 'border' => 500,
@@ -118,10 +118,10 @@ class ButtonColors
                 'hover:ring' => 200,
             ],
             'black' => [
-                'bg' => 950,
-                'ring' => 950,
+                'bg' => 700,
+                'ring' => 700,
                 'hover:bg' => 700,
-                'hover:ring' => 950,
+                'hover:ring' => 700,
             ],
             default => [
                 'bg' => 500,

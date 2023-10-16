@@ -10,11 +10,22 @@ class AvatarColors
 {
     public function __invoke(Avatar $avatar): array
     {
+        $colors = match ($avatar->color) {
+            'white', 'black' => 'neutral',
+            default => $avatar->color,
+        };
+
+        $weight = match ($avatar->color) {
+            'black' => 700,
+            'white' => null,
+            default => 500,
+        };
+
         return [
             'wrapper.color' => Arr::toCssClasses([
                 TallStackUi::colors()
-                    ->set('bg', $avatar->color, $avatar->color === 'black' ? null : 500)
-                    ->merge('border', $avatar->color, $avatar->color === 'black' ? null : 500)
+                    ->set('bg', $colors, $weight)
+                    ->merge('border', $colors, $weight)
                     ->get() => ! $avatar->modelable,
             ]),
         ];

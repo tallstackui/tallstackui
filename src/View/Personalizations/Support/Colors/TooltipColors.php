@@ -13,7 +13,19 @@ class TooltipColors
         return [
             'icon.color' => TallStackUi::colors()
                 ->when($tooltip->color === 'white', fn (Color $color) => $color->set('text', 'gray', 300))
-                ->unless($tooltip->color === 'white', fn (Color $color) => $color->set('text', $tooltip->color, 500))
+                ->unless($tooltip->color === 'white', function (Color $color) use ($tooltip) {
+                    $colors = match ($tooltip->color) {
+                        'black' => 'neutral',
+                        default => $tooltip->color,
+                    };
+
+                    $weight = match ($tooltip->color) {
+                        'black' => 700,
+                        default => 500,
+                    };
+
+                    return $color->set('text', $colors, $weight);
+                })
                 ->get(),
         ];
     }

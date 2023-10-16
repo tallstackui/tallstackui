@@ -8,17 +8,16 @@ use TallStackUi\View\Components\Badge;
 
 class BadgeColors
 {
+    protected Badge $badge;
+
     public function __invoke(Badge $badge): array
     {
+        $this->badge = $badge;
+
         return [
             'wrapper.color' => Arr::toCssClasses([
-                TallStackUi::colors()
-                    ->set('border', $badge->color, $badge->color === 'black' ? null : 500)
-                    ->mergeWhen($badge->style === 'solid', 'bg', $badge->color, $badge->color === 'black' ? null : 500)
-                    ->get(),
-                TallStackUi::colors()
-                    ->set('text', $badge->color === 'white' ? 'black' : $badge->color, $badge->color === 'white' ? null : 500)
-                    ->get() => $badge->style === 'outline',
+                $this->background(),
+                $this->text() => $badge->style === 'outline',
             ]),
             'icon.color' => Arr::toCssClasses([
                 'text-white' => $badge->color !== 'white' && $badge->style === 'solid',
@@ -27,5 +26,41 @@ class BadgeColors
                     ->get() => $badge->style === 'outline',
             ]),
         ];
+    }
+
+    private function background(): string
+    {
+        $colors = match ($this->badge->color) {
+            'white', 'black' => 'neutral',
+            default => $this->badge->color,
+        };
+
+        $weight = match ($this->badge->color) {
+            'black' => 700,
+            'white' => null,
+            default => 500,
+        };
+
+        return TallStackUi::colors()
+            ->set('border', $colors, $weight)
+            ->mergeWhen($this->badge->style === 'solid', 'bg', $colors, $weight)
+            ->get();
+    }
+
+    private function text(): string
+    {
+        $colors = match ($this->badge->color) {
+            'white', 'black' => 'neutral',
+            default => $this->badge->color,
+        };
+
+        $weight = match ($this->badge->color) {
+            'white', 'black' => null,
+            default => 500,
+        };
+
+        return TallStackUi::colors()
+            ->set('text', $colors, $weight)
+            ->get();
     }
 }

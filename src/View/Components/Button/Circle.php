@@ -14,8 +14,8 @@ class Circle extends Component implements Personalize
     public function __construct(
         public ?string $text = null,
         public ?string $icon = null,
-        public ?string $solid = null,
-        public ?string $outline = null,
+        public ?bool $solid = null,
+        public ?bool $outline = null,
         public ?string $color = 'primary',
         public ?string $href = null,
         public ?string $loading = null,
