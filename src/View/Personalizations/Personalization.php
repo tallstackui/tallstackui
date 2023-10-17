@@ -103,7 +103,13 @@ class Personalization
 
     public function button(string $component = null): Button|Circle
     {
-        $class = $component === 'circle' ? Circle::class : Button::class;
+        $component ??= 'button';
+
+        $class = match ($component) {
+            'button' => Button::class,
+            'circle' => Circle::class,
+            default => $component,
+        };
 
         return app($this->component($class));
     }
