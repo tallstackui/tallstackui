@@ -2,17 +2,20 @@
 
 namespace TallStackUi\View\Components\Select;
 
+use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Collection;
 use Illuminate\View\Component;
 use InvalidArgumentException;
 use TallStackUi\View\Components\Select\Traits\InteractsWithSelectOptions;
 use TallStackUi\View\Personalizations\Contracts\Personalize;
+use Throwable;
 
 class Styled extends Component implements Personalize
 {
     use InteractsWithSelectOptions;
 
+    /** @throws Throwable */
     public function __construct(
         public ?string $label = null,
         public ?string $hint = null,
@@ -31,6 +34,8 @@ class Styled extends Component implements Personalize
         }
 
         $this->placeholder ??= __('tallstack-ui::messages.select.placeholder');
+
+        throw_if(blank($this->placeholder), new Exception('The [placeholder] cannot be empty.'));
     }
 
     public function personalization(): array

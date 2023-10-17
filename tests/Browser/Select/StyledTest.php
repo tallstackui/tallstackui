@@ -43,6 +43,7 @@ class StyledTest extends BrowserTestCase
                 ->waitForText('bar')
                 ->waitForText('baz')
                 ->clickAtXPath('/html/body/div[3]/div/div[2]/div[2]/ul/li[3]')
+                ->click('@tallstackui_select_open_close')
                 ->clickAtXPath('/html/body/div[3]/div/div[2]/div[2]/ul/li[1]')
                 ->click('@tallstackui_select_open_close')
                 ->waitForText('["foo","baz"]');
@@ -114,7 +115,6 @@ class StyledTest extends BrowserTestCase
                 ->waitForText('bar')
                 ->clickAtXPath('/html/body/div[3]/div/div[2]/div[2]/ul/li[1]')
                 ->clickAtXPath('/html/body/div[3]/div/div[2]/div[2]/ul/li[2]')
-                ->click('@tallstackui_select_open_close')
                 ->click('#sync')
                 ->waitForText('["bar","foo"]');
         });

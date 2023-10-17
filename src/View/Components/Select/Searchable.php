@@ -2,12 +2,14 @@
 
 namespace TallStackUi\View\Components\Select;
 
+use Exception;
 use Illuminate\Contracts\View\View;
 use InvalidArgumentException;
 use Throwable;
 
 class Searchable extends Styled
 {
+    /** @throws Throwable */
     public function __construct(
         public string|array|null $request = null,
         public ?string $label = null,
@@ -30,6 +32,8 @@ class Searchable extends Styled
         $this->request();
 
         $this->placeholder ??= __('tallstack-ui::messages.select.placeholder');
+
+        throw_if(blank($this->placeholder), new Exception('The [placeholder] cannot be empty.'));
     }
 
     public function personalization(): array

@@ -1,4 +1,4 @@
-import {warning} from '../../helpers';
+import {error, warning} from '../../helpers';
 import {options as filtered, sync} from './helpers';
 
 export default (
@@ -19,11 +19,13 @@ export default (
   dimensional: dimensional,
   selectable: selectable,
   loading: false,
-  placeholder: '',
+  placeholder: placeholder,
   cleanup: null,
   internal: false,
   init() {
-    this.placeholder = placeholder;
+    if (this.model === undefined) {
+      return error('The wire:model is undefined');
+    }
 
     if (this.multiple && (this.model !== null && this.model.constructor !== Array)) {
       return warning('The wire:model must be an array');
@@ -143,7 +145,7 @@ export default (
       }
     }
 
-    this.show = this.multiple;
+    this.show = this.quantity === this.options.length ? false : this.multiple;
     this.search = '';
   },
   selected(option) {

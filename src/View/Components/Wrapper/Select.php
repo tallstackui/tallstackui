@@ -2,13 +2,16 @@
 
 namespace TallStackUi\View\Components\Wrapper;
 
+use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
 use TallStackUi\View\Personalizations\Contracts\Personalize;
+use Throwable;
 
 class Select extends Component implements Personalize
 {
+    /** @throws Throwable */
     public function __construct(
         public bool $loading = false,
         public ?string $computed = null,
@@ -16,8 +19,16 @@ class Select extends Component implements Personalize
         public ?string $hint = null,
         public ?string $after = null,
         public bool $error = false,
+        public array $placeholder = [],
     ) {
-        //
+        $this->placeholder = [
+            'input' => __('tallstack-ui::messages.select.input'),
+            'empty' => __('tallstack-ui::messages.select.empty'),
+        ];
+
+        throw_if(blank($this->placeholder['input']), new Exception('The [select.input] placeholder cannot be empty.'));
+
+        throw_if(blank($this->placeholder['empty']), new Exception('The [select.empty] placeholder cannot be empty.'));
     }
 
     public function personalization(): array
