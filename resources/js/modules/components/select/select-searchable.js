@@ -22,6 +22,10 @@ export default (
   loading: true,
   cleanup: null,
   async init() {
+    if (this.model === undefined) {
+      return error('The wire:model is undefined');
+    }
+
     if (this.multiple && (this.model !== null && this.model.constructor !== Array)) {
       return warning('The wire:model must be an array');
     }
