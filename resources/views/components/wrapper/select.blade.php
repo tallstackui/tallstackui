@@ -34,7 +34,7 @@
         <div wire:ignore x-show="show" x-cloak style="display: none;" @class($customize['box.wrapper']) x-ref="select">
             <template x-if="searchable">
                 <div class="relative mt-2 px-2">
-                    <x-input placeholder="{{ __('tallstack-ui::messages.select.input') }}"
+                    <x-input placeholder="{{ $placeholder['input'] }}"
                              x-model.debounce.500ms="search"
                              x-ref="search"
                              dusk="tallstackui_select_search_input"
@@ -85,7 +85,7 @@
                 <template x-if="!loading && options.length === 0">
                     <li class="m-2">
                         <span @class($customize['message'])>
-                            {{ __('tallstack-ui::messages.select.empty') }}
+                            {{ $placeholder['empty'] }}
                         </span>
                     </li>
                 </template>

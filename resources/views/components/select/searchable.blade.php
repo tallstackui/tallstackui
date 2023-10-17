@@ -28,10 +28,7 @@
             <div class="truncate" x-show="multiple">
                 <template x-for="(selected, index) in selecteds" :key="selected[selectable.label] ?? selected">
                     <a class="cursor-pointer" x-on:click="clear(selected);">
-                        <div @class([
-                                'transition',
-                                $customize['item'],
-                            ])>
+                        <div @class(['transition', $customize['item']])>
                             <span x-text="selected[selectable.label] ?? selected"></span>
                             <x-icon name="x-mark" @class($customize['icon']) />
                         </div>

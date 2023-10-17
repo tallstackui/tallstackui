@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\View as FacadeView;
 use Illuminate\View\View;
 use TallStackUi\View\Components\Alert;
 use TallStackUi\View\Components\Avatar;
-use TallStackUi\View\Components\Avatar\Modelable;
 use TallStackUi\View\Components\Badge;
 use TallStackUi\View\Components\Button\Button;
 use TallStackUi\View\Components\Button\Circle;
@@ -41,7 +40,7 @@ class ColorProvider
     {
         $method = match (get_class($component)) {
             Alert::class => 'alert',
-            Avatar::class, Modelable::class => 'avatar',
+            Avatar::class => 'avatar',
             Badge::class => 'badge',
             Button::class, Circle::class => 'button',
             Errors::class => 'errors',
