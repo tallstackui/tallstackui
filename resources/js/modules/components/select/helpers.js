@@ -79,7 +79,10 @@ export const sync = (root, select) => {
 export const update = (root, select) => {
   computePosition(root, select, {
     placement: 'bottom',
-    middleware: [flip()],
+    middleware: [
+      offset(4),
+      flip(),
+    ],
   }).then(({x, y}) => {
     return Object.assign(select.style, {
       position: 'absolute',

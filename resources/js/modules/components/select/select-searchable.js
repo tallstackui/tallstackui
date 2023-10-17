@@ -139,8 +139,8 @@ export default (
       this.placeholder = option[this.selectable.label];
     }
 
+    this.show = this.quantity === this.options.length ? false : this.multiple;
     this.search = '';
-    this.show = this.multiple;
   },
   selected(option) {
     if (this.empty) return false;
