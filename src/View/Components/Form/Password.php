@@ -30,7 +30,7 @@ class Password extends Component implements Personalize
                 'wrapper' => 'absolute inset-y-0 right-0 flex items-center pr-2.5',
                 'class' => 'h-5 w-5 text-gray-400',
             ],
-            'error' => 'text-red-600 ring-inset ring-red-300 placeholder:text-red-300 focus:ring-2 focus:ring-inset focus:ring-red-500',
+            'error' => $this->error(),
         ]);
     }
 

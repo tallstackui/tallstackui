@@ -17,7 +17,7 @@ class Error extends Component implements Personalize
 
     public function personalization(): array
     {
-        return ['text' => 'mt-2 text-sm text-red-500'];
+        return ['text' => 'mt-2 text-sm font-medium text-red-500'];
     }
 
     public function render(): View

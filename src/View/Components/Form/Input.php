@@ -45,7 +45,7 @@ class Input extends Component implements Personalize
                 ],
                 'size' => 'h-5 w-5',
             ],
-            'error' => 'dark:bg-dark-800 text-red-600 ring-red-300 placeholder:text-red-600 focus:ring-2 focus:ring-inset focus:ring-red-500 dark:ring-red-500',
+            'error' => $this->error(),
         ]);
     }
 
