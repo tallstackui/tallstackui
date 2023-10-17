@@ -15,6 +15,7 @@ final class TailwindSafelistClasses
     public const BG = [
         'primary' => 'bg-primary-50 bg-primary-100 bg-primary-200 bg-primary-300 bg-primary-400 bg-primary-500 bg-primary-600 bg-primary-700 bg-primary-800 bg-primary-900 bg-primary-950',
         'secondary' => 'bg-secondary-50 bg-secondary-100 bg-secondary-200 bg-secondary-300 bg-secondary-400 bg-secondary-500 bg-secondary-600 bg-secondary-700 bg-secondary-800 bg-secondary-900 bg-secondary-950',
+        'dark' => 'bg-dark-50 bg-dark-100 bg-dark-200 bg-dark-300 bg-dark-400 bg-dark-500 bg-dark-600 bg-dark-700 bg-dark-800 bg-dark-900 bg-dark-950',
         'white' => 'bg-white',
         'black' => 'bg-black',
         'slate' => 'bg-slate-50 bg-slate-100 bg-slate-200 bg-slate-300 bg-slate-400 bg-slate-500 bg-slate-600 bg-slate-700 bg-slate-800 bg-slate-900 bg-slate-950',
@@ -44,6 +45,7 @@ final class TailwindSafelistClasses
     public const BORDER = [
         'primary' => 'border-primary-50 border-primary-100 border-primary-200 border-primary-300 border-primary-400 border-primary-500 border-primary-600 border-primary-700 border-primary-800 border-primary-900 border-primary-950',
         'secondary' => 'border-secondary-50 border-secondary-100 border-secondary-200 border-secondary-300 border-secondary-400 border-secondary-500 border-secondary-600 border-secondary-700 border-secondary-800 border-secondary-900 border-secondary-950',
+        'dark' => 'border-dark-50 border-dark-100 border-dark-200 border-dark-300 border-dark-400 border-dark-500 border-dark-600 border-dark-700 border-dark-800 border-dark-900 border-dark-950',
         'white' => 'border-white',
         'black' => 'border-black',
         'slate' => 'border-slate-50 border-slate-100 border-slate-200 border-slate-300 border-slate-400 border-slate-500 border-slate-600 border-slate-700 border-slate-800 border-slate-900 border-slate-950',
@@ -247,6 +249,7 @@ final class TailwindSafelistClasses
     public const TEXT = [
         'primary' => 'text-primary-50 text-primary-100 text-primary-200 text-primary-300 text-primary-400 text-primary-500 text-primary-600 text-primary-700 text-primary-800 text-primary-900 text-primary-950',
         'secondary' => 'text-secondary-50 text-secondary-100 text-secondary-200 text-secondary-300 text-secondary-400 text-secondary-500 text-secondary-600 text-secondary-700 text-secondary-800 text-secondary-900 text-secondary-950',
+        'dark' => 'text-dark-50 text-dark-100 text-dark-200 text-dark-300 text-dark-400 text-dark-500 text-dark-600 text-dark-700 text-dark-800 text-dark-900 text-dark-950',
         'white' => 'text-white',
         'black' => 'text-black',
         'slate' => 'text-slate-50 text-slate-100 text-slate-200 text-slate-300 text-slate-400 text-slate-500 text-slate-600 text-slate-700 text-slate-800 text-slate-900 text-slate-950',

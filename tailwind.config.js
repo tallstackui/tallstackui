@@ -15,6 +15,7 @@ module.exports = {
       colors: {
         primary: colors.indigo,
         secondary: colors.slate,
+        dark: colors.slate,
       },
     },
   },

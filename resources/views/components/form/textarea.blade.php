@@ -11,7 +11,8 @@
         </x-slot:alpine>
     @endif
     <textarea @if ($id) id="{{ $id }}" @endif {{ $attributes->class([
-            $customize['input'],
+            $customize['input.base'],
+            $customize['input.color'] => !$error,
             $customize['error'] => $error,
             'rounded-md' => !$configurations['square'],
             'resize-none' => !$resize && !$autoResize,
