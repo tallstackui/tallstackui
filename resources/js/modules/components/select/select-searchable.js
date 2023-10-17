@@ -158,7 +158,11 @@ export default (
         this.placeholder = placeholder;
       }
 
-      return;
+      if (this.quantity > 0) {
+        return;
+      }
+
+      this.clear();
     }
 
     this.model = this.multiple ? [] : null;
