@@ -14,6 +14,7 @@ final class TailwindSafelistClasses
 {
     public const SPECIALS = [
         'dark:hover:bg:slate' => 'dark:hover:bg-slate-700',
+        'dark:bg-transparent' => 'dark:bg-transparent',
     ];
 
     public const BG = [
@@ -74,6 +75,36 @@ final class TailwindSafelistClasses
         'fuchsia' => 'border-fuchsia-50 border-fuchsia-100 border-fuchsia-200 border-fuchsia-300 border-fuchsia-400 border-fuchsia-500 border-fuchsia-600 border-fuchsia-700 border-fuchsia-800 border-fuchsia-900 border-fuchsia-950',
         'pink' => 'border-pink-50 border-pink-100 border-pink-200 border-pink-300 border-pink-400 border-pink-500 border-pink-600 border-pink-700 border-pink-800 border-pink-900 border-pink-950',
         'rose' => 'border-rose-50 border-rose-100 border-rose-200 border-rose-300 border-rose-400 border-rose-500 border-rose-600 border-rose-700 border-rose-800 border-rose-900 border-rose-950',
+    ];
+
+    public const DARK_BORDER = [
+        'primary' => 'dark:border-primary-50 dark:border-primary-100 dark:border-primary-200 dark:border-primary-300 dark:border-primary-400 dark:border-primary-500 dark:border-primary-600 dark:border-primary-700 dark:border-primary-800 dark:border-primary-900 dark:border-primary-950',
+        'secondary' => 'dark:border-secondary-50 dark:border-secondary-100 dark:border-secondary-200 dark:border-secondary-300 dark:border-secondary-400 dark:border-secondary-500 dark:border-secondary-600 dark:border-secondary-700 dark:border-secondary-800 dark:border-secondary-900 dark:border-secondary-950',
+        'dark' => 'dark:border-dark-50 dark:border-dark-100 dark:border-dark-200 dark:border-dark-300 dark:border-dark-400 dark:border-dark-500 dark:border-dark-600 dark:border-dark-700 dark:border-dark-800 dark:border-dark-900 dark:border-dark-950',
+        'white' => 'dark:border-white',
+        'black' => 'dark:border-black',
+        'slate' => 'dark:border-slate-50 dark:border-slate-100 dark:border-slate-200 dark:border-slate-300 dark:border-slate-400 dark:border-slate-500 dark:border-slate-600 dark:border-slate-700 dark:border-slate-800 dark:border-slate-900 dark:border-slate-950',
+        'gray' => 'dark:border-gray-50 dark:border-gray-100 dark:border-gray-200 dark:border-gray-300 dark:border-gray-400 dark:border-gray-500 dark:border-gray-600 dark:border-gray-700 dark:border-gray-800 dark:border-gray-900 dark:border-gray-950',
+        'zinc' => 'dark:border-zinc-50 dark:border-zinc-100 dark:border-zinc-200 dark:border-zinc-300 dark:border-zinc-400 dark:border-zinc-500 dark:border-zinc-600 dark:border-zinc-700 dark:border-zinc-800 dark:border-zinc-900 dark:border-zinc-950',
+        'neutral' => 'dark:border-neutral-50 dark:border-neutral-100 dark:border-neutral-200 dark:border-neutral-300 dark:border-neutral-400 dark:border-neutral-500 dark:border-neutral-600 dark:border-neutral-700 dark:border-neutral-800 dark:border-neutral-900 dark:border-neutral-950',
+        'stone' => 'dark:border-stone-50 dark:border-stone-100 dark:border-stone-200 dark:border-stone-300 dark:border-stone-400 dark:border-stone-500 dark:border-stone-600 dark:border-stone-700 dark:border-stone-800 dark:border-stone-900 dark:border-stone-950',
+        'red' => 'dark:border-red-50 dark:border-red-100 dark:border-red-200 dark:border-red-300 dark:border-red-400 dark:border-red-500 dark:border-red-600 dark:border-red-700 dark:border-red-800 dark:border-red-900 dark:border-red-950',
+        'orange' => 'dark:border-orange-50 dark:border-orange-100 dark:border-orange-200 dark:border-orange-300 dark:border-orange-400 dark:border-orange-500 dark:border-orange-600 dark:border-orange-700 dark:border-orange-800 dark:border-orange-900 dark:border-orange-950',
+        'amber' => 'dark:border-amber-50 dark:border-amber-100 dark:border-amber-200 dark:border-amber-300 dark:border-amber-400 dark:border-amber-500 dark:border-amber-600 dark:border-amber-700 dark:border-amber-800 dark:border-amber-900 dark:border-amber-950',
+        'yellow' => 'dark:border-yellow-50 dark:border-yellow-100 dark:border-yellow-200 dark:border-yellow-300 dark:border-yellow-400 dark:border-yellow-500 dark:border-yellow-600 dark:border-yellow-700 dark:border-yellow-800 dark:border-yellow-900 dark:border-yellow-950',
+        'lime' => 'dark:border-lime-50 dark:border-lime-100 dark:border-lime-200 dark:border-lime-300 dark:border-lime-400 dark:border-lime-500 dark:border-lime-600 dark:border-lime-700 dark:border-lime-800 dark:border-lime-900 dark:border-lime-950',
+        'green' => 'dark:border-green-50 dark:border-green-100 dark:border-green-200 dark:border-green-300 dark:border-green-400 dark:border-green-500 dark:border-green-600 dark:border-green-700 dark:border-green-800 dark:border-green-900 dark:border-green-950',
+        'emerald' => 'dark:border-emerald-50 dark:border-emerald-100 dark:border-emerald-200 dark:border-emerald-300 dark:border-emerald-400 dark:border-emerald-500 dark:border-emerald-600 dark:border-emerald-700 dark:border-emerald-800 dark:border-emerald-900 dark:border-emerald-950',
+        'teal' => 'dark:border-teal-50 dark:border-teal-100 dark:border-teal-200 dark:border-teal-300 dark:border-teal-400 dark:border-teal-500 dark:border-teal-600 dark:border-teal-700 dark:border-teal-800 dark:border-teal-900 dark:border-teal-950',
+        'cyan' => 'dark:border-cyan-50 dark:border-cyan-100 dark:border-cyan-200 dark:border-cyan-300 dark:border-cyan-400 dark:border-cyan-500 dark:border-cyan-600 dark:border-cyan-700 dark:border-cyan-800 dark:border-cyan-900 dark:border-cyan-950',
+        'sky' => 'dark:border-sky-50 dark:border-sky-100 dark:border-sky-200 dark:border-sky-300 dark:border-sky-400 dark:border-sky-500 dark:border-sky-600 dark:border-sky-700 dark:border-sky-800 dark:border-sky-900 dark:border-sky-950',
+        'blue' => 'dark:border-blue-50 dark:border-blue-100 dark:border-blue-200 dark:border-blue-300 dark:border-blue-400 dark:border-blue-500 dark:border-blue-600 dark:border-blue-700 dark:border-blue-800 dark:border-blue-900 dark:border-blue-950',
+        'indigo' => 'dark:border-indigo-50 dark:border-indigo-100 dark:border-indigo-200 dark:border-indigo-300 dark:border-indigo-400 dark:border-indigo-500 dark:border-indigo-600 dark:border-indigo-700 dark:border-indigo-800 dark:border-indigo-900 dark:border-indigo-950',
+        'violet' => 'dark:border-violet-50 dark:border-violet-100 dark:border-violet-200 dark:border-violet-300 dark:border-violet-400 dark:border-violet-500 dark:border-violet-600 dark:border-violet-700 dark:border-violet-800 dark:border-violet-900 dark:border-violet-950',
+        'purple' => 'dark:border-purple-50 dark:border-purple-100 dark:border-purple-200 dark:border-purple-300 dark:border-purple-400 dark:border-purple-500 dark:border-purple-600 dark:border-purple-700 dark:border-purple-800 dark:border-purple-900 dark:border-purple-950',
+        'fuchsia' => 'dark:border-fuchsia-50 dark:border-fuchsia-100 dark:border-fuchsia-200 dark:border-fuchsia-300 dark:border-fuchsia-400 dark:border-fuchsia-500 dark:border-fuchsia-600 dark:border-fuchsia-700 dark:border-fuchsia-800 dark:border-fuchsia-900 dark:border-fuchsia-950',
+        'pink' => 'dark:border-pink-50 dark:border-pink-100 dark:border-pink-200 dark:border-pink-300 dark:border-pink-400 dark:border-pink-500 dark:border-pink-600 dark:border-pink-700 dark:border-pink-800 dark:border-pink-900 dark:border-pink-950',
+        'rose' => 'dark:border-rose-50 dark:border-rose-100 dark:border-rose-200 dark:border-rose-300 dark:border-rose-400 dark:border-rose-500 dark:border-rose-600 dark:border-rose-700 dark:border-rose-800 dark:border-rose-900 dark:border-rose-950',
     ];
 
     public const FOCUS_RING = [
@@ -337,5 +368,35 @@ final class TailwindSafelistClasses
         'fuchsia' => 'text-fuchsia-50 text-fuchsia-100 text-fuchsia-200 text-fuchsia-300 text-fuchsia-400 text-fuchsia-500 text-fuchsia-600 text-fuchsia-700 text-fuchsia-800 text-fuchsia-900 text-fuchsia-950',
         'pink' => 'text-pink-50 text-pink-100 text-pink-200 text-pink-300 text-pink-400 text-pink-500 text-pink-600 text-pink-700 text-pink-800 text-pink-900 text-pint-950',
         'rose' => 'text-rose-50 text-rose-100 text-rose-200 text-rose-300 text-rose-400 text-rose-500 text-rose-600 text-rose-700 text-rose-800 text-rose-900 text-rose-950',
+    ];
+
+    public const DARK_TEXT = [
+        'primary' => 'dark:text-primary-50 dark:text-primary-100 dark:text-primary-200 dark:text-primary-300 dark:text-primary-400 dark:text-primary-500 dark:text-primary-600 dark:text-primary-700 dark:text-primary-800 dark:text-primary-900 dark:text-primary-950',
+        'secondary' => 'dark:text-secondary-50 dark:text-secondary-100 dark:text-secondary-200 dark:text-secondary-300 dark:text-secondary-400 dark:text-secondary-500 dark:text-secondary-600 dark:text-secondary-700 dark:text-secondary-800 dark:text-secondary-900 dark:text-secondary-950',
+        'dark' => 'dark:text-dark-50 dark:text-dark-100 dark:text-dark-200 dark:text-dark-300 dark:text-dark-400 dark:text-dark-500 dark:text-dark-600 dark:text-dark-700 dark:text-dark-800 dark:text-dark-900 dark:text-dark-950',
+        'white' => 'dark:text-white',
+        'black' => 'dark:text-black',
+        'slate' => 'dark:text-slate-50 dark:text-slate-100 dark:text-slate-200 dark:text-slate-300 dark:text-slate-400 dark:text-slate-500 dark:text-slate-600 dark:text-slate-700 dark:text-slate-800 dark:text-slate-900 dark:text-slate-950',
+        'gray' => 'dark:text-gray-50 dark:text-gray-100 dark:text-gray-200 dark:text-gray-300 dark:text-gray-400 dark:text-gray-500 dark:text-gray-600 dark:text-gray-700 dark:text-gray-800 dark:text-gray-900 dark:text-gray-950',
+        'zinc' => 'dark:text-zinc-50 dark:text-zinc-100 dark:text-zinc-200 dark:text-zinc-300 dark:text-zinc-400 dark:text-zinc-500 dark:text-zinc-600 dark:text-zinc-700 dark:text-zinc-800 dark:text-zinc-900 dark:text-zinc-950',
+        'neutral' => 'dark:text-neutral-50 dark:text-neutral-100 dark:text-neutral-200 dark:text-neutral-300 dark:text-neutral-400 dark:text-neutral-500 dark:text-neutral-600 dark:text-neutral-700 dark:text-neutral-800 dark:text-neutral-900 dark:text-neutral-950',
+        'stone' => 'dark:text-stone-50 dark:text-stone-100 dark:text-stone-200 dark:text-stone-300 dark:text-stone-400 dark:text-stone-500 dark:text-stone-600 dark:text-stone-700 dark:text-stone-800 dark:text-stone-900 dark:text-stone-950',
+        'red' => 'dark:text-red-50 dark:text-red-100 dark:text-red-200 dark:text-red-300 dark:text-red-400 dark:text-red-500 dark:text-red-600 dark:text-red-700 dark:text-red-800 dark:text-red-900 dark:text-red-950',
+        'orange' => 'dark:text-orange-50 dark:text-orange-100 dark:text-orange-200 dark:text-orange-300 dark:text-orange-400 dark:text-orange-500 dark:text-orange-600 dark:text-orange-700 dark:text-orange-800 dark:text-orange-900 dark:text-orange-950',
+        'amber' => 'dark:text-amber-50 dark:text-amber-100 dark:text-amber-200 dark:text-amber-300 dark:text-amber-400 dark:text-amber-500 dark:text-amber-600 dark:text-amber-700 dark:text-amber-800 dark:text-amber-900  dark:text-amber-950',
+        'yellow' => 'dark:text-yellow-50 dark:text-yellow-100 dark:text-yellow-200 dark:text-yellow-300 dark:text-yellow-400 dark:text-yellow-500 dark:text-yellow-600 dark:text-yellow-700 dark:text-yellow-800 dark:text-yellow-900 dark:text-yellow-950',
+        'lime' => 'dark:text-lime-50 dark:text-lime-100 dark:text-lime-200 dark:text-lime-300 dark:text-lime-400 dark:text-lime-500 dark:text-lime-600 dark:text-lime-700 dark:text-lime-800 dark:text-lime-900 dark:text-lime-950',
+        'green' => 'dark:text-green-50 dark:text-green-100 dark:text-green-200 dark:text-green-300 dark:text-green-400 dark:text-green-500 dark:text-green-600 dark:text-green-700 dark:text-green-800 dark:text-green-900 dark:text-green-950',
+        'emerald' => 'dark:text-emerald-50 dark:text-emerald-100 dark:text-emerald-200 dark:text-emerald-300 dark:text-emerald-400 dark:text-emerald-500 dark:text-emerald-600 dark:text-emerald-700 dark:text-emerald-800 dark:text-emerald-900 dark:text-emerald-950',
+        'teal' => 'dark:text-teal-50 dark:text-teal-100 dark:text-teal-200 dark:text-teal-300 dark:text-teal-400 dark:text-teal-500 dark:text-teal-600 dark:text-teal-700 dark:text-teal-800 dark:text-teal-900 dark:text-teal-950',
+        'cyan' => 'dark:text-cyan-50 dark:text-cyan-100 dark:text-cyan-200 dark:text-cyan-300 dark:text-cyan-400 dark:text-cyan-500 dark:text-cyan-600 dark:text-cyan-700 dark:text-cyan-800 dark:text-cyan-900 dark:text-cyan-950',
+        'sky' => 'dark:text-sky-50 dark:text-sky-100 dark:text-sky-200 dark:text-sky-300 dark:text-sky-400 dark:text-sky-500 dark:text-sky-600 dark:text-sky-700 dark:text-sky-800 dark:text-sky-900 dark:text-sky-950',
+        'blue' => 'dark:text-blue-50 dark:text-blue-100 dark:text-blue-200 dark:text-blue-300 dark:text-blue-400 dark:text-blue-500 dark:text-blue-600 dark:text-blue-700 dark:text-blue-800 dark:text-blue-900 dark:text-blue-950',
+        'indigo' => 'dark:text-indigo-50 dark:text-indigo-100 dark:text-indigo-200 dark:text-indigo-300 dark:text-indigo-400 dark:text-indigo-500 dark:text-indigo-600 dark:text-indigo-700 dark:text-indigo-800 dark:text-indigo-900 dark:text-indigo-950',
+        'violet' => 'dark:text-violet-50 dark:text-violet-100 dark:text-violet-200 dark:text-violet-300 dark:text-violet-400 dark:text-violet-500 dark:text-violet-600 dark:text-violet-700 dark:text-violet-800 dark:text-violet-900 dark:text-violet-950',
+        'purple' => 'dark:text-purple-50 dark:text-purple-100 dark:text-purple-200 dark:text-purple-300 dark:text-purple-400 dark:text-purple-500 dark:text-purple-600 dark:text-purple-700 dark:text-purple-800 dark:text-purple-900 dark:text-purple-950',
+        'fuchsia' => 'dark:text-fuchsia-50 dark:text-fuchsia-100 dark:text-fuchsia-200 dark:text-fuchsia-300 dark:text-fuchsia-400 dark:text-fuchsia-500 dark:text-fuchsia-600 dark:text-fuchsia-700 dark:text-fuchsia-800 dark:text-fuchsia-900 dark:text-fuchsia-950',
+        'pink' => 'dark:text-pink-50 dark:text-pink-100 dark:text-pink-200 dark:text-pink-300 dark:text-pink-400 dark:text-pink-500 dark:text-pink-600 dark:text-pink-700 dark:text-pink-800 dark:text-pink-900 dark:text-pint-950',
+        'rose' => 'dark:text-rose-50 dark:text-rose-100 dark:text-rose-200 dark:text-rose-300 dark:text-rose-400 dark:text-rose-500 dark:text-rose-600 dark:text-rose-700 dark:text-rose-800 dark:text-rose-900 dark:text-rose-950',
     ];
 }
