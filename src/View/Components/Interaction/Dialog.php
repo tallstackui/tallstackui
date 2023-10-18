@@ -27,7 +27,7 @@ class Dialog extends Component implements Personalize
             'wrapper' => [
                 'first' => 'fixed inset-0 z-10 w-screen overflow-y-auto',
                 'second' => 'flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0',
-                'third' => 'relative w-full max-w-sm transform overflow-hidden bg-white p-4 text-left shadow-xl transition-all sm:my-8',
+                'third' => 'relative w-full max-w-sm transform overflow-hidden bg-white p-4 text-left shadow-xl transition-all sm:my-8 dark:bg-dark-700',
             ],
             'icon' => [
                 'wrapper' => 'mx-auto flex h-12 w-12 items-center justify-center rounded-full',
@@ -35,10 +35,10 @@ class Dialog extends Component implements Personalize
             ],
             'text' => [
                 'wrapper' => 'mt-3 text-center sm:mt-5',
-                'title' => 'text-lg font-semibold leading-6 text-gray-700',
+                'title' => 'text-lg font-semibold leading-6 text-gray-700 dark:text-dark-200',
                 'description' => [
                     'wrapper' => 'mt-2',
-                    'text' => 'text-sm text-gray-500',
+                    'text' => 'text-sm text-gray-500 dark:text-dark-300',
                 ],
             ],
             'buttons' => [
