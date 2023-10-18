@@ -8,16 +8,14 @@ use TallStackUi\View\Personalizations\Contracts\Personalize;
 
 class Hint extends Component implements Personalize
 {
-    public function __construct(
-        public ?string $computed = null,
-        public bool $error = false,
-    ) {
+    public function __construct(public ?string $computed = null)
+    {
         //
     }
 
     public function personalization(): array
     {
-        return ['text' => 'mt-2 text-sm text-secondary-500'];
+        return ['text' => 'mt-2 text-sm text-gray-500 dark:text-dark-400'];
     }
 
     public function render(): View

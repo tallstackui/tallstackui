@@ -1,4 +1,7 @@
-@php($customize = tallstackui_personalization('wrapper.radio', $personalization()))
+@php
+    $customize = tallstackui_personalization('wrapper.radio', $personalization());
+    $error = ($computed && $errors->has($computed)) && $error;
+@endphp
 
 <div>
     <div @class($customize['wrapper'])>
@@ -16,5 +19,7 @@
         </p>
         @endif
     </div>
-    <x-error :$computed :$error/>
+    @if ($error)
+        <x-error :$computed :$error/>
+    @endif
 </div>

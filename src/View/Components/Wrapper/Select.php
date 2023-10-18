@@ -6,11 +6,14 @@ use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
+use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
 use TallStackUi\View\Personalizations\Contracts\Personalize;
 use Throwable;
 
 class Select extends Component implements Personalize
 {
+    use DefaultInputClasses;
+
     /** @throws Throwable */
     public function __construct(
         public bool $loading = false,
@@ -35,40 +38,40 @@ class Select extends Component implements Personalize
     {
         return Arr::dot([
             'input' => [
-                'wrapper' => 'flex w-full cursor-pointer items-center gap-x-2 rounded-md border-0 bg-white py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-6',
-                'error' => 'text-red-600 ring-1 ring-inset ring-red-300 focus:ring-2 focus:ring-inset focus:ring-red-500',
+                'wrapper' => 'flex w-full cursor-pointer items-center gap-x-2 rounded-md border-0 bg-white text-gray-600 py-1.5 shadow-sm ring-1 ring-inset text-sm leading-6 dark:text-dark-300 dark:bg-dark-700',
+                'error' => $this->error(),
             ],
             'header' => 'relative inset-y-0 left-0 flex w-full items-center overflow-hidden rounded-lg pl-2 transition space-x-2',
             'buttons' => [
                 'wrapper' => 'mr-1 flex items-center',
                 'x-mark' => [
-                    'icon' => 'h-5 w-5 transition text-secondary-500 hover:text-red-500',
+                    'icon' => 'h-5 w-5 transition text-secondary-500 dark:text-dark-400',
                     'error' => 'text-red-500',
                 ],
                 'up-down' => [
-                    'icon' => 'h-5 w-5 transition text-secondary-500',
+                    'icon' => 'h-5 w-5 transition text-secondary-500 dark:text-dark-400',
                     'error' => 'text-red-500',
                 ],
             ],
             'box' => [
-                'wrapper' => 'absolute z-10 mt-1 w-full rounded-xl bg-white shadow-lg ring-1 ring-black ring-opacity-5',
+                'wrapper' => 'absolute z-10 mt-1 w-full rounded-xl bg-white shadow-lg ring-1 ring-black ring-opacity-5 dark:bg-dark-700',
                 'button' => [
                     'class' => 'absolute inset-y-0 right-2 flex cursor-pointer items-center px-2',
                     'icon' => 'h-5 w-5 transition text-secondary-500 hover:text-red-500',
                 ],
                 'list' => [
-                    'wrapper' => 'z-50 mt-1 max-h-60 w-full overflow-auto rounded-b-lg bg-white text-base soft-scrollbar focus:outline-none sm:text-sm',
+                    'wrapper' => 'z-50 mt-1 max-h-60 w-full overflow-auto rounded-b-lg text-base soft-scrollbar focus:outline-none sm:text-sm',
                     'loading' => [
                         'wrapper' => 'flex items-center justify-center p-4 space-x-4',
                         'class' => 'h-12 w-12 animate-spin text-primary-600',
                     ],
                     'item' => [
-                        'wrapper' => 'relative cursor-pointer select-none px-2 py-2 text-gray-700 transition hover:bg-gray-100',
+                        'wrapper' => 'relative cursor-pointer select-none px-2 py-2 text-gray-700 transition hover:bg-gray-100 dark:text-dark-300 dark:hover:bg-dark-500',
                         'class' => 'flex items-center justify-between',
                     ],
                 ],
             ],
-            'message' => 'block w-full pr-2 text-gray-700',
+            'message' => 'block w-full pr-2 text-gray-700 dark:text-dark-300',
         ]);
     }
 

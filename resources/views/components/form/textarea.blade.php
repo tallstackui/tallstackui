@@ -1,6 +1,6 @@
 @php
     $computed = $attributes->whereStartsWith('wire:model')->first();
-    $error = $errors->has($computed);
+    $error = $computed && $errors->has($computed);
     $customize = tallstackui_personalization('form.textarea', $personalization());
 @endphp
 
@@ -11,7 +11,8 @@
         </x-slot:alpine>
     @endif
     <textarea @if ($id) id="{{ $id }}" @endif {{ $attributes->class([
-            $customize['input'],
+            $customize['input.base'],
+            $customize['input.color'] => !$error,
             $customize['error'] => $error,
             'rounded-md' => !$configurations['square'],
             'resize-none' => !$resize && !$autoResize,

@@ -5,6 +5,7 @@ use TallStackUi\View\Personalizations\Support\TailwindSafelistClasses;
 const KEYS = [
     'primary',
     'secondary',
+    'dark',
     'white',
     'black',
     'slate',
@@ -32,13 +33,18 @@ const KEYS = [
 ];
 
 test('should have constant and keys', function ($name) {
-    $constants = (new ReflectionClass(TailwindSafelistClasses::class))->getConstants();
+    $constants = collect((new ReflectionClass(TailwindSafelistClasses::class))->getConstants())
+        ->filter(fn ($value, $key) => $key === $name)
+        ->toArray();
 
     expect(array_keys($constants[$name]))->toBe(KEYS);
 })->with([
     'TEXT',
     'BG',
-    'HOVER_BG',
+    'HOVER_RING',
+    'PEER_CHECKED_BG',
+    'PEER_FOCUS_RING',
+    'RING_OFFSET',
     'BORDER',
     'RING',
     'HOVER_RING',

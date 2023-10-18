@@ -1,6 +1,6 @@
 @php
     $computed = $attributes->whereStartsWith('wire:model')->first();
-    $error = $errors->has($computed);
+    $error = $computed && $errors->has($computed);
     $customize = tallstackui_personalization('form.password', $personalization());
 @endphp
 
@@ -13,9 +13,10 @@
     </div>
     <input @if ($id) id="{{ $id }}" @endif {{ $attributes->class([
             'pr-10',
-            $customize['input'],
             'rounded-md' => !$configurations['square'] && !$configurations['round'],
             'rounded-full' => $configurations['round'],
+            $customize['input.base'],
+            $customize['input.color'] => !$error,
             $customize['error'] => $error
     ]) }} :type="!show ? 'password' : 'text'">
 </x-wrapper.input>

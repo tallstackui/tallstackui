@@ -35,29 +35,36 @@
                 <div>
                     <div @class($customize['icon.wrapper'])
                          x-bind:class="{
-                            'bg-green-100' : dialog.type === 'success',
-                            'bg-red-100' : dialog.type === 'error',
-                            'bg-blue-100' : dialog.type === 'info',
-                            'bg-yellow-100' : dialog.type === 'warning',
-                            'bg-secondary-100' : dialog.type === 'question',
+                            'bg-green-100 dark:bg-dark-600' : dialog.type === 'success',
+                            'bg-red-100 dark:bg-dark-600' : dialog.type === 'error',
+                            'bg-blue-100 dark:bg-dark-600' : dialog.type === 'info',
+                            'bg-yellow-100 dark:bg-dark-600' : dialog.type === 'warning',
+                            'bg-secondary-100 dark:bg-dark-600' : dialog.type === 'question',
                         }">
                         <div x-show="dialog.type === 'success'">
-                            <x-icon name="check-circle" outline @class([$customize['icon.size'], 'text-green-600']) />
+                            <x-icon name="check-circle"
+                                    outline
+                                    @class([$customize['icon.size'], 'text-green-600 dark:text-green-500']) />
                         </div>
                         <div x-show="dialog.type === 'error'">
-                            <x-icon name="x-circle" outline @class([$customize['icon.size'], 'text-red-600']) />
+                            <x-icon name="x-circle"
+                                    outline
+                                    @class([$customize['icon.size'], 'text-red-600 dark:text-red-500']) />
                         </div>
                         <div x-show="dialog.type === 'info'">
                             <x-icon name="information-circle"
-                                    outline @class([$customize['icon.size'], 'text-blue-600']) />
+                                    outline
+                                    @class([$customize['icon.size'], 'text-blue-600 dark:text-blue-500']) />
                         </div>
                         <div x-show="dialog.type === 'warning'">
                             <x-icon name="exclamation-circle"
-                                    outline @class([$customize['icon.size'], 'text-yellow-600']) />
+                                    outline
+                                    @class([$customize['icon.size'], 'text-yellow-600 dark:text-yellow-500']) />
                         </div>
                         <div x-show="dialog.type === 'question'">
                             <x-icon name="question-mark-circle"
-                                    outline @class([$customize['icon.size'], 'text-secondary-600']) />
+                                    outline
+                                    @class([$customize['icon.size'], 'text-secondary-600 dark:text-secondary-500']) />
                         </div>
                     </div>
                     <div @class($customize['text.wrapper'])>
@@ -81,11 +88,11 @@
                     <button @class([$customize['buttons.confirm'], 'rounded' => !$configurations['square']]) x-bind:class="{
                             'sm:w-auto' : dialog.type === 'question',
                             'col-span-full' : dialog.type !== 'question',
-                            'bg-green-600 hover:bg-green-700 focus:ring-green-500 focus:ring-offset-green-100' : dialog.type === 'success',
-                            'bg-red-600 hover:bg-red-700 focus:ring-red-500 focus:ring-offset-red-100' : dialog.type === 'error',
-                            'bg-blue-600 hover:bg-blue-700 focus:ring-blue-500 focus:ring-offset-blue-100' : dialog.type === 'info',
-                            'bg-yellow-600 hover:bg-yellow-700 focus:ring-yellow-500 focus:ring-offset-yellow-100' : dialog.type === 'warning',
-                            'bg-primary-600 hover:bg-primary-700 focus:ring-primary-500 focus:ring-offset-primary-100' : dialog.type === 'question'
+                            'bg-green-600 hover:bg-green-700 focus:ring-green-500 focus:ring-offset-green-100 dark:ring-offset-green-900' : dialog.type === 'success',
+                            'bg-red-600 hover:bg-red-700 focus:ring-red-500 focus:ring-offset-red-100 dark:ring-offset-red-900' : dialog.type === 'error',
+                            'bg-blue-600 hover:bg-blue-700 focus:ring-blue-500 focus:ring-offset-blue-100 dark:ring-offset-blue-900' : dialog.type === 'info',
+                            'bg-yellow-600 hover:bg-yellow-700 focus:ring-yellow-500 focus:ring-offset-yellow-100 dark:ring-offset-yellow-900' : dialog.type === 'warning',
+                            'bg-primary-600 hover:bg-primary-700 focus:ring-primary-500 focus:ring-offset-primary-100 dark:ring-offset-primary-900' : dialog.type === 'question'
                         }" dusk="tallstackui_dialog_confirmation"
                            x-on:click="accept(dialog)"
                            x-text="dialog.type === 'question' ? dialog.options.confirm.text : text.ok"></button>

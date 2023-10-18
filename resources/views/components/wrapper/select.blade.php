@@ -8,7 +8,7 @@
         <x-label :$label :$error/>
     @endif
     <div class="relative" x-on:click.outside="show = false">
-        <div @class([$customize['input.wrapper'], $customize['input.error'] => $error])
+        <div @class([$customize['input.wrapper'], 'ring-gray-300 dark:ring-dark-600' => !$error, $customize['input.error'] => $error])
              role="combobox"
              aria-controls="options"
              aria-expanded="false">
@@ -73,7 +73,7 @@
                         @class($customize['box.list.item.wrapper'])
                         role="option"
                         tabindex="-1"
-                        x-bind:class="{ 'font-semibold hover:text-white hover:bg-red-500': selected(option) }"
+                        x-bind:class="{ 'font-semibold hover:text-white hover:bg-red-500 dark:hover:bg-dark-800': selected(option) }"
                     >
                         <div wire:ignore @class($customize['box.list.item.class'])>
                             <span class="ml-2 truncate" x-text="option[selectable.label] ?? option"></span>

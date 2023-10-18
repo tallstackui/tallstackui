@@ -20,9 +20,9 @@ class Label extends Component implements Personalize
     public function personalization(): array
     {
         return [
-            'wrapper' => 'flex justify-between font-medium text-gray-600',
+            'wrapper' => 'flex justify-between font-medium text-gray-600 dark:text-dark-400',
             'text' => 'block text-sm font-semibold',
-            'error' => 'text-red-600',
+            'error' => 'text-red-600 dark:text-red-500',
         ];
     }
 

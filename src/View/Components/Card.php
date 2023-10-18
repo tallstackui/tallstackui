@@ -21,15 +21,15 @@ class Card extends Component implements Personalize
         return Arr::dot([
             'wrapper' => [
                 'first' => 'flex justify-center gap-4',
-                'second' => 'flex w-full flex-col rounded-lg bg-white shadow-md',
+                'second' => 'dark:bg-dark-700 flex w-full flex-col rounded-lg bg-white shadow-md',
             ],
             'header' => [
-                'wrapper' => 'flex items-center justify-between border-b p-4',
-                'text' => 'font-medium text-md text-secondary-700',
+                'wrapper' => 'dark:border-b-dark-600 flex items-center justify-between border-b p-4',
+                'text' => 'text-md text-secondary-700 dark:text-dark-300 font-medium',
             ],
-            'body' => 'grow rounded-b-xl px-2 py-5 text-secondary-700 md:px-4',
+            'body' => 'text-secondary-700 dark:text-dark-300 grow rounded-b-xl px-2 py-5 md:px-4',
             'footer' => [
-                'wrapper' => 'rounded-lg rounded-t-none border-t p-4 bg-secondary-50 text-secondary-700 sm:px-6',
+                'wrapper' => 'bg-secondary-50 text-secondary-700 dark:text-dark-300 dark:border-t-dark-600 dark:bg-dark-700 rounded-lg rounded-t-none border-t p-4 sm:px-6',
                 'text' => 'flex items-center justify-end gap-2',
             ],
         ]);

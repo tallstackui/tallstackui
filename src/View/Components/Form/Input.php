@@ -31,7 +31,7 @@ class Input extends Component implements Personalize
     {
         return Arr::dot([
             'input' => [
-                'class' => $this->input(),
+                'class' => [...$this->input()],
                 'paddings' => [
                     'left' => 'pl-10',
                     'right' => 'pr-10',
@@ -45,7 +45,7 @@ class Input extends Component implements Personalize
                 ],
                 'size' => 'h-5 w-5',
             ],
-            'error' => 'text-red-600 ring-1 ring-inset ring-red-300 placeholder:text-red-300 focus:ring-2 focus:ring-inset focus:ring-red-500',
+            'error' => $this->error(),
         ]);
     }
 

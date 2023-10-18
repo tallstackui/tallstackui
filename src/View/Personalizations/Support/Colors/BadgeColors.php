@@ -44,6 +44,8 @@ class BadgeColors
         return TallStackUi::colors()
             ->set('border', $colors, $weight)
             ->mergeWhen($this->badge->style === 'solid', 'bg', $colors, $weight)
+            ->mergeWhen($this->badge->style === 'solid' && $this->badge->color === 'white', 'dark:bg', 'white')
+            ->mergeWhen($this->badge->style === 'outline' && $this->badge->color === 'white', 'dark:text', 'white')
             ->get();
     }
 
