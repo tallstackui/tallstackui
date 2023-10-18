@@ -1,6 +1,6 @@
 @php
     $computed = $attributes->whereStartsWith('wire:model')->first();
-    $error = $errors->has($computed);
+    $error = $computed && $errors->has($computed);
     $customize = tallstackui_personalization('form.textarea', $personalization());
 @endphp
 

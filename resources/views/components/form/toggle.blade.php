@@ -4,7 +4,7 @@
     $customize = tallstackui_personalization('form.toggle', $personalization());
     // We remove any bg color classes from the wrapper if there
     // is an error to apply the red bg color to the input instead
-    $customize['wrapper.class'] = $error ? preg_replace('/\bbg-[a-zA-Z0-9-]+/', '', $customize['wrapper.class']) : $customize['wrapper.class'];
+    $customize['wrapper.class'] = $computed && $error ? preg_replace('/\bbg-[a-zA-Z0-9-]+/', '', $customize['wrapper.class']) : $customize['wrapper.class'];
 @endphp
 
 <x-wrapper.radio :$computed :$error :$label :$position :$id>
@@ -20,6 +20,6 @@
         $customize['wrapper.sizes.md'] => $size === 'md',
         $customize['wrapper.sizes.lg'] => $size === 'lg',
         $colors['wrapper.color'],
-        $customize['error'] => $error
+        $customize['error'] => $computed && $error
     ])></div>
 </x-wrapper.radio>

@@ -25,8 +25,8 @@ class Radio extends Component implements Personalize
             'wrapper' => 'flex items-center',
             'label' => [
                 'wrapper' => [
-                    'text' => 'text-sm font-medium text-gray-700',
-                    'error' => 'text-red-600',
+                    'text' => 'text-sm font-medium text-gray-700 dark:text-dark-400',
+                    'error' => 'text-red-600 dark:text-red-500',
                 ],
             ],
             'slot' => 'relative inline-flex cursor-pointer items-center',

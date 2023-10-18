@@ -1,5 +1,7 @@
 @php($customize = tallstackui_personalization('wrapper.radio', $personalization()))
 
+@php($error = ($computed && $errors->has($computed)) && $error)
+
 <div>
     <div @class($customize['wrapper'])>
         @if ($label && $position === 'left')
@@ -16,5 +18,7 @@
         </p>
         @endif
     </div>
-    <x-error :$computed :$error/>
+    @if ($error)
+        <x-error :$computed :$error/>
+    @endif
 </div>

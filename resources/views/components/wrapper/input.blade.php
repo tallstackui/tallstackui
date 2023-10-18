@@ -10,7 +10,7 @@
     @if ($hint && !$error)
         <x-hint :$hint/>
     @endif
-    @if ($validate)
+    @if ($error && $validate)
         <x-error :$computed :$error/>
     @endif
 </div>
