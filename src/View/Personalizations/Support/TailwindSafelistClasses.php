@@ -12,12 +12,16 @@ namespace TallStackUi\View\Personalizations\Support;
  */
 final class TailwindSafelistClasses
 {
+    public const SPECIALS = [
+        'dark:hover:bg:slate' => 'dark:hover:bg-slate-700',
+    ];
+
     public const BG = [
         'primary' => 'bg-primary-50 bg-primary-100 bg-primary-200 bg-primary-300 bg-primary-400 bg-primary-500 bg-primary-600 bg-primary-700 bg-primary-800 bg-primary-900 bg-primary-950',
         'secondary' => 'bg-secondary-50 bg-secondary-100 bg-secondary-200 bg-secondary-300 bg-secondary-400 bg-secondary-500 bg-secondary-600 bg-secondary-700 bg-secondary-800 bg-secondary-900 bg-secondary-950',
         'dark' => 'bg-dark-50 bg-dark-100 bg-dark-200 bg-dark-300 bg-dark-400 bg-dark-500 bg-dark-600 bg-dark-700 bg-dark-800 bg-dark-900 bg-dark-950',
-        'white' => 'bg-white',
-        'black' => 'bg-black',
+        'white' => 'bg-white dark:bg-black',
+        'black' => 'bg-black dark:bg-white',
         'slate' => 'bg-slate-50 bg-slate-100 bg-slate-200 bg-slate-300 bg-slate-400 bg-slate-500 bg-slate-600 bg-slate-700 bg-slate-800 bg-slate-900 bg-slate-950',
         'gray' => 'bg-gray-50 bg-gray-100 bg-gray-200 bg-gray-300 bg-gray-400 bg-gray-500 bg-gray-600 bg-gray-700 bg-gray-800 bg-gray-900 bg-gray-950',
         'zinc' => 'bg-zinc-50 bg-zinc-100 bg-zinc-200 bg-zinc-300 bg-zinc-400 bg-zinc-500 bg-zinc-600 bg-zinc-700 bg-zinc-800 bg-zinc-900 bg-zinc-950',

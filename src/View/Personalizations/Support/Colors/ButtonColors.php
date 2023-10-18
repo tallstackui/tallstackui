@@ -61,7 +61,7 @@ class ButtonColors
         $this->outline($color)->get();
 
         $color->clean(false)
-            ->merge('dark:ring-offset', $this->component->color, 800);
+            ->merge('dark:ring-offset', $this->component->color, 900);
 
         return $color->get();
     }
@@ -107,6 +107,8 @@ class ButtonColors
                 ->set('ring', $this->variations['ring'], $variation['ring'])
                 ->set('hover:bg', $this->variations['hover:bg'], $variation['hover:bg'])
                 ->set('hover:ring', $this->variations['hover:ring'], $variation['hover:ring'])
+                ->clean(false)
+                ->merge('dark:hover:bg', 'slate', 700)
                 ->append('border');
         });
     }
@@ -156,6 +158,7 @@ class ButtonColors
             },
         ];
 
-        return $color->set('text', $this->variations['text'], $weights[$this->component->style]);
+        return $color->set('text', $this->variations['text'], $weights[$this->component->style])
+            ->mergeWhen($this->component->style === 'outline' && $this->component->color === 'white', 'dark:text', 'white');
     }
 }
