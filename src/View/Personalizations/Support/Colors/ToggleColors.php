@@ -27,6 +27,7 @@ class ToggleColors
                 ->set('peer-checked:bg', $colors, $weight)
                 ->set('peer-focus:ring', $colors, $weight)
                 ->set('group-focus:ring', $colors, $weight)
+                ->merge('dark:ring-offset', 'dark', 900)
                 ->get(),
         ];
     }

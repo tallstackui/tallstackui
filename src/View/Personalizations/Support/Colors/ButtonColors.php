@@ -60,6 +60,9 @@ class ButtonColors
         $this->solid($color)->get();
         $this->outline($color)->get();
 
+        $color->clean(false)
+            ->merge('dark:ring-offset', $this->component->color, 800);
+
         return $color->get();
     }
 

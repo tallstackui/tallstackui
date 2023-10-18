@@ -27,8 +27,10 @@ class RadioColors
 
         return [
             'input.color' => TallStackUi::colors()
+                ->clean(false)
                 ->set('text', $colors, $weight)
                 ->set('focus:ring', $colors, $weight)
+                ->merge('dark:ring-offset', 'dark', 900)
                 ->get(),
         ];
     }
