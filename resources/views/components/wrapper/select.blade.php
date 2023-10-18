@@ -78,7 +78,7 @@
                         @class($customize['box.list.item.wrapper'])
                         role="option"
                         tabindex="-1"
-                        x-bind:class="{ 'font-semibold hover:text-white hover:bg-red-500 dark:hover:bg-dark-800': selected(option) }"
+                        x-bind:class="{ 'font-semibold hover:text-white hover:bg-red-500 dark:hover:bg-red-500': selected(option) }"
                     >
                         <div wire:ignore @class($customize['box.list.item.class'])>
                             <span class="ml-2 truncate" x-text="option[selectable.label] ?? option"></span>
