@@ -165,6 +165,7 @@ final class TailwindSafelistClasses
     public const FOCUS_RING = [
         'primary' => 'focus:ring-primary-50 focus:ring-primary-100 focus:ring-primary-200 focus:ring-primary-300 focus:ring-primary-400 focus:ring-primary-500 focus:ring-primary-600 focus:ring-primary-700 focus:ring-primary-800 focus:ring-primary-900 focus:ring-primary-950',
         'secondary' => 'focus:ring-secondary-50 focus:ring-secondary-100 focus:ring-secondary-200 focus:ring-secondary-300 focus:ring-secondary-400 focus:ring-secondary-500 focus:ring-secondary-600 focus:ring-secondary-700 focus:ring-secondary-800 focus:ring-secondary-900 focus:ring-secondary-950',
+        'dark' => 'focus:ring-dark-50 focus:ring-dark-100 focus:ring-dark-200 focus:ring-dark-300 focus:ring-dark-400 focus:ring-dark-500 focus:ring-dark-600 focus:ring-dark-700 focus:ring-dark-800 focus:ring-dark-900 focus:ring-dark-950',
         'white' => 'focus:ring-white',
         'black' => 'focus:ring-black',
         'slate' => 'focus:ring-slate-50 focus:ring-slate-100 focus:ring-slate-200 focus:ring-slate-300 focus:ring-slate-400 focus:ring-slate-500 focus:ring-slate-600 focus:ring-slate-700 focus:ring-slate-800 focus:ring-slate-900 focus:ring-slate-950',
@@ -223,6 +224,7 @@ final class TailwindSafelistClasses
     public const HOVER_RING = [
         'primary' => 'hover:ring-primary-50 hover:ring-primary-100 hover:ring-primary-200 hover:ring-primary-300 hover:ring-primary-400 hover:ring-primary-500 hover:ring-primary-600 hover:ring-primary-700 hover:ring-primary-800 hover:ring-primary-900 hover:ring-primary-950',
         'secondary' => 'hover:ring-secondary-50 hover:ring-secondary-100 hover:ring-secondary-200 hover:ring-secondary-300 hover:ring-secondary-400 hover:ring-secondary-500 hover:ring-secondary-600 hover:ring-secondary-700 hover:ring-secondary-800 hover:ring-secondary-900 hover:ring-secondary-950',
+        'dark' => 'hover:ring-dark-50 hover:ring-dark-100 hover:ring-dark-200 hover:ring-dark-300 hover:ring-dark-400 hover:ring-dark-500 hover:ring-dark-600 hover:ring-dark-700 hover:ring-dark-800 hover:ring-dark-900 hover:ring-dark-950',
         'white' => 'hover:ring-white',
         'black' => 'hover:ring-black',
         'slate' => 'hover:ring-slate-50 hover:ring-slate-100 hover:ring-slate-200 hover:ring-slate-300 hover:ring-slate-400 hover:ring-slate-500 hover:ring-slate-600 hover:ring-slate-700 hover:ring-slate-800 hover:ring-slate-900 hover:ring-slate-950',
@@ -252,6 +254,7 @@ final class TailwindSafelistClasses
     public const PEER_CHECKED_BG = [
         'primary' => 'peer-checked:bg-primary-50 peer-checked:bg-primary-100 peer-checked:bg-primary-200 peer-checked:bg-primary-300 peer-checked:bg-primary-400 peer-checked:bg-primary-500 peer-checked:bg-primary-600 peer-checked:bg-primary-700 peer-checked:bg-primary-800 peer-checked:bg-primary-900 peer-checked:bg-primary-950',
         'secondary' => 'peer-checked:bg-secondary-50 peer-checked:bg-secondary-100 peer-checked:bg-secondary-200 peer-checked:bg-secondary-300 peer-checked:bg-secondary-400 peer-checked:bg-secondary-500 peer-checked:bg-secondary-600 peer-checked:bg-secondary-700 peer-checked:bg-secondary-800 peer-checked:bg-secondary-900 peer-checked:bg-secondary-950',
+        'dark' => 'peer-checked:bg-dark-50 peer-checked:bg-dark-100 peer-checked:bg-dark-200 peer-checked:bg-dark-300 peer-checked:bg-dark-400 peer-checked:bg-dark-500 peer-checked:bg-dark-600 peer-checked:bg-dark-700 peer-checked:bg-dark-800 peer-checked:bg-dark-900 peer-checked:bg-dark-950',
         'white' => 'peer-checked:bg-white',
         'black' => 'peer-checked:bg-black',
         'slate' => 'peer-checked:bg-slate-50 peer-checked:bg-slate-100 peer-checked:bg-slate-200 peer-checked:bg-slate-300 peer-checked:bg-slate-400 peer-checked:bg-slate-500 peer-checked:bg-slate-600 peer-checked:bg-slate-700 peer-checked:bg-slate-800 peer-checked:bg-slate-900 peer-checked:bg-slate-950',
@@ -281,6 +284,7 @@ final class TailwindSafelistClasses
     public const PEER_FOCUS_RING = [
         'primary' => 'peer-focus:ring-primary-50 peer-focus:ring-primary-100 peer-focus:ring-primary-200 peer-focus:ring-primary-300 peer-focus:ring-primary-400 peer-focus:ring-primary-500 peer-focus:ring-primary-600 peer-focus:ring-primary-700 peer-focus:ring-primary-800 peer-focus:ring-primary-900 peer-focus:ring-primary-950',
         'secondary' => 'peer-focus:ring-secondary-50 peer-focus:ring-secondary-100 peer-focus:ring-secondary-200 peer-focus:ring-secondary-300 peer-focus:ring-secondary-400 peer-focus:ring-secondary-500 peer-focus:ring-secondary-600 peer-focus:ring-secondary-700 peer-focus:ring-secondary-800 peer-focus:ring-secondary-900 peer-focus:ring-secondary-950',
+        'dark' => 'peer-focus:ring-dark-50 peer-focus:ring-dark-100 peer-focus:ring-dark-200 peer-focus:ring-dark-300 peer-focus:ring-dark-400 peer-focus:ring-dark-500 peer-focus:ring-dark-600 peer-focus:ring-dark-700 peer-focus:ring-dark-800 peer-focus:ring-dark-900 peer-focus:ring-dark-950',
         'white' => 'peer-focus:ring-white',
         'black' => 'peer-focus:ring-black',
         'slate' => 'peer-focus:ring-slate-50 peer-focus:ring-slate-100 peer-focus:ring-slate-200 peer-focus:ring-slate-300 peer-focus:ring-slate-400 peer-focus:ring-slate-500 peer-focus:ring-slate-600 peer-focus:ring-slate-700 peer-focus:ring-slate-800 peer-focus:ring-slate-900 peer-focus:ring-slate-950',
@@ -310,6 +314,7 @@ final class TailwindSafelistClasses
     public const RING = [
         'primary' => 'ring-primary-50 ring-primary-100 ring-primary-200 ring-primary-300 ring-primary-400 ring-primary-500 ring-primary-600 ring-primary-700 ring-primary-800 ring-primary-900 ring-primary-950',
         'secondary' => 'ring-secondary-50 ring-secondary-100 ring-secondary-200 ring-secondary-300 ring-secondary-400 ring-secondary-500 ring-secondary-600 ring-secondary-700 ring-secondary-800 ring-secondary-900 ring-secondary-950',
+        'dark' => 'ring-dark-50 ring-dark-100 ring-dark-200 ring-dark-300 ring-dark-400 ring-dark-500 ring-dark-600 ring-dark-700 ring-dark-800 ring-dark-900 ring-dark-950',
         'white' => 'ring-white',
         'black' => 'ring-black',
         'slate' => 'ring-slate-50 ring-slate-100 ring-slate-200 ring-slate-300 ring-slate-400 ring-slate-500 ring-slate-600 ring-slate-700 ring-slate-800 ring-slate-900 ring-slate-950',
@@ -339,6 +344,7 @@ final class TailwindSafelistClasses
     public const RING_OFFSET = [
         'primary' => 'ring-offset-primary-50 ring-offset-primary-100 ring-offset-primary-200 ring-offset-primary-300 ring-offset-primary-400 ring-offset-primary-500 ring-offset-primary-600 ring-offset-primary-700 ring-offset-primary-800 ring-offset-primary-900 ring-offset-primary-950',
         'secondary' => 'ring-offset-secondary-50 ring-offset-secondary-100 ring-offset-secondary-200 ring-offset-secondary-300 ring-offset-secondary-400 ring-offset-secondary-500 ring-offset-secondary-600 ring-offset-secondary-700 ring-offset-secondary-800 ring-offset-secondary-900 ring-offset-secondary-950',
+        'dark' => 'ring-offset-dark-50 ring-offset-dark-100 ring-offset-dark-200 ring-offset-dark-300 ring-offset-dark-400 ring-offset-dark-500 ring-offset-dark-600 ring-offset-dark-700 ring-offset-dark-800 ring-offset-dark-900 ring-offset-dark-950',
         'white' => 'ring-offset-white',
         'black' => 'ring-offset-black',
         'slate' => 'ring-offset-slate-50 ring-offset-slate-100 ring-offset-slate-200 ring-offset-slate-300 ring-offset-slate-400 ring-offset-slate-500 ring-offset-slate-600 ring-offset-slate-700 ring-offset-slate-800 ring-offset-slate-900 ring-offset-slate-950',
@@ -366,8 +372,8 @@ final class TailwindSafelistClasses
     ];
 
     public const SPECIALS = [
-        'dark:hover:bg:slate' => 'dark:hover:bg-slate-700',
-        'dark:bg-transparent' => 'dark:bg-transparent',
+        'dark:hover:bg-slate-700',
+        'dark:bg-transparent',
     ];
 
     public const TEXT = [

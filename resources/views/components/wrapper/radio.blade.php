@@ -1,6 +1,7 @@
-@php($customize = tallstackui_personalization('wrapper.radio', $personalization()))
-
-@php($error = ($computed && $errors->has($computed)) && $error)
+@php
+    $customize = tallstackui_personalization('wrapper.radio', $personalization());
+    $error = ($computed && $errors->has($computed)) && $error;
+@endphp
 
 <div>
     <div @class($customize['wrapper'])>
