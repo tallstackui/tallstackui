@@ -11,7 +11,8 @@ class AvatarColors
     public function __invoke(Avatar $avatar): array
     {
         $colors = match ($avatar->color) {
-            'white', 'black' => 'neutral',
+            'white' => 'white',
+            'black' => 'neutral',
             default => $avatar->color,
         };
 
