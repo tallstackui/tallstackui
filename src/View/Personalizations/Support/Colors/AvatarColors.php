@@ -11,8 +11,7 @@ class AvatarColors
     public function __invoke(Avatar $avatar): array
     {
         $colors = match ($avatar->color) {
-            'white' => 'white',
-            'black' => 'neutral',
+            'white', 'black' => 'neutral',
             default => $avatar->color,
         };
 
@@ -27,6 +26,8 @@ class AvatarColors
                 TallStackUi::colors()
                     ->set('bg', $colors, $weight)
                     ->merge('border', $colors, $weight)
+                    ->mergeWhen($avatar->color === 'white', 'dark:bg', 'white')
+                    ->mergeWhen($avatar->color === 'white', 'dark:border', 'white')
                     ->get() => ! $avatar->model,
             ]),
         ];
