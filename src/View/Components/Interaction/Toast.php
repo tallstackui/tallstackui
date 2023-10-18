@@ -39,8 +39,8 @@ class Toast extends Component implements Personalize
             ],
             'buttons' => [
                 'wrapper' => 'mt-3 flex gap-x-3',
-                'confirm' => 'text-primary-600 dark:text-primary-400 text-sm font-medium focus:outline-none',
-                'cancel' => 'text-red-700 dark:text-red-400 text-sm font-medium focus:outline-none',
+                'confirm' => 'text-primary-600 dark:text-dark-200 text-sm font-medium focus:outline-none',
+                'cancel' => 'text-red-700 dark:text-red-500 text-sm font-medium focus:outline-none',
                 'close' => [
                     'wrapper' => 'ml-4 flex flex-shrink-0',
                     'class' => 'inline-flex text-gray-400 focus:outline-none focus:ring-0',

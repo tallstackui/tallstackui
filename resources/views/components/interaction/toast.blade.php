@@ -23,22 +23,29 @@
                 <div @class($customize['wrapper.fourth'])>
                     <div class="flex-shrink-0">
                         <div x-show="toast.type === 'success'">
-                            <x-icon name="check-circle" outline @class([$customize['icon.size'], 'text-green-400']) />
+                            <x-icon name="check-circle"
+                                    outline
+                                    @class([$customize['icon.size'], 'text-green-400']) />
                         </div>
                         <div x-show="toast.type === 'error'">
-                            <x-icon name="x-circle" outline @class([$customize['icon.size'], 'text-red-400']) />
+                            <x-icon name="x-circle"
+                                    outline
+                                    @class([$customize['icon.size'], 'text-red-400']) />
                         </div>
                         <div x-show="toast.type === 'info'">
                             <x-icon name="information-circle"
-                                    outline @class([$customize['icon.size'], 'text-blue-400']) />
+                                    outline
+                                    @class([$customize['icon.size'], 'text-blue-400']) />
                         </div>
                         <div x-show="toast.type === 'warning'">
                             <x-icon name="exclamation-circle"
-                                    outline @class([$customize['icon.size'], 'text-yellow-400']) />
+                                    outline
+                                    @class([$customize['icon.size'], 'text-yellow-400']) />
                         </div>
                         <div x-show="toast.type === 'question'">
                             <x-icon name="question-mark-circle"
-                                    outline @class([$customize['icon.size'], 'text-secondary-400']) />
+                                    outline
+                                    @class([$customize['icon.size'], 'text-secondary-400']) />
                         </div>
                     </div>
                     <div @class($customize['content.wrapper'])>
