@@ -19,5 +19,9 @@ module.exports = {
       },
     },
   },
-  plugins: [forms],
+  plugins: [
+    forms,
+    require('./resources/js/plugins/customScrollbar'),
+    require('./resources/js/plugins/softScrollbar'),
+  ],
 };

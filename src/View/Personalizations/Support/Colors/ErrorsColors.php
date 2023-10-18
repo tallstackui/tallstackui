@@ -4,7 +4,6 @@ namespace TallStackUi\View\Personalizations\Support\Colors;
 
 use TallStackUi\Facades\TallStackUi;
 use TallStackUi\View\Components\Errors;
-use TallStackUi\View\Personalizations\Support\Color;
 
 class ErrorsColors
 {

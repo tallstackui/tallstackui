@@ -12,11 +12,6 @@ namespace TallStackUi\View\Personalizations\Support;
  */
 final class TailwindSafelistClasses
 {
-    public const SPECIALS = [
-        'dark:hover:bg:slate' => 'dark:hover:bg-slate-700',
-        'dark:bg-transparent' => 'dark:bg-transparent',
-    ];
-
     public const BG = [
         'primary' => 'bg-primary-50 bg-primary-100 bg-primary-200 bg-primary-300 bg-primary-400 bg-primary-500 bg-primary-600 bg-primary-700 bg-primary-800 bg-primary-900 bg-primary-950',
         'secondary' => 'bg-secondary-50 bg-secondary-100 bg-secondary-200 bg-secondary-300 bg-secondary-400 bg-secondary-500 bg-secondary-600 bg-secondary-700 bg-secondary-800 bg-secondary-900 bg-secondary-950',
@@ -107,64 +102,6 @@ final class TailwindSafelistClasses
         'rose' => 'dark:border-rose-50 dark:border-rose-100 dark:border-rose-200 dark:border-rose-300 dark:border-rose-400 dark:border-rose-500 dark:border-rose-600 dark:border-rose-700 dark:border-rose-800 dark:border-rose-900 dark:border-rose-950',
     ];
 
-    public const FOCUS_RING = [
-        'primary' => 'focus:ring-primary-50 focus:ring-primary-100 focus:ring-primary-200 focus:ring-primary-300 focus:ring-primary-400 focus:ring-primary-500 focus:ring-primary-600 focus:ring-primary-700 focus:ring-primary-800 focus:ring-primary-900 focus:ring-primary-950',
-        'secondary' => 'focus:ring-secondary-50 focus:ring-secondary-100 focus:ring-secondary-200 focus:ring-secondary-300 focus:ring-secondary-400 focus:ring-secondary-500 focus:ring-secondary-600 focus:ring-secondary-700 focus:ring-secondary-800 focus:ring-secondary-900 focus:ring-secondary-950',
-        'white' => 'focus:ring-white',
-        'black' => 'focus:ring-black',
-        'slate' => 'focus:ring-slate-50 focus:ring-slate-100 focus:ring-slate-200 focus:ring-slate-300 focus:ring-slate-400 focus:ring-slate-500 focus:ring-slate-600 focus:ring-slate-700 focus:ring-slate-800 focus:ring-slate-900 focus:ring-slate-950',
-        'gray' => 'focus:ring-gray-50 focus:ring-gray-100 focus:ring-gray-200 focus:ring-gray-300 focus:ring-gray-400 focus:ring-gray-500 focus:ring-gray-600 focus:ring-gray-700 focus:ring-gray-800 focus:ring-gray-900 focus:ring-gray-950',
-        'zinc' => 'focus:ring-zinc-50 focus:ring-zinc-100 focus:ring-zinc-200 focus:ring-zinc-300 focus:ring-zinc-400 focus:ring-zinc-500 focus:ring-zinc-600 focus:ring-zinc-700 focus:ring-zinc-800 focus:ring-zinc-900 focus:ring-zinc-950',
-        'neutral' => 'focus:ring-neutral-50 focus:ring-neutral-100 focus:ring-neutral-200 focus:ring-neutral-300 focus:ring-neutral-400 focus:ring-neutral-500 focus:ring-neutral-600 focus:ring-neutral-700 focus:ring-neutral-800 focus:ring-neutral-900 focus:ring-neutral-950',
-        'stone' => 'focus:ring-stone-50 focus:ring-stone-100 focus:ring-stone-200 focus:ring-stone-300 focus:ring-stone-400 focus:ring-stone-500 focus:ring-stone-600 focus:ring-stone-700 focus:ring-stone-800 focus:ring-stone-900 focus:ring-stone-950',
-        'red' => 'focus:ring-red-50 focus:ring-red-100 focus:ring-red-200 focus:ring-red-300 focus:ring-red-400 focus:ring-red-500 focus:ring-red-600 focus:ring-red-700 focus:ring-red-800 focus:ring-red-900 focus:ring-red-950',
-        'orange' => 'focus:ring-orange-50 focus:ring-orange-100 focus:ring-orange-200 focus:ring-orange-300 focus:ring-orange-400 focus:ring-orange-500 focus:ring-orange-600 focus:ring-orange-700 focus:ring-orange-800 focus:ring-orange-900 focus:ring-orange-950',
-        'amber' => 'focus:ring-amber-50 focus:ring-amber-100 focus:ring-amber-200 focus:ring-amber-300 focus:ring-amber-400 focus:ring-amber-500 focus:ring-amber-600 focus:ring-amber-700 focus:ring-amber-800 focus:ring-amber-900 focus:ring-amber-950',
-        'yellow' => 'focus:ring-yellow-50 focus:ring-yellow-100 focus:ring-yellow-200 focus:ring-yellow-300 focus:ring-yellow-400 focus:ring-yellow-500 focus:ring-yellow-600 focus:ring-yellow-700 focus:ring-yellow-800 focus:ring-yellow-900 focus:ring-yellow-950',
-        'lime' => 'focus:ring-lime-50 focus:ring-lime-100 focus:ring-lime-200 focus:ring-lime-300 focus:ring-lime-400 focus:ring-lime-500 focus:ring-lime-600 focus:ring-lime-700 focus:ring-lime-800 focus:ring-lime-900 focus:ring-lime-950',
-        'green' => 'focus:ring-green-50 focus:ring-green-100 focus:ring-green-200 focus:ring-green-300 focus:ring-green-400 focus:ring-green-500 focus:ring-green-600 focus:ring-green-700 focus:ring-green-800 focus:ring-green-900 focus:ring-green-950',
-        'emerald' => 'focus:ring-emerald-50 focus:ring-emerald-100 focus:ring-emerald-200 focus:ring-emerald-300 focus:ring-emerald-400 focus:ring-emerald-500 focus:ring-emerald-600 focus:ring-emerald-700 focus:ring-emerald-800 focus:ring-emerald-900 focus:ring-emerald-950',
-        'teal' => 'focus:ring-teal-50 focus:ring-teal-100 focus:ring-teal-200 focus:ring-teal-300 focus:ring-teal-400 focus:ring-teal-500 focus:ring-teal-600 focus:ring-teal-700 focus:ring-teal-800 focus:ring-teal-900 focus:ring-teal-950',
-        'cyan' => 'focus:ring-cyan-50 focus:ring-cyan-100 focus:ring-cyan-200 focus:ring-cyan-300 focus:ring-cyan-400 focus:ring-cyan-500 focus:ring-cyan-600 focus:ring-cyan-700 focus:ring-cyan-800 focus:ring-cyan-900 focus:ring-cyan-950',
-        'sky' => 'focus:ring-sky-50 focus:ring-sky-100 focus:ring-sky-200 focus:ring-sky-300 focus:ring-sky-400 focus:ring-sky-500 focus:ring-sky-600 focus:ring-sky-700 focus:ring-sky-800 focus:ring-sky-900 focus:ring-sky-950',
-        'blue' => 'focus:ring-blue-50 focus:ring-blue-100 focus:ring-blue-200 focus:ring-blue-300 focus:ring-blue-400 focus:ring-blue-500 focus:ring-blue-600 focus:ring-blue-700 focus:ring-blue-800 focus:ring-blue-900 focus:ring-blue-950',
-        'indigo' => 'focus:ring-indigo-50 focus:ring-indigo-100 focus:ring-indigo-200 focus:ring-indigo-300 focus:ring-indigo-400 focus:ring-indigo-500 focus:ring-indigo-600 focus:ring-indigo-700 focus:ring-indigo-800 focus:ring-indigo-900 focus:ring-indigo-950',
-        'violet' => 'focus:ring-violet-50 focus:ring-violet-100 focus:ring-violet-200 focus:ring-violet-300 focus:ring-violet-400 focus:ring-violet-500 focus:ring-violet-600 focus:ring-violet-700 focus:ring-violet-800 focus:ring-violet-900 focus:ring-violet-950',
-        'purple' => 'focus:ring-purple-50 focus:ring-purple-100 focus:ring-purple-200 focus:ring-purple-300 focus:ring-purple-400 focus:ring-purple-500 focus:ring-purple-600 focus:ring-purple-700 focus:ring-purple-800 focus:ring-purple-900 focus:ring-purple-950',
-        'fuchsia' => 'focus:ring-fuchsia-50 focus:ring-fuchsia-100 focus:ring-fuchsia-200 focus:ring-fuchsia-300 focus:ring-fuchsia-400 focus:ring-fuchsia-500 focus:ring-fuchsia-600 focus:ring-fuchsia-700 focus:ring-fuchsia-800 focus:ring-fuchsia-900 focus:ring-fuchsia-950',
-        'pink' => 'focus:ring-pink-50 focus:ring-pink-100 focus:ring-pink-200 focus:ring-pink-300 focus:ring-pink-400 focus:ring-pink-500 focus:ring-pink-600 focus:ring-pink-700 focus:ring-pink-800 focus:ring-pink-900 focus:ring-pink-950',
-        'rose' => 'focus:ring-rose-50 focus:ring-rose-100 focus:ring-rose-200 focus:ring-rose-300 focus:ring-rose-400 focus:ring-rose-500 focus:ring-rose-600 focus:ring-rose-700 focus:ring-rose-800 focus:ring-rose-900 focus:ring-rose-950',
-    ];
-
-    public const RING_OFFSET = [
-        'primary' => 'ring-offset-primary-50 ring-offset-primary-100 ring-offset-primary-200 ring-offset-primary-300 ring-offset-primary-400 ring-offset-primary-500 ring-offset-primary-600 ring-offset-primary-700 ring-offset-primary-800 ring-offset-primary-900 ring-offset-primary-950',
-        'secondary' => 'ring-offset-secondary-50 ring-offset-secondary-100 ring-offset-secondary-200 ring-offset-secondary-300 ring-offset-secondary-400 ring-offset-secondary-500 ring-offset-secondary-600 ring-offset-secondary-700 ring-offset-secondary-800 ring-offset-secondary-900 ring-offset-secondary-950',
-        'white' => 'ring-offset-white',
-        'black' => 'ring-offset-black',
-        'slate' => 'ring-offset-slate-50 ring-offset-slate-100 ring-offset-slate-200 ring-offset-slate-300 ring-offset-slate-400 ring-offset-slate-500 ring-offset-slate-600 ring-offset-slate-700 ring-offset-slate-800 ring-offset-slate-900 ring-offset-slate-950',
-        'gray' => 'ring-offset-gray-50 ring-offset-gray-100 ring-offset-gray-200 ring-offset-gray-300 ring-offset-gray-400 ring-offset-gray-500 ring-offset-gray-600 ring-offset-gray-700 ring-offset-gray-800 ring-offset-gray-900 ring-offset-gray-950',
-        'zinc' => 'ring-offset-zinc-50 ring-offset-zinc-100 ring-offset-zinc-200 ring-offset-zinc-300 ring-offset-zinc-400 ring-offset-zinc-500 ring-offset-zinc-600 ring-offset-zinc-700 ring-offset-zinc-800 ring-offset-zinc-900 ring-offset-zinc-950',
-        'neutral' => 'ring-offset-neutral-50 ring-offset-neutral-100 ring-offset-neutral-200 ring-offset-neutral-300 ring-offset-neutral-400 ring-offset-neutral-500 ring-offset-neutral-600 ring-offset-neutral-700 ring-offset-neutral-800 ring-offset-neutral-900 ring-offset-neutral-950',
-        'stone' => 'ring-offset-stone-50 ring-offset-stone-100 ring-offset-stone-200 ring-offset-stone-300 ring-offset-stone-400 ring-offset-stone-500 ring-offset-stone-600 ring-offset-stone-700 ring-offset-stone-800 ring-offset-stone-900 ring-offset-stone-950',
-        'red' => 'ring-offset-red-50 ring-offset-red-100 ring-offset-red-200 ring-offset-red-300 ring-offset-red-400 ring-offset-red-500 ring-offset-red-600 ring-offset-red-700 ring-offset-red-800 ring-offset-red-900 ring-offset-red-950',
-        'orange' => 'ring-offset-orange-50 ring-offset-orange-100 ring-offset-orange-200 ring-offset-orange-300 ring-offset-orange-400 ring-offset-orange-500 ring-offset-orange-600 ring-offset-orange-700 ring-offset-orange-800 ring-offset-orange-900 ring-offset-orange-950',
-        'amber' => 'ring-offset-amber-50 ring-offset-amber-100 ring-offset-amber-200 ring-offset-amber-300 ring-offset-amber-400 ring-offset-amber-500 ring-offset-amber-600 ring-offset-amber-700 ring-offset-amber-800 ring-offset-amber-900 ring-offset-amber-950',
-        'yellow' => 'ring-offset-yellow-50 ring-offset-yellow-100 ring-offset-yellow-200 ring-offset-yellow-300 ring-offset-yellow-400 ring-offset-yellow-500 ring-offset-yellow-600 ring-offset-yellow-700 ring-offset-yellow-800 ring-offset-yellow-900 ring-offset-yellow-950',
-        'lime' => 'ring-offset-lime-50 ring-offset-lime-100 ring-offset-lime-200 ring-offset-lime-300 ring-offset-lime-400 ring-offset-lime-500 ring-offset-lime-600 ring-offset-lime-700 ring-offset-lime-800 ring-offset-lime-900 ring-offset-lime-950',
-        'green' => 'ring-offset-green-50 ring-offset-green-100 ring-offset-green-200 ring-offset-green-300 ring-offset-green-400 ring-offset-green-500 ring-offset-green-600 ring-offset-green-700 ring-offset-green-800 ring-offset-green-900 ring-offset-green-950',
-        'emerald' => 'ring-offset-emerald-50 ring-offset-emerald-100 ring-offset-emerald-200 ring-offset-emerald-300 ring-offset-emerald-400 ring-offset-emerald-500 ring-offset-emerald-600 ring-offset-emerald-700 ring-offset-emerald-800 ring-offset-emerald-900 ring-offset-emerald-950',
-        'teal' => 'ring-offset-teal-50 ring-offset-teal-100 ring-offset-teal-200 ring-offset-teal-300 ring-offset-teal-400 ring-offset-teal-500 ring-offset-teal-600 ring-offset-teal-700 ring-offset-teal-800 ring-offset-teal-900 ring-offset-teal-950',
-        'cyan' => 'ring-offset-cyan-50 ring-offset-cyan-100 ring-offset-cyan-200 ring-offset-cyan-300 ring-offset-cyan-400 ring-offset-cyan-500 ring-offset-cyan-600 ring-offset-cyan-700 ring-offset-cyan-800 ring-offset-cyan-900 ring-offset-cyan-950',
-        'sky' => 'ring-offset-sky-50 ring-offset-sky-100 ring-offset-sky-200 ring-offset-sky-300 ring-offset-sky-400 ring-offset-sky-500 ring-offset-sky-600 ring-offset-sky-700 ring-offset-sky-800 ring-offset-sky-900 ring-offset-sky-950',
-        'blue' => 'ring-offset-blue-50 ring-offset-blue-100 ring-offset-blue-200 ring-offset-blue-300 ring-offset-blue-400 ring-offset-blue-500 ring-offset-blue-600 ring-offset-blue-700 ring-offset-blue-800 ring-offset-blue-900 ring-offset-blue-950',
-        'indigo' => 'ring-offset-indigo-50 ring-offset-indigo-100 ring-offset-indigo-200 ring-offset-indigo-300 ring-offset-indigo-400 ring-offset-indigo-500 ring-offset-indigo-600 ring-offset-indigo-700 ring-offset-indigo-800 ring-offset-indigo-900 ring-offset-indigo-950',
-        'violet' => 'ring-offset-violet-50 ring-offset-violet-100 ring-offset-violet-200 ring-offset-violet-300 ring-offset-violet-400 ring-offset-violet-500 ring-offset-violet-600 ring-offset-violet-700 ring-offset-violet-800 ring-offset-violet-900 ring-offset-violet-950',
-        'purple' => 'ring-offset-purple-50 ring-offset-purple-100 ring-offset-purple-200 ring-offset-purple-300 ring-offset-purple-400 ring-offset-purple-500 ring-offset-purple-600 ring-offset-purple-700 ring-offset-purple-800 ring-offset-purple-900 ring-offset-purple-950',
-        'fuchsia' => 'ring-offset-fuchsia-50 ring-offset-fuchsia-100 ring-offset-fuchsia-200 ring-offset-fuchsia-300 ring-offset-fuchsia-400 ring-offset-fuchsia-500 ring-offset-fuchsia-600 ring-offset-fuchsia-700 ring-offset-fuchsia-800 ring-offset-fuchsia-900 ring-offset-fuchsia-950',
-        'pink' => 'ring-offset-pink-50 ring-offset-pink-100 ring-offset-pink-200 ring-offset-pink-300 ring-offset-pink-400 ring-offset-pink-500 ring-offset-pink-600 ring-offset-pink-700 ring-offset-pink-800 ring-offset-pink-900 ring-offset-pink-950',
-        'rose' => 'ring-offset-rose-50 ring-offset-rose-100 ring-offset-rose-200 ring-offset-rose-300 ring-offset-rose-400 ring-offset-rose-500 ring-offset-rose-600 ring-offset-rose-700 ring-offset-rose-800 ring-offset-rose-900 ring-offset-rose-950',
-    ];
-
     public const DARK_RING_OFFSET = [
         'primary' => 'dark:ring-offset-primary-50 dark:ring-offset-primary-100 dark:ring-offset-primary-200 dark:ring-offset-primary-300 dark:ring-offset-primary-400 dark:ring-offset-primary-500 dark:ring-offset-primary-600 dark:ring-offset-primary-700 dark:ring-offset-primary-800 dark:ring-offset-primary-900 dark:ring-offset-primary-950',
         'secondary' => 'dark:ring-offset-secondary-50 dark:ring-offset-secondary-100 dark:ring-offset-secondary-200 dark:ring-offset-secondary-300 dark:ring-offset-secondary-400 dark:ring-offset-secondary-500 dark:ring-offset-secondary-600 dark:ring-offset-secondary-700 dark:ring-offset-secondary-800 dark:ring-offset-secondary-900 dark:ring-offset-secondary-950',
@@ -193,6 +130,65 @@ final class TailwindSafelistClasses
         'fuchsia' => 'dark:ring-offset-fuchsia-50 dark:ring-offset-fuchsia-100 dark:ring-offset-fuchsia-200 dark:ring-offset-fuchsia-300 dark:ring-offset-fuchsia-400 dark:ring-offset-fuchsia-500 dark:ring-offset-fuchsia-600 dark:ring-offset-fuchsia-700 dark:ring-offset-fuchsia-800 dark:ring-offset-fuchsia-900 dark:ring-offset-fuchsia-950',
         'pink' => 'dark:ring-offset-pink-50 dark:ring-offset-pink-100 dark:ring-offset-pink-200 dark:ring-offset-pink-300 dark:ring-offset-pink-400 dark:ring-offset-pink-500 dark:ring-offset-pink-600 dark:ring-offset-pink-700 dark:ring-offset-pink-800 dark:ring-offset-pink-900 dark:ring-offset-pink-950',
         'rose' => 'dark:ring-offset-rose-50 dark:ring-offset-rose-100 dark:ring-offset-rose-200 dark:ring-offset-rose-300 dark:ring-offset-rose-400 dark:ring-offset-rose-500 dark:ring-offset-rose-600 dark:ring-offset-rose-700 dark:ring-offset-rose-800 dark:ring-offset-rose-900 dark:ring-offset-rose-950',
+    ];
+
+    public const DARK_TEXT = [
+        'primary' => 'dark:text-primary-50 dark:text-primary-100 dark:text-primary-200 dark:text-primary-300 dark:text-primary-400 dark:text-primary-500 dark:text-primary-600 dark:text-primary-700 dark:text-primary-800 dark:text-primary-900 dark:text-primary-950',
+        'secondary' => 'dark:text-secondary-50 dark:text-secondary-100 dark:text-secondary-200 dark:text-secondary-300 dark:text-secondary-400 dark:text-secondary-500 dark:text-secondary-600 dark:text-secondary-700 dark:text-secondary-800 dark:text-secondary-900 dark:text-secondary-950',
+        'dark' => 'dark:text-dark-50 dark:text-dark-100 dark:text-dark-200 dark:text-dark-300 dark:text-dark-400 dark:text-dark-500 dark:text-dark-600 dark:text-dark-700 dark:text-dark-800 dark:text-dark-900 dark:text-dark-950',
+        'white' => 'dark:text-white',
+        'black' => 'dark:text-black',
+        'slate' => 'dark:text-slate-50 dark:text-slate-100 dark:text-slate-200 dark:text-slate-300 dark:text-slate-400 dark:text-slate-500 dark:text-slate-600 dark:text-slate-700 dark:text-slate-800 dark:text-slate-900 dark:text-slate-950',
+        'gray' => 'dark:text-gray-50 dark:text-gray-100 dark:text-gray-200 dark:text-gray-300 dark:text-gray-400 dark:text-gray-500 dark:text-gray-600 dark:text-gray-700 dark:text-gray-800 dark:text-gray-900 dark:text-gray-950',
+        'zinc' => 'dark:text-zinc-50 dark:text-zinc-100 dark:text-zinc-200 dark:text-zinc-300 dark:text-zinc-400 dark:text-zinc-500 dark:text-zinc-600 dark:text-zinc-700 dark:text-zinc-800 dark:text-zinc-900 dark:text-zinc-950',
+        'neutral' => 'dark:text-neutral-50 dark:text-neutral-100 dark:text-neutral-200 dark:text-neutral-300 dark:text-neutral-400 dark:text-neutral-500 dark:text-neutral-600 dark:text-neutral-700 dark:text-neutral-800 dark:text-neutral-900 dark:text-neutral-950',
+        'stone' => 'dark:text-stone-50 dark:text-stone-100 dark:text-stone-200 dark:text-stone-300 dark:text-stone-400 dark:text-stone-500 dark:text-stone-600 dark:text-stone-700 dark:text-stone-800 dark:text-stone-900 dark:text-stone-950',
+        'red' => 'dark:text-red-50 dark:text-red-100 dark:text-red-200 dark:text-red-300 dark:text-red-400 dark:text-red-500 dark:text-red-600 dark:text-red-700 dark:text-red-800 dark:text-red-900 dark:text-red-950',
+        'orange' => 'dark:text-orange-50 dark:text-orange-100 dark:text-orange-200 dark:text-orange-300 dark:text-orange-400 dark:text-orange-500 dark:text-orange-600 dark:text-orange-700 dark:text-orange-800 dark:text-orange-900 dark:text-orange-950',
+        'amber' => 'dark:text-amber-50 dark:text-amber-100 dark:text-amber-200 dark:text-amber-300 dark:text-amber-400 dark:text-amber-500 dark:text-amber-600 dark:text-amber-700 dark:text-amber-800 dark:text-amber-900  dark:text-amber-950',
+        'yellow' => 'dark:text-yellow-50 dark:text-yellow-100 dark:text-yellow-200 dark:text-yellow-300 dark:text-yellow-400 dark:text-yellow-500 dark:text-yellow-600 dark:text-yellow-700 dark:text-yellow-800 dark:text-yellow-900 dark:text-yellow-950',
+        'lime' => 'dark:text-lime-50 dark:text-lime-100 dark:text-lime-200 dark:text-lime-300 dark:text-lime-400 dark:text-lime-500 dark:text-lime-600 dark:text-lime-700 dark:text-lime-800 dark:text-lime-900 dark:text-lime-950',
+        'green' => 'dark:text-green-50 dark:text-green-100 dark:text-green-200 dark:text-green-300 dark:text-green-400 dark:text-green-500 dark:text-green-600 dark:text-green-700 dark:text-green-800 dark:text-green-900 dark:text-green-950',
+        'emerald' => 'dark:text-emerald-50 dark:text-emerald-100 dark:text-emerald-200 dark:text-emerald-300 dark:text-emerald-400 dark:text-emerald-500 dark:text-emerald-600 dark:text-emerald-700 dark:text-emerald-800 dark:text-emerald-900 dark:text-emerald-950',
+        'teal' => 'dark:text-teal-50 dark:text-teal-100 dark:text-teal-200 dark:text-teal-300 dark:text-teal-400 dark:text-teal-500 dark:text-teal-600 dark:text-teal-700 dark:text-teal-800 dark:text-teal-900 dark:text-teal-950',
+        'cyan' => 'dark:text-cyan-50 dark:text-cyan-100 dark:text-cyan-200 dark:text-cyan-300 dark:text-cyan-400 dark:text-cyan-500 dark:text-cyan-600 dark:text-cyan-700 dark:text-cyan-800 dark:text-cyan-900 dark:text-cyan-950',
+        'sky' => 'dark:text-sky-50 dark:text-sky-100 dark:text-sky-200 dark:text-sky-300 dark:text-sky-400 dark:text-sky-500 dark:text-sky-600 dark:text-sky-700 dark:text-sky-800 dark:text-sky-900 dark:text-sky-950',
+        'blue' => 'dark:text-blue-50 dark:text-blue-100 dark:text-blue-200 dark:text-blue-300 dark:text-blue-400 dark:text-blue-500 dark:text-blue-600 dark:text-blue-700 dark:text-blue-800 dark:text-blue-900 dark:text-blue-950',
+        'indigo' => 'dark:text-indigo-50 dark:text-indigo-100 dark:text-indigo-200 dark:text-indigo-300 dark:text-indigo-400 dark:text-indigo-500 dark:text-indigo-600 dark:text-indigo-700 dark:text-indigo-800 dark:text-indigo-900 dark:text-indigo-950',
+        'violet' => 'dark:text-violet-50 dark:text-violet-100 dark:text-violet-200 dark:text-violet-300 dark:text-violet-400 dark:text-violet-500 dark:text-violet-600 dark:text-violet-700 dark:text-violet-800 dark:text-violet-900 dark:text-violet-950',
+        'purple' => 'dark:text-purple-50 dark:text-purple-100 dark:text-purple-200 dark:text-purple-300 dark:text-purple-400 dark:text-purple-500 dark:text-purple-600 dark:text-purple-700 dark:text-purple-800 dark:text-purple-900 dark:text-purple-950',
+        'fuchsia' => 'dark:text-fuchsia-50 dark:text-fuchsia-100 dark:text-fuchsia-200 dark:text-fuchsia-300 dark:text-fuchsia-400 dark:text-fuchsia-500 dark:text-fuchsia-600 dark:text-fuchsia-700 dark:text-fuchsia-800 dark:text-fuchsia-900 dark:text-fuchsia-950',
+        'pink' => 'dark:text-pink-50 dark:text-pink-100 dark:text-pink-200 dark:text-pink-300 dark:text-pink-400 dark:text-pink-500 dark:text-pink-600 dark:text-pink-700 dark:text-pink-800 dark:text-pink-900 dark:text-pint-950',
+        'rose' => 'dark:text-rose-50 dark:text-rose-100 dark:text-rose-200 dark:text-rose-300 dark:text-rose-400 dark:text-rose-500 dark:text-rose-600 dark:text-rose-700 dark:text-rose-800 dark:text-rose-900 dark:text-rose-950',
+    ];
+
+    public const FOCUS_RING = [
+        'primary' => 'focus:ring-primary-50 focus:ring-primary-100 focus:ring-primary-200 focus:ring-primary-300 focus:ring-primary-400 focus:ring-primary-500 focus:ring-primary-600 focus:ring-primary-700 focus:ring-primary-800 focus:ring-primary-900 focus:ring-primary-950',
+        'secondary' => 'focus:ring-secondary-50 focus:ring-secondary-100 focus:ring-secondary-200 focus:ring-secondary-300 focus:ring-secondary-400 focus:ring-secondary-500 focus:ring-secondary-600 focus:ring-secondary-700 focus:ring-secondary-800 focus:ring-secondary-900 focus:ring-secondary-950',
+        'white' => 'focus:ring-white',
+        'black' => 'focus:ring-black',
+        'slate' => 'focus:ring-slate-50 focus:ring-slate-100 focus:ring-slate-200 focus:ring-slate-300 focus:ring-slate-400 focus:ring-slate-500 focus:ring-slate-600 focus:ring-slate-700 focus:ring-slate-800 focus:ring-slate-900 focus:ring-slate-950',
+        'gray' => 'focus:ring-gray-50 focus:ring-gray-100 focus:ring-gray-200 focus:ring-gray-300 focus:ring-gray-400 focus:ring-gray-500 focus:ring-gray-600 focus:ring-gray-700 focus:ring-gray-800 focus:ring-gray-900 focus:ring-gray-950',
+        'zinc' => 'focus:ring-zinc-50 focus:ring-zinc-100 focus:ring-zinc-200 focus:ring-zinc-300 focus:ring-zinc-400 focus:ring-zinc-500 focus:ring-zinc-600 focus:ring-zinc-700 focus:ring-zinc-800 focus:ring-zinc-900 focus:ring-zinc-950',
+        'neutral' => 'focus:ring-neutral-50 focus:ring-neutral-100 focus:ring-neutral-200 focus:ring-neutral-300 focus:ring-neutral-400 focus:ring-neutral-500 focus:ring-neutral-600 focus:ring-neutral-700 focus:ring-neutral-800 focus:ring-neutral-900 focus:ring-neutral-950',
+        'stone' => 'focus:ring-stone-50 focus:ring-stone-100 focus:ring-stone-200 focus:ring-stone-300 focus:ring-stone-400 focus:ring-stone-500 focus:ring-stone-600 focus:ring-stone-700 focus:ring-stone-800 focus:ring-stone-900 focus:ring-stone-950',
+        'red' => 'focus:ring-red-50 focus:ring-red-100 focus:ring-red-200 focus:ring-red-300 focus:ring-red-400 focus:ring-red-500 focus:ring-red-600 focus:ring-red-700 focus:ring-red-800 focus:ring-red-900 focus:ring-red-950',
+        'orange' => 'focus:ring-orange-50 focus:ring-orange-100 focus:ring-orange-200 focus:ring-orange-300 focus:ring-orange-400 focus:ring-orange-500 focus:ring-orange-600 focus:ring-orange-700 focus:ring-orange-800 focus:ring-orange-900 focus:ring-orange-950',
+        'amber' => 'focus:ring-amber-50 focus:ring-amber-100 focus:ring-amber-200 focus:ring-amber-300 focus:ring-amber-400 focus:ring-amber-500 focus:ring-amber-600 focus:ring-amber-700 focus:ring-amber-800 focus:ring-amber-900 focus:ring-amber-950',
+        'yellow' => 'focus:ring-yellow-50 focus:ring-yellow-100 focus:ring-yellow-200 focus:ring-yellow-300 focus:ring-yellow-400 focus:ring-yellow-500 focus:ring-yellow-600 focus:ring-yellow-700 focus:ring-yellow-800 focus:ring-yellow-900 focus:ring-yellow-950',
+        'lime' => 'focus:ring-lime-50 focus:ring-lime-100 focus:ring-lime-200 focus:ring-lime-300 focus:ring-lime-400 focus:ring-lime-500 focus:ring-lime-600 focus:ring-lime-700 focus:ring-lime-800 focus:ring-lime-900 focus:ring-lime-950',
+        'green' => 'focus:ring-green-50 focus:ring-green-100 focus:ring-green-200 focus:ring-green-300 focus:ring-green-400 focus:ring-green-500 focus:ring-green-600 focus:ring-green-700 focus:ring-green-800 focus:ring-green-900 focus:ring-green-950',
+        'emerald' => 'focus:ring-emerald-50 focus:ring-emerald-100 focus:ring-emerald-200 focus:ring-emerald-300 focus:ring-emerald-400 focus:ring-emerald-500 focus:ring-emerald-600 focus:ring-emerald-700 focus:ring-emerald-800 focus:ring-emerald-900 focus:ring-emerald-950',
+        'teal' => 'focus:ring-teal-50 focus:ring-teal-100 focus:ring-teal-200 focus:ring-teal-300 focus:ring-teal-400 focus:ring-teal-500 focus:ring-teal-600 focus:ring-teal-700 focus:ring-teal-800 focus:ring-teal-900 focus:ring-teal-950',
+        'cyan' => 'focus:ring-cyan-50 focus:ring-cyan-100 focus:ring-cyan-200 focus:ring-cyan-300 focus:ring-cyan-400 focus:ring-cyan-500 focus:ring-cyan-600 focus:ring-cyan-700 focus:ring-cyan-800 focus:ring-cyan-900 focus:ring-cyan-950',
+        'sky' => 'focus:ring-sky-50 focus:ring-sky-100 focus:ring-sky-200 focus:ring-sky-300 focus:ring-sky-400 focus:ring-sky-500 focus:ring-sky-600 focus:ring-sky-700 focus:ring-sky-800 focus:ring-sky-900 focus:ring-sky-950',
+        'blue' => 'focus:ring-blue-50 focus:ring-blue-100 focus:ring-blue-200 focus:ring-blue-300 focus:ring-blue-400 focus:ring-blue-500 focus:ring-blue-600 focus:ring-blue-700 focus:ring-blue-800 focus:ring-blue-900 focus:ring-blue-950',
+        'indigo' => 'focus:ring-indigo-50 focus:ring-indigo-100 focus:ring-indigo-200 focus:ring-indigo-300 focus:ring-indigo-400 focus:ring-indigo-500 focus:ring-indigo-600 focus:ring-indigo-700 focus:ring-indigo-800 focus:ring-indigo-900 focus:ring-indigo-950',
+        'violet' => 'focus:ring-violet-50 focus:ring-violet-100 focus:ring-violet-200 focus:ring-violet-300 focus:ring-violet-400 focus:ring-violet-500 focus:ring-violet-600 focus:ring-violet-700 focus:ring-violet-800 focus:ring-violet-900 focus:ring-violet-950',
+        'purple' => 'focus:ring-purple-50 focus:ring-purple-100 focus:ring-purple-200 focus:ring-purple-300 focus:ring-purple-400 focus:ring-purple-500 focus:ring-purple-600 focus:ring-purple-700 focus:ring-purple-800 focus:ring-purple-900 focus:ring-purple-950',
+        'fuchsia' => 'focus:ring-fuchsia-50 focus:ring-fuchsia-100 focus:ring-fuchsia-200 focus:ring-fuchsia-300 focus:ring-fuchsia-400 focus:ring-fuchsia-500 focus:ring-fuchsia-600 focus:ring-fuchsia-700 focus:ring-fuchsia-800 focus:ring-fuchsia-900 focus:ring-fuchsia-950',
+        'pink' => 'focus:ring-pink-50 focus:ring-pink-100 focus:ring-pink-200 focus:ring-pink-300 focus:ring-pink-400 focus:ring-pink-500 focus:ring-pink-600 focus:ring-pink-700 focus:ring-pink-800 focus:ring-pink-900 focus:ring-pink-950',
+        'rose' => 'focus:ring-rose-50 focus:ring-rose-100 focus:ring-rose-200 focus:ring-rose-300 focus:ring-rose-400 focus:ring-rose-500 focus:ring-rose-600 focus:ring-rose-700 focus:ring-rose-800 focus:ring-rose-900 focus:ring-rose-950',
     ];
 
     public const HOVER_BG = [
@@ -340,6 +336,40 @@ final class TailwindSafelistClasses
         'rose' => 'ring-rose-50 ring-rose-100 ring-rose-200 ring-rose-300 ring-rose-400 ring-rose-500 ring-rose-600 ring-rose-700 ring-rose-800 ring-rose-900 ring-rose-950',
     ];
 
+    public const RING_OFFSET = [
+        'primary' => 'ring-offset-primary-50 ring-offset-primary-100 ring-offset-primary-200 ring-offset-primary-300 ring-offset-primary-400 ring-offset-primary-500 ring-offset-primary-600 ring-offset-primary-700 ring-offset-primary-800 ring-offset-primary-900 ring-offset-primary-950',
+        'secondary' => 'ring-offset-secondary-50 ring-offset-secondary-100 ring-offset-secondary-200 ring-offset-secondary-300 ring-offset-secondary-400 ring-offset-secondary-500 ring-offset-secondary-600 ring-offset-secondary-700 ring-offset-secondary-800 ring-offset-secondary-900 ring-offset-secondary-950',
+        'white' => 'ring-offset-white',
+        'black' => 'ring-offset-black',
+        'slate' => 'ring-offset-slate-50 ring-offset-slate-100 ring-offset-slate-200 ring-offset-slate-300 ring-offset-slate-400 ring-offset-slate-500 ring-offset-slate-600 ring-offset-slate-700 ring-offset-slate-800 ring-offset-slate-900 ring-offset-slate-950',
+        'gray' => 'ring-offset-gray-50 ring-offset-gray-100 ring-offset-gray-200 ring-offset-gray-300 ring-offset-gray-400 ring-offset-gray-500 ring-offset-gray-600 ring-offset-gray-700 ring-offset-gray-800 ring-offset-gray-900 ring-offset-gray-950',
+        'zinc' => 'ring-offset-zinc-50 ring-offset-zinc-100 ring-offset-zinc-200 ring-offset-zinc-300 ring-offset-zinc-400 ring-offset-zinc-500 ring-offset-zinc-600 ring-offset-zinc-700 ring-offset-zinc-800 ring-offset-zinc-900 ring-offset-zinc-950',
+        'neutral' => 'ring-offset-neutral-50 ring-offset-neutral-100 ring-offset-neutral-200 ring-offset-neutral-300 ring-offset-neutral-400 ring-offset-neutral-500 ring-offset-neutral-600 ring-offset-neutral-700 ring-offset-neutral-800 ring-offset-neutral-900 ring-offset-neutral-950',
+        'stone' => 'ring-offset-stone-50 ring-offset-stone-100 ring-offset-stone-200 ring-offset-stone-300 ring-offset-stone-400 ring-offset-stone-500 ring-offset-stone-600 ring-offset-stone-700 ring-offset-stone-800 ring-offset-stone-900 ring-offset-stone-950',
+        'red' => 'ring-offset-red-50 ring-offset-red-100 ring-offset-red-200 ring-offset-red-300 ring-offset-red-400 ring-offset-red-500 ring-offset-red-600 ring-offset-red-700 ring-offset-red-800 ring-offset-red-900 ring-offset-red-950',
+        'orange' => 'ring-offset-orange-50 ring-offset-orange-100 ring-offset-orange-200 ring-offset-orange-300 ring-offset-orange-400 ring-offset-orange-500 ring-offset-orange-600 ring-offset-orange-700 ring-offset-orange-800 ring-offset-orange-900 ring-offset-orange-950',
+        'amber' => 'ring-offset-amber-50 ring-offset-amber-100 ring-offset-amber-200 ring-offset-amber-300 ring-offset-amber-400 ring-offset-amber-500 ring-offset-amber-600 ring-offset-amber-700 ring-offset-amber-800 ring-offset-amber-900 ring-offset-amber-950',
+        'yellow' => 'ring-offset-yellow-50 ring-offset-yellow-100 ring-offset-yellow-200 ring-offset-yellow-300 ring-offset-yellow-400 ring-offset-yellow-500 ring-offset-yellow-600 ring-offset-yellow-700 ring-offset-yellow-800 ring-offset-yellow-900 ring-offset-yellow-950',
+        'lime' => 'ring-offset-lime-50 ring-offset-lime-100 ring-offset-lime-200 ring-offset-lime-300 ring-offset-lime-400 ring-offset-lime-500 ring-offset-lime-600 ring-offset-lime-700 ring-offset-lime-800 ring-offset-lime-900 ring-offset-lime-950',
+        'green' => 'ring-offset-green-50 ring-offset-green-100 ring-offset-green-200 ring-offset-green-300 ring-offset-green-400 ring-offset-green-500 ring-offset-green-600 ring-offset-green-700 ring-offset-green-800 ring-offset-green-900 ring-offset-green-950',
+        'emerald' => 'ring-offset-emerald-50 ring-offset-emerald-100 ring-offset-emerald-200 ring-offset-emerald-300 ring-offset-emerald-400 ring-offset-emerald-500 ring-offset-emerald-600 ring-offset-emerald-700 ring-offset-emerald-800 ring-offset-emerald-900 ring-offset-emerald-950',
+        'teal' => 'ring-offset-teal-50 ring-offset-teal-100 ring-offset-teal-200 ring-offset-teal-300 ring-offset-teal-400 ring-offset-teal-500 ring-offset-teal-600 ring-offset-teal-700 ring-offset-teal-800 ring-offset-teal-900 ring-offset-teal-950',
+        'cyan' => 'ring-offset-cyan-50 ring-offset-cyan-100 ring-offset-cyan-200 ring-offset-cyan-300 ring-offset-cyan-400 ring-offset-cyan-500 ring-offset-cyan-600 ring-offset-cyan-700 ring-offset-cyan-800 ring-offset-cyan-900 ring-offset-cyan-950',
+        'sky' => 'ring-offset-sky-50 ring-offset-sky-100 ring-offset-sky-200 ring-offset-sky-300 ring-offset-sky-400 ring-offset-sky-500 ring-offset-sky-600 ring-offset-sky-700 ring-offset-sky-800 ring-offset-sky-900 ring-offset-sky-950',
+        'blue' => 'ring-offset-blue-50 ring-offset-blue-100 ring-offset-blue-200 ring-offset-blue-300 ring-offset-blue-400 ring-offset-blue-500 ring-offset-blue-600 ring-offset-blue-700 ring-offset-blue-800 ring-offset-blue-900 ring-offset-blue-950',
+        'indigo' => 'ring-offset-indigo-50 ring-offset-indigo-100 ring-offset-indigo-200 ring-offset-indigo-300 ring-offset-indigo-400 ring-offset-indigo-500 ring-offset-indigo-600 ring-offset-indigo-700 ring-offset-indigo-800 ring-offset-indigo-900 ring-offset-indigo-950',
+        'violet' => 'ring-offset-violet-50 ring-offset-violet-100 ring-offset-violet-200 ring-offset-violet-300 ring-offset-violet-400 ring-offset-violet-500 ring-offset-violet-600 ring-offset-violet-700 ring-offset-violet-800 ring-offset-violet-900 ring-offset-violet-950',
+        'purple' => 'ring-offset-purple-50 ring-offset-purple-100 ring-offset-purple-200 ring-offset-purple-300 ring-offset-purple-400 ring-offset-purple-500 ring-offset-purple-600 ring-offset-purple-700 ring-offset-purple-800 ring-offset-purple-900 ring-offset-purple-950',
+        'fuchsia' => 'ring-offset-fuchsia-50 ring-offset-fuchsia-100 ring-offset-fuchsia-200 ring-offset-fuchsia-300 ring-offset-fuchsia-400 ring-offset-fuchsia-500 ring-offset-fuchsia-600 ring-offset-fuchsia-700 ring-offset-fuchsia-800 ring-offset-fuchsia-900 ring-offset-fuchsia-950',
+        'pink' => 'ring-offset-pink-50 ring-offset-pink-100 ring-offset-pink-200 ring-offset-pink-300 ring-offset-pink-400 ring-offset-pink-500 ring-offset-pink-600 ring-offset-pink-700 ring-offset-pink-800 ring-offset-pink-900 ring-offset-pink-950',
+        'rose' => 'ring-offset-rose-50 ring-offset-rose-100 ring-offset-rose-200 ring-offset-rose-300 ring-offset-rose-400 ring-offset-rose-500 ring-offset-rose-600 ring-offset-rose-700 ring-offset-rose-800 ring-offset-rose-900 ring-offset-rose-950',
+    ];
+
+    public const SPECIALS = [
+        'dark:hover:bg:slate' => 'dark:hover:bg-slate-700',
+        'dark:bg-transparent' => 'dark:bg-transparent',
+    ];
+
     public const TEXT = [
         'primary' => 'text-primary-50 text-primary-100 text-primary-200 text-primary-300 text-primary-400 text-primary-500 text-primary-600 text-primary-700 text-primary-800 text-primary-900 text-primary-950',
         'secondary' => 'text-secondary-50 text-secondary-100 text-secondary-200 text-secondary-300 text-secondary-400 text-secondary-500 text-secondary-600 text-secondary-700 text-secondary-800 text-secondary-900 text-secondary-950',
@@ -368,35 +398,5 @@ final class TailwindSafelistClasses
         'fuchsia' => 'text-fuchsia-50 text-fuchsia-100 text-fuchsia-200 text-fuchsia-300 text-fuchsia-400 text-fuchsia-500 text-fuchsia-600 text-fuchsia-700 text-fuchsia-800 text-fuchsia-900 text-fuchsia-950',
         'pink' => 'text-pink-50 text-pink-100 text-pink-200 text-pink-300 text-pink-400 text-pink-500 text-pink-600 text-pink-700 text-pink-800 text-pink-900 text-pint-950',
         'rose' => 'text-rose-50 text-rose-100 text-rose-200 text-rose-300 text-rose-400 text-rose-500 text-rose-600 text-rose-700 text-rose-800 text-rose-900 text-rose-950',
-    ];
-
-    public const DARK_TEXT = [
-        'primary' => 'dark:text-primary-50 dark:text-primary-100 dark:text-primary-200 dark:text-primary-300 dark:text-primary-400 dark:text-primary-500 dark:text-primary-600 dark:text-primary-700 dark:text-primary-800 dark:text-primary-900 dark:text-primary-950',
-        'secondary' => 'dark:text-secondary-50 dark:text-secondary-100 dark:text-secondary-200 dark:text-secondary-300 dark:text-secondary-400 dark:text-secondary-500 dark:text-secondary-600 dark:text-secondary-700 dark:text-secondary-800 dark:text-secondary-900 dark:text-secondary-950',
-        'dark' => 'dark:text-dark-50 dark:text-dark-100 dark:text-dark-200 dark:text-dark-300 dark:text-dark-400 dark:text-dark-500 dark:text-dark-600 dark:text-dark-700 dark:text-dark-800 dark:text-dark-900 dark:text-dark-950',
-        'white' => 'dark:text-white',
-        'black' => 'dark:text-black',
-        'slate' => 'dark:text-slate-50 dark:text-slate-100 dark:text-slate-200 dark:text-slate-300 dark:text-slate-400 dark:text-slate-500 dark:text-slate-600 dark:text-slate-700 dark:text-slate-800 dark:text-slate-900 dark:text-slate-950',
-        'gray' => 'dark:text-gray-50 dark:text-gray-100 dark:text-gray-200 dark:text-gray-300 dark:text-gray-400 dark:text-gray-500 dark:text-gray-600 dark:text-gray-700 dark:text-gray-800 dark:text-gray-900 dark:text-gray-950',
-        'zinc' => 'dark:text-zinc-50 dark:text-zinc-100 dark:text-zinc-200 dark:text-zinc-300 dark:text-zinc-400 dark:text-zinc-500 dark:text-zinc-600 dark:text-zinc-700 dark:text-zinc-800 dark:text-zinc-900 dark:text-zinc-950',
-        'neutral' => 'dark:text-neutral-50 dark:text-neutral-100 dark:text-neutral-200 dark:text-neutral-300 dark:text-neutral-400 dark:text-neutral-500 dark:text-neutral-600 dark:text-neutral-700 dark:text-neutral-800 dark:text-neutral-900 dark:text-neutral-950',
-        'stone' => 'dark:text-stone-50 dark:text-stone-100 dark:text-stone-200 dark:text-stone-300 dark:text-stone-400 dark:text-stone-500 dark:text-stone-600 dark:text-stone-700 dark:text-stone-800 dark:text-stone-900 dark:text-stone-950',
-        'red' => 'dark:text-red-50 dark:text-red-100 dark:text-red-200 dark:text-red-300 dark:text-red-400 dark:text-red-500 dark:text-red-600 dark:text-red-700 dark:text-red-800 dark:text-red-900 dark:text-red-950',
-        'orange' => 'dark:text-orange-50 dark:text-orange-100 dark:text-orange-200 dark:text-orange-300 dark:text-orange-400 dark:text-orange-500 dark:text-orange-600 dark:text-orange-700 dark:text-orange-800 dark:text-orange-900 dark:text-orange-950',
-        'amber' => 'dark:text-amber-50 dark:text-amber-100 dark:text-amber-200 dark:text-amber-300 dark:text-amber-400 dark:text-amber-500 dark:text-amber-600 dark:text-amber-700 dark:text-amber-800 dark:text-amber-900  dark:text-amber-950',
-        'yellow' => 'dark:text-yellow-50 dark:text-yellow-100 dark:text-yellow-200 dark:text-yellow-300 dark:text-yellow-400 dark:text-yellow-500 dark:text-yellow-600 dark:text-yellow-700 dark:text-yellow-800 dark:text-yellow-900 dark:text-yellow-950',
-        'lime' => 'dark:text-lime-50 dark:text-lime-100 dark:text-lime-200 dark:text-lime-300 dark:text-lime-400 dark:text-lime-500 dark:text-lime-600 dark:text-lime-700 dark:text-lime-800 dark:text-lime-900 dark:text-lime-950',
-        'green' => 'dark:text-green-50 dark:text-green-100 dark:text-green-200 dark:text-green-300 dark:text-green-400 dark:text-green-500 dark:text-green-600 dark:text-green-700 dark:text-green-800 dark:text-green-900 dark:text-green-950',
-        'emerald' => 'dark:text-emerald-50 dark:text-emerald-100 dark:text-emerald-200 dark:text-emerald-300 dark:text-emerald-400 dark:text-emerald-500 dark:text-emerald-600 dark:text-emerald-700 dark:text-emerald-800 dark:text-emerald-900 dark:text-emerald-950',
-        'teal' => 'dark:text-teal-50 dark:text-teal-100 dark:text-teal-200 dark:text-teal-300 dark:text-teal-400 dark:text-teal-500 dark:text-teal-600 dark:text-teal-700 dark:text-teal-800 dark:text-teal-900 dark:text-teal-950',
-        'cyan' => 'dark:text-cyan-50 dark:text-cyan-100 dark:text-cyan-200 dark:text-cyan-300 dark:text-cyan-400 dark:text-cyan-500 dark:text-cyan-600 dark:text-cyan-700 dark:text-cyan-800 dark:text-cyan-900 dark:text-cyan-950',
-        'sky' => 'dark:text-sky-50 dark:text-sky-100 dark:text-sky-200 dark:text-sky-300 dark:text-sky-400 dark:text-sky-500 dark:text-sky-600 dark:text-sky-700 dark:text-sky-800 dark:text-sky-900 dark:text-sky-950',
-        'blue' => 'dark:text-blue-50 dark:text-blue-100 dark:text-blue-200 dark:text-blue-300 dark:text-blue-400 dark:text-blue-500 dark:text-blue-600 dark:text-blue-700 dark:text-blue-800 dark:text-blue-900 dark:text-blue-950',
-        'indigo' => 'dark:text-indigo-50 dark:text-indigo-100 dark:text-indigo-200 dark:text-indigo-300 dark:text-indigo-400 dark:text-indigo-500 dark:text-indigo-600 dark:text-indigo-700 dark:text-indigo-800 dark:text-indigo-900 dark:text-indigo-950',
-        'violet' => 'dark:text-violet-50 dark:text-violet-100 dark:text-violet-200 dark:text-violet-300 dark:text-violet-400 dark:text-violet-500 dark:text-violet-600 dark:text-violet-700 dark:text-violet-800 dark:text-violet-900 dark:text-violet-950',
-        'purple' => 'dark:text-purple-50 dark:text-purple-100 dark:text-purple-200 dark:text-purple-300 dark:text-purple-400 dark:text-purple-500 dark:text-purple-600 dark:text-purple-700 dark:text-purple-800 dark:text-purple-900 dark:text-purple-950',
-        'fuchsia' => 'dark:text-fuchsia-50 dark:text-fuchsia-100 dark:text-fuchsia-200 dark:text-fuchsia-300 dark:text-fuchsia-400 dark:text-fuchsia-500 dark:text-fuchsia-600 dark:text-fuchsia-700 dark:text-fuchsia-800 dark:text-fuchsia-900 dark:text-fuchsia-950',
-        'pink' => 'dark:text-pink-50 dark:text-pink-100 dark:text-pink-200 dark:text-pink-300 dark:text-pink-400 dark:text-pink-500 dark:text-pink-600 dark:text-pink-700 dark:text-pink-800 dark:text-pink-900 dark:text-pint-950',
-        'rose' => 'dark:text-rose-50 dark:text-rose-100 dark:text-rose-200 dark:text-rose-300 dark:text-rose-400 dark:text-rose-500 dark:text-rose-600 dark:text-rose-700 dark:text-rose-800 dark:text-rose-900 dark:text-rose-950',
     ];
 }
