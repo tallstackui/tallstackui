@@ -44,14 +44,9 @@ class Select extends Component implements Personalize
             'header' => 'relative inset-y-0 left-0 flex w-full items-center overflow-hidden rounded-lg pl-2 transition space-x-2',
             'buttons' => [
                 'wrapper' => 'mr-1 flex items-center',
-                'x-mark' => [
-                    'icon' => 'h-5 w-5 transition text-secondary-500 dark:text-dark-400',
-                    'error' => 'text-red-500',
-                ],
-                'up-down' => [
-                    'icon' => 'h-5 w-5 transition text-secondary-500 dark:text-dark-400',
-                    'error' => 'text-red-500',
-                ],
+                'size' => 'h-5 w-5',
+                'base' => 'text-secondary-500 dark:text-dark-400',
+                'error' => 'text-red-500',
             ],
             'box' => [
                 'wrapper' => 'absolute z-10 mt-1 w-full rounded-xl bg-white shadow-lg ring-1 ring-black ring-opacity-5 dark:bg-dark-700',

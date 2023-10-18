@@ -2,7 +2,7 @@
     $computed = $attributes->whereStartsWith('wire:model');
     $directive = array_key_first($computed->getAttributes());
     $property = $computed[$directive];
-    $error = $errors->has($property);
+    $error = $property && $errors->has($property);
     $customize = tallstackui_personalization('select.styled', $personalization());
 @endphp
 

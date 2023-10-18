@@ -1,6 +1,6 @@
 @php
     $customize = tallstackui_personalization('wrapper.select', $personalization());
-    $error = $errors->has($computed);
+    $error = $computed && $errors->has($computed);
 @endphp
 
 <div x-data="{!! $alpine !!}" x-cloak>
@@ -18,14 +18,19 @@
             <div @class($customize['buttons.wrapper'])>
                 <template x-if="!empty">
                     <button dusk="tallstackui_select_clear" type="button" x-on:click="clear()">
-                        <x-icon name="x-mark" @class([$customize['buttons.x-mark.icon'], $customize['buttons.x-mark.error'] => $error]) />
+                        <x-icon name="x-mark" @class([
+                                $customize['buttons.size'],
+                                $customize['buttons.base'] => !$error,
+                                $customize['buttons.error'] => $error
+                            ]) />
                     </button>
                 </template>
                 <div class="mr-1 flex items-center">
                     <button dusk="tallstackui_select_open_close" type="button" x-on:click="show = !show">
                         <x-icon name="chevron-up-down" @class([
-                            $customize['buttons.up-down.icon'] => !$error,
-                            $customize['buttons.up-down.error'] => $error
+                                $customize['buttons.size'],
+                                $customize['buttons.base'] => !$error,
+                                $customize['buttons.error'] => $error
                         ]) />
                     </button>
                 </div>
@@ -99,7 +104,7 @@
     @if ($hint && !$error)
         <x-hint :$hint/>
     @endif
-    @error ($computed)
-    <x-error :$computed :$error/>
-    @enderror
+    @if ($error && $computed)
+        <x-error :$computed :$error/>
+    @endif
 </div>

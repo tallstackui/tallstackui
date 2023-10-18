@@ -3,13 +3,16 @@
 namespace TallStackUi\View\Components\Select;
 
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\View\Component;
+use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
 use TallStackUi\View\Components\Select\Traits\InteractsWithSelectOptions;
 use TallStackUi\View\Personalizations\Contracts\Personalize;
 
 class Select extends Component implements Personalize
 {
+    use DefaultInputClasses;
     use InteractsWithSelectOptions;
 
     public function __construct(
@@ -25,10 +28,13 @@ class Select extends Component implements Personalize
 
     public function personalization(): array
     {
-        return [
-            'wrapper' => 'focus:ring-primary-600 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-700 ring-1 ring-inset ring-gray-300 focus:ring-2 sm:text-sm sm:leading-6',
-            'error' => 'text-red-600 ring-1 ring-inset ring-red-300 placeholder:text-red-300 focus:ring-2 focus:ring-inset focus:ring-red-500',
-        ];
+        return Arr::dot([
+            'input' => [
+                'class' => 'block w-full rounded-md border-0 py-1.5 pl-3 pr-10 ring-1 ring-inset focus:ring-2 sm:text-sm sm:leading-6',
+                'color' => 'focus:ring-primary-600 dark:bg-dark-800 dark:placeholder-dark-500 dark:text-dark-300 dark:border-dark-900 dark:ring-dark-600 dark:focus:ring-primary-600 text-gray-700 ring-gray-300',
+            ],
+            'error' => str_replace('focus:ring-2', '', $this->error()),
+        ]);
     }
 
     public function render(): View
