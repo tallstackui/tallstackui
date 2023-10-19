@@ -57,7 +57,8 @@ class BadgeColors
         };
 
         $weight = match ($this->badge->color) {
-            'white', 'black' => null,
+            'white' => null,
+            'black' => 700,
             default => 500,
         };
 
