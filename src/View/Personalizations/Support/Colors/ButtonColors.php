@@ -61,7 +61,7 @@ class ButtonColors
         $this->outline($color)->get();
 
         $color->clean(false)
-            ->merge('dark:ring-offset', $this->component->color, 900);
+            ->merge('dark:ring-offset', 'dark', 900);
 
         return $color->get();
     }
@@ -152,8 +152,7 @@ class ButtonColors
                 default => 50,
             },
             'outline' => match ($this->component->color) {
-                'white' => 700,
-                'black' => 950,
+                'white', 'black' => 700,
                 default => 500,
             },
         ];
