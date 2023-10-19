@@ -27,7 +27,7 @@
         <x-icon :$icon @class([$customize['icon.size'], $colors['icon.color']]) />
     @endif
 @else
-    <span @if ($loading) wire:loading.remove @endif>{{ $text ?? $slot }}</span>
+    <span @if ($loading) wire:loading.remove @endif @class([$customize['span']])>{{ $text ?? $slot }}</span>
 @endif
 @if ($loading)
     <svg @if ($loading !== "1") wire:target="{{ $loading }}" @endif
