@@ -20,13 +20,8 @@ return [
     | General components settings.
     */
     'personalizations' => [
-        'input' => [
-            /* Input, Textarea & Password */
-            'square' => false,
-            /* Input & Password */
-            'round' => false,
-        ],
-        'tab' => [
+        'general' => [
+            /* Applicable: Alert, Card, Checkbox, Dialog, Dropdown, Errors, Input, Modal, Select, Tab, Toast */
             'square' => false,
         ],
         'dialog' => [

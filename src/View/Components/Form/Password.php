@@ -7,19 +7,17 @@ use Illuminate\Support\Arr;
 use Illuminate\View\Component;
 use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
 use TallStackUi\View\Personalizations\Contracts\Personalize;
-use TallStackUi\View\Personalizations\Traits\InteractWithProviders;
 
 class Password extends Component implements Personalize
 {
     use DefaultInputClasses;
-    use InteractWithProviders;
 
     public function __construct(
         public ?string $id = null,
         public ?string $label = null,
         public ?string $hint = null,
     ) {
-        $this->configurations();
+        //
     }
 
     public function personalization(): array

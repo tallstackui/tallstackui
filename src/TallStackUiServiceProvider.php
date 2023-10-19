@@ -8,6 +8,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
 use TallStackUi\Facades\TallStackUi as Facade;
 use TallStackUi\View\Personalizations\Personalization;
+use TallStackUi\View\Personalizations\Providers\ConfigurationProvider;
 
 class TallStackUiServiceProvider extends ServiceProvider
 {
@@ -17,6 +18,8 @@ class TallStackUiServiceProvider extends ServiceProvider
         $this->registerComponents();
         $this->registerComponentPersonalizations();
         $this->registerBladeDirectives();
+
+        ConfigurationProvider::resolve();
     }
 
     public function register(): void

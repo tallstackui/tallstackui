@@ -7,12 +7,10 @@ use Illuminate\Support\Arr;
 use Illuminate\View\Component;
 use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
 use TallStackUi\View\Personalizations\Contracts\Personalize;
-use TallStackUi\View\Personalizations\Traits\InteractWithProviders;
 
 class Textarea extends Component implements Personalize
 {
     use DefaultInputClasses;
-    use InteractWithProviders;
 
     public function __construct(
         public ?string $id = null,
@@ -22,7 +20,7 @@ class Textarea extends Component implements Personalize
         public bool $autoResize = false,
         public bool $resize = true,
     ) {
-        $this->configurations();
+        //
     }
 
     public function personalization(): array

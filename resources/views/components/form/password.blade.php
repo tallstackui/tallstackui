@@ -13,8 +13,7 @@
     </div>
     <input @if ($id) id="{{ $id }}" @endif {{ $attributes->class([
             'pr-10',
-            'rounded-md' => !$configurations['square'] && !$configurations['round'],
-            'rounded-full' => $configurations['round'],
+            'rounded-md' => !$configurations['square'],
             $customize['input.base'],
             $customize['input.color'] => !$error,
             $customize['error'] => $error

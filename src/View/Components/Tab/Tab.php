@@ -6,15 +6,12 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
 use TallStackUi\View\Personalizations\Contracts\Personalize;
-use TallStackUi\View\Personalizations\Traits\InteractWithProviders;
 
 class Tab extends Component implements Personalize
 {
-    use InteractWithProviders;
-
     public function __construct(public ?string $selected = null)
     {
-        $this->configurations();
+        //
     }
 
     public function personalization(): array
