@@ -26,7 +26,7 @@ class Dropdown extends Component implements Personalize
             'wrapper' => [
                 'first' => 'flex items-start justify-center',
                 'second' => 'relative inline-block text-left',
-                'third' => 'dark:bg-dark-700 absolute z-10 mt-2 w-56 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5',
+                'third' => 'dark:bg-dark-700 absolute z-10 mt-2 w-56 bg-white shadow-lg ring-1 ring-black ring-opacity-5',
             ],
             'action' => [
                 'wrapper' => 'inline-flex w-full gap-x-1.5',

@@ -32,9 +32,10 @@
              x-transition:leave-start="opacity-100 scale-100"
              x-transition:leave-end="opacity-0 scale-50"
              @class([
-                $customize['wrapper.third'],
+                'rounded-md' => !$configurations['square'],
                 'right-0 origin-top-right' => !$right,
                 'left-0 origin-top-left' => $right,
+                $customize['wrapper.third'],
              ])
              role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
             <div class="p-1" role="none">

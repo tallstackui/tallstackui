@@ -19,7 +19,7 @@ class TallStackUiServiceProvider extends ServiceProvider
         $this->registerComponentPersonalizations();
         $this->registerBladeDirectives();
 
-        ConfigurationProvider::resolve();
+        ConfigurationProvider::generals();
     }
 
     public function register(): void

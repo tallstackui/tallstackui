@@ -32,18 +32,26 @@ class ConfigurationProvider
         'tallstack-ui::components.wrapper.select',
     ];
 
-    /** @throws Exception */
+    /**
+     * Resolve generals configurations.
+     *
+     * @throws Exception
+     */
+    public static function generals(): void
+    {
+        $configuration = config('tallstackui.personalizations.general');
+
+        collect(self::SQUARES)
+            ->each(fn (string $view) => FacadeView::composer($view, fn (View $view) => $view->with('configurations', [...$configuration])));
+    }
+
+    /**
+     * Resolve configurations per component.
+     *
+     * @throws Exception
+     */
     public static function resolve(object $component = null): void
     {
-        if (! $component) {
-            $configuration = config('tallstackui.personalizations.general');
-
-            collect(self::SQUARES)
-                ->each(fn (string $view) => FacadeView::composer($view, fn (View $view) => $view->with('configurations', [...$configuration])));
-
-            return;
-        }
-
         $method = match (get_class($component)) {
             Dialog::class => 'dialog',
             Toast::class => 'toast',
