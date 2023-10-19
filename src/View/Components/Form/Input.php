@@ -38,7 +38,7 @@ class Input extends Component implements Personalize
                 ],
             ],
             'icon' => [
-                'wrapper' => 'pointer-events-none absolute inset-y-0 flex items-center text-secondary-500',
+                'wrapper' => 'pointer-events-none absolute inset-y-0 flex items-center text-secondary-500 dark:text-dark-400',
                 'paddings' => [
                     'left' => 'left-0 pl-3',
                     'right' => 'right-0 pr-3',
