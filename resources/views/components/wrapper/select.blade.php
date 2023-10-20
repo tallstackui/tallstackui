@@ -9,16 +9,16 @@
     @endif
     <div class="relative" x-on:click.outside="show = false">
         <button type="button"
-                @disabled($disable)
+                @disabled($disabled)
                 @class([$customize['select.wrapper'], 'ring-gray-300 dark:ring-dark-600' => !$error, $customize['select.error'] => $error])
-                @if (!$disable) x-on:click="show = !show" @endif
-                aria-haspopup="listbox" 
+                @if (!$disabled) x-on:click="show = !show" @endif
+                aria-haspopup="listbox"
                 :aria-expanded="show"
                 dusk="tallstackui_select_open_close">
             <div @class($customize['header'])>
                 {!! $header !!}
             </div>
-            @if (!$disable)
+            @if (!$disabled)
             <div @class($customize['buttons.wrapper'])>
                 <template x-if="!empty">
                     <button dusk="tallstackui_select_clear" type="button" x-on:click="clear(); show = true">

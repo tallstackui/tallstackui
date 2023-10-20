@@ -19,7 +19,7 @@ class Searchable extends Styled
         public ?array $selectable = [],
         public ?string $after = null,
         public ?string $placeholder = null,
-        public ?bool $disable = false,
+        public ?bool $disabled = false,
         private readonly bool $ignoreValidations = false,
     ) {
         parent::__construct(
@@ -28,7 +28,7 @@ class Searchable extends Styled
             multiple: $multiple,
             select: $select,
             selectable: $selectable,
-            disable: $disable,
+            disabled: $disabled,
         );
 
         $this->request();

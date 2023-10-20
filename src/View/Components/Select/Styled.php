@@ -25,7 +25,7 @@ class Styled extends Component implements Personalize
         public ?string $select = null,
         public ?array $selectable = [],
         public ?string $after = null,
-        public ?bool $disable = false,
+        public ?bool $disabled = false,
         public ?string $placeholder = null,
     ) {
         $this->options();

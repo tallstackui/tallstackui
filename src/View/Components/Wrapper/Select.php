@@ -22,7 +22,7 @@ class Select extends Component implements Personalize
         public ?string $hint = null,
         public ?string $after = null,
         public bool $error = false,
-        public ?bool $disable = false,
+        public ?bool $disabled = false,
         public array $placeholder = [],
     ) {
         $this->placeholder = [
