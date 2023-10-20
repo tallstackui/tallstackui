@@ -39,7 +39,11 @@ class Select extends Component implements Personalize
     {
         return Arr::dot([
             'select' => [
+<<<<<<< HEAD
                 'wrapper' => 'flex w-full cursor-pointer items-center gap-x-2 rounded-md border-0 bg-white text-gray-600 py-1.5 shadow-sm ring-1 ring-inset text-sm leading-6 dark:text-dark-300 dark:bg-dark-800 focus:outline-none focus:ring-2 focus:ring-primary-600 dark:focus:ring-primary-600 disabled:bg-gray-50 disabled:text-gray-500 disabled:ring-gray-200 dark:disabled:bg-dark-600',
+=======
+                'wrapper' => 'flex w-full cursor-pointer items-center gap-x-2 rounded-md border-0 bg-white text-gray-600 py-1.5 shadow-sm ring-1 ring-inset text-sm leading-6 dark:text-dark-300 dark:bg-dark-800 focus:outline-none focus:ring-2 focus:ring-primary-600 dark:focus:ring-primary-600 disabled:bg-gray-50 disabled:text-gray-500 disabled:ring-gray-200',
+>>>>>>> 689216d524206a09d9aea6a3a439b292afc1b89a
                 'error' => $this->error(),
             ],
             'header' => 'relative inset-y-0 left-0 flex w-full items-center overflow-hidden rounded-lg pl-2 transition space-x-2',
