@@ -41,7 +41,7 @@ class Searchable extends Styled
     public function personalization(): array
     {
         return [
-            'item' => 'inline-flex items-center rounded-lg bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10 space-x-1 dark:text-dark-100 dark:bg-dark-600',
+            'item' => 'inline-flex items-center rounded-lg bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10 space-x-1 dark:text-dark-100 dark:bg-dark-700',
             'icon' => 'h-4 w-4 text-red-500',
         ];
     }
