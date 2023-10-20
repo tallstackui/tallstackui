@@ -6,7 +6,7 @@
     $customize = tallstackui_personalization('select.searchable', $personalization());
 @endphp
 
-<x-wrapper.select :$label :$error :computed="$property" :$hint :$after loading>
+<x-wrapper.select :$label :$error :computed="$property" :$hint :$after :$disable loading>
     @if (!str($directive)->contains('.live'))
         <x-slot:alpine>
             tallstackui_selectSearchable(@entangle($property), @js($request), @js($selectable), @js($multiple), @js($placeholder))
@@ -30,10 +30,12 @@
             </template>
             <div class="truncate" x-show="multiple">
                 <template x-for="(selected, index) in selecteds" :key="selected[selectable.label] ?? selected">
-                    <a class="cursor-pointer" x-on:click="clear(selected);">
+                    <a class="cursor-pointer" @if (!$disable) x-on:click="clear(selected); show = true" @endif>
                         <div @class(['transition', $customize['item']])>
                             <span x-text="selected[selectable.label] ?? selected"></span>
-                            <x-icon name="x-mark" @class($customize['icon']) />
+                            @if (!$disable)
+                                <x-icon name="x-mark" @class($customize['icon']) />
+                            @endif
                         </div>
                     </a>
                 </template>
