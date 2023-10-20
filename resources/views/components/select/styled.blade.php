@@ -30,7 +30,7 @@
             </template>
             <div class="truncate" x-show="multiple">
                 <template x-for="(selected, index) in selecteds" :key="selected[selectable.label] ?? selected">
-                    <a class="cursor-pointer"  @if (!$disable) x-on:click="clear(selected); show = true" @endif>
+                    <a class="cursor-pointer" @if (!$disable) x-on:click="clear(selected); show = true" @endif>
                         <div @class(['transition', $customize['item']])>
                             <span x-text="selected[selectable.label] ?? selected"></span>
                             @if (!$disable)
