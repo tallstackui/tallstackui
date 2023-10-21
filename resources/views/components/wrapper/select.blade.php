@@ -79,7 +79,6 @@
                         x-on:keypress.enter="select(option)"
                         x-bind:class="{ 'font-semibold hover:text-white hover:bg-red-500 dark:hover:bg-red-500': selected(option) }"
                         role="option"
-                        tabindex="0"
                         @class($customize['box.list.item.wrapper'])
                     >
                         <div wire:ignore @class($customize['box.list.item.class'])>
