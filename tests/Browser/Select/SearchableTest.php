@@ -23,7 +23,7 @@ class SearchableTest extends BrowserTestCase
                 ->assertDontSee('delectus aut autem')
                 ->click('@tallstackui_select_open_close')
                 ->waitForText('delectus aut autem')
-                ->clickAtXPath('/html/body/div[3]/div/div[2]/div[2]/ul/li[1]')
+                ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[1]')
                 ->waitForText('delectus aut autem')
                 ->click('@tallstackui_select_clear')
                 ->assertDontSee('delectus aut autem')
@@ -41,8 +41,8 @@ class SearchableTest extends BrowserTestCase
                 ->waitForText('delectus aut autem')
                 ->waitForText('quis ut nam facilis et officia qui')
                 ->waitForText('fugiat veniam minus')
-                ->clickAtXPath('/html/body/div[3]/div/div[2]/div[2]/ul/li[3]')
-                ->clickAtXPath('/html/body/div[3]/div/div[2]/div[2]/ul/li[2]')
+                ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[3]')
+                ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[2]')
                 ->click('@tallstackui_select_open_close')
                 ->waitForText('[1,3]');
         });
@@ -94,7 +94,7 @@ class SearchableTest extends BrowserTestCase
                 ->assertSee('Select an option')
                 ->click('@tallstackui_select_open_close')
                 ->type('@tallstackui_select_search_input', 'porro')
-                ->clickAtXPath('/html/body/div[3]/div/div[2]/div[2]/ul/li[1]')
+                ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[1]')
                 ->click('@tallstackui_select_open_close')
                 ->type('@tallstackui_select_search_input', 'foo-bar-baz')
                 ->waitForText('After Slot');
@@ -124,8 +124,8 @@ class SearchableTest extends BrowserTestCase
                 ->click('@tallstackui_select_open_close')
                 ->waitForText('delectus aut autem')
                 ->waitForText('quis ut nam facilis et officia qui')
-                ->clickAtXPath('/html/body/div[3]/div/div[2]/div[2]/ul/li[1]')
-                ->clickAtXPath('/html/body/div[3]/div/div[2]/div[2]/ul/li[2]')
+                ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[1]')
+                ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[2]')
                 ->click('@tallstackui_select_open_close')
                 ->click('#sync')
                 ->waitForText('[1,2]');
@@ -141,8 +141,8 @@ class SearchableTest extends BrowserTestCase
                 ->click('@tallstackui_select_open_close')
                 ->waitForText('delectus aut autem')
                 ->waitForText('quis ut nam facilis et officia qui')
-                ->clickAtXPath('/html/body/div[3]/div/div[2]/div[2]/ul/li[1]')
-                ->clickAtXPath('/html/body/div[3]/div/div[2]/div[2]/ul/li[2]')
+                ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[1]')
+                ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[2]')
                 ->click('@tallstackui_select_open_close')
                 ->waitForText('[1,2]');
         });
@@ -157,7 +157,7 @@ class SearchableTest extends BrowserTestCase
                 ->assertDontSee('laboriosam mollitia et enim quasi adipisci quia provident illum')
                 ->click('@tallstackui_select_open_close')
                 ->waitForText('laboriosam mollitia et enim quasi adipisci quia provident illum')
-                ->clickAtXPath('/html/body/div[3]/div/div[2]/div[2]/ul/li[5]')
+                ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[5]')
                 ->click('#sync')
                 ->waitForText('5');
         });
