@@ -22,7 +22,7 @@ class StyledTest extends BrowserTestCase
                 ->assertDontSee('bar')
                 ->click('@tallstackui_select_open_close')
                 ->waitForText('foo')
-                ->clickAtXPath('/html/body/div[3]/div/div[2]/div[2]/ul/li[1]')
+                ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[1]')
                 ->click('#sync')
                 ->waitForText('bar')
                 ->click('@tallstackui_select_clear')
@@ -42,9 +42,9 @@ class StyledTest extends BrowserTestCase
                 ->waitForText('foo')
                 ->waitForText('bar')
                 ->waitForText('baz')
-                ->clickAtXPath('/html/body/div[3]/div/div[2]/div[2]/ul/li[3]')
+                ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[3]')
                 ->click('@tallstackui_select_open_close')
-                ->clickAtXPath('/html/body/div[3]/div/div[2]/div[2]/ul/li[1]')
+                ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[1]')
                 ->click('@tallstackui_select_open_close')
                 ->waitForText('["foo","baz"]');
         });
@@ -59,7 +59,7 @@ class StyledTest extends BrowserTestCase
                 ->assertDontSee('bar')
                 ->click('@tallstackui_select_open_close')
                 ->waitForText('foo')
-                ->clickAtXPath('/html/body/div[3]/div/div[2]/div[2]/ul/li[1]')
+                ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[1]')
                 ->click('#sync')
                 ->waitForText('bar')
                 ->click('@tallstackui_select_open_close')
@@ -81,7 +81,7 @@ class StyledTest extends BrowserTestCase
                 ->click('@tallstackui_select_open_close')
                 ->waitForText('foo')
                 ->type('@tallstackui_select_search_input', 'bar')
-                ->clickAtXPath('/html/body/div[3]/div/div[2]/div[2]/ul/li[1]')
+                ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[1]')
                 ->click('#sync')
                 ->waitForText('foo');
         });
@@ -96,7 +96,7 @@ class StyledTest extends BrowserTestCase
                 ->assertDontSee('bar')
                 ->click('@tallstackui_select_open_close')
                 ->waitForText('foo')
-                ->clickAtXPath('/html/body/div[3]/div/div[2]/div[2]/ul/li[1]')
+                ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[1]')
                 ->click('#sync')
                 ->waitForText('bar');
         });
@@ -113,8 +113,8 @@ class StyledTest extends BrowserTestCase
                 ->click('@tallstackui_select_open_close')
                 ->waitForText('foo')
                 ->waitForText('bar')
-                ->clickAtXPath('/html/body/div[3]/div/div[2]/div[2]/ul/li[1]')
-                ->clickAtXPath('/html/body/div[3]/div/div[2]/div[2]/ul/li[2]')
+                ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[1]')
+                ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[2]')
                 ->click('#sync')
                 ->waitForText('["bar","foo"]');
         });
@@ -131,8 +131,8 @@ class StyledTest extends BrowserTestCase
                 ->click('@tallstackui_select_open_close')
                 ->waitForText('foo')
                 ->waitForText('bar')
-                ->clickAtXPath('/html/body/div[3]/div/div[2]/div[2]/ul/li[1]')
-                ->clickAtXPath('/html/body/div[3]/div/div[2]/div[2]/ul/li[2]')
+                ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[1]')
+                ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[2]')
                 ->click('@tallstackui_select_open_close')
                 ->waitForText('["bar","foo"]');
         });
@@ -150,7 +150,7 @@ class StyledTest extends BrowserTestCase
                 ->waitForText('foo')
                 ->waitForText('bar')
                 ->waitForText('baz')
-                ->clickAtXPath('/html/body/div[3]/div/div[2]/div[2]/ul/li[3]')
+                ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[3]')
                 ->click('@tallstackui_select_open_close')
                 ->waitForText('["bar","foo","baz"]');
         });
