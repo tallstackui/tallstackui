@@ -46,7 +46,7 @@ class Select extends Component implements Personalize
             'buttons' => [
                 'wrapper' => 'mr-2 flex items-center',
                 'size' => 'h-5 w-5',
-                'base' => 'text-secondary-500 dark:text-dark-400',
+                'base' => 'text-secondary-500 dark:text-dark-400 hover:text-red-500 dark:hover:text-red-500',
                 'error' => 'text-red-500',
             ],
             'box' => [

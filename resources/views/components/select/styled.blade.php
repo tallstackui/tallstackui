@@ -19,7 +19,7 @@
     <x-slot:header>
         <div class="flex gap-2">
             <template x-if="(!multiple && !empty) || quantity === 0">
-                <span @class(['truncate', 'text-red-500' => $error])
+                <span @class(['truncate', 'text-red-500 dark:text-red-500' => $error])
                       x-bind:class="{
                         'text-gray-400 dark:text-dark-400': empty,
                         'text-gray-600 dark:text-dark-300': !empty
