@@ -6,7 +6,7 @@ use Livewire\Component;
 
 class SearchableMultipleComponent extends Component
 {
-    public ?array $array = null;
+    public ?array $array = [];
 
     public function render(): string
     {
