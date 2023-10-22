@@ -2,13 +2,11 @@
 
 namespace TallStackUi\View\Components\Select\Traits;
 
-use TallStackUi\View\Components\Select\Searchable;
-
 trait InteractsWithSelectOptions
 {
     private function options(): void
     {
-        if (! $this->select || (! $this instanceof Searchable && ! is_array($this->options[0]))) {
+        if (! $this->select || (filled($this->options) && ! is_array($this->options[0]))) {
             return;
         }
 
@@ -16,12 +14,7 @@ trait InteractsWithSelectOptions
         $label = explode(':', $select[0])[1];
         $value = explode(':', $select[1])[1];
 
-        $this->options = collect($this->options)->map(function (array $item) use ($label, $value) {
-            return [
-                $label => $item[$label],
-                $value => $item[$value],
-            ];
-        })->toArray();
+        $this->options = collect($this->options)->map(fn (array $item) => [$label => $item[$label], $value => $item[$value]])->toArray();
 
         $this->selectable = [
             'label' => $label,

@@ -6,8 +6,8 @@ return [
     ],
 
     'select' => [
-        'placeholder' => 'Choisir une option',
-        'input' => 'Cherchez quelque chose ici',
+        'default' => 'Choisir une option',
+        'search' => 'Cherchez quelque chose ici',
         'empty' => 'Aucun résultat trouvé',
     ],
 

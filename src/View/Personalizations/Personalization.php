@@ -28,6 +28,7 @@ use TallStackUi\View\Personalizations\Components\Interactions\Toast;
 use TallStackUi\View\Personalizations\Components\Modal;
 use TallStackUi\View\Personalizations\Components\Select\Searchable as SelectSearchable;
 use TallStackUi\View\Personalizations\Components\Select\Select;
+use TallStackUi\View\Personalizations\Components\Select\Style as SelectStyle;
 use TallStackUi\View\Personalizations\Components\Select\Styled as SelectStyled;
 use TallStackUi\View\Personalizations\Components\Tabs\Items as TabItems;
 use TallStackUi\View\Personalizations\Components\Tabs\Tab;
@@ -66,6 +67,7 @@ class Personalization
         'tallstack-ui::personalizations.select' => Select::class,
         'tallstack-ui::personalizations.select.searchable' => SelectSearchable::class,
         'tallstack-ui::personalizations.select.styled' => SelectStyled::class,
+        'tallstack-ui::personalizations.select.style' => SelectStyle::class,
         'tallstack-ui::personalizations.tab' => Tab::class,
         'tallstack-ui::personalizations.tab.items' => TabItems::class,
         'tallstack-ui::personalizations.toast' => Toast::class,
@@ -196,7 +198,7 @@ class Personalization
         return app($this->component(Modal::class));
     }
 
-    public function select(string $component = null): Select|SelectSearchable|SelectStyled
+    public function select(string $component = null): Select|SelectSearchable|SelectStyled|SelectStyle
     {
         $component ??= 'select';
 
@@ -204,6 +206,7 @@ class Personalization
             'select' => Select::class,
             'searchable' => SelectSearchable::class,
             'styled' => SelectStyled::class,
+            'style' => SelectStyle::class,
             default => $component,
         };
 
