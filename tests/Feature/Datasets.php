@@ -118,7 +118,7 @@ dataset('components', [
     TallStackUi\View\Components\Tooltip::class,
     TallStackUi\View\Components\Button\Button::class,
     TallStackUi\View\Components\Button\Circle::class,
-    TallStackUi\View\Components\Select\Select::class,
+    TallStackUi\View\Components\Select\Native::class,
     TallStackUi\View\Components\Select\Styled::class,
     TallStackUi\View\Components\Select\Searchable::class,
     TallStackUi\View\Components\Modal::class,
