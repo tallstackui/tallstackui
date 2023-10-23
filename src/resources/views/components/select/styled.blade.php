@@ -123,11 +123,10 @@
                             </span>
                         </li>
                     </template>
-                @endif
-                @if ($after)
-                <div x-show="!loading && options.length === 0">
-                    {!! $after !!}
-                </div>
+                @else
+                    <div x-show="!loading && options.length === 0">
+                        {!! $after !!}
+                    </div>
                 @endif
             </ul>
         </div>

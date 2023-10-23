@@ -120,6 +120,13 @@ export default (
     });
 
     this.$watch('model', (value, old) => {
+      // When the value is null we clear the select. This is necessary due
+      // situations where we are binding the same model in live entangle
+      if (value === null) {
+        this.reset(true);
+        return;
+      }
+
       if (this.internal) {
         this.internal = false;
         return;
@@ -203,6 +210,13 @@ export default (
     }
 
     this.$watch('model', (value, old) => {
+      // When the value is null we clear the select. This is necessary due
+      // situations where we are binding the same model in live entangle
+      if (!value) {
+        this.reset(true);
+        return;
+      }
+
       if (value === old || this.internal) {
         this.internal = false;
         return;
@@ -270,9 +284,7 @@ export default (
       this.show = false;
       this.search = '';
     } else {
-      this.selecteds = !this.common && !this.empty ?
-        [...this.selecteds, option] :
-        [option];
+      this.selecteds = [option];
 
       if (this.dimensional) {
         this.model = option[this.selectable.value];
@@ -318,21 +330,46 @@ export default (
       this.clear();
     }
 
+    this.reset();
+  },
+  /**
+   * Reset properties.
+   *
+   * @param ignore {Boolean} - If true, will not interact with `show` property
+   */
+  reset(ignore = false) {
     this.model = null;
     this.placeholder = placeholder;
     this.selecteds = [];
     this.search = '';
+
+    if (ignore) {
+      return;
+    }
+
     this.show = false;
   },
-  /** @returns {Boolean} */
+  /**
+   * The `selecteds` quantity
+   *
+   * @returns {Number}
+   */
   get quantity() {
     return this.selecteds?.length;
   },
-  /** @returns {Boolean} */
+  /**
+   * If the `selecteds` is empty
+   *
+   * @returns {Boolean}
+   */
   get empty() {
     return !this.selecteds || this.selecteds.length === 0;
   },
-  /** @returns {Array} */
+  /**
+   * Available options to select
+   *
+   * @returns {Array}
+   */
   get options() {
     const availables = this.common ? options : this.response;
 
