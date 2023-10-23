@@ -207,6 +207,7 @@ class StyledCommonTest extends BrowserTestCase
                 ->click('@tallstackui_select_open_close')
                 ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[1]')
                 ->click('@sync')
+                ->waitForText('Select an option')
                 ->assertSee('Select an option')
                 ->waitUntilMissingText('foo')
                 ->assertDontSee('foo');
