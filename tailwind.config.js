@@ -4,9 +4,8 @@ import forms from '@tailwindcss/forms';
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    './resources/views/**/*.blade.php',
-    './resources/js/**/*.js',
     './src/**/*.php',
+    './resources/js/**/*.js',
   ],
   darkMode: 'class',
   theme: {
@@ -20,7 +19,7 @@ module.exports = {
   },
   plugins: [
     forms,
-    require('./src/resources/js/plugins/customScrollbar'),
-    require('./src/resources/js/plugins/softScrollbar'),
+    require('./resources/js/plugins/customScrollbar'),
+    require('./resources/js/plugins/softScrollbar'),
   ],
 };

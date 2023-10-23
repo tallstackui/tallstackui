@@ -28,34 +28,45 @@ export const options = (search, dimensional, selectable, options) => {
 export const body = (request, search, selected) => {
   const simple = request.constructor === String;
 
-  const url = simple ? request : request.url;
-  const method = simple ? 'get' : request.method;
+  let url = simple ? request : request.url;
+  let method = simple ? 'get' : request.method;
   const params = simple ? {} : request.params;
 
-  const body = {url: url, method: method};
+  method = method.toLowerCase();
 
-  switch (method) {
-    case 'get':
-      body.params = {...params};
+  const init = {
+    method: method,
+    headers: {
+      'X-Requested-With': 'XMLHttpRequest',
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'TallStackUi': true,
+    },
+  };
 
-      if (search !== '') body.params.search = search;
+  if (method === 'get') {
+    const query = new URLSearchParams(params);
 
-      if (selected.length > 0) {
-        body.params.selected = JSON.stringify(selected);
-      }
-      break;
-    case 'post':
-      body.data = {...params};
+    if (search !== '') {
+      query.set('search', search);
+    }
 
-      if (search !== '') body.data.search = search;
+    if (selected.length > 0) {
+      query.set('selected', JSON.stringify(selected));
+    }
 
-      if (selected.length > 0) {
-        body.data.selected = selected;
-      }
-      break;
+    if (query.toString() !== '') {
+      url += `?${query.toString()}`;
+    }
+  } else if (method === 'post') {
+    init.body = JSON.stringify({
+      ...params,
+      search: search,
+      selected: selected,
+    });
   }
 
-  return {...body};
+  return {url, init};
 };
 
 /**

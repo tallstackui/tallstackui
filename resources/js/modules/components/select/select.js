@@ -1,6 +1,5 @@
 import {error, warning} from '../../helpers';
 import {body, options as filtered, sync} from './helpers';
-import axios from "../../axios";
 
 export default (
     model = null,
@@ -26,7 +25,7 @@ export default (
   placeholder: placeholder,
   cleanup: null,
   internal: false,
-  common : common,
+  common: common,
   response: [],
   async init() {
     if (this.model === undefined) {
@@ -46,12 +45,12 @@ export default (
     }
 
     if (this.common) {
-      return this.initCommon()
+      return this.initAsCommon();
     }
 
-    await this.initSpecial()
+    await this.initAsRequest();
   },
-  initCommon() {
+  initAsCommon() {
     if (this.multiple) {
       this.selecteds = this.dimensional ?
           this.options.filter((option) => this.model?.includes(option[this.selectable.value])) :
@@ -134,7 +133,7 @@ export default (
       }
     });
   },
-  async initSpecial() {
+  async initAsRequest() {
     this.$watch('show', async (value, old) => {
       if (value === old) {
         return;
@@ -158,23 +157,17 @@ export default (
         setTimeout(() => this.$refs.search.focus(), 100);
       }
 
-      // do not search again when select an option
-      // if (this.internal) {
-      //   this.loading = false;
-      //   return;
-      // }
-
-      await this.send();
+      await this.sendRequest();
       setTimeout(() => this.$refs.search.focus(), 100);
     });
 
     this.$watch('search', async () => {
       this.loading = true;
-      await this.send();
+      await this.sendRequest();
     });
 
     if (this.model) {
-      await this.send();
+      await this.sendRequest();
 
       this.selecteds = this.options.filter((option) => {
         return this.multiple ?
@@ -207,26 +200,36 @@ export default (
       }
     });
   },
-  async send() {
+  async sendRequest() {
     this.response = [];
 
-    const request = body(this.request, this.search,
+    const {url, init} = body(this.request, this.search,
         this.model ? (this.model.constructor === Array ? this.model : [this.model]) : [],
     );
 
+    // const request = body(this.request, this.search,
+    //     this.model ? (this.model.constructor === Array ? this.model : [this.model]) : [],
+    // );
+
     try {
-      const response = await axios(request);
+      const response = await fetch(url, init);
 
-      this.response = response.data.map((option) => {
-        return {
-          ...option,
-          [this.selectable.label]: option[this.selectable.label].toString(),
-        };
-      });
+      if (!response.ok) {
+        throw new Error(response.statusText);
+      }
 
-      this.loading = false;
+      // const response = await axios(request);
+
+      const data = await response.json();
+
+      this.response = data.map((option) => ({
+        ...option,
+        [this.selectable.label]: option[this.selectable.label].toString(),
+      }));
     } catch (e) {
       error(e.message);
+    } finally {
+      this.loading = false;
     }
   },
   select(option) {
@@ -309,6 +312,7 @@ export default (
       return this.common ? options : this.response;
     }
 
+    // todo: fix here, we need to search in the response when is not common.
     return filtered(this.search, this.dimensional, this.selectable, options);
   },
 });
