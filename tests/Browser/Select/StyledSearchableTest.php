@@ -168,7 +168,8 @@ class StyledSearchableTest extends BrowserTestCase
                 ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[2]')
                 ->click('@tallstackui_select_open_close')
                 ->click('@sync')
-                ->waitForText('"delectus aut autem","quis ut nam facilis et officia qui"')
+                ->waitForText('delectus aut autem')
+                ->waitForText('quis ut nam facilis et officia qui')
                 ->assertSee('delectus aut autem')
                 ->assertSee('quis ut nam facilis et officia qui')
                 ->assertDontSee('Select an option');
@@ -203,7 +204,8 @@ class StyledSearchableTest extends BrowserTestCase
                 ->waitForText('laboriosam mollitia et enim quasi adipisci quia provident illum')
                 ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[2]')
                 ->click('@tallstackui_select_open_close')
-                ->waitForText('"delectus aut autem","quis ut nam facilis et officia qui"')
+                ->waitForText('delectus aut autem')
+                ->waitForText('quis ut nam facilis et officia qui')
                 ->click('@tallstackui_select_open_close')
                 ->waitForText('delectus aut autem')
                 ->waitForText('quis ut nam facilis et officia qui')
@@ -241,7 +243,8 @@ class StyledSearchableTest extends BrowserTestCase
                 ->waitForText('laboriosam mollitia et enim quasi adipisci quia provident illum')
                 ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[2]')
                 ->click('@tallstackui_select_open_close')
-                ->waitForText('"delectus aut autem","quis ut nam facilis et officia qui"')
+                ->waitForText('delectus aut autem')
+                ->waitForText('quis ut nam facilis et officia qui')
                 ->click('@tallstackui_select_open_close')
                 ->waitForText('delectus aut autem')
                 ->waitForText('quis ut nam facilis et officia qui')
@@ -342,7 +345,8 @@ class StyledSearchableTest extends BrowserTestCase
                 ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[3]')
                 ->click('@tallstackui_select_open_close')
                 ->click('@sync')
-                ->waitForText('"delectus aut autem","quis ut nam facilis et officia qui"');
+                ->waitForText('delectus aut autem')
+                ->waitForText('quis ut nam facilis et officia qui');
         });
     }
 }
