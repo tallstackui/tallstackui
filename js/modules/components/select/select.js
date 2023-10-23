@@ -1,6 +1,17 @@
 import {error, warning} from '../../helpers';
-import {body, options as filtered, sync} from './helpers';
+import {body, sync} from './helpers';
 
+/**
+ * @param model {Object|String} - The model object or the value
+ * @param request {Object|String} - The request object or the url
+ * @param selectable {Object} - The label and value of the select when dimensional is true
+ * @param options {Array} - The options of the select when is common
+ * @param multiple {Boolean} - If true, the select will be multiple
+ * @param dimensional {Boolean} - Multidimensional array
+ * @param placeholder {String} - The placeholder of the select
+ * @param searchable {Boolean} - If true, the search input will be shown
+ * @param common {Boolean} - If true, the options will be taken from the options variable
+ */
 export default (
     model = null,
     request,
@@ -50,6 +61,10 @@ export default (
 
     await this.initAsRequest();
   },
+  /**
+   * Initialize the component as common
+   * @returns {Promise<void>}
+   */
   initAsCommon() {
     if (this.multiple) {
       this.selecteds = this.dimensional ?
@@ -133,6 +148,10 @@ export default (
       }
     });
   },
+  /**
+   * Initialize the component as request
+   * @returns {Promise<void>}
+   */
   async initAsRequest() {
     this.$watch('show', async (value, old) => {
       if (value === old) {
@@ -142,10 +161,13 @@ export default (
       this.loading = true;
 
       if (!value) {
+        this.search = '';
+
         if (this.cleanup) {
           this.cleanup();
           this.cleanup = null;
         }
+
         return;
       }
 
@@ -181,7 +203,8 @@ export default (
     }
 
     this.$watch('model', (value, old) => {
-      if (value === old) {
+      if (value === old || this.internal) {
+        this.internal = false;
         return;
       }
 
@@ -200,25 +223,15 @@ export default (
       }
     });
   },
+  /** @returns {Promise<void>} */
   async sendRequest() {
     this.response = [];
 
-    const {url, init} = body(this.request, this.search,
-        this.model ? (this.model.constructor === Array ? this.model : [this.model]) : [],
-    );
-
-    // const request = body(this.request, this.search,
-    //     this.model ? (this.model.constructor === Array ? this.model : [this.model]) : [],
-    // );
+    // eslint-disable-next-line max-len
+    const {url, init} = body(this.request, this.search, this.model ? (this.model.constructor === Array ? this.model : [this.model]) : []);
 
     try {
       const response = await fetch(url, init);
-
-      if (!response.ok) {
-        throw new Error(response.statusText);
-      }
-
-      // const response = await axios(request);
 
       const data = await response.json();
 
@@ -232,6 +245,10 @@ export default (
       this.loading = false;
     }
   },
+  /**
+   * @param option {Object}
+   * @return {void}
+   */
   select(option) {
     this.internal = true;
 
@@ -253,7 +270,9 @@ export default (
       this.show = false;
       this.search = '';
     } else {
-      this.selecteds = [option];
+      this.selecteds = !this.common && !this.empty ?
+        [...this.selecteds, option] :
+        [option];
 
       if (this.dimensional) {
         this.model = option[this.selectable.value];
@@ -271,9 +290,13 @@ export default (
     if (this.empty) return false;
 
     return this.multiple ?
-            this.selecteds.some((selected) => JSON.stringify(selected) === JSON.stringify(option)) :
-            JSON.stringify(this.selecteds[0] ?? this.selecteds) === JSON.stringify(option);
+      this.selecteds.some((selected) => JSON.stringify(selected) === JSON.stringify(option)) :
+      JSON.stringify(this.selecteds[0] ?? this.selecteds) === JSON.stringify(option);
   },
+  /**
+   * @param selected {Object|null}
+   * @returns {void}
+   */
   clear(selected = null) {
     if (selected) {
       if (this.multiple) {
@@ -301,18 +324,28 @@ export default (
     this.search = '';
     this.show = false;
   },
+  /** @returns {Boolean} */
   get quantity() {
     return this.selecteds?.length;
   },
+  /** @returns {Boolean} */
   get empty() {
     return !this.selecteds || this.selecteds.length === 0;
   },
+  /** @returns {Array} */
   get options() {
+    const availables = this.common ? options : this.response;
+
     if (this.search === '') {
-      return this.common ? options : this.response;
+      return availables;
     }
 
-    // todo: fix here, we need to search in the response when is not common.
-    return filtered(this.search, this.dimensional, this.selectable, options);
+    const search = this.search.toLowerCase();
+
+    return availables.filter((option) => {
+      return dimensional ?
+          option[selectable.label].toString().toLowerCase().indexOf(search) !== -1 :
+          option.toString().toLowerCase().indexOf(search) !== -1;
+    });
   },
 });

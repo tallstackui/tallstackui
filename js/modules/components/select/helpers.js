@@ -1,25 +1,6 @@
 import {autoUpdate, computePosition, flip, offset} from '@floating-ui/dom';
 
 /**
- * @param search {String}
- * @param dimensional {Boolean}
- * @param selectable {Object}
- * @param options {Array}
- * @return {Array}
- */
-export const options = (search, dimensional, selectable, options) => {
-  search = search.toLowerCase();
-
-  return search === '' ?
-    options :
-    options.filter((option) => {
-      return dimensional ?
-        option[selectable.label].toString().toLowerCase().indexOf(search) !== -1 :
-        option.toString().toLowerCase().indexOf(search) !== -1;
-    });
-};
-
-/**
  * @param request {Object|String}
  * @param search {String}
  * @param selected {Array}
