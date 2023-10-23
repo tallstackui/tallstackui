@@ -39,14 +39,14 @@
     "scripts": {
         "test": "./vendor/bin/pest",
         "test:ci": "CI=true ./vendor/bin/pest",
-        "test:feature": "./vendor/bin/pest --filter=Feature",
+        "test:feature": "./vendor/bin/pest --filter=Feature --parallel",
         "test:browser": "./vendor/bin/pest --filter=Browser",
         "type": "./vendor/bin/pest --type-coverage",
         "format": "./vendor/bin/pint",
         "analyse": "./vendor/bin/phpstan analyse --memory-limit=2G",
         "ci": [
-            "./vendor/bin/pest",
-            "CI=true ./vendor/bin/pint --test",
+            "CI=true ./vendor/bin/pest",
+            "./vendor/bin/pint --test",
             "./vendor/bin/phpstan analyse --memory-limit=2G"
         ]
     },

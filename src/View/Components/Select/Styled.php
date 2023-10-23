@@ -42,14 +42,6 @@ class Styled extends Component implements Personalize
         $this->options();
         $this->validate();
 
-        if (filled($this->options) && filled($this->request)) {
-            throw new InvalidArgumentException('You cannot define [options] and [request] at the same time.');
-        }
-
-        if (isset($this->options[0]) && (is_array($this->options[0]) && ! $this->select)) {
-            throw new InvalidArgumentException('The [select] parameter must be defined.');
-        }
-
         throw_if(blank($this->placeholders['default']), new Exception('The placeholder [default] cannot be empty.'));
         throw_if(blank($this->placeholders['search']), new Exception('The placeholder [search] cannot be empty.'));
         throw_if(blank($this->placeholders['empty']), new Exception('The placeholder [empty] cannot be empty.'));
@@ -108,15 +100,19 @@ class Styled extends Component implements Personalize
     /** @throws Throwable */
     private function validate(): void
     {
-        if ($this->common || $this->ignoreValidations) {
+        if ($this->ignoreValidations) {
             return;
         }
 
-        if (! $this->select) {
-            throw new InvalidArgumentException('The [select] parameter must be defined');
+        if (filled($this->options) && filled($this->request)) {
+            throw new InvalidArgumentException('You cannot define [options] and [request] at the same time.');
         }
 
-        if ($this->request && ! is_array($this->request)) {
+        if (($this->common && isset($this->options[0]) && (is_array($this->options[0]) && ! $this->select)) || ! $this->common && ! $this->select) {
+            throw new InvalidArgumentException('The [select] parameter must be defined.');
+        }
+
+        if ($this->common || $this->request && ! is_array($this->request)) {
             return;
         }
 
@@ -127,8 +123,6 @@ class Styled extends Component implements Personalize
         $this->request['method'] ??= 'get';
         $this->request['method'] = strtolower($this->request['method']);
 
-        // We remove search from the request because
-        // the search will be attached on the javascript.
         unset($this->request['search']);
 
         if (! in_array($this->request['method'], ['get', 'post'])) {

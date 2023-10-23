@@ -9,7 +9,7 @@ use TallStackUi\View\Personalizations\PersonalizationResource;
 /**
  * @internal This class is not meant to be used directly.
  */
-class Select extends PersonalizationResource implements Personalizable
+class Native extends PersonalizationResource implements Personalizable
 {
     protected function component(): string
     {

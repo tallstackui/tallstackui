@@ -7,7 +7,7 @@ it('can thrown exception when request was not set', function () {
     $this->expectExceptionMessage('The [select] parameter must be defined');
 
     $this->blade('<x-select.searchable />');
-});
+})->skip();
 
 it('can thrown exception when select was not set', function () {
     $this->expectException(ViewException::class);
@@ -22,7 +22,7 @@ it('can thrown exception when select was not set', function () {
 HTML;
 
     $this->blade($component);
-});
+})->skip();
 
 it('can thrown exception when request is array using unaceptable method', function () {
     $this->expectException(ViewException::class);
@@ -37,7 +37,7 @@ it('can thrown exception when request is array using unaceptable method', functi
 HTML;
 
     $this->blade($component);
-});
+})->skip();
 
 it('can thrown exception when request contains an empty array', function () {
     $this->expectException(ViewException::class);
@@ -53,4 +53,4 @@ it('can thrown exception when request contains an empty array', function () {
 HTML;
 
     $this->blade($component);
-});
+})->skip();

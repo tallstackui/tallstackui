@@ -35,12 +35,12 @@ class BrowserTestCase extends TestCase
 
     protected function setUp(): void
     {
-        if (isset($_SERVER['CI'])) {
+        if (isset($_SERVER['CI']) || isset($_ENV['CI'])) {
             Options::withoutUI();
         }
 
-        $this->afterApplicationCreated(fn () => $this->tallStackUiClearState());
-        $this->beforeApplicationDestroyed(fn () => $this->tallStackUiClearState());
+        $this->afterApplicationCreated(fn () => $this->clearState());
+        $this->beforeApplicationDestroyed(fn () => $this->clearState());
 
         parent::setUp();
 
@@ -58,6 +58,16 @@ class BrowserTestCase extends TestCase
         parent::tearDown();
     }
 
+    private function clearState(): void
+    {
+        Artisan::call('view:clear');
+
+        File::deleteDirectory($this->livewireViewsPath());
+        File::deleteDirectory($this->livewireClassesPath());
+        File::deleteDirectory($this->livewireTestsPath());
+        File::delete(app()->bootstrapPath('cache/livewire-components.php'));
+    }
+
     private function livewireClassesPath($path = ''): string
     {
         return app_path('Livewire'.($path ? '/'.$path : ''));
@@ -71,15 +81,5 @@ class BrowserTestCase extends TestCase
     private function livewireViewsPath($path = ''): string
     {
         return resource_path('views').'/livewire'.($path ? '/'.$path : '');
-    }
-
-    private function tallStackUiClearState(): void
-    {
-        Artisan::call('view:clear');
-
-        File::deleteDirectory($this->livewireViewsPath());
-        File::deleteDirectory($this->livewireClassesPath());
-        File::deleteDirectory($this->livewireTestsPath());
-        File::delete(app()->bootstrapPath('cache/livewire-components.php'));
     }
 }

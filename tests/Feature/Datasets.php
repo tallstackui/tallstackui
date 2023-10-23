@@ -20,8 +20,7 @@ use TallStackUi\View\Personalizations\Components\Hint;
 use TallStackUi\View\Personalizations\Components\Interactions\Dialog;
 use TallStackUi\View\Personalizations\Components\Interactions\Toast;
 use TallStackUi\View\Personalizations\Components\Modal;
-use TallStackUi\View\Personalizations\Components\Select\Searchable;
-use TallStackUi\View\Personalizations\Components\Select\Select;
+use TallStackUi\View\Personalizations\Components\Select\Native;
 use TallStackUi\View\Personalizations\Components\Select\Styled;
 use TallStackUi\View\Personalizations\Components\Tabs\Items as TabItem;
 use TallStackUi\View\Personalizations\Components\Tabs\Tab as TabWrapper;
@@ -51,8 +50,7 @@ dataset('personalizations.keys', [
     'tallstack-ui::personalizations.form.toggle',
     'tallstack-ui::personalizations.hint',
     'tallstack-ui::personalizations.modal',
-    'tallstack-ui::personalizations.select',
-    'tallstack-ui::personalizations.select.searchable',
+    'tallstack-ui::personalizations.select.native',
     'tallstack-ui::personalizations.select.styled',
     'tallstack-ui::personalizations.tab',
     'tallstack-ui::personalizations.tab.items',
@@ -83,8 +81,7 @@ dataset('personalizations.classes', [
     Toggle::class,
     Hint::class,
     Modal::class,
-    Select::class,
-    Searchable::class,
+    Native::class,
     Styled::class,
     TabWrapper::class,
     TabItem::class,
@@ -109,7 +106,6 @@ dataset('components', [
     TallStackUi\View\Components\Dropdown\Items::class,
     TallStackUi\View\Components\Badge::class,
     \TallStackUi\View\Components\Avatar::class,
-    TallStackUi\View\Components\Avatar\Modelable::class,
     TallStackUi\View\Components\Hint::class,
     TallStackUi\View\Components\Error::class,
     TallStackUi\View\Components\Errors::class,
@@ -120,7 +116,6 @@ dataset('components', [
     TallStackUi\View\Components\Button\Circle::class,
     TallStackUi\View\Components\Select\Native::class,
     TallStackUi\View\Components\Select\Styled::class,
-    TallStackUi\View\Components\Select\Searchable::class,
     TallStackUi\View\Components\Modal::class,
     TallStackUi\View\Components\Interaction\Toast::class,
     TallStackUi\View\Components\Interaction\Dialog::class,
