@@ -12,7 +12,9 @@ class StyledMultipleComponent extends Component
     {
         return <<<'HTML'
         <div>
-            @json($array)
+            @foreach ($array ?? [] as $value)
+                <p>{{ $value }}</p>
+            @endforeach
 
             <x-select.styled wire:model="array"
                              label="Select"

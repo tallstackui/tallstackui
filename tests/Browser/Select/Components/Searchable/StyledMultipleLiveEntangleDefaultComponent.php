@@ -12,7 +12,9 @@ class StyledMultipleLiveEntangleDefaultComponent extends Component
     {
         return <<<'HTML'
         <div>
-            @json($array)
+            @foreach ($array ?? [] as $value)
+                <p>{{ $value }}</p>
+            @endforeach
 
             <x-select.styled wire:model.live="array"
                              :request="route('searchable.simple')"
