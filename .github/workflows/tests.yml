@@ -66,10 +66,7 @@ jobs:
       - name: Pint
         run: ./vendor/bin/pint --test
 
-      - name: Feature Tests
-        run: ./vendor/bin/pest --filter Feature --parallel
-
-      - name: Browser Tests
-        run: ./vendor/bin/pest --filter Browser
+      - name: Tests
+        run: ./vendor/bin/pest
         env:
           CI: true
