@@ -46,23 +46,23 @@ trait BrowserFunctions
                     return [
                         [
                             'label' => 'delectus aut autem',
-                            'value' => 1,
+                            'value' => 'delectus aut autem',
                         ],
                         [
                             'label' => 'quis ut nam facilis et officia qui',
-                            'value' => 2,
+                            'value' => 'quis ut nam facilis et officia qui',
                         ],
                         [
                             'label' => 'fugiat veniam minus',
-                            'value' => 3,
+                            'value' => 'fugiat veniam minus',
                         ],
                         [
                             'label' => 'et porro tempora',
-                            'value' => 4,
+                            'value' => 'et porro tempora',
                         ],
                         [
                             'label' => 'laboriosam mollitia et enim quasi adipisci quia provident illum',
-                            'value' => 5,
+                            'value' => 'laboriosam mollitia et enim quasi adipisci quia provident illum',
                         ],
                     ];
                 })->name('searchable.simple');
@@ -71,23 +71,23 @@ trait BrowserFunctions
                     $options = collect([
                         [
                             'label' => 'delectus aut autem',
-                            'value' => 1,
+                            'value' => 'delectus aut autem',
                         ],
                         [
                             'label' => 'quis ut nam facilis et officia qui',
-                            'value' => 2,
+                            'value' => 'quis ut nam facilis et officia qui',
                         ],
                         [
                             'label' => 'fugiat veniam minus',
-                            'value' => 3,
+                            'value' => 'fugiat veniam minus',
                         ],
                         [
                             'label' => 'et porro tempora',
-                            'value' => 4,
+                            'value' => 'et porro tempora',
                         ],
                         [
                             'label' => 'laboriosam mollitia et enim quasi adipisci quia provident illum',
-                            'value' => 5,
+                            'value' => 'laboriosam mollitia et enim quasi adipisci quia provident illum',
                         ],
                     ]);
 
@@ -98,7 +98,7 @@ trait BrowserFunctions
                     return [
                         [
                             'label' => 'et porro tempora',
-                            'value' => 4,
+                            'value' => 'et porro tempora',
                         ],
                     ];
                 })->name('searchable.filtered');

@@ -29,7 +29,7 @@ class StyledSearchableComponent extends Component
             
             <x-button dusk="sync" wire:click="sync">Sync</x-button>
         </div>
-HTML;
+        HTML;
     }
 
     public function sync(): void

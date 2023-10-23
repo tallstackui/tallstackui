@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Browser\Select\Components\Common;
+namespace Tests\Browser\Select\Components\Searchable;
 
 use Livewire\Component;
 
@@ -15,13 +15,9 @@ class StyledMultipleLiveEntangleComponent extends Component
             @json($array)
 
             <x-select.styled wire:model.live="array"
+                             :request="route('searchable.simple')"
                              label="Select"
                              hint="Select"
-                             :options="[
-                                ['label' => 'foo', 'value' => 'foo'],
-                                ['label' => 'bar', 'value' => 'bar'],
-                                ['label' => 'baz', 'value' => 'baz'],
-                             ]"
                              select="label:label|value:value"
                              multiple
             />
