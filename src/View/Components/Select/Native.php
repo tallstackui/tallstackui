@@ -33,7 +33,7 @@ class Native extends Component implements Personalize
                 'class' => 'block w-full rounded-md border-0 py-1.5 pl-3 pr-10 ring-1 ring-inset focus:ring-2 sm:text-sm sm:leading-6',
                 'color' => 'focus:ring-primary-600 dark:bg-dark-800 dark:placeholder-dark-500 dark:text-dark-300 dark:border-dark-900 dark:ring-dark-600 dark:focus:ring-primary-600 text-gray-700 ring-gray-300',
             ],
-            'error' => str_replace('focus:ring-2', '', $this->error()),
+            'error' => $this->error('focus:ring-2'),
         ]);
     }
 

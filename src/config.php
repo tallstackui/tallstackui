@@ -80,6 +80,5 @@ return [
         'tooltip' => Components\Tooltip::class,
         'wrapper.input' => Components\Wrapper\Input::class,
         'wrapper.radio' => Components\Wrapper\Radio::class,
-        'wrapper.select' => Components\Wrapper\Select::class,
     ],
 ];

@@ -41,28 +41,18 @@ class Styled extends Component implements Personalize
 
         $this->options();
         $this->validate();
-
-        throw_if(blank($this->placeholders['default']), new Exception('The placeholder [default] cannot be empty.'));
-        throw_if(blank($this->placeholders['search']), new Exception('The placeholder [search] cannot be empty.'));
-        throw_if(blank($this->placeholders['empty']), new Exception('The placeholder [empty] cannot be empty.'));
     }
 
     public function personalization(): array
     {
         return Arr::dot([
-            'button' => [
+            'input' => [
                 'wrapper' => [
                     'base' => 'flex w-full cursor-pointer items-center gap-x-2 rounded-md border-0 bg-white py-1.5 shadow-sm ring-1 ring-inset text-sm leading-6 dark:text-dark-300 dark:bg-dark-800 disabled:bg-gray-50 dark:focus:ring-primary-600 disabled:text-gray-500 disabled:ring-gray-200 dark:disabled:bg-dark-600',
                     'color' => 'text-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-600 ring-gray-300 dark:ring-dark-600',
                     'error' => $this->error(),
                 ],
                 'content' => 'relative inset-y-0 left-0 flex w-full items-center overflow-hidden rounded-lg pl-2 transition space-x-2',
-            ],
-            'itens' => [
-                'multiple' => [
-                    'item' => 'inline-flex items-center rounded-lg bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-200 space-x-1 dark:text-dark-100 dark:bg-dark-700',
-                    'icon' => 'h-4 w-4 text-red-500',
-                ],
             ],
             'buttons' => [
                 'wrapper' => 'mr-2 flex items-center',
@@ -86,9 +76,17 @@ class Styled extends Component implements Personalize
                         'wrapper' => 'relative cursor-pointer select-none px-2 py-2 text-gray-700 transition hover:bg-gray-100 dark:text-dark-300 dark:hover:bg-dark-500 focus:outline-none focus:bg-gray-100 dark:focus:bg-dark-500',
                         'class' => 'flex items-center justify-between',
                     ],
+                    'empty' => 'block w-full pr-2 text-gray-700 dark:text-dark-300',
                 ],
             ],
-            'message' => 'block w-full pr-2 text-gray-700 dark:text-dark-300',
+            'itens' => [
+                'placeholder' => 'text-gray-400 dark:text-dark-400',
+                'single' => 'text-gray-600 dark:text-dark-300',
+                'multiple' => [
+                    'item' => 'inline-flex items-center rounded-lg bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-200 space-x-1 dark:text-dark-100 dark:bg-dark-700 dark:ring-dark-600',
+                    'icon' => 'h-4 w-4 text-red-500',
+                ],
+            ],
         ]);
     }
 
@@ -100,6 +98,10 @@ class Styled extends Component implements Personalize
     /** @throws Throwable */
     private function validate(): void
     {
+        throw_if(blank($this->placeholders['default']), new Exception('The placeholder [default] cannot be empty.'));
+        throw_if(blank($this->placeholders['search']), new Exception('The placeholder [search] cannot be empty.'));
+        throw_if(blank($this->placeholders['empty']), new Exception('The placeholder [empty] cannot be empty.'));
+
         if ($this->ignoreValidations) {
             return;
         }

@@ -25,15 +25,15 @@
         <button type="button"
                 @disabled($disabled)
                 @class([
-                    $customize['button.wrapper.base'],
-                    $customize['button.wrapper.color'] => !$error,
-                    $customize['button.wrapper.error'] => $error
+                    $customize['input.wrapper.base'],
+                    $customize['input.wrapper.color'] => !$error,
+                    $customize['input.wrapper.error'] => $error
                 ])
                 @if (!$disabled) x-on:click="show = !show" @endif
                 aria-haspopup="listbox"
                 :aria-expanded="show"
                 dusk="tallstackui_select_open_close">
-            <div @class($customize['button.content'])>
+            <div @class($customize['input.content'])>
                 <div class="flex gap-2">
                     <template x-if="multiple && quantity > 0">
                         <span x-text="quantity"></span>
@@ -41,8 +41,8 @@
                     <template x-if="empty || (!multiple && @js($placeholders['default']) !== placeholder)">
                         <span @class(['truncate', 'text-red-500 dark:text-red-500' => $error])
                               x-bind:class="{
-                                'text-gray-400 dark:text-dark-400': empty,
-                                'text-gray-600 dark:text-dark-300': !empty
+                                '{{ $customize['itens.placeholder'] }}': empty,
+                                '{{ $customize['itens.single'] }}': !empty
                               }" x-text="placeholder"></span>
                     </template>
                     <div class="truncate" x-show="multiple && quantity > 0">
@@ -118,7 +118,7 @@
                 @if (!$after)
                     <template x-if="!loading && options.length === 0">
                         <li class="m-2">
-                            <span @class($customize['message'])>
+                            <span @class($customize['box.list.empty'])>
                                 {{ $placeholders['empty'] }}
                             </span>
                         </li>

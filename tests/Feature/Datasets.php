@@ -27,7 +27,6 @@ use TallStackUi\View\Personalizations\Components\Tabs\Tab as TabWrapper;
 use TallStackUi\View\Personalizations\Components\Tooltip;
 use TallStackUi\View\Personalizations\Components\Wrapper\Input as InputWrapper;
 use TallStackUi\View\Personalizations\Components\Wrapper\Radio as RadioWrapper;
-use TallStackUi\View\Personalizations\Components\Wrapper\Select as SelectWrapper;
 
 dataset('personalizations.keys', [
     'tallstack-ui::personalizations.alert',
@@ -58,7 +57,6 @@ dataset('personalizations.keys', [
     'tallstack-ui::personalizations.tooltip',
     'tallstack-ui::personalizations.wrapper.input',
     'tallstack-ui::personalizations.wrapper.radio',
-    'tallstack-ui::personalizations.wrapper.select',
 ]);
 
 dataset('personalizations.classes', [
@@ -89,7 +87,6 @@ dataset('personalizations.classes', [
     Tooltip::class,
     InputWrapper::class,
     RadioWrapper::class,
-    SelectWrapper::class,
 ]);
 
 dataset('components', [
@@ -121,5 +118,4 @@ dataset('components', [
     TallStackUi\View\Components\Interaction\Dialog::class,
     TallStackUi\View\Components\Wrapper\Input::class,
     TallStackUi\View\Components\Wrapper\Radio::class,
-    TallStackUi\View\Components\Wrapper\Select::class,
 ]);
