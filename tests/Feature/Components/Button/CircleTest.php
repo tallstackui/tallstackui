@@ -35,31 +35,31 @@ it('can render colored', function () {
 });
 
 it('can render large size as default', function () {
-    $this->blade('<x-button.circle text="LG" color="primary" />')
+    $this->blade('<x-button.circle text="LG" color="primary" lg />')
         ->assertSee('w-12 h-12')
-        ->assertSee('text-2xl');
+        ->assertSee('text-xl');
 
-    $this->blade('<x-button.circle icon="users" color="primary" />')
+    $this->blade('<x-button.circle icon="users" color="primary" lg />')
         ->assertSee('w-12 h-12')
-        ->assertSee('w-8 h-8');
+        ->assertSee('w-6 h-6');
 });
 
 it('can render medium size', function () {
-    $this->blade('<x-button.circle size="md" text="MD" color="primary" />')
+    $this->blade('<x-button.circle text="MD" color="primary" />')
         ->assertSee('w-9 h-9')
-        ->assertSee('text-base');
+        ->assertSee('text-md');
 
-    $this->blade('<x-button.circle size="md" icon="users" color="primary" />')
+    $this->blade('<x-button.circle icon="users" color="primary" />')
         ->assertSee('w-9 h-9')
         ->assertSee('w-4 h-4');
 });
 
 it('can render small size', function () {
-    $this->blade('<x-button.circle size="sm" text="MD" color="primary" />')
+    $this->blade('<x-button.circle sm text="MD" color="primary" />')
         ->assertSee('w-6 h-6')
         ->assertSee('text-xs');
 
-    $this->blade('<x-button.circle size="sm" icon="users" color="primary" />')
+    $this->blade('<x-button.circle sm icon="users" color="primary" />')
         ->assertSee('w-6 h-6')
         ->assertSee('w-3 h-3');
 });
