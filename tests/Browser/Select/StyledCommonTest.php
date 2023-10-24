@@ -41,9 +41,7 @@ class StyledCommonTest extends BrowserTestCase
                 ->assertDontSee('bar')
                 ->assertDontSee('foo')
                 ->click('@tallstackui_select_open_close')
-                ->waitForText(['foo', 'bar'])
-                ->assertSee('foo')
-                ->assertSee('bar');
+                ->waitForText(['foo', 'bar']);
         });
     }
 
@@ -114,9 +112,9 @@ class StyledCommonTest extends BrowserTestCase
                 ->waitForText(['foo', 'bar', 'baz'])
                 ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[1]')
                 ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[2]')
-                ->click('@tallstackui_select_open_close')
+                ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[3]')
                 ->click('@sync')
-                ->waitForText(['foo', 'bar'])
+                ->waitForText(['foo', 'bar', 'baz'])
                 ->assertDontSee('Select an option');
         });
     }
