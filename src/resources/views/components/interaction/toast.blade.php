@@ -19,7 +19,7 @@
                     'md:items-end' => $configurations['position'] === 'top-right' || $configurations['position'] === 'bottom-right',
                 ])>
             <div x-show="show"
-                    @class([$customize['wrapper.third'], 'rounded-xl' => !$configurations['square']])>
+                    @class($customize['wrapper.third'])>
                 <div @class($customize['wrapper.fourth'])>
                     <div class="flex-shrink-0">
                         <div x-show="toast.type === 'success'">

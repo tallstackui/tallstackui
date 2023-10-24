@@ -7,12 +7,10 @@ use Illuminate\Support\Arr;
 use Illuminate\View\Component;
 use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
 use TallStackUi\View\Personalizations\Contracts\Personalize;
-use TallStackUi\View\Personalizations\Traits\InteractWithProviders;
 
 class Input extends Component implements Personalize
 {
     use DefaultInputClasses;
-    use InteractWithProviders;
 
     public function __construct(
         public ?string $id = null,
@@ -23,8 +21,6 @@ class Input extends Component implements Personalize
         public bool $validate = true,
     ) {
         $this->position = $this->position === 'left' ? 'left' : 'right';
-
-        $this->configurations();
     }
 
     public function personalization(): array

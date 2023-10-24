@@ -14,8 +14,6 @@
             $customize['input.base'],
             $customize['input.color'] => !$error,
             $customize['error'] => $error,
-            'rounded-md' => !$configurations['square'],
-            'resize-none' => !$resize && !$autoResize,
         ]) }}
         rows="{{ $rows }}" @if ($autoResize) x-on:input="resize()" @endif>{{ $slot }}</textarea>
 </x-wrapper.input>

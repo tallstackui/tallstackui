@@ -6,15 +6,12 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
 use TallStackUi\View\Personalizations\Contracts\Personalize;
-use TallStackUi\View\Personalizations\Traits\InteractWithProviders;
 
 class Tab extends Component implements Personalize
 {
-    use InteractWithProviders;
-
     public function __construct(public ?string $selected = null)
     {
-        $this->configurations();
+        //
     }
 
     public function personalization(): array
@@ -22,7 +19,7 @@ class Tab extends Component implements Personalize
         return Arr::dot([
             'wrapper' => '-mb-px flex items-stretch overflow-auto',
             'item' => [
-                'wrapper' => 'inline-flex cursor-pointer justify-center truncate px-5 py-2.5 text-gray-700 transition',
+                'wrapper' => 'inline-flex cursor-pointer justify-center truncate px-5 py-2.5 text-gray-700 transition rounded-t-lg',
                 'selected' => 'text-primary dark:bg-dark-700 dark:text-dark-300 bg-white font-medium',
                 'unselected' => 'dark:text-dark-200 opacity-50',
             ],

@@ -20,26 +20,15 @@ return [
     | General components settings.
     */
     'personalizations' => [
-        'input' => [
-            /* Input, Textarea & Password */
-            'square' => false,
-            /* Input & Password */
-            'round' => false,
-        ],
-        'tab' => [
-            'square' => false,
-        ],
         'dialog' => [
             'z-index' => 'z-50',
             'blur' => false,
             'uncloseable' => false,
-            'square' => false,
         ],
         'toast' => [
             'z-index' => 'z-50',
             /* Alloweds: "top-right", "top-left", "bottom-right", "bottom-left" */
             'position' => 'top-right',
-            'square' => false,
         ],
     ],
 

@@ -26,7 +26,7 @@ class Toast extends Component implements Personalize
             'wrapper' => [
                 'first' => 'pointer-events-none fixed inset-0 flex flex-col items-end justify-end gap-y-2 px-4 py-4',
                 'second' => 'flex w-full flex-col items-center space-y-4',
-                'third' => 'dark:bg-dark-700 pointer-events-auto w-full max-w-sm overflow-hidden bg-white shadow-lg ring-1 ring-black ring-opacity-5',
+                'third' => 'dark:bg-dark-700 pointer-events-auto w-full max-w-sm overflow-hidden rounded-xl bg-white shadow-lg ring-1 ring-black ring-opacity-5',
                 'fourth' => 'flex items-start p-4',
             ],
             'icon' => [

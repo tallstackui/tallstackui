@@ -25,7 +25,7 @@
                  x-transition:leave="ease-in duration-200"
                  x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
                  x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                 @class([$customize['wrapper.third'], 'rounded-xl' => !$configurations['square']])
+                 @class($customize['wrapper.third'])
                  @if (!$configurations['uncloseable']) x-on:click.outside="remove()" @endif>
                 <div @class($customize['buttons.close.wrapper'])>
                     <button x-on:click="remove()">
@@ -78,14 +78,13 @@
                     <div x-show="dialog.type === 'question'">
                         <x-button color="white"
                                   outline
-                                  :square="$configurations['square']"
                                   class="w-full text-sm"
                                   x-on:click="reject(dialog)"
                                   x-text="dialog.options?.cancel.text"
                                   dusk="tallstackui_dialog_rejection"
                         />
                     </div>
-                    <button @class([$customize['buttons.confirm'], 'rounded' => !$configurations['square']]) x-bind:class="{
+                    <button @class($customize['buttons.confirm']) x-bind:class="{
                             'sm:w-auto' : dialog.type === 'question',
                             'col-span-full' : dialog.type !== 'question',
                             'bg-green-600 hover:bg-green-700 focus:ring-green-500 focus:ring-offset-green-100 dark:ring-offset-green-900' : dialog.type === 'success',

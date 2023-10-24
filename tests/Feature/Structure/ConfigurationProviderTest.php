@@ -8,8 +8,6 @@ describe('ConfigurationProvider', function () {
     })->with([
         'resolve',
         'dialog',
-        'input',
-        'tab',
         'toast',
     ]);
 });
