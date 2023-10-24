@@ -30,9 +30,9 @@ class Select extends Component implements Personalize
             'empty' => __('tallstack-ui::messages.select.empty'),
         ];
 
-        throw_if(blank($this->placeholder['input']), new Exception('The [select.input] placeholder cannot be empty.'));
+        throw_if(blank($this->placeholder['input']), new Exception('The [select.input] placeholder cannot be empty'));
 
-        throw_if(blank($this->placeholder['empty']), new Exception('The [select.empty] placeholder cannot be empty.'));
+        throw_if(blank($this->placeholder['empty']), new Exception('The [select.empty] placeholder cannot be empty'));
     }
 
     public function personalization(): array

@@ -109,7 +109,7 @@ class Styled extends Component implements Personalize
         }
 
         if (($this->common && isset($this->options[0]) && (is_array($this->options[0]) && ! $this->select)) || ! $this->common && ! $this->select) {
-            throw new InvalidArgumentException('The [select] parameter must be defined.');
+            throw new InvalidArgumentException('The [select] parameter must be defined');
         }
 
         if ($this->common || $this->request && ! is_array($this->request)) {

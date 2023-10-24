@@ -45,7 +45,8 @@
         "format": "./vendor/bin/pint",
         "analyse": "./vendor/bin/phpstan analyse --memory-limit=2G",
         "ci": [
-            "CI=true ./vendor/bin/pest",
+            "./vendor/bin/pest --filter=Feature --parallel",
+            "CI=true ./vendor/bin/pest --filter=Browser",
             "./vendor/bin/pint --test",
             "./vendor/bin/phpstan analyse --memory-limit=2G"
         ]

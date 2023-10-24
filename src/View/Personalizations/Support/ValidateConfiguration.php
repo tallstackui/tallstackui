@@ -29,7 +29,7 @@ class ValidateConfiguration
         $configuration = config('tallstackui.personalizations.dialog');
 
         if (! str_starts_with($configuration['z-index'], 'z-')) {
-            throw new InvalidArgumentException('The dialog z-index must start with z- prefix.');
+            throw new InvalidArgumentException('The dialog z-index must start with z- prefix');
         }
     }
 
@@ -42,7 +42,7 @@ class ValidateConfiguration
         }
 
         if (! str_starts_with($configuration['z-index'], 'z-')) {
-            throw new InvalidArgumentException('The toast z-index must start with z- prefix.');
+            throw new InvalidArgumentException('The toast z-index must start with z- prefix');
         }
     }
 }
