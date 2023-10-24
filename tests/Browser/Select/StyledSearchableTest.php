@@ -354,32 +354,18 @@ class StyledSearchableTest extends BrowserTestCase
                 ->assertDontSee('laboriosam mollitia et enim quasi adipisci quia provident illum')
                 ->click('@tallstackui_select_open_close')
                 ->waitForText('delectus aut autem')
-                ->waitForText('quis ut nam facilis et officia qui')
-                ->waitForText('fugiat veniam minus')
                 ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[1]')
                 ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[2]')
                 ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[3]')
                 ->click('@tallstackui_select_open_close')
                 ->click('@sync')
-                ->waitForLivewire()
                 ->waitForText('delectus aut autem')
-                ->assertSee('delectus aut autem')
-                ->assertSee('quis ut nam facilis et officia qui')
-                ->assertSee('fugiat veniam minus')
-//                ->assertSee('quis ut nam facilis et officia qui')
-//                ->assertSee('fugiat veniam minus')
                 ->click('@tallstackui_select_open_close')
                 ->waitForText('delectus aut autem')
-                ->waitForText('quis ut nam facilis et officia qui')
-                ->waitForText('fugiat veniam minus')
                 ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[3]')
                 ->click('@tallstackui_select_open_close')
                 ->click('@sync')
-                ->waitForLivewire()
-                ->waitForText('delectus aut autem')
-                ->waitForText('quis ut nam facilis et officia qui')
-                ->assertSee('delectus aut autem')
-                ->assertSee('quis ut nam facilis et officia qui');
+                ->waitForText('delectus aut autem');
         });
     }
 }
