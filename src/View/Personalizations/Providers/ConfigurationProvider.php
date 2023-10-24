@@ -16,30 +16,18 @@ class ConfigurationProvider
     /** @throws Exception */
     public static function resolve(object $component): void
     {
-        $method = match (get_class($component)) {
+        $index = match (get_class($component)) {
             Dialog::class => 'dialog',
             Toast::class => 'toast',
             default => throw new Exception("No configurations available for the component: [$component]"),
         };
 
-        FacadeView::composer($component->render()->name(), fn (View $view) => $view->with('configurations', [...(new self())->$method()]));
-    }
+        $configuration = config('tallstackui.personalizations.' . $index);
 
-    private function dialog(): array
-    {
-        $configuration = config('tallstackui.personalizations.dialog');
-
-        return collect($configuration)
-            ->mapWithKeys(fn (string|bool|array $value, string $key) => [$key => $value])
-            ->toArray();
-    }
-
-    private function toast(): array
-    {
-        $configuration = config('tallstackui.personalizations.toast');
-
-        return collect($configuration)
-            ->mapWithKeys(fn (string|bool|array $value, string $key) => [$key => $value])
-            ->toArray();
+        FacadeView::composer($component->render()->name(), fn (View $view) => $view->with('configurations', [
+            ...collect($configuration)
+                ->mapWithKeys(fn (string|bool|array $value, string $key) => [$key => $value])
+                ->toArray()
+        ]));
     }
 }
