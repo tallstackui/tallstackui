@@ -107,8 +107,7 @@ class ButtonColors
                 ->set('ring', $this->variations['ring'], $variation['ring'])
                 ->set('hover:bg', $this->variations['hover:bg'], $variation['hover:bg'])
                 ->set('hover:ring', $this->variations['hover:ring'], $variation['hover:ring'])
-                ->clean(false)
-                ->merge('dark:hover:bg', 'slate', 700)
+                ->append('dark:hover:bg-slate-700')
                 ->append('border');
         });
     }

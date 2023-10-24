@@ -371,11 +371,6 @@ final class TailwindSafelistClasses
         'rose' => 'ring-offset-rose-50 ring-offset-rose-100 ring-offset-rose-200 ring-offset-rose-300 ring-offset-rose-400 ring-offset-rose-500 ring-offset-rose-600 ring-offset-rose-700 ring-offset-rose-800 ring-offset-rose-900 ring-offset-rose-950',
     ];
 
-    public const SPECIALS = [
-        'dark:hover:bg-slate-700',
-        'dark:bg-transparent',
-    ];
-
     public const TEXT = [
         'primary' => 'text-primary-50 text-primary-100 text-primary-200 text-primary-300 text-primary-400 text-primary-500 text-primary-600 text-primary-700 text-primary-800 text-primary-900 text-primary-950',
         'secondary' => 'text-secondary-50 text-secondary-100 text-secondary-200 text-secondary-300 text-secondary-400 text-secondary-500 text-secondary-600 text-secondary-700 text-secondary-800 text-secondary-900 text-secondary-950',

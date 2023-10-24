@@ -26,15 +26,13 @@ use TallStackUi\View\Personalizations\Components\Hint;
 use TallStackUi\View\Personalizations\Components\Interactions\Dialog;
 use TallStackUi\View\Personalizations\Components\Interactions\Toast;
 use TallStackUi\View\Personalizations\Components\Modal;
-use TallStackUi\View\Personalizations\Components\Select\Searchable as SelectSearchable;
-use TallStackUi\View\Personalizations\Components\Select\Select;
+use TallStackUi\View\Personalizations\Components\Select\Native as SelectNative;
 use TallStackUi\View\Personalizations\Components\Select\Styled as SelectStyled;
 use TallStackUi\View\Personalizations\Components\Tabs\Items as TabItems;
 use TallStackUi\View\Personalizations\Components\Tabs\Tab;
 use TallStackUi\View\Personalizations\Components\Tooltip;
 use TallStackUi\View\Personalizations\Components\Wrapper\Input as InputWrapper;
 use TallStackUi\View\Personalizations\Components\Wrapper\Radio as RadioWrapper;
-use TallStackUi\View\Personalizations\Components\Wrapper\Select as SelectWrapper;
 use TallStackUi\View\Personalizations\Contracts\Personalizable as PersonalizableContract;
 
 /**
@@ -63,8 +61,7 @@ class Personalization
         'tallstack-ui::personalizations.form.toggle' => Toggle::class,
         'tallstack-ui::personalizations.hint' => Hint::class,
         'tallstack-ui::personalizations.modal' => Modal::class,
-        'tallstack-ui::personalizations.select' => Select::class,
-        'tallstack-ui::personalizations.select.searchable' => SelectSearchable::class,
+        'tallstack-ui::personalizations.select.native' => SelectNative::class,
         'tallstack-ui::personalizations.select.styled' => SelectStyled::class,
         'tallstack-ui::personalizations.tab' => Tab::class,
         'tallstack-ui::personalizations.tab.items' => TabItems::class,
@@ -72,7 +69,6 @@ class Personalization
         'tallstack-ui::personalizations.tooltip' => Tooltip::class,
         'tallstack-ui::personalizations.wrapper.input' => InputWrapper::class,
         'tallstack-ui::personalizations.wrapper.radio' => RadioWrapper::class,
-        'tallstack-ui::personalizations.wrapper.select' => SelectWrapper::class,
     ];
 
     public function __construct(
@@ -196,13 +192,12 @@ class Personalization
         return app($this->component(Modal::class));
     }
 
-    public function select(string $component = null): Select|SelectSearchable|SelectStyled
+    public function select(string $component = null): SelectNative|SelectStyled
     {
-        $component ??= 'select';
+        $component ??= 'native';
 
         $class = match ($component) {
-            'select' => Select::class,
-            'searchable' => SelectSearchable::class,
+            'native' => SelectNative::class,
             'styled' => SelectStyled::class,
             default => $component,
         };
@@ -233,14 +228,13 @@ class Personalization
         return app($this->component(Tooltip::class));
     }
 
-    public function wrapper(string $component = null): InputWrapper|RadioWrapper|SelectWrapper
+    public function wrapper(string $component = null): InputWrapper|RadioWrapper
     {
         $component ??= 'input';
 
         $class = match ($component) {
             'input' => InputWrapper::class,
             'radio' => RadioWrapper::class,
-            'select' => SelectWrapper::class,
             default => $component,
         };
 

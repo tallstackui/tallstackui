@@ -9,10 +9,8 @@ use TallStackUi\View\Personalizations\Contracts\Personalize;
 
 class Card extends Component implements Personalize
 {
-    public function __construct(
-        public ?string $header = null,
-        public ?string $footer = null,
-    ) {
+    public function __construct(public ?string $header = null, public ?string $footer = null)
+    {
         //
     }
 
