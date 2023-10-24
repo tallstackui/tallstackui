@@ -23,6 +23,7 @@ class Icon extends Component
     ) {
         $this->type ??= $this->outline ? 'outline' : ($this->solid ? 'solid' : config('tallstackui.icon'));
 
+        //TODO: move to validatecomponent
         if (! in_array($this->type, self::ACCEPTABLES)) {
             throw new InvalidArgumentException('The icon must be one of the following: [solid, outline]');
         }

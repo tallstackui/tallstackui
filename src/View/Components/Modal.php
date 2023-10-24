@@ -21,6 +21,7 @@ class Modal extends Component implements Personalize
         public string $size = '2xl',
         public string $entangle = 'modal',
     ) {
+        //TODO: move to validatecomponent
         if (is_string($this->wire) && empty($this->wire)) {
             throw new InvalidArgumentException('The [wire] property cannot be an empty string');
         }

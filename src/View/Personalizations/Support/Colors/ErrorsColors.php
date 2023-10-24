@@ -29,7 +29,7 @@ class ErrorsColors
         return [
             'wrapper.second.color' => TallStackUi::colors()
                 ->set('bg', $colors['bg'], 50)
-                ->merge('dark:bg', 'transparent')
+                ->append('dark:bg-transparent')
                 ->clean(false)
                 ->merge('dark:border dark:border', $colors['bg'], 500)
                 ->get(),

@@ -2,21 +2,21 @@
 
 namespace TallStackUi\View\Components\Select;
 
-use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\View\Component;
-use InvalidArgumentException;
 use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
 use TallStackUi\View\Components\Select\Traits\InteractsWithSelectOptions;
 use TallStackUi\View\Personalizations\Contracts\Personalize;
+use TallStackUi\View\Personalizations\Traits\InteractWithValidations;
 use Throwable;
 
 class Styled extends Component implements Personalize
 {
     use DefaultInputClasses;
     use InteractsWithSelectOptions;
+    use InteractWithValidations;
 
     /** @throws Throwable */
     public function __construct(
@@ -32,7 +32,7 @@ class Styled extends Component implements Personalize
         public ?bool $disabled = false,
         public array $placeholders = [],
         public ?bool $common = true,
-        private readonly bool $ignoreValidations = false,
+        public readonly bool $ignoreValidations = false,
     ) {
         $this->placeholders = [...__('tallstack-ui::messages.select')];
 
@@ -93,50 +93,5 @@ class Styled extends Component implements Personalize
     public function render(): View
     {
         return view('tallstack-ui::components.select.styled');
-    }
-
-    /** @throws Throwable */
-    private function validate(): void
-    {
-        throw_if(blank($this->placeholders['default']), new Exception('The placeholder [default] cannot be empty.'));
-        throw_if(blank($this->placeholders['search']), new Exception('The placeholder [search] cannot be empty.'));
-        throw_if(blank($this->placeholders['empty']), new Exception('The placeholder [empty] cannot be empty.'));
-
-        if ($this->ignoreValidations) {
-            return;
-        }
-
-        if (filled($this->options) && filled($this->request)) {
-            throw new InvalidArgumentException('You cannot define [options] and [request] at the same time.');
-        }
-
-        if (($this->common && isset($this->options[0]) && (is_array($this->options[0]) && ! $this->select)) || ! $this->common && ! $this->select) {
-            throw new InvalidArgumentException('The [select] parameter must be defined');
-        }
-
-        if ($this->common || $this->request && ! is_array($this->request)) {
-            return;
-        }
-
-        if (! isset($this->request['url'])) {
-            throw new InvalidArgumentException('The [url] is required in the request array');
-        }
-
-        $this->request['method'] ??= 'get';
-        $this->request['method'] = strtolower($this->request['method']);
-
-        unset($this->request['search']);
-
-        if (! in_array($this->request['method'], ['get', 'post'])) {
-            throw new InvalidArgumentException('The [method] must be get or post');
-        }
-
-        if (! isset($this->request['params'])) {
-            return;
-        }
-
-        if (! is_array($this->request['params']) || blank($this->request['params'])) {
-            throw new InvalidArgumentException('The [params] must be an array and cannot be empty');
-        }
     }
 }
