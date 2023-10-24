@@ -10,7 +10,7 @@ use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
 use TallStackUi\View\Components\Select\Traits\InteractsWithSelectOptions;
 use TallStackUi\View\Personalizations\Contracts\Personalize;
 
-class Select extends Component implements Personalize
+class Native extends Component implements Personalize
 {
     use DefaultInputClasses;
     use InteractsWithSelectOptions;
@@ -39,6 +39,6 @@ class Select extends Component implements Personalize
 
     public function render(): View
     {
-        return view('tallstack-ui::components.select.select');
+        return view('tallstack-ui::components.select.native');
     }
 }

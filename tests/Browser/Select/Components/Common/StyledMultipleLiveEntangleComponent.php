@@ -1,33 +1,36 @@
 <?php
 
-namespace Tests\Browser\Select\Components\Styled;
+namespace Tests\Browser\Select\Components\Common;
 
 use Livewire\Component;
 
-class StyledMultipleEntangleLiveWithDefaultComponent extends Component
+class StyledMultipleLiveEntangleComponent extends Component
 {
-    public ?array $options = ['bar', 'foo'];
+    public ?array $array = null;
 
     public function render(): string
     {
         return <<<'HTML'
         <div>
-            @json($options)
+            @foreach ($array ?? [] as $value)
+                <p>{{ $value }}</p>
+            @endforeach
 
-            <x-select.styled wire:model.live="options"
+            <x-select.styled wire:model.live="array"
                              label="Select"
                              hint="Select"
                              :options="[
-                                ['label' => 'foo', 'value' => 'bar'],
-                                ['label' => 'bar', 'value' => 'foo'],
+                                ['label' => 'foo', 'value' => 'foo'],
+                                ['label' => 'bar', 'value' => 'bar'],
                                 ['label' => 'baz', 'value' => 'baz'],
                              ]"
                              select="label:label|value:value"
-                             searchable
                              multiple
             />
+            
+            <x-button dusk="sync" wire:click="sync">Sync</x-button>
         </div>
-HTML;
+        HTML;
     }
 
     public function sync(): void

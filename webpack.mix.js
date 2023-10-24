@@ -1,6 +1,6 @@
 const mix = require('laravel-mix');
 
-mix.js('src/resources/js/tallstackui.js', 'dist/tallstackui.js')
+mix.js('js/tallstackui.js', 'dist/tallstackui.js')
     .setPublicPath('dist')
     .postCss('src/resources/css/tallstackui.css', 'dist', [require('tailwindcss')]);
 

@@ -70,3 +70,19 @@ jobs:
         run: ./vendor/bin/pest
         env:
           CI: true
+
+      - name: Upload Dusk Fail Screenshots
+        if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: dusk-fail-screenshots
+          path: tests/Browser/screenshots/failure-*
+          retention-days: 1
+
+      - name: Upload Dusk Fail Console
+        if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: dusk-fail-screenshots
+          path: tests/Browser/console/Tests_*
+          retention-days: 1

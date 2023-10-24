@@ -1,7 +1,7 @@
 @php
     $computed = $attributes->whereStartsWith('wire:model')->first();
     $error = $computed && $errors->has($computed);
-    $customize = tallstackui_personalization('select', $personalization());
+    $customize = tallstackui_personalization('select.native', $personalization());
 @endphp
 
 <div>

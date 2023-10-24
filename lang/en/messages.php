@@ -6,8 +6,8 @@ return [
     ],
 
     'select' => [
-        'placeholder' => 'Select an option',
-        'input' => 'Search something here',
+        'default' => 'Select an option',
+        'search' => 'Search something here',
         'empty' => 'No results found',
     ],
 

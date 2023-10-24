@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\Browser\Select\Components\Styled;
+namespace Tests\Browser\Select\Components\Searchable;
 
 use Livewire\Component;
 
-class StyledComponent extends Component
+class StyledSearchableComponent extends Component
 {
     public ?string $string = null;
 
@@ -15,18 +15,15 @@ class StyledComponent extends Component
             {{ $string }}
 
             <x-select.styled wire:model="string"
+                             :request="route('searchable.filtered')"
                              label="Select"
                              hint="Select"
-                             :options="[
-                                ['label' => 'foo', 'value' => 'bar'],
-                                ['label' => 'bar', 'value' => 'foo'],
-                             ]"
                              select="label:label|value:value"
             />
             
-            <x-button id="sync" wire:click="sync">Sync</x-button>
+            <x-button dusk="sync" wire:click="sync">Sync</x-button>
         </div>
-HTML;
+        HTML;
     }
 
     public function sync(): void
