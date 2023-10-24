@@ -14,7 +14,7 @@ use Tests\Browser\Select\Components\Searchable\StyledSearchableComponent;
 class StyledSearchableTest extends BrowserTestCase
 {
     /** @test */
-    public function can_clear(): void
+    public function can_clear_as_searchable(): void
     {
         $this->browse(function (Browser $browser) {
             $this->visit($browser, StyledComponent::class)
@@ -38,7 +38,7 @@ class StyledSearchableTest extends BrowserTestCase
     }
 
     /** @test */
-    public function can_open(): void
+    public function can_open_as_searchable(): void
     {
         $this->browse(function (Browser $browser) {
             $this->visit($browser, StyledComponent::class)
@@ -58,7 +58,7 @@ class StyledSearchableTest extends BrowserTestCase
     }
 
     /** @test */
-    public function can_render_after_slot(): void
+    public function can_render_after_slot_as_searchable(): void
     {
         $this->browse(function (Browser $browser) {
             $this->visit($browser, StyledAfterSlotComponent::class)
@@ -78,7 +78,7 @@ class StyledSearchableTest extends BrowserTestCase
     }
 
     /** @test */
-    public function can_search(): void
+    public function can_search_as_searchable(): void
     {
         $this->browse(function (Browser $browser) {
             $this->visit($browser, StyledSearchableComponent::class)
@@ -102,7 +102,7 @@ class StyledSearchableTest extends BrowserTestCase
     }
 
     /** @test */
-    public function can_select(): void
+    public function can_select_as_searchable(): void
     {
         $this->browse(function (Browser $browser) {
             $this->visit($browser, StyledComponent::class)
@@ -122,7 +122,7 @@ class StyledSearchableTest extends BrowserTestCase
     }
 
     /** @test */
-    public function can_select_multiple(): void
+    public function can_select_multiple_as_searchable(): void
     {
         $this->browse(function (Browser $browser) {
             $this->visit($browser, StyledMultipleComponent::class)
@@ -145,7 +145,7 @@ class StyledSearchableTest extends BrowserTestCase
     }
 
     /** @test */
-    public function can_select_multiple_with_live_entangle(): void
+    public function can_select_multiple_with_live_entangle_as_searchable(): void
     {
         $this->browse(function (Browser $browser) {
             $this->visit($browser, StyledMultipleLiveEntangleComponent::class)
@@ -176,35 +176,39 @@ class StyledSearchableTest extends BrowserTestCase
     }
 
     /** @test */
-    public function can_select_multiple_with_live_entangle_preserving_default(): void
+    public function can_select_multiple_with_live_entangle_preserving_default_as_searchable(): void
     {
         $this->browse(function (Browser $browser) {
             $this->visit($browser, StyledMultipleLiveEntangleDefaultComponent::class)
                 ->assertSee('delectus aut autem')
                 ->pressAndWaitFor('@tallstackui_select_open_close')
                 ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[2]')
+                ->pause(1000)
                 ->click('@tallstackui_select_open_close')
                 ->waitForText('delectus aut autem')
                 ->pressAndWaitFor('@tallstackui_select_open_close')
                 ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[3]')
+                ->pause(1000)
                 ->click('@tallstackui_select_open_close')
                 ->waitForText('delectus aut autem')
                 ->pressAndWaitFor('@tallstackui_select_open_close')
                 ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[1]')
                 ->click('@tallstackui_select_open_close')
                 ->waitUntilMissingText('delectus aut autem')
+                ->pause(1000)
                 ->click('@sync')
                 ->waitForText('quis ut nam facilis et officia qui')
                 ->click('@tallstackui_select_open_close')
                 ->waitForText('delectus aut autem')
                 ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[1]')
                 ->click('@tallstackui_select_open_close')
+                ->pause(1000)
                 ->waitForText('quis ut nam facilis et officia qui,fugiat veniam minus,delectus aut autem');
         });
     }
 
     /** @test */
-    public function can_unselect(): void
+    public function can_unselect_as_searchable(): void
     {
         $this->browse(function (Browser $browser) {
             $this->visit($browser, StyledComponent::class)
@@ -228,7 +232,7 @@ class StyledSearchableTest extends BrowserTestCase
     }
 
     /** @test */
-    public function can_unselect_multiple(): void
+    public function can_unselect_multiple_as_searchable(): void
     {
         $this->browse(function (Browser $browser) {
             $this->visit($browser, StyledMultipleComponent::class)

@@ -13,7 +13,7 @@ use Tests\Browser\Select\Components\Common\StyledSearchableComponent;
 class StyledCommonTest extends BrowserTestCase
 {
     /** @test */
-    public function can_clear(): void
+    public function can_clear_as_common(): void
     {
         $this->browse(function (Browser $browser) {
             $this->visit($browser, StyledComponent::class)
@@ -33,7 +33,7 @@ class StyledCommonTest extends BrowserTestCase
     }
 
     /** @test */
-    public function can_open(): void
+    public function can_open_as_common(): void
     {
         $this->browse(function (Browser $browser) {
             $this->visit($browser, StyledComponent::class)
@@ -47,7 +47,7 @@ class StyledCommonTest extends BrowserTestCase
     }
 
     /** @test */
-    public function can_render_after_slot(): void
+    public function can_render_after_slot_as_common(): void
     {
         $this->browse(function (Browser $browser) {
             $this->visit($browser, StyledSearchableComponent::class)
@@ -64,7 +64,7 @@ class StyledCommonTest extends BrowserTestCase
     }
 
     /** @test */
-    public function can_search(): void
+    public function can_search_as_common(): void
     {
         $this->browse(function (Browser $browser) {
             $this->visit($browser, StyledSearchableComponent::class)
@@ -82,7 +82,7 @@ class StyledCommonTest extends BrowserTestCase
     }
 
     /** @test */
-    public function can_select(): void
+    public function can_select_as_common(): void
     {
         $this->browse(function (Browser $browser) {
             $this->visit($browser, StyledComponent::class)
@@ -101,7 +101,7 @@ class StyledCommonTest extends BrowserTestCase
     }
 
     /** @test */
-    public function can_select_multiple(): void
+    public function can_select_multiple_as_common(): void
     {
         $this->browse(function (Browser $browser) {
             $this->visit($browser, StyledMultipleComponent::class)
@@ -122,7 +122,7 @@ class StyledCommonTest extends BrowserTestCase
     }
 
     /** @test */
-    public function can_select_multiple_with_live_entangle(): void
+    public function can_select_multiple_with_live_entangle_as_common(): void
     {
         $this->browse(function (Browser $browser) {
             $this->visit($browser, StyledMultipleLiveEntangleComponent::class)
@@ -158,7 +158,7 @@ class StyledCommonTest extends BrowserTestCase
     }
 
     /** @test */
-    public function can_select_multiple_with_live_entangle_preserving_default(): void
+    public function can_select_multiple_with_live_entangle_preserving_default_as_common(): void
     {
         $this->browse(function (Browser $browser) {
             $this->visit($browser, StyledMultipleLiveEntangleDefaultComponent::class)
@@ -194,7 +194,7 @@ class StyledCommonTest extends BrowserTestCase
     }
 
     /** @test */
-    public function can_unselect(): void
+    public function can_unselect_as_common(): void
     {
         $this->browse(function (Browser $browser) {
             $this->visit($browser, StyledComponent::class)
@@ -216,7 +216,7 @@ class StyledCommonTest extends BrowserTestCase
     }
 
     /** @test */
-    public function can_unselect_multiple(): void
+    public function can_unselect_multiple_as_common(): void
     {
         $this->browse(function (Browser $browser) {
             $this->visit($browser, StyledMultipleComponent::class)
