@@ -5,7 +5,7 @@ import forms from '@tailwindcss/forms';
 module.exports = {
   content: [
     './src/**/*.php',
-    './resources/js/**/*.js',
+    './js/**/*.js',
   ],
   darkMode: 'class',
   theme: {
@@ -17,6 +17,9 @@ module.exports = {
       },
     },
   },
+  safelist: [
+    '!overflow-hidden',
+  ],
   plugins: [
     forms,
     require('./js/plugins/customScrollbar'),
