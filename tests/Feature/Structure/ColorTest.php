@@ -24,7 +24,7 @@ describe('Color', function () {
         'get',
     ]);
 
-    test('should work', function () {
+    test('compose a full color classes', function () {
         $color = Facade::colors()
             ->set('bg', 'red', '100')
             ->merge('bg', 'blue', '200')

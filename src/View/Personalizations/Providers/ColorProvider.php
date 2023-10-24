@@ -29,93 +29,21 @@ use TallStackUi\View\Personalizations\Support\Colors\TooltipColors;
  */
 class ColorProvider
 {
-    public function __construct(
-        private readonly object $component
-    ) {
-        //
-    }
-
     /** @throws Exception */
     public static function resolve(object $component): void
     {
-        $method = match (get_class($component)) {
-            Alert::class => 'alert',
-            Avatar::class => 'avatar',
-            Badge::class => 'badge',
-            Button::class, Circle::class => 'button',
-            Errors::class => 'errors',
-            Radio::class, Checkbox::class => 'radio',
-            Toggle::class => 'toggle',
-            Tooltip::class => 'tooltip',
-            default => throw new Exception('No colors available for this component'),
-        };
+        $data = (match (get_class($component)) {
+            Alert::class => fn () => (new AlertColors())($component),
+            Avatar::class => fn () => (new AvatarColors())($component),
+            Badge::class => fn () => (new BadgeColors())($component),
+            Button::class, Circle::class => fn () => (new ButtonColors())($component),
+            Errors::class => fn () => (new ErrorsColors())($component),
+            Radio::class, Checkbox::class => fn () => (new RadioColors())($component),
+            Toggle::class => fn () => (new ToggleColors())($component),
+            Tooltip::class => fn () => (new TooltipColors())($component),
+            default => throw new Exception("No colors available for the component: [$component]"),
+        })();
 
-        $class = new self($component);
-
-        FacadeView::composer($component->render()->name(), fn (View $view) => $view->with('colors', [...$class->$method($component)]));
-    }
-
-    private function alert(): array
-    {
-        /** @var Alert $component */
-        $component = $this->component;
-
-        return (new AlertColors())($component);
-    }
-
-    private function avatar(): array
-    {
-        /** @var Avatar $component */
-        $component = $this->component;
-
-        return (new AvatarColors())($component);
-    }
-
-    private function badge(): array
-    {
-        /** @var Badge $component */
-        $component = $this->component;
-
-        return (new BadgeColors())($component);
-    }
-
-    private function button(): array
-    {
-        /** @var Button|Circle $component */
-        $component = $this->component;
-
-        return (new ButtonColors())($component);
-    }
-
-    private function errors(): array
-    {
-        /** @var Errors $component */
-        $component = $this->component;
-
-        return (new ErrorsColors())($component);
-    }
-
-    private function radio(): array
-    {
-        /** @var Radio|Checkbox $component */
-        $component = $this->component;
-
-        return (new RadioColors())($component);
-    }
-
-    private function toggle(): array
-    {
-        /** @var Toggle $component */
-        $component = $this->component;
-
-        return (new ToggleColors())($component);
-    }
-
-    private function tooltip(): array
-    {
-        /** @var Tooltip $component */
-        $component = $this->component;
-
-        return (new TooltipColors())($component);
+        FacadeView::composer($component->render()->name(), fn (View $view) => $view->with('colors', [...$data]));
     }
 }

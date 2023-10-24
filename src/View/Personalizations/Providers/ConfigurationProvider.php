@@ -26,7 +26,7 @@ class ConfigurationProvider
             Tab::class, Items::class => 'tab',
             Dialog::class => 'dialog',
             Toast::class => 'toast',
-            default => throw new Exception('No configuration available for this component'),
+            default => throw new Exception("No configurations available for the component: [$component]"),
         };
 
         FacadeView::composer($component->render()->name(), fn (View $view) => $view->with('configurations', [...(new self())->$method()]));
