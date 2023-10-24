@@ -4,7 +4,7 @@ namespace Tests\Browser\Button\Components;
 
 use Livewire\Component;
 
-class ButtonComponent extends Component
+class CircleComponent extends Component
 {
     public ?string $foo = null;
 
@@ -14,7 +14,7 @@ class ButtonComponent extends Component
         <div>
             <x-input id="input" wire:model="foo" />
         
-            <x-button dusk="sync" loading="sync" wire:click="sync" text="Save" />
+            <x-button.circle dusk="sync" loading="sync" wire:click="sync" text="TS" />
         </div>
 HTML;
     }
