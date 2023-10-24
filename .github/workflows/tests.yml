@@ -60,14 +60,6 @@ jobs:
           composer require "laravel/framework:${{ matrix.laravel }}" --no-interaction --no-update
           composer update --no-interaction --no-suggest
 
-      - name: Upload Dusk fail screenshots
-        if: failure()
-        uses: actions/upload-artifact@v2
-        with:
-          name: dusk-fail-screenshots
-          path: tests/Browser/screenshots/failure-*
-          retention-days: 1
-
       - name: Setup dusk/chrome
         run: vendor/bin/dusk-updater detect --auto-update
 
@@ -78,3 +70,11 @@ jobs:
         run: ./vendor/bin/pest
         env:
           CI: true
+
+      - name: Upload Dusk Fail Screenshots
+        if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: dusk-fail-screenshots
+          path: tests/Browser/screenshots/failure-*
+          retention-days: 1
