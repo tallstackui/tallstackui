@@ -34,7 +34,6 @@ jobs:
           node-version: "16.x"
       - run: npm install
       - run: npm run lint
-      - run: npm run build
 
       - name: Setup PHP, with composer and extensions
         uses: shivammathur/setup-php@v2
@@ -66,12 +65,15 @@ jobs:
       - name: Pint
         run: ./vendor/bin/pint --test
 
-      - name: Tests
-        run: ./vendor/bin/pest
+      - name: Feature Tests
+        run: ./vendor/bin/pest --filter Feature --parallel
+
+      - name: Browser Tests
+        run: ./vendor/bin/pest --filter Browser
         env:
           CI: true
 
-      - name: Upload Dusk Fail Screenshots
+      - name: Upload Failed Screenshots
         if: failure()
         uses: actions/upload-artifact@v2
         with:
@@ -79,7 +81,7 @@ jobs:
           path: tests/Browser/screenshots/failure-*
           retention-days: 1
 
-      - name: Upload Dusk Fail Console
+      - name: Upload Failed Console Logs
         if: failure()
         uses: actions/upload-artifact@v2
         with:
