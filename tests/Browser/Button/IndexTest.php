@@ -16,7 +16,7 @@ class IndexTest extends BrowserTestCase
             $this->visit($browser, ButtonComponent::class)
                 ->assertDontSee('svg')
                 ->type('input', 'Foo bar')
-                ->click('#delay')
+                ->click('@sync')
                 ->waitFor('@button-loading-spinner');
         });
 
@@ -24,7 +24,7 @@ class IndexTest extends BrowserTestCase
             $this->visit($browser, CircleComponent::class)
                 ->assertDontSee('svg')
                 ->type('input', 'Foo bar')
-                ->click('#delay')
+                ->click('@sync')
                 ->waitFor('@button-loading-spinner');
         });
     }

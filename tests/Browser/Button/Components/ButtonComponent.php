@@ -14,14 +14,14 @@ class ButtonComponent extends Component
         <div>
             <x-input id="input" wire:model="foo" />
         
-            <x-button id="delay" loading="short" wire:click="short" text="Save" />
+            <x-button dusk="sync" loading="sync" wire:click="sync" text="Save" />
         </div>
 HTML;
     }
 
-    public function short(): void
+    public function sync(): void
     {
-        sleep(2);
+        sleep(1);
 
         // ...
     }

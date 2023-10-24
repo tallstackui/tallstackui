@@ -3,6 +3,7 @@
 <svg {{ $attributes }}
      @if ($loading && $loading !== "1") wire:target="{{ $loading }}" @endif
      wire:loading.delay{{ $delay ? ".{$delay}" : "" }}
+     dusk="button-loading-spinner"
      xmlns="http://www.w3.org/2000/svg"
      fill="none"
      viewBox="0 0 24 24">

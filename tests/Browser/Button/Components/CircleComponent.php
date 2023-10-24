@@ -14,14 +14,14 @@ class CircleComponent extends Component
         <div>
             <x-input id="input" wire:model="foo" />
         
-            <x-button.circle id="delay" loading="short" wire:click="short" text="TS" />
+            <x-button.circle dusk="sync" loading="sync" wire:click="sync" text="TS" />
         </div>
 HTML;
     }
 
-    public function short(): void
+    public function sync(): void
     {
-        sleep(2);
+        sleep(1);
 
         // ...
     }
