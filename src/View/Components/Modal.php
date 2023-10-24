@@ -5,11 +5,13 @@ namespace TallStackUi\View\Components;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
-use InvalidArgumentException;
 use TallStackUi\View\Personalizations\Contracts\Personalize;
+use TallStackUi\View\Personalizations\Traits\InteractWithValidations;
 
 class Modal extends Component implements Personalize
 {
+    use InteractWithValidations;
+
     public function __construct(
         public ?string $id = 'modal',
         public ?string $zIndex = 'z-50',
@@ -21,10 +23,7 @@ class Modal extends Component implements Personalize
         public string $size = '2xl',
         public string $entangle = 'modal',
     ) {
-        //TODO: move to validatecomponent
-        if (is_string($this->wire) && empty($this->wire)) {
-            throw new InvalidArgumentException('The [wire] property cannot be an empty string');
-        }
+        $this->validate();
 
         $this->entangle = is_string($this->wire) ? $this->wire : (! is_bool($this->wire) ? $this->entangle : 'modal');
 

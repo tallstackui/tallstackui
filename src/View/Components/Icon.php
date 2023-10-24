@@ -4,14 +4,11 @@ namespace TallStackUi\View\Components;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
-use InvalidArgumentException;
+use TallStackUi\View\Personalizations\Traits\InteractWithValidations;
 
 class Icon extends Component
 {
-    protected const ACCEPTABLES = [
-        'solid',
-        'outline',
-    ];
+    use InteractWithValidations;
 
     public function __construct(
         public ?string $icon = null,
@@ -23,10 +20,7 @@ class Icon extends Component
     ) {
         $this->type ??= $this->outline ? 'outline' : ($this->solid ? 'solid' : config('tallstackui.icon'));
 
-        //TODO: move to validatecomponent
-        if (! in_array($this->type, self::ACCEPTABLES)) {
-            throw new InvalidArgumentException('The icon must be one of the following: [solid, outline]');
-        }
+        $this->validate();
     }
 
     public function render(): View

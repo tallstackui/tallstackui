@@ -33,7 +33,6 @@ use TallStackUi\View\Personalizations\Components\Tabs\Tab;
 use TallStackUi\View\Personalizations\Components\Tooltip;
 use TallStackUi\View\Personalizations\Components\Wrapper\Input as InputWrapper;
 use TallStackUi\View\Personalizations\Components\Wrapper\Radio as RadioWrapper;
-use TallStackUi\View\Personalizations\Components\Wrapper\Select as SelectWrapper;
 use TallStackUi\View\Personalizations\Contracts\Personalizable as PersonalizableContract;
 
 /**
@@ -70,7 +69,6 @@ class Personalization
         'tallstack-ui::personalizations.tooltip' => Tooltip::class,
         'tallstack-ui::personalizations.wrapper.input' => InputWrapper::class,
         'tallstack-ui::personalizations.wrapper.radio' => RadioWrapper::class,
-        'tallstack-ui::personalizations.wrapper.select' => SelectWrapper::class,
     ];
 
     public function __construct(
@@ -230,14 +228,13 @@ class Personalization
         return app($this->component(Tooltip::class));
     }
 
-    public function wrapper(string $component = null): InputWrapper|RadioWrapper|SelectWrapper
+    public function wrapper(string $component = null): InputWrapper|RadioWrapper
     {
         $component ??= 'input';
 
         $class = match ($component) {
             'input' => InputWrapper::class,
             'radio' => RadioWrapper::class,
-            'select' => SelectWrapper::class,
             default => $component,
         };
 

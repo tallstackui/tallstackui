@@ -22,10 +22,23 @@ it('can render with error', function () {
         ->assertSee('text-red-500');
 });
 
-it('cannot render with inaceptable type', function () {
+it('cannot render with inaceptable type', function (string $type) {
     $this->expectException(ViewException::class);
     $this->expectExceptionMessage('The icon must be one of the following: [solid, outline]');
 
-    $this->blade('<x-icon icon="users" type="foo-bar" />')
+    $component = <<<'HTML'
+        <x-icon icon="users" type="{{ type }}" />    
+    HTML;
+
+    $component = str_replace('{{ type }}', $type, $component);
+
+    $this->blade($component)
         ->assertSee('<svg', false);
-});
+})->with([
+    'foo-bar',
+    'foo',
+    'bar',
+    'baz',
+    'soli',
+    'outlin',
+]);
