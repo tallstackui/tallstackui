@@ -42,7 +42,7 @@ class Circle extends Component implements Personalize
                     'sm' => 'w-6 h-6',
                     'md' => 'w-9 h-9',
                     'lg' => 'w-12 h-12',
-                ]
+                ],
             ],
             'icon.sizes' => [
                 'sm' => 'w-3 h-3',
