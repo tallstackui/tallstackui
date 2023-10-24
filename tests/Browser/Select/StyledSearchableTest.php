@@ -140,7 +140,7 @@ class StyledSearchableTest extends BrowserTestCase
                 ->click('@tallstackui_select_open_close')
                 ->waitForLivewire()
                 ->click('@sync')
-                ->assertSee('delectus aut autem')
+                ->waitForText('delectus aut autem')
                 ->assertSee('quis ut nam facilis et officia qui')
                 ->assertSee('fugiat veniam minus');
         });
