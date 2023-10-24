@@ -138,7 +138,8 @@ class StyledSearchableTest extends BrowserTestCase
                 ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[2]')
                 ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[3]')
                 ->click('@tallstackui_select_open_close')
-                ->pressAndWaitFor('@sync')
+                ->waitForLivewire()
+                ->click('@sync')
                 ->assertSee('delectus aut autem')
                 ->assertSee('quis ut nam facilis et officia qui')
                 ->assertSee('fugiat veniam minus');

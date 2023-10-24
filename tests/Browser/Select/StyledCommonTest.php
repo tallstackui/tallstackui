@@ -148,6 +148,7 @@ class StyledCommonTest extends BrowserTestCase
                 ->assertSee('bar')
                 ->assertSee('baz')
                 ->click('@tallstackui_select_open_close')
+                ->waitForLivewire()
                 ->click('@sync')
                 ->waitForText('foo')
                 ->assertSee('bar')
