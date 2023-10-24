@@ -140,9 +140,7 @@ class StyledSearchableTest extends BrowserTestCase
                 ->click('@tallstackui_select_open_close')
                 ->waitForLivewire()
                 ->click('@sync')
-                ->waitForText('delectus aut autem')
-                ->assertSee('quis ut nam facilis et officia qui')
-                ->assertSee('fugiat veniam minus');
+                ->waitForText('delectus aut autem,quis ut nam facilis et officia qui,fugiat veniam minus');
         });
     }
 
@@ -201,7 +199,7 @@ class StyledSearchableTest extends BrowserTestCase
                 ->waitForText('delectus aut autem')
                 ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[1]')
                 ->click('@tallstackui_select_open_close')
-                ->waitForText('quis ut nam facilis et officia qui');
+                ->waitForText('quis ut nam facilis et officia qui,fugiat veniam minus,delectus aut autem');
         });
     }
 
@@ -253,7 +251,7 @@ class StyledSearchableTest extends BrowserTestCase
                 ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[3]')
                 ->click('@tallstackui_select_open_close')
                 ->click('@sync')
-                ->waitForText('delectus aut autem');
+                ->waitForText('delectus aut autem,quis ut nam facilis et officia qui');
         });
     }
 }

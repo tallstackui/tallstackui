@@ -12,9 +12,7 @@ class StyledMultipleLiveEntangleComponent extends Component
     {
         return <<<'HTML'
         <div>
-            @foreach ($array ?? [] as $value)
-                <p>{{ $value }}</p>
-            @endforeach
+            {{ implode(',', $array ?? []) }}
 
             <x-select.styled wire:model.live="array"
                              label="Select"

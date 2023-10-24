@@ -11,10 +11,8 @@ class StyledMultipleComponent extends Component
     public function render(): string
     {
         return <<<'HTML'
-        <div>
-            @foreach ($array ?? [] as $value)
-                <p>{{ $value }}</p>
-            @endforeach
+        <div>            
+            {{ implode(',', $array ?? []) }}
 
             <x-select.styled wire:model="array"
                              :request="route('searchable.simple')"
