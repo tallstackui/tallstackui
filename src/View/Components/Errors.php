@@ -8,10 +8,12 @@ use Illuminate\Support\ViewErrorBag;
 use Illuminate\View\Component;
 use TallStackUi\View\Personalizations\Contracts\Personalize;
 use TallStackUi\View\Personalizations\Traits\InteractWithProviders;
+use TallStackUi\View\Personalizations\Traits\InteractWithValidations;
 
 class Errors extends Component implements Personalize
 {
     use InteractWithProviders;
+    use InteractWithValidations;
 
     public function __construct(
         public ?string $title = null,
@@ -22,6 +24,7 @@ class Errors extends Component implements Personalize
         $this->title ??= __('tallstack-ui::messages.errors.title');
 
         $this->colors();
+        $this->validate();
     }
 
     public function count(ViewErrorBag $errors): int
