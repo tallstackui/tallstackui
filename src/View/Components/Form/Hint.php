@@ -1,6 +1,6 @@
 <?php
 
-namespace TallStackUi\View\Components;
+namespace TallStackUi\View\Components\Form;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
@@ -20,6 +20,6 @@ class Hint extends Component implements Personalize
 
     public function render(): View
     {
-        return view('tallstack-ui::components.hint');
+        return view('tallstack-ui::components.form.hint');
     }
 }

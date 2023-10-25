@@ -50,16 +50,16 @@ class Personalization
         'tallstack-ui::personalizations.dialog' => Dialog::class,
         'tallstack-ui::personalizations.dropdown' => Dropdown::class,
         'tallstack-ui::personalizations.dropdown.items' => DropdownItems::class,
-        'tallstack-ui::personalizations.error' => Error::class,
         'tallstack-ui::personalizations.errors' => Errors::class,
         'tallstack-ui::personalizations.form.input' => Input::class,
+        'tallstack-ui::personalizations.form.error' => Error::class,
+        'tallstack-ui::personalizations.form.hint' => Hint::class,
         'tallstack-ui::personalizations.form.label' => Label::class,
         'tallstack-ui::personalizations.form.password' => Password::class,
         'tallstack-ui::personalizations.form.checkbox' => Checkbox::class,
         'tallstack-ui::personalizations.form.radio' => Radio::class,
         'tallstack-ui::personalizations.form.textarea' => Textarea::class,
         'tallstack-ui::personalizations.form.toggle' => Toggle::class,
-        'tallstack-ui::personalizations.hint' => Hint::class,
         'tallstack-ui::personalizations.modal' => Modal::class,
         'tallstack-ui::personalizations.select.native' => SelectNative::class,
         'tallstack-ui::personalizations.select.styled' => SelectStyled::class,
@@ -133,22 +133,19 @@ class Personalization
         return app($this->component($class));
     }
 
-    public function error(): Error
-    {
-        return app($this->component(Error::class));
-    }
-
     public function errors(): Errors
     {
         return app($this->component(Errors::class));
     }
 
-    public function form(string $component = null): Input|Label|Password|Checkbox|Radio|Textarea|Toggle
+    public function form(string $component = null): Error|Input|Hint|Label|Password|Checkbox|Radio|Textarea|Toggle
     {
         $component ??= 'input';
 
         $class = match ($component) {
+            'error' => Error::class,
             'input' => Input::class,
+            'hint' => Hint::class,
             'label' => Label::class,
             'password' => Password::class,
             'checkbox' => Checkbox::class,
@@ -159,11 +156,6 @@ class Personalization
         };
 
         return app($this->component($class));
-    }
-
-    public function hint(): Hint
-    {
-        return app($this->component(Hint::class));
     }
 
     public function instance(): PersonalizableContract

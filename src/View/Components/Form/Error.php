@@ -1,6 +1,6 @@
 <?php
 
-namespace TallStackUi\View\Components;
+namespace TallStackUi\View\Components\Form;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
@@ -22,6 +22,6 @@ class Error extends Component implements Personalize
 
     public function render(): View
     {
-        return view('tallstack-ui::components.error');
+        return view('tallstack-ui::components.form.error');
     }
 }
