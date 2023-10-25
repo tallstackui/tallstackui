@@ -41,6 +41,11 @@ return [
             'position' => 'top-right',
             'square' => false,
         ],
+        'modal' => [
+            'z-index' => 'z-50',
+            /* Alloweds: sm, md, lg, xl, 2xl, 3xl, 4xl, 5xl, 6xl, 7xl */
+            'size' => '2xl',
+        ],
     ],
 
     /*

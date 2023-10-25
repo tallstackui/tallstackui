@@ -14,18 +14,22 @@ class Modal extends Component implements Personalize
 
     public function __construct(
         public ?string $id = 'modal',
-        public ?string $zIndex = 'z-50',
+        public ?string $zIndex = null,
         public string|bool|null $wire = null,
         public ?string $title = null,
         public ?string $footer = null,
         public bool $blur = false,
         public ?bool $uncloseable = false,
-        public string $size = '2xl',
+        public ?string $size = null,
         public string $entangle = 'modal',
     ) {
         $this->validate();
 
         $this->entangle = is_string($this->wire) ? $this->wire : (! is_bool($this->wire) ? $this->entangle : 'modal');
+
+        $this->zIndex ??= config('tallstackui.personalizations.modal.z-index');
+
+        $this->size ??= config('tallstackui.personalizations.modal.size', '2xl');
 
         $this->size = match ($this->size) {
             'sm' => 'sm:max-w-sm',
