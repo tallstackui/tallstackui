@@ -2,9 +2,10 @@
     $computed = $attributes->whereStartsWith('wire:model')->first();
     $error = $computed && $errors->has($computed);
     $customize = tallstackui_personalization('form.password', $personalization());
+    $required = $attributes->has('required');
 @endphp
 
-<x-wrapper.input :$computed :$error :$label :$hint validate password>
+<x-wrapper.input :$computed :$error :$label :$hint validate password :$required>
     <div @class($customize['icon.wrapper']) x-cloak>
         <div class="cursor-pointer" x-on:click="show = !show">
             <x-icon name="eye" :$error @class($customize['icon.class']) x-show="!show"/>
