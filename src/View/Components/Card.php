@@ -27,7 +27,7 @@ class Card extends Component implements Personalize
             ],
             'body' => 'text-secondary-700 dark:text-dark-300 grow rounded-b-xl px-2 py-5 md:px-4',
             'footer' => [
-                'wrapper' => 'bg-gray-50 text-secondary-700 dark:text-dark-300 dark:border-t-dark-600 dark:bg-dark-600 rounded-lg rounded-t-none border-t p-4 sm:px-6',
+                'wrapper' => 'text-secondary-700 dark:text-dark-300 dark:border-t-dark-600 rounded-lg rounded-t-none border-t p-4 sm:px-6',
                 'text' => 'flex items-center justify-end gap-2',
             ],
         ]);
