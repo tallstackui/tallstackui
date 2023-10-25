@@ -21,7 +21,7 @@ class Items extends Component implements Personalize
     {
         return [
             'item' => 'text-secondary-600 dark:hover:bg-dark-600 dark:text-dark-300 flex cursor-pointer items-center px-2 py-2 text-sm transition-colors duration-150 hover:bg-gray-100',
-            'border' => 'border-t border-t-gray-100 dark:border-t-dark-500',
+            'border' => 'border-t border-t-gray-100 dark:border-t-dark-600',
             'icon' => 'dark:text-dark-300 h-5 w-5 text-gray-500',
         ];
     }
