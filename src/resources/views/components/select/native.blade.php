@@ -6,7 +6,11 @@
 
 <div>
     @if ($label)
-        <x-label :$label :$error/>
+        <x-label :$error>
+            {{ $label }} @if ($attributes['required'] && config('tallstackui.personalizations.input.required')) <i class="text-red-500 font-bold
+            not-italic">*</i>
+            @endif
+        </x-label>
     @endif
     <select @if ($id) id="{{ $id }}" @endif {{ $attributes->class([
             $customize['input.class'],
