@@ -39,7 +39,7 @@ return [
         ],
         'input' => [
             'required' => true,
-        ]
+        ],
     ],
 
     /*
