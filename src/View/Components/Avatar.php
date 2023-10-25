@@ -63,8 +63,8 @@ class Avatar extends Component implements Personalize
                 'class' => 'inline-flex shrink-0 items-center justify-center overflow-hidden',
                 'sizes' => [
                     'sm' => 'w-8 h-8 text-xs',
-                    'md' => 'w-12 h-12 text-lg',
-                    'lg' => 'w-14 h-14 text-2xl',
+                    'md' => 'w-12 h-12 text-md',
+                    'lg' => 'w-14 h-14 text-xl',
                 ],
             ],
             'content' => [
