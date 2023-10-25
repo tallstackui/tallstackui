@@ -9,7 +9,7 @@
 
 <div x-cloak
      @if ($id) id="{{ $id }}" @endif
-     @class(['relative', $zIndex])
+     @class(['relative', $configurations['zIndex']])
      aria-labelledby="modal-title"
      role="dialog"
      aria-modal="true"
@@ -28,21 +28,18 @@
          x-transition:leave="ease-in duration-200"
          x-transition:leave-start="opacity-100"
          x-transition:leave-end="opacity-0"
-         @class([
-            $customize['wrapper.first'],
-            $customize['blur'] => $blur,
-         ])></div>
+         @class([$customize['wrapper.first'], $customize['blur'] => $configurations['blur']])></div>
     <div @class($customize['wrapper.second'])>
-        <div @class([$customize['wrapper.third'], $size])>
+        <div @class([$customize['wrapper.third'], $configurations['size']])>
             <div x-show="show"
-                 @if (!$uncloseable) x-on:click.outside="show = false" @endif
+                 @if (!($uncloseable ?? $configurations['uncloseable'])) x-on:click.outside="show = false" @endif
                  x-transition:enter="ease-out duration-300"
                  x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                  x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
                  x-transition:leave="ease-in duration-200"
                  x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
                  x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                 @class([$customize['wrapper.fourth'], $size])>
+                 @class([$customize['wrapper.fourth'], $configurations['size']])>
                 @if ($title)
                     <div @class($customize['title.wrapper'])>
                         <h3 @class($customize['title.text'])>{{ $title }}</h3>

@@ -6,39 +6,29 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
 use TallStackUi\View\Personalizations\Contracts\Personalize;
+use TallStackUi\View\Personalizations\Traits\InteractWithProviders;
 use TallStackUi\View\Personalizations\Traits\InteractWithValidations;
 
 class Modal extends Component implements Personalize
 {
+    use InteractWithProviders;
     use InteractWithValidations;
 
     public function __construct(
         public ?string $id = 'modal',
-        public ?string $zIndex = 'z-50',
+        public ?string $zIndex = null,
         public string|bool|null $wire = null,
         public ?string $title = null,
         public ?string $footer = null,
-        public bool $blur = false,
-        public ?bool $uncloseable = false,
-        public string $size = '2xl',
+        public ?bool $blur = null,
+        public ?bool $uncloseable = null,
+        public ?string $size = null,
         public string $entangle = 'modal',
     ) {
         $this->validate();
+        $this->configurations();
 
         $this->entangle = is_string($this->wire) ? $this->wire : (! is_bool($this->wire) ? $this->entangle : 'modal');
-
-        $this->size = match ($this->size) {
-            'sm' => 'sm:max-w-sm',
-            'md' => 'sm:max-w-md',
-            'lg' => 'sm:max-w-lg',
-            'xl' => 'sm:max-w-xl',
-            '3xl' => 'sm:max-w-3xl',
-            '4xl' => 'sm:max-w-4xl',
-            '5xl' => 'sm:max-w-5xl',
-            '6xl' => 'sm:max-w-6xl',
-            '7xl' => 'sm:max-w-7xl',
-            default => 'sm:max-w-2xl',
-        };
     }
 
     public function personalization(): array

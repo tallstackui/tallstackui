@@ -6,12 +6,14 @@ use InvalidArgumentException;
 
 class ToastValidations
 {
+    private const POSITIONS = ['top-right', 'top-left', 'bottom-right', 'bottom-left'];
+
     public function __invoke(): void
     {
         $configuration = config('tallstackui.personalizations.toast');
 
-        if (! in_array($configuration['position'], ['top-right', 'top-left', 'bottom-right', 'bottom-left'])) {
-            throw new InvalidArgumentException("The toast position must be one of the following: ['top-right', 'top-left', 'bottom-right', 'bottom-left']");
+        if (! in_array($configuration['position'], $positions = self::POSITIONS)) {
+            throw new InvalidArgumentException('The toast position must be one of the following: ['.implode(', ', $positions).']');
         }
 
         if (! str_starts_with($configuration['z-index'], 'z-')) {
