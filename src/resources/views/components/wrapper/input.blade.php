@@ -2,7 +2,9 @@
 
 <div @if ($alpine) x-data="{!! $alpine !!}" @endif>
     @if ($label)
-        <x-label :$label :$error/>
+        <x-label :$error>
+            {{ $label }} @if ($attributes['required']) <i class="text-red-500 font-bold not-italic">*</i> @endif
+        </x-label>
     @endif
     <div @class($customize['wrapper']) @if ($password) x-data="{ show : false }" @endif>
         {!! $slot !!}
