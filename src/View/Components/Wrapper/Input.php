@@ -22,7 +22,7 @@ class Input extends Component implements Personalize
 
     public function personalization(): array
     {
-        return ['wrapper' => 'relative rounded-md shadow-sm'];
+        return ['wrapper' => 'relative mt-1 rounded-md shadow-sm'];
     }
 
     public function render(): View
