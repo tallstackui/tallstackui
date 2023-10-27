@@ -1,14 +1,13 @@
 <?php
 
 it('can render askerisk', function () {
-    $component = <<<HTML
+    $component = <<<'HTML'
     <x-input label="FooBar *" hint="Insert your name" />
     HTML;
 
     $this->blade($component)
         ->assertSee('<i class', false);
 });
-
 
 it('cannot render askerisk', function (string $label) {
     $component = <<<HTML
@@ -18,4 +17,3 @@ it('cannot render askerisk', function (string $label) {
     $this->blade($component)
         ->assertDontSee('<i class', false);
 })->with(['FooBar', 'FooBar **']);
-
