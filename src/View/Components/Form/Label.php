@@ -11,7 +11,6 @@ class Label extends Component implements Personalize
     public function __construct(
         public ?string $for = null,
         public ?string $label = null,
-        public ?string $text = null,
         public bool $error = false,
     ) {
         //
@@ -22,6 +21,7 @@ class Label extends Component implements Personalize
         return [
             'wrapper' => 'flex justify-between font-medium text-gray-600 dark:text-dark-400',
             'text' => 'block text-sm font-semibold',
+            'asterisk' => 'font-bold not-italic text-red-500',
             'error' => 'text-red-600 dark:text-red-500',
         ];
     }
