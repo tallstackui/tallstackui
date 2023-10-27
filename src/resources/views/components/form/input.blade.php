@@ -2,10 +2,9 @@
     $computed = $attributes->whereStartsWith('wire:model')->first();
     $error = $computed && $errors->has($computed);
     $customize = tallstackui_personalization('form.input', $personalization());
-    $required = $attributes->has('required');
 @endphp
 
-<x-wrapper.input :$computed :$error :$label :$hint :$validate :$required>
+<x-wrapper.input :$computed :$error :$label :$hint :$validate>
     @if ($icon)
         <div @class([
                 $customize['icon.wrapper'],

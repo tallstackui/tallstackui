@@ -19,11 +19,7 @@
         @js($common)
     )" x-cloak>
     @if ($label)
-        <x-label :$error>
-            {{ $label }} @if ($attributes['required'] && config('tallstackui.personalizations.input.required')) <i class="text-red-500 font-bold
-            not-italic">*</i>
-            @endif
-        </x-label>
+        <x-label :$label :$error/>
     @endif
     <div class="relative" x-on:click.outside="show = false">
         <button type="button"
