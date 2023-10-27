@@ -249,10 +249,16 @@ export default (
 
       const data = await response.json();
 
-      this.response = data.map((option) => ({
-        ...option,
-        [this.selectable.label]: option[this.selectable.label].toString(),
-      }));
+      this.response = data.map((option) => {
+        if (!option[this.selectable.label]) {
+          throw new Error('The [select.label] was not found in the response');
+        }
+
+        return {
+          ...option,
+          [this.selectable.label]: option[this.selectable.label].toString(),
+        };
+      });
     } catch (e) {
       error(e.message);
     } finally {
@@ -358,7 +364,7 @@ export default (
     return this.selecteds?.length;
   },
   /**
-   * If the `selecteds` is empty
+   * Check if the `selecteds` is empty
    *
    * @returns {Boolean}
    */

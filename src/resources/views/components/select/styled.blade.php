@@ -85,7 +85,15 @@
                 </div>
             @endif
         </button>
-        <div wire:ignore x-show="show" x-cloak style="display: none;" @class($customize['box.wrapper']) x-ref="select">
+        <div wire:ignore
+             x-show="show"
+             x-cloak
+             style="display: none;"
+             x-transition:enter="transition ease-out duration-75"
+             x-transition:enter-start="opacity-0 -translate-y-1"
+             x-transition:enter-end="opacity-100"
+             @class($customize['box.wrapper'])
+             x-ref="select">
             <template x-if="searchable">
                 <div class="relative px-2 my-2">
                     <x-input :placeholder="$placeholders['search']"
