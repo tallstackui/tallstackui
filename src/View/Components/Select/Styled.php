@@ -48,7 +48,7 @@ class Styled extends Component implements Personalize
         return Arr::dot([
             'input' => [
                 'wrapper' => [
-                    'base' => 'flex w-full cursor-pointer items-center gap-x-2 rounded-md border-0 bg-white py-1.5 shadow-sm ring-1 ring-inset text-sm leading-6 dark:text-dark-300 dark:bg-dark-800 disabled:bg-gray-50 dark:focus:ring-primary-600 disabled:text-gray-500 disabled:ring-gray-200 dark:disabled:bg-dark-600',
+                    'base' => 'mt-1 flex w-full cursor-pointer items-center gap-x-2 rounded-md border-0 bg-white py-1.5 shadow-sm ring-1 ring-inset text-sm leading-6 dark:text-dark-300 dark:bg-dark-800 disabled:bg-gray-50 dark:focus:ring-primary-600 disabled:text-gray-500 disabled:ring-gray-200 dark:disabled:bg-dark-600',
                     'color' => 'text-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-600 ring-gray-300 dark:ring-dark-600',
                     'error' => $this->error(),
                 ],
