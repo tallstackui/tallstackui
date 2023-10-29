@@ -13,7 +13,7 @@ export default (toast, ok, confirm, cancel) => ({
     this.$nextTick(() => this.show = true);
 
     setTimeout(() => {
-      this.hide();
+      this.hide(false);
 
       dispatchEvent('toast:timeouted', this.toast);
     }, this.toast.timeout * 1000);
@@ -50,10 +50,10 @@ export default (toast, ok, confirm, cancel) => ({
 
     this.hide();
   },
-  hide() {
+  hide(imediately = true) {
     setTimeout(() => {
       this.show = false;
       this.remove(this.toast);
-    }, this.toast.timeout * 100);
+    }, imediately ? 0 : this.toast.timeout * 100);
   },
 });
