@@ -22,7 +22,7 @@ class ToggleColors
         };
 
         return [
-            'wrapper.color' => TallStackUi::colors()
+            'wrapper.color' => TallStackUi::tailwind()
                 ->clean(false)
                 ->set('peer-checked:bg', $colors, $weight)
                 ->set('peer-focus:ring', $colors, $weight)

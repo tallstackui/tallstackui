@@ -21,7 +21,7 @@ class BadgeColors
             ]),
             'icon.color' => Arr::toCssClasses([
                 'text-white' => $badge->color !== 'white' && $badge->style === 'solid',
-                TallStackUi::colors()
+                TallStackUi::tailwind()
                     ->set('text', $badge->color, 500)
                     ->get() => $badge->style === 'outline',
             ]),
@@ -41,7 +41,7 @@ class BadgeColors
             default => 500,
         };
 
-        return TallStackUi::colors()
+        return TallStackUi::tailwind()
             ->set('border', $colors, $weight)
             ->mergeWhen($this->badge->style === 'solid', 'bg', $colors, $weight)
             ->mergeWhen($this->badge->style === 'solid' && $this->badge->color === 'white', 'dark:bg', 'white')
@@ -62,7 +62,7 @@ class BadgeColors
             default => 500,
         };
 
-        return TallStackUi::colors()
+        return TallStackUi::tailwind()
             ->set('text', $colors, $weight)
             ->get();
     }

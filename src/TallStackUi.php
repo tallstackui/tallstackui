@@ -3,15 +3,10 @@
 namespace TallStackUi;
 
 use TallStackUi\View\Personalizations\Personalization;
-use TallStackUi\View\Personalizations\Support\Color;
+use TallStackUi\View\Personalizations\Support\TailwindClassBuilder;
 
 class TallStackUi
 {
-    public function colors(): Color
-    {
-        return new Color();
-    }
-
     public function directives(): TallStackUiDirectives
     {
         return new TallStackUiDirectives();
@@ -20,5 +15,10 @@ class TallStackUi
     public function personalize(string $component = null): Personalization
     {
         return new Personalization($component);
+    }
+
+    public function tailwind(): TailwindClassBuilder
+    {
+        return new TailwindClassBuilder();
     }
 }

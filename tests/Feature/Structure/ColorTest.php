@@ -1,19 +1,19 @@
 <?php
 
 use TallStackUi\Facades\TallStackUi as Facade;
-use TallStackUi\View\Personalizations\Support\Color;
+use TallStackUi\View\Personalizations\Support\TailwindClassBuilder;
 
 describe('Color', function () {
     test('should be final')
-        ->expect(Color::class)
+        ->expect(TailwindClassBuilder::class)
         ->toBeFinal();
 
     test('implements stringable')
-        ->expect(Color::class)
+        ->expect(TailwindClassBuilder::class)
         ->toImplement(Stringable::class);
 
     test('should have methods', function (string $method) {
-        expect(Color::class)->toHaveMethod($method);
+        expect(TailwindClassBuilder::class)->toHaveMethod($method);
     })->with([
         'set',
         'merge',
@@ -25,7 +25,7 @@ describe('Color', function () {
     ]);
 
     test('compose a full color classes', function () {
-        $color = Facade::colors()
+        $color = Facade::tailwind()
             ->set('bg', 'red', '100')
             ->merge('bg', 'blue', '200')
             ->mergeWhen(true, 'bg', 'green', '300')

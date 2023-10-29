@@ -23,7 +23,7 @@ class AvatarColors
 
         return [
             'wrapper.color' => Arr::toCssClasses([
-                TallStackUi::colors()
+                TallStackUi::tailwind()
                     ->set('bg', $colors, $weight)
                     ->merge('border', $colors, $weight)
                     ->mergeWhen($avatar->color === 'white', 'dark:bg', 'white')

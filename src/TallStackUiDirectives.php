@@ -4,7 +4,7 @@ namespace TallStackUi;
 
 class TallStackUiDirectives
 {
-    public function scripts(bool $absolute = true): string
+    public function script(bool $absolute = true): string
     {
         $route = route('tallstackui.scripts', absolute: $absolute);
         $this->manifest('tallstackui.js', $route);
@@ -12,7 +12,7 @@ class TallStackUiDirectives
         return "<script src=\"$route\" defer></script>";
     }
 
-    public function styles(bool $absolute = true): string
+    public function style(bool $absolute = true): string
     {
         $route = route('tallstackui.styles', absolute: $absolute);
         $this->manifest('tallstackui.css', $route);

@@ -5,7 +5,7 @@ namespace TallStackUi\View\Personalizations\Support;
 use Illuminate\Support\Traits\Conditionable;
 use Stringable;
 
-final class Color implements Stringable
+final class TailwindClassBuilder implements Stringable
 {
     use Conditionable;
 

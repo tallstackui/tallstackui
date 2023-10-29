@@ -20,21 +20,21 @@ class ErrorsColors
             default => $errors->color,
         };
 
-        $text = TallStackUi::colors()
+        $text = TallStackUi::tailwind()
             ->set('text', $colors['text'], 800)
             ->merge('dark:text', $colors['text'], 500)
             ->mergeWhen($errors->color === 'white', 'dark:text', 'white')
             ->get();
 
         return [
-            'wrapper.second.color' => TallStackUi::colors()
+            'wrapper.second.color' => TallStackUi::tailwind()
                 ->set('bg', $colors['bg'], 50)
                 ->append('dark:bg-transparent')
                 ->clean(false)
                 ->merge('dark:border dark:border', $colors['bg'], 500)
                 ->get(),
             'title.text.color' => $text,
-            'title.wrapper.color' => TallStackUi::colors()
+            'title.wrapper.color' => TallStackUi::tailwind()
                 ->set('border', $colors['bg'], 200)
                 ->merge('dark:border', $colors['bg'], 500)
                 ->get(),

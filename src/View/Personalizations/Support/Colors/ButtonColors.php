@@ -6,7 +6,7 @@ use Illuminate\Support\Arr;
 use TallStackUi\Facades\TallStackUi;
 use TallStackUi\View\Components\Button\Button;
 use TallStackUi\View\Components\Button\Circle;
-use TallStackUi\View\Personalizations\Support\Color;
+use TallStackUi\View\Personalizations\Support\TailwindClassBuilder;
 
 class ButtonColors
 {
@@ -22,13 +22,13 @@ class ButtonColors
             'wrapper.color' => $this->button(),
             'icon.color' => $this->icon(),
             'icon.loading.color' => Arr::toCssClasses([
-                TallStackUi::colors()
-                    ->when($component->color === 'white', fn (Color $color) => $color->set('text', 'black'))
-                    ->unless($component->color === 'white', fn (Color $color) => $color->set('text', 'white'))
+                TallStackUi::tailwind()
+                    ->when($component->color === 'white', fn (TailwindClassBuilder $color) => $color->set('text', 'black'))
+                    ->unless($component->color === 'white', fn (TailwindClassBuilder $color) => $color->set('text', 'white'))
                     ->get() => $component->style === 'solid',
-                TallStackUi::colors()
-                    ->when($component->color === 'white', fn (Color $color) => $color->set('text', 'black'))
-                    ->unless($component->color === 'white', fn (Color $color) => $color->set('text', $component->color, 500))
+                TallStackUi::tailwind()
+                    ->when($component->color === 'white', fn (TailwindClassBuilder $color) => $color->set('text', 'black'))
+                    ->unless($component->color === 'white', fn (TailwindClassBuilder $color) => $color->set('text', $component->color, 500))
                     ->get() => $component->style === 'outline',
             ]),
         ];
@@ -55,7 +55,7 @@ class ButtonColors
             ]
         };
 
-        $color = $this->text(TallStackUi::colors());
+        $color = $this->text(TallStackUi::tailwind());
 
         $this->solid($color)->get();
         $this->outline($color)->get();
@@ -74,12 +74,12 @@ class ButtonColors
             $weight = in_array($this->component->color, ['black', 'white']) ? 950 : 500;
         }
 
-        return TallStackUi::colors()
+        return TallStackUi::tailwind()
             ->set('text', $this->variations['text'], $weight)
             ->get();
     }
 
-    private function outline(Color $color): Color
+    private function outline(TailwindClassBuilder $color): TailwindClassBuilder
     {
         $variation = match ($this->component->color) {
             'white' => [
@@ -102,7 +102,7 @@ class ButtonColors
             ]
         };
 
-        return $color->when($this->component->style === 'outline', function (Color $color) use ($variation) {
+        return $color->when($this->component->style === 'outline', function (TailwindClassBuilder $color) use ($variation) {
             return $color->set('border', $this->variations['border'], $variation['border'])
                 ->set('ring', $this->variations['ring'], $variation['ring'])
                 ->set('hover:bg', $this->variations['hover:bg'], $variation['hover:bg'])
@@ -112,7 +112,7 @@ class ButtonColors
         });
     }
 
-    private function solid(Color $color): Color
+    private function solid(TailwindClassBuilder $color): TailwindClassBuilder
     {
         $variation = match ($this->component->color) {
             'white' => [
@@ -135,7 +135,7 @@ class ButtonColors
             ]
         };
 
-        return $color->when($this->component->style === 'solid', function (Color $color) use ($variation) {
+        return $color->when($this->component->style === 'solid', function (TailwindClassBuilder $color) use ($variation) {
             return $color->set('ring', $this->variations['ring'], $variation['ring'])
                 ->set('hover:bg', $this->variations['hover:bg'], $variation['hover:bg'])
                 ->set('hover:ring', $this->variations['hover:ring'], $variation['hover:ring'])
@@ -143,7 +143,7 @@ class ButtonColors
         });
     }
 
-    private function text(Color $color): Color
+    private function text(TailwindClassBuilder $color): TailwindClassBuilder
     {
         $weights = [
             'solid' => match ($this->component->color) {

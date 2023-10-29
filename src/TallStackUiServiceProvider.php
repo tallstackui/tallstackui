@@ -50,24 +50,27 @@ class TallStackUiServiceProvider extends ServiceProvider
     private function registerBladeDirectives(): void
     {
         Blade::directive('tallStackUiScripts', static function (): string {
-            $scripts = Facade::directives()->scripts();
+            $scripts = Facade::directives()->script();
 
             return "<!-- TallStackUi Scripts -->\n{$scripts}";
         });
 
         Blade::directive('tallStackUiStyles', static function (): string {
-            $styles = Facade::directives()->styles();
+            $styles = Facade::directives()->style();
 
             return "<!-- TallStackUi Styles -->\n{$styles}";
         });
 
         Blade::precompiler(static function (string $string): string {
-            $pattern = '/<\s*tallstackui\:(setup)\s*\/?>/';
+            return preg_replace_callback('/<\s*tallstackui\:(setup|script|style)\s*\/?>/', function (array $matches): string {
+                $script = Facade::directives()->script();
+                $styles = Facade::directives()->style();
 
-            return preg_replace_callback($pattern, function () {
-                $scripts = Facade::directives()->scripts();
-
-                return "<!-- TallStackUi Setup -->\n{$scripts}";
+                return match ($matches[1]) { // @phpstan-ignore-line
+                    'setup' => "<!-- TailStackUi Setup -->\n{$script}\n{$styles}",
+                    'script' => $script,
+                    'style' => $styles,
+                };
             }, $string);
         });
     }

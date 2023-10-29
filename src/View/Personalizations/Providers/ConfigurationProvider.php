@@ -25,7 +25,7 @@ class ConfigurationProvider
             default => throw new Exception("No configurations available for the component: [$component]"),
         })();
 
-        if (! is_array($data)) {
+        if (is_string($data)) {
             $configuration = config('tallstackui.personalizations.'.$data);
 
             $data = collect($configuration)
@@ -58,8 +58,6 @@ class ConfigurationProvider
             default => 'sm:max-w-2xl',
         };
 
-        return array_merge(['zIndex' => $modal->zIndex], collect($modal)
-            ->only('blur', 'uncloseable', 'size')
-            ->toArray());
+        return array_merge(['zIndex' => $modal->zIndex], collect($modal)->only('blur', 'uncloseable', 'size')->toArray());
     }
 }
