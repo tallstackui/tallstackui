@@ -1,18 +1,18 @@
-@php($customize = tallstackui_personalization('errors', $personalization()))
+@php($personalize = tallstackui_personalization('errors', $personalization()))
 
 @if ($errors->count())
-    <div @class([$customize['wrapper.first'], 'animate-pulse' => $pulse])>
+    <div @class([$personalize['wrapper.first'], 'animate-pulse' => $pulse])>
         <div {{ $attributes->class([
-                $customize['wrapper.second'],
+                $personalize['wrapper.second'],
                 $colors['wrapper.second.color']
             ]) }}>
-            <div @class([$customize['title.wrapper'], $colors['title.wrapper.color']])>
-                <span @class([$customize['title.text'], $colors['title.text.color']])>
+            <div @class([$personalize['title.wrapper'], $colors['title.wrapper.color']])>
+                <span @class([$personalize['title.text'], $colors['title.text.color']])>
                     {{ __($title, ['count' => $count($errors)]) }}
                 </span>
             </div>
-            <div @class($customize['body.wrapper'])>
-                <ul @class([$customize['body.list'], $colors['body.list.color']])>
+            <div @class($personalize['body.wrapper'])>
+                <ul @class([$personalize['body.list'], $colors['body.list.color']])>
                     @foreach ($messages($errors) as $message)
                         <li>{{ head($message) }}</li>
                     @endforeach

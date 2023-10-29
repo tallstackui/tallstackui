@@ -1,7 +1,7 @@
-@php($customize = tallstackui_personalization('form.error', $personalization()))
+@php($personalize = tallstackui_personalization('form.error', $personalization()))
 
 @error ($computed)
-    <span @class($customize['text'])>
+    <span @class($personalize['text'])>
         {{ $message }}
     </span>
 @enderror

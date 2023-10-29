@@ -1,4 +1,4 @@
-@php($customize = tallstackui_personalization('dialog', $personalization()))
+@php($personalize = tallstackui_personalization('dialog', $personalization()))
 
 <div x-cloak
      x-data="tallstackui_dialog(@js(__('tallstack-ui::messages.dialog.button.ok')), @js(__('tallstack-ui::messages.dialog.button.confirm')), @js(__('tallstack-ui::messages.dialog.button.cancel')))"
@@ -15,9 +15,9 @@
          x-transition:leave="ease-in duration-200"
          x-transition:leave-start="opacity-100"
          x-transition:leave-end="opacity-0"
-         @class($customize['background'])></div>
-    <div @class([$customize['wrapper.first'], 'backdrop-blur-sm' => $configurations['blur']])>
-        <div @class($customize['wrapper.second'])>
+         @class($personalize['background'])></div>
+    <div @class([$personalize['wrapper.first'], 'backdrop-blur-sm' => $configurations['blur']])>
+        <div @class($personalize['wrapper.second'])>
             <div x-show="show"
                  x-transition:enter="ease-out duration-300"
                  x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
@@ -25,15 +25,15 @@
                  x-transition:leave="ease-in duration-200"
                  x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
                  x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                 @class($customize['wrapper.third'])
+                 @class($personalize['wrapper.third'])
                  @if (!$configurations['uncloseable']) x-on:click.outside="remove()" @endif>
-                <div @class($customize['buttons.close.wrapper'])>
+                <div @class($personalize['buttons.close.wrapper'])>
                     <button x-on:click="remove()">
-                        <x-icon name="x-mark" @class($customize['buttons.close.icon']) />
+                        <x-icon name="x-mark" @class($personalize['buttons.close.icon']) />
                     </button>
                 </div>
                 <div>
-                    <div @class($customize['icon.wrapper'])
+                    <div @class($personalize['icon.wrapper'])
                          x-bind:class="{
                             'bg-green-100 dark:bg-dark-600' : dialog.type === 'success',
                             'bg-red-100 dark:bg-dark-600' : dialog.type === 'error',
@@ -44,37 +44,37 @@
                         <div x-show="dialog.type === 'success'">
                             <x-icon name="check-circle"
                                     outline
-                                    @class([$customize['icon.size'], 'text-green-600 dark:text-green-500']) />
+                                    @class([$personalize['icon.size'], 'text-green-600 dark:text-green-500']) />
                         </div>
                         <div x-show="dialog.type === 'error'">
                             <x-icon name="x-circle"
                                     outline
-                                    @class([$customize['icon.size'], 'text-red-600 dark:text-red-500']) />
+                                    @class([$personalize['icon.size'], 'text-red-600 dark:text-red-500']) />
                         </div>
                         <div x-show="dialog.type === 'info'">
                             <x-icon name="information-circle"
                                     outline
-                                    @class([$customize['icon.size'], 'text-blue-600 dark:text-blue-500']) />
+                                    @class([$personalize['icon.size'], 'text-blue-600 dark:text-blue-500']) />
                         </div>
                         <div x-show="dialog.type === 'warning'">
                             <x-icon name="exclamation-circle"
                                     outline
-                                    @class([$customize['icon.size'], 'text-yellow-600 dark:text-yellow-500']) />
+                                    @class([$personalize['icon.size'], 'text-yellow-600 dark:text-yellow-500']) />
                         </div>
                         <div x-show="dialog.type === 'question'">
                             <x-icon name="question-mark-circle"
                                     outline
-                                    @class([$customize['icon.size'], 'text-secondary-600 dark:text-secondary-500']) />
+                                    @class([$personalize['icon.size'], 'text-secondary-600 dark:text-secondary-500']) />
                         </div>
                     </div>
-                    <div @class($customize['text.wrapper'])>
-                        <h3 @class($customize['text.title']) x-text="dialog.title"></h3>
-                        <div @class($customize['text.description.wrapper'])>
-                            <p @class($customize['text.description.text']) x-text="dialog.description"></p>
+                    <div @class($personalize['text.wrapper'])>
+                        <h3 @class($personalize['text.title']) x-text="dialog.title"></h3>
+                        <div @class($personalize['text.description.wrapper'])>
+                            <p @class($personalize['text.description.text']) x-text="dialog.description"></p>
                         </div>
                     </div>
                 </div>
-                <div @class($customize['buttons.wrapper'])>
+                <div @class($personalize['buttons.wrapper'])>
                     <div x-show="dialog.type === 'question'">
                         <x-button color="white"
                                   outline
@@ -84,7 +84,7 @@
                                   dusk="tallstackui_dialog_rejection"
                         />
                     </div>
-                    <button @class($customize['buttons.confirm']) x-bind:class="{
+                    <button @class($personalize['buttons.confirm']) x-bind:class="{
                             'sm:w-auto' : dialog.type === 'question',
                             'col-span-full' : dialog.type !== 'question',
                             'bg-green-600 hover:bg-green-700 focus:ring-green-500 focus:ring-offset-green-100 dark:ring-offset-green-900' : dialog.type === 'success',

@@ -4,7 +4,7 @@
     $open = $event . '-open';
     $close = $event . '-close';
 
-    $customize = tallstackui_personalization('modal', $personalization());
+    $personalize = tallstackui_personalization('modal', $personalization());
 @endphp
 
 <div x-cloak
@@ -28,9 +28,9 @@
          x-transition:leave="ease-in duration-200"
          x-transition:leave-start="opacity-100"
          x-transition:leave-end="opacity-0"
-         @class([$customize['wrapper.first'], $customize['blur'] => $configurations['blur']])></div>
-    <div @class($customize['wrapper.second'])>
-        <div @class([$customize['wrapper.third'], $configurations['size']])>
+         @class([$personalize['wrapper.first'], $personalize['blur'] => $configurations['blur']])></div>
+    <div @class($personalize['wrapper.second'])>
+        <div @class([$personalize['wrapper.third'], $configurations['size']])>
             <div x-show="show"
                  @if (!($uncloseable ?? $configurations['uncloseable'])) x-on:click.outside="show = false" @endif
                  x-transition:enter="ease-out duration-300"
@@ -39,21 +39,21 @@
                  x-transition:leave="ease-in duration-200"
                  x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
                  x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                 @class([$customize['wrapper.fourth'], $configurations['size']])>
+                 @class([$personalize['wrapper.fourth'], $configurations['size']])>
                 @if ($title)
-                    <div @class($customize['title.wrapper'])>
-                        <h3 @class($customize['title.text'])>{{ $title }}</h3>
+                    <div @class($personalize['title.wrapper'])>
+                        <h3 @class($personalize['title.text'])>{{ $title }}</h3>
                         <x-icon name="x-mark"
                                 x-on:click="show = false"
-                                @class($customize['title.close'])
+                                @class($personalize['title.close'])
                         />
                     </div>
                 @endif
-                <div @class($customize['body'])>
+                <div @class($personalize['body'])>
                     {{ $slot }}
                 </div>
                 @if ($footer)
-                    <div @class($customize['footer'])>
+                    <div @class($personalize['footer'])>
                         {{ $footer }}
                     </div>
                 @endif

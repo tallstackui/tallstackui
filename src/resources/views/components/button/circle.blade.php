@@ -1,16 +1,16 @@
 @php
     $tag = $href ? 'a' : 'button';
-    $customize = tallstackui_personalization('button.circle', $personalization());
+    $personalize = tallstackui_personalization('button.circle', $personalization());
 
-    $sizes['wrapper'] = $customize['wrapper.sizes.' . $size];
-    $sizes['icon'] = $customize['icon.sizes.' . $size];
-    $sizes['text'] = $customize['text.sizes.' . $size];
+    $sizes['wrapper'] = $personalize['wrapper.sizes.' . $size];
+    $sizes['icon'] = $personalize['icon.sizes.' . $size];
+    $sizes['text'] = $personalize['text.sizes.' . $size];
 @endphp
 
 <{{ $tag }} @if ($href) href="{{ $href }}" @else
     role="button"
 @endif {{ $attributes->class([
-            $customize['wrapper.base'],
+            $personalize['wrapper.base'],
             $sizes['wrapper'],
             $colors['wrapper.color']
         ]) }} wire:loading.attr="disabled" wire:loading.class="!cursor-wait">

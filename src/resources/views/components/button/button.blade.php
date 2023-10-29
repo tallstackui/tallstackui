@@ -1,15 +1,15 @@
 @php
     $tag = $href ? 'a' : 'button';
-    $customize = tallstackui_personalization('button', $personalization());
+    $personalize = tallstackui_personalization('button', $personalization());
 
-    $sizes['wrapper'] = $customize['wrapper.sizes.' . $size];
-    $sizes['icon'] = $customize['icon.sizes.' . $size];
+    $sizes['wrapper'] = $personalize['wrapper.sizes.' . $size];
+    $sizes['icon'] = $personalize['icon.sizes.' . $size];
 @endphp
 
 <{{ $tag }} @if ($href) href="{{ $href }}" @else
     role="button"
 @endif {{ $attributes->class([
-        $customize['wrapper.class'],
+        $personalize['wrapper.class'],
         $sizes['wrapper'],
         $colors['wrapper.color'],
         'rounded' => !$square && !$round,

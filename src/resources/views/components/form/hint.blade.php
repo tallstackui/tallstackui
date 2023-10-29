@@ -1,7 +1,7 @@
 @props(['hint' => null])
 
-@php($customize = tallstackui_personalization('form.hint', $personalization()))
+@php($personalize = tallstackui_personalization('form.hint', $personalization()))
 
-<span @class($customize['text'])>
+<span @class($personalize['text'])>
     {{ $hint }}
 </span>

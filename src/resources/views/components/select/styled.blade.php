@@ -4,7 +4,7 @@
     $property = $computed[$directive];
     $error = $property && $errors->has($property);
     $live = str($directive)->contains('.live');
-    $customize = tallstackui_personalization('select.styled', $personalization());
+    $personalize = tallstackui_personalization('select.styled', $personalization());
 @endphp
 
 <div x-data="tallstackui_select(
@@ -25,15 +25,15 @@
         <button type="button"
                 @disabled($disabled)
                 @class([
-                    $customize['input.wrapper.base'],
-                    $customize['input.wrapper.color'] => !$error,
-                    $customize['input.wrapper.error'] => $error
+                    $personalize['input.wrapper.base'],
+                    $personalize['input.wrapper.color'] => !$error,
+                    $personalize['input.wrapper.error'] => $error
                 ])
                 @if (!$disabled) x-on:click="show = !show" @endif
                 aria-haspopup="listbox"
                 :aria-expanded="show"
                 dusk="tallstackui_select_open_close">
-            <div @class($customize['input.content'])>
+            <div @class($personalize['input.content'])>
                 <div class="flex gap-2">
                     <template x-if="multiple && quantity > 0">
                         <span x-text="quantity"></span>
@@ -41,19 +41,19 @@
                     <template x-if="empty || (!multiple && @js($placeholders['default']) !== placeholder)">
                         <span @class(['truncate', 'text-red-500 dark:text-red-500' => $error])
                               x-bind:class="{
-                                '{{ $customize['itens.placeholder'] }}': empty,
-                                '{{ $customize['itens.single'] }}': !empty
+                                '{{ $personalize['itens.placeholder'] }}': empty,
+                                '{{ $personalize['itens.single'] }}': !empty
                               }" x-text="placeholder"></span>
                     </template>
                     <div class="truncate" x-show="multiple && quantity > 0">
                         <template x-for="(selected, index) in selecteds" :key="selected[selectable.label] ?? selected">
                             <a class="cursor-pointer">
-                                <div @class($customize['itens.multiple.item'])>
+                                <div @class($personalize['itens.multiple.item'])>
                                     <span x-text="selected[selectable.label] ?? selected"></span>
                                     @if (!$disabled)
                                         <x-icon name="x-mark"
                                                 x-on:click="clear(selected); show = true"
-                                                @class($customize['itens.multiple.icon'])
+                                                @class($personalize['itens.multiple.icon'])
                                         />
                                     @endif
                                 </div>
@@ -63,20 +63,20 @@
                 </div>
             </div>
             @if (!$disabled)
-                <div @class($customize['buttons.wrapper'])>
+                <div @class($personalize['buttons.wrapper'])>
                     <template x-if="!empty">
                         <button dusk="tallstackui_select_clear" type="button" x-on:click="clear(); show = true">
                             <x-icon name="x-mark" @class([
-                                $customize['buttons.size'],
-                                $customize['buttons.base'] => !$error,
-                                $customize['buttons.error'] => $error
+                                $personalize['buttons.size'],
+                                $personalize['buttons.base'] => !$error,
+                                $personalize['buttons.error'] => $error
                             ]) />
                         </button>
                     </template>
                     <x-icon name="chevron-up-down" @class([
-                        $customize['buttons.size'],
-                        $customize['buttons.base'] => !$error,
-                        $customize['buttons.error'] => $error
+                        $personalize['buttons.size'],
+                        $personalize['buttons.base'] => !$error,
+                        $personalize['buttons.error'] => $error
                     ]) />
                 </div>
             @endif
@@ -88,7 +88,7 @@
              x-transition:enter="transition ease-out duration-75"
              x-transition:enter-start="opacity-0 -translate-y-1"
              x-transition:enter-end="opacity-100"
-             @class($customize['box.wrapper'])
+             @class($personalize['box.wrapper'])
              x-ref="select">
             <template x-if="searchable">
                 <div class="relative px-2 my-2">
@@ -99,25 +99,25 @@
                              :validate="false"
                     />
                     <button type="button"
-                            @class([$customize['box.button.class']])
+                            @class([$personalize['box.button.class']])
                             x-on:click="search = ''; $refs.search.focus();"
                             x-show="search.length > 0">
-                        <x-icon name="x-mark" @class($customize['box.button.icon']) />
+                        <x-icon name="x-mark" @class($personalize['box.button.icon']) />
                     </button>
                 </div>
             </template>
-            <ul @class($customize['box.list.wrapper']) dusk="tallstackui_select_options" role="listbox">
+            <ul @class($personalize['box.list.wrapper']) dusk="tallstackui_select_options" role="listbox">
                 @if ($request)
-                    <div x-show="loading" @class($customize['box.list.loading.wrapper'])>
-                        <x-tallstack-ui::icon.others.loading @class($customize['box.list.loading.class']) />
+                    <div x-show="loading" @class($personalize['box.list.loading.wrapper'])>
+                        <x-tallstack-ui::icon.others.loading @class($personalize['box.list.loading.class']) />
                     </div>
                 @endif
                 <template x-for="(option, index) in options" :key="option[selectable.label] ?? option">
                     <li x-on:click="select(option)"
                         x-on:keypress.enter="select(option)"
                         x-bind:class="{ 'font-semibold hover:text-white hover:bg-red-500 dark:hover:bg-red-500': selected(option) }"
-                        role="option" @class($customize['box.list.item.wrapper'])>
-                        <div wire:ignore @class($customize['box.list.item.class'])>
+                        role="option" @class($personalize['box.list.item.wrapper'])>
+                        <div wire:ignore @class($personalize['box.list.item.class'])>
                             <span class="ml-2 truncate" x-text="option[selectable.label] ?? option"></span>
                             <x-icon name="check" x-show="selected(option)" class="h-5 w-5 font-bold"/>
                         </div>
@@ -126,7 +126,7 @@
                 @if (!$after)
                     <template x-if="!loading && options.length === 0">
                         <li class="m-2">
-                            <span @class($customize['box.list.empty'])>
+                            <span @class($personalize['box.list.empty'])>
                                 {{ $placeholders['empty'] }}
                             </span>
                         </li>

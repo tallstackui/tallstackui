@@ -1,24 +1,24 @@
 @php
     $computed = $attributes->whereStartsWith('wire:model')->first();
     $error = $computed && $errors->has($computed);
-    $customize = tallstackui_personalization('form.input', $personalization());
+    $personalize = tallstackui_personalization('form.input', $personalization());
 @endphp
 
 <x-wrapper.input :$computed :$error :$label :$hint :$validate>
     @if ($icon)
         <div @class([
-                $customize['icon.wrapper'],
-                $customize['icon.paddings.left'] => $position === 'left',
-                $customize['icon.paddings.right'] => $position === 'right',
+                $personalize['icon.wrapper'],
+                $personalize['icon.paddings.left'] => $position === 'left',
+                $personalize['icon.paddings.right'] => $position === 'right',
             ])>
-            <x-icon :$icon :$error @class([$customize['icon.size'], 'text-secondary-500' => !$validate]) />
+            <x-icon :$icon :$error @class([$personalize['icon.size'], 'text-secondary-500' => !$validate]) />
         </div>
     @endif
     <input @if ($id) id="{{ $id }}" @endif {{ $attributes->class([
-            $customize['input.class.base'],
-            $customize['input.class.color'] => !$error,
-            $customize['input.paddings.left'] => $icon && ($position === null || $position === 'left'),
-            $customize['input.paddings.right'] => $icon && $position === 'right',
-            $customize['error'] => $error && $validate
+            $personalize['input.class.base'],
+            $personalize['input.class.color'] => !$error,
+            $personalize['input.paddings.left'] => $icon && ($position === null || $position === 'left'),
+            $personalize['input.paddings.right'] => $icon && $position === 'right',
+            $personalize['error'] => $error && $validate
     ]) }}>
 </x-wrapper.input>

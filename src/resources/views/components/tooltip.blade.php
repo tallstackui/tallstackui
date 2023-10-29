@@ -1,9 +1,9 @@
 @php
-    $customize = tallstackui_personalization('tooltip', $personalization());
-    $sizes = $customize['sizes.' . $size];
+    $personalize = tallstackui_personalization('tooltip', $personalization());
+    $sizes = $personalize['sizes.' . $size];
 @endphp
 
-<div @class($customize['wrapper']) x-data>
+<div @class($personalize['wrapper']) x-data>
     <x-dynamic-component component="tallstack-ui::icon.{{ $style }}.{{ $icon }}"
                          data-position="{{ $position }}"
                          x-tooltip="{!! $text !!}"

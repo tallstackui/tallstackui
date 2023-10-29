@@ -1,20 +1,20 @@
 @php
-    $customize = tallstackui_personalization('wrapper.radio', $personalization());
+    $personalize = tallstackui_personalization('wrapper.radio', $personalization());
     $error = ($computed && $errors->has($computed)) && $error;
 @endphp
 
 <div>
-    <div @class($customize['wrapper'])>
+    <div @class($personalize['wrapper'])>
         @if ($label && $position === 'left')
-        <p @class([$customize['label.wrapper.text'], $customize['label.wrapper.error'] => $error, 'mr-2'])>
+        <p @class([$personalize['label.wrapper.text'], $personalize['label.wrapper.error'] => $error, 'mr-2'])>
             {{ $label }}
         </p>
         @endif
-        <label @if ($id) for="{{ $id }}" @endif @class($customize['slot'])>
+        <label @if ($id) for="{{ $id }}" @endif @class($personalize['slot'])>
             {!! $slot !!}
         </label>
         @if ($label && $position === 'right')
-        <p @class([$customize['label.wrapper.text'], $customize['label.wrapper.error'] => $error, 'ml-2'])>
+        <p @class([$personalize['label.wrapper.text'], $personalize['label.wrapper.error'] => $error, 'ml-2'])>
             {{ $label }}
         </p>
         @endif

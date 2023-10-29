@@ -1,7 +1,7 @@
 @php
     $computed = $attributes->whereStartsWith('wire:model')->first();
     $error = $computed && $errors->has($computed);
-    $customize = tallstackui_personalization('select.native', $personalization());
+    $personalize = tallstackui_personalization('select.native', $personalization());
 @endphp
 
 <div>
@@ -9,9 +9,9 @@
         <x-label :$label :$error/>
     @endif
     <select @if ($id) id="{{ $id }}" @endif {{ $attributes->class([
-            $customize['input.class'],
-            $customize['input.color'] => !$error,
-            $customize['error'] => $error
+            $personalize['input.class'],
+            $personalize['input.color'] => !$error,
+            $personalize['error'] => $error
         ]) }}>
         @forelse ($options as $option)
             <option value="{{ $select ? $option[$selectable['value']] : $option }}">{{ $select ? $option[$selectable['label']] : $option }}</option>
