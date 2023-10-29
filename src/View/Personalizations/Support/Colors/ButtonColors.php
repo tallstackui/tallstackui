@@ -68,11 +68,10 @@ class ButtonColors
 
     private function icon(): string
     {
-        $weight = $this->component->color === 'white' ? 950 : 50;
-
-        if ($this->component->style === 'outline') {
-            $weight = in_array($this->component->color, ['black', 'white']) ? 950 : 500;
-        }
+        $weight = (match ($this->component->style !== 'outline') {
+            true => fn () => $this->component->color === 'white' ? 950 : 50,
+            false => fn () => in_array($this->component->color, ['black', 'white']) ? 950 : 500,
+        })();
 
         return TallStackUi::tailwind()
             ->set('text', $this->variations['text'], $weight)

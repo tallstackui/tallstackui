@@ -5,7 +5,6 @@ namespace TallStackUi\View\Personalizations\Support\Colors;
 use Illuminate\Support\Arr;
 use TallStackUi\Facades\TallStackUi;
 use TallStackUi\View\Components\Alert;
-use TallStackUi\View\Personalizations\Support\TailwindClassBuilder;
 
 class AlertColors
 {
@@ -37,45 +36,43 @@ class AlertColors
             default => $this->alert->color,
         };
 
+        if ($this->alert->style === 'solid') {
+            $weight = match ($this->alert->color) {
+                'black' => 700,
+                'white' => null,
+                default => 300,
+            };
+        } else {
+            $weight = match ($this->alert->color) {
+                'black' => 200,
+                default => 100,
+            };
+        }
+
         return TallStackUi::tailwind()
-            ->when($this->alert->style === 'solid', function (TailwindClassBuilder $color) use ($colors) {
-                $weight = match ($this->alert->color) {
-                    'black' => 700,
-                    'white' => null,
-                    default => 300,
-                };
-
-                return $color->set('bg', $colors, $weight);
-            })
-            ->when($this->alert->style === 'translucent', function (TailwindClassBuilder $color) use ($colors) {
-                $weight = match ($this->alert->color) {
-                    'black' => 200,
-                    default => 100,
-                };
-
-                return $color->set('bg', $colors, $weight);
-            })
+            ->set('bg', $colors, $weight)
             ->get();
     }
 
     private function text(): string
     {
-        $weight = $this->alert->color === 'white' ? 900 : ($this->alert->color === 'black' ? null : 900);
+        $weight = $this->alert->color === 'white' || $this->alert->color !== 'black' ? 900 : null;
+
+        if ($this->alert->style === 'solid') {
+            $colors = match ($this->alert->color) {
+                'black' => 'white',
+                'white' => 'neutral',
+                default => $this->alert->color,
+            };
+        } else {
+            $colors = match ($this->alert->color) {
+                'black', 'white' => 'neutral',
+                default => $this->alert->color,
+            };
+        }
 
         return TallStackUi::tailwind()
-            ->when($this->alert->style === 'solid', function (TailwindClassBuilder $color) use ($weight) {
-                return (match ($this->alert->color) {
-                    'black' => fn () => $color->set('text', 'white'),
-                    'white' => fn () => $color->set('text', 'neutral', 900),
-                    default => fn () => $color->set('text', $this->alert->color, $weight),
-                })();
-            })
-            ->when($this->alert->style === 'translucent', function (TailwindClassBuilder $color) use ($weight) {
-                return (match ($this->alert->color === 'black' || $this->alert->color === 'white') {
-                    true => fn () => $color->set('text', 'neutral', 900),
-                    default => fn () => $color->set('text', $this->alert->color, $weight),
-                })();
-            })
+            ->set('text', $colors, $weight)
             ->get();
     }
 }
