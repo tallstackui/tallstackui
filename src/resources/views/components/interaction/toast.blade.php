@@ -69,6 +69,9 @@
                         </button>
                     </div>
                 </div>
+                <div @class($personalize['progress.wrapper'])>
+                    <span x-bind:style="`width:${progress}%`" @class($personalize['progress.bar']) x-cloak></span>
+                </div>
             </div>
         </div>
     </template>

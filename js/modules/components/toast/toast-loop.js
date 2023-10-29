@@ -8,6 +8,7 @@ export default (toast, ok, confirm, cancel) => ({
     confirm: confirm,
     cancel: cancel,
   },
+  progress: 0,
   init() {
     this.$nextTick(() => this.show = true);
 
@@ -16,6 +17,15 @@ export default (toast, ok, confirm, cancel) => ({
 
       dispatchEvent('toast:timeouted', this.toast);
     }, this.toast.timeout * 1000);
+
+    const interval = setInterval(() => {
+      this.progress++;
+
+      if (!this.show) {
+        this.progress = 0;
+        clearInterval(interval);
+      }
+    }, this.toast.timeout * 10);
   },
   accept(toast) {
     const params = toast.options.confirm.params ?? null;
@@ -41,8 +51,9 @@ export default (toast, ok, confirm, cancel) => ({
     this.hide();
   },
   hide() {
-    this.show = false;
-
-    setTimeout(() => this.remove(this.toast), this.toast.timeout * 1000);
+    setTimeout(() => {
+      this.show = false;
+      this.remove(this.toast);
+    }, this.toast.timeout * 100);
   },
 });

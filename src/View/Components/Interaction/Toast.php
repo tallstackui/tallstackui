@@ -47,6 +47,10 @@ class Toast extends Component implements Personalize
                     'size' => 'h-5 w-5',
                 ],
             ],
+            'progress' => [
+                'wrapper' => 'dark:bg-dark-600 relative h-1 w-full rounded-full bg-neutral-100',
+                'bar' => 'bg-primary-500 dark:bg-dark-400 absolute h-full w-24 duration-300 ease-linear',
+            ],
         ]);
     }
 
