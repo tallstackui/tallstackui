@@ -1,21 +1,17 @@
 @php($personalize = tallstackui_personalization('avatar', $personalization()))
 
 <div {{ $attributes->class([
-        $personalize['wrapper.class'],
-        $colors['wrapper.color'],
-        $personalize['wrapper.sizes.sm'] => $size === 'sm',
-        $personalize['wrapper.sizes.md'] => $size === 'md',
-        $personalize['wrapper.sizes.lg'] => $size === 'lg',
         'rounded-full' => !$square,
         'border-2' => !$model,
+        $personalize['wrapper.class'],
+        $colors['wrapper.color'],
+        $personalize['wrapper.sizes.' . $size],
     ]) }}>
     @if ($model)
         <img @class([
+            'rounded-full' => !$square,
             $personalize['content.image.class'],
-            $personalize['content.image.sizes.sm'] => $size === 'sm',
-            $personalize['content.image.sizes.md'] => $size === 'md',
-            $personalize['content.image.sizes.lg'] => $size === 'lg',
-            'rounded-full' => !$square
+            $personalize['content.image.sizes.' . $size],
         ]) src="{{ $text }}" alt="{{ $alt() }}"/>
     @elseif ($text || $slot->isNotEmpty())
         <span @class([

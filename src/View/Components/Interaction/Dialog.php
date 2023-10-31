@@ -36,10 +36,7 @@ class Dialog extends Component implements Personalize
             'text' => [
                 'wrapper' => 'mt-3 text-center sm:mt-5',
                 'title' => 'text-lg font-semibold leading-6 text-gray-700 dark:text-dark-200',
-                'description' => [
-                    'wrapper' => 'mt-2',
-                    'text' => 'text-sm text-gray-500 dark:text-dark-300',
-                ],
+                'content' => 'text-sm text-gray-500 dark:text-dark-300',
             ],
             'buttons' => [
                 'wrapper' => 'mt-5 space-y-2 sm:mt-6 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3 sm:space-y-0',
