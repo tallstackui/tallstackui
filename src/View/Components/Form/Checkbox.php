@@ -33,7 +33,7 @@ class Checkbox extends Component implements Personalize
     {
         return Arr::dot([
             'input' => [
-                'class' => 'form-checkbox rounded transition ease-in-out duration-100 border-secondary-200',
+                'class' => 'form-checkbox rounded ease-in-out duration-100 border-secondary-200',
                 'sizes' => [
                     'sm' => 'w-4 h-4',
                     'md' => 'w-5 h-5',
