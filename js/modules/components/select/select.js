@@ -241,6 +241,10 @@ export default (
   async sendRequest() {
     this.response = [];
 
+    if (this.request.params?.constructor === Array) {
+      return error('The [params] must be an array with key and value pairs');
+    }
+
     // eslint-disable-next-line max-len
     const {url, init} = body(this.request, this.search, this.model ? (this.model.constructor === Array ? this.model : [this.model]) : []);
 
