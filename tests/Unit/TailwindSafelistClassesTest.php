@@ -1,6 +1,6 @@
 <?php
 
-use TallStackUi\View\Personalizations\Support\TailwindSafelistClasses;
+use TallStackUi\View\Personalizations\Support\TailwindSafelistColorClasses;
 
 const KEYS = [
     'primary',
@@ -33,7 +33,7 @@ const KEYS = [
 ];
 
 test('should have constant and keys', function ($name) {
-    $constants = collect((new ReflectionClass(TailwindSafelistClasses::class))->getConstants())
+    $constants = collect((new ReflectionClass(TailwindSafelistColorClasses::class))->getConstants())
         ->filter(fn ($value, $key) => $key === $name)
         ->toArray();
 

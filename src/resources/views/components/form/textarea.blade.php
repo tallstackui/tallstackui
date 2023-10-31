@@ -10,7 +10,7 @@
             tallstackui_formTextArea()
         </x-slot:alpine>
     @endif
-    <textarea @if ($id) id="{{ $id }}" @endif {{ $attributes->class([
+    <textarea {{ $attributes->class([
             'resize-none' => !$resize && !$resizeAuto,
             $personalize['input.base'],
             $personalize['input.color'] => !$error,

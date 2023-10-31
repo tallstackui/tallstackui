@@ -11,7 +11,7 @@
             <x-icon name="eye-slash" :$error @class($personalize['icon.class']) x-show="show"/>
         </div>
     </div>
-    <input @if ($id) id="{{ $id }}" @endif {{ $attributes->class([
+    <input {{ $attributes->class([
             $personalize['input.base'],
             $personalize['input.color'] => !$error,
             $personalize['error'] => $error

@@ -10,7 +10,6 @@ use TallStackUi\View\Personalizations\Contracts\Personalize;
 class Radio extends Component implements Personalize
 {
     public function __construct(
-        public ?string $id = null,
         public ?string $computed = null,
         public ?string $label = null,
         public ?string $position = 'left',

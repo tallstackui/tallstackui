@@ -10,7 +10,7 @@
             {{ $label }}
         </p>
         @endif
-        <label @if ($id) for="{{ $id }}" @endif @class($personalize['slot'])>
+        <label @class($personalize['slot'])>
             {!! $slot !!}
         </label>
         @if ($label && $position === 'right')

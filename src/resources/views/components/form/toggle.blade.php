@@ -8,17 +8,13 @@
 @endphp
 
 <x-wrapper.radio :$computed :$error :$label :$position :$id>
-    <input @if ($id) id="{{ $id }}" @endif type="checkbox" {{ $attributes->class([
+    <input type="checkbox" {{ $attributes->class([
             $personalize['input.class'],
-            $personalize['input.sizes.sm'] => $size === 'sm',
-            $personalize['input.sizes.md'] => $size === 'md',
-            $personalize['input.sizes.lg'] => $size === 'lg',
+            $personalize['input.sizes.' . $size],
         ]) }} @checked($checked)>
     <div @class([
         $personalize['wrapper.class'],
-        $personalize['wrapper.sizes.sm'] => $size === 'sm',
-        $personalize['wrapper.sizes.md'] => $size === 'md',
-        $personalize['wrapper.sizes.lg'] => $size === 'lg',
+        $personalize['wrapper.sizes.' . $size],
         $colors['wrapper.color'],
         $personalize['error'] => $computed && $error
     ])></div>

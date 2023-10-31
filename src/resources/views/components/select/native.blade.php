@@ -8,7 +8,7 @@
     @if ($label)
         <x-label :$label :$error/>
     @endif
-    <select @if ($id) id="{{ $id }}" @endif {{ $attributes->class([
+    <select {{ $attributes->class([
             $personalize['input.class'],
             $personalize['input.color'] => !$error,
             $personalize['error'] => $error

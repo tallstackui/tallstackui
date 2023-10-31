@@ -13,7 +13,6 @@ class Radio extends Component implements Personalize
     use InteractWithProviders;
 
     public function __construct(
-        public ?string $id = null,
         public ?string $label = null,
         public ?string $position = 'right',
         public ?string $color = 'primary',

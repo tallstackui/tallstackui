@@ -8,13 +8,12 @@
     @if ($icon)
         <div @class([
                 $personalize['icon.wrapper'],
-                $personalize['icon.paddings.left'] => $position === 'left',
-                $personalize['icon.paddings.right'] => $position === 'right',
+                $personalize['icon.paddings.' . $position],
             ])>
             <x-icon :$icon :$error @class([$personalize['icon.size'], 'text-secondary-500' => !$validate]) />
         </div>
     @endif
-    <input @if ($id) id="{{ $id }}" @endif {{ $attributes->class([
+    <input {{ $attributes->class([
             $personalize['input.class.base'],
             $personalize['input.class.color'] => !$error,
             $personalize['input.paddings.left'] => $icon && ($position === null || $position === 'left'),

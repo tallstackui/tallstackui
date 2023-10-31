@@ -16,7 +16,6 @@ class Native extends Component implements Personalize
     use InteractsWithSelectOptions;
 
     public function __construct(
-        public ?string $id = null,
         public ?string $label = null,
         public ?string $hint = null,
         public Collection|array $options = [],

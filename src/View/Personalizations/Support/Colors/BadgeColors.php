@@ -48,18 +48,21 @@ class BadgeColors
 
     private function text(): string
     {
-        $colors = match ($this->badge->color) {
-            'white', 'black' => 'neutral',
-            default => $this->badge->color,
+        $style = $this->badge->style;
+        $color = $this->badge->color;
+
+        $colors = match (true) {
+            $style === 'solid' && $color !== 'white' => 'white',
+            ($style === 'solid' && $color === 'white') || ($style === 'outline' && in_array($color, ['white', 'black'])) => 'neutral',
+            default => $color,
         };
 
-        $weight = match ($this->badge->color) {
-            'white', 'black' => 700,
-            default => 500,
+        $weight = match (true) {
+            $color === 'white' || ($style === 'outline' && $color === 'black') => 700,
+            ($style === 'outline' && $color !== 'white') => 500,
+            default => null,
         };
 
-        return TallStackUi::tailwind()
-            ->set('text', $colors, $weight)
-            ->get();
+        return TallStackUi::tailwind()->set('text', $colors, $weight)->get();
     }
 }

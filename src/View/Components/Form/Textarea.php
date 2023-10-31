@@ -13,7 +13,6 @@ class Textarea extends Component implements Personalize
     use DefaultInputClasses;
 
     public function __construct(
-        public ?string $id = null,
         public ?string $label = null,
         public ?string $hint = null,
         public ?int $rows = 3,

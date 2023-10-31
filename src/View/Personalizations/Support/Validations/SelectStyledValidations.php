@@ -39,8 +39,6 @@ class SelectStyledValidations
         $select->request['method'] ??= 'get';
         $select->request['method'] = strtolower($select->request['method']);
 
-        unset($select->request['search']);
-
         if (! in_array($select->request['method'], ['get', 'post'])) {
             throw new InvalidArgumentException('The [method] must be get or post');
         }
