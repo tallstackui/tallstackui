@@ -5,16 +5,16 @@
 @endphp
 
 <x-wrapper.input :$computed :$error :$label :$hint validate>
-    @if ($autoResize)
+    @if ($resizeAuto)
         <x-slot:alpine>
             tallstackui_formTextArea()
         </x-slot:alpine>
     @endif
     <textarea @if ($id) id="{{ $id }}" @endif {{ $attributes->class([
-            'resize-none' => !$resize && !$autoResize,
+            'resize-none' => !$resize && !$resizeAuto,
             $personalize['input.base'],
             $personalize['input.color'] => !$error,
             $personalize['error'] => $error,
         ]) }}
-        rows="{{ $rows }}" @if ($autoResize) x-on:input="resize()" @endif>{{ $slot }}</textarea>
+        rows="{{ $rows }}" @if ($resizeAuto) x-on:input="resize()" @endif>{{ $slot }}</textarea>
 </x-wrapper.input>

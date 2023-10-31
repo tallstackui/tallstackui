@@ -16,9 +16,9 @@ class Textarea extends Component implements Personalize
         public ?string $id = null,
         public ?string $label = null,
         public ?string $hint = null,
-        public int $rows = 3,
-        public bool $autoResize = false,
-        public bool $resize = false,
+        public ?int $rows = 3,
+        public ?bool $resize = false,
+        public ?bool $resizeAuto = false,
     ) {
         //
     }
