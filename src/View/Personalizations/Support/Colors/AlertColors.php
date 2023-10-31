@@ -56,7 +56,10 @@ class AlertColors
 
     private function text(): string
     {
-        $weight = $this->alert->color === 'white' || $this->alert->color !== 'black' ? 900 : null;
+        $weight = (match ($this->alert->color) {
+            'black' => fn () => $this->alert->style === 'solid' ? null : 700,
+            default => fn () => 900,
+        })();
 
         if ($this->alert->style === 'solid') {
             $colors = match ($this->alert->color) {

@@ -15,10 +15,7 @@ class BadgeColors
         $this->badge = $badge;
 
         return [
-            'wrapper.color' => Arr::toCssClasses([
-                $this->background(),
-                $this->text() => $badge->style === 'outline',
-            ]),
+            'wrapper.color' => $this->background().' '.$this->text(),
             'icon.color' => Arr::toCssClasses([
                 'text-white' => $badge->color !== 'white' && $badge->style === 'solid',
                 TallStackUi::tailwind()
@@ -57,8 +54,7 @@ class BadgeColors
         };
 
         $weight = match ($this->badge->color) {
-            'white' => null,
-            'black' => 700,
+            'white', 'black' => 700,
             default => 500,
         };
 
