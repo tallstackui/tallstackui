@@ -16,7 +16,7 @@ class InputComponent extends Component
        
             <x-input dusk="entangle" label="Foo" hint="Bar" wire:model="entangle" />
             
-            <x-button dusk="sync-entangle" wire:click="sync">Save</x-button>
+            <x-button dusk="sync-entangle" wire:click="sync">Sync</x-button>
         </div>
 HTML;
     }
