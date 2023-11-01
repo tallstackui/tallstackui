@@ -7,7 +7,7 @@
     $personalize['wrapper.class'] = $computed && $error ? preg_replace('/\bbg-[a-zA-Z0-9-]+/', '', $personalize['wrapper.class']) : $personalize['wrapper.class'];
 @endphp
 
-<x-wrapper.radio :$computed :$error :$label :$position :$id>
+<x-wrapper.radio :$computed :$error :$label :$position>
     <input type="checkbox" {{ $attributes->class([
             $personalize['input.class'],
             $personalize['input.sizes.' . $size],
