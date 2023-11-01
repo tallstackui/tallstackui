@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\Browser\Form\CheckboxComponents;
+namespace Tests\Browser\Form\RadioComponents;
 
 use Livewire\Component;
 
-class CheckboxLiveEntangleComponent extends Component
+class RadioLiveEntangleComponent extends Component
 {
     public ?bool $entangle = null;
 

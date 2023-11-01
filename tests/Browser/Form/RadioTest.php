@@ -4,16 +4,16 @@ namespace Tests\Browser\Form;
 
 use Laravel\Dusk\Browser;
 use Tests\Browser\BrowserTestCase;
-use Tests\Browser\Form\CheckboxComponents\CheckboxComponent;
-use Tests\Browser\Form\CheckboxComponents\CheckboxLiveEntangleComponent;
+use Tests\Browser\Form\RadioComponents\RadioComponent;
+use Tests\Browser\Form\RadioComponents\RadioLiveEntangleComponent;
 
-class CheckboxTest extends BrowserTestCase
+class RadioTest extends BrowserTestCase
 {
     /** @test */
     public function can_entangle(): void
     {
         $this->browse(function (Browser $browser) {
-            $this->visit($browser, CheckboxComponent::class)
+            $this->visit($browser, RadioComponent::class)
                 ->assertSee('Receive Alert')
                 ->click('@entangle-true')
                 ->click('@sync-entangle')
@@ -28,7 +28,7 @@ class CheckboxTest extends BrowserTestCase
     public function can_live_entangle(): void
     {
         $this->browse(function (Browser $browser) {
-            $this->visit($browser, CheckboxLiveEntangleComponent::class)
+            $this->visit($browser, RadioLiveEntangleComponent::class)
                 ->assertSee('Receive Alert')
                 ->click('@entangle-true')
                 ->waitForTextIn('@entangled', 'true')
