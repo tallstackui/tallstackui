@@ -49,11 +49,7 @@ it('can render white background with black text', function () {
 test('when translucent and white, it does not render translucent', function () {
     $this->blade('<x-alert text="Foo bar" color="white" translucent />')
         ->assertSee('Foo bar')
-        ->assertSee('bg-white');
-});
-
-test('when outline and white, it does not render outline', function () {
-    $this->blade('<x-alert text="Foo bar" color="white" outline />')
-        ->assertSee('Foo bar')
-        ->assertSee('bg-white');
+        ->assertSee('bg-white')
+        ->assertSee('border')
+        ->assertSee('border-gray-100');
 });

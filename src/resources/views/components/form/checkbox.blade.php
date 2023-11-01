@@ -4,7 +4,7 @@
     $personalize = tallstackui_personalization('form.checkbox', $personalization());
 @endphp
 
-<x-wrapper.radio :$computed :$error :$label :$position :$id>
+<x-wrapper.radio :$computed :$error :$label :$position>
     <input type="checkbox" {{ $attributes->class([
             $personalize['input.class'],
             $personalize['input.sizes.' . $size],

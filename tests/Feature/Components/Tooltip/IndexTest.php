@@ -15,22 +15,11 @@ it('can render lg', function () {
         ->assertSee('h-7 w-7');
 });
 
-it('can render in top', function () {
-    $this->blade('<x-tooltip text="Foo bar" position="top" />')
-        ->assertSee('data-position="top"', false);
-});
+it('can render positioned', function (string $position) {
+    $component = <<<HTML
+    <x-tooltip text="Foo bar" position="$position" />
+    HTML;
 
-it('can render in bottom', function () {
-    $this->blade('<x-tooltip text="Foo bar" position="bottom" />')
-        ->assertSee('data-position="bottom"', false);
-});
-
-it('can render in right', function () {
-    $this->blade('<x-tooltip text="Foo bar" position="right" />')
-        ->assertSee('data-position="right"', false);
-});
-
-it('can render in left', function () {
-    $this->blade('<x-tooltip text="Foo bar" position="left" />')
-        ->assertSee('data-position="left"', false);
-});
+    $this->blade($component)
+        ->assertSee("data-position=\"$position\"", false);
+})->with(['top', 'bottom', 'left', 'right']);

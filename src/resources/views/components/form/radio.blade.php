@@ -4,7 +4,7 @@
     $personalize = tallstackui_personalization('form.radio', $personalization());
 @endphp
 
-<x-wrapper.radio :$computed :$error :$label :$position :$id>
+<x-wrapper.radio :$computed :$error :$label :$position>
     <input type="radio" {{ $attributes->class([
             $personalize['input.class'],
             $personalize['input.sizes.' . $size],

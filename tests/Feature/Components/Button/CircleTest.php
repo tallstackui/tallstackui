@@ -27,14 +27,20 @@ it('can render as tag a', function () {
         ->assertSee('_blank');
 });
 
-it('can render colored', function () {
-    $this->blade('<x-button.circle text="Foo bar" color="primary" />')->assertSee('bg-primary-500');
-    $this->blade('<x-button.circle text="Foo bar" color="red" />')->assertSee('bg-red-500');
-    $this->blade('<x-button.circle text="Foo bar" color="yellow" />')->assertSee('bg-yellow-500');
-    $this->blade('<x-button.circle text="Foo bar" color="blue" />')->assertSee('bg-blue-500');
-});
+it('can render colored', function (string $colors) {
+    $component = <<<HTML
+    <x-button.circle text="Foo bar" color="$colors" />
+    HTML;
 
-it('can render large size as default', function () {
+    $color = match ($colors) {
+        'white', 'black' => 'bg-neutral',
+        default => "bg-$colors-500",
+    };
+
+    $this->blade($component)->assertSee($color);
+})->with('colors');
+
+it('can render lg', function () {
     $this->blade('<x-button.circle text="LG" color="primary" lg />')
         ->assertSee('w-12 h-12')
         ->assertSee('text-xl');
@@ -44,7 +50,7 @@ it('can render large size as default', function () {
         ->assertSee('w-6 h-6');
 });
 
-it('can render medium size', function () {
+it('can render md', function () {
     $this->blade('<x-button.circle text="MD" color="primary" />')
         ->assertSee('w-9 h-9')
         ->assertSee('text-md');
@@ -54,7 +60,7 @@ it('can render medium size', function () {
         ->assertSee('w-4 h-4');
 });
 
-it('can render small size', function () {
+it('can render sm', function () {
     $this->blade('<x-button.circle sm text="MD" color="primary" />')
         ->assertSee('w-6 h-6')
         ->assertSee('text-xs');

@@ -51,9 +51,15 @@ it('can render with icon', function () {
         ->assertSee('<svg', false);
 });
 
-it('can render colored', function () {
-    $this->blade('<x-button text="Foo bar" color="primary" />')->assertSee('bg-primary-500');
-    $this->blade('<x-button text="Foo bar" color="red" />')->assertSee('bg-red-500');
-    $this->blade('<x-button text="Foo bar" color="yellow" />')->assertSee('bg-yellow-500');
-    $this->blade('<x-button text="Foo bar" color="blue" />')->assertSee('bg-blue-500');
-});
+it('can render colored', function (string $colors) {
+    $component = <<<HTML
+    <x-button text="Foo bar" color="$colors" />
+    HTML;
+
+    $color = match ($colors) {
+        'white', 'black' => 'bg-neutral',
+        default => "bg-$colors-500",
+    };
+
+    $this->blade($component)->assertSee($color);
+})->with('colors');

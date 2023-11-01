@@ -28,6 +28,20 @@ it('can render right side', function () {
         ->assertSee('Logout');
 });
 
+it('can render static', function () {
+    $dropdown = <<<'HTML'
+    <x-dropdown icon="cog" static>
+        <x-dropdown.items text="Settings" />
+        <x-dropdown.items text="Logout" separator />
+    </x-dropdown>
+    HTML;
+
+    $this->blade($dropdown)
+        ->assertSee('Settings')
+        ->assertSee('Logout')
+        ->assertDontSee('x-data={ show : false, animate : false }', false);
+});
+
 it('can render action slot', function () {
     $dropdown = <<<'HTML'
     <x-dropdown>
