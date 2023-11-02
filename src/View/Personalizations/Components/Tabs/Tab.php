@@ -3,13 +3,13 @@
 namespace TallStackUi\View\Personalizations\Components\Tabs;
 
 use TallStackUi\View\Components\Tab\Tab as Component;
-use TallStackUi\View\Personalizations\Contracts\Personalizable;
+use TallStackUi\View\Personalizations\Contracts\PersonalizableResources;
 use TallStackUi\View\Personalizations\PersonalizationResource;
 
 /**
  * @internal This class is not meant to be used directly.
  */
-class Tab extends PersonalizationResource implements Personalizable
+class Tab extends PersonalizationResource implements PersonalizableResources
 {
     protected function component(): string
     {

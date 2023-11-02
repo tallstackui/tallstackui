@@ -4,7 +4,7 @@ namespace TallStackUi\View\Personalizations;
 
 use Closure;
 use InvalidArgumentException;
-use TallStackUi\Contracts\Personalizable as PersonalizableClass;
+use TallStackUi\Contracts\Personalizable;
 use TallStackUi\View\Personalizations\Components\Alert;
 use TallStackUi\View\Personalizations\Components\Avatar;
 use TallStackUi\View\Personalizations\Components\Badge;
@@ -33,7 +33,7 @@ use TallStackUi\View\Personalizations\Components\Tabs\Tab;
 use TallStackUi\View\Personalizations\Components\Tooltip;
 use TallStackUi\View\Personalizations\Components\Wrapper\Input as InputWrapper;
 use TallStackUi\View\Personalizations\Components\Wrapper\Radio as RadioWrapper;
-use TallStackUi\View\Personalizations\Contracts\Personalizable as PersonalizableContract;
+use TallStackUi\View\Personalizations\Contracts\PersonalizableResources;
 
 /**
  * @internal This class is not meant to be used directly.
@@ -92,7 +92,7 @@ class Personalization
         return app($this->component(Badge::class));
     }
 
-    public function block(string|array $name, string|Closure|PersonalizableClass $code = null): PersonalizableContract
+    public function block(string|array $name, string|Closure|Personalizable $code = null): PersonalizableResources
     {
         return $this->instance()->block($name, $code);
     }
@@ -158,7 +158,7 @@ class Personalization
         return app($this->component($class));
     }
 
-    public function instance(): PersonalizableContract
+    public function instance(): PersonalizableResources
     {
         if (! $this->component) {
             throw new InvalidArgumentException('No component has been set');

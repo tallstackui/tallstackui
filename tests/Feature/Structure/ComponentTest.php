@@ -1,6 +1,6 @@
 <?php
 
-use TallStackUi\View\Personalizations\Contracts\Personalizable;
+use TallStackUi\View\Personalizations\Contracts\PersonalizableResources;
 use TallStackUi\View\Personalizations\Contracts\Personalize;
 use TallStackUi\View\Personalizations\Personalization;
 
@@ -22,7 +22,7 @@ describe('Components Personalization', function () {
     test('should implements Personalizable contract', function (string $index) {
         $component = Personalization::PERSONALIZABLES[$index];
 
-        expect($component)->toImplement(Personalizable::class);
+        expect($component)->toImplement(PersonalizableResources::class);
     })->with('personalizations.keys');
 
     test('throws exception if component name is wrong', function () {

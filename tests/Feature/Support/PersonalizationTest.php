@@ -1,7 +1,7 @@
 <?php
 
 use TallStackUi\Facades\TallStackUi;
-use TallStackUi\View\Personalizations\Contracts\Personalizable;
+use TallStackUi\View\Personalizations\Contracts\PersonalizableResources;
 use TallStackUi\View\Personalizations\Personalization;
 use TallStackUi\View\Personalizations\PersonalizationResource;
 
@@ -12,11 +12,11 @@ it('can be instantiated', function () {
 it('can be instantiated with a component', function () {
     expect(TallStackUi::personalize('alert')
         ->block(['wrapper' => fn () => 'string']))
-        ->toBeInstanceOf(Personalizable::class);
+        ->toBeInstanceOf(PersonalizableResources::class);
 });
 
 it('can instantiate all components', function (string $component) {
-    expect(TallStackUi::personalize($component)->instance())->toBeInstanceOf(Personalizable::class);
+    expect(TallStackUi::personalize($component)->instance())->toBeInstanceOf(PersonalizableResources::class);
 })->with('personalizations.keys');
 
 it('can instanciate all components extends of resource', function (string $component) {
