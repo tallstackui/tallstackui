@@ -11,13 +11,12 @@ class ToggleColors
     {
         $colors = match ($toggle->color) {
             'white' => 'gray',
-            'black' => 'neutral',
             default => $toggle->color,
         };
 
         $weight = match ($toggle->color) {
             'white' => 300,
-            'black' => 700,
+            'black' => null,
             default => 500,
         };
 

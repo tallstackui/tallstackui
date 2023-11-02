@@ -11,13 +11,12 @@ class TooltipColors
     {
         $colors = match ($tooltip->color) {
             'white' => 'gray',
-            'black' => 'neutral',
             default => $tooltip->color,
         };
 
         $weight = match ($tooltip->color) {
             'white' => 300,
-            'black' => 700,
+            'black' => null,
             default => 500,
         };
 

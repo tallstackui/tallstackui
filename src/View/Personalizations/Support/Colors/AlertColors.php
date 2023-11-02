@@ -31,26 +31,17 @@ class AlertColors
 
     private function background(): string
     {
-        $colors = match ($this->alert->color) {
-            'black' => 'neutral',
-            default => $this->alert->color,
-        };
-
         if ($this->alert->style === 'solid') {
             $weight = match ($this->alert->color) {
-                'black' => 700,
-                'white' => null,
+                'white', 'black' => null,
                 default => 300,
             };
         } else {
-            $weight = match ($this->alert->color) {
-                'black' => 200,
-                default => 100,
-            };
+            $weight = 100;
         }
 
         return TallStackUi::tailwind()
-            ->set('bg', $colors, $weight)
+            ->set('bg', $this->alert->color, $weight)
             ->get();
     }
 

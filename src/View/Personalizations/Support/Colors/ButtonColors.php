@@ -37,7 +37,7 @@ class ButtonColors
     private function button(): string
     {
         $this->variations = match ($this->component->color) {
-            'white', 'black' => [
+            'white' => [
                 'text' => 'neutral',
                 'ring' => 'neutral',
                 'hover:bg' => 'neutral',
@@ -60,7 +60,8 @@ class ButtonColors
         $this->solid($color)->get();
         $this->outline($color)->get();
 
-        $color->clean(false)->merge('dark:ring-offset', 'dark', 900);
+        $color->clean(false)
+            ->merge('dark:ring-offset', 'dark', 900);
 
         return $color->get();
     }
@@ -87,10 +88,10 @@ class ButtonColors
                 'hover:ring' => 200,
             ],
             'black' => [
-                'border' => 700,
-                'ring' => 700,
-                'hover:bg' => 50,
-                'hover:ring' => 700,
+                'border' => null,
+                'ring' => null,
+                'hover:bg' => null,
+                'hover:ring' => null,
             ],
             default => [
                 'border' => 500,
@@ -120,10 +121,10 @@ class ButtonColors
                 'hover:ring' => 200,
             ],
             'black' => [
-                'bg' => 700,
-                'ring' => 700,
-                'hover:bg' => 700,
-                'hover:ring' => 700,
+                'bg' => null,
+                'ring' => null,
+                'hover:bg' => null,
+                'hover:ring' => null,
             ],
             default => [
                 'bg' => 500,
@@ -149,7 +150,8 @@ class ButtonColors
                 default => 50,
             },
             'outline' => match ($this->component->color) {
-                'white', 'black' => 700,
+                'white' => 700,
+                'black' => null,
                 default => 500,
             },
         ];

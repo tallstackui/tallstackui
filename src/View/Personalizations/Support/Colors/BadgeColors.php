@@ -28,13 +28,12 @@ class BadgeColors
     private function background(): string
     {
         $colors = match ($this->badge->color) {
-            'white', 'black' => 'neutral',
+            'white' => 'neutral',
             default => $this->badge->color,
         };
 
         $weight = match ($this->badge->color) {
-            'black' => 700,
-            'white' => null,
+            'white', 'black' => null,
             default => 500,
         };
 
@@ -53,12 +52,12 @@ class BadgeColors
 
         $colors = match (true) {
             $style === 'solid' && $color !== 'white' => 'white',
-            ($style === 'solid' && $color === 'white') || ($style === 'outline' && in_array($color, ['white', 'black'])) => 'neutral',
+            ($style === 'solid' && $color === 'white') || ($style === 'outline' && $color === 'white') => 'neutral',
             default => $color,
         };
 
         $weight = match (true) {
-            $color === 'white' || ($style === 'outline' && $color === 'black') => 700,
+            $color === 'white' || ($style === 'outline' && $color === 'black') => null,
             ($style === 'outline' && $color !== 'white') => 500,
             default => null,
         };

@@ -41,7 +41,7 @@ class Button extends Component implements Personalize
     {
         return Arr::dot([
             'wrapper' => [
-                'class' => 'outline-none inline-flex justify-center items-center group ease-in font-semibold gap-x-2 focus:ring-2 focus:ring-offset-2 hover:shadow-sm disabled:opacity-50 disabled:cursor-not-allowed',
+                'class' => 'outline-none inline-flex justify-center items-center group ease-in font-semibold transition gap-x-2 focus:ring-2 focus:ring-offset-2 hover:shadow-sm disabled:opacity-50 disabled:cursor-not-allowed',
                 'sizes' => [
                     'xs' => 'text-xs px-1 py-0.5',
                     'sm' => 'text-sm px-2 py-1',

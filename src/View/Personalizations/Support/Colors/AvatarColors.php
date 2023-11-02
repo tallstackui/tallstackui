@@ -11,13 +11,12 @@ class AvatarColors
     public function __invoke(Avatar $avatar): array
     {
         $colors = match ($avatar->color) {
-            'white', 'black' => 'neutral',
+            'white' => 'neutral',
             default => $avatar->color,
         };
 
         $weight = match ($avatar->color) {
-            'black' => 700,
-            'white' => null,
+            'white', 'black' => null,
             default => 500,
         };
 

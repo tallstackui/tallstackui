@@ -15,13 +15,12 @@ class RadioColors
     {
         $colors = match ($component->color) {
             'white' => 'gray',
-            'black' => 'neutral',
             default => $component->color,
         };
 
         $weight = match ($component->color) {
             'white' => 300,
-            'black' => 700,
+            'black' => null,
             default => 500,
         };
 
