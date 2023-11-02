@@ -30,8 +30,8 @@ class Styled extends Component implements Personalization
         public ?array $selectable = [],
         public ?string $after = null,
         public ?bool $disabled = false,
-        public array $placeholders = [],
         public ?bool $common = true,
+        public array $placeholders = [],
         public readonly bool $ignoreValidations = false,
     ) {
         $this->placeholders = [...__('tallstack-ui::messages.select')];

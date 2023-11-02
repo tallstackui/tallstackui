@@ -8,12 +8,12 @@ use Symfony\Component\HttpFoundation\Response;
 
 class TallStackUiAssetsController
 {
-    public function scripts(): Response|BinaryFileResponse
+    public function script(): Response|BinaryFileResponse
     {
         return Utils::pretendResponseIsFile(__DIR__.'/../../../dist/tallstackui.js', 'text/javascript');
     }
 
-    public function styles(): Response|BinaryFileResponse
+    public function style(): Response|BinaryFileResponse
     {
         return Utils::pretendResponseIsFile(__DIR__.'/../../../dist/tallstackui.css', 'text/css');
     }

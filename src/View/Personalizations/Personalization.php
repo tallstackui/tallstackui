@@ -2,9 +2,7 @@
 
 namespace TallStackUi\View\Personalizations;
 
-use Closure;
 use InvalidArgumentException;
-use TallStackUi\Contracts\Personalizable;
 use TallStackUi\View\Components\Alert;
 use TallStackUi\View\Components\Avatar;
 use TallStackUi\View\Components\Badge;
@@ -13,16 +11,16 @@ use TallStackUi\View\Components\Button\Circle;
 use TallStackUi\View\Components\Card;
 use TallStackUi\View\Components\Dropdown\Dropdown;
 use TallStackUi\View\Components\Dropdown\Items as DropdownItems;
-use TallStackUi\View\Components\Form\Error;
 use TallStackUi\View\Components\Errors;
 use TallStackUi\View\Components\Form\Checkbox;
+use TallStackUi\View\Components\Form\Error;
+use TallStackUi\View\Components\Form\Hint;
 use TallStackUi\View\Components\Form\Input;
 use TallStackUi\View\Components\Form\Label;
 use TallStackUi\View\Components\Form\Password;
 use TallStackUi\View\Components\Form\Radio;
 use TallStackUi\View\Components\Form\Textarea;
 use TallStackUi\View\Components\Form\Toggle;
-use TallStackUi\View\Components\Form\Hint;
 use TallStackUi\View\Components\Interaction\Dialog;
 use TallStackUi\View\Components\Interaction\Toast;
 use TallStackUi\View\Components\Modal;
@@ -33,6 +31,7 @@ use TallStackUi\View\Components\Tab\Tab;
 use TallStackUi\View\Components\Tooltip;
 use TallStackUi\View\Components\Wrapper\Input as InputWrapper;
 use TallStackUi\View\Components\Wrapper\Radio as RadioWrapper;
+use Throwable;
 
 /**
  * @internal This class is not meant to be used directly.
@@ -70,9 +69,8 @@ class Personalization
         'tallstack-ui::personalizations.wrapper.radio' => RadioWrapper::class,
     ];
 
-    public function __construct(
-        public ?string $component = null
-    ) {
+    public function __construct(public ?string $component = null)
+    {
         //
     }
 
@@ -89,11 +87,6 @@ class Personalization
     public function badge(): PersonalizationResources
     {
         return app($this->component(Badge::class));
-    }
-
-    public function block(string|array $name, string|Closure|Personalizable $code = null): PersonalizationResources
-    {
-        return $this->instance()->block($name, $code);
     }
 
     public function button(string $component = null): PersonalizationResources
@@ -232,13 +225,12 @@ class Personalization
         return app($this->component($class));
     }
 
+    /** @throws Throwable */
     private function component(string $class): string
     {
         $component = array_search($class, self::PERSONALIZABLES);
 
-        if (! $component) {
-            throw new InvalidArgumentException("Component [{$class}] is not allowed to be personalized");
-        }
+        throw_if(! $component, new InvalidArgumentException("Component [{$class}] is not allowed to be personalized"));
 
         return $component;
     }

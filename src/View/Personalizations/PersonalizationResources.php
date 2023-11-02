@@ -8,37 +8,24 @@ use Illuminate\Support\Facades\View as FacadeView;
 use Illuminate\View\View;
 use InvalidArgumentException;
 use RuntimeException;
-use TallStackUi\Contracts\Personalizable as PersonalizableClass;
+use TallStackUi\Contracts\Personalizable;
+use TallStackUi\View\Personalizations\Contracts\PersonalizableResources;
 
 /**
  * @internal This class is not meant to be used directly.
  *
- * @property-read PersonalizationResources $and
+ * @property-read Personalization $and
  */
-class PersonalizationResources
+class PersonalizationResources implements PersonalizableResources
 {
     public function __construct(
-        private ?string                   $view = null,
-        private ?Collection               $parts = new Collection(),
-        private readonly ?Personalization $personalization = null,
-        private readonly ?string          $componentClass = null,
+        private readonly ?string $component = null,
+        private ?Collection $parts = new Collection(),
     ) {
-        // The [ignoreValidations => true] used here is a way to ignore possible validations
-        // that may exist in the component class. This is necessary because the component
-        // class is not instantiated with the parameters that were passed to it.
-//        $this->view = app($this->componentClass, ['ignoreValidations' => true])
-//            ->render()
-//            ->name();
+        //
     }
 
-    public function view(): string
-    {
-        return app($this->componentClass, ['ignoreValidations' => true])
-            ->render()
-            ->name();
-    }
-
-    public function __get(string $name): PersonalizationResources
+    public function __get(string $name): Personalization
     {
         if ($name === 'and') {
             return $this->and();
@@ -47,12 +34,12 @@ class PersonalizationResources
         throw new RuntimeException("Property [{$name}] does not exist.");
     }
 
-    public function and(): PersonalizationResources
+    public function and(): Personalization
     {
-        return $this->personalization;
+        return new Personalization();
     }
 
-    public function block(string|array $name, string|Closure|PersonalizableClass $code = null): static
+    public function block(string|array $name, string|Closure|Personalizable $code = null): static
     {
         if (is_string($name) && ! $code) {
             throw new InvalidArgumentException('The second argument must be set when the first is a string');
@@ -60,10 +47,10 @@ class PersonalizationResources
 
         if (is_array($name)) {
             foreach ($name as $key => $value) {
-                $this->factory($key, $value);
+                $this->compile($key, $value);
             }
         } else {
-            $this->factory($name, $code);
+            $this->compile($name, $code);
         }
 
         return $this;
@@ -81,7 +68,7 @@ class PersonalizationResources
 
     protected function blocks(): array
     {
-        return array_keys(app($this->componentClass, ['ignoreValidations' => true])->personalization());
+        return array_keys(app($this->component, ['ignoreValidations' => true])->personalization());
     }
 
     protected function set(string $block, string $content): void
@@ -89,9 +76,12 @@ class PersonalizationResources
         $this->parts[$block] = $content;
     }
 
-    private function factory(string $block, string|Closure|PersonalizableClass $code): void
+    private function compile(string $block, string|Closure|Personalizable $code): void
     {
-        $view = app($this->componentClass, ['ignoreValidations' => true])->render()->name();
+        // // The [ignoreValidations => true] used here is a way to ignore possible validations
+        // that may exist in the component class. This is necessary because the component class
+        // is instantiated at this point, so if there are validations to be applied we would have exceptions.
+        $view = app($this->component, ['ignoreValidations' => true])->render()->name();
 
         if (! in_array($block, array_values($blocks = $this->blocks()))) {
             $component = str_replace('tallstack-ui::personalizations.', '', $view);
