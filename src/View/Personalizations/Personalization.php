@@ -2,7 +2,9 @@
 
 namespace TallStackUi\View\Personalizations;
 
+use Closure;
 use InvalidArgumentException;
+use TallStackUi\Contracts\Personalizable;
 use TallStackUi\View\Components\Alert;
 use TallStackUi\View\Components\Avatar;
 use TallStackUi\View\Components\Badge;
@@ -87,6 +89,11 @@ class Personalization
     public function badge(): PersonalizationResources
     {
         return app($this->component(Badge::class));
+    }
+
+    public function block(string|array $name, string|Closure|Personalizable $code = null): PersonalizationResources
+    {
+        return $this->instance()->block($name, $code);
     }
 
     public function button(string $component = null): PersonalizationResources

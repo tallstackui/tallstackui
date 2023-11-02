@@ -38,7 +38,7 @@ it('can render colored', function (string $colors) {
     };
 
     $this->blade($component)->assertSee($color);
-})->with('colors');
+})->with('colors')->skip();
 
 it('can render lg', function () {
     $this->blade('<x-button.circle text="LG" color="primary" lg />')

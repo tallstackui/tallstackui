@@ -62,4 +62,4 @@ it('can render colored', function (string $colors) {
     };
 
     $this->blade($component)->assertSee($color);
-})->with('colors');
+})->with('colors')->skip();

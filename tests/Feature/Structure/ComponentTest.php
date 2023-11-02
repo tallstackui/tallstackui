@@ -1,30 +1,23 @@
 <?php
 
-use TallStackUi\View\Personalizations\Contracts\PersonalizableResources;
 use TallStackUi\View\Personalizations\Contracts\Personalization as PersonalizationContract;
 use TallStackUi\View\Personalizations\Personalization;
 
 describe('TallStackUi Components', function () {
     test('is customizable', function (string $index) {
         expect($index)->toImplement(PersonalizationContract::class);
-    })->with('components');
+    })->with('personalizations.components');
 
     test('contains personalization method', function (string $index) {
         expect($index)->toHaveMethod('personalization');
-    })->with('components');
+    })->with('personalizations.components');
 
     test('contains constructor', function (string $index) {
         expect($index)->toHaveConstructor();
-    })->with('components');
+    })->with('personalizations.components');
 });
 
 describe('Components Personalization', function () {
-    test('should implements Personalizable contract', function (string $index) {
-        $component = Personalization::PERSONALIZABLES[$index];
-
-        expect($component)->toImplement(PersonalizableResources::class);
-    })->with('personalizations.keys');
-
     test('throws exception if component name is wrong', function () {
         (new Personalization('foo-bar'))->instance();
     })->throws(InvalidArgumentException::class);
