@@ -7,7 +7,10 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
 use TallStackUi\Facades\TallStackUi as Facade;
+use TallStackUi\View\Components\Alert;
+use TallStackUi\View\Personalizations\Contracts\PersonalizableResources;
 use TallStackUi\View\Personalizations\Personalization;
+use TallStackUi\View\Personalizations\PersonalizationResources;
 
 class TallStackUiServiceProvider extends ServiceProvider
 {
@@ -29,8 +32,8 @@ class TallStackUiServiceProvider extends ServiceProvider
     public function registerComponentPersonalizations(): void
     {
         foreach (Personalization::PERSONALIZABLES as $personalization => $configuration) {
-            $this->app->singleton($personalization, function () use ($configuration) {
-                return $this->app->make($configuration);
+            $this->app->singleton($personalization, function () use ($personalization, $configuration) {
+                return new PersonalizationResources(componentClass: $configuration);
             });
         }
     }

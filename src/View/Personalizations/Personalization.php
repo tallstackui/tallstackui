@@ -5,35 +5,34 @@ namespace TallStackUi\View\Personalizations;
 use Closure;
 use InvalidArgumentException;
 use TallStackUi\Contracts\Personalizable;
-use TallStackUi\View\Personalizations\Components\Alert;
-use TallStackUi\View\Personalizations\Components\Avatar;
-use TallStackUi\View\Personalizations\Components\Badge;
-use TallStackUi\View\Personalizations\Components\Button\Button;
-use TallStackUi\View\Personalizations\Components\Button\Circle;
-use TallStackUi\View\Personalizations\Components\Card;
-use TallStackUi\View\Personalizations\Components\Dropdown\Dropdown;
-use TallStackUi\View\Personalizations\Components\Dropdown\Items as DropdownItems;
-use TallStackUi\View\Personalizations\Components\Error;
-use TallStackUi\View\Personalizations\Components\Errors;
-use TallStackUi\View\Personalizations\Components\Form\Checkbox;
-use TallStackUi\View\Personalizations\Components\Form\Input;
-use TallStackUi\View\Personalizations\Components\Form\Label;
-use TallStackUi\View\Personalizations\Components\Form\Password;
-use TallStackUi\View\Personalizations\Components\Form\Radio;
-use TallStackUi\View\Personalizations\Components\Form\Textarea;
-use TallStackUi\View\Personalizations\Components\Form\Toggle;
-use TallStackUi\View\Personalizations\Components\Hint;
-use TallStackUi\View\Personalizations\Components\Interactions\Dialog;
-use TallStackUi\View\Personalizations\Components\Interactions\Toast;
-use TallStackUi\View\Personalizations\Components\Modal;
-use TallStackUi\View\Personalizations\Components\Select\Native as SelectNative;
-use TallStackUi\View\Personalizations\Components\Select\Styled as SelectStyled;
-use TallStackUi\View\Personalizations\Components\Tabs\Items as TabItems;
-use TallStackUi\View\Personalizations\Components\Tabs\Tab;
-use TallStackUi\View\Personalizations\Components\Tooltip;
-use TallStackUi\View\Personalizations\Components\Wrapper\Input as InputWrapper;
-use TallStackUi\View\Personalizations\Components\Wrapper\Radio as RadioWrapper;
-use TallStackUi\View\Personalizations\Contracts\PersonalizableResources;
+use TallStackUi\View\Components\Alert;
+use TallStackUi\View\Components\Avatar;
+use TallStackUi\View\Components\Badge;
+use TallStackUi\View\Components\Button\Button;
+use TallStackUi\View\Components\Button\Circle;
+use TallStackUi\View\Components\Card;
+use TallStackUi\View\Components\Dropdown\Dropdown;
+use TallStackUi\View\Components\Dropdown\Items as DropdownItems;
+use TallStackUi\View\Components\Form\Error;
+use TallStackUi\View\Components\Errors;
+use TallStackUi\View\Components\Form\Checkbox;
+use TallStackUi\View\Components\Form\Input;
+use TallStackUi\View\Components\Form\Label;
+use TallStackUi\View\Components\Form\Password;
+use TallStackUi\View\Components\Form\Radio;
+use TallStackUi\View\Components\Form\Textarea;
+use TallStackUi\View\Components\Form\Toggle;
+use TallStackUi\View\Components\Form\Hint;
+use TallStackUi\View\Components\Interaction\Dialog;
+use TallStackUi\View\Components\Interaction\Toast;
+use TallStackUi\View\Components\Modal;
+use TallStackUi\View\Components\Select\Native as SelectNative;
+use TallStackUi\View\Components\Select\Styled as SelectStyled;
+use TallStackUi\View\Components\Tab\Items as TabItems;
+use TallStackUi\View\Components\Tab\Tab;
+use TallStackUi\View\Components\Tooltip;
+use TallStackUi\View\Components\Wrapper\Input as InputWrapper;
+use TallStackUi\View\Components\Wrapper\Radio as RadioWrapper;
 
 /**
  * @internal This class is not meant to be used directly.
@@ -77,27 +76,27 @@ class Personalization
         //
     }
 
-    public function alert(): Alert
+    public function alert(): PersonalizationResources
     {
         return app($this->component(Alert::class));
     }
 
-    public function avatar(): Avatar
+    public function avatar(): PersonalizationResources
     {
         return app($this->component(Avatar::class));
     }
 
-    public function badge(): Badge
+    public function badge(): PersonalizationResources
     {
         return app($this->component(Badge::class));
     }
 
-    public function block(string|array $name, string|Closure|Personalizable $code = null): PersonalizableResources
+    public function block(string|array $name, string|Closure|Personalizable $code = null): PersonalizationResources
     {
         return $this->instance()->block($name, $code);
     }
 
-    public function button(string $component = null): Button|Circle
+    public function button(string $component = null): PersonalizationResources
     {
         $component ??= 'button';
 
@@ -110,17 +109,17 @@ class Personalization
         return app($this->component($class));
     }
 
-    public function card(): Card
+    public function card(): PersonalizationResources
     {
         return app($this->component(Card::class));
     }
 
-    public function dialog(): Dialog
+    public function dialog(): PersonalizationResources
     {
         return app($this->component(Dialog::class));
     }
 
-    public function dropdown(string $component = null): Dropdown|DropdownItems
+    public function dropdown(string $component = null): PersonalizationResources
     {
         $component ??= 'dropdown';
 
@@ -133,12 +132,12 @@ class Personalization
         return app($this->component($class));
     }
 
-    public function errors(): Errors
+    public function errors(): PersonalizationResources
     {
         return app($this->component(Errors::class));
     }
 
-    public function form(string $component = null): Error|Input|Hint|Label|Password|Checkbox|Radio|Textarea|Toggle
+    public function form(string $component = null): PersonalizationResources
     {
         $component ??= 'input';
 
@@ -158,7 +157,7 @@ class Personalization
         return app($this->component($class));
     }
 
-    public function instance(): PersonalizableResources
+    public function instance(): PersonalizationResources
     {
         if (! $this->component) {
             throw new InvalidArgumentException('No component has been set');
@@ -179,12 +178,12 @@ class Personalization
         return call_user_func([$this, $main], $main === $secondary ?: $secondary);
     }
 
-    public function modal(): Modal
+    public function modal(): PersonalizationResources
     {
         return app($this->component(Modal::class));
     }
 
-    public function select(string $component = null): SelectNative|SelectStyled
+    public function select(string $component = null): PersonalizationResources
     {
         $component ??= 'native';
 
@@ -197,7 +196,7 @@ class Personalization
         return app($this->component($class));
     }
 
-    public function tab(string $component = null): Tab|TabItems
+    public function tab(string $component = null): PersonalizationResources
     {
         $component ??= 'tabs';
 
@@ -210,17 +209,17 @@ class Personalization
         return app($this->component($class));
     }
 
-    public function toast(): Toast
+    public function toast(): PersonalizationResources
     {
         return app($this->component(Toast::class));
     }
 
-    public function tooltip(): Tooltip
+    public function tooltip(): PersonalizationResources
     {
         return app($this->component(Tooltip::class));
     }
 
-    public function wrapper(string $component = null): InputWrapper|RadioWrapper
+    public function wrapper(string $component = null): PersonalizationResources
     {
         $component ??= 'input';
 
