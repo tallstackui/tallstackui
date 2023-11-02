@@ -7,32 +7,37 @@ use TallStackUi\View\Components\Errors;
 
 class ErrorsColors
 {
-    public function __invoke(Errors $errors): array
+    public function __construct(protected Errors $component)
     {
-        $colors['text'] = match ($errors->color === 'black') {
+        //
+    }
+
+    public function __invoke(): array
+    {
+        $colors['text'] = match ($this->component->color === 'black') {
             true => 'white',
-            false => $errors->color,
+            false => $this->component->color,
         };
 
-        $colors['bg'] = match ($errors->color) {
+        $colors['bg'] = match ($this->component->color) {
             'white' => 'gray',
-            default => $errors->color,
+            default => $this->component->color,
         };
 
-        $weight['general'] = match ($errors->color) {
+        $weight['general'] = match ($this->component->color) {
             'white', 'black' => null,
             default => 500,
         };
 
-        $weight['bg'] = match ($errors->color) {
+        $weight['bg'] = match ($this->component->color) {
             'black' => null,
             default => 50,
         };
 
         $text = TallStackUi::tailwind()
             ->set('text', $colors['text'], $weight['general'])
-            ->merge('dark:text', $errors->color, $weight['general'])
-            ->mergeWhen($errors->color === 'white', 'dark:text', 'white')
+            ->merge('dark:text', $this->component->color, $weight['general'])
+            ->mergeWhen($this->component->color === 'white', 'dark:text', 'white')
             ->get();
 
         return [

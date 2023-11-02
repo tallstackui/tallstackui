@@ -11,14 +11,19 @@ class RadioColors
 {
     use DefaultInputClasses;
 
-    public function __invoke(Radio|Checkbox $component): array
+    public function __construct(protected Radio|Checkbox $component)
     {
-        $colors = match ($component->color) {
+        //
+    }
+
+    public function __invoke(): array
+    {
+        $colors = match ($this->component->color) {
             'white' => 'gray',
-            default => $component->color,
+            default => $this->component->color,
         };
 
-        $weight = match ($component->color) {
+        $weight = match ($this->component->color) {
             'white' => 300,
             'black' => null,
             default => 500,

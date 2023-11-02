@@ -7,14 +7,19 @@ use TallStackUi\View\Components\Tooltip;
 
 class TooltipColors
 {
-    public function __invoke(Tooltip $tooltip): array
+    public function __construct(protected Tooltip $component)
     {
-        $colors = match ($tooltip->color) {
+        //
+    }
+
+    public function __invoke(): array
+    {
+        $colors = match ($this->component->color) {
             'white' => 'gray',
-            default => $tooltip->color,
+            default => $this->component->color,
         };
 
-        $weight = match ($tooltip->color) {
+        $weight = match ($this->component->color) {
             'white' => 300,
             'black' => null,
             default => 500,

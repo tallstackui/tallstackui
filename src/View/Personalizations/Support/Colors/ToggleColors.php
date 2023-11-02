@@ -7,14 +7,19 @@ use TallStackUi\View\Components\Form\Toggle;
 
 class ToggleColors
 {
-    public function __invoke(Toggle $toggle): array
+    public function __construct(protected Toggle $component)
     {
-        $colors = match ($toggle->color) {
+        //
+    }
+
+    public function __invoke(): array
+    {
+        $colors = match ($this->component->color) {
             'white' => 'gray',
-            default => $toggle->color,
+            default => $this->component->color,
         };
 
-        $weight = match ($toggle->color) {
+        $weight = match ($this->component->color) {
             'white' => 300,
             'black' => null,
             default => 500,

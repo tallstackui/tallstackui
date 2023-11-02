@@ -32,17 +32,19 @@ class ColorProvider
     /** @throws Exception */
     public static function resolve(object $component): void
     {
-        $data = (match (get_class($component)) {
-            Alert::class => fn () => (new AlertColors())($component),
-            Avatar::class => fn () => (new AvatarColors())($component),
-            Badge::class => fn () => (new BadgeColors())($component),
-            Button::class, Circle::class => fn () => (new ButtonColors())($component),
-            Errors::class => fn () => (new ErrorsColors())($component),
-            Radio::class, Checkbox::class => fn () => (new RadioColors())($component),
-            Toggle::class => fn () => (new ToggleColors())($component),
-            Tooltip::class => fn () => (new TooltipColors())($component),
+        $class = match (get_class($component)) {
+            Alert::class => AlertColors::class,
+            Avatar::class => AvatarColors::class,
+            Badge::class => BadgeColors::class,
+            Button::class, Circle::class => ButtonColors::class,
+            Errors::class => ErrorsColors::class,
+            Radio::class, Checkbox::class => RadioColors::class,
+            Toggle::class => ToggleColors::class,
+            Tooltip::class => TooltipColors::class,
             default => throw new Exception("No colors available for the component: [$component]"),
-        })();
+        };
+
+        $data = (new $class($component))();
 
         FacadeView::composer($component->render()->name(), fn (View $view) => $view->with('colors', [...$data]));
     }

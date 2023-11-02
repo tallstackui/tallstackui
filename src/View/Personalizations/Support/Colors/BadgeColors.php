@@ -8,47 +8,48 @@ use TallStackUi\View\Components\Badge;
 
 class BadgeColors
 {
-    protected Badge $badge;
-
-    public function __invoke(Badge $badge): array
+    public function __construct(protected Badge $component)
     {
-        $this->badge = $badge;
+        //
+    }
 
+    public function __invoke(): array
+    {
         return [
             'wrapper.color' => $this->background().' '.$this->text(),
             'icon.color' => Arr::toCssClasses([
-                'text-white' => $badge->color !== 'white' && $badge->style === 'solid',
+                'text-white' => $this->component->color !== 'white' && $this->component->style === 'solid',
                 TallStackUi::tailwind()
-                    ->set('text', $badge->color, 500)
-                    ->get() => $badge->style === 'outline',
+                    ->set('text', $this->component->color, 500)
+                    ->get() => $this->component->style === 'outline',
             ]),
         ];
     }
 
     private function background(): string
     {
-        $colors = match ($this->badge->color) {
+        $colors = match ($this->component->color) {
             'white' => 'neutral',
-            default => $this->badge->color,
+            default => $this->component->color,
         };
 
-        $weight = match ($this->badge->color) {
+        $weight = match ($this->component->color) {
             'white', 'black' => null,
             default => 500,
         };
 
         return TallStackUi::tailwind()
             ->set('border', $colors, $weight)
-            ->mergeWhen($this->badge->style === 'solid', 'bg', $colors, $weight)
-            ->mergeWhen($this->badge->style === 'solid' && $this->badge->color === 'white', 'dark:bg', 'white')
-            ->mergeWhen($this->badge->style === 'outline' && $this->badge->color === 'white', 'dark:text', 'white')
+            ->mergeWhen($this->component->style === 'solid', 'bg', $colors, $weight)
+            ->mergeWhen($this->component->style === 'solid' && $this->component->color === 'white', 'dark:bg', 'white')
+            ->mergeWhen($this->component->style === 'outline' && $this->component->color === 'white', 'dark:text', 'white')
             ->get();
     }
 
     private function text(): string
     {
-        $style = $this->badge->style;
-        $color = $this->badge->color;
+        $style = $this->component->style;
+        $color = $this->component->color;
 
         $colors = match (true) {
             $style === 'solid' && $color !== 'white' => 'white',

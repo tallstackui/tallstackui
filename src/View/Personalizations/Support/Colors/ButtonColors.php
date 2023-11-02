@@ -10,31 +10,7 @@ use TallStackUi\View\Personalizations\Support\TailwindClassBuilder;
 
 class ButtonColors
 {
-    private Button|Circle $component;
-
-    private array $variations = [];
-
-    public function __invoke(Button|Circle $component): array
-    {
-        $this->component = $component;
-
-        return [
-            'wrapper.color' => $this->button(),
-            'icon.color' => $this->icon(),
-            'icon.loading.color' => Arr::toCssClasses([
-                TallStackUi::tailwind()
-                    ->when($component->color === 'white', fn (TailwindClassBuilder $color) => $color->set('text', 'black'))
-                    ->unless($component->color === 'white', fn (TailwindClassBuilder $color) => $color->set('text', 'white'))
-                    ->get() => $component->style === 'solid',
-                TallStackUi::tailwind()
-                    ->when($component->color === 'white', fn (TailwindClassBuilder $color) => $color->set('text', 'black'))
-                    ->unless($component->color === 'white', fn (TailwindClassBuilder $color) => $color->set('text', $component->color, 500))
-                    ->get() => $component->style === 'outline',
-            ]),
-        ];
-    }
-
-    private function button(): string
+    public function __construct(protected Button|Circle $component, protected array $variations = [])
     {
         $this->variations = match ($this->component->color) {
             'white' => [
@@ -54,7 +30,28 @@ class ButtonColors
                 'bg' => $this->component->color,
             ]
         };
+    }
 
+    public function __invoke(): array
+    {
+        return [
+            'wrapper.color' => $this->button(),
+            'icon.color' => $this->icon(),
+            'icon.loading.color' => Arr::toCssClasses([
+                TallStackUi::tailwind()
+                    ->when($this->component->color === 'white', fn (TailwindClassBuilder $color) => $color->set('text', 'black'))
+                    ->unless($this->component->color === 'white', fn (TailwindClassBuilder $color) => $color->set('text', 'white'))
+                    ->get() => $this->component->style === 'solid',
+                TallStackUi::tailwind()
+                    ->when($this->component->color === 'white', fn (TailwindClassBuilder $color) => $color->set('text', 'black'))
+                    ->unless($this->component->color === 'white', fn (TailwindClassBuilder $color) => $color->set('text', $this->component->color, 500))
+                    ->get() => $this->component->style === 'outline',
+            ]),
+        ];
+    }
+
+    private function button(): string
+    {
         $color = $this->text(TallStackUi::tailwind());
 
         $this->solid($color)->get();

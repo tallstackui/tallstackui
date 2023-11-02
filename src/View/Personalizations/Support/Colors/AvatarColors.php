@@ -8,14 +8,19 @@ use TallStackUi\View\Components\Avatar;
 
 class AvatarColors
 {
-    public function __invoke(Avatar $avatar): array
+    public function __construct(protected Avatar $component)
     {
-        $colors = match ($avatar->color) {
+        //
+    }
+
+    public function __invoke(): array
+    {
+        $colors = match ($this->component->color) {
             'white' => 'neutral',
-            default => $avatar->color,
+            default => $this->component->color,
         };
 
-        $weight = match ($avatar->color) {
+        $weight = match ($this->component->color) {
             'white', 'black' => null,
             default => 500,
         };
@@ -25,9 +30,9 @@ class AvatarColors
                 TallStackUi::tailwind()
                     ->set('bg', $colors, $weight)
                     ->merge('border', $colors, $weight)
-                    ->mergeWhen($avatar->color === 'white', 'dark:bg', 'white')
-                    ->mergeWhen($avatar->color === 'white', 'dark:border', 'white')
-                    ->get() => ! $avatar->model,
+                    ->mergeWhen($this->component->color === 'white', 'dark:bg', 'white')
+                    ->mergeWhen($this->component->color === 'white', 'dark:border', 'white')
+                    ->get() => ! $this->component->model,
             ]),
         ];
     }
