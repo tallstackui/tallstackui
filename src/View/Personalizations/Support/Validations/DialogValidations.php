@@ -3,9 +3,11 @@
 namespace TallStackUi\View\Personalizations\Support\Validations;
 
 use InvalidArgumentException;
+use Throwable;
 
 class DialogValidations
 {
+    /** @throws Throwable */
     public function __invoke(): void
     {
         $configuration = config('tallstackui.personalizations.dialog');

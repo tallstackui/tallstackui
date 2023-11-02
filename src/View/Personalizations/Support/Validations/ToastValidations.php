@@ -3,11 +3,13 @@
 namespace TallStackUi\View\Personalizations\Support\Validations;
 
 use InvalidArgumentException;
+use Throwable;
 
 class ToastValidations
 {
     private const POSITIONS = ['top-right', 'top-left', 'bottom-right', 'bottom-left'];
 
+    /** @throws Throwable */
     public function __invoke(): void
     {
         $configuration = config('tallstackui.personalizations.toast');

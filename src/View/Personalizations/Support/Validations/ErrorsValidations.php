@@ -9,8 +9,8 @@ use Throwable;
 class ErrorsValidations
 {
     /** @throws Throwable */
-    public function __invoke(Errors $errors): void
+    public function __invoke(Errors $component): void
     {
-        throw_if(blank($errors->title), new Exception('The [title] cannot be empty'));
+        throw_if(blank($component->title), new Exception('The [title] cannot be empty'));
     }
 }
