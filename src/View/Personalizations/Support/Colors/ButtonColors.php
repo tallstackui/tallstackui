@@ -90,7 +90,7 @@ class ButtonColors
             'black' => [
                 'border' => null,
                 'ring' => null,
-                'hover:bg' => null,
+                'hover:bg' => 50,
                 'hover:ring' => null,
             ],
             default => [
