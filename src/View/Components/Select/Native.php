@@ -8,9 +8,9 @@ use Illuminate\Support\Collection;
 use Illuminate\View\Component;
 use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
 use TallStackUi\View\Components\Select\Traits\InteractsWithSelectOptions;
-use TallStackUi\View\Personalizations\Contracts\Personalize;
+use TallStackUi\View\Personalizations\Contracts\Personalization;
 
-class Native extends Component implements Personalize
+class Native extends Component implements Personalization
 {
     use DefaultInputClasses;
     use InteractsWithSelectOptions;

@@ -1,12 +1,12 @@
 <?php
 
 use TallStackUi\View\Personalizations\Contracts\PersonalizableResources;
-use TallStackUi\View\Personalizations\Contracts\Personalize;
+use TallStackUi\View\Personalizations\Contracts\Personalization as PersonalizationContract;
 use TallStackUi\View\Personalizations\Personalization;
 
 describe('TallStackUi Components', function () {
     test('is customizable', function (string $index) {
-        expect($index)->toImplement(Personalize::class);
+        expect($index)->toImplement(PersonalizationContract::class);
     })->with('components');
 
     test('contains personalization method', function (string $index) {

@@ -2,7 +2,7 @@
 
 namespace TallStackUi\View\Personalizations\Contracts;
 
-interface Personalize
+interface Personalization
 {
     public function personalization(): array;
 }

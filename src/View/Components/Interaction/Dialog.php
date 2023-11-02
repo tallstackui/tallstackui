@@ -5,11 +5,11 @@ namespace TallStackUi\View\Components\Interaction;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
-use TallStackUi\View\Personalizations\Contracts\Personalize;
+use TallStackUi\View\Personalizations\Contracts\Personalization;
 use TallStackUi\View\Personalizations\Traits\InteractWithProviders;
 use TallStackUi\View\Personalizations\Traits\InteractWithValidations;
 
-class Dialog extends Component implements Personalize
+class Dialog extends Component implements Personalization
 {
     use InteractWithProviders;
     use InteractWithValidations;

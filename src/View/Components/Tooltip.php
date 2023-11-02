@@ -5,10 +5,10 @@ namespace TallStackUi\View\Components;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
-use TallStackUi\View\Personalizations\Contracts\Personalize;
+use TallStackUi\View\Personalizations\Contracts\Personalization;
 use TallStackUi\View\Personalizations\Traits\InteractWithProviders;
 
-class Tooltip extends Component implements Personalize
+class Tooltip extends Component implements Personalization
 {
     use InteractWithProviders;
 

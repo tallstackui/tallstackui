@@ -8,11 +8,11 @@ use Illuminate\Support\Collection;
 use Illuminate\View\Component;
 use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
 use TallStackUi\View\Components\Select\Traits\InteractsWithSelectOptions;
-use TallStackUi\View\Personalizations\Contracts\Personalize;
+use TallStackUi\View\Personalizations\Contracts\Personalization;
 use TallStackUi\View\Personalizations\Traits\InteractWithValidations;
 use Throwable;
 
-class Styled extends Component implements Personalize
+class Styled extends Component implements Personalization
 {
     use DefaultInputClasses;
     use InteractsWithSelectOptions;

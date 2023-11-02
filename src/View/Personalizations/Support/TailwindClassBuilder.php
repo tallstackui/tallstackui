@@ -9,11 +9,12 @@ final class TailwindClassBuilder implements Stringable
 {
     use Conditionable;
 
-    protected string $class = '';
-
-    protected string $color = '';
-
-    private bool $clean = true;
+    public function __construct(
+        protected string $class = '',
+        private bool $clean = true,
+    ) {
+        //
+    }
 
     public function __toString(): string
     {

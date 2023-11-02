@@ -5,9 +5,9 @@ namespace TallStackUi\View\Components\Tab;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
-use TallStackUi\View\Personalizations\Contracts\Personalize;
+use TallStackUi\View\Personalizations\Contracts\Personalization;
 
-class Tab extends Component implements Personalize
+class Tab extends Component implements Personalization
 {
     public function __construct(public ?string $selected = null)
     {

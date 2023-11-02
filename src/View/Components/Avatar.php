@@ -7,11 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
 use InvalidArgumentException;
-use TallStackUi\View\Personalizations\Contracts\Personalize;
+use TallStackUi\View\Personalizations\Contracts\Personalization;
 use TallStackUi\View\Personalizations\Traits\InteractWithProviders;
 use Throwable;
 
-class Avatar extends Component implements Personalize
+class Avatar extends Component implements Personalization
 {
     use InteractWithProviders;
 

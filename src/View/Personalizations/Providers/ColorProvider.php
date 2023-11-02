@@ -44,8 +44,6 @@ class ColorProvider
             default => throw new Exception("No colors available for the component: [$component]"),
         };
 
-        $data = (new $class($component))();
-
-        FacadeView::composer($component->render()->name(), fn (View $view) => $view->with('colors', [...$data]));
+        FacadeView::composer($component->render()->name(), fn (View $view) => $view->with('colors', [...(new $class($component))()]));
     }
 }

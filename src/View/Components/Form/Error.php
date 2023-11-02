@@ -4,9 +4,9 @@ namespace TallStackUi\View\Components\Form;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
-use TallStackUi\View\Personalizations\Contracts\Personalize;
+use TallStackUi\View\Personalizations\Contracts\Personalization;
 
-class Error extends Component implements Personalize
+class Error extends Component implements Personalization
 {
     public function __construct(public ?string $computed = null, public bool $error = false)
     {

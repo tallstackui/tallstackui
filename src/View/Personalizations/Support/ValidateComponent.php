@@ -24,14 +24,16 @@ class ValidateComponent
     /** @throws Exception */
     public static function validate(object $component): void
     {
-        (match (get_class($component)) {
-            Dialog::class => fn () => (new DialogValidations())(),
-            Errors::class => fn () => (new ErrorsValidations())($component),
-            Toast::class => fn () => (new ToastValidations())(),
-            Styled::class => fn () => (new SelectStyledValidations())($component),
-            Icon::class => fn () => (new IconValidations())($component),
-            Modal::class => fn () => (new ModalValidations())($component),
+        $class = match (get_class($component)) {
+            Dialog::class => DialogValidations::class,
+            Errors::class => ErrorsValidations::class,
+            Toast::class => ToastValidations::class,
+            Styled::class => SelectStyledValidations::class,
+            Icon::class => IconValidations::class,
+            Modal::class => ModalValidations::class,
             default => throw new Exception("No validation available for the component: [$component]"),
-        })();
+        };
+
+        (new $class())($component);
     }
 }
