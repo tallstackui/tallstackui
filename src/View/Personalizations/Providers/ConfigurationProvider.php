@@ -58,6 +58,8 @@ class ConfigurationProvider
             default => 'sm:max-w-2xl',
         };
 
-        return array_merge(['zIndex' => $modal->zIndex], collect($modal)->only('blur', 'uncloseable', 'size')->toArray());
+        return collect($modal)
+            ->only('zIndex', 'size', 'blur', 'uncloseable')
+            ->toArray();
     }
 }
