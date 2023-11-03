@@ -82,7 +82,7 @@ class Avatar extends Component implements Personalization
                     'class' => 'font-semibold',
                     'colors' => [
                         'colorful' => 'text-white',
-                        'white' => 'text-neutral-700',
+                        'white' => 'text-black',
                     ],
                 ],
             ],
