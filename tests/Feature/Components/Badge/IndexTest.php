@@ -47,7 +47,8 @@ it('can render size variations', function (array $size) {
 it('can render outline', function () {
     $this->blade('<x-badge outline>Foo bar</x-badge>')
         ->assertSee('Foo bar')
-        ->assertSee('border-primary-500 text-primary-500');
+        ->assertSee('border-primary-500')
+        ->assertSee('text-primary-500');
 });
 
 it('can render icon on left', function () {

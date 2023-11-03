@@ -65,7 +65,6 @@ dataset('personalizations.components', [
 dataset('colors', [
     'primary',
     'secondary',
-    'dark',
     'white',
     'black',
     'slate',

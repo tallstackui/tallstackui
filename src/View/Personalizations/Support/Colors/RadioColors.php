@@ -6,7 +6,6 @@ use TallStackUi\View\Components\Form\Checkbox;
 use TallStackUi\View\Components\Form\Radio;
 use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
 
-// TODO: refactor
 class RadioColors
 {
     use DefaultInputClasses;

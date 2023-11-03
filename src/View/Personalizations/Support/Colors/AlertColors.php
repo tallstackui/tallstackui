@@ -123,7 +123,7 @@ class AlertColors
             ],
             'translucent' => [
                 'white' => 'text-black',
-                'black' => 'text-black-900',
+                'black' => 'text-black',
                 'primary' => 'text-primary-900',
                 'secondary' => 'text-secondary-900',
                 'slate' => 'text-slate-900',

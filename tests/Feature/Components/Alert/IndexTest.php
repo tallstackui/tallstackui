@@ -42,7 +42,7 @@ it('can render white background with black text', function () {
     $this->blade('<x-alert text="Foo bar" color="white" />')
         ->assertSee('Foo bar')
         ->assertSee('bg-white')
-        ->assertSee('text-neutral')
+        ->assertSee('text-black')
         ->assertDontSee('text-white');
 });
 

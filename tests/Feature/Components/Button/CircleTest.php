@@ -33,7 +33,7 @@ it('can render colored', function (string $colors) {
     HTML;
 
     $color = match ($colors) {
-        'white' => 'bg-neutral',
+        'white' => 'bg-white',
         'black' => 'bg-black',
         default => "bg-$colors-500",
     };
