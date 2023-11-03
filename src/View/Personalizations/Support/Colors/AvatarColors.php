@@ -15,7 +15,7 @@ class AvatarColors
 
     public function __invoke(): array
     {
-        $colors = match ($this->component->color) {
+        $border = match ($this->component->color) {
             'white' => 'neutral',
             default => $this->component->color,
         };
@@ -28,8 +28,8 @@ class AvatarColors
         return [
             'wrapper.color' => Arr::toCssClasses([
                 TallStackUi::tailwind()
-                    ->set('bg', $colors, $weight)
-                    ->merge('border', $colors, $weight)
+                    ->set('bg', $this->component->color, $weight)
+                    ->merge('border', $border, $weight)
                     ->mergeWhen($this->component->color === 'white', 'dark:bg', 'white')
                     ->mergeWhen($this->component->color === 'white', 'dark:border', 'white')
                     ->get() => ! $this->component->model,

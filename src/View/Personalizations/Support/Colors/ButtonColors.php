@@ -8,6 +8,7 @@ use TallStackUi\View\Components\Button\Button;
 use TallStackUi\View\Components\Button\Circle;
 use TallStackUi\View\Personalizations\Support\TailwindClassBuilder;
 
+// TODO: refactor
 class ButtonColors
 {
     public function __construct(protected Button|Circle $component, protected array $variations = [])

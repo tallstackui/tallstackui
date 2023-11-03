@@ -5,6 +5,7 @@ namespace TallStackUi\View\Personalizations\Support\Colors;
 use TallStackUi\Facades\TallStackUi;
 use TallStackUi\View\Components\Form\Toggle;
 
+// TODO: refactor
 class ToggleColors
 {
     public function __construct(protected Toggle $component)

@@ -5,6 +5,7 @@ namespace TallStackUi\View\Personalizations\Support\Colors;
 use TallStackUi\Facades\TallStackUi;
 use TallStackUi\View\Components\Errors;
 
+// TODO: refactor
 class ErrorsColors
 {
     public function __construct(protected Errors $component)

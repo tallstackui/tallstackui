@@ -6,6 +6,7 @@ use Illuminate\Support\Arr;
 use TallStackUi\Facades\TallStackUi;
 use TallStackUi\View\Components\Alert;
 
+// TODO: refactor
 class AlertColors
 {
     public function __construct(protected Alert $component)

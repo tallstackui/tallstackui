@@ -6,6 +6,7 @@ use Illuminate\Support\Arr;
 use TallStackUi\Facades\TallStackUi;
 use TallStackUi\View\Components\Badge;
 
+// TODO: refactor
 class BadgeColors
 {
     public function __construct(protected Badge $component)
