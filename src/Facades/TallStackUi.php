@@ -5,11 +5,9 @@ namespace TallStackUi\Facades;
 use Illuminate\Support\Facades\Facade;
 use TallStackUi\TallStackUiDirectives;
 use TallStackUi\View\Personalizations\Personalization;
-use TallStackUi\View\Personalizations\Support\TailwindClassBuilder;
 
 /**
  * @method static Personalization personalize(?string $component = null)
- * @method static TailwindClassBuilder tailwind()
  * @method static TallStackUiDirectives directives()
  */
 class TallStackUi extends Facade

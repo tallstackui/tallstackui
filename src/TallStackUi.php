@@ -3,7 +3,6 @@
 namespace TallStackUi;
 
 use TallStackUi\View\Personalizations\Personalization;
-use TallStackUi\View\Personalizations\Support\TailwindClassBuilder;
 
 class TallStackUi
 {
@@ -15,10 +14,5 @@ class TallStackUi
     public function personalize(string $component = null): Personalization
     {
         return new Personalization($component);
-    }
-
-    public function tailwind(): TailwindClassBuilder
-    {
-        return new TailwindClassBuilder();
     }
 }
