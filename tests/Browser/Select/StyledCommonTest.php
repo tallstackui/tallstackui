@@ -11,7 +11,7 @@ class StyledCommonTest extends BrowserTestCase
     /** @test */
     public function can_clear(): void
     {
-        Livewire::visit(StyledComponent::class)
+        Livewire::visit(StyledComponent_Common::class)
             ->assertSee('Select an option')
             ->assertDontSee('foo')
             ->assertDontSee('bar')
@@ -29,7 +29,7 @@ class StyledCommonTest extends BrowserTestCase
     /** @test */
     public function can_open(): void
     {
-        Livewire::visit(StyledComponent::class)
+        Livewire::visit(StyledComponent_Common::class)
             ->assertSee('Select an option')
             ->assertDontSee('bar')
             ->assertDontSee('foo')
@@ -40,7 +40,7 @@ class StyledCommonTest extends BrowserTestCase
     /** @test */
     public function can_render_after_slot(): void
     {
-        Livewire::visit(StyledSearchableComponent::class)
+        Livewire::visit(StyledSearchableComponent_Common::class)
             ->assertSee('Select an option')
             ->assertDontSee('bar')
             ->assertDontSee('foo')
@@ -55,7 +55,7 @@ class StyledCommonTest extends BrowserTestCase
     /** @test */
     public function can_search(): void
     {
-        Livewire::visit(StyledSearchableComponent::class)
+        Livewire::visit(StyledSearchableComponent_Common::class)
             ->assertSee('Select an option')
             ->assertDontSee('bar')
             ->assertDontSee('foo')
@@ -71,7 +71,7 @@ class StyledCommonTest extends BrowserTestCase
     /** @test */
     public function can_select(): void
     {
-        Livewire::visit(StyledComponent::class)
+        Livewire::visit(StyledComponent_Common::class)
             ->assertSee('Select an option')
             ->assertDontSee('foo')
             ->assertDontSee('bar')
@@ -88,7 +88,7 @@ class StyledCommonTest extends BrowserTestCase
     /** @test */
     public function can_select_multiple(): void
     {
-        Livewire::visit(StyledMultipleComponent::class)
+        Livewire::visit(StyledMultipleComponent_Common::class)
             ->assertSee('Select an option')
             ->assertDontSee('foo')
             ->assertDontSee('bar')
@@ -106,7 +106,7 @@ class StyledCommonTest extends BrowserTestCase
     /** @test */
     public function can_select_multiple_with_live_entangle(): void
     {
-        Livewire::visit(StyledMultipleLiveEntangleComponent::class)
+        Livewire::visit(StyledMultipleLiveEntangleComponent_Common::class)
             ->assertSee('Select an option')
             ->assertDontSee('foo')
             ->assertDontSee('bar')
@@ -135,7 +135,7 @@ class StyledCommonTest extends BrowserTestCase
     /** @test */
     public function can_select_multiple_with_live_entangle_preserving_default(): void
     {
-        Livewire::visit(StyledMultipleLiveEntangleDefaultComponent::class)
+        Livewire::visit(StyledMultipleLiveEntangleDefaultComponent_Common::class)
             ->assertDontSee('Select an option')
             ->assertSee('foo')
             ->assertDontSee('bar')
@@ -159,7 +159,7 @@ class StyledCommonTest extends BrowserTestCase
     /** @test */
     public function can_unselect(): void
     {
-        Livewire::visit(StyledComponent::class)
+        Livewire::visit(StyledComponent_Common::class)
             ->assertSee('Select an option')
             ->assertDontSee('foo')
             ->assertDontSee('bar')
@@ -179,7 +179,7 @@ class StyledCommonTest extends BrowserTestCase
     /** @test */
     public function can_unselect_multiple(): void
     {
-        Livewire::visit(StyledMultipleComponent::class)
+        Livewire::visit(StyledMultipleComponent_Common::class)
             ->assertSee('Select an option')
             ->assertDontSee('foo')
             ->assertDontSee('bar')
@@ -199,7 +199,7 @@ class StyledCommonTest extends BrowserTestCase
     }
 }
 
-class StyledComponent extends Component
+class StyledComponent_Common extends Component
 {
     public ?string $string = null;
 
@@ -230,7 +230,7 @@ class StyledComponent extends Component
     }
 }
 
-class StyledSearchableComponent extends Component
+class StyledSearchableComponent_Common extends Component
 {
     public ?string $string = null;
 
@@ -264,7 +264,7 @@ class StyledSearchableComponent extends Component
     }
 }
 
-class StyledMultipleComponent extends Component
+class StyledMultipleComponent_Common extends Component
 {
     public ?array $array = null;
 
@@ -297,7 +297,7 @@ class StyledMultipleComponent extends Component
     }
 }
 
-class StyledMultipleLiveEntangleComponent extends Component
+class StyledMultipleLiveEntangleComponent_Common extends Component
 {
     public ?array $array = null;
 
@@ -330,7 +330,7 @@ class StyledMultipleLiveEntangleComponent extends Component
     }
 }
 
-class StyledMultipleLiveEntangleDefaultComponent extends Component
+class StyledMultipleLiveEntangleDefaultComponent_Common extends Component
 {
     public ?array $array = ['foo'];
 

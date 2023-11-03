@@ -11,7 +11,7 @@ class StyledSearchableTest extends BrowserTestCase
     /** @test */
     public function can_clear(): void
     {
-        Livewire::visit(StyledComponent::class)
+        Livewire::visit(StyledComponent_Searchable::class)
             ->assertSee('Select an option')
             ->assertDontSee('delectus aut autem')
             ->assertDontSee('quis ut nam facilis et officia qui')
@@ -32,7 +32,7 @@ class StyledSearchableTest extends BrowserTestCase
     /** @test */
     public function can_open(): void
     {
-        Livewire::visit(StyledComponent::class)
+        Livewire::visit(StyledComponent_Searchable::class)
             ->assertSee('Select an option')
             ->assertDontSee('delectus aut autem')
             ->assertDontSee('quis ut nam facilis et officia qui')
@@ -46,7 +46,7 @@ class StyledSearchableTest extends BrowserTestCase
     /** @test */
     public function can_render_after_slot(): void
     {
-        Livewire::visit(StyledAfterSlotComponent::class)
+        Livewire::visit(StyledAfterSlotComponent_Searchable::class)
             ->assertSee('Select an option')
             ->assertDontSee('delectus aut autem')
             ->assertDontSee('quis ut nam facilis et officia qui')
@@ -63,7 +63,7 @@ class StyledSearchableTest extends BrowserTestCase
     /** @test */
     public function can_search(): void
     {
-        Livewire::visit(StyledSearchableComponent::class)
+        Livewire::visit(StyledSearchableComponent_Searchable::class)
             ->assertSee('Select an option')
             ->assertDontSee('delectus aut autem')
             ->assertDontSee('quis ut nam facilis et officia qui')
@@ -84,7 +84,7 @@ class StyledSearchableTest extends BrowserTestCase
     /** @test */
     public function can_select(): void
     {
-        Livewire::visit(StyledComponent::class)
+        Livewire::visit(StyledComponent_Searchable::class)
             ->assertSee('Select an option')
             ->assertDontSee('delectus aut autem')
             ->assertDontSee('quis ut nam facilis et officia qui')
@@ -102,7 +102,7 @@ class StyledSearchableTest extends BrowserTestCase
     /** @test */
     public function can_select_multiple(): void
     {
-        Livewire::visit(StyledMultipleComponent::class)
+        Livewire::visit(StyledMultipleComponent_Searchable::class)
             ->assertSee('Select an option')
             ->assertDontSee('delectus aut autem')
             ->assertDontSee('quis ut nam facilis et officia qui')
@@ -122,7 +122,7 @@ class StyledSearchableTest extends BrowserTestCase
     /** @test */
     public function can_select_multiple_with_live_entangle(): void
     {
-        Livewire::visit(StyledMultipleLiveEntangleComponent::class)
+        Livewire::visit(StyledMultipleLiveEntangleComponent_Searchable::class)
             ->assertSee('Select an option')
             ->assertDontSee('delectus aut autem')
             ->assertDontSee('quis ut nam facilis et officia qui')
@@ -151,7 +151,7 @@ class StyledSearchableTest extends BrowserTestCase
     /** @test */
     public function can_select_multiple_with_live_entangle_preserving_default(): void
     {
-        Livewire::visit(StyledMultipleLiveEntangleDefaultComponent::class)
+        Livewire::visit(StyledMultipleLiveEntangleDefaultComponent_Searchable::class)
             ->assertSee('delectus aut autem')
             ->click('@tallstackui_select_open_close')
             ->waitForText(['delectus aut autem', 'quis ut nam facilis et officia qui', 'fugiat veniam minus', 'et porro tempora', 'laboriosam mollitia et enim quasi adipisci quia provident illum'])
@@ -180,7 +180,7 @@ class StyledSearchableTest extends BrowserTestCase
     /** @test */
     public function can_unselect(): void
     {
-        Livewire::visit(StyledComponent::class)
+        Livewire::visit(StyledComponent_Searchable::class)
             ->assertSee('Select an option')
             ->assertDontSee('delectus aut autem')
             ->assertDontSee('quis ut nam facilis et officia qui')
@@ -202,7 +202,7 @@ class StyledSearchableTest extends BrowserTestCase
     /** @test */
     public function can_unselect_multiple(): void
     {
-        Livewire::visit(StyledMultipleComponent::class)
+        Livewire::visit(StyledMultipleComponent_Searchable::class)
             ->assertSee('Select an option')
             ->assertDontSee('delectus aut autem')
             ->assertDontSee('quis ut nam facilis et officia qui')
@@ -226,7 +226,7 @@ class StyledSearchableTest extends BrowserTestCase
     }
 }
 
-class StyledComponent extends Component
+class StyledComponent_Searchable extends Component
 {
     public ?string $string = null;
 
@@ -254,7 +254,7 @@ class StyledComponent extends Component
     }
 }
 
-class StyledMultipleComponent extends Component
+class StyledMultipleComponent_Searchable extends Component
 {
     public ?array $array = null;
 
@@ -283,7 +283,7 @@ class StyledMultipleComponent extends Component
     }
 }
 
-class StyledMultipleLiveEntangleComponent extends Component
+class StyledMultipleLiveEntangleComponent_Searchable extends Component
 {
     public ?array $array = null;
 
@@ -312,7 +312,7 @@ class StyledMultipleLiveEntangleComponent extends Component
     }
 }
 
-class StyledMultipleLiveEntangleDefaultComponent extends Component
+class StyledMultipleLiveEntangleDefaultComponent_Searchable extends Component
 {
     public ?array $array = ['delectus aut autem'];
 
@@ -341,7 +341,7 @@ class StyledMultipleLiveEntangleDefaultComponent extends Component
     }
 }
 
-class StyledSearchableComponent extends Component
+class StyledSearchableComponent_Searchable extends Component
 {
     public ?string $string = null;
 
@@ -369,7 +369,7 @@ class StyledSearchableComponent extends Component
     }
 }
 
-class StyledAfterSlotComponent extends Component
+class StyledAfterSlotComponent_Searchable extends Component
 {
     public ?string $string = null;
 
