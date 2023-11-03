@@ -2,10 +2,8 @@
 
 namespace TallStackUi\View\Personalizations\Support\Colors;
 
-use TallStackUi\Facades\TallStackUi;
 use TallStackUi\View\Components\Tooltip;
 
-// TODO: refactor
 class TooltipColors
 {
     public function __construct(protected Tooltip $component)
@@ -15,17 +13,35 @@ class TooltipColors
 
     public function __invoke(): array
     {
-        $colors = match ($this->component->color) {
-            'white' => 'gray',
-            default => $this->component->color,
-        };
+        $color = [
+            'white' => 'text-white',
+            'black' => 'text-black',
+            'primary' => 'text-primary-500',
+            'secondary' => 'text-secondary-500',
+            'slate' => 'text-slate-500',
+            'gray' => 'text-gray-500',
+            'zinc' => 'text-zinc-500',
+            'neutral' => 'text-neutral-500',
+            'stone' => 'text-stone-500',
+            'red' => 'text-red-500',
+            'orange' => 'text-orange-500',
+            'amber' => 'text-amber-500',
+            'yellow' => 'text-yellow-500',
+            'lime' => 'text-lime-500',
+            'green' => 'text-green-500',
+            'emerald' => 'text-emerald-500',
+            'teal' => 'text-teal-500',
+            'cyan' => 'text-cyan-500',
+            'sky' => 'text-sky-500',
+            'blue' => 'text-blue-500',
+            'indigo' => 'text-indigo-500',
+            'violet' => 'text-violet-500',
+            'purple' => 'text-purple-500',
+            'fuchsia' => 'text-fuchsia-500',
+            'pink' => 'text-pink-500',
+            'rose' => 'text-rose-500',
+        ][$this->component->color];
 
-        $weight = match ($this->component->color) {
-            'white' => 300,
-            'black' => null,
-            default => 500,
-        };
-
-        return ['icon.color' => TallStackUi::tailwind()->set('text', $colors, $weight)->get()];
+        return ['icon.color' => $color];
     }
 }
