@@ -5257,16 +5257,16 @@
         },
         {
             "name": "filp/whoops",
-            "version": "2.15.3",
+            "version": "2.15.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filp/whoops.git",
-                "reference": "c83e88a30524f9360b11f585f71e6b17313b7187"
+                "reference": "a139776fa3f5985a50b509f2a02ff0f709d2a546"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/filp/whoops/zipball/c83e88a30524f9360b11f585f71e6b17313b7187",
-                "reference": "c83e88a30524f9360b11f585f71e6b17313b7187",
+                "url": "https://api.github.com/repos/filp/whoops/zipball/a139776fa3f5985a50b509f2a02ff0f709d2a546",
+                "reference": "a139776fa3f5985a50b509f2a02ff0f709d2a546",
                 "shasum": ""
             },
             "require": {
@@ -5316,7 +5316,7 @@
             ],
             "support": {
                 "issues": "https://github.com/filp/whoops/issues",
-                "source": "https://github.com/filp/whoops/tree/2.15.3"
+                "source": "https://github.com/filp/whoops/tree/2.15.4"
             },
             "funding": [
                 {
@@ -5324,7 +5324,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-07-13T12:00:00+00:00"
+            "time": "2023-11-03T12:00:00+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -6674,16 +6674,16 @@
         },
         {
             "name": "orchestra/testbench-core",
-            "version": "v8.14.3",
+            "version": "v8.14.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/testbench-core.git",
-                "reference": "6ebfa94c5d7872c5a6623ed588476771c6b9c124"
+                "reference": "2501be03ccd199851006b3d286b303b97fc55738"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/testbench-core/zipball/6ebfa94c5d7872c5a6623ed588476771c6b9c124",
-                "reference": "6ebfa94c5d7872c5a6623ed588476771c6b9c124",
+                "url": "https://api.github.com/repos/orchestral/testbench-core/zipball/2501be03ccd199851006b3d286b303b97fc55738",
+                "reference": "2501be03ccd199851006b3d286b303b97fc55738",
                 "shasum": ""
             },
             "require": {
@@ -6758,20 +6758,20 @@
                 "issues": "https://github.com/orchestral/testbench/issues",
                 "source": "https://github.com/orchestral/testbench-core"
             },
-            "time": "2023-10-31T12:58:05+00:00"
+            "time": "2023-11-02T13:53:10+00:00"
         },
         {
             "name": "orchestra/testbench-dusk",
-            "version": "v8.14.0",
+            "version": "v8.14.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/testbench-dusk.git",
-                "reference": "567d9547851050b833a570ef966c5e721149f758"
+                "reference": "45016550bf0e42f391367672e9aa9163df732c0e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/testbench-dusk/zipball/567d9547851050b833a570ef966c5e721149f758",
-                "reference": "567d9547851050b833a570ef966c5e721149f758",
+                "url": "https://api.github.com/repos/orchestral/testbench-dusk/zipball/45016550bf0e42f391367672e9aa9163df732c0e",
+                "reference": "45016550bf0e42f391367672e9aa9163df732c0e",
                 "shasum": ""
             },
             "require": {
@@ -6781,7 +6781,7 @@
                 "laravel/serializable-closure": "^1.0",
                 "orchestra/dusk-updater": "^2.3",
                 "orchestra/testbench": ">=8.14.0 <8.15.0",
-                "orchestra/testbench-core": "^8.14.1",
+                "orchestra/testbench-core": "^8.14.3",
                 "php": "^8.1",
                 "php-webdriver/webdriver": "^1.9"
             },
@@ -6828,9 +6828,9 @@
             "description": "Laravel Dusk Testing Helper for Packages Development",
             "support": {
                 "issues": "https://github.com/orchestral/testbench-dusk/issues",
-                "source": "https://github.com/orchestral/testbench-dusk/tree/v8.14.0"
+                "source": "https://github.com/orchestral/testbench-dusk/tree/v8.14.2"
             },
-            "time": "2023-10-24T06:56:27+00:00"
+            "time": "2023-11-02T14:08:20+00:00"
         },
         {
             "name": "orchestra/workbench",
@@ -6900,20 +6900,20 @@
         },
         {
             "name": "pestphp/pest",
-            "version": "v2.24.1",
+            "version": "v2.24.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pestphp/pest.git",
-                "reference": "fd4f161edd0e26029ba9efb769cfe16bf5483840"
+                "reference": "0a680dd06e02bdc58132d6bb3f155498355160a5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pestphp/pest/zipball/fd4f161edd0e26029ba9efb769cfe16bf5483840",
-                "reference": "fd4f161edd0e26029ba9efb769cfe16bf5483840",
+                "url": "https://api.github.com/repos/pestphp/pest/zipball/0a680dd06e02bdc58132d6bb3f155498355160a5",
+                "reference": "0a680dd06e02bdc58132d6bb3f155498355160a5",
                 "shasum": ""
             },
             "require": {
-                "brianium/paratest": "^7.3.0",
+                "brianium/paratest": "^7.3.1",
                 "nunomaduro/collision": "^7.10.0|^8.0.0",
                 "nunomaduro/termwind": "^1.15.1|^2.0.0",
                 "pestphp/pest-plugin": "^2.1.1",
@@ -6955,6 +6955,11 @@
                         "Pest\\Plugins\\Version",
                         "Pest\\Plugins\\Parallel"
                     ]
+                },
+                "phpstan": {
+                    "includes": [
+                        "extension.neon"
+                    ]
                 }
             },
             "autoload": {
@@ -6987,7 +6992,7 @@
             ],
             "support": {
                 "issues": "https://github.com/pestphp/pest/issues",
-                "source": "https://github.com/pestphp/pest/tree/v2.24.1"
+                "source": "https://github.com/pestphp/pest/tree/v2.24.2"
             },
             "funding": [
                 {
@@ -6999,7 +7004,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-10-26T15:02:35+00:00"
+            "time": "2023-11-01T23:10:11+00:00"
         },
         {
             "name": "pestphp/pest-plugin",
