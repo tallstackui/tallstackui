@@ -2,8 +2,8 @@
 
 namespace Tests\Browser\Alert;
 
-use Laravel\Dusk\Browser;
-use Tests\Browser\Alert\Components\AlertComponent;
+use Livewire\Component;
+use Livewire\Livewire;
 use Tests\Browser\BrowserTestCase;
 
 class IndexTest extends BrowserTestCase
@@ -11,11 +11,19 @@ class IndexTest extends BrowserTestCase
     /** @test */
     public function can_close(): void
     {
-        $this->browse(function (Browser $browser) {
-            $this->visit($browser, AlertComponent::class)
-                ->assertSee('Foo bar')
-                ->click('@alert-close-button')
-                ->waitUntilMissingText('Foo bar');
-        });
+        Livewire::visit(new class extends Component
+        {
+            public function render(): string
+            {
+                return <<<'HTML'
+                    <div>
+                        <x-alert closeable>Foo bar</x-alert>
+                    </div>
+                HTML;
+            }
+        })
+            ->assertSee('Foo bar')
+            ->click('@alert-close-button')
+            ->waitUntilMissingText('Foo bar');
     }
 }

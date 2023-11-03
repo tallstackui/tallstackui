@@ -2,27 +2,50 @@
 
 namespace Tests\Browser;
 
+use Closure;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
+use Laravel\Dusk\Browser;
 use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\Dusk\Options;
 use Orchestra\Testbench\Dusk\TestCase;
 use TallStackUi\TallStackUiServiceProvider;
 
+use function Livewire\trigger;
+
 class BrowserTestCase extends TestCase
 {
     use BrowserFunctions;
 
+    public static function tmpPath(string $path = ''): string
+    {
+        return __DIR__."/tmp/{$path}";
+    }
+
+    public static function tweakApplicationHook(): Closure
+    {
+        return function () {
+        };
+    }
+
     protected function getEnvironmentSetUp($app): void
     {
-        $app['config']->set('view.paths', [__DIR__.'/views', resource_path('views')]);
-        $app['config']->set('app.key', 'base64:bMQdVAbryqTAZYxrYqTplHFRv9JqKTaYEVwwrLsGo4Y=');
-        $app['config']->set('database.default', 'testbench');
-        $app['config']->set('database.connections.testbench', [
-            'driver' => 'sqlite',
-            'database' => ':memory:',
-            'prefix' => '',
-        ]);
+        tap($app['session'], function ($session) {
+            $session->put('_token', str()->random(40));
+        });
+
+        tap($app['config'], function ($config) {
+            $config->set('app.env', 'testing');
+            $config->set('app.debug', true);
+            $config->set('view.paths', [__DIR__.'/views', resource_path('views')]);
+            $config->set('app.key', 'base64:Hupx3yAySikrM2/edkZQNQHslgDWYfiBfCuSThJ5SK8=');
+            $config->set('database.default', 'testbench');
+            $config->set('database.connections.testbench', [
+                'driver' => 'sqlite',
+                'database' => ':memory:',
+                'prefix' => '',
+            ]);
+        });
     }
 
     protected function getPackageProviders($app): array
@@ -33,53 +56,68 @@ class BrowserTestCase extends TestCase
         ];
     }
 
+    protected function livewireClassesPath($path = ''): string
+    {
+        return app_path('Livewire'.($path ? '/'.$path : ''));
+    }
+
+    protected function livewireTestsPath($path = ''): string
+    {
+        return base_path('tests/Feature/Livewire'.($path ? '/'.$path : ''));
+    }
+
+    protected function livewireViewsPath($path = ''): string
+    {
+        return resource_path('views').'/livewire'.($path ? '/'.$path : '');
+    }
+
+    protected function makeACleanSlate(): void
+    {
+        Artisan::call('view:clear');
+
+        File::deleteDirectory(self::tmpPath());
+        File::deleteDirectory($this->livewireViewsPath());
+        File::deleteDirectory($this->livewireClassesPath());
+        File::deleteDirectory($this->livewireTestsPath());
+        File::delete(app()->bootstrapPath('cache/livewire-components.php'));
+
+        File::ensureDirectoryExists(self::tmpPath());
+    }
+
     protected function setUp(): void
     {
-        if (isset($_SERVER['CI']) || isset($_ENV['CI'])) {
+        if (isset($_SERVER['CI'])) {
             Options::withoutUI();
         }
 
-        $this->afterApplicationCreated(fn () => $this->clearState());
-        $this->beforeApplicationDestroyed(fn () => $this->clearState());
+        Browser::$waitSeconds = 7;
+
+        $this->afterApplicationCreated(function () {
+            $this->makeACleanSlate();
+        });
+
+        $this->beforeApplicationDestroyed(function () {
+            $this->makeACleanSlate();
+        });
 
         parent::setUp();
 
-        $this->tweakApplication(function () {
-            $testCase = new self('browser');
-            $testCase->tallStackUiLoadComponents();
-            $testCase->tallStackUiRoutes();
-            $testCase->tallStackUiUpdateConfigurations();
-        });
+        trigger('browser.testCase.setUp', $this);
     }
 
     protected function tearDown(): void
     {
         $this->removeApplicationTweaks();
+
+        trigger('browser.testCase.tearDown', $this);
+
+        if (! $this->status()->isSuccess()) {
+            $this->captureFailuresFor(collect(static::$browsers));
+            $this->storeSourceLogsFor(collect(static::$browsers));
+        }
+
+        $this->closeAll();
+
         parent::tearDown();
-    }
-
-    private function clearState(): void
-    {
-        Artisan::call('view:clear');
-
-        File::deleteDirectory($this->livewireViewsPath());
-        File::deleteDirectory($this->livewireClassesPath());
-        File::deleteDirectory($this->livewireTestsPath());
-        File::delete(app()->bootstrapPath('cache/livewire-components.php'));
-    }
-
-    private function livewireClassesPath($path = ''): string
-    {
-        return app_path('Livewire'.($path ? '/'.$path : ''));
-    }
-
-    private function livewireTestsPath($path = ''): string
-    {
-        return base_path('tests/Feature/Livewire'.($path ? '/'.$path : ''));
-    }
-
-    private function livewireViewsPath($path = ''): string
-    {
-        return resource_path('views').'/livewire'.($path ? '/'.$path : '');
     }
 }
