@@ -7,7 +7,9 @@ use Illuminate\Support\Arr;
 use Illuminate\View\Component;
 use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
 use TallStackUi\View\Personalizations\Contracts\Personalization;
+use TallStackUi\View\Personalizations\SoftPersonalization;
 
+#[SoftPersonalization('form.textarea')]
 class Textarea extends Component implements Personalization
 {
     use DefaultInputClasses;

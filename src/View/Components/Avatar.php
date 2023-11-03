@@ -8,9 +8,11 @@ use Illuminate\Support\Arr;
 use Illuminate\View\Component;
 use InvalidArgumentException;
 use TallStackUi\View\Personalizations\Contracts\Personalization;
+use TallStackUi\View\Personalizations\SoftPersonalization;
 use TallStackUi\View\Personalizations\Traits\InteractWithProviders;
 use Throwable;
 
+#[SoftPersonalization('avatar')]
 class Avatar extends Component implements Personalization
 {
     use InteractWithProviders;

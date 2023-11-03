@@ -9,9 +9,11 @@ use Illuminate\View\Component;
 use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
 use TallStackUi\View\Components\Select\Traits\InteractsWithSelectOptions;
 use TallStackUi\View\Personalizations\Contracts\Personalization;
+use TallStackUi\View\Personalizations\SoftPersonalization;
 use TallStackUi\View\Personalizations\Traits\InteractWithValidations;
 use Throwable;
 
+#[SoftPersonalization('select.styled')]
 class Styled extends Component implements Personalization
 {
     use DefaultInputClasses;

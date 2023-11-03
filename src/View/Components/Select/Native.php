@@ -9,7 +9,9 @@ use Illuminate\View\Component;
 use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
 use TallStackUi\View\Components\Select\Traits\InteractsWithSelectOptions;
 use TallStackUi\View\Personalizations\Contracts\Personalization;
+use TallStackUi\View\Personalizations\SoftPersonalization;
 
+#[SoftPersonalization('select.native')]
 class Native extends Component implements Personalization
 {
     use DefaultInputClasses;

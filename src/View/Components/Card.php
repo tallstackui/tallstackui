@@ -6,7 +6,9 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
 use TallStackUi\View\Personalizations\Contracts\Personalization;
+use TallStackUi\View\Personalizations\SoftPersonalization;
 
+#[SoftPersonalization('card')]
 class Card extends Component implements Personalization
 {
     public function __construct(public ?string $header = null, public ?string $footer = null)

@@ -40,37 +40,6 @@ use Throwable;
  */
 class Personalization
 {
-    public const PERSONALIZABLES = [
-        'tallstack-ui::personalizations.alert' => Alert::class,
-        'tallstack-ui::personalizations.avatar' => Avatar::class,
-        'tallstack-ui::personalizations.badge' => Badge::class,
-        'tallstack-ui::personalizations.button' => Button::class,
-        'tallstack-ui::personalizations.button.circle' => Circle::class,
-        'tallstack-ui::personalizations.card' => Card::class,
-        'tallstack-ui::personalizations.dialog' => Dialog::class,
-        'tallstack-ui::personalizations.dropdown' => Dropdown::class,
-        'tallstack-ui::personalizations.dropdown.items' => DropdownItems::class,
-        'tallstack-ui::personalizations.errors' => Errors::class,
-        'tallstack-ui::personalizations.form.input' => Input::class,
-        'tallstack-ui::personalizations.form.error' => Error::class,
-        'tallstack-ui::personalizations.form.hint' => Hint::class,
-        'tallstack-ui::personalizations.form.label' => Label::class,
-        'tallstack-ui::personalizations.form.password' => Password::class,
-        'tallstack-ui::personalizations.form.checkbox' => Checkbox::class,
-        'tallstack-ui::personalizations.form.radio' => Radio::class,
-        'tallstack-ui::personalizations.form.textarea' => Textarea::class,
-        'tallstack-ui::personalizations.form.toggle' => Toggle::class,
-        'tallstack-ui::personalizations.modal' => Modal::class,
-        'tallstack-ui::personalizations.select.native' => SelectNative::class,
-        'tallstack-ui::personalizations.select.styled' => SelectStyled::class,
-        'tallstack-ui::personalizations.tab' => Tab::class,
-        'tallstack-ui::personalizations.tab.items' => TabItems::class,
-        'tallstack-ui::personalizations.toast' => Toast::class,
-        'tallstack-ui::personalizations.tooltip' => Tooltip::class,
-        'tallstack-ui::personalizations.wrapper.input' => InputWrapper::class,
-        'tallstack-ui::personalizations.wrapper.radio' => RadioWrapper::class,
-    ];
-
     public function __construct(public ?string $component = null)
     {
         //
@@ -235,7 +204,7 @@ class Personalization
     /** @throws Throwable */
     private function component(string $class): string
     {
-        $component = array_search($class, self::PERSONALIZABLES);
+        $component = array_search($class, tallstackui_components_soft_personalized());
 
         throw_if(! $component, new InvalidArgumentException("Component [{$class}] is not allowed to be personalized"));
 

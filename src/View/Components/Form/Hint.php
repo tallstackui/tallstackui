@@ -5,7 +5,9 @@ namespace TallStackUi\View\Components\Form;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 use TallStackUi\View\Personalizations\Contracts\Personalization;
+use TallStackUi\View\Personalizations\SoftPersonalization;
 
+#[SoftPersonalization('form.hint')]
 class Hint extends Component implements Personalization
 {
     public function __construct(public ?string $computed = null)

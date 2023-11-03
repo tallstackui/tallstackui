@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
 use TallStackUi\Facades\TallStackUi as Facade;
-use TallStackUi\View\Personalizations\Personalization;
 use TallStackUi\View\Personalizations\PersonalizationResources;
 
 class TallStackUiServiceProvider extends ServiceProvider
@@ -29,7 +28,7 @@ class TallStackUiServiceProvider extends ServiceProvider
 
     public function registerComponentPersonalizations(): void
     {
-        foreach (Personalization::PERSONALIZABLES as $key => $component) {
+        foreach (tallstackui_components_soft_personalized() as $key => $component) {
             $this->app->singleton($key, function () use ($component) {
                 return new PersonalizationResources($component);
             });

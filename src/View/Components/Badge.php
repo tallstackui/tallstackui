@@ -6,8 +6,10 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
 use TallStackUi\View\Personalizations\Contracts\Personalization;
+use TallStackUi\View\Personalizations\SoftPersonalization;
 use TallStackUi\View\Personalizations\Traits\InteractWithProviders;
 
+#[SoftPersonalization('badge')]
 class Badge extends Component implements Personalization
 {
     use InteractWithProviders;

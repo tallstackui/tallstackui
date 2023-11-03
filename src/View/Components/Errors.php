@@ -7,9 +7,11 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\ViewErrorBag;
 use Illuminate\View\Component;
 use TallStackUi\View\Personalizations\Contracts\Personalization;
+use TallStackUi\View\Personalizations\SoftPersonalization;
 use TallStackUi\View\Personalizations\Traits\InteractWithProviders;
 use TallStackUi\View\Personalizations\Traits\InteractWithValidations;
 
+#[SoftPersonalization('errors')]
 class Errors extends Component implements Personalization
 {
     use InteractWithProviders;
