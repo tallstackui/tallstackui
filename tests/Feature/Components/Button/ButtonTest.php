@@ -57,9 +57,10 @@ it('can render colored', function (string $colors) {
     HTML;
 
     $color = match ($colors) {
-        'white', 'black' => 'bg-neutral',
+        'white' => 'bg-neutral',
+        'black' => 'bg-black',
         default => "bg-$colors-500",
     };
 
     $this->blade($component)->assertSee($color);
-})->with('colors')->skip();
+})->with('colors');
