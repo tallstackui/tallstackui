@@ -1,9 +1,9 @@
 @php($personalize = tallstackui_personalization('errors', $personalization()))
 
 @if ($errors->count())
-    <div @class([$personalize['wrapper.first'], 'animate-pulse' => $pulse])>
+    <div @class(['w-full', 'animate-pulse' => $pulse])>
         <div {{ $attributes->class([
-                $personalize['wrapper.second'],
+                $personalize['wrapper'],
                 $colors['wrapper.second.color']
             ]) }}>
             <div @class([$personalize['title.wrapper'], $colors['title.wrapper.color']])>

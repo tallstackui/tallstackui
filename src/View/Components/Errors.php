@@ -50,10 +50,7 @@ class Errors extends Component implements Personalization
     public function personalization(): array
     {
         return Arr::dot([
-            'wrapper' => [
-                'first' => 'p-4 w-full',
-                'second' => 'rounded-lg p-4',
-            ],
+            'wrapper' => 'rounded-lg p-4',
             'title' => [
                 'wrapper' => 'flex items-center border-b pb-3',
                 'text' => 'text-sm font-semibold',
