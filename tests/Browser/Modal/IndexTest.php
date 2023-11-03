@@ -2,77 +2,144 @@
 
 namespace Tests\Browser\Modal;
 
-use Laravel\Dusk\Browser;
+use Livewire\Component;
+use Livewire\Livewire;
 use Tests\Browser\BrowserTestCase;
-use Tests\Browser\Modal\Components\ModalComponent;
-use Tests\Browser\Modal\Components\ModalComponentDifferentEntangle;
-use Tests\Browser\Modal\Components\ModalComponentNotEntangled;
-use Tests\Browser\Modal\Components\ModalComponentWithFooter;
-use Tests\Browser\Modal\Components\ModalComponentWithTitle;
 
 class IndexTest extends BrowserTestCase
 {
     /** @test */
     public function can_open(): void
     {
-        $this->browse(function (Browser $browser) {
-            $this->visit($browser, ModalComponent::class)
-                ->assertSee('Open')
-                ->assertDontSee('Foo bar')
-                ->click('#open')
-                ->waitForText('Foo bar');
-        });
+        Livewire::visit(new class extends Component
+        {
+            public bool $modal = false;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>        
+                    <x-modal wire>
+                        Foo bar
+                    </x-modal>
+                
+                    <x-button id="open" wire:click="$toggle('modal')">Open</x-button>
+                </div>
+                HTML;
+            }
+        })
+            ->assertSee('Open')
+            ->assertDontSee('Foo bar')
+            ->click('#open')
+            ->waitForText('Foo bar');
     }
 
     /** @test */
     public function can_open_and_see_footer(): void
     {
-        $this->browse(function (Browser $browser) {
-            $this->visit($browser, ModalComponentWithFooter::class)
-                ->assertSee('Open')
-                ->assertDontSee('Foo bar')
-                ->assertDontSee('Bar baz')
-                ->click('#open')
-                ->waitForText('Foo bar')
-                ->waitForText('Lorem');
-        });
+        Livewire::visit(new class extends Component
+        {
+            public bool $modal = false;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>        
+                    <x-modal wire title="Bar baz">
+                        Foo bar
+                        <x-slot:footer>
+                            Lorem                
+                        </x-slot:footer>
+                    </x-modal>
+                
+                    <x-button id="open" wire:click="$toggle('modal')">Open</x-button>
+                </div>
+                HTML;
+            }
+        })
+            ->assertSee('Open')
+            ->assertDontSee('Foo bar')
+            ->assertDontSee('Bar baz')
+            ->click('#open')
+            ->waitForText('Foo bar')
+            ->waitForText('Lorem');
     }
 
     /** @test */
     public function can_open_and_see_title(): void
     {
-        $this->browse(function (Browser $browser) {
-            $this->visit($browser, ModalComponentWithTitle::class)
-                ->assertSee('Open')
-                ->assertDontSee('Foo bar')
-                ->assertDontSee('Bar baz')
-                ->click('#open')
-                ->waitForText('Foo bar')
-                ->waitForText('Bar baz');
-        });
+        Livewire::visit(new class extends Component
+        {
+            public bool $modal = false;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>        
+                    <x-modal wire title="Bar baz">
+                        Foo bar
+                    </x-modal>
+                
+                    <x-button id="open" wire:click="$toggle('modal')">Open</x-button>
+                </div>
+                HTML;
+            }
+        })
+            ->assertSee('Open')
+            ->assertDontSee('Foo bar')
+            ->assertDontSee('Bar baz')
+            ->click('#open')
+            ->waitForText('Foo bar')
+            ->waitForText('Bar baz');
     }
 
     /** @test */
     public function can_open_using_different_entangle(): void
     {
-        $this->browse(function (Browser $browser) {
-            $this->visit($browser, ModalComponentDifferentEntangle::class)
-                ->assertSee('Open')
-                ->assertDontSee('Foo bar')
-                ->click('#open')
-                ->waitForText('Foo bar');
-        });
+        Livewire::visit(new class extends Component
+        {
+            public bool $test = false;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>        
+                    <x-modal wire="test">
+                        Foo bar
+                    </x-modal>
+                
+                    <x-button id="open" wire:click="$toggle('test')">Open</x-button>
+                </div>
+                HTML;
+            }
+        })
+            ->assertSee('Open')
+            ->assertDontSee('Foo bar')
+            ->click('#open')
+            ->waitForText('Foo bar');
     }
 
     /** @test */
     public function can_open_using_helper(): void
     {
-        $this->browse(function (Browser $browser) {
-            $this->visit($browser, ModalComponentNotEntangled::class)
-                ->assertSee('Open')
-                ->assertDontSee('Foo bar')
-                ->click('#open')
-                ->waitForText('Foo bar');
-        });
+        Livewire::visit(new class extends Component
+        {
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>        
+                    <x-modal id="test">
+                        Foo bar
+                    </x-modal>
+                
+                    <x-button id="open" x-on:click="$modalOpen('test')">Open</x-button>
+                </div>
+                HTML;
+            }
+        })
+            ->assertSee('Open')
+            ->assertDontSee('Foo bar')
+            ->click('#open')
+            ->waitForText('Foo bar');
     }
 }

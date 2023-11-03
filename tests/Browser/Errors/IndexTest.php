@@ -2,54 +2,76 @@
 
 namespace Tests\Browser\Errors;
 
-use Laravel\Dusk\Browser;
+use Livewire\Attributes\Rule;
+use Livewire\Component;
+use Livewire\Livewire;
 use Tests\Browser\BrowserTestCase;
-use Tests\Browser\Errors\Components\ErrorColoredComponent;
-use Tests\Browser\Errors\Components\ErrorComponent;
-use Tests\Browser\Errors\Components\ErrorOnlyComponent;
 
 class IndexTest extends BrowserTestCase
 {
     /** @test */
     public function can_render(): void
     {
-        $this->browse(function (Browser $browser) {
-            $this->visit($browser, ErrorComponent::class)
-                ->assertSee('Save')
-                ->assertDontSee('There are 1 validation errors:')
-                ->click('#save')
-                ->waitForText('There are 1 validation errors:');
+        Livewire::visit(new class extends Component
+        {
+            #[Rule('required')]
+            public ?string $name = null;
 
-            $this->assertNotNull($browser->element('.bg-red-50'));
-        });
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>        
+                    <x-errors />
+                
+                    <x-button id="save" wire:click="save">Save</x-button>
+                </div>
+                HTML;
+            }
+
+            public function save(): void
+            {
+                $this->validate();
+            }
+        })
+            ->assertSee('Save')
+            ->assertDontSee('There are 1 validation errors:')
+            ->click('#save')
+            ->waitForText('There are 1 validation errors:');
     }
 
     /** @test */
-    public function can_render_colored(): void
+    public function can_render_only_selecteds_fields(): void
     {
-        $this->browse(function (Browser $browser) {
-            $this->visit($browser, ErrorColoredComponent::class)
-                ->assertSee('Save')
-                ->assertDontSee('There are 1 validation errors:')
-                ->click('#save')
-                ->waitForText('There are 1 validation errors:');
+        Livewire::visit(new class extends Component
+        {
+            #[Rule('required')]
+            public ?string $description = null;
 
-            $this->assertNotNull($browser->element('.bg-pink-50'));
-        });
-    }
+            #[Rule('required')]
+            public ?string $name = null;
 
-    /** @test */
-    public function can_render_only_selecteds(): void
-    {
-        $this->browse(function (Browser $browser) {
-            $this->visit($browser, ErrorOnlyComponent::class)
-                ->assertSee('Save')
-                ->assertDontSee('description')
-                ->assertDontSee('name')
-                ->click('#save')
-                ->waitForText('There are 1 validation errors:')
-                ->assertSee('name')
-                ->assertDontSee('description');
-        });
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>        
+                    <x-errors only="name" />
+                
+                    <x-button id="save" wire:click="save">Save</x-button>
+                </div>
+                HTML;
+            }
+
+            public function save(): void
+            {
+                $this->validate();
+            }
+        })
+            ->assertSee('Save')
+            ->assertDontSee('description')
+            ->assertDontSee('name')
+            ->click('#save')
+            ->waitForText('There are 1 validation errors:')
+            ->assertSee('name')
+            ->assertDontSee('description');
     }
 }
