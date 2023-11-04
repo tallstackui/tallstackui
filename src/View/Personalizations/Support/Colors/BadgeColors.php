@@ -22,7 +22,7 @@ class BadgeColors
 
     private function background(): string
     {
-        $colors = [
+        return [
             'solid' => [
                 'white' => 'border-black-200 bg-white',
                 'black' => 'border-black bg-black',
@@ -79,9 +79,7 @@ class BadgeColors
                 'pink' => 'border-pink-500 bg-transparent',
                 'rose' => 'border-rose-500 bg-transparent',
             ],
-        ];
-
-        return $colors[$this->component->style][$this->component->color];
+        ][$this->component->style][$this->component->color];
     }
 
     private function icon(): string
@@ -96,7 +94,7 @@ class BadgeColors
 
     private function text(): string
     {
-        $colors = [
+        return [
             'solid' => [
                 'white' => 'text-black',
                 'black' => 'text-white',
@@ -153,8 +151,6 @@ class BadgeColors
                 'pink' => 'text-pink-500',
                 'rose' => 'text-rose-500',
             ],
-        ];
-
-        return $colors[$this->component->style][$this->component->color];
+        ][$this->component->style][$this->component->color];
     }
 }

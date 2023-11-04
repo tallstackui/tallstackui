@@ -28,7 +28,7 @@ class AlertColors
 
     private function background(): string
     {
-        $colors = [
+        return [
             'solid' => [
                 'white' => 'bg-white border border-gray-100',
                 'black' => 'bg-black',
@@ -85,14 +85,12 @@ class AlertColors
                 'pink' => 'bg-pink-100',
                 'rose' => 'bg-rose-100',
             ],
-        ];
-
-        return $colors[$this->component->style][$this->component->color];
+        ][$this->component->style][$this->component->color];
     }
 
     private function text(): string
     {
-        $colors = [
+        return [
             'solid' => [
                 'white' => 'text-black',
                 'black' => 'text-white',
@@ -149,8 +147,6 @@ class AlertColors
                 'pink' => 'text-pink-900',
                 'rose' => 'text-rose-900',
             ],
-        ];
-
-        return $colors[$this->component->style][$this->component->color];
+        ][$this->component->style][$this->component->color];
     }
 }
