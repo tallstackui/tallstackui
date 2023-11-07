@@ -25,13 +25,13 @@ class PersonalizationResources implements PersonalizableResources
         //
     }
 
-    public function __get(string $name): Personalization
+    public function __get(string $property): Personalization
     {
-        if ($name === 'and') {
+        if ($property === 'and') {
             return $this->and();
         }
 
-        throw new RuntimeException("Property [{$name}] does not exist.");
+        throw new RuntimeException("Property [{$property}] does not exist.");
     }
 
     public function and(): Personalization
@@ -68,6 +68,9 @@ class PersonalizationResources implements PersonalizableResources
 
     protected function blocks(): array
     {
+        // The [ignoreValidations => true] used here is a way to ignore possible validations
+        // that may exist in the component class. This is necessary because the component class
+        // is instantiated at this point, so if there are validations to be applied we would have exceptions.
         return array_keys(app($this->component, ['ignoreValidations' => true])->personalization());
     }
 
@@ -78,7 +81,7 @@ class PersonalizationResources implements PersonalizableResources
 
     private function compile(string $block, string|Closure|Personalizable $code): void
     {
-        // // The [ignoreValidations => true] used here is a way to ignore possible validations
+        // The [ignoreValidations => true] used here is a way to ignore possible validations
         // that may exist in the component class. This is necessary because the component class
         // is instantiated at this point, so if there are validations to be applied we would have exceptions.
         $view = app($this->component, ['ignoreValidations' => true])->render()->name();

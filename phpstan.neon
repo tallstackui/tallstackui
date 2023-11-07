@@ -8,5 +8,3 @@ parameters:
 
     level: 5
 
-    excludePaths:
-        - 'src/Support/Personalizations/Traits/InternalPersonalization.php'
