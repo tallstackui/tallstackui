@@ -57,7 +57,7 @@ class AlertColors
                 'pink' => 'bg-pink-300',
                 'rose' => 'bg-rose-300',
             ],
-            'translucent' => [
+            'flat' => [
                 'white' => 'bg-white border border-gray-100',
                 'black' => 'bg-black-100',
                 'primary' => 'bg-primary-100',
@@ -119,7 +119,7 @@ class AlertColors
                 'pink' => 'text-pink-900',
                 'rose' => 'text-rose-900',
             ],
-            'translucent' => [
+            'flat' => [
                 'white' => 'text-black',
                 'black' => 'text-black',
                 'primary' => 'text-primary-900',

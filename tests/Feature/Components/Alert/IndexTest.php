@@ -23,8 +23,8 @@ it('can render closeable alert', function () {
         ->assertSee('<svg class="w-5 h-5 text-primary-900"', false);
 });
 
-it('can render translucent', function () {
-    $this->blade('<x-alert text="Foo bar" translucent />')
+it('can render flat', function () {
+    $this->blade('<x-alert text="Foo bar" flat />')
         ->assertSee('Foo bar')
         ->assertDontSee('bg-primary-300')
         ->assertSee('bg-primary-100');
@@ -46,8 +46,8 @@ it('can render white background with black text', function () {
         ->assertDontSee('text-white');
 });
 
-test('when translucent and white, it does not render translucent', function () {
-    $this->blade('<x-alert text="Foo bar" color="white" translucent />')
+test('when flat and white, it does not render flat', function () {
+    $this->blade('<x-alert text="Foo bar" color="white" flat />')
         ->assertSee('Foo bar')
         ->assertSee('bg-white')
         ->assertSee('border')
