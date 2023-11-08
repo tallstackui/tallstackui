@@ -24,7 +24,7 @@ class Card extends Component implements Personalization
                 'second' => 'dark:bg-dark-700 flex w-full flex-col rounded-lg bg-white shadow-md',
             ],
             'header' => [
-                'wrapper' => 'dark:border-b-dark-600 flex items-center justify-between border-b p-4',
+                'wrapper' => 'dark:border-b-dark-600 flex items-center justify-between border-b border-b-gray-100 p-4',
                 'text' => 'text-md text-secondary-700 dark:text-dark-300 font-medium',
             ],
             'body' => 'text-secondary-700 dark:text-dark-300 grow rounded-b-xl px-4 py-5',

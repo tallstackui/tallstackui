@@ -44,7 +44,7 @@ class Modal extends Component implements Personalization
             ],
             'blur' => 'backdrop-blur-sm',
             'title' => [
-                'wrapper' => 'dark:border-b-dark-600 flex items-center justify-between border-b px-4 py-2.5',
+                'wrapper' => 'dark:border-b-dark-600 flex items-center justify-between border-b border-b-gray-100 px-4 py-2.5',
                 'text' => 'text-md text-secondary-600 dark:text-dark-300 whitespace-normal font-medium',
                 'close' => 'text-secondary-300 h-5 w-5 cursor-pointer',
             ],
