@@ -18,13 +18,13 @@ class Alert extends Component implements Personalization
         public ?string $title = null,
         public ?string $text = null,
         public ?string $icon = null,
-        public string $color = 'primary',
-        public bool $closeable = false,
-        public bool $translucent = false,
-        public bool $pulse = false,
-        public string $style = 'solid',
+        public string  $color = 'primary',
+        public bool    $closeable = false,
+        public bool    $light = false,
+        public bool    $pulse = false,
+        public string  $style = 'solid',
     ) {
-        $this->style = $this->translucent && $this->color !== 'white' ? 'translucent' : 'solid';
+        $this->style = $this->light && $this->color !== 'white' ? 'light' : 'solid';
 
         $this->colors();
     }
