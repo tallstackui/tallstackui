@@ -33,6 +33,7 @@ use TallStackUi\View\Components\Tab\Tab;
 use TallStackUi\View\Components\Tooltip;
 use TallStackUi\View\Components\Wrapper\Input as InputWrapper;
 use TallStackUi\View\Components\Wrapper\Radio as RadioWrapper;
+use TallStackUi\View\Personalizations\Support\OriginalComponentPersonalization;
 use Throwable;
 
 /**
@@ -40,13 +41,15 @@ use Throwable;
  */
 class Personalization
 {
-    public function __construct(public ?string $component = null)
+    public function __construct(public ?string $component = null, public string|array|null $blocks = null)
     {
         //
     }
 
     public function alert(): PersonalizationResources
     {
+        $this->component = Alert::class;
+
         return app($this->component(Alert::class));
     }
 
@@ -123,6 +126,8 @@ class Personalization
             default => $component,
         };
 
+        $this->component = $class;
+
         return app($this->component($class));
     }
 
@@ -150,6 +155,11 @@ class Personalization
     public function modal(): PersonalizationResources
     {
         return app($this->component(Modal::class));
+    }
+
+    public function original(): OriginalComponentPersonalization
+    {
+        return new OriginalComponentPersonalization($this->component);
     }
 
     public function select(string $component = null): PersonalizationResources
