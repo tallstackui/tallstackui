@@ -23,7 +23,7 @@ class ButtonColors
 
     private function button(): string
     {
-        $color = [
+        return [
             'solid' => [
                 'white' => 'text-black bg-white ring-white hover:bg-white hover:ring-white',
                 'black' => 'text-white bg-black ring-black hover:bg-black hover:ring-black',
@@ -46,7 +46,7 @@ class ButtonColors
                 'sky' => 'text-sky-50 bg-sky-500 ring-sky-500 hover:bg-sky-600 hover:ring-sky-600',
                 'blue' => 'text-blue-50 bg-blue-500 ring-blue-500 hover:bg-blue-600 hover:ring-blue-600',
                 'indigo' => 'text-indigo-50 bg-indigo-500 ring-indigo-500 hover:bg-indigo-600 hover:ring-indigo-600',
-                'violet' => 'text-violet-50 bg-violet-500 ring-violet-500 hover:bg-violet-600 hover:ring-violet-600',
+                'violet' => 'text-violet-50 border-violet-500 ring-violet-500 bg-violet-600 focus:bg-violet-500 hover:bg-violet-700 hover:ring-violet-600',
                 'purple' => 'text-purple-50 bg-purple-500 ring-purple-500 hover:bg-purple-600 hover:ring-purple-600',
                 'fuchsia' => 'text-fuchsia-50 bg-fuchsia-500 ring-fuchsia-500 hover:bg-fuchsia-600 hover:ring-fuchsia-600',
                 'pink' => 'text-pink-50 bg-pink-500 ring-pink-500 hover:bg-pink-600 hover:ring-pink-600',
@@ -74,15 +74,13 @@ class ButtonColors
                 'sky' => 'text-sky-500 bg-transparent border border-sky-500 ring-sky-500 hover:bg-sky-100 hover:ring-sky-600 dark:hover:bg-slate-700',
                 'blue' => 'text-blue-500 bg-transparent border border-blue-500 ring-blue-500 hover:bg-blue-100 hover:ring-blue-600 dark:hover:bg-slate-700',
                 'indigo' => 'text-indigo-500 bg-transparent border border-indigo-500 ring-indigo-500 hover:bg-indigo-100 hover:ring-indigo-600 dark:hover:bg-slate-700',
-                'violet' => 'text-violet-500 bg-transparent border border-violet-500 ring-violet-500 hover:bg-violet-100 hover:ring-violet-600 dark:hover:bg-slate-700',
+                'violet' => 'text-violet-500 border-violet-500 ring-violet-500 hover:bg-opacity-10 focus:bg-opacity-10 hover:bg-violet-400 hover:ring-violet-600',
                 'purple' => 'text-purple-500 bg-transparent border border-purple-500 ring-purple-500 hover:bg-purple-100 hover:ring-purple-600 dark:hover:bg-slate-700',
                 'fuchsia' => 'text-fuchsia-500 bg-transparent border border-fuchsia-500 ring-fuchsia-500 hover:bg-fuchsia-100 hover:ring-fuchsia-600 dark:hover:bg-slate-700',
                 'pink' => 'text-pink-500 bg-transparent border border-pink-500 ring-pink-500 hover:bg-pink-100 hover:ring-pink-600 dark:hover:bg-slate-700',
                 'rose' => 'text-rose-500 bg-transparent border border-rose-500 ring-rose-500 hover:bg-rose-100 hover:ring-rose-600 dark:hover:bg-slate-700',
             ],
         ][$this->component->style][$this->component->color];
-
-        return $color.' dark:ring-offset-dark-900';
     }
 
     private function icon(): string
