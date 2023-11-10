@@ -2,11 +2,11 @@
 
 ### General
 
-- Color Personalization
-- Outline Button (Border)
-- Select: transform the `div` into `popup` (reuse in `dropdown`)
+- [ ] Color Personalization
+- [ ] Outline Button (Border)
+- [ ] Select: transform the `div` into `popup` (reuse in `dropdown`)
   - Introducing the `anchor` of Alpine
-- PoC: Easy interaction with Soft Personalization
+- [x] PoC: Easy interaction with Soft Personalization
 
 ### Per Component
 
