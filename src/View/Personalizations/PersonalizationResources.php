@@ -20,10 +20,7 @@ class PersonalizationResources implements PersonalizableResources
 {
     public function __construct(
         private readonly ?string $component = null,
-        private ?array $replaces = [],
-        private ?string $remove = null,
-        private ?string $append = null,
-        private ?string $prepend = null,
+        private ?array $interactions = [],
         private ?Collection $parts = new Collection(),
     ) {
         //
@@ -45,12 +42,12 @@ class PersonalizationResources implements PersonalizableResources
 
     public function append(string $content): self
     {
-        $this->append = $content;
+        $this->interactions['append'] = $content;
 
         return $this;
     }
 
-    public function block(string|array $name, string|null|Closure|Personalizable $code = null): self
+    public function block(string|array $name, string|Closure|Personalizable $code = null): self
     {
         if (is_array($name)) {
             foreach ($name as $key => $value) {
@@ -70,21 +67,21 @@ class PersonalizationResources implements PersonalizableResources
 
     public function prepend(string $content): self
     {
-        $this->prepend = $content;
+        $this->interactions['prepend'] = $content;
 
         return $this;
     }
 
     public function remove(string $class): self
     {
-        $this->remove = $class;
+        $this->interactions['remove'] = $class;
 
         return $this;
     }
 
     public function replace(string|array $from, string $to = null): self
     {
-        $this->replaces = is_array($from) ? $from : [$from => $to];
+        $this->interactions['replace'] = is_array($from) ? $from : [$from => $to];
 
         return $this;
     }
@@ -94,9 +91,22 @@ class PersonalizationResources implements PersonalizableResources
         return $this->parts->toArray();
     }
 
-    protected function blocks(): array
+    private function blocks(): array
     {
         return array_keys($this->personalization());
+    }
+
+    private function compile(string $block, string|Closure|Personalizable $code = null): void
+    {
+        $view = $this->personalization(true)->render()->name();
+
+        if (! in_array($block, array_values($blocks = $this->blocks()))) {
+            $component = str_replace('tallstack-ui::personalizations.', '', $view);
+
+            throw new InvalidArgumentException("Component [$component] does not have the block [$block] to be personalized. Alloweds: ".implode(', ', $blocks));
+        }
+
+        Facade::composer($view, fn (View $view) => $this->set($block, is_callable($code) ? $code($view->getData()) : $code));
     }
 
     private function personalization(bool $instance = false): array|object
@@ -113,44 +123,31 @@ class PersonalizationResources implements PersonalizableResources
         return $class->personalization();
     }
 
-    protected function set(string $block, string $content = null): void
+    private function set(string $block, string $content = null): void
     {
         $original = $this->personalization();
 
-        if (! empty($this->replaces)) {
-            foreach ($this->replaces as $old => $new) {
+        if (isset($this->interactions['replace'])) {
+            foreach ($this->interactions['replace'] as $old => $new) {
                 $original[$block] = str_replace($old, $new, $original[$block]);
             }
 
             $original[$block] = str($original[$block])->squish();
         }
 
-        if (! empty($this->append)) {
-            $original[$block] .= ' '.$this->append;
+        if (isset($this->interactions['append'])) {
+            $original[$block] .= ' '.$this->interactions['append'];
         }
 
-        if (! empty($this->prepend)) {
-            $original[$block] = $this->prepend.' '.$original[$block];
+        if (isset($this->interactions['prepend'])) {
+            $original[$block] = $this->interactions['prepend'].' '.$original[$block];
         }
 
-        if (! empty($this->remove)) {
-            $original[$block] = str_replace($this->remove, '', $original[$block]);
+        if (isset($this->interactions['remove'])) {
+            $original[$block] = str_replace($this->interactions['remove'], '', $original[$block]);
             $original[$block] = str($original[$block])->squish();
         }
 
         $this->parts[$block] = trim($content ?? $original[$block]);
-    }
-
-    private function compile(string $block, string|null|Closure|Personalizable $code = null): void
-    {
-        $view = $this->personalization(true)->render()->name();
-
-        if (! in_array($block, array_values($blocks = $this->blocks()))) {
-            $component = str_replace('tallstack-ui::personalizations.', '', $view);
-
-            throw new InvalidArgumentException("Component [$component] does not have the block [$block] to be personalized. Alloweds: ".implode(', ', $blocks));
-        }
-
-        Facade::composer($view, fn (View $view) => $this->set($block, is_callable($code) ? $code($view->getData()) : $code));
     }
 }

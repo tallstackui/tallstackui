@@ -99,6 +99,76 @@ it('can personalize in sequenece', function () {
         ->assertDontSee('overflow-hidden');
 });
 
+it('can personalize using append', function () {
+    $this->blade('<x-alert title="Foo bar" />')
+        ->assertSee('Foo bar')
+        ->assertSee('bg-primary-300')
+        ->assertDontSee('foo-bar-baz');
+
+    TallStackUi::personalize('alert')
+        ->block('wrapper')
+        ->append('foo-bar-baz');
+
+    $this->blade('<x-alert title="Foo bar" />')
+        ->assertSee('Foo bar')
+        ->assertSee('foo-bar-baz');
+});
+
+it('can personalize using prepend', function () {
+    $this->blade('<x-alert title="Foo bar" />')
+        ->assertSee('Foo bar')
+        ->assertSee('bg-primary-300')
+        ->assertDontSee('foo-bar-baz');
+
+    TallStackUi::personalize('alert')
+        ->block('wrapper')
+        ->prepend('foo-bar-baz');
+
+    $this->blade('<x-alert title="Foo bar" />')
+        ->assertSee('Foo bar')
+        ->assertSee('foo-bar-baz');
+});
+
+it('can personalize using remove', function () {
+    $this->blade('<x-alert title="Foo bar" />')
+        ->assertSee('Foo bar')
+        ->assertSee('bg-primary-300')
+        ->assertSee('rounded-md');
+
+    TallStackUi::personalize('alert')
+        ->block('wrapper')
+        ->remove('rounded-md');
+
+    $this->blade('<x-alert title="Foo bar" />')
+        ->assertSee('Foo bar')
+        ->assertDontSee('rounded-md');
+});
+
+it('can personalize using replace', function () {
+    $this->blade('<x-alert title="Foo bar" />')
+        ->assertSee('Foo bar')
+        ->assertSee('bg-primary-300')
+        ->assertSee('rounded-md');
+
+    /* array */
+    TallStackUi::personalize('alert')
+        ->block('title.wrapper')
+        ->replace(['justify-between' => 'foo-bar-baz']);
+
+    $this->blade('<x-alert title="Foo bar" />')
+        ->assertSee('Foo bar')
+        ->assertSee('foo-bar-baz');
+
+    /* from -> to */
+    TallStackUi::personalize('alert')
+        ->block('title.wrapper')
+        ->replace('items-center', 'baz-bar-foo');
+
+    $this->blade('<x-alert title="Foo bar" />')
+        ->assertSee('Foo bar')
+        ->assertSee('baz-bar-foo');
+});
+
 it('cannot personalize wrong component', function () {
     $this->expectException(InvalidArgumentException::class);
 
