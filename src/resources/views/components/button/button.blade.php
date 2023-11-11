@@ -12,7 +12,7 @@
         $personalize['wrapper.class'],
         $sizes['wrapper'],
         $colors['wrapper.color'],
-        'rounded' => !$square && !$round,
+        'rounded-md' => !$square && !$round,
         'rounded-full' => !$square && $round !== null,
     ]) }} wire:loading.attr="disabled" wire:loading.class="!cursor-wait">
     @if ($icon && $position === 'left')

@@ -39,7 +39,7 @@ class Circle extends Component implements Personalization
     {
         return Arr::dot([
             'wrapper' => [
-                'base' => 'focus:shadow-outline group inline-flex items-center justify-center rounded-full font-semibold outline-none transition duration-150 ease-in hover:shadow-sm focus:ring-2 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
+                'base' => 'focus:ring-offset-white focus:shadow-outline group inline-flex items-center justify-center rounded-full gap-x-2 border text-sm outline-none transition-all duration-200 ease-in-out hover:shadow-sm focus:border-transparent focus:ring-2 disabled:cursor-not-allowed disabled:opacity-50',
                 'sizes' => [
                     'sm' => 'w-6 h-6',
                     'md' => 'w-9 h-9',
