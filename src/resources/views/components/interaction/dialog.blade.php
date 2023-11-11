@@ -76,8 +76,7 @@
                 </div>
                 <div @class($personalize['buttons.wrapper'])>
                     <div x-show="dialog.type === 'question'">
-                        <x-button color="white"
-                                  outline
+                        <x-button color="red"
                                   class="w-full text-sm"
                                   x-on:click="reject(dialog)"
                                   x-text="dialog.options?.cancel.text"
