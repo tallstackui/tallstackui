@@ -127,27 +127,27 @@ class PersonalizationResources implements PersonalizableResources
     {
         $original = $this->personalization();
 
-        if (isset($this->interactions['replace'])) {
-            foreach ($this->interactions['replace'] as $old => $new) {
-                $original[$block] = str_replace($old, $new, $original[$block]);
-            }
+        $replace = $this->interactions['replace'] ?? [];
+        $append = $this->interactions['append'] ?? null;
+        $prepend = $this->interactions['prepend'] ?? null;
+        $remove = $this->interactions['remove'] ?? null;
 
-            $original[$block] = str($original[$block])->squish();
+        foreach ($replace as $old => $new) {
+            $original[$block] = str_replace($old, $new, $original[$block]);
         }
 
-        if (isset($this->interactions['append'])) {
-            $original[$block] .= ' '.$this->interactions['append'];
+        if ($append) {
+            $original[$block] .= ' '.$append;
         }
 
-        if (isset($this->interactions['prepend'])) {
-            $original[$block] = $this->interactions['prepend'].' '.$original[$block];
+        if ($prepend) {
+            $original[$block] = $prepend.' '.$original[$block];
         }
 
-        if (isset($this->interactions['remove'])) {
-            $original[$block] = str_replace($this->interactions['remove'], '', $original[$block]);
-            $original[$block] = str($original[$block])->squish();
+        if ($remove) {
+            $original[$block] = str_replace($remove, '', $original[$block]);
         }
 
-        $this->parts[$block] = trim($content ?? $original[$block]);
+        $this->parts[$block] = trim($content ?? str($original[$block])->squish());
     }
 }
