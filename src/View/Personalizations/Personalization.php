@@ -33,7 +33,6 @@ use TallStackUi\View\Components\Tab\Tab;
 use TallStackUi\View\Components\Tooltip;
 use TallStackUi\View\Components\Wrapper\Input as InputWrapper;
 use TallStackUi\View\Components\Wrapper\Radio as RadioWrapper;
-use TallStackUi\View\Personalizations\Support\OriginalComponentPersonalization;
 use Throwable;
 
 /**
@@ -155,11 +154,6 @@ class Personalization
     public function modal(): PersonalizationResources
     {
         return app($this->component(Modal::class));
-    }
-
-    public function original(): OriginalComponentPersonalization
-    {
-        return new OriginalComponentPersonalization($this->component);
     }
 
     public function select(string $component = null): PersonalizationResources

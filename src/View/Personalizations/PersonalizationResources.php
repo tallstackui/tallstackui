@@ -98,7 +98,7 @@ class PersonalizationResources implements PersonalizableResources
 
     private function compile(string $block, string|Closure|Personalizable $code = null): void
     {
-        $view = $this->personalization(true)->render()->name();
+        $view = $this->personalization(true)->render()->name(); // @phpstan-ignore-line
 
         if (! in_array($block, array_values($blocks = $this->blocks()))) {
             $component = str_replace('tallstack-ui::personalizations.', '', $view);
