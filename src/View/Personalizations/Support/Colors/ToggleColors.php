@@ -16,8 +16,8 @@ class ToggleColors
 
     public function __invoke(): array
     {
-        $overrides = $this->overrides();
-        $background = $overrides['background'] ?? $this->background();
+        $override = $this->overrides();
+        $background = $override['background'] ?? $this->background();
 
         return ['background' => $background[$this->component->color]];
     }

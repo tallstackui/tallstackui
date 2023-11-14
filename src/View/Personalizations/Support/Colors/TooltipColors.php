@@ -16,8 +16,8 @@ class TooltipColors
 
     public function __invoke(): array
     {
-        $overrides = $this->overrides();
-        $icon = $overrides['icon'] ?? $this->icon();
+        $override = $this->overrides();
+        $icon = $override['icon'] ?? $this->icon();
 
         return ['icon' => $icon[$this->component->color]];
     }

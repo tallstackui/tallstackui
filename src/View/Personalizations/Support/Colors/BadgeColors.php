@@ -16,11 +16,11 @@ class BadgeColors
 
     public function __invoke(): array
     {
-        $overrides = $this->overrides();
+        $override = $this->overrides();
 
-        $background = $overrides['background'] ?? $this->background();
-        $text = $overrides['text'] ?? $this->text();
-        $icon = $overrides['icon'] ?? $this->icon();
+        $background = $override['background'] ?? $this->background();
+        $text = $override['text'] ?? $this->text();
+        $icon = $override['icon'] ?? $this->icon();
 
         return [
             'background' => $background[$this->component->style][$this->component->color],

@@ -17,10 +17,10 @@ class ButtonColors
 
     public function __invoke(): array
     {
-        $overrides = $this->overrides();
+        $override = $this->overrides();
 
-        $background = $overrides['background'] ?? $this->background();
-        $icon = $overrides['icon'] ?? $this->icon();
+        $background = $override['background'] ?? $this->background();
+        $icon = $override['icon'] ?? $this->icon();
 
         return [
             'background' => $background[$this->component->style][$this->component->color],

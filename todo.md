@@ -2,7 +2,7 @@
 
 ### General
 
-- [ ] Color Personalization
+- [x] Color Personalization
 - [x] Outline Button (Border)
 - [ ] Select: transform the `div` into `popup` (reuse in `dropdown`)
   - Introducing the `anchor` of Alpine

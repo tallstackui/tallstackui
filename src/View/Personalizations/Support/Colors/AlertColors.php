@@ -16,10 +16,10 @@ class AlertColors
 
     public function __invoke(): array
     {
-        $overrides = $this->overrides();
+        $override = $this->overrides();
 
-        $background = $overrides['background'] ?? $this->background();
-        $text = $overrides['text'] ?? $this->text();
+        $background = $override['background'] ?? $this->background();
+        $text = $override['text'] ?? $this->text();
 
         return [
             'background' => $background[$this->component->style][$this->component->color],
