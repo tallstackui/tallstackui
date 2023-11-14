@@ -2,11 +2,13 @@
 
 namespace TallStackUi\View\Personalizations\Support\Colors;
 
-use Illuminate\Support\Arr;
 use TallStackUi\View\Components\Avatar;
+use TallStackUi\View\Personalizations\Support\Colors\Traits\OverrideColors;
 
 class AvatarColors
 {
+    use OverrideColors;
+
     public function __construct(protected Avatar $component)
     {
         //
@@ -14,7 +16,15 @@ class AvatarColors
 
     public function __invoke(): array
     {
-        $color = [
+        $overrides = $this->overrides();
+        $background = $overrides['background'] ?? $this->background();
+
+        return ['background' => $background[$this->component->color]];
+    }
+
+    private function background(): array
+    {
+        return [
             'white' => 'bg-white dark:bg-white dark:border-white',
             'black' => 'bg-black border-black',
             'primary' => 'bg-primary-500 border-primary-500',
@@ -41,8 +51,6 @@ class AvatarColors
             'fuchsia' => 'bg-fuchsia-500 border-fuchsia-500',
             'pink' => 'bg-pink-500 border-pink-500',
             'rose' => 'bg-rose-500 border-rose-500',
-        ][$this->component->color];
-
-        return ['wrapper.color' => Arr::toCssClasses([$color => ! $this->component->model])];
+        ];
     }
 }
