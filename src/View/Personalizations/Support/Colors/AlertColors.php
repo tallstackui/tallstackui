@@ -4,9 +4,12 @@ namespace TallStackUi\View\Personalizations\Support\Colors;
 
 use Illuminate\Support\Arr;
 use TallStackUi\View\Components\Alert;
+use TallStackUi\View\Personalizations\Support\Colors\Traits\OverrideColors;
 
 class AlertColors
 {
+    use OverrideColors;
+
     public function __construct(protected Alert $component)
     {
         //
@@ -14,19 +17,18 @@ class AlertColors
 
     public function __invoke(): array
     {
-        $text = $this->text();
+        $overrides = $this->overrides();
+
+        $background = $overrides['background'] ?? $this->background();
+        $text = $overrides['text'] ?? $this->text();
 
         return [
-            'wrapper.color' => $this->background(),
-            'title.base.color' => Arr::toCssClasses([$text => $this->component->title !== null]),
-            'title.close.color' => $text,
-            'text.title.wrapper.color' => $text,
-            'text.close.color' => $text,
-            'icon.color' => $text,
+            'background' => $background[$this->component->style][$this->component->color],
+            'text' => $text[$this->component->style][$this->component->color],
         ];
     }
 
-    private function background(): string
+    private function background(): array
     {
         return [
             'solid' => [
@@ -85,10 +87,10 @@ class AlertColors
                 'pink' => 'bg-pink-100',
                 'rose' => 'bg-rose-100',
             ],
-        ][$this->component->style][$this->component->color];
+        ];
     }
 
-    private function text(): string
+    private function text(): array
     {
         return [
             'solid' => [
@@ -147,6 +149,6 @@ class AlertColors
                 'pink' => 'text-pink-900',
                 'rose' => 'text-rose-900',
             ],
-        ][$this->component->style][$this->component->color];
+        ];
     }
 }

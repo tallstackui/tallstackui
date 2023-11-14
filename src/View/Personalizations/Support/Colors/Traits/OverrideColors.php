@@ -10,10 +10,7 @@ trait OverrideColors
 {
     public function overrides(): array
     {
-        $ignores = ['__construct', '__invoke', 'overrides'];
-
-        $methods = collect((new ReflectionClass($this))->getMethods(ReflectionMethod::IS_PUBLIC))
-            ->filter(fn (ReflectionMethod $method) => ! in_array($method->getName(), $ignores))
+        $methods = collect((new ReflectionClass($this))->getMethods(ReflectionMethod::IS_PRIVATE))
             ->map(fn (ReflectionMethod $method) => $method->getName())
             ->values()
             ->toArray();

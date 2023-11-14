@@ -28,7 +28,7 @@ class ButtonColors
         ];
     }
 
-    public function background(): array
+    private function background(): array
     {
         return [
             'solid' => [
@@ -90,7 +90,7 @@ class ButtonColors
         ];
     }
 
-    public function icon(): array
+    private function icon(): array
     {
         return [
             'solid' => [
