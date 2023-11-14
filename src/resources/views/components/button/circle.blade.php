@@ -12,27 +12,27 @@
 @endif {{ $attributes->class([
             $personalize['wrapper.base'],
             $sizes['wrapper'],
-            $colors['wrapper.color']
+            $colors['background']
         ]) }} wire:loading.attr="disabled" wire:loading.class="!cursor-wait">
 @if ($icon)
     @if ($loading)
         @if ($delay === 'longest')
-            <x-icon :$icon @class([$sizes['icon'], $colors['icon.color']]) wire:loading.remove.delay.longest />
+            <x-icon :$icon @class([$sizes['icon'], $colors['icon']]) wire:loading.remove.delay.longest />
         @elseif ($delay === 'longer')
-            <x-icon :$icon @class([$sizes['icon'], $colors['icon.color']]) wire:loading.remove.delay.longer />
+            <x-icon :$icon @class([$sizes['icon'], $colors['icon']]) wire:loading.remove.delay.longer />
         @elseif ($delay === 'long')
-            <x-icon :$icon @class([$sizes['icon'], $colors['icon.color']]) wire:loading.remove.delay.long />
+            <x-icon :$icon @class([$sizes['icon'], $colors['icon']]) wire:loading.remove.delay.long />
         @elseif ($delay === 'short')
-            <x-icon :$icon @class([$sizes['icon'], $colors['icon.color']]) wire:loading.remove.delay.short />
+            <x-icon :$icon @class([$sizes['icon'], $colors['icon']]) wire:loading.remove.delay.short />
         @elseif ($delay === 'shorter')
-            <x-icon :$icon @class([$sizes['icon'], $colors['icon.color']]) wire:loading.remove.delay.shorter />
+            <x-icon :$icon @class([$sizes['icon'], $colors['icon']]) wire:loading.remove.delay.shorter />
         @elseif ($delay === 'shortest')
-            <x-icon :$icon @class([$sizes['icon'], $colors['icon.color']]) wire:loading.remove.delay.shortest />
+            <x-icon :$icon @class([$sizes['icon'], $colors['icon']]) wire:loading.remove.delay.shortest />
         @else
-            <x-icon :$icon @class([$sizes['icon'], $colors['icon.color']]) wire:loading.remove />
+            <x-icon :$icon @class([$sizes['icon'], $colors['icon']]) wire:loading.remove />
         @endif
     @else
-        <x-icon :$icon @class([$sizes['icon'], $colors['icon.color']]) />
+        <x-icon :$icon @class([$sizes['icon'], $colors['icon']]) />
     @endif
 @else
     <span @if ($loading) wire:loading.remove @endif @class([$sizes['text']])>{{ $text ?? $slot }}</span>
@@ -41,7 +41,7 @@
     <x-tallstack-ui::icon.others.loading-button :$loading :$delay @class([
         'animate-spin',
         $sizes['icon'],
-        $colors['icon.loading.color']
+        $colors['icon']
     ]) />
 @endif
 </{{ $tag }}>

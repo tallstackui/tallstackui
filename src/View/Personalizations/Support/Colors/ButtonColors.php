@@ -4,9 +4,12 @@ namespace TallStackUi\View\Personalizations\Support\Colors;
 
 use TallStackUi\View\Components\Button\Button;
 use TallStackUi\View\Components\Button\Circle;
+use TallStackUi\View\Personalizations\Support\Colors\Traits\OverrideColors;
 
 class ButtonColors
 {
+    use OverrideColors;
+
     public function __construct(protected Button|Circle $component)
     {
         //
@@ -14,14 +17,18 @@ class ButtonColors
 
     public function __invoke(): array
     {
+        $overrides = $this->overrides();
+
+        $background = $overrides['background'] ?? $this->background();
+        $icon = $overrides['icon'] ?? $this->icon();
+
         return [
-            'wrapper.color' => $this->button(),
-            'icon.color' => $this->icon(),
-            'icon.loading.color' => $this->icon(),
+            'background' => $background[$this->component->style][$this->component->color],
+            'icon' => $icon[$this->component->style][$this->component->color],
         ];
     }
 
-    private function button(): string
+    public function background(): array
     {
         return [
             'solid' => [
@@ -80,10 +87,10 @@ class ButtonColors
                 'pink' => 'text-pink-600 border-pink-600 hover:bg-opacity-25 dark:hover:bg-opacity-10 hover:text-pink-700 hover:bg-pink-400 dark:hover:text-pink-500 dark:hover:bg-pink-600 focus:bg-opacity-25 dark:focus:border-transparent dark:focus:bg-opacity-10 focus:ring-offset-0 focus:text-pink-700 focus:bg-pink-400 focus:ring-pink-600 dark:focus:text-pink-500 dark:focus:bg-pink-600 dark:focus:ring-pink-700',
                 'rose' => 'text-rose-600 border-rose-600 hover:bg-opacity-25 dark:hover:bg-opacity-10 hover:text-rose-700 hover:bg-rose-400 dark:hover:text-rose-500 dark:hover:bg-rose-600 focus:bg-opacity-25 dark:focus:border-transparent dark:focus:bg-opacity-10 focus:ring-offset-0 focus:text-rose-700 focus:bg-rose-400 focus:ring-rose-600 dark:focus:text-rose-500 dark:focus:bg-rose-600 dark:focus:ring-rose-700',
             ],
-        ][$this->component->style][$this->component->color];
+        ];
     }
 
-    private function icon(): string
+    public function icon(): array
     {
         return [
             'solid' => [
@@ -142,6 +149,6 @@ class ButtonColors
                 'pink' => 'text-pink-500',
                 'rose' => 'text-rose-500',
             ],
-        ][$this->component->style][$this->component->color];
+        ];
     }
 }

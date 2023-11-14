@@ -11,22 +11,22 @@
 @endif {{ $attributes->class([
         $personalize['wrapper.class'],
         $sizes['wrapper'],
-        $colors['wrapper.color'],
+        $colors['background'],
         'rounded-md' => !$square && !$round,
         'rounded-full' => !$square && $round !== null,
     ]) }} wire:loading.attr="disabled" wire:loading.class="!cursor-wait">
     @if ($icon && $position === 'left')
-        <x-icon :$icon @class([$sizes['icon'], $colors['icon.color']]) />
+        <x-icon :$icon @class([$sizes['icon'], $colors['icon']]) />
     @endif
     {{ $text ?? $slot }}
     @if ($icon && $position === 'right')
-        <x-icon :$icon @class([$sizes['icon'], $colors['icon.color']]) />
+        <x-icon :$icon @class([$sizes['icon'], $colors['icon']]) />
     @endif
     @if ($loading)
         <x-tallstack-ui::icon.others.loading-button :$loading :$delay @class([
             'animate-spin',
             $sizes['icon'],
-            $colors['icon.loading.color'],
+            $colors['icon'],
         ]) />
     @endif
 </{{ $tag }}>

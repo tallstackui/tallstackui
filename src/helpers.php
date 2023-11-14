@@ -17,20 +17,20 @@ if (! function_exists('tallstackui_personalization')) {
 if (! function_exists('tallstackui_components_soft_personalized')) {
     function tallstackui_components_soft_personalized(): array
     {
-        $components = array_map(function (string $file) {
-            return 'TallStackUi\\View\\'.str($file)->after('View/')
-                ->remove('.php')
-                ->replace('/', '\\')
-                ->value();
-        }, File::allFiles(__DIR__.'/View/Components'));
-
-        return collect($components)
-            ->filter(fn (string $component) => (new ReflectionClass($component))->getAttributes(SoftPersonalization::class)) // @phpstan-ignore-line
+        return collect(File::allFiles(__DIR__.'/View/Components'))
+            ->map(function (SplFileInfo $file) {
+                return 'TallStackUi\\View\\'.str($file->getPathname())->after('View/')
+                    ->remove('.php')
+                    ->replace('/', '\\')
+                    ->value();
+            })
+            ->filter(fn (string $component) => (new ReflectionClass($component))->getAttributes(SoftPersonalization::class))
             ->mapWithKeys(function (string $component) {
                 $reflect = new ReflectionClass($component);
                 $attribute = $reflect->getAttributes(SoftPersonalization::class)[0];
 
                 return [$attribute->newInstance()->get() => $reflect->getName()];
-            })->toArray();
+            })
+            ->toArray();
     }
 }

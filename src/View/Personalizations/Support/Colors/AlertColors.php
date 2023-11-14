@@ -22,7 +22,7 @@ class AlertColors
             'title.close.color' => $text,
             'text.title.wrapper.color' => $text,
             'text.close.color' => $text,
-            'icon.color' => $this->text(),
+            'icon.color' => $text,
         ];
     }
 
