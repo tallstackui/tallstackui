@@ -8,7 +8,7 @@
     <input type="checkbox" {{ $attributes->class([
             $personalize['input.class'],
             $personalize['input.sizes.' . $size],
-            $colors['input.color'],
+            $colors['background'],
             $personalize['error'] => $error
     ]) }} @checked($checked)>
 </x-wrapper.radio>

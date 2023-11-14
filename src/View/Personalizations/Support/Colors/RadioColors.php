@@ -4,11 +4,11 @@ namespace TallStackUi\View\Personalizations\Support\Colors;
 
 use TallStackUi\View\Components\Form\Checkbox;
 use TallStackUi\View\Components\Form\Radio;
-use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
+use TallStackUi\View\Personalizations\Support\Colors\Traits\OverrideColors;
 
 class RadioColors
 {
-    use DefaultInputClasses;
+    use OverrideColors;
 
     public function __construct(protected Radio|Checkbox $component)
     {
@@ -17,7 +17,15 @@ class RadioColors
 
     public function __invoke(): array
     {
-        $color = [
+        $overrides = $this->overrides();
+        $background = $overrides['background'] ?? $this->background();
+
+        return ['background' => $background[$this->component->color]];
+    }
+
+    private function background(): array
+    {
+        return [
             'white' => 'text-white focus:ring-white dark:ring-offset-dark-900',
             'black' => 'text-black focus:ring-black dark:ring-offset-dark-900',
             'primary' => 'text-primary-500 focus:ring-primary-500 dark:ring-offset-dark-900',
@@ -44,8 +52,6 @@ class RadioColors
             'fuchsia' => 'text-fuchsia-500 focus:ring-fuchsia-500 dark:ring-offset-dark-900',
             'pink' => 'text-pink-500 focus:ring-pink-500 dark:ring-offset-dark-900',
             'rose' => 'text-rose-500 focus:ring-rose-500 dark:ring-offset-dark-900',
-        ][$this->component->color];
-
-        return ['input.color' => $color];
+        ];
     }
 }
