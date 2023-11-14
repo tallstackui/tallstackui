@@ -2,11 +2,13 @@
 
 namespace TallStackUi\View\Personalizations\Support\Colors;
 
-use Illuminate\Support\Arr;
 use TallStackUi\View\Components\Badge;
+use TallStackUi\View\Personalizations\Support\Colors\Traits\OverrideColors;
 
 class BadgeColors
 {
+    use OverrideColors;
+
     public function __construct(protected Badge $component)
     {
         //
@@ -14,13 +16,20 @@ class BadgeColors
 
     public function __invoke(): array
     {
+        $overrides = $this->overrides();
+
+        $background = $overrides['background'] ?? $this->background();
+        $text = $overrides['text'] ?? $this->text();
+        $icon = $overrides['icon'] ?? $this->icon();
+
         return [
-            'wrapper.color' => Arr::toCssClasses([$this->background(), $this->text()]),
-            'icon.color' => $this->icon(),
+            'background' => $background[$this->component->style][$this->component->color],
+            'text' => $text[$this->component->style][$this->component->color],
+            'icon' => $icon[$this->component->style][$this->component->color],
         ];
     }
 
-    private function background(): string
+    private function background(): array
     {
         return [
             'solid' => [
@@ -79,20 +88,15 @@ class BadgeColors
                 'pink' => 'border-pink-500 bg-transparent',
                 'rose' => 'border-rose-500 bg-transparent',
             ],
-        ][$this->component->style][$this->component->color];
+        ];
     }
 
-    private function icon(): string
+    private function icon(): array
     {
-        $icon = $this->text();
-
-        return match (true) {
-            $this->component->style === 'outline' => $icon.'dark:text-white',
-            default => $icon,
-        };
+        return $this->text(); //TODO: check the dark:text-white
     }
 
-    private function text(): string
+    private function text(): array
     {
         return [
             'solid' => [
@@ -151,6 +155,6 @@ class BadgeColors
                 'pink' => 'text-pink-500',
                 'rose' => 'text-rose-500',
             ],
-        ][$this->component->style][$this->component->color];
+        ];
     }
 }
