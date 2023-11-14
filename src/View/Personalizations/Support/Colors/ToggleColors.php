@@ -3,9 +3,12 @@
 namespace TallStackUi\View\Personalizations\Support\Colors;
 
 use TallStackUi\View\Components\Form\Toggle;
+use TallStackUi\View\Personalizations\Support\Colors\Traits\OverrideColors;
 
 class ToggleColors
 {
+    use OverrideColors;
+
     public function __construct(protected Toggle $component)
     {
         //
@@ -13,7 +16,15 @@ class ToggleColors
 
     public function __invoke(): array
     {
-        $color = [
+        $overrides = $this->overrides();
+        $background = $overrides['background'] ?? $this->background();
+
+        return ['background' => $background[$this->component->color]];
+    }
+
+    private function background(): array
+    {
+        return [
             'white' => 'peer-checked:bg-white peer-focus:ring-white group-focus:ring-white dark:ring-offset-dark-900',
             'black' => 'peer-checked:bg-black peer-focus:ring-black group-focus:ring-black dark:ring-offset-dark-900',
             'primary' => 'peer-checked:bg-primary-500 peer-focus:ring-primary-500 group-focus:ring-primary-500 dark:ring-offset-dark-900',
@@ -40,8 +51,6 @@ class ToggleColors
             'fuchsia' => 'peer-checked:bg-fuchsia-500 peer-focus:ring-fuchsia-500 group-focus:ring-fuchsia-500 dark:ring-offset-dark-900',
             'pink' => 'peer-checked:bg-pink-500 peer-focus:ring-pink-500 group-focus:ring-pink-500 dark:ring-offset-dark-900',
             'rose' => 'peer-checked:bg-rose-500 peer-focus:ring-rose-500 group-focus:ring-rose-500 dark:ring-offset-dark-900',
-        ][$this->component->color];
-
-        return ['wrapper.color' => $color];
+        ];
     }
 }

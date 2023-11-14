@@ -15,7 +15,7 @@
     <div @class([
         $personalize['wrapper.class'],
         $personalize['wrapper.sizes.' . $size],
-        $colors['wrapper.color'],
+        $colors['background'],
         $personalize['error'] => $computed && $error
     ])></div>
 </x-wrapper.radio>

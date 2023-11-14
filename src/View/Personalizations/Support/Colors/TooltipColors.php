@@ -3,9 +3,12 @@
 namespace TallStackUi\View\Personalizations\Support\Colors;
 
 use TallStackUi\View\Components\Tooltip;
+use TallStackUi\View\Personalizations\Support\Colors\Traits\OverrideColors;
 
 class TooltipColors
 {
+    use OverrideColors;
+
     public function __construct(protected Tooltip $component)
     {
         //
@@ -13,7 +16,15 @@ class TooltipColors
 
     public function __invoke(): array
     {
-        $color = [
+        $overrides = $this->overrides();
+        $icon = $overrides['icon'] ?? $this->icon();
+
+        return ['icon' => $icon[$this->component->color]];
+    }
+
+    private function icon(): array
+    {
+        return [
             'white' => 'text-white',
             'black' => 'text-black',
             'primary' => 'text-primary-500',
@@ -40,8 +51,6 @@ class TooltipColors
             'fuchsia' => 'text-fuchsia-500',
             'pink' => 'text-pink-500',
             'rose' => 'text-rose-500',
-        ][$this->component->color];
-
-        return ['icon.color' => $color];
+        ];
     }
 }

@@ -24,7 +24,7 @@ if (! function_exists('tallstackui_components_soft_personalized')) {
                     ->replace('/', '\\')
                     ->value();
             })
-            ->filter(fn (string $component) => (new ReflectionClass($component))->getAttributes(SoftPersonalization::class))
+            ->filter(fn (string $component) => (new ReflectionClass($component))->getAttributes(SoftPersonalization::class)) // @phpstan-ignore-line
             ->mapWithKeys(function (string $component) {
                 $reflect = new ReflectionClass($component);
                 $attribute = $reflect->getAttributes(SoftPersonalization::class)[0];

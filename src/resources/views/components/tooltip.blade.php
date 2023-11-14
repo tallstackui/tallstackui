@@ -10,7 +10,7 @@
                         {{ $attributes->class([
                             'focus:outline-none',
                             $sizes,
-                            $colors['icon.color']
+                            $colors['icon']
                         ]) }}
     />
 </div>
