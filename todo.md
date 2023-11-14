@@ -17,6 +17,8 @@
   - [x] Remove `pulse` variation
   - Use `icon` even the alert contains title
   - Add the `outline` variation
+- Avatar
+  - Insert `query` parameter to bind the request
 - Dropdown
   - Reusing the `popup` component
   - Introducing Floating UI

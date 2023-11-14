@@ -19,7 +19,7 @@ class AvatarColors
         $override = $this->overrides();
         $background = $override['background'] ?? $this->background();
 
-        return ['background' => $background[$this->component->color]];
+        return ['background' => $background];
     }
 
     private function background(): array
