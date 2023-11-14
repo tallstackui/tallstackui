@@ -41,8 +41,12 @@ class ColorProvider
             Radio::class, Checkbox::class => RadioColors::class,
             Toggle::class => ToggleColors::class,
             Tooltip::class => TooltipColors::class,
-            default => throw new Exception("No colors available for the component: [$component]"),
+            default => null,
         };
+
+        if (! $class) {
+            return;
+        }
 
         FacadeView::composer($component->render()->name(), fn (View $view) => $view->with('colors', [...(new $class($component))()]));
     }

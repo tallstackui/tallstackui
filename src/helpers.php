@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\File;
 use TallStackUi\Facades\TallStackUi;
 use TallStackUi\View\Personalizations\SoftPersonalization;
 
@@ -16,7 +17,14 @@ if (! function_exists('tallstackui_personalization')) {
 if (! function_exists('tallstackui_components_soft_personalized')) {
     function tallstackui_components_soft_personalized(): array
     {
-        return collect(config('tallstackui.components'))
+        $components = array_map(function (string $file) {
+            return 'TallStackUi\\View\\'.str($file)->after('View/')
+                ->remove('.php')
+                ->replace('/', '\\')
+                ->value();
+        }, File::allFiles(__DIR__.'/View/Components'));
+
+        return collect($components)
             ->filter(fn (string $component) => (new ReflectionClass($component))->getAttributes(SoftPersonalization::class)) // @phpstan-ignore-line
             ->mapWithKeys(function (string $component) {
                 $reflect = new ReflectionClass($component);
