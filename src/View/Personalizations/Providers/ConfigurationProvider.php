@@ -59,7 +59,7 @@ class ConfigurationProvider
         };
 
         return collect($modal)
-            ->only('zIndex', 'size', 'blur', 'uncloseable')
+            ->only(['zIndex', 'size', 'blur', 'uncloseable'])
             ->toArray();
     }
 }

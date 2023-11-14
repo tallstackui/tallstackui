@@ -36,11 +36,11 @@ class ColorProvider
             $component instanceof Alert => AlertColors::class,
             $component instanceof Avatar => AvatarColors::class,
             $component instanceof Badge => BadgeColors::class,
-            $component instanceof Button || $component instanceof Circle => ButtonColors::class,
             $component instanceof Errors => ErrorsColors::class,
-            $component instanceof Radio || $component instanceof Checkbox => RadioColors::class,
             $component instanceof Toggle => ToggleColors::class,
             $component instanceof Tooltip => TooltipColors::class,
+            $component instanceof Button || $component instanceof Circle => ButtonColors::class,
+            $component instanceof Radio || $component instanceof Checkbox => RadioColors::class,
             default => throw new Exception("No colors available for the component: [$component]"),
         };
 

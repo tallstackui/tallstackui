@@ -1,6 +1,6 @@
 @php($personalize = tallstackui_personalization('alert', $personalization()))
 
-<div @class([$personalize['wrapper'], 'animate-pulse' => $pulse, $colors['background']])
+<div @class([$personalize['wrapper'], $colors['background']])
      x-data="{ show : true }"
      x-show="show">
     @if ($title)

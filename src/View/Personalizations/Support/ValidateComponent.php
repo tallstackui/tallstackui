@@ -118,11 +118,9 @@ class ValidateComponent
     /** @throws Throwable */
     private function icon(Icon $component): void
     {
-        if (in_array($component->type, ['solid', 'outline'])) {
-            return;
+        if (! in_array($component->type, ['solid', 'outline'])) {
+            throw new InvalidArgumentException('The icon must be one of the following: [solid, outline]');
         }
-
-        throw new InvalidArgumentException('The icon must be one of the following: [solid, outline]');
     }
 
     /** @throws Throwable */

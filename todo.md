@@ -14,7 +14,7 @@
   - Rewrite Input
   - Create slots: `left` & `right`
 - Alert
-  - Remove `pulse` variation
+  - [x] Remove `pulse` variation
   - Use `icon` even the alert contains title
   - Add the `outline` variation
 - Dropdown
@@ -26,5 +26,3 @@
   - Reusing the `popup` component
 - Tab
   - Fix the first item as squared when other is selected
-- Dialog
-  - PoC: introducing progress bar 
