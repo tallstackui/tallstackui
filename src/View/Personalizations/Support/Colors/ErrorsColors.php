@@ -3,9 +3,12 @@
 namespace TallStackUi\View\Personalizations\Support\Colors;
 
 use TallStackUi\View\Components\Errors;
+use TallStackUi\View\Personalizations\Support\Colors\Traits\OverrideColors;
 
 class ErrorsColors
 {
+    use OverrideColors;
+
     public function __construct(protected Errors $component)
     {
         //
@@ -13,18 +16,20 @@ class ErrorsColors
 
     public function __invoke(): array
     {
-        $text = $this->text();
-        $background = $this->background();
+        $overrides = $this->overrides();
+
+        $background = $overrides['background'] ?? $this->background();
+        $text = $overrides['text'] ?? $this->text();
+        $border = $overrides['border'] ?? $this->border();
 
         return [
-            'wrapper.second.color' => $background,
-            'title.text.color' => $text,
-            'title.wrapper.color' => $this->border(),
-            'body.list.color' => $text,
+            'background' => $background[$this->component->color],
+            'text' => $text[$this->component->color],
+            'border' => $border[$this->component->color],
         ];
     }
 
-    private function background(): string
+    private function background(): array
     {
         return [
             'white' => 'bg-white dark:border dark:border-white dark:bg-transparent',
@@ -53,10 +58,10 @@ class ErrorsColors
             'fuchsia' => 'bg-fuchsia-50 dark:border dark:border-fuchsia-500 dark:bg-transparent',
             'pink' => 'bg-pink-50 dark:border dark:border-pink-500 dark:bg-transparent',
             'rose' => 'bg-rose-50 dark:border dark:border-rose-500 dark:bg-transparent',
-        ][$this->component->color];
+        ];
     }
 
-    private function border(): string
+    private function border(): array
     {
         return [
             'white' => 'border-b-white',
@@ -85,10 +90,10 @@ class ErrorsColors
             'fuchsia' => 'border-b-fuchsia-200 dark:border-b dark:border-fuchsia-500',
             'pink' => 'border-b-pink-200 dark:border-b dark:border-pink-500',
             'rose' => 'border-b-rose-200 dark:border-b dark:border-rose-500',
-        ][$this->component->color];
+        ];
     }
 
-    private function text(): string
+    private function text(): array
     {
         return [
             'white' => 'text-white',
@@ -117,6 +122,6 @@ class ErrorsColors
             'fuchsia' => 'text-fuchsia-500',
             'pink' => 'text-pink-500',
             'rose' => 'text-rose-500',
-        ][$this->component->color];
+        ];
     }
 }
