@@ -5,7 +5,14 @@
      x-show="show">
     @if ($title)
         <div @class($personalize['title.wrapper'])>
-            <h3 @class([$personalize['title.text'], $colors['text'] => $title !== null])>{{ $title }}</h3>
+            <div @class($personalize['title.icon'])>
+                @if ($icon)
+                    <div @class($personalize['icon.wrapper'])>
+                        <x-icon :$icon @class([$personalize['icon.size'], $colors['text']]) />
+                    </div>
+                @endif
+                <h3 @class([$personalize['title.text'], $colors['text'] => $title !== null])>{{ $title }}</h3>
+            </div>
             @if ($closeable)
                 <div @class($personalize['title.close.wrapper'])>
                     <button dusk="alert-close-button" class="cursor-pointer" x-on:click="show = false">
@@ -19,7 +26,7 @@
         <div @class([
                 'text-sm',
                 'inline-flex' => !$title && $icon,
-                'mt-2' => $title,
+                'mt-2' => $title && $text,
                 $colors['text'],
             ])>
             @if (!$title && $icon)
