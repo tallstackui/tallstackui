@@ -2,15 +2,15 @@
 
 namespace TallStackUi\View\Components;
 
-use Throwable;
-use Illuminate\Support\Arr;
-use InvalidArgumentException;
-use Illuminate\View\Component;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
-use TallStackUi\View\Personalizations\SoftPersonalization;
+use Illuminate\Support\Arr;
+use Illuminate\View\Component;
+use InvalidArgumentException;
 use TallStackUi\View\Personalizations\Contracts\Personalization;
+use TallStackUi\View\Personalizations\SoftPersonalization;
 use TallStackUi\View\Personalizations\Traits\InteractWithProviders;
+use Throwable;
 
 #[SoftPersonalization('avatar')]
 class Avatar extends Component implements Personalization
@@ -62,7 +62,7 @@ class Avatar extends Component implements Personalization
             'color' => $this->color,
             ...$this->query,
         ]);
-        
+
         return "https://ui-avatars.com/api?{$params}";
     }
 
