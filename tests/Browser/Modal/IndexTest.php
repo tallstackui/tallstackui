@@ -2,6 +2,7 @@
 
 namespace Tests\Browser\Modal;
 
+use Laravel\Dusk\Browser;
 use Livewire\Component;
 use Livewire\Livewire;
 use Tests\Browser\BrowserTestCase;
@@ -23,15 +24,16 @@ class IndexTest extends BrowserTestCase
                         Foo bar
                     </x-modal>
                 
-                    <x-button id="open" wire:click="$toggle('modal')">Open</x-button>
+                    <x-button dusk="open" wire:click="$toggle('modal')">Open</x-button>
                 </div>
                 HTML;
             }
         })
             ->assertSee('Open')
             ->assertDontSee('Foo bar')
-            ->click('#open')
-            ->waitForText('Foo bar');
+            ->click('@open')
+            ->waitForText('Foo bar')
+            ->assertSee('Foo bar');
     }
 
     /** @test */
@@ -52,7 +54,7 @@ class IndexTest extends BrowserTestCase
                         </x-slot:footer>
                     </x-modal>
                 
-                    <x-button id="open" wire:click="$toggle('modal')">Open</x-button>
+                    <x-button dusk="open" wire:click="$toggle('modal')">Open</x-button>
                 </div>
                 HTML;
             }
@@ -60,9 +62,10 @@ class IndexTest extends BrowserTestCase
             ->assertSee('Open')
             ->assertDontSee('Foo bar')
             ->assertDontSee('Bar baz')
-            ->click('#open')
-            ->waitForText('Foo bar')
-            ->waitForText('Lorem');
+            ->click('@open')
+            ->waitForText(['Foo bar', 'Lorem'])
+            ->assertSee('Foo bar')
+            ->assertSee('Lorem');
     }
 
     /** @test */
@@ -80,7 +83,7 @@ class IndexTest extends BrowserTestCase
                         Foo bar
                     </x-modal>
                 
-                    <x-button id="open" wire:click="$toggle('modal')">Open</x-button>
+                    <x-button dusk="open" wire:click="$toggle('modal')">Open</x-button>
                 </div>
                 HTML;
             }
@@ -88,9 +91,10 @@ class IndexTest extends BrowserTestCase
             ->assertSee('Open')
             ->assertDontSee('Foo bar')
             ->assertDontSee('Bar baz')
-            ->click('#open')
-            ->waitForText('Foo bar')
-            ->waitForText('Bar baz');
+            ->click('@open')
+            ->waitForText(['Foo bar', 'Bar baz'])
+            ->assertSee('Foo bar')
+            ->assertSee('Bar baz');
     }
 
     /** @test */
@@ -108,15 +112,16 @@ class IndexTest extends BrowserTestCase
                         Foo bar
                     </x-modal>
                 
-                    <x-button id="open" wire:click="$toggle('test')">Open</x-button>
+                    <x-button dusk="open" wire:click="$toggle('test')">Open</x-button>
                 </div>
                 HTML;
             }
         })
             ->assertSee('Open')
             ->assertDontSee('Foo bar')
-            ->click('#open')
-            ->waitForText('Foo bar');
+            ->click('@open')
+            ->waitForText('Foo bar')
+            ->assertSee('Foo bar');
     }
 
     /** @test */
@@ -132,14 +137,44 @@ class IndexTest extends BrowserTestCase
                         Foo bar
                     </x-modal>
                 
-                    <x-button id="open" x-on:click="$modalOpen('test')">Open</x-button>
+                    <x-button dusk="open" x-on:click="$modalOpen('test')">Open</x-button>
                 </div>
                 HTML;
             }
         })
             ->assertSee('Open')
             ->assertDontSee('Foo bar')
-            ->click('#open')
-            ->waitForText('Foo bar');
+            ->click('@open')
+            ->waitForText('Foo bar')
+            ->assertSee('Foo bar');
+    }
+
+    /** @test */
+    public function cannot_close_when_modal_is_persistent(): void
+    {
+        /** @var Browser $browser */
+        $browser = Livewire::visit(new class extends Component
+        {
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>        
+                    <x-modal id="persistent">
+                        Foo bar
+                    </x-modal>
+                
+                    <x-button dusk="open" x-on:click="$modalOpen('persistent')">Open</x-button>
+                </div>
+                HTML;
+            }
+        });
+
+        $browser->assertSee('Open')
+            ->assertDontSee('Foo bar')
+            ->click('@open')
+            ->waitForText('Foo bar')
+            ->clickAtPoint(350, 350)
+            ->waitForText('Foo bar')
+            ->assertSee('Foo bar');
     }
 }
