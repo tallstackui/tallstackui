@@ -22,7 +22,6 @@ trait OverrideColors
         foreach ($methods as $method) {
             $original = $method;
 
-            // Suffix of the method name: backgroundColor, iconColor, etc.
             $method .= 'Color';
 
             if (! isset($data[$method]) || ! $data[$method] instanceof InvokableComponentVariable) {
