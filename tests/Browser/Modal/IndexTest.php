@@ -159,7 +159,7 @@ class IndexTest extends BrowserTestCase
             {
                 return <<<'HTML'
                 <div>        
-                    <x-modal id="persistent">
+                    <x-modal id="persistent" persistent>
                         Foo bar
                     </x-modal>
                 
@@ -174,7 +174,8 @@ class IndexTest extends BrowserTestCase
             ->click('@open')
             ->waitForText('Foo bar')
             ->clickAtPoint(350, 350)
-            ->waitForText('Foo bar')
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div')
+            ->pause(150)
             ->assertSee('Foo bar');
     }
 }
