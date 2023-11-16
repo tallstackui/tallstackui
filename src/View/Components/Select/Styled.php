@@ -72,7 +72,7 @@ class Styled extends Component implements Personalization
                     'wrapper' => 'z-50 max-h-60 w-full overflow-auto rounded-b-lg text-base soft-scrollbar focus:outline-none sm:text-sm',
                     'loading' => [
                         'wrapper' => 'flex items-center justify-center p-4 space-x-4',
-                        'class' => 'h-12 w-12 animate-spin text-primary-600',
+                        'class' => 'h-12 w-12 animate-spin text-primary-600 dark:text-dark-400',
                     ],
                     'item' => [
                         'wrapper' => 'relative cursor-pointer select-none px-2 py-2 text-gray-700 transition hover:bg-gray-100 dark:text-dark-300 dark:hover:bg-dark-500 focus:outline-none focus:bg-gray-100 dark:focus:bg-dark-500',
