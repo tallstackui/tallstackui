@@ -7,7 +7,6 @@ use Illuminate\Support\Arr;
 use InvalidArgumentException;
 use Illuminate\View\Component;
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Database\Eloquent\Model;
 use TallStackUi\View\Personalizations\SoftPersonalization;
 use TallStackUi\View\Personalizations\Contracts\Personalization;
