@@ -28,7 +28,7 @@ class Avatar extends Component implements Personalization
         private readonly ?string $property = 'name',
         private readonly ?string $background = '0D8ABC',
         public ?string $size = null,
-        public ?array $query = [],
+        public ?array $options = [],
     ) {
         $this->text = $this->content();
         $this->size = $this->sm ? 'sm' : ($this->lg ? 'lg' : 'md');
@@ -60,7 +60,7 @@ class Avatar extends Component implements Personalization
             'name' => $property,
             'background' => $this->background,
             'color' => $this->color,
-            ...$this->query,
+            ...$this->options,
         ]);
 
         return "https://ui-avatars.com/api?{$params}";
