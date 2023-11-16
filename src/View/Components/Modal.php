@@ -23,7 +23,7 @@ class Modal extends Component implements Personalization
         public ?string $title = null,
         public ?string $footer = null,
         public ?bool $blur = null,
-        public ?bool $uncloseable = null,
+        public ?bool $persistent = null,
         public ?string $size = null,
         public string $entangle = 'modal',
     ) {
