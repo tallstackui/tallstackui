@@ -34,21 +34,17 @@ class Alert extends Component implements Personalization
     {
         return Arr::dot([
             'wrapper' => 'rounded-md p-4',
-            'title' => [
-                'icon' => 'flex items-center',
-                'text' => 'text-lg font-semibold',
-                'wrapper' => 'flex items-center justify-between',
-                'close' => [
-                    'wrapper' => 'ml-auto pl-3',
-                    'size' => 'w-5 h-5',
-                ],
+            'content' => [
+                'wrapper' => 'flex justify-between flex-wrap',
+                'base' => 'flex-1 flex',
             ],
             'text' => [
-                'wrapper' => 'flex items-center justify-between',
-                'close' => [
-                    'wrapper' => 'flex items-center',
-                    'size' => 'w-5 h-5',
-                ],
+                'title' => 'text-lg font-semibold',
+                'description' => 'text-sm'
+            ],
+            'close' => [
+                'wrapper' => 'ml-auto pl-3 flex',
+                'size' => 'w-5 h-5',
             ],
             'icon' => [
                 'wrapper' => 'mr-2',
