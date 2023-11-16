@@ -40,7 +40,7 @@ class Alert extends Component implements Personalization
             ],
             'text' => [
                 'title' => 'text-lg font-semibold',
-                'description' => 'text-sm'
+                'description' => 'text-sm',
             ],
             'close' => [
                 'wrapper' => 'ml-auto pl-3 flex',

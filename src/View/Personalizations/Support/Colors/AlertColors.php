@@ -110,7 +110,7 @@ class AlertColors
                 'fuchsia' => 'border border-fuchsia-500',
                 'pink' => 'border border-pink-500',
                 'rose' => 'border border-rose-500',
-            ]
+            ],
         ];
     }
 
