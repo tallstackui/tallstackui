@@ -2,15 +2,16 @@
 
 namespace TallStackUi\View\Components;
 
-use Illuminate\Contracts\View\View;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Arr;
-use Illuminate\View\Component;
-use InvalidArgumentException;
-use TallStackUi\View\Personalizations\Contracts\Personalization;
-use TallStackUi\View\Personalizations\SoftPersonalization;
-use TallStackUi\View\Personalizations\Traits\InteractWithProviders;
 use Throwable;
+use Illuminate\Support\Arr;
+use InvalidArgumentException;
+use Illuminate\View\Component;
+use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Database\Eloquent\Model;
+use TallStackUi\View\Personalizations\SoftPersonalization;
+use TallStackUi\View\Personalizations\Contracts\Personalization;
+use TallStackUi\View\Personalizations\Traits\InteractWithProviders;
 
 #[SoftPersonalization('avatar')]
 class Avatar extends Component implements Personalization
@@ -28,6 +29,7 @@ class Avatar extends Component implements Personalization
         private readonly ?string $property = 'name',
         private readonly ?string $background = '0D8ABC',
         public ?string $size = null,
+        public ?array $query = [],
     ) {
         $this->text = $this->content();
         $this->size = $this->sm ? 'sm' : ($this->lg ? 'lg' : 'md');
@@ -55,7 +57,14 @@ class Avatar extends Component implements Personalization
 
         throw_if(blank($property), new InvalidArgumentException("The property {$this->property} does not exists or is blank"));
 
-        return "https://ui-avatars.com/api/?name={$property}&background={$this->background}&color={$this->color}";
+        $params = Arr::query([
+            'name' => $property,
+            'background' => $this->background,
+            'color' => $this->color,
+            ...$this->query,
+        ]);
+        
+        return "https://ui-avatars.com/api?{$params}";
     }
 
     public function personalization(): array
