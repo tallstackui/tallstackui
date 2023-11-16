@@ -12,15 +12,12 @@ class ButtonColors
 
     public function __construct(protected Button|Circle $component)
     {
-        //
+        $this->define();
     }
 
     public function __invoke(): array
     {
-        $override = $this->overrides();
-
-        $background = $override['background'] ?? $this->background();
-        $icon = $override['icon'] ?? $this->icon();
+        [$background, $icon] = $this->override('background', 'icon');
 
         return [
             'background' => $background[$this->component->style][$this->component->color],

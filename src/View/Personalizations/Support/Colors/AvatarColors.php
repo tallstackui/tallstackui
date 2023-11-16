@@ -11,15 +11,12 @@ class AvatarColors
 
     public function __construct(protected Avatar $component)
     {
-        //
+        $this->define();
     }
 
     public function __invoke(): array
     {
-        $override = $this->overrides();
-        $background = $override['background'] ?? $this->background();
-
-        return ['background' => $background];
+        return ['background' => $this->override('background')];
     }
 
     private function background(): array

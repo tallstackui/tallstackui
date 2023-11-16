@@ -8,7 +8,9 @@ use ReflectionMethod;
 
 trait OverrideColors
 {
-    public function overrides(): array
+    protected array $overrides = [];
+
+    public function define(): void
     {
         $methods = collect((new ReflectionClass($this))->getMethods(ReflectionMethod::IS_PRIVATE))
             ->map(fn (ReflectionMethod $method) => $method->getName())
@@ -16,7 +18,6 @@ trait OverrideColors
             ->toArray();
 
         $data = $this->component->data();
-        $results = [];
 
         foreach ($methods as $method) {
             $original = $method;
@@ -25,15 +26,34 @@ trait OverrideColors
             $method .= 'Color';
 
             if (! isset($data[$method]) || ! $data[$method] instanceof InvokableComponentVariable) {
+                // If the colors was not overridden, we will get the default
+                // colors of the methods of the class that is using this trait.
+                $this->overrides[$original] = $this->{$original}();
+
                 continue;
             }
 
             /** @var array|string|null $result */
             $result = $data[$method]();
 
-            $results[$original] = blank($result) ? null : $result;
+            $this->overrides[$original] = blank($result) ? null : $result;
+        }
+    }
+
+    public function override(...$methods): array
+    {
+        $methods = count($methods) === 1 ? $methods[0] : $methods;
+
+        if (is_array($methods)) {
+            $results = [];
+
+            foreach ($methods as $method) {
+                $results[] = $this->overrides[$method];
+            }
+
+            return $results;
         }
 
-        return $results;
+        return $this->overrides[$methods];
     }
 }

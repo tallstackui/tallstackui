@@ -11,15 +11,12 @@ class TooltipColors
 
     public function __construct(protected Tooltip $component)
     {
-        //
+        $this->define();
     }
 
     public function __invoke(): array
     {
-        $override = $this->overrides();
-        $icon = $override['icon'] ?? $this->icon();
-
-        return ['icon' => $icon[$this->component->color]];
+        return ['icon' => $this->override('icon')[$this->component->color]];
     }
 
     private function icon(): array

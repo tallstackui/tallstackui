@@ -11,15 +11,12 @@ class AlertColors
 
     public function __construct(protected Alert $component)
     {
-        //
+        $this->define();
     }
 
     public function __invoke(): array
     {
-        $override = $this->overrides();
-
-        $background = $override['background'] ?? $this->background();
-        $text = $override['text'] ?? $this->text();
+        [$background, $text] = $this->override('background', 'text');
 
         return [
             'background' => $background[$this->component->style][$this->component->color],

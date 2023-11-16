@@ -11,16 +11,12 @@ class ErrorsColors
 
     public function __construct(protected Errors $component)
     {
-        //
+        $this->define();
     }
 
     public function __invoke(): array
     {
-        $override = $this->overrides();
-
-        $background = $override['background'] ?? $this->background();
-        $text = $override['text'] ?? $this->text();
-        $border = $override['border'] ?? $this->border();
+        [$background, $text, $border] = $this->override('background', 'text', 'border');
 
         return [
             'background' => $background[$this->component->color],
