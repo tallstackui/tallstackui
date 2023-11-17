@@ -20,7 +20,6 @@
   },
   "dependencies": {
     "@floating-ui/dom": "^1.5.3",
-    "@tailwindcss/forms": "^0.5.6",
-    "tippy.js": "^6.3.7"
+    "@tailwindcss/forms": "^0.5.6"
   }
 }

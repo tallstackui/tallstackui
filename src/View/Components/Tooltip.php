@@ -37,6 +37,7 @@ class Tooltip extends Component implements Personalization
     {
         return Arr::dot([
             'wrapper' => 'inline-flex',
+            'color' => 'bg-black',
             'sizes' => [
                 'sm' => 'h-5 w-5',
                 'md' => 'h-6 w-6',
