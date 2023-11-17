@@ -6,14 +6,14 @@
              x-show="show"
              x-cloak
              @class([
-                'absolute w-auto text-sm',
+                'absolute min-w-max',
                 'top-0 left-1/2 -translate-x-1/2 -mt-1.5 -translate-y-full' => $position === 'top',
                 'top-1/2 -translate-y-1/2 -ml-1.5 left-0 -translate-x-full' => $position === 'left',
                 'bottom-0 left-1/2 -translate-x-1/2 -mb-1.5 translate-y-full' => $position === 'bottom',
                 'top-1/2 -translate-y-1/2 -mr-1.5 right-0 translate-x-full' => $position === 'right',
              ])>
-            <div x-show="show" @class([$personalize['color'], 'relative px-2 py-1 text-white rounded-md'])>
-                <p class="text-sm whitespace-nowrap">{{ $text }}</p>
+            <div x-show="show" @class([$personalize['color'], 'relative px-2 py-1 text-white rounded-md max-w-xs'])>
+                <p class="text-sm">{!! $text !!}</p>
                 <div x-ref="arrow"
                     @class([
                         'absolute inline-flex items-center justify-center',
