@@ -1,4 +1,3 @@
-import tooltip from './modules/directives/tooltip';
 import select from './modules/components/select/select';
 import toastBase from './modules/components/toast/toast-base';
 import toastLoop from './modules/components/toast/toast-loop';
@@ -9,8 +8,6 @@ import textArea from './modules/components/form/text-area';
 import darkTheme from './modules/helpers/dark-theme';
 
 document.addEventListener('alpine:init', () => {
-  window.Alpine.plugin(tooltip);
-
   window.Alpine.data('tallstackui_select', select);
   window.Alpine.data('tallstackui_toastBase', toastBase);
   window.Alpine.data('tallstackui_toastLoop', toastLoop);
