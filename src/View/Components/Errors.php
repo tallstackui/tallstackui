@@ -21,7 +21,6 @@ class Errors extends Component implements Personalization
         public ?string $title = null,
         public string|array|null $only = null,
         public ?string $color = 'red',
-        public bool $pulse = false,
     ) {
         $this->title ??= __('tallstack-ui::messages.errors.title');
 

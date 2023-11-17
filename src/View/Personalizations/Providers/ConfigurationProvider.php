@@ -43,7 +43,7 @@ class ConfigurationProvider
         $modal->zIndex ??= $configuration['z-index'];
         $modal->size ??= $configuration['size'];
         $modal->blur ??= $configuration['blur'];
-        $modal->uncloseable ??= $configuration['uncloseable'];
+        $modal->persistent ??= $configuration['persistent'];
 
         $modal->size = match ($modal->size) {
             'sm' => 'sm:max-w-sm',
@@ -59,7 +59,7 @@ class ConfigurationProvider
         };
 
         return collect($modal)
-            ->only(['zIndex', 'size', 'blur', 'uncloseable'])
+            ->only(['zIndex', 'size', 'blur', 'persistent'])
             ->toArray();
     }
 }

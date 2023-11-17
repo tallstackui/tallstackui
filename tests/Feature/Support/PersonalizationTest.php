@@ -152,8 +152,8 @@ it('can personalize using replace', function () {
 
     /* array */
     TallStackUi::personalize('alert')
-        ->block('title.wrapper')
-        ->replace(['justify-between' => 'foo-bar-baz']);
+        ->block('text.title')
+        ->replace(['font-semibold' => 'foo-bar-baz']);
 
     $this->blade('<x-alert title="Foo bar" />')
         ->assertSee('Foo bar')
@@ -161,8 +161,8 @@ it('can personalize using replace', function () {
 
     /* from -> to */
     TallStackUi::personalize('alert')
-        ->block('title.wrapper')
-        ->replace('items-center', 'baz-bar-foo');
+        ->block('text.title')
+        ->replace('font-semibold', 'baz-bar-foo');
 
     $this->blade('<x-alert title="Foo bar" />')
         ->assertSee('Foo bar')
