@@ -10,6 +10,7 @@ use TallStackUi\View\Components\Interaction\Dialog;
 use TallStackUi\View\Components\Interaction\Toast;
 use TallStackUi\View\Components\Modal;
 use TallStackUi\View\Components\Select\Styled;
+use TallStackUi\View\Components\Tooltip;
 use Throwable;
 
 /**
@@ -27,6 +28,7 @@ class ValidateComponent
             Styled::class => 'select',
             Icon::class => 'icon',
             Modal::class => 'modal',
+            Tooltip::class => 'tooltip',
             default => throw new Exception("No validation available for the component: [$component]"),
         };
 
@@ -135,6 +137,16 @@ class ValidateComponent
 
         if (! str_starts_with($configuration['z-index'], 'z-')) {
             throw new InvalidArgumentException('The toast z-index must start with z- prefix');
+        }
+    }
+
+    /** @throws Throwable */
+    private function tooltip(Tooltip $component): void
+    {
+        $positions = ['top', 'bottom', 'right', 'left'];
+
+        if (! in_array($component->position, $positions)) {
+            throw new InvalidArgumentException('The tooltip position must be one of the following: ['.implode(', ', $positions).']');
         }
     }
 }

@@ -1,27 +1,19 @@
-@php
-    $personalize = tallstackui_personalization('tooltip', $personalization());
-    $sizes = $personalize['sizes.' . $size];
-@endphp
+@php($personalize = tallstackui_personalization('tooltip', $personalization()))
 
-<div @class($personalize['wrapper']) x-data>
-    <div class="relative" x-data="tallstackui_tooltip(@js($text), @js($position))">
+<div class="inline-flex" x-data>
+    <div class="relative" x-data="{ show : false }">
         <div x-ref="tooltip"
-             x-show="visible"
+             x-show="show"
              x-cloak
              @class([
                 'absolute w-auto text-sm',
-                'top-0 left-1/2 -translate-x-1/2 -mt-2.5 -translate-y-full' => $position === 'top',
-                'top-1/2 -translate-y-1/2 -ml-2.5 left-0 -translate-x-full' => $position === 'left',
-                'bottom-0 left-1/2 -translate-x-1/2 -mb-2.5 translate-y-full' => $position === 'bottom',
-                'top-1/2 -translate-y-1/2 -mr-2.5 right-0 translate-x-full' => $position === 'right',
+                'top-0 left-1/2 -translate-x-1/2 -mt-1.5 -translate-y-full' => $position === 'top',
+                'top-1/2 -translate-y-1/2 -ml-1.5 left-0 -translate-x-full' => $position === 'left',
+                'bottom-0 left-1/2 -translate-x-1/2 -mb-1.5 translate-y-full' => $position === 'bottom',
+                'top-1/2 -translate-y-1/2 -mr-1.5 right-0 translate-x-full' => $position === 'right',
              ])>
-            <div x-show="visible"
-                 x-transition
-                 @class([
-                    $personalize['color'],
-                    'relative px-2 py-1 text-white rounded',
-                 ])>
-                <p x-html="text" class="text-sm whitespace-nowrap"></p>
+            <div x-show="show" @class([$personalize['color'], 'relative px-2 py-1 text-white rounded-md'])>
+                <p class="text-sm whitespace-nowrap">{{ $text }}</p>
                 <div x-ref="arrow"
                     @class([
                         'absolute inline-flex items-center justify-center',
@@ -42,10 +34,11 @@
                 </div>
             </div>
         </div>
-        <div x-ref="content">
-            <x-dynamic-component 
-                component="tallstack-ui::icon.{{ $style }}.{{ $icon }}"
-                {{ $attributes->class(['cursor-pointer', 'focus:outline-none', $sizes, $colors['icon']]) }} 
+        <div x-ref="content"
+             x-on:mouseenter="show = true"
+             x-on:mouseleave="show = false">
+            <x-dynamic-component component="tallstack-ui::icon.{{ $style }}.{{ $icon }}"
+                                 @class(['cursor-pointer', 'focus:outline-none', $personalize['sizes.' . $size], $colors['icon']])
             />
         </div>
     </div>
