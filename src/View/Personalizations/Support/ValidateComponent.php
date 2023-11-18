@@ -10,6 +10,7 @@ use TallStackUi\View\Components\Interaction\Dialog;
 use TallStackUi\View\Components\Interaction\Toast;
 use TallStackUi\View\Components\Modal;
 use TallStackUi\View\Components\Select\Styled;
+use TallStackUi\View\Components\Slide;
 use TallStackUi\View\Components\Tooltip;
 use Throwable;
 
@@ -26,6 +27,7 @@ class ValidateComponent
             Errors::class => 'errors',
             Toast::class => 'toast',
             Styled::class => 'select',
+            Slide::class => 'slide',
             Icon::class => 'icon',
             Modal::class => 'modal',
             Tooltip::class => 'tooltip',
@@ -148,5 +150,10 @@ class ValidateComponent
         if (! in_array($component->position, $positions)) {
             throw new InvalidArgumentException('The tooltip position must be one of the following: ['.implode(', ', $positions).']');
         }
+    }
+
+    private function slide(Slide $component): void
+    {
+        //TODO: validate
     }
 }
