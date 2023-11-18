@@ -127,6 +127,34 @@ class ValidateComponent
         }
     }
 
+    private function slide(Slide $component): void
+    {
+        if (is_string($component->wire) && empty($component->wire)) {
+            throw new InvalidArgumentException('The [wire] property cannot be an empty string');
+        }
+
+        $configuration = config('tallstackui.personalizations.slide');
+
+        $size = $component->size ?? $configuration['size'];
+        $zIndex = $component->zIndex ?? $configuration['z-index'];
+        $position = $component->left ? 'left' : $configuration['position'];
+
+        $sizes = ['sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl', '5xl', '6xl', '7xl', 'full'];
+        $positions = ['right', 'left'];
+
+        if (! in_array($size, $sizes)) {
+            throw new InvalidArgumentException('The slide size must be one of the following: ['.implode(', ', $sizes).']');
+        }
+
+        if (! str_starts_with($zIndex, 'z-')) {
+            throw new InvalidArgumentException('The slide z-index must start with z- prefix');
+        }
+
+        if (! in_array($position, $positions)) {
+            throw new InvalidArgumentException('The slide position must be one of the following: ['.implode(', ', $positions).']');
+        }
+    }
+
     /** @throws Throwable */
     private function toast(): void
     {
@@ -150,10 +178,5 @@ class ValidateComponent
         if (! in_array($component->position, $positions)) {
             throw new InvalidArgumentException('The tooltip position must be one of the following: ['.implode(', ', $positions).']');
         }
-    }
-
-    private function slide(Slide $component): void
-    {
-        //TODO: validate
     }
 }
