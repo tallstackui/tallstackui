@@ -101,7 +101,7 @@ class PersonalizationResources implements PersonalizableResources
         $view = $this->personalization(true)->render()->name(); // @phpstan-ignore-line
 
         if (! in_array($block, array_values($blocks = $this->blocks()))) {
-            $component = str_replace('tallstack-ui::personalizations.', '', $view);
+            $component = str_replace('tallstack-ui::components.', '', $view);
 
             throw new InvalidArgumentException("Component [$component] does not have the block [$block] to be personalized. Alloweds: ".implode(', ', $blocks));
         }
