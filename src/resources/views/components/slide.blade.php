@@ -59,10 +59,12 @@
                             {{ $slot }}
                         </div>
                         @if ($footer)
-                            <div class="flex flex-shrink-0 justify-end border-t border-t-gray-200 px-2 pt-6 dark:border-t-dark-600">
-                                <div @if (!is_string($footer)) {{ $footer->attributes }} @endif>
-                                    {{ $footer }}
-                                </div>
+                            <div @if ($footer instanceof \Illuminate\View\ComponentSlot) {{ $footer->attributes->class([
+                                    'flex border-t border-t-gray-200 px-2 pt-6 dark:border-t-dark-600',
+                                    'justify-start' => $footer->attributes->get('start', false),
+                                    'justify-end' => $footer->attributes->get('end', false),
+                                ]) }} @endif>
+                                {{ $footer }}
                             </div>
                         @endif
                     </div>
