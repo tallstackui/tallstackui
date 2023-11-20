@@ -13,6 +13,7 @@ class Input extends Component implements Personalization
     public function __construct(
         public ?string $computed = null,
         public ?string $label = null,
+        public ?string $id = null,
         public ?string $hint = null,
         public ?string $alpine = null,
         public bool $error = false,

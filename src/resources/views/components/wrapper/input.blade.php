@@ -1,8 +1,8 @@
 @php($personalize = tallstackui_personalization('wrapper.input', $personalization()))
 
-<div @if ($alpine) x-data="{!! $alpine !!}" @endif>
+<div>
     @if ($label)
-        <x-label :$label :$error/>
+        <x-label for="{{ $id }}" :$label :$error/>
     @endif
     <div @class($personalize['wrapper']) @if ($password) x-data="{ show : false }" @endif>
         {!! $slot !!}

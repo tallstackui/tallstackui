@@ -4,7 +4,7 @@
     $personalize = tallstackui_personalization('form.input', $personalization());
 @endphp
 
-<x-wrapper.input :$computed :$error :$label :$hint :$validate>
+<x-wrapper.input :$id :$computed :$error :$label :$hint :$validate>
     @if ($icon)
         <div @class([
                 $personalize['icon.wrapper'],
@@ -13,11 +13,12 @@
             <x-icon :$icon :$error @class([$personalize['icon.size'], 'text-secondary-500' => !$validate]) />
         </div>
     @endif
-    <input {{ $attributes->class([
-            $personalize['input.class.base'],
-            $personalize['input.class.color'] => !$error,
-            $personalize['input.paddings.left'] => $icon && ($position === null || $position === 'left'),
-            $personalize['input.paddings.right'] => $icon && $position === 'right',
-            $personalize['error'] => $error && $validate
+    <input id="{{ $id }}" 
+           {{ $attributes->class([
+           $personalize['input.class.base'],
+           $personalize['input.class.color'] => !$error,
+           $personalize['input.paddings.left'] => $icon && ($position === null || $position === 'left'),
+           $personalize['input.paddings.right'] => $icon && $position === 'right',
+           $personalize['error'] => $error && $validate
     ]) }}>
 </x-wrapper.input>
