@@ -42,7 +42,7 @@
                      @class(['pointer-events-auto w-screen', $configurations['size']])
                      @if (!$configurations['persistent']) x-on:click.outside="show = false" @endif>
                     <div class="flex h-full flex-col overflow-y-scroll bg-white py-6 shadow-xl soft-scrollbar dark:bg-dark-700">
-                        <div class="px-4 sm:px-6">
+                        <div class="px-6">
                             <div @class(['flex items-start', 'justify-between' => $title !== null, 'justify-end' => $title === null])>
                                 @if ($title)
                                     <h2 class="whitespace-normal font-medium text-md text-secondary-600 dark:text-dark-300">{{ $title }}</h2>
