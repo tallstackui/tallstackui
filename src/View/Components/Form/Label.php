@@ -21,8 +21,7 @@ class Label extends Component implements Personalization
     public function personalization(): array
     {
         return [
-            'wrapper' => 'flex justify-between font-medium text-gray-600 dark:text-dark-400',
-            'text' => 'block text-sm font-semibold',
+            'text' => 'block text-sm font-semibold text-gray-600 dark:text-dark-400',
             'asterisk' => 'font-bold not-italic text-red-500',
             'error' => 'text-red-600 dark:text-red-500',
         ];

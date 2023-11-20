@@ -6,11 +6,9 @@
     if ($asterisk) $text = str($text)->beforeLast(' *');
 @endphp
 
-<div @class([$personalize['wrapper'], $personalize['error'] => $error])>
-    <label @if ($for) for="{{ $for }}" @endif {{ $attributes->class($personalize['text']) }}>
-        {{ $text }}
-        @if ($asterisk)
-            <i @class($personalize['asterisk'])>*</i>
-        @endif
-    </label>
-</div>
+<label @if ($for) for="{{ $for }}" @endif @class([$personalize['text'], $personalize['error'] => $error])>
+    {{ $text }}
+    @if ($asterisk)
+        <span @class($personalize['asterisk'])>*</span>
+    @endif
+</label>
