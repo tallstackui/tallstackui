@@ -14,9 +14,9 @@ class Password extends Component implements Personalization
 {
     use DefaultInputClasses;
 
-    public function __construct(public ?string $label = null, public ?string $hint = null)
+    public function __construct(public ?string $label = null, public ?string $id = null, public ?string $hint = null)
     {
-        //
+        $this->id ??= uniqid();
     }
 
     public function personalization(): array

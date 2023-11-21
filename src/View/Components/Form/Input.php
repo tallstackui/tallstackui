@@ -16,11 +16,13 @@ class Input extends Component implements Personalization
 
     public function __construct(
         public ?string $label = null,
+        public ?string $id = null,
         public ?string $hint = null,
         public ?string $icon = null,
         public ?string $position = 'left',
         public bool $validate = true,
     ) {
+        $this->id ??= uniqid();
         $this->position = $this->position === 'left' ? 'left' : 'right';
     }
 
