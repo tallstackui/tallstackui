@@ -53,7 +53,9 @@ export default (toast, ok, confirm, cancel) => ({
   hide(imediately = true) {
     setTimeout(() => {
       this.show = false;
-      this.remove(this.toast);
+      setTimeout(() => {
+        this.remove(this.toast);
+      }, 1000);
     }, imediately ? 0 : this.toast.timeout * 100);
   },
 });
