@@ -1,5 +1,8 @@
 @php
     use Illuminate\Support\Str;
+
+    $personalize = tallstackui_personalization('slide', $personalization());
+
     $event = Str::slug(Str::kebab($id));
     $open = $event . '-open';
     $close = $event . '-close';
@@ -22,11 +25,11 @@
          x-transition:leave="ease-in-out duration-200"
          x-transition:leave-start="opacity-100"
          x-transition:leave-end="opacity-0"
-         @class(['fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity', 'backdrop-blur-sm' => $configurations['blur'] === true])></div>
-    <div class="fixed inset-0 overflow-hidden">
-        <div class="absolute inset-0 overflow-hidden">
+         @class([$personalize['wrapper.first'], 'backdrop-blur-sm' => $configurations['blur'] === true])></div>
+    <div @class($personalize['wrapper.second'])>
+        <div @class($personalize['wrapper.third'])>
             <div @class([
-                    'pointer-events-none fixed inset-y-0 flex max-w-full',
+                    $personalize['wrapper.fourth'],
                     'left-0' => $configurations['left'],
                     'pr-10' => $configurations['left'] && $configurations['size'] !== 'full',
                     'right-0' => $configurations['left'] === false,
@@ -41,26 +44,28 @@
                      x-transition:leave-end="{{ $animation }}translate-x-full"
                      @class(['pointer-events-auto w-screen', $configurations['size']])
                      @if (!$configurations['persistent']) x-on:click.outside="show = false" @endif>
-                    <div class="flex h-full flex-col overflow-y-scroll bg-white py-6 shadow-xl soft-scrollbar dark:bg-dark-700">
+                    <div @class($personalize['wrapper.fifth'])>
                         <div class="px-6">
                             <div @class(['flex items-start', 'justify-between' => $title !== null, 'justify-end' => $title === null])>
                                 @if ($title)
-                                    <h2 class="whitespace-normal font-medium text-md text-secondary-600 dark:text-dark-300">{{ $title }}</h2>
+                                    <h2 @if ($title instanceof \Illuminate\View\ComponentSlot)
+                                            {{ $title->attributes->class($personalize['title.text']) }}
+                                        @else
+                                            @class($personalize['title.text'])
+                                        @endif>{{ $title }}</h2>
                                 @endif
-                                <div class="ml-3 flex h-7 items-center">
-                                    <x-icon name="x-mark"
-                                            x-on:click="show = false"
-                                            class="h-5 w-5 cursor-pointer text-secondary-300"
-                                    />
-                                </div>
+                                <x-icon name="x-mark"
+                                        x-on:click="show = false"
+                                        @class($personalize['title.close'])
+                                />
                             </div>
                         </div>
-                        <div class="grow rounded-b-xl px-6 py-5 text-gray-700 dark:text-dark-300">
+                        <div @class($personalize['body'])>
                             {{ $slot }}
                         </div>
                         @if ($footer)
                             <div @if ($footer instanceof \Illuminate\View\ComponentSlot) {{ $footer->attributes->class([
-                                    'flex border-t border-t-gray-200 px-2 pt-6 dark:border-t-dark-600',
+                                    $personalize['footer'],
                                     'justify-start' => $footer->attributes->get('start', false),
                                     'justify-end' => $footer->attributes->get('end', false),
                                 ]) }} @endif>
