@@ -28,6 +28,7 @@ use TallStackUi\View\Components\Interaction\Toast;
 use TallStackUi\View\Components\Modal;
 use TallStackUi\View\Components\Select\Native as SelectNative;
 use TallStackUi\View\Components\Select\Styled as SelectStyled;
+use TallStackUi\View\Components\Slide;
 use TallStackUi\View\Components\Tab\Items as TabItems;
 use TallStackUi\View\Components\Tab\Tab;
 use TallStackUi\View\Components\Tooltip;
@@ -167,6 +168,11 @@ class Personalization
         };
 
         return app($this->component($class));
+    }
+
+    public function slide(): PersonalizationResources
+    {
+        return app($this->component(Slide::class));
     }
 
     public function tab(string $component = null): PersonalizationResources

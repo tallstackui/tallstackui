@@ -48,7 +48,7 @@ class Modal extends Component implements Personalization
                 'text' => 'text-md text-secondary-600 dark:text-dark-300 whitespace-normal font-medium',
                 'close' => 'text-secondary-300 h-5 w-5 cursor-pointer',
             ],
-            'body' => 'dark:text-dark-300 grow rounded-b-xl px-2 py-5 text-gray-700 px-4',
+            'body' => 'dark:text-dark-300 grow rounded-b-xl py-5 text-gray-700 px-4',
             'footer' => 'dark:text-dark-300 dark:border-t-dark-600 flex justify-end gap-2 rounded-b-xl border-t border-t-gray-100 p-4 text-gray-700',
         ]);
     }
