@@ -1,8 +1,4 @@
-@php
-    $personalize = tallstackui_personalization('toast', $personalization());
-
-    $animation = str_contains($configurations['position'], '-left') ? '-' : '';
-@endphp
+@php($personalize = tallstackui_personalization('toast', $personalization()))
 
 <div x-cloak
      x-data="tallstackui_toastBase()"
@@ -16,17 +12,14 @@
     <template x-for="toast in toasts" :key="toast.id">
         <div x-data="tallstackui_toastLoop(toast, @js(__('tallstack-ui::messages.toast.button.ok')), @js(__('tallstack-ui::messages.toast.button.confirm')), @js(__('tallstack-ui::messages.toast.button.cancel')))"
              x-show="show"
-             x-transition:enter="transform ease-out duration-300 transition" 
-             x-transition:leave="transition ease-in duration-200" 
-             x-transition:enter-start="translate-y-2 opacity-0 sm:translate-y-0 sm:{{ $animation }}translate-x-2" 
+             x-transition:enter="transform ease-out duration-300 transition"
+             x-transition:enter-start="translate-y-2 opacity-0 sm:translate-y-0 @if (str_contains($configurations['position'], '-left')) sm:-translate-x-2 @else sm:translate-x-2 @endif"
              x-transition:enter-end="translate-y-0 opacity-100 sm:translate-x-0"
-             x-transition:leave-start="translate-y-2 opacity-100 sm:translate-y-0 sm:{{ $animation }}translate-x-2" 
-             x-transition:leave-end="translate-y-2 opacity-0 sm:translate-y-0 sm:{{ $animation }}translate-x-2"
              @class([
-                $personalize['wrapper.second'],
-                'md:items-start' => $configurations['position'] === 'top-left' || $configurations['position'] === 'bottom-left',
-                'md:items-end' => $configurations['position'] === 'top-right' || $configurations['position'] === 'bottom-right',
-              ])>
+                 $personalize['wrapper.second'],
+                 'md:items-start' => $configurations['position'] === 'top-left' || $configurations['position'] === 'bottom-left',
+                 'md:items-end' => $configurations['position'] === 'top-right' || $configurations['position'] === 'bottom-right'
+             ])>
             <div
                     @class($personalize['wrapper.third'])>
                 <div @class($personalize['wrapper.fourth'])>
