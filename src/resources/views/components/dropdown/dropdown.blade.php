@@ -33,7 +33,7 @@
              x-transition:leave="transition ease-in duration-75"
              x-transition:leave-start="opacity-100 scale-100"
              x-transition:leave-end="opacity-0 scale-50"
-             x-anchor.{{ $position }}="$refs.dropdown"
+             x-anchor.{{ $position }}.offset.5="$refs.dropdown"
              @class([
                 $personalize['wrapper.third'],
              ])
