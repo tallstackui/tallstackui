@@ -10,13 +10,12 @@ it('can render', function () {
 
     $this->blade($dropdown)
         ->assertSee('Settings')
-        ->assertSee('right-0 origin-top-right')
         ->assertSee('Logout');
 });
 
 it('can render right side', function () {
     $dropdown = <<<'HTML'
-    <x-dropdown text="Menu" right>
+    <x-dropdown text="Menu" position="right">
         <x-dropdown.items text="Settings" />
         <x-dropdown.items text="Logout" separator />
     </x-dropdown>
@@ -24,7 +23,7 @@ it('can render right side', function () {
 
     $this->blade($dropdown)
         ->assertSee('Settings')
-        ->assertSee('left-0 origin-top-left')
+        ->assertSee('x-anchor.right')
         ->assertSee('Logout');
 });
 
@@ -55,7 +54,6 @@ it('can render action slot', function () {
 
     $this->blade($dropdown)
         ->assertSee('Settings')
-        ->assertSee('right-0 origin-top-right')
         ->assertSee('Open')
         ->assertSee('<button', false)
         ->assertSee('Logout');
@@ -74,7 +72,6 @@ it('can render header slot', function () {
 
     $this->blade($dropdown)
         ->assertSee('Settings')
-        ->assertSee('right-0 origin-top-right')
         ->assertSee('Foo bar')
         ->assertSee('Logout');
 });
