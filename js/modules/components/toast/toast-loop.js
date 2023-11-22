@@ -8,21 +8,17 @@ export default (toast, ok, confirm, cancel) => ({
     confirm: confirm,
     cancel: cancel,
   },
-  progress: 0,
   init() {
     this.$nextTick(() => this.show = true);
 
     setTimeout(() => {
-      this.hide(false);
+      this.hide(true);
 
       dispatchEvent('toast:timeouted', this.toast);
     }, this.toast.timeout * 1000);
 
     const interval = setInterval(() => {
-      this.progress++;
-
       if (!this.show) {
-        this.progress = 0;
         clearInterval(interval);
       }
     }, this.toast.timeout * 10);

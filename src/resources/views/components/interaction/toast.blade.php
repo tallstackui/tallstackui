@@ -71,7 +71,7 @@
                     </div>
                 </div>
                 <div @class($personalize['progress.wrapper'])>
-                    <span x-bind:style="`width:${progress}%`" @class($personalize['progress.bar']) x-cloak></span>
+                    <span x-bind:style="`animation-duration:${toast.timeout * 1000}ms`" @class(['animate-progress', $personalize['progress.bar']]) x-cloak></span>
                 </div>
             </div>
         </div>
