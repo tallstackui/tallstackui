@@ -42,7 +42,7 @@ class Slide extends Component implements Personalization
                 'second' => 'fixed inset-0 overflow-hidden',
                 'third' => 'absolute inset-0 overflow-hidden',
                 'fourth' => 'pointer-events-none fixed inset-y-0 flex max-w-full',
-                'fifth' => 'flex h-full flex-col overflow-y-scroll bg-white py-6 shadow-xl soft-scrollbar dark:bg-dark-700',
+                'fifth' => 'flex h-full flex-col overflow-y-auto bg-white py-6 shadow-xl soft-scrollbar dark:bg-dark-700',
             ],
             'title' => [
                 'text' => 'whitespace-normal font-medium text-md text-secondary-600 dark:text-dark-300',

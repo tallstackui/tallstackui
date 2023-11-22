@@ -20,8 +20,7 @@
                  'md:items-start' => $configurations['position'] === 'top-left' || $configurations['position'] === 'bottom-left',
                  'md:items-end' => $configurations['position'] === 'top-right' || $configurations['position'] === 'bottom-right'
              ])>
-            <div
-                    @class($personalize['wrapper.third'])>
+            <div @class($personalize['wrapper.third'])>
                 <div @class($personalize['wrapper.fourth'])>
                     <div class="flex-shrink-0">
                         <div x-show="toast.type === 'success'">

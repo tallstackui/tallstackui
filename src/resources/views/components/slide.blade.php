@@ -6,10 +6,6 @@
     $event = Str::slug(Str::kebab($id));
     $open = $event . '-open';
     $close = $event . '-close';
-
-    // When the slide is opened in left we prefix the -
-    // to invert the animation direction in x-transition
-    $animation = $configurations['left'] ? '-' : '';
 @endphp
 
 <div x-cloak
@@ -37,11 +33,11 @@
                 ])>
                 <div x-show="show"
                      x-transition:enter="transform transition ease-in-out duration-700"
-                     x-transition:enter-start="{{ $animation }}translate-x-full"
-                     x-transition:enter-end="{{ $animation }}translate-x-0"
+                     x-transition:enter-start="@if ($configurations['left']) -translate-x-full @else translate-x-full @endif"
+                     x-transition:enter-end="@if ($configurations['left']) -translate-x-0 @else translate-x-0 @endif"
                      x-transition:leave="transform transition ease-in-out duration-700"
-                     x-transition:leave-start="{{ $animation }}translate-x-0"
-                     x-transition:leave-end="{{ $animation }}translate-x-full"
+                     x-transition:leave-start="@if ($configurations['left']) -translate-x-0 @else translate-x-0 @endif"
+                     x-transition:leave-end="@if ($configurations['left']) -translate-x-full @else translate-x-full @endif"
                      @class(['pointer-events-auto w-screen', $configurations['size']])
                      @if (!$configurations['persistent']) x-on:click.outside="show = false" @endif>
                     <div @class($personalize['wrapper.fifth'])>
