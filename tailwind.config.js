@@ -6,7 +6,6 @@ module.exports = {
   content: [
     './src/**/*.php',
     './js/**/*.js',
-    './src/resources/css/*.css',
   ],
   darkMode: 'class',
   theme: {
