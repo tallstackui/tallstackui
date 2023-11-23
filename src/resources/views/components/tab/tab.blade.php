@@ -14,17 +14,24 @@
     @else
     x-data="tallstackui_tabs(@js($selected))"
     @endif class="w-full" x-cloak>
-    <ul x-ref="tablist" role="tablist" @class($personalize['wrapper'])>
+    <div @class($personalize['wrapper'])>
+        <ul x-ref="tablist" role="tablist" class="flex flex-nowrap overflow-auto soft-scrollbar">
+            <template x-for="item in headings">
+                <li @class($personalize['item.wrapper'])
+                    x-on:click="select(item)"
+                    x-bind:aria-selected="selected(item)"
+                    x-bind:class="selected(item) ? '{{ $personalize['item.selected'] }}' : '{{ $personalize['item.unselected'] }}'"
+                    x-text="item"
+                    role="tab">
+                </li>
+            </template>
+        </ul>
+    </div>
+    <select x-model="tab" @class($personalize['select'])>
         <template x-for="item in headings">
-            <li @class($personalize['item.wrapper'])
-                x-on:click="select(item)"
-                x-bind:aria-selected="selected(item)"
-                x-bind:class="selected(item) ? '{{ $personalize['item.selected'] }}' : '{{ $personalize['item.unselected'] }}'"
-                x-text="item"
-                role="tab">
-            </li>
+            <option x-text="item"></option>
         </template>
-    </ul>
+    </select>
     <div x-ref="tabs">
         {{ $slot }}
     </div>

@@ -11,5 +11,9 @@ export default (selected) => ({
     this.headings = [...this.$refs.tabs.children].map(function(tab) {
       return eval(`(${tab.getAttribute('x-data')})`)['name'];
     });
+
+    if (new Set(this.headings).size !== this.headings.length) {
+      console.warn("There are [TAB] items with duplicate names");
+    }
   },
 });

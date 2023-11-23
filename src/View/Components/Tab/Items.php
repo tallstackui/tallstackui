@@ -17,7 +17,7 @@ class Items extends Component implements Personalization
 
     public function personalization(): array
     {
-        return ['item' => 'dark:text-dark-300 dark:bg-dark-700 bg-white p-6 text-gray-700 rounded-lg'];
+        return ['item' => 'dark:text-dark-300 dark:bg-dark-700 bg-white p-6 text-gray-700 rounded-lg mt-2'];
     }
 
     public function render(): View
