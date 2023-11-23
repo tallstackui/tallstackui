@@ -10,11 +10,14 @@ Please, fill in the form below correctly. This will help us to understand your P
 - [ ] Bug Fix
 - [ ] Improvement
 - [ ] New Feature
-- [ ] Test Coverage
 
 ### Description:
 
 <!-- Describe your PR, which more details as possible. -->
+
+### Demonstration:
+
+<!-- Insert a demonstration about the changes or the features (image or video). -->
 
 ### Related:
 
