@@ -5,14 +5,13 @@
     $personalize = tallstackui_personalization('tab', $personalization());
 @endphp
 
-<div @if ($property) 
+<div @if ($property)
         @if (!str($directive)->contains('.live'))
-             x-data="tallstackui_tabs(@entangle($property))"
+             x-data="tallstackui_tab(@entangle($property))"
         @else
-             x-data="tallstackui_tabs(@entangle($property).live)" 
+             x-data="tallstackui_tab(@entangle($property).live)"
         @endif
-    @else
-    x-data="tallstackui_tabs(@js($selected))"
+    @else x-data="tallstackui_tab(@js($selected))"
     @endif class="w-full" x-cloak>
     <div @class($personalize['wrapper'])>
         <ul x-ref="tablist" role="tablist" @class($personalize['item.base'])>

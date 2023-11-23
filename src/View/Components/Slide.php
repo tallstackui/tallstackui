@@ -49,7 +49,7 @@ class Slide extends Component implements Personalization
                 'close' => 'h-5 w-5 cursor-pointer text-secondary-300',
             ],
             'body' => 'grow rounded-b-xl px-6 py-5 text-gray-700 dark:text-dark-300',
-            'footer' => 'flex border-t border-t-gray-200 px-2 pt-6 dark:border-t-dark-600',
+            'footer' => 'flex border-t border-t-gray-200 px-4 pt-6 dark:border-t-dark-600',
         ]);
     }
 
