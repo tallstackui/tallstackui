@@ -8,13 +8,11 @@ use Illuminate\View\Component;
 use TallStackUi\View\Personalizations\Contracts\Personalization;
 use TallStackUi\View\Personalizations\SoftPersonalization;
 use TallStackUi\View\Personalizations\Traits\InteractWithProviders;
-use TallStackUi\View\Personalizations\Traits\InteractWithValidations;
 
 #[SoftPersonalization('tooltip')]
 class Tooltip extends Component implements Personalization
 {
     use InteractWithProviders;
-    use InteractWithValidations;
 
     public function __construct(
         public ?string $text = null,
@@ -26,14 +24,17 @@ class Tooltip extends Component implements Personalization
         public ?bool $solid = false,
         public ?bool $outline = false,
         public ?string $size = null,
-        public ?string $position = 'top',
+        public ?bool $right = null,
+        public ?bool $bottom = null,
+        public ?bool $left = null,
         public ?string $style = null,
+        public ?string $position = null,
     ) {
         $this->size = $this->lg ? 'lg' : ($this->md ? 'md' : 'sm');
         $this->style = $this->outline ? 'outline' : ($this->solid ? 'solid' : config('tallstackui.icon'));
+        $this->position = $this->right ? 'right' : ($this->bottom ? 'bottom' : ($this->left ? 'left' : 'top'));
 
         $this->colors();
-        $this->validate();
     }
 
     public function personalization(): array
