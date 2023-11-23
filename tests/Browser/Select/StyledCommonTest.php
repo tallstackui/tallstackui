@@ -169,6 +169,7 @@ class StyledCommonTest extends BrowserTestCase
             ->click('@sync')
             ->waitForText('foo')
             ->click('@tallstackui_select_open_close')
+            ->waitForText(['foo', 'bar'])
             ->clickAtXPath('/html/body/div[3]/div/div/div/ul/li[1]')
             ->click('@sync')
             ->waitForText('Select an option')
