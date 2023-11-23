@@ -33,7 +33,7 @@ class IndexTest extends BrowserTestCase
             ->assertSee('Bar')
             ->assertSee('Foo bar baz')
             ->assertDontSee('Baz bar foo')
-            ->clickAtXPath('/html/body/div[3]/div/ul/li[2]')
+            ->clickAtXPath('/html/body/div[3]/div/div[1]/ul/li[2]')
             ->waitForText('Baz bar foo')
             ->assertDontSee('Foo bar baz');
     }
@@ -63,10 +63,10 @@ class IndexTest extends BrowserTestCase
             ->assertSee('Bar')
             ->assertSee('Foo bar baz')
             ->assertDontSee('Baz bar foo')
-            ->clickAtXPath('/html/body/div[3]/div/ul/li[2]')
+            ->clickAtXPath('/html/body/div[3]/div/div[1]/ul/li[2]')
             ->waitForText('Baz bar foo')
             ->assertDontSee('Foo bar baz')
-            ->clickAtXPath('/html/body/div[3]/div/ul/li[1]')
+            ->clickAtXPath('/html/body/div[3]/div/div[1]/ul/li[1]')
             ->waitForText('Foo bar baz')
             ->assertDontSee('Baz bar foo');
     }
@@ -134,7 +134,7 @@ class IndexTest extends BrowserTestCase
             ->assertSee('Bar')
             ->assertSee('Baz bar foo')
             ->assertDontSee('Foo bar baz')
-            ->clickAtXPath('/html/body/div[3]/div/ul/li[1]')
+            ->clickAtXPath('/html/body/div[3]/div/div[1]/ul/li[1]')
             ->waitForText('Foo bar baz')
             ->assertSee('Bar')
             ->assertDontSee('Baz bar foo');
