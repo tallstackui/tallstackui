@@ -13,7 +13,7 @@ export default (selected) => ({
     });
 
     if (new Set(this.headings).size !== this.headings.length) {
-      console.warn("There are [TAB] items with duplicate names");
+      console.warn('There are [TAB] items with duplicate names');
     }
   },
 });
