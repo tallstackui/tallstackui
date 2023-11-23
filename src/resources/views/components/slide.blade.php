@@ -9,7 +9,11 @@
 @endphp
 
 <div x-cloak
-     x-data="{ show : @if ($wire) @entangle($entangle) @else false @endif }"
+     @if ($wire)
+         x-data="tallstackui_slide(@entangle($entangle))"
+     @else
+         x-data="tallstackui_slide(false)"
+     @endif
      x-show="show"
      x-on:slide:{{ $open }}.window="show = true;"
      x-on:slide:{{ $close }}.window="show = false;"
