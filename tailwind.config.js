@@ -30,6 +30,15 @@ module.exports = {
         }
       },
     },
+    keyframes: {
+      progress: {
+        '0%': { width: '0' },
+        '100%': { width: '100%' },
+      }
+    },
+    animation: {
+      progress: 'progress 2s ease-in-out infinite',
+    },
   },
   safelist: [
     '!overflow-hidden',
@@ -38,6 +47,5 @@ module.exports = {
     forms,
     require('./js/plugins/customScrollbar'),
     require('./js/plugins/softScrollbar'),
-    require('./js/plugins/progressAnimation'),
   ],
 };
