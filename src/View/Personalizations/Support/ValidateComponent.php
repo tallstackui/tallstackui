@@ -4,6 +4,7 @@ namespace TallStackUi\View\Personalizations\Support;
 
 use Exception;
 use InvalidArgumentException;
+use TallStackUi\View\Components\Dropdown\Dropdown;
 use TallStackUi\View\Components\Errors;
 use TallStackUi\View\Components\Icon;
 use TallStackUi\View\Components\Interaction\Dialog;
@@ -24,6 +25,7 @@ class ValidateComponent
     {
         $method = match (get_class($component)) {
             Dialog::class => 'dialog',
+            Dropdown::class => 'dropdown',
             Errors::class => 'errors',
             Toast::class => 'toast',
             Styled::class => 'select',
@@ -110,6 +112,16 @@ class ValidateComponent
 
         if (! str_starts_with($configuration['z-index'], 'z-')) {
             throw new InvalidArgumentException('The dialog z-index must start with z- prefix');
+        }
+    }
+
+    /** @throws Throwable */
+    private function dropdown(Dropdown $component): void
+    {
+        $positions = ['bottom', 'bottom-start', 'bottom-end', 'top', 'top-start', 'top-end', 'left', 'left-start', 'left-end', 'right', 'right-start', 'right-end'];
+
+        if (! in_array($component->position, $positions)) {
+            throw new InvalidArgumentException('The dropdown position must be one of the following: ['.implode(', ', $positions).']');
         }
     }
 
