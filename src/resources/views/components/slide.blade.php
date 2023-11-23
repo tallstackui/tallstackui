@@ -64,7 +64,7 @@
                                     $personalize['footer'],
                                     'justify-start' => $footer->attributes->get('start', false),
                                     'justify-end' => $footer->attributes->get('end', false),
-                                ]) }} @endif>
+                                ]) }} @else @class($personalize['footer']) @endif>
                                 {{ $footer }}
                             </div>
                         @endif
