@@ -6,6 +6,7 @@ module.exports = {
   content: [
     './src/**/*.php',
     './js/**/*.js',
+    './src/resources/css/*.css',
   ],
   darkMode: 'class',
   theme: {
@@ -29,6 +30,15 @@ module.exports = {
           '950': '#000000',
         }
       },
+      keyframes: {
+        progress: {
+          '0%': { width: '0' },
+          '100%': { width: '100%' },
+        }
+      },
+      animation: {
+        'progress': 'progress 2s ease-in-out infinite',
+      },
     },
   },
   safelist: [
@@ -38,5 +48,6 @@ module.exports = {
     forms,
     require('./js/plugins/customScrollbar'),
     require('./js/plugins/softScrollbar'),
+    require('./js/plugins/progressAnimation'),
   ],
 };
