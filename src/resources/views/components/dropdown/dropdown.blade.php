@@ -1,11 +1,16 @@
 @php($personalize = tallstackui_personalization('dropdown', $personalization()))
 
-<div @class($personalize['wrapper.first']) 
-     x-data="{ show: false, animate: @js(!$static) }"
-     x-init="window.addEventListener('scroll', function() {
-         const element = $refs.dropdown.getBoundingClientRect();
-         show = (element.bottom < 0 || element.top > window.innerHeight && show) ? false : show;
-     });">
+<div @class($personalize['wrapper.first'])
+     x-data="{
+        show: false,
+        animate: @js(!$static),
+        init() {
+            window.addEventListener('scroll', () => {
+                const element = this.$refs.dropdown.getBoundingClientRect();
+                this.show = (element.bottom < 0 || element.top > window.innerHeight && this.show) ? false : this.show;
+            });
+        }
+     }">
     <div @class($personalize['wrapper.second'])
         x-on:click.outside="show = false"
         x-ref="dropdown">
