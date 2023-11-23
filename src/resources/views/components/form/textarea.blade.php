@@ -4,7 +4,7 @@
     $personalize = tallstackui_personalization('form.textarea', $personalization());
 @endphp
 
-<x-wrapper.input :$computed :$error :$label :$hint validate>
+<x-wrapper.input :$id :$computed :$error :$label :$hint validate>
     @if ($resizeAuto)
         <x-slot:alpine>
             tallstackui_formTextArea()
@@ -16,5 +16,5 @@
             $personalize['input.color'] => !$error,
             $personalize['error'] => $error,
         ]) }}
-        rows="{{ $rows }}" @if ($resizeAuto) x-on:input="resize()" @endif>{{ $slot }}</textarea>
+         id="{{ $id }}" rows="{{ $rows }}" @if ($resizeAuto) x-on:input="resize()" @endif>{{ $slot }}</textarea>
 </x-wrapper.input>

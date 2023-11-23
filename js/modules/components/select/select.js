@@ -1,5 +1,5 @@
 import {error, warning} from '../../helpers';
-import {body, sync} from './helpers';
+import {body} from './helpers';
 
 /**
  * @param model {Object|String} - The model object or the value
@@ -34,7 +34,6 @@ export default (
   selectable: selectable,
   loading: false,
   placeholder: placeholder,
-  cleanup: null,
   internal: false,
   common: common,
   response: [],
@@ -101,18 +100,10 @@ export default (
 
     this.$watch('show', async (value) => {
       if (!value) {
-        if (this.cleanup) {
-          this.cleanup();
-          this.cleanup = null;
-        }
         return;
       }
 
       if (value) {
-        if (!this.cleanup) {
-          this.cleanup = sync(this.$root, this.$refs.select);
-        }
-
         if (this.searchable) {
           setTimeout(() => this.$refs.search.focus(), 100);
         }
@@ -169,20 +160,10 @@ export default (
 
       if (!value) {
         this.search = '';
-
-        if (this.cleanup) {
-          this.cleanup();
-          this.cleanup = null;
-        }
-
         return;
       }
 
       if (value) {
-        if (!this.cleanup) {
-          this.cleanup = sync(this.$root, this.$refs.select);
-        }
-
         setTimeout(() => this.$refs.search.focus(), 100);
       }
 

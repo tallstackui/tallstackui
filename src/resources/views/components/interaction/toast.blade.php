@@ -8,18 +8,19 @@
         'md:justify-start' => str_contains($configurations['position'], 'top-'),
         'md:justify-end' => str_contains($configurations['position'], 'bottom-'),
         $configurations['z-index']
-    ])
-     x-show="show">
+    ])>
     <template x-for="toast in toasts" :key="toast.id">
         <div x-data="tallstackui_toastLoop(toast, @js(__('tallstack-ui::messages.toast.button.ok')), @js(__('tallstack-ui::messages.toast.button.confirm')), @js(__('tallstack-ui::messages.toast.button.cancel')))"
              x-show="show"
-                @class([
-                    $personalize['wrapper.second'],
-                    'md:items-start' => $configurations['position'] === 'top-left' || $configurations['position'] === 'bottom-left',
-                    'md:items-end' => $configurations['position'] === 'top-right' || $configurations['position'] === 'bottom-right',
-                ])>
-            <div x-show="show"
-                    @class($personalize['wrapper.third'])>
+             x-transition:enter="transform ease-out duration-300 transition"
+             x-transition:enter-start="translate-y-2 opacity-0 sm:translate-y-0 @if (str_contains($configurations['position'], '-left')) sm:-translate-x-2 @else sm:translate-x-2 @endif"
+             x-transition:enter-end="translate-y-0 opacity-100 sm:translate-x-0"
+             @class([
+                 $personalize['wrapper.second'],
+                 'md:items-start' => $configurations['position'] === 'top-left' || $configurations['position'] === 'bottom-left',
+                 'md:items-end' => $configurations['position'] === 'top-right' || $configurations['position'] === 'bottom-right'
+             ])>
+            <div @class($personalize['wrapper.third'])>
                 <div @class($personalize['wrapper.fourth'])>
                     <div class="flex-shrink-0">
                         <div x-show="toast.type === 'success'">
@@ -70,7 +71,7 @@
                     </div>
                 </div>
                 <div @class($personalize['progress.wrapper'])>
-                    <span x-bind:style="`width:${progress}%`" @class($personalize['progress.bar']) x-cloak></span>
+                    <span x-bind:style="`animation-duration:${toast.timeout * 1000}ms`" @class(['animate-progress', $personalize['progress.bar']]) x-cloak></span>
                 </div>
             </div>
         </div>

@@ -28,9 +28,18 @@ return [
         'modal' => [
             'z-index' => 'z-50',
             'blur' => false,
-            'uncloseable' => false,
+            'persistent' => false,
             /* Alloweds: sm, md, lg, xl, 2xl, 3xl, 4xl, 5xl, 6xl, 7xl */
             'size' => '2xl',
+        ],
+        'slide' => [
+            'z-index' => 'z-50',
+            'blur' => false,
+            'persistent' => false,
+            /* Alloweds: sm, md, lg, xl, 2xl, 3xl, 4xl, 5xl, 6xl, 7xl, full */
+            'size' => 'lg',
+            /* Alloweds: right, left */
+            'position' => 'right',
         ],
         'toast' => [
             'z-index' => 'z-50',
@@ -68,6 +77,7 @@ return [
         'radio' => Components\Form\Radio::class,
         'select.native' => Components\Select\Native::class,
         'select.styled' => Components\Select\Styled::class,
+        'slide' => Components\Slide::class,
         'tab' => Components\Tab\Tab::class,
         'tab.items' => Components\Tab\Items::class,
         'textarea' => Components\Form\Textarea::class,

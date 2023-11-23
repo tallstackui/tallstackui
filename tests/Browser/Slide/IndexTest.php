@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Browser\Modal;
+namespace Tests\Browser\Slide;
 
 use Laravel\Dusk\Browser;
 use Livewire\Component;
@@ -14,17 +14,17 @@ class IndexTest extends BrowserTestCase
     {
         Livewire::visit(new class extends Component
         {
-            public bool $modal = false;
+            public bool $slide = false;
 
             public function render(): string
             {
                 return <<<'HTML'
                 <div>        
-                    <x-modal wire>
+                    <x-slide wire>
                         Foo bar
-                    </x-modal>
+                    </x-slide>
                 
-                    <x-button dusk="open" wire:click="$toggle('modal')">Open</x-button>
+                    <x-button dusk="open" wire:click="$toggle('slide')">Open</x-button>
                 </div>
                 HTML;
             }
@@ -41,20 +41,20 @@ class IndexTest extends BrowserTestCase
     {
         Livewire::visit(new class extends Component
         {
-            public bool $modal = false;
+            public bool $slide = false;
 
             public function render(): string
             {
                 return <<<'HTML'
                 <div>        
-                    <x-modal wire title="Bar baz">
+                    <x-slide wire title="Bar baz">
                         Foo bar
-                        <x-slot:footer>
+                        <x-slot:footer start>
                             Lorem                
                         </x-slot:footer>
-                    </x-modal>
+                    </x-slide>
                 
-                    <x-button dusk="open" wire:click="$toggle('modal')">Open</x-button>
+                    <x-button dusk="open" wire:click="$toggle('slide')">Open</x-button>
                 </div>
                 HTML;
             }
@@ -73,17 +73,17 @@ class IndexTest extends BrowserTestCase
     {
         Livewire::visit(new class extends Component
         {
-            public bool $modal = false;
+            public bool $slide = false;
 
             public function render(): string
             {
                 return <<<'HTML'
                 <div>        
-                    <x-modal wire title="Bar baz">
+                    <x-slide wire title="Bar baz">
                         Foo bar
-                    </x-modal>
+                    </x-slide>
                 
-                    <x-button dusk="open" wire:click="$toggle('modal')">Open</x-button>
+                    <x-button dusk="open" wire:click="$toggle('slide')">Open</x-button>
                 </div>
                 HTML;
             }
@@ -108,9 +108,9 @@ class IndexTest extends BrowserTestCase
             {
                 return <<<'HTML'
                 <div>        
-                    <x-modal wire="test">
+                    <x-slide wire="test">
                         Foo bar
-                    </x-modal>
+                    </x-slide>
                 
                     <x-button dusk="open" wire:click="$toggle('test')">Open</x-button>
                 </div>
@@ -133,11 +133,11 @@ class IndexTest extends BrowserTestCase
             {
                 return <<<'HTML'
                 <div>        
-                    <x-modal id="test">
+                    <x-slide id="test">
                         Foo bar
-                    </x-modal>
+                    </x-slide>
                 
-                    <x-button dusk="open" x-on:click="$modalOpen('test')">Open</x-button>
+                    <x-button dusk="open" x-on:click="$slideOpen('test')">Open</x-button>
                 </div>
                 HTML;
             }
@@ -150,7 +150,7 @@ class IndexTest extends BrowserTestCase
     }
 
     /** @test */
-    public function cannot_close_when_modal_is_persistent(): void
+    public function cannot_close_when_slide_is_persistent(): void
     {
         /** @var Browser $browser */
         $browser = Livewire::visit(new class extends Component
@@ -159,11 +159,11 @@ class IndexTest extends BrowserTestCase
             {
                 return <<<'HTML'
                 <div>        
-                    <x-modal id="persistent" persistent>
+                    <x-slide id="persistent" persistent>
                         Foo bar
-                    </x-modal>
+                    </x-slide>
                 
-                    <x-button dusk="open" x-on:click="$modalOpen('persistent')">Open</x-button>
+                    <x-button dusk="open" x-on:click="$slideOpen('persistent')">Open</x-button>
                 </div>
                 HTML;
             }

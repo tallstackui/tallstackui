@@ -28,6 +28,7 @@ class Avatar extends Component implements Personalization
         private readonly ?string $property = 'name',
         private readonly ?string $background = '0D8ABC',
         public ?string $size = null,
+        public ?array $options = [],
     ) {
         $this->text = $this->content();
         $this->size = $this->sm ? 'sm' : ($this->lg ? 'lg' : 'md');
@@ -55,7 +56,14 @@ class Avatar extends Component implements Personalization
 
         throw_if(blank($property), new InvalidArgumentException("The property {$this->property} does not exists or is blank"));
 
-        return "https://ui-avatars.com/api/?name={$property}&background={$this->background}&color={$this->color}";
+        $params = Arr::query([
+            'name' => $property,
+            'background' => $this->background,
+            'color' => $this->color,
+            ...$this->options,
+        ]);
+
+        return "https://ui-avatars.com/api?{$params}";
     }
 
     public function personalization(): array

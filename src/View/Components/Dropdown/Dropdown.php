@@ -7,19 +7,22 @@ use Illuminate\Support\Arr;
 use Illuminate\View\Component;
 use TallStackUi\View\Personalizations\Contracts\Personalization;
 use TallStackUi\View\Personalizations\SoftPersonalization;
+use TallStackUi\View\Personalizations\Traits\InteractWithValidations;
 
 #[SoftPersonalization('dropdown')]
 class Dropdown extends Component implements Personalization
 {
+    use InteractWithValidations;
+
     public function __construct(
         public ?string $text = null,
         public ?string $icon = null,
         public ?string $header = null,
         public ?string $action = null,
-        public ?bool $right = false,
+        public ?string $position = 'bottom-start',
         public ?bool $static = false,
     ) {
-        //
+        $this->validate();
     }
 
     public function personalization(): array

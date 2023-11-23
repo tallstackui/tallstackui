@@ -32,7 +32,7 @@
     <div @class($personalize['wrapper.second'])>
         <div @class([$personalize['wrapper.third'], $configurations['size']])>
             <div x-show="show"
-                 @if (!($uncloseable ?? $configurations['uncloseable'])) x-on:click.outside="show = false" @endif
+                 @if (!($persistent ?? $configurations['persistent'])) x-on:click.outside="show = false" @endif
                  x-transition:enter="ease-out duration-300"
                  x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                  x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
