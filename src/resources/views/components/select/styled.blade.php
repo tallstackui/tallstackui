@@ -23,6 +23,7 @@
     @endif
     <div class="relative" x-on:click.outside="show = false">
         <button type="button"
+                x-ref="button"
                 @disabled($disabled)
                 @class([
                     $personalize['input.wrapper.base'],
@@ -88,6 +89,7 @@
              x-transition:enter="transition ease-out duration-75"
              x-transition:enter-start="opacity-0 -translate-y-1"
              x-transition:enter-end="opacity-100"
+             x-anchor.offset.5="$refs.button"
              @class($personalize['box.wrapper'])
              x-ref="select">
             <template x-if="searchable">
