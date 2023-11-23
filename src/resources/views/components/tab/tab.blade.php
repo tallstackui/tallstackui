@@ -15,7 +15,7 @@
     x-data="tallstackui_tabs(@js($selected))"
     @endif class="w-full" x-cloak>
     <div @class($personalize['wrapper'])>
-        <ul x-ref="tablist" role="tablist" class="flex flex-nowrap overflow-auto soft-scrollbar">
+        <ul x-ref="tablist" role="tablist" @class($personalize['item.base'])>
             <template x-for="item in headings">
                 <li @class($personalize['item.wrapper'])
                     x-on:click="select(item)"
