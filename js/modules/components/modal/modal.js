@@ -1,4 +1,4 @@
-import {overflow} from '../helpers';
+import {overflow} from '../../helpers';
 
 export default (state) => ({
   show: state,
