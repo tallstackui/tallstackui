@@ -7,9 +7,13 @@
         '{{ $personalize['unselect'] }}' : tab !== '{{ $tab }}'
     }">
    <div @class($personalize['wrapper'])>
-        @if ($left) {{ $left }} @endif
-        {{ $tab }}
-        @if ($right) {{ $right }} @endif
+        @if ($left)
+           {{ $left }}
+        @endif
+            {{ $tab }}
+        @if ($right)
+            {{ $right }}
+        @endif
    </div>
 </li>
 
