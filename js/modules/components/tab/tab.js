@@ -6,5 +6,5 @@ export default (selected) => ({
   },
   selected(tab) {
     return this.tab === tab;
-  }
+  },
 });
