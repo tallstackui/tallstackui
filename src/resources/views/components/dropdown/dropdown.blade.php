@@ -1,4 +1,7 @@
-@php($personalize = tallstackui_personalization('dropdown', $personalization()))
+@php
+    $personalize = tallstackui_personalization('dropdown', $personalization());
+    $right = str_contains($position, 'right') || str_contains($position, 'start');
+@endphp
 
 <div @class($personalize['wrapper.first'])
      x-data="{
@@ -35,12 +38,12 @@
             {!! $action !!}
         @endif
         <div x-show="show" x-cloak
-            x-transition:enter="transition ease-out duration-150"
-            x-transition:enter-start="opacity-0 scale-50"
-            x-transition:enter-end="opacity-100 scale-100"
-            x-transition:leave="transition ease-in duration-75"
-            x-transition:leave-start="opacity-100 scale-100"
-            x-transition:leave-end="opacity-0 scale-50"
+             x-transition:enter="transform transition duration-100 ease-out @if ($right) origin-bottom-left @else origin-bottom-right @endif"
+             x-transition:enter-start="opacity-0 scale-95"
+             x-transition:enter-end="opacity-100 scale-100"
+             x-transition:leave="transform transition duration-100 ease-in @if ($right) origin-bottom-left @else origin-bottom-right @endif"
+             x-transition:leave-start="opacity-100 scale-100"
+             x-transition:leave-end="opacity-0 scale-95"
             x-anchor.{{ $position }}.offset.5="$refs.dropdown"
             @class([$personalize['wrapper.third']])
             role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
