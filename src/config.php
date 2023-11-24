@@ -19,7 +19,7 @@ return [
     |
     | General components settings.
     */
-    'personalizations' => [
+    'settings' => [
         'dialog' => [
             'z-index' => 'z-50',
             'blur' => false,
