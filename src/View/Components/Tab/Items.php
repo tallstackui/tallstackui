@@ -2,11 +2,11 @@
 
 namespace TallStackUi\View\Components\Tab;
 
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
-use Illuminate\Contracts\View\View;
-use TallStackUi\View\Personalizations\SoftPersonalization;
 use TallStackUi\View\Personalizations\Contracts\Personalization;
+use TallStackUi\View\Personalizations\SoftPersonalization;
 
 #[SoftPersonalization('tab.items')]
 class Items extends Component implements Personalization
@@ -23,7 +23,7 @@ class Items extends Component implements Personalization
     {
         return Arr::dot([
             'wrapper' => 'inline-flex items-center gap-2 whitespace-nowrap p-4 transition-all',
-            'select'  => 'text-primary-500 dark:text-dark-300 border-primary-500 dark:border-dark-300 group inline-flex items-center border-b-2 font-medium',
+            'select' => 'text-primary-500 dark:text-dark-300 border-primary-500 dark:border-dark-300 group inline-flex items-center border-b-2 font-medium',
             'unselect' => 'dark:text-dark-500 hidden cursor-pointer text-gray-400 sm:flex',
         ]);
     }
