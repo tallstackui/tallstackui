@@ -21,12 +21,12 @@ class Tab extends Component implements Personalization
     public function personalization(): array
     {
         return Arr::dot([
-            'wrapper' => 'w-full bg-white rounded-lg shadow-md dark:bg-dark-700',
+            'wrapper' => 'dark:bg-dark-700 w-full rounded-lg bg-white shadow-md',
             'item' => [
-                'wrapper' => 'flex overflow-auto flex-nowrap soft-scrollbar'
+                'wrapper' => 'soft-scrollbar flex flex-nowrap overflow-auto'
             ],
-            'divider' => 'hidden h-px bg-gray-700 border-0 dark:bg-gray-600 sm:block',
-            'select' => 'py-3 px-4 w-full rounded-lg border-gray-200 focus:border-primary-500 focus:ring-primary-500 dark:bg-dark-700 dark:border-dark-500 dark:text-gray-400 sm:hidden ',
+            'divider' => 'hidden h-px border-0 bg-gray-300 dark:bg-gray-600 sm:block',
+            'select' => 'focus:border-primary-500 focus:ring-primary-500 dark:bg-dark-700 dark:border-dark-500 w-full rounded-lg border-gray-200 px-4 py-3 dark:text-gray-400 sm:hidden',
             // 'wrapper' => '-mb-1.5 flex items-stretch overflow-auto',
             // 'select' => 'py-3 px-4 w-full rounded-lg border-gray-200 focus:border-primary-500 focus:ring-primary-500 dark:bg-dark-700 dark:border-dark-500 dark:text-gray-400 sm:hidden ',
             // 'item' => [

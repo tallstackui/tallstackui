@@ -13,10 +13,9 @@
         @endif
     @else x-data="tallstackui_tab(@js($selected))"
     @endif @class($personalize['wrapper'])>
-
     <div class="p-2 sm:p-0">
         <select id="tab-select-{{ $id }}"
-                x-model="tab" 
+                x-model="tab"
                 @class($personalize['select'])>
         </select>
     </div>
