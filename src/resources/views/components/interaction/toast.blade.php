@@ -70,9 +70,11 @@
                         </button>
                     </div>
                 </div>
-                <div @class($personalize['progress.wrapper'])>
-                    <span x-bind:style="`animation-duration:${toast.timeout * 1000}ms`" @class(['animate-progress', $personalize['progress.bar']]) x-cloak></span>
-                </div>
+                @if ($configurations['progress'])
+                    <div @class($personalize['progress.wrapper'])>
+                        <span x-bind:style="`animation-duration:${toast.timeout * 1000}ms`" @class(['animate-progress', $personalize['progress.bar']]) x-cloak></span>
+                    </div>
+                @endif
             </div>
         </div>
     </template>
