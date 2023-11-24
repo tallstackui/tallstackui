@@ -1,6 +1,6 @@
 @php($personalize = tallstackui_personalization('tab.items', $personalization()))
-
 @aware(['id'])
+
 <li x-on:click="select('{{ $tab }}')"
     x-bind:class="{
         '{{ $personalize['select'] }}' : tab === '{{ $tab }}',
