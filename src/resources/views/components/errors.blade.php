@@ -8,6 +8,7 @@
             ]) }}>
             <div @class([$personalize['title.wrapper'], $colors['border']])>
                 <span @class([$personalize['title.text'], $colors['text']])>
+                    <x-icon name="x-circle" class="w-5 h-5" outline />
                     {{ __($title, ['count' => $count($errors)]) }}
                 </span>
             </div>

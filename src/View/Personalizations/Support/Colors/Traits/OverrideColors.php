@@ -10,6 +10,11 @@ trait OverrideColors
 {
     protected array $overrides = [];
 
+    /**
+     * This method is used to determine which colors will be applied
+     * to the component, whether they will be the custom colors in a
+     * custom component class or whether they will be the default colors.
+     */
     public function define(): void
     {
         $methods = collect((new ReflectionClass($this))->getMethods(ReflectionMethod::IS_PRIVATE))
