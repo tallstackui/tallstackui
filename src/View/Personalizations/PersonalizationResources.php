@@ -72,7 +72,7 @@ class PersonalizationResources implements PersonalizableResources
         return $this;
     }
 
-    public function remove(string $class): self
+    public function remove(string|array $class): self
     {
         $this->interactions['remove'] = $class;
 
@@ -145,7 +145,11 @@ class PersonalizationResources implements PersonalizableResources
         }
 
         if ($remove) {
-            $original[$block] = str_replace($remove, '', $original[$block]);
+            $remove = is_array($remove) ? $remove : [$remove];
+
+            foreach ($remove as $class) {
+                $original[$block] = str_replace($class, '', $original[$block]);
+            }
         }
 
         $this->parts[$block] = trim($content ?? str($original[$block])->squish());
