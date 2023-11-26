@@ -19,7 +19,7 @@ class Alert extends Component implements Personalization
         public ?string $text = null,
         public ?string $icon = null,
         public string $color = 'primary',
-        public bool $closeable = false,
+        public bool $close = false,
         public bool $light = false,
         public bool $outline = false,
         public string $style = 'solid',

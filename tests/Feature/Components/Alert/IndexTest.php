@@ -18,8 +18,8 @@ it('can render slot', function () {
         ->assertSee('bg-primary-600');
 });
 
-it('can render closeable alert', function () {
-    $this->blade('<x-alert text="Foo bar" closeable />')
+it('can render close alert', function () {
+    $this->blade('<x-alert text="Foo bar" close />')
         ->assertSee('<svg class="w-5 h-5 text-primary-50"', false);
 });
 
