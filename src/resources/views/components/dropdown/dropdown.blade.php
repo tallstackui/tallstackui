@@ -1,6 +1,6 @@
 @php
     $personalize = tallstackui_personalization('dropdown', $personalization());
-    $right = str_contains($position, 'right') || str_contains($position, 'start');
+    $side = str_contains($position, 'right') || str_contains($position, 'left');
 @endphp
 
 <div @class($personalize['wrapper.first'])
@@ -38,13 +38,13 @@
             {!! $action !!}
         @endif
         <div x-show="show" x-cloak
-             x-transition:enter="transform transition duration-100 ease-out @if ($right) origin-bottom-left @else origin-bottom-right @endif"
-             x-transition:enter-start="opacity-0 scale-95"
-             x-transition:enter-end="opacity-100 scale-100"
-             x-transition:leave="transform transition duration-100 ease-in @if ($right) origin-bottom-left @else origin-bottom-right @endif"
-             x-transition:leave-start="opacity-100 scale-100"
-             x-transition:leave-end="opacity-0 scale-95"
-            x-anchor.{{ $position }}.offset.5="$refs.dropdown"
+             x-transition:enter="transform transition duration-100 ease-out"
+             x-transition:enter-start="opacity-0 @if ($side) -translate-x-2 @else -translate-y-2 @endif"
+             x-transition:enter-end="opacity-100 @if ($side) translate-x-0 @else translate-y-0 @endif"
+             x-transition:leave="transform transition duration-100 ease-in"
+             x-transition:leave-start="opacity-100"
+             x-transition:leave-end="opacity-0"
+             x-anchor.{{ $position }}.offset.5="$refs.dropdown"
             @class([$personalize['wrapper.third']])
             role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
             <div class="p-1" role="none">
