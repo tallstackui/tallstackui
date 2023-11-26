@@ -96,7 +96,7 @@ class BadgeColors
     {
         return [
             'solid' => [
-                'white' => 'text-white-50',
+                'white' => 'text-black',
                 'black' => 'text-black-50',
                 'primary' => 'text-primary-50',
                 'secondary' => 'text-secondary-50',
