@@ -40,7 +40,7 @@
         @endif
         <div x-show="show" x-cloak
              x-transition:enter="transition duration-100 ease-out"
-             x-transition:enter-start="opacity-0 @if ($side) @if($orientation) -translate-x-2 @else translate-x-2 @endif @else @if($orientation) -translate-y-2 @else translate-y-2 @endif @endif"
+             x-transition:enter-start="opacity-0 @if ($side) @if ($orientation) -translate-x-2 @else translate-x-2 @endif @else @if ($orientation) -translate-y-2 @else translate-y-2 @endif @endif"
              x-transition:enter-end="opacity-100 @if ($side) translate-x-0 @else translate-y-0 @endif"
              x-transition:leave="transition duration-100 ease-in"
              x-transition:leave-start="opacity-100"
