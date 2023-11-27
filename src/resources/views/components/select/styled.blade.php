@@ -117,9 +117,9 @@
                 <template x-for="(option, index) in options" :key="option[selectable.label] ?? option">
                     <li x-on:click="select(option)"
                         x-on:keypress.enter="select(option)"
-                        x-bind:class="{ 'font-semibold hover:text-white hover:bg-red-500 dark:hover:bg-red-500': selected(option) }"
+                        x-bind:class="{ '{{ $personalize['box.list.item.selected'] }}': selected(option) }"
                         role="option" @class($personalize['box.list.item.wrapper'])>
-                        <div wire:ignore @class($personalize['box.list.item.class'])>
+                        <div wire:ignore @class($personalize['box.list.item.options'])>
                             <span class="ml-2 truncate" x-text="option[selectable.label] ?? option"></span>
                             <x-icon name="check" x-show="selected(option)" class="h-5 w-5 font-bold"/>
                         </div>
