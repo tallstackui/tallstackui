@@ -20,10 +20,10 @@
         </select>
     </div>
     <ul>
-        <div @class($personalize['item.wrapper'])>
+        <div @class($personalize['body'])>
             {{ $slot }}
         </div>
         <hr @class($personalize['divider'])>
-        <div class="p-4" id="tab-content-{{ $id }}"></div>
+        <div @class($personalize['item']) id="tab-content-{{ $id }}"></div>
     </ul>
 </div>
