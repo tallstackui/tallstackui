@@ -5,12 +5,7 @@
 @endphp
 
 <x-wrapper.input :$id :$computed :$error :$label :$hint validate>
-    @if ($resizeAuto)
-        <x-slot:alpine>
-            tallstackui_formTextArea()
-        </x-slot:alpine>
-    @endif
-    <textarea {{ $attributes->class([
+    <textarea @if ($resizeAuto) x-data="tallstackui_formTextArea()" @endif {{ $attributes->class([
             'resize-none' => !$resize && !$resizeAuto,
             $personalize['input.base'],
             $personalize['input.color'] => !$error,
