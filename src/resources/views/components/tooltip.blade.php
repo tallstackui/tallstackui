@@ -13,7 +13,7 @@
                 'top-1/2 -translate-y-1/2 -mr-1.5 right-0 translate-x-full' => $position === 'right',
              ])>
             <div x-show="show" @class([$personalize['color'], 'relative px-2 py-1 text-white rounded-md max-w-xs'])>
-                <p class="text-sm">{!! $text !!}</p>
+                <p class="text-sm">{!! $text ?? $slot !!}</p>
                 <div x-ref="arrow"
                     @class([
                         'absolute inline-flex items-center justify-center',
