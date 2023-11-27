@@ -24,7 +24,7 @@ class Items extends Component implements Personalization
         return Arr::dot([
             'wrapper' => 'inline-flex items-center gap-2 whitespace-nowrap p-4 transition-all',
             'select' => 'text-primary-500 dark:text-dark-300 border-primary-500 dark:border-dark-300 group inline-flex items-center border-b-2 font-medium',
-            'unselect' => 'dark:text-dark-500 hidden cursor-pointer text-gray-400 sm:flex',
+            'unselect' => 'dark:text-dark-500 hidden cursor-pointer border-b-2 border-transparent font-medium text-gray-400 sm:flex',
         ]);
     }
 
