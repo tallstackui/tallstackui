@@ -46,7 +46,7 @@ class ValidateComponent
             throw new InvalidArgumentException('The [wire] property cannot be an empty string');
         }
 
-        $configuration = config('tallstackui.personalizations.modal');
+        $configuration = config('tallstackui.settings.modal');
 
         $size = $component->size ?? $configuration['size'];
         $zIndex = $component->zIndex ?? $configuration['z-index'];
@@ -108,7 +108,7 @@ class ValidateComponent
     /** @throws Throwable */
     private function dialog(): void
     {
-        $configuration = config('tallstackui.personalizations.dialog');
+        $configuration = config('tallstackui.settings.dialog');
 
         if (! str_starts_with($configuration['z-index'], 'z-')) {
             throw new InvalidArgumentException('The dialog z-index must start with z- prefix');
@@ -145,7 +145,7 @@ class ValidateComponent
             throw new InvalidArgumentException('The [wire] property cannot be an empty string');
         }
 
-        $configuration = config('tallstackui.personalizations.slide');
+        $configuration = config('tallstackui.settings.slide');
 
         $size = $component->size ?? $configuration['size'];
         $zIndex = $component->zIndex ?? $configuration['z-index'];
@@ -170,7 +170,7 @@ class ValidateComponent
     /** @throws Throwable */
     private function toast(): void
     {
-        $configuration = config('tallstackui.personalizations.toast');
+        $configuration = config('tallstackui.settings.toast');
         $positions = ['top-right', 'top-left', 'bottom-right', 'bottom-left'];
 
         if (! in_array($configuration['position'], $positions)) {

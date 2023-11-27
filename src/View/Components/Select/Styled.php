@@ -76,7 +76,8 @@ class Styled extends Component implements Personalization
                     ],
                     'item' => [
                         'wrapper' => 'relative cursor-pointer select-none px-2 py-2 text-gray-700 transition hover:bg-gray-100 dark:text-dark-300 dark:hover:bg-dark-500 focus:outline-none focus:bg-gray-100 dark:focus:bg-dark-500',
-                        'class' => 'flex items-center justify-between',
+                        'options' => 'flex items-center justify-between',
+                        'selected' => 'font-semibold hover:text-white hover:bg-red-500 dark:hover:bg-red-500',
                     ],
                     'empty' => 'block w-full pr-2 text-gray-700 dark:text-dark-300',
                 ],

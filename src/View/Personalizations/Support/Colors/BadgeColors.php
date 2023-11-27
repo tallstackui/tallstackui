@@ -89,7 +89,7 @@ class BadgeColors
 
     private function icon(): array
     {
-        return $this->text(); //TODO: check the dark:text-white
+        return $this->text();
     }
 
     private function text(): array
@@ -97,31 +97,31 @@ class BadgeColors
         return [
             'solid' => [
                 'white' => 'text-black',
-                'black' => 'text-white',
-                'primary' => 'text-white',
-                'secondary' => 'text-white',
-                'slate' => 'text-white',
-                'gray' => 'text-white',
-                'zinc' => 'text-white',
-                'neutral' => 'text-white',
-                'stone' => 'text-white',
-                'red' => 'text-white',
-                'orange' => 'text-white',
-                'amber' => 'text-white',
-                'yellow' => 'text-white',
-                'lime' => 'text-white',
-                'green' => 'text-white',
-                'emerald' => 'text-white',
-                'teal' => 'text-white',
-                'cyan' => 'text-white',
-                'sky' => 'text-white',
-                'blue' => 'text-white',
-                'indigo' => 'text-white',
-                'violet' => 'text-white',
-                'purple' => 'text-white',
-                'fuchsia' => 'text-white',
-                'pink' => 'text-white',
-                'rose' => 'text-white',
+                'black' => 'text-black-50',
+                'primary' => 'text-primary-50',
+                'secondary' => 'text-secondary-50',
+                'slate' => 'text-slate-50',
+                'gray' => 'text-gray-50',
+                'zinc' => 'text-zinc-50',
+                'neutral' => 'text-neutral-50',
+                'stone' => 'text-stone-50',
+                'red' => 'text-red-50',
+                'orange' => 'text-orange-50',
+                'amber' => 'text-amber-50',
+                'yellow' => 'text-yellow-50',
+                'lime' => 'text-lime-50',
+                'green' => 'text-green-50',
+                'emerald' => 'text-emerald-50',
+                'teal' => 'text-teal-50',
+                'cyan' => 'text-cyan-50',
+                'sky' => 'text-sky-50',
+                'blue' => 'text-blue-50',
+                'indigo' => 'text-indigo-50',
+                'violet' => 'text-violet-50',
+                'purple' => 'text-purple-50',
+                'fuchsia' => 'text-fuchsia-50',
+                'pink' => 'text-pink-50',
+                'rose' => 'text-rose-50',
             ],
             'outline' => [
                 'white' => 'text-black',

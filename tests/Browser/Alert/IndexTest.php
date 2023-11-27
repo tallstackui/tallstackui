@@ -17,7 +17,7 @@ class IndexTest extends BrowserTestCase
             {
                 return <<<'HTML'
                     <div>
-                        <x-alert closeable>Foo bar</x-alert>
+                        <x-alert close>Foo bar</x-alert>
                     </div>
                 HTML;
             }

@@ -21,20 +21,20 @@ it('can instantiate all components', function (string $component) {
 it('can personalize using facade and string', function () {
     $this->blade('<x-alert title="Foo bar" />')
         ->assertSee('Foo bar')
-        ->assertSee('bg-primary-300');
+        ->assertSee('bg-primary-600');
 
     TallStackUi::personalize('alert')
         ->block('wrapper', 'p-4');
 
     $this->blade('<x-alert title="Foo bar" />')
         ->assertSee('Foo bar')
-        ->assertDontSee('rounded-md');
+        ->assertDontSee('rounded-lg');
 });
 
 it('can personalize using method and string', function () {
     $this->blade('<x-alert title="Foo bar" />')
         ->assertSee('Foo bar')
-        ->assertSee('bg-primary-300');
+        ->assertSee('bg-primary-600');
 
     TallStackUi::personalize()
         ->alert()
@@ -42,13 +42,13 @@ it('can personalize using method and string', function () {
 
     $this->blade('<x-alert title="Foo bar" />')
         ->assertSee('Foo bar')
-        ->assertDontSee('rounded-md');
+        ->assertDontSee('rounded-lg');
 });
 
 it('can personalize using method and closure', function () {
     $this->blade('<x-alert title="Foo bar" />')
         ->assertSee('Foo bar')
-        ->assertSee('bg-primary-300');
+        ->assertSee('bg-primary-600');
 
     TallStackUi::personalize()
         ->alert()
@@ -62,7 +62,7 @@ it('can personalize using method and closure', function () {
 it('can personalize using method and array', function () {
     $this->blade('<x-alert title="Foo bar" />')
         ->assertSee('Foo bar')
-        ->assertSee('bg-primary-300');
+        ->assertSee('bg-primary-600');
 
     TallStackUi::personalize()
         ->alert()
@@ -75,10 +75,10 @@ it('can personalize using method and array', function () {
         ->assertDontSee('rounded-md');
 });
 
-it('can personalize in sequenece', function () {
+it('can personalize in sequence', function () {
     $this->blade('<x-alert title="Foo bar" />')
         ->assertSee('Foo bar')
-        ->assertSee('bg-primary-300');
+        ->assertSee('bg-primary-600');
 
     $this->blade('<x-avatar label="Lorem" md />')
         ->assertSee('w-12 h-12');
@@ -102,7 +102,7 @@ it('can personalize in sequenece', function () {
 it('can personalize using append', function () {
     $this->blade('<x-alert title="Foo bar" />')
         ->assertSee('Foo bar')
-        ->assertSee('bg-primary-300')
+        ->assertSee('bg-primary-600')
         ->assertDontSee('foo-bar-baz');
 
     TallStackUi::personalize('alert')
@@ -117,7 +117,7 @@ it('can personalize using append', function () {
 it('can personalize using prepend', function () {
     $this->blade('<x-alert title="Foo bar" />')
         ->assertSee('Foo bar')
-        ->assertSee('bg-primary-300')
+        ->assertSee('bg-primary-600')
         ->assertDontSee('foo-bar-baz');
 
     TallStackUi::personalize('alert')
@@ -132,23 +132,34 @@ it('can personalize using prepend', function () {
 it('can personalize using remove', function () {
     $this->blade('<x-alert title="Foo bar" />')
         ->assertSee('Foo bar')
-        ->assertSee('bg-primary-300')
-        ->assertSee('rounded-md');
+        ->assertSee('bg-primary-600')
+        ->assertSee('rounded-lg');
 
+    /* string */
     TallStackUi::personalize('alert')
         ->block('wrapper')
-        ->remove('rounded-md');
+        ->remove('rounded-lg');
 
     $this->blade('<x-alert title="Foo bar" />')
         ->assertSee('Foo bar')
-        ->assertDontSee('rounded-md');
+        ->assertDontSee('rounded-lg');
+
+    /* array */
+    TallStackUi::personalize('alert')
+        ->block('wrapper')
+        ->remove(['rounded-lg', 'p-4']);
+
+    $this->blade('<x-alert title="Foo bar" />')
+        ->assertSee('Foo bar')
+        ->assertDontSee('rounded-md')
+        ->assertDontSee('p-4');
 });
 
 it('can personalize using replace', function () {
     $this->blade('<x-alert title="Foo bar" />')
         ->assertSee('Foo bar')
-        ->assertSee('bg-primary-300')
-        ->assertSee('rounded-md');
+        ->assertSee('bg-primary-600')
+        ->assertSee('rounded-lg');
 
     /* array */
     TallStackUi::personalize('alert')

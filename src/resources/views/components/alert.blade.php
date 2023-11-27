@@ -17,7 +17,7 @@
                 <p @class([$personalize['text.description'], 'mt-2' => $title !== null])>{{ $text ?? $slot }}</p>
             </div>
         </div>
-        @if ($closeable)
+        @if ($close)
             <div @class($personalize['close.wrapper'])>
                 <button dusk="alert-close-button" class="cursor-pointer" x-on:click="show = false">
                     <x-icon icon="x-mark" @class([$personalize['close.size'], $colors['text']]) />

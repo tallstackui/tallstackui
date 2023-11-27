@@ -19,7 +19,7 @@ class Alert extends Component implements Personalization
         public ?string $text = null,
         public ?string $icon = null,
         public string $color = 'primary',
-        public bool $closeable = false,
+        public bool $close = false,
         public bool $light = false,
         public bool $outline = false,
         public string $style = 'solid',
@@ -33,7 +33,7 @@ class Alert extends Component implements Personalization
     public function personalization(): array
     {
         return Arr::dot([
-            'wrapper' => 'rounded-md p-4',
+            'wrapper' => 'rounded-lg p-4',
             'content' => [
                 'wrapper' => 'flex justify-between flex-wrap',
                 'base' => 'flex-1 flex',

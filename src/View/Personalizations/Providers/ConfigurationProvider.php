@@ -28,7 +28,7 @@ class ConfigurationProvider
         })();
 
         if (is_string($data)) {
-            $configuration = config('tallstackui.personalizations.'.$data);
+            $configuration = config('tallstackui.settings.'.$data);
 
             $data = collect($configuration)
                 ->mapWithKeys(fn (string|bool|array $value, string $key) => [$key => $value])
@@ -40,7 +40,7 @@ class ConfigurationProvider
 
     private function modal(Modal $component): array
     {
-        $configuration = config('tallstackui.personalizations.modal');
+        $configuration = config('tallstackui.settings.modal');
 
         $component->zIndex ??= $configuration['z-index'];
         $component->size ??= $configuration['size'];
@@ -67,7 +67,7 @@ class ConfigurationProvider
 
     private function slide(Slide $component): array
     {
-        $configuration = config('tallstackui.personalizations.slide');
+        $configuration = config('tallstackui.settings.slide');
 
         $component->zIndex ??= $configuration['z-index'];
         $component->size ??= $configuration['size'];
