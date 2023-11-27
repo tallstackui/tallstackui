@@ -51,7 +51,7 @@ class Errors extends Component implements Personalization
     public function personalization(): array
     {
         return Arr::dot([
-            'wrapper' => 'rounded-lg p-4',
+            'wrapper' => 'rounded-lg p-4 shadow',
             'title' => [
                 'wrapper' => 'flex items-center justify-between border-b pb-3',
                 'text' => 'text-md inline-flex items-center gap-1 font-bold',
