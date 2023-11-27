@@ -32,6 +32,8 @@ class ColorProvider
     /** @throws Exception */
     public static function resolve(object $component): void
     {
+        // This way of using match was designed for deep personalization,
+        // for customized components that extend the original components.
         $class = match (true) {
             $component instanceof Alert => AlertColors::class,
             $component instanceof Avatar => AvatarColors::class,

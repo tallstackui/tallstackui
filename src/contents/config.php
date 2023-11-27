@@ -19,7 +19,7 @@ return [
     |
     | General components settings.
     */
-    'personalizations' => [
+    'settings' => [
         'dialog' => [
             'z-index' => 'z-50',
             'blur' => false,
@@ -43,6 +43,7 @@ return [
         ],
         'toast' => [
             'z-index' => 'z-50',
+            'progress' => true,
             /* Alloweds: top-right, top-left, bottom-right, bottom-left */
             'position' => 'top-right',
         ],

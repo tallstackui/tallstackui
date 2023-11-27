@@ -22,7 +22,7 @@ class Password extends Component implements Personalization
     public function personalization(): array
     {
         return Arr::dot([
-            'input' => [...$this->input(), 'pr-10'],
+            'input' => [...$this->input()],
             'icon' => [
                 'wrapper' => 'absolute inset-y-0 right-0 flex items-center pr-2.5',
                 'class' => 'h-5 w-5 text-gray-400',
