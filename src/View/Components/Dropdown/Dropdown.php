@@ -19,7 +19,7 @@ class Dropdown extends Component implements Personalization
         public ?string $icon = null,
         public ?string $header = null,
         public ?string $action = null,
-        public ?string $position = 'bottom-start',
+        public ?string $position = 'bottom-end',
         public ?bool $static = false,
     ) {
         $this->validate();
