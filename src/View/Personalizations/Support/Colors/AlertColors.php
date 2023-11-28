@@ -146,7 +146,7 @@ class AlertColors
                 'rose' => 'text-rose-50',
             ],
             'outline' => [
-                'white' => 'text-black',
+                'white' => 'text-white',
                 'black' => 'text-black',
                 'primary' => 'text-primary-700',
                 'secondary' => 'text-secondary-700',
