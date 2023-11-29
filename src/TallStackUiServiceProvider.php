@@ -49,13 +49,13 @@ class TallStackUiServiceProvider extends ServiceProvider
 
     private function registerBladeDirectives(): void
     {
-        Blade::directive('tallStackUiScripts', function (): string {
+        Blade::directive('tallStackUiScript', function (): string {
             $script = Facade::directives()->script();
 
             return "<!-- TallStackUi Scripts -->\n{$script}";
         });
 
-        Blade::directive('tallStackUiStyles', function (): string {
+        Blade::directive('tallStackUiStyle', function (): string {
             $style = Facade::directives()->style();
 
             return "<!-- TallStackUi Styles -->\n{$style}";
