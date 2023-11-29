@@ -34,12 +34,17 @@ class Tooltip extends Component implements Personalization
 
         $this->colors();
         $this->validate();
+        $this->configurations();
     }
 
     public function personalization(): array
     {
         return Arr::dot([
-            'color' => 'bg-black',
+            'wrapper' => 'relative max-w-xs rounded-md px-2 py-1 text-white',
+            'color' => [
+                'default' => 'bg-black',
+                'thematic' => 'bg-primary-500 dark:bg-black',
+            ],
             'sizes' => [
                 'sm' => 'h-5 w-5',
                 'md' => 'h-6 w-6',

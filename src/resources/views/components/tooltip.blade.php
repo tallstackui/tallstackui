@@ -12,7 +12,11 @@
                 'bottom-0 left-1/2 -translate-x-1/2 -mb-1.5 translate-y-full' => $position === 'bottom',
                 'top-1/2 -translate-y-1/2 -mr-1.5 right-0 translate-x-full' => $position === 'right',
              ])>
-            <div x-show="show" @class([$personalize['color'], 'relative px-2 py-1 text-white rounded-md max-w-xs'])>
+            <div x-show="show" @class([
+                     $personalize['color.default'] => $configurations['thematic'] === false,
+                     $personalize['color.thematic'] => $configurations['thematic'] === true,
+                     $personalize['wrapper']
+                 ])>
                 <p class="text-sm">{!! $text ?? $slot !!}</p>
                 <div x-ref="arrow"
                     @class([
@@ -23,7 +27,8 @@
                         'left-0 -translate-y-1/2 top-1/2 h-5 -translate-x-full' => $position === 'right',
                     ])>
                     <div @class([
-                        $personalize['color'],
+                        $personalize['color.default'] => $configurations['thematic'] === false,
+                        $personalize['color.thematic'] => $configurations['thematic'] === true,
                         'w-1.5 h-1.5 transform',
                         'origin-top-left -rotate-45' => $position === 'top',
                         'origin-top-left rotate-45' => $position === 'left',
