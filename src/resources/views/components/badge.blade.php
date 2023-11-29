@@ -8,7 +8,9 @@
         $colors['background'],
         $colors['text'],
     ]) }}>
-    @if ($icon && $position === 'left')
+    @if ($left)
+        {{ $left }}
+    @elseif ($icon && $position === 'left')
         <x-icon :$icon @class([
             'mr-1' => $position === 'left',
             $personalize['icon'],
@@ -16,7 +18,9 @@
         ]) />
     @endif
     {{ $text ?? $slot }}
-    @if ($icon && $position === 'right')
+    @if ($right)
+        {{ $right }}
+    @elseif ($icon && $position === 'right')
         <x-icon :$icon @class([
             'ml-1' => $position === 'right',
             $personalize['icon'],

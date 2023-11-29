@@ -64,3 +64,33 @@ it('can render icon on right', function () {
         ->assertSee('bg-primary-500')
         ->assertSee('ml-1');
 });
+
+it('can render left slot', function () {
+    $component = <<<'HTML'
+    <x-badge position="left" text="Foo bar">
+        <x-slot:left>
+            Left
+        </x-slot:left>
+    </x-badge>
+    HTML;
+
+    $this->blade($component)
+        ->assertSee('Foo bar')
+        ->assertSee('Left')
+        ->assertDontSee('<svg', false);
+});
+
+it('can render right slot', function () {
+    $component = <<<'HTML'
+    <x-badge position="left" text="Foo bar">
+        <x-slot:right>
+            Right
+        </x-slot:right>
+    </x-badge>
+    HTML;
+
+    $this->blade($component)
+        ->assertSee('Foo bar')
+        ->assertSee('Right')
+        ->assertDontSee('<svg', false);
+});
