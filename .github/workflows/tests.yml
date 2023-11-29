@@ -3,13 +3,12 @@ name: Tests
 on:
   push:
     branches:
-      - main
-      - develop
+      - 1.x
   pull_request:
     branches:
-      - main
-      - develop
-      - release/**
+      - 1.x
+  schedule:
+    - cron: '0 0 * * *'
 
   workflow_dispatch:
 
