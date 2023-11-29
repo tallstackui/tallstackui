@@ -17,19 +17,20 @@ class Circle extends Component implements Personalization
     public function __construct(
         public ?string $text = null,
         public ?string $icon = null,
-        public ?bool $solid = null,
-        public ?bool $outline = null,
         public ?string $color = 'primary',
         public ?string $href = null,
         public ?string $loading = null,
         public ?string $delay = null,
-        public ?string $style = null,
         public ?string $sm = null,
         public ?string $md = null,
         public ?string $lg = null,
         public ?string $size = null,
+        public ?bool $solid = null,
+        public ?bool $outline = null,
+        public ?bool $light = false,
+        public ?string $style = null,
     ) {
-        $this->style = $this->outline ? 'outline' : 'solid';
+        $this->style = $this->outline ? 'outline' : ($this->light ? 'light' : 'solid');
         $this->size = $this->lg ? 'lg' : ($this->sm ? 'sm' : 'md');
 
         $this->colors();
