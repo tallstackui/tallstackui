@@ -18,8 +18,6 @@
 
 [TallStackUi](https://tallstackui.com/) is the best ready-to-use component library for the TALL Stack.
 
-> TallStackUi is currently in beta. We are working hard to get it production ready!
-
 ## Documentation
 
 [Visit our website to check the documentation](https://tallstackui.com)
