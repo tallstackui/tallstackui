@@ -8,7 +8,7 @@ export default (animated, wire, text, enter, leave, close) => ({
   close: close,
   init() {
     if (this.animated) {
-      setTimeout(() => this.show = true, (this.enter ?? 3) * 1000);
+      setTimeout(() => this.show = true, (this.enter ?? 0) * 1000);
 
       if (this.leave) {
         setTimeout(() => this.show = false, this.leave * 1000);
