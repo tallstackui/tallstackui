@@ -9,35 +9,37 @@ export default (toast, ok, confirm, cancel) => ({
     cancel: cancel,
   },
   init() {
+    let paused = false;
+    let elapsed = 0;
+    const time = this.toast.timeout * 10;
+    const max = this.toast.timeout * 1000;
+
     this.$nextTick(() => {
       this.show = true;
-
-      let timerPaused = false;
-      let elapsedTime = 0;
-      const intervalTime = this.toast.timeout * 10;
-      const maxTime = this.toast.timeout * 1000;
 
       const interval = setInterval(() => {
         if (!this.show) {
           clearInterval(interval);
-        } else if (!timerPaused) {
-          elapsedTime += intervalTime;
-          if (elapsedTime >= maxTime) {
+        } else if (!paused) {
+          elapsed += time;
+          if (elapsed >= max) {
             this.hide(true);
             dispatchEvent('toast:timeouted', this.toast);
             clearInterval(interval);
           }
         }
-      }, intervalTime);
+      }, time);
+
+      const progress = this.$refs.progress;
 
       this.$refs.toast.addEventListener('mouseover', () => {
-        timerPaused = true;
-        this.$refs.progress.style.animationPlayState = 'paused';
+        paused = true;
+        progress.style.animationPlayState = 'paused';
       });
 
       this.$refs.toast.addEventListener('mouseout', () => {
-        timerPaused = false;
-        this.$refs.progress.style.animationPlayState = 'running';
+        paused = false;
+        progress.style.animationPlayState = 'running';
       });
     });
   },
@@ -64,10 +66,10 @@ export default (toast, ok, confirm, cancel) => ({
 
     this.hide();
   },
-  hide(imediately = true) {
+  hide(immediately = true) {
     setTimeout(() => {
       this.show = false;
       this.remove(this.toast);
-    }, imediately ? 0 : this.toast.timeout * 100);
+    }, immediately ? 0 : this.toast.timeout * 100);
   },
 });
