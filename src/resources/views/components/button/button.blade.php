@@ -6,9 +6,7 @@
     $sizes['icon'] = $personalize['icon.sizes.' . $size];
 @endphp
 
-<{{ $tag }} @if ($href) href="{{ $href }}" @else
-    role="button"
-@endif {{ $attributes->class([
+<{{ $tag }} @if ($href) href="{{ $href }}" @else role="button" @endif {{ $attributes->class([
         $personalize['wrapper.class'],
         $sizes['wrapper'],
         $colors['background'],
