@@ -82,7 +82,7 @@ class Banner extends Component implements Personalization
             return;
         }
 
-        if (today()->lessThan(Carbon::parse($this->until))) {
+        if (today()->lessThanOrEqualTo(Carbon::parse($this->until))) {
             return;
         }
 
