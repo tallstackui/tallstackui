@@ -29,7 +29,7 @@ class ButtonColors
     {
         return [
             'solid' => [
-                'white' => 'text-white border-white focus:ring-offset-2 ring-white bg-white focus:bg-white hover:bg-white hover:ring-white dark:focus:ring-offset-dark-900 dark:focus:ring-white dark:hover:bg-white dark:hover:ring-white hover:border-transparent',
+                'white' => 'text-black border-white focus:ring-offset-2 ring-white bg-white focus:bg-white hover:bg-white hover:ring-white dark:focus:ring-offset-dark-900 dark:focus:ring-white dark:hover:bg-white dark:hover:ring-white hover:border-transparent',
                 'black' => 'text-white border-black focus:ring-offset-2 ring-black bg-black focus:bg-black hover:bg-black hover:ring-black dark:focus:ring-offset-dark-900 dark:focus:ring-black dark:hover:bg-black dark:hover:ring-black hover:border-transparent',
                 'primary' => 'text-primary-50 border-primary-500 ring-primary-500 bg-primary-500 focus:bg-primary-600 hover:bg-primary-600 dark:focus:ring-offset-dark-900 dark:focus:ring-primary-600 dark:hover:bg-primary-600 dark:hover:ring-primary-600 hover:border-transparent focus:ring-offset-2',
                 'secondary' => 'text-secondary-50 border-secondary-500 ring-secondary-500 bg-secondary-500 focus:bg-secondary-600 hover:bg-secondary-600 dark:focus:ring-offset-dark-900 dark:focus:ring-secondary-600 dark:hover:bg-secondary-600 dark:hover:ring-secondary-600 hover:border-transparent focus:ring-offset-2',
@@ -85,7 +85,7 @@ class ButtonColors
                 'rose' => 'text-rose-600 border-rose-600 hover:bg-opacity-25 dark:hover:bg-opacity-10 hover:text-rose-700 hover:bg-rose-400 dark:hover:text-rose-500 dark:hover:bg-rose-600 focus:bg-opacity-25 dark:focus:border-transparent dark:focus:bg-opacity-10 focus:ring-offset-0 focus:text-rose-700 focus:bg-rose-400 focus:ring-rose-600 dark:focus:text-rose-500 dark:focus:bg-rose-600 dark:focus:ring-rose-700',
             ],
             'light' => [
-                'white' => 'text-white border-white focus:ring-offset-2 ring-white bg-white focus:bg-white hover:bg-white hover:ring-white dark:focus:ring-offset-dark-900 dark:focus:ring-white dark:hover:bg-white dark:hover:ring-white hover:border-transparent',
+                'white' => 'text-black border-white focus:ring-offset-2 ring-white bg-white focus:bg-white hover:bg-white hover:ring-white dark:focus:ring-offset-dark-900 dark:focus:ring-white dark:hover:bg-white dark:hover:ring-white hover:border-transparent',
                 'black' => 'text-black-600 border-black-300 focus:ring-offset-2 ring-black-300 bg-black-300 focus:bg-black-400 hover:bg-black-400 hover:ring-black-400 dark:focus:ring-offset-dark-900 dark:focus:ring-black-400 dark:hover:bg-black-400 dark:hover:ring-black-400 hover:border-transparent',
                 'primary' => 'text-primary-600 border-primary-300 ring-primary-400 bg-primary-300 focus:bg-primary-400 hover:bg-primary-400 dark:focus:ring-offset-dark-900 dark:focus:ring-primary-600 dark:hover:ring-primary-600 hover:border-transparent focus:ring-offset-2',
                 'secondary' => 'text-secondary-600 border-secondary-300 ring-secondary-400 bg-secondary-300 focus:bg-secondary-400 hover:bg-secondary-400 dark:focus:ring-offset-dark-900 dark:focus:ring-secondary-600 dark:hover:ring-secondary-600 hover:border-transparent focus:ring-offset-2',
@@ -175,7 +175,7 @@ class ButtonColors
                 'rose' => 'text-rose-500',
             ],
             'light' => [
-                'white' => 'text-white',
+                'white' => 'text-black',
                 'black' => 'text-black-600',
                 'primary' => 'text-primary-600',
                 'secondary' => 'text-secondary-600',
