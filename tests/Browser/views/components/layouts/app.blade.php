@@ -6,6 +6,7 @@
     @tallStackUiStyle
 </head>
 <body>
+    <x-banner wire />
     <x-dialog />
     <x-toast />
     {!! $slot !!}

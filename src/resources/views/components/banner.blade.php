@@ -46,6 +46,7 @@
               }"
               x-text="text"></span>
         <x-icon name="x-mark"
+                dusk="tallstackui_banner_close"
                 @class([$personalize['close'], $colors['text'] => !$wire])
                 x-bind:class="{
                     'text-green-50' : type === 'success',
