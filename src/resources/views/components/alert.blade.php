@@ -19,7 +19,7 @@
         </div>
         @if ($close)
             <div @class($personalize['close.wrapper'])>
-                <button dusk="alert-close-button" class="cursor-pointer" x-on:click="show = false">
+                <button type="button" dusk="alert-close-button" class="cursor-pointer" x-on:click="show = false">
                     <x-icon icon="x-mark" @class([$personalize['close.size'], $colors['text']]) />
                 </button>
             </div>
