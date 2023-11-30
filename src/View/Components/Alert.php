@@ -24,8 +24,7 @@ class Alert extends Component implements Personalization
         public bool $outline = false,
         public string $style = 'solid',
     ) {
-        $this->style = $this->light && $this->color !== 'white' ? 'light' : 'solid';
-        $this->style = $this->outline ? 'outline' : $this->style;
+        $this->style = $this->outline ? 'outline' : ($this->light ? 'light' : 'solid');
 
         $this->colors();
     }
