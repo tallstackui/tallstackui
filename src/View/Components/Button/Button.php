@@ -33,6 +33,8 @@ class Button extends Component implements Personalization
         public ?bool $outline = false,
         public ?bool $light = false,
         public ?string $style = null,
+        public ?string $left = null,
+        public ?string $right = null,
     ) {
         $this->style = $this->outline ? 'outline' : ($this->light ? 'light' : 'solid');
         $this->size = $this->xs ? 'xs' : ($this->sm ? 'sm' : ($this->lg ? 'lg' : 'md'));

@@ -13,11 +13,15 @@
         'rounded-md' => !$square && !$round,
         'rounded-full' => !$square && $round !== null,
     ]) }} wire:loading.attr="disabled" wire:loading.class="!cursor-wait">
-    @if ($icon && $position === 'left')
+    @if ($left)
+        {!! $left !!}
+    @elseif ($icon && $position === 'left')
         <x-icon :$icon @class([$sizes['icon'], $colors['icon']]) />
     @endif
     {{ $text ?? $slot }}
-    @if ($icon && $position === 'right')
+    @if ($right)
+        {!! $right !!}
+    @elseif ($icon && $position === 'right')
         <x-icon :$icon @class([$sizes['icon'], $colors['icon']]) />
     @endif
     @if ($loading)
