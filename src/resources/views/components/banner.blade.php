@@ -1,6 +1,7 @@
 @php
     /** @var \Illuminate\View\ComponentSlot|string $left */
     $text ??= $slot->toHtml();
+    $personalize = tallstackui_personalization('banner', $personalization());
 @endphp
 
 @if ($show)
@@ -27,18 +28,16 @@
             }
          }"
          @class([
-            'relative flex flex-row items-center justify-between px-6 py-2',
-            'py-2' => $size === 'sm',
-            'py-3' => $size === 'md',
-            'py-4' => $size === 'lg',
-            'bg-primary-600' => $color === 'primary' && !$wire,
+            $personalize['wrapper'],
+            $personalize['sizes.' . $size],
+            $colors['background'] => !$wire,
          ])
          @if ($wire)
          x-bind:class="{
             'bg-green-600' : type === 'success',
+            'bg-red-600' : type === 'error',
             'bg-yellow-600' : type === 'warning',
-            'bg-blue-600' : type === 'info',
-            'bg-red-600' : type === 'danger'
+            'bg-blue-600' : type === 'info'
          }" @endif
          x-show="show"
          x-cloak
@@ -52,15 +51,34 @@
              x-transition:leave-end="-translate-y-10"
         @endif>
         @if ($left)
-            <span @if (!is_string($left)) {{ $left->attributes->merge(['class' => 'absolute left-0 ml-4 text-sm font-medium text-primary-50']) }} @endif>
+            <span @if (!is_string($left)) {{
+                    $left->attributes->class([$personalize['slot.left'], $colors['text'] => !$wire])
+                }} x-bind:class="{
+                    'text-green-50' : type === 'success',
+                    'text-red-50' : type === 'error',
+                    'text-yellow-50' : type === 'warning',
+                    'text-blue-50' : type === 'info'
+                }" @endif>
                 {!! $left !!}
             </span>
         @endif
-        <span class="flex-grow text-center text-sm font-medium text-primary-50" x-text="text"></span>
+        <span @class([$personalize['text'], $colors['text'] => !$wire])
+              x-bind:class="{
+                    'text-green-50' : type === 'success',
+                    'text-red-50' : type === 'error',
+                    'text-yellow-50' : type === 'warning',
+                    'text-blue-50' : type === 'info'
+              }"
+              x-text="text"></span>
         @if ($close)
             <x-icon name="x-mark"
-                    class="h-4 w-4 cursor-pointer text-primary-50"
-                    x-on:click="show = false"
+                    @class([$personalize['close'], $colors['text'] => !$wire])
+                    x-bind:class="{
+                        'text-green-50' : type === 'success',
+                        'text-red-50' : type === 'error',
+                        'text-yellow-50' : type === 'warning',
+                        'text-blue-50' : type === 'info'
+                    }" x-on:click="show = false"
             />
         @endif
     </div>

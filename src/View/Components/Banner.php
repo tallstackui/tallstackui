@@ -7,7 +7,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\View\Component;
-use InvalidArgumentException;
 use TallStackUi\View\Personalizations\Contracts\Personalization;
 use TallStackUi\View\Personalizations\SoftPersonalization;
 use TallStackUi\View\Personalizations\Traits\InteractWithProviders;
@@ -27,10 +26,14 @@ class Banner extends Component implements Personalization
         public ?string $left = null,
         public ?string $color = 'primary',
         public string|null|Carbon $until = null,
-        public bool $show = true,
-        public bool $wire = false,
+        public ?bool $show = true,
+        public ?bool $wire = false,
+        public ?bool $light = false,
         public ?string $size = 'sm',
+        public ?string $style = 'solid',
     ) {
+        $this->style = $this->light ? 'light' : $this->style;
+
         $this->colors();
         $this->validate();
 
@@ -59,6 +62,8 @@ class Banner extends Component implements Personalization
 
     private function setup(): void
     {
+        // If the banner is wire, we don't need to setup anything else
+        // Because the banner will be displayed through the Livewire events
         if ($this->wire) {
             return;
         }
@@ -72,20 +77,14 @@ class Banner extends Component implements Personalization
             $this->text = $this->text[array_rand($this->text)];
         }
 
-        if (! is_null($this->until)) {
-            $until = null;
-
-            try {
-                $until = Carbon::parse($this->until);
-            } catch (InvalidArgumentException) {
-                //
-            }
-
-            throw_if(! $until, new InvalidArgumentException('The [until] attribute must be a Carbon instance or a date string.'));
-
-            if (today()->greaterThan($until)) {
-                $this->show = false;
-            }
+        if (is_null($this->until)) {
+            return;
         }
+
+        if (today()->lessThan(Carbon::parse($this->until))) {
+            return;
+        }
+
+        $this->show = false;
     }
 }
