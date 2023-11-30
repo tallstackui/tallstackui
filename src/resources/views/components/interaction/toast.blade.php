@@ -12,6 +12,7 @@
     <template x-for="toast in toasts" :key="toast.id">
         <div x-data="tallstackui_toastLoop(toast, @js(__('tallstack-ui::messages.toast.button.ok')), @js(__('tallstack-ui::messages.toast.button.confirm')), @js(__('tallstack-ui::messages.toast.button.cancel')))"
              x-show="show"
+             x-ref="toast"
              x-transition:enter="transform ease-out duration-300 transition"
              x-transition:enter-start="translate-y-2 opacity-0 sm:translate-y-0 @if (str_contains($configurations['position'], '-left')) sm:-translate-x-2 @else sm:translate-x-2 @endif"
              x-transition:enter-end="translate-y-0 opacity-100 sm:translate-x-0"
@@ -72,7 +73,7 @@
                 </div>
                 @if ($configurations['progress'])
                     <div @class($personalize['progress.wrapper'])>
-                        <span x-bind:style="`animation-duration:${toast.timeout * 1000}ms`" @class(['animate-progress', $personalize['progress.bar']]) x-cloak></span>
+                        <span x-ref="progress" x-bind:style="`animation-duration:${toast.timeout * 1000}ms`" @class(['animate-progress', $personalize['progress.bar']]) x-cloak></span>
                     </div>
                 @endif
             </div>
