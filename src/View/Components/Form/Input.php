@@ -20,6 +20,8 @@ class Input extends Component implements Personalization
         public ?string $hint = null,
         public ?string $icon = null,
         public ?string $position = 'left',
+        public ?string $prefix = null,
+        public ?string $suffix = null,
         public bool $validate = true,
     ) {
         $this->id ??= uniqid();
