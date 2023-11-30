@@ -11,12 +11,12 @@ export default (toast, ok, confirm, cancel) => ({
   init() {
     this.$nextTick(() => {
       this.show = true;
-  
+
       let timerPaused = false;
       let elapsedTime = 0;
       const intervalTime = this.toast.timeout * 10;
       const maxTime = this.toast.timeout * 1000;
-  
+
       const interval = setInterval(() => {
         if (!this.show) {
           clearInterval(interval);
@@ -29,12 +29,12 @@ export default (toast, ok, confirm, cancel) => ({
           }
         }
       }, intervalTime);
-  
+
       this.$refs.toast.addEventListener('mouseover', () => {
         timerPaused = true;
         this.$refs.progress.style.animationPlayState = 'paused';
       });
-  
+
       this.$refs.toast.addEventListener('mouseout', () => {
         timerPaused = false;
         this.$refs.progress.style.animationPlayState = 'running';
