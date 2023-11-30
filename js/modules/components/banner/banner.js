@@ -17,7 +17,8 @@ export default (animated, wire, text, enter, leave, close) => ({
   },
   add(event) {
     this.type = event.detail.type;
-    this.text = event.detail.text;
+    this.text = event.detail.title;
+    this.description = event.detail.description;
     this.close = event.detail.close;
     this.enter = event.detail.enter;
     this.leave = event.detail.leave;
