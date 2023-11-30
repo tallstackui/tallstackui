@@ -12,7 +12,7 @@
             </div>
             <div @class([$colors['text']])>
                 @if ($title)
-                    <h3 @class([$personalize['text.title'], $colors['text'] => $title !== null, 'mb-2' => $title && $text !== null])>{{ $title }}</h3>
+                    <h3 @class([$personalize['text.title'], $colors['text'] => $title !== null, 'mb-2' => $title])>{{ $title }}</h3>
                 @endif
                 <p @class([$personalize['text.description']])>{{ $text ?? $slot }}</p>
             </div>
