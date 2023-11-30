@@ -14,8 +14,9 @@
                     setTimeout(() => this.show = true, @js($seconds * 1000));
                 }
             },
-            manage(event) {
+            add(event) {
                 this.show = true;
+
                 this.type = event.detail.type;
                 this.text = event.detail.text;
                 this.animated = event.detail.animated;
@@ -27,6 +28,9 @@
          }"
          @class([
             'relative flex flex-row items-center justify-between px-6 py-2',
+            'py-2' => $size === 'sm',
+            'py-3' => $size === 'md',
+            'py-4' => $size === 'lg',
             'bg-primary-600' => $color === 'primary' && !$wire,
          ])
          @if ($wire)
@@ -38,7 +42,7 @@
          }" @endif
          x-show="show"
          x-cloak
-         @if ($wire) x-on:tallstackui:navbar.window="manage($event)" @endif
+         @if ($wire) x-on:tallstackui:navbar.window="add($event)" @endif
          @if ($animated || $close || $wire)
              x-transition:enter="transition ease-out duration-300"
              x-transition:enter-start="-translate-y-10"

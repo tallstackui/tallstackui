@@ -10,10 +10,15 @@ use Illuminate\View\Component;
 use InvalidArgumentException;
 use TallStackUi\View\Personalizations\Contracts\Personalization;
 use TallStackUi\View\Personalizations\SoftPersonalization;
+use TallStackUi\View\Personalizations\Traits\InteractWithProviders;
+use TallStackUi\View\Personalizations\Traits\InteractWithValidations;
 
-#[SoftPersonalization('navbar')]
-class NavBar extends Component implements Personalization
+#[SoftPersonalization('banner')]
+class Banner extends Component implements Personalization
 {
+    use InteractWithProviders;
+    use InteractWithValidations;
+
     public function __construct(
         public string|array|Collection|null $text = null,
         public ?bool $close = false,
@@ -24,11 +29,40 @@ class NavBar extends Component implements Personalization
         public string|null|Carbon $until = null,
         public bool $show = true,
         public bool $wire = false,
-        public ?bool $sm = false,
-        public ?bool $md = true,
-        public ?bool $lg = false,
-        public ?string $size = null,
+        public ?string $size = 'sm',
     ) {
+        $this->colors();
+        $this->validate();
+
+        $this->setup();
+    }
+
+    public function personalization(): array
+    {
+        return Arr::dot([
+            'wrapper' => 'relative flex flex-row items-center justify-between px-6 py-2',
+            'sizes' => [
+                'sm' => 'py-2',
+                'md' => 'py-3',
+                'lg' => 'py-4',
+            ],
+            'slot.left' => 'absolute left-0 ml-4 text-sm font-medium',
+            'text' => 'flex-grow text-center text-sm font-medium',
+            'close' => 'h-4 w-4 cursor-pointer',
+        ]);
+    }
+
+    public function render(): View
+    {
+        return view('tallstack-ui::components.banner');
+    }
+
+    private function setup(): void
+    {
+        if ($this->wire) {
+            return;
+        }
+
         if ($this->text instanceof Collection) {
             $this->text = $this->text->values()
                 ->toArray();
@@ -38,7 +72,7 @@ class NavBar extends Component implements Personalization
             $this->text = $this->text[array_rand($this->text)];
         }
 
-        if (!is_null($this->until)) {
+        if (! is_null($this->until)) {
             $until = null;
 
             try {
@@ -47,23 +81,11 @@ class NavBar extends Component implements Personalization
                 //
             }
 
-            throw_if(!$until, new InvalidArgumentException('The [until] attribute must be a Carbon instance or a date string.'));
+            throw_if(! $until, new InvalidArgumentException('The [until] attribute must be a Carbon instance or a date string.'));
 
             if (today()->greaterThan($until)) {
                 $this->show = false;
             }
         }
-
-        $this->size = $this->lg ? 'lg' : ($this->sm ? 'sm' : 'md');
-    }
-
-    public function personalization(): array
-    {
-        return Arr::dot([]);
-    }
-
-    public function render(): View
-    {
-        return view('tallstack-ui::components.navbar');
     }
 }
