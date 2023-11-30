@@ -20,15 +20,16 @@ class Banner extends Component implements Personalization
 
     public function __construct(
         public string|array|Collection|null $text = null,
+        public ?string $color = 'primary',
         public ?bool $close = false,
         public ?bool $animated = false,
-        public ?int $seconds = 1,
+        public ?int $enter = 3,
+        public ?int $leave = null,
         public ?string $left = null,
-        public ?string $color = 'primary',
         public string|null|Carbon $until = null,
-        public ?bool $show = true,
         public ?bool $wire = false,
         public ?bool $light = false,
+        public ?bool $show = true,
         public ?string $size = 'sm',
         public ?string $style = 'solid',
     ) {
@@ -62,7 +63,7 @@ class Banner extends Component implements Personalization
 
     private function setup(): void
     {
-        // If the banner is wire, we don't need to setup anything else
+        // If the banner is wire, we don't need to set up anything else
         // Because the banner will be displayed through the Livewire events
         if ($this->wire) {
             return;

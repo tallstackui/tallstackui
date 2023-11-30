@@ -5,33 +5,8 @@
 @endphp
 
 @if ($show)
-    <div x-data="{
-             show : @js($animated === false && $wire === false),
-             animated : @js($animated),
-             type : 'primary',
-             text : @js($text),
-             init() {
-                if (this.animated) {
-                    setTimeout(() => this.show = true, @js($seconds * 1000));
-                }
-            },
-            add(event) {
-                this.show = true;
-
-                this.type = event.detail.type;
-                this.text = event.detail.text;
-                this.animated = event.detail.animated;
-
-                if (event.detail.timeout) {
-                    setTimeout(() => this.show = false, event.detail.timeout * 1000);
-                }
-            }
-         }"
-         @class([
-            $personalize['wrapper'],
-            $personalize['sizes.' . $size],
-            $colors['background'] => !$wire,
-         ])
+    <div x-data="tallstackui_banner(@js($animated), @js($wire), @js($text), @js($enter), @js($leave), @js($close))"
+         @class([$personalize['wrapper'], $personalize['sizes.' . $size], $colors['background'] => !$wire])
          @if ($wire)
          x-bind:class="{
             'bg-green-600' : type === 'success',
@@ -39,7 +14,7 @@
             'bg-yellow-600' : type === 'warning',
             'bg-blue-600' : type === 'info'
          }" @endif
-         x-show="show"
+         x-show="show && text !== ''"
          x-cloak
          @if ($wire) x-on:tallstackui:navbar.window="add($event)" @endif
          @if ($animated || $close || $wire)
@@ -70,16 +45,13 @@
                     'text-blue-50' : type === 'info'
               }"
               x-text="text"></span>
-        @if ($close)
-            <x-icon name="x-mark"
-                    @class([$personalize['close'], $colors['text'] => !$wire])
-                    x-bind:class="{
-                        'text-green-50' : type === 'success',
-                        'text-red-50' : type === 'error',
-                        'text-yellow-50' : type === 'warning',
-                        'text-blue-50' : type === 'info'
-                    }" x-on:click="show = false"
-            />
-        @endif
+        <x-icon name="x-mark"
+                @class([$personalize['close'], $colors['text'] => !$wire])
+                x-bind:class="{
+                    'text-green-50' : type === 'success',
+                    'text-red-50' : type === 'error',
+                    'text-yellow-50' : type === 'warning',
+                    'text-blue-50' : type === 'info'
+                }" x-on:click="show = false" x-show="close" />
     </div>
 @endif
