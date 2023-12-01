@@ -25,27 +25,27 @@
                 <div @class($personalize['wrapper.fourth'])>
                     <div class="flex-shrink-0">
                         <div x-show="toast.type === 'success'">
-                            <x-icon name="check-circle"
+                            <x-icon svg="check-circle"
                                     outline
                                     @class([$personalize['icon.size'], 'text-green-400']) />
                         </div>
                         <div x-show="toast.type === 'error'">
-                            <x-icon name="x-circle"
+                            <x-icon svg="x-circle"
                                     outline
                                     @class([$personalize['icon.size'], 'text-red-400']) />
                         </div>
                         <div x-show="toast.type === 'info'">
-                            <x-icon name="information-circle"
+                            <x-icon svg="information-circle"
                                     outline
                                     @class([$personalize['icon.size'], 'text-blue-400']) />
                         </div>
                         <div x-show="toast.type === 'warning'">
-                            <x-icon name="exclamation-circle"
+                            <x-icon svg="exclamation-circle"
                                     outline
                                     @class([$personalize['icon.size'], 'text-yellow-400']) />
                         </div>
                         <div x-show="toast.type === 'question'">
-                            <x-icon name="question-mark-circle"
+                            <x-icon svg="question-mark-circle"
                                     outline
                                     @class([$personalize['icon.size'], 'text-secondary-400']) />
                         </div>
@@ -67,7 +67,7 @@
                     </div>
                     <div @class($personalize['buttons.close.wrapper'])>
                         <button x-on:click="hide()" type="button" @class($personalize['buttons.close.class'])>
-                            <x-icon name="x-mark" @class($personalize['buttons.close.size']) />
+                            <x-icon svg="x-mark" @class($personalize['buttons.close.size']) />
                         </button>
                     </div>
                 </div>

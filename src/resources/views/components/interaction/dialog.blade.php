@@ -29,7 +29,7 @@
                  @if (!$configurations['uncloseable']) x-on:click.outside="remove()" @endif>
                 <div @class($personalize['buttons.close.wrapper'])>
                     <button x-on:click="remove()">
-                        <x-icon name="x-mark" @class($personalize['buttons.close.icon']) />
+                        <x-icon svg="x-mark" @class($personalize['buttons.close.icon']) />
                     </button>
                 </div>
                 <div>
@@ -42,27 +42,27 @@
                             'bg-secondary-100 dark:bg-dark-600' : dialog.type === 'question',
                         }">
                         <div x-show="dialog.type === 'success'">
-                            <x-icon name="check-circle"
+                            <x-icon svg="check-circle"
                                     outline
                                     @class([$personalize['icon.size'], 'text-green-600 dark:text-green-500']) />
                         </div>
                         <div x-show="dialog.type === 'error'">
-                            <x-icon name="x-circle"
+                            <x-icon svg="x-circle"
                                     outline
                                     @class([$personalize['icon.size'], 'text-red-600 dark:text-red-500']) />
                         </div>
                         <div x-show="dialog.type === 'info'">
-                            <x-icon name="information-circle"
+                            <x-icon svg="information-circle"
                                     outline
                                     @class([$personalize['icon.size'], 'text-blue-600 dark:text-blue-500']) />
                         </div>
                         <div x-show="dialog.type === 'warning'">
-                            <x-icon name="exclamation-circle"
+                            <x-icon svg="exclamation-circle"
                                     outline
                                     @class([$personalize['icon.size'], 'text-yellow-600 dark:text-yellow-500']) />
                         </div>
                         <div x-show="dialog.type === 'question'">
-                            <x-icon name="question-mark-circle"
+                            <x-icon svg="question-mark-circle"
                                     outline
                                     @class([$personalize['icon.size'], 'text-secondary-600 dark:text-secondary-500']) />
                         </div>
