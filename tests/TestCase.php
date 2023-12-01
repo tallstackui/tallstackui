@@ -5,7 +5,6 @@ namespace Tests;
 use Illuminate\Foundation\Testing\Concerns\InteractsWithViews;
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase as BaseTestCase;
-use TallStackUi\TallStackUiServiceProvider;
 
 abstract class TestCase extends BaseTestCase
 {
