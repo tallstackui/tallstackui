@@ -64,6 +64,7 @@ return [
         'alert' => Components\Alert::class,
         'avatar' => Components\Avatar::class,
         'badge' => Components\Badge::class,
+        'banner' => Components\Banner::class,
         'button' => Components\Button\Button::class,
         'button.circle' => Components\Button\Circle::class,
         'card' => Components\Card::class,

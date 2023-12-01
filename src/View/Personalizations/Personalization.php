@@ -8,6 +8,7 @@ use TallStackUi\Contracts\Personalizable;
 use TallStackUi\View\Components\Alert;
 use TallStackUi\View\Components\Avatar;
 use TallStackUi\View\Components\Badge;
+use TallStackUi\View\Components\Banner;
 use TallStackUi\View\Components\Button\Button;
 use TallStackUi\View\Components\Button\Circle;
 use TallStackUi\View\Components\Card;
@@ -61,6 +62,13 @@ class Personalization
     public function badge(): PersonalizationResources
     {
         return app($this->component(Badge::class));
+    }
+
+    public function banner(): PersonalizationResources
+    {
+        $this->component = Alert::class;
+
+        return app($this->component(Banner::class));
     }
 
     public function block(string|array $name, string|Closure|Personalizable $code = null): PersonalizationResources

@@ -41,6 +41,7 @@
         "test:ci": "CI=true ./vendor/bin/pest",
         "test:feature": "./vendor/bin/pest --filter=Feature --parallel",
         "test:browser": "./vendor/bin/pest --filter=Browser",
+        "test:browser:ci": "CI=true ./vendor/bin/pest --filter=Browser",
         "type": "./vendor/bin/pest --type-coverage",
         "format": "./vendor/bin/pint",
         "analyse": "./vendor/bin/phpstan analyse --memory-limit=2G",

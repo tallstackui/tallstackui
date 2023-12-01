@@ -9,5 +9,7 @@
     <x-dialog />
     <x-toast />
     {!! $slot !!}
+    {{-- It was necessary move the component down to $slot due xpath browser tests --}}
+    <x-banner wire />
 </body>
 </html>

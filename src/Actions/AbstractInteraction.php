@@ -65,13 +65,14 @@ abstract class AbstractInteraction
 
     abstract public function warning(string $title, string $description = null): self;
 
-    protected function base(string $title, string $description = null, string $type = null): self
+    protected function base(string $title, string $description = null, string $type = null, ...$params): self
     {
         return $this->send([
             'title' => $title,
             'description' => $description,
             'type' => $type,
             'timeout' => $this->timeout ?? 3,
+            ...$params,
         ]);
     }
 }

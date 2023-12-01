@@ -3,7 +3,9 @@
 namespace TallStackUi\View\Personalizations\Support;
 
 use Exception;
+use Illuminate\Support\Carbon;
 use InvalidArgumentException;
+use TallStackUi\View\Components\Banner;
 use TallStackUi\View\Components\Dropdown\Dropdown;
 use TallStackUi\View\Components\Errors;
 use TallStackUi\View\Components\Icon;
@@ -24,14 +26,15 @@ class ValidateComponent
     public static function validate(object $component): void
     {
         $method = match (get_class($component)) {
+            Banner::class => 'banner',
+            Errors::class => 'errors',
             Dialog::class => 'dialog',
             Dropdown::class => 'dropdown',
-            Errors::class => 'errors',
-            Toast::class => 'toast',
-            Styled::class => 'select',
-            Slide::class => 'slide',
             Icon::class => 'icon',
             Modal::class => 'modal',
+            Slide::class => 'slide',
+            Styled::class => 'select',
+            Toast::class => 'toast',
             Tooltip::class => 'tooltip',
             default => throw new Exception("No validation available for the component: [$component]"),
         };
@@ -102,6 +105,34 @@ class ValidateComponent
 
         if (! is_array($component->request['params']) || blank($component->request['params'])) {
             throw new InvalidArgumentException('The [params] must be an array and cannot be empty');
+        }
+    }
+
+    /** @throws Throwable */
+    private function banner(Banner $component): void
+    {
+        $sizes = ['sm', 'md', 'lg'];
+
+        if (! in_array($component->size, $sizes)) {
+            throw new InvalidArgumentException('The [banner] size must be one of the following: ['.implode(', ', $sizes).']');
+        }
+
+        // If the banner is wire, we don't need to validate the until property
+        // Because the banner will be displayed through the Livewire events
+        if (is_null($component->until) || $component->wire) {
+            return;
+        }
+
+        $until = null;
+
+        try {
+            $until = Carbon::parse($component->until);
+        } catch (Exception) {
+            //
+        }
+
+        if (! $until) {
+            throw new InvalidArgumentException('The [until] attribute must be a Carbon instance or a valid date string.');
         }
     }
 

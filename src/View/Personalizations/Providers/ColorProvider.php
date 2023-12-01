@@ -8,6 +8,7 @@ use Illuminate\View\View;
 use TallStackUi\View\Components\Alert;
 use TallStackUi\View\Components\Avatar;
 use TallStackUi\View\Components\Badge;
+use TallStackUi\View\Components\Banner;
 use TallStackUi\View\Components\Button\Button;
 use TallStackUi\View\Components\Button\Circle;
 use TallStackUi\View\Components\Errors;
@@ -18,6 +19,7 @@ use TallStackUi\View\Components\Tooltip;
 use TallStackUi\View\Personalizations\Support\Colors\AlertColors;
 use TallStackUi\View\Personalizations\Support\Colors\AvatarColors;
 use TallStackUi\View\Personalizations\Support\Colors\BadgeColors;
+use TallStackUi\View\Personalizations\Support\Colors\BannerColors;
 use TallStackUi\View\Personalizations\Support\Colors\ButtonColors;
 use TallStackUi\View\Personalizations\Support\Colors\ErrorsColors;
 use TallStackUi\View\Personalizations\Support\Colors\RadioColors;
@@ -38,6 +40,7 @@ class ColorProvider
             $component instanceof Alert => AlertColors::class,
             $component instanceof Avatar => AvatarColors::class,
             $component instanceof Badge => BadgeColors::class,
+            $component instanceof Banner => BannerColors::class,
             $component instanceof Errors => ErrorsColors::class,
             $component instanceof Toggle => ToggleColors::class,
             $component instanceof Tooltip => TooltipColors::class,
