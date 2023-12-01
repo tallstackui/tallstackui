@@ -17,6 +17,8 @@ class Icon extends Component
         public ?bool $solid = false,
         public ?bool $outline = false,
         public ?string $type = null,
+        public ?string $left = null,
+        public ?string $right = null,
     ) {
         $this->type = $this->outline ? 'outline' : ($this->solid ? 'solid' : config('tallstackui.icon'));
 

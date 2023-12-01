@@ -28,8 +28,8 @@ class Badge extends Component implements Personalization
         public ?bool $outline = null,
         public ?bool $light = null,
         public ?string $style = null,
-        public ?string $right = null,
         public ?string $left = null,
+        public ?string $right = null,
     ) {
         $this->style = $this->outline ? 'outline' : ($this->light ? 'light' : 'solid');
         $this->size = $this->lg ? 'lg' : ($this->md ? 'md' : 'sm');
