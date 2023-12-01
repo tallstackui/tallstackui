@@ -24,7 +24,7 @@
         @if ($prefix)
             <span @class([$personalize['input.class.slot'], $personalize['error'] => $error && $validate])>{{ $prefix }}</span>
         @endif
-        <input id="{{ $id }}" {{ $attributes->class([
+        <input id="{{ $id }}" type="{{ $type }}" {{ $attributes->class([
             $personalize['input.class.base'],
         ]) }}>
         @if ($suffix)

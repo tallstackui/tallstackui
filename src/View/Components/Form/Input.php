@@ -17,6 +17,7 @@ class Input extends Component implements Personalization
     public function __construct(
         public ?string $label = null,
         public ?string $id = null,
+        public ?string $type = null,
         public ?string $hint = null,
         public ?string $icon = null,
         public ?string $position = 'left',
