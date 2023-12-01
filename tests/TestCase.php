@@ -11,11 +11,4 @@ abstract class TestCase extends BaseTestCase
 {
     use InteractsWithViews;
     use WithWorkbench;
-
-    protected function getPackageProviders($app): array
-    {
-        return [
-            TallStackUiServiceProvider::class,
-        ];
-    }
 }
