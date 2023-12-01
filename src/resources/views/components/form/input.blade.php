@@ -2,6 +2,7 @@
     $computed = $attributes->whereStartsWith('wire:model')->first();
     $error = $computed && $errors->has($computed);
     $personalize = tallstackui_personalization('form.input', $personalization());
+    $type = $attributes->get('type');
 @endphp
 
 <x-wrapper.input :$id :$computed :$error :$label :$hint :$validate>
@@ -24,7 +25,7 @@
         @if ($prefix)
             <span @class([$personalize['input.class.slot'], $personalize['error'] => $error && $validate])>{{ $prefix }}</span>
         @endif
-        <input id="{{ $id }}" type="{{ $type }}" {{ $attributes->class([
+        <input id="{{ $id }}" @if ($type) type="{{ $type }}" @endif {{ $attributes->class([
             $personalize['input.class.base'],
         ]) }}>
         @if ($suffix)
