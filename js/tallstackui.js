@@ -7,6 +7,7 @@ import modal from './modules/components/modal/modal';
 import slide from './modules/components/slide/slide';
 import tab from './modules/components/tab/tab';
 import textArea from './modules/components/form/text-area';
+import number from './modules/components/form/number';
 import darkTheme from './modules/helpers/dark-theme';
 
 document.addEventListener('alpine:init', () => {
@@ -20,6 +21,7 @@ document.addEventListener('alpine:init', () => {
   window.Alpine.data('tallstackui_tab', tab);
   window.Alpine.data('tallstackui_darkTheme', darkTheme);
   window.Alpine.data('tallstackui_formTextArea', textArea);
+  window.Alpine.data('tallstackui_formNumber', number);
 });
 
 window.$modalOpen = (name) => window.dispatchEvent(new Event(`modal:${name}-open`));

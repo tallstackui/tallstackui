@@ -47,5 +47,6 @@ module.exports = {
     forms,
     require('./js/plugins/customScrollbar'),
     require('./js/plugins/softScrollbar'),
+    require('./js/plugins/numberAppearanceNone'),
   ],
 };

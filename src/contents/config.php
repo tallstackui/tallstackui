@@ -79,6 +79,7 @@ return [
         'input' => Components\Form\Input::class,
         'label' => Components\Form\Label::class,
         'modal' => Components\Modal::class,
+        'number' => Components\Form\Number::class,
         'password' => Components\Form\Password::class,
         'radio' => Components\Form\Radio::class,
         'select.native' => Components\Select\Native::class,
