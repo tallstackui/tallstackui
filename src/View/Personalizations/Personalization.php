@@ -20,6 +20,7 @@ use TallStackUi\View\Components\Form\Error;
 use TallStackUi\View\Components\Form\Hint;
 use TallStackUi\View\Components\Form\Input;
 use TallStackUi\View\Components\Form\Label;
+use TallStackUi\View\Components\Form\Number;
 use TallStackUi\View\Components\Form\Password;
 use TallStackUi\View\Components\Form\Radio;
 use TallStackUi\View\Components\Form\Textarea;
@@ -122,12 +123,13 @@ class Personalization
         $component ??= 'input';
 
         $class = match ($component) {
-            'error' => Error::class,
-            'input' => Input::class,
-            'hint' => Hint::class,
-            'label' => Label::class,
-            'password' => Password::class,
             'checkbox' => Checkbox::class,
+            'error' => Error::class,
+            'hint' => Hint::class,
+            'input' => Input::class,
+            'label' => Label::class,
+            'number' => Number::class,
+            'password' => Password::class,
             'radio' => Radio::class,
             'textarea' => Textarea::class,
             'toggle' => Toggle::class,
