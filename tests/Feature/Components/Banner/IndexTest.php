@@ -73,7 +73,7 @@ it('can render animated', function () {
 });
 
 it('cannot render with date in past', function () {
-    $date = now()->subDay()->format('Y-m-d');
+    $date = now()->subDays(2)->format('Y-m-d');
 
     $component = <<<HTML
     <x-banner text="Foo" :until="$date" />

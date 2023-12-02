@@ -37,14 +37,19 @@
                 {!! $left !!}
             </span>
         @endif
-        <span @class([$personalize['text'], $colors['text'] => !$wire])
+        @if ($wire)
+            <span @class($personalize['text'])
               x-bind:class="{
-                    'text-green-50' : type === 'success',
-                    'text-red-50' : type === 'error',
-                    'text-yellow-50' : type === 'warning',
-                    'text-blue-50' : type === 'info'
-              }"
-              x-text="text"></span>
+                  'text-green-50' : type === 'success',
+                  'text-red-50' : type === 'error',
+                  'text-yellow-50' : type === 'warning',
+                  'text-blue-50' : type === 'info'
+              }" x-text="text"></span>
+        @else
+            <span @class([$personalize['text'], $colors['text']])>
+                {!! $text !!}
+            </span>
+        @endif
         <x-icon name="x-mark"
                 dusk="tallstackui_banner_close"
                 @class([$personalize['close'], $colors['text'] => !$wire])
