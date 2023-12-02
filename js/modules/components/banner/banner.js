@@ -14,6 +14,14 @@ export default (animated, wire, text, enter, leave, close) => ({
         setTimeout(() => this.show = false, this.leave * 1000);
       }
     }
+
+    this.$watch('show', (value) => {
+      if (value === false || !wire || !this.leave) {
+        return;
+      }
+
+      setTimeout(() => this.show = false, this.leave * 1000);
+    });
   },
   add(event) {
     this.type = event.detail.type;
@@ -27,10 +35,6 @@ export default (animated, wire, text, enter, leave, close) => ({
       this.show = true;
     } else {
       setTimeout(() => this.show = true, this.enter * 1000);
-    }
-
-    if (this.leave) {
-      setTimeout(() => this.show = false, this.leave * 1000);
     }
   },
 });
