@@ -5,6 +5,11 @@
     $error = $property && $errors->has($property);
     $live = str($directive)->contains('.live');
     $personalize = tallstackui_personalization('form.number', $personalization());
+
+    $icons = [...(match ($chevron) {
+        true  => fn () => ['chevron-down', 'chevron-up'],
+        false => fn () => ['minus', 'plus']
+    })()];
 @endphp
 
 <x-wrapper.input :$id :computed="$property" :$error :$label :$hint validate>
@@ -33,7 +38,7 @@
                     type="button"
                     dusk="tallstackui_form_number_decrement"
                     @class($personalize['buttons.left.base'])>
-                <x-icon name="minus"
+                <x-icon :name="$icons[0]"
                         @class([
                             $personalize['buttons.left.size'],
                             $personalize['buttons.left.color'] => !$error,
@@ -48,7 +53,7 @@
                     type="button"
                     dusk="tallstackui_form_number_increment"
                     @class($personalize['buttons.right.base'])>
-                <x-icon name="plus"
+                <x-icon :name="$icons[1]"
                         @class([
                             $personalize['buttons.right.size'],
                             $personalize['buttons.right.color'] => !$error,

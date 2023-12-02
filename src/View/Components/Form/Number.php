@@ -21,6 +21,7 @@ class Number extends Component implements Personalization
         public ?int $min = 0,
         public ?int $max = 10,
         public ?int $delay = 2,
+        public ?bool $chevron = false,
     ) {
         $this->id ??= uniqid();
     }
