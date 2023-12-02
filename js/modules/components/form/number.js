@@ -20,7 +20,7 @@ export default (value, min, max, delay, disabled) => ({
       return;
     }
 
-    if (this.max < this.min || this.min < this.value) {
+    if (this.max < this.min || this.value < this.min) {
       warning('The max value of the number input must be greater than the min value.');
 
       return;
