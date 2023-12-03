@@ -27,7 +27,7 @@ trait DefaultInputClasses
                 'base' => 'dark:ring-dark-600 dark:text-dark-300 dark:placeholder-dark-500 text-gray-600 ring-gray-300 placeholder:text-gray-400',
                 'background' => 'bg-white dark:bg-dark-800',
                 'disabled' => 'bg-gray-100 dark:bg-gray-600',
-            ]
+            ],
         ];
     }
 }
