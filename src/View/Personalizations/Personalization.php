@@ -51,8 +51,6 @@ class Personalization
 
     public function alert(): PersonalizationResources
     {
-        $this->component = Alert::class;
-
         return app($this->component(Alert::class));
     }
 
@@ -68,8 +66,6 @@ class Personalization
 
     public function banner(): PersonalizationResources
     {
-        $this->component = Alert::class;
-
         return app($this->component(Banner::class));
     }
 
@@ -137,8 +133,6 @@ class Personalization
             default => $component,
         };
 
-        $this->component = $class;
-
         return app($this->component($class));
     }
 
@@ -165,8 +159,6 @@ class Personalization
 
     public function loading(): PersonalizationResources
     {
-        $this->component = Loading::class; //TODO: test it!
-
         return app($this->component(Loading::class));
     }
 
