@@ -121,7 +121,7 @@
                         role="option" @class($personalize['box.list.item.wrapper'])>
                         <div wire:ignore @class($personalize['box.list.item.options'])>
                             <span class="ml-2 truncate" x-text="option[selectable.label] ?? option"></span>
-                            <x-icon name="check" x-show="selected(option)" class="h-5 w-5 font-bold"/>
+                            <x-icon name="check" x-show="selected(option)" @class($personalize['box.list.item.check']) />
                         </div>
                     </li>
                 </template>

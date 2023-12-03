@@ -10,7 +10,7 @@ use TallStackUi\View\Personalizations\SoftPersonalization;
 #[SoftPersonalization('form.hint')]
 class Hint extends Component implements Personalization
 {
-    public function __construct(public ?string $computed = null)
+    public function __construct(public ?string $hint = null)
     {
         //
     }
