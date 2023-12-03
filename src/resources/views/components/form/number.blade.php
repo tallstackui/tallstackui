@@ -6,14 +6,16 @@
     $error = $property && $errors->has($property);
     $live = str($directive)->contains('.live');
     $personalize = tallstackui_personalization('form.number', $personalization());
+    $disabled = $attributes->get('disabled');
+    $readonly = $attributes->get('readonly');
 @endphp
 
 <x-wrapper.input :$id :computed="$property" :$error :$label :$hint validate>
     <div @class([
             $personalize['input.class.wrapper'],
             $personalize['input.class.color.base'] => !$error,
-            $personalize['input.class.color.background'] => !$attributes->get('disabled') && !$attributes->get('readonly'),
-            $personalize['input.class.color.disabled'] => $attributes->get('disabled') || $attributes->get('readonly'),
+            $personalize['input.class.color.background'] => !$disabled && !$readonly,
+            $personalize['input.class.color.disabled'] => $disabled || $readonly,
             $personalize['error'] => $error
         ]) x-data="tallstackui_formNumber(
             @if ($live) @entangle($property).live @else @entangle($property) @endif,
