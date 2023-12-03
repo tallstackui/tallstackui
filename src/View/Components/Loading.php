@@ -16,10 +16,10 @@ class Loading extends Component implements Personalization
 
     public function __construct(
         public ?string $text = null,
-        public ?bool $blur = false,
-        public ?bool $opacity = true,
         public ?string $loading = null,
         public ?string $delay = null,
+        public ?bool $blur = false,
+        public ?bool $opacity = true,
     ) {
         $this->configurations();
     }
