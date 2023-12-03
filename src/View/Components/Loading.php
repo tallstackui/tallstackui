@@ -31,7 +31,7 @@ class Loading extends Component implements Personalization
             ],
             'opacity' => 'bg-opacity-50',
             'blur' => 'backdrop-blur-sm',
-            'spinner' => 'z-50 h-12 w-12 animate-spin text-primary-500 dark:text-dark-300',
+            'spinner' => 'z-50 h-12 w-12 animate-spin text-primary-500 dark:text-dark-50',
             'text' => 'inline-flex items-center text-lg font-semibold text-primary-500',
         ]);
     }
