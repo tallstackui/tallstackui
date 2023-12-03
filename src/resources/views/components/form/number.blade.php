@@ -10,9 +10,10 @@
 
 <x-wrapper.input :$id :computed="$property" :$error :$label :$hint validate>
     <div @class([
-            $personalize['input.class.color'] => !$error,
             $personalize['input.class.wrapper'],
-            $personalize['input.class.disabled'] => $attributes->get('disabled') || $attributes->get('readonly'),
+            $personalize['input.class.color.base'] => !$error,
+            $personalize['input.class.color.background'] => !$attributes->get('disabled') && !$attributes->get('readonly'),
+            $personalize['input.class.color.disabled'] => $attributes->get('disabled') || $attributes->get('readonly'),
             $personalize['error'] => $error
         ]) x-data="tallstackui_formNumber(
             @if ($live) @entangle($property).live @else @entangle($property) @endif,
