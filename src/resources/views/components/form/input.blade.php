@@ -15,19 +15,18 @@
         </div>
     @endif
     <div @class([
-            $personalize['input.class.color'] => !$error,
             $personalize['input.class.wrapper'],
+            $personalize['input.class.color.base'] => !$error,
+            $personalize['input.class.color.background'] => !$attributes->get('disabled') && !$attributes->get('readonly'),
+            $personalize['input.class.color.disabled'] => $attributes->get('disabled') || $attributes->get('readonly'),
             $personalize['input.paddings.left'] => $icon && ($position === null || $position === 'left'),
             $personalize['input.paddings.right'] => $icon && $position === 'right',
-            $personalize['input.class.disabled'] => $attributes->get('disabled') || $attributes->get('readonly'),
             $personalize['error'] => $error && $validate
         ])>
         @if ($prefix)
             <span @class([$personalize['input.class.slot'], $personalize['error'] => $error && $validate])>{{ $prefix }}</span>
         @endif
-        <input id="{{ $id }}" @if ($type) type="{{ $type }}" @endif {{ $attributes->class([
-            $personalize['input.class.base'],
-        ]) }}>
+        <input id="{{ $id }}" @if ($type) type="{{ $type }}" @endif {{ $attributes->class([$personalize['input.class.base']]) }}>
         @if ($suffix)
             <span @class([$personalize['input.class.slot'], $personalize['error'] => $error && $validate])>{{ $suffix }}</span>
         @endif
