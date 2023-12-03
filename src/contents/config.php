@@ -32,6 +32,10 @@ return [
             /* Alloweds: sm, md, lg, xl, 2xl, 3xl, 4xl, 5xl, 6xl, 7xl */
             'size' => '2xl',
         ],
+        'loading' => [
+            'blur' => false,
+            'opacity' => true,
+        ],
         'slide' => [
             'z-index' => 'z-50',
             'blur' => false,
@@ -78,6 +82,7 @@ return [
         'icon' => Components\Icon::class,
         'input' => Components\Form\Input::class,
         'label' => Components\Form\Label::class,
+        'loading' => Components\Loading::class,
         'modal' => Components\Modal::class,
         'number' => Components\Form\Number::class,
         'password' => Components\Form\Password::class,

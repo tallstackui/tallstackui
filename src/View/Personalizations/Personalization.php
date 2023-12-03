@@ -27,6 +27,7 @@ use TallStackUi\View\Components\Form\Textarea;
 use TallStackUi\View\Components\Form\Toggle;
 use TallStackUi\View\Components\Interaction\Dialog;
 use TallStackUi\View\Components\Interaction\Toast;
+use TallStackUi\View\Components\Loading;
 use TallStackUi\View\Components\Modal;
 use TallStackUi\View\Components\Select\Native as SelectNative;
 use TallStackUi\View\Components\Select\Styled as SelectStyled;
@@ -50,8 +51,6 @@ class Personalization
 
     public function alert(): PersonalizationResources
     {
-        $this->component = Alert::class;
-
         return app($this->component(Alert::class));
     }
 
@@ -67,8 +66,6 @@ class Personalization
 
     public function banner(): PersonalizationResources
     {
-        $this->component = Alert::class;
-
         return app($this->component(Banner::class));
     }
 
@@ -136,8 +133,6 @@ class Personalization
             default => $component,
         };
 
-        $this->component = $class;
-
         return app($this->component($class));
     }
 
@@ -160,6 +155,11 @@ class Personalization
         }
 
         return call_user_func([$this, $main], $main === $secondary ?: $secondary);
+    }
+
+    public function loading(): PersonalizationResources
+    {
+        return app($this->component(Loading::class));
     }
 
     public function modal(): PersonalizationResources
