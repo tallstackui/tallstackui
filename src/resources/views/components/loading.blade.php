@@ -13,9 +13,9 @@
         @if (!$text && empty($slot->toHtml()))
             <x-tallstack-ui::icon.others.loading @class($personalize['spinner']) />
         @else
-            <span @class($personalize['text'])>
+            <div @class($personalize['text'])>
                 {!! $text ?? $slot !!}
-            </span>
+            </div>
         @endif
     </div>
 </div>
