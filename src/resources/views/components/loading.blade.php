@@ -3,7 +3,7 @@
 <div @if (!$delay)
          wire:loading
      @else
-         wire:loading.delay{{ is_string($delay) ? ".{$delay}" : "" }}
+         wire:loading.delay{{ is_string($delay) && $delay !== "1" ? ".{$delay}" : "" }}
      @endif @if ($loading) wire:target="{{ $loading }}" @endif {{ $attributes }} @class([
         $personalize['wrapper.first'],
         $personalize['blur'] => $configurations['blur'] === true,
