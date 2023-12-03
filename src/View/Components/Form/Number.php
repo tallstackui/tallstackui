@@ -26,6 +26,19 @@ class Number extends Component implements Personalization
         $this->id ??= uniqid();
     }
 
+    public function icons(): array
+    {
+        [$left, $right] = [
+            $this->chevron ? 'chevron-down' : 'minus',
+            $this->chevron ? 'chevron-up' : 'plus',
+        ];
+
+        return [
+            'left' => $left,
+            'right' => $right,
+        ];
+    }
+
     public function personalization(): array
     {
         return Arr::dot([

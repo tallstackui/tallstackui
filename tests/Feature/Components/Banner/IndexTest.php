@@ -72,13 +72,14 @@ it('can render animated', function () {
         ->assertSee('Foo');
 });
 
-it('cannot render with date in past', function () {
-    $date = now()->subDays(2)->format('Y-m-d');
-
+it('cannot render with date in past', function (string $date) {
     $component = <<<HTML
-    <x-banner text="Foo" :until="$date" />
+    <x-banner text="Foo bar baz" until="$date" />
     HTML;
 
     $this->blade($component)
-        ->assertDontSee('Foo');
-});
+        ->assertDontSee('Foo bar baz');
+})->with([
+    fn () => now()->subDay()->format('Y-m-d'),
+    fn () => now()->subWeek()->format('Y-m-d'),
+]);
