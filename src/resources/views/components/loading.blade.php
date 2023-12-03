@@ -1,6 +1,10 @@
 @php($personalize = tallstackui_personalization('loading', $personalization()))
 
-<div {{ $attributes }} @class([
+<div @if (!$delay)
+         wire:loading
+     @else
+         wire:loading.delay{{ is_string($delay) ? ".{$delay}" : "" }}
+     @endif @if ($loading) wire:target="{{ $loading }}" @endif {{ $attributes }} @class([
         $personalize['wrapper.first'],
         $personalize['blur'] => $configurations['blur'] === true,
         $personalize['opacity'] => $configurations['opacity'] === true,
