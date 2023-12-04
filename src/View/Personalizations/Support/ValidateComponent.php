@@ -231,7 +231,7 @@ class ValidateComponent
             'right-end',
             'auto',
             'auto-start',
-            'auto-end'
+            'auto-end',
         ];
 
         if (! in_array($component->position, $positions)) {

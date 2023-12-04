@@ -10,7 +10,6 @@ use TallStackUi\View\Components\Interaction\Toast;
 use TallStackUi\View\Components\Loading;
 use TallStackUi\View\Components\Modal;
 use TallStackUi\View\Components\Slide;
-use TallStackUi\View\Components\Tooltip;
 
 /**
  * @internal This class is not meant to be used directly.
