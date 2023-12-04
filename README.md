@@ -16,7 +16,7 @@
 
 ## Introduction
 
-[TallStackUi](https://tallstackui.com/) is the best ready-to-use component library for the TALL Stack.
+[TallStackUi](https://tallstackui.com/) is your new friendly TALL Stack component library.
 
 ## Documentation
 
