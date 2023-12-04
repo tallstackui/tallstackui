@@ -225,3 +225,17 @@ it('cannot personalize wrong block', function () {
         ->alert()
         ->block('base2', 'rounded-md p-4');
 });
+
+it('cannot duplicated append or prepend personalizations', function () {
+    TallStackUi::personalize('alert')
+        ->block('text.title')
+        ->append('foo-bar-baz')
+        ->prepend('bar-baz-foo');
+
+    $view = $this->blade('<x-alert title="Foo bar" />')->__toString();
+
+    expect(str($view)->substrCount('foo-bar-baz'))
+        ->toBe(1)
+        ->and(str($view)->substrCount('bar-baz-foo'))
+        ->toBe(1);
+});
