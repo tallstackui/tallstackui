@@ -1,22 +1,21 @@
 @php
+    $icons = $icons();
     $computed = $attributes->whereStartsWith('wire:model');
     $directive = array_key_first($computed->getAttributes());
     $property = $computed[$directive];
     $error = $property && $errors->has($property);
     $live = str($directive)->contains('.live');
     $personalize = tallstackui_personalization('form.number', $personalization());
-
-    $icons = [...(match ($chevron) {
-        true  => fn () => ['chevron-down', 'chevron-up'],
-        false => fn () => ['minus', 'plus']
-    })()];
+    $disabled = $attributes->get('disabled');
+    $readonly = $attributes->get('readonly');
 @endphp
 
 <x-wrapper.input :$id :computed="$property" :$error :$label :$hint validate>
     <div @class([
-            $personalize['input.class.color'] => !$error,
             $personalize['input.class.wrapper'],
-            $personalize['input.class.disabled'] => $attributes->get('disabled') || $attributes->get('readonly'),
+            $personalize['input.class.color.base'] => !$error,
+            $personalize['input.class.color.background'] => !$disabled && !$readonly,
+            $personalize['input.class.color.disabled'] => $disabled || $readonly,
             $personalize['error'] => $error
         ]) x-data="tallstackui_formNumber(
             @if ($live) @entangle($property).live @else @entangle($property) @endif,
@@ -38,7 +37,7 @@
                     type="button"
                     dusk="tallstackui_form_number_decrement"
                     @class($personalize['buttons.left.base'])>
-                <x-icon :name="$icons[0]"
+                <x-icon :name="$icons['left']"
                         @class([
                             $personalize['buttons.left.size'],
                             $personalize['buttons.left.color'] => !$error,
@@ -53,7 +52,7 @@
                     type="button"
                     dusk="tallstackui_form_number_increment"
                     @class($personalize['buttons.right.base'])>
-                <x-icon :name="$icons[1]"
+                <x-icon :name="$icons['right']"
                         @class([
                             $personalize['buttons.right.size'],
                             $personalize['buttons.right.color'] => !$error,

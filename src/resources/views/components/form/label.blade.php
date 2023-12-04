@@ -2,7 +2,6 @@
     $personalize = tallstackui_personalization('form.label', $personalization());
     $text = $label ?? $slot;
     $asterisk = str($text)->endsWith(' *');
-
     if ($asterisk) $text = str($text)->beforeLast(' *');
 @endphp
 
