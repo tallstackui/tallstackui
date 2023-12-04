@@ -10,7 +10,7 @@ it('can be instantiated', function () {
 
 it('can be instantiated with a component', function () {
     expect(TallStackUi::personalize('alert')
-        ->block(['wrapper' => fn () => 'string']))
+        ->block('wrapper', fn () => 'string'))
         ->toBeInstanceOf(PersonalizableResources::class);
 });
 
@@ -173,11 +173,34 @@ it('can personalize using replace', function () {
     /* from -> to */
     TallStackUi::personalize('alert')
         ->block('text.title')
-        ->replace('font-semibold', 'baz-bar-foo');
+        ->replace('text-lg', 'baz-bar-foo');
 
     $this->blade('<x-alert title="Foo bar" />')
         ->assertSee('Foo bar')
         ->assertSee('baz-bar-foo');
+});
+
+it('can personalize chained', function () {
+    /* array */
+    TallStackUi::personalize('alert')
+        ->block('text.title')
+        ->replace('font-semibold', 'foo-bar-baz')
+        ->replace('text-lg', 'baz-bar-foo')
+        ->and()
+        ->alert()
+        ->block('content.wrapper')
+        ->remove('flex-wrap')
+        ->remove('justify-between');
+
+    $this->blade('<x-alert title="Foo bar" />')
+        ->assertSee('Foo bar')
+        ->assertSee('foo-bar-baz')
+        ->assertSee('baz-bar-foo');
+
+    $this->blade('<x-alert title="Foo bar" />')
+        ->assertSee('Foo bar')
+        ->assertDontSee('flex-wrap')
+        ->assertDontSee('justify-between');
 });
 
 it('cannot personalize wrong component', function () {

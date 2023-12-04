@@ -21,9 +21,11 @@ class PersonalizationResources implements PersonalizableResources
     public function __construct(
         private readonly ?string $component = null,
         private ?array $interactions = [],
+        private ?array $originals = [],
+        private ?string $block = null,
         private ?Collection $parts = new Collection(),
     ) {
-        //
+        $this->originals = $this->personalization();
     }
 
     public function __get(string $property): Personalization
@@ -44,11 +46,21 @@ class PersonalizationResources implements PersonalizableResources
     {
         $this->interactions['append'] = $content;
 
+        $this->set($this->block);
+
         return $this;
     }
 
     public function block(string|array $name, string|Closure|Personalizable $code = null): self
     {
+        // If the $code was not set, then we
+        // are interacting with the helpers.
+        if (is_string($name) && ! $code) {
+            $this->block = $name;
+
+            return $this;
+        }
+
         if (is_array($name)) {
             foreach ($name as $key => $value) {
                 $this->compile($key, $value);
@@ -69,6 +81,8 @@ class PersonalizationResources implements PersonalizableResources
     {
         $this->interactions['prepend'] = $content;
 
+        $this->set($this->block);
+
         return $this;
     }
 
@@ -76,12 +90,16 @@ class PersonalizationResources implements PersonalizableResources
     {
         $this->interactions['remove'] = is_array($class) ? $class : [$class];
 
+        $this->set($this->block);
+
         return $this;
     }
 
     public function replace(string|array $from, string $to = null): self
     {
         $this->interactions['replace'] = is_array($from) ? $from : [$from => $to];
+
+        $this->set($this->block);
 
         return $this;
     }
@@ -125,7 +143,7 @@ class PersonalizationResources implements PersonalizableResources
 
     private function set(string $block, string $content = null): void
     {
-        $original = $this->personalization();
+        $original = collect($this->parts->isEmpty() ? $this->originals : $this->parts->toArray());
 
         $replace = $this->interactions['replace'] ?? [];
         $append = $this->interactions['append'] ?? null;
@@ -133,21 +151,21 @@ class PersonalizationResources implements PersonalizableResources
         $remove = $this->interactions['remove'] ?? [];
 
         foreach ($replace as $old => $new) {
-            $original[$block] = str_replace($old, $new, $original[$block]);
+            $original->put($block, str_replace($old, $new, $original->get($block) ?? $this->originals[$block]));
         }
 
         if ($append) {
-            $original[$block] .= ' '.$append;
+            $original->put($block, ($original->get($block) ?? $this->originals[$block]).' '.$append);
         }
 
         if ($prepend) {
-            $original[$block] = $prepend.' '.$original[$block];
+            $original->put($block, $prepend.' '.($original->get($block) ?? $this->originals[$block]));
         }
 
         foreach ($remove as $class) {
-            $original[$block] = str_replace($class, '', $original[$block]);
+            $original->put($block, str_replace($class, '', ($original->get($block) ?? $this->originals[$block])));
         }
 
-        $this->parts[$block] = trim($content ?? str($original[$block])->squish());
+        $this->parts[$block] = trim($content ?? str($original->get($block))->squish());
     }
 }
