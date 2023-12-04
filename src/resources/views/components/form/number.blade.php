@@ -31,10 +31,13 @@
         <div @class($personalize['buttons.wrapper'])>
             <button x-on:click="decrement()"
                     x-on:mousedown="interval = setInterval(() => decrement(), delay * 100);"
+                    x-on:touchstart="interval = setInterval(() => decrement(), delay * 100);"
                     x-on:mouseup="clearInterval(interval);"
                     x-on:mouseleave="clearInterval(interval);"
+                    x-on:touchend="clearInterval(interval);"
                     x-bind:class="{ 'opacity-30': atMin, 'pointer-events-none opacity-50': disabled }"
                     type="button"
+                    @if($disabled) disabled @endif
                     dusk="tallstackui_form_number_decrement"
                     @class($personalize['buttons.left.base'])>
                 <x-icon :name="$icons['left']"
@@ -46,10 +49,13 @@
             </button>
             <button x-on:click="increment()"
                     x-on:mousedown="interval = setInterval(() => increment(), delay * 100);"
+                    x-on:touchstart="interval = setInterval(() => increment(), delay * 100);"
                     x-on:mouseup="clearInterval(interval);"
                     x-on:mouseleave="clearInterval(interval);"
+                    x-on:touchend="clearInterval(interval);"
                     x-bind:class="{ 'opacity-30': atMax, 'pointer-events-none opacity-50': disabled }"
                     type="button"
+                    @if($disabled) disabled @endif
                     dusk="tallstackui_form_number_increment"
                     @class($personalize['buttons.right.base'])>
                 <x-icon :name="$icons['right']"
