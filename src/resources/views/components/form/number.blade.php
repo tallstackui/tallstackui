@@ -37,7 +37,7 @@
                     x-on:touchend="clearInterval(interval);"
                     x-bind:class="{ 'opacity-30': atMin, 'pointer-events-none opacity-50': disabled }"
                     type="button"
-                    @if($disabled || $readonly) disabled @endif
+                    @if ($disabled || $readonly) disabled @endif
                     dusk="tallstackui_form_number_decrement"
                     @class($personalize['buttons.left.base'])>
                 <x-icon :name="$icons['left']"
