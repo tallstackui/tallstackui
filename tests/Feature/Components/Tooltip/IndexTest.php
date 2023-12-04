@@ -2,20 +2,25 @@
 
 use Illuminate\View\ViewException;
 
-it('can render', function () {
-    $this->blade('<x-tooltip text="Foo bar" />')
-        ->assertSee('h-5 w-5');
-});
+it('can render size variations', function (array $size) {
+    $key = array_key_first($size);
+    $class = $size[$key];
 
-it('can render md', function () {
-    $this->blade('<x-tooltip text="Foo bar" md />')
-        ->assertSee('h-6 w-6');
-});
+    $component = <<<'HTML'
+    <x-tooltip text="Foo bar" {{ size }} />
+    HTML;
 
-it('can render lg', function () {
-    $this->blade('<x-tooltip text="Foo bar" lg />')
-        ->assertSee('h-7 w-7');
-});
+    $component = str_replace('{{ size }}', $key, $component);
+
+    $this->blade($component)
+        ->assertSee('Foo bar')
+        ->assertSee($class);
+})->with([
+    fn () => ['xs' => 'h-4 w-4'],
+    fn () => ['sm' => 'h-5 w-5'],
+    fn () => ['md' => 'h-6 w-6'],
+    fn () => ['lg' => 'h-7 w-7'],
+]);
 
 it('can render positioned', function (string $position) {
     $component = <<<HTML

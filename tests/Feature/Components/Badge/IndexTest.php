@@ -39,9 +39,10 @@ it('can render size variations', function (array $size) {
         ->assertSee('Foo bar')
         ->assertSee($class);
 })->with([
-    fn () => ['sm' => 'text-xs'],
-    fn () => ['md' => 'text-sm'],
-    fn () => ['lg' => 'text-md'],
+    fn () => ['xs' => 'text-xs'],
+    fn () => ['sm' => 'text-sm'],
+    fn () => ['md' => 'text-md'],
+    fn () => ['lg' => 'text-lg'],
 ]);
 
 it('can render outline', function () {
