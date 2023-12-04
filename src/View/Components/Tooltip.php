@@ -20,6 +20,7 @@ class Tooltip extends Component implements Personalization
         public ?string $text = null,
         public ?string $icon = 'question-mark-circle',
         public string $color = 'primary',
+        public ?bool $xs = null,
         public ?bool $sm = null,
         public ?bool $md = null,
         public ?bool $lg = null,
@@ -29,7 +30,7 @@ class Tooltip extends Component implements Personalization
         public ?string $position = 'top',
         public ?string $style = null,
     ) {
-        $this->size = $this->lg ? 'lg' : ($this->md ? 'md' : 'sm');
+        $this->size = $this->xs ? 'xs' : ($this->sm ? 'sm' : ($this->lg ? 'lg' : 'md'));
         $this->style = $this->outline ? 'outline' : ($this->solid ? 'solid' : config('tallstackui.icon'));
 
         $this->validate();
@@ -41,6 +42,7 @@ class Tooltip extends Component implements Personalization
         return Arr::dot([
             'wrapper' => 'inline-flex',
             'sizes' => [
+                'xs' => 'h-4 w-4',
                 'sm' => 'h-5 w-5',
                 'md' => 'h-6 w-6',
                 'lg' => 'h-7 w-7',
