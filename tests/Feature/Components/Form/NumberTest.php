@@ -26,6 +26,6 @@ it('can render with label and hint', function () {
 
     $this->blade($component)
         ->assertSee('<input', false)
-        ->assertSee('Bar baz')
-        ->assertSee('Foo bar');
+        ->assertSee('Foo bar')
+        ->assertSee('Bar baz');
 });
