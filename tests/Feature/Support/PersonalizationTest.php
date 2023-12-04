@@ -181,7 +181,6 @@ it('can personalize using replace', function () {
 });
 
 it('can personalize chained', function () {
-    /* array */
     TallStackUi::personalize('alert')
         ->block('text.title')
         ->replace('font-semibold', 'foo-bar-baz')
