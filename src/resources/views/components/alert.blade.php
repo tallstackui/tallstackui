@@ -5,11 +5,13 @@
      x-show="show">
     <div @class([$personalize['content.wrapper'], 'items-start' => $title !== null])>
         <div @class([$personalize['content.base']])>
-            <div @class(['mr-2' => $icon, 'mt-1' => $icon && $title])>
-                @if ($icon)
-                    <x-icon :$icon @class([$personalize['icon.size'], $colors['text']]) />
-                @endif
-            </div>
+            @if ($icon)
+                <div @class(['mr-2' => $icon, 'mt-1' => $icon && $title])>
+                    @if ($icon)
+                        <x-icon :$icon @class([$personalize['icon.size'], $colors['text']]) />
+                    @endif
+                </div>
+            @endif
             <div @class([$colors['text']])>
                 @if ($title)
                     <h3 @class([$personalize['text.title'], $colors['text'] => $title !== null, 'mb-2' => $title])>{{ $title }}</h3>
