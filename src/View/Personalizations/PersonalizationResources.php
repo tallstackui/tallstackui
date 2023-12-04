@@ -159,11 +159,11 @@ class PersonalizationResources implements PersonalizableResources
             $this->originals->put($block, str_replace($class, '', $this->originals->get($block)));
         }
 
+        $this->parts[$block] = trim($content ?? str($this->originals->get($block))->squish());
+
         $this->interactions->forget('replace');
         $this->interactions->forget('append');
         $this->interactions->forget('prepend');
         $this->interactions->forget('remove');
-
-        $this->parts[$block] = trim($content ?? str($this->originals->get($block))->squish());
     }
 }
