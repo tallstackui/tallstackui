@@ -8,7 +8,7 @@ Please, fill in the form below correctly. This will help us to understand your P
 <!-- Insert X in the square brackets to mark your PR type. -->
 
 - [ ] Bug Fix
-- [ ] Improvement
+- [ ] Enhancements
 - [ ] New Feature
 
 ### Description:
