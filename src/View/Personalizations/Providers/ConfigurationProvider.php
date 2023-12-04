@@ -27,7 +27,6 @@ class ConfigurationProvider
             Toast::class => fn () => 'toast',
             Modal::class => fn () => (new self())->modal($component),
             Loading::class => fn () => 'loading',
-            Tooltip::class => fn () => 'tooltip',
             default => throw new Exception("No configurations available for the component: [$component]"),
         })();
 
