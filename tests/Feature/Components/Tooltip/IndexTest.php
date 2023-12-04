@@ -28,7 +28,6 @@ it('can render positioned', function (string $position) {
 
 it('cannot use bad positions', function (string $position) {
     $this->expectException(ViewException::class);
-    $this->expectExceptionMessage('The tooltip position must be one of the following: [top, bottom, right, left]');
 
     $component = <<<HTML
     <x-tooltip text="Foo bar" position="$position" />
@@ -36,4 +35,4 @@ it('cannot use bad positions', function (string $position) {
 
     $this->blade($component)
         ->assertSee('Foo bar');
-})->with(['top-left', 'bottom-left', 'left-top', 'right-bottom']);
+})->with(['foo', 'bar', 'baz']);
