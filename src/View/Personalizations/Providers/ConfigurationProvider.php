@@ -10,7 +10,6 @@ use TallStackUi\View\Components\Interaction\Toast;
 use TallStackUi\View\Components\Loading;
 use TallStackUi\View\Components\Modal;
 use TallStackUi\View\Components\Slide;
-use TallStackUi\View\Components\Tooltip;
 
 /**
  * @internal This class is not meant to be used directly.
@@ -27,7 +26,6 @@ class ConfigurationProvider
             Toast::class => fn () => 'toast',
             Modal::class => fn () => (new self())->modal($component),
             Loading::class => fn () => 'loading',
-            Tooltip::class => fn () => 'tooltip',
             default => throw new Exception("No configurations available for the component: [$component]"),
         })();
 

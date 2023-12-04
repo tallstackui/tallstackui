@@ -32,19 +32,14 @@ class Tooltip extends Component implements Personalization
         $this->size = $this->lg ? 'lg' : ($this->md ? 'md' : 'sm');
         $this->style = $this->outline ? 'outline' : ($this->solid ? 'solid' : config('tallstackui.icon'));
 
-        $this->colors();
         $this->validate();
-        $this->configurations();
+        $this->colors();
     }
 
     public function personalization(): array
     {
         return Arr::dot([
-            'wrapper' => 'relative max-w-xs rounded-md px-2 py-1 text-white',
-            'color' => [
-                'default' => 'bg-black',
-                'thematic' => 'bg-primary-500 dark:bg-black',
-            ],
+            'wrapper' => 'inline-flex',
             'sizes' => [
                 'sm' => 'h-5 w-5',
                 'md' => 'h-6 w-6',

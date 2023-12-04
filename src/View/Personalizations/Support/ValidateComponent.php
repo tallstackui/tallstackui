@@ -216,7 +216,23 @@ class ValidateComponent
     /** @throws Throwable */
     private function tooltip(Tooltip $component): void
     {
-        $positions = ['top', 'bottom', 'right', 'left'];
+        $positions = [
+            'top',
+            'top-start',
+            'top-end',
+            'bottom',
+            'bottom-start',
+            'bottom-end',
+            'left',
+            'left-start',
+            'left-end',
+            'right',
+            'right-start',
+            'right-end',
+            'auto',
+            'auto-start',
+            'auto-end',
+        ];
 
         if (! in_array($component->position, $positions)) {
             throw new InvalidArgumentException('The tooltip position must be one of the following: ['.implode(', ', $positions).']');

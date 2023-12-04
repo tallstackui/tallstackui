@@ -1,3 +1,4 @@
+import tooltip from './modules/components/tooltip/tooltip';
 import banner from './modules/components/banner/banner';
 import select from './modules/components/select/select';
 import toastBase from './modules/components/toast/toast-base';
@@ -11,6 +12,8 @@ import number from './modules/components/form/number';
 import darkTheme from './modules/helpers/dark-theme';
 
 document.addEventListener('alpine:init', () => {
+  window.Alpine.plugin(tooltip);
+
   window.Alpine.data('tallstackui_banner', banner);
   window.Alpine.data('tallstackui_select', select);
   window.Alpine.data('tallstackui_toastBase', toastBase);

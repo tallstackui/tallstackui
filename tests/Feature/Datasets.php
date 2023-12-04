@@ -33,6 +33,7 @@ dataset('personalizations.keys', [
 
 dataset('personalizations.components', [
     TallStackUi\View\Components\Form\Input::class,
+    TallStackUi\View\Components\Form\Number::class,
     TallStackUi\View\Components\Form\Textarea::class,
     TallStackUi\View\Components\Form\Password::class,
     TallStackUi\View\Components\Form\Toggle::class,
@@ -44,6 +45,8 @@ dataset('personalizations.components', [
     TallStackUi\View\Components\Dropdown\Dropdown::class,
     TallStackUi\View\Components\Dropdown\Items::class,
     TallStackUi\View\Components\Badge::class,
+    TallStackUi\View\Components\Banner::class,
+    TallStackUi\View\Components\Loading::class,
     TallStackUi\View\Components\Avatar::class,
     TallStackUi\View\Components\Form\Hint::class,
     TallStackUi\View\Components\Form\Error::class,
