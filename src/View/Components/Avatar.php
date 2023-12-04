@@ -21,6 +21,7 @@ class Avatar extends Component implements Personalization
         public ?Model $model = null,
         public ?string $text = null,
         public ?string $color = 'primary',
+        public ?bool $xs = null,
         public ?bool $sm = null,
         public ?bool $md = null,
         public ?bool $lg = null,
@@ -31,7 +32,7 @@ class Avatar extends Component implements Personalization
         public ?array $options = [],
     ) {
         $this->text = $this->content();
-        $this->size = $this->sm ? 'sm' : ($this->lg ? 'lg' : 'md');
+        $this->size = $this->xs ? 'xs' : ($this->sm ? 'sm' : ($this->lg ? 'lg' : 'md'));
 
         $this->colors();
     }
@@ -72,18 +73,20 @@ class Avatar extends Component implements Personalization
             'wrapper' => [
                 'class' => 'inline-flex shrink-0 items-center justify-center overflow-hidden',
                 'sizes' => [
-                    'sm' => 'w-8 h-8 text-xs',
+                    'xs' => 'w-6 h-6 text-xs',
+                    'sm' => 'w-8 h-8 text-sm',
                     'md' => 'w-12 h-12 text-md',
-                    'lg' => 'w-14 h-14 text-xl',
+                    'lg' => 'w-14 h-14 text-lg',
                 ],
             ],
             'content' => [
                 'image' => [
                     'class' => 'shrink-0 object-cover object-center text-xl',
                     'sizes' => [
+                        'xs' => 'w-6 h-6 text-xs',
                         'sm' => 'w-8 h-8 text-sm',
-                        'md' => 'w-12 h-12 text-lg',
-                        'lg' => 'w-14 h-14 text-2xl',
+                        'md' => 'w-12 h-12 text-md',
+                        'lg' => 'w-14 h-14 text-lg',
                     ],
                 ],
                 'text' => [
