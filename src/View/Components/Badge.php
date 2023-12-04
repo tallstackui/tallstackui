@@ -18,6 +18,8 @@ class Badge extends Component implements Personalization
         public ?string $text = null,
         public ?string $icon = null,
         public ?string $position = 'right',
+        public ?bool $xs = null,
+        public ?bool $sm = null,
         public ?bool $md = null,
         public ?bool $lg = null,
         public ?string $color = 'primary',
@@ -32,7 +34,7 @@ class Badge extends Component implements Personalization
         public ?string $right = null,
     ) {
         $this->style = $this->outline ? 'outline' : ($this->light ? 'light' : 'solid');
-        $this->size = $this->lg ? 'lg' : ($this->md ? 'md' : 'sm');
+        $this->size = $this->xs ? 'xs' : ($this->sm ? 'sm' : ($this->lg ? 'lg' : 'md'));
         $this->position = $this->position === 'right' ? 'right' : 'left';
 
         $this->colors();
@@ -44,9 +46,10 @@ class Badge extends Component implements Personalization
             'wrapper' => [
                 'class' => 'outline-none inline-flex items-center border px-2 py-0.5 font-bold',
                 'sizes' => [
-                    'sm' => 'text-xs',
-                    'md' => 'text-sm',
-                    'lg' => 'text-md',
+                    'xs' => 'text-xs',
+                    'sm' => 'text-sm',
+                    'md' => 'text-md',
+                    'lg' => 'text-lg',
                 ],
             ],
             'icon' => 'h-3 w-3',
