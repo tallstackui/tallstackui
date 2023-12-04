@@ -20,12 +20,12 @@ class PersonalizationResources implements PersonalizableResources
 {
     public function __construct(
         private readonly ?string $component = null,
-        private ?array $interactions = [],
-        private ?array $originals = [],
         private ?string $block = null,
+        private ?Collection $originals = null,
+        private readonly ?Collection $interactions = new Collection(),
         private ?Collection $parts = new Collection(),
     ) {
-        $this->originals = $this->personalization();
+        $this->originals = collect($this->personalization());
     }
 
     public function __get(string $property): Personalization
@@ -44,7 +44,7 @@ class PersonalizationResources implements PersonalizableResources
 
     public function append(string $content): self
     {
-        $this->interactions['append'] = $content;
+        $this->interactions->put('append', $content);
 
         $this->set($this->block);
 
@@ -79,7 +79,7 @@ class PersonalizationResources implements PersonalizableResources
 
     public function prepend(string $content): self
     {
-        $this->interactions['prepend'] = $content;
+        $this->interactions->put('prepend', $content);
 
         $this->set($this->block);
 
@@ -88,7 +88,7 @@ class PersonalizationResources implements PersonalizableResources
 
     public function remove(string|array $class): self
     {
-        $this->interactions['remove'] = is_array($class) ? $class : [$class];
+        $this->interactions->put('remove', is_array($class) ? $class : [$class]);
 
         $this->set($this->block);
 
@@ -97,7 +97,7 @@ class PersonalizationResources implements PersonalizableResources
 
     public function replace(string|array $from, string $to = null): self
     {
-        $this->interactions['replace'] = is_array($from) ? $from : [$from => $to];
+        $this->interactions->put('replace', is_array($from) ? $from : [$from => $to]);
 
         $this->set($this->block);
 
@@ -143,29 +143,22 @@ class PersonalizationResources implements PersonalizableResources
 
     private function set(string $block, string $content = null): void
     {
-        $original = collect($this->parts->isEmpty() ? $this->originals : $this->parts->toArray());
-
-        $replace = $this->interactions['replace'] ?? [];
-        $append = $this->interactions['append'] ?? null;
-        $prepend = $this->interactions['prepend'] ?? null;
-        $remove = $this->interactions['remove'] ?? [];
-
-        foreach ($replace as $old => $new) {
-            $original->put($block, str_replace($old, $new, $original->get($block) ?? $this->originals[$block]));
+        foreach ($this->interactions->get('replace', []) as $old => $new) {
+            $this->originals->put($block, str_replace($old, $new, $this->originals->get($block)));
         }
 
-        if ($append) {
-            $original->put($block, ($original->get($block) ?? $this->originals[$block]).' '.$append);
+        if ($append = $this->interactions->get('append')) {
+            $this->originals->put($block, $this->originals->get($block).' '.$append);
         }
 
-        if ($prepend) {
-            $original->put($block, $prepend.' '.($original->get($block) ?? $this->originals[$block]));
+        if ($prepend = $this->interactions->get('prepend')) {
+            $this->originals->put($block, $prepend.' '.$this->originals->get($block));
         }
 
-        foreach ($remove as $class) {
-            $original->put($block, str_replace($class, '', ($original->get($block) ?? $this->originals[$block])));
+        foreach ($this->interactions->get('remove', []) as $class) {
+            $this->originals->put($block, str_replace($class, '', $this->originals->get($block)));
         }
 
-        $this->parts[$block] = trim($content ?? str($original->get($block))->squish());
+        $this->parts[$block] = trim($content ?? str($this->originals->get($block))->squish());
     }
 }

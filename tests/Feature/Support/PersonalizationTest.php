@@ -190,7 +190,11 @@ it('can personalize chained', function () {
         ->alert()
         ->block('content.wrapper')
         ->remove('flex-wrap')
-        ->remove('justify-between');
+        ->remove('justify-between')
+        ->and
+        ->badge()
+        ->block('wrapper.sizes.sm')
+        ->replace('text-xs', 'text-2xl');
 
     $this->blade('<x-alert title="Foo bar" />')
         ->assertSee('Foo bar')
@@ -201,6 +205,10 @@ it('can personalize chained', function () {
         ->assertSee('Foo bar')
         ->assertDontSee('flex-wrap')
         ->assertDontSee('justify-between');
+
+    $this->blade('<x-badge title="Foo bar" />')
+        ->assertSee('Foo bar')
+        ->assertDontSee('text-xs');
 });
 
 it('cannot personalize wrong component', function () {
