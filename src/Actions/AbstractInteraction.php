@@ -15,6 +15,7 @@ abstract class AbstractInteraction
     public function __construct(
         public Component $component,
         protected ?int $timeout = null,
+        protected ?bool $expand = null,
     ) {
         //
     }
