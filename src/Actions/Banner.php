@@ -6,17 +6,24 @@ class Banner extends AbstractInteraction
 {
     protected bool $close = false;
 
+    protected ?string $effect = null;
+
     protected int $enter = 0;
 
     protected string $event = 'tallstackui:navbar';
 
     protected ?int $leave = null;
 
-    protected ?string $effect = null;
-
     public function close(): self
     {
         $this->close = true;
+
+        return $this;
+    }
+
+    public function effect(?string $direction = 'left-right'): self
+    {
+        $this->effect = $direction;
 
         return $this;
     }
@@ -41,13 +48,6 @@ class Banner extends AbstractInteraction
     public function leave(int $seconds): self
     {
         $this->leave = $seconds;
-
-        return $this;
-    }
-
-    public function effect(?string $direction = 'left-right'): self
-    {
-        $this->effect = $direction;
 
         return $this;
     }
