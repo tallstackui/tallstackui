@@ -20,7 +20,7 @@ class Banner extends Component implements Personalization
 
     public function __construct(
         public string|array|Collection|null $text = null,
-        public ?string $color = 'primary',
+        public string|null|array $color = 'primary',
         public ?bool $close = false,
         public ?bool $animated = false,
         public ?int $enter = 3,

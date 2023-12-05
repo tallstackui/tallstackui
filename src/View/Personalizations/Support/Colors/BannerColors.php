@@ -16,6 +16,10 @@ class BannerColors
 
     public function __invoke(): array
     {
+        if (is_array($this->component->color)) {
+            return [];
+        }
+
         [$background, $text] = $this->override('background', 'text');
 
         return [
