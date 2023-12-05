@@ -6,7 +6,12 @@
 
 @if ($show)
     <div x-data="tallstackui_banner(@js($animated), @js($wire), @js($text), @js($enter), @js($leave), @js($close))"
-         @class([$personalize['wrapper'], $personalize['sizes.' . $size], $colors['background'] => !$wire])
+         @class([
+            'sticky top-0' => $wire,
+            $personalize['wrapper'], 
+            $personalize['sizes.' . $size], 
+            $colors['background'] => !$wire
+        ])
          @if ($wire)
          x-bind:class="{
             'bg-green-600' : type === 'success',
@@ -38,13 +43,26 @@
             </span>
         @endif
         @if ($wire)
-            <span @class($personalize['text'])
-              x-bind:class="{
-                  'text-green-50' : type === 'success',
-                  'text-red-50' : type === 'error',
-                  'text-yellow-50' : type === 'warning',
-                  'text-blue-50' : type === 'info'
-              }" x-text="text"></span>
+            <div @class([$personalize['text'], 'flex justify-center items-center gap-2'])>
+                <div x-show="type === 'success'">
+                    <x-icon name="check-circle" outline @class([$personalize['icon']]) />
+                </div>
+                <div x-show="type === 'error'">
+                    <x-icon name="x-circle" outline @class([$personalize['icon']]) />
+                </div>
+                <div x-show="type === 'info'">
+                    <x-icon name="information-circle" outline @class([$personalize['icon']]) />
+                </div>
+                <div x-show="type === 'warning'">
+                    <x-icon name="exclamation-circle" outline @class([$personalize['icon']]) />
+                </div>
+                <span x-bind:class="{
+                    'text-green-50' : type === 'success',
+                    'text-red-50' : type === 'error',
+                    'text-yellow-50' : type === 'warning',
+                    'text-blue-50' : type === 'info'
+                }" x-text="text"></span>
+            </div>
         @else
             <span @class([$personalize['text'], $colors['text']])>
                 {!! $text !!}
