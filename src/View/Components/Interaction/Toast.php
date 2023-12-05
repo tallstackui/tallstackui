@@ -29,7 +29,7 @@ class Toast extends Component implements Personalization
                 'first' => 'pointer-events-none fixed inset-0 flex flex-col items-end justify-end gap-y-2 px-4 py-4',
                 'second' => 'flex w-full flex-col items-center space-y-4',
                 'third' => 'dark:bg-dark-700 pointer-events-auto w-full max-w-sm overflow-hidden rounded-xl bg-white shadow-lg ring-1 ring-black ring-opacity-5',
-                'fourth' => 'flex items-start p-4',
+                'fourth' => 'flex p-4',
             ],
             'icon' => [
                 'size' => 'h-6 w-6',
@@ -40,10 +40,18 @@ class Toast extends Component implements Personalization
                 'description' => 'dark:text-dark-400 mt-1 text-sm text-gray-700',
             ],
             'buttons' => [
-                'wrapper' => 'mt-3 flex gap-x-3',
+                'wrapper' => [
+                    'first' => 'mt-3 flex gap-x-3',
+                    'second' => 'ml-4 flex min-h-full flex-col justify-between',
+                ],
                 'confirm' => 'text-primary-600 dark:text-dark-200 text-sm font-medium focus:outline-none',
                 'cancel' => 'text-red-700 dark:text-red-500 text-sm font-medium focus:outline-none',
                 'close' => [
+                    'wrapper' => 'ml-4 flex flex-shrink-0',
+                    'class' => 'inline-flex text-gray-400 focus:outline-none focus:ring-0',
+                    'size' => 'h-5 w-5',
+                ],
+                'expand' => [
                     'wrapper' => 'ml-4 flex flex-shrink-0',
                     'class' => 'inline-flex text-gray-400 focus:outline-none focus:ring-0',
                     'size' => 'h-5 w-5',
