@@ -34,7 +34,7 @@ abstract class AbstractInteraction
             'type' => 'question',
             'timeout' => $this->timeout,
             'confirm' => true,
-            'expandable' => $this->expand ?? false,
+            'expandable' => $this->expandable(),
         ];
 
         if (is_string($data)) {
@@ -73,8 +73,17 @@ abstract class AbstractInteraction
             'description' => $description,
             'type' => $type,
             'timeout' => $this->timeout ?? 3,
-            'expandable' => $this->expand ?? false,
+            'expandable' => $this->expandable(),
             ...$params,
         ]);
+    }
+
+    private function expandable(): bool
+    {
+        if (property_exists($this, 'expand')) {
+            return $this->expand ?? config('tallstackui.settings.toast.expandable', false);
+        }
+
+        return false;
     }
 }

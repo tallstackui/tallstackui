@@ -48,6 +48,7 @@ return [
         'toast' => [
             'z-index' => 'z-50',
             'progress' => true,
+            'expandable' => false,
             /* Alloweds: top-right, top-left, bottom-right, bottom-left */
             'position' => 'top-right',
         ],

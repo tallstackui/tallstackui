@@ -40,7 +40,10 @@ class Toast extends Component implements Personalization
                 'description' => 'dark:text-dark-400 mt-1 text-sm text-gray-700',
             ],
             'buttons' => [
-                'wrapper' => 'mt-3 flex gap-x-3',
+                'wrapper' => [
+                    'first' => 'mt-3 flex gap-x-3',
+                    'second' => 'ml-4 flex min-h-full flex-col justify-between',
+                ],
                 'confirm' => 'text-primary-600 dark:text-dark-200 text-sm font-medium focus:outline-none',
                 'cancel' => 'text-red-700 dark:text-red-500 text-sm font-medium focus:outline-none',
                 'close' => [
@@ -48,7 +51,6 @@ class Toast extends Component implements Personalization
                     'class' => 'inline-flex text-gray-400 focus:outline-none focus:ring-0',
                     'size' => 'h-5 w-5',
                 ],
-                'side-wrapper' => 'ml-4 flex flex-col justify-between min-h-full',
                 'expand' => [
                     'wrapper' => 'ml-4 flex flex-shrink-0',
                     'class' => 'inline-flex text-gray-400 focus:outline-none focus:ring-0',

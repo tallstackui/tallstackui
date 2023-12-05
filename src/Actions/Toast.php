@@ -6,16 +6,16 @@ class Toast extends AbstractInteraction
 {
     protected string $event = 'tallstackui:toast';
 
-    protected bool $expand = false;
+    protected ?bool $expand = null;
 
     public function error(string $title, string $description = null): AbstractInteraction
     {
         return $this->base($title, $description, 'error');
     }
 
-    public function expandable(): AbstractInteraction
+    public function expandable(bool $expand = true): AbstractInteraction
     {
-        $this->expand = true;
+        $this->expand = $expand;
 
         return $this;
     }

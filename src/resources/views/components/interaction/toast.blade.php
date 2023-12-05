@@ -54,13 +54,13 @@
                         <p @class($personalize['content.text']) x-bind:class="{ 'font-medium' : !toast.confirm, 'font-semibold' : toast.confirm }"
                            x-text="toast.title"></p>
                         <p @class($personalize['content.description'])
-                           x-text="toast.description.substring(0, 39) + '...'"
+                           x-text="toast.description.substring(0, 30) + '...'"
                            x-show="toast.expandable"></p>
                         <p @class($personalize['content.description'])
                            x-text="toast.description"
                            x-show="!toast.expandable"></p>
                         <template x-if="toast.type === 'question'">
-                            <div @class($personalize['buttons.wrapper'])>
+                            <div @class($personalize['buttons.wrapper.first'])>
                                 <button dusk="tallstackui_toast_confirmation" @class($personalize['buttons.confirm'])
                                         x-on:click="accept(toast)"
                                         x-text="toast.options.confirm.text"></button>
@@ -70,13 +70,12 @@
                             </div>
                         </template>
                     </div>
-                    <div @class($personalize['buttons.side-wrapper'])>
+                    <div @class($personalize['buttons.wrapper.second'])>
                         <div @class($personalize['buttons.close.wrapper'])>
                             <button x-on:click="hide()" type="button" @class($personalize['buttons.close.class'])>
                                 <x-icon name="x-mark" @class($personalize['buttons.close.size']) />
                             </button>
                         </div>
-
                         <div x-show="toast.expandable" @class($personalize['buttons.expand.wrapper'])>
                             <button x-on:click="toast.expandable = !toast.expandable"
                                     type="button"
