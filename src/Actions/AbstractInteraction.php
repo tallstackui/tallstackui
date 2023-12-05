@@ -34,6 +34,7 @@ abstract class AbstractInteraction
             'type' => 'question',
             'timeout' => $this->timeout,
             'confirm' => true,
+            'expandable' => $this->expand ?? false,
         ];
 
         if (is_string($data)) {
@@ -72,6 +73,7 @@ abstract class AbstractInteraction
             'description' => $description,
             'type' => $type,
             'timeout' => $this->timeout ?? 3,
+            'expandable' => $this->expand ?? false,
             ...$params,
         ]);
     }
