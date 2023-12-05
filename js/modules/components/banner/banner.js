@@ -1,10 +1,11 @@
-export default (animated, wire, text, enter, leave, close) => ({
+export default (animated, wire, text, enter, leave, effect, close) => ({
   show: animated === false && wire === false,
   animated: animated,
   type: 'primary',
   text: text,
   enter: enter,
   leave: leave,
+  effect: effect,
   close: close,
   init() {
     if (this.animated) {
@@ -30,6 +31,7 @@ export default (animated, wire, text, enter, leave, close) => ({
     this.close = event.detail.close;
     this.enter = event.detail.enter;
     this.leave = event.detail.leave;
+    this.effect = event.detail.effect;
 
     if (!this.enter) {
       this.show = true;

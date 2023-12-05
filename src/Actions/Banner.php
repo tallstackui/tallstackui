@@ -12,6 +12,8 @@ class Banner extends AbstractInteraction
 
     protected ?int $leave = null;
 
+    protected ?string $effect = null;
+
     public function close(): self
     {
         $this->close = true;
@@ -43,6 +45,13 @@ class Banner extends AbstractInteraction
         return $this;
     }
 
+    public function effect(?string $direction = 'left-right'): self
+    {
+        $this->effect = $direction;
+
+        return $this;
+    }
+
     public function success(string $title, string $description = null): AbstractInteraction
     {
         return $this->base($title, $description, 'success', ...$this->params());
@@ -59,6 +68,7 @@ class Banner extends AbstractInteraction
             'close' => $this->close,
             'enter' => $this->enter,
             'leave' => $this->leave,
+            'effect' => $this->effect,
         ];
     }
 }

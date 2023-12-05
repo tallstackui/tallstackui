@@ -32,6 +32,7 @@ class Banner extends Component implements Personalization
         public ?bool $show = true,
         public ?string $size = 'sm',
         public ?string $style = 'solid',
+        public ?string $effect = null,
     ) {
         $this->style = $this->light ? 'light' : $this->style;
 
@@ -53,7 +54,11 @@ class Banner extends Component implements Personalization
             'slot.left' => 'absolute left-0 ml-4 text-sm font-medium',
             'text' => 'flex-grow text-center text-sm font-medium',
             'icon' => 'w-5 h-5 text-white',
-            'close' => 'h-4 w-4 cursor-pointer',
+            'close' => 'h-4 w-4 cursor-pointer ml-4',
+            'progress' => [
+                'wrapper' => 'dark:bg-dark-600 relative h-1 w-full rounded-full bg-neutral-100',
+                'bar' => 'bg-primary-500 dark:bg-dark-400 absolute h-full w-24 duration-300 ease-linear',
+            ],
         ]);
     }
 
