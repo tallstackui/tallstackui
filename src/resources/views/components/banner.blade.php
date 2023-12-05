@@ -27,9 +27,9 @@
              x-transition:leave-end="-translate-y-10"
         @endif>
         <div @class([
-                $personalize['wrapper'], 
-                $personalize['sizes.' . $size], 
-                $colors['background'] => !$wire
+                $personalize['wrapper'],
+                $personalize['sizes.' . $size],
+                $colors['background'] ?? $color['background'] => !$wire
             ])>
             @if ($left)
                 <span @if (!is_string($left)) {{
@@ -67,12 +67,12 @@
                     </span>
                     <marquee class="w-full"
                              loop
-                             onmouseover="this.stop();" 
+                             onmouseover="this.stop();"
                              onmouseout="this.start();"
-                             x-cloak 
+                             x-cloak
                              x-show="effect !== null"
                              x-text="text"
-                             x-bind:direction="effect === 'left-right' ? 'left' : 'right'" 
+                             x-bind:direction="effect === 'left-right' ? 'left' : 'right'"
                              x-bind:class="{
                                 'text-green-50' : type === 'success',
                                 'text-red-50' : type === 'error',
