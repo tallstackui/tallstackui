@@ -8,9 +8,9 @@
     <div x-data="tallstackui_banner(@js($animated), @js($wire), @js($text), @js($enter), @js($leave), @js($close))"
          @class([
             'sticky top-0' => $wire,
-            $personalize['wrapper'], 
-            $personalize['sizes.' . $size], 
-            $colors['background'] => !$wire
+            $personalize['wrapper'],
+            $personalize['sizes.' . $size],
+            $colors['background'] ?? $color['background'] => !$wire
         ])
          @if ($wire)
          x-bind:class="{
@@ -32,7 +32,7 @@
         @endif>
         @if ($left)
             <span @if (!is_string($left)) {{
-                    $left->attributes->class([$personalize['slot.left'], $colors['text'] => !$wire])
+                    $left->attributes->class([$personalize['slot.left'], $colors['text'] ?? '' => !$wire])
                 }} x-bind:class="{
                     'text-green-50' : type === 'success',
                     'text-red-50' : type === 'error',
@@ -64,13 +64,13 @@
                 }" x-text="text"></span>
             </div>
         @else
-            <span @class([$personalize['text'], $colors['text']])>
+            <span @class([$personalize['text'], $colors['text'] ?? $color['text']])>
                 {!! $text !!}
             </span>
         @endif
         <x-icon name="x-mark"
                 dusk="tallstackui_banner_close"
-                @class([$personalize['close'], $colors['text'] => !$wire])
+                @class([$personalize['close'], $colors['text'] ?? '' => !$wire])
                 x-bind:class="{
                     'text-green-50' : type === 'success',
                     'text-red-50' : type === 'error',

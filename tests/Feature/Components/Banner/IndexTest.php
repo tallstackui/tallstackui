@@ -1,8 +1,23 @@
 <?php
 
+use Illuminate\View\ViewException;
+
 it('can render', function () {
     $this->blade('<x-banner text="Foo bar" />')
         ->assertSee('Foo bar');
+});
+
+it('can render with custom colors', function () {
+    $component = <<<'HTML'
+    <x-banner text="Foo bar" :color="[
+        'background' => 'bg-[#000000]',
+        'text' => 'text-[#ffffff]',
+    ]" />
+    HTML;
+
+    $this->blade($component)
+        ->assertSee('bg-[#000000]')
+        ->assertSee('text-[#ffffff]');
 });
 
 it('can render with sizes', function (string $size) {
@@ -83,3 +98,27 @@ it('cannot render with date in past', function (string $date) {
     fn () => now()->subDay()->format('Y-m-d'),
     fn () => now()->subWeek()->format('Y-m-d'),
 ]);
+
+it('cannot render with custom without background', function () {
+    $this->expectException(ViewException::class);
+
+    $component = <<<'HTML'
+    <x-banner text="Foo bar" :color="[
+        'text' => 'text-[#ffffff]',
+    ]" />
+    HTML;
+
+    $this->blade($component);
+});
+
+it('cannot render with custom without text', function () {
+    $this->expectException(ViewException::class);
+
+    $component = <<<'HTML'
+    <x-banner text="Foo bar" :color="[
+        'background' => 'bg-[#ffffff]',
+    ]" />
+    HTML;
+
+    $this->blade($component);
+});

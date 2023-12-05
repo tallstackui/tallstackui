@@ -117,6 +117,16 @@ class ValidateComponent
             throw new InvalidArgumentException('The [banner] size must be one of the following: ['.implode(', ', $sizes).']');
         }
 
+        if (is_array($component->color)) {
+            if (! isset($component->color['background'])) {
+                throw new InvalidArgumentException('The [background] key must exists when color is an array.');
+            }
+
+            if (! isset($component->color['text'])) {
+                throw new InvalidArgumentException('The [color] key must exists when color is an array.');
+            }
+        }
+
         // If the banner is wire, we don't need to validate the until property
         // Because the banner will be displayed through the Livewire events
         if (is_null($component->until) || $component->wire) {
