@@ -127,12 +127,6 @@ class ValidateComponent
             }
         }
 
-        $effects = ['right-left', 'left-right', false];
-
-        if (! in_array($component->effect, $effects)) {
-            throw new InvalidArgumentException('The [banner] effect must be one of the following: ['.implode(', ', $effects).']');
-        }
-
         // If the banner is wire, we don't need to validate the until property
         // Because the banner will be displayed through the Livewire events
         if (is_null($component->until) || $component->wire) {

@@ -32,7 +32,7 @@ class Banner extends Component implements Personalization
         public ?bool $show = true,
         public ?string $size = 'sm',
         public ?string $style = 'solid',
-        public string|bool $effect = false,
+        public string|bool|null $effect = false,
     ) {
         $this->style = $this->light ? 'light' : $this->style;
         $this->effect = $this->effect === true ? 'right-left' : ($this->effect === 'right-left' || $this->effect === 'left-right' ? $this->effect : false);
