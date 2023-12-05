@@ -10,6 +10,33 @@ use Tests\Browser\BrowserTestCase;
 class IndexTest extends BrowserTestCase
 {
     /** @test */
+    public function can_expand(): void
+    {
+        Livewire::visit(ToastComponent::class)
+            ->assertDontSee('specimen')
+            ->click('#expand')
+            ->waitForText('Lorem Ipsum is simply')
+            ->click('@tallstackui_toast_expandable')
+            ->waitForText('specimen')
+            ->assertSee('specimen');
+    }
+
+    /** @test */
+    public function can_expand_and_not_expand_sequentially(): void
+    {
+        Livewire::visit(ToastComponent::class)
+            ->assertDontSee('specimen')
+            ->click('#expandConfirmation')
+            ->waitForText('Lorem Ipsum is simply')
+            ->click('@tallstackui_toast_expandable')
+            ->waitForText('specimen')
+            ->assertSee('specimen')
+            ->click('@tallstackui_toast_confirmation')
+            ->waitForText('chunks')
+            ->assertSee('chunks');
+    }
+
+    /** @test */
     public function can_send(): void
     {
         Livewire::visit(ToastComponent::class)
@@ -84,9 +111,36 @@ class ToastComponent extends Component
         $this->toast()->error('Foo bar error');
     }
 
+    public function expand(): void
+    {
+        $this->toast()
+            ->expandable()
+            ->success('Foo bar', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.');
+    }
+
+    public function expandConfirmation(): void
+    {
+        $this->toast()
+            ->expandable()
+            ->confirm('Warning!', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.', [
+                'confirm' => [
+                    'text' => 'Confirm',
+                    'method' => 'notExpandable',
+                    'params' => 'Confirmed Successfully',
+                ],
+            ]);
+    }
+
     public function info(): void
     {
         $this->toast()->info('Foo bar info');
+    }
+
+    public function notExpandable()
+    {
+        $this->toast()
+            ->expandable(false)
+            ->success('Foo bar', 'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don\'t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn\'t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet.');
     }
 
     public function render(): string
@@ -98,6 +152,8 @@ class ToastComponent extends Component
             <x-button id="info" wire:click="info">Info</x-button>
             <x-button id="warning" wire:click="warning">Error</x-button>
             <x-button id="confirm" wire:click="confirm">Confirm</x-button>
+            <x-button id="expand" wire:click="expand">Expand</x-button>
+            <x-button id="expandConfirmation" wire:click="expandConfirmation">Expand Confirmation</x-button>
         </div>
         HTML;
     }
