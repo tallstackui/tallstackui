@@ -35,7 +35,7 @@ class Banner extends Component implements Personalization
         public string|bool $effect = false,
     ) {
         $this->style = $this->light ? 'light' : $this->style;
-        $this->effect = $this->effect === true  ? "right-left" : ($this->effect === "right-left" || $this->effect === "left-right" ? $this->effect : false);
+        $this->effect = $this->effect === true ? 'right-left' : ($this->effect === 'right-left' || $this->effect === 'left-right' ? $this->effect : false);
 
         $this->colors();
         $this->validate();
