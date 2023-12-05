@@ -32,9 +32,10 @@ class Banner extends Component implements Personalization
         public ?bool $show = true,
         public ?string $size = 'sm',
         public ?string $style = 'solid',
-        public ?string $effect = null,
+        public string|bool $effect = false,
     ) {
         $this->style = $this->light ? 'light' : $this->style;
+        $this->effect = $this->effect === true  ? "right-left" : ($this->effect === "right-left" || $this->effect === "left-right" ? $this->effect : false);
 
         $this->colors();
         $this->validate();
@@ -55,10 +56,6 @@ class Banner extends Component implements Personalization
             'text' => 'flex-grow text-center text-sm font-medium',
             'icon' => 'w-5 h-5 text-white',
             'close' => 'h-4 w-4 cursor-pointer ml-4',
-            'progress' => [
-                'wrapper' => 'dark:bg-dark-600 relative h-1 w-full rounded-full bg-neutral-100',
-                'bar' => 'bg-primary-500 dark:bg-dark-400 absolute h-full w-24 duration-300 ease-linear',
-            ],
         ]);
     }
 

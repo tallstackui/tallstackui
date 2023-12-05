@@ -7,7 +7,6 @@
 @if ($show)
     <div x-data="tallstackui_banner(@js($animated), @js($wire), @js($text), @js($enter), @js($leave), @js($effect), @js($close))"
          x-show="show && text !== ''"
-         x-ref="banner"
          x-cloak
          @class(['sticky top-0' => $wire])
          @if ($wire)
@@ -26,11 +25,7 @@
              x-transition:leave-start="translate-y-0"
              x-transition:leave-end="-translate-y-10"
         @endif>
-        <div @class([
-                $personalize['wrapper'],
-                $personalize['sizes.' . $size],
-                $colors['background'] ?? $color['background'] => !$wire
-            ])>
+        <div @class([$personalize['wrapper'], $personalize['sizes.' . $size], $colors['background'] ?? $color['background'] => !$wire])>
             @if ($left)
                 <span @if (!is_string($left)) {{
                         $left->attributes->class([$personalize['slot.left'], $colors['text'] ?? '' => !$wire])
@@ -57,7 +52,7 @@
                     <div x-show="type === 'warning'">
                         <x-icon name="exclamation-circle" outline @class([$personalize['icon']]) />
                     </div>
-                    <span x-show="effect === null"
+                    <span x-show="effect === false"
                           x-bind:class="{
                             'text-green-50' : type === 'success',
                             'text-red-50' : type === 'error',
@@ -65,27 +60,25 @@
                             'text-blue-50' : type === 'info'
                           }" x-text="text">
                     </span>
-                    <marquee class="w-full"
-                             loop
-                             onmouseover="this.stop();"
-                             onmouseout="this.start();"
-                             x-cloak
-                             x-show="effect !== null"
-                             x-text="text"
-                             x-bind:direction="effect === 'left-right' ? 'left' : 'right'"
-                             x-bind:class="{
-                                'text-green-50' : type === 'success',
-                                'text-red-50' : type === 'error',
-                                'text-yellow-50' : type === 'warning',
-                                'text-blue-50' : type === 'info'
-                             }">
-                    </marquee>
                 </div>
             @else
-                <span @class([$personalize['text'], $colors['text'] ?? $color['text']])>
+                <span x-show="effect === false" @class([$personalize['text'], $colors['text'] ?? $color['text']])>
                     {!! $text !!}
                 </span>
             @endif
+            <marquee @class(['w-full whitespace-nowrap', $personalize['text'], $colors['text'] ?? $color['text']])
+                     onmouseover="this.stop();"
+                     onmouseout="this.start();"
+                     x-show="effect !== false"
+                     x-text="text"
+                     x-bind:direction="effect === 'left-right' ? 'left' : 'right'"
+                     x-bind:class="{
+                        'text-green-50' : type === 'success',
+                        'text-red-50' : type === 'error',
+                        'text-yellow-50' : type === 'warning',
+                        'text-blue-50' : type === 'info'
+                    }">
+            </marquee>
             <x-icon name="x-mark"
                     dusk="tallstackui_banner_close"
                     @class([$personalize['close'], $colors['text'] ?? '' => !$wire])
@@ -96,10 +89,5 @@
                         'text-blue-50' : type === 'info'
                     }" x-on:click="show = false" x-show="close" />
         </div>
-        @if (!$wire && $animated)
-            <div @class($personalize['progress.wrapper']) x-show="leave > 1">
-                <span x-ref="progress" x-bind:style="`animation-duration:${leave + enter * 1000}ms`" @class(['animate-progress', $personalize['progress.bar']]) x-cloak></span>
-            </div>
-        @endif
     </div>
 @endif
