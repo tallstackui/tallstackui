@@ -5,6 +5,7 @@ import toastBase from './modules/components/toast/toast-base';
 import toastLoop from './modules/components/toast/toast-loop';
 import dialog from './modules/components/dialog/dialog';
 import modal from './modules/components/modal/modal';
+import loading from './modules/components/loading/loading';
 import slide from './modules/components/slide/slide';
 import tab from './modules/components/tab/tab';
 import textArea from './modules/components/form/text-area';
@@ -20,6 +21,7 @@ document.addEventListener('alpine:init', () => {
   window.Alpine.data('tallstackui_toastLoop', toastLoop);
   window.Alpine.data('tallstackui_dialog', dialog);
   window.Alpine.data('tallstackui_modal', modal);
+  window.Alpine.data('tallstackui_loading', loading);
   window.Alpine.data('tallstackui_slide', slide);
   window.Alpine.data('tallstackui_tab', tab);
   window.Alpine.data('tallstackui_darkTheme', darkTheme);
