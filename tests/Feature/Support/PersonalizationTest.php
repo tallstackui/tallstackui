@@ -192,7 +192,7 @@ it('can personalize chained', function () {
         ->remove('justify-between')
         ->and
         ->badge()
-        ->block('wrapper.sizes.sm')
+        ->block('wrapper.sizes.xs')
         ->replace('text-xs', 'text-2xl');
 
     $this->blade('<x-alert title="Foo bar" />')
