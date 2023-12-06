@@ -82,4 +82,15 @@ export default (value, min, max, delay, disabled) => ({
 
     this.$refs.input.dispatchEvent(new Event('input'));
   },
+  validate() {
+    const current = this.$refs.input.value;
+
+    if (current < this.min) {
+      this.$refs.input.value = null;
+    }
+
+    if (current > this.max) {
+      this.$refs.input.value = null;
+    }
+  },
 });

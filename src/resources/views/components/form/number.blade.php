@@ -24,10 +24,14 @@
             @js($delay),
             @js($attributes->get('disabled', false) || $attributes->get('readonly', false))
         )">
-        <input id="{{ $id }}" type="number" inputmode="numeric" {{ $attributes->class([
-            $personalize['input.class.base'],
-            'appearance-number-none',
-        ]) }} dusk="tallstackui_form_number_input" x-ref="input">
+        <input id="{{ $id }}" 
+               type="number"
+               @if ($min) min="{{ $min }}" @endif 
+               @if ($max) max="{{ $max }}" @endif 
+               inputmode="numeric" {{ $attributes->class([$personalize['input.class.base'], 'appearance-number-none']) }} 
+               dusk="tallstackui_form_number_input"
+               x-on:blur="validate()"
+               x-ref="input">
         <div @class($personalize['buttons.wrapper'])>
             <button x-on:click="decrement()"
                     x-on:mousedown="interval = setInterval(() => decrement(), delay * 100);"
