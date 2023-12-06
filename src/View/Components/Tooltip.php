@@ -30,7 +30,7 @@ class Tooltip extends Component implements Personalization
         public ?string $position = 'top',
         public ?string $style = null,
     ) {
-        $this->size = $this->xs ? 'xs' : ($this->sm ? 'sm' : ($this->lg ? 'lg' : 'md'));
+        $this->size = $this->lg ? 'lg' : ($this->md ? 'md' : ($this->xs ? 'xs' : 'sm'));
         $this->style = $this->outline ? 'outline' : ($this->solid ? 'solid' : config('tallstackui.icon'));
 
         $this->validate();
