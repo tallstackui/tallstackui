@@ -34,7 +34,7 @@ class Badge extends Component implements Personalization
         public ?string $right = null,
     ) {
         $this->style = $this->outline ? 'outline' : ($this->light ? 'light' : 'solid');
-        $this->size = $this->xs ? 'xs' : ($this->sm ? 'sm' : ($this->lg ? 'lg' : 'md'));
+        $this->size = $this->lg ? 'lg' : ($this->md ? 'md' : ($this->sm ? 'sm' : 'xs'));
         $this->position = $this->position === 'right' ? 'right' : 'left';
 
         $this->colors();
