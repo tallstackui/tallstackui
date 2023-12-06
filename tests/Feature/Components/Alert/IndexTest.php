@@ -18,6 +18,21 @@ it('can render slot', function () {
         ->assertSee('bg-primary-600');
 });
 
+it('can render with footer slot', function () {
+    $component = <<<'HTML'
+        <x-alert>
+            Foo bar
+            <x-slot:footer>
+                <button>Button</button>
+            </x-slot:footer>
+        </x-alert>
+    HTML;
+
+    $this->blade($component)
+        ->assertSee('Foo bar')
+        ->assertSee('Button');
+});
+
 it('can render close alert', function () {
     $this->blade('<x-alert text="Foo bar" close />')
         ->assertSee('<svg class="w-5 h-5 text-primary-50"', false);

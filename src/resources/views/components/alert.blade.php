@@ -27,4 +27,7 @@
             </div>
         @endif
     </div>
+    @if ($footer)
+        {{ $footer }}
+    @endif
 </div>
