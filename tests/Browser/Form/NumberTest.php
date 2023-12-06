@@ -42,6 +42,39 @@ class NumberTest extends BrowserTestCase
     }
 
     /** @test */
+    public function can_decrease_beyond_zero()
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?int $quantity = 3;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="quantity">{{ $quantity }}</p>
+                
+                    <x-number label="Quantity" wire:model.live="quantity" />
+                </div>
+                HTML;
+            }
+
+            public function sync(): void
+            {
+                //
+            }
+        })
+            ->assertSee('Quantity')
+            ->type('@tallstackui_form_number_input', 0)
+            ->click('@tallstackui_form_number_decrement')
+            ->click('@tallstackui_form_number_decrement')
+            ->click('@tallstackui_form_number_decrement')
+            ->click('@tallstackui_form_number_decrement')
+            ->click('@tallstackui_form_number_decrement')
+            ->waitForTextIn('@quantity', '-5');
+    }
+
+    /** @test */
     public function can_decrease_pressing(): void
     {
         /** @var Browser $browser */
@@ -211,39 +244,6 @@ class NumberTest extends BrowserTestCase
             ->click('@tallstackui_form_number_decrement')
             ->click('@sync')
             ->waitForTextIn('@decreased', '2');
-    }
-
-    /** @test */
-    public function can_decrease_beyond_zero()
-    {
-        Livewire::visit(new class extends Component
-        {
-            public ?int $quantity = 3;
-
-            public function render(): string
-            {
-                return <<<'HTML'
-                <div>
-                    <p dusk="quantity">{{ $quantity }}</p>
-                
-                    <x-number label="Quantity" wire:model.live="quantity" />
-                </div>
-                HTML;
-            }
-
-            public function sync(): void
-            {
-                //
-            }
-        })
-            ->assertSee('Quantity')
-            ->type('@tallstackui_form_number_input', 0)
-            ->click('@tallstackui_form_number_decrement')
-            ->click('@tallstackui_form_number_decrement')
-            ->click('@tallstackui_form_number_decrement')
-            ->click('@tallstackui_form_number_decrement')
-            ->click('@tallstackui_form_number_decrement')
-            ->waitForTextIn('@quantity', '-5');
     }
 
     /** @test */
