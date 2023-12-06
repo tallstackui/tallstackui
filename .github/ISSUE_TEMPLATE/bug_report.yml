@@ -30,6 +30,14 @@ body:
       description: If possible, please provide a sample repository that reproduces the issue.
       placeholder: https://github.com.br/your-username/your-repository
   - type: input
+    id: laravel-version
+    attributes:
+      label: Laravel Version
+      description: What version of Laravel are you running? Please be as specific as possible
+      placeholder: For example, 10.30.0
+    validations:
+      required: true
+  - type: input
     id: livewire-version
     attributes:
       label: Livewire Version
