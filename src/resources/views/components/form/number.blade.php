@@ -27,7 +27,7 @@
         <input id="{{ $id }}" type="number" inputmode="numeric" {{ $attributes->class([
             $personalize['input.class.base'],
             'appearance-number-none',
-        ]) }} x-ref="input">
+        ]) }} dusk="tallstackui_form_number_input" x-ref="input">
         <div @class($personalize['buttons.wrapper'])>
             <button x-on:click="decrement()"
                     x-on:mousedown="interval = setInterval(() => decrement(), delay * 100);"

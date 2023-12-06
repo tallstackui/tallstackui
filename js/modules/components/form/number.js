@@ -34,7 +34,15 @@ export default (value, min, max, delay, disabled) => ({
       this.atMin = true;
     }
 
-    this.$watch('value', (value) => this.value = parseInt(value));
+    this.$watch('value', (value) => {
+      if (isNaN(value) || value === 0 || !value) {
+        return;
+      }
+
+      this.value = parseInt(value);
+
+      this.$refs.input.value = value;
+    });
   },
   increment() {
     if (this.atMax) {
@@ -59,6 +67,12 @@ export default (value, min, max, delay, disabled) => ({
 
     if ((this.value-1) <= this.min) {
       this.atMin = true;
+    }
+
+    if (this.value <= 0) {
+      this.atMin = true;
+      this.$refs.input.value = 0;
+      return;
     }
 
     this.$refs.input.stepDown();
