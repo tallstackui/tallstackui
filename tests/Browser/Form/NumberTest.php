@@ -214,7 +214,7 @@ class NumberTest extends BrowserTestCase
     }
 
     /** @test */
-    public function cannot_decrease_beyond_zero()
+    public function can_decrease_beyond_zero()
     {
         Livewire::visit(new class extends Component
         {
@@ -243,7 +243,7 @@ class NumberTest extends BrowserTestCase
             ->click('@tallstackui_form_number_decrement')
             ->click('@tallstackui_form_number_decrement')
             ->click('@tallstackui_form_number_decrement')
-            ->waitForTextIn('@quantity', '0');
+            ->waitForTextIn('@quantity', '-5');
     }
 
     /** @test */
