@@ -19,7 +19,7 @@ abstract class AbstractInteraction
         //
     }
 
-    public function confirm(string|array $data, string $description = null, array $options = null): self
+    public function confirm(string|array $data, ?string $description = null, ?array $options = null): self
     {
         throw_if(
             (is_string($data) && ! $options) || (is_array($data) && ! isset($data['options'])),
@@ -49,9 +49,9 @@ abstract class AbstractInteraction
         return $this->send([...$default, ...$data]);
     }
 
-    abstract public function error(string $title, string $description = null): self;
+    abstract public function error(string $title, ?string $description = null): self;
 
-    abstract public function info(string $title, string $description = null): self;
+    abstract public function info(string $title, ?string $description = null): self;
 
     public function send(array $options): self
     {
@@ -62,11 +62,11 @@ abstract class AbstractInteraction
         return $this;
     }
 
-    abstract public function success(string $title, string $description = null): self;
+    abstract public function success(string $title, ?string $description = null): self;
 
-    abstract public function warning(string $title, string $description = null): self;
+    abstract public function warning(string $title, ?string $description = null): self;
 
-    protected function base(string $title, string $description = null, string $type = null, ...$params): self
+    protected function base(string $title, ?string $description = null, ?string $type = null, ...$params): self
     {
         return $this->send([
             'title' => $title,

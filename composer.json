@@ -31,10 +31,10 @@
     "require-dev": {
         "pestphp/pest": "^2.17",
         "laravel/pint": "^1.13",
-        "nunomaduro/larastan": "^2.0",
         "orchestra/testbench": "^8.12",
         "orchestra/testbench-dusk": "^8.12",
-        "pestphp/pest-plugin-type-coverage": "^2.2"
+        "pestphp/pest-plugin-type-coverage": "^2.2",
+        "larastan/larastan": "^2.7"
     },
     "scripts": {
         "test": "./vendor/bin/pest",

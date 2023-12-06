@@ -51,7 +51,7 @@ class PersonalizationResources implements PersonalizableResources
         return $this;
     }
 
-    public function block(string|array $name, string|Closure|Personalizable $code = null): self
+    public function block(string|array $name, string|Closure|Personalizable|null $code = null): self
     {
         // If the $code was not set, then we
         // are interacting with the helpers.
@@ -95,7 +95,7 @@ class PersonalizationResources implements PersonalizableResources
         return $this;
     }
 
-    public function replace(string|array $from, string $to = null): self
+    public function replace(string|array $from, ?string $to = null): self
     {
         $this->interactions->put('replace', is_array($from) ? $from : [$from => $to]);
 
@@ -114,7 +114,7 @@ class PersonalizationResources implements PersonalizableResources
         return array_keys($this->personalization());
     }
 
-    private function compile(string $block, string|Closure|Personalizable $code = null): void
+    private function compile(string $block, string|Closure|Personalizable|null $code = null): void
     {
         $view = $this->personalization(true)->render()->name(); // @phpstan-ignore-line
 
@@ -141,7 +141,7 @@ class PersonalizationResources implements PersonalizableResources
         return $class->personalization();
     }
 
-    private function set(string $block, string $content = null): void
+    private function set(string $block, ?string $content = null): void
     {
         foreach ($this->interactions->get('replace', []) as $old => $new) {
             $this->originals->put($block, str_replace($old, $new, $this->originals->get($block)));
