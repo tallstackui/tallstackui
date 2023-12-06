@@ -1,6 +1,6 @@
 import {warning} from '../../helpers';
 
-export default (value, min, max, delay, disabled) => ({
+export default (value, min = null, max = null, delay, disabled) => ({
   value: value,
   min: min,
   max: max,
@@ -10,28 +10,17 @@ export default (value, min, max, delay, disabled) => ({
   delay: delay,
   disabled: disabled,
   init() {
-    this.value = parseInt(this.value ?? 0);
-    this.min = parseInt(this.min);
-    this.max = parseInt(this.max);
-
-    if (this.min > this.max || this.value > this.max) {
+    this.value = this.value ?? 0;
+    if ((this.max !== null && this.max !== null) && (this.min > this.max || this.value > this.max)) {
       warning('The min value of the number input must be less than the max value.');
 
       return;
     }
 
-    if (this.max < this.min || this.value < this.min) {
+    if ((this.max !== null && this.max !== null) && (this.max < this.min || this.value < this.min)) {
       warning('The max value of the number input must be greater than the min value.');
 
       return;
-    }
-
-    if (this.value >= this.max) {
-      this.atMax = true;
-    } else if (this.value <= this.min) {
-      this.atMin = true;
-    } else if (this.value === 0) {
-      this.atMin = true;
     }
 
     this.$watch('value', (value) => {
@@ -39,58 +28,45 @@ export default (value, min, max, delay, disabled) => ({
         return;
       }
 
-      this.value = parseInt(value);
-
+      this.value = value;
       this.$refs.input.value = value;
     });
   },
   increment() {
-    if (this.atMax) {
-      return;
+    const inputValue = +this.$refs.input.value;
+    if (!isNaN(inputValue) && (this.max === null || inputValue < this.max)) {
+      this.$refs.input.stepUp();
+      this.update();
     }
-
-    if ((this.value+1) >= this.max) {
-      this.atMax = true;
-    }
-
-    this.$refs.input.stepUp();
-
-    this.atMin = false;
-    this.value = parseInt(this.$refs.input.value);
-
-    this.$refs.input.dispatchEvent(new Event('input'));
   },
   decrement() {
-    if (this.atMin) {
-      return;
+    const inputValue = +this.$refs.input.value;
+    if (!isNaN(inputValue) && (this.min === null || inputValue > this.min)) {
+      this.$refs.input.stepDown();
+      this.update();
+    }
+  },
+  update() {
+    const inputValue = +this.$refs.input.value;
+    this.value = inputValue;
+
+    if (this.min !== null) {
+      this.$refs.minus.disabled = inputValue === this.min;
     }
 
-    if ((this.value-1) <= this.min) {
-      this.atMin = true;
+    if (this.max !== null) {
+      this.$refs.plus.disabled = inputValue === this.max;
     }
-
-    if (this.value <= 0) {
-      this.atMin = true;
-      this.$refs.input.value = 0;
-      return;
-    }
-
-    this.$refs.input.stepDown();
-
-    this.atMax = false;
-    this.value = parseInt(this.$refs.input.value);
-
-    this.$refs.input.dispatchEvent(new Event('input'));
   },
   validate() {
     const current = this.$refs.input.value;
 
-    if (current < this.min) {
-      this.$refs.input.value = null;
+    if (this.min !== null && current < this.min) {
+      this.$refs.input.value, this.value = null;
     }
 
-    if (current > this.max) {
-      this.$refs.input.value = null;
+    if (this.max !== null && current > this.max) {
+      this.$refs.input.value, this.value = null;
     }
   },
 });
