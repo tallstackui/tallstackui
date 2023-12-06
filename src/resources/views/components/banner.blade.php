@@ -56,12 +56,7 @@
                 <div x-show="type === 'warning'">
                     <x-icon name="exclamation-circle" outline @class([$personalize['icon']]) />
                 </div>
-                <span x-bind:class="{
-                    'text-green-50' : type === 'success',
-                    'text-red-50' : type === 'error',
-                    'text-yellow-50' : type === 'warning',
-                    'text-blue-50' : type === 'info'
-                }" x-text="text"></span>
+                <span class="text-white" x-text="text"></span>
             </div>
         @else
             <span @class([$personalize['text'], $colors['text'] ?? $color['text']])>
