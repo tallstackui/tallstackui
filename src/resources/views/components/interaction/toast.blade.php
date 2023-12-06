@@ -54,7 +54,7 @@
                         <p @class($personalize['content.text']) x-bind:class="{ 'font-medium' : !toast.confirm, 'font-semibold' : toast.confirm }"
                            x-text="toast.title"></p>
                         <p @class($personalize['content.description'])
-                           x-text="toast.description.substring(0, 30) + '...'"
+                           x-text="toast.description ? toast.description.substring(0, 30) + '...' : ''"
                            x-show="toast.expandable"></p>
                         <p @class($personalize['content.description'])
                            x-text="toast.description"
