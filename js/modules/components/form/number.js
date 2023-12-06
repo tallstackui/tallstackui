@@ -4,8 +4,6 @@ export default (value, min = null, max = null, delay, disabled) => ({
   value: value,
   min: min,
   max: max,
-  atMax: false,
-  atMin: false,
   interval: null,
   delay: delay,
   disabled: disabled,
