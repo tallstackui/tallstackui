@@ -26,12 +26,12 @@ class Banner extends AbstractInteraction
         return $this;
     }
 
-    public function error(string $title, string $description = null): AbstractInteraction
+    public function error(string $title, ?string $description = null): AbstractInteraction
     {
         return $this->base($title, $description, 'error', ...$this->params());
     }
 
-    public function info(string $title, string $description = null): AbstractInteraction
+    public function info(string $title, ?string $description = null): AbstractInteraction
     {
         return $this->base($title, $description, 'info', ...$this->params());
     }
@@ -43,12 +43,12 @@ class Banner extends AbstractInteraction
         return $this;
     }
 
-    public function success(string $title, string $description = null): AbstractInteraction
+    public function success(string $title, ?string $description = null): AbstractInteraction
     {
         return $this->base($title, $description, 'success', ...$this->params());
     }
 
-    public function warning(string $title, string $description = null): AbstractInteraction
+    public function warning(string $title, ?string $description = null): AbstractInteraction
     {
         return $this->base($title, $description, 'warning', ...$this->params());
     }

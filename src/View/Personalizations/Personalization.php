@@ -69,12 +69,12 @@ class Personalization
         return app($this->component(Banner::class));
     }
 
-    public function block(string|array $name, string|Closure|Personalizable $code = null): PersonalizationResources
+    public function block(string|array $name, string|Closure|Personalizable|null $code = null): PersonalizationResources
     {
         return $this->instance()->block($name, $code);
     }
 
-    public function button(string $component = null): PersonalizationResources
+    public function button(?string $component = null): PersonalizationResources
     {
         $component ??= 'button';
 
@@ -97,7 +97,7 @@ class Personalization
         return app($this->component(Dialog::class));
     }
 
-    public function dropdown(string $component = null): PersonalizationResources
+    public function dropdown(?string $component = null): PersonalizationResources
     {
         $component ??= 'dropdown';
 
@@ -115,7 +115,7 @@ class Personalization
         return app($this->component(Errors::class));
     }
 
-    public function form(string $component = null): PersonalizationResources
+    public function form(?string $component = null): PersonalizationResources
     {
         $component ??= 'input';
 
@@ -167,7 +167,7 @@ class Personalization
         return app($this->component(Modal::class));
     }
 
-    public function select(string $component = null): PersonalizationResources
+    public function select(?string $component = null): PersonalizationResources
     {
         $component ??= 'native';
 
@@ -185,7 +185,7 @@ class Personalization
         return app($this->component(Slide::class));
     }
 
-    public function tab(string $component = null): PersonalizationResources
+    public function tab(?string $component = null): PersonalizationResources
     {
         $component ??= 'tabs';
 
@@ -208,7 +208,7 @@ class Personalization
         return app($this->component(Tooltip::class));
     }
 
-    public function wrapper(string $component = null): PersonalizationResources
+    public function wrapper(?string $component = null): PersonalizationResources
     {
         $component ??= 'input';
 

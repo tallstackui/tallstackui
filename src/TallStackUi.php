@@ -11,7 +11,7 @@ class TallStackUi
         return new TallStackUiDirectives();
     }
 
-    public function personalize(string $component = null): Personalization
+    public function personalize(?string $component = null): Personalization
     {
         return new Personalization($component);
     }

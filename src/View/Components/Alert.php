@@ -18,11 +18,12 @@ class Alert extends Component implements Personalization
         public ?string $title = null,
         public ?string $text = null,
         public ?string $icon = null,
-        public string $color = 'primary',
-        public bool $close = false,
-        public bool $light = false,
-        public bool $outline = false,
-        public string $style = 'solid',
+        public ?string $color = 'primary',
+        public ?bool $close = false,
+        public ?bool $light = false,
+        public ?bool $outline = false,
+        public ?string $style = 'solid',
+        public ?string $footer = null,
     ) {
         $this->style = $this->outline ? 'outline' : ($this->light ? 'light' : 'solid');
 
