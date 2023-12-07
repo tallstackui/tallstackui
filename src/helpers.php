@@ -39,3 +39,12 @@ if (! function_exists('tallstackui_components_soft_personalized')) {
             ->toArray();
     }
 }
+
+if (! function_exists('tallstackui_load_vite_manitefest')) {
+    function tallstackui_load_vite_manitefest(string $file, string $index = 'file'): string
+    {
+        $content = json_decode(file_get_contents(__DIR__.'/../dist/.vite/manifest.json'), true);
+
+        return $content[$file][$index];
+    }
+}
