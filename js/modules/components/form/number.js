@@ -9,20 +9,20 @@ export default (value, min, max, delay, disabled) => ({
   disabled: disabled,
   init() {
     if (this.limiters && this.defined) {
-      if (this.min > this.max || this.value > this.max) {
+      if (this.max && this.min && (this.min > this.max || this.value > this.max)) {
         warning('The min value of the number input must be less than the max value.');
 
         return;
       }
 
-      if (this.max < this.min || this.value < this.min) {
+      if (this.min && this.max && (this.max < this.min || this.value < this.min)) {
         warning('The max value of the number input must be greater than the min value.');
 
         return;
       }
 
-      this.disablePlus = this.value >= this.max;
-      this.disableMinus = this.value <= this.min;
+      this.disablePlus = this.max && (this.value >= this.max);
+      this.disableMinus = this.min && (this.value <= this.min);
     }
 
     this.$watch('value', (value) => {
@@ -39,7 +39,7 @@ export default (value, min, max, delay, disabled) => ({
         return;
       }
 
-      this.disablePlus = this.defined && (this.value >= this.max);
+      this.disablePlus = this.defined && this.max && (this.value >= this.max);
       this.value ||= this.max;
       this.$refs.input.value ||= this.max;
     }
@@ -54,7 +54,7 @@ export default (value, min, max, delay, disabled) => ({
         return;
       }
 
-      this.disableMinus = this.defined && (this.value <= this.max);
+      this.disableMinus = this.defined && this.min && (this.value <= this.min);
       this.value ||= this.min;
       this.$refs.input.value ||= this.min;
     }
@@ -70,13 +70,13 @@ export default (value, min, max, delay, disabled) => ({
       return;
     }
 
-    this.disableMinus = this.value && this.value <= this.min;
-    this.disablePlus = this.value && this.value >= this.max;
+    this.disableMinus = this.value && this.min && (this.value <= this.min);
+    this.disablePlus = this.value && this.max && (this.value >= this.max);
   },
   validate() {
-    const value = this.$refs.input.value;
+    const value = parseInt(this.$refs.input.value);
 
-    if (!this.limiters || (value > this.min && value < this.max)) {
+    if (!this.limiters || (value >= parseInt(this.min) || value <= parseInt(this.max))) {
       return;
     }
 
@@ -89,10 +89,10 @@ export default (value, min, max, delay, disabled) => ({
     return Boolean(this.value);
   },
   get atMinus() {
-    return this.value && this.value <= this.min;
+    return this.value && this.min && (this.value <= this.min);
   },
   get atPlus() {
-    return this.value && this.value >= this.max;
+    return this.value && this.max && (this.value >= this.max);
   },
   set disableMinus(disabled) {
     this.$refs.minus.disabled = disabled;
@@ -101,6 +101,6 @@ export default (value, min, max, delay, disabled) => ({
     this.$refs.plus.disabled = disabled;
   },
   get limiters() {
-    return this.min !== null && this.max !== null;
+    return this.min !== null || this.max !== null;
   },
 });
