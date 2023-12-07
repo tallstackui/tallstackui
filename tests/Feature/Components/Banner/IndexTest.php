@@ -60,7 +60,7 @@ it('can render date until as string', function () {
     $date = now()->addDay()->format('Y-m-d');
 
     $component = <<<HTML
-    <x-banner text="Foo" :until="$date" />
+    <x-banner text="Foo" until="$date" />
     HTML;
 
     $this->blade($component)
