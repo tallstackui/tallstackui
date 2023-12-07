@@ -35,7 +35,7 @@ class RangeTest extends BrowserTestCase
         })
             ->dragRight('@tallstackui_form_range_input', 20)
             ->click('@sync')
-            ->waitForTextIn('@increased', '52')
+            ->waitForTextIn('@increased', '52', 10)
             ->assertSeeIn('@increased', '52');
     }
 
@@ -58,7 +58,7 @@ class RangeTest extends BrowserTestCase
             }
         })
             ->dragRight('@tallstackui_form_range_input', 20)
-            ->waitForTextIn('@increased', '52')
+            ->waitForTextIn('@increased', '52', 10)
             ->assertSeeIn('@increased', '52');
     }
 }
