@@ -76,7 +76,7 @@
                                 <x-icon name="x-mark" @class($personalize['buttons.close.size']) />
                             </button>
                         </div>
-                        <div x-show="toast.expandable" @class($personalize['buttons.expand.wrapper'])>
+                        <div x-show="toast.expandable && toast.description" @class($personalize['buttons.expand.wrapper'])>
                             <button dusk="tallstackui_toast_expandable"
                                     x-on:click="toast.expandable = !toast.expandable"
                                     type="button"
