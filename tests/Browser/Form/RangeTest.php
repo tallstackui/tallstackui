@@ -2,7 +2,6 @@
 
 namespace Tests\Browser\Form;
 
-use Laravel\Dusk\Browser;
 use Livewire\Component;
 use Livewire\Livewire;
 use Tests\Browser\BrowserTestCase;
@@ -12,8 +11,7 @@ class RangeTest extends BrowserTestCase
     /** @test */
     public function can_increase(): void
     {
-        /** @var Browser $browser */
-        $browser = Livewire::visit(new class extends Component
+        Livewire::visit(new class extends Component
         {
             public int $quantity = 0;
 
@@ -34,9 +32,8 @@ class RangeTest extends BrowserTestCase
             {
                 //
             }
-        });
-
-        $browser->dragRight('@tallstackui_form_range_input', 20)
+        })
+            ->dragRight('@tallstackui_form_range_input', 20)
             ->click('@sync')
             ->waitForTextIn('@increased', '52')
             ->assertSeeIn('@increased', '52');
@@ -45,8 +42,7 @@ class RangeTest extends BrowserTestCase
     /** @test */
     public function can_increase_with_live_entangle(): void
     {
-        /** @var Browser $browser */
-        $browser = Livewire::visit(new class extends Component
+        Livewire::visit(new class extends Component
         {
             public int $quantity = 0;
 
@@ -60,9 +56,8 @@ class RangeTest extends BrowserTestCase
                 </div>
                 HTML;
             }
-        });
-
-        $browser->dragRight('@tallstackui_form_range_input', 20)
+        })
+            ->dragRight('@tallstackui_form_range_input', 20)
             ->waitForTextIn('@increased', '52')
             ->assertSeeIn('@increased', '52');
     }
