@@ -77,11 +77,11 @@ export default (value, min, max, delay) => ({
   validate() {
     const value = this.$refs.input.value;
 
-    if (this.min && value < this.min) {
+    if (this.min !== null && value < this.min) {
       this.$refs.input.value, this.value = null;
     }
 
-    if (this.max && value > this.max) {
+    if (this.max !== null && value > this.max) {
       this.$refs.input.value, this.value = null;
     }
 
