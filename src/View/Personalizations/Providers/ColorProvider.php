@@ -14,6 +14,7 @@ use TallStackUi\View\Components\Button\Circle;
 use TallStackUi\View\Components\Errors;
 use TallStackUi\View\Components\Form\Checkbox;
 use TallStackUi\View\Components\Form\Radio;
+use TallStackUi\View\Components\Form\Range;
 use TallStackUi\View\Components\Form\Toggle;
 use TallStackUi\View\Components\Tooltip;
 use TallStackUi\View\Personalizations\Support\Colors\AlertColors;
@@ -23,6 +24,7 @@ use TallStackUi\View\Personalizations\Support\Colors\BannerColors;
 use TallStackUi\View\Personalizations\Support\Colors\ButtonColors;
 use TallStackUi\View\Personalizations\Support\Colors\ErrorsColors;
 use TallStackUi\View\Personalizations\Support\Colors\RadioColors;
+use TallStackUi\View\Personalizations\Support\Colors\RangeColors;
 use TallStackUi\View\Personalizations\Support\Colors\ToggleColors;
 use TallStackUi\View\Personalizations\Support\Colors\TooltipColors;
 
@@ -44,6 +46,7 @@ class ColorProvider
             $component instanceof Errors => ErrorsColors::class,
             $component instanceof Toggle => ToggleColors::class,
             $component instanceof Tooltip => TooltipColors::class,
+            $component instanceof Range => RangeColors::class,
             $component instanceof Button || $component instanceof Circle => ButtonColors::class,
             $component instanceof Radio || $component instanceof Checkbox => RadioColors::class,
             default => throw new Exception("No colors available for the component: [$component]"),

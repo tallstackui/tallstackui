@@ -23,6 +23,7 @@ use TallStackUi\View\Components\Form\Label;
 use TallStackUi\View\Components\Form\Number;
 use TallStackUi\View\Components\Form\Password;
 use TallStackUi\View\Components\Form\Radio;
+use TallStackUi\View\Components\Form\Range;
 use TallStackUi\View\Components\Form\Textarea;
 use TallStackUi\View\Components\Form\Toggle;
 use TallStackUi\View\Components\Interaction\Dialog;
@@ -126,6 +127,7 @@ class Personalization
             'input' => Input::class,
             'label' => Label::class,
             'number' => Number::class,
+            'range' => Range::class,
             'password' => Password::class,
             'radio' => Radio::class,
             'textarea' => Textarea::class,

@@ -1,4 +1,4 @@
-@php($personalize = tallstackui_personalization('wrapper.input', $personalization()))
+@php($personalize = tallstackui_personalization('wrapper.input', ['wrapper' => $attributes->get('wrapper') ?? $personalization()]))
 
 <div>
     @if ($label)

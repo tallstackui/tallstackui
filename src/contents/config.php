@@ -84,6 +84,7 @@ return [
         'number' => Components\Form\Number::class,
         'password' => Components\Form\Password::class,
         'radio' => Components\Form\Radio::class,
+        'range' => Components\Form\Range::class,
         'select.native' => Components\Select\Native::class,
         'select.styled' => Components\Select\Styled::class,
         'slide' => Components\Slide::class,
