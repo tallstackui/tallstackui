@@ -18,8 +18,8 @@ class Number extends Component implements Personalization
         public ?string $id = null,
         public ?string $label = null,
         public ?string $hint = null,
-        public ?int $min = 0,
-        public ?int $max = 10,
+        public ?int $min = null,
+        public ?int $max = null,
         public ?int $delay = 2,
         public ?bool $chevron = false,
     ) {
