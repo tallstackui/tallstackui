@@ -18,7 +18,6 @@ class Input extends Component implements Personalization
         public bool $error = false,
         public bool $validate = false,
         public bool $password = false,
-        public array $personalizations = [],
     ) {
         //
     }

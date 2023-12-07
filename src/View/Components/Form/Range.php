@@ -21,11 +21,9 @@ class Range extends Component implements Personalization
         public ?bool $lg = null,
         public ?string $size = null,
         public ?string $color = 'primary',
-        public array $customWrapper = [],
     ) {
         $this->id ??= uniqid();
         $this->size = $this->sm ? 'sm' : ($this->lg ? 'lg' : 'md');
-        $this->customWrapper = ['wrapper' => 'relative mt-1 rounded-md'];
 
         $this->colors();
     }
@@ -34,12 +32,14 @@ class Range extends Component implements Personalization
     {
         return Arr::dot([
             'input' => [
-                'base' => 'w-full rounded-lg appearance-none bg-gray-200 dark:bg-dark-800 cursor-pointer',
+                'wrapper' => 'relative mt-1 rounded-md',
+                'base' => 'dark:bg-dark-800 w-full cursor-pointer appearance-none rounded-lg bg-gray-200',
                 'sizes' => [
-                    'sm' => 'h-1 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:rounded-full',
-                    'md' => 'h-2 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:rounded-full',
-                    'lg' => 'h-3 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-6 [&::-webkit-slider-thumb]:w-6 [&::-webkit-slider-thumb]:rounded-full',
+                    'sm' => 'h-1 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full',
+                    'md' => 'h-2 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full',
+                    'lg' => 'h-3 [&::-webkit-slider-thumb]:h-6 [&::-webkit-slider-thumb]:w-6 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full',
                 ],
+                'disabled' => 'disabled:opacity-50 disabled:cursor-not-allowed',
             ],
         ]);
     }
