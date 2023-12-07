@@ -1,5 +1,4 @@
 import tippy from 'tippy.js';
-import 'tippy.js/dist/tippy.css';
 
 /** @param Alpine */
 export default function(Alpine) {

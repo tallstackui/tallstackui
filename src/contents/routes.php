@@ -7,6 +7,6 @@ Route::name('tallstackui.')
     ->prefix('/tallstackui')
     ->controller(TallStackUiAssetsController::class)
     ->group(function () {
-        Route::get('/script', 'script')->name('script');
-        Route::get('/style', 'style')->name('style');
+        Route::get('/script/{file?}', 'script')->name('script');
+        Route::get('/style/{file?}', 'style')->name('style');
     });

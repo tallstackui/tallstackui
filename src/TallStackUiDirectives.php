@@ -6,29 +6,26 @@ class TallStackUiDirectives
 {
     public function script(bool $absolute = true): string
     {
-        $route = route('tallstackui.script', absolute: $absolute);
-        $this->manifest('tallstackui.js', $route);
+        $route = route('tallstackui.script', [
+            'file' => $this->vite('js/tallstackui.js'),
+        ], absolute: $absolute);
 
         return "<script src=\"$route\" defer></script>";
     }
 
     public function style(bool $absolute = true): string
     {
-        $route = route('tallstackui.style', absolute: $absolute);
-        $this->manifest('tallstackui.css', $route);
+        $route = route('tallstackui.style', [
+            'file' => $this->vite('src/resources/css/tallstackui.css'),
+        ], absolute: $absolute);
 
         return "<link href=\"{$route}\" rel=\"stylesheet\" type=\"text/css\">";
     }
 
-    private function manifest(string $file, string &$route): void
+    private function vite(string $file): string
     {
-        if (! file_exists($path = __DIR__.'/../dist/mix-manifest.json')) {
-            return;
-        }
+        $file = tallstackui_load_vite_manitefest($file);
 
-        $manifest = json_decode(file_get_contents($path), true);
-        $version = last(explode('=', $manifest["/{$file}"]));
-
-        $route .= "?id={$version}";
+        return $file;
     }
 }
