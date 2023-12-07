@@ -21,11 +21,6 @@ class Range extends Component implements Personalization
         public ?bool $lg = null,
         public ?string $size = null,
         public ?string $color = 'primary',
-        public ?string $label = null,
-        public ?string $hint = null,
-        public ?int $min = 0,
-        public ?int $max = 10,
-        public ?int $delay = 2,
         public array $customWrapper = [],
     ) {
         $this->id ??= uniqid();
