@@ -37,31 +37,29 @@ export default (value, min, max, delay) => ({
   increment() {
     if (this.limiters) {
       if (this.defined && this.atPlus) {
+        this.disablePlus = true;
         return;
       }
 
-      this.disablePlus = this.defined && this.atPlus;
       this.value ||= this.min;
       this.$refs.input.value ||= this.min;
     }
 
     this.$refs.input.stepUp();
-    this.$refs.input.dispatchEvent(new Event('input'));
     this.update();
   },
   decrement() {
     if (this.limiters) {
       if (this.defined && this.atMinus) {
+        this.disableMinus = true;
         return;
       }
 
-      this.disableMinus = this.defined && this.atMinus;
       this.value ||= this.min;
       this.$refs.input.value ||= this.min;
     }
 
     this.$refs.input.stepDown();
-    this.$refs.input.dispatchEvent(new Event('input'));
     this.update();
   },
   update() {

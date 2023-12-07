@@ -23,7 +23,7 @@
             @js($max),
             @js($delay),
             @js($attributes->get('disabled', false) || $attributes->get('readonly', false))
-        )">
+        )" wire:ignore>
         <input id="{{ $id }}"
                type="number"
                inputmode="numeric"
