@@ -46,13 +46,13 @@ class Number extends Component implements Personalization
             'buttons' => [
                 'wrapper' => 'flex items-center border-gray-200 -gap-y-px divide-x divide-gray-200 dark:divide-gray-700 dark:border-gray-700',
                 'left' => [
-                    'base' => 'inline-flex px-3 items-center justify-center',
+                    'base' => 'inline-flex px-3 items-center justify-center disabled:opacity-30',
                     'size' => 'w-4 h-4',
                     'color' => 'text-gray-800 dark:text-white',
                     'error' => 'text-red-500',
                 ],
                 'right' => [
-                    'base' => 'inline-flex px-3 items-center justify-center',
+                    'base' => 'inline-flex px-3 items-center justify-center disabled:opacity-30',
                     'size' => 'w-4 h-4',
                     'color' => 'text-gray-800 dark:text-white',
                     'error' => 'text-red-500',
