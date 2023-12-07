@@ -89,13 +89,13 @@ export default (value, min, max, delay) => ({
     this.disableMinus = this.atMinus;
   },
   get defined() {
-    return Boolean(this.value);
+    return this.value === 0 || Boolean(this.value);
   },
   get atMinus() {
-    return this.min && (this.value <= this.min);
+    return this.min !== null && (this.value <= this.min);
   },
   get atPlus() {
-    return this.max && (this.value >= this.max);
+    return this.max !== null && (this.value >= this.max);
   },
   set disableMinus(disabled) {
     this.$refs.minus.disabled = disabled;
