@@ -14,10 +14,9 @@
         $personalize['input.color.disabled'] => $disabled || $readonly,
         $personalize['error'] => $error,
     ])>
-        <textarea @if ($resizeAuto) x-data="tallstackui_formTextArea()" @endif {{ $attributes->class([
+        <textarea @if ($resizeAuto) x-data="tallstackui_formTextArea()" x-on:input="resize()" @endif {{ $attributes->class([
             'resize-none' => !$resize && !$resizeAuto,
             $personalize['input.base'],
-        ]) }}
-         id="{{ $id }}" rows="{{ $rows }}" @if ($resizeAuto) x-on:input="resize()" @endif>{{ $slot }}</textarea>
+        ])->merge(['rows' => 3]) }} id="{{ $id }}">{{ $slot }}</textarea>
     </div>
 </x-wrapper.input>
