@@ -18,8 +18,8 @@ class Number extends Component implements Personalization
         public ?string $id = null,
         public ?string $label = null,
         public ?string $hint = null,
-        public ?int $min = 0,
-        public ?int $max = 10,
+        public ?int $min = null,
+        public ?int $max = null,
         public ?int $delay = 2,
         public ?bool $chevron = false,
     ) {
@@ -46,13 +46,13 @@ class Number extends Component implements Personalization
             'buttons' => [
                 'wrapper' => 'flex items-center border-gray-200 -gap-y-px divide-x divide-gray-200 dark:divide-gray-700 dark:border-gray-700',
                 'left' => [
-                    'base' => 'inline-flex px-3 items-center justify-center',
+                    'base' => 'inline-flex px-3 items-center justify-center disabled:opacity-30',
                     'size' => 'w-4 h-4',
                     'color' => 'text-gray-800 dark:text-white',
                     'error' => 'text-red-500',
                 ],
                 'right' => [
-                    'base' => 'inline-flex px-3 items-center justify-center',
+                    'base' => 'inline-flex px-3 items-center justify-center disabled:opacity-30',
                     'size' => 'w-4 h-4',
                     'color' => 'text-gray-800 dark:text-white',
                     'error' => 'text-red-500',
