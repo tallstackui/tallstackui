@@ -8,7 +8,7 @@ import modal from './modules/components/modal/modal';
 import loading from './modules/components/loading/loading';
 import slide from './modules/components/slide/slide';
 import tab from './modules/components/tab/tab';
-import textArea from './modules/components/form/text-area';
+import textArea from './modules/components/form/textarea';
 import number from './modules/components/form/number';
 import darkTheme from './modules/helpers/dark-theme';
 
