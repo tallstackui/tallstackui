@@ -15,7 +15,9 @@ class Range extends Component implements Personalization
     use InteractWithProviders;
 
     public function __construct(
+        public ?string $label = null,
         public ?string $id = null,
+        public ?string $hint = null,
         public ?bool $sm = null,
         public ?bool $md = null,
         public ?bool $lg = null,

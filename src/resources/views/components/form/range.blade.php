@@ -1,13 +1,12 @@
 @php
-    $computed = $attributes->whereStartsWith('wire:model');
-    $directive = array_key_first($computed->getAttributes());
-    $property = $computed[$directive];
+    $computed = $attributes->whereStartsWith('wire:model')->first();
+    $error = $computed && $errors->has($computed);
     $personalize = tallstackui_personalization('form.range', $personalization());
     $disabled = $attributes->get('disabled');
     $readonly = $attributes->get('readonly');
 @endphp
 
-<x-wrapper.input :wrapper="$personalize['input.wrapper']" :$id :computed="$property">
+<x-wrapper.input :$id :$computed :$error :$label :$hint validate :wrapper="$personalize['input.wrapper']">
     <input id="{{ $id }}"
            type="range"
            {{ $attributes->class([
