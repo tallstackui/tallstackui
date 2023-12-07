@@ -1,0 +1,12 @@
+{
+  "js/tallstackui.js": {
+    "file": "tallstackui-WxK3rbZV.js",
+    "isEntry": true,
+    "src": "js/tallstackui.js"
+  },
+  "src/resources/css/tallstackui.css": {
+    "file": "tallstackui-5DOS9LYp.css",
+    "isEntry": true,
+    "src": "src/resources/css/tallstackui.css"
+  }
+}

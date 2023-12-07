@@ -42,6 +42,42 @@ class NumberTest extends BrowserTestCase
     }
 
     /** @test */
+    public function can_decrease_more_than_zero()
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?int $quantity = 0;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="quantity">{{ $quantity }}</p>
+                
+                    <x-number label="Quantity" wire:model.live="quantity" />
+                </div>
+                HTML;
+            }
+
+            public function sync(): void
+            {
+                //
+            }
+        })
+            ->assertSee('Quantity')
+            ->assertSeeIn('@quantity', '0')
+            ->click('@tallstackui_form_number_decrement')
+            ->waitForTextIn('@quantity', '-1')
+            ->assertSeeIn('@quantity', '-1')
+            ->click('@tallstackui_form_number_decrement')
+            ->waitForTextIn('@quantity', '-2')
+            ->assertSeeIn('@quantity', '-2')
+            ->click('@tallstackui_form_number_decrement')
+            ->waitForTextIn('@quantity', '-3')
+            ->assertSeeIn('@quantity', '-3');
+    }
+
+    /** @test */
     public function can_decrease_pressing(): void
     {
         /** @var Browser $browser */
@@ -90,9 +126,14 @@ class NumberTest extends BrowserTestCase
             }
         })
             ->click('@tallstackui_form_number_decrement')
+            ->waitForTextIn('@decreased', '2')
+            ->assertSeeIn('@decreased', '2')
             ->click('@tallstackui_form_number_decrement')
+            ->waitForTextIn('@decreased', '1')
+            ->assertSeeIn('@decreased', '1')
             ->click('@tallstackui_form_number_decrement')
-            ->waitForTextIn('@decreased', '0');
+            ->waitForTextIn('@decreased', '0')
+            ->assertSeeIn('@decreased', '0');
     }
 
     /** @test */
@@ -141,7 +182,7 @@ class NumberTest extends BrowserTestCase
                 <div>
                     <p dusk="increased">{{ $quantity }}</p>
                     
-                    <x-number label="Quantity" wire:model.live="quantity" delay="1" />
+                    <x-number label="Quantity" wire:model.live="quantity" delay="1" max="10" />
                 </div>
                 HTML;
             }
@@ -176,9 +217,14 @@ class NumberTest extends BrowserTestCase
             }
         })
             ->click('@tallstackui_form_number_increment')
+            ->waitForTextIn('@increased', '1')
+            ->assertSeeIn('@increased', '1')
             ->click('@tallstackui_form_number_increment')
+            ->waitForTextIn('@increased', '2')
+            ->assertSeeIn('@increased', '2')
             ->click('@tallstackui_form_number_increment')
-            ->waitForTextIn('@increased', '3');
+            ->waitForTextIn('@increased', '3')
+            ->assertSeeIn('@increased', '3');
     }
 
     /** @test */
@@ -226,7 +272,7 @@ class NumberTest extends BrowserTestCase
                 <div>
                     <p dusk="quantity">{{ $quantity }}</p>
                 
-                    <x-number label="Quantity" wire:model.live="quantity" />
+                    <x-number label="Quantity" wire:model.live="quantity" min="0" />
                 </div>
                 HTML;
             }
