@@ -82,6 +82,7 @@ return [
         'loading' => Components\Loading::class,
         'modal' => Components\Modal::class,
         'number' => Components\Form\Number::class,
+        'range' => Components\Form\Range::class,
         'password' => Components\Form\Password::class,
         'radio' => Components\Form\Radio::class,
         'select.native' => Components\Select\Native::class,
