@@ -67,7 +67,11 @@ class NumberTest extends BrowserTestCase
             ->assertSee('Quantity')
             ->assertSeeIn('@quantity', '0')
             ->click('@tallstackui_form_number_decrement')
+            ->waitForTextIn('@quantity', '-1')
+            ->assertSeeIn('@quantity', '-1')
             ->click('@tallstackui_form_number_decrement')
+            ->waitForTextIn('@quantity', '-2')
+            ->assertSeeIn('@quantity', '-2')
             ->click('@tallstackui_form_number_decrement')
             ->waitForTextIn('@quantity', '-3')
             ->assertSeeIn('@quantity', '-3');
@@ -122,9 +126,14 @@ class NumberTest extends BrowserTestCase
             }
         })
             ->click('@tallstackui_form_number_decrement')
+            ->waitForTextIn('@decreased', '2')
+            ->assertSeeIn('@decreased', '2')
             ->click('@tallstackui_form_number_decrement')
+            ->waitForTextIn('@decreased', '1')
+            ->assertSeeIn('@decreased', '1')
             ->click('@tallstackui_form_number_decrement')
-            ->waitForTextIn('@decreased', '0');
+            ->waitForTextIn('@decreased', '0')
+            ->assertSeeIn('@decreased', '0');
     }
 
     /** @test */
@@ -208,9 +217,14 @@ class NumberTest extends BrowserTestCase
             }
         })
             ->click('@tallstackui_form_number_increment')
+            ->waitForTextIn('@increased', '1')
+            ->assertSeeIn('@increased', '1')
             ->click('@tallstackui_form_number_increment')
+            ->waitForTextIn('@increased', '2')
+            ->assertSeeIn('@increased', '2')
             ->click('@tallstackui_form_number_increment')
-            ->waitForTextIn('@increased', '3');
+            ->waitForTextIn('@increased', '3')
+            ->assertSeeIn('@increased', '3');
     }
 
     /** @test */
