@@ -52,6 +52,17 @@ it('can render as lg', function () {
         ->assertSee('Foo bar');
 });
 
+it('can render with steps', function () {
+    $component = <<<'HTML'
+    <x-range label="Foo bar" hint="Bar baz" step="5" />
+    HTML;
+
+    $this->blade($component)
+        ->assertSee('<input', false)
+        ->assertSee('Bar baz')
+        ->assertSee('Foo bar');
+});
+
 it('can render with colors', function (string $colors) {
     $component = <<<HTML
     <x-range label="Foo bar" hint="Bar baz" color="$colors" />
