@@ -10,11 +10,13 @@ use TallStackUi\View\Components\Form\Traits\SetupRadioCheckboxToggle;
 use TallStackUi\View\Personalizations\Contracts\Personalization;
 use TallStackUi\View\Personalizations\SoftPersonalization;
 use TallStackUi\View\Personalizations\Traits\InteractWithProviders;
+use TallStackUi\View\Personalizations\Traits\InteractWithValidations;
 
 #[SoftPersonalization('form.toggle')]
 class Toggle extends Component implements Personalization
 {
     use InteractWithProviders;
+    use InteractWithValidations;
     use SetupRadioCheckboxToggle;
 
     public function __construct(
@@ -30,6 +32,7 @@ class Toggle extends Component implements Personalization
     ) {
         $this->setup();
         $this->colors();
+        $this->validate();
     }
 
     public function personalization(): array

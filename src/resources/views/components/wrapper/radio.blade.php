@@ -4,9 +4,9 @@
 @endphp
 
 <div>
-    <div @class($personalize['wrapper'])>
+    <div @class($personalize['wrapper.first'])>
         <label @if ($id) for="{{ $id }}" @endif @class($personalize['label.wrapper'])>
-            <div class="flex items-start">
+            <div @class($personalize['wrapper.second.'.$align])>
                 @if ($label && $position === 'left')
                 <span @class([$personalize['label.text'], $personalize['label.error'] => $error, 'mr-2'])>
                     {!! $label !!}

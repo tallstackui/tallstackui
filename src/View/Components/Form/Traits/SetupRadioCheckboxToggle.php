@@ -9,6 +9,5 @@ trait SetupRadioCheckboxToggle
         $this->id ??= uniqid();
 
         $this->size = $this->xs ? 'xs' : ($this->sm ? 'sm' : ($this->lg ? 'lg' : 'md'));
-        $this->position = $this->position === 'right' ? 'right' : 'left';
     }
 }
