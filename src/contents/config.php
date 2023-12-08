@@ -8,7 +8,7 @@ return [
     | Icon Style
     |--------------------------------------------------------------------------
     |
-    | Configure the default icon style. Alloweds: "solid", "outline"
+    | Configure the default icon style (Allowed: solid, outline)
     */
     'icon' => 'solid',
 
@@ -20,36 +20,79 @@ return [
     | General components settings.
     */
     'settings' => [
+        /*
+        |----------------------------------------------------------------------
+        | Dialog
+        |----------------------------------------------------------------------
+        | z-index: controls the default z-index.
+        | blur: enables the background blur effect by default.
+        | persistent: enables the dialog to not be closed by clicking outside by default.
+        */
         'dialog' => [
             'z-index' => 'z-50',
             'blur' => false,
-            'uncloseable' => false,
+            'persistent' => false,
         ],
+        /*
+        |----------------------------------------------------------------------
+        | Modal
+        |----------------------------------------------------------------------
+        |
+        | z-index: controls the default z-index.
+        | blur: enables the background blur effect by default.
+        | persistent: enables the modal to not be closed by clicking outside by default.
+        | size: controls the default modal size (Allowed: sm, md, lg, xl, 2xl, 3xl, 4xl, 5xl, 6xl, 7xl).
+        */
         'modal' => [
             'z-index' => 'z-50',
             'blur' => false,
             'persistent' => false,
-            /* Alloweds: sm, md, lg, xl, 2xl, 3xl, 4xl, 5xl, 6xl, 7xl */
             'size' => '2xl',
         ],
+        /*
+        |----------------------------------------------------------------------
+        | Loading
+        |----------------------------------------------------------------------
+        |
+        | blur: enables the background blur effect by default.
+        | opacity: enables the background opacity by default.
+        */
         'loading' => [
             'blur' => false,
             'opacity' => true,
         ],
+        /*
+        |----------------------------------------------------------------------
+        | Slide
+        |----------------------------------------------------------------------
+        |
+        | z-index: controls the default z-index.
+        | blur: enables the background blur effect by default.
+        | persistent: enables the slide to not be closed by clicking outside by default.
+        | size: controls the default modal size (Allowed: sm, md, lg, xl, 2xl, 3xl, 4xl, 5xl, 6xl, 7xl, full).
+        | position: controls the default slide position (Allowed: right, left).
+        */
         'slide' => [
             'z-index' => 'z-50',
             'blur' => false,
             'persistent' => false,
-            /* Alloweds: sm, md, lg, xl, 2xl, 3xl, 4xl, 5xl, 6xl, 7xl, full */
             'size' => 'lg',
-            /* Alloweds: right, left */
             'position' => 'right',
         ],
+        /*
+        |----------------------------------------------------------------------
+        | Toast
+        |----------------------------------------------------------------------
+        |
+        | z-index: controls the default z-index.
+        | progress: enables the progress bar.
+        | expandable: enables the expand effect by default.
+        | position: controls the default toast position (Allowed: top-right, top-left, bottom-right, bottom-left).
+        */
         'toast' => [
             'z-index' => 'z-50',
             'progress' => true,
             'expandable' => false,
-            /* Alloweds: top-right, top-left, bottom-right, bottom-left */
             'position' => 'top-right',
         ],
     ],
@@ -59,7 +102,7 @@ return [
     | Component List
     |--------------------------------------------------------------------------
     |
-    | List of all TallStackUi components.
+    | List of all TallStackUI components.
     */
     'components' => [
         'alert' => Components\Alert::class,

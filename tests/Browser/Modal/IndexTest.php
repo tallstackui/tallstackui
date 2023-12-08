@@ -175,7 +175,7 @@ class IndexTest extends BrowserTestCase
             ->waitForText('Foo bar')
             ->clickAtPoint(350, 350)
             ->clickAtXPath('/html/body/div[3]/div/div[2]/div')
-            ->pause(150)
+            ->waitForText('Foo bar')
             ->assertSee('Foo bar');
     }
 }
