@@ -6,6 +6,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
 use Illuminate\View\ComponentSlot;
+use TallStackUi\View\Components\Form\Traits\SetupRadioCheckboxToggle;
 use TallStackUi\View\Personalizations\Contracts\Personalization;
 use TallStackUi\View\Personalizations\SoftPersonalization;
 use TallStackUi\View\Personalizations\Traits\InteractWithProviders;
@@ -14,23 +15,14 @@ use TallStackUi\View\Personalizations\Traits\InteractWithProviders;
 class Checkbox extends Component implements Personalization
 {
     use InteractWithProviders;
+    use SetupRadioCheckboxToggle;
 
     public function __construct(
         public string|null|ComponentSlot $label = null,
-        public ?string $id = null,
-        public ?string $position = 'right',
         public ?string $color = 'primary',
-        public ?string $sm = null,
-        public ?string $md = null,
-        public ?string $lg = null,
-        public ?string $size = null,
         public bool $checked = false,
     ) {
-        $this->id ??= uniqid();
-
-        $this->size = $this->sm ? 'sm' : ($this->lg ? 'lg' : 'md');
-        $this->position = $this->position === 'right' ? 'right' : 'left';
-
+        $this->setup();
         $this->colors();
     }
 
@@ -40,6 +32,7 @@ class Checkbox extends Component implements Personalization
             'input' => [
                 'class' => 'form-checkbox border-secondary-200 rounded transition duration-100 ease-in-out',
                 'sizes' => [
+                    'xs' => 'h-3 w-3',
                     'sm' => 'h-4 w-4',
                     'md' => 'h-5 w-5',
                     'lg' => 'h-6 w-6',
