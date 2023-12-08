@@ -1,3 +1,4 @@
+import 'tippy.js/dist/tippy.css';
 import tippy from 'tippy.js';
 
 /** @param Alpine */

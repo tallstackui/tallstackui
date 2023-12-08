@@ -40,11 +40,11 @@ if (! function_exists('tallstackui_components_soft_personalized')) {
     }
 }
 
-if (! function_exists('tallstackui_load_vite_manitefest')) {
-    function tallstackui_load_vite_manitefest(string $file, string $index = 'file'): string
+if (! function_exists('tallstackui_vite_manifest')) {
+    function tallstackui_vite_manifest(string $file, ?string $index = null): string|array
     {
         $content = json_decode(file_get_contents(__DIR__.'/../dist/.vite/manifest.json'), true);
 
-        return $content[$file][$index];
+        return data_get($content[$file], $index);
     }
 }
