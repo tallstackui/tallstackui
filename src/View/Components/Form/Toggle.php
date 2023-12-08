@@ -49,7 +49,7 @@ class Toggle extends Component implements Personalization
                 ],
             ],
             'background' => [
-                'class' => 'bg-secondary-200 dark:bg-dark-700 block cursor-pointer rounded-full transition duration-100 ease-in-out group-focus:ring-2 group-focus:ring-offset-2 peer-focus:ring-2 peer-focus:ring-offset-2',
+                'class' => 'bg-secondary-200 dark:bg-dark-800 block cursor-pointer rounded-full transition duration-100 ease-in-out group-focus:ring-2 group-focus:ring-offset-2 peer-focus:ring-2 peer-focus:ring-offset-2',
                 'sizes' => [
                     'xs' => 'h-3 w-5',
                     'sm' => 'h-4 w-7',
