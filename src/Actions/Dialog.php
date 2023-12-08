@@ -2,27 +2,50 @@
 
 namespace TallStackUi\Actions;
 
+use TallStackUi\Actions\Traits\InteractWithConfirmation;
+
 class Dialog extends AbstractInteraction
 {
-    protected string $event = 'tallstackui:dialog';
+    use InteractWithConfirmation;
 
     public function error(string $title, ?string $description = null): AbstractInteraction
     {
-        return $this->base($title, $description, 'error');
+        return $this->send([
+            'title' => $title,
+            'description' => $description,
+            'type' => 'error',
+        ]);
     }
 
     public function info(string $title, ?string $description = null): AbstractInteraction
     {
-        return $this->base($title, $description, 'info');
+        return $this->send([
+            'title' => $title,
+            'description' => $description,
+            'type' => 'info',
+        ]);
     }
 
     public function success(string $title, ?string $description = null): AbstractInteraction
     {
-        return $this->base($title, $description, 'success');
+        return $this->send([
+            'title' => $title,
+            'description' => $description,
+            'type' => 'success',
+        ]);
     }
 
     public function warning(string $title, ?string $description = null): AbstractInteraction
     {
-        return $this->base($title, $description, 'warning');
+        return $this->send([
+            'title' => $title,
+            'description' => $description,
+            'type' => 'warning',
+        ]);
+    }
+
+    protected function event(): string
+    {
+        return 'dialog';
     }
 }

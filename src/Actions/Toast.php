@@ -2,18 +2,27 @@
 
 namespace TallStackUi\Actions;
 
+use TallStackUi\Actions\Traits\InteractWithConfirmation;
+
 class Toast extends AbstractInteraction
 {
-    protected string $event = 'tallstackui:toast';
+    use InteractWithConfirmation;
 
     protected ?bool $expand = null;
 
+    protected ?int $timeout = 3;
+
     public function error(string $title, ?string $description = null): AbstractInteraction
     {
-        return $this->base($title, $description, 'error');
+        return $this->send([
+            'title' => $title,
+            'description' => $description,
+            'type' => 'error',
+            'timeout' => $this->timeout,
+        ]);
     }
 
-    public function expandable(bool $expand = true): AbstractInteraction
+    public function expandable(bool $expand = true): self
     {
         $this->expand = $expand;
 
@@ -22,12 +31,22 @@ class Toast extends AbstractInteraction
 
     public function info(string $title, ?string $description = null): AbstractInteraction
     {
-        return $this->base($title, $description, 'info');
+        return $this->send([
+            'title' => $title,
+            'description' => $description,
+            'type' => 'info',
+            'timeout' => $this->timeout,
+        ]);
     }
 
     public function success(string $title, ?string $description = null): AbstractInteraction
     {
-        return $this->base($title, $description, 'success');
+        return $this->send([
+            'title' => $title,
+            'description' => $description,
+            'type' => 'success',
+            'timeout' => $this->timeout,
+        ]);
     }
 
     public function timeout(int $seconds): self
@@ -39,6 +58,24 @@ class Toast extends AbstractInteraction
 
     public function warning(string $title, ?string $description = null): AbstractInteraction
     {
-        return $this->base($title, $description, 'warning');
+        return $this->send([
+            'title' => $title,
+            'description' => $description,
+            'type' => 'warning',
+            'timeout' => $this->timeout,
+        ]);
+    }
+
+    protected function data(): array
+    {
+        return [
+            'expandable' => $this->expand ?? config('tallstackui.settings.toast.expandable', false),
+            'timeout' => $this->timeout,
+        ];
+    }
+
+    protected function event(): string
+    {
+        return 'toast';
     }
 }

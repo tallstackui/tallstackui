@@ -13,7 +13,7 @@ class IndexTest extends BrowserTestCase
     public function can_expand(): void
     {
         Livewire::visit(ToastComponent::class)
-            ->assertDontSee('specimen')
+            ->assertDontSee('Lorem Ipsum is simply')
             ->click('#expand')
             ->waitForText('Lorem Ipsum is simply')
             ->click('@tallstackui_toast_expandable')
@@ -25,7 +25,7 @@ class IndexTest extends BrowserTestCase
     public function can_expand_and_not_expand_sequentially(): void
     {
         Livewire::visit(ToastComponent::class)
-            ->assertDontSee('specimen')
+            ->assertDontSee('Lorem Ipsum is simply')
             ->click('#expandConfirmation')
             ->waitForText('Lorem Ipsum is simply')
             ->click('@tallstackui_toast_expandable')
@@ -136,7 +136,7 @@ class ToastComponent extends Component
         $this->toast()->info('Foo bar info');
     }
 
-    public function notExpandable()
+    public function notExpandable(): void
     {
         $this->toast()
             ->expandable(false)

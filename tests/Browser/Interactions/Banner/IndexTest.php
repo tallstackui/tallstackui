@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Browser\Banner;
+namespace Tests\Browser\Interactions\Banner;
 
 use Livewire\Component;
 use Livewire\Livewire;
