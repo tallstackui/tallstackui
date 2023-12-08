@@ -29,7 +29,7 @@ class Radio extends Component implements Personalization
                 'first' => 'flex items-center',
                 'second' => [
                     'start' => 'flex items-start',
-                    'middle' => 'flex items-end',
+                    'middle' => 'flex items-center',
                 ],
             ],
             'label' => [
