@@ -5,6 +5,7 @@ namespace TallStackUi\View\Components\Form;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
+use Illuminate\View\ComponentSlot;
 use TallStackUi\View\Personalizations\Contracts\Personalization;
 use TallStackUi\View\Personalizations\SoftPersonalization;
 use TallStackUi\View\Personalizations\Traits\InteractWithProviders;
@@ -15,7 +16,8 @@ class Radio extends Component implements Personalization
     use InteractWithProviders;
 
     public function __construct(
-        public ?string $label = null,
+        public string|null|ComponentSlot $label = null,
+        public ?string $id = null,
         public ?string $position = 'right',
         public ?string $color = 'primary',
         public ?string $sm = null,
@@ -24,6 +26,8 @@ class Radio extends Component implements Personalization
         public ?string $size = null,
         public bool $checked = false,
     ) {
+        $this->id ??= uniqid();
+
         $this->size = $this->sm ? 'sm' : ($this->lg ? 'lg' : 'md');
         $this->position = $this->position === 'right' ? 'right' : 'left';
 
@@ -34,14 +38,14 @@ class Radio extends Component implements Personalization
     {
         return Arr::dot([
             'input' => [
-                'class' => 'form-radio rounded-full transition ease-in-out duration-100 border-secondary-200',
+                'class' => 'form-radio border-secondary-200 rounded-full transition duration-100 ease-in-out',
                 'sizes' => [
-                    'sm' => 'w-4 h-4',
-                    'md' => 'w-5 h-5',
-                    'lg' => 'w-6 h-6',
+                    'sm' => 'h-4 w-4',
+                    'md' => 'h-5 w-5',
+                    'lg' => 'h-6 w-6',
                 ],
             ],
-            'error' => 'border-red-300 focus:ring-red-600 focus:border-red-400 text-red-600',
+            'error' => 'border-red-300 text-red-600 focus:border-red-400 focus:ring-red-600',
         ]);
     }
 
