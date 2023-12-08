@@ -52,6 +52,22 @@ class IndexTest extends BrowserTestCase
             ->click('@tallstackui_dialog_confirmation')
             ->waitUntilMissingText('Foo bar confirmation description');
     }
+
+    /** @test */
+    public function cannot_close_when_dialog_is_persistent(): void
+    {
+        config()->set('tallstackui.settings.dialog.persistent', true);
+
+        Livewire::visit(DialogComponent::class)
+            ->assertDontSee('Foo bar success')
+            ->click('#success')
+            ->waitForText('Foo bar success')
+            ->assertSee('Foo bar success')
+            ->clickAtPoint(350, 350)
+            ->pause(100)
+            ->waitForText('Foo bar success')
+            ->assertSee('Foo bar success');
+    }
 }
 
 class DialogComponent extends Component
