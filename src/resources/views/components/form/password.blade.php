@@ -8,6 +8,7 @@
 
 <x-wrapper.input :$id :$computed :$error :$label :$hint validate password>
     <div @class([
+        'relative',
         $personalize['input.wrapper'],
         $personalize['input.color.base'] => !$error,
         $personalize['input.color.background'] => !$disabled && !$readonly,
