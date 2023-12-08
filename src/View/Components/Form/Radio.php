@@ -18,9 +18,15 @@ class Radio extends Component implements Personalization
     use SetupRadioCheckboxToggle;
 
     public function __construct(
+        public ?string $id = null,
         public string|null|ComponentSlot $label = null,
+        public ?string $xs = null,
+        public ?string $sm = null,
+        public ?string $md = null,
+        public ?string $lg = null,
+        public ?string $size = null,
+        public ?string $position = 'right',
         public ?string $color = 'primary',
-        public bool $checked = false,
     ) {
         $this->setup();
         $this->colors();

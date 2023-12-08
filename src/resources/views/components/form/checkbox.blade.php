@@ -13,5 +13,5 @@
             $personalize['input.sizes.' . $size],
             $colors['background'],
             $personalize['error'] => $error
-    ]) }} @checked($checked)>
+    ]) }}>
 </x-wrapper.radio>

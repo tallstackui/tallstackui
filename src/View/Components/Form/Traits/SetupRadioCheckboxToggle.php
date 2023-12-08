@@ -4,20 +4,6 @@ namespace TallStackUi\View\Components\Form\Traits;
 
 trait SetupRadioCheckboxToggle
 {
-    public ?string $id = null;
-
-    public ?string $lg = null;
-
-    public ?string $md = null;
-
-    public ?string $position = 'right';
-
-    public ?string $size = null;
-
-    public ?string $sm = null;
-
-    public ?string $xs = null;
-
     private function setup(): void
     {
         $this->id ??= uniqid();
