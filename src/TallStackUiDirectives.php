@@ -4,28 +4,23 @@ namespace TallStackUi;
 
 class TallStackUiDirectives
 {
-    public function script(bool $absolute = true): string
+    public function script(): string
     {
         $route = route('tallstackui.script', [
-            'file' => $this->vite('js/tallstackui.js'),
-        ], absolute: $absolute);
+            'file' => tallstackui_vite_manifest('js/tallstackui.js'),
+        ]);
 
-        return "<script src=\"$route\" defer></script>";
+        $style = $this->style();
+
+        return "<!--TallStackUI Script--><script src=\"$route\" defer></script>$style";
     }
 
-    public function style(bool $absolute = true): string
+    private function style(): string
     {
         $route = route('tallstackui.style', [
-            'file' => $this->vite('src/resources/css/tallstackui.css'),
-        ], absolute: $absolute);
+            'file' => tallstackui_vite_manifest('js/tallstackui.js', 'css')[0],
+        ]);
 
-        return "<link href=\"{$route}\" rel=\"stylesheet\" type=\"text/css\">";
-    }
-
-    private function vite(string $file): string
-    {
-        $file = tallstackui_load_vite_manitefest($file);
-
-        return $file;
+        return "<!--TallStackUI CSS--><link href=\"{$route}\" rel=\"stylesheet\" type=\"text/css\">";
     }
 }
