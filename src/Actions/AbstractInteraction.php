@@ -2,62 +2,37 @@
 
 namespace TallStackUi\Actions;
 
+use Illuminate\Support\Traits\Conditionable;
 use InvalidArgumentException;
 use Livewire\Component;
 
 /**
- * @internal This trait is not meant to be used directly.
+ * @internal This class is not meant to be used directly.
  */
 abstract class AbstractInteraction
 {
-    protected string $event = '';
+    use Conditionable;
 
-    public function __construct(
-        public Component $component,
-        protected ?int $timeout = null,
-    ) {
-        //
-    }
-
-    public function confirm(string|array $data, ?string $description = null, ?array $options = null): self
+    public function __construct(public Component $component)
     {
-        throw_if(
-            (is_string($data) && ! $options) || (is_array($data) && ! isset($data['options'])),
-            new InvalidArgumentException('You must provide options for the interaction')
-        );
-
-        $this->timeout ??= 3;
-        $options['confirm']['text'] ??= __('tallstack-ui::messages.toast.button.confirm');
-        $options['cancel']['text'] ??= __('tallstack-ui::messages.toast.button.cancel');
-
-        $default = [
-            'type' => 'question',
-            'timeout' => $this->timeout,
-            'confirm' => true,
-            'expandable' => $this->expandable(),
-        ];
-
-        if (is_string($data)) {
-            return $this->send([
-                ...$default,
-                'title' => $data,
-                'description' => $description,
-                'options' => $options,
-            ]);
-        }
-
-        return $this->send([...$default, ...$data]);
+        //
     }
 
     abstract public function error(string $title, ?string $description = null): self;
 
     abstract public function info(string $title, ?string $description = null): self;
 
-    public function send(array $options): self
+    public function send(array $data): self
     {
-        $options['component'] = $this->component->getId();
+        throw_if(isset($data['component']), new InvalidArgumentException('You cannot set the component key.'));
 
-        $this->component->dispatch($this->event, ...$options);
+        if (method_exists($this, 'data')) {
+            $data = array_merge($data, $this->data());
+        }
+
+        $data['component'] = $this->component->getId();
+
+        $this->component->dispatch(sprintf('tallstackui:%s', $this->event()), ...$data);
 
         return $this;
     }
@@ -66,24 +41,5 @@ abstract class AbstractInteraction
 
     abstract public function warning(string $title, ?string $description = null): self;
 
-    protected function base(string $title, ?string $description = null, ?string $type = null, ...$params): self
-    {
-        return $this->send([
-            'title' => $title,
-            'description' => $description,
-            'type' => $type,
-            'timeout' => $this->timeout ?? 3,
-            'expandable' => $this->expandable(),
-            ...$params,
-        ]);
-    }
-
-    private function expandable(): bool
-    {
-        if (property_exists($this, 'expand')) {
-            return $this->expand ?? config('tallstackui.settings.toast.expandable', false);
-        }
-
-        return false;
-    }
+    abstract protected function event(): string;
 }

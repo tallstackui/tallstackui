@@ -8,8 +8,6 @@ class Banner extends AbstractInteraction
 
     protected int $enter = 0;
 
-    protected string $event = 'tallstackui:navbar';
-
     protected ?int $leave = null;
 
     public function close(): self
@@ -28,12 +26,18 @@ class Banner extends AbstractInteraction
 
     public function error(string $title, ?string $description = null): AbstractInteraction
     {
-        return $this->base($title, $description, 'error', ...$this->params());
+        return $this->send([
+            'title' => $title,
+            'type' => 'error',
+        ]);
     }
 
     public function info(string $title, ?string $description = null): AbstractInteraction
     {
-        return $this->base($title, $description, 'info', ...$this->params());
+        return $this->send([
+            'title' => $title,
+            'type' => 'info',
+        ]);
     }
 
     public function leave(int $seconds): self
@@ -45,20 +49,31 @@ class Banner extends AbstractInteraction
 
     public function success(string $title, ?string $description = null): AbstractInteraction
     {
-        return $this->base($title, $description, 'success', ...$this->params());
+        return $this->send([
+            'title' => $title,
+            'type' => 'success',
+        ]);
     }
 
     public function warning(string $title, ?string $description = null): AbstractInteraction
     {
-        return $this->base($title, $description, 'warning', ...$this->params());
+        return $this->send([
+            'title' => $title,
+            'type' => 'warning',
+        ]);
     }
 
-    private function params(): array
+    protected function data(): array
     {
         return [
             'close' => $this->close,
             'enter' => $this->enter,
             'leave' => $this->leave,
         ];
+    }
+
+    protected function event(): string
+    {
+        return 'navbar';
     }
 }

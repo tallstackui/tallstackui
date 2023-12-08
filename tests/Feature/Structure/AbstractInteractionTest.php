@@ -1,6 +1,7 @@
 <?php
 
 use TallStackUi\Actions\AbstractInteraction;
+use TallStackUi\Actions\Banner;
 use TallStackUi\Actions\Dialog;
 use TallStackUi\Actions\Toast;
 
@@ -10,7 +11,7 @@ describe('AbstractInteraction', function () {
         ->toBeAbstract();
 
     test('implements abstraction action class')
-        ->expect([Dialog::class, Toast::class])
+        ->expect([Dialog::class, Toast::class, Banner::class])
         ->toExtend(AbstractInteraction::class);
 
     test('abstract action class has method', function (string $method) {
@@ -20,8 +21,6 @@ describe('AbstractInteraction', function () {
         'error',
         'info',
         'warning',
-        'confirm',
         'send',
-        'base',
     ]);
 });
