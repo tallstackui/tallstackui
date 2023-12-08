@@ -16,7 +16,7 @@ class Radio extends Component implements Personalization
         public ?string $label = null,
         public ?string $id = null,
         public ?string $position = 'left',
-        public ?string $align = 'middle',
+        public ?string $alignment = 'middle',
         public bool $error = false,
     ) {
         //

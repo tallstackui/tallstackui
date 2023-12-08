@@ -4,11 +4,11 @@
     $personalize = tallstackui_personalization('form.radio', $personalization());
     $slot = $label instanceof \Illuminate\View\ComponentSlot;
     $position = $slot && $label->attributes->has('left') ? 'left' : $position;
-    $align = $slot && $label->attributes->has('start') ? 'start' : 'middle';
+    $alignment = $slot && $label->attributes->has('start') ? 'start' : 'middle';
     $label = $slot ? $label->toHtml() : $label;
 @endphp
 
-<x-wrapper.radio :$id :$computed :$error :$label :$position :$align>
+<x-wrapper.radio :$id :$computed :$error :$label :$position :$alignment>
     <input @if ($id) id="{{ $id }}" @endif type="radio" {{ $attributes->class([
             $personalize['input.class'],
             $personalize['input.sizes.' . $size],
