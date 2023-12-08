@@ -4,6 +4,7 @@
     $personalize = tallstackui_personalization('form.toggle', $personalization());
     $slot = $label instanceof \Illuminate\View\ComponentSlot;
     $position = $slot && $label->attributes->has('left') ? 'left' : $position;
+    $alignment = $slot && $label->attributes->has('start') ? 'start' : 'middle';
     $label = $slot ? $label->toHtml() : $label;
 
     // We remove any bg color classes from the wrapper if there
@@ -11,7 +12,7 @@
     $personalize['wrapper.class'] = $computed && $error ? preg_replace('/\bbg-[a-zA-Z0-9-]+/', '', $personalize['background.class']) : $personalize['background.class'];
 @endphp
 
-<x-wrapper.radio :$id :$computed :$error :$label :$position>
+<x-wrapper.radio :$id :$computed :$error :$label :$position :$alignment>
     <div @class($personalize['wrapper'])>
         <input @if ($id) id="{{ $id }}" @endif type="checkbox" {{ $attributes->class([
             $personalize['input.class'],

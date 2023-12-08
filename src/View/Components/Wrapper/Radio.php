@@ -16,6 +16,7 @@ class Radio extends Component implements Personalization
         public ?string $label = null,
         public ?string $id = null,
         public ?string $position = 'left',
+        public ?string $alignment = 'middle',
         public bool $error = false,
     ) {
         //
@@ -24,10 +25,16 @@ class Radio extends Component implements Personalization
     public function personalization(): array
     {
         return Arr::dot([
-            'wrapper' => 'flex items-center',
+            'wrapper' => [
+                'first' => 'flex items-center',
+                'second' => [
+                    'start' => 'flex items-start',
+                    'middle' => 'flex items-end',
+                ],
+            ],
             'label' => [
                 'wrapper' => 'relative inline-flex cursor-pointer items-start',
-                'text' => 'dark:text-dark-400 relative inline-flex cursor-pointer items-center text-sm font-medium text-gray-700',
+                'text' => 'dark:text-dark-400 cursor-pointer items-center text-sm font-medium text-gray-700',
                 'error' => 'text-red-600 dark:text-red-500',
             ],
         ]);
