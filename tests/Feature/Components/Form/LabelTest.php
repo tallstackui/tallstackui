@@ -6,7 +6,7 @@ it('can render askerisk', function () {
     HTML;
 
     $this->blade($component)
-        ->assertSee('<span class', false);
+        ->assertSee('font-bold not-italic text-red-500', false);
 });
 
 it('cannot render askerisk', function (string $label) {
