@@ -26,11 +26,14 @@ export const dispatchEvent = (name, params = null) => {
 
 /**
  * @param state {Boolean}
+ * @param mark {String|Null}
  */
-export const overflow = (state) => {
-  const elements = [...document.querySelectorAll('body, [main-container]')];
+export const overflow = (state, mark = null) => {
+  const element = document.querySelector('body');
 
-  state ?
-      elements.forEach((el) => el.classList.add('!overflow-hidden')) :
-      elements.forEach((el) => el.classList.remove('!overflow-hidden'));
+  // state ?
+  //     element.classList.add('!overflow-hidden') :
+  //     element.classList.remove('!overflow-hidden');
+
+  if (state)
 };
