@@ -14,6 +14,7 @@ use TallStackUi\View\Components\Form\Toggle;
 use TallStackUi\View\Components\Icon;
 use TallStackUi\View\Components\Interaction\Dialog;
 use TallStackUi\View\Components\Interaction\Toast;
+use TallStackUi\View\Components\Loading;
 use TallStackUi\View\Components\Modal;
 use TallStackUi\View\Components\Select\Styled;
 use TallStackUi\View\Components\Slide;
@@ -28,19 +29,22 @@ class ValidateComponent
     /** @throws Exception */
     public static function validate(object $component): void
     {
-        $method = match (get_class($component)) {
+        $name = get_class($component);
+
+        $method = match ($name) {
             Banner::class => 'banner',
             Errors::class => 'errors',
             Dialog::class => 'dialog',
             Dropdown::class => 'dropdown',
             Icon::class => 'icon',
             Modal::class => 'modal',
+            Loading::class => 'loading',
             Slide::class => 'slide',
             Styled::class => 'select',
             Toast::class => 'toast',
             Tooltip::class => 'tooltip',
             Radio::class, Checkbox::class, Toggle::class => 'radio',
-            default => throw new Exception("No validation available for the component: [get_class($component)]"),
+            default => throw new Exception("No validation available for the component: [$name]"),
         };
 
         (new self())->{$method}($component);
@@ -118,6 +122,17 @@ class ValidateComponent
         }
     }
 
+    /** @throws Throwable */
+    private function loading(Loading $component): void
+    {
+        $configuration = config('tallstackui.settings.loading');
+
+        if (! str_starts_with($configuration['z-index'], 'z-')) {
+            throw new InvalidArgumentException('The loading z-index must start with z- prefix');
+        }
+    }
+
+    /** @throws Throwable */
     private function modal(Modal $component): void
     {
         if (is_string($component->wire) && empty($component->wire)) {
@@ -193,6 +208,7 @@ class ValidateComponent
         }
     }
 
+    /** @throws Throwable */
     private function slide(Slide $component): void
     {
         if (is_string($component->wire) && empty($component->wire)) {

@@ -8,11 +8,13 @@ use Illuminate\View\Component;
 use TallStackUi\View\Personalizations\Contracts\Personalization;
 use TallStackUi\View\Personalizations\SoftPersonalization;
 use TallStackUi\View\Personalizations\Traits\InteractWithProviders;
+use TallStackUi\View\Personalizations\Traits\InteractWithValidations;
 
 #[SoftPersonalization('loading')]
 class Loading extends Component implements Personalization
 {
     use InteractWithProviders;
+    use InteractWithValidations;
 
     public function __construct(
         public ?string $zIndex = null,
@@ -22,6 +24,7 @@ class Loading extends Component implements Personalization
         public ?bool $blur = false,
         public ?bool $opacity = true,
     ) {
+        $this->validate();
         $this->configurations();
     }
 

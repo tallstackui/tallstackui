@@ -36,6 +36,8 @@ class ColorProvider
     /** @throws Exception */
     public static function resolve(object $component): void
     {
+        $name = get_class($component);
+
         // This way of using match was designed for deep personalization,
         // for customized components that extend the original components.
         $class = match (true) {
@@ -49,7 +51,7 @@ class ColorProvider
             $component instanceof Range => RangeColors::class,
             $component instanceof Button || $component instanceof Circle => ButtonColors::class,
             $component instanceof Radio || $component instanceof Checkbox => RadioColors::class,
-            default => throw new Exception("No colors available for the component: [$component]"),
+            default => throw new Exception("No colors available for the component: [$name]"),
         };
 
         FacadeView::composer($component->render()->name(), fn (View $view) => $view->with('colors', [...(new $class($component))()]));

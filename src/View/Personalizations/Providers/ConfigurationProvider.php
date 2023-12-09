@@ -19,16 +19,17 @@ class ConfigurationProvider
     /** @throws Exception */
     public static function resolve(object $component): void
     {
+        $name = get_class($component);
         $class = new self();
 
         /** @var string|array $data */
-        $data = (match (get_class($component)) {
+        $data = (match ($name) {
             Dialog::class => fn () => 'dialog',
             Loading::class => fn () => $class->loading($component),
             Modal::class => fn () => $class->modal($component),
             Slide::class => fn () => $class->slide($component),
             Toast::class => fn () => 'toast',
-            default => throw new Exception("No configurations available for the component: [$component]"),
+            default => throw new Exception("No configurations available for the component: [$name]"),
         })();
 
         if (is_string($data)) {
