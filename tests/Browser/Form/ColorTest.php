@@ -1,0 +1,151 @@
+<?php
+
+namespace Tests\Browser\Form;
+
+use Laravel\Dusk\Browser;
+use Livewire\Component;
+use Livewire\Livewire;
+use Tests\Browser\BrowserTestCase;
+
+class ColorTest extends BrowserTestCase
+{
+    /** @test */
+    public function can_open_and_select_first_color(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $color;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="selected">{{ $color }}</p>
+                    
+                    <x-color label="Color" wire:model="color" />
+                    <x-button dusk="sync" wire:click="sync">Save</x-button>
+                </div>
+                HTML;
+            }
+
+            public function sync(): void
+            {
+                //
+            }
+        })
+            ->waitForText('Color')
+            ->click('@tallstackui_form_color')
+            ->clickAtXPath('/html/body/div[3]/div/div/div/div[3]/div/div/button[1]')
+            ->click('@sync')
+            ->waitForTextIn('@selected', '#64748b');
+    }
+
+    /** @test */
+    public function can_open_and_select_first_color_in_mode_all(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $color;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="selected">{{ $color }}</p>
+                    
+                    <x-color label="Color" wire:model="color" mode="all" />
+                    <x-button dusk="sync" wire:click="sync">Save</x-button>
+                </div>
+                HTML;
+            }
+
+            public function sync(): void
+            {
+                //
+            }
+        })
+            ->waitForText('Color')
+            ->click('@tallstackui_form_color')
+            ->clickAtXPath('/html/body/div[3]/div/div/div/div[3]/div/div/button[1]')
+            ->click('@sync')
+            ->waitForTextIn('@selected', '#f8fafc');
+    }
+
+    /** @test */
+    public function can_open_and_select_first_color_in_mode_custom(): void
+    {
+        if (getenv('GITHUB_ACTIONS') === 'true') {
+            $this->markTestSkipped('This tests only works locally.');
+        }
+
+        Livewire::visit(new class extends Component
+        {
+            public ?string $color;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="selected">{{ $color }}</p>
+                    
+                    <x-color label="Color" wire:model="color" :custom="['#FF0000', '#FF5733', '#D7E021']" />
+                    
+                    <x-button dusk="sync" wire:click="sync">Save</x-button>
+                </div>
+                HTML;
+            }
+
+            public function sync(): void
+            {
+                //
+            }
+        })
+            ->waitForText('Color')
+            ->click('@tallstackui_form_color')
+            ->clickAtXPath('/html/body/div[3]/div/div/div/div[3]/div/div/button[1]')
+            ->click('@sync')
+            ->waitForTextIn('@selected', '#FF0000')
+            ->assertSee('#FF0000')
+            ->click('@tallstackui_form_color')
+            ->clickAtXPath('/html/body/div[3]/div/div/div/div[3]/div/div/button[2]')
+            ->click('@sync')
+            ->waitForTextIn('@selected', '#FF5733')
+            ->assertSee('#FF5733')
+            ->click('@tallstackui_form_color')
+            ->clickAtXPath('/html/body/div[3]/div/div/div/div[3]/div/div/button[3]')
+            ->click('@sync')
+            ->waitForTextIn('@selected', '#D7E021')
+            ->assertSee('#D7E021');
+    }
+
+    /** @test */
+    public function can_open_and_select_color_with_live_entangle(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $color;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="selected">{{ $color }}</p>
+                    
+                    <x-color label="Color" wire:model.live="color" />
+                    <x-button dusk="sync" wire:click="sync">Save</x-button>
+                </div>
+                HTML;
+            }
+
+            public function sync(): void
+            {
+                //
+            }
+        })
+            ->waitForText('Color')
+            ->click('@tallstackui_form_color')
+            ->clickAtXPath('/html/body/div[3]/div/div/div/div[3]/div/div/button[1]')
+            ->click('@sync')
+            ->waitForTextIn('@selected', '#64748b');
+    }
+}
