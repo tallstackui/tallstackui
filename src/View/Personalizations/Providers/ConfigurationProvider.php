@@ -19,14 +19,17 @@ class ConfigurationProvider
     /** @throws Exception */
     public static function resolve(object $component): void
     {
+        $name = get_class($component);
+        $class = new self();
+
         /** @var string|array $data */
-        $data = (match (get_class($component)) {
+        $data = (match ($name) {
             Dialog::class => fn () => 'dialog',
-            Slide::class => fn () => (new self())->slide($component),
+            Loading::class => fn () => $class->loading($component),
+            Modal::class => fn () => $class->modal($component),
+            Slide::class => fn () => $class->slide($component),
             Toast::class => fn () => 'toast',
-            Modal::class => fn () => (new self())->modal($component),
-            Loading::class => fn () => 'loading',
-            default => throw new Exception("No configurations available for the component: [$component]"),
+            default => throw new Exception("No configurations available for the component: [$name]"),
         })();
 
         if (is_string($data)) {
@@ -38,6 +41,19 @@ class ConfigurationProvider
         }
 
         FacadeView::composer($component->render()->name(), fn (View $view) => $view->with('configurations', [...$data]));
+    }
+
+    private function loading(Loading $component): array
+    {
+        $configuration = config('tallstackui.settings.loading');
+
+        $component->zIndex ??= $configuration['z-index'];
+        $component->blur ??= $configuration['blur'];
+        $component->opacity ??= $configuration['opacity'];
+
+        return collect($component)
+            ->only(['zIndex', 'blur', 'opacity'])
+            ->toArray();
     }
 
     private function modal(Modal $component): array
