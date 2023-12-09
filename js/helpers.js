@@ -25,15 +25,19 @@ export const dispatchEvent = (name, params = null) => {
 };
 
 /**
- * @param state {Boolean}
- * @param mark {String|Null}
+ * @param status {Boolean}
+ * @param component {String|Null}
  */
-export const overflow = (state, mark = null) => {
+export const overflow = (status, component = null) => {
   const element = document.querySelector('body');
+  const data = 'data-overflow';
+  const exists = [...element.attributes].some((attr) => attr.name === data);
 
-  // state ?
-  //     element.classList.add('!overflow-hidden') :
-  //     element.classList.remove('!overflow-hidden');
-
-  if (state)
+  if (status && (!exists || element.getAttribute(data) === component)) {
+    element.classList.add('!overflow-hidden');
+    element.setAttribute(data, component);
+  } else if (!status && exists && element.getAttribute(data) === component) {
+    element.removeAttribute(data);
+    element.classList.remove('!overflow-hidden');
+  }
 };

@@ -1,3 +1,4 @@
+import './globals/globals';
 import tooltip from './components/tooltip/tooltip';
 import banner from './components/banner/banner';
 import select from './components/select/select';
@@ -28,9 +29,3 @@ document.addEventListener('alpine:init', () => {
   window.Alpine.data('tallstackui_formTextArea', textArea);
   window.Alpine.data('tallstackui_formNumber', number);
 });
-
-window.$modalOpen = (name) => window.dispatchEvent(new Event(`modal:${name}-open`));
-window.$modalClose = (name) => window.dispatchEvent(new Event(`modal:${name}-close`));
-
-window.$slideOpen = (name) => window.dispatchEvent(new Event(`slide:${name}-open`));
-window.$slideClose = (name) => window.dispatchEvent(new Event(`slide:${name}-close`));
