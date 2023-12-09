@@ -115,6 +115,7 @@ return [
         'button.circle' => Components\Button\Circle::class,
         'card' => Components\Card::class,
         'checkbox' => Components\Form\Checkbox::class,
+        'color' => Components\Form\Color::class,
         'dialog' => Components\Interaction\Dialog::class,
         'dropdown' => Components\Dropdown\Dropdown::class,
         'dropdown.items' => Components\Dropdown\Items::class,
