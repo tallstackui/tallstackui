@@ -4,7 +4,7 @@
         'gap-x-2' => $icon,
         $personalize['item'],
         $personalize['border'] => $separator,
-    ]) }} role="menuitem" tabindex="-1" id="menu-item-0">
+    ]) }} role="menuitem">
     @if ($icon && $position === 'left')
         <x-icon :$icon @class($personalize['icon']) />
     @endif

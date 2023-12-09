@@ -5,35 +5,24 @@
 @endphp
 
 <div @class($personalize['wrapper.first'])
-     x-data="{
-        show: false,
-        animate: @js(!$static),
-        init() {
-            window.addEventListener('scroll', () => {
-                const element = this.$refs.dropdown.getBoundingClientRect();
-                this.show = (element.bottom < 0 || element.top > window.innerHeight && this.show) ? false : this.show;
-            });
-        }
-     }">
-    <div @class($personalize['wrapper.second'])
-        x-on:click.outside="show = false"
-        x-ref="dropdown">
+     x-data="tallstackui_dropdown(@js(!$static))">
+    <div @class($personalize['wrapper.second']) x-on:click.outside="show = false" x-ref="dropdown">
         @if ($text)
             <div @class($personalize['action.wrapper'])>
                 <span @class($personalize['action.text'])>{{ $text }}</span>
                 <x-icon name="chevron-down"
-                    dusk="open-dropdown"
-                    @class($personalize['action.icon'])
-                    x-on:click="show = !show"
-                    x-bind:class="{ 'transform rotate-180': animate && show }" />
+                        dusk="open-dropdown"
+                        @class($personalize['action.icon'])
+                        x-on:click="show = !show"
+                        x-bind:class="{ 'transform rotate-180': animate && show }" />
             </div>
         @elseif ($icon)
             <div @class($personalize['action.wrapper'])>
                 <x-icon :$icon
-                    dusk="open-dropdown"
-                    @class($personalize['action.icon'])
-                    x-on:click="show = !show"
-                    x-bind:class="{ 'transform rotate-180': animate && show }" />
+                        dusk="open-dropdown"
+                        @class($personalize['action.icon'])
+                        x-on:click="show = !show"
+                        x-bind:class="{ 'transform rotate-180': animate && show }" />
             </div>
         @else
             {!! $action !!}
@@ -46,8 +35,8 @@
              x-transition:leave-start="opacity-100"
              x-transition:leave-end="opacity-0"
              x-anchor.{{ $position }}.offset.5="$refs.dropdown"
-            @class([$personalize['wrapper.third']])
-            role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+             @class([$personalize['wrapper.third']])
+             role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
             <div class="p-1" role="none">
                 @if ($header)
                     <div class="m-2">
