@@ -1,9 +1,9 @@
 @php
     $computed = $attributes->whereStartsWith('wire:model');
-    $error = $computed && $errors->has($computed);
     $personalize = tallstackui_personalization('form.color', $personalization());
     $directive = array_key_first($computed->getAttributes());
     $property = $computed[$directive];
+    $error = $property && $errors->has($property);
     $live = str($directive)->contains('.live');
     $disabled = $attributes->get('disabled');
     $readonly = $attributes->get('readonly');
@@ -48,7 +48,13 @@
              x-anchor.bottom-end.offset.5="$refs.wrapper"
              @class($personalize['box.wrapper'])>
             <div @class($personalize['box.base'])>
-                <input type="range" min="1" max="11" x-model="weight" x-show="mode === 'range' && custom.length === 0" @class([$personalize['box.range.base'], $personalize['box.range.thumb']])>
+                <input type="range" 
+                       min="1" 
+                       max="11" 
+                       x-model="weight" 
+                       x-show="mode === 'range' && custom.length === 0" 
+                       dusk="tallstackui_form_range"
+                       @class([$personalize['box.range.base'], $personalize['box.range.thumb']])>
                 <div @class($personalize['box.button.wrapper'])>
                     <template x-for="color in palette">
                         <button type="button" @class($personalize['box.button.base']) x-on:click="selectColor(color)">

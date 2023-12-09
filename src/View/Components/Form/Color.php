@@ -39,7 +39,7 @@ class Color extends Component implements Personalization
                 'class' => 'h-5 w-5 text-gray-400',
             ],
             'box' => [
-                'wrapper' => 'absolute z-50 mt-2 border border-gray-300 dark:border-dark-700 rounded-md shadow-lg top-full overflow-hidden',
+                'wrapper' => 'absolute z-50 mt-2 border border-gray-300 dark:border-dark-900 rounded-md shadow-lg top-full overflow-hidden',
                 'base' => 'p-2 bg-white rounded-md shadow-xs dark:bg-dark-800 overflow-auto soft-scrollbar max-h-60',
                 'range' => [
                     'base' => 'w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700 mb-4',
@@ -47,7 +47,7 @@ class Color extends Component implements Personalization
                 ],
                 'button' => [
                     'wrapper' => 'flex flex-wrap items-center justify-center gap-1 w-[18rem] mx-auto',
-                    'base' => 'rounded shadow-lg border ring-2 ring-transparent hover:ring-gray-500',
+                    'base' => 'rounded shadow-lg border dark:border-dark-900 ring-2 ring-transparent hover:ring-gray-500',
                     'color' => 'w-5 h-5 rounded cursor-pointer flex items-center justify-center',
                     'icon' => 'w-3 h-3',
                 ],
