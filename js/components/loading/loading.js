@@ -2,15 +2,7 @@ import {overflow} from '../../helpers';
 
 export default () => ({
   init() {
-    window.Livewire.hook('morph.updated', ({el, component}) => {
-      if (this.$refs.loading.style.display === 'inline-block') {
-        overflow(false);
-      }
-    });
-    window.Livewire.hook('commit.prepare', () => {
-      if (this.$refs.loading.style.display !== 'inline-block') {
-        overflow(true);
-      }
-    });
+    window.Livewire.hook('commit.prepare', () => overflow(true, 'loading'));
+    window.Livewire.hook('morph.updated', () => overflow(false, 'loading'));
   },
 });

@@ -9,7 +9,7 @@ export default (ok, confirm, cancel) => ({
     cancel: cancel,
   },
   init() {
-    this.$watch('show', (value) => overflow(value));
+    this.$watch('show', (value) => overflow(value, 'dialog'));
   },
   add(dialog) {
     this.show = true;
