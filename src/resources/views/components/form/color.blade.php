@@ -11,7 +11,7 @@
 
 <x-wrapper.input :$id :computed="$property" :$error :$label :$hint validate>
     <div x-data="tallstackui_formColor(
-            @if ($live) @entangle($property).live @else @entangle($property) @endif,
+            @if ($property) @if ($live) @entangle($property).live @else @entangle($property) @endif @else null @endif,
             @js($mode),
             @js($custom))"
          x-ref="wrapper"
@@ -60,7 +60,7 @@
                         <button type="button" @class($personalize['box.button.base']) x-on:click="set(color)">
                             <div @class($personalize['box.button.color']) :style="{ 'background-color': color }">
                                 <span x-show="color === selected" x-bind:class="{'text-white': !check(color), 'text-dark-500': check(color)}" @class($personalize['box.button.icon'])>
-                                    <x-icon name="check" />
+                                    <x-icon name="check" solid />
                                 </span>
                             </div>
                         </button>

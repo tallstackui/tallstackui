@@ -83,7 +83,7 @@ class ColorTest extends BrowserTestCase
                 <div>
                     <p dusk="selected">{{ $color }}</p>
                     
-                    <x-color label="Color" wire:model="color" mode="all" />
+                    <x-color label="Color" wire:model="color" all />
                     <x-button dusk="sync" wire:click="sync">Save</x-button>
                 </div>
                 HTML;
