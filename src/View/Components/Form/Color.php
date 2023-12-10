@@ -19,11 +19,12 @@ class Color extends Component implements Personalization
         public ?string $label = null,
         public ?string $id = null,
         public ?string $hint = null,
-        public ?string $mode = null,
+        public ?bool $all = false,
         public Collection|array $custom = [],
+        public ?string $mode = null,
     ) {
         $this->id ??= uniqid();
-        $this->mode ??= 'range';
+        $this->mode = $this->all ? 'all' : 'range';
     }
 
     public function personalization(): array
@@ -51,14 +52,6 @@ class Color extends Component implements Personalization
                     'color' => 'w-5 h-5 rounded cursor-pointer flex items-center justify-center',
                     'icon' => 'w-3 h-3',
                 ],
-            ],
-            'animation' => [
-                'enter' => 'transition duration-100 ease-out',
-                'enter-start' => 'opacity-0 -translate-y-2',
-                'enter-end' => 'opacity-100 translate-y-0',
-                'leave' => 'transition ease-in duration-75',
-                'leave-start' => 'opacity-100 scale-100',
-                'leave-end' => 'opacity-0 scale-95',
             ],
             'error' => $this->error(),
         ]);

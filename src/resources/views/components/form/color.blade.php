@@ -39,20 +39,20 @@
         <div x-cloak
              x-show="show"
              x-on:click.away="show = false"
-             x-transition:enter="{{ $personalize['animation.enter'] }}"
-             x-transition:enter-start="{{ $personalize['animation.enter-start'] }}"
-             x-transition:enter-end="{{ $personalize['animation.enter-end'] }}"
-             x-transition:leave="{{ $personalize['animation.leave'] }}"
-             x-transition:leave-start="{{ $personalize['animation.leave-start'] }}"
-             x-transition:leave-end="{{ $personalize['animation.leave-end'] }}"
+             x-transition:enter="transition duration-100 ease-out"
+             x-transition:enter-start="opacity-0 -translate-y-2"
+             x-transition:enter-end="opacity-100 translate-y-0"
+             x-transition:leave="transition ease-in duration-75"
+             x-transition:leave-start="opacity-100 scale-100"
+             x-transition:leave-end="opacity-0 scale-95"
              x-anchor.bottom-end.offset.5="$refs.wrapper"
              @class($personalize['box.wrapper'])>
             <div @class($personalize['box.base'])>
-                <input type="range" 
-                       min="1" 
-                       max="11" 
-                       x-model="weight" 
-                       x-show="mode === 'range' && custom.length === 0" 
+                <input type="range"
+                       min="1"
+                       max="11"
+                       x-model="weight"
+                       x-show="mode === 'range' && custom.length === 0"
                        dusk="tallstackui_form_range"
                        @class([$personalize['box.range.base'], $personalize['box.range.thumb']])>
                 <div @class($personalize['box.button.wrapper'])>
