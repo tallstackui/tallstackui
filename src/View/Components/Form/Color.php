@@ -32,7 +32,7 @@ class Color extends Component implements Personalization
         return Arr::dot([
             'input' => [...$this->input()],
             'selected' => [
-                'wrapper' => 'pointer-events-none flex items-center',
+                'wrapper' => 'flex items-center',
                 'base' => 'dark:border-dark-700 h-6 w-6 rounded border border-gray-300 shadow',
             ],
             'icon' => [

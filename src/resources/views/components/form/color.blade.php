@@ -25,7 +25,7 @@
          ])>
         <div @class($personalize['selected.wrapper'])>
             <template x-if="selected">
-                <div @class($personalize['selected.base']) :style="{ 'background-color': selected }"></div>
+                <button type="button" @class($personalize['selected.base']) :style="{ 'background-color': selected }" x-on:click="show = !show"></button>
             </template>
         </div>
         <input id="{{ $id }}" {{ $attributes->class([$personalize['input.base']]) }} type="text" x-ref="input">
@@ -45,7 +45,7 @@
              x-transition:leave="transition ease-in duration-75"
              x-transition:leave-start="opacity-100 scale-100"
              x-transition:leave-end="opacity-0 scale-95"
-             x-anchor.bottom-end.offset.5="$refs.wrapper"
+             x-anchor.bottom-end="$refs.wrapper"
              @class($personalize['box.wrapper'])>
             <div @class($personalize['box.base'])>
                 <input type="range"
@@ -59,8 +59,8 @@
                     <template x-for="color in palette">
                         <button type="button" @class($personalize['box.button.base']) x-on:click="set(color)">
                             <div @class($personalize['box.button.color']) :style="{ 'background-color': color }">
-                                <span x-show="color === selected" x-bind:class="{'text-white': !check(color), 'text-dark-500': check(color)}" @class($personalize['box.button.icon'])>
-                                    <x-icon name="check" solid />
+                                <span x-show="color === selected" x-bind:class="{'text-white': !check(color), 'text-dark-500': check(color)}">
+                                    <x-icon name="check" @class($personalize['box.button.icon']) />
                                 </span>
                             </div>
                         </button>

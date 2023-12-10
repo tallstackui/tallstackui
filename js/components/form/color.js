@@ -340,5 +340,9 @@ export default (selected, mode, custom) => ({
     if (this.custom.length > 0) {
       this.palette = this.custom;
     }
+
+    this.$refs.input.addEventListener('input', (e) => {
+      this.selected = e.target.value;
+    });
   },
 });
