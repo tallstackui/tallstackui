@@ -16,6 +16,7 @@ use TallStackUi\View\Components\Dropdown\Dropdown;
 use TallStackUi\View\Components\Dropdown\Items as DropdownItems;
 use TallStackUi\View\Components\Errors;
 use TallStackUi\View\Components\Form\Checkbox;
+use TallStackUi\View\Components\Form\Color;
 use TallStackUi\View\Components\Form\Error;
 use TallStackUi\View\Components\Form\Hint;
 use TallStackUi\View\Components\Form\Input;
@@ -122,6 +123,7 @@ class Personalization
 
         $class = match ($component) {
             'checkbox' => Checkbox::class,
+            'color' => Color::class,
             'error' => Error::class,
             'hint' => Hint::class,
             'input' => Input::class,
