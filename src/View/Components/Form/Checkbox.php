@@ -39,7 +39,7 @@ class Checkbox extends Component implements Personalization
     {
         return Arr::dot([
             'input' => [
-                'class' => 'form-checkbox border-gray-300 dark:border-dark-600 border-1 dark:bg-dark-800 bg-white rounded transition duration-100 ease-in-out',
+                'class' => 'form-checkbox dark:border-dark-600 border-1 dark:bg-dark-800 rounded border-gray-300 bg-white transition duration-100 ease-in-out',
                 'sizes' => [
                     'xs' => 'h-3 w-3',
                     'sm' => 'h-4 w-4',
