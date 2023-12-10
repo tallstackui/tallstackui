@@ -1,42 +1,62 @@
-<div class="flex" x-data="app()" x-on:paste="pasting = true; handlePaste($event)">
-    <template x-for="(l,i) in length" :key="`codefield_${i}`">
-        <input :autofocus="i == 0" :id="`codefield_${i}`" class="h-16 w-12 border mx-2 rounded-lg flex items-center text-center font-thin text-3xl" value="" maxlength="1" max="9" min="0" inputmode="decimal"
-               @keyup="stepForward(i, $event)" @keyup.left="moveLeft(i)" @keyup.right="moveRight(i)" @keydown.backspace="stepBack(i)">
+<div class="flex" x-data="app()" x-on:paste="pasting = true; paste($event)">
+    <p x-text="model"></p>
+    <template x-for="(value, index) in length" :key="`pin-${index}`">
+        <input :id="`pin-${index}`"
+               class="h-16 w-12 border mx-2 rounded-lg flex items-center text-center font-thin text-3xl"
+               maxlength="1"
+               max="9"
+               min="0"
+               inputmode="decimal"
+               @keyup="go(index, $event)" @keyup.left="left(index)" @keyup.right="right(index)" @keydown.backspace="back(index)">
     </template>
 </div>
 
 <script type="text/javascript">
     function app() {
         return {
-            value: null,
+            model: null,
             length: 4,
             pasting: false,
-            //dep
-            resetValue(i) {
-                for (let x = 0; x < this.length; x++) {
-                    if (x >= i) this.getInput(x).value = '';
+            init() {
+                window.onload = () => {
+                    if (this.model) {
+                        for (let i = 0; i < this.length; i++) {
+                            this.input(i).model = this.model[i];
+                        }
+                    }
                 }
             },
-            moveLeft(i) {
-                if (i === 0) return;
-                const prevInput = this.getInput(i - 1);
+            /**
+             * @param index {Number}
+             */
+            left(index) {
+                if (index === 0) return;
+                const prevInput = this.input(index - 1);
                 prevInput.focus();
             },
-            moveRight(i) {
-                if (i === this.length - 1) return;
-                const nextInput = this.getInput(i + 1);
+            /**
+             * @param index {Number}
+             */
+            right(index) {
+                if (index === this.length - 1) return;
+                const nextInput = this.input(index + 1);
                 nextInput.focus();
             },
-            stepForward(i, event) {
-
+            /**
+             * @param index {Number}
+             */
+            go(index) {
                 if (this.pasting) {
                     this.pasting = false;
+                    this.sync();
+
                     return;
                 }
-                const input = this.getInput(i);
 
-                if (input.value && i !== (this.length - 1)) {
-                    const nextInput = this.getInput(i + 1);
+                const input = this.input(index);
+
+                if (input.value && index !== (this.length - 1)) {
+                    const nextInput = this.input(index + 1);
 
                     if (nextInput.value !== '') {
                         nextInput.focus();
@@ -44,41 +64,59 @@
                     }
 
                     nextInput.focus();
-                    nextInput.value = '';
                 }
-                this.checkPin();
+
+                this.sync();
+
             },
-            stepBack(i) {
-                const currentInput = this.getInput(i);
+            /**
+             *
+             * @param index {Number}
+             */
+            back(index) {
+                const currentInput = this.input(index);
 
                 if (currentInput.value !== '') {
                     currentInput.value = '';
                     return;
                 }
 
-                const prevInput = this.getInput(i - 1);
+                const prevInput = this.input(index - 1);
                 prevInput.focus();
                 prevInput.value = '';
-                this.checkPin();
+                this.sync();
             },
-            checkPin() {
+            /**
+             * @returns {Promise<void>}
+             */
+            sync() {
                 let code = '';
-                for (let i = 0; i < this.length; i++) {
-                    code += this.getInput(i).value;
+
+                for (let index = 0; index < this.length; index++) {
+                    code += this.input(index).value;
                 }
-                this.value = code;
+
+                this.model = code;
             },
-            getInput(i) {
-                return document.getElementById(`codefield_${i}`);
-            },
-            handlePaste(e) {
-                e.preventDefault();
-                const data = e.clipboardData.getData('text');
+            /**
+             * @param index
+             * @returns {HTMLElement}
+             */
+            input(index) { return document.getElementById(`pin-${index}`) },
+            /**
+             * @param event {ClipboardEvent}
+             */
+            paste(event) {
+                event.preventDefault();
+
+                const data = event.clipboardData.getData('text');
                 if (data.length !== this.length) return;
-                for (let i = 0; i < this.length; i++) {
-                    this.getInput(i).value = data[i];
+
+                for (let index = 0; index < this.length; index++) {
+                    this.input(index).value = data[index];
                 }
-                this.checkPin();
+
+                this.sync();
             }
         }
     }
