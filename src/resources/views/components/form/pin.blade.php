@@ -23,7 +23,7 @@
 <script type="text/javascript">
     function app() {
         return {
-            model: null,
+            model: @entangle($property).live,
             hash: Math.random().toString(36).substring(2, 15),
             length: 4,
             pasting: false,
