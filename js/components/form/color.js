@@ -5,7 +5,7 @@ export default (selected, mode, custom) => ({
   show: false,
   weight: 6,
   palette: [],
-  defaultColors: {
+  default: {
     slate: {
       50: '#f8fafc',
       100: '#f1f5f9',
@@ -293,30 +293,30 @@ export default (selected, mode, custom) => ({
       950: '#4c0519',
     },
   },
-  selectColor(color) {
+  set(color) {
     this.selected = color;
+    this.$refs.input.value = color;
     this.show = false;
   },
-  colorHex() {
-    return Object.values(this.defaultColors)
+  hex() {
+    return Object.values(this.default)
         .map(Object.values)
         .flat()
         .filter((color) => color.match(/^#(?:[0-9a-fA-F]{3}){1,2}$/));
   },
-  colorsByRange(index) {
+  range(index) {
     const result = {};
 
-    for (const key in this.defaultColors) {
-      if (Object.hasOwnProperty.call(this.defaultColors, key)) {
-        const keyLevelUp = Object.keys(this.defaultColors[key]);
-        const selected = this.defaultColors[key][keyLevelUp[index - 1]];
-        result[key] = selected;
+    for (const key in this.default) {
+      if (Object.hasOwnProperty.call(this.default, key)) {
+        const keyLevelUp = Object.keys(this.default[key]);
+        result[key] = this.default[key][keyLevelUp[index - 1]];
       }
     }
 
     return Object.values(result);
   },
-  colorCheck(color) {
+  check(color) {
     color = color.replace('#', '');
 
     const r = parseInt(color.substring(0, 2), 16);
@@ -325,20 +325,16 @@ export default (selected, mode, custom) => ({
 
     const luminosity = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
 
-    if (luminosity > 0.7) {
-      return true;
-    }
-
-    return false;
+    return luminosity > 0.7;
   },
   init() {
     if (this.mode === 'range' && this.custom.length === 0) {
-      this.palette = this.colorsByRange(this.weight);
-      this.$watch('weight', (value) => this.palette = this.colorsByRange(value));
+      this.palette = this.range(this.weight);
+      this.$watch('weight', (value) => this.palette = this.range(value));
     }
 
     if (this.mode === 'all' && this.custom.length === 0) {
-      this.palette = this.colorHex();
+      this.palette = this.hex();
     }
 
     if (this.custom.length > 0) {
