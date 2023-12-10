@@ -1,7 +1,8 @@
 name: Bug Report
-description: Report an issue or bug with the TallStackUi
+description: Report an issue or bug with the TallStackUI
 title: "[Bug]: "
 labels: ["bug"]
+assignees: devajmeireles
 body:
   - type: markdown
     attributes:
@@ -20,7 +21,7 @@ body:
     attributes:
       label: How to Reproduce
       description: How did this occur, please add any config values used and provide a set of reliable steps if possible.
-      placeholder: Install a fresh Laravel app, install TallStackUi, add a <x-button /> to a Livewire component, visit the page
+      placeholder: Install a fresh Laravel app, install TallStackUI, add a <x-button /> to a Livewire component, visit the page
     validations:
       required: true
   - type: input
@@ -48,7 +49,7 @@ body:
   - type: input
     id: tallstackui-version
     attributes:
-      label: TallStackUi Version
+      label: TallStackUI Version
       description: What version of our Package are you running? Please be as specific as possible
       placeholder: For example, 1.0.0
     validations:
