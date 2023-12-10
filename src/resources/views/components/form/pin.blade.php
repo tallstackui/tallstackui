@@ -8,10 +8,18 @@
     $readonly = $attributes->get('readonly');
 @endphp
 
-<div class="flex" x-data="app()" x-on:paste="pasting = true; paste($event)">
+<div class="flex space-x-3" x-data="app()" x-on:paste="pasting = true; paste($event)">
+    <template x-for="(value, index) in prefixes" :key="`pin-${hash}-${index}`">
+        <input class="block w-16 text-center text-gray-700 bg-transparent border-t-transparent border-b-2 border-x-transparent border-b-gray-200 text-lg focus:border-t-transparent focus:border-x-transparent focus:border-b-blue-500 focus:ring-0 disabled:opacity-50 disabled:pointer-events-none dark:border-b-gray-700 dark:text-gray-400 dark:focus:ring-gray-600 dark:focus:border-b-gray-600"
+               maxlength="1"
+               max="9"
+               min="0"
+               inputmode="decimal"
+               :value="value" disabled>
+    </template>
     <template x-for="(value, index) in length" :key="`pin-${hash}-${index}`">
         <input :id="`pin-${hash}-${index}`"
-               class="h-16 w-12 border mx-2 rounded-lg flex items-center text-center font-thin text-3xl"
+               class="block w-[38px] text-center text-gray-700 bg-transparent border-t-transparent border-b-2 border-x-transparent border-b-gray-200 text-2xl focus:border-t-transparent focus:border-x-transparent focus:border-b-blue-500 focus:ring-0 disabled:opacity-50 disabled:pointer-events-none dark:border-b-gray-700 dark:text-gray-400 dark:focus:ring-gray-600 dark:focus:border-b-gray-600"
                maxlength="1"
                max="9"
                min="0"
@@ -24,6 +32,7 @@
     function app() {
         return {
             model: @entangle($property).live,
+            prefixes: ['XSE'],
             hash: Math.random().toString(36).substring(2, 15),
             length: 4,
             pasting: false,
