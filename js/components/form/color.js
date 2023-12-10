@@ -316,25 +316,43 @@ export default (model, mode, colors) => ({
       this.model = e.target.value;
     });
   },
+  /**
+   * @param value {String}
+   * @returns {String}
+   */
   hashing(value) {
     return value[0] === '#' ? value : `#${value}`;
   },
+  /**
+   * @param color {String}
+   */
   set(color) {
     this.show = false;
     this.model = color;
     this.$refs.input.value = color;
   },
+  /**
+   * @returns {FlatArray<any[][], 1>[]}
+   */
   hex() {
     return Object.values(this.default)
         .map(Object.values)
         .flat()
         .filter((color) => color.match(/^#(?:[0-9a-fA-F]{3}){1,2}$/));
   },
+  /**
+   * @param index {Number}
+   * @returns {*[]}
+   */
   range(index) {
     return Object.entries(this.default)
         .filter(([key]) => Object.hasOwnProperty.call(this.default, key))
         .map(([key, value]) => value[Object.keys(value)[index - 1]]);
   },
+  /**
+   * @param color {String}
+   * @returns {boolean}
+   */
   check(color) {
     color = color.replace('#', '');
 
