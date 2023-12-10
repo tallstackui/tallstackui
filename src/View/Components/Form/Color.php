@@ -20,7 +20,7 @@ class Color extends Component implements Personalization
         public ?string $id = null,
         public ?string $hint = null,
         public ?bool $all = false,
-        public Collection|array $custom = [],
+        public Collection|array $colors = [],
         public ?string $mode = null,
     ) {
         $this->id ??= uniqid();

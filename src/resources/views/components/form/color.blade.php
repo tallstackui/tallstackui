@@ -13,7 +13,7 @@
     <div x-data="tallstackui_formColor(
             @if ($property) @if ($live) @entangle($property).live @else @entangle($property) @endif @else null @endif,
             @js($mode),
-            @js($custom))"
+            @js($colors))"
          x-ref="wrapper"
          x-cloak
          @class([
@@ -24,8 +24,8 @@
             $personalize['error'] => $error
          ])>
         <div @class($personalize['selected.wrapper'])>
-            <template x-if="selected">
-                <button type="button" @class($personalize['selected.base']) :style="{ 'background-color': selected }" x-on:click="show = !show"></button>
+            <template x-if="model">
+                <button type="button" @class($personalize['selected.base']) :style="{ 'background-color': model }" x-on:click="show = !show"></button>
             </template>
         </div>
         <input id="{{ $id }}" {{ $attributes->class([$personalize['input.base']]) }} type="text" x-ref="input">
@@ -52,14 +52,14 @@
                        min="1"
                        max="11"
                        x-model="weight"
-                       x-show="mode === 'range' && custom.length === 0"
+                       x-show="mode === 'range' && colors.length === 0"
                        dusk="tallstackui_form_range"
                        @class([$personalize['box.range.base'], $personalize['box.range.thumb']])>
                 <div @class($personalize['box.button.wrapper'])>
                     <template x-for="color in palette">
                         <button type="button" @class($personalize['box.button.base']) x-on:click="set(color)">
                             <div @class($personalize['box.button.color']) :style="{ 'background-color': color }">
-                                <span x-show="color === selected" x-bind:class="{'text-white': !check(color), 'text-dark-500': check(color)}">
+                                <span x-show="color === model" x-bind:class="{'text-white': !check(color), 'text-dark-500': check(color)}">
                                     <x-icon name="check" @class($personalize['box.button.icon']) />
                                 </span>
                             </div>

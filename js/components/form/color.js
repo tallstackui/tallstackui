@@ -1,8 +1,8 @@
-export default (selected, mode, custom) => ({
-  selected: selected,
-  mode: mode,
-  custom: custom,
+export default (model, mode, colors) => ({
   show: false,
+  model: model,
+  mode: mode,
+  colors: colors,
   weight: 6,
   palette: [],
   default: {
@@ -293,10 +293,36 @@ export default (selected, mode, custom) => ({
       950: '#4c0519',
     },
   },
+  init() {
+    if (this.mode === 'range' && this.colors.length === 0) {
+      this.palette = this.range(this.weight);
+      this.$watch('weight', (value) => this.palette = this.range(value));
+    }
+
+    if (this.mode === 'all' && this.colors.length === 0) {
+      this.palette = this.hex();
+    }
+
+    if (this.colors.length > 0) {
+      this.palette = this.colors;
+    }
+
+    if (this.$refs.input.value !== '') {
+      this.$refs.input.value = this.hashing(this.$refs.input.value);
+    }
+
+    this.$refs.input.addEventListener('input', (e) => {
+      e.target.value = this.hashing(e.target.value);
+      this.model = e.target.value;
+    });
+  },
+  hashing(value) {
+    return value[0] === '#' ? value : `#${value}`;
+  },
   set(color) {
-    this.selected = color;
-    this.$refs.input.value = color;
     this.show = false;
+    this.model = color;
+    this.$refs.input.value = color;
   },
   hex() {
     return Object.values(this.default)
@@ -305,16 +331,9 @@ export default (selected, mode, custom) => ({
         .filter((color) => color.match(/^#(?:[0-9a-fA-F]{3}){1,2}$/));
   },
   range(index) {
-    const result = {};
-
-    for (const key in this.default) {
-      if (Object.hasOwnProperty.call(this.default, key)) {
-        const keyLevelUp = Object.keys(this.default[key]);
-        result[key] = this.default[key][keyLevelUp[index - 1]];
-      }
-    }
-
-    return Object.values(result);
+    return Object.entries(this.default)
+        .filter(([key]) => Object.hasOwnProperty.call(this.default, key))
+        .map(([key, value]) => value[Object.keys(value)[index - 1]]);
   },
   check(color) {
     color = color.replace('#', '');
@@ -326,23 +345,5 @@ export default (selected, mode, custom) => ({
     const luminosity = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
 
     return luminosity > 0.7;
-  },
-  init() {
-    if (this.mode === 'range' && this.custom.length === 0) {
-      this.palette = this.range(this.weight);
-      this.$watch('weight', (value) => this.palette = this.range(value));
-    }
-
-    if (this.mode === 'all' && this.custom.length === 0) {
-      this.palette = this.hex();
-    }
-
-    if (this.custom.length > 0) {
-      this.palette = this.custom;
-    }
-
-    this.$refs.input.addEventListener('input', (e) => {
-      this.selected = e.target.value;
-    });
   },
 });
