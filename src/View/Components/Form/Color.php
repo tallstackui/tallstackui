@@ -33,7 +33,7 @@ class Color extends Component implements Personalization
             'input' => [...$this->input()],
             'selected' => [
                 'wrapper' => 'flex items-center',
-                'base' => 'dark:border-dark-700 h-6 w-6 rounded border border-gray-300 shadow',
+                'base' => 'dark:border-dark-700 h-6 w-6 rounded shadow',
             ],
             'icon' => [
                 'wrapper' => 'absolute inset-y-0 right-0 flex items-center pr-2.5',
@@ -47,8 +47,8 @@ class Color extends Component implements Personalization
                     'thumb' => '[&::-webkit-slider-thumb]:bg-primary-500 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full',
                 ],
                 'button' => [
-                    'wrapper' => 'mx-auto flex w-[18rem] flex-wrap items-center justify-center gap-1',
-                    'base' => 'dark:border-dark-900 rounded border shadow-lg ring-2 ring-transparent hover:ring-gray-500',
+                    'wrapper' => 'mx-auto flex w-[17rem] flex-wrap items-center justify-center gap-1',
+                    'base' => 'rounded shadow-lg',
                     'color' => 'flex h-5 w-5 cursor-pointer items-center justify-center rounded',
                     'icon' => 'h-3 w-3',
                 ],
