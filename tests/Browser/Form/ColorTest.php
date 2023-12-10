@@ -152,8 +152,7 @@ class ColorTest extends BrowserTestCase
     /** @test */
     public function can_open_and_select_first_color_in_mode_range(): void
     {
-        /** @var Browser $browser */
-        $browser = Livewire::visit(new class extends Component
+        Livewire::visit(new class extends Component
         {
             public ?string $color = null;
 
@@ -173,9 +172,8 @@ class ColorTest extends BrowserTestCase
             {
                 //
             }
-        });
-
-        $browser->waitForText('Color')
+        })
+            ->waitForText('Color')
             ->click('@tallstackui_form_color')
             ->dragRight('@tallstackui_form_range', 50)
             ->clickAtXPath('/html/body/div[3]/div/div/div/div[3]/div/div/button[8]')
