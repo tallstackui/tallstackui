@@ -1,7 +1,16 @@
+@php
+    $computed = $attributes->whereStartsWith('wire:model');
+    $directive = array_key_first($computed->getAttributes());
+    $property = $computed[$directive];
+    $error = $property && $errors->has($property);
+    $live = str($directive)->contains('.live');
+    $disabled = $attributes->get('disabled');
+    $readonly = $attributes->get('readonly');
+@endphp
+
 <div class="flex" x-data="app()" x-on:paste="pasting = true; paste($event)">
-    <p x-text="model"></p>
-    <template x-for="(value, index) in length" :key="`pin-${index}`">
-        <input :id="`pin-${index}`"
+    <template x-for="(value, index) in length" :key="`pin-${hash}-${index}`">
+        <input :id="`pin-${hash}-${index}`"
                class="h-16 w-12 border mx-2 rounded-lg flex items-center text-center font-thin text-3xl"
                maxlength="1"
                max="9"
@@ -15,32 +24,38 @@
     function app() {
         return {
             model: null,
+            hash: Math.random().toString(36).substring(2, 15),
             length: 4,
             pasting: false,
             init() {
                 window.onload = () => {
                     if (this.model) {
-                        for (let i = 0; i < this.length; i++) {
-                            this.input(i).model = this.model[i];
+                        for (let index = 0; index < this.length; index++) {
+                            this.input(index).value = this.model[index];
                         }
                     }
                 }
             },
             /**
              * @param index {Number}
+             * @returns {void}
+             */
+            focus(index) {
+                this.input(index).focus();
+            },
+            /**
+             * @param index {Number}
              */
             left(index) {
                 if (index === 0) return;
-                const prevInput = this.input(index - 1);
-                prevInput.focus();
+                this.focus(index - 1)
             },
             /**
              * @param index {Number}
              */
             right(index) {
                 if (index === this.length - 1) return;
-                const nextInput = this.input(index + 1);
-                nextInput.focus();
+                this.focus(index + 1);
             },
             /**
              * @param index {Number}
@@ -56,38 +71,35 @@
                 const input = this.input(index);
 
                 if (input.value && index !== (this.length - 1)) {
-                    const nextInput = this.input(index + 1);
-
-                    if (nextInput.value !== '') {
-                        nextInput.focus();
+                    if (this.input(index + 1).value !== '') {
+                        this.focus(index + 1)
                         return;
                     }
 
-                    nextInput.focus();
+                    this.focus(index + 1);
                 }
 
                 this.sync();
-
             },
             /**
-             *
              * @param index {Number}
              */
             back(index) {
-                const currentInput = this.input(index);
+                const current = this.input(index);
 
-                if (currentInput.value !== '') {
-                    currentInput.value = '';
+                if (current.value !== '') {
+                    current.value = '';
                     return;
                 }
 
-                const prevInput = this.input(index - 1);
-                prevInput.focus();
-                prevInput.value = '';
+                const previous = this.input(index - 1);
+                previous.value = '';
+                this.focus(index - 1);
+
                 this.sync();
             },
             /**
-             * @returns {Promise<void>}
+             * @returns {void}
              */
             sync() {
                 let code = '';
@@ -102,7 +114,7 @@
              * @param index
              * @returns {HTMLElement}
              */
-            input(index) { return document.getElementById(`pin-${index}`) },
+            input(index) { return document.getElementById(`pin-${this.hash}-${index}`) },
             /**
              * @param event {ClipboardEvent}
              */
@@ -110,6 +122,7 @@
                 event.preventDefault();
 
                 const data = event.clipboardData.getData('text');
+
                 if (data.length !== this.length) return;
 
                 for (let index = 0; index < this.length; index++) {
