@@ -1,6 +1,6 @@
 <?php
 
-namespace TallStackUi\Foundation\Providers;
+namespace TallStackUi\Foundation;
 
 use Exception;
 use TallStackUi\View\Components\Interaction\Dialog;
@@ -12,23 +12,27 @@ use TallStackUi\View\Components\Slide;
 /**
  * @internal This class is not meant to be used directly.
  */
-class ConfigurationProvider
+class ResolveConfiguration
 {
     /** @throws Exception */
-    public static function resolve(object $component): array
+    public static function from(object $component): ?array
     {
         $name = get_class($component);
         $class = new self();
 
         /** @var string|array $data */
-        $data = (match ($name) {
-            Dialog::class => fn () => 'dialog',
-            Loading::class => fn () => $class->loading($component),
-            Modal::class => fn () => $class->modal($component),
-            Slide::class => fn () => $class->slide($component),
-            Toast::class => fn () => 'toast',
-            default => throw new Exception("No configurations available for the component: [$name]"),
+        $data = (match (true) {
+            $component instanceof Dialog => fn () => 'dialog',
+            $component instanceof Loading => fn () => $class->loading($component),
+            $component instanceof Modal => fn () => $class->modal($component),
+            $component instanceof Slide => fn () => $class->slide($component),
+            $component instanceof Toast => fn () => 'toast',
+            default => fn () => null,
         })();
+
+        if (! $data) {
+            return null;
+        }
 
         if (is_string($data)) {
             $configuration = config('tallstackui.settings.'.$data);
@@ -38,7 +42,7 @@ class ConfigurationProvider
                 ->toArray();
         }
 
-        return [...$data];
+        return $data;
     }
 
     private function loading(Loading $component): array

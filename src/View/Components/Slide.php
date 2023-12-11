@@ -7,13 +7,10 @@ use Illuminate\Support\Arr;
 use InvalidArgumentException;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\Personalization\SoftPersonalization;
-use TallStackUi\Foundation\Personalization\Traits\InteractWithProviders;
 
 #[SoftPersonalization('slide')]
 class Slide extends BaseComponent implements Personalization
 {
-    use InteractWithProviders;
-
     public function __construct(
         public ?string $id = 'modal',
         public ?string $zIndex = null,
@@ -26,8 +23,6 @@ class Slide extends BaseComponent implements Personalization
         public ?string $size = null,
         public string $entangle = 'slide',
     ) {
-        $this->configurations(); // TODO remove this
-
         $this->entangle = is_string($this->wire) ? $this->wire : (! is_bool($this->wire) ? $this->entangle : 'slide');
     }
 

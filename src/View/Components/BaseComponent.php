@@ -6,9 +6,7 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 use TallStackUi\Foundation\Colors\ResolveColor;
-use TallStackUi\Foundation\Contracts\MustReceiveColor;
-use TallStackUi\Foundation\Contracts\MustReceiveConfiguration;
-use TallStackUi\Foundation\Providers\ConfigurationProvider;
+use TallStackUi\Foundation\ResolveConfiguration;
 use Throwable;
 
 abstract class BaseComponent extends Component
@@ -29,16 +27,19 @@ abstract class BaseComponent extends Component
             $this->validate();
         }
 
+        // The setup method is a hook to allow interactions with the component after
+        // validations. As the name suggests, it can be used for anything, but the
+        // objective behind it is to enable interactions with the component after validation.
         if (method_exists($this, 'setup')) {
             $this->setup();
         }
 
-        if ($this instanceof MustReceiveColor) {
-            $data = array_merge($data, ['colors' => [...ResolveColor::from($this)]]);
+        if ($colors = ResolveColor::from($this)) {
+            $data = array_merge($data, ['colors' => [...$colors]]);
         }
 
-        if ($this instanceof MustReceiveConfiguration) {
-            $data = array_merge($data, ['configurations' => ConfigurationProvider::resolve($this)]);
+        if ($configurations = ResolveConfiguration::from($this)) {
+            $data = array_merge($data, ['configurations' => [...$configurations]]);
         }
 
         return [...$data];
@@ -56,25 +57,25 @@ abstract class BaseComponent extends Component
         }
 
         $ignores = ['slot', 'trigger', 'content'];
-        $lines = '';
+        $attributes = '';
 
         foreach (collect($data)
             ->filter(fn ($value) => ! is_array($value) && ! is_callable($value))
             ->filter(fn ($value, $key) => ! in_array($key, $ignores))
             ->toArray() as $key => $value) {
-            $lines .= "<span class=\"text-white\">$key:</span> <span class=\"text-red-500\">$value</span>";
-            $lines .= '<br>';
+            $attributes .= "<span class=\"text-white\">$key:</span> <span class=\"text-red-500\">$value</span>";
+            $attributes .= '<br>';
         }
 
         $html = $view->render();
 
         return <<<blade
-            <x-tallstack-ui::debugger>
+            <x-tallstack-ui::debug>
                 $html
-                <x-slot:code>
-                    $lines              
-                </x-slot:code>
-            </x-tallstack-ui::debugger>
+                <x-slot:attributes>
+                    $attributes              
+                </x-slot:attributes>
+            </x-tallstack-ui::debug>
         blade;
     }
 }

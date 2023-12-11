@@ -7,17 +7,14 @@ use Illuminate\Support\Arr;
 use InvalidArgumentException;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\Personalization\SoftPersonalization;
-use TallStackUi\Foundation\Personalization\Traits\InteractWithProviders;
 use TallStackUi\View\Components\BaseComponent;
 
 #[SoftPersonalization('dialog')]
 class Dialog extends BaseComponent implements Personalization
 {
-    use InteractWithProviders;
-
     public function __construct()
     {
-        $this->configurations(); // TODO remove this
+        //
     }
 
     public function blade(): View

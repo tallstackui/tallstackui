@@ -7,13 +7,10 @@ use Illuminate\Support\Arr;
 use InvalidArgumentException;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\Personalization\SoftPersonalization;
-use TallStackUi\Foundation\Personalization\Traits\InteractWithProviders;
 
 #[SoftPersonalization('loading')]
 class Loading extends BaseComponent implements Personalization
 {
-    use InteractWithProviders;
-
     public function __construct(
         public ?string $zIndex = null,
         public ?string $text = null,
@@ -22,7 +19,7 @@ class Loading extends BaseComponent implements Personalization
         public ?bool $blur = false,
         public ?bool $opacity = true,
     ) {
-        $this->configurations(); //TODO remove this
+        //
     }
 
     public function blade(): View

@@ -22,7 +22,7 @@ use TallStackUi\View\Components\Tooltip;
 class ResolveColor
 {
     /** @throws Exception */
-    public static function from(object $component): array
+    public static function from(object $component): ?array
     {
         $name = get_class($component);
 
@@ -39,8 +39,12 @@ class ResolveColor
             $component instanceof Range => RangeColors::class,
             $component instanceof Button || $component instanceof Circle => ButtonColors::class,
             $component instanceof Radio || $component instanceof Checkbox => RadioColors::class,
-            default => throw new Exception("No colors available for the component: [$name]"),
+            default => null,
         };
+
+        if (! $class) {
+            return null;
+        }
 
         return app($class, ['component' => $component])();
     }
