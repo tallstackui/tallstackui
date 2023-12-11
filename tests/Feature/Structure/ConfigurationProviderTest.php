@@ -1,6 +1,6 @@
 <?php
 
-use TallStackUi\View\Personalizations\Providers\ConfigurationProvider;
+use TallStackUi\Providers\ConfigurationProvider;
 
 describe('ConfigurationProvider', function () {
     test('contains resolve method')

@@ -1,9 +1,9 @@
 <?php
 
-namespace TallStackUi\View\Personalizations\Support\Colors;
+namespace TallStackUi\Support\Colors;
 
+use TallStackUi\Support\Personalizations\Support\Colors\Traits\OverrideColors;
 use TallStackUi\View\Components\Alert;
-use TallStackUi\View\Personalizations\Support\Colors\Traits\OverrideColors;
 
 class AlertColors
 {

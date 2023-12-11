@@ -1,6 +1,6 @@
 <?php
 
-namespace TallStackUi\View\Personalizations;
+namespace TallStackUi\Support\Personalizations;
 
 use Closure;
 use InvalidArgumentException;
@@ -46,7 +46,7 @@ use Throwable;
  */
 class Personalization
 {
-    public function __construct(public ?string $component = null, public string|array|null $blocks = null)
+    public function __construct(public ?string $component = null)
     {
         //
     }

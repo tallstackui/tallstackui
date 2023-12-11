@@ -1,10 +1,10 @@
 <?php
 
-namespace TallStackUi\View\Personalizations\Traits;
+namespace TallStackUi\Support\Personalizations\Traits;
 
 use Exception;
-use TallStackUi\View\Personalizations\Providers\ColorProvider;
-use TallStackUi\View\Personalizations\Providers\ConfigurationProvider;
+use TallStackUi\Providers\ColorProvider;
+use TallStackUi\Providers\ConfigurationProvider;
 
 /**
  * @internal This trait is not meant to be used directly.

@@ -1,6 +1,6 @@
 <?php
 
-namespace TallStackUi\View\Personalizations;
+namespace TallStackUi\Support\Personalizations;
 
 use Closure;
 use Illuminate\Support\Collection;
@@ -9,7 +9,7 @@ use Illuminate\View\View;
 use InvalidArgumentException;
 use RuntimeException;
 use TallStackUi\Contracts\Personalizable;
-use TallStackUi\View\Personalizations\Contracts\PersonalizableResources;
+use TallStackUi\Support\Personalizations\Contracts\PersonalizableResources;
 
 /**
  * @internal This class is not meant to be used directly.
@@ -116,7 +116,7 @@ class PersonalizationResources implements PersonalizableResources
 
     private function compile(string $block, string|Closure|Personalizable|null $code = null): void
     {
-        $view = $this->personalization(true)->render()->name(); // @phpstan-ignore-line
+        $view = $this->personalization(true)->blade()->name(); // @phpstan-ignore-line
 
         if (! in_array($block, array_values($blocks = $this->blocks()))) {
             $component = str_replace('tallstack-ui::components.', '', $view);

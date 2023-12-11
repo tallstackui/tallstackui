@@ -1,6 +1,6 @@
 @php($personalize = tallstackui_personalization('alert', $personalization()))
 
-<div @class([$personalize['wrapper'], $colors['background']])
+<div @class([$personalize['wrapper'], $colors['background'] ?? null])
      x-data="{ show : true }"
      x-show="show">
     <div @class([$personalize['content.wrapper'], 'items-start' => $title !== null])>
@@ -8,13 +8,13 @@
             @if ($icon)
                 <div @class(['mr-2' => $icon, 'mt-1' => $icon && $title])>
                     @if ($icon)
-                        <x-icon :$icon @class([$personalize['icon.size'], $colors['text']]) />
+                        <x-icon :$icon @class([$personalize['icon.size'], $colors['text']  ?? null]) />
                     @endif
                 </div>
             @endif
-            <div @class([$colors['text']])>
+            <div @class([$colors['text'] ?? null])>
                 @if ($title)
-                    <h3 @class([$personalize['text.title'], $colors['text'] => $title !== null, 'mb-2' => $title])>{{ $title }}</h3>
+                    <h3 @class([$personalize['text.title'], $colors['text']  ?? null => $title !== null, 'mb-2' => $title])>{{ $title }}</h3>
                 @endif
                 <p @class([$personalize['text.description']])>{{ $text ?? $slot }}</p>
             </div>
@@ -22,7 +22,7 @@
         @if ($close)
             <div @class($personalize['close.wrapper'])>
                 <button type="button" dusk="alert-close-button" class="cursor-pointer" x-on:click="show = false">
-                    <x-icon icon="x-mark" @class([$personalize['close.size'], $colors['text']]) />
+                    <x-icon icon="x-mark" @class([$personalize['close.size'], $colors['text']  ?? null]) />
                 </button>
             </div>
         @endif

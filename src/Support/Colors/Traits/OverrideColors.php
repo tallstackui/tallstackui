@@ -1,6 +1,6 @@
 <?php
 
-namespace TallStackUi\View\Personalizations\Support\Colors\Traits;
+namespace TallStackUi\Support\Colors\Traits;
 
 use Illuminate\View\InvokableComponentVariable;
 use ReflectionClass;

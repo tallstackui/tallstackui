@@ -1,9 +1,9 @@
 <?php
 
-namespace TallStackUi\View\Personalizations\Traits;
+namespace TallStackUi\Support\Personalizations\Traits;
 
 use Exception;
-use TallStackUi\View\Personalizations\Support\ValidateComponent;
+use TallStackUi\Support\ValidateComponent;
 
 /**
  * @internal This trait is not meant to be used directly.

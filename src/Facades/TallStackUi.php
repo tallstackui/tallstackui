@@ -3,8 +3,8 @@
 namespace TallStackUi\Facades;
 
 use Illuminate\Support\Facades\Facade;
+use TallStackUi\Support\Personalizations\Personalization;
 use TallStackUi\TallStackUiDirectives;
-use TallStackUi\View\Personalizations\Personalization;
 
 /**
  * @method static Personalization personalize(?string $component = null)

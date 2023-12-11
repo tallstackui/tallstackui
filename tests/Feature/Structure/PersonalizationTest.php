@@ -1,6 +1,6 @@
 <?php
 
-use TallStackUi\View\Personalizations\Personalization;
+use TallStackUi\Support\Personalizations\Personalization;
 
 test('Personalization', function (string $method) {
     expect(Personalization::class)->toHaveMethod($method);

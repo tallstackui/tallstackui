@@ -1,6 +1,6 @@
 <?php
 
-namespace TallStackUi\View\Personalizations\Support;
+namespace TallStackUi\Support;
 
 use Exception;
 use Illuminate\Support\Carbon;

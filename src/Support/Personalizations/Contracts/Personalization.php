@@ -1,6 +1,6 @@
 <?php
 
-namespace TallStackUi\View\Personalizations\Contracts;
+namespace TallStackUi\Support\Personalizations\Contracts;
 
 interface Personalization
 {

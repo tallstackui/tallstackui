@@ -4,15 +4,13 @@ namespace TallStackUi\View\Components;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
-use Illuminate\View\Component;
-use TallStackUi\View\Personalizations\Contracts\Personalization;
-use TallStackUi\View\Personalizations\SoftPersonalization;
-use TallStackUi\View\Personalizations\Traits\InteractWithProviders;
+use TallStackUi\Support\Personalizations\Contracts\Personalization;
+use TallStackUi\Support\Personalizations\SoftPersonalization;
 
 #[SoftPersonalization('alert')]
-class Alert extends Component implements Personalization
+class Alert extends BaseComponent implements Personalization
 {
-    use InteractWithProviders;
+    //use InteractWithProviders;
 
     public function __construct(
         public ?string $title = null,
@@ -27,7 +25,12 @@ class Alert extends Component implements Personalization
     ) {
         $this->style = $this->outline ? 'outline' : ($this->light ? 'light' : 'solid');
 
-        $this->colors();
+        //$this->colors();
+    }
+
+    public function blade(): View
+    {
+        return view('tallstack-ui::components.alert');
     }
 
     public function personalization(): array
@@ -51,10 +54,5 @@ class Alert extends Component implements Personalization
                 'size' => 'w-5 h-5',
             ],
         ]);
-    }
-
-    public function render(): View
-    {
-        return view('tallstack-ui::components.alert');
     }
 }

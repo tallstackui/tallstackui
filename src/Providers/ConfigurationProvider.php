@@ -1,6 +1,6 @@
 <?php
 
-namespace TallStackUi\View\Personalizations\Providers;
+namespace TallStackUi\Providers;
 
 use Exception;
 use Illuminate\Support\Facades\View as FacadeView;

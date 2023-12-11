@@ -1,10 +1,10 @@
 <?php
 
-namespace TallStackUi\View\Personalizations\Support\Colors;
+namespace TallStackUi\Support\Personalizations\Support\Colors;
 
+use TallStackUi\Support\Personalizations\Support\Colors\Traits\OverrideColors;
 use TallStackUi\View\Components\Form\Checkbox;
 use TallStackUi\View\Components\Form\Radio;
-use TallStackUi\View\Personalizations\Support\Colors\Traits\OverrideColors;
 
 class RadioColors
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace TallStackUi\View\Personalizations;
+namespace TallStackUi\Support\Personalizations;
 
 use Attribute;
 
@@ -12,7 +12,7 @@ class SoftPersonalization
         //
     }
 
-    public function get(): string
+    public function key(): string
     {
         return 'tallstack-ui::personalizations.'.$this->key;
     }

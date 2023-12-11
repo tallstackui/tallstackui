@@ -1,6 +1,6 @@
 <?php
 
-use TallStackUi\View\Personalizations\Support\ValidateComponent;
+use TallStackUi\Support\ValidateComponent;
 
 describe('ValidateComponent', function () {
     test('contains validate method')

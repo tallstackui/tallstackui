@@ -1,9 +1,9 @@
 <?php
 
-namespace TallStackUi\View\Personalizations\Support\Colors;
+namespace TallStackUi\Support\Personalizations\Support\Colors;
 
+use TallStackUi\Support\Personalizations\Support\Colors\Traits\OverrideColors;
 use TallStackUi\View\Components\Form\Range;
-use TallStackUi\View\Personalizations\Support\Colors\Traits\OverrideColors;
 
 class RangeColors
 {

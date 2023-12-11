@@ -1,6 +1,6 @@
 <?php
 
-use TallStackUi\View\Personalizations\Providers\ColorProvider;
+use TallStackUi\Providers\ColorProvider;
 
 describe('ColorProvider', function () {
     test('contain resolve method')
