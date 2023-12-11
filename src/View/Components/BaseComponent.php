@@ -11,6 +11,7 @@ use TallStackUi\Foundation\Contracts\MustReceiveColor;
 use TallStackUi\Foundation\Contracts\MustReceiveConfiguration;
 use TallStackUi\Foundation\Contracts\ShouldBeValidated;
 use TallStackUi\Foundation\Providers\ConfigurationProvider;
+use Throwable;
 
 abstract class BaseComponent extends Component
 {
@@ -31,18 +32,19 @@ abstract class BaseComponent extends Component
         return app(collect($attribute->getArguments())->first(), ['component' => $this])();
     }
 
+    /** @throws Throwable */
     private function compile(array $data): array
     {
+        if ($this instanceof ShouldBeValidated) {
+            $this->validate();
+        }
+
         if ($this instanceof MustReceiveColor) {
             $data = array_merge($data, ['colors' => [...$this->colors()]]);
         }
 
         if ($this instanceof MustReceiveConfiguration) {
             $data = array_merge($data, ['configurations' => ConfigurationProvider::resolve($this)]);
-        }
-
-        if ($this instanceof ShouldBeValidated) {
-            $this->validate();
         }
 
         return [...$data];

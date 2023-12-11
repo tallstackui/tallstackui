@@ -5,18 +5,19 @@ namespace TallStackUi\View\Components;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
-use Illuminate\View\Component;
 use InvalidArgumentException;
+use TallStackUi\Foundation\Colors\AvatarColors;
+use TallStackUi\Foundation\Colors\ColorSource;
+use TallStackUi\Foundation\Contracts\MustReceiveColor;
+use TallStackUi\Foundation\Contracts\ShouldBeValidated;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\Personalization\SoftPersonalization;
-use TallStackUi\Foundation\Personalization\Traits\InteractWithProviders;
 use Throwable;
 
 #[SoftPersonalization('avatar')]
-class Avatar extends Component implements Personalization
+#[ColorSource(AvatarColors::class)]
+class Avatar extends BaseComponent implements MustReceiveColor, Personalization, ShouldBeValidated
 {
-    use InteractWithProviders;
-
     public function __construct(
         public ?Model $model = null,
         public ?string $text = null,
@@ -31,34 +32,19 @@ class Avatar extends Component implements Personalization
         public ?string $size = null,
         public ?array $options = [],
     ) {
-        $this->text = $this->content();
         $this->size = $this->xs ? 'xs' : ($this->sm ? 'sm' : ($this->lg ? 'lg' : 'md'));
-
-        $this->colors();
     }
 
-    public function alt(): string
+    public function blade(): View
     {
-        return $this->model->getAttribute($this->property);
+        return view('tallstack-ui::components.avatar');
     }
 
     /** @throws Throwable */
-    public function content(): ?string
+    public function modelable(): string
     {
-        if (! $this->model && ! $this->text) {
-            return null;
-        }
-
-        if ($this->text) {
-            return $this->text;
-        }
-
-        $property = $this->model->getAttribute($this->property);
-
-        throw_if(blank($property), new InvalidArgumentException("The property {$this->property} does not exists or is blank"));
-
         $params = Arr::query([
-            'name' => $property,
+            'name' => $this->model->getAttribute($this->property),
             'background' => $this->background,
             'color' => $this->color,
             ...$this->options,
@@ -100,8 +86,19 @@ class Avatar extends Component implements Personalization
         ]);
     }
 
-    public function render(): View
+    public function validate(): void
     {
-        return view('tallstack-ui::components.avatar');
+        if (! $this->model && ! $this->text) {
+            return;
+        }
+
+        if ($this->text) {
+            return;
+        }
+
+        $model = get_class($this->model);
+        $property = $this->model->getAttribute($this->property);
+
+        throw_if(blank($property), new InvalidArgumentException("The model [$model] property [{$this->property}] does not exists or is blank"));
     }
 }
