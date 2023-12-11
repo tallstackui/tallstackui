@@ -72,7 +72,7 @@ class Tooltip extends BaseComponent implements MustReceiveColor, Personalization
         ];
 
         if (! in_array($this->position, $positions)) {
-            throw new InvalidArgumentException('The tooltip position must be one of the following: ['.implode(', ', $positions).']');
+            throw new InvalidArgumentException('The tooltip [position] must be one of the following: ['.implode(', ', $positions).']');
         }
     }
 }

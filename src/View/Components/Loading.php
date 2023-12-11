@@ -10,7 +10,6 @@ use TallStackUi\Foundation\Personalization\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Traits\InteractWithProviders;
 
 #[SoftPersonalization('loading')]
-
 class Loading extends BaseComponent implements Personalization
 {
     use InteractWithProviders;
@@ -47,12 +46,8 @@ class Loading extends BaseComponent implements Personalization
 
     protected function validate(): void
     {
-        $configuration = config('tallstackui.settings.loading');
-
-        if (str_starts_with($configuration['z-index'], 'z-')) {
-            return;
+        if (! str(config('tallstackui.settings.loading')['z-index'])->startsWith('z-')) {
+            throw new InvalidArgumentException('The loading [z-index] must start with z- prefix');
         }
-
-        throw new InvalidArgumentException('The loading z-index must start with z- prefix');
     }
 }

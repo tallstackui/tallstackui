@@ -58,28 +58,23 @@ class Slide extends BaseComponent implements Personalization
     protected function validate(): void
     {
         if (is_string($this->wire) && empty($this->wire)) {
-            throw new InvalidArgumentException('The [wire] property cannot be an empty string');
+            throw new InvalidArgumentException('The slide [wire] property cannot be an empty string');
         }
 
         $configuration = config('tallstackui.settings.slide');
-
-        $size = $this->size ?? $configuration['size'];
-        $zIndex = $this->zIndex ?? $configuration['z-index'];
-        $position = $this->left ? 'left' : $configuration['position'];
-
         $sizes = ['sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl', '5xl', '6xl', '7xl', 'full'];
         $positions = ['right', 'left'];
 
-        if (! in_array($size, $sizes)) {
+        if (! in_array($this->size ?? $configuration['size'], $sizes)) {
             throw new InvalidArgumentException('The slide size must be one of the following: ['.implode(', ', $sizes).']');
         }
 
-        if (! str_starts_with($zIndex, 'z-')) {
-            throw new InvalidArgumentException('The slide z-index must start with z- prefix');
+        if (! str_starts_with($this->zIndex ?? $configuration['z-index'], 'z-')) {
+            throw new InvalidArgumentException('The slide [z-index] must start with z- prefix');
         }
 
-        if (! in_array($position, $positions)) {
-            throw new InvalidArgumentException('The slide position must be one of the following: ['.implode(', ', $positions).']');
+        if (! in_array($this->left ? 'left' : $configuration['position'], $positions)) {
+            throw new InvalidArgumentException('The slide [position] must be one of the following: ['.implode(', ', $positions).']');
         }
     }
 }

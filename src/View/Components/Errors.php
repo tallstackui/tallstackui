@@ -2,15 +2,14 @@
 
 namespace TallStackUi\View\Components;
 
-use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\Support\ViewErrorBag;
+use InvalidArgumentException;
 use TallStackUi\Foundation\Colors\ColorSource;
 use TallStackUi\Foundation\Colors\ErrorsColors;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\Personalization\SoftPersonalization;
-use Throwable;
 
 #[SoftPersonalization('errors')]
 #[ColorSource(ErrorsColors::class)]
@@ -65,9 +64,11 @@ class Errors extends BaseComponent implements Personalization
         ]);
     }
 
-    /** @throws Throwable */
     public function validate(): void
     {
-        throw_if(blank($this->title), new Exception('The [title] cannot be empty'));
+        if (blank($this->title)) {
+            throw new InvalidArgumentException('The errors [title] cannot be empty');
+        }
+
     }
 }

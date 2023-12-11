@@ -11,7 +11,6 @@ use TallStackUi\Foundation\Colors\ColorSource;
 use TallStackUi\Foundation\Contracts\MustReceiveColor;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\Personalization\SoftPersonalization;
-use Throwable;
 
 #[SoftPersonalization('avatar')]
 #[ColorSource(AvatarColors::class)]
@@ -39,7 +38,6 @@ class Avatar extends BaseComponent implements MustReceiveColor, Personalization
         return view('tallstack-ui::components.avatar');
     }
 
-    /** @throws Throwable */
     public function modelable(): string
     {
         $params = Arr::query([
@@ -85,7 +83,6 @@ class Avatar extends BaseComponent implements MustReceiveColor, Personalization
         ]);
     }
 
-    /** @throws Throwable */
     protected function validate(): void
     {
         if (! $this->model && ! $this->text) {
@@ -99,6 +96,8 @@ class Avatar extends BaseComponent implements MustReceiveColor, Personalization
         $model = get_class($this->model);
         $property = $this->model->getAttribute($this->property);
 
-        throw_if(blank($property), new InvalidArgumentException("The model [$model] property [{$this->property}] does not exists or is blank"));
+        if (blank($property)) {
+            throw new InvalidArgumentException("The avatar property [{$this->property}] does not exists or is blank at the model [$model]");
+        }
     }
 }

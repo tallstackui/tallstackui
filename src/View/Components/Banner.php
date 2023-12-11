@@ -90,16 +90,16 @@ class Banner extends BaseComponent implements MustReceiveColor, Personalization
         $sizes = ['sm', 'md', 'lg'];
 
         if (! in_array($this->size, $sizes)) {
-            throw new InvalidArgumentException('The [banner] size must be one of the following: ['.implode(', ', $sizes).']');
+            throw new InvalidArgumentException('The banner [size] must be one of the following: ['.implode(', ', $sizes).']');
         }
 
         if (is_array($this->color)) {
             if (! isset($this->color['background'])) {
-                throw new InvalidArgumentException('The [background] key must exists when color is an array.');
+                throw new InvalidArgumentException('The banner [background] key must exists when color is an array.');
             }
 
             if (! isset($this->color['text'])) {
-                throw new InvalidArgumentException('The [color] key must exists when color is an array.');
+                throw new InvalidArgumentException('The banner [color] key must exists when color is an array.');
             }
         }
 
@@ -117,8 +117,8 @@ class Banner extends BaseComponent implements MustReceiveColor, Personalization
             //
         }
 
-        if (! $until) {
-            throw new InvalidArgumentException('The [until] attribute must be a Carbon instance or a valid date string.');
+        if (blank($until)) {
+            throw new InvalidArgumentException('The banner [until] attribute must be a Carbon instance or a valid date string.');
         }
     }
 }
