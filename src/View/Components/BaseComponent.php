@@ -40,6 +40,7 @@ abstract class BaseComponent extends Component
 
     private function output(View $view, array $data): View|string
     {
+        // When testing, we always display without debug mode.
         if (app()->runningUnitTests()) {
             return $view;
         }
@@ -69,9 +70,9 @@ abstract class BaseComponent extends Component
         return <<<blade
             <x-tallstack-ui::debug>
                 $html
-                <x-slot:attributes>
+                <x-slot:code>
                     $attributes              
-                </x-slot:attributes>
+                </x-slot:code>
             </x-tallstack-ui::debug>
         blade;
     }
