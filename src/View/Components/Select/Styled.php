@@ -5,20 +5,19 @@ namespace TallStackUi\View\Components\Select;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use Illuminate\View\Component;
+use InvalidArgumentException;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\Personalization\SoftPersonalization;
-use TallStackUi\Foundation\Personalization\Traits\InteractWithValidations;
+use TallStackUi\View\Components\BaseComponent;
 use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
 use TallStackUi\View\Components\Select\Traits\InteractsWithSelectOptions;
 use Throwable;
 
 #[SoftPersonalization('select.styled')]
-class Styled extends Component implements Personalization
+class Styled extends BaseComponent implements Personalization
 {
     use DefaultInputClasses;
     use InteractsWithSelectOptions;
-    use InteractWithValidations;
 
     /** @throws Throwable */
     public function __construct(
@@ -40,9 +39,11 @@ class Styled extends Component implements Personalization
 
         $this->common = ! filled($this->request);
         $this->searchable = ! $this->common ? true : $this->searchable;
+    }
 
-        $this->options();
-        $this->validate();
+    public function blade(): View
+    {
+        return view('tallstack-ui::components.select.styled');
     }
 
     public function personalization(): array
@@ -94,8 +95,58 @@ class Styled extends Component implements Personalization
         ]);
     }
 
-    public function render(): View
+    protected function setup(): void
     {
-        return view('tallstack-ui::components.select.styled');
+        $this->options();
+    }
+
+    protected function validate(): void
+    {
+        if (blank($this->placeholders['default'])) {
+            throw new InvalidArgumentException('The placeholder [default] cannot be empty.');
+        }
+
+        if (blank($this->placeholders['search'])) {
+            throw new InvalidArgumentException('The placeholder [search] cannot be empty.');
+        }
+
+        if (blank($this->placeholders['empty'])) {
+            throw new InvalidArgumentException('The placeholder [empty] cannot be empty.');
+        }
+
+        if ($this->ignoreValidations) {
+            return;
+        }
+
+        if (filled($this->options) && filled($this->request)) {
+            throw new InvalidArgumentException('You cannot define [options] and [request] at the same time.');
+        }
+
+        if (($this->common && isset($this->options[0]) && (is_array($this->options[0]) && ! $this->select)) || ! $this->common && ! $this->select) {
+            throw new InvalidArgumentException('The [select] parameter must be defined');
+        }
+
+        if ($this->common || $this->request && ! is_array($this->request)) {
+            return;
+        }
+
+        if (! isset($this->request['url'])) {
+            throw new InvalidArgumentException('The [url] is required in the request array');
+        }
+
+        $this->request['method'] ??= 'get';
+        $this->request['method'] = strtolower($this->request['method']);
+
+        if (! in_array($this->request['method'], ['get', 'post'])) {
+            throw new InvalidArgumentException('The [method] must be get or post');
+        }
+
+        if (! isset($this->request['params'])) {
+            return;
+        }
+
+        if (! is_array($this->request['params']) || blank($this->request['params'])) {
+            throw new InvalidArgumentException('The [params] must be an array and cannot be empty');
+        }
     }
 }

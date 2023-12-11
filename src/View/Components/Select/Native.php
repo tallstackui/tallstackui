@@ -5,14 +5,14 @@ namespace TallStackUi\View\Components\Select;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use Illuminate\View\Component;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\Personalization\SoftPersonalization;
+use TallStackUi\View\Components\BaseComponent;
 use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
 use TallStackUi\View\Components\Select\Traits\InteractsWithSelectOptions;
 
 #[SoftPersonalization('select.native')]
-class Native extends Component implements Personalization
+class Native extends BaseComponent implements Personalization
 {
     use DefaultInputClasses;
     use InteractsWithSelectOptions;
@@ -27,6 +27,11 @@ class Native extends Component implements Personalization
         $this->options();
     }
 
+    public function blade(): View
+    {
+        return view('tallstack-ui::components.select.native');
+    }
+
     public function personalization(): array
     {
         return Arr::dot([
@@ -36,10 +41,5 @@ class Native extends Component implements Personalization
             ],
             'error' => $this->error('focus:ring-2'),
         ]);
-    }
-
-    public function render(): View
-    {
-        return view('tallstack-ui::components.select.native');
     }
 }

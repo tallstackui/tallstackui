@@ -4,16 +4,17 @@ namespace TallStackUi\View\Components\Button;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
-use Illuminate\View\Component;
+use TallStackUi\Foundation\Colors\ButtonColors;
+use TallStackUi\Foundation\Colors\ColorSource;
+use TallStackUi\Foundation\Contracts\MustReceiveColor;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\Personalization\SoftPersonalization;
-use TallStackUi\Foundation\Personalization\Traits\InteractWithProviders;
+use TallStackUi\View\Components\BaseComponent;
 
 #[SoftPersonalization('button')]
-class Button extends Component implements Personalization
+#[ColorSource(ButtonColors::class)]
+class Button extends BaseComponent implements MustReceiveColor, Personalization
 {
-    use InteractWithProviders;
-
     public function __construct(
         public ?string $text = null,
         public ?string $icon = null,
@@ -38,8 +39,11 @@ class Button extends Component implements Personalization
     ) {
         $this->style = $this->outline ? 'outline' : ($this->light ? 'light' : 'solid');
         $this->size = $this->xs ? 'xs' : ($this->sm ? 'sm' : ($this->lg ? 'lg' : 'md'));
+    }
 
-        $this->colors();
+    public function blade(): View
+    {
+        return view('tallstack-ui::components.button.button');
     }
 
     public function personalization(): array
@@ -61,10 +65,5 @@ class Button extends Component implements Personalization
                 'lg' => 'w-5 h-5',
             ],
         ]);
-    }
-
-    public function render(): View
-    {
-        return view('tallstack-ui::components.button.button');
     }
 }

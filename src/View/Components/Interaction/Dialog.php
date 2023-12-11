@@ -4,22 +4,25 @@ namespace TallStackUi\View\Components\Interaction;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
-use Illuminate\View\Component;
+use InvalidArgumentException;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\Personalization\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Traits\InteractWithProviders;
-use TallStackUi\Foundation\Personalization\Traits\InteractWithValidations;
+use TallStackUi\View\Components\BaseComponent;
 
 #[SoftPersonalization('dialog')]
-class Dialog extends Component implements Personalization
+class Dialog extends BaseComponent implements Personalization
 {
     use InteractWithProviders;
-    use InteractWithValidations;
 
     public function __construct()
     {
-        $this->configurations();
-        $this->validate();
+        $this->configurations(); // TODO remove this
+    }
+
+    public function blade(): View
+    {
+        return view('tallstack-ui::components.interaction.dialog');
     }
 
     public function personalization(): array
@@ -51,8 +54,10 @@ class Dialog extends Component implements Personalization
         ]);
     }
 
-    public function render(): View
+    protected function validate(): void
     {
-        return view('tallstack-ui::components.interaction.dialog');
+        if (! str(config('tallstackui.settings.dialog')['z-index'])->startsWith('z-')) {
+            throw new InvalidArgumentException('The dialog z-index must start with z- prefix');
+        }
     }
 }
