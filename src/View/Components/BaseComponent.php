@@ -18,28 +18,7 @@ abstract class BaseComponent extends Component
     public function render(): Closure
     {
         return function (array $data) {
-            $content = $this->blade()->with($this->compile($data));
-            // filter $data ignoring all arrays and invokable component variables
-            $data = collect($data)
-                ->filter(fn ($value) => ! is_array($value) && ! is_callable($value))
-                ->filter(fn ($value, $key) => $key !== 'slot' && $key !== 'trigger' && $key !== 'content')
-                ->toArray();
-
-            $lines = '';
-
-            foreach ($data as $key => $value) {
-                $lines .= "<span class=\"text-white\">$key:</span> <span class=\"text-red-500\">$value</span>";
-                $lines .= '<br>';
-            }
-
-            return <<<blade
-                <x-tallstack-ui::debugger>
-                    $content
-                    <x-slot:code>
-                        $lines              
-                    </x-slot:code>
-                </x-tallstack-ui::debugger>
-            blade;
+            return $this->output($this->blade()->with($this->compile($data)), $data);
         };
     }
 
@@ -63,5 +42,39 @@ abstract class BaseComponent extends Component
         }
 
         return [...$data];
+    }
+
+    private function output(View $view, array $data): string
+    {
+        $config = collect(config('tallstackui.debug'));
+
+        if (! $config->get('status', false) ||
+            ! ($environment = $config->get('environments', [])) ||
+            ! in_array(app()->environment(), $environment)
+        ) {
+            return $view->render();
+        }
+
+        $ignores = ['slot', 'trigger', 'content'];
+        $lines = '';
+
+        foreach (collect($data)
+            ->filter(fn ($value) => ! is_array($value) && ! is_callable($value))
+            ->filter(fn ($value, $key) => ! in_array($key, $ignores))
+            ->toArray() as $key => $value) {
+            $lines .= "<span class=\"text-white\">$key:</span> <span class=\"text-red-500\">$value</span>";
+            $lines .= '<br>';
+        }
+
+        $html = $view->render();
+
+        return <<<blade
+            <x-tallstack-ui::debugger>
+                $html
+                <x-slot:code>
+                    $lines              
+                </x-slot:code>
+            </x-tallstack-ui::debugger>
+        blade;
     }
 }

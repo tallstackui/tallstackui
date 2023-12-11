@@ -5,6 +5,22 @@ use TallStackUi\View\Components;
 return [
     /*
     |--------------------------------------------------------------------------
+    | Debug Mode
+    |--------------------------------------------------------------------------
+    |
+    | When enabled, all components in use will receive an icon with
+    | a tooltip displaying all attributes of the components in use
+    */
+    'debug' => [
+        'status' => env('TALLSTACKUI_DEBUG', false),
+        'environments' => [
+            'local',
+            'testing',
+        ],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Icon Style
     |--------------------------------------------------------------------------
     |
