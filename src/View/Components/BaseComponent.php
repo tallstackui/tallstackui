@@ -9,7 +9,6 @@ use ReflectionClass;
 use TallStackUi\Foundation\Colors\ColorSource;
 use TallStackUi\Foundation\Contracts\MustReceiveColor;
 use TallStackUi\Foundation\Contracts\MustReceiveConfiguration;
-use TallStackUi\Foundation\Contracts\ShouldBeValidated;
 use TallStackUi\Foundation\Providers\ConfigurationProvider;
 use Throwable;
 
@@ -35,8 +34,12 @@ abstract class BaseComponent extends Component
     /** @throws Throwable */
     private function compile(array $data): array
     {
-        if ($this instanceof ShouldBeValidated) {
+        if (method_exists($this, 'validate')) {
             $this->validate();
+        }
+
+        if (method_exists($this, 'setup')) {
+            $this->setup();
         }
 
         if ($this instanceof MustReceiveColor) {

@@ -3,21 +3,14 @@
 namespace TallStackUi\Foundation;
 
 use Exception;
-use Illuminate\Support\Carbon;
 use InvalidArgumentException;
-use TallStackUi\View\Components\Banner;
 use TallStackUi\View\Components\Dropdown\Dropdown;
-use TallStackUi\View\Components\Errors;
 use TallStackUi\View\Components\Form\Checkbox;
 use TallStackUi\View\Components\Form\Radio;
 use TallStackUi\View\Components\Form\Toggle;
-use TallStackUi\View\Components\Icon;
 use TallStackUi\View\Components\Interaction\Dialog;
 use TallStackUi\View\Components\Interaction\Toast;
-use TallStackUi\View\Components\Loading;
-use TallStackUi\View\Components\Modal;
 use TallStackUi\View\Components\Select\Styled;
-use TallStackUi\View\Components\Slide;
 use TallStackUi\View\Components\Tooltip;
 use Throwable;
 
@@ -32,14 +25,8 @@ class ValidateComponent
         $name = get_class($component);
 
         $method = match ($name) {
-            Banner::class => 'banner',
-            Errors::class => 'errors',
             Dialog::class => 'dialog',
             Dropdown::class => 'dropdown',
-            Icon::class => 'icon',
-            Modal::class => 'modal',
-            Loading::class => 'loading',
-            Slide::class => 'slide',
             Styled::class => 'select',
             Toast::class => 'toast',
             Tooltip::class => 'tooltip',
@@ -48,44 +35,6 @@ class ValidateComponent
         };
 
         (new self())->{$method}($component);
-    }
-
-    /** @throws Throwable */
-    private function banner(Banner $component): void
-    {
-        $sizes = ['sm', 'md', 'lg'];
-
-        if (! in_array($component->size, $sizes)) {
-            throw new InvalidArgumentException('The [banner] size must be one of the following: ['.implode(', ', $sizes).']');
-        }
-
-        if (is_array($component->color)) {
-            if (! isset($component->color['background'])) {
-                throw new InvalidArgumentException('The [background] key must exists when color is an array.');
-            }
-
-            if (! isset($component->color['text'])) {
-                throw new InvalidArgumentException('The [color] key must exists when color is an array.');
-            }
-        }
-
-        // If the banner is wire, we don't need to validate the until property
-        // Because the banner will be displayed through the Livewire events
-        if (is_null($component->until) || $component->wire) {
-            return;
-        }
-
-        $until = null;
-
-        try {
-            $until = Carbon::parse($component->until);
-        } catch (Exception) {
-            //
-        }
-
-        if (! $until) {
-            throw new InvalidArgumentException('The [until] attribute must be a Carbon instance or a valid date string.');
-        }
     }
 
     /** @throws Throwable */
@@ -105,53 +54,6 @@ class ValidateComponent
 
         if (! in_array($component->position, $positions)) {
             throw new InvalidArgumentException('The dropdown position must be one of the following: ['.implode(', ', $positions).']');
-        }
-    }
-
-    /** @throws Throwable */
-    private function errors(Errors $component): void
-    {
-        throw_if(blank($component->title), new Exception('The [title] cannot be empty'));
-    }
-
-    /** @throws Throwable */
-    private function icon(Icon $component): void
-    {
-        if (! in_array($component->type, ['solid', 'outline'])) {
-            throw new InvalidArgumentException('The icon must be one of the following: [solid, outline]');
-        }
-    }
-
-    /** @throws Throwable */
-    private function loading(Loading $component): void
-    {
-        $configuration = config('tallstackui.settings.loading');
-
-        if (! str_starts_with($configuration['z-index'], 'z-')) {
-            throw new InvalidArgumentException('The loading z-index must start with z- prefix');
-        }
-    }
-
-    /** @throws Throwable */
-    private function modal(Modal $component): void
-    {
-        if (is_string($component->wire) && empty($component->wire)) {
-            throw new InvalidArgumentException('The [wire] property cannot be an empty string');
-        }
-
-        $configuration = config('tallstackui.settings.modal');
-
-        $size = $component->size ?? $configuration['size'];
-        $zIndex = $component->zIndex ?? $configuration['z-index'];
-
-        $sizes = ['sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl', '5xl', '6xl', '7xl'];
-
-        if (! in_array($size, $sizes)) {
-            throw new InvalidArgumentException('The modal size must be one of the following: ['.implode(', ', $sizes).']');
-        }
-
-        if (! str_starts_with($zIndex, 'z-')) {
-            throw new InvalidArgumentException('The modal z-index must start with z- prefix');
         }
     }
 
@@ -205,35 +107,6 @@ class ValidateComponent
 
         if (! is_array($component->request['params']) || blank($component->request['params'])) {
             throw new InvalidArgumentException('The [params] must be an array and cannot be empty');
-        }
-    }
-
-    /** @throws Throwable */
-    private function slide(Slide $component): void
-    {
-        if (is_string($component->wire) && empty($component->wire)) {
-            throw new InvalidArgumentException('The [wire] property cannot be an empty string');
-        }
-
-        $configuration = config('tallstackui.settings.slide');
-
-        $size = $component->size ?? $configuration['size'];
-        $zIndex = $component->zIndex ?? $configuration['z-index'];
-        $position = $component->left ? 'left' : $configuration['position'];
-
-        $sizes = ['sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl', '5xl', '6xl', '7xl', 'full'];
-        $positions = ['right', 'left'];
-
-        if (! in_array($size, $sizes)) {
-            throw new InvalidArgumentException('The slide size must be one of the following: ['.implode(', ', $sizes).']');
-        }
-
-        if (! str_starts_with($zIndex, 'z-')) {
-            throw new InvalidArgumentException('The slide z-index must start with z- prefix');
-        }
-
-        if (! in_array($position, $positions)) {
-            throw new InvalidArgumentException('The slide position must be one of the following: ['.implode(', ', $positions).']');
         }
     }
 

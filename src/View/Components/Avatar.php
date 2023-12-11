@@ -9,14 +9,13 @@ use InvalidArgumentException;
 use TallStackUi\Foundation\Colors\AvatarColors;
 use TallStackUi\Foundation\Colors\ColorSource;
 use TallStackUi\Foundation\Contracts\MustReceiveColor;
-use TallStackUi\Foundation\Contracts\ShouldBeValidated;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\Personalization\SoftPersonalization;
 use Throwable;
 
 #[SoftPersonalization('avatar')]
 #[ColorSource(AvatarColors::class)]
-class Avatar extends BaseComponent implements MustReceiveColor, Personalization, ShouldBeValidated
+class Avatar extends BaseComponent implements MustReceiveColor, Personalization
 {
     public function __construct(
         public ?Model $model = null,
@@ -86,7 +85,8 @@ class Avatar extends BaseComponent implements MustReceiveColor, Personalization,
         ]);
     }
 
-    public function validate(): void
+    /** @throws Throwable */
+    protected function validate(): void
     {
         if (! $this->model && ! $this->text) {
             return;

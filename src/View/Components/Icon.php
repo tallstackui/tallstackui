@@ -3,13 +3,10 @@
 namespace TallStackUi\View\Components;
 
 use Illuminate\Contracts\View\View;
-use Illuminate\View\Component;
-use TallStackUi\Foundation\Personalization\Traits\InteractWithValidations;
+use InvalidArgumentException;
 
-class Icon extends Component
+class Icon extends BaseComponent
 {
-    use InteractWithValidations;
-
     public function __construct(
         public ?string $icon = null,
         public ?string $name = null,
@@ -21,12 +18,19 @@ class Icon extends Component
         public ?string $right = null,
     ) {
         $this->type = $this->outline ? 'outline' : ($this->solid ? 'solid' : config('tallstackui.icon'));
-
-        $this->validate();
     }
 
-    public function render(): View
+    public function blade(): View
     {
         return view('tallstack-ui::components.icon');
+    }
+
+    protected function validate(): void
+    {
+        if (in_array($this->type, ['solid', 'outline'])) {
+            return;
+        }
+
+        throw new InvalidArgumentException('The icon must be one of the following: [solid, outline]');
     }
 }

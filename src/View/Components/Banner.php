@@ -2,22 +2,22 @@
 
 namespace TallStackUi\View\Components;
 
+use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
-use Illuminate\View\Component;
+use InvalidArgumentException;
+use TallStackUi\Foundation\Colors\BannerColors;
+use TallStackUi\Foundation\Colors\ColorSource;
+use TallStackUi\Foundation\Contracts\MustReceiveColor;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\Personalization\SoftPersonalization;
-use TallStackUi\Foundation\Personalization\Traits\InteractWithProviders;
-use TallStackUi\Foundation\Personalization\Traits\InteractWithValidations;
 
 #[SoftPersonalization('banner')]
-class Banner extends Component implements Personalization
+#[ColorSource(BannerColors::class)]
+class Banner extends BaseComponent implements MustReceiveColor, Personalization
 {
-    use InteractWithProviders;
-    use InteractWithValidations;
-
     public function __construct(
         public string|array|Collection|null $text = null,
         public string|null|array $color = 'primary',
@@ -34,11 +34,11 @@ class Banner extends Component implements Personalization
         public ?string $style = 'solid',
     ) {
         $this->style = $this->light ? 'light' : $this->style;
+    }
 
-        $this->colors();
-        $this->validate();
-
-        $this->setup();
+    public function blade(): View
+    {
+        return view('tallstack-ui::components.banner');
     }
 
     public function personalization(): array
@@ -57,12 +57,7 @@ class Banner extends Component implements Personalization
         ]);
     }
 
-    public function render(): View
-    {
-        return view('tallstack-ui::components.banner');
-    }
-
-    private function setup(): void
+    protected function setup(): void
     {
         // If the banner is wire, we don't need to set up anything else
         // Because the banner will be displayed through the Livewire events
@@ -88,5 +83,42 @@ class Banner extends Component implements Personalization
         }
 
         $this->show = false;
+    }
+
+    protected function validate(): void
+    {
+        $sizes = ['sm', 'md', 'lg'];
+
+        if (! in_array($this->size, $sizes)) {
+            throw new InvalidArgumentException('The [banner] size must be one of the following: ['.implode(', ', $sizes).']');
+        }
+
+        if (is_array($this->color)) {
+            if (! isset($this->color['background'])) {
+                throw new InvalidArgumentException('The [background] key must exists when color is an array.');
+            }
+
+            if (! isset($this->color['text'])) {
+                throw new InvalidArgumentException('The [color] key must exists when color is an array.');
+            }
+        }
+
+        // If the banner is wire, we don't need to validate the until property
+        // Because the banner will be displayed through the Livewire events
+        if (is_null($this->until) || $this->wire) {
+            return;
+        }
+
+        $until = null;
+
+        try {
+            $until = Carbon::parse($this->until);
+        } catch (Exception) {
+            //
+        }
+
+        if (! $until) {
+            throw new InvalidArgumentException('The [until] attribute must be a Carbon instance or a valid date string.');
+        }
     }
 }

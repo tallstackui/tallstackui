@@ -4,17 +4,15 @@ namespace TallStackUi\View\Components;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
-use Illuminate\View\Component;
+use InvalidArgumentException;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\Personalization\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Traits\InteractWithProviders;
-use TallStackUi\Foundation\Personalization\Traits\InteractWithValidations;
 
 #[SoftPersonalization('modal')]
-class Modal extends Component implements Personalization
+class Modal extends BaseComponent implements Personalization
 {
     use InteractWithProviders;
-    use InteractWithValidations;
 
     public function __construct(
         public ?string $id = 'modal',
@@ -27,10 +25,14 @@ class Modal extends Component implements Personalization
         public ?string $size = null,
         public string $entangle = 'modal',
     ) {
-        $this->validate();
-        $this->configurations();
+        $this->configurations(); // TODO remove this
 
         $this->entangle = is_string($this->wire) ? $this->wire : (! is_bool($this->wire) ? $this->entangle : 'modal');
+    }
+
+    public function blade(): View
+    {
+        return view('tallstack-ui::components.modal');
     }
 
     public function personalization(): array
@@ -53,8 +55,25 @@ class Modal extends Component implements Personalization
         ]);
     }
 
-    public function render(): View
+    protected function validate(): void
     {
-        return view('tallstack-ui::components.modal');
+        if (is_string($this->wire) && empty($this->wire)) {
+            throw new InvalidArgumentException('The [wire] property cannot be an empty string');
+        }
+
+        $configuration = config('tallstackui.settings.modal');
+
+        $size = $this->size ?? $configuration['size'];
+        $zIndex = $this->zIndex ?? $configuration['z-index'];
+
+        $sizes = ['sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl', '5xl', '6xl', '7xl'];
+
+        if (! in_array($size, $sizes)) {
+            throw new InvalidArgumentException('The modal size must be one of the following: ['.implode(', ', $sizes).']');
+        }
+
+        if (! str_starts_with($zIndex, 'z-')) {
+            throw new InvalidArgumentException('The modal z-index must start with z- prefix');
+        }
     }
 }

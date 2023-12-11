@@ -2,21 +2,20 @@
 
 namespace TallStackUi\View\Components;
 
+use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\Support\ViewErrorBag;
-use Illuminate\View\Component;
+use TallStackUi\Foundation\Colors\ColorSource;
+use TallStackUi\Foundation\Colors\ErrorsColors;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\Personalization\SoftPersonalization;
-use TallStackUi\Foundation\Personalization\Traits\InteractWithProviders;
-use TallStackUi\Foundation\Personalization\Traits\InteractWithValidations;
+use Throwable;
 
 #[SoftPersonalization('errors')]
-class Errors extends Component implements Personalization
+#[ColorSource(ErrorsColors::class)]
+class Errors extends BaseComponent implements Personalization
 {
-    use InteractWithProviders;
-    use InteractWithValidations;
-
     public function __construct(
         public ?string $title = null,
         public string|array|null $only = null,
@@ -25,9 +24,11 @@ class Errors extends Component implements Personalization
         public bool $close = false,
     ) {
         $this->title ??= __('tallstack-ui::messages.errors.title');
+    }
 
-        $this->colors();
-        $this->validate();
+    public function blade(): View
+    {
+        return view('tallstack-ui::components.errors');
     }
 
     public function count(ViewErrorBag $errors): int
@@ -64,8 +65,9 @@ class Errors extends Component implements Personalization
         ]);
     }
 
-    public function render(): View
+    /** @throws Throwable */
+    public function validate(): void
     {
-        return view('tallstack-ui::components.errors');
+        throw_if(blank($this->title), new Exception('The [title] cannot be empty'));
     }
 }
