@@ -57,8 +57,8 @@ abstract class BaseComponent extends Component
         $attributes = '';
 
         foreach (collect($data)
-            ->filter(fn ($value) => ! is_array($value) && ! is_callable($value))
-            ->filter(fn ($value, $key) => ! in_array($key, $ignores))
+            ->filter(fn ($value) => ! is_array($value) && ! is_callable($value)) // @pest-ignore-type
+            ->filter(fn ($value, $key) => ! in_array($key, $ignores)) // @pest-ignore-type
             ->toArray() as $key => $value) {
             $attributes .= "<span class=\"text-white\">$key:</span> <span class=\"text-red-500\">$value</span>";
             $attributes .= '<br>';

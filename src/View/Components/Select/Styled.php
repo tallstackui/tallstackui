@@ -39,6 +39,8 @@ class Styled extends BaseComponent implements Personalization
 
         $this->common = ! filled($this->request);
         $this->searchable = ! $this->common ? true : $this->searchable;
+
+        $this->options();
     }
 
     public function blade(): View
@@ -93,11 +95,6 @@ class Styled extends BaseComponent implements Personalization
                 ],
             ],
         ]);
-    }
-
-    protected function setup(): void
-    {
-        $this->options();
     }
 
     protected function validate(): void

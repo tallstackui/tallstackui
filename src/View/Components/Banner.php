@@ -8,12 +8,11 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use InvalidArgumentException;
-use TallStackUi\Foundation\Contracts\MustReceiveColor;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\Personalization\SoftPersonalization;
 
 #[SoftPersonalization('banner')]
-class Banner extends BaseComponent implements MustReceiveColor, Personalization
+class Banner extends BaseComponent implements Personalization
 {
     public function __construct(
         public string|array|Collection|null $text = null,

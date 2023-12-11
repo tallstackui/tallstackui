@@ -5,12 +5,11 @@ namespace TallStackUi\View\Components;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use InvalidArgumentException;
-use TallStackUi\Foundation\Contracts\MustReceiveColor;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\Personalization\SoftPersonalization;
 
 #[SoftPersonalization('tooltip')]
-class Tooltip extends BaseComponent implements MustReceiveColor, Personalization
+class Tooltip extends BaseComponent implements Personalization
 {
     public function __construct(
         public ?string $text = null,

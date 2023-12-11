@@ -119,7 +119,7 @@ class ColorTest extends BrowserTestCase
                 <div>
                     <p dusk="selected">{{ $color }}</p>
                     
-                    <x-color label="Color" wire:model="color" :custom="['#FF0000', '#FF5733', '#D7E021']" />
+                    <x-color label="Color" wire:model="color" :colors="['#FF0000', '#FF5733', '#D7E021']" />
                     
                     <x-button dusk="sync" wire:click="sync">Save</x-button>
                 </div>

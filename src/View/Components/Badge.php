@@ -4,12 +4,11 @@ namespace TallStackUi\View\Components;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
-use TallStackUi\Foundation\Contracts\MustReceiveColor;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\Personalization\SoftPersonalization;
 
 #[SoftPersonalization('badge')]
-class Badge extends BaseComponent implements MustReceiveColor, Personalization
+class Badge extends BaseComponent implements Personalization
 {
     public function __construct(
         public ?string $text = null,

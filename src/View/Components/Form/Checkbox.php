@@ -6,14 +6,13 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\ComponentSlot;
 use InvalidArgumentException;
-use TallStackUi\Foundation\Contracts\MustReceiveColor;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\Personalization\SoftPersonalization;
 use TallStackUi\View\Components\BaseComponent;
 use TallStackUi\View\Components\Form\Traits\SetupRadioCheckboxToggle;
 
 #[SoftPersonalization('form.checkbox')]
-class Checkbox extends BaseComponent implements MustReceiveColor, Personalization
+class Checkbox extends BaseComponent implements Personalization
 {
     use SetupRadioCheckboxToggle;
 

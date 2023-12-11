@@ -4,13 +4,12 @@ namespace TallStackUi\View\Components\Button;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
-use TallStackUi\Foundation\Contracts\MustReceiveColor;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\Personalization\SoftPersonalization;
 use TallStackUi\View\Components\BaseComponent;
 
 #[SoftPersonalization('button.circle')]
-class Circle extends BaseComponent implements MustReceiveColor, Personalization
+class Circle extends BaseComponent implements Personalization
 {
     public function __construct(
         public ?string $text = null,
