@@ -16,7 +16,7 @@ class ToggleColors
 
     public function __invoke(): array
     {
-        return ['background' => rescue($this->get('background')[$this->component->color], $this->background()[$this->component->color], false)];
+        return ['background' => rescue(fn () => $this->get('background')[$this->component->color], $this->background()[$this->component->color], false)];
     }
 
     private function background(): array

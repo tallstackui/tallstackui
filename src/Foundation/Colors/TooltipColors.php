@@ -16,7 +16,7 @@ class TooltipColors
 
     public function __invoke(): array
     {
-        return ['icon' => rescue($this->get('icon')[$this->component->color], $this->icon()[$this->component->color], false)];
+        return ['icon' => rescue(fn () => $this->get('icon')[$this->component->color], $this->icon()[$this->component->color], false)];
     }
 
     private function icon(): array

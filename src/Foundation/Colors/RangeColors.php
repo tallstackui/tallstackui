@@ -16,7 +16,7 @@ class RangeColors
 
     public function __invoke(): array
     {
-        return ['thumb' => rescue($this->get('thumb')[$this->component->color], $this->thumb()[$this->component->color], false)];
+        return ['thumb' => rescue(fn () => $this->get('thumb')[$this->component->color], $this->thumb()[$this->component->color], false)];
     }
 
     private function thumb(): array
