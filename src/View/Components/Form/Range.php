@@ -4,16 +4,16 @@ namespace TallStackUi\View\Components\Form;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
-use Illuminate\View\Component;
+use TallStackUi\Foundation\Colors\ColorSource;
+use TallStackUi\Foundation\Colors\RangeColors;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\Personalization\SoftPersonalization;
-use TallStackUi\Foundation\Personalization\Traits\InteractWithProviders;
+use TallStackUi\View\Components\BaseComponent;
 
 #[SoftPersonalization('form.range')]
-class Range extends Component implements Personalization
+#[ColorSource(RangeColors::class)]
+class Range extends BaseComponent implements Personalization
 {
-    use InteractWithProviders;
-
     public function __construct(
         public ?string $label = null,
         public ?string $id = null,
@@ -26,8 +26,11 @@ class Range extends Component implements Personalization
     ) {
         $this->id ??= uniqid();
         $this->size = $this->sm ? 'sm' : ($this->lg ? 'lg' : 'md');
+    }
 
-        $this->colors();
+    public function blade(): View
+    {
+        return view('tallstack-ui::components.form.range');
     }
 
     public function personalization(): array
@@ -44,10 +47,5 @@ class Range extends Component implements Personalization
                 'disabled' => 'disabled:opacity-50 disabled:cursor-not-allowed',
             ],
         ]);
-    }
-
-    public function render(): View
-    {
-        return view('tallstack-ui::components.form.range');
     }
 }

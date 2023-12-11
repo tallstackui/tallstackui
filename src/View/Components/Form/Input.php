@@ -4,13 +4,13 @@ namespace TallStackUi\View\Components\Form;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
-use Illuminate\View\Component;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\Personalization\SoftPersonalization;
+use TallStackUi\View\Components\BaseComponent;
 use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
 
 #[SoftPersonalization('form.input')]
-class Input extends Component implements Personalization
+class Input extends BaseComponent implements Personalization
 {
     use DefaultInputClasses;
 
@@ -26,6 +26,11 @@ class Input extends Component implements Personalization
     ) {
         $this->id ??= uniqid();
         $this->position = $this->position === 'left' ? 'left' : 'right';
+    }
+
+    public function blade(): View
+    {
+        return view('tallstack-ui::components.form.input');
     }
 
     public function personalization(): array
@@ -48,10 +53,5 @@ class Input extends Component implements Personalization
             ],
             'error' => $this->error(),
         ]);
-    }
-
-    public function render(): View
-    {
-        return view('tallstack-ui::components.form.input');
     }
 }

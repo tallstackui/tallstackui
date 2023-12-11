@@ -4,19 +4,24 @@ namespace TallStackUi\View\Components\Form;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
-use Illuminate\View\Component;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\Personalization\SoftPersonalization;
+use TallStackUi\View\Components\BaseComponent;
 use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
 
 #[SoftPersonalization('form.password')]
-class Password extends Component implements Personalization
+class Password extends BaseComponent implements Personalization
 {
     use DefaultInputClasses;
 
     public function __construct(public ?string $label = null, public ?string $id = null, public ?string $hint = null)
     {
         $this->id ??= uniqid();
+    }
+
+    public function blade(): View
+    {
+        return view('tallstack-ui::components.form.password');
     }
 
     public function personalization(): array
@@ -29,10 +34,5 @@ class Password extends Component implements Personalization
             ],
             'error' => $this->error(),
         ]);
-    }
-
-    public function render(): View
-    {
-        return view('tallstack-ui::components.form.password');
     }
 }

@@ -5,13 +5,13 @@ namespace TallStackUi\View\Components\Form;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use Illuminate\View\Component;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\Personalization\SoftPersonalization;
+use TallStackUi\View\Components\BaseComponent;
 use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
 
 #[SoftPersonalization('form.color')]
-class Color extends Component implements Personalization
+class Color extends BaseComponent implements Personalization
 {
     use DefaultInputClasses;
 
@@ -25,6 +25,11 @@ class Color extends Component implements Personalization
     ) {
         $this->id ??= uniqid();
         $this->mode = $this->all ? 'all' : 'range';
+    }
+
+    public function blade(): View
+    {
+        return view('tallstack-ui::components.form.color');
     }
 
     public function personalization(): array
@@ -55,10 +60,5 @@ class Color extends Component implements Personalization
             ],
             'error' => $this->error(),
         ]);
-    }
-
-    public function render(): View
-    {
-        return view('tallstack-ui::components.form.color');
     }
 }

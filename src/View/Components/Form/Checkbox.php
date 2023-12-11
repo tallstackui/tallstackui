@@ -4,19 +4,20 @@ namespace TallStackUi\View\Components\Form;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
-use Illuminate\View\Component;
 use Illuminate\View\ComponentSlot;
+use InvalidArgumentException;
+use TallStackUi\Foundation\Colors\ColorSource;
+use TallStackUi\Foundation\Colors\RadioColors;
+use TallStackUi\Foundation\Contracts\MustReceiveColor;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\Personalization\SoftPersonalization;
-use TallStackUi\Foundation\Personalization\Traits\InteractWithProviders;
-use TallStackUi\Foundation\Personalization\Traits\InteractWithValidations;
+use TallStackUi\View\Components\BaseComponent;
 use TallStackUi\View\Components\Form\Traits\SetupRadioCheckboxToggle;
 
 #[SoftPersonalization('form.checkbox')]
-class Checkbox extends Component implements Personalization
+#[ColorSource(RadioColors::class)]
+class Checkbox extends BaseComponent implements MustReceiveColor, Personalization
 {
-    use InteractWithProviders;
-    use InteractWithValidations;
     use SetupRadioCheckboxToggle;
 
     public function __construct(
@@ -30,9 +31,12 @@ class Checkbox extends Component implements Personalization
         public ?string $position = 'right',
         public ?string $color = 'primary',
     ) {
-        $this->setup();
-        $this->colors();
-        $this->validate();
+        //
+    }
+
+    public function blade(): View
+    {
+        return view('tallstack-ui::components.form.checkbox');
     }
 
     public function personalization(): array
@@ -51,8 +55,12 @@ class Checkbox extends Component implements Personalization
         ]);
     }
 
-    public function render(): View
+    protected function validate(): void
     {
-        return view('tallstack-ui::components.form.checkbox');
+        $positions = ['right', 'left'];
+
+        if (! in_array($this->position, $positions)) {
+            throw new InvalidArgumentException('The checkbox label [position] must be one of the following: ['.implode(', ', $positions).']');
+        }
     }
 }
