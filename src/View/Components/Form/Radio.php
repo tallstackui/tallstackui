@@ -6,10 +6,10 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
 use Illuminate\View\ComponentSlot;
-use TallStackUi\Support\Personalizations\Contracts\Personalization;
-use TallStackUi\Support\Personalizations\SoftPersonalization;
-use TallStackUi\Support\Personalizations\Traits\InteractWithProviders;
-use TallStackUi\Support\Personalizations\Traits\InteractWithValidations;
+use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Foundation\Personalization\SoftPersonalization;
+use TallStackUi\Foundation\Personalization\Traits\InteractWithProviders;
+use TallStackUi\Foundation\Personalization\Traits\InteractWithValidations;
 use TallStackUi\View\Components\Form\Traits\SetupRadioCheckboxToggle;
 
 #[SoftPersonalization('form.radio')]

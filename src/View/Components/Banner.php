@@ -7,10 +7,10 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\View\Component;
-use TallStackUi\Support\Personalizations\Contracts\Personalization;
-use TallStackUi\Support\Personalizations\SoftPersonalization;
-use TallStackUi\Support\Personalizations\Traits\InteractWithProviders;
-use TallStackUi\Support\Personalizations\Traits\InteractWithValidations;
+use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Foundation\Personalization\SoftPersonalization;
+use TallStackUi\Foundation\Personalization\Traits\InteractWithProviders;
+use TallStackUi\Foundation\Personalization\Traits\InteractWithValidations;
 
 #[SoftPersonalization('banner')]
 class Banner extends Component implements Personalization

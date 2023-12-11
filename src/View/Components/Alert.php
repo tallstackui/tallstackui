@@ -4,14 +4,16 @@ namespace TallStackUi\View\Components;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
-use TallStackUi\Support\Personalizations\Contracts\Personalization;
-use TallStackUi\Support\Personalizations\SoftPersonalization;
+use TallStackUi\Foundation\Colors\AlertColors;
+use TallStackUi\Foundation\Colors\ColorSource;
+use TallStackUi\Foundation\Contracts\MustReceiveColor;
+use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Foundation\Personalization\SoftPersonalization;
 
 #[SoftPersonalization('alert')]
-class Alert extends BaseComponent implements Personalization
+#[ColorSource(AlertColors::class)]
+class Alert extends BaseComponent implements MustReceiveColor, Personalization
 {
-    //use InteractWithProviders;
-
     public function __construct(
         public ?string $title = null,
         public ?string $text = null,
@@ -24,8 +26,6 @@ class Alert extends BaseComponent implements Personalization
         public ?string $footer = null,
     ) {
         $this->style = $this->outline ? 'outline' : ($this->light ? 'light' : 'solid');
-
-        //$this->colors();
     }
 
     public function blade(): View

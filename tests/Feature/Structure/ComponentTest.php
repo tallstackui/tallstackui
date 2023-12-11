@@ -1,7 +1,7 @@
 <?php
 
-use TallStackUi\Support\Personalizations\Contracts\Personalization as PersonalizationContract;
-use TallStackUi\Support\Personalizations\Personalization;
+use TallStackUi\Foundation\Personalization\Contracts\Personalization as PersonalizationContract;
+use TallStackUi\Foundation\Personalization\Personalization;
 
 describe('TallStackUi Components', function () {
     test('is customizable', function (string $index) {

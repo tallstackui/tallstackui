@@ -5,9 +5,9 @@ namespace TallStackUi\View\Components\Dropdown;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
-use TallStackUi\Support\Personalizations\Contracts\Personalization;
-use TallStackUi\Support\Personalizations\SoftPersonalization;
-use TallStackUi\Support\Personalizations\Traits\InteractWithValidations;
+use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Foundation\Personalization\SoftPersonalization;
+use TallStackUi\Foundation\Personalization\Traits\InteractWithValidations;
 
 #[SoftPersonalization('dropdown')]
 class Dropdown extends Component implements Personalization

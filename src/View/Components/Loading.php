@@ -5,10 +5,10 @@ namespace TallStackUi\View\Components;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
-use TallStackUi\Support\Personalizations\Contracts\Personalization;
-use TallStackUi\Support\Personalizations\SoftPersonalization;
-use TallStackUi\Support\Personalizations\Traits\InteractWithProviders;
-use TallStackUi\Support\Personalizations\Traits\InteractWithValidations;
+use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Foundation\Personalization\SoftPersonalization;
+use TallStackUi\Foundation\Personalization\Traits\InteractWithProviders;
+use TallStackUi\Foundation\Personalization\Traits\InteractWithValidations;
 
 #[SoftPersonalization('loading')]
 class Loading extends Component implements Personalization

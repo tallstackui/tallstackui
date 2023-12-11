@@ -2,7 +2,7 @@
 
 namespace TallStackUi;
 
-use TallStackUi\Support\Personalizations\Personalization;
+use TallStackUi\Foundation\Personalization\Personalization;
 
 class TallStackUi
 {

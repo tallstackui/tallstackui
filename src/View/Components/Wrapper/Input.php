@@ -4,8 +4,8 @@ namespace TallStackUi\View\Components\Wrapper;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
-use TallStackUi\Support\Personalizations\Contracts\Personalization;
-use TallStackUi\Support\Personalizations\SoftPersonalization;
+use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Foundation\Personalization\SoftPersonalization;
 
 #[SoftPersonalization('wrapper.input')]
 class Input extends Component implements Personalization

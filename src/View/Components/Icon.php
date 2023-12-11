@@ -4,7 +4,7 @@ namespace TallStackUi\View\Components;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
-use TallStackUi\Support\Personalizations\Traits\InteractWithValidations;
+use TallStackUi\Foundation\Personalization\Traits\InteractWithValidations;
 
 class Icon extends Component
 {

@@ -3,7 +3,7 @@
 namespace TallStackUi\Facades;
 
 use Illuminate\Support\Facades\Facade;
-use TallStackUi\Support\Personalizations\Personalization;
+use TallStackUi\Foundation\Personalization\Personalization;
 use TallStackUi\TallStackUiDirectives;
 
 /**

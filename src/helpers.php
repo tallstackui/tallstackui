@@ -3,7 +3,7 @@
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\File;
 use TallStackUi\Facades\TallStackUi;
-use TallStackUi\Support\Personalizations\SoftPersonalization;
+use TallStackUi\Foundation\Personalization\SoftPersonalization;
 
 if (! function_exists('tallstackui_personalization')) {
     function tallstackui_personalization(string $component, array $personalization): array
