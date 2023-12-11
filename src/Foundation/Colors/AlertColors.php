@@ -2,7 +2,7 @@
 
 namespace TallStackUi\Foundation\Colors;
 
-use TallStackUi\Foundation\Personalization\Support\Colors\Traits\OverrideColors;
+use TallStackUi\Foundation\Colors\Traits\OverrideColors;
 use TallStackUi\View\Components\Alert;
 
 class AlertColors
