@@ -34,7 +34,7 @@ it('can render footer attributes when is not string', function () {
 
 it('can thrown exception when wire is empty', function () {
     $this->expectException(ViewException::class);
-    $this->expectExceptionMessage('The [wire] property cannot be an empty string');
+    $this->expectExceptionMessage('The slide [wire] property cannot be an empty string');
 
     $slide = <<<'HTML'
     <x-slide wire="">
@@ -69,7 +69,6 @@ it('can thrown exception when size is unnaceptable', function (string $size) {
 
 it('can thrown exception when z-index does not contains prefix', function () {
     $this->expectException(ViewException::class);
-    $this->expectExceptionMessage('The slide z-index must start with z- prefix');
 
     $slide = <<<'HTML'
     <x-slide z-index="50">

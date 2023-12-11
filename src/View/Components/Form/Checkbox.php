@@ -28,7 +28,7 @@ class Checkbox extends BaseComponent implements MustReceiveColor, Personalizatio
         public ?string $position = 'right',
         public ?string $color = 'primary',
     ) {
-        //
+        $this->setup();
     }
 
     public function blade(): View

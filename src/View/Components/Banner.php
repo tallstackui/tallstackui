@@ -31,6 +31,8 @@ class Banner extends BaseComponent implements MustReceiveColor, Personalization
         public ?string $style = 'solid',
     ) {
         $this->style = $this->light ? 'light' : $this->style;
+
+        $this->setup();
     }
 
     public function blade(): View

@@ -27,7 +27,7 @@ class Radio extends BaseComponent implements Personalization
         public ?string $position = 'right',
         public ?string $color = 'primary',
     ) {
-        //
+        $this->setup();
     }
 
     public function blade(): View

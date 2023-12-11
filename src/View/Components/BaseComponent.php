@@ -27,13 +27,6 @@ abstract class BaseComponent extends Component
             $this->validate();
         }
 
-        // The setup method is a hook to allow interactions with the component after
-        // validations. As the name suggests, it can be used for anything, but the
-        // objective behind it is to enable interactions with the component after validation.
-        if (method_exists($this, 'setup')) {
-            $this->setup();
-        }
-
         if ($colors = ResolveColor::from($this)) {
             $data = array_merge($data, ['colors' => [...$colors]]);
         }
@@ -45,15 +38,19 @@ abstract class BaseComponent extends Component
         return [...$data];
     }
 
-    private function output(View $view, array $data): string
+    private function output(View $view, array $data): View|string
     {
+        if (app()->runningUnitTests()) {
+            return $view;
+        }
+
         $config = collect(config('tallstackui.debug'));
 
         if (! $config->get('status', false) ||
             ! ($environment = $config->get('environments', [])) ||
             ! in_array(app()->environment(), $environment)
         ) {
-            return $view->render();
+            return $view;
         }
 
         $ignores = ['slot', 'trigger', 'content'];
