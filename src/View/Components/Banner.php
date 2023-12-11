@@ -8,14 +8,11 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use InvalidArgumentException;
-use TallStackUi\Foundation\Colors\BannerColors;
-use TallStackUi\Foundation\Colors\ColorSource;
 use TallStackUi\Foundation\Contracts\MustReceiveColor;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\Personalization\SoftPersonalization;
 
 #[SoftPersonalization('banner')]
-#[ColorSource(BannerColors::class)]
 class Banner extends BaseComponent implements MustReceiveColor, Personalization
 {
     public function __construct(

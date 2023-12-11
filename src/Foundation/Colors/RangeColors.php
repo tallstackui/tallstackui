@@ -11,12 +11,12 @@ class RangeColors
 
     public function __construct(protected Range $component)
     {
-        $this->define();
+        $this->setup();
     }
 
     public function __invoke(): array
     {
-        return ['thumb' => $this->override('thumb')[$this->component->color]];
+        return ['thumb' => rescue($this->get('thumb')[$this->component->color], $this->thumb()[$this->component->color], false)];
     }
 
     private function thumb(): array

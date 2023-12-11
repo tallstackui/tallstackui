@@ -3,7 +3,7 @@
 namespace TallStackUi\Foundation\Personalization\Traits;
 
 use Exception;
-use TallStackUi\Foundation\Providers\ColorProvider;
+use TallStackUi\Foundation\Colors\ResolveColor;
 use TallStackUi\Foundation\Providers\ConfigurationProvider;
 
 /**
@@ -14,7 +14,7 @@ trait InteractWithProviders
     /** @throws Exception */
     public function colors(): void
     {
-        ColorProvider::resolve($this);
+        ResolveColor::resolve($this);
     }
 
     /** @throws Exception */

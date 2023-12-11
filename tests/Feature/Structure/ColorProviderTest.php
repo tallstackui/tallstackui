@@ -1,9 +1,9 @@
 <?php
 
-use TallStackUi\Foundation\Providers\ColorProvider;
+use TallStackUi\Foundation\Colors\ResolveColor;
 
 describe('ColorProvider', function () {
     test('contain resolve method')
-        ->expect(ColorProvider::class)
+        ->expect(ResolveColor::class)
         ->toHaveMethod('resolve');
 });

@@ -5,14 +5,11 @@ namespace TallStackUi\View\Components;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use InvalidArgumentException;
-use TallStackUi\Foundation\Colors\ColorSource;
-use TallStackUi\Foundation\Colors\TooltipColors;
 use TallStackUi\Foundation\Contracts\MustReceiveColor;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\Personalization\SoftPersonalization;
 
 #[SoftPersonalization('tooltip')]
-#[ColorSource(TooltipColors::class)]
 class Tooltip extends BaseComponent implements MustReceiveColor, Personalization
 {
     public function __construct(

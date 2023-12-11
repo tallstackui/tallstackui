@@ -4,14 +4,11 @@ namespace TallStackUi\View\Components\Form;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
-use TallStackUi\Foundation\Colors\ColorSource;
-use TallStackUi\Foundation\Colors\RangeColors;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\Personalization\SoftPersonalization;
 use TallStackUi\View\Components\BaseComponent;
 
 #[SoftPersonalization('form.range')]
-#[ColorSource(RangeColors::class)]
 class Range extends BaseComponent implements Personalization
 {
     public function __construct(

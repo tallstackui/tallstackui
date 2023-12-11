@@ -1,18 +1,8 @@
 <?php
 
-namespace TallStackUi\Foundation\Providers;
+namespace TallStackUi\Foundation\Colors;
 
 use Exception;
-use TallStackUi\Foundation\Personalization\Support\Colors\AlertColors;
-use TallStackUi\Foundation\Personalization\Support\Colors\AvatarColors;
-use TallStackUi\Foundation\Personalization\Support\Colors\BadgeColors;
-use TallStackUi\Foundation\Personalization\Support\Colors\BannerColors;
-use TallStackUi\Foundation\Personalization\Support\Colors\ButtonColors;
-use TallStackUi\Foundation\Personalization\Support\Colors\ErrorsColors;
-use TallStackUi\Foundation\Personalization\Support\Colors\RadioColors;
-use TallStackUi\Foundation\Personalization\Support\Colors\RangeColors;
-use TallStackUi\Foundation\Personalization\Support\Colors\ToggleColors;
-use TallStackUi\Foundation\Personalization\Support\Colors\TooltipColors;
 use TallStackUi\View\Components\Alert;
 use TallStackUi\View\Components\Avatar;
 use TallStackUi\View\Components\Badge;
@@ -29,10 +19,10 @@ use TallStackUi\View\Components\Tooltip;
 /**
  * @internal This class is not meant to be used directly.
  */
-class ColorProvider
+class ResolveColor
 {
     /** @throws Exception */
-    public static function resolve(object $component): array
+    public static function from(object $component): array
     {
         $name = get_class($component);
 
@@ -52,6 +42,6 @@ class ColorProvider
             default => throw new Exception("No colors available for the component: [$name]"),
         };
 
-        return [...(new $class($component))()];
+        return app($class, ['component' => $component])();
     }
 }

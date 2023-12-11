@@ -4,14 +4,11 @@ namespace TallStackUi\View\Components;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
-use TallStackUi\Foundation\Colors\AlertColors;
-use TallStackUi\Foundation\Colors\ColorSource;
 use TallStackUi\Foundation\Contracts\MustReceiveColor;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\Personalization\SoftPersonalization;
 
 #[SoftPersonalization('alert')]
-#[ColorSource(AlertColors::class)]
 class Alert extends BaseComponent implements MustReceiveColor, Personalization
 {
     public function __construct(

@@ -11,7 +11,7 @@ class BannerColors
 
     public function __construct(protected Banner $component)
     {
-        $this->define();
+        $this->setup();
     }
 
     public function __invoke(): array
@@ -20,11 +20,15 @@ class BannerColors
             return [];
         }
 
-        [$background, $text] = $this->override('background', 'text');
+        [$background, $text] = $this->get('background', 'text');
+
+        $style = $this->component->style;
+        $color = $this->component->color;
+        $getter = $this->format($style, $color);
 
         return [
-            'background' => $background[$this->component->style][$this->component->color],
-            'text' => $text[$this->component->style][$this->component->color],
+            'background' => data_get($background, $getter, fn () => $this->background()[$style][$color]),
+            'text' => data_get($text, $getter, fn () => $this->text()[$style][$color]),
         ];
     }
 

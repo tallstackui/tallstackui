@@ -11,11 +11,39 @@ trait OverrideColors
     protected array $overrides = [];
 
     /**
+     * This method is used to build the strings to data_get format:
+     * Using: $this->getter('foo', 'bar') will result in: foo.bar
+     *
+     * @param  string  ...$terms
+     */
+    protected function format(...$terms): string
+    {
+        return implode('.', $terms);
+    }
+
+    protected function get(...$methods): array
+    {
+        $methods = count($methods) === 1 ? $methods[0] : $methods;
+
+        if (is_array($methods)) {
+            $results = [];
+
+            foreach ($methods as $method) {
+                $results[] = $this->overrides[$method];
+            }
+
+            return $results;
+        }
+
+        return $this->overrides[$methods];
+    }
+
+    /**
      * This method is used to determine which colors will be applied
      * to the component, whether they will be the custom colors in a
      * custom component class or whether they will be the default colors.
      */
-    public function define(): void
+    protected function setup(): void
     {
         $methods = collect((new ReflectionClass($this))->getMethods(ReflectionMethod::IS_PRIVATE))
             ->map(fn (ReflectionMethod $method) => $method->getName())
@@ -26,7 +54,6 @@ trait OverrideColors
 
         foreach ($methods as $method) {
             $original = $method;
-
             $method .= 'Color';
 
             if (! isset($data[$method]) || ! $data[$method] instanceof InvokableComponentVariable) {
@@ -42,22 +69,5 @@ trait OverrideColors
 
             $this->overrides[$original] = blank($result) ? null : $result;
         }
-    }
-
-    public function override(...$methods): array
-    {
-        $methods = count($methods) === 1 ? $methods[0] : $methods;
-
-        if (is_array($methods)) {
-            $results = [];
-
-            foreach ($methods as $method) {
-                $results[] = $this->overrides[$method];
-            }
-
-            return $results;
-        }
-
-        return $this->overrides[$methods];
     }
 }

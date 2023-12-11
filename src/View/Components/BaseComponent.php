@@ -5,8 +5,7 @@ namespace TallStackUi\View\Components;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
-use ReflectionClass;
-use TallStackUi\Foundation\Colors\ColorSource;
+use TallStackUi\Foundation\Colors\ResolveColor;
 use TallStackUi\Foundation\Contracts\MustReceiveColor;
 use TallStackUi\Foundation\Contracts\MustReceiveConfiguration;
 use TallStackUi\Foundation\Providers\ConfigurationProvider;
@@ -24,13 +23,6 @@ abstract class BaseComponent extends Component
         };
     }
 
-    private function colors(): array
-    {
-        $attribute = (new ReflectionClass($this))->getAttributes(ColorSource::class)[0];
-
-        return app(collect($attribute->getArguments())->first(), ['component' => $this])();
-    }
-
     /** @throws Throwable */
     private function compile(array $data): array
     {
@@ -43,7 +35,7 @@ abstract class BaseComponent extends Component
         }
 
         if ($this instanceof MustReceiveColor) {
-            $data = array_merge($data, ['colors' => [...$this->colors()]]);
+            $data = array_merge($data, ['colors' => [...ResolveColor::from($this)]]);
         }
 
         if ($this instanceof MustReceiveConfiguration) {

@@ -4,14 +4,11 @@ namespace TallStackUi\View\Components;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
-use TallStackUi\Foundation\Colors\BadgeColors;
-use TallStackUi\Foundation\Colors\ColorSource;
 use TallStackUi\Foundation\Contracts\MustReceiveColor;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\Personalization\SoftPersonalization;
 
 #[SoftPersonalization('badge')]
-#[ColorSource(BadgeColors::class)]
 class Badge extends BaseComponent implements MustReceiveColor, Personalization
 {
     public function __construct(

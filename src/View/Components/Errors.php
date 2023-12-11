@@ -6,13 +6,10 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\Support\ViewErrorBag;
 use InvalidArgumentException;
-use TallStackUi\Foundation\Colors\ColorSource;
-use TallStackUi\Foundation\Colors\ErrorsColors;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\Personalization\SoftPersonalization;
 
 #[SoftPersonalization('errors')]
-#[ColorSource(ErrorsColors::class)]
 class Errors extends BaseComponent implements Personalization
 {
     public function __construct(

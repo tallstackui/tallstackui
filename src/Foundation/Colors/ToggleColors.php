@@ -11,12 +11,12 @@ class ToggleColors
 
     public function __construct(protected Toggle $component)
     {
-        $this->define();
+        $this->setup();
     }
 
     public function __invoke(): array
     {
-        return ['background' => $this->override('background')[$this->component->color]];
+        return ['background' => rescue($this->get('background')[$this->component->color], $this->background()[$this->component->color], false)];
     }
 
     private function background(): array

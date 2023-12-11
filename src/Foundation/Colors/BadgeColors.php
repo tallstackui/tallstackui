@@ -11,17 +11,21 @@ class BadgeColors
 
     public function __construct(protected Badge $component)
     {
-        $this->define();
+        $this->setup();
     }
 
     public function __invoke(): array
     {
-        [$background, $text, $icon] = $this->override('background', 'text', 'icon');
+        [$background, $text, $icon] = $this->get('background', 'text', 'icon');
+
+        $style = $this->component->style;
+        $color = $this->component->color;
+        $getter = $this->format($style, $color);
 
         return [
-            'background' => $background[$this->component->style][$this->component->color],
-            'text' => $text[$this->component->style][$this->component->color],
-            'icon' => $icon[$this->component->style][$this->component->color],
+            'background' => data_get($background, $getter, fn () => $this->background()[$style][$color]),
+            'text' => data_get($text, $getter, fn () => $this->text()[$style][$color]),
+            'icon' => data_get($icon, $getter, fn () => $this->icon()[$style][$color]),
         ];
     }
 

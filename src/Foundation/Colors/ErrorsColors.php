@@ -11,17 +11,19 @@ class ErrorsColors
 
     public function __construct(protected Errors $component)
     {
-        $this->define();
+        $this->setup();
     }
 
     public function __invoke(): array
     {
-        [$background, $text, $border] = $this->override('background', 'text', 'border');
+        [$background, $text, $border] = $this->get('background', 'text', 'border');
+
+        $getter = $this->component->color;
 
         return [
-            'background' => $background[$this->component->color],
-            'text' => $text[$this->component->color],
-            'border' => $border[$this->component->color],
+            'background' => data_get($background, $getter, fn () => $this->background()[$getter]),
+            'text' => data_get($text, $getter, fn () => $this->text()[$getter]),
+            'border' => data_get($border, $getter, fn () => $this->border()[$getter]),
         ];
     }
 

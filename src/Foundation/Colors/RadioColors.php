@@ -12,12 +12,12 @@ class RadioColors
 
     public function __construct(protected Radio|Checkbox $component)
     {
-        $this->define();
+        $this->setup();
     }
 
     public function __invoke(): array
     {
-        return ['background' => $this->override('background')[$this->component->color]];
+        return ['background' => rescue($this->get('background')[$this->component->color], $this->background()[$this->component->color], false)];
     }
 
     private function background(): array

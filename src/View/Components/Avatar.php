@@ -6,14 +6,11 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use InvalidArgumentException;
-use TallStackUi\Foundation\Colors\AvatarColors;
-use TallStackUi\Foundation\Colors\ColorSource;
 use TallStackUi\Foundation\Contracts\MustReceiveColor;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\Personalization\SoftPersonalization;
 
 #[SoftPersonalization('avatar')]
-#[ColorSource(AvatarColors::class)]
 class Avatar extends BaseComponent implements MustReceiveColor, Personalization
 {
     public function __construct(

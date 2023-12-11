@@ -6,15 +6,12 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\ComponentSlot;
 use InvalidArgumentException;
-use TallStackUi\Foundation\Colors\ColorSource;
-use TallStackUi\Foundation\Colors\RadioColors;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\Personalization\SoftPersonalization;
 use TallStackUi\View\Components\BaseComponent;
 use TallStackUi\View\Components\Form\Traits\SetupRadioCheckboxToggle;
 
 #[SoftPersonalization('form.radio')]
-#[ColorSource(RadioColors::class)]
 class Radio extends BaseComponent implements Personalization
 {
     use SetupRadioCheckboxToggle;
