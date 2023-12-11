@@ -3,6 +3,7 @@
 namespace TallStackUi\Foundation\Personalization;
 
 use Closure;
+use Exception;
 use InvalidArgumentException;
 use TallStackUi\Contracts\Personalizable;
 use TallStackUi\View\Components\Alert;
@@ -39,7 +40,6 @@ use TallStackUi\View\Components\Tab\Tab;
 use TallStackUi\View\Components\Tooltip;
 use TallStackUi\View\Components\Wrapper\Input as InputWrapper;
 use TallStackUi\View\Components\Wrapper\Radio as RadioWrapper;
-use Throwable;
 
 /**
  * @internal This class is not meant to be used directly.
@@ -225,12 +225,14 @@ class Personalization
         return app($this->component($class));
     }
 
-    /** @throws Throwable */
+    /** @throws Exception */
     private function component(string $class): string
     {
         $component = array_search($class, tallstackui_components_soft_personalized());
 
-        throw_if(! $component, new InvalidArgumentException("Component [{$class}] is not allowed to be personalized"));
+        if (! $component) {
+            throw new Exception("Component [{$class}] is not allowed to be personalized");
+        }
 
         return $component;
     }

@@ -9,14 +9,13 @@ use Illuminate\View\View;
 use InvalidArgumentException;
 use RuntimeException;
 use TallStackUi\Contracts\Personalizable;
-use TallStackUi\Foundation\Personalization\Contracts\PersonalizableResources;
 
 /**
  * @internal This class is not meant to be used directly.
  *
  * @property-read Personalization $and
  */
-class PersonalizationResources implements PersonalizableResources
+class PersonalizationResources
 {
     public function __construct(
         private readonly ?string $component = null,
