@@ -26,7 +26,7 @@ export default (
   show: false,
   model: model,
   request: request,
-  selecteds: null,
+  selects: null,
   search: '',
   searchable: searchable,
   multiple: multiple,
@@ -39,10 +39,6 @@ export default (
   response: [],
   options: options,
   async init() {
-    if (this.model === undefined) {
-      return error('The [wire:model] is undefined');
-    }
-
     if (this.multiple && this.model && this.model.constructor !== Array) {
       return warning('The [wire:model] must be an array');
     }
@@ -61,26 +57,6 @@ export default (
 
     await this.initAsRequest();
   },
-  initOptionsObserver() {
-    this.syncJsonOptions();
-
-    const observer = new MutationObserver(this.syncJsonOptions.bind(this));
-
-    observer.observe(this.$refs.json, {
-      subtree: true,
-      characterData: true,
-    });
-
-    try {
-      this.$cleanup(() => observer.disconnect());
-    } catch (e) {}
-  },
-  syncJsonOptions() {
-    this.setOptions(window.Alpine.evaluate(this, this.$refs.json.innerText));
-  },
-  setOptions(options) {
-    this.options = options;
-  },
   /**
    * Initialize the component as common
    * @returns {Promise<void>}
@@ -89,36 +65,22 @@ export default (
     this.initOptionsObserver();
 
     if (this.multiple) {
-      this.selecteds = this.dimensional ?
-          this.availables.filter((option) => this.model?.includes(option[this.selectable.value])) :
-          this.availables.filter((option) => this.model?.includes(option));
-
-      if (!this.empty) {
-        this.placeholder = this.dimensional ?
-            this.selecteds[0][this.selectable.label] :
-            this.selecteds;
-      }
+      this.selects = this.available.filter((option) => this.dimensional ?
+              this.model?.includes(option[this.selectable.value]) :
+              this.model?.includes(option));
     } else {
-      this.selecteds = this.dimensional ?
-          this.availables.find((option) => this.model === option[this.selectable.value]) :
-          this.availables.find((option) => this.model === option);
+      this.selects = this.available.find((option) => this.dimensional ?
+              this.model === option[this.selectable.value] :
+              this.model === option,
+      );
 
       if (!this.empty) {
-        this.selecteds = this.dimensional ?
-            [this.selecteds] :
-            this.selecteds;
+        this.selects = this.dimensional ?
+            [this.selects] :
+            this.selects;
       } else {
-        this.selecteds = [];
+        this.selects = [];
       }
-
-      this.placeholder = this.dimensional ?
-          this.selecteds[0]?.[this.selectable.label] ?? placeholder :
-          (!this.empty ? this.selecteds : placeholder);
-    }
-
-    if (this.selecteds === undefined) {
-      this.selecteds = [];
-      this.placeholder = placeholder;
     }
 
     this.$watch('show', async (value) => {
@@ -139,6 +101,8 @@ export default (
 
       this.show = this.quantity === this.availables?.length ? false : this.multiple;
 
+      // This is used to avoid the need of hydrate the selects when
+      // the changes are made internally, such as select options.
       if (this.internal) {
         this.internal = false;
         return;
@@ -149,23 +113,40 @@ export default (
       }
 
       if (this.multiple) {
-        this.selecteds = this.dimensional ?
-            this.availables.filter((option) => value?.includes(option[this.selectable.value])) :
-            this.availables.filter((option) => value?.includes(option));
+        // eslint-disable-next-line max-len
+        this.selects = this.available.filter((option) => this.dimensional ?
+            value?.includes(option[this.selectable.value]) :
+            value?.includes(option));
       } else {
-        this.selecteds = this.dimensional ?
-            this.availables.find((option) => value.toString() === option[this.selectable.value].toString()) :
-            this.availables.find((option) => value.toString() === option.toString());
+        this.selects = this.available.find((option) => this.dimensional ?
+                value.toString() === option[this.selectable.value].toString() :
+                value.toString() === option.toString());
 
-        this.selecteds = this.dimensional ?
-            [this.selecteds] :
-            this.selecteds;
+        this.selects = this.dimensional ?
+            [this.selects] :
+            this.selects;
 
         this.placeholder = this.dimensional ?
-            this.selecteds[0]?.[this.selectable.label] ?? placeholder :
-            (!this.empty ? this.selecteds : placeholder);
+            this.selects[0]?.[this.selectable.label] ?? placeholder :
+            (!this.empty ? this.selects : placeholder);
       }
     });
+  },
+  initOptionsObserver() {
+    this.syncJsonOptions();
+
+    const observer = new MutationObserver(this.syncJsonOptions.bind(this));
+
+    observer.observe(this.$refs.options, {
+      subtree: true,
+      characterData: true,
+    });
+  },
+  syncJsonOptions() {
+    this.setOptions(window.Alpine.evaluate(this, this.$refs.options.innerText));
+  },
+  setOptions(options) {
+    this.options = options;
   },
   /**
    * Initialize the component as request
@@ -181,11 +162,8 @@ export default (
 
       if (!value) {
         this.search = '';
-        return;
-      }
 
-      if (value) {
-        setTimeout(() => this.$refs.search.focus(), 100);
+        return;
       }
 
       await this.sendRequest();
@@ -200,14 +178,14 @@ export default (
     if (this.model) {
       await this.sendRequest();
 
-      this.selecteds = this.availables.filter((option) => {
+      this.selects = this.available.filter((option) => {
         return this.multiple ?
             this.model.includes(option[this.selectable.value]) :
             this.model === option[this.selectable.value];
       });
 
       if (!this.multiple) {
-        this.placeholder = this.selecteds[0][this.selectable.label] ?? placeholder;
+        this.placeholder = this.selects[0][this.selectable.label] ?? placeholder;
       }
     }
 
@@ -221,22 +199,24 @@ export default (
 
       this.show = this.quantity === this.availables?.length ? false : this.multiple;
 
+      // This is used to avoid the need of hydrate the selects when
+      // the changes are made internally, such as select options.
       if (value === old || this.internal) {
         this.internal = false;
         return;
       }
 
       if (this.multiple) {
-        this.selecteds = this.availables.filter((option) => {
+        this.selects = this.available.filter((option) => {
           return value?.includes(option[this.selectable.value]);
         });
       } else {
-        this.selecteds = this.availables.filter((option) => {
+        this.selects = this.available.filter((option) => {
           return value?.toString() === option[this.selectable.value].toString();
         });
 
         if (this.quantity > 0) {
-          this.placeholder = this.selecteds[0][this.selectable.label] ?? placeholder;
+          this.placeholder = this.selects[0][this.selectable.label] ?? placeholder;
         }
       }
     });
@@ -287,18 +267,18 @@ export default (
     }
 
     if (this.multiple) {
-      this.selecteds = !this.empty ?
-                [...this.selecteds, option] :
+      this.selects = !this.empty ?
+                [...this.selects, option] :
                 [option];
 
       this.model = this.dimensional ?
-                this.selecteds.map((selected) => selected[this.selectable.value]) :
-                this.selecteds;
+                this.selects.map((selected) => selected[this.selectable.value]) :
+                this.selects;
 
       this.show = false;
       this.search = '';
     } else {
-      this.selecteds = [option];
+      this.selects = [option];
 
       if (this.dimensional) {
         this.model = option[this.selectable.value];
@@ -312,11 +292,11 @@ export default (
     this.search = '';
   },
   selected(option) {
-    if (this.empty || this.availables.length === 0) return false;
+    if (this.empty || this.available.length === 0) return false;
 
     return this.multiple ?
-      this.selecteds?.some((selected) => JSON.stringify(selected) === JSON.stringify(option)) :
-      JSON.stringify(this.selecteds[0] ?? this.selecteds) === JSON.stringify(option);
+      this.selects?.some((selected) => JSON.stringify(selected) === JSON.stringify(option)) :
+      JSON.stringify(this.selects[0] ?? this.selects) === JSON.stringify(option);
   },
   /**
    * @param selected {Object|null}
@@ -325,15 +305,15 @@ export default (
   clear(selected = null) {
     if (selected) {
       if (this.multiple) {
-        this.selecteds = this.dimensional ?
-                    this.selecteds.filter((option) => option[this.selectable.value] !== selected[this.selectable.value]) :
-                    this.selecteds.filter((option) => option !== selected);
+        this.selects = this.selects.filter((option) => this.dimensional ?
+            option[this.selectable.value] !== selected[this.selectable.value] :
+            option !== selected);
 
         this.model = this.dimensional ?
-                    this.selecteds.map((selected) => selected[this.selectable.value]) :
-                    this.selecteds;
+                    this.selects.map((selected) => selected[this.selectable.value]) :
+                    this.selects;
       } else {
-        this.selecteds = [];
+        this.selects = [];
       }
 
       if (this.quantity > 0) {
@@ -353,7 +333,7 @@ export default (
   reset(ignore = false) {
     this.model = null;
     this.placeholder = placeholder;
-    this.selecteds = [];
+    this.selects = [];
     this.search = '';
 
     if (ignore) {
@@ -363,39 +343,39 @@ export default (
     this.show = false;
   },
   /**
-   * The `selecteds` quantity
+   * The `selects` quantity
    *
    * @returns {Number}
    */
   get quantity() {
-    return this.selecteds?.length ?? 0;
+    return this.selects?.length ?? 0;
   },
   /**
-   * Check if the `selecteds` is empty
+   * Check if the `selects` is empty
    *
    * @returns {Boolean}
    */
   get empty() {
-    return !this.selecteds || this.quantity === 0;
+    return !this.selects || this.quantity === 0;
   },
   /**
    * Available options to select
    *
    * @returns {Array}
    */
-  get availables() {
+  get available() {
     return this.availableOptions();
   },
   availableOptions() {
-    const availables = this.common ? this.options : this.response;
+    const available = this.common ? this.options : this.response;
 
     if (this.search === '') {
-      return availables;
+      return available;
     }
 
     const search = this.search.toLowerCase();
 
-    return availables.filter((option) => {
+    return available.filter((option) => {
       return dimensional ?
           option[selectable.label].toString().toLowerCase().indexOf(search) !== -1 :
           option.toString().toLowerCase().indexOf(search) !== -1;

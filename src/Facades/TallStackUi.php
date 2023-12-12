@@ -4,11 +4,13 @@ namespace TallStackUi\Facades;
 
 use Illuminate\Support\Facades\Facade;
 use TallStackUi\Foundation\Personalization\Personalization;
-use TallStackUi\TallStackUiDirectives;
+use TallStackUi\Foundation\Support\BladeDirectives;
+use TallStackUi\Foundation\Support\BladeSupport;
 
 /**
  * @method static Personalization personalize(?string $component = null)
- * @method static TallStackUiDirectives directives()
+ * @method static BladeDirectives directives()
+ * @method static BladeSupport blade()
  */
 class TallStackUi extends Facade
 {

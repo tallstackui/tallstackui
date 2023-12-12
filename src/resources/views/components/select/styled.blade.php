@@ -18,7 +18,7 @@
         @js($searchable),
         @js($common)
     )" x-cloak>
-    <div hidden x-ref="json">@js($options)</div>
+    <div hidden x-ref="options">{{ TallStackUi::blade()->json($options) }}</div>
     @if ($label)
         <x-label :$label :$error/>
     @endif
@@ -48,13 +48,13 @@
                               }" x-text="placeholder"></span>
                     </div>
                     <div class="truncate" x-show="multiple && quantity > 0">
-                        <template x-for="(selected, index) in model" :key="selected[selectable.label] ?? selected">
+                        <template x-for="(select, index) in selects" :key="selected[selectable.label] ?? select">
                             <a class="cursor-pointer">
                                 <div @class($personalize['itens.multiple.item'])>
-                                    <span x-text="selected[selectable.label] ?? selected"></span>
+                                    <span x-text="selected[selectable.label] ?? select"></span>
                                     @if (!$disabled)
                                         <x-icon name="x-mark"
-                                                x-on:click="clear(selected);"
+                                                x-on:click="clear(select);"
                                                 @class($personalize['itens.multiple.icon'])
                                         />
                                     @endif
@@ -122,12 +122,13 @@
                         role="option" @class($personalize['box.list.item.wrapper'])>
                         <div wire:ignore @class($personalize['box.list.item.options'])>
                             <span class="ml-2 truncate" x-text="option[selectable.label] ?? option"></span>
-                            <x-icon name="check" x-show="selected(option)" @class($personalize['box.list.item.check']) />
+                            <x-icon name="check"
+                                    x-show="selected(option)" @class($personalize['box.list.item.check']) />
                         </div>
                     </li>
                 </template>
                 @if (!$after)
-                    <template x-if="!loading && availables.length === 0">
+                    <template x-if="!loading && available.length === 0">
                         <li class="m-2">
                             <span @class($personalize['box.list.empty'])>
                                 {{ $placeholders['empty'] }}
@@ -135,7 +136,7 @@
                         </li>
                     </template>
                 @else
-                    <div x-show="!loading && availables.length === 0">
+                    <div x-show="!loading && available.length === 0">
                         {!! $after !!}
                     </div>
                 @endif
