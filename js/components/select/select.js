@@ -37,6 +37,7 @@ export default (
   internal: false,
   common: common,
   response: [],
+  options: options,
   async init() {
     if (this.model === undefined) {
       return error('The [wire:model] is undefined');
@@ -50,7 +51,7 @@ export default (
       return warning('The [wire:model] must not be an array when is not multiple');
     }
 
-    if (this.common && (this.dimensional && this.selectable.constructor === Array && this.selectable.length === 0)) {
+    if (this.common && (this.dimensional && this.selectable.constructor === Array && this.selectable?.length === 0)) {
       return warning('The [select] must be defined');
     }
 
@@ -60,15 +61,37 @@ export default (
 
     await this.initAsRequest();
   },
+  initOptionsObserver() {
+    this.syncJsonOptions();
+
+    const observer = new MutationObserver(this.syncJsonOptions.bind(this));
+
+    observer.observe(this.$refs.json, {
+      subtree: true,
+      characterData: true,
+    });
+
+    try {
+      this.$cleanup(() => observer.disconnect());
+    } catch (e) {}
+  },
+  syncJsonOptions() {
+    this.setOptions(window.Alpine.evaluate(this, this.$refs.json.innerText));
+  },
+  setOptions(options) {
+    this.options = options;
+  },
   /**
    * Initialize the component as common
    * @returns {Promise<void>}
    */
   initAsCommon() {
+    this.initOptionsObserver();
+
     if (this.multiple) {
       this.selecteds = this.dimensional ?
-          this.options.filter((option) => this.model?.includes(option[this.selectable.value])) :
-          this.options.filter((option) => this.model?.includes(option));
+          this.availables.filter((option) => this.model?.includes(option[this.selectable.value])) :
+          this.availables.filter((option) => this.model?.includes(option));
 
       if (!this.empty) {
         this.placeholder = this.dimensional ?
@@ -77,8 +100,8 @@ export default (
       }
     } else {
       this.selecteds = this.dimensional ?
-          this.options.find((option) => this.model === option[this.selectable.value]) :
-          this.options.find((option) => this.model === option);
+          this.availables.find((option) => this.model === option[this.selectable.value]) :
+          this.availables.find((option) => this.model === option);
 
       if (!this.empty) {
         this.selecteds = this.dimensional ?
@@ -99,15 +122,11 @@ export default (
     }
 
     this.$watch('show', async (value) => {
-      if (!value) {
+      if (!value || !this.searchable) {
         return;
       }
 
-      if (value) {
-        if (this.searchable) {
-          setTimeout(() => this.$refs.search.focus(), 100);
-        }
-      }
+      setTimeout(() => this.$refs.search.focus(), 100);
     });
 
     this.$watch('model', (value, old) => {
@@ -117,6 +136,8 @@ export default (
         this.reset(true);
         return;
       }
+
+      this.show = this.quantity === this.availables?.length ? false : this.multiple;
 
       if (this.internal) {
         this.internal = false;
@@ -129,12 +150,12 @@ export default (
 
       if (this.multiple) {
         this.selecteds = this.dimensional ?
-            this.options.filter((option) => value?.includes(option[this.selectable.value])) :
-            this.options.filter((option) => value?.includes(option));
+            this.availables.filter((option) => value?.includes(option[this.selectable.value])) :
+            this.availables.filter((option) => value?.includes(option));
       } else {
         this.selecteds = this.dimensional ?
-            this.options.find((option) => value.toString() === option[this.selectable.value].toString()) :
-            this.options.find((option) => value.toString() === option.toString());
+            this.availables.find((option) => value.toString() === option[this.selectable.value].toString()) :
+            this.availables.find((option) => value.toString() === option.toString());
 
         this.selecteds = this.dimensional ?
             [this.selecteds] :
@@ -179,7 +200,7 @@ export default (
     if (this.model) {
       await this.sendRequest();
 
-      this.selecteds = this.options.filter((option) => {
+      this.selecteds = this.availables.filter((option) => {
         return this.multiple ?
             this.model.includes(option[this.selectable.value]) :
             this.model === option[this.selectable.value];
@@ -198,17 +219,19 @@ export default (
         return;
       }
 
+      this.show = this.quantity === this.availables?.length ? false : this.multiple;
+
       if (value === old || this.internal) {
         this.internal = false;
         return;
       }
 
       if (this.multiple) {
-        this.selecteds = this.options.filter((option) => {
+        this.selecteds = this.availables.filter((option) => {
           return value?.includes(option[this.selectable.value]);
         });
       } else {
-        this.selecteds = this.options.filter((option) => {
+        this.selecteds = this.availables.filter((option) => {
           return value?.toString() === option[this.selectable.value].toString();
         });
 
@@ -286,14 +309,13 @@ export default (
       }
     }
 
-    this.show = this.quantity === this.options.length ? false : this.multiple;
     this.search = '';
   },
   selected(option) {
-    if (this.empty) return false;
+    if (this.empty || this.availables.length === 0) return false;
 
     return this.multiple ?
-      this.selecteds.some((selected) => JSON.stringify(selected) === JSON.stringify(option)) :
+      this.selecteds?.some((selected) => JSON.stringify(selected) === JSON.stringify(option)) :
       JSON.stringify(this.selecteds[0] ?? this.selecteds) === JSON.stringify(option);
   },
   /**
@@ -346,7 +368,7 @@ export default (
    * @returns {Number}
    */
   get quantity() {
-    return this.selecteds?.length;
+    return this.selecteds?.length ?? 0;
   },
   /**
    * Check if the `selecteds` is empty
@@ -354,15 +376,18 @@ export default (
    * @returns {Boolean}
    */
   get empty() {
-    return !this.selecteds || this.selecteds.length === 0;
+    return !this.selecteds || this.quantity === 0;
   },
   /**
    * Available options to select
    *
    * @returns {Array}
    */
-  get options() {
-    const availables = this.common ? options : this.response;
+  get availables() {
+    return this.availableOptions();
+  },
+  availableOptions() {
+    const availables = this.common ? this.options : this.response;
 
     if (this.search === '') {
       return availables;
