@@ -22,7 +22,7 @@
     @if ($label)
         <x-label :$label :$error/>
     @endif
-    <div class="relative" x-on:click.outside="show = false">
+    <div wire:ignore class="relative" x-on:click.outside="show = false">
         <button type="button"
                 x-ref="button"
                 @disabled($disabled)
@@ -31,7 +31,7 @@
                     $personalize['input.wrapper.color'] => !$error,
                     $personalize['input.wrapper.error'] => $error
                 ])
-                @if (!$disabled) x-on:click="show = !show" @endif
+                @if (!$disabled) x-on:click="show = true" @endif
                 aria-haspopup="listbox"
                 :aria-expanded="show"
                 dusk="tallstackui_select_open_close">
@@ -67,7 +67,7 @@
             @if (!$disabled)
                 <div @class($personalize['buttons.wrapper'])>
                     <template x-if="!empty">
-                        <button dusk="tallstackui_select_clear" type="button" x-on:click="clear(); show = true">
+                        <button dusk="tallstackui_select_clear" type="button" x-on:click="clear();">
                             <x-icon name="x-mark" @class([
                                 $personalize['buttons.size'],
                                 $personalize['buttons.base'] => !$error,
@@ -83,8 +83,7 @@
                 </div>
             @endif
         </button>
-        <div wire:ignore
-             x-show="show"
+        <div x-show="show"
              x-cloak
              style="display: none;"
              x-transition:enter="transition ease-out duration-75"
@@ -115,12 +114,12 @@
                         <x-tallstack-ui::icon.others.loading @class($personalize['box.list.loading.class']) />
                     </div>
                 @endif
-                <template x-for="(option, index) in availableOptions()" :key="option[selectable.label] ?? option">
+                <template x-for="(option, index) in available" :key="option[selectable.label] ?? option">
                     <li x-on:click="select(option)"
                         x-on:keypress.enter="select(option)"
                         x-bind:class="{ '{{ $personalize['box.list.item.selected'] }}': selected(option) }"
                         role="option" @class($personalize['box.list.item.wrapper'])>
-                        <div wire:ignore @class($personalize['box.list.item.options'])>
+                        <div @class($personalize['box.list.item.options'])>
                             <span class="ml-2 truncate" x-text="option[selectable.label] ?? option"></span>
                             <x-icon name="check"
                                     x-show="selected(option)" @class($personalize['box.list.item.check']) />

@@ -99,8 +99,6 @@ export default (
         return;
       }
 
-      this.show = this.quantity === this.availables?.length ? false : this.multiple;
-
       // This is used to avoid the need of hydrate the selects when
       // the changes are made internally, such as select options.
       if (this.internal) {
@@ -197,8 +195,6 @@ export default (
         return;
       }
 
-      this.show = this.quantity === this.availables?.length ? false : this.multiple;
-
       // This is used to avoid the need of hydrate the selects when
       // the changes are made internally, such as select options.
       if (value === old || this.internal) {
@@ -289,6 +285,8 @@ export default (
       }
     }
 
+    this.show = this.quantity === this.available.length ? false : this.multiple;
+    console.log(this.show);
     this.search = '';
   },
   selected(option) {
@@ -364,9 +362,9 @@ export default (
    * @returns {Array}
    */
   get available() {
-    return this.availableOptions();
+    return this.data();
   },
-  availableOptions() {
+  data() {
     const available = this.common ? this.options : this.response;
 
     if (this.search === '') {
