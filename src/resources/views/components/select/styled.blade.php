@@ -8,12 +8,11 @@
 @endphp
 
 <div x-data="tallstackui_select(
-        @if ($live) @entangle($property).live @else @entangle($property) @endif,
+        {{ TallStackUi::blade()->entangle($attributes->wire('model')) }},
         @js($request),
         @js($selectable),
         @js($options),
         @js($multiple),
-        @js($selectable !== []),
         @js($placeholders['default']),
         @js($searchable),
         @js($common)

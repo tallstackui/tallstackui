@@ -7,7 +7,6 @@ import {body} from './helpers';
  * @param selectable {Object} - The label and value of the select when dimensional is true
  * @param options {Array} - The options of the select when is common
  * @param multiple {Boolean} - If true, the select will be multiple
- * @param dimensional {Boolean} - Multidimensional array
  * @param placeholder {String} - The placeholder of the select
  * @param searchable {Boolean} - If true, the search input will be shown
  * @param common {Boolean} - If true, the options will be taken from the options variable
@@ -18,7 +17,6 @@ export default (
     selectable = {},
     options = [],
     multiple = false,
-    dimensional = false,
     placeholder = 'Select an option',
     searchable = false,
     common = true,
@@ -30,7 +28,7 @@ export default (
   search: '',
   searchable: searchable,
   multiple: multiple,
-  dimensional: dimensional,
+  dimensional: !!(selectable?.label && selectable?.value),
   selectable: selectable,
   loading: false,
   placeholder: placeholder,

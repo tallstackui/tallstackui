@@ -7,11 +7,17 @@ use Livewire\WireDirective;
 
 class BladeSupport
 {
-    public function alpine(string $component, array $data = []): string
+    public function entangle(?WireDirective $attribute = null): string
     {
-        $expressions = $this->json($data);
+        if (! $attribute) {
+            return Blade::render('null');
+        }
 
-        return "{$component}({$expressions})";
+        $value = $attribute->value();
+
+        return $attribute->hasModifier('live') || $attribute->hasModifier('blur')
+            ? Blade::render("@entangle('{$value}').live")
+            : Blade::render("@entangle('{$value}')");
     }
 
     public function json(array $data = []): string
@@ -25,9 +31,7 @@ class BladeSupport
         $parse = function ($value) {
             return match (true) {
                 $value instanceof WireDirective => function () use ($value) {
-                    return $value->hasModifier('blur')
-                        ? Blade::render("@entangle('{$value}').live")
-                        : Blade::render("@entangle('{$value}')");
+                    return $this->entangle($value);
                 },
                 is_array($value), is_object($value) => fn () => "JSON.parse(atob('".base64_encode(json_encode($value))."'))",
                 is_string($value) => fn () => "'".str_replace("'", "\'", $value)."'",
