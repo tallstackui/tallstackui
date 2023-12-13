@@ -38,6 +38,8 @@ export default (
   common: common,
   response: [],
   options: options,
+  observer: null,
+  observing: false,
   async init() {
     if (this.multiple && this.model && this.model.constructor !== Array) {
       return warning('The [wire:model] must be an array');
@@ -62,7 +64,7 @@ export default (
    * @returns {void}
    */
   initAsCommon() {
-    this.observer();
+    this.observation();
 
     if (this.multiple) {
       this.selects = this.available.filter((option) => this.dimensional ?
@@ -90,6 +92,8 @@ export default (
 
       setTimeout(() => this.$refs.search.focus(), 100);
     });
+
+    this.$watch('options', async () => this.observed());
 
     this.$watch('model', (value, old) => {
       // When the value is null we clear the select. This is necessary due
@@ -133,15 +137,32 @@ export default (
    * Observe the options element to sync the options
    * @returns {void}
    */
-  observer() {
+  observation() {
     this.sync();
 
-    const observer = new MutationObserver(this.sync.bind(this));
+    this.observer = new MutationObserver(this.sync.bind(this));
 
-    observer.observe(this.$refs.options, {
+    this.observer.observe(this.$refs.options, {
       subtree: true,
       characterData: true,
     });
+  },
+  /**
+   * Control the observation
+   * @returns {Promise<void>}
+   */
+  async observed() {
+    if (this.observer && !this.observing) {
+      this.observer.disconnect();
+
+      this.observing = true;
+    }
+
+    await this.$nextTick();
+
+    this.observing = false;
+
+    this.observation();
   },
   /**
    * Sync the options
@@ -284,7 +305,7 @@ export default (
       this.placeholder = this.dimensional ? option[this.selectable.label] : option;
     }
 
-    this.show = this.quantity === this.available.length ? false : this.multiple;
+    this.show = this.quantity === this.available?.length ? false : this.multiple;
     this.search = '';
   },
   /**
@@ -294,7 +315,7 @@ export default (
    * @returns {boolean}
    */
   selected(option) {
-    if (this.empty || this.available.length === 0) return false;
+    if (this.empty || this.available?.length === 0) return false;
 
     return this.multiple ?
       this.selects?.some((selected) => JSON.stringify(selected) === JSON.stringify(option)) :
@@ -335,8 +356,8 @@ export default (
   reset(ignore = false) {
     this.model = null;
     this.placeholder = placeholder;
-    this.selects = [];
     this.search = '';
+    this.$nextTick(() => this.selects = []);
 
     if (ignore) {
       return;

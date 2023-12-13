@@ -43,8 +43,8 @@
                                 '{{ $personalize['itens.single'] }}': !empty
                               }" x-text="placeholder"></span>
                     </div>
-                    <div class="truncate" x-show="multiple && quantity > 0">
-                        <template x-for="(select, index) in selects" :key="select[selectable.label] ?? select">
+                    <div wire:ignore class="truncate" x-show="multiple && quantity > 0">
+                        <template x-for="select in selects" :key="select[selectable.label] ?? select">
                             <a class="cursor-pointer">
                                 <div @class($personalize['itens.multiple.item'])>
                                     <span x-text="select[selectable.label] ?? select"></span>
@@ -63,7 +63,7 @@
             @if (!$disabled)
                 <div @class($personalize['buttons.wrapper'])>
                     <template x-if="!empty">
-                        <button dusk="tallstackui_select_clear" type="button" x-on:click="reset(); show = true;">
+                        <button dusk="tallstackui_select_clear" type="button" x-on:click="clear(); show = true;">
                             <x-icon name="x-mark" @class([
                                 $personalize['buttons.size'],
                                 $personalize['buttons.base'] => !$error,
