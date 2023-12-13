@@ -8,7 +8,7 @@
 @endphp
 
 <div x-data="tallstackui_select(
-        {{ TallStackUi::blade()->entangle($attributes->wire('model')) }},
+        {{ TallStackUi::blade()->entangle($attributes) }},
         @js($request),
         @js($selectable),
         @js($options),

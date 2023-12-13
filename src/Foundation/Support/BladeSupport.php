@@ -3,19 +3,25 @@
 namespace TallStackUi\Foundation\Support;
 
 use Illuminate\Support\Facades\Blade;
+use Illuminate\View\ComponentAttributeBag;
 use Livewire\WireDirective;
 
 class BladeSupport
 {
-    public function entangle(?WireDirective $attribute = null): string
+    public function entangle(ComponentAttributeBag|WireDirective $attributes): string
     {
-        if (! $attribute) {
+        /** @var WireDirective $wire */
+        $wire = $attributes instanceof ComponentAttributeBag
+            ? $attributes->wire('model')
+            : $attributes;
+
+        if (! $wire->directive() && ! $wire->value()) {
             return Blade::render('null');
         }
 
-        $value = $attribute->value();
+        $value = $wire->value();
 
-        return $attribute->hasModifier('live') || $attribute->hasModifier('blur')
+        return $wire->hasModifier('live') || $wire->hasModifier('blur')
             ? Blade::render("@entangle('{$value}').live")
             : Blade::render("@entangle('{$value}')");
     }
