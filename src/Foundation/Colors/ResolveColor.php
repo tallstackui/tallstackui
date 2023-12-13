@@ -24,8 +24,6 @@ class ResolveColor
     /** @throws Exception */
     public static function from(object $component): ?array
     {
-        $name = get_class($component);
-
         // This way of using match was designed for deep personalization,
         // for customized components that extend the original components.
         $class = match (true) {

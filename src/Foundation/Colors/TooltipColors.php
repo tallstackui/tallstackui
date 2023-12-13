@@ -16,7 +16,12 @@ class TooltipColors
 
     public function __invoke(): array
     {
-        return ['icon' => rescue(fn () => $this->get('icon')[$this->component->color], $this->icon()[$this->component->color], false)];
+        // We just need to $this->format when we
+        // have a style and color, otherwise we
+        // can just use the color as the getter.
+        $getter = $this->component->color;
+
+        return ['icon' => data_get($this->get('icon'), $getter, data_get($this->icon(), $getter))];
     }
 
     private function icon(): array

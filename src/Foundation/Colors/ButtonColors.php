@@ -19,13 +19,11 @@ class ButtonColors
     {
         [$background, $icon] = $this->get('background', 'icon');
 
-        $style = $this->component->style;
-        $color = $this->component->color;
-        $getter = $this->format($style, $color);
+        $getter = $this->format($this->component->style, $this->component->color);
 
         return [
-            'background' => data_get($background, $getter, fn () => $this->background()[$style][$color]),
-            'icon' => data_get($icon, $getter, fn () => $this->icon()[$style][$color]),
+            'background' => data_get($background, $getter, data_get($this->background(), $getter)),
+            'icon' => data_get($icon, $getter, data_get($this->icon(), $getter)),
         ];
     }
 

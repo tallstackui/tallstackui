@@ -16,7 +16,9 @@ class AvatarColors
 
     public function __invoke(): array
     {
-        return ['background' => rescue(fn () => $this->get('background'), $this->background(), false)];
+        $getter = $this->format($this->component->color);
+
+        return ['background' => data_get($this->get('background'), $getter, data_get($this->background(), $getter))];
     }
 
     private function background(): array

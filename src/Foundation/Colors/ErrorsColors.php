@@ -18,12 +18,15 @@ class ErrorsColors
     {
         [$background, $text, $border] = $this->get('background', 'text', 'border');
 
+        // We just need to $this->format when we
+        // have a style and color, otherwise we
+        // can just use the color as the getter.
         $getter = $this->component->color;
 
         return [
-            'background' => data_get($background, $getter, fn () => $this->background()[$getter]),
-            'text' => data_get($text, $getter, fn () => $this->text()[$getter]),
-            'border' => data_get($border, $getter, fn () => $this->border()[$getter]),
+            'background' => data_get($background, $getter, data_get($this->background(), $getter)),
+            'text' => data_get($text, $getter, data_get($this->text(), $getter)),
+            'border' => data_get($border, $getter, data_get($this->border(), $getter)),
         ];
     }
 

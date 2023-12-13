@@ -17,7 +17,12 @@ class RadioColors
 
     public function __invoke(): array
     {
-        return ['background' => rescue(fn () => $this->get('background')[$this->component->color], $this->background()[$this->component->color], false)];
+        // We just need to $this->format when we
+        // have a style and color, otherwise we
+        // can just use the color as the getter.
+        $getter = $this->component->color;
+
+        return ['background' => data_get($this->get('background'), $getter, data_get($this->background(), $getter))];
     }
 
     private function background(): array

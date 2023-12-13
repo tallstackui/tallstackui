@@ -16,7 +16,12 @@ class RangeColors
 
     public function __invoke(): array
     {
-        return ['thumb' => rescue(fn () => $this->get('thumb')[$this->component->color], $this->thumb()[$this->component->color], false)];
+        // We just need to $this->format when we
+        // have a style and color, otherwise we
+        // can just use the color as the getter.
+        $getter = $this->component->color;
+
+        return ['thumb' => data_get($this->get('thumb'), $getter, data_get($this->thumb(), $getter))];
     }
 
     private function thumb(): array

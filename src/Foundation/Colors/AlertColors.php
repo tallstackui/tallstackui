@@ -18,13 +18,11 @@ class AlertColors
     {
         [$background, $text] = $this->get('background', 'text');
 
-        $style = $this->component->style;
-        $color = $this->component->color;
-        $getter = $this->format($style, $color);
+        $getter = $this->format($this->component->style, $this->component->color);
 
         return [
-            'background' => data_get($background, $getter, fn () => $this->background()[$style][$color]),
-            'text' => data_get($text, $getter, fn () => $this->text()[$style][$color]),
+            'background' => data_get($background, $getter, data_get($this->background(), $getter)),
+            'text' => data_get($text, $getter, data_get($this->text(), $getter)),
         ];
     }
 
