@@ -1,8 +1,8 @@
 <?php
 
-namespace TallStackUi;
+namespace TallStackUi\Foundation\Support;
 
-class TallStackUiDirectives
+class BladeDirectives
 {
     public function script(): string
     {
