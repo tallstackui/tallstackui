@@ -59,10 +59,10 @@ export default (
   },
   /**
    * Initialize the component as common
-   * @returns {Promise<void>}
+   * @returns {void}
    */
   initAsCommon() {
-    this.initOptionsObserver();
+    this.observer();
 
     if (this.multiple) {
       this.selects = this.available.filter((option) => this.dimensional ?
@@ -111,7 +111,6 @@ export default (
       }
 
       if (this.multiple) {
-        // eslint-disable-next-line max-len
         this.selects = this.available.filter((option) => this.dimensional ?
             value?.includes(option[this.selectable.value]) :
             value?.includes(option));
@@ -130,21 +129,26 @@ export default (
       }
     });
   },
-  initOptionsObserver() {
-    this.syncJsonOptions();
+  /**
+   * Observe the options element to sync the options
+   * @returns {void}
+   */
+  observer() {
+    this.sync();
 
-    const observer = new MutationObserver(this.syncJsonOptions.bind(this));
+    const observer = new MutationObserver(this.sync.bind(this));
 
     observer.observe(this.$refs.options, {
       subtree: true,
       characterData: true,
     });
   },
-  syncJsonOptions() {
-    this.setOptions(window.Alpine.evaluate(this, this.$refs.options.innerText));
-  },
-  setOptions(options) {
-    this.options = options;
+  /**
+   * Sync the options
+   * @returns {void}
+   */
+  sync() {
+    this.options = window.Alpine.evaluate(this, this.$refs.options.innerText);
   },
   /**
    * Initialize the component as request
@@ -156,25 +160,21 @@ export default (
         return;
       }
 
-      this.loading = true;
-
       if (!value) {
         this.search = '';
 
         return;
       }
 
-      await this.sendRequest();
+      await this.makeRequest();
+
       setTimeout(() => this.$refs.search.focus(), 100);
     });
 
-    this.$watch('search', async () => {
-      this.loading = true;
-      await this.sendRequest();
-    });
+    this.$watch('search', async () => this.makeRequest());
 
     if (this.model) {
-      await this.sendRequest();
+      await this.makeRequest();
 
       this.selects = this.available.filter((option) => {
         return this.multiple ?
@@ -217,16 +217,19 @@ export default (
       }
     });
   },
-  /** @returns {Promise<void>} */
-  async sendRequest() {
+  /** @returns {void} */
+  async makeRequest() {
+    this.loading = true;
+
     this.response = [];
 
     if (this.request.params?.constructor === Array) {
       return error('The [params] must be an array with key and value pairs');
     }
 
-    // eslint-disable-next-line max-len
-    const {url, init} = body(this.request, this.search, this.model ? (this.model.constructor === Array ? this.model : [this.model]) : []);
+    const {url, init} = body(this.request, this.search, this.model ?
+        (this.model.constructor === Array ? this.model : [this.model]) :
+        []);
 
     try {
       const response = await fetch(url, init);
@@ -250,6 +253,8 @@ export default (
     }
   },
   /**
+   * Select the `option`
+   *
    * @param option {Object}
    * @return {void}
    */
@@ -271,24 +276,23 @@ export default (
                 this.selects.map((selected) => selected[this.selectable.value]) :
                 this.selects;
 
-      this.show = false;
       this.search = '';
     } else {
       this.selects = [option];
 
-      if (this.dimensional) {
-        this.model = option[this.selectable.value];
-        this.placeholder = option[this.selectable.label];
-      } else {
-        this.model = option;
-        this.placeholder = option;
-      }
+      this.model = this.dimensional ? option[this.selectable.value] : option;
+      this.placeholder = this.dimensional ? option[this.selectable.label] : option;
     }
 
     this.show = this.quantity === this.available.length ? false : this.multiple;
-    console.log(this.show);
     this.search = '';
   },
+  /**
+   * Check if the `option` is selected
+   *
+   * @param option
+   * @returns {boolean}
+   */
   selected(option) {
     if (this.empty || this.available.length === 0) return false;
 
@@ -362,9 +366,6 @@ export default (
    * @returns {Array}
    */
   get available() {
-    return this.data();
-  },
-  data() {
     const available = this.common ? this.options : this.response;
 
     if (this.search === '') {

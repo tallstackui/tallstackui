@@ -27,7 +27,7 @@
                 x-ref="button"
                 @disabled($disabled)
                 @class([ $personalize['input.wrapper.base'], $personalize['input.wrapper.color'] => !$error, $personalize['input.wrapper.error'] => $error])
-                @if (!$disabled) x-on:click="show = true" @endif
+                @if (!$disabled) x-on:click="show = !show" @endif
                 aria-haspopup="listbox"
                 :aria-expanded="show"
                 dusk="tallstackui_select_open_close">
@@ -44,13 +44,13 @@
                               }" x-text="placeholder"></span>
                     </div>
                     <div class="truncate" x-show="multiple && quantity > 0">
-                        <template x-for="(select, index) in selects" :key="selected[selectable.label] ?? select">
+                        <template x-for="(select, index) in selects" :key="select[selectable.label] ?? select">
                             <a class="cursor-pointer">
                                 <div @class($personalize['itens.multiple.item'])>
-                                    <span x-text="selected[selectable.label] ?? select"></span>
+                                    <span x-text="select[selectable.label] ?? select"></span>
                                     @if (!$disabled)
                                         <x-icon name="x-mark"
-                                                x-on:click="clear(select);"
+                                                x-on:click="clear(select)"
                                                 @class($personalize['itens.multiple.icon'])
                                         />
                                     @endif
@@ -63,7 +63,7 @@
             @if (!$disabled)
                 <div @class($personalize['buttons.wrapper'])>
                     <template x-if="!empty">
-                        <button dusk="tallstackui_select_clear" type="button" x-on:click="clear();">
+                        <button dusk="tallstackui_select_clear" type="button" x-on:click="reset(); show = true;">
                             <x-icon name="x-mark" @class([
                                 $personalize['buttons.size'],
                                 $personalize['buttons.base'] => !$error,
@@ -97,7 +97,7 @@
                              :validate="false"
                     />
                     <button type="button"
-                            @class([$personalize['box.button.class']])
+                            @class($personalize['box.button.class'])
                             x-on:click="search = ''; $refs.search.focus();"
                             x-show="search?.length > 0">
                         <x-icon name="x-mark" @class($personalize['box.button.icon']) />
