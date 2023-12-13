@@ -54,23 +54,13 @@ abstract class BaseComponent extends Component
             return $view;
         }
 
-        $ignores = ['slot', 'trigger', 'content'];
-        $attributes = '';
-
-        foreach (collect($data)
-            ->filter(fn (mixed $value, string $key) => ! is_array($value) && ! is_callable($value) && ! in_array($key, $ignores))
-            ->toArray() as $key => $value) {
-            $attributes .= "<span class=\"text-white\">$key:</span> <span class=\"text-red-500\">$value</span>";
-            $attributes .= '<br>';
-        }
-
-        $html = $view->render();
+        $attributes = $this->view('tallstack-ui::components.debug.attributes', ['data' => $data])->render();
 
         return <<<blade
             <x-tallstack-ui::debug>
-                $html
+                {$view->render()}
                 <x-slot:code>
-                    $attributes              
+                    $attributes
                 </x-slot:code>
             </x-tallstack-ui::debug>
         blade;
