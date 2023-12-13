@@ -17,20 +17,16 @@
         @js($placeholders['default']),
         @js($searchable),
         @js($common)
-    )" x-cloak>
+    )" x-cloak wire:ignore.self>
     <div hidden x-ref="options">{{ TallStackUi::blade()->json($options) }}</div>
     @if ($label)
         <x-label :$label :$error/>
     @endif
-    <div wire:ignore class="relative" x-on:click.outside="show = false">
+    <div class="relative" x-on:click.outside="show = false">
         <button type="button"
                 x-ref="button"
                 @disabled($disabled)
-                @class([
-                    $personalize['input.wrapper.base'],
-                    $personalize['input.wrapper.color'] => !$error,
-                    $personalize['input.wrapper.error'] => $error
-                ])
+                @class([ $personalize['input.wrapper.base'], $personalize['input.wrapper.color'] => !$error, $personalize['input.wrapper.error'] => $error])
                 @if (!$disabled) x-on:click="show = true" @endif
                 aria-haspopup="listbox"
                 :aria-expanded="show"
