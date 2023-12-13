@@ -140,6 +140,10 @@ export default (
   observation() {
     this.sync();
 
+    if (!this.$refs.options) {
+      return;
+    }
+
     this.observer = new MutationObserver(this.sync.bind(this));
 
     this.observer.observe(this.$refs.options, {
@@ -169,6 +173,10 @@ export default (
    * @returns {void}
    */
   sync() {
+    if (!this.$refs.options) {
+      return;
+    }
+
     this.options = window.Alpine.evaluate(this, this.$refs.options.innerText);
   },
   /**
