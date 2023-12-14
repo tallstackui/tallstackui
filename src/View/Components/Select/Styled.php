@@ -33,7 +33,7 @@ class Styled extends BaseComponent implements Personalization
         public ?bool $disabled = false,
         public ?bool $common = true,
         public array $placeholders = [],
-        public readonly bool $ignoreValidations = false,
+        public ?bool $invalidate = null,
     ) {
         $this->placeholders = [...__('tallstack-ui::messages.select')];
 
@@ -109,10 +109,6 @@ class Styled extends BaseComponent implements Personalization
 
         if (blank($this->placeholders['empty'])) {
             throw new InvalidArgumentException('The placeholder [empty] cannot be empty.');
-        }
-
-        if ($this->ignoreValidations) {
-            return;
         }
 
         if (filled($this->options) && filled($this->request)) {

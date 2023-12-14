@@ -24,6 +24,7 @@ class Native extends BaseComponent implements Personalization
         public Collection|array $options = [],
         public ?string $select = null,
         public ?array $selectable = [],
+        public ?bool $invalidate = null,
     ) {
         $this->options();
     }
@@ -35,7 +36,6 @@ class Native extends BaseComponent implements Personalization
 
     public function personalization(): array
     {
-        // TODO : Deal with bg-transparent
         return Arr::dot([
             'input' => [
                 'class' => [...$this->input()],

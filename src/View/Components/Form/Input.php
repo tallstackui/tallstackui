@@ -22,7 +22,7 @@ class Input extends BaseComponent implements Personalization
         public ?string $position = 'left',
         public ?string $prefix = null,
         public ?string $suffix = null,
-        public bool $validate = true,
+        public ?bool $invalidate = null,
     ) {
         $this->id ??= uniqid();
         $this->position = $this->position === 'left' ? 'left' : 'right';
@@ -50,6 +50,7 @@ class Input extends BaseComponent implements Personalization
                     'right' => 'right-0 pr-3',
                 ],
                 'size' => 'h-5 w-5',
+                'color' => 'text-gray-500 dark:text-dark-400',
             ],
             'error' => $this->error(),
         ]);
