@@ -1,6 +1,6 @@
 @php
     $personalize = $classes();
-    $wire = TallStackUi::blade()->wire($attributes);
+    $wire = TallStackUi::blade()->wireable($attributes);
     $error = $wire && $errors->has($wire->value());
 @endphp
 

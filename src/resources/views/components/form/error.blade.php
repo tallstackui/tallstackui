@@ -1,6 +1,6 @@
 @php($personalize = $classes())
 
-@error ($computed)
+@error ($wire)
     <span @class($personalize['text'])>
         {{ $message }}
     </span>

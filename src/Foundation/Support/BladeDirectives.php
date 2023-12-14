@@ -3,7 +3,6 @@
 namespace TallStackUi\Foundation\Support;
 
 use Illuminate\Support\Facades\Blade;
-use Illuminate\View\ComponentAttributeBag;
 use TallStackUi\Facades\TallStackUi as Facade;
 
 class BladeDirectives

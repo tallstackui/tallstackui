@@ -11,6 +11,6 @@
         <x-hint :$hint/>
     @endif
     @if ($error && $validate)
-        <x-error :$computed :$error/>
+        <x-error :$wire/>
     @endif
 </div>
