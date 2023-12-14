@@ -1,10 +1,10 @@
 @php
     $personalize = $classes();
-    $wire = TallStackUi::blade()->wireable($attributes);
+    $wire = $wireable($attributes);
     $error = $wire && $errors->has($wire->value());
 @endphp
 
-<x-wrapper.input :$id :computed="$wire" :$error :$label :$hint validate>
+<x-wrapper.input :$id :$wire :$label :$hint validate>
     <div x-data="tallstackui_formColor(
             @entangleable($attributes),
             @js($mode),

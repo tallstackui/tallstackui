@@ -1,29 +1,24 @@
 @php
     $icons = $icons();
-    $computed = $attributes->whereStartsWith('wire:model');
-    $directive = array_key_first($computed->getAttributes());
-    $property = $computed[$directive];
-    $error = $property && $errors->has($property);
-    $live = str($directive)->contains('.live');
+    $wire = $wireable($attributes);
+    $error = $wire && $errors->has($wire->value());
     $personalize = $classes();
-    $disabled = $attributes->get('disabled');
-    $readonly = $attributes->get('readonly');
 @endphp
 
-<x-wrapper.input :$id :computed="$property" :$error :$label :$hint validate>
+<x-wrapper.input :$id :$wire :$label :$hint validate>
     <div @class([
             $personalize['input.class.wrapper'],
             $personalize['input.class.color.base'] => !$error,
-            $personalize['input.class.color.background'] => !$disabled && !$readonly,
-            $personalize['input.class.color.disabled'] => $disabled || $readonly,
-            $personalize['error'] => $error
+            $personalize['input.class.color.background'] => !$attributes->get('disabled') && !$attributes->get('readonly'),
+            $personalize['input.class.color.disabled'] => $attributes->get('disabled') || $attributes->get('readonly'),
+            $personalize['error'] => $error === true
         ]) x-data="tallstackui_formNumber(
             @entangleable($attributes),
             @js($min),
             @js($max),
             @js($delay),
             @js($attributes->get('disabled', false) || $attributes->get('readonly', false))
-        )" wire:ignore>
+        )">
         <input id="{{ $id }}"
                type="number"
                inputmode="numeric"
@@ -42,7 +37,7 @@
                     x-on:touchend="clearInterval(interval);"
                     x-ref="minus"
                     type="button"
-                    @if ($disabled || $readonly) disabled @endif
+                    @if ($attributes->get('disabled') || $attributes->get('readonly')) disabled @endif
                     dusk="tallstackui_form_number_decrement"
                     @class($personalize['buttons.left.base'])>
                 <x-icon :name="$icons['left']"
@@ -60,7 +55,7 @@
                     x-on:touchend="clearInterval(interval);"
                     x-ref="plus"
                     type="button"
-                    @if ($disabled || $readonly) disabled @endif
+                    @if ($attributes->get('disabled') || $attributes->get('readonly')) disabled @endif
                     dusk="tallstackui_form_number_increment"
                     @class($personalize['buttons.right.base'])>
                 <x-icon :name="$icons['right']"

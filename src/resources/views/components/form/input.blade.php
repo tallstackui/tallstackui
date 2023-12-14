@@ -1,12 +1,10 @@
 @php
-    $computed = $attributes->whereStartsWith('wire:model')->first();
-    $error = $computed && $errors->has($computed);
+    $wire = $wireable($attributes);
+    $error = $wire && $errors->has($wire->value());
     $personalize = $classes();
-    $disabled = $attributes->get('disabled');
-    $readonly = $attributes->get('readonly');
 @endphp
 
-<x-wrapper.input :$id :$computed :$error :$label :$hint :$validate>
+<x-wrapper.input :$id :$wire :$label :$hint :$validate>
     @if ($icon)
         <div @class([ $personalize['icon.wrapper'], $personalize['icon.paddings.' . $position]])>
             <x-icon :$icon :$error @class([$personalize['icon.size'], 'text-secondary-500' => !$validate]) />
@@ -15,8 +13,8 @@
     <div @class([
             $personalize['input.class.wrapper'],
             $personalize['input.class.color.base'] => !$error,
-            $personalize['input.class.color.background'] => !$disabled && !$readonly,
-            $personalize['input.class.color.disabled'] => $disabled || $readonly,
+            $personalize['input.class.color.background'] => !$attributes->get('disabled') && !$attributes->get('readonly'),
+            $personalize['input.class.color.disabled'] => $attributes->get('disabled') || $attributes->get('readonly'),
             $personalize['input.paddings.left'] => $icon && ($position === null || $position === 'left'),
             $personalize['input.paddings.right'] => $icon && $position === 'right',
             $personalize['error'] => $error && $validate

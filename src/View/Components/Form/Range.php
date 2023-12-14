@@ -35,7 +35,7 @@ class Range extends BaseComponent implements Personalization
         return Arr::dot([
             'input' => [
                 'wrapper' => 'relative rounded-md',
-                'base' => 'dark:bg-dark-700 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 transition',
+                'base' => 'dark:bg-dark-800 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 transition',
                 'sizes' => [
                     'sm' => 'h-1 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full',
                     'md' => 'h-2 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full',
