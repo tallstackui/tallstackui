@@ -18,7 +18,7 @@
             $personalize['input.class.color.disabled'] => $disabled || $readonly,
             $personalize['error'] => $error
         ]) x-data="tallstackui_formNumber(
-            @if ($live) @entangle($property).live @else @entangle($property) @endif,
+            @entangleable($attributes),
             @js($min),
             @js($max),
             @js($delay),
