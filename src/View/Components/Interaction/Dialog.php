@@ -12,11 +12,6 @@ use TallStackUi\View\Components\BaseComponent;
 #[SoftPersonalization('dialog')]
 class Dialog extends BaseComponent implements Personalization
 {
-    public function __construct()
-    {
-        //
-    }
-
     public function blade(): View
     {
         return view('tallstack-ui::components.interaction.dialog');
