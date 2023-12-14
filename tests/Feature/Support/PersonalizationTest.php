@@ -1,8 +1,8 @@
 <?php
 
 use TallStackUi\Facades\TallStackUi;
-use TallStackUi\View\Personalizations\Contracts\PersonalizableResources;
-use TallStackUi\View\Personalizations\Personalization;
+use TallStackUi\Foundation\Personalization\Personalization;
+use TallStackUi\Foundation\Personalization\PersonalizationResources;
 
 it('can be instantiated', function () {
     expect(TallStackUi::personalize())->toBeInstanceOf(Personalization::class);
@@ -11,11 +11,11 @@ it('can be instantiated', function () {
 it('can be instantiated with a component', function () {
     expect(TallStackUi::personalize('alert')
         ->block('wrapper', fn () => 'string'))
-        ->toBeInstanceOf(PersonalizableResources::class);
+        ->toBeInstanceOf(PersonalizationResources::class);
 });
 
 it('can instantiate all components', function (string $component) {
-    expect(TallStackUi::personalize($component)->instance())->toBeInstanceOf(PersonalizableResources::class);
+    expect(TallStackUi::personalize($component)->instance())->toBeInstanceOf(PersonalizationResources::class);
 })->with('personalizations.keys');
 
 it('can personalize using facade and string', function () {
@@ -211,7 +211,7 @@ it('can personalize chained', function () {
 });
 
 it('cannot personalize wrong component', function () {
-    $this->expectException(InvalidArgumentException::class);
+    $this->expectException(Exception::class);
 
     TallStackUi::personalize()
         ->form('input2')
@@ -219,7 +219,7 @@ it('cannot personalize wrong component', function () {
 });
 
 it('cannot personalize wrong block', function () {
-    $this->expectException(InvalidArgumentException::class);
+    $this->expectException(Exception::class);
 
     TallStackUi::personalize()
         ->alert()

@@ -4,16 +4,14 @@ namespace TallStackUi\View\Components\Dropdown;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
-use Illuminate\View\Component;
-use TallStackUi\View\Personalizations\Contracts\Personalization;
-use TallStackUi\View\Personalizations\SoftPersonalization;
-use TallStackUi\View\Personalizations\Traits\InteractWithValidations;
+use InvalidArgumentException;
+use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Foundation\Personalization\SoftPersonalization;
+use TallStackUi\View\Components\BaseComponent;
 
 #[SoftPersonalization('dropdown')]
-class Dropdown extends Component implements Personalization
+class Dropdown extends BaseComponent implements Personalization
 {
-    use InteractWithValidations;
-
     public function __construct(
         public ?string $text = null,
         public ?string $icon = null,
@@ -22,7 +20,12 @@ class Dropdown extends Component implements Personalization
         public ?string $position = 'bottom-end',
         public ?bool $static = false,
     ) {
-        $this->validate();
+        //
+    }
+
+    public function blade(): View
+    {
+        return view('tallstack-ui::components.dropdown.dropdown');
     }
 
     public function personalization(): array
@@ -41,8 +44,25 @@ class Dropdown extends Component implements Personalization
         ]);
     }
 
-    public function render(): View
+    protected function validate(): void
     {
-        return view('tallstack-ui::components.dropdown.dropdown');
+        $positions = [
+            'bottom',
+            'bottom-start',
+            'bottom-end',
+            'top',
+            'top-start',
+            'top-end',
+            'left',
+            'left-start',
+            'left-end',
+            'right',
+            'right-start',
+            'right-end',
+        ];
+
+        if (! in_array($this->position, $positions)) {
+            throw new InvalidArgumentException('The dropdown position must be one of the following: ['.implode(', ', $positions).']');
+        }
     }
 }

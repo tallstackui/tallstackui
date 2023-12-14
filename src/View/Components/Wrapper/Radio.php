@@ -4,12 +4,12 @@ namespace TallStackUi\View\Components\Wrapper;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
-use Illuminate\View\Component;
-use TallStackUi\View\Personalizations\Contracts\Personalization;
-use TallStackUi\View\Personalizations\SoftPersonalization;
+use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Foundation\Personalization\SoftPersonalization;
+use TallStackUi\View\Components\BaseComponent;
 
 #[SoftPersonalization('wrapper.radio')]
-class Radio extends Component implements Personalization
+class Radio extends BaseComponent implements Personalization
 {
     public function __construct(
         public ?string $computed = null,
@@ -20,6 +20,11 @@ class Radio extends Component implements Personalization
         public bool $error = false,
     ) {
         //
+    }
+
+    public function blade(): View
+    {
+        return view('tallstack-ui::components.wrapper.radio');
     }
 
     public function personalization(): array
@@ -38,10 +43,5 @@ class Radio extends Component implements Personalization
                 'error' => 'text-red-600 dark:text-red-500',
             ],
         ]);
-    }
-
-    public function render(): View
-    {
-        return view('tallstack-ui::components.wrapper.radio');
     }
 }

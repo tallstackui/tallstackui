@@ -4,18 +4,13 @@ namespace TallStackUi\View\Components;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
-use Illuminate\View\Component;
-use TallStackUi\View\Personalizations\Contracts\Personalization;
-use TallStackUi\View\Personalizations\SoftPersonalization;
-use TallStackUi\View\Personalizations\Traits\InteractWithProviders;
-use TallStackUi\View\Personalizations\Traits\InteractWithValidations;
+use InvalidArgumentException;
+use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Foundation\Personalization\SoftPersonalization;
 
 #[SoftPersonalization('tooltip')]
-class Tooltip extends Component implements Personalization
+class Tooltip extends BaseComponent implements Personalization
 {
-    use InteractWithProviders;
-    use InteractWithValidations;
-
     public function __construct(
         public ?string $text = null,
         public ?string $icon = 'question-mark-circle',
@@ -32,9 +27,11 @@ class Tooltip extends Component implements Personalization
     ) {
         $this->size = $this->lg ? 'lg' : ($this->md ? 'md' : ($this->xs ? 'xs' : 'sm'));
         $this->style = $this->outline ? 'outline' : ($this->solid ? 'solid' : config('tallstackui.icon'));
+    }
 
-        $this->validate();
-        $this->colors();
+    public function blade(): View
+    {
+        return view('tallstack-ui::components.tooltip');
     }
 
     public function personalization(): array
@@ -50,8 +47,28 @@ class Tooltip extends Component implements Personalization
         ]);
     }
 
-    public function render(): View
+    protected function validate(): void
     {
-        return view('tallstack-ui::components.tooltip');
+        $positions = [
+            'top',
+            'top-start',
+            'top-end',
+            'bottom',
+            'bottom-start',
+            'bottom-end',
+            'left',
+            'left-start',
+            'left-end',
+            'right',
+            'right-start',
+            'right-end',
+            'auto',
+            'auto-start',
+            'auto-end',
+        ];
+
+        if (! in_array($this->position, $positions)) {
+            throw new InvalidArgumentException('The tooltip [position] must be one of the following: ['.implode(', ', $positions).']');
+        }
     }
 }

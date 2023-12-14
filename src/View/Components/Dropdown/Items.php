@@ -3,12 +3,12 @@
 namespace TallStackUi\View\Components\Dropdown;
 
 use Illuminate\Contracts\View\View;
-use Illuminate\View\Component;
-use TallStackUi\View\Personalizations\Contracts\Personalization;
-use TallStackUi\View\Personalizations\SoftPersonalization;
+use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Foundation\Personalization\SoftPersonalization;
+use TallStackUi\View\Components\BaseComponent;
 
 #[SoftPersonalization('dropdown.items')]
-class Items extends Component implements Personalization
+class Items extends BaseComponent implements Personalization
 {
     public function __construct(
         public ?string $text = null,
@@ -19,6 +19,11 @@ class Items extends Component implements Personalization
         $this->position = $this->position === 'left' ? 'left' : 'right';
     }
 
+    public function blade(): View
+    {
+        return view('tallstack-ui::components.dropdown.items');
+    }
+
     public function personalization(): array
     {
         return [
@@ -26,10 +31,5 @@ class Items extends Component implements Personalization
             'border' => 'border-t border-t-gray-100 dark:border-t-dark-600',
             'icon' => 'dark:text-dark-300 h-5 w-5 text-gray-500',
         ];
-    }
-
-    public function render(): View
-    {
-        return view('tallstack-ui::components.dropdown.items');
     }
 }

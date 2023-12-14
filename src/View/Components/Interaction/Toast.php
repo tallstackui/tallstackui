@@ -4,22 +4,22 @@ namespace TallStackUi\View\Components\Interaction;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
-use Illuminate\View\Component;
-use TallStackUi\View\Personalizations\Contracts\Personalization;
-use TallStackUi\View\Personalizations\SoftPersonalization;
-use TallStackUi\View\Personalizations\Traits\InteractWithProviders;
-use TallStackUi\View\Personalizations\Traits\InteractWithValidations;
+use InvalidArgumentException;
+use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Foundation\Personalization\SoftPersonalization;
+use TallStackUi\View\Components\BaseComponent;
 
 #[SoftPersonalization('toast')]
-class Toast extends Component implements Personalization
+class Toast extends BaseComponent implements Personalization
 {
-    use InteractWithProviders;
-    use InteractWithValidations;
-
     public function __construct()
     {
-        $this->configurations();
-        $this->validate();
+        //
+    }
+
+    public function blade(): View
+    {
+        return view('tallstack-ui::components.interaction.toast');
     }
 
     public function personalization(): array
@@ -64,8 +64,17 @@ class Toast extends Component implements Personalization
         ]);
     }
 
-    public function render(): View
+    protected function validate(): void
     {
-        return view('tallstack-ui::components.interaction.toast');
+        $configuration = config('tallstackui.settings.toast');
+        $positions = ['top-right', 'top-left', 'bottom-right', 'bottom-left'];
+
+        if (! in_array($configuration['position'], $positions)) {
+            throw new InvalidArgumentException('The toast position must be one of the following: ['.implode(', ', $positions).']');
+        }
+
+        if (! str_starts_with($configuration['z-index'], 'z-')) {
+            throw new InvalidArgumentException('The toast z-index must start with z- prefix');
+        }
     }
 }

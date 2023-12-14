@@ -4,16 +4,12 @@ namespace TallStackUi\View\Components;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
-use Illuminate\View\Component;
-use TallStackUi\View\Personalizations\Contracts\Personalization;
-use TallStackUi\View\Personalizations\SoftPersonalization;
-use TallStackUi\View\Personalizations\Traits\InteractWithProviders;
+use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Foundation\Personalization\SoftPersonalization;
 
 #[SoftPersonalization('badge')]
-class Badge extends Component implements Personalization
+class Badge extends BaseComponent implements Personalization
 {
-    use InteractWithProviders;
-
     public function __construct(
         public ?string $text = null,
         public ?string $icon = null,
@@ -36,8 +32,11 @@ class Badge extends Component implements Personalization
         $this->style = $this->outline ? 'outline' : ($this->light ? 'light' : 'solid');
         $this->size = $this->lg ? 'lg' : ($this->md ? 'md' : ($this->sm ? 'sm' : 'xs'));
         $this->position = $this->position === 'right' ? 'right' : 'left';
+    }
 
-        $this->colors();
+    public function blade(): View
+    {
+        return view('tallstack-ui::components.badge');
     }
 
     public function personalization(): array
@@ -54,10 +53,5 @@ class Badge extends Component implements Personalization
             ],
             'icon' => 'h-3 w-3',
         ]);
-    }
-
-    public function render(): View
-    {
-        return view('tallstack-ui::components.badge');
     }
 }

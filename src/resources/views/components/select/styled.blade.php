@@ -8,52 +8,48 @@
 @endphp
 
 <div x-data="tallstackui_select(
-        @if ($live) @entangle($property).live @else @entangle($property) @endif,
+        @entangleable($attributes),
         @js($request),
         @js($selectable),
         @js($options),
         @js($multiple),
-        @js($selectable !== []),
         @js($placeholders['default']),
         @js($searchable),
         @js($common)
-    )" x-cloak>
+    )" x-cloak wire:ignore.self>
+    <div hidden x-ref="options">{{ TallStackUi::blade()->json($options) }}</div>
     @if ($label)
         <x-label :$label :$error/>
     @endif
     <div class="relative" x-on:click.outside="show = false">
-        <button type="button"
+        <button type="button"1
                 x-ref="button"
                 @disabled($disabled)
-                @class([
-                    $personalize['input.wrapper.base'],
-                    $personalize['input.wrapper.color'] => !$error,
-                    $personalize['input.wrapper.error'] => $error
-                ])
+                @class([ $personalize['input.wrapper.base'], $personalize['input.wrapper.color'] => !$error, $personalize['input.wrapper.error'] => $error])
                 @if (!$disabled) x-on:click="show = !show" @endif
                 aria-haspopup="listbox"
                 :aria-expanded="show"
                 dusk="tallstackui_select_open_close">
             <div @class($personalize['input.content'])>
                 <div class="flex gap-2">
-                    <template x-if="multiple && quantity > 0">
+                    <div x-show="multiple && quantity > 0">
                         <span x-text="quantity"></span>
-                    </template>
-                    <template x-if="empty || (!multiple && @js($placeholders['default']) !== placeholder)">
+                    </div>
+                    <div x-show="empty || !multiple">
                         <span @class(['truncate', 'text-red-500 dark:text-red-500' => $error])
                               x-bind:class="{
                                 '{{ $personalize['itens.placeholder'] }}': empty,
                                 '{{ $personalize['itens.single'] }}': !empty
                               }" x-text="placeholder"></span>
-                    </template>
-                    <div class="truncate" x-show="multiple && quantity > 0">
-                        <template x-for="(selected, index) in selecteds" :key="selected[selectable.label] ?? selected">
+                    </div>
+                    <div wire:ignore class="truncate" x-show="multiple && quantity > 0">
+                        <template x-for="select in selects" :key="select[selectable.label] ?? select">
                             <a class="cursor-pointer">
                                 <div @class($personalize['itens.multiple.item'])>
-                                    <span x-text="selected[selectable.label] ?? selected"></span>
+                                    <span x-text="select[selectable.label] ?? select"></span>
                                     @if (!$disabled)
                                         <x-icon name="x-mark"
-                                                x-on:click="clear(selected); show = true"
+                                                x-on:click="clear(select)"
                                                 @class($personalize['itens.multiple.icon'])
                                         />
                                     @endif
@@ -66,7 +62,7 @@
             @if (!$disabled)
                 <div @class($personalize['buttons.wrapper'])>
                     <template x-if="!empty">
-                        <button dusk="tallstackui_select_clear" type="button" x-on:click="clear(); show = true">
+                        <button dusk="tallstackui_select_clear" type="button" x-on:click="clear(); show = true;">
                             <x-icon name="x-mark" @class([
                                 $personalize['buttons.size'],
                                 $personalize['buttons.base'] => !$error,
@@ -82,8 +78,7 @@
                 </div>
             @endif
         </button>
-        <div wire:ignore
-             x-show="show"
+        <div x-show="show"
              x-cloak
              style="display: none;"
              x-transition:enter="transition ease-out duration-75"
@@ -101,9 +96,9 @@
                              :validate="false"
                     />
                     <button type="button"
-                            @class([$personalize['box.button.class']])
+                            @class($personalize['box.button.class'])
                             x-on:click="search = ''; $refs.search.focus();"
-                            x-show="search.length > 0">
+                            x-show="search?.length > 0">
                         <x-icon name="x-mark" @class($personalize['box.button.icon']) />
                     </button>
                 </div>
@@ -114,19 +109,20 @@
                         <x-tallstack-ui::icon.others.loading @class($personalize['box.list.loading.class']) />
                     </div>
                 @endif
-                <template x-for="(option, index) in options" :key="option[selectable.label] ?? option">
+                <template x-for="(option, index) in available" :key="option[selectable.label] ?? option">
                     <li x-on:click="select(option)"
                         x-on:keypress.enter="select(option)"
                         x-bind:class="{ '{{ $personalize['box.list.item.selected'] }}': selected(option) }"
                         role="option" @class($personalize['box.list.item.wrapper'])>
-                        <div wire:ignore @class($personalize['box.list.item.options'])>
+                        <div @class($personalize['box.list.item.options'])>
                             <span class="ml-2 truncate" x-text="option[selectable.label] ?? option"></span>
-                            <x-icon name="check" x-show="selected(option)" @class($personalize['box.list.item.check']) />
+                            <x-icon name="check"
+                                    x-show="selected(option)" @class($personalize['box.list.item.check']) />
                         </div>
                     </li>
                 </template>
                 @if (!$after)
-                    <template x-if="!loading && options.length === 0">
+                    <template x-if="!loading && available.length === 0">
                         <li class="m-2">
                             <span @class($personalize['box.list.empty'])>
                                 {{ $placeholders['empty'] }}
@@ -134,7 +130,7 @@
                         </li>
                     </template>
                 @else
-                    <div x-show="!loading && options.length === 0">
+                    <div x-show="!loading && available.length === 0">
                         {!! $after !!}
                     </div>
                 @endif

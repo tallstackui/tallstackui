@@ -4,18 +4,13 @@ namespace TallStackUi\View\Components;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
-use Illuminate\View\Component;
-use TallStackUi\View\Personalizations\Contracts\Personalization;
-use TallStackUi\View\Personalizations\SoftPersonalization;
-use TallStackUi\View\Personalizations\Traits\InteractWithProviders;
-use TallStackUi\View\Personalizations\Traits\InteractWithValidations;
+use InvalidArgumentException;
+use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Foundation\Personalization\SoftPersonalization;
 
 #[SoftPersonalization('slide')]
-class Slide extends Component implements Personalization
+class Slide extends BaseComponent implements Personalization
 {
-    use InteractWithProviders;
-    use InteractWithValidations;
-
     public function __construct(
         public ?string $id = 'modal',
         public ?string $zIndex = null,
@@ -28,10 +23,12 @@ class Slide extends Component implements Personalization
         public ?string $size = null,
         public string $entangle = 'slide',
     ) {
-        $this->validate();
-        $this->configurations();
-
         $this->entangle = is_string($this->wire) ? $this->wire : (! is_bool($this->wire) ? $this->entangle : 'slide');
+    }
+
+    public function blade(): View
+    {
+        return view('tallstack-ui::components.slide');
     }
 
     public function personalization(): array
@@ -53,8 +50,26 @@ class Slide extends Component implements Personalization
         ]);
     }
 
-    public function render(): View
+    protected function validate(): void
     {
-        return view('tallstack-ui::components.slide');
+        if (is_string($this->wire) && empty($this->wire)) {
+            throw new InvalidArgumentException('The slide [wire] property cannot be an empty string');
+        }
+
+        $configuration = config('tallstackui.settings.slide');
+        $sizes = ['sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl', '5xl', '6xl', '7xl', 'full'];
+        $positions = ['right', 'left'];
+
+        if (! in_array($this->size ?? $configuration['size'], $sizes)) {
+            throw new InvalidArgumentException('The slide size must be one of the following: ['.implode(', ', $sizes).']');
+        }
+
+        if (! str_starts_with($this->zIndex ?? $configuration['z-index'], 'z-')) {
+            throw new InvalidArgumentException('The slide [z-index] must start with z- prefix');
+        }
+
+        if (! in_array($this->left ? 'left' : $configuration['position'], $positions)) {
+            throw new InvalidArgumentException('The slide [position] must be one of the following: ['.implode(', ', $positions).']');
+        }
     }
 }

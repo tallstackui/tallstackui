@@ -4,12 +4,12 @@ namespace TallStackUi\View\Components\Tab;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
-use Illuminate\View\Component;
-use TallStackUi\View\Personalizations\Contracts\Personalization;
-use TallStackUi\View\Personalizations\SoftPersonalization;
+use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Foundation\Personalization\SoftPersonalization;
+use TallStackUi\View\Components\BaseComponent;
 
 #[SoftPersonalization('tab.items')]
-class Items extends Component implements Personalization
+class Items extends BaseComponent implements Personalization
 {
     public function __construct(
         public ?string $tab = null,
@@ -19,6 +19,11 @@ class Items extends Component implements Personalization
         //
     }
 
+    public function blade(): View
+    {
+        return view('tallstack-ui::components.tab.items');
+    }
+
     public function personalization(): array
     {
         return Arr::dot([
@@ -26,10 +31,5 @@ class Items extends Component implements Personalization
             'select' => 'text-primary-500 dark:text-dark-300 border-primary-500 dark:border-dark-300 group inline-flex cursor-pointer items-center border-b-2 font-medium',
             'unselect' => 'dark:text-dark-500 hidden cursor-pointer border-b-2 border-transparent font-medium text-gray-400 sm:flex',
         ]);
-    }
-
-    public function render(): View
-    {
-        return view('tallstack-ui::components.tab.items');
     }
 }

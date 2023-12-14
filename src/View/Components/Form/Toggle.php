@@ -4,19 +4,16 @@ namespace TallStackUi\View\Components\Form;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
-use Illuminate\View\Component;
 use Illuminate\View\ComponentSlot;
+use InvalidArgumentException;
+use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Foundation\Personalization\SoftPersonalization;
+use TallStackUi\View\Components\BaseComponent;
 use TallStackUi\View\Components\Form\Traits\SetupRadioCheckboxToggle;
-use TallStackUi\View\Personalizations\Contracts\Personalization;
-use TallStackUi\View\Personalizations\SoftPersonalization;
-use TallStackUi\View\Personalizations\Traits\InteractWithProviders;
-use TallStackUi\View\Personalizations\Traits\InteractWithValidations;
 
 #[SoftPersonalization('form.toggle')]
-class Toggle extends Component implements Personalization
+class Toggle extends BaseComponent implements Personalization
 {
-    use InteractWithProviders;
-    use InteractWithValidations;
     use SetupRadioCheckboxToggle;
 
     public function __construct(
@@ -31,8 +28,11 @@ class Toggle extends Component implements Personalization
         public ?string $color = 'primary',
     ) {
         $this->setup();
-        $this->colors();
-        $this->validate();
+    }
+
+    public function blade(): View
+    {
+        return view('tallstack-ui::components.form.toggle');
     }
 
     public function personalization(): array
@@ -61,8 +61,12 @@ class Toggle extends Component implements Personalization
         ]);
     }
 
-    public function render(): View
+    protected function validate(): void
     {
-        return view('tallstack-ui::components.form.toggle');
+        $positions = ['right', 'left'];
+
+        if (! in_array($this->position, $positions)) {
+            throw new InvalidArgumentException('The toggle label [position] must be one of the following: ['.implode(', ', $positions).']');
+        }
     }
 }

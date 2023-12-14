@@ -5,13 +5,13 @@ namespace TallStackUi\View\Components\Form;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use Illuminate\View\Component;
+use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Foundation\Personalization\SoftPersonalization;
+use TallStackUi\View\Components\BaseComponent;
 use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
-use TallStackUi\View\Personalizations\Contracts\Personalization;
-use TallStackUi\View\Personalizations\SoftPersonalization;
 
 #[SoftPersonalization('form.color')]
-class Color extends Component implements Personalization
+class Color extends BaseComponent implements Personalization
 {
     use DefaultInputClasses;
 
@@ -19,12 +19,17 @@ class Color extends Component implements Personalization
         public ?string $label = null,
         public ?string $id = null,
         public ?string $hint = null,
-        public ?bool $all = false,
+        public ?bool $full = false,
         public Collection|array $colors = [],
         public ?string $mode = null,
     ) {
         $this->id ??= uniqid();
-        $this->mode = $this->all ? 'all' : 'range';
+        $this->mode = $this->full ? 'full' : 'range';
+    }
+
+    public function blade(): View
+    {
+        return view('tallstack-ui::components.form.color');
     }
 
     public function personalization(): array
@@ -40,7 +45,7 @@ class Color extends Component implements Personalization
                 'class' => 'h-5 w-5 text-gray-400',
             ],
             'box' => [
-                'wrapper' => 'dark:border-dark-900 absolute top-full z-50 mt-2 overflow-hidden rounded-md border border-gray-300 shadow-lg',
+                'wrapper' => 'dark:border-dark-600 absolute top-full z-50 mt-2 overflow-hidden rounded-md border border-gray-200 shadow-lg',
                 'base' => 'shadow-xs dark:bg-dark-800 soft-scrollbar max-h-60 overflow-auto rounded-md bg-white p-2',
                 'range' => [
                     'base' => 'mb-4 h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 dark:bg-gray-700',
@@ -55,10 +60,5 @@ class Color extends Component implements Personalization
             ],
             'error' => $this->error(),
         ]);
-    }
-
-    public function render(): View
-    {
-        return view('tallstack-ui::components.form.color');
     }
 }

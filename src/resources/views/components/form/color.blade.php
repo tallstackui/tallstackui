@@ -1,17 +1,14 @@
 @php
-    $computed = $attributes->whereStartsWith('wire:model');
     $personalize = tallstackui_personalization('form.color', $personalization());
-    $directive = array_key_first($computed->getAttributes());
-    $property = $computed[$directive];
-    $error = $property && $errors->has($property);
-    $live = str($directive)->contains('.live');
+    $wire = $attributes->wire('model');
+    $error = $wire->value() && $errors->has($wire->value());
     $disabled = $attributes->get('disabled');
     $readonly = $attributes->get('readonly');
 @endphp
 
-<x-wrapper.input :$id :computed="$property" :$error :$label :$hint validate>
+<x-wrapper.input :$id :computed="$wire->value()" :$error :$label :$hint validate>
     <div x-data="tallstackui_formColor(
-            @if ($property) @if ($live) @entangle($property).live @else @entangle($property) @endif @else null @endif,
+            @entangleable($attributes),
             @js($mode),
             @js($colors))"
          x-ref="wrapper"
@@ -28,7 +25,7 @@
                 <button type="button" @class($personalize['selected.base']) :style="{ 'background-color': model }" x-on:click="show = !show"></button>
             </template>
         </div>
-        <input id="{{ $id }}" {{ $attributes->class([$personalize['input.base']]) }} type="text" x-ref="input">
+        <input id="{{ $id }}" @class($personalize['input.base']) type="text" x-model="model" x-ref="input">
         <div class="flex items-center">
             <button @if ($disabled || $readonly) disabled @endif
                     x-on:click="show = !show"

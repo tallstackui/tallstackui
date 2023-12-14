@@ -4,18 +4,13 @@ namespace TallStackUi\View\Components;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
-use Illuminate\View\Component;
-use TallStackUi\View\Personalizations\Contracts\Personalization;
-use TallStackUi\View\Personalizations\SoftPersonalization;
-use TallStackUi\View\Personalizations\Traits\InteractWithProviders;
-use TallStackUi\View\Personalizations\Traits\InteractWithValidations;
+use InvalidArgumentException;
+use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Foundation\Personalization\SoftPersonalization;
 
 #[SoftPersonalization('loading')]
-class Loading extends Component implements Personalization
+class Loading extends BaseComponent implements Personalization
 {
-    use InteractWithProviders;
-    use InteractWithValidations;
-
     public function __construct(
         public ?string $zIndex = null,
         public ?string $text = null,
@@ -24,8 +19,12 @@ class Loading extends Component implements Personalization
         public ?bool $blur = false,
         public ?bool $opacity = true,
     ) {
-        $this->validate();
-        $this->configurations();
+        //
+    }
+
+    public function blade(): View
+    {
+        return view('tallstack-ui::components.loading');
     }
 
     public function personalization(): array
@@ -42,8 +41,10 @@ class Loading extends Component implements Personalization
         ]);
     }
 
-    public function render(): View
+    protected function validate(): void
     {
-        return view('tallstack-ui::components.loading');
+        if (! str(config('tallstackui.settings.loading')['z-index'])->startsWith('z-')) {
+            throw new InvalidArgumentException('The loading [z-index] must start with z- prefix');
+        }
     }
 }

@@ -4,13 +4,13 @@ namespace TallStackUi\View\Components\Form;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
-use Illuminate\View\Component;
+use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Foundation\Personalization\SoftPersonalization;
+use TallStackUi\View\Components\BaseComponent;
 use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
-use TallStackUi\View\Personalizations\Contracts\Personalization;
-use TallStackUi\View\Personalizations\SoftPersonalization;
 
 #[SoftPersonalization('form.number')]
-class Number extends Component implements Personalization
+class Number extends BaseComponent implements Personalization
 {
     use DefaultInputClasses;
 
@@ -24,6 +24,11 @@ class Number extends Component implements Personalization
         public ?bool $chevron = false,
     ) {
         $this->id ??= uniqid();
+    }
+
+    public function blade(): View
+    {
+        return view('tallstack-ui::components.form.number');
     }
 
     public function icons(): array
@@ -60,10 +65,5 @@ class Number extends Component implements Personalization
             ],
             'error' => $this->error(),
         ]);
-    }
-
-    public function render(): View
-    {
-        return view('tallstack-ui::components.form.number');
     }
 }
