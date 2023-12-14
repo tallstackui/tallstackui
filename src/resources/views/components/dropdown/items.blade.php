@@ -1,4 +1,4 @@
-@php($personalize = tallstackui_personalization('dropdown.items', $personalization()))
+@php($personalize = $classes())
 
 <a {{ $attributes->class([
         'gap-x-2' => $icon,

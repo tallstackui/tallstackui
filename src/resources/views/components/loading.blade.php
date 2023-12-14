@@ -1,4 +1,4 @@
-@php($personalize = tallstackui_personalization('loading', $personalization()))
+@php($personalize = $classes())
 
 <div @if (!$delay)
          wire:loading

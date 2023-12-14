@@ -3,10 +3,10 @@
 namespace TallStackUi\View\Components;
 
 use Closure;
+use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
-use ReflectionAttribute;
 use ReflectionClass;
 use TallStackUi\Facades\TallStackUi;
 use TallStackUi\Foundation\Colors\ResolveColor;
@@ -25,18 +25,38 @@ abstract class BaseComponent extends Component
             return [];
         }
 
-        /** @var ReflectionAttribute $attribute */
-        $attribute = collect((new ReflectionClass(get_parent_class($this)))->getAttributes(SoftPersonalization::class))->first();
+        // Trying to get the attribute from the current class, and if we
+        // can't find it, we get the attribute from the parent class in
+        // case of the deep personalization extending the original component.
+        $attribute = rescue(
+            /** @throws Exception */
+            function () {
+                $attribute = collect((new ReflectionClass($this))->getAttributes(SoftPersonalization::class))->first();
 
-        if (empty($attribute->getArguments())) {
+                // We need to throw an exception here to trigger the rescue.
+                if (! $attribute) {
+                    throw new Exception('No attribute found');
+                }
+
+                return $attribute;
+            }, fn () => collect((new ReflectionClass(get_parent_class($this)))->getAttributes(SoftPersonalization::class))->first(), false);
+
+        if (! $attribute || empty($attribute->getArguments())) {
             return [];
         }
 
         $bind = str($attribute->newInstance()->key())->remove('tallstack-ui::personalizations.')->value();
-        $personalization = $this->personalization();
 
-        //TODO.. doc this.
-        return Arr::only(array_merge($personalization, TallStackUi::personalize($bind)->instance()->toArray()), array_keys($personalization));
+        // The strategy here is to preserve unique keys, prioritizing
+        // merging what will come from the original classes with the
+        // container bind for soft personalization.
+        return Arr::only(
+            array_merge($personalization = $this->personalization(),
+                TallStackUi::personalize($bind)
+                    ->instance()
+                    ->toArray()
+            ), array_keys($personalization)
+        );
     }
 
     public function render(): Closure

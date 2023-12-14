@@ -1,4 +1,4 @@
-@php($personalize = tallstackui_personalization('errors', $personalization()))
+@php($personalize = $classes())
 
 @if ($errors->count())
     <div @class(['w-full']) x-data="{ show : true }" x-show="show">

@@ -1,19 +1,7 @@
 <?php
 
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\File;
-use TallStackUi\Facades\TallStackUi;
 use TallStackUi\Foundation\Personalization\SoftPersonalization;
-
-if (! function_exists('tallstackui_personalization')) {
-    function tallstackui_personalization(string $component, array $personalization): array
-    {
-        return Arr::only(
-            array_merge($personalization, TallStackUi::personalize($component)->instance()->toArray()),
-            array_keys($personalization)
-        );
-    }
-}
 
 if (! function_exists('tallstackui_components_soft_personalized')) {
     function tallstackui_components_soft_personalized(): array

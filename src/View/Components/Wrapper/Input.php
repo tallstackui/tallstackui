@@ -15,9 +15,9 @@ class Input extends BaseComponent implements Personalization
         public ?string $label = null,
         public ?string $id = null,
         public ?string $hint = null,
-        public bool $error = false,
-        public bool $validate = false,
-        public bool $password = false,
+        public ?bool $error = false,
+        public ?bool $validate = false,
+        public ?bool $password = false,
     ) {
         //
     }

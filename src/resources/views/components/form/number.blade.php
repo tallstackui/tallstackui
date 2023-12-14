@@ -5,7 +5,7 @@
     $property = $computed[$directive];
     $error = $property && $errors->has($property);
     $live = str($directive)->contains('.live');
-    $personalize = tallstackui_personalization('form.number', $personalization());
+    $personalize = $classes();
     $disabled = $attributes->get('disabled');
     $readonly = $attributes->get('readonly');
 @endphp

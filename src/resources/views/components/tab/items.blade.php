@@ -1,4 +1,4 @@
-@php($personalize = tallstackui_personalization('tab.items', $personalization()))
+@php($personalize = $classes())
 
 @aware(['id'])
 

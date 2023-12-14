@@ -1,4 +1,4 @@
-@php($personalize = tallstackui_personalization('form.hint', $personalization()))
+@php($personalize = $classes())
 
 <span @class($personalize['text'])>
     {!! $hint ?? $slot !!}

@@ -1,5 +1,5 @@
 @php
-    $personalize = tallstackui_personalization('wrapper.radio', $personalization());
+    $personalize = $classes();
     $error = ($computed && $errors->has($computed)) && $error;
 @endphp
 

@@ -1,5 +1,5 @@
 @php
-    $personalize = tallstackui_personalization('form.color', $personalization());
+    $personalize = $classes();
     $wire = TallStackUi::blade()->wire($attributes);
     $error = $wire && $errors->has($wire->value());
 @endphp

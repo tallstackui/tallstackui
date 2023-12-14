@@ -1,4 +1,4 @@
-@php($personalize = tallstackui_personalization('avatar', $personalization()))
+@php($personalize = $classes())
 
 <div {{ $attributes->class([
         'rounded-full' => !$square,
