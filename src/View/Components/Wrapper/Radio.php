@@ -17,6 +17,7 @@ class Radio extends BaseComponent implements Personalization
         public ?string $id = null,
         public ?string $position = 'left',
         public ?string $alignment = 'middle',
+        public ?bool $validate = true,
     ) {
         //
     }

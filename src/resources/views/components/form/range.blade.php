@@ -1,10 +1,10 @@
 @php
     $wire = $wireable($attributes);
-    $error = $wire && $errors->has($wire->value());
+    $error = $validate && $wire && $errors->has($wire->value());
     $personalize = $classes();
 @endphp
 
-<x-wrapper.input :$id :$wire :$label :$hint validate :wrapper="$personalize['input.wrapper']">
+<x-wrapper.input :$id :$wire :$label :$hint :$validate :wrapper="$personalize['input.wrapper']">
     <input id="{{ $id }}"
            type="range"
            {{ $attributes->class([

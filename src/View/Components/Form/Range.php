@@ -20,6 +20,7 @@ class Range extends BaseComponent implements Personalization
         public ?bool $lg = null,
         public ?string $size = null,
         public ?string $color = 'primary',
+        public ?bool $validate = true,
     ) {
         $this->id ??= uniqid();
         $this->size = $this->sm ? 'sm' : ($this->lg ? 'lg' : 'md');

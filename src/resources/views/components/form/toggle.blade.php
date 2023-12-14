@@ -1,7 +1,7 @@
 @php
     $personalize = $classes();
     $wire = $wireable($attributes);
-    $error = $wire && $errors->has($wire->value());
+    $error = $validate && $wire && $errors->has($wire->value());
     [$position, $alignment, $label] = $sloteable($label);
 
     // We remove any bg color classes from the wrapper if there
@@ -9,7 +9,7 @@
     $personalize['wrapper.class'] = $error ? preg_replace('/\bbg-[a-zA-Z0-9-]+/', '', $personalize['background.class']) : $personalize['background.class'];
 @endphp
 
-<x-wrapper.radio :$id :$wire :$label :$position :$alignment>
+<x-wrapper.radio :$id :$wire :$label :$position :$alignment :$validate>
     <div @class($personalize['wrapper'])>
         <input @if ($id) id="{{ $id }}" @endif type="checkbox" {{ $attributes->class([
             $personalize['input.class'],

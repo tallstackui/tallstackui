@@ -1,6 +1,6 @@
 @php
     $wire = $wireable($attributes);
-    $error = $wire && $errors->has($wire->value());
+    $error = $validate && $wire && $errors->has($wire->value());
     $personalize = $classes();
 @endphp
 

@@ -13,7 +13,8 @@ class Label extends BaseComponent implements Personalization
     public function __construct(
         public ?string $for = null,
         public ?string $label = null,
-        public bool $error = false,
+        public ?bool $error = false,
+        public ?bool $validate = false,
     ) {
         //
     }

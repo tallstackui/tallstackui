@@ -1,10 +1,10 @@
 @php
     $personalize = $classes();
     $wire = $wireable($attributes);
-    $error = $wire && $errors->has($wire->value());
+    $error = $validate && $wire && $errors->has($wire->value());
 @endphp
 
-<x-wrapper.input :$id :$wire :$label :$hint validate>
+<x-wrapper.input :$id :$wire :$label :$hint :$validate>
     <div x-data="tallstackui_formColor(
             @entangleable($attributes),
             @js($mode),

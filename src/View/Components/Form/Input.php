@@ -22,7 +22,7 @@ class Input extends BaseComponent implements Personalization
         public ?string $position = 'left',
         public ?string $prefix = null,
         public ?string $suffix = null,
-        public bool $validate = true,
+        public ?bool $validate = true,
     ) {
         $this->id ??= uniqid();
         $this->position = $this->position === 'left' ? 'left' : 'right';
