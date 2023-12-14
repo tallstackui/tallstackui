@@ -3,6 +3,7 @@
 namespace TallStackUi\Foundation\Support;
 
 use Illuminate\Support\Facades\Blade;
+use Illuminate\View\ComponentAttributeBag;
 use TallStackUi\Facades\TallStackUi as Facade;
 
 class BladeDirectives
@@ -24,7 +25,7 @@ class BladeDirectives
             return "{$script}\n{$style}";
         });
 
-        Blade::directive('entangleable', function ($attributes): string {
+        Blade::directive('entangleable', function (ComponentAttributeBag $attributes): string {
             return "{!! TallStackUi::blade()->entangle({$attributes}) !!}";
         });
 
@@ -44,7 +45,7 @@ class BladeDirectives
 
     public function script(): string
     {
-        $manifest = tallstackui_vite_manifest('js/tallstackui.js');
+        $manifest = $this->manifest('js/tallstackui.js');
         $js = $manifest['file'];
 
         $html = $this->build($js);
@@ -62,10 +63,10 @@ class BladeDirectives
 
     public function style(): string
     {
-        return $this->build(tallstackui_vite_manifest('src/resources/css/tallstackui.css', 'file'));
+        return $this->build($this->manifest('src/resources/css/tallstackui.css', 'file'));
     }
 
-    protected function build(string $file): string
+    private function build(string $file): string
     {
         return (match (true) { // @phpstan-ignore-line
             str_ends_with($file, '.js') => function () use ($file) {
@@ -79,5 +80,12 @@ class BladeDirectives
                 return "<link href=\"{$route}\" rel=\"stylesheet\" type=\"text/css\">";
             },
         })();
+    }
+
+    private function manifest(string $file, ?string $index = null): string|array
+    {
+        $content = json_decode(file_get_contents(__DIR__.'/../dist/.vite/manifest.json'), true);
+
+        return data_get($content[$file], $index);
     }
 }
