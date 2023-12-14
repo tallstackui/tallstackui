@@ -1,6 +1,6 @@
-@php($personalize = tallstackui_personalization('form.error', $personalization()))
+@php($personalize = $classes())
 
-@error ($computed)
+@error ($wire)
     <span @class($personalize['text'])>
         {{ $message }}
     </span>

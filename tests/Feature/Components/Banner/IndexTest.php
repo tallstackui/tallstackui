@@ -68,15 +68,13 @@ it('can render date until as string', function () {
 });
 
 it('can render date until as carbon instance', function () {
-    $date = now()->addDay();
-
-    $component = <<<HTML
-    <x-banner text="Foo" :until="$date" />
+    $component = <<<'HTML'
+    <x-banner text="Foo" :until="now()->addDay()" />
     HTML;
 
     $this->blade($component)
         ->assertSee('Foo');
-})->skip('Unable to pass carbon instance as attribute');
+});
 
 it('can render animated', function () {
     $component = <<<'HTML'

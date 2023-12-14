@@ -294,26 +294,32 @@ export default (model, mode, colors) => ({
     },
   },
   init() {
-    if (this.mode === 'range' && this.colors.length === 0) {
-      this.palette = this.range(this.weight);
-      this.$watch('weight', (value) => this.palette = this.range(value));
-    }
+    if (this.colors.length === 0) {
+      const modes = {
+        'range': () => {
+          this.palette = this.range(this.weight);
+          this.$watch('weight', (value) => this.palette = this.range(value));
+        },
+        'full': () => {
+          this.palette = this.hex();
+        },
+      };
 
-    if (this.mode === 'all' && this.colors.length === 0) {
-      this.palette = this.hex();
+      modes[this.mode] && modes[this.mode]();
     }
 
     if (this.colors.length > 0) {
       this.palette = this.colors;
     }
 
-    if (this.$refs.input.value !== '') {
-      this.$refs.input.value = this.hashing(this.$refs.input.value);
-    }
+    if (this.model) this.model = this.hashing(this.model);
 
-    this.$refs.input.addEventListener('input', (e) => {
-      e.target.value = this.hashing(e.target.value);
-      this.model = e.target.value;
+    this.$watch('model', (value) => {
+      if (!value) {
+        return;
+      }
+
+      this.model = this.hashing(value);
     });
   },
   /**

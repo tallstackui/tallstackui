@@ -4,15 +4,15 @@ namespace TallStackUi\View\Components\Button;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
-use Illuminate\View\Component;
-use TallStackUi\View\Personalizations\Contracts\Personalization;
-use TallStackUi\View\Personalizations\SoftPersonalization;
-use TallStackUi\View\Personalizations\Traits\InteractWithProviders;
+use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Foundation\Personalization\SoftPersonalization;
+use TallStackUi\View\Components\BaseComponent;
+use TallStackUi\View\Components\Button\Traits\SetupButton;
 
 #[SoftPersonalization('button.circle')]
-class Circle extends Component implements Personalization
+class Circle extends BaseComponent implements Personalization
 {
-    use InteractWithProviders;
+    use SetupButton;
 
     public function __construct(
         public ?string $text = null,
@@ -21,6 +21,7 @@ class Circle extends Component implements Personalization
         public ?string $href = null,
         public ?string $loading = null,
         public ?string $delay = null,
+        public ?string $xs = null,
         public ?string $sm = null,
         public ?string $md = null,
         public ?string $lg = null,
@@ -30,10 +31,12 @@ class Circle extends Component implements Personalization
         public ?bool $light = false,
         public ?string $style = null,
     ) {
-        $this->style = $this->outline ? 'outline' : ($this->light ? 'light' : 'solid');
-        $this->size = $this->lg ? 'lg' : ($this->sm ? 'sm' : 'md');
+        $this->setup();
+    }
 
-        $this->colors();
+    public function blade(): View
+    {
+        return view('tallstack-ui::components.button.circle');
     }
 
     public function personalization(): array
@@ -42,26 +45,24 @@ class Circle extends Component implements Personalization
             'wrapper' => [
                 'base' => 'focus:ring-offset-white focus:shadow-outline group inline-flex items-center justify-center rounded-full gap-x-2 border text-sm outline-none transition-all duration-200 ease-in-out hover:shadow-sm focus:border-transparent focus:ring-2 disabled:cursor-not-allowed disabled:opacity-50',
                 'sizes' => [
+                    'xs' => 'w-4 h-4',
                     'sm' => 'w-6 h-6',
                     'md' => 'w-9 h-9',
                     'lg' => 'w-12 h-12',
                 ],
             ],
             'icon.sizes' => [
+                'xs' => 'w-2 h-2',
                 'sm' => 'w-3 h-3',
                 'md' => 'w-4 h-4',
                 'lg' => 'w-6 h-6',
             ],
             'text.sizes' => [
-                'sm' => 'text-xs',
+                'xs' => 'text-xs',
+                'sm' => 'text-sm',
                 'md' => 'text-md',
-                'lg' => 'text-xl',
+                'lg' => 'text-lg',
             ],
         ]);
-    }
-
-    public function render(): View
-    {
-        return view('tallstack-ui::components.button.circle');
     }
 }

@@ -1,7 +1,7 @@
 <?php
 
-use TallStackUi\View\Personalizations\Contracts\Personalization as PersonalizationContract;
-use TallStackUi\View\Personalizations\Personalization;
+use TallStackUi\Foundation\Personalization\Contracts\Personalization as PersonalizationContract;
+use TallStackUi\Foundation\Personalization\Personalization;
 
 describe('TallStackUi Components', function () {
     test('is customizable', function (string $index) {
@@ -13,7 +13,17 @@ describe('TallStackUi Components', function () {
     })->with('personalizations.components');
 
     test('contains constructor', function (string $index) {
-        expect($index)->toHaveConstructor();
+        $ignores = [
+            'TallStackUi\View\Components\Interaction\Dialog',
+            'TallStackUi\View\Components\Interaction\Toast',
+        ];
+
+        if (in_array($index, $ignores)) {
+            test()->markTestSkipped("[$index] doesn't have constructor"); // @phpstan-ignore-line
+        }
+
+        expect($index)
+            ->toHaveConstructor();
     })->with('personalizations.components');
 });
 

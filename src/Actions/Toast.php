@@ -18,7 +18,6 @@ class Toast extends AbstractInteraction
             'title' => $title,
             'description' => $description,
             'type' => 'error',
-            'timeout' => $this->timeout,
         ]);
     }
 
@@ -35,7 +34,6 @@ class Toast extends AbstractInteraction
             'title' => $title,
             'description' => $description,
             'type' => 'info',
-            'timeout' => $this->timeout,
         ]);
     }
 
@@ -45,7 +43,6 @@ class Toast extends AbstractInteraction
             'title' => $title,
             'description' => $description,
             'type' => 'success',
-            'timeout' => $this->timeout,
         ]);
     }
 
@@ -62,7 +59,6 @@ class Toast extends AbstractInteraction
             'title' => $title,
             'description' => $description,
             'type' => 'warning',
-            'timeout' => $this->timeout,
         ]);
     }
 

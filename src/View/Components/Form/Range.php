@@ -4,16 +4,13 @@ namespace TallStackUi\View\Components\Form;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
-use Illuminate\View\Component;
-use TallStackUi\View\Personalizations\Contracts\Personalization;
-use TallStackUi\View\Personalizations\SoftPersonalization;
-use TallStackUi\View\Personalizations\Traits\InteractWithProviders;
+use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Foundation\Personalization\SoftPersonalization;
+use TallStackUi\View\Components\BaseComponent;
 
 #[SoftPersonalization('form.range')]
-class Range extends Component implements Personalization
+class Range extends BaseComponent implements Personalization
 {
-    use InteractWithProviders;
-
     public function __construct(
         public ?string $label = null,
         public ?string $id = null,
@@ -26,8 +23,11 @@ class Range extends Component implements Personalization
     ) {
         $this->id ??= uniqid();
         $this->size = $this->sm ? 'sm' : ($this->lg ? 'lg' : 'md');
+    }
 
-        $this->colors();
+    public function blade(): View
+    {
+        return view('tallstack-ui::components.form.range');
     }
 
     public function personalization(): array
@@ -35,7 +35,7 @@ class Range extends Component implements Personalization
         return Arr::dot([
             'input' => [
                 'wrapper' => 'relative rounded-md',
-                'base' => 'dark:bg-dark-700 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 transition',
+                'base' => 'dark:bg-dark-800 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 transition',
                 'sizes' => [
                     'sm' => 'h-1 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full',
                     'md' => 'h-2 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full',
@@ -44,10 +44,5 @@ class Range extends Component implements Personalization
                 'disabled' => 'disabled:opacity-50 disabled:cursor-not-allowed',
             ],
         ]);
-    }
-
-    public function render(): View
-    {
-        return view('tallstack-ui::components.form.range');
     }
 }

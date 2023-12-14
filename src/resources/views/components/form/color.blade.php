@@ -1,17 +1,12 @@
 @php
-    $computed = $attributes->whereStartsWith('wire:model');
-    $personalize = tallstackui_personalization('form.color', $personalization());
-    $directive = array_key_first($computed->getAttributes());
-    $property = $computed[$directive];
-    $error = $property && $errors->has($property);
-    $live = str($directive)->contains('.live');
-    $disabled = $attributes->get('disabled');
-    $readonly = $attributes->get('readonly');
+    $personalize = $classes();
+    $wire = $wireable($attributes);
+    $error = $wire && $errors->has($wire->value());
 @endphp
 
-<x-wrapper.input :$id :computed="$property" :$error :$label :$hint validate>
+<x-wrapper.input :$id :$wire :$label :$hint validate>
     <div x-data="tallstackui_formColor(
-            @if ($property) @if ($live) @entangle($property).live @else @entangle($property) @endif @else null @endif,
+            @entangleable($attributes),
             @js($mode),
             @js($colors))"
          x-ref="wrapper"
@@ -19,8 +14,8 @@
          @class([
             $personalize['input.wrapper'],
             $personalize['input.color.base'] => !$error,
-            $personalize['input.color.background'] => !$disabled && !$readonly,
-            $personalize['input.color.disabled'] => $disabled || $readonly,
+            $personalize['input.color.background'] => !$attributes->get('disabled') && !$attributes->get('readonly'),
+            $personalize['input.color.disabled'] => $attributes->get('disabled') || $attributes->get('readonly'),
             $personalize['error'] => $error
          ])>
         <div @class($personalize['selected.wrapper'])>
@@ -28,9 +23,9 @@
                 <button type="button" @class($personalize['selected.base']) :style="{ 'background-color': model }" x-on:click="show = !show"></button>
             </template>
         </div>
-        <input id="{{ $id }}" {{ $attributes->class([$personalize['input.base']]) }} type="text" x-ref="input">
+        <input id="{{ $id }}" @class($personalize['input.base']) type="text" x-model="model" x-ref="input">
         <div class="flex items-center">
-            <button @if ($disabled || $readonly) disabled @endif
+            <button @if ($attributes->get('disabled') || $attributes->get('readonly')) disabled @endif
                     x-on:click="show = !show"
                     dusk="tallstackui_form_color">
                 <x-icon name="swatch" :$error @class($personalize['icon.class'])/>

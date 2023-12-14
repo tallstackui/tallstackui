@@ -1,10 +1,12 @@
 <?php
 
-use TallStackUi\View\Personalizations\Providers\ConfigurationProvider;
+use TallStackUi\Foundation\ResolveConfiguration;
 
 describe('ConfigurationProvider', function () {
     test('contains resolve method')
-        ->expect(ConfigurationProvider::class)
-        ->toHaveMethod('resolve')
-        ->toHaveMethod('modal');
+        ->expect(ResolveConfiguration::class)
+        ->toHaveMethod('from')
+        ->toHaveMethod('loading')
+        ->toHaveMethod('modal')
+        ->toHaveMethod('slide');
 });

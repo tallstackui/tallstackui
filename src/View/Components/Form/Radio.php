@@ -4,19 +4,16 @@ namespace TallStackUi\View\Components\Form;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
-use Illuminate\View\Component;
 use Illuminate\View\ComponentSlot;
+use InvalidArgumentException;
+use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Foundation\Personalization\SoftPersonalization;
+use TallStackUi\View\Components\BaseComponent;
 use TallStackUi\View\Components\Form\Traits\SetupRadioCheckboxToggle;
-use TallStackUi\View\Personalizations\Contracts\Personalization;
-use TallStackUi\View\Personalizations\SoftPersonalization;
-use TallStackUi\View\Personalizations\Traits\InteractWithProviders;
-use TallStackUi\View\Personalizations\Traits\InteractWithValidations;
 
 #[SoftPersonalization('form.radio')]
-class Radio extends Component implements Personalization
+class Radio extends BaseComponent implements Personalization
 {
-    use InteractWithProviders;
-    use InteractWithValidations;
     use SetupRadioCheckboxToggle;
 
     public function __construct(
@@ -30,16 +27,19 @@ class Radio extends Component implements Personalization
         public ?string $position = 'right',
         public ?string $color = 'primary',
     ) {
-        $this->setup();
-        $this->colors();
-        $this->validate();
+        $this->shareable();
+    }
+
+    public function blade(): View
+    {
+        return view('tallstack-ui::components.form.radio');
     }
 
     public function personalization(): array
     {
         return Arr::dot([
             'input' => [
-                'class' => 'form-radio border-secondary-200 rounded-full transition duration-100 ease-in-out',
+                'class' => 'form-radio dark:border-dark-600 border-1 dark:bg-dark-800 rounded-full border-gray-300 bg-white transition duration-100 ease-in-out',
                 'sizes' => [
                     'xs' => 'h-3 w-3',
                     'sm' => 'h-4 w-4',
@@ -51,8 +51,12 @@ class Radio extends Component implements Personalization
         ]);
     }
 
-    public function render(): View
+    protected function validate(): void
     {
-        return view('tallstack-ui::components.form.radio');
+        $positions = ['right', 'left'];
+
+        if (! in_array($this->position, $positions)) {
+            throw new InvalidArgumentException('The radio label [position] must be one of the following: ['.implode(', ', $positions).']');
+        }
     }
 }

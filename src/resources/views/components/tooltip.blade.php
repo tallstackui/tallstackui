@@ -1,5 +1,5 @@
 @php
-    $personalize = tallstackui_personalization('tooltip', $personalization());
+    $personalize = $classes();
     $text ??= $slot->toHtml();
 @endphp
 

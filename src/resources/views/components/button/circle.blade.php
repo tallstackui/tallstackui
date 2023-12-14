@@ -1,46 +1,42 @@
 @php
     $tag = $href ? 'a' : 'button';
-    $personalize = tallstackui_personalization('button.circle', $personalization());
-
-    $sizes['wrapper'] = $personalize['wrapper.sizes.' . $size];
-    $sizes['icon'] = $personalize['icon.sizes.' . $size];
-    $sizes['text'] = $personalize['text.sizes.' . $size];
+    $personalize = $classes();
 @endphp
 
 <{{ $tag }} @if ($href) href="{{ $href }}" @else
     role="button"
 @endif {{ $attributes->class([
             $personalize['wrapper.base'],
-            $sizes['wrapper'],
+            $personalize['wrapper.sizes.' . $size],
             $colors['background']
         ]) }} wire:loading.attr="disabled" wire:loading.class="!cursor-wait">
 @if ($icon)
     @if ($loading)
         @if ($delay === 'longest')
-            <x-icon :$icon @class([$sizes['icon'], $colors['icon']]) wire:loading.remove.delay.longest />
+            <x-icon :$icon @class([$personalize['icon.sizes.' . $size], $colors['icon']]) wire:loading.remove.delay.longest />
         @elseif ($delay === 'longer')
-            <x-icon :$icon @class([$sizes['icon'], $colors['icon']]) wire:loading.remove.delay.longer />
+            <x-icon :$icon @class([$personalize['icon.sizes.' . $size], $colors['icon']]) wire:loading.remove.delay.longer />
         @elseif ($delay === 'long')
-            <x-icon :$icon @class([$sizes['icon'], $colors['icon']]) wire:loading.remove.delay.long />
+            <x-icon :$icon @class([$personalize['icon.sizes.' . $size], $colors['icon']]) wire:loading.remove.delay.long />
         @elseif ($delay === 'short')
-            <x-icon :$icon @class([$sizes['icon'], $colors['icon']]) wire:loading.remove.delay.short />
+            <x-icon :$icon @class([$personalize['icon.sizes.' . $size], $colors['icon']]) wire:loading.remove.delay.short />
         @elseif ($delay === 'shorter')
-            <x-icon :$icon @class([$sizes['icon'], $colors['icon']]) wire:loading.remove.delay.shorter />
+            <x-icon :$icon @class([$personalize['icon.sizes.' . $size], $colors['icon']]) wire:loading.remove.delay.shorter />
         @elseif ($delay === 'shortest')
-            <x-icon :$icon @class([$sizes['icon'], $colors['icon']]) wire:loading.remove.delay.shortest />
+            <x-icon :$icon @class([$personalize['icon.sizes.' . $size], $colors['icon']]) wire:loading.remove.delay.shortest />
         @else
-            <x-icon :$icon @class([$sizes['icon'], $colors['icon']]) wire:loading.remove />
+            <x-icon :$icon @class([$personalize['icon.sizes.' . $size], $colors['icon']]) wire:loading.remove />
         @endif
     @else
-        <x-icon :$icon @class([$sizes['icon'], $colors['icon']]) />
+        <x-icon :$icon @class([$personalize['icon.sizes.' . $size], $colors['icon']]) />
     @endif
 @else
-    <span @if ($loading) wire:loading.remove @endif @class([$sizes['text']])>{{ $text ?? $slot }}</span>
+    <span @if ($loading) wire:loading.remove @endif @class([$personalize['text.sizes.' . $size]])>{{ $text ?? $slot }}</span>
 @endif
 @if ($loading)
     <x-tallstack-ui::icon.others.loading-button :$loading :$delay @class([
         'animate-spin',
-        $sizes['icon'],
+        $personalize['icon.sizes.' . $size],
         $colors['icon']
     ]) />
 @endif

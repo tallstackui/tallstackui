@@ -1,4 +1,4 @@
-@php($personalize = tallstackui_personalization('avatar', $personalization()))
+@php($personalize = $classes())
 
 <div {{ $attributes->class([
         'rounded-full' => !$square,
@@ -12,13 +12,13 @@
             'rounded-full' => !$square,
             $personalize['content.image.class'],
             $personalize['content.image.sizes.' . $size],
-        ]) src="{{ $text }}" alt="{{ $alt() }}"/>
+        ]) src="{{ $modelable() }}" alt="{{ $model->getAttribute($property ?? null) }}"/>
     @elseif ($text || $slot->isNotEmpty())
         <span @class([
                 $personalize['content.text.class'],
                 $personalize['content.text.colors.colorful'] => $color !== 'white',
                 $personalize['content.text.colors.white'] => $color === 'white',
-            ])>{{ $text ?? $slot }}</span>
+            ])>{!! $text ?? $slot !!}</span>
     @else
         <svg @class([
                 $personalize['content.text.class'],

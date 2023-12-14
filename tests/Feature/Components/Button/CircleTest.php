@@ -44,7 +44,7 @@ it('can render colored', function (string $colors) {
 it('can render lg', function () {
     $this->blade('<x-button.circle text="LG" color="primary" lg />')
         ->assertSee('w-12 h-12')
-        ->assertSee('text-xl');
+        ->assertSee('text-lg');
 
     $this->blade('<x-button.circle icon="users" color="primary" lg />')
         ->assertSee('w-12 h-12')
@@ -64,9 +64,19 @@ it('can render md', function () {
 it('can render sm', function () {
     $this->blade('<x-button.circle sm text="MD" color="primary" />')
         ->assertSee('w-6 h-6')
-        ->assertSee('text-xs');
+        ->assertSee('text-sm');
 
     $this->blade('<x-button.circle sm icon="users" color="primary" />')
         ->assertSee('w-6 h-6')
         ->assertSee('w-3 h-3');
+});
+
+it('can render xs', function () {
+    $this->blade('<x-button.circle xs text="MD" color="primary" />')
+        ->assertSee('w-4 h-4')
+        ->assertSee('text-xs');
+
+    $this->blade('<x-button.circle xs icon="users" color="primary" />')
+        ->assertSee('w-4 h-4')
+        ->assertSee('w-2 h-2');
 });

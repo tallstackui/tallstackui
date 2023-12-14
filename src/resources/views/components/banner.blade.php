@@ -1,7 +1,7 @@
 @php
     /** @var \Illuminate\View\ComponentSlot|string $left */
     $text ??= $slot->toHtml();
-    $personalize = tallstackui_personalization('banner', $personalization());
+    $personalize = $classes();
 @endphp
 
 @if ($show)

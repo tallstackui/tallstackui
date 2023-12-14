@@ -1,4 +1,4 @@
-@php($personalize = tallstackui_personalization('toast', $personalization()))
+@php($personalize = $classes())
 
 <div x-cloak
      x-data="tallstackui_toastBase()"

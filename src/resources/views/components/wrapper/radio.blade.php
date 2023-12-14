@@ -1,6 +1,6 @@
 @php
-    $personalize = tallstackui_personalization('wrapper.radio', $personalization());
-    $error = ($computed && $errors->has($computed)) && $error;
+    $personalize = $classes();
+    $error = $wire && $errors->has($wire);
 @endphp
 
 <div>
@@ -24,6 +24,6 @@
         </label>
     </div>
     @if ($error)
-        <x-error :$computed :$error/>
+        <x-error :$wire/>
     @endif
 </div>

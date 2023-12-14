@@ -15,7 +15,7 @@ module.exports = {
         secondary: colors.slate,
         dark: colors.slate,
         black: {
-          DEFAULT: colors.black,
+          'DEFAULT': colors.black,
           '50': '#f6f6f6',
           '100': '#e7e7e7',
           '200': '#d1d1d1',
@@ -27,13 +27,13 @@ module.exports = {
           '800': '#454545',
           '900': '#3d3d3d',
           '950': '#000000',
-        }
+        },
       },
       keyframes: {
         progress: {
-          '0%': { width: '0%' },
-          '100%': { width: '100%' },
-        }
+          '0%': {width: '0%'},
+          '100%': {width: '100%'},
+        },
       },
       animation: {
         progress: 'progress 2s linear infinite',
@@ -42,6 +42,13 @@ module.exports = {
   },
   safelist: [
     '!overflow-hidden',
+    'z-0',
+    'z-10',
+    'z-20',
+    'z-30',
+    'z-40',
+    'z-50',
+    'z-auto',
   ],
   plugins: [
     forms,

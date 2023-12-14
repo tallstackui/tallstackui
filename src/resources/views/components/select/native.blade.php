@@ -1,7 +1,7 @@
 @php
-    $computed = $attributes->whereStartsWith('wire:model')->first();
-    $error = $computed && $errors->has($computed);
-    $personalize = tallstackui_personalization('select.native', $personalization());
+    $wire = $wireable($attributes);
+    $error = $wire && $errors->has($wire->value());
+    $personalize = $classes();
 @endphp
 
 <div>
@@ -9,8 +9,11 @@
         <x-label :$label :$error/>
     @endif
     <select {{ $attributes->class([
-            $personalize['input.class'],
-            $personalize['input.color'] => !$error,
+            $personalize['input.class.wrapper'],
+            $personalize['input.class.base'],
+            $personalize['input.class.color.base'] => !$error,
+            $personalize['input.class.color.background'] => !$attributes->get('disabled') && !$attributes->get('readonly'),
+            $personalize['input.class.color.disabled'] => $attributes->get('disabled') || $attributes->get('readonly'),
             $personalize['error'] => $error
         ]) }}>
         @forelse ($options as $option)
@@ -22,7 +25,7 @@
     @if ($hint && !$error)
         <x-hint :$hint/>
     @endif
-    @if ($error && $computed)
-        <x-error :$computed :$error/>
+    @if ($error)
+        <x-error :$wire/>
     @endif
 </div>

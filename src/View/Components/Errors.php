@@ -5,18 +5,13 @@ namespace TallStackUi\View\Components;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\Support\ViewErrorBag;
-use Illuminate\View\Component;
-use TallStackUi\View\Personalizations\Contracts\Personalization;
-use TallStackUi\View\Personalizations\SoftPersonalization;
-use TallStackUi\View\Personalizations\Traits\InteractWithProviders;
-use TallStackUi\View\Personalizations\Traits\InteractWithValidations;
+use InvalidArgumentException;
+use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Foundation\Personalization\SoftPersonalization;
 
 #[SoftPersonalization('errors')]
-class Errors extends Component implements Personalization
+class Errors extends BaseComponent implements Personalization
 {
-    use InteractWithProviders;
-    use InteractWithValidations;
-
     public function __construct(
         public ?string $title = null,
         public string|array|null $only = null,
@@ -25,9 +20,11 @@ class Errors extends Component implements Personalization
         public bool $close = false,
     ) {
         $this->title ??= __('tallstack-ui::messages.errors.title');
+    }
 
-        $this->colors();
-        $this->validate();
+    public function blade(): View
+    {
+        return view('tallstack-ui::components.errors');
     }
 
     public function count(ViewErrorBag $errors): int
@@ -64,8 +61,11 @@ class Errors extends Component implements Personalization
         ]);
     }
 
-    public function render(): View
+    public function validate(): void
     {
-        return view('tallstack-ui::components.errors');
+        if (blank($this->title)) {
+            throw new InvalidArgumentException('The errors [title] cannot be empty');
+        }
+
     }
 }

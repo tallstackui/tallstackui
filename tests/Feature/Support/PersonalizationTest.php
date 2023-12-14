@@ -1,8 +1,9 @@
 <?php
 
 use TallStackUi\Facades\TallStackUi;
-use TallStackUi\View\Personalizations\Contracts\PersonalizableResources;
-use TallStackUi\View\Personalizations\Personalization;
+use TallStackUi\Foundation\Personalization\Personalization;
+use TallStackUi\Foundation\Personalization\PersonalizationResources;
+use TallStackUi\View\Components\Alert;
 
 it('can be instantiated', function () {
     expect(TallStackUi::personalize())->toBeInstanceOf(Personalization::class);
@@ -11,11 +12,11 @@ it('can be instantiated', function () {
 it('can be instantiated with a component', function () {
     expect(TallStackUi::personalize('alert')
         ->block('wrapper', fn () => 'string'))
-        ->toBeInstanceOf(PersonalizableResources::class);
+        ->toBeInstanceOf(PersonalizationResources::class);
 });
 
 it('can instantiate all components', function (string $component) {
-    expect(TallStackUi::personalize($component)->instance())->toBeInstanceOf(PersonalizableResources::class);
+    expect(TallStackUi::personalize($component)->instance())->toBeInstanceOf(PersonalizationResources::class);
 })->with('personalizations.keys');
 
 it('can personalize using facade and string', function () {
@@ -210,8 +211,36 @@ it('can personalize chained', function () {
         ->assertDontSee('text-xs');
 });
 
+it('can personalize components overriding the original', function () {
+    $class = new class extends Alert
+    {
+    };
+
+    config()->set('tallstackui.components.alert', $class);
+
+    TallStackUi::personalize('alert')
+        ->block('text.title')
+        ->replace('font-semibold', 'foo-bar-baz')
+        ->replace('text-lg', 'baz-bar-foo')
+        ->and()
+        ->alert()
+        ->block('content.wrapper')
+        ->remove('flex-wrap')
+        ->remove('justify-between');
+
+    $this->blade('<x-alert title="Foo bar" />')
+        ->assertSee('Foo bar')
+        ->assertSee('foo-bar-baz')
+        ->assertSee('baz-bar-foo');
+
+    $this->blade('<x-alert title="Foo bar" />')
+        ->assertSee('Foo bar')
+        ->assertDontSee('flex-wrap')
+        ->assertDontSee('justify-between');
+});
+
 it('cannot personalize wrong component', function () {
-    $this->expectException(InvalidArgumentException::class);
+    $this->expectException(Exception::class);
 
     TallStackUi::personalize()
         ->form('input2')
@@ -219,7 +248,7 @@ it('cannot personalize wrong component', function () {
 });
 
 it('cannot personalize wrong block', function () {
-    $this->expectException(InvalidArgumentException::class);
+    $this->expectException(Exception::class);
 
     TallStackUi::personalize()
         ->alert()
