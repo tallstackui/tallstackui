@@ -1,12 +1,10 @@
 @php
     $personalize = tallstackui_personalization('form.color', $personalization());
-    $wire = $attributes->wire('model');
-    $error = $wire->value() && $errors->has($wire->value());
-    $disabled = $attributes->get('disabled');
-    $readonly = $attributes->get('readonly');
+    $wire = TallStackUi::blade()->wire($attributes);
+    $error = $wire && $errors->has($wire->value());
 @endphp
 
-<x-wrapper.input :$id :computed="$wire->value()" :$error :$label :$hint validate>
+<x-wrapper.input :$id :computed="$wire" :$error :$label :$hint validate>
     <div x-data="tallstackui_formColor(
             @entangleable($attributes),
             @js($mode),
@@ -16,8 +14,8 @@
          @class([
             $personalize['input.wrapper'],
             $personalize['input.color.base'] => !$error,
-            $personalize['input.color.background'] => !$disabled && !$readonly,
-            $personalize['input.color.disabled'] => $disabled || $readonly,
+            $personalize['input.color.background'] => !$attributes->get('disabled') && !$attributes->get('readonly'),
+            $personalize['input.color.disabled'] => $attributes->get('disabled') || $attributes->get('readonly'),
             $personalize['error'] => $error
          ])>
         <div @class($personalize['selected.wrapper'])>
@@ -27,7 +25,7 @@
         </div>
         <input id="{{ $id }}" @class($personalize['input.base']) type="text" x-model="model" x-ref="input">
         <div class="flex items-center">
-            <button @if ($disabled || $readonly) disabled @endif
+            <button @if ($attributes->get('disabled') || $attributes->get('readonly')) disabled @endif
                     x-on:click="show = !show"
                     dusk="tallstackui_form_color">
                 <x-icon name="swatch" :$error @class($personalize['icon.class'])/>
