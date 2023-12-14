@@ -27,7 +27,7 @@ class Checkbox extends BaseComponent implements Personalization
         public ?string $position = 'right',
         public ?string $color = 'primary',
     ) {
-        $this->setup();
+        $this->shareable();
     }
 
     public function blade(): View

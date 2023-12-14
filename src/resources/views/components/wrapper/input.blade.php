@@ -1,4 +1,7 @@
-@php($personalize = ['wrapper' => $attributes->get('wrapper', $classes()['wrapper'])])
+@php
+    $personalize = ['wrapper' => $attributes->get('wrapper', $classes()['wrapper'])];
+    $error = $wire && $errors->has($wire);
+@endphp
 
 <div>
     @if ($label)
@@ -11,6 +14,6 @@
         <x-hint :$hint/>
     @endif
     @if ($error && $validate)
-        <x-error :$computed :$error/>
+        <x-error :$wire/>
     @endif
 </div>

@@ -6,7 +6,7 @@ trait DefaultInputClasses
 {
     private function error(...$rejects): string
     {
-        $classes = 'text-red-600 ring-red-300 placeholder:text-red-600 focus-within:ring-red-500 focus-within:placeholder:text-red-600 focus:ring-red-500 focus-within:focus:ring-red-500 dark:ring-red-500 dark:ring-red-500 dark:focus-within:ring-red-500';
+        $classes = 'text-red-600 ring-red-300 placeholder:text-red-600 focus-within:ring-red-500 focus-within:placeholder:text-red-600 focus:ring-red-500 focus-within:focus:ring-red-500 dark:ring-red-500 dark:focus-within:ring-red-500';
 
         if (! empty($rejects)) {
             foreach ($rejects as $reject) {

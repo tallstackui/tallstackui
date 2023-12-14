@@ -1,14 +1,11 @@
 @php
-    $computed = $attributes->whereStartsWith('wire:model')->first();
-    $error = $errors->has($computed);
     $personalize = $classes();
-    $slot = $label instanceof \Illuminate\View\ComponentSlot;
-    $position = $slot && $label->attributes->has('left') ? 'left' : $position;
-    $alignment = $slot && $label->attributes->has('start') ? 'start' : 'middle';
-    $label = $slot ? $label->toHtml() : $label;
+    $wire = $wireable($attributes);
+    $error = $wire && $errors->has($wire->value());
+    [$position, $alignment, $label] = $sloteable($label);
 @endphp
 
-<x-wrapper.radio :$id :$computed :$error :$label :$position :$alignment>
+<x-wrapper.radio :$id :$wire :$label :$position :$alignment>
     <input @if ($id) id="{{ $id }}" @endif type="radio" {{ $attributes->class([
             $personalize['input.class'],
             $personalize['input.sizes.' . $size],

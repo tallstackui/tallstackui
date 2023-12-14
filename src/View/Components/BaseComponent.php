@@ -7,6 +7,8 @@ use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
+use Illuminate\View\ComponentAttributeBag;
+use Livewire\WireDirective;
 use ReflectionClass;
 use TallStackUi\Facades\TallStackUi;
 use TallStackUi\Foundation\Colors\ResolveColor;
@@ -64,6 +66,12 @@ abstract class BaseComponent extends Component
         return function (array $data) {
             return $this->output($this->blade()->with($this->compile($data)), $data);
         };
+    }
+
+    /** Proxy for the `wire` method of the Facade */
+    public function wireable(ComponentAttributeBag $attributes): ?WireDirective
+    {
+        return TallStackUi::blade()->wireable($attributes);
     }
 
     /** @throws Throwable */

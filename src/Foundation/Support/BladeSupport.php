@@ -10,7 +10,7 @@ class BladeSupport
 {
     public function entangle(ComponentAttributeBag|WireDirective $attributes): string
     {
-        if (($wire = $this->wire($attributes)) === null) {
+        if (($wire = $this->wireable($attributes)) === null) {
             return Blade::render('null');
         }
 
@@ -26,7 +26,7 @@ class BladeSupport
         return "JSON.parse(atob('".base64_encode(json_encode($data))."'))";
     }
 
-    public function wire(ComponentAttributeBag $attributes): ?WireDirective
+    public function wireable(ComponentAttributeBag $attributes): ?WireDirective
     {
         // For some unknown reason the macros are not defined when we are testing.
         // I assume this happens because Laravel doesn't bootstrap something necessary

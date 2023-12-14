@@ -1,14 +1,11 @@
 @php
     $personalize = $classes();
-    $wire = $attributes->wire('model');
-    $error = $wire->value() && $errors->has($wire->value());
-    $slot = $label instanceof \Illuminate\View\ComponentSlot;
-    $position = $slot && $label->attributes->has('left') ? 'left' : $position;
-    $alignment = $slot && $label->attributes->has('start') ? 'start' : 'middle';
-    $label = $slot ? $label->toHtml() : $label;
+    $wire = $wireable($attributes);
+    $error = $wire && $errors->has($wire->value());
+    [$position, $alignment, $label] = $sloteable($label);
 @endphp
 
-<x-wrapper.radio :$id :computed="$wire->value()" :$error :$label :$position :$alignment>
+<x-wrapper.radio :$id :$wire :$label :$position :$alignment>
     <input @if ($id) id="{{ $id }}" @endif type="checkbox" {{ $attributes->class([
             $personalize['input.class'],
             $personalize['input.sizes.' . $size],

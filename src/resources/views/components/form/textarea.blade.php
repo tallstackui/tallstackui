@@ -1,17 +1,15 @@
 @php
-    $computed = $attributes->whereStartsWith('wire:model')->first();
-    $error = $computed && $errors->has($computed);
+    $wire = $wireable($attributes);
+    $error = $wire && $errors->has($wire->value());
     $personalize = $classes();
-    $disabled = $attributes->get('disabled');
-    $readonly = $attributes->get('readonly');
 @endphp
 
-<x-wrapper.input :$id :$computed :$error :$label :$hint validate>
+<x-wrapper.input :$id :$wire :$label :$hint validate>
     <div @class([
         $personalize['input.wrapper'],
         $personalize['input.color.base'] => !$error,
-        $personalize['input.color.background'] => !$disabled && !$readonly,
-        $personalize['input.color.disabled'] => $disabled || $readonly,
+        $personalize['input.color.background'] => !$attributes->get('disabled') && !$attributes->get('readonly'),
+        $personalize['input.color.disabled'] => $attributes->get('disabled') || $attributes->get('readonly'),
         $personalize['error'] => $error,
     ])>
         <textarea @if ($resizeAuto) x-data="tallstackui_formTextArea()" x-on:input="resize()" @endif {{ $attributes->class([

@@ -3,7 +3,6 @@
     $event = Str::slug(Str::kebab($id));
     $open = $event . '-open';
     $close = $event . '-close';
-
     $personalize = $classes();
 @endphp
 

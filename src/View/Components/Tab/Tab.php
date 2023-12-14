@@ -11,10 +11,8 @@ use TallStackUi\View\Components\BaseComponent;
 #[SoftPersonalization('tab')]
 class Tab extends BaseComponent implements Personalization
 {
-    public function __construct(
-        public ?string $selected = null,
-        public ?string $id = null,
-    ) {
+    public function __construct(public ?string $selected = null, public ?string $id = null)
+    {
         $this->id ??= uniqid();
     }
 

@@ -7,10 +7,13 @@ use Illuminate\Support\Arr;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\Personalization\SoftPersonalization;
 use TallStackUi\View\Components\BaseComponent;
+use TallStackUi\View\Components\Button\Traits\SetupButton;
 
 #[SoftPersonalization('button')]
 class Button extends BaseComponent implements Personalization
 {
+    use SetupButton;
+
     public function __construct(
         public ?string $text = null,
         public ?string $icon = null,
@@ -33,8 +36,7 @@ class Button extends BaseComponent implements Personalization
         public ?string $left = null,
         public ?string $right = null,
     ) {
-        $this->style = $this->outline ? 'outline' : ($this->light ? 'light' : 'solid');
-        $this->size = $this->xs ? 'xs' : ($this->sm ? 'sm' : ($this->lg ? 'lg' : 'md'));
+        $this->setup();
     }
 
     public function blade(): View

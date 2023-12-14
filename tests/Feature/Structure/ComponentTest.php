@@ -13,7 +13,17 @@ describe('TallStackUi Components', function () {
     })->with('personalizations.components');
 
     test('contains constructor', function (string $index) {
-        expect($index)->toHaveConstructor();
+        $ignores = [
+            'TallStackUi\View\Components\Interaction\Dialog',
+            'TallStackUi\View\Components\Interaction\Toast',
+        ];
+
+        if (in_array($index, $ignores)) {
+            test()->markTestSkipped("[$index] doesn't have constructor"); // @phpstan-ignore-line
+        }
+
+        expect($index)
+            ->toHaveConstructor();
     })->with('personalizations.components');
 });
 

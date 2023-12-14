@@ -11,11 +11,10 @@ use TallStackUi\View\Components\BaseComponent;
 class Input extends BaseComponent implements Personalization
 {
     public function __construct(
-        public ?string $computed = null,
+        public ?string $wire = null,
         public ?string $label = null,
         public ?string $id = null,
         public ?string $hint = null,
-        public ?bool $error = false,
         public ?bool $validate = false,
         public ?bool $password = false,
     ) {

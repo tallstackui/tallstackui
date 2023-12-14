@@ -1,9 +1,6 @@
 @php
-    $computed = $attributes->whereStartsWith('wire:model');
-    $directive = array_key_first($computed->getAttributes());
-    $property = $computed[$directive];
-    $error = $property && $errors->has($property);
-    $live = str($directive)->contains('.live');
+    $wire = $wireable($attributes);
+    $error = $wire && $errors->has($wire->value());
     $personalize = $classes();
 @endphp
 
@@ -22,7 +19,7 @@
         <x-label :$label :$error/>
     @endif
     <div class="relative" x-on:click.outside="show = false">
-        <button type="button"1
+        <button type="button"
                 x-ref="button"
                 @disabled($disabled)
                 @class([ $personalize['input.wrapper.base'], $personalize['input.wrapper.color'] => !$error, $personalize['input.wrapper.error'] => $error])
@@ -140,7 +137,7 @@
     @if ($hint && !$error)
         <x-hint :$hint/>
     @endif
-    @if ($error && $property)
-        <x-error :computed="$property" :$error/>
+    @if ($error)
+        <x-error :$wire/>
     @endif
 </div>

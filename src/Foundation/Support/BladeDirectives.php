@@ -3,7 +3,6 @@
 namespace TallStackUi\Foundation\Support;
 
 use Illuminate\Support\Facades\Blade;
-use Illuminate\View\ComponentAttributeBag;
 use TallStackUi\Facades\TallStackUi as Facade;
 
 class BladeDirectives
@@ -84,7 +83,7 @@ class BladeDirectives
 
     private function manifest(string $file, ?string $index = null): string|array
     {
-        $content = json_decode(file_get_contents(__DIR__.'/../dist/.vite/manifest.json'), true);
+        $content = json_decode(file_get_contents(__DIR__.'/../../../dist/.vite/manifest.json'), true);
 
         return data_get($content[$file], $index);
     }

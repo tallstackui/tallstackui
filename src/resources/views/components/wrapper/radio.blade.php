@@ -1,6 +1,6 @@
 @php
     $personalize = $classes();
-    $error = ($computed && $errors->has($computed)) && $error;
+    $error = $wire && $errors->has($wire);
 @endphp
 
 <div>
@@ -24,6 +24,6 @@
         </label>
     </div>
     @if ($error)
-        <x-error :$computed :$error/>
+        <x-error :$wire/>
     @endif
 </div>
