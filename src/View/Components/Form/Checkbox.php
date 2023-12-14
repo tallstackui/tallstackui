@@ -26,6 +26,7 @@ class Checkbox extends BaseComponent implements Personalization
         public ?string $size = null,
         public ?string $position = 'right',
         public ?string $color = 'primary',
+        public ?bool $invalidate = null,
     ) {
         $this->shareable();
     }

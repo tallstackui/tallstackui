@@ -128,10 +128,7 @@ class PersonalizationResources
 
     private function personalization(bool $instance = false): array|object
     {
-        // The [ignoreValidations => true] used here is a way to ignore possible validations
-        // that may exist in the component class. This is necessary because the component class
-        // is instantiated at this point, so if there are validations to be applied we would have exceptions.
-        $class = app($this->component, ['ignoreValidations' => true]);
+        $class = app($this->component);
 
         if ($instance) {
             return $class;

@@ -1,11 +1,11 @@
 @php
     $personalize = ['wrapper' => $attributes->get('wrapper', $classes()['wrapper'])];
-    $error = $wire && $errors->has($wire);
+    $error = !$invalidate && $wire && $errors->has($wire);
 @endphp
 
 <div>
     @if ($label)
-        <x-label for="{{ $id }}" :$label :$error/>
+        <x-label for="{{ $id }}" :$label :$error :$invalidate/>
     @endif
     <div @class($personalize['wrapper']) @if ($password) x-data="{ show : false }" @endif>
         {!! $slot !!}
@@ -13,7 +13,7 @@
     @if ($hint && !$error)
         <x-hint :$hint/>
     @endif
-    @if ($error && $validate)
+    @if ($error)
         <x-error :$wire/>
     @endif
 </div>
