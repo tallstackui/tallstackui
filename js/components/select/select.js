@@ -402,7 +402,7 @@ export default (
     const search = this.search.toLowerCase();
 
     return available.filter((option) => {
-      return dimensional ?
+      return this.dimensional ?
           option[selectable.label].toString().toLowerCase().indexOf(search) !== -1 :
           option.toString().toLowerCase().indexOf(search) !== -1;
     });
