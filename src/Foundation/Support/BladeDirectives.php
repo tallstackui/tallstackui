@@ -25,7 +25,7 @@ class BladeDirectives
             return "{$script}\n{$style}";
         });
 
-        Blade::directive('entangleable', function (ComponentAttributeBag $attributes): string {
+        Blade::directive('entangleable', function (mixed $attributes): string {
             return "{!! TallStackUi::blade()->entangle({$attributes}) !!}";
         });
 
