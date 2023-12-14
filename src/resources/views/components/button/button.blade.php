@@ -1,6 +1,6 @@
 @php
     $tag = $href ? 'a' : 'button';
-    $personalize = tallstackui_personalization('button', $personalization());
+    $personalize = $classes();
 
     $sizes['wrapper'] = $personalize['wrapper.sizes.' . $size];
     $sizes['icon'] = $personalize['icon.sizes.' . $size];

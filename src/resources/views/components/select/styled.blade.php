@@ -4,7 +4,7 @@
     $property = $computed[$directive];
     $error = $property && $errors->has($property);
     $live = str($directive)->contains('.live');
-    $personalize = tallstackui_personalization('select.styled', $personalization());
+    $personalize = $classes();
 @endphp
 
 <div x-data="tallstackui_select(

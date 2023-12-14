@@ -1,5 +1,5 @@
 @php
-    $personalize = tallstackui_personalization('dropdown', $personalization());
+    $personalize = $classes();
     $side = str_contains($position, 'right') || str_contains($position, 'left');
     $orientation = str_contains($position, 'bottom') || str_contains($position, 'right');
 @endphp

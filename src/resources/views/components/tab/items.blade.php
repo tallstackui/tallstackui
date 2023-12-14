@@ -1,4 +1,5 @@
-@php($personalize = tallstackui_personalization('tab.items', $personalization()))
+@php($personalize = $classes())
+
 @aware(['id'])
 
 <li x-on:click="select('{{ $tab }}')"

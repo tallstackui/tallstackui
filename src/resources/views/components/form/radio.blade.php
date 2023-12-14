@@ -1,7 +1,7 @@
 @php
     $computed = $attributes->whereStartsWith('wire:model')->first();
     $error = $errors->has($computed);
-    $personalize = tallstackui_personalization('form.radio', $personalization());
+    $personalize = $classes();
     $slot = $label instanceof \Illuminate\View\ComponentSlot;
     $position = $slot && $label->attributes->has('left') ? 'left' : $position;
     $alignment = $slot && $label->attributes->has('start') ? 'start' : 'middle';

@@ -1,5 +1,5 @@
 @php
-    $personalize = tallstackui_personalization('form.checkbox', $personalization());
+    $personalize = $classes();
     $wire = $attributes->wire('model');
     $error = $wire->value() && $errors->has($wire->value());
     $slot = $label instanceof \Illuminate\View\ComponentSlot;

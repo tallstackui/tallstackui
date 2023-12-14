@@ -1,7 +1,7 @@
 @php
     $computed = $attributes->whereStartsWith('wire:model')->first();
     $error = $computed && $errors->has($computed);
-    $personalize = tallstackui_personalization('form.input', $personalization());
+    $personalize = $classes();
     $disabled = $attributes->get('disabled');
     $readonly = $attributes->get('readonly');
 @endphp

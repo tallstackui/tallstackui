@@ -1,4 +1,4 @@
-@php($personalize = tallstackui_personalization('dialog', $personalization()))
+@php($personalize = $classes())
 
 <div x-cloak
      x-data="tallstackui_dialog(@js(__('tallstack-ui::messages.dialog.button.ok')), @js(__('tallstack-ui::messages.dialog.button.confirm')), @js(__('tallstack-ui::messages.dialog.button.cancel')))"

@@ -1,3 +1,2 @@
 providers:
   - TallStackUi\TallStackUiServiceProvider
-  - Livewire\LivewireServiceProvider

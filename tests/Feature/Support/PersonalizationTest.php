@@ -3,6 +3,7 @@
 use TallStackUi\Facades\TallStackUi;
 use TallStackUi\Foundation\Personalization\Personalization;
 use TallStackUi\Foundation\Personalization\PersonalizationResources;
+use TallStackUi\View\Components\Alert;
 
 it('can be instantiated', function () {
     expect(TallStackUi::personalize())->toBeInstanceOf(Personalization::class);
@@ -208,6 +209,34 @@ it('can personalize chained', function () {
     $this->blade('<x-badge title="Foo bar" />')
         ->assertSee('Foo bar')
         ->assertDontSee('text-xs');
+});
+
+it('can personalize components overriding the original', function () {
+    $class = new class extends Alert
+    {
+    };
+
+    config()->set('tallstackui.components.alert', $class);
+
+    TallStackUi::personalize('alert')
+        ->block('text.title')
+        ->replace('font-semibold', 'foo-bar-baz')
+        ->replace('text-lg', 'baz-bar-foo')
+        ->and()
+        ->alert()
+        ->block('content.wrapper')
+        ->remove('flex-wrap')
+        ->remove('justify-between');
+
+    $this->blade('<x-alert title="Foo bar" />')
+        ->assertSee('Foo bar')
+        ->assertSee('foo-bar-baz')
+        ->assertSee('baz-bar-foo');
+
+    $this->blade('<x-alert title="Foo bar" />')
+        ->assertSee('Foo bar')
+        ->assertDontSee('flex-wrap')
+        ->assertDontSee('justify-between');
 });
 
 it('cannot personalize wrong component', function () {

@@ -1,8 +1,6 @@
 @php
     use Illuminate\Support\Str;
-
-    $personalize = tallstackui_personalization('slide', $personalization());
-
+    $personalize = $classes();
     $event = Str::slug(Str::kebab($id));
     $open = $event . '-open';
     $close = $event . '-close';

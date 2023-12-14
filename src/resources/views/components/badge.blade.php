@@ -1,4 +1,4 @@
-@php($personalize = tallstackui_personalization('badge', $personalization()))
+@php($personalize = $classes())
 
 <span {{ $attributes->class([
         'rounded-md' => !$round && !$square,
