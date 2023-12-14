@@ -14,11 +14,11 @@ class BladeSupport
             return Blade::render('null');
         }
 
-        $value = $wire->value();
+        $property = $wire->value();
 
         return $wire->hasModifier('live') || $wire->hasModifier('blur')
-            ? Blade::render("@entangle('{$value}').live")
-            : Blade::render("@entangle('{$value}')");
+            ? Blade::render("@entangle('{$property}').live")
+            : Blade::render("@entangle('{$property}')");
     }
 
     public function json(array $data = []): string
@@ -28,10 +28,10 @@ class BladeSupport
 
     public function wire(ComponentAttributeBag $attributes): ?WireDirective
     {
-        // For some unknown reason the macros are not triggered when we
-        // are testing with the Feature tests. I assume this happens
-        // because Laravel doesn't bootstrap something necessary.
-        if (app()->runningUnitTests() || ! $attributes::hasMacro('wire')) {
+        // For some unknown reason the macros are not defined when we are testing.
+        // I assume this happens because Laravel doesn't bootstrap something necessary
+        // To the macro works when we are testing using the `$this->blade()` method.
+        if (! $attributes::hasMacro('wire')) {
             return null;
         }
 
