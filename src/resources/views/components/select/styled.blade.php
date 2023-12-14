@@ -1,6 +1,6 @@
 @php
     $wire = $wireable($attributes);
-    $error = $wire && $errors->has($wire->value());
+    $error = !$invalidate && $wire && $errors->has($wire->value());
     $personalize = $classes();
 @endphp
 
@@ -90,7 +90,7 @@
                              x-model.debounce.500ms="search"
                              x-ref="search"
                              dusk="tallstackui_select_search_input"
-                             :validate="false"
+                             invalidate
                     />
                     <button type="button"
                             @class($personalize['box.button.class'])

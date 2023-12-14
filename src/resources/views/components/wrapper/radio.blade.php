@@ -1,6 +1,6 @@
 @php
     $personalize = $classes();
-    $error = $validate && $wire && $errors->has($wire);
+    $error = !$invalidate && $wire && $errors->has($wire);
 @endphp
 
 <div>

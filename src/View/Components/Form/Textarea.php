@@ -20,7 +20,7 @@ class Textarea extends BaseComponent implements Personalization
         public ?string $hint = null,
         public ?bool $resize = false,
         public ?bool $resizeAuto = false,
-        public ?bool $validate = true,
+        public ?bool $invalidate = null,
     ) {
         $this->id ??= uniqid();
     }

@@ -1,10 +1,10 @@
 @php
     $wire = $wireable($attributes);
-    $error = $validate && $wire && $errors->has($wire->value());
+    $error = !$invalidate && $wire && $errors->has($wire->value());
     $personalize = $classes();
 @endphp
 
-<x-wrapper.input :$id :$wire :$label :$hint :$validate password>
+<x-wrapper.input :$id :$wire :$label :$hint :$invalidate password>
     <div @class([
         $personalize['input.wrapper'],
         $personalize['input.color.base'] => !$error,

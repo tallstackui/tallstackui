@@ -22,7 +22,7 @@ class Number extends BaseComponent implements Personalization
         public ?int $max = null,
         public ?int $delay = 2,
         public ?bool $chevron = false,
-        public ?bool $validate = true,
+        public ?bool $invalidate = null,
     ) {
         $this->id ??= uniqid();
     }

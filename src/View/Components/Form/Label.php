@@ -14,7 +14,7 @@ class Label extends BaseComponent implements Personalization
         public ?string $for = null,
         public ?string $label = null,
         public ?bool $error = false,
-        public ?bool $validate = false,
+        public ?bool $invalidate = null,
     ) {
         //
     }

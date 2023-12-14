@@ -22,7 +22,7 @@ class Color extends BaseComponent implements Personalization
         public ?bool $full = false,
         public Collection|array $colors = [],
         public ?string $mode = null,
-        public ?bool $validate = true,
+        public ?bool $invalidate = null,
     ) {
         $this->id ??= uniqid();
         $this->mode = $this->full ? 'full' : 'range';

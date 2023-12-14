@@ -18,7 +18,7 @@ class Password extends BaseComponent implements Personalization
         public ?string $label = null,
         public ?string $id = null,
         public ?string $hint = null,
-        public ?bool $validate = true,
+        public ?bool $invalidate = null,
     ) {
         $this->id ??= uniqid();
     }

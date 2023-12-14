@@ -1,11 +1,11 @@
 @php
     $personalize = $classes();
     $wire = $wireable($attributes);
-    $error = $validate && $wire && $errors->has($wire->value());
+    $error = !$invalidate && $wire && $errors->has($wire->value());
     [$position, $alignment, $label] = $sloteable($label);
 @endphp
 
-<x-wrapper.radio :$id :$wire :$label :$position :$alignment>
+<x-wrapper.radio :$id :$wire :$label :$position :$alignment :$invalidate>
     <input @if ($id) id="{{ $id }}" @endif type="checkbox" {{ $attributes->class([
             $personalize['input.class'],
             $personalize['input.sizes.' . $size],
