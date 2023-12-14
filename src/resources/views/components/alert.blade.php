@@ -1,4 +1,4 @@
-@php($personalize = tallstackui_personalization('alert', $personalization()))
+@php($personalize = $classes())
 
 <div @class([$personalize['wrapper'], $colors['background']])
      x-data="{ show : true }"
