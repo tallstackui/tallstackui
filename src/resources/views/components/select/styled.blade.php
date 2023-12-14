@@ -8,7 +8,7 @@
 @endphp
 
 <div x-data="tallstackui_select(
-        {{ TallStackUi::blade()->entangle($attributes) }},
+        @entangleable($attributes),
         @js($request),
         @js($selectable),
         @js($options),
@@ -22,7 +22,7 @@
         <x-label :$label :$error/>
     @endif
     <div class="relative" x-on:click.outside="show = false">
-        <button type="button"
+        <button type="button"1
                 x-ref="button"
                 @disabled($disabled)
                 @class([ $personalize['input.wrapper.base'], $personalize['input.wrapper.color'] => !$error, $personalize['input.wrapper.error'] => $error])

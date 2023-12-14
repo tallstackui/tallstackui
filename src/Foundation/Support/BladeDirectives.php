@@ -2,8 +2,46 @@
 
 namespace TallStackUi\Foundation\Support;
 
+use Illuminate\Support\Facades\Blade;
+use TallStackUi\Facades\TallStackUi as Facade;
+
 class BladeDirectives
 {
+    public static function register(): void
+    {
+        Blade::directive('tallStackUiScript', function (): string {
+            return Facade::directives()->script();
+        });
+
+        Blade::directive('tallStackUiStyle', function (): string {
+            return Facade::directives()->style();
+        });
+
+        Blade::directive('tallStackUiSetup', function (): string {
+            $script = Facade::directives()->script();
+            $style = Facade::directives()->style();
+
+            return "{$script}\n{$style}";
+        });
+
+        Blade::directive('entangleable', function ($attributes): string {
+            return "{!! TallStackUi::blade()->entangle({$attributes}) !!}";
+        });
+
+        Blade::precompiler(function (string $string): string {
+            return preg_replace_callback('/<\s*tallstackui\:(setup|script|style)\s*\/?>/', function (array $matches): string {
+                $script = Facade::directives()->script();
+                $style = Facade::directives()->style();
+
+                return match ($matches[1]) { // @phpstan-ignore-line
+                    'setup' => "{$script}\n{$style}",
+                    'script' => $script,
+                    'style' => $style,
+                };
+            }, $string);
+        });
+    }
+
     public function script(): string
     {
         $manifest = tallstackui_vite_manifest('js/tallstackui.js');
