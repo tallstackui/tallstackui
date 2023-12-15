@@ -2,7 +2,6 @@
 
 namespace Tests\Browser\Form;
 
-use Laravel\Dusk\Browser;
 use Livewire\Component;
 use Livewire\Livewire;
 use Tests\Browser\BrowserTestCase;

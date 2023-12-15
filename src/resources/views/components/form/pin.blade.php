@@ -10,14 +10,29 @@
     @endif
     <div @class($personalize['wrapper']) x-data="app()" x-on:paste="pasting = true; paste($event)" x-cloak>
         <template x-for="(value, index) in prefix" :key="key(index)">
-            <input class="dark:border-dark-600 focus:ring-primary-600 focus-within:focus:ring-primary-600 dark:bg-dark-800 dark:text-dark-300 mr-3 block w-[40px] rounded-md border border-gray-300 text-center text-lg font-medium text-gray-700 ring-0 ring-inset transition disabled:pointer-events-none disabled:opacity-50" maxlength="1" :value="value" disabled />
+            <input @class([
+                       $personalize['input.base'],
+                       $personalize['input.color.base'],
+                       $personalize['input.color.background'],
+                   ]) maxlength="1" :value="value" disabled />
         </template>
         <template x-for="(value, index) in length" :key="key(index)">
-            <input :id="key(index)" class="dark:border-dark-600 focus:ring-primary-600 focus-within:focus:ring-primary-600 dark:bg-dark-800 dark:text-dark-300 mr-3 block w-[38px] rounded-md border border-gray-300 text-center text-lg font-medium text-gray-700 ring-0 ring-inset transition disabled:pointer-events-none disabled:opacity-50" maxlength="1" @keyup="go(index, $event)" @keyup.left="left(index)" @keyup.right="right(index)" @keydown.backspace="back(index)" />
+            <input :id="key(index)"
+                   @if ($mask) x-mask="{{ $mask }}" @endif
+                   @class([
+                       $personalize['input.base'],
+                       $personalize['input.color.background'],
+                       $personalize['input.color.base'] => !$error,
+                       $personalize['input.color.error'] => $error,
+                   ]) maxlength="1"
+                   x-on:keyup="go(index, $event)"
+                   x-on:keyup.left="left(index)"
+                   x-on:keyup.right="right(index)"
+                   x-on:keydown.backspace="back(index)" />
         </template>
-        <template x-if="clear && model !== ''">
+        <template x-if="clear && model">
             <button class="cursor-pointer" x-on:click="erase();">
-                <x-icon name="x-circle" solid class="h-6 w-6 text-red-500" />
+                <x-icon name="x-circle" solid @class($personalize['button']) />
             </button>
         </template>
     </div>
@@ -40,14 +55,18 @@
             clear: @js($clear),
             pasting: false,
             init() {
-                this.$nextTick(() => {
-                    if (this.model) {
-                        for (let index = 0; index < this.length; index++) {
-                            this.input(index).value = this.model[index];
-                        }
+                this.length = this.model.length;
 
-                        this.length = this.model.length;
+                this.$nextTick(() => {
+                    if (!this.model) {
+                        return;
                     }
+
+                    for (let index = 0; index < this.length; index++) {
+                        this.input(index).value = this.model[index];
+                    }
+
+                    this.length = this.model.length;
                 })
 
                 this.$watch('model', (value) => {
