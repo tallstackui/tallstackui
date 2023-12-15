@@ -168,11 +168,11 @@ export default (
     }
   },
   /**
-     * @param index
-     * @returns {HTMLElement|null}
-     */
+   * @param index
+   * @returns {HTMLElement|null}
+   */
   input(index) {
-    return document.getElementById(this.key(index));
+    return document.getElementById(`pin-${id}-${index}`);
   },
   /**
    * @param event {ClipboardEvent}
@@ -184,6 +184,11 @@ export default (
     const data = event.clipboardData.getData('text');
 
     if (!data) return;
+
+    // We use basic regex to avoid paste
+    // values different from the mask
+    if (this.numbers && !/^\d+$/.test(data)) return;
+    if (this.letters && !/^[a-zA-Z]+$/.test(data)) return;
 
     for (let index = 0; index <= this.length; index++) {
       const input = this.input(index+1);
@@ -208,12 +213,5 @@ export default (
     }
 
     this.model = null;
-  },
-  /**
-     * @param index
-     * @return {string}
-     */
-  key(index) {
-    return `pin-${id}-${index}`;
   },
 });
