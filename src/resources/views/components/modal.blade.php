@@ -29,7 +29,12 @@
          x-transition:leave-end="opacity-0"
          @class([$personalize['wrapper.first'], $personalize['blur'] => $configurations['blur']])></div>
     <div @class($personalize['wrapper.second'])>
-        <div @class([$personalize['wrapper.third'], $configurations['size']])>
+        <div @class([
+                $personalize['wrapper.third'],
+                $configurations['size'],
+                $personalize['positions.top'] => !$configurations['center'],
+                $personalize['positions.center'] => $configurations['center'],
+            ])>
             <div x-show="show"
                  @if (!($persistent ?? $configurations['persistent'])) x-on:click.outside="show = false" @endif
                  x-transition:enter="ease-out duration-300"

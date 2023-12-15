@@ -58,12 +58,14 @@ return [
         | blur: enables the background blur effect by default.
         | persistent: enables the modal to not be closed by clicking outside by default.
         | size: controls the default modal size (Allowed: sm, md, lg, xl, 2xl, 3xl, 4xl, 5xl, 6xl, 7xl).
+        | center: controls if the modal is centered by default.
         */
         'modal' => [
             'z-index' => 'z-50',
             'blur' => false,
             'persistent' => false,
             'size' => '2xl',
+            'center' => true,
         ],
         /*
         |----------------------------------------------------------------------
