@@ -1,49 +1,62 @@
 @php
-    $computed = $attributes->whereStartsWith('wire:model');
-    $directive = array_key_first($computed->getAttributes());
-    $property = $computed[$directive];
-    $error = $property && $errors->has($property);
-    $live = str($directive)->contains('.live');
-    $disabled = $attributes->get('disabled');
-    $readonly = $attributes->get('readonly');
+    $personalize = $classes();
+    $wire = $wireable($attributes);
+    $error = !$invalidate && $wire && $errors->has($wire->value());
 @endphp
 
-<div class="flex space-x-3" x-data="app()" x-on:paste="pasting = true; paste($event)">
-    <template x-for="(value, index) in prefixes" :key="`pin-${hash}-${index}`">
-        <input class="block w-16 text-center text-gray-700 bg-transparent border-t-transparent border-b-2 border-x-transparent border-b-gray-200 text-lg focus:border-t-transparent focus:border-x-transparent focus:border-b-blue-500 focus:ring-0 disabled:opacity-50 disabled:pointer-events-none dark:border-b-gray-700 dark:text-gray-400 dark:focus:ring-gray-600 dark:focus:border-b-gray-600"
-               maxlength="1"
-               max="9"
-               min="0"
-               inputmode="decimal"
-               :value="value" disabled>
-    </template>
-    <template x-for="(value, index) in length" :key="`pin-${hash}-${index}`">
-        <input :id="`pin-${hash}-${index}`"
-               class="block w-[38px] text-center text-gray-700 bg-transparent border-t-transparent border-b-2 border-x-transparent border-b-gray-200 text-2xl focus:border-t-transparent focus:border-x-transparent focus:border-b-blue-500 focus:ring-0 disabled:opacity-50 disabled:pointer-events-none dark:border-b-gray-700 dark:text-gray-400 dark:focus:ring-gray-600 dark:focus:border-b-gray-600"
-               maxlength="1"
-               max="9"
-               min="0"
-               inputmode="decimal"
-               @keyup="go(index, $event)" @keyup.left="left(index)" @keyup.right="right(index)" @keydown.backspace="back(index)">
-    </template>
+<div>
+    @if ($label)
+        <x-label :$label :$error/>
+    @endif
+    <div @class($personalize['wrapper']) x-data="app()" x-on:paste="pasting = true; paste($event)" x-cloak>
+        <template x-for="(value, index) in prefix" :key="key(index)">
+            <input class="dark:border-dark-600 focus:ring-primary-600 focus-within:focus:ring-primary-600 dark:bg-dark-800 dark:text-dark-300 mr-3 block w-[40px] rounded-md border border-gray-300 text-center text-lg font-medium text-gray-700 ring-0 ring-inset transition disabled:pointer-events-none disabled:opacity-50" maxlength="1" :value="value" disabled />
+        </template>
+        <template x-for="(value, index) in length" :key="key(index)">
+            <input :id="key(index)" class="dark:border-dark-600 focus:ring-primary-600 focus-within:focus:ring-primary-600 dark:bg-dark-800 dark:text-dark-300 mr-3 block w-[38px] rounded-md border border-gray-300 text-center text-lg font-medium text-gray-700 ring-0 ring-inset transition disabled:pointer-events-none disabled:opacity-50" maxlength="1" @keyup="go(index, $event)" @keyup.left="left(index)" @keyup.right="right(index)" @keydown.backspace="back(index)" />
+        </template>
+        <template x-if="clear && model !== ''">
+            <button class="cursor-pointer" x-on:click="erase();">
+                <x-icon name="x-circle" solid class="h-6 w-6 text-red-500" />
+            </button>
+        </template>
+    </div>
+    @if ($hint && !$error)
+        <x-hint :$hint/>
+    @endif
+    @if ($error)
+        <x-error :$wire/>
+    @endif
 </div>
 
 <script type="text/javascript">
     function app() {
         return {
-            model: @entangle($property).live,
-            prefixes: ['XSE'],
+            model: @entangleable($attributes),
+            prefix: @js($prefix),
+            prefixed: @js($prefixed),
             hash: Math.random().toString(36).substring(2, 15),
-            length: 4,
+            length: @js($length),
+            clear: @js($clear),
             pasting: false,
             init() {
-                window.onload = () => {
+                this.$nextTick(() => {
                     if (this.model) {
                         for (let index = 0; index < this.length; index++) {
                             this.input(index).value = this.model[index];
                         }
+
+                        this.length = this.model.length;
                     }
-                }
+                })
+
+                this.$watch('model', (value) => {
+                    if (!value || !this.prefixed) {
+                        return;
+                    }
+
+                    this.model = `${this.prefix}${value}`;
+                });
             },
             /**
              * @param index {Number}
@@ -54,13 +67,16 @@
             },
             /**
              * @param index {Number}
+             * @return {void}
              */
             left(index) {
                 if (index === 0) return;
+
                 this.focus(index - 1)
             },
             /**
              * @param index {Number}
+             * @return {void}
              */
             right(index) {
                 if (index === this.length - 1) return;
@@ -68,6 +84,7 @@
             },
             /**
              * @param index {Number}
+             * @return {void}
              */
             go(index) {
                 if (this.pasting) {
@@ -92,6 +109,7 @@
             },
             /**
              * @param index {Number}
+             * @returns {void}
              */
             back(index) {
                 const current = this.input(index);
@@ -126,6 +144,7 @@
             input(index) { return document.getElementById(`pin-${this.hash}-${index}`) },
             /**
              * @param event {ClipboardEvent}
+             * @returns {void}
              */
             paste(event) {
                 event.preventDefault();
@@ -139,6 +158,23 @@
                 }
 
                 this.sync();
+            },
+            /**
+             * @returns {void}
+             */
+            erase() {
+                for (let index = 0; index < this.length; index++) {
+                    this.input(index).value = '';
+                }
+
+                this.sync();
+            },
+            /**
+             * @param index
+             * @return {string}
+             */
+            key(index) {
+                return `pin-${this.hash}-${index}`;
             }
         }
     }
