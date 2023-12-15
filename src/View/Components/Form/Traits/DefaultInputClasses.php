@@ -4,13 +4,13 @@ namespace TallStackUi\View\Components\Form\Traits;
 
 trait DefaultInputClasses
 {
-    private function error(...$rejects): string
+    private function error(...$excepts): string
     {
         $classes = 'text-red-600 ring-red-300 placeholder:text-red-600 focus-within:ring-red-500 focus-within:placeholder:text-red-600 focus:ring-red-500 focus-within:focus:ring-red-500 dark:ring-red-500 dark:focus-within:ring-red-500';
 
-        if (! empty($rejects)) {
-            foreach ($rejects as $reject) {
-                $classes = str_replace($reject, '', $classes);
+        if (! empty($excepts)) {
+            foreach ($excepts as $except) {
+                $classes = str_replace($except, '', $classes);
             }
         }
 

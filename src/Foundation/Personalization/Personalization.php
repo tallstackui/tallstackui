@@ -24,6 +24,7 @@ use TallStackUi\View\Components\Form\Input;
 use TallStackUi\View\Components\Form\Label;
 use TallStackUi\View\Components\Form\Number;
 use TallStackUi\View\Components\Form\Password;
+use TallStackUi\View\Components\Form\Pin;
 use TallStackUi\View\Components\Form\Radio;
 use TallStackUi\View\Components\Form\Range;
 use TallStackUi\View\Components\Form\Textarea;
@@ -131,6 +132,7 @@ class Personalization
             'number' => Number::class,
             'range' => Range::class,
             'password' => Password::class,
+            'pin' => Pin::class,
             'radio' => Radio::class,
             'textarea' => Textarea::class,
             'toggle' => Toggle::class,
