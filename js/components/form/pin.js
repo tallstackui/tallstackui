@@ -1,47 +1,82 @@
-export default (model, prefix, prefixed, length, clear) => ({
+export default (model, prefix = null, prefixed, id, length, clear, error = false) => ({
   model: model,
   prefix: prefix,
   prefixed: prefixed,
-  hash: Math.random().toString(36).substring(2, 15),
+  id: id,
   length: length,
   clear: clear,
   pasting: false,
+  observer: null,
+  observing: false,
+  error: error,
   init() {
-    this.length = this.model.length;
+    this.observation();
 
-    this.$nextTick(() => {
-      if (!this.model) {
-        return;
-      }
+    if (this.prefixed && this.model?.startsWith(this.prefix)) {
+      this.model = this.model.replace(this.prefix, '');
+    }
 
-      for (let index = 0; index < this.length; index++) {
-        this.input(index).value = this.model[index];
-      }
+    this.$watch('error', async () => this.observed());
+  },
+  /**
+   * @returns {void}
+   */
+  observation() {
+    this.errors();
 
-      this.length = this.model.length;
+    if (!this.$refs.errors) {
+      return;
+    }
+
+    this.observer = new MutationObserver(this.errors.bind(this));
+
+    this.observer.observe(this.$refs.errors, {
+      subtree: true,
+      characterData: true,
     });
+  },
+  /**
+   * @returns {Promise<void>}
+   */
+  async observed() {
+    if (this.observer && !this.observing) {
+      this.observer.disconnect();
 
-    this.$watch('model', (value) => {
-      if (!value || !this.prefixed) {
-        return;
-      }
+      this.observing = true;
+    }
 
-      this.model = `${this.prefix}${value}`;
-    });
+    await this.$nextTick();
+
+    this.observing = false;
+
+    this.observation();
+  },
+  /**
+   * @returns {void}
+   */
+  errors() {
+    if (!this.$refs.errors) {
+      return;
+    }
+
+    this.error = Boolean(this.$refs.errors.innerText === 'true');
   },
   /**
      * @param index {Number}
      * @returns {void}
      */
   focus(index) {
-    this.input(index).focus();
+    this.input(index)?.focus();
   },
   /**
      * @param index {Number}
      * @return {void}
      */
   left(index) {
-    if (index === 0) return;
+    if (index === 1) {
+      this.focus(this.length);
+      return;
+    }
 
     this.focus(index - 1);
   },
@@ -50,14 +85,18 @@ export default (model, prefix, prefixed, length, clear) => ({
      * @return {void}
      */
   right(index) {
-    if (index === this.length - 1) return;
+    if ((index + 1) > this.length) {
+      this.focus(1);
+      return;
+    }
+
     this.focus(index + 1);
   },
   /**
      * @param index {Number}
      * @return {void}
      */
-  go(index) {
+  keyup(index) {
     if (this.pasting) {
       this.pasting = false;
       this.sync();
@@ -67,8 +106,8 @@ export default (model, prefix, prefixed, length, clear) => ({
 
     const input = this.input(index);
 
-    if (input.value && index !== (this.length - 1)) {
-      if (this.input(index + 1).value !== '') {
+    if (input.value && index !== this.length) {
+      if (this.input(index + 1)?.value !== '') {
         this.focus(index + 1);
         return;
       }
@@ -82,13 +121,19 @@ export default (model, prefix, prefixed, length, clear) => ({
      * @param index {Number}
      * @returns {void}
      */
-  back(index) {
+  backspace(index) {
     const current = this.input(index);
 
     if (current.value !== '') {
       current.value = '';
+      this.sync();
+
       return;
     }
+
+    const input = this.input(index - 1);
+
+    if (!input) return;
 
     const previous = this.input(index - 1);
     previous.value = '';
@@ -100,53 +145,63 @@ export default (model, prefix, prefixed, length, clear) => ({
      * @returns {void}
      */
   sync() {
-    let code = '';
+    this.model = '';
 
-    for (let index = 0; index < this.length; index++) {
-      code += this.input(index).value;
+    for (let index = 1; index <= this.length; index++) {
+      const input = this.input(index);
+
+      if (!input) continue;
+
+      this.model += input.value;
     }
-
-    this.model = code;
   },
   /**
      * @param index
-     * @returns {HTMLElement}
+     * @returns {HTMLElement|null}
      */
   input(index) {
-    return document.getElementById(`pin-${this.hash}-${index}`);
+    return document.getElementById(this.key(index));
   },
   /**
-     * @param event {ClipboardEvent}
-     * @returns {void}
-     */
+   * @param event {ClipboardEvent}
+   * @returns {void}
+   */
   paste(event) {
     event.preventDefault();
 
     const data = event.clipboardData.getData('text');
 
-    if (data.length !== this.length) return;
+    if (!data) return;
 
-    for (let index = 0; index < this.length; index++) {
-      this.input(index).value = data[index];
+    for (let index = 0; index <= this.length; index++) {
+      const input = this.input(index+1);
+
+      if (!input) continue;
+
+      input.value += data[index];
     }
 
     this.sync();
   },
   /**
-     * @returns {void}
-     */
+   * @returns {void}
+   */
   erase() {
-    for (let index = 0; index < this.length; index++) {
-      this.input(index).value = '';
+    for (let index = 1; index <= this.length; index++) {
+      const input = this.input(index);
+
+      if (!input) continue;
+
+      input.value = '';
     }
 
-    this.sync();
+    this.model = null;
   },
   /**
      * @param index
      * @return {string}
      */
   key(index) {
-    return `pin-${this.hash}-${index}`;
+    return `pin-${id}-${index}`;
   },
 });

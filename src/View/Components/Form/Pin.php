@@ -17,10 +17,10 @@ class Pin extends BaseComponent implements Personalization
     public function __construct(
         public ?string $label = null,
         public ?string $hint = null,
-        public ?int $length = 4,
-        public ?array $prefix = [],
-        public ?bool $clear = null,
+        public ?int $length = null,
+        public ?string $prefix = null,
         public ?bool $prefixed = null,
+        public ?bool $clear = null,
         public ?bool $invalidate = null,
         public ?bool $numbers = null,
         public ?bool $letters = null,

@@ -47,7 +47,7 @@ class PinTest extends BrowserTestCase
         /** @var Browser $browser */
         $browser = Livewire::visit(new class extends Component
         {
-            public ?string $value = "121212";
+            public ?string $value = '121212';
 
             public function render(): string
             {
