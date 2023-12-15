@@ -28,16 +28,14 @@
             @if ($prefix)
                 <input type="text" value="{{ $prefix }}" id="pin-prefix"
                        @class([
-                           'w-[50px]',
+                           'bg-gray-100 w-[50px]',
                             $personalize['input.base'],
                             $personalize['input.color.background'],
-                       ]) x-bind:class="{
-                           '{{ $personalize['input.color.base'] }}': !error,
-                           '{{ $personalize['input.color.error'] }}': error,
-                       }" disabled />
+                            $personalize['input.color.base'],
+                       ]) disabled />
             @endif
             @foreach (range(1, $length) as $index)
-                <input type="text" id="pin-{{$id}}-{{ $index }}"
+                <input type="text" id="pin-{{ $id }}-{{ $index }}"
                        @if ($mask) x-mask="{{ $mask }}" @endif
                        @isset($__livewire) value="{{ $wire ? $__livewire->{$wire->value()}[$index-1] ?? '' : '' }}" @endisset
                        @class([
