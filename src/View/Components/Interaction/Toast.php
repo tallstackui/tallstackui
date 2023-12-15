@@ -61,14 +61,14 @@ class Toast extends BaseComponent implements Personalization
 
     protected function validate(): void
     {
-        $configuration = config('tallstackui.settings.toast');
+        $configuration = collect(config('tallstackui.settings.toast'));
         $positions = ['top-right', 'top-left', 'bottom-right', 'bottom-left'];
 
-        if (! in_array($configuration['position'], $positions)) {
+        if (! in_array($configuration->get('position', 'top-right'), $positions)) {
             throw new InvalidArgumentException('The toast position must be one of the following: ['.implode(', ', $positions).']');
         }
 
-        if (! str_starts_with($configuration['z-index'], 'z-')) {
+        if (! str($configuration->get('z-index', 'z-50'))->startsWith('z-')) {
             throw new InvalidArgumentException('The toast z-index must start with z- prefix');
         }
     }

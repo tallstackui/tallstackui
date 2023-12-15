@@ -26,7 +26,7 @@ class Tooltip extends BaseComponent implements Personalization
         public ?string $style = null,
     ) {
         $this->size = $this->lg ? 'lg' : ($this->md ? 'md' : ($this->xs ? 'xs' : 'sm'));
-        $this->style = $this->outline ? 'outline' : ($this->solid ? 'solid' : config('tallstackui.icon'));
+        $this->style = $this->outline ? 'outline' : ($this->solid ? 'solid' : config('tallstackui.icon', 'solid'));
     }
 
     public function blade(): View

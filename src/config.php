@@ -65,7 +65,7 @@ return [
             'blur' => false,
             'persistent' => false,
             'size' => '2xl',
-            'center' => true,
+            'center' => false,
         ],
         /*
         |----------------------------------------------------------------------
