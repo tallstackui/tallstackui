@@ -19,16 +19,18 @@
          x-on:paste="pasting = true; paste($event)"
          x-cloak>
         <template x-for="(value, index) in prefix" :key="key(index)">
-            <input @class([
+            <input type="text" @class([
+                       'w-[45px]',
                        $personalize['input.base'],
                        $personalize['input.color.base'],
                        $personalize['input.color.background'],
                    ]) maxlength="1" :value="value" disabled />
         </template>
         <template x-for="(value, index) in length" :key="key(index)">
-            <input :id="key(index)"
+            <input type="text" :id="key(index)"
                    @if ($mask) x-mask="{{ $mask }}" @endif
                    @class([
+                       'w-[38px]',
                        $personalize['input.base'],
                        $personalize['input.color.background'],
                        $personalize['input.color.base'] => !$error,

@@ -39,7 +39,7 @@ class Pin extends BaseComponent implements Personalization
         return Arr::dot([
             'wrapper' => 'soft-scrollbar flex items-center overflow-x-auto py-0.5',
             'input' => [
-                'base' => 'mr-2 block w-[38px] rounded-md text-center text-lg font-medium shadow-sm ring-1 transition disabled:pointer-events-none disabled:opacity-50',
+                'base' => 'mr-2 block rounded-md text-center text-lg font-medium shadow-sm ring-1 transition disabled:pointer-events-none disabled:opacity-50',
                 'color' => [
                     'base' => 'dark:border-dark-600 dark:text-dark-300 focus:ring-primary-600 focus-within:focus:ring-primary-600 border-gray-300 text-gray-600 ring-transparent focus-within:ring-2 focus:border-0 focus:ring-2',
                     'background' => 'dark:bg-dark-800 bg-white',
