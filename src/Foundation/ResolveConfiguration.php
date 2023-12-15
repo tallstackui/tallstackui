@@ -65,6 +65,7 @@ class ResolveConfiguration
         $component->size ??= $configuration['size'];
         $component->blur ??= $configuration['blur'];
         $component->persistent ??= $configuration['persistent'];
+        $component->center ??= $configuration['center'];
 
         $component->size = match ($component->size) {
             'sm' => 'sm:max-w-sm',
@@ -80,7 +81,7 @@ class ResolveConfiguration
         };
 
         return collect($component)
-            ->only(['zIndex', 'size', 'blur', 'persistent'])
+            ->only(['zIndex', 'size', 'blur', 'persistent', 'center'])
             ->toArray();
     }
 

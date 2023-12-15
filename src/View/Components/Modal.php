@@ -20,7 +20,8 @@ class Modal extends BaseComponent implements Personalization
         public ?bool $blur = null,
         public ?bool $persistent = null,
         public ?string $size = null,
-        public string $entangle = 'modal',
+        public ?string $entangle = 'modal',
+        public ?bool $center = null,
     ) {
         $this->entangle = is_string($this->wire) ? $this->wire : (! is_bool($this->wire) ? $this->entangle : 'modal');
     }
@@ -36,8 +37,12 @@ class Modal extends BaseComponent implements Personalization
             'wrapper' => [
                 'first' => 'fixed inset-0 bg-gray-400 bg-opacity-50 transition-opacity',
                 'second' => 'fixed inset-0 z-50 w-screen overflow-y-auto',
-                'third' => 'mx-auto flex min-h-full w-full transform items-end justify-center p-4 sm:items-start',
+                'third' => 'mx-auto flex min-h-full w-full transform justify-center p-4',
                 'fourth' => 'dark:bg-dark-700 relative flex w-full transform flex-col rounded-xl bg-white text-left shadow-xl transition-all',
+            ],
+            'positions' => [
+                'top' => 'items-end sm:items-start',
+                'center' => 'items-end sm:items-center',
             ],
             'blur' => 'backdrop-blur-sm',
             'title' => [
