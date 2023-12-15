@@ -38,7 +38,7 @@ class Pin extends BaseComponent implements Personalization
     public function personalization(): array
     {
         return Arr::dot([
-            'wrapper' => 'soft-scrollbar flex items-center overflow-x-auto py-0.5',
+            'wrapper' => 'mt-1 soft-scrollbar flex items-center overflow-x-auto py-0.5',
             'input' => [
                 'base' => 'mr-2 block rounded-md text-center text-lg font-medium shadow-sm ring-1 transition disabled:pointer-events-none disabled:opacity-50',
                 'color' => [
