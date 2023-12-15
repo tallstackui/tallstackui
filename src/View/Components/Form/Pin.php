@@ -43,7 +43,7 @@ class Pin extends BaseComponent implements Personalization
                 'color' => [
                     'base' => 'dark:border-dark-600 dark:text-dark-300 focus:ring-primary-600 focus-within:focus:ring-primary-600 border-gray-300 text-gray-600 ring-transparent focus-within:ring-2 focus:border-0 focus:ring-2',
                     'background' => 'dark:bg-dark-800 bg-white',
-                    'error' => 'border-0 border-red-500 text-red-600 ring-red-300 placeholder:text-red-600 focus-within:ring-red-500 focus-within:placeholder:text-red-600 focus:ring-red-500 focus-within:focus:ring-red-500 dark:ring-red-500 dark:focus-within:ring-red-500',
+                    'error' => 'border-0 border-red-500 text-red-600 ring-red-300 placeholder:text-red-600 focus-within:ring-red-500 focus-within:placeholder:text-red-600 focus:ring-2 focus:ring-red-500 focus-within:focus:ring-red-500 dark:ring-red-500 dark:focus-within:ring-red-500',
                 ],
             ],
             'prefix' => 'dark:border-dark-600 focus:ring-primary-600 focus-within:focus:ring-primary-600 dark:bg-dark-800 dark:text-dark-300 mr-3 block w-[40px] rounded-md border border-gray-300 text-center text-lg font-medium text-gray-600 ring-0 ring-inset transition disabled:pointer-events-none disabled:opacity-50',
