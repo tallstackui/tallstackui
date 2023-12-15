@@ -1,4 +1,14 @@
-export default (model, prefix = null, prefixed, id, length, clear, error = false) => ({
+export default (
+    model,
+    prefix = null,
+    prefixed,
+    id,
+    length,
+    clear,
+    error = false,
+    numbers,
+    letters,
+) => ({
   model: model,
   prefix: prefix,
   prefixed: prefixed,
@@ -9,6 +19,8 @@ export default (model, prefix = null, prefixed, id, length, clear, error = false
   observer: null,
   observing: false,
   error: error,
+  numbers: numbers,
+  letters: letters,
   init() {
     this.observation();
 
@@ -176,7 +188,7 @@ export default (model, prefix = null, prefixed, id, length, clear, error = false
     for (let index = 0; index <= this.length; index++) {
       const input = this.input(index+1);
 
-      if (!input) continue;
+      if (!input || !data[index]) continue;
 
       input.value += data[index];
     }

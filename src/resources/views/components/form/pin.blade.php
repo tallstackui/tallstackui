@@ -20,13 +20,15 @@
              @js($id),
              @js($length),
              @js($clear),
-             @js($error)
+             @js($error),
+             @js($numbers),
+             @js($letters),
          )" x-on:paste="pasting = true; paste($event)" x-cloak wire:ignore>
         <div @class($personalize['wrapper'])>
             @if ($prefix)
                 <input type="text" value="{{ $prefix }}" id="pin-prefix"
                        @class([
-                           'w-[45px]',
+                           'w-[50px]',
                             $personalize['input.base'],
                             $personalize['input.color.background'],
                        ]) x-bind:class="{
