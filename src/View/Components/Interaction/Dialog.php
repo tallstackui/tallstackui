@@ -48,7 +48,7 @@ class Dialog extends BaseComponent implements Personalization
 
     protected function validate(): void
     {
-        if (! str(config('tallstackui.settings.dialog')['z-index'])->startsWith('z-')) {
+        if (! str(config('tallstackui.settings.dialog.z-index', 'z-50'))->startsWith('z-')) {
             throw new InvalidArgumentException('The dialog z-index must start with z- prefix');
         }
     }
