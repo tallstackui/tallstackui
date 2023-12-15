@@ -2,7 +2,9 @@
 
 namespace Tests\Browser\Form;
 
+use Facebook\WebDriver\WebDriverKeys;
 use Laravel\Dusk\Browser;
+use Laravel\Dusk\OperatingSystem;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\Livewire;
@@ -105,6 +107,68 @@ class PinTest extends BrowserTestCase
     }
 
     /** @test */
+    public function can_paste_letters(): void
+    {
+        /** @var Browser $browser */
+        $browser = Livewire::visit(new class extends Component
+        {
+            public ?string $value;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="value">{{ $value }}</p>
+                    
+                    <input dusk="copy" value="FOO" />
+                    
+                    <x-pin length="3" label="Foo" hint="Test" wire:model.live="value" letters />
+                </div>
+                HTML;
+            }
+        });
+
+        $browser->click('@copy')
+            ->keys('@copy', [OperatingSystem::onMac() ? WebDriverKeys::COMMAND : WebDriverKeys::CONTROL, 'a'])
+            ->keys('@copy', [OperatingSystem::onMac() ? WebDriverKeys::COMMAND : WebDriverKeys::CONTROL, 'c'])
+            ->clickAtXPath('/html/body/div[3]/div[2]/div/div/input[1]')
+            ->keys('@pin-1', [OperatingSystem::onMac() ? WebDriverKeys::COMMAND : WebDriverKeys::CONTROL, 'v'])
+            ->waitForTextIn('@value', 'FOO')
+            ->assertSeeIn('@value', 'FOO');
+    }
+
+    /** @test */
+    public function can_paste_numbers(): void
+    {
+        /** @var Browser $browser */
+        $browser = Livewire::visit(new class extends Component
+        {
+            public ?string $value;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="value">{{ $value }}</p>
+                    
+                    <input dusk="copy" value="15" />
+                    
+                    <x-pin length="2" label="Foo" hint="Test" wire:model.live="value" numbers />
+                </div>
+                HTML;
+            }
+        });
+
+        $browser->click('@copy')
+            ->keys('@copy', [OperatingSystem::onMac() ? WebDriverKeys::COMMAND : WebDriverKeys::CONTROL, 'a'])
+            ->keys('@copy', [OperatingSystem::onMac() ? WebDriverKeys::COMMAND : WebDriverKeys::CONTROL, 'c'])
+            ->clickAtXPath('/html/body/div[3]/div[2]/div/div/input[1]')
+            ->keys('@pin-1', [OperatingSystem::onMac() ? WebDriverKeys::COMMAND : WebDriverKeys::CONTROL, 'v'])
+            ->waitForTextIn('@value', '15')
+            ->assertSeeIn('@value', '15');
+    }
+
+    /** @test */
     public function can_see_prefix(): void
     {
         /** @var Browser $browser */
@@ -158,6 +222,66 @@ class PinTest extends BrowserTestCase
             ->waitUntilMissingText('1515')
             ->assertDontSeeIn('@value', '1515')
             ->assertSee('The value field is required.');
+    }
+
+    /** @test */
+    public function cannot_paste_letters_when_numbers(): void
+    {
+        /** @var Browser $browser */
+        $browser = Livewire::visit(new class extends Component
+        {
+            public ?string $value = '';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="value">{{ $value }}</p>
+                    
+                    <input dusk="copy" value="FOO" />
+                    
+                    <x-pin length="3" label="Foo" hint="Test" wire:model.live="value" numbers />
+                </div>
+                HTML;
+            }
+        });
+
+        $browser->click('@copy')
+            ->keys('@copy', [OperatingSystem::onMac() ? WebDriverKeys::COMMAND : WebDriverKeys::CONTROL, 'a'])
+            ->keys('@copy', [OperatingSystem::onMac() ? WebDriverKeys::COMMAND : WebDriverKeys::CONTROL, 'c'])
+            ->clickAtXPath('/html/body/div[3]/div[2]/div/div/input[1]')
+            ->keys('@pin-1', [OperatingSystem::onMac() ? WebDriverKeys::COMMAND : WebDriverKeys::CONTROL, 'v'])
+            ->assertDontSee('FOO');
+    }
+
+    /** @test */
+    public function cannot_paste_numbers_when_letters(): void
+    {
+        /** @var Browser $browser */
+        $browser = Livewire::visit(new class extends Component
+        {
+            public ?string $value = '';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="value">{{ $value }}</p>
+                    
+                    <input dusk="copy" value="15" />
+                    
+                    <x-pin length="2" label="Foo" hint="Test" wire:model.live="value" letters />
+                </div>
+                HTML;
+            }
+        });
+
+        $browser->click('@copy')
+            ->keys('@copy', [OperatingSystem::onMac() ? WebDriverKeys::COMMAND : WebDriverKeys::CONTROL, 'a'])
+            ->keys('@copy', [OperatingSystem::onMac() ? WebDriverKeys::COMMAND : WebDriverKeys::CONTROL, 'c'])
+            ->clickAtXPath('/html/body/div[3]/div[2]/div/div/input[1]')
+            ->keys('@pin-1', [OperatingSystem::onMac() ? WebDriverKeys::COMMAND : WebDriverKeys::CONTROL, 'v'])
+            ->assertDontSee('15');
     }
 
     /** @test */
