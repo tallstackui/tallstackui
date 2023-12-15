@@ -2,6 +2,8 @@
     $personalize = $classes();
     $wire = $wireable($attributes);
     $error = !$invalidate && $wire && $errors->has($wire->value());
+    // We need to generate a unique id to avoid
+    // conflicts when using multiple pin components
     $id = uniqid();
 @endphp
 
@@ -26,16 +28,20 @@
          )" x-on:paste="pasting = true; paste($event)" x-cloak wire:ignore>
         <div @class($personalize['wrapper'])>
             @if ($prefix)
-                <input type="text" value="{{ $prefix }}" id="pin-prefix"
+                <input type="text"
+                       value="{{ $prefix }}"
+                       dusk="form_pin_prefix"
                        @class([
-                           'bg-gray-100 w-[50px]',
+                           'w-[50px]',
                             $personalize['input.base'],
                             $personalize['input.color.background'],
                             $personalize['input.color.base'],
                        ]) disabled />
             @endif
             @foreach (range(1, $length) as $index)
-                <input type="text" id="pin-{{ $id }}-{{ $index }}"
+                <input type="text"
+                       id="pin-{{ $id }}-{{ $index }}"
+                       dusk="pin-{{ $index }}"
                        @if ($mask) x-mask="{{ $mask }}" @endif
                        @isset($__livewire) value="{{ $wire ? $__livewire->{$wire->value()}[$index-1] ?? '' : '' }}" @endisset
                        @class([
@@ -52,7 +58,7 @@
                        x-on:keydown.backspace="backspace(@js($index))" />
             @endforeach
             <template x-if="clear && model">
-                <button class="cursor-pointer" x-on:click="erase();">
+                <button class="cursor-pointer" x-on:click="erase();" dusk="form_pin_clear">
                     <x-icon name="x-circle" solid @class($personalize['button']) />
                 </button>
             </template>

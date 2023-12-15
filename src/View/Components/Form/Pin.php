@@ -26,6 +26,7 @@ class Pin extends BaseComponent implements Personalization
         public ?bool $letters = null,
         public ?string $mask = null,
     ) {
+        // This pattern is part of the AlpineJS mask plugin
         $this->mask = $this->numbers ? '9' : ($this->letters ? 'a' : null);
     }
 
