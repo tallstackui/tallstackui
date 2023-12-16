@@ -7,19 +7,20 @@ export default (value, min, max, delay) => ({
   interval: null,
   delay: delay,
   init() {
+    if ((this.min && this.max) && (this.min > this.max || this.max < this.min)) {
+      warning('The number input min and max values are out of the acceptable range.');
+      return;
+    }
+
     if (this.defined) {
-      if (this.limiters) {
-        if (this.min > this.max || this.value > this.max) {
-          warning('The min value of the number input must be less than the max value.');
+      if (this.min && this.value < this.min) {
+        warning('The min value of the number input must be greater than than the defined in [wire:model] property.');
+        return;
+      }
 
-          return;
-        }
-
-        if (this.max < this.min || this.value < this.min) {
-          warning('The max value of the number input must be greater than the min value.');
-
-          return;
-        }
+      if (this.max && this.value > this.max) {
+        warning('The max value of the number input must be less than the defined in [wire:model] property.');
+        return;
       }
 
       this.disableMinus = this.defined && this.atMinus;
