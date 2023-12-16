@@ -6,7 +6,9 @@
 @endphp
 
 <div>
-    <span class="flex items-center justify-center text-red-500">{{ $lines->get('componentName')  }}</span>
+    <span class="py flex justify-center rounded-lg bg-red-500 px-1">
+        {{ $lines->get('componentName') }}
+    </span>
     <ul class="mt-2">
         @forelse ($lines->except('componentName') as $key => $value)
             <li>{{ $key }}: <span class="text-red-500">{{ $value }}</span></li>

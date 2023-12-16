@@ -29,7 +29,7 @@ abstract class AbstractInteraction
         }
 
         // The data method is a way to send
-        // additional data to the component.
+        // additional data to the frontend.
         if (method_exists($this, 'data')) {
             $data = array_merge($data, $this->data());
         }
