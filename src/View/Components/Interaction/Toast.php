@@ -2,9 +2,9 @@
 
 namespace TallStackUi\View\Components\Interaction;
 
+use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
-use InvalidArgumentException;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\Personalization\SoftPersonalization;
 use TallStackUi\View\Components\BaseComponent;
@@ -63,13 +63,26 @@ class Toast extends BaseComponent implements Personalization
     {
         $configuration = collect(config('tallstackui.settings.toast'));
         $positions = ['top-right', 'top-left', 'bottom-right', 'bottom-left'];
+        $messages = __('tallstack-ui::messages.toast.button');
 
         if (! in_array($configuration->get('position', 'top-right'), $positions)) {
-            throw new InvalidArgumentException('The toast position must be one of the following: ['.implode(', ', $positions).']');
+            throw new Exception('The toast position must be one of the following: ['.implode(', ', $positions).']');
         }
 
         if (! str($configuration->get('z-index', 'z-50'))->startsWith('z-')) {
-            throw new InvalidArgumentException('The toast z-index must start with z- prefix');
+            throw new Exception('The toast z-index must start with z- prefix');
+        }
+
+        if (blank($messages['ok'] ?? null)) {
+            throw new Exception('The toast [ok] message cannot be empty.');
+        }
+
+        if (blank($messages['confirm'] ?? null)) {
+            throw new Exception('The toast [confirm] message cannot be empty.');
+        }
+
+        if (blank($messages['cancel'] ?? null)) {
+            throw new Exception('The toast [cancel] message cannot be empty.');
         }
     }
 }

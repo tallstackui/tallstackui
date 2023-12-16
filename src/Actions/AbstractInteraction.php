@@ -2,8 +2,8 @@
 
 namespace TallStackUi\Actions;
 
+use Exception;
 use Illuminate\Support\Traits\Conditionable;
-use InvalidArgumentException;
 use Livewire\Component;
 
 /**
@@ -24,8 +24,12 @@ abstract class AbstractInteraction
 
     public function send(array $data): self
     {
-        throw_if(isset($data['component']), new InvalidArgumentException('You cannot set the component key.'));
+        if (isset($data['component'])) {
+            throw new Exception('You cannot set the component key.');
+        }
 
+        // The data method is a way to send
+        // additional data to the component.
         if (method_exists($this, 'data')) {
             $data = array_merge($data, $this->data());
         }

@@ -2,9 +2,9 @@
 
 namespace TallStackUi\View\Components\Interaction;
 
+use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
-use InvalidArgumentException;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\Personalization\SoftPersonalization;
 use TallStackUi\View\Components\BaseComponent;
@@ -48,8 +48,22 @@ class Dialog extends BaseComponent implements Personalization
 
     protected function validate(): void
     {
+        $messages = __('tallstack-ui::messages.dialog.button');
+
         if (! str(config('tallstackui.settings.dialog.z-index', 'z-50'))->startsWith('z-')) {
-            throw new InvalidArgumentException('The dialog z-index must start with z- prefix');
+            throw new Exception('The dialog z-index must start with z- prefix');
+        }
+
+        if (blank($messages['ok'] ?? null)) {
+            throw new Exception('The dialog [ok] message cannot be empty.');
+        }
+
+        if (blank($messages['confirm'] ?? null)) {
+            throw new Exception('The dialog [confirm] message cannot be empty.');
+        }
+
+        if (blank($messages['cancel'] ?? null)) {
+            throw new Exception('The dialog [cancel] message cannot be empty.');
         }
     }
 }

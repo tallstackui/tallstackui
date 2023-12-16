@@ -2,7 +2,7 @@
 
 namespace TallStackUi\Actions\Traits;
 
-use InvalidArgumentException;
+use Exception;
 use TallStackUi\Actions\AbstractInteraction;
 
 /**
@@ -12,13 +12,14 @@ trait InteractWithConfirmation
 {
     public function confirm(string|array $data, ?string $description = null, ?array $options = null): AbstractInteraction
     {
-        throw_if(
-            (is_string($data) && ! $options) || (is_array($data) && ! isset($data['options'])),
-            new InvalidArgumentException('You must provide options for the interaction')
-        );
+        if ((is_string($data) && ! $options) || (is_array($data) && ! isset($data['options']))) {
+            throw new Exception('You must provide options for the interaction');
+        }
 
-        $options['confirm']['text'] ??= __('tallstack-ui::messages.toast.button.confirm');
-        $options['cancel']['text'] ??= __('tallstack-ui::messages.toast.button.cancel');
+        [$confirm, $cancel] = $this->messages();
+
+        $options['confirm']['text'] ??= $confirm;
+        $options['cancel']['text'] ??= $cancel;
 
         $default = [
             'type' => 'question',
@@ -36,4 +37,6 @@ trait InteractWithConfirmation
 
         return $this->send([...array_merge($default, $data)]);
     }
+
+    abstract public function messages(): array;
 }

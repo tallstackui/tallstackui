@@ -30,5 +30,5 @@ describe('TallStackUi Components', function () {
 describe('Components Personalization', function () {
     test('throws exception if component name is wrong', function () {
         (new Personalization('foo-bar'))->instance();
-    })->throws(InvalidArgumentException::class);
+    })->throws(RuntimeException::class);
 });
