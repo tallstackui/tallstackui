@@ -3,7 +3,6 @@
 namespace TallStackUi\Actions\Traits;
 
 use Exception;
-use InvalidArgumentException;
 use TallStackUi\Actions\AbstractInteraction;
 
 /**

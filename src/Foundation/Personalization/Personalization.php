@@ -4,7 +4,7 @@ namespace TallStackUi\Foundation\Personalization;
 
 use Closure;
 use Exception;
-use InvalidArgumentException;
+use RuntimeException;
 use TallStackUi\Contracts\Personalizable;
 use TallStackUi\View\Components\Alert;
 use TallStackUi\View\Components\Avatar;
@@ -145,7 +145,7 @@ class Personalization
     public function instance(): PersonalizationResources
     {
         if (! $this->component) {
-            throw new InvalidArgumentException('No component has been set');
+            throw new RuntimeException('No component has been set');
         }
 
         if (str_contains($this->component, 'tallstack-ui::personalizations')) {
@@ -157,7 +157,7 @@ class Personalization
         $secondary = $parts[1] ?? null;
 
         if (! method_exists($this, $main)) {
-            throw new InvalidArgumentException("The method [{$main}] is not supported");
+            throw new RuntimeException("The method [{$main}] is not supported");
         }
 
         return call_user_func([$this, $main], $main === $secondary ?: $secondary);
