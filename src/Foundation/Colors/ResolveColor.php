@@ -14,6 +14,7 @@ use TallStackUi\View\Components\Form\Checkbox;
 use TallStackUi\View\Components\Form\Radio;
 use TallStackUi\View\Components\Form\Range;
 use TallStackUi\View\Components\Form\Toggle;
+use TallStackUi\View\Components\Link;
 use TallStackUi\View\Components\Tooltip;
 
 /**
@@ -32,6 +33,7 @@ class ResolveColor
             $component instanceof Badge => BadgeColors::class,
             $component instanceof Banner => BannerColors::class,
             $component instanceof Errors => ErrorsColors::class,
+            $component instanceof Link => LinkColors::class,
             $component instanceof Toggle => ToggleColors::class,
             $component instanceof Tooltip => TooltipColors::class,
             $component instanceof Range => RangeColors::class,

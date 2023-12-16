@@ -143,6 +143,7 @@ return [
         'icon' => Components\Icon::class,
         'input' => Components\Form\Input::class,
         'label' => Components\Form\Label::class,
+        'link' => Components\Link::class,
         'loading' => Components\Loading::class,
         'modal' => Components\Modal::class,
         'number' => Components\Form\Number::class,
