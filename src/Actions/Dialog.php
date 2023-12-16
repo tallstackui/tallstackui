@@ -26,6 +26,14 @@ class Dialog extends AbstractInteraction
         ]);
     }
 
+    public function messages(): array
+    {
+        return [
+            __('tallstack-ui::messages.dialog.button.confirm'),
+            __('tallstack-ui::messages.dialog.button.cancel'),
+        ];
+    }
+
     public function success(string $title, ?string $description = null): AbstractInteraction
     {
         return $this->send([

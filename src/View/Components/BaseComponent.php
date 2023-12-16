@@ -68,7 +68,7 @@ abstract class BaseComponent extends Component
         };
     }
 
-    /** Proxy for the `wire` method of the Facade */
+    /** Proxy for the `wireable` method of the Facade */
     public function wireable(ComponentAttributeBag $attributes): ?WireDirective
     {
         return TallStackUi::blade()->wireable($attributes);
