@@ -4,7 +4,7 @@
     $error = !$invalidate && $wire && $errors->has($wire->value());
     // We need to generate a unique id to avoid
     // conflicts when using multiple pin components
-    $id = uniqid();
+    $hash = uniqid();
 @endphp
 
 @if ($wire && $wire->value())
@@ -17,9 +17,7 @@
     @endif
     <div x-data="tallstackui_formPin(
              @entangleable($attributes),
-             @js($prefix),
-             @js($prefixed),
-             @js($id),
+             @js($hash),
              @js($length),
              @js($clear),
              @js($error),
@@ -32,7 +30,7 @@
                        value="{{ $prefix }}"
                        dusk="form_pin_prefix"
                        @class([
-                           'w-[50px]',
+                           'w-[60px]',
                             $personalize['input.base'],
                             $personalize['input.color.background'],
                             $personalize['input.color.base'],
@@ -40,7 +38,7 @@
             @endif
             @foreach (range(1, $length) as $index)
                 <input type="text"
-                       id="pin-{{ $id }}-{{ $index }}"
+                       id="pin-{{ $hash }}-{{ $index }}"
                        dusk="pin-{{ $index }}"
                        @if ($mask) x-mask="{{ $mask }}" @endif
                        @isset($__livewire) value="{{ $wire ? $__livewire->{$wire->value()}[$index-1] ?? '' : '' }}" @endisset
@@ -55,6 +53,9 @@
                        x-on:keyup="keyup(@js($index))"
                        x-on:keyup.left="left(@js($index))"
                        x-on:keyup.right="right(@js($index))"
+                       x-on:keyup.up="left(@js($index))"
+                       x-on:keyup.down="right(@js($index))"
+                       x-on:keyup.delete="backspace(@js($index))"
                        x-on:keydown.backspace="backspace(@js($index))" />
             @endforeach
             <template x-if="clear && model">

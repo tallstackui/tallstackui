@@ -4,6 +4,7 @@ namespace TallStackUi\View\Components\Form;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
+use InvalidArgumentException;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\Personalization\SoftPersonalization;
 use TallStackUi\View\Components\BaseComponent;
@@ -17,9 +18,8 @@ class Pin extends BaseComponent implements Personalization
     public function __construct(
         public ?string $label = null,
         public ?string $hint = null,
-        public ?int $length = null,
+        public ?int $length = 5,
         public ?string $prefix = null,
-        public ?bool $prefixed = null,
         public ?bool $clear = null,
         public ?bool $invalidate = null,
         public ?bool $numbers = null,
@@ -38,7 +38,7 @@ class Pin extends BaseComponent implements Personalization
     public function personalization(): array
     {
         return Arr::dot([
-            'wrapper' => 'mt-1 soft-scrollbar flex items-center overflow-x-auto py-0.5',
+            'wrapper' => 'mt-1 soft-scrollbar flex items-center overflow-x-auto py-0.5 px-0.5',
             'input' => [
                 'base' => 'mr-2 block rounded-md text-center text-lg font-medium shadow-sm ring-1 transition disabled:pointer-events-none disabled:opacity-50',
                 'color' => [
@@ -50,5 +50,12 @@ class Pin extends BaseComponent implements Personalization
             'prefix' => 'dark:border-dark-600 focus:ring-primary-600 focus-within:focus:ring-primary-600 dark:bg-dark-800 dark:text-dark-300 mr-3 block w-[40px] rounded-md border border-gray-300 text-center text-lg font-medium text-gray-600 ring-0 ring-inset transition disabled:pointer-events-none disabled:opacity-50',
             'button' => 'h-6 w-6 text-red-500',
         ]);
+    }
+
+    protected function validate(): void
+    {
+        if ($this->prefix && strlen($this->prefix) > 3) {
+            throw new InvalidArgumentException('The pin [prefix] must be 3 characters or less.');
+        }
     }
 }

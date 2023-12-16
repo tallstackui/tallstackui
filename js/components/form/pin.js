@@ -1,7 +1,7 @@
+import {error as alert} from '../../helpers';
+
 export default (
     model,
-    prefix = null,
-    prefixed,
     id,
     length,
     clear,
@@ -10,8 +10,6 @@ export default (
     letters,
 ) => ({
   model: model,
-  prefix: prefix,
-  prefixed: prefixed,
   id: id,
   length: length,
   clear: clear,
@@ -22,11 +20,11 @@ export default (
   numbers: numbers,
   letters: letters,
   init() {
-    this.observation();
-
-    if (this.prefixed && this.model?.startsWith(this.prefix)) {
-      this.model = this.model.replace(this.prefix, '');
+    if (this.model && (typeof this.model !== 'string' && typeof this.model !== 'number')) {
+      return alert('The [wire:model] property value must be a string or a number');
     }
+
+    this.observation();
 
     this.$watch('error', async () => this.observed());
   },
