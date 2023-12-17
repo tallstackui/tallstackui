@@ -1,6 +1,6 @@
 @php($personalize = $classes())
 
-<a href="{{ $href }}" {{ $attributes->class([
+<a href="{{ $formatted }}" {{ $attributes->class([
         'inline-flex',
         'font-bold' => $bold,
         'flex items-center gap-x-1' => $icon,

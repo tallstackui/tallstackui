@@ -26,6 +26,7 @@ class Link extends BaseComponent implements Personalization
         public ?bool $blank = null,
         public ?bool $bold = null,
         public ?string $size = null,
+        public ?string $formatted = null,
     ) {
         //
     }
@@ -55,15 +56,13 @@ class Link extends BaseComponent implements Personalization
             // to check if $this->query is instance of Collection
             $query = collect($this->query)->toArray();
 
-            $prepare = Arr::query($query);
-
-            $this->href .= "?{$prepare}";
+            $this->formatted = sprintf('%s?%s', $this->href, Arr::query($query));
         }
 
         if ($this->fragment) {
             $this->fragment = str_replace('#', '', $this->fragment);
 
-            $this->href .= "#{$this->fragment}";
+            $this->formatted .= "#{$this->fragment}";
         }
     }
 

@@ -47,14 +47,12 @@ abstract class BaseComponent extends Component
             return [];
         }
 
-        $bind = str($attribute->newInstance()->key())->remove('tallstack-ui::personalizations.')->value();
-
         // The strategy here is to preserve unique keys, prioritizing
         // merging what will come from the original classes with the
         // container bind for soft personalization.
         return Arr::only(
             array_merge($personalization = $this->personalization(),
-                TallStackUi::personalize($bind)
+                TallStackUi::personalize(str_replace('tallstack-ui::personalizations.', '', $attribute->newInstance()->key()))
                     ->instance()
                     ->toArray()
             ), array_keys($personalization)
