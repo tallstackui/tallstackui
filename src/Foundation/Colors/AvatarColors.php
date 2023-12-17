@@ -16,7 +16,10 @@ class AvatarColors
 
     public function __invoke(): array
     {
-        $getter = $this->format($this->component->color);
+        // We just need to $this->format when we
+        // have a style and color, otherwise we
+        // can just use the color as the getter.
+        $getter = $this->component->color;
 
         return ['background' => data_get($this->get('background'), $getter, data_get($this->background(), $getter))];
     }

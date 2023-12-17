@@ -4,7 +4,7 @@
         'rounded-full' => !$square,
         'border-2' => !$model,
         $personalize['wrapper.class'],
-        $colors['background'][$color] ?? null => !$model,
+        $colors['background'] => !$model,
         $personalize['wrapper.sizes.' . $size],
     ]) }}>
     @if ($model)

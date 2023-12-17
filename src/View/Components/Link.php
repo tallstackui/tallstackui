@@ -38,6 +38,7 @@ class Link extends BaseComponent implements Personalization
         if ($this->query) {
             // We just transform to collect to avoid the need
             // to check if $this->query is instance of Collection
+            $this->formatted .= '?';
             $this->formatted .= Arr::query(collect($this->query)->toArray());
         }
 

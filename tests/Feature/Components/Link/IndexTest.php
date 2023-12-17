@@ -37,7 +37,7 @@ it('can render with sizes', function (string $sizes) {
 
 it('can render with query string', function () {
     $component = <<<'HTML'
-    <x-link href="https://google.com.br" :query="['foo' => 'bar']" />
+    <x-link href="https://google.com.br/" :query="['foo' => 'bar']" />
     HTML;
 
     $this->blade($component)
