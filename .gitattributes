@@ -15,8 +15,11 @@
 CONTRIBUTING.md   export-ignore
 package.json      export-ignore
 package-lock.json export-ignore
+composer.lock     export-ignore
 phpstan.neon      export-ignore
 phpunit.xml       export-ignore
 pint.json         export-ignore
 testbench.yaml    export-ignore
 webpack.mix.js    export-ignore
+vite.config.js    export-ignore
+postcss.config.js export-ignore

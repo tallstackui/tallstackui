@@ -29,7 +29,7 @@
         "laravel/framework": "^10.0"
     },
     "require-dev": {
-        "pestphp/pest": "^2.17",
+        "pestphp/pest": "^2.0",
         "laravel/pint": "^1.13",
         "orchestra/testbench": "^8.12",
         "orchestra/testbench-dusk": "^8.12",
