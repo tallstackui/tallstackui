@@ -26,6 +26,7 @@ class Link extends BaseComponent implements Personalization
         public ?string $position = 'left',
         public ?bool $blank = null,
         public ?bool $bold = null,
+        public ?bool $underline = null,
         #[SkipDebug]
         public ?string $size = null,
         #[SkipDebug]
@@ -67,8 +68,8 @@ class Link extends BaseComponent implements Personalization
 
     protected function validate(): void
     {
-        if (! $this->href) {
-            throw new InvalidArgumentException('The link [href] attribute is required.');
+        if (! $this->fragment && ! $this->href) {
+            throw new InvalidArgumentException('The link [href] attribute is required when no [fragment] is provided.');
         }
     }
 }

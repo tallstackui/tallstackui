@@ -51,6 +51,12 @@ it('can render with fragment', function () {
         ->assertSee('foo-bar-baz');
 });
 
+it('can render with fragment and without href', function () {
+    $this->blade('<x-link fragment="foo-bar-baz" />')
+        ->assertSee('<a', false)
+        ->assertSee('foo-bar-baz');
+});
+
 it('can render with query string and fragment', function () {
     $component = <<<'HTML'
     <x-link href="https://google.com.br" :query="['foo' => 'bar']" fragment="foo-bar-baz" />

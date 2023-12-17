@@ -3,6 +3,7 @@
 <a href="{{ $formatted }}" {{ $attributes->class([
         'inline-flex',
         'font-bold' => $bold,
+        'underline' => $underline,
         'flex items-center gap-x-1' => $icon,
         $personalize['sizes.'.$size],
         $colors['text'],
