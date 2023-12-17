@@ -5,8 +5,9 @@ namespace TallStackUi\View\Components\Form;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use InvalidArgumentException;
+use TallStackUi\Foundation\Attributes\SkipDebug;
+use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\Foundation\Personalization\SoftPersonalization;
 use TallStackUi\View\Components\BaseComponent;
 use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
 
@@ -24,6 +25,7 @@ class Pin extends BaseComponent implements Personalization
         public ?bool $invalidate = null,
         public ?bool $numbers = null,
         public ?bool $letters = null,
+        #[SkipDebug]
         public ?string $mask = null,
     ) {
         // This pattern is part of the AlpineJS mask plugin

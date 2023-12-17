@@ -8,8 +8,9 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use InvalidArgumentException;
+use TallStackUi\Foundation\Attributes\SkipDebug;
+use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\Foundation\Personalization\SoftPersonalization;
 
 #[SoftPersonalization('banner')]
 class Banner extends BaseComponent implements Personalization
@@ -21,12 +22,14 @@ class Banner extends BaseComponent implements Personalization
         public ?bool $animated = false,
         public ?int $enter = 3,
         public ?int $leave = null,
+        #[SkipDebug]
         public ?string $left = null,
         public string|null|Carbon $until = null,
         public ?bool $wire = false,
         public ?bool $light = false,
         public ?bool $show = true,
         public ?string $size = 'sm',
+        #[SkipDebug]
         public ?string $style = 'solid',
     ) {
         $this->style = $this->light ? 'light' : $this->style;

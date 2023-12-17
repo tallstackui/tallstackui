@@ -9,11 +9,13 @@ use Illuminate\Support\Arr;
 use Illuminate\View\Component;
 use Illuminate\View\ComponentAttributeBag;
 use Livewire\WireDirective;
+use ReflectionAttribute;
 use ReflectionClass;
 use TallStackUi\Facades\TallStackUi;
+use TallStackUi\Foundation\Attributes\SkipDebug;
+use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Colors\ResolveColor;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\Foundation\Personalization\SoftPersonalization;
 use TallStackUi\Foundation\ResolveConfiguration;
 use Throwable;
 
@@ -47,14 +49,12 @@ abstract class BaseComponent extends Component
             return [];
         }
 
-        $bind = str($attribute->newInstance()->key())->remove('tallstack-ui::personalizations.')->value();
-
         // The strategy here is to preserve unique keys, prioritizing
         // merging what will come from the original classes with the
         // container bind for soft personalization.
         return Arr::only(
             array_merge($personalization = $this->personalization(),
-                TallStackUi::personalize($bind)
+                TallStackUi::personalize(str_replace('tallstack-ui::personalizations.', '', $attribute->newInstance()->key()))
                     ->instance()
                     ->toArray()
             ), array_keys($personalization)
@@ -114,6 +114,16 @@ abstract class BaseComponent extends Component
         ) {
             return $view;
         }
+
+        // We need to start the debug mode filtering all
+        // properties that should be skipped from debug mode.
+        $data = collect($data)->filter(function ($value, $key) {
+            $reflection = new ReflectionClass($this);
+
+            return ! $reflection->hasProperty($key) || ! collect(
+                $reflection->getProperty($key)->getAttributes()
+            )->contains(fn (ReflectionAttribute $attribute) => $attribute->getName() === SkipDebug::class);
+        })->toArray();
 
         $attributes = $this->view('tallstack-ui::components.debug.attributes', ['data' => $data])->render();
 

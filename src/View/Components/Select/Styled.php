@@ -6,8 +6,9 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use InvalidArgumentException;
+use TallStackUi\Foundation\Attributes\SkipDebug;
+use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\Foundation\Personalization\SoftPersonalization;
 use TallStackUi\View\Components\BaseComponent;
 use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
 use TallStackUi\View\Components\Select\Traits\InteractsWithSelectOptions;
@@ -29,9 +30,11 @@ class Styled extends BaseComponent implements Personalization
         public ?bool $searchable = false,
         public ?string $select = null,
         public ?array $selectable = [],
+        #[SkipDebug]
         public ?string $after = null,
         public ?bool $disabled = false,
         public ?bool $common = true,
+        #[SkipDebug]
         public array $placeholders = [],
         public ?bool $invalidate = null,
     ) {

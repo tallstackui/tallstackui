@@ -4,8 +4,9 @@ namespace TallStackUi\View\Components\Button;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
+use TallStackUi\Foundation\Attributes\SkipDebug;
+use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\Foundation\Personalization\SoftPersonalization;
 use TallStackUi\View\Components\BaseComponent;
 use TallStackUi\View\Components\Button\Traits\SetupButton;
 
@@ -22,6 +23,7 @@ class Button extends BaseComponent implements Personalization
         public ?bool $sm = null,
         public ?bool $md = null,
         public ?bool $lg = null,
+        #[SkipDebug]
         public ?string $size = null,
         public ?string $color = 'primary',
         public ?string $square = null,
@@ -32,8 +34,11 @@ class Button extends BaseComponent implements Personalization
         public ?bool $solid = true,
         public ?bool $outline = false,
         public ?bool $light = false,
+        #[SkipDebug]
         public ?string $style = null,
+        #[SkipDebug]
         public ?string $left = null,
+        #[SkipDebug]
         public ?string $right = null,
     ) {
         $this->setup();

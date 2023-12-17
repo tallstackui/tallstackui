@@ -5,8 +5,9 @@ namespace TallStackUi\View\Components;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use InvalidArgumentException;
+use TallStackUi\Foundation\Attributes\SkipDebug;
+use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\Foundation\Personalization\SoftPersonalization;
 
 #[SoftPersonalization('tooltip')]
 class Tooltip extends BaseComponent implements Personalization
@@ -21,8 +22,10 @@ class Tooltip extends BaseComponent implements Personalization
         public ?bool $lg = null,
         public ?bool $solid = false,
         public ?bool $outline = false,
+        #[SkipDebug]
         public ?string $size = null,
         public ?string $position = 'top',
+        #[SkipDebug]
         public ?string $style = null,
     ) {
         $this->size = $this->lg ? 'lg' : ($this->md ? 'md' : ($this->xs ? 'xs' : 'sm'));

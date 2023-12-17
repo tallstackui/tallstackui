@@ -4,8 +4,9 @@ namespace TallStackUi\View\Components;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
+use TallStackUi\Foundation\Attributes\SkipDebug;
+use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\Foundation\Personalization\SoftPersonalization;
 
 #[SoftPersonalization('badge')]
 class Badge extends BaseComponent implements Personalization
@@ -21,12 +22,16 @@ class Badge extends BaseComponent implements Personalization
         public ?string $color = 'primary',
         public ?bool $square = false,
         public ?bool $round = false,
+        #[SkipDebug]
         public ?string $size = null,
         public ?bool $solid = true,
         public ?bool $outline = null,
         public ?bool $light = null,
+        #[SkipDebug]
         public ?string $style = null,
+        #[SkipDebug]
         public ?string $left = null,
+        #[SkipDebug]
         public ?string $right = null,
     ) {
         $this->style = $this->outline ? 'outline' : ($this->light ? 'light' : 'solid');

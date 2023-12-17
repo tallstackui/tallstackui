@@ -6,8 +6,9 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\ComponentSlot;
 use InvalidArgumentException;
+use TallStackUi\Foundation\Attributes\SkipDebug;
+use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\Foundation\Personalization\SoftPersonalization;
 use TallStackUi\View\Components\BaseComponent;
 use TallStackUi\View\Components\Form\Traits\SetupRadioCheckboxToggle;
 
@@ -23,6 +24,7 @@ class Checkbox extends BaseComponent implements Personalization
         public ?string $sm = null,
         public ?string $md = null,
         public ?string $lg = null,
+        #[SkipDebug]
         public ?string $size = null,
         public ?string $position = 'right',
         public ?string $color = 'primary',
