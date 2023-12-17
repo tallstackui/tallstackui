@@ -11,7 +11,7 @@ return [
     | Control the debug mode for TallStackUI components.
     */
     'debug' => [
-        'status' => env('TALLSTACKUI_DEBUG', false),
+        'status' => env('TALLSTACKUI_DEBUG_MODE', false),
         /*
         |----------------------------------------------------------------------
         | You can control in which environments the debug mode is enabled.
