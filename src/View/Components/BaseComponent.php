@@ -117,7 +117,7 @@ abstract class BaseComponent extends Component
 
         // We need to start the debug mode filtering all
         // properties that should be skipped from debug mode.
-        $data = collect($data)->filter(function ($value, $key) {
+        $data = collect($data)->filter(function (mixed $value, string $key) {
             $reflection = new ReflectionClass($this);
 
             return ! $reflection->hasProperty($key) || ! collect(

@@ -3,7 +3,6 @@
 namespace Tests\Browser\Form;
 
 use Facebook\WebDriver\WebDriverKeys;
-use Laravel\Dusk\Browser;
 use Laravel\Dusk\OperatingSystem;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
@@ -15,8 +14,7 @@ class PinTest extends BrowserTestCase
     /** @test */
     public function can_clear(): void
     {
-        /** @var Browser $browser */
-        $browser = Livewire::visit(new class extends Component
+        Livewire::visit(new class extends Component
         {
             public ?string $value = '1515';
 
@@ -35,9 +33,8 @@ class PinTest extends BrowserTestCase
             {
                 //
             }
-        });
-
-        $browser->waitForLivewireToLoad()->click('@form_pin_clear')
+        })
+            ->waitForLivewireToLoad()->click('@form_pin_clear')
             ->waitUntilMissingText('1515')
             ->assertDontSeeIn('@value', '1515');
     }
@@ -45,8 +42,7 @@ class PinTest extends BrowserTestCase
     /** @test */
     public function can_fill(): void
     {
-        /** @var Browser $browser */
-        $browser = Livewire::visit(new class extends Component
+        Livewire::visit(new class extends Component
         {
             public ?string $value;
 
@@ -65,9 +61,8 @@ class PinTest extends BrowserTestCase
             {
                 //
             }
-        });
-
-        $browser->clickAtXPath('/html/body/div[3]/div[2]/div/div/input[1]')
+        })
+            ->clickAtXPath('/html/body/div[3]/div[2]/div/div/input[1]')
             ->waitForLivewire()->type('@pin-1', '1')
             ->waitForTextIn('@value', '1')
             ->assertSeeIn('@value', '1');
@@ -76,8 +71,7 @@ class PinTest extends BrowserTestCase
     /** @test */
     public function can_fill_multiples(): void
     {
-        /** @var Browser $browser */
-        $browser = Livewire::visit(new class extends Component
+        Livewire::visit(new class extends Component
         {
             public ?string $value;
 
@@ -96,9 +90,8 @@ class PinTest extends BrowserTestCase
             {
                 //
             }
-        });
-
-        $browser->clickAtXPath('/html/body/div[3]/div[2]/div/div/input[1]')
+        })
+            ->clickAtXPath('/html/body/div[3]/div[2]/div/div/input[1]')
             ->waitForLivewire()->type('@pin-1', '1')
             ->clickAtXPath('/html/body/div[3]/div[2]/div/div/input[2]')
             ->waitForLivewire()->type('@pin-2', '5')
@@ -109,8 +102,7 @@ class PinTest extends BrowserTestCase
     /** @test */
     public function can_paste_letters(): void
     {
-        /** @var Browser $browser */
-        $browser = Livewire::visit(new class extends Component
+        Livewire::visit(new class extends Component
         {
             public ?string $value;
 
@@ -126,9 +118,8 @@ class PinTest extends BrowserTestCase
                 </div>
                 HTML;
             }
-        });
-
-        $browser->click('@copy')
+        })
+            ->click('@copy')
             ->keys('@copy', [OperatingSystem::onMac() ? WebDriverKeys::COMMAND : WebDriverKeys::CONTROL, 'a'])
             ->keys('@copy', [OperatingSystem::onMac() ? WebDriverKeys::COMMAND : WebDriverKeys::CONTROL, 'c'])
             ->clickAtXPath('/html/body/div[3]/div[2]/div/div/input[1]')
@@ -140,8 +131,7 @@ class PinTest extends BrowserTestCase
     /** @test */
     public function can_paste_numbers(): void
     {
-        /** @var Browser $browser */
-        $browser = Livewire::visit(new class extends Component
+        Livewire::visit(new class extends Component
         {
             public ?string $value;
 
@@ -157,9 +147,8 @@ class PinTest extends BrowserTestCase
                 </div>
                 HTML;
             }
-        });
-
-        $browser->click('@copy')
+        })
+            ->click('@copy')
             ->keys('@copy', [OperatingSystem::onMac() ? WebDriverKeys::COMMAND : WebDriverKeys::CONTROL, 'a'])
             ->keys('@copy', [OperatingSystem::onMac() ? WebDriverKeys::COMMAND : WebDriverKeys::CONTROL, 'c'])
             ->clickAtXPath('/html/body/div[3]/div[2]/div/div/input[1]')
@@ -171,8 +160,7 @@ class PinTest extends BrowserTestCase
     /** @test */
     public function can_see_prefix(): void
     {
-        /** @var Browser $browser */
-        $browser = Livewire::visit(new class extends Component
+        Livewire::visit(new class extends Component
         {
             public ?string $value = '1515';
 
@@ -184,16 +172,13 @@ class PinTest extends BrowserTestCase
                 </div>
                 HTML;
             }
-        });
-
-        $browser->assertVisible('@form_pin_prefix');
+        })->assertVisible('@form_pin_prefix');
     }
 
     /** @test */
     public function can_see_validation_error(): void
     {
-        /** @var Browser $browser */
-        $browser = Livewire::visit(new class extends Component
+        Livewire::visit(new class extends Component
         {
             #[Validate('required')]
             public ?string $value = '1515';
@@ -215,9 +200,8 @@ class PinTest extends BrowserTestCase
             {
                 $this->validate();
             }
-        });
-
-        $browser->waitForLivewireToLoad()->click('@form_pin_clear')
+        })
+            ->waitForLivewireToLoad()->click('@form_pin_clear')
             ->waitForLivewire()->click('@sync')
             ->waitUntilMissingText('1515')
             ->assertDontSeeIn('@value', '1515')
@@ -227,8 +211,7 @@ class PinTest extends BrowserTestCase
     /** @test */
     public function cannot_paste_letters_when_numbers(): void
     {
-        /** @var Browser $browser */
-        $browser = Livewire::visit(new class extends Component
+        Livewire::visit(new class extends Component
         {
             public ?string $value = '';
 
@@ -244,9 +227,8 @@ class PinTest extends BrowserTestCase
                 </div>
                 HTML;
             }
-        });
-
-        $browser->click('@copy')
+        })
+            ->click('@copy')
             ->keys('@copy', [OperatingSystem::onMac() ? WebDriverKeys::COMMAND : WebDriverKeys::CONTROL, 'a'])
             ->keys('@copy', [OperatingSystem::onMac() ? WebDriverKeys::COMMAND : WebDriverKeys::CONTROL, 'c'])
             ->clickAtXPath('/html/body/div[3]/div[2]/div/div/input[1]')
@@ -257,8 +239,7 @@ class PinTest extends BrowserTestCase
     /** @test */
     public function cannot_paste_numbers_when_letters(): void
     {
-        /** @var Browser $browser */
-        $browser = Livewire::visit(new class extends Component
+        Livewire::visit(new class extends Component
         {
             public ?string $value = '';
 
@@ -274,9 +255,8 @@ class PinTest extends BrowserTestCase
                 </div>
                 HTML;
             }
-        });
-
-        $browser->click('@copy')
+        })
+            ->click('@copy')
             ->keys('@copy', [OperatingSystem::onMac() ? WebDriverKeys::COMMAND : WebDriverKeys::CONTROL, 'a'])
             ->keys('@copy', [OperatingSystem::onMac() ? WebDriverKeys::COMMAND : WebDriverKeys::CONTROL, 'c'])
             ->clickAtXPath('/html/body/div[3]/div[2]/div/div/input[1]')
@@ -287,8 +267,7 @@ class PinTest extends BrowserTestCase
     /** @test */
     public function cannot_see_clear_button(): void
     {
-        /** @var Browser $browser */
-        $browser = Livewire::visit(new class extends Component
+        Livewire::visit(new class extends Component
         {
             public ?string $value = '1515';
 
@@ -307,16 +286,13 @@ class PinTest extends BrowserTestCase
             {
                 //
             }
-        });
-
-        $browser->assertNotPresent('@form_pin_clear');
+        })->assertNotPresent('@form_pin_clear');
     }
 
     /** @test */
     public function cannot_see_validation_error_when_invalidate(): void
     {
-        /** @var Browser $browser */
-        $browser = Livewire::visit(new class extends Component
+        Livewire::visit(new class extends Component
         {
             #[Validate('required')]
             public ?string $value = '1515';
@@ -338,9 +314,8 @@ class PinTest extends BrowserTestCase
             {
                 $this->validate();
             }
-        });
-
-        $browser->waitForLivewireToLoad()->click('@form_pin_clear')
+        })
+            ->waitForLivewireToLoad()->click('@form_pin_clear')
             ->waitForLivewire()->click('@sync')
             ->waitUntilMissingText('1515')
             ->assertDontSeeIn('@value', '1515')

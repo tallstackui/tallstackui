@@ -4,11 +4,13 @@
     $error = !$invalidate && $wire && $errors->has($wire->value());
     // We need to generate a unique id to avoid
     // conflicts when using multiple pin components
-    $hash = uniqid();
+    $hash = $wire && $wire->value()
+        ? $__livewire->getId().'-'.$wire->value()
+        : uniqid();
 @endphp
 
 @if ($wire && $wire->value())
-    <div hidden x-ref="errors">@js($error)</div>
+    <div hidden id="{{ $hash }}">@js($error)</div>
 @endif
 
 <div>

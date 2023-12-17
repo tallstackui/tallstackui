@@ -5,6 +5,7 @@ namespace TallStackUi\View\Components\Form;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use InvalidArgumentException;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
@@ -63,5 +64,20 @@ class Color extends BaseComponent implements Personalization
             ],
             'error' => $this->error(),
         ]);
+    }
+
+    protected function validate(): void
+    {
+        $colors = collect($this->colors);
+
+        if ($colors->isEmpty()) {
+            return;
+        }
+
+        $colors->each(function (string $color) {
+            if (! str($color)->startsWith('#')) {
+                throw new InvalidArgumentException('All the [colors] must starts with #');
+            }
+        });
     }
 }

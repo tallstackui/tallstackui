@@ -19,7 +19,7 @@ class Pin extends BaseComponent implements Personalization
     public function __construct(
         public ?string $label = null,
         public ?string $hint = null,
-        public ?int $length = 5,
+        public ?int $length = null,
         public ?string $prefix = null,
         public ?bool $clear = null,
         public ?bool $invalidate = null,
@@ -56,6 +56,10 @@ class Pin extends BaseComponent implements Personalization
 
     protected function validate(): void
     {
+        if (! $this->length) {
+            throw new InvalidArgumentException('The pin [length] is mandatory and should be set.');
+        }
+
         if ($this->prefix && strlen($this->prefix) > 3) {
             throw new InvalidArgumentException('The pin [prefix] must be 3 characters or less.');
         }

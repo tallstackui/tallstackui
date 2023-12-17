@@ -34,13 +34,13 @@ export default (
   observation() {
     this.errors();
 
-    if (!this.$refs.errors) {
-      return;
-    }
+    const errors = this.validate;
+
+    if (errors === null || errors === undefined) return;
 
     this.observer = new MutationObserver(this.errors.bind(this));
 
-    this.observer.observe(this.$refs.errors, {
+    this.observer.observe(errors, {
       subtree: true,
       characterData: true,
     });
@@ -65,11 +65,9 @@ export default (
    * @returns {void}
    */
   errors() {
-    if (!this.$refs.errors) {
-      return;
-    }
+    const errors = this.validate;
 
-    this.error = Boolean(this.$refs.errors.innerText === 'true');
+    this.error = Boolean(errors?.innerText === 'true');
   },
   /**
      * @param index {Number}
@@ -211,5 +209,13 @@ export default (
     }
 
     this.model = null;
+  },
+  /**
+   * The hidden div element used to validate the inputs.
+   *
+   * @returns {HTMLElement|null}
+   */
+  get validate() {
+    return document.getElementById(id);
   },
 });

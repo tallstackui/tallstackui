@@ -34,7 +34,7 @@ class ColorTest extends BrowserTestCase
         })
             ->waitForText('Color')
             ->click('@tallstackui_form_color')
-            ->clickAtXPath('/html/body/div[3]/div/div/div/div[3]/div/div/button[1]')
+            ->clickAtXPath('/html/body/div[3]/div/div/div/div[4]/div/div/button[1]')
             ->click('@sync')
             ->waitForTextIn('@selected', '#64748b');
     }
@@ -65,40 +65,9 @@ class ColorTest extends BrowserTestCase
         })
             ->waitForText('Color')
             ->click('@tallstackui_form_color')
-            ->clickAtXPath('/html/body/div[3]/div/div/div/div[3]/div/div/button[1]')
+            ->clickAtXPath('/html/body/div[3]/div/div/div/div[4]/div/div/button[1]')
             ->click('@sync')
             ->waitForTextIn('@selected', '#64748b');
-    }
-
-    /** @test */
-    public function can_open_and_select_first_color_in_mode_all(): void
-    {
-        Livewire::visit(new class extends Component
-        {
-            public ?string $color;
-
-            public function render(): string
-            {
-                return <<<'HTML'
-                <div>
-                    <p dusk="selected">{{ $color }}</p>
-                    
-                    <x-color label="Color" wire:model="color" full />
-                    <x-button dusk="sync" wire:click="sync">Save</x-button>
-                </div>
-                HTML;
-            }
-
-            public function sync(): void
-            {
-                //
-            }
-        })
-            ->waitForText('Color')
-            ->click('@tallstackui_form_color')
-            ->clickAtXPath('/html/body/div[3]/div/div/div/div[3]/div/div/button[1]')
-            ->click('@sync')
-            ->waitForTextIn('@selected', '#f8fafc');
     }
 
     /** @test */
@@ -132,20 +101,51 @@ class ColorTest extends BrowserTestCase
         })
             ->waitForText('Color')
             ->click('@tallstackui_form_color')
-            ->clickAtXPath('/html/body/div[3]/div/div/div/div[3]/div/div/button[1]')
+            ->clickAtXPath('/html/body/div[3]/div/div/div/div[4]/div/div/button[1]')
             ->click('@sync')
             ->waitForTextIn('@selected', '#FF0000')
             ->assertSee('#FF0000')
             ->click('@tallstackui_form_color')
-            ->clickAtXPath('/html/body/div[3]/div/div/div/div[3]/div/div/button[2]')
+            ->clickAtXPath('/html/body/div[3]/div/div/div/div[4]/div/div/button[2]')
             ->click('@sync')
             ->waitForTextIn('@selected', '#FF5733')
             ->assertSee('#FF5733')
             ->click('@tallstackui_form_color')
-            ->clickAtXPath('/html/body/div[3]/div/div/div/div[3]/div/div/button[3]')
+            ->clickAtXPath('/html/body/div[3]/div/div/div/div[4]/div/div/button[3]')
             ->click('@sync')
             ->waitForTextIn('@selected', '#D7E021')
             ->assertSee('#D7E021');
+    }
+
+    /** @test */
+    public function can_open_and_select_first_color_in_mode_full(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $color;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="selected">{{ $color }}</p>
+                    
+                    <x-color label="Color" wire:model="color" full />
+                    <x-button dusk="sync" wire:click="sync">Save</x-button>
+                </div>
+                HTML;
+            }
+
+            public function sync(): void
+            {
+                //
+            }
+        })
+            ->waitForText('Color')
+            ->click('@tallstackui_form_color')
+            ->clickAtXPath('/html/body/div[3]/div/div/div/div[4]/div/div/button[1]')
+            ->click('@sync')
+            ->waitForTextIn('@selected', '#f8fafc');
     }
 
     /** @test */
@@ -175,7 +175,7 @@ class ColorTest extends BrowserTestCase
             ->waitForText('Color')
             ->click('@tallstackui_form_color')
             ->dragRight('@tallstackui_form_range', 50)
-            ->clickAtXPath('/html/body/div[3]/div/div/div/div[3]/div/div/button[8]')
+            ->clickAtXPath('/html/body/div[3]/div/div/div/div[4]/div/div/button[8]')
             ->click('@sync')
             ->waitForTextIn('@selected', '#b45309');
     }

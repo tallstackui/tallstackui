@@ -23,7 +23,9 @@
                 <button type="button" @class($personalize['selected.base']) :style="{ 'background-color': model }" x-on:click="show = !show"></button>
             </template>
         </div>
-        <input id="{{ $id }}" @class($personalize['input.base']) type="text" x-model="model" x-ref="input">
+        <div class="w-full" wire:ignore>
+            <input id="{{ $id }}" {{ $attributes->class($personalize['input.base']) }} type="text" x-model="model" x-ref="input">
+        </div>
         <div class="flex items-center">
             <button @if ($attributes->get('disabled') || $attributes->get('readonly')) disabled @endif
                     x-on:click="show = !show"
