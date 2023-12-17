@@ -7,7 +7,7 @@
     $attributes = collect($data)
         ->filter(fn (mixed $value, string $key) => ! is_array($value))
         ->filter(fn (mixed $value, string $key) => ! is_callable($value))
-        ->filter(fn (mixed $value, string $key) => ! in_array($key, $ignores));
+        ->filter(fn (mixed $value, string $key) => ! in_array($key, $ignores))
 @endphp
 
 <div>

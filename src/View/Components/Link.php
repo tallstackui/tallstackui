@@ -6,6 +6,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use InvalidArgumentException;
+use TallStackUi\Foundation\Debug\SkipDebug;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\Personalization\SoftPersonalization;
 
@@ -26,6 +27,7 @@ class Link extends BaseComponent implements Personalization
         public ?bool $blank = null,
         public ?bool $bold = null,
         public ?string $size = null,
+        #[SkipDebug]
         public ?string $formatted = null,
     ) {
         //
