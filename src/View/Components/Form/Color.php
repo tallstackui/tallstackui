@@ -5,6 +5,7 @@ namespace TallStackUi\View\Components\Form;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\View\Components\BaseComponent;
@@ -21,6 +22,7 @@ class Color extends BaseComponent implements Personalization
         public ?string $hint = null,
         public ?bool $full = false,
         public Collection|array $colors = [],
+        #[SkipDebug]
         public ?string $mode = null,
         public ?bool $invalidate = null,
     ) {

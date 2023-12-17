@@ -4,14 +4,19 @@ namespace TallStackUi\View\Components;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
+use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 
 #[SoftPersonalization('card')]
 class Card extends BaseComponent implements Personalization
 {
-    public function __construct(public ?string $header = null, public ?string $footer = null)
-    {
+    public function __construct(
+        #[SkipDebug]
+        public ?string $header = null,
+        #[SkipDebug]
+        public ?string $footer = null
+    ) {
         //
     }
 

@@ -4,6 +4,7 @@ namespace TallStackUi\View\Components;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
+use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 
@@ -18,7 +19,9 @@ class Alert extends BaseComponent implements Personalization
         public ?bool $close = false,
         public ?bool $light = false,
         public ?bool $outline = false,
+        #[SkipDebug]
         public ?string $style = 'solid',
+        #[SkipDebug]
         public ?string $footer = null,
     ) {
         $this->style = $this->outline ? 'outline' : ($this->light ? 'light' : 'solid');

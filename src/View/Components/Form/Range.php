@@ -4,6 +4,7 @@ namespace TallStackUi\View\Components\Form;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
+use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\View\Components\BaseComponent;
@@ -18,6 +19,7 @@ class Range extends BaseComponent implements Personalization
         public ?bool $sm = null,
         public ?bool $md = null,
         public ?bool $lg = null,
+        #[SkipDebug]
         public ?string $size = null,
         public ?string $color = 'primary',
         public ?bool $invalidate = null,

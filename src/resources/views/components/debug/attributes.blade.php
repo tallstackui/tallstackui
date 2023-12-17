@@ -26,10 +26,10 @@
         @endforelse
     </ul>
     @if ((string) $attributes !== '')
-        <span class="mt-2 py flex justify-center text-red-500 px-1">
+        <span class="mt-1 py flex justify-center text-red-500 px-1">
             Attributes
         </span>
-        <ul>
+        <ul class="mt-0.5">
             @foreach ($attributes as $key => $value)
                 <li>{{ $key }}: <span class="text-red-500">{{ $value }}</span></li>
             @endforeach

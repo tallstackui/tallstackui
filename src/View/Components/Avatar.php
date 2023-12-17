@@ -6,6 +6,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use InvalidArgumentException;
+use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 
@@ -21,8 +22,9 @@ class Avatar extends BaseComponent implements Personalization
         public ?bool $md = null,
         public ?bool $lg = null,
         public bool $square = false,
-        private readonly ?string $property = 'name',
-        private readonly ?string $background = '0D8ABC',
+        public ?string $property = 'name',
+        public ?string $background = '0D8ABC',
+        #[SkipDebug]
         public ?string $size = null,
         public ?array $options = [],
     ) {

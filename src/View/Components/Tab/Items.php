@@ -4,6 +4,7 @@ namespace TallStackUi\View\Components\Tab;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
+use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\View\Components\BaseComponent;
@@ -13,7 +14,9 @@ class Items extends BaseComponent implements Personalization
 {
     public function __construct(
         public ?string $tab = null,
+        #[SkipDebug]
         public ?string $left = null,
+        #[SkipDebug]
         public ?string $right = null,
     ) {
         //

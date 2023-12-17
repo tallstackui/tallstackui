@@ -26,11 +26,26 @@ class Link extends BaseComponent implements Personalization
         public ?string $position = 'left',
         public ?bool $blank = null,
         public ?bool $bold = null,
+        #[SkipDebug]
         public ?string $size = null,
         #[SkipDebug]
         public ?string $formatted = null,
     ) {
-        //
+        $this->size = $this->lg ? 'lg' : ($this->sm ? 'sm' : 'md');
+
+        if ($this->query) {
+            // We just transform to collect to avoid the need
+            // to check if $this->query is instance of Collection
+            $query = collect($this->query)->toArray();
+
+            $this->formatted = sprintf('%s?%s', $this->href, Arr::query($query));
+        }
+
+        if ($this->fragment) {
+            $this->fragment = str_replace('#', '', $this->fragment);
+
+            $this->formatted .= "#{$this->fragment}";
+        }
     }
 
     public function blade(): View
@@ -47,25 +62,6 @@ class Link extends BaseComponent implements Personalization
                 'lg' => 'text-lg',
             ],
         ]);
-    }
-
-    protected function prepare(): void
-    {
-        $this->size = $this->lg ? 'lg' : ($this->sm ? 'sm' : 'md');
-
-        if ($this->query) {
-            // We just transform to collect to avoid the need
-            // to check if $this->query is instance of Collection
-            $query = collect($this->query)->toArray();
-
-            $this->formatted = sprintf('%s?%s', $this->href, Arr::query($query));
-        }
-
-        if ($this->fragment) {
-            $this->fragment = str_replace('#', '', $this->fragment);
-
-            $this->formatted .= "#{$this->fragment}";
-        }
     }
 
     protected function validate(): void

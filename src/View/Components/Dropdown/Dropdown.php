@@ -5,6 +5,7 @@ namespace TallStackUi\View\Components\Dropdown;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use InvalidArgumentException;
+use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\View\Components\BaseComponent;
@@ -15,6 +16,7 @@ class Dropdown extends BaseComponent implements Personalization
     public function __construct(
         public ?string $text = null,
         public ?string $icon = null,
+        #[SkipDebug]
         public ?string $header = null,
         public ?string $action = null,
         public ?string $position = 'bottom-end',
