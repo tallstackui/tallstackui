@@ -1,6 +1,6 @@
 <?php
 
-namespace TallStackUi\Foundation\Personalization;
+namespace TallStackUi\Foundation\Attributes;
 
 use Attribute;
 

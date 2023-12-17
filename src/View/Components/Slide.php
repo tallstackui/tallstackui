@@ -5,8 +5,8 @@ namespace TallStackUi\View\Components;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use InvalidArgumentException;
+use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\Foundation\Personalization\SoftPersonalization;
 
 #[SoftPersonalization('slide')]
 class Slide extends BaseComponent implements Personalization

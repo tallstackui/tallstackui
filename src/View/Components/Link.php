@@ -6,9 +6,9 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use InvalidArgumentException;
-use TallStackUi\Foundation\Debug\SkipDebug;
+use TallStackUi\Foundation\Attributes\SkipDebug;
+use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\Foundation\Personalization\SoftPersonalization;
 
 #[SoftPersonalization('link')]
 class Link extends BaseComponent implements Personalization

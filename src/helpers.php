@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\File;
-use TallStackUi\Foundation\Personalization\SoftPersonalization;
+use TallStackUi\Foundation\Attributes\SoftPersonalization;
 
 if (! function_exists('tallstackui_components_soft_personalized')) {
     function tallstackui_components_soft_personalized(): array

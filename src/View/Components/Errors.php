@@ -6,8 +6,8 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\Support\ViewErrorBag;
 use InvalidArgumentException;
+use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\Foundation\Personalization\SoftPersonalization;
 
 #[SoftPersonalization('errors')]
 class Errors extends BaseComponent implements Personalization

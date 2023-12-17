@@ -8,8 +8,8 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use InvalidArgumentException;
+use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\Foundation\Personalization\SoftPersonalization;
 
 #[SoftPersonalization('banner')]
 class Banner extends BaseComponent implements Personalization

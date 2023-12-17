@@ -3,8 +3,8 @@
 namespace TallStackUi\View\Components\Wrapper;
 
 use Illuminate\Contracts\View\View;
+use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\Foundation\Personalization\SoftPersonalization;
 use TallStackUi\View\Components\BaseComponent;
 
 #[SoftPersonalization('wrapper.input')]

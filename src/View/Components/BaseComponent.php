@@ -12,10 +12,10 @@ use Livewire\WireDirective;
 use ReflectionAttribute;
 use ReflectionClass;
 use TallStackUi\Facades\TallStackUi;
+use TallStackUi\Foundation\Attributes\SkipDebug;
+use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Colors\ResolveColor;
-use TallStackUi\Foundation\Debug\SkipDebug;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\Foundation\Personalization\SoftPersonalization;
 use TallStackUi\Foundation\ResolveConfiguration;
 use Throwable;
 

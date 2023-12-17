@@ -5,8 +5,8 @@ namespace TallStackUi\View\Components\Form;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\Foundation\Personalization\SoftPersonalization;
 use TallStackUi\View\Components\BaseComponent;
 use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
 
