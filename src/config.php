@@ -8,14 +8,28 @@ return [
     | Debug Mode
     |--------------------------------------------------------------------------
     |
-    | When enabled, all components in use will receive an icon with
-    | a tooltip displaying all attributes of the components in use
+    | Control the debug mode for TallStackUI components.
     */
     'debug' => [
         'status' => env('TALLSTACKUI_DEBUG', false),
+        /*
+        |----------------------------------------------------------------------
+        | You can control in which environments the debug mode is enabled.
+        |----------------------------------------------------------------------
+        */
         'environments' => [
             'local',
-            'testing',
+            'sandbox',
+            'staging',
+        ],
+        /*
+        |----------------------------------------------------------------------
+        | You can skip debug mode for certain specific components
+        | by setting the exact component name in this array.
+        |----------------------------------------------------------------------
+        */
+        'skip' => [
+            //
         ],
     ],
 
@@ -24,7 +38,7 @@ return [
     | Icon Style
     |--------------------------------------------------------------------------
     |
-    | Configure the default icon style (Allowed: solid, outline)
+    | Control the default icon style (Allowed: solid, outline)
     */
     'icon' => 'solid',
 
