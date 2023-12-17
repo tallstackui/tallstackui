@@ -111,7 +111,7 @@ abstract class BaseComponent extends Component
         if (! $config->get('status', false) ||
             ! ($environment = $config->get('environments', [])) ||
             ! in_array(app()->environment(), $environment) ||
-            in_array($this->componentName, $config->get('skip', []))
+            in_array($this->componentName, $config->get('ignore', []))
         ) {
             return $view;
         }
