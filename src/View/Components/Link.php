@@ -33,12 +33,12 @@ class Link extends BaseComponent implements Personalization
     ) {
         $this->size = $this->lg ? 'lg' : ($this->sm ? 'sm' : 'md');
 
+        $this->formatted = $this->href;
+
         if ($this->query) {
             // We just transform to collect to avoid the need
             // to check if $this->query is instance of Collection
-            $query = collect($this->query)->toArray();
-
-            $this->formatted = sprintf('%s?%s', $this->href, Arr::query($query));
+            $this->formatted .= Arr::query(collect($this->query)->toArray());
         }
 
         if ($this->fragment) {
