@@ -1,12 +1,9 @@
 @php
     $personalize = $classes();
     $wire = $wireable($attributes);
-    $property = $wire->value();
-    // Indicates the usage through Livewire
+    $property = $wire?->value();
     $livewire = $wire && $property;
     $error = !$invalidate && $livewire && $errors->has($property);
-    // We need to generate a unique id to avoid
-    // conflicts when using multiple pin components
     $hash = $livewire
         ? $__livewire->getId().'-'.$property
         : uniqid();
@@ -45,7 +42,7 @@
                        id="pin-{{ $hash }}-{{ $index }}"
                        dusk="pin-{{ $index }}"
                        @if ($mask) x-mask="{{ $mask }}" @endif
-                       @if ($livewire) value="{{ $wire ? strval($__livewire->{$property})[$index-1] ?? '' : '' }}" @endisset
+                       @if ($livewire) value="{{ $wire && isset($__livewire->{$property}) ? (strval($__livewire->{$property})[$index-1] ?? '') : '' }}" @endif
                        @class([
                            'w-[38px]',
                             $personalize['input.base'],
