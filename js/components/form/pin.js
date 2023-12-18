@@ -5,7 +5,6 @@ export default (
     id,
     length,
     clear,
-    error = false,
     numbers,
     letters,
 ) => ({
@@ -16,12 +15,16 @@ export default (
   pasting: false,
   observer: null,
   observing: false,
-  error: error,
+  error: false,
   numbers: numbers,
   letters: letters,
   init() {
-    if (this.model && (typeof this.model !== 'string' && typeof this.model !== 'number')) {
-      return alert('The [wire:model] property value must be a string or a number');
+    if (this.model) {
+      if (typeof this.model !== 'string' && typeof this.model !== 'number') {
+        return alert('The [wire:model] property value must be a string or a number');
+      }
+
+      this.model = this.model.toString();
     }
 
     this.observation();

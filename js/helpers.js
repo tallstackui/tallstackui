@@ -3,7 +3,7 @@
  * @return {void}
  */
 export const warning = (message) => {
-  console.warn(`[TallStackUi] ${message}`);
+  console.warn(`[TallStackUI] ${message}`);
 };
 
 /**
@@ -11,7 +11,7 @@ export const warning = (message) => {
  * @return {void}
  */
 export const error = (message) => {
-  console.error(`[TallStackUi] ${message}`);
+  console.error(`[TallStackUI] ${message}`);
 };
 
 /**

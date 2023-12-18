@@ -1,15 +1,18 @@
 @php
     $personalize = $classes();
     $wire = $wireable($attributes);
-    $error = !$invalidate && $wire && $errors->has($wire->value());
+    $property = $wire->value();
+    // Indicates the usage through Livewire
+    $livewire = $wire && $property;
+    $error = !$invalidate && $livewire && $errors->has($property);
     // We need to generate a unique id to avoid
     // conflicts when using multiple pin components
-    $hash = $wire && $wire->value()
-        ? $__livewire->getId().'-'.$wire->value()
+    $hash = $livewire
+        ? $__livewire->getId().'-'.$property
         : uniqid();
 @endphp
 
-@if ($wire && $wire->value())
+@if ($livewire)
     <div hidden id="{{ $hash }}">@js($error)</div>
 @endif
 
@@ -22,7 +25,6 @@
              @js($hash),
              @js($length),
              @js($clear),
-             @js($error),
              @js($numbers),
              @js($letters),
          )" x-on:paste="pasting = true; paste($event)" x-cloak wire:ignore>
@@ -43,7 +45,7 @@
                        id="pin-{{ $hash }}-{{ $index }}"
                        dusk="pin-{{ $index }}"
                        @if ($mask) x-mask="{{ $mask }}" @endif
-                       @isset($__livewire) value="{{ $wire ? $__livewire->{$wire->value()}[$index-1] ?? '' : '' }}" @endisset
+                       @if ($livewire) value="{{ $wire ? strval($__livewire->{$property})[$index-1] ?? '' : '' }}" @endisset
                        @class([
                            'w-[38px]',
                             $personalize['input.base'],
