@@ -45,6 +45,7 @@ class Banner extends BaseComponent implements Personalization
     public function personalization(): array
     {
         return Arr::dot([
+            'wire' => 'sticky top-0 z-50',
             'wrapper' => 'relative flex flex-row items-center justify-between px-6 py-2',
             'sizes' => [
                 'sm' => 'py-2',

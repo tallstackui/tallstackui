@@ -7,7 +7,7 @@
 @if ($show)
     <div x-data="tallstackui_banner(@js($animated), @js($wire), @js($text), @js($enter), @js($leave), @js($close))"
          @class([
-            'sticky top-0' => $wire,
+            $personalize['wire'] => $wire,
             $personalize['wrapper'],
             $personalize['sizes.' . $size],
             $colors['background'] ?? $color['background'] => !$wire
