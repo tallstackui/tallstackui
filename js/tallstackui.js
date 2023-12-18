@@ -14,6 +14,7 @@ import textArea from './components/form/textarea';
 import toastBase from './components/toast/toast-base';
 import toastLoop from './components/toast/toast-loop';
 import tooltip from './components/tooltip/tooltip';
+import datepicker from './components/datepicker/datepicker';
 
 document.addEventListener('alpine:init', () => {
   window.Alpine.plugin(tooltip);
@@ -31,4 +32,5 @@ document.addEventListener('alpine:init', () => {
   window.Alpine.data('tallstackui_formTextArea', textArea);
   window.Alpine.data('tallstackui_toastBase', toastBase);
   window.Alpine.data('tallstackui_toastLoop', toastLoop);
+  window.Alpine.data('tallstackui_datepicker', datepicker);
 });

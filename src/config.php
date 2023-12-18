@@ -156,6 +156,7 @@ return [
         'toast' => Components\Interaction\Toast::class,
         'toggle' => Components\Form\Toggle::class,
         'tooltip' => Components\Tooltip::class,
+        'datepicker' => Components\DatePicker\DatePicker::class,
         'wrapper.input' => Components\Wrapper\Input::class,
         'wrapper.radio' => Components\Wrapper\Radio::class,
     ],

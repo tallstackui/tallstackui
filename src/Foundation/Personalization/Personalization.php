@@ -40,6 +40,7 @@ use TallStackUi\View\Components\Tab\Tab;
 use TallStackUi\View\Components\Tooltip;
 use TallStackUi\View\Components\Wrapper\Input as InputWrapper;
 use TallStackUi\View\Components\Wrapper\Radio as RadioWrapper;
+use TallStackUi\View\Components\DatePicker\DatePicker;
 
 /**
  * @internal This class is not meant to be used directly.
@@ -99,6 +100,11 @@ class Personalization
         return app($this->component(Dialog::class));
     }
 
+    public function datepicker(): PersonalizationResources
+    {
+        return app($this->component(DatePicker::class));
+    }
+
     public function dropdown(?string $component = null): PersonalizationResources
     {
         $component ??= 'dropdown';
@@ -142,7 +148,7 @@ class Personalization
 
     public function instance(): PersonalizationResources
     {
-        if (! $this->component) {
+        if (!$this->component) {
             throw new InvalidArgumentException('No component has been set');
         }
 
@@ -154,7 +160,7 @@ class Personalization
         $main = $parts[0];
         $secondary = $parts[1] ?? null;
 
-        if (! method_exists($this, $main)) {
+        if (!method_exists($this, $main)) {
             throw new InvalidArgumentException("The method [{$main}] is not supported");
         }
 
@@ -230,7 +236,7 @@ class Personalization
     {
         $component = array_search($class, tallstackui_components_soft_personalized());
 
-        if (! $component) {
+        if (!$component) {
             throw new Exception("Component [{$class}] is not allowed to be personalized");
         }
 
