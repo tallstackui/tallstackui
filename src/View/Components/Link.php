@@ -58,6 +58,12 @@ class Link extends BaseComponent implements Personalization
     public function personalization(): array
     {
         return Arr::dot([
+            'bold' => 'font-bold',
+            'underline' => 'underline',
+            'icon' => [
+                'base' => 'flex items-center gap-x-1',
+                'size' => 'h-4 w-4',
+            ],
             'sizes' => [
                 'sm' => 'text-sm',
                 'md' => 'text-md',
@@ -68,6 +74,9 @@ class Link extends BaseComponent implements Personalization
 
     protected function validate(): void
     {
+        // The href is only mandatory when fragment
+        // is not set. With that, we allow the usage
+        // of link component for anchor links.
         if (! $this->fragment && ! $this->href) {
             throw new InvalidArgumentException('The link [href] attribute is required when no [fragment] is provided.');
         }
