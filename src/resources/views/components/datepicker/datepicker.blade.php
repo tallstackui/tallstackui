@@ -3,8 +3,9 @@
         <div class="w-full mb-5">
             <label for="datepicker" class="block mb-1 text-sm font-medium text-neutral-500">Select Date</label>
             <div class="relative w-[17rem]">
-                <input x-ref="datePickerInput" type="text" @click="datePickerOpen=!datePickerOpen"
-                    x-model="datePickerValue" x-on:keydown.escape="datePickerOpen=false"
+                <input x-ref="datePickerInput" type="text"
+                    @click="datePickerOpen=!datePickerOpen; showYearPicker=false;" x-model="datePickerValue"
+                    x-on:keydown.escape="datePickerOpen=false"
                     class="flex w-full h-10 px-3 py-2 text-sm bg-white border rounded-md text-neutral-600 border-neutral-300 ring-offset-background placeholder:text-neutral-400 focus:border-neutral-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-neutral-400 disabled:cursor-not-allowed disabled:opacity-50"
                     placeholder="Select date" readonly />
                 <div @click="datePickerOpen=!datePickerOpen; if(datePickerOpen){ $refs.datePickerInput.focus() }"
@@ -17,29 +18,58 @@
                 <div x-show="datePickerOpen" x-transition @click.away="datePickerOpen = false"
                     class="absolute top-0 left-0 max-w-lg p-4 mt-12 antialiased bg-white border rounded-lg shadow w-[17rem] border-neutral-200/70">
                     <div class="flex items-center justify-between mb-2">
-                        <div>
-                            <span x-text="datePickerMonthNames[datePickerMonth]"
-                                class="text-lg font-bold text-gray-800"></span>
-                            <span x-text="datePickerYear" class="ml-1 text-lg font-normal text-gray-600"></span>
+                        <button @click="datePickerPreviousMonth()" type="button"
+                            class="inline-flex p-1 transition duration-100 ease-in-out rounded-full cursor-pointer focus:outline-none focus:shadow-outline hover:bg-gray-100">
+                            <svg class="w-4 h-4 text-gray-800 rtl:rotate-180 dark:text-white" aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2" d="M13 5H1m0 0 4 4M1 5l4-4"></path>
+                            </svg>
+                        </button>
+                        <div
+                            class="text-sm rounded-lg text-gray-900 dark:text-white bg-white dark:bg-gray-700 font-semibold py-2.5 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-200 view-switch">
+                            <!-- Year label, clicking toggles the year picker -->
+                            <span @click="toggleYearPicker" class="cursor-pointer">
+                                <span x-text="datePickerMonthNames[datePickerMonth]"></span>
+                                <span x-text="datePickerYear"></span>
+                            </span>
+
+                            <!-- Year picker dropdown/modal -->
+                            <template x-if="showYearPicker">
+                                <div class="absolute left-0 flex w-full p-3 mt-1 bg-white rounded shadow" x-cloak>
+                                    <button @click="previousYearRange()" class="p-1">
+                                        <svg class="w-4 h-4 text-gray-800 rtl:rotate-180 dark:text-white"
+                                            aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                            viewBox="0 0 14 10">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                                stroke-width="2" d="M13 5H1m0 0 4 4M1 5l4-4"></path>
+                                        </svg>
+                                    </button>
+                                    <div class="flex flex-wrap w-full">
+                                        <template x-for="year in generateYearRange()">
+                                            <div class="p-1 cursor-pointer hover:bg-gray-100" @click="selectYear(year)"
+                                                x-text="year"></div>
+                                        </template>
+                                    </div>
+                                    <button @click="nextYearRange()" class="p-1">
+                                        <svg class="w-4 h-4 text-gray-800 rtl:rotate-180 dark:text-white"
+                                            aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                            viewBox="0 0 14 10">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                                stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </template>
                         </div>
-                        <div>
-                            <button @click="datePickerPreviousMonth()" type="button"
-                                class="inline-flex p-1 transition duration-100 ease-in-out rounded-full cursor-pointer focus:outline-none focus:shadow-outline hover:bg-gray-100">
-                                <svg class="inline-flex w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24"
-                                    stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M15 19l-7-7 7-7" />
-                                </svg>
-                            </button>
-                            <button @click="datePickerNextMonth()" type="button"
-                                class="inline-flex p-1 transition duration-100 ease-in-out rounded-full cursor-pointer focus:outline-none focus:shadow-outline hover:bg-gray-100">
-                                <svg class="inline-flex w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24"
-                                    stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M9 5l7 7-7 7" />
-                                </svg>
-                            </button>
-                        </div>
+                        <button @click="datePickerNextMonth()" type="button"
+                            class="inline-flex p-1 transition duration-100 ease-in-out rounded-full cursor-pointer focus:outline-none focus:shadow-outline hover:bg-gray-100">
+                            <svg class="w-4 h-4 text-gray-800 rtl:rotate-180 dark:text-white" aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"></path>
+                            </svg>
+                        </button>
                     </div>
                     <div class="grid grid-cols-7 mb-3">
                         <template x-for="(day, index) in datePickerDays" :key="index">

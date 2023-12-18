@@ -12,6 +12,8 @@ export default () => ({
     datePickerBlankDaysInMonth: [],
     datePickerMonthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
     datePickerDays: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+    showYearPicker: false,
+    yearRangeStart: 0,
     init() {
         currentDate = new Date();
         if (this.datePickerValue) {
@@ -115,6 +117,33 @@ export default () => ({
         this.datePickerMinute = currentDate.getMinutes();
         this.datePickerAmPm = currentDate.getHours() >= 12 ? 'PM' : 'AM';
         this.datePickerValue = this.datePickerFormatDate(currentDate);
+        this.datePickerCalculateDays();
+    },
+    toggleYearPicker() {
+        this.showYearPicker = !this.showYearPicker;
+        // Initialize the year range starting with the current year
+        if (this.showYearPicker) {
+            this.yearRangeStart = this.datePickerYear - 11;
+        }
+    },
+
+    generateYearRange() {
+        let startYear = this.yearRangeStart;
+        let endYear = startYear + 11;
+        return Array.from({ length: endYear - startYear + 1 }, (_, k) => startYear + k);
+    },
+
+    previousYearRange() {
+        this.yearRangeStart -= 11;
+    },
+
+    nextYearRange() {
+        this.yearRangeStart += 11;
+    },
+
+    selectYear(year) {
+        this.datePickerYear = year;
+        this.showYearPicker = false;
         this.datePickerCalculateDays();
     }
 });
