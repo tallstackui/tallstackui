@@ -21,14 +21,14 @@ class Color extends BaseComponent implements Personalization
         public ?string $label = null,
         public ?string $id = null,
         public ?string $hint = null,
-        public ?bool $full = false,
+        public ?bool $picker = false,
         public Collection|array $colors = [],
         #[SkipDebug]
         public ?string $mode = null,
         public ?bool $invalidate = null,
     ) {
         $this->id ??= uniqid();
-        $this->mode = $this->full ? 'full' : 'range';
+        $this->mode = $this->picker ? 'picker' : 'range';
     }
 
     public function blade(): View

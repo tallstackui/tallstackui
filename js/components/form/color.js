@@ -300,7 +300,7 @@ export default (model, mode, colors) => ({
           this.palette = this.range(this.weight);
           this.$watch('weight', (value) => this.palette = this.range(value));
         },
-        'full': () => {
+        'picker': () => {
           this.palette = this.hex();
         },
       };
