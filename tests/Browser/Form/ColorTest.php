@@ -118,7 +118,7 @@ class ColorTest extends BrowserTestCase
     }
 
     /** @test */
-    public function can_open_and_select_first_color_in_mode_full(): void
+    public function can_open_and_select_first_color_in_mode_picker(): void
     {
         Livewire::visit(new class extends Component
         {
@@ -130,7 +130,7 @@ class ColorTest extends BrowserTestCase
                 <div>
                     <p dusk="selected">{{ $color }}</p>
                     
-                    <x-color label="Color" wire:model="color" full />
+                    <x-color label="Color" wire:model="color" picker />
                     <x-button dusk="sync" wire:click="sync">Save</x-button>
                 </div>
                 HTML;
