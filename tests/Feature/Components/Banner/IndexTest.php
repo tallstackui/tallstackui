@@ -56,6 +56,90 @@ it('can render with text as collection', function () {
         ->assertSee('Foo');
 });
 
+it('can render date start as string', function () {
+    $date = now()->addDay()->format('Y-m-d');
+
+    $component = <<<HTML
+    <x-banner text="Foo" start="$date" />
+    HTML;
+
+    $this->blade($component)
+        ->assertDontSee('Foo');
+});
+
+it('can render date start as carbon instance', function () {
+    $component = <<<'HTML'
+    <x-banner text="Foo" :start="now()->addDay()" />
+    HTML;
+
+    $this->blade($component)
+        ->assertDontSee('Foo');
+});
+
+it('can render when start', function () {
+    $now = now();
+    $date = $now->addWeek()->format('Y-m-d');
+
+    $component = <<<HTML
+    <x-banner text="Foo" start="$date" />
+    HTML;
+
+    $this->blade($component)
+        ->assertDontSee('Foo');
+
+    test()->travelTo($now);
+
+    $component = <<<HTML
+    <x-banner text="Foo" start="$date" />
+    HTML;
+
+    $this->blade($component)
+        ->assertSee('Foo');
+});
+
+it('cannot render when date is over', function () {
+    $now = now();
+    $date = $now->format('Y-m-d');
+
+    $component = <<<HTML
+    <x-banner text="Foo Bar Baz" until="$date" />
+    HTML;
+
+    $this->blade($component)
+        ->assertSee('Foo Bar Baz');
+
+    test()->travelTo($now->addDay());
+
+    $component = <<<HTML
+    <x-banner text="Baz Bar Foo" until="$date" />
+    HTML;
+
+    $this->blade($component)
+        ->assertDontSee('Baz Bar Foo');
+});
+
+it('can render between start and until', function () {
+    $now = now();
+    $start = $now->format('Y-m-d');
+    $until = $now->addDay()->format('Y-m-d');
+
+    $component = <<<HTML
+    <x-banner text="Foo Bar Baz" start="$start" until="$until" />
+    HTML;
+
+    $this->blade($component)
+        ->assertSee('Foo Bar Baz');
+
+    test()->travelTo($now->addWeek());
+
+    $component = <<<HTML
+    <x-banner text="Baz Bar Foo" start="$start" until="$until" />
+    HTML;
+
+    $this->blade($component)
+        ->assertDontSee('Baz Bar Foo');
+});
+
 it('can render date until as string', function () {
     $date = now()->addDay()->format('Y-m-d');
 
@@ -85,7 +169,7 @@ it('can render animated', function () {
         ->assertSee('Foo');
 });
 
-it('cannot render with date in past', function (string $date) {
+it('cannot render with until date in past', function (string $date) {
     $component = <<<HTML
     <x-banner text="Foo bar baz" until="$date" />
     HTML;
@@ -95,6 +179,18 @@ it('cannot render with date in past', function (string $date) {
 })->with([
     fn () => now()->subDay()->format('Y-m-d'),
     fn () => now()->subWeek()->format('Y-m-d'),
+]);
+
+it('cannot render with start date in future', function (string $date) {
+    $component = <<<HTML
+    <x-banner text="Foo bar baz" start="$date" />
+    HTML;
+
+    $this->blade($component)
+        ->assertDontSee('Foo bar baz');
+})->with([
+    fn () => now()->addDay()->format('Y-m-d'),
+    fn () => now()->addWeek()->format('Y-m-d'),
 ]);
 
 it('cannot render with custom without background', function () {

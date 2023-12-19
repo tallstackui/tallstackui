@@ -2,7 +2,6 @@
 
 namespace TallStackUi\View\Components;
 
-use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
@@ -24,6 +23,7 @@ class Banner extends BaseComponent implements Personalization
         public ?int $leave = null,
         #[SkipDebug]
         public ?string $left = null,
+        public string|null|Carbon $start = null,
         public string|null|Carbon $until = null,
         public ?bool $wire = false,
         public ?bool $light = false,
@@ -76,11 +76,26 @@ class Banner extends BaseComponent implements Personalization
             $this->text = $this->text[array_rand($this->text)];
         }
 
-        if (is_null($this->until)) {
+        if (is_null($this->start) && is_null($this->until)) {
             return;
         }
 
-        if (today()->lessThanOrEqualTo(Carbon::parse($this->until))) {
+        $today = today();
+
+        $start = Carbon::parse($this->start);
+        $until = Carbon::parse($this->until);
+
+        if (($this->start && $this->until) && ! $today->between($start, $until)) {
+            $this->show = false;
+
+            return;
+        }
+
+        if ($this->start && $today->greaterThanOrEqualTo($start)) {
+            return;
+        }
+
+        if ($this->until && $today->lessThanOrEqualTo($until)) {
             return;
         }
 
@@ -107,20 +122,24 @@ class Banner extends BaseComponent implements Personalization
 
         // If the banner is wire, we don't need to validate the until property
         // Because the banner will be displayed through the Livewire events
-        if (is_null($this->until) || $this->wire) {
+        if ($this->wire || (is_null($this->start) && is_null($this->until))) {
             return;
         }
 
-        $until = null;
+        if ($this->start) {
+            $start = rescue(fn () => Carbon::parse($this->start), null, false);
 
-        try {
-            $until = Carbon::parse($this->until);
-        } catch (Exception) {
-            //
+            if (blank($start)) {
+                throw new InvalidArgumentException('The banner [start] must be a Carbon instance or a valid date string.');
+            }
         }
 
-        if (blank($until)) {
-            throw new InvalidArgumentException('The banner [until] attribute must be a Carbon instance or a valid date string.');
+        if ($this->until) {
+            $until = rescue(fn () => Carbon::parse($this->until), null, false);
+
+            if (blank($until)) {
+                throw new InvalidArgumentException('The banner [until] must be a Carbon instance or a valid date string.');
+            }
         }
     }
 }
