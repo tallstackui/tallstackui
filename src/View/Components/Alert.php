@@ -45,7 +45,7 @@ class Alert extends BaseComponent implements Personalization
                 'description' => 'text-sm',
             ],
             'close' => [
-                'wrapper' => 'ml-auto pl-3 flex',
+                'wrapper' => 'ml-auto flex items-start pl-3',
                 'size' => 'w-5 h-5',
             ],
             'icon' => [
