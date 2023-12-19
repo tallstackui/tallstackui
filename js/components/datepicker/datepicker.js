@@ -123,22 +123,22 @@ export default () => ({
         this.showYearPicker = !this.showYearPicker;
         // Initialize the year range starting with the current year
         if (this.showYearPicker) {
-            this.yearRangeStart = this.datePickerYear - 11;
+            this.yearRangeStart = this.datePickerYear - 19;
         }
     },
 
     generateYearRange() {
         let startYear = this.yearRangeStart;
-        let endYear = startYear + 11;
+        let endYear = startYear + 19;
         return Array.from({ length: endYear - startYear + 1 }, (_, k) => startYear + k);
     },
 
     previousYearRange() {
-        this.yearRangeStart -= 11;
+        this.yearRangeStart -= 19;
     },
 
     nextYearRange() {
-        this.yearRangeStart += 11;
+        this.yearRangeStart += 19;
     },
 
     selectYear(year) {

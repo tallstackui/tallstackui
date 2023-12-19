@@ -26,17 +26,18 @@
                                     stroke-width="2" d="M13 5H1m0 0 4 4M1 5l4-4"></path>
                             </svg>
                         </button>
-                        <div
-                            class="text-sm rounded-lg text-gray-900 dark:text-white bg-white dark:bg-gray-700 font-semibold py-2.5 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-200 view-switch">
+                        <div @click="toggleYearPicker"
+                            class="text-sm rounded-lg text-gray-900 dark:text-white bg-white dark:bg-gray-700 font-semibold py-2.5 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-200 view-switch cursor-pointer">
                             <!-- Year label, clicking toggles the year picker -->
-                            <span @click="toggleYearPicker" class="cursor-pointer">
+                            <span class="">
                                 <span x-text="datePickerMonthNames[datePickerMonth]"></span>
                                 <span x-text="datePickerYear"></span>
                             </span>
 
                             <!-- Year picker dropdown/modal -->
                             <template x-if="showYearPicker">
-                                <div class="absolute left-0 flex w-full p-3 mt-1 bg-white rounded shadow" x-cloak>
+                                <div class="absolute top-0 left-0 flex w-full h-full p-3 bg-white rounded shadow"
+                                    x-cloak>
                                     <button @click="previousYearRange()" class="p-1">
                                         <svg class="w-4 h-4 text-gray-800 rtl:rotate-180 dark:text-white"
                                             aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -47,8 +48,8 @@
                                     </button>
                                     <div class="flex flex-wrap w-full">
                                         <template x-for="year in generateYearRange()">
-                                            <div class="p-1 cursor-pointer hover:bg-gray-100" @click="selectYear(year)"
-                                                x-text="year"></div>
+                                            <div class="flex items-center justify-center w-1/4 p-1 text-center cursor-pointer hover:bg-gray-100"
+                                                @click="selectYear(year)" x-text="year"></div>
                                         </template>
                                     </div>
                                     <button @click="nextYearRange()" class="p-1">
