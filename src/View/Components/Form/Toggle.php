@@ -30,7 +30,7 @@ class Toggle extends BaseComponent implements Personalization
         public ?string $color = 'primary',
         public ?bool $invalidate = null,
     ) {
-        $this->shareable();
+        $this->setup();
     }
 
     public function blade(): View

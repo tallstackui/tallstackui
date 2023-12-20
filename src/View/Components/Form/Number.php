@@ -15,7 +15,6 @@ class Number extends BaseComponent implements Personalization
     use DefaultInputClasses;
 
     public function __construct(
-        public ?string $id = null,
         public ?string $label = null,
         public ?string $hint = null,
         public ?int $min = null,
@@ -24,7 +23,7 @@ class Number extends BaseComponent implements Personalization
         public ?bool $chevron = false,
         public ?bool $invalidate = null,
     ) {
-        $this->id ??= uniqid();
+        //
     }
 
     public function blade(): View
