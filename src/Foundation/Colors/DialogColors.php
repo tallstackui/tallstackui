@@ -19,10 +19,10 @@ class DialogColors
         [$cancel, $confirm, $background, $icon] = $this->get('cancel', 'confirm', 'background', 'icon');
 
         return [
-            'cancel' => $cancel ?? $this->cancel(),
-            'confirm' => $confirm ?? $this->confirm(),
-            'background' => $background ?? $this->background(),
-            'icon' => $icon ?? $this->icon(),
+            'cancel' => $cancel,
+            'confirm' => $confirm,
+            'background' => $background,
+            'icon' => $icon,
         ];
     }
 

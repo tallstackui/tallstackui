@@ -27,27 +27,27 @@
                         <div x-show="toast.type === 'success'">
                             <x-icon name="check-circle"
                                     outline
-                                    @class([$personalize['icon.size'], 'text-green-400']) />
+                                    @class([$personalize['icon.size'], $colors['icon']['success']]) />
                         </div>
                         <div x-show="toast.type === 'error'">
                             <x-icon name="x-circle"
                                     outline
-                                    @class([$personalize['icon.size'], 'text-red-400']) />
+                                    @class([$personalize['icon.size'], $colors['icon']['error']]) />
                         </div>
                         <div x-show="toast.type === 'info'">
                             <x-icon name="information-circle"
                                     outline
-                                    @class([$personalize['icon.size'], 'text-blue-400']) />
+                                    @class([$personalize['icon.size'], $colors['icon']['info']]) />
                         </div>
                         <div x-show="toast.type === 'warning'">
                             <x-icon name="exclamation-circle"
                                     outline
-                                    @class([$personalize['icon.size'], 'text-yellow-400']) />
+                                    @class([$personalize['icon.size'], $colors['icon']['warning']]) />
                         </div>
                         <div x-show="toast.type === 'question'">
                             <x-icon name="question-mark-circle"
                                     outline
-                                    @class([$personalize['icon.size'], 'text-secondary-400']) />
+                                    @class([$personalize['icon.size'], $colors['icon']['question']]) />
                         </div>
                     </div>
                     <div @class($personalize['content.wrapper'])>
