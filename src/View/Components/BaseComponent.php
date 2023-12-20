@@ -63,13 +63,6 @@ abstract class BaseComponent extends Component
 
     public function render(): Closure
     {
-        // The main objective of this hook is to avoid filling
-        // the constructor with formatting and things like that,
-        // useful define style, size and position control.
-        if (method_exists($this, 'prepare')) {
-            $this->prepare();
-        }
-
         return function (array $data) {
             return $this->output($this->blade()->with($this->compile($data)), $data);
         };
