@@ -14,13 +14,9 @@ class Password extends BaseComponent implements Personalization
 {
     use DefaultInputClasses;
 
-    public function __construct(
-        public ?string $label = null,
-        public ?string $id = null,
-        public ?string $hint = null,
-        public ?bool $invalidate = null,
-    ) {
-        $this->id ??= uniqid();
+    public function __construct(public ?string $label = null, public ?string $hint = null, public ?bool $invalidate = null)
+    {
+        //
     }
 
     public function blade(): View

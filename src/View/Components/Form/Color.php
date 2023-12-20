@@ -19,7 +19,6 @@ class Color extends BaseComponent implements Personalization
 
     public function __construct(
         public ?string $label = null,
-        public ?string $id = null,
         public ?string $hint = null,
         public ?bool $picker = false,
         public Collection|array $colors = [],
@@ -27,7 +26,6 @@ class Color extends BaseComponent implements Personalization
         public ?string $mode = null,
         public ?bool $invalidate = null,
     ) {
-        $this->id ??= uniqid();
         $this->mode = $this->picker ? 'picker' : 'range';
     }
 

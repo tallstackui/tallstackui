@@ -17,7 +17,6 @@ class Input extends BaseComponent implements Personalization
 
     public function __construct(
         public ?string $label = null,
-        public ?string $id = null,
         public ?string $hint = null,
         public ?string $icon = null,
         #[SkipDebug]
@@ -26,7 +25,6 @@ class Input extends BaseComponent implements Personalization
         public ?string $suffix = null,
         public ?bool $invalidate = null,
     ) {
-        $this->id ??= uniqid();
         $this->position = $this->position === 'left' ? 'left' : 'right';
     }
 

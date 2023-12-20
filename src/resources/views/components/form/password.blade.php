@@ -2,6 +2,7 @@
     $wire = $wireable($attributes);
     $error = !$invalidate && $wire && $errors->has($wire->value());
     $personalize = $classes();
+    $id = $id($attributes);
 @endphp
 
 <x-wrapper.input :$id :$wire :$label :$hint :$invalidate password>

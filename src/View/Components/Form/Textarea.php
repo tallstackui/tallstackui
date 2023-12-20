@@ -16,13 +16,12 @@ class Textarea extends BaseComponent implements Personalization
 
     public function __construct(
         public ?string $label = null,
-        public ?string $id = null,
         public ?string $hint = null,
         public ?bool $resize = false,
         public ?bool $resizeAuto = false,
         public ?bool $invalidate = null,
     ) {
-        $this->id ??= uniqid();
+        //
     }
 
     public function blade(): View
