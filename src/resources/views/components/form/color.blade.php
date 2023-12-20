@@ -2,6 +2,7 @@
     $personalize = $classes();
     $wire = $wireable($attributes);
     $error = !$invalidate && $wire && $errors->has($wire->value());
+    $id = $id($attributes);
 @endphp
 
 <x-wrapper.input :$id :$wire :$label :$hint :$invalidate>
@@ -27,7 +28,7 @@
             </template>
         </div>
         <div class="w-full" wire:ignore>
-            <input id="{{ $id }}" {{ $attributes->class($personalize['input.base']) }} type="text" x-model="model" x-ref="input">
+            <input @if ($id) id="{{ $id }}" @endif {{ $attributes->class($personalize['input.base']) }} type="text" x-model="model" x-ref="input">
         </div>
         <div class="flex items-center">
             <button type="button"

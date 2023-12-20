@@ -3,6 +3,7 @@
     $wire = $wireable($attributes);
     $error = !$invalidate && $wire && $errors->has($wire->value());
     [$position, $alignment, $label] = $sloteable($label);
+    $id = $id($attributes);
 @endphp
 
 <x-wrapper.radio :$id :$wire :$label :$position :$alignment :$invalidate>

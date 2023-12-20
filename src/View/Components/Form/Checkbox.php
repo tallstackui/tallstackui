@@ -16,8 +16,8 @@ use TallStackUi\View\Components\Form\Traits\SetupRadioCheckboxToggle;
 #[SoftPersonalization('form.checkbox')]
 class Checkbox extends BaseComponent implements Personalization
 {
-    use SetupRadioCheckboxToggle;
     use DetermineInputId;
+    use SetupRadioCheckboxToggle;
 
     public function __construct(
         public ?string $id = null,

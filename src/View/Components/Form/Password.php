@@ -16,8 +16,11 @@ class Password extends BaseComponent implements Personalization
     use DefaultInputClasses;
     use DetermineInputId;
 
-    public function __construct(public ?string $label = null, public ?string $hint = null, public ?bool $invalidate = null)
-    {
+    public function __construct(
+        public ?string $label = null,
+        public ?string $hint = null,
+        public ?bool $invalidate = null
+    ) {
         //
     }
 

@@ -2,9 +2,6 @@
 
 namespace TallStackUi\View\Components\Form\Traits;
 
-use Illuminate\View\ComponentAttributeBag;
-use TallStackUi\Facades\TallStackUi;
-
 trait DefaultInputClasses
 {
     private function error(...$excepts): string

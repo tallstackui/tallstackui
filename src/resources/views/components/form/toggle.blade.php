@@ -1,6 +1,7 @@
 @php
     $personalize = $classes();
     $wire = $wireable($attributes);
+    $id = $id($attributes);
     $error = !$invalidate && $wire && $errors->has($wire->value());
     [$position, $alignment, $label] = $sloteable($label);
 

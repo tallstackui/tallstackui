@@ -7,6 +7,10 @@ use TallStackUi\Facades\TallStackUi;
 
 trait DetermineInputId
 {
+    // This method is used to determine which id will be
+    // applied to the input element. The strategy here
+    // is try to get the id from "id", or "wire:model"
+    // or "name" attributes. If none of them are set.
     public function id(ComponentAttributeBag $attributes): ?string
     {
         $wire = TallStackUi::blade()->wireable($attributes);
