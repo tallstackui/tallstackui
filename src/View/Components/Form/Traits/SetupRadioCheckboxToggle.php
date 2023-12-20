@@ -20,7 +20,7 @@ trait SetupRadioCheckboxToggle
         ];
     }
 
-    private function shareable(): void
+    private function setup(): void
     {
         $this->id ??= uniqid();
 

@@ -5,7 +5,7 @@
 
 <div>
     @if ($label)
-        <x-label for="{{ $id }}" :$label :$error :$invalidate/>
+        <x-label :$id :$label :$error :$invalidate/>
     @endif
     <div @class($personalize['wrapper']) @if ($password) x-data="{ show : false }" @endif>
         {!! $slot !!}

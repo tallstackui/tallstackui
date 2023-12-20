@@ -11,15 +11,16 @@ use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\View\Components\BaseComponent;
 use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
+use TallStackUi\View\Components\Form\Traits\DetermineInputId;
 
 #[SoftPersonalization('form.color')]
 class Color extends BaseComponent implements Personalization
 {
     use DefaultInputClasses;
+    use DetermineInputId;
 
     public function __construct(
         public ?string $label = null,
-        public ?string $id = null,
         public ?string $hint = null,
         public ?bool $picker = false,
         public Collection|array $colors = [],
@@ -27,7 +28,6 @@ class Color extends BaseComponent implements Personalization
         public ?string $mode = null,
         public ?bool $invalidate = null,
     ) {
-        $this->id ??= uniqid();
         $this->mode = $this->picker ? 'picker' : 'range';
     }
 

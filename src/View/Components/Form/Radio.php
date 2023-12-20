@@ -10,11 +10,13 @@ use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\View\Components\BaseComponent;
+use TallStackUi\View\Components\Form\Traits\DetermineInputId;
 use TallStackUi\View\Components\Form\Traits\SetupRadioCheckboxToggle;
 
 #[SoftPersonalization('form.radio')]
 class Radio extends BaseComponent implements Personalization
 {
+    use DetermineInputId;
     use SetupRadioCheckboxToggle;
 
     public function __construct(
@@ -30,7 +32,7 @@ class Radio extends BaseComponent implements Personalization
         public ?string $color = 'primary',
         public ?bool $invalidate = null,
     ) {
-        $this->shareable();
+        $this->setup();
     }
 
     public function blade(): View

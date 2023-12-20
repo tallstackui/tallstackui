@@ -2,6 +2,7 @@
     $wire = $wireable($attributes);
     $error = !$invalidate && $wire && $errors->has($wire->value());
     $personalize = $classes();
+    $id = $id($attributes);
 @endphp
 
 <x-wrapper.input :$id :$wire :$label :$hint :$invalidate>
@@ -22,7 +23,7 @@
         @if ($prefix)
             <span @class([$personalize['input.class.slot'], $personalize['error'] => $error])>{{ $prefix }}</span>
         @endif
-        <input id="{{ $id }}" {{ $attributes->class($personalize['input.class.base']) }}>
+        <input @if ($id) id="{{ $id }}" @endif {{ $attributes->class($personalize['input.class.base']) }}>
         @if ($suffix)
             <span @class([$personalize['input.class.slot'], $personalize['error'] => $error])>{{ $suffix }}</span>
         @endif

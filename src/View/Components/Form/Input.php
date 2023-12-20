@@ -9,15 +9,16 @@ use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\View\Components\BaseComponent;
 use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
+use TallStackUi\View\Components\Form\Traits\DetermineInputId;
 
 #[SoftPersonalization('form.input')]
 class Input extends BaseComponent implements Personalization
 {
     use DefaultInputClasses;
+    use DetermineInputId;
 
     public function __construct(
         public ?string $label = null,
-        public ?string $id = null,
         public ?string $hint = null,
         public ?string $icon = null,
         #[SkipDebug]
@@ -26,7 +27,6 @@ class Input extends BaseComponent implements Personalization
         public ?string $suffix = null,
         public ?bool $invalidate = null,
     ) {
-        $this->id ??= uniqid();
         $this->position = $this->position === 'left' ? 'left' : 'right';
     }
 

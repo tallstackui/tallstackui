@@ -8,21 +8,22 @@ use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\View\Components\BaseComponent;
 use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
+use TallStackUi\View\Components\Form\Traits\DetermineInputId;
 
 #[SoftPersonalization('form.textarea')]
 class Textarea extends BaseComponent implements Personalization
 {
     use DefaultInputClasses;
+    use DetermineInputId;
 
     public function __construct(
         public ?string $label = null,
-        public ?string $id = null,
         public ?string $hint = null,
         public ?bool $resize = false,
         public ?bool $resizeAuto = false,
         public ?bool $invalidate = null,
     ) {
-        $this->id ??= uniqid();
+        //
     }
 
     public function blade(): View
