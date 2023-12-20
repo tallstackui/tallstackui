@@ -10,12 +10,14 @@ use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\View\Components\BaseComponent;
+use TallStackUi\View\Components\Form\Traits\DetermineInputId;
 use TallStackUi\View\Components\Form\Traits\SetupRadioCheckboxToggle;
 
 #[SoftPersonalization('form.radio')]
 class Radio extends BaseComponent implements Personalization
 {
     use SetupRadioCheckboxToggle;
+    use DetermineInputId;
 
     public function __construct(
         public ?string $id = null,

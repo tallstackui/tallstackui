@@ -8,11 +8,13 @@ use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\View\Components\BaseComponent;
 use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
+use TallStackUi\View\Components\Form\Traits\DetermineInputId;
 
 #[SoftPersonalization('form.number')]
 class Number extends BaseComponent implements Personalization
 {
     use DefaultInputClasses;
+    use DetermineInputId;
 
     public function __construct(
         public ?string $label = null,
