@@ -212,6 +212,8 @@ export default (
     }
 
     this.model = null;
+
+    this.focus(1);
   },
   /**
    * The hidden div element used to validate the inputs.
