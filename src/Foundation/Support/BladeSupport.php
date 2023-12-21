@@ -16,6 +16,7 @@ class BladeSupport
 
     public function entangle(): string
     {
+        // TODO: $__livewire here?
         if (($wire = $this->wireable()) === null) {
             return Blade::render('null');
         }
@@ -32,12 +33,12 @@ class BladeSupport
         return "JSON.parse(atob('".base64_encode(json_encode($data))."'))";
     }
 
-    public function wireable(): ?WireDirective
+    public function wireable(bool $livewire = false): ?WireDirective
     {
         // For some unknown reason the macros are not defined when we are testing.
         // I assume this happens because Laravel doesn't bootstrap something necessary
         // To the macro works when we are testing using the `$this->blade()` method.
-        if (! $this->attributes::hasMacro('wire')) {
+        if (! $livewire || ! $this->attributes::hasMacro('wire')) {
             return null;
         }
 

@@ -6,8 +6,10 @@ use Closure;
 use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
+use Illuminate\Support\ViewErrorBag;
 use Illuminate\View\Component;
 use Illuminate\View\ComponentAttributeBag;
+use Illuminate\View\Factory;
 use Livewire\WireDirective;
 use ReflectionAttribute;
 use ReflectionClass;
@@ -17,6 +19,7 @@ use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Colors\ResolveColor;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\ResolveConfiguration;
+use TallStackUi\Foundation\Support\BindProperty;
 use Throwable;
 
 abstract class BaseComponent extends Component
@@ -61,6 +64,20 @@ abstract class BaseComponent extends Component
         );
     }
 
+    public function property(
+        ComponentAttributeBag $attributes,
+        ViewErrorBag $errors,
+        Factory $factory,
+        bool $livewire = false
+    ): array {
+        return app(BindProperty::class, [
+            'attributes' => $attributes,
+            'errors' => $errors,
+            'factory' => $factory,
+            'livewire' => $livewire,
+        ])->data();
+    }
+
     public function render(): Closure
     {
         return function (array $data) {
@@ -68,10 +85,10 @@ abstract class BaseComponent extends Component
         };
     }
 
-    /** Proxy for the `wireable` method of the Facade */
-    public function wireable(ComponentAttributeBag $attributes): ?WireDirective
+    /** Proxy for the `wireable` method of the Facade */ // TODO: probably deprecated
+    public function wireable(ComponentAttributeBag $attributes, ?bool $livewire = null): ?WireDirective
     {
-        return TallStackUi::blade($attributes)->wireable();
+        return TallStackUi::blade($attributes)->wireable($livewire);
     }
 
     /** @throws Throwable */
