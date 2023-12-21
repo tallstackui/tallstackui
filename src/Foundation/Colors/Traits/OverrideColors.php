@@ -64,8 +64,9 @@ trait OverrideColors
                 continue;
             }
 
-            /** @var array|string|null $result */
-            $result = $data[$method]();
+            // We execute this as a closure because it will be
+            // an instance of the InvokableComponentVariable
+            $result = $data[$method](); // @phpstan-ignore-line
 
             $this->overrides[$original] = blank($result) ? null : $result;
         }

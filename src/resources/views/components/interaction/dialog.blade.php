@@ -35,36 +35,36 @@
                 <div>
                     <div @class($personalize['icon.wrapper'])
                          x-bind:class="{
-                            'bg-green-100 dark:bg-dark-600' : dialog.type === 'success',
-                            'bg-red-100 dark:bg-dark-600' : dialog.type === 'error',
-                            'bg-blue-100 dark:bg-dark-600' : dialog.type === 'info',
-                            'bg-yellow-100 dark:bg-dark-600' : dialog.type === 'warning',
-                            'bg-secondary-100 dark:bg-dark-600' : dialog.type === 'question',
+                            '{{ $colors['icon']['background']['success'] }}': dialog.type === 'success',
+                            '{{ $colors['icon']['background']['error'] }}': dialog.type === 'error',
+                            '{{ $colors['icon']['background']['info'] }}': dialog.type === 'info',
+                            '{{ $colors['icon']['background']['warning'] }}': dialog.type === 'warning',
+                            '{{ $colors['icon']['background']['question'] }}': dialog.type === 'question'
                         }">
                         <div x-show="dialog.type === 'success'">
                             <x-icon name="check-circle"
                                     outline
-                                    @class([$personalize['icon.size'], 'text-green-600 dark:text-green-500']) />
+                                    @class([$personalize['icon.size'], $colors['icon']['icon']['success']]) />
                         </div>
                         <div x-show="dialog.type === 'error'">
                             <x-icon name="x-circle"
                                     outline
-                                    @class([$personalize['icon.size'], 'text-red-600 dark:text-red-500']) />
+                                    @class([$personalize['icon.size'], $colors['icon']['icon']['error']]) />
                         </div>
                         <div x-show="dialog.type === 'info'">
                             <x-icon name="information-circle"
                                     outline
-                                    @class([$personalize['icon.size'], 'text-blue-600 dark:text-blue-500']) />
+                                    @class([$personalize['icon.size'], $colors['icon']['icon']['info']]) />
                         </div>
                         <div x-show="dialog.type === 'warning'">
                             <x-icon name="exclamation-circle"
                                     outline
-                                    @class([$personalize['icon.size'], 'text-yellow-600 dark:text-yellow-500']) />
+                                    @class([$personalize['icon.size'], $colors['icon']['icon']['warning']]) />
                         </div>
                         <div x-show="dialog.type === 'question'">
                             <x-icon name="question-mark-circle"
                                     outline
-                                    @class([$personalize['icon.size'], 'text-secondary-600 dark:text-secondary-500']) />
+                                    @class([$personalize['icon.size'], $colors['icon']['icon']['question']]) />
                         </div>
                     </div>
                     <div @class($personalize['text.wrapper'])>
@@ -76,9 +76,9 @@
                 </div>
                 <div @class($personalize['buttons.wrapper'])>
                     <div x-show="dialog.type === 'question'">
-                        <x-button color="red"
+                        <x-button :color="$colors['cancel']"
                                   class="w-full text-sm"
-                                  x-on:click="reject(dialog)"
+                                  x-on:click="reject(dialog, $el)"
                                   x-text="dialog.options?.cancel.text"
                                   dusk="tallstackui_dialog_rejection"
                         />
@@ -86,13 +86,13 @@
                     <button @class($personalize['buttons.confirm']) x-bind:class="{
                             'sm:w-auto' : dialog.type === 'question',
                             'col-span-full' : dialog.type !== 'question',
-                            'bg-green-600 hover:bg-green-700 focus:ring-green-500 focus:ring-offset-green-100 dark:ring-offset-green-900' : dialog.type === 'success',
-                            'bg-red-600 hover:bg-red-700 focus:ring-red-500 focus:ring-offset-red-100 dark:ring-offset-red-900' : dialog.type === 'error',
-                            'bg-blue-600 hover:bg-blue-700 focus:ring-blue-500 focus:ring-offset-blue-100 dark:ring-offset-blue-900' : dialog.type === 'info',
-                            'bg-yellow-600 hover:bg-yellow-700 focus:ring-yellow-500 focus:ring-offset-yellow-100 dark:ring-offset-yellow-900' : dialog.type === 'warning',
-                            'bg-primary-600 hover:bg-primary-700 focus:ring-primary-500 focus:ring-offset-primary-100 dark:ring-offset-primary-900' : dialog.type === 'question'
+                            '{{ $colors['confirm']['success'] }}': dialog.type === 'success',
+                            '{{ $colors['confirm']['error'] }}': dialog.type === 'error',
+                            '{{ $colors['confirm']['info'] }}': dialog.type === 'info',
+                            '{{ $colors['confirm']['warning'] }}': dialog.type === 'warning',
+                            '{{ $colors['confirm']['question'] }}': dialog.type === 'question'
                         }" dusk="tallstackui_dialog_confirmation"
-                           x-on:click="accept(dialog)"
+                           x-on:click="accept(dialog, $el)"
                            x-text="dialog.type === 'question' ? dialog.options.confirm.text : text.ok"></button>
                 </div>
             </div>

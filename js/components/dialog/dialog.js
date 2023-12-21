@@ -11,15 +11,27 @@ export default (ok, confirm, cancel) => ({
   init() {
     this.$watch('show', (value) => overflow(value, 'dialog'));
   },
+  /**
+   * @param dialog {Object}
+   * @return {void}
+   */
   add(dialog) {
     this.show = true;
 
     this.dialog = dialog;
   },
+  /**
+   * @return {void}
+   */
   remove() {
     this.show = false;
   },
-  accept(dialog) {
+  /**
+   * @param dialog {Object}
+   * @param element {HTMLElement}
+   * @return {void}
+   */
+  accept(dialog, element) {
     if (dialog.type !== 'question') {
       return this.remove();
     }
@@ -27,13 +39,24 @@ export default (ok, confirm, cancel) => ({
     const params = dialog.options.confirm.params ?? null;
 
     dispatchEvent('dialog:accepted', dialog);
-    setTimeout(() => window.Livewire
-        .find(dialog.component)
-        .call(dialog.options.confirm.method, params?.constructor !== Array ? params : [...params]), 100);
+    setTimeout(() => {
+      window.Livewire
+          .find(dialog.component)
+          .call(dialog.options.confirm.method, params?.constructor !== Array ? params : [...params]);
+
+      // This is a little trick to prevent the element from being
+      // focused if there is another dialog displayed sequentially.
+      element.blur();
+    }, 100);
 
     this.remove();
   },
-  reject(dialog) {
+  /**
+   * @param dialog {Object}
+   * @param element {HTMLElement}
+   * @return {void}
+   */
+  reject(dialog, element) {
     if (dialog.type !== 'question') {
       return this.remove();
     }
@@ -42,9 +65,15 @@ export default (ok, confirm, cancel) => ({
 
     if (dialog.options.cancel.method) {
       const params = dialog.options.cancel.params ?? null;
-      setTimeout(() => window.Livewire
-          .find(dialog.component)
-          .call(dialog.options.cancel.method, params?.constructor !== Array ? params : [...params]), 100);
+      setTimeout(() => {
+        window.Livewire
+            .find(dialog.component)
+            .call(dialog.options.cancel.method, params?.constructor !== Array ? params : [...params]);
+
+        // This is a little trick to prevent the element from being
+        // focused if there is another dialog displayed sequentially.
+        element.blur();
+      }, 100);
     }
 
     this.remove();
