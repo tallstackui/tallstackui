@@ -1,22 +1,21 @@
 <?php
 
-it('can render title', function () {
-    $this->blade('<x-alert title="Foo bar" />')
-        ->assertSee('Foo bar')
-        ->assertSee('bg-primary-600');
-});
+it('can render title')
+    ->expect('<x-alert title="Foo bar" />')
+    ->render()
+    ->toContain('Foo bar');
 
-it('can render text', function () {
-    $this->blade('<x-alert text="Bar foo" />')
-        ->assertSee('Bar foo')
-        ->assertSee('bg-primary-600');
-});
+it('can render text')
+    ->expect('<x-alert text="Bar foo" />')
+    ->render()
+    ->toContain('Bar foo')
+    ->toContain('bg-primary-600');
 
-it('can render slot', function () {
-    $this->blade('<x-alert>Foo bar</x-alert>')
-        ->assertSee('Foo bar')
-        ->assertSee('bg-primary-600');
-});
+it('can render slot')
+    ->expect('<x-alert>Foo bar</x-alert>')
+    ->render()
+    ->toContain('Foo bar')
+    ->toContain('bg-primary-600');
 
 it('can render with footer slot', function () {
     $component = <<<'HTML'
@@ -28,35 +27,35 @@ it('can render with footer slot', function () {
         </x-alert>
     HTML;
 
-    $this->blade($component)
-        ->assertSee('Foo bar')
-        ->assertSee('Button');
+    expect($component)->render()
+        ->toContain('Foo bar')
+        ->toContain('Button');
 });
 
-it('can render close alert', function () {
-    $this->blade('<x-alert text="Foo bar" close />')
-        ->assertSee('<svg class="w-5 h-5 text-primary-50"', false);
-});
+it('can render close alert')
+    ->expect('<x-alert text="Foo bar" close />')
+    ->render()
+    ->toContain('<svg class="w-5 h-5 text-primary-50"');
 
-it('can render light', function () {
-    $this->blade('<x-alert text="Foo bar" light />')
-        ->assertSee('Foo bar')
-        ->assertDontSee('bg-primary-600')
-        ->assertSee('bg-primary-50');
-});
+it('can render light')
+    ->expect('<x-alert text="Foo bar" light />')
+    ->render()
+    ->toContain('Foo bar')
+    ->toContain('bg-primary-50')
+    ->not->toContain('bg-primary-600');
 
-it('can render black background with white text', function () {
-    $this->blade('<x-alert text="Foo bar" color="black" />')
-        ->assertSee('Foo bar')
-        ->assertSee('bg-black')
-        ->assertSee('text-white')
-        ->assertDontSee('text-black');
-});
+it('can render black background with white text')
+    ->expect('<x-alert text="Foo bar" color="black" />')
+    ->render()
+    ->toContain('Foo bar')
+    ->toContain('bg-black')
+    ->toContain('text-white')
+    ->not->toContain('text-black');
 
-it('can render white background with black text', function () {
-    $this->blade('<x-alert text="Foo bar" color="white" />')
-        ->assertSee('Foo bar')
-        ->assertSee('bg-white')
-        ->assertSee('text-black')
-        ->assertDontSee('text-white');
-});
+it('can render white background with black text')
+    ->expect('<x-alert text="Foo bar" color="white" />')
+    ->render()
+    ->toContain('Foo bar')
+    ->toContain('bg-white')
+    ->toContain('text-black')
+    ->not->toContain('text-white');

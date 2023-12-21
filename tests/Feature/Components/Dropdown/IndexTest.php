@@ -10,9 +10,9 @@ it('can render', function () {
     </x-dropdown>
     HTML;
 
-    $this->blade($dropdown)
-        ->assertSee('Settings')
-        ->assertSee('Logout');
+    expect($dropdown)->render()
+        ->toContain('Settings')
+        ->toContain('Logout');
 });
 
 it('can render positions', function (string $position) {
@@ -23,10 +23,10 @@ it('can render positions', function (string $position) {
     </x-dropdown>
     HTML;
 
-    $this->blade($dropdown)
-        ->assertSee('Settings')
-        ->assertSee('x-anchor.'.$position)
-        ->assertSee('Logout');
+    expect($dropdown)->render()
+        ->toContain('Settings')
+        ->toContain('x-anchor.'.$position)
+        ->toContain('Logout');
 })->with([
     'bottom', 'bottom-start', 'bottom-end', 'top', 'top-start', 'top-end', 'left', 'left-start', 'left-end', 'right', 'right-start', 'right-end',
 ]);
@@ -39,10 +39,10 @@ it('can render static', function () {
     </x-dropdown>
     HTML;
 
-    $this->blade($dropdown)
-        ->assertSee('Settings')
-        ->assertSee('Logout')
-        ->assertDontSee('x-data={ show : false, animate : false }', false);
+    expect($dropdown)->render()
+        ->toContain('Settings')
+        ->toContain('Logout')
+        ->not->toContain('x-data={ show : false, animate : false }');
 });
 
 it('can render action slot', function () {
@@ -56,11 +56,11 @@ it('can render action slot', function () {
     </x-dropdown>
     HTML;
 
-    $this->blade($dropdown)
-        ->assertSee('Settings')
-        ->assertSee('Open')
-        ->assertSee('<button', false)
-        ->assertSee('Logout');
+    expect($dropdown)->render()
+        ->toContain('Settings')
+        ->toContain('Open')
+        ->toContain('<button', false)
+        ->toContain('Logout');
 });
 
 it('can render header slot', function () {
@@ -74,10 +74,10 @@ it('can render header slot', function () {
     </x-dropdown>
     HTML;
 
-    $this->blade($dropdown)
-        ->assertSee('Settings')
-        ->assertSee('Foo bar')
-        ->assertSee('Logout');
+    expect($dropdown)->render()
+        ->toContain('Settings')
+        ->toContain('Foo bar')
+        ->toContain('Logout');
 });
 
 it('cannot render unaceptable positions', function (string $position) {
@@ -90,8 +90,8 @@ it('cannot render unaceptable positions', function (string $position) {
     </x-dropdown>
     HTML;
 
-    $this->blade($dropdown)
-        ->assertSee('Settings')
-        ->assertSee('x-anchor.'.$position)
-        ->assertSee('Logout');
+    expect($dropdown)->render()
+        ->toContain('Settings')
+        ->toContain('x-anchor.'.$position)
+        ->toContain('Logout');
 })->with(['foo', 'bar', 'baz']);

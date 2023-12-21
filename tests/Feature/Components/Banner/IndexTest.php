@@ -2,10 +2,10 @@
 
 use Illuminate\View\ViewException;
 
-it('can render', function () {
-    $this->blade('<x-banner text="Foo bar" />')
-        ->assertSee('Foo bar');
-});
+it('can render')
+    ->expect('<x-banner text="Foo bar" />')
+    ->render()
+    ->toContain('Foo bar');
 
 it('can render with custom colors', function () {
     $component = <<<'HTML'
@@ -15,9 +15,9 @@ it('can render with custom colors', function () {
     ]" />
     HTML;
 
-    $this->blade($component)
-        ->assertSee('bg-[#000000]')
-        ->assertSee('text-[#ffffff]');
+    expect($component)->render()
+        ->toContain('bg-[#000000]')
+        ->toContain('text-[#ffffff]');
 });
 
 it('can render with sizes', function (string $size) {
@@ -25,7 +25,8 @@ it('can render with sizes', function (string $size) {
     <x-banner text="Foo bar" size="$size" />
     HTML;
 
-    $this->blade($component)->assertSee('Foo bar');
+    expect($component)->render()
+        ->toContain('Foo bar');
 })->with(['sm', 'md', 'lg']);
 
 it('can render with colors', function (string $colors) {
@@ -33,7 +34,8 @@ it('can render with colors', function (string $colors) {
     <x-banner text="Foo bar" color="$colors" />
     HTML;
 
-    $this->blade($component)->assertSee('Foo bar');
+    expect($component)->render()
+        ->toContain('Foo bar');
 })->with('colors');
 
 it('can render with multiple text as array', function () {
@@ -41,8 +43,8 @@ it('can render with multiple text as array', function () {
     <x-banner :text="['Foo']" />
     HTML;
 
-    $this->blade($component)
-        ->assertSee('Foo');
+    expect($component)->render()
+        ->toContain('Foo');
 });
 
 it('can render with text as collection', function () {
@@ -52,8 +54,8 @@ it('can render with text as collection', function () {
     <x-banner :text="$collect" />
     HTML;
 
-    $this->blade($component)
-        ->assertSee('Foo');
+    expect($component)->render()
+        ->toContain('Foo');
 });
 
 it('can render date until as string', function () {
@@ -63,8 +65,8 @@ it('can render date until as string', function () {
     <x-banner text="Foo" until="$date" />
     HTML;
 
-    $this->blade($component)
-        ->assertSee('Foo');
+    expect($component)->render()
+        ->toContain('Foo');
 });
 
 it('can render date until as carbon instance', function () {
@@ -72,8 +74,8 @@ it('can render date until as carbon instance', function () {
     <x-banner text="Foo" :until="now()->addDay()" />
     HTML;
 
-    $this->blade($component)
-        ->assertSee('Foo');
+    expect($component)->render()
+        ->toContain('Foo');
 });
 
 it('can render animated', function () {
@@ -81,8 +83,8 @@ it('can render animated', function () {
     <x-banner text="Foo" animated :enter="null" leave="5" />
     HTML;
 
-    $this->blade($component)
-        ->assertSee('Foo');
+    expect($component)->render()
+        ->toContain('Foo');
 });
 
 it('cannot render with date in past', function (string $date) {
@@ -90,8 +92,8 @@ it('cannot render with date in past', function (string $date) {
     <x-banner text="Foo bar baz" until="$date" />
     HTML;
 
-    $this->blade($component)
-        ->assertDontSee('Foo bar baz');
+    expect($component)->render()
+        ->not->toContain('Foo bar baz');
 })->with([
     fn () => now()->subDay()->format('Y-m-d'),
     fn () => now()->subWeek()->format('Y-m-d'),
@@ -106,7 +108,7 @@ it('cannot render with custom without background', function () {
     ]" />
     HTML;
 
-    $this->blade($component);
+    expect($component)->render();
 });
 
 it('cannot render with custom without text', function () {
@@ -118,5 +120,5 @@ it('cannot render with custom without text', function () {
     ]" />
     HTML;
 
-    $this->blade($component);
+    expect($component)->render();
 });

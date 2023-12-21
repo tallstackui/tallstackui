@@ -12,9 +12,8 @@ it('can render size variations', function (array $size) {
 
     $component = str_replace('{{ size }}', $key, $component);
 
-    $this->blade($component)
-        ->assertSee('Foo bar')
-        ->assertSee($class);
+    expect($component)->render()
+        ->toContain('Foo bar', $class);
 })->with([
     fn () => ['xs' => 'h-4 w-4'],
     fn () => ['sm' => 'h-5 w-5'],
@@ -27,8 +26,8 @@ it('can render positioned', function (string $position) {
     <x-tooltip text="Foo bar" position="$position" />
     HTML;
 
-    $this->blade($component)
-        ->assertSee('Foo bar');
+    expect($component)->render()
+        ->toContain('Foo bar');
 })->with(['top', 'bottom', 'left', 'right']);
 
 it('cannot use bad positions', function (string $position) {
@@ -38,6 +37,6 @@ it('cannot use bad positions', function (string $position) {
     <x-tooltip text="Foo bar" position="$position" />
     HTML;
 
-    $this->blade($component)
-        ->assertSee('Foo bar');
+    expect($component)->render()
+        ->toContain('Foo bar');
 })->with(['foo', 'bar', 'baz']);

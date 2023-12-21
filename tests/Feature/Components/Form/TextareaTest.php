@@ -1,67 +1,43 @@
 <?php
 
-it('can render', function () {
-    $component = <<<'HTML'
-    <x-textarea />
-    HTML;
+it('can render')
+    ->expect('<x-textarea />')
+    ->render()
+    ->toContain('<textarea');
 
-    $this->blade($component)
-        ->assertSee('<textarea', false);
-});
+it('can render with label')
+    ->expect('<x-textarea label="Foo bar" />')
+    ->render()
+    ->toContain('<textarea')
+    ->toContain('Foo bar');
 
-it('can render with label', function () {
-    $component = <<<'HTML'
-    <x-textarea label="Foo bar" />
-    HTML;
+it('can render with label and hint')
+    ->expect('<x-textarea label="Foo bar" hint="Bar baz" />')
+    ->render()
+    ->toContain('<textarea')
+    ->toContain('Bar baz')
+    ->toContain('Foo bar');
 
-    $this->blade($component)
-        ->assertSee('<textarea', false)
-        ->assertSee('Foo bar');
-});
+it('can render without resize')
+    ->expect('<x-textarea label="Foo bar" hint="Bar baz" />')
+    ->render()
+    ->toContain('<textarea')
+    ->toContain('resize-none')
+    ->toContain('Bar baz')
+    ->toContain('Foo bar');
 
-it('can render with label and hint', function () {
-    $component = <<<'HTML'
-    <x-textarea label="Foo bar" hint="Bar baz" />
-    HTML;
+it('can render resize')
+    ->expect('<x-textarea label="Foo bar" hint="Bar baz" resize />')
+    ->render()
+    ->toContain('<textarea')
+    ->toContain('Bar baz')
+    ->toContain('Foo bar')
+    ->not->toContain('resize-none');
 
-    $this->blade($component)
-        ->assertSee('<textarea', false)
-        ->assertSee('Bar baz')
-        ->assertSee('Foo bar');
-});
-
-it('can render without resize', function () {
-    $component = <<<'HTML'
-    <x-textarea label="Foo bar" hint="Bar baz" />
-    HTML;
-
-    $this->blade($component)
-        ->assertSee('<textarea', false)
-        ->assertSee('resize-none')
-        ->assertSee('Bar baz')
-        ->assertSee('Foo bar');
-});
-
-it('can render resize', function () {
-    $component = <<<'HTML'
-    <x-textarea label="Foo bar" hint="Bar baz" resize />
-    HTML;
-
-    $this->blade($component)
-        ->assertSee('<textarea', false)
-        ->assertDontSee('resize-none')
-        ->assertSee('Bar baz')
-        ->assertSee('Foo bar');
-});
-
-it('can render with resize-auto', function () {
-    $component = <<<'HTML'
-    <x-textarea label="Foo bar" hint="Bar baz" resize-auto />
-    HTML;
-
-    $this->blade($component)
-        ->assertSee('<textarea', false)
-        ->assertDontSee('resize-none')
-        ->assertSee('Bar baz')
-        ->assertSee('Foo bar');
-});
+it('can render with resize-auto')
+    ->expect('<x-textarea label="Foo bar" hint="Bar baz" resize-auto />')
+    ->render()
+    ->toContain('<textarea')
+    ->toContain('Bar baz')
+    ->toContain('Foo bar')
+    ->not->toContain('resize-none');

@@ -1,31 +1,32 @@
 <?php
 
-it('can render', function () {
-    $this->blade('<x-avatar label="Lorem" />')
-        ->assertSee('Lorem');
-});
+it('can render')
+    ->expect('<x-avatar label="Lorem" />')
+    ->render()
+    ->toContain('Lorem');
 
-it('can render sm', function () {
-    $this->blade('<x-avatar label="Lorem" sm />')
-        ->assertSee('w-8 h-8');
-});
+it('can render sm')
+    ->expect('<x-avatar label="Lorem" sm />')
+    ->render()
+    ->toContain('w-8 h-8');
 
-it('can render md', function () {
-    $this->blade('<x-avatar label="Lorem" md />')
-        ->assertSee('w-12 h-12');
-});
+it('can render md')
+    ->expect('<x-avatar label="Lorem" md />')
+    ->render()
+    ->toContain('w-12 h-12');
 
-it('can render lg', function () {
-    $this->blade('<x-avatar label="Lorem" lg />')
-        ->assertSee('w-14 h-14');
-});
+it('can render lg')
+    ->expect('<x-avatar label="Lorem" lg />')
+    ->render()
+    ->toContain('w-14 h-14');
 
-it('can render square', function () {
-    $this->blade('<x-avatar label="Lorem" lg square />')
-        ->assertDontSee('rounded-full');
-});
+it('can render square')
+    ->expect('<x-avatar label="Lorem" lg square />')
+    ->render()
+    ->not
+    ->toContain('rounded-full');
 
-it('can render placeholder', function () {
-    $this->blade('<x-avatar />')
-        ->assertSee('svg');
-});
+it('can render placeholder')
+    ->expect('<x-avatar />')
+    ->render()
+    ->toContain('svg');

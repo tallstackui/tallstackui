@@ -1,31 +1,27 @@
 <?php
 
-it('can render', function () {
-    $component = <<<'HTML'
-    <x-pin length="2" />
-    HTML;
+use Illuminate\View\ViewException;
 
-    $this->blade($component)
-        ->assertSee('<input', false);
-});
+it('can render')
+    ->expect('<x-pin length="2" />')
+    ->render()
+    ->toContain('<input');
 
-it('can render with label', function () {
-    $component = <<<'HTML'
-    <x-pin label="Foo bar" length="2" />
-    HTML;
+it('can render with label')
+    ->expect('<x-pin label="Foo bar" length="2" />')
+    ->render()
+    ->toContain('<input')
+    ->toContain('Foo bar');
 
-    $this->blade($component)
-        ->assertSee('<input', false)
-        ->assertSee('Foo bar');
-});
+it('can render with label and hint')
+    ->expect('<x-pin label="Foo bar" hint="Bar baz" length="4" />')
+    ->render()
+    ->toContain('<input')
+    ->toContain('Foo bar')
+    ->toContain('Bar baz');
 
-it('can render with label and hint', function () {
-    $component = <<<'HTML'
-    <x-pin label="Foo bar" hint="Bar baz" length="4" />
-    HTML;
+it('cannot use the pin without length', function () {
+    $this->expectException(ViewException::class);
 
-    $this->blade($component)
-        ->assertSee('<input', false)
-        ->assertSee('Foo bar')
-        ->assertSee('Bar baz');
+    expect('<x-pin />')->render();
 });

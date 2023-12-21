@@ -1,12 +1,8 @@
 <?php
 
 it('can render askerisk', function () {
-    $component = <<<'HTML'
-    <x-input label="FooBar *" hint="Insert your name" />
-    HTML;
-
-    $this->blade($component)
-        ->assertSee('font-bold not-italic text-red-500', false);
+    expect('<x-input label="FooBar *" hint="Insert your name" />')->render()
+        ->toContain('font-bold not-italic text-red-500');
 });
 
 it('cannot render askerisk', function (string $label) {
@@ -14,6 +10,5 @@ it('cannot render askerisk', function (string $label) {
     <x-input label="$label" hint="Insert your name" />
     HTML;
 
-    $this->blade($component)
-        ->assertDontSee('<i class', false);
+    expect($component)->render()->not->toContain('<i class');
 })->with(['FooBar', 'FooBar **']);

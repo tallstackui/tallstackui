@@ -38,21 +38,13 @@ describe('DetermineInputId', function () {
             RadioWrapper::class,
         ])->not->toUse(DetermineInputId::class);
 
-    it('should return the correct id based on id', function () {
-        $component = <<<'HTML'
-        <x-input id="foo-bar-baz" />
-        HTML;
+    it('should return the correct id based on id')
+        ->expect('<x-input id="foo-bar-baz" />')
+        ->render()
+        ->toContain('id="foo-bar-baz"');
 
-        $this->blade($component)
-            ->assertSee('id="foo-bar-baz"', false);
-    });
-
-    it('should return the correct id based on name', function () {
-        $component = <<<'HTML'
-        <x-input name="foo-bar-baz" />
-        HTML;
-
-        $this->blade($component)
-            ->assertSee('id="foo-bar-baz"', false);
-    });
+    it('should return the correct id based on name')
+        ->expect('<x-input name="foo-bar-baz" />')
+        ->render()
+        ->toContain('id="foo-bar-baz"');
 });

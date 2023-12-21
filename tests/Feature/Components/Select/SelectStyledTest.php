@@ -7,8 +7,8 @@ it('can use as common select', function () {
     <x-select.styled label="Foo bar baz" hint="Foo bar baz" :options="['foo', 'bar', 'baz']" />
 HTML;
 
-    $this->blade($component)
-        ->assertSee('Foo bar baz');
+    expect($component)->render()
+        ->toContain('Foo bar baz');
 });
 
 it('can use as request select', function () {
@@ -16,8 +16,8 @@ it('can use as request select', function () {
     <x-select.styled label="Foo bar baz" hint="Foo bar baz" request="https://foo-bar.com" select="label:label|value:id" />
 HTML;
 
-    $this->blade($component)
-        ->assertSee('Foo bar baz');
+    expect($component)->render()
+        ->toContain('Foo bar baz');
 });
 
 it('can thrown exception when using options and request', function () {
@@ -32,7 +32,8 @@ it('can thrown exception when using options and request', function () {
     />
 HTML;
 
-    $this->blade($component)->assertSee('Foo bar baz');
+    expect($component)->render()
+        ->toContain('Foo bar baz');
 });
 
 it('can thrown exception when select was not defined using select as common', function () {
@@ -48,8 +49,8 @@ it('can thrown exception when select was not defined using select as common', fu
                      ]" />
 HTML;
 
-    $this->blade($component)
-        ->assertSee('Foo bar baz');
+    expect($component)->render()
+        ->toContain('Foo bar baz');
 });
 
 it('can thrown exception when request is array using unaceptable method', function (string $method) {
@@ -69,7 +70,7 @@ HTML;
 
     $component = str_replace('{{ method }}', $method, $component);
 
-    $this->blade($component);
+    expect($component)->render();
 })->with(['delete', 'put', 'patch']);
 
 it('can thrown exception when params is empty', function () {
@@ -87,7 +88,7 @@ it('can thrown exception when params is empty', function () {
     />
 HTML;
 
-    $this->blade($component);
+    expect($component)->render();
 });
 
 it('can thrown exception when params is not array', function () {
@@ -105,7 +106,7 @@ it('can thrown exception when params is not array', function () {
     />
 HTML;
 
-    $this->blade($component);
+    expect($component)->render();
 });
 
 it('can thrown exception when select was not defined using select as request', function () {
@@ -119,7 +120,7 @@ it('can thrown exception when select was not defined using select as request', f
     />
 HTML;
 
-    $this->blade($component);
+    expect($component)->render();
 });
 
 it('can thrown exception when options is array of arrays without using select', function () {
@@ -136,5 +137,5 @@ it('can thrown exception when options is array of arrays without using select', 
     />
 HTML;
 
-    $this->blade($component);
+    expect($component)->render();
 });

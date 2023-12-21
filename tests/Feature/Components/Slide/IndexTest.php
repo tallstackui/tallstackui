@@ -9,10 +9,8 @@ it('can render', function () {
     </x-slide>
     HTML;
 
-    $this->blade($slide)
-        ->assertSee('Foo bar')
-        ->assertSee('Bar Baz')
-        ->assertSee('Foo bar baz');
+    expect($slide)->render()
+        ->toContain('Foo bar', 'Bar Baz', 'Foo bar baz');
 });
 
 it('can render footer attributes when is not string', function () {
@@ -25,11 +23,8 @@ it('can render footer attributes when is not string', function () {
     </x-slide>
     HTML;
 
-    $this->blade($slide)
-        ->assertSee('Foo Bar')
-        ->assertSee('Bar Baz')
-        ->assertSee('Footer')
-        ->assertSee('foo-bar-baz-bah');
+    expect($slide)->render()
+        ->toContain('Foo Bar', 'Bar Baz', 'Footer', 'foo-bar-baz-bah');
 });
 
 it('can thrown exception when wire is empty', function () {
@@ -42,10 +37,8 @@ it('can thrown exception when wire is empty', function () {
     </x-slide>
     HTML;
 
-    $this->blade($slide)
-        ->assertSee('Foo bar')
-        ->assertSee('Bar Baz')
-        ->assertSee('Foo bar baz');
+    expect($slide)->render()
+        ->toContain('Foo bar', 'Bar Baz', 'Foo bar baz');
 });
 
 it('can thrown exception when size is unnaceptable', function (string $size) {
@@ -58,7 +51,8 @@ it('can thrown exception when size is unnaceptable', function (string $size) {
     </x-slide>
     HTML;
 
-    $this->blade($slide)->assertSee('Bar Baz');
+    expect($slide)->render()
+        ->toContain('Bar Baz');
 })->with([
     'foo',
     'bar',
@@ -76,5 +70,6 @@ it('can thrown exception when z-index does not contains prefix', function () {
     </x-slide>
     HTML;
 
-    $this->blade($slide)->assertSee('Bar Baz');
+    expect($slide)->render()
+        ->toContain('Bar Baz');
 });

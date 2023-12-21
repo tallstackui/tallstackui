@@ -12,7 +12,6 @@ it('can render', function () {
     </x-tab>
 HTML;
 
-    $this->blade($component)
-        ->assertSee('Foo')
-        ->assertSee('Bar');
+    expect($component)->render()
+        ->toContain('Foo', 'Bar');
 });

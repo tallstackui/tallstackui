@@ -1,67 +1,42 @@
 <?php
 
-it('can render', function () {
+it('can render')
+    ->expect('<x-range />')
+    ->render()
+    ->toContain('<input');
+
+it('can render with label')
+    ->expect('<x-range label="Foo bar" />')
+    ->render()
+    ->toContain('<input')
+    ->toContain('Foo bar');
+
+it('can render with label and hint')
+    ->expect('<x-range label="Foo bar" hint="Bar baz" />')
+    ->render()
+    ->toContain('<input')
+    ->toContain('Bar baz')
+    ->toContain('Foo bar');
+
+it('can render with sizes', function (string $size) {
     $component = <<<'HTML'
-    <x-range />
+    <x-range label="Foo bar" hint="Bar baz" {{ size }} />
     HTML;
 
-    $this->blade($component)
-        ->assertSee('<input', false);
-});
+    $component = str_replace('{{ size }}', $size, $component);
 
-it('can render with label', function () {
-    $component = <<<'HTML'
-    <x-range label="Foo bar" />
-    HTML;
+    expect($component)->render()
+        ->toContain('<input')
+        ->toContain('Bar baz')
+        ->toContain('Foo bar');
+})->with(['sm', 'md', 'lg']);
 
-    $this->blade($component)
-        ->assertSee('<input', false)
-        ->assertSee('Foo bar');
-});
-
-it('can render with label and hint', function () {
-    $component = <<<'HTML'
-    <x-range label="Foo bar" hint="Bar baz" />
-    HTML;
-
-    $this->blade($component)
-        ->assertSee('<input', false)
-        ->assertSee('Bar baz')
-        ->assertSee('Foo bar');
-});
-
-it('can render as sm', function () {
-    $component = <<<'HTML'
-    <x-range label="Foo bar" hint="Bar baz" sm />
-    HTML;
-
-    $this->blade($component)
-        ->assertSee('<input', false)
-        ->assertSee('Bar baz')
-        ->assertSee('Foo bar');
-});
-
-it('can render as lg', function () {
-    $component = <<<'HTML'
-    <x-range label="Foo bar" hint="Bar baz" lg />
-    HTML;
-
-    $this->blade($component)
-        ->assertSee('<input', false)
-        ->assertSee('Bar baz')
-        ->assertSee('Foo bar');
-});
-
-it('can render with steps', function () {
-    $component = <<<'HTML'
-    <x-range label="Foo bar" hint="Bar baz" step="5" />
-    HTML;
-
-    $this->blade($component)
-        ->assertSee('<input', false)
-        ->assertSee('Bar baz')
-        ->assertSee('Foo bar');
-});
+it('can render with steps')
+    ->expect('<x-range label="Foo bar" hint="Bar baz" step="5" />')
+    ->render()
+    ->toContain('<input')
+    ->toContain('Bar baz')
+    ->toContain('Foo bar');
 
 it('can render with colors', function (string $colors) {
     $component = <<<HTML
@@ -74,7 +49,7 @@ it('can render with colors', function (string $colors) {
         default => $colors.'-500'
     };
 
-    $this->blade($component)
-        ->assertSee('<input', false)
-        ->assertSee($colors, false);
+    expect($component)->render()
+        ->toContain('<input')
+        ->toContain($colors);
 })->with('colors');

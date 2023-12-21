@@ -1,51 +1,34 @@
 <?php
 
-it('can render', function () {
-    $component = <<<'HTML'
-    <x-color />
-    HTML;
+it('can render')
+    ->expect('<x-color />')
+    ->render()
+    ->toContain('<input');
 
-    $this->blade($component)
-        ->assertSee('<input', false);
-});
-
-it('can render in picker mode', function () {
-    $component = <<<'HTML'
-    <x-color picker />
-    HTML;
-
-    $this->blade($component)
-        ->assertSee('<input', false);
-});
+it('can render in picker mode')
+    ->expect('<x-color picker />')
+    ->render()
+    ->toContain('<input');
 
 it('can render with custom colors', function () {
     $component = <<<'HTML'
     <x-color :colors="['#fff', '#000']" />
     HTML;
 
-    $this->blade($component)
-        ->assertSee('<input', false)
-        ->assertSee('#fff', false)
-        ->assertSee('#000', false);
+    expect($component)->render()
+        ->toContain('<input')
+        ->toContain('#fff')
+        ->toContain('#000');
 });
 
-it('can render with label', function () {
-    $component = <<<'HTML'
-    <x-color label="Foo bar" />
-    HTML;
+it('can render with label')
+    ->expect('<x-color label="Foo bar" />')
+    ->render()
+    ->toContain('<input', false)
+    ->toContain('Foo bar');
 
-    $this->blade($component)
-        ->assertSee('<input', false)
-        ->assertSee('Foo bar');
-});
-
-it('can render with label and hint', function () {
-    $component = <<<'HTML'
-    <x-color label="Foo bar" hint="Bar baz" />
-    HTML;
-
-    $this->blade($component)
-        ->assertSee('<input', false)
-        ->assertSee('Foo bar')
-        ->assertSee('Bar baz');
-});
+it('can render with label and hint')
+    ->expect('<x-color label="Foo bar" hint="Bar baz" />')->render()
+    ->toContain('<input')
+    ->toContain('Foo bar')
+    ->toContain('Bar baz');

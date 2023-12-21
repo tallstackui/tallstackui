@@ -1,55 +1,54 @@
 <?php
 
-it('can render with slot', function () {
-    $this->blade('<x-button>Foo bar</x-button>')
-        ->assertSee('Foo bar');
-});
+it('can render with slot')
+    ->expect('<x-button>Foo bar</x-button>')
+    ->render()
+    ->toContain('Foo bar');
 
-it('can render with text', function () {
-    $this->blade('<x-button text="Foo bar" />')
-        ->assertSee('Foo bar');
-});
+it('can render with text')
+    ->expect('<x-button text="Foo bar" />')
+    ->render()
+    ->toContain('Foo bar');
 
-it('can render xs', function () {
-    $this->blade('<x-button text="Foo bar" xs />')
-        ->assertSee('px-1 py-0.5');
-});
+it('can render xs')
+    ->expect('<x-button text="Foo bar" xs />')
+    ->render()
+    ->toContain('px-1 py-0.5');
 
-it('can render sm', function () {
-    $this->blade('<x-button text="Foo bar" sm />')
-        ->assertSee('px-2 py-1');
-});
+it('can render sm')
+    ->expect('<x-button text="Foo bar" sm />')
+    ->render()
+    ->toContain('px-2 py-1');
 
-it('can render md', function () {
-    $this->blade('<x-button text="Foo bar" md />')
-        ->assertSee('px-4 py-2');
-});
+it('can render md')
+    ->expect('<x-button text="Foo bar" md />')
+    ->render()
+    ->toContain('px-4 py-2');
 
-it('can render lg', function () {
-    $this->blade('<x-button text="Foo bar" lg />')
-        ->assertSee('px-6 py-3');
-});
+it('can render lg')
+    ->expect('<x-button text="Foo bar" lg />')
+    ->render()
+    ->toContain('px-6 py-3');
 
-it('can render square', function () {
-    $this->blade('<x-button text="Foo bar" square />')
-        ->assertDontSee('rounded');
-});
+it('can render square')
+    ->expect('<x-button text="Foo bar" square />')
+    ->render()
+    ->not->toContain('rounded');
 
-it('can render round', function () {
-    $this->blade('<x-button text="Foo bar" round />')
-        ->assertSee('rounded-full');
-});
+it('can render round')
+    ->expect('<x-button text="Foo bar" round />')
+    ->render()
+    ->toContain('rounded-full');
 
-it('can render as tag a', function () {
-    $this->blade('<x-button href="https://google.com.br" text="Foo bar" round />')
-        ->assertSee('<a', false)
-        ->assertDontSee('<button', false);
-});
+it('can render as tag a')
+    ->expect('<x-button href="https://google.com.br" text="Foo bar" round />')->render()
+    ->toContain('<a  href="https://google.com.br"')
+    ->not->toContain('<button');
 
-it('can render with icon', function () {
-    $this->blade('<x-button text="Foo bar" icon="users" />')
-        ->assertSee('<svg', false);
-});
+it('can render with icon')
+    ->expect('<x-button text="Foo bar" icon="users" />')
+    ->render()
+    ->toContain('<svg');
 
 it('can render colored', function (string $colors) {
     $component = <<<HTML
@@ -62,5 +61,6 @@ it('can render colored', function (string $colors) {
         default => "bg-$colors-500",
     };
 
-    $this->blade($component)->assertSee($color);
+    expect($component)->render()
+        ->toContain($color);
 })->with('colors');

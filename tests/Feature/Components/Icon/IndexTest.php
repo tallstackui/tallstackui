@@ -1,21 +1,21 @@
 <?php
 
-it('can render', function () {
-    $this->blade('<x-icon icon="users" />')
-        ->assertSee('<svg', false);
-});
+it('can render')
+    ->expect('<x-icon icon="users" />')
+    ->render()
+    ->toContain('<svg');
 
-it('can render solid', function () {
-    $this->blade('<x-icon icon="users" solid />')
-        ->assertSee('<svg', false);
-});
+it('can render solid')
+    ->expect('<x-icon icon="users" solid />')
+    ->render()
+    ->toContain('<svg');
 
-it('can render outline', function () {
-    $this->blade('<x-icon icon="users" outline />')
-        ->assertSee('<svg', false);
-});
+it('can render outline')
+    ->expect('<x-icon icon="users" outline />')
+    ->render()
+    ->toContain('<svg');
 
-it('can render with error', function () {
-    $this->blade('<x-icon icon="users" outline error />')
-        ->assertSee('text-red-500');
-});
+it('can render with error')
+    ->expect('<x-icon icon="users" outline error />')
+    ->render()
+    ->toContain('text-red-500');

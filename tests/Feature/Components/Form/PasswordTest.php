@@ -1,31 +1,19 @@
 <?php
 
-it('can render', function () {
-    $component = <<<'HTML'
-    <x-password />
-    HTML;
+it('can render')
+    ->expect('<x-password />')
+    ->render()
+    ->toContain('<input');
 
-    $this->blade($component)
-        ->assertSee('<input', false);
-});
+it('can render with label')
+    ->expect('<x-password label="Foo bar" />')
+    ->render()
+    ->toContain('<input')
+    ->toContain('Foo bar');
 
-it('can render with label', function () {
-    $component = <<<'HTML'
-    <x-password label="Foo bar" />
-    HTML;
-
-    $this->blade($component)
-        ->assertSee('<input', false)
-        ->assertSee('Foo bar');
-});
-
-it('can render with label and hint', function () {
-    $component = <<<'HTML'
-    <x-password label="Foo bar" hint="Bar baz" />
-    HTML;
-
-    $this->blade($component)
-        ->assertSee('<input', false)
-        ->assertSee('Bar baz')
-        ->assertSee('Foo bar');
-});
+it('can render with label and hint')
+    ->expect('<x-password label="Foo bar" hint="Bar baz" />')
+    ->render()
+    ->toContain('<input')
+    ->toContain('Bar baz')
+    ->toContain('Foo bar');

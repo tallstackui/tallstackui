@@ -1,31 +1,30 @@
 <?php
 
-it('can render with slot', function () {
-    $this->blade('<x-button.circle>Foo bar</x-button.circle>')
-        ->assertSee('Foo bar');
-});
+it('can render with slot')
+    ->expect('<x-button.circle>Foo bar</x-button.circle>')
+    ->render()
+    ->toContain('Foo bar');
 
-it('can render with text', function () {
-    $this->blade('<x-button.circle text="Foo bar" />')
-        ->assertSee('Foo bar');
-});
+it('can render with text')
+    ->expect('<x-button.circle text="Foo bar" />')
+    ->render()
+    ->toContain('Foo bar');
 
-it('can render round', function () {
-    $this->blade('<x-button.circle text="Foo bar" round />')
-        ->assertSee('rounded-full');
-});
+it('can render round')
+    ->expect('<x-button.circle text="Foo bar" round />')
+    ->render()
+    ->toContain('rounded-full');
 
-it('can render with icon', function () {
-    $this->blade('<x-button.circle text="Foo bar" icon="users" />')
-        ->assertSee('<svg', false);
-});
+it('can render with icon')
+    ->expect('<x-button.circle text="Foo bar" icon="users" />')
+    ->render()
+    ->toContain('<svg');
 
-it('can render as tag a', function () {
-    $this->blade('<x-button.circle href="https://google.com.br" target="_blank">Foo bar</x-button.circle>')
-        ->assertSee('https://google.com.br')
-        ->assertSee('<a', false)
-        ->assertSee('_blank');
-});
+it('can render as tag a')
+    ->expect('<x-button.circle href="https://google.com.br" target="_blank">Foo bar</x-button.circle>')
+    ->render()
+    ->toContain('<a  href="https://google.com.br"')
+    ->toContain('_blank');
 
 it('can render colored', function (string $colors) {
     $component = <<<HTML
@@ -38,45 +37,46 @@ it('can render colored', function (string $colors) {
         default => "bg-$colors-500",
     };
 
-    $this->blade($component)->assertSee($color);
+    expect($component)->render()
+        ->toContain($color);
 })->with('colors');
 
 it('can render lg', function () {
-    $this->blade('<x-button.circle text="LG" color="primary" lg />')
-        ->assertSee('w-12 h-12')
-        ->assertSee('text-lg');
+    expect('<x-button.circle text="LG" color="primary" lg />')->render()
+        ->toContain('w-12 h-12')
+        ->toContain('text-lg');
 
-    $this->blade('<x-button.circle icon="users" color="primary" lg />')
-        ->assertSee('w-12 h-12')
-        ->assertSee('w-6 h-6');
+    expect('<x-button.circle icon="users" color="primary" lg />')->render()
+        ->toContain('w-12 h-12')
+        ->toContain('w-6 h-6');
 });
 
 it('can render md', function () {
-    $this->blade('<x-button.circle text="MD" color="primary" />')
-        ->assertSee('w-9 h-9')
-        ->assertSee('text-md');
+    expect('<x-button.circle text="MD" color="primary" />')->render()
+        ->toContain('w-9 h-9')
+        ->toContain('text-md');
 
-    $this->blade('<x-button.circle icon="users" color="primary" />')
-        ->assertSee('w-9 h-9')
-        ->assertSee('w-4 h-4');
+    expect('<x-button.circle icon="users" color="primary" />')->render()
+        ->toContain('w-9 h-9')
+        ->toContain('w-4 h-4');
 });
 
 it('can render sm', function () {
-    $this->blade('<x-button.circle sm text="MD" color="primary" />')
-        ->assertSee('w-6 h-6')
-        ->assertSee('text-sm');
+    expect('<x-button.circle sm text="MD" color="primary" />')->render()
+        ->toContain('w-6 h-6')
+        ->toContain('text-sm');
 
-    $this->blade('<x-button.circle sm icon="users" color="primary" />')
-        ->assertSee('w-6 h-6')
-        ->assertSee('w-3 h-3');
+    expect('<x-button.circle sm icon="users" color="primary" />')->render()
+        ->toContain('w-6 h-6')
+        ->toContain('w-3 h-3');
 });
 
 it('can render xs', function () {
-    $this->blade('<x-button.circle xs text="MD" color="primary" />')
-        ->assertSee('w-4 h-4')
-        ->assertSee('text-xs');
+    expect('<x-button.circle xs text="MD" color="primary" />')->render()
+        ->toContain('w-4 h-4')
+        ->toContain('text-xs');
 
-    $this->blade('<x-button.circle xs icon="users" color="primary" />')
-        ->assertSee('w-4 h-4')
-        ->assertSee('w-2 h-2');
+    expect('<x-button.circle xs icon="users" color="primary" />')->render()
+        ->toContain('w-4 h-4')
+        ->toContain('w-2 h-2');
 });
