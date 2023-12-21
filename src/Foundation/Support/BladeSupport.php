@@ -8,7 +8,13 @@ use Livewire\WireDirective;
 
 class BladeSupport
 {
-    public function entangle(ComponentAttributeBag|WireDirective $attributes): string
+    public function __construct(
+        private readonly ComponentAttributeBag $attributes
+    ) {
+        //
+    }
+
+    public function entangle(ComponentAttributeBag $attributes): string
     {
         if (($wire = $this->wireable($attributes)) === null) {
             return Blade::render('null');
@@ -43,5 +49,10 @@ class BladeSupport
         }
 
         return $wire;
+    }
+
+    public function validation(ComponentAttributeBag $attributes): bool
+    {
+        return $attributes->get('wire:model') !== null;
     }
 }
