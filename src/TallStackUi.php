@@ -9,7 +9,7 @@ use TallStackUi\Foundation\Support\BladeSupport;
 
 class TallStackUi
 {
-    public function blade(ComponentAttributeBag $attributes): BladeSupport
+    public function blade(?ComponentAttributeBag $attributes = null): BladeSupport
     {
         return app(BladeSupport::class, ['attributes' => $attributes]);
     }

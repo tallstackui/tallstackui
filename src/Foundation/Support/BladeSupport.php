@@ -9,14 +9,14 @@ use Livewire\WireDirective;
 class BladeSupport
 {
     public function __construct(
-        private readonly ComponentAttributeBag $attributes
+        private readonly ?ComponentAttributeBag $attributes
     ) {
         //
     }
 
-    public function entangle(ComponentAttributeBag $attributes): string
+    public function entangle(): string
     {
-        if (($wire = $this->wireable($attributes)) === null) {
+        if (($wire = $this->wireable()) === null) {
             return Blade::render('null');
         }
 
@@ -32,27 +32,22 @@ class BladeSupport
         return "JSON.parse(atob('".base64_encode(json_encode($data))."'))";
     }
 
-    public function wireable(ComponentAttributeBag $attributes): ?WireDirective
+    public function wireable(): ?WireDirective
     {
         // For some unknown reason the macros are not defined when we are testing.
         // I assume this happens because Laravel doesn't bootstrap something necessary
         // To the macro works when we are testing using the `$this->blade()` method.
-        if (! $attributes::hasMacro('wire')) {
+        if (! $this->attributes::hasMacro('wire')) {
             return null;
         }
 
         /** @var WireDirective $wire */
-        $wire = $attributes->wire('model');
+        $wire = $this->attributes->wire('model');
 
         if (! $wire->directive() && ! $wire->value()) {
             return null;
         }
 
         return $wire;
-    }
-
-    public function validation(ComponentAttributeBag $attributes): bool
-    {
-        return $attributes->get('wire:model') !== null;
     }
 }
