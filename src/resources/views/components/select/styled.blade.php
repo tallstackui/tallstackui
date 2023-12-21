@@ -40,7 +40,7 @@
                               }" x-text="placeholder"></span>
                     </div>
                     <div wire:ignore class="truncate" x-show="multiple && quantity > 0">
-                        <template x-for="select in selects" :key="select[selectable.label] ?? select">
+                        <template x-for="select in selects" :key="select[selectable.value] ?? select">
                             <a class="cursor-pointer">
                                 <div @class($personalize['itens.multiple.item'])>
                                     <span x-text="select[selectable.label] ?? select"></span>
@@ -106,7 +106,7 @@
                         <x-tallstack-ui::icon.others.loading @class($personalize['box.list.loading.class']) />
                     </div>
                 @endif
-                <template x-for="(option, index) in available" :key="option[selectable.label] ?? option">
+                <template x-for="(option, index) in available" :key="option[selectable.value] ?? option">
                     <li x-on:click="select(option)"
                         x-on:keypress.enter="select(option)"
                         x-bind:class="{ '{{ $personalize['box.list.item.selected'] }}': selected(option) }"

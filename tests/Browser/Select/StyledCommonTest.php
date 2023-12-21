@@ -219,6 +219,30 @@ class StyledCommonTest extends BrowserTestCase
     }
 
     /** @test */
+    public function can_select_multiple_with_same_label(): void
+    {
+        Livewire::visit(StyledMultipleComponentSameLabel_Common::class)
+            ->assertSee('Select an option')
+            ->assertDontSee('foo')
+            ->click('@tallstackui_select_open_close')
+            ->waitForText('foo')
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[1]')
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[2]')
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[3]')
+            ->waitForText(['baz', 'bar', 'bah'])
+            ->click('@tallstackui_select_open_close')
+            ->waitForText('foo')
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[1]')
+            ->click('@tallstackui_select_open_close')
+            ->waitForText(['baz', 'bah'])
+            ->click('@tallstackui_select_open_close')
+            ->waitForText('foo')
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[3]')
+            ->click('@tallstackui_select_open_close')
+            ->waitForText('baz');
+    }
+
+    /** @test */
     public function can_unselect(): void
     {
         Livewire::visit(StyledComponent_Common::class)
@@ -358,6 +382,32 @@ class StyledMultipleComponent_Common extends Component
     public function sync(): void
     {
         // ...
+    }
+}
+
+class StyledMultipleComponentSameLabel_Common extends Component
+{
+    public ?array $array = null;
+
+    public function render(): string
+    {
+        return <<<'HTML'
+        <div>
+            {{ implode(',', $array ?? []) }}
+
+            <x-select.styled wire:model.live="array"
+                             label="Select"
+                             hint="Select"
+                             :options="[
+                                ['label' => 'foo', 'value' => 'bar'],
+                                ['label' => 'foo', 'value' => 'baz'],
+                                ['label' => 'foo', 'value' => 'bah'],
+                             ]"
+                             select="label:label|value:value"
+                             multiple
+            />
+        </div>
+        HTML;
     }
 }
 
