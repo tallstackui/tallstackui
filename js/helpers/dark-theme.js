@@ -1,6 +1,6 @@
 /**
  * @param storage {String|Null}
- * @param initialize {String|Null}
+ * @param initialize {String|Boolean|Null}
  */
 export default (storage = null, initialize = null) => ({
   storage: storage ?? 'dark-theme',
