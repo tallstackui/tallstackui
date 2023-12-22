@@ -48,17 +48,11 @@ export default (
   property: property,
   value: value,
   async init() {
-    await this.$nextTick(() => {
-      // When the component is not used in
-      // livewire, we need to set the model
-      if (!this.livewire && this.value) {
-        this.model = this.value.constructor === Array ?
-            this.value :
-            JSON.parse(this.value);
-
-        this.input = this.model;
-      }
-    });
+    if (this.common) {
+      this.$nextTick(() => this.initAsVanilla());
+    } else {
+      await this.$nextTick(() => this.initAsVanilla());
+    }
 
     if (this.multiple && this.model && this.model.constructor !== Array) {
       return warning('The [wire:model] must be an array');
@@ -77,6 +71,17 @@ export default (
     }
 
     await this.initAsRequest();
+  },
+  initAsVanilla() {
+    if (!this.livewire && !this.value) {
+      return;
+    }
+
+    this.model = this.value.constructor === Array ?
+        this.value :
+        JSON.parse(this.value);
+
+    this.input = this.model;
   },
   /**
    * Initialize the component as common
