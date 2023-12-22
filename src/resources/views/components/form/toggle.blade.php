@@ -14,7 +14,7 @@
         <input @if ($id) id="{{ $id }}" @endif type="checkbox" {{ $attributes->class([
             $personalize['input.class'],
             $personalize['input.sizes.' . $size],
-        ]) }} @checked($value && (bool) $value === true)>
+        ]) }} @checked((bool) $value === true)>
         <div @class([
             $personalize['background.class'],
             $personalize['background.sizes.' . $size],

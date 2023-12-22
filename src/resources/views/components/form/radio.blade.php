@@ -11,5 +11,5 @@
             $personalize['input.sizes.' . $size],
             $colors['background'],
             $personalize['error'] => $error
-    ]) }} @checked($value && (bool) $value === true)>
+    ]) }} @checked((bool) $value === true)>
 </x-wrapper.radio>

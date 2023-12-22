@@ -48,6 +48,18 @@ export default (
   property: property,
   value: value,
   async init() {
+    await this.$nextTick(() => {
+      // When the component is not used in
+      // livewire, we need to set the model
+      if (!this.livewire && this.value) {
+        this.model = this.value.constructor === Array ?
+            this.value :
+            JSON.parse(this.value);
+
+        this.input = this.model;
+      }
+    });
+
     if (this.multiple && this.model && this.model.constructor !== Array) {
       return warning('The [wire:model] must be an array');
     }
@@ -78,7 +90,6 @@ export default (
               this.model?.includes(option[this.selectable.value]) :
               this.model?.includes(option));
     } else {
-      console.log(1);
       this.selects = this.available.find((option) => this.dimensional ?
               this.model === option[this.selectable.value] :
               this.model === option,
@@ -104,16 +115,6 @@ export default (
     this.$watch('options', async () => this.observed());
 
     this.$watch('model', (value, old) => {
-      if (!this.livewire) {
-        const input = document.getElementsByName(this.property)[0];
-
-        if (!input) {
-          return;
-        }
-
-        input.value = value;
-      }
-
       // When the value is null we clear the select. This is necessary due
       // situations where we are binding the same model in live entangle
       if (value === null) {
@@ -145,62 +146,11 @@ export default (
             [this.selects] :
             this.selects;
 
-        console.log(123);
         this.placeholder = this.dimensional ?
             this.selects[0]?.[this.selectable.label] ?? placeholder :
             (!this.empty ? this.selects : placeholder);
       }
     });
-
-    if (!this.livewire && this.value) {
-      this.model = this.value;
-    }
-  },
-  /**
-   * Observe the options element to sync the options
-   * @returns {void}
-   */
-  observation() {
-    this.sync();
-
-    if (!this.$refs.options) {
-      return;
-    }
-
-    this.observer = new MutationObserver(this.sync.bind(this));
-
-    this.observer.observe(this.$refs.options, {
-      subtree: true,
-      characterData: true,
-    });
-  },
-  /**
-   * Control the observation
-   * @returns {Promise<void>}
-   */
-  async observed() {
-    if (this.observer && !this.observing) {
-      this.observer.disconnect();
-
-      this.observing = true;
-    }
-
-    await this.$nextTick();
-
-    this.observing = false;
-
-    this.observation();
-  },
-  /**
-   * Sync the options
-   * @returns {void}
-   */
-  sync() {
-    if (!this.$refs.options) {
-      return;
-    }
-
-    this.options = window.Alpine.evaluate(this, this.$refs.options.innerText);
   },
   /**
    * Initialize the component as request
@@ -269,6 +219,52 @@ export default (
       }
     });
   },
+  /**
+   * Observe the options element to sync the options
+   * @returns {void}
+   */
+  observation() {
+    this.sync();
+
+    if (!this.$refs.options) {
+      return;
+    }
+
+    this.observer = new MutationObserver(this.sync.bind(this));
+
+    this.observer.observe(this.$refs.options, {
+      subtree: true,
+      characterData: true,
+    });
+  },
+  /**
+   * Control the observation
+   * @returns {Promise<void>}
+   */
+  async observed() {
+    if (this.observer && !this.observing) {
+      this.observer.disconnect();
+
+      this.observing = true;
+    }
+
+    await this.$nextTick();
+
+    this.observing = false;
+
+    this.observation();
+  },
+  /**
+   * Sync the options
+   * @returns {void}
+   */
+  sync() {
+    if (!this.$refs.options) {
+      return;
+    }
+
+    this.options = window.Alpine.evaluate(this, this.$refs.options.innerText);
+  },
   /** @returns {void} */
   async makeRequest() {
     this.loading = true;
@@ -315,6 +311,7 @@ export default (
 
     if (this.selected(option)) {
       this.clear(option);
+      this.input = this.model;
 
       return;
     }
@@ -338,6 +335,8 @@ export default (
 
     this.show = this.quantity === this.available?.length ? false : this.multiple;
     this.search = '';
+
+    this.input = this.model;
   },
   /**
    * Check if the `option` is selected
@@ -385,6 +384,7 @@ export default (
    * @param ignore {Boolean} - If true, will not interact with `show` property
    */
   reset(ignore = false) {
+    this.input = null;
     this.model = null;
     this.placeholder = placeholder;
     this.search = '';
@@ -395,6 +395,23 @@ export default (
     }
 
     this.show = false;
+  },
+  /**
+   * Set the input value when is not Livewire
+   * @param data {*}
+   */
+  set input(data) {
+    if (this.livewire) {
+      return;
+    }
+
+    const input = document.getElementsByName(this.property)[0];
+
+    if (!input) {
+      return;
+    }
+
+    input.value = !data ? '' : JSON.stringify(data);
   },
   /**
    * The `selects` quantity

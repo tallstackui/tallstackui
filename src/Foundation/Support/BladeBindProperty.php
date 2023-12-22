@@ -30,7 +30,7 @@ class BladeBindProperty
     private function bind(): ?string
     {
         // We prioritize the Livewire context.
-        return $this->livewire
+        return $this->livewire && $this->support->wire() !== null
             ? $this->support->wire()->value()
             : $this->attributes->get('name');
     }

@@ -5,7 +5,7 @@
 @endphp
 
 @if (!$livewire && $property)
-    <input hidden name="{{ $property }}" @if ($value = $attributes->get('value')) value="{{ $value }}" @endif />
+    <input hidden name="{{ $property }}">
 @endif
 
 <div x-data="tallstackui_select(
@@ -19,7 +19,9 @@
         @js($common),
         @js($livewire),
         @js($property),
-        @js($value))" x-cloak wire:ignore.self>
+        @js($attributes->get('value')))"
+        x-cloak
+        wire:ignore.self>
     <div hidden x-ref="options">{{ TallStackUi::blade()->json($options) }}</div>
     @if ($label)
         <x-label :$label :$error/>
@@ -96,8 +98,7 @@
                              x-model.debounce.500ms="search"
                              x-ref="search"
                              dusk="tallstackui_select_search_input"
-                             invalidate
-                    />
+                             invalidate />
                     <button type="button"
                             @class($personalize['box.button.class'])
                             x-on:click="search = ''; $refs.search.focus();"
