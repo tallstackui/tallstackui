@@ -7,7 +7,8 @@
     <div x-data="tallstackui_formColor(
             {!! $entangle !!},
             @js($mode),
-            @js($colors))"
+            @js($colors),
+            @js($attributes->get('value')))"
          x-ref="wrapper"
          x-cloak
          @class([
