@@ -48,10 +48,12 @@ export default (
   property: property,
   value: value,
   async init() {
-    if (this.common) {
-      this.$nextTick(() => this.initAsVanilla());
-    } else {
-      await this.$nextTick(() => this.initAsVanilla());
+    if (!this.livewire) {
+      if (this.common) {
+        this.$nextTick(() => this.initAsVanilla());
+      } else {
+        await this.$nextTick(() => this.initAsVanilla());
+      }
     }
 
     if (this.multiple && this.model && this.model.constructor !== Array) {
@@ -73,15 +75,11 @@ export default (
     await this.initAsRequest();
   },
   initAsVanilla() {
-    if (!this.livewire && !this.value) {
+    if (!this.value) {
       return;
     }
 
-    this.model = this.value.constructor === Array ?
-        this.value :
-        JSON.parse(this.value);
-
-    this.input = this.model;
+    this.input = this.model = this.value;
   },
   /**
    * Initialize the component as common
@@ -95,15 +93,19 @@ export default (
               this.model?.includes(option[this.selectable.value]) :
               this.model?.includes(option));
     } else {
-      this.selects = this.available.find((option) => this.dimensional ?
-              this.model === option[this.selectable.value] :
-              this.model === option,
-      );
+      this.selects = this.available.find((option) => {
+        return this.dimensional ?
+            this.model === option[this.selectable.value] :
+            this.model === option;
+      });
 
-      if (!this.empty) {
-        this.selects = this.dimensional ?
-            [this.selects] :
-            this.selects;
+      if (this.selects) {
+        if (this.dimensional) {
+          this.placeholder = this.selects[this.selectable.label];
+          this.selects = [this.selects];
+        } else {
+          this.placeholder = this.selects;
+        }
       } else {
         this.selects = [];
       }
