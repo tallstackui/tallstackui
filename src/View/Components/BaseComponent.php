@@ -24,6 +24,20 @@ use Throwable;
 
 abstract class BaseComponent extends Component
 {
+    public function bind(
+        ComponentAttributeBag $attributes,
+        ViewErrorBag $errors,
+        Factory $factory,
+        bool $livewire = false
+    ): array {
+        return app(BindProperty::class, [
+            'attributes' => $attributes,
+            'errors' => $errors,
+            'factory' => $factory,
+            'livewire' => $livewire,
+        ])->data();
+    }
+
     abstract public function blade(): View;
 
     public function classes(): array
@@ -64,20 +78,6 @@ abstract class BaseComponent extends Component
         );
     }
 
-    public function property(
-        ComponentAttributeBag $attributes,
-        ViewErrorBag $errors,
-        Factory $factory,
-        bool $livewire = false
-    ): array {
-        return app(BindProperty::class, [
-            'attributes' => $attributes,
-            'errors' => $errors,
-            'factory' => $factory,
-            'livewire' => $livewire,
-        ])->data();
-    }
-
     public function render(): Closure
     {
         return function (array $data) {
@@ -86,9 +86,9 @@ abstract class BaseComponent extends Component
     }
 
     /** Proxy for the `wireable` method of the Facade */ // TODO: probably deprecated
-    public function wireable(ComponentAttributeBag $attributes, ?bool $livewire = null): ?WireDirective
+    public function wireable(ComponentAttributeBag $attributes, bool $livewire = false): ?WireDirective
     {
-        return TallStackUi::blade($attributes)->wireable($livewire);
+        return TallStackUi::blade($attributes, $livewire)->wire();
     }
 
     /** @throws Throwable */

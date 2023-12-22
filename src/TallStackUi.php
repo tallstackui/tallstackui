@@ -9,9 +9,12 @@ use TallStackUi\Foundation\Support\BladeSupport;
 
 class TallStackUi
 {
-    public function blade(?ComponentAttributeBag $attributes = null): BladeSupport
+    public function blade(?ComponentAttributeBag $attributes = null, bool $livewire = false): BladeSupport
     {
-        return app(BladeSupport::class, ['attributes' => $attributes]);
+        return app(BladeSupport::class, [
+            'attributes' => $attributes,
+            'livewire' => $livewire,
+        ]);
     }
 
     public function directives(): BladeDirectives

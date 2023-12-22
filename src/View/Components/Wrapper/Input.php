@@ -11,7 +11,7 @@ use TallStackUi\View\Components\BaseComponent;
 class Input extends BaseComponent implements Personalization
 {
     public function __construct(
-        public ?string $bind = null,
+        public ?string $property = null,
         public ?string $label = null,
         public ?string $id = null,
         public ?string $hint = null,

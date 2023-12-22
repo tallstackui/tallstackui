@@ -1,9 +1,9 @@
 @php
-    [$bind, $error, $id] = $property($attributes, $errors, $__env, isset($__livewire));
+    [$property, $error, $id] = $bind($attributes, $errors, $__env, isset($__livewire));
     $personalize = $classes();
 @endphp
 
-<x-wrapper.input :$id :$bind :$error :$label :$hint :$invalidate>
+<x-wrapper.input :$id :$property :$error :$label :$hint :$invalidate>
     @if ($icon)
         <div @class([ $personalize['icon.wrapper'], $personalize['icon.paddings.' . $position]])>
             <x-icon :$icon :$error @class([$personalize['icon.size'], $personalize['icon.color'] => !$invalidate]) />

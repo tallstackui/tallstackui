@@ -6,7 +6,7 @@ use Illuminate\Support\ViewErrorBag;
 use Illuminate\View\ComponentAttributeBag;
 use Illuminate\View\Factory;
 use Livewire\Component;
-use TallStackUi\Facades\TallStackUi;
+use Livewire\WireDirective;
 
 class BindProperty
 {
@@ -15,8 +15,9 @@ class BindProperty
         private readonly ViewErrorBag $errors,
         private readonly Factory $factory,
         private readonly bool $livewire = false,
+        private ?WireDirective $wire = null,
     ) {
-        //
+        $this->wire = (new BladeSupport($this->attributes, $this->livewire))->wire();
     }
 
     public function data(): array
@@ -25,23 +26,22 @@ class BindProperty
             $this->bind(),
             $this->error(),
             $this->id(),
+            $this->wire,
         ];
     }
 
     private function bind(): ?string
     {
-        $wire = TallStackUi::blade($this->attributes)->wireable($this->livewire);
-
         // We prioritize the Livewire context.
         return $this->livewire
-            ? $wire->value()
+            ? $this->wire->value()
             : $this->attributes->get('name');
     }
 
     private function error(): bool
     {
-        // Using getConsumableComponentData we check if the `invalidate`
-        // was set to don't display validation errors.
+        // Using getConsumableComponentData we check if the
+        // `invalidate` was set to don't display validation errors.
         if ($this->errors->isEmpty() || $this->factory->getConsumableComponentData('invalidate', false) === true) {
             return false;
         }

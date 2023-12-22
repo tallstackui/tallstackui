@@ -1,6 +1,6 @@
 @php($personalize = $classes())
 
-@error ($bind)
+@error ($property)
     <span @class($personalize['text'])>
         {{ $message }}
     </span>

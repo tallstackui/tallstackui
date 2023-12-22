@@ -11,6 +11,6 @@
         <x-hint :$hint/>
     @endif
     @if ($error)
-        <x-error :$bind/>
+        <x-error :$property/>
     @endif
 </div>
