@@ -9,6 +9,9 @@
 
 @if ($livewire)
     <div hidden id="{{ $hash }}">@js($error)</div>
+@elseif ($property)
+    <div hidden id="{{ $hash }}">@js($errors->has($property))</div>
+    <input hidden name="{{ $property }}" @if ($value = $attributes->get('value')) value="{{ $value }}" @endif />
 @endif
 
 <div>
@@ -22,6 +25,9 @@
              @js($clear),
              @js($numbers),
              @js($letters),
+             @js($livewire),
+             @js($property),
+             @js($value),
          )" x-on:paste="pasting = true; paste($event)" x-cloak wire:ignore>
         <div @class($personalize['wrapper'])>
             @if ($prefix)
@@ -40,7 +46,11 @@
                        id="pin-{{ $hash }}-{{ $index }}"
                        dusk="pin-{{ $index }}"
                        @if ($mask) x-mask="{{ $mask }}" @endif
-                       @if ($livewire) value="{{ isset($__livewire->{$property}) ? (strval($__livewire->{$property})[$index-1] ?? '') : '' }}" @endif
+                       @if ($livewire)
+                           value="{{ isset($__livewire->{$property}) ? (strval($__livewire->{$property})[$index-1] ?? '') : '' }}"
+                       @elseif ($property)
+                           value="{{ $value[$index-1] ?? '' }}"
+                       @endif
                        @class([
                            'w-[38px]',
                             $personalize['input.base'],

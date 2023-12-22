@@ -7,6 +7,9 @@ export default (
     clear,
     numbers,
     letters,
+    livewire,
+    property,
+    value,
 ) => ({
   model: model,
   id: id,
@@ -18,7 +21,14 @@ export default (
   error: false,
   numbers: numbers,
   letters: letters,
+  livewire: livewire,
+  property: property,
+  value: value,
   init() {
+    if (!this.model && this.value) {
+      this.model = this.value;
+    }
+
     if (this.model) {
       if (typeof this.model !== 'string' && typeof this.model !== 'number') {
         return alert('The [wire:model] property value must be a string or a number');
@@ -30,6 +40,20 @@ export default (
     this.observation();
 
     this.$watch('error', async () => this.observed());
+
+    // We just watch the model when component
+    // is not being used in Livewire context.
+    if (!this.livewire) {
+      this.$watch('model', (value) => {
+        const input = document.getElementsByName(this.property)[0];
+
+        if (!input) {
+          return;
+        }
+
+        input.value = value;
+      });
+    }
   },
   /**
    * @returns {void}
@@ -80,9 +104,9 @@ export default (
     this.input(index)?.focus();
   },
   /**
-     * @param index {Number}
-     * @return {void}
-     */
+   * @param index {Number}
+   * @return {void}
+   */
   left(index) {
     if (index === 1) {
       this.focus(this.length);
@@ -92,9 +116,9 @@ export default (
     this.focus(index - 1);
   },
   /**
-     * @param index {Number}
-     * @return {void}
-     */
+   * @param index {Number}
+   * @return {void}
+   */
   right(index) {
     if ((index + 1) > this.length) {
       this.focus(1);
@@ -104,10 +128,40 @@ export default (
     this.focus(index + 1);
   },
   /**
-     * @param index {Number}
-     * @return {void}
-     */
+   * @param index {Number}
+   * @return {void}
+   */
   keyup(index) {
+    // if the user is not typing in the first input then we need check if others is empty
+    // if yes, we jump to the first input otherwise we jump to the next input
+    if (index !== 1) {
+      const input = this.input(index);
+
+      let jump = false;
+      let jumpTo = 1;
+
+      // check if others is empty
+      for (let i = 1; i < index; i++) {
+        const previous = this.input(i);
+
+        if (previous.value === '') {
+          jump = true;
+          jumpTo = i;
+          break;
+        } else {
+          jump = false;
+        }
+      }
+
+      if (jump) {
+        this.focus(jumpTo);
+        this.input(jumpTo).value = input.value;
+        input.value = '';
+        this.sync();
+        return;
+      }
+    }
+
     if (this.pasting) {
       this.pasting = false;
       this.sync();
@@ -153,8 +207,8 @@ export default (
     this.sync();
   },
   /**
-     * @returns {void}
-     */
+   * @returns {void}
+   */
   sync() {
     this.model = '';
 
