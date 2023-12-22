@@ -9,7 +9,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\ViewErrorBag;
 use Illuminate\View\Component;
 use Illuminate\View\ComponentAttributeBag;
-use Illuminate\View\Factory;
 use Livewire\WireDirective;
 use ReflectionAttribute;
 use ReflectionClass;
@@ -26,14 +25,13 @@ abstract class BaseComponent extends Component
 {
     public function bind(
         ComponentAttributeBag $attributes,
-        ?ViewErrorBag $errors,
-        Factory $factory,
+        ?ViewErrorBag $errors = null,
         bool $livewire = false
     ): array {
         return app(BladeBindProperty::class, [
             'attributes' => $attributes,
             'errors' => $errors,
-            'factory' => $factory,
+            'invalidate' => $this->data()['invalidate'] ?? false,
             'livewire' => $livewire,
         ])->data();
     }

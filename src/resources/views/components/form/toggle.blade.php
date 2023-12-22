@@ -1,7 +1,8 @@
 @php
-    [$property, $error, $id] = $bind($attributes, $errors ?? null, $__env, isset($__livewire));
+    [$property, $error, $id] = $bind($attributes, $errors ?? null, isset($__livewire));
     $personalize = $classes();
     [$position, $alignment, $label] = $sloteable($label);
+    $value = $attributes->get('value');
 
     // We remove any bg color classes from the wrapper if there
     // is an error to apply the red bg color to the input instead
@@ -13,7 +14,7 @@
         <input @if ($id) id="{{ $id }}" @endif type="checkbox" {{ $attributes->class([
             $personalize['input.class'],
             $personalize['input.sizes.' . $size],
-        ]) }}>
+        ]) }} @checked($value && (bool) $value === true)>
         <div @class([
             $personalize['background.class'],
             $personalize['background.sizes.' . $size],

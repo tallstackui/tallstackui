@@ -1,7 +1,8 @@
 @php
-    [$property, $error, $id] = $bind($attributes, $errors ?? null, $__env, isset($__livewire));
+    [$property, $error, $id] = $bind($attributes, $errors ?? null, isset($__livewire));
     $personalize = $classes();
     [$position, $alignment, $label] = $sloteable($label);
+    $value = $attributes->get('value');
 @endphp
 
 <x-wrapper.radio :$id :$property :$error :$label :$position :$alignment :$invalidate>
@@ -10,5 +11,5 @@
             $personalize['input.sizes.' . $size],
             $colors['background'],
             $personalize['error'] => $error
-    ]) }}>
+    ]) }} @checked($value && (bool) $value === true)>
 </x-wrapper.radio>

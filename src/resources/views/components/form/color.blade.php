@@ -1,11 +1,11 @@
 @php
-    [$property, $error, $id] = $bind($attributes, $errors ?? null, $__env, isset($__livewire));
+    [$property, $error, $id, $entangle] = $bind($attributes, $errors ?? null, isset($__livewire));
     $personalize = $classes();
 @endphp
 
 <x-wrapper.input :$id :$property :$error :$label :$hint :$invalidate>
     <div x-data="tallstackui_formColor(
-            @entangleable($attributes),
+            {!! $entangle !!},
             @js($mode),
             @js($colors))"
          x-ref="wrapper"

@@ -4,19 +4,17 @@ namespace TallStackUi\Foundation\Support;
 
 use Illuminate\Support\ViewErrorBag;
 use Illuminate\View\ComponentAttributeBag;
-use Illuminate\View\Factory;
-use Livewire\WireDirective;
 
 class BladeBindProperty
 {
     public function __construct(
         private readonly ComponentAttributeBag $attributes,
-        private readonly ?ViewErrorBag $errors,
-        private readonly Factory $factory,
+        private readonly ?ViewErrorBag $errors = null,
+        private readonly bool $invalidate = false,
         private readonly bool $livewire = false,
-        private ?WireDirective $wire = null,
+        private ?BladeSupport $support = null,
     ) {
-        $this->wire = (new BladeSupport($this->attributes, $this->livewire))->wire();
+        $this->support = new BladeSupport($this->attributes, $this->livewire);
     }
 
     public function data(): array
@@ -25,7 +23,7 @@ class BladeBindProperty
             $this->bind(),
             $this->error(),
             $this->id(),
-            $this->wire,
+            $this->support->entangle(),
         ];
     }
 
@@ -33,7 +31,7 @@ class BladeBindProperty
     {
         // We prioritize the Livewire context.
         return $this->livewire
-            ? $this->wire->value() // Value is the property name: `wire:model="name"`
+            ? $this->support->wire()->value()
             : $this->attributes->get('name');
     }
 
@@ -43,9 +41,7 @@ class BladeBindProperty
             return false;
         }
 
-        // Using getConsumableComponentData we check if the
-        // `invalidate` was set to don't display validation errors.
-        if ($this->errors->isEmpty() || $this->factory->getConsumableComponentData('invalidate', false) === true) {
+        if ($this->errors->isEmpty() || $this->invalidate) {
             return false;
         }
 

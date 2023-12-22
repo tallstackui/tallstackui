@@ -1,8 +1,8 @@
 @php
     $livewire = isset($__livewire);
-    [$property, $error, $id, $wire] = $bind($attributes, $errors ?? null, $__env, $livewire);
+    [$property, $error, $id, $entangle] = $bind($attributes, $errors ?? null, $livewire);
     $personalize = $classes();
-    $hash = $wire !== null && $livewire
+    $hash = $livewire
         ? $__livewire->getId().'-'.$property
         : uniqid();
 @endphp
@@ -16,7 +16,7 @@
         <x-label :$label :$error/>
     @endif
     <div x-data="tallstackui_formPin(
-             @entangleable($attributes),
+             {!! $entangle !!},
              @js($hash),
              @js($length),
              @js($clear),
@@ -40,7 +40,7 @@
                        id="pin-{{ $hash }}-{{ $index }}"
                        dusk="pin-{{ $index }}"
                        @if ($mask) x-mask="{{ $mask }}" @endif
-                       @if ($livewire) value="{{ $wire !== null && isset($__livewire->{$property}) ? (strval($__livewire->{$property})[$index-1] ?? '') : '' }}" @endif
+                       @if ($livewire) value="{{ isset($__livewire->{$property}) ? (strval($__livewire->{$property})[$index-1] ?? '') : '' }}" @endif
                        @class([
                            'w-[38px]',
                             $personalize['input.base'],
@@ -68,6 +68,6 @@
         <x-hint :$hint/>
     @endif
     @if ($error)
-        <x-error :$wire/>
+        <x-error :$property/>
     @endif
 </div>

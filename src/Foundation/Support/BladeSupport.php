@@ -2,6 +2,7 @@
 
 namespace TallStackUi\Foundation\Support;
 
+use Exception;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\View\ComponentAttributeBag;
 use Livewire\WireDirective;
@@ -9,7 +10,7 @@ use Livewire\WireDirective;
 class BladeSupport
 {
     public function __construct(
-        private readonly ?ComponentAttributeBag $attributes,
+        private readonly ?ComponentAttributeBag $attributes = null,
         // The idea behind using the $livewire boolean here is to ensure
         // that the component is being used within the context of a Livewire
         // component, where the $__livewire variable exists, so we guarantee
@@ -39,6 +40,10 @@ class BladeSupport
 
     public function wire(): ?WireDirective
     {
+        if (! $this->attributes) {
+            throw new Exception('The attributes was not defined.');
+        }
+
         // For some unknown reason the macros are not defined when we are testing.
         // I assume this happens because Laravel doesn't bootstrap something necessary
         // To the macro works when we are testing using the `$this->blade()` method.

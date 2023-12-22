@@ -1,6 +1,7 @@
 @php
-    [$property, $error, $id] = $bind($attributes, $errors ?? null, $__env, isset($__livewire));
+    [$property, $error, $id] = $bind($attributes, $errors ?? null, isset($__livewire));
     $personalize = $classes();
+    $slot = $attributes->get('value', $slot);
 @endphp
 
 <x-wrapper.input :$id :$property :$error :$label :$hint :$invalidate>

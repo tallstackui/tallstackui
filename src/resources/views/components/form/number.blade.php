@@ -1,6 +1,6 @@
 @php
     $icons = $icons();
-    [$property, $error, $id] = $bind($attributes, $errors ?? null, $__env, isset($__livewire));
+    [$property, $error, $id, $entangle] = $bind($attributes, $errors ?? null, isset($__livewire));
     $personalize = $classes();
 @endphp
 
@@ -12,7 +12,7 @@
             $personalize['input.class.color.disabled'] => $attributes->get('disabled') || $attributes->get('readonly'),
             $personalize['error'] => $error === true
         ]) x-data="tallstackui_formNumber(
-            @entangleable($attributes),
+            {!! $entangle !!},
             @js($min),
             @js($max),
             @js($delay),
