@@ -26,7 +26,7 @@ abstract class BaseComponent extends Component
 {
     public function bind(
         ComponentAttributeBag $attributes,
-        ViewErrorBag $errors,
+        ?ViewErrorBag $errors,
         Factory $factory,
         bool $livewire = false
     ): array {

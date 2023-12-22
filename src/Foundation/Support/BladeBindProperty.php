@@ -5,14 +5,13 @@ namespace TallStackUi\Foundation\Support;
 use Illuminate\Support\ViewErrorBag;
 use Illuminate\View\ComponentAttributeBag;
 use Illuminate\View\Factory;
-use Livewire\Component;
 use Livewire\WireDirective;
 
 class BladeBindProperty
 {
     public function __construct(
         private readonly ComponentAttributeBag $attributes,
-        private readonly ViewErrorBag $errors,
+        private readonly ?ViewErrorBag $errors,
         private readonly Factory $factory,
         private readonly bool $livewire = false,
         private ?WireDirective $wire = null,
@@ -40,6 +39,10 @@ class BladeBindProperty
 
     private function error(): bool
     {
+        if (! $this->errors) {
+            return false;
+        }
+
         // Using getConsumableComponentData we check if the
         // `invalidate` was set to don't display validation errors.
         if ($this->errors->isEmpty() || $this->factory->getConsumableComponentData('invalidate', false) === true) {

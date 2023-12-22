@@ -1,7 +1,8 @@
 @php
-    [$property, $error, $id, $wire] = $bind($attributes, $errors, $__env, isset($__livewire));
+    $livewire = isset($__livewire);
+    [$property, $error, $id, $wire] = $bind($attributes, $errors ?? null, $__env, $livewire);
     $personalize = $classes();
-    $hash = $wire !== null
+    $hash = $wire !== null && $livewire
         ? $__livewire->getId().'-'.$property
         : uniqid();
 @endphp

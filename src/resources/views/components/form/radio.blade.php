@@ -1,5 +1,5 @@
 @php
-    [$property, $error, $id] = $bind($attributes, $errors, $__env, isset($__livewire));
+    [$property, $error, $id] = $bind($attributes, $errors ?? null, $__env, isset($__livewire));
     $personalize = $classes();
     [$position, $alignment, $label] = $sloteable($label);
 @endphp
