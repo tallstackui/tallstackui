@@ -5,13 +5,14 @@
     $hash = $livewire
         ? $__livewire->getId().'-'.$property
         : uniqid();
+    $value = $attributes->get('value');
 @endphp
 
 @if ($livewire)
     <div hidden id="{{ $hash }}">@js($error)</div>
 @elseif ($property)
     <div hidden id="{{ $hash }}">@js($errors->has($property))</div>
-    <input hidden name="{{ $property }}" @if ($value = $attributes->get('value')) value="{{ $value }}" @endif />
+    <input hidden name="{{ $property }}" />
 @endif
 
 <div>
