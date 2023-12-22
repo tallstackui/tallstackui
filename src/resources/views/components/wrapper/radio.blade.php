@@ -1,7 +1,4 @@
-@php
-    $personalize = $classes();
-    $error = !$invalidate && $wire && $errors->has($wire);
-@endphp
+@php($personalize = $classes())
 
 <div>
     <div @class($personalize['wrapper.first'])>
@@ -24,6 +21,6 @@
         </label>
     </div>
     @if ($error)
-        <x-error :$wire/>
+        <x-error :$property/>
     @endif
 </div>

@@ -1,12 +1,10 @@
 @php
+    [$property, $error, $id] = $bind($attributes, $errors, $__env, isset($__livewire));
     $personalize = $classes();
-    $wire = $wireable($attributes);
-    $error = !$invalidate && $wire && $errors->has($wire->value());
     [$position, $alignment, $label] = $sloteable($label);
-    $id = $id($attributes);
 @endphp
 
-<x-wrapper.radio :$id :$wire :$label :$position :$alignment :$invalidate>
+<x-wrapper.radio :$id :$property :$error :$label :$position :$alignment :$invalidate>
     <input @if ($id) id="{{ $id }}" @endif type="checkbox" {{ $attributes->class([
             $personalize['input.class'],
             $personalize['input.sizes.' . $size],

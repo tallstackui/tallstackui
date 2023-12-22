@@ -19,7 +19,7 @@ use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Colors\ResolveColor;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\ResolveConfiguration;
-use TallStackUi\Foundation\Support\BindProperty;
+use TallStackUi\Foundation\Support\BladeBindProperty;
 use Throwable;
 
 abstract class BaseComponent extends Component
@@ -30,7 +30,7 @@ abstract class BaseComponent extends Component
         Factory $factory,
         bool $livewire = false
     ): array {
-        return app(BindProperty::class, [
+        return app(BladeBindProperty::class, [
             'attributes' => $attributes,
             'errors' => $errors,
             'factory' => $factory,

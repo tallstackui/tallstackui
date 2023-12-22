@@ -12,12 +12,13 @@ use TallStackUi\View\Components\BaseComponent;
 class Radio extends BaseComponent implements Personalization
 {
     public function __construct(
-        public ?string $wire = null,
+        public ?string $property = null,
         public ?string $label = null,
         public ?string $id = null,
         public ?string $position = 'left',
         public ?string $alignment = 'middle',
         public ?bool $invalidate = null,
+        public ?bool $error = false,
     ) {
         //
     }

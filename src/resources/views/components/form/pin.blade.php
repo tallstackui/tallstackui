@@ -1,10 +1,7 @@
 @php
+    [$property, $error, $id, $wire] = $bind($attributes, $errors, $__env, isset($__livewire));
     $personalize = $classes();
-    $wire = $wireable($attributes);
-    $property = $wire?->value();
-    $livewire = $wire && $property;
-    $error = !$invalidate && $livewire && $errors->has($property);
-    $hash = $livewire
+    $hash = $wire !== null
         ? $__livewire->getId().'-'.$property
         : uniqid();
 @endphp
@@ -42,7 +39,7 @@
                        id="pin-{{ $hash }}-{{ $index }}"
                        dusk="pin-{{ $index }}"
                        @if ($mask) x-mask="{{ $mask }}" @endif
-                       @if ($livewire) value="{{ $wire && isset($__livewire->{$property}) ? (strval($__livewire->{$property})[$index-1] ?? '') : '' }}" @endif
+                       @if ($livewire) value="{{ $wire !== null && isset($__livewire->{$property}) ? (strval($__livewire->{$property})[$index-1] ?? '') : '' }}" @endif
                        @class([
                            'w-[38px]',
                             $personalize['input.base'],

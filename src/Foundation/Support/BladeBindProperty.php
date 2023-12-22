@@ -8,7 +8,7 @@ use Illuminate\View\Factory;
 use Livewire\Component;
 use Livewire\WireDirective;
 
-class BindProperty
+class BladeBindProperty
 {
     public function __construct(
         private readonly ComponentAttributeBag $attributes,
@@ -34,7 +34,7 @@ class BindProperty
     {
         // We prioritize the Livewire context.
         return $this->livewire
-            ? $this->wire->value()
+            ? $this->wire->value() // Value is the property name: `wire:model="name"`
             : $this->attributes->get('name');
     }
 
@@ -49,7 +49,6 @@ class BindProperty
         // The first step is determine how the component is being used.
         // When $component is set, then we are in Livewire context, otherwise
         // we will to consider it as a normal Blade vanilla context.
-
         return $this->errors->has($this->bind());
     }
 

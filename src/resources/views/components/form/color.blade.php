@@ -1,11 +1,9 @@
 @php
+    [$property, $error, $id] = $bind($attributes, $errors, $__env, isset($__livewire));
     $personalize = $classes();
-    $wire = $wireable($attributes);
-    $error = !$invalidate && $wire && $errors->has($wire->value());
-    $id = $id($attributes);
 @endphp
 
-<x-wrapper.input :$id :$wire :$label :$hint :$invalidate>
+<x-wrapper.input :$id :$property :$error :$label :$hint :$invalidate>
     <div x-data="tallstackui_formColor(
             @entangleable($attributes),
             @js($mode),
