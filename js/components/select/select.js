@@ -10,6 +10,9 @@ import {body} from './helpers';
  * @param placeholder {String} - The placeholder of the select
  * @param searchable {Boolean} - If true, the search input will be shown
  * @param common {Boolean} - If true, the options will be taken from the options variable
+ * @param livewire {Boolean} - If true, the select will be used in livewire
+ * @param property {String} - The property name of the input
+ * @param value {String|Array} - The value of the input
  */
 export default (
     model = null,
@@ -20,6 +23,9 @@ export default (
     placeholder = 'Select an option',
     searchable = false,
     common = true,
+    livewire,
+    property,
+    value,
 ) => ({
   show: false,
   model: model,
@@ -38,6 +44,9 @@ export default (
   options: options,
   observer: null,
   observing: false,
+  livewire: livewire,
+  property: property,
+  value: value,
   async init() {
     if (this.multiple && this.model && this.model.constructor !== Array) {
       return warning('The [wire:model] must be an array');
@@ -69,6 +78,7 @@ export default (
               this.model?.includes(option[this.selectable.value]) :
               this.model?.includes(option));
     } else {
+      console.log(1);
       this.selects = this.available.find((option) => this.dimensional ?
               this.model === option[this.selectable.value] :
               this.model === option,
@@ -94,6 +104,16 @@ export default (
     this.$watch('options', async () => this.observed());
 
     this.$watch('model', (value, old) => {
+      if (!this.livewire) {
+        const input = document.getElementsByName(this.property)[0];
+
+        if (!input) {
+          return;
+        }
+
+        input.value = value;
+      }
+
       // When the value is null we clear the select. This is necessary due
       // situations where we are binding the same model in live entangle
       if (value === null) {
@@ -125,11 +145,16 @@ export default (
             [this.selects] :
             this.selects;
 
+        console.log(123);
         this.placeholder = this.dimensional ?
             this.selects[0]?.[this.selectable.label] ?? placeholder :
             (!this.empty ? this.selects : placeholder);
       }
     });
+
+    if (!this.livewire && this.value) {
+      this.model = this.value;
+    }
   },
   /**
    * Observe the options element to sync the options
