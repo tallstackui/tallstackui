@@ -1,19 +1,6 @@
 import {error, warning} from '../../helpers';
 import {body} from './helpers';
 
-/**
- * @param model {Object|String} - The model object or the value
- * @param request {Object|String} - The request object or the url
- * @param selectable {Object} - The label and value of the select when dimensional is true
- * @param options {Array} - The options of the select when is common
- * @param multiple {Boolean} - If true, the select will be multiple
- * @param placeholder {String} - The placeholder of the select
- * @param searchable {Boolean} - If true, the search input will be shown
- * @param common {Boolean} - If true, the options will be taken from the options variable
- * @param livewire
- * @param property
- * @param value
- */
 export default (
     model = null,
     request,
@@ -105,13 +92,11 @@ export default (
       );
 
       if (this.selects) {
-        this.selects = this.dimensional ?
-            [this.selects] :
-            this.selects;
+        this.selects = [this.selects];
 
         this.placeholder = this.dimensional ?
             this.selects[0]?.[this.selectable.label] ?? placeholder :
-            this.selects ?? placeholder;
+            this.selects[0] ?? placeholder;
       } else {
         this.selects = [];
       }
@@ -155,13 +140,11 @@ export default (
             value.toString() === option[this.selectable.value].toString() :
             value.toString() === option.toString());
 
-        this.selects = this.dimensional ?
-            [this.selects] :
-            this.selects;
+        this.selects = [this.selects];
 
         this.placeholder = this.dimensional ?
             this.selects[0]?.[this.selectable.label] ?? placeholder :
-            this.selects ?? placeholder;
+            this.selects[0] ?? placeholder;
       }
     });
   },

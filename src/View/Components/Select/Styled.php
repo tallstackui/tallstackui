@@ -112,8 +112,10 @@ class Styled extends BaseComponent implements Personalization
             return $value;
         }
 
+        $value = str_replace('"', '', htmlspecialchars_decode($value));
+
         if ($this->common && ! $this->multiple) {
-            return str_replace('"', '', htmlspecialchars_decode($value));
+            return $value;
         }
 
         return str($value)->explode(',')->collect()->map(function (string|int $value) {

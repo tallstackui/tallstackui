@@ -1,9 +1,3 @@
-/**
- * @param request {Object|String}
- * @param search {String}
- * @param selected {Array}
- * @return {Object<url, method, params|data>}
- */
 export const body = (request, search, selected) => {
   const simple = request.constructor === String;
 
