@@ -132,33 +132,19 @@ export default (
    * @return {void}
    */
   keyup(index) {
-    // if the user is not typing in the first input then we need check if others is empty
-    // if yes, we jump to the first input otherwise we jump to the next input
+    // This code aims to ensure that typing always occurs starting with the
+    // first input, so that the person cannot start typing from the last input.
     if (index !== 1) {
-      const input = this.input(index);
-
-      let jump = false;
-      let jumpTo = 1;
-
-      // check if others is empty
       for (let i = 1; i < index; i++) {
         const previous = this.input(i);
 
         if (previous.value === '') {
-          jump = true;
-          jumpTo = i;
-          break;
-        } else {
-          jump = false;
+          this.focus(i);
+          this.input(i).value = this.input(index).value;
+          this.input(index).value = '';
+          this.sync();
+          return;
         }
-      }
-
-      if (jump) {
-        this.focus(jumpTo);
-        this.input(jumpTo).value = input.value;
-        input.value = '';
-        this.sync();
-        return;
       }
     }
 
