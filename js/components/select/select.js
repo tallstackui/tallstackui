@@ -10,9 +10,9 @@ import {body} from './helpers';
  * @param placeholder {String} - The placeholder of the select
  * @param searchable {Boolean} - If true, the search input will be shown
  * @param common {Boolean} - If true, the options will be taken from the options variable
- * @param livewire {Boolean} - If true, the select will be used in livewire
- * @param property {String} - The property name of the input
- * @param value {String|Array} - The value of the input
+ * @param livewire
+ * @param property
+ * @param value
  */
 export default (
     model = null,
@@ -90,22 +90,18 @@ export default (
 
     if (this.multiple) {
       this.selects = this.available.filter((option) => this.dimensional ?
-              this.model?.includes(option[this.selectable.value]) :
-              this.model?.includes(option));
+          this.model?.includes(option[this.selectable.value]) :
+          this.model?.includes(option));
     } else {
-      this.selects = this.available.find((option) => {
-        return this.dimensional ?
-            this.model === option[this.selectable.value] :
-            this.model === option;
-      });
+      this.selects = this.available.find((option) => this.dimensional ?
+          this.model === option[this.selectable.value] :
+          this.model === option,
+      );
 
-      if (this.selects) {
-        if (this.dimensional) {
-          this.placeholder = this.selects[this.selectable.label];
-          this.selects = [this.selects];
-        } else {
-          this.placeholder = this.selects;
-        }
+      if (!this.empty) {
+        this.selects = this.dimensional ?
+            [this.selects] :
+            this.selects;
       } else {
         this.selects = [];
       }
@@ -146,8 +142,8 @@ export default (
             value?.includes(option));
       } else {
         this.selects = this.available.find((option) => this.dimensional ?
-                value.toString() === option[this.selectable.value].toString() :
-                value.toString() === option.toString());
+            value.toString() === option[this.selectable.value].toString() :
+            value.toString() === option.toString());
 
         this.selects = this.dimensional ?
             [this.selects] :
@@ -158,6 +154,52 @@ export default (
             (!this.empty ? this.selects : placeholder);
       }
     });
+  },
+  /**
+   * Observe the options element to sync the options
+   * @returns {void}
+   */
+  observation() {
+    this.sync();
+
+    if (!this.$refs.options) {
+      return;
+    }
+
+    this.observer = new MutationObserver(this.sync.bind(this));
+
+    this.observer.observe(this.$refs.options, {
+      subtree: true,
+      characterData: true,
+    });
+  },
+  /**
+   * Control the observation
+   * @returns {Promise<void>}
+   */
+  async observed() {
+    if (this.observer && !this.observing) {
+      this.observer.disconnect();
+
+      this.observing = true;
+    }
+
+    await this.$nextTick();
+
+    this.observing = false;
+
+    this.observation();
+  },
+  /**
+   * Sync the options
+   * @returns {void}
+   */
+  sync() {
+    if (!this.$refs.options) {
+      return;
+    }
+
+    this.options = window.Alpine.evaluate(this, this.$refs.options.innerText);
   },
   /**
    * Initialize the component as request
@@ -226,52 +268,6 @@ export default (
       }
     });
   },
-  /**
-   * Observe the options element to sync the options
-   * @returns {void}
-   */
-  observation() {
-    this.sync();
-
-    if (!this.$refs.options) {
-      return;
-    }
-
-    this.observer = new MutationObserver(this.sync.bind(this));
-
-    this.observer.observe(this.$refs.options, {
-      subtree: true,
-      characterData: true,
-    });
-  },
-  /**
-   * Control the observation
-   * @returns {Promise<void>}
-   */
-  async observed() {
-    if (this.observer && !this.observing) {
-      this.observer.disconnect();
-
-      this.observing = true;
-    }
-
-    await this.$nextTick();
-
-    this.observing = false;
-
-    this.observation();
-  },
-  /**
-   * Sync the options
-   * @returns {void}
-   */
-  sync() {
-    if (!this.$refs.options) {
-      return;
-    }
-
-    this.options = window.Alpine.evaluate(this, this.$refs.options.innerText);
-  },
   /** @returns {void} */
   async makeRequest() {
     this.loading = true;
@@ -325,12 +321,12 @@ export default (
 
     if (this.multiple) {
       this.selects = !this.empty ?
-                [...this.selects, option] :
-                [option];
+          [...this.selects, option] :
+          [option];
 
       this.model = this.dimensional ?
-                this.selects.map((selected) => selected[this.selectable.value]) :
-                this.selects;
+          this.selects.map((selected) => selected[this.selectable.value]) :
+          this.selects;
 
       this.search = '';
     } else {
@@ -342,7 +338,6 @@ export default (
 
     this.show = this.quantity === this.available?.length ? false : this.multiple;
     this.search = '';
-
     this.input = this.model;
   },
   /**
@@ -355,8 +350,8 @@ export default (
     if (this.empty || this.available?.length === 0) return false;
 
     return this.multiple ?
-      this.selects?.some((selected) => JSON.stringify(selected) === JSON.stringify(option)) :
-      JSON.stringify(this.selects[0] ?? this.selects) === JSON.stringify(option);
+        this.selects?.some((selected) => JSON.stringify(selected) === JSON.stringify(option)) :
+        JSON.stringify(this.selects[0] ?? this.selects) === JSON.stringify(option);
   },
   /**
    * @param selected {Object|null}
@@ -370,8 +365,8 @@ export default (
             option !== selected);
 
         this.model = this.dimensional ?
-                    this.selects.map((selected) => selected[this.selectable.value]) :
-                    this.selects;
+            this.selects.map((selected) => selected[this.selectable.value]) :
+            this.selects;
       } else {
         this.selects = [];
       }

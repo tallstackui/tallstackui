@@ -19,7 +19,7 @@
         @js($common),
         @js($livewire),
         @js($property),
-        @js($attributes->get('value')))"
+        {!! $attributes->get('value') !!})"
         x-cloak
         wire:ignore.self>
     <div hidden x-ref="options">{{ TallStackUi::blade()->json($options) }}</div>
@@ -98,7 +98,8 @@
                              x-model.debounce.500ms="search"
                              x-ref="search"
                              dusk="tallstackui_select_search_input"
-                             invalidate />
+                             invalidate
+                    />
                     <button type="button"
                             @class($personalize['box.button.class'])
                             x-on:click="search = ''; $refs.search.focus();"
