@@ -29,7 +29,7 @@ class DialogColors
     }
 
     // Get the colors not defined in the personalization array.
-    protected function default($colors, &$target): array
+    protected function default(string|array $colors, string|array &$target): array
     {
         collect($colors)
             ->each(function (string $color, string $key) use (&$target) {

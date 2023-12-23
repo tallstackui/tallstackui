@@ -1,27 +1,9 @@
 @php
     $livewire = isset($__livewire);
-    // We don't need the $id here, so we jump it.
+    // We don't need the $id here, so we skip it.
     [$property, $error,, $entangle] = $bind($attributes, $errors ?? null, $livewire);
     $personalize = $classes();
-    $value = $attributes->get('value');
-
-    if (!$livewire && $property && ($value && is_string($value))) {
-        $value = htmlspecialchars_decode($attributes->get('value'));
-        $value = str_replace('"', '', $value);
-    }
-
-    if (!$common && $multiple && is_string($value)) {
-        $value = $value ? explode(',', $value) : [];
-        $value = array_map(function ($value) {
-            $value = str_replace(['[', ']'], '', $value);
-
-            if (ctype_digit($value)) {
-                return (int) $value;
-            }
-
-            return $value;
-        }, $value);
-    }
+    $value = $transform($attributes, $property, $livewire);
 @endphp
 
 @if (!$livewire && $property)
