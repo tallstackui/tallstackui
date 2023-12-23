@@ -1,13 +1,12 @@
 @php
     $livewire = isset($__livewire);
-    // We don't need the $id here, so we skip it.
-    [$property, $error,, $entangle] = $bind($attributes, $errors ?? null, $livewire);
+    [$property, $error, $id, $entangle] = $bind($attributes, $errors ?? null, $livewire);
     $personalize = $classes();
     $value = $transform($attributes, $property, $livewire);
 @endphp
 
 @if (!$livewire && $property)
-    <input hidden name="{{ $property }}">
+    <input hidden id="{{ $id }}" name="{{ $property }}">
 @endif
 
 <div x-data="tallstackui_select(

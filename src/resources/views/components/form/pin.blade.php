@@ -12,7 +12,7 @@
     <div hidden id="{{ $hash }}">@js($error)</div>
 @elseif ($property)
     <div hidden id="{{ $hash }}">@js($errors->has($property))</div>
-    <input hidden name="{{ $property }}" @if ($value) value="{{ $value }}" @endif>
+    <input hidden id="{{ $id }}" name="{{ $property }}" @if ($value) value="{{ $value }}" @endif>
 @endif
 
 <div>
