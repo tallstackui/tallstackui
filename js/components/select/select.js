@@ -56,16 +56,18 @@ export default (
       }
     }
 
+    const label = this.livewire ? 'wire:model' : 'value';
+
     if (this.multiple && this.model && this.model.constructor !== Array) {
-      return warning('The [wire:model] must be an array');
+      return warning(`The [${label}] must be an array`);
     }
 
     if (!this.multiple && this.model && this.model.constructor === Array) {
-      return warning('The [wire:model] must not be an array when is not multiple');
+      return warning(`The [${label}] must not be an array when is not multiple`);
     }
 
     if (this.common && (this.dimensional && this.selectable.constructor === Array && this.selectable?.length === 0)) {
-      return warning('The [select] must be defined');
+      return warning(`The [${label}] must be defined`);
     }
 
     if (this.common) {
@@ -74,6 +76,10 @@ export default (
 
     await this.initAsRequest();
   },
+  /**
+   * Initialize the component as Blade vanilla
+   * @returns {void}
+   */
   initAsVanilla() {
     if (!this.value) {
       return;
@@ -98,10 +104,14 @@ export default (
           this.model === option,
       );
 
-      if (!this.empty) {
+      if (this.selects) {
         this.selects = this.dimensional ?
             [this.selects] :
             this.selects;
+
+        this.placeholder = this.dimensional ?
+            this.selects[0]?.[this.selectable.label] ?? placeholder :
+            this.selects ?? placeholder;
       } else {
         this.selects = [];
       }
@@ -151,7 +161,7 @@ export default (
 
         this.placeholder = this.dimensional ?
             this.selects[0]?.[this.selectable.label] ?? placeholder :
-            (!this.empty ? this.selects : placeholder);
+            this.selects ?? placeholder;
       }
     });
   },

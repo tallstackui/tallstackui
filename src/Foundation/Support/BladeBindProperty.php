@@ -45,10 +45,12 @@ class BladeBindProperty
             return false;
         }
 
+        $property = $this->bind();
+
         // The first step is determine how the component is being used.
         // When $component is set, then we are in Livewire context, otherwise
         // we will to consider it as a normal Blade vanilla context.
-        return $this->errors->has($this->bind());
+        return $property && $this->errors->has($property);
     }
 
     private function id(): ?string

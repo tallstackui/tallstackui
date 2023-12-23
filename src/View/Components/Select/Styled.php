@@ -108,7 +108,7 @@ class Styled extends BaseComponent implements Personalization
     {
         $value = $attributes->get('value');
 
-        if ($livewire || ! $property || ! $value || ! is_string($value)) {
+        if ($livewire || (! $property || ! $value || ! is_string($value))) {
             return $value;
         }
 
