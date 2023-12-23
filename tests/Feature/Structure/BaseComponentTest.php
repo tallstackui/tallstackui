@@ -17,6 +17,7 @@ describe('BaseComponent', function () {
             ->toHaveMethod($method);
     })->with([
         'blade',
+        'bind',
         'classes',
         'render',
         'compile',

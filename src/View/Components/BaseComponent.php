@@ -9,7 +9,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\ViewErrorBag;
 use Illuminate\View\Component;
 use Illuminate\View\ComponentAttributeBag;
-use Livewire\WireDirective;
 use ReflectionAttribute;
 use ReflectionClass;
 use TallStackUi\Facades\TallStackUi;
@@ -81,12 +80,6 @@ abstract class BaseComponent extends Component
         return function (array $data) {
             return $this->output($this->blade()->with($this->compile($data)), $data);
         };
-    }
-
-    /** Proxy for the `wireable` method of the Facade */ // TODO: probably deprecated
-    public function wireable(ComponentAttributeBag $attributes, bool $livewire = false): ?WireDirective
-    {
-        return TallStackUi::blade($attributes, $livewire)->wire();
     }
 
     /** @throws Throwable */
