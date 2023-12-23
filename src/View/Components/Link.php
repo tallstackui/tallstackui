@@ -27,6 +27,7 @@ class Link extends BaseComponent implements Personalization
         public ?bool $blank = null,
         public ?bool $bold = null,
         public ?bool $underline = null,
+        public ?bool $colorless = null,
         #[SkipDebug]
         public ?string $size = null,
         #[SkipDebug]

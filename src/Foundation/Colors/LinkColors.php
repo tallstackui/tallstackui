@@ -24,7 +24,7 @@ class LinkColors
         $getter = $this->component->color;
 
         // For :color="null"
-        if (! $getter) {
+        if (! $getter || $this->component->colorless === true) {
             return ['text' => ''];
         }
 

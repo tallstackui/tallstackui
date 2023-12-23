@@ -86,7 +86,7 @@ it('can render with color', function (string $colors) {
     };
 
     expect($component)->render()
-        ->toContain('<a')
+        ->toContain('<a href="https://google.com.br"')
         ->toContain($color);
 })->with('colors');
 
@@ -96,7 +96,16 @@ it('can render without color', function () {
     HTML;
 
     expect($component)->render()
-        ->toContain('<a href="https://google.com.br"');
+        ->toContain('<a href="https://google.com.br"')
+        ->not->toContain('text-primary-500');
+
+    $component = <<<'HTML'
+    <x-link href="https://google.com.br" colorless />
+    HTML;
+
+    expect($component)->render()
+        ->toContain('<a href="https://google.com.br"')
+        ->not->toContain('text-primary-500');
 });
 
 it('cannot render without href', function () {

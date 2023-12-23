@@ -6,7 +6,7 @@
         $personalize['underline'] => $underline,
         $personalize['icon.base'] => $icon,
         $personalize['sizes.'.$size],
-        $colors['text'],
+        $colors['text'] => !$colorless,
     ]) }} @if ($blank) target="_blank" @endif>
     @if ($icon && $position === 'left')
         <x-icon :$icon @class($personalize['icon.size']) />
