@@ -1,19 +1,29 @@
 @php
-    $wire = $wireable($attributes);
-    $error = !$invalidate && $wire && $errors->has($wire->value());
+    $livewire = isset($__livewire);
+    // We don't need the $id here, so we skip it.
+    [$property, $error,, $entangle] = $bind($attributes, $errors ?? null, $livewire);
     $personalize = $classes();
+    $value = $transform($attributes, $property, $livewire);
 @endphp
 
+@if (!$livewire && $property)
+    <input hidden name="{{ $property }}">
+@endif
+
 <div x-data="tallstackui_select(
-        @entangleable($attributes),
+        {!! $entangle !!},
         @js($request),
         @js($selectable),
         @js($options),
         @js($multiple),
         @js($placeholders['default']),
         @js($searchable),
-        @js($common)
-    )" x-cloak wire:ignore.self>
+        @js($common),
+        @js($livewire),
+        @js($property),
+        @js($value))"
+        x-cloak
+        wire:ignore.self>
     <div hidden x-ref="options">{{ TallStackUi::blade()->json($options) }}</div>
     @if ($label)
         <x-label :$label :$error/>
@@ -138,6 +148,6 @@
         <x-hint :$hint/>
     @endif
     @if ($error)
-        <x-error :$wire/>
+        <x-error :$property/>
     @endif
 </div>

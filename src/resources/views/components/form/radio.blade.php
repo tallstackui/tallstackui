@@ -1,16 +1,15 @@
 @php
+    [$property, $error, $id] = $bind($attributes, $errors ?? null, isset($__livewire));
     $personalize = $classes();
-    $wire = $wireable($attributes);
-    $error = !$invalidate && $wire && $errors->has($wire->value());
     [$position, $alignment, $label] = $sloteable($label);
-    $id = $id($attributes);
+    $value = $attributes->get('value');
 @endphp
 
-<x-wrapper.radio :$id :$wire :$label :$position :$alignment :$invalidate>
+<x-wrapper.radio :$id :$property :$error :$label :$position :$alignment :$invalidate>
     <input @if ($id) id="{{ $id }}" @endif type="radio" {{ $attributes->class([
             $personalize['input.class'],
             $personalize['input.sizes.' . $size],
             $colors['background'],
             $personalize['error'] => $error
-    ]) }}>
+    ]) }} @checked((bool) $value === true)>
 </x-wrapper.radio>

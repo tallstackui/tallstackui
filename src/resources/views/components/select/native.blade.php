@@ -1,6 +1,6 @@
 @php
-    $wire = $wireable($attributes);
-    $error = !$invalidate && $wire && $errors->has($wire->value());
+    $livewire = isset($__livewire);
+    [$property, $error] = $bind($attributes, $errors ?? null, $livewire);
     $personalize = $classes();
 @endphp
 
@@ -17,7 +17,8 @@
             $personalize['error'] => $error
         ]) }}>
         @forelse ($options as $option)
-            <option value="{{ $select ? $option[$selectable['value']] : $option }}">{{ $select ? $option[$selectable['label']] : $option }}</option>
+            @php($value = (string) ($select ? $option[$selectable['value']] : $option))
+            <option value="{{ $value }}" @selected(!$livewire && $value === (string) $attributes->get('value'))>{{ $select ? $option[$selectable['label']] : $option }}</option>
         @empty
             {{ $slot }}
         @endforelse
@@ -26,6 +27,6 @@
         <x-hint :$hint/>
     @endif
     @if ($error)
-        <x-error :$wire/>
+        <x-error :$property/>
     @endif
 </div>

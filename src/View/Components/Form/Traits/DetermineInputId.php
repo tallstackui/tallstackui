@@ -13,7 +13,7 @@ trait DetermineInputId
     // or "name" attributes. If none of them are set.
     public function id(ComponentAttributeBag $attributes): ?string
     {
-        $wire = TallStackUi::blade()->wireable($attributes);
+        $wire = TallStackUi::blade($attributes)->wire();
 
         return $attributes->get('id', $wire?->value() ?? $attributes->get('name'));
     }

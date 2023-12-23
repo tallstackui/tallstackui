@@ -3,6 +3,7 @@
 namespace TallStackUi\Facades;
 
 use Illuminate\Support\Facades\Facade;
+use Illuminate\View\ComponentAttributeBag;
 use TallStackUi\Foundation\Personalization\Personalization;
 use TallStackUi\Foundation\Support\BladeDirectives;
 use TallStackUi\Foundation\Support\BladeSupport;
@@ -10,7 +11,7 @@ use TallStackUi\Foundation\Support\BladeSupport;
 /**
  * @method static Personalization personalize(?string $component = null)
  * @method static BladeDirectives directives()
- * @method static BladeSupport blade()
+ * @method static BladeSupport blade(?ComponentAttributeBag $attributes = null, bool $livewire = false)
  */
 class TallStackUi extends Facade
 {

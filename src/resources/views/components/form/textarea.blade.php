@@ -1,11 +1,10 @@
 @php
-    $wire = $wireable($attributes);
-    $error = !$invalidate && $wire && $errors->has($wire->value());
+    [$property, $error, $id] = $bind($attributes, $errors ?? null, isset($__livewire));
     $personalize = $classes();
-    $id = $id($attributes);
+    $slot = $attributes->get('value', $slot);
 @endphp
 
-<x-wrapper.input :$id :$wire :$label :$hint :$invalidate>
+<x-wrapper.input :$id :$property :$error :$label :$hint :$invalidate>
     <div @class([
         $personalize['input.wrapper'],
         $personalize['input.color.base'] => !$error,

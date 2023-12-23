@@ -1,8 +1,9 @@
-export default (model, mode, colors) => ({
+export default (model, mode, colors, value) => ({
   show: false,
   model: model,
   mode: mode,
   colors: colors,
+  value: value,
   weight: 6,
   palette: [],
   default: {
@@ -312,7 +313,12 @@ export default (model, mode, colors) => ({
       this.palette = this.colors;
     }
 
-    if (this.model) this.model = this.hashing(this.model);
+    if (this.model) {
+      this.model = this.hashing(this.model);
+    } else if (this.value) {
+      this.model = this.hashing(this.value);
+      this.$refs.input.value = this.value;
+    }
 
     this.$watch('model', (value) => {
       if (!value) {

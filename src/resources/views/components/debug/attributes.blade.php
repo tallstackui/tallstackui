@@ -25,7 +25,7 @@
             <span class="text-white">No attributes</span>
         @endforelse
     </ul>
-    @if ((string) $attributes !== '')
+    @if (is_string($attributes) && (string) $attributes !== '')
         <span class="mt-1 py flex justify-center text-red-500 px-1">
             Attributes
         </span>

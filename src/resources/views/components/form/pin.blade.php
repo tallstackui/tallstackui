@@ -1,16 +1,18 @@
 @php
+    $livewire = isset($__livewire);
+    [$property, $error, $id, $entangle] = $bind($attributes, $errors ?? null, $livewire);
     $personalize = $classes();
-    $wire = $wireable($attributes);
-    $property = $wire?->value();
-    $livewire = $wire && $property;
-    $error = !$invalidate && $livewire && $errors->has($property);
     $hash = $livewire
         ? $__livewire->getId().'-'.$property
         : uniqid();
+    $value = $attributes->get('value');
 @endphp
 
 @if ($livewire)
     <div hidden id="{{ $hash }}">@js($error)</div>
+@elseif ($property)
+    <div hidden id="{{ $hash }}">@js($errors->has($property))</div>
+    <input hidden name="{{ $property }}" @if ($value) value="{{ $value }}" @endif>
 @endif
 
 <div>
@@ -18,12 +20,15 @@
         <x-label :$label :$error/>
     @endif
     <div x-data="tallstackui_formPin(
-             @entangleable($attributes),
+             {!! $entangle !!},
              @js($hash),
              @js($length),
              @js($clear),
              @js($numbers),
              @js($letters),
+             @js($livewire),
+             @js($property),
+             @js($value),
          )" x-on:paste="pasting = true; paste($event)" x-cloak wire:ignore>
         <div @class($personalize['wrapper'])>
             @if ($prefix)
@@ -42,7 +47,11 @@
                        id="pin-{{ $hash }}-{{ $index }}"
                        dusk="pin-{{ $index }}"
                        @if ($mask) x-mask="{{ $mask }}" @endif
-                       @if ($livewire) value="{{ $wire && isset($__livewire->{$property}) ? (strval($__livewire->{$property})[$index-1] ?? '') : '' }}" @endif
+                       @if ($livewire)
+                           value="{{ isset($__livewire->{$property}) ? (strval($__livewire->{$property})[$index-1] ?? '') : '' }}"
+                       @elseif ($property)
+                           value="{{ $value[$index-1] ?? '' }}"
+                       @endif
                        @class([
                            'w-[38px]',
                             $personalize['input.base'],
@@ -70,6 +79,6 @@
         <x-hint :$hint/>
     @endif
     @if ($error)
-        <x-error :$wire/>
+        <x-error :$property/>
     @endif
 </div>

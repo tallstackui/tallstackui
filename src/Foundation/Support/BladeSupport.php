@@ -2,15 +2,27 @@
 
 namespace TallStackUi\Foundation\Support;
 
+use Exception;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\View\ComponentAttributeBag;
 use Livewire\WireDirective;
 
 class BladeSupport
 {
-    public function entangle(ComponentAttributeBag|WireDirective $attributes): string
+    public function __construct(
+        private readonly ?ComponentAttributeBag $attributes = null,
+        // The idea behind using the $livewire boolean here is to ensure
+        // that the component is being used within the context of a Livewire
+        // component, where the $__livewire variable exists, so we guarantee
+        // the correct application of the entangle directive.
+        private readonly bool $livewire = false,
+    ) {
+        //
+    }
+
+    public function entangle(): string
     {
-        if (($wire = $this->wireable($attributes)) === null) {
+        if (($wire = $this->wire()) === null) {
             return Blade::render('null');
         }
 
@@ -26,17 +38,21 @@ class BladeSupport
         return "JSON.parse(atob('".base64_encode(json_encode($data))."'))";
     }
 
-    public function wireable(ComponentAttributeBag $attributes): ?WireDirective
+    public function wire(): ?WireDirective
     {
+        if (! $this->attributes) {
+            throw new Exception('The attributes was not defined.');
+        }
+
         // For some unknown reason the macros are not defined when we are testing.
         // I assume this happens because Laravel doesn't bootstrap something necessary
         // To the macro works when we are testing using the `$this->blade()` method.
-        if (! $attributes::hasMacro('wire')) {
+        if (! $this->livewire || ! $this->attributes::hasMacro('wire')) {
             return null;
         }
 
         /** @var WireDirective $wire */
-        $wire = $attributes->wire('model');
+        $wire = $this->attributes->wire('model');
 
         if (! $wire->directive() && ! $wire->value()) {
             return null;

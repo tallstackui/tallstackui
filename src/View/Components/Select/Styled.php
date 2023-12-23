@@ -5,6 +5,7 @@ namespace TallStackUi\View\Components\Select;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\View\ComponentAttributeBag;
 use InvalidArgumentException;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
@@ -24,6 +25,7 @@ class Styled extends BaseComponent implements Personalization
     public function __construct(
         public ?string $label = null,
         public ?string $hint = null,
+        #[SkipDebug]
         public Collection|array $options = [],
         public string|array|null $request = null,
         public ?bool $multiple = false,
@@ -98,6 +100,27 @@ class Styled extends BaseComponent implements Personalization
                 ],
             ],
         ]);
+    }
+
+    // When the component is being used out of the Livewire context,
+    // we need to prepare the value to the format expected by the component.
+    public function transform(ComponentAttributeBag $attributes, ?string $property = null, ?bool $livewire = false): null|int|string|array
+    {
+        $value = $attributes->get('value');
+
+        if ($livewire || (! $property || ! $value || ! is_string($value))) {
+            return $value;
+        }
+
+        if ($this->common && ! $this->multiple) {
+            return str_replace('"', '', htmlspecialchars_decode($value));
+        }
+
+        return str($value)->explode(',')->collect()->map(function (string|int $value) {
+            $value = str_replace(['[', ']'], '', $value);
+
+            return ctype_digit($value) ? (int) $value : $value;
+        })->toArray();
     }
 
     protected function validate(): void

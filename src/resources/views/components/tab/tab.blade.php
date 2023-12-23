@@ -1,6 +1,9 @@
-@php($personalize = $classes())
+@php
+    $personalize = $classes();
+    $entangle = TallStackUi::blade($attributes, isset($__livewire))->entangle();
+@endphp
 
-<div @if (!$selected) x-data="tallstackui_tab(@entangleable($attributes))" @else x-data="tallstackui_tab(@js($selected))"@endif
+<div @if (!$selected) x-data="tallstackui_tab({!! $entangle !!})" @else x-data="tallstackui_tab(@js($selected))"@endif
     @class($personalize['wrapper'])>
     <div class="p-2 sm:p-0">
         <select id="tab-select-{{ $id }}"

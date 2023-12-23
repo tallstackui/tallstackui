@@ -6,6 +6,7 @@ use Closure;
 use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
+use Illuminate\Support\ViewErrorBag;
 use Illuminate\View\Component;
 use Illuminate\View\ComponentAttributeBag;
 use Livewire\WireDirective;
@@ -17,10 +18,24 @@ use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Colors\ResolveColor;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\ResolveConfiguration;
+use TallStackUi\Foundation\Support\BladeBindProperty;
 use Throwable;
 
 abstract class BaseComponent extends Component
 {
+    public function bind(
+        ComponentAttributeBag $attributes,
+        ?ViewErrorBag $errors = null,
+        bool $livewire = false
+    ): array {
+        return app(BladeBindProperty::class, [
+            'attributes' => $attributes,
+            'errors' => $errors,
+            'invalidate' => $this->data()['invalidate'] ?? false,
+            'livewire' => $livewire,
+        ])->data();
+    }
+
     abstract public function blade(): View;
 
     public function classes(): array
@@ -68,10 +83,10 @@ abstract class BaseComponent extends Component
         };
     }
 
-    /** Proxy for the `wireable` method of the Facade */
-    public function wireable(ComponentAttributeBag $attributes): ?WireDirective
+    /** Proxy for the `wireable` method of the Facade */ // TODO: probably deprecated
+    public function wireable(ComponentAttributeBag $attributes, bool $livewire = false): ?WireDirective
     {
-        return TallStackUi::blade()->wireable($attributes);
+        return TallStackUi::blade($attributes, $livewire)->wire();
     }
 
     /** @throws Throwable */
