@@ -1,7 +1,13 @@
 @php
     $livewire = isset($__livewire);
+    // We don't need the $id here, so we jump it.
     [$property, $error,, $entangle] = $bind($attributes, $errors ?? null, $livewire);
     $personalize = $classes();
+
+    if (!$livewire && $property) {
+        $value = htmlspecialchars_decode($attributes->get('value'));
+        $value = str_replace('"', '', $value);
+    }
 @endphp
 
 @if (!$livewire && $property)
@@ -19,7 +25,7 @@
         @js($common),
         @js($livewire),
         @js($property),
-        {!! $attributes->get('value') !!})"
+        @js($value))"
         x-cloak
         wire:ignore.self>
     <div hidden x-ref="options">{{ TallStackUi::blade()->json($options) }}</div>
