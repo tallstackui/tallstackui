@@ -108,21 +108,37 @@ class Styled extends BaseComponent implements Personalization
     {
         $value = $attributes->get('value');
 
+        // We just transform the value when is not a Livewire
+        // component or when the value is not empty and is a string.
         if ($livewire || (! $property || ! $value || ! is_string($value))) {
             return $value;
         }
 
-        $value = str_replace('"', '', htmlspecialchars_decode($value));
+        // We start by removing the quotes from the string.
+        $string = str(htmlspecialchars_decode($value))->remove('"');
 
-        if ($this->common && ! $this->multiple) {
-            return $value;
-        }
-
-        return str($value)->explode(',')->collect()->map(function (string|int $value) {
-            $value = str_replace(['[', ']'], '', $value);
+        // This function aims to sanitize the value, removing the
+        // brackets and converting the value to the correct type.
+        // We avoid use the `Stringable` here to increase the performance.
+        $sanitize = function (string $value): int|string {
+            $value = trim(str_replace(['[', ']'], '', $value));
 
             return ctype_digit($value) ? (int) $value : $value;
-        })->toArray();
+        };
+
+        // If the value is not an array, we just sanitize the value.
+        if (! $string->contains(',')) {
+            $array = $string->contains(['[', ']']);
+            $value = $string->remove(['[', ']'])->trim()->value();
+
+            $sanitize = $sanitize($value);
+
+            return $array ? [$sanitize] : $sanitize;
+        }
+
+        // If the value is an array, we need to explode
+        // the string and map the values to sanitize them.
+        return $string->explode(',')->collect()->map(fn (string|int $value) => $sanitize($value))->toArray();
     }
 
     protected function validate(): void

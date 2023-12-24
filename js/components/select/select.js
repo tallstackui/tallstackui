@@ -46,7 +46,7 @@ export default (
     const label = this.livewire ? 'wire:model' : 'value';
 
     if (this.multiple && this.model && this.model.constructor !== Array) {
-      return warning(`The [${label}] must be an array`);
+      return warning(`The [${label}] must be an array when multiple is set`);
     }
 
     if (!this.multiple && this.model && this.model.constructor === Array) {
