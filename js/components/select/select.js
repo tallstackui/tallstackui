@@ -35,10 +35,13 @@ export default (
   property: property,
   value: value,
   async init() {
+    // When the component is not being used in livewire.
     if (!this.livewire) {
       if (this.common) {
         this.$nextTick(() => this.initAsVanilla());
       } else {
+        // For non-common type we need to use await to wait for the
+        // component to be mounted and then initialize it.
         await this.$nextTick(() => this.initAsVanilla());
       }
     }
@@ -81,26 +84,7 @@ export default (
   initAsCommon() {
     this.observation();
 
-    if (this.multiple) {
-      this.selects = this.available.filter((option) => this.dimensional ?
-          this.model?.includes(option[this.selectable.value]) :
-          this.model?.includes(option));
-    } else {
-      this.selects = this.available.find((option) => this.dimensional ?
-          this.model === option[this.selectable.value] :
-          this.model === option,
-      );
-
-      if (this.selects) {
-        this.selects = [this.selects];
-
-        this.placeholder = this.dimensional ?
-            this.selects[0]?.[this.selectable.label] ?? placeholder :
-            this.selects[0] ?? placeholder;
-      } else {
-        this.selects = [];
-      }
-    }
+    this.hydrate();
 
     this.$watch('show', async (value) => {
       if (!value || !this.searchable) {
@@ -112,6 +96,9 @@ export default (
 
     this.$watch('options', async () => this.observed());
 
+    // This watch aims to monitor external changes to the property
+    // linked with `model` for situations where changes were made
+    // out of the component to the variable that is linked to the `model`
     this.$watch('model', (value, old) => {
       // When the value is null we clear the select. This is necessary due
       // situations where we are binding the same model in live entangle
@@ -131,68 +118,8 @@ export default (
         return;
       }
 
-      if (this.multiple) {
-        this.selects = this.available.filter((option) => this.dimensional ?
-            value?.includes(option[this.selectable.value]) :
-            value?.includes(option));
-      } else {
-        this.selects = this.available.find((option) => this.dimensional ?
-            value.toString() === option[this.selectable.value].toString() :
-            value.toString() === option.toString());
-
-        this.selects = [this.selects];
-
-        this.placeholder = this.dimensional ?
-            this.selects[0]?.[this.selectable.label] ?? placeholder :
-            this.selects[0] ?? placeholder;
-      }
+      this.hydrate(value);
     });
-  },
-  /**
-   * Observe the options element to sync the options
-   * @returns {void}
-   */
-  observation() {
-    this.sync();
-
-    if (!this.$refs.options) {
-      return;
-    }
-
-    this.observer = new MutationObserver(this.sync.bind(this));
-
-    this.observer.observe(this.$refs.options, {
-      subtree: true,
-      characterData: true,
-    });
-  },
-  /**
-   * Control the observation
-   * @returns {Promise<void>}
-   */
-  async observed() {
-    if (this.observer && !this.observing) {
-      this.observer.disconnect();
-
-      this.observing = true;
-    }
-
-    await this.$nextTick();
-
-    this.observing = false;
-
-    this.observation();
-  },
-  /**
-   * Sync the options
-   * @returns {void}
-   */
-  sync() {
-    if (!this.$refs.options) {
-      return;
-    }
-
-    this.options = window.Alpine.evaluate(this, this.$refs.options.innerText);
   },
   /**
    * Initialize the component as request
@@ -217,20 +144,17 @@ export default (
 
     this.$watch('search', async () => this.makeRequest());
 
-    if (this.model) {
+    // We only make the request when rendering
+    // the component if the model is defined.
+    if (this.model?.length > 0) {
       await this.makeRequest();
 
-      this.selects = this.available.filter((option) => {
-        return this.multiple ?
-            this.model.includes(option[this.selectable.value]) :
-            this.model === option[this.selectable.value];
-      });
-
-      if (!this.multiple) {
-        this.placeholder = this.selects[0][this.selectable.label] ?? placeholder;
-      }
+      this.hydrate();
     }
 
+    // This watch aims to monitor external changes to the property
+    // linked with `model` for situations where changes were made
+    // out of the component to the variable that is linked to the `model`
     this.$watch('model', (value, old) => {
       // When the value is null we clear the select. This is necessary due
       // situations where we are binding the same model in live entangle
@@ -246,19 +170,12 @@ export default (
         return;
       }
 
-      if (this.multiple) {
-        this.selects = this.available.filter((option) => {
-          return value?.includes(option[this.selectable.value]);
-        });
-      } else {
-        this.selects = this.available.filter((option) => {
-          return value?.toString() === option[this.selectable.value].toString();
-        });
-
-        if (this.quantity > 0) {
-          this.placeholder = this.selects[0][this.selectable.label] ?? placeholder;
-        }
+      // If the response is empty, we need to wait for the request.
+      if (this.response.length === 0) {
+        return;
       }
+
+      this.hydrate(value);
     });
   },
   /** @returns {void} */
@@ -305,6 +222,7 @@ export default (
   select(option) {
     this.internal = true;
 
+    // When already selected, then we just clear the select.
     if (this.selected(option)) {
       this.clear(option);
       this.input = this.model;
@@ -361,6 +279,8 @@ export default (
             this.selects.map((selected) => selected[this.selectable.value]) :
             this.selects;
       } else {
+        // We clear the entire select property if it is not a multiple,
+        // because if it is not a multiple, it will be a single selection.
         this.selects = [];
       }
 
@@ -392,6 +312,113 @@ export default (
     this.show = false;
   },
   /**
+   * Observe the options element to sync the options
+   * @returns {void}
+   */
+  observation() {
+    this.sync();
+
+    if (!this.$refs.options) {
+      return;
+    }
+
+    this.observer = new MutationObserver(this.sync.bind(this));
+
+    this.observer.observe(this.$refs.options, {
+      subtree: true,
+      characterData: true,
+    });
+  },
+  /**
+   * Control the observation
+   * @returns {Promise<void>}
+   */
+  async observed() {
+    if (this.observer && !this.observing) {
+      this.observer.disconnect();
+
+      this.observing = true;
+    }
+
+    await this.$nextTick();
+
+    this.observing = false;
+
+    this.observation();
+  },
+  /**
+   * Sync the options
+   * @returns {void}
+   */
+  sync() {
+    if (!this.$refs.options) {
+      return;
+    }
+
+    this.options = window.Alpine.evaluate(this, this.$refs.options.innerText);
+  },
+  /**
+   * Hydrate the selects according to model.
+   * @param value {*}
+   * @returns {void}
+   */
+  hydrate(value = null) {
+    this.model = value ?? this.model;
+
+    if (!this.common) {
+      this.selects = this.available.filter((option) => {
+        return this.multiple ?
+            this.model?.includes(option[this.selectable.value]) :
+            this.compare(this.model, option[this.selectable.value]);
+      });
+
+      if (!this.multiple) {
+        this.placeholder = this.selects[0]?.[this.selectable.label] ?? placeholder;
+      }
+
+      return;
+    }
+
+    if (this.multiple) {
+      this.selects = this.available.filter((option) => this.dimensional ?
+          this.model?.includes(option[this.selectable.value]) :
+          this.model?.includes(option));
+
+      return;
+    }
+
+    this.selects = this.available.find((option) => this.dimensional ?
+        this.compare(this.model, option[this.selectable.value]) :
+        this.compare(this.model, option));
+
+    if (this.selects) {
+      this.selects = [this.selects];
+
+      this.placeholder = this.dimensional ?
+          this.selects[0]?.[this.selectable.label] ?? placeholder :
+          this.selects[0] ?? placeholder;
+    } else {
+      this.selects = [];
+    }
+  },
+  /**
+   * Compare the model and data using the same type
+   * @param model {*}
+   * @param data {*}
+   * @return {boolean}
+   */
+  compare(model, data) {
+    if (typeof data === 'string') {
+      model = model?.toString();
+    }
+
+    if (typeof data === 'number') {
+      model = parseInt(model);
+    }
+
+    return model === data;
+  },
+  /**
    * Set the input value when is not Livewire
    * @param data {*}
    */
@@ -406,6 +433,7 @@ export default (
       return;
     }
 
+    // When the data is null, we need to set the input value as empty.
     input.value = !data ? '' : JSON.stringify(data);
   },
   /**
