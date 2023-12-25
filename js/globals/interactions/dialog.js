@@ -1,57 +1,66 @@
 import {dispatchEvent} from '../../helpers';
 
+// TODO: confirmation?
 // eslint-disable-next-line require-jsdoc
-export default class Dialog {
+export default class Toast {
+  data;
   title;
   description;
 
+  /**
+   * @param title {String}
+   * @param description {String|Null}
+   */
   constructor(title, description = null) {
+    this.data = {};
     this.title = title;
     this.description = description;
   }
 
+  /**
+   * @return {Toast}
+   */
   success() {
-    this.object = {
-      type: 'success',
-      title: this.title,
-      description: this.description,
-    };
+    this.data.type = 'success';
 
     this.#dispatch();
   }
 
+  /**
+   * @return {Toast}
+   */
   error() {
-    this.object = {
-      type: 'error',
-      title: this.title,
-      description: this.description,
-    };
+    this.data.type = 'error';
 
     this.#dispatch();
   }
 
+  /**
+   * @return {Toast}
+   */
   warning() {
-    this.object = {
-      type: 'warning',
-      title: this.title,
-      description: this.description,
-    };
+    this.data.type = 'warning';
 
     this.#dispatch();
   }
 
+  /**
+   * @return {Toast}
+   */
   info() {
-    this.object = {
-      type: 'info',
-      title: this.title,
-      description: this.description,
-    };
+    this.data.type = 'info';
 
     this.#dispatch();
   }
 
-  // eslint-disable-next-line require-jsdoc
+  /**
+   * @return {void}
+   */
   #dispatch() {
-    dispatchEvent('dialog', this.object);
+    dispatchEvent('dialog', {
+      title: this.title,
+      description: this.description,
+      type: this.data.type,
+    });
   }
 }

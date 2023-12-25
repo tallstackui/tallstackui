@@ -1,7 +1,7 @@
 import {dispatchEvent} from '../../helpers';
 
-// eslint-disable-next-line require-jsdoc
 // TODO: confirmation?
+// eslint-disable-next-line require-jsdoc
 export default class Toast {
   data;
   title;
