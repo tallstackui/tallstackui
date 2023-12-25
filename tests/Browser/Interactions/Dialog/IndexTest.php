@@ -10,23 +10,159 @@ use Tests\Browser\BrowserTestCase;
 class IndexTest extends BrowserTestCase
 {
     /** @test */
+    public function can_dispatch_confirmation_dialog_without_livewire_specifing_component_id()
+    {
+        Livewire::visit(new class extends Component
+        {
+            use Interactions;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-button dusk="confirm" onclick="confirm()">Confirm</x-button>
+                    
+                    <script>
+                        confirm = () => $dialog('Confirm?').confirm({
+                            'confirm': {
+                                'text': 'Confirm',
+                                'method': 'confirmed',
+                                'params': 'Confirmed Without Livewire'
+                            },
+                            'cancel': {
+                                'text': 'Cancel',
+                                'method': 'cancelled',
+                                'params': 'Cancelled Without Livewire'
+                            }
+                        }, Livewire.first().id);
+                    </script>
+                </div>
+                HTML;
+            }
+
+            public function confirmed(string $message): void
+            {
+                $this->dialog()->success($message);
+            }
+
+            public function cancelled(string $message): void
+            {
+                $this->dialog()->error($message);
+            }
+        })
+            ->assertDontSee('Confirm?')
+            ->assertDontSee('Confirmed Without Livewire')
+            ->click('@confirm')
+            ->waitForText('Confirm?')
+            ->click('@tallstackui_dialog_confirmation')
+            ->waitForText('Confirmed Without Livewire')
+            ->assertSee('Confirmed Without Livewire')
+            ->click('@tallstackui_dialog_confirmation')
+            ->click('@confirm')
+            ->waitForText('Confirm?')
+            ->click('@tallstackui_dialog_rejection')
+            ->waitForText('Cancelled Without Livewire')
+            ->assertSee('Cancelled Without Livewire');
+    }
+
+    /** @test */
+    public function can_dispatch_confirmation_dialog_without_livewire_using_first_component_in_page()
+    {
+        Livewire::visit(new class extends Component
+        {
+            use Interactions;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-button dusk="confirm" onclick="confirm()">Confirm</x-button>
+                    
+                    <script>
+                        confirm = () => $dialog('Confirm?').confirm({
+                            'confirm': {
+                                'text': 'Confirm',
+                                'method': 'confirmed',
+                                'params': 'Confirmed Without Livewire'
+                            },
+                            'cancel': {
+                                'text': 'Cancel',
+                                'method': 'cancelled',
+                                'params': 'Cancelled Without Livewire'
+                            }
+                        }, '');
+                    </script>
+                </div>
+                HTML;
+            }
+
+            public function confirmed(string $message): void
+            {
+                $this->dialog()->success($message);
+            }
+        })
+            ->assertDontSee('Confirm?')
+            ->assertDontSee('Confirmed Without Livewire')
+            ->click('@confirm')
+            ->waitForText('Confirm?')
+            ->click('@tallstackui_dialog_confirmation')
+            ->waitForText('Confirmed Without Livewire')
+            ->assertSee('Confirmed Without Livewire');
+    }
+
+    /** @test */
+    public function can_dispatch_dialog_without_livewire()
+    {
+        Livewire::visit(new class extends Component
+        {
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-button dusk="success" x-on:click="$dialog('Success Without Livewire').success()">Success</x-button>
+                    <x-button dusk="error" x-on:click="$dialog('Error Without Livewire').error()">Error</x-button>
+                    <x-button dusk="info" x-on:click="$dialog('Info Without Livewire').info()">Info</x-button>
+                    <x-button dusk="warning" x-on:click="$dialog('Warning Without Livewire').warning()">Error</x-button>
+                </div>
+                HTML;
+            }
+        })
+            ->assertDontSee('Success Without Livewire')
+            ->click('@success')
+            ->waitForText('Success Without Livewire')
+            ->click('@tallstackui_dialog_confirmation')
+            ->assertDontSee('Error Without Livewire')
+            ->click('@error')
+            ->waitForText('Error Without Livewire')
+            ->click('@tallstackui_dialog_confirmation')
+            ->assertDontSee('Info Without Livewire')
+            ->click('@info')
+            ->waitForText('Info Without Livewire')
+            ->click('@tallstackui_dialog_confirmation')
+            ->assertDontSee('Warning Without Livewire')
+            ->click('@warning')
+            ->waitForText('Warning Without Livewire')
+            ->click('@tallstackui_dialog_confirmation');
+    }
+
+    /** @test */
     public function can_send(): void
     {
         Livewire::visit(DialogComponent::class)
             ->assertDontSee('Foo bar success')
-            ->click('#success')
+            ->click('@success')
             ->waitForText('Foo bar success')
             ->click('@tallstackui_dialog_confirmation')
             ->assertDontSee('Foo bar error')
-            ->click('#error')
+            ->click('@error')
             ->waitForText('Foo bar error')
             ->click('@tallstackui_dialog_confirmation')
             ->assertDontSee('Foo bar info')
-            ->click('#info')
+            ->click('@info')
             ->waitForText('Foo bar info')
             ->click('@tallstackui_dialog_confirmation')
             ->assertDontSee('Foo bar warning')
-            ->click('#warning')
+            ->click('@warning')
             ->waitForText('Foo bar warning')
             ->click('@tallstackui_dialog_confirmation');
     }
@@ -36,7 +172,7 @@ class IndexTest extends BrowserTestCase
     {
         Livewire::visit(DialogComponent::class)
             ->assertDontSee('Foo bar confirmation description')
-            ->click('#confirm')
+            ->click('@confirm')
             ->waitForText('Foo bar confirmation description')
             ->click('@tallstackui_dialog_rejection')
             ->waitForText('Bar foo cancelled bar');
@@ -47,7 +183,7 @@ class IndexTest extends BrowserTestCase
     {
         Livewire::visit(DialogComponent::class)
             ->assertDontSee('Foo bar confirmation description')
-            ->click('#confirm')
+            ->click('@confirm')
             ->waitForText('Foo bar confirmation description')
             ->click('@tallstackui_dialog_confirmation')
             ->waitUntilMissingText('Foo bar confirmation description');
@@ -60,7 +196,7 @@ class IndexTest extends BrowserTestCase
 
         Livewire::visit(DialogComponent::class)
             ->assertDontSee('Foo bar success')
-            ->click('#success')
+            ->click('@success')
             ->waitForText('Foo bar success')
             ->assertSee('Foo bar success')
             ->clickAtPoint(350, 350)
@@ -113,11 +249,11 @@ class DialogComponent extends Component
     {
         return <<<'HTML'
         <div>
-            <x-button id="success" wire:click="success">Success</x-button>
-            <x-button id="error" wire:click="error">Error</x-button>
-            <x-button id="info" wire:click="info">Info</x-button>
-            <x-button id="warning" wire:click="warning">Error</x-button>
-            <x-button id="confirm" wire:click="confirm">Confirm</x-button>
+            <x-button dusk="success" wire:click="success">Success</x-button>
+            <x-button dusk="error" wire:click="error">Error</x-button>
+            <x-button dusk="info" wire:click="info">Info</x-button>
+            <x-button dusk="warning" wire:click="warning">Error</x-button>
+            <x-button dusk="confirm" wire:click="confirm">Confirm</x-button>
         </div>
         HTML;
     }

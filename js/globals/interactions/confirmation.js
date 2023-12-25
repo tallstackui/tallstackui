@@ -2,7 +2,7 @@ import {dispatchEvent, error} from '../../helpers';
 
 /**
  * @param object {Object}
- * @param component {String|Null}
+ * @param component {String|Number|Null}
  * @param data {Object}
  */
 export default (object, component = null, data) => ({
@@ -10,10 +10,6 @@ export default (object, component = null, data) => ({
     if (component === null) {
       // eslint-disable-next-line max-len
       return error(`You must specify the Livewire component ID to interact with the methods through the [${data.event}] JavaScript API.`);
-    }
-
-    if (component !== '' && (component !== 'string' || component !== 'number')) {
-      return error(`The Livewire component ID must be a string or number.`);
     }
 
     // When the component is empty, we will attempt to
