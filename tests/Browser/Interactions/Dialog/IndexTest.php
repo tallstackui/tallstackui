@@ -84,11 +84,6 @@ class IndexTest extends BrowserTestCase
                                 'text': 'Confirm',
                                 'method': 'confirmed',
                                 'params': 'Confirmed Without Livewire'
-                            },
-                            'cancel': {
-                                'text': 'Cancel',
-                                'method': 'cancelled',
-                                'params': 'Cancelled Without Livewire'
                             }
                         }, '');
                     </script>

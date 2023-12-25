@@ -23,16 +23,16 @@ export default (object, component = null, data) => ({
       return error(`The Livewire component [${label}] was not found in the current page.`);
     }
 
-    if (!object.confirm || !object.cancel) {
-      return error(`The ${data.event} [confirm] does not have the confirm or cancel objects.`);
+    if (!object.confirm) {
+      return error(`The ${data.event} [confirm] does not have the confirm objects.`);
     }
 
     if (!object.confirm.text) {
-      return error(`The ${data.event} [confirm] does not have the confirm text.`);
+      return error(`The ${data.event} [confirm] does not have the text.`);
     }
 
     if (object.cancel && !object.cancel.text) {
-      return error(`The ${data.event} [cancel] does not have the confirm text.`);
+      return error(`The ${data.event} [cancel] does not have the text.`);
     }
 
     data.type = 'question';

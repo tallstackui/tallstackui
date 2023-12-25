@@ -48,18 +48,25 @@ export default (toast, ok, confirm, cancel) => ({
 
     dispatchEvent('toast:accepted', toast);
 
-    Livewire.find(toast.component)
-        .call(toast.options.confirm.method, params?.constructor !== Array ? params : [...params]);
+    const method = toast.options.confirm.method;
+
+    if (method) {
+      Livewire.find(toast.component)
+          .call(method, params?.constructor !== Array ? params : [...params]);
+    }
 
     this.hide();
   },
   reject(toast) {
     dispatchEvent('toast:rejected', toast);
 
-    if (toast.options.cancel.method) {
-      const params = toast.options.cancel.params;
+    const method = toast.options.cancel.method;
+
+    if (method) {
+      const params = toast.options.cancel.params ?? null;
+
       Livewire.find(toast.component)
-          .call(toast.options.cancel.method, params?.constructor !== Array ? params : [...params]);
+          .call(method, params?.constructor !== Array ? params : [...params]);
     }
 
     this.hide();
