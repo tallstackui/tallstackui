@@ -1,5 +1,12 @@
-window.$modalOpen = (name) => window.dispatchEvent(new Event(`modal:${name}-open`));
-window.$modalClose = (name) => window.dispatchEvent(new Event(`modal:${name}-close`));
+import Dialog from './interactions/dialog';
+import Toast from './interactions/toast';
+import {dispatchEvent} from '../helpers';
 
-window.$slideOpen = (name) => window.dispatchEvent(new Event(`slide:${name}-open`));
-window.$slideClose = (name) => window.dispatchEvent(new Event(`slide:${name}-close`));
+window.$modalOpen = (name) => dispatchEvent(`modal:${name}-open`);
+window.$modalClose = (name) => dispatchEvent(`modal:${name}-close`);
+
+window.$slideOpen = (name) => dispatchEvent(`slide:${name}-open`);
+window.$slideClose = (name) => dispatchEvent(`slide:${name}-close`);
+
+window.$dialog = (title, description = null) => new Dialog(title, description);
+window.$toast = (title, description = null) => new Toast(title, description);

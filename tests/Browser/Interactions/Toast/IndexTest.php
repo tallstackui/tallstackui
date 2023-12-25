@@ -10,6 +10,132 @@ use Tests\Browser\BrowserTestCase;
 class IndexTest extends BrowserTestCase
 {
     /** @test */
+    public function can_dispatch_confirmation_toast_without_livewire_specifing_component_id()
+    {
+        Livewire::visit(new class extends Component
+        {
+            use Interactions;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-button dusk="confirm" onclick="confirm()">Confirm</x-button>
+                    
+                    <script>
+                        confirm = () => $toast('Confirm?').confirm({
+                            'confirm': {
+                                'text': 'Confirm',
+                                'method': 'confirmed',
+                                'params': 'Confirmed Without Livewire'
+                            },
+                            'cancel': {
+                                'text': 'Cancel',
+                                'method': 'cancelled',
+                                'params': 'Cancelled Without Livewire'
+                            }
+                        }, Livewire.first().id);
+                    </script>
+                </div>
+                HTML;
+            }
+
+            public function confirmed(string $message): void
+            {
+                $this->toast()->success($message);
+            }
+
+            public function cancelled(string $message): void
+            {
+                $this->toast()->error($message);
+            }
+        })
+            ->assertDontSee('Confirm?')
+            ->assertDontSee('Confirmed Without Livewire')
+            ->click('@confirm')
+            ->waitForText('Confirm?')
+            ->click('@tallstackui_toast_confirmation')
+            ->waitForText('Confirmed Without Livewire')
+            ->assertSee('Confirmed Without Livewire')
+            ->click('@confirm')
+            ->waitForText('Confirm?')
+            ->click('@tallstackui_toast_rejection')
+            ->waitForText('Cancelled Without Livewire')
+            ->assertSee('Cancelled Without Livewire');
+    }
+
+    /** @test */
+    public function can_dispatch_confirmation_toast_without_livewire_using_first_component_in_page()
+    {
+        Livewire::visit(new class extends Component
+        {
+            use Interactions;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-button dusk="confirm" onclick="confirm()">Confirm</x-button>
+                    
+                    <script>
+                        confirm = () => $toast('Confirm?').confirm({
+                            'confirm': {
+                                'text': 'Confirm',
+                                'method': 'confirmed',
+                                'params': 'Confirmed Without Livewire'
+                            }
+                        }, '');
+                    </script>
+                </div>
+                HTML;
+            }
+
+            public function confirmed(string $message): void
+            {
+                $this->toast()->success($message);
+            }
+        })
+            ->assertDontSee('Confirm?')
+            ->assertDontSee('Confirmed Without Livewire')
+            ->click('@confirm')
+            ->waitForText('Confirm?')
+            ->click('@tallstackui_toast_confirmation')
+            ->waitForText('Confirmed Without Livewire')
+            ->assertSee('Confirmed Without Livewire');
+    }
+
+    /** @test */
+    public function can_dispatch_toast_without_livewire()
+    {
+        Livewire::visit(new class extends Component
+        {
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-button dusk="success" x-on:click="$toast('Success Without Livewire').success()">Success</x-button>
+                    <x-button dusk="error" x-on:click="$toast('Error Without Livewire').error()">Error</x-button>
+                    <x-button dusk="info" x-on:click="$toast('Info Without Livewire').info()">Info</x-button>
+                    <x-button dusk="warning" x-on:click="$toast('Warning Without Livewire').warning()">Error</x-button>
+                </div>
+                HTML;
+            }
+        })
+            ->assertDontSee('Success Without Livewire')
+            ->click('@success')
+            ->waitForText('Success Without Livewire')
+            ->assertDontSee('Error Without Livewire')
+            ->click('@error')
+            ->waitForText('Error Without Livewire')
+            ->assertDontSee('Info Without Livewire')
+            ->click('@info')
+            ->waitForText('Info Without Livewire')
+            ->assertDontSee('Warning Without Livewire')
+            ->click('@warning')
+            ->waitForText('Warning Without Livewire');
+    }
+
+    /** @test */
     public function can_expand(): void
     {
         Livewire::visit(ToastComponent::class)
