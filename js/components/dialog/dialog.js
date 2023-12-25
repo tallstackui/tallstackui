@@ -41,12 +41,8 @@ export default (ok, confirm, cancel) => ({
     dispatchEvent('dialog:accepted', dialog);
 
     setTimeout(() => {
-      const method = dialog.options.confirm.method;
-
-      if (method) {
-        Livewire.find(dialog.component)
-            .call(method, params?.constructor !== Array ? params : [...params]);
-      }
+      Livewire.find(dialog.component)
+          .call(dialog.options.confirm.method, params?.constructor !== Array ? params : [...params]);
 
       // This is a little trick to prevent the element from being
       // focused if there is another dialog displayed sequentially.
