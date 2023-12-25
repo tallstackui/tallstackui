@@ -24,7 +24,7 @@ export default (toast, ok, confirm, cancel) => ({
           elapsed += time;
           if (elapsed >= max) {
             this.hide(true);
-            dispatchEvent('toast:timeouted', this.toast);
+            dispatchEvent('toast:timeout', this.toast, false);
             clearInterval(interval);
           }
         }
@@ -46,7 +46,7 @@ export default (toast, ok, confirm, cancel) => ({
   accept(toast) {
     const params = toast.options.confirm.params ?? null;
 
-    dispatchEvent('toast:accepted', toast);
+    dispatchEvent('toast:accepted', toast, false);
 
     Livewire.find(toast.component)
         .call(toast.options.confirm.method, params?.constructor !== Array ? params : [...params]);
@@ -54,7 +54,7 @@ export default (toast, ok, confirm, cancel) => ({
     this.hide();
   },
   reject(toast) {
-    dispatchEvent('toast:rejected', toast);
+    dispatchEvent('toast:rejected', toast, false);
 
     const method = toast.options.cancel.method;
 

@@ -10,6 +10,42 @@ use Tests\Browser\BrowserTestCase;
 class IndexTest extends BrowserTestCase
 {
     /** @test */
+    public function can_dispatch_events(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public bool $modal = false;
+
+            public string $target = '';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="target">{{ $target }}</p>
+
+                    <x-modal wire x-on:open="$wire.$set('target', 'Opened')" x-on:close="$wire.$set('target', 'Closed')">
+                        Foo bar
+                    </x-modal>
+                
+                    <x-button dusk="open" wire:click="$toggle('modal')">Open</x-button>
+                </div>
+                HTML;
+            }
+        })
+            ->assertSee('Open')
+            ->assertDontSee('Foo bar')
+            ->click('@open')
+            ->waitForText('Foo bar')
+            ->assertSee('Foo bar')
+            ->assertSeeIn('@target', 'Opened')
+            ->clickAtPoint(350, 350)
+            ->waitUntilMissingText('Foo bar')
+            ->assertDontSee('Foo bar')
+            ->assertSeeIn('@target', 'Closed');
+    }
+
+    /** @test */
     public function can_open(): void
     {
         Livewire::visit(new class extends Component

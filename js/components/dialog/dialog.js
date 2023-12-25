@@ -38,7 +38,7 @@ export default (ok, confirm, cancel) => ({
 
     const params = dialog.options.confirm.params ?? null;
 
-    dispatchEvent('dialog:accepted', dialog);
+    dispatchEvent('dialog:accepted', dialog, false);
 
     setTimeout(() => {
       Livewire.find(dialog.component)
@@ -61,7 +61,7 @@ export default (ok, confirm, cancel) => ({
       return this.remove();
     }
 
-    dispatchEvent('dialog:rejected', dialog);
+    dispatchEvent('dialog:rejected', dialog, false);
 
     if (dialog.options.cancel.method) {
       const params = dialog.options.cancel.params ?? null;

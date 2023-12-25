@@ -4,6 +4,7 @@
     $event = Str::slug(Str::kebab($id));
     $open = $event . '-open';
     $close = $event . '-close';
+    $events = $attributes->whereStartsWith('x-on:');
 @endphp
 
 <div x-cloak
@@ -15,7 +16,8 @@
      x-show="show"
      x-on:slide:{{ $open }}.window="show = true;"
      x-on:slide:{{ $close }}.window="show = false;"
-     @class(['relative', $configurations['zIndex']])>
+     @class(['relative', $configurations['zIndex']])
+     {!! $events !!}>
     <div x-show="show"
          x-transition:enter="ease-in-out duration-300"
          x-transition:enter-start="opacity-0"
