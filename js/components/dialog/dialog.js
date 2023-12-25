@@ -40,8 +40,7 @@ export default (ok, confirm, cancel) => ({
 
     dispatchEvent('dialog:accepted', dialog);
     setTimeout(() => {
-      window.Livewire
-          .find(dialog.component)
+      Livewire.find(dialog.component)
           .call(dialog.options.confirm.method, params?.constructor !== Array ? params : [...params]);
 
       // This is a little trick to prevent the element from being
@@ -66,8 +65,7 @@ export default (ok, confirm, cancel) => ({
     if (dialog.options.cancel.method) {
       const params = dialog.options.cancel.params ?? null;
       setTimeout(() => {
-        window.Livewire
-            .find(dialog.component)
+        Livewire.find(dialog.component)
             .call(dialog.options.cancel.method, params?.constructor !== Array ? params : [...params]);
 
         // This is a little trick to prevent the element from being
