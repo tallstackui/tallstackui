@@ -1,28 +1,21 @@
 /**
- * @param message
+ * @param message {String}
  * @return {void}
  */
-export const warning = (message) => {
-  console.warn(`[TallStackUI] ${message}`);
-};
+export const warning = (message) => console.warn(`[TallStackUI] ${message}`);
 
 /**
- * @param message
+ * @param message {String}
  * @return {void}
  */
-export const error = (message) => {
-  console.error(`[TallStackUI] ${message}`);
-};
+export const error = (message) => console.error(`[TallStackUI] ${message}`);
 
 /**
  * @param name {String}
- * @param params {Array|Object}
+ * @param params {Object|Null}
  */
-export const dispatchEvent = (name, params = null) => {
-  const event = `tallstackui:${name}`;
-
-  window.dispatchEvent(new CustomEvent(event, {detail: params}));
-};
+// eslint-disable-next-line max-len
+export const dispatchEvent = (name, params = null) => window.dispatchEvent(new CustomEvent(`tallstackui:${name}`, {detail: params}));
 
 /**
  * @param status {Boolean}
