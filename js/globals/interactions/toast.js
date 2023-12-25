@@ -1,6 +1,6 @@
 import {dispatchEvent} from '../../helpers';
+import Confirmation from './confirmation';
 
-// TODO: confirmation?
 // eslint-disable-next-line require-jsdoc
 export default class Toast {
   data;
@@ -54,6 +54,15 @@ export default class Toast {
   }
 
   /**
+   * @param data {Object}
+   * @param component {String|Null}
+   */
+  confirm(data, component = null) {
+    // eslint-disable-next-line new-cap
+    return Confirmation(data, component, this.#data()).confirm();
+  }
+
+  /**
    * @param timeout {Number}
    * @return {Toast}
    */
@@ -73,16 +82,24 @@ export default class Toast {
     return this;
   }
 
-  /**
-   * @return {void}
-   */
-  #dispatch() {
-    dispatchEvent('toast', {
+  // eslint-disable-next-line require-jsdoc
+  #data() {
+    return {
+      event: 'toast',
       title: this.title,
       description: this.description,
       type: this.data.type,
       timeout: this.data.timeout ?? 3,
       expandable: this.data.expandable ?? false,
-    });
+    };
+  }
+
+  /**
+   * @return {void}
+   */
+  #dispatch() {
+    const data = this.#data();
+
+    dispatchEvent(data.event, data);
   }
 }
