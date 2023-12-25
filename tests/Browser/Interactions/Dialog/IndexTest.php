@@ -141,6 +141,73 @@ class IndexTest extends BrowserTestCase
     }
 
     /** @test */
+    public function can_dispatch_events()
+    {
+        Livewire::visit(new class extends Component
+        {
+            use Interactions;
+
+            public string $target = '';
+
+            public function cancelled(string $message): void
+            {
+                $this->dialog()->success($message);
+            }
+
+            public function confirm(): void
+            {
+                $this->dialog()->confirm('Foo bar confirmation', 'Foo bar confirmation description', [
+                    'confirm' => [
+                        'text' => 'Confirm',
+                        'method' => 'confirmed',
+                        'params' => 'Foo bar confirmed foo',
+                    ],
+                    'cancel' => [
+                        'method' => 'cancelled',
+                        'params' => 'Bar foo cancelled bar',
+                    ],
+                ]);
+            }
+
+            public function confirmed(string $message): void
+            {
+                $this->dialog()->success($message);
+            }
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div x-on:dialog:accepted.window="$wire.$set('target', 'Accepted')" 
+                     x-on:dialog:rejected.window="$wire.$set('target', 'Rejected')">
+                    <p dusk="target">{{ $target }}</p>
+                
+                    <x-button dusk="confirm" wire:click="confirm">Confirm</x-button>
+                </div>
+                HTML;
+            }
+        })
+            ->assertDontSee('Accepted')
+            ->assertDontSee('Rejected')
+            ->assertSee('Confirm')
+            ->click('@confirm')
+            ->waitForText('Foo bar confirmation')
+            ->assertSee('Foo bar confirmation')
+            ->click('@tallstackui_dialog_confirmation')
+            ->waitForText('Accepted')
+            ->assertSee('Accepted')
+            ->assertSee('Foo bar confirmed foo')
+            ->click('@tallstackui_dialog_confirmation')
+            ->click('@confirm')
+            ->waitForText('Foo bar confirmation')
+            ->assertSee('Foo bar confirmation')
+            ->click('@tallstackui_dialog_rejection')
+            ->waitForText('Rejected')
+            ->assertSee('Rejected')
+            ->waitForText('Bar foo cancelled bar')
+            ->assertSee('Bar foo cancelled bar');
+    }
+
+    /** @test */
     public function can_send(): void
     {
         Livewire::visit(DialogComponent::class)

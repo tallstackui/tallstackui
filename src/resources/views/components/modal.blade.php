@@ -4,6 +4,7 @@
     $open = $event . '-open';
     $close = $event . '-close';
     $personalize = $classes();
+    $events = $attributes->whereStartsWith('x-on:');
 @endphp
 
 <div x-cloak
@@ -19,7 +20,8 @@
      @endif
      x-show="show"
      x-on:modal:{{ $open }}.window="show = true;"
-     x-on:modal:{{ $close }}.window="show = false;">
+     x-on:modal:{{ $close }}.window="show = false;"
+     {!! $events !!}>
     <div x-show="show"
          x-transition:enter="ease-out duration-300"
          x-transition:enter-start="opacity-0"

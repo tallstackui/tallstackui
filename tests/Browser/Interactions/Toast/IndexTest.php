@@ -105,6 +105,92 @@ class IndexTest extends BrowserTestCase
     }
 
     /** @test */
+    public function can_dispatch_events()
+    {
+        Livewire::visit(new class extends Component
+        {
+            use Interactions;
+
+            public string $target = '';
+
+            public function cancelled(string $message): void
+            {
+                $this->toast()->success($message);
+            }
+
+            public function confirm(): void
+            {
+                $this->toast()->confirm('Foo bar confirmation', 'Foo bar confirmation description', [
+                    'confirm' => [
+                        'text' => 'Confirm',
+                        'method' => 'confirmed',
+                        'params' => 'Foo bar confirmed foo',
+                    ],
+                    'cancel' => [
+                        'method' => 'cancelled',
+                        'params' => 'Bar foo cancelled bar',
+                    ],
+                ]);
+            }
+
+            public function timeout(): void
+            {
+                $this->toast()->timeout(1)->confirm('Foo bar confirmation', 'Foo bar confirmation description', [
+                    'confirm' => [
+                        'text' => 'Confirm',
+                        'method' => 'confirmed',
+                        'params' => 'Foo bar confirmed foo',
+                    ],
+                    'cancel' => [
+                        'method' => 'cancelled',
+                        'params' => 'Bar foo cancelled bar',
+                    ],
+                ]);
+            }
+
+            public function confirmed(string $message): void
+            {
+                $this->toast()->success($message);
+            }
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div x-on:toast:accepted.window="$wire.$set('target', 'Accepted')" 
+                     x-on:toast:rejected.window="$wire.$set('target', 'Rejected')"
+                     x-on:toast:timeout.window="$wire.$set('target', 'Timeout')">
+                    <p dusk="target">{{ $target }}</p>
+                
+                    <x-button dusk="confirm" wire:click="confirm">Confirm</x-button>
+                    <x-button dusk="timeout" wire:click="timeout">Timeout</x-button>
+                </div>
+                HTML;
+            }
+        })
+            ->assertDontSee('Accepted')
+            ->assertDontSee('Rejected')
+            ->assertDontSeeIn('@target', 'Confirm')
+            ->click('@confirm')
+            ->waitForText('Foo bar confirmation')
+            ->assertSee('Foo bar confirmation')
+            ->click('@tallstackui_toast_confirmation')
+            ->waitForTextIn('@target', 'Accepted')
+            ->assertSeeIn('@target', 'Accepted')
+            ->assertSee('Foo bar confirmed foo')
+            ->click('@confirm')
+            ->waitForText('Foo bar confirmation')
+            ->assertSee('Foo bar confirmation')
+            ->click('@tallstackui_toast_rejection')
+            ->waitForTextIn('@target', 'Rejected')
+            ->assertSeeIn('@target', 'Rejected')
+            ->waitForText('Bar foo cancelled bar')
+            ->assertSee('Bar foo cancelled bar')
+            ->click('@timeout')
+            ->waitForTextIn('@target', 'Timeout')
+            ->assertSeeIn('@target', 'Timeout');
+    }
+
+    /** @test */
     public function can_dispatch_toast_without_livewire()
     {
         Livewire::visit(new class extends Component
