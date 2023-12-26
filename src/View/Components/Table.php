@@ -18,6 +18,7 @@ class Table extends BaseComponent implements Personalization
         public Collection|null|array $rows = [],
         public ?bool $withoutHeaders = false,
         public ?bool $striped = false,
+        public ?array $sort = [],
     ) {
         //
     }

@@ -1,6 +1,18 @@
 @php
     //TODO: key of the action slot should be mandatory
     $interactions = $slots($__env);
+
+    $sortable = fn ($header) => filled($sort) && ($header['sortable'] ?? true);
+    $sorted = fn ($header) => $sortable($header) && $sort['column'] === $header['index'];
+    $define = function ($header) use ($sort, $sortable) {
+        if (! $sortable || blank($sort)) {
+            return ['column' => '', 'direction' => ''];
+        }
+
+        $direction = $sort['direction'] === 'asc' ? 'desc' : 'asc';
+
+        return ['column' => $header['index'], 'direction' => $direction];
+    }
 @endphp
 
 <div class="overflow-auto rounded-lg shadow ring-1 ring-black ring-opacity-5 custom-scrollbar">
@@ -10,8 +22,16 @@
                 <tr>
                     @foreach ($headers as $header)
                         <th scope="col" class="py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-dark-200 px-3">
-                            <a class="group inline-flex cursor-pointer truncate">
+                            <a class="group inline-flex cursor-pointer truncate"
+                               @if (isset($__livewire) && $sortable($header))
+                                   wire:click="$set('sort', {column: '{{ $define($header)['column'] }}', direction: '{{ $define($header)['direction'] }}' })"
+                                @endif>
+
                                 {{ $header['label'] }}
+
+                                @if (isset($__livewire) && $sortable($header) && $sorted($header))
+                                    <x-icon :name="$define($header)['direction'] === 'desc' ? 'chevron-up' : 'chevron-down'"  class="w-4 h-4 ml-2" />
+                                @endif
                             </a>
                         </th>
                     @endforeach
