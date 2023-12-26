@@ -22,11 +22,16 @@ class Table extends BaseComponent implements Personalization
         public ?bool $striped = false,
         public ?array $sort = [],
         public ?bool $filters = false,
+        public ?bool $loading = false,
         public ?array $quantities = [10, 25, 50, 100],
         public ?string $quantityPropertyBind = 'quantity',
         public ?string $searchPropertyBind = 'search',
+        public ?array $placeholders = [],
+        public ?bool $paginate = false,
+        public ?string $paginator = 'tallstack-ui::components.table.paginators'
     ) {
-        //
+        /*TODO: validate*/
+        $this->placeholders = __('tallstack-ui::messages.table');
     }
 
     public function blade(): View
