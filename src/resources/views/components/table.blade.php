@@ -1,4 +1,5 @@
 @php
+    //TODO: key of the action slot should be mandatory
     $interactions = $slots($__env);
 @endphp
 
@@ -37,7 +38,14 @@
                                             $content = data_get($value, $header['index']);
                                         }
                                     } else {
-                                        $content = str_replace('$slot', data_get($value, $header['index']), $slot->toHtml());
+                                        if (isset($interactions['action']) && $header['index'] === 'action') {
+                                            $key = $slot->attributes->get('key');
+                                            $content = $key === null
+                                                ? str_replace('$key', json_encode($value), $slot->toHtml())
+                                                : str_replace('$key', data_get($value, $key), $slot->toHtml());
+                                        } else {
+                                            $content = str_replace('$slot', data_get($value, $header['index']), $slot->toHtml());
+                                        }
                                     }
                                 @endphp
                                 {!! $content !!}
