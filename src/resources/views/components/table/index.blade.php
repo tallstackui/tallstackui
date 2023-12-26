@@ -18,20 +18,20 @@
 <div>
     @if (isset($__livewire) && $filters)
         <div @class([
-                'mb-4 flex items-center',
+                'mb-4 flex items-end',
                 'justify-between' => $quantityPropertyBind && $searchPropertyBind,
                 'justify-end' => ! $quantityPropertyBind || ! $searchPropertyBind,
             ])>
             @if ($quantityPropertyBind)
                 <div class="w-1/5">
-                    <x-select.native label="Quantidade"
+                    <x-select.styled label="Quantidade"
                                      :options="$quantities"
-                                     wire:model.live.debounce.500ms="{{ $quantityPropertyBind }}" />
+                                     wire:model.live="{{ $quantityPropertyBind }}" />
                 </div>
             @endif
             @if ($searchPropertyBind)
                 <div class="sm:w-1/5">
-                    <x-input wire:model.live.debounce.500ms="{{ $searchPropertyBind }}"
+                    <x-input wire:model.live="{{ $searchPropertyBind }}"
                              icon="magnifying-glass"
                              placeholder="Procure por algo..."
                              type="search" />
@@ -39,8 +39,11 @@
             @endif
         </div>
     @endif
-    <div class="overflow-auto rounded-lg shadow ring-1 ring-black ring-opacity-5 soft-scrollbar">
-        <table class="min-w-full divide-y divide-gray-200 dark:divide-dark-500/50">
+    <div class="overflow-auto rounded-lg shadow ring-1 ring-gray-300 dark:ring-dark-600 soft-scrollbar">
+        <table class="min-w-full divide-y divide-gray-200 dark:divide-dark-500/50" wire:loading.class="opacity-10">
+{{--            TODO: optional --}}
+            <x-tallstack-ui::icon.others.loading class="absolute top-1/2 left-1/2 w-10 h-10 text-gray-300 dark:text-dark-300 animate-spin"
+                                                 wire:loading />
             @if (!$withoutHeaders)
                 <thead @class([
                     'uppercase',
@@ -68,7 +71,7 @@
             @endif
             <tbody class="divide-y divide-gray-200 bg-white dark:bg-dark-700 dark:divide-dark-500/20">
             @forelse ($rows as $key => $value)
-                <tr @class([ 'bg-gray-50 dark:bg-dark-600' => $striped && $loop->index % 2 === 0])>
+                <tr @class([ 'bg-gray-50 dark:bg-dark-800' => $striped && $loop->index % 2 === 0])>
                     @foreach ($headers as $header)
                         <td class="whitespace-nowrap py-4 text-sm px-3 text-gray-500 dark:text-dark-300">
                             @if (isset($interactions[$header['index']]))
@@ -105,6 +108,7 @@
                 </tr>
             @empty
                 <tr>
+{{--                    TODO: translate--}}
                     <td class="whitespace-nowrap py-4 text-sm px-3 text-gray-500 dark:text-dark-300">
                         No data available.
                     </td>
@@ -112,11 +116,9 @@
             @endforelse
             </tbody>
         </table>
-        @if ($rows->hasPages())
-            <div class="mt-4 flex justify-end">
-                {{ $rows->links('tallstack-ui::components.table.paginators.tailwind') }}
-            </div>
-        @endif
-
     </div>
+        {{--            TODO: optional --}}
+    @if ($rows->hasPages())
+        {{ $rows->onEachSide(1)->links('tallstack-ui::components.table.paginators') }}
+    @endif
 </div>
