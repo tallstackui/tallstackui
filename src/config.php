@@ -169,6 +169,7 @@ return [
         'select.styled' => Components\Select\Styled::class,
         'slide' => Components\Slide::class,
         'tab' => Components\Tab\Tab::class,
+        'table' => Components\Table::class,
         'tab.items' => Components\Tab\Items::class,
         'textarea' => Components\Form\Textarea::class,
         'toast' => Components\Interaction\Toast::class,
