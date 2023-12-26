@@ -40,9 +40,13 @@
         </div>
     @endif
     <div class="overflow-auto rounded-lg shadow ring-1 ring-black ring-opacity-5 soft-scrollbar">
-        <table class="min-w-full divide-y divide-gray-300 dark:divide-dark-500/50">
+        <table class="min-w-full divide-y divide-gray-200 dark:divide-dark-500/50">
             @if (!$withoutHeaders)
-                <thead class="bg-gray-50 uppercase dark:bg-dark-600">
+                <thead @class([
+                    'uppercase',
+                    'bg-gray-50 dark:bg-dark-600' => !$striped,
+                    'bg-white dark:bg-dark-700' => $striped,
+                ])>
                 <tr>
                     @foreach ($headers as $header)
                         <th scope="col" class="py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-dark-200 px-3">
@@ -62,7 +66,7 @@
                 </tr>
                 </thead>
             @endif
-            <tbody class="divide-y divide-gray-200 bg-white dark:bg-dark-700 dark:dark:divide-dark-500/50">
+            <tbody class="divide-y divide-gray-200 bg-white dark:bg-dark-700 dark:divide-dark-500/20">
             @forelse ($rows as $key => $value)
                 <tr @class([ 'bg-gray-50 dark:bg-dark-600' => $striped && $loop->index % 2 === 0])>
                     @foreach ($headers as $header)
