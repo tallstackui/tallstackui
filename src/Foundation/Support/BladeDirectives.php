@@ -2,6 +2,7 @@
 
 namespace TallStackUi\Foundation\Support;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Blade;
 use TallStackUi\Facades\TallStackUi as Facade;
 
@@ -22,6 +23,24 @@ class BladeDirectives
             $style = Facade::directives()->style();
 
             return "{$script}\n{$style}";
+        });
+
+        Blade::directive('column', function (mixed $expression): string {
+            $directive = array_map('trim', preg_split('/,(?![^(]*[)])/', $expression));
+
+            [$name, $arguments] = $directive;
+
+            $uses = array_flip(Arr::except(array_flip($directive), [$name, $arguments]));
+            $uses[] = '$__env';
+            $uses = implode(',', $uses);
+
+            $name = str_replace('.', '_', $name);
+
+            return "<?php \$__env->slot({$name}, function({$arguments}) use ({$uses}) { ?>";
+        });
+
+        Blade::directive('endcolumn', function (): string {
+            return '<?php }); ?>';
         });
 
         Blade::precompiler(function (string $string): string {
