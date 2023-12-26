@@ -19,6 +19,10 @@ class Table extends BaseComponent implements Personalization
         public ?bool $withoutHeaders = false,
         public ?bool $striped = false,
         public ?array $sort = [],
+        public ?bool $filters = false,
+        public ?array $quantities = [10, 25, 50, 100],
+        public ?string $quantityPropertyBind = 'quantity',
+        public ?string $searchPropertyBind = 'search',
     ) {
         //
     }

@@ -15,17 +15,41 @@
     }
 @endphp
 
-<div class="overflow-auto rounded-lg shadow ring-1 ring-black ring-opacity-5 custom-scrollbar">
-    <table class="min-w-full divide-y divide-gray-300 dark:divide-dark-500/50">
-        @if (!$withoutHeaders)
-            <thead class="bg-gray-50 uppercase dark:bg-dark-600">
+<div>
+    @if (isset($__livewire) && $filters)
+        <div @class([
+                'mb-4 flex items-center',
+                'justify-between' => $quantityPropertyBind && $searchPropertyBind,
+                'justify-end' => ! $quantityPropertyBind || ! $searchPropertyBind,
+            ])>
+            @if ($quantityPropertyBind)
+                <div class="w-1/5">
+                    <x-select.native label="Quantidade"
+                                     :options="$quantities"
+                                     wire:model.live.debounce.500ms="{{ $quantityPropertyBind }}" />
+                </div>
+            @endif
+            @if ($searchPropertyBind)
+                <div class="sm:w-1/5">
+                    <x-input wire:model.live.debounce.500ms="{{ $searchPropertyBind }}"
+                             icon="magnifying-glass"
+                             placeholder="Procure por algo..."
+                             type="search" />
+                </div>
+            @endif
+        </div>
+    @endif
+    <div class="overflow-auto rounded-lg shadow ring-1 ring-black ring-opacity-5 soft-scrollbar">
+        <table class="min-w-full divide-y divide-gray-300 dark:divide-dark-500/50">
+            @if (!$withoutHeaders)
+                <thead class="bg-gray-50 uppercase dark:bg-dark-600">
                 <tr>
                     @foreach ($headers as $header)
                         <th scope="col" class="py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-dark-200 px-3">
                             <a class="group inline-flex cursor-pointer truncate"
                                @if (isset($__livewire) && $sortable($header))
                                    wire:click="$set('sort', {column: '{{ $define($header)['column'] }}', direction: '{{ $define($header)['direction'] }}' })"
-                                @endif>
+                                    @endif>
 
                                 {{ $header['label'] }}
 
@@ -36,9 +60,9 @@
                         </th>
                     @endforeach
                 </tr>
-            </thead>
-        @endif
-        <tbody class="divide-y divide-gray-200 bg-white dark:bg-dark-700 dark:dark:divide-dark-500/50">
+                </thead>
+            @endif
+            <tbody class="divide-y divide-gray-200 bg-white dark:bg-dark-700 dark:dark:divide-dark-500/50">
             @forelse ($rows as $key => $value)
                 <tr @class([ 'bg-gray-50 dark:bg-dark-600' => $striped && $loop->index % 2 === 0])>
                     @foreach ($headers as $header)
@@ -82,6 +106,8 @@
                     </td>
                 </tr>
             @endforelse
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </div>
+
 </div>
