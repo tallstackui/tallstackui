@@ -2,7 +2,9 @@
 
 namespace TallStackUi\View\Components;
 
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Contracts\View\View;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\View\ComponentSlot;
@@ -15,7 +17,7 @@ class Table extends BaseComponent implements Personalization
 {
     public function __construct(
         public Collection|null|array $headers = [],
-        public Collection|null|array $rows = [],
+        public LengthAwarePaginator|Paginator|array $rows = [],
         public ?bool $withoutHeaders = false,
         public ?bool $striped = false,
         public ?array $sort = [],
@@ -29,7 +31,7 @@ class Table extends BaseComponent implements Personalization
 
     public function blade(): View
     {
-        return view('tallstack-ui::components.table');
+        return view('tallstack-ui::components.table.index');
     }
 
     public function personalization(): array

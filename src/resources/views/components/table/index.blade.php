@@ -108,6 +108,11 @@
             @endforelse
             </tbody>
         </table>
-    </div>
+        @if ($rows->hasPages())
+            <div class="mt-4 flex justify-end">
+                {{ $rows->links('tallstack-ui::components.table.paginators.tailwind') }}
+            </div>
+        @endif
 
+    </div>
 </div>
