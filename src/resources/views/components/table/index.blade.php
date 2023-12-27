@@ -8,7 +8,7 @@
                 'justify-end' => ! $filters['quantity'] || ! $filters['search'],
             ])>
             @if ($filters['quantity'])
-                <div class="w-1/5">
+                <div class="sm:w-1/5">
                     <x-select.styled :label="$placeholders['quantity']"
                                      :options="$quantity"
                                      wire:model.live="{{ $filters['quantity'] }}"
