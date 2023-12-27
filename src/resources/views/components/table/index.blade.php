@@ -11,7 +11,8 @@
                 <div class="w-1/5">
                     <x-select.styled :label="$placeholders['quantity']"
                                      :options="$quantity"
-                                     wire:model.live="{{ $filters['quantity'] }}" />
+                                     wire:model.live="{{ $filters['quantity'] }}"
+                                     invalidate />
                 </div>
             @endif
             @if ($filters['search'])
@@ -19,7 +20,8 @@
                     <x-input wire:model.live.debounce.500ms="{{ $filters['search'] }}"
                              icon="magnifying-glass"
                              :placeholder="$placeholders['search']"
-                             type="search" />
+                             type="search"
+                             invalidate />
                 </div>
             @endif
         </div>
