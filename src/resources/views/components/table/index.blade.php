@@ -73,7 +73,7 @@
                                     wire:click="$set('sort', {column: '{{ $define($header)['column'] }}', direction: '{{ $define($header)['direction'] }}' })"
                                 @endif>
 
-                                {{ $header['label'] }}
+                                {{ $header['label'] ?? '' }}
 
                                 @if ($livewire && $sortable($header) && $sorted($header))
                                     <x-icon :name="$define($header)['direction'] === 'desc' ? 'chevron-up' : 'chevron-down'"  class="w-4 h-4 ml-2" />

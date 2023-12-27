@@ -2,7 +2,6 @@
 
 namespace TallStackUi\Foundation\Support;
 
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Blade;
 use TallStackUi\Facades\TallStackUi as Facade;
 
@@ -25,18 +24,21 @@ class BladeDirectives
             return "{$script}\n{$style}";
         });
 
+        // The objective of this directive is to allow interaction with contents of the table
+        // component. The  concept was taken from konradkalemba/blade-components-scoped-slots.
         Blade::directive('column', function (mixed $expression): string {
             $directive = array_map('trim', preg_split('/,(?![^(]*[)])/', $expression));
 
             [$name, $arguments] = $directive;
 
-            $uses = array_flip(Arr::except(array_flip($directive), [$name, $arguments]));
-            $uses[] = '$__env';
-            $uses = implode(',', $uses);
+            $parameters = collect(array_flip($directive))->except($name, $arguments)
+                ->flip()
+                ->push('$__env')
+                ->implode(',');
 
             $name = str_replace('.', '_', $name);
 
-            return "<?php \$__env->slot({$name}, function({$arguments}) use ({$uses}) { ?>";
+            return "<?php \$__env->slot({$name}, function({$arguments}) use ({$parameters}) { ?>";
         });
 
         Blade::directive('endcolumn', function (): string {
