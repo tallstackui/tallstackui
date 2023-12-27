@@ -9,7 +9,7 @@
             ])>
             @if ($filters['quantity'])
                 <div class="sm:w-1/5">
-                    <x-select.styled :label="$placeholders['quantity']"
+                    <x-select.native :label="$placeholders['quantity']"
                                      :options="$quantity"
                                      wire:model.live="{{ $filters['quantity'] }}"
                                      invalidate />
