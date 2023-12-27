@@ -45,7 +45,7 @@
                                 {{ $header['label'] ?? '' }}
 
                                 @if ($livewire && $sortable($header) && $sorted($header))
-                                    <x-icon :name="$head($header)['direction'] === 'desc' ? 'chevron-up' : 'chevron-down'"  class="ml-2 h-4 w-4" />
+                                    <x-icon :name="$head($header)['direction'] === 'desc' ? 'chevron-up' : 'chevron-down'" class="ml-2 h-4 w-4" />
                                 @endif
                             </a>
                         </th>

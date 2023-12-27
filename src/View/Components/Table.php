@@ -65,7 +65,18 @@ class Table extends BaseComponent implements Personalization
 
     public function personalization(): array
     {
-        return Arr::dot([]);
+        return Arr::dot([
+            'wrapper' => 'soft-scrollbar dark:ring-dark-600 overflow-auto rounded-lg shadow ring-1 ring-gray-300',
+            'table' => [
+                'base' => 'dark:divide-dark-500/50 min-w-full divide-y divide-gray-200',
+                'loading' => 'text-primary-500 dark:text-dark-300 absolute left-1/2 top-1/2 h-10 w-10 animate-spin',
+                'th' => 'dark:text-dark-200 px-3 py-3.5 text-left text-sm font-semibold text-gray-700',
+                'icon' => 'ml-2 h-4 w-4',
+                'tbody' => 'dark:bg-dark-700 dark:divide-dark-500/20 divide-y divide-gray-200 bg-white',
+                'td' => 'dark:text-dark-300 whitespace-nowrap px-3 py-4 text-sm text-gray-500',
+                'td.empty' => 'dark:text-dark-300 col-span-full whitespace-nowrap px-3 py-4 text-sm text-gray-500',
+            ],
+        ]);
     }
 
     public function sortable(Collection|array $header): bool
