@@ -35,6 +35,8 @@ class Table extends BaseComponent implements Personalization
     ) {
         $this->placeholders = __('tallstack-ui::messages.table');
 
+        // This is necessary to `wire:target` the properties linked with filter
+        // in order to make the spinner displayed during Livewire updates.
         if ($quantity = ($this->filters['quantity'] ?? null)) {
             $this->target[] = $quantity;
         }
@@ -43,6 +45,7 @@ class Table extends BaseComponent implements Personalization
             $this->target[] = $search;
         }
 
+        // Imploding to transform into "wire:target="quantity,search""
         $this->target = implode(',', $this->target);
 
         $this->filters['quantity'] ??= null;
