@@ -109,6 +109,40 @@ class IndexTest extends BrowserTestCase
     }
 
     /** @test */
+    public function can_render_manipulating_columns_without_parameters()
+    {
+        Livewire::visit(new class extends Component
+        {
+            public array $rows = [
+                ['id' => 1, 'name' => 'Foo'],
+                ['id' => 2, 'name' => 'Bar'],
+            ];
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>        
+                    @php
+                        $headers = [
+                            ['index' => 'id', 'label' => '#'],
+                            ['index' => 'name', 'label' => 'Name'],
+                        ];
+                    @endphp
+                    <x-table :$headers :$rows filter loading>
+                        @column('name')
+                            Test
+                        @endcolumn
+                    </x-table>
+                </div>
+                HTML;
+            }
+        })
+            ->assertDontSee('Foo')
+            ->assertDontSee('Bar')
+            ->assertSee('Test');
+    }
+
+    /** @test */
     public function can_render_paginated(): void
     {
         Livewire::visit(new class extends Component
