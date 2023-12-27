@@ -17,7 +17,7 @@ class Table extends BaseComponent implements Personalization
 {
     public function __construct(
         public Collection|array $headers = [],
-        public LengthAwarePaginator|Paginator|array $rows = [],
+        public LengthAwarePaginator|Paginator|Collection|array $rows = [],
         public ?bool $headerless = false,
         public ?bool $striped = false,
         public ?array $sort = [],
