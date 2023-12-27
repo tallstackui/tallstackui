@@ -1,5 +1,4 @@
 @php
-    $livewire = isset($__livewire);
     [$property, $error] = $bind($attributes, $errors ?? null, $livewire);
     $personalize = $classes();
 @endphp

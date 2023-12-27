@@ -1,5 +1,5 @@
 @php
-    [$property, $error, $id] = $bind($attributes, $errors ?? null, isset($__livewire));
+    [$property, $error, $id] = $bind($attributes, $errors ?? null, $livewire);
     $personalize = $classes();
     $slot = $attributes->get('value', $slot);
 @endphp

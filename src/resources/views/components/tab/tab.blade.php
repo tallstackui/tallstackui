@@ -1,6 +1,6 @@
 @php
     $personalize = $classes();
-    $entangle = TallStackUi::blade($attributes, isset($__livewire))->entangle();
+    $entangle = TallStackUi::blade($attributes, $livewire)->entangle();
 @endphp
 
 <div @if (!$selected) x-data="tallstackui_tab({!! $entangle !!})" @else x-data="tallstackui_tab(@js($selected))"@endif

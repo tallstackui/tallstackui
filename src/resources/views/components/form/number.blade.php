@@ -1,6 +1,6 @@
 @php
     $icons = $icons();
-    [$property, $error, $id, $entangle] = $bind($attributes, $errors ?? null, isset($__livewire));
+    [$property, $error, $id, $entangle] = $bind($attributes, $errors ?? null, $livewire);
     $personalize = $classes();
 @endphp
 
