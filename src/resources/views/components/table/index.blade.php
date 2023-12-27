@@ -81,6 +81,6 @@
         </table>
     </div>
     @if ($paginate && $rows->hasPages())
-        {{ $rows->onEachSide(1)->links($paginator) }}
+        {{ $rows->onEachSide(1)->links($paginator, ['scrollTo' => true]) }}
     @endif
 </div>
