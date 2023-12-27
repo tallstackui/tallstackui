@@ -78,7 +78,11 @@ abstract class BaseComponent extends Component
     public function render(): Closure
     {
         return function (array $data) {
-            return $this->output($this->blade()->with($this->compile($data)), $data);
+            return $this->output($this->blade()->with(array_merge($this->compile($data), [
+                // This is an approach used to avoid having to "manually" check (isset($__livewire))
+                // whether the component is being used within the Livewire context or not.
+                'livewire' => isset($this->factory()->getShared()['__livewire']),
+            ])), $data);
         };
     }
 

@@ -1,4 +1,4 @@
-@php($livewire = isset($__livewire))
+@php($personalize = $classes())
 
 <div>
     @if ($livewire && $filter)
@@ -26,17 +26,17 @@
             @endif
         </div>
     @endif
-    <div class="soft-scrollbar dark:ring-dark-600 overflow-auto rounded-lg shadow ring-1 ring-gray-300">
-        <table class="dark:divide-dark-500/50 min-w-full divide-y divide-gray-200" @if ($livewire && $loading) wire:loading.class="cursor-not-allowed select-none opacity-25" @endif>
+    <div @class($personalize['wrapper'])>
+        <table @class($personalize['table.base']) @if ($livewire && $loading) wire:loading.class="{{ $personalize['loading.table'] }}" @endif>
             @if ($livewire && $loading)
-                <x-tallstack-ui::icon.others.loading class="text-primary-500 dark:text-dark-300 absolute left-1/2 top-1/2 h-10 w-10 animate-spin"
+                <x-tallstack-ui::icon.others.loading class="{{ $personalize['loading.spinner'] }}"
                                                      wire:loading="{{ $target }}" />
             @endif
             @if (!$headerless)
-                <thead @class(['uppercase', 'bg-gray-50 dark:bg-dark-600' => !$striped, 'bg-white dark:bg-dark-700' => $striped])>
+                <thead @class(['uppercase', $personalize['table.thead.normal'] => !$striped, $personalize['table.thead.striped'] => $striped])>
                 <tr>
                     @foreach ($headers as $header)
-                        <th scope="col" class="dark:text-dark-200 px-3 py-3.5 text-left text-sm font-semibold text-gray-700">
+                        <th scope="col" @class($personalize['table.th'])>
                             <a class="inline-flex cursor-pointer truncate"
                                @if ($livewire && $sortable($header))
                                     wire:click="$set('sort', {column: '{{ $head($header)['column'] }}', direction: '{{ $head($header)['direction'] }}' })"
@@ -53,7 +53,7 @@
                 </tr>
                 </thead>
             @endif
-            <tbody class="dark:bg-dark-700 dark:divide-dark-500/20 divide-y divide-gray-200 bg-white">
+            <tbody @class($personalize['table.tbody'])>
             @forelse ($rows as $key => $value)
                 <tr @class(['bg-gray-50 dark:bg-dark-800/50' => $striped && $loop->index % 2 === 0])>
                     @foreach($headers as $header)
@@ -71,7 +71,7 @@
                 </tr>
             @empty
                 <tr>
-                    <td class="dark:text-dark-300 col-span-full whitespace-nowrap px-3 py-4 text-sm text-gray-500" colspan="100%">
+                    <td @class($personalize['empty']) colspan="100%">
                         {{ $placeholders['empty'] }}
                     </td>
                 </tr>

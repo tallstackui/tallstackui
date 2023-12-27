@@ -41,6 +41,74 @@ class IndexTest extends BrowserTestCase
     }
 
     /** @test */
+    public function can_render_manipulating_columns()
+    {
+        Livewire::visit(new class extends Component
+        {
+            public array $rows = [
+                ['id' => 1, 'name' => 'Foo'],
+                ['id' => 2, 'name' => 'Bar'],
+            ];
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>        
+                    @php
+                        $headers = [
+                            ['index' => 'id', 'label' => '#'],
+                            ['index' => 'name', 'label' => 'Name'],
+                        ];
+                    @endphp
+                    <x-table :$headers :$rows filter loading>
+                        @column('name', $row)
+                            {{ $row['name'] }} Test
+                        @endcolumn
+                    </x-table>
+                </div>
+                HTML;
+            }
+        })
+            ->assertSee('Foo Test')
+            ->assertSee('Bar Test');
+    }
+
+    /** @test */
+    public function can_render_manipulating_columns_passing_extra_variables()
+    {
+        Livewire::visit(new class extends Component
+        {
+            public array $rows = [
+                ['id' => 1, 'name' => 'Foo'],
+                ['id' => 2, 'name' => 'Bar'],
+            ];
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>        
+                    @php
+                        $headers = [
+                            ['index' => 'id', 'label' => '#'],
+                            ['index' => 'name', 'label' => 'Name'],
+                        ];
+                        
+                        $extra = 'Extra';
+                    @endphp
+                    <x-table :$headers :$rows filter loading>
+                        @column('name', $row, $extra)
+                            {{ $row['name'] }} Test {{ $extra }}
+                        @endcolumn
+                    </x-table>
+                </div>
+                HTML;
+            }
+        })
+            ->assertSee('Foo Test Extra')
+            ->assertSee('Bar Test Extra');
+    }
+
+    /** @test */
     public function can_render_paginated(): void
     {
         Livewire::visit(new class extends Component

@@ -9,8 +9,10 @@ use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use TallStackUi\Foundation\Attributes\SkipDebug;
+use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 
+#[SoftPersonalization('table')]
 class Table extends BaseComponent implements Personalization
 {
     public function __construct(
@@ -69,13 +71,20 @@ class Table extends BaseComponent implements Personalization
             'wrapper' => 'soft-scrollbar dark:ring-dark-600 overflow-auto rounded-lg shadow ring-1 ring-gray-300',
             'table' => [
                 'base' => 'dark:divide-dark-500/50 min-w-full divide-y divide-gray-200',
-                'loading' => 'text-primary-500 dark:text-dark-300 absolute left-1/2 top-1/2 h-10 w-10 animate-spin',
+                'sort' => 'ml-2 h-4 w-4',
                 'th' => 'dark:text-dark-200 px-3 py-3.5 text-left text-sm font-semibold text-gray-700',
-                'icon' => 'ml-2 h-4 w-4',
                 'tbody' => 'dark:bg-dark-700 dark:divide-dark-500/20 divide-y divide-gray-200 bg-white',
                 'td' => 'dark:text-dark-300 whitespace-nowrap px-3 py-4 text-sm text-gray-500',
-                'td.empty' => 'dark:text-dark-300 col-span-full whitespace-nowrap px-3 py-4 text-sm text-gray-500',
+                'thead' => [
+                    'normal' => 'bg-gray-50 dark:bg-dark-600',
+                    'striped' => 'bg-white dark:bg-dark-700',
+                ],
             ],
+            'loading' => [
+                'table' => 'cursor-not-allowed select-none opacity-25',
+                'spinner' => 'text-primary-500 dark:text-dark-300 absolute left-1/2 top-1/2 h-10 w-10 animate-spin',
+            ],
+            'empty' => 'dark:text-dark-300 col-span-full whitespace-nowrap px-3 py-4 text-sm text-gray-500',
         ]);
     }
 
