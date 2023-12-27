@@ -12,8 +12,7 @@
                     <x-select.styled :label="$placeholders['quantity']"
                                      :options="$quantity"
                                      wire:model.live="{{ $filters['quantity'] }}"
-                                     invalidate
-                                     :clear="false" />
+                                     invalidate />
                 </div>
             @endif
             @if ($filters['search'])
