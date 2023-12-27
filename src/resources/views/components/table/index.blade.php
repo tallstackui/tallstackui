@@ -1,51 +1,22 @@
-@php
-    $livewire = isset($__livewire);
-
-    //TODO: key of the action slot should be mandatory
-    //$interactions = $slots($__env);
-
-    $sortable = fn ($header) => filled($sort) && ($header['sortable'] ?? true);
-    $sorted = fn ($header) => $sortable($header) && $sort['column'] === $header['index'];
-    $define = function ($header) use ($sort, $sortable) {
-        if (! $sortable || blank($sort)) {
-            return ['column' => '', 'direction' => ''];
-        }
-
-        $direction = $sort['direction'] === 'asc' ? 'desc' : 'asc';
-
-        return ['column' => $header['index'], 'direction' => $direction];
-    };
-
-    $target = [];
-
-    if ($quantityPropertyBind) {
-        $target[] = $quantityPropertyBind;
-    }
-
-    if ($searchPropertyBind) {
-        $target[] = $searchPropertyBind;
-    }
-
-    $target = implode(',', $target);
-@endphp
+@php($livewire = isset($__livewire))
 
 <div>
-    @if ($livewire && $filters)
+    @if ($livewire && $filter)
         <div @class([
                 'mb-4 flex items-end',
-                'justify-between' => $quantityPropertyBind && $searchPropertyBind,
-                'justify-end' => ! $quantityPropertyBind || ! $searchPropertyBind,
+                'justify-between' => $filters['quantity'] && $filters['search'],
+                'justify-end' => ! $filters['quantity'] || ! $filters['search'],
             ])>
-            @if ($quantityPropertyBind)
+            @if ($filters['quantity'])
                 <div class="w-1/5">
                     <x-select.styled :label="$placeholders['quantity']"
-                                     :options="$quantities"
-                                     wire:model.live="{{ $quantityPropertyBind }}" />
+                                     :options="$quantity"
+                                     wire:model.live="{{ $filters['quantity'] }}" />
                 </div>
             @endif
-            @if ($searchPropertyBind)
+            @if ($filters['search'])
                 <div class="sm:w-1/5">
-                    <x-input wire:model.live.debounce.500ms="{{ $searchPropertyBind }}"
+                    <x-input wire:model.live.debounce.500ms="{{ $filters['search'] }}"
                              icon="magnifying-glass"
                              :placeholder="$placeholders['search']"
                              type="search" />
@@ -59,24 +30,20 @@
                 <x-tallstack-ui::icon.others.loading class="absolute top-1/2 left-1/2 w-10 h-10 text-primary-500 dark:text-dark-300 animate-spin"
                                                      wire:loading="{{ $target }}" />
             @endif
-            @if (!$withoutHeaders)
-                <thead @class([
-                    'uppercase',
-                    'bg-gray-50 dark:bg-dark-600' => !$striped,
-                    'bg-white dark:bg-dark-700' => $striped,
-                ])>
+            @if (!$headerless)
+                <thead @class(['uppercase', 'bg-gray-50 dark:bg-dark-600' => !$striped, 'bg-white dark:bg-dark-700' => $striped])>
                 <tr>
                     @foreach ($headers as $header)
                         <th scope="col" class="py-3.5 text-left text-sm font-semibold text-gray-700 dark:text-dark-200 px-3">
                             <a class="group inline-flex cursor-pointer truncate"
                                @if ($livewire && $sortable($header))
-                                    wire:click="$set('sort', {column: '{{ $define($header)['column'] }}', direction: '{{ $define($header)['direction'] }}' })"
+                                    wire:click="$set('sort', {column: '{{ $head($header)['column'] }}', direction: '{{ $head($header)['direction'] }}' })"
                                 @endif>
 
                                 {{ $header['label'] ?? '' }}
 
                                 @if ($livewire && $sortable($header) && $sorted($header))
-                                    <x-icon :name="$define($header)['direction'] === 'desc' ? 'chevron-up' : 'chevron-down'"  class="w-4 h-4 ml-2" />
+                                    <x-icon :name="$head($header)['direction'] === 'desc' ? 'chevron-up' : 'chevron-down'"  class="w-4 h-4 ml-2" />
                                 @endif
                             </a>
                         </th>
