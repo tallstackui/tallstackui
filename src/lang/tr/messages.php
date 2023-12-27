@@ -26,4 +26,10 @@ return [
             'cancel' => 'Vazgeç',
         ],
     ],
+
+    'table' => [
+        'empty' => 'Sonuç bulunamadı.',
+        'quantity' => 'Miktar',
+        'search' => 'Arama yapın',
+    ],
 ];

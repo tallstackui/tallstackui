@@ -27,7 +27,6 @@ return [
         ],
     ],
 
-    /*TODO: other languages*/
     'table' => [
         'empty' => 'No results found.',
         'quantity' => 'Quantity',
