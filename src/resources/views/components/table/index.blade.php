@@ -8,11 +8,12 @@
                 'justify-end' => ! $filters['quantity'] || ! $filters['search'],
             ])>
             @if ($filters['quantity'])
-                <div class="sm:w-1/5">
-                    <x-select.native :label="$placeholders['quantity']"
+                <div class="w-1/4 sm:w-1/5">
+                    <x-select.styled :label="$placeholders['quantity']"
                                      :options="$quantity"
                                      wire:model.live="{{ $filters['quantity'] }}"
-                                     invalidate />
+                                     invalidate
+                                     :clear="false" />
                 </div>
             @endif
             @if ($filters['search'])

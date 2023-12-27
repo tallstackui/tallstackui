@@ -66,15 +66,17 @@
             </div>
             @if (!$disabled)
                 <div @class($personalize['buttons.wrapper'])>
-                    <template x-if="!empty">
-                        <button dusk="tallstackui_select_clear" type="button" x-on:click="clear(); show = true;">
-                            <x-icon name="x-mark" @class([
-                                $personalize['buttons.size'],
-                                $personalize['buttons.base'] => !$error,
-                                $personalize['buttons.error'] => $error
-                            ]) />
-                        </button>
-                    </template>
+                    @if ($clear)
+                        <template x-if="!empty">
+                            <button dusk="tallstackui_select_clear" type="button" x-on:click="clear(); show = true;">
+                                <x-icon name="x-mark" @class([
+                                    $personalize['buttons.size'],
+                                    $personalize['buttons.base'] => !$error,
+                                    $personalize['buttons.error'] => $error
+                                ]) />
+                            </button>
+                        </template>
+                    @endif
                     <x-icon name="chevron-up-down" @class([
                         $personalize['buttons.size'],
                         $personalize['buttons.base'] => !$error,
