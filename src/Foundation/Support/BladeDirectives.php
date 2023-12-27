@@ -28,6 +28,7 @@ class BladeDirectives
         // component. The  concept was taken from konradkalemba/blade-components-scoped-slots.
         Blade::directive('column', function (mixed $expression): string {
             $directive = array_map('trim', preg_split('/,(?![^(]*[)])/', $expression));
+            $directive[1] ??= ''; // Prevents the error "Undefined key: 1" when the parameter is not defined.
 
             [$name, $arguments] = $directive;
 
