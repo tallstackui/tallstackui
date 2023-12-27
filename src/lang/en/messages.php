@@ -26,4 +26,10 @@ return [
             'cancel' => 'Cancel',
         ],
     ],
+
+    'table' => [
+        'empty' => 'No results found.',
+        'quantity' => 'Quantity',
+        'search' => 'Search something here',
+    ],
 ];

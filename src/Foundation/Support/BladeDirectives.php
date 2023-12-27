@@ -24,6 +24,28 @@ class BladeDirectives
             return "{$script}\n{$style}";
         });
 
+        // The objective of this directive is to allow interaction with contents of the table
+        // component. The  concept was taken from konradkalemba/blade-components-scoped-slots.
+        Blade::directive('column', function (mixed $expression): string {
+            $directive = array_map('trim', preg_split('/,(?![^(]*[)])/', $expression));
+            $directive[1] ??= ''; // Prevents the error "Undefined key: 1" when the parameter is not defined.
+
+            [$name, $arguments] = $directive;
+
+            $parameters = collect(array_flip($directive))->except($name, $arguments)
+                ->flip()
+                ->push('$__env')
+                ->implode(',');
+
+            $name = str_replace('.', '_', $name);
+
+            return "<?php \$__env->slot({$name}, function({$arguments}) use ({$parameters}) { ?>";
+        });
+
+        Blade::directive('endcolumn', function (): string {
+            return '<?php }); ?>';
+        });
+
         Blade::precompiler(function (string $string): string {
             return preg_replace_callback('/<\s*tallstackui\:(setup|script|style)\s*\/?>/', function (array $matches): string {
                 $script = Facade::directives()->script();
