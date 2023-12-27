@@ -25,8 +25,8 @@
         </div>
     @endif
     <div class="soft-scrollbar dark:ring-dark-600 overflow-auto rounded-lg shadow ring-1 ring-gray-300">
-        <table class="dark:divide-dark-500/50 min-w-full divide-y divide-gray-200" @if ($loading) wire:loading.class="cursor-not-allowed select-none opacity-25" @endif>
-            @if ($loading)
+        <table class="dark:divide-dark-500/50 min-w-full divide-y divide-gray-200" @if ($livewire && $loading) wire:loading.class="cursor-not-allowed select-none opacity-25" @endif>
+            @if ($livewire && $loading)
                 <x-tallstack-ui::icon.others.loading class="text-primary-500 dark:text-dark-300 absolute left-1/2 top-1/2 h-10 w-10 animate-spin"
                                                      wire:loading="{{ $target }}" />
             @endif
