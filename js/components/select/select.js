@@ -433,8 +433,11 @@ export default (
       return;
     }
 
-    // When the data is null, we need to set the input value as empty.
-    input.value = !data ? '' : JSON.stringify(data);
+    // If the value is null (undefined) we set the input as empty,
+    // otherwise we stringify if is string with comma or an object
+    input.value = !data ?
+        '' :
+        (typeof data === 'string' && data.indexOf(',') !== - 1 || typeof data === 'object' ? JSON.stringify(data) : data);
   },
   /**
    * The `selects` quantity
