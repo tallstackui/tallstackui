@@ -3,7 +3,7 @@
 <div>
     @if ($livewire && $filter)
         <div @class([
-                'mb-4 flex items-end',
+                'mb-4 flex items-end gap-x-2 sm:gap-x-0',
                 'justify-between' => $filters['quantity'] && $filters['search'],
                 'justify-end' => ! $filters['quantity'] || ! $filters['search'],
             ])>
@@ -55,7 +55,7 @@
             @endif
             <tbody @class($personalize['table.tbody'])>
             @forelse ($rows as $key => $value)
-                <tr @class(['bg-gray-50 dark:bg-dark-800/50' => $striped && $loop->index % 2 === 0]) @if ($livewire) wire:key="{{ md5(serialize($value)) }}" @endif>
+                <tr @class(['bg-gray-50 dark:bg-dark-800/50' => $striped && $loop->index % 2 === 0]) @if ($livewire) wire:key="{{ md5(serialize($value.$key)) }}" @endif>
                     @foreach($headers as $header)
                         @php($row = str_replace('.', '_', $header['index']))
                         @if (isset(${$row}))
