@@ -55,7 +55,7 @@
             @endif
             <tbody @class($personalize['table.tbody'])>
             @forelse ($rows as $key => $value)
-                <tr @class(['bg-gray-50 dark:bg-dark-800/50' => $striped && $loop->index % 2 === 0]) @if ($livewire) wire:key="{{ md5(serialize($value.$key)) }}" @endif>
+                <tr @class(['bg-gray-50 dark:bg-dark-800/50' => $striped && $loop->index % 2 === 0]) @if ($livewire) wire:key="{{ md5(serialize($value).$key) }}" @endif>
                     @foreach($headers as $header)
                         @php($row = str_replace('.', '_', $header['index']))
                         @if (isset(${$row}))
