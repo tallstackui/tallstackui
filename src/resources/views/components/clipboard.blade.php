@@ -13,7 +13,7 @@
             @if ($left)
                 <button data-hash="{{ $hash }}"
                         x-on:click="copy()"
-                        @class([$personalize['input.buttons.base'], $personalize['input.buttons.left.base']])
+                        @class([$personalize['input.buttons.base'], $personalize['input.buttons.left']])
                         type="button">
                     <x-icon :name="$personalize['input.buttons.icon.name']" @class($personalize['input.buttons.icon.class']) />
                     <p x-ref="input-{{ $hash }}">{{ $placeholders['button']['copy'] }}</p>
