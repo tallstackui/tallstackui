@@ -41,12 +41,12 @@ class Clipboard extends BaseComponent implements Personalization
             'input' => [
                 'wrapper' => 'relative flex flex-grow items-stretch focus-within:z-10',
                 'buttons' => [
-                    'base' => 'relative inline-flex items-center gap-x-1.5 px-3 py-2 text-sm font-semibold text-gray-700 ring-1 ring-inset ring-gray-300 dark:ring-dark-600 dark:text-dark-300 transition',
-                    'left' => 'rounded-l-md -mr-px',
-                    'right' => 'rounded-r-md -ml-px',
+                    'base' => 'dark:ring-dark-600 dark:text-dark-300 relative inline-flex items-center gap-x-1.5 px-3 py-2 text-sm font-semibold text-gray-700 ring-1 ring-inset ring-gray-300 transition',
+                    'left' => '-mr-px rounded-l-md',
+                    'right' => '-ml-px rounded-r-md',
                     'icon' => [
                         'name' => 'clipboard-document',
-                        'class' => 'h-5 w-5 text-primary-500 cursor-pointer',
+                        'class' => 'text-primary-500 h-5 w-5 cursor-pointer',
                     ],
                 ],
                 'class' => [
@@ -59,11 +59,11 @@ class Clipboard extends BaseComponent implements Personalization
                 'icons' => [
                     'copy' => [
                         'name' => 'clipboard',
-                        'class' => 'h-5 w-5 text-primary-500 cursor-pointer',
+                        'class' => 'text-primary-500 h-5 w-5 cursor-pointer',
                     ],
                     'copied' => [
                         'name' => 'document-check',
-                        'class' => 'h-5 w-5 text-green-500 cursor-none',
+                        'class' => 'h-5 w-5 cursor-none text-green-500',
                     ],
                 ],
             ],
