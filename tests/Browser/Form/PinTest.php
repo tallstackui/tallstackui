@@ -93,7 +93,7 @@ class PinTest extends BrowserTestCase
         })
             ->clickAtXPath('/html/body/div[3]/div[2]/div/div/input[1]')
             ->type('@pin-1', '1')
-            ->waitForLivewire()->waitForTextIn('@value', '1')
+            ->waitForTextIn('@value', '1')
             ->assertSeeIn('@value', '1');
     }
 

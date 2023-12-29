@@ -50,6 +50,7 @@ class StyledCommonTest extends BrowserTestCase
             // Type 2
             ->clickAtXPath('/html/body/div[3]/div[2]/div[2]/button')
             ->click('@tallstackui_select_open_close')
+            ->waitForText(['AAA', 'BBB', 'CCC'])
             ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[2]')
             ->clickAtXPath('/html/body/div[3]/div[2]/div[2]/button')
             ->waitForText(['CCC', 'DDD'])
@@ -62,6 +63,7 @@ class StyledCommonTest extends BrowserTestCase
             // Type 3
             ->clickAtXPath('/html/body/div[3]/div[2]/div[2]/button')
             ->click('@tallstackui_select_open_close')
+            ->waitForText(['AAA', 'BBB', 'CCC'])
             ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[3]')
             ->clickAtXPath('/html/body/div[3]/div[2]/div[2]/button')
             ->waitForText(['EEE', 'FFF'])
@@ -73,6 +75,7 @@ class StyledCommonTest extends BrowserTestCase
             ->waitForText(['EEE', 'FFF'])
             // Backing to Type 1
             ->click('@tallstackui_select_open_close')
+            ->waitForText(['Type 1', 'Type 2', 'Type 3'])
             ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[1]')
             ->waitForTextIn('@type', '1')
             ->clickAtXPath('/html/body/div[3]/div[2]/div[2]/button')
@@ -82,6 +85,8 @@ class StyledCommonTest extends BrowserTestCase
             ->clickAtXPath('/html/body/div[3]/div[2]/div[2]/div/ul/li[1]')
             ->clickAtXPath('/html/body/div[3]/div[2]/div[2]/div/ul/li[2]')
             ->waitForText(['AAA', 'BBB'])
+            ->assertSee('AAA')
+            ->assertSee('BBB')
             ->assertDontSee('CCC')
             ->assertDontSee('DDD')
             ->assertDontSee('EEE')
