@@ -2,17 +2,15 @@
 
 namespace TallStackUi\View\Components\Select;
 
-use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\View\ComponentAttributeBag;
 use InvalidArgumentException;
-use Livewire\Component;
-use Livewire\WireDirective;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Foundation\Traits\LivewireChangeEvent;
 use TallStackUi\View\Components\BaseComponent;
 use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
 use TallStackUi\View\Components\Select\Traits\InteractsWithSelectOptions;
@@ -23,6 +21,7 @@ class Styled extends BaseComponent implements Personalization
 {
     use DefaultInputClasses;
     use InteractsWithSelectOptions;
+    use LivewireChangeEvent;
 
     /** @throws Throwable */
     public function __construct(
@@ -55,33 +54,6 @@ class Styled extends BaseComponent implements Personalization
     public function blade(): View
     {
         return view('tallstack-ui::components.select.styled');
-    }
-
-    // As the select.styled component is not an input, the only way to adapt the
-    // wire:change event was to create this structure, where we share information
-    // about the current livewire component and the method to be triggered in wire:change,
-    // so that this is consumed by the javascript associated with the component.
-    public function change(ComponentAttributeBag $attributes, ?Component $component = null, bool $livewire = true): ?array
-    {
-        if (! $livewire || ! $component) {
-            return null;
-        }
-
-        /** @var WireDirective|null $wire */
-        $wire = $attributes->wire('change');
-
-        if (! $wire || ! ($method = $wire->value())) {
-            return null;
-        }
-
-        if (! method_exists($component, $method)) {
-            throw new Exception("The [wire:change] method [$method] used in [select.styled] does not exists in the component [{$component->getName()}].");
-        }
-
-        return [
-            'id' => $component->getId(),
-            'method' => $method,
-        ];
     }
 
     public function personalization(): array

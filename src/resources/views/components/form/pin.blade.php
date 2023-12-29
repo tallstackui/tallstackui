@@ -28,7 +28,8 @@
              @js($livewire),
              @js($property),
              @js($value),
-         )" x-on:paste="pasting = true; paste($event)" x-cloak wire:ignore>
+             @js($change($attributes, $__livewire ?? null, $livewire)))"
+         x-on:paste="pasting = true; paste($event)" x-cloak wire:ignore>
         <div @class($personalize['wrapper'])>
             @if ($prefix)
                 <input type="text"

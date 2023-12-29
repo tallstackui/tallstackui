@@ -42,3 +42,15 @@ export const overflow = (status, component = null) => {
     element.classList.remove('!overflow-hidden');
   }
 };
+
+/**
+ * @param change {Object|Null}
+ * @param model {*}
+ */
+export const wireChange = (change, model) => {
+  if (! change) {
+    return;
+  }
+
+  Livewire.find(change.id).call(change.method, model);
+};

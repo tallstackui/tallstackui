@@ -69,6 +69,35 @@ class PinTest extends BrowserTestCase
     }
 
     /** @test */
+    public function can_fill_and_dispatch_change_event(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $value;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="value">{{ $value }}</p>
+                    
+                    <x-pin length="1" label="Foo" hint="Test" wire:model="value" wire:change="sync" />
+                </div>
+                HTML;
+            }
+
+            public function sync(): void
+            {
+                //
+            }
+        })
+            ->clickAtXPath('/html/body/div[3]/div[2]/div/div/input[1]')
+            ->type('@pin-1', '1')
+            ->waitForLivewire()->waitForTextIn('@value', '1')
+            ->assertSeeIn('@value', '1');
+    }
+
+    /** @test */
     public function can_fill_multiples(): void
     {
         Livewire::visit(new class extends Component

@@ -1,4 +1,4 @@
-import {error, warning} from '../../helpers';
+import {error, warning, wireChange} from '../../helpers';
 import {body} from './helpers';
 
 export default (
@@ -253,8 +253,7 @@ export default (
     this.search = '';
     this.input = this.model;
 
-    // Specific treatment for wire:change event.
-    if (this.change) Livewire.find(this.change.id).call(this.change.method, this.model);
+    wireChange(this.change, this.model);
   },
   /**
    * Check if the `option` is selected
