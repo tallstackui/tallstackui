@@ -47,6 +47,7 @@ export default (value, min, max, delay) => ({
     }
 
     this.$refs.input.stepUp();
+    this.$refs.input.dispatchEvent(new Event('change'));
     this.update();
   },
   decrement() {
@@ -61,6 +62,7 @@ export default (value, min, max, delay) => ({
     }
 
     this.$refs.input.stepDown();
+    this.$refs.input.dispatchEvent(new Event('change'));
     this.update();
   },
   update() {

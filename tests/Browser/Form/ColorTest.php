@@ -179,4 +179,33 @@ class ColorTest extends BrowserTestCase
             ->click('@sync')
             ->waitForTextIn('@selected', '#b45309');
     }
+
+    /** @test */
+    public function can_open_select_a_color_and_dispatch_change_event(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $color;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="selected">{{ $color }}</p>
+                    
+                    <x-color wire:change="sync" label="Color" wire:model="color" />
+                </div>
+                HTML;
+            }
+
+            public function sync(): void
+            {
+                //
+            }
+        })
+            ->waitForText('Color')
+            ->click('@tallstackui_form_color')
+            ->clickAtXPath('/html/body/div[3]/div/div/div/div[4]/div/div/button[1]')
+            ->waitForTextIn('@selected', '#64748b');
+    }
 }

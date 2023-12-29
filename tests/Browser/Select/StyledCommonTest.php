@@ -148,6 +148,50 @@ class StyledCommonTest extends BrowserTestCase
     }
 
     /** @test */
+    public function can_select_and_dispatch_change_event(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $string = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="string">{{ $string }}</p>
+
+                    <x-select.styled wire:model="string"
+                                     wire:change="sync"
+                                     label="Select"
+                                     hint="Select"
+                                     :options="[
+                                        ['label' => 'foo', 'value' => 'foo'],
+                                        ['label' => 'bar', 'value' => 'bar'],
+                                     ]"
+                                     select="label:label|value:value"
+                    />
+                </div>
+                HTML;
+            }
+
+            public function sync(): void
+            {
+                // ...
+            }
+        })
+            ->assertSee('Select an option')
+            ->assertDontSee('foo')
+            ->assertDontSee('bar')
+            ->click('@tallstackui_select_open_close')
+            ->waitForText(['foo', 'bar'])
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[1]')
+            ->waitForText('foo')
+            ->waitUntilMissingText('bar')
+            ->assertDontSee('bar')
+            ->assertDontSee('Select an option');
+    }
+
+    /** @test */
     public function can_select_multiple(): void
     {
         Livewire::visit(StyledMultipleComponent_Common::class)
