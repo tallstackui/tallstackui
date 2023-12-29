@@ -1,6 +1,7 @@
 import './globals/globals';
 import banner from './components/banner/banner';
 import color from './components/form/color';
+import clipboard from './components/clipboard/clipboard';
 import darkTheme from './helpers/dark-theme';
 import dialog from './components/dialog/dialog';
 import dropdown from './components/dropdown/dropdown';
@@ -19,6 +20,7 @@ import tooltip from './components/tooltip/tooltip';
 document.addEventListener('alpine:init', () => {
   window.Alpine.plugin(tooltip);
   window.Alpine.data('tallstackui_banner', banner);
+  window.Alpine.data('tallstackui_clipboard', clipboard);
   window.Alpine.data('tallstackui_formColor', color);
   window.Alpine.data('tallstackui_formNumber', number);
   window.Alpine.data('tallstackui_formPin', pin);

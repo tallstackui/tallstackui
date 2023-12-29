@@ -13,6 +13,7 @@ use TallStackUi\View\Components\Banner;
 use TallStackUi\View\Components\Button\Button;
 use TallStackUi\View\Components\Button\Circle;
 use TallStackUi\View\Components\Card;
+use TallStackUi\View\Components\Clipboard;
 use TallStackUi\View\Components\Dropdown\Dropdown;
 use TallStackUi\View\Components\Dropdown\Items as DropdownItems;
 use TallStackUi\View\Components\Errors;
@@ -95,6 +96,11 @@ class Personalization
     public function card(): PersonalizationResources
     {
         return app($this->component(Card::class));
+    }
+
+    public function clipboard(): PersonalizationResources
+    {
+        return app($this->component(Clipboard::class));
     }
 
     public function dialog(): PersonalizationResources

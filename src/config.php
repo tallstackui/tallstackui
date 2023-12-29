@@ -148,6 +148,7 @@ return [
         'card' => Components\Card::class,
         'checkbox' => Components\Form\Checkbox::class,
         'color' => Components\Form\Color::class,
+        'clipboard' => Components\Clipboard::class,
         'dialog' => Components\Interaction\Dialog::class,
         'dropdown' => Components\Dropdown\Dropdown::class,
         'dropdown.items' => Components\Dropdown\Items::class,

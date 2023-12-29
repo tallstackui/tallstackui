@@ -32,4 +32,11 @@ return [
         'quantity' => 'Miktar',
         'search' => 'Arama yapın',
     ],
+
+    'clipboard' => [
+        'button' => [
+            'copy' => 'Kopyala',
+            'copied' => 'Kopyalandı!',
+        ],
+    ],
 ];
