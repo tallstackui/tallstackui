@@ -38,3 +38,15 @@ it('can render with custom icons', function () {
         ->toContain('FooBar')
         ->toContain('svg');
 });
+
+it('cannot use label & hint with icon style', function () {
+    $component = <<<'HTML'
+    <x-clipboard label="Content" hint="Copy here" text="FooBar" icon />
+    HTML;
+
+    expect($component)
+        ->render()
+        ->toContain('FooBar')
+        ->not->toContain('Content')
+        ->not->toContain('Copy here');
+});

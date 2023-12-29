@@ -6,7 +6,7 @@
 @endphp
 
 <div x-data="tallstackui_clipboard(@js($text), @js($hash), @js($type), @js($placeholders['button']))">
-    @if ($label)
+    @if ($type === 'input' && $label)
         <x-label :$label/>
     @endif
     <div @class(['mt-1', 'flex' => $type === 'input'])>
@@ -56,7 +56,7 @@
             </div>
         @endif
     </div>
-    @if ($hint)
+    @if ($type === 'input' && $hint)
         <x-hint :$hint/>
     @endif
 </div>
