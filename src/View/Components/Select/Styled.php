@@ -61,9 +61,9 @@ class Styled extends BaseComponent implements Personalization
     // wire:change event was to create this structure, where we share information
     // about the current livewire component and the method to be triggered in wire:change,
     // so that this is consumed by the javascript associated with the component.
-    public function change(ComponentAttributeBag $attributes, Component $component, bool $livewire = true): ?array
+    public function change(ComponentAttributeBag $attributes, ?Component $component = null, bool $livewire = true): ?array
     {
-        if (! $livewire) {
+        if (! $livewire || ! $component) {
             return null;
         }
 

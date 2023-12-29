@@ -20,7 +20,7 @@
         @js($livewire),
         @js($property),
         @js($value),
-        @js($change($attributes, $__livewire, $livewire)))"
+        @js($change($attributes, $__livewire ?? null, $livewire)))"
         x-cloak
         wire:ignore.self>
     <div hidden x-ref="options">{{ TallStackUi::blade()->json($options) }}</div>
