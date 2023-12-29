@@ -15,6 +15,7 @@
                 <button data-hash="{{ $hash }}"
                         x-on:click="copy()"
                         @class([$personalize['input.buttons.base'], $personalize['input.buttons.left']])
+                        dusk="tallstackui_clipboard_input_copy"
                         type="button">
                     <x-icon :name="$personalize['input.buttons.icon.name']" @class($personalize['input.buttons.icon.class']) />
                     <p x-ref="input-{{ $hash }}">{{ $placeholders['button']['copy'] }}</p>
@@ -34,6 +35,7 @@
                 <button data-hash="{{ $hash }}"
                         x-on:click="copy()"
                         @class([$personalize['input.buttons.base'], $personalize['input.buttons.right']])
+                        dusk="tallstackui_clipboard_input_copy"
                         type="button">
                     <x-icon :name="$personalize['input.buttons.icon.name']" @class($personalize['input.buttons.icon.class']) />
                     <p x-ref="input-{{ $hash }}">{{ $placeholders['button']['copy'] }}</p>
@@ -46,6 +48,7 @@
                         data-hash="{{ $hash }}"
                         @class($personalize['icon.icons.copy.class'])
                         x-on:click="copy()"
+                        dusk="tallstackui_clipboard_icon_copy"
                         x-show="!notification" />
                 <x-icon :name="filled($icons['copied']) ? $icons['copied'] : $personalize['icon.icons.copied.name']"
                         @class($personalize['icon.icons.copied.class'])
