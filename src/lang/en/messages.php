@@ -32,4 +32,13 @@ return [
         'quantity' => 'Quantity',
         'search' => 'Search something here',
     ],
+
+    // TODO: other languages?
+    'clipboard' => [
+        'button' => 'Copy',
+        'actions' => [
+            'success' => 'Copied to clipboard!',
+            'failure' => 'Ops! Failed to copy.',
+        ],
+    ],
 ];
