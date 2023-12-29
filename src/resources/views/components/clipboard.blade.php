@@ -9,7 +9,7 @@
     @if ($type === 'input' && $label)
         <x-label :$label/>
     @endif
-    <div @class(['mt-1', 'flex' => $type === 'input'])>
+    <div @class(['mt-1 flex'])>
         @if ($type === 'input')
             @if ($left)
                 <button data-hash="{{ $hash }}"
@@ -21,16 +21,16 @@
                     <p x-ref="input-{{ $hash }}">{{ $placeholders['button']['copy'] }}</p>
                 </button>
             @endif
-            <div @class($personalize['input.wrapper'])>
-                <input @if ($secret) type="password" @else type="text" @endif
-                       @class([
-                            $personalize['input.class.color.base'],
-                            $personalize['input.class.color.background'],
-                            $personalize['input.class.base'],
-                            'rounded-l-md' => ! $left,
-                            'rounded-r-md' => $left,
-                       ]) value="{{ $text }}" readonly>
-            </div>
+                <div @class($personalize['input.wrapper'])>
+                    <input @if ($secret) type="password" @else type="text" @endif
+                        @class([
+                             $personalize['input.class.base'],
+                             $personalize['input.class.color.base'],
+                             $personalize['input.class.color.background'],
+                             'rounded-l-md' => ! $left,
+                             'rounded-r-md' => $left,
+                        ]) value="{{ $text }}" readonly>
+                </div>
             @if (! $left)
                 <button data-hash="{{ $hash }}"
                         x-on:click="copy()"
