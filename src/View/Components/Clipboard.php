@@ -47,7 +47,7 @@ class Clipboard extends BaseComponent implements Personalization
             'input' => [
                 'wrapper' => 'relative flex flex-grow items-stretch focus-within:z-10',
                 'buttons' => [
-                    'base' => 'dark:ring-dark-600 dark:text-dark-300 relative inline-flex items-center gap-x-1.5 px-2 py-2 text-xs font-semibold uppercase text-gray-700 ring-1 ring-inset ring-gray-300 transition',
+                    'base' => 'dark:ring-dark-600 dark:text-dark-300 dark:bg-dark-700 relative inline-flex items-center gap-x-1.5 bg-white px-2 py-2 text-xs font-semibold uppercase text-gray-700 ring-1 ring-inset ring-gray-300 transition',
                     'left' => '-mr-px rounded-l-md',
                     'right' => '-ml-px rounded-r-md',
                     'icon' => [
