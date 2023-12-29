@@ -33,7 +33,6 @@ return [
         'search' => 'Search something here',
     ],
 
-    // TODO: other languages?
     'clipboard' => [
         'button' => [
             'copy' => 'Copy',

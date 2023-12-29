@@ -2,6 +2,7 @@
 
 namespace TallStackUi\View\Components;
 
+use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use TallStackUi\Foundation\Attributes\SkipDebug;
@@ -26,7 +27,6 @@ class Clipboard extends BaseComponent implements Personalization
         #[SkipDebug]
         public ?string $type = null,
     ) {
-        // TODO: validate?
         $this->placeholders = __('tallstack-ui::messages.clipboard');
 
         $this->type = ! $this->icon ? 'input' : 'icon';
@@ -70,5 +70,19 @@ class Clipboard extends BaseComponent implements Personalization
                 ],
             ],
         ]);
+    }
+
+    /** @throws Exception */
+    protected function validate(): void
+    {
+        $messages = __('tallstack-ui::messages.clipboard');
+
+        if (blank(data_get($messages, 'button.copy'))) {
+            throw new Exception('The clipboard [button.copy] message cannot be empty.');
+        }
+
+        if (blank(data_get($messages, 'button.copied'))) {
+            throw new Exception('The clipboard [button.copied] message cannot be empty.');
+        }
     }
 }

@@ -32,4 +32,11 @@ return [
         'quantity' => 'Cantidad',
         'search' => 'Busca algo aquí',
     ],
+
+    'clipboard' => [
+        'button' => [
+            'copy' => 'Copiar',
+            'copied' => '¡Copiado!',
+        ],
+    ],
 ];
