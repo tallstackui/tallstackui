@@ -22,6 +22,7 @@ class Clipboard extends BaseComponent implements Personalization
         public ?bool $icon = null,
         public ?bool $left = false,
         public ?bool $secret = false,
+        public ?array $icons = ['copy' => null, 'copied' => null],
         #[SkipDebug]
         public ?array $placeholders = [],
         #[SkipDebug]
@@ -30,6 +31,9 @@ class Clipboard extends BaseComponent implements Personalization
         $this->placeholders = __('tallstack-ui::messages.clipboard');
 
         $this->type = ! $this->icon ? 'input' : 'icon';
+
+        $this->icons['copy'] ??= '';
+        $this->icons['copied'] ??= '';
     }
 
     public function blade(): View
@@ -70,6 +74,14 @@ class Clipboard extends BaseComponent implements Personalization
                 ],
             ],
         ]);
+    }
+
+    /** @throws Exception */
+    public function validating(?string $text = null): void
+    {
+        if (! $text) {
+            throw new Exception('The clipboard [text] cannot be empty. You should specify the text using property or slot.');
+        }
     }
 
     /** @throws Exception */

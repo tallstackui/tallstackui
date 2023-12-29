@@ -2,6 +2,7 @@
     $text ??= $slot->toHtml();
     $hash = md5($text.uniqid());
     $personalize = $classes();
+    $validating($text);
 @endphp
 
 <div x-data="tallstackui_clipboard(@js($text), @js($hash), @js($type), @js($placeholders['button']))">
@@ -41,12 +42,12 @@
         @endif
         @if ($type === 'icon')
             <div @class($personalize['icon.wrapper'])>
-                <x-icon :name="$personalize['icon.icons.copy.name']"
+                <x-icon :name="filled($icons['copy']) ? $icons['copy'] : $personalize['icon.icons.copy.name']"
                         data-hash="{{ $hash }}"
                         @class($personalize['icon.icons.copy.class'])
                         x-on:click="copy()"
                         x-show="!notification" />
-                <x-icon :name="$personalize['icon.icons.copied.name']"
+                <x-icon :name="filled($icons['copied']) ? $icons['copied'] : $personalize['icon.icons.copied.name']"
                         @class($personalize['icon.icons.copied.class'])
                         x-show="notification" />
             </div>
