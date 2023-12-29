@@ -16,9 +16,11 @@ class Clipboard extends BaseComponent implements Personalization
 
     public function __construct(
         public ?string $label = null,
+        public ?string $hint = null,
         public ?string $text = null,
         public ?bool $icon = null,
         public ?bool $left = false,
+        public ?bool $secret = false,
         #[SkipDebug]
         public ?array $placeholders = [],
         #[SkipDebug]

@@ -20,7 +20,7 @@
                 </button>
             @endif
             <div @class($personalize['input.wrapper'])>
-                <input type="text"
+                <input @if ($secret) type="password" @else type="text" @endif
                        @class([
                             $personalize['input.class.color.base'],
                             $personalize['input.class.color.background'],
@@ -52,4 +52,7 @@
             </div>
         @endif
     </div>
+    @if ($hint)
+        <x-hint :$hint/>
+    @endif
 </div>
