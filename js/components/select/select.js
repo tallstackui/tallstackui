@@ -1,4 +1,4 @@
-import {error, warning} from '../../helpers';
+import {error, warning, wireChange} from '../../helpers';
 import {body} from './helpers';
 
 export default (
@@ -13,6 +13,7 @@ export default (
     livewire,
     property,
     value,
+    change = null,
 ) => ({
   show: false,
   model: model,
@@ -34,6 +35,7 @@ export default (
   livewire: livewire,
   property: property,
   value: value,
+  change: change,
   async init() {
     // When the component is not being used in livewire.
     if (!this.livewire) {
@@ -250,6 +252,8 @@ export default (
     this.show = this.quantity === this.available?.length ? false : this.multiple;
     this.search = '';
     this.input = this.model;
+
+    wireChange(this.change, this.model);
   },
   /**
    * Check if the `option` is selected

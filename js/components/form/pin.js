@@ -1,4 +1,4 @@
-import {error as alert} from '../../helpers';
+import {error as alert, wireChange} from '../../helpers';
 
 export default (
     model,
@@ -10,6 +10,7 @@ export default (
     livewire,
     property,
     value,
+    change = null,
 ) => ({
   model: model,
   id: id,
@@ -24,6 +25,7 @@ export default (
   livewire: livewire,
   property: property,
   value: value,
+  change: change,
   init() {
     if (!this.model && this.value) {
       this.model = this.value;
@@ -205,6 +207,8 @@ export default (
 
       this.model += input.value;
     }
+
+    wireChange(this.change, this.model);
   },
   /**
    * @param index

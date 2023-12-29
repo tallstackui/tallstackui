@@ -10,6 +10,7 @@ use InvalidArgumentException;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Foundation\Traits\LivewireChangeEvent;
 use TallStackUi\View\Components\BaseComponent;
 use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
 use TallStackUi\View\Components\Select\Traits\InteractsWithSelectOptions;
@@ -20,6 +21,7 @@ class Styled extends BaseComponent implements Personalization
 {
     use DefaultInputClasses;
     use InteractsWithSelectOptions;
+    use LivewireChangeEvent;
 
     /** @throws Throwable */
     public function __construct(

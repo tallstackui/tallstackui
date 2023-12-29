@@ -50,6 +50,7 @@ class StyledCommonTest extends BrowserTestCase
             // Type 2
             ->clickAtXPath('/html/body/div[3]/div[2]/div[2]/button')
             ->click('@tallstackui_select_open_close')
+            ->waitForText(['AAA', 'BBB', 'CCC'])
             ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[2]')
             ->clickAtXPath('/html/body/div[3]/div[2]/div[2]/button')
             ->waitForText(['CCC', 'DDD'])
@@ -62,6 +63,7 @@ class StyledCommonTest extends BrowserTestCase
             // Type 3
             ->clickAtXPath('/html/body/div[3]/div[2]/div[2]/button')
             ->click('@tallstackui_select_open_close')
+            ->waitForText(['AAA', 'BBB', 'CCC'])
             ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[3]')
             ->clickAtXPath('/html/body/div[3]/div[2]/div[2]/button')
             ->waitForText(['EEE', 'FFF'])
@@ -73,6 +75,7 @@ class StyledCommonTest extends BrowserTestCase
             ->waitForText(['EEE', 'FFF'])
             // Backing to Type 1
             ->click('@tallstackui_select_open_close')
+            ->waitForText(['Type 1', 'Type 2', 'Type 3'])
             ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[1]')
             ->waitForTextIn('@type', '1')
             ->clickAtXPath('/html/body/div[3]/div[2]/div[2]/button')
@@ -82,6 +85,8 @@ class StyledCommonTest extends BrowserTestCase
             ->clickAtXPath('/html/body/div[3]/div[2]/div[2]/div/ul/li[1]')
             ->clickAtXPath('/html/body/div[3]/div[2]/div[2]/div/ul/li[2]')
             ->waitForText(['AAA', 'BBB'])
+            ->assertSee('AAA')
+            ->assertSee('BBB')
             ->assertDontSee('CCC')
             ->assertDontSee('DDD')
             ->assertDontSee('EEE')
@@ -141,6 +146,50 @@ class StyledCommonTest extends BrowserTestCase
             ->waitForText(['foo', 'bar'])
             ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[1]')
             ->click('@sync')
+            ->waitForText('foo')
+            ->waitUntilMissingText('bar')
+            ->assertDontSee('bar')
+            ->assertDontSee('Select an option');
+    }
+
+    /** @test */
+    public function can_select_and_dispatch_change_event(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $string = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="string">{{ $string }}</p>
+
+                    <x-select.styled wire:model="string"
+                                     wire:change="sync"
+                                     label="Select"
+                                     hint="Select"
+                                     :options="[
+                                        ['label' => 'foo', 'value' => 'foo'],
+                                        ['label' => 'bar', 'value' => 'bar'],
+                                     ]"
+                                     select="label:label|value:value"
+                    />
+                </div>
+                HTML;
+            }
+
+            public function sync(): void
+            {
+                // ...
+            }
+        })
+            ->assertSee('Select an option')
+            ->assertDontSee('foo')
+            ->assertDontSee('bar')
+            ->click('@tallstackui_select_open_close')
+            ->waitForText(['foo', 'bar'])
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[1]')
             ->waitForText('foo')
             ->waitUntilMissingText('bar')
             ->assertDontSee('bar')
@@ -226,9 +275,9 @@ class StyledCommonTest extends BrowserTestCase
             ->assertDontSee('foo')
             ->click('@tallstackui_select_open_close')
             ->waitForText('foo')
-            ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[1]')
-            ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[2]')
-            ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[3]')
+            ->waitForLivewire()->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[1]')
+            ->waitForLivewire()->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[2]')
+            ->waitForLivewire()->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[3]')
             ->waitForText(['baz', 'bar', 'bah'])
             ->click('@tallstackui_select_open_close')
             ->waitForText('foo')
