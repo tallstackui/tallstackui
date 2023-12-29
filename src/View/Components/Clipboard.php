@@ -18,9 +18,13 @@ class Clipboard extends BaseComponent implements Personalization
         public ?bool $left = false,
         #[SkipDebug]
         public ?array $placeholders = [],
+        #[SkipDebug]
+        public ?string $type = null,
     ) {
         // TODO: validate?
         $this->placeholders = __('tallstack-ui::messages.clipboard');
+
+        $this->type = ! $this->textarea && ! $this->icon ? 'input' : ($this->textarea ? 'textarea' : 'icon');
     }
 
     public function blade(): View

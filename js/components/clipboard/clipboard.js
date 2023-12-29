@@ -1,20 +1,27 @@
 import ClipboardJS from 'clipboard/dist/clipboard';
 
-export default (text = null, hash = null, placeholders) => ({
+export default (
+    text = null,
+    hash = null,
+    type,
+    placeholders,
+) => ({
   text: text,
   notification: false,
   placeholders: placeholders,
   init() {
     this.$watch('notification', (value) => {
-      if (!value) {
+      if (!value || type === 'icon') {
         return;
       }
 
-      if (Boolean(value) === true) {
-        return $toast(this.placeholders.success).success();
-      }
+      // The approach taken here is to prevent different
+      // buttons from receiving text changes when clicked.
+      const ref = this.$refs[`${type}-${hash}`];
 
-      return $toast(this.placeholders.failure).error();
+      ref.innerText = this.placeholders.copied;
+
+      setTimeout(() => ref.innerText = this.placeholders.copy, 2000);
     });
   },
   copy() {

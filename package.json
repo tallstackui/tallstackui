@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "build": "vite build",
-    "watch": "vite build --watch",
+    "dev": "vite build --watch",
     "lint": "npx eslint --ext .js js",
     "lint:fix": "npx eslint --ext .js js --fix"
   },

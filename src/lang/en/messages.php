@@ -35,10 +35,9 @@ return [
 
     // TODO: other languages?
     'clipboard' => [
-        'button' => 'Copy',
-        'actions' => [
-            'success' => 'Copied to clipboard!',
-            'failure' => 'Ops! Failed to copy.',
+        'button' => [
+            'copy' => 'Copy',
+            'copied' => 'Copied!',
         ],
     ],
 ];
