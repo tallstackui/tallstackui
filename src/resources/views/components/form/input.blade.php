@@ -6,7 +6,10 @@
 <x-wrapper.input :$id :$property :$error :$label :$hint :$invalidate>
     @if ($icon)
         <div @class([ $personalize['icon.wrapper'], $personalize['icon.paddings.' . $position]])>
-            <x-icon :$icon :$error @class([$personalize['icon.size'], $personalize['icon.color'] => !$invalidate]) />
+            <x-dynamic-component :component="TallStackUi::component()->resolve('icon')"
+                                 :$icon
+                                 :$error
+                                 @class([$personalize['icon.size'], $personalize['icon.color'] => !$invalidate]) />
         </div>
     @endif
     <div @class([

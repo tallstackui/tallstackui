@@ -5,6 +5,19 @@ use TallStackUi\View\Components;
 return [
     /*
     |--------------------------------------------------------------------------
+    | Prefix
+    |--------------------------------------------------------------------------
+    |
+    | Control the prefix for TallStackUI components. This prefix will be used
+    | to prefix all components registered by TallStackUI. You can change
+    | this prefix to avoid conflicts with other components.
+    |
+    | Example: prefix as 'ts-', usage: '<x-ts-alert />'
+    */
+    'prefix' => null,
+
+    /*
+    |--------------------------------------------------------------------------
     | Debug Mode
     |--------------------------------------------------------------------------
     |
