@@ -14,6 +14,7 @@
          x-data="tallstackui_slide(false)"
      @endif
      x-show="show"
+     @if (!$configurations['persistent']) x-on:keydown.escape.window="show = false;" @endif
      x-on:slide:{{ $open }}.window="show = true;"
      x-on:slide:{{ $close }}.window="show = false;"
      @class(['relative', $configurations['zIndex']])
