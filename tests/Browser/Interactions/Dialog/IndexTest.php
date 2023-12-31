@@ -266,6 +266,41 @@ class IndexTest extends BrowserTestCase
             ->waitForText('Foo bar success')
             ->assertSee('Foo bar success');
     }
+
+    /** @test */
+    public function cannot_see_cancellation_if_it_was_not_defined(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            use Interactions;
+
+            public function confirm(): void
+            {
+                $this->dialog()->confirm('Foo bar confirmation', 'Foo bar confirmation description', [
+                    'confirm' => [
+                        'text' => 'Confirm',
+                        'method' => 'confirmed',
+                        'params' => 'Foo bar confirmed foo',
+                    ],
+                ]);
+            }
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-button dusk="confirm" wire:click="confirm">Confirm</x-button>
+                </div>
+                HTML;
+            }
+        })
+            ->assertDontSee('Foo bar confirmation')
+            ->click('@confirm')
+            ->waitForText('Foo bar confirmation')
+            ->assertSee('Foo bar confirmation')
+            ->assertSee('Foo bar confirmation description')
+            ->assertDontSee('Cancelled');
+    }
 }
 
 class DialogComponent extends Component

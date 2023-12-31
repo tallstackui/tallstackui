@@ -64,7 +64,7 @@
                                 <button dusk="tallstackui_toast_confirmation" @class($personalize['buttons.confirm'])
                                         x-on:click="accept(toast)"
                                         x-text="toast.options.confirm.text"></button>
-                                <div x-show="toast.options.cancel">
+                                <div x-show="toast.options.cancel?.method">
                                     <button dusk="tallstackui_toast_rejection" @class($personalize['buttons.cancel'])
                                             x-on:click="reject(toast)"
                                             x-text="toast.options.cancel?.text"></button>

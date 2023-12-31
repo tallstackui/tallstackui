@@ -4,6 +4,8 @@ namespace TallStackUi\Actions\Traits;
 
 use Exception;
 use TallStackUi\Actions\AbstractInteraction;
+use TallStackUi\Actions\Dialog;
+use TallStackUi\Actions\Toast;
 
 /**
  * @internal This trait is not meant to be used directly.
@@ -12,8 +14,17 @@ trait InteractWithConfirmation
 {
     public function confirm(string|array $data, ?string $description = null, ?array $options = null): AbstractInteraction
     {
+        $class = [
+            Dialog::class => 'dialog',
+            Toast::class => 'toast',
+        ][static::class];
+
         if ((is_string($data) && ! $options) || (is_array($data) && ! isset($data['options']))) {
-            throw new Exception('You must provide options for the interaction');
+            throw new Exception("You must provide options for the [$class] interaction");
+        }
+
+        if (! isset($options['confirm']['method'])) {
+            throw new Exception("You must provide a method for the [$class] confirm button");
         }
 
         [$confirm, $cancel] = $this->messages();
