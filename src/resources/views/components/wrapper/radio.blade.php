@@ -21,6 +21,6 @@
         </label>
     </div>
     @if ($error)
-        <x-error :$property/>
+        <x-dynamic-component :component="$resolver('error')" :$property/>
     @endif
 </div>

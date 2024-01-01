@@ -54,10 +54,10 @@
                                             @class($personalize['title.text'])
                                         @endif>{{ $title }}</h2>
                                 @endif
-                                <x-icon name="x-mark"
-                                        x-on:click="show = false"
-                                        @class($personalize['title.close'])
-                                />
+                                    <x-dynamic-component :component="$resolver('icon')"
+                                                         icon="x-mark"
+                                                         x-on:click="show = false"
+                                                         @class($personalize['title.close']) />
                             </div>
                         </div>
                         <div @class($personalize['body'])>

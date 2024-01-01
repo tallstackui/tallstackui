@@ -2,15 +2,15 @@
 
 <div>
     @if ($label)
-        <x-label :$id :$label :$error :$invalidate/>
+        <x-dynamic-component :component="$resolver('label')" :$id :$label :$error :$invalidate/>
     @endif
     <div @class($personalize['wrapper']) @if ($password) x-data="{ show : false }" @endif>
         {!! $slot !!}
     </div>
     @if ($hint && !$error)
-        <x-hint :$hint/>
+        <x-dynamic-component :component="$resolver('hint')" :$hint/>
     @endif
     @if ($error)
-        <x-error :$property/>
+        <x-dynamic-component :component="$resolver('error')" :$property/>
     @endif
 </div>
