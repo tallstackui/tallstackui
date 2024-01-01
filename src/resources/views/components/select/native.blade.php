@@ -5,7 +5,7 @@
 
 <div>
     @if ($label)
-        <x-label :$label :$error/>
+        <x-dynamic-component :component="$resolver('label')" :$label :$error/>
     @endif
     <select {{ $attributes->class([
             $personalize['input.class.wrapper'],
@@ -23,9 +23,9 @@
         @endforelse
     </select>
     @if ($hint && !$error)
-        <x-hint :$hint/>
+        <x-dynamic-component :component="$resolver('hint')" :$hint/>
     @endif
     @if ($error)
-        <x-error :$property/>
+        <x-dynamic-component :component="$resolver('error')" :$property/>
     @endif
 </div>
