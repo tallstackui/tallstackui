@@ -4,7 +4,7 @@
     $slot = $attributes->get('value', $slot);
 @endphp
 
-<x-wrapper.input :$id :$property :$error :$label :$hint :$invalidate>
+<x-dynamic-component :component="$resolver('wrapper.input')" :$id :$property :$error :$label :$hint :$invalidate>
     <div @class([
         $personalize['input.wrapper'],
         $personalize['input.color.base'] => !$error,
@@ -17,4 +17,4 @@
             $personalize['input.base'],
         ])->merge(['rows' => 3]) }}>{{ $slot }}</textarea>
     </div>
-</x-wrapper.input>
+</x-dynamic-component>
