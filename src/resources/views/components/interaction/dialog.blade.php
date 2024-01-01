@@ -80,7 +80,7 @@
                     </div>
                 </div>
                 <div @class($personalize['buttons.wrapper'])>
-                    <div x-show="dialog.type === 'question' && dialog.options?.cancel">
+                    <div x-show="dialog.type === 'question' && dialog.options.cancel?.method">
                         <x-dynamic-component :component="TallStackUi::component('button')"
                                              :color="$colors['cancel']"
                                              class="w-full text-sm"
@@ -90,7 +90,7 @@
                     </div>
                     <button @class($personalize['buttons.confirm']) x-bind:class="{
                             'sm:w-auto' : dialog.type === 'question',
-                            'col-span-full' : dialog.type !== 'question' || dialog.type === 'question' && !dialog.options?.cancel,
+                            'col-span-full' : dialog.type !== 'question' || dialog.type === 'question' && !dialog.options.cancel?.method,
                             '{{ $colors['confirm']['success'] }}': dialog.type === 'success',
                             '{{ $colors['confirm']['error'] }}': dialog.type === 'error',
                             '{{ $colors['confirm']['info'] }}': dialog.type === 'info',

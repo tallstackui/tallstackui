@@ -9,6 +9,7 @@ export default (
   text: text,
   notification: false,
   placeholders: placeholders,
+  time: 2000,
   init() {
     this.$watch('notification', (value) => {
       if (!value || type === 'icon') {
@@ -21,7 +22,7 @@ export default (
 
       ref.innerText = this.placeholders.copied;
 
-      setTimeout(() => ref.innerText = this.placeholders.copy, 2000);
+      setTimeout(() => ref.innerText = this.placeholders.copy, this.time);
     });
   },
   copy() {
@@ -38,7 +39,7 @@ export default (
 
       event.clearSelection();
 
-      setTimeout(() => this.notification = null, 1000);
+      setTimeout(() => this.notification = null, this.time);
     });
 
     clipboard.on('error', () => this.notification = false);
