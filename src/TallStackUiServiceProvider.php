@@ -57,7 +57,7 @@ class TallStackUiServiceProvider extends ServiceProvider
             $resolver = app(BladeComponentResolver::class);
 
             foreach (config('tallstackui.components') as $alias => $class) {
-                $blade->component($class, $resolver->prefixing($alias));
+                $blade->component($class, $resolver->prefix($alias));
             }
         });
     }

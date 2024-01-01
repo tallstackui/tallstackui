@@ -9,33 +9,22 @@ class BladeComponentResolver
         $this->prefix = config('tallstackui.prefix');
     }
 
-    public function deprefixing(string $name): string
+    public function __toString(): string
     {
-        return $this->handle($name, false);
+        return $this->prefix;
     }
 
-    public function prefixing(string $component): string
-    {
-        return $this->handle($component);
-    }
-
-    public function resolve(string $name): string
-    {
-        return $this->prefixing($name);
-    }
-
-    private function handle(string $name, bool $prefixing = true): string
+    public function prefix(string $component): string
     {
         if (blank($this->prefix)) {
-            return $name;
+            return $component;
         }
 
-        $string = str($name);
+        return str($component)->start($this->prefix)->value();
+    }
 
-        if ($prefixing) {
-            return $string->start($this->prefix)->value();
-        }
-
-        return $string->after($this->prefix)->value();
+    public function resolver(string $name): string
+    {
+        return $this->prefix($name);
     }
 }

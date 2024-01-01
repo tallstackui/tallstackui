@@ -18,9 +18,15 @@ class TallStackUi
         ]);
     }
 
-    public function component(): BladeComponentResolver
+    public function component(?string $name = null): BladeComponentResolver|string
     {
-        return app(BladeComponentResolver::class);
+        $resolver = app(BladeComponentResolver::class);
+
+        if (blank($name)) {
+            return $resolver;
+        }
+
+        return $resolver->resolver($name);
     }
 
     public function directives(): BladeDirectives

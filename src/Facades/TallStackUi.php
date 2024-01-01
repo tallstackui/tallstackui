@@ -11,9 +11,11 @@ use TallStackUi\Foundation\Support\BladeSupport;
 
 /**
  * @method static BladeSupport blade(?ComponentAttributeBag $attributes = null, bool $livewire = false)
- * @method static BladeComponentResolver component()
+ * @method static BladeComponentResolver component(?string $name = null)
  * @method static BladeDirectives directives()
  * @method static Personalization personalize(?string $component = null)
+ *
+ * @see \TallStackUi\TallStackUi
  */
 class TallStackUi extends Facade
 {
