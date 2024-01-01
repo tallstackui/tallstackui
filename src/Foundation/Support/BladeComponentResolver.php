@@ -9,11 +9,6 @@ class BladeComponentResolver
         $this->prefix = config('tallstackui.prefix');
     }
 
-    public function __toString(): string
-    {
-        return $this->prefix;
-    }
-
     public function prefix(string $component): string
     {
         if (blank($this->prefix)) {
