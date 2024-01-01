@@ -29,7 +29,7 @@
                  @if (!$configurations['persistent']) x-on:click.outside="remove()" @endif>
                 <div @class($personalize['buttons.close.wrapper'])>
                     <button x-on:click="remove()">
-                        <x-icon name="x-mark" @class($personalize['buttons.close.icon']) />
+                        <x-dynamic-component :component="$resolver('icon')" icon="x-mark" @class($personalize['buttons.close.icon']) />
                     </button>
                 </div>
                 <div>
@@ -42,29 +42,34 @@
                             '{{ $colors['icon']['background']['question'] }}': dialog.type === 'question'
                         }">
                         <div x-show="dialog.type === 'success'">
-                            <x-icon name="check-circle"
-                                    outline
-                                    @class([$personalize['icon.size'], $colors['icon']['icon']['success']]) />
+                            <x-dynamic-component :component="$resolver('icon')"
+                                                 icon="check-circle"
+                                                 outline
+                                                 @class([$personalize['icon.size'], $colors['icon']['icon']['success']]) />
                         </div>
                         <div x-show="dialog.type === 'error'">
-                            <x-icon name="x-circle"
-                                    outline
-                                    @class([$personalize['icon.size'], $colors['icon']['icon']['error']]) />
+                            <x-dynamic-component :component="$resolver('icon')"
+                                                 icon="x-circle"
+                                                 outline
+                                                 @class([$personalize['icon.size'], $colors['icon']['icon']['error']]) />
                         </div>
                         <div x-show="dialog.type === 'info'">
-                            <x-icon name="information-circle"
-                                    outline
-                                    @class([$personalize['icon.size'], $colors['icon']['icon']['info']]) />
+                            <x-dynamic-component :component="$resolver('icon')"
+                                                 icon="information-circle"
+                                                 outline
+                                                 @class([$personalize['icon.size'], $colors['icon']['icon']['info']]) />
                         </div>
                         <div x-show="dialog.type === 'warning'">
-                            <x-icon name="exclamation-circle"
-                                    outline
-                                    @class([$personalize['icon.size'], $colors['icon']['icon']['warning']]) />
+                            <x-dynamic-component :component="$resolver('icon')"
+                                                 icon="exclamation-circle"
+                                                 outline
+                                                 @class([$personalize['icon.size'], $colors['icon']['icon']['warning']]) />
                         </div>
                         <div x-show="dialog.type === 'question'">
-                            <x-icon name="question-mark-circle"
-                                    outline
-                                    @class([$personalize['icon.size'], $colors['icon']['icon']['question']]) />
+                            <x-dynamic-component :component="$resolver('icon')"
+                                                 icon="question-mark-circle"
+                                                 outline
+                                                 @class([$personalize['icon.size'], $colors['icon']['icon']['question']]) />
                         </div>
                     </div>
                     <div @class($personalize['text.wrapper'])>
@@ -76,12 +81,12 @@
                 </div>
                 <div @class($personalize['buttons.wrapper'])>
                     <div x-show="dialog.type === 'question' && dialog.options?.cancel">
-                        <x-button :color="$colors['cancel']"
-                                  class="w-full text-sm"
-                                  x-on:click="reject(dialog, $el)"
-                                  x-text="dialog.options?.cancel?.text"
-                                  dusk="tallstackui_dialog_rejection"
-                        />
+                        <x-dynamic-component :component="$resolver('button')"
+                                             :color="$colors['cancel']"
+                                             class="w-full text-sm"
+                                             x-on:click="reject(dialog, $el)"
+                                             x-text="dialog.options?.cancel?.text"
+                                             dusk="tallstackui_dialog_rejection" />
                     </div>
                     <button @class($personalize['buttons.confirm']) x-bind:class="{
                             'sm:w-auto' : dialog.type === 'question',
