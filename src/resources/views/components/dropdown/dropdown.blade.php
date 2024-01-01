@@ -10,7 +10,7 @@
         @if ($text)
             <div @class($personalize['action.wrapper'])>
                 <span @class($personalize['action.text'])>{{ $text }}</span>
-                <x-dynamic-component :component="$resolver('icon')"
+                <x-dynamic-component :component="TallStackUi::component('icon')"
                                      icon="chevron-down"
                                      dusk="open-dropdown"
                                      @class($personalize['action.icon'])
@@ -19,7 +19,7 @@
             </div>
         @elseif ($icon)
             <div @class($personalize['action.wrapper'])>
-                <x-dynamic-component :component="$resolver('icon')"
+                <x-dynamic-component :component="TallStackUi::component('icon')"
                                      :$icon
                                      dusk="open-dropdown"
                                      @class($personalize['action.icon'])

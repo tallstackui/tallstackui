@@ -45,16 +45,16 @@
         @if ($wire)
             <div @class([$personalize['text'], 'flex justify-center items-center gap-2'])>
                 <div x-show="type === 'success'">
-                    <x-dynamic-component :component="$resolver('icon')" icon="check-circle" outline @class([$personalize['icon']]) />
+                    <x-dynamic-component :component="TallStackUi::component('icon')" icon="check-circle" outline @class([$personalize['icon']]) />
                 </div>
                 <div x-show="type === 'error'">
-                    <x-dynamic-component :component="$resolver('icon')" icon="x-circle" outline @class([$personalize['icon']]) />
+                    <x-dynamic-component :component="TallStackUi::component('icon')" icon="x-circle" outline @class([$personalize['icon']]) />
                 </div>
                 <div x-show="type === 'info'">
-                    <x-dynamic-component :component="$resolver('icon')" icon="information-circle" outline @class([$personalize['icon']]) />
+                    <x-dynamic-component :component="TallStackUi::component('icon')" icon="information-circle" outline @class([$personalize['icon']]) />
                 </div>
                 <div x-show="type === 'warning'">
-                    <x-dynamic-component :component="$resolver('icon')" icon="exclamation-circle" outline @class([$personalize['icon']]) />
+                    <x-dynamic-component :component="TallStackUi::component('icon')" icon="exclamation-circle" outline @class([$personalize['icon']]) />
                 </div>
                 <span class="text-white" x-text="text"></span>
             </div>
@@ -63,7 +63,7 @@
                 {!! $text !!}
             </span>
         @endif
-            <x-dynamic-component :component="$resolver('icon')"
+            <x-dynamic-component :component="TallStackUi::component('icon')"
                                  icon="x-mark"
                                  dusk="tallstackui_banner_close"
                                  @class([$personalize['close'], $colors['text'] ?? '' => !$wire])

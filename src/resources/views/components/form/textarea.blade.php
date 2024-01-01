@@ -4,7 +4,7 @@
     $slot = $attributes->get('value', $slot);
 @endphp
 
-<x-dynamic-component :component="$resolver('wrapper.input')" :$id :$property :$error :$label :$hint :$invalidate>
+<x-dynamic-component :component="TallStackUi::component('wrapper.input')" :$id :$property :$error :$label :$hint :$invalidate>
     <div @class([
         $personalize['input.wrapper'],
         $personalize['input.color.base'] => !$error,

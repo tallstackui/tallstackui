@@ -11,7 +11,7 @@ use TallStackUi\Foundation\Support\BladeSupport;
 
 /**
  * @method static BladeSupport blade(?ComponentAttributeBag $attributes = null, bool $livewire = false)
- * @method static BladeComponentResolver component(?string $name = null)
+ * @method static BladeComponentResolver|string component(?string $name = null)
  * @method static BladeDirectives directives()
  * @method static Personalization personalize(?string $component = null)
  *

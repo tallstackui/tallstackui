@@ -86,13 +86,6 @@ abstract class BaseComponent extends Component
         };
     }
 
-    // This is a proxy to facilitate the usage of
-    // the BladeComponentResolver->resolver method.
-    public function resolver(string $name): string
-    {
-        return TallStackUi::component($name);
-    }
-
     /** @throws Throwable */
     private function compile(array $data): array
     {

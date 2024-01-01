@@ -16,7 +16,7 @@
 
 <div>
     @if ($label)
-        <x-dynamic-component :component="$resolver('label')" :$label :$error />
+        <x-dynamic-component :component="TallStackUi::component('label')" :$label :$error />
     @endif
     <div x-data="tallstackui_formPin(
              {!! $entangle !!},
@@ -70,15 +70,15 @@
             @endforeach
             <template x-if="clear && model">
                 <button class="cursor-pointer" x-on:click="erase();" dusk="form_pin_clear">
-                    <x-dynamic-component :component="$resolver('icon')" icon="x-circle" solid @class($personalize['button']) />
+                    <x-dynamic-component :component="TallStackUi::component('icon')" icon="x-circle" solid @class($personalize['button']) />
                 </button>
             </template>
         </div>
     </div>
     @if ($hint && !$error)
-        <x-dynamic-component :component="$resolver('hint')" :$hint />
+        <x-dynamic-component :component="TallStackUi::component('hint')" :$hint />
     @endif
     @if ($error)
-        <x-dynamic-component :component="$resolver('error')" :$property />
+        <x-dynamic-component :component="TallStackUi::component('error')" :$property />
     @endif
 </div>

@@ -13,13 +13,13 @@
     @if ($left)
         {!! $left !!}
     @elseif ($icon && $position === 'left')
-        <x-dynamic-component :component="$resolver('icon')" :$icon @class([$personalize['icon.sizes.' . $size], $colors['icon']]) />
+        <x-dynamic-component :component="TallStackUi::component('icon')" :$icon @class([$personalize['icon.sizes.' . $size], $colors['icon']]) />
     @endif
     {{ $text ?? $slot }}
     @if ($right)
         {!! $right !!}
     @elseif ($icon && $position === 'right')
-        <x-dynamic-component :component="$resolver('icon')" :$icon @class([$personalize['icon.sizes.' . $size], $colors['icon']]) />
+        <x-dynamic-component :component="TallStackUi::component('icon')" :$icon @class([$personalize['icon.sizes.' . $size], $colors['icon']]) />
     @endif
     @if ($loading)
         <x-tallstack-ui::icon.others.loading-button :$loading :$delay @class([

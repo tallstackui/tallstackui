@@ -3,10 +3,10 @@
     $personalize = $classes();
 @endphp
 
-<x-dynamic-component :component="$resolver('wrapper.input')" :$id :$property :$error :$label :$hint :$invalidate>
+<x-dynamic-component :component="TallStackUi::component('wrapper.input')" :$id :$property :$error :$label :$hint :$invalidate>
     @if ($icon)
         <div @class([ $personalize['icon.wrapper'], $personalize['icon.paddings.' . $position]])>
-            <x-dynamic-component :component="$resolver('icon')"
+            <x-dynamic-component :component="TallStackUi::component('icon')"
                                  :$icon
                                  :$error
                                  @class([$personalize['icon.size'], $personalize['icon.color'] => !$invalidate]) />

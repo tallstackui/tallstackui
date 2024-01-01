@@ -25,7 +25,7 @@
         wire:ignore.self>
     <div hidden x-ref="options">{{ TallStackUi::blade()->json($options) }}</div>
     @if ($label)
-        <x-dynamic-component :component="$resolver('label')" :$label :$error/>
+        <x-dynamic-component :component="TallStackUi::component('label')" :$label :$error/>
     @endif
     <div class="relative" x-on:click.outside="show = false">
         <button type="button"
@@ -54,7 +54,7 @@
                                 <div @class($personalize['itens.multiple.item'])>
                                     <span x-text="select[selectable.label] ?? select"></span>
                                     @if (!$disabled)
-                                        <x-dynamic-component :component="$resolver('icon')"
+                                        <x-dynamic-component :component="TallStackUi::component('icon')"
                                                              icon="x-mark"
                                                              x-on:click="clear(select)"
                                                              @class($personalize['itens.multiple.icon']) />
@@ -69,7 +69,7 @@
                 <div @class($personalize['buttons.wrapper'])>
                     <template x-if="!empty">
                         <button dusk="tallstackui_select_clear" type="button" x-on:click="clear(); show = true;">
-                            <x-dynamic-component :component="$resolver('icon')"
+                            <x-dynamic-component :component="TallStackUi::component('icon')"
                                                  icon="x-mark"
                                                  @class([
                                                      $personalize['buttons.size'],
@@ -78,7 +78,7 @@
                                                  ]) />
                         </button>
                     </template>
-                    <x-dynamic-component :component="$resolver('icon')"
+                    <x-dynamic-component :component="TallStackUi::component('icon')"
                                          icon="chevron-up-down"
                                          @class([
                                              $personalize['buttons.size'],
@@ -99,7 +99,7 @@
              x-ref="select">
             <template x-if="searchable">
                 <div class="relative px-2 my-2">
-                    <x-dynamic-component :component="$resolver('input')"
+                    <x-dynamic-component :component="TallStackUi::component('input')"
                                          :placeholder="$placeholders['search']"
                                          x-model.debounce.500ms="search"
                                          x-ref="search"
@@ -109,7 +109,7 @@
                             @class($personalize['box.button.class'])
                             x-on:click="search = ''; $refs.search.focus();"
                             x-show="search?.length > 0">
-                        <x-dynamic-component :component="$resolver('icon')"
+                        <x-dynamic-component :component="TallStackUi::component('icon')"
                                              icon="x-mark"
                                              @class($personalize['box.button.icon']) />
                     </button>
@@ -128,7 +128,7 @@
                         role="option" @class($personalize['box.list.item.wrapper'])>
                         <div @class($personalize['box.list.item.options'])>
                             <span class="ml-2 truncate" x-text="option[selectable.label] ?? option"></span>
-                            <x-dynamic-component :component="$resolver('icon')"
+                            <x-dynamic-component :component="TallStackUi::component('icon')"
                                                  icon="check"
                                                  x-show="selected(option)"
                                                  @class($personalize['box.list.item.check']) />
@@ -152,9 +152,9 @@
         </div>
     </div>
     @if ($hint && !$error)
-        <x-dynamic-component :component="$resolver('hint')" :$hint/>
+        <x-dynamic-component :component="TallStackUi::component('hint')" :$hint/>
     @endif
     @if ($error)
-        <x-dynamic-component :component="$resolver('error')" :$property/>
+        <x-dynamic-component :component="TallStackUi::component('error')" :$property/>
     @endif
 </div>

@@ -9,7 +9,7 @@
             ])>
             @if ($filters['quantity'])
                 <div class="w-1/4 sm:w-1/5">
-                    <x-dynamic-component :component="$resolver('select.styled')"
+                    <x-dynamic-component :component="TallStackUi::component('select.styled')"
                                          :label="$placeholders['quantity']"
                                          :options="$quantity"
                                          wire:model.live="{{ $filters['quantity'] }}"
@@ -18,7 +18,7 @@
             @endif
             @if ($filters['search'])
                 <div class="sm:w-1/5">
-                    <x-dynamic-component :component="$resolver('input')"
+                    <x-dynamic-component :component="TallStackUi::component('input')"
                                          wire:model.live.debounce.500ms="{{ $filters['search'] }}"
                                          icon="magnifying-glass"
                                          :placeholder="$placeholders['search']"
@@ -44,7 +44,7 @@
                                     @endif>
                                     {{ $header['label'] ?? '' }}
                                     @if ($livewire && $sortable($header) && $sorted($header))
-                                        <x-dynamic-component :component="$resolver('icon')"
+                                        <x-dynamic-component :component="TallStackUi::component('icon')"
                                                              :name="$head($header)['direction'] === 'desc' ? 'chevron-up' : 'chevron-down'"
                                                              class="ml-2 h-4 w-4" />
                                     @endif

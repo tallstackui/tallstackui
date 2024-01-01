@@ -2,15 +2,15 @@
 
 <div>
     @if ($label)
-        <x-dynamic-component :component="$resolver('label')" :$id :$label :$error :$invalidate/>
+        <x-dynamic-component :component="TallStackUi::component('label')" :$id :$label :$error :$invalidate/>
     @endif
     <div @class($personalize['wrapper']) @if ($password) x-data="{ show : false }" @endif>
         {!! $slot !!}
     </div>
     @if ($hint && !$error)
-        <x-dynamic-component :component="$resolver('hint')" :$hint/>
+        <x-dynamic-component :component="TallStackUi::component('hint')" :$hint/>
     @endif
     @if ($error)
-        <x-dynamic-component :component="$resolver('error')" :$property/>
+        <x-dynamic-component :component="TallStackUi::component('error')" :$property/>
     @endif
 </div>

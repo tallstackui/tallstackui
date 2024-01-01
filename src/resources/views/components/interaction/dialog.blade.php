@@ -29,7 +29,7 @@
                  @if (!$configurations['persistent']) x-on:click.outside="remove()" @endif>
                 <div @class($personalize['buttons.close.wrapper'])>
                     <button x-on:click="remove()">
-                        <x-dynamic-component :component="$resolver('icon')" icon="x-mark" @class($personalize['buttons.close.icon']) />
+                        <x-dynamic-component :component="TallStackUi::component('icon')" icon="x-mark" @class($personalize['buttons.close.icon']) />
                     </button>
                 </div>
                 <div>
@@ -42,31 +42,31 @@
                             '{{ $colors['icon']['background']['question'] }}': dialog.type === 'question'
                         }">
                         <div x-show="dialog.type === 'success'">
-                            <x-dynamic-component :component="$resolver('icon')"
+                            <x-dynamic-component :component="TallStackUi::component('icon')"
                                                  icon="check-circle"
                                                  outline
                                                  @class([$personalize['icon.size'], $colors['icon']['icon']['success']]) />
                         </div>
                         <div x-show="dialog.type === 'error'">
-                            <x-dynamic-component :component="$resolver('icon')"
+                            <x-dynamic-component :component="TallStackUi::component('icon')"
                                                  icon="x-circle"
                                                  outline
                                                  @class([$personalize['icon.size'], $colors['icon']['icon']['error']]) />
                         </div>
                         <div x-show="dialog.type === 'info'">
-                            <x-dynamic-component :component="$resolver('icon')"
+                            <x-dynamic-component :component="TallStackUi::component('icon')"
                                                  icon="information-circle"
                                                  outline
                                                  @class([$personalize['icon.size'], $colors['icon']['icon']['info']]) />
                         </div>
                         <div x-show="dialog.type === 'warning'">
-                            <x-dynamic-component :component="$resolver('icon')"
+                            <x-dynamic-component :component="TallStackUi::component('icon')"
                                                  icon="exclamation-circle"
                                                  outline
                                                  @class([$personalize['icon.size'], $colors['icon']['icon']['warning']]) />
                         </div>
                         <div x-show="dialog.type === 'question'">
-                            <x-dynamic-component :component="$resolver('icon')"
+                            <x-dynamic-component :component="TallStackUi::component('icon')"
                                                  icon="question-mark-circle"
                                                  outline
                                                  @class([$personalize['icon.size'], $colors['icon']['icon']['question']]) />
@@ -81,7 +81,7 @@
                 </div>
                 <div @class($personalize['buttons.wrapper'])>
                     <div x-show="dialog.type === 'question' && dialog.options?.cancel">
-                        <x-dynamic-component :component="$resolver('button')"
+                        <x-dynamic-component :component="TallStackUi::component('button')"
                                              :color="$colors['cancel']"
                                              class="w-full text-sm"
                                              x-on:click="reject(dialog, $el)"

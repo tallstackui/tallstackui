@@ -5,7 +5,7 @@
     $value = $attributes->get('value');
 @endphp
 
-<x-dynamic-component :component="$resolver('wrapper.radio')" :$id :$property :$error :$label :$position :$alignment :$invalidate>
+<x-dynamic-component :component="TallStackUi::component('wrapper.radio')" :$id :$property :$error :$label :$position :$alignment :$invalidate>
     <input @if ($id) id="{{ $id }}" @endif type="radio" {{ $attributes->class([
             $personalize['input.class'],
             $personalize['input.sizes.' . $size],
