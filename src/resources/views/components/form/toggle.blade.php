@@ -9,7 +9,7 @@
     $personalize['wrapper.class'] = $error ? preg_replace('/\bbg-[a-zA-Z0-9-]+/', '', $personalize['background.class']) : $personalize['background.class'];
 @endphp
 
-<x-wrapper.radio :$id :$property :$error :$label :$position :$alignment :$invalidate>
+<x-dynamic-component :component="$resolver('wrapper.radio')" :$id :$property :$error :$label :$position :$alignment :$invalidate>
     <div @class($personalize['wrapper'])>
         <input @if ($id) id="{{ $id }}" @endif type="checkbox" {{ $attributes->class([
             $personalize['input.class'],
@@ -22,4 +22,4 @@
             $personalize['error'] => $error
         ])></div>
     </div>
-</x-wrapper.radio>
+</x-dynamic-component>

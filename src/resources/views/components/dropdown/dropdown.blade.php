@@ -10,19 +10,21 @@
         @if ($text)
             <div @class($personalize['action.wrapper'])>
                 <span @class($personalize['action.text'])>{{ $text }}</span>
-                <x-icon name="chevron-down"
-                        dusk="open-dropdown"
-                        @class($personalize['action.icon'])
-                        x-on:click="show = !show"
-                        x-bind:class="{ 'transform rotate-180': animate && show }" />
+                <x-dynamic-component :component="$resolver('icon')"
+                                     icon="chevron-down"
+                                     dusk="open-dropdown"
+                                     @class($personalize['action.icon'])
+                                     x-on:click="show = !show"
+                                     x-bind:class="{ 'transform rotate-180': animate && show }"/>
             </div>
         @elseif ($icon)
             <div @class($personalize['action.wrapper'])>
-                <x-icon :$icon
-                        dusk="open-dropdown"
-                        @class($personalize['action.icon'])
-                        x-on:click="show = !show"
-                        x-bind:class="{ 'transform rotate-180': animate && show }" />
+                <x-dynamic-component :component="$resolver('icon')"
+                                     :$icon
+                                     dusk="open-dropdown"
+                                     @class($personalize['action.icon'])
+                                     x-on:click="show = !show"
+                                     x-bind:class="{ 'transform rotate-180': animate && show }" />
             </div>
         @else
             {!! $action !!}
