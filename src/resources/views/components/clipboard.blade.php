@@ -7,7 +7,7 @@
 
 <div x-data="tallstackui_clipboard(@js($text), @js($hash), @js($type), @js($placeholders['button']))">
     @if ($type === 'input' && $label)
-        <x-dynamic-component :component="TallStackUi::component('label')" :$label/>
+        <x-dynamic-component :component="TallStackUi::component('label')" :$label />
     @endif
     <div @class(['mt-1 flex'])>
         @if ($type === 'input')
@@ -61,6 +61,6 @@
         @endif
     </div>
     @if ($type === 'input' && $hint)
-        <x-dynamic-component :component="TallStackUi::component('hint')" :$hint/>
+        <x-dynamic-component :component="TallStackUi::component('hint')" :$hint />
     @endif
 </div>
