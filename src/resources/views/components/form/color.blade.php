@@ -3,7 +3,7 @@
     $personalize = $classes();
 @endphp
 
-<x-wrapper.input :$id :$property :$error :$label :$hint :$invalidate>
+<x-dynamic-component :component="TallStackUi::component('wrapper.input')" :$id :$property :$error :$label :$hint :$invalidate>
     <div x-data="tallstackui_formColor(
             {!! $entangle !!},
             @js($mode),
@@ -34,7 +34,7 @@
                     @if ($attributes->get('disabled') || $attributes->get('readonly')) disabled @endif
                     x-on:click="show = !show"
                     dusk="tallstackui_form_color">
-                <x-icon name="swatch" :$error @class($personalize['icon.class'])/>
+                <x-dynamic-component :component="TallStackUi::component('icon')" icon="swatch" :$error @class($personalize['icon.class']) />
             </button>
         </div>
         <div x-cloak
@@ -61,7 +61,7 @@
                         <button type="button" @class($personalize['box.button.base']) x-on:click="set(color)">
                             <div @class($personalize['box.button.color']) :style="{ 'background-color': color }">
                                 <span x-show="color === model" x-bind:class="{'text-white': !check(color), 'text-dark-500': check(color)}">
-                                    <x-icon name="check" @class($personalize['box.button.icon']) />
+                                    <x-dynamic-component :component="TallStackUi::component('icon')" icon="check" @class($personalize['box.button.icon']) />
                                 </span>
                             </div>
                         </button>
@@ -70,4 +70,4 @@
             </div>
         </div>
     </div>
-</x-wrapper.input>
+</x-dynamic-component>

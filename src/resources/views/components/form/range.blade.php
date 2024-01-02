@@ -3,7 +3,7 @@
     $personalize = $classes();
 @endphp
 
-<x-wrapper.input :$id :$property :$error :$label :$hint :$invalidate :wrapper="$personalize['input.wrapper']">
+<x-dynamic-component :component="TallStackUi::component('wrapper.input')" :$id :$property :$error :$label :$hint :$invalidate :wrapper="$personalize['input.wrapper']">
     <input @if ($id) id="{{ $id }}" @endif
            type="range"
            {{ $attributes->class([
@@ -12,4 +12,4 @@
                 $personalize['input.disabled'] => $attributes->get('disabled') || $attributes->get('readonly'),
                 $colors['thumb'],
             ]) }} dusk="tallstackui_form_range_input" x-ref="input">
-</x-wrapper.input>
+</x-dynamic-component>

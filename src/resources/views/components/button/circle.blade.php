@@ -13,22 +13,22 @@
 @if ($icon)
     @if ($loading)
         @if ($delay === 'longest')
-            <x-icon :$icon @class([$personalize['icon.sizes.' . $size], $colors['icon']]) wire:loading.remove.delay.longest />
+            <x-dynamic-component :component="TallStackUi::component('icon')" :$icon @class([$personalize['icon.sizes.' . $size], $colors['icon']]) wire:loading.remove.delay.longest />
         @elseif ($delay === 'longer')
-            <x-icon :$icon @class([$personalize['icon.sizes.' . $size], $colors['icon']]) wire:loading.remove.delay.longer />
+            <x-dynamic-component :component="TallStackUi::component('icon')" :$icon @class([$personalize['icon.sizes.' . $size], $colors['icon']]) wire:loading.remove.delay.longer />
         @elseif ($delay === 'long')
-            <x-icon :$icon @class([$personalize['icon.sizes.' . $size], $colors['icon']]) wire:loading.remove.delay.long />
+            <x-dynamic-component :component="TallStackUi::component('icon')" :$icon @class([$personalize['icon.sizes.' . $size], $colors['icon']]) wire:loading.remove.delay.long />
         @elseif ($delay === 'short')
-            <x-icon :$icon @class([$personalize['icon.sizes.' . $size], $colors['icon']]) wire:loading.remove.delay.short />
+            <x-dynamic-component :component="TallStackUi::component('icon')" :$icon @class([$personalize['icon.sizes.' . $size], $colors['icon']]) wire:loading.remove.delay.short />
         @elseif ($delay === 'shorter')
-            <x-icon :$icon @class([$personalize['icon.sizes.' . $size], $colors['icon']]) wire:loading.remove.delay.shorter />
+            <x-dynamic-component :component="TallStackUi::component('icon')" :$icon @class([$personalize['icon.sizes.' . $size], $colors['icon']]) wire:loading.remove.delay.shorter />
         @elseif ($delay === 'shortest')
-            <x-icon :$icon @class([$personalize['icon.sizes.' . $size], $colors['icon']]) wire:loading.remove.delay.shortest />
+            <x-dynamic-component :component="TallStackUi::component('icon')" :$icon @class([$personalize['icon.sizes.' . $size], $colors['icon']]) wire:loading.remove.delay.shortest />
         @else
-            <x-icon :$icon @class([$personalize['icon.sizes.' . $size], $colors['icon']]) wire:loading.remove />
+            <x-dynamic-component :component="TallStackUi::component('icon')" :$icon @class([$personalize['icon.sizes.' . $size], $colors['icon']]) wire:loading.remove />
         @endif
     @else
-        <x-icon :$icon @class([$personalize['icon.sizes.' . $size], $colors['icon']]) />
+        <x-dynamic-component :component="TallStackUi::component('icon')" :$icon @class([$personalize['icon.sizes.' . $size], $colors['icon']]) />
     @endif
 @else
     <span @if ($loading) wire:loading.remove @endif @class([$personalize['text.sizes.' . $size]])>{{ $text ?? $slot }}</span>

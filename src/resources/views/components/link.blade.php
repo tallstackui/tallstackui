@@ -9,11 +9,11 @@
         $colors['text'] => !$colorless,
     ]) }} @if ($blank) target="_blank" @endif>
     @if ($icon && $position === 'left')
-        <x-icon :$icon @class($personalize['icon.size']) />
+        <x-dynamic-component :component="TallStackUi::component('icon')" :$icon @class($personalize['icon.size']) />
     @endif
     {!! $text ?? $slot !!}
     @if ($icon && $position === 'right')
-        <x-icon :$icon @class($personalize['icon.size']) />
+        <x-dynamic-component :component="TallStackUi::component('icon')" :$icon @class($personalize['icon.size']) />
     @endif
 </a>
 

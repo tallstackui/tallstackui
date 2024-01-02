@@ -4,6 +4,7 @@ namespace TallStackUi;
 
 use Illuminate\View\ComponentAttributeBag;
 use TallStackUi\Foundation\Personalization\Personalization;
+use TallStackUi\Foundation\Support\BladeComponentPrefix;
 use TallStackUi\Foundation\Support\BladeDirectives;
 use TallStackUi\Foundation\Support\BladeSupport;
 
@@ -15,6 +16,13 @@ class TallStackUi
             'attributes' => $attributes,
             'livewire' => $livewire,
         ]);
+    }
+
+    public function component(?string $name = null): BladeComponentPrefix|string
+    {
+        $prefix = app(BladeComponentPrefix::class);
+
+        return blank($name) ? $prefix : $prefix($name);
     }
 
     public function directives(): BladeDirectives

@@ -8,7 +8,9 @@
             @if ($icon)
                 <div @class(['mr-2' => $icon, 'mt-1' => $icon && $title])>
                     @if ($icon)
-                        <x-icon :$icon @class([$personalize['icon.size'], $colors['text']]) />
+                        <x-dynamic-component :component="TallStackUi::component('icon')"
+                                             :$icon
+                                             @class([$personalize['icon.size'], $colors['text']]) />
                     @endif
                 </div>
             @endif
@@ -22,7 +24,9 @@
         @if ($close)
             <div @class($personalize['close.wrapper'])>
                 <button type="button" dusk="alert-close-button" class="cursor-pointer" x-on:click="show = false">
-                    <x-icon icon="x-mark" @class([$personalize['close.size'], $colors['text']]) />
+                    <x-dynamic-component :component="TallStackUi::component('icon')"
+                                         icon="x-mark"
+                                         @class([$personalize['close.size'], $colors['text']]) />
                 </button>
             </div>
         @endif

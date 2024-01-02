@@ -21,6 +21,6 @@
         </label>
     </div>
     @if ($error)
-        <x-error :$property/>
+        <x-dynamic-component :component="TallStackUi::component('error')" :$property />
     @endif
 </div>

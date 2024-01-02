@@ -45,16 +45,16 @@
         @if ($wire)
             <div @class([$personalize['text'], 'flex justify-center items-center gap-2'])>
                 <div x-show="type === 'success'">
-                    <x-icon name="check-circle" outline @class([$personalize['icon']]) />
+                    <x-dynamic-component :component="TallStackUi::component('icon')" icon="check-circle" outline @class([$personalize['icon']]) />
                 </div>
                 <div x-show="type === 'error'">
-                    <x-icon name="x-circle" outline @class([$personalize['icon']]) />
+                    <x-dynamic-component :component="TallStackUi::component('icon')" icon="x-circle" outline @class([$personalize['icon']]) />
                 </div>
                 <div x-show="type === 'info'">
-                    <x-icon name="information-circle" outline @class([$personalize['icon']]) />
+                    <x-dynamic-component :component="TallStackUi::component('icon')" icon="information-circle" outline @class([$personalize['icon']]) />
                 </div>
                 <div x-show="type === 'warning'">
-                    <x-icon name="exclamation-circle" outline @class([$personalize['icon']]) />
+                    <x-dynamic-component :component="TallStackUi::component('icon')" icon="exclamation-circle" outline @class([$personalize['icon']]) />
                 </div>
                 <span class="text-white" x-text="text"></span>
             </div>
@@ -63,14 +63,15 @@
                 {!! $text !!}
             </span>
         @endif
-        <x-icon name="x-mark"
-                dusk="tallstackui_banner_close"
-                @class([$personalize['close'], $colors['text'] ?? '' => !$wire])
-                x-bind:class="{
-                    'text-green-50' : type === 'success',
-                    'text-red-50' : type === 'error',
-                    'text-yellow-50' : type === 'warning',
-                    'text-blue-50' : type === 'info'
-                }" x-on:click="show = false" x-show="close" />
+            <x-dynamic-component :component="TallStackUi::component('icon')"
+                                 icon="x-mark"
+                                 dusk="tallstackui_banner_close"
+                                 @class([$personalize['close'], $colors['text'] ?? '' => !$wire])
+                                 x-bind:class="{
+                                     'text-green-50' : type === 'success',
+                                     'text-red-50' : type === 'error',
+                                     'text-yellow-50' : type === 'warning',
+                                     'text-blue-50' : type === 'info'
+                                 }" x-on:click="show = false" x-show="close" />
     </div>
 @endif

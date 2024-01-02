@@ -3,10 +3,13 @@
     $personalize = $classes();
 @endphp
 
-<x-wrapper.input :$id :$property :$error :$label :$hint :$invalidate>
+<x-dynamic-component :component="TallStackUi::component('wrapper.input')" :$id :$property :$error :$label :$hint :$invalidate>
     @if ($icon)
         <div @class([ $personalize['icon.wrapper'], $personalize['icon.paddings.' . $position]])>
-            <x-icon :$icon :$error @class([$personalize['icon.size'], $personalize['icon.color'] => !$invalidate]) />
+            <x-dynamic-component :component="TallStackUi::component('icon')"
+                                 :$icon
+                                 :$error
+                                 @class([$personalize['icon.size'], $personalize['icon.color'] => !$invalidate]) />
         </div>
     @endif
     <div @class([
@@ -26,4 +29,4 @@
             <span @class([$personalize['input.class.slot'], $personalize['error'] => $error])>{{ $suffix }}</span>
         @endif
     </div>
-</x-wrapper.input>
+</x-dynamic-component>

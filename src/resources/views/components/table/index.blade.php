@@ -9,19 +9,21 @@
             ])>
             @if ($filters['quantity'])
                 <div class="w-1/4 sm:w-1/5">
-                    <x-select.styled :label="$placeholders['quantity']"
-                                     :options="$quantity"
-                                     wire:model.live="{{ $filters['quantity'] }}"
-                                     invalidate />
+                    <x-dynamic-component :component="TallStackUi::component('select.styled')"
+                                         :label="$placeholders['quantity']"
+                                         :options="$quantity"
+                                         wire:model.live="{{ $filters['quantity'] }}"
+                                         invalidate />
                 </div>
             @endif
             @if ($filters['search'])
                 <div class="sm:w-1/5">
-                    <x-input wire:model.live.debounce.500ms="{{ $filters['search'] }}"
-                             icon="magnifying-glass"
-                             :placeholder="$placeholders['search']"
-                             type="search"
-                             invalidate />
+                    <x-dynamic-component :component="TallStackUi::component('input')"
+                                         wire:model.live.debounce.500ms="{{ $filters['search'] }}"
+                                         icon="magnifying-glass"
+                                         :placeholder="$placeholders['search']"
+                                         type="search"
+                                         invalidate />
                 </div>
             @endif
         </div>
@@ -29,28 +31,27 @@
     <div @class(['relative', $personalize['wrapper']])>
         <table @class($personalize['table.base']) @if ($livewire && $loading) wire:loading.class="{{ $personalize['loading.table'] }}" @endif>
             @if ($livewire && $loading)
-                <x-tallstack-ui::icon.others.loading class="{{ $personalize['loading.icon'] }}"
-                                                     wire:loading="{{ $target }}" />
+                <x-tallstack-ui::icon.others.loading class="{{ $personalize['loading.icon'] }}" wire:loading="{{ $target }}" />
             @endif
             @if (!$headerless)
                 <thead @class(['uppercase', $personalize['table.thead.normal'] => !$striped, $personalize['table.thead.striped'] => $striped])>
-                <tr>
-                    @foreach ($headers as $header)
-                        <th scope="col" @class($personalize['table.th'])>
-                            <a class="inline-flex cursor-pointer truncate"
-                               @if ($livewire && $sortable($header))
-                                    wire:click="$set('sort', {column: '{{ $head($header)['column'] }}', direction: '{{ $head($header)['direction'] }}' })"
-                                @endif>
-
-                                {{ $header['label'] ?? '' }}
-
-                                @if ($livewire && $sortable($header) && $sorted($header))
-                                    <x-icon :name="$head($header)['direction'] === 'desc' ? 'chevron-up' : 'chevron-down'" class="ml-2 h-4 w-4" />
-                                @endif
-                            </a>
-                        </th>
-                    @endforeach
-                </tr>
+                    <tr>
+                        @foreach ($headers as $header)
+                            <th scope="col" @class($personalize['table.th'])>
+                                <a class="inline-flex cursor-pointer truncate"
+                                   @if ($livewire && $sortable($header))
+                                        wire:click="$set('sort', {column: '{{ $head($header)['column'] }}', direction: '{{ $head($header)['direction'] }}' })"
+                                    @endif>
+                                    {{ $header['label'] ?? '' }}
+                                    @if ($livewire && $sortable($header) && $sorted($header))
+                                        <x-dynamic-component :component="TallStackUi::component('icon')"
+                                                             :name="$head($header)['direction'] === 'desc' ? 'chevron-up' : 'chevron-down'"
+                                                             class="ml-2 h-4 w-4" />
+                                    @endif
+                                </a>
+                            </th>
+                        @endforeach
+                    </tr>
                 </thead>
             @endif
             <tbody @class($personalize['table.tbody'])>

@@ -50,10 +50,10 @@
                 @if ($title)
                     <div @class($personalize['title.wrapper'])>
                         <h3 @class($personalize['title.text'])>{{ $title }}</h3>
-                        <x-icon name="x-mark"
-                                x-on:click="show = false"
-                                @class($personalize['title.close'])
-                        />
+                        <x-dynamic-component :component="TallStackUi::component('icon')"
+                                             icon="x-mark"
+                                             x-on:click="show = false"
+                                             @class($personalize['title.close']) />
                     </div>
                 @endif
                 <div @class($personalize['body'])>

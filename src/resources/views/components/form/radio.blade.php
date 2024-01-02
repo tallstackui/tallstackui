@@ -5,11 +5,11 @@
     $value = $attributes->get('value');
 @endphp
 
-<x-wrapper.radio :$id :$property :$error :$label :$position :$alignment :$invalidate>
+<x-dynamic-component :component="TallStackUi::component('wrapper.radio')" :$id :$property :$error :$label :$position :$alignment :$invalidate>
     <input @if ($id) id="{{ $id }}" @endif type="radio" {{ $attributes->class([
             $personalize['input.class'],
             $personalize['input.sizes.' . $size],
             $colors['background'],
             $personalize['error'] => $error
     ]) }} @checked((bool) $value === true)>
-</x-wrapper.radio>
+</x-dynamic-component>
