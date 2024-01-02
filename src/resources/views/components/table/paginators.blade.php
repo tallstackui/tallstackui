@@ -1,4 +1,6 @@
 @php
+$simplePagination ??= false;
+
 if (! isset($scrollTo)) {
     $scrollTo = 'body';
 }
@@ -14,7 +16,7 @@ $scrollIntoViewJsSnippet = ($scrollTo !== false)
     <div class="mt-4">
         <nav role="navigation" aria-label="Pagination Navigation">
             <!-- Mobile Buttons -->
-            <div class="flex justify-between flex-1 sm:hidden gap-x-2 mb-4">
+            <div @class(['flex flex-1 gap-x-2 mb-4', 'justify-end' => $simplePagination, 'justify-between sm:hidden' => !$simplePagination])>
                 <span>
                     @if ($paginator->onFirstPage())
                         <span class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-400 dark:text-dark-500 bg-gray-100 dark:bg-dark-700 border border-gray-200 dark:border-transparent cursor-default leading-5 rounded-md select-none cursor-pointer">
@@ -38,6 +40,7 @@ $scrollIntoViewJsSnippet = ($scrollTo !== false)
                     @endif
                 </span>
             </div>
+            @if (!$simplePagination)
             <!-- Desktop Buttons -->
             <div class="hidden sm:flex sm:items-center sm:justify-between">
                 <div class="mr-4">
@@ -111,6 +114,7 @@ $scrollIntoViewJsSnippet = ($scrollTo !== false)
                     </span>
                 </div>
             </div>
+            @endif
         </nav>
     </div>
 @endif

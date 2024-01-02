@@ -61,9 +61,9 @@ class IndexTest extends BrowserTestCase
                         ];
                     @endphp
                     <x-table :$headers :$rows filter loading>
-                        @column('name', $row)
+                        @interact('column_name', $row)
                             {{ $row['name'] }} Test
-                        @endcolumn
+                        @endinteract
                     </x-table>
                 </div>
                 HTML;
@@ -96,9 +96,9 @@ class IndexTest extends BrowserTestCase
                         $extra = 'Extra';
                     @endphp
                     <x-table :$headers :$rows filter loading>
-                        @column('name', $row, $extra)
+                        @interact('column_name', $row, $extra)
                             {{ $row['name'] }} Test {{ $extra }}
-                        @endcolumn
+                        @endinteract
                     </x-table>
                 </div>
                 HTML;
@@ -129,9 +129,9 @@ class IndexTest extends BrowserTestCase
                         ];
                     @endphp
                     <x-table :$headers :$rows filter loading>
-                        @column('name')
+                        @interact('column_name')
                             Test
-                        @endcolumn
+                        @endinteract
                     </x-table>
                 </div>
                 HTML;
@@ -180,7 +180,7 @@ class IndexTest extends BrowserTestCase
                             ['index' => 'name', 'label' => 'Name'],
                         ];
                     @endphp
-                    <x-table :$headers :rows="$this->rows" paginate />
+                    <x-table :$headers :rows="$this->rows" paginate id="foo" />
                 </div>
                 HTML;
             }

@@ -16,6 +16,7 @@ use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 class Table extends BaseComponent implements Personalization
 {
     public function __construct(
+        public ?string $id = null,
         public Collection|array $headers = [],
         public LengthAwarePaginator|Paginator|Collection|array $rows = [],
         public ?bool $headerless = false,
@@ -30,6 +31,7 @@ class Table extends BaseComponent implements Personalization
         public ?bool $paginate = false,
         #[SkipDebug]
         public ?string $paginator = 'tallstack-ui::components.table.paginators',
+        public ?bool $simplePagination = false,
         #[SkipDebug]
         public array|string $target = [],
     ) {
@@ -50,6 +52,12 @@ class Table extends BaseComponent implements Personalization
 
         $this->filters['quantity'] ??= null;
         $this->filters['search'] ??= null;
+
+        if ($this->id !== null) {
+            $this->id = str($this->id)->lower()
+                ->slug()
+                ->value();
+        }
     }
 
     public function blade(): View
@@ -115,6 +123,10 @@ class Table extends BaseComponent implements Personalization
 
         if (blank($messages['search'] ?? null)) {
             throw new Exception('The table [search] message cannot be empty.');
+        }
+
+        if ($this->paginate && blank($this->id)) {
+            throw new Exception('The table [id] property is required when [paginate] is true.');
         }
     }
 }
