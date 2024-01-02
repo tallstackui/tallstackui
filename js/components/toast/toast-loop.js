@@ -1,12 +1,12 @@
 import {dispatchEvent} from '../../helpers';
 
-export default (toast, ok, confirm, cancel) => ({
+export default (toast, texts) => ({
   toast: toast,
   show: false,
   text: {
-    ok: ok,
-    confirm: confirm,
-    cancel: cancel,
+    ok: texts.ok,
+    confirm: texts.confirm,
+    cancel: texts.cancel,
   },
   init() {
     let paused = false;

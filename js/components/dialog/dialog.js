@@ -1,12 +1,12 @@
 import {dispatchEvent, overflow} from '../../helpers';
 
-export default (ok, confirm, cancel) => ({
+export default (texts) => ({
   show: false,
   dialog: {},
   text: {
-    ok: ok,
-    confirm: confirm,
-    cancel: cancel,
+    ok: texts.ok,
+    confirm: texts.confirm,
+    cancel: texts.cancel,
   },
   init() {
     this.$watch('show', (value) => overflow(value, 'dialog'));
