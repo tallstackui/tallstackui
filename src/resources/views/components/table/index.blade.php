@@ -29,7 +29,7 @@
         </div>
     @endif
     <div @class(['relative', $personalize['wrapper']])>
-        <table @class($personalize['table.base']) @if ($livewire && $loading) wire:loading.class="{{ $personalize['loading.table'] }}" @endif>
+        <table @if ($paginate) id="{{ $id }}" @endif @class($personalize['table.base']) @if ($livewire && $loading) wire:loading.class="{{ $personalize['loading.table'] }}" @endif>
             @if ($livewire && $loading)
                 <x-tallstack-ui::icon.others.loading class="{{ $personalize['loading.icon'] }}" wire:loading="{{ $target }}" />
             @endif
@@ -59,15 +59,15 @@
                 <tr @class(['bg-gray-50 dark:bg-dark-800/50' => $striped && $loop->index % 2 === 0]) @if ($livewire) wire:key="{{ md5(serialize($value).$key) }}" @endif>
                     @foreach($headers as $header)
                         @php($row = str_replace('.', '_', $header['index']))
-                        @if (isset(${$row}))
+                        @isset(${"column_".$row})
                             <td class="dark:text-dark-300 whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                {{ ${$row}($value) }}
+                                {{ ${"column_".$row}($value) }}
                             </td>
                         @else
                             <td class="dark:text-dark-300 whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                 {{ data_get($value, $header['index']) }}
                             </td>
-                        @endif
+                        @endisset
                     @endforeach
                 </tr>
             @empty
@@ -81,6 +81,9 @@
         </table>
     </div>
     @if ($paginate && $rows->hasPages())
-        {{ $rows->onEachSide(1)->links($paginator, ['scrollTo' => true]) }}
+        {{ $rows->onEachSide(1)->links($paginator, [
+            'simplePagination' => $simplePagination,
+            'scrollTo' => '#'.$id
+        ]) }}
     @endif
 </div>
