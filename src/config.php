@@ -8,11 +8,11 @@ return [
     | Prefix
     |--------------------------------------------------------------------------
     |
-    | Control the prefix for TallStackUI components. This prefix will be used
-    | to prefix all components registered by TallStackUI. You can change
-    | this prefix to avoid conflicts with other components.
+    | Control a prefix for the TallStackUI components. The term here will be used
+    | to prefix all TallStackUI components. This is useful to avoid conflicts
+    | with other components registered by other libraries or created by yourself.
     |
-    | Example: prefix as 'ts-', usage: '<x-ts-alert />'
+    | For example: prefixing as 'ts-', the `alert` usage will be: '<x-ts-alert />'
     */
     'prefix' => null,
 

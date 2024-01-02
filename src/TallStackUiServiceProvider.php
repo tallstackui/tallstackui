@@ -7,7 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
 use TallStackUi\Facades\TallStackUi as Facade;
 use TallStackUi\Foundation\Personalization\PersonalizationResources;
-use TallStackUi\Foundation\Support\BladeComponentResolver;
+use TallStackUi\Foundation\Support\BladeComponentPrefix;
 use TallStackUi\Foundation\Support\BladeDirectives;
 
 class TallStackUiServiceProvider extends ServiceProvider
@@ -54,10 +54,10 @@ class TallStackUiServiceProvider extends ServiceProvider
     private function registerComponents(): void
     {
         $this->callAfterResolving(BladeCompiler::class, function (BladeCompiler $blade): void {
-            $resolver = app(BladeComponentResolver::class);
+            $prefix = app(BladeComponentPrefix::class);
 
             foreach (config('tallstackui.components') as $alias => $class) {
-                $blade->component($class, $resolver->prefix($alias));
+                $blade->component($class, $prefix($alias));
             }
         });
     }

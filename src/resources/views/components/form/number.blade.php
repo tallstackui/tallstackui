@@ -41,11 +41,7 @@
                     @class($personalize['buttons.left.base'])>
                 <x-dynamic-component :component="TallStackUi::component('icon')"
                                      :icon="$icons['left']"
-                                     @class([
-                                         $personalize['buttons.left.size'],
-                                         $personalize['buttons.left.color'] => !$error,
-                                         $personalize['buttons.left.error'] => $error
-                                     ]) />
+                                     @class([$personalize['buttons.left.size'], $personalize['buttons.left.color'] => !$error, $personalize['buttons.left.error'] => $error]) />
             </button>
             <button x-on:click="increment()"
                     x-on:mousedown="interval = setInterval(() => increment(), delay * 100);"
@@ -60,11 +56,7 @@
                     @class($personalize['buttons.right.base'])>
                 <x-dynamic-component :component="TallStackUi::component('icon')"
                                      :icon="$icons['right']"
-                                     @class([
-                                        $personalize['buttons.right.size'],
-                                        $personalize['buttons.right.color'] => !$error,
-                                        $personalize['buttons.right.error'] => $error
-                                    ]) />
+                                     @class([$personalize['buttons.right.size'], $personalize['buttons.right.color'] => !$error, $personalize['buttons.right.error'] => $error]) />
             </button>
         </div>
     </div>

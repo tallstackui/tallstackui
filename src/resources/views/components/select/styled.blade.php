@@ -25,7 +25,7 @@
         wire:ignore.self>
     <div hidden x-ref="options">{{ TallStackUi::blade()->json($options) }}</div>
     @if ($label)
-        <x-dynamic-component :component="TallStackUi::component('label')" :$label :$error/>
+        <x-dynamic-component :component="TallStackUi::component('label')" :$label :$error />
     @endif
     <div class="relative" x-on:click.outside="show = false">
         <button type="button"
@@ -71,20 +71,12 @@
                         <button dusk="tallstackui_select_clear" type="button" x-on:click="clear(); show = true;">
                             <x-dynamic-component :component="TallStackUi::component('icon')"
                                                  icon="x-mark"
-                                                 @class([
-                                                     $personalize['buttons.size'],
-                                                     $personalize['buttons.base'] => !$error,
-                                                     $personalize['buttons.error'] => $error
-                                                 ]) />
+                                                 @class([$personalize['buttons.size'], $personalize['buttons.base'] => !$error, $personalize['buttons.error'] => $error]) />
                         </button>
                     </template>
                     <x-dynamic-component :component="TallStackUi::component('icon')"
                                          icon="chevron-up-down"
-                                         @class([
-                                             $personalize['buttons.size'],
-                                             $personalize['buttons.base'] => !$error,
-                                             $personalize['buttons.error'] => $error
-                                         ]) />
+                                         @class([$personalize['buttons.size'], $personalize['buttons.base'] => !$error, $personalize['buttons.error'] => $error]) />
                 </div>
             @endif
         </button>
@@ -98,7 +90,7 @@
              @class($personalize['box.wrapper'])
              x-ref="select">
             <template x-if="searchable">
-                <div class="relative px-2 my-2">
+                <div class="relative my-2 px-2">
                     <x-dynamic-component :component="TallStackUi::component('input')"
                                          :placeholder="$placeholders['search']"
                                          x-model.debounce.500ms="search"
@@ -152,9 +144,9 @@
         </div>
     </div>
     @if ($hint && !$error)
-        <x-dynamic-component :component="TallStackUi::component('hint')" :$hint/>
+        <x-dynamic-component :component="TallStackUi::component('hint')" :$hint />
     @endif
     @if ($error)
-        <x-dynamic-component :component="TallStackUi::component('error')" :$property/>
+        <x-dynamic-component :component="TallStackUi::component('error')" :$property />
     @endif
 </div>

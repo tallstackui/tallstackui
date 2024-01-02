@@ -4,7 +4,7 @@ namespace TallStackUi;
 
 use Illuminate\View\ComponentAttributeBag;
 use TallStackUi\Foundation\Personalization\Personalization;
-use TallStackUi\Foundation\Support\BladeComponentResolver;
+use TallStackUi\Foundation\Support\BladeComponentPrefix;
 use TallStackUi\Foundation\Support\BladeDirectives;
 use TallStackUi\Foundation\Support\BladeSupport;
 
@@ -18,15 +18,11 @@ class TallStackUi
         ]);
     }
 
-    public function component(?string $name = null): BladeComponentResolver|string
+    public function component(?string $name = null): BladeComponentPrefix|string
     {
-        $resolver = app(BladeComponentResolver::class);
+        $prefix = app(BladeComponentPrefix::class);
 
-        if (blank($name)) {
-            return $resolver;
-        }
-
-        return $resolver->resolver($name);
+        return blank($name) ? $prefix : $prefix($name);
     }
 
     public function directives(): BladeDirectives

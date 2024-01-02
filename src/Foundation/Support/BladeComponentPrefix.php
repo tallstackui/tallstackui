@@ -2,24 +2,19 @@
 
 namespace TallStackUi\Foundation\Support;
 
-class BladeComponentResolver
+class BladeComponentPrefix
 {
     public function __construct(private ?string $prefix = null)
     {
         $this->prefix = config('tallstackui.prefix');
     }
 
-    public function prefix(string $component): string
+    public function __invoke(string $component): string
     {
         if (blank($this->prefix)) {
             return $component;
         }
 
         return str($component)->start($this->prefix)->value();
-    }
-
-    public function resolver(string $name): string
-    {
-        return $this->prefix($name);
     }
 }
