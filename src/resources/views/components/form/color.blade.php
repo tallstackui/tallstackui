@@ -3,6 +3,8 @@
     $personalize = $classes();
 @endphp
 
+@dump($attributes)
+
 <x-dynamic-component :component="TallStackUi::component('wrapper.input')" :$id :$property :$error :$label :$hint :$invalidate>
     <div x-data="tallstackui_formColor(
             {!! $entangle !!},
@@ -27,7 +29,13 @@
             </template>
         </div>
         <div class="w-full" wire:ignore>
-            <input @if ($id) id="{{ $id }}" @endif {{ $attributes->class($personalize['input.base']) }} type="text" x-model="model" x-ref="input">
+            <input @if ($id) id="{{ $id }}" @endif
+                   {{ $attributes->class($personalize['input.base']) }}
+                   type="text"
+                   x-model="model"
+                   x-ref="input"
+                   @if ($selectable) x-on:click="show = !show" @endif
+                   @readonly($selectable)>
         </div>
         <div class="flex items-center">
             <button type="button"
