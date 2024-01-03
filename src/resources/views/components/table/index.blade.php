@@ -3,7 +3,7 @@
 <div>
     @if ($livewire && $filter)
         <div @class([
-                'mb-4 flex items-end gap-x-2 sm:gap-x-0',
+                $personalize['filter'],
                 'justify-between' => $filters['quantity'] && $filters['search'],
                 'justify-end' => ! $filters['quantity'] || ! $filters['search'],
             ])>

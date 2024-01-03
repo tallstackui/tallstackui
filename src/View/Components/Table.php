@@ -96,6 +96,7 @@ class Table extends BaseComponent implements Personalization
                 'icon' => 'text-primary-500 dark:text-dark-300 absolute left-1/2 top-1/2 h-10 w-10 animate-spin',
             ],
             'empty' => 'dark:text-dark-300 col-span-full whitespace-nowrap px-3 py-4 text-sm text-gray-500',
+            'filter' => 'mb-4 flex items-end gap-x-2 sm:gap-x-0',
         ]);
     }
 
