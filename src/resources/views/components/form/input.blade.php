@@ -9,7 +9,11 @@
             <x-dynamic-component :component="TallStackUi::component('icon')"
                                  :$icon
                                  :$error
-                                 @class([$personalize['icon.size'], $personalize['icon.color'] => !$invalidate]) />
+                                 @class([
+                                     $personalize['icon.size'],
+                                     $personalize['error'] => $error,
+                                     $personalize['icon.color'] => !$error && !$invalidate
+                                 ]) />
         </div>
     @endif
     <div @class([
