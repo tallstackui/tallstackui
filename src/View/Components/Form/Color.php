@@ -25,6 +25,7 @@ class Color extends BaseComponent implements Personalization
         #[SkipDebug]
         public ?string $mode = null,
         public ?bool $invalidate = null,
+        public ?bool $selectable = null,
     ) {
         $this->mode = $this->picker ? 'picker' : 'range';
     }
