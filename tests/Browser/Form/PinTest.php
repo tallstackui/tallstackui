@@ -40,6 +40,31 @@ class PinTest extends BrowserTestCase
     }
 
     /** @test */
+    public function can_clear_the_inputs_when_clear_property_externally(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $value = '1515';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="value">{{ $value }}</p>
+                    
+                    <x-pin length="4" label="Foo" hint="Test" wire:model="value" clear />
+                    
+                    <x-button dusk="clear" wire:click="$set('value')">Clear</x-button>
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()->click('@clear')
+            ->waitUntilMissingText('1515')
+            ->assertDontSeeIn('@value', '1515');
+    }
+
+    /** @test */
     public function can_fill(): void
     {
         Livewire::visit(new class extends Component

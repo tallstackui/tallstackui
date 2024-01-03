@@ -43,19 +43,28 @@ export default (
 
     this.$watch('error', async () => this.observed());
 
-    // We just watch the model when component
-    // is not being used in Livewire context.
-    if (!this.livewire) {
-      this.$watch('model', (value) => {
-        const input = document.getElementsByName(this.property)[0];
+    this.$watch('model', (value) => {
+      if (this.livewire) {
+        // This entire approach here is necessary for situations where
+        // the model is possibly receiving effects from external changes,
+        // so we use this code to synchronize the changes internally.
+        if (!value) {
+          this.erase();
 
-        if (!input) {
           return;
         }
 
-        input.value = value;
-      });
-    }
+        return this.syncInput(value);
+      }
+
+      const input = document.getElementsByName(this.property)[0];
+
+      if (!input) {
+        return;
+      }
+
+      input.value = value;
+    });
   },
   /**
    * @returns {void}
@@ -144,7 +153,7 @@ export default (
           this.focus(i);
           this.input(i).value = this.input(index).value;
           this.input(index).value = '';
-          this.sync();
+          this.syncModel();
           return;
         }
       }
@@ -152,7 +161,7 @@ export default (
 
     if (this.pasting) {
       this.pasting = false;
-      this.sync();
+      this.syncModel();
 
       return;
     }
@@ -168,7 +177,7 @@ export default (
       this.focus(index + 1);
     }
 
-    this.sync();
+    this.syncModel();
   },
   /**
      * @param index {Number}
@@ -179,7 +188,7 @@ export default (
 
     if (current.value !== '') {
       current.value = '';
-      this.sync();
+      this.syncModel();
 
       return;
     }
@@ -192,12 +201,12 @@ export default (
     previous.value = '';
     this.focus(index - 1);
 
-    this.sync();
+    this.syncModel();
   },
   /**
    * @returns {void}
    */
-  sync() {
+  syncModel() {
     this.model = '';
 
     for (let index = 1; index <= this.length; index++) {
@@ -206,6 +215,22 @@ export default (
       if (!input) continue;
 
       this.model += input.value;
+    }
+
+    wireChange(this.change, this.model);
+  },
+  /**
+   * @returns {void}
+   */
+  syncInput(value = null) {
+    // We don't need to syncModel here because this method
+    // is called if the model was changed externally.
+    for (let index = 0; index <= value.length; index++) {
+      const input = this.input(index + 1);
+
+      if (!input || (!value[index] ?? null) || this.invalidate(value[index])) continue;
+
+      input.value = value[index];
     }
 
     wireChange(this.change, this.model);
@@ -230,8 +255,7 @@ export default (
 
     // We use basic regex to avoid paste
     // values different from the mask
-    if (this.numbers && !/^\d+$/.test(data)) return;
-    if (this.letters && !/^[a-zA-Z]+$/.test(data)) return;
+    if (this.invalidate(data)) return;
 
     for (let index = 0; index <= this.length; index++) {
       const input = this.input(index+1);
@@ -258,6 +282,13 @@ export default (
     this.model = null;
 
     this.focus(1);
+  },
+  invalidate(value) {
+    if (this.numbers && !/^\d+$/.test(value)) return true;
+
+    if (this.letters && !/^[a-zA-Z]+$/.test(value)) return true;
+
+    return false;
   },
   /**
    * The hidden div element used to validate the inputs.
