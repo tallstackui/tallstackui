@@ -3,8 +3,6 @@
     $personalize = $classes();
 @endphp
 
-@dump($attributes)
-
 <x-dynamic-component :component="TallStackUi::component('wrapper.input')" :$id :$property :$error :$label :$hint :$invalidate>
     <div x-data="tallstackui_formColor(
             {!! $entangle !!},
