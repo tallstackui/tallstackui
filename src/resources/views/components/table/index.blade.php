@@ -1,6 +1,6 @@
 @php($personalize = $classes())
 
-<div @if ($paginate) id="{{ $id }}" @endif >
+<div @if ($paginate) id="{{ $id }}" @endif>
     @if ($livewire && $filter)
         <div @class([
                 $personalize['filter'],
