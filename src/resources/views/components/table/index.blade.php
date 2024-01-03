@@ -1,6 +1,6 @@
 @php($personalize = $classes())
 
-<div>
+<div @if ($paginate) id="{{ $id }}" @endif >
     @if ($livewire && $filter)
         <div @class([
                 $personalize['filter'],
@@ -29,7 +29,7 @@
         </div>
     @endif
     <div @class(['relative', $personalize['wrapper']])>
-        <table @if ($paginate) id="{{ $id }}" @endif @class($personalize['table.base']) @if ($livewire && $loading) wire:loading.class="{{ $personalize['loading.table'] }}" @endif>
+        <table @class($personalize['table.base']) @if ($livewire && $loading) wire:loading.class="{{ $personalize['loading.table'] }}" @endif>
             @if ($livewire && $loading)
                 <x-tallstack-ui::icon.others.loading class="{{ $personalize['loading.icon'] }}" wire:loading="{{ $target }}" />
             @endif
