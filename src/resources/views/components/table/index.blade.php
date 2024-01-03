@@ -60,11 +60,11 @@
                     @foreach($headers as $header)
                         @php($row = str_replace('.', '_', $header['index']))
                         @isset(${"column_".$row})
-                            <td class="dark:text-dark-300 whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                            <td @class($personalize['table.td'])>
                                 {{ ${"column_".$row}($value) }}
                             </td>
                         @else
-                            <td class="dark:text-dark-300 whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                            <td @class($personalize['table.td'])>
                                 {{ data_get($value, $header['index']) }}
                             </td>
                         @endisset
