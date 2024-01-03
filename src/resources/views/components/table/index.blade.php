@@ -83,7 +83,7 @@
     @if ($paginate && $rows->hasPages())
         {{ $rows->onEachSide(1)->links($paginator, [
             'simplePagination' => $simplePagination,
-            'scrollTo' => '#'.$id
+            'scrollTo' => $noScroll ?: '#'.$id,
         ]) }}
     @endif
 </div>
