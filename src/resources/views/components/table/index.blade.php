@@ -1,6 +1,6 @@
 @php($personalize = $classes())
 
-<div @if ($paginate) id="{{ $id }}" @endif>
+<div @if ($id) id="{{ $id }}" @endif>
     @if ($livewire && $filter)
         <div @class([
                 $personalize['filter'],
@@ -83,7 +83,7 @@
     @if ($paginate && $rows->hasPages())
         {{ $rows->onEachSide(1)->links($paginator, [
             'simplePagination' => $simplePagination,
-            'scrollTo' => $noScroll ?: '#'.$id,
+            'scrollTo' => $id && $persistent ? '#'.$id : false,
         ]) }}
     @endif
 </div>

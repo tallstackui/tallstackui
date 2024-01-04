@@ -29,10 +29,10 @@ class Table extends BaseComponent implements Personalization
         #[SkipDebug]
         public ?array $placeholders = [],
         public ?bool $paginate = false,
+        public ?bool $persistent = false,
         #[SkipDebug]
         public ?string $paginator = 'tallstack-ui::components.table.paginators',
         public ?bool $simplePagination = false,
-        public ?bool $noScroll = false,
         #[SkipDebug]
         public array|string $target = [],
     ) {
@@ -55,8 +55,8 @@ class Table extends BaseComponent implements Personalization
         $this->filters['search'] ??= null;
 
         if ($this->id !== null) {
-            $this->id = str($this->id)->lower()
-                ->slug()
+            $this->id = str($this->id)->kebab()
+                ->lower()
                 ->value();
         }
     }
@@ -127,8 +127,8 @@ class Table extends BaseComponent implements Personalization
             throw new Exception('The table [search] message cannot be empty.');
         }
 
-        if ($this->paginate && blank($this->id)) {
-            throw new Exception('The table [id] property is required when [paginate] is true.');
+        if ($this->persistent && blank($this->id)) {
+            throw new Exception('The table [id] property is required when [persistent] is set.');
         }
     }
 }
