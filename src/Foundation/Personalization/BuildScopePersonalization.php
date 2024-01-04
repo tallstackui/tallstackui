@@ -4,14 +4,8 @@ namespace TallStackUi\Foundation\Personalization;
 
 class BuildScopePersonalization
 {
-    private ?array $attributes;
-
-    private array $classes;
-
-    public function __construct(array $classes, ?array $attributes = null)
+    public function __construct(private array $classes, private readonly ?array $attributes = null)
     {
-        $this->classes = $classes;
-        $this->attributes = $attributes;
     }
 
     public function __invoke(): array
