@@ -15,6 +15,7 @@ use TallStackUi\Facades\TallStackUi;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Colors\ResolveColor;
+use TallStackUi\Foundation\Personalization\BuildScopePersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\ResolveConfiguration;
 use TallStackUi\Foundation\Support\BladeBindProperty;
@@ -63,16 +64,25 @@ abstract class BaseComponent extends Component
             return [];
         }
 
-        // The strategy here is to preserve unique keys, prioritizing
-        // merging what will come from the original classes with the
-        // container bind for soft personalization.
-        return Arr::only(
-            array_merge($personalization = $this->personalization(),
-                TallStackUi::personalize(str_replace('tallstack-ui::personalizations.', '', $attribute->newInstance()->key()))
-                    ->instance()
-                    ->toArray()
-            ), array_keys($personalization)
-        );
+        $scope = app(BuildScopePersonalization::class, [
+            'classes' => $personalization = $this->personalization(),
+            'attributes' => $this->attributes['personalize'],
+        ])();
+
+        unset($this->attributes['personalize']); // We unset this because is useless after here.
+
+        $soft = TallStackUi::personalize(str_replace('tallstack-ui::personalizations.', '', $attribute->newInstance()->key()))
+            ->instance()
+            ->toArray();
+
+        // We merge scope with soft personalization
+        // changes, but we prioritize scope changes.
+        $personalizations = ! empty($scope) ? Arr::only(array_merge($soft, $scope), array_keys($scope)) : $soft;
+
+        // Here we do a second merge, now with the original classes and
+        // the result of the previous operation that will use scoped
+        // prioritization and soft personalization definitions.
+        return Arr::only(array_merge($personalization, $personalizations), array_keys($personalization));
     }
 
     public function render(): Closure
