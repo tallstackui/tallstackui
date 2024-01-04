@@ -15,6 +15,7 @@ use TallStackUi\Facades\TallStackUi;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Colors\ResolveColor;
+use TallStackUi\Foundation\Personalization\BuildScopePersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\ResolveConfiguration;
 use TallStackUi\Foundation\Support\BladeBindProperty;
@@ -66,13 +67,22 @@ abstract class BaseComponent extends Component
         // The strategy here is to preserve unique keys, prioritizing
         // merging what will come from the original classes with the
         // container bind for soft personalization.
-        return Arr::only(
+        $classes = Arr::only(
             array_merge($personalization = $this->personalization(),
                 TallStackUi::personalize(str_replace('tallstack-ui::personalizations.', '', $attribute->newInstance()->key()))
                     ->instance()
                     ->toArray()
             ), array_keys($personalization)
         );
+
+        $classes = app(BuildScopePersonalization::class, [
+            'classes' => $classes,
+            'attributes' => $this->attributes['personalize'],
+        ])();
+
+        unset($this->attributes['personalize']);
+
+        return $classes;
     }
 
     public function render(): Closure

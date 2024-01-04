@@ -217,6 +217,122 @@ it('can personalize components overriding the original', function () {
         ->not->toContain('flex-wrap', 'justify-between');
 });
 
+it('can personalize scoped using replace', function () {
+    $component = <<<'HTML'
+    <x-alert title="Foo bar" />
+    HTML;
+
+    expect($component)->render()
+        ->not->toContain('text-xl', 'font-bold');
+
+    $component = <<<'HTML'
+    <x-alert title="Foo bar" :personalize="[
+        'text.title' => [
+            'replace' => [
+                'text-lg' => 'text-xl',
+                'font-semibold' => 'font-bold',
+            ],
+        ],
+    ]" />
+    HTML;
+
+    expect($component)->render()
+        ->toContain('text-xl', 'font-bold')
+        ->not->toContain('text-lg', 'font-semibold');
+});
+
+it('can personalize scoped using remove', function () {
+    $component = <<<'HTML'
+    <x-alert title="Foo bar" />
+    HTML;
+
+    expect($component)->render()
+        ->toContain('text-lg', 'font-semibold');
+
+    $component = <<<'HTML'
+    <x-alert title="Foo bar" :personalize="[
+        'text.title' => [
+            'remove' => ['text-lg', 'font-semibold'],
+        ],
+    ]" />
+    HTML;
+
+    expect($component)->render()
+        ->not->toContain('text-lg', 'font-semibold');
+});
+
+it('can personalize scoped using append', function () {
+    $component = <<<'HTML'
+    <x-alert title="Foo bar" />
+    HTML;
+
+    expect($component)->render()
+        ->not->toContain('transition-all');
+
+    $component = <<<'HTML'
+    <x-alert title="Foo bar" :personalize="[
+        'text.title' => [
+            'append' => 'transition-all',
+        ],
+    ]" />
+    HTML;
+
+    expect($component)->render()
+        ->toContain('transition-all');
+});
+
+it('can personalize scoped using prepend', function () {
+    $component = <<<'HTML'
+    <x-alert title="Foo bar" />
+    HTML;
+
+    expect($component)->render()
+        ->not->toContain('transition-all');
+
+    $component = <<<'HTML'
+    <x-alert title="Foo bar" :personalize="[
+        'text.title' => [
+            'prepend' => 'transition-all',
+        ],
+    ]" />
+    HTML;
+
+    expect($component)->render()
+        ->toContain('transition-all');
+});
+
+it('can personalize scoped using multiple changes', function () {
+    $component = <<<'HTML'
+    <x-alert title="Foo bar" />
+    HTML;
+
+    expect($component)->render()
+        ->toContain('text-lg', 'font-semibold', 'text-sm');
+
+    $component = <<<'HTML'
+    <x-alert title="Foo bar" :personalize="[
+        'wrapper' => [
+            'append' => 'foo-bar',
+            'prepend' => 'baz-bah',
+        ],
+        'text.title' => [
+            'replace' => [
+                'text-lg' => 'text-xl',
+                'font-semibold' => 'font-bold',
+            ],
+            'remove' => ['font-bold'],
+        ],
+        'text.description' => [
+            'remove' => 'text-sm',
+        ],
+    ]" />
+    HTML;
+
+    expect($component)->render()
+        ->toContain('text-xl', 'foo-bar', 'baz-bah')
+        ->not->toContain('font-bold', 'text-sm');
+});
+
 it('cannot personalize wrong component', function () {
     $this->expectException(Exception::class);
 
