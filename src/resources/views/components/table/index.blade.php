@@ -55,32 +55,40 @@
                 </thead>
             @endif
             <tbody @class($personalize['table.tbody'])>
-            @forelse ($rows as $key => $value)
-                <tr @class(['bg-gray-50 dark:bg-dark-800/50' => $striped && $loop->index % 2 === 0]) @if ($livewire) wire:key="{{ md5(serialize($value).$key) }}" @endif>
-                    @foreach($headers as $header)
-                        @php($row = str_replace('.', '_', $header['index']))
-                        @isset(${"column_".$row})
-                            <td @class($personalize['table.td'])>
-                                {{ ${"column_".$row}($value) }}
-                            </td>
-                        @else
-                            <td @class($personalize['table.td'])>
-                                {{ data_get($value, $header['index']) }}
-                            </td>
-                        @endisset
-                    @endforeach
-                </tr>
-            @empty
+            @if (is_array($rows) && (count($rows) === 1 && empty($rows[0])))
                 <tr>
                     <td @class($personalize['empty']) colspan="100%">
                         {{ $placeholders['empty'] }}
                     </td>
                 </tr>
-            @endforelse
+            @else
+                @forelse ($rows as $key => $value)
+                    <tr @class(['bg-gray-50 dark:bg-dark-800/50' => $striped && $loop->index % 2 === 0]) @if ($livewire) wire:key="{{ md5(serialize($value).$key) }}" @endif>
+                        @foreach($headers as $header)
+                            @php($row = str_replace('.', '_', $header['index']))
+                            @isset(${"column_".$row})
+                                <td @class($personalize['table.td'])>
+                                    {{ ${"column_".$row}($value) }}
+                                </td>
+                            @else
+                                <td @class($personalize['table.td'])>
+                                    {{ data_get($value, $header['index']) }}
+                                </td>
+                            @endisset
+                        @endforeach
+                    </tr>
+                @empty
+                    <tr>
+                        <td @class($personalize['empty']) colspan="100%">
+                            {{ $placeholders['empty'] }}
+                        </td>
+                    </tr>
+                @endforelse
+            @endif
             </tbody>
         </table>
     </div>
-    @if ($paginate && $rows->hasPages())
+    @if ($paginate && (!is_array($rows) && $rows->hasPages()))
         {{ $rows->onEachSide(1)->links($paginator, [
             'simplePagination' => $simplePagination,
             'scrollTo' => $persistent && $id ? '#'.$id : false,
