@@ -333,6 +333,32 @@ it('can personalize scoped using multiple changes', function () {
         ->not->toContain('font-bold', 'text-sm');
 });
 
+it('can priorize the scoped personalization', function () {
+    expect('<x-alert title="Foo bar" />')->render()
+        ->toContain('text-lg')
+        ->not->toContain('text-xl');
+
+    // Creating soft personalization...
+    TallStackUi::personalize('alert')
+        ->block('text.title')
+        ->replace('text-lg', 'foo-bar-baz');
+
+    // Ignoring soft personalization due scope personalization...
+    $component = <<<'HTML'
+    <x-alert title="Foo bar" :personalize="[
+        'text.title' => [
+            'replace' => [
+                'text-lg' => 'text-xl',
+            ],
+        ],
+    ]" />
+    HTML;
+
+    expect($component)->render()
+        ->toContain('text-xl')
+        ->not->toContain('foo-bar-baz'); // it shouldn't exist because was defined in soft personalization
+});
+
 it('cannot personalize wrong component', function () {
     $this->expectException(Exception::class);
 

@@ -64,22 +64,29 @@ abstract class BaseComponent extends Component
             return [];
         }
 
-        // The strategy here is to preserve unique keys, prioritizing
-        // merging what will come from the original classes with the
-        // container bind for soft personalization.
-        $classes = Arr::only(
-            array_merge($personalization = $this->personalization(),
-                TallStackUi::personalize(str_replace('tallstack-ui::personalizations.', '', $attribute->newInstance()->key()))
-                    ->instance()
-                    ->toArray()
-            ), array_keys($personalization)
-        );
-
-        $classes = app(BuildScopePersonalization::class, [
-            'classes' => $classes,
+        $scope = app(BuildScopePersonalization::class, [
+            'classes' => $this->personalization(),
             'attributes' => $this->attributes['personalize'],
         ])();
 
+        $soft = TallStackUi::personalize(str_replace('tallstack-ui::personalizations.', '', $attribute->newInstance()->key()))
+            ->instance()
+            ->toArray();
+
+        // We merge scope with soft personalization changes, but we
+        // prioritize scope changes, and this will only be done if
+        // there are scope changes. Otherwise, we follow the previous
+        // pattern of using only the soft personalization settings.
+        $personalizations = ! empty($scope) ? Arr::only(array_merge($soft, $scope), array_keys($scope)) : $soft;
+
+        // Here we do a second merge, now with the original classes and
+        // the result of the previous operation that will use scoped
+        // prioritization and soft personalization definitions.
+        $classes = Arr::only(array_merge($personalization = $this->personalization(), $personalizations), array_keys($personalization));
+
+        // We need to unset the personalize attribute to avoid
+        // it being rendered in the HTML and also in the debug
+        // Also because this is useless after used here.
         unset($this->attributes['personalize']);
 
         return $classes;
