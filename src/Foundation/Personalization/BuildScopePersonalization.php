@@ -27,7 +27,7 @@ class BuildScopePersonalization
         // We format here to return only the classes that were actually defined
         // and thus be able to merge with the soft personalization definitions.
         return $this->collection->mapWithKeys(function (string|array $value, string $key) {
-            return [$key => $this->classes[$key]];
+            return [$key => $this->classes[$key] ?? []];
         })->toArray();
     }
 
@@ -36,6 +36,10 @@ class BuildScopePersonalization
         $attributes = $this->collection->filter(fn (string|array $value) => is_array($value) && isset($value['append']))->toArray();
 
         foreach ($attributes as $key => $value) {
+            if (! isset($this->classes[$key])) {
+                continue;
+            }
+
             $this->classes[$key] = $this->classes[$key].' '.$value['append'];
             $this->classes[$key] = str($this->classes[$key])->squish()->trim()->value();
         }
@@ -46,6 +50,10 @@ class BuildScopePersonalization
         $attributes = $this->collection->filter(fn (string|array $value) => is_string($value))->toArray();
 
         foreach ($attributes as $key => $value) {
+            if (! isset($this->classes[$key])) {
+                continue;
+            }
+
             $this->classes[$key] = $value;
             $this->classes[$key] = str($this->classes[$key])->squish()->trim()->value();
         }
@@ -56,6 +64,10 @@ class BuildScopePersonalization
         $attributes = $this->collection->filter(fn (string|array $value) => is_array($value) && isset($value['prepend']))->toArray();
 
         foreach ($attributes as $key => $value) {
+            if (! isset($this->classes[$key])) {
+                continue;
+            }
+
             $this->classes[$key] = $value['prepend'].' '.$this->classes[$key];
             $this->classes[$key] = str($this->classes[$key])->squish()->trim()->value();
         }
@@ -66,6 +78,10 @@ class BuildScopePersonalization
         $attributes = $this->collection->filter(fn (string|array $value) => is_array($value) && isset($value['remove']))->toArray();
 
         foreach ($attributes as $key => $value) {
+            if (! isset($this->classes[$key])) {
+                continue;
+            }
+
             $this->classes[$key] = str_replace($value['remove'], '', $this->classes[$key]);
             $this->classes[$key] = str($this->classes[$key])->squish()->trim()->value();
         }
@@ -76,7 +92,7 @@ class BuildScopePersonalization
         $attributes = $this->collection->filter(fn (string|array $value) => is_array($value) && isset($value['replace']))->toArray();
 
         foreach ($attributes as $key => $value) {
-            if (! is_array($value) || ! isset($value['replace'])) {
+            if (! isset($this->classes[$key])) {
                 continue;
             }
 

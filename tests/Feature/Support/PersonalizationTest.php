@@ -378,6 +378,36 @@ it('can priorize the scoped personalization', function () {
         ->not->toContain('foo-bar-baz'); // it shouldn't exist because was defined in soft personalization
 });
 
+it('cannot thrown exception when block name is wrong in scoped personalization', function () {
+    $component = <<<'HTML'
+    <x-alert title="Foo bar" :personalize="[
+        'text.foo' => [
+            'replace' => [
+                'text-lg' => 'text-xl',
+            ],
+        ],
+    ]" />
+    HTML;
+
+    expect($component)->render()
+        ->toContain('text-lg')
+        ->not->toContain('text-xl');
+
+    $component = <<<'HTML'
+    <x-alert title="Foo bar" :personalize="[
+        'text.title' => [
+            'replace' => [
+                'text-lg' => 'text-xl',
+            ],
+        ],
+    ]" />
+    HTML;
+
+    expect($component)->render()
+        ->toContain('text-xl')
+        ->not->toContain('text-lg');
+});
+
 it('cannot personalize wrong component', function () {
     $this->expectException(Exception::class);
 
