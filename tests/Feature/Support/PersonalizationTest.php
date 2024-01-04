@@ -217,6 +217,24 @@ it('can personalize components overriding the original', function () {
         ->not->toContain('flex-wrap', 'justify-between');
 });
 
+it('can personalize scoped using common', function () {
+    $component = <<<'HTML'
+    <x-alert title="Foo bar" />
+    HTML;
+
+    expect($component)->render()->not->toContain('text-xl');
+
+    $component = <<<'HTML'
+    <x-alert title="Foo bar" :personalize="[
+        'text.title' => 'text-xl',
+    ]" />
+    HTML;
+
+    expect($component)->render()
+        ->toContain('text-xl')
+        ->not->toContain('text-lg', 'font-semibold');
+});
+
 it('can personalize scoped using replace', function () {
     $component = <<<'HTML'
     <x-alert title="Foo bar" />
@@ -307,7 +325,7 @@ it('can personalize scoped using multiple changes', function () {
     HTML;
 
     expect($component)->render()
-        ->toContain('text-lg', 'font-semibold', 'text-sm');
+        ->toContain('text-lg', 'font-semibold', 'text-sm', 'flex-wrap');
 
     $component = <<<'HTML'
     <x-alert title="Foo bar" :personalize="[
@@ -325,12 +343,13 @@ it('can personalize scoped using multiple changes', function () {
         'text.description' => [
             'remove' => 'text-sm',
         ],
+        'content.wrapper' => 'flex-col',
     ]" />
     HTML;
 
     expect($component)->render()
-        ->toContain('text-xl', 'foo-bar', 'baz-bah')
-        ->not->toContain('font-bold', 'text-sm');
+        ->toContain('text-xl', 'foo-bar', 'baz-bah', 'flex-col')
+        ->not->toContain('font-bold', 'text-sm', 'flex-wrap');
 });
 
 it('can priorize the scoped personalization', function () {

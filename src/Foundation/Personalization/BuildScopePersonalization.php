@@ -2,10 +2,16 @@
 
 namespace TallStackUi\Foundation\Personalization;
 
+use Illuminate\Support\Collection;
+
 class BuildScopePersonalization
 {
-    public function __construct(private array $classes, private readonly ?array $attributes = null)
-    {
+    public function __construct(
+        private array $classes,
+        private readonly ?array $attributes = null,
+        private ?Collection $collection = null,
+    ) {
+        $this->collection = collect($this->attributes);
     }
 
     public function __invoke(): array
@@ -20,18 +26,16 @@ class BuildScopePersonalization
 
         // We format here to return only the classes that were actually defined
         // and thus be able to merge with the soft personalization definitions.
-        return collect($this->attributes)->mapWithKeys(function ($value, $key) {
+        return $this->collection->mapWithKeys(function (string|array $value, string $key) {
             return [$key => $this->classes[$key]];
         })->toArray();
     }
 
     private function append(): void
     {
-        foreach ($this->attributes as $key => $value) {
-            if (! is_array($value) || ! isset($value['append'])) {
-                continue;
-            }
+        $attributes = $this->collection->filter(fn (string|array $value) => is_array($value) && isset($value['append']))->toArray();
 
+        foreach ($attributes as $key => $value) {
             $this->classes[$key] = $this->classes[$key].' '.$value['append'];
             $this->classes[$key] = str($this->classes[$key])->squish()->trim()->value();
         }
@@ -39,15 +43,9 @@ class BuildScopePersonalization
 
     private function common(): void
     {
-        if (! $this->attributes) {
-            return;
-        }
+        $attributes = $this->collection->filter(fn (string|array $value) => is_string($value))->toArray();
 
-        foreach ($this->attributes as $key => $value) {
-            if (! is_string($value)) {
-                continue;
-            }
-
+        foreach ($attributes as $key => $value) {
             $this->classes[$key] = $value;
             $this->classes[$key] = str($this->classes[$key])->squish()->trim()->value();
         }
@@ -55,11 +53,9 @@ class BuildScopePersonalization
 
     private function prepend(): void
     {
-        foreach ($this->attributes as $key => $value) {
-            if (! is_array($value) || ! isset($value['prepend'])) {
-                continue;
-            }
+        $attributes = $this->collection->filter(fn (string|array $value) => is_array($value) && isset($value['prepend']))->toArray();
 
+        foreach ($attributes as $key => $value) {
             $this->classes[$key] = $value['prepend'].' '.$this->classes[$key];
             $this->classes[$key] = str($this->classes[$key])->squish()->trim()->value();
         }
@@ -67,11 +63,9 @@ class BuildScopePersonalization
 
     private function remove(): void
     {
-        foreach ($this->attributes as $key => $value) {
-            if (! isset($value['remove'])) {
-                continue;
-            }
+        $attributes = $this->collection->filter(fn (string|array $value) => is_array($value) && isset($value['remove']))->toArray();
 
+        foreach ($attributes as $key => $value) {
             $this->classes[$key] = str_replace($value['remove'], '', $this->classes[$key]);
             $this->classes[$key] = str($this->classes[$key])->squish()->trim()->value();
         }
@@ -79,11 +73,9 @@ class BuildScopePersonalization
 
     private function replace(): void
     {
-        if (! $this->attributes) {
-            return;
-        }
+        $attributes = $this->collection->filter(fn (string|array $value) => is_array($value) && isset($value['replace']))->toArray();
 
-        foreach ($this->attributes as $key => $value) {
+        foreach ($attributes as $key => $value) {
             if (! is_array($value) || ! isset($value['replace'])) {
                 continue;
             }

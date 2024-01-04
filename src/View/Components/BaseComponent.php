@@ -65,31 +65,24 @@ abstract class BaseComponent extends Component
         }
 
         $scope = app(BuildScopePersonalization::class, [
-            'classes' => $this->personalization(),
+            'classes' => $personalization = $this->personalization(),
             'attributes' => $this->attributes['personalize'],
         ])();
+
+        unset($this->attributes['personalize']); // We unset this because is useless after here.
 
         $soft = TallStackUi::personalize(str_replace('tallstack-ui::personalizations.', '', $attribute->newInstance()->key()))
             ->instance()
             ->toArray();
 
-        // We merge scope with soft personalization changes, but we
-        // prioritize scope changes, and this will only be done if
-        // there are scope changes. Otherwise, we follow the previous
-        // pattern of using only the soft personalization settings.
+        // We merge scope with soft personalization
+        // changes, but we prioritize scope changes.
         $personalizations = ! empty($scope) ? Arr::only(array_merge($soft, $scope), array_keys($scope)) : $soft;
 
         // Here we do a second merge, now with the original classes and
         // the result of the previous operation that will use scoped
         // prioritization and soft personalization definitions.
-        $classes = Arr::only(array_merge($personalization = $this->personalization(), $personalizations), array_keys($personalization));
-
-        // We need to unset the personalize attribute to avoid
-        // it being rendered in the HTML and also in the debug
-        // Also because this is useless after used here.
-        unset($this->attributes['personalize']);
-
-        return $classes;
+        return Arr::only(array_merge($personalization, $personalizations), array_keys($personalization));
     }
 
     public function render(): Closure
