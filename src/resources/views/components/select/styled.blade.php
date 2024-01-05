@@ -14,7 +14,7 @@
         @js($selectable),
         @js($options),
         @js($multiple),
-        @js($placeholders['default']),
+        @js($placeholder),
         @js($searchable),
         @js($common),
         @js($livewire),

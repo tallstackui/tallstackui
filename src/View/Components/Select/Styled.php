@@ -27,6 +27,7 @@ class Styled extends BaseComponent implements Personalization
     public function __construct(
         public ?string $label = null,
         public ?string $hint = null,
+        public ?string $placeholder = null,
         #[SkipDebug]
         public Collection|array $options = [],
         public string|array|null $request = null,
@@ -44,6 +45,7 @@ class Styled extends BaseComponent implements Personalization
         public ?bool $invalidate = null,
     ) {
         $this->placeholders = [...__('tallstack-ui::messages.select')];
+        $this->placeholder ??= $this->placeholders['default'];
 
         $this->common = ! filled($this->request);
         $this->searchable = ! $this->common ? true : $this->searchable;
@@ -146,24 +148,24 @@ class Styled extends BaseComponent implements Personalization
 
     protected function validate(): void
     {
-        if (blank($this->placeholders['default'])) {
-            throw new InvalidArgumentException('The placeholder [default] cannot be empty.');
+        if (blank($this->placeholder)) {
+            throw new InvalidArgumentException('The [select.styled] placeholder [default] cannot be empty.');
         }
 
         if (blank($this->placeholders['search'])) {
-            throw new InvalidArgumentException('The placeholder [search] cannot be empty.');
+            throw new InvalidArgumentException('The [select.styled] placeholder [search] cannot be empty.');
         }
 
         if (blank($this->placeholders['empty'])) {
-            throw new InvalidArgumentException('The placeholder [empty] cannot be empty.');
+            throw new InvalidArgumentException('The [select.styled] placeholder [empty] cannot be empty.');
         }
 
         if (filled($this->options) && filled($this->request)) {
-            throw new InvalidArgumentException('You cannot define [options] and [request] at the same time.');
+            throw new InvalidArgumentException('The [select.styled] [options] and [request] cannot be defined at the same time.');
         }
 
         if (($this->common && isset($this->options[0]) && (is_array($this->options[0]) && ! $this->select)) || ! $this->common && ! $this->select) {
-            throw new InvalidArgumentException('The [select] parameter must be defined');
+            throw new InvalidArgumentException('The [select.styled] parameter [select] must be defined');
         }
 
         if ($this->common || $this->request && ! is_array($this->request)) {
@@ -171,14 +173,14 @@ class Styled extends BaseComponent implements Personalization
         }
 
         if (! isset($this->request['url'])) {
-            throw new InvalidArgumentException('The [url] is required in the request array');
+            throw new InvalidArgumentException('The [select.styled] parameter [url] is required in the request array');
         }
 
         $this->request['method'] ??= 'get';
         $this->request['method'] = strtolower($this->request['method']);
 
         if (! in_array($this->request['method'], ['get', 'post'])) {
-            throw new InvalidArgumentException('The [method] must be get or post');
+            throw new InvalidArgumentException('The [select.styled] parameter [method] must be get or post');
         }
 
         if (! isset($this->request['params'])) {
@@ -186,7 +188,7 @@ class Styled extends BaseComponent implements Personalization
         }
 
         if (! is_array($this->request['params']) || blank($this->request['params'])) {
-            throw new InvalidArgumentException('The [params] must be an array and cannot be empty');
+            throw new InvalidArgumentException('The [select.styled] parameter [params] must be an array and cannot be empty');
         }
     }
 }
