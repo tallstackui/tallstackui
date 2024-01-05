@@ -53,8 +53,14 @@ jobs:
       - name: Pint
         run: ./vendor/bin/pint --test
 
+      - name: Clear Orchestra Testbench Cache [Before Feature]
+        run: ./vendor/bin/testbench optimize:clear
+
       - name: Feature Tests
         run: ./vendor/bin/pest --filter Feature --parallel
+
+      - name: Clear Orchestra Testbench Cache [Before Browser]
+        run: ./vendor/bin/testbench optimize:clear
 
       - name: Browser Tests
         run: ./vendor/bin/pest --filter Browser
