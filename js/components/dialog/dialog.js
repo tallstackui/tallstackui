@@ -32,13 +32,13 @@ export default (texts) => ({
    * @return {void}
    */
   accept(dialog, element) {
+    dispatchEvent('dialog:accepted', dialog, false);
+
     if (dialog.type !== 'question') {
       return this.remove();
     }
 
     const params = dialog.options.confirm.params ?? null;
-
-    dispatchEvent('dialog:accepted', dialog, false);
 
     setTimeout(() => {
       Livewire.find(dialog.component)
@@ -57,11 +57,11 @@ export default (texts) => ({
    * @return {void}
    */
   reject(dialog, element) {
+    dispatchEvent('dialog:rejected', dialog, false);
+
     if (dialog.type !== 'question') {
       return this.remove();
     }
-
-    dispatchEvent('dialog:rejected', dialog, false);
 
     if (dialog.options.cancel.method) {
       const params = dialog.options.cancel.params ?? null;
