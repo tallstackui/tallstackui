@@ -18,7 +18,6 @@ class Checkbox extends BaseComponent implements Personalization
     use SetupRadioCheckboxToggle;
 
     public function __construct(
-        public ?string $id = null,
         public string|null|ComponentSlot $label = null,
         public ?string $xs = null,
         public ?string $sm = null,
