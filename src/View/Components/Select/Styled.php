@@ -165,7 +165,7 @@ class Styled extends BaseComponent implements Personalization
         }
 
         if (($this->common && isset($this->options[0]) && (is_array($this->options[0]) && ! $this->select)) || ! $this->common && ! $this->select) {
-            throw new InvalidArgumentException('The [select.styled] parameter [select] must be defined');
+            throw new InvalidArgumentException('The [select.styled] parameter [select] must be defined.');
         }
 
         if ($this->common || $this->request && ! is_array($this->request)) {
@@ -173,14 +173,14 @@ class Styled extends BaseComponent implements Personalization
         }
 
         if (! isset($this->request['url'])) {
-            throw new InvalidArgumentException('The [select.styled] parameter [url] is required in the request array');
+            throw new InvalidArgumentException('The [select.styled] parameter [url] is required in the request array.');
         }
 
         $this->request['method'] ??= 'get';
         $this->request['method'] = strtolower($this->request['method']);
 
         if (! in_array($this->request['method'], ['get', 'post'])) {
-            throw new InvalidArgumentException('The [select.styled] parameter [method] must be get or post');
+            throw new InvalidArgumentException('The [select.styled] parameter [method] must be get or post.');
         }
 
         if (! isset($this->request['params'])) {
@@ -188,7 +188,7 @@ class Styled extends BaseComponent implements Personalization
         }
 
         if (! is_array($this->request['params']) || blank($this->request['params'])) {
-            throw new InvalidArgumentException('The [select.styled] parameter [params] must be an array and cannot be empty');
+            throw new InvalidArgumentException('The [select.styled] parameter [params] must be an array and cannot be empty.');
         }
     }
 }

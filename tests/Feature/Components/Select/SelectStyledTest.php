@@ -22,7 +22,7 @@ HTML;
 
 it('can thrown exception when using options and request', function () {
     $this->expectException(ViewException::class);
-    $this->expectExceptionMessage('You cannot define [options] and [request] at the same time.');
+    $this->expectExceptionMessage('The [select.styled] [options] and [request] cannot be defined at the same time.');
 
     $component = <<<'HTML'
     <x-select.styled label="Foo bar baz" 
@@ -38,7 +38,7 @@ HTML;
 
 it('can thrown exception when select was not defined using select as common', function () {
     $this->expectException(ViewException::class);
-    $this->expectExceptionMessage('The [select] parameter must be defined');
+    $this->expectExceptionMessage('The [select.styled] parameter [select] must be defined');
 
     $component = <<<'HTML'
     <x-select.styled label="Foo bar baz" 
@@ -55,7 +55,7 @@ HTML;
 
 it('can thrown exception when request is array using unaceptable method', function (string $method) {
     $this->expectException(ViewException::class);
-    $this->expectExceptionMessage('The [method] must be get or post');
+    $this->expectExceptionMessage('The [select.styled] parameter [method] must be get or post');
 
     $component = <<<'HTML'
     <x-select.styled label="Foo bar baz" 
@@ -75,7 +75,7 @@ HTML;
 
 it('can thrown exception when params is empty', function () {
     $this->expectException(ViewException::class);
-    $this->expectExceptionMessage('The [params] must be an array and cannot be empty');
+    $this->expectExceptionMessage('The [select.styled] parameter [params] must be an array and cannot be empty.');
 
     $component = <<<'HTML'
     <x-select.styled label="Foo bar baz" 
@@ -93,7 +93,7 @@ HTML;
 
 it('can thrown exception when params is not array', function () {
     $this->expectException(ViewException::class);
-    $this->expectExceptionMessage('The [params] must be an array and cannot be empty');
+    $this->expectExceptionMessage('The [select.styled] parameter [params] must be an array and cannot be empty.');
 
     $component = <<<'HTML'
     <x-select.styled label="Foo bar baz" 
@@ -111,7 +111,7 @@ HTML;
 
 it('can thrown exception when select was not defined using select as request', function () {
     $this->expectException(ViewException::class);
-    $this->expectExceptionMessage('The [select] parameter must be defined');
+    $this->expectExceptionMessage('The [select.styled] parameter [select] must be defined.');
 
     $component = <<<'HTML'
     <x-select.styled label="Foo bar baz" 
@@ -125,7 +125,7 @@ HTML;
 
 it('can thrown exception when options is array of arrays without using select', function () {
     $this->expectException(ViewException::class);
-    $this->expectExceptionMessage('The [select] parameter must be defined');
+    $this->expectExceptionMessage('The [select.styled] parameter [select] must be defined.');
 
     $component = <<<'HTML'
     <x-select.styled label="Foo bar baz" 
