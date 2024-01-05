@@ -2,7 +2,6 @@
     [$property, $error, $id] = $bind($attributes, $errors ?? null, $livewire);
     $personalize = $classes();
     [$position, $alignment, $label] = $sloteable($label);
-    $value = $attributes->get('value');
 @endphp
 
 <x-dynamic-component :component="TallStackUi::component('wrapper.radio')" :$id :$property :$error :$label :$position :$alignment :$invalidate>
@@ -11,5 +10,5 @@
             $personalize['input.sizes.' . $size],
             $colors['background'],
             $personalize['error'] => $error
-    ]) }} @checked((bool) $value === true)>
+    ]) }}>
 </x-dynamic-component>
