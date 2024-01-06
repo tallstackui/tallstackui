@@ -43,6 +43,7 @@ class Styled extends BaseComponent implements Personalization
         #[SkipDebug]
         public array $placeholders = [],
         public ?bool $invalidate = null,
+        public ?bool $required = false,
     ) {
         $this->placeholders = [...__('tallstack-ui::messages.select')];
         $this->placeholder ??= ($this->placeholders['default'] ?? null);

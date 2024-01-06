@@ -10,6 +10,7 @@ export default (
     placeholder = 'Select an option',
     searchable = false,
     common = true,
+    required = false,
     livewire,
     property,
     value,
@@ -28,6 +29,7 @@ export default (
   placeholder: placeholder,
   internal: false,
   common: common,
+  required: required,
   response: [],
   options: options,
   observer: null,
@@ -275,6 +277,11 @@ export default (
   clear(selected = null) {
     if (selected) {
       if (this.multiple) {
+        if (this.required && this.quantity === 1) {
+          this.show = false;
+          return;
+        }
+
         this.selects = this.selects.filter((option) => this.dimensional ?
             option[this.selectable.value] !== selected[this.selectable.value] :
             option !== selected);
@@ -283,6 +290,11 @@ export default (
             this.selects.map((selected) => selected[this.selectable.value]) :
             this.selects;
       } else {
+        if (this.required) {
+          this.show = false;
+          return;
+        }
+
         // We clear the entire select property if it is not a multiple,
         // because if it is not a multiple, it will be a single selection.
         this.selects = [];
