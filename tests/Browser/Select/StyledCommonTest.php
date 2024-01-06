@@ -3,7 +3,6 @@
 namespace Tests\Browser\Select;
 
 use Illuminate\Support\Collection;
-use Laravel\Dusk\Browser;
 use Livewire\Component;
 use Livewire\Livewire;
 use Tests\Browser\BrowserTestCase;
