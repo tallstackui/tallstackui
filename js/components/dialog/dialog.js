@@ -21,10 +21,15 @@ export default (texts) => ({
     this.dialog = dialog;
   },
   /**
+   * @param dismissed {Boolean}
    * @return {void}
    */
-  remove() {
+  remove(dismissed = false) {
     this.show = false;
+
+    if (!dismissed) return;
+
+    dispatchEvent('dialog:dismissed', this.dialog, false);
   },
   /**
    * @param dialog {Object}
