@@ -141,6 +141,43 @@ class IndexTest extends BrowserTestCase
     }
 
     /** @test */
+    public function can_dispatch_dismissed_event()
+    {
+        Livewire::visit(new class extends Component
+        {
+            use Interactions;
+
+            public string $target = '';
+
+            public function success(): void
+            {
+                $this->dialog()->success('Foo bar success', 'Foo bar success description');
+            }
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div x-on:dialog:dismissed.window="$wire.$set('target', 'Dismissed')">
+                    <p dusk="target">{{ $target }}</p>
+                
+                    <x-button dusk="success" wire:click="success">Success</x-button>
+                </div>
+                HTML;
+            }
+        })
+            ->assertDontSee('Dismissed')
+            ->assertSee('Success')
+            ->click('@success')
+            ->waitForText(['Foo bar success', 'Foo bar success description'])
+            ->assertSee('Foo bar success')
+            ->assertSee('Foo bar success description')
+            ->clickAtPoint(350, 350)
+            ->click('@tallstackui_dialog_confirmation')
+            ->waitForTextIn('@target', 'Dismissed')
+            ->assertSee('Dismissed');
+    }
+
+    /** @test */
     public function can_dispatch_events()
     {
         Livewire::visit(new class extends Component
@@ -205,43 +242,6 @@ class IndexTest extends BrowserTestCase
             ->assertSee('Rejected')
             ->waitForText('Bar foo cancelled bar')
             ->assertSee('Bar foo cancelled bar');
-    }
-
-    /** @test */
-    public function can_dispatch_dismissed_event()
-    {
-        Livewire::visit(new class extends Component
-        {
-            use Interactions;
-
-            public string $target = '';
-
-            public function success(): void
-            {
-                $this->dialog()->success('Foo bar success', 'Foo bar success description');
-            }
-
-            public function render(): string
-            {
-                return <<<'HTML'
-                <div x-on:dialog:dismissed.window="$wire.$set('target', 'Dismissed')">
-                    <p dusk="target">{{ $target }}</p>
-                
-                    <x-button dusk="success" wire:click="success">Success</x-button>
-                </div>
-                HTML;
-            }
-        })
-            ->assertDontSee('Dismissed')
-            ->assertSee('Success')
-            ->click('@success')
-            ->waitForText(['Foo bar success', 'Foo bar success description'])
-            ->assertSee('Foo bar success',)
-            ->assertSee('Foo bar success description')
-            ->clickAtPoint(350, 350)
-            ->click('@tallstackui_dialog_confirmation')
-            ->waitForTextIn('@target', 'Dismissed')
-            ->assertSee('Dismissed');
     }
 
     /** @test */
