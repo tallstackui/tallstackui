@@ -334,6 +334,52 @@ class StyledCommonTest extends BrowserTestCase
             ->click('@sync')
             ->waitForText(['foo', 'bar']);
     }
+
+    /** @test */
+    public function cannot_unselect_when_selection_is_required(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $string = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="string">{{ $string }}</p>
+
+                    <x-select.styled wire:model="string"
+                                     label="Select"
+                                     hint="Select"
+                                     :options="[
+                                        ['label' => 'foo', 'value' => 'foo'],
+                                        ['label' => 'bar', 'value' => 'bar'],
+                                     ]"
+                                     select="label:label|value:value" required />
+                    
+                    <x-button dusk="sync" wire:click="sync">Sync</x-button>
+                </div>
+                HTML;
+            }
+
+            public function sync(): void
+            {
+                // ...
+            }
+        })
+            ->assertSee('Select an option')
+            ->assertDontSee('foo')
+            ->assertDontSee('bar')
+            ->click('@tallstackui_select_open_close')
+            ->waitForText(['foo', 'bar'])
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[1]')
+            ->click('@sync')
+            ->waitForTextIn('@string', 'foo')
+            ->click('@tallstackui_select_clear')
+            ->click('@sync')
+            ->waitUntilMissingText('foo')
+            ->assertSee('Select an option');
+    }
 }
 
 class StyledComponent_Common extends Component

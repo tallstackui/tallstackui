@@ -17,6 +17,7 @@
         @js($placeholder),
         @js($searchable),
         @js($common),
+        @js($required),
         @js($livewire),
         @js($property),
         @js($value),
@@ -65,7 +66,7 @@
                     </div>
                 </div>
             </div>
-            @if (!$disabled)
+            @if (!$disabled && !$required)
                 <div @class($personalize['buttons.wrapper'])>
                     <template x-if="!empty">
                         <button dusk="tallstackui_select_clear" type="button" x-on:click="clear(); show = true;">
