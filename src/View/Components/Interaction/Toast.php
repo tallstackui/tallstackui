@@ -36,7 +36,7 @@ class Toast extends BaseComponent implements Personalization
             ],
             'buttons' => [
                 'wrapper' => [
-                    'first' => 'mt-3 flex gap-x-3',
+                    'first' => 'mt-2 flex',
                     'second' => 'ml-4 flex min-h-full flex-col justify-between',
                 ],
                 'confirm' => 'text-primary-600 dark:text-dark-200 text-sm font-medium focus:outline-none',

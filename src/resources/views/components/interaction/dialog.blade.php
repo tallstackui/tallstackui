@@ -99,7 +99,7 @@
                         }" dusk="tallstackui_dialog_confirmation"
                            x-on:click="accept(dialog, $el)"
                            x-show="dialog.options?.confirm"
-                           x-text="dialog.type === 'question' ? dialog.options.confirm.text : text.ok"></button>
+                           x-text="dialog.options?.confirm?.text ?? text.ok"></button>
                 </div>
             </div>
         </div>

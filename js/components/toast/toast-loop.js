@@ -41,7 +41,7 @@ export default (toast) => ({
   accept(toast) {
     dispatchEvent('toast:accepted', toast, false);
 
-    if (toast.options.confirm.static === true) {
+    if (toast.options.confirm.static === true || toast.options.confirm.method === null) {
       return this.hide();
     }
 
@@ -53,12 +53,12 @@ export default (toast) => ({
   reject(toast) {
     dispatchEvent('toast:rejected', toast, false);
 
-    if (toast.options.cancel.static === true) {
+    if (toast.options.cancel.static === true || toast.options.cancel.method === null) {
       return this.hide();
     }
 
     Livewire.find(toast.component)
-        .call(toast.options.cancel.method, toast.options.confirm.params);
+        .call(toast.options.cancel.method, toast.options.cancel.params);
 
     this.hide();
   },
