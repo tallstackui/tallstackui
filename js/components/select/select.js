@@ -371,7 +371,7 @@ export default (
       return;
     }
 
-    this.options = window.Alpine.evaluate(this, this.$refs.options.innerText);
+    this.options = Alpine.evaluate(this, this.$refs.options.innerText);
   },
   /**
    * Hydrate the selects according to model.

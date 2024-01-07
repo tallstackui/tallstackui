@@ -1,4 +1,4 @@
-import {dispatchEvent} from '../../helpers';
+import {event} from '../../helpers';
 
 export default (toast) => ({
   toast: toast,
@@ -19,7 +19,7 @@ export default (toast) => ({
           elapsed += time;
           if (elapsed >= max) {
             this.hide(true);
-            dispatchEvent('toast:timeout', this.toast, false);
+            event('toast:timeout', this.toast, false);
             clearInterval(interval);
           }
         }
@@ -39,7 +39,7 @@ export default (toast) => ({
     });
   },
   accept(toast) {
-    dispatchEvent('toast:accepted', toast, false);
+    event('toast:accepted', toast, false);
 
     if (toast.options.confirm.static === true || toast.options.confirm.method === null) {
       return this.hide();
@@ -51,7 +51,7 @@ export default (toast) => ({
     this.hide();
   },
   reject(toast) {
-    dispatchEvent('toast:rejected', toast, false);
+    event('toast:rejected', toast, false);
 
     if (toast.options.cancel.static === true || toast.options.cancel.method === null) {
       return this.hide();

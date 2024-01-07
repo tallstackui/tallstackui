@@ -1,4 +1,4 @@
-import {dispatchEvent, overflow} from '../../helpers';
+import {event, overflow} from '../../helpers';
 
 export default (texts) => ({
   show: false,
@@ -29,7 +29,7 @@ export default (texts) => ({
 
     if (!dismissed) return;
 
-    dispatchEvent('dialog:dismissed', this.dialog, false);
+    event('dialog:dismissed', this.dialog, false);
   },
   /**
    * @param dialog {Object}
@@ -37,7 +37,7 @@ export default (texts) => ({
    * @return {void}
    */
   accept(dialog, element) {
-    dispatchEvent('dialog:accepted', dialog, false);
+    event('dialog:accepted', dialog, false);
 
     if (dialog.options.confirm.static === true || dialog.options.confirm.method === null) {
       return this.remove();
@@ -60,7 +60,7 @@ export default (texts) => ({
    * @return {void}
    */
   reject(dialog, element) {
-    dispatchEvent('dialog:rejected', dialog, false);
+    event('dialog:rejected', dialog, false);
 
     if (!dialog.options || dialog.options.cancel.static === true || dialog.options.cancel.method === null) {
       return this.remove();

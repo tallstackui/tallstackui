@@ -16,7 +16,7 @@ export const error = (message) => console.error(`[TallStackUI] ${message}`);
  * @param prefix {Boolean}
  */
 // eslint-disable-next-line max-len
-export const dispatchEvent = (name, params = null, prefix = true) => {
+export const event = (name, params = null, prefix = true) => {
   const identification = prefix ? `tallstackui:${name}` : name;
 
   window.dispatchEvent(new CustomEvent(identification, params ? {detail: params} : {}));
