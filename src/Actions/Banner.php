@@ -2,6 +2,7 @@
 
 namespace TallStackUi\Actions;
 
+//TODO: refactor this
 class Banner extends AbstractInteraction
 {
     protected bool $close = false;
@@ -44,6 +45,16 @@ class Banner extends AbstractInteraction
     {
         $this->leave = $seconds;
 
+        return $this;
+    }
+
+    public function messages(): array
+    {
+        return [];
+    }
+
+    public function question(string $title, ?string $description = null): self
+    {
         return $this;
     }
 

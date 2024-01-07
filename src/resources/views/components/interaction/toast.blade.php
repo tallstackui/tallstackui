@@ -64,15 +64,15 @@
                         <p @class($personalize['content.description'])
                            x-text="toast.description"
                            x-show="!toast.expandable"></p>
-                        <template x-if="toast.type === 'question'">
+                        <template x-if="toast.options && (toast.options.confirm || toast.options.cancel)">
                             <div @class($personalize['buttons.wrapper.first'])>
                                 <button dusk="tallstackui_toast_confirmation" @class($personalize['buttons.confirm'])
                                         x-on:click="accept(toast)"
                                         x-text="toast.options.confirm.text"></button>
-                                <div x-show="toast.options.cancel?.method">
+                                <div x-show="toast.options.cancel">
                                     <button dusk="tallstackui_toast_rejection" @class($personalize['buttons.cancel'])
                                             x-on:click="reject(toast)"
-                                            x-text="toast.options.cancel?.text"></button>
+                                            x-text="toast.options?.cancel?.text"></button>
                                 </div>
                             </div>
                         </template>

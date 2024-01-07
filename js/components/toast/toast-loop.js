@@ -44,26 +44,26 @@ export default (toast, texts) => ({
     });
   },
   accept(toast) {
-    const params = toast.options.confirm.params ?? null;
-
     dispatchEvent('toast:accepted', toast, false);
 
+    if (toast.options.confirm.static === true) {
+      return this.hide();
+    }
+
     Livewire.find(toast.component)
-        .call(toast.options.confirm.method, params?.constructor !== Array ? params : [...params]);
+        .call(toast.options.confirm.method, toast.options.confirm.params);
 
     this.hide();
   },
   reject(toast) {
     dispatchEvent('toast:rejected', toast, false);
 
-    const method = toast.options.cancel.method;
-
-    if (method) {
-      const params = toast.options.cancel.params ?? null;
-
-      Livewire.find(toast.component)
-          .call(method, params?.constructor !== Array ? params : [...params]);
+    if (toast.options.cancel.static === true) {
+      return this.hide();
     }
+
+    Livewire.find(toast.component)
+        .call(toast.options.cancel.method, toast.options.confirm.params);
 
     this.hide();
   },
