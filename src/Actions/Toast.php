@@ -45,14 +45,6 @@ class Toast extends AbstractInteraction
         return $this;
     }
 
-    public function messages(): array
-    {
-        return [
-            __('tallstack-ui::messages.toast.button.confirm'),
-            __('tallstack-ui::messages.toast.button.cancel'),
-        ];
-    }
-
     public function question(string $title, ?string $description = null): self
     {
         $this->data = [
@@ -104,5 +96,13 @@ class Toast extends AbstractInteraction
     protected function event(): string
     {
         return 'toast';
+    }
+
+    protected function messages(): array
+    {
+        return [
+            __('tallstack-ui::messages.toast.button.confirm'),
+            __('tallstack-ui::messages.toast.button.cancel'),
+        ];
     }
 }

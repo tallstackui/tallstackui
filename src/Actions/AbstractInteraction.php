@@ -18,8 +18,6 @@ abstract class AbstractInteraction
 
     abstract public function info(string $title, ?string $description = null): self;
 
-    abstract public function messages(): array;
-
     abstract public function question(string $title, ?string $description = null): self;
 
     abstract public function success(string $title, ?string $description = null): self;
@@ -27,4 +25,6 @@ abstract class AbstractInteraction
     abstract public function warning(string $title, ?string $description = null): self;
 
     abstract protected function event(): string;
+
+    abstract protected function messages(): array;
 }
