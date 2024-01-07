@@ -10,7 +10,7 @@
         $configurations['z-index']
     ])>
     <template x-for="toast in toasts" :key="toast.id">
-        <div x-data="tallstackui_toastLoop(toast, @js(__('tallstack-ui::messages.toast.button')))"
+        <div x-data="tallstackui_toastLoop(toast)"
              x-show="show"
              x-ref="toast"
              x-transition:enter="transform ease-out duration-300 transition"
