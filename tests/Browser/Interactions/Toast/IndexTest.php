@@ -23,18 +23,11 @@ class IndexTest extends BrowserTestCase
                     <x-button dusk="confirm" onclick="confirm()">Confirm</x-button>
                     
                     <script>
-                        confirm = () => $toast('Confirm?').confirm({
-                            'confirm': {
-                                'text': 'Confirm',
-                                'method': 'confirmed',
-                                'params': 'Confirmed Without Livewire'
-                            },
-                            'cancel': {
-                                'text': 'Cancel',
-                                'method': 'cancelled',
-                                'params': 'Cancelled Without Livewire'
-                            }
-                        }, Livewire.first().id);
+                        confirm = () => $interaction('toast').question('Confirm?')
+                            .wireable(Livewire.first().id)
+                            .confirm('Confirm', 'confirmed', 'Confirmed Without Livewire')
+                            .cancel('Cancel', 'cancelled', 'Cancelled Without Livewire')
+                            .send();
                     </script>
                 </div>
                 HTML;
@@ -42,12 +35,12 @@ class IndexTest extends BrowserTestCase
 
             public function confirmed(string $message): void
             {
-                $this->toast()->success($message);
+                $this->toast()->success($message)->send();
             }
 
             public function cancelled(string $message): void
             {
-                $this->toast()->error($message);
+                $this->toast()->error($message)->send();
             }
         })
             ->assertDontSee('Confirm?')
@@ -78,13 +71,11 @@ class IndexTest extends BrowserTestCase
                     <x-button dusk="confirm" onclick="confirm()">Confirm</x-button>
                     
                     <script>
-                        confirm = () => $toast('Confirm?').confirm({
-                            'confirm': {
-                                'text': 'Confirm',
-                                'method': 'confirmed',
-                                'params': 'Confirmed Without Livewire'
-                            }
-                        }, '');
+                        confirm = () => $interaction('toast').question('Confirm?')
+                            .wireable()
+                            .confirm('Confirm', 'confirmed', 'Confirmed Without Livewire')
+                            .cancel('Cancel', 'cancelled', 'Cancelled Without Livewire')
+                            .send();
                     </script>
                 </div>
                 HTML;
@@ -92,7 +83,7 @@ class IndexTest extends BrowserTestCase
 
             public function confirmed(string $message): void
             {
-                $this->toast()->success($message);
+                $this->toast()->success($message)->send();
             }
         })
             ->assertDontSee('Confirm?')
@@ -115,42 +106,31 @@ class IndexTest extends BrowserTestCase
 
             public function cancelled(string $message): void
             {
-                $this->toast()->success($message);
+                $this->toast()->success($message)->send();
             }
 
             public function confirm(): void
             {
-                $this->toast()->confirm('Foo bar confirmation', 'Foo bar confirmation description', [
-                    'confirm' => [
-                        'text' => 'Confirm',
-                        'method' => 'confirmed',
-                        'params' => 'Foo bar confirmed foo',
-                    ],
-                    'cancel' => [
-                        'method' => 'cancelled',
-                        'params' => 'Bar foo cancelled bar',
-                    ],
-                ]);
+                $this->toast()
+                    ->question('Foo bar confirmation', 'Foo bar confirmation description')
+                    ->confirm('Confirm', 'confirmed', 'Foo bar confirmed foo')
+                    ->cancel('Cancel', 'cancelled', 'Bar foo cancelled bar')
+                    ->send();
             }
 
             public function timeout(): void
             {
-                $this->toast()->timeout(1)->confirm('Foo bar confirmation', 'Foo bar confirmation description', [
-                    'confirm' => [
-                        'text' => 'Confirm',
-                        'method' => 'confirmed',
-                        'params' => 'Foo bar confirmed foo',
-                    ],
-                    'cancel' => [
-                        'method' => 'cancelled',
-                        'params' => 'Bar foo cancelled bar',
-                    ],
-                ]);
+                $this->toast()
+                    ->timeout(1)
+                    ->question('Foo bar confirmation', 'Foo bar confirmation description')
+                    ->confirm('Confirm', 'confirmed', 'Foo bar confirmed foo')
+                    ->cancel('Cancel', 'cancelled', 'Bar foo cancelled bar')
+                    ->send();
             }
 
             public function confirmed(string $message): void
             {
-                $this->toast()->success($message);
+                $this->toast()->success($message)->send();
             }
 
             public function render(): string
@@ -199,10 +179,10 @@ class IndexTest extends BrowserTestCase
             {
                 return <<<'HTML'
                 <div>
-                    <x-button dusk="success" x-on:click="$toast('Success Without Livewire').success()">Success</x-button>
-                    <x-button dusk="error" x-on:click="$toast('Error Without Livewire').error()">Error</x-button>
-                    <x-button dusk="info" x-on:click="$toast('Info Without Livewire').info()">Info</x-button>
-                    <x-button dusk="warning" x-on:click="$toast('Warning Without Livewire').warning()">Error</x-button>
+                    <x-button dusk="success" x-on:click="$interaction('toast').success('Success Without Livewire').send()">Success</x-button>
+                    <x-button dusk="error" x-on:click="$interaction('toast').error('Error Without Livewire').send()">Error</x-button>
+                    <x-button dusk="info" x-on:click="$interaction('toast').info('Info Without Livewire').send()">Info</x-button>
+                    <x-button dusk="warning" x-on:click="$interaction('toast').warning('Warning Without Livewire').send()">Error</x-button>
                 </div>
                 HTML;
             }
@@ -297,13 +277,10 @@ class IndexTest extends BrowserTestCase
 
             public function confirm(): void
             {
-                $this->toast()->confirm('Foo bar confirmation', 'Foo bar confirmation description', [
-                    'confirm' => [
-                        'text' => 'Confirm',
-                        'method' => 'confirmed',
-                        'params' => 'Foo bar confirmed foo',
-                    ],
-                ]);
+                $this->toast()
+                    ->question('Foo bar confirmation', 'Foo bar confirmation description')
+                    ->confirm('Confirm', 'confirmed', 'Foo bar confirmed foo')
+                    ->send();
             }
 
             public function render(): string
@@ -330,64 +307,56 @@ class ToastComponent extends Component
 
     public function cancelled(string $message): void
     {
-        $this->toast()->success($message);
+        $this->toast()->success($message)->send();
     }
 
     public function confirm(): void
     {
-        $this->toast()->confirm('Foo bar confirmation', 'Foo bar confirmation description', [
-            'confirm' => [
-                'text' => 'Confirm',
-                'method' => 'confirmed',
-                'params' => 'Foo bar confirmed foo',
-            ],
-            'cancel' => [
-                'method' => 'cancelled',
-                'params' => 'Bar foo cancelled bar',
-            ],
-        ]);
+        $this->toast()
+            ->question('Foo bar confirmation', 'Foo bar confirmation description')
+            ->confirm('Confirm', 'confirmed', 'Foo bar confirmed foo')
+            ->cancel('Cancel', 'cancelled', 'Bar foo cancelled bar')
+            ->send();
     }
 
     public function confirmed(string $message): void
     {
-        $this->toast()->success($message);
+        $this->toast()->success($message)->send();
     }
 
     public function error(): void
     {
-        $this->toast()->error('Foo bar error');
+        $this->toast()->error('Foo bar error')->send();
     }
 
     public function expand(): void
     {
         $this->toast()
             ->expandable()
-            ->success('Foo bar', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.');
+            ->success('Foo bar', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.')
+            ->send();
     }
 
     public function expandConfirmation(): void
     {
         $this->toast()
             ->expandable()
-            ->confirm('Warning!', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.', [
-                'confirm' => [
-                    'text' => 'Confirm',
-                    'method' => 'notExpandable',
-                    'params' => 'Confirmed Successfully',
-                ],
-            ]);
+            ->question('Foo bar confirmation', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.')
+            ->confirm('Confirm', 'notExpandable')
+            ->send();
     }
 
     public function info(): void
     {
-        $this->toast()->info('Foo bar info');
+        $this->toast()->info('Foo bar info')->send();
     }
 
     public function notExpandable(): void
     {
         $this->toast()
             ->expandable(false)
-            ->success('Foo bar', 'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don\'t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn\'t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet.');
+            ->success('Foo bar', 'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don\'t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn\'t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet.')
+            ->send();
     }
 
     public function render(): string
@@ -407,11 +376,11 @@ class ToastComponent extends Component
 
     public function success(): void
     {
-        $this->toast()->success('Foo bar success');
+        $this->toast()->success('Foo bar success')->send();
     }
 
     public function warning(): void
     {
-        $this->toast()->warning('Foo bar warning');
+        $this->toast()->warning('Foo bar warning')->send();
     }
 }
