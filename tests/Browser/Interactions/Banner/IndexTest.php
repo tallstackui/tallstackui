@@ -12,7 +12,27 @@ class IndexTest extends BrowserTestCase
     /** @test */
     public function can_dispatch_and_close(): void
     {
-        Livewire::visit(BannerCloseComponent::class)
+        Livewire::visit(new class extends Component
+        {
+            use Interactions;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-button dusk="success" wire:click="success">Success</x-button>
+                </div>
+                HTML;
+            }
+
+            public function success(): void
+            {
+                $this->banner()
+                    ->close()
+                    ->success('Foo bar success')
+                    ->send();
+            }
+        })
             ->assertDontSee('Foo bar success')
             ->click('@success')
             ->waitForText('Foo bar success')
@@ -91,12 +111,12 @@ class BannerComponent extends Component
 
     public function error(): void
     {
-        $this->banner()->error('Foo bar error');
+        $this->banner()->error('Foo bar error')->send();
     }
 
     public function info(): void
     {
-        $this->banner()->info('Foo bar info');
+        $this->banner()->info('Foo bar info')->send();
     }
 
     public function render(): string
@@ -113,12 +133,12 @@ class BannerComponent extends Component
 
     public function success(): void
     {
-        $this->banner()->success('Foo bar success');
+        $this->banner()->success('Foo bar success')->send();
     }
 
     public function warning(): void
     {
-        $this->banner()->warning('Foo bar warning');
+        $this->banner()->warning('Foo bar warning')->send();
     }
 }
 
@@ -139,7 +159,8 @@ class BannerCloseComponent extends Component
     {
         $this->banner()
             ->close()
-            ->success('Foo bar success');
+            ->success('Foo bar success')
+            ->send();
     }
 }
 
@@ -151,14 +172,16 @@ class BannerEnterLeaveComponent extends Component
     {
         $this->banner()
             ->enter(2)
-            ->success('Foo bar enter');
+            ->success('Foo bar enter')
+            ->send();
     }
 
     public function leave(): void
     {
         $this->banner()
             ->leave(2)
-            ->success('Foo bar leave');
+            ->success('Foo bar leave')
+            ->send();
     }
 
     public function render(): string
