@@ -2,52 +2,41 @@
 
 namespace TallStackUi\Actions\Traits;
 
-use Exception;
-use TallStackUi\Actions\AbstractInteraction;
-use TallStackUi\Actions\Dialog;
-use TallStackUi\Actions\Toast;
-
 /**
  * @internal This trait is not meant to be used directly.
  */
 trait InteractWithConfirmation
 {
-    public function confirm(string|array $data, ?string $description = null, ?array $options = null): AbstractInteraction
+    public function cancel(?string $text = null, ?string $method = null, array|string|int|null $params = null): self
     {
-        $class = [
-            Dialog::class => 'dialog',
-            Toast::class => 'toast',
-        ][static::class];
+        [, $message] = $this->messages();
 
-        if ((is_string($data) && ! $options) || (is_array($data) && ! isset($data['options']))) {
-            throw new Exception("You must provide options for the [$class] interaction");
-        }
-
-        if (! isset($options['confirm']['method'])) {
-            throw new Exception("You must provide a method for the [$class] confirm button");
-        }
-
-        [$confirm, $cancel] = $this->messages();
-
-        $options['confirm']['text'] ??= $confirm;
-        $options['cancel']['text'] ??= $cancel;
-
-        $default = [
-            'type' => 'question',
-            'confirm' => true,
+        $this->data['options']['cancel'] = [
+            'static' => blank($text) && blank($method),
+            'text' => $text ?? $message,
+            'method' => $method,
+            'params' => ! is_array($params) ? $params : [...$params],
         ];
 
-        if (is_string($data)) {
-            return $this->send([
-                ...$default,
-                'title' => $data,
-                'description' => $description,
-                'options' => $options,
-            ]);
-        }
-
-        return $this->send([...array_merge($default, $data)]);
+        return $this;
     }
 
-    abstract public function messages(): array;
+    public function confirm(?string $text = null, ?string $method = null, array|string|int|null $params = null): self
+    {
+        [$message] = $this->messages();
+
+        $this->data['options']['confirm'] = [
+            'static' => blank($text) && blank($method),
+            'text' => $text ?? $message,
+            'method' => $method,
+            'params' => ! is_array($params) ? $params : [...$params],
+        ];
+
+        return $this;
+    }
+
+    private function static(): void
+    {
+        $this->data['options']['confirm'] = ['static' => true];
+    }
 }

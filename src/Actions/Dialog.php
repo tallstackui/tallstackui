@@ -2,28 +2,40 @@
 
 namespace TallStackUi\Actions;
 
+use TallStackUi\Actions\Traits\DispatchInteraction;
 use TallStackUi\Actions\Traits\InteractWithConfirmation;
 
 class Dialog extends AbstractInteraction
 {
+    use DispatchInteraction;
     use InteractWithConfirmation;
 
-    public function error(string $title, ?string $description = null): AbstractInteraction
+    protected array $data = [];
+
+    public function error(string $title, ?string $description = null): self
     {
-        return $this->send([
+        $this->data = [
+            'type' => 'error',
             'title' => $title,
             'description' => $description,
-            'type' => 'error',
-        ]);
+        ];
+
+        $this->static();
+
+        return $this;
     }
 
-    public function info(string $title, ?string $description = null): AbstractInteraction
+    public function info(string $title, ?string $description = null): self
     {
-        return $this->send([
+        $this->data = [
+            'type' => 'info',
             'title' => $title,
             'description' => $description,
-            'type' => 'info',
-        ]);
+        ];
+
+        $this->static();
+
+        return $this;
     }
 
     public function messages(): array
@@ -34,22 +46,43 @@ class Dialog extends AbstractInteraction
         ];
     }
 
-    public function success(string $title, ?string $description = null): AbstractInteraction
+    public function question(string $title, ?string $description = null): self
     {
-        return $this->send([
+        $this->data = [
+            'type' => 'question',
             'title' => $title,
             'description' => $description,
-            'type' => 'success',
-        ]);
+        ];
+
+        $this->static();
+
+        return $this;
     }
 
-    public function warning(string $title, ?string $description = null): AbstractInteraction
+    public function success(string $title, ?string $description = null): self
     {
-        return $this->send([
+        $this->data = [
+            'type' => 'success',
             'title' => $title,
             'description' => $description,
+        ];
+
+        $this->static();
+
+        return $this;
+    }
+
+    public function warning(string $title, ?string $description = null): self
+    {
+        $this->data = [
             'type' => 'warning',
-        ]);
+            'title' => $title,
+            'description' => $description,
+        ];
+
+        $this->static();
+
+        return $this;
     }
 
     protected function event(): string
