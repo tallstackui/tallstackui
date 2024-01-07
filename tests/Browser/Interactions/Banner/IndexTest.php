@@ -142,28 +142,6 @@ class BannerComponent extends Component
     }
 }
 
-class BannerCloseComponent extends Component
-{
-    use Interactions;
-
-    public function render(): string
-    {
-        return <<<'HTML'
-        <div>
-            <x-button dusk="success" wire:click="success">Success</x-button>
-        </div>
-        HTML;
-    }
-
-    public function success(): void
-    {
-        $this->banner()
-            ->close()
-            ->success('Foo bar success')
-            ->send();
-    }
-}
-
 class BannerEnterLeaveComponent extends Component
 {
     use Interactions;
