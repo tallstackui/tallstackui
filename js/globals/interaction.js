@@ -169,7 +169,9 @@ export default class Interaction {
     return this;
   };
 
-  // eslint-disable-next-line require-jsdoc
+  /**
+   * @return {Object}
+   */
   #payload() {
     return {
       event: this.#type === 'toast' ? 'toast' : 'dialog',
@@ -181,6 +183,9 @@ export default class Interaction {
     };
   }
 
+  /**
+   * @return {Boolean}
+   */
   #validate = () => {
     const options = this.#data.options ?? null;
 
