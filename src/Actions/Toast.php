@@ -24,8 +24,6 @@ class Toast extends AbstractInteraction
             'description' => $description,
         ];
 
-        $this->static();
-
         return $this;
     }
 
@@ -43,8 +41,6 @@ class Toast extends AbstractInteraction
             'title' => $title,
             'description' => $description,
         ];
-
-        $this->static();
 
         return $this;
     }
@@ -65,8 +61,6 @@ class Toast extends AbstractInteraction
             'description' => $description,
         ];
 
-        $this->static();
-
         return $this;
     }
 
@@ -77,8 +71,6 @@ class Toast extends AbstractInteraction
             'title' => $title,
             'description' => $description,
         ];
-
-        $this->static();
 
         return $this;
     }
@@ -97,8 +89,6 @@ class Toast extends AbstractInteraction
             'title' => $title,
             'description' => $description,
         ];
-
-        $this->static();
 
         return $this;
     }
