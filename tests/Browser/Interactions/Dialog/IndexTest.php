@@ -23,18 +23,11 @@ class IndexTest extends BrowserTestCase
                     <x-button dusk="confirm" onclick="confirm()">Confirm</x-button>
                     
                     <script>
-                        confirm = () => $dialog('Confirm?').confirm({
-                            'confirm': {
-                                'text': 'Confirm',
-                                'method': 'confirmed',
-                                'params': 'Confirmed Without Livewire'
-                            },
-                            'cancel': {
-                                'text': 'Cancel',
-                                'method': 'cancelled',
-                                'params': 'Cancelled Without Livewire'
-                            }
-                        }, Livewire.first().id);
+                        confirm = () => $interaction('dialog').question('Confirm?')
+                            .wireable(Livewire.first().id)
+                            .confirm('Confirm', 'confirmed', 'Confirmed Without Livewire')
+                            .cancel('Cancel', 'cancelled', 'Cancelled Without Livewire')
+                            .send();
                     </script>
                 </div>
                 HTML;
@@ -42,12 +35,12 @@ class IndexTest extends BrowserTestCase
 
             public function confirmed(string $message): void
             {
-                $this->dialog()->success($message);
+                $this->dialog()->success($message)->send();
             }
 
             public function cancelled(string $message): void
             {
-                $this->dialog()->error($message);
+                $this->dialog()->error($message)->send();
             }
         })
             ->assertDontSee('Confirm?')
@@ -79,13 +72,11 @@ class IndexTest extends BrowserTestCase
                     <x-button dusk="confirm" onclick="confirm()">Confirm</x-button>
                     
                     <script>
-                        confirm = () => $dialog('Confirm?').confirm({
-                            'confirm': {
-                                'text': 'Confirm',
-                                'method': 'confirmed',
-                                'params': 'Confirmed Without Livewire'
-                            }
-                        }, '');
+                        confirm = () => $interaction('dialog').question('Confirm?')
+                            .wireable()
+                            .confirm('Confirm', 'confirmed', 'Confirmed Without Livewire')
+                            .cancel('Cancel', 'cancelled', 'Cancelled Without Livewire')
+                            .send();
                     </script>
                 </div>
                 HTML;
@@ -93,7 +84,7 @@ class IndexTest extends BrowserTestCase
 
             public function confirmed(string $message): void
             {
-                $this->dialog()->success($message);
+                $this->dialog()->success($message)->send();
             }
         })
             ->assertDontSee('Confirm?')
@@ -114,10 +105,10 @@ class IndexTest extends BrowserTestCase
             {
                 return <<<'HTML'
                 <div>
-                    <x-button dusk="success" x-on:click="$dialog('Success Without Livewire').success()">Success</x-button>
-                    <x-button dusk="error" x-on:click="$dialog('Error Without Livewire').error()">Error</x-button>
-                    <x-button dusk="info" x-on:click="$dialog('Info Without Livewire').info()">Info</x-button>
-                    <x-button dusk="warning" x-on:click="$dialog('Warning Without Livewire').warning()">Error</x-button>
+                    <x-button dusk="success" x-on:click="$interaction('dialog').success('Success Without Livewire').send()">Success</x-button>
+                    <x-button dusk="error" x-on:click="$interaction('dialog').error('Error Without Livewire').send()">Error</x-button>
+                    <x-button dusk="info" x-on:click="$interaction('dialog').info('Info Without Livewire').send()">Info</x-button>
+                    <x-button dusk="warning" x-on:click="$interaction('dialog').warning('Warning Without Livewire').send()">Error</x-button>
                 </div>
                 HTML;
             }
@@ -151,7 +142,7 @@ class IndexTest extends BrowserTestCase
 
             public function success(): void
             {
-                $this->dialog()->success('Foo bar success', 'Foo bar success description');
+                $this->dialog()->success('Foo bar success', 'Foo bar success description')->send();
             }
 
             public function render(): string
@@ -188,27 +179,21 @@ class IndexTest extends BrowserTestCase
 
             public function cancelled(string $message): void
             {
-                $this->dialog()->success($message);
+                $this->dialog()->success($message)->send();
             }
 
             public function confirm(): void
             {
-                $this->dialog()->confirm('Foo bar confirmation', 'Foo bar confirmation description', [
-                    'confirm' => [
-                        'text' => 'Confirm',
-                        'method' => 'confirmed',
-                        'params' => 'Foo bar confirmed foo',
-                    ],
-                    'cancel' => [
-                        'method' => 'cancelled',
-                        'params' => 'Bar foo cancelled bar',
-                    ],
-                ]);
+                $this->dialog()
+                    ->question('Foo bar confirmation', 'Foo bar confirmation description')
+                    ->confirm('Confirm', 'confirmed', 'Foo bar confirmed foo')
+                    ->cancel('Cancel', 'cancelled', 'Bar foo cancelled bar')
+                    ->send();
             }
 
             public function confirmed(string $message): void
             {
-                $this->dialog()->success($message);
+                $this->dialog()->success($message)->send();
             }
 
             public function render(): string
@@ -313,13 +298,10 @@ class IndexTest extends BrowserTestCase
 
             public function confirm(): void
             {
-                $this->dialog()->confirm('Foo bar confirmation', 'Foo bar confirmation description', [
-                    'confirm' => [
-                        'text' => 'Confirm',
-                        'method' => 'confirmed',
-                        'params' => 'Foo bar confirmed foo',
-                    ],
-                ]);
+                $this->dialog()
+                    ->question('Foo bar confirmation', 'Foo bar confirmation description')
+                    ->confirm('Confirm', 'confirmed', 'Foo bar confirmed foo')
+                    ->send();
             }
 
             public function render(): string
@@ -346,37 +328,31 @@ class DialogComponent extends Component
 
     public function cancelled(string $message): void
     {
-        $this->dialog()->success($message);
+        $this->dialog()->success($message)->send();
     }
 
     public function confirm(): void
     {
-        $this->dialog()->confirm('Foo bar confirmation', 'Foo bar confirmation description', [
-            'confirm' => [
-                'text' => 'Confirm',
-                'method' => 'confirmed',
-                'params' => 'Foo bar confirmed foo',
-            ],
-            'cancel' => [
-                'method' => 'cancelled',
-                'params' => 'Bar foo cancelled bar',
-            ],
-        ]);
+        $this->dialog()
+            ->question('Foo bar confirmation', 'Foo bar confirmation description')
+            ->confirm('Confirm', 'confirmed', 'Foo bar confirmed foo')
+            ->cancel('Cancel', 'cancelled', 'Bar foo cancelled bar')
+            ->send();
     }
 
     public function confirmed(string $message): void
     {
-        $this->dialog()->success($message);
+        $this->dialog()->success($message)->send();
     }
 
     public function error(): void
     {
-        $this->dialog()->error('Foo bar error');
+        $this->dialog()->error('Foo bar error')->send();
     }
 
     public function info(): void
     {
-        $this->dialog()->info('Foo bar info');
+        $this->dialog()->info('Foo bar info')->send();
     }
 
     public function render(): string
@@ -394,11 +370,11 @@ class DialogComponent extends Component
 
     public function success(): void
     {
-        $this->dialog()->success('Foo bar success');
+        $this->dialog()->success('Foo bar success')->send();
     }
 
     public function warning(): void
     {
-        $this->dialog()->warning('Foo bar warning');
+        $this->dialog()->warning('Foo bar warning')->send();
     }
 }
