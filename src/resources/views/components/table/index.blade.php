@@ -13,6 +13,7 @@
                                          :label="$placeholders['quantity']"
                                          :options="$quantity"
                                          wire:model.live="{{ $filters['quantity'] }}"
+                                         required
                                          invalidate />
                 </div>
             @endif
