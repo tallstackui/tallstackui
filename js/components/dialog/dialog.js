@@ -1,4 +1,4 @@
-import {dispatchEvent, overflow} from '../../helpers';
+import {event, overflow} from '../../helpers';
 
 export default (texts) => ({
   show: false,
@@ -16,9 +16,9 @@ export default (texts) => ({
    * @return {void}
    */
   add(dialog) {
-    this.show = true;
-
+    this.dialog = {};
     this.dialog = dialog;
+    this.show = true;
   },
   /**
    * @param dismissed {Boolean}
@@ -29,7 +29,7 @@ export default (texts) => ({
 
     if (!dismissed) return;
 
-    dispatchEvent('dialog:dismissed', this.dialog, false);
+    event('dialog:dismissed', this.dialog, false);
   },
   /**
    * @param dialog {Object}
@@ -37,17 +37,15 @@ export default (texts) => ({
    * @return {void}
    */
   accept(dialog, element) {
-    dispatchEvent('dialog:accepted', dialog, false);
+    event('dialog:accepted', dialog, false);
 
-    if (dialog.type !== 'question') {
+    if (dialog.options.confirm.static === true || dialog.options.confirm.method === null) {
       return this.remove();
     }
 
-    const params = dialog.options.confirm.params ?? null;
-
     setTimeout(() => {
       Livewire.find(dialog.component)
-          .call(dialog.options.confirm.method, params?.constructor !== Array ? params : [...params]);
+          .call(dialog.options.confirm.method, dialog.options.confirm.params);
 
       // This is a little trick to prevent the element from being
       // focused if there is another dialog displayed sequentially.
@@ -62,28 +60,20 @@ export default (texts) => ({
    * @return {void}
    */
   reject(dialog, element) {
-    dispatchEvent('dialog:rejected', dialog, false);
+    event('dialog:rejected', dialog, false);
 
-    if (dialog.type !== 'question') {
+    if (!dialog.options || dialog.options.cancel.static === true || dialog.options.cancel.method === null) {
       return this.remove();
     }
 
-    if (dialog.options.cancel.method) {
-      const params = dialog.options.cancel.params ?? null;
+    setTimeout(() => {
+      Livewire.find(dialog.component)
+          .call(dialog.options.cancel.method, dialog.options.cancel.params);
 
-      setTimeout(() => {
-        const method = dialog.options.cancel.method;
-
-        if (method) {
-          Livewire.find(dialog.component)
-              .call(method, params?.constructor !== Array ? params : [...params]);
-        }
-
-        // This is a little trick to prevent the element from being
-        // focused if there is another dialog displayed sequentially.
-        element.blur();
-      }, 100);
-    }
+      // This is a little trick to prevent the element from being
+      // focused if there is another dialog displayed sequentially.
+      element.blur();
+    }, 100);
 
     this.remove();
   },

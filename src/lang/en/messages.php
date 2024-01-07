@@ -13,7 +13,7 @@ return [
 
     'toast' => [
         'button' => [
-            'ok' => 'OK',
+            'ok' => 'Ok',
             'confirm' => 'Confirm',
             'cancel' => 'Cancel',
         ],
@@ -21,7 +21,7 @@ return [
 
     'dialog' => [
         'button' => [
-            'ok' => 'OK',
+            'ok' => 'Ok',
             'confirm' => 'Confirm',
             'cancel' => 'Cancel',
         ],

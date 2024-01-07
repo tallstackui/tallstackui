@@ -1,13 +1,8 @@
-import {dispatchEvent} from '../../helpers';
+import {event} from '../../helpers';
 
-export default (toast, texts) => ({
+export default (toast) => ({
   toast: toast,
   show: false,
-  text: {
-    ok: texts.ok,
-    confirm: texts.confirm,
-    cancel: texts.cancel,
-  },
   init() {
     let paused = false;
     let elapsed = 0;
@@ -24,7 +19,7 @@ export default (toast, texts) => ({
           elapsed += time;
           if (elapsed >= max) {
             this.hide(true);
-            dispatchEvent('toast:timeout', this.toast, false);
+            event('toast:timeout', this.toast, false);
             clearInterval(interval);
           }
         }
@@ -44,26 +39,26 @@ export default (toast, texts) => ({
     });
   },
   accept(toast) {
-    const params = toast.options.confirm.params ?? null;
+    event('toast:accepted', toast, false);
 
-    dispatchEvent('toast:accepted', toast, false);
+    if (toast.options.confirm.static === true || toast.options.confirm.method === null) {
+      return this.hide();
+    }
 
     Livewire.find(toast.component)
-        .call(toast.options.confirm.method, params?.constructor !== Array ? params : [...params]);
+        .call(toast.options.confirm.method, toast.options.confirm.params);
 
     this.hide();
   },
   reject(toast) {
-    dispatchEvent('toast:rejected', toast, false);
+    event('toast:rejected', toast, false);
 
-    const method = toast.options.cancel.method;
-
-    if (method) {
-      const params = toast.options.cancel.params ?? null;
-
-      Livewire.find(toast.component)
-          .call(method, params?.constructor !== Array ? params : [...params]);
+    if (toast.options.cancel.static === true || toast.options.cancel.method === null) {
+      return this.hide();
     }
+
+    Livewire.find(toast.component)
+        .call(toast.options.cancel.method, toast.options.cancel.params);
 
     this.hide();
   },

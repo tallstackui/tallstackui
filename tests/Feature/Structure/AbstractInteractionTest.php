@@ -17,10 +17,13 @@ describe('AbstractInteraction', function () {
     test('abstract action class has method', function (string $method) {
         expect(AbstractInteraction::class)->toHaveMethod($method);
     })->with([
-        'success',
+        '__construct',
         'error',
         'info',
+        'question',
+        'success',
         'warning',
-        'send',
+        'event',
+        'messages',
     ]);
 });

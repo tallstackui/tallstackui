@@ -10,7 +10,7 @@
         $configurations['z-index']
     ])>
     <template x-for="toast in toasts" :key="toast.id">
-        <div x-data="tallstackui_toastLoop(toast, @js(__('tallstack-ui::messages.toast.button')))"
+        <div x-data="tallstackui_toastLoop(toast)"
              x-show="show"
              x-ref="toast"
              x-transition:enter="transform ease-out duration-300 transition"
@@ -64,15 +64,15 @@
                         <p @class($personalize['content.description'])
                            x-text="toast.description"
                            x-show="!toast.expandable"></p>
-                        <template x-if="toast.type === 'question'">
-                            <div @class($personalize['buttons.wrapper.first'])>
+                        <template x-if="toast.options && (toast.options.confirm?.text || toast.options.cancel?.text)">
+                            <div @class($personalize['buttons.wrapper.first']) x-bind:class="{ 'gap-x-2' : toast.options.confirm && toast.options.cancel }">
                                 <button dusk="tallstackui_toast_confirmation" @class($personalize['buttons.confirm'])
                                         x-on:click="accept(toast)"
-                                        x-text="toast.options.confirm.text"></button>
-                                <div x-show="toast.options.cancel?.method">
+                                        x-text="toast.options?.confirm?.text"></button>
+                                <div x-show="toast.options.cancel">
                                     <button dusk="tallstackui_toast_rejection" @class($personalize['buttons.cancel'])
                                             x-on:click="reject(toast)"
-                                            x-text="toast.options.cancel?.text"></button>
+                                            x-text="toast.options?.cancel?.text"></button>
                                 </div>
                             </div>
                         </template>

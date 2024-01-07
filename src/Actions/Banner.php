@@ -2,9 +2,15 @@
 
 namespace TallStackUi\Actions;
 
+use TallStackUi\Actions\Traits\DispatchInteraction;
+
 class Banner extends AbstractInteraction
 {
+    use DispatchInteraction;
+
     protected bool $close = false;
+
+    protected array $data = [];
 
     protected int $enter = 0;
 
@@ -24,20 +30,26 @@ class Banner extends AbstractInteraction
         return $this;
     }
 
-    public function error(string $title, ?string $description = null): AbstractInteraction
+    public function error(string $title, ?string $description = null): self
     {
-        return $this->send([
-            'title' => $title,
+        $this->data = [
             'type' => 'error',
-        ]);
+            'title' => $title,
+            'description' => $description,
+        ];
+
+        return $this;
     }
 
-    public function info(string $title, ?string $description = null): AbstractInteraction
+    public function info(string $title, ?string $description = null): self
     {
-        return $this->send([
-            'title' => $title,
+        $this->data = [
             'type' => 'info',
-        ]);
+            'title' => $title,
+            'description' => $description,
+        ];
+
+        return $this;
     }
 
     public function leave(int $seconds): self
@@ -47,23 +59,35 @@ class Banner extends AbstractInteraction
         return $this;
     }
 
-    public function success(string $title, ?string $description = null): AbstractInteraction
+    /** @deprecated This method is not supported with Banner. */
+    public function question(string $title, ?string $description = null): self
     {
-        return $this->send([
-            'title' => $title,
+        return $this;
+    }
+
+    public function success(string $title, ?string $description = null): self
+    {
+        $this->data = [
             'type' => 'success',
-        ]);
-    }
-
-    public function warning(string $title, ?string $description = null): AbstractInteraction
-    {
-        return $this->send([
             'title' => $title,
-            'type' => 'warning',
-        ]);
+            'description' => $description,
+        ];
+
+        return $this;
     }
 
-    protected function data(): array
+    public function warning(string $title, ?string $description = null): self
+    {
+        $this->data = [
+            'type' => 'warning',
+            'title' => $title,
+            'description' => $description,
+        ];
+
+        return $this;
+    }
+
+    protected function additional(): array
     {
         return [
             'close' => $this->close,
@@ -75,5 +99,10 @@ class Banner extends AbstractInteraction
     protected function event(): string
     {
         return 'navbar';
+    }
+
+    protected function messages(): array
+    {
+        return []; // not supported
     }
 }

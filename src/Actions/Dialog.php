@@ -2,58 +2,91 @@
 
 namespace TallStackUi\Actions;
 
+use TallStackUi\Actions\Traits\DispatchInteraction;
 use TallStackUi\Actions\Traits\InteractWithConfirmation;
 
 class Dialog extends AbstractInteraction
 {
+    use DispatchInteraction;
     use InteractWithConfirmation;
 
-    public function error(string $title, ?string $description = null): AbstractInteraction
+    protected array $data = [];
+
+    public function error(string $title, ?string $description = null): self
     {
-        return $this->send([
-            'title' => $title,
-            'description' => $description,
+        $this->data = [
             'type' => 'error',
-        ]);
-    }
-
-    public function info(string $title, ?string $description = null): AbstractInteraction
-    {
-        return $this->send([
             'title' => $title,
             'description' => $description,
-            'type' => 'info',
-        ]);
-    }
-
-    public function messages(): array
-    {
-        return [
-            __('tallstack-ui::messages.dialog.button.confirm'),
-            __('tallstack-ui::messages.dialog.button.cancel'),
         ];
+
+        $this->static();
+
+        return $this;
     }
 
-    public function success(string $title, ?string $description = null): AbstractInteraction
+    public function info(string $title, ?string $description = null): self
     {
-        return $this->send([
+        $this->data = [
+            'type' => 'info',
             'title' => $title,
             'description' => $description,
+        ];
+
+        $this->static();
+
+        return $this;
+    }
+
+    public function question(string $title, ?string $description = null): self
+    {
+        $this->data = [
+            'type' => 'question',
+            'title' => $title,
+            'description' => $description,
+        ];
+
+        $this->static();
+
+        return $this;
+    }
+
+    public function success(string $title, ?string $description = null): self
+    {
+        $this->data = [
             'type' => 'success',
-        ]);
-    }
-
-    public function warning(string $title, ?string $description = null): AbstractInteraction
-    {
-        return $this->send([
             'title' => $title,
             'description' => $description,
+        ];
+
+        $this->static();
+
+        return $this;
+    }
+
+    public function warning(string $title, ?string $description = null): self
+    {
+        $this->data = [
             'type' => 'warning',
-        ]);
+            'title' => $title,
+            'description' => $description,
+        ];
+
+        $this->static();
+
+        return $this;
     }
 
     protected function event(): string
     {
         return 'dialog';
+    }
+
+    protected function messages(): array
+    {
+        return [
+            __('tallstack-ui::messages.dialog.button.confirm'),
+            __('tallstack-ui::messages.dialog.button.cancel'),
+        ];
     }
 }
