@@ -3,28 +3,26 @@
 <p align="center"><a href="https://tallstackui.com" target="_blank"><img src="https://raw.githubusercontent.com/tallstackui/website/main/arts/tallstackui.svg" width="500"></a></p>
 
 <p align="center">
-    <a href="https://github.com/tallstackui/tallstackui">
-        <img src="https://github.com/tallstackui/tallstackui/actions/workflows/tests.yml/badge.svg" alt="Build Status">
-    </a>
-    <a href="https://github.com/tallstackui/tallstackui/">
-        <img src="https://img.shields.io/packagist/dt/tallstackui/tallstackui" alt="Packagist Downloads" data-canonical-src="https://img.shields.io/packagist/dt/tallstackui/tallstackui" style="max-width:100%;" />
-    </a>
-    <a href="https://github.com/tallstackui/tallstackui/blob/master/LICENSE">
-        <img src="https://img.shields.io/github/license/tallstackui/tallstackui" alt="GitHub license" data-canonical-src="https://img.shields.io/github/license/tallstackui/tallstackui" style="max-width:100%;" />
-    </a>
+    <a href="https://tallstackui.com"><img alt="Packagist Downloads" src="https://img.shields.io/packagist/dt/tallstackui/tallstackui?style=for-the-badge"></a>
+    <a href="https://github.com/tallstackui/tallstackui/actions"><img alt="Tests passing" src="https://img.shields.io/badge/Tests-passing-green?style=for-the-badge&logo=github"></a>
+    <a href="https://laravel.com"><img alt="Laravel v10.x" src="https://img.shields.io/badge/Laravel-v10.x-FF2D20?style=for-the-badge&logo=laravel"></a>
+    <a href="https://livewire.laravel.com"><img alt="Livewire v3.x" src="https://img.shields.io/badge/Livewire-v3.x-FB70A9?style=for-the-badge"></a>
+    <a href="https://php.net"><img alt="PHP 8.1" src="https://img.shields.io/badge/PHP-8.1-777BB4?style=for-the-badge&logo=php"></a>
 </p>
 
 ## Introduction
 
-[TallStackUi](https://tallstackui.com/) is your new friendly TALL Stack component library.
+[TallStackUi](https://tallstackui.com/) is a powerful suite of Blade components for TALL Stack apps.
 
 ## Documentation
 
-[Visit our website to check the documentation](https://tallstackui.com)
+[Visit our website to see the documentation](https://tallstackui.com/docs)
 
-## License
+## Need Help?
 
-TallStackUi is open-source under the [MIT license](LICENSE)
+🐞 If you spot a bug, please [submit a detailed issue.](https://github.com/tallstackui/tallstackui/issues/new/choose)
+
+💬 If you love chatting, [we have a Discord server dedicated to the TallStackUI community.](https://discord.gg/sfr66WXh4A)
 
 ## Contributing
 
