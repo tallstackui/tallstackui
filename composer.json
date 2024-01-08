@@ -44,13 +44,16 @@
         "test:browser:ci": "CI=true ./vendor/bin/pest --filter=Browser",
         "bench": "vendor/bin/testbench",
         "type": "./vendor/bin/pest --type-coverage",
-        "format": "./vendor/bin/pint",
+        "format": [
+            "./vendor/bin/pint",
+            "npm run lint:fix"
+        ],
         "analyse": "./vendor/bin/phpstan analyse --memory-limit=2G",
         "ci": [
-            "./vendor/bin/pest --filter=Feature --parallel",
-            "CI=true ./vendor/bin/pest --filter=Browser",
             "./vendor/bin/pint --test",
-            "./vendor/bin/phpstan analyse --memory-limit=2G"
+            "./vendor/bin/phpstan analyse --memory-limit=2G",
+            "./vendor/bin/pest --filter=Feature --parallel",
+            "CI=true ./vendor/bin/pest --filter=Browser"
         ]
     },
     "config": {
