@@ -23,7 +23,7 @@
 
         <!-- Botão Limpar tudo à direita, dentro da mesma div -->
         <div x-show="tags.length > 0" class="absolute inset-y-0 right-2 flex items-center text-secondary-500 dark:text-dark-400" >
-            <x-icon name="x-circle" class="h-5 w-5 cursor-pointer" x-on:click="tags = []" />
+            <x-icon name="x-mark" class="h-5 w-5 cursor-pointer text-red-500" x-on:click="tags = []" />
         </div>
     </div>
 </div>
