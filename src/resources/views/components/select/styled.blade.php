@@ -21,6 +21,7 @@
         @js($livewire),
         @js($property),
         @js($value),
+        @js($limit),
         @js($change($attributes, $__livewire ?? null, $livewire)))"
         x-cloak
         wire:ignore.self>
@@ -38,7 +39,7 @@
                 :aria-expanded="show"
                 dusk="tallstackui_select_open_close">
             <div @class($personalize['input.content'])>
-                <div class="flex gap-2">
+                <div class="flex items-center gap-2">
                     <div x-show="multiple && quantity > 0">
                         <span x-text="quantity"></span>
                     </div>
@@ -117,10 +118,13 @@
                 <template x-for="(option, index) in available" :key="option[selectable.value] ?? option">
                     <li x-on:click="select(option)"
                         x-on:keypress.enter="select(option)"
-                        x-bind:class="{ '{{ $personalize['box.list.item.selected'] }}': selected(option) }"
+                        x-bind:class="{'{{ $personalize['box.list.item.selected'] }}': selected(option), '{{ $personalize['box.list.item.disabled'] }}': option.disabled === true}"
                         role="option" @class($personalize['box.list.item.wrapper'])>
                         <div @class($personalize['box.list.item.options'])>
-                            <span class="ml-2 truncate" x-text="option[selectable.label] ?? option"></span>
+                            <div class="flex items-center">
+                                <img @class($personalize['box.list.item.img']) x-bind:src="option.img" x-show="option.img !== null">
+                                <span class="ml-2 truncate" x-text="option[selectable.label] ?? option"></span>
+                            </div>
                             <x-dynamic-component :component="TallStackUi::component('icon')"
                                                  icon="check"
                                                  x-show="selected(option)"
