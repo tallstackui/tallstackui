@@ -1,108 +1,33 @@
-<style>
-    .tags-input {
-        display: flex;
-        flex-wrap: wrap;
-        background-color: #fff;
-        border-width: 1px;
-        border-radius: .25rem;
-        padding-left: .5rem;
-        padding-right: 1rem;
-        padding-top: .5rem;
-        padding-bottom: .25rem;
-    }
-
-    .tags-input-tag {
-        display: inline-flex;
-        line-height: 1;
-        align-items: center;
-        font-size: .875rem;
-        background-color: #bcdefa;
-        color: #1c3d5a;
-        border-radius: .25rem;
-        user-select: none;
-        padding: .25rem;
-        margin-right: .5rem;
-        margin-bottom: .25rem;
-    }
-
-    .tags-input-tag:last-of-type {
-        margin-right: 0;
-    }
-
-    .tags-input-remove {
-        color: #2779bd;
-        font-size: 1.125rem;
-        line-height: 1;
-    }
-
-    .tags-input-remove:first-child {
-        margin-right: .25rem;
-    }
-
-    .tags-input-remove:last-child {
-        margin-left: .25rem;
-    }
-
-    .tags-input-remove:focus {
-        outline: 0;
-    }
-
-    .tags-input-text {
-        flex: 1;
-        outline: 0;
-        padding-top: .25rem;
-        padding-bottom: .25rem;
-        margin-left: .5rem;
-        margin-bottom: .25rem;
-        min-width: 10rem;
-    }
-
-    .py-16 {
-        padding-top: 4rem;
-        padding-bottom: 4rem;
-    }
-</style>
-
-<div x-data="{tags: ['what', 'is', 'up'], newTag: '', inputName: 'foo' }" class="min-h-screen bg-white px-8 py-16 dark:bg-dark-800">
+<div class="flex" x-on:click="$refs.input.focus()" x-data="{tags: ['what', 'is', 'up', 'foo', 'bar', 'baz', 'bah', 'x1', 'test'], newTag: '', inputName: 'foo' }">
     <template x-for="tag in tags">
         <input type="hidden" x-bind:name="inputName + '[]'" x-bind:value="tag">
     </template>
 
-    <div class="mx-auto w-full max-w-sm">
-        <div @class([
-                'flex flex-wrap items-center',
-                'focus:ring-primary-600 focus-within:focus:ring-primary-600 focus-within:ring-primary-600 dark:focus-within:ring-primary-600 flex rounded-md px-2 ring-1 transition focus-within:ring-2',
-                'w-full border-0 bg-transparent p-1 py-1.5 ring-0 focus:ring-transparent sm:text-sm sm:leading-6',
-                'dark:ring-dark-600 dark:text-dark-300 dark:placeholder-dark-500 text-gray-600 ring-gray-300 placeholder:text-gray-400',
-                'dark:bg-dark-800 bg-white'
-            ])>
-            <div class="flex flex-wrap items-center space-x-2">
-                <template x-for="tag in tags" :key="tag">
-                    <span class="inline-flex items-center rounded-lg bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-200 space-x-1 dark:text-dark-100 dark:bg-dark-700 dark:ring-dark-600">
-                        <span x-text="tag"></span>
-                        <x-icon name="x-mark"
-                                class="h-4 w-4 text-gray-500 hover:text-red-500 cursor-pointer"
-                                x-on:click="tags = tags.filter(i => i !== tag)" />
-                    </span>
-                </template>
-            </div>
+    <div class="relative flex w-full rounded-lg px-2 placeholder:text-gray-400 text-gray-600 ring-1 ring-gray-300 transition focus-within:ring-primary-600 focus-within:ring-2 focus:ring-primary-600 dark:ring-dark-600 dark:text-dark-300 dark:placeholder-dark-500 focus-within:focus:ring-primary-600 dark:focus-within:ring-primary-600">
+        <div class="flex flex-wrap gap-x-2 border-0 bg-white pr-4 pb-1.5 dark:bg-dark-800">
+            <template x-for="tag in tags" :key="tag">
+                <span class="inline-flex items-center rounded-lg bg-gray-100 px-2 text-sm font-medium text-gray-600 ring-1 ring-inset ring-gray-200 mt-1.5 py space-x-1 dark:text-dark-100 dark:bg-dark-700 dark:ring-dark-600">
+                    <span x-text="tag"></span>
+                    <button type="button" class="ml-2 text-lg text-red-500" @click="tags = tags.filter(i => i !== tag)">
+                        &times;
+                    </button>
+                </span>
+            </template>
 
-            <input @class([
-                    'flex flex-1',
-                    'w-full border-0 bg-transparent ml-1 py-1.5 ring-0 ring-inset focus:ring-transparent sm:text-sm sm:leading-6',
-                    'focus:ring-0 dark:ring-dark-600 dark:text-dark-300 dark:placeholder-dark-500 text-gray-600 ring-gray-300 placeholder:text-gray-400',
-                   ]) placeholder="Add tag..."
-                   x-on:keydown="async () => {
-                        if ($event.key === 'Enter' || $event.key === ',') {
-                            if (newTag.trim() !== '') {
-                                let tag = newTag.trim();
-                                await $nextTick(() => tags.push(tag.replace(',', '')));
-                                newTag = '';
-                            }
-                        }
-                   }"
+            <input class="flex flex-1 items-center border-0 border-transparent bg-white pb-1 outline-none pt min-w-[10rem] focus:outline-none focus:ring-0 dark:bg-dark-800" placeholder="Add tag..."
+                   @keydown.enter.prevent="if (newTag.trim() !== '') tags.push(newTag.trim()); newTag = ''"
                    x-model="newTag"
+                   x-ref="input"
             >
+        </div>
+
+        <!-- Botão Limpar tudo à direita, dentro da mesma div -->
+        <div x-show="tags.length > 0" class="absolute inset-y-0 right-2 flex items-center text-secondary-500 dark:text-dark-400" >
+            <x-icon name="x-circle" class="h-5 w-5 cursor-pointer" x-on:click="tags = []" />
         </div>
     </div>
 </div>
+
+
+
+
