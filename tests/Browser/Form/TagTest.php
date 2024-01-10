@@ -227,4 +227,70 @@ class TagTest extends BrowserTestCase
             ->assertSeeIn('@tagged', 'foo')
             ->assertDontSeeIn('@tagged', 'bar');
     }
+
+    /** @test */
+    public function cannot_duplicate(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?array $tags = [];
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="tagged">@json($tags)</p>
+                    
+                    <x-tag dusk="tags" wire:model.live="tags" label="Tags" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForText('Tags')
+            ->type('@tags', 'foo')
+            ->keys('@tags', WebDriverKeys::ENTER)
+            ->type('@tags', 'foo')
+            ->keys('@tags', WebDriverKeys::ENTER)
+            ->waitForTextIn('@tagged', '["foo"]')
+            ->assertSeeIn('@tagged', 'foo')
+            ->type('@tags', 'foo')
+            ->keys('@tags', WebDriverKeys::ENTER)
+            ->type('@tags', 'foo')
+            ->keys('@tags', WebDriverKeys::ENTER)
+            ->waitForTextIn('@tagged', '["foo"]')
+            ->assertSeeIn('@tagged', 'foo');
+    }
+
+    /** @test */
+    public function cannot_duplicate_using_prefixes(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?array $tags = [];
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="tagged">@json($tags)</p>
+                    
+                    <x-tag prefix="#" dusk="tags" wire:model.live="tags" label="Tags" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForText('Tags')
+            ->type('@tags', 'foo')
+            ->keys('@tags', WebDriverKeys::ENTER)
+            ->type('@tags', 'foo')
+            ->keys('@tags', WebDriverKeys::ENTER)
+            ->waitForTextIn('@tagged', '["#foo"]')
+            ->assertSeeIn('@tagged', '#foo')
+            ->type('@tags', '#foo')
+            ->keys('@tags', WebDriverKeys::ENTER)
+            ->type('@tags', '#foo')
+            ->keys('@tags', WebDriverKeys::ENTER)
+            ->waitForTextIn('@tagged', '["#foo"]')
+            ->assertSeeIn('@tagged', '#foo');
+    }
 }
