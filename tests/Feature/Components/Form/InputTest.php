@@ -3,12 +3,12 @@
 it('can render')
     ->expect('<x-input />')
     ->render()
-    ->toContain('<input', false);
+    ->toContain('<input');
 
 it('can render with label')
     ->expect('<x-input label="Foo bar" />')
     ->render()
-    ->toContain('<input', false)
+    ->toContain('<input')
     ->toContain('Foo bar');
 
 it('can render with label and hint')
@@ -29,9 +29,9 @@ it('can render with icon', function (string $position) {
     };
 
     expect($component)->render()
-        ->toContain('<input', false)
+        ->toContain('<input')
         ->toContain('Bar baz')
         ->toContain('Foo bar')
-        ->toContain('<svg', false)
+        ->toContain('<svg')
         ->toContain($position);
 })->with(['left', 'right']);
