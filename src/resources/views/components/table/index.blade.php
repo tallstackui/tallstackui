@@ -1,6 +1,11 @@
 @php($personalize = $classes())
 
 <div @if ($persistent && $id) id="{{ $id }}" @endif>
+    @if (is_string($header))
+        <p @class($personalize['slots.header'])>{{ $header }}</p>
+    @else
+        {{ $header }}
+    @endif
     @if ($livewire && $filter)
         <div @class([
                 $personalize['filter'],
@@ -89,6 +94,11 @@
             </tbody>
         </table>
     </div>
+    @if (is_string($footer))
+        <p @class($personalize['slots.footer'])>{{ $footer }}</p>
+    @else
+        {{ $footer }}
+    @endif
     @if ($paginate && (!is_array($rows) && $rows->hasPages()))
         {{ $rows->onEachSide(1)->links($paginator, [
             'simplePagination' => $simplePagination,

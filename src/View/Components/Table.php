@@ -8,6 +8,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\View\ComponentSlot;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
@@ -35,6 +36,10 @@ class Table extends BaseComponent implements Personalization
         public ?bool $simplePagination = false,
         #[SkipDebug]
         public array|string $target = [],
+        #[SkipDebug]
+        public ComponentSlot|string|null $header = null,
+        #[SkipDebug]
+        public ComponentSlot|string|null $footer = null,
     ) {
         $this->placeholders = __('tallstack-ui::messages.table');
 
@@ -98,6 +103,10 @@ class Table extends BaseComponent implements Personalization
             ],
             'empty' => 'dark:text-dark-300 col-span-full whitespace-nowrap px-3 py-4 text-sm text-gray-500',
             'filter' => 'mb-4 flex items-end gap-x-2 sm:gap-x-0',
+            'slots' => [
+                'header' => 'mb-2 dark:text-dark-300 text-gray-500',
+                'footer' => 'mt-2 dark:text-dark-300 text-gray-500',
+            ],
         ]);
     }
 
