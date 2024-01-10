@@ -14,6 +14,7 @@ export default (
     livewire,
     property,
     value,
+    limit = null,
     change = null,
 ) => ({
   show: false,
@@ -37,6 +38,7 @@ export default (
   livewire: livewire,
   property: property,
   value: value,
+  limit: limit,
   change: change,
   async init() {
     // When the component is not being used in livewire.
@@ -224,6 +226,10 @@ export default (
    * @return {void}
    */
   select(option) {
+    if (option.disabled) {
+      return;
+    }
+
     this.internal = true;
 
     // When already selected, then we just clear the select.
@@ -231,6 +237,10 @@ export default (
       this.clear(option);
       this.input = this.model;
 
+      return;
+    }
+
+    if (this.limit !== null && (this.multiple && this.quantity >= this.limit)) {
       return;
     }
 

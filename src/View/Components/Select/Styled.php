@@ -45,6 +45,7 @@ class Styled extends BaseComponent implements Personalization
         public array $placeholders = [],
         public ?bool $invalidate = null,
         public ?bool $required = false,
+        public ?int $limit = null,
     ) {
         $this->placeholders = [...__('tallstack-ui::messages.select')];
         $this->placeholder ??= ($this->placeholders['default'] ?? null);
@@ -93,6 +94,8 @@ class Styled extends BaseComponent implements Personalization
                         'wrapper' => 'dark:text-dark-300 dark:hover:bg-dark-500 dark:focus:bg-dark-500 relative cursor-pointer select-none px-2 py-2 text-gray-700 transition hover:bg-gray-100 focus:bg-gray-100 focus:outline-none',
                         'options' => 'flex items-center justify-between',
                         'selected' => 'font-semibold hover:bg-red-500 hover:text-white dark:hover:bg-red-500',
+                        'disabled' => 'dark:bg-dark-500 !cursor-not-allowed bg-gray-100',
+                        'image' => 'h-6 w-6 rounded-full',
                         'check' => 'h-5 w-5',
                     ],
                     'empty' => 'dark:text-dark-300 block w-full pr-2 text-gray-600',

@@ -14,7 +14,12 @@ trait InteractsWithSelectOptions
         $label = explode(':', $select[0])[1];
         $value = explode(':', $select[1])[1];
 
-        $this->options = collect($this->options)->map(fn (array $item) => [$label => $item[$label], $value => $item[$value]])->toArray();
+        $this->options = collect($this->options)->map(fn (array $item) => [
+            $label => $item[$label],
+            $value => $item[$value],
+            'disabled' => $item['disabled'] ?? false,
+            'image' => current(array_intersect_key($item, array_flip(['image', 'img', 'img_src']))) ?: null,
+        ])->toArray();
 
         $this->selectable = [
             'label' => $label,
