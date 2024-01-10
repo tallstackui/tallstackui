@@ -122,7 +122,7 @@
                         role="option" @class($personalize['box.list.item.wrapper'])>
                         <div @class($personalize['box.list.item.options'])>
                             <div class="flex items-center">
-                                <img @class($personalize['box.list.item.image']) x-bind:src="option.img" x-show="option.img !== null">
+                                <img @class($personalize['box.list.item.image']) x-bind:src="option.image" x-show="option.image !== null">
                                 <span class="ml-2 truncate" x-text="option[selectable.label] ?? option"></span>
                             </div>
                             <x-dynamic-component :component="TallStackUi::component('icon')"
