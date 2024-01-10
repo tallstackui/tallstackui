@@ -2,6 +2,7 @@
 
 namespace TallStackUi\View\Components\Form;
 
+use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
@@ -19,6 +20,7 @@ class Tag extends BaseComponent implements Personalization
     public function __construct(
         public ?string $label = null,
         public ?string $hint = null,
+        public ?string $prefix = null,
         public ?int $limit = null,
         public ?bool $invalidate = null,
     ) {
@@ -50,5 +52,17 @@ class Tag extends BaseComponent implements Personalization
             ],
             'error' => $this->error(),
         ]);
+    }
+
+    /** @throws Exception */
+    protected function validate(): void
+    {
+        if (! $this->prefix) {
+            return;
+        }
+
+        if (strlen($this->prefix) > 1) {
+            throw new Exception('The tag [prefix] must be a single character.');
+        }
     }
 }

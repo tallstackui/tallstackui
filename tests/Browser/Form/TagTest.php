@@ -134,6 +134,35 @@ class TagTest extends BrowserTestCase
     }
 
     /** @test */
+    public function can_fill_using_prefixes(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?array $tags = [];
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="tagged">@json($tags)</p>
+                    
+                    <x-tag prefix="@" dusk="tags" wire:model.live="tags" label="Tags" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForText('Tags')
+            ->type('@tags', 'foo')
+            ->keys('@tags', WebDriverKeys::ENTER)
+            ->type('@tags', 'bar')
+            ->keys('@tags', WebDriverKeys::ENTER)
+            ->waitForTextIn('@tagged', '@foo')
+            ->waitForTextIn('@tagged', '@bar')
+            ->assertSeeIn('@tagged', '@foo')
+            ->assertSeeIn('@tagged', '@bar');
+    }
+
+    /** @test */
     public function can_remove_manually(): void
     {
         Livewire::visit(new class extends Component
