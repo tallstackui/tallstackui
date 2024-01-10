@@ -12,6 +12,7 @@ import select from './components/select/select';
 import slide from './components/slide/slide';
 import pin from './components/form/pin';
 import tab from './components/tab/tab';
+import tag from './components/form/tag';
 import textArea from './components/form/textarea';
 import toastBase from './components/toast/toast-base';
 import toastLoop from './components/toast/toast-loop';
@@ -24,6 +25,7 @@ document.addEventListener('alpine:init', () => {
   Alpine.data('tallstackui_formColor', color);
   Alpine.data('tallstackui_formNumber', number);
   Alpine.data('tallstackui_formPin', pin);
+  Alpine.data('tallstackui_formTag', tag);
   Alpine.data('tallstackui_darkTheme', darkTheme);
   Alpine.data('tallstackui_dialog', dialog);
   Alpine.data('tallstackui_dropdown', dropdown);
