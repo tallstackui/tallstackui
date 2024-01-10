@@ -292,6 +292,49 @@ class StyledCommonTest extends BrowserTestCase
     }
 
     /** @test */
+    public function can_select_with_disabled_option(): void
+    {
+        Livewire::visit(StyledMultipleComponentLimitDisabled_Common::class)
+            ->assertSee('Select an option')
+            ->assertDontSee('foo')
+            ->assertDontSee('bar')
+            ->click('@tallstackui_select_open_close')
+            ->waitForText(['foo', 'bar', 'baz', 'bah'])
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[1]')
+            ->click('@tallstackui_select_open_close')
+            ->click('@sync')
+            ->waitForText('foo')
+            ->click('@tallstackui_select_open_close')
+            ->waitForText(['foo', 'bar', 'baz', 'bah'])
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[2]')
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[3]')
+            ->click('@tallstackui_select_open_close')
+            ->click('@sync')
+            ->waitForText(['foo', 'baz'])
+            ->waitUntilMissingText('bar')
+            ->assertDontSee('bar');
+    }
+
+    /** @test */
+    public function can_select_with_limit_option(): void
+    {
+        Livewire::visit(StyledMultipleComponentLimitDisabled_Common::class)
+            ->assertSee('Select an option')
+            ->assertDontSee('foo')
+            ->assertDontSee('bar')
+            ->click('@tallstackui_select_open_close')
+            ->waitForText(['foo', 'bar', 'baz', 'bah'])
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[1]')
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[3]')
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[4]')
+            ->click('@tallstackui_select_open_close')
+            ->click('@sync')
+            ->waitForText(['foo', 'baz'])
+            ->waitUntilMissingText('bah')
+            ->assertDontSee('bah');
+    }
+
+    /** @test */
     public function can_unselect(): void
     {
         Livewire::visit(StyledComponent_Common::class)
@@ -394,7 +437,7 @@ class StyledComponent_Common extends Component
                              ]"
                              select="label:label|value:value"
             />
-            
+
             <x-button dusk="sync" wire:click="sync">Sync</x-button>
         </div>
         HTML;
@@ -428,7 +471,7 @@ class StyledSearchableComponent_Common extends Component
                     Ooops!
                 </x-slot:after>
             </x-select.styled>
-            
+
             <x-button dusk="sync" wire:click="sync">Sync</x-button>
         </div>
         HTML;
@@ -461,7 +504,42 @@ class StyledMultipleComponent_Common extends Component
                              select="label:label|value:value"
                              multiple
             />
-            
+
+            <x-button dusk="sync" wire:click="sync">Sync</x-button>
+        </div>
+        HTML;
+    }
+
+    public function sync(): void
+    {
+        // ...
+    }
+}
+
+class StyledMultipleComponentLimitDisabled_Common extends Component
+{
+    public ?array $array = null;
+
+    public function render(): string
+    {
+        return <<<'HTML'
+        <div>
+            {{ implode(',', $array ?? []) }}
+
+            <x-select.styled wire:model="array"
+                             label="Select"
+                             hint="Select"
+                             :options="[
+                                ['label' => 'foo', 'value' => 'foo'],
+                                ['label' => 'bar', 'value' => 'bar', 'disabled' => true],
+                                ['label' => 'baz', 'value' => 'baz'],
+                                ['label' => 'bah', 'value' => 'bah'],
+                             ]"
+                             select="label:label|value:value"
+                             limit="2"
+                             multiple
+            />
+
             <x-button dusk="sync" wire:click="sync">Sync</x-button>
         </div>
         HTML;
@@ -520,7 +598,7 @@ class StyledMultipleLiveEntangleComponent_Common extends Component
                              select="label:label|value:value"
                              multiple
             />
-            
+
             <x-button dusk="sync" wire:click="sync">Sync</x-button>
         </div>
         HTML;
@@ -554,7 +632,7 @@ class StyledMultipleLiveEntangleDefaultComponent_Common extends Component
                              searchable
                              multiple
             />
-            
+
             <x-button dusk="sync" wire:click="sync">Sync</x-button>
         </div>
         HTML;
@@ -595,9 +673,9 @@ class StyledComponentMultipleSelect_Common extends Component
             <p dusk="selected">@json($selected)</p>
 
             <x-select.styled :options="$types?->toArray()"
-                             wire:model.live="type" 
+                             wire:model.live="type"
                              select="label:label|value:value" />
-            
+
             @if ($devices->isNotEmpty())
             <x-select.styled :options="$devices->toArray()"
                              wire:model.live="selected"
