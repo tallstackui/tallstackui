@@ -21,8 +21,7 @@
             $personalize['error'] => $error
          ])>
         <div @class($personalize['wrapper'])>
-            <template x-if="model?.length > 0">
-                <template x-for="(tag, index) in model" :key="index">
+            <template x-for="(tag, index) in (model ?? [])" :key="index">
                 <span @class($personalize['label.base'])>
                     <span x-text="tag"></span>
                     <x-dynamic-component :component="TallStackUi::component('icon')"
@@ -30,7 +29,6 @@
                                          :class="$personalize['label.icon']"
                                          x-on:click="remove(index)" />
                 </span>
-                </template>
             </template>
             <input {{ $attributes->whereDoesntStartWith('wire:model')
                         // We need to remove the value and name attributes to avoid

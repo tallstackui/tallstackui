@@ -10,13 +10,8 @@ export default (
   value: value,
   tag: '',
   init() {
-    this.model = !this.livewire ? this.value : this.model;
-
-    if (this.model?.length > 0) {
-      this.$refs.input.value = '';
-    }
-
     if (!this.livewire) {
+      this.model = this.value;
       this.$nextTick(() => this.input = this.model);
     }
 
@@ -33,7 +28,8 @@ export default (
       return;
     }
 
-    this.model.push(tag);
+    this.model = Array.isArray(this.model) ? [...this.model, tag] : [tag];
+
     this.clean();
   },
   clean() {
