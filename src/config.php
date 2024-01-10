@@ -183,6 +183,7 @@ return [
         'select.styled' => Components\Select\Styled::class,
         'slide' => Components\Slide::class,
         'tab' => Components\Tab\Tab::class,
+        'tag' => Components\Form\Tag::class,
         'table' => Components\Table::class,
         'tab.items' => Components\Tab\Items::class,
         'textarea' => Components\Form\Textarea::class,
