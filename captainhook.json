@@ -9,6 +9,10 @@
             {
                 "action": "npm run build",
                 "options": []
+            },
+            {
+                "action": "git add . && git commit -m 'pre-commit hook' --no-verify",
+                "options": []
             }
         ]
     }
