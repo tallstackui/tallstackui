@@ -1,7 +1,14 @@
 <?php
 
+use Illuminate\View\ViewException;
+
 it('can render')
     ->expect('<x-tag />')
+    ->render()
+    ->toContain('<input');
+
+it('can render with prefix')
+    ->expect('<x-tag prefix="@" />')
     ->render()
     ->toContain('<input');
 
@@ -19,4 +26,14 @@ it('can render with tags', function () {
 
     expect($component)->render()
         ->toContain('foo', 'bar', 'baz');
+});
+
+it('cannot render with prefix with two strings', function () {
+    $this->expectException(ViewException::class);
+
+    $component = <<<'HTML'
+    <x-tag prefix="@@" />
+    HTML;
+
+    expect($component)->render();
 });

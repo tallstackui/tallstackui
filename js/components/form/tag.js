@@ -1,12 +1,14 @@
 export default (
     model,
     limit,
+    prefix,
     livewire,
     property,
     value,
 ) => ({
   model: model,
   limit: limit,
+  prefix: prefix,
   livewire: livewire,
   property: property,
   value: value,
@@ -40,6 +42,10 @@ export default (
     }
 
     this.model = Array.isArray(this.model) ? [...this.model, tag] : [tag];
+
+    if (this.prefix) {
+      this.model = this.model.map((item) => (item.indexOf(this.prefix) === -1 ? this.prefix + item : item));
+    }
 
     this.clean();
   },
