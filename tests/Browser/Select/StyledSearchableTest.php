@@ -53,22 +53,22 @@ class StyledSearchableTest extends BrowserTestCase
             public function render(): string
             {
                 return <<<'HTML'
-        <div>
-            {{ $string }}
+                <div>
+                    {{ $string }}
 
-            <x-select.styled wire:model="string"
-                             :request="route('searchable.simple')"
-                             label="Select"
-                             hint="Select"
-                             select="label:label|value:value">
-                <x-slot:after>
-                    Ooops!
-                </x-slot:after>
-            </x-select.styled>
+                    <x-select.styled wire:model="string"
+                                    :request="route('searchable.simple')"
+                                    label="Select"
+                                    hint="Select"
+                                    select="label:label|value:value">
+                        <x-slot:after>
+                            Ooops!
+                        </x-slot:after>
+                    </x-select.styled>
 
-            <x-button dusk="sync" wire:click="sync">Sync</x-button>
-        </div>
-        HTML;
+                    <x-button dusk="sync" wire:click="sync">Sync</x-button>
+                </div>
+                HTML;
             }
 
             public function sync(): void
@@ -99,19 +99,19 @@ class StyledSearchableTest extends BrowserTestCase
             public function render(): string
             {
                 return <<<'HTML'
-        <div>
-            {{ $string }}
+                <div>
+                    {{ $string }}
 
-            <x-select.styled wire:model="string"
-                             :request="route('searchable.filtered')"
-                             label="Select"
-                             hint="Select"
-                             select="label:label|value:value"
-            />
+                    <x-select.styled wire:model="string"
+                                    :request="route('searchable.filtered')"
+                                    label="Select"
+                                    hint="Select"
+                                    select="label:label|value:value"
+                    />
 
-            <x-button dusk="sync" wire:click="sync">Sync</x-button>
-        </div>
-        HTML;
+                    <x-button dusk="sync" wire:click="sync">Sync</x-button>
+                </div>
+                HTML;
             }
 
             public function sync(): void
@@ -184,20 +184,20 @@ class StyledSearchableTest extends BrowserTestCase
             public function render(): string
             {
                 return <<<'HTML'
-        <div>
-            {{ implode(',', $array ?? []) }}
+                <div>
+                    {{ implode(',', $array ?? []) }}
 
-            <x-select.styled wire:model.live="array"
-                             :request="route('searchable.simple')"
-                             label="Select"
-                             hint="Select"
-                             select="label:label|value:value"
-                             multiple
-            />
+                    <x-select.styled wire:model.live="array"
+                                    :request="route('searchable.simple')"
+                                    label="Select"
+                                    hint="Select"
+                                    select="label:label|value:value"
+                                    multiple
+                    />
 
-            <x-button dusk="sync" wire:click="sync">Sync</x-button>
-        </div>
-        HTML;
+                    <x-button dusk="sync" wire:click="sync">Sync</x-button>
+                </div>
+                HTML;
             }
 
             public function sync(): void
@@ -240,20 +240,20 @@ class StyledSearchableTest extends BrowserTestCase
             public function render(): string
             {
                 return <<<'HTML'
-        <div>
-            {{ implode(',', $array ?? []) }}
+                <div>
+                    {{ implode(',', $array ?? []) }}
 
-            <x-select.styled wire:model.live="array"
-                             :request="route('searchable.simple')"
-                             label="Select"
-                             hint="Select"
-                             select="label:label|value:value"
-                             multiple
-            />
+                    <x-select.styled wire:model.live="array"
+                                    :request="route('searchable.simple')"
+                                    label="Select"
+                                    hint="Select"
+                                    select="label:label|value:value"
+                                    multiple
+                    />
 
-            <x-button dusk="sync" wire:click="sync">Sync</x-button>
-        </div>
-        HTML;
+                    <x-button dusk="sync" wire:click="sync">Sync</x-button>
+                </div>
+                HTML;
             }
 
             public function sync(): void

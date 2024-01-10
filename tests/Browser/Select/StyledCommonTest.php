@@ -54,21 +54,21 @@ class StyledCommonTest extends BrowserTestCase
             public function render(): string
             {
                 return <<<'HTML'
-        <div>
-            <p dusk="type">{{ $type }}</p>
-            <p dusk="selected">@json($selected)</p>
+                <div>
+                    <p dusk="type">{{ $type }}</p>
+                    <p dusk="selected">@json($selected)</p>
 
-            <x-select.styled :options="$types?->toArray()"
-                             wire:model.live="type"
-                             select="label:label|value:value" />
+                    <x-select.styled :options="$types?->toArray()"
+                                    wire:model.live="type"
+                                    select="label:label|value:value" />
 
-            @if ($devices->isNotEmpty())
-            <x-select.styled :options="$devices->toArray()"
-                             wire:model.live="selected"
-                             select="label:label|value:value" multiple />
-            @endif
-        </div>
-        HTML;
+                    @if ($devices->isNotEmpty())
+                    <x-select.styled :options="$devices->toArray()"
+                                    wire:model.live="selected"
+                                    select="label:label|value:value" multiple />
+                    @endif
+                </div>
+                HTML;
             }
 
             public function sync(): void
@@ -302,24 +302,24 @@ class StyledCommonTest extends BrowserTestCase
             public function render(): string
             {
                 return <<<'HTML'
-        <div>
-            {{ implode(',', $array ?? []) }}
+                <div>
+                    {{ implode(',', $array ?? []) }}
 
-            <x-select.styled wire:model.live="array"
-                             label="Select"
-                             hint="Select"
-                             :options="[
-                                ['label' => 'foo', 'value' => 'foo'],
-                                ['label' => 'bar', 'value' => 'bar'],
-                                ['label' => 'baz', 'value' => 'baz'],
-                             ]"
-                             select="label:label|value:value"
-                             multiple
-            />
+                    <x-select.styled wire:model.live="array"
+                                    label="Select"
+                                    hint="Select"
+                                    :options="[
+                                        ['label' => 'foo', 'value' => 'foo'],
+                                        ['label' => 'bar', 'value' => 'bar'],
+                                        ['label' => 'baz', 'value' => 'baz'],
+                                    ]"
+                                    select="label:label|value:value"
+                                    multiple
+                    />
 
-            <x-button dusk="sync" wire:click="sync">Sync</x-button>
-        </div>
-        HTML;
+                    <x-button dusk="sync" wire:click="sync">Sync</x-button>
+                </div>
+                HTML;
             }
 
             public function sync(): void
@@ -362,25 +362,25 @@ class StyledCommonTest extends BrowserTestCase
             public function render(): string
             {
                 return <<<'HTML'
-        <div>
-            {{ implode(',', $array ?? []) }}
+                <div>
+                    {{ implode(',', $array ?? []) }}
 
-            <x-select.styled wire:model.live="array"
-                             label="Select"
-                             hint="Select"
-                             :options="[
-                                ['label' => 'foo', 'value' => 'foo'],
-                                ['label' => 'bar', 'value' => 'bar'],
-                                ['label' => 'baz', 'value' => 'baz'],
-                             ]"
-                             select="label:label|value:value"
-                             searchable
-                             multiple
-            />
+                    <x-select.styled wire:model.live="array"
+                                    label="Select"
+                                    hint="Select"
+                                    :options="[
+                                        ['label' => 'foo', 'value' => 'foo'],
+                                        ['label' => 'bar', 'value' => 'bar'],
+                                        ['label' => 'baz', 'value' => 'baz'],
+                                    ]"
+                                    select="label:label|value:value"
+                                    searchable
+                                    multiple
+                    />
 
-            <x-button dusk="sync" wire:click="sync">Sync</x-button>
-        </div>
-        HTML;
+                    <x-button dusk="sync" wire:click="sync">Sync</x-button>
+                </div>
+                HTML;
             }
 
             public function sync(): void
@@ -418,22 +418,22 @@ class StyledCommonTest extends BrowserTestCase
             public function render(): string
             {
                 return <<<'HTML'
-        <div>
-            {{ implode(',', $array ?? []) }}
+                <div>
+                    {{ implode(',', $array ?? []) }}
 
-            <x-select.styled wire:model.live="array"
-                             label="Select"
-                             hint="Select"
-                             :options="[
-                                ['label' => 'foo', 'value' => 'bar'],
-                                ['label' => 'foo', 'value' => 'baz'],
-                                ['label' => 'foo', 'value' => 'bah'],
-                             ]"
-                             select="label:label|value:value"
-                             multiple
-            />
-        </div>
-        HTML;
+                    <x-select.styled wire:model.live="array"
+                                    label="Select"
+                                    hint="Select"
+                                    :options="[
+                                        ['label' => 'foo', 'value' => 'bar'],
+                                        ['label' => 'foo', 'value' => 'baz'],
+                                        ['label' => 'foo', 'value' => 'bah'],
+                                    ]"
+                                    select="label:label|value:value"
+                                    multiple
+                    />
+                </div>
+                HTML;
             }
         })
             ->assertSee('Select an option')
@@ -466,26 +466,26 @@ class StyledCommonTest extends BrowserTestCase
             public function render(): string
             {
                 return <<<'HTML'
-        <div>
-            {{ implode(',', $array ?? []) }}
+                <div>
+                    {{ implode(',', $array ?? []) }}
 
-            <x-select.styled wire:model="array"
-                             label="Select"
-                             hint="Select"
-                             :options="[
-                                ['label' => 'foo', 'value' => 'foo'],
-                                ['label' => 'bar', 'value' => 'bar'],
-                                ['label' => 'baz', 'value' => 'baz'],
-                                ['label' => 'bah', 'value' => 'bah'],
-                             ]"
-                             select="label:label|value:value"
-                             limit="2"
-                             multiple
-            />
+                    <x-select.styled wire:model="array"
+                                    label="Select"
+                                    hint="Select"
+                                    :options="[
+                                        ['label' => 'foo', 'value' => 'foo'],
+                                        ['label' => 'bar', 'value' => 'bar'],
+                                        ['label' => 'baz', 'value' => 'baz'],
+                                        ['label' => 'bah', 'value' => 'bah'],
+                                    ]"
+                                    select="label:label|value:value"
+                                    limit="2"
+                                    multiple
+                    />
 
-            <x-button dusk="sync" wire:click="sync">Sync</x-button>
-        </div>
-        HTML;
+                    <x-button dusk="sync" wire:click="sync">Sync</x-button>
+                </div>
+                HTML;
             }
 
             public function sync(): void
