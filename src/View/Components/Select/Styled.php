@@ -94,7 +94,7 @@ class Styled extends BaseComponent implements Personalization
                         'options' => 'flex items-center justify-between',
                         'selected' => 'font-semibold hover:bg-red-500 hover:text-white dark:hover:bg-red-500',
                         'disabled' => 'dark:bg-dark-500 !cursor-not-allowed bg-gray-100',
-                        'img' => 'h-6 w-6 rounded-full',
+                        'image' => 'h-6 w-6 rounded-full',
                         'check' => 'h-5 w-5',
                     ],
                     'empty' => 'dark:text-dark-300 block w-full pr-2 text-gray-600',
