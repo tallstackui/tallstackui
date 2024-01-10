@@ -226,11 +226,11 @@ export default (
    * @return {void}
    */
   select(option) {
-    this.internal = true;
-
     if (option.disabled) {
       return;
     }
+
+    this.internal = true;
 
     // When already selected, then we just clear the select.
     if (this.selected(option)) {
@@ -240,7 +240,7 @@ export default (
       return;
     }
 
-    if (this.limit !== null && this.multiple === true && this.quantity >= this.limit) {
+    if (this.limit !== null && (this.multiple && this.quantity >= this.limit)) {
       return;
     }
 
