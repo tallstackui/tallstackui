@@ -46,7 +46,36 @@ class StyledSearchableTest extends BrowserTestCase
     /** @test */
     public function can_render_after_slot(): void
     {
-        Livewire::visit(StyledAfterSlotComponent_Searchable::class)
+        Livewire::visit(new class extends Component
+        {
+            public ?string $string = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+        <div>
+            {{ $string }}
+
+            <x-select.styled wire:model="string"
+                             :request="route('searchable.simple')"
+                             label="Select"
+                             hint="Select"
+                             select="label:label|value:value">
+                <x-slot:after>
+                    Ooops!
+                </x-slot:after>
+            </x-select.styled>
+
+            <x-button dusk="sync" wire:click="sync">Sync</x-button>
+        </div>
+        HTML;
+            }
+
+            public function sync(): void
+            {
+                // ...
+            }
+        })
             ->assertSee('Select an option')
             ->assertDontSee('delectus aut autem')
             ->assertDontSee('quis ut nam facilis et officia qui')
@@ -63,7 +92,33 @@ class StyledSearchableTest extends BrowserTestCase
     /** @test */
     public function can_search(): void
     {
-        Livewire::visit(StyledSearchableComponent_Searchable::class)
+        Livewire::visit(new class extends Component
+        {
+            public ?string $string = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+        <div>
+            {{ $string }}
+
+            <x-select.styled wire:model="string"
+                             :request="route('searchable.filtered')"
+                             label="Select"
+                             hint="Select"
+                             select="label:label|value:value"
+            />
+
+            <x-button dusk="sync" wire:click="sync">Sync</x-button>
+        </div>
+        HTML;
+            }
+
+            public function sync(): void
+            {
+                // ...
+            }
+        })
             ->assertSee('Select an option')
             ->assertDontSee('delectus aut autem')
             ->assertDontSee('quis ut nam facilis et officia qui')
@@ -122,7 +177,34 @@ class StyledSearchableTest extends BrowserTestCase
     /** @test */
     public function can_select_multiple_with_live_entangle(): void
     {
-        Livewire::visit(StyledMultipleLiveEntangleComponent_Searchable::class)
+        Livewire::visit(new class extends Component
+        {
+            public ?array $array = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+        <div>
+            {{ implode(',', $array ?? []) }}
+
+            <x-select.styled wire:model.live="array"
+                             :request="route('searchable.simple')"
+                             label="Select"
+                             hint="Select"
+                             select="label:label|value:value"
+                             multiple
+            />
+
+            <x-button dusk="sync" wire:click="sync">Sync</x-button>
+        </div>
+        HTML;
+            }
+
+            public function sync(): void
+            {
+                // ...
+            }
+        })
             ->assertSee('Select an option')
             ->assertDontSee('delectus aut autem')
             ->assertDontSee('quis ut nam facilis et officia qui')
@@ -151,7 +233,34 @@ class StyledSearchableTest extends BrowserTestCase
     /** @test */
     public function can_select_multiple_with_live_entangle_preserving_default(): void
     {
-        Livewire::visit(StyledMultipleLiveEntangleDefaultComponent_Searchable::class)
+        Livewire::visit(new class extends Component
+        {
+            public ?array $array = ['delectus aut autem'];
+
+            public function render(): string
+            {
+                return <<<'HTML'
+        <div>
+            {{ implode(',', $array ?? []) }}
+
+            <x-select.styled wire:model.live="array"
+                             :request="route('searchable.simple')"
+                             label="Select"
+                             hint="Select"
+                             select="label:label|value:value"
+                             multiple
+            />
+
+            <x-button dusk="sync" wire:click="sync">Sync</x-button>
+        </div>
+        HTML;
+            }
+
+            public function sync(): void
+            {
+                // ...
+            }
+        })
             ->assertSee('delectus aut autem')
             ->click('@tallstackui_select_open_close')
             ->waitForText(['delectus aut autem', 'quis ut nam facilis et officia qui', 'fugiat veniam minus', 'et porro tempora', 'laboriosam mollitia et enim quasi adipisci quia provident illum'])
@@ -242,7 +351,7 @@ class StyledComponent_Searchable extends Component
                              hint="Select"
                              select="label:label|value:value"
             />
-            
+
             <x-button dusk="sync" wire:click="sync">Sync</x-button>
         </div>
         HTML;
@@ -261,7 +370,7 @@ class StyledMultipleComponent_Searchable extends Component
     public function render(): string
     {
         return <<<'HTML'
-        <div>            
+        <div>
             {{ implode(',', $array ?? []) }}
 
             <x-select.styled wire:model="array"
@@ -271,124 +380,7 @@ class StyledMultipleComponent_Searchable extends Component
                              select="label:label|value:value"
                              multiple
             />
-            
-            <x-button dusk="sync" wire:click="sync">Sync</x-button>
-        </div>
-        HTML;
-    }
 
-    public function sync(): void
-    {
-        // ...
-    }
-}
-
-class StyledMultipleLiveEntangleComponent_Searchable extends Component
-{
-    public ?array $array = null;
-
-    public function render(): string
-    {
-        return <<<'HTML'
-        <div>
-            {{ implode(',', $array ?? []) }}
-
-            <x-select.styled wire:model.live="array"
-                             :request="route('searchable.simple')"
-                             label="Select"
-                             hint="Select"
-                             select="label:label|value:value"
-                             multiple
-            />
-            
-            <x-button dusk="sync" wire:click="sync">Sync</x-button>
-        </div>
-        HTML;
-    }
-
-    public function sync(): void
-    {
-        // ...
-    }
-}
-
-class StyledMultipleLiveEntangleDefaultComponent_Searchable extends Component
-{
-    public ?array $array = ['delectus aut autem'];
-
-    public function render(): string
-    {
-        return <<<'HTML'
-        <div>
-            {{ implode(',', $array ?? []) }}
-
-            <x-select.styled wire:model.live="array"
-                             :request="route('searchable.simple')"
-                             label="Select"
-                             hint="Select"
-                             select="label:label|value:value"
-                             multiple
-            />
-            
-            <x-button dusk="sync" wire:click="sync">Sync</x-button>
-        </div>
-        HTML;
-    }
-
-    public function sync(): void
-    {
-        // ...
-    }
-}
-
-class StyledSearchableComponent_Searchable extends Component
-{
-    public ?string $string = null;
-
-    public function render(): string
-    {
-        return <<<'HTML'
-        <div>
-            {{ $string }}
-
-            <x-select.styled wire:model="string"
-                             :request="route('searchable.filtered')"
-                             label="Select"
-                             hint="Select"
-                             select="label:label|value:value"
-            />
-            
-            <x-button dusk="sync" wire:click="sync">Sync</x-button>
-        </div>
-        HTML;
-    }
-
-    public function sync(): void
-    {
-        // ...
-    }
-}
-
-class StyledAfterSlotComponent_Searchable extends Component
-{
-    public ?string $string = null;
-
-    public function render(): string
-    {
-        return <<<'HTML'
-        <div>
-            {{ $string }}
-
-            <x-select.styled wire:model="string"
-                             :request="route('searchable.simple')"
-                             label="Select"
-                             hint="Select"
-                             select="label:label|value:value">
-                <x-slot:after>
-                    Ooops!
-                </x-slot:after>
-            </x-select.styled>
-            
             <x-button dusk="sync" wire:click="sync">Sync</x-button>
         </div>
         HTML;
