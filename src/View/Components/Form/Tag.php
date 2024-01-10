@@ -6,6 +6,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Foundation\Traits\SanitizePropertyValue;
 use TallStackUi\View\Components\BaseComponent;
 use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
 
@@ -13,6 +14,7 @@ use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
 class Tag extends BaseComponent implements Personalization
 {
     use DefaultInputClasses;
+    use SanitizePropertyValue;
 
     public function __construct(
         public ?string $label = null,
@@ -41,7 +43,7 @@ class Tag extends BaseComponent implements Personalization
                     ...collect($this->input())->except('base')->toArray(),
                 ],
             ],
-            'icon' => [
+            'button' => [
                 'wrapper' => 'absolute inset-y-0 right-2 flex items-center text-secondary-500 dark:text-dark-400',
                 'base' => 'h-5 w-5 cursor-pointer text-red-500',
             ],
