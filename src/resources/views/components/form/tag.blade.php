@@ -37,6 +37,7 @@
                         ->except(['value', 'name'])
                         ->class([
                             $personalize['input.class.base'],
+                            $personalize['input.class.color.base'] => !$error,
                             $personalize['input.class.color.background'],
                             $personalize['error'] => $error
                         ]) }}
