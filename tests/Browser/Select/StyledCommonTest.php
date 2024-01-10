@@ -292,33 +292,9 @@ class StyledCommonTest extends BrowserTestCase
     }
 
     /** @test */
-    public function can_select_with_disabled_option(): void
-    {
-        Livewire::visit(StyledMultipleComponentLimitDisabled_Common::class)
-            ->assertSee('Select an option')
-            ->assertDontSee('foo')
-            ->assertDontSee('bar')
-            ->click('@tallstackui_select_open_close')
-            ->waitForText(['foo', 'bar', 'baz', 'bah'])
-            ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[1]')
-            ->click('@tallstackui_select_open_close')
-            ->click('@sync')
-            ->waitForText('foo')
-            ->click('@tallstackui_select_open_close')
-            ->waitForText(['foo', 'bar', 'baz', 'bah'])
-            ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[2]')
-            ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[3]')
-            ->click('@tallstackui_select_open_close')
-            ->click('@sync')
-            ->waitForText(['foo', 'baz'])
-            ->waitUntilMissingText('bar')
-            ->assertDontSee('bar');
-    }
-
-    /** @test */
     public function can_select_with_limit_option(): void
     {
-        Livewire::visit(StyledMultipleComponentLimitDisabled_Common::class)
+        Livewire::visit(StyledMultipleComponentLimit_Common::class)
             ->assertSee('Select an option')
             ->assertDontSee('foo')
             ->assertDontSee('bar')
@@ -376,6 +352,30 @@ class StyledCommonTest extends BrowserTestCase
             ->click('@tallstackui_select_open_close')
             ->click('@sync')
             ->waitForText(['foo', 'bar']);
+    }
+
+    /** @test */
+    public function cannot_select_disabled_option(): void
+    {
+        Livewire::visit(StyledMultipleComponentDisabled_Common::class)
+            ->assertSee('Select an option')
+            ->assertDontSee('foo')
+            ->assertDontSee('bar')
+            ->click('@tallstackui_select_open_close')
+            ->waitForText(['foo', 'bar', 'baz', 'bah'])
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[1]')
+            ->click('@tallstackui_select_open_close')
+            ->click('@sync')
+            ->waitForText('foo')
+            ->click('@tallstackui_select_open_close')
+            ->waitForText(['foo', 'bar', 'baz', 'bah'])
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[2]')
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[3]')
+            ->click('@tallstackui_select_open_close')
+            ->click('@sync')
+            ->waitForText(['foo', 'baz'])
+            ->waitUntilMissingText('bar')
+            ->assertDontSee('bar');
     }
 
     /** @test */
@@ -516,7 +516,7 @@ class StyledMultipleComponent_Common extends Component
     }
 }
 
-class StyledMultipleComponentLimitDisabled_Common extends Component
+class StyledMultipleComponentDisabled_Common extends Component
 {
     public ?array $array = null;
 
@@ -532,6 +532,40 @@ class StyledMultipleComponentLimitDisabled_Common extends Component
                              :options="[
                                 ['label' => 'foo', 'value' => 'foo'],
                                 ['label' => 'bar', 'value' => 'bar', 'disabled' => true],
+                                ['label' => 'baz', 'value' => 'baz'],
+                                ['label' => 'bah', 'value' => 'bah'],
+                             ]"
+                             select="label:label|value:value"
+                             multiple
+            />
+
+            <x-button dusk="sync" wire:click="sync">Sync</x-button>
+        </div>
+        HTML;
+    }
+
+    public function sync(): void
+    {
+        // ...
+    }
+}
+
+class StyledMultipleComponentLimit_Common extends Component
+{
+    public ?array $array = null;
+
+    public function render(): string
+    {
+        return <<<'HTML'
+        <div>
+            {{ implode(',', $array ?? []) }}
+
+            <x-select.styled wire:model="array"
+                             label="Select"
+                             hint="Select"
+                             :options="[
+                                ['label' => 'foo', 'value' => 'foo'],
+                                ['label' => 'bar', 'value' => 'bar'],
                                 ['label' => 'baz', 'value' => 'baz'],
                                 ['label' => 'bah', 'value' => 'bah'],
                              ]"
