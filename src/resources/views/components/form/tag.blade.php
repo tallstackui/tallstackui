@@ -24,10 +24,11 @@
             <template x-for="(tag, index) in (model ?? [])" :key="index">
                 <span @class($personalize['label.base'])>
                     <span x-text="tag"></span>
+                    <button type="button" x-on:click="remove(index)">
                     <x-dynamic-component :component="TallStackUi::component('icon')"
                                          name="x-mark"
-                                         :class="$personalize['label.icon']"
-                                         x-on:click="remove(index)" />
+                                         :class="$personalize['label.icon']" />
+                    </button>
                 </span>
             </template>
             <input {{ $attributes->whereDoesntStartWith('wire:model')
@@ -48,6 +49,7 @@
             <x-dynamic-component :component="TallStackUi::component('icon')"
                                  name="x-mark"
                                  :class="$personalize['button.base']"
+                                 dusk="tallstackui_tag_erase"
                                  x-on:click="erase()" />
         </div>
     </div>
