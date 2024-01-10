@@ -113,7 +113,7 @@ class Styled extends BaseComponent implements Personalization
 
     // When the component is being used out of the Livewire context,
     // we need to prepare the value to the format expected by the component.
-    public function transform(ComponentAttributeBag $attributes, string $property = null, ?bool $livewire = false): null|int|string|array
+    public function transform(ComponentAttributeBag $attributes, ?string $property = null, ?bool $livewire = false): null|int|string|array
     {
         $value = $attributes->get('value');
 
