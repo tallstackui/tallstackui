@@ -24,7 +24,7 @@ it('can render with custom colors', function () {
 it('can render with label')
     ->expect('<x-color label="Foo bar" />')
     ->render()
-    ->toContain('<input', false)
+    ->toContain('<input')
     ->toContain('Foo bar');
 
 it('can render with label and hint')
