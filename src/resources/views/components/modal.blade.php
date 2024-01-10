@@ -10,7 +10,7 @@
 <div x-cloak
      @if ($id) id="{{ $id }}" @endif
      @class(['relative', $configurations['zIndex']])
-     aria-labelledby="{{ $title ?? 'modal-title' }}"
+     aria-labelledby="modal-title"
      role="dialog"
      aria-modal="true"
      @if ($wire)
@@ -53,7 +53,6 @@
                         <x-dynamic-component :component="TallStackUi::component('icon')"
                                              icon="x-mark"
                                              x-on:click="show = false"
-                                             aria-label="Close modal"
                                              @class($personalize['title.close']) />
                     </div>
                 @endif
