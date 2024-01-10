@@ -1,10 +1,12 @@
 export default (
     model,
+    limit,
     livewire,
     property,
     value,
 ) => ({
   model: model,
+  limit: limit,
   livewire: livewire,
   property: property,
   value: value,
@@ -21,6 +23,12 @@ export default (
    * @param event {Event}
    */
   add(event) {
+    if (this.limit && (this.model?.length >= this.limit)) {
+      this.clean();
+
+      return;
+    }
+
     if (event.key !== 'Enter' && event.key !== ',') return;
 
     const tag = this.tag.trim();

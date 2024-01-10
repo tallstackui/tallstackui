@@ -10,6 +10,38 @@ use Tests\Browser\BrowserTestCase;
 class TagTest extends BrowserTestCase
 {
     /** @test */
+    public function can_be_limited()
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?array $tags = [];
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="tagged">@json($tags)</p>
+                    
+                    <x-tag :limit="2" dusk="tags" wire:model.live="tags" label="Tags" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForText('Tags')
+            ->type('@tags', 'foo')
+            ->keys('@tags', WebDriverKeys::ENTER)
+            ->type('@tags', 'bar')
+            ->keys('@tags', WebDriverKeys::ENTER)
+            ->type('@tags', 'baz')
+            ->keys('@tags', WebDriverKeys::ENTER)
+            ->waitForTextIn('@tagged', 'foo')
+            ->waitForTextIn('@tagged', 'bar')
+            ->assertSeeIn('@tagged', 'foo')
+            ->assertSeeIn('@tagged', 'bar')
+            ->assertDontSeeIn('@tagged', 'baz');
+    }
+
+    /** @test */
     public function can_erase_all()
     {
         Livewire::visit(new class extends Component

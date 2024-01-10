@@ -9,7 +9,7 @@
 @endif
 
 <x-dynamic-component :component="TallStackUi::component('wrapper.input')" :$id :$property :$error :$label :$hint :$invalidate>
-    <div x-data="tallstackui_formTag({!! $entangle !!}, @js($livewire), @js($property), @js($value))"
+    <div x-data="tallstackui_formTag({!! $entangle !!}, @js($limit), @js($livewire), @js($property), @js($value))"
          x-cloak
          x-on:click="$refs.input.focus()"
          @class([

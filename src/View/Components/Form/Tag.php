@@ -19,6 +19,7 @@ class Tag extends BaseComponent implements Personalization
     public function __construct(
         public ?string $label = null,
         public ?string $hint = null,
+        public ?int $limit = null,
         public ?bool $invalidate = null,
     ) {
         //
