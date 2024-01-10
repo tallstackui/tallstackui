@@ -40,7 +40,7 @@
                             $personalize['error'] => $error
                         ]) }}
                    x-on:keydown="add($event)"
-                   x-on:keydown.backspace="remove(model?.length - 1)"
+                   x-on:keydown.backspace="remove(model?.length - 1, $event)"
                    x-model="tag"
                    x-ref="input">
         </div>

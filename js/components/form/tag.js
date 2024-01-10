@@ -17,6 +17,9 @@ export default (
 
     this.$watch('model', (value) => this.input = value);
   },
+  /**
+   * @param event {Event}
+   */
   add(event) {
     if (event.key !== 'Enter' && event.key !== ',') return;
 
@@ -32,14 +35,27 @@ export default (
 
     this.clean();
   },
+  /**
+   * @returns {void}
+   */
   clean() {
     this.$nextTick(() => this.tag = '');
   },
-  remove(index) {
+  /**
+   * @param index {Number}
+   * @param event {Event}
+   */
+  remove(index, event = null) {
     if (index < 0 || this.model?.length <= index) return;
+
+    // We only remove using backspace when the input is empty
+    if (event && event.target.value.trim() !== '') return;
 
     this.model.splice(index, 1);
   },
+  /**
+   * @returns {void}
+   */
   erase() {
     this.model = [];
   },
@@ -54,6 +70,7 @@ export default (
 
     if (!input) return;
 
+    // Ignoring empty arrays
     data = data?.filter((value) => value !== '');
 
     input.value = !data || data.length === 0 ?
