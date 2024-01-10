@@ -1,14 +1,14 @@
 export default (
     model,
     limit,
-    prefix,
+    prefixes,
     livewire,
     property,
     value,
 ) => ({
   model: model,
   limit: limit,
-  prefix: prefix,
+  prefixes: prefixes,
   livewire: livewire,
   property: property,
   value: value,
@@ -20,6 +20,8 @@ export default (
     }
 
     this.$watch('model', (value) => this.input = value);
+
+    this.prefix();
   },
   /**
    * @param event {Event}
@@ -42,10 +44,7 @@ export default (
     }
 
     this.model = Array.isArray(this.model) ? [...this.model, tag] : [tag];
-
-    if (this.prefix) {
-      this.model = this.model.map((item) => (item.indexOf(this.prefix) === -1 ? this.prefix + item : item));
-    }
+    this.prefix();
 
     this.clean();
   },
@@ -72,6 +71,16 @@ export default (
    */
   erase() {
     this.model = [];
+  },
+  /**
+   * @returns {void}
+   */
+  prefix() {
+    if (!this.prefixes || !this.model) {
+      return;
+    }
+
+    this.model = this.model.map((item) => (item.indexOf(this.prefixes) === -1 ? this.prefixes + item : item));
   },
   /**
    * Set the input value when is not Livewire
