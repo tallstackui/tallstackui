@@ -34,7 +34,8 @@
         "orchestra/testbench": "^8.12",
         "orchestra/testbench-dusk": "^8.12",
         "pestphp/pest-plugin-type-coverage": "^2.2",
-        "larastan/larastan": "^2.7"
+        "larastan/larastan": "^2.7",
+        "captainhook/captainhook": "^5.19"
     },
     "scripts": {
         "test": "./vendor/bin/pest",

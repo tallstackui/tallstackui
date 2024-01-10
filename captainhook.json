@@ -1,0 +1,15 @@
+{
+    "pre-commit": {
+        "enabled": true,
+        "actions": [
+            {
+                "action": "composer format",
+                "options": []
+            },
+            {
+                "action": "npm run build",
+                "options": []
+            }
+        ]
+    }
+}
