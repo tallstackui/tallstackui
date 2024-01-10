@@ -293,4 +293,34 @@ class TagTest extends BrowserTestCase
             ->waitForTextIn('@tagged', '["#foo"]')
             ->assertSeeIn('@tagged', '#foo');
     }
+
+    /** @test */
+    public function cannot_insert_empty_prefix(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?array $tags = [];
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="tagged">@json($tags)</p>
+                    
+                    <x-tag prefix="#" dusk="tags" wire:model.live="tags" label="Tags" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForText('Tags')
+            ->type('@tags', '#')
+            ->keys('@tags', WebDriverKeys::ENTER)
+            ->waitForTextIn('@tagged', '[]')
+            ->assertSeeIn('@tagged', '[]')
+            ->waitForText('Tags')
+            ->type('@tags', '#   ')
+            ->keys('@tags', WebDriverKeys::ENTER)
+            ->waitForTextIn('@tagged', '[]')
+            ->assertSeeIn('@tagged', '[]');
+    }
 }

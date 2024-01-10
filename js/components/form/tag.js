@@ -36,9 +36,16 @@ export default (
     if (event.key !== 'Enter' && event.key !== ',') return;
 
     let tag = this.tag.trim();
-    tag = this.prefixes && tag.indexOf(this.prefixes) === -1 ? this.prefixes + tag : tag;
 
-    if (!tag || this.model?.includes(tag)) {
+    if (!tag || (this.prefixes && tag === this.prefixes)) {
+      this.clean();
+
+      return;
+    }
+
+    tag = this.prefixes && tag[0] !== this.prefixes ? this.prefixes + tag : tag;
+
+    if (this.model?.includes(tag)) {
       this.clean();
 
       return;
