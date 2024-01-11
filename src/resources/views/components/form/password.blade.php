@@ -29,7 +29,7 @@
         </div>
     </x-dynamic-component>
     @if ($rules->isNotEmpty())
-        <div class="my-2 rounded-lg border border-gray-300 bg-white p-4 dark:bg-dark-700 dark:border-dark-600"
+        <div @class($personalize['rules.wrapper'])
              x-show="rules"
              x-transition:enter="transition duration-100 ease-out"
              x-transition:enter-start="opacity-0 -translate-y-2"
@@ -37,33 +37,57 @@
              x-transition:leave="transition duration-100 ease-in"
              x-transition:leave-start="opacity-100"
              x-transition:leave-end="opacity-0">
-            <h3 class="text-lg font-semibold text-red-500 dark:text-dark-300">Expected Password Format:</h3>
-            <div class="mt-2 flex flex-col">
+            <h3 @class($personalize['rules.title'])>Expected Password Format:</h3>
+            <div @class($personalize['rules.block'])>
                 @if ($rules->has('min'))
-                    <span class="inline-flex items-center gap-1 text-gray-700 text-md dark:text-dark-300">
-                        <x-dynamic-component :component="TallStackUi::component('icon')" icon="x-circle" class="h-5 w-5 text-red-500" x-show="!results.min" />
-                        <x-dynamic-component :component="TallStackUi::component('icon')" icon="check-circle" class="h-5 w-5 text-green-500" x-show="results.min" />
+                    <span @class($personalize['rules.items.base'])>
+                        <x-dynamic-component :component="TallStackUi::component('icon')"
+                                             icon="x-circle"
+                                             :class="$personalize['rules.items.icons.error']"
+                                             x-show="!results.min" />
+                        <x-dynamic-component :component="TallStackUi::component('icon')"
+                                             icon="check-circle"
+                                             :class="$personalize['rules.items.icons.success']"
+                                             x-show="results.min" />
                         <p x-bind:class="{ 'line-through' : results.min }">At least {{ $rules->get('min') }} characters</p>
                     </span>
                 @endif
                 @if ($rules->has('symbols'))
-                    <span class="inline-flex items-center gap-1 text-gray-700 text-md dark:text-dark-300">
-                        <x-dynamic-component :component="TallStackUi::component('icon')" icon="x-circle" class="h-5 w-5 text-red-500" x-show="!results.symbols" />
-                        <x-dynamic-component :component="TallStackUi::component('icon')" icon="check-circle" class="h-5 w-5 text-green-500" x-show="results.symbols" />
+                    <span @class($personalize['rules.items.base'])>
+                        <x-dynamic-component :component="TallStackUi::component('icon')"
+                                             icon="x-circle"
+                                             :class="$personalize['rules.items.icons.error']"
+                                             x-show="!results.symbols" />
+                        <x-dynamic-component :component="TallStackUi::component('icon')"
+                                             icon="check-circle"
+                                             :class="$personalize['rules.items.icons.success']"
+                                             x-show="results.symbols" />
                         <p x-bind:class="{ 'line-through' : results.symbols }">At least one symbol @if (is_string($rules->get('symbols'))) ({{ $rules->get('symbols') }}) @endif</p>
                     </span>
                 @endif
                 @if ($rules->has('numbers'))
-                    <span class="inline-flex items-center gap-1 text-gray-700 text-md dark:text-dark-300">
-                        <x-dynamic-component :component="TallStackUi::component('icon')" icon="x-circle" class="h-5 w-5 text-red-500" x-show="!results.numbers" />
-                        <x-dynamic-component :component="TallStackUi::component('icon')" icon="check-circle" class="h-5 w-5 text-green-500" x-show="results.numbers" />
+                    <span @class($personalize['rules.items.base'])>
+                        <x-dynamic-component :component="TallStackUi::component('icon')"
+                                             icon="x-circle"
+                                             :class="$personalize['rules.items.icons.error']"
+                                             x-show="!results.numbers" />
+                        <x-dynamic-component :component="TallStackUi::component('icon')"
+                                             icon="check-circle"
+                                             :class="$personalize['rules.items.icons.success']"
+                                             x-show="results.numbers" />
                         <p x-bind:class="{ 'line-through' : results.numbers }">At least one number</p>
                     </span>
                 @endif
                 @if ($rules->has('mixed'))
-                    <span class="inline-flex items-center gap-1 text-gray-700 text-md dark:text-dark-300">
-                        <x-dynamic-component :component="TallStackUi::component('icon')" icon="x-circle" class="h-5 w-5 text-red-500" x-show="!results.mixed" />
-                        <x-dynamic-component :component="TallStackUi::component('icon')" icon="check-circle" class="h-5 w-5 text-green-500" x-show="results.mixed" />
+                    <span @class($personalize['rules.items.base'])>
+                        <x-dynamic-component :component="TallStackUi::component('icon')"
+                                             icon="x-circle"
+                                             :class="$personalize['rules.items.icons.error']"
+                                             x-show="!results.mixed" />
+                        <x-dynamic-component :component="TallStackUi::component('icon')"
+                                             icon="check-circle"
+                                             :class="$personalize['rules.items.icons.success']"
+                                             x-show="results.mixed" />
                         <p x-bind:class="{ 'line-through' : results.mixed }">Uppercase and lowercase</p>
                     </span>
                 @endif

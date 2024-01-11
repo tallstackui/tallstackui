@@ -37,6 +37,18 @@ class Password extends BaseComponent implements Personalization
                 'wrapper' => 'absolute inset-y-0 right-0 flex items-center pr-2.5',
                 'class' => 'h-5 w-5 text-gray-400',
             ],
+            'rules' => [
+                'wrapper' => 'my-2 rounded-lg border border-gray-300 bg-white p-4 dark:bg-dark-700 dark:border-dark-600',
+                'title' => 'text-lg font-semibold text-red-500 dark:text-dark-300',
+                'block' => 'mt-2 flex flex-col',
+                'items' => [
+                    'base' => 'inline-flex items-center gap-1 text-gray-700 text-md dark:text-dark-300',
+                    'icons' => [
+                        'error' => 'h-5 w-5 text-red-500',
+                        'success' => 'h-5 w-5 text-green-500',
+                    ],
+                ],
+            ],
             'error' => $this->error(),
         ]);
     }
