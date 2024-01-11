@@ -42,7 +42,7 @@ return [
 
     'password' => [
         'rules' => [
-            'title' => 'Formato de Senha Esperado:',
+            'title' => 'Formato Esperado de Senha:',
             'formats' => [
                 'min' => 'Pelo menos :min caracteres',
                 'numbers' => 'Pelo menos um número',
