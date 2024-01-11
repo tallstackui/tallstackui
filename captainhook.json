@@ -1,5 +1,5 @@
 {
-    "pre-commit": {
+    "post-commit": {
         "enabled": true,
         "actions": [
             {
@@ -11,7 +11,7 @@
                 "options": []
             },
             {
-                "action": "git add . && git commit -m 'pre-commit hook' --no-verify",
+                "action": "git add . && git commit -m 'formatting' --no-verify",
                 "options": []
             }
         ]
