@@ -44,10 +44,12 @@
                         <x-dynamic-component :component="TallStackUi::component('icon')"
                                              icon="x-circle"
                                              :class="$personalize['rules.items.icons.error']"
+                                             dusk="tallstackui_password_min_error"
                                              x-show="!results.min" />
                         <x-dynamic-component :component="TallStackUi::component('icon')"
                                              icon="check-circle"
                                              :class="$personalize['rules.items.icons.success']"
+                                             dusk="tallstackui_password_min_success"
                                              x-show="results.min" />
                         <p x-bind:class="{ 'line-through' : results.min }">{{ __('tallstack-ui::messages.password.rules.formats.min', ['min' => $rules->get('min')]) }}</p>
                     </span>
@@ -57,10 +59,12 @@
                         <x-dynamic-component :component="TallStackUi::component('icon')"
                                              icon="x-circle"
                                              :class="$personalize['rules.items.icons.error']"
+                                             dusk="tallstackui_password_symbols_error"
                                              x-show="!results.symbols" />
                         <x-dynamic-component :component="TallStackUi::component('icon')"
                                              icon="check-circle"
                                              :class="$personalize['rules.items.icons.success']"
+                                             dusk="tallstackui_password_symbols_success"
                                              x-show="results.symbols" />
                         <p x-bind:class="{ 'line-through' : results.symbols }">{{ __('tallstack-ui::messages.password.rules.formats.symbols', ['symbols' => $rules->get('symbols')]) }}</p>
                     </span>
@@ -70,10 +74,12 @@
                         <x-dynamic-component :component="TallStackUi::component('icon')"
                                              icon="x-circle"
                                              :class="$personalize['rules.items.icons.error']"
+                                             dusk="tallstackui_password_numbers_error"
                                              x-show="!results.numbers" />
                         <x-dynamic-component :component="TallStackUi::component('icon')"
                                              icon="check-circle"
                                              :class="$personalize['rules.items.icons.success']"
+                                             dusk="tallstackui_password_numbers_success"
                                              x-show="results.numbers" />
                         <p x-bind:class="{ 'line-through' : results.numbers }">{{ __('tallstack-ui::messages.password.rules.formats.numbers') }}</p>
                     </span>
@@ -83,10 +89,12 @@
                         <x-dynamic-component :component="TallStackUi::component('icon')"
                                              icon="x-circle"
                                              :class="$personalize['rules.items.icons.error']"
+                                             dusk="tallstackui_password_mixed_error"
                                              x-show="!results.mixed" />
                         <x-dynamic-component :component="TallStackUi::component('icon')"
                                              icon="check-circle"
                                              :class="$personalize['rules.items.icons.success']"
+                                             dusk="tallstackui_password_mixed_success"
                                              x-show="results.mixed" />
                         <p x-bind:class="{ 'line-through' : results.mixed }">{{ __('tallstack-ui::messages.password.rules.formats.mixed') }}</p>
                     </span>

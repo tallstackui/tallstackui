@@ -24,6 +24,16 @@ class Password extends BaseComponent implements Personalization
         $this->setup();
     }
 
+    /**
+     * Set the default rules values for `min` and `symbols`.
+     *
+     * @return string[]
+     */
+    public static function defaults(): array
+    {
+        return ['min' => '8', 'symbols' => '!@#$%^&*()_+-='];
+    }
+
     public function blade(): View
     {
         return view('tallstack-ui::components.form.password');
@@ -59,7 +69,7 @@ class Password extends BaseComponent implements Personalization
 
         $this->rules = $this->rules->reduce(function (Collection $carry, string $value) {
             if (str_contains($value, 'min')) {
-                $carry->put('min', (explode(':', $value)[1] ?? '8'));
+                $carry->put('min', (explode(':', $value)[1] ?? self::defaults()['min']));
             }
 
             if (str_contains($value, 'numbers')) {
@@ -67,7 +77,7 @@ class Password extends BaseComponent implements Personalization
             }
 
             if (str_contains($value, 'symbols')) {
-                $carry->put('symbols', (explode(':', $value)[1] ?? '!@#$%^&*()_+-='));
+                $carry->put('symbols', (explode(':', $value)[1] ?? self::defaults()['symbols']));
             }
 
             if (str_contains($value, 'mixed')) {
