@@ -9,10 +9,6 @@
             {
                 "action": "npm run build",
                 "options": []
-            },
-            {
-                "action": "git add . && git commit -m 'formatting' --no-verify",
-                "options": []
             }
         ]
     }
