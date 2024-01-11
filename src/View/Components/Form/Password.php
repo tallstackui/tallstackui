@@ -94,9 +94,5 @@ class Password extends BaseComponent implements Personalization
         if ($this->generator && (! $this->rules || $this->rules->isEmpty())) {
             throw new Exception('The password [generator] requires the [rules] of the password.');
         }
-
-        if (! $this->rules->has('min') && $this->generator) {
-            throw new Exception('The password [generator] requires the [min] size of the password.');
-        }
     }
 }

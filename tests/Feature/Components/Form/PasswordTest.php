@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\View\ViewException;
 use TallStackUi\View\Components\Form\Password;
 
 it('can render')
@@ -32,4 +33,15 @@ it('can render with rules', function () {
         ->toContain(__('tallstack-ui::messages.password.rules.formats.symbols', ['symbols' => '!@#']))
         ->toContain(__('tallstack-ui::messages.password.rules.formats.numbers'))
         ->toContain(__('tallstack-ui::messages.password.rules.formats.mixed'));
+});
+
+it('cannot render with generator and without rules', function () {
+    $this->expectException(ViewException::class);
+    $this->expectExceptionMessage('The password [generator] requires the [rules] of the password.');
+
+    $component = <<<'HTML'
+    <x-password generator />
+    HTML;
+
+    expect($component)->render();
 });
