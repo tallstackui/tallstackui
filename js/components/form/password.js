@@ -34,16 +34,12 @@ export default (rules) => ({
   check(value) {
     this.results.min = this.min && value.length >= this.min;
 
-    this.results.symbols = this.symbols ?
-      value.match(new RegExp(`[${this.symbols}]`)) :
-      true;
+    if (this.symbols) {
+      this.results.symbols = (new RegExp(`[${this.symbols.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')}]`)).test(value);
+    }
 
-    this.results.numbers = this.numbers ?
-      value.match(/\d/) :
-      true;
+    this.results.numbers = this.numbers &&value.match(/\d/) !== null;
 
-    this.results.mixed = this.mixed ?
-      value.match(/[a-z]/) && value.match(/[A-Z]/) :
-      true;
+    this.results.mixed = this.mixed && value.match(/[a-z]/) && value.match(/[A-Z]/);
   },
 });

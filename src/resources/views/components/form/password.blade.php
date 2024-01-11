@@ -23,7 +23,7 @@
                    @if ($rules->isNotEmpty())
                        x-on:click="rules = true"
                        x-on:click.outside="rules = false"
-                       x-model.debounce.250ms="input"
+                       x-model.debounce="input"
                    @endif
                    :type="!show ? 'password' : 'text'">
         </div>
