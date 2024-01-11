@@ -42,4 +42,39 @@ export default (rules) => ({
 
     this.results.mixed = this.mixed && value.match(/[a-z]/) && value.match(/[A-Z]/);
   },
+  /**
+   * @returns {void}
+   */
+  generator() {
+    let password = '';
+
+    const lower = 'abcdefghijklmnopqrstuvwxyz';
+    const upper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const numeric = '0123456789';
+
+    password += lower.charAt(Math.floor(Math.random() * lower.length));
+
+    if (this.mixed) {
+      password += upper.charAt(Math.floor(Math.random() * upper.length));
+    }
+
+    if (this.numbers) {
+      password += numeric.charAt(Math.floor(Math.random() * numeric.length));
+    }
+
+    if (this.symbols) {
+      password += this.symbols.charAt(Math.floor(Math.random() * this.symbols.length));
+    }
+
+    // We just fill the remaining password with random characters from all selected types
+    const allCharacters = lower + (this.mixed ? upper : '') + (this.numbers ? numeric : '') + (this.symbols ? this.symbols : '');
+    for (let i = password.length; i < this.min; i++) {
+      password += allCharacters.charAt(Math.floor(Math.random() * allCharacters.length));
+    }
+
+    // We just shuffle the password to avoid predictable patterns (optional)
+    password = password.split('').sort(() => 0.5 - Math.random()).join('');
+
+    this.input = password;
+  },
 });

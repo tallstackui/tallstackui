@@ -2,6 +2,7 @@
 
 namespace TallStackUi\View\Components\Form;
 
+use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -19,6 +20,7 @@ class Password extends BaseComponent implements Personalization
         public ?string $label = null,
         public ?string $hint = null,
         public Collection|array|null $rules = null,
+        public ?bool $generator = false,
         public ?bool $invalidate = null
     ) {
         $this->setup();
@@ -65,9 +67,7 @@ class Password extends BaseComponent implements Personalization
 
     protected function setup(): void
     {
-        $this->rules = collect($this->rules);
-
-        $this->rules = $this->rules->reduce(function (Collection $carry, string $value) {
+        $this->rules = collect($this->rules)->reduce(function (Collection $carry, string $value) {
             if (str_contains($value, 'min')) {
                 $carry->put('min', (explode(':', $value)[1] ?? self::defaults()['min']));
             }
@@ -86,5 +86,17 @@ class Password extends BaseComponent implements Personalization
 
             return $carry;
         }, collect());
+    }
+
+    /** @throws Exception */
+    protected function validate(): void
+    {
+        if ($this->generator && (! $this->rules || $this->rules->isEmpty())) {
+            throw new Exception('The password [generator] requires the [rules] of the password.');
+        }
+
+        if (! $this->rules->has('min') && $this->generator) {
+            throw new Exception('The password [generator] requires the [min] size of the password.');
+        }
     }
 }
