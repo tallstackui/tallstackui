@@ -9,7 +9,11 @@
 /.github              export-ignore
 /arts                 export-ignore
 /tests                export-ignore
-/js                   export-ignore
+/js/components        export-ignore
+/js/globals           export-ignore
+/js/helpers           export-ignore
+/js/helpers.js        export-ignore
+/js/tallstackui.js    export-ignore
 .eslintrc.js          export-ignore
 .gitattributes        export-ignore
 .gitignore            export-ignore
