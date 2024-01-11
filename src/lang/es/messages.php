@@ -39,4 +39,16 @@ return [
             'copied' => '¡Copiado!',
         ],
     ],
+
+    'password' => [
+        'rules' => [
+            'title' => 'Formato Esperado de Contraseña:',
+            'formats' => [
+                'min' => 'Al menos :min caracteres',
+                'numbers' => 'Al menos un número',
+                'symbols' => 'Al menos un símbolo (:symbols)',
+                'mixed' => 'Al menos una letra mayúscula',
+            ],
+        ],
+    ],
 ];
