@@ -3,7 +3,7 @@
     $personalize = $classes();
 @endphp
 
-<div @if ($rules->isNotEmpty()) x-data="tallstackui_formPassword(@js($rules))" @endif>
+<div @if ($rules->isNotEmpty()) x-data="tallstackui_formPassword(@js($rules), @js($generator))" @endif>
     <x-dynamic-component :component="TallStackUi::component('wrapper.input')" :$id :$property :$error :$label :$hint :$invalidate password>
         <div @class([
             $personalize['input.wrapper'],
@@ -11,8 +11,17 @@
             $personalize['input.color.background'] => !$attributes->get('disabled') && !$attributes->get('readonly'),
             $personalize['input.color.disabled'] => $attributes->get('disabled') || $attributes->get('readonly'),
             $personalize['error'] => $error
-        ])>
+        ]) x-on:click.outside="rules = false">
             <div @class($personalize['icon.wrapper']) x-cloak>
+                @if ($generator)
+                    <div class="mr-2">
+                        <x-dynamic-component :component="TallStackUi::component('icon')"
+                                             icon="arrow-path"
+                                             :$error
+                                             x-on:click="generator(); show = true;"
+                                             @class($personalize['icon.class']) />
+                    </div>
+                @endif
                 <div class="cursor-pointer" x-on:click="show = !show">
                     <x-dynamic-component :component="TallStackUi::component('icon')" icon="eye" :$error @class($personalize['icon.class']) x-show="!show" />
                     <x-dynamic-component :component="TallStackUi::component('icon')" icon="eye-slash" :$error @class($personalize['icon.class']) x-show="show" />
@@ -22,7 +31,6 @@
                   {{ $attributes->class([$personalize['input.base']]) }}
                    @if ($rules->isNotEmpty())
                        x-on:click="rules = true"
-                       x-on:click.outside="rules = false"
                        x-model.debounce="input"
                    @endif
                    :type="!show ? 'password' : 'text'">
