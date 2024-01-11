@@ -12,6 +12,13 @@
             $personalize['input.color.disabled'] => $attributes->get('disabled') || $attributes->get('readonly'),
             $personalize['error'] => $error
         ]) x-on:click.outside="rules = false">
+            <input @if ($id) id="{{ $id }}" @endif
+                  {{ $attributes->class([$personalize['input.base']]) }}
+                   @if ($rules->isNotEmpty())
+                       x-on:click="rules = true"
+                       x-model.debounce="input"
+                   @endif
+                   :type="!show ? 'password' : 'text'">
             <div @class($personalize['icon.wrapper']) x-cloak>
                 @if ($generator)
                     <div class="mr-2">
@@ -27,13 +34,6 @@
                     <x-dynamic-component :component="TallStackUi::component('icon')" icon="eye-slash" :$error @class($personalize['icon.class']) x-show="show" />
                 </div>
             </div>
-            <input @if ($id) id="{{ $id }}" @endif
-                  {{ $attributes->class([$personalize['input.base']]) }}
-                   @if ($rules->isNotEmpty())
-                       x-on:click="rules = true"
-                       x-model.debounce="input"
-                   @endif
-                   :type="!show ? 'password' : 'text'">
         </div>
     </x-dynamic-component>
     @if ($rules->isNotEmpty())
