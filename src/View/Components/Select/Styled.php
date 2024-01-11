@@ -97,6 +97,8 @@ class Styled extends BaseComponent implements Personalization
                         'disabled' => 'dark:bg-dark-500 !cursor-not-allowed bg-gray-100',
                         'image' => 'h-6 w-6 rounded-full',
                         'check' => 'h-5 w-5',
+                        'label' => 'truncate',
+                        'description' => 'text-xs opacity-70',
                     ],
                     'empty' => 'dark:text-dark-300 block w-full pr-2 text-gray-600',
                 ],
