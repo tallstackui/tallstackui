@@ -39,7 +39,7 @@
              x-anchor.{{ $position }}.offset.5="$refs.dropdown"
              @class([$personalize['wrapper.third']])
              role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
-            <div class="p-1" role="none">
+            <div role="none">
                 @if ($header)
                     <div class="m-2">
                         {!! $header !!}
