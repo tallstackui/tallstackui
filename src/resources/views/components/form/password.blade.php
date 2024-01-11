@@ -19,7 +19,6 @@
                                              icon="arrow-path"
                                              :$error
                                              x-on:click="generator(); show = true;"
-                                             x-on:click.outside="show = false"
                                              @class($personalize['icon.class']) />
                     </div>
                 @endif
