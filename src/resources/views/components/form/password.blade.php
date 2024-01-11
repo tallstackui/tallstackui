@@ -37,7 +37,7 @@
              x-transition:leave="transition duration-100 ease-in"
              x-transition:leave-start="opacity-100"
              x-transition:leave-end="opacity-0">
-            <h3 @class($personalize['rules.title'])>Expected Password Format:</h3>
+            <h3 @class($personalize['rules.title'])>{{ __('tallstack-ui::messages.password.rules.title') }}</h3>
             <div @class($personalize['rules.block'])>
                 @if ($rules->has('min'))
                     <span @class($personalize['rules.items.base'])>
@@ -49,7 +49,7 @@
                                              icon="check-circle"
                                              :class="$personalize['rules.items.icons.success']"
                                              x-show="results.min" />
-                        <p x-bind:class="{ 'line-through' : results.min }">At least {{ $rules->get('min') }} characters</p>
+                        <p x-bind:class="{ 'line-through' : results.min }">{{ __('tallstack-ui::messages.password.rules.formats.min', ['min' => $rules->get('min')]) }}</p>
                     </span>
                 @endif
                 @if ($rules->has('symbols'))
@@ -62,7 +62,7 @@
                                              icon="check-circle"
                                              :class="$personalize['rules.items.icons.success']"
                                              x-show="results.symbols" />
-                        <p x-bind:class="{ 'line-through' : results.symbols }">At least one symbol @if (is_string($rules->get('symbols'))) ({{ $rules->get('symbols') }}) @endif</p>
+                        <p x-bind:class="{ 'line-through' : results.symbols }">{{ __('tallstack-ui::messages.password.rules.formats.symbols', ['symbols' => $rules->get('symbols')]) }}</p>
                     </span>
                 @endif
                 @if ($rules->has('numbers'))
@@ -75,7 +75,7 @@
                                              icon="check-circle"
                                              :class="$personalize['rules.items.icons.success']"
                                              x-show="results.numbers" />
-                        <p x-bind:class="{ 'line-through' : results.numbers }">At least one number</p>
+                        <p x-bind:class="{ 'line-through' : results.numbers }">{{ __('tallstack-ui::messages.password.rules.formats.numbers') }}</p>
                     </span>
                 @endif
                 @if ($rules->has('mixed'))
@@ -88,7 +88,7 @@
                                              icon="check-circle"
                                              :class="$personalize['rules.items.icons.success']"
                                              x-show="results.mixed" />
-                        <p x-bind:class="{ 'line-through' : results.mixed }">Uppercase and lowercase</p>
+                        <p x-bind:class="{ 'line-through' : results.mixed }">{{ __('tallstack-ui::messages.password.rules.formats.mixed') }}</p>
                     </span>
                 @endif
             </div>

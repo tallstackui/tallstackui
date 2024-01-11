@@ -39,4 +39,16 @@ return [
             'copied' => 'Kopyalandı!',
         ],
     ],
+
+    'password' => [
+        'rules' => [
+            'title' => 'Beklenen Şifre Formatı:',
+            'formats' => [
+                'min' => 'En az :min karakter',
+                'numbers' => 'En az bir rakam',
+                'symbols' => 'En az bir sembol (:symbols)',
+                'mixed' => 'En az bir büyük harf',
+            ],
+        ],
+    ],
 ];
