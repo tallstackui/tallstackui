@@ -13,7 +13,7 @@
          x-cloak
          x-on:click="$refs.input.focus()"
          @class([
-            'relative',
+            '!block',
             $personalize['input.class.wrapper'],
             $personalize['input.class.color.base'] => !$error,
             $personalize['input.class.color.background'] => !$attributes->get('disabled') && !$attributes->get('readonly'),
