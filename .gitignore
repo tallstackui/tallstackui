@@ -1,6 +1,7 @@
 node_modules
 vendor
 coverage
+.phpunit.cache/
 tests/Browser/console
 tests/Browser/screenshots
 tests/Browser/source
