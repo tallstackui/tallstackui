@@ -1,6 +1,6 @@
 {
     "name": "tallstackui/tallstackui",
-    "description": "A curated list of TallStack UI Components",
+    "description": "TallStackUI is a powerful suite of Blade components that elevate your workflow of Livewire applications.",
     "type": "library",
     "license": "MIT",
     "authors": [
