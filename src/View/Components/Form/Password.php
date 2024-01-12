@@ -47,7 +47,7 @@ class Password extends BaseComponent implements Personalization
             'input' => [...$this->input()],
             'icon' => [
                 'wrapper' => 'flex items-center pr-2.5',
-                'class' => 'h-5 w-5 text-gray-400',
+                'class' => 'h-5 w-5 cursor-pointer text-gray-400',
             ],
             'rules' => [
                 'wrapper' => 'my-2 rounded-lg border border-gray-300 bg-white p-4 dark:bg-dark-700 dark:border-dark-600',
