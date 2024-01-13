@@ -189,6 +189,7 @@ return [
         'textarea' => Components\Form\Textarea::class,
         'toast' => Components\Interaction\Toast::class,
         'toggle' => Components\Form\Toggle::class,
+        'toggle.thematic' => Components\ToggleThematic::class,
         'tooltip' => Components\Tooltip::class,
         'wrapper.input' => Components\Wrapper\Input::class,
         'wrapper.radio' => Components\Wrapper\Radio::class,
