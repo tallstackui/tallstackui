@@ -72,7 +72,7 @@ export default (rules) => ({
       password += allCharacters.charAt(Math.floor(Math.random() * allCharacters.length));
     }
 
-    // We just shuffle the password to avoid predictable patterns (optional)
+    // We just shuffle the password to avoid predictable patterns
     password = password.split('').sort(() => 0.5 - Math.random()).join('');
 
     this.input = password;

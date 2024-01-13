@@ -18,6 +18,7 @@ trait InteractsWithSelectOptions
             $label => $item[$label],
             $value => $item[$value],
             'disabled' => $item['disabled'] ?? false,
+            'description' => current(array_intersect_key($item, array_flip(['description', 'note']))) ?: null,
             'image' => current(array_intersect_key($item, array_flip(['image', 'img', 'img_src']))) ?: null,
         ])->toArray();
 
