@@ -5,6 +5,7 @@ namespace TallStackUi\View\Components;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\Support\ViewErrorBag;
+use Illuminate\View\ComponentSlot;
 use InvalidArgumentException;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
@@ -18,6 +19,7 @@ class Errors extends BaseComponent implements Personalization
         public ?string $icon = 'x-circle',
         public ?string $color = 'red',
         public bool $close = false,
+        public ComponentSlot|string|null $footer = null,
     ) {
         $this->title ??= __('tallstack-ui::messages.errors.title');
     }
@@ -58,6 +60,9 @@ class Errors extends BaseComponent implements Personalization
                 'list' => 'text-md list-disc space-y-1',
             ],
             'close' => 'w-5 h-5',
+            'slots' => [
+                'footer' => 'mt-2',
+            ],
         ]);
     }
 
