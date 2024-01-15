@@ -13,7 +13,6 @@ use TallStackUi\View\Components\Errors;
 use TallStackUi\View\Components\Form\Checkbox;
 use TallStackUi\View\Components\Form\Radio;
 use TallStackUi\View\Components\Form\Range;
-use TallStackUi\View\Components\Form\SwitchToggle;
 use TallStackUi\View\Components\Form\Toggle;
 use TallStackUi\View\Components\Interaction\Dialog;
 use TallStackUi\View\Components\Interaction\Toast;
@@ -42,7 +41,6 @@ class ResolveColor
             $component instanceof Toggle => ToggleColors::class,
             $component instanceof Tooltip => TooltipColors::class,
             $component instanceof Range => RangeColors::class,
-            $component instanceof SwitchToggle => SwitchColors::class,
             $component instanceof Button || $component instanceof Circle => ButtonColors::class,
             $component instanceof Radio || $component instanceof Checkbox => RadioColors::class,
             default => null,

@@ -28,7 +28,6 @@ use TallStackUi\View\Components\Form\Password;
 use TallStackUi\View\Components\Form\Pin;
 use TallStackUi\View\Components\Form\Radio;
 use TallStackUi\View\Components\Form\Range;
-use TallStackUi\View\Components\Form\SwitchToggle;
 use TallStackUi\View\Components\Form\Tag;
 use TallStackUi\View\Components\Form\Textarea;
 use TallStackUi\View\Components\Form\Toggle;
@@ -144,7 +143,6 @@ class Personalization
             'password' => Password::class,
             'pin' => Pin::class,
             'radio' => Radio::class,
-            'switch' => SwitchToggle::class,
             'tag' => Tag::class,
             'textarea' => Textarea::class,
             'toggle' => Toggle::class,

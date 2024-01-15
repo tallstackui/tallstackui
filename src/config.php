@@ -182,7 +182,6 @@ return [
         'select.native' => Components\Select\Native::class,
         'select.styled' => Components\Select\Styled::class,
         'slide' => Components\Slide::class,
-        'switch' => Components\Form\SwitchToggle::class,
         'tab' => Components\Tab\Tab::class,
         'tag' => Components\Form\Tag::class,
         'table' => Components\Table::class,
