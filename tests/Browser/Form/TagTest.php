@@ -229,6 +229,55 @@ class TagTest extends BrowserTestCase
     }
 
     /** @test */
+    public function can_use_events()
+    {
+        Livewire::visit(new class extends Component
+        {
+            public array $tags = [];
+
+            public ?string $add = null;
+
+            public ?string $remove = null;
+
+            public ?array $erase = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="tagged">@json($tags)</p>
+
+                    <p dusk="add">{{ $add }}</p>
+                    <p dusk="remove">{{ $remove }}</p>
+                    <p dusk="erase">@json($erase)</p>
+                    
+                    <x-tag dusk="tags" 
+                           label="Tags"
+                           wire:model.live="tags" 
+                           x-on:add="$wire.set('add', $event.detail.tag)"
+                           x-on:remove="$wire.set('remove', $event.detail.tag)"
+                           x-on:erase="$wire.set('erase', $event.detail.tags)" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForText('Tags')
+            ->type('@tags', 'foo')
+            ->keys('@tags', WebDriverKeys::ENTER)
+            ->waitForTextIn('@add', 'foo')
+            ->assertSeeIn('@add', 'foo')
+            ->keys('@tags', WebDriverKeys::BACKSPACE)
+            ->waitForTextIn('@remove', 'foo')
+            ->assertSeeIn('@remove', 'foo')
+            ->type('@tags', 'foobar')
+            ->keys('@tags', WebDriverKeys::ENTER)
+            ->waitForTextIn('@add', 'foobar')
+            ->click('@tallstackui_tag_erase')
+            ->waitForTextIn('@erase', '["foobar"]')
+            ->assertSeeIn('@erase', 'foobar');
+    }
+
+    /** @test */
     public function cannot_duplicate(): void
     {
         Livewire::visit(new class extends Component
