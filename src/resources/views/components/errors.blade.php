@@ -26,6 +26,11 @@
                     @endforeach
                 </ul>
             </div>
+            @if (is_string($footer))
+                <p @class($personalize['slots.footer'])>{{ $footer }}</p>
+            @else
+                {{ $footer }}
+            @endif
         </div>
     </div>
 @endif
