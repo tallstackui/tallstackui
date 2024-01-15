@@ -27,13 +27,17 @@ export default (
    * @param event {Event}
    */
   add(event) {
+    if (event.key !== 'Enter' && event.key !== ',') return;
+
     if (this.limit && (this.model?.length >= this.limit)) {
       this.clean();
 
       return;
     }
 
-    if (event.key !== 'Enter' && event.key !== ',') return;
+    // We need to make sure we remove commas because adding
+    // using commas doesn't work on mobile devices, just enter.
+    this.tag = this.tag.replace(/,/g, '');
 
     let tag = this.tag.trim();
 
@@ -54,6 +58,8 @@ export default (
     this.model = Array.isArray(this.model) ? [...this.model, tag] : [tag];
     this.prefix();
 
+    this.$el.dispatchEvent(new CustomEvent('add', {detail: {tag: tag}}));
+
     this.clean();
   },
   /**
@@ -67,17 +73,20 @@ export default (
    * @param event {Event}
    */
   remove(index, event = null) {
-    if (index < 0 || this.model?.length <= index) return;
+    if (index < 0 || !this.model || this.model.length <= index) return;
 
-    // We only remove using backspace when the input is empty
     if (event && event.target.value.trim() !== '') return;
 
-    this.model.splice(index, 1);
+    const removed = this.model.splice(index, 1);
+
+    this.$el.dispatchEvent(new CustomEvent('remove', {detail: {tag: removed[0]}}));
   },
   /**
    * @returns {void}
    */
   erase() {
+    this.$el.dispatchEvent(new CustomEvent('erase', {detail: {tags: this.model}}));
+
     this.model = [];
   },
   /**
@@ -101,7 +110,6 @@ export default (
 
     if (!input) return;
 
-    // Ignoring empty arrays
     data = data?.filter((value) => value !== '');
 
     input.value = !data || data.length === 0 ?

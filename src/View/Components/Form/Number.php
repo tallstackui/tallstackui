@@ -22,6 +22,7 @@ class Number extends BaseComponent implements Personalization
         public ?int $delay = 2,
         public ?bool $chevron = false,
         public ?bool $invalidate = null,
+        public ?bool $centralized = null,
     ) {
         //
     }
@@ -49,7 +50,7 @@ class Number extends BaseComponent implements Personalization
         return Arr::dot([
             'input' => ['class' => [...$this->input()]],
             'buttons' => [
-                'wrapper' => 'flex items-center border-gray-200 -gap-y-px divide-x divide-gray-200 dark:divide-gray-700 dark:border-gray-700',
+                'wrapper' => 'flex w-full items-center border-gray-200 dark:border-gray-700',
                 'left' => [
                     'base' => 'inline-flex px-3 items-center justify-center disabled:opacity-30',
                     'size' => 'w-4 h-4',

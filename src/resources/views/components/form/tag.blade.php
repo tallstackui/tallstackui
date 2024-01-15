@@ -12,6 +12,7 @@
     <div x-data="tallstackui_formTag({!! $entangle !!}, @js($limit), @js($prefix), @js($livewire), @js($property), @js($value))"
          x-cloak
          x-on:click="$refs.input.focus()"
+         {!! $attributes->whereStartsWith('x-on')->except('x-on:erase') !!}
          @class([
             '!block',
             $personalize['input.class.wrapper'],
@@ -44,14 +45,18 @@
                    x-on:keydown="add($event)"
                    x-on:keydown.backspace="remove(model?.length - 1, $event)"
                    x-model="tag"
-                   x-ref="input">
+                   x-ref="input"
+                   enterkeyhint="done">
         </div>
-        <div x-show="model?.length > 0" @class($personalize['button.wrapper'])>
+        <button type="button"
+                x-on:click="erase()"
+                x-show="model?.length > 0"
+                dusk="tallstackui_tag_erase"
+                @class($personalize['button.wrapper'])
+                {!! $attributes->only('x-on:erase') !!}>
             <x-dynamic-component :component="TallStackUi::component('icon')"
-                                 name="x-mark"
-                                 :class="$personalize['button.base']"
-                                 dusk="tallstackui_tag_erase"
-                                 x-on:click="erase()" />
-        </div>
+                                 :class="$personalize['button.icon']"
+                                 name="x-mark" />
+        </button>
     </div>
 </x-dynamic-component>

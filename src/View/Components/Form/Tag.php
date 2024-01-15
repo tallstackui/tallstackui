@@ -47,8 +47,8 @@ class Tag extends BaseComponent implements Personalization
                 ],
             ],
             'button' => [
-                'wrapper' => 'absolute inset-y-0 right-2 flex items-center text-secondary-500 dark:text-dark-400',
-                'base' => 'h-5 w-5 cursor-pointer text-red-500',
+                'wrapper' => 'text-secondary-500 dark:text-dark-400 absolute inset-y-0 right-2 flex cursor-pointer items-center',
+                'icon' => 'h-5 w-5 text-red-500',
             ],
             'error' => $this->error(),
         ]);
