@@ -22,6 +22,7 @@ class Number extends BaseComponent implements Personalization
         public ?int $delay = 2,
         public ?bool $chevron = false,
         public ?bool $invalidate = null,
+        public ?bool $centralized = null,
     ) {
         //
     }
