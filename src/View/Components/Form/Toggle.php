@@ -28,8 +28,11 @@ class Toggle extends BaseComponent implements Personalization
         public ?string $position = 'right',
         public ?string $color = 'primary',
         public ?bool $invalidate = null,
+        public ?array $icons = null,
+        public ?bool $thematic = null,
     ) {
         $this->setup();
+        $this->icons = $this->thematic ? ['sun', 'moon'] : ($this->icons ?: null);
     }
 
     public function blade(): View
@@ -42,21 +45,38 @@ class Toggle extends BaseComponent implements Personalization
         return Arr::dot([
             'wrapper' => 'relative flex items-center justify-end',
             'input' => [
-                'class' => 'peer absolute inset-y-0 left-0.5 translate-x-0 my-0.5 transform cursor-pointer appearance-none rounded-full border-0 bg-white shadow transition duration-200 ease-in-out checked:bg-none checked:text-white focus:outline-none focus:ring-0 focus:ring-offset-0',
+                'class' => 'peer absolute inset-y-0 left-0.5 z-20 my-0.5 translate-x-0 transform cursor-pointer appearance-none rounded-full border-0 bg-white shadow transition duration-200 ease-in-out checked:bg-none checked:text-white focus:outline-none focus:ring-0 focus:ring-offset-0',
                 'sizes' => [
-                    'xs' => 'h-2 w-2 checked:translate-x-2',
-                    'sm' => 'h-3 w-3 checked:translate-x-3',
-                    'md' => 'h-4 w-4 checked:translate-x-4',
-                    'lg' => 'h-5 w-5 checked:translate-x-4',
+                    'xs' => 'h-2 w-2 checked:translate-x-3',
+                    'sm' => 'h-3 w-3 checked:translate-x-4',
+                    'md' => 'h-4 w-4 checked:translate-x-5',
+                    'lg' => 'h-5 w-5 checked:translate-x-5',
                 ],
             ],
             'background' => [
                 'class' => 'bg-secondary-200 dark:bg-dark-800 block cursor-pointer rounded-full transition duration-100 ease-in-out group-focus:ring-2 group-focus:ring-offset-2 peer-focus:ring-2 peer-focus:ring-offset-2',
                 'sizes' => [
-                    'xs' => 'h-3 w-5',
-                    'sm' => 'h-4 w-7',
-                    'md' => 'h-5 w-9',
-                    'lg' => 'h-6 w-10',
+                    'xs' => 'h-3 w-6',
+                    'sm' => 'h-4 w-8',
+                    'md' => 'h-5 w-10',
+                    'lg' => 'h-6 w-11',
+                ],
+            ],
+            'icon' => [
+                'wrapper' => 'absolute m-0.5 mr-1',
+                'sizes' => [
+                    'xs' => 'h-2 w-2',
+                    'sm' => 'h-3 w-3',
+                    'md' => 'h-4 w-4',
+                    'lg' => 'h-4 w-4',
+                ],
+                'color' => [
+                    'on' => 'text-white',
+                    'off' => 'text-dark-500',
+                ],
+                'thematic' => [
+                    'light' => 'text-yellow-500',
+                    'dark' => 'text-blue-300',
                 ],
             ],
             'error' => 'bg-red-600 group-focus:ring-red-600 peer-checked:bg-red-600 peer-focus:ring-red-600',
@@ -69,6 +89,10 @@ class Toggle extends BaseComponent implements Personalization
 
         if (! in_array($this->position, $positions)) {
             throw new InvalidArgumentException('The toggle label [position] must be one of the following: ['.implode(', ', $positions).']');
+        }
+
+        if ($this->icons !== null && count($this->icons) !== 2) {
+            throw new InvalidArgumentException('The switch [icons] must have two positions with icons');
         }
     }
 }
