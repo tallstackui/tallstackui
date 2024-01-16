@@ -25,7 +25,7 @@
             <template x-for="(tag, index) in (model ?? [])" :key="index">
                 <span @class($personalize['label.base'])>
                     <span x-text="tag"></span>
-                    <button type="button" x-on:click="remove(index)">
+                    <button type="button" {!! $attributes->only('x-on:remove') !!} x-on:click="remove(index)">
                     <x-dynamic-component :component="TallStackUi::component('icon')"
                                          name="x-mark"
                                          :class="$personalize['label.icon']" />
