@@ -7,7 +7,7 @@ export default (
     placeholders,
 ) => ({
   text: text,
-  notification: false,
+  notification: null,
   placeholders: placeholders,
   time: 2000,
   init() {
@@ -26,9 +26,8 @@ export default (
     });
   },
   copy() {
-    // Using this.notification here to prevent
-    // the recopy during the text effect.
-    if (!text || !hash || this.notification) {
+    // Using this.notification here to prevent the copy again during the text effect.
+    if (!text || !hash || Boolean(this.notification) === true) {
       return;
     }
 
@@ -41,7 +40,7 @@ export default (
 
       event.clearSelection();
 
-      setTimeout(() => this.notification = null, this.time);
+      setTimeout(() => this.notification = false, this.time);
 
       this.$el.dispatchEvent(new CustomEvent('copy', {detail: {text: this.text}}));
 
