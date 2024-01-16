@@ -46,7 +46,7 @@
             @endif
         @endif
         @if ($type === 'icon')
-            <button x-on:click="copy()" {!! $attributes->only('x-on:copied') !!} @class($personalize['icon.wrapper'])>
+            <button x-on:click="copy()" {!! $attributes->only('x-on:copy') !!} @class($personalize['icon.wrapper'])>
                 <x-dynamic-component :component="TallStackUi::component('icon')"
                                      :icon="filled($icons['copy']) ? $icons['copy'] : $personalize['icon.icons.copy.name']"
                                      data-hash="{{ $hash }}"

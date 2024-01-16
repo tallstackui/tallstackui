@@ -26,7 +26,9 @@ export default (
     });
   },
   copy() {
-    if (!text || !hash) {
+    // Using this.notification here to prevent
+    // the copy during the text effect.
+    if (!text || !hash || this.notification) {
       return;
     }
 
@@ -42,6 +44,8 @@ export default (
       setTimeout(() => this.notification = null, this.time);
 
       this.$el.dispatchEvent(new CustomEvent('copy', {detail: {text: this.text}}));
+
+      clipboard.destroy();
     });
 
     clipboard.on('error', () => this.notification = false);
