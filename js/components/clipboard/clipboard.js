@@ -40,6 +40,8 @@ export default (
       event.clearSelection();
 
       setTimeout(() => this.notification = null, this.time);
+
+      this.$el.dispatchEvent(new CustomEvent('copy', {detail: {text: this.text}}));
     });
 
     clipboard.on('error', () => this.notification = false);
