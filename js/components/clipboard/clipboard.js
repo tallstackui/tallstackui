@@ -27,7 +27,7 @@ export default (
   },
   copy() {
     // Using this.notification here to prevent
-    // the copy during the text effect.
+    // the recopy during the text effect.
     if (!text || !hash || this.notification) {
       return;
     }
