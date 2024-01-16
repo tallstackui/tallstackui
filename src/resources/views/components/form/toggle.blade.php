@@ -15,7 +15,7 @@
         @if ($thematic)
             x-data="{ checked: darkTheme }"
         @else
-            x-data="{ checked: false }"
+            x-data="{ checked: @js($property) }"
         @endif>
         <input type="checkbox"
             x-model="checked"
