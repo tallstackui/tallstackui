@@ -20,7 +20,7 @@
         <input type="checkbox"
             x-model="checked"
             @if ($id) id="{{ $id }}" @endif
-            @if ($thematic) x-model="checked" x-on:click="darkTheme = !darkTheme" @endif
+            @if ($thematic) x-on:click="darkTheme = !darkTheme" @endif
             {{ $attributes->class([$personalize['input.class'], $personalize['input.sizes.' . $size]]) }}>
         @if ($icons !== null)
             <x-dynamic-component :component="TallStackUi::component('icon')" 
