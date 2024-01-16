@@ -5,8 +5,8 @@
     $validating($text);
 @endphp
 
-<div x-data="tallstackui_clipboard(@js($text), @js($hash), @js($type), @js($placeholders['button']))" 
-    {!! $attributes->whereStartsWith('x-on')->except('x-on:copied') !!}>
+<div x-data="tallstackui_clipboard(@js($text), @js($hash), @js($type), @js($placeholders['button']))"
+    {!! $attributes->except('x-on:copied') !!}>
     @if ($type === 'input' && $label)
         <x-dynamic-component :component="TallStackUi::component('label')" :$label />
     @endif
