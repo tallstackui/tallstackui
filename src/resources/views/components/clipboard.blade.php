@@ -6,7 +6,7 @@
 @endphp
 
 <div x-data="tallstackui_clipboard(@js($text), @js($hash), @js($type), @js($placeholders['button']))"
-    {!! $attributes->except('x-on:copied') !!}>
+    {!! $attributes->except('x-on:copy') !!}>
     @if ($type === 'input' && $label)
         <x-dynamic-component :component="TallStackUi::component('label')" :$label />
     @endif
@@ -35,7 +35,7 @@
             @if (! $left)
                 <button data-hash="{{ $hash }}"
                         x-on:click="copy()"
-                        {!! $attributes->only('x-on:copied') !!}
+                        {!! $attributes->only('x-on:copy') !!}
                         @class([$personalize['input.buttons.base'], $personalize['input.buttons.right']])
                         dusk="tallstackui_clipboard_input_copy"
                         type="button">
