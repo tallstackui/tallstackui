@@ -5,7 +5,8 @@
     $validating($text);
 @endphp
 
-<div x-data="tallstackui_clipboard(@js($text), @js($hash), @js($type), @js($placeholders['button']))">
+<div x-data="tallstackui_clipboard(@js($text), @js($hash), @js($type), @js($placeholders['button']))" 
+    {!! $attributes->whereStartsWith('x-on')->except('x-on:copied') !!}>
     @if ($type === 'input' && $label)
         <x-dynamic-component :component="TallStackUi::component('label')" :$label />
     @endif
@@ -34,6 +35,7 @@
             @if (! $left)
                 <button data-hash="{{ $hash }}"
                         x-on:click="copy()"
+                        {!! $attributes->only('x-on:copied') !!}
                         @class([$personalize['input.buttons.base'], $personalize['input.buttons.right']])
                         dusk="tallstackui_clipboard_input_copy"
                         type="button">
@@ -45,19 +47,18 @@
             @endif
         @endif
         @if ($type === 'icon')
-            <div @class($personalize['icon.wrapper'])>
+            <button x-on:click="copy()" {!! $attributes->only('x-on:copied') !!} @class($personalize['icon.wrapper'])>
                 <x-dynamic-component :component="TallStackUi::component('icon')"
                                      :icon="filled($icons['copy']) ? $icons['copy'] : $personalize['icon.icons.copy.name']"
                                      data-hash="{{ $hash }}"
                                      @class($personalize['icon.icons.copy.class'])
-                                     x-on:click="copy()"
                                      dusk="tallstackui_clipboard_icon_copy"
                                      x-show="!notification" />
                 <x-dynamic-component :component="TallStackUi::component('icon')"
                                      :icon="filled($icons['copied']) ? $icons['copied'] : $personalize['icon.icons.copied.name']"
                                      @class($personalize['icon.icons.copied.class'])
                                      x-show="notification" />
-            </div>
+            </button>
         @endif
     </div>
     @if ($type === 'input' && $hint)

@@ -43,5 +43,7 @@ export default (
     });
 
     clipboard.on('error', () => this.notification = false);
+
+    this.$el.dispatchEvent(new CustomEvent('copied', {detail: {text: this.text}}));
   },
 });
