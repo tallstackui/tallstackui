@@ -194,6 +194,10 @@ export default (
       return error('The [params] must be an array with key and value pairs');
     }
 
+    this.request.params = this.$refs.params ?
+      Alpine.evaluate(this, this.$refs.params.innerText) :
+      this.request.params;
+
     const {url, init} = body(this.request, this.search, this.model ?
         (this.model.constructor === Array ? this.model : [this.model]) :
         []);
