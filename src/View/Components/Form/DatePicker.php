@@ -20,8 +20,9 @@ class DatePicker extends BaseComponent implements Personalization
         public ?string $icon = null,
         public ?bool $invalidate = null,
         public ?bool $range = false,
-        public ?bool $timePicker = false,
+        public ?bool $time = false,
         public ?bool $helpers = false,
+        public ?string $format = null,
         public ?array $disabledDates = [],
     ) {
         //

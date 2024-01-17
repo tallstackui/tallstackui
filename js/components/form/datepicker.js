@@ -1,7 +1,7 @@
-export default (range = false, disabledDates= []) => ({
+export default (range = false, format = 'YYYY-MM-DD', disabledDates = []) => ({
   open: false,
+  format: format,
   datePickerValue: '',
-  datePickerFormat: 'YYYY-MM-DD',
   datePickerMonth: '',
   datePickerYear: '',
   datePickerDay: '',
@@ -92,6 +92,7 @@ export default (range = false, disabledDates= []) => ({
       const isDisabled = this.isDateDisabled(d); // Check if the date is disabled
       daysArray.push({day: i, full: d, isDisabled}); // Store the day number and its disabled status
     }
+    console.log(daysArray);
     this.datePickerBlankDaysInMonth = blankdaysArray;
     this.datePickerDaysInMonth = daysArray;
   },
@@ -106,19 +107,20 @@ export default (range = false, disabledDates= []) => ({
     const formattedMinute = ('0' + date.getMinutes()).slice(-2);
     const amPm = formattedHour >= 12 ? 'PM' : 'AM';
 
-    if (this.datePickerFormat === 'M d, Y') {
+    // Handle predefined formats
+    if (this.format === 'M d, Y') {
       return `${formattedMonthShortName} ${formattedDate}, ${formattedYear}`;
     }
-    if (this.datePickerFormat === 'MM-DD-YYYY') {
+    if (this.format === 'MM-DD-YYYY') {
       return `${formattedMonthInNumber}-${formattedDate}-${formattedYear}`;
     }
-    if (this.datePickerFormat === 'DD-MM-YYYY') {
+    if (this.format === 'DD-MM-YYYY') {
       return `${formattedDate}-${formattedMonthInNumber}-${formattedYear}`;
     }
-    if (this.datePickerFormat === 'YYYY-MM-DD') {
+    if (this.format === 'YYYY-MM-DD') {
       return `${formattedYear}-${formattedMonthInNumber}-${formattedDate}`;
     }
-    if (this.datePickerFormat === 'D d M, Y') {
+    if (this.format === 'D d M, Y') {
       return `${formattedDay} ${formattedDate} ${formattedMonthShortName} ${formattedYear}`;
     }
 
@@ -177,7 +179,7 @@ export default (range = false, disabledDates= []) => ({
       if (this.startDate) {
         this.datePickerValue = this.startDate ? this.datePickerFormatDate(this.startDate) : '';
         if (this.endDate) {
-          this.datePickerValue += ' - ' + (this.endDate ? this.datePickerFormatDate(this.endDate) : '');
+          this.datePickerValue += ' até ' + (this.endDate ? this.datePickerFormatDate(this.endDate) : '');
           this.open = false;
         }
       } else {
