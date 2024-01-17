@@ -18,21 +18,13 @@
                 $attributes->get('disabled') || $attributes->get('readonly'),
             $personalize['error'] => $error,
         ])>
-        <div @class($personalize['selected.wrapper'])>
-            <template x-if="model">
-                <button type="button"
-                    @class($personalize['selected.base'])
-                    :style="{ 'background-color': model }"
-                    x-on:click="show = !show"></button>
-            </template>
+        <div x-on:click="show = !show"
+            class="flex items-center cursor-pointer text-md w-full border-0 bg-transparent p-1 py-1.5 ring-0 ring-inset focus:ring-transparent sm:text-sm sm:leading-6">
+            Selecione um arquivo
         </div>
         <div class="w-full" wire:ignore>
-            <input @if ($id) id="{{ $id }}" @endif
-                {{ $attributes->class($personalize['input.base']) }}
-                type="text"
-                placeholder="Selecione um arquivo"
-                x-model="model"
-                x-ref="input">
+            <button @if ($id) id="{{ $id }}" @endif
+                {{ $attributes->class($personalize['input.base']) }}>
         </div>
         <div class="flex items-center">
             <button type="button"
