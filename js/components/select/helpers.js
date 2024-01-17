@@ -13,9 +13,12 @@ export const body = (request, search, selected) => {
       'X-Requested-With': 'XMLHttpRequest',
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-      'TallStackUi': true,
+      'X-TallStack-Ui': true,
     },
   };
+
+  const token = document.head.querySelector('[name="csrf-token"]')?.getAttribute('content');
+  if (token) init.headers['X-CSRF-TOKEN'] = token;
 
   if (method === 'get') {
     const query = new URLSearchParams(params);
