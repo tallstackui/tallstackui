@@ -168,6 +168,7 @@ return [
         'dropdown.items' => Components\Dropdown\Items::class,
         'error' => Components\Form\Error::class,
         'errors' => Components\Errors::class,
+        'fileupload' => Components\Form\FileUpload::class,
         'hint' => Components\Form\Hint::class,
         'icon' => Components\Icon::class,
         'input' => Components\Form\Input::class,

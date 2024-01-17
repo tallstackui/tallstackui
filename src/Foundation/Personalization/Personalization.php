@@ -21,6 +21,7 @@ use TallStackUi\View\Components\Form\Checkbox;
 use TallStackUi\View\Components\Form\Color;
 use TallStackUi\View\Components\Form\DatePicker;
 use TallStackUi\View\Components\Form\Error;
+use TallStackUi\View\Components\Form\FileUpload;
 use TallStackUi\View\Components\Form\Hint;
 use TallStackUi\View\Components\Form\Input;
 use TallStackUi\View\Components\Form\Label;
@@ -137,6 +138,7 @@ class Personalization
             'color' => Color::class,
             'datepicker' => DatePicker::class,
             'error' => Error::class,
+            'fileupload' => FileUpload::class,
             'hint' => Hint::class,
             'input' => Input::class,
             'label' => Label::class,
