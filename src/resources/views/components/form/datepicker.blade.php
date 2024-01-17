@@ -94,13 +94,14 @@
                             }">
                             <button x-text="dayObj.day"
                                 x-on:click="dayObj.isDisabled ? null : datePickerDayClicked(dayObj.day)"
+                                x-bind:disabled="dayObj.isDisabled"
                                 :class="{
                                     'text-primary-500': datePickerIsToday(dayObj.day) == true,
                                     'text-gray-600 dark:text-gray-400 hover:bg-gray-200': datePickerIsToday(dayObj.day) == false && datePickerIsSelectedDate(dayObj.day) == false && !dayObj.isDisabled,
                                     'bg-primary-500 text-white hover:bg-opacity-75': datePickerIsSelectedDate(dayObj.day) == true,
                                     'text-gray-400 cursor-not-allowed': dayObj.isDisabled
                                 }"
-                                class="flex items-center justify-center text-sm leading-none text-center rounded-full cursor-pointer h-7 w-7 focus:shadow-outline active:text-white dark:active:bg-primary-500 ring-primary-500 focus:bg-primary-600 dark:focus:ring-offset-dark-900 dark:focus:ring-primary-600 dark:hover:bg-dark-600 dark:hover:ring-primary-600 outline-none transition-all duration-200 ease-in-out hover:shadow-sm focus:ring-2 focus:ring-offset-2 focus:ring-offset-white">
+                                class="flex items-center justify-center text-sm leading-none text-center rounded-full h-7 w-7 focus:shadow-outline active:text-white dark:active:bg-primary-500 ring-primary-500 focus:bg-primary-600 dark:focus:ring-offset-dark-900 dark:focus:ring-primary-600 dark:hover:bg-dark-600 dark:hover:ring-primary-600 outline-none transition-all duration-200 ease-in-out hover:shadow-sm focus:ring-2 focus:ring-offset-2 focus:ring-offset-white">
                             </button>
                         </div>
                     </template>

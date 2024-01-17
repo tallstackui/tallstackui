@@ -92,7 +92,6 @@ export default (range = false, format = 'YYYY-MM-DD', disabledDates = []) => ({
       const isDisabled = this.isDateDisabled(d); // Check if the date is disabled
       daysArray.push({day: i, full: d, isDisabled}); // Store the day number and its disabled status
     }
-    console.log(daysArray);
     this.datePickerBlankDaysInMonth = blankdaysArray;
     this.datePickerDaysInMonth = daysArray;
   },
@@ -103,7 +102,7 @@ export default (range = false, format = 'YYYY-MM-DD', disabledDates = []) => ({
     const formattedMonthShortName = this.datePickerMonthNames[date.getMonth()].substring(0, 3);
     const formattedMonthInNumber = ('0' + (date.getMonth() + 1)).slice(-2);
     const formattedYear = date.getFullYear();
-    let formattedHour = date.getHours();
+    const formattedHour = date.getHours();
     const formattedMinute = ('0' + date.getMinutes()).slice(-2);
     const amPm = formattedHour >= 12 ? 'PM' : 'AM';
 
@@ -201,7 +200,7 @@ export default (range = false, format = 'YYYY-MM-DD', disabledDates = []) => ({
     }
   },
   isDateDisabled(date) {
-    const formattedDate = this.datePickerFormatDate(date);
+    const formattedDate = date.toISOString().slice(0, 10);
     return this.disabledDates.includes(formattedDate);
   },
 });
