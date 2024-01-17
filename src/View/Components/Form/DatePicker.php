@@ -2,8 +2,11 @@
 
 namespace TallStackUi\View\Components\Form;
 
+use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Carbon;
+use InvalidArgumentException;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\View\Components\BaseComponent;
@@ -23,6 +26,8 @@ class DatePicker extends BaseComponent implements Personalization
         public ?bool $time = false,
         public ?bool $helpers = false,
         public ?string $format = null,
+        public string|null|Carbon $min = null,
+        public string|null|Carbon $max = null,
         public ?array $disabledDates = [],
     ) {
         //
@@ -39,5 +44,22 @@ class DatePicker extends BaseComponent implements Personalization
             'input' => ['class' => [...$this->input()]],
             'error' => $this->error(),
         ]);
+    }
+
+    protected function validate(): void
+    {
+        $min = null;
+        $max = null;
+
+        try {
+            $min = Carbon::parse($this->min);
+            $max = Carbon::parse($this->max);
+        } catch (Exception) {
+            //
+        }
+
+        if (blank($min) || blank($max)) {
+            throw new InvalidArgumentException('The DatePicker [min|max] attribute must be a Carbon instance or a valid date string.');
+        }
     }
 }

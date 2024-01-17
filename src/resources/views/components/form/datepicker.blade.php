@@ -4,7 +4,7 @@
 @endphp
 
 <x-dynamic-component :component="TallStackUi::component('wrapper.input')" :$id :$property :$error :$label :$hint :$invalidate>
-    <div x-data="tallstackui_datepicker(@js($range), @js($format), @js($disabledDates))" x-cloak>
+    <div x-data="tallstackui_datepicker(@js($range), @js($format), @js($min), @js($max), @js($disabledDates))" x-cloak>
         <div @class([
                 $personalize['input.class.wrapper'],
                 $personalize['input.class.color.base'] => !$error,
@@ -98,10 +98,9 @@
                                 :class="{
                                     'text-primary-500': datePickerIsToday(dayObj.day) == true,
                                     'text-gray-600 dark:text-gray-400 hover:bg-gray-200': datePickerIsToday(dayObj.day) == false && datePickerIsSelectedDate(dayObj.day) == false && !dayObj.isDisabled,
-                                    'bg-primary-500 text-white hover:bg-opacity-75': datePickerIsSelectedDate(dayObj.day) == true,
-                                    'text-gray-400 cursor-not-allowed': dayObj.isDisabled
+                                    'bg-primary-500 text-white hover:bg-opacity-75': datePickerIsSelectedDate(dayObj.day) == true
                                 }"
-                                class="flex items-center justify-center text-sm leading-none text-center rounded-full h-7 w-7 focus:shadow-outline active:text-white dark:active:bg-primary-500 ring-primary-500 focus:bg-primary-600 dark:focus:ring-offset-dark-900 dark:focus:ring-primary-600 dark:hover:bg-dark-600 dark:hover:ring-primary-600 outline-none transition-all duration-200 ease-in-out hover:shadow-sm focus:ring-2 focus:ring-offset-2 focus:ring-offset-white">
+                                class="flex items-center justify-center text-sm leading-none text-center rounded-full h-7 w-7 focus:shadow-outline active:text-white disabled:text-gray-400 disabled:cursor-not-allowed dark:active:bg-primary-500 ring-primary-500 focus:bg-primary-600 dark:focus:ring-offset-dark-900 dark:focus:ring-primary-600 dark:hover:bg-dark-600 dark:hover:ring-primary-600 outline-none transition-all duration-200 ease-in-out hover:shadow-sm focus:ring-2 focus:ring-offset-2 focus:ring-offset-white">
                             </button>
                         </div>
                     </template>
@@ -114,9 +113,13 @@
                             class="w-16 h-8 px-1 mr-2 text-sm bg-transparent border rounded-md text-gray-600 border-gray-300 dark:border-gray-600 dark:text-white ring-offset-background placeholder:text-gray-400 focus:border-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 text-center"
                             placeholder="HH" />
                         <span class="text-lg font-bold text-gray-600 dark:text-dark-200">:</span>
-                        <input x-model="datePickerMinute" type="number" min="0" max="59"
+                        {{-- <input x-model="datePickerMinute" type="number" min="0" max="59"
                             class="w-16 h-8 px-1 ml-2 text-sm bg-transparent border rounded-md text-gray-600 border-gray-300 dark:border-gray-600 dark:text-white ring-offset-background placeholder:text-gray-400 focus:border-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 text-center"
-                            placeholder="MM" />
+                            placeholder="MM" /> --}}
+                        <select x-model="datePickerMinute"
+                            class="h-8 py-0 ml-2 text-sm bg-transparent border rounded-md text-gray-600 border-gray-300 dark:border-gray-600 dark:text-white ring-offset-background focus:border-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400">
+                            <option value="AM">AM</option>
+                        </select>
                         <select x-model="datePickerAmPm"
                             class="h-8 py-0 ml-2 text-sm bg-transparent border rounded-md text-gray-600 border-gray-300 dark:border-gray-600 dark:text-white ring-offset-background focus:border-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400">
                             <option value="AM">AM</option>

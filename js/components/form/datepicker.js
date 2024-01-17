@@ -1,4 +1,4 @@
-export default (range = false, format = 'YYYY-MM-DD', disabledDates = []) => ({
+export default (range = false, format = 'YYYY-MM-DD', min, max, disabledDates = []) => ({
   open: false,
   format: format,
   datePickerValue: '',
@@ -18,6 +18,8 @@ export default (range = false, format = 'YYYY-MM-DD', disabledDates = []) => ({
   startDate: null,
   endDate: null,
   range: range,
+  min: (min !== null) ? new Date(min) : null,
+  max: (max !== null) ? new Date(max) : null,
   disabledDates: disabledDates,
   init() {
     currentDate = new Date();
@@ -201,6 +203,11 @@ export default (range = false, format = 'YYYY-MM-DD', disabledDates = []) => ({
   },
   isDateDisabled(date) {
     const formattedDate = date.toISOString().slice(0, 10);
+
+    if (this.min && date <= this.min || this.max && date >= this.max) {
+      return true;
+    }
+
     return this.disabledDates.includes(formattedDate);
   },
 });
