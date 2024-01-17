@@ -95,7 +95,7 @@
             <template x-if="searchable">
                 <div class="relative my-2 px-2">
                     <x-dynamic-component :component="TallStackUi::component('input')"
-                                         :placeholder="$placeholders['search']"
+                                         :placeholder="data_get($placeholders, 'search')"
                                          x-model.debounce.500ms="search"
                                          x-ref="search"
                                          dusk="tallstackui_select_search_input"
@@ -140,7 +140,7 @@
                     <template x-if="!loading && available.length === 0">
                         <li class="m-2">
                             <span @class($personalize['box.list.empty'])>
-                                {{ $placeholders['empty'] }}
+                                {{ data_get($placeholders, 'empty') }}
                             </span>
                         </li>
                     </template>
