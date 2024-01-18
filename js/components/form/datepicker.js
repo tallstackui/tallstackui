@@ -78,8 +78,8 @@ export default (range = false, format = 'YYYY-MM-DD', min, max, disabledDates = 
   },
   datePickerIsToday(day) {
     const today = new Date();
-    const d = new Date(this.datePickerYear, this.datePickerMonth, day);
-    return today.toDateString() === d.toDateString() ? true : false;
+    const date = new Date(this.datePickerYear, this.datePickerMonth, day);
+    return today.toDateString() === date.toDateString() ? true : false;
   },
   datePickerCalculateDays() {
     const daysInMonth = new Date(this.datePickerYear, this.datePickerMonth + 1, 0).getDate();
@@ -89,10 +89,10 @@ export default (range = false, format = 'YYYY-MM-DD', min, max, disabledDates = 
       blankdaysArray.push(i);
     }
     const daysArray = [];
-    for (i = 1; i <= daysInMonth; i++) {
-      const d = new Date(this.datePickerYear, this.datePickerMonth, i);
-      const isDisabled = this.isDateDisabled(d); // Check if the date is disabled
-      daysArray.push({day: i, full: d, isDisabled}); // Store the day number and its disabled status
+    for (day = 1; day <= daysInMonth; day++) {
+      const date = new Date(this.datePickerYear, this.datePickerMonth, day);
+      const isDisabled = this.isDateDisabled(date); // Check if the date is disabled
+      daysArray.push({day: day, full: date, isDisabled}); // Store the day number and its disabled status
     }
     this.datePickerBlankDaysInMonth = blankdaysArray;
     this.datePickerDaysInMonth = daysArray;
@@ -133,16 +133,20 @@ export default (range = false, format = 'YYYY-MM-DD', min, max, disabledDates = 
   },
   setDate(type) {
     const currentDate = new Date();
+    // TODO: You need to check first that the date is not disabled
     if (type === 'yesterday') {
       currentDate.setDate(currentDate.getDate() - 1);
     } else if (type === 'tomorrow') {
       currentDate.setDate(currentDate.getDate() + 1);
     }
+
+    this.startDate = null;
+    this.endDate = null;
     // No change needed for 'today', as currentDate is already set to now.
 
     this.datePickerMonth = currentDate.getMonth();
     this.datePickerYear = currentDate.getFullYear();
-    this.datePickerDay = currentDate.getDate(); // Use getDate() to get the day of the month
+    this.datePickerDay = currentDate.getDate();
     this.datePickerHour = currentDate.getHours();
     this.datePickerMinute = currentDate.getMinutes();
     this.datePickerAmPm = currentDate.getHours() >= 12 ? 'PM' : 'AM';
@@ -209,5 +213,10 @@ export default (range = false, format = 'YYYY-MM-DD', min, max, disabledDates = 
     }
 
     return this.disabledDates.includes(formattedDate);
+  },
+  clear() {
+    this.datePickerValue = null;
+    this.startDate = null;
+    this.endDate = null;
   },
 });
