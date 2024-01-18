@@ -4,7 +4,9 @@
 @endphp
 
 <x-dynamic-component :component="TallStackUi::component('wrapper.input')" :$id :$property :$error :$label :$hint :$invalidate>
-    <div x-data="tallstackui_datepicker(@js($range), @js($format), @js($min), @js($max), @js($disabledDates))" x-cloak x-on:click.outside="open = false">
+    <div x-data="tallstackui_datepicker(@js($range), @js($format), @js($min), @js($max), @js($disabledDates), @js($placeholders['days']), @js($placeholders['months']), @js(__('tallstack-ui::messages.datepicker.separator')))" 
+         x-cloak 
+         x-on:click.outside="open = false">
         <div @class([
                 $personalize['input.class.wrapper'],
                 $personalize['input.class.color.base'] => !$error,
@@ -26,7 +28,13 @@
                 <x-dynamic-component :component="TallStackUi::component('icon')" icon="calendar" class="w-5 h-5" x-on:click="open = !open; if(open){ $refs.datePickerInput.focus() }" />
             </div>
         </div>
-        <div x-show="open" x-anchor.bottom-end.offset.10="$refs.anchor" x-transition x-on:click.away="datePickerAway()" class="absolute z-10 max-w-lg p-4 antialiased bg-white dark:bg-dark-700 border rounded-lg shadow w-[17rem] border-gray-200 dark:border-dark-600">
+        <div x-show="open" 
+             x-anchor.bottom-end.offset.10="$refs.anchor"
+             x-transition:enter="transition ease-out duration-75"
+             x-transition:enter-start="opacity-0 -translate-y-1"
+             x-transition:enter-end="opacity-100" 
+             x-on:click.away="datePickerAway()" 
+             class="absolute z-10 max-w-lg p-4 antialiased bg-white dark:bg-dark-700 border rounded-lg shadow w-[17rem] border-gray-200 dark:border-dark-600">
             <div class="flex items-center justify-between mb-4">
                 <div x-on:click="toggleYearPicker()"
                     class="text-sm rounded-lg flex items-center justify-between text-gray-900 dark:text-white font-semibold py-1 px-2 hover:bg-dark-100 dark:hover:bg-dark-600 focus:outline-none focus:ring-2 focus:ring-gray-200 cursor-pointer">
@@ -106,33 +114,7 @@
                     </div>
                 </template>
             </div>
-
-            <!-- Additional Time Picker -->
-            @if ($time)
-                <div class="flex items-center justify-between my-2">
-                    {{-- <input x-model="datePickerHour" type="number" min="0" max="12"
-                        class="w-16 h-8 px-1 mr-2 text-sm bg-transparent border rounded-md text-gray-600 border-gray-300 dark:border-gray-600 dark:text-white ring-offset-background placeholder:text-gray-400 focus:border-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 text-center"
-                        placeholder="HH" /> --}}
-                    <select x-model="datePickerHour" class="h-8 py-0 text-sm bg-transparent border rounded-md text-gray-600 border-gray-300 dark:border-gray-600 dark:text-white ring-offset-background focus:border-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400">
-                        @for ($min = 0; $min <= 12; $min += 1)
-                            <option value="{{ str_pad($min, 2, '0', STR_PAD_LEFT) }}">{{ str_pad($min, 2, '0', STR_PAD_LEFT) }}</option>
-                        @endfor
-                    </select>
-                    <span @class($personalize['colon'])>:</span>
-                    {{-- <input x-model="datePickerMinute" type="number" min="0" max="59"
-                        class="w-16 h-8 px-1 ml-2 text-sm bg-transparent border rounded-md text-gray-600 border-gray-300 dark:border-gray-600 dark:text-white ring-offset-background placeholder:text-gray-400 focus:border-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 text-center"
-                        placeholder="MM" /> --}}
-                    <select x-model="datePickerMinute" class="h-8 py-0 text-sm bg-transparent border rounded-md text-gray-600 border-gray-300 dark:border-gray-600 dark:text-white ring-offset-background focus:border-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400">
-                        @for ($min = 0; $min < 60; $min += 5)
-                            <option value="{{ str_pad($min, 2, '0', STR_PAD_LEFT) }}">{{ str_pad($min, 2, '0', STR_PAD_LEFT) }}</option>
-                        @endfor
-                    </select>
-                    <select x-model="datePickerAmPm" class="h-8 py-0 ml-1 text-sm bg-transparent border rounded-md text-gray-600 border-gray-300 dark:border-gray-600 dark:text-white ring-offset-background focus:border-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400">
-                        <option value="AM">AM</option>
-                        <option value="PM">PM</option>
-                    </select>
-                </div>
-            @endif
+            
             <!-- Buttons Helpers -->
             @if ($helpers)
                 <div @class($personalize['wrapper.helpers'])>

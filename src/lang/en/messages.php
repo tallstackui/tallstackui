@@ -76,7 +76,6 @@ return [
             'november' => 'November',
             'december' => 'December',
         ],
-        'separator' => 'at',
         'helpers' => [
             'today' => 'Today',
             'yesterday' => 'Yesterday',

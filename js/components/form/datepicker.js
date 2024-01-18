@@ -1,18 +1,14 @@
-export default (range = false, format = 'YYYY-MM-DD', min, max, disabledDates = []) => ({
+export default (range = false, format = 'YYYY-MM-DD', min, max, disabledDates = [], days, months) => ({
   open: false,
   format: format,
   datePickerValue: '',
   datePickerMonth: '',
   datePickerYear: '',
   datePickerDay: '',
-  datePickerHour: '',
-  datePickerMinute: '',
-  datePickerAmPm: 'AM',
   datePickerDaysInMonth: [],
   datePickerBlankDaysInMonth: [],
-  datePickerMonthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July',
-    'August', 'September', 'October', 'November', 'December'],
-  datePickerDays: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+  datePickerMonthNames: months,
+  datePickerDays: days,
   showYearPicker: false,
   yearRangeStart: 0,
   startDate: null,
@@ -28,9 +24,6 @@ export default (range = false, format = 'YYYY-MM-DD', min, max, disabledDates = 
     this.datePickerMonth = currentDate.getMonth();
     this.datePickerYear = currentDate.getFullYear();
     this.datePickerDay = currentDate.getDay();
-    this.datePickerHour = currentDate.getHours();
-    this.datePickerMinute = currentDate.getMinutes();
-    this.datePickerAmPm = currentDate.getHours() >= 12 ? 'PM' : 'AM';
     this.datePickerCalculateDays();
   },
   datePickerDayClicked(day) {
@@ -133,11 +126,17 @@ export default (range = false, format = 'YYYY-MM-DD', min, max, disabledDates = 
   },
   setDate(type) {
     const currentDate = new Date();
-    // TODO: You need to check first that the date is not disabled
+
     if (type === 'yesterday') {
       currentDate.setDate(currentDate.getDate() - 1);
     } else if (type === 'tomorrow') {
       currentDate.setDate(currentDate.getDate() + 1);
+    } else if (type === 'last7days') {
+      currentDate.setDate(currentDate.getDate() - 7);
+    } else if (type === 'last15days') {
+      currentDate.setDate(currentDate.getDate() - 15);
+    } else if (type === 'last30days') {
+      currentDate.setDate(currentDate.getDate() - 30);
     }
 
     this.startDate = null;
@@ -147,11 +146,16 @@ export default (range = false, format = 'YYYY-MM-DD', min, max, disabledDates = 
     this.datePickerMonth = currentDate.getMonth();
     this.datePickerYear = currentDate.getFullYear();
     this.datePickerDay = currentDate.getDate();
-    this.datePickerHour = currentDate.getHours();
-    this.datePickerMinute = currentDate.getMinutes();
-    this.datePickerAmPm = currentDate.getHours() >= 12 ? 'PM' : 'AM';
     this.datePickerValue = this.datePickerFormatDate(currentDate);
     this.datePickerCalculateDays(); // Important to recalculate the days for the new month/year
+
+    this.datePickerDaysInMonth.map((date) => {
+      const current = currentDate.toISOString().slice(0, 10);
+      const selected = date.full.toISOString().slice(0, 10);
+      if (current === selected && date.isDisabled === true) {
+        this.datePickerValue = '';
+      }
+    });
   },
   toggleYearPicker() {
     this.showYearPicker = true;
@@ -184,7 +188,7 @@ export default (range = false, format = 'YYYY-MM-DD', min, max, disabledDates = 
       if (this.startDate) {
         this.datePickerValue = this.startDate ? this.datePickerFormatDate(this.startDate) : '';
         if (this.endDate) {
-          this.datePickerValue += ' até ' + (this.endDate ? this.datePickerFormatDate(this.endDate) : '');
+          this.datePickerValue += ' - ' + (this.endDate ? this.datePickerFormatDate(this.endDate) : '');
           this.open = false;
         }
       } else {
@@ -215,7 +219,7 @@ export default (range = false, format = 'YYYY-MM-DD', min, max, disabledDates = 
     return this.disabledDates.includes(formattedDate);
   },
   clear() {
-    this.datePickerValue = null;
+    this.datePickerValue = '';
     this.startDate = null;
     this.endDate = null;
   },

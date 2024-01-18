@@ -29,9 +29,11 @@ class DatePicker extends BaseComponent implements Personalization
         public string|null|Carbon $min = null,
         public string|null|Carbon $max = null,
         public bool|array|Collection|null $helpers = null,
-        public array|Collection|null $disabledDates = null,
+        public array|Collection $disabledDates = [],
+        public ?array $placeholders = null,
     ) {
         $this->helpers = $this->helpers === true ? collect(['yesterday', 'today', 'tomorrow']) : collect($this->helpers);
+        $this->messages();
     }
 
     public function blade(): View
@@ -68,6 +70,34 @@ class DatePicker extends BaseComponent implements Personalization
         ]);
     }
 
+    protected function messages(): void
+    {
+        $this->placeholders['days'] = [
+            __('tallstack-ui::messages.datepicker.days.sun'),
+            __('tallstack-ui::messages.datepicker.days.mon'),
+            __('tallstack-ui::messages.datepicker.days.tue'),
+            __('tallstack-ui::messages.datepicker.days.wed'),
+            __('tallstack-ui::messages.datepicker.days.thu'),
+            __('tallstack-ui::messages.datepicker.days.fri'),
+            __('tallstack-ui::messages.datepicker.days.sat'),
+        ];
+
+        $this->placeholders['months'] = [
+            __('tallstack-ui::messages.datepicker.months.january'),
+            __('tallstack-ui::messages.datepicker.months.february'),
+            __('tallstack-ui::messages.datepicker.months.march'),
+            __('tallstack-ui::messages.datepicker.months.april'),
+            __('tallstack-ui::messages.datepicker.months.may'),
+            __('tallstack-ui::messages.datepicker.months.june'),
+            __('tallstack-ui::messages.datepicker.months.july'),
+            __('tallstack-ui::messages.datepicker.months.august'),
+            __('tallstack-ui::messages.datepicker.months.september '),
+            __('tallstack-ui::messages.datepicker.months.october'),
+            __('tallstack-ui::messages.datepicker.months.november'),
+            __('tallstack-ui::messages.datepicker.months.december'),
+        ];
+    }
+
     protected function validate(): void
     {
         $min = null;
@@ -82,6 +112,12 @@ class DatePicker extends BaseComponent implements Personalization
 
         if (blank($min) || blank($max)) {
             throw new InvalidArgumentException('The DatePicker [min|max] attribute must be a Carbon instance or a valid date string.');
+        }
+
+        $helper = collect(['today', 'yesterday', 'tomorrow', 'last7days', 'last15days', 'last30days']);
+
+        if (! $this->helpers->diff($helper)->isEmpty()) {
+            throw new InvalidArgumentException('The DatePicker [helpers] contains disallowed values.');
         }
     }
 }
