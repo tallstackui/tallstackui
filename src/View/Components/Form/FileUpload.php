@@ -18,6 +18,7 @@ class FileUpload extends BaseComponent implements Personalization
         public ?string $label = null,
         public ?string $hint = null,
         public ?bool $invalidate = null,
+        public ?bool $multiple = false,
     ) {
         //$this->mode = $this->picker ? 'picker' : 'range';
     }

@@ -3,10 +3,14 @@
     $personalize = $classes();
 @endphp
 
-<x-dynamic-component :component="TallStackUi::component('wrapper.input')" :$id :$property :$error :$label :$hint :$invalidate>
+<x-dynamic-component :component="TallStackUi::component('wrapper.input')" :$id :$property :$label :$hint>
     <div x-data="app()"
         x-ref="wrapper"
         x-cloak
+        x-on:livewire-upload-start="uploading = true"
+        x-on:livewire-upload-finish="uploading = false"
+        x-on:livewire-upload-error="uploading = false"
+        x-on:livewire-upload-progress="progress = $event.detail.progress"
         @class([
             // input.wrapper
             'focus:ring-primary-600 focus-within:focus:ring-primary-600 focus-within:ring-primary-600 dark:focus-within:ring-primary-600 flex rounded-md px-2 ring-1 transition focus-within:ring-2',
@@ -50,15 +54,15 @@
                                 <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX.
                                     800x400px)</p>
                             </div>
-                            <input id="dropzone-file" type="file" class="hidden" />
+                            <input id="dropzone-file" type="file" class="hidden" x-ref="files" x-on:change="upload()" @if ($multiple) multiple @endif />
                         </label>
                     </div>
 
                     <!-- Progress Bar -->
-                    <div class="mt-2 flex h-2 w-full overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700"
+                    <div x-show="uploading" class="mt-2 flex h-2 w-full overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700"
                          role="progressbar" aria-valuenow="1" aria-valuemin="0" aria-valuemax="100">
                         <div class="flex flex-col justify-center overflow-hidden whitespace-nowrap rounded-full bg-green-600 text-center text-xs text-white transition duration-500 dark:bg-blue-500"
-                             style="width: 55%"></div>
+                             x-bind:style="'width: ' + progress + '%'"></div>
                     </div>
                     <!-- End Progress Bar -->
 
@@ -70,31 +74,84 @@
                             <!-- Body -->
                             <div class="px-2 py-2 space-y-7">
                                 {{--Loop...--}}
-                                <div>
-                                    <!-- Uploading File Content -->
-                                    <div class="flex items-center justify-between">
-                                        <div class="flex items-center gap-x-3">
-                                            <span class="flex flex-1 items-center justify-center rounded-lg text-gray-500 dark:border-neutral-700">
-                                                <x-dynamic-component :component="TallStackUi::component('icon')"
-                                                                     name="photo"
-                                                                     class="h-5 w-5 flex-shrink-0" />
-                                            </span>
-                                            <div>
-                                                <p class="text-sm font-medium text-gray-800 dark:text-white">
-                                                    file-01.html</p>
-                                                <p class="text-xs text-gray-500 dark:text-gray-500">7 KB</p>
+                                @if ($__livewire->{$property})
+                                    @php /** @var \Illuminate\Http\UploadedFile $file */ @endphp
+                                    @if (is_array($__livewire->{$property}))
+                                    @foreach($__livewire->{$property} as $key => $file)
+                                        <div>
+                                            <!-- Uploading File Content -->
+                                            <div class="flex items-center justify-between">
+                                                <div class="flex items-center gap-x-3">
+                                                    <span class="flex flex-1 items-center justify-center rounded-lg text-gray-500 dark:border-neutral-700">
+                                                        @if (in_array($file->extension(), ['jpg', 'jpeg', 'png', 'gif']))
+                                                            <img class="h-12 w-12 rounded-full" src="{{ $file->temporaryUrl() }}">
+                                                        @else
+                                                            <x-dynamic-component :component="TallStackUi::component('icon')"
+                                                                                 name="photo"
+                                                                                 class="h-5 w-5 flex-shrink-0" />
+                                                        @endif
+                                                    </span>
+                                                    <div>
+                                                        <p class="text-sm font-medium text-gray-800 dark:text-white">
+                                                            {{ $file->getClientOriginalName() }}
+                                                        </p>
+                                                        @if ($errors->has($property . '.' . $key))
+                                                            <p class="text-xs text-red-500">{{ $errors->first($property . '.' . $key) }}</p>
+                                                        @endif
+                                                        <p class="text-xs text-gray-500 dark:text-gray-500">{{ \Illuminate\Support\Number::fileSize($file->getSize()) }}</p>
+                                                    </div>
+                                                </div>
+                                                <div class="inline-flex items-center gap-x-2">
+                                                    <a class="text-gray-500 hover:text-gray-800" href="#">
+                                                        <x-dynamic-component :component="TallStackUi::component('icon')"
+                                                                             icon="trash"
+                                                                             class="h-4 w-4 flex-shrink-0 text-red-500" />
+                                                    </a>
+                                                </div>
                                             </div>
+                                            <!-- End Uploading File Content -->
                                         </div>
-                                        <div class="inline-flex items-center gap-x-2">
-                                            <a class="text-gray-500 hover:text-gray-800" href="#">
-                                                <x-dynamic-component :component="TallStackUi::component('icon')"
-                                                                     icon="trash"
-                                                                     class="h-4 w-4 flex-shrink-0 text-red-500" />
-                                            </a>
+                                    @endforeach
+                                    @else
+                                        @php
+                                            /** @var \Illuminate\Http\UploadedFile $file */
+                                            $file = $__livewire->{$property}
+                                        @endphp
+                                        <div>
+                                            <!-- Uploading File Content -->
+                                            <div class="flex items-center justify-between">
+                                                <div class="flex items-center gap-x-3">
+                                                    <span class="flex flex-1 items-center justify-center rounded-lg text-gray-500 dark:border-neutral-700">
+                                                        @if (in_array($file->extension(), ['jpg', 'jpeg', 'png', 'gif']))
+                                                            <img class="h-12 w-12" src="{{ $file->temporaryUrl() }}">
+                                                        @else
+                                                            <x-dynamic-component :component="TallStackUi::component('icon')"
+                                                                                 name="photo"
+                                                                                 class="h-5 w-5 flex-shrink-0" />
+                                                        @endif
+                                                    </span>
+                                                    <div>
+                                                        <p class="text-sm font-medium text-gray-800 dark:text-white">
+                                                            {{ $file->getClientOriginalName() }}
+                                                        </p>
+                                                        @error($property)
+                                                            <p class="text-xs text-red-500">{{ $message }}</p>
+                                                        @enderror
+                                                        <p class="text-xs text-gray-500 dark:text-gray-500">{{ \Illuminate\Support\Number::fileSize($file->getSize()) }}</p>
+                                                    </div>
+                                                </div>
+                                                <div class="inline-flex items-center gap-x-2">
+                                                    <a class="text-gray-500 hover:text-gray-800" href="#">
+                                                        <x-dynamic-component :component="TallStackUi::component('icon')"
+                                                                             icon="trash"
+                                                                             class="h-4 w-4 flex-shrink-0 text-red-500" />
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <!-- End Uploading File Content -->
                                         </div>
-                                    </div>
-                                    <!-- End Uploading File Content -->
-                                </div>
+                                    @endif
+                                @endif
                             </div>
                             <!-- End Body -->
                         </div>
@@ -102,10 +159,7 @@
                     </div>
 
                     <div class="mt-4 w-full">
-                        <button type="button"
-                            class="inline-flex w-full items-center justify-center gap-x-2 rounded-lg border border-transparent bg-gray-200 px-5 py-3 text-sm font-semibold text-gray-500 hover:bg-gray-300 disabled:pointer-events-none disabled:opacity-50 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
-                            + Adicionar mais arquivos
-                        </button>
+
                     </div>
                 </div>
             </div>
@@ -115,8 +169,50 @@
 
 <script>
     function app() {
-      return {
-        show: false,
-      }
+          return {
+            show: false,
+            uploading: false,
+            progress: 0,
+            property: @js($property),
+            multiple: @js($multiple),
+            init() {
+              //
+            },
+            upload() {
+            this.uploading = true;
+
+            if (this.multiple) {
+                @this.uploadMultiple(
+                this.property,
+                this.$refs.files.files,
+                () => {
+                  this.uploading = false;
+                  this.progress = 0;
+                },
+                () => {
+                  this.uploading = false;
+                  this.progress = 0;
+                  console.log('oops');
+                },
+                progress = (event) => this.progress = event.detail.progress
+              )
+            } else {
+                @this.upload(
+                    this.property, // The property name
+                    this.$refs.files.files[0], // The File JavaScript object
+                    () => {
+                        this.uploading = false;
+                        this.progress = 0;
+                    },
+                    () => {
+                      this.uploading = false;
+                      this.progress = 0;
+                      console.log('oops');
+                    },
+                    progress = (event) => this.progress = event.detail.progress
+                )
+            }
+          }
+        }
     }
 </script>
