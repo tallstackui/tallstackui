@@ -6,7 +6,6 @@ import datepicker from './components/form/datepicker';
 import darkTheme from './helpers/dark-theme';
 import dialog from './components/dialog/dialog';
 import dropdown from './components/dropdown/dropdown';
-import fileupload from './components/form/fileupload';
 import loading from './components/loading/loading';
 import modal from './components/modal/modal';
 import number from './components/form/number';
@@ -31,7 +30,6 @@ document.addEventListener('alpine:init', () => {
   Alpine.data('tallstackui_formPassword', password);
   Alpine.data('tallstackui_formPin', pin);
   Alpine.data('tallstackui_formTag', tag);
-  Alpine.data('tallstackui_formUpload', fileupload);
   Alpine.data('tallstackui_darkTheme', darkTheme);
   Alpine.data('tallstackui_dialog', dialog);
   Alpine.data('tallstackui_dropdown', dropdown);
