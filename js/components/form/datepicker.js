@@ -1,4 +1,4 @@
-export default (range = false, format = 'YYYY-MM-DD', min, max, disabledDates = [], days, months) => ({
+export default (range, format = 'YYYY-MM-DD', min, max, disabledDates = [], days, months) => ({
   open: false,
   format: format,
   datePickerValue: '',
@@ -18,7 +18,7 @@ export default (range = false, format = 'YYYY-MM-DD', min, max, disabledDates = 
   max: (max !== null) ? new Date(max) : null,
   disabledDates: disabledDates,
   init() {
-    currentDate = new Date();
+    const currentDate = new Date();
     this.startDate = null;
     this.endDate = null;
     this.datePickerMonth = currentDate.getMonth();
@@ -78,11 +78,11 @@ export default (range = false, format = 'YYYY-MM-DD', min, max, disabledDates = 
     const daysInMonth = new Date(this.datePickerYear, this.datePickerMonth + 1, 0).getDate();
     const dayOfWeek = new Date(this.datePickerYear, this.datePickerMonth).getDay();
     const blankdaysArray = [];
-    for (i = 1; i <= dayOfWeek; i++) {
+    for (let i = 1; i <= dayOfWeek; i++) {
       blankdaysArray.push(i);
     }
     const daysArray = [];
-    for (day = 1; day <= daysInMonth; day++) {
+    for (let day = 1; day <= daysInMonth; day++) {
       const date = new Date(this.datePickerYear, this.datePickerMonth, day);
       const isDisabled = this.isDateDisabled(date); // Check if the date is disabled
       daysArray.push({day: day, full: date, isDisabled}); // Store the day number and its disabled status
@@ -97,9 +97,6 @@ export default (range = false, format = 'YYYY-MM-DD', min, max, disabledDates = 
     const formattedMonthShortName = this.datePickerMonthNames[date.getMonth()].substring(0, 3);
     const formattedMonthInNumber = ('0' + (date.getMonth() + 1)).slice(-2);
     const formattedYear = date.getFullYear();
-    const formattedHour = date.getHours();
-    const formattedMinute = ('0' + date.getMinutes()).slice(-2);
-    const amPm = formattedHour >= 12 ? 'PM' : 'AM';
 
     // Handle predefined formats
     if (this.format === 'M d, Y') {
@@ -118,11 +115,7 @@ export default (range = false, format = 'YYYY-MM-DD', min, max, disabledDates = 
       return `${formattedDay} ${formattedDate} ${formattedMonthShortName} ${formattedYear}`;
     }
 
-    // Convert 24h to 12h format if needed
-    formattedHour = formattedHour % 12 || 12;
-
-    // Append the time to the formatted date string
-    return `${formattedMonth} ${formattedDate}, ${formattedYear} ${formattedHour}:${formattedMinute} ${amPm}`;
+    return `${formattedMonth} ${formattedDate}, ${formattedYear}`;
   },
   setDate(type) {
     const currentDate = new Date();
@@ -132,15 +125,28 @@ export default (range = false, format = 'YYYY-MM-DD', min, max, disabledDates = 
     } else if (type === 'tomorrow') {
       currentDate.setDate(currentDate.getDate() + 1);
     } else if (type === 'last7days') {
-      currentDate.setDate(currentDate.getDate() - 7);
+      if (this.range) {
+        this.datePickerHelperRange(7);
+        return;
+      } else {
+        currentDate.setDate(currentDate.getDate() - 7);
+      }
     } else if (type === 'last15days') {
-      currentDate.setDate(currentDate.getDate() - 15);
+      if (this.range) {
+        this.datePickerHelperRange(15);
+        return;
+      } else {
+        currentDate.setDate(currentDate.getDate() - 15);
+      }
     } else if (type === 'last30days') {
-      currentDate.setDate(currentDate.getDate() - 30);
+      if (this.range) {
+        this.datePickerHelperRange(30);
+        return;
+      } else {
+        currentDate.setDate(currentDate.getDate() - 30);
+      }
     }
 
-    this.startDate = null;
-    this.endDate = null;
     // No change needed for 'today', as currentDate is already set to now.
 
     this.datePickerMonth = currentDate.getMonth();
@@ -149,7 +155,7 @@ export default (range = false, format = 'YYYY-MM-DD', min, max, disabledDates = 
     this.datePickerValue = this.datePickerFormatDate(currentDate);
     this.datePickerCalculateDays(); // Important to recalculate the days for the new month/year
 
-    this.datePickerDaysInMonth.map((date) => {
+    this.datePickerDaysInMonth.forEach((date) => {
       const current = currentDate.toISOString().slice(0, 10);
       const selected = date.full.toISOString().slice(0, 10);
       if (current === selected && date.isDisabled === true) {
@@ -184,19 +190,14 @@ export default (range = false, format = 'YYYY-MM-DD', min, max, disabledDates = 
     this.datePickerCalculateDays();
   },
   updateInputValue() {
+    const startDateValue = this.startDate ? this.datePickerFormatDate(this.startDate) : '';
+    const endDateValue = this.endDate ? this.datePickerFormatDate(this.endDate) : '';
+
     if (this.range) {
-      if (this.startDate) {
-        this.datePickerValue = this.startDate ? this.datePickerFormatDate(this.startDate) : '';
-        if (this.endDate) {
-          this.datePickerValue += ' - ' + (this.endDate ? this.datePickerFormatDate(this.endDate) : '');
-          this.open = false;
-        }
-      } else {
-        this.datePickerValue = '';
-        this.open = false;
-      }
+      this.datePickerValue = startDateValue + (endDateValue ? ` - ${endDateValue}` : '');
+      this.open = this.startDate !== null;
     } else {
-      this.datePickerValue = this.startDate ? this.datePickerFormatDate(this.startDate) : '';
+      this.datePickerValue = startDateValue;
       this.open = false;
     }
   },
@@ -209,14 +210,19 @@ export default (range = false, format = 'YYYY-MM-DD', min, max, disabledDates = 
       this.open = false;
     }
   },
+  datePickerHelperRange(time) {
+    const currentDate = new Date();
+    const startDate = new Date(currentDate - time * 24 * 60 * 60 * 1000);
+    startDate.setHours(0, 0, 0, 0);
+    const endDate = new Date(currentDate);
+    endDate.setHours(0, 0, 0, 0);
+
+    Object.assign(this, {startDate, endDate});
+    this.updateInputValue();
+  },
   isDateDisabled(date) {
     const formattedDate = date.toISOString().slice(0, 10);
-
-    if (this.min && date <= this.min || this.max && date >= this.max) {
-      return true;
-    }
-
-    return this.disabledDates.includes(formattedDate);
+    return (this.min && date <= this.min) || (this.max && date >= this.max) || this.disabledDates.includes(formattedDate);
   },
   clear() {
     this.datePickerValue = '';
