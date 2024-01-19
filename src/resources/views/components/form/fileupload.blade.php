@@ -1,12 +1,13 @@
 @php
     if (!$livewire) throw new Exception('The [fileupload] component must be used within the context of a Livewire component.');
 
-    [$property, $error, $id, $entangle] = $bind($attributes, $errors ?? null, $livewire);
+    [$property,, $id] = $bind($attributes, null, $livewire);
     $personalize = $classes();
+    $value = $__livewire->{$property};
 @endphp
 
 <x-dynamic-component :component="TallStackUi::component('wrapper.input')" :$id :$property :$label :$hint>
-    <div x-data="app()"
+    <div x-data="app(0)"
         x-ref="wrapper"
         x-cloak
         x-on:livewire-upload-start="uploading = true"
@@ -21,7 +22,7 @@
             // input.class.color.base
             'dark:ring-dark-600 dark:text-dark-300 dark:placeholder-dark-500 text-gray-600 ring-gray-300 placeholder:text-gray-400',
         ])>
-        <input placeholder="Selecione um arquivo"
+        <input placeholder="3 files send"
                 x-on:click="show = !show"
                class="flex w-full cursor-pointer items-center border-0 bg-transparent p-1 ring-0 ring-inset text-md py-1.5 focus:ring-transparent sm:text-sm sm:leading-6"
                x-ref="input"
@@ -71,24 +72,32 @@
 
                     {{--files--}}
                     <div class="max-h-64 w-full overflow-auto soft-scrollbar">
+                        @if ($deletable && !empty($value) && is_array($value))
+                            <div class="mt-2 inline-flex gap-x-2">
+                                <button type="button"
+                                        class="text-gray-500 hover:text-gray-800"
+                                        x-on:click="$wire.call(@js($deleteAllMethod))">
+                                    <x-dynamic-component :component="TallStackUi::component('icon')"
+                                                         icon="trash"
+                                                         class="h-4 w-4 flex-shrink-0 text-red-500" />
+                                </button>
+                            </div>
+                        @endif
                         <!-- File Uploading Progress Form -->
-                        <div
-                            class="flex max-h-40 flex-col rounded-xl bg-white dark:border-gray-700 dark:bg-slate-800">
+                        <div class="flex max-h-40 flex-col rounded-xl bg-white dark:border-gray-700 dark:bg-slate-800">
                             <!-- Body -->
-                            @if ($__livewire->{$property})
+                            @if ($value)
                             <div class="px-2 py-2 space-y-7">
-                                    @php
-                                        /** @var \Illuminate\Http\UploadedFile $file */
-                                        $files = \Illuminate\Support\Arr::wrap($__livewire->{$property});
-                                    @endphp
-                                    @foreach($files as $key => $file)
+                                    @php /** @var \Illuminate\Http\UploadedFile $file */ @endphp
+                                    @foreach(\Illuminate\Support\Arr::wrap($value) as $key => $file)
                                         <div>
                                             <!-- Uploading File Content -->
                                             <div class="flex items-center justify-between">
                                                 <div class="flex items-center gap-x-3">
                                                     <span class="flex flex-1 items-center justify-center rounded-lg text-gray-500 dark:border-neutral-700">
                                                         @if (in_array($file->extension(), ['jpg', 'jpeg', 'png', 'gif']))
-                                                            <img class="h-12 w-12 rounded-full" src="{{ $file->temporaryUrl() }}">
+                                                            <img class="h-12 w-12 rounded-full"
+                                                                 src="{{ $file->temporaryUrl() }}">
                                                         @else
                                                             <x-dynamic-component :component="TallStackUi::component('icon')"
                                                                                  name="photo"
@@ -106,15 +115,15 @@
                                                     </div>
                                                 </div>
                                                 @if ($deletable)
-                                                <div class="inline-flex items-center gap-x-2">
-                                                    <button type="button"
-                                                            class="text-gray-500 hover:text-gray-800"
-                                                            x-on:click="$wire.call(@js($deleteUsing ?? 'deleteUpload'), @js($file->getClientOriginalName()), @js($file->getFilename()))">
-                                                        <x-dynamic-component :component="TallStackUi::component('icon')"
-                                                                             icon="trash"
-                                                                             class="h-4 w-4 flex-shrink-0 text-red-500" />
-                                                    </button>
-                                                </div>
+                                                    <div class="inline-flex items-center gap-x-2">
+                                                        <button type="button"
+                                                                class="text-gray-500 hover:text-gray-800"
+                                                                x-on:click="$wire.call(@js($deleteSingleMethod), @js($file->getClientOriginalName()), @js($file->getFilename()))">
+                                                            <x-dynamic-component :component="TallStackUi::component('icon')"
+                                                                                 icon="trash"
+                                                                                 class="h-4 w-4 flex-shrink-0 text-red-500" />
+                                                        </button>
+                                                    </div>
                                                 @endif
                                             </div>
                                             <!-- End Uploading File Content -->
@@ -128,7 +137,7 @@
                     </div>
                 </div>
                 @if ($footer->isNotEmpty())
-                    <div class="w-full mb-2 px-2">
+                    <div class="mb-2 w-full px-2">
                         {{ $footer }}
                     </div>
                 @endif
@@ -138,15 +147,16 @@
 </x-dynamic-component>
 
 <script>
-    function app() {
+    function app(quantity) {
           return {
             show: false,
             uploading: false,
             progress: 0,
             property: @js($property),
             multiple: @js($multiple),
+            quantity: quantity,
             init() {
-              this.$watch('uploading', () => setTimeout(() => this.placeholder(), 1000))
+              //this.$watch('uploading', () => setTimeout(() => this.placeholder(), 1000))
             },
             upload() {
             this.uploading = true;
@@ -183,7 +193,7 @@
           },
             placeholder() {
               if (this.multiple) {
-                this.$refs.input.value = `123 files send`;
+                this.$refs.input.value = `${quantity} files send`;
 
                 return;
               }
