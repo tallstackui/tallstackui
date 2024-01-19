@@ -95,6 +95,9 @@ export default (id, property, multiple, error, placeholders) => ({
 
         this.input = quantity === 0 ? null : quantity;
 
+        const items = this.$refs.items;
+        items.scrollTo(0, items.scrollHeight);
+
         return;
       }
 

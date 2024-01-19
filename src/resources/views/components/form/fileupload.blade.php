@@ -80,7 +80,7 @@
                     </div>
 
                     {{--files--}}
-                    <div class="max-h-64 w-full overflow-auto soft-scrollbar">
+                    <div class="max-h-64 w-full overflow-auto soft-scrollbar" x-ref="items">
                         @if ($deletable && !empty($value) && is_array($value))
                             <div class="mt-2 inline-flex gap-x-2">
                                 <button type="button"
