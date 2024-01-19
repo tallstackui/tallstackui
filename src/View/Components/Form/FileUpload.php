@@ -4,6 +4,7 @@ namespace TallStackUi\View\Components\Form;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
+use Illuminate\View\ComponentSlot;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\View\Components\BaseComponent;
@@ -19,8 +20,11 @@ class FileUpload extends BaseComponent implements Personalization
         public ?string $hint = null,
         public ?bool $invalidate = null,
         public ?bool $multiple = false,
+        public ?ComponentSlot $footer = null,
+        public ?bool $delete = false,
+        public ?string $deleteUsing = null,
     ) {
-        //$this->mode = $this->picker ? 'picker' : 'range';
+        //
     }
 
     public function blade(): View
