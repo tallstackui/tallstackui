@@ -1,5 +1,6 @@
-export default (range, format = 'YYYY-MM-DD', min, max, disabledDates = [], days, months) => ({
+export default (model, range, format = 'YYYY-MM-DD', min, max, disabledDates = [], days, months) => ({
   open: false,
+  model: model,
   format: format,
   datePickerValue: '',
   datePickerMonth: '',
@@ -25,6 +26,28 @@ export default (range, format = 'YYYY-MM-DD', min, max, disabledDates = [], days
     this.datePickerYear = currentDate.getFullYear();
     this.datePickerDay = currentDate.getDay();
     this.datePickerCalculateDays();
+    this.datePickerValue = this.model !== null ? this.model : '';
+
+    if (this.model instanceof Array) {
+      const startDate = this.datePickerFormatDate(new Date(this.model[0] + 'T00:00:00Z'));
+      const endDate = this.datePickerFormatDate(new Date(this.model[1] + 'T00:00:00Z'));
+
+      this.model = [startDate, endDate];
+      Object.assign(this, {startDate, endDate});
+
+      this.updateInputValue();
+    } else {
+      this.datePickerValue = this.model = this.datePickerFormatDate(new Date(this.datePickerValue));
+    }
+
+    this.$watch('datePickerValue', (value) => {
+      if (this.range) {
+        this.model = value.split(' - ');
+      } else {
+        this.model = value;
+        this.$refs.datePickerInput = value;
+      }
+    });
   },
   datePickerDayClicked(day) {
     const selectedDate = new Date(this.datePickerYear, this.datePickerMonth, day);

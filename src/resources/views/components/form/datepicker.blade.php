@@ -1,10 +1,10 @@
 @php
-    [$property, $error, $id] = $bind($attributes, $errors ?? null, $livewire);
+    [$property, $error, $id, $entangle] = $bind($attributes, $errors ?? null, $livewire);
     $personalize = $classes();
 @endphp
 
 <x-dynamic-component :component="TallStackUi::component('wrapper.input')" :$id :$property :$error :$label :$hint :$invalidate>
-    <div x-data="tallstackui_datepicker(@js($range), @js($format), @js($min), @js($max), @js($disabledDates), @js($placeholders['days']), @js($placeholders['months']))" 
+    <div x-data="tallstackui_datepicker({!! $entangle !!}, @js($range), @js($format), @js($min), @js($max), @js($disabledDates), @js($placeholders['days']), @js($placeholders['months']))" 
          x-cloak 
          x-on:click.outside="open = false">
         <div x-ref="anchor"
@@ -13,7 +13,7 @@
                 $personalize['input.class.color.base'] => !$error,
                 $personalize['input.class.color.background'] => !$attributes->get('disabled') && !$attributes->get('readonly'),
                 $personalize['input.class.color.disabled'] => $attributes->get('disabled') || $attributes->get('readonly'),
-                $personalize['error'] => $error === true
+                $personalize['error'] => $error
             ])>
             <input @if ($id) id="{{ $id }}" @endif
                type="text"
@@ -21,11 +21,11 @@
                x-on:click="open = !open; showYearPicker=false;" 
                x-model="datePickerValue"
                x-on:keydown.escape="open = false"
-               x-ref="datePickerInput"
+                              x-ref="datePickerInput"
                {{ $attributes->class($personalize['input.class.base'])}}>
             <div @class($personalize['icon.input'])>
                 <x-dynamic-component :component="TallStackUi::component('icon')" icon="x-mark" class="w-5 h-5 hover:text-red-500" x-show="datePickerValue" x-on:click="clear()" />
-                <x-dynamic-component :component="TallStackUi::component('icon')" icon="calendar" class="w-5 h-5" x-on:click="open = !open; if(open){ $refs.datePickerInput.focus() }" />
+                <x-dynamic-component :component="TallStackUi::component('icon')" icon="calendar" class="w-5 h-5" x-on:click="open = !open" />
             </div>
         </div>
         <div x-show="open" 
