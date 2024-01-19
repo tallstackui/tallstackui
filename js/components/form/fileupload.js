@@ -1,19 +1,110 @@
-export default (model) => ({
+export default (id, property, multiple, error, placeholders) => ({
   show: false,
   uploading: false,
+  error: false,
+  warning: error,
   progress: 0,
-  property: @js($property),
+  property: property,
+  multiple: multiple,
+  placeholders: placeholders,
+  component: null,
   init() {
-    //
+    this.component = Livewire.find(id).__instance;
+
+    this.$watch('uploading', () => this.placeholder());
   },
   upload() {
+    if (!this.$refs.files.files.length) return;
+
     this.uploading = true;
-    @this.uploadMultiple(
-      this.property, // The property name
-      this.$refs.files.files, // The File JavaScript object
-      finish = () => this.uploading = false, // Runs when upload is complete...
-      error = () => this.uploading = false, // Runs on error...
-      progress = (event) => this.progress = event.detail.progress // Updates the progress bar...,
-    )
-  }
+    this.error = false;
+
+    if (this.multiple) return this.multiples();
+
+    this.single();
+  },
+  multiples() {
+    this.$wire.uploadMultiple(
+        this.property,
+        this.$refs.files.files,
+        () => {
+          this.uploading = false;
+          this.progress = 0;
+        },
+        () => {
+          this.uploading = false;
+          this.error = true;
+          this.progress = 0;
+        },
+        (event) => this.progress = event.detail.progress,
+    );
+  },
+  single() {
+    this.$wire.upload(
+        this.property,
+        this.$refs.files.files[0],
+        () => {
+          this.uploading = false;
+          this.progress = 0;
+        },
+        () => {
+          this.uploading = false;
+          this.error = true;
+          this.progress = 0;
+        },
+        (event) => this.progress = event.detail.progress,
+    );
+  },
+  /**
+   * Remove a file through Livewire component.
+   * @param method {String}
+   * @param original {String}
+   * @param temporary {String}
+   * @returns {void}
+   */
+  remove(method, original, temporary) {
+    this.$wire.call(method, original, temporary);
+
+    this.placeholder();
+  },
+  /**
+   * Remove all files.
+   * @param method {String}
+   * @returns {void}
+   */
+  reset(method) {
+    this.$wire.call(method);
+
+    this.$refs.files.files = null;
+
+    this.input = null;
+  },
+  /**
+   * Set the input placeholder.
+   * @returns {void}
+   */
+  placeholder() {
+    setTimeout(() => {
+      if (this.multiple) {
+        const property = this.component.$wire.get(this.property);
+
+        const quantity = typeof property === 'object' ?
+          Object.keys(property).length :
+          property.length;
+
+        this.input = quantity === 0 ? null : quantity;
+
+        return;
+      }
+
+      this.input = 1;
+    }, 1000);
+  },
+  set input(value) {
+    const input = this.$refs.input;
+
+    if (!value) return input.value = null;
+
+    input.value = this.placeholders[this.multiple ? 'multiple' : 'single'].replace(':count', value);
+  },
 });

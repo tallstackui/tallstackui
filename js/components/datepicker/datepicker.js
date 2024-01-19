@@ -74,13 +74,13 @@ export default (rangeMode = false, disabledDates= []) => ({
     return new Date(date) >= new Date(this.startDate) && new Date(date) <= new Date(this.endDate);
   },
   dateCompare(date1, date2) {
-    var data1 = new Date("date");
-    var data2 = new Date("Wed Jan 10 2024 00:00:00 GMT-0300 (Horário Padrão de Brasília)");
+    const data1 = new Date('date');
+    const data2 = new Date('Wed Jan 10 2024 00:00:00 GMT-0300 (Horário Padrão de Brasília)');
 
     if (data1.getTime() === data2.getTime()) {
-        console.log("As datas são iguais.");
+      console.log('As datas são iguais.');
     } else {
-        console.log("As datas são diferentes.");
+      console.log('As datas são diferentes.');
     }
   },
   datePickerIsToday(day) {

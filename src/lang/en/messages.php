@@ -53,7 +53,12 @@ return [
     ],
 
     'fileupload' => [
-        'placeholder' => 'Click here to upload',
+        'placeholder' => 'Choose a file',
+        'upload' => 'Click here to upload',
+        'uploaded' => [
+            'single' => ':count file send',
+            'multiple' => ':count files send',
+        ],
         'error' => 'Something went wrong. Please, try again.',
     ],
 ];

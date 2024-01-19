@@ -1,5 +1,5 @@
 @php
-    if (!$livewire) throw new Exception('The [fileupload] component must be used within the context of a Livewire component.');
+    if (!$livewire) throw new Exception('The [fileupload] component must be used in a Livewire component.');
 
     [$property,, $id] = $bind($attributes, null, $livewire);
     $personalize = $classes();
@@ -7,7 +7,7 @@
 @endphp
 
 <x-dynamic-component :component="TallStackUi::component('wrapper.input')" :$id :$property :$label :$hint>
-    <div x-data="app(0)"
+    <div x-data="tallstackui_formUpload(@js($__livewire->getId()), @js($property), @js($multiple), @js($error), @js(__('tallstack-ui::messages.fileupload.uploaded')))"
         x-ref="wrapper"
         x-cloak
         x-on:livewire-upload-start="uploading = true"
@@ -22,8 +22,8 @@
             // input.class.color.base
             'dark:ring-dark-600 dark:text-dark-300 dark:placeholder-dark-500 text-gray-600 ring-gray-300 placeholder:text-gray-400',
         ])>
-        <input placeholder="3 files send"
-                x-on:click="show = !show"
+        <input placeholder="{{ __('tallstack-ui::messages.fileupload.placeholder') }}"
+               x-on:click="show = !show"
                class="flex w-full cursor-pointer items-center border-0 bg-transparent p-1 ring-0 ring-inset text-md py-1.5 focus:ring-transparent sm:text-sm sm:leading-6"
                x-ref="input"
                readonly>
@@ -51,7 +51,7 @@
                                                      icon="cloud-arrow-up"
                                                      class="h-6 w-6 text-gray-500 dark:text-gray-400" />
                                 <p class="text-sm text-gray-500 dark:text-gray-400">
-                                    {{ __('tallstack-ui::messages.fileupload.placeholder') }}
+                                    {{ __('tallstack-ui::messages.fileupload.upload') }}
                                 </p>
                             </div>
                             @if (is_string($tip))
@@ -85,7 +85,7 @@
                             <div class="mt-2 inline-flex gap-x-2">
                                 <button type="button"
                                         class="text-gray-500 hover:text-gray-800"
-                                        x-on:click="$wire.call(@js($methods['all']))">
+                                        x-on:click="reset(@js($methods['all']))">
                                     <x-dynamic-component :component="TallStackUi::component('icon')"
                                                          icon="trash"
                                                          class="h-4 w-4 flex-shrink-0 text-red-500" />
@@ -127,7 +127,7 @@
                                                     <div class="inline-flex items-center gap-x-2">
                                                         <button type="button"
                                                                 class="text-gray-500 hover:text-gray-800"
-                                                                x-on:click="$wire.call(@js($methods['single']), @js($file->getClientOriginalName()), @js($file->getFilename()))">
+                                                                x-on:click="remove(@js($methods['single']), @js($file->getClientOriginalName()), @js($file->getFilename()))">
                                                             <x-dynamic-component :component="TallStackUi::component('icon')"
                                                                                  icon="trash"
                                                                                  class="h-4 w-4 flex-shrink-0 text-red-500" />
@@ -154,66 +154,3 @@
         </div>
     </div>
 </x-dynamic-component>
-
-<script>
-    function app(quantity) {
-          return {
-            show: false,
-            uploading: false,
-            error: false,
-            warning: @js($error),
-            progress: 0,
-            property: @js($property),
-            multiple: @js($multiple),
-            quantity: quantity,
-            init() {
-              //this.$watch('uploading', () => setTimeout(() => this.placeholder(), 1000))
-            },
-            upload() {
-            this.uploading = true;
-            this.error = false;
-
-            if (this.multiple) {
-                @this.uploadMultiple(
-                this.property,
-                this.$refs.files.files,
-                () => {
-                  this.uploading = false;
-                  this.progress = 0;
-                },
-                () => {
-                  this.uploading = false;
-                  this.error = true;
-                  this.progress = 0;
-                },
-                (event) => this.progress = event.detail.progress
-              )
-            } else {
-                @this.upload(
-                    this.property,
-                    this.$refs.files.files[0],
-                    () => {
-                        this.uploading = false;
-                        this.progress = 0;
-                    },
-                    () => {
-                      this.uploading = false;
-                      this.error = true;
-                      this.progress = 0;
-                    },
-                    (event) => this.progress = event.detail.progress
-                )
-            }
-          },
-            placeholder() {
-              if (this.multiple) {
-                this.$refs.input.value = `${quantity} files send`;
-
-                return;
-              }
-
-              this.$refs.input.value = '1 file send';
-            }
-        }
-    }
-</script>
