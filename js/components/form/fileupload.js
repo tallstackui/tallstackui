@@ -1,4 +1,4 @@
-export default (id, property, multiple, error, placeholders) => ({
+export default (id, property, multiple, error, placeholder, placeholders) => ({
   show: false,
   uploading: false,
   error: false,
@@ -24,7 +24,7 @@ export default (id, property, multiple, error, placeholders) => ({
     this.single();
   },
   multiples() {
-    this.$wire.uploadMultiple(
+    this.component.$wire.uploadMultiple(
         this.property,
         this.$refs.files.files,
         () => {
@@ -40,7 +40,7 @@ export default (id, property, multiple, error, placeholders) => ({
     );
   },
   single() {
-    this.$wire.upload(
+    this.component.$wire.upload(
         this.property,
         this.$refs.files.files[0],
         () => {
@@ -63,21 +63,9 @@ export default (id, property, multiple, error, placeholders) => ({
    * @returns {void}
    */
   remove(method, original, temporary) {
-    this.$wire.call(method, original, temporary);
+    this.component.$wire.call(method, original, temporary);
 
     this.placeholder();
-  },
-  /**
-   * Remove all files.
-   * @param method {String}
-   * @returns {void}
-   */
-  reset(method) {
-    this.$wire.call(method);
-
-    this.$refs.files.files = null;
-
-    this.input = null;
   },
   /**
    * Set the input placeholder.
@@ -96,7 +84,7 @@ export default (id, property, multiple, error, placeholders) => ({
         this.input = quantity === 0 ? null : quantity;
 
         const items = this.$refs.items;
-        items.scrollTo(0, items.scrollHeight);
+        items?.scrollTo(0, items.scrollHeight);
 
         return;
       }
@@ -107,7 +95,7 @@ export default (id, property, multiple, error, placeholders) => ({
   set input(value) {
     const input = this.$refs.input;
 
-    if (!value) return input.value = null;
+    if (!value) return input.value = placeholder;
 
     input.value = this.placeholders[this.multiple ? 'multiple' : 'single'].replace(':count', value);
   },
