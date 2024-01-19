@@ -1,6 +1,5 @@
 @php
     if (!$livewire) throw new Exception('The [fileupload] component must be used in a Livewire component.');
-
     [$property,, $id] = $bind($attributes, null, $livewire);
     $personalize = $classes();
     $value = $__livewire->{$property};
@@ -30,7 +29,6 @@
               icon="arrow-up-tray"
               position="right"
               invalidate />
-    {{--box--}}
     <div x-cloak
          x-show="show"
          x-on:click.away="show = false"
@@ -44,7 +42,6 @@
          @class($personalize['box.wrapper'])>
         <div @class($personalize['box.base'])>
             <div @class($personalize['box.button.wrapper'])>
-                {{--dropzone--}}
                 <div class="flex w-full items-center justify-center">
                     <label for="dropzone-file"
                            class="flex h-32 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 transition hover:bg-gray-100 dark:border-dark-600 dark:bg-dark-700 dark:hover:bg-dark-500">
@@ -69,41 +66,33 @@
                                @if ($multiple) multiple @endif />
                     </label>
                 </div>
-
                 <div class="mt-2 flex w-full items-center justify-center" x-show="@js($error) && error">
                     <p class="font-semibold text-red-500" x-text="warning"></p>
                 </div>
-
-                {{--progress--}}
                 <div x-show="uploading" class="mt-2 flex h-1 w-full overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700"
                      role="progressbar" aria-valuenow="1" aria-valuemin="0" aria-valuemax="100">
                     <div class="flex flex-col justify-center overflow-hidden whitespace-nowrap rounded-full bg-green-600 text-center text-xs text-white transition duration-500"
                          x-bind:style="'width: ' + progress + '%'"></div>
                 </div>
-
-                {{--files--}}
                 <div class="max-h-64 w-full overflow-auto soft-scrollbar" x-ref="items">
-                    <!-- File Uploading Progress Form -->
                     <div class="flex max-h-40 flex-col rounded-xl bg-white dark:border-gray-700 dark:bg-slate-800">
-                        <!-- Body -->
                         @if ($value)
                             <div class="px-2 py-2 space-y-7">
                                 @php /** @var \Illuminate\Http\UploadedFile $file */ @endphp
                                 @foreach(\Illuminate\Support\Arr::wrap($value) as $key => $file)
                                     <div>
-                                        <!-- Uploading File Content -->
                                         <div class="flex items-center justify-between">
                                             <div class="flex items-center gap-x-3">
-                                                    <span class="flex flex-1 items-center justify-center rounded-lg text-gray-500 dark:border-neutral-700">
-                                                        @if (in_array($file->extension(), ['jpg', 'jpeg', 'png', 'gif']))
-                                                            <img class="h-12 w-12 rounded-full"
-                                                                 src="{{ $file->temporaryUrl() }}">
-                                                        @else
-                                                            <x-dynamic-component :component="TallStackUi::component('icon')"
-                                                                                 icon="document-text"
-                                                                                 class="h-5 w-5 text-primary-500 dark:text-dark-300 flex-shrink-0" />
-                                                        @endif
-                                                    </span>
+                                                <span class="flex flex-1 items-center justify-center rounded-lg text-gray-500 dark:border-neutral-700">
+                                                    @if (in_array($file->extension(), ['jpg', 'jpeg', 'png', 'gif']))
+                                                        <img class="h-12 w-12 rounded-full"
+                                                             src="{{ $file->temporaryUrl() }}">
+                                                    @else
+                                                        <x-dynamic-component :component="TallStackUi::component('icon')"
+                                                                             icon="document-text"
+                                                                             class="h-5 w-5 text-primary-500 dark:text-dark-300 flex-shrink-0" />
+                                                    @endif
+                                                </span>
                                                 <div>
                                                     <p class="text-sm font-medium text-gray-800 dark:text-white">
                                                         {{ $file->getClientOriginalName() }}
@@ -128,21 +117,16 @@
                                                 </div>
                                             @endif
                                         </div>
-                                        <!-- End Uploading File Content -->
                                     </div>
                                 @endforeach
-                                @endif
-                            </div>
-                            <!-- End Body -->
+                            @endif
+                        </div>
                     </div>
-                    <!-- End File Uploading Progress Form -->
                 </div>
-            </div>
-            @if ($footer->isNotEmpty())
-                <div class="mb-2 w-full px-2">
+                @if ($footer->isNotEmpty())
                     {{ $footer }}
-                </div>
-            @endif
+                @endif
+            </div>
         </div>
     </div>
 </div>
