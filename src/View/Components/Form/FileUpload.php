@@ -21,8 +21,8 @@ class FileUpload extends BaseComponent implements Personalization
         public ?bool $invalidate = null,
         public ?bool $multiple = false,
         public ?ComponentSlot $footer = null,
-        public ?bool $delete = false,
-        public ?string $deleteUsing = null,
+        public ?bool $deletable = false,
+        public ?string $deleteMethod = null,
     ) {
         //
     }

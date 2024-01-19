@@ -105,13 +105,15 @@
                                                         <p class="text-xs text-gray-500 dark:text-gray-500">{{ \Illuminate\Support\Number::fileSize($file->getSize()) }}</p>
                                                     </div>
                                                 </div>
-                                                @if ($delete)
+                                                @if ($deletable)
                                                 <div class="inline-flex items-center gap-x-2">
-                                                    <a class="text-gray-500 hover:text-gray-800" href="#">
+                                                    <button type="button"
+                                                            class="text-gray-500 hover:text-gray-800"
+                                                            x-on:click="$wire.call(@js($deleteMethod ?? 'deleteUpload'), @js($file->getClientOriginalName()), @js($file->getFilename()))">
                                                         <x-dynamic-component :component="TallStackUi::component('icon')"
                                                                              icon="trash"
                                                                              class="h-4 w-4 flex-shrink-0 text-red-500" />
-                                                    </a>
+                                                    </button>
                                                 </div>
                                                 @endif
                                             </div>
@@ -124,12 +126,12 @@
                         </div>
                         <!-- End File Uploading Progress Form -->
                     </div>
-                    @if ($footer->isNotEmpty())
-                        <div class="mt-4 w-full">
-                            {!! $footer !!}
-                        </div>
-                    @endif
                 </div>
+                @if ($footer->isNotEmpty())
+                    <div class="w-full mb-2 px-2">
+                        {{ $footer }}
+                    </div>
+                @endif
             </div>
         </div>
     </div>
