@@ -85,9 +85,10 @@ export default (id, property, multiple, error, placeholders) => ({
    */
   placeholder() {
     setTimeout(() => {
-      if (this.multiple) {
-        const property = this.component.$wire.get(this.property);
+      const property = this.component.$wire.get(this.property);
 
+      if (this.multiple) {
+        // For an unknown reason, sometimes the property returns as an object.
         const quantity = typeof property === 'object' ?
           Object.keys(property).length :
           property.length;
@@ -97,7 +98,7 @@ export default (id, property, multiple, error, placeholders) => ({
         return;
       }
 
-      this.input = 1;
+      this.input = property ? 1 : null;
     }, 1000);
   },
   set input(value) {
