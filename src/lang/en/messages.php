@@ -51,4 +51,9 @@ return [
             ],
         ],
     ],
+
+    'fileupload' => [
+        'placeholder' => 'Click here to upload',
+        'error' => 'Something went wrong. Please, try again.',
+    ],
 ];

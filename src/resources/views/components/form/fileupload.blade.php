@@ -45,30 +45,39 @@
                     {{--dropzone--}}
                     <div class="flex w-full items-center justify-center">
                         <label for="dropzone-file"
-                            class="flex h-32 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-bray-800 dark:hover:border-gray-500 dark:hover:bg-gray-600">
-                            <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                                <svg class="mb-4 h-8 w-8 text-gray-500 dark:text-gray-400" aria-hidden="true"
-                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
-                                </svg>
-                                <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span
-                                        class="font-semibold">Click to upload</span> or drag and drop</p>
-                                <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX.
-                                    800x400px)</p>
+                            class="flex h-32 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 transition hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-bray-800 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                            <div class="inline-flex items-center justify-center space-x-2">
+                                <x-dynamic-component :component="TallStackUi::component('icon')"
+                                                     icon="cloud-arrow-up"
+                                                     class="h-6 w-6 text-gray-500 dark:text-gray-400" />
+                                <p class="text-sm text-gray-500 dark:text-gray-400">
+                                    {{ __('tallstack-ui::messages.fileupload.placeholder') }}
+                                </p>
                             </div>
-                            <input id="dropzone-file" type="file" class="hidden" x-ref="files" x-on:change="upload()" @if ($multiple) multiple @endif />
+                            @if (is_string($tip))
+                                <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">{{ $tip }}</p>
+                            @else
+                                {{ $tip }}
+                            @endif
+                            <input id="dropzone-file"
+                                   type="file"
+                                   class="hidden"
+                                   x-ref="files"
+                                   x-on:change="upload()"
+                                   @if ($multiple) multiple @endif />
                         </label>
                     </div>
 
-                    <!-- Progress Bar -->
+                    <div class="mt-2 flex w-full items-center justify-center" x-show="@js($error) && error">
+                        <p class="font-semibold text-red-500" x-text="warning"></p>
+                    </div>
+
+                    {{--progress--}}
                     <div x-show="uploading" class="mt-2 flex h-1 w-full overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700"
                          role="progressbar" aria-valuenow="1" aria-valuemin="0" aria-valuemax="100">
                         <div class="flex flex-col justify-center overflow-hidden whitespace-nowrap rounded-full bg-green-600 text-center text-xs text-white transition duration-500"
                              x-bind:style="'width: ' + progress + '%'"></div>
                     </div>
-                    <!-- End Progress Bar -->
 
                     {{--files--}}
                     <div class="max-h-64 w-full overflow-auto soft-scrollbar">
@@ -76,7 +85,7 @@
                             <div class="mt-2 inline-flex gap-x-2">
                                 <button type="button"
                                         class="text-gray-500 hover:text-gray-800"
-                                        x-on:click="$wire.call(@js($deleteAllMethod))">
+                                        x-on:click="$wire.call(@js($methods['all']))">
                                     <x-dynamic-component :component="TallStackUi::component('icon')"
                                                          icon="trash"
                                                          class="h-4 w-4 flex-shrink-0 text-red-500" />
@@ -100,7 +109,7 @@
                                                                  src="{{ $file->temporaryUrl() }}">
                                                         @else
                                                             <x-dynamic-component :component="TallStackUi::component('icon')"
-                                                                                 name="photo"
+                                                                                 icon="photo"
                                                                                  class="h-5 w-5 flex-shrink-0" />
                                                         @endif
                                                     </span>
@@ -118,7 +127,7 @@
                                                     <div class="inline-flex items-center gap-x-2">
                                                         <button type="button"
                                                                 class="text-gray-500 hover:text-gray-800"
-                                                                x-on:click="$wire.call(@js($deleteSingleMethod), @js($file->getClientOriginalName()), @js($file->getFilename()))">
+                                                                x-on:click="$wire.call(@js($methods['single']), @js($file->getClientOriginalName()), @js($file->getFilename()))">
                                                             <x-dynamic-component :component="TallStackUi::component('icon')"
                                                                                  icon="trash"
                                                                                  class="h-4 w-4 flex-shrink-0 text-red-500" />
@@ -151,6 +160,8 @@
           return {
             show: false,
             uploading: false,
+            error: false,
+            warning: @js($error),
             progress: 0,
             property: @js($property),
             multiple: @js($multiple),
@@ -160,6 +171,7 @@
             },
             upload() {
             this.uploading = true;
+            this.error = false;
 
             if (this.multiple) {
                 @this.uploadMultiple(
@@ -171,6 +183,7 @@
                 },
                 () => {
                   this.uploading = false;
+                  this.error = true;
                   this.progress = 0;
                 },
                 (event) => this.progress = event.detail.progress
@@ -185,6 +198,7 @@
                     },
                     () => {
                       this.uploading = false;
+                      this.error = true;
                       this.progress = 0;
                     },
                     (event) => this.progress = event.detail.progress

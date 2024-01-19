@@ -2,6 +2,7 @@
 
 namespace TallStackUi\View\Components\Form;
 
+use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\ComponentSlot;
@@ -18,14 +19,14 @@ class FileUpload extends BaseComponent implements Personalization
     public function __construct(
         public ?string $label = null,
         public ?string $hint = null,
-        public ?bool $invalidate = null,
         public ?bool $multiple = false,
-        public ?ComponentSlot $footer = null,
         public ?bool $deletable = false,
-        public string $deleteSingleMethod = 'deleteUpload',
-        public string $deleteAllMethod = 'deleteAllUploads',
+        public string|bool|null $error = null,
+        public ComponentSlot|string|null $tip = null,
+        public ?ComponentSlot $footer = null,
+        public array $methods = ['single' => 'deleteUpload', 'all' => 'deleteAllUploads']
     ) {
-        //
+        $this->error ??= __('tallstack-ui::messages.fileupload.error');
     }
 
     public function blade(): View
@@ -59,7 +60,18 @@ class FileUpload extends BaseComponent implements Personalization
                     'icon' => 'h-3 w-3',
                 ],
             ],
-            'error' => $this->error(),
         ]);
+    }
+
+    /** @throws Exception */
+    protected function validate(): void
+    {
+        if (! isset($this->methods['single'])) {
+            throw new Exception('The [fileupload] component requires a method for deleting a single upload.');
+        }
+
+        if (! isset($this->methods['all'])) {
+            throw new Exception('The [fileupload] component requires a method for deleting all uploads.');
+        }
     }
 }
