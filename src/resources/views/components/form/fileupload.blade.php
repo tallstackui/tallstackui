@@ -109,7 +109,7 @@
                                                 <div class="inline-flex items-center gap-x-2">
                                                     <button type="button"
                                                             class="text-gray-500 hover:text-gray-800"
-                                                            x-on:click="$wire.call(@js($deleteMethod ?? 'deleteUpload'), @js($file->getClientOriginalName()), @js($file->getFilename()))">
+                                                            x-on:click="$wire.call(@js($deleteUsing ?? 'deleteUpload'), @js($file->getClientOriginalName()), @js($file->getFilename()))">
                                                         <x-dynamic-component :component="TallStackUi::component('icon')"
                                                                              icon="trash"
                                                                              class="h-4 w-4 flex-shrink-0 text-red-500" />
