@@ -92,6 +92,11 @@ export default (id, property, multiple, error, placeholder, placeholders) => ({
       this.input = property ? 1 : null;
     }, 1000);
   },
+  /**
+   * Set the input value.
+   * @param value
+   * @return {void}
+   */
   set input(value) {
     const input = this.$refs.input;
 
