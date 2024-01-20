@@ -54,6 +54,7 @@ return [
 
     'fileupload' => [
         'placeholder' => 'Choose a file',
+        'size' => 'Size',
         'upload' => 'Click here to upload',
         'uploaded' => [
             'single' => ':count file send',

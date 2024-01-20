@@ -37,28 +37,42 @@ class FileUpload extends BaseComponent implements Personalization
     public function personalization(): array
     {
         return Arr::dot([
-            'input' => [...$this->input()],
-            'selected' => [
-                'wrapper' => 'flex items-center',
-                'base' => 'dark:border-dark-700 h-6 w-6 rounded shadow',
-            ],
-            'icon' => [
-                'wrapper' => 'absolute inset-y-0 right-0 flex items-center pr-2.5',
-                'class' => 'h-5 w-5 text-gray-400',
-            ],
             'box' => [
-                'wrapper' => 'dark:border-dark-600 absolute top-full z-50 mt-2 overflow-hidden rounded-md border border-gray-200 shadow-lg w-full',
-                'base' => 'shadow-xs dark:bg-dark-800 rounded-md bg-white p-2',
-                'range' => [
-                    'base' => 'mb-4 h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 dark:bg-gray-700',
-                    'thumb' => '[&::-webkit-slider-thumb]:bg-primary-500 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full',
-                ],
+                'wrapper' => 'dark:border-dark-600 absolute top-full z-50 mt-2 w-full overflow-hidden rounded-md border border-gray-200 shadow-lg',
+                'base' => 'shadow-xs dark:bg-dark-800 rounded-md bg-white p-3',
                 'button' => [
                     'wrapper' => 'mx-auto flex flex-wrap items-center justify-center gap-1',
-                    'base' => 'rounded shadow-lg',
-                    'color' => 'flex h-5 w-5 cursor-pointer items-center justify-center rounded',
-                    'icon' => 'h-3 w-3',
                 ],
+            ],
+            'placeholder' => [
+                'wrapper' => 'dark:border-dark-600 dark:bg-dark-700 dark:hover:bg-dark-500 flex h-32 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 transition hover:bg-gray-100',
+                'title' => 'text-md font-bold text-gray-500 dark:text-gray-400',
+                'tip' => 'mx-4 mt-2 text-center text-sm text-gray-500 dark:text-gray-400',
+                'icon' => 'h-6 w-6 text-gray-500 dark:text-gray-400',
+            ],
+            'upload' => [
+                'wrapper' => 'mt-2 flex h-1 w-full overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700',
+                'progress' => 'flex flex-col justify-center overflow-hidden whitespace-nowrap rounded-full bg-green-600 text-center text-xs text-white transition duration-500',
+            ],
+            'item' => [
+                'wrapper' => 'soft-scrollbar mt-5 max-h-64 w-full overflow-auto px-2',
+                'ul' => 'dark:divide-dark-700 divide-y divide-gray-100',
+                'li' => 'flex justify-between gap-x-6 py-4',
+                'title' => 'dark:text-dark-300 truncate text-sm font-semibold leading-6 text-gray-900',
+                'size' => 'dark:text-dark-400 mt-1 truncate text-xs leading-5 text-gray-500',
+                'delete' => 'h-4 w-4 flex-shrink-0 text-red-500',
+            ],
+            'preview' => [
+                'backdrop' => 'absolute inset-0 z-40 bg-gray-500 opacity-75 dark:bg-gray-900 backdrop-blur-md',
+                'wrapper' => [
+                    'first' => 'fixed inset-0 transform transition-all',
+                    'second' => 'fixed left-1/2 top-1/2 z-50 -translate-x-1/2 -translate-y-1/2 transform rounded-lg transition-all',
+                ],
+            ],
+            'error' => [
+                'wrapper' => 'mt-2 flex w-full items-center justify-center',
+                'file' => 'text-xs text-red-500',
+                'message' => 'font-semibold text-red-500',
             ],
         ]);
     }
