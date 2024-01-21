@@ -1,14 +1,14 @@
 @php
     if (!$livewire) throw new Exception('The [fileupload] component must be used in a Livewire component.');
-    if ($deletable && !method_exists($this, $method)) throw new Exception('The [fileupload] component delete method [' . $method . '] does not exist in [' . get_class($this) . '].');
+    if ($delete && !method_exists($this, $deleteMethod)) throw new Exception('The [fileupload] component delete method [' . $deleteMethod . '] does not exist in [' . get_class($this) . '].');
     [$property] = $bind($attributes, null, $livewire);
     $personalize = $classes();
-    $value = $__livewire->{$property};
+    $value = $this->{$property};
     $placeholder = __('tallstack-ui::messages.fileupload.placeholder');
 @endphp
 
 <div x-data="tallstackui_formUpload(
-        @js($__livewire->getId()),
+        @js($this->getId()),
         @js($property),
         @js($multiple),
         @js($error),
@@ -31,34 +31,36 @@
               class="cursor-pointer"
               position="right"
               invalidate />
-    <div x-show="preview"
-        @class($personalize['preview.wrapper.first'])
-        x-on:click="preview = false; show = true"
-        x-transition:enter="ease-out duration-300"
-        x-transition:enter-start="opacity-0"
-        x-transition:enter-end="opacity-100"
-        x-transition:leave="ease-in duration-200"
-        x-transition:leave-start="opacity-100"
-        x-transition:leave-end="opacity-0">
-        <div @class($personalize['preview.backdrop'])></div>
-    </div>
-    <div x-show="preview"
-         @class($personalize['preview.wrapper.second'])
-         x-transition:enter="ease-out duration-300"
-         x-transition:enter-start="opacity-0 sm:scale-95"
-         x-transition:enter-end="opacity-100 sm:scale-100"
-         x-transition:leave="ease-in duration-200"
-         x-transition:leave-start="opacity-100 sm:scale-100"
-         x-transition:leave-end="opacity-0 sm:scale-95">
-         <div class="relative">
-            <button class="absolute -top-10 -right-5 h-10 w-10" x-on:click="preview = false; show = true">
-                <x-dynamic-component :component="TallStackUi::component('icon')"
-                                     icon="x-mark"
-                                     class="h-5 w-5 text-white dark:text-dark-300" />
-            </button>
-         </div>
-        <img x-bind:src="image" />
-    </div>
+    @if ($preview)
+        <div x-show="preview"
+            @class($personalize['preview.wrapper.first'])
+            x-on:click="preview = false; show = true"
+            x-transition:enter="ease-out duration-300"
+            x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100"
+            x-transition:leave="ease-in duration-200"
+            x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0">
+            <div @class($personalize['preview.backdrop'])></div>
+        </div>
+        <div x-show="preview"
+             @class($personalize['preview.wrapper.second'])
+             x-transition:enter="ease-out duration-300"
+             x-transition:enter-start="opacity-0 sm:scale-95"
+             x-transition:enter-end="opacity-100 sm:scale-100"
+             x-transition:leave="ease-in duration-200"
+             x-transition:leave-start="opacity-100 sm:scale-100"
+             x-transition:leave-end="opacity-0 sm:scale-95">
+             <div class="relative">
+                <button class="absolute -top-10 -right-5 h-10 w-10" x-on:click="preview = false; show = true">
+                    <x-dynamic-component :component="TallStackUi::component('icon')"
+                                         icon="x-mark"
+                                         class="h-5 w-5 text-white dark:text-dark-300" />
+                </button>
+             </div>
+            <img x-bind:src="image" />
+        </div>
+    @endif
     <div x-cloak
          x-show="show"
          x-on:click.away="show = false"
@@ -110,8 +112,8 @@
                                 <div class="flex min-w-0 gap-x-4">
                                     @if (in_array($file->extension(), ['jpg', 'jpeg', 'png', 'gif']))
                                     <img src="{{ $file->temporaryUrl() }}"
-                                         x-on:click="image = @js($file->temporaryUrl()); preview = true; show = false"
-                                         class="h-12 w-12 flex-none cursor-pointer rounded-full bg-gray-50">
+                                         @if ($preview) x-on:click="image = @js($file->temporaryUrl()); preview = true; show = false" @endif
+                                         @class(['h-12 w-12 flex-none rounded-full bg-gray-50', 'cursor-pointer' => $preview])>
                                     @else
                                         <x-dynamic-component :component="TallStackUi::component('icon')"
                                                              icon="document-text"
@@ -121,18 +123,20 @@
                                         <p @class($personalize['item.title'])>{{ $file->getClientOriginalName() }}</p>
                                         <x-dynamic-component :component="TallStackUi::component('error')"
                                                              :property="$property . '.' . $key" />
+                                        @if (class_exists(\Illuminate\Support\Number::class))
                                         <p @class($personalize['item.size'])>
                                             <span>{{ __('tallstack-ui::messages.fileupload.size') }}: </span>
-                                            @if (class_exists(\Illuminate\Support\Number::class))
-                                                <span>{{ \Illuminate\Support\Number::fileSize($file->getSize()) }}</span>
-                                            @endif
+                                            <span>{{ \Illuminate\Support\Number::fileSize($file->getSize()) }}</span>
                                         </p>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="flex shrink-0 flex-col items-end">
-                                    @if ($deletable)
-                                        <button type="button" x-on:click="remove(@js($method), @js($file->getClientOriginalName()), @js($file->getFilename()))">
-                                            <x-dynamic-component :component="TallStackUi::component('icon')" icon="trash" @class($personalize['item.delete']) />
+                                    @if ($delete)
+                                        <button type="button" x-on:click="remove(@js($deleteMethod), @js($file->getClientOriginalName()), @js($file->getFilename()))">
+                                            <x-dynamic-component :component="TallStackUi::component('icon')"
+                                                                 icon="trash"
+                                                                 @class($personalize['item.delete']) />
                                         </button>
                                     @endif
                                 </div>
