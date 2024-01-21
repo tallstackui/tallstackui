@@ -109,6 +109,7 @@ class StyledCommonTest extends BrowserTestCase
                 }
             }
         })
+            ->waitForLivewireToLoad()
             ->assertDontSee('Type 1')
             ->assertDontSee('Type 2')
             ->assertDontSee('Type 3')
