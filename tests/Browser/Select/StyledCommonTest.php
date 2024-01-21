@@ -58,7 +58,7 @@ class StyledCommonTest extends BrowserTestCase
                     <p dusk="type">{{ $type }}</p>
                     <p dusk="selected">@json($selected)</p>
 
-                    <x-select.styled :options="$types?->toArray()"
+                    <x-select.styled label="Select One Option" :options="$types?->toArray()"
                                     wire:model.live="type"
                                     select="label:label|value:value" />
 
@@ -112,6 +112,8 @@ class StyledCommonTest extends BrowserTestCase
             ->assertDontSee('Type 1')
             ->assertDontSee('Type 2')
             ->assertDontSee('Type 3')
+            ->waitForText('Select One Option')
+            ->assertSee('Select One Option')
             ->click('@tallstackui_select_open_close')
             ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[1]')
             ->waitForText(['Type 1', 'Type 2', 'Type 3'])
