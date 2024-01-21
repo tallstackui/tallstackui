@@ -32,33 +32,22 @@
               position="right"
               invalidate />
     @if ($preview)
-        <div x-show="preview"
-            @class($personalize['preview.wrapper.first'])
-            x-on:click="preview = false; show = true"
-            x-transition:enter="ease-out duration-300"
-            x-transition:enter-start="opacity-0"
-            x-transition:enter-end="opacity-100"
-            x-transition:leave="ease-in duration-200"
-            x-transition:leave-start="opacity-100"
-            x-transition:leave-end="opacity-0">
-            <div @class($personalize['preview.backdrop'])></div>
-        </div>
-        <div x-show="preview"
-             @class($personalize['preview.wrapper.second'])
+        <div x-show="preview" 
+             x-on:click="preview = false; show = true"
              x-transition:enter="ease-out duration-300"
-             x-transition:enter-start="opacity-0 sm:scale-95"
-             x-transition:enter-end="opacity-100 sm:scale-100"
+             x-transition:enter-start="opacity-0"
+             x-transition:enter-end="opacity-100"
              x-transition:leave="ease-in duration-200"
-             x-transition:leave-start="opacity-100 sm:scale-100"
-             x-transition:leave-end="opacity-0 sm:scale-95">
-             <div class="relative">
+             x-transition:leave-start="opacity-100"
+             x-transition:leave-end="opacity-0" @class($personalize['preview.backdrop'])>
+            <div @class($personalize['preview.wrapper'])>
                 <button @class($personalize['preview.button.wrapper']) x-on:click="preview = false; show = true">
                     <x-dynamic-component :component="TallStackUi::component('icon')"
                                          icon="x-mark"
                                          :class="$personalize['preview.button.icon']" />
                 </button>
-             </div>
-            <img x-bind:src="image" />
+                <img  x-bind:src="image" @class($personalize['preview.image'])>
+            </div>
         </div>
     @endif
     <div x-cloak

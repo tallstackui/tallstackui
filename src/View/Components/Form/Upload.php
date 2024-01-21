@@ -46,38 +46,35 @@ class Upload extends BaseComponent implements Personalization
             ],
             'placeholder' => [
                 'wrapper' => 'dark:border-dark-500 dark:bg-dark-700 dark:hover:bg-dark-600 flex h-32 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 transition hover:bg-gray-100',
-                'title' => 'text-md font-bold text-gray-600 dark:text-dark-300',
+                'title' => 'text-md dark:text-dark-300 font-bold text-gray-600',
                 'tip' => 'mx-4 mt-2 text-center text-sm text-gray-500 dark:text-gray-400',
-                'icon' => 'h-6 w-6 text-gray-600 dark:text-dark-300',
+                'icon' => 'dark:text-dark-300 h-6 w-6 text-gray-600',
             ],
             'upload' => [
                 'wrapper' => 'mt-2 flex h-1 w-full overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700',
                 'progress' => 'flex flex-col justify-center overflow-hidden whitespace-nowrap rounded-full bg-green-600 text-center text-xs text-white transition duration-500',
             ],
             'item' => [
-                'wrapper' => 'soft-scrollbar max-h-64 w-full overflow-auto px-2',
+                'wrapper' => 'soft-scrollbar my-4 max-h-64 w-full overflow-auto px-2',
                 'ul' => 'dark:divide-dark-700 divide-y divide-gray-100',
                 'li' => 'flex justify-between gap-x-6 py-4',
                 'title' => 'dark:text-dark-300 truncate text-sm font-semibold leading-6 text-gray-900',
                 'size' => 'dark:text-dark-300 mt-1 text-xs leading-5 text-gray-500',
                 'image' => 'h-12 w-12 flex-none rounded-full bg-gray-50',
-                'document' => 'h-5 w-5 flex-shrink-0 text-primary-500 dark:text-dark-300',
+                'document' => 'text-primary-500 dark:text-dark-300 h-5 w-5 flex-shrink-0',
                 'delete' => 'h-4 w-4 flex-shrink-0 text-red-500',
             ],
             'preview' => [
-                'backdrop' => 'absolute inset-0 z-40 bg-gray-500 opacity-75 dark:bg-gray-900 backdrop-blur-md',
-                'wrapper' => [
-                    'first' => 'fixed inset-0 transform transition-all',
-                    'second' => 'fixed left-1/2 top-1/2 z-50 -translate-x-1/2 -translate-y-1/2 transform rounded-lg transition-all',
-                ],
+                'backdrop' => 'fixed left-0 top-0 flex h-full w-full items-center justify-center bg-gray-500 bg-opacity-75',
+                'wrapper' => 'relative m-5 max-w-3xl rounded shadow-lg',
+                'image' => 'h-auto max-w-full',
                 'button' => [
-                    'wrapper' => 'absolute -top-10 -right-5 h-10 w-10',
-                    'icon' => 'h-5 w-5 text-white dark:text-dark-300',
+                    'wrapper' => 'absolute -right-5 -top-10 h-10 w-10',
+                    'icon' => 'dark:text-dark-300 h-5 w-5 text-white',
                 ],
             ],
             'error' => [
                 'wrapper' => 'mt-2 flex w-full items-center justify-center',
-                'file' => 'text-xs text-red-500',
                 'message' => 'font-semibold text-red-500',
             ],
         ]);
