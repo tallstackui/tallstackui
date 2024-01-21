@@ -38,16 +38,14 @@ class StyledCommonTest extends BrowserTestCase
 
             public ?int $type = null;
 
-            public ?Collection $types = null;
+            public array $types = [
+                ['label' => 'Type 1', 'value' => 1],
+                ['label' => 'Type 2', 'value' => 2],
+                ['label' => 'Type 3', 'value' => 3],
+            ];
 
             public function mount(): void
             {
-                $this->types = collect([
-                    ['label' => 'Type 1', 'value' => 1],
-                    ['label' => 'Type 2', 'value' => 2],
-                    ['label' => 'Type 3', 'value' => 3],
-                ]);
-
                 $this->devices = collect();
             }
 
@@ -58,7 +56,7 @@ class StyledCommonTest extends BrowserTestCase
                     <p dusk="type">{{ $type }}</p>
                     <p dusk="selected">@json($selected)</p>
 
-                    <x-select.styled label="Select One Option" :options="$types?->toArray()"
+                    <x-select.styled label="Select One Option" :options="$types"
                                     wire:model.live="type"
                                     select="label:label|value:value" />
 
@@ -109,7 +107,6 @@ class StyledCommonTest extends BrowserTestCase
                 }
             }
         })
-            ->waitForLivewireToLoad()
             ->assertDontSee('Type 1')
             ->assertDontSee('Type 2')
             ->assertDontSee('Type 3')
