@@ -84,6 +84,7 @@
                            dusk="tallstackui_file_select"
                            @if (!app()->runningUnitTests()) class="hidden" @endif
                            x-ref="files"
+                           {{ $attributes->only('accept') }}
                            x-on:change="upload()"
                            @if ($multiple) multiple @endif />
                 </label>
