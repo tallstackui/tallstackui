@@ -44,10 +44,10 @@ class FileUpload extends BaseComponent implements Personalization
                 ],
             ],
             'placeholder' => [
-                'wrapper' => 'dark:border-dark-600 dark:bg-dark-700 dark:hover:bg-dark-500 flex h-32 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 transition hover:bg-gray-100',
-                'title' => 'text-md font-bold text-gray-500 dark:text-gray-400',
+                'wrapper' => 'dark:border-dark-500 dark:bg-dark-700 dark:hover:bg-dark-600 flex h-32 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 transition hover:bg-gray-100',
+                'title' => 'text-md font-bold text-gray-600 dark:text-dark-300',
                 'tip' => 'mx-4 mt-2 text-center text-sm text-gray-500 dark:text-gray-400',
-                'icon' => 'h-6 w-6 text-gray-500 dark:text-gray-400',
+                'icon' => 'h-6 w-6 text-gray-600 dark:text-dark-300',
             ],
             'upload' => [
                 'wrapper' => 'mt-2 flex h-1 w-full overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700',
@@ -58,7 +58,7 @@ class FileUpload extends BaseComponent implements Personalization
                 'ul' => 'dark:divide-dark-700 divide-y divide-gray-100',
                 'li' => 'flex justify-between gap-x-6 py-4',
                 'title' => 'dark:text-dark-300 truncate text-sm font-semibold leading-6 text-gray-900',
-                'size' => 'dark:text-dark-400 mt-1 truncate text-xs leading-5 text-gray-500',
+                'size' => 'dark:text-dark-300 mt-1 text-xs leading-5 text-gray-500',
                 'image' => 'h-12 w-12 flex-none rounded-full bg-gray-50',
                 'document' => 'h-5 w-5 flex-shrink-0 text-primary-500 dark:text-dark-300',
                 'delete' => 'h-4 w-4 flex-shrink-0 text-red-500',
