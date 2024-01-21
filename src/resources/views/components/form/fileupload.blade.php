@@ -122,12 +122,12 @@
                                     <div class="min-w-0 flex-auto">
                                         <p @class($personalize['item.title'])>{{ $file->getClientOriginalName() }}</p>
                                         <x-dynamic-component :component="TallStackUi::component('error')"
-                                                             :property="$property . '.' . $key" />
+                                                             :property="is_array($value) ? $property . '.' . $key : $property" />
                                         @if (class_exists(\Illuminate\Support\Number::class))
-                                        <p @class($personalize['item.size'])>
-                                            <span>{{ __('tallstack-ui::messages.fileupload.size') }}: </span>
-                                            <span>{{ \Illuminate\Support\Number::fileSize($file->getSize()) }}</span>
-                                        </p>
+                                            <p @class($personalize['item.size'])>
+                                                <span>{{ __('tallstack-ui::messages.fileupload.size') }}: </span>
+                                                <span>{{ \Illuminate\Support\Number::fileSize($file->getSize()) }}</span>
+                                            </p>
                                         @endif
                                     </div>
                                 </div>
