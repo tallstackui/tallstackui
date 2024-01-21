@@ -136,7 +136,7 @@ class Personalization
             'checkbox' => Checkbox::class,
             'color' => Color::class,
             'error' => Error::class,
-            'fileupload' => FileUpload::class,
+            'file-upload' => FileUpload::class,
             'hint' => Hint::class,
             'input' => Input::class,
             'label' => Label::class,

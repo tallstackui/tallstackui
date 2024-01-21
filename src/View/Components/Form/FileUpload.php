@@ -10,7 +10,7 @@ use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\View\Components\BaseComponent;
 use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
 
-#[SoftPersonalization('form.fileupload')]
+#[SoftPersonalization('form.file-upload')]
 class FileUpload extends BaseComponent implements Personalization
 {
     use DefaultInputClasses;
@@ -21,11 +21,12 @@ class FileUpload extends BaseComponent implements Personalization
         public ?bool $multiple = false,
         public ?bool $preview = true,
         public ?bool $delete = false,
-        public string $deleteMethod = 'deleteUpload',
+        public ?string $deleteMethod = null,
         public string|bool|null $error = null,
         public ComponentSlot|string|null $tip = null,
         public ?ComponentSlot $footer = null,
     ) {
+        $this->deleteMethod ??= 'deleteUpload';
         $this->error ??= __('tallstack-ui::messages.fileupload.error');
     }
 
