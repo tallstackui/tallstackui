@@ -2,7 +2,6 @@
 
 namespace TallStackUi\View\Components\Form;
 
-use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\ComponentSlot;
@@ -21,10 +20,10 @@ class FileUpload extends BaseComponent implements Personalization
         public ?string $hint = null,
         public ?bool $multiple = false,
         public ?bool $deletable = false,
+        public string $method = 'deleteUpload',
         public string|bool|null $error = null,
         public ComponentSlot|string|null $tip = null,
         public ?ComponentSlot $footer = null,
-        public array $methods = ['single' => 'deleteUpload', 'all' => 'deleteAllUploads']
     ) {
         $this->error ??= __('tallstack-ui::messages.fileupload.error');
     }
@@ -55,7 +54,7 @@ class FileUpload extends BaseComponent implements Personalization
                 'progress' => 'flex flex-col justify-center overflow-hidden whitespace-nowrap rounded-full bg-green-600 text-center text-xs text-white transition duration-500',
             ],
             'item' => [
-                'wrapper' => 'soft-scrollbar mt-5 max-h-64 w-full overflow-auto px-2',
+                'wrapper' => 'soft-scrollbar max-h-64 w-full overflow-auto px-2',
                 'ul' => 'dark:divide-dark-700 divide-y divide-gray-100',
                 'li' => 'flex justify-between gap-x-6 py-4',
                 'title' => 'dark:text-dark-300 truncate text-sm font-semibold leading-6 text-gray-900',
@@ -75,17 +74,5 @@ class FileUpload extends BaseComponent implements Personalization
                 'message' => 'font-semibold text-red-500',
             ],
         ]);
-    }
-
-    /** @throws Exception */
-    protected function validate(): void
-    {
-        if (! isset($this->methods['single'])) {
-            throw new Exception('The [fileupload] component requires a method for deleting a single upload.');
-        }
-
-        if (! isset($this->methods['all'])) {
-            throw new Exception('The [fileupload] component requires a method for deleting all uploads.');
-        }
     }
 }

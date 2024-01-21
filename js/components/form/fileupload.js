@@ -15,6 +15,10 @@ export default (id, property, multiple, error, placeholder, placeholders) => ({
 
     this.$watch('uploading', () => this.placeholder());
   },
+  /**
+   * Toggle the file upload modal.
+   * @returns {void}
+   */
   upload() {
     if (!this.$refs.files.files.length) return;
 
@@ -25,6 +29,10 @@ export default (id, property, multiple, error, placeholder, placeholders) => ({
 
     this.single();
   },
+  /**
+   * Upload multiple files.
+   * @returns {void}
+   */
   multiples() {
     this.component.$wire.uploadMultiple(
         this.property,
@@ -41,6 +49,10 @@ export default (id, property, multiple, error, placeholder, placeholders) => ({
         (event) => this.progress = event.detail.progress,
     );
   },
+  /**
+   * Upload single file.
+   * @returns {void}
+   */
   single() {
     this.component.$wire.upload(
         this.property,
@@ -96,7 +108,7 @@ export default (id, property, multiple, error, placeholder, placeholders) => ({
   },
   /**
    * Set the input value.
-   * @param {any} value
+   * @param value {String|Number|Null}
    * @return {void}
    */
   set input(value) {
