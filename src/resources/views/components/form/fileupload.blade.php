@@ -96,10 +96,12 @@
                             @if ($multiple) multiple @endif />
                 </label>
             </div>
-            <div @class($personalize['error.wrapper']) x-show="@js($error) && error">
+            <div @class([$personalize['error.wrapper'], 'mb-2' => $footer->isNotEmpty()]) x-show="@js($error) && error">
                 <p @class($personalize['error.message']) x-text="warning"></p>
             </div>
-            <div x-show="uploading" role="progressbar" aria-valuenow="1" aria-valuemin="0" aria-valuemax="100" @class($personalize['upload.wrapper'])>
+            <div x-show="uploading"
+                 role="progressbar"
+                 @class([$personalize['upload.wrapper'], 'mb-2' => $footer->isNotEmpty()])>
                 <div @class($personalize['upload.progress']) x-bind:style="'width: ' + progress + '%'"></div>
             </div>
             @if ($value)
