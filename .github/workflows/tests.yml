@@ -57,7 +57,7 @@ jobs:
         run: ./vendor/bin/testbench optimize:clear
 
       - name: Feature Tests
-        run: ./vendor/bin/pest --filter Feature --parallel
+        run: ./vendor/bin/pest --filter Feature --parallel --order-by random
 
       - name: Clear Orchestra Testbench Cache [Before Browser]
         run: ./vendor/bin/testbench optimize:clear

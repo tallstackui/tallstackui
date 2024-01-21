@@ -41,14 +41,13 @@ class Styled extends BaseComponent implements Personalization
         public ?bool $disabled = false,
         #[SkipDebug]
         public ?bool $common = true,
-        #[SkipDebug]
-        public array $placeholders = [],
+        public ?array $placeholders = null,
         public ?bool $invalidate = null,
         public ?bool $required = false,
         public ?int $limit = null,
     ) {
-        $this->placeholders = [...__('tallstack-ui::messages.select')];
-        $this->placeholder ??= ($this->placeholders['default'] ?? null);
+        $this->placeholders ??= [...__('tallstack-ui::messages.select')];
+        $this->placeholder ??= data_get($this->placeholders, 'default');
 
         $this->common = ! filled($this->request);
         $this->searchable = ! $this->common ? true : $this->searchable;
@@ -116,18 +115,6 @@ class Styled extends BaseComponent implements Personalization
 
     protected function validate(): void
     {
-        if (blank($this->placeholder)) {
-            throw new InvalidArgumentException('The [select.styled] placeholder [default] cannot be empty.');
-        }
-
-        if (blank($this->placeholders['search'])) {
-            throw new InvalidArgumentException('The [select.styled] placeholder [search] cannot be empty.');
-        }
-
-        if (blank($this->placeholders['empty'])) {
-            throw new InvalidArgumentException('The [select.styled] placeholder [empty] cannot be empty.');
-        }
-
         if (filled($this->options) && filled($this->request)) {
             throw new InvalidArgumentException('The [select.styled] [options] and [request] cannot be defined at the same time.');
         }

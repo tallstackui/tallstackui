@@ -27,8 +27,8 @@
                              $personalize['input.class.base'],
                              $personalize['input.class.color.base'],
                              $personalize['input.class.color.background'],
-                             'rounded-l-md' => ! $left,
-                             'rounded-r-md' => $left,
+                             $personalize['input.class.sides.left'] => $left,
+                             $personalize['input.class.sides.right'] => ! $left,
                         ]) value="{{ $text }}" readonly>
                 </div>
             @if (! $left)

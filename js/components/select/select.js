@@ -194,6 +194,10 @@ export default (
       return error('The [params] must be an array with key and value pairs');
     }
 
+    // When using request parameters we evaluate this through the ref which
+    // stores the parameters to allow us to hydrate this when changes are made.
+    this.request.params &&= Alpine.evaluate(this, this.$refs.params.innerText);
+
     const {url, init} = body(this.request, this.search, this.model ?
         (this.model.constructor === Array ? this.model : [this.model]) :
         []);
@@ -445,6 +449,14 @@ export default (
     return model === data;
   },
   /**
+   * Normalize the string removing accents and special characters
+   * @param string {String}
+   * @return {String}
+   */
+  normalize(string) {
+    return string.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  },
+  /**
    * Set the input value when is not Livewire
    * @param data {*}
    */
@@ -493,12 +505,12 @@ export default (
       return available;
     }
 
-    const search = this.search.toLowerCase();
+    const search = this.normalize(this.search.toLowerCase());
 
     return available.filter((option) => {
       return this.dimensional ?
-          option[selectable.label].toString().toLowerCase().indexOf(search) !== -1 :
-          option.toString().toLowerCase().indexOf(search) !== -1;
+          this.normalize(option[selectable.label].toString().toLowerCase()).indexOf(search) !== -1 :
+          this.normalize(option.toString().toLowerCase()).indexOf(search) !== -1;
     });
   },
 });
