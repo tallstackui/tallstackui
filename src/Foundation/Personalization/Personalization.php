@@ -20,7 +20,6 @@ use TallStackUi\View\Components\Errors;
 use TallStackUi\View\Components\Form\Checkbox;
 use TallStackUi\View\Components\Form\Color;
 use TallStackUi\View\Components\Form\Error;
-use TallStackUi\View\Components\Form\FileUpload;
 use TallStackUi\View\Components\Form\Hint;
 use TallStackUi\View\Components\Form\Input;
 use TallStackUi\View\Components\Form\Label;
@@ -32,6 +31,7 @@ use TallStackUi\View\Components\Form\Range;
 use TallStackUi\View\Components\Form\Tag;
 use TallStackUi\View\Components\Form\Textarea;
 use TallStackUi\View\Components\Form\Toggle;
+use TallStackUi\View\Components\Form\Upload;
 use TallStackUi\View\Components\Interaction\Dialog;
 use TallStackUi\View\Components\Interaction\Toast;
 use TallStackUi\View\Components\Link;
@@ -136,7 +136,7 @@ class Personalization
             'checkbox' => Checkbox::class,
             'color' => Color::class,
             'error' => Error::class,
-            'file-upload' => FileUpload::class,
+            'upload' => Upload::class,
             'hint' => Hint::class,
             'input' => Input::class,
             'label' => Label::class,

@@ -18,7 +18,7 @@ import textArea from './components/form/textarea';
 import toastBase from './components/toast/toast-base';
 import toastLoop from './components/toast/toast-loop';
 import tooltip from './components/tooltip/tooltip';
-import upload from './components/form/fileupload';
+import upload from './components/form/upload';
 
 document.addEventListener('alpine:init', () => {
   Alpine.plugin(tooltip);

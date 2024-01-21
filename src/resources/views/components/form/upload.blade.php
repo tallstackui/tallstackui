@@ -1,10 +1,10 @@
 @php
-    if (!$livewire) throw new Exception('The [fileupload] component must be used in a Livewire component.');
-    if ($delete && !method_exists($this, $deleteMethod)) throw new Exception('The [fileupload] component delete method [' . $deleteMethod . '] does not exist in [' . get_class($this) . '].');
+    if (!$livewire) throw new Exception('The [upload] component must be used in a Livewire component.');
+    if ($delete && !method_exists($this, $deleteMethod)) throw new Exception('The [upload] component delete method [' . $deleteMethod . '] does not exist in [' . get_class($this) . '].');
     [$property] = $bind($attributes, null, $livewire);
     $personalize = $classes();
     $value = $this->{$property};
-    $placeholder = __('tallstack-ui::messages.fileupload.placeholder');
+    $placeholder = __('tallstack-ui::messages.upload.placeholder');
 @endphp
 
 <div x-data="tallstackui_formUpload(
@@ -13,7 +13,7 @@
         @js($multiple),
         @js($error),
         @js($placeholder),
-        @js(__('tallstack-ui::messages.fileupload.uploaded')))"
+        @js(__('tallstack-ui::messages.upload.uploaded')))"
      x-ref="wrapper"
      x-cloak
      x-on:livewire-upload-start="uploading = true"
@@ -80,7 +80,7 @@
                                              icon="cloud-arrow-up"
                                              @class($personalize['placeholder.icon']) />
                         <p @class($personalize['placeholder.title'])>
-                            {{ __('tallstack-ui::messages.fileupload.upload') }}
+                            {{ __('tallstack-ui::messages.upload.upload') }}
                         </p>
                     </div>
                     @if (is_string($tip))
@@ -126,7 +126,7 @@
                                                              :property="is_array($value) ? $property . '.' . $key : $property" />
                                         @if (class_exists(\Illuminate\Support\Number::class))
                                             <p @class($personalize['item.size'])>
-                                                <span>{{ __('tallstack-ui::messages.fileupload.size') }}: </span>
+                                                <span>{{ __('tallstack-ui::messages.upload.size') }}: </span>
                                                 <span>{{ \Illuminate\Support\Number::fileSize($file->getSize()) }}</span>
                                             </p>
                                         @endif

@@ -52,7 +52,7 @@ return [
         ],
     ],
 
-    'fileupload' => [
+    'upload' => [
         'placeholder' => 'Choose a file',
         'size' => 'Size',
         'upload' => 'Click here to upload',
