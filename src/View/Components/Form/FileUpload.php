@@ -38,10 +38,9 @@ class FileUpload extends BaseComponent implements Personalization
     {
         return Arr::dot([
             'box' => [
-                'wrapper' => 'dark:border-dark-600 absolute top-full z-50 mt-2 w-full overflow-hidden rounded-md border border-gray-200 shadow-lg',
-                'base' => 'shadow-xs dark:bg-dark-800 rounded-md bg-white p-3',
-                'button' => [
-                    'wrapper' => 'mx-auto flex flex-wrap items-center justify-center gap-1',
+                'wrapper' => [
+                    'first' => 'dark:border-dark-600 absolute top-full z-50 mt-2 w-full overflow-hidden rounded-md border border-gray-200 shadow-lg',
+                    'second' => 'shadow-xs dark:bg-dark-800 rounded-md bg-white p-3',
                 ],
             ],
             'placeholder' => [
@@ -60,6 +59,8 @@ class FileUpload extends BaseComponent implements Personalization
                 'li' => 'flex justify-between gap-x-6 py-4',
                 'title' => 'dark:text-dark-300 truncate text-sm font-semibold leading-6 text-gray-900',
                 'size' => 'dark:text-dark-400 mt-1 truncate text-xs leading-5 text-gray-500',
+                'image' => 'h-12 w-12 flex-none rounded-full bg-gray-50',
+                'document' => 'h-5 w-5 flex-shrink-0 text-primary-500 dark:text-dark-300',
                 'delete' => 'h-4 w-4 flex-shrink-0 text-red-500',
             ],
             'preview' => [
@@ -67,6 +68,10 @@ class FileUpload extends BaseComponent implements Personalization
                 'wrapper' => [
                     'first' => 'fixed inset-0 transform transition-all',
                     'second' => 'fixed left-1/2 top-1/2 z-50 -translate-x-1/2 -translate-y-1/2 transform rounded-lg transition-all',
+                ],
+                'button' => [
+                    'wrapper' => 'absolute -top-10 -right-5 h-10 w-10',
+                    'icon' => 'h-5 w-5 text-white dark:text-dark-300',
                 ],
             ],
             'error' => [

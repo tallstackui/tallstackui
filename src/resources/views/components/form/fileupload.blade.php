@@ -52,10 +52,10 @@
              x-transition:leave-start="opacity-100 sm:scale-100"
              x-transition:leave-end="opacity-0 sm:scale-95">
              <div class="relative">
-                <button class="absolute -top-10 -right-5 h-10 w-10" x-on:click="preview = false; show = true">
+                <button @class($personalize['preview.button.wrapper']) x-on:click="preview = false; show = true">
                     <x-dynamic-component :component="TallStackUi::component('icon')"
                                          icon="x-mark"
-                                         class="h-5 w-5 text-white dark:text-dark-300" />
+                                         :class="$personalize['preview.button.icon']" />
                 </button>
              </div>
             <img x-bind:src="image" />
@@ -71,14 +71,13 @@
          x-transition:leave-start="opacity-100 translate-y-0"
          x-transition:leave-end="opacity-0 -translate-y-2"
          x-anchor.bottom-end="$refs.wrapper"
-         @class($personalize['box.wrapper'])>
-        <div @class($personalize['box.base'])>
+         @class($personalize['box.wrapper.first'])>
+        <div @class($personalize['box.wrapper.second'])>
             <div @class(['flex w-full items-center justify-center', 'mb-2' => $footer->isNotEmpty()])>
                 <label for="dropzone-file" @class($personalize['placeholder.wrapper'])>
                     <div class="inline-flex items-center justify-center space-x-2">
                         <x-dynamic-component :component="TallStackUi::component('icon')"
                                              icon="cloud-arrow-up"
-                                             outline
                                              @class($personalize['placeholder.icon']) />
                         <p @class($personalize['placeholder.title'])>
                             {{ __('tallstack-ui::messages.fileupload.upload') }}
@@ -113,11 +112,11 @@
                                     @if (in_array($file->extension(), ['jpg', 'jpeg', 'png', 'gif']))
                                     <img src="{{ $file->temporaryUrl() }}"
                                          @if ($preview) x-on:click="image = @js($file->temporaryUrl()); preview = true; show = false" @endif
-                                         @class(['h-12 w-12 flex-none rounded-full bg-gray-50', 'cursor-pointer' => $preview])>
+                                         @class([$personalize['item.image'], 'cursor-pointer' => $preview])>
                                     @else
                                         <x-dynamic-component :component="TallStackUi::component('icon')"
                                                              icon="document-text"
-                                                             class="h-5 w-5 flex-shrink-0 text-primary-500 dark:text-dark-300" />
+                                                             :class="$personalize['item.document']" />
                                     @endif
                                     <div class="min-w-0 flex-auto">
                                         <p @class($personalize['item.title'])>{{ $file->getClientOriginalName() }}</p>
