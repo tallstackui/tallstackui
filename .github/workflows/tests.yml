@@ -63,7 +63,7 @@ jobs:
         run: ./vendor/bin/testbench optimize:clear
 
       - name: Browser Tests
-        run: ./vendor/bin/pest --filter Browser
+        run: ./vendor/bin/pest --filter Browser --order-by random
         env:
           CI: true
 
