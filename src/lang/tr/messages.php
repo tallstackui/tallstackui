@@ -51,4 +51,15 @@ return [
             ],
         ],
     ],
+
+    'upload' => [
+        'placeholder' => 'Bir dosya seçin',
+        'size' => 'Boyut',
+        'upload' => 'Yüklemek için buraya tıklayın',
+        'uploaded' => [
+            'single' => ':count dosya gönderildi',
+            'multiple' => ':count dosya gönderildi',
+        ],
+        'error' => 'Bir şeyler yanlış gitti. Lütfen tekrar deneyin.',
+    ],
 ];

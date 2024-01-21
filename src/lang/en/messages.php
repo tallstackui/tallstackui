@@ -51,4 +51,15 @@ return [
             ],
         ],
     ],
+
+    'upload' => [
+        'placeholder' => 'Choose a file',
+        'size' => 'Size',
+        'upload' => 'Click here to upload',
+        'uploaded' => [
+            'single' => ':count file send',
+            'multiple' => ':count files send',
+        ],
+        'error' => 'Something went wrong. Please, try again.',
+    ],
 ];

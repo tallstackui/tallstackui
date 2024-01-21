@@ -18,6 +18,7 @@ import textArea from './components/form/textarea';
 import toastBase from './components/toast/toast-base';
 import toastLoop from './components/toast/toast-loop';
 import tooltip from './components/tooltip/tooltip';
+import upload from './components/form/upload';
 
 document.addEventListener('alpine:init', () => {
   Alpine.plugin(tooltip);
@@ -28,6 +29,7 @@ document.addEventListener('alpine:init', () => {
   Alpine.data('tallstackui_formPassword', password);
   Alpine.data('tallstackui_formPin', pin);
   Alpine.data('tallstackui_formTag', tag);
+  Alpine.data('tallstackui_formUpload', upload);
   Alpine.data('tallstackui_darkTheme', darkTheme);
   Alpine.data('tallstackui_dialog', dialog);
   Alpine.data('tallstackui_dropdown', dropdown);

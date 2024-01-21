@@ -51,4 +51,15 @@ return [
             ],
         ],
     ],
+
+    'upload' => [
+        'placeholder' => 'Elija un archivo',
+        'size' => 'Tamaño',
+        'upload' => 'Haga clic aquí para cargar',
+        'uploaded' => [
+            'single' => ':count archivo enviado',
+            'multiple' => ':count archivos enviados',
+        ],
+        'error' => 'Algo salió mal. Por favor, inténtelo de nuevo.',
+    ],
 ];

@@ -63,22 +63,22 @@ jobs:
         run: ./vendor/bin/testbench optimize:clear
 
       - name: Browser Tests
-        run: ./vendor/bin/pest --filter Browser
+        run: ./vendor/bin/pest --filter Browser --order-by random
         env:
           CI: true
 
-      - name: Upload Failed Screenshots
-        if: failure()
-        uses: actions/upload-artifact@v2
-        with:
-          name: dusk-fail-screenshots
-          path: tests/Browser/screenshots/failure-*
-          retention-days: 1
-
-      - name: Upload Failed Console Logs
-        if: failure()
-        uses: actions/upload-artifact@v2
-        with:
-          name: dusk-fail-screenshots
-          path: tests/Browser/console/Tests_*
-          retention-days: 1
+#      - name: Upload Failed Screenshots
+#        if: failure()
+#        uses: actions/upload-artifact@v2
+#        with:
+#          name: dusk-fail-screenshots
+#          path: tests/Browser/screenshots/failure-*
+#          retention-days: 1
+#
+#      - name: Upload Failed Console Logs
+#        if: failure()
+#        uses: actions/upload-artifact@v2
+#        with:
+#          name: dusk-fail-screenshots
+#          path: tests/Browser/console/Tests_*
+#          retention-days: 1

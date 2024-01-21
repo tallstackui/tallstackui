@@ -12,7 +12,7 @@ class RangeTest extends BrowserTestCase
     public function can_increase(): void
     {
         if (getenv('GITHUB_ACTIONS') === 'true') {
-            $this->markTestSkipped('This tests only works locally.');
+            $this->markTestSkipped('For some unknown reason this test fails on GitHub Actions.');
         }
 
         Livewire::visit(new class extends Component
@@ -47,7 +47,7 @@ class RangeTest extends BrowserTestCase
     public function can_increase_with_live_entangle(): void
     {
         if (getenv('GITHUB_ACTIONS') === 'true') {
-            $this->markTestSkipped('This tests only works locally.');
+            $this->markTestSkipped('For some unknown reason this test fails on GitHub Actions.');
         }
 
         Livewire::visit(new class extends Component

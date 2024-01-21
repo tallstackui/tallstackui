@@ -31,6 +31,7 @@ use TallStackUi\View\Components\Form\Range;
 use TallStackUi\View\Components\Form\Tag;
 use TallStackUi\View\Components\Form\Textarea;
 use TallStackUi\View\Components\Form\Toggle;
+use TallStackUi\View\Components\Form\Upload;
 use TallStackUi\View\Components\Interaction\Dialog;
 use TallStackUi\View\Components\Interaction\Toast;
 use TallStackUi\View\Components\Link;
@@ -135,6 +136,7 @@ class Personalization
             'checkbox' => Checkbox::class,
             'color' => Color::class,
             'error' => Error::class,
+            'upload' => Upload::class,
             'hint' => Hint::class,
             'input' => Input::class,
             'label' => Label::class,

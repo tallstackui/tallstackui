@@ -45,6 +45,10 @@ class BrowserTestCase extends TestCase
                 'database' => ':memory:',
                 'prefix' => '',
             ]);
+            $config->set('filesystems.disks.tmp-for-tests', [
+                'driver' => 'local',
+                'root' => self::tmpPath(),
+            ]);
         });
     }
 

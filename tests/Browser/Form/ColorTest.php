@@ -74,7 +74,7 @@ class ColorTest extends BrowserTestCase
     public function can_open_and_select_first_color_in_mode_custom(): void
     {
         if (getenv('GITHUB_ACTIONS') === 'true') {
-            $this->markTestSkipped('This tests only works locally.');
+            $this->markTestSkipped('For some unknown reason this test fails on GitHub Actions.');
         }
 
         Livewire::visit(new class extends Component
