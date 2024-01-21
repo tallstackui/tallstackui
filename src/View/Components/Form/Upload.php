@@ -18,12 +18,12 @@ class Upload extends BaseComponent implements Personalization
     public function __construct(
         public ?string $label = null,
         public ?string $hint = null,
+        public ComponentSlot|string|null $tip = null,
         public ?bool $multiple = false,
         public ?bool $preview = true,
         public ?bool $delete = false,
         public ?string $deleteMethod = null,
         public string|bool|null $error = null,
-        public ComponentSlot|string|null $tip = null,
         public ?ComponentSlot $footer = null,
     ) {
         $this->deleteMethod ??= 'deleteUpload';
@@ -65,7 +65,7 @@ class Upload extends BaseComponent implements Personalization
                 'delete' => 'h-4 w-4 flex-shrink-0 text-red-500',
             ],
             'preview' => [
-                'backdrop' => 'fixed left-0 top-0 flex h-full w-full items-center justify-center bg-gray-500 bg-opacity-75 z-50',
+                'backdrop' => 'fixed left-0 top-0 z-50 flex h-full w-full items-center justify-center bg-gray-500 bg-opacity-75',
                 'wrapper' => 'relative m-5 max-w-3xl rounded shadow-lg',
                 'image' => 'h-auto max-w-full',
                 'button' => [

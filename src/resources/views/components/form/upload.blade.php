@@ -46,7 +46,7 @@
                                          icon="x-mark"
                                          :class="$personalize['preview.button.icon']" />
                 </button>
-                <img  x-bind:src="image" @class($personalize['preview.image'])>
+                <img x-bind:src="image" @class($personalize['preview.image'])>
             </div>
         </div>
     @endif
