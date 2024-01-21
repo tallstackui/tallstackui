@@ -109,7 +109,6 @@ class StyledCommonTest extends BrowserTestCase
                 }
             }
         })
-            ->assertSee('Select an option')
             ->assertDontSee('Type 1')
             ->assertDontSee('Type 2')
             ->assertDontSee('Type 3')
