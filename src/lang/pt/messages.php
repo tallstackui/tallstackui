@@ -51,4 +51,15 @@ return [
             ],
         ],
     ],
+
+    'upload' => [
+        'placeholder' => 'Escolha um ficheiro',
+        'size' => 'Tamanho',
+        'upload' => 'Clique aqui para enviar',
+        'uploaded' => [
+            'single' => ':count ficheiro enviado',
+            'multiple' => ':count ficheiros enviados',
+        ],
+        'error' => 'Algo correu mal. Por favor, tente novamente.',
+    ],
 ];
