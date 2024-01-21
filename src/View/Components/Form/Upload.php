@@ -11,6 +11,7 @@ use TallStackUi\View\Components\BaseComponent;
 use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
 
 #[SoftPersonalization('form.upload')]
+// TODO: add support fo accept attribute
 class Upload extends BaseComponent implements Personalization
 {
     use DefaultInputClasses;

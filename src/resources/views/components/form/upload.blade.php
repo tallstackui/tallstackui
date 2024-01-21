@@ -30,6 +30,7 @@
               icon="arrow-up-tray"
               class="cursor-pointer"
               position="right"
+              dusk="tallstackui_upload_input"
               invalidate />
     @if ($preview)
         <div x-show="preview" 
@@ -39,8 +40,9 @@
              x-transition:enter-end="opacity-100"
              x-transition:leave="ease-in duration-200"
              x-transition:leave-start="opacity-100"
-             x-transition:leave-end="opacity-0" @class($personalize['preview.backdrop'])>
-            <div @class($personalize['preview.wrapper'])>
+             x-transition:leave-end="opacity-0" @class($personalize['preview.backdrop'])
+             dusk="tallstackui_file_preview_backdrop">
+             <div @class($personalize['preview.wrapper'])>
                 <button @class($personalize['preview.button.wrapper']) x-on:click="preview = false; show = true">
                     <x-dynamic-component :component="TallStackUi::component('icon')"
                                          icon="x-mark"
@@ -78,11 +80,12 @@
                         {{ $tip }}
                     @endif
                     <input id="dropzone-file"
-                            type="file"
-                            class="hidden"
-                            x-ref="files"
-                            x-on:change="upload()"
-                            @if ($multiple) multiple @endif />
+                           type="file"
+                           dusk="tallstackui_file_select"
+                           @if (!app()->runningUnitTests()) class="hidden" @endif
+                           x-ref="files"
+                           x-on:change="upload()"
+                           @if ($multiple) multiple @endif />
                 </label>
             </div>
             <div @class([$personalize['error.wrapper'], 'mb-2' => $footer->isNotEmpty()]) x-show="@js($error) && error">
@@ -102,6 +105,7 @@
                                 <div class="flex min-w-0 gap-x-4">
                                     @if (in_array($file->extension(), ['jpg', 'jpeg', 'png', 'gif']))
                                     <img src="{{ $file->temporaryUrl() }}"
+                                         dusk="tallstackui_file_preview"
                                          @if ($preview) x-on:click="image = @js($file->temporaryUrl()); preview = true; show = false" @endif
                                          @class([$personalize['item.image'], 'cursor-pointer' => $preview])>
                                     @else
