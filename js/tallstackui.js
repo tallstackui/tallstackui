@@ -12,6 +12,7 @@ import select from './components/select/select';
 import slide from './components/slide/slide';
 import password from './components/form/password';
 import pin from './components/form/pin';
+import reaction from './components/reaction/reaction';
 import tab from './components/tab/tab';
 import tag from './components/form/tag';
 import textArea from './components/form/textarea';
@@ -35,6 +36,7 @@ document.addEventListener('alpine:init', () => {
   Alpine.data('tallstackui_dropdown', dropdown);
   Alpine.data('tallstackui_loading', loading);
   Alpine.data('tallstackui_modal', modal);
+  Alpine.data('tallstackui_reaction', reaction);
   Alpine.data('tallstackui_select', select);
   Alpine.data('tallstackui_slide', slide);
   Alpine.data('tallstackui_tab', tab);
