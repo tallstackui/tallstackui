@@ -28,6 +28,8 @@ export default (id, property, multiple, error, placeholder, placeholders) => ({
     if (this.multiple) return this.multiples();
 
     this.single();
+
+    this.$el.dispatchEvent(new CustomEvent('upload', {detail: {files: this.$refs.files.files}}));
   },
   /**
    * Upload multiple files.
@@ -80,6 +82,8 @@ export default (id, property, multiple, error, placeholder, placeholders) => ({
     this.component.$wire.call(method, original, temporary);
 
     this.placeholder();
+
+    this.$el.dispatchEvent(new CustomEvent('remove', {detail: {file: {original, temporary}}}));
   },
   /**
    * Set the input placeholder.

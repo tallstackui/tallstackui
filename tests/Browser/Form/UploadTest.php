@@ -353,4 +353,113 @@ class UploadTest extends BrowserTestCase
             ->waitForTextIn('@uploaded', 'test.jpeg')
             ->assertSeeIn('@uploaded', 'test.jpeg');
     }
+
+    /** @test */
+    public function can_use_remove_event()
+    {
+        /** @var Browser $browser */
+        $browser = Livewire::visit(new class extends Component
+        {
+            use WithFileUploads;
+
+            public $photo;
+
+            public $removed = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    @if ($removed)
+                        <p dusk="remove">{{ $removed }}</p>
+                    @endif
+                
+                    @if ($photo)
+                        <p dusk="uploaded">{{ $photo->getClientOriginalName() }}</p>
+                    @endif
+                    
+                    <x-upload label="Document" 
+                              wire:model.live="photo"
+                              x-on:remove="$wire.set('removed', 'Remove')"
+                              delete />
+                </div>
+                HTML;
+            }
+
+            public function deleteUpload($originalName, $temporaryName): void
+            {
+                if (! $this->photo) {
+                    return;
+                }
+
+                $files = Arr::wrap($this->photo);
+
+                /** @var UploadedFile $file */
+                $file = collect($files)->filter(fn (UploadedFile $item) => $item->getFilename() === $temporaryName)->first();
+
+                rescue(fn () => $file->delete(), report: false); // @phpstan-ignore-line
+
+                $collect = collect($files)->filter(fn (UploadedFile $item) => $item->getFilename() !== $temporaryName);
+
+                $this->photo = is_array($this->photo) ? $collect->toArray() : $collect->first();
+            }
+        });
+
+        $browser->assertSee('Document')
+            ->assertMissing('@uploaded')
+            ->click('@tallstackui_upload_input')
+            ->waitForText('Click here to upload')
+            ->attach('@tallstackui_file_select', __DIR__.'/../../Fixtures/test.jpeg')
+            ->waitForTextIn('@uploaded', 'test.jpeg')
+            ->assertSeeIn('@uploaded', 'test.jpeg')
+            ->waitForLivewire()->clickAtXPath('/html/body/div[3]/div/div[3]/div/div[4]/ul/li/div[2]/button')
+            ->assertMissing('@uploaded')
+            ->assertVisible('@remove')
+            ->waitForTextIn('@remove', 'Remove')
+            ->assertSeeIn('@remove', 'Remove');
+    }
+
+    /** @test */
+    public function can_use_upload_event()
+    {
+        /** @var Browser $browser */
+        $browser = Livewire::visit(new class extends Component
+        {
+            use WithFileUploads;
+
+            public $photo;
+
+            public $uploaded = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    @if ($uploaded)
+                        <p dusk="upload">{{ $uploaded }}</p>
+                    @endif
+                    
+                    @if ($photo)
+                        <p dusk="uploaded">{{ $photo->getClientOriginalName() }}</p>
+                    @endif
+                    
+                    <x-upload label="Document" 
+                              wire:model.live="photo" 
+                              x-on:upload="$wire.set('uploaded', 'Upload')" />
+                </div>
+                HTML;
+            }
+        });
+
+        $browser->assertSee('Document')
+            ->assertMissing('@uploaded')
+            ->click('@tallstackui_upload_input')
+            ->waitForText('Click here to upload')
+            ->attach('@tallstackui_file_select', __DIR__.'/../../Fixtures/test.jpeg')
+            ->waitForTextIn('@uploaded', 'test.jpeg')
+            ->assertSeeIn('@uploaded', 'test.jpeg')
+            ->assertVisible('@upload')
+            ->waitForTextIn('@upload', 'Upload')
+            ->assertSeeIn('@upload', 'Upload');
+    }
 }

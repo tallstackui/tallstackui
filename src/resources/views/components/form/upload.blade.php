@@ -84,7 +84,7 @@
                            dusk="tallstackui_file_select"
                            @if (!app()->runningUnitTests()) class="hidden" @endif
                            x-ref="files"
-                           {{ $attributes->only('accept') }}
+                           {{ $attributes->only(['accept', 'x-on:upload']) }}
                            x-on:change="upload()"
                            @if ($multiple) multiple @endif />
                 </label>
@@ -128,7 +128,9 @@
                                 </div>
                                 <div class="flex shrink-0 flex-col items-end">
                                     @if ($delete)
-                                        <button type="button" x-on:click="remove(@js($deleteMethod), @js($file->getClientOriginalName()), @js($file->getFilename()))">
+                                        <button type="button"
+                                                {{ $attributes->only('x-on:remove') }}
+                                                x-on:click="remove(@js($deleteMethod), @js($file->getClientOriginalName()), @js($file->getFilename()))">
                                             <x-dynamic-component :component="TallStackUi::component('icon')"
                                                                  icon="trash"
                                                                  @class($personalize['item.delete']) />
