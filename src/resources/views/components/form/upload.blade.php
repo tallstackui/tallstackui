@@ -1,7 +1,7 @@
 @php
     \TallStackUi\Foundation\Exceptions\MissingLivewireException::throwIf($livewire, 'upload');
     if ($delete && !method_exists($this, $deleteMethod)) throw new Exception('The [upload] component delete method [' . $deleteMethod . '] does not exist in [' . get_class($this) . '].');
-    [$property] = $bind($attributes, null, $livewire);
+    $property = $bind($attributes, null, $livewire)[0];
     $personalize = $classes();
     $value = $this->{$property};
     $placeholder = __('tallstack-ui::messages.upload.placeholder');
@@ -20,7 +20,7 @@
      x-on:livewire-upload-finish="uploading = false"
      x-on:livewire-upload-error="uploading = false"
      x-on:livewire-upload-progress="progress = $event.detail.progress"
-     @class(['relative rounded-md shadow-sm'])>
+     @class(['relative rounded-md'])>
      <x-input :value="$placeholder"
               :$label
               :$hint
@@ -65,7 +65,7 @@
          @class($personalize['box.wrapper.first'])>
         <div @class($personalize['box.wrapper.second'])>
             <div @class(['flex w-full items-center justify-center', 'mb-2' => $footer->isNotEmpty()])>
-                <label for="dropzone-file" @class($personalize['placeholder.wrapper'])>
+                <label for="{{ $property }}" @class($personalize['placeholder.wrapper'])>
                     <div class="inline-flex items-center justify-center space-x-2">
                         <x-dynamic-component :component="TallStackUi::component('icon')"
                                              icon="cloud-arrow-up"
@@ -79,10 +79,10 @@
                     @else
                         {{ $tip }}
                     @endif
-                    <input id="dropzone-file"
+                    <input id="{{ $property }}"
                            type="file"
                            dusk="tallstackui_file_select"
-                           @if (!app()->runningUnitTests()) class="hidden" @endif
+                           @if (!app()->runningUnitTests()) @class($personalize['placeholder.input']) @endif
                            x-ref="files"
                            {{ $attributes->only(['accept', 'x-on:upload']) }}
                            x-on:change="upload()"
