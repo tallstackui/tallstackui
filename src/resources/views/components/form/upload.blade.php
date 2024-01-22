@@ -82,7 +82,7 @@
                     <input id="{{ $property }}"
                            type="file"
                            dusk="tallstackui_file_select"
-                           @if (!app()->runningUnitTests()) class="absolute inset-0 z-50 m-0 p-0 w-full h-full outline-none opacity-0" @endif
+                           @if (!app()->runningUnitTests()) class="absolute inset-0 z-50 m-0 p-0 w-full h-20 outline-none opacity-0" @endif
                            x-ref="files"
                            {{ $attributes->only(['accept', 'x-on:upload']) }}
                            x-on:change="upload()"
