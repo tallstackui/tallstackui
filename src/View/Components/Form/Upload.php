@@ -44,7 +44,7 @@ class Upload extends BaseComponent implements Personalization
                 ],
             ],
             'placeholder' => [
-                'wrapper' => 'dark:border-dark-500 dark:bg-dark-700 dark:hover:bg-dark-600 flex h-32 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 transition hover:bg-gray-100',
+                'wrapper' => 'dark:border-dark-500 dark:bg-dark-700 dark:hover:bg-dark-600 flex h-14 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 transition hover:bg-gray-100',
                 'title' => 'text-md dark:text-dark-300 font-bold text-gray-600',
                 'tip' => 'mx-4 mt-2 text-center text-sm text-gray-500 dark:text-gray-400',
                 'icon' => 'dark:text-dark-300 h-6 w-6 text-gray-600',
