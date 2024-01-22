@@ -8,7 +8,7 @@
 <div wire:ignore>
   <button x-data="tallstackui_reaction({!! $entangle !!}, @js($content()), @js($position))"
           x-on:click="show = !show"
-          x-on:mouseover="show = true"
+          dusk="tallstackui_reaction_button"
           x-ref="button"
           @class($personalize['wrapper.first'])>
     <div @class($personalize['wrapper.second'])>
