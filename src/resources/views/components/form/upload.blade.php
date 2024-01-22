@@ -143,7 +143,7 @@
                 </div>
             @endif
             @if ($footer->isNotEmpty())
-                @unless ($footer->attributes->has('when-not-empty') && !$value)
+                @unless ($footer->attributes->has('when-uploaded') && !$value)
                     {{ $footer }}
                 @endunless
             @endif

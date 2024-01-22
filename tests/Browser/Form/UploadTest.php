@@ -128,7 +128,7 @@ class UploadTest extends BrowserTestCase
                 return <<<'HTML'
                 <div>                    
                     <x-upload label="Document" wire:model="photo">
-                        <x-slot:footer when-not-empty>
+                        <x-slot:footer when-uploaded>
                             Foo Bar Baz
                         </x-slot:footer>
                     </x-upload>
