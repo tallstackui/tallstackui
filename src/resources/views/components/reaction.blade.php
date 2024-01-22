@@ -1,5 +1,5 @@
 @php
-    if (!$livewire) throw new Exception('The [reaction] component must be used in a Livewire component.');
+    \TallStackUi\Foundation\Exceptions\MissingLivewireException::throwIf($livewire, 'reaction');
     $entangle = $bind($attributes, null, $livewire)[3];
     $personalize = $classes();
     $extension = $animated === true ? 'gif' : 'png';
