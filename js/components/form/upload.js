@@ -4,6 +4,7 @@ export default (id, property, multiple, error, placeholder, placeholders) => ({
   error: false,
   warning: error,
   progress: 0,
+  dragging: false,
   property: property,
   multiple: multiple,
   placeholders: placeholders,
