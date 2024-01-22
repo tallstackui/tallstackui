@@ -56,7 +56,7 @@ class Upload extends BaseComponent implements Personalization
             'item' => [
                 'wrapper' => 'soft-scrollbar my-4 max-h-64 w-full overflow-auto px-2',
                 'ul' => 'dark:divide-dark-700 divide-y divide-gray-100',
-                'li' => 'flex justify-between gap-x-6 py-4',
+                'li' => 'flex justify-between gap-x-6',
                 'title' => 'dark:text-dark-300 truncate text-sm font-semibold leading-6 text-gray-900',
                 'size' => 'dark:text-dark-300 mt-1 text-xs leading-5 text-gray-500',
                 'image' => 'h-12 w-12 flex-none rounded-full bg-gray-50',
