@@ -5,6 +5,7 @@ namespace TallStackUi\View\Components;
 use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
+use Illuminate\View\ComponentSlot;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Exceptions\InvalidSelectedPositionException;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
@@ -12,7 +13,13 @@ use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 #[SoftPersonalization('reaction')]
 class Reaction extends BaseComponent implements Personalization
 {
+    /**
+     * Default supported icons.
+     * References: https://googlefonts.github.io/noto-emoji-animation/
+     */
     protected const ICONS = [
+        // As the codes are visually indecipherable, we adopted
+        // the idea of using alias names to refer to the icon.
         'smile' => '1f600',
         'laugh' => '1f62d',
         'love' => '1f60d',
@@ -38,7 +45,7 @@ class Reaction extends BaseComponent implements Personalization
     public function __construct(
         public ?array $only = null,
         public ?bool $animated = false,
-        public ?string $quantity = null,
+        public ComponentSlot|string|null $quantity = null,
         public string $reactMethod = 'react',
         public ?string $position = 'auto',
         public ?array $icons = null,
@@ -53,8 +60,8 @@ class Reaction extends BaseComponent implements Personalization
 
     final public function content(): string
     {
-        $personalize = $this->personalization();
         $collect = collect($this->icons);
+        $personalize = $this->personalization();
 
         $buttons = $collect->map(function (string $icon, string $key) use ($personalize) {
             $method = $this->reactMethod;
@@ -68,7 +75,7 @@ class Reaction extends BaseComponent implements Personalization
             HTML;
         })->implode('');
 
-        $class = $collect->count() > 5 ? $personalize['box.grid'] : $personalize['box.inline'];
+        $class = $personalize['box.'.($collect->count() > 5 ? 'grid' : 'inline')];
 
         return <<<HTML
         <div class="$class">
@@ -89,7 +96,7 @@ class Reaction extends BaseComponent implements Personalization
                 'inline' => 'flex justify-center gap-2',
             ],
             'image' => 'dark:ring-dark-800 dark:bg-dark-700 inline-block h-5 w-5 rounded-full bg-white p-0.5',
-            'icon' => 'h-6 w-6',
+            'icon' => 'h-5 w-5',
             'quantity' => 'text-sm font-bold text-gray-700 dark:text-white',
         ]);
     }
@@ -98,11 +105,11 @@ class Reaction extends BaseComponent implements Personalization
     protected function validate(): void
     {
         if (blank($this->reactMethod)) {
-            throw new Exception('The react method is required.');
+            throw new Exception('The react [reactMethod] is required.');
         }
 
-        if (($collect = collect($this->only)->diff(array_keys(self::ICONS)))->isNotEmpty()) {
-            throw new Exception('Invalid icons: '.implode(', ', $collect->toArray()));
+        if (count(array_diff($this->only ?? [], array_keys(self::ICONS))) > 0) {
+            throw new Exception('The react [only] icons is invalid. Supported: '.implode(', ', array_keys(self::ICONS)));
         }
 
         InvalidSelectedPositionException::validate(get_class($this), $this->position);

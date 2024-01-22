@@ -1,6 +1,7 @@
 @php
+    if (!$livewire) throw new Exception('The [reaction] component must be used in a Livewire component.');
+    $entangle = $bind($attributes, null, $livewire)[3];
     $personalize = $classes();
-    $slot ??= $slot->toHtml();
     $extension = $animated === true ? 'gif' : 'png';
 @endphp
 
@@ -10,18 +11,23 @@
           x-on:mouseover="show = true"
           x-ref="button" @class($personalize['wrapper.first'])>
     <div @class($personalize['wrapper.second'])>
-      @if($slot->isNotEmpty())
+      @if ($slot->isNotEmpty())
         {{ $slot }}
       @else
         @foreach ($icons as $icon => $key)
-          @if($loop->iteration <= 3)
-            <img @class($personalize['image']) src="https://fonts.gstatic.com/s/e/notoemoji/latest/{{ $key }}/512.{{ $extension }}">
+          @if ($loop->iteration <= 3)
+            <img @class($personalize['image'])
+                 src="https://fonts.gstatic.com/s/e/notoemoji/latest/{{ $key }}/512.{{ $extension }}">
           @endif
         @endforeach
       @endif
     </div>
     @if ($quantity)
-      <p @class($personalize['quantity'])>{{ $quantity }}</p>
+      @if (is_string($quantity))
+        <p @class($personalize['quantity']) x-text="quantity"></p>
+      @else
+        {{ $quantity }}
+      @endif
     @endif
   </button>
 </div>
@@ -31,6 +37,7 @@
   function app(content, position) {
     return {
       show: false,
+      quantity: {!! $entangle !!},
       init() {
         const that = this;
         tippy(this.$refs.button, {
