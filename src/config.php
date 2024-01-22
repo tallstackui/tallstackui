@@ -191,7 +191,7 @@ return [
         'toast' => Components\Interaction\Toast::class,
         'toggle' => Components\Form\Toggle::class,
         'tooltip' => Components\Tooltip::class,
-        'reactions' => Components\Reactions::class,
+        'reaction' => Components\Reaction::class,
         'wrapper.input' => Components\Wrapper\Input::class,
         'wrapper.radio' => Components\Wrapper\Radio::class,
     ],

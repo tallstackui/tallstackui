@@ -5,9 +5,12 @@ namespace TallStackUi\View\Components;
 use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
+use TallStackUi\Foundation\Attributes\SoftPersonalization;
+use TallStackUi\Foundation\Exceptions\InvalidSelectedPositionException;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 
-class Reactions extends BaseComponent implements Personalization
+#[SoftPersonalization('reaction')]
+class Reaction extends BaseComponent implements Personalization
 {
     protected const ICONS = [
         'smile' => '1f600',
@@ -25,7 +28,6 @@ class Reactions extends BaseComponent implements Personalization
         public ?array $only = null,
         public ?bool $animated = false,
         public string $reactMethod = 'react',
-        // TODO: validate this
         public ?string $position = 'auto'
     ) {
         //
@@ -33,7 +35,7 @@ class Reactions extends BaseComponent implements Personalization
 
     public function blade(): View
     {
-        return view('tallstack-ui::components.reactions');
+        return view('tallstack-ui::components.reaction');
     }
 
     final public function content(): string
@@ -63,13 +65,9 @@ class Reactions extends BaseComponent implements Personalization
         return Arr::dot([]);
     }
 
-    /** @throws Exception */
+    /** @throws Exception|InvalidSelectedPositionException */
     protected function validate(): void
     {
-        if (! $this->only) {
-            return;
-        }
-
         if (blank($this->reactMethod)) {
             throw new Exception('The react method is required.');
         }
@@ -79,5 +77,7 @@ class Reactions extends BaseComponent implements Personalization
         if ($collect->isNotEmpty()) {
             throw new Exception('Invalid icons: '.implode(', ', $collect->toArray()));
         }
+
+        InvalidSelectedPositionException::validate(get_class($this), $this->position);
     }
 }
