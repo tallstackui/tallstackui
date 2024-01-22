@@ -45,9 +45,9 @@ class Clipboard extends BaseComponent implements Personalization
     {
         return Arr::dot([
             'input' => [
-                'wrapper' => 'relative flex flex-grow items-stretch focus-within:z-10',
+                'wrapper' => 'relative flex flex-grow items-stretch ring-inset focus-within:z-10',
                 'buttons' => [
-                    'base' => 'dark:ring-dark-600 dark:text-dark-300 dark:bg-dark-700 relative inline-flex items-center gap-x-1.5 bg-white px-2 py-2 text-xs font-semibold uppercase text-gray-700 ring-1 ring-inset ring-gray-300 transition',
+                    'base' => 'dark:ring-dark-600 dark:text-dark-300 dark:bg-dark-700 relative inline-flex items-center gap-x-1.5 bg-white px-2 py-2 text-xs font-semibold uppercase text-gray-700 ring-1 ring-gray-300 transition',
                     'left' => '-mr-px rounded-l-md',
                     'right' => '-ml-px rounded-r-md',
                     'icon' => [
@@ -56,7 +56,7 @@ class Clipboard extends BaseComponent implements Personalization
                     ],
                 ],
                 'class' => [
-                    'base' => 'focus:ring-primary-600 dark:focus:ring-primary-600 block w-full rounded-none border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 transition placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6',
+                    'base' => 'focus:ring-primary-600 dark:focus:ring-primary-600 block w-full rounded-none border-0 py-1.5 text-gray-900 ring-1 ring-gray-300 transition placeholder:text-gray-400 focus:ring-2 sm:text-sm sm:leading-6',
                     'color' => [...$this->input()['color']],
                     'sides' => [
                         'left' => 'rounded-r-md',
