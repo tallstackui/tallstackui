@@ -64,8 +64,8 @@
          x-anchor.bottom-end="$refs.wrapper"
          @class($personalize['box.wrapper.first'])>
         <div @class($personalize['box.wrapper.second'])>
-            <div @class(['flex w-full items-center justify-center', 'mb-2' => $footer->isNotEmpty()])>
-                <label for="{{ $property }}" @class($personalize['placeholder.wrapper'])>
+            <div @class(['flex flex-col w-full items-center justify-center', 'mb-2' => $footer->isNotEmpty()])>
+                <div @class($personalize['placeholder.wrapper']) :class="{ 'bg-primary-100': dragging }">
                     <div class="inline-flex items-center justify-center space-x-2">
                         <x-dynamic-component :component="TallStackUi::component('icon')"
                                              icon="cloud-arrow-up"
@@ -86,6 +86,9 @@
                            x-ref="files"
                            {{ $attributes->only(['accept', 'x-on:upload']) }}
                            x-on:change="upload()"
+                           x-on:dragover="dragging = true"
+                           x-on:dragleave="dragging = false"
+                           x-on:drop="dragging = false;"
                            @if ($multiple) multiple @endif />
                 </label>
             </div>
