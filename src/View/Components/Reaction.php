@@ -14,15 +14,25 @@ class Reaction extends BaseComponent implements Personalization
 {
     protected const ICONS = [
         'smile' => '1f600',
+        'laugh' => '1f62d',
+        'love' => '1f60d',
+        'screaming' => '1f631',
+        'rage' => '1f621',
+        'pray' => '1f64f_1f3fb',
         'thumbs-up' => '1f44d_1f3fb',
         'thumbs-down' => '1f44e_1f3fb',
         'heart' => '2764_fe0f',
-        'laugh' => '1f62d',
-        'love' => '1f60d',
+        'broken-heart' => '1f494',
+        'clap' => '1f44f_1f3fb',
         'rocket' => '1f680',
         'fire' => '1f525',
-        'pray' => '1f64f_1f3fb',
-        // TODO: increase to 20 most used emojis
+        'mind-blown' => '1f92f',
+        'sick' => '1f922',
+        'poop' => '1f4a9',
+        'eyes' => '1f440',
+        'party-popper' => '1f389',
+        'clown' => '1f921',
+        'check-mark' => '2705',
     ];
 
     public function __construct(
@@ -30,9 +40,10 @@ class Reaction extends BaseComponent implements Personalization
         public ?bool $animated = false,
         public ?string $quantity = null,
         public string $reactMethod = 'react',
-        public ?string $position = 'auto'
+        public ?string $position = 'auto',
+        public ?array $icons = null,
     ) {
-        //
+        $this->icons = ! $this->only ? self::ICONS : Arr::only(self::ICONS, $this->only);
     }
 
     public function blade(): View
@@ -42,22 +53,25 @@ class Reaction extends BaseComponent implements Personalization
 
     final public function content(): string
     {
-        $icons = ! $this->only ? self::ICONS : Arr::only(self::ICONS, $this->only);
+        $personalize = $this->personalization();
+        $collect = collect($this->icons);
 
-        $buttons = collect($icons)->map(function (string $icon, string $key) {
+        $buttons = $collect->map(function (string $icon, string $key) use ($personalize) {
             $method = $this->reactMethod;
             $extension = $this->animated ? 'gif' : 'png';
+            $class = $personalize['icon'];
 
-            //TODO: pass icon class to blocks
             return <<<HTML
             <button type="button" wire:click="$method('$key')">
-                <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/$icon/512.$extension" class="w-5 h-5">
+                <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/$icon/512.$extension" class="$class">
             </button>
             HTML;
         })->implode('');
 
+        $class = $collect->count() > 5 ? $personalize['box.grid'] : $personalize['box.inline'];
+
         return <<<HTML
-        <div class="inline-flex items-center space-x-1">
+        <div class="$class">
             $buttons
         </div>
         HTML;
@@ -65,7 +79,19 @@ class Reaction extends BaseComponent implements Personalization
 
     public function personalization(): array
     {
-        return Arr::dot([]);
+        return Arr::dot([
+            'wrapper' => [
+                'first' => 'inline-flex cursor-pointer items-center rounded-md px-2 py-1',
+                'second' => 'flex -space-x-1 overflow-hidden p-1',
+            ],
+            'box' => [
+                'grid' => 'grid grid-cols-5 gap-2',
+                'inline' => 'flex justify-center gap-2',
+            ],
+            'image' => 'dark:ring-dark-800 dark:bg-dark-700 inline-block h-5 w-5 rounded-full bg-white p-0.5',
+            'icon' => 'h-6 w-6',
+            'quantity' => 'text-sm font-bold text-gray-700 dark:text-white',
+        ]);
     }
 
     /** @throws Exception|InvalidSelectedPositionException */
