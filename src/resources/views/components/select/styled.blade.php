@@ -45,22 +45,24 @@
                         <span x-text="quantity"></span>
                     </div>
                     <div x-show="empty || !multiple">
-                        <span @class(['truncate', 'text-red-500 dark:text-red-500' => $error])
+                        <span @class(['text-red-500 dark:text-red-500' => $error])
                               x-bind:class="{
                                 '{{ $personalize['itens.placeholder'] }}': empty,
                                 '{{ $personalize['itens.single'] }}': !empty
                               }" x-text="placeholder"></span>
                     </div>
-                    <div wire:ignore class="truncate" x-show="multiple && quantity > 0">
+                    <div wire:ignore @class($personalize['itens.wrapper']) x-show="multiple && quantity > 0">
                         <template x-for="select in selects" :key="select[selectable.value] ?? select">
                             <a class="cursor-pointer">
                                 <div @class($personalize['itens.multiple.item'])>
-                                    <span x-text="select[selectable.label] ?? select"></span>
+                                    <span @class($personalize['itens.multiple.label']) x-text="select[selectable.label] ?? select"></span>
                                     @if (!$disabled)
-                                        <x-dynamic-component :component="TallStackUi::component('icon')"
+                                        <div @class($personalize['itens.multiple.icon'])>
+                                            <x-dynamic-component :component="TallStackUi::component('icon')"
                                                              icon="x-mark"
                                                              x-on:click="clear(select)"
                                                              @class($personalize['itens.multiple.icon']) />
+                                        </div>
                                     @endif
                                 </div>
                             </a>
@@ -129,10 +131,12 @@
                                     <span @class($personalize['box.list.item.description']) x-show="option.description" x-text="option.description"></span>
                                 </div>
                             </div>
-                            <x-dynamic-component :component="TallStackUi::component('icon')"
+                            <div @class($personalize['box.list.item.check'])>
+                                <x-dynamic-component :component="TallStackUi::component('icon')"
                                                  icon="check"
                                                  x-show="selected(option)"
                                                  @class($personalize['box.list.item.check']) />
+                            </div>
                         </div>
                     </li>
                 </template>
