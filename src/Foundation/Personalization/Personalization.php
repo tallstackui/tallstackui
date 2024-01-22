@@ -37,6 +37,7 @@ use TallStackUi\View\Components\Interaction\Toast;
 use TallStackUi\View\Components\Link;
 use TallStackUi\View\Components\Loading;
 use TallStackUi\View\Components\Modal;
+use TallStackUi\View\Components\Reaction;
 use TallStackUi\View\Components\Select\Native as SelectNative;
 use TallStackUi\View\Components\Select\Styled as SelectStyled;
 use TallStackUi\View\Components\Slide;
@@ -188,6 +189,11 @@ class Personalization
     public function modal(): PersonalizationResources
     {
         return app($this->component(Modal::class));
+    }
+
+    public function reaction(): PersonalizationResources
+    {
+        return app($this->component(Reaction::class));
     }
 
     public function select(?string $component = null): PersonalizationResources

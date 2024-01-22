@@ -4,9 +4,9 @@ namespace TallStackUi\View\Components;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
-use InvalidArgumentException;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
+use TallStackUi\Foundation\Exceptions\InvalidSelectedPositionException;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 
 #[SoftPersonalization('tooltip')]
@@ -50,28 +50,9 @@ class Tooltip extends BaseComponent implements Personalization
         ]);
     }
 
+    /** @throws InvalidSelectedPositionException */
     protected function validate(): void
     {
-        $positions = [
-            'top',
-            'top-start',
-            'top-end',
-            'bottom',
-            'bottom-start',
-            'bottom-end',
-            'left',
-            'left-start',
-            'left-end',
-            'right',
-            'right-start',
-            'right-end',
-            'auto',
-            'auto-start',
-            'auto-end',
-        ];
-
-        if (! in_array($this->position, $positions)) {
-            throw new InvalidArgumentException('The tooltip [position] must be one of the following: ['.implode(', ', $positions).']');
-        }
+        InvalidSelectedPositionException::validate(get_class($this), $this->position);
     }
 }

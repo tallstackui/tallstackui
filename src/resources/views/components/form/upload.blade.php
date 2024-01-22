@@ -1,5 +1,5 @@
 @php
-    if (!$livewire) throw new Exception('The [upload] component must be used in a Livewire component.');
+    \TallStackUi\Foundation\Exceptions\MissingLivewireException::throwIf($livewire, 'upload');
     if ($delete && !method_exists($this, $deleteMethod)) throw new Exception('The [upload] component delete method [' . $deleteMethod . '] does not exist in [' . get_class($this) . '].');
     [$property] = $bind($attributes, null, $livewire);
     $personalize = $classes();
