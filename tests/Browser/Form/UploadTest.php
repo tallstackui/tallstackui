@@ -4,7 +4,6 @@ namespace Tests\Browser\Form;
 
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
-use Laravel\Dusk\Browser;
 use Livewire\Component;
 use Livewire\Livewire;
 use Livewire\WithFileUploads;
@@ -16,8 +15,7 @@ class UploadTest extends BrowserTestCase
     /** @test */
     public function can_delete_file()
     {
-        /** @var Browser $browser */
-        $browser = Livewire::visit(new class extends Component
+        Livewire::visit(new class extends Component
         {
             use WithFileUploads;
 
@@ -47,15 +45,14 @@ class UploadTest extends BrowserTestCase
                 /** @var UploadedFile $file */
                 $file = collect($files)->filter(fn (UploadedFile $item) => $item->getFilename() === $temporaryName)->first();
 
-                rescue(fn () => $file->delete(), report: false);
+                rescue(fn () => $file->delete(), report: false); // @phpstan-ignore-line
 
                 $collect = collect($files)->filter(fn (UploadedFile $item) => $item->getFilename() !== $temporaryName);
 
                 $this->photo = is_array($this->photo) ? $collect->toArray() : $collect->first();
             }
-        });
-
-        $browser->assertSee('Document')
+        })
+            ->assertSee('Document')
             ->assertMissing('@uploaded')
             ->click('@tallstackui_upload_input')
             ->waitForText('Click here to upload')
@@ -69,8 +66,7 @@ class UploadTest extends BrowserTestCase
     /** @test */
     public function can_delete_file_using_custom_method()
     {
-        /** @var Browser $browser */
-        $browser = Livewire::visit(new class extends Component
+        Livewire::visit(new class extends Component
         {
             use WithFileUploads;
 
@@ -100,15 +96,14 @@ class UploadTest extends BrowserTestCase
                 /** @var UploadedFile $file */
                 $file = collect($files)->filter(fn (UploadedFile $item) => $item->getFilename() === $temporaryName)->first();
 
-                rescue(fn () => $file->delete(), report: false);
+                rescue(fn () => $file->delete(), report: false); // @phpstan-ignore-line
 
                 $collect = collect($files)->filter(fn (UploadedFile $item) => $item->getFilename() !== $temporaryName);
 
                 $this->photo = is_array($this->photo) ? $collect->toArray() : $collect->first();
             }
-        });
-
-        $browser->assertSee('Document')
+        })
+            ->assertSee('Document')
             ->assertMissing('@uploaded')
             ->click('@tallstackui_upload_input')
             ->waitForText('Click here to upload')
@@ -120,10 +115,42 @@ class UploadTest extends BrowserTestCase
     }
 
     /** @test */
+    public function can_only_see_footer_slot_when_not_empty()
+    {
+        Livewire::visit(new class extends Component
+        {
+            use WithFileUploads;
+
+            public $photo;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>                    
+                    <x-upload label="Document" wire:model="photo">
+                        <x-slot:footer when-not-empty>
+                            Foo Bar Baz
+                        </x-slot:footer>
+                    </x-upload>
+                </div>
+                HTML;
+            }
+        })
+            ->assertSee('Document')
+            ->assertDontSee('Foo Bar Baz')
+            ->click('@tallstackui_upload_input')
+            ->waitForText('Click here to upload')
+            ->waitUntilMissingText('Foo Bar Baz')
+            ->assertDontSee('Foo Bar Baz')
+            ->attach('@tallstackui_file_select', __DIR__.'/../../Fixtures/test.jpeg')
+            ->waitForText('Foo Bar Baz')
+            ->assertSee('Foo Bar Baz');
+    }
+
+    /** @test */
     public function can_see_footer_slot()
     {
-        /** @var Browser $browser */
-        $browser = Livewire::visit(new class extends Component
+        Livewire::visit(new class extends Component
         {
             use WithFileUploads;
 
@@ -141,9 +168,8 @@ class UploadTest extends BrowserTestCase
                 </div>
                 HTML;
             }
-        });
-
-        $browser->assertSee('Document')
+        })
+            ->assertSee('Document')
             ->assertDontSee('Foo Bar Baz')
             ->click('@tallstackui_upload_input')
             ->waitForText('Click here to upload')
@@ -155,8 +181,7 @@ class UploadTest extends BrowserTestCase
     /** @test */
     public function can_see_preview(): void
     {
-        /** @var Browser $browser */
-        $browser = Livewire::visit(new class extends Component
+        Livewire::visit(new class extends Component
         {
             use WithFileUploads;
 
@@ -174,9 +199,8 @@ class UploadTest extends BrowserTestCase
                 </div>
                 HTML;
             }
-        });
-
-        $browser->assertSee('Document')
+        })
+            ->assertSee('Document')
             ->assertMissing('@uploaded')
             ->click('@tallstackui_upload_input')
             ->waitForText('Click here to upload')
@@ -191,8 +215,7 @@ class UploadTest extends BrowserTestCase
     /** @test */
     public function can_see_tip()
     {
-        /** @var Browser $browser */
-        $browser = Livewire::visit(new class extends Component
+        Livewire::visit(new class extends Component
         {
             use WithFileUploads;
 
@@ -206,9 +229,8 @@ class UploadTest extends BrowserTestCase
                 </div>
                 HTML;
             }
-        });
-
-        $browser->assertSee('Document')
+        })
+            ->assertSee('Document')
             ->assertDontSee('Accept pdf or png')
             ->click('@tallstackui_upload_input')
             ->waitForText('Click here to upload')
@@ -220,8 +242,7 @@ class UploadTest extends BrowserTestCase
     /** @test */
     public function can_thrown_exception_if_delete_method_does_not_exists()
     {
-        /** @var Browser $browser */
-        $browser = Livewire::visit(new class extends Component
+        Livewire::visit(new class extends Component
         {
             use WithFileUploads;
 
@@ -239,16 +260,13 @@ class UploadTest extends BrowserTestCase
                 </div>
                 HTML;
             }
-        });
-
-        $browser->assertSee('The [upload] component delete method');
+        })->assertSee('The [upload] component delete method');
     }
 
     /** @test */
     public function can_upload_multiple_file(): void
     {
-        /** @var Browser $browser */
-        $browser = Livewire::visit(new class extends Component
+        Livewire::visit(new class extends Component
         {
             use WithFileUploads;
 
@@ -303,9 +321,8 @@ class UploadTest extends BrowserTestCase
             {
                 // ...
             }
-        });
-
-        $browser->assertSee('Document')
+        })
+            ->assertSee('Document')
             ->assertMissing('@uploaded-0')
             ->assertMissing('@uploaded-1')
             ->click('@tallstackui_upload_input')
@@ -324,8 +341,7 @@ class UploadTest extends BrowserTestCase
     /** @test */
     public function can_upload_single_file(): void
     {
-        /** @var Browser $browser */
-        $browser = Livewire::visit(new class extends Component
+        Livewire::visit(new class extends Component
         {
             use WithFileUploads;
 
@@ -343,14 +359,118 @@ class UploadTest extends BrowserTestCase
                 </div>
                 HTML;
             }
-        });
-
-        $browser->assertSee('Document')
+        })
+            ->assertSee('Document')
             ->assertMissing('@uploaded')
             ->click('@tallstackui_upload_input')
             ->waitForText('Click here to upload')
             ->attach('@tallstackui_file_select', __DIR__.'/../../Fixtures/test.jpeg')
             ->waitForTextIn('@uploaded', 'test.jpeg')
             ->assertSeeIn('@uploaded', 'test.jpeg');
+    }
+
+    /** @test */
+    public function can_use_remove_event()
+    {
+        Livewire::visit(new class extends Component
+        {
+            use WithFileUploads;
+
+            public $photo;
+
+            public $removed = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    @if ($removed)
+                        <p dusk="remove">{{ $removed }}</p>
+                    @endif
+                
+                    @if ($photo)
+                        <p dusk="uploaded">{{ $photo->getClientOriginalName() }}</p>
+                    @endif
+                    
+                    <x-upload label="Document" 
+                              wire:model.live="photo"
+                              x-on:remove="$wire.set('removed', 'Remove')"
+                              delete />
+                </div>
+                HTML;
+            }
+
+            public function deleteUpload($originalName, $temporaryName): void
+            {
+                if (! $this->photo) {
+                    return;
+                }
+
+                $files = Arr::wrap($this->photo);
+
+                /** @var UploadedFile $file */
+                $file = collect($files)->filter(fn (UploadedFile $item) => $item->getFilename() === $temporaryName)->first();
+
+                rescue(fn () => $file->delete(), report: false); // @phpstan-ignore-line
+
+                $collect = collect($files)->filter(fn (UploadedFile $item) => $item->getFilename() !== $temporaryName);
+
+                $this->photo = is_array($this->photo) ? $collect->toArray() : $collect->first();
+            }
+        })
+            ->assertSee('Document')
+            ->assertMissing('@uploaded')
+            ->click('@tallstackui_upload_input')
+            ->waitForText('Click here to upload')
+            ->attach('@tallstackui_file_select', __DIR__.'/../../Fixtures/test.jpeg')
+            ->waitForTextIn('@uploaded', 'test.jpeg')
+            ->assertSeeIn('@uploaded', 'test.jpeg')
+            ->waitForLivewire()->clickAtXPath('/html/body/div[3]/div/div[3]/div/div[4]/ul/li/div[2]/button')
+            ->assertMissing('@uploaded')
+            ->assertVisible('@remove')
+            ->waitForTextIn('@remove', 'Remove')
+            ->assertSeeIn('@remove', 'Remove');
+    }
+
+    /** @test */
+    public function can_use_upload_event()
+    {
+        Livewire::visit(new class extends Component
+        {
+            use WithFileUploads;
+
+            public $photo;
+
+            public $uploaded = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    @if ($uploaded)
+                        <p dusk="upload">{{ $uploaded }}</p>
+                    @endif
+                    
+                    @if ($photo)
+                        <p dusk="uploaded">{{ $photo->getClientOriginalName() }}</p>
+                    @endif
+                    
+                    <x-upload label="Document" 
+                              wire:model.live="photo" 
+                              x-on:upload="$wire.set('uploaded', 'Upload')" />
+                </div>
+                HTML;
+            }
+        })
+            ->assertSee('Document')
+            ->assertMissing('@uploaded')
+            ->click('@tallstackui_upload_input')
+            ->waitForText('Click here to upload')
+            ->attach('@tallstackui_file_select', __DIR__.'/../../Fixtures/test.jpeg')
+            ->waitForTextIn('@uploaded', 'test.jpeg')
+            ->assertSeeIn('@uploaded', 'test.jpeg')
+            ->assertVisible('@upload')
+            ->waitForTextIn('@upload', 'Upload')
+            ->assertSeeIn('@upload', 'Upload');
     }
 }

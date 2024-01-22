@@ -84,7 +84,7 @@
                            dusk="tallstackui_file_select"
                            @if (!app()->runningUnitTests()) class="hidden" @endif
                            x-ref="files"
-                           {{ $attributes->only('accept') }}
+                           {{ $attributes->only(['accept', 'x-on:upload']) }}
                            x-on:change="upload()"
                            @if ($multiple) multiple @endif />
                 </label>
@@ -102,7 +102,7 @@
                     @php /** @var \Illuminate\Http\UploadedFile $file */ @endphp
                     <ul role="list" @class($personalize['item.ul'])>
                         @foreach(\Illuminate\Support\Arr::wrap($value) as $key => $file)
-                            <li @class($personalize['item.li'])>
+                            <li @class([$personalize['item.li'], 'py-2' => is_array($value) && count($value) > 1])>
                                 <div class="flex min-w-0 gap-x-4">
                                     @if (in_array($file->extension(), ['jpg', 'jpeg', 'png', 'gif']))
                                     <img src="{{ $file->temporaryUrl() }}"
@@ -128,7 +128,9 @@
                                 </div>
                                 <div class="flex shrink-0 flex-col items-end">
                                     @if ($delete)
-                                        <button type="button" x-on:click="remove(@js($deleteMethod), @js($file->getClientOriginalName()), @js($file->getFilename()))">
+                                        <button type="button"
+                                                {{ $attributes->only('x-on:remove') }}
+                                                x-on:click="remove(@js($deleteMethod), @js($file->getClientOriginalName()), @js($file->getFilename()))">
                                             <x-dynamic-component :component="TallStackUi::component('icon')"
                                                                  icon="trash"
                                                                  @class($personalize['item.delete']) />
@@ -141,7 +143,9 @@
                 </div>
             @endif
             @if ($footer->isNotEmpty())
-                {{ $footer }}
+                @unless ($footer->attributes->has('when-not-empty') && !$value)
+                    {{ $footer }}
+                @endunless
             @endif
         </div>
     </div>
