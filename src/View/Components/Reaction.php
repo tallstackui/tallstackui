@@ -22,11 +22,13 @@ class Reaction extends BaseComponent implements Personalization
         'rocket' => '1f680',
         'fire' => '1f525',
         'pray' => '1f64f_1f3fb',
+        // TODO: increase to 20 most used emojis
     ];
 
     public function __construct(
         public ?array $only = null,
         public ?bool $animated = false,
+        public ?string $quantity = null,
         public string $reactMethod = 'react',
         public ?string $position = 'auto'
     ) {
@@ -46,6 +48,7 @@ class Reaction extends BaseComponent implements Personalization
             $method = $this->reactMethod;
             $extension = $this->animated ? 'gif' : 'png';
 
+            //TODO: pass icon class to blocks
             return <<<HTML
             <button type="button" wire:click="$method('$key')">
                 <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/$icon/512.$extension" class="w-5 h-5">
@@ -72,9 +75,7 @@ class Reaction extends BaseComponent implements Personalization
             throw new Exception('The react method is required.');
         }
 
-        $collect = collect($this->only)->diff(array_keys(self::ICONS));
-
-        if ($collect->isNotEmpty()) {
+        if (($collect = collect($this->only)->diff(array_keys(self::ICONS)))->isNotEmpty()) {
             throw new Exception('Invalid icons: '.implode(', ', $collect->toArray()));
         }
 
