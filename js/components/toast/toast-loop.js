@@ -29,12 +29,28 @@ export default (toast) => ({
 
       this.$refs.toast.addEventListener('mouseover', () => {
         paused = true;
+        progress.style.webkitAnimationPlayState = 'paused';
         progress.style.animationPlayState = 'paused';
       });
 
       this.$refs.toast.addEventListener('mouseout', () => {
         paused = false;
+        progress.style.webkitAnimationPlayState = 'running';
         progress.style.animationPlayState = 'running';
+      });
+
+      document.addEventListener('visibilitychange', () => {
+        const remaining = max - elapsed;
+
+        if (remaining > 2000) {
+          progress.style.animationDuration = max - elapsed + 'ms';
+          progress.classList.remove('animate-progress');
+          progress.offsetWidth;
+          progress.classList.add('animate-progress');
+          progress.style.animationDuration = max - elapsed + 'ms';
+        } else {
+          this.hide(true);
+        }
       });
     });
   },
