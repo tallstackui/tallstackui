@@ -4,7 +4,6 @@
     $property = $bind($attributes, null, $livewire)[0];
     $personalize = $classes();
     $value = $this->{$property};
-    $placeholder = __('tallstack-ui::messages.upload.placeholder');
 @endphp
 
 <div x-data="tallstackui_formUpload(
@@ -12,7 +11,7 @@
         @js($property),
         @js($multiple),
         @js($error),
-        @js($placeholder),
+        @js(__('tallstack-ui::messages.upload.placeholder')),
         @js(__('tallstack-ui::messages.upload.uploaded')))"
      x-ref="wrapper"
      x-cloak
@@ -21,7 +20,7 @@
      x-on:livewire-upload-error="uploading = false"
      x-on:livewire-upload-progress="progress = $event.detail.progress"
      @class(['relative rounded-md'])>
-     <x-input :value="$placeholder"
+     <x-input :value="__('tallstack-ui::messages.upload.placeholder')"
               :$label
               :$hint
               x-on:click="show = !show"
@@ -40,7 +39,8 @@
              x-transition:enter-end="opacity-100"
              x-transition:leave="ease-in duration-200"
              x-transition:leave-start="opacity-100"
-             x-transition:leave-end="opacity-0" @class($personalize['preview.backdrop'])
+             x-transition:leave-end="opacity-0"
+             @class($personalize['preview.backdrop'])
              dusk="tallstackui_file_preview_backdrop">
              <div @class($personalize['preview.wrapper'])>
                 <button @class($personalize['preview.button.wrapper']) x-on:click="preview = false; show = true">

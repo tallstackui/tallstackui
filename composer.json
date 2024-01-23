@@ -52,7 +52,9 @@
         "ci": [
             "./vendor/bin/pint --test",
             "./vendor/bin/phpstan analyse --memory-limit=2G",
-            "./vendor/bin/pest --filter=Feature --parallel",
+            "./vendor/bin/testbench optimize:clear",
+            "./vendor/bin/pest --filter=Feature --parallel --stop-on-failure",
+            "./vendor/bin/testbench optimize:clear",
             "CI=true ./vendor/bin/pest --filter=Browser"
         ]
     },
