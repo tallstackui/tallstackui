@@ -60,18 +60,18 @@ class Reaction extends BaseComponent implements Personalization
         return view('tallstack-ui::components.reaction');
     }
 
-    final public function content(): string
+    final public function content(string $component): string
     {
         $collect = collect($this->icons);
         $personalize = $this->personalization();
 
-        $buttons = $collect->map(function (string $icon, string $key) use ($personalize) {
+        $buttons = $collect->map(function (string $icon, string $reaction) use ($personalize) {
             $method = $this->reactMethod;
             $extension = $this->animated ? 'gif' : 'png';
             $class = $personalize['icon'];
 
             return <<<HTML
-            <button type="button" wire:click="$method('$key')">
+            <button type="button" x-on:click.prevent="react('$method', '$reaction')">
                 <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/$icon/512.$extension" class="$class">
             </button>
             HTML;
@@ -80,7 +80,14 @@ class Reaction extends BaseComponent implements Personalization
         $class = $personalize['box.'.($collect->count() > 5 ? 'grid' : 'inline')];
 
         return <<<HTML
-        <div class="$class">
+        <div x-data="{
+                react (method, reaction) {
+                    document.getElementById('$component')
+                        .dispatchEvent(new CustomEvent('react', {detail: {reaction: { method, reaction }}}));
+                
+                    this.\$wire.call(method, reaction);
+                }
+            }" class="$class">
             $buttons
         </div>
         HTML;

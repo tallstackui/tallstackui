@@ -3,14 +3,17 @@
     $entangle = $bind($attributes, null, $livewire)[3];
     $personalize = $classes();
     $extension = $animated === true ? 'gif' : 'png';
+    $id = $this->getId();
 @endphp
 
 <div wire:ignore>
-  <button x-data="tallstackui_reaction({!! $entangle !!}, @js($content()), @js($position))"
+  <button x-data="tallstackui_reaction({!! $entangle !!}, @js($content($id)), @js($position))"
           x-on:click="show = !show"
           dusk="tallstackui_reaction_button"
           x-ref="button"
-          @class($personalize['wrapper.first'])>
+          @class($personalize['wrapper.first'])
+          {{ $attributes->only('x-on:react') }}
+          id="{{ $id }}">
     <div @class($personalize['wrapper.second'])>
       @if ($slot->isNotEmpty())
         {{ $slot }}

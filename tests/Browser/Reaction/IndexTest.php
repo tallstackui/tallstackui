@@ -108,4 +108,49 @@ class IndexTest extends BrowserTestCase
             }
         })->assertSee('FooBar');
     }
+
+    /** @test */
+    public function can_use_events(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public string $reaction = '';
+
+            public int $quantity = 1;
+
+            public ?string $reacted = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    @if ($reacted)
+                        <p dusk="reacted">{{ $reacted }}</p>
+                    @endif
+                
+                    <p dusk="reaction">{{ $reaction }}</p>
+
+                    <x-reaction wire:model.live="quantity" 
+                                :$quantity 
+                                x-on:react="$wire.set('reacted', 'Reacted')" />
+                </div>
+                HTML;
+            }
+
+            public function react(string $reaction): void
+            {
+                $this->reaction = $reaction;
+
+                $this->quantity++;
+            }
+        })
+            ->assertDontSeeIn('@reaction', 'thumbs-up')
+            ->click('@tallstackui_reaction_button')
+            ->clickAtXPath('html/body/div[3]/div/div/div/div[1]/div/button[7]')
+            ->waitForTextIn('@reaction', 'thumbs-up')
+            ->assertSeeIn('@reaction', 'thumbs-up')
+            ->assertSee('2')
+            ->assertVisible('@reacted')
+            ->assertSeeIn('@reacted', 'Reacted');
+    }
 }
