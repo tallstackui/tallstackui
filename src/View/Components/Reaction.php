@@ -6,6 +6,7 @@ use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\ComponentSlot;
+use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Exceptions\InvalidSelectedPositionException;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
@@ -48,6 +49,7 @@ class Reaction extends BaseComponent implements Personalization
         public ComponentSlot|string|null $quantity = null,
         public string $reactMethod = 'react',
         public ?string $position = 'auto',
+        #[SkipDebug]
         public ?array $icons = null,
     ) {
         $this->icons = ! $this->only ? self::ICONS : Arr::only(self::ICONS, $this->only);
