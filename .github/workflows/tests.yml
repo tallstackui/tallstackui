@@ -7,8 +7,6 @@ on:
   pull_request:
     branches:
       - 1.x
-  schedule:
-    - cron: '0 0 * * *'
 
   workflow_dispatch:
 
@@ -57,13 +55,13 @@ jobs:
         run: ./vendor/bin/testbench optimize:clear
 
       - name: Feature Tests
-        run: ./vendor/bin/pest --filter Feature --parallel --order-by random
+        run: ./vendor/bin/pest --filter Feature --parallel --order-by random --stop-on-failure
 
       - name: Clear Orchestra Testbench Cache [Before Browser]
         run: ./vendor/bin/testbench optimize:clear
 
       - name: Browser Tests
-        run: ./vendor/bin/pest --filter Browser --order-by random
+        run: ./vendor/bin/pest --filter Browser --order-by random --stop-on-failure
         env:
           CI: true
 
