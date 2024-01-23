@@ -68,8 +68,8 @@
                 <div @class($personalize['placeholder.wrapper']) :class="{ 'bg-primary-100': dragging }">
                     <div class="inline-flex items-center justify-center space-x-2">
                         <x-dynamic-component :component="TallStackUi::component('icon')"
-                                             icon="cloud-arrow-up"
-                                             @class($personalize['placeholder.icon']) />
+                                             icon="{{ $personalize['placeholder.icon.icon'] }}"
+                                             @class($personalize['placeholder.icon.class']) />
                         <p @class($personalize['placeholder.title'])>
                             {{ __('tallstack-ui::messages.upload.upload') }}
                         </p>
@@ -90,7 +90,7 @@
                            x-on:dragleave="dragging = false"
                            x-on:drop="dragging = false;"
                            @if ($multiple) multiple @endif />
-                </label>
+                </div>
             </div>
             <div @class([$personalize['error.wrapper'], 'mb-2' => $footer->isNotEmpty()]) x-show="@js($error) && error">
                 <p @class($personalize['error.message']) x-text="warning"></p>
