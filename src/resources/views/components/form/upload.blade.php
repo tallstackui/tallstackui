@@ -3,7 +3,7 @@
     if ($delete && !method_exists($this, $deleteMethod)) throw new Exception('The [upload] component delete method [' . $deleteMethod . '] does not exist in [' . get_class($this) . '].');
     $property = $bind($attributes, null, $livewire)[0];
     $personalize = $classes();
-    $value = $this->{$property};
+    $value = data_get($this, $property);
 @endphp
 
 <div x-data="tallstackui_formUpload(

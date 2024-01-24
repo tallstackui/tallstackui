@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
+use Livewire\Form;
 use Livewire\Livewire;
 use Livewire\WithFileUploads;
 use PHPUnit\Framework\Attributes\Test;
@@ -521,6 +522,37 @@ class UploadTest extends BrowserTestCase
     }
 
     /** @test */
+    public function can_upload_single_file_using_livewire_form(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            use WithFileUploads;
+
+            public Upload $form;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    @if ($form)
+                        <p dusk="uploaded">{{ $form->photo?->getClientOriginalName() }}</p>
+                    @endif
+                    
+                    <x-upload label="Document" wire:model.live="form.photo" />
+                </div>
+                HTML;
+            }
+        })
+            ->assertSee('Document')
+            ->assertMissing('@uploaded')
+            ->click('@tallstackui_upload_input')
+            ->waitForText('Click here to upload')
+            ->attach('@tallstackui_file_select', __DIR__.'/../../Fixtures/test.jpeg')
+            ->waitForTextIn('@uploaded', 'test.jpeg')
+            ->assertSeeIn('@uploaded', 'test.jpeg');
+    }
+
+    /** @test */
     public function can_use_existent_files()
     {
         Artisan::call('storage:link');
@@ -672,4 +704,9 @@ class UploadTest extends BrowserTestCase
             ->waitForTextIn('@upload', 'Upload')
             ->assertSeeIn('@upload', 'Upload');
     }
+}
+
+class Upload extends Form
+{
+    public $photo;
 }
