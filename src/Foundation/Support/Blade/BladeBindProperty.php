@@ -1,6 +1,6 @@
 <?php
 
-namespace TallStackUi\Foundation\Support;
+namespace TallStackUi\Foundation\Support\Blade;
 
 use Illuminate\Support\ViewErrorBag;
 use Illuminate\View\ComponentAttributeBag;

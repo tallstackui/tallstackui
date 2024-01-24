@@ -4,9 +4,9 @@ namespace TallStackUi;
 
 use Illuminate\View\ComponentAttributeBag;
 use TallStackUi\Foundation\Personalization\Personalization;
-use TallStackUi\Foundation\Support\BladeComponentPrefix;
-use TallStackUi\Foundation\Support\BladeDirectives;
-use TallStackUi\Foundation\Support\BladeSupport;
+use TallStackUi\Foundation\Support\Blade\BladeComponentPrefix;
+use TallStackUi\Foundation\Support\Blade\BladeDirectives;
+use TallStackUi\Foundation\Support\Blade\BladeSupport;
 
 class TallStackUi
 {

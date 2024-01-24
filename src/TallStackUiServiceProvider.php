@@ -7,8 +7,8 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
 use TallStackUi\Facades\TallStackUi as Facade;
 use TallStackUi\Foundation\Personalization\PersonalizationResources;
-use TallStackUi\Foundation\Support\BladeComponentPrefix;
-use TallStackUi\Foundation\Support\BladeDirectives;
+use TallStackUi\Foundation\Support\Blade\BladeComponentPrefix;
+use TallStackUi\Foundation\Support\Blade\BladeDirectives;
 
 class TallStackUiServiceProvider extends ServiceProvider
 {

@@ -2,11 +2,14 @@
 
 namespace TallStackUi\View\Components\Form;
 
+use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\ComponentSlot;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Foundation\Support\Components\UploadComponentFileAdapter;
 use TallStackUi\View\Components\BaseComponent;
 use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
 
@@ -22,11 +25,20 @@ class Upload extends BaseComponent implements Personalization
         public ?bool $multiple = false,
         public ?bool $preview = true,
         public ?bool $delete = false,
+        public ?bool $static = false,
+        public ?string $placeholder = null,
         public string $deleteMethod = 'deleteUpload',
         public string|bool|null $error = null,
         public ?ComponentSlot $footer = null,
     ) {
+        $this->placeholder ??= __('tallstack-ui::messages.upload.placeholder');
         $this->error ??= __('tallstack-ui::messages.upload.error');
+    }
+
+    /** @throws Exception */
+    final public function adapter(array|TemporaryUploadedFile $files): array
+    {
+        return (new UploadComponentFileAdapter($this->static, $files))();
     }
 
     public function blade(): View
@@ -79,6 +91,14 @@ class Upload extends BaseComponent implements Personalization
             'error' => [
                 'wrapper' => 'mt-2 flex w-full items-center justify-center',
                 'message' => 'font-semibold text-red-500',
+            ],
+            'static' => [
+                'empty' => [
+                    'wrapper' => 'text-center',
+                    'icon' => 'mx-auto h-10 w-10 text-gray-400 dark:text-dark-200',
+                    'title' => 'text-primary-500 dark:text-dark-300 text-lg font-semibold',
+                    'description' => 'dark:text-dark-400 mt-1 text-sm text-gray-700',
+                ],
             ],
         ]);
     }

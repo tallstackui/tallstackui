@@ -61,5 +61,11 @@ return [
             'multiple' => ':count dosya gönderildi',
         ],
         'error' => 'Bir şeyler yanlış gitti. Lütfen tekrar deneyin.',
+        'static' => [
+            'empty' => [
+                'title' => 'Resim yok.',
+                'description' => 'Henüz hiç resminiz yok.',
+            ],
+        ],
     ],
 ];

@@ -61,5 +61,11 @@ return [
             'multiple' => ':count fichiers envoyés',
         ],
         'error' => 'Quelque chose s\'est mal passé. Veuillez réessayer.',
+        'static' => [
+            'empty' => [
+                'title' => 'Aucune image.',
+                'description' => 'Vous n\'avez pas encore d\'image.',
+            ],
+        ],
     ],
 ];
