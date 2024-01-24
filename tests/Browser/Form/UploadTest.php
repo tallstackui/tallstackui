@@ -13,6 +13,12 @@ use Tests\Browser\BrowserTestCase;
 class UploadTest extends BrowserTestCase
 {
     /** @test */
+    public function can_delete_existent_files()
+    {
+
+    }
+
+    /** @test */
     public function can_delete_file()
     {
         Livewire::visit(new class extends Component
@@ -148,6 +154,32 @@ class UploadTest extends BrowserTestCase
     }
 
     /** @test */
+    public function can_see_empty_state_for_static_usage()
+    {
+        Livewire::visit(new class extends Component
+        {
+            use WithFileUploads;
+
+            public $photo;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>                    
+                    <x-upload label="Document" wire:model="photo" static />
+                </div>
+                HTML;
+            }
+        })
+            ->assertSee('Document')
+            ->click('@tallstackui_upload_input')
+            ->waitForText('No images.')
+            ->assertSee('No images.')
+            ->waitForText('You don\'t have any image yet.')
+            ->assertSee('You don\'t have any image yet.');
+    }
+
+    /** @test */
     public function can_see_footer_slot()
     {
         Livewire::visit(new class extends Component
@@ -210,6 +242,12 @@ class UploadTest extends BrowserTestCase
             ->click('@tallstackui_file_preview')
             ->waitFor('@tallstackui_file_preview_backdrop')
             ->assertVisible('@tallstackui_file_preview_backdrop');
+    }
+
+    /** @test */
+    public function can_see_preview_for_existent_files()
+    {
+
     }
 
     /** @test */
@@ -367,6 +405,12 @@ class UploadTest extends BrowserTestCase
             ->attach('@tallstackui_file_select', __DIR__.'/../../Fixtures/test.jpeg')
             ->waitForTextIn('@uploaded', 'test.jpeg')
             ->assertSeeIn('@uploaded', 'test.jpeg');
+    }
+
+    /** @test */
+    public function can_use_existent_files()
+    {
+
     }
 
     /** @test */
