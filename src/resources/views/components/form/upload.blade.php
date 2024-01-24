@@ -6,13 +6,12 @@
     $value = $this->{$property};
 @endphp
 
-@dump($placeholder)
-
 <div x-data="tallstackui_formUpload(
         @js($this->getId()),
         @js($property),
         @js($multiple),
         @js($error),
+        @js($static),
         @js($placeholder),
         @js(__('tallstack-ui::messages.upload.uploaded')))"
      x-ref="wrapper"
@@ -22,6 +21,7 @@
      x-on:livewire-upload-error="uploading = false"
      x-on:livewire-upload-progress="progress = $event.detail.progress"
      class="relative rounded-md">
+     @if ($static) <p hidden x-ref="placeholder">{{ $placeholder }}</p> @endif
      <x-input :value="$placeholder"
               :$label
               :$hint
@@ -146,6 +146,18 @@
                             </li>
                         @endforeach
                     </ul>
+                </div>
+            @elseif ($static === true)
+                <div class="text-center">
+                    <x-dynamic-component :component="TallStackUi::component('icon')"
+                                         icon="photo"
+                                         class="mx-auto h-10 w-10 text-gray-400" />
+                    <h3 class="text-lg font-semibold text-primary-500 dark:text-dark-300">
+                        No images
+                    </h3>
+                    <p class="mt-1 text-sm text-gray-700 dark:text-dark-400">
+                        You don't have any images.
+                    </p>
                 </div>
             @endif
             @if ($footer->isNotEmpty())

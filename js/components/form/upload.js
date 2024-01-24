@@ -1,9 +1,10 @@
 import {overflow} from '../../helpers';
 
-export default (id, property, multiple, error, placeholder, placeholders) => ({
+export default (id, property, multiple, error, staticMode, placeholder, placeholders) => ({
   show: false,
   uploading: false,
   error: false,
+  static: staticMode,
   warning: error,
   progress: 0,
   dragging: false,
@@ -15,7 +16,7 @@ export default (id, property, multiple, error, placeholder, placeholders) => ({
   image: null,
   init() {
     this.component = Livewire.find(id).__instance;
-    this.$watch('uploading', () => this.placeholder());
+    this.$watch('uploading', () => this.text());
     this.$watch('preview', (value) => overflow(value, 'upload'));
   },
   /**
@@ -83,7 +84,7 @@ export default (id, property, multiple, error, placeholder, placeholders) => ({
   remove(method, file) {
     this.component.$wire.call(method, file);
 
-    this.placeholder(true);
+    this.text();
 
     this.$el.dispatchEvent(new CustomEvent('remove', {detail: {file: file}}));
   },
@@ -91,7 +92,7 @@ export default (id, property, multiple, error, placeholder, placeholders) => ({
    * Set the input placeholder.
    * @returns {void}
    */
-  placeholder(removing = false) {
+  text() {
     setTimeout(() => {
       const property = this.component.$wire.get(this.property);
 
@@ -109,7 +110,7 @@ export default (id, property, multiple, error, placeholder, placeholders) => ({
         return;
       }
 
-      this.input = removing ? null : 1;
+      this.input = !property || this.static ? null : 1;
     }, 500);
   },
   /**
@@ -120,7 +121,11 @@ export default (id, property, multiple, error, placeholder, placeholders) => ({
   set input(value) {
     const input = this.$refs.input;
 
-    if (!value) return input.value = placeholder;
+    if (!value) {
+      input.value = this.$refs.placeholder?.innerText ?? placeholder;
+
+      return;
+    }
 
     input.value = this.placeholders[this.multiple ? 'multiple' : 'single'].replace(':count', value);
   },
