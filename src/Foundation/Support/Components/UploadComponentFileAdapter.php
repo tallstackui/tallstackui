@@ -55,8 +55,8 @@ class UploadComponentFileAdapter
                 'extension' => $file['extension'],
                 'size' => Number::fileSize($file['size']),
                 'path' => $file['path'],
-                'is_image' => $this->image($file['extension']),
-                'url' => $file['url'],
+                'is_image' => $image = $this->image($file['extension']),
+                'url' => ! $image ?: $file['url'],
             ];
         });
     }
@@ -70,8 +70,8 @@ class UploadComponentFileAdapter
                 'extension' => $file->extension(),
                 'size' => Number::fileSize($file->getSize()),
                 'path' => $file->getPathname(),
-                'is_image' => $this->image($file->extension()),
-                'url' => $file->temporaryUrl(),
+                'is_image' => $image = $this->image($file->extension()),
+                'url' => ! $image ?: $file->temporaryUrl(),
             ];
         });
     }

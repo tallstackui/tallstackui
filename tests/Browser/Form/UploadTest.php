@@ -34,7 +34,7 @@ class UploadTest extends BrowserTestCase
                 HTML;
             }
 
-            public function deleteUpload($originalName, $temporaryName): void
+            public function deleteUpload(array $content): void
             {
                 if (! $this->photo) {
                     return;
@@ -43,11 +43,11 @@ class UploadTest extends BrowserTestCase
                 $files = Arr::wrap($this->photo);
 
                 /** @var UploadedFile $file */
-                $file = collect($files)->filter(fn (UploadedFile $item) => $item->getFilename() === $temporaryName)->first();
+                $file = collect($files)->filter(fn (UploadedFile $item) => $item->getFilename() === $content['temporary_name'])->first();
 
                 rescue(fn () => $file->delete(), report: false); // @phpstan-ignore-line
 
-                $collect = collect($files)->filter(fn (UploadedFile $item) => $item->getFilename() !== $temporaryName);
+                $collect = collect($files)->filter(fn (UploadedFile $item) => $item->getFilename() !== $content['temporary_name']);
 
                 $this->photo = is_array($this->photo) ? $collect->toArray() : $collect->first();
             }
@@ -85,7 +85,7 @@ class UploadTest extends BrowserTestCase
                 HTML;
             }
 
-            public function fooBar($originalName, $temporaryName): void
+            public function fooBar(array $content): void
             {
                 if (! $this->photo) {
                     return;
@@ -94,11 +94,11 @@ class UploadTest extends BrowserTestCase
                 $files = Arr::wrap($this->photo);
 
                 /** @var UploadedFile $file */
-                $file = collect($files)->filter(fn (UploadedFile $item) => $item->getFilename() === $temporaryName)->first();
+                $file = collect($files)->filter(fn (UploadedFile $item) => $item->getFilename() === $content['temporary_name'])->first();
 
                 rescue(fn () => $file->delete(), report: false); // @phpstan-ignore-line
 
-                $collect = collect($files)->filter(fn (UploadedFile $item) => $item->getFilename() !== $temporaryName);
+                $collect = collect($files)->filter(fn (UploadedFile $item) => $item->getFilename() !== $content['temporary_name']);
 
                 $this->photo = is_array($this->photo) ? $collect->toArray() : $collect->first();
             }
@@ -400,7 +400,7 @@ class UploadTest extends BrowserTestCase
                 HTML;
             }
 
-            public function deleteUpload($originalName, $temporaryName): void
+            public function deleteUpload(array $content): void
             {
                 if (! $this->photo) {
                     return;
@@ -409,11 +409,11 @@ class UploadTest extends BrowserTestCase
                 $files = Arr::wrap($this->photo);
 
                 /** @var UploadedFile $file */
-                $file = collect($files)->filter(fn (UploadedFile $item) => $item->getFilename() === $temporaryName)->first();
+                $file = collect($files)->filter(fn (UploadedFile $item) => $item->getFilename() === $content['temporary_name'])->first();
 
                 rescue(fn () => $file->delete(), report: false); // @phpstan-ignore-line
 
-                $collect = collect($files)->filter(fn (UploadedFile $item) => $item->getFilename() !== $temporaryName);
+                $collect = collect($files)->filter(fn (UploadedFile $item) => $item->getFilename() !== $content['temporary_name']);
 
                 $this->photo = is_array($this->photo) ? $collect->toArray() : $collect->first();
             }
