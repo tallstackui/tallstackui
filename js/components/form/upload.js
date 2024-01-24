@@ -77,16 +77,15 @@ export default (id, property, multiple, error, placeholder, placeholders) => ({
   /**
    * Remove a file through Livewire component.
    * @param method {String}
-   * @param original {String}
-   * @param temporary {String}
+   * @param file {Object}
    * @returns {void}
    */
-  remove(method, original, temporary) {
-    this.component.$wire.call(method, original, temporary);
+  remove(method, file) {
+    this.component.$wire.call(method, file);
 
     this.placeholder();
 
-    this.$el.dispatchEvent(new CustomEvent('remove', {detail: {file: {original, temporary}}}));
+    this.$el.dispatchEvent(new CustomEvent('remove', {detail: {file: file}}));
   },
   /**
    * Set the input placeholder.

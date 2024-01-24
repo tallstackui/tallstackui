@@ -2,11 +2,13 @@
 
 namespace TallStackUi\View\Components\Form;
 
+use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\ComponentSlot;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Foundation\Support\Components\UploadFileContent;
 use TallStackUi\View\Components\BaseComponent;
 use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
 
@@ -22,6 +24,7 @@ class Upload extends BaseComponent implements Personalization
         public ?bool $multiple = false,
         public ?bool $preview = true,
         public ?bool $delete = false,
+        public ?bool $static = false,
         public string $deleteMethod = 'deleteUpload',
         public string|bool|null $error = null,
         public ?ComponentSlot $footer = null,
@@ -81,5 +84,11 @@ class Upload extends BaseComponent implements Personalization
                 'message' => 'font-semibold text-red-500',
             ],
         ]);
+    }
+
+    /** @throws Exception */
+    final public function prepare(array $files): array
+    {
+        return (new UploadFileContent($this->static, $files))();
     }
 }

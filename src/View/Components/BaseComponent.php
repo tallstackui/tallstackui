@@ -18,7 +18,7 @@ use TallStackUi\Foundation\Colors\ResolveColor;
 use TallStackUi\Foundation\Personalization\BuildScopePersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\ResolveConfiguration;
-use TallStackUi\Foundation\Support\BladeBindProperty;
+use TallStackUi\Foundation\Support\Blade\BladeBindProperty;
 use Throwable;
 
 abstract class BaseComponent extends Component
