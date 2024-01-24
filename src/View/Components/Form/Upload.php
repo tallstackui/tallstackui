@@ -6,6 +6,7 @@ use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\ComponentSlot;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\Support\Components\UploadFileContent;
@@ -87,7 +88,7 @@ class Upload extends BaseComponent implements Personalization
     }
 
     /** @throws Exception */
-    final public function prepare(array $files): array
+    final public function prepare(array|TemporaryUploadedFile $files): array
     {
         return (new UploadFileContent($this->static, $files))();
     }

@@ -11,7 +11,7 @@ class UploadFileContent
 {
     public function __construct(
         private readonly bool $static,
-        private readonly array $files,
+        private readonly TemporaryUploadedFile|array $files,
         private ?Collection $collection = null,
     ) {
         $this->collection = collect($this->files);
@@ -45,11 +45,13 @@ class UploadFileContent
 
         return $this->collection->map(function (array $file) {
             return [
-                ...$file,
                 'temporary_name' => $file['name'],
                 'real_name' => $file['name'],
-                'is_image' => $this->image($file['extension']),
+                'extension' => $file['extension'],
                 'size' => Number::fileSize($file['size']),
+                'path' => $file['path'],
+                'is_image' => $this->image($file['extension']),
+                'url' => $file['url'],
             ];
         });
     }
@@ -58,10 +60,11 @@ class UploadFileContent
     {
         return $this->collection->map(function (TemporaryUploadedFile $file) {
             return [
-                'temporary_name' => $file->getClientOriginalName(),
-                'real_name' => $file->getFilename(),
+                'temporary_name' => $file->getFilename(),
+                'real_name' => $file->getClientOriginalName(),
                 'extension' => $file->extension(),
                 'size' => Number::fileSize($file->getSize()),
+                'path' => $file->getPathname(),
                 'is_image' => $this->image($file->extension()),
                 'url' => $file->temporaryUrl(),
             ];

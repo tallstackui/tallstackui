@@ -109,6 +109,8 @@ export default (id, property, multiple, error, placeholder, placeholders) => ({
         return;
       }
 
+      console.log(typeof property);
+
       this.input = property ? 1 : null;
     }, 500);
   },
