@@ -86,6 +86,14 @@ class Upload extends BaseComponent implements Personalization
                 'wrapper' => 'mt-2 flex w-full items-center justify-center',
                 'message' => 'font-semibold text-red-500',
             ],
+            'static' => [
+                'empty' => [
+                    'wrapper' => 'text-center',
+                    'icon' => 'mx-auto h-10 w-10 text-gray-400 dark:text-dark-200',
+                    'title' => 'text-primary-500 dark:text-dark-300 text-lg font-semibold',
+                    'description' => 'dark:text-dark-400 mt-1 text-sm text-gray-700',
+                ],
+            ],
         ]);
     }
 

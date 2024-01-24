@@ -148,15 +148,15 @@
                     </ul>
                 </div>
             @elseif ($static === true)
-                <div class="text-center">
+                <div @class($personalize['static.empty.wrapper'])>
                     <x-dynamic-component :component="TallStackUi::component('icon')"
                                          icon="photo"
-                                         class="mx-auto h-10 w-10 text-gray-400" />
-                    <h3 class="text-lg font-semibold text-primary-500 dark:text-dark-300">
-                        No images
+                                         :class="$personalize['static.empty.icon']" />
+                    <h3 @class($personalize['static.empty.title'])>
+                        {{ __('tallstack-ui::messages.upload.static.empty.title') }}
                     </h3>
-                    <p class="mt-1 text-sm text-gray-700 dark:text-dark-400">
-                        You don't have any images.
+                    <p @class($personalize['static.empty.description'])>
+                        {{ __('tallstack-ui::messages.upload.static.empty.description') }}
                     </p>
                 </div>
             @endif
