@@ -19,12 +19,11 @@
                type="text"
                readonly
                x-on:click="open = !open; showYearPicker=false;" 
-               x-model="datePickerValue"
-               x-on:keydown.escape="open = false"
-                              x-ref="datePickerInput"
+               x-model="value"
+               x-on:keydown.escape="open = false" x-ref="input"
                {{ $attributes->class($personalize['input.class.base'])}}>
             <div @class($personalize['icon.input'])>
-                <x-dynamic-component :component="TallStackUi::component('icon')" icon="x-mark" class="w-5 h-5 hover:text-red-500" x-show="datePickerValue" x-on:click="clear()" />
+                <x-dynamic-component :component="TallStackUi::component('icon')" icon="x-mark" class="w-5 h-5 hover:text-red-500" x-show="value" x-on:click="clear()" />
                 <x-dynamic-component :component="TallStackUi::component('icon')" icon="calendar" class="w-5 h-5" x-on:click="open = !open" />
             </div>
         </div>
@@ -36,12 +35,12 @@
              x-on:click.away="datePickerAway()" 
              @class($personalize['box.wrapper'])>
             <div class="flex items-center justify-between mb-4">
-                <div x-on:click="toggleYearPicker()"
+                <div x-on:click="toggleYear()"
                     @class($personalize['box.picker.button'])>
                     <!-- Year label, clicking toggles the year picker -->
                     <span>
-                        <span x-text="datePickerMonthNames[datePickerMonth]" @class($personalize['label.month'])></span>
-                        <span x-text="datePickerYear" @class($personalize['label.year'])></span>
+                        <span x-text="monthNames[month]" @class($personalize['label.month'])></span>
+                        <span x-text="year" @class($personalize['label.year'])></span>
                     </span>
 
                     <!-- Year picker dropdown/modal -->
@@ -63,18 +62,18 @@
                                         </button>
                                     </div>
                                 </div>
-                                <template x-for="year in generateYearRange()">
-                                    <div @class($personalize['box.picker.range']) x-on:click="selectYear($event, year)" x-text="year"></div>
+                                <template x-for="yearRange in generateYearRange()">
+                                    <div @class($personalize['box.picker.range']) x-on:click="selectYear($event, yearRange)" x-text="yearRange"></div>
                                 </template>
                             </div>
                         </div>
                     </template>
                 </div>
                 <div>
-                    <button x-on:click="datePickerPreviousMonth()" type="button" @class($personalize['button.navigate'])>
+                    <button x-on:click="previousMonth()" type="button" @class($personalize['button.navigate'])>
                         <x-dynamic-component :component="TallStackUi::component('icon')" icon="chevron-left" @class($personalize['icon.navigate']) />
                     </button>
-                    <button x-on:click="datePickerNextMonth()" type="button" @class($personalize['button.navigate'])>
+                    <button x-on:click="nextMonth()" type="button" @class($personalize['button.navigate'])>
                         <x-dynamic-component :component="TallStackUi::component('icon')" icon="chevron-right" @class($personalize['icon.navigate']) />
                     </button>
                 </div>
@@ -82,7 +81,7 @@
 
             <!-- days of the week -->
             <div class="grid grid-cols-7 mb-3">
-                <template x-for="(day, index) in datePickerDays" :key="index">
+                <template x-for="(day, index) in days" :key="index">
                     <div class="px-0.5">
                         <div x-text="day" @class($personalize['label.days'])></div>
                     </div>
@@ -90,10 +89,10 @@
             </div>
 
             <div class="grid grid-cols-7">
-                <template x-for="blankDay in datePickerBlankDaysInMonth">
+                <template x-for="blankDay in blankDaysInMonth">
                     <div class="p-1 text-sm text-center border border-transparent"></div>
                 </template>
-                <template x-for="(dayObj, dayIndex) in datePickerDaysInMonth" :key="dayIndex">
+                <template x-for="(dayObj, dayIndex) in daysInMonth" :key="dayIndex">
                     <div class="mb-2" 
                          :class="{
                             'rounded-l-full': new Date(dayObj.full).getTime() === new Date(startDate).getTime(),
@@ -101,12 +100,12 @@
                             '{{ $personalize['range'] }}': dateInterval(dayObj.full) === true,
                          }">
                         <button x-text="dayObj.day"
-                                x-on:click="dayObj.isDisabled ? null : datePickerDayClicked(dayObj.day)"
+                                x-on:click="dayObj.isDisabled ? null : dayClicked(dayObj.day)"
                                 x-bind:disabled="dayObj.isDisabled"
                                 :class="{
-                                    '{{ $personalize['button.today'] }}': datePickerIsToday(dayObj.day) == true,
-                                    '{{ $personalize['button.select'] }}': datePickerIsToday(dayObj.day) == false && datePickerIsSelectedDate(dayObj.day) == false && !dayObj.isDisabled,
-                                    '{{ $personalize['button.selected'] }}': datePickerIsSelectedDate(dayObj.day) == true
+                                    '{{ $personalize['button.today'] }}': isToday(dayObj.day) == true,
+                                    '{{ $personalize['button.select'] }}': isToday(dayObj.day) == false && isSelectedDate(dayObj.day) == false && !dayObj.isDisabled,
+                                    '{{ $personalize['button.selected'] }}': isSelectedDate(dayObj.day) == true
                                 }"
                                 @class($personalize['button.day'])>
                         </button>
