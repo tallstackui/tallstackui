@@ -316,7 +316,51 @@ class UploadTest extends BrowserTestCase
     /** @test */
     public function can_see_preview_for_existent_files()
     {
+        Artisan::call('storage:link');
 
+        File::ensureDirectoryExists(storage_path('app/public/test'));
+
+        File::copy(__DIR__.'/../../Fixtures/test.jpeg', public_path('storage/test/test.jpeg'));
+
+        $this->assertTrue(File::exists(public_path('storage/test/test.jpeg')));
+
+        Livewire::visit(new class extends Component
+        {
+            use WithFileUploads;
+
+            public $photo;
+
+            public function mount(): void
+            {
+                $this->photo = collect(File::allFiles(public_path('storage/test')))->map(fn (SplFileInfo $file) => [
+                    'name' => $file->getFilename(),
+                    'extension' => $file->getExtension(),
+                    'size' => $file->getSize(),
+                    'path' => $file->getPathname(),
+                    'url' => Storage::url('public/test/'.$file->getFilename()),
+                ])->toArray();
+            }
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-upload label="Document" 
+                              wire:model.live="photo" 
+                              static />
+                </div>
+                HTML;
+            }
+        })
+            ->assertSee('Document')
+            ->click('@tallstackui_upload_input')
+            ->waitForText('test.jpeg')
+            ->assertSee('test.jpeg')
+            ->click('@tallstackui_file_preview')
+            ->waitFor('@tallstackui_file_preview_backdrop')
+            ->assertVisible('@tallstackui_file_preview_backdrop');
+
+        File::deleteDirectory(storage_path('app/public/test'));
     }
 
     /** @test */
