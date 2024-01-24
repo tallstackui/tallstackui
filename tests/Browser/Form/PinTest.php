@@ -50,18 +50,20 @@ class PinTest extends BrowserTestCase
             {
                 return <<<'HTML'
                 <div>
-                    <p dusk="value">{{ $value }}</p>
+                    @if ($value)
+                        <p dusk="value">{{ $value }}</p>
+                    @endif
                     
-                    <x-pin length="4" label="Foo" hint="Test" wire:model="value" clear />
+                    <x-pin length="4" label="Foo" hint="Test" wire:model.live="value" clear />
                     
                     <x-button dusk="clear" wire:click="$set('value')">Clear</x-button>
                 </div>
                 HTML;
             }
         })
-            ->waitForLivewireToLoad()->click('@clear')
-            ->waitUntilMissingText('1515')
-            ->assertDontSeeIn('@value', '1515');
+            ->waitForLivewireToLoad()
+            ->waitForLivewire()->click('@clear')
+            ->assertNotPresent('@value');
     }
 
     /** @test */

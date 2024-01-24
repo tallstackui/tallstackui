@@ -253,7 +253,7 @@ class TagTest extends BrowserTestCase
                     
                     <x-tag dusk="tags" 
                            label="Tags"
-                           wire:model.live="tags" 
+                           wire:model="tags" 
                            x-on:add="$wire.set('add', $event.detail.tag)"
                            x-on:remove="$wire.set('remove', $event.detail.tag)"
                            x-on:erase="$wire.set('erase', $event.detail.tags)" />
