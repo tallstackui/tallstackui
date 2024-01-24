@@ -58,7 +58,7 @@ class UploadTest extends BrowserTestCase
 
             public function deleteUpload(array $content): void
             {
-                if (empty($this->photo)) {
+                if (! $this->photo) {
                     return;
                 }
 
