@@ -61,5 +61,11 @@ return [
             'multiple' => ':count files send',
         ],
         'error' => 'Something went wrong. Please, try again.',
+        'static' => [
+            'empty' => [
+                'title' => 'No images.',
+                'description' => 'You don\'t have any image yet.',
+            ],
+        ],
     ],
 ];

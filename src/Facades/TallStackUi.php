@@ -5,9 +5,9 @@ namespace TallStackUi\Facades;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\View\ComponentAttributeBag;
 use TallStackUi\Foundation\Personalization\Personalization;
-use TallStackUi\Foundation\Support\BladeComponentPrefix;
-use TallStackUi\Foundation\Support\BladeDirectives;
-use TallStackUi\Foundation\Support\BladeSupport;
+use TallStackUi\Foundation\Support\Blade\BladeComponentPrefix;
+use TallStackUi\Foundation\Support\Blade\BladeDirectives;
+use TallStackUi\Foundation\Support\Blade\BladeSupport;
 
 /**
  * @method static BladeSupport blade(?ComponentAttributeBag $attributes = null, bool $livewire = false)

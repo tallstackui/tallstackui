@@ -11,7 +11,8 @@
         @js($property),
         @js($multiple),
         @js($error),
-        @js(__('tallstack-ui::messages.upload.placeholder')),
+        @js($static),
+        @js($placeholder),
         @js(__('tallstack-ui::messages.upload.uploaded')))"
      x-ref="wrapper"
      x-cloak
@@ -19,8 +20,9 @@
      x-on:livewire-upload-finish="uploading = false"
      x-on:livewire-upload-error="uploading = false"
      x-on:livewire-upload-progress="progress = $event.detail.progress"
-     @class(['relative rounded-md'])>
-     <x-input :value="__('tallstack-ui::messages.upload.placeholder')"
+     class="relative rounded-md">
+     @if ($static) <p hidden x-ref="placeholder">{{ $placeholder }}</p> @endif
+     <x-input :value="$placeholder"
               :$label
               :$hint
               x-on:click="show = !show"
@@ -64,6 +66,7 @@
          x-anchor.bottom-end="$refs.wrapper"
          @class($personalize['box.wrapper.first'])>
         <div @class($personalize['box.wrapper.second'])>
+            @if (!$static)
             <div @class(['flex flex-col w-full items-center justify-center', 'mb-2' => $footer->isNotEmpty()])>
                 <div @class($personalize['placeholder.wrapper']) :class="{ 'bg-primary-100': dragging }">
                     <div class="inline-flex items-center justify-center space-x-2">
@@ -92,6 +95,7 @@
                            @if ($multiple) multiple @endif />
                 </div>
             </div>
+            @endif
             <div @class([$personalize['error.wrapper'], 'mb-2' => $footer->isNotEmpty()]) x-show="@js($error) && error">
                 <p @class($personalize['error.message']) x-text="warning"></p>
             </div>
@@ -102,15 +106,14 @@
             </div>
             @if ($value)
                 <div @class($personalize['item.wrapper']) x-ref="items">
-                    @php /** @var \Illuminate\Http\UploadedFile $file */ @endphp
                     <ul role="list" @class($personalize['item.ul'])>
-                        @foreach(\Illuminate\Support\Arr::wrap($value) as $key => $file)
+                        @foreach($adapter($value) as $key => $file)
                             <li @class([$personalize['item.li'], 'py-2' => is_array($value) && count($value) > 1])>
                                 <div class="flex min-w-0 gap-x-4">
-                                    @if (in_array($file->extension(), ['jpg', 'jpeg', 'png', 'gif']))
-                                    <img src="{{ $file->temporaryUrl() }}"
+                                    @if ($file['is_image'])
+                                    <img src="{{ $file['url'] }}"
                                          dusk="tallstackui_file_preview"
-                                         @if ($preview) x-on:click="image = @js($file->temporaryUrl()); preview = true; show = false" @endif
+                                         @if ($preview) x-on:click="image = @js($file['url']); preview = true; show = false" @endif
                                          @class([$personalize['item.image'], 'cursor-pointer' => $preview])>
                                     @else
                                         <x-dynamic-component :component="TallStackUi::component('icon')"
@@ -118,13 +121,13 @@
                                                              :class="$personalize['item.document']" />
                                     @endif
                                     <div class="min-w-0 flex-auto">
-                                        <p @class($personalize['item.title'])>{{ $file->getClientOriginalName() }}</p>
+                                        <p @class($personalize['item.title'])>{{ $file['real_name'] }}</p>
                                         <x-dynamic-component :component="TallStackUi::component('error')"
                                                              :property="is_array($value) ? $property . '.' . $key : $property" />
                                         @if (class_exists(\Illuminate\Support\Number::class))
                                             <p @class($personalize['item.size'])>
                                                 <span>{{ __('tallstack-ui::messages.upload.size') }}: </span>
-                                                <span>{{ \Illuminate\Support\Number::fileSize($file->getSize()) }}</span>
+                                                <span>{{ $file['size'] }}</span>
                                             </p>
                                         @endif
                                     </div>
@@ -133,7 +136,7 @@
                                     @if ($delete)
                                         <button type="button"
                                                 {{ $attributes->only('x-on:remove') }}
-                                                x-on:click="remove(@js($deleteMethod), @js($file->getClientOriginalName()), @js($file->getFilename()))">
+                                                x-on:click="remove(@js($deleteMethod), @js($file))">
                                             <x-dynamic-component :component="TallStackUi::component('icon')"
                                                                  icon="trash"
                                                                  @class($personalize['item.delete']) />
@@ -143,6 +146,18 @@
                             </li>
                         @endforeach
                     </ul>
+                </div>
+            @elseif ($static === true)
+                <div @class($personalize['static.empty.wrapper'])>
+                    <x-dynamic-component :component="TallStackUi::component('icon')"
+                                         icon="photo"
+                                         :class="$personalize['static.empty.icon']" />
+                    <h3 @class($personalize['static.empty.title'])>
+                        {{ __('tallstack-ui::messages.upload.static.empty.title') }}
+                    </h3>
+                    <p @class($personalize['static.empty.description'])>
+                        {{ __('tallstack-ui::messages.upload.static.empty.description') }}
+                    </p>
                 </div>
             @endif
             @if ($footer->isNotEmpty())
