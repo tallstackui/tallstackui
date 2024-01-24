@@ -107,7 +107,7 @@
             @if ($value)
                 <div @class($personalize['item.wrapper']) x-ref="items">
                     <ul role="list" @class($personalize['item.ul'])>
-                        @foreach($prepare($value) as $key => $file)
+                        @foreach($adapter($value) as $key => $file)
                             <li @class([$personalize['item.li'], 'py-2' => is_array($value) && count($value) > 1])>
                                 <div class="flex min-w-0 gap-x-4">
                                     @if ($file['is_image'])

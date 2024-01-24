@@ -35,6 +35,12 @@ class Upload extends BaseComponent implements Personalization
         $this->error ??= __('tallstack-ui::messages.upload.error');
     }
 
+    /** @throws Exception */
+    final public function adapter(array|TemporaryUploadedFile $files): array
+    {
+        return (new UploadComponentFileAdapter($this->static, $files))();
+    }
+
     public function blade(): View
     {
         return view('tallstack-ui::components.form.upload');
@@ -95,11 +101,5 @@ class Upload extends BaseComponent implements Personalization
                 ],
             ],
         ]);
-    }
-
-    /** @throws Exception */
-    final public function prepare(array|TemporaryUploadedFile $files): array
-    {
-        return (new UploadComponentFileAdapter($this->static, $files))();
     }
 }

@@ -8,6 +8,10 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Number;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 
+// The main objective of this class is to adapt the content received through
+// the upload component mapped to two different formats: upload files or existing
+// files. At the end, with this class we avoid possible errors in Blade that would
+// occur without the correct formatting of the names used in Blade.
 class UploadComponentFileAdapter
 {
     public function __construct(
