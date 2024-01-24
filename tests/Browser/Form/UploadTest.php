@@ -4,10 +4,14 @@ namespace Tests\Browser\Form;
 
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\Livewire;
 use Livewire\WithFileUploads;
 use PHPUnit\Framework\Attributes\Test;
+use Symfony\Component\Finder\SplFileInfo;
 use Tests\Browser\BrowserTestCase;
 
 class UploadTest extends BrowserTestCase
@@ -15,7 +19,72 @@ class UploadTest extends BrowserTestCase
     /** @test */
     public function can_delete_existent_files()
     {
+        Artisan::call('storage:link');
 
+        File::ensureDirectoryExists(storage_path('app/public/test'));
+
+        File::copy(__DIR__.'/../../Fixtures/test.jpeg', public_path('storage/test/test.jpeg'));
+
+        $this->assertTrue(File::exists(public_path('storage/test/test.jpeg')));
+
+        Livewire::visit(new class extends Component
+        {
+            use WithFileUploads;
+
+            public $photo;
+
+            public function mount(): void
+            {
+                $this->photo = collect(File::allFiles(public_path('storage/test')))->map(fn (SplFileInfo $file) => [
+                    'name' => $file->getFilename(),
+                    'extension' => $file->getExtension(),
+                    'size' => $file->getSize(),
+                    'path' => $file->getPathname(),
+                    'url' => Storage::url('public/test/'.$file->getFilename()),
+                ])->toArray();
+            }
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-upload label="Document" 
+                              wire:model.live="photo" 
+                              static 
+                              delete />
+                </div>
+                HTML;
+            }
+
+            public function deleteUpload(array $content): void
+            {
+                if (empty($this->photo)) {
+                    return;
+                }
+
+                File::delete($content['path']);
+
+                $files = Arr::wrap($this->photo);
+
+                $collect = collect($files)->filter(fn (array $item) => $item['name'] !== $content['real_name']);
+
+                $this->photo = $collect->toArray();
+            }
+        })
+            ->assertSee('Document')
+            ->click('@tallstackui_upload_input')
+            ->waitForText('test.jpeg')
+            ->assertSee('test.jpeg')
+            ->waitForLivewire()->clickAtXPath('/html/body/div[3]/div/div[3]/div/div[3]/ul/li/div[2]/button')
+            ->assertMissing('@uploaded')
+            ->waitForText('No images.')
+            ->assertSee('No images.')
+            ->waitForText('You don\'t have any image yet.')
+            ->assertSee('You don\'t have any image yet.');
+
+        $this->assertFalse(File::exists(public_path('storage/test/test.jpeg')));
+
+        File::deleteDirectory(storage_path('app/public/test'));
     }
 
     /** @test */
@@ -410,7 +479,49 @@ class UploadTest extends BrowserTestCase
     /** @test */
     public function can_use_existent_files()
     {
+        Artisan::call('storage:link');
 
+        File::ensureDirectoryExists(storage_path('app/public/test'));
+
+        File::copy(__DIR__.'/../../Fixtures/test.jpeg', public_path('storage/test/test.jpeg'));
+
+        $this->assertTrue(File::exists(public_path('storage/test/test.jpeg')));
+
+        Livewire::visit(new class extends Component
+        {
+            use WithFileUploads;
+
+            public $photo;
+
+            public function mount(): void
+            {
+                $this->photo = collect(File::allFiles(public_path('storage/test')))->map(fn (SplFileInfo $file) => [
+                    'name' => $file->getFilename(),
+                    'extension' => $file->getExtension(),
+                    'size' => $file->getSize(),
+                    'path' => $file->getPath(),
+                    'url' => Storage::url('test/'.$file->getFilename()),
+                ])->toArray();
+            }
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-upload label="Document" 
+                              wire:model.live="photo" 
+                              static />
+                </div>
+                HTML;
+            }
+        })
+            ->assertSee('Document')
+            ->assertMissing('@uploaded')
+            ->click('@tallstackui_upload_input')
+            ->waitForText('test.jpeg')
+            ->assertSee('test.jpeg');
+
+        File::deleteDirectory(storage_path('app/public/test'));
     }
 
     /** @test */
