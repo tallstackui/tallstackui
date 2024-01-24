@@ -3,18 +3,19 @@
 namespace TallStackUi\Foundation\Support\Components;
 
 use Exception;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Number;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 
-class UploadFileContent
+class UploadComponentFileAdapter
 {
     public function __construct(
         private readonly bool $static,
         private readonly TemporaryUploadedFile|array $files,
         private ?Collection $collection = null,
     ) {
-        $this->collection = collect($this->files);
+        $this->collection = collect(Arr::wrap($this->files));
     }
 
     /** @throws Exception */

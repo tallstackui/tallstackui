@@ -83,7 +83,7 @@ export default (id, property, multiple, error, placeholder, placeholders) => ({
   remove(method, file) {
     this.component.$wire.call(method, file);
 
-    this.placeholder();
+    this.placeholder(true);
 
     this.$el.dispatchEvent(new CustomEvent('remove', {detail: {file: file}}));
   },
@@ -91,7 +91,7 @@ export default (id, property, multiple, error, placeholder, placeholders) => ({
    * Set the input placeholder.
    * @returns {void}
    */
-  placeholder() {
+  placeholder(removing = false) {
     setTimeout(() => {
       const property = this.component.$wire.get(this.property);
 
@@ -109,9 +109,7 @@ export default (id, property, multiple, error, placeholder, placeholders) => ({
         return;
       }
 
-      console.log(typeof property);
-
-      this.input = property ? 1 : null;
+      this.input = removing ? null : 1;
     }, 500);
   },
   /**

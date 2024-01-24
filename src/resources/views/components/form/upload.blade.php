@@ -6,12 +6,14 @@
     $value = $this->{$property};
 @endphp
 
+@dump($placeholder)
+
 <div x-data="tallstackui_formUpload(
         @js($this->getId()),
         @js($property),
         @js($multiple),
         @js($error),
-        @js(__('tallstack-ui::messages.upload.placeholder')),
+        @js($placeholder),
         @js(__('tallstack-ui::messages.upload.uploaded')))"
      x-ref="wrapper"
      x-cloak
@@ -19,8 +21,8 @@
      x-on:livewire-upload-finish="uploading = false"
      x-on:livewire-upload-error="uploading = false"
      x-on:livewire-upload-progress="progress = $event.detail.progress"
-     @class(['relative rounded-md'])>
-     <x-input :value="__('tallstack-ui::messages.upload.placeholder')"
+     class="relative rounded-md">
+     <x-input :value="$placeholder"
               :$label
               :$hint
               x-on:click="show = !show"

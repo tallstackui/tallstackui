@@ -9,7 +9,7 @@ use Illuminate\View\ComponentSlot;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\Foundation\Support\Components\UploadFileContent;
+use TallStackUi\Foundation\Support\Components\UploadComponentFileAdapter;
 use TallStackUi\View\Components\BaseComponent;
 use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
 
@@ -26,10 +26,12 @@ class Upload extends BaseComponent implements Personalization
         public ?bool $preview = true,
         public ?bool $delete = false,
         public ?bool $static = false,
+        public ?string $placeholder = null,
         public string $deleteMethod = 'deleteUpload',
         public string|bool|null $error = null,
         public ?ComponentSlot $footer = null,
     ) {
+        $this->placeholder ??= __('tallstack-ui::messages.upload.placeholder');
         $this->error ??= __('tallstack-ui::messages.upload.error');
     }
 
@@ -90,6 +92,6 @@ class Upload extends BaseComponent implements Personalization
     /** @throws Exception */
     final public function prepare(array|TemporaryUploadedFile $files): array
     {
-        return (new UploadFileContent($this->static, $files))();
+        return (new UploadComponentFileAdapter($this->static, $files))();
     }
 }
