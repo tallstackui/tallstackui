@@ -40,6 +40,10 @@ export default (value, range, format = 'YYYY-MM-DD', min, max, minYear, maxYear,
         this.open = false;
       } else {
         this.value = this.formatDate(new Date(this.parseDate(this.value)));
+
+        if (this.isDateDisabled(new Date(this.value))) {
+          this.value = '';
+        }
       }
     }
   },

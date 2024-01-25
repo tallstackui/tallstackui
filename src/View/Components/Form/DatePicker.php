@@ -57,7 +57,7 @@ class DatePicker extends BaseComponent implements Personalization
                     'wrapper' => [
                         'first' => 'absolute top-0 left-0 flex w-full h-full p-3 bg-white dark:bg-dark-700 rounded-lg select-none',
                         'second' => 'flex flex-wrap w-full',
-                        'third' => 'w-full flex items-center justify-between mb-2 px-1',
+                        'third' => 'w-full flex items-center justify-between mb-2 px-1 h-12',
                     ],
                     'label' => 'text-sm rounded-lg flex items-center justify-between text-gray-900 dark:text-white bg-white dark:bg-gray-700 font-semibold py-1 px-2 hover:bg-dark-100 dark:hover:bg-dark-600 focus:outline-none focus:ring-2 focus:ring-gray-200 cursor-pointer',
                     'range' => 'flex items-center justify-center select-none w-1/4 p-1 text-center cursor-pointer hover:bg-dark-100 dark:hover:bg-dark-600 font-normal rounded-md text-gray-600 dark:text-dark-400 h-6',
