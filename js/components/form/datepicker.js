@@ -1,4 +1,4 @@
-export default (value, range, format = 'YYYY-MM-DD', min, max, disabledDates = [], days, months) => ({
+export default (value, range, format = 'YYYY-MM-DD', min, max, minYear, maxYear, disable = [], delay, days, months) => ({
   open: false,
   format: format,
   value: value,
@@ -11,12 +11,18 @@ export default (value, range, format = 'YYYY-MM-DD', min, max, disabledDates = [
   days: days,
   showYearPicker: false,
   yearRangeStart: 0,
+  yearRangeFirst: 0,
+  yearRangeLast: 0,
   startDate: null,
   endDate: null,
   range: range,
   min: (min !== null) ? new Date(min) : null,
   max: (max !== null) ? new Date(max) : null,
-  disabledDates: disabledDates,
+  minYear: minYear,
+  maxYear: maxYear,
+  disable: disable,
+  interval: null,
+  delay: delay,
   init() {
     const currentDate = new Date();
     this.month = currentDate.getMonth();
@@ -24,15 +30,17 @@ export default (value, range, format = 'YYYY-MM-DD', min, max, disabledDates = [
     this.day = currentDate.getDay();
     this.calculateDays();
 
-    if (this.value instanceof Array) {
-      const startDate = new Date(this.parseDate(this.value[0]));
-      const endDate = new Date(this.parseDate(this.value[1]));
-      Object.assign(this, {startDate, endDate});
+    if (this.value) {
+      if (this.value instanceof Array) {
+        const startDate = new Date(this.parseDate(this.value[0]));
+        const endDate = new Date(this.parseDate(this.value[1]));
+        Object.assign(this, {startDate, endDate});
 
-      this.updateInputValue();
-      this.open = false;
-    } else {
-      this.value = this.formatDate(new Date(this.parseDate(this.value)));
+        this.updateInputValue();
+        this.open = false;
+      } else {
+        this.value = this.formatDate(new Date(this.parseDate(this.value)));
+      }
     }
   },
   parseDate(date) {
@@ -59,8 +67,12 @@ export default (value, range, format = 'YYYY-MM-DD', min, max, disabledDates = [
     this.updateInputValue();
   },
   isSelectedDate(day) {
-    const date = new Date(this.year, this.month, day);
-    return this.value.includes(this.formatDate(date));
+    if (this.value) {
+      const date = new Date(this.year, this.month, day);
+      return this.value.includes(this.formatDate(date));
+    }
+
+    return false;
   },
   dateInterval(date) {
     return new Date(date) >= new Date(this.startDate) && new Date(date) <= new Date(this.endDate);
@@ -192,7 +204,7 @@ export default (value, range, format = 'YYYY-MM-DD', min, max, disabledDates = [
   },
   isDateDisabled(date) {
     const formattedDate = date.toISOString().slice(0, 10);
-    return (this.min && date <= this.min) || (this.max && date >= this.max) || this.disabledDates.includes(formattedDate);
+    return (this.min && date <= this.min) || (this.max && date >= this.max) || this.disable.includes(formattedDate);
   },
   previousMonth() {
     if (this.month == 0) {
@@ -213,16 +225,39 @@ export default (value, range, format = 'YYYY-MM-DD', min, max, disabledDates = [
   },
   previousYearRange(e) {
     e.stopPropagation();
+
+    if (this.minYear !== null && this.yearRangeFirst <= this.minYear) {
+      return;
+    }
+
     this.yearRangeStart -= 19;
   },
   nextYearRange(e) {
     e.stopPropagation();
+    if (this.maxYear !== null && this.yearRangeLast >= this.maxYear) {
+      return;
+    }
+
     this.yearRangeStart += 19;
   },
   generateYearRange() {
     const startYear = this.yearRangeStart;
     const endYear = startYear + 19;
-    return Array.from({length: endYear - startYear + 1}, (_, k) => startYear + k);
+
+    // Verifica se this.minYear e this.maxYear são diferentes de nulo
+    const minYear = this.minYear !== null ? this.minYear : -Infinity;
+    const maxYear = this.maxYear !== null ? this.maxYear : Infinity;
+
+    // Filtra o array para incluir apenas os anos dentro do intervalo [minYear, maxYear]
+    const yearRange = Array.from({length: endYear - startYear + 1}, (_, k) => startYear + k)
+        .filter((year) => year >= minYear && year <= maxYear);
+
+    console.log(yearRange);
+
+    this.yearRangeFirst = yearRange[0];
+    this.yearRangeLast = yearRange[yearRange.length - 1];
+
+    return yearRange;
   },
   selectYear(e, year) {
     e.stopPropagation();
