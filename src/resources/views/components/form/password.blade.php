@@ -4,14 +4,14 @@
 @endphp
 
 <div @if ($rules->isNotEmpty()) x-data="tallstackui_formPassword(@js($rules), @js($generator))" @endif>
-    <x-dynamic-component :component="TallStackUi::component('wrapper.input')" :$id :$property :$error :$label :$hint :$invalidate password>
+    <x-dynamic-component :component="TallStackUi::component('wrapper.input')" :$id :$property :$error :$label :$hint :$invalidate>
         <div @class([
             $personalize['input.wrapper'],
             $personalize['input.color.base'] => !$error,
             $personalize['input.color.background'] => !$attributes->get('disabled') && !$attributes->get('readonly'),
             $personalize['input.color.disabled'] => $attributes->get('disabled') || $attributes->get('readonly'),
             $personalize['error'] => $error
-        ]) x-on:click.outside="rules = false">
+        ]) x-data="{ show : false, toggle () { this.$el.dispatchEvent(new CustomEvent('reveal')); this.show = !this.show; } }" x-on:click.outside="rules = false">
             <input @if ($id) id="{{ $id }}" @endif
                   {{ $attributes->class([$personalize['input.base']]) }}
                    @if ($rules->isNotEmpty())
@@ -29,7 +29,7 @@
                                              @class($personalize['icon.class']) />
                     </div>
                 @endif
-                <div x-on:click="show = !show">
+                <div {{ $attributes->only('x-on:reveal') }} x-on:click="toggle()">
                     <x-dynamic-component :component="TallStackUi::component('icon')" icon="eye" :$error @class($personalize['icon.class']) x-show="!show" />
                     <x-dynamic-component :component="TallStackUi::component('icon')" icon="eye-slash" :$error @class($personalize['icon.class']) x-show="show" />
                 </div>
