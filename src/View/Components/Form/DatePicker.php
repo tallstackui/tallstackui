@@ -24,7 +24,8 @@ class DatePicker extends BaseComponent implements Personalization
         public ?string $icon = null,
         public ?bool $invalidate = null,
         public ?bool $range = false,
-        public ?string $format = null,
+        public ?bool $multiple = false,
+        public ?string $format = 'YYYY-MM-DD',
         public string|null|Carbon $minDate = null,
         public string|null|Carbon $maxDate = null,
         public ?int $minYear = null,
@@ -37,6 +38,12 @@ class DatePicker extends BaseComponent implements Personalization
         $this->helpers = $this->helpers === true ?
             collect(['yesterday', 'today', 'tomorrow', 'last7days', 'last15days', 'last30days']) :
             ($helpers !== null ? collect($this->helpers) : collect([]));
+
+        if ($this->range === true && ! blank($this->helpers)) {
+            $this->helpers = $this->helpers->diff(['tomorrow', 'today', 'yesterday']);
+        } else {
+            $this->helpers = $this->helpers->diff(['last7days', 'last15days', 'last30days']);
+        }
 
         $this->messages();
     }

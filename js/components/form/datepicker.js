@@ -1,4 +1,4 @@
-export default (model, range, format = 'YYYY-MM-DD', min, max, minYear, maxYear, disable = [], delay, days, months) => ({
+export default (model, range, multiple, format, min, max, minYear, maxYear, disable, delay, days, months) => ({
   open: false,
   format: format,
   model: model,
@@ -17,6 +17,7 @@ export default (model, range, format = 'YYYY-MM-DD', min, max, minYear, maxYear,
   startDate: null,
   endDate: null,
   range: range,
+  multiple: multiple,
   min: (min !== null) ? new Date(min) : null,
   max: (max !== null) ? new Date(max) : null,
   minYear: minYear,
@@ -24,6 +25,7 @@ export default (model, range, format = 'YYYY-MM-DD', min, max, minYear, maxYear,
   disable: disable,
   interval: null,
   delay: delay,
+  selectedDates: null,
   init() {
     const currentDate = new Date();
     this.month = currentDate.getMonth();
@@ -32,10 +34,12 @@ export default (model, range, format = 'YYYY-MM-DD', min, max, minYear, maxYear,
     this.calculateDays();
 
     if (this.model) {
-      if (this.model instanceof Array) {
+      if (this.range && this.model.length === 2) {
         const startDate = new Date(this.parseDate(this.model[0]));
         const endDate = new Date(this.parseDate(this.model[1]));
         Object.assign(this, {startDate, endDate});
+      } else if (this.multiple) {
+        this.selectedDates = this.model;
       } else {
         this.value = this.formatDate(new Date(this.parseDate(this.model)));
 
@@ -58,7 +62,21 @@ export default (model, range, format = 'YYYY-MM-DD', min, max, minYear, maxYear,
       return;
     }
 
-    if (this.range) {
+    if (this.multiple) {
+      if (!this.selectedDates) {
+        this.selectedDates = [selectedDate.toISOString().slice(0, 10)];
+      } else {
+        const index = this.selectedDates.findIndex((date) => date === selectedDate.toISOString().slice(0, 10));
+
+        if (index === -1) {
+          this.selectedDates.push(selectedDate.toISOString().slice(0, 10));
+        } else {
+          this.selectedDates.splice(index, 1);
+        }
+      }
+
+      this.model = this.selectedDates;
+    } else if (this.range) {
       if (this.startDate && !this.endDate && selectedDate > this.startDate) {
         this.endDate = selectedDate;
       } else {
@@ -73,9 +91,9 @@ export default (model, range, format = 'YYYY-MM-DD', min, max, minYear, maxYear,
     this.updateInputValue();
   },
   isSelectedDate(day) {
-    if (this.value) {
+    if (this.model) {
       const date = new Date(this.year, this.month, day);
-      return this.value.includes(this.formatDate(date));
+      return this.model.includes(date.toISOString().slice(0, 10));
     }
 
     return false;
@@ -190,7 +208,9 @@ export default (model, range, format = 'YYYY-MM-DD', min, max, minYear, maxYear,
     const startDateValue = this.startDate ? this.formatDate(new Date(this.startDate)) : '';
     const endDateValue = this.endDate ? this.formatDate(new Date(this.endDate)) : '';
 
-    if (this.range) {
+    if (this.multiple) {
+      this.value = this.model.join(', ');
+    } else if (this.range) {
       this.model = [
         this.startDate.toISOString().slice(0, 10),
         this.endDate !== null ? this.endDate.toISOString().slice(0, 10) : null,
@@ -200,7 +220,6 @@ export default (model, range, format = 'YYYY-MM-DD', min, max, minYear, maxYear,
     } else {
       this.model = this.startDate.toISOString().slice(0, 10);
       this.value = startDateValue;
-      this.$refs.input.value = this.value;
       this.open = false;
     }
   },
@@ -282,6 +301,6 @@ export default (model, range, format = 'YYYY-MM-DD', min, max, minYear, maxYear,
     this.yearRangeStart = this.year - 11;
   },
   clear() {
-    this.model = this.value = this.startDate = this.endDate = null;
+    this.model = this.value = this.startDate = this.endDate = this.selectedDates = null;
   },
 });

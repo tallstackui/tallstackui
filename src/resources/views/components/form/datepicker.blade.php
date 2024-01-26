@@ -4,7 +4,7 @@
 @endphp
 
 <x-dynamic-component :component="TallStackUi::component('wrapper.input')" :$id :$property :$error :$label :$hint :$invalidate>
-    <div x-data="tallstackui_datepicker({!! $entangle !!}, @js($range), @js($format), @js($minDate), @js($maxDate), @js($minYear), @js($maxYear), @js($disable), @js($delay), @js($placeholders['days']), @js($placeholders['months']))" 
+    <div x-data="tallstackui_datepicker({!! $entangle !!}, @js($range), @js($multiple), @js($format), @js($minDate), @js($maxDate), @js($minYear), @js($maxYear), @js($disable), @js($delay), @js($placeholders['days']), @js($placeholders['months']))" 
          x-cloak 
          x-on:click.outside="open = false">
         <div x-ref="anchor"
@@ -15,13 +15,13 @@
                 $personalize['input.class.color.disabled'] => $attributes->get('disabled') || $attributes->get('readonly'),
                 $personalize['error'] => $error
             ])>
-            <div x-text="value"
-                 x-on:click="open = !open; showYearPicker=false;"
-                 x-on:keydown.escape="open = false"
-                 @class(['cursor-pointer', $personalize['input.class.base']])>
-            </div>
+            <input x-model="value"
+                   x-on:click="open = !open; showYearPicker=false;"
+                   x-on:keydown.escape="open = false"
+                   readonly
+                   @class(['cursor-pointer truncate', $personalize['input.class.base']])>
             <input @if ($id) id="{{ $id }}" @endif
-               type="text"
+               type="hidden"
                readonly
                x-on:click="open = !open; showYearPicker=false;"
                x-model="value"
@@ -138,7 +138,7 @@
                             '{{ $personalize['range'] }}': dateInterval(dayObj.full) === true,
                          }">
                         <button x-text="dayObj.day"
-                                x-on:click="dayObj.isDisabled ? null : dayClicked(dayObj.day)"
+                                x-on:click="dayClicked(dayObj.day)"
                                 x-bind:disabled="dayObj.isDisabled"
                                 :class="{
                                     '{{ $personalize['button.today'] }}': isToday(dayObj.day) == true,
