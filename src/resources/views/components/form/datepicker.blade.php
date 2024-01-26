@@ -15,23 +15,31 @@
                 $personalize['input.class.color.disabled'] => $attributes->get('disabled') || $attributes->get('readonly'),
                 $personalize['error'] => $error
             ])>
+            <div x-text="value"
+                 x-on:click="open = !open; showYearPicker=false;"
+                 x-on:keydown.escape="open = false"
+                 @class(['cursor-pointer', $personalize['input.class.base']])>
+            </div>
             <input @if ($id) id="{{ $id }}" @endif
                type="text"
                readonly
-               x-on:click="open = !open; showYearPicker=false;" 
+               x-on:click="open = !open; showYearPicker=false;"
                x-model="value"
-               x-on:keydown.escape="open = false" x-ref="input"
-               {{ $attributes->class(['cursor-pointer', $personalize['input.class.base']])}}>
+               x-ref="input"
+               {{ $attributes->class(['cursor-pointer opacity-0', $personalize['input.class.base']])}}>
             <div @class($personalize['icon.input'])>
                 <x-dynamic-component :component="TallStackUi::component('icon')" icon="x-mark" class="w-5 h-5 hover:text-red-500" x-show="value" x-on:click="clear()" />
-                <x-dynamic-component :component="TallStackUi::component('icon')" icon="calendar" class="w-5 h-5" x-on:click="open = !open" />
+                <x-dynamic-component :component="TallStackUi::component('icon')" icon="calendar" @class(['w-5 h-5', $personalize['error'] => $error]) x-on:click="open = !open" />
             </div>
         </div>
         <div x-show="open" 
              x-anchor.bottom-end.offset.10="$refs.anchor"
-             x-transition:enter="transition ease-out duration-75"
-             x-transition:enter-start="opacity-0 -translate-y-1"
-             x-transition:enter-end="opacity-100" 
+             x-transition:enter="transition duration-100 ease-out"
+             x-transition:enter-start="opacity-0 -translate-y-2"
+             x-transition:enter-end="opacity-100 translate-y-0"
+             x-transition:leave="transition ease-in duration-75"
+             x-transition:leave-start="opacity-100 translate-y-0"
+             x-transition:leave-end="opacity-0 -translate-y-2"
              x-on:click.away="datePickerAway()" 
              @class($personalize['box.wrapper'])>
             <div class="flex items-center justify-between mb-4">
@@ -148,7 +156,7 @@
                 <div @class($personalize['wrapper.helpers'])>
                     @foreach ($helpers as $helper)
                         @if ($helpers->contains($helper))
-                            <button x-on:click="setDate('{{ $helper }}')" @class($personalize['button.helpers'])>{{ __('tallstack-ui::messages.datepicker.helpers.' . $helper) }}</button>
+                            <button x-on:click="changeDate('{{ $helper }}')" @class($personalize['button.helpers'])>{{ __('tallstack-ui::messages.datepicker.helpers.' . $helper) }}</button>
                         @endif
                     @endforeach
                 </div>

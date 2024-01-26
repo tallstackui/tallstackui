@@ -1,7 +1,8 @@
-export default (value, range, format = 'YYYY-MM-DD', min, max, minYear, maxYear, disable = [], delay, days, months) => ({
+export default (model, range, format = 'YYYY-MM-DD', min, max, minYear, maxYear, disable = [], delay, days, months) => ({
   open: false,
   format: format,
-  value: value,
+  model: model,
+  value: '',
   month: '',
   year: '',
   day: '',
@@ -30,21 +31,21 @@ export default (value, range, format = 'YYYY-MM-DD', min, max, minYear, maxYear,
     this.day = currentDate.getDay();
     this.calculateDays();
 
-    if (this.value) {
-      if (this.value instanceof Array) {
-        const startDate = new Date(this.parseDate(this.value[0]));
-        const endDate = new Date(this.parseDate(this.value[1]));
+    if (this.model) {
+      if (this.model instanceof Array) {
+        const startDate = new Date(this.parseDate(this.model[0]));
+        const endDate = new Date(this.parseDate(this.model[1]));
         Object.assign(this, {startDate, endDate});
-
-        this.updateInputValue();
-        this.open = false;
       } else {
-        this.value = this.formatDate(new Date(this.parseDate(this.value)));
+        this.value = this.formatDate(new Date(this.parseDate(this.model)));
 
-        if (this.isDateDisabled(new Date(this.value))) {
+        if (this.isDateDisabled(new Date(this.model))) {
           this.value = '';
         }
       }
+
+      this.updateInputValue();
+      this.open = false;
     }
   },
   parseDate(date) {
@@ -68,6 +69,7 @@ export default (value, range, format = 'YYYY-MM-DD', min, max, minYear, maxYear,
       this.startDate = selectedDate;
       this.endDate = null;
     }
+
     this.updateInputValue();
   },
   isSelectedDate(day) {
@@ -124,7 +126,7 @@ export default (value, range, format = 'YYYY-MM-DD', min, max, minYear, maxYear,
 
     return `${formattedMonth} ${formattedDate}, ${formattedYear}`;
   },
-  setDate(type) {
+  changeDate(type) {
     const currentDate = new Date();
 
     if (type === 'yesterday') {
@@ -177,6 +179,10 @@ export default (value, range, format = 'YYYY-MM-DD', min, max, minYear, maxYear,
     const endDate = new Date(currentDate);
     endDate.setHours(0, 0, 0, 0);
 
+    if (this.isDateDisabled(startDate) || this.isDateDisabled(endDate)) {
+      return;
+    }
+
     Object.assign(this, {startDate, endDate});
     this.updateInputValue();
   },
@@ -185,10 +191,16 @@ export default (value, range, format = 'YYYY-MM-DD', min, max, minYear, maxYear,
     const endDateValue = this.endDate ? this.formatDate(new Date(this.endDate)) : '';
 
     if (this.range) {
-      this.value = [startDateValue, endDateValue];
+      this.model = [
+        this.startDate.toISOString().slice(0, 10),
+        this.endDate !== null ? this.endDate.toISOString().slice(0, 10) : null,
+      ];
+      this.value = startDateValue + ' - ' + endDateValue;
       this.open = this.startDate !== null;
     } else {
+      this.model = this.startDate.toISOString().slice(0, 10);
       this.value = startDateValue;
+      this.$refs.input.value = this.value;
       this.open = false;
     }
   },
@@ -248,15 +260,11 @@ export default (value, range, format = 'YYYY-MM-DD', min, max, minYear, maxYear,
     const startYear = this.yearRangeStart;
     const endYear = startYear + 19;
 
-    // Verifica se this.minYear e this.maxYear são diferentes de nulo
     const minYear = this.minYear !== null ? this.minYear : -Infinity;
     const maxYear = this.maxYear !== null ? this.maxYear : Infinity;
 
-    // Filtra o array para incluir apenas os anos dentro do intervalo [minYear, maxYear]
     const yearRange = Array.from({length: endYear - startYear + 1}, (_, k) => startYear + k)
         .filter((year) => year >= minYear && year <= maxYear);
-
-    console.log(yearRange);
 
     this.yearRangeFirst = yearRange[0];
     this.yearRangeLast = yearRange[yearRange.length - 1];
@@ -271,13 +279,9 @@ export default (value, range, format = 'YYYY-MM-DD', min, max, minYear, maxYear,
   },
   toggleYear() {
     this.showYearPicker = true;
-    if (this.showYearPicker) {
-      this.yearRangeStart = this.year - 11;
-    }
+    this.yearRangeStart = this.year - 11;
   },
   clear() {
-    this.value = '';
-    this.startDate = null;
-    this.endDate = null;
+    this.model = this.value = this.startDate = this.endDate = null;
   },
 });

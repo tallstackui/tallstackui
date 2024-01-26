@@ -34,7 +34,10 @@ class DatePicker extends BaseComponent implements Personalization
         public ?array $placeholders = null,
         public ?int $delay = 2,
     ) {
-        $this->helpers = $this->helpers === true ? collect(['yesterday', 'today', 'tomorrow']) : ($helpers !== null ? collect($this->helpers) : collect([]));
+        $this->helpers = $this->helpers === true ?
+            collect(['yesterday', 'today', 'tomorrow', 'last7days', 'last15days', 'last30days']) :
+            ($helpers !== null ? collect($this->helpers) : collect([]));
+
         $this->messages();
     }
 
@@ -69,7 +72,7 @@ class DatePicker extends BaseComponent implements Personalization
                 'year' => 'select-none ml-1 text-lg font-normal text-gray-600 dark:text-dark-400',
             ],
             'button' => [
-                'day' => 'flex items-center justify-center text-sm leading-none text-center rounded-full h-7 w-7 focus:shadow-outline active:text-white disabled:text-gray-400 disabled:cursor-not-allowed dark:active:bg-primary-500 ring-primary-500 focus:bg-primary-600 dark:focus:ring-offset-dark-300 dark:focus:ring-primary-600 outline-none transition-all duration-200 ease-in-out hover:shadow-sm focus:ring-2 focus:ring-offset-2 focus:ring-offset-white',
+                'day' => 'flex items-center justify-center text-sm leading-none text-center rounded-full h-7 w-7 focus:shadow-outline active:text-white disabled:text-gray-400 dark:disabled:text-gray-500 disabled:cursor-not-allowed dark:active:bg-primary-500 ring-primary-500 focus:bg-primary-600 dark:focus:ring-offset-dark-300 dark:focus:ring-primary-600 outline-none transition-all duration-200 ease-in-out hover:shadow-sm focus:ring-2 focus:ring-offset-2 focus:ring-offset-white',
                 'select' => 'text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-dark-600',
                 'today' => 'text-primary-500 !font-bold',
                 'selected' => 'bg-primary-500 text-white hover:bg-opacity-75',
@@ -127,6 +130,10 @@ class DatePicker extends BaseComponent implements Personalization
 
         if (blank($maxDate) || blank($maxDate)) {
             throw new InvalidArgumentException('The DatePicker [min-date|max-date] attribute must be a Carbon instance or a valid date string.');
+        }
+
+        if ($minDate->greaterThan($maxDate)) {
+            throw new InvalidArgumentException('The DatePicker [min-date] must be less than or equal to [max-date].');
         }
 
         $helper = collect(['today', 'yesterday', 'tomorrow', 'last7days', 'last15days', 'last30days']);
