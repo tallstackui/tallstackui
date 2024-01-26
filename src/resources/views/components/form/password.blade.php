@@ -22,11 +22,12 @@
             <div @class($personalize['icon.wrapper']) x-cloak>
                 @if ($generator)
                     <div class="mr-2">
-                        <x-dynamic-component :component="TallStackUi::component('icon')"
-                                             icon="arrow-path"
-                                             :$error
-                                             x-on:click="generator(); show = true;"
-                                             @class($personalize['icon.class']) />
+                        <button type="button" class="flex items-center" x-on:click="generator(); show = true;">
+                            <x-dynamic-component :component="TallStackUi::component('icon')"
+                                                 icon="arrow-path"
+                                                 :$error
+                                                 @class($personalize['icon.class']) />
+                        </button>
                     </div>
                 @endif
                 <div {{ $attributes->only('x-on:reveal') }} x-on:click="toggle()">
