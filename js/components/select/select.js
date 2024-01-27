@@ -329,7 +329,7 @@ export default (
       this.clear();
     }
 
-    this.$el.dispatchEvent(new CustomEvent('erase', {detail: {selects: this.model}}));
+    this.$refs.button.dispatchEvent(new CustomEvent('erase', {detail: {selects: this.model}}));
 
     this.reset();
   },

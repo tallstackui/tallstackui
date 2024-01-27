@@ -36,7 +36,7 @@
                 @disabled($disabled)
                 @class([ $personalize['input.wrapper.base'], $personalize['input.wrapper.color'] => !$error, $personalize['input.wrapper.error'] => $error])
                 @if (!$disabled) x-on:click="show = !show" @endif
-                {{ $attributes->only(['x-on:select', 'x-on:remove']) }}
+                {{ $attributes->only(['x-on:select', 'x-on:remove', 'x-on:erase']) }}
                 aria-haspopup="listbox"
                 :aria-expanded="show"
                 dusk="tallstackui_select_open_close">
@@ -76,7 +76,6 @@
                     <template x-if="!empty">
                         <button dusk="tallstackui_select_clear"
                                 type="button"
-                                {{ $attributes->only('x-on:erase') }}
                                 x-on:click="clear(); show = true;">
                             <x-dynamic-component :component="TallStackUi::component('icon')"
                                                  icon="x-mark"
