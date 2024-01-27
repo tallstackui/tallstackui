@@ -4,7 +4,19 @@
 @endphp
 
 <x-dynamic-component :component="TallStackUi::component('wrapper.input')" :$id :$property :$error :$label :$hint :$invalidate>
-    <div x-data="tallstackui_datepicker({!! $entangle !!}, @js($range), @js($multiple), @js($format), @js($minDate), @js($maxDate), @js($minYear), @js($maxYear), @js($disable), @js($delay), @js($placeholders['days']), @js($placeholders['months']))" 
+    <div x-data="tallstackui_datepicker(
+            {!! $entangle !!}, 
+            @js($range), 
+            @js($multiple), 
+            @js($format), 
+            @js($minDate), 
+            @js($maxDate), 
+            @js($minYear), 
+            @js($maxYear), 
+            @js($disable), 
+            @js($delay), 
+            @js($placeholders['days']), 
+            @js($placeholders['months']))" 
          x-cloak 
          x-on:click.outside="open = false">
         <div x-ref="anchor"
@@ -19,14 +31,12 @@
                    x-on:click="open = !open; showYearPicker=false;"
                    x-on:keydown.escape="open = false"
                    readonly
-                   @class(['cursor-pointer truncate', $personalize['input.class.base']])>
+                   @class([$personalize['input.wrapper'], $personalize['input.class.base']])>
             <input @if ($id) id="{{ $id }}" @endif
-               type="hidden"
-               readonly
-               x-on:click="open = !open; showYearPicker=false;"
-               x-model="value"
-               x-ref="input"
-               {{ $attributes->class(['cursor-pointer opacity-0', $personalize['input.class.base']])}}>
+                   type="hidden"
+                   x-model="value"
+                   x-ref="input"
+                   {{ $attributes->class($personalize['input.class.base'])}}>
             <div @class($personalize['icon.input'])>
                 <x-dynamic-component :component="TallStackUi::component('icon')" icon="x-mark" class="w-5 h-5 hover:text-red-500" x-show="value" x-on:click="clear()" />
                 <x-dynamic-component :component="TallStackUi::component('icon')" icon="calendar" @class(['w-5 h-5', $personalize['error'] => $error]) x-on:click="open = !open" />
@@ -43,13 +53,31 @@
              x-on:click.away="datePickerAway()" 
              @class($personalize['box.wrapper'])>
             <div class="flex items-center justify-between mb-4">
-                <div x-on:click="toggleYear()"
+                <div
                     @class($personalize['box.picker.button'])>
-                    <!-- Year label, clicking toggles the year picker -->
                     <span>
-                        <span x-text="monthNames[month]" @class($personalize['label.month'])></span>
-                        <span x-text="year" @class($personalize['label.year'])></span>
+                        <span x-text="monthNames[month]" x-on:click="showMonthPicker = true"  @class($personalize['label.month'])></span>
+                        <span x-text="year" x-on:click="toggleYear()" @class($personalize['label.year'])></span>
                     </span>
+
+                    <template x-if="showMonthPicker">
+                        <div @class($personalize['box.picker.wrapper.first']) x-cloak>
+                            <div @class($personalize['box.picker.wrapper.second'])>
+                                <div @class($personalize['box.picker.wrapper.third'])>
+                                    <div @class($personalize['box.picker.label'])>
+                                        <span x-text="monthNames[month]" @class($personalize['label.month'])></span>
+                                    </div>
+                                </div>
+                                <template x-for="(monthRange, index) in monthNames">
+                                    <div @class($personalize['box.picker.range']) 
+                                        x-bind:class="{ '{{ $personalize['button.today'] }}': month === index }"
+                                        x-on:click="selectMonth($event, index)" 
+                                        x-text="monthRange.substring(0, 3)">
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                    </template>
 
                     <!-- Year picker dropdown/modal -->
                     <template x-if="showYearPicker">
@@ -61,7 +89,9 @@
                                         <span class="mx-1">-</span> 
                                         <span x-text="yearRangeLast" @class($personalize['label.month'])></span>
                                     </div>
-                                    <button x-on:click="yearRangeStart = new Date().getFullYear(); selectYear($event, new Date().getFullYear())">{{ __('tallstack-ui::messages.datepicker.helpers.today') }}</button>
+                                    <button x-on:click="yearRangeStart = new Date().getFullYear(); selectYear($event, new Date().getFullYear())">
+                                        {{ __('tallstack-ui::messages.datepicker.helpers.today') }}
+                                    </button>
                                     <div>
                                         <button @class($personalize['button.navigate'])
                                                 x-on:click="previousYearRange($event)"

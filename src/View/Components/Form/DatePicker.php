@@ -56,14 +56,17 @@ class DatePicker extends BaseComponent implements Personalization
     public function personalization(): array
     {
         return Arr::dot([
-            'input' => ['class' => [...$this->input()]],
+            'input' => [
+                'wrapper' => 'cursor-pointer truncate',
+                'class' => [...$this->input()],
+            ],
             'wrapper' => [
                 'helpers' => 'flex items-center justify-between mt-4 custom-scrollbar overflow-auto pb-2 space-x-2',
             ],
             'box' => [
                 'wrapper' => 'absolute z-10 max-w-lg p-4 antialiased bg-white dark:bg-dark-700 border rounded-lg shadow w-[17rem] border-gray-200 dark:border-dark-600',
                 'picker' => [
-                    'button' => 'text-sm rounded-lg flex items-center justify-between text-gray-900 dark:text-white font-semibold py-1 px-2 hover:bg-dark-100 dark:hover:bg-dark-600 focus:outline-none focus:ring-2 focus:ring-gray-200 cursor-pointer',
+                    'button' => 'text-sm rounded-lg flex items-center justify-between text-gray-900 dark:text-white font-semibold py-1 px-2 focus:outline-none focus:ring-2 focus:ring-gray-200 cursor-pointer',
                     'wrapper' => [
                         'first' => 'absolute top-0 left-0 flex w-full h-full p-3 bg-white dark:bg-dark-700 rounded-lg select-none',
                         'second' => 'flex flex-wrap w-full',
@@ -79,7 +82,7 @@ class DatePicker extends BaseComponent implements Personalization
                 'year' => 'select-none ml-1 text-lg font-normal text-gray-600 dark:text-dark-400',
             ],
             'button' => [
-                'day' => 'flex items-center justify-center text-sm leading-none text-center rounded-full h-7 w-7 focus:shadow-outline active:text-white disabled:text-gray-400 dark:disabled:text-gray-500 disabled:cursor-not-allowed dark:active:bg-primary-500 ring-primary-500 focus:bg-primary-600 dark:focus:ring-offset-dark-300 dark:focus:ring-primary-600 outline-none transition-all duration-200 ease-in-out hover:shadow-sm focus:ring-2 focus:ring-offset-2 focus:ring-offset-white',
+                'day' => 'flex items-center justify-center text-sm leading-none text-center rounded-full h-7 w-7 focus:shadow-outline active:text-white disabled:text-gray-400 dark:disabled:text-gray-500 disabled:cursor-not-allowed dark:active:bg-primary-500 ring-primary-500 active:bg-primary-600 outline-none transition-all duration-200 ease-in-out hover:shadow-sm',
                 'select' => 'text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-dark-600',
                 'today' => 'text-primary-500 !font-bold',
                 'selected' => 'bg-primary-500 text-white hover:bg-opacity-75',

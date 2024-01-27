@@ -11,6 +11,7 @@ export default (model, range, multiple, format, min, max, minYear, maxYear, disa
   monthNames: months,
   days: days,
   showYearPicker: false,
+  showMonthPicker: false,
   yearRangeStart: 0,
   yearRangeFirst: 0,
   yearRangeLast: 0,
@@ -41,8 +42,8 @@ export default (model, range, multiple, format, min, max, minYear, maxYear, disa
       } else if (this.multiple) {
         this.selectedDates = this.model;
       } else {
-        this.value = this.formatDate(new Date(this.parseDate(this.model)));
-
+        this.startDate = new Date(this.parseDate(this.model));
+        this.value = this.formatDisplay(new Date(this.parseDate(this.model)));
         if (this.isDateDisabled(new Date(this.model))) {
           this.value = '';
         }
@@ -74,8 +75,6 @@ export default (model, range, multiple, format, min, max, minYear, maxYear, disa
           this.selectedDates.splice(index, 1);
         }
       }
-
-      this.model = this.selectedDates;
     } else if (this.range) {
       if (this.startDate && !this.endDate && selectedDate > this.startDate) {
         this.endDate = selectedDate;
@@ -103,7 +102,7 @@ export default (model, range, multiple, format, min, max, minYear, maxYear, disa
   },
   calculateDays() {
     const daysInMonth = new Date(this.year, this.month + 1, 0).getDate();
-    const dayOfWeek = new Date(this.year, this.month).getDay();
+    const dayOfWeek = new Date(this.year, this.month, 1).getDay();
     const blankdaysArray = [];
     for (let i = 1; i <= dayOfWeek; i++) {
       blankdaysArray.push(i);
@@ -117,7 +116,7 @@ export default (model, range, multiple, format, min, max, minYear, maxYear, disa
     this.blankDaysInMonth = blankdaysArray;
     this.daysInMonth = daysArray;
   },
-  formatDate(date) {
+  formatDisplay(date) {
     const formattedDay = this.days[date.getDay()];
     const formattedDate = ('0' + date.getDate()).slice(-2);
     const formattedMonth = this.monthNames[date.getMonth()];
@@ -179,7 +178,7 @@ export default (model, range, multiple, format, min, max, minYear, maxYear, disa
     this.month = currentDate.getMonth();
     this.year = currentDate.getFullYear();
     this.day = currentDate.getDate();
-    this.value = this.formatDate(currentDate);
+    this.value = this.formatDisplay(currentDate);
     this.calculateDays();
 
     this.daysInMonth.forEach((date) => {
@@ -205,10 +204,11 @@ export default (model, range, multiple, format, min, max, minYear, maxYear, disa
     this.updateInputValue();
   },
   updateInputValue() {
-    const startDateValue = this.startDate ? this.formatDate(new Date(this.startDate)) : '';
-    const endDateValue = this.endDate ? this.formatDate(new Date(this.endDate)) : '';
+    const startDateValue = this.startDate ? this.formatDisplay(new Date(this.startDate)) : '';
+    const endDateValue = this.endDate ? this.formatDisplay(new Date(this.endDate)) : '';
 
     if (this.multiple) {
+      this.model = this.selectedDates;
       this.value = this.model.join(', ');
     } else if (this.range) {
       this.model = [
@@ -289,6 +289,12 @@ export default (model, range, multiple, format, min, max, minYear, maxYear, disa
     this.yearRangeLast = yearRange[yearRange.length - 1];
 
     return yearRange;
+  },
+  selectMonth(e, month) {
+    e.stopPropagation();
+    this.month = month;
+    this.showMonthPicker = false;
+    this.calculateDays();
   },
   selectYear(e, year) {
     e.stopPropagation();
