@@ -27,16 +27,14 @@
                 $personalize['input.class.color.disabled'] => $attributes->get('disabled') || $attributes->get('readonly'),
                 $personalize['error'] => $error
             ])>
-            <input x-model="value"
+            <input @if ($id) id="{{ $id }}" @endif
+                   type="text"
+                   readonly
                    x-on:click="open = !open; showYearPicker=false;"
                    x-on:keydown.escape="open = false"
-                   readonly
-                   @class([$personalize['input.wrapper'], $personalize['input.class.base']])>
-            <input @if ($id) id="{{ $id }}" @endif
-                   type="hidden"
                    x-model="value"
                    x-ref="input"
-                   {{ $attributes->class($personalize['input.class.base'])}}>
+                   {{ $attributes->class(['curson-pointer', $personalize['input.class.base']]) }} />
             <div @class($personalize['icon.input'])>
                 <x-dynamic-component :component="TallStackUi::component('icon')" icon="x-mark" class="w-5 h-5 hover:text-red-500" x-show="value" x-on:click="clear()" />
                 <x-dynamic-component :component="TallStackUi::component('icon')" icon="calendar" @class(['w-5 h-5', $personalize['error'] => $error]) x-on:click="open = !open" />
