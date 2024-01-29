@@ -14,6 +14,7 @@ class PasswordTest extends BrowserTestCase
         Livewire::visit(new class extends Component
         {
             public ?string $password = null;
+
             public ?string $reveal = null;
 
             public function render(): string
