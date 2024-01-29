@@ -46,7 +46,7 @@ class Password extends BaseComponent implements Personalization
         return Arr::dot([
             'input' => [...$this->input()],
             'icon' => [
-                'wrapper' => 'flex items-center',
+                'wrapper' => 'flex items-center pr-2.5',
                 'class' => 'h-5 w-5 cursor-pointer text-gray-400',
             ],
             'rules' => [
