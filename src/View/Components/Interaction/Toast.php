@@ -31,8 +31,8 @@ class Toast extends BaseComponent implements Personalization
             ],
             'content' => [
                 'wrapper' => 'ml-3 w-0 flex-1 pt-0.5',
-                'text' => 'dark:text-dark-300 text-sm font-medium text-gray-800',
-                'description' => 'dark:text-dark-400 mt-1 text-sm text-gray-700',
+                'text' => 'dark:text-dark-200 text-sm font-medium text-gray-800',
+                'description' => 'dark:text-dark-300 mt-1 text-sm text-gray-700',
             ],
             'buttons' => [
                 'wrapper' => [
