@@ -4,14 +4,14 @@
 @endphp
 
 <div @if ($rules->isNotEmpty()) x-data="tallstackui_formPassword(@js($rules), @js($generator))" @endif>
-    <x-dynamic-component :component="TallStackUi::component('wrapper.input')" :$id :$property :$error :$label :$hint :$invalidate password>
+    <x-dynamic-component :component="TallStackUi::component('wrapper.input')" :$id :$property :$error :$label :$hint :$invalidate>
         <div @class([
             $personalize['input.wrapper'],
             $personalize['input.color.base'] => !$error,
             $personalize['input.color.background'] => !$attributes->get('disabled') && !$attributes->get('readonly'),
             $personalize['input.color.disabled'] => $attributes->get('disabled') || $attributes->get('readonly'),
             $personalize['error'] => $error
-        ]) x-on:click.outside="rules = false">
+        ]) x-data="{ show : false, toggle () { this.$el.dispatchEvent(new CustomEvent('reveal')); this.show = !this.show; } }" x-on:click.outside="rules = false">
             <input @if ($id) id="{{ $id }}" @endif
                   {{ $attributes->class([$personalize['input.base']]) }}
                    @if ($rules->isNotEmpty())
@@ -22,17 +22,29 @@
             <div @class($personalize['icon.wrapper']) x-cloak>
                 @if ($generator)
                     <div class="mr-2">
-                        <x-dynamic-component :component="TallStackUi::component('icon')"
-                                             icon="arrow-path"
-                                             :$error
-                                             x-on:click="generator(); show = true;"
-                                             @class($personalize['icon.class']) />
+                        <button type="button" class="flex items-center" x-on:click="generator(); show = true;">
+                            <x-dynamic-component :component="TallStackUi::component('icon')"
+                                                 icon="arrow-path"
+                                                 :$error
+                                                 @class($personalize['icon.class']) />
+                        </button>
                     </div>
                 @endif
-                <div x-on:click="show = !show">
-                    <x-dynamic-component :component="TallStackUi::component('icon')" icon="eye" :$error @class($personalize['icon.class']) x-show="!show" />
-                    <x-dynamic-component :component="TallStackUi::component('icon')" icon="eye-slash" :$error @class($personalize['icon.class']) x-show="show" />
-                </div>
+                <button type="button"
+                        class="flex justify-center"
+                        dusk="tallstackui_form_password_reveal"
+                        {{ $attributes->only('x-on:reveal') }}
+                        x-on:click="toggle()">
+                    <x-dynamic-component :component="TallStackUi::component('icon')"
+                                         icon="eye"
+                                         :$error
+                                         @class($personalize['icon.class'])
+                                         x-show="!show" />
+                    <x-dynamic-component :component="TallStackUi::component('icon')"
+                                         icon="eye-slash"
+                                         :$error @class($personalize['icon.class'])
+                                         x-show="show" />
+                </button>
             </div>
         </div>
     </x-dynamic-component>

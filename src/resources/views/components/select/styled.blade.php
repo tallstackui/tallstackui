@@ -36,6 +36,7 @@
                 @disabled($disabled)
                 @class([ $personalize['input.wrapper.base'], $personalize['input.wrapper.color'] => !$error, $personalize['input.wrapper.error'] => $error])
                 @if (!$disabled) x-on:click="show = !show" @endif
+                {{ $attributes->only(['x-on:select', 'x-on:remove', 'x-on:erase']) }}
                 aria-haspopup="listbox"
                 :aria-expanded="show"
                 dusk="tallstackui_select_open_close">
@@ -59,9 +60,9 @@
                                     @if (!$disabled)
                                         <div @class($personalize['itens.multiple.icon'])>
                                             <x-dynamic-component :component="TallStackUi::component('icon')"
-                                                             icon="x-mark"
-                                                             x-on:click="clear(select)"
-                                                             @class($personalize['itens.multiple.icon']) />
+                                                                 icon="x-mark"
+                                                                 x-on:click="clear(select)"
+                                                                 @class($personalize['itens.multiple.icon']) />
                                         </div>
                                     @endif
                                 </div>
@@ -73,7 +74,9 @@
             @if (!$disabled && !$required)
                 <div @class($personalize['buttons.wrapper'])>
                     <template x-if="!empty">
-                        <button dusk="tallstackui_select_clear" type="button" x-on:click="clear(); show = true;">
+                        <button dusk="tallstackui_select_clear"
+                                type="button"
+                                x-on:click="clear(); show = true;">
                             <x-dynamic-component :component="TallStackUi::component('icon')"
                                                  icon="x-mark"
                                                  @class([$personalize['buttons.size'], $personalize['buttons.base'] => !$error, $personalize['buttons.error'] => $error]) />
@@ -133,9 +136,9 @@
                             </div>
                             <div @class($personalize['box.list.item.check'])>
                                 <x-dynamic-component :component="TallStackUi::component('icon')"
-                                                 icon="check"
-                                                 x-show="selected(option)"
-                                                 @class($personalize['box.list.item.check']) />
+                                                     icon="check"
+                                                     x-show="selected(option)"
+                                                     @class($personalize['box.list.item.check']) />
                             </div>
                         </div>
                     </li>
