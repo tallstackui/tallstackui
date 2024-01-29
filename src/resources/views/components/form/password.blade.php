@@ -30,10 +30,21 @@
                         </button>
                     </div>
                 @endif
-                <div {{ $attributes->only('x-on:reveal') }} x-on:click="toggle()">
-                    <x-dynamic-component :component="TallStackUi::component('icon')" icon="eye" :$error @class($personalize['icon.class']) x-show="!show" />
-                    <x-dynamic-component :component="TallStackUi::component('icon')" icon="eye-slash" :$error @class($personalize['icon.class']) x-show="show" />
-                </div>
+                <button type="button"
+                        class="flex justify-center"
+                        dusk="tallstackui_form_password_reveal"
+                        {{ $attributes->only('x-on:reveal') }}
+                        x-on:click="toggle()">
+                    <x-dynamic-component :component="TallStackUi::component('icon')"
+                                         icon="eye"
+                                         :$error
+                                         @class($personalize['icon.class'])
+                                         x-show="!show" />
+                    <x-dynamic-component :component="TallStackUi::component('icon')"
+                                         icon="eye-slash"
+                                         :$error @class($personalize['icon.class'])
+                                         x-show="show" />
+                </button>
             </div>
         </div>
     </x-dynamic-component>
