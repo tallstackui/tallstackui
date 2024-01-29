@@ -1,4 +1,4 @@
-export default (model, range, multiple, format, min, max, minYear, maxYear, disable, delay, days, months) => ({
+export default (model, range, multiple, format, minDate, maxDate, minYear, maxYear, disable, delay, days, months) => ({
   open: false,
   format: format,
   model: model,
@@ -19,8 +19,8 @@ export default (model, range, multiple, format, min, max, minYear, maxYear, disa
   endDate: null,
   range: range,
   multiple: multiple,
-  min: (min !== null) ? new Date(min) : null,
-  max: (max !== null) ? new Date(max) : null,
+  minDate: (minDate !== null) ? new Date(minDate) : null,
+  maxDate: (maxDate !== null) ? new Date(maxDate) : null,
   minYear: minYear,
   maxYear: maxYear,
   disable: disable,
@@ -45,7 +45,7 @@ export default (model, range, multiple, format, min, max, minYear, maxYear, disa
         this.startDate = new Date(this.parseDate(this.model));
         this.value = this.formatDisplay(new Date(this.parseDate(this.model)));
         if (this.isDateDisabled(new Date(this.model))) {
-          this.value = '';
+          this.clear();
         }
       }
 
@@ -239,7 +239,9 @@ export default (model, range, multiple, format, min, max, minYear, maxYear, disa
   },
   isDateDisabled(date) {
     const formattedDate = date.toISOString().slice(0, 10);
-    return (this.min && date <= this.min) || (this.max && date >= this.max) || this.disable.includes(formattedDate);
+    return (this.minDate && date <= this.minDate) ||
+    (this.maxDate && date >= this.maxDate) ||
+    this.disable.includes(formattedDate);
   },
   previousMonth() {
     if (this.month == 0) {

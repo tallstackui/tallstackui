@@ -62,7 +62,7 @@
                         <div @class($personalize['box.picker.wrapper.first']) x-cloak>
                             <div @class($personalize['box.picker.wrapper.second'])>
                                 <div @class($personalize['box.picker.wrapper.third'])>
-                                    <div @class($personalize['box.picker.label'])>
+                                    <div @class($personalize['box.picker.label']) x-on:click="showMonthPicker = false">
                                         <span x-text="monthNames[month]" @class($personalize['label.month'])></span>
                                     </div>
                                 </div>
