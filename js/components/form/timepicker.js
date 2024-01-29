@@ -1,6 +1,5 @@
-export default (model) => ({
+export default () => ({
   show: false,
-  model: model,
   hours: '0',
   minutes: '0',
   init() {

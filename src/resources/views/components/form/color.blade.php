@@ -9,7 +9,6 @@
             @js($mode),
             @js($colors),
             @js($attributes->get('value')))"
-         x-ref="wrapper"
          x-cloak
          @class([
             $personalize['input.wrapper'],
@@ -23,7 +22,8 @@
                 <button type="button"
                         @class($personalize['selected.base'])
                         :style="{ 'background-color': model }"
-                        x-on:click="show = !show"></button>
+                        x-on:click="show = !show">
+                </button>
             </template>
         </div>
         <div class="w-full" wire:ignore>

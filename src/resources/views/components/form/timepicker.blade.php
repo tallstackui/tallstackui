@@ -3,18 +3,17 @@
     $personalize = $classes();
 @endphp
 
-<div x-data="tallstackui_formTimePicker(
-    {!! $entangle !!},
-    @js($attributes->get('value')))"
-    x-ref="wrapper"
-    x-cloak>
+<div x-data="tallstackui_formTimePicker()"
+     x-ref="wrapper"
+     x-cloak>
     <x-input :$label
         :$hint
         :$invalidate
         icon="clock"
         position="right"
         x-on:click="show = !show"
-        readonly />
+        readonly
+        class="cursor-pointer" />
     <div x-cloak
         x-show="show"
         x-on:click.away="show = false"
@@ -31,30 +30,30 @@
                 <div class="flex items-center select-none">
                     <span x-text="hours.padStart(2, '0')" 
                           x-ref="hours" 
-                          class="text-2xl p-1 rounded-md w-12 text-center">
+                          class="text-2xl rounded-md w-10 text-center">
                     </span>
                     <span class="text-2xl">:</span>
                     <span x-text="minutes.padStart(2, '0')" 
                           x-ref="minutes" 
-                          class="text-2xl p-1 rounded-md w-12 text-center">
+                          class="text-2xl rounded-md w-10 text-center">
                     </span>
                     <span class="text-sm">PM</span>
                 </div>
                 <div class="flex flex-col space-y-4">
                     <input type="range"
-                        min="1"
-                        max="12"
-                        x-model="hours"
-                        x-on:mouseenter="$refs.hours.classList.add('bg-gray-200')" 
-                        x-on:mouseleave="$refs.hours.classList.remove('bg-gray-200')" 
-                        @class([$personalize['range.base'], $personalize['range.thumb']])>
+                           min="1"
+                           max="12"
+                           x-model="hours"
+                           x-on:mouseenter="$refs.hours.classList.add('bg-gray-200', 'dark:bg-dark-700')" 
+                           x-on:mouseleave="$refs.hours.classList.remove('bg-gray-200', 'dark:bg-dark-700')" 
+                           @class([$personalize['range.base'], $personalize['range.thumb']])>
                     <input type="range"
-                        min="0"
-                        max="59"
-                        x-model="minutes"
-                        x-on:mouseenter="$refs.minutes.classList.add('bg-gray-200')" 
-                        x-on:mouseleave="$refs.minutes.classList.remove('bg-gray-200')" 
-                        @class([$personalize['range.base'], $personalize['range.thumb']])>
+                           min="0"
+                           max="59"
+                           x-model="minutes"
+                           x-on:mouseenter="$refs.minutes.classList.add('bg-gray-200', 'dark:bg-dark-700')" 
+                           x-on:mouseleave="$refs.minutes.classList.remove('bg-gray-200', 'dark:bg-dark-700')" 
+                           @class([$personalize['range.base'], $personalize['range.thumb']])>
                 </div>
             </div>
         </div>
