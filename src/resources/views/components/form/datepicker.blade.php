@@ -58,6 +58,7 @@
                         <span x-text="year" x-on:click="toggleYear()" @class($personalize['label.year'])></span>
                     </span>
 
+                    <!-- Month picker dropdown/modal -->
                     <template x-if="showMonthPicker">
                         <div @class($personalize['box.picker.wrapper.first']) x-cloak>
                             <div @class($personalize['box.picker.wrapper.second'])>
