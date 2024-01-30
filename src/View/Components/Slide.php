@@ -47,6 +47,7 @@ class Slide extends BaseComponent implements Personalization
             ],
             'body' => 'grow rounded-b-xl px-6 py-5 text-gray-700 dark:text-dark-300',
             'footer' => 'flex border-t border-t-gray-200 px-4 pt-6 dark:border-t-dark-600',
+            'header' => 'px-6',
         ]);
     }
 
