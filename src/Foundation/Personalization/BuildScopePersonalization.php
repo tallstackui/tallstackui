@@ -26,9 +26,7 @@ class BuildScopePersonalization
 
         // We format here to return only the classes that were actually defined
         // and thus be able to merge with the soft personalization definitions.
-        return $this->collection->mapWithKeys(function (string|array $value, string $key) {
-            return [$key => $this->classes[$key] ?? []];
-        })->toArray();
+        return $this->collection->mapWithKeys(fn (string|array $value, string $key) => [$key => $this->classes[$key] ?? []])->toArray();
     }
 
     private function append(): void
@@ -82,7 +80,7 @@ class BuildScopePersonalization
                 continue;
             }
 
-            $this->classes[$key] = str_replace($value['remove'], '', $this->classes[$key]);
+            $this->classes[$key] = str_replace($value['remove'], '', (string) $this->classes[$key]);
             $this->classes[$key] = str($this->classes[$key])->squish()->trim()->value();
         }
     }
@@ -96,7 +94,7 @@ class BuildScopePersonalization
                 continue;
             }
 
-            $this->classes[$key] = str_replace(array_keys($value['replace']), array_values($value['replace']), $this->classes[$key]);
+            $this->classes[$key] = str_replace(array_keys($value['replace']), array_values($value['replace']), (string) $this->classes[$key]);
         }
     }
 }

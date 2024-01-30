@@ -9,11 +9,49 @@ use Tests\Browser\BrowserTestCase;
 class ColorTest extends BrowserTestCase
 {
     /** @test */
+    public function can_dispatch_event_when_set(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $color = null;
+
+            public ?bool $set = false;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="selected">{{ $color }}</p>
+                    
+                    @if ($set)
+                        <p dusk="set">{{ $color }}</p>
+                    @endif
+                    
+                    <x-color label="Color" wire:model="color" x-on:set="$wire.set('set', 1)" picker />
+                    <x-button dusk="sync" wire:click="sync">Save</x-button>
+                </div>
+                HTML;
+            }
+
+            public function sync(): void
+            {
+                //
+            }
+        })
+            ->waitForText('Color')
+            ->click('@tallstackui_form_color')
+            ->clickAtXPath('/html/body/div[3]/div/div/div/div[4]/div/div/button[1]')
+            ->click('@sync')
+            ->waitForTextIn('@selected', '#f8fafc')
+            ->assertVisible('@set');
+    }
+
+    /** @test */
     public function can_open_and_select_color_with_live_entangle(): void
     {
         Livewire::visit(new class extends Component
         {
-            public ?string $color;
+            public ?string $color = null;
 
             public function render(): string
             {
@@ -44,7 +82,7 @@ class ColorTest extends BrowserTestCase
     {
         Livewire::visit(new class extends Component
         {
-            public ?string $color;
+            public ?string $color = null;
 
             public function render(): string
             {
@@ -79,7 +117,7 @@ class ColorTest extends BrowserTestCase
 
         Livewire::visit(new class extends Component
         {
-            public ?string $color;
+            public ?string $color = null;
 
             public function render(): string
             {
@@ -122,7 +160,7 @@ class ColorTest extends BrowserTestCase
     {
         Livewire::visit(new class extends Component
         {
-            public ?string $color;
+            public ?string $color = null;
 
             public function render(): string
             {
@@ -185,7 +223,7 @@ class ColorTest extends BrowserTestCase
     {
         Livewire::visit(new class extends Component
         {
-            public ?string $color;
+            public ?string $color = null;
 
             public function render(): string
             {

@@ -30,7 +30,7 @@ class Clipboard extends BaseComponent implements Personalization
     ) {
         $this->placeholders = __('tallstack-ui::messages.clipboard');
 
-        $this->type = ! $this->icon ? 'input' : 'icon';
+        $this->type = $this->icon ? 'icon' : 'input';
 
         $this->icons['copy'] ??= '';
         $this->icons['copied'] ??= '';

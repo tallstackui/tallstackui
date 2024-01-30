@@ -50,7 +50,7 @@ class Styled extends BaseComponent implements Personalization
         $this->placeholder ??= data_get($this->placeholders, 'default');
 
         $this->common = ! filled($this->request);
-        $this->searchable = ! $this->common ? true : $this->searchable;
+        $this->searchable = $this->common ? $this->searchable : true;
 
         $this->options();
     }
@@ -134,7 +134,7 @@ class Styled extends BaseComponent implements Personalization
         }
 
         $this->request['method'] ??= 'get';
-        $this->request['method'] = strtolower($this->request['method']);
+        $this->request['method'] = strtolower((string) $this->request['method']);
 
         if (! in_array($this->request['method'], ['get', 'post'])) {
             throw new InvalidArgumentException('The [select.styled] parameter [method] must be get or post.');

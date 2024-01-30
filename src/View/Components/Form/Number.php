@@ -52,13 +52,13 @@ class Number extends BaseComponent implements Personalization
             'buttons' => [
                 'wrapper' => 'flex w-full items-center border-gray-200 dark:border-gray-700',
                 'left' => [
-                    'base' => 'inline-flex px-3 items-center justify-center disabled:opacity-30',
+                    'base' => 'inline-flex pr-3 items-center justify-center disabled:opacity-30',
                     'size' => 'w-4 h-4',
                     'color' => 'text-gray-800 dark:text-white',
                     'error' => 'text-red-500',
                 ],
                 'right' => [
-                    'base' => 'inline-flex px-3 items-center justify-center disabled:opacity-30',
+                    'base' => 'inline-flex pl-3 items-center justify-center disabled:opacity-30',
                     'size' => 'w-4 h-4',
                     'color' => 'text-gray-800 dark:text-white',
                     'error' => 'text-red-500',

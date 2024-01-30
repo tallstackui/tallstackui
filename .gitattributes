@@ -30,3 +30,4 @@ testbench.yaml        export-ignore
 webpack.mix.js        export-ignore
 vite.config.js        export-ignore
 postcss.config.js     export-ignore
+rector.php            export-ignore

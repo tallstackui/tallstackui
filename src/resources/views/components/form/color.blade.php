@@ -64,7 +64,7 @@
                        @class([$personalize['box.range.base'], $personalize['box.range.thumb']])>
                 <div @class($personalize['box.button.wrapper'])>
                     <template x-for="color in palette">
-                        <button type="button" @class($personalize['box.button.base']) x-on:click="set(color)">
+                        <button type="button" @class($personalize['box.button.base']) {{ $attributes->only('x-on:set') }} x-on:click="set(color)">
                             <div @class($personalize['box.button.color']) :style="{ 'background-color': color }">
                                 <span x-show="color === model" x-bind:class="{'text-white': !check(color), 'text-dark-500': check(color)}">
                                     <x-dynamic-component :component="TallStackUi::component('icon')" icon="check" @class($personalize['box.button.icon']) />
