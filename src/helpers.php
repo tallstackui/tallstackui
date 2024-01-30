@@ -10,12 +10,10 @@ if (! function_exists('tallstackui_components_soft_personalized')) {
         // class was changed to some custom component, we would have some problems.
         return collect(File::allFiles(__DIR__.'/View/Components'))
             // Mapping all component classes
-            ->map(function (SplFileInfo $file) {
-                return 'TallStackUi\\View\\'.str($file->getPathname())->after('View/')
-                    ->remove('.php')
-                    ->replace('/', '\\')
-                    ->value();
-            })
+            ->map(fn (SplFileInfo $file) => 'TallStackUi\\View\\'.str($file->getPathname())->after('View/')
+                ->remove('.php')
+                ->replace('/', '\\')
+                ->value())
             // Filtering only components with SoftPersonalization attribute
             ->filter(fn (string $component) => (new ReflectionClass($component))->getAttributes(SoftPersonalization::class)) // @phpstan-ignore-line
             // Mapping to return the soft personalization key and the component class

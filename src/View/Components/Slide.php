@@ -23,7 +23,7 @@ class Slide extends BaseComponent implements Personalization
         public ?string $size = null,
         public string $entangle = 'slide',
     ) {
-        $this->entangle = is_string($this->wire) ? $this->wire : (! is_bool($this->wire) ? $this->entangle : 'slide');
+        $this->entangle = is_string($this->wire) ? $this->wire : (is_bool($this->wire) ? 'slide' : $this->entangle);
     }
 
     public function blade(): View
@@ -52,7 +52,7 @@ class Slide extends BaseComponent implements Personalization
 
     protected function validate(): void
     {
-        if (is_string($this->wire) && empty($this->wire)) {
+        if (is_string($this->wire) && $this->wire === '') {
             throw new InvalidArgumentException('The slide [wire] property cannot be an empty string');
         }
 

@@ -53,7 +53,7 @@ abstract class BaseComponent extends Component
                 $attribute = collect((new ReflectionClass($this))->getAttributes(SoftPersonalization::class))->first();
 
                 // We need to throw an exception here to trigger the rescue.
-                if (! $attribute) {
+                if ($attribute === null) {
                     throw new Exception('No attribute found');
                 }
 
@@ -77,7 +77,7 @@ abstract class BaseComponent extends Component
 
         // We merge scope with soft personalization
         // changes, but we prioritize scope changes.
-        $personalizations = ! empty($scope) ? Arr::only(array_merge($soft, $scope), array_keys($scope)) : $soft;
+        $personalizations = empty($scope) ? $soft : Arr::only(array_merge($soft, $scope), array_keys($scope));
 
         // Here we do a second merge, now with the original classes and
         // the result of the previous operation that will use scoped
@@ -87,13 +87,11 @@ abstract class BaseComponent extends Component
 
     public function render(): Closure
     {
-        return function (array $data) {
-            return $this->output($this->blade()->with(array_merge($this->compile($data), [
-                // This is an approach used to avoid having to "manually" check (isset($__livewire))
-                // whether the component is being used within the Livewire context or not.
-                'livewire' => isset($this->factory()->getShared()['__livewire']),
-            ])), $data);
-        };
+        return fn (array $data) => $this->output($this->blade()->with(array_merge($this->compile($data), [
+            // This is an approach used to avoid having to "manually" check (isset($__livewire))
+            // whether the component is being used within the Livewire context or not.
+            'livewire' => isset($this->factory()->getShared()['__livewire']),
+        ])), $data);
     }
 
     /** @throws Throwable */

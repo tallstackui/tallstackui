@@ -52,7 +52,7 @@ class Reaction extends BaseComponent implements Personalization
         #[SkipDebug]
         public ?array $icons = null,
     ) {
-        $this->icons = ! $this->only ? self::ICONS : Arr::only(self::ICONS, $this->only);
+        $this->icons = $this->only ? Arr::only(self::ICONS, $this->only) : self::ICONS;
     }
 
     public function blade(): View
@@ -117,10 +117,10 @@ class Reaction extends BaseComponent implements Personalization
             throw new Exception('The react [reactMethod] is required.');
         }
 
-        if (count(array_diff($this->only ?? [], array_keys(self::ICONS))) > 0) {
+        if (array_diff($this->only ?? [], array_keys(self::ICONS)) !== []) {
             throw new Exception('The react [only] icons is invalid. Supported: '.implode(', ', array_keys(self::ICONS)));
         }
 
-        InvalidSelectedPositionException::validate(get_class($this), $this->position);
+        InvalidSelectedPositionException::validate(static::class, $this->position);
     }
 }

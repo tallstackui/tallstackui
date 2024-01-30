@@ -2,6 +2,8 @@
 
 use TallStackUi\Foundation\Personalization\Contracts\Personalization as PersonalizationContract;
 use TallStackUi\Foundation\Personalization\Personalization;
+use TallStackUi\View\Components\Interaction\Dialog;
+use TallStackUi\View\Components\Interaction\Toast;
 
 describe('TallStackUi Components', function () {
     test('is customizable', function (string $index) {
@@ -14,8 +16,8 @@ describe('TallStackUi Components', function () {
 
     test('contains constructor', function (string $index) {
         $ignores = [
-            'TallStackUi\View\Components\Interaction\Dialog',
-            'TallStackUi\View\Components\Interaction\Toast',
+            Dialog::class,
+            Toast::class,
         ];
 
         if (in_array($index, $ignores)) {
