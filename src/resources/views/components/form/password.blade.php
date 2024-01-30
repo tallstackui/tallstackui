@@ -11,7 +11,7 @@
             $personalize['input.color.background'] => !$attributes->get('disabled') && !$attributes->get('readonly'),
             $personalize['input.color.disabled'] => $attributes->get('disabled') || $attributes->get('readonly'),
             $personalize['error'] => $error
-        ]) x-data="{ show : false, toggle () { this.$el.dispatchEvent(new CustomEvent('reveal')); this.show = !this.show; } }" x-on:click.outside="rules = false">
+        ]) x-data="{ show : false, toggle () { this.$el.dispatchEvent(new CustomEvent('reveal', {detail: { status: this.show }})); this.show = !this.show; } }" x-on:click.outside="rules = false">
             <input @if ($id) id="{{ $id }}" @endif
                   {{ $attributes->class([$personalize['input.base']]) }}
                    @if ($rules->isNotEmpty())

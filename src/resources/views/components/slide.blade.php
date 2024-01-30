@@ -46,7 +46,7 @@
                      @class(['pointer-events-auto w-screen', $configurations['size']])
                      @if (!$configurations['persistent']) x-on:click.outside="show = false" @endif>
                     <div @class($personalize['wrapper.fifth'])>
-                        <div class="px-6">
+                        <div @class($personalize['header'])>
                             <div @class(['flex items-start', 'justify-between' => $title !== null, 'justify-end' => $title === null])>
                                 @if ($title)
                                     <h2 @if ($title instanceof \Illuminate\View\ComponentSlot)

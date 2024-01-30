@@ -1,31 +1,31 @@
 <!--
-Thank you for your interest in contributing to TallStackUi.
-Please, fill in the form below correctly. This will help us to understand your PR.
+Thank you for your interest in contributing to 
+TallStackUI. Please, fill in the form below 
+correctly. This will help us to understand your PR.
 -->
+
+### Checklist:
+
+- [ ] I read the [CONTRIBUTION GUIDE](https://tallstackui.com/docs/contribution)
+- [ ] I created a new branch on my fork for this pull request 
+- [ ] I ensure that the current tests are passing
+- [ ] I added tests that prove this pull request is working
+
+<!-- WARNING! The pull request may be disapproved 
+if you haven't created a new branch on your fork. -->
 
 ### What:
 
-<!-- Insert X in the square brackets to mark your PR type. -->
-
-- [ ] Bug Fix
+- [ ] Feature
 - [ ] Enhancements
-- [ ] New Feature
+- [ ] Bugfix
 
 ### Description:
 
 <!-- Describe your PR, which more details as possible. -->
 
-### Demonstration:
+### Demonstration & Notes:
 
-<!-- Insert a demonstration about the changes or the features (image or video). -->
-
-### Related:
-
-<!-- Link to the issue(s) your PR is solving. If it doesn't exist, remove the "Related" section. -->
-
-### Notes:
-
-<!-- 
-Insert notes here, something like an image, gif, or whatever you think is necessary.
-If this PR aims to introduce new additions, like a new component, or modify the current component styles, please, add a gif or screenshots.
--->
+<!-- Insert a demonstration about the changes or 
+the features (image, gif or video), and also
+add any notes that you think are important.  -->
