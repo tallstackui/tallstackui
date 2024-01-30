@@ -71,8 +71,9 @@
                     </div>
                 </div>
             </div>
-            @if (!$disabled && !$required)
+            @if (!$disabled)
                 <div @class($personalize['buttons.wrapper'])>
+                    @if (!$required)
                     <template x-if="!empty">
                         <button dusk="tallstackui_select_clear"
                                 type="button"
@@ -82,6 +83,7 @@
                                                  @class([$personalize['buttons.size'], $personalize['buttons.base'] => !$error, $personalize['buttons.error'] => $error]) />
                         </button>
                     </template>
+                    @endif
                     <x-dynamic-component :component="TallStackUi::component('icon')"
                                          icon="chevron-up-down"
                                          @class([$personalize['buttons.size'], $personalize['buttons.base'] => !$error, $personalize['buttons.error'] => $error]) />
@@ -130,7 +132,7 @@
                             <div class="flex items-center">
                                 <img @class($personalize['box.list.item.image']) x-bind:src="option.image" x-show="option.image">
                                 <div class="flex flex-col ml-2">
-                                    <span @class($personalize['box.list.item.label']) x-text="option[selectable.label] ?? option"></span>
+                                    <span x-text="option[selectable.label] ?? option"></span>
                                     <span @class($personalize['box.list.item.description']) x-show="option.description" x-text="option.description"></span>
                                 </div>
                             </div>
