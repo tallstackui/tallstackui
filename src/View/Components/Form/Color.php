@@ -45,7 +45,7 @@ class Color extends BaseComponent implements Personalization
             ],
             'icon' => [
                 'wrapper' => 'absolute inset-y-0 right-0 flex items-center pr-2.5',
-                'class' => 'h-5 w-5 text-gray-400',
+                'class' => 'h-5 w-5 text-gray-500 dark:text-dark-400',
             ],
             'box' => [
                 'wrapper' => 'dark:border-dark-600 absolute top-full z-50 mt-2 overflow-hidden rounded-md border border-gray-200 shadow-lg',
