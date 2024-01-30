@@ -9,11 +9,16 @@
     <x-input :$label
         :$hint
         :$invalidate
-        icon="clock"
-        position="right"
         x-on:click="show = !show"
         readonly
-        class="cursor-pointer" />
+        class="cursor-pointer">
+        <x-slot:suffix>
+            <x-dynamic-component :component="TallStackUi::component('icon')"
+                icon="clock"
+                x-on:click="show = !show"
+                class="w-5 h-5 cursor-pointer" />
+        </x-slot:suffix>
+    </x-input>
     <div x-cloak
         x-show="show"
         x-on:click.away="show = false"
