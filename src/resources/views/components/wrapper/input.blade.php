@@ -4,7 +4,7 @@
     @if ($label)
         <x-dynamic-component :component="TallStackUi::component('label')" :$id :$label :$error :$invalidate />
     @endif
-    <div @class($personalize['wrapper']) @if ($password) x-data="{ show : false }" @endif>
+    <div @class($personalize['wrapper'])>
         {!! $slot !!}
     </div>
     @if ($hint && !$error)

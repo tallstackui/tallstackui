@@ -33,9 +33,7 @@ class TallStackUiServiceProvider extends ServiceProvider
     public function registerComponentPersonalizations(): void
     {
         foreach (tallstackui_components_soft_personalized() as $key => $component) {
-            $this->app->singleton($key, function () use ($component) {
-                return new PersonalizationResources($component);
-            });
+            $this->app->singleton($key, fn () => new PersonalizationResources($component));
         }
     }
 

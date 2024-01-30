@@ -269,6 +269,12 @@ export default (
     this.search = '';
     this.input = this.model;
 
+    this.$refs.button.dispatchEvent(new CustomEvent('select', {
+      detail: {
+        select: option,
+      },
+    }));
+
     wireChange(this.change, this.model);
   },
   /**
@@ -290,6 +296,8 @@ export default (
    */
   clear(selected = null) {
     if (selected) {
+      this.$refs.button.dispatchEvent(new CustomEvent('remove', {detail: {select: selected}}));
+
       if (this.multiple) {
         if (this.required && this.quantity === 1) {
           this.show = false;
@@ -320,6 +328,8 @@ export default (
 
       this.clear();
     }
+
+    this.$refs.button.dispatchEvent(new CustomEvent('erase', {detail: {selects: this.model}}));
 
     this.reset();
   },

@@ -343,6 +343,7 @@ export default (model, mode, colors, value) => ({
     this.model = color;
     this.$refs.input.value = color;
     this.$refs.input.dispatchEvent(new Event('change'));
+    this.$el.dispatchEvent(new CustomEvent('set', {detail: {color: color}}));
   },
   /**
    * @returns {FlatArray<any[][], 1>[]}

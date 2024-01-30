@@ -23,7 +23,7 @@ class IndexTest extends BrowserTestCase
                 <div>        
                     <x-errors close />
                 
-                    <x-button id="save" wire:click="save">Save</x-button>
+                    <x-button dusk="save" wire:click="save">Save</x-button>
                 </div>
                 HTML;
             }
@@ -35,11 +35,51 @@ class IndexTest extends BrowserTestCase
         })
             ->assertSee('Save')
             ->assertDontSee('There are 1 validation errors:')
-            ->click('#save')
+            ->click('@save')
             ->waitForText('There are 1 validation errors:')
             ->click('@errors-close-button')
             ->waitUntilMissingText('There are 1 validation errors:')
             ->assertDontSee('There are 1 validation errors:');
+    }
+
+    /** @test */
+    public function can_dispatch_event_when_set(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            #[Rule('required')]
+            public ?string $name = null;
+
+            public ?bool $close = false;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>        
+                    <x-errors close x-on:close="$wire.set('close', 1)" />
+                    
+                    @if ($close)
+                        <p dusk="close">1</p>
+                    @endif
+                
+                    <x-button dusk="save" wire:click="save">Save</x-button>
+                </div>
+                HTML;
+            }
+
+            public function save(): void
+            {
+                $this->validate();
+            }
+        })
+            ->assertSee('Save')
+            ->assertDontSee('There are 1 validation errors:')
+            ->click('@save')
+            ->waitForText('There are 1 validation errors:')
+            ->click('@errors-close-button')
+            ->waitUntilMissingText('There are 1 validation errors:')
+            ->assertDontSee('There are 1 validation errors:')
+            ->assertVisible('@close');
     }
 
     /** @test */
@@ -56,7 +96,7 @@ class IndexTest extends BrowserTestCase
                 <div>        
                     <x-errors />
                 
-                    <x-button id="save" wire:click="save">Save</x-button>
+                    <x-button dusk="save" wire:click="save">Save</x-button>
                 </div>
                 HTML;
             }
@@ -68,7 +108,7 @@ class IndexTest extends BrowserTestCase
         })
             ->assertSee('Save')
             ->assertDontSee('There are 1 validation errors:')
-            ->click('#save')
+            ->click('@save')
             ->waitForText('There are 1 validation errors:');
     }
 
@@ -89,7 +129,7 @@ class IndexTest extends BrowserTestCase
                 <div>        
                     <x-errors only="name" />
                 
-                    <x-button id="save" wire:click="save">Save</x-button>
+                    <x-button dusk="save" wire:click="save">Save</x-button>
                 </div>
                 HTML;
             }
@@ -102,7 +142,7 @@ class IndexTest extends BrowserTestCase
             ->assertSee('Save')
             ->assertDontSee('description')
             ->assertDontSee('name')
-            ->click('#save')
+            ->click('@save')
             ->waitForText('There are 1 validation errors:')
             ->assertSee('name')
             ->assertDontSee('description');

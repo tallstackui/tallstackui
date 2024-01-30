@@ -23,7 +23,7 @@ class Modal extends BaseComponent implements Personalization
         public ?string $entangle = 'modal',
         public ?bool $center = null,
     ) {
-        $this->entangle = is_string($this->wire) ? $this->wire : (! is_bool($this->wire) ? $this->entangle : 'modal');
+        $this->entangle = is_string($this->wire) ? $this->wire : (is_bool($this->wire) ? 'modal' : $this->entangle);
     }
 
     public function blade(): View
@@ -57,7 +57,7 @@ class Modal extends BaseComponent implements Personalization
 
     protected function validate(): void
     {
-        if (is_string($this->wire) && empty($this->wire)) {
+        if (is_string($this->wire) && $this->wire === '') {
             throw new InvalidArgumentException('The [wire] property cannot be an empty string');
         }
 

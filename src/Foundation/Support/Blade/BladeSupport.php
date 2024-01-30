@@ -22,7 +22,7 @@ class BladeSupport
 
     public function entangle(): string
     {
-        if (($wire = $this->wire()) === null) {
+        if (! ($wire = $this->wire()) instanceof WireDirective) {
             return Blade::render('null');
         }
 
@@ -40,7 +40,7 @@ class BladeSupport
 
     public function wire(): ?WireDirective
     {
-        if (! $this->attributes) {
+        if (! $this->attributes instanceof ComponentAttributeBag) {
             throw new Exception('The attributes was not defined.');
         }
 

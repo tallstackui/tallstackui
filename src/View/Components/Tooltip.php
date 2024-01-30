@@ -53,6 +53,6 @@ class Tooltip extends BaseComponent implements Personalization
     /** @throws InvalidSelectedPositionException */
     protected function validate(): void
     {
-        InvalidSelectedPositionException::validate(get_class($this), $this->position);
+        InvalidSelectedPositionException::validate(static::class, $this->position);
     }
 }

@@ -1,7 +1,9 @@
 @php($personalize = $classes())
 
 @if ($errors->count())
-    <div @class(['w-full']) x-data="{ show : true }" x-show="show">
+    <div @class(['w-full'])
+         x-data="{ show : true, close () { this.show = false; this.$el.dispatchEvent(new CustomEvent('close')) } }"
+         x-show="show">
         <div {{ $attributes->class([
                 $personalize['wrapper'],
                 $colors['background']
@@ -14,8 +16,13 @@
                     {{ __($title, ['count' => $count($errors)]) }}
                 </span>
                 @if ($close)
-                <button dusk="errors-close-button" class="cursor-pointer" x-on:click="show = false">
-                    <x-dynamic-component :component="TallStackUi::component('icon')" icon="x-mark" @class([$personalize['close'], $colors['text']]) />
+                <button dusk="errors-close-button"
+                        class="cursor-pointer"
+                        {{ $attributes->only('x-on:close') }}
+                        x-on:click="close()">
+                    <x-dynamic-component :component="TallStackUi::component('icon')"
+                                         icon="x-mark"
+                                         @class([$personalize['close'], $colors['text']]) />
                 </button>
                 @endif
             </div>

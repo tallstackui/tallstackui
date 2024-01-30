@@ -4,6 +4,7 @@ namespace TallStackUi\Foundation\Support\Blade;
 
 use Illuminate\Support\ViewErrorBag;
 use Illuminate\View\ComponentAttributeBag;
+use Livewire\WireDirective;
 
 class BladeBindProperty
 {
@@ -30,14 +31,14 @@ class BladeBindProperty
     private function bind(): ?string
     {
         // We prioritize the Livewire context.
-        return $this->livewire && $this->support->wire() !== null
+        return $this->livewire && $this->support->wire() instanceof WireDirective
             ? $this->support->wire()->value()
             : $this->attributes->get('name');
     }
 
     private function error(): bool
     {
-        if (! $this->errors) {
+        if (! $this->errors instanceof ViewErrorBag) {
             return false;
         }
 

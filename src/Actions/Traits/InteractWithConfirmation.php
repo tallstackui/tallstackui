@@ -17,7 +17,7 @@ trait InteractWithConfirmation
             'static' => blank($text) && blank($method),
             'text' => $text ?? $message,
             'method' => $method,
-            'params' => ! is_array($params) ? $params : [...$params],
+            'params' => is_array($params) ? [...$params] : $params,
         ];
 
         return $this;
@@ -31,7 +31,7 @@ trait InteractWithConfirmation
             'static' => blank($text) && blank($method),
             'text' => $text ?? $message,
             'method' => $method,
-            'params' => ! is_array($params) ? $params : [...$params],
+            'params' => is_array($params) ? [...$params] : $params,
         ];
 
         return $this;

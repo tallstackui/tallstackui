@@ -28,6 +28,76 @@ class StyledCommonTest extends BrowserTestCase
     }
 
     /** @test */
+    public function can_dispatch_events(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public array $options = [];
+
+            public bool $select = false;
+
+            public bool $remove = false;
+
+            public bool $erase = false;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="options">@json($options)</p>
+                    
+                    @if ($select)
+                        <p dusk="select">Select</p>
+                    @endif
+                    
+                    @if ($remove)
+                        <p dusk="remove">Remove</p>
+                    @endif
+                    
+                    @if ($erase)
+                        <p dusk="erase">Erase</p>
+                    @endif
+
+                    <x-select.styled wire:model.live="options"
+                                     label="Select"
+                                     hint="Select"
+                                     :options="[
+                                        ['label' => 'foo', 'value' => 'foo'],
+                                        ['label' => 'bar', 'value' => 'bar'],
+                                        ['label' => 'baz', 'value' => 'baz'],
+                                     ]"
+                                     multiple
+                                     x-on:select="$wire.set('select', 1)"
+                                     x-on:remove="$wire.set('remove', 1)"
+                                     x-on:erase="$wire.set('erase', 1)"
+                                     select="label:label|value:value"
+                    />
+                </div>
+                HTML;
+            }
+
+            public function sync(): void
+            {
+                // ...
+            }
+        })
+            ->assertSee('Select an option')
+            ->assertDontSee('foo')
+            ->assertDontSee('bar')
+            ->assertDontSee('baz')
+            ->click('@tallstackui_select_open_close')
+            ->waitForText(['foo', 'bar', 'baz'])
+            ->waitForLivewire()->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[1]')
+            ->click('@tallstackui_select_open_close') // close
+            ->assertVisible('@select')
+            ->waitForLivewire()->clickAtXPath('/html/body/div[3]/div/div[2]/button/div[1]/div/div[3]/a/div/div') // remove element
+            ->assertVisible('@remove')
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[1]')
+            ->waitForLivewire()->click('@tallstackui_select_clear')
+            ->assertVisible('@erase');
+    }
+
+    /** @test */
     public function can_interact_with_multiples_selects(): void
     {
         if (getenv('GITHUB_ACTIONS') === 'true') {
