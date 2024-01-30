@@ -1,4 +1,4 @@
-# TallStackUi
+# TallStackUI
 
 <p align="center"><a href="https://tallstackui.com" target="_blank"><img src="https://raw.githubusercontent.com/tallstackui/website/main/arts/tallstackui.svg" width="500"></a></p>
 
@@ -12,11 +12,15 @@
 
 ## Introduction
 
-[TallStackUi](https://tallstackui.com/) is a powerful suite of Blade components for TALL Stack apps.
+[TallStackUI](https://tallstackui.com/) is a powerful suite of Blade components for TALL Stack apps.
 
 ## Documentation
 
 [Visit our website to see the documentation](https://tallstackui.com/docs)
+
+## Sponsorship
+
+If you want to support the development of TallStackUI, you can do so by [becoming a sponsor](https://github.com/sponsors/devajmeireles).
 
 ## Need Help?
 
