@@ -117,8 +117,8 @@ class PersonalizationResources
     {
         $view = $this->personalization(true)->blade()->name(); // @phpstan-ignore-line
 
-        if (! in_array($block, array_values($blocks = $this->blocks()))) {
-            $component = str_replace('tallstack-ui::components.', '', $view);
+        if (! in_array($block, $blocks = $this->blocks())) {
+            $component = str_replace('tallstack-ui::components.', '', (string) $view);
 
             throw new InvalidArgumentException("Component [$component] does not have the block [$block] to be personalized. Alloweds: ".implode(', ', $blocks));
         }
@@ -140,7 +140,7 @@ class PersonalizationResources
     private function set(string $block, ?string $content = null): void
     {
         foreach ($this->interactions->get('replace', []) as $old => $new) {
-            $this->originals->put($block, str_replace($old, $new, $this->originals->get($block)));
+            $this->originals->put($block, str_replace($old, $new, (string) $this->originals->get($block)));
         }
 
         if ($append = $this->interactions->get('append')) {
@@ -152,7 +152,7 @@ class PersonalizationResources
         }
 
         foreach ($this->interactions->get('remove', []) as $class) {
-            $this->originals->put($block, str_replace($class, '', $this->originals->get($block)));
+            $this->originals->put($block, str_replace($class, '', (string) $this->originals->get($block)));
         }
 
         $this->parts[$block] = trim($content ?? str($this->originals->get($block))->squish());

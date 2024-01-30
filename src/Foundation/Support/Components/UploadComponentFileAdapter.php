@@ -48,31 +48,27 @@ class UploadComponentFileAdapter
             }
         });
 
-        return $this->collection->map(function (array $file) {
-            return [
-                'temporary_name' => $file['name'],
-                'real_name' => $file['name'],
-                'extension' => $file['extension'],
-                'size' => Number::fileSize($file['size']),
-                'path' => $file['path'],
-                'is_image' => $image = $this->image($file['extension']),
-                'url' => ! $image ?: $file['url'],
-            ];
-        });
+        return $this->collection->map(fn (array $file) => [
+            'temporary_name' => $file['name'],
+            'real_name' => $file['name'],
+            'extension' => $file['extension'],
+            'size' => Number::fileSize($file['size']),
+            'path' => $file['path'],
+            'is_image' => $image = $this->image($file['extension']),
+            'url' => ! $image ?: $file['url'],
+        ]);
     }
 
     private function upload(): Collection
     {
-        return $this->collection->map(function (TemporaryUploadedFile $file) {
-            return [
-                'temporary_name' => $file->getFilename(),
-                'real_name' => $file->getClientOriginalName(),
-                'extension' => $file->extension(),
-                'size' => Number::fileSize($file->getSize()),
-                'path' => $file->getPathname(),
-                'is_image' => $image = $this->image($file->extension()),
-                'url' => ! $image ?: $file->temporaryUrl(),
-            ];
-        });
+        return $this->collection->map(fn (TemporaryUploadedFile $file) => [
+            'temporary_name' => $file->getFilename(),
+            'real_name' => $file->getClientOriginalName(),
+            'extension' => $file->extension(),
+            'size' => Number::fileSize($file->getSize()),
+            'path' => $file->getPathname(),
+            'is_image' => $image = $this->image($file->extension()),
+            'url' => ! $image ?: $file->temporaryUrl(),
+        ]);
     }
 }

@@ -13,7 +13,7 @@ class ColorTest extends BrowserTestCase
     {
         Livewire::visit(new class extends Component
         {
-            public ?string $color;
+            public ?string $color = null;
 
             public ?bool $set = false;
 
@@ -51,7 +51,7 @@ class ColorTest extends BrowserTestCase
     {
         Livewire::visit(new class extends Component
         {
-            public ?string $color;
+            public ?string $color = null;
 
             public function render(): string
             {
@@ -82,7 +82,7 @@ class ColorTest extends BrowserTestCase
     {
         Livewire::visit(new class extends Component
         {
-            public ?string $color;
+            public ?string $color = null;
 
             public function render(): string
             {
@@ -117,7 +117,7 @@ class ColorTest extends BrowserTestCase
 
         Livewire::visit(new class extends Component
         {
-            public ?string $color;
+            public ?string $color = null;
 
             public function render(): string
             {
@@ -160,7 +160,7 @@ class ColorTest extends BrowserTestCase
     {
         Livewire::visit(new class extends Component
         {
-            public ?string $color;
+            public ?string $color = null;
 
             public function render(): string
             {
@@ -223,7 +223,7 @@ class ColorTest extends BrowserTestCase
     {
         Livewire::visit(new class extends Component
         {
-            public ?string $color;
+            public ?string $color = null;
 
             public function render(): string
             {

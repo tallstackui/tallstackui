@@ -36,7 +36,7 @@ class Avatar extends BaseComponent implements Personalization
         return view('tallstack-ui::components.avatar');
     }
 
-    public function modelable(): string
+    final public function modelable(): string
     {
         $params = Arr::query([
             'name' => $this->model->getAttribute($this->property),
@@ -91,7 +91,7 @@ class Avatar extends BaseComponent implements Personalization
             return;
         }
 
-        $model = get_class($this->model);
+        $model = $this->model::class;
         $property = $this->model->getAttribute($this->property);
 
         if (blank($property)) {

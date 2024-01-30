@@ -71,7 +71,7 @@ class PinTest extends BrowserTestCase
     {
         Livewire::visit(new class extends Component
         {
-            public ?string $value;
+            public ?string $value = null;
 
             public function render(): string
             {
@@ -100,7 +100,7 @@ class PinTest extends BrowserTestCase
     {
         Livewire::visit(new class extends Component
         {
-            public ?string $value;
+            public ?string $value = null;
 
             public function render(): string
             {
@@ -129,7 +129,7 @@ class PinTest extends BrowserTestCase
     {
         Livewire::visit(new class extends Component
         {
-            public ?string $value;
+            public ?string $value = null;
 
             public function render(): string
             {
@@ -160,7 +160,7 @@ class PinTest extends BrowserTestCase
     {
         Livewire::visit(new class extends Component
         {
-            public ?string $value;
+            public ?string $value = null;
 
             public function render(): string
             {
@@ -189,7 +189,7 @@ class PinTest extends BrowserTestCase
     {
         Livewire::visit(new class extends Component
         {
-            public ?string $value;
+            public ?string $value = null;
 
             public function render(): string
             {
