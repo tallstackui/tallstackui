@@ -142,7 +142,7 @@ return [
             'progress' => true,
             'expandable' => false,
             'position' => 'top-right',
-            'timeout' => 10,
+            'timeout' => 3,
         ],
     ],
 
