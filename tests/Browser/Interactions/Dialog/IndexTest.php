@@ -2,6 +2,7 @@
 
 namespace Tests\Browser\Interactions\Dialog;
 
+use Laravel\Dusk\Browser;
 use Livewire\Component;
 use Livewire\Livewire;
 use TallStackUi\Traits\Interactions;
@@ -158,15 +159,15 @@ class IndexTest extends BrowserTestCase
                 HTML;
             }
         })
-            ->assertDontSee('Dismissed')
+            ->assertNotPresent('@target')
             ->assertSee('Success')
             ->click('@success')
             ->waitForText(['Foo bar success', 'Foo bar success description'])
             ->assertSee('Foo bar success')
             ->assertSee('Foo bar success description')
             ->clickAtPoint(350, 350)
-            ->waitForLivewire()->click('@tallstackui_dialog_confirmation')
-            ->assertVisible('@target');
+            ->waitForText('Dismissed')
+            ->assertPresent('@target');
     }
 
     /** @test */
