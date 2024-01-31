@@ -81,7 +81,7 @@
                     ])>
             </div>
         </div>
-        <button x-on:click="test()">
+        <button x-on:click="current()">
             Test
         </button>
     </div>

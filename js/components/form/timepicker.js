@@ -18,9 +18,16 @@ export default (model, max) => ({
         this.interval = 'AM';
       }
 
+      value = value.padStart(2, '0');
+
       this.sync = `${value}:${this.minutes}`;
     });
-    this.$watch('minutes', (value) => this.sync = `${this.hours}:${value}`);
+
+    this.$watch('minutes', (value) => {
+      value = value.padStart(2, '0');
+
+      this.sync = `${this.hours}:${value}`;
+    });
 
     this.$watch('interval', (value) => {
       if (parseInt(max) > 12) {
@@ -44,16 +51,21 @@ export default (model, max) => ({
     this.minutes = minutes;
     this.interval = interval;
 
-    // When period is not enabled, remove period from
-    // the model to avoid printing it in the input
-    this.model = this.model.replace(' AM', '').replace(' PM', '');
-
     this.$refs.input.value = this.model;
   },
-  test() {
-    const moment = window.moment;
+  current() {
+    const dayjs = window.dayjs();
 
-    console.log(moment(this.model, 'h:mm A').format('HH:mm'));
+    const hours = dayjs.hour();
+    const minutes = dayjs.minute();
+
+    this.interval = hours >= 12 ? 'PM' : 'AM';
+    this.hours = hours.toString();
+    this.minutes = minutes.toString();
+
+    this.hours = this.hours.padStart(2, '0');
+
+    this.sync = `${this.hours}:${this.minutes}`;
   },
   set sync(value) {
     this.model = this.$refs.input.value = `${value} ${this.interval}`;
