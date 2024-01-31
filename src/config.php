@@ -135,12 +135,14 @@ return [
         | progress: enables the progress bar.
         | expandable: enables the expand effect by default.
         | position: controls the default toast position (Allowed: top-right, top-left, bottom-right, bottom-left).
+        | timeout: controls the default timeout for toast in seconds (Allowed: integers).
         */
         'toast' => [
             'z-index' => 'z-50',
             'progress' => true,
             'expandable' => false,
             'position' => 'top-right',
+            'timeout' => 10,
         ],
     ],
 

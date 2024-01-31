@@ -2,6 +2,7 @@
 
 namespace TallStackUi\Actions;
 
+use Livewire\Component;
 use TallStackUi\Actions\Traits\DispatchInteraction;
 use TallStackUi\Actions\Traits\InteractWithConfirmation;
 
@@ -15,6 +16,18 @@ class Toast extends AbstractInteraction
     protected ?bool $expand = null;
 
     protected ?int $timeout = 3;
+
+    public function __construct(Component $component)
+    {
+        $timeout = config('tallstackui.settings.toast.timeout');
+
+        if (! is_int($timeout)) {
+            $timeout = 3;
+        }
+
+        $this->timeout($timeout);
+        parent::__construct($component);
+    }
 
     public function error(string $title, ?string $description = null): self
     {
