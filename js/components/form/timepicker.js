@@ -1,4 +1,6 @@
-export default (model, max) => ({
+import {warning} from '../../helpers';
+
+export default (model, period, max) => ({
   model: model,
   show: false,
   hours: '0',
@@ -18,16 +20,10 @@ export default (model, max) => ({
         this.interval = 'AM';
       }
 
-      value = value.padStart(2, '0');
-
-      this.sync = `${value}:${this.minutes}`;
+      this.sync();
     });
 
-    this.$watch('minutes', (value) => {
-      value = value.padStart(2, '0');
-
-      this.sync = `${this.hours}:${value}`;
-    });
+    this.$watch('minutes', () => this.sync());
 
     this.$watch('interval', (value) => {
       if (parseInt(max) > 12) {
@@ -36,11 +32,9 @@ export default (model, max) => ({
         } else if (value === 'AM' && this.hours >= 12) {
           this.hours = parseInt(this.hours) - 12;
         }
-
-        this.hours = this.hours.toString();
       }
 
-      this.sync = `${this.hours}:${this.minutes}`;
+      this.sync();
     });
   },
   parse() {
@@ -49,9 +43,15 @@ export default (model, max) => ({
 
     this.hours = hours;
     this.minutes = minutes;
-    this.interval = interval;
+    this.interval = interval ?? null;
 
-    this.$refs.input.value = this.model;
+    if (period && interval === undefined) {
+      warning('Unable to parse the interval [AM/PM] for the timepicker component.');
+    }
+
+    period = interval !== undefined;
+
+    this.sync(false);
   },
   current() {
     const dayjs = window.dayjs();
@@ -60,14 +60,31 @@ export default (model, max) => ({
     const minutes = dayjs.minute();
 
     this.interval = hours >= 12 ? 'PM' : 'AM';
-    this.hours = hours.toString();
-    this.minutes = minutes.toString();
+    this.hours = hours;
+    this.minutes = minutes;
 
-    this.hours = this.hours.padStart(2, '0');
-
-    this.sync = `${this.hours}:${this.minutes}`;
+    this.sync();
   },
-  set sync(value) {
-    this.model = this.$refs.input.value = `${value} ${this.interval}`;
+  sync(model = true) {
+    let value = `${this.formatted.hours}:${this.formatted.minutes}`;
+
+    if (period && this.interval) {
+      value = `${value} ${this.interval}`;
+    }
+
+    this.$refs.input.value = value;
+
+    if (!model) return;
+
+    this.model = value;
+  },
+  get formatted() {
+    this.hours = this.hours.toString();
+    this.minutes = this.minutes.toString();
+
+    return {
+      hours: this.hours.padStart(2, '0'),
+      minutes: this.minutes.padStart(2, '0'),
+    };
   },
 });
