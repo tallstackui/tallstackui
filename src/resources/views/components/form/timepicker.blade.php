@@ -3,7 +3,7 @@
     $personalize = $classes();
 @endphp
 
-<div x-data="tallstackui_formTimePicker({!! $entangle !!}, @js(!$withoutPeriod), @js($maxHour))"
+<div x-data="tallstackui_formTimePicker({!! $entangle !!}, @js($period), @js($maxHour))"
     x-ref="wrapper"
     x-cloak>
     <x-input :$label
@@ -37,7 +37,7 @@
                     x-ref="minutes"
                     class="w-20 rounded-full p-2 text-center text-4xl font-medium transition text-primary-600 dark:text-dark-300 dark:border-dark-700">
                 </span>
-                @if (!$withoutPeriod)
+                @if ($period)
                     <div class="m-2 flex h-14 flex-col justify-between">
                         <div class="w-12">
                             <input type="radio" id="am" x-model="interval" value="AM" class="hidden peer">

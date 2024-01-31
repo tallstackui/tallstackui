@@ -19,8 +19,8 @@ class TimePicker extends BaseComponent implements Personalization
         public ?string $label = null,
         public ?string $hint = null,
         public ?bool $invalidate = null,
-        public ?bool $helper = null,
-        public ?bool $withoutPeriod = null,
+        public ?bool $helper = true,
+        public ?bool $period = true,
         // TODO: validate
         public ?string $minHour = '0',
         public ?string $maxHour = '11',

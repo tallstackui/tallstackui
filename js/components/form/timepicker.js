@@ -1,4 +1,4 @@
-import {warning} from '../../helpers';
+import {error, warning} from '../../helpers';
 
 export default (model, period, max) => ({
   model: model,
@@ -7,6 +7,10 @@ export default (model, period, max) => ({
   minutes: '0',
   interval: 'AM',
   init() {
+    if (this.dayjs === undefined) {
+      return error('The dayjs library is not available. Please, review the docs.');
+    }
+
     if (this.model) {
       this.parse();
     }
@@ -14,10 +18,10 @@ export default (model, period, max) => ({
     this.$watch('hours', (value) => {
       const hours = parseInt(value);
 
-      if (hours >= 12) {
+      // When the max hour is greater than 12 and the selected
+      // hour is greater than 12 we change the interval to PM
+      if (parseInt(max) > 12 && hours > 12) {
         this.interval = 'PM';
-      } else {
-        this.interval = 'AM';
       }
 
       this.sync();
@@ -27,6 +31,7 @@ export default (model, period, max) => ({
 
     this.$watch('interval', (value) => {
       if (parseInt(max) > 12) {
+        // Advancing or retreating the hour when the interval changes
         if (value === 'PM' && this.hours < 12) {
           this.hours = parseInt(this.hours) + 12;
         } else if (value === 'AM' && this.hours >= 12) {
@@ -37,6 +42,10 @@ export default (model, period, max) => ({
       this.sync();
     });
   },
+  /**
+   * Parse the model value when set.
+   * @return {void}
+   */
   parse() {
     const [time, interval] = this.model.split(' ');
     const [hours, minutes] = time.split(':');
@@ -53,8 +62,16 @@ export default (model, period, max) => ({
 
     this.sync(false);
   },
+  /**
+   * Set the current time.
+   * @return {void}
+   */
   current() {
-    const dayjs = window.dayjs();
+    const dayjs = this.dayjs();
+
+    if (!dayjs) {
+      return error('The dayjs library is not available. Please, review the docs.');
+    }
 
     const hours = dayjs.hour();
     const minutes = dayjs.minute();
@@ -65,10 +82,14 @@ export default (model, period, max) => ({
 
     this.sync();
   },
+  /**
+   * Sync the input and model.
+   * @param {Boolean} model
+   */
   sync(model = true) {
     let value = `${this.formatted.hours}:${this.formatted.minutes}`;
 
-    if (period && this.interval) {
+    if (this.interval) {
       value = `${value} ${this.interval}`;
     }
 
@@ -78,6 +99,17 @@ export default (model, period, max) => ({
 
     this.model = value;
   },
+  /**
+   * Get the dayjs library.
+   * @return {Dayjs}
+   */
+  get dayjs() {
+    return window.dayjs;
+  },
+  /**
+   * Get the formatted time.
+   * @return {object}
+   */
   get formatted() {
     this.hours = this.hours.toString();
     this.minutes = this.minutes.toString();
