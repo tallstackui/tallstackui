@@ -67,9 +67,9 @@ class Toast extends AbstractInteraction
         return $this;
     }
 
-    public function timeout(int $seconds): self
+    public function timeout(?int $seconds = null): self
     {
-        $this->timeout = $seconds;
+        $this->timeout = $seconds ?? (int) config('tallstackui.settings.toast.timeout', 3);
 
         return $this;
     }
