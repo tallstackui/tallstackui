@@ -1,6 +1,7 @@
 import {error, warning} from '../../helpers';
 
-export default (model, period, max) => ({
+// TODO: only set AM/PM when its defined.
+export default (model, period, fullTime) => ({
   model: model,
   show: false,
   hours: '0',
@@ -18,10 +19,12 @@ export default (model, period, max) => ({
     this.$watch('hours', (value) => {
       const hours = parseInt(value);
 
-      // When the max hour is greater than 12 and the selected
-      // hour is greater than 12 we change the interval to PM
-      if (parseInt(max) > 12 && hours > 12) {
+      // When fullTime and the selected hour is greater
+      // than 12 we change the interval to PM
+      if (fullTime && hours > 12) {
         this.interval = 'PM';
+      } else if (fullTime && hours < 12) {
+        this.interval = 'AM';
       }
 
       this.sync();
@@ -30,7 +33,9 @@ export default (model, period, max) => ({
     this.$watch('minutes', () => this.sync());
 
     this.$watch('interval', (value) => {
-      if (parseInt(max) > 12) {
+      this.hours = parseInt(this.hours);
+
+      if (fullTime) {
         // Advancing or retreating the hour when the interval changes
         if (value === 'PM' && this.hours < 12) {
           this.hours = parseInt(this.hours) + 12;
@@ -89,7 +94,7 @@ export default (model, period, max) => ({
   sync(model = true) {
     let value = `${this.formatted.hours}:${this.formatted.minutes}`;
 
-    if (this.interval) {
+    if (fullTime && this.interval) {
       value = `${value} ${this.interval}`;
     }
 

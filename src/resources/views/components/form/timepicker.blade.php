@@ -3,7 +3,7 @@
     $personalize = $classes();
 @endphp
 
-<div x-data="tallstackui_formTimePicker({!! $entangle !!}, @js($period), @js($maxHour))"
+<div x-data="tallstackui_formTimePicker({!! $entangle !!}, @js($period), @js($fullTime))"
     x-ref="wrapper"
     x-cloak>
     <x-input :$label
@@ -58,9 +58,9 @@
             </div>
             <div wire:ignore.self @class(['mt-2 flex flex-col space-y-6 outline-none'])>
                 <input type="range"
-                    min="{{ $minHour }}"
-                    max="{{ $maxHour }}"
-                    step="{{ $stepHour }}"
+                    min="0"
+                    max="{{ $fullTime ? 23 : 11 }}"
+                    step="{{ $stepHour ?? 1 }}"
                     x-model="hours"
                     x-on:mouseenter="$refs.hours.classList.add('bg-primary-50', 'border-primary-600', 'dark:bg-dark-700')"
                     x-on:mouseleave="$refs.hours.classList.remove('bg-primary-50', 'border-primary-600', 'dark:bg-dark-700')"
@@ -70,9 +70,9 @@
                         $personalize['range.thumb']
                     ])>
                 <input type="range"
-                    min="{{ $minMinute }}"
-                    max="{{ $maxMinute }}"
-                    step="{{ $stepMinute }}"
+                    min="0"
+                    max="59"
+                    step="{{ $stepMinute ?? 1 }}"
                     x-model="minutes"
                     x-on:mouseenter="$refs.minutes.classList.add('bg-primary-50', 'border-primary-600', 'dark:bg-dark-700')"
                     x-on:mouseleave="$refs.minutes.classList.remove('bg-primary-50', 'border-primary-600', 'dark:bg-dark-700')"
