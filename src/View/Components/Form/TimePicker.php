@@ -19,13 +19,13 @@ class TimePicker extends BaseComponent implements Personalization
         public ?string $label = null,
         public ?string $hint = null,
         public ?bool $invalidate = null,
-        public ?bool $helper = false,
-        public ?bool $withoutPeriod = false,
         // TODO: validate
         public ?string $minHour = '0',
         public ?string $maxHour = '11',
         public ?string $minMinute = '0',
         public ?string $maxMinute = '59',
+        public ?string $stepHour = '1',
+        public ?string $stepMinute = '1',
     ) {
         //
     }
@@ -48,6 +48,20 @@ class TimePicker extends BaseComponent implements Personalization
     /** @throws Exception */
     protected function validate(): void
     {
-        //
+//        if ((int) $this->maxHour > 23) {
+//            throw new Exception('Max hour must be less than 24');
+//        }
+//
+//        if ((int) $this->maxMinute > 59) {
+//            throw new Exception('Max minute must be less than 60');
+//        }
+//
+//        if ((int) $this->minHour < 0) {
+//            throw new Exception('Min hour must be less than 24');
+//        }
+//
+//        if ((int) $this->minMinute < 0) {
+//            throw new Exception('Min minute must be less than 60');
+//        }
     }
 }
