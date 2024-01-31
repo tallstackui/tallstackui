@@ -2,7 +2,6 @@
 
 namespace Tests\Browser\Interactions\Dialog;
 
-use Laravel\Dusk\Browser;
 use Livewire\Component;
 use Livewire\Livewire;
 use TallStackUi\Traits\Interactions;
