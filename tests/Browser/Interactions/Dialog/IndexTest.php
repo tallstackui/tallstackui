@@ -164,7 +164,7 @@ class IndexTest extends BrowserTestCase
             ->waitForText(['Foo bar success', 'Foo bar success description'])
             ->assertSee('Foo bar success')
             ->assertSee('Foo bar success description')
-            ->clickAtPoint(350, 350)
+            ->waitForLivewire()->clickAtPoint(350, 350)
             ->waitForText('Dismissed')
             ->assertPresent('@target');
     }
