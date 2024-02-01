@@ -35,8 +35,8 @@ class TimePicker extends BaseComponent implements Personalization
     {
         return Arr::dot([
             'range' => [
-                'base' => 'h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 dark:bg-gray-700',
-                'thumb' => '[&::-webkit-slider-thumb]:bg-primary-500 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full',
+                'base' => 'h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 dark:bg-dark-700',
+                'thumb' => '[&::-webkit-slider-thumb]:bg-primary-500 dark:[&::-webkit-slider-thumb]:bg-dark-400 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full',
             ],
         ]);
     }
