@@ -20,13 +20,12 @@ class TimePicker extends BaseComponent implements Personalization
         public ?string $hint = null,
         public ?bool $invalidate = null,
         public ?bool $helper = true,
-        public ?bool $period = true,
         // TODO: validate
         public ?bool $fullTime = false,
         public ?string $stepHour = '1',
         public ?string $stepMinute = '1',
     ) {
-        $this->period = $this->fullTime ? false : $this->period;
+        //
     }
 
     public function blade(): View

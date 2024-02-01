@@ -1,14 +1,13 @@
-import {error, warning} from '../../helpers';
+import {error} from '../../helpers';
 
-// TODO: only set AM/PM when its defined.
-export default (model, period, fullTime) => ({
+export default (model, fullTime) => ({
   model: model,
   show: false,
   hours: '0',
   minutes: '0',
   interval: 'AM',
   init() {
-    if (this.dayjs === undefined) {
+    if (!this.dayjs) {
       return error('The dayjs library is not available. Please, review the docs.');
     }
 
@@ -16,36 +15,9 @@ export default (model, period, fullTime) => ({
       this.parse();
     }
 
-    this.$watch('hours', (value) => {
-      const hours = parseInt(value);
-
-      // When fullTime and the selected hour is greater
-      // than 12 we change the interval to PM
-      if (fullTime && hours > 12) {
-        this.interval = 'PM';
-      } else if (fullTime && hours < 12) {
-        this.interval = 'AM';
-      }
-
-      this.sync();
-    });
-
+    this.$watch('hours', () => this.sync());
     this.$watch('minutes', () => this.sync());
-
-    this.$watch('interval', (value) => {
-      this.hours = parseInt(this.hours);
-
-      if (fullTime) {
-        // Advancing or retreating the hour when the interval changes
-        if (value === 'PM' && this.hours < 12) {
-          this.hours = parseInt(this.hours) + 12;
-        } else if (value === 'AM' && this.hours >= 12) {
-          this.hours = parseInt(this.hours) - 12;
-        }
-      }
-
-      this.sync();
-    });
+    this.$watch('interval', () => this.sync());
   },
   /**
    * Parse the model value when set.
@@ -57,13 +29,7 @@ export default (model, period, fullTime) => ({
 
     this.hours = hours;
     this.minutes = minutes;
-    this.interval = interval ?? null;
-
-    if (period && interval === undefined) {
-      warning('Unable to parse the interval [AM/PM] for the timepicker component.');
-    }
-
-    period = interval !== undefined;
+    this.interval = interval ?? (fullTime ? 'AM' : null);
 
     this.sync(false);
   },
@@ -72,7 +38,7 @@ export default (model, period, fullTime) => ({
    * @return {void}
    */
   current() {
-    const dayjs = this.dayjs();
+    const dayjs = this.dayjs;
 
     if (!dayjs) {
       return error('The dayjs library is not available. Please, review the docs.');
@@ -81,7 +47,8 @@ export default (model, period, fullTime) => ({
     const hours = dayjs.hour();
     const minutes = dayjs.minute();
 
-    this.interval = hours >= 12 ? 'PM' : 'AM';
+    if (!fullTime) this.interval = hours >= 12 ? 'PM' : 'AM';
+
     this.hours = hours;
     this.minutes = minutes;
 
@@ -94,7 +61,7 @@ export default (model, period, fullTime) => ({
   sync(model = true) {
     let value = `${this.formatted.hours}:${this.formatted.minutes}`;
 
-    if (fullTime && this.interval) {
+    if (!fullTime && this.interval) {
       value = `${value} ${this.interval}`;
     }
 
@@ -109,7 +76,7 @@ export default (model, period, fullTime) => ({
    * @return {Dayjs}
    */
   get dayjs() {
-    return window.dayjs;
+    return window.dayjs();
   },
   /**
    * Get the formatted time.
