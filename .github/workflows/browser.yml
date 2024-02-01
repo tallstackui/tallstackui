@@ -20,7 +20,7 @@ jobs:
         php: [8.1]
         laravel: [10.*]
 
-    name: Browser Tests / OS:${{ matrix.os }} / PHP:${{ matrix.php }} / Laravel:${{ matrix.laravel }}
+    name: OS:${{ matrix.os }} / PHP:${{ matrix.php }} / Laravel:${{ matrix.laravel }}
 
     steps:
       - name: Checkout
