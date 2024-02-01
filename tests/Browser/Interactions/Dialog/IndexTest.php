@@ -138,7 +138,7 @@ class IndexTest extends BrowserTestCase
         {
             use Interactions;
 
-            public string $target = '';
+            public ?string $target = null;
 
             public function success(): void
             {
@@ -149,23 +149,24 @@ class IndexTest extends BrowserTestCase
             {
                 return <<<'HTML'
                 <div x-on:dialog:dismissed.window="$wire.$set('target', 'Dismissed')">
-                    <p dusk="target">{{ $target }}</p>
+                    @if ($target)
+                        <p dusk="target">{{ $target }}</p>
+                    @endif
                 
                     <x-button dusk="success" wire:click="success">Success</x-button>
                 </div>
                 HTML;
             }
         })
-            ->assertDontSee('Dismissed')
+            ->assertNotPresent('@target')
             ->assertSee('Success')
             ->click('@success')
             ->waitForText(['Foo bar success', 'Foo bar success description'])
             ->assertSee('Foo bar success')
             ->assertSee('Foo bar success description')
             ->clickAtPoint(350, 350)
-            ->click('@tallstackui_dialog_confirmation')
-            ->waitForTextIn('@target', 'Dismissed')
-            ->assertSee('Dismissed');
+            ->waitForText('Dismissed')
+            ->assertPresent('@target');
     }
 
     /** @test */
