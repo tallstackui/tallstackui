@@ -148,7 +148,7 @@ class IndexTest extends BrowserTestCase
             public function render(): string
             {
                 return <<<'HTML'
-                <div x-on:dialog:dismissed.window="$wire.$set('target', 'Dismissed')">
+                <div x-on:dialog:dismissed.window="$wire.set('target', 'Dismissed')">
                     @if ($target)
                         <p dusk="target">{{ $target }}</p>
                     @endif
@@ -200,8 +200,8 @@ class IndexTest extends BrowserTestCase
             public function render(): string
             {
                 return <<<'HTML'
-                <div x-on:dialog:accepted.window="$wire.$set('target', 'Accepted')" 
-                     x-on:dialog:rejected.window="$wire.$set('target', 'Rejected')">
+                <div x-on:dialog:accepted.window="$wire.set('target', 'Accepted')" 
+                     x-on:dialog:rejected.window="$wire.set('target', 'Rejected')">
                     <p dusk="target">{{ $target }}</p>
                 
                     <x-button dusk="confirm" wire:click="confirm">Confirm</x-button>
