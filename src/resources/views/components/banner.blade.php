@@ -63,10 +63,9 @@
                 {!! $text !!}
             </span>
         @endif
-        <button type="button" x-on:click="show = false" x-show="close">
+        <button type="button" x-on:click="show = false" x-show="close" dusk="tallstackui_banner_close">
             <x-dynamic-component :component="TallStackUi::component('icon')"
                 icon="x-mark"
-                dusk="tallstackui_banner_close"
                 @class([$personalize['close'], $colors['text'] ?? '' => !$wire])
                 x-bind:class="{
                     'text-green-50': type === 'success',
