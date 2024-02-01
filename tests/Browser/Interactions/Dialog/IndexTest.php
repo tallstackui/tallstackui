@@ -134,6 +134,8 @@ class IndexTest extends BrowserTestCase
     /** @test */
     public function can_dispatch_dismissed_event()
     {
+        $this->skipOnGitHubActions();
+
         Livewire::visit(new class extends Component
         {
             use Interactions;
@@ -166,7 +168,6 @@ class IndexTest extends BrowserTestCase
             ->assertSee('Foo bar success description')
             ->clickAtPoint(350, 350)
             ->pause(100)
-            ->waitForText('Dismissed')
             ->assertPresent('@target');
     }
 

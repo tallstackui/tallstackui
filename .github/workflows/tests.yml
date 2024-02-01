@@ -12,27 +12,29 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
+        os: [ubuntu-latest]
         php: [8.1, 8.2, 8.3]
         laravel: [10.*]
 
-    name: PHP:${{ matrix.php }} / Laravel:${{ matrix.laravel }}
+    name: OS:${{ matrix.os }} / PHP:${{ matrix.php }} / Laravel:${{ matrix.laravel }}
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node and run tests
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: "18.x"
       - run: npm install
       - run: npm run lint
+      - run: npm run build
 
-      - name: Setup PHP, with composer and extensions
+      - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
@@ -40,19 +42,19 @@ jobs:
           tools: composer:v2
           coverage: none
 
-      - name: Install Composer dependencies
+      - name: Install Composer
         run: |
           composer require "laravel/framework:${{ matrix.laravel }}" --no-interaction --no-progress --ansi --no-update
           composer update --no-interaction --no-suggest
 
       - name: Rector Cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ./var/cache/rector
           key: ${{ runner.os }}-rector-${{ hashFiles('**/composer.lock') }}
           restore-keys: ${{ runner.os }}-rector-
 
-      - name: Setup dusk/chrome
+      - name: Setup Google Chrome
         run: vendor/bin/dusk-updater detect --auto-update
 
       - name: Pint
@@ -61,16 +63,16 @@ jobs:
       - name: Rector
         run: ./vendor/bin/rector process --dry-run --config=rector.php
 
-      - name: PHPStam
+      - name: PHPStan
         run: ./vendor/bin/phpstan --configuration="phpstan.neon"
 
-      - name: Clear Orchestra Testbench Cache [Before Feature]
+      - name: Clear Orchestra Testbench Cache
         run: ./vendor/bin/testbench optimize:clear
 
       - name: Feature Tests
         run: ./vendor/bin/pest --filter Feature --parallel --order-by random --stop-on-failure
 
-      - name: Clear Orchestra Testbench Cache [Before Browser]
+      - name: Clear Orchestra Testbench Cache
         run: ./vendor/bin/testbench optimize:clear
 
       - name: Browser Tests
