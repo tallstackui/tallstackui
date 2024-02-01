@@ -1,4 +1,4 @@
-name: Tests
+name: Feature Tests
 
 on:
   push:
@@ -16,7 +16,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest]
+        os: [ubuntu-latest, macos-latest]
         php: [8.1, 8.2, 8.3]
         laravel: [10.*]
 
@@ -32,6 +32,7 @@ jobs:
           node-version: "18.x"
       - run: npm install
       - run: npm run lint
+      - run: npm run build
 
       - name: Setup PHP, with composer and extensions
         uses: shivammathur/setup-php@v2
@@ -53,9 +54,6 @@ jobs:
           key: ${{ runner.os }}-rector-${{ hashFiles('**/composer.lock') }}
           restore-keys: ${{ runner.os }}-rector-
 
-      - name: Setup dusk/chrome
-        run: vendor/bin/dusk-updater detect --auto-update
-
       - name: Pint
         run: ./vendor/bin/pint --test
 
@@ -65,32 +63,8 @@ jobs:
       - name: PHPStan
         run: ./vendor/bin/phpstan --configuration="phpstan.neon"
 
-      - name: Clear Orchestra Testbench Cache [Before Feature]
+      - name: Clear Orchestra Testbench Cache
         run: ./vendor/bin/testbench optimize:clear
 
       - name: Feature Tests
         run: ./vendor/bin/pest --filter Feature --parallel --order-by random --stop-on-failure
-
-      - name: Clear Orchestra Testbench Cache [Before Browser]
-        run: ./vendor/bin/testbench optimize:clear
-
-      - name: Browser Tests
-        run: ./vendor/bin/pest --filter Browser --order-by random --stop-on-failure
-        env:
-          CI: true
-
-#      - name: Upload Failed Screenshots
-#        if: failure()
-#        uses: actions/upload-artifact@v2
-#        with:
-#          name: dusk-fail-screenshots
-#          path: tests/Browser/screenshots/failure-*
-#          retention-days: 1
-#
-#      - name: Upload Failed Console Logs
-#        if: failure()
-#        uses: actions/upload-artifact@v2
-#        with:
-#          name: dusk-fail-screenshots
-#          path: tests/Browser/console/Tests_*
-#          retention-days: 1
