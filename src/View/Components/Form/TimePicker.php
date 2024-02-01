@@ -2,7 +2,6 @@
 
 namespace TallStackUi\View\Components\Form;
 
-use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
@@ -20,7 +19,6 @@ class TimePicker extends BaseComponent implements Personalization
         public ?string $hint = null,
         public ?bool $invalidate = null,
         public ?bool $helper = true,
-        // TODO: validate
         public ?bool $fullTime = false,
         public ?string $stepHour = '1',
         public ?string $stepMinute = '1',
@@ -41,11 +39,5 @@ class TimePicker extends BaseComponent implements Personalization
                 'thumb' => '[&::-webkit-slider-thumb]:bg-primary-500 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full',
             ],
         ]);
-    }
-
-    /** @throws Exception */
-    protected function validate(): void
-    {
-        //
     }
 }

@@ -6,15 +6,16 @@
 <div x-data="tallstackui_formTimePicker({!! $entangle !!}, @js($fullTime))"
     x-ref="wrapper"
     x-cloak>
-    <x-input :$label
-             :$hint
-             :$invalidate
-             icon="clock"
-             position="right"
-             x-on:click="show = !show"
-             readonly
-             x-ref="input"
-             class="cursor-pointer" />
+    <x-dynamic-component :component="TallStackUi::component('input')"
+                         :$label
+                         :$hint
+                         :$invalidate
+                         icon="clock"
+                         position="right"
+                         x-on:click="show = !show"
+                         readonly
+                         x-ref="input"
+                         class="cursor-pointer" />
     <div x-cloak
         x-show="show"
         x-on:click.away="show = false"
@@ -84,9 +85,10 @@
             </div>
             @if ($helper)
                 <div class="mt-4">
-                    <x-button class="w-full uppercase"
-                              x-on:click="current()"
-                              xs>current time</x-button>
+                    <x-dynamic-component :component="TallStackUi::component('button')"
+                                         class="w-full uppercase"
+                                         x-on:click="current()"
+                                         xs>current time</x-dynamic-component>
                 </div>
             @endif
         </div>
