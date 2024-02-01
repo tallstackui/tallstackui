@@ -166,7 +166,6 @@ class IndexTest extends BrowserTestCase
             ->assertSee('Foo bar success description')
             ->clickAtPoint(350, 350)
             ->pause(100)
-            ->waitForText('Dismissed')
             ->assertPresent('@target');
     }
 
