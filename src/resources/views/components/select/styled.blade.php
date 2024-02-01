@@ -59,10 +59,11 @@
                                     <span @class($personalize['itens.multiple.label']) x-text="select[selectable.label] ?? select"></span>
                                     @if (!$disabled)
                                         <div @class($personalize['itens.multiple.icon'])>
-                                            <x-dynamic-component :component="TallStackUi::component('icon')"
-                                                                 icon="x-mark"
-                                                                 x-on:click="clear(select)"
-                                                                 @class($personalize['itens.multiple.icon']) />
+                                            <button type="button" x-on:click="clear(select)">
+                                                <x-dynamic-component :component="TallStackUi::component('icon')"
+                                                                    icon="x-mark"
+                                                                    @class($personalize['itens.multiple.icon']) />
+                                            </button>
                                         </div>
                                     @endif
                                 </div>

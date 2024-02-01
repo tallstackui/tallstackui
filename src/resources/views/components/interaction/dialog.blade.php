@@ -81,12 +81,13 @@
                 </div>
                 <div @class($personalize['buttons.wrapper'])>
                     <div x-show="dialog.options?.cancel">
-                        <x-dynamic-component :component="TallStackUi::component('button')"
-                                             :color="$colors['cancel']"
-                                             class="w-full text-sm"
-                                             x-on:click="reject(dialog, $el)"
-                                             x-text="dialog.options?.cancel?.text"
-                                             dusk="tallstackui_dialog_rejection" />
+                        <button type="button" x-on:click="reject(dialog, $el)">
+                            <x-dynamic-component :component="TallStackUi::component('button')"
+                                                :color="$colors['cancel']"
+                                                class="w-full text-sm"
+                                                x-text="dialog.options?.cancel?.text"
+                                                dusk="tallstackui_dialog_rejection" />
+                        </button>
                     </div>
                     <button @class($personalize['buttons.confirm']) x-bind:class="{
                             'sm:w-auto' : dialog.options?.cancel,
