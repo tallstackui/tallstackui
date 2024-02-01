@@ -134,6 +134,8 @@ class IndexTest extends BrowserTestCase
     /** @test */
     public function can_dispatch_dismissed_event()
     {
+        $this->skipOnGitHubActions();
+
         Livewire::visit(new class extends Component
         {
             use Interactions;

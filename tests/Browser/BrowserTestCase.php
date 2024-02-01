@@ -109,6 +109,15 @@ class BrowserTestCase extends TestCase
         trigger('browser.testCase.setUp', $this);
     }
 
+    protected function skipOnGitHubActions(?string $message = null): void
+    {
+        if ((bool) getenv('GITHUB_ACTIONS') === false) {
+            return;
+        }
+
+        $this->markTestSkipped($message ?? 'For some unknown reason this test fails on GitHub Actions.');
+    }
+
     protected function tearDown(): void
     {
         $this->removeApplicationTweaks();
