@@ -24,7 +24,7 @@ class IndexTest extends BrowserTestCase
                 <div>
                     <p dusk="target">{{ $target }}</p>
 
-                    <x-modal wire x-on:open="$wire.$set('target', 'Opened')" x-on:close="$wire.$set('target', 'Closed')">
+                    <x-modal wire x-on:open="$wire.set('target', 'Opened')" x-on:close="$wire.set('target', 'Closed')">
                         Foo bar
                     </x-modal>
                 

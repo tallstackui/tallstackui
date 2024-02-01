@@ -136,9 +136,9 @@ class IndexTest extends BrowserTestCase
             public function render(): string
             {
                 return <<<'HTML'
-                <div x-on:toast:accepted.window="$wire.$set('target', 'Accepted')" 
-                     x-on:toast:rejected.window="$wire.$set('target', 'Rejected')"
-                     x-on:toast:timeout.window="$wire.$set('target', 'Timeout')">
+                <div x-on:toast:accepted.window="$wire.set('target', 'Accepted')" 
+                     x-on:toast:rejected.window="$wire.set('target', 'Rejected')"
+                     x-on:toast:timeout.window="$wire.set('target', 'Timeout')">
                     <p dusk="target">{{ $target }}</p>
                 
                     <x-button dusk="confirm" wire:click="confirm">Confirm</x-button>

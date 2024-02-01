@@ -24,7 +24,7 @@ class IndexTest extends BrowserTestCase
                 <div>
                     <p dusk="target">{{ $target }}</p>
 
-                    <x-slide wire x-on:open="$wire.$set('target', 'Opened')" x-on:close="$wire.$set('target', 'Closed')">
+                    <x-slide wire x-on:open="$wire.set('target', 'Opened')" x-on:close="$wire.set('target', 'Closed')">
                         Foo bar
                     </x-slide>
                 
