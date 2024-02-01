@@ -4,14 +4,14 @@ module.exports = {
     'es2021': true,
   },
   'extends': 'google',
-  'overrides': [
-  ],
+  'overrides': [],
   'parserOptions': {
     'ecmaVersion': 'latest',
     'sourceType': 'module',
   },
   'rules': {
     'max-len': ['error', {'code': 130}],
-    'valid-jsdoc': ['off'],
+    'valid-jsdoc': 'off',
+    'linebreak-style': 'off',
   },
 };
