@@ -120,7 +120,7 @@
             <ul @class($personalize['box.list.wrapper']) dusk="tallstackui_select_options" role="listbox">
                 @if ($request)
                     <div x-show="loading" @class($personalize['box.list.loading.wrapper'])>
-                        <x-tallstack-ui::icon.others.loading @class($personalize['box.list.loading.class']) />
+                        <x-tallstack-ui::icon.generic.loading @class($personalize['box.list.loading.class']) />
                     </div>
                 @endif
                 <template x-for="(option, index) in available" :key="option[selectable.value] ?? option">

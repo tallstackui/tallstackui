@@ -37,7 +37,7 @@
     <div @class(['relative', $personalize['wrapper']])>
         <table @class($personalize['table.base']) @if ($livewire && $loading) wire:loading.class="{{ $personalize['loading.table'] }}" @endif>
             @if ($livewire && $loading)
-                <x-tallstack-ui::icon.others.loading class="{{ $personalize['loading.icon'] }}" wire:loading="{{ $target }}" />
+                <x-tallstack-ui::icon.generic.loading class="{{ $personalize['loading.icon'] }}" wire:loading="{{ $target }}" />
             @endif
             @if (!$headerless)
                 <thead @class(['uppercase', $personalize['table.thead.normal'] => !$striped, $personalize['table.thead.striped'] => $striped])>

@@ -34,7 +34,7 @@
     <span @if ($loading) wire:loading.remove @endif @class([$personalize['text.sizes.' . $size]])>{{ $text ?? $slot }}</span>
 @endif
 @if ($loading)
-    <x-tallstack-ui::icon.others.loading-button :$loading :$delay @class([
+    <x-tallstack-ui::icon.generic.loading-button :$loading :$delay @class([
         'animate-spin',
         $personalize['icon.sizes.' . $size],
         $colors['icon']
