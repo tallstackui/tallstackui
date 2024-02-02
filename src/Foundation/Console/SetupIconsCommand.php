@@ -12,8 +12,8 @@ use ZipArchive;
 
 use function Laravel\Prompts\spin;
 
-#[AsCommand(name: 'tallstackui:icons', description: 'Install icons for the TallStackUI')]
-class InstallIconCommand extends Command
+#[AsCommand(name: 'tallstackui:setup-icons', description: 'Icon configuration for TallStackUI')]
+class SetupIconsCommand extends Command
 {
     protected ?Collection $metadata = null;
 
@@ -52,14 +52,11 @@ class InstallIconCommand extends Command
             return 'Failed to download the .zip file.';
         }
 
-        // Generate a unique folder name
         $folderName = Str::random();
         $zipFileName = storage_path('app/'.$folderName.'.zip');
 
-        // Save the downloaded .zip file to storage
         file_put_contents($zipFileName, $response->body());
 
-        // Extract the .zip file
         $zip = new ZipArchive;
 
         if ($zip->open($zipFileName)) {
@@ -67,11 +64,9 @@ class InstallIconCommand extends Command
             $zip->extractTo($extractPath);
             $zip->close();
 
-            // Move the extracted files to a desired folder
             $destinationPath = __DIR__.'/../../resources/views/components/icon/'.$this->metadata->get('type');
             File::copyDirectory($extractPath, $destinationPath);
 
-            // Clean up by deleting the downloaded .zip file and the extracted folder
             unlink($zipFileName);
             File::deleteDirectory($extractPath);
 
