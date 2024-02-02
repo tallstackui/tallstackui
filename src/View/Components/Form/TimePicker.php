@@ -18,12 +18,12 @@ class TimePicker extends BaseComponent implements Personalization
         public ?string $label = null,
         public ?string $hint = null,
         public ?bool $invalidate = null,
-        public ?bool $helper = true,
-        public ?bool $fullTime = false,
+        public ?bool $helper = null,
+        public ?string $format = '12',
         public ?string $stepHour = '1',
         public ?string $stepMinute = '1',
     ) {
-        //
+        $this->format = $this->format === '12' ? '12' : '24';
     }
 
     public function blade(): View

@@ -1,6 +1,6 @@
 import {error} from '../../helpers';
 
-export default (model, fullTime) => ({
+export default (model, full) => ({
   model: model,
   show: false,
   hours: '0',
@@ -11,9 +11,7 @@ export default (model, fullTime) => ({
       return error('The dayjs library is not available. Please, review the docs.');
     }
 
-    if (this.model) {
-      this.parse();
-    }
+    if (this.model) this.parse();
 
     this.$watch('hours', () => this.sync());
     this.$watch('minutes', () => this.sync());
@@ -29,7 +27,7 @@ export default (model, fullTime) => ({
 
     this.hours = hours;
     this.minutes = minutes;
-    this.interval = interval ?? (fullTime ? 'AM' : null);
+    this.interval = interval ?? null;
 
     this.sync(false);
   },
@@ -47,7 +45,7 @@ export default (model, fullTime) => ({
     const hours = dayjs.hour();
     const minutes = dayjs.minute();
 
-    if (!fullTime) this.interval = hours >= 12 ? 'PM' : 'AM';
+    if (!full) this.interval = hours >= 12 ? 'PM' : 'AM';
 
     this.hours = hours;
     this.minutes = minutes;
@@ -61,7 +59,7 @@ export default (model, fullTime) => ({
   sync(model = true) {
     let value = `${this.formatted.hours}:${this.formatted.minutes}`;
 
-    if (!fullTime && this.interval) {
+    if (!full && this.interval) {
       value = `${value} ${this.interval}`;
     }
 
