@@ -2,6 +2,7 @@
 <head>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
+    <script src="/storage/dayjs/dayjs.min.js"></script>
     @tallStackUiScript
     @tallStackUiStyle
 </head>

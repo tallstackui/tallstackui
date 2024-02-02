@@ -17,6 +17,7 @@
                          position="right"
                          x-ref="input"
                          x-on:click="show = !show"
+                         dusk="tallstackui_timepicker_input"
                          class="cursor-pointer" />
     <div x-cloak
         x-show="show"
@@ -49,7 +50,8 @@
                                    value="AM"
                                    class="hidden peer">
                             <label for="am"
-                                class="inline-flex w-full cursor-pointer items-center justify-between rounded-t-lg border border-gray-300 bg-white p-1 peer-checked:font-bold text-gray-500 peer-checked:bg-primary-50 peer-checked:border-primary-200 peer-checked:text-primary-600 hover:bg-gray-100 hover:text-gray-600 dark:peer-checked:text-dark-100 peer-checked:dark:bg-dark-700 peer-checked:dark:border-dark-500 dark:border-dark-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:text-dark-300 dark:hover:bg-gray-700">
+                                   dusk="tallstackui_timepicker_am"
+                                   class="inline-flex w-full cursor-pointer items-center justify-between rounded-t-lg border border-gray-300 bg-white p-1 peer-checked:font-bold text-gray-500 peer-checked:bg-primary-50 peer-checked:border-primary-200 peer-checked:text-primary-600 hover:bg-gray-100 hover:text-gray-600 dark:peer-checked:text-dark-100 peer-checked:dark:bg-dark-700 peer-checked:dark:border-dark-500 dark:border-dark-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:text-dark-300 dark:hover:bg-gray-700">
                                 <div class="w-full text-center text-sm">AM</div>
                             </label>
                         </div>
@@ -60,7 +62,8 @@
                                    value="PM"
                                    class="hidden peer">
                             <label for="pm"
-                                class="inline-flex w-full cursor-pointer items-center justify-between rounded-b-lg border border-t-0 border-gray-300 bg-white p-1 peer-checked:font-bold text-gray-500 peer-checked:bg-primary-50 peer-checked:border-primary-200 peer-checked:text-primary-600 hover:bg-gray-100 hover:text-gray-600 dark:peer-checked:text-dark-100 peer-checked:dark:bg-dark-700 peer-checked:dark:border-dark-500 dark:border-dark-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:text-dark-300 dark:hover:bg-gray-700">
+                                   dusk="tallstackui_timepicker_pm"
+                                   class="inline-flex w-full cursor-pointer items-center justify-between rounded-b-lg border border-t-0 border-gray-300 bg-white p-1 peer-checked:font-bold text-gray-500 peer-checked:bg-primary-50 peer-checked:border-primary-200 peer-checked:text-primary-600 hover:bg-gray-100 hover:text-gray-600 dark:peer-checked:text-dark-100 peer-checked:dark:bg-dark-700 peer-checked:dark:border-dark-500 dark:border-dark-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:text-dark-300 dark:hover:bg-gray-700">
                                 <div class="w-full text-center text-sm font-medium">PM</div>
                             </label>
                         </div>
@@ -83,7 +86,6 @@
                        step="{{ $stepMinute ?? 1 }}"
                        x-model="minutes"
                        dusk="tallstackui_timepicker_minutes"
-                       {{ $attributes->only('x-on:minute') }}
                        x-on:mouseenter="$refs.minutes.classList.add('bg-primary-50', 'border-primary-600', 'dark:bg-dark-700')"
                        x-on:mouseleave="$refs.minutes.classList.remove('bg-primary-50', 'border-primary-600', 'dark:bg-dark-700')"
                        @class(['focus:outline-none', $personalize['range.base'], $personalize['range.thumb']])>
@@ -99,9 +101,9 @@
                                          xs />
                 </div>
             @endif
+            @if ($footer)
+                {{ $footer }}
+            @endif
         </div>
-        @if ($footer)
-            {{ $footer }}
-        @endif
     </div>
 </div>
