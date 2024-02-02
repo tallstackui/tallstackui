@@ -6,6 +6,7 @@
     @if ($left)
         {!! $left !!}
     @endif
+    {{--TODO: add a logic here--}}
     <x-dynamic-component component="tallstack-ui::icon.{{ $type }}.{{ $icon ?? $name }}" {{ $attributes->class(['text-red-500' => $error]) }} />
     @if ($right)
         {!! $right !!}

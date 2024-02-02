@@ -53,7 +53,11 @@ return [
     |
     | Control the default icon style (Allowed: solid, outline)
     */
-    'icon' => 'solid',
+    'icons' => [
+        'type' => 'heroicons',
+
+        'style' => 'solid',
+    ],
 
     /*
     |--------------------------------------------------------------------------

@@ -20,7 +20,7 @@ class Icon extends BaseComponent
         #[SkipDebug]
         public ?string $right = null,
     ) {
-        $this->type = $this->outline ? 'outline' : ($this->solid ? 'solid' : config('tallstackui.icon', 'solid'));
+        $this->type = $this->outline ? 'outline' : ($this->solid ? 'solid' : config('tallstackui.icon', 'solid')); //TODO: icons
     }
 
     public function blade(): View
