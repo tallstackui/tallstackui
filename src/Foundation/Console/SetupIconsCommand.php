@@ -40,7 +40,11 @@ class SetupIconsCommand extends Command
             return self::FAILURE;
         }
 
-        $this->components->info('Done!');
+        $type = $this->metadata->get('type');
+
+        $this->components->info('The icons ['.$type.'] are successfully installed.');
+
+        $this->components->info('Please, run the following commands: [npm run build && php artisan optimize:clear].');
 
         return self::SUCCESS;
     }
@@ -109,12 +113,12 @@ class SetupIconsCommand extends Command
             return 'Unsupported icon style. Please, review the configuration file.';
         }
 
-        $this->metadata->put('type', $type);
-        $this->metadata->put('style', $style);
-
         if (is_dir(__DIR__.'/../../resources/views/components/icon/'.$type)) {
             return 'The icons selected ['.$type.'] are already installed.';
         }
+
+        $this->metadata->put('type', $type);
+        $this->metadata->put('style', $style);
 
         return true;
     }
