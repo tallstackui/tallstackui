@@ -47,6 +47,8 @@ class SetupIconsCommand extends Command
 
     private function download(): string|bool
     {
+        //TODO: 1. prepare the phosporicons files, 2. match the phosphoricons style for download.
+
         $type = $this->metadata->get('type');
         $response = Http::get(sprintf('https://github.com/tallstackui/icons/raw/main/%s/files.zip', $type));
 
