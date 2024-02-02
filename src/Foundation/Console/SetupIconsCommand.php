@@ -47,7 +47,8 @@ class SetupIconsCommand extends Command
 
     private function download(): string|bool
     {
-        $response = Http::get(sprintf('https://github.com/tallstackui/icons/raw/main/%s/files.zip', $this->metadata->get('type')));
+        $type = $this->metadata->get('type');
+        $response = Http::get(sprintf('https://github.com/tallstackui/icons/raw/main/%s/files.zip', $type));
 
         if ($response->failed()) {
             return 'Failed to download the .zip file.';
@@ -65,11 +66,14 @@ class SetupIconsCommand extends Command
             $zip->extractTo($extractPath);
             $zip->close();
 
-            $destinationPath = __DIR__.'/../../resources/views/components/icon/'.$this->metadata->get('type');
+            $destinationPath = __DIR__.'/../../resources/views/components/icon/'.$type;
             File::copyDirectory($extractPath, $destinationPath);
 
             unlink($zipFileName);
             File::deleteDirectory($extractPath);
+
+            // Removing old icons to prevent save space
+            File::deleteDirectory(__DIR__.'/../../resources/views/components/icon/'.($type === 'heroicons' ? 'phosphoricons' : 'heroicons'));
 
             return true;
         }
@@ -107,10 +111,8 @@ class SetupIconsCommand extends Command
         $this->metadata->put('style', $style);
 
         if (is_dir(__DIR__.'/../../resources/views/components/icon/'.$type)) {
-            return 'The icons selected are already installed.';
+            return 'The icons selected ['.$type.'] are already installed.';
         }
-
-        // delete the folder if is different than the installed
 
         return true;
     }
