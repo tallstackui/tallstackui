@@ -9,7 +9,7 @@
             $personalize['wrapper.base'],
             $personalize['wrapper.sizes.' . $size],
             $colors['background']
-        ]) }} wire:loading.attr="disabled" wire:loading.class="!cursor-wait">
+        ]) }} @if ($livewire) wire:loading.attr="disabled" wire:loading.class="!cursor-wait" @endif>
 @if ($icon)
     @if ($loading)
         @if ($delay === 'longest')
@@ -31,9 +31,9 @@
         <x-dynamic-component :component="TallStackUi::component('icon')" :$icon @class([$personalize['icon.sizes.' . $size], $colors['icon']]) />
     @endif
 @else
-    <span @if ($loading) wire:loading.remove @endif @class([$personalize['text.sizes.' . $size]])>{{ $text ?? $slot }}</span>
+    <span @if ($livewire && $loading) wire:loading.remove @endif @class([$personalize['text.sizes.' . $size]])>{{ $text ?? $slot }}</span>
 @endif
-@if ($loading)
+@if ($livewire && $loading)
     <x-tallstack-ui::icon.generic.loading-button :$loading :$delay @class([
         'animate-spin',
         $personalize['icon.sizes.' . $size],
