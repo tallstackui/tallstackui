@@ -9,7 +9,7 @@
         $colors['background'],
         'rounded-md' => !$square && !$round,
         'rounded-full' => !$square && $round !== null,
-    ]) }} wire:loading.attr="disabled" wire:loading.class="!cursor-wait">
+    ]) }} @if ($livewire) wire:loading.attr="disabled" wire:loading.class="!cursor-wait" @endif>
     @if ($left)
         {!! $left !!}
     @elseif ($icon && $position === 'left')
@@ -21,7 +21,7 @@
     @elseif ($icon && $position === 'right')
         <x-dynamic-component :component="TallStackUi::component('icon')" :$icon @class([$personalize['icon.sizes.' . $size], $colors['icon']]) />
     @endif
-    @if ($loading)
+    @if ($livewire && $loading)
         <x-tallstack-ui::icon.others.loading-button :$loading :$delay @class([
             'animate-spin',
             $personalize['icon.sizes.' . $size],
