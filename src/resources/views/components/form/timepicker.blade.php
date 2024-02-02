@@ -4,6 +4,7 @@
 @endphp
 
 <div x-data="tallstackui_formTimePicker({!! $entangle !!}, @js($format === '24'))"
+    {{ $attributes->only(['x-on:hour', 'x-on:minute']) }}
     x-ref="wrapper"
     x-cloak>
     <x-dynamic-component :component="TallStackUi::component('input')"
@@ -82,6 +83,7 @@
                        step="{{ $stepMinute ?? 1 }}"
                        x-model="minutes"
                        dusk="tallstackui_timepicker_minutes"
+                       {{ $attributes->only('x-on:minute') }}
                        x-on:mouseenter="$refs.minutes.classList.add('bg-primary-50', 'border-primary-600', 'dark:bg-dark-700')"
                        x-on:mouseleave="$refs.minutes.classList.remove('bg-primary-50', 'border-primary-600', 'dark:bg-dark-700')"
                        @class(['focus:outline-none', $personalize['range.base'], $personalize['range.thumb']])>
@@ -92,6 +94,7 @@
                                          :text="__('tallstack-ui::messages.timepicker.helper')"
                                          class="w-full uppercase"
                                          x-on:click="current()"
+                                         {{ $attributes->only('x-on:current') }}
                                          dusk="tallstackui_timepicker_current"
                                          xs />
                 </div>

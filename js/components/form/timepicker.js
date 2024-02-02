@@ -13,8 +13,18 @@ export default (model, full) => ({
 
     if (this.model) this.parse();
 
-    this.$watch('hours', () => this.sync());
-    this.$watch('minutes', () => this.sync());
+    this.$watch('hours', (value) => {
+      this.sync();
+
+      this.$el.dispatchEvent(new CustomEvent('hour', {detail: {hour: value}}));
+    });
+
+    this.$watch('minutes', (value) => {
+      this.sync();
+
+      this.$el.dispatchEvent(new CustomEvent('minute', {detail: {minute: value}}));
+    });
+
     this.$watch('interval', () => this.sync());
   },
   /**
@@ -49,6 +59,8 @@ export default (model, full) => ({
 
     this.hours = hours;
     this.minutes = minutes;
+
+    this.$el.dispatchEvent(new CustomEvent('current', {detail: {time: {hour: hours, minute: minutes, interval: this.interval}}}));
 
     this.sync();
   },
