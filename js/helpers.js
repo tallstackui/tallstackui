@@ -54,3 +54,6 @@ export const wireChange = (change, model) => {
 
   Livewire.find(change.id).call(change.method, model);
 };
+
+/** @return {Dayjs} */
+export const dayjs = () => window.dayjs();

@@ -7,14 +7,15 @@
     x-ref="wrapper"
     x-cloak>
     <x-dynamic-component :component="TallStackUi::component('input')"
+                         {{ $attributes->whereStartsWith('wire:model')->first() }}
                          :$label
                          :$hint
                          :$invalidate
+                         readonly
                          icon="clock"
                          position="right"
-                         x-on:click="show = !show"
-                         readonly
                          x-ref="input"
+                         x-on:click="show = !show"
                          class="cursor-pointer" />
     <div x-cloak
         x-show="show"
