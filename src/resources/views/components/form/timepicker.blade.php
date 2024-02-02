@@ -7,7 +7,7 @@
     x-ref="wrapper"
     x-cloak>
     <x-dynamic-component :component="TallStackUi::component('input')"
-                         {{ $attributes->whereStartsWith('wire:model')->first() }}
+                         {{ $attributes->whereStartsWith('wire:model') }}
                          :$label
                          :$hint
                          :$invalidate
@@ -72,6 +72,7 @@
                        max="{{ $format === '12' ? 12 : 23 }}"
                        step="{{ $stepHour ?? 1 }}"
                        x-model="hours"
+                       dusk="tallstackui_timepicker_hours"
                        x-on:mouseenter="$refs.hours.classList.add('bg-primary-50', 'border-primary-600', 'dark:bg-dark-700')"
                        x-on:mouseleave="$refs.hours.classList.remove('bg-primary-50', 'border-primary-600', 'dark:bg-dark-700')"
                        @class(['focus:outline-none', $personalize['range.base'], $personalize['range.thumb']])>
@@ -80,6 +81,7 @@
                        max="59"
                        step="{{ $stepMinute ?? 1 }}"
                        x-model="minutes"
+                       dusk="tallstackui_timepicker_minutes"
                        x-on:mouseenter="$refs.minutes.classList.add('bg-primary-50', 'border-primary-600', 'dark:bg-dark-700')"
                        x-on:mouseleave="$refs.minutes.classList.remove('bg-primary-50', 'border-primary-600', 'dark:bg-dark-700')"
                        @class(['focus:outline-none', $personalize['range.base'], $personalize['range.thumb']])>
@@ -90,9 +92,13 @@
                                          :text="__('tallstack-ui::messages.timepicker.helper')"
                                          class="w-full uppercase"
                                          x-on:click="current()"
+                                         dusk="tallstackui_timepicker_current"
                                          xs />
                 </div>
             @endif
         </div>
+        @if ($footer)
+            {{ $footer }}
+        @endif
     </div>
 </div>
