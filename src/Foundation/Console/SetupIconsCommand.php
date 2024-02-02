@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Attribute\AsCommand;
+use TallStackUi\Foundation\Support\Components\IconGuide;
 use ZipArchive;
 
 use function Laravel\Prompts\spin;
@@ -94,16 +95,11 @@ class SetupIconsCommand extends Command
             return 'Wrong configuration file. Please, review the docs.';
         }
 
-        $styles = [
-            'heroicons' => ['solid', 'outline'],
-            'phosphoricons' => ['thin', 'light', 'regular', 'bold', 'fill', 'duotone'],
-        ];
-
-        if (! in_array($type, ['heroicons', 'phosphoricons'])) {
+        if (! in_array($type, array_keys(IconGuide::AVAILABLE))) {
             return 'Unsupported icon type. Please, review the configuration file.';
         }
 
-        if (! in_array($style, $styles[$type])) {
+        if (! in_array($style, IconGuide::AVAILABLE[$type])) {
             return 'Unsupported icon style. Please, review the configuration file.';
         }
 
