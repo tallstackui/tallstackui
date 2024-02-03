@@ -54,9 +54,32 @@ return [
     | Control the default icon style (Allowed: solid, outline)
     */
     'icons' => [
+        /*
+        |----------------------------------
+        | Default and in-use icon type.
+        |----------------------------------
+        | Allowed: heroicons, phosphoricons
+        */
         'type' => 'heroicons',
 
+        /*
+        |----------------------------------
+        | Default and in-use icon style.
+        |----------------------------------
+        | Allowed styles:
+        |
+        | Heroicons: solid, outline
+        | Phosphoricons: thin, light, regular, bold, fill, duotone
+        */
         'style' => 'solid',
+
+        /*
+        |----------------------------------------
+        | Determine if the non-used icons should
+        | be removed when a new icon type is set.
+        |----------------------------------------
+        */
+        'flush' => true,
     ],
 
     /*

@@ -51,40 +51,52 @@ class SetupIconsCommand extends Command
 
     private function download(): string|bool
     {
-        //TODO: 1. prepare the phosporicons files, 2. match the phosphoricons style for download.
-
-        $type = $this->metadata->get('type');
-        $response = Http::get(sprintf('https://github.com/tallstackui/icons/raw/main/%s/files.zip', $type));
+        $response = Http::get(sprintf('https://github.com/tallstackui/icons/raw/main/%s/files.zip', $this->metadata->get('type')));
 
         if ($response->failed()) {
             return 'Failed to download the .zip file.';
         }
 
-        $folderName = Str::random();
-        $zipFileName = storage_path('app/'.$folderName.'.zip');
+        $temp = Str::random();
+        $file = storage_path('app/'.$temp.'.zip');
+        file_put_contents($file, $response->body());
 
-        file_put_contents($zipFileName, $response->body());
+        $zip = new ZipArchive();
 
-        $zip = new ZipArchive;
-
-        if ($zip->open($zipFileName)) {
-            $extractPath = storage_path('app/'.$folderName);
-            $zip->extractTo($extractPath);
-            $zip->close();
-
-            $destinationPath = __DIR__.'/../../resources/views/components/icon/'.$type;
-            File::copyDirectory($extractPath, $destinationPath);
-
-            unlink($zipFileName);
-            File::deleteDirectory($extractPath);
-
-            // Removing old icons to prevent save space
-            File::deleteDirectory(__DIR__.'/../../resources/views/components/icon/'.($type === 'heroicons' ? 'phosphoricons' : 'heroicons'));
-
-            return true;
+        if (! $zip->open($file)) {
+            return 'Failed to extract the .zip file.';
         }
 
-        return 'Failed to extract the .zip file.';
+        $extract = storage_path('app/'.$temp);
+        $zip->extractTo($extract);
+        $zip->close();
+
+        $this->flush($file, $extract);
+
+        return true;
+    }
+
+    private function flush(string $file, string $extract): void
+    {
+        if (! config('tallstackui.icons.flush', false)) {
+            return;
+        }
+
+        $path = __DIR__.'/../../resources/views/components/icon/';
+
+        File::copyDirectory($extract, $path.$this->metadata->get('type'));
+        File::deleteDirectory($extract);
+        unlink($file);
+
+        foreach (
+            collect(array_keys(IconGuide::AVAILABLE))
+                // Little trick to exclude the current type
+                ->mapWithKeys(fn ($value, $key) => [$value => $value])
+                ->except($this->metadata->get('type'))
+                ->toArray() as $type
+        ) {
+            File::deleteDirectory($path.$type);
+        }
     }
 
     private function setup(): bool|string // OK
