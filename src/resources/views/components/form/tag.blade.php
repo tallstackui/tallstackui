@@ -27,7 +27,7 @@
                     <span x-text="tag"></span>
                     <button type="button" {!! $attributes->only('x-on:remove') !!} x-on:click="remove(index)">
                     <x-dynamic-component :component="TallStackUi::component('icon')"
-                                         icon="x-mark"
+                                         :icon="TallStackUi::icon('x-mark')"
                                          :class="$personalize['label.icon']" />
                     </button>
                 </span>
@@ -55,7 +55,7 @@
                 @class($personalize['button.wrapper'])
                 {{ $attributes->only('x-on:erase') }}>
             <x-dynamic-component :component="TallStackUi::component('icon')"
-                                 icon="x-mark"
+                                 :icon="TallStackUi::icon('x-mark')"
                                  :class="$personalize['button.icon']" />
         </button>
     </div>
