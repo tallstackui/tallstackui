@@ -18,10 +18,10 @@ class SetupIconsCommand extends Command
 {
     protected ?Collection $metadata = null;
 
-    public function handle(): int // OK
+    public function handle(): int
     {
         if (! extension_loaded('zip')) {
-            $this->components->error('The zip extension is not installed. Please install it and try again.');
+            $this->components->error('The PHP zip extension is not installed. Please install it and try again.');
 
             return self::FAILURE;
         }
@@ -95,7 +95,7 @@ class SetupIconsCommand extends Command
         }
     }
 
-    private function setup(): bool|string // OK
+    private function setup(): bool|string
     {
         sleep(1);
 
