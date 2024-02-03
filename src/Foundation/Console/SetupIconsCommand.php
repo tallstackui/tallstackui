@@ -78,10 +78,6 @@ class SetupIconsCommand extends Command
 
     private function flush(string $file, string $extract): void
     {
-        if (! config('tallstackui.icons.flush', false)) {
-            return;
-        }
-
         $path = __DIR__.'/../../resources/views/components/icon/';
 
         File::copyDirectory($extract, $path.$this->metadata->get('type'));

@@ -72,14 +72,6 @@ return [
         | Phosphoricons: thin, light, regular, bold, fill, duotone
         */
         'style' => 'solid',
-
-        /*
-        |----------------------------------------
-        | Determine if the non-used icons should
-        | be removed when a new icon type is set.
-        |----------------------------------------
-        */
-        'flush' => true,
     ],
 
     /*
