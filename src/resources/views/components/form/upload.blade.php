@@ -29,7 +29,7 @@
                               x-on:click="show = !show"
                               x-ref="input"
                               readonly
-                              icon="arrow-up-tray"
+                              :icon="TallStackUi::icon('x-mark')"
                               class="cursor-pointer"
                               position="right"
                               dusk="tallstackui_upload_input"

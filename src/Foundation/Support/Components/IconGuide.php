@@ -2,7 +2,6 @@
 
 namespace TallStackUi\Foundation\Support\Components;
 
-//TODO: facade this???
 use Exception;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\View;
@@ -37,6 +36,8 @@ class IconGuide
             'arrow-path' => 'arrow-path',
             'document-text' => 'document-text',
             'photo' => 'photo',
+            'swatch' => 'swatch',
+            'arrow-up-tray' => 'arrow-up-tray',
         ],
         'phosphoricons' => [
             'x-mark' => 'x',
@@ -45,6 +46,8 @@ class IconGuide
             'arrow-path' => 'password',
             'document-text' => 'files',
             'photo' => 'file-image',
+            'swatch' => 'swatches',
+            'arrow-up-tray' => 'upload-simple',
         ],
     ];
 

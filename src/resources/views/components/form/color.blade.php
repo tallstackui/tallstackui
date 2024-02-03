@@ -40,7 +40,10 @@
                     @if ($attributes->get('disabled') || $attributes->get('readonly')) disabled @endif
                     x-on:click="show = !show"
                     dusk="tallstackui_form_color">
-                <x-dynamic-component :component="TallStackUi::component('icon')" icon="swatch" :$error @class($personalize['icon.class']) />
+                <x-dynamic-component :component="TallStackUi::component('icon')"
+                                     :icon="TallStackUi::icon('swatch')"
+                                     :$error
+                                     @class($personalize['icon.class']) />
             </button>
         </div>
         <div x-cloak
