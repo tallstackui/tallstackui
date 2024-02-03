@@ -69,7 +69,7 @@ return [
         | Allowed styles:
         |
         | Heroicons: solid, outline
-        | Phosphoricons: thin, light, regular, bold, fill, duotone
+        | Phosphoricons: thin, light, regular, bold, duotone
         */
         'style' => 'solid',
     ],

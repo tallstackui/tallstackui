@@ -9,7 +9,6 @@ use TallStackUi\View\Components\Icon;
 
 class IconGuide
 {
-    // All supported icons
     public const AVAILABLE = [
         'heroicons' => [
             'solid',
@@ -20,7 +19,6 @@ class IconGuide
             'light',
             'regular',
             'bold',
-            'fill',
             'duotone',
         ],
     ];
