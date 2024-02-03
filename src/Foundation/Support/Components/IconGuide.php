@@ -63,8 +63,17 @@ class IconGuide
             $style = $attribute;
         }
 
+        $name = $component->icon ?? $component->name;
+
+        // For phosphoricons when the style is different from
+        // "regular" we need to add the style right after the
+        // name due to the way phosphoricons exports the files.
+        if ($type === 'phosphoricons' && $style !== 'regular') {
+            $name = $name.'-'.$style;
+        }
+
         $base = str_replace('components', '', $view = $component->blade()->name());
-        $icon = sprintf('%s.%s.%s', $type, $style, $component->icon ?? $component->name);
+        $icon = sprintf('%s.%s.%s', $type, $style, $name);
 
         if (! View::exists($view.'.'.$icon)) {
             throw new Exception("The icon [$icon] does not exist.");
