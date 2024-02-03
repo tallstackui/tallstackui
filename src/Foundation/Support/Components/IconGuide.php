@@ -34,11 +34,13 @@ class IconGuide
             'x' => 'x-mark',
             'eye' => 'eye',
             'eye-slash' => 'eye-slash',
+            'chevron-down' => 'chevron-down',
         ],
         'phosphoricons' => [
             'x' => 'x',
             'eye' => 'eye',
             'eye-slash' => 'eye-slash',
+            'chevron-down' => 'caret-down',
         ],
     ];
 

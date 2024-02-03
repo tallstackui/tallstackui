@@ -11,7 +11,7 @@
             <div @class($personalize['action.wrapper'])>
                 <span @class($personalize['action.text'])>{{ $text }}</span>
                 <x-dynamic-component :component="TallStackUi::component('icon')"
-                                     icon="chevron-down"
+                                     :icon="TallStackUi::icon('chevron-down')"
                                      dusk="open-dropdown"
                                      @class($personalize['action.icon'])
                                      x-on:click="show = !show"

@@ -3,6 +3,7 @@
 <div x-data>
     {!! $slot !!}
     @if ($code)
+        {{--TODO: needs to apply the logic--}}
         <x-dynamic-component component="tallstack-ui::icon.solid.code-bracket-square"
                              data-position="auto"
                              x-tooltip="{!! $code !!}"
