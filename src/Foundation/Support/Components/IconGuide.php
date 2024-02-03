@@ -31,16 +31,20 @@ class IconGuide
     // and icon references should use generic names when possible.
     private const GUIDE = [
         'heroicons' => [
-            'x' => 'x-mark',
-            'eye' => 'eye',
-            'eye-slash' => 'eye-slash',
+            'x-mark' => 'x-mark',
+            'chevron-up' => 'chevron-up',
             'chevron-down' => 'chevron-down',
+            'arrow-path' => 'arrow-path',
+            'document-text' => 'document-text',
+            'photo' => 'photo',
         ],
         'phosphoricons' => [
-            'x' => 'x',
-            'eye' => 'eye',
-            'eye-slash' => 'eye-slash',
+            'x-mark' => 'x',
+            'chevron-up' => 'caret-up',
             'chevron-down' => 'caret-down',
+            'arrow-path' => 'password',
+            'document-text' => 'files',
+            'photo' => 'file-image',
         ],
     ];
 
@@ -95,7 +99,7 @@ class IconGuide
 
         self::validate($type = $config->get('type'));
 
-        return self::GUIDE[$type][$key];
+        return self::GUIDE[$type][$key] ?? $key;
     }
 
     private static function configuration(): Collection

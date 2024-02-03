@@ -24,7 +24,7 @@
                     <div class="mr-2">
                         <button type="button" class="flex items-center" x-on:click="generator(); show = true;">
                             <x-dynamic-component :component="TallStackUi::component('icon')"
-                                                 icon="arrow-path"
+                                                 :icon="TallStackUi::icon('arrow-path')"
                                                  :$error
                                                  @class($personalize['icon.class']) />
                         </button>
