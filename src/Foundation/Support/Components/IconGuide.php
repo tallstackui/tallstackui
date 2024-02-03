@@ -3,7 +3,7 @@
 namespace TallStackUi\Foundation\Support\Components;
 
 //TODO: facade this???
-use RuntimeException;
+use TallStackUi\View\Components\Icon;
 
 class IconGuide
 {
@@ -35,14 +35,27 @@ class IconGuide
         ],
     ];
 
-    public static function get(string $name): string
+    public static function for(Icon $component): string
     {
-        $icon = config('tallstackui.icons.type');
+        $config = collect(config('tallstackui.icons'));
 
-        if (! $icon) {
-            throw new RuntimeException('Icon type is not set in the TallStackUI configuration file.');
+        $type = $config->get('type');
+        $style = $config->get('style');
+
+        foreach (array_keys($component->attributes->getAttributes()) as $attribute) {
+            if (in_array($attribute, self::AVAILABLE[$type])) {
+                $style = $attribute;
+            }
         }
 
-        return self::GUIDE[$icon][$name];
+        $base = str_replace('components', '', $component->blade()->name());
+
+        return sprintf(
+            '%s.%s.%s.%s',
+            $base,
+            $type,
+            $style,
+            $component->icon ?? $component->name
+        );
     }
 }
