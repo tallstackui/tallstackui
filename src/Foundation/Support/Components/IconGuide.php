@@ -4,12 +4,13 @@ namespace TallStackUi\Foundation\Support\Components;
 
 //TODO: facade this???
 use Exception;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\View;
 use TallStackUi\View\Components\Icon;
 
 class IconGuide
 {
-    // Supported icons
+    // All supported icons
     public const AVAILABLE = [
         'heroicons' => [
             'solid',
@@ -25,34 +26,41 @@ class IconGuide
         ],
     ];
 
-    // Guide for the internal icons
+    // The idea of this constant is to be used as a map of internal icons in
+    // components. As new icons are supported, this guide should be updated
+    // and icon references should use generic names when possible.
     private const GUIDE = [
         'heroicons' => [
-            'x-mark' => 'x-mark',
+            'x' => 'x-mark',
             'eye' => 'eye',
+            'eye-slash' => 'eye-slash',
         ],
         'phosphoricons' => [
-            'x-mark' => 'x',
+            'x' => 'x',
             'eye' => 'eye',
+            'eye-slash' => 'eye-slash',
         ],
     ];
 
     /** @throws Exception */
     public static function for(Icon $component): string
     {
-        $config = collect(config('tallstackui.icons'));
+        $config = self::configuration();
 
         $type = $config->get('type');
         $style = $config->get('style');
 
-        if (! in_array($type, array_keys(self::AVAILABLE))) {
-            throw new Exception("The icon type [$type] is not supported.");
-        }
+        self::validate($type);
 
         foreach (array_keys($component->attributes->getAttributes()) as $attribute) {
-            if (in_array($attribute, self::AVAILABLE[$type])) {
-                $style = $attribute;
+            if (! in_array($attribute, self::AVAILABLE[$type])) {
+                continue;
             }
+
+            // When some attribute matches one of the keys
+            // available in the supported icons, then we want
+            // to override the style at run time.
+            $style = $attribute;
         }
 
         $base = str_replace('components', '', $view = $component->blade()->name());
@@ -63,5 +71,34 @@ class IconGuide
         }
 
         return $base.'.'.$icon;
+    }
+
+    /**
+     * Determine internal icons using the guide.
+     *
+     * @throws Exception
+     */
+    public static function internal(string $key): string
+    {
+        $config = self::configuration();
+
+        self::validate($type = $config->get('type'));
+
+        return self::GUIDE[$type][$key];
+    }
+
+    private static function configuration(): Collection
+    {
+        return collect(config('tallstackui.icons'));
+    }
+
+    /** @throws Exception */
+    private static function validate(string $type): void
+    {
+        if (in_array($type, array_keys(self::AVAILABLE))) {
+            return;
+        }
+
+        throw new Exception("The icon type [$type] is not supported.");
     }
 }

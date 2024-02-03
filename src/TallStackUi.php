@@ -7,6 +7,7 @@ use TallStackUi\Foundation\Personalization\Personalization;
 use TallStackUi\Foundation\Support\Blade\BladeComponentPrefix;
 use TallStackUi\Foundation\Support\Blade\BladeDirectives;
 use TallStackUi\Foundation\Support\Blade\BladeSupport;
+use TallStackUi\Foundation\Support\Components\IconGuide;
 
 class TallStackUi
 {
@@ -28,6 +29,11 @@ class TallStackUi
     public function directives(): BladeDirectives
     {
         return app(BladeDirectives::class);
+    }
+
+    public function icon(string $key): string
+    {
+        return app(IconGuide::class)::internal($key);
     }
 
     public function personalize(?string $component = null): Personalization

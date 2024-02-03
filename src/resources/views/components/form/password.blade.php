@@ -36,12 +36,12 @@
                         {{ $attributes->only('x-on:reveal') }}
                         x-on:click="toggle()">
                     <x-dynamic-component :component="TallStackUi::component('icon')"
-                                         icon="eye"
+                                         :icon="TallStackUi::icon('eye')"
                                          :$error
                                          @class($personalize['icon.class'])
                                          x-show="!show" />
                     <x-dynamic-component :component="TallStackUi::component('icon')"
-                                         icon="eye-slash"
+                                         :icon="TallStackUi::icon('eye-slash')"
                                          :$error @class($personalize['icon.class'])
                                          x-show="show" />
                 </button>
