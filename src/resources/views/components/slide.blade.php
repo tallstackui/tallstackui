@@ -56,7 +56,7 @@
                                         @endif>{{ $title }}</h2>
                                 @endif
                                     <x-dynamic-component :component="TallStackUi::component('icon')"
-                                                         icon="x-mark"
+                                                         :icon="TallStackUi::component('x-mark')"
                                                          x-on:click="show = false"
                                                          @class($personalize['title.close']) />
                             </div>

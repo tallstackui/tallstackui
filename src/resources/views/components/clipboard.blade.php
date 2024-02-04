@@ -17,7 +17,9 @@
                         @class([$personalize['input.buttons.base'], $personalize['input.buttons.left']])
                         dusk="tallstackui_clipboard_input_copy"
                         type="button">
-                    <x-dynamic-component :component="TallStackUi::component('icon')" :icon="$personalize['input.buttons.icon.name']" @class($personalize['input.buttons.icon.class']) />
+                    <x-dynamic-component :component="TallStackUi::component('icon')"
+                                         :icon="TallStackUi::icon('clipboard-document')"
+                                         @class($personalize['input.buttons.icon.class']) />
                     <p x-ref="input-{{ $hash }}">{{ $placeholders['button']['copy'] }}</p>
                 </button>
             @endif
@@ -39,7 +41,7 @@
                         dusk="tallstackui_clipboard_input_copy"
                         type="button">
                     <x-dynamic-component :component="TallStackUi::component('icon')"
-                                         :icon="$personalize['input.buttons.icon.name']"
+                                         :icon="TallStackUi::icon('clipboard-document')"
                                          @class($personalize['input.buttons.icon.class']) />
                     <p x-ref="input-{{ $hash }}">{{ $placeholders['button']['copy'] }}</p>
                 </button>
@@ -48,13 +50,13 @@
         @if ($type === 'icon')
             <button x-on:click="copy()" {!! $attributes->only('x-on:copy') !!} @class($personalize['icon.wrapper'])>
                 <x-dynamic-component :component="TallStackUi::component('icon')"
-                                     :icon="filled($icons['copy']) ? $icons['copy'] : $personalize['icon.icons.copy.name']"
+                                     :icon="filled($icons['copy']) ? $icons['copy'] : TallStackUi::icon($personalize['icon.icons.copy.name'])"
                                      data-hash="{{ $hash }}"
                                      @class($personalize['icon.icons.copy.class'])
                                      dusk="tallstackui_clipboard_icon_copy"
                                      x-show="!notification" />
                 <x-dynamic-component :component="TallStackUi::component('icon')"
-                                     :icon="filled($icons['copied']) ? $icons['copied'] : $personalize['icon.icons.copied.name']"
+                                     :icon="filled($icons['copied']) ? $icons['copied'] : TallStackUi::icon($personalize['icon.icons.copied.name'])"
                                      @class($personalize['icon.icons.copied.class'])
                                      x-show="notification" />
             </button>

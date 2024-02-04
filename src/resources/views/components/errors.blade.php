@@ -21,7 +21,7 @@
                         {{ $attributes->only('x-on:close') }}
                         x-on:click="close()">
                     <x-dynamic-component :component="TallStackUi::component('icon')"
-                                         icon="x-mark"
+                                         :icon="TallStackUi::icon('x-mark')"
                                          @class([$personalize['close'], $colors['text']]) />
                 </button>
                 @endif

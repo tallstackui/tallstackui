@@ -1,4 +1,7 @@
-@php($personalize = $classes())
+@php
+    \TallStackUi\Foundation\Exceptions\MissingLivewireException::throwIf($livewire, 'loading');
+    $personalize = $classes();
+@endphp
 
 <div @if (!$delay)
          wire:loading
