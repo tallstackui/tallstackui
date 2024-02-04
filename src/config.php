@@ -58,7 +58,9 @@ return [
         |----------------------------------
         | Default and in-use icon type.
         |----------------------------------
-        | Allowed: heroicons, phosphoricons
+        | Allowed: heroicons, phosphoricons.
+        |
+        | Make sure to read the docs to understand the icon set up.
         */
         'type' => 'heroicons',
 
