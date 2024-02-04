@@ -21,6 +21,9 @@ class IconGuide
             'bold',
             'duotone',
         ],
+        'google' => [
+            'default',
+        ],
     ];
 
     // The idea of this constant is to be used as a map of internal icons in
@@ -38,6 +41,7 @@ class IconGuide
             'chevron-up-down' => 'chevron-up-down',
             'clipboard' => 'clipboard',
             'clipboard-document' => 'clipboard-document',
+            'cloud-arrow-up' => 'cloud-arrow-up',
             'document-check' => 'document-check',
             'document-text' => 'document-text',
             'exclamation-circle' => 'exclamation-circle',
@@ -65,6 +69,7 @@ class IconGuide
             'chevron-up-down' => 'caret-up-down',
             'clipboard' => 'clipboard',
             'clipboard-document' => 'copy-simple',
+            'cloud-arrow-up' => 'cloud-arrow-up',
             'document-check' => 'clipboard-text',
             'document-text' => 'file-text',
             'exclamation-circle' => 'info',
@@ -76,17 +81,44 @@ class IconGuide
             'photo' => 'image',
             'plus' => 'plus',
             'question-mark-circle' => 'question',
-            'swatch' => 'swatcher',
+            'swatch' => 'swatches',
             'trash' => 'trash',
             'x-circle' => 'x-circle',
             'x-mark' => 'x',
+        ],
+        'google' => [
+            'arrow-path' => 'password',
+            'check' => 'check',
+            'check-circle' => 'check-circle',
+            'chevron-down' => 'expand-more',
+            'chevron-left' => 'chevron-left',
+            'chevron-right' => 'chevron-right',
+            'chevron-up' => 'expand-less',
+            'chevron-up-down' => 'unfold-more',
+            'clipboard' => 'content-paste',
+            'clipboard-document' => 'content-copy',
+            'cloud-arrow-up' => 'cloud-upload',
+            'document-check' => 'assignment',
+            'document-text' => 'file-text',
+            'exclamation-circle' => 'info',
+            'eye' => 'visibility',
+            'eye-slash' => 'visibility-off',
+            'information-circle' => 'info',
+            'magnifying-glass' => 'search',
+            'minus' => 'remove',
+            'photo' => 'image',
+            'plus' => 'add',
+            'question-mark-circle' => 'help',
+            'swatch' => 'palette',
+            'trash' => 'trash',
+            'x-circle' => 'cancel',
+            'x-mark' => 'close',
         ],
     ];
 
     /** @throws Exception */
     public static function for(Icon $component): string
     {
-        // TODO: allow specific icon type in runtime when flush is disabled.
         $config = self::configuration();
 
         $type = $config->get('type');

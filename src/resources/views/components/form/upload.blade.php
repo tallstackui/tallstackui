@@ -72,7 +72,7 @@
                 <div @class($personalize['placeholder.wrapper']) :class="{ 'bg-primary-100': dragging }">
                     <div class="inline-flex items-center justify-center space-x-2">
                         <x-dynamic-component :component="TallStackUi::component('icon')"
-                                             :icon="TallStackUi::component('cloud-arrow-up')"
+                                             :icon="TallStackUi::icon('cloud-arrow-up')"
                                              @class($personalize['placeholder.icon.class']) />
                         <p @class($personalize['placeholder.title'])>
                             {{ __('tallstack-ui::messages.upload.upload') }}
