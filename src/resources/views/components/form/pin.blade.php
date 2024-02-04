@@ -70,7 +70,10 @@
             @endforeach
             <template x-if="clear && model">
                 <button class="cursor-pointer" x-on:click="erase();" dusk="form_pin_clear">
-                    <x-dynamic-component :component="TallStackUi::component('icon')" icon="x-circle" solid @class($personalize['button']) />
+                    <x-dynamic-component :component="TallStackUi::component('icon')"
+                                         :icon="TallStackUi::component('x-circle')"
+                                         solid
+                                         @class($personalize['button']) />
                 </button>
             </template>
         </div>

@@ -28,30 +28,39 @@ class IconGuide
     // and icon references should use generic names when possible.
     private const GUIDE = [
         'heroicons' => [
-            'x-mark' => 'x-mark',
+            'arrow-path' => 'arrow-path',
+            'arrow-up-tray' => 'arrow-up-tray',
+            'check' => 'check',
             'chevron-up' => 'chevron-up',
             'chevron-down' => 'chevron-down',
-            'arrow-path' => 'arrow-path',
             'document-text' => 'document-text',
             'photo' => 'photo',
             'swatch' => 'swatch',
-            'arrow-up-tray' => 'arrow-up-tray',
+            //
+            'x-mark' => 'x-mark',
+            'cloud-arrow-up' => 'cloud-arrow-up',
+            'trash' => 'trash',
         ],
         'phosphoricons' => [
-            'x-mark' => 'x',
+            'arrow-path' => 'password',
+            'arrow-up-tray' => 'upload-simple',
+            'check' => 'check',
             'chevron-up' => 'caret-up',
             'chevron-down' => 'caret-down',
-            'arrow-path' => 'password',
             'document-text' => 'files',
             'photo' => 'file-image',
             'swatch' => 'swatches',
-            'arrow-up-tray' => 'upload-simple',
+            //
+            'x-mark' => 'x',
+            'cloud-arrow-up' => 'cloud-arrow-up',
+            'trash' => 'trash',
         ],
     ];
 
     /** @throws Exception */
     public static function for(Icon $component): string
     {
+        // TODO: allow specific icon type in runtime when flush is disabled.
         $config = self::configuration();
 
         $type = $config->get('type');

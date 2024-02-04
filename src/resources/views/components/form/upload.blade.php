@@ -72,7 +72,7 @@
                 <div @class($personalize['placeholder.wrapper']) :class="{ 'bg-primary-100': dragging }">
                     <div class="inline-flex items-center justify-center space-x-2">
                         <x-dynamic-component :component="TallStackUi::component('icon')"
-                                             :icon="$personalize['placeholder.icon.icon']"
+                                             :icon="TallStackUi::component('cloud-arrow-up')"
                                              @class($personalize['placeholder.icon.class']) />
                         <p @class($personalize['placeholder.title'])>
                             {{ __('tallstack-ui::messages.upload.upload') }}
@@ -139,7 +139,7 @@
                                                 {{ $attributes->only('x-on:remove') }}
                                                 x-on:click="remove(@js($deleteMethod), @js($file))">
                                             <x-dynamic-component :component="TallStackUi::component('icon')"
-                                                                 icon="trash"
+                                                                 :icon="TallStackUi::icon('trash')"
                                                                  @class($personalize['item.delete']) />
                                         </button>
                                     @endif
