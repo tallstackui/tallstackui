@@ -72,6 +72,18 @@ return [
         | Phosphoricons: thin, light, regular, bold, duotone
         */
         'style' => 'solid',
+
+        /*
+        |----------------------------------
+        | Flush unused icons
+        |----------------------------------
+        | Allowed styles:
+        |
+        | In order to avoid the existence of unused files, the icons
+        | that are not in use can be flushed automatically when new
+        | icons is set and the application is in production.
+        */
+        'flush' => true,
     ],
 
     /*

@@ -84,13 +84,18 @@ class SetupIconsCommand extends Command
         File::deleteDirectory($extract);
         unlink($file);
 
+        if (config('tallstackui.icons.flush', true) === true && ! $this->laravel->isProduction()) {
+            return;
+        }
+
         foreach (
             collect(array_keys(IconGuide::AVAILABLE))
-                // Little trick to exclude the current type
                 ->mapWithKeys(fn ($value, $key) => [$value => $value])
                 ->except($this->metadata->get('type'))
                 ->toArray() as $type
         ) {
+            // Flushing the other unused icons to
+            // avoid the existence of unused files.
             File::deleteDirectory($path.$type);
         }
     }
