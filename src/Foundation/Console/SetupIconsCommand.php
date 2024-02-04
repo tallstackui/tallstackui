@@ -6,29 +6,37 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Str;
-use Symfony\Component\Console\Attribute\AsCommand;
 use TallStackUi\Foundation\Support\Components\IconGuide;
 use ZipArchive;
 
 use function Laravel\Prompts\spin;
 
-#[AsCommand(name: 'tallstackui:setup-icons', description: 'Icon configuration for TallStackUI')]
 class SetupIconsCommand extends Command
 {
-    protected ?Collection $metadata = null;
+    public $description = 'TallStackUI icon set up';
+
+    public $signature = 'tallstackui:setup-icons {--force : Install icons even when the icons are already installed}';
+
+    protected ?Collection $data = null;
+
+    /**
+     * @var bool Indicate that the returned message is not part of an error.
+     */
+    protected bool $error = true;
 
     public function handle(): int
     {
-        if (! extension_loaded('zip')) {
-            $this->components->error('The PHP zip extension is not installed. Please install it and try again.');
-
-            return self::FAILURE;
-        }
-
-        $this->metadata = collect();
+        $this->data = collect();
 
         if (($result = spin(fn () => $this->setup(), 'Setting up...')) !== true) {
+            if (! $this->error) {
+                $this->components->warn($result);
+
+                return self::SUCCESS;
+            }
+
             $this->components->error($result);
 
             return self::FAILURE;
@@ -40,18 +48,18 @@ class SetupIconsCommand extends Command
             return self::FAILURE;
         }
 
-        $type = $this->metadata->get('type');
+        spin(fn () => Process::run('php artisan optimize:clear'), 'Cleaning up ...');
+
+        $type = $this->data->get('type');
 
         $this->components->info('The icons ['.$type.'] are successfully installed.');
-
-        $this->components->info('Please, run the following commands: [npm run build && php artisan optimize:clear].');
 
         return self::SUCCESS;
     }
 
     private function download(): string|bool
     {
-        $response = Http::get(sprintf('https://github.com/tallstackui/icons/raw/main/%s/files.zip', $this->metadata->get('type')));
+        $response = Http::get(sprintf('https://github.com/tallstackui/icons/raw/main/%s/files.zip', $this->data->get('type')));
 
         if ($response->failed()) {
             return 'Failed to download the .zip file.';
@@ -80,7 +88,11 @@ class SetupIconsCommand extends Command
     {
         $path = __DIR__.'/../../resources/views/components/icon/';
 
-        File::copyDirectory($extract, $path.$this->metadata->get('type'));
+        if ($this->option('force')) {
+            File::deleteDirectory($path.$this->data->get('type'));
+        }
+
+        File::copyDirectory($extract, $path.$this->data->get('type'));
         File::deleteDirectory($extract);
         unlink($file);
 
@@ -91,7 +103,7 @@ class SetupIconsCommand extends Command
         foreach (
             collect(array_keys(IconGuide::AVAILABLE))
                 ->mapWithKeys(fn ($value, $key) => [$value => $value])
-                ->except($this->metadata->get('type'))
+                ->except($this->data->get('type'))
                 ->toArray() as $type
         ) {
             // Flushing the other unused icons to
@@ -126,12 +138,14 @@ class SetupIconsCommand extends Command
             return 'Unsupported icon style. Please, review the configuration file.';
         }
 
-        if (is_dir(__DIR__.'/../../resources/views/components/icon/'.$type)) {
+        if (! $this->option('force') && is_dir(__DIR__.'/../../resources/views/components/icon/'.$type)) {
+            $this->error = false;
+
             return 'The icons selected ['.$type.'] are already installed.';
         }
 
-        $this->metadata->put('type', $type);
-        $this->metadata->put('style', $style);
+        $this->data->put('type', $type);
+        $this->data->put('style', $style);
 
         return true;
     }
