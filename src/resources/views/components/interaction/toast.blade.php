@@ -26,31 +26,31 @@
                     <div class="flex-shrink-0">
                         <div x-show="toast.type === 'success'">
                             <x-dynamic-component :component="TallStackUi::component('icon')"
-                                                 icon="check-circle"
+                                                 :icon="TallStackUi::icon('check-circle')"
                                                  outline
                                                  @class([$personalize['icon.size'], $colors['icon']['success']]) />
                         </div>
                         <div x-show="toast.type === 'error'">
                             <x-dynamic-component :component="TallStackUi::component('icon')"
-                                                 icon="x-circle"
+                                                 :icon="TallStackUi::icon('x-circle')"
                                                  outline
                                                  @class([$personalize['icon.size'], $colors['icon']['error']]) />
                         </div>
                         <div x-show="toast.type === 'info'">
                             <x-dynamic-component :component="TallStackUi::component('icon')"
-                                                 icon="information-circle"
+                                                 :icon="TallStackUi::icon('information-circle')"
                                                  outline
                                                  @class([$personalize['icon.size'], $colors['icon']['info']]) />
                         </div>
                         <div x-show="toast.type === 'warning'">
                             <x-dynamic-component :component="TallStackUi::component('icon')"
-                                                 icon="exclamation-circle"
+                                                 :icon="TallStackUi::icon('exclamation-circle')"
                                                  outline
                                                  @class([$personalize['icon.size'], $colors['icon']['warning']]) />
                         </div>
                         <div x-show="toast.type === 'question'">
                             <x-dynamic-component :component="TallStackUi::component('icon')"
-                                                 icon="question-mark-circle"
+                                                 :icon="TallStackUi::icon('question-mark-circle')"
                                                  outline
                                                  @class([$personalize['icon.size'], $colors['icon']['question']]) />
                         </div>
@@ -81,7 +81,7 @@
                         <div @class($personalize['buttons.close.wrapper'])>
                             <button x-on:click="hide()" type="button" @class($personalize['buttons.close.class'])>
                                 <x-dynamic-component :component="TallStackUi::component('icon')"
-                                                     icon="x-mark"
+                                                     :icon="TallStackUi::icon('x-mark')"
                                                      @class($personalize['buttons.close.size']) />
                             </button>
                         </div>
@@ -91,7 +91,7 @@
                                     type="button"
                                     @class($personalize['buttons.expand.class'])>
                                 <x-dynamic-component :component="TallStackUi::component('icon')"
-                                                     icon="chevron-down"
+                                                     :icon="TallStackUi::icon('chevron-down')"
                                                      @class($personalize['buttons.expand.size']) />
                             </button>
                         </div>

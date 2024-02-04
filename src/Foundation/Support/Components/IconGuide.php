@@ -38,8 +38,13 @@ class IconGuide
             'swatch' => 'swatch',
             //
             'x-mark' => 'x-mark',
+            'x-circle' => 'x-circle',
+            'check-circle' => 'check-circle',
             'cloud-arrow-up' => 'cloud-arrow-up',
             'trash' => 'trash',
+            'information-circle' => 'information-circle',
+            'exclamation-circle' => 'exclamation-circle',
+            'question-mark-circle' => 'question-mark-circle',
         ],
         'phosphoricons' => [
             'arrow-path' => 'password',
@@ -52,8 +57,13 @@ class IconGuide
             'swatch' => 'swatches',
             //
             'x-mark' => 'x',
+            'x-circle' => 'x-circle',
+            'check-circle' => 'check-circle',
             'cloud-arrow-up' => 'cloud-arrow-up',
             'trash' => 'trash',
+            'information-circle' => 'information-circle',
+            'exclamation-circle' => 'exclamation-circle',
+            'question-mark-circle' => 'question-mark-circle',
         ],
     ];
 
