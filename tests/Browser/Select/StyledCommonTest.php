@@ -285,6 +285,57 @@ class StyledCommonTest extends BrowserTestCase
     }
 
     /** @test */
+    public function can_search_using_description(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $string = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    {{ $string }}
+
+                    <x-select.styled wire:model="string"
+                                     label="Select"
+                                     hint="Select"
+                                     :options="[
+                                        ['label' => 'foo', 'value' => 'foo', 'description' => 'PHP'],
+                                        ['label' => 'bar', 'value' => 'bar', 'description' => 'JS'],
+                                     ]"
+                                     select="label:label|value:value" searchable>
+                        <x-slot:after>
+                            Ooops!
+                        </x-slot:after>
+                    </x-select.styled>
+
+                    <x-button dusk="sync" wire:click="sync">Sync</x-button>
+                </div>
+                HTML;
+            }
+
+            public function sync(): void
+            {
+                // ...
+            }
+        })
+            ->assertSee('Select an option')
+            ->assertDontSee('bar')
+            ->assertDontSee('foo')
+            ->click('@tallstackui_select_open_close')
+            ->waitForText(['foo', 'bar'])
+            ->type('@tallstackui_select_search_input', 'PHP')
+            ->waitForText('foo')
+            ->assertSee('foo')
+            ->waitForText('PHP')
+            ->assertSee('PHP')
+            ->waitUntilMissingText('bar')
+            ->assertDontSee('bar')
+            ->assertDontSee('JS');
+    }
+
+    /** @test */
     public function can_select(): void
     {
         Livewire::visit(StyledComponent_Common::class)
