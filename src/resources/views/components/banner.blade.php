@@ -65,14 +65,14 @@
         @endif
         <button type="button" x-on:click="show = false" x-show="close" dusk="tallstackui_banner_close">
             <x-dynamic-component :component="TallStackUi::component('icon')"
-                icon="x-mark"
-                @class([$personalize['close'], $colors['text'] ?? '' => !$wire])
-                x-bind:class="{
-                    'text-green-50': type === 'success',
-                    'text-red-50': type === 'error',
-                    'text-yellow-50': type === 'warning',
-                    'text-blue-50': type === 'info'
-                }" />
+                                 icon="x-mark"
+                                 @class([$personalize['close'], $colors['text'] ?? '' => !$wire])
+                                 x-bind:class="{
+                                    'text-green-50': type === 'success',
+                                    'text-red-50': type === 'error',
+                                    'text-yellow-50': type === 'warning',
+                                    'text-blue-50': type === 'info'
+                                 }" />
         </button>
     </div>
 @endif
