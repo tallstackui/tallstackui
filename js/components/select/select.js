@@ -525,7 +525,7 @@ export default (
         null;
 
       return this.dimensional ?
-        (label.indexOf(search) !== -1 || (description && description.indexOf(search) !== -1)) :
+        (label.indexOf(search) !== -1 || (this.common && description && description.indexOf(search) !== -1)) :
           this.normalize(option.toString().toLowerCase()).indexOf(search) !== -1;
     });
   },
