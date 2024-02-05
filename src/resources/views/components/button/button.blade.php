@@ -22,7 +22,7 @@
         <x-dynamic-component :component="TallStackUi::component('icon')" :$icon @class([$personalize['icon.sizes.' . $size], $colors['icon']]) />
     @endif
     @if ($livewire && $loading)
-        <x-tallstack-ui::icon.others.loading-button :$loading :$delay @class([
+        <x-tallstack-ui::icon.generic.loading-button :$loading :$delay @class([
             'animate-spin',
             $personalize['icon.sizes.' . $size],
             $colors['icon'],

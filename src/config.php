@@ -51,9 +51,42 @@ return [
     | Icon Style
     |--------------------------------------------------------------------------
     |
-    | Control the default icon style (Allowed: solid, outline)
+    | MAKE SURE TO READ THE DOCS BEFORE CHANGE THIS CONFIGURATION HERE.
     */
-    'icon' => 'solid',
+    'icons' => [
+        /*
+        |----------------------------------
+        | Default and in-use icon type.
+        |----------------------------------
+        | Allowed: heroicons, phosphoricons, google
+        */
+        'type' => 'heroicons',
+
+        /*
+        |----------------------------------
+        | Default and in-use icon style.
+        |----------------------------------
+        | Allowed:
+        |
+        | heroicons: solid, outline
+        | phosphoricons: thin, light, regular, bold, duotone
+        | Google: default
+        */
+        'style' => 'solid',
+
+        /*
+        |----------------------------------
+        | Flush unused icons pack.
+        |----------------------------------
+        | Allowed styles:
+        |
+        | To avoid the accumulation of unused files, the icon packs that are
+        | not in use can be deleted automatically when new icons are set AND
+        | the application is in production. In non-production environment,
+        | the icons will be kept to avoid unnecessary downloads.
+        */
+        'flush' => true,
+    ],
 
     /*
     |--------------------------------------------------------------------------

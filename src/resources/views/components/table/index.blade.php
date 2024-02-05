@@ -25,8 +25,8 @@
             @if ($filters['search'])
                 <div class="sm:w-1/5">
                     <x-dynamic-component :component="TallStackUi::component('input')"
+                                         :icon="TallStackUi::icon('magnifying-glass')"
                                          wire:model.live.debounce.500ms="{{ $filters['search'] }}"
-                                         icon="magnifying-glass"
                                          :placeholder="$placeholders['search']"
                                          type="search"
                                          invalidate />
@@ -37,7 +37,7 @@
     <div @class(['relative', $personalize['wrapper']])>
         <table @class($personalize['table.base']) @if ($livewire && $loading) wire:loading.class="{{ $personalize['loading.table'] }}" @endif>
             @if ($livewire && $loading)
-                <x-tallstack-ui::icon.others.loading class="{{ $personalize['loading.icon'] }}" wire:loading="{{ $target }}" />
+                <x-tallstack-ui::icon.generic.loading class="{{ $personalize['loading.icon'] }}" wire:loading="{{ $target }}" />
             @endif
             @if (!$headerless)
                 <thead @class(['uppercase', $personalize['table.thead.normal'] => !$striped, $personalize['table.thead.striped'] => $striped])>
@@ -51,7 +51,7 @@
                                     {{ $header['label'] ?? '' }}
                                     @if ($livewire && $sortable($header) && $sorted($header))
                                         <x-dynamic-component :component="TallStackUi::component('icon')"
-                                                             :name="$head($header)['direction'] === 'desc' ? 'chevron-up' : 'chevron-down'"
+                                                             :icon="TallStackUi::icon($head($header)['direction'] === 'desc' ? 'chevron-up' : 'chevron-down')"
                                                              class="ml-2 h-4 w-4" />
                                     @endif
                                 </a>

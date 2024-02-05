@@ -1,4 +1,6 @@
-@php($span = $left || $right)
+@php
+    $span = $left || $right;
+@endphp
 
 @if ($span)
     <span class="inline-flex items-center gap-x-1">
@@ -6,7 +8,7 @@
     @if ($left)
         {!! $left !!}
     @endif
-    <x-dynamic-component component="tallstack-ui::icon.{{ $type }}.{{ $icon ?? $name }}" {{ $attributes->class(['text-red-500' => $error]) }} />
+    <x-dynamic-component :component="'tallstack-ui::icon.'.$icon()" {{ $attributes->class(['text-red-500' => $error]) }} />
     @if ($right)
         {!! $right !!}
     @endif

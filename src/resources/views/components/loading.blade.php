@@ -1,4 +1,7 @@
-@php($personalize = $classes())
+@php
+    \TallStackUi\Foundation\Exceptions\MissingLivewireException::throwIf($livewire, 'loading');
+    $personalize = $classes();
+@endphp
 
 <div @if (!$delay)
          wire:loading
@@ -12,7 +15,7 @@
     ]) x-ref="loading" x-data="tallstackui_loading()">
     <div @class($personalize['wrapper.second'])>
         @if (!$text && empty($slot->toHtml()))
-            <x-tallstack-ui::icon.others.loading @class($personalize['spinner']) />
+            <x-tallstack-ui::icon.generic.loading @class($personalize['spinner']) />
         @else
             <div @class($personalize['text'])>
                 {!! $text ?? $slot !!}
