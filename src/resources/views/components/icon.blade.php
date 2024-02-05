@@ -8,7 +8,7 @@
     @if ($left)
         {!! $left !!}
     @endif
-    <x-dynamic-component :component="$get()" {{ $attributes->class(['text-red-500' => $error]) }} />
+    <x-dynamic-component :component="'tallstack-ui::icon.'.$icon()" {{ $attributes->class(['text-red-500' => $error]) }} />
     @if ($right)
         {!! $right !!}
     @endif

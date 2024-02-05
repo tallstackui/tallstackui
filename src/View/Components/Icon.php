@@ -4,10 +4,12 @@ namespace TallStackUi\View\Components;
 
 use Illuminate\Contracts\View\View;
 use TallStackUi\Foundation\Attributes\SkipDebug;
-use TallStackUi\Foundation\Support\Components\IconGuide;
+use TallStackUi\Foundation\Traits\BuildRawIcon;
 
 class Icon extends BaseComponent
 {
+    use BuildRawIcon;
+
     public function __construct(
         public ?string $icon = null,
         public ?string $name = null,
@@ -25,10 +27,5 @@ class Icon extends BaseComponent
     public function blade(): View
     {
         return view('tallstack-ui::components.icon');
-    }
-
-    public function get(): string
-    {
-        return IconGuide::for($this);
     }
 }

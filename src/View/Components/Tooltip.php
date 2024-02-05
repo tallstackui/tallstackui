@@ -8,10 +8,14 @@ use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Exceptions\InvalidSelectedPositionException;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Foundation\Support\Components\IconGuide;
+use TallStackUi\Foundation\Traits\BuildRawIcon;
 
 #[SoftPersonalization('tooltip')]
 class Tooltip extends BaseComponent implements Personalization
 {
+    use BuildRawIcon;
+
     public function __construct(
         public ?string $text = null,
         public ?string $icon = 'question-mark-circle',
@@ -20,16 +24,12 @@ class Tooltip extends BaseComponent implements Personalization
         public ?bool $sm = null,
         public ?bool $md = null,
         public ?bool $lg = null,
-        public ?bool $solid = false,
-        public ?bool $outline = false,
         #[SkipDebug]
         public ?string $size = null,
         public ?string $position = 'top',
-        #[SkipDebug]
-        public ?string $style = null,
     ) {
+        $this->icon = IconGuide::internal($this->icon);
         $this->size = $this->lg ? 'lg' : ($this->md ? 'md' : ($this->xs ? 'xs' : 'sm'));
-        $this->style = $this->outline ? 'outline' : ($this->solid ? 'solid' : config('tallstackui.icon', 'solid')); //TODO: icons
     }
 
     public function blade(): View

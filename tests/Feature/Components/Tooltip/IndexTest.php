@@ -19,7 +19,7 @@ it('can render size variations', function (array $size) {
     fn () => ['sm' => 'h-5 w-5'],
     fn () => ['md' => 'h-6 w-6'],
     fn () => ['lg' => 'h-7 w-7'],
-])->skip('WIP');
+]);
 
 it('can render positioned', function (string $position) {
     $component = <<<HTML
@@ -28,7 +28,7 @@ it('can render positioned', function (string $position) {
 
     expect($component)->render()
         ->toContain('Foo bar');
-})->with(['top', 'bottom', 'left', 'right'])->skip('WIP');
+})->with(['top', 'bottom', 'left', 'right']);
 
 it('cannot use bad positions', function (string $position) {
     $this->expectException(ViewException::class);
@@ -39,4 +39,4 @@ it('cannot use bad positions', function (string $position) {
 
     expect($component)->render()
         ->toContain('Foo bar');
-})->with(['foo', 'bar', 'baz'])->skip('WIP');
+})->with(['foo', 'bar', 'baz']);

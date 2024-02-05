@@ -4,12 +4,12 @@ namespace TallStackUi\Foundation\Support\Components;
 
 use Exception;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\View;
-use TallStackUi\View\Components\Icon;
+use Illuminate\View\Component;
+use TallStackUi\Foundation\Exceptions\InappropriateIconGuideExecution;
 
 class IconGuide
 {
-    public const AVAILABLE = [
+    final public const AVAILABLE = [
         'heroicons' => [
             'solid',
             'outline',
@@ -110,15 +110,17 @@ class IconGuide
             'plus' => 'add',
             'question-mark-circle' => 'help',
             'swatch' => 'palette',
-            'trash' => 'trash',
+            'trash' => 'delete',
             'x-circle' => 'cancel',
             'x-mark' => 'close',
         ],
     ];
 
-    /** @throws Exception */
-    public static function for(Icon $component): string
+    /** @throws Exception|InappropriateIconGuideExecution */
+    public static function build(Component $component): string
     {
+        InappropriateIconGuideExecution::validate($component::class);
+
         $config = self::configuration();
 
         $type = $config->get('type');
@@ -133,11 +135,11 @@ class IconGuide
 
             // When some attribute matches one of the keys
             // available in the supported icons, then we want
-            // to override the style at run time.
+            // to override the style through run time.
             $style = $attribute;
         }
 
-        $name = $component->icon ?? $component->name;
+        $name = $component->icon ?? $component->name; // @phpstan-ignore-line
 
         // For phosphoricons when the style is different from
         // "regular" we need to add the style right after the
@@ -146,14 +148,7 @@ class IconGuide
             $name = $name.'-'.$style;
         }
 
-        $base = str_replace('components', '', $view = $component->blade()->name());
-        $icon = sprintf('%s.%s.%s', $type, $style, $name);
-
-        if (! View::exists($view.'.'.$icon)) {
-            throw new Exception("The icon [$icon] does not exist.");
-        }
-
-        return $base.'.'.$icon;
+        return sprintf('%s.%s.%s', $type, $style, $name);
     }
 
     /**

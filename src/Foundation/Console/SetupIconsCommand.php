@@ -102,7 +102,7 @@ class SetupIconsCommand extends Command
 
         foreach (
             collect(array_keys(IconGuide::AVAILABLE))
-                ->mapWithKeys(fn ($value, $key) => [$value => $value])
+                ->mapWithKeys(fn ($value, $key) => [$value => $value]) // @pest-ignore-type
                 ->except($this->data->get('type'))
                 ->toArray() as $type
         ) {
