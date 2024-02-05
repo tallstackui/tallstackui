@@ -29,56 +29,56 @@
         x-transition:leave-start="opacity-100 scale-100"
         x-transition:leave-end="opacity-0 scale-95"
         x-anchor.bottom-end="$refs.wrapper"
-        class="absolute top-full z-50 mt-2 overflow-hidden rounded-md border border-gray-200 shadow-lg w-[18rem] dark:border-dark-600">
-        <div class="overflow-auto rounded-md bg-white p-4 shadow-xs soft-scrollbar dark:bg-dark-800">
-            <div class="flex select-none items-center justify-center gap-1">
+        @class($personalize['wrapper.first'])>
+        <div @class($personalize['wrapper.second'])>
+            <div @class($personalize['wrapper.third'])>
                 <span x-text="formatted.hours"
                     x-ref="hours"
-                    class="w-20 rounded-full p-2 text-center text-4xl font-medium transition text-primary-600 dark:text-dark-300 dark:border-dark-700">
+                    @class($personalize['time'])>
                 </span>
-                <span class="h-14 text-5xl text-gray-300 dark:text-dark-700">:</span>
+                <span  @class($personalize['separator'])>:</span>
                 <span x-text="formatted.minutes"
                     x-ref="minutes"
-                    class="w-20 rounded-full p-2 text-center text-4xl font-medium transition text-primary-600 dark:text-dark-300 dark:border-dark-700">
+                    @class($personalize['time'])>
                 </span>
                 @if ($format === '12')
-                    <div class="m-2 flex h-14 flex-col justify-between">
-                        <div class="w-12">
+                    <div @class($personalize['format.wrapper'])>
+                        <div @class($personalize['format.size'])>
                             <input type="radio"
                                    id="am"
                                    x-model="interval"
                                    value="AM"
-                                   class="hidden peer">
+                                   @class($personalize['format.input'])>
                             <label for="am"
                                    dusk="tallstackui_timepicker_am"
-                                   class="inline-flex w-full cursor-pointer items-center justify-between rounded-t-lg border border-gray-300 bg-white p-1 peer-checked:font-bold text-gray-500 peer-checked:bg-primary-50 peer-checked:border-primary-200 peer-checked:text-primary-600 hover:bg-gray-100 hover:text-gray-600 dark:peer-checked:text-dark-100 peer-checked:dark:bg-dark-700 peer-checked:dark:border-dark-500 dark:border-dark-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:text-dark-300 dark:hover:bg-gray-700">
-                                <div class="w-full text-center text-sm">AM</div>
+                                   @class([$personalize['format.color'], $personalize['format.am.label']])>
+                                <div @class($personalize['format.am.title'])>AM</div>
                             </label>
                         </div>
-                        <div class="w-12">
+                        <div @class($personalize['format.size'])>
                             <input type="radio"
                                    id="pm"
                                    x-model="interval"
                                    value="PM"
-                                   class="hidden peer">
+                                   @class($personalize['format.input'])>
                             <label for="pm"
                                    dusk="tallstackui_timepicker_pm"
-                                   class="inline-flex w-full cursor-pointer items-center justify-between rounded-b-lg border border-t-0 border-gray-300 bg-white p-1 peer-checked:font-bold text-gray-500 peer-checked:bg-primary-50 peer-checked:border-primary-200 peer-checked:text-primary-600 hover:bg-gray-100 hover:text-gray-600 dark:peer-checked:text-dark-100 peer-checked:dark:bg-dark-700 peer-checked:dark:border-dark-500 dark:border-dark-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:text-dark-300 dark:hover:bg-gray-700">
-                                <div class="w-full text-center text-sm font-medium">PM</div>
+                                   @class([$personalize['format.color'], $personalize['format.pm.label']])>
+                                <div @class($personalize['format.pm.title'])>PM</div>
                             </label>
                         </div>
                     </div>
                 @endif
             </div>
-            <div wire:ignore.self @class(['mt-2 flex flex-col space-y-6 outline-none', 'mb-2' => !$helper])>
+            <div wire:ignore.self @class([$personalize['helper.wrapper'], 'mb-2' => !$helper])>
                 <input type="range"
                        min="{{ $format === '12' ? 1 : 0 }}"
                        max="{{ $format === '12' ? 12 : 23 }}"
                        step="{{ $stepHour ?? 1 }}"
                        x-model="hours"
                        dusk="tallstackui_timepicker_hours"
-                       x-on:mouseenter="$refs.hours.classList.add('bg-primary-50', 'border-primary-600', 'dark:bg-dark-700')"
-                       x-on:mouseleave="$refs.hours.classList.remove('bg-primary-50', 'border-primary-600', 'dark:bg-dark-700')"
+                       x-on:mouseenter="$refs.hours.classList.add('{{ $personalize['range.light'] }}', '{{ $personalize['range.dark'] }}')"
+                       x-on:mouseleave="$refs.hours.classList.remove('{{ $personalize['range.light'] }}', '{{ $personalize['range.dark'] }}')"
                        @class(['focus:outline-none', $personalize['range.base'], $personalize['range.thumb']])>
                 <input type="range"
                        min="0"
@@ -86,15 +86,16 @@
                        step="{{ $stepMinute ?? 1 }}"
                        x-model="minutes"
                        dusk="tallstackui_timepicker_minutes"
-                       x-on:mouseenter="$refs.minutes.classList.add('bg-primary-50', 'border-primary-600', 'dark:bg-dark-700')"
-                       x-on:mouseleave="$refs.minutes.classList.remove('bg-primary-50', 'border-primary-600', 'dark:bg-dark-700')"
+                       x-on:mouseenter="$refs.minutes.classList.add('{{ $personalize['range.light'] }}', '{{ $personalize['range.dark'] }}')"
+                       x-on:mouseleave="$refs.minutes.classList.remove('{{ $personalize['range.light'] }}', '{{ $personalize['range.dark'] }}')"
                        @class(['focus:outline-none', $personalize['range.base'], $personalize['range.thumb']])>
             </div>
             @if ($helper)
                 <div class="mt-4">
                     <x-dynamic-component :component="TallStackUi::component('button')"
                                          :text="__('tallstack-ui::messages.timepicker.helper')"
-                                         class="w-full uppercase"
+                                         type="button"
+                                         @class([$personalize['helper.button']])
                                          x-on:click="current()"
                                          {{ $attributes->only('x-on:current') }}
                                          dusk="tallstackui_timepicker_current"
