@@ -518,8 +518,14 @@ export default (
     const search = this.normalize(this.search.toLowerCase());
 
     return available.filter((option) => {
+      const label = this.normalize(option[selectable.label].toString().toLowerCase());
+
+      const description = option.description ?
+        this.normalize(option.description.toString().toLowerCase()) :
+        null;
+
       return this.dimensional ?
-          this.normalize(option[selectable.label].toString().toLowerCase()).indexOf(search) !== -1 :
+        (label.indexOf(search) !== -1 || (this.common && description && description.indexOf(search) !== -1)) :
           this.normalize(option.toString().toLowerCase()).indexOf(search) !== -1;
     });
   },
