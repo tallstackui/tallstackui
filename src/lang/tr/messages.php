@@ -68,4 +68,8 @@ return [
             ],
         ],
     ],
+
+    'timepicker' => [
+        'helper' => 'Geçerli Saat',
+    ],
 ];
