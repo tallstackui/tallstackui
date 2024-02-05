@@ -16,6 +16,7 @@ import reaction from './components/reaction/reaction';
 import tab from './components/tab/tab';
 import tag from './components/form/tag';
 import textArea from './components/form/textarea';
+import timePicker from './components/form/timepicker';
 import toastBase from './components/toast/toast-base';
 import toastLoop from './components/toast/toast-loop';
 import tooltip from './components/tooltip/tooltip';
@@ -30,6 +31,8 @@ document.addEventListener('alpine:init', () => {
   Alpine.data('tallstackui_formPassword', password);
   Alpine.data('tallstackui_formPin', pin);
   Alpine.data('tallstackui_formTag', tag);
+  Alpine.data('tallstackui_formTextArea', textArea);
+  Alpine.data('tallstackui_formTimePicker', timePicker);
   Alpine.data('tallstackui_formUpload', upload);
   Alpine.data('tallstackui_darkTheme', darkTheme);
   Alpine.data('tallstackui_dialog', dialog);
@@ -40,7 +43,6 @@ document.addEventListener('alpine:init', () => {
   Alpine.data('tallstackui_select', select);
   Alpine.data('tallstackui_slide', slide);
   Alpine.data('tallstackui_tab', tab);
-  Alpine.data('tallstackui_formTextArea', textArea);
   Alpine.data('tallstackui_toastBase', toastBase);
   Alpine.data('tallstackui_toastLoop', toastLoop);
 });
