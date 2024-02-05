@@ -10,21 +10,21 @@
         @if ($text)
             <div @class($personalize['action.wrapper'])>
                 <span @class($personalize['action.text'])>{{ $text }}</span>
-                <x-dynamic-component :component="TallStackUi::component('icon')"
-                                     icon="chevron-down"
-                                     dusk="open-dropdown"
-                                     @class($personalize['action.icon'])
-                                     x-on:click="show = !show"
-                                     x-bind:class="{ 'transform rotate-180': animate && show }"/>
+                <button type="button" x-on:click="show = !show" dusk="open-dropdown">
+                    <x-dynamic-component :component="TallStackUi::component('icon')"
+                                        icon="chevron-down"
+                                        @class($personalize['action.icon'])
+                                        x-bind:class="{ 'transform rotate-180': animate && show }"/>
+                </button>
             </div>
         @elseif ($icon)
             <div @class($personalize['action.wrapper'])>
-                <x-dynamic-component :component="TallStackUi::component('icon')"
-                                     :$icon
-                                     dusk="open-dropdown"
-                                     @class($personalize['action.icon'])
-                                     x-on:click="show = !show"
-                                     x-bind:class="{ 'transform rotate-180': animate && show }" />
+                <button type="button" x-on:click="show = !show" dusk="open-dropdown">
+                    <x-dynamic-component :component="TallStackUi::component('icon')"
+                                        :$icon
+                                        @class($personalize['action.icon'])
+                                        x-bind:class="{ 'transform rotate-180': animate && show }" />
+                </button>
             </div>
         @else
             {!! $action !!}
