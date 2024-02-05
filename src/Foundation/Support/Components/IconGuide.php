@@ -87,7 +87,7 @@ class IconGuide
             'x-mark' => 'x',
         ],
         'google' => [
-            'arrow-path' => 'password',
+            'arrow-path' => 'sync',
             'check' => 'check',
             'check-circle' => 'check-circle',
             'chevron-down' => 'expand-more',

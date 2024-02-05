@@ -66,7 +66,7 @@ class TimePicker extends BaseComponent implements Personalization
             'helper' => [
                 'wrapper' => 'mt-2 flex flex-col space-y-6 outline-none',
                 'button' => 'w-full uppercase',
-            ]
+            ],
         ]);
     }
 }
