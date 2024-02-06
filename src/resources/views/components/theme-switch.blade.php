@@ -1,6 +1,6 @@
 @php($personalize = $classes())
 
-<div wire:ignore x-data="{ themeSwitch(){ this.$el.dispatchEvent(new CustomEvent('theme', {detail: { darkmode: darkTheme }})); } }">
+<div wire:ignore x-data="{ themeSwitch() { this.$el.dispatchEvent(new CustomEvent('theme', {detail: { darkTheme: darkTheme }})); } }">
     <button type="button"
             role="switch"
             aria-checked="false"
