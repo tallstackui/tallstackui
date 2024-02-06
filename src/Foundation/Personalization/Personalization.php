@@ -42,10 +42,10 @@ use TallStackUi\View\Components\Reaction;
 use TallStackUi\View\Components\Select\Native as SelectNative;
 use TallStackUi\View\Components\Select\Styled as SelectStyled;
 use TallStackUi\View\Components\Slide;
+use TallStackUi\View\Components\SwitchTheme;
 use TallStackUi\View\Components\Tab\Items as TabItems;
 use TallStackUi\View\Components\Tab\Tab;
 use TallStackUi\View\Components\Table;
-use TallStackUi\View\Components\ToggleTheme;
 use TallStackUi\View\Components\Tooltip;
 use TallStackUi\View\Components\Wrapper\Input as InputWrapper;
 use TallStackUi\View\Components\Wrapper\Radio as RadioWrapper;
@@ -245,9 +245,9 @@ class Personalization
         return app($this->component(Tooltip::class));
     }
 
-    public function toggleTheme(): PersonalizationResources
+    public function switchTheme(): PersonalizationResources
     {
-        return app($this->component(ToggleTheme::class));
+        return app($this->component(SwitchTheme::class));
     }
 
     public function wrapper(?string $component = null): PersonalizationResources

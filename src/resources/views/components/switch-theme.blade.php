@@ -11,9 +11,9 @@
                 'bg-gray-200': darkTheme === false,
             }"
             @endif
-            @class([$personalize['toggle.button'] => !$simple])>
+            @class([$personalize['switch.button'] => !$simple])>
         <div @class([
-                $personalize['toggle.wrapper'] => !$simple,
+                $personalize['switch.wrapper'] => !$simple,
                 $personalize['simple.wrapper'] => $simple,
              ])
              @if (!$simple) 
@@ -31,7 +31,7 @@
                 <x-dynamic-component :component="TallStackUi::component('icon')"
                                      :icon="TallStackUi::icon('sun')"
                                      @class([
-                                        $personalize['toggle.icon'] => !$simple,
+                                        $personalize['switch.icon'] => !$simple,
                                         $personalize['simple.icon'] => $simple,
                                      ]) />
             </span>
@@ -44,7 +44,7 @@
                 <x-dynamic-component :component="TallStackUi::component('icon')"
                                      :icon="TallStackUi::icon('moon')"
                                      @class([
-                                        $personalize['toggle.icon'] => !$simple,
+                                        $personalize['switch.icon'] => !$simple,
                                         $personalize['simple.icon'] => $simple,
                                      ]) />
             </span>
