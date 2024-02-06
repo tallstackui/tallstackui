@@ -51,8 +51,7 @@
              x-on:click.away="datePickerAway()"
                 @class($personalize['box.wrapper'])>
             <div class="flex items-center justify-between mb-4">
-                <div
-                        @class($personalize['box.picker.button'])>
+                <div @class($personalize['box.picker.button'])>
                     <span>
                         <span x-text="monthNames[month]" x-on:click="showMonthPicker = true"  @class($personalize['label.month'])></span>
                         <span x-text="year" x-on:click="toggleYear()" @class($personalize['label.year'])></span>

@@ -25,15 +25,15 @@ class DatePicker extends BaseComponent implements Personalization
         public ?bool $invalidate = null,
         public ?bool $range = false,
         public ?bool $multiple = false,
-        public ?string $format = 'YYYY-MM-DD',
+        public ?string $format = 'YYYY-MM-DD', // TODO: validate
         public string|null|Carbon $minDate = null,
         public string|null|Carbon $maxDate = null,
         public ?int $minYear = null,
         public ?int $maxYear = null,
         public bool|array|Collection|null $helpers = null,
         public array|Collection $disable = [],
-        public ?array $placeholders = null,
-        public ?int $delay = 2,
+        public ?array $placeholders = null, // TODO: unnecessary with Dayjs
+        public ?int $delay = 2, // TODO: unnecessary
     ) {
         $this->helpers = $this->helpers === true ?
             collect(['yesterday', 'today', 'tomorrow', 'last7days', 'last15days', 'last30days']) :
