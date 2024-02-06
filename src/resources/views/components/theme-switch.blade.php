@@ -19,10 +19,11 @@
                   aria-hidden="true"
                   x-bind:class="{ 'opacity-0 duration-100 ease-out': darkTheme === true, 'opacity-100 duration-200 ease-in': darkTheme === false }">
                <x-dynamic-component :component="TallStackUi::component('icon')"
-                                    :icon="TallStackUi::icon('sun')"
+                                    :icon="TallStackUi::icon($icons ? 'moon' : 'sun')"
                                     @class([
+                                        $personalize['colors.moon'] => !$icons,
+                                        $personalize['colors.sun'] => $icons,
                                         $personalize['switch.icons.sizes.' . $size],
-                                        $personalize['switch.icons.moon'] => !$icons,
                                         $personalize['simple.icons.sizes.' . $size] => $icons
                                     ]) />
             </span>
@@ -30,10 +31,11 @@
                   aria-hidden="true"
                   x-bind:class="{ 'opacity-100 duration-200 ease-in': darkTheme === true, 'opacity-0 duration-100 ease-out': darkTheme === false }">
                <x-dynamic-component :component="TallStackUi::component('icon')"
-                                    :icon="TallStackUi::icon('moon')"
+                                    :icon="TallStackUi::icon($icons ? 'sun' : 'moon')"
                                     @class([
+                                        $personalize['colors.sun'] => !$icons,
+                                        $personalize['colors.moon'] => $icons,
                                         $personalize['switch.icons.sizes.' . $size],
-                                        $personalize['switch.icons.sun'] => !$icons,
                                         $personalize['simple.icons.sizes.' . $size] => $icons
                                     ]) />
             </span>

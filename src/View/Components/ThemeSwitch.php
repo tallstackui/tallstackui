@@ -17,8 +17,9 @@ class ThemeSwitch extends BaseComponent implements Personalization
         public ?bool $sm = null,
         public ?bool $md = null,
         public ?bool $lg = null,
+        public ?bool $xl = null,
     ) {
-        $this->size = $this->xs ? 'xs' : ($this->sm ? 'sm' : ($this->lg ? 'lg' : 'md'));
+        $this->size = $this->xl ? 'xl' : ($this->xs ? 'xs' : ($this->sm ? 'sm' : ($this->lg ? 'lg' : 'md')));
     }
 
     public function blade(): View
@@ -30,6 +31,10 @@ class ThemeSwitch extends BaseComponent implements Personalization
     {
         return Arr::dot([
             'wrapper' => 'absolute inset-0 flex h-full w-full items-center justify-center transition-opacity',
+            'colors' => [
+                'moon' => 'text-yellow-500',
+                'sun' => 'text-blue-500',
+            ],
             'simple' => [
                 'wrapper' => 'text-dark-500 dark:text-dark-200 pointer-events-none relative inline-block transition duration-200 ease-in-out',
                 'icons' => [
@@ -38,6 +43,7 @@ class ThemeSwitch extends BaseComponent implements Personalization
                         'sm' => 'h-4 w-4',
                         'md' => 'h-5 w-5',
                         'lg' => 'h-6 w-6',
+                        'xl' => 'h-7 w-7',
                     ],
                 ],
             ],
@@ -47,13 +53,12 @@ class ThemeSwitch extends BaseComponent implements Personalization
                 'on' => 'bg-primary-500',
                 'off' => 'bg-gray-200',
                 'icons' => [
-                    'moon' => 'text-yellow-500',
-                    'sun' => 'text-blue-500',
                     'sizes' => [
                         'xs' => 'h-2 w-2',
                         'sm' => 'h-3 w-3',
                         'md' => 'h-4 w-4',
                         'lg' => 'h-5 w-5',
+                        'xl' => 'h-6 w-6',
                     ],
                 ],
                 'sizes' => [
@@ -61,12 +66,14 @@ class ThemeSwitch extends BaseComponent implements Personalization
                     'sm' => 'h-4 w-7',
                     'md' => 'h-5 w-9',
                     'lg' => 'h-6 w-10',
+                    'xl' => 'h-7 w-12',
                 ],
                 'translate' => [
                     'xs' => 'translate-x-2',
                     'sm' => 'translate-x-3',
                     'md' => 'translate-x-4',
                     'lg' => 'translate-x-4',
+                    'xl' => 'translate-x-5',
                 ],
             ],
         ]);
