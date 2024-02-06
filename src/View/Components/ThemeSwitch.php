@@ -10,8 +10,15 @@ use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 #[SoftPersonalization('themeSwitch')]
 class ThemeSwitch extends BaseComponent implements Personalization
 {
-    public function __construct(public ?bool $icons = false)
-    {
+    public function __construct(
+        public ?bool $icons = false,
+        public ?string $size = null,
+        public ?bool $xs = null,
+        public ?bool $sm = null,
+        public ?bool $md = null,
+        public ?bool $lg = null,
+    ) {
+        $this->size = $this->xs ? 'xs' : ($this->sm ? 'sm' : ($this->lg ? 'lg' : 'md'));
     }
 
     public function blade(): View
@@ -24,16 +31,42 @@ class ThemeSwitch extends BaseComponent implements Personalization
         return Arr::dot([
             'wrapper' => 'absolute inset-0 flex h-full w-full items-center justify-center transition-opacity',
             'simple' => [
-                'wrapper' => 'text-dark-500 dark:text-dark-200 pointer-events-none relative inline-block h-5 w-5 transition duration-200 ease-in-out',
-                'icon' => 'h-5 w-5',
+                'wrapper' => 'text-dark-500 dark:text-dark-200 pointer-events-none relative inline-block transition duration-200 ease-in-out',
+                'icons' => [
+                    'sizes' => [
+                        'xs' => 'h-3 w-3',
+                        'sm' => 'h-4 w-4',
+                        'md' => 'h-5 w-5',
+                        'lg' => 'h-6 w-6',
+                    ],
+                ],
             ],
             'switch' => [
-                'button' => 'focus:ring-primary-500 dark:ring-offset-dark-900 relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2',
-                'wrapper' => 'text-dark-500 pointer-events-none relative inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out',
+                'button' => 'focus:ring-primary-500 dark:ring-offset-dark-900 relative inline-flex flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2',
+                'wrapper' => 'text-dark-500 pointer-events-none relative inline-block transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out',
+                'on' => 'bg-primary-500',
+                'off' => 'bg-gray-200',
                 'icons' => [
-                    'size' => 'h-4 w-4',
                     'moon' => 'text-yellow-500',
                     'sun' => 'text-blue-500',
+                    'sizes' => [
+                        'xs' => 'h-2 w-2',
+                        'sm' => 'h-3 w-3',
+                        'md' => 'h-4 w-4',
+                        'lg' => 'h-5 w-5',
+                    ],
+                ],
+                'sizes' => [
+                    'xs' => 'h-3 w-5',
+                    'sm' => 'h-4 w-7',
+                    'md' => 'h-5 w-9',
+                    'lg' => 'h-6 w-10',
+                ],
+                'translate' => [
+                    'xs' => 'translate-x-2',
+                    'sm' => 'translate-x-3',
+                    'md' => 'translate-x-4',
+                    'lg' => 'translate-x-4',
                 ],
             ],
         ]);
