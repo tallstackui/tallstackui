@@ -226,6 +226,7 @@ return [
         'timepicker' => Components\Form\TimePicker::class,
         'toast' => Components\Interaction\Toast::class,
         'toggle' => Components\Form\Toggle::class,
+        'toggle-theme' => Components\ToggleTheme::class,
         'tooltip' => Components\Tooltip::class,
         'reaction' => Components\Reaction::class,
         'wrapper.input' => Components\Wrapper\Input::class,

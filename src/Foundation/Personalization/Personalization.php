@@ -45,6 +45,7 @@ use TallStackUi\View\Components\Slide;
 use TallStackUi\View\Components\Tab\Items as TabItems;
 use TallStackUi\View\Components\Tab\Tab;
 use TallStackUi\View\Components\Table;
+use TallStackUi\View\Components\ToggleTheme;
 use TallStackUi\View\Components\Tooltip;
 use TallStackUi\View\Components\Wrapper\Input as InputWrapper;
 use TallStackUi\View\Components\Wrapper\Radio as RadioWrapper;
@@ -242,6 +243,11 @@ class Personalization
     public function tooltip(): PersonalizationResources
     {
         return app($this->component(Tooltip::class));
+    }
+
+    public function toggleTheme(): PersonalizationResources
+    {
+        return app($this->component(ToggleTheme::class));
     }
 
     public function wrapper(?string $component = null): PersonalizationResources
