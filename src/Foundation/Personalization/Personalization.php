@@ -19,6 +19,7 @@ use TallStackUi\View\Components\Dropdown\Items as DropdownItems;
 use TallStackUi\View\Components\Errors;
 use TallStackUi\View\Components\Form\Checkbox;
 use TallStackUi\View\Components\Form\Color;
+use TallStackUi\View\Components\Form\DatePicker;
 use TallStackUi\View\Components\Form\Error;
 use TallStackUi\View\Components\Form\Hint;
 use TallStackUi\View\Components\Form\Input;
@@ -137,15 +138,16 @@ class Personalization
         $class = match ($component) {
             'checkbox' => Checkbox::class,
             'color' => Color::class,
+            'datepicker' => DatePicker::class,
             'error' => Error::class,
-            'upload' => Upload::class,
             'hint' => Hint::class,
             'input' => Input::class,
             'label' => Label::class,
             'number' => Number::class,
-            'range' => Range::class,
+            'upload' => Upload::class,
             'password' => Password::class,
             'pin' => Pin::class,
+            'range' => Range::class,
             'radio' => Radio::class,
             'tag' => Tag::class,
             'textarea' => Textarea::class,

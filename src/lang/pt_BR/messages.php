@@ -69,6 +69,40 @@ return [
         ],
     ],
 
+    'datepicker' => [
+        'days' => [
+            'sun' => 'Dom',
+            'mon' => 'Seg',
+            'tue' => 'Ter',
+            'wed' => 'Qua',
+            'thu' => 'Qui',
+            'fri' => 'Sex',
+            'sat' => 'Sáb',
+        ],
+        'months' => [
+            'january' => 'Janeiro',
+            'february' => 'Fevereiro',
+            'march' => 'Março',
+            'april' => 'Abril',
+            'may' => 'Maio',
+            'june' => 'Junho',
+            'july' => 'Julho',
+            'august' => 'Agosto',
+            'september ' => 'Setembro',
+            'october' => 'Outubro',
+            'november' => 'Novembro',
+            'december' => 'Dezembro',
+        ],
+        'helpers' => [
+            'today' => 'Hoje',
+            'yesterday' => 'Ontem',
+            'tomorrow' => 'Amanhã',
+            'last7days' => 'Últimos 7 dias',
+            'last15days' => 'Últimos 15 dias',
+            'last30days' => 'Últimos 30 dias',
+        ],
+    ],
+
     'timepicker' => [
         'helper' => 'Hora Atual',
     ],

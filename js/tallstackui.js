@@ -2,6 +2,7 @@ import './globals/globals';
 import banner from './components/banner/banner';
 import color from './components/form/color';
 import clipboard from './components/clipboard/clipboard';
+import datepicker from './components/form/datepicker';
 import darkTheme from './helpers/dark-theme';
 import dialog from './components/dialog/dialog';
 import dropdown from './components/dropdown/dropdown';
@@ -26,6 +27,7 @@ document.addEventListener('alpine:init', () => {
   Alpine.plugin(tooltip);
   Alpine.data('tallstackui_banner', banner);
   Alpine.data('tallstackui_clipboard', clipboard);
+  Alpine.data('tallstackui_datepicker', datepicker);
   Alpine.data('tallstackui_formColor', color);
   Alpine.data('tallstackui_formNumber', number);
   Alpine.data('tallstackui_formPassword', password);
