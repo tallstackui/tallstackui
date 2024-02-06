@@ -5,7 +5,7 @@
             role="switch"
             aria-checked="false"
             x-on:click="darkTheme = !darkTheme; themeSwitch()"
-            {{ $attributes->only('x-on:theme') }}
+            {{ $attributes->only('x-on:change') }}
             @if (!$icons) x-bind:class="{ '{{ $personalize['switch.on'] }}': darkTheme === true, '{{ $personalize['switch.off'] }}': darkTheme === false }" @endif
             @class([$personalize['switch.button'] => !$icons, $personalize['switch.sizes.' . $size] => !$icons])>
          <div @class([
