@@ -7,8 +7,8 @@ use Illuminate\Support\Arr;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 
-#[SoftPersonalization('switchTheme')]
-class SwitchTheme extends BaseComponent implements Personalization
+#[SoftPersonalization('themeSwitch')]
+class ThemeSwitch extends BaseComponent implements Personalization
 {
     public function __construct(
         public ?bool $simple = false,
@@ -18,7 +18,7 @@ class SwitchTheme extends BaseComponent implements Personalization
 
     public function blade(): View
     {
-        return view('tallstack-ui::components.switch-theme');
+        return view('tallstack-ui::components.theme-switch');
     }
 
     public function personalization(): array
