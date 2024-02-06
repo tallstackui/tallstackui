@@ -25,7 +25,7 @@ class ToggleTheme extends BaseComponent implements Personalization
     {
         return Arr::dot([
             'simple' => [
-                'wrapper' => 'text-dark-500 pointer-events-none relative inline-block h-5 w-5 transition duration-200 ease-in-out dark:text-gray-200',
+                'wrapper' => 'text-dark-500 pointer-events-none relative inline-block h-5 w-5 transition duration-200 ease-in-out dark:text-dark-200',
                 'icon' => 'h-5 w-5'
             ],
             'toggle' => [
