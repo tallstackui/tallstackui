@@ -33,7 +33,6 @@ class DatePicker extends BaseComponent implements Personalization
         public bool|array|Collection|null $helpers = null,
         public array|Collection $disable = [],
         public ?array $placeholders = null, // TODO: unnecessary with Dayjs
-        public ?int $delay = 2, // TODO: unnecessary
     ) {
         $this->helpers = $this->helpers === true ?
             collect(['yesterday', 'today', 'tomorrow', 'last7days', 'last15days', 'last30days']) :
@@ -138,7 +137,7 @@ class DatePicker extends BaseComponent implements Personalization
             //
         }
 
-        if (blank($maxDate) || blank($maxDate)) {
+        if (blank($minDate) || blank($maxDate)) {
             throw new InvalidArgumentException('The DatePicker [min-date|max-date] attribute must be a Carbon instance or a valid date string.');
         }
 

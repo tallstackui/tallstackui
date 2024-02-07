@@ -14,7 +14,6 @@
             @js($minYear),
             @js($maxYear),
             @js($disable),
-            @js($delay),
             @js($placeholders['days']),
             @js($placeholders['months']))"
          x-cloak
@@ -93,8 +92,8 @@
                                     <div>
                                         <button @class($personalize['button.navigate'])
                                                 x-on:click="previousYearRange($event)"
-                                                x-on:mousedown="interval = setInterval(() => previousYearRange($event), delay * 100);"
-                                                x-on:touchstart="interval = setInterval(() => previousYearRange($event), delay * 100);"
+                                                x-on:mousedown="interval = setInterval(() => previousYearRange($event), 200);"
+                                                x-on:touchstart="interval = setInterval(() => previousYearRange($event), 200);"
                                                 x-on:mouseup="clearInterval(interval);"
                                                 x-on:mouseleave="clearInterval(interval);"
                                                 x-on:touchend="clearInterval(interval);">
@@ -102,8 +101,8 @@
                                         </button>
                                         <button @class($personalize['button.navigate'])
                                                 x-on:click="nextYearRange($event)"
-                                                x-on:mousedown="interval = setInterval(() => nextYearRange($event), delay * 100);"
-                                                x-on:touchstart="interval = setInterval(() => nextYearRange($event), delay * 100);"
+                                                x-on:mousedown="interval = setInterval(() => nextYearRange($event), 200);"
+                                                x-on:touchstart="interval = setInterval(() => nextYearRange($event), 200);"
                                                 x-on:mouseup="clearInterval(interval);"
                                                 x-on:mouseleave="clearInterval(interval);"
                                                 x-on:touchend="clearInterval(interval);">
@@ -126,8 +125,8 @@
                     <button type="button"
                             @class($personalize['button.navigate'])
                             x-on:click="previousMonth()"
-                            x-on:mousedown="interval = setInterval(() => previousMonth(), delay * 100);"
-                            x-on:touchstart="interval = setInterval(() => previousMonth(), delay * 100);"
+                            x-on:mousedown="interval = setInterval(() => previousMonth(), 200);"
+                            x-on:touchstart="interval = setInterval(() => previousMonth(), 200);"
                             x-on:mouseup="clearInterval(interval);"
                             x-on:mouseleave="clearInterval(interval);"
                             x-on:touchend="clearInterval(interval);">
@@ -135,8 +134,8 @@
                     </button>
                     <button type="button" @class($personalize['button.navigate'])
                     x-on:click="nextMonth()"
-                            x-on:mousedown="interval = setInterval(() => nextMonth(), delay * 100);"
-                            x-on:touchstart="interval = setInterval(() => nextMonth(), delay * 100);"
+                            x-on:mousedown="interval = setInterval(() => nextMonth(), 200);"
+                            x-on:touchstart="interval = setInterval(() => nextMonth(), 200);"
                             x-on:mouseup="clearInterval(interval);"
                             x-on:mouseleave="clearInterval(interval);"
                             x-on:touchend="clearInterval(interval);">

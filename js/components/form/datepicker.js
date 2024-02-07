@@ -1,4 +1,4 @@
-export default (model, range, multiple, format, minDate, maxDate, minYear, maxYear, disable, delay, days, months) => ({
+export default (model, range, multiple, format, minDate, maxDate, minYear, maxYear, disable, days, months) => ({
   open: false,
   format: format,
   model: model,
@@ -25,7 +25,6 @@ export default (model, range, multiple, format, minDate, maxDate, minYear, maxYe
   maxYear: maxYear,
   disable: disable,
   interval: null,
-  delay: delay,
   selectedDates: null,
   init() {
     const currentDate = new Date();
