@@ -224,6 +224,7 @@ return [
         'table' => Components\Table::class,
         'tab.items' => Components\Tab\Items::class,
         'textarea' => Components\Form\Textarea::class,
+        'theme-switch' => Components\ThemeSwitch::class,
         'timepicker' => Components\Form\TimePicker::class,
         'toast' => Components\Interaction\Toast::class,
         'toggle' => Components\Form\Toggle::class,

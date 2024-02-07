@@ -30,6 +30,12 @@ class SetupIconsCommand extends Command
     {
         $this->data = collect();
 
+        if (! extension_loaded('zip')) {
+            $this->components->error('The PHP zip extension is not installed. Please, review the docs.');
+
+            return self::FAILURE;
+        }
+
         if (($result = spin(fn () => $this->setup(), 'Setting up...')) !== true) {
             if (! $this->error) {
                 $this->components->warn($result);
@@ -102,8 +108,8 @@ class SetupIconsCommand extends Command
 
         foreach (
             collect(array_keys(IconGuide::AVAILABLE))
-                ->mapWithKeys(fn ($value, $key) => [$value => $value]) // @pest-ignore-type
-                ->except($this->data->get('type'))
+                ->mapWithKeys(fn (string $value) => [$value => $value])
+                ->except(['heroicons', $this->data->get('type')]) // Heroicons is always required.
                 ->toArray() as $type
         ) {
             // Flushing the other unused icons to
