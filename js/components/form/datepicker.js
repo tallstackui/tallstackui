@@ -1,3 +1,5 @@
+import {dayjs, error} from '../../helpers';
+
 export default (model, range, multiple, format, minDate, maxDate, minYear, maxYear, disable, days, months) => ({
   open: false,
   format: format,
@@ -27,6 +29,10 @@ export default (model, range, multiple, format, minDate, maxDate, minYear, maxYe
   interval: null,
   selectedDates: null,
   init() {
+    if (!this.dayjs) {
+      return error('The dayjs library is not available. Please, review the docs.');
+    }
+
     const currentDate = new Date();
     this.month = currentDate.getMonth();
     this.year = currentDate.getFullYear();
@@ -296,6 +302,13 @@ export default (model, range, multiple, format, minDate, maxDate, minYear, maxYe
     this.month = month;
     this.showMonthPicker = false;
     this.calculateDays();
+  },
+  /**
+   * Get the dayjs library.
+   * @return {Dayjs}
+   */
+  get dayjs() {
+    return dayjs();
   },
   selectYear(e, year) {
     e.stopPropagation();

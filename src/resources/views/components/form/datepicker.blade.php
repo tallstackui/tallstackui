@@ -20,20 +20,20 @@
          x-on:click.outside="open = false">
         <div x-ref="anchor"
                 @class([
-                   $personalize['input.class.wrapper'],
-                   $personalize['input.class.color.base'] => !$error,
-                   $personalize['input.class.color.background'] => !$attributes->get('disabled') && !$attributes->get('readonly'),
-                   $personalize['input.class.color.disabled'] => $attributes->get('disabled') || $attributes->get('readonly'),
-                   $personalize['error'] => $error
-               ])>
+                    $personalize['input.class.wrapper'],
+                    $personalize['input.class.color.base'] => !$error,
+                    $personalize['input.class.color.background'] => !$attributes->get('disabled') && !$attributes->get('readonly'),
+                    $personalize['input.class.color.disabled'] => $attributes->get('disabled') || $attributes->get('readonly'),
+                    $personalize['error'] => $error
+                ])>
             <input @if ($id) id="{{ $id }}" @endif
-            type="text"
+                   type="text"
                    readonly
                    x-on:click="open = !open; showYearPicker=false;"
                    x-on:keydown.escape="open = false"
                    x-model="value"
                    x-ref="input"
-                    {{ $attributes->class(['curson-pointer', $personalize['input.class.base']]) }} />
+                   {{ $attributes->class(['curson-pointer', $personalize['input.class.base']]) }} />
             <div @class($personalize['icon.input'])>
                 <x-dynamic-component :component="TallStackUi::component('icon')" icon="x-mark" class="w-5 h-5 hover:text-red-500" x-show="value" x-on:click="clear()" />
                 <x-dynamic-component :component="TallStackUi::component('icon')" icon="calendar" @class(['w-5 h-5', $personalize['error'] => $error]) x-on:click="open = !open" />
@@ -48,7 +48,7 @@
              x-transition:leave-start="opacity-100 translate-y-0"
              x-transition:leave-end="opacity-0 -translate-y-2"
              x-on:click.away="datePickerAway()"
-                @class($personalize['box.wrapper'])>
+             @class($personalize['box.wrapper'])>
             <div class="flex items-center justify-between mb-4">
                 <div @class($personalize['box.picker.button'])>
                     <span>
@@ -133,7 +133,7 @@
                         <x-dynamic-component :component="TallStackUi::component('icon')" icon="chevron-left" @class($personalize['icon.navigate']) />
                     </button>
                     <button type="button" @class($personalize['button.navigate'])
-                    x-on:click="nextMonth()"
+                            x-on:click="nextMonth()"
                             x-on:mousedown="interval = setInterval(() => nextMonth(), 200);"
                             x-on:touchstart="interval = setInterval(() => nextMonth(), 200);"
                             x-on:mouseup="clearInterval(interval);"
