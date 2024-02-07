@@ -29,14 +29,15 @@ export default (model, range, multiple, format, minDate, maxDate, minYear, maxYe
   interval: null,
   selectedDates: null,
   init() {
-    if (!this.dayjs) {
+    const dayjs = this.dayjs;
+
+    if (!dayjs) {
       return error('The dayjs library is not available. Please, review the docs.');
     }
 
-    const currentDate = new Date();
-    this.month = currentDate.getMonth();
-    this.year = currentDate.getFullYear();
-    this.day = currentDate.getDay();
+    this.month = dayjs.month();
+    this.year = dayjs.year();
+    this.day = dayjs.day();
     this.calculateDays();
 
     if (this.model) {
