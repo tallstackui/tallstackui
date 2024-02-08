@@ -26,7 +26,7 @@
             <div @class($personalize['icon.wrapper']) x-cloak>
                 @if ($generator)
                     <div class="mr-2">
-                        <button type="button" class="flex items-center" x-on:click="generator(); show = true;">
+                        <button type="button" class="flex items-center" x-on:click="generator(); show = true;" {!! $attributes->only('x-on:generated') !!}>
                             <x-dynamic-component :component="TallStackUi::component('icon')"
                                                  :icon="TallStackUi::icon('arrow-path')"
                                                  :$error
