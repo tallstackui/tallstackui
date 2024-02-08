@@ -40,6 +40,7 @@ export default (
   value: value,
   limit: limit,
   change: change,
+  image: null,
   async init() {
     // When the component is not being used in livewire.
     if (!this.livewire) {
@@ -263,6 +264,7 @@ export default (
 
       this.model = this.dimensional ? option[this.selectable.value] : option;
       this.placeholder = this.dimensional ? option[this.selectable.label] : option;
+      this.image = option.image ?? null;
     }
 
     this.show = this.quantity === this.available?.length ? false : this.multiple;
@@ -342,6 +344,7 @@ export default (
     this.input = null;
     this.model = null;
     this.placeholder = placeholder;
+    this.image = null;
     this.search = '';
     this.$nextTick(() => this.selects = []);
 
@@ -437,6 +440,7 @@ export default (
       this.placeholder = this.dimensional ?
           this.selects[0]?.[this.selectable.label] ?? placeholder :
           this.selects[0] ?? placeholder;
+      this.image = this.selects[0]?.image ?? null;
     } else {
       this.selects = [];
     }

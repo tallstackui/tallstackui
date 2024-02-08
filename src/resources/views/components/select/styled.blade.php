@@ -46,17 +46,23 @@
                         <span x-text="quantity"></span>
                     </div>
                     <div x-show="empty || !multiple">
-                        <span @class(['text-red-500 dark:text-red-500' => $error])
-                              x-bind:class="{
-                                '{{ $personalize['itens.placeholder'] }}': empty,
-                                '{{ $personalize['itens.single'] }}': !empty
-                              }" x-text="placeholder"></span>
+                        <div class="flex items-center">
+                            <img x-bind:src="image" class="w-6 h-6 rounded-full mr-1" x-show="image" />
+                            <span @class(['text-red-500 dark:text-red-500' => $error])
+                                x-bind:class="{
+                                    '{{ $personalize['itens.placeholder'] }}': empty,
+                                    '{{ $personalize['itens.single'] }}': !empty
+                                }" x-text="placeholder"></span>
+                        </div>
                     </div>
                     <div wire:ignore @class($personalize['itens.wrapper']) x-show="multiple && quantity > 0">
                         <template x-for="select in selects" :key="select[selectable.value] ?? select">
                             <a class="cursor-pointer">
                                 <div @class($personalize['itens.multiple.item'])>
-                                    <span @class($personalize['itens.multiple.label']) x-text="select[selectable.label] ?? select"></span>
+                                    <div class="flex items-center">
+                                        <img x-bind:src="select.image" class="w-3 h-3 rounded-full mr-1" x-show="select.image !== null" />
+                                        <span @class($personalize['itens.multiple.label']) x-text="select[selectable.label] ?? select"></span>
+                                    </div>
                                     @if (!$disabled)
                                         <div @class($personalize['itens.multiple.icon'])>
                                             <button type="button" x-on:click="clear(select)">
