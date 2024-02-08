@@ -26,11 +26,13 @@
             $personalize['error'] => $error
         ])>
         @if ($prefix)
-            <span @class([$personalize['input.class.slot'], $personalize['error'] => $error])>{{ $prefix }}</span>
+            <span @class(['ml-2 mr-1', $personalize['input.class.slot'], $personalize['error'] => $error])>{{ $prefix }}</span>
         @endif
-        <input @if ($id) id="{{ $id }}" @endif {{ $attributes->class($personalize['input.class.base']) }}>
+        <input @if ($id) id="{{ $id }}" @endif 
+               @if ($prefix || $suffix) autocomplete="off" @endif
+               {{ $attributes->class(['pr-2 pl-0' => $prefix, 'pl-2 pr-0' => $suffix, $personalize['input.class.base']]) }}>
         @if ($suffix)
-            <span @class([$personalize['input.class.slot'], $personalize['error'] => $error])>{{ $suffix }}</span>
+            <span @class(['ml-1 mr-2', $personalize['input.class.slot'], $personalize['error'] => $error])>{{ $suffix }}</span>
         @endif
     </div>
 </x-dynamic-component>
