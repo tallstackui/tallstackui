@@ -7,9 +7,9 @@ use Exception;
 class InvalidSelectedPositionException extends Exception
 {
     private const ALLOWED = [
-        'top',
-        'top-start',
-        'top-end',
+        'auto',
+        'auto-start',
+        'auto-end',
         'bottom',
         'bottom-start',
         'bottom-end',
@@ -19,9 +19,9 @@ class InvalidSelectedPositionException extends Exception
         'right',
         'right-start',
         'right-end',
-        'auto',
-        'auto-start',
-        'auto-end',
+        'top',
+        'top-start',
+        'top-end',
     ];
 
     public function __construct(string $component)
