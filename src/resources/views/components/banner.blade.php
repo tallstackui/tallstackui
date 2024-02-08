@@ -6,23 +6,23 @@
 
 @if ($show)
     <div x-data="tallstackui_banner(@js($animated), @js($wire), @js($text), @js($enter), @js($leave), @js($close))"
-         @class([
+        @class([
             $personalize['wire'] => $wire,
             $personalize['wrapper'],
             $personalize['sizes.' . $size],
             $colors['background'] ?? $color['background'] => !$wire
         ])
-         @if ($wire)
+        @if ($wire)
          x-bind:class="{
             'bg-green-600' : type === 'success',
             'bg-red-600' : type === 'error',
             'bg-yellow-600' : type === 'warning',
             'bg-blue-600' : type === 'info'
          }" @endif
-         x-show="show && text !== ''"
-         x-cloak
-         @if ($wire) x-on:tallstackui:navbar.window="add($event)" @endif
-         @if ($animated || $close || $wire)
+        x-show="show && text !== ''"
+        x-cloak
+        @if ($wire) x-on:tallstackui:navbar.window="add($event)" @endif
+        @if ($animated || $close || $wire)
              x-transition:enter="transition ease-out duration-300"
              x-transition:enter-start="-translate-y-10"
              x-transition:enter-end="translate-y-0"
@@ -74,15 +74,16 @@
                 {!! $text !!}
             </span>
         @endif
+        <button type="button" x-on:click="show = false" x-show="close" dusk="tallstackui_banner_close">
             <x-dynamic-component :component="TallStackUi::component('icon')"
                                  :icon="TallStackUi::icon('x-mark')"
-                                 dusk="tallstackui_banner_close"
                                  @class([$personalize['close'], $colors['text'] ?? '' => !$wire])
                                  x-bind:class="{
-                                     'text-green-50' : type === 'success',
-                                     'text-red-50' : type === 'error',
-                                     'text-yellow-50' : type === 'warning',
-                                     'text-blue-50' : type === 'info'
-                                 }" x-on:click="show = false" x-show="close" />
+                                    'text-green-50': type === 'success',
+                                    'text-red-50': type === 'error',
+                                    'text-yellow-50': type === 'warning',
+                                    'text-blue-50': type === 'info'
+                                 }" />
+        </button>
     </div>
 @endif

@@ -1,6 +1,6 @@
 @php($personalize = $classes())
 
-<a {{ $attributes->class([
+<span {{ $attributes->class([
         'gap-x-2' => $icon,
         $personalize['item'],
         $personalize['border'] => $separator,
@@ -12,4 +12,4 @@
     @if ($icon && $position === 'right')
         <x-dynamic-component :component="TallStackUi::component('icon')" :$icon @class($personalize['icon']) />
     @endif
-</a>
+</span>

@@ -4,9 +4,9 @@ namespace TallStackUi\View\Components\Dropdown;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
-use InvalidArgumentException;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
+use TallStackUi\Foundation\Exceptions\InvalidSelectedPositionException;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\View\Components\BaseComponent;
 
@@ -18,6 +18,7 @@ class Dropdown extends BaseComponent implements Personalization
         public ?string $icon = null,
         #[SkipDebug]
         public ?string $header = null,
+        #[SkipDebug]
         public ?string $action = null,
         public ?string $position = 'bottom-end',
         public ?bool $static = false,
@@ -46,25 +47,9 @@ class Dropdown extends BaseComponent implements Personalization
         ]);
     }
 
+    /** @throws InvalidSelectedPositionException */
     protected function validate(): void
     {
-        $positions = [
-            'bottom',
-            'bottom-start',
-            'bottom-end',
-            'top',
-            'top-start',
-            'top-end',
-            'left',
-            'left-start',
-            'left-end',
-            'right',
-            'right-start',
-            'right-end',
-        ];
-
-        if (! in_array($this->position, $positions)) {
-            throw new InvalidArgumentException('The dropdown position must be one of the following: ['.implode(', ', $positions).']');
-        }
+        InvalidSelectedPositionException::validate(static::class, $this->position);
     }
 }

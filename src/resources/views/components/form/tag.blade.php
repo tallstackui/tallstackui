@@ -26,9 +26,9 @@
                 <span @class($personalize['label.base'])>
                     <span x-text="tag"></span>
                     <button type="button" {!! $attributes->only('x-on:remove') !!} x-on:click="remove(index)">
-                    <x-dynamic-component :component="TallStackUi::component('icon')"
-                                         :icon="TallStackUi::icon('x-mark')"
-                                         :class="$personalize['label.icon']" />
+                        <x-dynamic-component :component="TallStackUi::component('icon')"
+                                             :icon="TallStackUi::icon('x-mark')"
+                                             :class="$personalize['label.icon']" />
                     </button>
                 </span>
             </template>
