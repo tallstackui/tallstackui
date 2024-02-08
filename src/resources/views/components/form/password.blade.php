@@ -35,18 +35,19 @@
                     </div>
                 @endif
                 <button type="button"
-                        class="flex justify-center"
+                        class="flex justify-center mr-2"
                         dusk="tallstackui_form_password_reveal"
                         {{ $attributes->only('x-on:reveal') }}
                         x-on:click="toggle()">
                     <x-dynamic-component :component="TallStackUi::component('icon')"
                                          :icon="TallStackUi::icon('eye')"
                                          :$error
-                                         @class($personalize['icon.class'])
+                                         @class([$personalize['icon.class'], $personalize['error'] => $error])
                                          x-show="!show" />
                     <x-dynamic-component :component="TallStackUi::component('icon')"
                                          :icon="TallStackUi::icon('eye-slash')"
-                                         :$error @class($personalize['icon.class'])
+                                         :$error
+                                         @class([$personalize['icon.class'], $personalize['error'] => $error])
                                          x-show="show" />
                 </button>
             </div>

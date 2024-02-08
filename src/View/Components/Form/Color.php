@@ -41,11 +41,11 @@ class Color extends BaseComponent implements Personalization
             'input' => [...$this->input()],
             'selected' => [
                 'wrapper' => 'flex items-center',
-                'base' => 'dark:border-dark-700 h-6 w-6 rounded shadow',
+                'base' => 'dark:border-dark-700 ml-2 h-6 w-6 rounded shadow',
             ],
             'icon' => [
                 'wrapper' => 'absolute inset-y-0 right-0 flex items-center pr-2.5',
-                'class' => 'h-5 w-5 text-gray-500 dark:text-dark-400',
+                'class' => 'dark:text-dark-400 mr-2 h-5 w-5 text-gray-500',
             ],
             'box' => [
                 'wrapper' => 'dark:border-dark-600 absolute top-full z-50 mt-2 overflow-hidden rounded-md border border-gray-200 shadow-lg',
