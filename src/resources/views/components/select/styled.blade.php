@@ -69,7 +69,7 @@
                                         <div @class($personalize['itens.multiple.icon'])>
                                             <button type="button" x-on:click="clear(select)">
                                                 <x-dynamic-component :component="TallStackUi::component('icon')"
-                                                                     :icon="TallStackUi::icon('x-mark')"
+                                                                     icon="x-mark"
                                                                      @class($personalize['itens.multiple.icon']) />
                                             </button>
                                         </div>
