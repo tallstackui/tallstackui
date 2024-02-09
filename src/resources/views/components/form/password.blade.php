@@ -1,10 +1,6 @@
 @php
     [$property, $error, $id] = $bind($attributes, $errors ?? null, $livewire);
     $personalize = $classes();
-    $icons = [
-        'x-circle' => 'x-circle',
-        'check-circle' => 'check-circle',
-    ];
 @endphp
 
 <div @if ($rules->isNotEmpty()) x-data="tallstackui_formPassword(@js($rules), @js($generator))" @endif>
@@ -26,7 +22,7 @@
             <div @class($personalize['icon.wrapper']) x-cloak>
                 @if ($generator)
                     <div class="mr-2">
-                        <button type="button" class="flex items-center" x-on:click="generator(); show = true;" {!! $attributes->only('x-on:generated') !!}>
+                        <button type="button" dusk="tallstackui_form_password_generate" class="flex items-center" x-on:click="generator(); show = true;" {!! $attributes->only('x-on:generate') !!}>
                             <x-dynamic-component :component="TallStackUi::component('icon')"
                                                  icon="arrow-path"
                                                  :$error
