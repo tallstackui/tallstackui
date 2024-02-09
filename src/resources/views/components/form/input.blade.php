@@ -28,7 +28,8 @@
         @if ($prefix)
             <span @class(['ml-2 mr-1', $personalize['input.class.slot'], $personalize['error'] => $error])>{{ $prefix }}</span>
         @endif
-        <input @if ($id) id="{{ $id }}" @endif 
+        <input @if ($id) id="{{ $id }}" @endif
+               type="{{ $attributes->get('type', 'text') }}"
                @if ($prefix || $suffix) autocomplete="off" @endif
                {{ $attributes->class(['pr-2 pl-0' => $prefix, 'pl-2 pr-0' => $suffix, $personalize['input.class.base']]) }}>
         @if ($suffix)
