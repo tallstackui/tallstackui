@@ -29,7 +29,9 @@
                  @if (!$configurations['persistent']) x-on:click.outside="remove(true)" @endif>
                 <div @class($personalize['buttons.close.wrapper'])>
                     <button x-on:click="remove()">
-                        <x-dynamic-component :component="TallStackUi::component('icon')" icon="x-mark" @class($personalize['buttons.close.icon']) />
+                        <x-dynamic-component :component="TallStackUi::component('icon')"
+                                             icon="x-mark"
+                                             @class($personalize['buttons.close.icon']) />
                     </button>
                 </div>
                 <div>

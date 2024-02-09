@@ -12,3 +12,4 @@ _DS_Store
 .vscode
 .php-cs-fixer.cache
 .DS_Store
+.run

@@ -9,6 +9,43 @@ use Tests\Browser\BrowserTestCase;
 class PasswordTest extends BrowserTestCase
 {
     /** @test */
+    public function can_dispatch_event_when_generate(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $password = null;
+
+            public ?string $generate = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    @if ($generate)
+                        <p dusk="generate">{{ $password }}</p>
+                    @endif
+                    
+                    <x-password dusk="input" 
+                                wire:model.live="password"
+                                :rules="['min', 'symbols', 'numbers', 'mixed']"
+                                generator 
+                                x-on:generate="$wire.set('generate', 1)" />
+                </div>
+                HTML;
+            }
+
+            public function sync(): void
+            {
+                $this->validate();
+            }
+        })
+            ->waitForLivewireToLoad()->typeSlowly('@input', '123')
+            ->waitForLivewire()->click('@tallstackui_form_password_generate')
+            ->assertVisible('@generate')
+            ->assertSeeIn('@generate', '123');
+    }
+
+    /** @test */
     public function can_dispatch_event_when_reveal(): void
     {
         Livewire::visit(new class extends Component

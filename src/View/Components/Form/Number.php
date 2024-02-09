@@ -32,7 +32,7 @@ class Number extends BaseComponent implements Personalization
         return view('tallstack-ui::components.form.number');
     }
 
-    public function icons(): array
+    final public function icons(): array
     {
         [$left, $right] = [
             $this->chevron ? 'chevron-down' : 'minus',
@@ -50,17 +50,17 @@ class Number extends BaseComponent implements Personalization
         return Arr::dot([
             'input' => ['class' => [...$this->input()]],
             'buttons' => [
-                'wrapper' => 'flex w-full items-center border-gray-200 dark:border-gray-700',
+                'wrapper' => 'flex w-full items-center',
                 'left' => [
                     'base' => 'inline-flex pr-3 items-center justify-center disabled:opacity-30',
-                    'size' => 'w-4 h-4',
-                    'color' => 'text-gray-800 dark:text-white',
+                    'size' => 'ml-2 h-4 w-4',
+                    'color' => 'dark:text-dark-400 text-gray-500',
                     'error' => 'text-red-500',
                 ],
                 'right' => [
                     'base' => 'inline-flex pl-3 items-center justify-center disabled:opacity-30',
-                    'size' => 'w-4 h-4',
-                    'color' => 'text-gray-800 dark:text-white',
+                    'size' => 'mr-2 h-4 w-4',
+                    'color' => 'dark:text-dark-400 text-gray-500',
                     'error' => 'text-red-500',
                 ],
             ],

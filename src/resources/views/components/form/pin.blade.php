@@ -60,6 +60,7 @@
                            '{{ $personalize['input.color.base'] }}': !error,
                            '{{ $personalize['input.color.error'] }}': error,
                        }" maxlength="1"
+                       autocomplete="false"
                        x-on:keyup="keyup(@js($index))"
                        x-on:keyup.left="left(@js($index))"
                        x-on:keyup.right="right(@js($index))"
@@ -70,7 +71,10 @@
             @endforeach
             <template x-if="clear && model">
                 <button class="cursor-pointer" x-on:click="erase();" dusk="form_pin_clear">
-                    <x-dynamic-component :component="TallStackUi::component('icon')" icon="x-circle" solid @class($personalize['button']) />
+                    <x-dynamic-component :component="TallStackUi::component('icon')"
+                                         icon="x-circle"
+                                         solid
+                                         @class($personalize['button']) />
                 </button>
             </template>
         </div>
