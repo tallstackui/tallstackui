@@ -24,7 +24,7 @@
             $personalize['error'] => $error
         ])>
         @if ($prefix)
-            <span @class(['ml-2 mr-1 autofill:bg-red-200', $personalize['input.class.slot'], $personalize['error'] => $error])>{{ $prefix }}</span>
+            <span @class(['ml-2 mr-1', $personalize['input.class.slot'], $personalize['error'] => $error])>{{ $prefix }}</span>
         @endif
         <input @if ($id) id="{{ $id }}" @endif
                type="{{ $attributes->get('type', 'text') }}"
