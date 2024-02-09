@@ -26,7 +26,7 @@
             <div @class($personalize['icon.wrapper']) x-cloak>
                 @if ($generator)
                     <div class="mr-2">
-                        <button type="button" class="flex items-center" x-on:click="generator(); show = true;">
+                        <button type="button" dusk="tallstackui_form_password_generate" class="flex items-center" x-on:click="generator(); show = true;" {!! $attributes->only('x-on:generate') !!}>
                             <x-dynamic-component :component="TallStackUi::component('icon')"
                                                  :icon="TallStackUi::icon('arrow-path')"
                                                  :$error
@@ -35,18 +35,19 @@
                     </div>
                 @endif
                 <button type="button"
-                        class="flex justify-center"
+                        class="flex justify-center mr-2"
                         dusk="tallstackui_form_password_reveal"
                         {{ $attributes->only('x-on:reveal') }}
                         x-on:click="toggle()">
                     <x-dynamic-component :component="TallStackUi::component('icon')"
                                          :icon="TallStackUi::icon('eye')"
                                          :$error
-                                         @class($personalize['icon.class'])
+                                         @class([$personalize['icon.class'], $personalize['error'] => $error])
                                          x-show="!show" />
                     <x-dynamic-component :component="TallStackUi::component('icon')"
                                          :icon="TallStackUi::icon('eye-slash')"
-                                         :$error @class($personalize['icon.class'])
+                                         :$error
+                                         @class([$personalize['icon.class'], $personalize['error'] => $error])
                                          x-show="show" />
                 </button>
             </div>
@@ -79,7 +80,7 @@
                 @if ($rules->has('symbols'))
                     <span @class($personalize['rules.items.base'])>
                         <x-dynamic-component :component="TallStackUi::component('icon')"
-                                             :icon="$icons['x-circle']"
+                                             icon="x-circle"
                                              :class="$personalize['rules.items.icons.error']"
                                              x-show="!results.symbols" />
                         <x-dynamic-component :component="TallStackUi::component('icon')"

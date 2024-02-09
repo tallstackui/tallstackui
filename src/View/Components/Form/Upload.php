@@ -49,6 +49,7 @@ class Upload extends BaseComponent implements Personalization
     public function personalization(): array
     {
         return Arr::dot([
+            'icon' => 'dark:text-dark-400 h-5 w-5 text-gray-500',
             'box' => [
                 'wrapper' => [
                     'first' => 'dark:border-dark-600 absolute top-full z-50 mt-2 w-full overflow-hidden rounded-md border border-gray-200 shadow-lg',

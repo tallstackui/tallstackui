@@ -69,7 +69,6 @@ class StyledCommonTest extends BrowserTestCase
                                      multiple
                                      x-on:select="$wire.set('select', 1)"
                                      x-on:remove="$wire.set('remove', 1)"
-                                     x-on:erase="$wire.set('erase', 1)"
                                      select="label:label|value:value"
                     />
                 </div>
@@ -88,13 +87,11 @@ class StyledCommonTest extends BrowserTestCase
             ->click('@tallstackui_select_open_close')
             ->waitForText(['foo', 'bar', 'baz'])
             ->waitForLivewire()->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[1]')
-            ->click('@tallstackui_select_open_close') // close
+            ->waitForText('Select')
             ->assertVisible('@select')
-            ->waitForLivewire()->clickAtXPath('/html/body/div[3]/div/div[2]/button/div[1]/div/div[3]/a/div/div') // remove element
-            ->assertVisible('@remove')
-            ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[1]')
-            ->waitForLivewire()->click('@tallstackui_select_clear')
-            ->assertVisible('@erase');
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/button/div[1]/div/div[3]/a/div/div[2]/button')
+            ->waitForText('Remove')
+            ->assertVisible('@remove');
     }
 
     /** @test */

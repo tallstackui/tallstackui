@@ -7,6 +7,7 @@
 *.php diff=php
 
 /.github              export-ignore
+/.run                 export-ignore
 /arts                 export-ignore
 /tests                export-ignore
 /js/components        export-ignore

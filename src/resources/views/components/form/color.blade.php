@@ -43,7 +43,7 @@
                 <x-dynamic-component :component="TallStackUi::component('icon')"
                                      :icon="TallStackUi::icon('swatch')"
                                      :$error
-                                     @class($personalize['icon.class']) />
+                                     @class([$personalize['icon.class'], $personalize['error'] => $error]) />
             </button>
         </div>
         <div x-cloak
