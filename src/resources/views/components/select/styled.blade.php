@@ -36,7 +36,7 @@
                 @disabled($disabled)
                 @class([ $personalize['input.wrapper.base'], $personalize['input.wrapper.color'] => !$error, $personalize['input.wrapper.error'] => $error])
                 @if (!$disabled) x-on:click="show = !show" @endif
-                {{ $attributes->only(['x-on:select', 'x-on:remove', 'x-on:erase']) }}
+                {{ $attributes->only(['x-on:select', 'x-on:remove']) }}
                 aria-haspopup="listbox"
                 :aria-expanded="show"
                 dusk="tallstackui_select_open_close">

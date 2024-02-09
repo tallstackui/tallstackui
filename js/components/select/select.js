@@ -271,11 +271,13 @@ export default (
     this.search = '';
     this.input = this.model;
 
-    this.$refs.button.dispatchEvent(new CustomEvent('select', {
+    const button = this.$refs.button;
+
+    this.$nextTick(() => button.dispatchEvent(new CustomEvent('select', {
       detail: {
         select: option,
       },
-    }));
+    })));
 
     wireChange(this.change, this.model);
   },
@@ -297,41 +299,35 @@ export default (
    * @returns {void}
    */
   clear(selected = null) {
-    if (selected) {
-      this.$refs.button.dispatchEvent(new CustomEvent('remove', {detail: {select: selected}}));
+    const button = this.$refs.button;
 
-      if (this.multiple) {
-        if (this.required && this.quantity === 1) {
-          this.show = false;
-          return;
-        }
+    this.$nextTick(() => button.dispatchEvent(new CustomEvent('remove', {detail: {select: selected}})));
 
-        this.selects = this.selects.filter((option) => this.dimensional ?
-            option[this.selectable.value] !== selected[this.selectable.value] :
-            option !== selected);
-
-        this.model = this.dimensional ?
-            this.selects.map((selected) => selected[this.selectable.value]) :
-            this.selects;
-      } else {
-        if (this.required) {
-          this.show = false;
-          return;
-        }
-
-        // We clear the entire select property if it is not a multiple,
-        // because if it is not a multiple, it will be a single selection.
-        this.selects = [];
-      }
-
-      if (this.quantity > 0) {
+    if (selected && this.multiple) {
+      if (this.required && this.quantity === 1) {
+        this.show = false;
         return;
       }
 
-      this.clear();
+      this.selects = this.selects.filter((option) => this.dimensional ?
+          option[this.selectable.value] !== selected[this.selectable.value] :
+          option !== selected);
+
+      this.model = this.dimensional ?
+          this.selects.map((selected) => selected[this.selectable.value]) :
+          this.selects;
+
+      return;
     }
 
-    this.$refs.button.dispatchEvent(new CustomEvent('erase', {detail: {selects: this.model}}));
+    if (this.required) {
+      this.show = false;
+      return;
+    }
+
+    // We clear the entire select property if it is not a multiple,
+    // because if it is not a multiple, it will be a single selection.
+    this.selects = [];
 
     this.reset();
   },
