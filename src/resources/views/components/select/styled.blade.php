@@ -60,7 +60,9 @@
                             <a class="cursor-pointer">
                                 <div @class($personalize['itens.multiple.item'])>
                                     <div class="flex items-center">
-                                        <img x-bind:src="select.image" class="w-3 h-3 rounded-full mr-1" x-show="select.image !== null" />
+                                        <template x-if="select.image">
+                                            <img x-bind:src="select.image" class="w-3 h-3 rounded-full mr-1" />
+                                        </template>
                                         <span @class($personalize['itens.multiple.label']) x-text="select[selectable.label] ?? select"></span>
                                     </div>
                                     @if (!$disabled)
