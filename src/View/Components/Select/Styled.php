@@ -65,7 +65,7 @@ class Styled extends BaseComponent implements Personalization
         return Arr::dot([
             'input' => [
                 'wrapper' => [
-                    'base' => 'dark:text-dark-300 dark:bg-dark-800 dark:focus:ring-primary-600 dark:disabled:bg-dark-600 dark:ring-dark-600 mt-1 flex w-full cursor-pointer items-center gap-x-2 rounded-md border-0 bg-white py-1.5 text-sm leading-6 ring-1 ring-inset ring-gray-300 disabled:bg-gray-100 disabled:text-gray-500 disabled:ring-gray-300',
+                    'base' => 'dark:text-dark-300 dark:bg-dark-800 dark:focus:ring-primary-600 dark:disabled:bg-dark-600 dark:ring-dark-600 mt-1 flex w-full cursor-pointer items-center gap-x-2 rounded-md border-0 bg-white py-1.5 text-sm ring-1 ring-gray-300 transition disabled:bg-gray-100 disabled:text-gray-500 disabled:ring-gray-300',
                     'color' => 'focus:ring-primary-600 text-gray-600 focus:outline-none focus:ring-2',
                     'error' => $this->error(),
                 ],
@@ -74,14 +74,14 @@ class Styled extends BaseComponent implements Personalization
             'buttons' => [
                 'wrapper' => 'mr-2 flex items-center',
                 'size' => 'h-5 w-5',
-                'base' => 'text-secondary-500 dark:text-dark-400 hover:text-red-500 dark:hover:text-red-500',
+                'base' => 'dark:text-dark-400 text-gray-500 hover:text-red-500 dark:hover:text-red-500',
                 'error' => 'text-red-500',
             ],
             'box' => [
                 'wrapper' => 'dark:bg-dark-700 absolute z-10 mt-1 w-full overflow-hidden rounded-xl bg-white shadow-lg ring-1 ring-black ring-opacity-5',
                 'button' => [
                     'class' => 'absolute inset-y-0 right-2 flex cursor-pointer items-center px-2',
-                    'icon' => 'text-secondary-500 h-5 w-5 transition hover:text-red-500',
+                    'icon' => 'dark:text-dark-400 h-5 w-5 text-gray-500 transition hover:text-red-500',
                 ],
                 'list' => [
                     'wrapper' => 'soft-scrollbar z-50 max-h-60 w-full overflow-auto rounded-b-lg text-base focus:outline-none sm:text-sm',
@@ -103,10 +103,10 @@ class Styled extends BaseComponent implements Personalization
             ],
             'itens' => [
                 'wrapper' => 'truncate',
-                'placeholder' => 'dark:text-dark-400 text-gray-400',
+                'placeholder' => 'dark:text-dark-400 leading-6 text-gray-400',
                 'single' => 'dark:text-dark-300 text-gray-600',
                 'multiple' => [
-                    'item' => 'dark:text-dark-100 dark:bg-dark-700 dark:ring-dark-600 inline-flex items-center space-x-1 rounded-lg bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-200',
+                    'item' => 'dark:text-dark-100 dark:bg-dark-700 dark:ring-dark-600 inline-flex h-6 items-center space-x-1 rounded-lg bg-gray-100 px-2 text-sm font-medium text-gray-600 ring-1 ring-inset ring-gray-200',
                     'label' => 'text-left',
                     'icon' => 'h-4 w-4 text-red-500',
                 ],

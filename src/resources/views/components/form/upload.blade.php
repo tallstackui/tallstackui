@@ -22,18 +22,25 @@
      x-on:livewire-upload-progress="progress = $event.detail.progress"
      class="relative rounded-md">
      @if ($static) <p hidden x-ref="placeholder">{{ $placeholder }}</p> @endif
-         <x-dynamic-component :component="TallStackUi::component('input')"
-                              :value="$placeholder"
-                              :$label
-                              :$hint
-                              x-on:click="show = !show"
-                              x-ref="input"
-                              readonly
-                              icon="arrow-up-tray"
-                              class="cursor-pointer"
-                              position="right"
-                              dusk="tallstackui_upload_input"
-                              invalidate />
+        <x-dynamic-component :component="TallStackUi::component('input')"
+                             :value="$placeholder"
+                             :$label
+                             :$hint
+                             x-on:click="show = !show"
+                             x-ref="input"
+                             class="cursor-pointer caret-transparent"
+                             x-on:keydown="$event.preventDefault()"
+                             spellcheck="false"
+                             dusk="tallstackui_upload_input"
+                             invalidate>
+                             <x-slot:suffix>
+                                <button type="button" x-on:click="show = !show">
+                                    <x-dynamic-component :component="TallStackUi::component('icon')"
+                                                         icon="arrow-up-tray"
+                                                         @class($personalize['icon']) />
+                                </button>
+                             </x-slot:suffix>
+        </x-dynamic-component>
     @if ($preview)
         <div x-show="preview" 
              x-on:click="preview = false; show = true"
@@ -72,7 +79,7 @@
                 <div @class($personalize['placeholder.wrapper']) :class="{ 'bg-primary-100': dragging }">
                     <div class="inline-flex items-center justify-center space-x-2">
                         <x-dynamic-component :component="TallStackUi::component('icon')"
-                                             icon="{{ $personalize['placeholder.icon.icon'] }}"
+                                             icon="cloud-arrow-up"
                                              @class($personalize['placeholder.icon.class']) />
                         <p @class($personalize['placeholder.title'])>
                             {{ __('tallstack-ui::messages.upload.upload') }}
