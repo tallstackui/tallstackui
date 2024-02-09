@@ -60,6 +60,7 @@ class IconGuide
             'x-mark' => 'x-mark',
             'sun' => 'sun',
             'moon' => 'moon',
+            'clock' => 'clock',
         ],
         'phosphoricons' => [
             'arrow-path' => 'arrows-clockwise',
@@ -91,6 +92,7 @@ class IconGuide
             'x-mark' => 'x',
             'sun' => 'sun',
             'moon' => 'moon',
+            'clock' => 'clock',
         ],
         'google' => [
             'arrow-path' => 'sync',
@@ -122,6 +124,7 @@ class IconGuide
             'x-mark' => 'close',
             'sun' => 'light-mode',
             'moon' => 'dark-mode',
+            'clock' => 'schedule',
         ],
     ];
 
