@@ -77,6 +77,6 @@ export default (rules) => ({
 
     this.input = password;
 
-    this.$el.dispatchEvent(new CustomEvent('generated', {detail: {password: password}}));
+    this.$el.dispatchEvent(new CustomEvent('generate', {detail: {password: password}}));
   },
 });
