@@ -70,7 +70,7 @@ jobs:
         run: ./vendor/bin/testbench optimize:clear
 
       - name: Feature Tests
-        run: ./vendor/bin/pest --filter Feature --parallel --order-by random --stop-on-failure
+        run: ./vendor/bin/pest --filter Feature
 
       - name: Clear Orchestra Testbench Cache
         run: ./vendor/bin/testbench optimize:clear

@@ -24,8 +24,8 @@ it('can render with icon', function (string $position) {
     HTML;
 
     $position = match ($position) {
-        'left' => 'pl-7',
-        'right' => 'pr-7',
+        'left' => 'pl-8',
+        'right' => 'pr-8',
     };
 
     expect($component)->render()
