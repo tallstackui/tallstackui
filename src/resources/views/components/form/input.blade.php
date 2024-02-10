@@ -28,7 +28,7 @@
         @endif
         <input @if ($id) id="{{ $id }}" @endif
                type="{{ $attributes->get('type', 'text') }}"
-               @if ($prefix || $suffix) autocomplete="off" @endif
+               @if ($prefix || $suffix) autocomplete="{{ $attributes->get('autocomplete', 'off') }}" @endif
                {{ $attributes->class([
                     'pr-2 pl-0' => $prefix, 
                     'pl-2 pr-0' => $suffix, 
