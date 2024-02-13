@@ -21,6 +21,7 @@ class Stats extends BaseComponent implements Personalization
         public ?bool $solid = true,
         public ?bool $light = false,
         public ?string $style = null,
+        public ?bool $animated = false,
         public ComponentSlot|string|null $header = null,
         public ComponentSlot|string|null $side = null,
         public ComponentSlot|string|null $footer = null,

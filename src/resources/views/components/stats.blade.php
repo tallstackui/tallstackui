@@ -5,7 +5,7 @@
 
 <{{ $tag }} @if ($href) href="{{ $href }}" @endif 
      {{ $attributes->class($personalize['wrapper.first']) }}
-     x-data="tallstackui_stats(@js($number), @js($duration))"
+     x-data="tallstackui_stats(@js($number), @js($animated), @js($duration))"
      x-intersect:enter.full="visible = true"
      x-intersect:leave="visible = false; start = 0"
      x-cloak>

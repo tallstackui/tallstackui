@@ -1,10 +1,15 @@
-export default (number, duration) => ({
+export default (number, animated, duration) => ({
   visible: false,
   start: 0,
   number: number,
+  animated: animated,
   duration: duration,
   init() {
     this.$watch('visible', () => {
+      if (animated === false) {
+        return;
+      }
+
       const $el = this.$refs.number;
       const step = (timestamp) => {
         if (!this.start) this.start = timestamp;
