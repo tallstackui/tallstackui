@@ -5,6 +5,7 @@ namespace TallStackUi\View\Components;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\ComponentSlot;
+use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 
@@ -20,10 +21,14 @@ class Stats extends BaseComponent implements Personalization
         public ?string $href = null,
         public ?bool $solid = true,
         public ?bool $light = false,
+        #[SkipDebug]
         public ?string $style = null,
         public ?bool $animated = false,
+        #[SkipDebug]
         public ComponentSlot|string|null $header = null,
+        #[SkipDebug]
         public ComponentSlot|string|null $side = null,
+        #[SkipDebug]
         public ComponentSlot|string|null $footer = null,
     ) {
         $this->style = $this->light ? 'light' : 'solid';
