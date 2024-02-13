@@ -17,6 +17,7 @@ use TallStackUi\View\Components\Form\Toggle;
 use TallStackUi\View\Components\Interaction\Dialog;
 use TallStackUi\View\Components\Interaction\Toast;
 use TallStackUi\View\Components\Link;
+use TallStackUi\View\Components\Stats;
 use TallStackUi\View\Components\Tooltip;
 
 /**
@@ -40,6 +41,7 @@ class ResolveColor
             $component instanceof Toast => ToastColors::class,
             $component instanceof Toggle => ToggleColors::class,
             $component instanceof Tooltip => TooltipColors::class,
+            $component instanceof Stats => StatsColors::class,
             $component instanceof Range => RangeColors::class,
             $component instanceof Button || $component instanceof Circle => ButtonColors::class,
             $component instanceof Radio || $component instanceof Checkbox => RadioColors::class,
