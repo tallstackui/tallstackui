@@ -2,9 +2,9 @@
 
 namespace TallStackUi\View\Components;
 
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\ComponentSlot;
-use Illuminate\Contracts\View\View;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 
@@ -26,7 +26,7 @@ class Stats extends BaseComponent implements Personalization
         public ComponentSlot|string|null $side = null,
         public ComponentSlot|string|null $footer = null,
     ) {
-       $this->style = $this->light ? 'light' : 'solid';
+        $this->style = $this->light ? 'light' : 'solid';
     }
 
     public function blade(): View
