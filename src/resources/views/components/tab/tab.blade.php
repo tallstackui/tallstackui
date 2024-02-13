@@ -4,7 +4,7 @@
 @endphp
 
 <div @if (!$selected) x-data="tallstackui_tab({!! $entangle !!})" @else x-data="tallstackui_tab(@js($selected))"@endif
-    @class($personalize['wrapper'])>
+    @class($personalize['wrapper']) wire:ignore>
     <div class="p-2 sm:p-0">
         <select id="tab-select-{{ $id }}"
                 x-model="tab"
