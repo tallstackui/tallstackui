@@ -1,13 +1,15 @@
-@php($personalize = $classes())
+@php
+    $tag = $href ? 'a' : 'div';
+    $personalize = $classes();
+@endphp
 
-<div @class($personalize['wrapper.first'])
-     x-cloak
+<{{ $tag }} @if ($href) href="{{ $href }}" @endif 
+     @class($personalize['wrapper.first'])
      x-data="tallstackui_stats(@js($number), @js($duration))"
      x-intersect:enter.full="visible = true"
-     x-intersect:leave="visible = false; start = 0">
-    @if ($header)
-        <div>{{ $header }}</div>
-    @endif
+     x-intersect:leave="visible = false; start = 0"
+     x-cloak>
+    @if ($header) <div>{{ $header }}</div> @endif
     <div @class($personalize['wrapper.second'])>
         @if ($icon)
             <div @class([$personalize['wrapper.third'], $colors['background']])>
@@ -20,11 +22,7 @@
             <h2 @class($personalize['title'])>{{ $title }}</h2>
             <h2 @class($personalize['number']) x-ref="number">{{ $number }}</h2>
         </div>
-        @if ($side)
-            <div>{{ $side }}</div>
-        @endif
+        @if ($side) <div>{{ $side }}</div> @endif
     </div>
-    @if ($footer)
-        <div>{{ $footer }}</div>
-    @endif
-</div>
+    @if ($footer) <div>{{ $footer }}</div> @endif
+</{{ $tag }}>

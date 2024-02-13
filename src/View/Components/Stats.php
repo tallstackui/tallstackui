@@ -17,6 +17,7 @@ class Stats extends BaseComponent implements Personalization
         public ?string $color = 'primary',
         public ?int $number = null,
         public ?int $duration = 3,
+        public ?string $href = null,
         public ?bool $solid = true,
         public ?bool $light = false,
         public ?string $style = null,
