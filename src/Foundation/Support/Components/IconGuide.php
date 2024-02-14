@@ -30,8 +30,11 @@ class IconGuide
     // components. As new icons are supported, this guide should be updated
     // and icon references should use generic names when possible.
     private const GUIDE = [
+        // https://heroicons.com/
         'heroicons' => [
             'arrow-path' => 'arrow-path',
+            'arrow-trending-up' => 'arrow-trending-up',
+            'arrow-trending-down' => 'arrow-trending-down',
             'check' => 'check',
             'check-circle' => 'check-circle',
             'chevron-down' => 'chevron-down',
@@ -61,8 +64,11 @@ class IconGuide
             'sun' => 'sun',
             'moon' => 'moon',
         ],
+        // https://phosphoricons.com/
         'phosphoricons' => [
             'arrow-path' => 'arrows-clockwise',
+            'arrow-trending-up' => 'trend-up',
+            'arrow-trending-down' => 'trend-down',
             'check' => 'check',
             'check-circle' => 'check-circle',
             'chevron-down' => 'caret-down',
@@ -92,8 +98,11 @@ class IconGuide
             'sun' => 'sun',
             'moon' => 'moon',
         ],
+        // https://fonts.google.com/icons
         'google' => [
             'arrow-path' => 'sync',
+            'arrow-trending-up' => 'trending-up',
+            'arrow-trending-down' => 'trending-down',
             'check' => 'check',
             'check-circle' => 'check-circle',
             'chevron-down' => 'expand-more',

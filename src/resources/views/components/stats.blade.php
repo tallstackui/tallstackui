@@ -43,11 +43,11 @@
             <div>
                 @if ($increase)
                     <x-dynamic-component :component="TallStackUi::component('icon')"
-                                         :icon="$personalize['slots.right.increase.icon']"
+                                         :icon="TallStackUi::icon($personalize['slots.right.increase.icon'])"
                                          @class($personalize['slots.right.increase.class']) />
                 @else
                     <x-dynamic-component :component="TallStackUi::component('icon')"
-                                         :icon="$personalize['slots.right.decrease.icon']"
+                                         :icon="TallStackUi::icon($personalize['slots.right.decrease.icon'])"
                                          @class($personalize['slots.right.decrease.class']) />
                 @endif
             </div>
