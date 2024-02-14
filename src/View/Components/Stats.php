@@ -21,6 +21,7 @@ class Stats extends BaseComponent implements Personalization
         public ?string $href = null,
         public ?bool $solid = true,
         public ?bool $light = false,
+        public ?bool $outline = false,
         #[SkipDebug]
         public ?string $style = null,
         public ?bool $animated = false,
@@ -31,7 +32,7 @@ class Stats extends BaseComponent implements Personalization
         #[SkipDebug]
         public ComponentSlot|string|null $footer = null,
     ) {
-        $this->style = $this->light ? 'light' : 'solid';
+        $this->style = $this->outline ? 'outline' : ($this->light ? 'light' : 'solid');
     }
 
     public function blade(): View
@@ -44,7 +45,7 @@ class Stats extends BaseComponent implements Personalization
         return Arr::dot([
             'wrapper' => [
                 'first' => 'dark:bg-dark-700 flex w-full flex-col rounded-lg bg-white shadow-md',
-                'second' => 'm-2 flex h-full items-center justify-center gap-4',
+                'second' => 'flex h-full items-center justify-center gap-4',
                 'third' => 'flex h-12 w-12 items-center justify-center rounded-lg',
             ],
             'icon' => 'h-6 w-6',

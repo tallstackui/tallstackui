@@ -9,8 +9,8 @@
      x-intersect:enter.full="visible = true"
      x-intersect:leave="visible = false; start = 0"
      x-cloak>
-    @if ($header) <div>{{ $header }}</div> @endif
-    <div @class($personalize['wrapper.second'])>
+    @if ($header) {{ $header }} @endif
+    <div @class(['m-4' => $slot->isNotEmpty(), 'mt-4 mx-4' => !$slot->isNotEmpty(), $personalize['wrapper.second']])>
         @if ($icon)
             <div @class([$personalize['wrapper.third'], $colors['background']])>
                 <x-dynamic-component :component="TallStackUi::component('icon')"
@@ -20,9 +20,13 @@
         @endif
         <div class="flex-grow">
             <h2 @class($personalize['title'])>{{ $title }}</h2>
-            <h2 @class($personalize['number']) x-ref="number">{{ $number }}</h2>
+            @if ($slot->isNotEmpty())
+                {{ $slot }}
+            @else
+                <h2 @class($personalize['number']) x-ref="number">{{ $number }}</h2>
+            @endif
         </div>
-        @if ($side) <div>{{ $side }}</div> @endif
+        @if ($side) {{ $side }} @endif
     </div>
-    @if ($footer) <div>{{ $footer }}</div> @endif
+    @if ($footer) {{ $footer }} @endif
 </{{ $tag }}>
