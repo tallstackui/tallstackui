@@ -6,6 +6,7 @@ use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
 use TallStackUi\Facades\TallStackUi as Facade;
+use TallStackUi\Foundation\Personalization\Personalization;
 use TallStackUi\Foundation\Personalization\PersonalizationResources;
 use TallStackUi\Foundation\Support\Blade\BladeComponentPrefix;
 use TallStackUi\Foundation\Support\Blade\BladeDirectives;
@@ -32,7 +33,7 @@ class TallStackUiServiceProvider extends ServiceProvider
 
     public function registerComponentPersonalizations(): void
     {
-        foreach (tallstackui_components_soft_personalized() as $key => $component) {
+        foreach (Personalization::components() as $key => $component) {
             $this->app->singleton($key, fn () => new PersonalizationResources($component));
         }
     }
