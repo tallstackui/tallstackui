@@ -10,7 +10,12 @@
      x-intersect:leave="visible = false; start = 0"
      x-cloak>
     @if ($header) {{ $header }} @endif
-    <div @class(['m-4' => $slot->isNotEmpty(), 'mt-4 mx-4' => !$slot->isNotEmpty(), $personalize['wrapper.second']])>
+    <div @class([
+            'mx-4' => !$slot->isNotEmpty(),
+            'mt-4' => !$header, 
+            'mb-4' => !$footer, 
+            $personalize['wrapper.second'],
+        ])>
         @if ($icon)
             <div @class([$personalize['wrapper.third'], $colors['background']])>
                 <x-dynamic-component :component="TallStackUi::component('icon')"
