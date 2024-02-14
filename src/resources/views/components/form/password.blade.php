@@ -22,7 +22,7 @@
             <div @class($personalize['icon.wrapper']) x-cloak>
                 @if ($generator)
                     <div class="mr-2">
-                        <button type="button" dusk="tallstackui_form_password_generate" class="flex items-center" x-on:click="generator(); show = true;" {!! $attributes->only('x-on:generate') !!}>
+                        <button type="button" x-ref="generator" dusk="tallstackui_form_password_generate" class="flex items-center" x-on:click="generator(); show = true;" {!! $attributes->only('x-on:generate') !!}>
                             <x-dynamic-component :component="TallStackUi::component('icon')"
                                                  icon="arrow-path"
                                                  :$error
