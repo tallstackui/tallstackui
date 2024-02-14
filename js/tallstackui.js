@@ -10,6 +10,7 @@ import modal from './components/modal/modal';
 import number from './components/form/number';
 import select from './components/select/select';
 import slide from './components/slide/slide';
+import stats from './components/stats/stats';
 import password from './components/form/password';
 import pin from './components/form/pin';
 import reaction from './components/reaction/reaction';
@@ -42,6 +43,7 @@ document.addEventListener('alpine:init', () => {
   Alpine.data('tallstackui_reaction', reaction);
   Alpine.data('tallstackui_select', select);
   Alpine.data('tallstackui_slide', slide);
+  Alpine.data('tallstackui_stats', stats);
   Alpine.data('tallstackui_tab', tab);
   Alpine.data('tallstackui_toastBase', toastBase);
   Alpine.data('tallstackui_toastLoop', toastLoop);
