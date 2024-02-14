@@ -1,31 +1,30 @@
-export default (number, animated, duration) => ({
+export default (number, animated) => ({
   visible: false,
   start: 0,
   number: number,
   animated: animated,
-  duration: duration,
+  duration: 3,
   init() {
     this.$watch('visible', () => {
       if (animated === false) {
         return;
       }
 
-      const $el = this.$refs.number;
-      const easeOutQuart = (t) => 1 - (--t) * t * t * t;
+      const number = this.$refs.number;
+
+      const easeOutQuart = (percentage) => 1 - (--percentage) * percentage * percentage * percentage;
 
       const step = (timestamp) => {
         if (!this.start) this.start = timestamp;
-        const progress = timestamp - this.start;
-        const percentage = Math.min(progress / (this.duration * 1000), 1);
-        const easedPercentage = easeOutQuart(percentage);
-        const value = Math.floor(easedPercentage * this.number);
+        const percentage = Math.min((timestamp - this.start) / (this.duration * 1000), 1);
+        const value = Math.floor(easeOutQuart(percentage) * this.number);
 
         if (percentage === 1 || value >= this.number) {
-          $el.innerHTML = this.number.toLocaleString();
+          number.innerHTML = this.number.toLocaleString();
           return;
         }
 
-        $el.innerHTML = value.toLocaleString();
+        number.innerHTML = value?.toLocaleString();
         window.requestAnimationFrame(step);
       };
 

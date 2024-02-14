@@ -13,22 +13,23 @@ use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 class Stats extends BaseComponent implements Personalization
 {
     public function __construct(
-        public ?string $icon = null,
+        public string|int|null $number = null,
         public ?string $title = null,
+        public ?string $icon = null,
         public ?string $color = 'primary',
-        public ?int $number = null,
-        public ?int $duration = 3,
         public ?string $href = null,
         public ?bool $solid = true,
         public ?bool $light = false,
         public ?bool $outline = false,
+        public ?bool $animated = false,
+        public ?bool $increase = false,
+        public ?bool $decrease = false,
         #[SkipDebug]
         public ?string $style = null,
-        public ?bool $animated = false,
         #[SkipDebug]
         public ComponentSlot|string|null $header = null,
         #[SkipDebug]
-        public ComponentSlot|string|null $side = null,
+        public ComponentSlot|string|null $right = null,
         #[SkipDebug]
         public ComponentSlot|string|null $footer = null,
     ) {
@@ -48,9 +49,23 @@ class Stats extends BaseComponent implements Personalization
                 'second' => 'flex h-full items-center justify-center gap-4',
                 'third' => 'flex h-12 w-12 items-center justify-center rounded-lg',
             ],
+            'slots' => [
+                'header' => 'dark:text-dark-300 p-2 text-xs text-gray-600',
+                'footer' => 'dark:text-dark-300 p-2 text-xs text-gray-600',
+                'right' => [
+                    'increase' => [
+                        'icon' => 'arrow-trending-up',
+                        'class' => 'w-6 h-6 text-green-500',
+                    ],
+                    'decrease' => [
+                        'icon' => 'arrow-trending-down',
+                        'class' => 'w-6 h-6 text-red-500',
+                    ],
+                ],
+            ],
             'icon' => 'h-6 w-6',
-            'title' => 'dark:text-dark-400 text-base font-medium text-gray-500',
-            'number' => 'dark:text-dark-200 text-2xl font-bold text-gray-900',
+            'title' => 'dark:text-dark-400 text-base font-medium text-gray-600',
+            'number' => 'dark:text-dark-300 text-2xl font-bold text-primary-500',
         ]);
     }
 }
