@@ -132,7 +132,7 @@
                                         <p @class($personalize['item.title'])>{{ $file['real_name'] }}</p>
                                         <x-dynamic-component :component="TallStackUi::component('error')"
                                                              :property="is_array($value) ? $property . '.' . $key : $property" />
-                                        @if (class_exists(\Illuminate\Support\Number::class))
+                                        @if (extension_loaded('intl') && class_exists(\Illuminate\Support\Number::class))
                                             <p @class($personalize['item.size'])>
                                                 <span>{{ __('tallstack-ui::messages.upload.size') }}: </span>
                                                 <span>{{ $file['size'] }}</span>
