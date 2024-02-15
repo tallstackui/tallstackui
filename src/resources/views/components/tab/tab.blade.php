@@ -1,9 +1,7 @@
-@php
-    $personalize = $classes();
-    $entangle = TallStackUi::blade($attributes, $livewire)->entangle();
-@endphp
+@php($personalize = $classes())
 
-<div x-data="{ selected: @if (!$selected) {!! $entangle !!} @else @js($selected) @endif, tabs: [] }" @class($personalize['base.wrapper'])>
+<div x-data="{ selected: @if (!$selected) {!! TallStackUi::blade($attributes, $livewire)->entangle() !!} @else @js($selected) @endif, tabs: [] }"
+     @class($personalize['base.wrapper'])>
     <div class="p-2 sm:p-0">
         <select x-model="selected" @class($personalize['base.select'])>
             <template x-for="item in tabs">

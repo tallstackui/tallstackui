@@ -2,7 +2,7 @@
 
 it('can render', function () {
     $component = <<<'HTML'
-    <x-tab selected="Foo">
+    <x-tab selected="A">
         <x-tab.items tab="A">
             Foo
         </x-tab.items>
@@ -15,7 +15,3 @@ it('can render', function () {
     expect($component)->render()
         ->toContain('Foo', 'Bar');
 });
-
-it('can render using left slot')->todo();
-
-it('can render using right slot')->todo();
