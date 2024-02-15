@@ -3,18 +3,15 @@
     $entangle = TallStackUi::blade($attributes, $livewire)->entangle();
 @endphp
 
-<div @if (!$selected) x-data="{ selected: {!! $entangle !!} ?? null, tabs: [] }" @else x-data="{ selected: @js($selected), tabs: [] } " @endif
-    @class($personalize['wrapper'])>
-
+<div x-data="{ selected: @if (!$selected) {!! $entangle !!} @else @js($selected) @endif, tabs: [] }" @class($personalize['base.wrapper'])>
     <div class="p-2 sm:p-0">
-        <select x-model="selected" @class($personalize['select'])>
+        <select x-model="selected" @class($personalize['base.select'])>
             <template x-for="item in tabs">
                 <option x-bind:value="item.tab" x-text="item.tab"></option>
             </template>
         </select>
     </div>
-
-    <ul @class($personalize['body'])>
+    <ul @class($personalize['base.body'])>
         <template x-for="item in tabs">
             <li role="tab"
                 x-on:click="selected = item.tab"
@@ -34,8 +31,8 @@
             </li>
         </template>
     </ul>
-    <hr @class($personalize['divider'])>
-    <div role="tablist" @class($personalize['content'])>
+    <hr @class($personalize['base.divider'])>
+    <div role="tablist" @class($personalize['base.content'])>
         {{ $slot }}
     </div>
 </div>

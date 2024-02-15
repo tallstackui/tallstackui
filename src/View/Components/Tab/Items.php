@@ -3,7 +3,6 @@
 namespace TallStackUi\View\Components\Tab;
 
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Arr;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\View\Components\BaseComponent;
 
