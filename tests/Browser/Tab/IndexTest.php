@@ -33,7 +33,6 @@ class IndexTest extends BrowserTestCase
             ->assertSee('Bar')
             ->assertSee('Foo bar baz')
             ->assertDontSee('Baz bar foo')
-            
             ->clickAtXPath('/html/body/div[3]/div/ul/li[2]')
             ->waitForText('Baz bar foo')
             ->assertDontSee('Foo bar baz');
