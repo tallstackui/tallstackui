@@ -18,8 +18,13 @@ class UploadComponentFileAdapter
         private readonly bool $static,
         private readonly TemporaryUploadedFile|array $files,
         private ?Collection $collection = null,
+        private ?bool $size = false,
     ) {
         $this->collection = collect(Arr::wrap($this->files));
+
+        // A simple way to avoid exceptions when PHP intl
+        // and Laravel Number classes are not available.
+        $this->size = extension_loaded('intl') && class_exists(Number::class);
     }
 
     /** @throws Exception */
@@ -52,7 +57,7 @@ class UploadComponentFileAdapter
             'temporary_name' => $file['name'],
             'real_name' => $file['name'],
             'extension' => $file['extension'],
-            'size' => Number::fileSize($file['size']),
+            'size' => $this->size ? Number::fileSize($file['size']) : null,
             'path' => $file['path'],
             'is_image' => $image = $this->image($file['extension']),
             'url' => ! $image ?: $file['url'],
@@ -65,7 +70,7 @@ class UploadComponentFileAdapter
             'temporary_name' => $file->getFilename(),
             'real_name' => $file->getClientOriginalName(),
             'extension' => $file->extension(),
-            'size' => Number::fileSize($file->getSize()),
+            'size' => $this->size ? Number::fileSize($file->getSize()) : null,
             'path' => $file->getPathname(),
             'is_image' => $image = $this->image($file->extension()),
             'url' => ! $image ?: $file->temporaryUrl(),
