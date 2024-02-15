@@ -43,6 +43,8 @@ use TallStackUi\View\Components\Select\Native as SelectNative;
 use TallStackUi\View\Components\Select\Styled as SelectStyled;
 use TallStackUi\View\Components\Slide;
 use TallStackUi\View\Components\Stats;
+use TallStackUi\View\Components\Step\Items as StepItems;
+use TallStackUi\View\Components\Step\Step;
 use TallStackUi\View\Components\Tab\Items as TabItems;
 use TallStackUi\View\Components\Tab\Tab;
 use TallStackUi\View\Components\Table;
@@ -221,6 +223,19 @@ class Personalization
     public function stats(): PersonalizationResources
     {
         return app($this->component(Stats::class));
+    }
+
+    public function step(?string $component = null): PersonalizationResources
+    {
+        $component ??= 'step';
+
+        $class = match ($component) {
+            'step' => Step::class,
+            'items' => StepItems::class,
+            default => $component,
+        };
+
+        return app($this->component($class));
     }
 
     public function tab(?string $component = null): PersonalizationResources
