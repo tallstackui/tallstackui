@@ -43,7 +43,6 @@ use TallStackUi\View\Components\Select\Native as SelectNative;
 use TallStackUi\View\Components\Select\Styled as SelectStyled;
 use TallStackUi\View\Components\Slide;
 use TallStackUi\View\Components\Stats;
-use TallStackUi\View\Components\Tab\Items as TabItems;
 use TallStackUi\View\Components\Tab\Tab;
 use TallStackUi\View\Components\Table;
 use TallStackUi\View\Components\ThemeSwitch;
@@ -223,17 +222,9 @@ class Personalization
         return app($this->component(Stats::class));
     }
 
-    public function tab(?string $component = null): PersonalizationResources
+    public function tab(): PersonalizationResources
     {
-        $component ??= 'tabs';
-
-        $class = match ($component) {
-            'tabs' => Tab::class,
-            'items' => TabItems::class,
-            default => $component,
-        };
-
-        return app($this->component($class));
+        return app($this->component(Tab::class));
     }
 
     public function table(): PersonalizationResources
