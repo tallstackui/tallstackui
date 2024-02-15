@@ -229,7 +229,6 @@ class Personalization
 
         $class = match ($component) {
             'tabs' => Tab::class,
-            'items' => TabItems::class,
             default => $component,
         };
 
