@@ -13,8 +13,8 @@ class Items extends BaseComponent implements Personalization
 {
     public function __construct(
         public ?string $step = null,
-        public ?string $title = null, 
-        public ?string $description = null, 
+        public ?string $title = null,
+        public ?string $description = null,
     ) {
         //
     }

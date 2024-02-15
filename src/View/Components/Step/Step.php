@@ -12,7 +12,7 @@ use TallStackUi\View\Components\BaseComponent;
 class Step extends BaseComponent implements Personalization
 {
     public function __construct(
-        public ?string $selected = null, 
+        public ?string $selected = null,
         public ?string $id = null,
         public ?bool $helpers = false,
         public ?bool $finish = true,
