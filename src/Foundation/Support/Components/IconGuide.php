@@ -147,15 +147,20 @@ class IconGuide
         ],
     ];
 
+    private static ?Collection $configuration = null;
+
+    public function __construct()
+    {
+        self::$configuration = collect(config('tallstackui.icons'));
+    }
+
     /** @throws Exception|InappropriateIconGuideExecution */
     public static function build(Component $component): string
     {
         InappropriateIconGuideExecution::validate($component::class);
 
-        $config = self::configuration();
-
-        $type = $config->get('type');
-        $style = $config->get('style');
+        $type = self::$configuration->get('type');
+        $style = self::$configuration->get('style');
 
         self::validate($type);
 
@@ -189,16 +194,9 @@ class IconGuide
      */
     public static function internal(string $key): string
     {
-        $config = self::configuration();
-
-        self::validate($type = $config->get('type'));
+        self::validate($type = self::$configuration->get('type'));
 
         return self::GUIDE[$type][$key] ?? $key;
-    }
-
-    private static function configuration(): Collection
-    {
-        return collect(config('tallstackui.icons'));
     }
 
     /** @throws Exception */

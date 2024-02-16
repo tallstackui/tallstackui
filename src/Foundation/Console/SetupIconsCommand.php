@@ -15,6 +15,8 @@ use function Laravel\Prompts\spin;
 
 class SetupIconsCommand extends Command
 {
+    private const PATH = __DIR__.'/../../resources/views/components/icon/';
+
     public $description = 'TallStackUI icon set up';
 
     public $signature = 'tallstackui:setup-icons {--force : Install icons even when the icons are already installed}';
@@ -79,17 +81,15 @@ class SetupIconsCommand extends Command
 
     private function flush(string $file, string $extract): void
     {
-        $path = __DIR__.'/../../resources/views/components/icon/';
-
         if ($this->option('force')) {
-            File::deleteDirectory($path.$this->data->get('type'));
+            File::deleteDirectory(self::PATH.$this->data->get('type'));
         }
 
-        File::copyDirectory($extract, $path.$this->data->get('type'));
+        File::copyDirectory($extract, self::PATH.$this->data->get('type'));
         File::deleteDirectory($extract);
         unlink($file);
 
-        if (config('tallstackui.icons.flush', true) === true && ! $this->laravel->isProduction()) {
+        if (config('tallstackui.icons.flush', true) === true) {
             return;
         }
 
@@ -101,7 +101,7 @@ class SetupIconsCommand extends Command
         ) {
             // Flushing the other unused icons to
             // avoid the existence of unused files.
-            File::deleteDirectory($path.$type);
+            File::deleteDirectory(self::PATH.$type);
         }
     }
 
@@ -131,7 +131,7 @@ class SetupIconsCommand extends Command
             return 'Unsupported icon style. Please, review the configuration file.';
         }
 
-        if (! $this->option('force') && is_dir(__DIR__.'/../../resources/views/components/icon/'.$type)) {
+        if (! $this->option('force') && is_dir(self::PATH.$type)) {
             return 'The icons selected ['.$type.'] are already installed.';
         }
 
