@@ -1,16 +1,12 @@
-export default () => ({
-  currentStep: 1,
-  total: 0,
+export default (selected) => ({
+  selected: selected,
+  steps: [],
   init() {
-    this.$nextTick(() => {
-      this.total = this.$refs.content.children.length;
-    });
-
-    this.$watch('currentStep', () => {
-      this.$el.dispatchEvent(new CustomEvent('change', {detail: {step: this.currentStep}}));
+    this.$watch('selected', () => {
+      this.$el.dispatchEvent(new CustomEvent('change', {detail: {step: this.selected}}));
     });
   },
   finish() {
-    this.$el.dispatchEvent(new CustomEvent('finish', {detail: {step: this.currentStep}}));
+    this.$el.dispatchEvent(new CustomEvent('finish', {detail: {step: this.selected}}));
   },
 });
