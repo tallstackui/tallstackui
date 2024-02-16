@@ -4,6 +4,7 @@ namespace TallStackUi\View\Components\Step;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
+use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\View\Components\BaseComponent;
@@ -19,6 +20,7 @@ class Step extends BaseComponent implements Personalization
         public ?bool $panels = true,
         public ?bool $circles = false,
         public ?bool $simple = false,
+        #[SkipDebug]
         public ?string $variation = null,
     ) {
         $this->id ??= uniqid();
