@@ -18,12 +18,24 @@
     @if ($helpers)
         <div class="flex justify-between">
             <div>
-                <x-button x-show="selected > 1" x-on:click="selected--;">Anterior</x-button>
+                <button type="button" x-show="selected > 1" x-on:click="selected--;" class="inline-flex items-center">
+                    <x-dynamic-component :component="TallStackUi::component('icon')"
+                                         :icon="TallStackUi::icon('chevron-left')"
+                                         class="w-5 h-5" />
+                    {{ __('tallstack-ui::messages.step.previous') }}
+                </button>
             </div>
             <div>
-                <x-button x-show="selected < steps.length" x-on:click="selected++;">Próximo</x-button>
+                <button type="button" x-show="selected < steps.length" x-on:click="selected++;" class="inline-flex items-center">
+                    {{ __('tallstack-ui::messages.step.next') }}
+                    <x-dynamic-component :component="TallStackUi::component('icon')"
+                                         :icon="TallStackUi::icon('chevron-right')"
+                                         class="w-5 h-5" />
+                </button>
                 @if ($finish)
-                    <x-button x-show="selected == steps.length" x-on:click="finish()" {{ $attributes->only('x-on:finish') }}>Finalizar</x-button>
+                    <button type="button" x-show="selected == steps.length" x-on:click="finish()" {{ $attributes->only('x-on:finish') }}>
+                        {{ __('tallstack-ui::messages.step.finish') }}
+                    </button>
                 @endif
             </div>
         </div>
