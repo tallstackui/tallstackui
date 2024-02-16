@@ -46,6 +46,8 @@ export default (rules) => ({
    * @returns {void}
    */
   generator() {
+    this.$refs.generator.classList.add('animate-spin');
+
     let password = '';
 
     const lower = 'abcdefghijklmnopqrstuvwxyz';
@@ -78,5 +80,7 @@ export default (rules) => ({
     this.input = password;
 
     this.$el.dispatchEvent(new CustomEvent('generate', {detail: {password: password}}));
+
+    setTimeout(() => this.$refs.generator.classList.remove('animate-spin'), 250);
   },
 });

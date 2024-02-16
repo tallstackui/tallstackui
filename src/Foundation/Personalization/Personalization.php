@@ -4,8 +4,12 @@ namespace TallStackUi\Foundation\Personalization;
 
 use Closure;
 use Exception;
+use Illuminate\Support\Facades\File;
+use ReflectionClass;
 use RuntimeException;
+use Symfony\Component\Finder\SplFileInfo;
 use TallStackUi\Contracts\Personalizable;
+use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\View\Components\Alert;
 use TallStackUi\View\Components\Avatar;
 use TallStackUi\View\Components\Badge;
@@ -43,9 +47,7 @@ use TallStackUi\View\Components\Select\Native as SelectNative;
 use TallStackUi\View\Components\Select\Styled as SelectStyled;
 use TallStackUi\View\Components\Slide;
 use TallStackUi\View\Components\Stats;
-use TallStackUi\View\Components\Step\Items as StepItems;
 use TallStackUi\View\Components\Step\Step;
-use TallStackUi\View\Components\Tab\Items as TabItems;
 use TallStackUi\View\Components\Tab\Tab;
 use TallStackUi\View\Components\Table;
 use TallStackUi\View\Components\ThemeSwitch;
@@ -61,6 +63,29 @@ class Personalization
     public function __construct(public ?string $component = null)
     {
         //
+    }
+
+    /**
+     * Recursively maps all Blade components that use the
+     * SoftPersonalization attribute to the soft personalization.
+     */
+    public static function components(): array
+    {
+        // This strategy was adopted by deep personalization. If the original component
+        // class was changed to some custom component, we would have some problems.
+        return collect(File::allFiles(__DIR__.'/../../View/Components'))
+            ->map(fn (SplFileInfo $file) => 'TallStackUi\\View\\'.str($file->getPathname())->after('View/')
+                ->remove('.php')
+                ->replace('/', '\\')
+                ->value())
+            ->filter(fn (string $component) => (new ReflectionClass($component))->getAttributes(SoftPersonalization::class)) // @phpstan-ignore-line
+            ->mapWithKeys(function (string $component) {
+                $reflect = new ReflectionClass($component);
+                $attribute = $reflect->getAttributes(SoftPersonalization::class)[0];
+
+                return [$attribute->newInstance()->key() => $reflect->getName()];
+            })
+            ->toArray();
     }
 
     public function alert(): PersonalizationResources
@@ -225,30 +250,14 @@ class Personalization
         return app($this->component(Stats::class));
     }
 
-    public function step(?string $component = null): PersonalizationResources
+    public function step(): PersonalizationResources
     {
-        $component ??= 'step';
-
-        $class = match ($component) {
-            'step' => Step::class,
-            'items' => StepItems::class,
-            default => $component,
-        };
-
-        return app($this->component($class));
+        return app($this->component(Step::class));
     }
 
-    public function tab(?string $component = null): PersonalizationResources
+    public function tab(): PersonalizationResources
     {
-        $component ??= 'tabs';
-
-        $class = match ($component) {
-            'tabs' => Tab::class,
-            'items' => TabItems::class,
-            default => $component,
-        };
-
-        return app($this->component($class));
+        return app($this->component(Tab::class));
     }
 
     public function table(): PersonalizationResources
@@ -287,7 +296,7 @@ class Personalization
     /** @throws Exception */
     private function component(string $class): string
     {
-        $component = array_search($class, tallstackui_components_soft_personalized());
+        $component = array_search($class, self::components());
 
         if (! $component) {
             throw new Exception("Component [{$class}] is not allowed to be personalized");

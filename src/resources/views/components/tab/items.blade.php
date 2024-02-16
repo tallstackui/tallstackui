@@ -1,29 +1,8 @@
-@php($personalize = $classes())
+@php
+    $right = is_string($right) ? $right : ($right?->toHtml() ?? null);
+    $left = is_string($left) ? $left : ($left?->toHtml() ?? null);
+@endphp
 
-@aware(['id'])
-
-<li x-on:click="select('{{ $tab }}')"
-    x-bind:class="{
-        '{{ $personalize['select'] }}' : tab === '{{ $tab }}',
-        '{{ $personalize['unselect'] }}' : tab !== '{{ $tab }}'
-    }">
-   <div @class($personalize['wrapper'])>
-        @if ($left)
-           {{ $left }}
-        @endif
-            {{ $tab }}
-        @if ($right)
-            {{ $right }}
-        @endif
-   </div>
-</li>
-
-<template x-teleport="#tab-select-{{ $id }}">
-    <option value="{{ $tab }}">{{ $tab }}</option>
-</template>
-
-<template x-teleport="#tab-content-{{ $id }}">
-    <div x-show="tab === '{{ $tab }}'">
-        {{ $slot }}
-    </div>
-</template>
+<div x-show="selected === '{{ $tab }}'" role="tabpanel" x-init="tabs.push({ tab: '{{ $tab }}', right: @js($right), left: @js($left) });">
+    {{ $slot }}
+</div>
