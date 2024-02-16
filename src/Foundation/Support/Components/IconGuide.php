@@ -24,6 +24,19 @@ class IconGuide
         'google' => [
             'default',
         ],
+        'fontawesome' => [
+            'solid',
+            'regular',
+            'brands',
+        ],
+        'iconsax' => [
+            'bold',
+            'broken',
+            'bulk',
+            'linear',
+            'outline',
+            'twotone',
+        ],
     ];
 
     // The idea of this constant is to be used as a map of internal icons in
