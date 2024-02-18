@@ -416,6 +416,22 @@ class UploadTest extends BrowserTestCase
     }
 
     /** @test */
+    public function can_thrown_exception_if_property_bind_was_not_defined()
+    {
+        Livewire::visit(new class extends Component
+        {
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-upload label="Document" />
+                </div>
+                HTML;
+            }
+        })->assertSee('The [upload] component requires a property to bind using [wire:model].');
+    }
+
+    /** @test */
     public function can_upload_multiple_file(): void
     {
         Livewire::visit(new class extends Component
