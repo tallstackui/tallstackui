@@ -15,6 +15,7 @@ class Items extends BaseComponent implements Personalization
         public ?string $step = null,
         public ?string $title = null,
         public ?string $description = null,
+        public ?bool $completed = false,
     ) {
         //
     }
