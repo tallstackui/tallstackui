@@ -7,8 +7,7 @@
                   '{{ $personalize['circles.circle.inactive'] }}': selected < item.step,
                   '{{ $personalize['circles.circle.current'] }}': selected == item.step && item.completed === false,
                   '{{ $personalize['circles.circle.border'] }}': selected == item.step && item.completed === true,
-                  '{{ $personalize['circles.circle.active'] }}': selected > item.step || selected == item.step && item
-                      .completed === true,
+                  '{{ $personalize['circles.circle.active'] }}': selected > item.step || selected == item.step && item.completed === true,
               }">
             <x-dynamic-component :component="TallStackUi::component('icon')"
                                  :icon="TallStackUi::icon('check')"

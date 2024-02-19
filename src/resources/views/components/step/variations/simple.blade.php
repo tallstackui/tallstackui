@@ -6,8 +6,7 @@
          x-bind:class="{
              '{{ $personalize['simple.bar.inactive'] }}': selected < item.step,
              '{{ $personalize['simple.bar.current'] }}': selected == item.step && item.completed === false,
-             '{{ $personalize['simple.bar.active'] }}': selected > item.step || selected == item.step && item
-                 .completed === true,
+             '{{ $personalize['simple.bar.active'] }}': selected > item.step || selected == item.step && item.completed === true,
          }">
         <span x-text="item.title"
               @class($personalize['simple.text.title.wrapper'])
