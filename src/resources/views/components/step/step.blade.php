@@ -39,13 +39,19 @@
                                          @class(['ml-1', $personalize['button.icon']]) />
                 </button>
                 @if ($finish)
-                    <button type="button"
-                            x-show="selected == steps.length"
-                            x-on:click="finish()"
-                            {{ $attributes->only('x-on:finish') }}
-                            @class($personalize['button.wrapper'])>
-                        {{ __('tallstack-ui::messages.step.finish') }}
-                    </button>
+                    @if ($finish instanceof \Illuminate\View\ComponentSlot)
+                        <div x-show="selected == steps.length">
+                            {{ $finish }}
+                        </div>
+                    @else
+                        <button type="button"
+                                x-show="selected == steps.length"
+                                x-on:click="finish()"
+                                {{ $attributes->only('x-on:finish') }}
+                                @class($personalize['button.wrapper'])>
+                            {{ __('tallstack-ui::messages.step.finish') }}
+                        </button>
+                    @endif
                 @endif
             </div>
         </div>

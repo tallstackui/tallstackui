@@ -4,6 +4,7 @@ namespace TallStackUi\View\Components\Step;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
+use Illuminate\View\ComponentSlot;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
@@ -15,13 +16,14 @@ class Step extends BaseComponent implements Personalization
     public function __construct(
         public ?string $selected = null,
         public ?bool $helpers = false,
-        public ?bool $finish = true,
         public ?bool $panels = true,
         public ?bool $circles = false,
         public ?bool $simple = false,
         public ?bool $navigate = false,
         #[SkipDebug]
         public ?string $variation = null,
+        #[SkipDebug]
+        public ComponentSlot|string|null $finish = null,
     ) {
         $this->variation = $this->simple ? 'simple' : ($this->circles ? 'circles' : 'panels');
     }
