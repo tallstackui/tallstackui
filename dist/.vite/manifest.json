@@ -1,15 +1,15 @@
 {
   "js/tallstackui.js": {
-    "css": [
-      "tallstackui-C64i7G0l.css"
-    ],
-    "file": "tallstackui--UWaBiT0.js",
+    "file": "tallstackui-B05iyxhh.js",
+    "src": "js/tallstackui.js",
     "isEntry": true,
-    "src": "js/tallstackui.js"
+    "css": [
+      "tallstackui-LriLsbSV.css"
+    ]
   },
   "src/resources/css/tallstackui.css": {
-    "file": "tallstackui-KnGPa9ez.css",
-    "isEntry": true,
-    "src": "src/resources/css/tallstackui.css"
+    "file": "tallstackui-BNFowVhu.css",
+    "src": "src/resources/css/tallstackui.css",
+    "isEntry": true
   }
 }
