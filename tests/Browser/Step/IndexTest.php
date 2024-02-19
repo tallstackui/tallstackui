@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Browser\step;
+namespace Tests\Browser\Step;
 
 use Livewire\Component;
 use Livewire\Livewire;
@@ -36,7 +36,7 @@ class IndexTest extends BrowserTestCase
             ->assertSee('Bar')
             ->assertSee('Foo bar baz')
             ->assertDontSee('Finish')
-            ->click('@next')
+            ->click('@tallstackui_step_next')
             ->waitForText('Baz bar foo')
             ->assertSee('Baz bar foo')
             ->assertDontSee('Foo bar baz')
@@ -146,8 +146,13 @@ class IndexTest extends BrowserTestCase
             ->assertDontSee('Foo bar baz')
             ->clickAtXPath('/html/body/div[3]/div/nav/ul/li[1]')
             ->waitForText('Foo bar baz')
+            ->assertSee('Foo bar baz')
             ->assertSee('Bar')
-            ->assertDontSee('Baz bar foo');
+            ->assertDontSee('Baz bar foo')
+            ->clickAtXPath('/html/body/div[3]/div/nav/ul/li[2]')
+            ->waitForText('Baz bar foo')
+            ->assertSee('Baz bar foo')
+            ->assertDontSee('Foo bar baz');
     }
 
     /** @test */
@@ -175,7 +180,7 @@ class IndexTest extends BrowserTestCase
             ->assertSee('Bar')
             ->assertSee('Foo bar baz')
             ->assertDontSee('Baz bar foo')
-            ->click('@next')
+            ->click('@tallstackui_step_next')
             ->waitForText('Baz bar foo')
             ->assertSee('Baz bar foo')
             ->assertDontSee('Foo bar baz');

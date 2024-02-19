@@ -21,7 +21,7 @@
                 <button type="button"
                         x-show="selected > 1"
                         x-on:click="selected--"
-                        dusk="previous"
+                        dusk="tallstackui_step_previous"
                         @class($personalize['button.wrapper'])>
                     <x-dynamic-component :component="TallStackUi::component('icon')"
                                          :icon="TallStackUi::icon('chevron-left')"
@@ -33,7 +33,7 @@
                 <button type="button"
                         x-show="selected < steps.length"
                         x-on:click="selected++"
-                        dusk="next"
+                        dusk="tallstackui_step_next"
                         @class($personalize['button.wrapper'])>
                     {{ __('tallstack-ui::messages.step.next') }}
                     <x-dynamic-component :component="TallStackUi::component('icon')"
@@ -49,7 +49,7 @@
                         <button type="button"
                                 x-show="selected == steps.length"
                                 x-on:click="finish()"
-                                dusk="finish"
+                                dusk="tallstackui_step_finish"
                                 {{ $attributes->only('x-on:finish') }}
                                 @class($personalize['button.wrapper'])>
                             {{ __('tallstack-ui::messages.step.finish') }}
