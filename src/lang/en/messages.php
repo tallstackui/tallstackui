@@ -72,4 +72,10 @@ return [
     'timepicker' => [
         'helper' => 'Current Time',
     ],
+
+    'step' => [
+        'next' => 'Next',
+        'previous' => 'Previous',
+        'finish' => 'Finish',
+    ],
 ];

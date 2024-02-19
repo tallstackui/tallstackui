@@ -72,4 +72,10 @@ return [
     'timepicker' => [
         'helper' => 'ម៉ោងបច្ចុប្បន្ន',
     ],
+
+    'step' => [
+        'next' => 'បន្តបន្ទាប់',
+        'previous' => 'មុន',
+        'finish' => 'បញ្ចប់',
+    ],
 ];

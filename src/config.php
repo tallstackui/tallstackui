@@ -219,6 +219,8 @@ return [
         'select.styled' => Components\Select\Styled::class,
         'slide' => Components\Slide::class,
         'stats' => Components\Stats::class,
+        'step' => Components\Step\Step::class,
+        'step.items' => Components\Step\Items::class,
         'tab' => Components\Tab\Tab::class,
         'tag' => Components\Form\Tag::class,
         'table' => Components\Table::class,
