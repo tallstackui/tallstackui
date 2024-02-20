@@ -2,7 +2,7 @@
 
 it('can render', function () {
     $component = <<<'HTML'
-    <x-tab selected="Foo">
+    <x-tab selected="A">
         <x-tab.items tab="A">
             Foo
         </x-tab.items>
@@ -10,7 +10,7 @@ it('can render', function () {
             Bar
         </x-tab.items>
     </x-tab>
-HTML;
+    HTML;
 
     expect($component)->render()
         ->toContain('Foo', 'Bar');

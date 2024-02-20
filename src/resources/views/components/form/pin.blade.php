@@ -60,6 +60,7 @@
                            '{{ $personalize['input.color.base'] }}': !error,
                            '{{ $personalize['input.color.error'] }}': error,
                        }" maxlength="1"
+                       autocomplete="false"
                        x-on:keyup="keyup(@js($index))"
                        x-on:keyup.left="left(@js($index))"
                        x-on:keyup.right="right(@js($index))"

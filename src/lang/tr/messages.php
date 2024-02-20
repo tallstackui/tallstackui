@@ -72,4 +72,10 @@ return [
     'timepicker' => [
         'helper' => 'Geçerli Saat',
     ],
+
+    'step' => [
+        'next' => 'İleri',
+        'previous' => 'Geri',
+        'finish' => 'Bitir',
+    ],
 ];

@@ -15,43 +15,34 @@ use function Laravel\Prompts\spin;
 
 class SetupIconsCommand extends Command
 {
+    private const PATH = __DIR__.'/../../resources/views/components/icon/';
+
     public $description = 'TallStackUI icon set up';
 
     public $signature = 'tallstackui:setup-icons {--force : Install icons even when the icons are already installed}';
 
     protected ?Collection $data = null;
 
-    /**
-     * @var bool Indicate that the returned message is not part of an error.
-     */
-    protected bool $error = true;
-
-    public function handle(): int
+    public function handle(): void
     {
         $this->data = collect();
 
         if (! extension_loaded('zip')) {
             $this->components->error('The PHP zip extension is not installed. Please, review the docs.');
 
-            return self::FAILURE;
+            return;
         }
 
         if (($result = spin(fn () => $this->setup(), 'Setting up...')) !== true) {
-            if (! $this->error) {
-                $this->components->warn($result);
-
-                return self::SUCCESS;
-            }
-
             $this->components->error($result);
 
-            return self::FAILURE;
+            return;
         }
 
         if (($result = spin(fn () => $this->download(), 'Downloading...')) !== true) {
             $this->components->error($result);
 
-            return self::FAILURE;
+            return;
         }
 
         spin(fn () => Process::run('php artisan optimize:clear'), 'Cleaning up ...');
@@ -59,8 +50,6 @@ class SetupIconsCommand extends Command
         $type = $this->data->get('type');
 
         $this->components->info('The icons ['.$type.'] are successfully installed.');
-
-        return self::SUCCESS;
     }
 
     private function download(): string|bool
@@ -92,17 +81,15 @@ class SetupIconsCommand extends Command
 
     private function flush(string $file, string $extract): void
     {
-        $path = __DIR__.'/../../resources/views/components/icon/';
-
         if ($this->option('force')) {
-            File::deleteDirectory($path.$this->data->get('type'));
+            File::deleteDirectory(self::PATH.$this->data->get('type'));
         }
 
-        File::copyDirectory($extract, $path.$this->data->get('type'));
+        File::copyDirectory($extract, self::PATH.$this->data->get('type'));
         File::deleteDirectory($extract);
         unlink($file);
 
-        if (config('tallstackui.icons.flush', true) === true && ! $this->laravel->isProduction()) {
+        if (config('tallstackui.icons.flush', true) === true) {
             return;
         }
 
@@ -114,7 +101,7 @@ class SetupIconsCommand extends Command
         ) {
             // Flushing the other unused icons to
             // avoid the existence of unused files.
-            File::deleteDirectory($path.$type);
+            File::deleteDirectory(self::PATH.$type);
         }
     }
 
@@ -144,9 +131,7 @@ class SetupIconsCommand extends Command
             return 'Unsupported icon style. Please, review the configuration file.';
         }
 
-        if (! $this->option('force') && is_dir(__DIR__.'/../../resources/views/components/icon/'.$type)) {
-            $this->error = false;
-
+        if (! $this->option('force') && is_dir(self::PATH.$type)) {
             return 'The icons selected ['.$type.'] are already installed.';
         }
 

@@ -7,6 +7,8 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
 use TallStackUi\Facades\TallStackUi as Facade;
 use TallStackUi\Foundation\Console\SetupIconsCommand;
+use TallStackUi\Foundation\Console\SetupPrefixCommand;
+use TallStackUi\Foundation\Personalization\Personalization;
 use TallStackUi\Foundation\Personalization\PersonalizationResources;
 use TallStackUi\Foundation\Support\Blade\BladeComponentPrefix;
 use TallStackUi\Foundation\Support\Blade\BladeDirectives;
@@ -39,12 +41,12 @@ class TallStackUiServiceProvider extends ServiceProvider
             return;
         }
 
-        $this->commands(SetupIconsCommand::class);
+        $this->commands([SetupIconsCommand::class, SetupPrefixCommand::class]);
     }
 
     protected function registerComponentPersonalizations(): void
     {
-        foreach (tallstackui_components_soft_personalized() as $key => $component) {
+        foreach (Personalization::components() as $key => $component) {
             $this->app->singleton($key, fn () => new PersonalizationResources($component));
         }
     }

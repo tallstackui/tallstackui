@@ -11,7 +11,7 @@ class BladeComponentPrefix
 
     public function __invoke(string $component): string
     {
-        if (blank($this->prefix)) {
+        if (blank($this->prefix) || $this->prefix === false) {
             return $component;
         }
 

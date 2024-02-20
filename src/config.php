@@ -58,7 +58,7 @@ return [
         |----------------------------------
         | Default and in-use icon type.
         |----------------------------------
-        | Allowed: heroicons, phosphoricons, google
+        | Allowed: heroicons, phosphoricons, google, fontawesome, iconsax.
         */
         'type' => 'heroicons',
 
@@ -68,9 +68,11 @@ return [
         |----------------------------------
         | Allowed:
         |
-        | heroicons: solid, outline
-        | phosphoricons: thin, light, regular, bold, duotone
+        | Heroicons: solid, outline
+        | Phosphoricons: thin, light, regular, bold, duotone
         | Google: default
+        | FontAwesome: solid, regular, brands
+        | Iconsax: bold, broken, bulk, linear, outline, twotone
         */
         'style' => 'solid',
 
@@ -81,9 +83,7 @@ return [
         | Allowed styles:
         |
         | To avoid the accumulation of unused files, the icon packs that are
-        | not in use can be deleted automatically when new icons are set AND
-        | the application is in production. In non-production environment,
-        | the icons will be kept to avoid unnecessary downloads.
+        | not in use can be deleted automatically when new icons are set.
         */
         'flush' => true,
     ],
@@ -219,6 +219,9 @@ return [
         'select.native' => Components\Select\Native::class,
         'select.styled' => Components\Select\Styled::class,
         'slide' => Components\Slide::class,
+        'stats' => Components\Stats::class,
+        'step' => Components\Step\Step::class,
+        'step.items' => Components\Step\Items::class,
         'tab' => Components\Tab\Tab::class,
         'tag' => Components\Form\Tag::class,
         'table' => Components\Table::class,

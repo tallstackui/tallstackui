@@ -55,10 +55,11 @@
                                             @class($personalize['title.text'])
                                         @endif>{{ $title }}</h2>
                                 @endif
+                                <button type="button" x-on:click="show = false">
                                     <x-dynamic-component :component="TallStackUi::component('icon')"
                                                          :icon="TallStackUi::icon('x-mark')"
-                                                         x-on:click="show = false"
                                                          @class($personalize['title.close']) />
+                                </button>
                             </div>
                         </div>
                         <div @class($personalize['body'])>

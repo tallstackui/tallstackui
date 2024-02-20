@@ -22,18 +22,25 @@
      x-on:livewire-upload-progress="progress = $event.detail.progress"
      class="relative rounded-md">
      @if ($static) <p hidden x-ref="placeholder">{{ $placeholder }}</p> @endif
-         <x-dynamic-component :component="TallStackUi::component('input')"
-                              :value="$placeholder"
-                              :$label
-                              :$hint
-                              x-on:click="show = !show"
-                              x-ref="input"
-                              readonly
-                              :icon="TallStackUi::icon('arrow-up-tray')"
-                              class="cursor-pointer"
-                              position="right"
-                              dusk="tallstackui_upload_input"
-                              invalidate />
+        <x-dynamic-component :component="TallStackUi::component('input')"
+                             :value="$placeholder"
+                             :$label
+                             :$hint
+                             x-on:click="show = !show"
+                             x-ref="input"
+                             class="cursor-pointer caret-transparent"
+                             x-on:keydown="$event.preventDefault()"
+                             spellcheck="false"
+                             dusk="tallstackui_upload_input"
+                             invalidate>
+                             <x-slot:suffix>
+                                <button type="button" x-on:click="show = !show">
+                                    <x-dynamic-component :component="TallStackUi::component('icon')"
+                                                         :icon="TallStackUi::icon('arrow-up-tray')"
+                                                         @class($personalize['icon']) />
+                                </button>
+                             </x-slot:suffix>
+        </x-dynamic-component>
     @if ($preview)
         <div x-show="preview" 
              x-on:click="preview = false; show = true"
@@ -125,7 +132,7 @@
                                         <p @class($personalize['item.title'])>{{ $file['real_name'] }}</p>
                                         <x-dynamic-component :component="TallStackUi::component('error')"
                                                              :property="is_array($value) ? $property . '.' . $key : $property" />
-                                        @if (class_exists(\Illuminate\Support\Number::class))
+                                        @if ($file['size'] !== null)
                                             <p @class($personalize['item.size'])>
                                                 <span>{{ __('tallstack-ui::messages.upload.size') }}: </span>
                                                 <span>{{ $file['size'] }}</span>

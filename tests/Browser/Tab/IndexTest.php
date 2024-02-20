@@ -9,6 +9,132 @@ use Tests\Browser\BrowserTestCase;
 class IndexTest extends BrowserTestCase
 {
     /** @test */
+    public function can_render_left_slot_using_slot(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>        
+                    <x-tab selected="Foo">
+                        <x-tab.items tab="Foo">
+                            <x-slot:left>
+                                TallStackUI                            
+                            </x-slot:left>
+                            Foo bar baz
+                        </x-tab.items>
+                        <x-tab.items tab="Bar">
+                            Baz bar foo
+                        </x-tab.items>
+                    </x-tab>
+                </div>
+                HTML;
+            }
+        })
+            ->assertSee('Foo')
+            ->assertSee('Bar')
+            ->assertSee('Foo bar baz')
+            ->assertSee('TallStackUI');
+    }
+
+    /** @test */
+    public function can_render_livewire_component(): void
+    {
+        Livewire::component('test', new class extends Component
+        {
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    Foo bar baz through Livewire Component
+                </div>
+                HTML;
+            }
+        });
+
+        Livewire::visit(new class extends Component
+        {
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>        
+                    <x-tab selected="Foo">
+                        <x-tab.items tab="Foo">
+                            <livewire:test />
+                        </x-tab.items>
+                        <x-tab.items tab="Bar">
+                            Baz bar foo
+                        </x-tab.items>
+                    </x-tab>
+                </div>
+                HTML;
+            }
+        })
+            ->assertSee('Foo')
+            ->assertSee('Bar')
+            ->assertSee('Foo bar baz through Livewire Component');
+    }
+
+    /** @test */
+    public function can_render_right_slot_using_slot(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>        
+                    <x-tab selected="Foo">
+                        <x-tab.items tab="Foo">
+                            <x-slot:right>
+                                TallStackUI                            
+                            </x-slot:right>
+                            Foo bar baz
+                        </x-tab.items>
+                        <x-tab.items tab="Bar">
+                            Baz bar foo
+                        </x-tab.items>
+                    </x-tab>
+                </div>
+                HTML;
+            }
+        })
+            ->assertSee('Foo')
+            ->assertSee('Bar')
+            ->assertSee('Foo bar baz')
+            ->assertSee('TallStackUI');
+    }
+
+    /** @test */
+    public function can_render_slots_using_raw_strings(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>        
+                    <x-tab selected="Foo">
+                        <x-tab.items tab="Foo" left="TallStackUI" right="Livewire">
+                            Foo bar baz
+                        </x-tab.items>
+                        <x-tab.items tab="Bar">
+                            Baz bar foo
+                        </x-tab.items>
+                    </x-tab>
+                </div>
+                HTML;
+            }
+        })
+            ->assertSee('Foo')
+            ->assertSee('Bar')
+            ->assertSee('Foo bar baz')
+            ->assertSee('TallStackUI')
+            ->assertSee('Livewire');
+    }
+
+    /** @test */
     public function can_select(): void
     {
         Livewire::visit(new class extends Component
@@ -33,7 +159,7 @@ class IndexTest extends BrowserTestCase
             ->assertSee('Bar')
             ->assertSee('Foo bar baz')
             ->assertDontSee('Baz bar foo')
-            ->clickAtXPath('/html/body/div[3]/div/ul/div[1]/li[2]')
+            ->clickAtXPath('/html/body/div[3]/div/ul/li[2]')
             ->waitForText('Baz bar foo')
             ->assertDontSee('Foo bar baz');
     }
@@ -63,10 +189,10 @@ class IndexTest extends BrowserTestCase
             ->assertSee('Bar')
             ->assertSee('Foo bar baz')
             ->assertDontSee('Baz bar foo')
-            ->clickAtXPath('/html/body/div[3]/div/ul/div[1]/li[2]')
+            ->clickAtXPath('/html/body/div[3]/div/ul/li[2]')
             ->waitForText('Baz bar foo')
             ->assertDontSee('Foo bar baz')
-            ->clickAtXPath('/html/body/div[3]/div/ul/div[1]/li[1]')
+            ->clickAtXPath('/html/body/div[3]/div/ul/li[1]')
             ->waitForText('Foo bar baz')
             ->assertDontSee('Baz bar foo');
     }
@@ -134,7 +260,7 @@ class IndexTest extends BrowserTestCase
             ->assertSee('Bar')
             ->assertSee('Baz bar foo')
             ->assertDontSee('Foo bar baz')
-            ->clickAtXPath('/html/body/div[3]/div/ul/div[1]/li[1]')
+            ->clickAtXPath('/html/body/div[3]/div/ul/li[1]')
             ->waitForText('Foo bar baz')
             ->assertSee('Bar')
             ->assertDontSee('Baz bar foo');

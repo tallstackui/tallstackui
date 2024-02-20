@@ -106,4 +106,10 @@ return [
     'timepicker' => [
         'helper' => 'Hora Atual',
     ],
+
+    'step' => [
+        'next' => 'Seguinte',
+        'previous' => 'Anterior',
+        'finish' => 'Finalizar',
+    ],
 ];

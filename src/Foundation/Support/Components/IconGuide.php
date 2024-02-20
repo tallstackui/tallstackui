@@ -24,14 +24,30 @@ class IconGuide
         'google' => [
             'default',
         ],
+        'fontawesome' => [
+            'solid',
+            'regular',
+            'brands',
+        ],
+        'iconsax' => [
+            'bold',
+            'broken',
+            'bulk',
+            'linear',
+            'outline',
+            'twotone',
+        ],
     ];
 
     // The idea of this constant is to be used as a map of internal icons in
     // components. As new icons are supported, this guide should be updated
     // and icon references should use generic names when possible.
     private const GUIDE = [
+        // https://heroicons.com/
         'heroicons' => [
             'arrow-path' => 'arrow-path',
+            'arrow-trending-up' => 'arrow-trending-up',
+            'arrow-trending-down' => 'arrow-trending-down',
             'check' => 'check',
             'check-circle' => 'check-circle',
             'chevron-down' => 'chevron-down',
@@ -61,8 +77,11 @@ class IconGuide
             'sun' => 'sun',
             'moon' => 'moon',
         ],
+        // https://phosphoricons.com/
         'phosphoricons' => [
             'arrow-path' => 'arrows-clockwise',
+            'arrow-trending-up' => 'trend-up',
+            'arrow-trending-down' => 'trend-down',
             'check' => 'check',
             'check-circle' => 'check-circle',
             'chevron-down' => 'caret-down',
@@ -92,8 +111,11 @@ class IconGuide
             'sun' => 'sun',
             'moon' => 'moon',
         ],
+        // https://fonts.google.com/icons
         'google' => [
             'arrow-path' => 'sync',
+            'arrow-trending-up' => 'trending-up',
+            'arrow-trending-down' => 'trending-down',
             'check' => 'check',
             'check-circle' => 'check-circle',
             'chevron-down' => 'expand-more',
@@ -123,6 +145,74 @@ class IconGuide
             'sun' => 'light-mode',
             'moon' => 'dark-mode',
         ],
+        // https://fontawesome.com/
+        'fontawesome' => [
+            'arrow-path' => 'rotate',
+            'arrow-trending-up' => 'arrow-trend-up',
+            'arrow-trending-down' => 'arrow-trend-down',
+            'check' => 'check',
+            'check-circle' => 'circle-check',
+            'chevron-down' => 'chevron-down',
+            'chevron-left' => 'chevron-left',
+            'chevron-right' => 'chevron-right',
+            'chevron-up' => 'chevron-up',
+            'chevron-up-down' => 'arrows-up-down',
+            'clipboard' => 'clipboard',
+            'clipboard-document' => 'clipboard-list',
+            'cloud-arrow-up' => 'cloud-arrow-up',
+            'arrow-up-tray' => 'arrow-up-from-bracket',
+            'document-check' => 'clipboard-check',
+            'document-text' => 'file-lines',
+            'exclamation-circle' => 'circle-exclamation',
+            'eye' => 'eye',
+            'eye-slash' => 'eye-slash',
+            'information-circle' => 'circle-info',
+            'magnifying-glass' => 'magnifying-glass',
+            'minus' => 'minus',
+            'photo' => 'image',
+            'plus' => 'plus',
+            'question-mark-circle' => 'circle-question',
+            'swatch' => 'swatchbook',
+            'trash' => 'trash-can',
+            'x-circle' => 'circle-xmark',
+            'x-mark' => 'xmark',
+            'sun' => 'sun',
+            'moon' => 'moon',
+        ],
+        // https://iconsax.io/
+        'iconsax' => [
+            'arrow-path' => 'refresh',
+            'arrow-trending-up' => 'trend-up',
+            'arrow-trending-down' => 'trend-down',
+            'check' => 'tick-square',
+            'check-circle' => 'tick-circle',
+            'chevron-down' => 'arrow-down-1',
+            'chevron-left' => 'arrow-left-1',
+            'chevron-right' => 'arrow-right-1',
+            'chevron-up' => 'arrow-up-1',
+            'chevron-up-down' => 'arrange-vertical',
+            'clipboard' => 'clipboard',
+            'clipboard-document' => 'clipboard-text',
+            'cloud-arrow-up' => 'cloud-plus',
+            'arrow-up-tray' => 'export-curve',
+            'document-check' => 'document-check',
+            'document-text' => 'document-text',
+            'exclamation-circle' => 'info-circle',
+            'eye' => 'eye',
+            'eye-slash' => 'eye-slash',
+            'information-circle' => 'info-circle',
+            'magnifying-glass' => 'search-normal-1',
+            'minus' => 'minus',
+            'photo' => 'image',
+            'plus' => 'add',
+            'question-mark-circle' => 'message-question',
+            'swatch' => 'color-swatch',
+            'trash' => 'trash',
+            'x-circle' => 'close-circle',
+            'x-mark' => 'close-square',
+            'sun' => 'sun',
+            'moon' => 'moon',
+        ],
     ];
 
     /** @throws Exception|InappropriateIconGuideExecution */
@@ -130,10 +220,10 @@ class IconGuide
     {
         InappropriateIconGuideExecution::validate($component::class);
 
-        $config = self::configuration();
+        $configuration = self::configuration();
 
-        $type = $config->get('type');
-        $style = $config->get('style');
+        $type = $configuration->get('type');
+        $style = $configuration->get('style');
 
         self::validate($type);
 
@@ -167,9 +257,9 @@ class IconGuide
      */
     public static function internal(string $key): string
     {
-        $config = self::configuration();
+        $configuration = self::configuration();
 
-        self::validate($type = $config->get('type'));
+        self::validate($type = $configuration->get('type'));
 
         return self::GUIDE[$type][$key] ?? $key;
     }

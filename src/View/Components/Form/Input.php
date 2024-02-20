@@ -39,8 +39,8 @@ class Input extends BaseComponent implements Personalization
             'input' => [
                 'class' => [...$this->input()],
                 'paddings' => [
-                    'left' => 'pl-7',
-                    'right' => 'pr-7',
+                    'left' => 'pl-8',
+                    'right' => 'pr-8',
                 ],
             ],
             'icon' => [
