@@ -37,6 +37,7 @@
                         // conflicts when component is used in non-livewire mode
                         ->except(['value', 'name'])
                         ->class([
+                            'w-4',
                             $personalize['input.class.base'],
                             $personalize['input.class.color.base'] => !$error,
                             $personalize['input.class.color.background'],
