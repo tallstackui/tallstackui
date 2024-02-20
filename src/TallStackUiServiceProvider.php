@@ -7,6 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
 use TallStackUi\Facades\TallStackUi as Facade;
 use TallStackUi\Foundation\Console\SetupIconsCommand;
+use TallStackUi\Foundation\Console\SetupPrefixCommand;
 use TallStackUi\Foundation\Personalization\Personalization;
 use TallStackUi\Foundation\Personalization\PersonalizationResources;
 use TallStackUi\Foundation\Support\Blade\BladeComponentPrefix;
@@ -40,7 +41,7 @@ class TallStackUiServiceProvider extends ServiceProvider
             return;
         }
 
-        $this->commands(SetupIconsCommand::class);
+        $this->commands([SetupIconsCommand::class, SetupPrefixCommand::class]);
     }
 
     protected function registerComponentPersonalizations(): void
