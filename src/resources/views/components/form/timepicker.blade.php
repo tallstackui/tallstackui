@@ -12,13 +12,19 @@
                          :$label
                          :$hint
                          :$invalidate
-                         readonly
-                         icon="clock"
-                         position="right"
                          x-ref="input"
                          x-on:click="show = !show"
+                         x-on:keydown="$event.preventDefault()"
                          dusk="tallstackui_timepicker_input"
-                         class="cursor-pointer" />
+                         class="cursor-pointer caret-transparent">
+                         <x-slot:suffix>
+                            <button type="button" x-on:click="show = !show">
+                                <x-dynamic-component :component="TallStackUi::component('icon')"
+                                                     :icon="TallStackUi::icon('clock')"
+                                                     @class($personalize['icon']) />
+                            </button>
+                         </x-slot:suffix>
+    </x-dynamic-component>
     <div x-cloak
         x-show="show"
         x-on:click.away="show = false"
