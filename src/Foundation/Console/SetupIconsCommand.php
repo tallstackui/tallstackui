@@ -89,7 +89,7 @@ class SetupIconsCommand extends Command
         File::deleteDirectory($extract);
         unlink($file);
 
-        if (config('tallstackui.icons.flush', true) === true) {
+        if (config('tallstackui.icons.flush', true) === false) {
             return;
         }
 
