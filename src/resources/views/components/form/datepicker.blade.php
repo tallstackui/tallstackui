@@ -13,9 +13,7 @@
             @js($maxDate),
             @js($minYear),
             @js($maxYear),
-            @js($disable),
-            @js($placeholders['days']),
-            @js($placeholders['months']))"
+            @js($disable))"
          x-cloak
          x-on:click.outside="open = false">
         <div x-ref="anchor"
@@ -26,15 +24,14 @@
                     $personalize['input.class.color.disabled'] => $attributes->get('disabled') || $attributes->get('readonly'),
                     $personalize['error'] => $error
                 ])>
-            <input @if ($id) id="{{ $id }}" @endif
-                   type="text"
+            <input type="text"
                    readonly
+                   x-model="value"
                    x-on:click="open = !open; showYearPicker=false;"
                    x-on:keydown.escape="open = false"
-                   x-model="value"
-                   x-ref="input"
-                   {{ $attributes->class(['curson-pointer', $personalize['input.class.base']]) }} />
-            <div @class($personalize['icon.input'])>
+                   @class(['cursor-pointer', $personalize['input.class.base']]) />
+            <input @if ($id) id="{{ $id }}" @endif type="hidden" x-ref="input" {{ $attributes }} />
+            <div @class(['mr-2', $personalize['icon.input']])>
                 <x-dynamic-component :component="TallStackUi::component('icon')" icon="x-mark" class="w-5 h-5 hover:text-red-500" x-show="value" x-on:click="clear()" />
                 <x-dynamic-component :component="TallStackUi::component('icon')" icon="calendar" @class(['w-5 h-5', $personalize['error'] => $error]) x-on:click="open = !open" />
             </div>
@@ -47,7 +44,7 @@
              x-transition:leave="transition ease-in duration-75"
              x-transition:leave-start="opacity-100 translate-y-0"
              x-transition:leave-end="opacity-0 -translate-y-2"
-             x-on:click.away="datePickerAway()"
+             x-on:click.away="if (range && endDate || !range) open = false"
              @class($personalize['box.wrapper'])>
             <div class="flex items-center justify-between mb-4">
                 <div @class($personalize['box.picker.button'])>
@@ -87,7 +84,7 @@
                                         <span x-text="yearRangeLast" @class($personalize['label.month'])></span>
                                     </div>
                                     <button x-on:click="yearRangeStart = new Date().getFullYear(); selectYear($event, new Date().getFullYear())">
-                                        {{ __('tallstack-ui::messages.datepicker.helpers.today') }}
+                                        {{ __('tallstack-ui::messages.datepicker.today') }}
                                     </button>
                                     <div>
                                         <button @class($personalize['button.navigate'])
@@ -179,11 +176,11 @@
             </div>
 
             <!-- Buttons Helpers -->
-            @if (!$helpers->isEmpty())
+            @if (!$helpers->isEmpty() && $multiple === false)
                 <div @class($personalize['wrapper.helpers'])>
                     @foreach ($helpers as $helper)
                         @if ($helpers->contains($helper))
-                            <button x-on:click="changeDate('{{ $helper }}')" @class($personalize['button.helpers'])>{{ __('tallstack-ui::messages.datepicker.helpers.' . $helper) }}</button>
+                            <button x-on:click="changeDate('{{ $helper }}')" @class($personalize['button.helpers'])>{{ __('tallstack-ui::messages.datepicker.' . $helper) }}</button>
                         @endif
                     @endforeach
                 </div>

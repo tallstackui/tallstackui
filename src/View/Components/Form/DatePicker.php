@@ -25,14 +25,13 @@ class DatePicker extends BaseComponent implements Personalization
         public ?bool $invalidate = null,
         public ?bool $range = false,
         public ?bool $multiple = false,
-        public ?string $format = 'YYYY-MM-DD', // TODO: validate
+        public ?string $format = 'YYYY-MM-DD',
         public string|null|Carbon $minDate = null,
         public string|null|Carbon $maxDate = null,
         public ?int $minYear = null,
         public ?int $maxYear = null,
         public bool|array|Collection|null $helpers = null,
         public array|Collection $disable = [],
-        public ?array $placeholders = null, // TODO: unnecessary with Dayjs
     ) {
         $this->helpers = $this->helpers === true ?
             collect(['yesterday', 'today', 'tomorrow', 'last7days', 'last15days', 'last30days']) :
@@ -43,8 +42,6 @@ class DatePicker extends BaseComponent implements Personalization
         } else {
             $this->helpers = $this->helpers->diff(['last7days', 'last15days', 'last30days']);
         }
-
-        $this->messages();
     }
 
     public function blade(): View
@@ -96,35 +93,7 @@ class DatePicker extends BaseComponent implements Personalization
             'error' => $this->error(),
         ]);
     }
-
-    protected function messages(): void
-    {
-        $this->placeholders['days'] = [
-            __('tallstack-ui::messages.datepicker.days.sun'),
-            __('tallstack-ui::messages.datepicker.days.mon'),
-            __('tallstack-ui::messages.datepicker.days.tue'),
-            __('tallstack-ui::messages.datepicker.days.wed'),
-            __('tallstack-ui::messages.datepicker.days.thu'),
-            __('tallstack-ui::messages.datepicker.days.fri'),
-            __('tallstack-ui::messages.datepicker.days.sat'),
-        ];
-
-        $this->placeholders['months'] = [
-            __('tallstack-ui::messages.datepicker.months.january'),
-            __('tallstack-ui::messages.datepicker.months.february'),
-            __('tallstack-ui::messages.datepicker.months.march'),
-            __('tallstack-ui::messages.datepicker.months.april'),
-            __('tallstack-ui::messages.datepicker.months.may'),
-            __('tallstack-ui::messages.datepicker.months.june'),
-            __('tallstack-ui::messages.datepicker.months.july'),
-            __('tallstack-ui::messages.datepicker.months.august'),
-            __('tallstack-ui::messages.datepicker.months.september '),
-            __('tallstack-ui::messages.datepicker.months.october'),
-            __('tallstack-ui::messages.datepicker.months.november'),
-            __('tallstack-ui::messages.datepicker.months.december'),
-        ];
-    }
-
+    
     protected function validate(): void
     {
         $minDate = null;

@@ -1,6 +1,4 @@
-import {dayjs, error} from '../../helpers';
-
-export default (model, range, multiple, format, minDate, maxDate, minYear, maxYear, disable, days, months) => ({
+export default (model, range, multiple, format, minDate, maxDate, minYear, maxYear, disable) => ({
   open: false,
   format: format,
   model: model,
@@ -10,8 +8,8 @@ export default (model, range, multiple, format, minDate, maxDate, minYear, maxYe
   day: '',
   daysInMonth: [],
   blankDaysInMonth: [],
-  monthNames: months,
-  days: days,
+  monthNames: [],
+  days: [],
   showYearPicker: false,
   showMonthPicker: false,
   yearRangeStart: 0,
@@ -21,8 +19,8 @@ export default (model, range, multiple, format, minDate, maxDate, minYear, maxYe
   endDate: null,
   range: range,
   multiple: multiple,
-  minDate: (minDate !== null) ? new Date(minDate) : null,
-  maxDate: (maxDate !== null) ? new Date(maxDate) : null,
+  minDate: minDate,
+  maxDate: maxDate,
   minYear: minYear,
   maxYear: maxYear,
   disable: disable,
@@ -35,52 +33,50 @@ export default (model, range, multiple, format, minDate, maxDate, minYear, maxYe
       return error('The dayjs library is not available. Please, review the docs.');
     }
 
-    this.month = dayjs.month();
-    this.year = dayjs.year();
-    this.day = dayjs.day();
+    this.monthNames = dayjs.months().map((month) => {
+      return month.charAt(0).toUpperCase() + month.slice(1);
+    });
+
+    this.days = dayjs.weekdaysShort().map((days) => {
+      return days.charAt(0).toUpperCase() + days.slice(1);
+    });
+
+    this.minDate = minDate ? dayjs(minDate) : null;
+    this.maxDate = maxDate ? dayjs(maxDate) : null;
+
+    this.month = dayjs().month();
+    this.year = dayjs().year();
+    this.day = dayjs().day();
     this.calculateDays();
 
+    // Checks if the model is defined and hydrates according to the mode (range, multiple, default) of the datepicker
     if (this.model) {
       if (this.range && this.model.length === 2) {
-        const startDate = new Date(this.parseDate(this.model[0]));
-        const endDate = new Date(this.parseDate(this.model[1]));
-        Object.assign(this, {startDate, endDate});
+        Object.assign(this, {startDate: dayjs(this.model[0]).$d, endDate: dayjs(this.model[1]).$d});
       } else if (this.multiple) {
         this.selectedDates = this.model;
       } else {
-        this.startDate = new Date(this.parseDate(this.model));
-        this.value = this.formatDisplay(new Date(this.parseDate(this.model)));
-        if (this.isDateDisabled(new Date(this.model))) {
-          this.clear();
-        }
+        this.startDate = dayjs(this.model).$d;
+        this.value = dayjs(this.model).format(this.format);
+        if (this.isDateDisabled(this.startDate)) this.clear();
       }
 
       this.updateInputValue();
       this.open = false;
     }
   },
-  parseDate(date) {
-    const parts = date.split('-');
-    return new Date(parts[0], parts[1] - 1, parts[2]);
-  },
+  /**
+   * Based on the type of datepicker, this function treats the clicked date and applies the appropriate
+   * formatting and values.
+   * @param {string} day
+   */
   dayClicked(day) {
-    const selectedDate = new Date(this.year, this.month, day);
-    if (this.isDateDisabled(selectedDate)) {
-      return;
-    }
+    const selectedDate = this.dayjs(`${this.year}-${this.month + 1}-${day}`);
 
     if (this.multiple) {
-      if (!this.selectedDates) {
-        this.selectedDates = [selectedDate.toISOString().slice(0, 10)];
-      } else {
-        const index = this.selectedDates.findIndex((date) => date === selectedDate.toISOString().slice(0, 10));
-
-        if (index === -1) {
-          this.selectedDates.push(selectedDate.toISOString().slice(0, 10));
-        } else {
-          this.selectedDates.splice(index, 1);
-        }
-      }
+      this.selectedDates = this.selectedDates ?
+        [...this.selectedDates, selectedDate.format('YYYY-MM-DD')] :
+        [selectedDate.format('YYYY-MM-DD')];
     } else if (this.range) {
       if (this.startDate && !this.endDate && selectedDate > this.startDate) {
         this.endDate = selectedDate;
@@ -95,206 +91,167 @@ export default (model, range, multiple, format, minDate, maxDate, minYear, maxYe
 
     this.updateInputValue();
   },
+  /**
+   * Checks if the date informed by the model is the same as the loop date
+   * @param {string} day
+   * @returns bool
+   */
   isSelectedDate(day) {
     if (this.model) {
-      const date = new Date(this.year, this.month, day);
-      return this.model.includes(date.toISOString().slice(0, 10));
+      const date = this.dayjs(`${this.year}-${this.month + 1}-${day}`);
+      return this.model.includes(date.format('YYYY-MM-DD'));
     }
 
     return false;
   },
+  /**
+   * Checks if the given date is between the range date in order to colorize the range interval
+   * @param {string} date
+   * @returns bool
+   */
   dateInterval(date) {
-    return new Date(date) >= new Date(this.startDate) && new Date(date) <= new Date(this.endDate);
+    if (this.range === false) return false;
+
+    const currentDate = this.dayjs(date);
+    const startDate = this.dayjs(this.startDate);
+    const endDate = this.dayjs(this.endDate);
+    return currentDate.isAfter(startDate) &&
+           currentDate.isBefore(endDate) ||
+           currentDate.isSame(startDate) ||
+           currentDate.isSame(endDate);
   },
+  /**
+   * Generate calendar days based on the selected month and year.
+   */
   calculateDays() {
-    const daysInMonth = new Date(this.year, this.month + 1, 0).getDate();
-    const dayOfWeek = new Date(this.year, this.month, 1).getDay();
-    const blankdaysArray = [];
-    for (let i = 1; i <= dayOfWeek; i++) {
-      blankdaysArray.push(i);
-    }
-    const daysArray = [];
-    for (let day = 1; day <= daysInMonth; day++) {
-      const date = new Date(this.year, this.month, day);
-      const isDisabled = this.isDateDisabled(date);
-      daysArray.push({day: day, full: date, isDisabled});
-    }
+    const dayjs = this.dayjs;
+    const daysInMonth = dayjs(`${this.year}-${this.month + 1}-01`).endOf('month').date();
+    const dayOfWeek = dayjs(`${this.year}-${this.month + 1}-01`).day();
+    const blankdaysArray = Array.from({length: dayOfWeek}, (_, i) => i + 1);
+
+    const daysArray = Array.from({length: daysInMonth}, (_, day) => {
+      const date = dayjs(`${this.year}-${this.month + 1}-${day + 1}`);
+      const isDisabled = this.isDateDisabled(date.toDate());
+      return {day: day + 1, full: date, isDisabled};
+    });
+
     this.blankDaysInMonth = blankdaysArray;
     this.daysInMonth = daysArray;
   },
-  formatDisplay(date) {
-    const formattedDay = this.days[date.getDay()];
-    const formattedDate = ('0' + date.getDate()).slice(-2);
-    const formattedMonth = this.monthNames[date.getMonth()];
-    const formattedMonthShortName = this.monthNames[date.getMonth()].substring(0, 3);
-    const formattedMonthInNumber = ('0' + (date.getMonth() + 1)).slice(-2);
-    const formattedYear = date.getFullYear();
-
-    // Handle predefined formats
-    if (this.format === 'M d, Y') {
-      return `${formattedMonthShortName} ${formattedDate}, ${formattedYear}`;
-    }
-    if (this.format === 'MM-DD-YYYY') {
-      return `${formattedMonthInNumber}-${formattedDate}-${formattedYear}`;
-    }
-    if (this.format === 'DD-MM-YYYY') {
-      return `${formattedDate}-${formattedMonthInNumber}-${formattedYear}`;
-    }
-    if (this.format === 'YYYY-MM-DD') {
-      return `${formattedYear}-${formattedMonthInNumber}-${formattedDate}`;
-    }
-    if (this.format === 'D d M, Y') {
-      return `${formattedDay} ${formattedDate} ${formattedMonthShortName} ${formattedYear}`;
-    }
-
-    return `${formattedMonth} ${formattedDate}, ${formattedYear}`;
-  },
+  /**
+   * Logic to make the helper buttons work according to the datepicker type
+   * @param {string} type
+   */
   changeDate(type) {
-    const currentDate = new Date();
+    let currentDate = this.dayjs();
 
-    if (type === 'yesterday') {
-      currentDate.setDate(currentDate.getDate() - 1);
-    } else if (type === 'tomorrow') {
-      currentDate.setDate(currentDate.getDate() + 1);
-    } else if (type === 'last7days') {
+    if (type === 'yesterday' || type === 'tomorrow') {
+      currentDate = currentDate.add(type === 'yesterday' ? -1 : 1, 'day');
+    } else if (type.startsWith('last')) {
       if (this.range) {
-        this.helperRange(7);
-        return;
+        const days = parseInt(type.replace('last', ''), 10);
+        const startDate = currentDate.subtract(days, 'day').startOf('day');
+        const endDate = currentDate.startOf('day');
+
+        if (!this.isDateDisabled(startDate.toDate()) && !this.isDateDisabled(endDate.toDate())) {
+          Object.assign(this, {startDate: startDate.toDate(), endDate: endDate.toDate()});
+          this.updateInputValue();
+          return;
+        }
       } else {
-        currentDate.setDate(currentDate.getDate() - 7);
-      }
-    } else if (type === 'last15days') {
-      if (this.range) {
-        this.helperRange(15);
-        return;
-      } else {
-        currentDate.setDate(currentDate.getDate() - 15);
-      }
-    } else if (type === 'last30days') {
-      if (this.range) {
-        this.helperRange(30);
-        return;
-      } else {
-        currentDate.setDate(currentDate.getDate() - 30);
+        const daysToSubtract = parseInt(type.replace('last', ''), 10);
+        currentDate = currentDate.subtract(daysToSubtract, 'day');
       }
     }
 
-    // No change needed for 'today', as currentDate is already set to now.
+    const current = currentDate.format('YYYY-MM-DD');
 
-    this.month = currentDate.getMonth();
-    this.year = currentDate.getFullYear();
-    this.day = currentDate.getDate();
-    this.value = this.formatDisplay(currentDate);
+    this.month = currentDate.month();
+    this.year = currentDate.year();
+    this.day = currentDate.date();
+    this.model = current;
+    this.value = currentDate.format(this.format);
     this.calculateDays();
 
+    // Checks if there is a disabled date and if it corresponds to the selected date and clears the value if true
     this.daysInMonth.forEach((date) => {
-      const current = currentDate.toISOString().slice(0, 10);
-      const selected = date.full.toISOString().slice(0, 10);
-      if (current === selected && date.isDisabled === true) {
+      const selected = date.full.format('YYYY-MM-DD');
+      if (current === selected && date.isDisabled) {
         this.value = '';
       }
     });
   },
-  helperRange(time) {
-    const currentDate = new Date();
-    const startDate = new Date(currentDate - time * 24 * 60 * 60 * 1000);
-    startDate.setHours(0, 0, 0, 0);
-    const endDate = new Date(currentDate);
-    endDate.setHours(0, 0, 0, 0);
-
-    if (this.isDateDisabled(startDate) || this.isDateDisabled(endDate)) {
-      return;
-    }
-
-    Object.assign(this, {startDate, endDate});
-    this.updateInputValue();
-  },
+  /**
+   * Handles items according to the datepicker type and display format
+   */
   updateInputValue() {
-    const startDateValue = this.startDate ? this.formatDisplay(new Date(this.startDate)) : '';
-    const endDateValue = this.endDate ? this.formatDisplay(new Date(this.endDate)) : '';
+    const startDateFormated = this.startDate ? this.dayjs(this.startDate).format(this.format) : '';
+    const endDateFormated = this.endDate ? this.dayjs(this.endDate).format(this.format) : '';
 
     if (this.multiple) {
       this.model = this.selectedDates;
-      this.value = this.model.join(', ');
+      this.value = this.model.map((date) => this.dayjs(date).format(this.format)).join(', ');
     } else if (this.range) {
       this.model = [
-        this.startDate.toISOString().slice(0, 10),
-                this.endDate !== null ? this.endDate.toISOString().slice(0, 10) : null,
+        this.dayjs(this.startDate).format('YYYY-MM-DD'),
+        this.endDate !== null ? this.dayjs(this.endDate).format('YYYY-MM-DD') : null,
       ];
-      this.value = startDateValue + ' - ' + endDateValue;
+      this.value = startDateFormated + ' - ' + endDateFormated;
       this.open = this.startDate !== null;
     } else {
-      this.model = this.startDate.toISOString().slice(0, 10);
-      this.value = startDateValue;
-      this.open = false;
-    }
-  },
-  datePickerAway() {
-    if (this.range) {
-      if (this.endDate) {
-        this.open = false;
-      }
-    } else {
+      this.model = this.startDate ? this.dayjs(this.startDate).format('YYYY-MM-DD') : null;
+      this.value = startDateFormated;
       this.open = false;
     }
   },
   isToday(day) {
-    const today = new Date();
-    const date = new Date(this.year, this.month, day);
-    return today.toDateString() === date.toDateString();
+    const today = this.dayjs();
+    const date = this.dayjs(`${this.year}-${this.month + 1}-${day}`);
+    return today.isSame(date, 'day');
   },
   isDateDisabled(date) {
-    const formattedDate = date.toISOString().slice(0, 10);
     return (this.minDate && date <= this.minDate) ||
             (this.maxDate && date >= this.maxDate) ||
-            this.disable.includes(formattedDate);
+            this.disable.includes(this.dayjs(date).format('YYYY-MM-DD'));
   },
   previousMonth() {
-    if (this.month == 0) {
-      this.year--;
-      this.month = 12;
-    }
-    this.month--;
+    this.month = (this.month === 0) ? 11 : this.month - 1;
+
+    if (this.month === 11) this.year--;
+
     this.calculateDays();
   },
   nextMonth() {
-    if (this.month == 11) {
-      this.month = 0;
-      this.year++;
-    } else {
-      this.month++;
-    }
+    this.month = (this.month + 1) % 12;
+
+    if (this.month === 0) this.year++;
+
     this.calculateDays();
   },
   previousYearRange(e) {
     e.stopPropagation();
 
-    if (this.minYear !== null && this.yearRangeFirst <= this.minYear) {
-      return;
-    }
+    if (this.minYear !== null && this.yearRangeFirst <= this.minYear) return;
 
     this.yearRangeStart -= 19;
   },
   nextYearRange(e) {
     e.stopPropagation();
-    if (this.maxYear !== null && this.yearRangeLast >= this.maxYear) {
-      return;
-    }
+
+    if (this.maxYear !== null && this.yearRangeLast >= this.maxYear) return;
 
     this.yearRangeStart += 19;
   },
   generateYearRange() {
     const startYear = this.yearRangeStart;
-    const endYear = startYear + 19;
 
-    const minYear = this.minYear !== null ? this.minYear : -Infinity;
-    const maxYear = this.maxYear !== null ? this.maxYear : Infinity;
+    const minYear = this.minYear ?? -Infinity;
+    const maxYear = this.maxYear ?? Infinity;
 
-    const yearRange = Array.from({length: endYear - startYear + 1}, (_, k) => startYear + k)
+    const yearRange = Array.from({length: 20}, (_, index) => startYear + index)
         .filter((year) => year >= minYear && year <= maxYear);
 
-    this.yearRangeFirst = yearRange[0];
-    this.yearRangeLast = yearRange[yearRange.length - 1];
+    Object.assign(this, {yearRangeFirst: yearRange[0], yearRangeLast: yearRange[yearRange.length - 1]});
 
     return yearRange;
   },
@@ -303,13 +260,6 @@ export default (model, range, multiple, format, minDate, maxDate, minYear, maxYe
     this.month = month;
     this.showMonthPicker = false;
     this.calculateDays();
-  },
-  /**
-   * Get the dayjs library.
-   * @return {Dayjs}
-   */
-  get dayjs() {
-    return dayjs();
   },
   selectYear(e, year) {
     e.stopPropagation();
@@ -321,7 +271,17 @@ export default (model, range, multiple, format, minDate, maxDate, minYear, maxYe
     this.showYearPicker = true;
     this.yearRangeStart = this.year - 11;
   },
+  /**
+   * Reset all properties
+   */
   clear() {
     this.model = this.value = this.startDate = this.endDate = this.selectedDates = null;
+  },
+  /**
+   * Get the dayjs library.
+   * @return {Dayjs}
+   */
+  get dayjs() {
+    return window.dayjs;
   },
 });
