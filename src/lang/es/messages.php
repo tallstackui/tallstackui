@@ -73,6 +73,8 @@ return [
         'helper' => 'Hora Actual',
     ],
 
+    // TODO: datepicker
+
     'step' => [
         'next' => 'Siguiente',
         'previous' => 'Anterior',

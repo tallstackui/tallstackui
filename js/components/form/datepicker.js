@@ -1,3 +1,5 @@
+import {error} from '../../helpers';
+
 export default (model, range, multiple, format, minDate, maxDate, minYear, maxYear, disable) => ({
   open: false,
   format: format,
