@@ -33,8 +33,12 @@ class UploadComponentFileAdapter
         return ($this->static ? $this->static() : $this->upload())->toArray();
     }
 
-    private function image(string $extension): bool
+    private function image(?string $extension): bool
     {
+        if (! $extension) {
+            return false;
+        }
+
         return in_array($extension, ['jpg', 'jpeg', 'png', 'gif', 'svg']);
     }
 
@@ -69,10 +73,10 @@ class UploadComponentFileAdapter
         return $this->collection->map(fn (TemporaryUploadedFile $file) => [
             'temporary_name' => $file->getFilename(),
             'real_name' => $file->getClientOriginalName(),
-            'extension' => $file->extension(),
+            'extension' => $extension = $file->extension(),
             'size' => $this->size ? Number::fileSize($file->getSize()) : null,
             'path' => $file->getPathname(),
-            'is_image' => $image = $this->image($file->extension()),
+            'is_image' => $image = $this->image($extension),
             'url' => ! $image ?: $file->temporaryUrl(),
         ]);
     }
