@@ -46,10 +46,12 @@
             "./vendor/bin/pint",
             "npm run lint:fix"
         ],
+        "rector": "php ./vendor/bin/rector process --dry-run --config=rector.php",
         "analyse": "./vendor/bin/phpstan analyse --memory-limit=2G",
         "ci": [
             "./vendor/bin/pint --test",
             "./vendor/bin/phpstan analyse --memory-limit=2G",
+            "php ./vendor/bin/rector process --dry-run --config=rector.php",
             "./vendor/bin/testbench optimize:clear",
             "./vendor/bin/pest --filter=Feature --parallel --stop-on-failure",
             "./vendor/bin/testbench optimize:clear",
