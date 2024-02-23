@@ -57,43 +57,43 @@ class DatePicker extends BaseComponent implements Personalization
                 'class' => [...$this->input()],
             ],
             'wrapper' => [
-                'helpers' => 'flex items-center justify-between mt-4 custom-scrollbar overflow-auto pb-2 space-x-2',
+                'helpers' => 'custom-scrollbar mt-4 flex items-center justify-between space-x-2 overflow-auto pb-2',
             ],
             'box' => [
-                'wrapper' => 'absolute z-10 max-w-lg p-4 antialiased bg-white dark:bg-dark-700 border rounded-lg shadow w-[17rem] border-dark-200 dark:border-dark-600',
+                'wrapper' => 'dark:bg-dark-700 border-dark-200 dark:border-dark-600 absolute z-10 w-[17rem] max-w-lg rounded-lg border bg-white p-4 antialiased shadow',
                 'picker' => [
-                    'button' => 'text-sm rounded-lg flex items-center justify-between text-dark-900 dark:text-white font-semibold py-1 px-2 focus:outline-none focus:ring-2 focus:ring-dark-200 cursor-pointer',
+                    'button' => 'text-dark-900 focus:ring-dark-200 flex items-center justify-between rounded-lg px-2 py-1 text-sm font-semibold focus:outline-none focus:ring-2 dark:text-white',
                     'wrapper' => [
-                        'first' => 'absolute top-0 left-0 flex w-full h-full p-3 bg-white dark:bg-dark-700 rounded-lg select-none',
-                        'second' => 'flex flex-wrap w-full',
-                        'third' => 'w-full flex items-center justify-between mb-2 px-1 h-12',
+                        'first' => 'dark:bg-dark-700 absolute left-0 top-0 flex h-full w-full select-none rounded-lg bg-white p-3',
+                        'second' => 'flex w-full flex-wrap',
+                        'third' => 'mb-2 flex h-12 w-full items-center justify-between px-1',
                     ],
-                    'label' => 'text-sm rounded-lg flex items-center justify-between text-dark-900 dark:text-white bg-white dark:bg-dark-700 font-semibold py-1 px-2 hover:bg-dark-100 dark:hover:bg-dark-600 focus:outline-none focus:ring-2 focus:ring-dark-200 cursor-pointer',
-                    'range' => 'flex items-center justify-center select-none w-1/4 p-1 text-center cursor-pointer hover:bg-dark-100 dark:hover:bg-dark-600 font-normal rounded-md text-dark-600 dark:text-dark-400 h-6',
+                    'label' => 'text-dark-900 dark:bg-dark-700 hover:bg-dark-100 dark:hover:bg-dark-600 focus:ring-dark-200 flex cursor-pointer items-center justify-between rounded-lg bg-white px-2 py-1 text-sm font-semibold focus:outline-none focus:ring-2 dark:text-white',
+                    'range' => 'hover:bg-dark-100 dark:hover:bg-dark-600 text-dark-600 dark:text-dark-400 disabled:text-dark-400 dark:disabled:text-dark-500 flex h-6 w-1/4 cursor-pointer select-none items-center justify-center rounded-md p-1 text-center font-normal disabled:cursor-not-allowed',
                 ],
             ],
             'label' => [
-                'days' => 'select-none text-xs font-medium text-center text-dark-400 dark:text-dark-400',
-                'month' => 'select-none text-lg font-bold text-dark-800 dark:text-dark-100',
-                'year' => 'select-none ml-1 text-lg font-normal text-dark-600 dark:text-dark-400',
+                'days' => 'text-dark-400 dark:text-dark-400 select-none text-center text-xs font-medium',
+                'month' => 'text-dark-800 dark:text-dark-100 select-none text-lg font-bold',
+                'year' => 'text-dark-600 dark:text-dark-400 ml-1 select-none text-lg font-normal',
             ],
             'button' => [
-                'day' => 'flex items-center justify-center text-sm leading-none text-center rounded-full h-7 w-7 focus:shadow-outline active:text-white disabled:text-dark-400 dark:disabled:text-dark-500 disabled:cursor-not-allowed dark:active:bg-primary-500 ring-primary-500 active:bg-primary-600 outline-none transition-all duration-200 ease-in-out hover:shadow-sm',
+                'day' => 'focus:shadow-outline disabled:text-dark-400 dark:disabled:text-dark-500 dark:active:bg-primary-500 ring-primary-500 active:bg-primary-600 flex h-7 w-7 items-center justify-center rounded-full text-center text-sm leading-none outline-none transition-all duration-200 ease-in-out hover:shadow-sm active:text-white disabled:cursor-not-allowed',
                 'select' => 'text-dark-600 dark:text-dark-400 hover:bg-dark-200 dark:hover:bg-dark-600',
                 'today' => 'text-primary-500 dark:text-dark-300 !font-bold',
                 'selected' => 'bg-primary-500 !text-white hover:bg-opacity-75',
-                'helpers' => 'px-2 py-1 select-none text-sm whitespace-nowrap font-medium text-dark-500 dark:text-dark-300 bg-dark-200 dark:bg-dark-600 rounded-md hover:bg-dark-300 dark:hover:bg-dark-500',
-                'navigate' => 'inline-flex p-1 transition duration-100 ease-in-out rounded-full cursor-pointer focus:outline-none focus:shadow-outline hover:bg-dark-100 dark:hover:bg-dark-600',
+                'helpers' => 'text-dark-500 dark:text-dark-300 bg-dark-200 dark:bg-dark-600 hover:bg-dark-300 dark:hover:bg-dark-500 select-none whitespace-nowrap rounded-md px-2 py-1 text-sm font-medium',
+                'navigate' => 'focus:shadow-outline hover:bg-dark-100 dark:hover:bg-dark-600 inline-flex cursor-pointer rounded-full p-1 transition duration-100 ease-in-out focus:outline-none',
             ],
             'icon' => [
-                'input' => 'cursor-pointer text-secondary-500 dark:text-dark-400 flex items-center gap-2',
-                'navigate' => 'w-5 h-5 text-dark-600 dark:text-dark-300',
+                'input' => 'text-secondary-500 dark:text-dark-400 flex cursor-pointer items-center gap-2',
+                'navigate' => 'text-dark-600 dark:text-dark-300 h-5 w-5',
             ],
             'range' => 'bg-dark-200 dark:bg-dark-600',
             'error' => $this->error(),
         ]);
     }
-    
+
     protected function validate(): void
     {
         $minDate = null;

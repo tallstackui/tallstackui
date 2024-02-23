@@ -60,7 +60,6 @@ export default (model, range, multiple, format, minDate, maxDate, minYear, maxYe
       } else {
         this.startDate = dayjs(this.model).$d;
         this.value = dayjs(this.model).format(this.format);
-        if (this.isDateDisabled(this.startDate)) this.clear();
       }
 
       this.updateInputValue();
@@ -76,9 +75,12 @@ export default (model, range, multiple, format, minDate, maxDate, minYear, maxYe
     const selectedDate = this.dayjs(`${this.year}-${this.month + 1}-${day}`);
 
     if (this.multiple) {
+      // Toggle: Add if it doesn't exist, remove if it does
       this.selectedDates = this.selectedDates ?
-        [...this.selectedDates, selectedDate.format('YYYY-MM-DD')] :
-        [selectedDate.format('YYYY-MM-DD')];
+            this.selectedDates.includes(selectedDate.format('YYYY-MM-DD')) ?
+                this.selectedDates.filter((date) => date !== selectedDate.format('YYYY-MM-DD')) :
+                [...this.selectedDates, selectedDate.format('YYYY-MM-DD')] :
+            [selectedDate.format('YYYY-MM-DD')];
     } else if (this.range) {
       if (this.startDate && !this.endDate && selectedDate > this.startDate) {
         this.endDate = selectedDate;
@@ -112,7 +114,7 @@ export default (model, range, multiple, format, minDate, maxDate, minYear, maxYe
    * @returns bool
    */
   dateInterval(date) {
-    if (this.range === false) return false;
+    if (this.range === false || this.endDate === null) return false;
 
     const currentDate = this.dayjs(date);
     const startDate = this.dayjs(this.startDate);
@@ -250,11 +252,13 @@ export default (model, range, multiple, format, minDate, maxDate, minYear, maxYe
     const minYear = this.minYear ?? -Infinity;
     const maxYear = this.maxYear ?? Infinity;
 
-    const yearRange = Array.from({length: 20}, (_, index) => startYear + index)
-        .filter((year) => year >= minYear && year <= maxYear);
+    const yearRange = Array.from({length: 20}, (_, index) => {
+      const year = startYear + index;
+      const disabled = year < minYear || year > maxYear;
+      return {year, disabled};
+    });
 
-    Object.assign(this, {yearRangeFirst: yearRange[0], yearRangeLast: yearRange[yearRange.length - 1]});
-
+    Object.assign(this, {yearRangeFirst: yearRange[0]?.year, yearRangeLast: yearRange[yearRange.length - 1]?.year});
     return yearRange;
   },
   selectMonth(e, month) {
