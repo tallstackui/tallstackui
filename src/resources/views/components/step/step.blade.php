@@ -4,12 +4,14 @@
      x-cloak
      {{ $attributes->only('x-on:change') }}>
     <nav aria-label="Form Step">
-        <ul role="list"
-            @class($personalize['wrapper.' . $variation])>
-            <template x-for="item in steps">
-                @include("tallstack-ui::components.step.variations.$variation")
-            </template>
-        </ul>
+        <div @class(['overflow-hidden rounded-md' => $variation === 'panels'])>
+            <ul role="list"
+                @class($personalize['wrapper.' . $variation])>
+                <template x-for="item in steps">
+                    @include("tallstack-ui::components.step.variations.$variation")
+                </template>
+            </ul>
+        </div>
     </nav>
     <div role="steplist"
          @class($personalize['content'])>
