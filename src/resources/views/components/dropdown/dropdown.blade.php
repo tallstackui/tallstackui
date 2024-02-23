@@ -45,7 +45,9 @@
                         {!! $header !!}
                     </div>
                 @endif
-                {!! $slot !!}
+                <div @class($personalize['wrapper.slot'])>
+                    {!! $slot !!}
+                </div>
             </div>
         </div>
     </div>
