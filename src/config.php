@@ -58,7 +58,7 @@ return [
         |----------------------------------
         | Default and in-use icon type.
         |----------------------------------
-        | Allowed: heroicons, phosphoricons, google, fontawesome, iconsax.
+        | Allowed: heroicons, phosphoricons, google.
         */
         'type' => 'heroicons',
 
@@ -71,8 +71,6 @@ return [
         | Heroicons: solid, outline
         | Phosphoricons: thin, light, regular, bold, duotone
         | Google: default
-        | FontAwesome: solid, regular, brands
-        | Iconsax: bold, broken, bulk, linear, outline, twotone
         */
         'style' => 'solid',
 

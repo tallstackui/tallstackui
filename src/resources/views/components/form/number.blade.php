@@ -30,10 +30,10 @@
                x-ref="input">
             <button x-on:click="decrement()"
                     x-on:mousedown="interval = setInterval(() => decrement(), delay * 100);"
-                    x-on:touchstart="interval = setInterval(() => decrement(), delay * 100);"
-                    x-on:mouseup="clearInterval(interval);"
-                    x-on:mouseleave="clearInterval(interval);"
-                    x-on:touchend="clearInterval(interval);"
+                    x-on:touchstart="if (!interval) interval = setInterval(() => decrement(), delay * 100);"
+                    x-on:touchend="if (interval) { clearInterval(interval); interval = null; }"
+                    x-on:mouseup="if (interval) { clearInterval(interval); interval = null; }"
+                    x-on:mouseleave="if (interval) { clearInterval(interval); interval = null; }"
                     x-ref="minus"
                     type="button"
                     @if ($attributes->get('disabled') || $attributes->get('readonly')) disabled @endif
@@ -45,10 +45,10 @@
             </button>
             <button x-on:click="increment()"
                     x-on:mousedown="interval = setInterval(() => increment(), delay * 100);"
-                    x-on:touchstart="interval = setInterval(() => increment(), delay * 100);"
-                    x-on:mouseup="clearInterval(interval);"
-                    x-on:mouseleave="clearInterval(interval);"
-                    x-on:touchend="clearInterval(interval);"
+                    x-on:touchstart="if (!interval) interval = setInterval(() => increment(), delay * 100);"
+                    x-on:touchend="if (interval) { clearInterval(interval); interval = null; }"
+                    x-on:mouseup="if (interval) { clearInterval(interval); interval = null; }"
+                    x-on:mouseleave="if (interval) { clearInterval(interval); interval = null; }"
                     x-ref="plus"
                     type="button"
                     @if ($attributes->get('disabled') || $attributes->get('readonly')) disabled @endif
