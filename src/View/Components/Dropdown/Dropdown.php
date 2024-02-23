@@ -38,6 +38,7 @@ class Dropdown extends BaseComponent implements Personalization
                 'first' => 'flex items-start',
                 'second' => 'relative inline-block text-left',
                 'third' => 'dark:bg-dark-700 absolute z-10 mt-2 w-56 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5',
+                'slot' => 'overflow-hidden rounded-md',
             ],
             'action' => [
                 'wrapper' => 'inline-flex w-full gap-x-1.5',
