@@ -80,7 +80,7 @@
                 @if ($rules->has('symbols'))
                     <span @class($personalize['rules.items.base'])>
                         <x-dynamic-component :component="TallStackUi::component('icon')"
-                                             icon="x-circle"
+                                             :icon="$icons['x-circle']"
                                              :class="$personalize['rules.items.icons.error']"
                                              x-show="!results.symbols" />
                         <x-dynamic-component :component="TallStackUi::component('icon')"
