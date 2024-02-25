@@ -9,10 +9,7 @@
             @js($range),
             @js($multiple),
             @js($format),
-            @js($minDate),
-            @js($maxDate),
-            @js($minYear),
-            @js($maxYear),
+            {...@js($dates())},
             @js($disable))"
          x-cloak
          x-on:click.outside="picker.common = false">
@@ -57,7 +54,7 @@
                 <div @class($personalize['box.picker.button'])>
                     <span>
                         <span x-text="period.month[month]" x-on:click="picker.month = true"  @class($personalize['label.month'])></span>
-                        <span x-text="year" x-on:click="toggleYear()" @class($personalize['label.year'])></span>
+                        <span x-text="year" x-on:click="showYearPicker()" @class($personalize['label.year'])></span>
                     </span>
                     {{-- Month --}}
                     <template x-if="picker.month">
@@ -93,18 +90,18 @@
                                     </button>
                                     <div>
                                         <button @class($personalize['button.navigate'])
-                                                x-on:click="previousYearRange($event)"
-                                                x-on:mousedown="if (!interval) interval = setInterval(() => previousYearRange($event), 200);"
-                                                x-on:touchstart="if (!interval) interval = setInterval(() => previousYearRange($event), 200);"
+                                                x-on:click="previousYear($event)"
+                                                x-on:mousedown="if (!interval) interval = setInterval(() => previousYear($event), 200);"
+                                                x-on:touchstart="if (!interval) interval = setInterval(() => previousYear($event), 200);"
                                                 x-on:mouseup="if (interval) { clearInterval(interval); interval = null; }"
                                                 x-on:mouseleave="if (interval) { clearInterval(interval); interval = null; }"
                                                 x-on:touchend="if (interval) { clearInterval(interval); interval = null; }">
                                             <x-dynamic-component :component="TallStackUi::component('icon')" icon="chevron-left" @class($personalize['icon.navigate']) />
                                         </button>
                                         <button @class($personalize['button.navigate'])
-                                                x-on:click="nextYearRange($event)"
-                                                x-on:mousedown="if (!interval) interval = setInterval(() => nextYearRange($event), 200);"
-                                                x-on:touchstart="if (!interval) interval = setInterval(() => nextYearRange($event), 200);"
+                                                x-on:click="nextYear($event)"
+                                                x-on:mousedown="if (!interval) interval = setInterval(() => nextYear($event), 200);"
+                                                x-on:touchstart="if (!interval) interval = setInterval(() => nextYear($event), 200);"
                                                 x-on:mouseup="if (interval) { clearInterval(interval); interval = null; }"
                                                 x-on:mouseleave="if (interval) { clearInterval(interval); interval = null; }"
                                                 x-on:touchend="if (interval) { clearInterval(interval); interval = null; }">

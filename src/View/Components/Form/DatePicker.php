@@ -49,6 +49,20 @@ class DatePicker extends BaseComponent implements Personalization
         return view('tallstack-ui::components.form.datepicker');
     }
 
+    final public function dates(): array
+    {
+        return [
+            'date' => [
+                'min' => $this->minDate,
+                'max' => $this->maxDate,
+            ],
+            'year' => [
+                'min' => $this->minYear,
+                'max' => $this->maxYear,
+            ],
+        ];
+    }
+
     public function personalization(): array
     {
         return Arr::dot([

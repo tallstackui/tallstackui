@@ -5,10 +5,7 @@ export default (
     range,
     multiple,
     format,
-    minDate,
-    maxDate,
-    minYear,
-    maxYear,
+    dates,
     disable,
 ) => ({
   picker: {
@@ -26,16 +23,16 @@ export default (
   blanks: [],
   range: {
     year: {
-      min: minYear,
-      max: maxYear,
+      min: dates.year.min,
+      max: dates.year.max,
       start: 0,
       first: 0,
       last: 0,
     },
   },
   date: {
-    min: minDate,
-    max: maxDate,
+    min: dates.date.min,
+    max: dates.date.max,
     start: null,
     end: null,
   },
@@ -50,10 +47,8 @@ export default (
       return error('The dayjs library is not available. Please, review the docs.');
     }
 
-    this.date.min = minDate ? dayjs(minDate) : null;
-    this.date.max = maxDate ? dayjs(maxDate) : null;
-
-    console.log(dayjs().month());
+    this.date.min = dates.date.min ? dayjs(dates.date.min) : null;
+    this.date.max = dates.date.max ? dayjs(dates.date.max) : null;
 
     this.month = dayjs().month();
     this.year = dayjs().year();
@@ -76,13 +71,8 @@ export default (
       this.picker.common = false;
     }
   },
-  /**
-   * Select the date and update the model.
-   *
-   * @param {String} date
-   */
   clicked(date) {
-    const selected = this.dayjs(`${this.year}-${this.month + 1}-${date}`);
+    const selected = this.instance(date);
 
     if (this.multiple) {
       this.selected = this.selected ?
@@ -104,19 +94,10 @@ export default (
 
     this.update();
   },
-  /**
-   * Checks if the date informed by the model is the same as the loop date
-   *
-   * @param {string} day
-   * @returns boolean
-   */
   selectedDate(day) {
     if (!this.model) return false;
 
-    // TODO: why month + 1?
-    const date = this.dayjs(`${this.year}-${this.month + 1}-${day}`);
-
-    return this.model.includes(date.format('YYYY-MM-DD'));
+    return this.model.includes(this.instance(day).format('YYYY-MM-DD'));
   },
   /**
    * Checks if the given date is between the range date.
@@ -136,15 +117,8 @@ export default (
            current.isSame(start) ||
            current.isSame(end);
   },
-  /**
-   * Generate calendar days based on the selected month and year.
-   *
-   * @return {void}
-   */
   calculate() {
-    const dayjs = this.dayjs;
-
-    const start = dayjs(`${this.year}-${this.month + 1}-01`);
+    const start = this.instance('01');
 
     const month = start.endOf('month').date();
     const week = start.day();
@@ -161,10 +135,6 @@ export default (
       };
     });
   },
-  /**
-   * Logic to make the helper buttons work according to the datepicker type
-   * @param {String} type
-   */
   change(type) {
     let dayjs = this.dayjs();
 
@@ -207,9 +177,6 @@ export default (
       }
     });
   },
-  /**
-   * Handles items according to the datepicker type and display format
-   */
   update() {
     if (this.multiple) {
       this.model = this.selected;
@@ -245,8 +212,7 @@ export default (
    * @return {Boolean}
    */
   today(date) {
-    // TODO: why month + 1?
-    return Boolean(this.dayjs().isSame(this.dayjs(`${this.year}-${this.month + 1}-${date}`), 'day'));
+    return Boolean(this.dayjs().isSame(this.instance(date), 'day'));
   },
   /**
    * Checks if the date is disabled
@@ -267,7 +233,6 @@ export default (
     this.calculate();
   },
   nextMonth() {
-    // TODO: why month + 1?
     this.month = (this.month + 1) % 12;
 
     if (this.month === 0) this.year++;
@@ -282,14 +247,14 @@ export default (
 
     this.calculate();
   },
-  previousYearRange(event) {
+  previousYear(event) {
     event.stopPropagation();
 
     if (this.range.year.min !== null && this.range.year.first <= this.range.year.max) return;
 
     this.range.year.start -= 19;
   },
-  nextYearRange(event) {
+  nextYear(event) {
     event.stopPropagation();
 
     if (this.range.year.min !== null && this.range.year.last >= this.range.year.max) return;
@@ -322,7 +287,7 @@ export default (
 
     return range;
   },
-  toggleYear() {
+  showYearPicker() {
     this.picker.year = true;
 
     this.range.year.start = this.year - 11;
@@ -342,6 +307,15 @@ export default (
    */
   formatted(date, format = null) {
     return this.dayjs(date).format(format ?? this.format);
+  },
+  /**
+   * Create a new instance of the Dayjs library optionally passing the day.
+   *
+   * @param {String|Null} day
+   * @return {String}
+   */
+  instance(day = null) {
+    return this.dayjs(`${this.year}-${this.month + 1}-${day ?? this.day}`);
   },
   /**
    * Get the period of the week and month.
