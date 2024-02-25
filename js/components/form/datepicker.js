@@ -20,8 +20,6 @@ export default (
   year: '',
   daysInMonth: [], // days
   blankDaysInMonth: [], // blanks
-  monthNames: [], // months
-  days: [], // getters
   showYearPicker: false,
   showMonthPicker: false,
   yearRangeStart: 0, // ??? year: {start, first, last
@@ -45,8 +43,8 @@ export default (
       return error('The dayjs library is not available. Please, review the docs.');
     }
 
-    this.monthNames = dayjs.months().map((month) => month.charAt(0).toUpperCase() + month.slice(1));
-    this.days = dayjs.weekdaysShort().map((days) => days.charAt(0).toUpperCase() + days.slice(1));
+    // this.monthNames = dayjs.months().map((month) => month.charAt(0).toUpperCase() + month.slice(1));
+    // this.days = dayjs.weekdaysShort().map((days) => days.charAt(0).toUpperCase() + days.slice(1));
 
     this.minDate = minDate ? dayjs(minDate) : null;
     this.maxDate = maxDate ? dayjs(maxDate) : null;
@@ -297,6 +295,14 @@ export default (
     this.model = this.value = this.startDate = this.endDate = this.selectedDates = null;
   },
   // format(date, format)
+  get days() {
+    const dayjs = this.dayjs;
+
+    return {
+      week: dayjs.weekdaysShort().map((days) => days.charAt(0).toUpperCase() + days.slice(1)),
+      month: dayjs.months().map((month) => month.charAt(0).toUpperCase() + month.slice(1)),
+    };
+  },
   /**
    * Get the dayjs library.
    * @return {Dayjs}

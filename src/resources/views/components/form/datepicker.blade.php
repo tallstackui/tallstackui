@@ -56,7 +56,7 @@
             <div class="flex items-center justify-between mb-4">
                 <div @class($personalize['box.picker.button'])>
                     <span>
-                        <span x-text="monthNames[month]" x-on:click="showMonthPicker = true"  @class($personalize['label.month'])></span>
+                        <span x-text="days.month[month]" x-on:click="showMonthPicker = true"  @class($personalize['label.month'])></span>
                         <span x-text="year" x-on:click="toggleYear()" @class($personalize['label.year'])></span>
                     </span>
                     <!-- Month -->
@@ -65,10 +65,10 @@
                             <div @class($personalize['box.picker.wrapper.second'])>
                                 <div @class($personalize['box.picker.wrapper.third'])>
                                     <div @class($personalize['box.picker.label']) x-on:click="showMonthPicker = false">
-                                        <span x-text="monthNames[month]" @class($personalize['label.month'])></span>
+                                        <span x-text="days.month[month]" @class($personalize['label.month'])></span>
                                     </div>
                                 </div>
-                                <template x-for="(monthRange, index) in monthNames">
+                                <template x-for="(monthRange, index) in days.month">
                                     <div @class($personalize['box.picker.range'])
                                          x-bind:class="{ '{{ $personalize['button.today'] }}': month === index }"
                                          x-on:click="selectMonth($event, index)"
@@ -148,7 +148,7 @@
             </div>
             <!-- Days of the Week -->
             <div class="grid grid-cols-7 mb-3">
-                <template x-for="(day, index) in days" :key="index">
+                <template x-for="(day, index) in days.week" :key="index">
                     <div class="px-0.5">
                         <div x-text="day" @class($personalize['label.days'])></div>
                     </div>
