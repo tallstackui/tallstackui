@@ -76,13 +76,14 @@ export default (
       return this.sync();
     }
 
-    this.date.start = dayjs(this.model).$d;
+    this.date.start = this.model ? dayjs(this.model).$d : null;
     this.picker.common = false;
 
     this.sync();
   },
   sync() {
-    if (!this.model) return;
+    // When doesn't have a default date passed through value or model
+    if (!this.date.start) return;
 
     if (this.multiple) {
       this.input = this.model.map((date) => this.formatted(date)).join(', ');
@@ -293,7 +294,7 @@ export default (
    * Reset all properties
    */
   clear() {
-    this.model = this.input = this.date.start = this.date.end = null;
+    this.input = this.model = this.date.start = this.date.end = null;
   },
   /**
    * Reset the day, month and year to the current date.
@@ -338,9 +339,10 @@ export default (
 
     const input = document.getElementsByName(this.property)[0];
 
-    if (!input || !this.model) return;
+    if (!input) return;
 
-    input.value = this.model;
+    input.value = !this.model ? '' :
+        (typeof this.model === 'string' ? this.model : JSON.stringify(this.model));
   },
   /**
    * Get the quantity of the selected dates.
