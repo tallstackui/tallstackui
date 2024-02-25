@@ -11,7 +11,11 @@ export default (
     maxYear,
     disable,
 ) => ({
-  show: false,
+  picker: {
+    common: false,
+    year: false,
+    month: false,
+  },
   format: format,
   model: model,
   value: '',
@@ -20,8 +24,6 @@ export default (
   year: '',
   days: [], // days
   blanks: [], // blanks
-  showYearPicker: false,
-  showMonthPicker: false,
   yearRangeStart: 0, // ??? year: {start, first, last
   yearRangeFirst: 0,
   yearRangeLast: 0,
@@ -67,7 +69,7 @@ export default (
       }
 
       this.updateInputValue();
-      this.show = false;
+      this.picker.common = false;
     }
   },
   /**
@@ -205,11 +207,11 @@ export default (
         this.endDate !== null ? this.dayjs(this.endDate).format('YYYY-MM-DD') : null,
       ];
       this.value = startDateFormated + ' - ' + endDateFormated;
-      this.show = this.startDate !== null;
+      this.picker.common = this.startDate !== null;
     } else {
       this.model = this.startDate ? this.dayjs(this.startDate).format('YYYY-MM-DD') : null;
       this.value = startDateFormated;
-      this.show = false;
+      this.picker.common = false;
     }
   },
   isToday(day) {
@@ -270,7 +272,8 @@ export default (
     e.stopPropagation();
 
     this.month = month;
-    this.showMonthPicker = false;
+    // this.showMonthPicker = false;
+    this.picker.month = false;
 
     this.calculateDays();
   },
@@ -278,12 +281,14 @@ export default (
     e.stopPropagation();
 
     this.year = year;
-    this.showYearPicker = false;
+    this.picker.year = false;
+    // this.showYearPicker = false;
 
     this.calculateDays();
   },
   toggleYear() {
-    this.showYearPicker = true;
+    // this.showYearPicker = true;
+    this.picker.year = true;
 
     this.yearRangeStart = this.year - 11;
   },

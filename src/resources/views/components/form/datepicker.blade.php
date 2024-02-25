@@ -15,7 +15,7 @@
             @js($maxYear),
             @js($disable))"
          x-cloak
-         x-on:click.outside="show = false">
+         x-on:click.outside="picker.common = false">
         <div x-ref="anchor"
                 @class([
                     $personalize['input.class.wrapper'],
@@ -28,8 +28,8 @@
                    readonly
                    x-model="value"
                    {{ $attributes->whereDoesntStartWith('wire:model') }}
-                   x-on:click="show = !show; showYearPicker=false;"
-                   x-on:keydown.escape="show = false"
+                   x-on:click="picker.common = !picker.common; picker.year = false;"
+                   x-on:keydown.escape="picker.common = false"
                    @class(['cursor-pointer', $personalize['input.class.base']]) />
             <div @class(['mr-2', $personalize['icon.input']])>
                 <x-dynamic-component :component="TallStackUi::component('icon')"
@@ -40,10 +40,10 @@
                 <x-dynamic-component :component="TallStackUi::component('icon')"
                                      icon="calendar"
                                      @class(['w-5 h-5', $personalize['error'] => $error])
-                                     x-on:click="show = !show" />
+                                     x-on:click="picker.common = !picker.common" />
             </div>
         </div>
-        <div x-show="show"
+        <div x-show="picker.common"
              x-anchor.bottom-end.offset.10="$refs.anchor"
              x-transition:enter="transition duration-100 ease-out"
              x-transition:enter-start="opacity-0 -translate-y-2"
@@ -51,20 +51,20 @@
              x-transition:leave="transition ease-in duration-75"
              x-transition:leave-start="opacity-100 translate-y-0"
              x-transition:leave-end="opacity-0 -translate-y-2"
-             x-on:click.away="if (range && endDate || !range) show = false"
+             x-on:click.away="if (range && endDate || !range) picker.common = false"
              @class($personalize['box.wrapper'])>
             <div class="flex items-center justify-between mb-4">
                 <div @class($personalize['box.picker.button'])>
                     <span>
-                        <span x-text="period.month[month]" x-on:click="showMonthPicker = true"  @class($personalize['label.month'])></span>
+                        <span x-text="period.month[month]" x-on:click="picker.month = true"  @class($personalize['label.month'])></span>
                         <span x-text="year" x-on:click="toggleYear()" @class($personalize['label.year'])></span>
                     </span>
                     <!-- Month -->
-                    <template x-if="showMonthPicker">
+                    <template x-if="picker.month">
                         <div @class($personalize['box.picker.wrapper.first']) x-cloak>
                             <div @class($personalize['box.picker.wrapper.second'])>
                                 <div @class($personalize['box.picker.wrapper.third'])>
-                                    <div @class($personalize['box.picker.label']) x-on:click="showMonthPicker = false">
+                                    <div @class($personalize['box.picker.label']) x-on:click="picker.month = false">
                                         <span x-text="period.month[month]" @class($personalize['label.month'])></span>
                                     </div>
                                 </div>
@@ -79,7 +79,7 @@
                         </div>
                     </template>
                     <!-- Year -->
-                    <template x-if="showYearPicker">
+                    <template x-if="picker.year">
                         <div @class($personalize['box.picker.wrapper.first']) x-cloak>
                             <div @class($personalize['box.picker.wrapper.second'])>
                                 <div @class($personalize['box.picker.wrapper.third'])>
