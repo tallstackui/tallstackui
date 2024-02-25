@@ -1,14 +1,24 @@
 @php
     [$property, $error, $id, $entangle] = $bind($attributes, $errors ?? null, $livewire);
     $personalize = $classes();
+    $value = $attributes->get('value');
 @endphp
 
-<div x-data="tallstackui_formTimePicker({!! $entangle !!}, @js($format === '24'))"
+@if (!$livewire && $property)
+    <input hidden id="{{ $id }}" name="{{ $property }}">
+@endif
+
+<div x-data="tallstackui_formTimePicker(
+    {!! $entangle !!},
+    @js($format === '24'),
+    @js($livewire),
+    @js($property),
+    @js($value))"
     {{ $attributes->only(['x-on:hour', 'x-on:minute']) }}
     x-ref="wrapper"
     x-cloak>
     <x-dynamic-component :component="TallStackUi::component('input')"
-                         {{ $attributes->whereStartsWith('wire:model') }}
+                         {{ $attributes }}
                          :$label
                          :$hint
                          :$invalidate

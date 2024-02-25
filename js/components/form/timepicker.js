@@ -1,17 +1,24 @@
-import {dayjs, error} from '../../helpers';
+import {dayjs, error, warning} from '../../helpers';
 
-export default (model, full) => ({
+export default (model, full, livewire, property, value) => ({
   model: model,
   show: false,
   hours: '0',
   minutes: '0',
   interval: 'AM',
+  livewire: livewire,
+  property: property,
+  value: value,
   init() {
     if (!this.dayjs) {
       return error('The dayjs library is not available. Please, review the docs.');
     }
 
-    if (this.model) this.parse();
+    if (!full && (this.model || this.value) && !/(AM|PM)/.test(this.model ?? this.value)) {
+      warning('The time format is not complete. Please, include the interval (AM/PM).');
+    }
+
+    if (this.model || this.value) this.parse();
 
     this.$watch('hours', (value) => {
       this.sync();
@@ -32,7 +39,7 @@ export default (model, full) => ({
    * @return {void}
    */
   parse() {
-    const [time, interval] = this.model.split(' ');
+    const [time, interval] = (this.model ?? this.value).split(' ');
     const [hours, minutes] = time.split(':');
 
     this.hours = hours;
@@ -80,6 +87,16 @@ export default (model, full) => ({
     if (!model) return;
 
     this.model = value;
+
+    if (this.livewire) return;
+
+    const input = document.getElementsByName(this.property)[0];
+
+    if (!input) {
+      return;
+    }
+
+    input.value = this.value = value;
   },
   /**
    * Get the dayjs library.
