@@ -138,17 +138,19 @@ export default (
   calculate() { // calculate
     const dayjs = this.dayjs;
 
-    const month = dayjs(`${this.year}-${this.month + 1}-01`).endOf('month').date();
-    const week = dayjs(`${this.year}-${this.month + 1}-01`).day();
+    const start = dayjs(`${this.year}-${this.month + 1}-01`);
 
-    this.blanks = Array.from({length: week}, (key, value) => value + 1);
+    const month = start.endOf('month').date();
+    const week = start.day();
 
-    this.days = Array.from({length: month}, (key, value) => {
-      const date = dayjs(`${this.year}-${this.month + 1}-${value + 1}`);
+    this.blanks = Array.from({length: week}, (_, index) => index + 1);
+
+    this.days = Array.from({length: month}, (_, index) => {
+      const date = start.add(index, 'day');
 
       return {
         instance: date,
-        day: value + 1,
+        day: date.date(),
         disabled: this.dateDisabled(date.toDate()),
       };
     });
@@ -165,20 +167,20 @@ export default (
     } else if (type.startsWith('last')) {
       if (range) {
         const days = parseInt(type.replace('last', ''), 10);
-        const startDate = dayjs.subtract(days, 'day').startOf('day');
-        const endDate = dayjs.startOf('day');
+        const start = dayjs.subtract(days, 'day').startOf('day');
+        const end = dayjs.startOf('day');
 
-        if (!this.dateDisabled(startDate.toDate()) && !this.dateDisabled(endDate.toDate())) {
+        if (!this.dateDisabled(start.toDate()) && !this.dateDisabled(end.toDate())) {
           this.date.start = startDate.toDate();
-          this.date.end = endDate.toDate();
+          this.date.end = end.toDate();
 
           this.update();
 
           return;
         }
       } else {
-        const daysToSubtract = parseInt(type.replace('last', ''), 10);
-        dayjs = dayjs.subtract(daysToSubtract, 'day');
+        const subtract = parseInt(type.replace('last', ''), 10);
+        dayjs = dayjs.subtract(subtract, 'day');
       }
     }
 
@@ -203,35 +205,42 @@ export default (
    * Handles items according to the datepicker type and display format
    */
   update() {
-    const start = this.date.start ? this.formatted(this.date.start) : '';
-    const end = this.date.end ? this.formatted(this.date.end) : '';
+    const format = (date, format = 'YYYY-MM-DD') => date ? this.formatted(date, format) : '';
 
     if (this.multiple) {
       this.model = this.selected;
-      this.value = this.model.map((date) => this.formatted(date)).join(', ');
-    } else if (range) {
+      this.value = this.model.map((date) => format(date)).join(', ');
+
+      return;
+    }
+
+    const start = format(this.date.start);
+    const end = format(this.date.end);
+
+    if (range) {
       this.model = [
-        this.formatted(this.date.start, 'YYYY-MM-DD'),
-        this.date.end !== null ? this.formatted(this.date.end, 'YYYY-MM-DD') : null,
+        format(this.date.start),
+        this.date.end !== null ? format(this.date.end) : null,
       ];
+
       this.value = start + ' - ' + end;
       this.picker.common = this.date.start !== null;
-    } else {
-      this.model = this.date.start ? this.formatted(this.date.start, 'YYYY-MM-DD') : null;
-      this.value = start;
-      this.picker.common = false;
+
+      return;
     }
+
+    this.model = format(this.date.start);
+
+    this.value = start;
+    this.picker.common = false;
   },
   isToday(day) {
-    const today = this.dayjs();
-    const date = this.dayjs(`${this.year}-${this.month + 1}-${day}`);
-
-    return Boolean(today.isSame(date, 'day'));
+    return Boolean(this.dayjs().isSame(this.dayjs(`${this.year}-${this.month + 1}-${day}`), 'day'));
   },
   dateDisabled(date) {
     return (this.date.min && date <= this.date.min) ||
-            (this.date.max && date >= this.date.max) ||
-            this.disable.includes(this.formatted(date, 'YYYY-MM-DD'));
+           (this.date.max && date >= this.date.max) ||
+           this.disable.includes(this.formatted(date, 'YYYY-MM-DD'));
   },
   previousMonth() {
     this.month = (this.month === 0) ? 11 : this.month - 1;
@@ -244,6 +253,14 @@ export default (
     this.month = (this.month + 1) % 12;
 
     if (this.month === 0) this.year++;
+
+    this.calculate();
+  },
+  selectMonth(event, month) {
+    event.stopPropagation();
+
+    this.month = month;
+    this.picker.month = false;
 
     this.calculate();
   },
@@ -260,6 +277,14 @@ export default (
     if (this.range.year.min !== null && this.range.year.last >= this.range.year.max) return;
 
     this.range.year.start += 19;
+  },
+  selectYear(event, year) {
+    event.stopPropagation();
+
+    this.year = year;
+    this.picker.year = false;
+
+    this.calculate();
   },
   yearRange() {
     const start = this.range.year.start;
@@ -281,22 +306,6 @@ export default (
     this.range.year.last = range[range.length - 1]?.year;
 
     return range;
-  },
-  selectMonth(event, month) {
-    event.stopPropagation();
-
-    this.month = month;
-    this.picker.month = false;
-
-    this.calculate();
-  },
-  selectYear(event, year) {
-    event.stopPropagation();
-
-    this.year = year;
-    this.picker.year = false;
-
-    this.calculate();
   },
   toggleYear() {
     this.picker.year = true;
