@@ -19,7 +19,7 @@ export default (
   month: '',
   year: '',
   days: [], // days
-  blankDaysInMonth: [], // blanks
+  blanks: [], // blanks
   showYearPicker: false,
   showMonthPicker: false,
   yearRangeStart: 0, // ??? year: {start, first, last
@@ -134,18 +134,17 @@ export default (
    */
   calculateDays() { // calculate
     const dayjs = this.dayjs;
+
     const daysInMonth = dayjs(`${this.year}-${this.month + 1}-01`).endOf('month').date();
     const dayOfWeek = dayjs(`${this.year}-${this.month + 1}-01`).day();
-    const blankdaysArray = Array.from({length: dayOfWeek}, (_, i) => i + 1);
 
-    const daysArray = Array.from({length: daysInMonth}, (_, day) => {
+    this.blanks = Array.from({length: dayOfWeek}, (_, i) => i + 1);
+
+    this.days = Array.from({length: daysInMonth}, (_, day) => {
       const date = dayjs(`${this.year}-${this.month + 1}-${day + 1}`);
       const isDisabled = this.isDateDisabled(date.toDate());
       return {day: day + 1, full: date, isDisabled};
     });
-
-    this.blankDaysInMonth = blankdaysArray;
-    this.days = daysArray;
   },
   /**
    * Logic to make the helper buttons work according to the datepicker type

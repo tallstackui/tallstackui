@@ -155,7 +155,7 @@
                 </template>
             </div>
             <div class="grid grid-cols-7">
-                <template x-for="blankDay in blankDaysInMonth">
+                <template x-for="blankDay in blanks">
                     <div class="p-1 text-sm text-center border border-transparent"></div>
                 </template>
                 <template x-for="(dayObj, dayIndex) in days" :key="dayIndex">
