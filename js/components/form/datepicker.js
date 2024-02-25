@@ -18,7 +18,7 @@ export default (
   day: '',
   month: '',
   year: '',
-  daysInMonth: [], // days
+  days: [], // days
   blankDaysInMonth: [], // blanks
   showYearPicker: false,
   showMonthPicker: false,
@@ -145,7 +145,7 @@ export default (
     });
 
     this.blankDaysInMonth = blankdaysArray;
-    this.daysInMonth = daysArray;
+    this.days = daysArray;
   },
   /**
    * Logic to make the helper buttons work according to the datepicker type
@@ -184,7 +184,7 @@ export default (
     this.calculateDays();
 
     // Checks if there is a disabled date and if it corresponds to the selected date and clears the value if true
-    this.daysInMonth.forEach((date) => {
+    this.days.forEach((date) => {
       if (current === date.full.format('YYYY-MM-DD') && date.isDisabled) {
         this.value = '';
       }
@@ -295,7 +295,7 @@ export default (
     this.model = this.value = this.startDate = this.endDate = this.selectedDates = null;
   },
   // format(date, format)
-  get days() {
+  get period() {
     const dayjs = this.dayjs;
 
     return {
