@@ -59,7 +59,7 @@
                         <span x-text="period.month[month]" x-on:click="picker.month = true"  @class($personalize['label.month'])></span>
                         <span x-text="year" x-on:click="toggleYear()" @class($personalize['label.year'])></span>
                     </span>
-                    <!-- Month -->
+                    {{-- Month --}}
                     <template x-if="picker.month">
                         <div @class($personalize['box.picker.wrapper.first']) x-cloak>
                             <div @class($personalize['box.picker.wrapper.second'])>
@@ -78,7 +78,7 @@
                             </div>
                         </div>
                     </template>
-                    <!-- Year -->
+                    {{-- Year --}}
                     <template x-if="picker.year">
                         <div @class($personalize['box.picker.wrapper.first']) x-cloak>
                             <div @class($personalize['box.picker.wrapper.second'])>
@@ -146,7 +146,7 @@
                     </button>
                 </div>
             </div>
-            <!-- Days of the Week -->
+            {{-- DoW --}}
             <div class="grid grid-cols-7 mb-3">
                 <template x-for="(day, index) in period.week" :key="index">
                     <div class="px-0.5">
@@ -155,19 +155,19 @@
                 </template>
             </div>
             <div class="grid grid-cols-7">
-                <template x-for="blankDay in blanks">
+                <template x-for="blank in blanks">
                     <div class="p-1 text-sm text-center border border-transparent"></div>
                 </template>
                 <template x-for="(day, index) in days" :key="index">
                     <div class="mb-2"
                          :class="{
-                            'rounded-l-full': new Date(day.full).getTime() === new Date(date.start).getTime(),
-                            'rounded-r-full w-7 h-7': new Date(day.full).getTime() === new Date(date.end).getTime(),
-                            '{{ $personalize['range'] }}': dateInterval(day.full) === true,
+                            'rounded-l-full': new Date(day.instance).getTime() === new Date(date.start).getTime(),
+                            'rounded-r-full w-7 h-7': new Date(day.instance).getTime() === new Date(date.end).getTime(),
+                            '{{ $personalize['range'] }}': dateInterval(day.instance) === true,
                          }">
                         <button x-text="day.day"
                                 x-on:click="clicked(day.day)"
-                                x-bind:disabled="day.isDisabled"
+                                x-bind:disabled="day.disabled"
                                 :class="{
                                     '{{ $personalize['button.today'] }}': isToday(day.day) === true,
                                     '{{ $personalize['button.select'] }}': isToday(day.day) === false && selectedDate(day.day) === false && !day.disabled,
@@ -178,7 +178,7 @@
                     </div>
                 </template>
             </div>
-            <!-- Helpers -->
+            {{-- Helpers --}}
             @if (!$helpers->isEmpty() && $multiple === false)
                 <div @class($personalize['wrapper.helpers'])>
                     @foreach ($helpers as $helper)

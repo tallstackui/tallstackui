@@ -1,4 +1,4 @@
-import {dayjs, error, warning} from '../../helpers';
+import {error, warning} from '../../helpers';
 
 export default (model, full, livewire, property, value) => ({
   model: model,
@@ -103,7 +103,7 @@ export default (model, full, livewire, property, value) => ({
    * @return {Dayjs}
    */
   get dayjs() {
-    return dayjs();
+    return window.dayjs;
   },
   /**
    * Get the formatted time.
