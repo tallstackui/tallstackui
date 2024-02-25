@@ -169,8 +169,8 @@
                                 x-on:click="clicked(day.day)"
                                 x-bind:disabled="day.disabled"
                                 :class="{
-                                    '{{ $personalize['button.today'] }}': isToday(day.day) === true,
-                                    '{{ $personalize['button.select'] }}': isToday(day.day) === false && selectedDate(day.day) === false && !day.disabled,
+                                    '{{ $personalize['button.today'] }}': today(day.day) === true,
+                                    '{{ $personalize['button.select'] }}': today(day.day) === false && selectedDate(day.day) === false && !day.disabled,
                                     '{{ $personalize['button.selected'] }}': selectedDate(day.day) === true
                                 }"
                                 @class($personalize['button.day'])>

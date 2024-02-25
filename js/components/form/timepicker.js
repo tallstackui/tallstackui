@@ -99,13 +99,6 @@ export default (model, full, livewire, property, value) => ({
     input.value = this.value = value;
   },
   /**
-   * Get the dayjs library.
-   * @return {Dayjs}
-   */
-  get dayjs() {
-    return window.dayjs;
-  },
-  /**
    * Get the formatted time.
    * @return {object}
    */
@@ -117,5 +110,12 @@ export default (model, full, livewire, property, value) => ({
       hours: this.hours.padStart(2, '0'),
       minutes: this.minutes.padStart(2, '0'),
     };
+  },
+  /**
+   * Get the dayjs library.
+   * @return {Dayjs}
+   */
+  get dayjs() {
+    return window.dayjs;
   },
 });
