@@ -32,7 +32,7 @@
             <input type="text"
                    readonly
                    x-ref="input"
-                   {{ $attributes->whereDoesntStartWith('wire:model') }}
+                   {{ $attributes->except('name')->whereDoesntStartWith('wire:model') }}
                    x-on:click="picker.common = !picker.common; picker.year = false;"
                    x-on:keydown.escape="picker.common = false"
                    @class(['cursor-pointer', $personalize['input.class.base']]) />
@@ -171,7 +171,7 @@
                             '{{ $personalize['range'] }}': intervals(day.instance) === true,
                          }">
                         <button x-text="day.day"
-                                x-on:click="clicked(day.day)"
+                                x-on:click="select($event, day.day)"
                                 x-bind:disabled="day.disabled"
                                 x-bind:class="{
                                     '{{ $personalize['button.today'] }}': today(day.day) === true,

@@ -57,8 +57,7 @@ export default (
     this.hydrate();
   },
   hydrate() {
-    // non-livewire verification
-    if (!this.model) return;
+    if (!this.livewire && !this.model && this.value) this.model = this.value;
 
     const dayjs = this.dayjs;
 
@@ -74,19 +73,18 @@ export default (
     if (this.multiple) {
       this.picker.common = false;
 
-      return this.sync(this.model);
+      return this.sync();
     }
 
     this.date.start = dayjs(this.model).$d;
     this.picker.common = false;
 
-    this.input = this.formatted(this.model);
-
     this.sync();
   },
-  sync(selected = null) {
-    if (this.multiple && selected) {
-      this.model = selected;
+  sync() {
+    if (!this.model) return;
+
+    if (this.multiple) {
       this.input = this.model.map((date) => this.formatted(date)).join(', ');
 
       return;
@@ -108,17 +106,19 @@ export default (
     this.input = start;
     this.picker.common = false;
   },
-  clicked(day) {
+  select(event, day) {
+    event.preventDefault();
+
     const date = this.instance(day);
 
     if (this.multiple) {
-      const selected = this.model ?
+      this.model = this.model ?
             this.model.includes(date.format('YYYY-MM-DD')) ?
                 this.model.filter((date) => date !== date.format('YYYY-MM-DD')) :
                 [...this.model, date.format('YYYY-MM-DD')] :
                 [date.format('YYYY-MM-DD')];
 
-      return this.sync(selected);
+      return this.sync();
     }
 
     if (range) {
@@ -333,6 +333,14 @@ export default (
    */
   set input(value) {
     this.$refs.input.value = value;
+
+    if (this.livewire) return;
+
+    const input = document.getElementsByName(this.property)[0];
+
+    if (!input || !this.model) return;
+
+    input.value = this.model;
   },
   /**
    * Get the quantity of the selected dates.
