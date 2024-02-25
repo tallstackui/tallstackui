@@ -15,7 +15,7 @@
             @js($maxYear),
             @js($disable))"
          x-cloak
-         x-on:click.outside="open = false">
+         x-on:click.outside="show = false">
         <div x-ref="anchor"
                 @class([
                     $personalize['input.class.wrapper'],
@@ -27,16 +27,23 @@
             <input type="text"
                    readonly
                    x-model="value"
-                   x-on:click="open = !open; showYearPicker=false;"
-                   x-on:keydown.escape="open = false"
+                   {{ $attributes->whereDoesntStartWith('wire:model') }}
+                   x-on:click="show = !show; showYearPicker=false;"
+                   x-on:keydown.escape="show = false"
                    @class(['cursor-pointer', $personalize['input.class.base']]) />
-            <input @if ($id) id="{{ $id }}" @endif type="hidden" x-ref="input" {{ $attributes }} />
             <div @class(['mr-2', $personalize['icon.input']])>
-                <x-dynamic-component :component="TallStackUi::component('icon')" icon="x-mark" class="w-5 h-5 hover:text-red-500" x-show="value" x-on:click="clear()" />
-                <x-dynamic-component :component="TallStackUi::component('icon')" icon="calendar" @class(['w-5 h-5', $personalize['error'] => $error]) x-on:click="open = !open" />
+                <x-dynamic-component :component="TallStackUi::component('icon')"
+                                     icon="x-mark"
+                                     class="w-5 h-5 hover:text-red-500"
+                                     x-show="value"
+                                     x-on:click="clear()" />
+                <x-dynamic-component :component="TallStackUi::component('icon')"
+                                     icon="calendar"
+                                     @class(['w-5 h-5', $personalize['error'] => $error])
+                                     x-on:click="show = !show" />
             </div>
         </div>
-        <div x-show="open"
+        <div x-show="show"
              x-anchor.bottom-end.offset.10="$refs.anchor"
              x-transition:enter="transition duration-100 ease-out"
              x-transition:enter-start="opacity-0 -translate-y-2"
@@ -44,7 +51,7 @@
              x-transition:leave="transition ease-in duration-75"
              x-transition:leave-start="opacity-100 translate-y-0"
              x-transition:leave-end="opacity-0 -translate-y-2"
-             x-on:click.away="if (range && endDate || !range) open = false"
+             x-on:click.away="if (range && endDate || !range) show = false"
              @class($personalize['box.wrapper'])>
             <div class="flex items-center justify-between mb-4">
                 <div @class($personalize['box.picker.button'])>
@@ -52,8 +59,7 @@
                         <span x-text="monthNames[month]" x-on:click="showMonthPicker = true"  @class($personalize['label.month'])></span>
                         <span x-text="year" x-on:click="toggleYear()" @class($personalize['label.year'])></span>
                     </span>
-
-                    <!-- Month picker dropdown/modal -->
+                    <!-- Month -->
                     <template x-if="showMonthPicker">
                         <div @class($personalize['box.picker.wrapper.first']) x-cloak>
                             <div @class($personalize['box.picker.wrapper.second'])>
@@ -72,8 +78,7 @@
                             </div>
                         </div>
                     </template>
-
-                    <!-- Year picker dropdown/modal -->
+                    <!-- Year -->
                     <template x-if="showYearPicker">
                         <div @class($personalize['box.picker.wrapper.first']) x-cloak>
                             <div @class($personalize['box.picker.wrapper.second'])>
@@ -141,8 +146,7 @@
                     </button>
                 </div>
             </div>
-
-            <!-- days of the week -->
+            <!-- Days of the Week -->
             <div class="grid grid-cols-7 mb-3">
                 <template x-for="(day, index) in days" :key="index">
                     <div class="px-0.5">
@@ -150,7 +154,6 @@
                     </div>
                 </template>
             </div>
-
             <div class="grid grid-cols-7">
                 <template x-for="blankDay in blankDaysInMonth">
                     <div class="p-1 text-sm text-center border border-transparent"></div>
@@ -175,8 +178,7 @@
                     </div>
                 </template>
             </div>
-
-            <!-- Buttons Helpers -->
+            <!-- Helpers -->
             @if (!$helpers->isEmpty() && $multiple === false)
                 <div @class($personalize['wrapper.helpers'])>
                     @foreach ($helpers as $helper)

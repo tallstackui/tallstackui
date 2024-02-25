@@ -1,33 +1,43 @@
 import {error} from '../../helpers';
 
-export default (model, range, multiple, format, minDate, maxDate, minYear, maxYear, disable) => ({
-  open: false,
+export default (
+    model,
+    range,
+    multiple,
+    format,
+    minDate,
+    maxDate,
+    minYear,
+    maxYear,
+    disable,
+) => ({
+  show: false,
   format: format,
   model: model,
   value: '',
+  day: '',
   month: '',
   year: '',
-  day: '',
-  daysInMonth: [],
-  blankDaysInMonth: [],
-  monthNames: [],
-  days: [],
+  daysInMonth: [], // days
+  blankDaysInMonth: [], // blanks
+  monthNames: [], // months
+  days: [], // getters
   showYearPicker: false,
   showMonthPicker: false,
-  yearRangeStart: 0,
+  yearRangeStart: 0, // ??? year: {start, first, last
   yearRangeFirst: 0,
   yearRangeLast: 0,
-  startDate: null,
-  endDate: null,
+  startDate: null, // ??? start
+  endDate: null, // ??? end
   range: range,
   multiple: multiple,
-  minDate: minDate,
-  maxDate: maxDate,
+  minDate: minDate, // ??? date: {min, max}
+  maxDate: maxDate, // ??? year: {min, max}
   minYear: minYear,
   maxYear: maxYear,
   disable: disable,
   interval: null,
-  selectedDates: null,
+  selectedDates: null, // selected
   init() {
     const dayjs = this.dayjs;
 
@@ -35,13 +45,8 @@ export default (model, range, multiple, format, minDate, maxDate, minYear, maxYe
       return error('The dayjs library is not available. Please, review the docs.');
     }
 
-    this.monthNames = dayjs.months().map((month) => {
-      return month.charAt(0).toUpperCase() + month.slice(1);
-    });
-
-    this.days = dayjs.weekdaysShort().map((days) => {
-      return days.charAt(0).toUpperCase() + days.slice(1);
-    });
+    this.monthNames = dayjs.months().map((month) => month.charAt(0).toUpperCase() + month.slice(1));
+    this.days = dayjs.weekdaysShort().map((days) => days.charAt(0).toUpperCase() + days.slice(1));
 
     this.minDate = minDate ? dayjs(minDate) : null;
     this.maxDate = maxDate ? dayjs(maxDate) : null;
@@ -49,6 +54,7 @@ export default (model, range, multiple, format, minDate, maxDate, minYear, maxYe
     this.month = dayjs().month();
     this.year = dayjs().year();
     this.day = dayjs().day();
+
     this.calculateDays();
 
     // Checks if the model is defined and hydrates according to the mode (range, multiple, default) of the datepicker
@@ -63,7 +69,7 @@ export default (model, range, multiple, format, minDate, maxDate, minYear, maxYe
       }
 
       this.updateInputValue();
-      this.open = false;
+      this.show = false;
     }
   },
   /**
@@ -71,7 +77,7 @@ export default (model, range, multiple, format, minDate, maxDate, minYear, maxYe
    * formatting and values.
    * @param {string} day
    */
-  dayClicked(day) {
+  dayClicked(day) { // ??? clicked
     const selectedDate = this.dayjs(`${this.year}-${this.month + 1}-${day}`);
 
     if (this.multiple) {
@@ -98,7 +104,7 @@ export default (model, range, multiple, format, minDate, maxDate, minYear, maxYe
   /**
    * Checks if the date informed by the model is the same as the loop date
    * @param {string} day
-   * @returns bool
+   * @returns boolean
    */
   isSelectedDate(day) {
     if (this.model) {
@@ -111,7 +117,7 @@ export default (model, range, multiple, format, minDate, maxDate, minYear, maxYe
   /**
    * Checks if the given date is between the range date in order to colorize the range interval
    * @param {string} date
-   * @returns bool
+   * @returns boolean
    */
   dateInterval(date) {
     if (this.range === false || this.endDate === null) return false;
@@ -119,6 +125,7 @@ export default (model, range, multiple, format, minDate, maxDate, minYear, maxYe
     const currentDate = this.dayjs(date);
     const startDate = this.dayjs(this.startDate);
     const endDate = this.dayjs(this.endDate);
+
     return currentDate.isAfter(startDate) &&
            currentDate.isBefore(endDate) ||
            currentDate.isSame(startDate) ||
@@ -127,7 +134,7 @@ export default (model, range, multiple, format, minDate, maxDate, minYear, maxYe
   /**
    * Generate calendar days based on the selected month and year.
    */
-  calculateDays() {
+  calculateDays() { // calculate
     const dayjs = this.dayjs;
     const daysInMonth = dayjs(`${this.year}-${this.month + 1}-01`).endOf('month').date();
     const dayOfWeek = dayjs(`${this.year}-${this.month + 1}-01`).day();
@@ -175,12 +182,12 @@ export default (model, range, multiple, format, minDate, maxDate, minYear, maxYe
     this.day = currentDate.date();
     this.model = current;
     this.value = currentDate.format(this.format);
+
     this.calculateDays();
 
     // Checks if there is a disabled date and if it corresponds to the selected date and clears the value if true
     this.daysInMonth.forEach((date) => {
-      const selected = date.full.format('YYYY-MM-DD');
-      if (current === selected && date.isDisabled) {
+      if (current === date.full.format('YYYY-MM-DD') && date.isDisabled) {
         this.value = '';
       }
     });
@@ -201,11 +208,11 @@ export default (model, range, multiple, format, minDate, maxDate, minYear, maxYe
         this.endDate !== null ? this.dayjs(this.endDate).format('YYYY-MM-DD') : null,
       ];
       this.value = startDateFormated + ' - ' + endDateFormated;
-      this.open = this.startDate !== null;
+      this.show = this.startDate !== null;
     } else {
       this.model = this.startDate ? this.dayjs(this.startDate).format('YYYY-MM-DD') : null;
       this.value = startDateFormated;
-      this.open = false;
+      this.show = false;
     }
   },
   isToday(day) {
@@ -259,22 +266,28 @@ export default (model, range, multiple, format, minDate, maxDate, minYear, maxYe
     });
 
     Object.assign(this, {yearRangeFirst: yearRange[0]?.year, yearRangeLast: yearRange[yearRange.length - 1]?.year});
+
     return yearRange;
   },
   selectMonth(e, month) {
     e.stopPropagation();
+
     this.month = month;
     this.showMonthPicker = false;
+
     this.calculateDays();
   },
   selectYear(e, year) {
     e.stopPropagation();
+
     this.year = year;
     this.showYearPicker = false;
+
     this.calculateDays();
   },
   toggleYear() {
     this.showYearPicker = true;
+
     this.yearRangeStart = this.year - 11;
   },
   /**
@@ -283,6 +296,7 @@ export default (model, range, multiple, format, minDate, maxDate, minYear, maxYe
   clear() {
     this.model = this.value = this.startDate = this.endDate = this.selectedDates = null;
   },
+  // format(date, format)
   /**
    * Get the dayjs library.
    * @return {Dayjs}
