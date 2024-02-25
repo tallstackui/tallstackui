@@ -53,13 +53,14 @@ export default (
     this.date.min = minDate ? dayjs(minDate) : null;
     this.date.max = maxDate ? dayjs(maxDate) : null;
 
+    console.log(dayjs().month());
+
     this.month = dayjs().month();
     this.year = dayjs().year();
     this.day = dayjs().day();
 
     this.calculate();
 
-    // Checks if the model is defined and hydrates according to the mode (range, multiple, default) of the datepicker
     if (this.model) {
       if (range && this.model.length === 2) {
         this.date.start = dayjs(this.model[0]).$d;
@@ -76,19 +77,19 @@ export default (
     }
   },
   /**
-   * Based on the type of datepicker, this function treats the clicked date and applies the appropriate
-   * formatting and values.
-   * @param {string} day
+   * Select the date and update the model.
+   *
+   * @param {String} date
    */
-  clicked(day) {
-    const selected = this.dayjs(`${this.year}-${this.month + 1}-${day}`);
+  clicked(date) {
+    const selected = this.dayjs(`${this.year}-${this.month + 1}-${date}`);
 
     if (this.multiple) {
       this.selected = this.selected ?
             this.selected.includes(selected.format('YYYY-MM-DD')) ?
                 this.selected.filter((date) => date !== selected.format('YYYY-MM-DD')) :
                 [...this.selected, selected.format('YYYY-MM-DD')] :
-            [selected.format('YYYY-MM-DD')];
+                [selected.format('YYYY-MM-DD')];
     } else if (range) {
       if (this.date.start && !this.date.end && selected > this.date.start) {
         this.date.end = selected;
@@ -105,22 +106,25 @@ export default (
   },
   /**
    * Checks if the date informed by the model is the same as the loop date
+   *
    * @param {string} day
    * @returns boolean
    */
   selectedDate(day) {
     if (!this.model) return false;
 
+    // TODO: why month + 1?
     const date = this.dayjs(`${this.year}-${this.month + 1}-${day}`);
 
     return this.model.includes(date.format('YYYY-MM-DD'));
   },
   /**
-   * Checks if the given date is between the range date in order to colorize the range interval
+   * Checks if the given date is between the range date.
+   *
    * @param {string} date
    * @returns boolean
    */
-  dateInterval(date) {
+  intervals(date) {
     if (!range || !this.date.end) return false;
 
     const current = this.dayjs(date);
@@ -134,6 +138,8 @@ export default (
   },
   /**
    * Generate calendar days based on the selected month and year.
+   *
+   * @return {void}
    */
   calculate() {
     const dayjs = this.dayjs;
@@ -239,6 +245,7 @@ export default (
    * @return {Boolean}
    */
   today(date) {
+    // TODO: why month + 1?
     return Boolean(this.dayjs().isSame(this.dayjs(`${this.year}-${this.month + 1}-${date}`), 'day'));
   },
   /**
@@ -260,6 +267,7 @@ export default (
     this.calculate();
   },
   nextMonth() {
+    // TODO: why month + 1?
     this.month = (this.month + 1) % 12;
 
     if (this.month === 0) this.year++;

@@ -163,7 +163,7 @@
                          :class="{
                             'rounded-l-full': new Date(day.instance).getTime() === new Date(date.start).getTime(),
                             'rounded-r-full w-7 h-7': new Date(day.instance).getTime() === new Date(date.end).getTime(),
-                            '{{ $personalize['range'] }}': dateInterval(day.instance) === true,
+                            '{{ $personalize['range'] }}': intervals(day.instance) === true,
                          }">
                         <button x-text="day.day"
                                 x-on:click="clicked(day.day)"
