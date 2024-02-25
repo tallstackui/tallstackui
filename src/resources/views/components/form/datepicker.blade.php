@@ -51,7 +51,7 @@
              x-transition:leave="transition ease-in duration-75"
              x-transition:leave-start="opacity-100 translate-y-0"
              x-transition:leave-end="opacity-0 -translate-y-2"
-             x-on:click.away="if (range && endDate || !range) picker.common = false"
+             x-on:click.away="if (@js($range) && date.end || !@js($range)) picker.common = false"
              @class($personalize['box.wrapper'])>
             <div class="flex items-center justify-between mb-4">
                 <div @class($personalize['box.picker.button'])>
@@ -84,11 +84,11 @@
                             <div @class($personalize['box.picker.wrapper.second'])>
                                 <div @class($personalize['box.picker.wrapper.third'])>
                                     <div @class($personalize['box.picker.label'])>
-                                        <span x-text="yearRangeFirst" @class($personalize['label.month'])></span>
+                                        <span x-text="range.year.first" @class($personalize['label.month'])></span>
                                         <span class="mx-1">-</span>
-                                        <span x-text="yearRangeLast" @class($personalize['label.month'])></span>
+                                        <span x-text="range.year.last" @class($personalize['label.month'])></span>
                                     </div>
-                                    <button x-on:click="yearRangeStart = new Date().getFullYear(); selectYear($event, new Date().getFullYear())">
+                                    <button x-on:click="range.year.start = new Date().getFullYear(); selectYear($event, new Date().getFullYear())">
                                         {{ __('tallstack-ui::messages.datepicker.today') }}
                                     </button>
                                     <div>
@@ -161,17 +161,17 @@
                 <template x-for="(dayObj, dayIndex) in days" :key="dayIndex">
                     <div class="mb-2"
                          :class="{
-                            'rounded-l-full': new Date(dayObj.full).getTime() === new Date(startDate).getTime(),
-                            'rounded-r-full w-7 h-7': new Date(dayObj.full).getTime() === new Date(endDate).getTime(),
+                            'rounded-l-full': new Date(dayObj.full).getTime() === new Date(date.start).getTime(),
+                            'rounded-r-full w-7 h-7': new Date(dayObj.full).getTime() === new Date(date.end).getTime(),
                             '{{ $personalize['range'] }}': dateInterval(dayObj.full) === true,
                          }">
                         <button x-text="dayObj.day"
-                                x-on:click="dayClicked(dayObj.day)"
+                                x-on:click="clicked(dayObj.day)"
                                 x-bind:disabled="dayObj.isDisabled"
                                 :class="{
-                                    '{{ $personalize['button.today'] }}': isToday(dayObj.day) == true,
-                                    '{{ $personalize['button.select'] }}': isToday(dayObj.day) == false && isSelectedDate(dayObj.day) == false && !dayObj.isDisabled,
-                                    '{{ $personalize['button.selected'] }}': isSelectedDate(dayObj.day) == true
+                                    '{{ $personalize['button.today'] }}': isToday(dayObj.day) === true,
+                                    '{{ $personalize['button.select'] }}': isToday(dayObj.day) === false && selectedDate(dayObj.day) === false && !dayObj.isDisabled,
+                                    '{{ $personalize['button.selected'] }}': selectedDate(dayObj.day) === true
                                 }"
                                 @class($personalize['button.day'])>
                         </button>
