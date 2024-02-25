@@ -112,12 +112,12 @@
                                         </button>
                                     </div>
                                 </div>
-                                <template x-for="yearRange in generateYearRange()">
+                                <template x-for="range in yearRange()">
                                     <button type="button" @class($personalize['box.picker.range'])
-                                         x-bind:class="{ '{{ $personalize['button.today'] }}': yearRange === new Date().getFullYear() }"
-                                         x-bind:disabled="yearRange.disabled"
-                                         x-on:click="selectYear($event, yearRange.year)"
-                                         x-text="yearRange.year">
+                                         x-bind:class="{ '{{ $personalize['button.today'] }}': range === new Date().getFullYear() }"
+                                         x-bind:disabled="range.disabled"
+                                         x-on:click="selectYear($event, range.year)"
+                                         x-text="range.year">
                                     </button>
                                 </template>
                             </div>
@@ -158,20 +158,20 @@
                 <template x-for="blankDay in blanks">
                     <div class="p-1 text-sm text-center border border-transparent"></div>
                 </template>
-                <template x-for="(dayObj, dayIndex) in days" :key="dayIndex">
+                <template x-for="(day, index) in days" :key="index">
                     <div class="mb-2"
                          :class="{
-                            'rounded-l-full': new Date(dayObj.full).getTime() === new Date(date.start).getTime(),
-                            'rounded-r-full w-7 h-7': new Date(dayObj.full).getTime() === new Date(date.end).getTime(),
-                            '{{ $personalize['range'] }}': dateInterval(dayObj.full) === true,
+                            'rounded-l-full': new Date(day.full).getTime() === new Date(date.start).getTime(),
+                            'rounded-r-full w-7 h-7': new Date(day.full).getTime() === new Date(date.end).getTime(),
+                            '{{ $personalize['range'] }}': dateInterval(day.full) === true,
                          }">
-                        <button x-text="dayObj.day"
-                                x-on:click="clicked(dayObj.day)"
-                                x-bind:disabled="dayObj.isDisabled"
+                        <button x-text="day.day"
+                                x-on:click="clicked(day.day)"
+                                x-bind:disabled="day.isDisabled"
                                 :class="{
-                                    '{{ $personalize['button.today'] }}': isToday(dayObj.day) === true,
-                                    '{{ $personalize['button.select'] }}': isToday(dayObj.day) === false && selectedDate(dayObj.day) === false && !dayObj.isDisabled,
-                                    '{{ $personalize['button.selected'] }}': selectedDate(dayObj.day) === true
+                                    '{{ $personalize['button.today'] }}': isToday(day.day) === true,
+                                    '{{ $personalize['button.select'] }}': isToday(day.day) === false && selectedDate(day.day) === false && !day.disabled,
+                                    '{{ $personalize['button.selected'] }}': selectedDate(day.day) === true
                                 }"
                                 @class($personalize['button.day'])>
                         </button>
@@ -183,7 +183,7 @@
                 <div @class($personalize['wrapper.helpers'])>
                     @foreach ($helpers as $helper)
                         @if ($helpers->contains($helper))
-                            <button x-on:click="changeDate('{{ $helper }}')" @class($personalize['button.helpers'])>{{ __('tallstack-ui::messages.datepicker.' . $helper) }}</button>
+                            <button x-on:click="change('{{ $helper }}')" @class($personalize['button.helpers'])>{{ __('tallstack-ui::messages.datepicker.' . $helper) }}</button>
                         @endif
                     @endforeach
                 </div>

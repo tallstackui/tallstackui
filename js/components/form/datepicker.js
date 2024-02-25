@@ -146,16 +146,19 @@ export default (
 
     this.days = Array.from({length: month}, (key, value) => {
       const date = dayjs(`${this.year}-${this.month + 1}-${value + 1}`);
-      const disabled = this.dateDisabled(date.toDate());
 
-      return {day: value + 1, full: date, disabled};
+      return {
+        day: value + 1,
+        full: date,
+        disabled: this.dateDisabled(date.toDate()),
+      };
     });
   },
   /**
    * Logic to make the helper buttons work according to the datepicker type
-   * @param {string} type
+   * @param {String} type
    */
-  changeDate(type) {
+  change(type) {
     let currentDate = this.dayjs();
 
     if (type === 'yesterday' || type === 'tomorrow') {
@@ -167,8 +170,11 @@ export default (
         const endDate = currentDate.startOf('day');
 
         if (!this.dateDisabled(startDate.toDate()) && !this.dateDisabled(endDate.toDate())) {
-          Object.assign(this, {startDate: startDate.toDate(), endDate: endDate.toDate()});
+          this.date.start = startDate.toDate();
+          this.date.end = endDate.toDate();
+
           this.updateInputValue();
+
           return;
         }
       } else {
@@ -182,14 +188,14 @@ export default (
     this.month = currentDate.month();
     this.year = currentDate.year();
     this.day = currentDate.date();
-    this.model = current;
+    this.model = currentDate.format('YYYY-MM-DD');
     this.value = currentDate.format(this.format);
 
     this.calculate();
 
     // Checks if there is a disabled date and if it corresponds to the selected date and clears the value if true
     this.days.forEach((date) => {
-      if (current === date.full.format('YYYY-MM-DD') && date.isDisabled) {
+      if (current === date.full.format('YYYY-MM-DD') && date.disabled) {
         this.value = '';
       }
     });
@@ -243,7 +249,7 @@ export default (
     this.calculate();
   },
   previousYearRange(event) {
-    e.stopPropagation();
+    event.stopPropagation();
 
     if (this.range.year.min !== null && this.range.year.first <= this.range.year.max) return;
 
@@ -256,22 +262,26 @@ export default (
 
     this.range.year.start += 19;
   },
-  generateYearRange() {
-    const startYear = this.range.year.start;
+  yearRange() {
+    const start = this.range.year.start;
 
-    const minYear = this.range.year.min ?? -Infinity;
-    const maxYear = this.range.year.max ?? Infinity;
+    const min = this.range.year.min ?? -Infinity;
+    const max = this.range.year.max ?? Infinity;
 
-    const yearRange = Array.from({length: 20}, (_, index) => {
-      const year = startYear + index;
-      const disabled = year < minYear || year > maxYear;
-      return {year, disabled};
+    const range = Array.from({length: 20}, (key, index) => {
+      const year = start + index;
+      const disabled = year < min || year > max;
+
+      return {
+        year,
+        disabled,
+      };
     });
 
-    this.range.year.first = yearRange[0]?.year;
-    this.range.year.last = yearRange[yearRange.length - 1]?.year;
+    this.range.year.first = range[0]?.year;
+    this.range.year.last = range[range.length - 1]?.year;
 
-    return yearRange;
+    return range;
   },
   selectMonth(event, month) {
     event.stopPropagation();
