@@ -157,7 +157,7 @@
                 </template>
                 <template x-for="(day, index) in days" :key="index">
                     <div class="mb-2"
-                         :class="{
+                         x-bind:class="{
                             'rounded-l-full': new Date(day.instance).getTime() === new Date(date.start).getTime(),
                             'rounded-r-full w-7 h-7': new Date(day.instance).getTime() === new Date(date.end).getTime(),
                             '{{ $personalize['range'] }}': intervals(day.instance) === true,
@@ -165,7 +165,7 @@
                         <button x-text="day.day"
                                 x-on:click="clicked(day.day)"
                                 x-bind:disabled="day.disabled"
-                                :class="{
+                                x-bind:class="{
                                     '{{ $personalize['button.today'] }}': today(day.day) === true,
                                     '{{ $personalize['button.select'] }}': today(day.day) === false && selectedDate(day.day) === false && !day.disabled,
                                     '{{ $personalize['button.selected'] }}': selectedDate(day.day) === true
@@ -176,12 +176,12 @@
                 </template>
             </div>
             {{-- Helpers --}}
-            @if (!$helpers->isEmpty() && $multiple === false)
+            @if ($multiple === false)
                 <div @class($personalize['wrapper.helpers'])>
-                    @foreach ($helpers as $helper)
-                        @if ($helpers->contains($helper))
-                            <button x-on:click="change('{{ $helper }}')" @class($personalize['button.helpers'])>{{ __('tallstack-ui::messages.datepicker.' . $helper) }}</button>
-                        @endif
+                    @foreach (['yesterday', 'today', 'tomorrow'] as $helper)
+                        <button x-on:click="change(@js($helper))" @class($personalize['button.helpers'])>
+                            {{ __('tallstack-ui::messages.datepicker.' . $helper) }}
+                        </button>
                     @endforeach
                 </div>
             @endif

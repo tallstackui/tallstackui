@@ -73,9 +73,6 @@ return [
         'today' => 'Today',
         'yesterday' => 'Yesterday',
         'tomorrow' => 'Tomorrow',
-        'last7days' => 'Last 7 days',
-        'last15days' => 'Last 15 days',
-        'last30days' => 'Last 30 days',
     ],
 
     'timepicker' => [

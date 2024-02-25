@@ -41,19 +41,14 @@ export default (
   interval: null,
   selected: null,
   init() {
-    const dayjs = this.dayjs;
+    const dayjs = this.dayjs();
 
-    if (!dayjs) {
-      return error('The dayjs library is not available. Please, review the docs.');
-    }
+    if (!dayjs) return error('The dayjs library is not available. Please, review the docs.');
 
     this.date.min = dates.date.min ? dayjs(dates.date.min) : null;
     this.date.max = dates.date.max ? dayjs(dates.date.max) : null;
 
-    this.month = dayjs().month();
-    this.year = dayjs().year();
-    this.day = dayjs().day();
-
+    this.reset(dayjs);
     this.calculate();
 
     if (this.model) {
@@ -64,7 +59,7 @@ export default (
         this.selected = this.model;
       } else {
         this.date.start = dayjs(this.model).$d;
-        this.value = this.formatted(this.model);
+        this.input = this.formatted(this.model);
       }
 
       this.update();
@@ -109,11 +104,12 @@ export default (
     if (!range || !this.date.end) return false;
 
     const current = this.dayjs(date);
+
     const start = this.dayjs(this.date.start);
     const end = this.dayjs(this.date.end);
 
-    return current.isAfter(start) &&
-           current.isBefore(end) ||
+    return (current.isAfter(start) &&
+           current.isBefore(end)) ||
            current.isSame(start) ||
            current.isSame(end);
   },
@@ -123,10 +119,10 @@ export default (
     const month = start.endOf('month').date();
     const week = start.day();
 
-    this.blanks = Array.from({length: week}, (_, index) => index + 1);
+    this.blanks = Array.from({length: week}, (key, value) => value + 1);
 
-    this.days = Array.from({length: month}, (_, index) => {
-      const date = start.add(index, 'day');
+    this.days = Array.from({length: month}, (key, value) => {
+      const date = start.add(value, 'day');
 
       return {
         instance: date,
@@ -140,47 +136,29 @@ export default (
 
     if (type === 'yesterday' || type === 'tomorrow') {
       dayjs = dayjs.add(type === 'yesterday' ? -1 : 1, 'day');
-    } else if (type.startsWith('last')) {
-      if (range) {
-        const days = parseInt(type.replace('last', ''), 10);
-        const start = dayjs.subtract(days, 'day').startOf('day');
-        const end = dayjs.startOf('day');
-
-        if (!this.disabled(start.toDate()) && !this.disabled(end.toDate())) {
-          this.date.start = startDate.toDate();
-          this.date.end = end.toDate();
-
-          this.update();
-
-          return;
-        }
-      } else {
-        const subtract = parseInt(type.replace('last', ''), 10);
-        dayjs = dayjs.subtract(subtract, 'day');
-      }
     }
 
     const current = dayjs.format('YYYY-MM-DD');
     this.model = current;
 
-    this.month = dayjs.month();
-    this.year = dayjs.year();
-    this.day = dayjs.date();
-    this.value = dayjs.format(this.format);
+    this.date.start = dayjs.startOf('day').toDate();
+    this.date.end = null;
 
+    this.reset(dayjs);
+    this.input = dayjs.format(this.format);
     this.calculate();
 
     // Checks if there is a disabled date and if it corresponds to the selected date and clears the value if true
     this.days.forEach((date) => {
       if (current === date.instance.format('YYYY-MM-DD') && date.disabled) {
-        this.value = '';
+        this.input = '';
       }
     });
   },
   update() {
     if (this.multiple) {
       this.model = this.selected;
-      this.value = this.model.map((date) => this.formatted(date)).join(', ');
+      this.input = this.model.map((date) => this.formatted(date)).join(', ');
 
       return;
     }
@@ -191,10 +169,10 @@ export default (
     if (range) {
       this.model = [
         this.formatted(this.date.start, 'YYYY-MM-DD'),
-        this.date.end !== null ? this.formatted(this.date.end) : null,
+        this.date.end !== null ? this.formatted(this.date.end, 'YYYY-MM-DD') : null,
       ];
 
-      this.value = start + ' - ' + end;
+      this.input = `${start} - ${end}`;
       this.picker.common = this.date.start !== null;
 
       return;
@@ -202,7 +180,7 @@ export default (
 
     this.model = this.formatted(this.date.start, 'YYYY-MM-DD');
 
-    this.value = start;
+    this.input = start;
     this.picker.common = false;
   },
   /**
@@ -296,7 +274,17 @@ export default (
    * Reset all properties
    */
   clear() {
-    this.model = this.value = this.date.start = this.date.end = this.selected = null;
+    this.model = this.input = this.date.start = this.date.end = this.selected = null;
+  },
+  /**
+   * Reset the date to the current date.
+   *
+   * @param {Dayjs} dayjs
+   */
+  reset(dayjs) {
+    this.month = dayjs.month();
+    this.year = dayjs.year();
+    this.day = dayjs.date();
   },
   /**
    * Format the date.
@@ -316,6 +304,14 @@ export default (
    */
   instance(day = null) {
     return this.dayjs(`${this.year}-${this.month + 1}-${day ?? this.day}`);
+  },
+  /**
+   * Set the value of the input.
+   *
+   * @param {*} value
+   */
+  set input(value) {
+    this.value = value;
   },
   /**
    * Get the period of the week and month.

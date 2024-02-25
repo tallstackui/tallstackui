@@ -30,18 +30,10 @@ class DatePicker extends BaseComponent implements Personalization
         public string|null|Carbon $maxDate = null,
         public ?int $minYear = null,
         public ?int $maxYear = null,
-        public bool|array|Collection|null $helpers = null,
+        public bool|array|null $helpers = null,
         public array|Collection $disable = [],
     ) {
-        $this->helpers = $this->helpers === true ?
-            collect(['yesterday', 'today', 'tomorrow', 'last7days', 'last15days', 'last30days']) :
-            ($helpers !== null ? collect($this->helpers) : collect([]));
-
-        if ($this->range === true && ! blank($this->helpers)) {
-            $this->helpers = $this->helpers->diff(['tomorrow', 'today', 'yesterday']);
-        } else {
-            $this->helpers = $this->helpers->diff(['last7days', 'last15days', 'last30days']);
-        }
+        $this->helpers = $this->helpers === true ? ['yesterday', 'today', 'tomorrow'] : [];
     }
 
     public function blade(): View
@@ -126,12 +118,6 @@ class DatePicker extends BaseComponent implements Personalization
 
         if ($minDate->greaterThan($maxDate)) {
             throw new InvalidArgumentException('The DatePicker [min-date] must be less than or equal to [max-date].');
-        }
-
-        $helper = collect(['today', 'yesterday', 'tomorrow', 'last7days', 'last15days', 'last30days']);
-
-        if (! $this->helpers->diff($helper)->isEmpty()) {
-            throw new InvalidArgumentException('The DatePicker [helpers] only allows the values: '.$helper->implode(', '));
         }
     }
 }
