@@ -41,14 +41,14 @@ export default (
   interval: null,
   selected: null,
   init() {
-    const dayjs = this.dayjs();
+    const dayjs = this.dayjs;
 
     if (!dayjs) return error('The dayjs library is not available. Please, review the docs.');
 
     this.date.min = dates.date.min ? dayjs(dates.date.min) : null;
     this.date.max = dates.date.max ? dayjs(dates.date.max) : null;
 
-    this.reset(dayjs);
+    this.reset();
     this.calculate();
 
     if (this.model) {
@@ -144,7 +144,7 @@ export default (
     this.date.start = dayjs.startOf('day').toDate();
     this.date.end = null;
 
-    this.reset(dayjs);
+    this.reset();
     this.input = dayjs.format(this.format);
     this.calculate();
 
@@ -179,7 +179,6 @@ export default (
     }
 
     this.model = this.formatted(this.date.start, 'YYYY-MM-DD');
-
     this.input = start;
     this.picker.common = false;
   },
@@ -277,14 +276,16 @@ export default (
     this.model = this.input = this.date.start = this.date.end = this.selected = null;
   },
   /**
-   * Reset the date to the current date.
+   * Reset the day, month and year to the current date.
    *
-   * @param {Dayjs} dayjs
+   * @return {void}
    */
-  reset(dayjs) {
-    this.month = dayjs.month();
-    this.year = dayjs.year();
-    this.day = dayjs.date();
+  reset() {
+    const date = this.dayjs();
+
+    this.day = date.date();
+    this.month = date.month();
+    this.year = date.year();
   },
   /**
    * Format the date.
@@ -328,6 +329,7 @@ export default (
   },
   /**
    * Get the dayjs library.
+   *
    * @return {Dayjs}
    */
   get dayjs() {
