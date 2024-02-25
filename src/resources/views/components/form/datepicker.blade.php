@@ -1,7 +1,12 @@
 @php
     [$property, $error, $id, $entangle] = $bind($attributes, $errors ?? null, $livewire);
     $personalize = $classes();
+    $value = $attributes->get('value');
 @endphp
+
+@if (!$livewire && $property)
+    <input hidden id="{{ $id }}" name="{{ $property }}">
+@endif
 
 <x-dynamic-component :component="TallStackUi::component('wrapper.input')" :$id :$property :$error :$label :$hint :$invalidate>
     <div x-data="tallstackui_datepicker(
@@ -10,7 +15,10 @@
             @js($multiple),
             @js($format),
             {...@js($dates())},
-            @js($disable))"
+            @js($disable),
+            @js($livewire),
+            @js($property),
+            @js($value))"
          x-cloak
          x-on:click.outside="picker.common = false">
         <div x-ref="anchor"
@@ -23,7 +31,7 @@
                 ])>
             <input type="text"
                    readonly
-                   x-model="value"
+                   x-ref="input"
                    {{ $attributes->whereDoesntStartWith('wire:model') }}
                    x-on:click="picker.common = !picker.common; picker.year = false;"
                    x-on:keydown.escape="picker.common = false"
@@ -32,7 +40,7 @@
                 <x-dynamic-component :component="TallStackUi::component('icon')"
                                      icon="x-mark"
                                      class="w-5 h-5 hover:text-red-500"
-                                     x-show="value"
+                                     x-show="quantity > 0"
                                      x-on:click="clear()" />
                 <x-dynamic-component :component="TallStackUi::component('icon')"
                                      icon="calendar"
@@ -167,8 +175,8 @@
                                 x-bind:disabled="day.disabled"
                                 x-bind:class="{
                                     '{{ $personalize['button.today'] }}': today(day.day) === true,
-                                    '{{ $personalize['button.select'] }}': today(day.day) === false && selectedDate(day.day) === false && !day.disabled,
-                                    '{{ $personalize['button.selected'] }}': selectedDate(day.day) === true
+                                    '{{ $personalize['button.select'] }}': today(day.day) === false && selected(day.day) === false && !day.disabled,
+                                    '{{ $personalize['button.selected'] }}': selected(day.day) === true
                                 }"
                                 @class($personalize['button.day'])>
                         </button>

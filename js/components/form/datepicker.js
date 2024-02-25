@@ -7,6 +7,9 @@ export default (
     format,
     dates,
     disable,
+    livewire,
+    property,
+    value,
 ) => ({
   picker: {
     common: false,
@@ -15,7 +18,6 @@ export default (
   },
   format: format,
   model: model,
-  value: '',
   day: '',
   month: '',
   year: '',
@@ -39,7 +41,9 @@ export default (
   multiple: multiple,
   disable: disable,
   interval: null,
-  selected: null,
+  livewire: livewire,
+  property: property,
+  value: value,
   init() {
     const dayjs = this.dayjs;
 
@@ -50,68 +54,90 @@ export default (
 
     this.reset();
     this.calculate();
-
-    if (this.model) {
-      if (range && this.model.length === 2) {
-        this.date.start = dayjs(this.model[0]).$d;
-        this.date.end = dayjs(this.model[1]).$d;
-      } else if (this.multiple) {
-        this.selected = this.model;
-      } else {
-        this.date.start = dayjs(this.model).$d;
-        this.input = this.formatted(this.model);
-      }
-
-      this.update();
-      this.picker.common = false;
-    }
+    this.hydrate();
   },
-  clicked(date) {
-    const selected = this.instance(date);
+  hydrate() {
+    // non-livewire verification
+    if (!this.model) return;
+
+    const dayjs = this.dayjs;
+
+    if (range && this.model.length === 2) { // ????
+      this.date.start = dayjs(this.model[0]).$d;
+      this.date.end = dayjs(this.model[1]).$d;
+
+      this.picker.common = false;
+
+      return this.sync();
+    }
 
     if (this.multiple) {
-      this.selected = this.selected ?
-            this.selected.includes(selected.format('YYYY-MM-DD')) ?
-                this.selected.filter((date) => date !== selected.format('YYYY-MM-DD')) :
-                [...this.selected, selected.format('YYYY-MM-DD')] :
-                [selected.format('YYYY-MM-DD')];
-    } else if (range) {
-      if (this.date.start && !this.date.end && selected > this.date.start) {
-        this.date.end = selected;
-      } else {
-        this.date.start = selected;
-        this.date.end = null;
-      }
-    } else {
-      this.date.start = selected;
-      this.date.end = null;
+      this.picker.common = false;
+
+      return this.sync(this.model);
     }
 
-    this.update();
+    this.date.start = dayjs(this.model).$d;
+    this.picker.common = false;
+
+    this.input = this.formatted(this.model);
+
+    this.sync();
   },
-  selectedDate(day) {
-    if (!this.model) return false;
+  sync(selected = null) {
+    if (this.multiple && selected) {
+      this.model = selected;
+      this.input = this.model.map((date) => this.formatted(date)).join(', ');
 
-    return this.model.includes(this.instance(day).format('YYYY-MM-DD'));
+      return;
+    }
+
+    const start = this.formatted(this.date.start);
+    const end = this.formatted(this.date.end);
+
+    if (range) {
+      this.model = [
+        this.formatted(this.date.start, 'YYYY-MM-DD'),
+        this.date.end !== null ? this.formatted(this.date.end, 'YYYY-MM-DD') : null,
+      ];
+
+      return this.input = `${start} - ${end}`;
+    }
+
+    this.model = this.formatted(this.date.start, 'YYYY-MM-DD');
+    this.input = start;
+    this.picker.common = false;
   },
-  /**
-   * Checks if the given date is between the range date.
-   *
-   * @param {string} date
-   * @returns boolean
-   */
-  intervals(date) {
-    if (!range || !this.date.end) return false;
+  clicked(day) {
+    const date = this.instance(day);
 
-    const current = this.dayjs(date);
+    if (this.multiple) {
+      const selected = this.model ?
+            this.model.includes(date.format('YYYY-MM-DD')) ?
+                this.model.filter((date) => date !== date.format('YYYY-MM-DD')) :
+                [...this.model, date.format('YYYY-MM-DD')] :
+                [date.format('YYYY-MM-DD')];
 
-    const start = this.dayjs(this.date.start);
-    const end = this.dayjs(this.date.end);
+      return this.sync(selected);
+    }
 
-    return (current.isAfter(start) &&
-           current.isBefore(end)) ||
-           current.isSame(start) ||
-           current.isSame(end);
+    if (range) {
+      if (this.date.start && (!this.date.end && date > this.date.start)) {
+        this.date.end = date;
+      } else {
+        this.date.start = date;
+        this.date.end = null;
+      }
+
+      this.picker.common = this.date.start !== null && this.date.end === null;
+
+      return this.sync();
+    }
+
+    this.date.start = date;
+    this.date.end = null;
+
+    this.sync();
   },
   calculate() {
     const start = this.instance('01');
@@ -155,32 +181,26 @@ export default (
       }
     });
   },
-  update() {
-    if (this.multiple) {
-      this.model = this.selected;
-      this.input = this.model.map((date) => this.formatted(date)).join(', ');
+  selected(day) {
+    if (!this.model) return false;
 
-      return;
-    }
+    return this.model.includes(this.instance(day).format('YYYY-MM-DD'));
+  },
+  /**
+   * Checks if the given date is between the range date.
+   *
+   * @param {string} date
+   * @returns boolean
+   */
+  intervals(date) {
+    if (!range || !this.date.end) return false;
 
-    const start = this.formatted(this.date.start);
-    const end = this.formatted(this.date.end);
+    const current = this.dayjs(date);
 
-    if (range) {
-      this.model = [
-        this.formatted(this.date.start, 'YYYY-MM-DD'),
-        this.date.end !== null ? this.formatted(this.date.end, 'YYYY-MM-DD') : null,
-      ];
+    const start = this.dayjs(this.date.start);
+    const end = this.dayjs(this.date.end);
 
-      this.input = `${start} - ${end}`;
-      this.picker.common = this.date.start !== null;
-
-      return;
-    }
-
-    this.model = this.formatted(this.date.start, 'YYYY-MM-DD');
-    this.input = start;
-    this.picker.common = false;
+    return (current.isAfter(start) && current.isBefore(end)) || current.isSame(start) || current.isSame(end);
   },
   /**
    * Checks if the date is today
@@ -273,7 +293,7 @@ export default (
    * Reset all properties
    */
   clear() {
-    this.model = this.input = this.date.start = this.date.end = this.selected = null;
+    this.model = this.input = this.date.start = this.date.end = null;
   },
   /**
    * Reset the day, month and year to the current date.
@@ -312,7 +332,14 @@ export default (
    * @param {*} value
    */
   set input(value) {
-    this.value = value;
+    this.$refs.input.value = value;
+  },
+  /**
+   * Get the quantity of the selected dates.
+   * @return {Number}
+   */
+  get quantity() {
+    return this.model?.length ?? 0;
   },
   /**
    * Get the period of the week and month.
