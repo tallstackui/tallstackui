@@ -38,7 +38,6 @@ export default (
     start: null,
     end: null,
   },
-  multiple: multiple,
   disable: disable,
   interval: null,
   livewire: livewire,
@@ -61,7 +60,7 @@ export default (
 
     const dayjs = this.dayjs;
 
-    if (range && this.model && this.model.length === 2) { // ????
+    if (range && this.model && this.model.length === 2) { //refactor
       this.date.start = dayjs(this.model[0]).$d;
       this.date.end = dayjs(this.model[1]).$d;
 
@@ -70,7 +69,7 @@ export default (
       return this.sync();
     }
 
-    if (this.multiple) {
+    if (multiple) {
       this.picker.common = false;
 
       return this.sync();
@@ -82,10 +81,9 @@ export default (
     this.sync();
   },
   sync() {
-    // When doesn't have a default date passed through value or model
-    if (!this.model || !this.date.start) return;
+    if (!this.model) return;
 
-    if (this.multiple) {
+    if (multiple) {
       this.input = this.model.map((date) => this.formatted(date)).join(', ');
 
       return;
@@ -103,7 +101,6 @@ export default (
       return this.input = `${start} - ${end}`;
     }
 
-    this.model = this.formatted(this.date.start, 'YYYY-MM-DD');
     this.input = start;
     this.picker.common = false;
   },
@@ -112,14 +109,13 @@ export default (
 
     const date = this.instance(day);
 
-    if (this.multiple) {
+    if (multiple) {
+      //refactor
       this.model = this.model ?
             this.model.includes(date.format('YYYY-MM-DD')) ?
                 this.model.filter((date) => date !== date.format('YYYY-MM-DD')) :
                 [...this.model, date.format('YYYY-MM-DD')] :
                 [date.format('YYYY-MM-DD')];
-
-      console.log(this.model);
 
       return this.sync();
     }
@@ -139,6 +135,7 @@ export default (
 
     this.date.start = date;
     this.date.end = null;
+    this.model = date.format('YYYY-MM-DD');
 
     this.sync();
   },
@@ -335,8 +332,6 @@ export default (
    * @param {*} value
    */
   set input(value) {
-    console.log(typeof value);
-
     this.$refs.input.value = value;
 
     if (this.livewire) return;

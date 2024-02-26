@@ -32,7 +32,7 @@
             <input type="text"
                    readonly
                    x-ref="input"
-                   {{ $attributes->except('name')->whereDoesntStartWith('wire:model') }}
+                   {{ $attributes->except(['name', 'value'])->whereDoesntStartWith('wire:model') }}
                    x-on:click="picker.common = !picker.common; picker.year = false;"
                    x-on:keydown.escape="picker.common = false"
                    @class(['cursor-pointer', $personalize['input.class.base']]) />
