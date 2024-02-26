@@ -60,9 +60,14 @@ export default (
 
     const dayjs = this.dayjs;
 
-    if (range && this.model && this.model.length === 2) { // refactor
-      this.date.start = dayjs(this.model[0]).$d;
-      this.date.end = dayjs(this.model[1]).$d;
+    if (range && this.model) { // refactor
+      const start = this.model[0] ? dayjs(this.model[0]).$d : null;
+      const end = this.model[1] ? dayjs(this.model[1]).$d : null;
+
+      this.date.start = start;
+      this.date.end = end;
+
+      if (!start && !end) this.model = null;
 
       this.picker.common = false;
 
@@ -104,6 +109,7 @@ export default (
     this.input = start;
     this.picker.common = false;
   },
+  // refactor
   select(event, day) {
     event.preventDefault();
 
@@ -113,7 +119,7 @@ export default (
       // refactor
       this.model = this.model ?
             this.model.includes(date.format('YYYY-MM-DD')) ?
-                this.model.filter((date) => date !== date.format('YYYY-MM-DD')) :
+                this.model.filter((day) => day !== date.format('YYYY-MM-DD')) :
                 [...this.model, date.format('YYYY-MM-DD')] :
                 [date.format('YYYY-MM-DD')];
 
@@ -129,6 +135,7 @@ export default (
       }
 
       this.picker.common = this.date.start !== null && this.date.end === null;
+      this.model = [];
 
       return this.sync();
     }
