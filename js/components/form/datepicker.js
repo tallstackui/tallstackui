@@ -71,11 +71,11 @@ export default (
       this.hydrate();
     });
 
-    // this.$watch('picker.common', (value) => {
-    //   if (value) return;
-    //
-    //   setTimeout(() => this.picker.month = this.picker.year = false, 250);
-    // });
+    this.$watch('picker.common', (value) => {
+      if (value) return;
+
+      setTimeout(() => this.picker.month = this.picker.year = false, 250);
+    });
   },
   /**
    * Hydrate the need stuff in the bootstrap.
