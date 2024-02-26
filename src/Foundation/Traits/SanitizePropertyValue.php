@@ -11,8 +11,6 @@ trait SanitizePropertyValue
     public function sanitize(ComponentAttributeBag $attributes, ?string $property = null, ?bool $livewire = false): null|int|string|array
     {
         $value = $attributes->get('value');
-        //TODO: test it!
-        // TODO: se isso der algum erro, eu posso condicionar isso apenas a não-livewire (!$livewire)
         $value = $value === 'null' ? null : $value;
         $value = $value === '[]' ? [] : $value;
 
