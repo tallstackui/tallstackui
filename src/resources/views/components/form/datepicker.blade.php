@@ -62,7 +62,7 @@
                 <div @class($personalize['box.picker.button'])>
                     <span>
                         <span x-text="period.month[month]" x-on:click="picker.month = true"  @class($personalize['label.month'])></span>
-                        <span x-text="year" x-on:click="showYearPicker()" @class($personalize['label.year'])></span>
+                        <span x-text="year" x-on:click="picker.year = true; range.year.start = (year - 11)" @class($personalize['label.year'])></span>
                     </span>
                     {{-- Month --}}
                     <template x-if="picker.month">
@@ -168,7 +168,7 @@
                          x-bind:class="{
                             'rounded-l-full': new Date(day.instance).getTime() === new Date(date.start).getTime(),
                             'rounded-r-full w-7 h-7': new Date(day.instance).getTime() === new Date(date.end).getTime(),
-                            '{{ $personalize['range'] }}': intervals(day.instance) === true,
+                            '{{ $personalize['range'] }}': between(day.instance) === true,
                          }">
                         <button x-text="day.day"
                                 x-on:click="select($event, day.day)"
@@ -187,7 +187,7 @@
             @if ($multiple === false)
                 <div @class($personalize['wrapper.helpers'])>
                     @foreach (['yesterday', 'today', 'tomorrow'] as $helper)
-                        <button x-on:click="change(@js($helper))" @class($personalize['button.helpers'])>
+                        <button x-on:click="helper(@js($helper))" @class($personalize['button.helpers'])>
                             {{ __('tallstack-ui::messages.datepicker.' . $helper) }}
                         </button>
                     @endforeach

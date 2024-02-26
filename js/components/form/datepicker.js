@@ -52,7 +52,7 @@ export default (
     this.date.max = dates.date.max ? dayjs(dates.date.max) : null;
 
     this.reset();
-    this.calculate();
+    this.map();
     this.hydrate();
   },
   hydrate() {
@@ -60,7 +60,7 @@ export default (
 
     const dayjs = this.dayjs;
 
-    if (range && this.model && this.model.length === 2) { //refactor
+    if (range && this.model && this.model.length === 2) { // refactor
       this.date.start = dayjs(this.model[0]).$d;
       this.date.end = dayjs(this.model[1]).$d;
 
@@ -110,7 +110,7 @@ export default (
     const date = this.instance(day);
 
     if (multiple) {
-      //refactor
+      // refactor
       this.model = this.model ?
             this.model.includes(date.format('YYYY-MM-DD')) ?
                 this.model.filter((date) => date !== date.format('YYYY-MM-DD')) :
@@ -139,7 +139,7 @@ export default (
 
     this.sync();
   },
-  calculate() {
+  map() {
     const start = this.instance('01');
 
     const month = start.endOf('month').date();
@@ -157,7 +157,7 @@ export default (
       };
     });
   },
-  change(type) {
+  helper(type) {
     let dayjs = this.dayjs();
 
     if (type === 'yesterday' || type === 'tomorrow') {
@@ -172,7 +172,7 @@ export default (
 
     this.reset();
     this.input = dayjs.format(this.format);
-    this.calculate();
+    this.map();
 
     // Checks if there is a disabled date and if it corresponds to the selected date and clears the value if true
     this.days.forEach((date) => {
@@ -192,7 +192,7 @@ export default (
    * @param {string} date
    * @returns boolean
    */
-  intervals(date) {
+  between(date) {
     if (!range || !this.date.end) return false;
 
     const current = this.dayjs(date);
@@ -227,14 +227,14 @@ export default (
 
     if (this.month === 11) this.year--;
 
-    this.calculate();
+    this.map();
   },
   nextMonth() {
     this.month = (this.month + 1) % 12;
 
     if (this.month === 0) this.year++;
 
-    this.calculate();
+    this.map();
   },
   selectMonth(event, month) {
     event.stopPropagation();
@@ -242,7 +242,7 @@ export default (
     this.month = month;
     this.picker.month = false;
 
-    this.calculate();
+    this.map();
   },
   previousYear(event) {
     event.stopPropagation();
@@ -264,7 +264,7 @@ export default (
     this.year = year;
     this.picker.year = false;
 
-    this.calculate();
+    this.map();
   },
   yearRange() {
     const start = this.range.year.start;
@@ -283,11 +283,6 @@ export default (
     this.range.year.last = range[range.length - 1]?.year;
 
     return range;
-  },
-  showYearPicker() {
-    this.picker.year = true;
-
-    this.range.year.start = this.year - 11;
   },
   /**
    * Reset all properties
