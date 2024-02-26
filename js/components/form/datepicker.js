@@ -55,12 +55,17 @@ export default (
     this.map();
     this.hydrate();
   },
-  hydrate() {
+  /**
+   * Hydrate the need stuffs in the bootstrap.
+   *
+   * @return {void}
+   */
+  hydrate() { // OK
     if (!this.livewire && !this.model && this.value) this.model = this.value;
 
     const dayjs = this.dayjs;
 
-    if (range && this.model) { // refactor
+    if (range && this.model) {
       const start = this.model[0] ? dayjs(this.model[0]).$d : null;
       const end = this.model[1] ? dayjs(this.model[1]).$d : null;
 
@@ -75,6 +80,7 @@ export default (
     }
 
     if (multiple) {
+      this.model = this.quantity === 0 ? null : this.model;
       this.picker.common = false;
 
       return this.sync();
@@ -85,11 +91,18 @@ export default (
 
     this.sync();
   },
-  sync() {
+  /**
+   * Sync the input.
+   *
+   * @return {void}
+   */
+  sync() { // OK
     if (!this.model) return;
 
     if (multiple) {
-      this.input = this.model.map((date) => this.formatted(date)).join(', ');
+      this.input = this.model
+          .map((date) => this.formatted(date))
+          .join(', ');
 
       return;
     }
@@ -98,44 +111,48 @@ export default (
     const end = this.formatted(this.date.end);
 
     if (range) {
-      this.model = [
-        this.formatted(this.date.start, 'YYYY-MM-DD'),
-        this.date.end !== null ? this.formatted(this.date.end, 'YYYY-MM-DD') : null,
-      ];
+      this.model[0] = this.formatted(this.date.start, 'YYYY-MM-DD');
+      this.model[1] = this.date.end !== null ? this.formatted(this.date.end, 'YYYY-MM-DD') : null;
 
-      return this.input = `${start} - ${end}`;
+      this.input = `${start} - ${end}`;
+
+      return;
     }
 
     this.input = start;
     this.picker.common = false;
   },
-  // refactor
-  select(event, day) {
+  /**
+   * Select the date.
+   *
+   * @param event
+   * @param day
+   * @return {*|string}
+   */
+  select(event, day) { // OK
     event.preventDefault();
 
     const date = this.instance(day);
+    const formatted = date.format('YYYY-MM-DD');
 
     if (multiple) {
-      // refactor
       this.model = this.model ?
-            this.model.includes(date.format('YYYY-MM-DD')) ?
-                this.model.filter((day) => day !== date.format('YYYY-MM-DD')) :
-                [...this.model, date.format('YYYY-MM-DD')] :
-                [date.format('YYYY-MM-DD')];
+          this.model.includes(formatted) ?
+              this.model.filter((day) => day !== formatted) :
+              [...this.model, formatted] :
+          [formatted];
 
       return this.sync();
     }
 
     if (range) {
-      if (this.date.start && (!this.date.end && date > this.date.start)) {
-        this.date.end = date;
-      } else {
-        this.date.start = date;
-        this.date.end = null;
-      }
+      const condition = this.date.start && !this.date.end && date > this.date.start;
 
-      this.picker.common = this.date.start !== null && this.date.end === null;
+      this.date.end = condition ? date : null;
+      if (!condition) this.date.start = date;
+
       this.model = [];
+      this.picker.common = this.date.start !== null && this.date.end === null;
 
       return this.sync();
     }
@@ -146,7 +163,12 @@ export default (
 
     this.sync();
   },
-  map() {
+  /**
+   * Map the days of the month.
+   *
+   * @return {void}
+   */
+  map() { // OK
     const start = this.instance('01');
 
     const month = start.endOf('month').date();
@@ -164,30 +186,42 @@ export default (
       };
     });
   },
+  /**
+   * Set the date using the helper buttons.
+   *
+   * @param type
+   * @return {void}
+   */
   helper(type) {
     let dayjs = this.dayjs();
 
-    if (type === 'yesterday' || type === 'tomorrow') {
-      dayjs = dayjs.add(type === 'yesterday' ? -1 : 1, 'day');
-    }
+    if (type === 'yesterday' || type === 'tomorrow') dayjs = dayjs.add(type === 'yesterday' ? -1 : 1, 'day');
 
     const current = dayjs.format('YYYY-MM-DD');
-    this.model = current;
 
     this.date.start = dayjs.startOf('day').toDate();
     this.date.end = null;
+    this.model = current;
 
     this.reset();
     this.input = dayjs.format(this.format);
     this.map();
 
     // Checks if there is a disabled date and if it corresponds to the selected date and clears the value if true
+    // this really make sense? and also needs to be tested.
     this.days.forEach((date) => {
       if (current === date.instance.format('YYYY-MM-DD') && date.disabled) {
         this.input = '';
       }
     });
   },
+  // AJ: I think from here to end of the file all the content is ok
+  /**
+   * Checks if the given day is selected.
+   *
+   * @param {String} day
+   * @returns boolean
+   */
   selected(day) {
     if (!this.model) return false;
 
@@ -229,6 +263,11 @@ export default (
            (this.date.max && date >= this.date.max) ||
            this.disable.includes(this.formatted(date, 'YYYY-MM-DD'));
   },
+  /**
+   * Navigate to the previous month
+   *
+   * @return {void}
+   */
   previousMonth() {
     this.month = (this.month === 0) ? 11 : this.month - 1;
 
@@ -236,6 +275,11 @@ export default (
 
     this.map();
   },
+  /**
+   * Navigate to the next month
+   *
+   * @return {void}
+   */
   nextMonth() {
     this.month = (this.month + 1) % 12;
 
@@ -243,6 +287,12 @@ export default (
 
     this.map();
   },
+  /**
+   * Select the month.
+   *
+   * @param event
+   * @param month
+   */
   selectMonth(event, month) {
     event.stopPropagation();
 
@@ -251,6 +301,12 @@ export default (
 
     this.map();
   },
+  /**
+   * Navigate to the previous year
+   *
+   * @param {Event} event
+   * @return {void}
+   */
   previousYear(event) {
     event.stopPropagation();
 
@@ -258,6 +314,12 @@ export default (
 
     this.range.year.start -= 19;
   },
+  /**
+   * Navigate to the next year
+   *
+   * @param {Event} event
+   * @return {void}
+   */
   nextYear(event) {
     event.stopPropagation();
 
@@ -265,6 +327,13 @@ export default (
 
     this.range.year.start += 19;
   },
+  /**
+   * Select the year.
+   *
+   * @param {Event} event
+   * @param year
+   * @return {void}
+   */
   selectYear(event, year) {
     event.stopPropagation();
 
@@ -273,6 +342,11 @@ export default (
 
     this.map();
   },
+  /**
+   * Get the range of the years.
+   *
+   * @return {{year: number, disabled: boolean}[]}
+   */
   yearRange() {
     const start = this.range.year.start;
 
