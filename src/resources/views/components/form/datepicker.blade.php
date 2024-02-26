@@ -2,6 +2,7 @@
     [$property, $error, $id, $entangle] = $bind($attributes, $errors ?? null, $livewire);
     $personalize = $classes();
     $value = $sanitize($attributes, $property, $livewire);
+    $validating($livewire ? data_get($this, $property) : $value);
 @endphp
 
 @if (!$livewire && $property)
@@ -15,7 +16,7 @@
             @js($multiple),
             @js($format),
             {...@js($dates())},
-            @js($disable),
+            @js($disable->toArray()),
             @js($livewire),
             @js($property),
             @js($value))"
