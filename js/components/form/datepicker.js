@@ -61,6 +61,9 @@ export default (
     this.hydrate();
 
     this.$watch('model', () => {
+      const type = multiple ? 'multiple' : (range ? 'range' : 'single');
+      this.$el.dispatchEvent(new CustomEvent('select', {detail: {type: type, date: this.model}}));
+
       // Not an internal change? Don't do anything.
       if (this.internal) {
         this.internal = false;
@@ -413,6 +416,8 @@ export default (
     this.internal = true;
 
     this.input = this.model = this.date.start = this.date.end = null;
+
+    this.$el.dispatchEvent(new CustomEvent('clear'));
   },
   /**
    * Reset the day, month and year to the current date.
