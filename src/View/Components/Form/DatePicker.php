@@ -10,6 +10,7 @@ use Illuminate\Support\Collection;
 use InvalidArgumentException;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Foundation\Traits\SanitizePropertyValue;
 use TallStackUi\View\Components\BaseComponent;
 use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
 
@@ -17,6 +18,7 @@ use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
 class DatePicker extends BaseComponent implements Personalization
 {
     use DefaultInputClasses;
+    use SanitizePropertyValue;
 
     public function __construct(
         public ?string $label = null,

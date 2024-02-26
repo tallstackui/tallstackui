@@ -61,7 +61,7 @@ export default (
 
     const dayjs = this.dayjs;
 
-    if (range && this.model.length === 2) { // ????
+    if (range && this.model && this.model.length === 2) { // ????
       this.date.start = dayjs(this.model[0]).$d;
       this.date.end = dayjs(this.model[1]).$d;
 
@@ -83,7 +83,7 @@ export default (
   },
   sync() {
     // When doesn't have a default date passed through value or model
-    if (!this.date.start) return;
+    if (!this.model || !this.date.start) return;
 
     if (this.multiple) {
       this.input = this.model.map((date) => this.formatted(date)).join(', ');
@@ -118,6 +118,8 @@ export default (
                 this.model.filter((date) => date !== date.format('YYYY-MM-DD')) :
                 [...this.model, date.format('YYYY-MM-DD')] :
                 [date.format('YYYY-MM-DD')];
+
+      console.log(this.model);
 
       return this.sync();
     }
@@ -333,6 +335,8 @@ export default (
    * @param {*} value
    */
   set input(value) {
+    console.log(typeof value);
+
     this.$refs.input.value = value;
 
     if (this.livewire) return;

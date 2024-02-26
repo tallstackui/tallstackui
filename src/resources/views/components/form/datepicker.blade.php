@@ -1,7 +1,7 @@
 @php
     [$property, $error, $id, $entangle] = $bind($attributes, $errors ?? null, $livewire);
     $personalize = $classes();
-    $value = $attributes->get('value');
+    $value = $sanitize($attributes, $property, $livewire);
 @endphp
 
 @if (!$livewire && $property)
