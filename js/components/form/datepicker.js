@@ -43,6 +43,11 @@ export default (
   livewire: livewire,
   property: property,
   value: value,
+  /**
+   * Indicates whether changes to the model were
+   * internal or made from wire:model effects.
+   */
+  internal: false,
   init() {
     const dayjs = this.dayjs;
 
@@ -54,14 +59,29 @@ export default (
     this.reset();
     this.map();
     this.hydrate();
+
+    this.$watch('model', () => {
+      // Not an internal change? Don't do anything.
+      if (this.internal) {
+        this.internal = false;
+
+        return;
+      }
+
+      this.hydrate();
+    });
   },
   /**
-   * Hydrate the need stuffs in the bootstrap.
+   * Hydrate the need stuff in the bootstrap.
    *
    * @return {void}
    */
-  hydrate() { // OK
-    if (!this.livewire && !this.model && this.value) this.model = this.value;
+  hydrate() {
+    if (!this.livewire && !this.model && this.value) {
+      this.internal = true;
+
+      this.model = this.value;
+    }
 
     const dayjs = this.dayjs;
 
@@ -72,6 +92,9 @@ export default (
       this.date.start = start;
       this.date.end = end;
 
+      // This code was necessary to use the component outside the Livewire
+      // to set the model to null when no date was defined by default,
+      // preventing the request from sending an empty array.
       if (!start && !end) this.model = null;
 
       this.picker.common = false;
@@ -80,7 +103,9 @@ export default (
     }
 
     if (multiple) {
+      // ... same as above!
       this.model = this.quantity === 0 ? null : this.model;
+
       this.picker.common = false;
 
       return this.sync();
@@ -96,7 +121,7 @@ export default (
    *
    * @return {void}
    */
-  sync() { // OK
+  sync() {
     if (!this.model) return;
 
     if (multiple) {
@@ -129,13 +154,17 @@ export default (
    * @param day
    * @return {*|string}
    */
-  select(event, day) { // OK
+  select(event, day) {
+    this.internal = true;
+
     event.preventDefault();
 
     const date = this.instance(day);
     const formatted = date.format('YYYY-MM-DD');
 
     if (multiple) {
+      // This code is basically: when the model already
+      // has the date we remove it, otherwise we add it.
       this.model = this.model ?
           this.model.includes(formatted) ?
               this.model.filter((day) => day !== formatted) :
@@ -168,7 +197,7 @@ export default (
    *
    * @return {void}
    */
-  map() { // OK
+  map() {
     const start = this.instance('01');
 
     const month = start.endOf('month').date();
@@ -195,7 +224,13 @@ export default (
   helper(type) {
     let dayjs = this.dayjs();
 
-    if (type === 'yesterday' || type === 'tomorrow') dayjs = dayjs.add(type === 'yesterday' ? -1 : 1, 'day');
+    if (type === 'yesterday' || type === 'tomorrow') {
+      dayjs = dayjs.add(type === 'yesterday' ? -1 : 1, 'day');
+    }
+
+    if (this.disabled(dayjs.format('YYYY-MM-DD'))) return;
+
+    this.internal = true;
 
     const current = dayjs.format('YYYY-MM-DD');
 
@@ -206,16 +241,7 @@ export default (
     this.reset();
     this.input = dayjs.format(this.format);
     this.map();
-
-    // Checks if there is a disabled date and if it corresponds to the selected date and clears the value if true
-    // this really make sense? and also needs to be tested.
-    this.days.forEach((date) => {
-      if (current === date.instance.format('YYYY-MM-DD') && date.disabled) {
-        this.input = '';
-      }
-    });
   },
-  // AJ: I think from here to end of the file all the content is ok
   /**
    * Checks if the given day is selected.
    *
@@ -294,6 +320,7 @@ export default (
    * @param month
    */
   selectMonth(event, month) {
+    event.preventDefault();
     event.stopPropagation();
 
     this.month = month;
@@ -308,6 +335,7 @@ export default (
    * @return {void}
    */
   previousYear(event) {
+    event.preventDefault();
     event.stopPropagation();
 
     if (this.range.year.min !== null && this.range.year.first <= this.range.year.max) return;
@@ -321,6 +349,7 @@ export default (
    * @return {void}
    */
   nextYear(event) {
+    event.preventDefault();
     event.stopPropagation();
 
     if (this.range.year.min !== null && this.range.year.last >= this.range.year.max) return;
@@ -335,6 +364,7 @@ export default (
    * @return {void}
    */
   selectYear(event, year) {
+    event.preventDefault();
     event.stopPropagation();
 
     this.year = year;
@@ -367,8 +397,12 @@ export default (
   },
   /**
    * Reset all properties
+   *
+   * @return {void}
    */
   clear() {
+    this.internal = true;
+
     this.input = this.model = this.date.start = this.date.end = null;
   },
   /**
@@ -386,8 +420,8 @@ export default (
   /**
    * Format the date.
    *
-   * @param date
-   * @param {Null|String} format
+   * @param {String} date
+   * @param {String|Null} format
    * @return {String}
    */
   formatted(date, format = null) {
@@ -397,7 +431,7 @@ export default (
    * Create a new instance of the Dayjs library optionally passing the day.
    *
    * @param {String|Null} day
-   * @return {String}
+   * @return {Dayjs}
    */
   instance(day = null) {
     return this.dayjs(`${this.year}-${this.month + 1}-${day ?? this.day}`);
@@ -406,6 +440,7 @@ export default (
    * Set the value of the input.
    *
    * @param {*} value
+   * @return {void}
    */
   set input(value) {
     this.$refs.input.value = value;
@@ -421,6 +456,7 @@ export default (
   },
   /**
    * Get the quantity of the selected dates.
+   *
    * @return {Number}
    */
   get quantity() {

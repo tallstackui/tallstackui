@@ -9,6 +9,7 @@ export default (model, full, livewire, property, value) => ({
   livewire: livewire,
   property: property,
   value: value,
+  internal: false,
   init() {
     if (!this.dayjs) {
       return error('The dayjs library is not available. Please, review the docs.');
@@ -18,27 +19,46 @@ export default (model, full, livewire, property, value) => ({
       warning('The time format is not complete. Please, include the interval (AM/PM).');
     }
 
-    if (this.model || this.value) this.parse();
+    if (this.model || this.value) this.hydrate();
 
     this.$watch('hours', (value) => {
+      this.internal = true;
+
       this.sync();
 
       this.$el.dispatchEvent(new CustomEvent('hour', {detail: {hour: value}}));
     });
 
     this.$watch('minutes', (value) => {
+      this.internal = true;
+
       this.sync();
 
       this.$el.dispatchEvent(new CustomEvent('minute', {detail: {minute: value}}));
     });
 
-    this.$watch('interval', () => this.sync());
+    this.$watch('interval', () => {
+      this.internal = true;
+
+      this.sync();
+    });
+
+    this.$watch('model', () => {
+      if (this.internal) {
+        this.internal = false;
+
+        return;
+      }
+
+      this.hydrate();
+    });
   },
   /**
-   * Parse the model value when set.
+   * Hydrate the need stuff in the bootstrap.
+   *
    * @return {void}
    */
-  parse() {
+  hydrate() {
     const [time, interval] = (this.model ?? this.value).split(' ');
     const [hours, minutes] = time.split(':');
 
