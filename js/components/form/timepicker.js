@@ -43,6 +43,7 @@ export default (model, full, livewire, property, value) => ({
       this.sync();
     });
 
+    // TODO: test.
     this.$watch('model', () => {
       if (this.internal) {
         this.internal = false;

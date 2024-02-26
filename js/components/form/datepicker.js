@@ -70,6 +70,12 @@ export default (
 
       this.hydrate();
     });
+
+    // this.$watch('picker.common', (value) => {
+    //   if (value) return;
+    //
+    //   setTimeout(() => this.picker.month = this.picker.year = false, 250);
+    // });
   },
   /**
    * Hydrate the need stuff in the bootstrap.
@@ -218,10 +224,13 @@ export default (
   /**
    * Set the date using the helper buttons.
    *
-   * @param type
+   * @param {Event} event
+   * @param {String} type
    * @return {void}
    */
-  helper(type) {
+  helper(event, type) {
+    event.preventDefault();
+
     let dayjs = this.dayjs();
 
     if (type === 'yesterday' || type === 'tomorrow') {
@@ -338,7 +347,7 @@ export default (
     event.preventDefault();
     event.stopPropagation();
 
-    if (this.range.year.min !== null && this.range.year.first <= this.range.year.max) return;
+    if (this.range.year.min !== null && this.range.year.first <= this.range.year.min) return;
 
     this.range.year.start -= 19;
   },
