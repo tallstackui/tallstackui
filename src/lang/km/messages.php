@@ -69,11 +69,15 @@ return [
         ],
     ],
 
+    'datepicker' => [
+        'yesterday' => 'ម្សិលមិញ',
+        'today' => 'ថ្ងៃនេះ',
+        'tomorrow' => 'ថ្ងៃស្អែក',
+    ],
+
     'timepicker' => [
         'helper' => 'ម៉ោងបច្ចុប្បន្ន',
     ],
-
-    // TODO: datepicker
 
     'step' => [
         'next' => 'បន្តបន្ទាប់',

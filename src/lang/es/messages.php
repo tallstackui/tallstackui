@@ -69,11 +69,15 @@ return [
         ],
     ],
 
+    'datepicker' => [
+        'yesterday' => 'Ayer',
+        'today' => 'Hoy',
+        'tomorrow' => 'Mañana',
+    ],
+
     'timepicker' => [
         'helper' => 'Hora Actual',
     ],
-
-    // TODO: datepicker
 
     'step' => [
         'next' => 'Siguiente',

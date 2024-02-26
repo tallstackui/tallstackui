@@ -70,16 +70,14 @@ return [
     ],
 
     'datepicker' => [
-        'today' => 'Today',
         'yesterday' => 'Yesterday',
+        'today' => 'Today',
         'tomorrow' => 'Tomorrow',
     ],
 
     'timepicker' => [
         'helper' => 'Current Time',
     ],
-
-    // TODO: datepicker
 
     'step' => [
         'next' => 'Next',
