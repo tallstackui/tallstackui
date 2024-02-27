@@ -121,11 +121,19 @@ class DatePicker extends BaseComponent implements Personalization
             //
         }
 
-        if (blank($min) || blank($max)) {
-            throw new InvalidArgumentException('The datepicker [min-date|max-date] attribute must be a Carbon instance or a valid date string.');
+        if (blank($min)) {
+            throw new InvalidArgumentException('The datepicker [min-date] attribute must be a Carbon instance or a valid date string.');
         }
 
-        if ($min->greaterThan($max)) {
+        if (blank($max)) {
+            throw new InvalidArgumentException('The datepicker [max-date] attribute must be a Carbon instance or a valid date string.');
+        }
+
+        // We should only apply this logic if $this->maxDate is defined,
+        // because when parsing a null date, the date returned is the
+        // current one, causing the comparison to always result in true
+        // since $min can be greater than the $max (set incorrectly).
+        if ($this->maxDate && $min->greaterThan($max)) {
             throw new InvalidArgumentException('The datepicker [min-date] must be less than or equal to [max-date].');
         }
     }
