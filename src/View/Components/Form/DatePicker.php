@@ -109,31 +109,6 @@ class DatePicker extends BaseComponent implements Personalization
         ]);
     }
 
-    /** @throws InvalidArgumentException */
-    final public function validating(string|array|null $date = null): void
-    {
-        if (blank($date)) {
-            return;
-        }
-
-        $invalid = function (string $date): bool {
-            $parsed = Carbon::parse($date);
-
-            $min = Carbon::parse($this->minDate);
-            $max = Carbon::parse($this->maxDate);
-
-            return ($this->minDate && $parsed->lessThan($min)) ||
-                ($this->maxDate && $parsed->greaterThan($max));
-        };
-
-        //TODO: range mode
-        foreach (Arr::wrap($date) as $item) {
-            if ($invalid($item)) {
-                throw new InvalidArgumentException('The datepicker [date] ('.$item.') must be between [min-date] and [max-date].');
-            }
-        }
-    }
-
     protected function validate(): void
     {
         $min = null;
