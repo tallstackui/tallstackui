@@ -38,12 +38,12 @@
                    x-on:keydown.escape="picker.common = false"
                    @class(['cursor-pointer', $personalize['input.class.base']]) />
             <div @class(['mr-2', $personalize['icon.input']])>
-                <button type="button" x-on:click="clear()" x-show="quantity > 0" {{ $attributes->only('x-on:clear') }}>
+                <button type="button" x-on:click="clear()" x-show="quantity > 0" {{ $attributes->only('x-on:clear') }} dusk="tallstackui_datepicker_clear">
                     <x-dynamic-component :component="TallStackUi::component('icon')"
                                          :icon="TallStackUi::icon('x-mark')"
                                          @class([$personalize['icon.size'], $personalize['icon.clear']])/>
                 </button>
-                <button type="button" x-on:click="picker.common = !picker.common">
+                <button type="button" x-on:click="picker.common = !picker.common" dusk="tallstackui_datepicker_picker">
                     <x-dynamic-component :component="TallStackUi::component('icon')"
                                          :icon="TallStackUi::icon('calendar')"
                                          @class([$personalize['icon.size'], $personalize['error'] => $error]) />

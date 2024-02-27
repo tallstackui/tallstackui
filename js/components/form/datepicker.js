@@ -432,7 +432,11 @@ export default (
    * @return {void}
    */
   reset() {
-    const date = this.dayjs();
+    const current = livewire ?
+      Array.isArray(this.model) ? this.model[0] : this.model :
+      Array.isArray(this.value) ? this.value[0] : this.value;
+
+    const date = current ? this.dayjs(current) : this.dayjs();
 
     this.day = date.date();
     this.month = date.month();
