@@ -95,8 +95,15 @@ export default (
     const dayjs = this.dayjs;
 
     if (range && this.model) {
-      const start = this.model[0] ? dayjs(this.model[0]).$d : null;
-      const end = this.model[1] ? dayjs(this.model[1]).$d : null;
+      const one = this.model[0];
+
+      // The two (model.1) can be an empty/null in
+      // situation where only the start was set.
+      let two = this.model[1];
+      two = two === 'null' ? null : two;
+
+      const start = one ? dayjs(one).$d : null;
+      const end = two ? dayjs(two).$d : null;
 
       this.date.start = start;
       this.date.end = end;
@@ -148,7 +155,7 @@ export default (
       this.model[0] = this.formatted(this.date.start, 'YYYY-MM-DD');
       this.model[1] = this.date.end !== null ? this.formatted(this.date.end, 'YYYY-MM-DD') : null;
 
-      this.input = `${start} - ${end}`;
+      this.input = `${start} - ${end === 'Invalid Date' ? '' : end}`;
 
       return;
     }
