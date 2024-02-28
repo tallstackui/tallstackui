@@ -191,7 +191,10 @@
             @if ($helpers)
                 <div @class($personalize['wrapper.helpers'])>
                     @foreach (['yesterday', 'today', 'tomorrow'] as $helper)
-                        <button type="button" x-on:click="helper($event, @js($helper))" @class($personalize['button.helpers'])>
+                        <button type="button"
+                                dusk="tallstackui_datepicker_helper_{{ $helper }}"
+                                x-on:click="helper($event, @js($helper))"
+                                @class($personalize['button.helpers'])>
                             {{ __('tallstack-ui::messages.datepicker.helpers.' . $helper) }}
                         </button>
                     @endforeach

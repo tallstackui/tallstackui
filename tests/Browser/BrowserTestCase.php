@@ -28,6 +28,11 @@ class BrowserTestCase extends TestCase
         };
     }
 
+    protected function getApplicationTimezone($app): string
+    {
+        return 'America/Sao_Paulo';
+    }
+
     protected function getEnvironmentSetUp($app): void
     {
         tap($app['session'], function ($session) {
@@ -36,6 +41,7 @@ class BrowserTestCase extends TestCase
 
         tap($app['config'], function ($config) {
             $config->set('app.env', 'testing');
+            $config->set('app.timezone', 'America/Sao_Paulo');
             $config->set('app.debug', true);
             $config->set('view.paths', [__DIR__.'/views', resource_path('views')]);
             $config->set('app.key', 'base64:Hupx3yAySikrM2/edkZQNQHslgDWYfiBfCuSThJ5SK8=');

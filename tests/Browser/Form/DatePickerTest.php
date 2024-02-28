@@ -11,7 +11,7 @@ class DatePickerTest extends BrowserTestCase
     /** @test */
     public function can_advance_to_next_month(): void
     {
-        $this->markTestSkipped('Not implemented yet.');
+        //
     }
 
     /** @test */
@@ -125,19 +125,85 @@ class DatePickerTest extends BrowserTestCase
     /** @test */
     public function can_use_today_helper(): void
     {
-        $this->markTestSkipped('Not implemented yet.');
+        Livewire::visit(new class extends Component
+        {
+            public ?string $date = '2020-01-01';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="date">{{ $date }}</p>
+                    
+                    <x-datepicker label="DatePicker"
+                                  helpers
+                                  wire:model.live="date" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->click('@tallstackui_datepicker_open_close')
+            ->waitForText('Yesterday')
+            ->click('@tallstackui_datepicker_helper_today')
+            ->waitForTextIn('@date', $date = now()->format('Y-m-d'))
+            ->assertSeeIn('@date', $date);
     }
 
     /** @test */
     public function can_use_tomorrow_helper(): void
     {
-        $this->markTestSkipped('Not implemented yet.');
+        Livewire::visit(new class extends Component
+        {
+            public ?string $date = '2020-01-01';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="date">{{ $date }}</p>
+                    
+                    <x-datepicker label="DatePicker"
+                                  helpers
+                                  wire:model.live="date" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->click('@tallstackui_datepicker_open_close')
+            ->waitForText('Yesterday')
+            ->click('@tallstackui_datepicker_helper_tomorrow')
+            ->waitForTextIn('@date', $date = now()->addDay()->format('Y-m-d'))
+            ->assertSeeIn('@date', $date);
     }
 
     /** @test */
     public function can_use_yesterday_helper(): void
     {
-        $this->markTestSkipped('Not implemented yet.');
+        Livewire::visit(new class extends Component
+        {
+            public ?string $date = '2020-01-01';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="date">{{ $date }}</p>
+                    
+                    <x-datepicker label="DatePicker"
+                                  helpers
+                                  wire:model.live="date" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->click('@tallstackui_datepicker_open_close')
+            ->waitForText('Yesterday')
+            ->click('@tallstackui_datepicker_helper_yesterday')
+            ->waitForTextIn('@date', $date = now()->subDay()->format('Y-m-d'))
+            ->assertSeeIn('@date', $date);
     }
 
     /** @test */
