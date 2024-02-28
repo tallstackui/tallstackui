@@ -23,10 +23,10 @@
      x-cloak x-on:click.outside="picker.common = false">
     <x-dynamic-component :component="TallStackUi::component('input')"
                          {{ $attributes->except(['name', 'value']) }}
-                         :bypass="$attributes->get('name')"
                          :$label
                          :$hint
                          :$invalidate
+                         :alternative="$attributes->get('name')"
                          x-ref="input"
                          x-on:click="picker.common = !picker.common; picker.year = false;"
                          x-on:keydown="$event.preventDefault()"

@@ -21,19 +21,22 @@ class BladeBindProperty
     public function data(): array
     {
         return [
-            $bind = $this->bind(),
-            $this->error($bind),
-            $this->id(),
+            $property = $this->bind(),
+            $this->error($property),
+            $this->id($property),
             $this->support->entangle(),
         ];
     }
 
     private function bind(): ?string
     {
-        // We prioritize the Livewire context.
         return $this->livewire && $this->support->wire() instanceof WireDirective
             ? $this->support->wire()->value()
-            : $this->attributes->get('name', $this->attributes->get('bypass'));
+            // For components such as datepicker, timepicker and others, we use an
+            // "alternative" (attribute) way of defining the parameter that will be
+            // used to obtain validation errors without being "name", because as these
+            // components can be used out of Livewire, "name" is used no input hidden.
+            : $this->attributes->get('name', $this->attributes->get('alternative'));
     }
 
     private function error(?string $property = null): bool
@@ -49,8 +52,8 @@ class BladeBindProperty
         return $property && $this->errors->has($property);
     }
 
-    private function id(): ?string
+    private function id(?string $property = null): ?string
     {
-        return $this->attributes->get('id', $this->bind());
+        return $this->attributes->get('id', $property);
     }
 }

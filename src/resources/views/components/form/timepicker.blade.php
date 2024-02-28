@@ -18,10 +18,11 @@
     x-ref="wrapper"
     x-cloak>
     <x-dynamic-component :component="TallStackUi::component('input')"
-                         {{ $attributes }}
+                         {{ $attributes->except('name') }}
                          :$label
                          :$hint
                          :$invalidate
+                         :alternative="$attributes->get('name')"
                          x-ref="input"
                          x-on:click="show = !show"
                          x-on:keydown="$event.preventDefault()"
