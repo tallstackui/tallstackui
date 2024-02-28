@@ -21,6 +21,7 @@ use TallStackUi\View\Components\Clipboard;
 use TallStackUi\View\Components\Dropdown\Dropdown;
 use TallStackUi\View\Components\Dropdown\Items as DropdownItems;
 use TallStackUi\View\Components\Errors;
+use TallStackUi\View\Components\Floating;
 use TallStackUi\View\Components\Form\Checkbox;
 use TallStackUi\View\Components\Form\Color;
 use TallStackUi\View\Components\Form\DatePicker;
@@ -158,6 +159,11 @@ class Personalization
     public function errors(): PersonalizationResources
     {
         return app($this->component(Errors::class));
+    }
+
+    public function floating(): PersonalizationResources
+    {
+        return app($this->component(Floating::class));
     }
 
     public function form(?string $component = null): PersonalizationResources

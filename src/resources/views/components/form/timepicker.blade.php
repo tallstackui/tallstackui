@@ -37,25 +37,18 @@
                              </div>
                          </x-slot:suffix>
     </x-dynamic-component>
-    <div x-cloak
-        x-show="show"
-        x-anchor.bottom-end.offset.2="$refs.anchor"
-        x-transition:enter="transition duration-100 ease-out"
-        x-transition:enter-start="opacity-0 -translate-y-2"
-        x-transition:enter-end="opacity-100 translate-y-0"
-        x-transition:leave="transition ease-in duration-75"
-        x-transition:leave-start="opacity-100 scale-100"
-        x-transition:leave-end="opacity-0 scale-95"
-        @class($personalize['wrapper.first'])>
-        <div @class($personalize['wrapper.second'])>
-            <div @class($personalize['wrapper.third'])>
+    <x-dynamic-component :component="TallStackUi::component('floating')"
+                         second-wrapper="flex items-center justify-between"
+                         size="w-[18rem]">
+        <div @class(['flex flex-col', 'mb-4' => $helper || $footer->isNotEmpty(), 'w-full' => $format === '24'])>
+            <div @class($personalize['wrapper'])>
                 <span x-text="formatted.hours"
-                    x-ref="hours"
+                      x-ref="hours"
                     @class($personalize['time'])>
                 </span>
                 <span  @class($personalize['separator'])>:</span>
                 <span x-text="formatted.minutes"
-                    x-ref="minutes"
+                      x-ref="minutes"
                     @class($personalize['time'])>
                 </span>
                 @if ($format === '12')
@@ -65,10 +58,10 @@
                                    id="am"
                                    x-model="interval"
                                    value="AM"
-                                   @class($personalize['format.input'])>
+                                    @class($personalize['format.input'])>
                             <label for="am"
                                    dusk="tallstackui_timepicker_am"
-                                   @class([$personalize['format.color'], $personalize['format.am.label']])>
+                                    @class([$personalize['format.color'], $personalize['format.am.label']])>
                                 <div @class($personalize['format.am.title'])>AM</div>
                             </label>
                         </div>
@@ -77,10 +70,10 @@
                                    id="pm"
                                    x-model="interval"
                                    value="PM"
-                                   @class($personalize['format.input'])>
+                                    @class($personalize['format.input'])>
                             <label for="pm"
                                    dusk="tallstackui_timepicker_pm"
-                                   @class([$personalize['format.color'], $personalize['format.pm.label']])>
+                                    @class([$personalize['format.color'], $personalize['format.pm.label']])>
                                 <div @class($personalize['format.pm.title'])>PM</div>
                             </label>
                         </div>
@@ -96,7 +89,7 @@
                        dusk="tallstackui_timepicker_hours"
                        x-on:mouseenter="$refs.hours.classList.add('{{ $personalize['range.light'] }}', '{{ $personalize['range.dark'] }}')"
                        x-on:mouseleave="$refs.hours.classList.remove('{{ $personalize['range.light'] }}', '{{ $personalize['range.dark'] }}')"
-                       @class(['focus:outline-none', $personalize['range.base'], $personalize['range.thumb']])>
+                        @class(['focus:outline-none', $personalize['range.base'], $personalize['range.thumb']])>
                 <input type="range"
                        min="0"
                        max="59"
@@ -105,23 +98,25 @@
                        dusk="tallstackui_timepicker_minutes"
                        x-on:mouseenter="$refs.minutes.classList.add('{{ $personalize['range.light'] }}', '{{ $personalize['range.dark'] }}')"
                        x-on:mouseleave="$refs.minutes.classList.remove('{{ $personalize['range.light'] }}', '{{ $personalize['range.dark'] }}')"
-                       @class(['focus:outline-none', $personalize['range.base'], $personalize['range.thumb']])>
+                        @class(['focus:outline-none', $personalize['range.base'], $personalize['range.thumb']])>
             </div>
-            @if ($helper)
-                <div class="mt-4">
-                    <x-dynamic-component :component="TallStackUi::component('button')"
-                                         :text="__('tallstack-ui::messages.timepicker.helper')"
-                                         type="button"
-                                         @class([$personalize['helper.button']])
-                                         x-on:click="current()"
-                                         {{ $attributes->only('x-on:current') }}
-                                         dusk="tallstackui_timepicker_current"
-                                         xs />
-                </div>
-            @endif
-            @if ($footer)
-                {{ $footer }}
-            @endif
         </div>
-    </div>
+        @if ($helper || $footer)
+            <x-slot:footer>
+                @if ($helper)
+                <x-dynamic-component :component="TallStackUi::component('button')"
+                                     :text="__('tallstack-ui::messages.timepicker.helper')"
+                                     type="button"
+                                     @class([$personalize['helper.button']])
+                                     x-on:click="current()"
+                                     {{ $attributes->only('x-on:current') }}
+                                     dusk="tallstackui_timepicker_current"
+                                     xs />
+                @endif
+                @if ($footer)
+                    {{ $footer }}
+                @endif
+            </x-slot:footer>
+        @endif
+    </x-dynamic-component>
 </div>
