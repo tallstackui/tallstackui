@@ -70,9 +70,36 @@ return [
     ],
 
     'datepicker' => [
-        'yesterday' => 'Gisteren',
-        'today' => 'Vandaag',
-        'tomorrow' => 'Morgen',
+        'calendar' => [
+            'months' => [
+                'january' => 'Januari',
+                'february' => 'Februari',
+                'march' => 'Maart',
+                'april' => 'April',
+                'may' => 'Mei',
+                'june' => 'Juni',
+                'july' => 'Juli',
+                'august' => 'Augustus',
+                'september' => 'September',
+                'october' => 'Oktober',
+                'november' => 'November',
+                'december' => 'December',
+            ],
+            'week' => [
+                'sunday' => 'Zondag',
+                'monday' => 'Maandag',
+                'tuesday' => 'Dinsdag',
+                'wednesday' => 'Woensdag',
+                'thursday' => 'Donderdag',
+                'friday' => 'Vrijdag',
+                'saturday' => 'Zaterdag',
+            ],
+        ],
+        'helpers' => [
+            'yesterday' => 'Gisteren',
+            'today' => 'Vandaag',
+            'tomorrow' => 'Morgen',
+        ],
     ],
 
     'timepicker' => [

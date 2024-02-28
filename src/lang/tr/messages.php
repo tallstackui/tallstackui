@@ -70,9 +70,36 @@ return [
     ],
 
     'datepicker' => [
-        'yesterday' => 'Dün',
-        'today' => 'Bugün',
-        'tomorrow' => 'Yarın',
+        'calendar' => [
+            'months' => [
+                'january' => 'Ocak',
+                'february' => 'Şubat',
+                'march' => 'Mart',
+                'april' => 'Nisan',
+                'may' => 'Mayıs',
+                'june' => 'Haziran',
+                'july' => 'Temmuz',
+                'august' => 'Ağustos',
+                'september' => 'Eylül',
+                'october' => 'Ekim',
+                'november' => 'Kasım',
+                'december' => 'Aralık',
+            ],
+            'week' => [
+                'sunday' => 'Pazar',
+                'monday' => 'Pazartesi',
+                'tuesday' => 'Salı',
+                'wednesday' => 'Çarşamba',
+                'thursday' => 'Perşembe',
+                'friday' => 'Cuma',
+                'saturday' => 'Cumartesi',
+            ],
+        ],
+        'helpers' => [
+            'yesterday' => 'Dün',
+            'today' => 'Bugün',
+            'tomorrow' => 'Yarın',
+        ],
     ],
 
     'timepicker' => [

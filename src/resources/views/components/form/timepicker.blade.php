@@ -37,7 +37,7 @@
                              </div>
                          </x-slot:suffix>
     </x-dynamic-component>
-    <x-dynamic-component :component="TallStackUi::component('floating')" second-wrapper="flex items-center justify-between" size="w-[18rem]">
+    <x-dynamic-component :component="TallStackUi::component('floating')" size="w-[18rem]">
         <div @class(['flex flex-col', 'mb-4' => $helper || $footer->isNotEmpty(), 'w-full' => $format === '24'])>
             <div @class($personalize['wrapper'])>
                 <span x-text="formatted.hours"
@@ -56,10 +56,10 @@
                                    id="am"
                                    x-model="interval"
                                    value="AM"
-                                    @class($personalize['format.input'])>
+                                   @class($personalize['format.input'])>
                             <label for="am"
                                    dusk="tallstackui_timepicker_am"
-                                    @class([$personalize['format.color'], $personalize['format.am.label']])>
+                                   @class([$personalize['format.color'], $personalize['format.am.label']])>
                                 <div @class($personalize['format.am.title'])>AM</div>
                             </label>
                         </div>
@@ -68,10 +68,10 @@
                                    id="pm"
                                    x-model="interval"
                                    value="PM"
-                                    @class($personalize['format.input'])>
+                                   @class($personalize['format.input'])>
                             <label for="pm"
                                    dusk="tallstackui_timepicker_pm"
-                                    @class([$personalize['format.color'], $personalize['format.pm.label']])>
+                                   @class([$personalize['format.color'], $personalize['format.pm.label']])>
                                 <div @class($personalize['format.pm.title'])>PM</div>
                             </label>
                         </div>
@@ -87,7 +87,7 @@
                        dusk="tallstackui_timepicker_hours"
                        x-on:mouseenter="$refs.hours.classList.add('{{ $personalize['range.light'] }}', '{{ $personalize['range.dark'] }}')"
                        x-on:mouseleave="$refs.hours.classList.remove('{{ $personalize['range.light'] }}', '{{ $personalize['range.dark'] }}')"
-                        @class(['focus:outline-none', $personalize['range.base'], $personalize['range.thumb']])>
+                       @class(['focus:outline-none', $personalize['range.base'], $personalize['range.thumb']])>
                 <input type="range"
                        min="0"
                        max="59"
@@ -96,7 +96,7 @@
                        dusk="tallstackui_timepicker_minutes"
                        x-on:mouseenter="$refs.minutes.classList.add('{{ $personalize['range.light'] }}', '{{ $personalize['range.dark'] }}')"
                        x-on:mouseleave="$refs.minutes.classList.remove('{{ $personalize['range.light'] }}', '{{ $personalize['range.dark'] }}')"
-                        @class(['focus:outline-none', $personalize['range.base'], $personalize['range.thumb']])>
+                       @class(['focus:outline-none', $personalize['range.base'], $personalize['range.thumb']])>
             </div>
         </div>
         @if ($helper || $footer)

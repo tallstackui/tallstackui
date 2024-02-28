@@ -70,9 +70,36 @@ return [
     ],
 
     'datepicker' => [
-        'yesterday' => 'ម្សិលមិញ',
-        'today' => 'ថ្ងៃនេះ',
-        'tomorrow' => 'ថ្ងៃស្អែក',
+        'calendar' => [
+            'months' => [
+                'january' => 'មករា',
+                'february' => 'កុម្ភៈ',
+                'march' => 'មិនា',
+                'april' => 'មេសា',
+                'may' => 'ឧសភា',
+                'june' => 'មិថុនា',
+                'july' => 'កក្កដា',
+                'august' => 'សីហា',
+                'september' => 'កញ្ញា',
+                'october' => 'តុលា',
+                'november' => 'វិច្ឆិកា',
+                'december' => 'ធ្នូ',
+            ],
+            'week' => [
+                'sunday' => 'អាទិត្យ',
+                'monday' => 'ច័ន្ទ',
+                'tuesday' => 'អង្គារ',
+                'wednesday' => 'ពុធ',
+                'thursday' => 'ព្រហស្បតិ៍',
+                'friday' => 'សុក្រ',
+                'saturday' => 'សៅរ៍',
+            ],
+        ],
+        'helpers' => [
+            'yesterday' => 'ម្សិលមិញ',
+            'today' => 'ថ្ងៃនេះ',
+            'tomorrow' => 'ថ្ងៃស្អែក',
+        ],
     ],
 
     'timepicker' => [
