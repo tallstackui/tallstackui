@@ -78,7 +78,7 @@ class Styled extends BaseComponent implements Personalization
                 'error' => 'text-red-500',
             ],
             'box' => [
-                'wrapper' => 'dark:bg-dark-700 absolute z-10 mt-1 w-full overflow-hidden rounded-xl bg-white shadow-lg ring-1 ring-black ring-opacity-5',
+                'wrapper' => 'dark:bg-dark-700 absolute z-10 w-full overflow-hidden rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5',
                 'button' => [
                     'class' => 'absolute inset-y-0 right-2 flex cursor-pointer items-center px-2',
                     'icon' => 'dark:text-dark-400 h-5 w-5 text-gray-500 transition hover:text-red-500',

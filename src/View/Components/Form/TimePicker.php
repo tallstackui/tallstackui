@@ -33,11 +33,7 @@ class TimePicker extends BaseComponent implements Personalization
     public function personalization(): array
     {
         return Arr::dot([
-            'wrapper' => [
-                'first' => 'dark:border-dark-600 absolute top-full z-50 mt-2 w-[18rem] overflow-hidden rounded-md border border-gray-200 shadow-lg',
-                'second' => 'shadow-xs soft-scrollbar dark:bg-dark-700 overflow-auto rounded-md bg-white p-4',
-                'third' => 'flex select-none items-center justify-center gap-1',
-            ],
+            'wrapper' => 'flex select-none items-center justify-center gap-1',
             'icon' => 'h-5 w-5',
             'time' => 'text-primary-600 dark:text-dark-300 dark:border-dark-700 w-20 rounded-full p-2 text-center text-4xl font-medium transition',
             'separator' => 'dark:text-dark-400 h-14 text-5xl text-gray-300',

@@ -1,2 +1,5 @@
+# All icon pack folders, with the exception of Heroicons,
+# should be ignored from the TallStackUI repository.
+
 /phosphoricons
 /google

@@ -47,96 +47,86 @@
             </div>
         </x-slot:suffix>
     </x-dynamic-component>
-    <div x-show="picker.common"
-         x-anchor.bottom-end.offset.10="$refs.anchor"
-         x-transition:enter="transition duration-100 ease-out"
-         x-transition:enter-start="opacity-0 -translate-y-2"
-         x-transition:enter-end="opacity-100 translate-y-0"
-         x-transition:leave="transition ease-in duration-75"
-         x-transition:leave-start="opacity-100 translate-y-0"
-         x-transition:leave-end="opacity-0 -translate-y-2"
-         @class($personalize['box.wrapper.first'])>
-        <div @class($personalize['box.wrapper.second'])>
-            <div @class($personalize['box.picker.button'])>
-                    <span>
-                        <button type="button" x-text="calendar.months[month]" x-on:click="picker.month = true"  @class($personalize['label.month'])></button>
-                        <button type="button" x-text="year" x-on:click="picker.year = true; range.year.start = (year - 11)" @class($personalize['label.year'])></button>
-                    </span>
-                <template x-if="picker.month">
-                    <div @class($personalize['box.picker.wrapper.first']) x-cloak>
-                        <div @class($personalize['box.picker.wrapper.second'])>
-                            <div @class($personalize['box.picker.wrapper.third'])>
-                                <button type="button" @class($personalize['box.picker.label']) x-on:click="picker.month = false">
-                                    <span x-text="calendar.months[month]" @class($personalize['label.month'])></span>
+    <x-dynamic-component :component="TallStackUi::component('floating')" x-show="picker.common" size="w-[17rem]">
+        <div @class($personalize['box.picker.button'])>
+            <span>
+                <button type="button" x-text="calendar.months[month]" x-on:click="picker.month = true"  @class($personalize['label.month'])></button>
+                <button type="button" x-text="year" x-on:click="picker.year = true; range.year.start = (year - 11)" @class($personalize['label.year'])></button>
+            </span>
+            <template x-if="picker.month">
+                <div @class($personalize['box.picker.wrapper.first']) x-cloak>
+                    <div @class($personalize['box.picker.wrapper.second'])>
+                        <div @class($personalize['box.picker.wrapper.third'])>
+                            <button type="button" @class($personalize['box.picker.label']) x-on:click="picker.month = false">
+                                <span x-text="calendar.months[month]" @class($personalize['label.month'])></span>
+                            </button>
+                            <button type="button" class="mr-2" x-on:click="month = new Date().getMonth(); picker.month = false">
+                                {{ __('tallstack-ui::messages.datepicker.helpers.today') }}
+                            </button>
+                        </div>
+                        <template x-for="(monthRange, index) in calendar.months">
+                            <button @class($personalize['box.picker.range'])
+                                    type="button"
+                                    x-bind:class="{ '{{ $personalize['button.today'] }}': month === index }"
+                                    x-on:click="selectMonth($event, index)"
+                                    x-text="monthRange.substring(0, 3)">
+                            </button>
+                        </template>
+                    </div>
+                </div>
+            </template>
+            <template x-if="picker.year">
+                <div @class($personalize['box.picker.wrapper.first']) x-cloak>
+                    <div @class($personalize['box.picker.wrapper.second'])>
+                        <div @class($personalize['box.picker.wrapper.third'])>
+                            <div @class($personalize['box.picker.label'])>
+                                <span x-text="range.year.first" @class($personalize['label.month'])></span>
+                                <span class="mx-1">-</span>
+                                <span x-text="range.year.last" @class($personalize['label.month'])></span>
+                            </div>
+                            <button type="button" x-on:click="range.year.start = new Date().getFullYear(); selectYear($event, new Date().getFullYear())">
+                                {{ __('tallstack-ui::messages.datepicker.helpers.today') }}
+                            </button>
+                            <div>
+                                <button type="button"
+                                        dusk="tallstackui_datepicker_previous_year"
+                                        @class($personalize['button.navigate'])
+                                        x-on:click="previousYear($event)"
+                                        x-on:mousedown="if (!interval) interval = setInterval(() => previousYear($event), 200);"
+                                        x-on:touchstart="if (!interval) interval = setInterval(() => previousYear($event), 200);"
+                                        x-on:mouseup="if (interval) { clearInterval(interval); interval = null; }"
+                                        x-on:mouseleave="if (interval) { clearInterval(interval); interval = null; }"
+                                        x-on:touchend="if (interval) { clearInterval(interval); interval = null; }">
+                                    <x-dynamic-component :component="TallStackUi::component('icon')"
+                                                         :icon="TallStackUi::icon('chevron-left')"
+                                            @class($personalize['icon.navigate']) />
                                 </button>
-                                <button type="button" class="mr-2" x-on:click="month = new Date().getMonth(); picker.month = false">
-                                    {{ __('tallstack-ui::messages.datepicker.helpers.today') }}
+                                <button type="button"
+                                        dusk="tallstackui_datepicker_next_year"
+                                        @class($personalize['button.navigate'])
+                                        x-on:click="nextYear($event)"
+                                        x-on:mousedown="if (!interval) interval = setInterval(() => nextYear($event), 200);"
+                                        x-on:touchstart="if (!interval) interval = setInterval(() => nextYear($event), 200);"
+                                        x-on:mouseup="if (interval) { clearInterval(interval); interval = null; }"
+                                        x-on:mouseleave="if (interval) { clearInterval(interval); interval = null; }"
+                                        x-on:touchend="if (interval) { clearInterval(interval); interval = null; }">
+                                    <x-dynamic-component :component="TallStackUi::component('icon')"
+                                                         :icon="TallStackUi::icon('chevron-right')"
+                                            @class($personalize['icon.navigate']) />
                                 </button>
                             </div>
-                            <template x-for="(monthRange, index) in calendar.months">
-                                <button @class($personalize['box.picker.range'])
-                                        type="button"
-                                        x-bind:class="{ '{{ $personalize['button.today'] }}': month === index }"
-                                        x-on:click="selectMonth($event, index)"
-                                        x-text="monthRange.substring(0, 3)">
-                                </button>
-                            </template>
                         </div>
+                        <template x-for="range in yearRange()">
+                            <button type="button" @class($personalize['box.picker.range'])
+                            x-bind:class="{ '{{ $personalize['button.today'] }}': range.year === new Date().getFullYear() }"
+                                    x-bind:disabled="range.disabled"
+                                    x-on:click="selectYear($event, range.year)"
+                                    x-text="range.year">
+                            </button>
+                        </template>
                     </div>
-                </template>
-                <template x-if="picker.year">
-                    <div @class($personalize['box.picker.wrapper.first']) x-cloak>
-                        <div @class($personalize['box.picker.wrapper.second'])>
-                            <div @class($personalize['box.picker.wrapper.third'])>
-                                <div @class($personalize['box.picker.label'])>
-                                    <span x-text="range.year.first" @class($personalize['label.month'])></span>
-                                    <span class="mx-1">-</span>
-                                    <span x-text="range.year.last" @class($personalize['label.month'])></span>
-                                </div>
-                                <button type="button" x-on:click="range.year.start = new Date().getFullYear(); selectYear($event, new Date().getFullYear())">
-                                    {{ __('tallstack-ui::messages.datepicker.helpers.today') }}
-                                </button>
-                                <div>
-                                    <button type="button"
-                                            dusk="tallstackui_datepicker_previous_year"
-                                            @class($personalize['button.navigate'])
-                                            x-on:click="previousYear($event)"
-                                            x-on:mousedown="if (!interval) interval = setInterval(() => previousYear($event), 200);"
-                                            x-on:touchstart="if (!interval) interval = setInterval(() => previousYear($event), 200);"
-                                            x-on:mouseup="if (interval) { clearInterval(interval); interval = null; }"
-                                            x-on:mouseleave="if (interval) { clearInterval(interval); interval = null; }"
-                                            x-on:touchend="if (interval) { clearInterval(interval); interval = null; }">
-                                        <x-dynamic-component :component="TallStackUi::component('icon')"
-                                                             :icon="TallStackUi::icon('chevron-left')"
-                                                @class($personalize['icon.navigate']) />
-                                    </button>
-                                    <button type="button"
-                                            dusk="tallstackui_datepicker_next_year"
-                                            @class($personalize['button.navigate'])
-                                            x-on:click="nextYear($event)"
-                                            x-on:mousedown="if (!interval) interval = setInterval(() => nextYear($event), 200);"
-                                            x-on:touchstart="if (!interval) interval = setInterval(() => nextYear($event), 200);"
-                                            x-on:mouseup="if (interval) { clearInterval(interval); interval = null; }"
-                                            x-on:mouseleave="if (interval) { clearInterval(interval); interval = null; }"
-                                            x-on:touchend="if (interval) { clearInterval(interval); interval = null; }">
-                                        <x-dynamic-component :component="TallStackUi::component('icon')"
-                                                             :icon="TallStackUi::icon('chevron-right')"
-                                                @class($personalize['icon.navigate']) />
-                                    </button>
-                                </div>
-                            </div>
-                            <template x-for="range in yearRange()">
-                                <button type="button" @class($personalize['box.picker.range'])
-                                x-bind:class="{ '{{ $personalize['button.today'] }}': range.year === new Date().getFullYear() }"
-                                        x-bind:disabled="range.disabled"
-                                        x-on:click="selectYear($event, range.year)"
-                                        x-text="range.year">
-                                </button>
-                            </template>
-                        </div>
-                    </div>
-                </template>
-            </div>
+                </div>
+            </template>
             <div>
                 <button type="button"
                         dusk="tallstackui_datepicker_previous_month"
@@ -165,48 +155,50 @@
                 </button>
             </div>
         </div>
-        <div class="grid grid-cols-7 mb-3">
-            <template x-for="(day, index) in calendar.week" :key="index">
-                <div class="px-0.5">
-                    <div x-text="day.slice(0, 3)" @class($personalize['label.days'])></div>
-                </div>
-            </template>
-        </div>
-        <div class="grid grid-cols-7">
-            <template x-for="blank in blanks">
-                <div @class($personalize['button.blank'])></div>
-            </template>
-            <template x-for="(day, index) in days" :key="index">
-                <div class="mb-2"
-                     x-bind:class="{
+        <x-slot:footer>
+            <div class="grid grid-cols-7 mb-3">
+                <template x-for="(day, index) in calendar.week" :key="index">
+                    <div class="px-0.5">
+                        <div x-text="day.slice(0, 3)" @class($personalize['label.days'])></div>
+                    </div>
+                </template>
+            </div>
+            <div class="grid grid-cols-7">
+                <template x-for="blank in blanks">
+                    <div @class($personalize['button.blank'])></div>
+                </template>
+                <template x-for="(day, index) in days" :key="index">
+                    <div class="mb-2"
+                         x-bind:class="{
                             'rounded-l-full': new Date(day.instance).getTime() === new Date(date.start).getTime(),
                             'rounded-r-full w-7 h-7': new Date(day.instance).getTime() === new Date(date.end).getTime(),
                             '{{ $personalize['range'] }}': between(day.instance) === true,
                          }">
-                    <button x-text="day.day"
-                            x-on:click="select($event, day.day);"
-                            x-bind:disabled="day.disabled"
-                            x-bind:class="{
+                        <button x-text="day.day"
+                                x-on:click="select($event, day.day);"
+                                x-bind:disabled="day.disabled"
+                                x-bind:class="{
                                     '{{ $personalize['button.today'] }}': today(day.day) === true,
                                     '{{ $personalize['button.select'] }}': today(day.day) === false && selected(day.day) === false,
                                     '{{ $personalize['button.selected'] }}': selected(day.day) === true
                                 }"
-                            @class($personalize['button.day'])>
-                    </button>
-                </div>
-            </template>
-        </div>
-        @if ($helpers)
-            <div @class($personalize['wrapper.helpers'])>
-                @foreach (['yesterday', 'today', 'tomorrow'] as $helper)
-                    <button type="button"
-                            dusk="tallstackui_datepicker_helper_{{ $helper }}"
-                            x-on:click="helper($event, @js($helper))"
-                            @class($personalize['button.helpers'])>
-                        {{ __('tallstack-ui::messages.datepicker.helpers.' . $helper) }}
-                    </button>
-                @endforeach
+                                @class($personalize['button.day'])>
+                        </button>
+                    </div>
+                </template>
             </div>
-        @endif
-    </div>
+            @if ($helpers)
+                <div @class($personalize['wrapper.helpers'])>
+                    @foreach (['yesterday', 'today', 'tomorrow'] as $helper)
+                        <button type="button"
+                                dusk="tallstackui_datepicker_helper_{{ $helper }}"
+                                x-on:click="helper($event, @js($helper))"
+                                @class($personalize['button.helpers'])>
+                            {{ __('tallstack-ui::messages.datepicker.helpers.' . $helper) }}
+                        </button>
+                    @endforeach
+                </div>
+            @endif
+        </x-slot:footer>
+    </x-dynamic-component>
 </div>

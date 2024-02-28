@@ -78,7 +78,6 @@ return [
         |----------------------------------
         | Flush unused icons pack.
         |----------------------------------
-        | Allowed styles:
         |
         | To avoid the accumulation of unused files, the icon packs that are
         | not in use can be deleted automatically when new icons are set.
@@ -201,6 +200,7 @@ return [
         'dropdown.items' => Components\Dropdown\Items::class,
         'error' => Components\Form\Error::class,
         'errors' => Components\Errors::class,
+        'floating' => Components\Floating::class,
         'upload' => Components\Form\Upload::class,
         'hint' => Components\Form\Hint::class,
         'icon' => Components\Icon::class,
