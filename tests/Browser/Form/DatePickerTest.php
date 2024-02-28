@@ -57,7 +57,7 @@ class DatePickerTest extends BrowserTestCase
             ->waitForLivewireToLoad()
             ->click('@tallstackui_datepicker_open_close')
             ->waitForText('2020')
-            ->clickAtXPath('/html/body/div[3]/div/div/div/div[2]/div[1]/div[1]/span/span[2]')
+            ->clickAtXPath('/html/body/div[3]/div/div/div/div[2]/div[1]/div[1]/span/button[2]')
             ->waitForText('2009')
             ->assertSee('2009')
             ->click('@tallstackui_datepicker_previous_year')
@@ -71,6 +71,7 @@ class DatePickerTest extends BrowserTestCase
         Livewire::visit(new class extends Component
         {
             public ?string $date = '2020-01-01';
+
             public ?bool $selected = null;
 
             public function render(): string
@@ -106,6 +107,7 @@ class DatePickerTest extends BrowserTestCase
         Livewire::visit(new class extends Component
         {
             public ?string $date = '2020-01-01';
+
             public ?bool $clear = null;
 
             public function render(): string
@@ -134,6 +136,35 @@ class DatePickerTest extends BrowserTestCase
     }
 
     /** @test */
+    public function can_open_month_selector_and_navigate(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $date = '2020-01-01';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="date">{{ $date }}</p>
+                    
+                    <x-datepicker label="DatePicker"
+                                  wire:model.live="date" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->click('@tallstackui_datepicker_open_close')
+            ->waitForText('January')
+            ->clickAtXPath('/html/body/div[3]/div/div/div/div[2]/div[1]/div[1]/span/button[1]')
+            ->waitForText(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'])
+            ->assertSee('Jan')
+            ->assertSee('Mar')
+            ->assertSee('Dec');
+    }
+
+    /** @test */
     public function can_previous_to_last_year(): void
     {
         Livewire::visit(new class extends Component
@@ -155,7 +186,7 @@ class DatePickerTest extends BrowserTestCase
             ->waitForLivewireToLoad()
             ->click('@tallstackui_datepicker_open_close')
             ->waitForText('2020')
-            ->clickAtXPath('/html/body/div[3]/div/div/div/div[2]/div[1]/div[1]/span/span[2]')
+            ->clickAtXPath('/html/body/div[3]/div/div/div/div[2]/div[1]/div[1]/span/button[2]')
             ->waitForText('2009')
             ->assertSee('2009')
             ->click('@tallstackui_datepicker_next_year')
@@ -278,6 +309,39 @@ class DatePickerTest extends BrowserTestCase
             ->clickAtXPath('/html/body/div[3]/div/div/div/div[2]/div[3]/div[14]/button')
             ->waitForTextIn('@date', '["2020-01-04","2020-01-11"]')
             ->assertSeeIn('@date', '["2020-01-04","2020-01-11"]');
+    }
+
+    /** @test */
+    public function can_select_today(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $date = '2020-01-01';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="date">{{ $date }}</p>
+                    
+                    <x-datepicker label="DatePicker"
+                                  wire:model.live="date" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->click('@tallstackui_datepicker_open_close')
+            ->waitForText('January')
+            ->clickAtXPath('/html/body/div[3]/div/div/div/div[2]/div[1]/div[1]/span/button[1]')
+            ->waitForText(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'])
+            ->assertSee('Jan')
+            ->assertSee('Mar')
+            ->assertSee('Dec')
+            ->assertSee('Today')
+            ->clickAtXPath('/html/body/div[3]/div/div/div/div[2]/div[1]/div[1]/div/div/div/button[2]')
+            ->waitUntilMissingText('Today')
+            ->assertDontSee('Today');
     }
 
     /** @test */

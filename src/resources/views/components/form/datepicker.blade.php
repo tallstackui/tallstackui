@@ -64,8 +64,8 @@
             <div @class($personalize['box.wrapper.second'])>
                 <div @class($personalize['box.picker.button'])>
                     <span>
-                        <span x-text="calendar.months[month]" x-on:click="picker.month = true"  @class($personalize['label.month'])></span>
-                        <span x-text="year" x-on:click="picker.year = true; range.year.start = (year - 11)" @class($personalize['label.year'])></span>
+                        <button type="button" x-text="calendar.months[month]" x-on:click="picker.month = true"  @class($personalize['label.month'])></button>
+                        <button type="button" x-text="year" x-on:click="picker.year = true; range.year.start = (year - 11)" @class($personalize['label.year'])></button>
                     </span>
                     <template x-if="picker.month">
                         <div @class($personalize['box.picker.wrapper.first']) x-cloak>
@@ -79,11 +79,12 @@
                                     </button>
                                 </div>
                                 <template x-for="(monthRange, index) in calendar.months">
-                                    <div @class($personalize['box.picker.range'])
-                                         x-bind:class="{ '{{ $personalize['button.today'] }}': month === index }"
-                                         x-on:click="selectMonth($event, index)"
-                                         x-text="monthRange.substring(0, 3)">
-                                    </div>
+                                    <button @class($personalize['box.picker.range'])
+                                            type="button"
+                                            x-bind:class="{ '{{ $personalize['button.today'] }}': month === index }"
+                                            x-on:click="selectMonth($event, index)"
+                                            x-text="monthRange.substring(0, 3)">
+                                    </button>
                                 </template>
                             </div>
                         </div>
