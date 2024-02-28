@@ -99,15 +99,10 @@
                 </div>
             @endif
         </button>
-        <div x-show="show"
-             x-cloak
-             style="display: none;"
-             x-transition:enter="transition ease-out duration-75"
-             x-transition:enter-start="opacity-0 -translate-y-1"
-             x-transition:enter-end="opacity-100"
-             x-anchor.offset.5="$refs.button"
-             @class($personalize['box.wrapper'])
-             x-ref="select">
+        <x-dynamic-component :component="TallStackUi::component('floating')"
+                             :wrapper="$personalize['box.wrapper']"
+                             size="w-full"
+                             x-anchor="$refs.button">
             <template x-if="searchable">
                 <div class="relative my-2 px-2">
                     <x-dynamic-component :component="TallStackUi::component('input')"
@@ -122,7 +117,7 @@
                             x-show="search?.length > 0">
                         <x-dynamic-component :component="TallStackUi::component('icon')"
                                              :icon="TallStackUi::icon('x-mark')"
-                                             @class($personalize['box.button.icon']) />
+                                @class($personalize['box.button.icon']) />
                     </button>
                 </div>
             </template>
@@ -149,7 +144,7 @@
                                 <x-dynamic-component :component="TallStackUi::component('icon')"
                                                      :icon="TallStackUi::icon('check')"
                                                      x-show="selected(option)"
-                                                     @class($personalize['box.list.item.check']) />
+                                        @class($personalize['box.list.item.check']) />
                             </div>
                         </div>
                     </li>
@@ -168,7 +163,7 @@
                     </div>
                 @endif
             </ul>
-        </div>
+        </x-dynamic-component>
     </div>
     @if ($hint && !$error)
         <x-dynamic-component :component="TallStackUi::component('hint')" :$hint />

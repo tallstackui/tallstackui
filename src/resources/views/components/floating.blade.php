@@ -9,7 +9,7 @@
          x-transition:leave="transition ease-in duration-75"
          x-transition:leave-start="opacity-100 translate-y-0"
          x-transition:leave-end="opacity-0 -translate-y-2"
-     @else {!! $attributes->except(['x-show', 'x-anchor']) !!} @endif @class([$personalize['wrapper'], $size])>
+     @else {!! $attributes->except(['x-show', 'x-anchor']) !!} @endif @class([$attributes->get('wrapper', $personalize['wrapper']), $size])>
     {{ $slot }}
     {{ $footer }}
 </div>
