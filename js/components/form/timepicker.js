@@ -1,4 +1,5 @@
 import {error, warning} from '../../helpers';
+import dayjs from 'dayjs';
 
 export default (model, full, livewire, property, value) => ({
   model: model,
@@ -136,6 +137,6 @@ export default (model, full, livewire, property, value) => ({
    * @return {Dayjs}
    */
   get dayjs() {
-    return window.dayjs;
+    return dayjs;
   },
 });

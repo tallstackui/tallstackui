@@ -39,6 +39,36 @@ class DatePickerTest extends BrowserTestCase
             ->assertSee('2020-01-02');
     }
 
+    public function can_select_date_on_multiple()
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?array $date = ['2020-01-01', '2020-01-03'];
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="date">@json($date)</p>
+                    
+                    <x-datepicker label="DatePicker"
+                                  wire:model.live="date" 
+                                  multiple />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->waitForTextIn('@date', '["2020-01-01","2020-01-03"]')
+            ->assertSeeIn('@date', '["2020-01-01","2020-01-03"]')
+            ->click('@tallstackui_datepicker_picker')
+            ->clickAtXPath('/html/body/div[3]/div/div/div/div[2]/div[3]/div[4]/button')
+            ->waitForTextIn('@date', '["2020-01-03"]')
+            ->clickAtXPath('/html/body/div[3]/div/div/div/div[2]/div[3]/div[14]/button')
+            ->waitForTextIn('@date', '["2020-01-04","2020-01-11"]')
+            ->assertSeeIn('@date', '["2020-01-04","2020-01-11"]');
+    }
+
     /** @test */
     public function can_select_date_on_range()
     {
@@ -64,35 +94,6 @@ class DatePickerTest extends BrowserTestCase
             ->assertSeeIn('@date', '["2020-01-01","2020-01-03"]')
             ->click('@tallstackui_datepicker_picker')
             ->clickAtXPath('/html/body/div[3]/div/div/div/div[2]/div[3]/div[7]/button')
-            ->clickAtXPath('/html/body/div[3]/div/div/div/div[2]/div[3]/div[14]/button')
-            ->waitForTextIn('@date', '["2020-01-04","2020-01-11"]')
-            ->assertSeeIn('@date', '["2020-01-04","2020-01-11"]');
-    }
-public function can_select_date_on_multiple()
-    {
-        Livewire::visit(new class extends Component
-        {
-            public ?array $date = ['2020-01-01', '2020-01-03'];
-
-            public function render(): string
-            {
-                return <<<'HTML'
-                <div>
-                    <p dusk="date">@json($date)</p>
-                    
-                    <x-datepicker label="DatePicker"
-                                  wire:model.live="date" 
-                                  multiple />
-                </div>
-                HTML;
-            }
-        })
-            ->waitForLivewireToLoad()
-            ->waitForTextIn('@date', '["2020-01-01","2020-01-03"]')
-            ->assertSeeIn('@date', '["2020-01-01","2020-01-03"]')
-            ->click('@tallstackui_datepicker_picker')
-            ->clickAtXPath('/html/body/div[3]/div/div/div/div[2]/div[3]/div[4]/button')
-            ->waitForTextIn('@date', '["2020-01-03"]')
             ->clickAtXPath('/html/body/div[3]/div/div/div/div[2]/div[3]/div[14]/button')
             ->waitForTextIn('@date', '["2020-01-04","2020-01-11"]')
             ->assertSeeIn('@date', '["2020-01-04","2020-01-11"]');

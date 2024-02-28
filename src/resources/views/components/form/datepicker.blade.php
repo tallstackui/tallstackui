@@ -18,7 +18,8 @@
             @js($disable->toArray()),
             @js($livewire),
             @js($property),
-            @js($value))"
+            @js($value),
+            @js(__('tallstack-ui::messages.datepicker.calendar')))"
             {{ $attributes->only('x-on:select') }}
          x-cloak
          x-on:click.outside="picker.common = false">
@@ -63,22 +64,21 @@
             <div @class($personalize['box.wrapper.second'])>
                 <div @class($personalize['box.picker.button'])>
                     <span>
-                        <span x-text="period.month[month]" x-on:click="picker.month = true"  @class($personalize['label.month'])></span>
+                        <span x-text="calendar.months[month]" x-on:click="picker.month = true"  @class($personalize['label.month'])></span>
                         <span x-text="year" x-on:click="picker.year = true; range.year.start = (year - 11)" @class($personalize['label.year'])></span>
                     </span>
-                    {{-- Month --}}
                     <template x-if="picker.month">
                         <div @class($personalize['box.picker.wrapper.first']) x-cloak>
                             <div @class($personalize['box.picker.wrapper.second'])>
                                 <div @class($personalize['box.picker.wrapper.third'])>
                                     <button type="button" @class($personalize['box.picker.label']) x-on:click="picker.month = false">
-                                        <span x-text="period.month[month]" @class($personalize['label.month'])></span>
+                                        <span x-text="calendar.months[month]" @class($personalize['label.month'])></span>
                                     </button>
                                     <button type="button" class="mr-2" x-on:click="month = new Date().getMonth(); picker.month = false">
                                         {{ __('tallstack-ui::messages.datepicker.today') }}
                                     </button>
                                 </div>
-                                <template x-for="(monthRange, index) in period.month">
+                                <template x-for="(monthRange, index) in calendar.months">
                                     <div @class($personalize['box.picker.range'])
                                          x-bind:class="{ '{{ $personalize['button.today'] }}': month === index }"
                                          x-on:click="selectMonth($event, index)"
@@ -88,7 +88,6 @@
                             </div>
                         </div>
                     </template>
-                    {{-- Year --}}
                     <template x-if="picker.year">
                         <div @class($personalize['box.picker.wrapper.first']) x-cloak>
                             <div @class($personalize['box.picker.wrapper.second'])>
@@ -158,11 +157,10 @@
                     </button>
                 </div>
             </div>
-            {{-- DoW --}}
             <div class="grid grid-cols-7 mb-3">
-                <template x-for="(day, index) in period.week" :key="index">
+                <template x-for="(day, index) in calendar.week" :key="index">
                     <div class="px-0.5">
-                        <div x-text="day" @class($personalize['label.days'])></div>
+                        <div x-text="day.slice(0, 3)" @class($personalize['label.days'])></div>
                     </div>
                 </template>
             </div>
@@ -195,7 +193,7 @@
                 <div @class($personalize['wrapper.helpers'])>
                     @foreach (['yesterday', 'today', 'tomorrow'] as $helper)
                         <button type="button" x-on:click="helper($event, @js($helper))" @class($personalize['button.helpers'])>
-                            {{ __('tallstack-ui::messages.datepicker.' . $helper) }}
+                            {{ __('tallstack-ui::messages.datepicker.helpers.' . $helper) }}
                         </button>
                     @endforeach
                 </div>

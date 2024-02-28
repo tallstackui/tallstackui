@@ -1,4 +1,8 @@
 import {error} from '../../helpers';
+import dayjs from 'dayjs';
+import updateLocale from 'dayjs/plugin/updateLocale';
+
+dayjs.extend(updateLocale);
 
 export default (
     model,
@@ -10,6 +14,7 @@ export default (
     livewire,
     property,
     value,
+    calendar,
 ) => ({
   picker: {
     common: false,
@@ -43,6 +48,7 @@ export default (
   livewire: livewire,
   property: property,
   value: value,
+  calendar: calendar,
   /**
    * Indicates whether changes to the model were
    * internal or made from wire:model effects.
@@ -50,6 +56,8 @@ export default (
   internal: false,
   init() {
     const dayjs = this.dayjs;
+
+    this.translations();
 
     if (!dayjs) return error('The dayjs library is not available. Please, review the docs.');
 
@@ -78,6 +86,23 @@ export default (
       if (value) return;
 
       setTimeout(() => this.picker.month = this.picker.year = false, 250);
+    });
+  },
+  /**
+   * Translate the calendar.
+   *
+   * @return {void}
+   */
+  translations() {
+    this.calendar['months'] = Object.values(this.calendar['months']);
+    this.calendar['week'] = Object.values(this.calendar['week']);
+
+    dayjs.updateLocale('en', {
+      weekdays: this.calendar['week'],
+      weekdaysShort: this.calendar['week'].map((day) => day.slice(0, 3)),
+      weekdaysMin: this.calendar['week'].map((day) => day.slice(0, 2)),
+      months: this.calendar['months'],
+      monthsShort: this.calendar['months'].map((month) => month.slice(0, 3)),
     });
   },
   /**
@@ -488,24 +513,11 @@ export default (
     return this.model?.length ?? 0;
   },
   /**
-   * Get the period of the week and month.
-   *
-   * @return {{week: *, month: *}}
-   */
-  get period() {
-    const dayjs = this.dayjs;
-
-    return {
-      week: dayjs.weekdaysShort().map((days) => days.charAt(0).toUpperCase() + days.slice(1)),
-      month: dayjs.months().map((month) => month.charAt(0).toUpperCase() + month.slice(1)),
-    };
-  },
-  /**
    * Get the dayjs library.
    *
    * @return {Dayjs}
    */
   get dayjs() {
-    return window.dayjs;
+    return dayjs;
   },
 });
