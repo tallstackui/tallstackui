@@ -38,25 +38,129 @@ class DatePickerTest extends BrowserTestCase
     /** @test */
     public function can_advance_to_next_year(): void
     {
-        $this->markTestSkipped('Not implemented yet.');
+        Livewire::visit(new class extends Component
+        {
+            public ?string $date = '2020-01-01';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="date">{{ $date }}</p>
+                    
+                    <x-datepicker label="DatePicker"
+                                  wire:model.live="date" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->click('@tallstackui_datepicker_open_close')
+            ->waitForText('2020')
+            ->clickAtXPath('/html/body/div[3]/div/div/div/div[2]/div[1]/div[1]/span/span[2]')
+            ->waitForText('2009')
+            ->assertSee('2009')
+            ->click('@tallstackui_datepicker_previous_year')
+            ->waitForText('1990')
+            ->assertSee('1990');
     }
 
     /** @test */
     public function can_interact_with_clear_event(): void
     {
-        $this->markTestSkipped('Not implemented yet.');
+        Livewire::visit(new class extends Component
+        {
+            public ?string $date = '2020-01-01';
+            public ?bool $selected = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="date">{{ $date }}</p>
+
+                    @if ($selected)
+                        <p dusk="selected">{{ $selected }}</p>
+                    @endif
+                    
+                    <x-datepicker label="DatePicker"
+                                  x-on:select="$wire.set('selected', 1)"
+                                  wire:model.live="date" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->waitForTextIn('@date', '2020-01-01')
+            ->assertSeeIn('@date', '2020-01-01')
+            ->click('@tallstackui_datepicker_open_close')
+            ->clickAtXPath('/html/body/div[3]/div/div/div/div[2]/div[3]/div[5]/button')
+            ->waitForTextIn('@date', '2020-01-02')
+            ->assertSeeIn('@date', '2020-01-02')
+            ->assertSeeIn('@selected', '1');
     }
 
     /** @test */
     public function can_interact_with_select_event(): void
     {
-        $this->markTestSkipped('Not implemented yet.');
+        Livewire::visit(new class extends Component
+        {
+            public ?string $date = '2020-01-01';
+            public ?bool $clear = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="date">{{ $date }}</p>
+
+                    @if ($clear)
+                        <p dusk="clear">{{ $clear }}</p>
+                    @endif
+                    
+                    <x-datepicker label="DatePicker"
+                                  x-on:select="$wire.set('clear', 1)"
+                                  wire:model.live="date" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->waitForTextIn('@date', '2020-01-01')
+            ->assertSeeIn('@date', '2020-01-01')
+            ->click('@tallstackui_datepicker_clear')
+            ->waitForTextIn('@clear', '1')
+            ->assertSeeIn('@clear', '1');
     }
 
     /** @test */
     public function can_previous_to_last_year(): void
     {
-        $this->markTestSkipped('Not implemented yet.');
+        Livewire::visit(new class extends Component
+        {
+            public ?string $date = '2020-01-01';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="date">{{ $date }}</p>
+                    
+                    <x-datepicker label="DatePicker"
+                                  wire:model.live="date" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->click('@tallstackui_datepicker_open_close')
+            ->waitForText('2020')
+            ->clickAtXPath('/html/body/div[3]/div/div/div/div[2]/div[1]/div[1]/span/span[2]')
+            ->waitForText('2009')
+            ->assertSee('2009')
+            ->click('@tallstackui_datepicker_next_year')
+            ->waitForText('2040')
+            ->assertSee('2040');
     }
 
     /** @test */
@@ -87,7 +191,7 @@ class DatePickerTest extends BrowserTestCase
     }
 
     /** @test */
-    public function can_select_date() //OK
+    public function can_select_date()
     {
         Livewire::visit(new class extends Component
         {
