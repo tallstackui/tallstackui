@@ -12,12 +12,10 @@ use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\Traits\SanitizePropertyValue;
 use TallStackUi\View\Components\BaseComponent;
-use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
 
 #[SoftPersonalization('form.datepicker')]
 class DatePicker extends BaseComponent implements Personalization
 {
-    use DefaultInputClasses;
     use SanitizePropertyValue;
 
     public function __construct(
@@ -61,10 +59,6 @@ class DatePicker extends BaseComponent implements Personalization
     public function personalization(): array
     {
         return Arr::dot([
-            'input' => [
-                'wrapper' => 'cursor-pointer truncate',
-                'class' => [...$this->input()],
-            ],
             'wrapper' => [
                 'helpers' => 'custom-scrollbar mt-4 flex items-center justify-between space-x-2 overflow-auto pb-2',
             ],
@@ -105,7 +99,6 @@ class DatePicker extends BaseComponent implements Personalization
                 'navigate' => 'text-gray-600 dark:text-dark-300 h-5 w-5',
             ],
             'range' => 'bg-dark-200 dark:bg-dark-600',
-            'error' => $this->error(),
         ]);
     }
 

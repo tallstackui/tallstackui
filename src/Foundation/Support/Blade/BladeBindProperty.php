@@ -21,8 +21,8 @@ class BladeBindProperty
     public function data(): array
     {
         return [
-            $this->bind(),
-            $this->error(),
+            $bind = $this->bind(),
+            $this->error($bind),
             $this->id(),
             $this->support->entangle(),
         ];
@@ -33,10 +33,10 @@ class BladeBindProperty
         // We prioritize the Livewire context.
         return $this->livewire && $this->support->wire() instanceof WireDirective
             ? $this->support->wire()->value()
-            : $this->attributes->get('name');
+            : $this->attributes->get('name', $this->attributes->get('bypass'));
     }
 
-    private function error(): bool
+    private function error(?string $property = null): bool
     {
         if (! $this->errors instanceof ViewErrorBag) {
             return false;
@@ -46,11 +46,6 @@ class BladeBindProperty
             return false;
         }
 
-        $property = $this->bind();
-
-        // The first step is determine how the component is being used.
-        // When $component is set, then we are in Livewire context, otherwise
-        // we will to consider it as a normal Blade vanilla context.
         return $property && $this->errors->has($property);
     }
 

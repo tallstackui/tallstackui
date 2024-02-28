@@ -8,13 +8,10 @@ use Illuminate\View\ComponentSlot;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\View\Components\BaseComponent;
-use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
 
 #[SoftPersonalization('form.timepicker')]
 class TimePicker extends BaseComponent implements Personalization
 {
-    use DefaultInputClasses;
-
     public function __construct(
         public ?string $label = null,
         public ?string $hint = null,

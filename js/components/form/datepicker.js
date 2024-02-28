@@ -48,11 +48,6 @@ export default (
   property: property,
   value: value,
   calendar: calendar,
-  /**
-   * Indicates whether changes to the model were
-   * internal or made from wire:model effects.
-   */
-  internal: false,
   init() {
     const dayjs = this.dayjs;
 
@@ -63,26 +58,14 @@ export default (
 
     this.reset();
     this.map();
-    this.hydrate();
+    this.$nextTick(() => this.hydrate());
 
     this.$watch('model', () => {
       const type = multiple ? 'multiple' : (range ? 'range' : 'single');
+
       this.$el.dispatchEvent(new CustomEvent('select', {detail: {type: type, date: this.model}}));
 
-      // Not an internal change? Don't do anything.
-      if (this.internal) {
-        this.internal = false;
-
-        return;
-      }
-
       this.hydrate();
-    });
-
-    this.$watch('picker.common', (value) => {
-      if (value) return;
-
-      setTimeout(() => this.picker.month = this.picker.year = false, 250);
     });
   },
   /**
@@ -108,11 +91,7 @@ export default (
    * @return {void}
    */
   hydrate() {
-    if (!this.livewire && !this.model && this.value) {
-      this.internal = true;
-
-      this.model = this.value;
-    }
+    if (!this.livewire && !this.model && this.value) this.model = this.value;
 
     const dayjs = this.dayjs;
 
@@ -135,8 +114,6 @@ export default (
       // preventing the request from sending an empty array.
       if (!start && !end) this.model = null;
 
-      this.picker.common = false;
-
       return this.sync();
     }
 
@@ -144,13 +121,10 @@ export default (
       // ... same as above!
       this.model = this.quantity === 0 ? null : this.model;
 
-      this.picker.common = false;
-
       return this.sync();
     }
 
     this.date.start = this.model ? dayjs(this.model).$d : null;
-    this.picker.common = false;
 
     this.sync();
   },
@@ -193,8 +167,6 @@ export default (
    * @return {*|string}
    */
   select(event, day) {
-    this.internal = true;
-
     event.preventDefault();
 
     const date = this.instance(day);
@@ -270,8 +242,6 @@ export default (
     }
 
     if (this.disabled(dayjs.format('YYYY-MM-DD'))) return;
-
-    this.internal = true;
 
     const current = dayjs.format('YYYY-MM-DD');
 
@@ -442,9 +412,7 @@ export default (
    * @return {void}
    */
   clear() {
-    this.internal = true;
-
-    this.input = this.model = this.date.start = this.date.end = null;
+    this.input = this.model = this.value = this.date.start = this.date.end = null;
 
     this.$el.dispatchEvent(new CustomEvent('clear'));
   },
