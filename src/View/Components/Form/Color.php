@@ -14,7 +14,6 @@ use TallStackUi\View\Components\BaseComponent;
 #[SoftPersonalization('form.color')]
 class Color extends BaseComponent implements Personalization
 {
-
     public function __construct(
         public ?string $label = null,
         public ?string $hint = null,

@@ -105,10 +105,10 @@ return [
     'timepicker' => [
         'helper' => 'Ora Attuale',
     ],
-    
+
     'step' => [
         'next' => 'Avanti',
         'previous' => 'Precedente',
         'finish' => 'Fine',
-    ],    
+    ],
 ];

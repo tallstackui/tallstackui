@@ -100,12 +100,12 @@ return [
             'today' => 'Hoy',
             'tomorrow' => 'Mañana',
         ],
-    ],    
+    ],
 
     'timepicker' => [
         'helper' => 'Hora Actual',
     ],
-    
+
     'step' => [
         'next' => 'Siguiente',
         'previous' => 'Anterior',
