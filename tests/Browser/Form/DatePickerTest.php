@@ -11,7 +11,28 @@ class DatePickerTest extends BrowserTestCase
     /** @test */
     public function can_advance_to_next_month(): void
     {
-        //
+        Livewire::visit(new class extends Component
+        {
+            public ?string $date = '2020-01-01';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="date">{{ $date }}</p>
+                    
+                    <x-datepicker label="DatePicker"
+                                  wire:model.live="date" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->click('@tallstackui_datepicker_open_close')
+            ->waitForText('January')
+            ->click('@tallstackui_datepicker_previous_month')
+            ->waitForText('December')
+            ->assertSee('December');
     }
 
     /** @test */
@@ -21,7 +42,13 @@ class DatePickerTest extends BrowserTestCase
     }
 
     /** @test */
-    public function can_previous_to_last_month(): void
+    public function can_interact_with_clear_event(): void
+    {
+        $this->markTestSkipped('Not implemented yet.');
+    }
+
+    /** @test */
+    public function can_interact_with_select_event(): void
     {
         $this->markTestSkipped('Not implemented yet.');
     }
@@ -30,6 +57,33 @@ class DatePickerTest extends BrowserTestCase
     public function can_previous_to_last_year(): void
     {
         $this->markTestSkipped('Not implemented yet.');
+    }
+
+    /** @test */
+    public function can_previous_to_previous_month(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $date = '2020-01-01';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="date">{{ $date }}</p>
+                    
+                    <x-datepicker label="DatePicker"
+                                  wire:model.live="date" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->click('@tallstackui_datepicker_open_close')
+            ->waitForText('January')
+            ->click('@tallstackui_datepicker_next_month')
+            ->waitForText('February')
+            ->assertSee('February');
     }
 
     /** @test */

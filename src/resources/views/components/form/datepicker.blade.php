@@ -75,7 +75,7 @@
                                         <span x-text="calendar.months[month]" @class($personalize['label.month'])></span>
                                     </button>
                                     <button type="button" class="mr-2" x-on:click="month = new Date().getMonth(); picker.month = false">
-                                        {{ __('tallstack-ui::messages.datepicker.today') }}
+                                        {{ __('tallstack-ui::messages.datepicker.helpers.today') }}
                                     </button>
                                 </div>
                                 <template x-for="(monthRange, index) in calendar.months">
@@ -98,10 +98,11 @@
                                         <span x-text="range.year.last" @class($personalize['label.month'])></span>
                                     </div>
                                     <button type="button" x-on:click="range.year.start = new Date().getFullYear(); selectYear($event, new Date().getFullYear())">
-                                        {{ __('tallstack-ui::messages.datepicker.today') }}
+                                        {{ __('tallstack-ui::messages.datepicker.helpers.today') }}
                                     </button>
                                     <div>
                                         <button type="button"
+                                                dusk="tallstackui_datepicker_previous_year"
                                                 @class($personalize['button.navigate'])
                                                 x-on:click="previousYear($event)"
                                                 x-on:mousedown="if (!interval) interval = setInterval(() => previousYear($event), 200);"
@@ -109,9 +110,12 @@
                                                 x-on:mouseup="if (interval) { clearInterval(interval); interval = null; }"
                                                 x-on:mouseleave="if (interval) { clearInterval(interval); interval = null; }"
                                                 x-on:touchend="if (interval) { clearInterval(interval); interval = null; }">
-                                            <x-dynamic-component :component="TallStackUi::component('icon')" :icon="TallStackUi::icon('chevron-left')" @class($personalize['icon.navigate']) />
+                                            <x-dynamic-component :component="TallStackUi::component('icon')"
+                                                                 :icon="TallStackUi::icon('chevron-left')"
+                                                                 @class($personalize['icon.navigate']) />
                                         </button>
                                         <button type="button"
+                                                dusk="tallstackui_datepicker_next_year"
                                                 @class($personalize['button.navigate'])
                                                 x-on:click="nextYear($event)"
                                                 x-on:mousedown="if (!interval) interval = setInterval(() => nextYear($event), 200);"
@@ -119,7 +123,9 @@
                                                 x-on:mouseup="if (interval) { clearInterval(interval); interval = null; }"
                                                 x-on:mouseleave="if (interval) { clearInterval(interval); interval = null; }"
                                                 x-on:touchend="if (interval) { clearInterval(interval); interval = null; }">
-                                            <x-dynamic-component :component="TallStackUi::component('icon')" :icon="TallStackUi::icon('chevron-right')" @class($personalize['icon.navigate']) />
+                                            <x-dynamic-component :component="TallStackUi::component('icon')"
+                                                                 :icon="TallStackUi::icon('chevron-right')"
+                                                                 @class($personalize['icon.navigate']) />
                                         </button>
                                     </div>
                                 </div>
@@ -137,6 +143,7 @@
                 </div>
                 <div>
                     <button type="button"
+                            dusk="tallstackui_datepicker_previous_month"
                             @class($personalize['button.navigate'])
                             x-on:click="previousMonth()"
                             x-on:mousedown="if (!interval) interval = setInterval(() => previousMonth(), 200);"
@@ -144,16 +151,21 @@
                             x-on:mouseup="if (interval) { clearInterval(interval); interval = null; }"
                             x-on:mouseleave="if (interval) { clearInterval(interval); interval = null; }"
                             x-on:touchend="if (interval) { clearInterval(interval); interval = null; }">
-                        <x-dynamic-component :component="TallStackUi::component('icon')" :icon="TallStackUi::icon('chevron-left')" @class($personalize['icon.navigate']) />
+                        <x-dynamic-component :component="TallStackUi::component('icon')"
+                                             :icon="TallStackUi::icon('chevron-left')"
+                                             @class($personalize['icon.navigate']) />
                     </button>
                     <button type="button" @class($personalize['button.navigate'])
+                            dusk="tallstackui_datepicker_next_month"
                             x-on:click="nextMonth()"
                             x-on:mousedown="if (!interval) interval = setInterval(() => nextMonth(), 200);"
                             x-on:touchstart="if (!interval) interval = setInterval(() => nextMonth(), 200);"
                             x-on:mouseup="if (interval) { clearInterval(interval); interval = null; }"
                             x-on:mouseleave="if (interval) { clearInterval(interval); interval = null; }"
                             x-on:touchend="if (interval) { clearInterval(interval); interval = null; }">
-                        <x-dynamic-component :component="TallStackUi::component('icon')" :icon="TallStackUi::icon('chevron-right')" @class($personalize['icon.navigate']) />
+                        <x-dynamic-component :component="TallStackUi::component('icon')"
+                                             :icon="TallStackUi::icon('chevron-right')"
+                                             @class($personalize['icon.navigate']) />
                     </button>
                 </div>
             </div>
