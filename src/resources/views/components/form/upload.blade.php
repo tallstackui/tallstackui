@@ -72,7 +72,7 @@
          x-transition:leave="transition ease-in duration-75"
          x-transition:leave-start="opacity-100 translate-y-0"
          x-transition:leave-end="opacity-0 -translate-y-2"
-         x-anchor.bottom-end="$refs.wrapper"
+         x-anchor.bottom-end="$refs.anchor"
          @class($personalize['box.wrapper.first'])>
         <div @class($personalize['box.wrapper.second'])>
             @if (!$static)
