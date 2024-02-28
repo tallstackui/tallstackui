@@ -9,10 +9,16 @@ use TallStackUi\Foundation\Support\Components\IconGuide;
 trait BuildRawIcon
 {
     /** @throws Exception */
-    public function icon(): string
+    public function icon(?string $path = null): string
     {
         InappropriateIconGuideExecution::validate(static::class);
 
-        return IconGuide::build($this);
+        $result = IconGuide::build($this);
+
+        if ($path) {
+            return $path.$result;
+        }
+
+        return $result;
     }
 }

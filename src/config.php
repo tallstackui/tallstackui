@@ -78,7 +78,6 @@ return [
         |----------------------------------
         | Flush unused icons pack.
         |----------------------------------
-        | Allowed styles:
         |
         | To avoid the accumulation of unused files, the icon packs that are
         | not in use can be deleted automatically when new icons are set.
