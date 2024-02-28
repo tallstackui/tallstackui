@@ -12,10 +12,6 @@ export default (model, full, livewire, property, value) => ({
   value: value,
   internal: false,
   init() {
-    if (!this.dayjs) {
-      return error('The dayjs library is not available. Please, review the docs.');
-    }
-
     if (!full && (this.model || this.value) && !/(AM|PM)/.test(this.model ?? this.value)) {
       warning('The time format is not complete. Please, include the interval (AM/PM).');
     }
@@ -74,7 +70,7 @@ export default (model, full, livewire, property, value) => ({
    * @return {void}
    */
   current() {
-    const dayjs = this.dayjs;
+    const dayjs = this.dayjs();
 
     if (!dayjs) {
       return error('The dayjs library is not available. Please, review the docs.');

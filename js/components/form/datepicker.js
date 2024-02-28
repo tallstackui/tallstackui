@@ -1,4 +1,3 @@
-import {error} from '../../helpers';
 import dayjs from 'dayjs';
 import updateLocale from 'dayjs/plugin/updateLocale';
 
@@ -58,8 +57,6 @@ export default (
     const dayjs = this.dayjs;
 
     this.translations();
-
-    if (!dayjs) return error('The dayjs library is not available. Please, review the docs.');
 
     this.date.min = dates.date.min ? dayjs(dates.date.min) : null;
     this.date.max = dates.date.max ? dayjs(dates.date.max) : null;
