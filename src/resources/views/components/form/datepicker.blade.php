@@ -44,7 +44,7 @@
                                          :icon="TallStackUi::icon('x-mark')"
                                          @class([$personalize['icon.size'], $personalize['icon.clear']])/>
                 </button>
-                <button type="button" x-on:click="picker.common = !picker.common" dusk="tallstackui_datepicker_picker">
+                <button type="button" x-on:click="picker.common = !picker.common" dusk="tallstackui_datepicker_open_close">
                     <x-dynamic-component :component="TallStackUi::component('icon')"
                                          :icon="TallStackUi::icon('calendar')"
                                          @class([$personalize['icon.size'], $personalize['error'] => $error]) />
@@ -188,7 +188,6 @@
                     </div>
                 </template>
             </div>
-            {{-- Helpers --}}
             @if ($helpers)
                 <div @class($personalize['wrapper.helpers'])>
                     @foreach (['yesterday', 'today', 'tomorrow'] as $helper)

@@ -2,8 +2,6 @@
 
 namespace Tests\Browser\Form;
 
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\File;
 use Livewire\Component;
 use Livewire\Livewire;
 use Tests\Browser\BrowserTestCase;
@@ -209,16 +207,5 @@ class TimePickerTest extends BrowserTestCase
             ->dragRight('@tallstackui_timepicker_minutes', 5)
             ->waitForTextIn('@time', '31')
             ->assertSeeIn('@time', '31');
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        Artisan::call('storage:link');
-
-        File::ensureDirectoryExists(base_path('public/storage/dayjs'));
-
-        File::copy(__DIR__.'/../../Fixtures/dayjs/dayjs.min.js', base_path('public/storage/dayjs/dayjs.min.js'));
     }
 }
