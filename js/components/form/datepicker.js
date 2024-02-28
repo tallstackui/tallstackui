@@ -457,9 +457,8 @@ export default (
    * @return {void}
    */
   reset() {
-    const current = livewire ?
-      Array.isArray(this.model) ? this.model[0] : this.model :
-      Array.isArray(this.value) ? this.value[0] : this.value;
+    const model = livewire ? this.model : this.value;
+    const current = Array.isArray(model) ? model[0] : model;
 
     const date = current ? this.dayjs(current) : this.dayjs();
 
