@@ -1,4 +1,5 @@
-import {dayjs, error, warning} from '../../helpers';
+import {error, warning} from '../../helpers';
+import dayjs from 'dayjs';
 
 export default (model, full, livewire, property, value) => ({
   model: model,
@@ -9,36 +10,52 @@ export default (model, full, livewire, property, value) => ({
   livewire: livewire,
   property: property,
   value: value,
+  internal: false,
   init() {
-    if (!this.dayjs) {
-      return error('The dayjs library is not available. Please, review the docs.');
-    }
-
     if (!full && (this.model || this.value) && !/(AM|PM)/.test(this.model ?? this.value)) {
       warning('The time format is not complete. Please, include the interval (AM/PM).');
     }
 
-    if (this.model || this.value) this.parse();
+    if (this.model || this.value) this.hydrate();
 
     this.$watch('hours', (value) => {
+      this.internal = true;
+
       this.sync();
 
       this.$el.dispatchEvent(new CustomEvent('hour', {detail: {hour: value}}));
     });
 
     this.$watch('minutes', (value) => {
+      this.internal = true;
+
       this.sync();
 
       this.$el.dispatchEvent(new CustomEvent('minute', {detail: {minute: value}}));
     });
 
-    this.$watch('interval', () => this.sync());
+    this.$watch('interval', () => {
+      this.internal = true;
+
+      this.sync();
+    });
+
+    this.$watch('model', () => {
+      if (this.internal) {
+        this.internal = false;
+
+        return;
+      }
+
+      this.hydrate();
+    });
   },
   /**
-   * Parse the model value when set.
+   * Hydrate the need stuff in the bootstrap.
+   *
    * @return {void}
    */
-  parse() {
+  hydrate() {
     const [time, interval] = (this.model ?? this.value).split(' ');
     const [hours, minutes] = time.split(':');
 
@@ -46,14 +63,14 @@ export default (model, full, livewire, property, value) => ({
     this.minutes = minutes;
     this.interval = interval ?? null;
 
-    this.sync(false);
+    this.sync();
   },
   /**
    * Set the current time.
    * @return {void}
    */
   current() {
-    const dayjs = this.dayjs;
+    const dayjs = this.dayjs();
 
     if (!dayjs) {
       return error('The dayjs library is not available. Please, review the docs.');
@@ -73,9 +90,8 @@ export default (model, full, livewire, property, value) => ({
   },
   /**
    * Sync the input and model.
-   * @param {Boolean} model
    */
-  sync(model = true) {
+  sync() {
     let value = `${this.formatted.hours}:${this.formatted.minutes}`;
 
     if (!full && this.interval) {
@@ -84,26 +100,15 @@ export default (model, full, livewire, property, value) => ({
 
     this.$refs.input.value = value;
 
-    if (!model) return;
-
     this.model = value;
 
     if (this.livewire) return;
 
     const input = document.getElementsByName(this.property)[0];
 
-    if (!input) {
-      return;
-    }
+    if (!input) return;
 
     input.value = this.value = value;
-  },
-  /**
-   * Get the dayjs library.
-   * @return {Dayjs}
-   */
-  get dayjs() {
-    return dayjs();
   },
   /**
    * Get the formatted time.
@@ -117,5 +122,12 @@ export default (model, full, livewire, property, value) => ({
       hours: this.hours.padStart(2, '0'),
       minutes: this.minutes.padStart(2, '0'),
     };
+  },
+  /**
+   * Get the dayjs library.
+   * @return {Dayjs}
+   */
+  get dayjs() {
+    return dayjs;
   },
 });

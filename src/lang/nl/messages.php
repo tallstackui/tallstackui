@@ -68,4 +68,20 @@ return [
             ],
         ],
     ],
+
+    'datepicker' => [
+        'yesterday' => 'Gisteren',
+        'today' => 'Vandaag',
+        'tomorrow' => 'Morgen',
+    ],
+
+    'timepicker' => [
+        'helper' => 'Huidige Tijd',
+    ],
+
+    'step' => [
+        'next' => 'Volgende',
+        'previous' => 'Vorige',
+        'finish' => 'Voltooien',
+    ],
 ];

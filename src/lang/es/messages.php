@@ -69,6 +69,12 @@ return [
         ],
     ],
 
+    'datepicker' => [
+        'yesterday' => 'Ayer',
+        'today' => 'Hoy',
+        'tomorrow' => 'Mañana',
+    ],
+
     'timepicker' => [
         'helper' => 'Hora Actual',
     ],

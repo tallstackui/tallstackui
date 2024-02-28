@@ -69,6 +69,12 @@ return [
         ],
     ],
 
+    'datepicker' => [
+        'yesterday' => 'Dün',
+        'today' => 'Bugün',
+        'tomorrow' => 'Yarın',
+    ],
+
     'timepicker' => [
         'helper' => 'Geçerli Saat',
     ],

@@ -518,7 +518,9 @@ export default (
     const search = this.normalize(this.search.toLowerCase());
 
     return available.filter((option) => {
-      const label = this.normalize(option[selectable.label].toString().toLowerCase());
+      const label = this.normalize(this.dimensional ?
+          option[selectable.label].toString().toLowerCase() :
+          option.toString().toLowerCase());
 
       const description = option.description ?
         this.normalize(option.description.toString().toLowerCase()) :
