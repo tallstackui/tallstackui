@@ -188,11 +188,11 @@
                             '{{ $personalize['range'] }}': between(day.instance) === true,
                          }">
                         <button x-text="day.day"
-                                x-on:click="select($event, day.day)"
+                                x-on:click="select($event, day.day);"
                                 x-bind:disabled="day.disabled"
                                 x-bind:class="{
                                     '{{ $personalize['button.today'] }}': today(day.day) === true,
-                                    '{{ $personalize['button.select'] }}': today(day.day) === false && selected(day.day) === false && !day.disabled,
+                                    '{{ $personalize['button.select'] }}': today(day.day) === false && selected(day.day) === false,
                                     '{{ $personalize['button.selected'] }}': selected(day.day) === true
                                 }"
                                 @class($personalize['button.day'])>
