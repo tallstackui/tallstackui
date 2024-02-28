@@ -63,7 +63,7 @@ export default (model, full, livewire, property, value) => ({
     this.minutes = minutes;
     this.interval = interval ?? null;
 
-    this.sync(false);
+    this.sync();
   },
   /**
    * Set the current time.
@@ -90,9 +90,8 @@ export default (model, full, livewire, property, value) => ({
   },
   /**
    * Sync the input and model.
-   * @param {Boolean} model
    */
-  sync(model = true) {
+  sync() {
     let value = `${this.formatted.hours}:${this.formatted.minutes}`;
 
     if (!full && this.interval) {
@@ -101,17 +100,13 @@ export default (model, full, livewire, property, value) => ({
 
     this.$refs.input.value = value;
 
-    if (!model) return;
-
     this.model = value;
 
     if (this.livewire) return;
 
     const input = document.getElementsByName(this.property)[0];
 
-    if (!input) {
-      return;
-    }
+    if (!input) return;
 
     input.value = this.value = value;
   },
