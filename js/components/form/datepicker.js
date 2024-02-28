@@ -65,6 +65,8 @@ export default (
 
       this.$el.dispatchEvent(new CustomEvent('select', {detail: {type: type, date: this.model}}));
 
+      if (!this.livewire) return;
+
       this.hydrate();
     });
   },
