@@ -49,13 +49,11 @@
         @class($personalize['wrapper.first'])>
         <div @class($personalize['wrapper.second'])>
             <div @class($personalize['wrapper.third'])>
-                <span x-text="formatted.hours"
-                    x-ref="hours"
+                <span x-text="formatted.hours" x-ref="hours"
                     @class($personalize['time'])>
                 </span>
                 <span  @class($personalize['separator'])>:</span>
-                <span x-text="formatted.minutes"
-                    x-ref="minutes"
+                <span x-text="formatted.minutes" x-ref="minutes"
                     @class($personalize['time'])>
                 </span>
                 @if ($format === '12')
