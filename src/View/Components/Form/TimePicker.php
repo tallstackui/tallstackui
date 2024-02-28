@@ -38,7 +38,7 @@ class TimePicker extends BaseComponent implements Personalization
                 'second' => 'shadow-xs soft-scrollbar dark:bg-dark-700 overflow-auto rounded-md bg-white p-4',
                 'third' => 'flex select-none items-center justify-center gap-1',
             ],
-            'icon' => 'dark:text-dark-400 h-5 w-5 text-gray-500',
+            'icon' => 'h-5 w-5',
             'time' => 'text-primary-600 dark:text-dark-300 dark:border-dark-700 w-20 rounded-full p-2 text-center text-4xl font-medium transition',
             'separator' => 'dark:text-dark-400 h-14 text-5xl text-gray-300',
             'format' => [

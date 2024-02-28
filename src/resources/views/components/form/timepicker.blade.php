@@ -28,11 +28,13 @@
                          dusk="tallstackui_timepicker_input"
                          class="cursor-pointer caret-transparent">
                          <x-slot:suffix>
-                            <button type="button" x-on:click="show = !show">
-                                <x-dynamic-component :component="TallStackUi::component('icon')"
-                                                     :icon="TallStackUi::icon('clock')"
-                                                     @class($personalize['icon']) />
-                            </button>
+                             <div class="flex items-center gap-1">
+                                <button type="button" x-on:click="show = !show">
+                                    <x-dynamic-component :component="TallStackUi::component('icon')"
+                                                         :icon="TallStackUi::icon('clock')"
+                                                         @class($personalize['icon']) />
+                                </button>
+                             </div>
                          </x-slot:suffix>
     </x-dynamic-component>
     <div x-cloak
