@@ -94,6 +94,11 @@ class BrowserTestCase extends TestCase
         File::ensureDirectoryExists(self::tmpPath());
     }
 
+    protected function paused(int $seconds = 3): int
+    {
+        return 1000 * $seconds;
+    }
+
     protected function setUp(): void
     {
         if (isset($_SERVER['CI'])) {

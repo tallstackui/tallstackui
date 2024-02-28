@@ -57,7 +57,7 @@ class DatePickerTest extends BrowserTestCase
             ->waitForLivewireToLoad()
             ->click('@tallstackui_datepicker_open_close')
             ->waitForText('2020')
-            ->clickAtXPath('/html/body/div[3]/div/div/div/div[2]/div[1]/div[1]/span/button[2]')
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div[1]/div[1]/span/button[2]')
             ->waitForText('2009')
             ->assertSee('2009')
             ->click('@tallstackui_datepicker_previous_year')
@@ -95,7 +95,7 @@ class DatePickerTest extends BrowserTestCase
             ->waitForTextIn('@date', '2020-01-01')
             ->assertSeeIn('@date', '2020-01-01')
             ->click('@tallstackui_datepicker_open_close')
-            ->clickAtXPath('/html/body/div[3]/div/div/div/div[2]/div[3]/div[5]/button')
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div[3]/div[5]/button')
             ->waitForTextIn('@date', '2020-01-02')
             ->assertSeeIn('@date', '2020-01-02')
             ->assertSeeIn('@selected', '1');
@@ -157,7 +157,7 @@ class DatePickerTest extends BrowserTestCase
             ->waitForLivewireToLoad()
             ->click('@tallstackui_datepicker_open_close')
             ->waitForText('January')
-            ->clickAtXPath('/html/body/div[3]/div/div/div/div[2]/div[1]/div[1]/span/button[1]')
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div[1]/div[1]/span/button[1]')
             ->waitForText(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'])
             ->assertSee('Jan')
             ->assertSee('Mar')
@@ -186,7 +186,7 @@ class DatePickerTest extends BrowserTestCase
             ->waitForLivewireToLoad()
             ->click('@tallstackui_datepicker_open_close')
             ->waitForText('2020')
-            ->clickAtXPath('/html/body/div[3]/div/div/div/div[2]/div[1]/div[1]/span/button[2]')
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div[1]/div[1]/span/button[2]')
             ->waitForText('2009')
             ->assertSee('2009')
             ->click('@tallstackui_datepicker_next_year')
@@ -244,7 +244,7 @@ class DatePickerTest extends BrowserTestCase
             ->waitForTextIn('@date', '2020-01-01')
             ->assertSeeIn('@date', '2020-01-01')
             ->click('@tallstackui_datepicker_open_close')
-            ->clickAtXPath('/html/body/div[3]/div/div/div/div[2]/div[3]/div[5]/button')
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div[3]/div[5]/button')
             ->waitForTextIn('@date', '2020-01-02')
             ->assertSeeIn('@date', '2020-01-02');
     }
@@ -273,10 +273,10 @@ class DatePickerTest extends BrowserTestCase
             ->waitForTextIn('@date', '["2020-01-01","2020-01-03"]')
             ->assertSeeIn('@date', '["2020-01-01","2020-01-03"]')
             ->click('@tallstackui_datepicker_open_close')
-            ->clickAtXPath('/html/body/div[3]/div/div/div/div[2]/div[3]/div[4]/button')
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div[3]/div[4]/button')
             ->waitForTextIn('@date', '["2020-01-03"]')
-            ->clickAtXPath('/html/body/div[3]/div/div/div/div[2]/div[3]/div[5]/button')
-            ->clickAtXPath('/html/body/div[3]/div/div/div/div[2]/div[3]/div[7]/button')
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div[3]/div[5]/button')
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div[3]/div[7]/button')
             ->waitForTextIn('@date', '["2020-01-03","2020-01-02","2020-01-04"]')
             ->assertSeeIn('@date', '["2020-01-03","2020-01-02","2020-01-04"]');
     }
@@ -305,8 +305,8 @@ class DatePickerTest extends BrowserTestCase
             ->waitForTextIn('@date', '["2020-01-01","2020-01-03"]')
             ->assertSeeIn('@date', '["2020-01-01","2020-01-03"]')
             ->click('@tallstackui_datepicker_open_close')
-            ->clickAtXPath('/html/body/div[3]/div/div/div/div[2]/div[3]/div[7]/button')
-            ->clickAtXPath('/html/body/div[3]/div/div/div/div[2]/div[3]/div[14]/button')
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div[3]/div[7]/button')
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div[3]/div[14]/button')
             ->waitForTextIn('@date', '["2020-01-04","2020-01-11"]')
             ->assertSeeIn('@date', '["2020-01-04","2020-01-11"]');
     }
@@ -333,13 +333,13 @@ class DatePickerTest extends BrowserTestCase
             ->waitForLivewireToLoad()
             ->click('@tallstackui_datepicker_open_close')
             ->waitForText('January')
-            ->clickAtXPath('/html/body/div[3]/div/div/div/div[2]/div[1]/div[1]/span/button[1]')
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div[1]/div[1]/span/button[1]')
             ->waitForText(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'])
             ->assertSee('Jan')
             ->assertSee('Mar')
             ->assertSee('Dec')
             ->assertSee('Today')
-            ->clickAtXPath('/html/body/div[3]/div/div/div/div[2]/div[1]/div[1]/div/div/div/button[2]')
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div[1]/div[1]/div/div/div/button[2]')
             ->waitUntilMissingText('Today')
             ->assertDontSee('Today');
     }
