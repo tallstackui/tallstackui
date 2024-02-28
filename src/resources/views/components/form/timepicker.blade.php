@@ -15,8 +15,8 @@
     @js($property),
     @js($value))"
     {{ $attributes->only(['x-on:hour', 'x-on:minute']) }}
-    x-ref="wrapper"
-    x-cloak>
+    x-cloak
+     x-on:click.outside="show = false">
     <x-dynamic-component :component="TallStackUi::component('input')"
                          {{ $attributes->except('name') }}
                          :$label
@@ -25,7 +25,6 @@
                          :alternative="$attributes->get('name')"
                          x-ref="input"
                          x-on:click="show = !show"
-                         x-on:keydown="$event.preventDefault()"
                          dusk="tallstackui_timepicker_input"
                          class="cursor-pointer caret-transparent">
                          <x-slot:suffix>
@@ -38,14 +37,13 @@
     </x-dynamic-component>
     <div x-cloak
         x-show="show"
-        x-on:click.away="show = false"
+        x-anchor.bottom-end.offset.10="$refs.anchor"
         x-transition:enter="transition duration-100 ease-out"
         x-transition:enter-start="opacity-0 -translate-y-2"
         x-transition:enter-end="opacity-100 translate-y-0"
         x-transition:leave="transition ease-in duration-75"
         x-transition:leave-start="opacity-100 scale-100"
         x-transition:leave-end="opacity-0 scale-95"
-        @if (!$hint) x-anchor.bottom-end.offset.0="$refs.wrapper" @else x-anchor.bottom-end.offset.-25="$refs.wrapper" @endif
         @class($personalize['wrapper.first'])>
         <div @class($personalize['wrapper.second'])>
             <div @class($personalize['wrapper.third'])>

@@ -20,7 +20,8 @@
      @js($value),
      @js(__('tallstack-ui::messages.datepicker.calendar')))"
      {{ $attributes->only('x-on:select') }}
-     x-cloak x-on:click.outside="picker.common = false">
+     x-cloak
+     x-on:click.outside="picker.common = false">
     <x-dynamic-component :component="TallStackUi::component('input')"
                          {{ $attributes->except(['name', 'value']) }}
                          :$label
@@ -29,21 +30,21 @@
                          :alternative="$attributes->get('name')"
                          x-ref="input"
                          x-on:click="picker.common = !picker.common; picker.year = false;"
-                         x-on:keydown="$event.preventDefault()"
-                         x-on:keydown.escape="picker.common = false"
                          dusk="tallstackui_timepicker_input"
                          class="cursor-pointer caret-transparent">
         <x-slot:suffix>
-            <button type="button" x-on:click="clear()" x-show="quantity > 0" {{ $attributes->only('x-on:clear') }} dusk="tallstackui_datepicker_clear">
-                <x-dynamic-component :component="TallStackUi::component('icon')"
-                                     :icon="TallStackUi::icon('x-mark')"
-                                     @class([$personalize['icon.size'], $personalize['icon.clear']])/>
-            </button>
-            <button type="button" x-on:click="picker.common = !picker.common" dusk="tallstackui_datepicker_open_close">
-                <x-dynamic-component :component="TallStackUi::component('icon')"
-                                     :icon="TallStackUi::icon('calendar')"
-                                     @class($personalize['icon.size']) />
-            </button>
+            <div class="flex items-center gap-1">
+                <button type="button" x-on:click="clear()" x-show="quantity > 0" {{ $attributes->only('x-on:clear') }} dusk="tallstackui_datepicker_clear">
+                    <x-dynamic-component :component="TallStackUi::component('icon')"
+                                         :icon="TallStackUi::icon('x-mark')"
+                            @class([$personalize['icon.size'], $personalize['icon.clear']])/>
+                </button>
+                <button type="button" x-on:click="picker.common = !picker.common" dusk="tallstackui_datepicker_open_close">
+                    <x-dynamic-component :component="TallStackUi::component('icon')"
+                                         :icon="TallStackUi::icon('calendar')"
+                            @class($personalize['icon.size']) />
+                </button>
+            </div>
         </x-slot:suffix>
     </x-dynamic-component>
     <div x-show="picker.common"
@@ -54,8 +55,7 @@
          x-transition:leave="transition ease-in duration-75"
          x-transition:leave-start="opacity-100 translate-y-0"
          x-transition:leave-end="opacity-0 -translate-y-2"
-         x-on:click.away="if (@js($range) && date.end || !@js($range)) picker.common = false"
-            @class($personalize['box.wrapper.first'])>
+         @class($personalize['box.wrapper.first'])>
         <div @class($personalize['box.wrapper.second'])>
             <div @class($personalize['box.picker.button'])>
                     <span>
