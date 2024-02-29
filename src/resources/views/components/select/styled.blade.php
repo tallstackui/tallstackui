@@ -67,7 +67,7 @@
                                     </div>
                                     @if (!$disabled)
                                         <div @class($personalize['itens.multiple.icon'])>
-                                            <button type="button" x-on:click="clear(select)">
+                                            <button type="button" x-on:click="$event.stopPropagation(); clear(select)">
                                                 <x-dynamic-component :component="TallStackUi::component('icon')"
                                                                      :icon="TallStackUi::icon('x-mark')"
                                                                      @class($personalize['itens.multiple.icon']) />
@@ -86,7 +86,7 @@
                     <template x-if="!empty">
                         <button dusk="tallstackui_select_clear"
                                 type="button"
-                                x-on:click="clear(); show = true;">
+                                x-on:click="$event.stopPropagation(); clear();">
                             <x-dynamic-component :component="TallStackUi::component('icon')"
                                                  :icon="TallStackUi::icon('x-mark')"
                                                  @class([$personalize['buttons.size'], $personalize['buttons.base'] => !$error, $personalize['buttons.error'] => $error]) />
@@ -100,6 +100,7 @@
             @endif
         </button>
         <x-dynamic-component :component="TallStackUi::component('floating')"
+                             {{--TODO: here--}}
                              :wrapper="$personalize['box.wrapper']"
                              size="w-full"
                              x-anchor="$refs.button">

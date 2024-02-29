@@ -1,6 +1,6 @@
 @php($personalize = $classes())
 
-<div x-show="{{ $attributes->get('x-show', 'show') }}"
+<div x-show="{{ $attributes->get('x-show', 'show') }}" x-cloak
      {{ $anchor() }}="{{ $attributes->get('x-anchor', '$refs.anchor') }}"
      @if (method_exists($attributes, 'isEmpty') && count($attributes->whereStartsWith('x-transition')->getAttributes()) === 0)
          x-transition:enter="transition duration-100 ease-out"
