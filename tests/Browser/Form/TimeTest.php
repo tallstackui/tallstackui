@@ -28,15 +28,15 @@ class TimeTest extends BrowserTestCase
             }
         })
             ->waitForLivewireToLoad()
-            ->click('@tallstackui_timepicker_input')
+            ->click('@tallstackui_time_input')
             ->waitForText('00')
-            ->dragRight('@tallstackui_timepicker_hours', 5)
+            ->dragRight('@tallstackui_time_hours', 5)
             ->waitForTextIn('@time', '07:00 AM')
             ->assertSeeIn('@time', '07:00 AM')
-            ->click('@tallstackui_timepicker_pm')
+            ->click('@tallstackui_time_pm')
             ->waitForTextIn('@time', '07:00 PM')
             ->assertSeeIn('@time', '07:00 PM')
-            ->click('@tallstackui_timepicker_am')
+            ->click('@tallstackui_time_am')
             ->waitForTextIn('@time', '07:00 AM')
             ->assertSeeIn('@time', '07:00 AM');
     }
@@ -64,9 +64,9 @@ class TimeTest extends BrowserTestCase
             }
         })
             ->waitForLivewireToLoad()
-            ->click('@tallstackui_timepicker_input')
+            ->click('@tallstackui_time_input')
             ->waitForText('00')
-            ->dragRight('@tallstackui_timepicker_hours', 5)
+            ->dragRight('@tallstackui_time_hours', 5)
             ->waitForTextIn('@time', '7')
             ->assertSeeIn('@time', '7');
     }
@@ -94,9 +94,9 @@ class TimeTest extends BrowserTestCase
             }
         })
             ->waitForLivewireToLoad()
-            ->click('@tallstackui_timepicker_input')
+            ->click('@tallstackui_time_input')
             ->waitForText('00')
-            ->dragRight('@tallstackui_timepicker_minutes', 5)
+            ->dragRight('@tallstackui_time_minutes', 5)
             ->waitForTextIn('@time', '31')
             ->assertSeeIn('@time', '31');
     }
@@ -122,7 +122,7 @@ class TimeTest extends BrowserTestCase
             }
         })
             ->waitForLivewireToLoad()
-            ->click('@tallstackui_timepicker_input')
+            ->click('@tallstackui_time_input')
             ->waitForText('FooBarBaz')
             ->assertSee('FooBarBaz');
     }
@@ -150,9 +150,9 @@ class TimeTest extends BrowserTestCase
             }
         })
             ->waitForLivewireToLoad()
-            ->click('@tallstackui_timepicker_input')
+            ->click('@tallstackui_time_input')
             ->waitForText('00')
-            ->waitForLivewire()->click('@tallstackui_timepicker_current')
+            ->waitForLivewire()->click('@tallstackui_time_current')
             ->pause(100)
             ->assertVisible('@time');
     }
@@ -176,9 +176,9 @@ class TimeTest extends BrowserTestCase
             }
         })
             ->waitForLivewireToLoad()
-            ->click('@tallstackui_timepicker_input')
+            ->click('@tallstackui_time_input')
             ->waitForText('00')
-            ->dragRight('@tallstackui_timepicker_hours', 5)
+            ->dragRight('@tallstackui_time_hours', 5)
             ->waitForTextIn('@time', '7')
             ->assertSeeIn('@time', '7');
     }
@@ -202,9 +202,9 @@ class TimeTest extends BrowserTestCase
             }
         })
             ->waitForLivewireToLoad()
-            ->click('@tallstackui_timepicker_input')
+            ->click('@tallstackui_time_input')
             ->waitForText('00')
-            ->dragRight('@tallstackui_timepicker_minutes', 5)
+            ->dragRight('@tallstackui_time_minutes', 5)
             ->waitForTextIn('@time', '31')
             ->assertSeeIn('@time', '31');
     }

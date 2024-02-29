@@ -69,7 +69,7 @@ return [
         ],
     ],
 
-    'datepicker' => [
+    'date' => [
         'calendar' => [
             'months' => [
                 'january' => 'January',
@@ -102,7 +102,7 @@ return [
         ],
     ],
 
-    'timepicker' => [
+    'time' => [
         'helper' => 'Current Time',
     ],
 

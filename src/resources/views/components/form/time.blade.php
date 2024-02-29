@@ -24,7 +24,7 @@
                          :alternative="$attributes->get('name')"
                          x-ref="input"
                          x-on:click="show = !show"
-                         dusk="tallstackui_timepicker_input"
+                         dusk="tallstackui_time_input"
                          class="cursor-pointer caret-transparent">
                          <x-slot:suffix>
                              <div class="flex items-center gap-1">
@@ -57,7 +57,7 @@
                                    value="AM"
                                    @class($personalize['format.input'])>
                             <label for="am"
-                                   dusk="tallstackui_timepicker_am"
+                                   dusk="tallstackui_time_am"
                                    @class([$personalize['format.color'], $personalize['format.am.label']])>
                                 <div @class($personalize['format.am.title'])>AM</div>
                             </label>
@@ -69,7 +69,7 @@
                                    value="PM"
                                    @class($personalize['format.input'])>
                             <label for="pm"
-                                   dusk="tallstackui_timepicker_pm"
+                                   dusk="tallstackui_time_pm"
                                    @class([$personalize['format.color'], $personalize['format.pm.label']])>
                                 <div @class($personalize['format.pm.title'])>PM</div>
                             </label>
@@ -83,7 +83,7 @@
                        max="{{ $format === '12' ? 12 : 23 }}"
                        step="{{ $stepHour ?? 1 }}"
                        x-model="hours"
-                       dusk="tallstackui_timepicker_hours"
+                       dusk="tallstackui_time_hours"
                        x-on:mouseenter="$refs.hours.classList.add('{{ $personalize['range.light'] }}', '{{ $personalize['range.dark'] }}')"
                        x-on:mouseleave="$refs.hours.classList.remove('{{ $personalize['range.light'] }}', '{{ $personalize['range.dark'] }}')"
                        @class(['focus:outline-none', $personalize['range.base'], $personalize['range.thumb']])>
@@ -92,7 +92,7 @@
                        max="59"
                        step="{{ $stepMinute ?? 1 }}"
                        x-model="minutes"
-                       dusk="tallstackui_timepicker_minutes"
+                       dusk="tallstackui_time_minutes"
                        x-on:mouseenter="$refs.minutes.classList.add('{{ $personalize['range.light'] }}', '{{ $personalize['range.dark'] }}')"
                        x-on:mouseleave="$refs.minutes.classList.remove('{{ $personalize['range.light'] }}', '{{ $personalize['range.dark'] }}')"
                        @class(['focus:outline-none', $personalize['range.base'], $personalize['range.thumb']])>
@@ -102,12 +102,12 @@
             <x-slot:footer>
                 @if ($helper)
                 <x-dynamic-component :component="TallStackUi::component('button')"
-                                     :text="__('tallstack-ui::messages.timepicker.helper')"
+                                     :text="__('tallstack-ui::messages.time.helper')"
                                      type="button"
                                      @class([$personalize['helper.button']])
                                      x-on:click="current()"
                                      {{ $attributes->only('x-on:current') }}
-                                     dusk="tallstackui_timepicker_current"
+                                     dusk="tallstackui_time_current"
                                      xs />
                 @endif
                 @if ($footer)

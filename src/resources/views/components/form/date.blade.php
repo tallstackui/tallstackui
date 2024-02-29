@@ -2,7 +2,7 @@
     [$property, $error, $id, $entangle] = $bind($attributes, $errors ?? null, $livewire);
     $personalize = $classes();
     $value = $sanitize($attributes, $property, $livewire);
-    $validating(rescue(fn () => data_get($this, $property), $value, false));
+    $validating($livewire ? ($property ? data_get($this, $property) : null) : $value);
 @endphp
 
 @if (!$livewire && $property)
@@ -19,7 +19,7 @@
      @js($livewire),
      @js($property),
      @js($value),
-     @js(__('tallstack-ui::messages.datepicker.calendar')))"
+     @js(__('tallstack-ui::messages.date.calendar')))"
      x-cloak x-on:click.outside="picker.common = false">
     <x-dynamic-component :component="TallStackUi::component('input')"
                          {{ $attributes->except(['name', 'value']) }}
@@ -29,16 +29,16 @@
                          :alternative="$attributes->get('name')"
                          x-ref="input"
                          x-on:click="picker.common = !picker.common; picker.year = false;"
-                         dusk="tallstackui_timepicker_input"
+                         dusk="tallstackui_date_input"
                          class="cursor-pointer caret-transparent">
         <x-slot:suffix>
             <div class="flex items-center gap-1">
-                <button type="button" x-on:click="clear()" x-show="quantity > 0" {{ $attributes->only('x-on:clear') }} dusk="tallstackui_datepicker_clear">
+                <button type="button" x-on:click="clear()" x-show="quantity > 0" {{ $attributes->only('x-on:clear') }} dusk="tallstackui_date_clear">
                     <x-dynamic-component :component="TallStackUi::component('icon')"
                                          :icon="TallStackUi::icon('x-mark')"
                                          @class([$personalize['icon.size'], $personalize['icon.clear']])/>
                 </button>
-                <button type="button" x-on:click="picker.common = !picker.common" dusk="tallstackui_datepicker_open_close">
+                <button type="button" x-on:click="picker.common = !picker.common" dusk="tallstackui_date_open_close">
                     <x-dynamic-component :component="TallStackUi::component('icon')"
                                          :icon="TallStackUi::icon('calendar')"
                                          @class($personalize['icon.size']) />
@@ -60,7 +60,7 @@
                                 <span x-text="calendar.months[month]" @class($personalize['label.month'])></span>
                             </button>
                             <button type="button" class="mr-2" x-on:click="month = new Date().getMonth(); picker.month = false">
-                                {{ __('tallstack-ui::messages.datepicker.helpers.today') }}
+                                {{ __('tallstack-ui::messages.date.helpers.today') }}
                             </button>
                         </div>
                         <template x-for="(monthRange, index) in calendar.months">
@@ -84,11 +84,11 @@
                                 <span x-text="range.year.last" @class($personalize['label.month'])></span>
                             </div>
                             <button type="button" x-on:click="range.year.start = new Date().getFullYear(); selectYear($event, new Date().getFullYear())">
-                                {{ __('tallstack-ui::messages.datepicker.helpers.today') }}
+                                {{ __('tallstack-ui::messages.date.helpers.today') }}
                             </button>
                             <div>
                                 <button type="button"
-                                        dusk="tallstackui_datepicker_previous_year"
+                                        dusk="tallstackui_date_previous_year"
                                         @class($personalize['button.navigate'])
                                         x-on:click="previousYear($event)"
                                         x-on:mousedown="if (!interval) interval = setInterval(() => previousYear($event), 200);"
@@ -101,7 +101,7 @@
                                                          @class($personalize['icon.navigate']) />
                                 </button>
                                 <button type="button"
-                                        dusk="tallstackui_datepicker_next_year"
+                                        dusk="tallstackui_date_next_year"
                                         @class($personalize['button.navigate'])
                                         x-on:click="nextYear($event)"
                                         x-on:mousedown="if (!interval) interval = setInterval(() => nextYear($event), 200);"
@@ -127,7 +127,7 @@
                 </div>
             </template>
             <div>
-                <button type="button" dusk="tallstackui_datepicker_previous_month"
+                <button type="button" dusk="tallstackui_date_previous_month"
                         @class($personalize['button.navigate'])
                         x-on:click="previousMonth()"
                         x-on:mousedown="if (!interval) interval = setInterval(() => previousMonth(), 200);"
@@ -139,7 +139,7 @@
                                          :icon="TallStackUi::icon('chevron-left')"
                                          @class($personalize['icon.navigate']) />
                 </button>
-                <button type="button" @class($personalize['button.navigate']) dusk="tallstackui_datepicker_next_month"
+                <button type="button" @class($personalize['button.navigate']) dusk="tallstackui_date_next_month"
                         x-on:click="nextMonth()"
                         x-on:mousedown="if (!interval) interval = setInterval(() => nextMonth(), 200);"
                         x-on:touchstart="if (!interval) interval = setInterval(() => nextMonth(), 200);"
@@ -189,10 +189,10 @@
                 <div @class($personalize['wrapper.helpers'])>
                     @foreach (['yesterday', 'today', 'tomorrow'] as $helper)
                         <button type="button"
-                                dusk="tallstackui_datepicker_helper_{{ $helper }}"
+                                dusk="tallstackui_date_helper_{{ $helper }}"
                                 x-on:click="helper($event, @js($helper))"
                                 @class($personalize['button.helpers'])>
-                            {{ __('tallstack-ui::messages.datepicker.helpers.' . $helper) }}
+                            {{ __('tallstack-ui::messages.date.helpers.' . $helper) }}
                         </button>
                     @endforeach
                 </div>
