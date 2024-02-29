@@ -33,6 +33,8 @@ class Password extends BaseComponent implements Personalization
      */
     public static function defaults(): array
     {
+        // This is not a "final" method because it
+        // can be overridden in the child class.
         return ['min' => '8', 'symbols' => '!@#$%^&*()_+-='];
     }
 

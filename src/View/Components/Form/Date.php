@@ -109,6 +109,7 @@ class Date extends BaseComponent implements Personalization
         }
     }
 
+    /** @throws InvalidArgumentException */
     protected function validate(): void
     {
         $min = null;

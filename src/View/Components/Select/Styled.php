@@ -114,6 +114,7 @@ class Styled extends BaseComponent implements Personalization
         ]);
     }
 
+    /** @throws InvalidArgumentException */
     protected function validate(): void
     {
         if (filled($this->options) && filled($this->request)) {

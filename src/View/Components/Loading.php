@@ -41,6 +41,7 @@ class Loading extends BaseComponent implements Personalization
         ]);
     }
 
+    /** @throws InvalidArgumentException */
     protected function validate(): void
     {
         if (! str(config('tallstackui.settings.loading')['z-index'])->startsWith('z-')) {

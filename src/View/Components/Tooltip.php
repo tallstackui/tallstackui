@@ -2,6 +2,7 @@
 
 namespace TallStackUi\View\Components;
 
+use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use TallStackUi\Foundation\Attributes\SkipDebug;
@@ -16,6 +17,7 @@ class Tooltip extends BaseComponent implements Personalization
 {
     use BuildRawIcon;
 
+    /** @throws Exception */
     public function __construct(
         public ?string $text = null,
         public ?string $icon = 'question-mark-circle',

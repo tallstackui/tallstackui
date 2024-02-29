@@ -38,7 +38,10 @@ class Upload extends BaseComponent implements Personalization
     /** @throws Exception */
     final public function adapter(array|TemporaryUploadedFile $files): array
     {
-        return (new UploadComponentFileAdapter($this->static, $files))();
+        return app(UploadComponentFileAdapter::class, [
+            'static' => $this->static,
+            'files' => $files,
+        ])();
     }
 
     public function blade(): View

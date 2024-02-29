@@ -77,12 +77,12 @@ abstract class BaseComponent extends Component
 
         // We merge scope with soft personalization
         // changes, but we prioritize scope changes.
-        $personalizations = empty($scope) ? $soft : Arr::only(array_merge($soft, $scope), array_keys($scope));
+        $merged = empty($scope) ? $soft : Arr::only(array_merge($soft, $scope), array_keys($scope));
 
         // Here we do a second merge, now with the original classes and
         // the result of the previous operation that will use scoped
         // prioritization and soft personalization definitions.
-        return Arr::only(array_merge($personalization, $personalizations), array_keys($personalization));
+        return Arr::only(array_merge($personalization, $merged), array_keys($personalization));
     }
 
     public function render(): Closure

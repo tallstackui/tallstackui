@@ -63,8 +63,10 @@ class Toggle extends BaseComponent implements Personalization
         ]);
     }
 
+    /** @throws InvalidArgumentException */
     protected function validate(): void
     {
+        //TODO move to trait
         $positions = ['right', 'left'];
 
         if (! in_array($this->position, $positions)) {

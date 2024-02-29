@@ -53,6 +53,7 @@ class Checkbox extends BaseComponent implements Personalization
         ]);
     }
 
+    /** @throws InvalidArgumentException */
     protected function validate(): void
     {
         $positions = ['right', 'left'];

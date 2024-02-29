@@ -15,8 +15,7 @@
     @js($property),
     @js($value))"
     {{ $attributes->only(['x-on:hour', 'x-on:minute']) }}
-    x-cloak
-    x-on:click.outside="show = false">
+    x-cloak x-on:click.outside="show = false">
     <x-dynamic-component :component="TallStackUi::component('input')"
                          {{ $attributes->except('name') }}
                          :$label

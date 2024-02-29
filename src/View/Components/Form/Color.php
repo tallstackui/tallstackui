@@ -60,6 +60,7 @@ class Color extends BaseComponent implements Personalization
         ]);
     }
 
+    /** @throws InvalidArgumentException */
     protected function validate(): void
     {
         $colors = collect($this->colors);

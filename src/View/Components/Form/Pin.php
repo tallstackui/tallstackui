@@ -56,6 +56,7 @@ class Pin extends BaseComponent implements Personalization
         ]);
     }
 
+    /** @throws InvalidArgumentException */
     protected function validate(): void
     {
         if (! $this->length) {
