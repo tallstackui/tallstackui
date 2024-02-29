@@ -142,9 +142,7 @@ class TimeTest extends BrowserTestCase
                         <p dusk="time">{{ $time }}</p>
                     @endif
                     
-                    <x-time label="Time"
-                                  helper
-                                  wire:model.live="time" />
+                    <x-time label="Time" format="24" helper wire:model.live="time" />
                 </div>
                 HTML;
             }

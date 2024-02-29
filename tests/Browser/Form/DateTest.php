@@ -451,6 +451,6 @@ class DateTest extends BrowserTestCase
                 HTML;
             }
         })
-            ->assertSee('The date [min-date] must be less than or equal to [max-date]');
+            ->assertSee('The date [min-date] must be less than or equal to [max-date].');
     }
 }
