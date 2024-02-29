@@ -297,9 +297,7 @@ export default (model, mode, colors, livewire, property, value) => ({
     },
   },
   init() {
-    if (!this.livewire) {
-      this.model = this.value;
-    }
+    if (!this.livewire) this.model = this.value;
 
     if (this.colors.length === 0) {
       const modes = {
@@ -333,15 +331,13 @@ export default (model, mode, colors, livewire, property, value) => ({
     this.sync();
   },
   sync() {
-    this.$refs.input.value = this.model;
-
     if (this.livewire) return;
 
     const input = document.getElementsByName(this.property)[0];
 
     if (!input) return;
 
-    input.value = this.model;
+    input.value = this.model === '#' ? '' : this.model;
   },
   /**
    * @param value {String}

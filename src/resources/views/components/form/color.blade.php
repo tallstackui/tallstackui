@@ -1,16 +1,15 @@
 @php
-    [$property, $error, $id, $entangle] = $bind($attributes, $errors ?? null, $livewire);
+    [$property,, $id, $entangle] = $bind($attributes, $errors ?? null, $livewire);
     $personalize = $classes();
     $value = $attributes->get('value');
 @endphp
 
-{{-- // TODO: Make work without livewire --}}
 @if (!$livewire && $property)
     <input hidden id="{{ $id }}" name="{{ $property }}">
 @endif
 
 <div x-data="tallstackui_formColor(
-        {!! $entangle ?? $value !!},
+        {!! $entangle !!},
         @js($mode),
         @js($colors),
         @js($livewire),
@@ -26,6 +25,7 @@
                              :alternative="$attributes->get('name')"
                              x-ref="input"
                              x-model="model"
+                             maxlength="7"
                              class="cursor-pointer">
                              <x-slot:prefix>
                                 <div @class($personalize['selected.wrapper'])>
