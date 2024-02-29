@@ -83,9 +83,7 @@
     @endif
     <x-dynamic-component :component="TallStackUi::component('floating')"
                          size="w-[18rem]"
-                         offset="2"
                          x-on:click.outside="show = false"
-                         {{--TODO: here--}}
                          :wrapper="$personalize['box.wrapper']">
         <div @class($personalize['box.base'])>
             <div class="px-4">

@@ -101,6 +101,7 @@
         </button>
         <x-dynamic-component :component="TallStackUi::component('floating')"
                              {{--TODO: here--}}
+                             offset="8"
                              :wrapper="$personalize['box.wrapper']"
                              size="w-full"
                              x-anchor="$refs.button">
