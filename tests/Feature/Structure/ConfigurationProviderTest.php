@@ -2,11 +2,13 @@
 
 use TallStackUi\Foundation\ResolveConfiguration;
 
-describe('ConfigurationProvider', function () {
-    test('contains resolve method')
-        ->expect(ResolveConfiguration::class)
-        ->toHaveMethod('from')
-        ->toHaveMethod('loading')
-        ->toHaveMethod('modal')
-        ->toHaveMethod('slide');
+describe('ResolveConfiguration', function () {
+    test('class has method', function (string $method) {
+        expect(ResolveConfiguration::class)->toHaveMethod($method);
+    })->with([
+        'from',
+        'loading',
+        'modal',
+        'slide',
+    ]);
 });
