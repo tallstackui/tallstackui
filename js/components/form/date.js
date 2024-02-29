@@ -61,10 +61,6 @@ export default (
     this.$nextTick(() => this.hydrate());
 
     this.$watch('model', () => {
-      const type = multiple ? 'multiple' : (range ? 'range' : 'single');
-
-      this.$el.dispatchEvent(new CustomEvent('select', {detail: {type: type, date: this.model}}));
-
       if (!this.livewire) return;
 
       this.hydrate();
@@ -171,6 +167,10 @@ export default (
   select(event, day) {
     event.preventDefault();
 
+    const type = multiple ? 'multiple' : (range ? 'range' : 'single');
+
+    const dispatch = () => this.$el.dispatchEvent(new CustomEvent('select', {detail: {type: type, date: this.model}}));
+
     const date = this.instance(day);
     const formatted = date.format('YYYY-MM-DD');
 
@@ -182,6 +182,8 @@ export default (
               this.model.filter((day) => day !== formatted) :
               [...this.model, formatted] :
           [formatted];
+
+      dispatch();
 
       return this.sync();
     }
@@ -195,6 +197,8 @@ export default (
       this.model = [];
       this.picker.common = this.date.start !== null && this.date.end === null;
 
+      dispatch();
+
       return this.sync();
     }
 
@@ -203,6 +207,8 @@ export default (
     this.model = date.format('YYYY-MM-DD');
 
     this.sync();
+
+    dispatch();
   },
   /**
    * Map the days of the month.

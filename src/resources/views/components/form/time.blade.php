@@ -8,7 +8,7 @@
     <input hidden id="{{ $id }}" name="{{ $property }}">
 @endif
 
-<div x-data="tallstackui_formTimePicker(
+<div x-data="tallstackui_formTime(
     {!! $entangle !!},
     @js($format === '24'),
     @js($livewire),

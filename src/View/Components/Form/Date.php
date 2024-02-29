@@ -13,8 +13,8 @@ use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\Traits\SanitizePropertyValue;
 use TallStackUi\View\Components\BaseComponent;
 
-#[SoftPersonalization('form.datepicker')]
-class DatePicker extends BaseComponent implements Personalization
+#[SoftPersonalization('form.date')]
+class Date extends BaseComponent implements Personalization
 {
     use SanitizePropertyValue;
 
@@ -39,7 +39,7 @@ class DatePicker extends BaseComponent implements Personalization
 
     public function blade(): View
     {
-        return view('tallstack-ui::components.form.datepicker');
+        return view('tallstack-ui::components.form.date');
     }
 
     final public function dates(): array
@@ -100,6 +100,13 @@ class DatePicker extends BaseComponent implements Personalization
             ],
             'range' => 'bg-dark-200 dark:bg-dark-600',
         ]);
+    }
+
+    final public function validating(array|string $value): void
+    {
+        if (($this->range || $this->multiple) && ! is_array($value)) {
+            throw new InvalidArgumentException('The [date] value must be an array when using the [range] or [multiple].');
+        }
     }
 
     protected function validate(): void

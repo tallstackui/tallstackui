@@ -24,7 +24,7 @@ use TallStackUi\View\Components\Errors;
 use TallStackUi\View\Components\Floating;
 use TallStackUi\View\Components\Form\Checkbox;
 use TallStackUi\View\Components\Form\Color;
-use TallStackUi\View\Components\Form\DatePicker;
+use TallStackUi\View\Components\Form\Date;
 use TallStackUi\View\Components\Form\Error;
 use TallStackUi\View\Components\Form\Hint;
 use TallStackUi\View\Components\Form\Input;
@@ -36,7 +36,7 @@ use TallStackUi\View\Components\Form\Radio;
 use TallStackUi\View\Components\Form\Range;
 use TallStackUi\View\Components\Form\Tag;
 use TallStackUi\View\Components\Form\Textarea;
-use TallStackUi\View\Components\Form\TimePicker;
+use TallStackUi\View\Components\Form\Time;
 use TallStackUi\View\Components\Form\Toggle;
 use TallStackUi\View\Components\Form\Upload;
 use TallStackUi\View\Components\Interaction\Dialog;
@@ -173,7 +173,7 @@ class Personalization
         $class = match ($component) {
             'checkbox' => Checkbox::class,
             'color' => Color::class,
-            'datepicker' => DatePicker::class,
+            'date' => Date::class,
             'error' => Error::class,
             'hint' => Hint::class,
             'input' => Input::class,
@@ -186,7 +186,7 @@ class Personalization
             'radio' => Radio::class,
             'tag' => Tag::class,
             'textarea' => Textarea::class,
-            'timepicker' => TimePicker::class,
+            'time' => Time::class,
             'toggle' => Toggle::class,
             default => $component,
         };

@@ -6,7 +6,7 @@ use Livewire\Component;
 use Livewire\Livewire;
 use Tests\Browser\BrowserTestCase;
 
-class DatePickerTest extends BrowserTestCase
+class DateTest extends BrowserTestCase
 {
     /** @test */
     public function can_advance_to_next_month(): void
@@ -21,8 +21,8 @@ class DatePickerTest extends BrowserTestCase
                 <div>
                     <p dusk="date">{{ $date }}</p>
                     
-                    <x-datepicker label="DatePicker"
-                                  wire:model.live="date" />
+                    <x-date label="DatePicker"
+                            wire:model.live="date" />
                 </div>
                 HTML;
             }
@@ -48,8 +48,8 @@ class DatePickerTest extends BrowserTestCase
                 <div>
                     <p dusk="date">{{ $date }}</p>
                     
-                    <x-datepicker label="DatePicker"
-                                  wire:model.live="date" />
+                    <x-date label="DatePicker"
+                            wire:model.live="date" />
                 </div>
                 HTML;
             }
@@ -84,9 +84,9 @@ class DatePickerTest extends BrowserTestCase
                         <p dusk="selected">{{ $selected }}</p>
                     @endif
                     
-                    <x-datepicker label="DatePicker"
-                                  x-on:select="$wire.set('selected', 1)"
-                                  wire:model.live="date" />
+                    <x-date label="DatePicker"
+                            x-on:select="$wire.set('selected', 1)"
+                            wire:model.live="date" />
                 </div>
                 HTML;
             }
@@ -121,9 +121,9 @@ class DatePickerTest extends BrowserTestCase
                         <p dusk="clear">{{ $clear }}</p>
                     @endif
                     
-                    <x-datepicker label="DatePicker"
-                                  x-on:select="$wire.set('clear', 1)"
-                                  wire:model.live="date" />
+                    <x-date label="DatePicker"
+                            x-on:select="$wire.set('clear', 1)"
+                            wire:model.live="date" />
                 </div>
                 HTML;
             }
@@ -149,8 +149,8 @@ class DatePickerTest extends BrowserTestCase
                 <div>
                     <p dusk="date">{{ $date }}</p>
                     
-                    <x-datepicker label="DatePicker"
-                                  wire:model.live="date" />
+                    <x-date label="DatePicker"
+                            wire:model.live="date" />
                 </div>
                 HTML;
             }
@@ -178,8 +178,8 @@ class DatePickerTest extends BrowserTestCase
                 <div>
                     <p dusk="date">{{ $date }}</p>
                     
-                    <x-datepicker label="DatePicker"
-                                  wire:model.live="date" />
+                    <x-date label="DatePicker"
+                            wire:model.live="date" />
                 </div>
                 HTML;
             }
@@ -208,8 +208,8 @@ class DatePickerTest extends BrowserTestCase
                 <div>
                     <p dusk="date">{{ $date }}</p>
                     
-                    <x-datepicker label="DatePicker"
-                                  wire:model.live="date" />
+                    <x-date label="DatePicker"
+                            wire:model.live="date" />
                 </div>
                 HTML;
             }
@@ -235,8 +235,8 @@ class DatePickerTest extends BrowserTestCase
                 <div>
                     <p dusk="date">{{ $date }}</p>
                     
-                    <x-datepicker label="DatePicker"
-                                  wire:model.live="date" />
+                    <x-date label="DatePicker"
+                            wire:model.live="date" />
                 </div>
                 HTML;
             }
@@ -263,9 +263,9 @@ class DatePickerTest extends BrowserTestCase
                 <div>
                     <p dusk="date">@json($date)</p>
                     
-                    <x-datepicker label="DatePicker"
-                                  wire:model.live="date" 
-                                  multiple />
+                    <x-date label="DatePicker"
+                            wire:model.live="date" 
+                            multiple />
                 </div>
                 HTML;
             }
@@ -295,9 +295,9 @@ class DatePickerTest extends BrowserTestCase
                 <div>
                     <p dusk="date">@json($date)</p>
                     
-                    <x-datepicker label="DatePicker"
-                                  wire:model.live="date" 
-                                  range />
+                    <x-date label="DatePicker"
+                            wire:model.live="date" 
+                            range />
                 </div>
                 HTML;
             }
@@ -325,8 +325,8 @@ class DatePickerTest extends BrowserTestCase
                 <div>
                     <p dusk="date">{{ $date }}</p>
                     
-                    <x-datepicker label="DatePicker"
-                                  wire:model.live="date" />
+                    <x-date label="DatePicker"
+                            wire:model.live="date" />
                 </div>
                 HTML;
             }
@@ -358,9 +358,9 @@ class DatePickerTest extends BrowserTestCase
                 <div>
                     <p dusk="date">{{ $date }}</p>
                     
-                    <x-datepicker label="DatePicker"
-                                  helpers
-                                  wire:model.live="date" />
+                    <x-date label="DatePicker"
+                            helpers
+                            wire:model.live="date" />
                 </div>
                 HTML;
             }
@@ -386,9 +386,9 @@ class DatePickerTest extends BrowserTestCase
                 <div>
                     <p dusk="date">{{ $date }}</p>
                     
-                    <x-datepicker label="DatePicker"
-                                  helpers
-                                  wire:model.live="date" />
+                    <x-date label="DatePicker"
+                            helpers
+                            wire:model.live="date" />
                 </div>
                 HTML;
             }
@@ -414,9 +414,9 @@ class DatePickerTest extends BrowserTestCase
                 <div>
                     <p dusk="date">{{ $date }}</p>
                     
-                    <x-datepicker label="DatePicker"
-                                  helpers
-                                  wire:model.live="date" />
+                    <x-date label="DatePicker"
+                            helpers
+                            wire:model.live="date" />
                 </div>
                 HTML;
             }
@@ -442,10 +442,10 @@ class DatePickerTest extends BrowserTestCase
                 <div>
                     <p dusk="date">@json($date)</p>
                     
-                    <x-datepicker label="DatePicker"
-                                  min-date="2024-01-01"
-                                  max-date="2020-01-01"
-                                  wire:model.live="date" />
+                    <x-date label="DatePicker"
+                            min-date="2024-01-01"
+                            max-date="2020-01-01"
+                            wire:model.live="date" />
                 </div>
                 HTML;
             }

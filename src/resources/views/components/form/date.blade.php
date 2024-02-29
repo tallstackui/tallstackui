@@ -2,13 +2,14 @@
     [$property, $error, $id, $entangle] = $bind($attributes, $errors ?? null, $livewire);
     $personalize = $classes();
     $value = $sanitize($attributes, $property, $livewire);
+    $validating(rescue(fn () => data_get($this, $property), $value, false));
 @endphp
 
 @if (!$livewire && $property)
     <input hidden id="{{ $id }}" name="{{ $property }}">
 @endif
 
-<div x-data="tallstackui_datepicker(
+<div x-data="tallstackui_formDate(
      {!! $entangle !!},
      @js($range),
      @js($multiple),
@@ -19,7 +20,6 @@
      @js($property),
      @js($value),
      @js(__('tallstack-ui::messages.datepicker.calendar')))"
-     {{ $attributes->only('x-on:select') }}
      x-cloak
      x-on:click.outside="picker.common = false">
     <x-dynamic-component :component="TallStackUi::component('input')"
@@ -175,6 +175,7 @@
                             '{{ $personalize['range'] }}': between(day.instance) === true,
                          }">
                         <button x-text="day.day"
+                                {{ $attributes->only('x-on:select') }}
                                 x-on:click="select($event, day.day);"
                                 x-bind:disabled="day.disabled"
                                 x-bind:class="{

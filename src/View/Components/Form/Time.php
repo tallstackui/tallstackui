@@ -9,8 +9,8 @@ use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\View\Components\BaseComponent;
 
-#[SoftPersonalization('form.timepicker')]
-class TimePicker extends BaseComponent implements Personalization
+#[SoftPersonalization('form.time')]
+class Time extends BaseComponent implements Personalization
 {
     public function __construct(
         public ?string $label = null,
@@ -27,7 +27,7 @@ class TimePicker extends BaseComponent implements Personalization
 
     public function blade(): View
     {
-        return view('tallstack-ui::components.form.timepicker');
+        return view('tallstack-ui::components.form.time');
     }
 
     public function personalization(): array

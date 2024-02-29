@@ -6,7 +6,7 @@ use Livewire\Component;
 use Livewire\Livewire;
 use Tests\Browser\BrowserTestCase;
 
-class TimePickerTest extends BrowserTestCase
+class TimeTest extends BrowserTestCase
 {
     /** @test */
     public function can_change_interval()
