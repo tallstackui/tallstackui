@@ -5,7 +5,6 @@ namespace TallStackUi\View\Components\Form;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\ComponentSlot;
-use InvalidArgumentException;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
@@ -51,14 +50,5 @@ class Radio extends BaseComponent implements Personalization
             ],
             'error' => 'border-red-300 text-red-600 focus:border-red-400 focus:ring-red-600',
         ]);
-    }
-
-    protected function validate(): void
-    {
-        $positions = ['right', 'left'];
-
-        if (! in_array($this->position, $positions)) {
-            throw new InvalidArgumentException('The radio label [position] must be one of the following: ['.implode(', ', $positions).']');
-        }
     }
 }

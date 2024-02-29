@@ -51,6 +51,7 @@ class Slide extends BaseComponent implements Personalization
         ]);
     }
 
+    /** @throws InvalidArgumentException */
     protected function validate(): void
     {
         if (is_string($this->wire) && $this->wire === '') {

@@ -2,9 +2,9 @@
 
 namespace TallStackUi\View\Components\Interaction;
 
-use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
+use InvalidArgumentException;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\View\Components\BaseComponent;
@@ -59,6 +59,7 @@ class Toast extends BaseComponent implements Personalization
         ]);
     }
 
+    /** @throws InvalidArgumentException */
     protected function validate(): void
     {
         $configuration = collect(config('tallstackui.settings.toast'));
@@ -66,23 +67,23 @@ class Toast extends BaseComponent implements Personalization
         $messages = __('tallstack-ui::messages.toast.button');
 
         if (! in_array($configuration->get('position', 'top-right'), $positions)) {
-            throw new Exception('The toast position must be one of the following: ['.implode(', ', $positions).']');
+            throw new InvalidArgumentException('The toast position must be one of the following: ['.implode(', ', $positions).']');
         }
 
         if (! str($configuration->get('z-index', 'z-50'))->startsWith('z-')) {
-            throw new Exception('The toast z-index must start with z- prefix');
+            throw new InvalidArgumentException('The toast z-index must start with z- prefix');
         }
 
         if (blank($messages['ok'] ?? null)) {
-            throw new Exception('The toast [ok] message cannot be empty.');
+            throw new InvalidArgumentException('The toast [ok] message cannot be empty.');
         }
 
         if (blank($messages['confirm'] ?? null)) {
-            throw new Exception('The toast [confirm] message cannot be empty.');
+            throw new InvalidArgumentException('The toast [confirm] message cannot be empty.');
         }
 
         if (blank($messages['cancel'] ?? null)) {
-            throw new Exception('The toast [cancel] message cannot be empty.');
+            throw new InvalidArgumentException('The toast [cancel] message cannot be empty.');
         }
     }
 }

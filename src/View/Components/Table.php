@@ -2,13 +2,13 @@
 
 namespace TallStackUi\View\Components;
 
-use Exception;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Contracts\View\View;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\View\ComponentSlot;
+use InvalidArgumentException;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
@@ -110,34 +110,35 @@ class Table extends BaseComponent implements Personalization
         ]);
     }
 
-    public function sortable(Collection|array $header): bool
+    final public function sortable(Collection|array $header): bool
     {
         return filled($this->sort) && ($header['sortable'] ?? true);
     }
 
-    public function sorted(Collection|array $header): bool
+    final public function sorted(Collection|array $header): bool
     {
         return $this->sortable($header) && $this->sort['column'] === $header['index'];
     }
 
+    /** @throws InvalidArgumentException */
     protected function validate(): void
     {
         $messages = __('tallstack-ui::messages.table');
 
         if (blank($messages['empty'] ?? null)) {
-            throw new Exception('The table [empty] message cannot be empty.');
+            throw new InvalidArgumentException('The table [empty] message cannot be empty.');
         }
 
         if (blank($messages['quantity'] ?? null)) {
-            throw new Exception('The table [quantity] message cannot be empty.');
+            throw new InvalidArgumentException('The table [quantity] message cannot be empty.');
         }
 
         if (blank($messages['search'] ?? null)) {
-            throw new Exception('The table [search] message cannot be empty.');
+            throw new InvalidArgumentException('The table [search] message cannot be empty.');
         }
 
         if ($this->persistent && blank($this->id)) {
-            throw new Exception('The table [id] property is required when [persistent] is set.');
+            throw new InvalidArgumentException('The table [id] property is required when [persistent] is set.');
         }
     }
 }

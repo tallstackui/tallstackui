@@ -44,6 +44,7 @@ class Native extends BaseComponent implements Personalization
         ]);
     }
 
+    /** @throws InvalidArgumentException */
     protected function validate(): void
     {
         if (is_array($this->options[0]) && ! $this->select) {

@@ -73,6 +73,7 @@ class Link extends BaseComponent implements Personalization
         ]);
     }
 
+    /** @throws InvalidArgumentException */
     protected function validate(): void
     {
         // The href is only mandatory when fragment

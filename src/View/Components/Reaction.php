@@ -2,10 +2,10 @@
 
 namespace TallStackUi\View\Components;
 
-use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\ComponentSlot;
+use InvalidArgumentException;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Exceptions\InvalidSelectedPositionException;
@@ -110,15 +110,15 @@ class Reaction extends BaseComponent implements Personalization
         ]);
     }
 
-    /** @throws Exception|InvalidSelectedPositionException */
+    /** @throws InvalidArgumentException|InvalidSelectedPositionException */
     protected function validate(): void
     {
         if (blank($this->reactMethod)) {
-            throw new Exception('The react [reactMethod] is required.');
+            throw new InvalidArgumentException('The react [reactMethod] is required.');
         }
 
         if (array_diff($this->only ?? [], array_keys(self::ICONS)) !== []) {
-            throw new Exception('The react [only] icons is invalid. Supported: '.implode(', ', array_keys(self::ICONS)));
+            throw new InvalidArgumentException('The react [only] icons is invalid. Supported: '.implode(', ', array_keys(self::ICONS)));
         }
 
         InvalidSelectedPositionException::validate(static::class, $this->position);

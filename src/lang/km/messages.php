@@ -69,7 +69,7 @@ return [
         ],
     ],
 
-    'datepicker' => [
+    'date' => [
         'calendar' => [
             'months' => [
                 'january' => 'មករា',
@@ -102,7 +102,7 @@ return [
         ],
     ],
 
-    'timepicker' => [
+    'time' => [
         'helper' => 'ម៉ោងបច្ចុប្បន្ន',
     ],
 

@@ -59,34 +59,6 @@ class Banner extends BaseComponent implements Personalization
         ]);
     }
 
-    protected function setup(): void
-    {
-        // If the banner is wire, we don't need to set up anything else
-        // Because the banner will be displayed through the Livewire events
-        if ($this->wire) {
-            return;
-        }
-
-        if ($this->text instanceof Collection) {
-            $this->text = $this->text->values()
-                ->toArray();
-        }
-
-        if (is_array($this->text)) {
-            $this->text = $this->text[array_rand($this->text)];
-        }
-
-        if (is_null($this->until)) {
-            return;
-        }
-
-        if (today()->lessThanOrEqualTo(Carbon::parse($this->until))) {
-            return;
-        }
-
-        $this->show = false;
-    }
-
     protected function validate(): void
     {
         $sizes = ['sm', 'md', 'lg'];
@@ -122,5 +94,33 @@ class Banner extends BaseComponent implements Personalization
         if (blank($until)) {
             throw new InvalidArgumentException('The banner [until] attribute must be a Carbon instance or a valid date string.');
         }
+    }
+
+    private function setup(): void
+    {
+        // If the banner is wire, we don't need to set up anything else
+        // Because the banner will be displayed through the Livewire events
+        if ($this->wire) {
+            return;
+        }
+
+        if ($this->text instanceof Collection) {
+            $this->text = $this->text->values()
+                ->toArray();
+        }
+
+        if (is_array($this->text)) {
+            $this->text = $this->text[array_rand($this->text)];
+        }
+
+        if (is_null($this->until)) {
+            return;
+        }
+
+        if (today()->lessThanOrEqualTo(Carbon::parse($this->until))) {
+            return;
+        }
+
+        $this->show = false;
     }
 }

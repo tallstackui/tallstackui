@@ -66,11 +66,13 @@ class Errors extends BaseComponent implements Personalization
         ]);
     }
 
+    /** @throws InvalidArgumentException */
     public function validate(): void
     {
-        if (blank($this->title)) {
-            throw new InvalidArgumentException('The errors [title] cannot be empty');
+        if (filled($this->title)) {
+            return;
         }
 
+        throw new InvalidArgumentException('The errors [title] cannot be empty');
     }
 }

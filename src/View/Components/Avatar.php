@@ -81,6 +81,7 @@ class Avatar extends BaseComponent implements Personalization
         ]);
     }
 
+    /** @throws InvalidArgumentException */
     protected function validate(): void
     {
         if (! $this->model && ! $this->text) {

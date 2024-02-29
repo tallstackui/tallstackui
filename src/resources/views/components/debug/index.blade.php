@@ -1,6 +1,6 @@
 @props(['code' => null])
 
-<div x-data>
+<div>
     {!! $slot !!}
     @if ($code)
         <x-dynamic-component component="tallstack-ui::icon.generic.code-bracket-square"

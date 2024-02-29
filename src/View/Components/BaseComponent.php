@@ -77,12 +77,12 @@ abstract class BaseComponent extends Component
 
         // We merge scope with soft personalization
         // changes, but we prioritize scope changes.
-        $personalizations = empty($scope) ? $soft : Arr::only(array_merge($soft, $scope), array_keys($scope));
+        $merged = empty($scope) ? $soft : Arr::only(array_merge($soft, $scope), array_keys($scope));
 
         // Here we do a second merge, now with the original classes and
         // the result of the previous operation that will use scoped
         // prioritization and soft personalization definitions.
-        return Arr::only(array_merge($personalization, $personalizations), array_keys($personalization));
+        return Arr::only(array_merge($personalization, $merged), array_keys($personalization));
     }
 
     public function render(): Closure
@@ -114,23 +114,33 @@ abstract class BaseComponent extends Component
 
     private function output(View $view, array $data): View|string
     {
-        // When testing, we always display without debug mode.
         if (app()->runningUnitTests()) {
             return $view;
         }
 
-        $config = collect(config('tallstackui.debug'));
+        $config = collect(config('tallstackui'));
+        $debug = collect($config->get('debug', []));
 
-        if (! $config->get('status', false) ||
-            ! ($environment = $config->get('environments', [])) ||
+        $ignores = collect(array_merge($debug->get('ignore', []), ['floating']))
+            ->map(function (string $component) use ($config) {
+                $prefix = $config->get('prefix', '');
+
+                if (blank($prefix) || str_starts_with($component, $prefix)) {
+                    return $component;
+                }
+
+                return $prefix.$component;
+            })
+            ->toArray();
+
+        if (! $debug->get('status', false) ||
+            ! ($environment = $debug->get('environments', [])) ||
             ! in_array(app()->environment(), $environment) ||
-            in_array($this->componentName, $config->get('ignore', []))
+            in_array($this->componentName, $ignores)
         ) {
             return $view;
         }
 
-        // We need to start the debug mode filtering all
-        // properties that should be skipped from debug mode.
         $data = collect($data)->filter(function (mixed $value, string $key) {
             $reflection = new ReflectionClass($this);
 
