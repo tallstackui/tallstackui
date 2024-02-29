@@ -153,7 +153,7 @@ export default (
 
     // We only make the request when rendering
     // the component if the model is defined.
-    if (this.model?.length > 0) {
+    if (this.model || this.model?.length > 0) {
       await this.makeRequest();
 
       this.hydrate();
