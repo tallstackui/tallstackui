@@ -85,7 +85,7 @@ class DateTest extends BrowserTestCase
                     @endif
                     
                     <x-date label="DatePicker"
-                            x-on:select="$wire.set('selected', 1)"
+                            x-on:clear="$wire.set('selected', 1)"
                             wire:model.live="date" />
                 </div>
                 HTML;
@@ -94,8 +94,7 @@ class DateTest extends BrowserTestCase
             ->waitForLivewireToLoad()
             ->waitForTextIn('@date', '2020-01-01')
             ->assertSeeIn('@date', '2020-01-01')
-            ->click('@tallstackui_datepicker_open_close')
-            ->clickAtXPath('/html/body/div[3]/div/div[1]/div/div/span/div/button[1]')
+            ->click('@tallstackui_datepicker_clear')
             ->waitForTextIn('@selected', '1')
             ->assertSeeIn('@selected', '1')
             ->assertVisible('@selected')
@@ -109,7 +108,7 @@ class DateTest extends BrowserTestCase
         {
             public ?string $date = '2020-01-01';
 
-            public ?bool $clear = null;
+            public ?bool $selected = null;
 
             public function render(): string
             {
@@ -117,12 +116,12 @@ class DateTest extends BrowserTestCase
                 <div>
                     <p dusk="date">{{ $date }}</p>
 
-                    @if ($clear)
-                        <p dusk="clear">{{ $clear }}</p>
+                    @if ($selected)
+                        <p dusk="selected">{{ $selected }}</p>
                     @endif
                     
                     <x-date label="DatePicker"
-                            x-on:select="$wire.set('clear', 1)"
+                            x-on:select="$wire.set('selected', 1)"
                             wire:model.live="date" />
                 </div>
                 HTML;
@@ -131,9 +130,11 @@ class DateTest extends BrowserTestCase
             ->waitForLivewireToLoad()
             ->waitForTextIn('@date', '2020-01-01')
             ->assertSeeIn('@date', '2020-01-01')
-            ->click('@tallstackui_datepicker_clear')
-            ->waitForTextIn('@clear', '1')
-            ->assertSeeIn('@clear', '1');
+            ->click('@tallstackui_datepicker_open_close')
+            ->waitForText('January')
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div[3]/div[5]/button')
+            ->waitForTextIn('@selected', '1')
+            ->assertSeeIn('@selected', '1');
     }
 
     /** @test */

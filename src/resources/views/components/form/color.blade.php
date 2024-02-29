@@ -39,7 +39,7 @@
                              </x-slot:prefix>
                              <x-slot:suffix>
                                 <div class="flex items-center gap-1">
-                                    <button type="button" x-on:click="show = !show">
+                                    <button type="button" x-on:click="show = !show" dusk="tallstackui_form_color_open_close">
                                         <x-dynamic-component :component="TallStackUi::component('icon')"
                                                                 :icon="TallStackUi::icon('swatch')"
                                                                 @class($personalize['icon.class']) />

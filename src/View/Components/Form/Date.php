@@ -102,9 +102,9 @@ class Date extends BaseComponent implements Personalization
         ]);
     }
 
-    final public function validating(array|string $value): void
+    final public function validating(array|string|null $value = null): void
     {
-        if (($this->range || $this->multiple) && ! is_array($value)) {
+        if (($this->range || $this->multiple) && is_string($value)) {
             throw new InvalidArgumentException('The [date] value must be an array when using the [range] or [multiple].');
         }
     }

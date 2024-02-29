@@ -134,6 +134,10 @@ export default (
   sync() {
     if (!this.model) return;
 
+    const type = multiple ? 'multiple' : (range ? 'range' : 'single');
+
+    this.$el.dispatchEvent(new CustomEvent('select', {detail: {type: type, date: this.model}}));
+
     if (multiple) {
       this.input = this.model
           .map((date) => this.formatted(date))
@@ -167,10 +171,6 @@ export default (
   select(event, day) {
     event.preventDefault();
 
-    const type = multiple ? 'multiple' : (range ? 'range' : 'single');
-
-    const dispatch = () => this.$el.dispatchEvent(new CustomEvent('select', {detail: {type: type, date: this.model}}));
-
     const date = this.instance(day);
     const formatted = date.format('YYYY-MM-DD');
 
@@ -182,8 +182,6 @@ export default (
               this.model.filter((day) => day !== formatted) :
               [...this.model, formatted] :
           [formatted];
-
-      dispatch();
 
       return this.sync();
     }
@@ -197,8 +195,6 @@ export default (
       this.model = [];
       this.picker.common = this.date.start !== null && this.date.end === null;
 
-      dispatch();
-
       return this.sync();
     }
 
@@ -207,8 +203,6 @@ export default (
     this.model = date.format('YYYY-MM-DD');
 
     this.sync();
-
-    dispatch();
   },
   /**
    * Map the days of the month.

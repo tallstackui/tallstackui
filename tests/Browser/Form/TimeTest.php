@@ -21,7 +21,7 @@ class TimeTest extends BrowserTestCase
                 <div>
                     <p dusk="time">{{ $time }}</p>
                     
-                    <x-timepicker label="Time"
+                    <x-time label="Time"
                                   wire:model.live="time" />
                 </div>
                 HTML;
@@ -56,7 +56,7 @@ class TimeTest extends BrowserTestCase
                         <p dusk="time">{{ $time }}</p>
                     @endif
                     
-                    <x-timepicker label="Time"
+                    <x-time label="Time"
                                   helper
                                   x-on:hour="$wire.set('time', $event.detail.hour)" />
                 </div>
@@ -86,7 +86,7 @@ class TimeTest extends BrowserTestCase
                         <p dusk="time">{{ $time }}</p>
                     @endif
                     
-                    <x-timepicker label="Time"
+                    <x-time label="Time"
                                   helper
                                   x-on:minute="$wire.set('time', $event.detail.minute)" />
                 </div>
@@ -112,11 +112,11 @@ class TimeTest extends BrowserTestCase
             {
                 return <<<'HTML'
                 <div>
-                    <x-timepicker label="Time">
+                    <x-time label="Time">
                         <x-slot:footer>
                             FooBarBaz
                         </x-slot:footer>
-                    </x-timepicker>
+                    </x-time>
                 </div>
                 HTML;
             }
@@ -142,7 +142,7 @@ class TimeTest extends BrowserTestCase
                         <p dusk="time">{{ $time }}</p>
                     @endif
                     
-                    <x-timepicker label="Time"
+                    <x-time label="Time"
                                   helper
                                   wire:model.live="time" />
                 </div>
@@ -170,7 +170,7 @@ class TimeTest extends BrowserTestCase
                 <div>
                     <p dusk="time">{{ $time }}</p>
                     
-                    <x-timepicker label="Time" wire:model.live="time" />
+                    <x-time label="Time" wire:model.live="time" />
                 </div>
                 HTML;
             }
@@ -196,7 +196,7 @@ class TimeTest extends BrowserTestCase
                 <div>
                     <p dusk="time">{{ $time }}</p>
                     
-                    <x-timepicker label="Time" wire:model.live="time" />
+                    <x-time label="Time" wire:model.live="time" />
                 </div>
                 HTML;
             }
