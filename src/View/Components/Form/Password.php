@@ -52,7 +52,7 @@ class Password extends BaseComponent implements Personalization
                 'class' => 'dark:text-dark-400 h-5 w-5 cursor-pointer text-gray-500',
             ],
             'rules' => [
-                'wrapper' => 'my-2 rounded-lg border border-gray-300 bg-white p-4 dark:bg-dark-700 dark:border-dark-600',
+                'wrapper' => 'dark:bg-dark-700 dark:border-dark-600 absolute z-50 rounded-lg border border-gray-300 bg-white p-4',
                 'title' => 'text-lg font-semibold text-red-500 dark:text-dark-300',
                 'block' => 'mt-2 flex flex-col',
                 'items' => [

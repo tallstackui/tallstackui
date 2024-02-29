@@ -22,6 +22,16 @@ trait SetupRadioCheckboxToggle
 
     private function setup(): void
     {
-        $this->size = $this->xs ? 'xs' : ($this->sm ? 'sm' : ($this->lg ? 'lg' : 'md'));
+        $this->position = match ($this->position) {
+            'left' => 'left',
+            default => 'right',
+        };
+
+        $this->size = match ($this->size) {
+            'xs' => 'xs',
+            'sm' => 'sm',
+            'lg' => 'lg',
+            default => 'md',
+        };
     }
 }

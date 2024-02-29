@@ -5,7 +5,6 @@ namespace TallStackUi\View\Components\Form;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\ComponentSlot;
-use InvalidArgumentException;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
@@ -61,16 +60,5 @@ class Toggle extends BaseComponent implements Personalization
             ],
             'error' => 'bg-red-600 group-focus:ring-red-600 peer-checked:bg-red-600 peer-focus:ring-red-600',
         ]);
-    }
-
-    /** @throws InvalidArgumentException */
-    protected function validate(): void
-    {
-        //TODO move to trait
-        $positions = ['right', 'left'];
-
-        if (! in_array($this->position, $positions)) {
-            throw new InvalidArgumentException('The toggle label [position] must be one of the following: ['.implode(', ', $positions).']');
-        }
     }
 }
