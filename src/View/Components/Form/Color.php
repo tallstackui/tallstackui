@@ -44,8 +44,8 @@ class Color extends BaseComponent implements Personalization
                 'class' => 'mr-2 h-5 w-5',
             ],
             'box' => [
-                'wrapper' => 'dark:border-dark-600 absolute top-full z-50 mt-2 overflow-hidden rounded-md border border-gray-200 shadow-lg',
-                'base' => 'shadow-xs dark:bg-dark-800 soft-scrollbar max-h-60 overflow-auto rounded-md bg-white p-2',
+                'wrapper' => 'dark:border-dark-600 absolute top-full z-50 mt-2 overflow-hidden rounded-md border border-gray-200',
+                'base' => 'shadow-xs dark:bg-dark-800 soft-scrollbar max-h-60 overflow-auto rounded-md bg-white py-4',
                 'range' => [
                     'base' => 'mb-4 h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 dark:bg-gray-700',
                     'thumb' => '[&::-webkit-slider-thumb]:bg-primary-500 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full',

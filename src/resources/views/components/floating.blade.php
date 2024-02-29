@@ -2,6 +2,7 @@
 
 <div x-show="{{ $attributes->get('x-show', 'show') }}" x-cloak
      {{ $anchor() }}="{{ $attributes->get('x-anchor', '$refs.anchor') }}"
+     {{ $attributes->whereStartsWith('x-on') }}
      @if (method_exists($attributes, 'isEmpty') && count($attributes->whereStartsWith('x-transition')->getAttributes()) === 0)
          x-transition:enter="transition duration-100 ease-out"
          x-transition:enter-start="opacity-0 -translate-y-2"

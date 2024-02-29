@@ -57,7 +57,7 @@
                                      :wrapper="$personalize['rules.wrapper']"
                                      size="w-full"
                                      x-show="rules"
-                                     offset="3"
+                                     offset="2"
                                      x-anchor="$refs.input">
                     <h3 @class($personalize['rules.title'])>{{ __('tallstack-ui::messages.password.rules.title') }}</h3>
                     <div @class($personalize['rules.block'])>
