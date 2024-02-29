@@ -330,6 +330,11 @@ export default (model, mode, colors, livewire, property, value) => ({
 
     this.sync();
   },
+  /**
+   * Sync the value with the input field.
+   *
+   * @returns {void}
+   */
   sync() {
     if (this.livewire) return;
 
@@ -337,17 +342,23 @@ export default (model, mode, colors, livewire, property, value) => ({
 
     if (!input) return;
 
-    input.value = this.model === '#' ? '' : this.model;
+    input.value = !this.model ? '' : this.model;
   },
   /**
-   * @param value {String}
+   * Hashing the color value with #.
+   *
+   * @param {String} value
    * @returns {String}
    */
   hashing(value) {
+    if (!value) return;
+
     return value[0] === '#' ? value : `#${value}`;
   },
   /**
-   * @param color {String}
+   * Set the color value.
+   *
+   * @param {String} color
    */
   set(color) {
     this.show = false;
@@ -366,6 +377,8 @@ export default (model, mode, colors, livewire, property, value) => ({
         .filter((color) => color.match(/^#(?:[0-9a-fA-F]{3}){1,2}$/));
   },
   /**
+   * Generate a range of colors.
+   *
    * @param index {Number}
    * @returns {*[]}
    */
@@ -375,6 +388,8 @@ export default (model, mode, colors, livewire, property, value) => ({
         .map(([key, value]) => value[Object.keys(value)[index - 1]]);
   },
   /**
+   * Check the color contrast.
+   *
    * @param color {String}
    * @returns {boolean}
    */

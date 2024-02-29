@@ -63,10 +63,6 @@ class Date extends BaseComponent implements Personalization
                 'helpers' => 'custom-scrollbar mt-4 flex items-center justify-between space-x-2 overflow-auto pb-2',
             ],
             'box' => [
-                'wrapper' => [
-                    'first' => 'dark:bg-dark-700 border-dark-200 dark:border-dark-600 absolute z-10 w-[17rem] max-w-lg rounded-lg border bg-white p-4 antialiased shadow',
-                    'second' => 'mb-4 flex items-center justify-between',
-                ],
                 'picker' => [
                     'button' => 'text-gray-900 focus:ring-dark-200 flex items-center justify-between rounded-lg px-2 py-1 mb-6 text-sm font-semibold focus:outline-none focus:ring-2 dark:text-white',
                     'wrapper' => [

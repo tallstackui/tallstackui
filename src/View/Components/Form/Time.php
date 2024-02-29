@@ -41,7 +41,7 @@ class Time extends BaseComponent implements Personalization
                 'wrapper' => 'divide-primary-200 dark:divide-dark-500 m-2 flex h-14 flex-col justify-between divide-y',
                 'input' => 'peer hidden',
                 'size' => 'w-12',
-                'color' => 'peer-checked:bg-primary-50 peer-checked:border-primary-200 peer-checked:text-primary-600 dark:peer-checked:text-dark-100 peer-checked:dark:bg-dark-700 peer-checked:dark:border-dark-500 dark:border-dark-600 dark:hover:text-dark-300 inline-flex w-full cursor-pointer items-center justify-between border border-gray-300 bg-white p-1 text-gray-500 hover:bg-gray-100 hover:text-gray-600 peer-checked:font-bold dark:bg-dark-700 dark:text-dark-400 dark:hover:bg-dark-700',
+                'color' => 'peer-checked:bg-primary-50 peer-checked:border-primary-200 peer-checked:text-primary-600 dark:peer-checked:text-dark-100 peer-checked:dark:bg-dark-600 peer-checked:dark:border-dark-500 dark:border-dark-600 dark:hover:text-dark-300 inline-flex w-full cursor-pointer items-center justify-between border border-gray-300 bg-white p-1 text-gray-500 hover:bg-gray-100 hover:text-gray-600 peer-checked:font-bold dark:bg-dark-700 dark:text-dark-400 dark:hover:bg-dark-700',
                 'am' => [
                     'label' => 'rounded-t-lg border-b-0',
                     'title' => 'w-full text-center text-sm',
