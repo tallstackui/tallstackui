@@ -12,9 +12,9 @@
                 <span @class($personalize['action.text'])>{{ $text }}</span>
                 <button type="button" x-on:click="show = !show" dusk="open-dropdown">
                     <x-dynamic-component :component="TallStackUi::component('icon')"
-                                        icon="chevron-down"
-                                        @class($personalize['action.icon'])
-                                        x-bind:class="{ 'transform rotate-180': animate && show }"/>
+                                         :icon="TallStackUi::icon('chevron-down')"
+                                         @class($personalize['action.icon'])
+                                         x-bind:class="{ 'transform rotate-180': animate && show }"/>
                 </button>
             </div>
         @elseif ($icon)

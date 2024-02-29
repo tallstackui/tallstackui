@@ -21,5 +21,5 @@ return RectorConfig::configure()
     ])
     ->withSkip([
         __DIR__.'/src/routes.php',
-        __DIR__.'/src/resources/views/components/icon/*.php',
+        __DIR__.'/src/resources/views/*',
     ]);

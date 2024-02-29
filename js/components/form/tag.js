@@ -15,7 +15,8 @@ export default (
   tag: '',
   init() {
     if (!this.livewire) {
-      this.model = this.value;
+      this.model = typeof this.value === 'string' ? [this.value] : this.value;
+
       this.$nextTick(() => this.input = this.model);
     }
 
@@ -101,19 +102,20 @@ export default (
   },
   /**
    * Set the input value when is not Livewire
-   * @param data {*}
+   * @param {*} value
    */
-  set input(data) {
+  set input(value) {
     if (this.livewire) return;
 
     const input = document.getElementsByName(this.property)[0];
 
     if (!input) return;
 
-    data = data?.filter((value) => value !== '');
+    value = value?.filter((value) => value !== '');
 
-    input.value = !data || data.length === 0 ?
+    input.value = !value || value.length === 0 ?
         '' :
-        (typeof data === 'string' && data.indexOf(',') !== - 1 || typeof data === 'object' ? JSON.stringify(data) : data);
+        // eslint-disable-next-line max-len
+        (typeof value === 'string' && value.indexOf(',') !== - 1 || typeof value === 'object' && value.length > 1 ? JSON.stringify(value) : value);
   },
 });

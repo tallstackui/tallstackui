@@ -68,4 +68,47 @@ return [
             ],
         ],
     ],
+
+    'datepicker' => [
+        'calendar' => [
+            'months' => [
+                'january' => 'Janeiro',
+                'february' => 'Fevereiro',
+                'march' => 'Março',
+                'april' => 'Abril',
+                'may' => 'Maio',
+                'june' => 'Junho',
+                'july' => 'Julho',
+                'august' => 'Agosto',
+                'september' => 'Setembro',
+                'october' => 'Outubro',
+                'november' => 'Novembro',
+                'december' => 'Dezembro',
+            ],
+            'week' => [
+                'sunday' => 'Domingo',
+                'monday' => 'Segunda-feira',
+                'tuesday' => 'Terça-feira',
+                'wednesday' => 'Quarta-feira',
+                'thursday' => 'Quinta-feira',
+                'friday' => 'Sexta-feira',
+                'saturday' => 'Sábado',
+            ],
+        ],
+        'helpers' => [
+            'yesterday' => 'Ontem',
+            'today' => 'Hoje',
+            'tomorrow' => 'Amanhã',
+        ],
+    ],
+
+    'timepicker' => [
+        'helper' => 'Hora Atual',
+    ],
+
+    'step' => [
+        'next' => 'Seguinte',
+        'previous' => 'Anterior',
+        'finish' => 'Finalizar',
+    ],
 ];

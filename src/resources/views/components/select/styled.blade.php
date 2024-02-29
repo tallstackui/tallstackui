@@ -67,9 +67,9 @@
                                     </div>
                                     @if (!$disabled)
                                         <div @class($personalize['itens.multiple.icon'])>
-                                            <button type="button" x-on:click="clear(select)">
+                                            <button type="button" x-on:click="$event.stopPropagation(); clear(select)">
                                                 <x-dynamic-component :component="TallStackUi::component('icon')"
-                                                                     icon="x-mark"
+                                                                     :icon="TallStackUi::icon('x-mark')"
                                                                      @class($personalize['itens.multiple.icon']) />
                                             </button>
                                         </div>
@@ -86,28 +86,25 @@
                     <template x-if="!empty">
                         <button dusk="tallstackui_select_clear"
                                 type="button"
-                                x-on:click="clear(); show = true;">
+                                x-on:click="$event.stopPropagation(); clear();">
                             <x-dynamic-component :component="TallStackUi::component('icon')"
-                                                 icon="x-mark"
+                                                 :icon="TallStackUi::icon('x-mark')"
                                                  @class([$personalize['buttons.size'], $personalize['buttons.base'] => !$error, $personalize['buttons.error'] => $error]) />
                         </button>
                     </template>
                     @endif
                     <x-dynamic-component :component="TallStackUi::component('icon')"
-                                         icon="chevron-up-down"
+                                         :icon="TallStackUi::icon('chevron-up-down')"
                                          @class([$personalize['buttons.size'], $personalize['buttons.base'] => !$error, $personalize['buttons.error'] => $error]) />
                 </div>
             @endif
         </button>
-        <div x-show="show"
-             x-cloak
-             style="display: none;"
-             x-transition:enter="transition ease-out duration-75"
-             x-transition:enter-start="opacity-0 -translate-y-1"
-             x-transition:enter-end="opacity-100"
-             x-anchor.offset.5="$refs.button"
-             @class($personalize['box.wrapper'])
-             x-ref="select">
+        <x-dynamic-component :component="TallStackUi::component('floating')"
+                             {{--TODO: here--}}
+                             offset="8"
+                             :wrapper="$personalize['box.wrapper']"
+                             size="w-full"
+                             x-anchor="$refs.button">
             <template x-if="searchable">
                 <div class="relative my-2 px-2">
                     <x-dynamic-component :component="TallStackUi::component('input')"
@@ -121,15 +118,15 @@
                             x-on:click="search = ''; $refs.search.focus();"
                             x-show="search?.length > 0">
                         <x-dynamic-component :component="TallStackUi::component('icon')"
-                                             icon="x-mark"
-                                             @class($personalize['box.button.icon']) />
+                                             :icon="TallStackUi::icon('x-mark')"
+                                @class($personalize['box.button.icon']) />
                     </button>
                 </div>
             </template>
             <ul @class($personalize['box.list.wrapper']) dusk="tallstackui_select_options" role="listbox">
                 @if ($request)
                     <div x-show="loading" @class($personalize['box.list.loading.wrapper'])>
-                        <x-tallstack-ui::icon.others.loading @class($personalize['box.list.loading.class']) />
+                        <x-tallstack-ui::icon.generic.loading @class($personalize['box.list.loading.class']) />
                     </div>
                 @endif
                 <template x-for="(option, index) in available" :key="option[selectable.value] ?? option">
@@ -147,9 +144,9 @@
                             </div>
                             <div @class($personalize['box.list.item.check'])>
                                 <x-dynamic-component :component="TallStackUi::component('icon')"
-                                                     icon="check"
+                                                     :icon="TallStackUi::icon('check')"
                                                      x-show="selected(option)"
-                                                     @class($personalize['box.list.item.check']) />
+                                        @class($personalize['box.list.item.check']) />
                             </div>
                         </div>
                     </li>
@@ -168,7 +165,7 @@
                     </div>
                 @endif
             </ul>
-        </div>
+        </x-dynamic-component>
     </div>
     @if ($hint && !$error)
         <x-dynamic-component :component="TallStackUi::component('hint')" :$hint />

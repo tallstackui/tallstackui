@@ -6,6 +6,9 @@ module.exports = {
   content: [
     './src/**/*.php',
     './js/**/*.js',
+    // ignoring
+    '!./src/resources/views/components/icon/google/',
+    '!./src/resources/views/components/icon/phosphoricons/',
   ],
   darkMode: 'class',
   theme: {

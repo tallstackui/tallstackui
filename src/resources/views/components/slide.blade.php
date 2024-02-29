@@ -57,7 +57,7 @@
                                 @endif
                                 <button type="button" x-on:click="show = false">
                                     <x-dynamic-component :component="TallStackUi::component('icon')"
-                                                         icon="x-mark"
+                                                         :icon="TallStackUi::icon('x-mark')"
                                                          @class($personalize['title.close']) />
                                 </button>
                             </div>

@@ -317,6 +317,8 @@ export default (
           this.selects.map((selected) => selected[this.selectable.value]) :
           this.selects;
 
+      this.input = this.model;
+
       return;
     }
 
@@ -468,9 +470,9 @@ export default (
   },
   /**
    * Set the input value when is not Livewire
-   * @param data {*}
+   * @param {*} value
    */
-  set input(data) {
+  set input(value) {
     if (this.livewire) {
       return;
     }
@@ -483,9 +485,10 @@ export default (
 
     // If the value is null (undefined) we set the input as empty,
     // otherwise we stringify if is string with comma or an object
-    input.value = !data ?
+    input.value = !value ?
         '' :
-        (typeof data === 'string' && data.indexOf(',') !== - 1 || typeof data === 'object' ? JSON.stringify(data) : data);
+        // eslint-disable-next-line max-len
+        (typeof value === 'string' && value.indexOf(',') !== -1 || typeof value === 'object' && value.length > 1 ? JSON.stringify(value) : value);
   },
   /**
    * The `selects` quantity
@@ -518,7 +521,9 @@ export default (
     const search = this.normalize(this.search.toLowerCase());
 
     return available.filter((option) => {
-      const label = this.normalize(option[selectable.label].toString().toLowerCase());
+      const label = this.normalize(this.dimensional ?
+          option[selectable.label].toString().toLowerCase() :
+          option.toString().toLowerCase());
 
       const description = option.description ?
         this.normalize(option.description.toString().toLowerCase()) :

@@ -50,10 +50,7 @@ class Clipboard extends BaseComponent implements Personalization
                     'base' => 'dark:ring-dark-600 dark:text-dark-300 dark:bg-dark-700 relative inline-flex items-center gap-x-1.5 bg-white px-2 py-2 text-xs font-semibold uppercase text-gray-700 ring-1 ring-gray-300 transition',
                     'left' => '-mr-px rounded-l-md',
                     'right' => '-ml-px rounded-r-md',
-                    'icon' => [
-                        'name' => 'clipboard-document',
-                        'class' => 'text-primary-500 dark:text-dark-300 h-4 w-4 cursor-pointer',
-                    ],
+                    'icon.class' => 'text-primary-500 dark:text-dark-300 h-4 w-4 cursor-pointer',
                 ],
                 'class' => [
                     'base' => 'focus:ring-primary-600 dark:focus:ring-primary-600 block w-full rounded-none border-0 py-1.5 text-gray-900 ring-1 ring-gray-300 transition placeholder:text-gray-400 focus:ring-2 sm:text-sm sm:leading-6',

@@ -21,8 +21,10 @@ use TallStackUi\View\Components\Clipboard;
 use TallStackUi\View\Components\Dropdown\Dropdown;
 use TallStackUi\View\Components\Dropdown\Items as DropdownItems;
 use TallStackUi\View\Components\Errors;
+use TallStackUi\View\Components\Floating;
 use TallStackUi\View\Components\Form\Checkbox;
 use TallStackUi\View\Components\Form\Color;
+use TallStackUi\View\Components\Form\Date;
 use TallStackUi\View\Components\Form\Error;
 use TallStackUi\View\Components\Form\Hint;
 use TallStackUi\View\Components\Form\Input;
@@ -34,6 +36,7 @@ use TallStackUi\View\Components\Form\Radio;
 use TallStackUi\View\Components\Form\Range;
 use TallStackUi\View\Components\Form\Tag;
 use TallStackUi\View\Components\Form\Textarea;
+use TallStackUi\View\Components\Form\Time;
 use TallStackUi\View\Components\Form\Toggle;
 use TallStackUi\View\Components\Form\Upload;
 use TallStackUi\View\Components\Interaction\Dialog;
@@ -45,9 +48,11 @@ use TallStackUi\View\Components\Reaction;
 use TallStackUi\View\Components\Select\Native as SelectNative;
 use TallStackUi\View\Components\Select\Styled as SelectStyled;
 use TallStackUi\View\Components\Slide;
-use TallStackUi\View\Components\Tab\Items as TabItems;
+use TallStackUi\View\Components\Stats;
+use TallStackUi\View\Components\Step\Step;
 use TallStackUi\View\Components\Tab\Tab;
 use TallStackUi\View\Components\Table;
+use TallStackUi\View\Components\ThemeSwitch;
 use TallStackUi\View\Components\Tooltip;
 use TallStackUi\View\Components\Wrapper\Input as InputWrapper;
 use TallStackUi\View\Components\Wrapper\Radio as RadioWrapper;
@@ -156,6 +161,11 @@ class Personalization
         return app($this->component(Errors::class));
     }
 
+    public function floating(): PersonalizationResources
+    {
+        return app($this->component(Floating::class));
+    }
+
     public function form(?string $component = null): PersonalizationResources
     {
         $component ??= 'input';
@@ -163,18 +173,20 @@ class Personalization
         $class = match ($component) {
             'checkbox' => Checkbox::class,
             'color' => Color::class,
+            'date' => Date::class,
             'error' => Error::class,
-            'upload' => Upload::class,
             'hint' => Hint::class,
             'input' => Input::class,
             'label' => Label::class,
             'number' => Number::class,
-            'range' => Range::class,
+            'upload' => Upload::class,
             'password' => Password::class,
             'pin' => Pin::class,
+            'range' => Range::class,
             'radio' => Radio::class,
             'tag' => Tag::class,
             'textarea' => Textarea::class,
+            'time' => Time::class,
             'toggle' => Toggle::class,
             default => $component,
         };
@@ -241,22 +253,29 @@ class Personalization
         return app($this->component(Slide::class));
     }
 
-    public function tab(?string $component = null): PersonalizationResources
+    public function stats(): PersonalizationResources
     {
-        $component ??= 'tabs';
+        return app($this->component(Stats::class));
+    }
 
-        $class = match ($component) {
-            'tabs' => Tab::class,
-            'items' => TabItems::class,
-            default => $component,
-        };
+    public function step(): PersonalizationResources
+    {
+        return app($this->component(Step::class));
+    }
 
-        return app($this->component($class));
+    public function tab(): PersonalizationResources
+    {
+        return app($this->component(Tab::class));
     }
 
     public function table(): PersonalizationResources
     {
         return app($this->component(Table::class));
+    }
+
+    public function themeSwitch(): PersonalizationResources
+    {
+        return app($this->component(ThemeSwitch::class));
     }
 
     public function toast(): PersonalizationResources

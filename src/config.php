@@ -51,9 +51,39 @@ return [
     | Icon Style
     |--------------------------------------------------------------------------
     |
-    | Control the default icon style (Allowed: solid, outline)
+    | MAKE SURE TO READ THE DOCS BEFORE CHANGE THIS CONFIGURATION HERE.
     */
-    'icon' => 'solid',
+    'icons' => [
+        /*
+        |----------------------------------
+        | Default and in-use icon type.
+        |----------------------------------
+        | Allowed: heroicons, phosphoricons, google.
+        */
+        'type' => 'heroicons',
+
+        /*
+        |----------------------------------
+        | Default and in-use icon style.
+        |----------------------------------
+        | Allowed:
+        |
+        | Heroicons: solid, outline
+        | Phosphoricons: thin, light, regular, bold, duotone
+        | Google: default
+        */
+        'style' => 'solid',
+
+        /*
+        |----------------------------------
+        | Flush unused icons pack.
+        |----------------------------------
+        |
+        | To avoid the accumulation of unused files, the icon packs that are
+        | not in use can be deleted automatically when new icons are set.
+        */
+        'flush' => true,
+    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -164,11 +194,13 @@ return [
         'checkbox' => Components\Form\Checkbox::class,
         'color' => Components\Form\Color::class,
         'clipboard' => Components\Clipboard::class,
+        'date' => Components\Form\Date::class,
         'dialog' => Components\Interaction\Dialog::class,
         'dropdown' => Components\Dropdown\Dropdown::class,
         'dropdown.items' => Components\Dropdown\Items::class,
         'error' => Components\Form\Error::class,
         'errors' => Components\Errors::class,
+        'floating' => Components\Floating::class,
         'upload' => Components\Form\Upload::class,
         'hint' => Components\Form\Hint::class,
         'icon' => Components\Icon::class,
@@ -185,11 +217,16 @@ return [
         'select.native' => Components\Select\Native::class,
         'select.styled' => Components\Select\Styled::class,
         'slide' => Components\Slide::class,
+        'stats' => Components\Stats::class,
+        'step' => Components\Step\Step::class,
+        'step.items' => Components\Step\Items::class,
         'tab' => Components\Tab\Tab::class,
         'tag' => Components\Form\Tag::class,
         'table' => Components\Table::class,
         'tab.items' => Components\Tab\Items::class,
         'textarea' => Components\Form\Textarea::class,
+        'theme-switch' => Components\ThemeSwitch::class,
+        'time' => Components\Form\Time::class,
         'toast' => Components\Interaction\Toast::class,
         'toggle' => Components\Form\Toggle::class,
         'tooltip' => Components\Tooltip::class,

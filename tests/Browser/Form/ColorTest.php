@@ -39,8 +39,8 @@ class ColorTest extends BrowserTestCase
             }
         })
             ->waitForText('Color')
-            ->click('@tallstackui_form_color')
-            ->clickAtXPath('/html/body/div[3]/div/div/div/div[4]/div/div/button[1]')
+            ->click('@tallstackui_form_color_open_close')
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div/div[2]/button[1]')
             ->click('@sync')
             ->waitForTextIn('@selected', '#f8fafc')
             ->assertVisible('@set');
@@ -60,7 +60,6 @@ class ColorTest extends BrowserTestCase
                     <p dusk="selected">{{ $color }}</p>
                     
                     <x-color label="Color" wire:model.live="color" />
-                    <x-button dusk="sync" wire:click="sync">Save</x-button>
                 </div>
                 HTML;
             }
@@ -71,10 +70,10 @@ class ColorTest extends BrowserTestCase
             }
         })
             ->waitForText('Color')
-            ->click('@tallstackui_form_color')
-            ->clickAtXPath('/html/body/div[3]/div/div/div/div[4]/div/div/button[1]')
-            ->click('@sync')
-            ->waitForTextIn('@selected', '#64748b');
+            ->click('@tallstackui_form_color_open_close')
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div/div[2]/button[1]')
+            ->waitForTextIn('@selected', '#64748b')
+            ->assertSeeIn('@selected', '#64748b');
     }
 
     /** @test */
@@ -102,10 +101,11 @@ class ColorTest extends BrowserTestCase
             }
         })
             ->waitForText('Color')
-            ->click('@tallstackui_form_color')
-            ->clickAtXPath('/html/body/div[3]/div/div/div/div[4]/div/div/button[1]')
+            ->click('@tallstackui_form_color_open_close')
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div/div[2]/button[1]')
             ->click('@sync')
-            ->waitForTextIn('@selected', '#64748b');
+            ->waitForTextIn('@selected', '#64748b')
+            ->assertSeeIn('@selected', '#64748b');
     }
 
     /** @test */
@@ -136,18 +136,18 @@ class ColorTest extends BrowserTestCase
             }
         })
             ->waitForText('Color')
-            ->click('@tallstackui_form_color')
-            ->clickAtXPath('/html/body/div[3]/div/div/div/div[4]/div/div/button[1]')
+            ->click('@tallstackui_form_color_open_close')
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div/div[2]/button[1]')
             ->click('@sync')
             ->waitForTextIn('@selected', '#FF0000')
             ->assertSee('#FF0000')
-            ->click('@tallstackui_form_color')
-            ->clickAtXPath('/html/body/div[3]/div/div/div/div[4]/div/div/button[2]')
+            ->click('@tallstackui_form_color_open_close')
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div/div[2]/button[2]')
             ->click('@sync')
             ->waitForTextIn('@selected', '#FF5733')
             ->assertSee('#FF5733')
-            ->click('@tallstackui_form_color')
-            ->clickAtXPath('/html/body/div[3]/div/div/div/div[4]/div/div/button[3]')
+            ->click('@tallstackui_form_color_open_close')
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div/div[2]/button[3]')
             ->click('@sync')
             ->waitForTextIn('@selected', '#D7E021')
             ->assertSee('#D7E021');
@@ -178,10 +178,11 @@ class ColorTest extends BrowserTestCase
             }
         })
             ->waitForText('Color')
-            ->click('@tallstackui_form_color')
-            ->clickAtXPath('/html/body/div[3]/div/div/div/div[4]/div/div/button[1]')
+            ->click('@tallstackui_form_color_open_close')
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div/div[2]/button[1]')
             ->click('@sync')
-            ->waitForTextIn('@selected', '#f8fafc');
+            ->waitForTextIn('@selected', '#f8fafc')
+            ->assertSeeIn('@selected', '#f8fafc');
     }
 
     /** @test */
@@ -209,11 +210,12 @@ class ColorTest extends BrowserTestCase
             }
         })
             ->waitForText('Color')
-            ->click('@tallstackui_form_color')
+            ->click('@tallstackui_form_color_open_close')
             ->dragRight('@tallstackui_form_range', 50)
-            ->clickAtXPath('/html/body/div[3]/div/div/div/div[4]/div/div/button[8]')
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div/div[2]/button[1]')
             ->click('@sync')
-            ->waitForTextIn('@selected', '#b45309');
+            ->waitForTextIn('@selected', '#334155')
+            ->assertSeeIn('@selected', '#334155');
     }
 
     /** @test */
@@ -240,8 +242,9 @@ class ColorTest extends BrowserTestCase
             }
         })
             ->waitForText('Color')
-            ->click('@tallstackui_form_color')
-            ->clickAtXPath('/html/body/div[3]/div/div/div/div[4]/div/div/button[1]')
-            ->waitForTextIn('@selected', '#64748b');
+            ->click('@tallstackui_form_color_open_close')
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div/div[2]/button[1]')
+            ->waitForTextIn('@selected', '#64748b')
+            ->assertSeeIn('@selected', '#64748b');
     }
 }

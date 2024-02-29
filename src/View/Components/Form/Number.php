@@ -4,6 +4,7 @@ namespace TallStackUi\View\Components\Form;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
+use TallStackUi\Facades\TallStackUi;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\View\Components\BaseComponent;
@@ -40,8 +41,8 @@ class Number extends BaseComponent implements Personalization
         ];
 
         return [
-            'left' => $left,
-            'right' => $right,
+            'left' => TallStackUi::icon($left),
+            'right' => TallStackUi::icon($right),
         ];
     }
 

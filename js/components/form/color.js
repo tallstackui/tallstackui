@@ -1,8 +1,10 @@
-export default (model, mode, colors, value) => ({
+export default (model, mode, colors, livewire, property, value) => ({
   show: false,
   model: model,
   mode: mode,
   colors: colors,
+  livewire: livewire,
+  property: property,
   value: value,
   weight: 6,
   palette: [],
@@ -295,6 +297,8 @@ export default (model, mode, colors, value) => ({
     },
   },
   init() {
+    if (!this.livewire) this.model = this.value;
+
     if (this.colors.length === 0) {
       const modes = {
         'range': () => {
@@ -309,9 +313,7 @@ export default (model, mode, colors, value) => ({
       modes[this.mode] && modes[this.mode]();
     }
 
-    if (this.colors.length > 0) {
-      this.palette = this.colors;
-    }
+    if (this.colors.length > 0) this.palette = this.colors;
 
     if (this.model) {
       this.model = this.hashing(this.model);
@@ -321,12 +323,21 @@ export default (model, mode, colors, value) => ({
     }
 
     this.$watch('model', (value) => {
-      if (!value) {
-        return;
-      }
-
       this.model = this.hashing(value);
+
+      this.sync();
     });
+
+    this.sync();
+  },
+  sync() {
+    if (this.livewire) return;
+
+    const input = document.getElementsByName(this.property)[0];
+
+    if (!input) return;
+
+    input.value = this.model === '#' ? '' : this.model;
   },
   /**
    * @param value {String}
