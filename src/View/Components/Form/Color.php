@@ -41,7 +41,7 @@ class Color extends BaseComponent implements Personalization
             ],
             'icon' => [
                 'wrapper' => 'absolute inset-y-0 right-0 flex items-center pr-2.5',
-                'class' => 'mr-2 h-5 w-5',
+                'class' => 'h-5 w-5',
             ],
             'box' => [
                 'base' => 'shadow-xs dark:bg-dark-700 soft-scrollbar max-h-60 overflow-auto rounded-md bg-white py-4',
