@@ -15,7 +15,6 @@
                   '{{ $personalize['simple.text.title.active'] }}': selected > item.step || selected == item.step &&
                       item.completed === true,
               }"></span>
-        <span x-text="item.description"
-              @class($personalize['simple.text.description'])></span>
+        <span x-text="item.description" @class($personalize['simple.text.description'])></span>
     </div>
 </li>

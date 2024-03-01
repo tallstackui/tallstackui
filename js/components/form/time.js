@@ -83,6 +83,8 @@ export default (model, full, livewire, property, value) => ({
     this.$el.dispatchEvent(new CustomEvent('current', {detail: {time: {hour: hours, minute: minutes, interval: this.interval}}}));
 
     this.sync();
+
+    this.show = false;
   },
   /**
    * Sync the input and model.

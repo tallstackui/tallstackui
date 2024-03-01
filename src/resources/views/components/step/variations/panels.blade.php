@@ -1,5 +1,4 @@
-<li @class($personalize['panels.li']) 
-    x-bind:class="{ 'cursor-pointer': navigate === true }"
+<li @class($personalize['panels.li']) x-bind:class="{ 'cursor-pointer': navigate === true }"
     @if ($navigate) x-on:click="selected = item.step" @endif>
     <div @class($personalize['panels.wrapper'])>
         <span @class($personalize['panels.item']) >
@@ -31,8 +30,7 @@
             </div>
         </span>
     </div>
-    <div x-show="item.step != steps.length"
-         @class($personalize['panels.divider.wrapper'])>
+    <div x-show="item.step != steps.length" @class($personalize['panels.divider.wrapper'])>
         <svg @class($personalize['panels.divider.svg']) viewBox="0 0 22 80" fill="none" preserveAspectRatio="none">
             <path d="M0 -2L20 40L0 82" vector-effect="non-scaling-stroke" stroke="currentcolor" stroke-linejoin="round" />
         </svg>

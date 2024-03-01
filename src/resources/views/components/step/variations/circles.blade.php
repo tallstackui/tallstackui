@@ -31,9 +31,7 @@
         </div>
     </div>
     <div @class($personalize['circles.text.wrapper'])>
-        <span x-text="item.title"
-              @class($personalize['circles.text.title'])></span>
-        <span x-text="item.description"
-              @class($personalize['circles.text.description'])></span>
+        <span x-text="item.title" @class($personalize['circles.text.title'])></span>
+        <span x-text="item.description" @class($personalize['circles.text.description'])></span>
     </div>
 </li>

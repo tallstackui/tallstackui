@@ -250,6 +250,8 @@ export default (
     this.reset();
     this.input = date.format(this.format);
     this.map();
+
+    this.picker.common = false;
   },
   /**
    * Checks if the given day is selected.
@@ -420,8 +422,7 @@ export default (
    * @return {void}
    */
   reset() {
-    const model = livewire ? this.model : this.value;
-    const current = Array.isArray(model) ? model[0] : model;
+    const current = Array.isArray(this.model) ? this.model[0] : this.model;
 
     const date = current ? dayjs(current) : dayjs();
 
