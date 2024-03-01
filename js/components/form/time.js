@@ -1,4 +1,4 @@
-import {error, warning} from '../../helpers';
+import {warning} from '../../helpers';
 import dayjs from 'dayjs';
 
 export default (model, full, livewire, property, value) => ({
@@ -70,14 +70,10 @@ export default (model, full, livewire, property, value) => ({
    * @return {void}
    */
   current() {
-    const dayjs = this.dayjs();
+    const date = dayjs();
 
-    if (!dayjs) {
-      return error('The dayjs library is not available. Please, review the docs.');
-    }
-
-    const hours = dayjs.hour();
-    const minutes = dayjs.minute();
+    const hours = date.hour();
+    const minutes = date.minute();
 
     if (!full) this.interval = hours >= 12 ? 'PM' : 'AM';
 
@@ -122,12 +118,5 @@ export default (model, full, livewire, property, value) => ({
       hours: this.hours.padStart(2, '0'),
       minutes: this.minutes.padStart(2, '0'),
     };
-  },
-  /**
-   * Get the dayjs library.
-   * @return {Dayjs}
-   */
-  get dayjs() {
-    return dayjs;
   },
 });

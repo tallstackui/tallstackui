@@ -49,8 +49,6 @@ export default (
   value: value,
   calendar: calendar,
   init() {
-    const dayjs = this.dayjs;
-
     this.translations();
 
     this.date.min = dates.date.min ? dayjs(dates.date.min) : null;
@@ -90,8 +88,6 @@ export default (
    */
   hydrate() {
     if (!this.livewire && !this.model && this.value) this.model = this.value;
-
-    const dayjs = this.dayjs;
 
     if (range && this.model) {
       const one = this.model[0];
@@ -237,22 +233,22 @@ export default (
   helper(event, type) {
     event.preventDefault();
 
-    let dayjs = this.dayjs();
+    let date = dayjs();
 
     if (type === 'yesterday' || type === 'tomorrow') {
-      dayjs = dayjs.add(type === 'yesterday' ? -1 : 1, 'day');
+      date = date.add(type === 'yesterday' ? -1 : 1, 'day');
     }
 
-    if (this.disabled(dayjs.format('YYYY-MM-DD'))) return;
+    if (this.disabled(date.format('YYYY-MM-DD'))) return;
 
-    const current = dayjs.format('YYYY-MM-DD');
+    const current = date.format('YYYY-MM-DD');
 
-    this.date.start = dayjs.startOf('day').toDate();
+    this.date.start = date.startOf('day').toDate();
     this.date.end = null;
     this.model = current;
 
     this.reset();
-    this.input = dayjs.format(this.format);
+    this.input = date.format(this.format);
     this.map();
   },
   /**
@@ -275,10 +271,10 @@ export default (
   between(date) {
     if (!range || !this.date.end) return false;
 
-    const current = this.dayjs(date);
+    const current = dayjs(date);
 
-    const start = this.dayjs(this.date.start);
-    const end = this.dayjs(this.date.end);
+    const start = dayjs(this.date.start);
+    const end = dayjs(this.date.end);
 
     return (current.isAfter(start) && current.isBefore(end)) || current.isSame(start) || current.isSame(end);
   },
@@ -289,7 +285,7 @@ export default (
    * @return {Boolean}
    */
   today(date) {
-    return Boolean(this.dayjs().isSame(this.instance(date), 'day'));
+    return Boolean(dayjs().isSame(this.instance(date), 'day'));
   },
   /**
    * Checks if the date is disabled
@@ -427,7 +423,7 @@ export default (
     const model = livewire ? this.model : this.value;
     const current = Array.isArray(model) ? model[0] : model;
 
-    const date = current ? this.dayjs(current) : this.dayjs();
+    const date = current ? dayjs(current) : dayjs();
 
     this.day = date.date();
     this.month = date.month();
@@ -441,16 +437,16 @@ export default (
    * @return {String}
    */
   formatted(date, format = null) {
-    return this.dayjs(date).format(format ?? this.format);
+    return dayjs(date).format(format ?? this.format);
   },
   /**
    * Create a new instance of the Dayjs library optionally passing the day.
    *
    * @param {String|Null} day
-   * @return {Dayjs}
+   * @return {dayjs.Dayjs}
    */
   instance(day = null) {
-    return this.dayjs(`${this.year}-${this.month + 1}-${day ?? this.day}`);
+    return dayjs(`${this.year}-${this.month + 1}-${day ?? this.day}`);
   },
   /**
    * Set the value of the input.
@@ -477,13 +473,5 @@ export default (
    */
   get quantity() {
     return this.model?.length ?? 0;
-  },
-  /**
-   * Get the dayjs library.
-   *
-   * @return {Dayjs}
-   */
-  get dayjs() {
-    return dayjs;
   },
 });
