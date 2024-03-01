@@ -100,8 +100,7 @@
             @endif
         </button>
         <x-dynamic-component :component="TallStackUi::component('floating')"
-                             :wrapper="$personalize['box.wrapper']"
-                             size="w-full"
+                             class="w-full overflow-auto"
                              x-anchor="$refs.button">
             <template x-if="searchable">
                 <div class="relative my-2 px-2">

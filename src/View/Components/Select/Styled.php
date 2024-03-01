@@ -78,13 +78,12 @@ class Styled extends BaseComponent implements Personalization
                 'error' => 'text-red-500',
             ],
             'box' => [
-                'wrapper' => 'dark:bg-dark-700 border dark:border-dark-600 border-gray-200 absolute z-10 w-full overflow-hidden rounded-lg bg-white',
                 'button' => [
                     'class' => 'absolute inset-y-0 right-2 flex cursor-pointer items-center px-2',
                     'icon' => 'dark:text-dark-400 h-5 w-5 text-gray-500 transition hover:text-red-500',
                 ],
                 'list' => [
-                    'wrapper' => 'soft-scrollbar z-50 max-h-60 w-full overflow-auto rounded-b-lg text-base focus:outline-none sm:text-sm',
+                    'wrapper' => 'soft-scrollbar z-50 max-h-60 w-full overflow-auto rounded-t-lg rounded-b-lg text-base focus:outline-none sm:text-sm',
                     'loading' => [
                         'wrapper' => 'flex items-center justify-center space-x-4 p-4',
                         'class' => 'text-primary-600 dark:text-dark-400 h-12 w-12 animate-spin',

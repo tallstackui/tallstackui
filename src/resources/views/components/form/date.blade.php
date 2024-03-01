@@ -46,7 +46,9 @@
             </div>
         </x-slot:suffix>
     </x-dynamic-component>
-    <x-dynamic-component :component="TallStackUi::component('floating')" x-show="picker.common" size="w-[17rem]">
+    <x-dynamic-component :component="TallStackUi::component('floating')"
+                         x-show="picker.common"
+                         class="p-3 w-[17rem]">
         <div @class($personalize['box.picker.button'])>
             <span>
                 <button type="button" x-text="calendar.months[month]" x-on:click="picker.month = true"  @class($personalize['label.month'])></button>

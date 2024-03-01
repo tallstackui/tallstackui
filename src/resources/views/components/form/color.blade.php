@@ -38,7 +38,7 @@
                                 </div>
                              </x-slot:prefix>
                              <x-slot:suffix>
-                                <div class="flex items-center gap-1">
+                                <div class="flex items-center">
                                     <button type="button" x-on:click="show = !show" dusk="tallstackui_form_color_open_close">
                                         <x-dynamic-component :component="TallStackUi::component('icon')"
                                                                 :icon="TallStackUi::icon('swatch')"
@@ -82,9 +82,8 @@
         </x-dynamic-component>
     @endif
     <x-dynamic-component :component="TallStackUi::component('floating')"
-                         size="w-[18rem]"
-                         x-on:click.outside="show = false"
-                         :wrapper="$personalize['box.wrapper']">
+                         class="w-[18rem] overflow-auto"
+                         x-on:click.outside="show = false">
         <div @class($personalize['box.base'])>
             <div class="px-4">
                 <input type="range"

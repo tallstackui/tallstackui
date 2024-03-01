@@ -53,15 +53,9 @@ class Upload extends BaseComponent implements Personalization
     {
         return Arr::dot([
             'icon' => 'dark:text-dark-400 h-5 w-5 text-gray-500',
-            'box' => [
-                'wrapper' => [
-                    'first' => 'dark:border-dark-600 absolute top-full z-50 mt-2 w-full overflow-hidden rounded-md border border-gray-200 shadow-lg',
-                    'second' => 'shadow-xs dark:bg-dark-800 rounded-md bg-white p-3',
-                ],
-            ],
             'placeholder' => [
                 'input' => 'absolute inset-0 z-50 h-full w-full cursor-pointer opacity-0 outline-none',
-                'wrapper' => 'dark:border-dark-500 dark:bg-dark-700 dark:hover:bg-dark-600 relative flex h-20 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 transition hover:bg-gray-100',
+                'wrapper' => 'dark:border-dark-500 dark:bg-dark-600 relative flex h-20 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 transition',
                 'title' => 'text-md dark:text-dark-300 font-bold text-gray-600',
                 'tip' => 'mx-4 mt-2 text-center text-sm text-gray-500 dark:text-gray-400',
                 'icon.class' => 'dark:text-dark-300 h-6 w-6 text-gray-600',
