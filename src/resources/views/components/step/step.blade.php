@@ -3,7 +3,7 @@
 <div x-data="tallstackui_step(@if (!$selected) {!! TallStackUi::blade($attributes, $livewire)->entangle() !!} @else @js($selected) @endif, @js($navigate))"
      x-cloak
      {{ $attributes->only('x-on:change') }}>
-    <nav aria-label="Form Step">
+    <nav>
         <div @class(['overflow-hidden rounded-md' => $variation === 'panels'])>
             <ul role="list"
                 @class($personalize['wrapper.' . $variation])>
@@ -15,8 +15,7 @@
             </ul>
         </div>
     </nav>
-    <div role="steplist"
-         @class($personalize['content'])>
+    <div @class($personalize['content'])>
         {{ $slot }}
     </div>
     @if ($helpers)
