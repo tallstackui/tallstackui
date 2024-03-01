@@ -48,7 +48,7 @@ class Time extends BaseComponent implements Personalization
                 ],
                 'pm' => [
                     'label' => 'rounded-b-lg border-t-0',
-                    'title' => 'w-full text-center text-sm font-medium',
+                    'title' => 'w-full text-center text-sm',
                 ],
             ],
             'range' => [
