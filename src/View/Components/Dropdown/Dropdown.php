@@ -50,8 +50,8 @@ class Dropdown extends BaseComponent implements Personalization
 
     final public function transitions(): string
     {
-        $side = str_contains($this->position, 'right') || str_contains($this->position, 'left');
-        $orientation = str_contains($this->position, 'bottom') || str_contains($this->position, 'right');
+        $side = str_contains((string) $this->position, 'right') || str_contains((string) $this->position, 'left');
+        $orientation = str_contains((string) $this->position, 'bottom') || str_contains((string) $this->position, 'right');
 
         $content = <<<'HTML'
              x-transition:enter="transition duration-100 ease-out"
@@ -65,7 +65,7 @@ class Dropdown extends BaseComponent implements Personalization
         $content = str_replace('{%start%}', $side ? ($orientation ? '-translate-x-2' : 'translate-x-2') : ($orientation ? '-translate-y-2' : 'translate-y-2'), $content);
         $content = str_replace('{%end%}', $side ? 'translate-x-0' : 'translate-y-0', $content);
 
-        return trim(str($content)->squish());
+        return trim((string) str($content)->squish());
     }
 
     /** @throws InvalidSelectedPositionException */
