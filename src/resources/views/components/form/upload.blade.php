@@ -21,7 +21,7 @@
      x-on:livewire-upload-finish="uploading = false"
      x-on:livewire-upload-error="uploading = false"
      x-on:livewire-upload-progress="progress = $event.detail.progress"
-     class="relative">
+     class="relative" x-on:click.outside="show = false">
      @if ($static) <p hidden x-ref="placeholder">{{ $placeholder }}</p> @endif
         <x-dynamic-component :component="TallStackUi::component('input')"
                              :value="$placeholder"
@@ -63,7 +63,7 @@
             </div>
         </div>
     @endif
-     <x-dynamic-component :component="TallStackUi::component('floating')" size="w-full">
+     <x-dynamic-component :component="TallStackUi::component('floating')" class="p-3 w-full">
          @if (!$static)
          <div @class(['flex flex-col w-full items-center justify-center', 'mb-2' => $footer->isNotEmpty()])>
              <div @class($personalize['placeholder.wrapper']) :class="{ 'bg-primary-100': dragging }">

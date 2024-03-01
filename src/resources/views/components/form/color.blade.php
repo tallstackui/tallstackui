@@ -82,9 +82,8 @@
         </x-dynamic-component>
     @endif
     <x-dynamic-component :component="TallStackUi::component('floating')"
-                         size="w-[18rem]"
-                         x-on:click.outside="show = false"
-                         :wrapper="$personalize['box.wrapper']">
+                         class="w-[18rem] overflow-auto"
+                         x-on:click.outside="show = false">
         <div @class($personalize['box.base'])>
             <div class="px-4">
                 <input type="range"

@@ -12,7 +12,6 @@ class Floating extends BaseComponent implements Personalization
 {
     public function __construct(
         public ?string $offset = '10',
-        public ?string $size = null,
         public ?string $position = 'bottom-end',
         public ?ComponentSlot $transition = null,
         public ?ComponentSlot $base = null,

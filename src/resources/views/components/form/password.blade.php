@@ -12,14 +12,13 @@
             $personalize['input.color.background'] => !$attributes->get('disabled') && !$attributes->get('readonly'),
             $personalize['input.color.disabled'] => $attributes->get('disabled') || $attributes->get('readonly'),
             $personalize['error'] => $error
-        ]) x-data="{ show : false, toggle () { this.$el.dispatchEvent(new CustomEvent('reveal', {detail: { status: this.show }})); this.show = !this.show; } }" x-on:click.outside="rules = false">
+        ]) x-ref="input" x-data="{ show : false, toggle () { this.$el.dispatchEvent(new CustomEvent('reveal', {detail: { status: this.show }})); this.show = !this.show; } }" x-on:click.outside="rules = false">
             <input @if ($id) id="{{ $id }}" @endif
                   {{ $attributes->except('autocomplete')->class([$personalize['input.base']]) }}
                    @if ($rules->isNotEmpty())
                        x-on:click="rules = true"
                        x-model.debounce="input"
                    @endif
-                   x-ref="input"
                    :type="!show ? 'password' : 'text'" autocomplete="{{ $attributes->get('autocomplete', 'off') }}">
             <div @class($personalize['icon.wrapper']) x-cloak>
                 @if ($generator)
@@ -51,8 +50,7 @@
             </div>
             @if ($rules->isNotEmpty())
                 <x-dynamic-component :component="TallStackUi::component('floating')"
-                                     :wrapper="$personalize['rules.wrapper']"
-                                     size="w-full"
+                                     class="p-3 w-full"
                                      x-show="rules"
                                      x-anchor="$refs.input">
                     <h3 @class($personalize['rules.title'])>{{ __('tallstack-ui::messages.password.rules.title') }}</h3>
