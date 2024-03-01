@@ -19,10 +19,8 @@
                       '{{ $personalize['circles.highlighter.current'] }}': selected == item.step && item.completed ===
                           false,
                       '{{ $personalize['circles.highlighter.active'] }}': item.completed === true,
-                  }"
-                  aria-hidden="true"></span>
-            <span x-show="selected < item.step"
-                  x-text="item.step"></span>
+                  }"></span>
+            <span x-show="selected < item.step" x-text="item.step"></span>
         </span>
         <div @class($personalize['circles.divider.wrapper'])
              x-show="item.step != steps.length"

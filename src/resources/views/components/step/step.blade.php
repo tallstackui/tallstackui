@@ -8,7 +8,7 @@
             <ul role="list"
                 @class($personalize['wrapper.' . $variation])>
                 <template x-for="item in steps">
-                    @include("tallstack-ui::components.step.variations.$variation")
+                    @include("tallstack-ui::components.step.variations.$variation", ['personalize' => $personalize])
                 </template>
             </ul>
         </div>

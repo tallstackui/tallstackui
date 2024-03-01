@@ -26,15 +26,13 @@
                       x-bind:class="{
                         '{{ $personalize['panels.text.title.inactive'] }}': selected == item.step && item.completed === false || selected < item.step,
                         '{{ $personalize['panels.text.title.active'] }}': selected > item.step || selected == item.step && item.completed === true,
-                      }"
-                      x-text="item.title"></span>
+                      }" x-text="item.title"></span>
                 <span @class($personalize['panels.text.description']) x-text="item.description"></span>
             </div>
         </span>
     </div>
     <div x-show="item.step != steps.length"
-         @class($personalize['panels.divider.wrapper'])
-         aria-hidden="true">
+         @class($personalize['panels.divider.wrapper'])>
         <svg @class($personalize['panels.divider.svg']) viewBox="0 0 22 80" fill="none" preserveAspectRatio="none">
             <path d="M0 -2L20 40L0 82" vector-effect="non-scaling-stroke" stroke="currentcolor" stroke-linejoin="round" />
         </svg>
