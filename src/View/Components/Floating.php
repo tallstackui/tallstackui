@@ -13,6 +13,8 @@ class Floating extends BaseComponent implements Personalization
     public function __construct(
         public ?string $offset = '10',
         public ?string $size = null,
+        public ?string $position = 'bottom-end',
+        public ?ComponentSlot $transition = null,
         public ?ComponentSlot $base = null,
         public ?ComponentSlot $footer = null,
     ) {
@@ -22,8 +24,8 @@ class Floating extends BaseComponent implements Personalization
     final public function anchor(): string
     {
         return match ($this->offset !== null) {
-            true => "x-anchor.bottom-end.offset.{$this->offset}",
-            default => 'x-anchor.bottom-end',
+            true => "x-anchor.{$this->position}.offset.{$this->offset}",
+            default => "x-anchor.{$this->position}",
         };
     }
 
@@ -34,6 +36,6 @@ class Floating extends BaseComponent implements Personalization
 
     public function personalization(): array
     {
-        return ['wrapper' => 'dark:bg-dark-700 border-dark-200 dark:border-dark-600 absolute z-50 rounded-lg border bg-white p-4 antialiased'];
+        return ['wrapper' => 'dark:bg-dark-700 border-dark-200 dark:border-dark-600 absolute z-50 rounded-lg border bg-white'];
     }
 }
