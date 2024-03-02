@@ -306,6 +306,10 @@ export default (
    * @return {void}
    */
   previousMonth() {
+    if (this.range.year.max && (this.month === 0 && this.year <= this.range.year.min)) {
+      return;
+    }
+
     this.month = (this.month === 0) ? 11 : this.month - 1;
 
     if (this.month === 11) this.year--;
@@ -318,6 +322,10 @@ export default (
    * @return {void}
    */
   nextMonth() {
+    if (this.range.year.max && (this.month === 11 && this.year >= this.range.year.max)) {
+      return;
+    }
+
     this.month = (this.month + 1) % 12;
 
     if (this.month === 0) this.year++;
