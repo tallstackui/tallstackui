@@ -58,6 +58,12 @@ export default (
     this.map();
     this.$nextTick(() => this.hydrate());
 
+    // Prevents more than two dates from being defined in
+    // the model when it comes to interval mode, because
+    // when this happens, the other dates are displayed
+    // selected in the calendar.
+    if (range && this.model.length > 2) this.model = this.model.filter((value, key) => key < 2);
+
     this.$watch('model', () => {
       if (!this.livewire) return;
 
