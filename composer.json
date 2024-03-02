@@ -23,16 +23,16 @@
     "require": {
         "php": "^8.1",
         "livewire/livewire": "^3.0",
-        "laravel/framework": "^10.0"
+        "laravel/framework": "^10.0|^11.0"
     },
     "require-dev": {
         "pestphp/pest": "^2.0",
         "laravel/pint": "^1.13",
-        "orchestra/testbench": "^8.12",
+        "orchestra/testbench": "^8.12|^9.0",
         "orchestra/testbench-dusk": "^8.12",
         "pestphp/pest-plugin-type-coverage": "^2.2",
         "larastan/larastan": "^2.7",
-        "rector/rector": "^0.19.4"
+        "rector/rector": "^0.19.4|^1.0"
     },
     "scripts": {
         "test": "./vendor/bin/pest",
