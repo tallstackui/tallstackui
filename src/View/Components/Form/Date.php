@@ -29,11 +29,13 @@ class Date extends BaseComponent implements Personalization
         public string|null|Carbon $maxDate = null,
         public ?int $minYear = null,
         public ?int $maxYear = null,
-        public bool|array|null $helpers = null,
+        public ?bool $helpers = null,
         public array|Collection $disable = [],
     ) {
-        $this->helpers = $this->helpers === true ? ['yesterday', 'today', 'tomorrow'] : [];
-        $this->disable = collect($this->disable);
+        $this->disable = collect($this->disable)
+            ->flatten()
+            ->unique()
+            ->values();
     }
 
     public function blade(): View

@@ -249,7 +249,7 @@ export default (
 
     this.date.start = date.startOf('day').toDate();
     this.date.end = null;
-    this.model = current;
+    this.model = this.type !== 'single' ? [current] : current;
 
     this.reset();
     this.input = date.format(this.format);
