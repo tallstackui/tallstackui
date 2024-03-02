@@ -21,7 +21,6 @@ class Date extends BaseComponent implements Personalization
     public function __construct(
         public ?string $label = null,
         public ?string $hint = null,
-        public ?string $icon = null,
         public ?bool $invalidate = null,
         public ?bool $range = false,
         public ?bool $multiple = false,
