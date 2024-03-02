@@ -136,9 +136,7 @@ export default (
   sync() {
     if (!this.model) return;
 
-    const type = multiple ? 'multiple' : (range ? 'range' : 'single');
-
-    this.$el.dispatchEvent(new CustomEvent('select', {detail: {type: type, date: this.model}}));
+    this.$el.dispatchEvent(new CustomEvent('select', {detail: {type: this.type, date: this.model}}));
 
     if (multiple) {
       this.input = this.model
@@ -426,9 +424,11 @@ export default (
    * @return {void}
    */
   clear() {
+    const model = this.model;
+
     this.input = this.model = this.value = this.date.start = this.date.end = null;
 
-    this.$el.dispatchEvent(new CustomEvent('clear'));
+    this.$el.dispatchEvent(new CustomEvent('clear', {detail: {type: this.type, date: model}}));
   },
   /**
    * Reset the day, month and year to the current date.
@@ -480,6 +480,14 @@ export default (
 
     input.value = !this.model ? '' :
         (typeof this.model === 'string' ? this.model : JSON.stringify(this.model));
+  },
+  /**
+   * Get the type of the date calendar.
+   *
+   * @return {String}
+   */
+  get type() {
+    return multiple ? 'multiple' : (range ? 'range' : 'single');
   },
   /**
    * Get the quantity of the selected dates.
