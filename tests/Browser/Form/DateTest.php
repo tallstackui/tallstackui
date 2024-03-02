@@ -138,36 +138,7 @@ class DateTest extends BrowserTestCase
     }
 
     /** @test */
-    public function can_open_month_selector_and_navigate(): void
-    {
-        Livewire::visit(new class extends Component
-        {
-            public ?string $date = '2020-01-01';
-
-            public function render(): string
-            {
-                return <<<'HTML'
-                <div>
-                    <p dusk="date">{{ $date }}</p>
-                    
-                    <x-date label="DatePicker"
-                            wire:model.live="date" />
-                </div>
-                HTML;
-            }
-        })
-            ->waitForLivewireToLoad()
-            ->click('@tallstackui_date_open_close')
-            ->waitForText('January')
-            ->clickAtXPath('/html/body/div[3]/div/div[2]/div[1]/span/button[1]')
-            ->waitForText(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'])
-            ->assertSee('Jan')
-            ->assertSee('Mar')
-            ->assertSee('Dec');
-    }
-
-    /** @test */
-    public function can_previous_to_last_year(): void
+    public function can_navigate_to_last_year(): void
     {
         Livewire::visit(new class extends Component
         {
@@ -197,7 +168,7 @@ class DateTest extends BrowserTestCase
     }
 
     /** @test */
-    public function can_previous_to_previous_month(): void
+    public function can_navigate_to_previous_month(): void
     {
         Livewire::visit(new class extends Component
         {
@@ -221,6 +192,35 @@ class DateTest extends BrowserTestCase
             ->click('@tallstackui_date_next_month')
             ->waitForText('February')
             ->assertSee('February');
+    }
+
+    /** @test */
+    public function can_open_month_selector_and_navigate(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $date = '2020-01-01';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="date">{{ $date }}</p>
+                    
+                    <x-date label="DatePicker"
+                            wire:model.live="date" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->click('@tallstackui_date_open_close')
+            ->waitForText('January')
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div[1]/span/button[1]')
+            ->waitForText(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'])
+            ->assertSee('Jan')
+            ->assertSee('Mar')
+            ->assertSee('Dec');
     }
 
     /** @test */
@@ -428,6 +428,74 @@ class DateTest extends BrowserTestCase
             ->click('@tallstackui_date_helper_yesterday')
             ->waitForTextIn('@date', $date = now()->subDay()->format('Y-m-d'))
             ->assertSeeIn('@date', $date);
+    }
+
+    /** @test */
+    public function cannot_navigate_beyond_max_year(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $date = '2024-12-01';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="date">{{ $date }}</p>
+                    
+                    <x-date label="DatePicker"
+                            :max-year="2024"
+                            wire:model.live="date" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->click('@tallstackui_date_open_close')
+            ->waitForText('December')
+            // Double check
+            ->click('@tallstackui_date_next_month')
+            ->waitForText('December')
+            ->assertSee('December')
+            ->assertDontSee('January')
+            ->click('@tallstackui_date_next_month')
+            ->waitForText('December')
+            ->assertSee('December')
+            ->assertDontSee('January');
+    }
+
+    /** @test */
+    public function cannot_navigate_beyond_min_year(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $date = '2024-01-01';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="date">{{ $date }}</p>
+                    
+                    <x-date label="DatePicker"
+                            :min-year="2024"
+                            wire:model.live="date" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->click('@tallstackui_date_open_close')
+            ->waitForText('January')
+            // Double check
+            ->click('@tallstackui_date_previous_month')
+            ->waitForText('January')
+            ->assertSee('January')
+            ->assertDontSee('December')
+            ->click('@tallstackui_date_previous_month')
+            ->waitForText('January')
+            ->assertSee('January')
+            ->assertDontSee('December');
     }
 
     /** @test */

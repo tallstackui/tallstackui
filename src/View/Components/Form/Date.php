@@ -61,7 +61,7 @@ class Date extends BaseComponent implements Personalization
     {
         return Arr::dot([
             'wrapper' => [
-                'helpers' => 'custom-scrollbar mt-4 flex items-center justify-between space-x-2 overflow-auto pb-2',
+                'helpers' => 'custom-scrollbar flex items-center justify-between space-x-2 overflow-auto pb-2',
             ],
             'box' => [
                 'picker' => [

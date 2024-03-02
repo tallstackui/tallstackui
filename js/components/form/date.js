@@ -310,7 +310,7 @@ export default (
    * @return {void}
    */
   previousMonth() {
-    if (this.range.year.max && (this.month === 0 && this.year <= this.range.year.min)) {
+    if (this.range.year.min && (this.month === 0 && this.year <= this.range.year.min)) {
       return;
     }
 
