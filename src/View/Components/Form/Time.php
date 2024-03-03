@@ -5,6 +5,7 @@ namespace TallStackUi\View\Components\Form;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\ComponentSlot;
+use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\View\Components\BaseComponent;
@@ -20,6 +21,7 @@ class Time extends BaseComponent implements Personalization
         public ?string $format = '12',
         public ?string $stepHour = '1',
         public ?string $stepMinute = '1',
+        #[SkipDebug]
         public ?ComponentSlot $footer = null,
     ) {
         $this->format = $this->format === '12' ? '12' : '24';
