@@ -40,15 +40,7 @@ export default (model, full, livewire, property, value) => ({
       this.sync();
     });
 
-    this.$watch('model', () => {
-      if (this.internal) {
-        this.internal = false;
-
-        return;
-      }
-
-      this.hydrate();
-    });
+    this.$watch('model', () => this.hydrate());
   },
   /**
    * Hydrate the need stuff in the bootstrap.
@@ -67,6 +59,7 @@ export default (model, full, livewire, property, value) => ({
   },
   /**
    * Set the current time.
+   *
    * @return {void}
    */
   current() {
@@ -88,6 +81,8 @@ export default (model, full, livewire, property, value) => ({
   },
   /**
    * Sync the input and model.
+   *
+   * @return {void}
    */
   sync() {
     let value = `${this.formatted.hours}:${this.formatted.minutes}`;
@@ -107,6 +102,17 @@ export default (model, full, livewire, property, value) => ({
     if (!input) return;
 
     input.value = this.value = value;
+  },
+  /**
+   * Change the interval.
+   *
+   * @param {String} interval
+   * @return {void}
+   */
+  select(interval) {
+    this.interval = interval.toUpperCase();
+
+    this.show = false;
   },
   /**
    * Get the formatted time.

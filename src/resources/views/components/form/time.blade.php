@@ -36,45 +36,15 @@
                              </div>
                          </x-slot:suffix>
     </x-dynamic-component>
-    <x-dynamic-component :component="TallStackUi::component('floating')"
-                         class="p-3 w-[18rem]">
-        <div @class(['flex flex-col', 'mb-4' => $helper || $footer->isNotEmpty(), 'w-full' => $format === '24'])>
+    <x-dynamic-component :component="TallStackUi::component('floating')" class="p-3 w-[18rem]">
+        <div @class(['flex flex-col', 'mb-2' => $helper || $footer->isNotEmpty(), 'w-full' => $format === '24'])>
             <div @class($personalize['wrapper'])>
-                <span x-text="formatted.hours"
-                      x-ref="hours"
-                    @class($personalize['time'])>
-                </span>
-                <span  @class($personalize['separator'])>:</span>
-                <span x-text="formatted.minutes"
-                      x-ref="minutes"
-                    @class($personalize['time'])>
-                </span>
+                <span x-text="formatted.hours" x-ref="hours"@class($personalize['time'])></span>
+                <span @class($personalize['separator'])>:</span>
+                <span x-text="formatted.minutes" x-ref="minutes" @class($personalize['time'])></span>
                 @if ($format === '12')
-                    <div @class($personalize['format.wrapper'])>
-                        <div @class($personalize['format.size'])>
-                            <input type="radio"
-                                   id="am"
-                                   x-model="interval"
-                                   value="AM"
-                                   @class($personalize['format.input'])>
-                            <label for="am"
-                                   dusk="tallstackui_time_am"
-                                   @class([$personalize['format.color'], $personalize['format.am.label']])>
-                                <div @class($personalize['format.am.title'])>AM</div>
-                            </label>
-                        </div>
-                        <div @class($personalize['format.size'])>
-                            <input type="radio"
-                                   id="pm"
-                                   x-model="interval"
-                                   value="PM"
-                                   @class($personalize['format.input'])>
-                            <label for="pm"
-                                   dusk="tallstackui_time_pm"
-                                   @class([$personalize['format.color'], $personalize['format.pm.label']])>
-                                <div @class($personalize['format.pm.title'])>PM</div>
-                            </label>
-                        </div>
+                    <div @class($personalize['interval.wrapper'])>
+                        <p @class($personalize['interval.text']) x-text="interval"></p>
                     </div>
                 @endif
             </div>
@@ -97,6 +67,16 @@
                        x-on:mouseenter="$refs.minutes.classList.add('{{ $personalize['range.light'] }}', '{{ $personalize['range.dark'] }}')"
                        x-on:mouseleave="$refs.minutes.classList.remove('{{ $personalize['range.light'] }}', '{{ $personalize['range.dark'] }}')"
                        @class(['focus:outline-none', $personalize['range.base'], $personalize['range.thumb']])>
+            </div>
+            <div @class($personalize['interval.buttons.wrapper'])>
+                <button type="button"
+                        x-on:click="select('AM')"
+                        @class($personalize['interval.buttons.am'])
+                        dusk="tallstackui_time_am">AM</button>
+                <button type="button"
+                        x-on:click="select('PM')"
+                        @class($personalize['interval.buttons.pm'])
+                        dusk="tallstackui_time_pm">PM</button>
             </div>
         </div>
         @if ($helper || $footer)
