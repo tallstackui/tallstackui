@@ -48,7 +48,7 @@
                     </div>
                 @endif
             </div>
-            <div wire:ignore.self @class([$personalize['helper.wrapper'], 'mb-2' => !$helper])>
+            <div wire:ignore.self @class($personalize['helper.wrapper'])>
                 <input type="range"
                        min="{{ $format === '12' ? 1 : 0 }}"
                        max="{{ $format === '12' ? 12 : 23 }}"
@@ -68,16 +68,18 @@
                        x-on:mouseleave="$refs.minutes.classList.remove('{{ $personalize['range.light'] }}', '{{ $personalize['range.dark'] }}')"
                        @class(['focus:outline-none', $personalize['range.base'], $personalize['range.thumb']])>
             </div>
-            <div @class($personalize['interval.buttons.wrapper'])>
-                <button type="button"
-                        x-on:click="select('AM')"
-                        @class($personalize['interval.buttons.am'])
-                        dusk="tallstackui_time_am">AM</button>
-                <button type="button"
-                        x-on:click="select('PM')"
-                        @class($personalize['interval.buttons.pm'])
-                        dusk="tallstackui_time_pm">PM</button>
-            </div>
+            @if ($format === '12')
+                <div @class($personalize['interval.buttons.wrapper'])>
+                    <button type="button"
+                            x-on:click="select('AM')"
+                            @class($personalize['interval.buttons.am'])
+                            dusk="tallstackui_time_am">AM</button>
+                    <button type="button"
+                            x-on:click="select('PM')"
+                            @class($personalize['interval.buttons.pm'])
+                            dusk="tallstackui_time_pm">PM</button>
+                </div>
+            @endif
         </div>
         @if ($helper || $footer)
             <x-slot:footer>
@@ -85,7 +87,7 @@
                 <x-dynamic-component :component="TallStackUi::component('button')"
                                      :text="__('tallstack-ui::messages.time.helper')"
                                      type="button"
-                                     @class([$personalize['helper.button']])
+                                     @class([$personalize['helper.button'], 'mt-2' => $format === '24'])
                                      x-on:click="current()"
                                      {{ $attributes->only('x-on:current') }}
                                      dusk="tallstackui_time_current"

@@ -53,7 +53,7 @@ class Time extends BaseComponent implements Personalization
                 'dark' => 'dark:bg-dark-600',
             ],
             'helper' => [
-                'wrapper' => 'flex flex-col space-y-6 outline-none',
+                'wrapper' => 'mt-2 flex flex-col space-y-6 outline-none',
                 'button' => 'w-full uppercase',
             ],
         ]);
