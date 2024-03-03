@@ -10,7 +10,6 @@ export default (model, full, livewire, property, value) => ({
   livewire: livewire,
   property: property,
   value: value,
-  internal: false,
   init() {
     if (!full && (this.model || this.value) && !/(AM|PM)/.test(this.model ?? this.value)) {
       warning('The time format is not complete. Please, include the interval (AM/PM).');
@@ -19,26 +18,18 @@ export default (model, full, livewire, property, value) => ({
     if (this.model || this.value) this.hydrate();
 
     this.$watch('hours', (value) => {
-      this.internal = true;
-
       this.sync();
 
       this.$el.dispatchEvent(new CustomEvent('hour', {detail: {hour: value}}));
     });
 
     this.$watch('minutes', (value) => {
-      this.internal = true;
-
       this.sync();
 
       this.$el.dispatchEvent(new CustomEvent('minute', {detail: {minute: value}}));
     });
 
-    this.$watch('interval', () => {
-      this.internal = true;
-
-      this.sync();
-    });
+    this.$watch('interval', () => this.sync());
 
     this.$watch('model', () => this.hydrate());
   },
