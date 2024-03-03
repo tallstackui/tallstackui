@@ -1,12 +1,22 @@
 import {warning} from '../../helpers';
 import dayjs from 'dayjs';
 
-export default (model, full, livewire, property, value) => ({
+export default (model, full, times, livewire, property, value) => ({
   model: model,
   show: false,
   hours: '0',
   minutes: '0',
   interval: 'AM',
+  range: {
+    hour: {
+      min: times.hour.min,
+      max: times.hour.max,
+    },
+    minutes: {
+      min: times.minute.min,
+      max: times.minute.max,
+    },
+  },
   livewire: livewire,
   property: property,
   value: value,
@@ -18,12 +28,28 @@ export default (model, full, livewire, property, value) => ({
     if (this.model || this.value) this.hydrate();
 
     this.$watch('hours', (value) => {
+      if (this.range.hour.min && value < this.range.hour.min) {
+        this.hours = this.range.hour.min;
+      }
+
+      if (this.range.hour.max && value > this.range.hour.max) {
+        this.hours = this.range.hour.max;
+      }
+
       this.sync();
 
       this.$el.dispatchEvent(new CustomEvent('hour', {detail: {hour: value}}));
     });
 
     this.$watch('minutes', (value) => {
+      if (this.range.minutes.min && value < this.range.minutes.min) {
+        this.minutes = this.range.minutes.min;
+      }
+
+      if (this.range.minutes.max && value > this.range.minutes.max) {
+        this.minutes = this.range.minutes.max;
+      }
+
       this.sync();
 
       this.$el.dispatchEvent(new CustomEvent('minute', {detail: {minute: value}}));

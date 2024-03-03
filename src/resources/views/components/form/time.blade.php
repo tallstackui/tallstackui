@@ -11,6 +11,7 @@
 <div x-data="tallstackui_formTime(
     {!! $entangle !!},
     @js($format === '24'),
+    {...@js($times())},
     @js($livewire),
     @js($property),
     @js($value))"
