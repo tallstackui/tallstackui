@@ -523,6 +523,7 @@ class StyledCommonTest extends BrowserTestCase
             ->click('@tallstackui_select_open_close')
             ->waitForText(['bar', 'baz'])
             ->click('@tallstackui_select_open_close')
+            ->waitForText(['foo', 'bar', 'baz'])
             ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[1]')
             ->waitForText(['bar', 'baz', 'foo'])
             ->assertDontSee('Select an option');
