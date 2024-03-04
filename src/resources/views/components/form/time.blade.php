@@ -15,7 +15,6 @@
     @js($livewire),
     @js($property),
     @js($value))"
-    {{ $attributes->only(['x-on:hour', 'x-on:minute', 'x-on:interval']) }}
     x-cloak x-on:click.outside="show = false">
     <x-dynamic-component :component="TallStackUi::component('input')"
                          {{ $attributes->except('name') }}
@@ -55,7 +54,10 @@
                        max="{{ $format === '12' ? 12 : 23 }}"
                        step="{{ $stepHour ?? 1 }}"
                        x-model="hours"
+                       x-on:change="change($event, 'hours');"
+                       {{ $attributes->only('x-on:hour') }}
                        dusk="tallstackui_time_hours"
+                       x-on:change="alert(1);"
                        x-on:mouseenter="$refs.hours.classList.add('{{ $personalize['range.light'] }}', '{{ $personalize['range.dark'] }}')"
                        x-on:mouseleave="$refs.hours.classList.remove('{{ $personalize['range.light'] }}', '{{ $personalize['range.dark'] }}')"
                        @class(['focus:outline-none', $personalize['range.base'], $personalize['range.thumb']])>
@@ -64,13 +66,15 @@
                        max="59"
                        step="{{ $stepMinute ?? 1 }}"
                        x-model="minutes"
+                       x-on:change="change($event, 'minutes');"
+                       {{ $attributes->only('x-on:minute') }}
                        dusk="tallstackui_time_minutes"
                        x-on:mouseenter="$refs.minutes.classList.add('{{ $personalize['range.light'] }}', '{{ $personalize['range.dark'] }}')"
                        x-on:mouseleave="$refs.minutes.classList.remove('{{ $personalize['range.light'] }}', '{{ $personalize['range.dark'] }}')"
                        @class(['focus:outline-none', $personalize['range.base'], $personalize['range.thumb']])>
             </div>
             @if ($format === '12')
-                <div @class($personalize['interval.buttons.wrapper'])>
+                <div x-ref="format" {{ $attributes->only('x-on:interval') }} @class($personalize['interval.buttons.wrapper'])>
                     <button type="button"
                             x-on:click="select('AM')"
                             @class($personalize['interval.buttons.am'])

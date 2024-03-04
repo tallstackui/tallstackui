@@ -12,7 +12,7 @@ export default (model, full, times, livewire, property, value) => ({
       min: times.hour.min,
       max: times.hour.max,
     },
-    minutes: {
+    minute: {
       min: times.minute.min,
       max: times.minute.max,
     },
@@ -27,37 +27,9 @@ export default (model, full, times, livewire, property, value) => ({
 
     if (this.model || this.value) this.hydrate();
 
-    this.$watch('hours', (value) => {
-      if (this.range.hour.min && value < this.range.hour.min) {
-        this.hours = this.range.hour.min;
-      }
-
-      if (this.range.hour.max && value > this.range.hour.max) {
-        this.hours = this.range.hour.max;
-      }
-
-      this.sync();
-
-      this.$el.dispatchEvent(new CustomEvent('hour', {detail: {hour: value}}));
-    });
-
-    this.$watch('minutes', (value) => {
-      if (this.range.minutes.min && value < this.range.minutes.min) {
-        this.minutes = this.range.minutes.min;
-      }
-
-      if (this.range.minutes.max && value > this.range.minutes.max) {
-        this.minutes = this.range.minutes.max;
-      }
-
-      this.sync();
-
-      this.$el.dispatchEvent(new CustomEvent('minute', {detail: {minute: value}}));
-    });
-
-    this.$watch('interval', () => this.sync());
-
     this.$watch('model', () => this.hydrate());
+
+    this.sync();
   },
   /**
    * Hydrate the need stuff in the bootstrap.
@@ -71,6 +43,39 @@ export default (model, full, times, livewire, property, value) => ({
     this.hours = hours;
     this.minutes = minutes;
     this.interval = interval ?? null;
+  },
+  /**
+   * Change the hour and minute.
+   *
+   * @param {Event} event
+   * @param {String} type
+   * @return {void}
+   */
+  change(event, type) {
+    const change = {
+      hours: () => {
+        let value = parseInt(event.target.value);
+
+        // eslint-disable-next-line max-len
+        value = this.range.hour.min && value < this.range.hour.min ? this.range.hour.min : (this.range.hour.max && value > this.range.hour.max ? this.range.hour.max : value);
+
+        this.hours = value;
+
+        this.$el.dispatchEvent(new CustomEvent('hour', {detail: {hour: this.formatted.hours}}));
+      },
+      minutes: () => {
+        let value = parseInt(event.target.value);
+
+        // eslint-disable-next-line max-len
+        value = this.range.minute.min && value < this.range.minute.min ? this.range.minute.min : (this.range.minute.max && value > this.range.minute.max ? this.range.minute.max : value);
+
+        this.minutes = value;
+
+        this.$el.dispatchEvent(new CustomEvent('minute', {detail: {minute: this.formatted.minutes}}));
+      },
+    };
+
+    change[type]();
 
     this.sync();
   },
@@ -128,6 +133,10 @@ export default (model, full, times, livewire, property, value) => ({
    */
   select(interval) {
     this.interval = interval.toUpperCase();
+
+    this.$refs.format.dispatchEvent(new CustomEvent('interval', {detail: {interval: this.interval}}));
+
+    this.sync();
 
     this.show = false;
   },
