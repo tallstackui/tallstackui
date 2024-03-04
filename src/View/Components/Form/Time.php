@@ -87,7 +87,7 @@ class Time extends BaseComponent implements Personalization
         }
 
         if (! is_string($value)) {
-            throw new InvalidArgumentException('The date [value] must be a string.');
+            throw new InvalidArgumentException('The time [value] must be a string.');
         }
     }
 
