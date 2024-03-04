@@ -20,7 +20,7 @@ class SetupPrefixCommand extends Command
             Process::run('php artisan vendor:publish --tag=tallstackui.config');
         }
 
-        $prefix = text('What prefix do you want to use for the TallStackUI components?', required: true);
+        $prefix = text('What prefix do you want to use for the TallStackUI components?', required: true, hint: 'Want to remove the current prefix? If yes, type null');
         $result = $this->setup($prefix);
 
         if ($result !== true) {
@@ -39,10 +39,12 @@ class SetupPrefixCommand extends Command
     private function setup(string $prefix): bool|string
     {
         try {
-            $prefix = $prefix === 'null' ? var_export(null, true) : "'$prefix'";
+            $formatted = "'$prefix'";
 
             $config = file_get_contents(config_path('tallstackui.php'));
-            $update = preg_replace("/('prefix' => )[^,]+/", "\$1$prefix", $config);
+
+            $update = preg_replace("/('prefix' => )[^,]+/", $prefix === 'null' ? "'prefix' => null" : "\$1$formatted", $config);
+
             file_put_contents(config_path('tallstackui.php'), $update);
 
             return true;
