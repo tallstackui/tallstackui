@@ -15,17 +15,16 @@ class Step extends BaseComponent implements Personalization
 {
     public function __construct(
         public ?string $selected = null,
-        public ?bool $helpers = false,
-        public ?bool $panels = true,
+        public ?bool $panels = false,
         public ?bool $circles = false,
         public ?bool $simple = false,
+        public ?bool $helpers = false,
         public ?bool $navigate = false,
-        #[SkipDebug]
         public ?string $variation = null,
         #[SkipDebug]
         public ComponentSlot|string|null $finish = null,
     ) {
-        $this->variation = $this->simple ? 'simple' : ($this->circles ? 'circles' : 'panels');
+        $this->variation = $this->panels ? 'panels' : ($this->circles ? 'circles' : 'simple');
     }
 
     public function blade(): View
