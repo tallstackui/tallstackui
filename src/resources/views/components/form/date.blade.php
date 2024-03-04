@@ -29,6 +29,7 @@
                          :alternative="$attributes->get('name')"
                          x-ref="input"
                          x-on:click="picker.common = !picker.common; picker.year = false;"
+                         x-on:keydown="$event.preventDefault()"
                          dusk="tallstackui_date_input"
                          class="cursor-pointer caret-transparent">
         <x-slot:suffix>

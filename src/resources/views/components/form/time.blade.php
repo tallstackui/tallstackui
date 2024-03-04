@@ -25,6 +25,7 @@
                          :alternative="$attributes->get('name')"
                          x-ref="input"
                          x-on:click="show = !show"
+                         x-on:keydown="$event.preventDefault()"
                          dusk="tallstackui_time_input"
                          class="cursor-pointer caret-transparent">
                          <x-slot:suffix>

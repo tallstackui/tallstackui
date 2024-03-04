@@ -141,5 +141,9 @@ class Date extends BaseComponent implements Personalization
         if ($this->maxDate && $min->greaterThan($max)) {
             throw new InvalidArgumentException('The date [min-date] must be less than or equal to [max-date].');
         }
+
+        if ($this->minYear !== null && $this->maxYear !== null && $this->maxYear < $this->minYear) {
+            throw new InvalidArgumentException('The year [min-year] must be less than or equal to [max-year].');
+        }
     }
 }

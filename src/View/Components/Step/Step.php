@@ -14,12 +14,13 @@ use TallStackUi\View\Components\BaseComponent;
 class Step extends BaseComponent implements Personalization
 {
     public function __construct(
-        public ?string $selected = null,
+        public ?int $selected = null,
         public ?bool $panels = false,
         public ?bool $circles = false,
         public ?bool $simple = false,
         public ?bool $helpers = false,
         public ?bool $navigate = false,
+        public ?bool $previous = false,
         public ?string $variation = null,
         #[SkipDebug]
         public ComponentSlot|string|null $finish = null,
@@ -78,7 +79,7 @@ class Step extends BaseComponent implements Personalization
                 'text' => [
                     'title' => [
                         'wrapper' => 'whitespace-nowrap text-base font-bold',
-                        'inactive' => 'text-gray-600 dark:text-dark-300 group-hover:text-dark-500',
+                        'inactive' => 'text-gray-600 dark:text-dark-300',
                         'current' => 'text-primary-500',
                         'active' => 'text-green-600',
                     ],
