@@ -35,6 +35,13 @@ class Date extends BaseComponent implements Personalization
         $this->disable = collect($this->disable)
             ->flatten()
             ->unique()
+            ->map(function (string|Carbon $value) {
+                if (! $value instanceof Carbon) {
+                    return $value;
+                }
+
+                return $value->format('Y-m-d');
+            })
             ->values();
     }
 
