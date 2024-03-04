@@ -62,7 +62,9 @@ export default (
     // the model when it comes to interval mode, because
     // when this happens, the other dates are displayed
     // selected in the calendar.
-    if (range && this.model.length > 2) this.model = this.model.filter((value, key) => key < 2);
+    if (range && this.model && (this.model.constructor === Array && this.model.length > 2)) {
+      this.model = this.model.filter((value, key) => key < 2);
+    }
 
     this.$watch('model', () => {
       if (!this.livewire) return;

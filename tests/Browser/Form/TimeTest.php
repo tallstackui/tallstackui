@@ -36,6 +36,7 @@ class TimeTest extends BrowserTestCase
             ->click('@tallstackui_time_pm')
             ->waitForTextIn('@time', '07:00 PM')
             ->assertSeeIn('@time', '07:00 PM')
+            ->click('@tallstackui_time_input')
             ->click('@tallstackui_time_am')
             ->waitForTextIn('@time', '07:00 AM')
             ->assertSeeIn('@time', '07:00 AM');
