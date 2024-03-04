@@ -207,4 +207,122 @@ class TimeTest extends BrowserTestCase
             ->waitForTextIn('@time', '31')
             ->assertSeeIn('@time', '31');
     }
+
+    /** @test */
+    public function cannot_pass_the_max_hour(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $time = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="time">{{ $time }}</p>
+                    
+                    <x-time label="Time"
+                            :max-hour="5" 
+                            wire:model.live="time" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->click('@tallstackui_time_input')
+            ->waitForText('00')
+            ->dragRight('@tallstackui_time_hours', 30)
+            ->waitForTextIn('@time', '05:00 AM')
+            ->assertSeeIn('@time', '05:00 AM');
+    }
+
+    /** @test */
+    public function cannot_pass_the_max_minute(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $time = '11:00 PM';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="time">{{ $time }}</p>
+                    
+                    <x-time label="Time"
+                            :max-minute="30" 
+                            wire:model.live="time" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->click('@tallstackui_time_input')
+            ->waitForText('11')
+            ->waitForText('00')
+            ->waitForText('PM')
+            ->dragRight('@tallstackui_time_minutes', 50)
+            ->waitForTextIn('@time', '11:30 PM')
+            ->assertSeeIn('@time', '11:30 PM');
+    }
+
+    /** @test */
+    public function cannot_pass_the_min_hour(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $time = '11:30 PM';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="time">{{ $time }}</p>
+                    
+                    <x-time label="Time"
+                            :min-hour="5" 
+                            wire:model.live="time" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->click('@tallstackui_time_input')
+            ->waitForText('11')
+            ->waitForText('30')
+            ->waitForText('PM')
+            ->dragLeft('@tallstackui_time_hours', 30)
+            ->waitForTextIn('@time', '05:30 PM')
+            ->assertSeeIn('@time', '05:30 PM');
+    }
+
+    /** @test */
+    public function cannot_pass_the_min_minute(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $time = '11:30 PM';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="time">{{ $time }}</p>
+                    
+                    <x-time label="Time"
+                            :min-minute="15" 
+                            wire:model.live="time" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->click('@tallstackui_time_input')
+            ->waitForText('11')
+            ->waitForText('30')
+            ->waitForText('PM')
+            ->dragLeft('@tallstackui_time_minutes', 200)
+            ->waitForTextIn('@time', '11:15 PM')
+            ->assertSeeIn('@time', '11:15 PM');
+    }
 }
