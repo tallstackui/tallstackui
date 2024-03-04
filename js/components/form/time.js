@@ -55,11 +55,7 @@ export default (model, full, times, livewire, property, value) => ({
       this.$el.dispatchEvent(new CustomEvent('minute', {detail: {minute: value}}));
     });
 
-    this.$watch('interval', (value) => {
-      this.sync();
-
-      this.$el.dispatchEvent(new CustomEvent('interval', {detail: {interval: value}}));
-    });
+    this.$watch('interval', () => this.sync());
 
     this.$watch('model', () => this.hydrate());
   },
