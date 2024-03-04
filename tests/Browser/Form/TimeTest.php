@@ -102,6 +102,39 @@ class TimeTest extends BrowserTestCase
     }
 
     /** @test */
+    public function can_dispatch_select_minute_interval()
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $interval = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    @if ($interval)
+                        <p dusk="interval">{{ $interval }}</p>
+                    @endif
+                    
+                    <x-time label="Time" x-on:interval="$wire.set('interval', $event.detail.interval)" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->click('@tallstackui_time_input')
+            ->waitForText('00')
+            ->click('@tallstackui_time_pm')
+            ->waitForTextIn('@interval', 'PM')
+            ->assertSeeIn('@interval', 'PM')
+            ->click('@tallstackui_time_input')
+            ->waitForText('00')
+            ->click('@tallstackui_time_am')
+            ->waitForTextIn('@interval', 'AM')
+            ->assertSeeIn('@interval', 'AM');
+    }
+
+    /** @test */
     public function can_render_footer_slot()
     {
         Livewire::visit(new class extends Component
