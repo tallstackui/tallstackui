@@ -80,6 +80,17 @@ class Time extends BaseComponent implements Personalization
         ];
     }
 
+    final public function validating(mixed $value): void
+    {
+        if (is_null($value)) {
+            return;
+        }
+
+        if (! is_string($value)) {
+            throw new InvalidArgumentException('The date [value] must be a string.');
+        }
+    }
+
     /** @throws InvalidArgumentException */
     protected function validate(): void
     {

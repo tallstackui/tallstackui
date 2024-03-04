@@ -2,6 +2,7 @@
     [$property, $error, $id, $entangle] = $bind($attributes, $errors ?? null, $livewire);
     $personalize = $classes();
     $value = $attributes->get('value');
+    $validating($livewire ? ($property ? data_get($this, $property) : null) : $value);
 @endphp
 
 @if (!$livewire && $property)
