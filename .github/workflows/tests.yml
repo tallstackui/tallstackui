@@ -46,7 +46,7 @@ jobs:
       - name: Install Composer
         run: |
           composer require "laravel/framework:${{ matrix.laravel }}" --no-interaction --no-progress --ansi --no-update
-          composer update --${{ matrix.stability }} --no-interaction --no-progress --ansi
+          composer update --no-interaction --no-progress --ansi
 
       - name: Rector Cache
         uses: actions/cache@v4
