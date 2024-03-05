@@ -394,7 +394,7 @@ class DateTest extends BrowserTestCase
                 HTML;
             }
         })
-            ->waitForLivewireToLoad()
+            ->waitForText('DatePicker')
             ->click('@tallstackui_date_open_close')
             ->waitForText('Yesterday')
             ->click('@tallstackui_date_helper_tomorrow')
