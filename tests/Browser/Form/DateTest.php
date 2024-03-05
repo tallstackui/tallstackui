@@ -394,7 +394,7 @@ class DateTest extends BrowserTestCase
                 HTML;
             }
         })
-            ->waitForLivewireToLoad()
+            ->waitForText('DatePicker')
             ->click('@tallstackui_date_open_close')
             ->waitForText('Yesterday')
             ->click('@tallstackui_date_helper_tomorrow')
@@ -426,7 +426,7 @@ class DateTest extends BrowserTestCase
             ->click('@tallstackui_date_open_close')
             ->waitForText('Yesterday')
             ->click('@tallstackui_date_helper_yesterday')
-            ->waitForTextIn('@date', $date = now()->subDay()->format('Y-m-d'))
+            ->waitForTextIn('@date', $date = now()->subDays()->format('Y-m-d'))
             ->assertSeeIn('@date', $date);
     }
 

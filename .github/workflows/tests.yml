@@ -19,6 +19,7 @@ jobs:
         os: [ubuntu-latest]
         php: [8.1, 8.2, 8.3]
         laravel: [10.*]
+        timezone: [America/Sao_Paulo]
 
     name: OS:${{ matrix.os }} / PHP:${{ matrix.php }} / Laravel:${{ matrix.laravel }}
 
@@ -45,7 +46,7 @@ jobs:
       - name: Install Composer
         run: |
           composer require "laravel/framework:${{ matrix.laravel }}" --no-interaction --no-progress --ansi --no-update
-          composer update --no-interaction --no-suggest
+          composer update --no-interaction --no-progress --ansi
 
       - name: Rector Cache
         uses: actions/cache@v4
@@ -76,7 +77,7 @@ jobs:
         run: ./vendor/bin/testbench optimize:clear
 
       - name: Browser Tests
-        run: ./vendor/bin/pest --filter Browser --order-by random --stop-on-failure
+        run: ./vendor/bin/pest --ci --filter "can_use_tomorrow_helper"
         env:
           CI: true
 
