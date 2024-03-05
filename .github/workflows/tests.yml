@@ -71,13 +71,13 @@ jobs:
         run: ./vendor/bin/testbench optimize:clear
 
       - name: Feature Tests
-        run: ./vendor/bin/pest --filter Feature
+        run: ./vendor/bin/pest --ci --filter Feature
 
       - name: Clear Orchestra Testbench Cache
         run: ./vendor/bin/testbench optimize:clear
 
       - name: Browser Tests
-        run: ./vendor/bin/pest --ci --filter "can_use_tomorrow_helper"
+        run: ./vendor/bin/pest --ci --filter Browser --order-by random --stop-on-failure
         env:
           CI: true
 
