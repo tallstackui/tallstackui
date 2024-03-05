@@ -5,18 +5,18 @@
         <span @class($personalize['circles.circle.wrapper'])
               x-bind:class="{
                   '{{ $personalize['circles.circle.inactive'] }}': selected < item.step,
-                  '{{ $personalize['circles.circle.current'] }}': selected == item.step && item.completed === false,
-                  '{{ $personalize['circles.circle.border'] }}': selected == item.step && item.completed === true,
-                  '{{ $personalize['circles.circle.active'] }}': selected > item.step || selected == item.step && item.completed === true,
+                  '{{ $personalize['circles.circle.current'] }}': selected === item.step && item.completed === false,
+                  '{{ $personalize['circles.circle.border'] }}': selected === item.step && item.completed === true,
+                  '{{ $personalize['circles.circle.active'] }}': selected > item.step || selected === item.step && item.completed === true,
               }">
             <x-dynamic-component :component="TallStackUi::component('icon')"
                                  :icon="TallStackUi::icon('check')"
-                                 x-show="selected > item.step && item.completed == false || selected == item.step && item.completed == true"
+                                 x-show="selected > item.step && item.completed === false || selected === item.step && item.completed === true"
                                  @class($personalize['circles.check']) />
-            <span x-show="selected == item.step && item.completed === false"
+            <span x-show="selected === item.step && item.completed === false"
                   @class($personalize['circles.highlighter.wrapper'])
                   x-bind:class="{
-                      '{{ $personalize['circles.highlighter.current'] }}': selected == item.step && item.completed ===
+                      '{{ $personalize['circles.highlighter.current'] }}': selected === item.step && item.completed ===
                           false,
                       '{{ $personalize['circles.highlighter.active'] }}': item.completed === true,
                   }"></span>
