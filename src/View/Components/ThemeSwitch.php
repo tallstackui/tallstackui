@@ -4,6 +4,7 @@ namespace TallStackUi\View\Components;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
+use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 
@@ -12,12 +13,13 @@ class ThemeSwitch extends BaseComponent implements Personalization
 {
     public function __construct(
         public ?bool $icons = false,
-        public ?string $size = null,
         public ?bool $xs = null,
         public ?bool $sm = null,
         public ?bool $md = null,
         public ?bool $lg = null,
         public ?bool $xl = null,
+        #[SkipDebug]
+        public ?string $size = null,
     ) {
         $this->size = $this->xl ? 'xl' : ($this->xs ? 'xs' : ($this->sm ? 'sm' : ($this->lg ? 'lg' : 'md')));
     }
