@@ -19,7 +19,6 @@ jobs:
         os: [ubuntu-latest]
         php: [8.1, 8.2, 8.3]
         laravel: [10.*]
-        stability: [prefer-lowest, prefer-stable]
         timezone: [America/Sao_Paulo]
 
     name: OS:${{ matrix.os }} / PHP:${{ matrix.php }} / Laravel:${{ matrix.laravel }}
@@ -47,7 +46,7 @@ jobs:
       - name: Install Composer
         run: |
           composer require "laravel/framework:${{ matrix.laravel }}" --no-interaction --no-progress --ansi --no-update
-          composer update --${{ matrix.stability }} --prefer-dist --no-interaction
+          composer update --${{ matrix.stability }} --no-interaction --no-progress --ansi
 
       - name: Rector Cache
         uses: actions/cache@v4
