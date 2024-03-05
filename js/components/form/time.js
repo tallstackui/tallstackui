@@ -4,8 +4,8 @@ import dayjs from 'dayjs';
 export default (model, full, times, livewire, property, value) => ({
   model: model,
   show: false,
-  hours: '0',
-  minutes: '0',
+  hours: '00',
+  minutes: '00',
   interval: 'AM',
   range: {
     hour: {
@@ -20,12 +20,17 @@ export default (model, full, times, livewire, property, value) => ({
   livewire: livewire,
   property: property,
   value: value,
+  empty: false,
   init() {
-    if (!full && (this.model || this.value) && !/(AM|PM)/.test(this.model ?? this.value)) {
+    this.model ??= this.value;
+    this.empty = this.model === null;
+    this.hours = full ? '00' : '01';
+
+    if (!full && this.model && !/(AM|PM)/.test(this.model ?? this.value)) {
       warning('The time format is not complete. Please, include the interval (AM/PM).');
     }
 
-    if (this.model || this.value) this.hydrate();
+    if (this.model) this.hydrate();
 
     this.$watch('model', () => this.hydrate());
 
@@ -76,6 +81,7 @@ export default (model, full, times, livewire, property, value) => ({
     };
 
     change[type]();
+    this.empty = false;
 
     this.sync();
   },
@@ -97,9 +103,9 @@ export default (model, full, times, livewire, property, value) => ({
 
     this.$el.dispatchEvent(new CustomEvent('current', {detail: {time: {hour: hours, minute: minutes, interval: this.interval}}}));
 
-    this.sync();
+    this.show = this.empty = false;
 
-    this.show = false;
+    this.sync();
   },
   /**
    * Sync the input and model.
@@ -113,11 +119,9 @@ export default (model, full, times, livewire, property, value) => ({
       value = `${value} ${this.interval}`;
     }
 
-    this.$refs.input.value = value;
+    if (!this.empty) this.$refs.input.value = this.model = value;
 
-    this.model = value;
-
-    if (this.livewire) return;
+    if (this.livewire || this.empty) return;
 
     const input = document.getElementsByName(this.property)[0];
 
