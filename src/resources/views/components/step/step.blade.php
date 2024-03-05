@@ -1,10 +1,6 @@
 @php($personalize = $classes())
 
-<div x-data="{
-        selected: @if (!$selected) {!! TallStackUi::blade($attributes, $livewire)->entangle() !!} @else @js($selected) @endif, 
-        navigate: @js($navigate), 
-        steps: [],
-    }">
+<div x-data="{ selected: @if (!$selected) {!! TallStackUi::blade($attributes, $livewire)->entangle() !!} @else @js($selected) @endif, navigate: @js($navigate), steps: [] }">
     <nav>
         <div @class(['overflow-hidden rounded-md' => $variation === 'panels'])>
             <ul role="list"
