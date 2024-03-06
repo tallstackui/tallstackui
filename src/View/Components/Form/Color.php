@@ -9,11 +9,14 @@ use InvalidArgumentException;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Foundation\Traits\CompilesConditionalAttributes;
 use TallStackUi\View\Components\BaseComponent;
 
 #[SoftPersonalization('form.color')]
 class Color extends BaseComponent implements Personalization
 {
+    use CompilesConditionalAttributes;
+
     public function __construct(
         public ?string $label = null,
         public ?string $hint = null,
