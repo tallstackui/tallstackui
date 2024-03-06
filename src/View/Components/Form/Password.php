@@ -8,11 +8,14 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Foundation\Traits\CompilesConditionalAttributes;
 use TallStackUi\View\Components\BaseComponent;
 
 #[SoftPersonalization('form.password')]
 class Password extends BaseComponent implements Personalization
 {
+    use CompilesConditionalAttributes;
+
     public function __construct(
         public ?string $label = null,
         public ?string $hint = null,
@@ -48,10 +51,10 @@ class Password extends BaseComponent implements Personalization
                 'class' => 'h-5 w-5 cursor-pointer',
             ],
             'rules' => [
-                'title' => 'text-lg font-semibold text-red-500 dark:text-dark-300',
+                'title' => 'text-md font-semibold text-red-500 dark:text-dark-300',
                 'block' => 'mt-2 flex flex-col',
                 'items' => [
-                    'base' => 'inline-flex items-center gap-1 text-gray-700 text-md dark:text-dark-300',
+                    'base' => 'inline-flex items-center gap-1 text-gray-700 text-sm dark:text-dark-300',
                     'icons' => [
                         'error' => 'h-5 w-5 text-red-500',
                         'success' => 'h-5 w-5 text-green-500',

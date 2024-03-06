@@ -1,18 +1,11 @@
 @php
-    [$property, $error, $id] = $bind($attributes, $errors ?? null, $livewire);
+    [$property, $error, $id, $entangle] = $bind($attributes, $errors ?? null, $livewire);
     $personalize = $classes();
     $icons = ['x-circle' => TallStackUi::icon('x-circle'), 'check-circle' => TallStackUi::icon('check-circle')];
-
-    $attributes = $attributes->when($rules->isNotEmpty(), function ($attributes) use ($rules) {
-        $attributes->setAttributes([
-            ...$attributes,
-            'x-on:click' => 'rules = true',
-            'x-model.debounce' => 'input'
-        ]);
-    });
+    $attributes = $compile($rules->isNotEmpty(), ['x-on:click' => 'rules = true', 'x-model.debounce' => 'input']);
 @endphp
 
-<div x-data="tallstackui_formPassword(@js($rules), @js($generator))" class="relative" x-cloak x-on:click.outside="rules = false">
+<div x-data="tallstackui_formPassword({!! $entangle !!}, @js($rules), @js($generator))" class="relative" x-cloak x-on:click.outside="rules = false">
      <x-dynamic-component :component="TallStackUi::component('input')"
                           {{ $attributes->except('autocomplete') }}
                           :$label
@@ -50,7 +43,7 @@
      </x-dynamic-component>
     @if ($rules->isNotEmpty())
         <x-dynamic-component :component="TallStackUi::component('floating')"
-                             class="p-3 w-full"
+                             class="w-full p-3"
                              x-show="rules">
             <h3 @class($personalize['rules.title'])>{{ __('tallstack-ui::messages.password.rules.title') }}</h3>
             <div @class($personalize['rules.block'])>

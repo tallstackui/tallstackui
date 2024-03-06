@@ -1,4 +1,5 @@
-export default (rules) => ({
+export default (model, rules) => ({
+  model: model,
   show: false,
   rules: false,
   input: '',
@@ -88,7 +89,7 @@ export default (rules) => ({
     // We just shuffle the password to avoid predictable patterns
     password = password.split('').sort(() => 0.5 - Math.random()).join('');
 
-    this.input = password;
+    this.input = this.model = password;
 
     this.$el.dispatchEvent(new CustomEvent('generate', {detail: {password: password}}));
 
