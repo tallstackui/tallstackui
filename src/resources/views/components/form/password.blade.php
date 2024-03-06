@@ -1,7 +1,7 @@
 @php
     [$property, $error, $id, $entangle] = $bind($attributes, $errors ?? null, $livewire);
     $personalize = $classes();
-    $icons = ['x-circle' => TallStackUi::icon('x-circle'), 'check-circle' => TallStackUi::icon('check-circle')];
+    $icon = $icons();
     $attributes = $merge($rules->isNotEmpty(), [
         'x-on:click' => 'rules = true',
         'x-model.debounce' => 'input'
@@ -53,11 +53,11 @@
                 @if ($rules->has('min'))
                     <span @class($personalize['rules.items.base'])>
                             <x-dynamic-component :component="TallStackUi::component('icon')"
-                                                 :icon="$icons['x-circle']"
+                                                 :icon="$icon['x-circle']"
                                                  :class="$personalize['rules.items.icons.error']"
                                                  x-show="!results.min" />
                             <x-dynamic-component :component="TallStackUi::component('icon')"
-                                                 :icon="$icons['check-circle']"
+                                                 :icon="$icon['check-circle']"
                                                  :class="$personalize['rules.items.icons.success']"
                                                  x-show="results.min" />
                             <p x-bind:class="{ 'line-through' : results.min }">{{ __('tallstack-ui::messages.password.rules.formats.min', ['min' => $rules->get('min')]) }}</p>
@@ -66,11 +66,11 @@
                 @if ($rules->has('symbols'))
                     <span @class($personalize['rules.items.base'])>
                             <x-dynamic-component :component="TallStackUi::component('icon')"
-                                                 :icon="$icons['x-circle']"
+                                                 :icon="$icon['x-circle']"
                                                  :class="$personalize['rules.items.icons.error']"
                                                  x-show="!results.symbols" />
                             <x-dynamic-component :component="TallStackUi::component('icon')"
-                                                 :icon="$icons['check-circle']"
+                                                 :icon="$icon['check-circle']"
                                                  :class="$personalize['rules.items.icons.success']"
                                                  x-show="results.symbols" />
                             <p x-bind:class="{ 'line-through' : results.symbols }">{{ __('tallstack-ui::messages.password.rules.formats.symbols', ['symbols' => $rules->get('symbols')]) }}</p>
@@ -79,11 +79,11 @@
                 @if ($rules->has('numbers'))
                     <span @class($personalize['rules.items.base'])>
                             <x-dynamic-component :component="TallStackUi::component('icon')"
-                                                 :icon="$icons['x-circle']"
+                                                 :icon="$icon['x-circle']"
                                                  :class="$personalize['rules.items.icons.error']"
                                                  x-show="!results.numbers" />
                             <x-dynamic-component :component="TallStackUi::component('icon')"
-                                                 :icon="$icons['check-circle']"
+                                                 :icon="$icon['check-circle']"
                                                  :class="$personalize['rules.items.icons.success']"
                                                  x-show="results.numbers" />
                             <p x-bind:class="{ 'line-through' : results.numbers }">{{ __('tallstack-ui::messages.password.rules.formats.numbers') }}</p>
@@ -92,11 +92,11 @@
                 @if ($rules->has('mixed'))
                     <span @class($personalize['rules.items.base'])>
                             <x-dynamic-component :component="TallStackUi::component('icon')"
-                                                 :icon="$icons['x-circle']"
+                                                 :icon="$icon['x-circle']"
                                                  :class="$personalize['rules.items.icons.error']"
                                                  x-show="!results.mixed" />
                             <x-dynamic-component :component="TallStackUi::component('icon')"
-                                                 :icon="$icons['check-circle']"
+                                                 :icon="$icon['check-circle']"
                                                  :class="$personalize['rules.items.icons.success']"
                                                  x-show="results.mixed" />
                             <p x-bind:class="{ 'line-through' : results.mixed }">{{ __('tallstack-ui::messages.password.rules.formats.mixed') }}</p>
