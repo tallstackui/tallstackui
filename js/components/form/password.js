@@ -1,4 +1,5 @@
 export default (rules) => ({
+  show: false,
   rules: false,
   input: '',
   min: rules.min ?? null,
@@ -21,6 +22,16 @@ export default (rules) => ({
 
       this.check(value);
     });
+  },
+  /**
+   * Toggle the visibility of the password.
+   *
+   * @returns {void}
+   */
+  toggle() {
+    this.show = !this.show;
+
+    this.$el.dispatchEvent(new CustomEvent('reveal', {detail: {status: this.show}}));
   },
   /**
    * @returns {void}

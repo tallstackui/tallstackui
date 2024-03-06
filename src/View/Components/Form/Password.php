@@ -9,13 +9,10 @@ use Illuminate\Support\Collection;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\View\Components\BaseComponent;
-use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
 
 #[SoftPersonalization('form.password')]
 class Password extends BaseComponent implements Personalization
 {
-    use DefaultInputClasses;
-
     public function __construct(
         public ?string $label = null,
         public ?string $hint = null,
@@ -46,10 +43,9 @@ class Password extends BaseComponent implements Personalization
     public function personalization(): array
     {
         return Arr::dot([
-            'input' => [...$this->input()],
             'icon' => [
                 'wrapper' => 'flex items-center',
-                'class' => 'dark:text-dark-400 h-5 w-5 cursor-pointer text-gray-500',
+                'class' => 'h-5 w-5 cursor-pointer',
             ],
             'rules' => [
                 'title' => 'text-lg font-semibold text-red-500 dark:text-dark-300',
@@ -62,15 +58,16 @@ class Password extends BaseComponent implements Personalization
                     ],
                 ],
             ],
-            'error' => $this->error(),
         ]);
     }
 
     protected function setup(): void
     {
         $this->rules = collect($this->rules)->reduce(function (Collection $carry, string $value) {
+            $defaults = self::defaults();
+
             if (str_contains($value, 'min')) {
-                $carry->put('min', (explode(':', $value)[1] ?? self::defaults()['min']));
+                $carry->put('min', (explode(':', $value)[1] ?? $defaults['min']));
             }
 
             if (str_contains($value, 'numbers')) {
@@ -78,7 +75,7 @@ class Password extends BaseComponent implements Personalization
             }
 
             if (str_contains($value, 'symbols')) {
-                $carry->put('symbols', (explode(':', $value)[1] ?? self::defaults()['symbols']));
+                $carry->put('symbols', (explode(':', $value)[1] ?? $defaults['symbols']));
             }
 
             if (str_contains($value, 'mixed')) {
