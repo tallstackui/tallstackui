@@ -11,12 +11,10 @@ use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\Support\Components\UploadComponentFileAdapter;
 use TallStackUi\View\Components\BaseComponent;
-use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
 
 #[SoftPersonalization('form.upload')]
 class Upload extends BaseComponent implements Personalization
 {
-    use DefaultInputClasses;
 
     public function __construct(
         public ?string $label = null,

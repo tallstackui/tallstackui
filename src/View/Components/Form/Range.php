@@ -8,12 +8,10 @@ use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\View\Components\BaseComponent;
-use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
 
 #[SoftPersonalization('form.range')]
 class Range extends BaseComponent implements Personalization
 {
-    use DefaultInputClasses;
 
     public function __construct(
         public ?string $label = null,
