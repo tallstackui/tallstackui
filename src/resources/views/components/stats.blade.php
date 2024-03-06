@@ -30,7 +30,7 @@
             </div>
         @endif
         <div class="flex-grow">
-            <h2 @class($personalize['title'])>{{ $title }}</h2>
+            @if ($title) <h2 @class($personalize['title'])>{{ $title }}</h2> @endif
             @if ($slot->isNotEmpty())
                 {{ $slot }}
             @else
