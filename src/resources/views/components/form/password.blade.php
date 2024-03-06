@@ -2,7 +2,10 @@
     [$property, $error, $id, $entangle] = $bind($attributes, $errors ?? null, $livewire);
     $personalize = $classes();
     $icons = ['x-circle' => TallStackUi::icon('x-circle'), 'check-circle' => TallStackUi::icon('check-circle')];
-    $attributes = $compile($rules->isNotEmpty(), ['x-on:click' => 'rules = true', 'x-model.debounce' => 'input']);
+    $attributes = $merge($rules->isNotEmpty(), [
+        'x-on:click' => 'rules = true',
+        'x-model.debounce' => 'input'
+    ]);
 @endphp
 
 <div x-data="tallstackui_formPassword({!! $entangle !!}, @js($rules), @js($generator))" class="relative" x-cloak x-on:click.outside="rules = false">

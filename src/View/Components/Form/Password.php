@@ -8,13 +8,13 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\Foundation\Traits\CompilesConditionalAttributes;
+use TallStackUi\Foundation\Traits\MergeConditionalAttributes;
 use TallStackUi\View\Components\BaseComponent;
 
 #[SoftPersonalization('form.password')]
 class Password extends BaseComponent implements Personalization
 {
-    use CompilesConditionalAttributes;
+    use MergeConditionalAttributes;
 
     public function __construct(
         public ?string $label = null,
