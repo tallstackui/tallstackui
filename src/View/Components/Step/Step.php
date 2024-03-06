@@ -20,7 +20,7 @@ class Step extends BaseComponent implements Personalization
         public ?bool $simple = false,
         public ?bool $helpers = false,
         public ?bool $navigate = false,
-        public ?bool $previous = false,
+        public ?bool $navigatePrevious = false,
         public ?string $variation = null,
         #[SkipDebug]
         public ComponentSlot|string|null $finish = null,
