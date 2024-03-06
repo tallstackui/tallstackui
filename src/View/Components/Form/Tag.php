@@ -41,10 +41,8 @@ class Tag extends BaseComponent implements Personalization
                 'icon' => 'h-4 w-4 cursor-pointer text-red-500',
             ],
             'input' => [
-                'class' => [
-                    'base' => 'flex flex-grow items-center border-0 border-transparent py-0 px-1 text-gray-600 outline-none focus:outline-none focus:ring-0 !bg-transparent',
-                    ...collect($this->input())->except('base')->toArray(),
-                ],
+                'base' => 'flex flex-grow items-center border-0 border-transparent py-0 px-1 text-gray-600 outline-none focus:outline-none focus:ring-0 !bg-transparent',
+                ...collect($this->input())->except('base')->toArray(),
             ],
             'button' => [
                 'wrapper' => 'text-secondary-500 dark:text-dark-400 absolute inset-y-0 right-2 flex cursor-pointer items-center',

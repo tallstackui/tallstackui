@@ -15,10 +15,10 @@
          {{ $attributes->whereStartsWith('x-on')->except('x-on:erase') }}
          @class([
             '!block',
-            $personalize['input.class.wrapper'],
-            $personalize['input.class.color.base'] => !$error,
-            $personalize['input.class.color.background'] => !$attributes->get('disabled') && !$attributes->get('readonly'),
-            $personalize['input.class.color.disabled'] => $attributes->get('disabled') || $attributes->get('readonly'),
+            $personalize['input.wrapper'],
+            $personalize['input.color.base'] => !$error,
+            $personalize['input.color.background'] => !$attributes->get('disabled') && !$attributes->get('readonly'),
+            $personalize['input.color.disabled'] => $attributes->get('disabled') || $attributes->get('readonly'),
             $personalize['error'] => $error
          ])>
         <div @class($personalize['wrapper'])>
@@ -38,9 +38,9 @@
                         ->except(['value', 'name'])
                         ->class([
                             'w-4',
-                            $personalize['input.class.base'],
-                            $personalize['input.class.color.base'] => !$error,
-                            $personalize['input.class.color.background'],
+                            $personalize['input.base'],
+                            $personalize['input.color.base'] => !$error,
+                            $personalize['input.color.background'],
                             $personalize['error'] => $error
                         ]) }}
                    x-on:keydown="add($event)"
