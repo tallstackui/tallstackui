@@ -15,7 +15,6 @@ use TallStackUi\View\Components\BaseComponent;
 #[SoftPersonalization('form.upload')]
 class Upload extends BaseComponent implements Personalization
 {
-
     public function __construct(
         public ?string $label = null,
         public ?string $hint = null,
