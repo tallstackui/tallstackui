@@ -2,7 +2,7 @@
 
 <div x-show="{{ $attributes->get('x-show', 'show') }}" 
      x-cloak
-     x-intersect:leave="show = false"
+     x-intersect:leave="{{ $attributes->get('x-show', 'show') }} = false"
      {{ $anchor() }}="{{ $attributes->get('x-anchor', '$refs.anchor') }}"
      {{ $attributes->whereStartsWith('x-on') }}
      @if (method_exists($attributes, 'isEmpty') && count($attributes->whereStartsWith('x-transition')->getAttributes()) === 0 && $transition->isEmpty())
