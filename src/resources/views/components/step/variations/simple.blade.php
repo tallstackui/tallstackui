@@ -1,6 +1,6 @@
 <li @class($personalize['simple.li'])
     x-bind:class="{ 'cursor-pointer': navigate === true }"
-    x-on:click="if (navigate === false || (previous === false && item.step < parseInt(selected))) return; parseInt(selected) = item.step;">
+    x-on:click="if (navigate === false || (previous === false && item.step < parseInt(selected))) return; selected = item.step;">
     <div @class($personalize['simple.bar.wrapper'])
          x-bind:class="{
              '{{ $personalize['simple.bar.inactive'] }}': parseInt(selected) < item.step,
