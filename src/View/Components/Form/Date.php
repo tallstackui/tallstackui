@@ -109,8 +109,8 @@ class Date extends BaseComponent implements Personalization
     final public function validating(array|string|null $value = null): void
     {
         if ($this->range && count($value) === 2) {
-            [$start, $end] = array_map(fn($date) => Carbon::parse($date), $value);
-        
+            [$start, $end] = array_map(fn ($date) => Carbon::parse($date), $value);
+
             if ($start->gt($end)) {
                 throw new InvalidArgumentException('The first date in the [range] must be greater than the second date.');
             }
