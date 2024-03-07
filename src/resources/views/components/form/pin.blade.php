@@ -1,9 +1,7 @@
 @php
     [$property, $error, $id, $entangle] = $bind($attributes, $errors ?? null, $livewire);
     $personalize = $classes();
-    $hash = $livewire
-        ? $__livewire->getId().'-'.$property
-        : uniqid();
+    $hash = $livewire ? $__livewire->getId().'-'.$property : uniqid();
     $value = $attributes->get('value');
 @endphp
 
@@ -11,7 +9,7 @@
     <div hidden id="{{ $hash }}">@js($error)</div>
 @elseif ($property)
     <div hidden id="{{ $hash }}">@js($errors->has($property))</div>
-    <input hidden id="{{ $id }}" name="{{ $property }}" @if ($value) value="{{ $value }}" @endif>
+    <input hidden name="{{ $property }}" @if ($value) value="{{ $value }}" @endif>
 @endif
 
 <div>

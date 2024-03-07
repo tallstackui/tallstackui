@@ -6,7 +6,7 @@
 @endphp
 
 @if (!$livewire && $property)
-    <input hidden id="{{ $id }}" name="{{ $property }}">
+    <input hidden name="{{ $property }}">
 @endif
 
 <div x-data="tallstackui_formDate(
