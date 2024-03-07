@@ -377,7 +377,7 @@ export default (
     event.preventDefault();
     event.stopPropagation();
 
-    if (this.range.year.min !== null && this.range.year.last >= this.range.year.max) return;
+    if (this.range.year.max !== null && this.range.year.last >= this.range.year.max) return;
 
     this.range.year.start += 19;
   },

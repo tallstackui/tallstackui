@@ -20,7 +20,7 @@ class DateTest extends BrowserTestCase
                 return <<<'HTML'
                 <div>
                     <p dusk="date">{{ $date }}</p>
-                    
+
                     <x-date label="DatePicker"
                             wire:model.live="date" />
                 </div>
@@ -47,7 +47,7 @@ class DateTest extends BrowserTestCase
                 return <<<'HTML'
                 <div>
                     <p dusk="date">{{ $date }}</p>
-                    
+
                     <x-date label="DatePicker"
                             wire:model.live="date" />
                 </div>
@@ -63,6 +63,91 @@ class DateTest extends BrowserTestCase
             ->click('@tallstackui_date_previous_year')
             ->waitForText('1990')
             ->assertSee('1990');
+    }
+
+    /** @test */
+    public function can_boot_on_first_date(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $date = '1999-06-01';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="date">{{ $date }}</p>
+
+                    <x-date label="DatePicker" wire:model.live="date" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->waitForTextIn('@date', '1999-06-01')
+            ->assertSeeIn('@date', '1999-06-01')
+            ->click('@tallstackui_date_open_close')
+            ->waitForText('June')
+            ->assertSee('June')
+            ->assertSee('1999');
+    }
+
+    /** @test */
+    public function can_boot_on_first_date_in_range(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?array $date = ['1999-06-01', '2024-01-01'];
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="date">@json($date)</p>
+
+                    <x-date label="DatePicker"
+                            wire:model.live="date"
+                            range />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->waitForTextIn('@date', '["1999-06-01","2024-01-01"]')
+            ->assertSeeIn('@date', '["1999-06-01","2024-01-01"]')
+            ->click('@tallstackui_date_open_close')
+            ->waitForText('June')
+            ->assertSee('June')
+            ->assertSee('1999');
+    }
+
+    /** @test */
+    public function can_boot_on_first_date_in_multiple(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?array $date = ['1999-06-01', '2023-01-01', '2024-01-01'];
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="date">@json($date)</p>
+
+                    <x-date label="DatePicker"
+                            wire:model.live="date"
+                            multiple />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->waitForTextIn('@date', '["1999-06-01","2023-01-01","2024-01-01"]')
+            ->assertSeeIn('@date', '["1999-06-01","2023-01-01","2024-01-01"]')
+            ->click('@tallstackui_date_open_close')
+            ->waitForText('June')
+            ->assertSee('June')
+            ->assertSee('1999');
     }
 
     /** @test */
@@ -83,7 +168,7 @@ class DateTest extends BrowserTestCase
                     @if ($selected)
                         <p dusk="selected">{{ $selected }}</p>
                     @endif
-                    
+
                     <x-date label="DatePicker"
                             x-on:clear="$wire.set('selected', 1)"
                             wire:model.live="date" />
@@ -119,7 +204,7 @@ class DateTest extends BrowserTestCase
                     @if ($selected)
                         <p dusk="selected">{{ $selected }}</p>
                     @endif
-                    
+
                     <x-date label="DatePicker"
                             x-on:select="$wire.set('selected', 1)"
                             wire:model.live="date" />
@@ -149,7 +234,7 @@ class DateTest extends BrowserTestCase
                 return <<<'HTML'
                 <div>
                     <p dusk="date">{{ $date }}</p>
-                    
+
                     <x-date label="DatePicker"
                             wire:model.live="date" />
                 </div>
@@ -179,7 +264,7 @@ class DateTest extends BrowserTestCase
                 return <<<'HTML'
                 <div>
                     <p dusk="date">{{ $date }}</p>
-                    
+
                     <x-date label="DatePicker"
                             wire:model.live="date" />
                 </div>
@@ -206,7 +291,7 @@ class DateTest extends BrowserTestCase
                 return <<<'HTML'
                 <div>
                     <p dusk="date">{{ $date }}</p>
-                    
+
                     <x-date label="DatePicker"
                             wire:model.live="date" />
                 </div>
@@ -235,7 +320,7 @@ class DateTest extends BrowserTestCase
                 return <<<'HTML'
                 <div>
                     <p dusk="date">{{ $date }}</p>
-                    
+
                     <x-date label="DatePicker"
                             wire:model.live="date" />
                 </div>
@@ -263,9 +348,9 @@ class DateTest extends BrowserTestCase
                 return <<<'HTML'
                 <div>
                     <p dusk="date">@json($date)</p>
-                    
+
                     <x-date label="DatePicker"
-                            wire:model.live="date" 
+                            wire:model.live="date"
                             multiple />
                 </div>
                 HTML;
@@ -295,9 +380,9 @@ class DateTest extends BrowserTestCase
                 return <<<'HTML'
                 <div>
                     <p dusk="date">@json($date)</p>
-                    
+
                     <x-date label="DatePicker"
-                            wire:model.live="date" 
+                            wire:model.live="date"
                             range />
                 </div>
                 HTML;
@@ -325,7 +410,7 @@ class DateTest extends BrowserTestCase
                 return <<<'HTML'
                 <div>
                     <p dusk="date">{{ $date }}</p>
-                    
+
                     <x-date label="DatePicker"
                             wire:model.live="date" />
                 </div>
@@ -347,6 +432,70 @@ class DateTest extends BrowserTestCase
     }
 
     /** @test */
+    public function can_use_min_date(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $date = '2024-01-03';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="date">{{ $date }}</p>
+
+                    <x-date label="DatePicker"
+                            min-date="2024-01-02"
+                            wire:model.live="date" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->waitForTextIn('@date', '2024-01-03')
+            ->click('@tallstackui_date_open_close')
+            ->waitForText('January')
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div[3]/div[3]/button')
+            ->waitForTextIn('@date', '2024-01-03')
+            ->assertSeeIn('@date', '2024-01-03')
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div[3]/div[5]/button')
+            ->waitForTextIn('@date', '2024-01-04')
+            ->assertSeeIn('@date', '2024-01-04');
+    }
+
+    /** @test */
+    public function can_use_max_date(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $date = '2024-01-02';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="date">{{ $date }}</p>
+
+                    <x-date label="DatePicker"
+                            max-date="2024-01-02"
+                            wire:model.live="date" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->waitForTextIn('@date', '2024-01-02')
+            ->click('@tallstackui_date_open_close')
+            ->waitForText('January')
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div[3]/div[4]/button')
+            ->waitForTextIn('@date', '2024-01-02')
+            ->assertSeeIn('@date', '2024-01-02')
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div[3]/div[2]/button')
+            ->waitForTextIn('@date', '2024-01-01')
+            ->assertSeeIn('@date', '2024-01-01');
+    }
+
+    /** @test */
     public function can_use_today_helper(): void
     {
         Livewire::visit(new class extends Component
@@ -358,7 +507,7 @@ class DateTest extends BrowserTestCase
                 return <<<'HTML'
                 <div>
                     <p dusk="date">{{ $date }}</p>
-                    
+
                     <x-date label="DatePicker"
                             helpers
                             wire:model.live="date" />
@@ -386,7 +535,7 @@ class DateTest extends BrowserTestCase
                 return <<<'HTML'
                 <div>
                     <p dusk="date">{{ $date }}</p>
-                    
+
                     <x-date label="DatePicker"
                             helpers
                             wire:model.live="date" />
@@ -414,7 +563,7 @@ class DateTest extends BrowserTestCase
                 return <<<'HTML'
                 <div>
                     <p dusk="date">{{ $date }}</p>
-                    
+
                     <x-date label="DatePicker"
                             helpers
                             wire:model.live="date" />
@@ -442,7 +591,7 @@ class DateTest extends BrowserTestCase
                 return <<<'HTML'
                 <div>
                     <p dusk="date">{{ $date }}</p>
-                    
+
                     <x-date label="DatePicker"
                             :max-year="2024"
                             wire:model.live="date" />
@@ -476,7 +625,7 @@ class DateTest extends BrowserTestCase
                 return <<<'HTML'
                 <div>
                     <p dusk="date">{{ $date }}</p>
-                    
+
                     <x-date label="DatePicker"
                             :min-year="2024"
                             wire:model.live="date" />
@@ -499,6 +648,29 @@ class DateTest extends BrowserTestCase
     }
 
     /** @test */
+    public function cannot_use_the_first_date_greater_than_the_second_on_range(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public array $date = ['2020-01-01', '2019-01-01'];
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="date">@json($date)</p>
+
+                    <x-date label="DatePicker"
+                            wire:model.live="date"
+                            range />
+                </div>
+                HTML;
+            }
+        })
+            ->assertSee('The first date in the [range] must be greater than the second date.');
+    }
+
+    /** @test */
     public function cannot_use_a_min_date_greater_than_max_date(): void
     {
         Livewire::visit(new class extends Component
@@ -510,7 +682,7 @@ class DateTest extends BrowserTestCase
                 return <<<'HTML'
                 <div>
                     <p dusk="date">@json($date)</p>
-                    
+
                     <x-date label="DatePicker"
                             min-date="2024-01-01"
                             max-date="2020-01-01"
@@ -521,4 +693,29 @@ class DateTest extends BrowserTestCase
         })
             ->assertSee('The date [min-date] must be less than or equal to [max-date].');
     }
+
+    /** @test */
+    public function cannot_use_a_min_year_greater_than_max_year(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public string $date = '2020-01-01';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="date">{{ $date }}</p>
+
+                    <x-date label="DatePicker"
+                            min-year="2024"
+                            max-year="2020"
+                            wire:model.live="date" />
+                </div>
+                HTML;
+            }
+        })
+            ->assertSee('The year [min-year] must be less than or equal to [max-year].');
+    }
+
 }

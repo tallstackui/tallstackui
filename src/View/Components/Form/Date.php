@@ -108,6 +108,14 @@ class Date extends BaseComponent implements Personalization
 
     final public function validating(array|string|null $value = null): void
     {
+        if ($this->range && count($value) === 2) {
+            [$start, $end] = array_map(fn($date) => Carbon::parse($date), $value);
+        
+            if ($start->gt($end)) {
+                throw new InvalidArgumentException('The first date in the [range] must be greater than the second date.');
+            }
+        }
+
         if (($this->range || $this->multiple) && ! is_array($value)) {
             throw new InvalidArgumentException('The date [value] must be an array when using the [range] or [multiple].');
         }
@@ -138,7 +146,7 @@ class Date extends BaseComponent implements Personalization
         // because when parsing a null date, the date returned is the
         // current one, causing the comparison to always result in true
         // since $min can be greater than the $max (set incorrectly).
-        if ($this->maxDate && $min->greaterThan($max)) {
+        if ($this->minDate !== null && $this->maxDate !== null && $this->maxDate && $min->greaterThan($max)) {
             throw new InvalidArgumentException('The date [min-date] must be less than or equal to [max-date].');
         }
 
