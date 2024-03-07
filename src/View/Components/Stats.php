@@ -64,7 +64,7 @@ class Stats extends BaseComponent implements Personalization
                 ],
             ],
             'icon' => 'h-8 w-8',
-            'title' => 'dark:text-dark-300 text-base font-medium text-gray-600',
+            'title' => 'dark:text-dark-300 text-sm text-gray-600 mb-2',
             'number' => 'dark:text-dark-300 text-2xl font-bold text-primary-500',
         ]);
     }

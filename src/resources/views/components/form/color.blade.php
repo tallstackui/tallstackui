@@ -2,6 +2,12 @@
     [$property,, $id, $entangle] = $bind($attributes, $errors ?? null, $livewire);
     $personalize = $classes();
     $value = $attributes->get('value');
+    $attributes = $merge($selectable === true, [
+        'x-on:click' => 'show = !show',
+        'class' => 'cursor-pointer caret-transparent',
+        'x-on:keydown' => '$event.preventDefault()',
+        'spellcheck' => 'false',
+    ]);
 @endphp
 
 @if (!$livewire && $property)
@@ -16,71 +22,37 @@
         @js($property),
         @js($value))"
         x-cloak>
-    @if (!$selectable)
-        <x-dynamic-component :component="TallStackUi::component('input')"
-                             {{ $attributes->except(['name', 'value']) }}
-                             :$label
-                             :$hint
-                             :$invalidate
-                             :alternative="$attributes->get('name')"
-                             x-ref="input"
-                             x-model="model"
-                             maxlength="7"
-                             class="cursor-pointer">
-                             <x-slot:prefix>
-                                <div @class($personalize['selected.wrapper'])>
-                                    <template x-if="model">
-                                        <button type="button"
-                                                @class($personalize['selected.base'])
-                                                :style="{ 'background-color': model }"
-                                                x-on:click="show = !show"></button>
-                                    </template>
-                                </div>
-                             </x-slot:prefix>
-                             <x-slot:suffix>
-                                <div class="flex items-center">
-                                    <button type="button" x-on:click="show = !show" dusk="tallstackui_form_color_open_close">
-                                        <x-dynamic-component :component="TallStackUi::component('icon')"
-                                                                :icon="TallStackUi::icon('swatch')"
-                                                                @class($personalize['icon.class']) />
-                                    </button>
-                                </div>
-                             </x-slot:suffix>
-        </x-dynamic-component>
-    @else
-        <x-dynamic-component :component="TallStackUi::component('input')"
-                             {{ $attributes->except(['name', 'value']) }}
-                             :$label
-                             :$hint
-                             :$invalidate
-                             :alternative="$attributes->get('name')"
-                             x-ref="input"
-                             x-model="model"
-                             x-on:click="show = !show"
-                             class="cursor-pointer caret-transparent"
-                             x-on:keydown="$event.preventDefault()"
-                             spellcheck="false">
-            <x-slot:prefix>
-                <div @class($personalize['selected.wrapper'])>
-                    <template x-if="model">
-                        <button type="button"
-                                @class($personalize['selected.base'])
-                                :style="{ 'background-color': model }"
-                                x-on:click="show = !show"></button>
-                    </template>
-                </div>
-            </x-slot:prefix>
-            <x-slot:suffix>
-                <div class="flex items-center gap-1">
-                    <button type="button" x-on:click="show = !show">
-                        <x-dynamic-component :component="TallStackUi::component('icon')"
-                                             :icon="TallStackUi::icon('swatch')"
-                                @class($personalize['icon.class']) />
-                    </button>
-                </div>
-            </x-slot:suffix>
-        </x-dynamic-component>
-    @endif
+    <x-dynamic-component :component="TallStackUi::component('input')"
+                         {{ $attributes->class([
+                            'cursor-pointer caret-transparent' => $selectable,
+                         ])->except(['name', 'value']) }}
+                         :$label
+                         :$hint
+                         :$invalidate
+                         :alternative="$attributes->get('name')"
+                         x-ref="input"
+                         x-model="model"
+                         maxlength="7">
+        <x-slot:prefix>
+            <div @class($personalize['selected.wrapper'])>
+                <template x-if="model">
+                    <button type="button"
+                            @class($personalize['selected.base'])
+                            :style="{ 'background-color': model }"
+                            x-on:click="show = !show"></button>
+                </template>
+            </div>
+        </x-slot:prefix>
+        <x-slot:suffix>
+            <div class="flex items-center">
+                <button type="button" x-on:click="show = !show" dusk="tallstackui_form_color_open_close">
+                    <x-dynamic-component :component="TallStackUi::component('icon')"
+                                            :icon="TallStackUi::icon('swatch')"
+                                            @class($personalize['icon.class']) />
+                </button>
+            </div>
+        </x-slot:suffix>
+    </x-dynamic-component>
     <x-dynamic-component :component="TallStackUi::component('floating')"
                          class="w-[18rem] overflow-auto"
                          x-on:click.outside="show = false">

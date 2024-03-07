@@ -12,7 +12,7 @@ use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 class ThemeSwitch extends BaseComponent implements Personalization
 {
     public function __construct(
-        public ?bool $icons = false,
+        public ?bool $onlyIcons = false,
         public ?bool $xs = null,
         public ?bool $sm = null,
         public ?bool $md = null,

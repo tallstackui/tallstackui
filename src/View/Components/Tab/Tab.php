@@ -26,6 +26,7 @@ class Tab extends BaseComponent implements Personalization
         return Arr::dot([
             'base' => [
                 'wrapper' => 'dark:bg-dark-700 w-full rounded-lg bg-white shadow-md',
+                'padding' => 'p-2 sm:p-0',
                 'body' => 'soft-scrollbar hidden flex-nowrap overflow-auto sm:flex',
                 'content' => 'text-secondary-700 dark:text-dark-300 p-4',
                 'divider' => 'hidden h-px border-0 bg-gray-300 dark:bg-gray-600 sm:block',

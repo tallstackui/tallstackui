@@ -1,5 +1,6 @@
-<li @class($personalize['panels.li']) x-bind:class="{ 'cursor-pointer': navigate === true }"
-    @if ($navigate) x-on:click="selected = item.step" @endif>
+<li @class($personalize['panels.li']) 
+    x-bind:class="{ 'cursor-pointer': navigate === true }"
+    x-on:click="if (navigate === false || (previous === false && item.step < selected)) return; selected = item.step;">
     <div @class($personalize['panels.wrapper'])>
         <span @class($personalize['panels.item']) >
             <span @class($personalize['panels.circle.wrapper'])

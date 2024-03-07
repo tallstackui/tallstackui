@@ -39,7 +39,7 @@ class Input extends BaseComponent implements Personalization
     {
         return Arr::dot([
             'input' => [
-                'class' => [...$this->input()],
+                ...$this->input(),
                 'paddings' => [
                     'left' => 'pl-8',
                     'right' => 'pr-8',

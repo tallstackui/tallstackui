@@ -2,7 +2,7 @@
 
 <div x-data="{ selected: @if (!$selected) {!! TallStackUi::blade($attributes, $livewire)->entangle() !!} @else @js($selected) @endif, tabs: [] }"
      @class($personalize['base.wrapper'])>
-    <div class="p-2 sm:p-0">
+    <div @class($personalize['base.padding'])>
         <select x-model="selected" @class($personalize['base.select'])>
             <template x-for="item in tabs">
                 <option x-bind:value="item.tab" x-text="item.tab"></option>

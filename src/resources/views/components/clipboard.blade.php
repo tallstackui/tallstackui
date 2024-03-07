@@ -26,11 +26,11 @@
                 <div @class($personalize['input.wrapper'])>
                     <input @if ($secret) type="password" @else type="text" @endif
                         @class([
-                             $personalize['input.class.base'],
-                             $personalize['input.class.color.base'],
-                             $personalize['input.class.color.background'],
-                             $personalize['input.class.sides.left'] => $left,
-                             $personalize['input.class.sides.right'] => ! $left,
+                             $personalize['input.base'],
+                             $personalize['input.color.base'],
+                             $personalize['input.color.background'],
+                             $personalize['input.sides.left'] => $left,
+                             $personalize['input.sides.right'] => ! $left,
                         ]) value="{{ $text }}" readonly>
                 </div>
             @if (! $left)

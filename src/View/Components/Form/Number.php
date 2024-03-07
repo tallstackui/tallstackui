@@ -49,7 +49,7 @@ class Number extends BaseComponent implements Personalization
     public function personalization(): array
     {
         return Arr::dot([
-            'input' => ['class' => [...$this->input()]],
+            'input' => [...$this->input()],
             'buttons' => [
                 'wrapper' => 'flex w-full items-center',
                 'left' => [
