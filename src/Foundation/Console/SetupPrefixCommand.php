@@ -16,14 +16,19 @@ class SetupPrefixCommand extends Command
 
     public function handle(): int
     {
+        $prefix = text('What prefix do you want to use for the TallStackUI components?', required: true, hint: 'Type null to remove the current prefix, if set.');
+
+        if ($prefix === 'null' && config('tallstackui.prefix') === null) {
+            $this->components->error('The prefix is already set to null.');
+
+            return self::FAILURE;
+        }
+
         if (! file_exists(config_path('tallstackui.php'))) {
             Process::run('php artisan vendor:publish --tag=tallstackui.config');
         }
 
-        $prefix = text('What prefix do you want to use for the TallStackUI components?', required: true, hint: 'Want to remove the current prefix? If yes, type null');
-        $result = $this->setup($prefix);
-
-        if ($result !== true) {
+        if (($result = $this->setup($prefix)) !== true) {
             $this->components->error($result);
 
             return self::FAILURE;
