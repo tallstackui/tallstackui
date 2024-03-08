@@ -54,6 +54,8 @@ export default (
     this.date.min = dates.date.min ? dayjs(dates.date.min) : null;
     this.date.max = dates.date.max ? dayjs(dates.date.max) : null;
 
+    if ((!this.livewire && !this.model) && this.value) this.model = this.value;
+
     this.reset();
     this.map();
     this.$nextTick(() => this.hydrate());
@@ -95,8 +97,6 @@ export default (
    * @return {void}
    */
   hydrate() {
-    if (!this.livewire && !this.model && this.value) this.model = this.value;
-
     if (range && this.model) {
       const one = this.model[0];
 
