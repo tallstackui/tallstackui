@@ -27,10 +27,10 @@ trait SetupRadioCheckboxToggle
             default => 'right',
         };
 
-        $this->size = match ($this->size) {
-            'xs' => 'xs',
-            'sm' => 'sm',
-            'lg' => 'lg',
+        $this->size = match (true) {
+            $this->xs !== null => 'xs',
+            $this->sm !== null => 'sm',
+            $this->lg !== null => 'lg',
             default => 'md',
         };
     }
