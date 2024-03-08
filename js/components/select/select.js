@@ -195,12 +195,9 @@ export default (
       return error('The [params] must be an array with key and value pairs');
     }
 
-    // URL and params can be evaluated in advance method before
-    // the request to allow that these values can be updated.
-    if (this.request.constructor !== String) {
-      this.request.url = Alpine.evaluate(this, this.$refs.url.innerText);
-      this.request.params = Alpine.evaluate(this, this.$refs.params.innerText);
-    }
+    // When using request parameters we evaluate this through the ref which
+    // stores the parameters to allow us to hydrate this when changes are made.
+    this.request.params &&= Alpine.evaluate(this, this.$refs.params.innerText);
 
     const {url, init} = body(this.request, this.search, this.model ?
         (this.model.constructor === Array ? this.model : [this.model]) :
