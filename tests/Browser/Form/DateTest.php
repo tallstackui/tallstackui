@@ -715,6 +715,6 @@ class DateTest extends BrowserTestCase
                 HTML;
             }
         })
-            ->assertSee('The first date in the [range] must be greater than the second date.');
+            ->assertSee('The start date in the [range] must be greater than the second date.');
     }
 }
