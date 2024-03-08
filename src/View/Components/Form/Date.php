@@ -116,7 +116,7 @@ class Date extends BaseComponent implements Personalization
             [$start, $end] = array_map(fn ($date) => Carbon::parse($date), $value);
 
             if ($start->greaterThan($end)) {
-                throw new InvalidArgumentException('The first date in the [range] must be greater than the second date.');
+                throw new InvalidArgumentException('The start date in the [range] must be greater than the second date.');
             }
         }
     }
