@@ -51,7 +51,7 @@ HTML;
 
     expect($component)->render()
         ->toContain('Foo bar baz');
-})->skip('This is not necessary because when not defined, the select will be "label:label|value:value"');
+});
 
 it('can thrown exception when request is array using unaceptable method', function (string $method) {
     $this->expectException(ViewException::class);
@@ -121,7 +121,7 @@ it('can thrown exception when select was not defined using select as request', f
 HTML;
 
     expect($component)->render();
-})->skip('This is not necessary because when not defined, the select will be "label:label|value:value"');
+});
 
 it('can thrown exception when options is array of arrays without using select', function () {
     $this->expectException(ViewException::class);
@@ -138,4 +138,4 @@ it('can thrown exception when options is array of arrays without using select', 
 HTML;
 
     expect($component)->render();
-})->skip('This is not necessary because when not defined, the select will be "label:label|value:value"');
+});
