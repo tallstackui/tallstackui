@@ -6,7 +6,7 @@
     @else
         {{ $header }}
     @endif
-    @if ($livewire && $filter)
+    @if (count((array) $rows) > 0 && $livewire && $filter)
         <div @class([
                 $personalize['filter'],
                 'justify-between' => $filters['quantity'] && $filters['search'],
@@ -69,6 +69,7 @@
                 </tr>
             @else
                 @forelse ($rows as $key => $value)
+                    @php($this->loop = $loop)
                     <tr @class(['bg-gray-50 dark:bg-dark-800/50' => $striped && $loop->index % 2 === 0]) @if ($livewire) wire:key="{{ md5(serialize($value).$key) }}" @endif>
                         @foreach($headers as $header)
                             @php($row = str_replace('.', '_', $header['index']))
