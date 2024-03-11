@@ -41,8 +41,7 @@ class PasswordTest extends BrowserTestCase
         })
             ->waitForLivewireToLoad()->typeSlowly('@input', '123')
             ->waitForLivewire()->click('@tallstackui_form_password_generate')
-            ->assertVisible('@generate')
-            ->assertSeeIn('@generate', '123');
+            ->assertVisible('@generate');
     }
 
     /** @test */

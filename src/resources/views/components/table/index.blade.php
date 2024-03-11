@@ -1,4 +1,7 @@
-@php($personalize = $classes())
+@php
+    \TallStackUi\Foundation\Exceptions\MissingLivewireException::throwIf($livewire, 'table');
+    $personalize = $classes();
+@endphp
 
 <div @if ($persistent && $id) id="{{ $id }}" @endif>
     @if (is_string($header))
@@ -6,7 +9,7 @@
     @else
         {{ $header }}
     @endif
-    @if ($livewire && $filter)
+    @if (count((array) $rows) > 0 && $livewire && $filter)
         <div @class([
                 $personalize['filter'],
                 'justify-between' => $filters['quantity'] && $filters['search'],
@@ -44,8 +47,8 @@
                     <tr>
                         @foreach ($headers as $header)
                             <th scope="col" @class($personalize['table.th'])>
-                                <a class="inline-flex cursor-pointer truncate"
-                                   @if ($livewire && $sortable($header))
+                                <a @if ($livewire && $sortable($header))
+                                        class="inline-flex cursor-pointer truncate"
                                         wire:click="$set('sort', {column: '{{ $head($header)['column'] }}', direction: '{{ $head($header)['direction'] }}' })"
                                     @endif>
                                     {{ $header['label'] ?? '' }}
@@ -69,6 +72,9 @@
                 </tr>
             @else
                 @forelse ($rows as $key => $value)
+                    @if ($livewire)
+                        @php($this->loop = $loop)
+                    @endif
                     <tr @class(['bg-gray-50 dark:bg-dark-800/50' => $striped && $loop->index % 2 === 0]) @if ($livewire) wire:key="{{ md5(serialize($value).$key) }}" @endif>
                         @foreach($headers as $header)
                             @php($row = str_replace('.', '_', $header['index']))

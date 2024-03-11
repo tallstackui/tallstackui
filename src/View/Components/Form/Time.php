@@ -5,6 +5,8 @@ namespace TallStackUi\View\Components\Form;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\ComponentSlot;
+use InvalidArgumentException;
+use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\View\Components\BaseComponent;
@@ -17,9 +19,14 @@ class Time extends BaseComponent implements Personalization
         public ?string $hint = null,
         public ?bool $invalidate = null,
         public ?bool $helper = null,
+        public ?int $minHour = null,
+        public ?int $maxHour = null,
+        public ?int $minMinute = null,
+        public ?int $maxMinute = null,
         public ?string $format = '12',
         public ?string $stepHour = '1',
         public ?string $stepMinute = '1',
+        #[SkipDebug]
         public ?ComponentSlot $footer = null,
     ) {
         $this->format = $this->format === '12' ? '12' : '24';
@@ -37,18 +44,13 @@ class Time extends BaseComponent implements Personalization
             'icon' => 'h-5 w-5',
             'time' => 'text-primary-600 dark:text-dark-300 dark:border-dark-700 w-20 rounded-full p-2 text-center text-4xl font-medium transition',
             'separator' => 'dark:text-dark-400 h-14 text-5xl text-gray-300',
-            'format' => [
-                'wrapper' => 'divide-primary-200 dark:divide-dark-500 m-2 flex h-14 flex-col justify-between divide-y',
-                'input' => 'peer hidden',
-                'size' => 'w-12',
-                'color' => 'peer-checked:bg-primary-50 peer-checked:border-primary-200 peer-checked:text-primary-600 dark:peer-checked:text-dark-100 peer-checked:dark:bg-dark-600 peer-checked:dark:border-dark-500 dark:border-dark-600 dark:hover:text-dark-300 inline-flex w-full cursor-pointer items-center justify-between border border-gray-300 bg-white p-1 text-gray-500 hover:bg-gray-100 hover:text-gray-600 peer-checked:font-bold dark:bg-dark-700 dark:text-dark-400 dark:hover:bg-dark-700',
-                'am' => [
-                    'label' => 'rounded-t-lg border-b-0',
-                    'title' => 'w-full text-center text-sm',
-                ],
-                'pm' => [
-                    'label' => 'rounded-b-lg border-t-0',
-                    'title' => 'w-full text-center text-sm',
+            'interval' => [
+                'wrapper' => 'flex justify-center items-center',
+                'text' => 'text-xl text-primary-400 dark:text-dark-400 font-bold',
+                'buttons' => [
+                    'wrapper' => 'mt-4 flex items-center justify-center divide-x divide-primary-600',
+                    'am' => 'flex h-4 w-full items-center justify-center rounded-l-lg px-4 text-xs text-white transition bg-primary-500 py-2.5 focus:ring-primary-600 focus:ring-2 focus:ring-offset-2 dark:focus:ring-offset-dark-900 dark:focus:ring-primary-600 dark:bg-primary-700 dark:hover:bg-primary-600 dark:hover:ring-primary-600',
+                    'pm' => 'flex h-4 w-full items-center justify-center rounded-r-lg px-4 text-xs text-white transition bg-primary-500 py-2.5 focus:ring-primary-600 focus:ring-2 focus:ring-offset-2 dark:bg-primary-700 dark:hover:bg-primary-600 dark:hover:ring-primary-600 dark:focus:ring-offset-dark-900 dark:focus:ring-primary-600',
                 ],
             ],
             'range' => [
@@ -62,5 +64,66 @@ class Time extends BaseComponent implements Personalization
                 'button' => 'w-full uppercase',
             ],
         ]);
+    }
+
+    final public function times(): array
+    {
+        return [
+            'hour' => [
+                'min' => $this->minHour,
+                'max' => $this->maxHour,
+            ],
+            'minute' => [
+                'min' => $this->minMinute,
+                'max' => $this->maxMinute,
+            ],
+        ];
+    }
+
+    final public function validating(mixed $value): void
+    {
+        if (is_null($value)) {
+            return;
+        }
+
+        if (! is_string($value)) {
+            throw new InvalidArgumentException('The time [value] must be a string.');
+        }
+    }
+
+    /** @throws InvalidArgumentException */
+    protected function validate(): void
+    {
+        if (array_filter([$this->minHour, $this->maxHour, $this->minMinute, $this->maxMinute]) === []) {
+            return;
+        }
+
+        if (($this->minHour && $this->maxHour)) {
+            if ($this->minHour < 0 || $this->minHour > 23) {
+                throw new InvalidArgumentException('The date [min-hour] must be between 0 and 23.');
+            }
+
+            if ($this->maxHour < 0 || $this->maxHour > 23) {
+                throw new InvalidArgumentException('The date [max-hour] must be between 0 and 23.');
+            }
+
+            if ($this->minHour > $this->maxHour) {
+                throw new InvalidArgumentException('The date [min-hour] must be less than or equal to the date [max-hour].');
+            }
+        }
+
+        if (($this->minMinute && $this->maxMinute)) {
+            if ($this->minMinute < 0 || $this->minMinute > 59) {
+                throw new InvalidArgumentException('The date [min-minute] must be between 0 and 59.');
+            }
+
+            if ($this->maxMinute < 0 || $this->maxMinute > 59) {
+                throw new InvalidArgumentException('The date [max-minute] must be between 0 and 59.');
+            }
+
+            if ($this->minMinute > $this->maxMinute) {
+                throw new InvalidArgumentException('The date [min-minute] must be less than or equal to the date [max-minute].');
+            }
+        }
     }
 }

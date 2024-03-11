@@ -21,6 +21,7 @@ class Number extends BaseComponent implements Personalization
         public ?int $min = null,
         public ?int $max = null,
         public ?int $delay = 2,
+        public ?bool $selectable = null,
         public ?bool $chevron = false,
         public ?bool $invalidate = null,
         public ?bool $centralized = null,
@@ -49,7 +50,7 @@ class Number extends BaseComponent implements Personalization
     public function personalization(): array
     {
         return Arr::dot([
-            'input' => ['class' => [...$this->input()]],
+            'input' => [...$this->input()],
             'buttons' => [
                 'wrapper' => 'flex w-full items-center',
                 'left' => [

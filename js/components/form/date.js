@@ -54,9 +54,19 @@ export default (
     this.date.min = dates.date.min ? dayjs(dates.date.min) : null;
     this.date.max = dates.date.max ? dayjs(dates.date.max) : null;
 
+    if ((!this.livewire && !this.model) && this.value) this.model = this.value;
+
     this.reset();
     this.map();
     this.$nextTick(() => this.hydrate());
+
+    // Prevents more than two dates from being defined in
+    // the model when it comes to interval mode, because
+    // when this happens, the other dates are displayed
+    // selected in the calendar.
+    if (range && this.model && (this.model.constructor === Array && this.model.length > 2)) {
+      this.model = this.model.filter((value, key) => key < 2);
+    }
 
     this.$watch('model', () => {
       if (!this.livewire) return;
@@ -87,8 +97,6 @@ export default (
    * @return {void}
    */
   hydrate() {
-    if (!this.livewire && !this.model && this.value) this.model = this.value;
-
     if (range && this.model) {
       const one = this.model[0];
 
@@ -130,9 +138,7 @@ export default (
   sync() {
     if (!this.model) return;
 
-    const type = multiple ? 'multiple' : (range ? 'range' : 'single');
-
-    this.$el.dispatchEvent(new CustomEvent('select', {detail: {type: type, date: this.model}}));
+    this.$el.dispatchEvent(new CustomEvent('select', {detail: {type: this.type, date: this.model}}));
 
     if (multiple) {
       this.input = this.model
@@ -245,7 +251,7 @@ export default (
 
     this.date.start = date.startOf('day').toDate();
     this.date.end = null;
-    this.model = current;
+    this.model = this.type !== 'single' ? [current] : current;
 
     this.reset();
     this.input = date.format(this.format);
@@ -306,6 +312,10 @@ export default (
    * @return {void}
    */
   previousMonth() {
+    if (this.range.year.min && (this.month === 0 && this.year <= this.range.year.min)) {
+      return;
+    }
+
     this.month = (this.month === 0) ? 11 : this.month - 1;
 
     if (this.month === 11) this.year--;
@@ -318,6 +328,10 @@ export default (
    * @return {void}
    */
   nextMonth() {
+    if (this.range.year.max && (this.month === 11 && this.year >= this.range.year.max)) {
+      return;
+    }
+
     this.month = (this.month + 1) % 12;
 
     if (this.month === 0) this.year++;
@@ -363,7 +377,7 @@ export default (
     event.preventDefault();
     event.stopPropagation();
 
-    if (this.range.year.min !== null && this.range.year.last >= this.range.year.max) return;
+    if (this.range.year.max !== null && this.range.year.last >= this.range.year.max) return;
 
     this.range.year.start += 19;
   },
@@ -412,9 +426,11 @@ export default (
    * @return {void}
    */
   clear() {
+    const model = this.model;
+
     this.input = this.model = this.value = this.date.start = this.date.end = null;
 
-    this.$el.dispatchEvent(new CustomEvent('clear'));
+    this.$el.dispatchEvent(new CustomEvent('clear', {detail: {type: this.type, date: model}}));
   },
   /**
    * Reset the day, month and year to the current date.
@@ -466,6 +482,14 @@ export default (
 
     input.value = !this.model ? '' :
         (typeof this.model === 'string' ? this.model : JSON.stringify(this.model));
+  },
+  /**
+   * Get the type of the date calendar.
+   *
+   * @return {String}
+   */
+  get type() {
+    return multiple ? 'multiple' : (range ? 'range' : 'single');
   },
   /**
    * Get the quantity of the selected dates.

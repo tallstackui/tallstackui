@@ -2,7 +2,6 @@
 
 namespace Tests\Browser\Form;
 
-use Laravel\Dusk\Browser;
 use Livewire\Component;
 use Livewire\Livewire;
 use Tests\Browser\BrowserTestCase;
@@ -80,8 +79,7 @@ class NumberTest extends BrowserTestCase
     /** @test */
     public function can_decrease_pressing(): void
     {
-        /** @var Browser $browser */
-        $browser = Livewire::visit(new class extends Component
+        Livewire::visit(new class extends Component
         {
             public ?int $quantity = 10;
 
@@ -95,9 +93,8 @@ class NumberTest extends BrowserTestCase
                 </div>
                 HTML;
             }
-        });
-
-        $browser->assertSee('Quantity')
+        })
+            ->assertSee('Quantity')
             ->clickAndHold('@tallstackui_form_number_decrement')
             ->waitForTextIn('@decreased', '5');
     }
@@ -201,8 +198,7 @@ class NumberTest extends BrowserTestCase
     /** @test */
     public function can_increase_pressing(): void
     {
-        /** @var Browser $browser */
-        $browser = Livewire::visit(new class extends Component
+        Livewire::visit(new class extends Component
         {
             public ?int $quantity = 0;
 
@@ -216,9 +212,8 @@ class NumberTest extends BrowserTestCase
                 </div>
                 HTML;
             }
-        });
-
-        $browser->assertSee('Quantity')
+        })
+            ->assertSee('Quantity')
             ->clickAndHold('@tallstackui_form_number_increment')
             ->waitForTextIn('@increased', '10');
     }

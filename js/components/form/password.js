@@ -1,4 +1,6 @@
-export default (rules) => ({
+export default (model, rules) => ({
+  model: model,
+  show: false,
   rules: false,
   input: '',
   min: rules.min ?? null,
@@ -21,6 +23,16 @@ export default (rules) => ({
 
       this.check(value);
     });
+  },
+  /**
+   * Toggle the visibility of the password.
+   *
+   * @returns {void}
+   */
+  toggle() {
+    this.show = !this.show;
+
+    this.$el.dispatchEvent(new CustomEvent('reveal', {detail: {status: this.show}}));
   },
   /**
    * @returns {void}
@@ -77,7 +89,7 @@ export default (rules) => ({
     // We just shuffle the password to avoid predictable patterns
     password = password.split('').sort(() => 0.5 - Math.random()).join('');
 
-    this.input = password;
+    this.input = this.model = password;
 
     this.$el.dispatchEvent(new CustomEvent('generate', {detail: {password: password}}));
 

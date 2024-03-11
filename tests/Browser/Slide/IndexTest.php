@@ -2,7 +2,6 @@
 
 namespace Tests\Browser\Slide;
 
-use Laravel\Dusk\Browser;
 use Livewire\Component;
 use Livewire\Livewire;
 use Tests\Browser\BrowserTestCase;
@@ -188,8 +187,7 @@ class IndexTest extends BrowserTestCase
     /** @test */
     public function cannot_close_when_slide_is_persistent(): void
     {
-        /** @var Browser $browser */
-        $browser = Livewire::visit(new class extends Component
+        Livewire::visit(new class extends Component
         {
             public function render(): string
             {
@@ -203,9 +201,8 @@ class IndexTest extends BrowserTestCase
                 </div>
                 HTML;
             }
-        });
-
-        $browser->assertSee('Open')
+        })
+            ->assertSee('Open')
             ->assertDontSee('Foo bar')
             ->click('@open')
             ->waitForText('Foo bar')

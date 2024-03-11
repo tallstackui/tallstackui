@@ -6,7 +6,7 @@
 @endphp
 
 @if (!$livewire && $property)
-    <input hidden id="{{ $id }}" name="{{ $property }}">
+    <input hidden name="{{ $property }}">
 @endif
 
 <div x-data="tallstackui_formDate(
@@ -29,6 +29,7 @@
                          :alternative="$attributes->get('name')"
                          x-ref="input"
                          x-on:click="picker.common = !picker.common; picker.year = false;"
+                         x-on:keydown="$event.preventDefault()"
                          dusk="tallstackui_date_input"
                          class="cursor-pointer caret-transparent">
         <x-slot:suffix>
@@ -129,7 +130,8 @@
                 </div>
             </template>
             <div>
-                <button type="button" dusk="tallstackui_date_previous_month"
+                <button type="button"
+                        dusk="tallstackui_date_previous_month"
                         @class($personalize['button.navigate'])
                         x-on:click="previousMonth()"
                         x-on:mousedown="if (!interval) interval = setInterval(() => previousMonth(), 200);"
@@ -141,7 +143,9 @@
                                          :icon="TallStackUi::icon('chevron-left')"
                                          @class($personalize['icon.navigate']) />
                 </button>
-                <button type="button" @class($personalize['button.navigate']) dusk="tallstackui_date_next_month"
+                <button type="button"
+                        @class($personalize['button.navigate'])
+                        dusk="tallstackui_date_next_month"
                         x-on:click="nextMonth()"
                         x-on:mousedown="if (!interval) interval = setInterval(() => nextMonth(), 200);"
                         x-on:touchstart="if (!interval) interval = setInterval(() => nextMonth(), 200);"

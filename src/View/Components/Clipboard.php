@@ -52,13 +52,11 @@ class Clipboard extends BaseComponent implements Personalization
                     'right' => '-ml-px rounded-r-md',
                     'icon.class' => 'text-primary-500 dark:text-dark-300 h-4 w-4 cursor-pointer',
                 ],
-                'class' => [
-                    'base' => 'focus:ring-primary-600 dark:focus:ring-primary-600 block w-full rounded-none border-0 py-1.5 text-gray-900 ring-1 ring-gray-300 transition placeholder:text-gray-400 focus:ring-2 sm:text-sm sm:leading-6',
-                    'color' => [...$this->input()['color']],
-                    'sides' => [
-                        'left' => 'rounded-r-md',
-                        'right' => 'rounded-l-md',
-                    ],
+                'base' => 'focus:ring-primary-600 dark:focus:ring-primary-600 block w-full rounded-none border-0 py-1.5 text-gray-900 ring-1 ring-gray-300 transition placeholder:text-gray-400 focus:ring-2 sm:text-sm sm:leading-6',
+                'color' => [...$this->input()['color']],
+                'sides' => [
+                    'left' => 'rounded-r-md',
+                    'right' => 'rounded-l-md',
                 ],
             ],
             'icon' => [

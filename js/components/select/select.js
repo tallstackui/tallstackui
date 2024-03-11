@@ -42,13 +42,12 @@ export default (
   change: change,
   image: null,
   async init() {
-    // When the component is not being used in livewire.
     if (!this.livewire) {
       if (this.common) {
         this.$nextTick(() => this.initAsVanilla());
       } else {
-        // For non-common type we need to use await to wait for the
-        // component to be mounted and then initialize it.
+        // For non-common type we need to use await to wait
+        // for the component to be mounted and then initialize it.
         await this.$nextTick(() => this.initAsVanilla());
       }
     }
@@ -74,18 +73,18 @@ export default (
     await this.initAsRequest();
   },
   /**
-   * Initialize the component as Blade vanilla
+   * Initialize the component as Blade vanilla.
+   *
    * @returns {void}
    */
   initAsVanilla() {
-    if (!this.value) {
-      return;
-    }
+    if (!this.value) return;
 
     this.input = this.model = this.value;
   },
   /**
-   * Initialize the component as common
+   * Initialize the component as common select.
+   *
    * @returns {void}
    */
   initAsCommon() {
@@ -109,47 +108,34 @@ export default (
     this.$watch('model', (value, old) => {
       // When the value is null we clear the select. This is necessary due
       // situations where we are binding the same model in live entangle
-      if (value === null) {
-        this.reset(true);
-        return;
-      }
+      if (!value) return this.reset(true);
 
       // This is used to avoid the need of hydrate the selects when
       // the changes are made internally, such as select options.
-      if (this.internal) {
-        this.internal = false;
-        return;
-      }
+      if (this.internal) return this.internal = false;
 
-      if (!value || value === old) {
-        return;
-      }
+      if (!value || value === old) return;
 
       this.hydrate(value);
     });
   },
   /**
-   * Initialize the component as request
-   * @returns {Promise<void>}
+   * Initialize the component as request.
+   *
+   * @returns {void}
    */
   async initAsRequest() {
     this.$watch('show', async (value, old) => {
-      if (value === old) {
-        return;
-      }
+      if (value === old) return;
 
-      if (!value) {
-        this.search = '';
+      if (!value) return this.search = '';
 
-        return;
-      }
-
-      await this.makeRequest();
+      await this.makeRequest(false);
 
       setTimeout(() => this.$refs.search.focus(), 100);
     });
 
-    this.$watch('search', async () => this.makeRequest());
+    this.$watch('search', async () => this.makeRequest(false));
 
     // We only make the request when rendering
     // the component if the model is defined.
@@ -162,31 +148,32 @@ export default (
     // This watch aims to monitor external changes to the property
     // linked with `model` for situations where changes were made
     // out of the component to the variable that is linked to the `model`
-    this.$watch('model', (value, old) => {
+    this.$watch('model', async (value, old) => {
       // When the value is null we clear the select. This is necessary due
       // situations where we are binding the same model in live entangle
-      if (!value) {
-        this.reset(true);
-        return;
-      }
+      if (!value) return this.reset(true);
+
+      // When the change was not internal and the model was different
+      // from the old one, the component could probably be used in a
+      // loop, so we make the request to hydrate the selected model.
+      if (!this.internal && value !== old) await this.makeRequest();
 
       // This is used to avoid the need of hydrate the selects when
       // the changes are made internally, such as select options.
-      if (value === old || this.internal) {
-        this.internal = false;
-        return;
-      }
+      if (value === old || this.internal) return this.internal = false;
 
-      // If the response is empty, we need to wait for the request.
-      if (this.response.length === 0) {
-        return;
-      }
+      if (this.response.length === 0) return;
 
       this.hydrate(value);
     });
   },
-  /** @returns {void} */
-  async makeRequest() {
+  /**
+   * Make the request to the server.
+   *
+   * @param {Boolean} selected - Indicate that the selected should be sent.
+   * @return {void}
+   */
+  async makeRequest(selected = true) {
     this.loading = true;
 
     this.response = [];
@@ -199,7 +186,7 @@ export default (
     // stores the parameters to allow us to hydrate this when changes are made.
     this.request.params &&= Alpine.evaluate(this, this.$refs.params.innerText);
 
-    const {url, init} = body(this.request, this.search, this.model ?
+    const {url, init} = body(this.request, this.search, selected && this.model ?
         (this.model.constructor === Array ? this.model : [this.model]) :
         []);
 
@@ -225,19 +212,16 @@ export default (
     }
   },
   /**
-   * Select the `option`
+   * Select the `option`.
    *
    * @param option {Object}
    * @return {void}
    */
   select(option) {
-    if (option.disabled) {
-      return;
-    }
+    if (option.disabled) return;
 
     this.internal = true;
 
-    // When already selected, then we just clear the select.
     if (this.selected(option)) {
       this.clear(option);
       this.input = this.model;
@@ -245,9 +229,7 @@ export default (
       return;
     }
 
-    if (this.limit !== null && (this.multiple && this.quantity >= this.limit)) {
-      return;
-    }
+    if (this.limit !== null && (this.multiple && this.quantity >= this.limit)) return;
 
     if (this.multiple) {
       this.selects = !this.empty ?
@@ -282,7 +264,7 @@ export default (
     wireChange(this.change, this.model);
   },
   /**
-   * Check if the `option` is selected
+   * Check if the `option` is selected.
    *
    * @param option
    * @returns {boolean}
@@ -295,6 +277,8 @@ export default (
         JSON.stringify(this.selects[0] ?? this.selects) === JSON.stringify(option);
   },
   /**
+   * Clear the `selected` option or all.
+   *
    * @param selected {Object|null}
    * @returns {void}
    */
@@ -324,11 +308,10 @@ export default (
 
     if (this.required) {
       this.show = false;
+
       return;
     }
 
-    // We clear the entire select property if it is not a multiple,
-    // because if it is not a multiple, it will be a single selection.
     this.selects = [];
 
     this.reset();
@@ -346,22 +329,19 @@ export default (
     this.search = '';
     this.$nextTick(() => this.selects = []);
 
-    if (ignore) {
-      return;
-    }
+    if (ignore) return;
 
     this.show = false;
   },
   /**
-   * Observe the options element to sync the options
+   * Observe the options element to sync the options.
+   *
    * @returns {void}
    */
   observation() {
     this.sync();
 
-    if (!this.$refs.options) {
-      return;
-    }
+    if (!this.$refs.options) return;
 
     this.observer = new MutationObserver(this.sync.bind(this));
 
@@ -371,7 +351,8 @@ export default (
     });
   },
   /**
-   * Control the observation
+   * Control the observation.
+   *
    * @returns {Promise<void>}
    */
   async observed() {
@@ -388,13 +369,12 @@ export default (
     this.observation();
   },
   /**
-   * Sync the options
+   * Sync the options through observation.
+   *
    * @returns {void}
    */
   sync() {
-    if (!this.$refs.options) {
-      return;
-    }
+    if (!this.$refs.options) return;
 
     this.options = Alpine.evaluate(this, this.$refs.options.innerText);
   },
@@ -444,24 +424,22 @@ export default (
     }
   },
   /**
-   * Compare the model and data using the same type
+   * Compare the model and data using the same type.
+   *
    * @param model {*}
    * @param data {*}
    * @return {boolean}
    */
   compare(model, data) {
-    if (typeof data === 'string') {
-      model = model?.toString();
-    }
+    if (typeof data === 'string') model = model?.toString();
 
-    if (typeof data === 'number') {
-      model = parseInt(model);
-    }
+    if (typeof data === 'number') model = parseInt(model);
 
     return model === data;
   },
   /**
-   * Normalize the string removing accents and special characters
+   * Normalize the string removing accents and special characters.
+   *
    * @param string {String}
    * @return {String}
    */
@@ -469,19 +447,16 @@ export default (
     return string.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
   },
   /**
-   * Set the input value when is not Livewire
+   * Set the input value when is not Livewire.
+   *
    * @param {*} value
    */
   set input(value) {
-    if (this.livewire) {
-      return;
-    }
+    if (this.livewire) return;
 
     const input = document.getElementsByName(this.property)[0];
 
-    if (!input) {
-      return;
-    }
+    if (!input) return;
 
     // If the value is null (undefined) we set the input as empty,
     // otherwise we stringify if is string with comma or an object
@@ -491,7 +466,7 @@ export default (
         (typeof value === 'string' && value.indexOf(',') !== -1 || typeof value === 'object' && value.length > 1 ? JSON.stringify(value) : value);
   },
   /**
-   * The `selects` quantity
+   * The `selects` quantity.
    *
    * @returns {Number}
    */
@@ -499,7 +474,7 @@ export default (
     return this.selects?.length ?? 0;
   },
   /**
-   * Check if the `selects` is empty
+   * Check if the `selects` is empty.
    *
    * @returns {Boolean}
    */
@@ -507,16 +482,14 @@ export default (
     return !this.selects || this.quantity === 0;
   },
   /**
-   * Available options to select
+   * Available options to select.
    *
    * @returns {Array}
    */
   get available() {
     const available = this.common ? this.options : this.response;
 
-    if (this.search === '') {
-      return available;
-    }
+    if (this.search === '') return Object.values(available);
 
     const search = this.normalize(this.search.toLowerCase());
 

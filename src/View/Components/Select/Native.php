@@ -37,9 +37,8 @@ class Native extends BaseComponent implements Personalization
     public function personalization(): array
     {
         return Arr::dot([
-            'input' => [
-                'class' => [...$this->input()],
-            ],
+            'wrapper' => 'relative mt-1',
+            'input' => [...$this->input()],
             'error' => $this->error('focus:ring-2'),
         ]);
     }

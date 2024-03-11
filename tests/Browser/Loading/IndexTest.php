@@ -2,7 +2,6 @@
 
 namespace Tests\Browser\Loading;
 
-use Laravel\Dusk\Browser;
 use Livewire\Component;
 use Livewire\Livewire;
 use Tests\Browser\BrowserTestCase;
@@ -12,7 +11,6 @@ class IndexTest extends BrowserTestCase
     /** @test */
     public function can_see_loading_using_svg(): void
     {
-        /** @var Browser $browser */
         Livewire::visit(new class extends Component
         {
             public function render(): string
@@ -40,7 +38,6 @@ class IndexTest extends BrowserTestCase
     /** @test */
     public function can_see_loading_using_text(): void
     {
-        /** @var Browser $browser */
         Livewire::visit(new class extends Component
         {
             public function render(): string
@@ -72,7 +69,6 @@ class IndexTest extends BrowserTestCase
     /** @test */
     public function can_see_loading_using_text_with_delay_longest(): void
     {
-        /** @var Browser $browser */
         Livewire::visit(new class extends Component
         {
             public function render(): string

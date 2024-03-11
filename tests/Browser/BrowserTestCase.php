@@ -28,10 +28,10 @@ class BrowserTestCase extends TestCase
         };
     }
 
-    protected function getApplicationTimezone($app): string
-    {
-        return 'America/Sao_Paulo';
-    }
+    //    protected function getApplicationTimezone($app): string
+    //    {
+    //        return 'America/Sao_Paulo';
+    //    }
 
     protected function getEnvironmentSetUp($app): void
     {

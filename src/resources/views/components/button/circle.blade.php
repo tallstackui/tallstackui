@@ -9,7 +9,7 @@
             $personalize['wrapper.base'],
             $personalize['wrapper.sizes.' . $size],
             $colors['background']
-        ]) }} @if ($livewire) wire:loading.attr="disabled" wire:loading.class="!cursor-wait" @endif>
+        ]) }} @if ($livewire && $loading) wire:loading.attr="disabled" wire:loading.class="!cursor-wait" @endif>
 @if ($icon)
     @if ($loading)
         @if ($delay === 'longest')

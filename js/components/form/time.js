@@ -1,54 +1,40 @@
 import {warning} from '../../helpers';
 import dayjs from 'dayjs';
 
-export default (model, full, livewire, property, value) => ({
+export default (model, full, times, livewire, property, value) => ({
   model: model,
   show: false,
-  hours: '0',
-  minutes: '0',
+  hours: '00',
+  minutes: '00',
   interval: 'AM',
+  range: {
+    hour: {
+      min: times.hour.min,
+      max: times.hour.max,
+    },
+    minute: {
+      min: times.minute.min,
+      max: times.minute.max,
+    },
+  },
   livewire: livewire,
   property: property,
   value: value,
-  internal: false,
+  empty: false,
   init() {
-    if (!full && (this.model || this.value) && !/(AM|PM)/.test(this.model ?? this.value)) {
+    this.model ??= this.value;
+    this.empty = this.model === null;
+    this.hours = full ? '00' : '01';
+
+    if (!full && this.model && !/(AM|PM)/.test(this.model ?? this.value)) {
       warning('The time format is not complete. Please, include the interval (AM/PM).');
     }
 
-    if (this.model || this.value) this.hydrate();
+    if (this.model) this.hydrate();
 
-    this.$watch('hours', (value) => {
-      this.internal = true;
+    this.$watch('model', () => this.hydrate());
 
-      this.sync();
-
-      this.$el.dispatchEvent(new CustomEvent('hour', {detail: {hour: value}}));
-    });
-
-    this.$watch('minutes', (value) => {
-      this.internal = true;
-
-      this.sync();
-
-      this.$el.dispatchEvent(new CustomEvent('minute', {detail: {minute: value}}));
-    });
-
-    this.$watch('interval', () => {
-      this.internal = true;
-
-      this.sync();
-    });
-
-    this.$watch('model', () => {
-      if (this.internal) {
-        this.internal = false;
-
-        return;
-      }
-
-      this.hydrate();
-    });
+    this.sync();
   },
   /**
    * Hydrate the need stuff in the bootstrap.
@@ -62,11 +48,46 @@ export default (model, full, livewire, property, value) => ({
     this.hours = hours;
     this.minutes = minutes;
     this.interval = interval ?? null;
+  },
+  /**
+   * Change the hour and minute.
+   *
+   * @param {Event} event
+   * @param {String} type
+   * @return {void}
+   */
+  change(event, type) {
+    const change = {
+      hours: () => {
+        let value = parseInt(event.target.value);
+
+        // eslint-disable-next-line max-len
+        value = this.range.hour.min && value < this.range.hour.min ? this.range.hour.min : (this.range.hour.max && value > this.range.hour.max ? this.range.hour.max : value);
+
+        this.hours = value;
+
+        this.$el.dispatchEvent(new CustomEvent('hour', {detail: {hour: this.formatted.hours}}));
+      },
+      minutes: () => {
+        let value = parseInt(event.target.value);
+
+        // eslint-disable-next-line max-len
+        value = this.range.minute.min && value < this.range.minute.min ? this.range.minute.min : (this.range.minute.max && value > this.range.minute.max ? this.range.minute.max : value);
+
+        this.minutes = value;
+
+        this.$el.dispatchEvent(new CustomEvent('minute', {detail: {minute: this.formatted.minutes}}));
+      },
+    };
+
+    change[type]();
+    this.empty = false;
 
     this.sync();
   },
   /**
    * Set the current time.
+   *
    * @return {void}
    */
   current() {
@@ -82,12 +103,14 @@ export default (model, full, livewire, property, value) => ({
 
     this.$el.dispatchEvent(new CustomEvent('current', {detail: {time: {hour: hours, minute: minutes, interval: this.interval}}}));
 
-    this.sync();
+    this.show = this.empty = false;
 
-    this.show = false;
+    this.sync();
   },
   /**
    * Sync the input and model.
+   *
+   * @return {void}
    */
   sync() {
     let value = `${this.formatted.hours}:${this.formatted.minutes}`;
@@ -96,17 +119,30 @@ export default (model, full, livewire, property, value) => ({
       value = `${value} ${this.interval}`;
     }
 
-    this.$refs.input.value = value;
+    if (!this.empty) this.$refs.input.value = this.model = value;
 
-    this.model = value;
-
-    if (this.livewire) return;
+    if (this.livewire || this.empty) return;
 
     const input = document.getElementsByName(this.property)[0];
 
     if (!input) return;
 
     input.value = this.value = value;
+  },
+  /**
+   * Change the interval.
+   *
+   * @param {String} interval
+   * @return {void}
+   */
+  select(interval) {
+    this.interval = interval.toUpperCase();
+
+    this.$refs.format.dispatchEvent(new CustomEvent('interval', {detail: {interval: this.interval}}));
+
+    this.sync();
+
+    this.show = false;
   },
   /**
    * Get the formatted time.

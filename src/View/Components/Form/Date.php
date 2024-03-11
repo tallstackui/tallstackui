@@ -21,7 +21,6 @@ class Date extends BaseComponent implements Personalization
     public function __construct(
         public ?string $label = null,
         public ?string $hint = null,
-        public ?string $icon = null,
         public ?bool $invalidate = null,
         public ?bool $range = false,
         public ?bool $multiple = false,
@@ -30,11 +29,20 @@ class Date extends BaseComponent implements Personalization
         public string|null|Carbon $maxDate = null,
         public ?int $minYear = null,
         public ?int $maxYear = null,
-        public bool|array|null $helpers = null,
+        public ?bool $helpers = null,
         public array|Collection $disable = [],
     ) {
-        $this->helpers = $this->helpers === true ? ['yesterday', 'today', 'tomorrow'] : [];
-        $this->disable = collect($this->disable);
+        $this->disable = collect($this->disable)
+            ->flatten()
+            ->unique()
+            ->map(function (string|Carbon $value) {
+                if (! $value instanceof Carbon) {
+                    return $value;
+                }
+
+                return $value->format('Y-m-d');
+            })
+            ->values();
     }
 
     public function blade(): View
@@ -60,7 +68,7 @@ class Date extends BaseComponent implements Personalization
     {
         return Arr::dot([
             'wrapper' => [
-                'helpers' => 'custom-scrollbar mt-4 flex items-center justify-between space-x-2 overflow-auto pb-2',
+                'helpers' => 'custom-scrollbar flex items-center justify-between space-x-2 overflow-auto pb-2',
             ],
             'box' => [
                 'picker' => [
@@ -100,8 +108,16 @@ class Date extends BaseComponent implements Personalization
 
     final public function validating(array|string|null $value = null): void
     {
-        if (($this->range || $this->multiple) && is_string($value)) {
+        if (($this->range || $this->multiple) && ! is_array($value)) {
             throw new InvalidArgumentException('The date [value] must be an array when using the [range] or [multiple].');
+        }
+
+        if ($this->range && count($value) === 2) {
+            [$start, $end] = array_map(fn ($date) => Carbon::parse($date), $value);
+
+            if ($start->greaterThan($end)) {
+                throw new InvalidArgumentException('The start date in the [range] must be greater than the second date.');
+            }
         }
     }
 
@@ -130,8 +146,12 @@ class Date extends BaseComponent implements Personalization
         // because when parsing a null date, the date returned is the
         // current one, causing the comparison to always result in true
         // since $min can be greater than the $max (set incorrectly).
-        if ($this->maxDate && $min->greaterThan($max)) {
+        if (($this->minDate && $this->maxDate) && $min->greaterThan($max)) {
             throw new InvalidArgumentException('The date [min-date] must be less than or equal to [max-date].');
+        }
+
+        if (($this->minYear && $this->maxYear) && $this->maxYear < $this->minYear) {
+            throw new InvalidArgumentException('The year [min-year] must be less than or equal to [max-year].');
         }
     }
 }
