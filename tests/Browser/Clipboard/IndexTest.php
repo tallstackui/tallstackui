@@ -3,7 +3,6 @@
 namespace Tests\Browser\Clipboard;
 
 use Facebook\WebDriver\WebDriverKeys;
-use Laravel\Dusk\Browser;
 use Laravel\Dusk\OperatingSystem;
 use Livewire\Component;
 use Livewire\Livewire;
@@ -60,8 +59,7 @@ class IndexTest extends BrowserTestCase
     /** @test */
     public function can_use_event(): void
     {
-        /** @var Browser $browser */
-        $browser = Livewire::visit(new class extends Component
+        Livewire::visit(new class extends Component
         {
             public ?string $copied = null;
 
@@ -77,9 +75,8 @@ class IndexTest extends BrowserTestCase
                 </div>
             HTML;
             }
-        });
-
-        $browser->assertSee('Your API')
+        })
+            ->assertSee('Your API')
             ->assertDontSeeIn('@copied', 'c4ca4238a0b923820dcc509a6f75849b')
             ->click('@tallstackui_clipboard_input_copy')
             ->waitForTextIn('@copied', 'c4ca4238a0b923820dcc509a6f75849b')

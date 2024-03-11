@@ -2,7 +2,6 @@
 
 namespace Tests\Browser\Modal;
 
-use Laravel\Dusk\Browser;
 use Livewire\Component;
 use Livewire\Livewire;
 use Tests\Browser\BrowserTestCase;
@@ -24,7 +23,7 @@ class IndexTest extends BrowserTestCase
                 <div>
                     <p dusk="target">{{ $target }}</p>
 
-                    <x-modal wire x-on:open="$wire.set('target', 'Opened')" x-on:close="$wire.set('target', 'Closed')">
+                    <x-modal wire title="Modal" x-on:open="$wire.set('target', 'Opened')" x-on:close="$wire.set('target', 'Closed')">
                         Foo bar
                     </x-modal>
                 
@@ -39,7 +38,7 @@ class IndexTest extends BrowserTestCase
             ->waitForText('Foo bar')
             ->assertSee('Foo bar')
             ->assertSeeIn('@target', 'Opened')
-            ->clickAtPoint(350, 350)
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div/div/div[1]/button')
             ->waitUntilMissingText('Foo bar')
             ->assertDontSee('Foo bar')
             ->assertSeeIn('@target', 'Closed');
@@ -188,8 +187,7 @@ class IndexTest extends BrowserTestCase
     /** @test */
     public function cannot_close_when_modal_is_persistent(): void
     {
-        /** @var Browser $browser */
-        $browser = Livewire::visit(new class extends Component
+        Livewire::visit(new class extends Component
         {
             public function render(): string
             {
@@ -203,9 +201,8 @@ class IndexTest extends BrowserTestCase
                 </div>
                 HTML;
             }
-        });
-
-        $browser->assertSee('Open')
+        })
+            ->assertSee('Open')
             ->assertDontSee('Foo bar')
             ->click('@open')
             ->waitForText('Foo bar')
