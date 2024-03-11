@@ -1,4 +1,7 @@
-@php($personalize = $classes())
+@php
+    \TallStackUi\Foundation\Exceptions\MissingLivewireException::throwIf($livewire, 'table');
+    $personalize = $classes();
+@endphp
 
 <div @if ($persistent && $id) id="{{ $id }}" @endif>
     @if (is_string($header))
@@ -44,8 +47,8 @@
                     <tr>
                         @foreach ($headers as $header)
                             <th scope="col" @class($personalize['table.th'])>
-                                <a class="inline-flex cursor-pointer truncate"
-                                   @if ($livewire && $sortable($header))
+                                <a @if ($livewire && $sortable($header))
+                                        class="inline-flex cursor-pointer truncate"
                                         wire:click="$set('sort', {column: '{{ $head($header)['column'] }}', direction: '{{ $head($header)['direction'] }}' })"
                                     @endif>
                                     {{ $header['label'] ?? '' }}
