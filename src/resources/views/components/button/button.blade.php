@@ -9,7 +9,7 @@
         $colors['background'],
         'rounded-md' => !$square && !$round,
         'rounded-full' => !$square && $round !== null,
-    ]) }} @if ($livewire) wire:loading.attr="disabled" wire:loading.class="!cursor-wait" @endif>
+    ]) }} @if ($livewire && $loading) wire:loading.attr="disabled" wire:loading.class="!cursor-wait" @endif>
     @if ($left)
         {!! $left !!}
     @elseif ($icon && $position === 'left')
