@@ -8,6 +8,7 @@
         <x-dynamic-component :component="TallStackUi::component('label')" :$label :$error />
     @endif
     <select {{ $attributes->class([
+            $personalize['wrapper'],
             $personalize['input.wrapper'],
             $personalize['input.base'],
             $personalize['input.color.base'] => !$error,

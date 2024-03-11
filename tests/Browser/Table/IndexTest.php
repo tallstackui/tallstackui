@@ -41,6 +41,37 @@ class IndexTest extends BrowserTestCase
     }
 
     /** @test */
+    public function can_render_headless(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>        
+                    @php
+                        $rows = [
+                            ['id' => 1, 'name' => 'Foo'],
+                            ['id' => 2, 'name' => 'Bar'],
+                        ];
+                
+                        $headers = [
+                            ['index' => 'id', 'label' => '#'],
+                            ['index' => 'name', 'label' => 'Name'],
+                        ];
+                    @endphp
+                    
+                    <x-table :$headers :$rows headerless />
+                </div>
+                HTML;
+            }
+        })
+            ->assertSee('Foo')
+            ->assertSee('Bar')
+            ->assertDontSee('Name');
+    }
+
+    /** @test */
     public function can_render_manipulating_columns()
     {
         Livewire::visit(new class extends Component

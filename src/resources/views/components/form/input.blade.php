@@ -30,8 +30,8 @@
                type="{{ $attributes->get('type', 'text') }}"
                @if ($prefix || $suffix) autocomplete="{{ $attributes->get('autocomplete', 'off') }}" @endif
                {{ $attributes->class([
-                    'pr-2 pl-0' => $prefix, 
-                    'pl-2 pr-0' => $suffix, 
+                    'pr-3 pl-0' => $prefix, 
+                    'pl-3 pr-0' => $suffix, 
                     $personalize['input.base'],
                     $personalize['input.paddings.left'] => $icon && ($position === null || $position === 'left'),
                     $personalize['input.paddings.right'] => $icon && $position === 'right'
