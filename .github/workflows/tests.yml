@@ -7,19 +7,21 @@ on:
   pull_request:
     branches:
       - 1.x
-
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: ${{ matrix.os }}
+
     strategy:
       fail-fast: false
       matrix:
         os: [ubuntu-latest]
         php: [8.1, 8.2, 8.3]
-        laravel: [10.*]
-        timezone: [America/Sao_Paulo]
+        laravel: ['10.*', '11.*']
+        exclude:
+          - laravel: 11.*
+            php: 8.1
 
     name: OS:${{ matrix.os }} / PHP:${{ matrix.php }} / Laravel:${{ matrix.laravel }}
 
@@ -30,9 +32,12 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: "18.x"
+          node-version: 18.x
+
       - run: npm install
+
       - run: npm run lint
+
       - run: npm run build
 
       - name: Setup PHP
@@ -80,19 +85,3 @@ jobs:
         run: ./vendor/bin/pest --ci --filter Browser --order-by random --stop-on-failure
         env:
           CI: true
-
-#      - name: Upload Failed Screenshots
-#        if: failure()
-#        uses: actions/upload-artifact@v2
-#        with:
-#          name: dusk-fail-screenshots
-#          path: tests/Browser/screenshots/failure-*
-#          retention-days: 1
-#
-#      - name: Upload Failed Console Logs
-#        if: failure()
-#        uses: actions/upload-artifact@v2
-#        with:
-#          name: dusk-fail-screenshots
-#          path: tests/Browser/console/Tests_*
-#          retention-days: 1
