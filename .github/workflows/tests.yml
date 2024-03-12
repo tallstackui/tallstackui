@@ -73,13 +73,13 @@ jobs:
         run: ./vendor/bin/phpstan --configuration="phpstan.neon"
 
       - name: Clear Orchestra Testbench Cache
-        run: ./vendor/bin/testbench optimize:clear
+        run: ./vendor/bin/testbench view:clear
 
       - name: Feature Tests
         run: ./vendor/bin/pest --ci --filter Feature
 
       - name: Clear Orchestra Testbench Cache
-        run: ./vendor/bin/testbench optimize:clear
+        run: ./vendor/bin/testbench view:clear
 
       - name: Browser Tests
         run: ./vendor/bin/pest --ci --filter Browser --order-by random --stop-on-failure
