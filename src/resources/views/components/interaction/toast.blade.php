@@ -13,6 +13,7 @@
         <div x-data="tallstackui_toastLoop(toast)"
              x-show="show"
              x-ref="toast"
+             x-on:mouseenter="toast.expandable = false"
              x-transition:enter="transform ease-out duration-300 transition"
              x-transition:enter-start="translate-y-2 opacity-0 sm:translate-y-0 @if (str_contains($configurations['position'], '-left')) sm:-translate-x-2 @else sm:translate-x-2 @endif"
              x-transition:enter-end="translate-y-0 opacity-100 sm:translate-x-0"
@@ -63,7 +64,8 @@
                            x-show="toast.description && toast.expandable"></p>
                         <p @class($personalize['content.description'])
                            x-text="toast.description"
-                           x-show="!toast.expandable"></p>
+                           x-show="!toast.expandable"
+                           x-collapse></p>
                         <template x-if="toast.options && (toast.options.confirm?.text || toast.options.cancel?.text)">
                             <div @class($personalize['buttons.wrapper.first']) x-bind:class="{ 'gap-x-2' : toast.options.confirm && toast.options.cancel }">
                                 <button dusk="tallstackui_toast_confirmation" @class($personalize['buttons.confirm'])

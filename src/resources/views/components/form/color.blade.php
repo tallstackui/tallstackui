@@ -24,6 +24,7 @@
         x-cloak>
     <x-dynamic-component :component="TallStackUi::component('input')"
                          {{ $attributes->class([
+                            '-ml-3',
                             'cursor-pointer caret-transparent' => $selectable,
                          ])->except(['name', 'value']) }}
                          :$label
