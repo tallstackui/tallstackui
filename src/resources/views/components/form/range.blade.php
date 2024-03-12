@@ -11,5 +11,5 @@
                 $personalize['input.sizes.' . $size],
                 $personalize['input.disabled'] => $attributes->get('disabled') || $attributes->get('readonly'),
                 $colors['thumb'],
-            ]) }} dusk="tallstackui_form_range_input" x-ref="input">
+            ]) }} dusk="tallstackui_form_range_input">
 </x-dynamic-component>
