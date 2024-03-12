@@ -60,12 +60,10 @@
                         <p @class($personalize['content.text']) x-bind:class="{ 'font-medium' : !toast.confirm, 'font-semibold' : toast.confirm }"
                            x-text="toast.title"></p>
                         <p @class($personalize['content.description'])
-                           x-text="toast.description?.substring(0, 30) + '...'"
-                           x-show="toast.description && toast.expandable"></p>
-                        <p @class($personalize['content.description'])
                            x-text="toast.description"
                            x-show="!toast.expandable"
-                           x-collapse></p>
+                           x-bind:class="{ 'truncate': toast.expandable }"
+                           x-collapse.min.20px></p>
                         <template x-if="toast.options && (toast.options.confirm?.text || toast.options.cancel?.text)">
                             <div @class($personalize['buttons.wrapper.first']) x-bind:class="{ 'gap-x-2' : toast.options.confirm && toast.options.cancel }">
                                 <button dusk="tallstackui_toast_confirmation" @class($personalize['buttons.confirm'])
