@@ -28,8 +28,8 @@
     "require-dev": {
         "pestphp/pest": "^2.0",
         "laravel/pint": "^1.13",
-        "orchestra/testbench": "^8.12|^9.0",
-        "orchestra/testbench-dusk": "^8.12",
+        "orchestra/testbench": "8.x-dev|9.x-dev",
+        "orchestra/testbench-dusk": "8.x-dev|9.x-dev",
         "pestphp/pest-plugin-type-coverage": "^2.2",
         "larastan/larastan": "^2.7",
         "rector/rector": "^1.0"
