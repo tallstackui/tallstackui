@@ -50,7 +50,7 @@ jobs:
 
       - name: Install Composer
         run: |
-          composer require "laravel/framework:${{ matrix.laravel }}" --no-interaction --no-progress --ansi --no-update
+          composer require "laravel/framework:${{ matrix.laravel }}" --no-interaction --no-progress --ansi --no-update --with-all-dependencies
           composer update --no-interaction --no-progress --ansi
 
       - name: Rector Cache
