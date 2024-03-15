@@ -14,7 +14,7 @@ return [
     |
     | For example: prefixing as 'ts-', the `alert` usage will be: '<x-ts-alert />'
     */
-    'prefix' => null,
+    'prefix' => env('TALLSTACKUI_PREFIX'),
 
     /*
     |--------------------------------------------------------------------------
