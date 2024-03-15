@@ -185,6 +185,7 @@ class StyledCommonTest extends BrowserTestCase
             ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[1]')
             ->waitForText(['Type 1', 'Type 2', 'Type 3'])
             // Type 1
+            ->waitForText('Select an option')
             ->clickAtXPath('/html/body/div[3]/div[2]/div[2]/button')
             ->waitForText(['AAA', 'BBB'])
             ->assertSee('AAA')
@@ -465,7 +466,6 @@ class StyledCommonTest extends BrowserTestCase
             ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[3]')
             ->click('@tallstackui_select_open_close')
             ->waitForText(['foo', 'bar', 'baz'])
-            ->click('@tallstackui_select_open_close')
             ->click('@sync')
             ->waitForText(['foo', 'bar', 'baz'])
             ->assertDontSee('Select an option');
@@ -644,6 +644,7 @@ class StyledCommonTest extends BrowserTestCase
             ->click('@tallstackui_select_open_close')
             ->waitForText(['foo', 'bar'])
             ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[1]')
+            ->click('@tallstackui_select_open_close')
             ->click('@sync')
             ->waitForText('Select an option')
             ->waitUntilMissingText('foo')
