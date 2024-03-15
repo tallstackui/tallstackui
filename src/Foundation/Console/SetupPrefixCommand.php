@@ -41,16 +41,52 @@ class SetupPrefixCommand extends Command
         return self::SUCCESS;
     }
 
+    private function content(): string
+    {
+        return file_get_contents(config_path('tallstackui.php'));
+    }
+
     private function setup(string $prefix): bool|string
+    {
+        // This is an adaptation to accept the setup
+        // of the prefix by using the .env file.
+        return str_contains($this->content(), 'TALLSTACKUI_PREFIX')
+            ? $this->setUpUsingEnv($prefix)
+            : $this->setUpUsingConfig($prefix);
+    }
+
+    private function setUpUsingConfig(string $prefix): bool|string
     {
         try {
             $formatted = "'$prefix'";
 
-            $config = file_get_contents(config_path('tallstackui.php'));
-
-            $update = preg_replace("/('prefix' => )[^,]+/", $prefix === 'null' ? "'prefix' => null" : "\$1$formatted", $config);
+            $update = preg_replace(
+                "/('prefix' => )[^,]+/",
+                $prefix === 'null' ? "'prefix' => null" : "\$1$formatted",
+                $this->content()
+            );
 
             file_put_contents(config_path('tallstackui.php'), $update);
+
+            return true;
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+    private function setUpUsingEnv(string $prefix): bool|string
+    {
+        try {
+            $env = file_get_contents(base_path('.env'));
+            $prefix = $prefix === 'null' ? '' : "\"$prefix\"";
+
+            $update = str_contains($env, 'TALLSTACKUI_PREFIX')
+                ? preg_replace("/(TALLSTACKUI_PREFIX=)[^\n]*/", "TALLSTACKUI_PREFIX=$prefix", $env)
+                : $env.PHP_EOL."TALLSTACKUI_PREFIX=$prefix";
+
+            file_put_contents(base_path('.env'), $update);
+
+            Process::run('php artisan config:clear');
 
             return true;
         } catch (Exception $e) {
