@@ -208,7 +208,7 @@ class IndexTest extends BrowserTestCase
             ->assertDontSee('Lorem Ipsum is simply')
             ->click('#expand')
             ->waitForText('Lorem Ipsum is simply')
-            ->click('@tallstackui_toast_expandable')
+            ->mouseover('@tallstackui_toast_expandable')
             ->waitForText('specimen')
             ->assertSee('specimen');
     }
@@ -220,7 +220,7 @@ class IndexTest extends BrowserTestCase
             ->assertDontSee('Lorem Ipsum is simply')
             ->click('#expandConfirmation')
             ->waitForText('Lorem Ipsum is simply')
-            ->click('@tallstackui_toast_expandable')
+            ->mouseover('@tallstackui_toast_expandable')
             ->waitForText('specimen')
             ->assertSee('specimen')
             ->click('@tallstackui_toast_confirmation')
