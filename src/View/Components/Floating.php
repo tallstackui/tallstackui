@@ -35,6 +35,6 @@ class Floating extends BaseComponent implements Personalization
 
     public function personalization(): array
     {
-        return ['wrapper' => 'dark:bg-dark-700 border-dark-200 dark:border-dark-600 absolute z-50 rounded-lg border bg-white'];
+        return ['wrapper' => 'dark:bg-dark-700 border-dark-200 dark:border-dark-600 absolute z-40 rounded-lg border bg-white'];
     }
 }
