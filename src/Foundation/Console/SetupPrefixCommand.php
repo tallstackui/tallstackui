@@ -24,42 +24,31 @@ class SetupPrefixCommand extends Command
             return self::FAILURE;
         }
 
-        if (! file_exists(config_path('tallstackui.php'))) {
-            Process::run('php artisan vendor:publish --tag=tallstackui.config');
-        }
-
         if (($result = $this->setup($prefix)) !== true) {
             $this->components->error($result);
 
             return self::FAILURE;
         }
 
-        Process::run('php artisan view:clear');
+        Process::run([
+            'php artisan view:clear',
+            'php artisan config:clear',
+        ]);
 
         $this->components->info('The prefix ['.$prefix.'] was successfully set up.');
 
         return self::SUCCESS;
     }
 
-    private function content(): string
+    private function config(string $prefix): bool|string
     {
-        return file_get_contents(config_path('tallstackui.php'));
-    }
+        if (! file_exists(config_path('tallstackui.php'))) {
+            Process::run('php artisan vendor:publish --tag=tallstackui.config');
+        }
 
-    private function setup(string $prefix): bool|string
-    {
-        // This is an adaptation to accept the setup
-        // of the prefix by using the .env file.
-        return str_contains($this->content(), 'TALLSTACKUI_PREFIX')
-            ? $this->setUpUsingEnv($prefix)
-            : $this->setUpUsingConfig($prefix);
-    }
+        $formatted = "'$prefix'";
 
-    private function setUpUsingConfig(string $prefix): bool|string
-    {
         try {
-            $formatted = "'$prefix'";
-
             $update = preg_replace(
                 "/('prefix' => )[^,]+/",
                 $prefix === 'null' ? "'prefix' => null" : "\$1$formatted",
@@ -74,7 +63,12 @@ class SetupPrefixCommand extends Command
         }
     }
 
-    private function setUpUsingEnv(string $prefix): bool|string
+    private function content(): string
+    {
+        return file_get_contents(config_path('tallstackui.php'));
+    }
+
+    private function env(string $prefix): bool|string
     {
         try {
             $env = file_get_contents(base_path('.env'));
@@ -86,11 +80,18 @@ class SetupPrefixCommand extends Command
 
             file_put_contents(base_path('.env'), $update);
 
-            Process::run('php artisan config:clear');
-
             return true;
         } catch (Exception $e) {
             return $e->getMessage();
         }
+    }
+
+    private function setup(string $prefix): bool|string
+    {
+        if (file_exists(config_path('tallstackui.php')) && ! str_contains($this->content(), 'TALLSTACKUI_PREFIX')) {
+            return $this->config($prefix);
+        }
+
+        return $this->env($prefix);
     }
 }
