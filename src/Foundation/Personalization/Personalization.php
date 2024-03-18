@@ -32,6 +32,8 @@ use TallStackUi\View\Components\Form\Label;
 use TallStackUi\View\Components\Form\Number;
 use TallStackUi\View\Components\Form\Password;
 use TallStackUi\View\Components\Form\Pin;
+use TallStackUi\View\Components\Progress\Progress;
+use TallStackUi\View\Components\Progress\Circle as ProgressCircle;
 use TallStackUi\View\Components\Form\Radio;
 use TallStackUi\View\Components\Form\Range;
 use TallStackUi\View\Components\Form\Tag;
@@ -228,6 +230,19 @@ class Personalization
     public function modal(): PersonalizationResources
     {
         return app($this->component(Modal::class));
+    }
+
+    public function progress(?string $component = null): PersonalizationResources
+    {
+        $component ??= 'progress';
+
+        $class = match ($component) {
+            'progress' => Progress::class,
+            'circle' => ProgressCircle::class,
+            default => $component,
+        };
+
+        return app($this->component($class));
     }
 
     public function reaction(): PersonalizationResources
