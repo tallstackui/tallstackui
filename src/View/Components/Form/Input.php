@@ -24,6 +24,7 @@ class Input extends BaseComponent implements Personalization
         #[SkipDebug]
         public ?string $suffix = null,
         public ?bool $invalidate = null,
+        public ?bool $floatable = false,
         #[SkipDebug]
         public ?string $position = 'left',
     ) {

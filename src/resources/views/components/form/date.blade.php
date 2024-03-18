@@ -27,6 +27,7 @@
                          :$hint
                          :$invalidate
                          :alternative="$attributes->get('name')"
+                         floatable
                          x-ref="input"
                          x-on:click="picker.common = !picker.common; picker.year = false;"
                          x-on:keydown="$event.preventDefault()"
