@@ -41,6 +41,22 @@ class Progress extends BaseComponent implements Personalization
     public function personalization(): array
     {
         return Arr::dot([
+            'simple' => [
+                'wrapper' => 'flex w-full overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700',
+                'progress' => 'flex flex-col justify-center overflow-hidden whitespace-nowrap rounded-full text-center text-xs text-white transition duration-500',
+            ],
+            'floating' => [
+                'wrapper' => 'dark:border-dark-700 dark:bg-dark-800 mb-2 inline-block rounded-lg border border-gray-300 bg-gray-200 px-1.5 py-0.5 text-xs font-medium dark:text-white',
+                'progress' => 'flex w-full overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700',
+                'float' => 'flex flex-col justify-center overflow-hidden whitespace-nowrap rounded-full text-center text-xs text-white transition duration-500',
+            ],
+            'title' => [
+                'wrapper' => 'mb-2 flex items-center justify-between',
+                'title' => 'text-sm font-semibold text-gray-800 dark:text-white',
+                'progress' => 'flex w-full overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700',
+                'bar' => 'flex flex-col justify-center overflow-hidden whitespace-nowrap rounded-full text-center text-xs text-white transition duration-500',
+                'percent' => 'text-sm text-gray-800 dark:text-white',
+            ],
             'sizes' => [
                 'xs' => 'h-2.5',
                 'sm' => 'h-3',
