@@ -1,6 +1,7 @@
 @php
     [$property, $error, $id] = $bind($attributes, $errors ?? null, $livewire);
     $personalize = $classes();
+    $floatable = $attributes->get('floatable', false);
 @endphp
 
 <x-dynamic-component :component="TallStackUi::component('wrapper.input')" :$id :$property :$error :$label :$hint :$invalidate :$floatable>
