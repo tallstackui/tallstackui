@@ -1,6 +1,7 @@
 {
   "js/tallstackui.js": {
     "file": "tallstackui-CicPENmP.js",
+    "name": "tallstackui",
     "src": "js/tallstackui.js",
     "isEntry": true,
     "css": [
