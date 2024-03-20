@@ -20,13 +20,13 @@ class Circle extends BaseComponent implements Personalization
         public ?bool $lg = null,
         public ?bool $solid = true,
         public ?bool $light = false,
-        #[SkipDebug]
-        public ?string $size = null,
         public ?string $color = 'primary',
         public ?int $strokeCircle = 2,
         public ?int $strokePercent = 2,
         #[SkipDebug]
         public ?string $style = null,
+        #[SkipDebug]
+        public ?string $size = null,
     ) {
         $this->size = $this->xs ? 'xs' : ($this->sm ? 'sm' : ($this->lg ? 'lg' : 'md'));
 

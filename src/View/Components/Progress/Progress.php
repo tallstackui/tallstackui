@@ -15,8 +15,6 @@ class Progress extends BaseComponent implements Personalization
     public function __construct(
         public string|int|null $percent = null,
         public ?string $title = null,
-        #[SkipDebug]
-        public ?string $variation = null,
         public ?bool $xs = null,
         public ?bool $sm = null,
         public ?bool $md = null,
@@ -25,12 +23,14 @@ class Progress extends BaseComponent implements Personalization
         public ?bool $floating = false,
         public ?bool $solid = true,
         public ?bool $light = false,
+        public ?string $color = 'primary',
+        public ?bool $withoutText = false,
         #[SkipDebug]
         public ?string $size = null,
-        public ?string $color = 'primary',
         #[SkipDebug]
         public ?string $style = null,
-        public ?bool $withoutText = false,
+        #[SkipDebug]
+        public ?string $variation = null,
     ) {
         $this->variation = $this->title ? 'title' : ($this->floating ? 'floating' : 'simple');
 

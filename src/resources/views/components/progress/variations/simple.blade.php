@@ -5,7 +5,7 @@
      aria-valuemax="100">
     <div @class([$personalize['simple.progress'], $colors['background']])
          style="width: {{ $percent }}%">
-          @if(!$withoutText)
+          @if (!$withoutText)
                {{ $percent }}%
           @endif    
      </div>
