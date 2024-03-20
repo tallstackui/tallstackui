@@ -17,8 +17,8 @@ use TallStackUi\View\Components\Form\Toggle;
 use TallStackUi\View\Components\Interaction\Dialog;
 use TallStackUi\View\Components\Interaction\Toast;
 use TallStackUi\View\Components\Link;
-use TallStackUi\View\Components\Progress\Progress;
 use TallStackUi\View\Components\Progress\Circle as ProgressCircle;
+use TallStackUi\View\Components\Progress\Progress;
 use TallStackUi\View\Components\Stats;
 use TallStackUi\View\Components\Tooltip;
 

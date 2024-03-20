@@ -29,7 +29,6 @@ class Circle extends BaseComponent implements Personalization
         $this->style = $this->light ? 'light' : 'solid';
     }
 
-
     public function blade(): View
     {
         return view('tallstack-ui::components.progress.circle');
@@ -53,8 +52,8 @@ class Circle extends BaseComponent implements Personalization
                     'sm' => 'h-16 w-16',
                     'md' => 'h-28 w-28',
                     'lg' => 'h-36 w-36',
-                ]
-            ]
+                ],
+            ],
         ]);
     }
 }

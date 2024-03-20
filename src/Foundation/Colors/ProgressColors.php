@@ -3,8 +3,8 @@
 namespace TallStackUi\Foundation\Colors;
 
 use TallStackUi\Foundation\Colors\Traits\OverrideColors;
-use TallStackUi\View\Components\Progress\Progress;
 use TallStackUi\View\Components\Progress\Circle;
+use TallStackUi\View\Components\Progress\Progress;
 
 class ProgressColors
 {
