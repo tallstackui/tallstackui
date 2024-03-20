@@ -2,12 +2,12 @@
 
 namespace TallStackUi\View\Components\Progress;
 
-use Illuminate\Support\Arr;
 use Illuminate\Contracts\View\View;
-use TallStackUi\View\Components\BaseComponent;
+use Illuminate\Support\Arr;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\View\Components\BaseComponent;
 
 #[SoftPersonalization('progress.circle')]
 class Circle extends BaseComponent implements Personalization
@@ -29,7 +29,7 @@ class Circle extends BaseComponent implements Personalization
         public ?string $style = null,
     ) {
         $this->size = $this->xs ? 'xs' : ($this->sm ? 'sm' : ($this->lg ? 'lg' : 'md'));
-        
+
         $this->style = $this->light ? 'light' : 'solid';
     }
 
