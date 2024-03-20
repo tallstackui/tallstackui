@@ -23,6 +23,7 @@
                          :$hint
                          :$invalidate
                          :alternative="$attributes->get('name')"
+                         floatable
                          x-ref="input"
                          x-on:click="show = !show"
                          x-on:keydown="$event.preventDefault()"

@@ -32,7 +32,8 @@
                              x-on:keydown="$event.preventDefault()"
                              spellcheck="false"
                              dusk="tallstackui_upload_input"
-                             invalidate>
+                             invalidate
+                             floatable>
                              <x-slot:suffix>
                                 <button type="button" x-on:click="show = !show">
                                     <x-dynamic-component :component="TallStackUi::component('icon')"
@@ -42,25 +43,27 @@
                              </x-slot:suffix>
         </x-dynamic-component>
     @if ($preview)
-        <div x-show="preview" 
-             x-on:click="preview = false; show = true"
-             x-transition:enter="ease-out duration-300"
-             x-transition:enter-start="opacity-0"
-             x-transition:enter-end="opacity-100"
-             x-transition:leave="ease-in duration-200"
-             x-transition:leave-start="opacity-100"
-             x-transition:leave-end="opacity-0"
-             @class($personalize['preview.backdrop'])
-             dusk="tallstackui_file_preview_backdrop">
-             <div @class($personalize['preview.wrapper'])>
-                <button @class($personalize['preview.button.wrapper']) x-on:click="preview = false; show = true">
-                    <x-dynamic-component :component="TallStackUi::component('icon')"
-                                         :icon="TallStackUi::icon('x-mark')"
-                                         :class="$personalize['preview.button.icon']" />
-                </button>
-                <img x-bind:src="image" @class($personalize['preview.image'])>
+        <template x-teleport="body">
+            <div x-show="preview" 
+                 x-on:click="preview = false; show = true"
+                 x-transition:enter="ease-out duration-300"
+                 x-transition:enter-start="opacity-0"
+                 x-transition:enter-end="opacity-100"
+                 x-transition:leave="ease-in duration-200"
+                 x-transition:leave-start="opacity-100"
+                 x-transition:leave-end="opacity-0"
+                 @class($personalize['preview.backdrop'])
+                 dusk="tallstackui_file_preview_backdrop">
+                    <div @class($personalize['preview.wrapper'])>
+                        <button @class($personalize['preview.button.wrapper']) x-on:click="preview = false; show = true">
+                            <x-dynamic-component :component="TallStackUi::component('icon')"
+                                                 :icon="TallStackUi::icon('x-mark')"
+                                                 :class="$personalize['preview.button.icon']" />
+                        </button>
+                        <img x-bind:src="image" @class($personalize['preview.image'])>
+                    </div>
             </div>
-        </div>
+        </template>
     @endif
      <x-dynamic-component :component="TallStackUi::component('floating')" class="p-3 w-full">
          @if (!$static)

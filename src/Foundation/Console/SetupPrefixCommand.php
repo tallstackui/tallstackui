@@ -24,31 +24,36 @@ class SetupPrefixCommand extends Command
             return self::FAILURE;
         }
 
-        if (! file_exists(config_path('tallstackui.php'))) {
-            Process::run('php artisan vendor:publish --tag=tallstackui.config');
-        }
-
         if (($result = $this->setup($prefix)) !== true) {
             $this->components->error($result);
 
             return self::FAILURE;
         }
 
-        Process::run('php artisan view:clear');
+        Process::run([
+            'php artisan view:clear',
+            'php artisan config:clear',
+        ]);
 
         $this->components->info('The prefix ['.$prefix.'] was successfully set up.');
 
         return self::SUCCESS;
     }
 
-    private function setup(string $prefix): bool|string
+    private function config(string $prefix): bool|string
     {
+        if (! file_exists(config_path('tallstackui.php'))) {
+            Process::run('php artisan vendor:publish --tag=tallstackui.config');
+        }
+
+        $formatted = "'$prefix'";
+
         try {
-            $formatted = "'$prefix'";
-
-            $config = file_get_contents(config_path('tallstackui.php'));
-
-            $update = preg_replace("/('prefix' => )[^,]+/", $prefix === 'null' ? "'prefix' => null" : "\$1$formatted", $config);
+            $update = preg_replace(
+                "/('prefix' => )[^,]+/",
+                $prefix === 'null' ? "'prefix' => null" : "\$1$formatted",
+                $this->content()
+            );
 
             file_put_contents(config_path('tallstackui.php'), $update);
 
@@ -56,5 +61,37 @@ class SetupPrefixCommand extends Command
         } catch (Exception $e) {
             return $e->getMessage();
         }
+    }
+
+    private function content(): string
+    {
+        return file_get_contents(config_path('tallstackui.php'));
+    }
+
+    private function env(string $prefix): bool|string
+    {
+        try {
+            $env = file_get_contents(base_path('.env'));
+            $prefix = $prefix === 'null' ? '' : "\"$prefix\"";
+
+            $update = str_contains($env, 'TALLSTACKUI_PREFIX')
+                ? preg_replace("/(TALLSTACKUI_PREFIX=)[^\n]*/", "TALLSTACKUI_PREFIX=$prefix", $env)
+                : $env.PHP_EOL."TALLSTACKUI_PREFIX=$prefix";
+
+            file_put_contents(base_path('.env'), $update);
+
+            return true;
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+    private function setup(string $prefix): bool|string
+    {
+        if (file_exists(config_path('tallstackui.php')) && ! str_contains($this->content(), 'TALLSTACKUI_PREFIX')) {
+            return $this->config($prefix);
+        }
+
+        return $this->env($prefix);
     }
 }

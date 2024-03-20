@@ -7,7 +7,7 @@
             x-on:click="darkTheme = !darkTheme; themeSwitch()"
             {{ $attributes->only('x-on:change') }}
             @if (!$onlyIcons) x-bind:class="{ '{{ $personalize['switch.on'] }}': darkTheme === true, '{{ $personalize['switch.off'] }}': darkTheme === false }" @endif
-            @class([$personalize['switch.button'] => !$onlyIcons, $personalize['switch.sizes.' . $size] => !$onlyIcons])>
+            @class([$personalize['button'], $personalize['switch.button'] => !$onlyIcons, $personalize['switch.sizes.' . $size] => !$onlyIcons])>
          <div @class([
                 $personalize['switch.wrapper'] => !$onlyIcons, 
                 $personalize['switch.icons.sizes.' . $size] => !$onlyIcons, 

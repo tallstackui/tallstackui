@@ -4,9 +4,9 @@
     <div @class($personalize['wrapper.second'])>
         @if ($header)
             <div @class($personalize['header.wrapper'])>
-                <h3 @class($personalize['header.text'])>
+                <div @class($personalize['header.text'])>
                     {{ $header }}
-                </h3>
+                </div>
             </div>
         @endif
         <div {{ $attributes->class($personalize['body']) }}>

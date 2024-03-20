@@ -102,7 +102,7 @@ class Styled extends BaseComponent implements Personalization
             ],
             'itens' => [
                 'wrapper' => 'truncate',
-                'placeholder' => 'dark:text-dark-400 leading-6 text-gray-400',
+                'placeholder' => 'dark:text-dark-400 truncate leading-6 text-gray-400',
                 'single' => 'dark:text-dark-300 leading-6 text-gray-600',
                 'multiple' => [
                     'item' => 'dark:text-dark-100 dark:bg-dark-700 dark:ring-dark-600 inline-flex h-6 items-center space-x-1 rounded-lg bg-gray-100 px-2 text-sm font-medium text-gray-600 ring-1 ring-inset ring-gray-200',

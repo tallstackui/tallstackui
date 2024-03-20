@@ -15,6 +15,7 @@
                           :$hint
                           :$invalidate
                           ::type="!show ? 'password' : 'text'"
+                          floatable
                           autocomplete="{{ $attributes->get('autocomplete', 'off') }}">
          <x-slot:suffix>
              <div @class([$personalize['icon.wrapper'], 'justify-between gap-2']) x-cloak>

@@ -31,6 +31,7 @@
                          :$hint
                          :$invalidate
                          :alternative="$attributes->get('name')"
+                         floatable
                          x-ref="input"
                          x-model="model"
                          maxlength="7">
