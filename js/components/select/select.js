@@ -39,7 +39,6 @@ export default (
   property: property,
   value: value,
   limit: limit,
-  change: change,
   image: null,
   async init() {
     if (!this.livewire) {
@@ -261,7 +260,7 @@ export default (
       },
     })));
 
-    wireChange(this.change, this.model);
+    wireChange(change, this.model);
   },
   /**
    * Check if the `option` is selected.

@@ -15,7 +15,8 @@
     {...@js($times())},
     @js($livewire),
     @js($property),
-    @js($value))"
+    @js($value),
+    @js($change($attributes, $__livewire ?? null, $livewire)))"
     x-cloak x-on:click.outside="show = false">
     <x-dynamic-component :component="TallStackUi::component('input')"
                          {{ $attributes->except('name') }}

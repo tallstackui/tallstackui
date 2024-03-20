@@ -6,8 +6,6 @@ use Exception;
 use Illuminate\View\ComponentAttributeBag;
 use Livewire\Component;
 use Livewire\WireDirective;
-use TallStackUi\View\Components\Form\Pin;
-use TallStackUi\View\Components\Select\Styled;
 
 trait LivewireChangeEvent
 {
@@ -27,15 +25,6 @@ trait LivewireChangeEvent
 
         if (! $wire || ! ($method = $wire->value())) {
             return null;
-        }
-
-        $class = [
-            Styled::class => 'select.styled',
-            Pin::class => 'form.pin',
-        ][static::class];
-
-        if (! method_exists($component, $method)) {
-            throw new Exception("The [wire:change] method [$method] used in [$class] does not exists in the component [{$component->getName()}].");
         }
 
         return [

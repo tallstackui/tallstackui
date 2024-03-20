@@ -10,12 +10,14 @@ use Illuminate\Support\Collection;
 use InvalidArgumentException;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Foundation\Traits\LivewireChangeEvent;
 use TallStackUi\Foundation\Traits\SanitizePropertyValue;
 use TallStackUi\View\Components\BaseComponent;
 
 #[SoftPersonalization('form.date')]
 class Date extends BaseComponent implements Personalization
 {
+    use LivewireChangeEvent;
     use SanitizePropertyValue;
 
     public function __construct(

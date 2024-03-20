@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 import updateLocale from 'dayjs/plugin/updateLocale';
+import {wireChange} from '../../helpers';
 
 dayjs.extend(updateLocale);
 
@@ -14,6 +15,7 @@ export default (
     property,
     value,
     calendar,
+    change = null,
 ) => ({
   picker: {
     common: false,
@@ -205,6 +207,8 @@ export default (
     this.model = date.format('YYYY-MM-DD');
 
     this.sync();
+
+    wireChange(change, this.model);
   },
   /**
    * Map the days of the month.

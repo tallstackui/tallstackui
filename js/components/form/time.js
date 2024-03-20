@@ -1,7 +1,7 @@
-import {warning} from '../../helpers';
+import {warning, wireChange} from '../../helpers';
 import dayjs from 'dayjs';
 
-export default (model, full, times, livewire, property, value) => ({
+export default (model, full, times, livewire, property, value, change = null) => ({
   model: model,
   show: false,
   hours: '00',
@@ -120,6 +120,8 @@ export default (model, full, times, livewire, property, value) => ({
     }
 
     if (!this.empty) this.$refs.input.value = this.model = value;
+
+    wireChange(change, this.model);
 
     if (this.livewire || this.empty) return;
 
