@@ -212,6 +212,8 @@ return [
         'number' => Components\Form\Number::class,
         'password' => Components\Form\Password::class,
         'pin' => Components\Form\Pin::class,
+        'progress' => Components\Progress\Progress::class,
+        'progress.circle' => Components\Progress\Circle::class,
         'radio' => Components\Form\Radio::class,
         'range' => Components\Form\Range::class,
         'select.native' => Components\Select\Native::class,

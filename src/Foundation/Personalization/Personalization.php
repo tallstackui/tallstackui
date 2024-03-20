@@ -44,6 +44,8 @@ use TallStackUi\View\Components\Interaction\Toast;
 use TallStackUi\View\Components\Link;
 use TallStackUi\View\Components\Loading;
 use TallStackUi\View\Components\Modal;
+use TallStackUi\View\Components\Progress\Circle as ProgressCircle;
+use TallStackUi\View\Components\Progress\Progress;
 use TallStackUi\View\Components\Reaction;
 use TallStackUi\View\Components\Select\Native as SelectNative;
 use TallStackUi\View\Components\Select\Styled as SelectStyled;
@@ -228,6 +230,19 @@ class Personalization
     public function modal(): PersonalizationResources
     {
         return app($this->component(Modal::class));
+    }
+
+    public function progress(?string $component = null): PersonalizationResources
+    {
+        $component ??= 'progress';
+
+        $class = match ($component) {
+            'progress' => Progress::class,
+            'circle' => ProgressCircle::class,
+            default => $component,
+        };
+
+        return app($this->component($class));
     }
 
     public function reaction(): PersonalizationResources
