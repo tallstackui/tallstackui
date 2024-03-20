@@ -26,11 +26,22 @@ it('can render size variations', function (array $size) {
     fn () => ['lg' => 'h-5'],
 ]);
 
-it('can render red color')
-    ->expect('<x-progress percent="35" color="red" />')
-    ->render()
-    ->toContain('35%')
-    ->toContain('bg-red-600');
+it('can render with colors', function (string $colors) {
+    $component = <<<HTML
+    <x-progress percent="35" color="$colors" />
+    HTML;
+
+    $color = match ($colors) {
+        'white' => 'bg-white',
+        'black' => 'bg-black',
+        default => "bg-$colors-600",
+    };
+
+    expect($component)
+        ->render()
+        ->toContain('35%')
+        ->toContain($color);
+})->with('colors');
 
 it('can render simple variation')
     ->expect('<x-progress percent="35" simple />')

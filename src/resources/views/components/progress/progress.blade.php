@@ -4,5 +4,5 @@
                      :$percent
                      :$size
                      :$colors
-                     :$withText
+                     :$withoutText
                      :$personalize />
