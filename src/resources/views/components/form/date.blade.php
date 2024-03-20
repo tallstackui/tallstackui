@@ -19,7 +19,8 @@
      @js($livewire),
      @js($property),
      @js($value),
-     @js(__('tallstack-ui::messages.date.calendar')))"
+     @js(__('tallstack-ui::messages.date.calendar')),
+     @js($change($attributes, $__livewire ?? null, $livewire)))"
      x-cloak x-on:click.outside="picker.common = false">
     <x-dynamic-component :component="TallStackUi::component('input')"
                          {{ $attributes->except(['name', 'value']) }}

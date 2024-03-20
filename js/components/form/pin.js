@@ -25,7 +25,6 @@ export default (
   livewire: livewire,
   property: property,
   value: value,
-  change: change,
   init() {
     if (!this.model && this.value) {
       this.model = this.value;
@@ -217,7 +216,7 @@ export default (
       this.model += input.value;
     }
 
-    wireChange(this.change, this.model);
+    wireChange(change, this.model);
   },
   /**
    * @returns {void}
@@ -233,7 +232,7 @@ export default (
       input.value = value[index];
     }
 
-    wireChange(this.change, this.model);
+    wireChange(change, this.model);
   },
   /**
    * @param index
