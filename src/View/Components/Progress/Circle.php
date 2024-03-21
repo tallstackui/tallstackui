@@ -4,6 +4,7 @@ namespace TallStackUi\View\Components\Progress;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
+use Illuminate\View\ComponentSlot;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
@@ -26,6 +27,8 @@ class Circle extends BaseComponent implements Personalization
         public ?string $color = 'primary',
         public ?int $strokeCircle = 2,
         public ?int $strokePercent = 2,
+        public ?int $sizeCircle = 36,
+        public ComponentSlot|null $footer = null,
         #[SkipDebug]
         public ?string $style = null,
         #[SkipDebug]
