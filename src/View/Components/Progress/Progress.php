@@ -8,10 +8,13 @@ use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\View\Components\BaseComponent;
+use TallStackUi\View\Components\Progress\Traits\SetupProgress;
 
 #[SoftPersonalization('progress')]
 class Progress extends BaseComponent implements Personalization
 {
+    use SetupProgress;
+
     public function __construct(
         public string|int|null $percent = null,
         public ?string $title = null,
@@ -34,9 +37,7 @@ class Progress extends BaseComponent implements Personalization
     ) {
         $this->variation = $this->title ? 'title' : ($this->floating ? 'floating' : 'simple');
 
-        $this->size = $this->xs ? 'xs' : ($this->sm ? 'sm' : ($this->lg ? 'lg' : 'md'));
-
-        $this->style = $this->light ? 'light' : 'solid';
+        $this->setup();
     }
 
     public function blade(): View
@@ -52,16 +53,16 @@ class Progress extends BaseComponent implements Personalization
                 'progress' => 'flex flex-col justify-center overflow-hidden whitespace-nowrap rounded-full text-center text-xs text-white transition duration-500',
             ],
             'floating' => [
-                'wrapper' => 'dark:border-dark-700 dark:bg-dark-800 mb-2 inline-block rounded-lg border border-gray-300 bg-gray-200 px-1.5 py-0.5 text-xs font-medium dark:text-white',
+                'wrapper' => 'dark:border-dark-600 dark:bg-dark-700 mb-2 inline-block rounded-lg border border-gray-300 bg-gray-200 px-1.5 py-0.5 text-xs font-medium text-gray-700 dark:text-dark-400',
                 'progress' => 'flex w-full overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700',
                 'float' => 'flex flex-col justify-center overflow-hidden whitespace-nowrap rounded-full text-center text-xs text-white transition duration-500',
             ],
             'title' => [
                 'wrapper' => 'mb-2 flex items-center justify-between',
-                'title' => 'text-sm font-semibold text-gray-800 dark:text-white',
-                'progress' => 'flex w-full overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700',
+                'title' => 'dark:text-dark-400 block text-sm font-semibold text-gray-600',
                 'bar' => 'flex flex-col justify-center overflow-hidden whitespace-nowrap rounded-full text-center text-xs text-white transition duration-500',
-                'percent' => 'text-sm text-gray-800 dark:text-white',
+                'progress' => 'flex w-full overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700',
+                'percent' => 'dark:text-dark-400 text-sm font-medium text-gray-600',
             ],
             'sizes' => [
                 'xs' => 'h-2.5',

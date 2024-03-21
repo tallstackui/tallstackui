@@ -8,10 +8,13 @@ use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\View\Components\BaseComponent;
+use TallStackUi\View\Components\Progress\Traits\SetupProgress;
 
 #[SoftPersonalization('progress.circle')]
 class Circle extends BaseComponent implements Personalization
 {
+    use SetupProgress;
+
     public function __construct(
         public string|int|null $percent = null,
         public ?bool $xs = null,
@@ -28,9 +31,7 @@ class Circle extends BaseComponent implements Personalization
         #[SkipDebug]
         public ?string $size = null,
     ) {
-        $this->size = $this->xs ? 'xs' : ($this->sm ? 'sm' : ($this->lg ? 'lg' : 'md'));
-
-        $this->style = $this->light ? 'light' : 'solid';
+        $this->setup();
     }
 
     public function blade(): View
@@ -42,7 +43,7 @@ class Circle extends BaseComponent implements Personalization
     {
         return Arr::dot([
             'wrapper' => 'absolute start-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform',
-            'text' => 'text-center font-bold text-gray-800 dark:text-white',
+            'text' => 'text-center font-bold text-gray-700 dark:text-dark-400',
             'background' => 'dark:text-dark-700 text-gray-200',
             'sizes' => [
                 'text' => [
