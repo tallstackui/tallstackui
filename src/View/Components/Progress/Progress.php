@@ -2,13 +2,14 @@
 
 namespace TallStackUi\View\Components\Progress;
 
-use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
+use Illuminate\View\ComponentSlot;
+use Illuminate\Contracts\View\View;
+use TallStackUi\View\Components\BaseComponent;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
-use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\View\Components\BaseComponent;
 use TallStackUi\View\Components\Progress\Traits\SetupProgress;
+use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 
 #[SoftPersonalization('progress')]
 class Progress extends BaseComponent implements Personalization
@@ -28,6 +29,7 @@ class Progress extends BaseComponent implements Personalization
         public ?bool $light = false,
         public ?string $color = 'primary',
         public ?bool $withoutText = false,
+        public ?ComponentSlot $footer = null,
         #[SkipDebug]
         public ?string $size = null,
         #[SkipDebug]
