@@ -44,7 +44,7 @@ export default (model, full, times, livewire, property, value, change = null) =>
   hydrate() {
     if (!this.model) return;
 
-    const [time, interval] = this.model?.split(' ');
+    const [time, interval] = this.model.split(' ');
     const [hours, minutes] = time?.split(':');
 
     this.hours = hours;
