@@ -70,6 +70,12 @@ export default (
       this.model = this.model.filter((value, key) => key < 2);
     }
 
+    this.$watch('picker.common', (value) => {
+      if (!value) return;
+
+      this.reset();
+    });
+
     this.$watch('model', () => {
       if (!this.livewire) return;
 

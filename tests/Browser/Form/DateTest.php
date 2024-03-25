@@ -488,8 +488,10 @@ class DateTest extends BrowserTestCase
             ->click('@tallstackui_date_open_close')
             ->waitForText('January')
             ->clickAtXPath('/html/body/div[3]/div/div[2]/div[3]/div[3]/button')
-            ->waitForTextIn('@date', '2024-01-03')
-            ->assertSeeIn('@date', '2024-01-03')
+            ->waitForTextIn('@date', '2024-01-02')
+            ->assertSeeIn('@date', '2024-01-02')
+            ->click('@tallstackui_date_open_close')
+            ->waitForText('January')
             ->clickAtXPath('/html/body/div[3]/div/div[2]/div[3]/div[5]/button')
             ->waitForTextIn('@date', '2024-01-04')
             ->assertSeeIn('@date', '2024-01-04');
