@@ -1,8 +1,10 @@
 import dayjs from 'dayjs';
 import updateLocale from 'dayjs/plugin/updateLocale';
+import isBetween from 'dayjs/plugin/isBetween';
 import {wireChange} from '../../helpers';
 
 dayjs.extend(updateLocale);
+dayjs.extend(isBetween);
 
 export default (
     model,
@@ -71,9 +73,10 @@ export default (
     }
 
     this.$watch('picker.common', (value) => {
-      if (!value) return;
+      if (!value || (this.picker.year || this.picker.month)) return;
 
       this.reset();
+      this.map();
     });
 
     this.$watch('model', () => {
@@ -294,7 +297,7 @@ export default (
     const start = dayjs(this.date.start);
     const end = dayjs(this.date.end);
 
-    return (current.isAfter(start) && current.isBefore(end)) || current.isSame(start) || current.isSame(end);
+    return current.isBetween(start, end) || current.isSame(start) || current.isSame(end);
   },
   /**
    * Checks if the date is today
@@ -306,14 +309,23 @@ export default (
     return Boolean(dayjs().isSame(this.instance(date), 'day'));
   },
   /**
+   * Set the calendar to today's date.
+   */
+  now() {
+    this.reset();
+    this.map();
+    this.picker.year = false;
+    this.picker.month = false;
+  },
+  /**
    * Checks if the date is disabled
    *
    * @param date
    * @return {Boolean}
    */
   disabled(date) {
-    return (this.date.min && date < this.date.min) ||
-           (this.date.max && date > this.date.max) ||
+    return (this.date.min && dayjs(date).isBefore(this.date.min)) ||
+           (this.date.max && dayjs(date).isAfter(this.date.max)) ||
            this.disable.includes(this.formatted(date, 'YYYY-MM-DD'));
   },
   /**
