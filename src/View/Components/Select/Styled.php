@@ -53,6 +53,10 @@ class Styled extends BaseComponent implements Personalization
         $this->searchable = $this->common ? $this->searchable : true;
 
         $this->options();
+
+        if (is_array($this->request)) {
+            $this->request['method'] ??= 'get';
+        }
     }
 
     public function blade(): View
@@ -132,7 +136,6 @@ class Styled extends BaseComponent implements Personalization
             throw new InvalidArgumentException('The [select.styled] parameter [url] is required in the request array.');
         }
 
-        $this->request['method'] ??= 'get';
         $this->request['method'] = strtolower((string) $this->request['method']);
 
         if (! in_array($this->request['method'], ['get', 'post'])) {
