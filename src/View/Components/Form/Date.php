@@ -56,8 +56,8 @@ class Date extends BaseComponent implements Personalization
     {
         return [
             'date' => [
-                'min' => $this->minDate,
-                'max' => $this->maxDate,
+                'min' => $this->minDate instanceof Carbon ? $this->minDate->format('Y-m-d') : $this->minDate,
+                'max' => $this->maxDate instanceof Carbon ? $this->maxDate->format('Y-m-d') : $this->maxDate,
             ],
             'year' => [
                 'min' => $this->minYear,

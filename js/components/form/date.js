@@ -70,6 +70,12 @@ export default (
       this.model = this.model.filter((value, key) => key < 2);
     }
 
+    this.$watch('picker.common', (value) => {
+      if (!value) return;
+
+      this.reset();
+    });
+
     this.$watch('model', () => {
       if (!this.livewire) return;
 
@@ -306,8 +312,8 @@ export default (
    * @return {Boolean}
    */
   disabled(date) {
-    return (this.date.min && date <= this.date.min) ||
-           (this.date.max && date >= this.date.max) ||
+    return (this.date.min && date < this.date.min) ||
+           (this.date.max && date > this.date.max) ||
            this.disable.includes(this.formatted(date, 'YYYY-MM-DD'));
   },
   /**
