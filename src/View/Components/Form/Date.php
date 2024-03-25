@@ -56,8 +56,8 @@ class Date extends BaseComponent implements Personalization
     {
         return [
             'date' => [
-                'min' => $this->minDate ? Carbon::parse($this->minDate)->format('Y-m-d 00:00:00') : null,
-                'max' => $this->maxDate ? Carbon::parse($this->maxDate)->format('Y-m-d 00:00:00') : null,
+                'min' => $this->minDate ? Carbon::parse($this->minDate)->format('Y-m-d') : null,
+                'max' => $this->maxDate ? Carbon::parse($this->maxDate)->format('Y-m-d') : null,
             ],
             'year' => [
                 'min' => $this->minYear,
