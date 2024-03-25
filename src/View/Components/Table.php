@@ -23,10 +23,9 @@ class Table extends BaseComponent implements Personalization
         public ?bool $headerless = false,
         public ?bool $striped = false,
         public ?array $sort = [],
-        public ?bool $filter = false,
+        public bool|array|null $filter = null,
         public ?bool $loading = false,
         public ?array $quantity = [10, 25, 50, 100],
-        public ?array $filters = ['quantity' => 'quantity', 'search' => 'search'],
         #[SkipDebug]
         public ?array $placeholders = [],
         public ?bool $paginate = false,
@@ -45,21 +44,24 @@ class Table extends BaseComponent implements Personalization
     ) {
         $this->placeholders = __('tallstack-ui::messages.table');
 
+        if (is_bool($filter) && $this->filter === true) {
+            $this->filter = ['quantity' => 'quantity', 'search' => 'search'];
+        } else {
+            $this->filter = is_array($filter) ? $filter : null;
+        }
+
         // This is necessary to `wire:target` the properties linked with filter
         // in order to make the spinner displayed during Livewire updates.
-        if ($quantity = ($this->filters['quantity'] ?? null)) {
+        if ($quantity = ($this->filter['quantity'] ?? null)) {
             $this->target[] = $quantity;
         }
 
-        if ($search = ($this->filters['search'] ?? null)) {
+        if ($search = ($this->filter['search'] ?? null)) {
             $this->target[] = $search;
         }
 
         // Imploding to transform into "wire:target="quantity,search""
         $this->target = implode(',', $this->target);
-
-        $this->filters['quantity'] ??= null;
-        $this->filters['search'] ??= null;
 
         if ($this->id !== null) {
             $this->id = str($this->id)->kebab()

@@ -9,32 +9,33 @@
     @else
         {{ $header }}
     @endif
-    @if (count((array) $rows) > 0 && $livewire && $filter)
+    @if (count((array) $rows) > 0 && $livewire && !is_null($filter))
         <div @class([
                 $personalize['filter'],
-                'justify-between' => $filters['quantity'] && $filters['search'],
-                'justify-end' => ! $filters['quantity'] || ! $filters['search'],
+                'justify-between' => isset($filter['quantity']) && isset($filter['search']),
+                'justify-start'   => isset($filter['quantity']) && ! isset($filter['search']),
+                'justify-end'     => ! isset($filter['quantity']) && isset($filter['search']),
             ])>
-            @if ($filters['quantity'])
+            @isset ($filter['quantity'])
                 <div class="w-1/4 sm:w-1/5">
                     <x-dynamic-component :component="TallStackUi::component('select.styled')"
                                          :label="$placeholders['quantity']"
                                          :options="$quantity"
-                                         wire:model.live="{{ $filters['quantity'] }}"
+                                         wire:model.live="{{ $filter['quantity'] }}"
                                          required
                                          invalidate />
                 </div>
-            @endif
-            @if ($filters['search'])
+            @endisset
+            @isset ($filter['search'])
                 <div class="sm:w-1/5">
                     <x-dynamic-component :component="TallStackUi::component('input')"
                                          :icon="TallStackUi::icon('magnifying-glass')"
-                                         wire:model.live.debounce.500ms="{{ $filters['search'] }}"
+                                         wire:model.live.debounce.500ms="{{ $filter['search'] }}"
                                          :placeholder="$placeholders['search']"
                                          type="search"
                                          invalidate />
                 </div>
-            @endif
+            @endisset
         </div>
     @endif
     <div @class(['relative', $personalize['wrapper']])>
