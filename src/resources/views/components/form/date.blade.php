@@ -51,7 +51,8 @@
     </x-dynamic-component>
     <x-dynamic-component :component="TallStackUi::component('floating')"
                          x-show="picker.common"
-                         class="p-3 w-[17rem]">
+                         class="p-3 w-[17rem]"
+                         x-bind:class="{ 'h-[17rem]' : picker.year || picker.month }">
         <div @class($personalize['box.picker.button'])>
             <span>
                 <button type="button" x-text="calendar.months[month]" x-on:click="picker.month = true"  @class($personalize['label.month'])></button>
@@ -64,16 +65,16 @@
                             <button type="button" @class($personalize['box.picker.label']) x-on:click="picker.month = false">
                                 <span x-text="calendar.months[month]" @class($personalize['label.month'])></span>
                             </button>
-                            <button type="button" class="mr-2" x-on:click="month = new Date().getMonth(); picker.month = false">
+                            <button type="button" class="mr-2" x-on:click="now()">
                                 {{ __('tallstack-ui::messages.date.helpers.today') }}
                             </button>
                         </div>
-                        <template x-for="(monthRange, index) in calendar.months">
+                        <template x-for="(months, index) in calendar.months" :key="index">
                             <button @class($personalize['box.picker.range'])
                                     type="button"
                                     x-bind:class="{ '{{ $personalize['button.today'] }}': month === index }"
                                     x-on:click="selectMonth($event, index)"
-                                    x-text="monthRange.substring(0, 3)">
+                                    x-text="months.substring(0, 3)">
                             </button>
                         </template>
                     </div>
@@ -88,7 +89,7 @@
                                 <span class="mx-1">-</span>
                                 <span x-text="range.year.last" @class($personalize['label.month'])></span>
                             </div>
-                            <button type="button" x-on:click="range.year.start = new Date().getFullYear(); selectYear($event, new Date().getFullYear())">
+                            <button type="button" x-on:click="now()">
                                 {{ __('tallstack-ui::messages.date.helpers.today') }}
                             </button>
                             <div>
@@ -120,9 +121,9 @@
                                 </button>
                             </div>
                         </div>
-                        <template x-for="range in yearRange()">
+                        <template x-for="(range, index) in yearRange()" :key="index">
                             <button type="button" @class($personalize['box.picker.range'])
-                            x-bind:class="{ '{{ $personalize['button.today'] }}': range.year === new Date().getFullYear() }"
+                                    x-bind:class="{ '{{ $personalize['button.today'] }}': range.year === new Date().getFullYear() }"
                                     x-bind:disabled="range.disabled"
                                     x-on:click="selectYear($event, range.year)"
                                     x-text="range.year">
@@ -169,7 +170,7 @@
                 </template>
             </div>
             <div class="grid grid-cols-7">
-                <template x-for="blank in blanks">
+                <template x-for="(blank, index) in blanks" :key="index">
                     <div @class($personalize['button.blank'])></div>
                 </template>
                 <template x-for="(day, index) in days" :key="index">
@@ -187,8 +188,7 @@
                                     '{{ $personalize['button.today'] }}': today(day.day) === true,
                                     '{{ $personalize['button.select'] }}': today(day.day) === false && selected(day.day) === false,
                                     '{{ $personalize['button.selected'] }}': selected(day.day) === true
-                                }"
-                                @class($personalize['button.day'])>
+                                }" @class($personalize['button.day']) x-show="!picker.year && !picker.month">
                         </button>
                     </div>
                 </template>

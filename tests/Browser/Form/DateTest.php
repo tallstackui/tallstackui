@@ -309,6 +309,48 @@ class DateTest extends BrowserTestCase
     }
 
     /** @test */
+    public function can_reset_calendar_when_reopen(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $date = '2020-01-01';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="date">{{ $date }}</p>
+
+                    <x-date label="DatePicker"
+                            wire:model.live="date" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->click('@tallstackui_date_open_close')
+            ->waitForText('January')
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div[1]/div/button[2]')
+            ->pause(50)
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div[1]/div/button[2]')
+            ->pause(50)
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div[1]/div/button[2]')
+            ->pause(50)
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div[1]/div/button[2]')
+            ->pause(50)
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div[1]/div/button[2]')
+            ->pause(50)
+            ->waitForText('June')
+            ->assertSee('June')
+            ->click('@tallstackui_date_open_close')
+            ->pause(100)
+            ->click('@tallstackui_date_open_close')
+            ->waitForText('January')
+            ->assertSee('January')
+            ->assertDontSee('June');
+    }
+
+    /** @test */
     public function can_select_date()
     {
         Livewire::visit(new class extends Component
