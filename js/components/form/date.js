@@ -306,8 +306,8 @@ export default (
    * @return {Boolean}
    */
   disabled(date) {
-    return (this.date.min && date <= this.date.min) ||
-           (this.date.max && date >= this.date.max) ||
+    return (this.date.min && date < this.date.min) ||
+           (this.date.max && date > this.date.max) ||
            this.disable.includes(this.formatted(date, 'YYYY-MM-DD'));
   },
   /**
