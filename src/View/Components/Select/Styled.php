@@ -95,6 +95,7 @@ class Styled extends BaseComponent implements Personalization
                     'item' => [
                         'wrapper' => 'dark:text-dark-300 dark:hover:bg-dark-500 dark:focus:bg-dark-500 relative cursor-pointer select-none px-2 py-2 text-gray-700 transition hover:bg-gray-100 focus:bg-gray-100 focus:outline-none',
                         'options' => 'flex items-center justify-between',
+                        'base' => 'flex items-center truncate',
                         'selected' => 'font-semibold hover:bg-red-500 hover:text-white dark:hover:bg-red-500',
                         'disabled' => 'dark:bg-dark-500 !cursor-not-allowed bg-gray-100',
                         'image' => 'h-6 w-6 rounded-full',
@@ -107,7 +108,7 @@ class Styled extends BaseComponent implements Personalization
             'itens' => [
                 'wrapper' => 'truncate',
                 'placeholder' => 'dark:text-dark-400 truncate leading-6 text-gray-400',
-                'single' => 'dark:text-dark-300 leading-6 text-gray-600',
+                'single' => 'dark:text-dark-300 truncate leading-6 text-gray-600',
                 'multiple' => [
                     'item' => 'dark:text-dark-100 dark:bg-dark-700 dark:ring-dark-600 inline-flex h-6 items-center space-x-1 rounded-lg bg-gray-100 px-2 text-sm font-medium text-gray-600 ring-1 ring-inset ring-gray-200',
                     'label' => 'text-left',

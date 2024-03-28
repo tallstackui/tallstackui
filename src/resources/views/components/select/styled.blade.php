@@ -132,7 +132,7 @@
                         x-bind:class="{'{{ $personalize['box.list.item.selected'] }}': selected(option), '{{ $personalize['box.list.item.disabled'] }}': option.disabled === true}"
                         role="option" @class($personalize['box.list.item.wrapper'])>
                         <div @class($personalize['box.list.item.options'])>
-                            <div class="flex items-center">
+                            <div @class($personalize['box.list.item.base'])>
                                 <img @class($personalize['box.list.item.image']) x-bind:src="option.image" x-show="option.image">
                                 <div class="flex flex-col ml-2">
                                     <span x-text="option[selectable.label] ?? option"></span>
@@ -143,7 +143,7 @@
                                 <x-dynamic-component :component="TallStackUi::component('icon')"
                                                      :icon="TallStackUi::icon('check')"
                                                      x-show="selected(option)"
-                                        @class($personalize['box.list.item.check']) />
+                                                     @class($personalize['box.list.item.check']) />
                             </div>
                         </div>
                     </li>
