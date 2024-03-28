@@ -13,6 +13,7 @@
     {!! $entangle !!},
     @js($format === '24'),
     {...@js($times())},
+    @js($attributes->get('required', false)),
     @js($livewire),
     @js($property),
     @js($value),
@@ -31,11 +32,18 @@
                          dusk="tallstackui_time_input"
                          class="cursor-pointer caret-transparent">
                          <x-slot:suffix>
-                             <div class="flex items-center gap-1">
+                             <div class="flex items-center gap-2">
+                                 @if (!$attributes->has('required'))
+                                    <button type="button" x-on:click="clear()" x-show="model">
+                                        <x-dynamic-component :component="TallStackUi::component('icon')"
+                                                             :icon="TallStackUi::icon('x-mark')"
+                                                             @class([$personalize['icon.size'], $personalize['icon.clear']]) />
+                                    </button>
+                                 @endif
                                 <button type="button" x-on:click="show = !show">
                                     <x-dynamic-component :component="TallStackUi::component('icon')"
                                                          :icon="TallStackUi::icon('clock')"
-                                                         @class($personalize['icon']) />
+                                                         @class($personalize['icon.size']) />
                                 </button>
                              </div>
                          </x-slot:suffix>
