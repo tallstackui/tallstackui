@@ -1,7 +1,7 @@
 import {warning, wireChange} from '../../helpers';
 import dayjs from 'dayjs';
 
-export default (model, full, times, livewire, property, value, change = null) => ({
+export default (model, full, times, required, livewire, property, value, change = null) => ({
   model: model,
   show: false,
   hours: '00',
@@ -22,7 +22,7 @@ export default (model, full, times, livewire, property, value, change = null) =>
   value: value,
   empty: false,
   init() {
-    this.model ??= this.value;
+    this.model ??= this.value ?? (required ? dayjs().format('HH:mm A') : null);
     this.empty = this.model === null;
     this.hours = full ? '00' : '01';
 
@@ -32,7 +32,11 @@ export default (model, full, times, livewire, property, value, change = null) =>
 
     if (this.model) this.hydrate();
 
-    this.$watch('model', () => this.hydrate());
+    this.$watch('model', (value) => {
+      console.log(value);
+
+      this.hydrate();
+    });
 
     this.sync();
   },
@@ -127,11 +131,7 @@ export default (model, full, times, livewire, property, value, change = null) =>
 
     if (this.livewire || this.empty) return;
 
-    const input = document.getElementsByName(this.property)[0];
-
-    if (!input) return;
-
-    input.value = this.value = value;
+    this.input = value;
   },
   /**
    * Change the interval.
@@ -147,6 +147,38 @@ export default (model, full, times, livewire, property, value, change = null) =>
     this.sync();
 
     this.show = false;
+  },
+  /**
+   * Reset all properties
+   *
+   * @return {void}
+   */
+  clear() {
+    if (required) return;
+
+    const model = this.model;
+
+    this.hours = '00';
+    this.minutes = '00';
+    this.interval = 'AM';
+
+    this.model = null;
+    this.input = null;
+
+    this.$el.dispatchEvent(new CustomEvent('clear', {detail: {time: model}}));
+  },
+  /**
+   * Set the input value.
+   *
+   * @param {String} value
+   * @return {void}
+   */
+  set input(value) {
+    const input = document.getElementsByName(this.property)[0];
+
+    if (!input) return;
+
+    input.value = this.value = value;
   },
   /**
    * Get the formatted time.

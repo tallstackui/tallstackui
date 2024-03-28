@@ -44,7 +44,10 @@ class Time extends BaseComponent implements Personalization
     {
         return Arr::dot([
             'wrapper' => 'flex select-none items-center justify-center gap-1',
-            'icon' => 'h-5 w-5',
+            'icon' => [
+                'size' => 'h-5 w-5',
+                'clear' => 'hover:text-red-500',
+            ],
             'time' => 'text-primary-600 dark:text-dark-300 dark:border-dark-700 w-20 rounded-full p-2 text-center text-4xl font-medium transition',
             'separator' => 'dark:text-dark-400 h-14 text-5xl text-gray-300',
             'interval' => [
