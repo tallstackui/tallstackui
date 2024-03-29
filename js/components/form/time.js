@@ -32,11 +32,7 @@ export default (model, full, times, required, livewire, property, value, change 
 
     if (this.model) this.hydrate();
 
-    this.$watch('model', (value) => {
-      console.log(value);
-
-      this.hydrate();
-    });
+    this.$watch('model', () => this.hydrate());
 
     this.sync();
   },
@@ -67,8 +63,9 @@ export default (model, full, times, required, livewire, property, value, change 
       hours: () => {
         let value = parseInt(event.target.value);
 
-        // eslint-disable-next-line max-len
-        value = this.range.hour.min && value < this.range.hour.min ? this.range.hour.min : (this.range.hour.max && value > this.range.hour.max ? this.range.hour.max : value);
+        value = this.range.hour.min && value < this.range.hour.min ?
+            this.range.hour.min :
+            (this.range.hour.max && value > this.range.hour.max ? this.range.hour.max : value);
 
         this.hours = value;
 
@@ -77,8 +74,9 @@ export default (model, full, times, required, livewire, property, value, change 
       minutes: () => {
         let value = parseInt(event.target.value);
 
-        // eslint-disable-next-line max-len
-        value = this.range.minute.min && value < this.range.minute.min ? this.range.minute.min : (this.range.minute.max && value > this.range.minute.max ? this.range.minute.max : value);
+        value = this.range.minute.min && value < this.range.minute.min ?
+            this.range.minute.min :
+            (this.range.minute.max && value > this.range.minute.max ? this.range.minute.max : value);
 
         this.minutes = value;
 
@@ -129,7 +127,7 @@ export default (model, full, times, required, livewire, property, value, change 
 
     wireChange(change, this.model);
 
-    if (this.livewire || this.empty) return;
+    if (this.empty) return;
 
     this.input = value;
   },
@@ -149,7 +147,7 @@ export default (model, full, times, required, livewire, property, value, change 
     this.show = false;
   },
   /**
-   * Reset all properties
+   * Reset all properties.
    *
    * @return {void}
    */
@@ -162,8 +160,7 @@ export default (model, full, times, required, livewire, property, value, change 
     this.minutes = '00';
     this.interval = 'AM';
 
-    this.model = null;
-    this.input = null;
+    this.input = this.model = null;
 
     this.$el.dispatchEvent(new CustomEvent('clear', {detail: {time: model}}));
   },
