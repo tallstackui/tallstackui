@@ -45,6 +45,34 @@ class TimeTest extends BrowserTestCase
     }
 
     /** @test */
+    public function can_clear(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $time = '11:30 PM';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    @if ($time)
+                        <p dusk="time">{{ $time }}</p>
+                    @endif
+                    
+                    <x-time label="Time"
+                            wire:model.live="time" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->waitForText('Time')
+            ->assertSee('Time')
+            ->click('@tallstackui_time_clear')
+            ->waitUntilMissing('@time');
+    }
+
+    /** @test */
     public function can_dispatch_select_hour_event()
     {
         Livewire::visit(new class extends Component
@@ -161,6 +189,29 @@ class TimeTest extends BrowserTestCase
             ->click('@tallstackui_time_input')
             ->waitForText('FooBarBaz')
             ->assertSee('FooBarBaz');
+    }
+
+    /** @test */
+    public function can_see_the_clear_button_when_not_required(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $time = '11:30 PM';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-time label="Time"
+                            wire:model.live="time" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->waitForText('Time')
+            ->assertSee('Time')
+            ->assertPresent('@tallstackui_time_clear');
     }
 
     /** @test */
@@ -359,5 +410,29 @@ class TimeTest extends BrowserTestCase
             ->dragLeft('@tallstackui_time_minutes', 200)
             ->waitForTextIn('@time', '11:15 PM')
             ->assertSeeIn('@time', '11:15 PM');
+    }
+
+    /** @test */
+    public function cannot_see_the_clear_button_when_required(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $time = '11:30 PM';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-time label="Time"
+                            required
+                            wire:model.live="time" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->waitForText('Time')
+            ->assertSee('Time')
+            ->assertNotPresent('@tallstackui_time_clear');
     }
 }

@@ -36,6 +36,7 @@
                                  @if (!$attributes->has('required'))
                                     <button type="button" x-on:click="clear()" x-show="model">
                                         <x-dynamic-component :component="TallStackUi::component('icon')"
+                                                             dusk="tallstackui_time_clear"
                                                              :icon="TallStackUi::icon('x-mark')"
                                                              @class([$personalize['icon.size'], $personalize['icon.clear']]) />
                                     </button>
