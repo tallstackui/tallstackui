@@ -455,22 +455,29 @@ export default (
    * @return {void}
    */
   navigate(event) {
-    if (event.key !== 'ArrowUp' && event.key !== 'ArrowDown') return;
+    if (event.key !== 'ArrowUp' && event.key !== 'ArrowDown' && event.key !== 'Tab') return;
 
     event.preventDefault();
 
     const current = this.index ?? -1;
-    const next = event.key === 'ArrowUp' ?
-      (current === 0 ? this.available.length - 1 : current - 1) :
-      (current + 1) % this.available.length;
+    const maxIndex = this.available.length - 1;
 
-    this.$refs.list.querySelectorAll('[role="option"]').forEach((item) => {
+    const keyActions = {
+      ArrowUp: () => current === 0 ? maxIndex : current - 1,
+      ArrowDown: () => (current + 1) % this.available.length,
+      Tab: () => current === maxIndex ? 0 : current + 1,
+    };
+
+    const next = keyActions[event.key]();
+
+    const options = this.$refs.list.querySelectorAll('[role="option"]');
+    options.forEach((item, index) => {
       item.removeAttribute('tabindex');
+      if (index === next) {
+        item.setAttribute('tabindex', '0');
+        item.focus();
+      }
     });
-
-    const item = this.$refs.list.querySelectorAll('[role="option"]')[next];
-    item.setAttribute('tabindex', '0');
-    item.focus();
 
     this.index = next;
   },
