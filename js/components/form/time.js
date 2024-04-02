@@ -160,7 +160,7 @@ export default (model, full, times, required, livewire, property, value, change 
     this.minutes = '00';
     this.interval = 'AM';
 
-    this.input = this.model = null;
+    this.input = this.$refs.input.value = this.model = null;
 
     this.$el.dispatchEvent(new CustomEvent('clear', {detail: {time: model}}));
   },
