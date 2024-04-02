@@ -460,19 +460,19 @@ export default (
     event.preventDefault();
 
     const current = this.index ?? -1;
-    const maxIndex = this.available.length - 1;
+    const max = this.available.length - 1;
 
-    const keyActions = {
-      ArrowUp: () => current === 0 ? maxIndex : current - 1,
+    const keys = {
+      ArrowUp: () => current === 0 ? max : current - 1,
       ArrowDown: () => (current + 1) % this.available.length,
-      Tab: () => current === maxIndex ? 0 : current + 1,
+      Tab: () => current === max ? 0 : current + 1,
     };
 
-    const next = keyActions[event.key]();
+    const next = keys[event.key]();
 
-    const options = this.$refs.list.querySelectorAll('[role="option"]');
-    options.forEach((item, index) => {
+    this.$refs.list.querySelectorAll('[role="option"]').forEach((item, index) => {
       item.removeAttribute('tabindex');
+
       if (index === next) {
         item.setAttribute('tabindex', '0');
         item.focus();
