@@ -40,6 +40,7 @@ export default (
   value: value,
   limit: limit,
   image: null,
+  index: null,
   async init() {
     if (!this.livewire) {
       if (this.common) {
@@ -92,6 +93,8 @@ export default (
     this.hydrate();
 
     this.$watch('show', async (value) => {
+      this.index = null;
+
       if (!value || !this.searchable) {
         return;
       }
@@ -444,6 +447,39 @@ export default (
    */
   normalize(string) {
     return string.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  },
+  /**
+   * Navigate between select items.
+   *
+   * @param {Event} event
+   * @return {void}
+   */
+  navigate(event) {
+    if (event.key !== 'ArrowUp' && event.key !== 'ArrowDown' && event.key !== 'Tab') return;
+
+    event.preventDefault();
+
+    const current = this.index ?? -1;
+    const max = this.available.length - 1;
+
+    const keys = {
+      ArrowUp: () => current === 0 ? max : current - 1,
+      ArrowDown: () => (current + 1) % this.available.length,
+      Tab: () => current === max ? 0 : current + 1,
+    };
+
+    const next = keys[event.key]();
+
+    this.$refs.list.querySelectorAll('[role="option"]').forEach((item, index) => {
+      item.removeAttribute('tabindex');
+
+      if (index === next) {
+        item.setAttribute('tabindex', '0');
+        item.focus();
+      }
+    });
+
+    this.index = next;
   },
   /**
    * Set the input value when is not Livewire.
