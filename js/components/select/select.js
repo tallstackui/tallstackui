@@ -296,7 +296,10 @@ export default (
       }
 
       this.selects = this.selects.filter((option) => this.dimensional ?
-          option[this.selectable.value] !== selected[this.selectable.value] :
+          // We use JSON.stringify here to ensure better comparison
+          // in cases where selection is occurring, for example, for
+          // objects rather than values such as integers or strings.
+          JSON.stringify(option[this.selectable.value]) !== JSON.stringify(selected[this.selectable.value]) :
           option !== selected);
 
       this.model = this.dimensional ?
