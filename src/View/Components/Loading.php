@@ -16,7 +16,7 @@ class Loading extends BaseComponent implements Personalization
         public ?string $text = null,
         public ?string $loading = null,
         public ?string $delay = null,
-        public ?bool $blur = false,
+        public ?bool $blur = null,
         public ?bool $opacity = true,
     ) {
         //
