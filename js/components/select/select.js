@@ -295,12 +295,12 @@ export default (
         return;
       }
 
-      this.selects = this.selects.filter((option) => this.dimensional ?
-          // We use JSON.stringify here to ensure better comparison
-          // in cases where selection is occurring, for example, for
-          // objects rather than values such as integers or strings.
-          JSON.stringify(option[this.selectable.value]) !== JSON.stringify(selected[this.selectable.value]) :
-          option !== selected);
+      this.selects = this.selects.filter((option) => {
+        const value = JSON.stringify(this.dimensional ? option[this.selectable.value] : option);
+        const select = JSON.stringify(this.dimensional ? selected[this.selectable.value] : selected);
+
+        return value !== select;
+      });
 
       this.model = this.dimensional ?
           this.selects.map((selected) => selected[this.selectable.value]) :
