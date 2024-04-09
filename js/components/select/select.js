@@ -501,7 +501,7 @@ export default (
     input.value = !value ?
         '' :
         // eslint-disable-next-line max-len
-        (typeof value === 'string' && value.indexOf(',') !== -1 || typeof value === 'object' && value.length > 1 ? JSON.stringify(value) : value);
+        (typeof value === 'string' && value.indexOf(',') !== -1 || typeof value === 'object' ? JSON.stringify(value) : value);
   },
   /**
    * The `selects` quantity.
