@@ -44,7 +44,7 @@
                      x-transition:leave-start="@if ($configurations['left']) -translate-x-0 @else translate-x-0 @endif"
                      x-transition:leave-end="@if ($configurations['left']) -translate-x-full @else translate-x-full @endif"
                      @class(['pointer-events-auto w-screen', $configurations['size']])
-                     @if (!$configurations['persistent']) x-on:click.outside="show = false" @endif>
+                     @if (!$configurations['persistent']) x-on:mousedown.away="show = false" @endif>
                     <div @class($personalize['wrapper.fifth'])>
                         <div @class($personalize['header'])>
                             <div @class(['flex items-start', 'justify-between' => $title !== null, 'justify-end' => $title === null])>
