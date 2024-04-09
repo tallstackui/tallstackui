@@ -58,7 +58,7 @@ return [
         |----------------------------------
         | Default and in-use icon type.
         |----------------------------------
-        | Allowed: heroicons, phosphoricons, google.
+        | Allowed: heroicons, phosphoricons, google, tablericons.
         */
         'type' => 'heroicons',
 
@@ -71,6 +71,7 @@ return [
         | Heroicons: solid, outline
         | Phosphoricons: thin, light, regular, bold, duotone
         | Google: default
+        | Tablericons: default
         */
         'style' => 'solid',
 
