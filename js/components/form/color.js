@@ -385,7 +385,7 @@ export default (model, mode, colors, livewire, property, value) => ({
   range(index) {
     return Object.entries(this.default)
         .filter(([key]) => Object.hasOwnProperty.call(this.default, key))
-        .map(([key, value]) => value[Object.keys(value)[index - 1]]);
+        .map(([_, value]) => value[Object.keys(value)[index - 1]]); // eslint-disable-line
   },
   /**
    * Check the color contrast.

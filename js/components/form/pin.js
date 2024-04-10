@@ -227,7 +227,7 @@ export default (
     for (let index = 0; index <= value.length; index++) {
       const input = this.input(index + 1);
 
-      if (!input || (!value[index] ?? null) || this.invalidate(value[index])) continue;
+      if (!input || value[index] === undefined || this.invalidate(value[index])) continue;
 
       input.value = value[index];
     }

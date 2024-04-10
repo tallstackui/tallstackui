@@ -11,10 +11,16 @@
     "lint:fix": "npx eslint --ext .js js --fix"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3.0.2",
+    "@eslint/js": "^9.0.0",
     "@tailwindcss/forms": "^0.5.6",
     "autoprefixer": "^10.4.19",
     "eslint": "^8.57.0",
-    "eslint-config-google": "^0.14.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-n": "^16.6.2",
+    "eslint-plugin-promise": "^6.1.1",
+    "globals": "^15.0.0",
     "postcss": "^8.4.38",
     "postcss-import": "^16.0.1",
     "tailwindcss": "^3.4.3",

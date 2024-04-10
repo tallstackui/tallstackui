@@ -47,6 +47,7 @@ export default (model, rules) => ({
     this.results.min = this.min && value.length >= this.min;
 
     if (this.symbols) {
+      /* eslint-disable-next-line no-useless-escape, max-len */
       this.results.symbols = (new RegExp(`[${this.symbols.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')}]`)).test(value);
     }
 
