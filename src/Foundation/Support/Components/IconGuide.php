@@ -24,9 +24,6 @@ class IconGuide
         'google' => [
             'default',
         ],
-        'tablericons' => [
-            'default',
-        ],
     ];
 
     // The idea of this constant is to be used as a map of internal icons in
@@ -140,42 +137,6 @@ class IconGuide
             'trash' => 'delete',
             'x-circle' => 'cancel',
             'x-mark' => 'close',
-        ],
-        // https://tabler.io/icons
-        'tablericons' => [
-            'arrow-path' => 'refresh',
-            'arrow-trending-up' => 'trending-up',
-            'arrow-trending-down' => 'trending-down',
-            'arrow-up-tray' => 'upload',
-            'calendar' => 'calendar-event',
-            'check' => 'check',
-            'check-circle' => 'circle-check',
-            'chevron-down' => 'chevron-down',
-            'chevron-left' => 'chevron-left',
-            'chevron-right' => 'chevron-right',
-            'chevron-up' => 'chevron-up',
-            'chevron-up-down' => 'selector',
-            'clipboard' => 'clipboard',
-            'clipboard-document' => 'clipboard-check',
-            'cloud-arrow-up' => 'cloud-upload',
-            'clock' => 'clock',
-            'document-check' => 'file-check',
-            'document-text' => 'file-text',
-            'exclamation-circle' => 'exclamation-circle',
-            'eye' => 'eye',
-            'eye-slash' => 'eye-off',
-            'information-circle' => 'info-circle',
-            'magnifying-glass' => 'search',
-            'minus' => 'minus',
-            'moon' => 'moon',
-            'photo' => 'photo',
-            'plus' => 'plus',
-            'question-mark-circle' => 'help',
-            'swatch' => 'color-swatch',
-            'sun' => 'sun',
-            'trash' => 'trash',
-            'x-circle' => 'circle-x',
-            'x-mark' => 'x',
         ],
     ];
 
