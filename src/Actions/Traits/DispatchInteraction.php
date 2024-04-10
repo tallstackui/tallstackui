@@ -2,6 +2,8 @@
 
 namespace TallStackUi\Actions\Traits;
 
+use Exception;
+
 /**
  * @internal This trait is not meant to be used directly.
  */
@@ -31,7 +33,11 @@ trait DispatchInteraction
 
         $event = sprintf('tallstackui:%s', $this->event());
 
-        if ($this->component && ! $this->flash) {
+        if (($this->flash && isset($this->data['options'])) && ! $this->component) {
+            throw new Exception('You can not use Interaction confirmations out of the Livewire context.');
+        }
+
+        if (! $this->flash && $this->component) {
             $this->component->dispatch($event, ...$data);
 
             return;
