@@ -7,8 +7,8 @@
   "scripts": {
     "build": "vite build",
     "dev": "vite build --watch",
-    "lint": "npx eslint --ext .js js",
-    "lint:fix": "npx eslint --ext .js js --fix"
+    "lint": "npx eslint \"js/**\"",
+    "lint:fix": "npx eslint \"js/**\" --fix"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.0.2",

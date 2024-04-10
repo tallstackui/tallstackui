@@ -11,7 +11,6 @@ export default [
       'max-len': ['warn', {'code': 130}],
       'valid-jsdoc': 'off',
       'linebreak-style': 'off',
-      'nonblock-statement-body-position': ['warn', 'below'],
     },
     languageOptions: {
       parserOptions: {
