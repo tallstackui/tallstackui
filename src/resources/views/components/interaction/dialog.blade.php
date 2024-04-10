@@ -1,7 +1,10 @@
-@php($personalize = $classes())
+@php
+    $personalize = $classes();
+    $flash = session()->pull('tallstackui:dialog');
+@endphp
 
 <div x-cloak
-     x-data="tallstackui_dialog(@js(__('tallstack-ui::messages.dialog.button')))"
+     x-data="tallstackui_dialog(@js($flash), @js(__('tallstack-ui::messages.dialog.button')))"
      x-on:tallstackui:dialog.window="add($event.detail)"
      @class(['relative', $configurations['z-index']])
      aria-labelledby="modal-title"

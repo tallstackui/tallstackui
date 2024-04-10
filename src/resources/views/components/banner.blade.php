@@ -2,10 +2,11 @@
     /** @var \Illuminate\View\ComponentSlot|string $left */
     $text ??= $slot->toHtml();
     $personalize = $classes();
+    $flash = session()->pull('tallstackui:banner');
 @endphp
 
 @if ($show)
-    <div x-data="tallstackui_banner(@js($animated), @js($wire), @js($text), @js($enter), @js($leave), @js($close))"
+    <div x-data="tallstackui_banner(@js($flash), @js($animated), @js($wire), @js($text), @js($enter), @js($leave), @js($close))"
         @class([
             $personalize['wire'] => $wire,
             $personalize['wrapper'],
@@ -21,7 +22,7 @@
          }" @endif
         x-show="show && text !== ''"
         x-cloak
-        @if ($wire) x-on:tallstackui:navbar.window="add($event)" @endif
+        @if ($wire) x-on:tallstackui:banner.window="add($event)" @endif
         @if ($animated || $close || $wire)
              x-transition:enter="transition ease-out duration-300"
              x-transition:enter-start="-translate-y-10"

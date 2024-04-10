@@ -1,6 +1,6 @@
 import {event, overflow} from '../../helpers';
 
-export default (texts) => ({
+export default (flash, texts) => ({
   show: false,
   dialog: {},
   text: {
@@ -9,6 +9,8 @@ export default (texts) => ({
     cancel: texts.cancel,
   },
   init() {
+    if (flash) window.onload = () => this.add(flash);
+
     this.$watch('show', (value) => overflow(value, 'dialog'));
   },
   /**
