@@ -6,7 +6,7 @@ trait InteractsWithSelectOptions
 {
     private function options(): void
     {
-        if (! $this->select || (filled($this->options) && ! is_array($this->options[0]))) {
+        if (! $this->select || ($this->options !== [] && ! is_array($this->options[0]))) {
             return;
         }
 
