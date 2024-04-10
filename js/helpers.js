@@ -15,7 +15,6 @@ export const error = (message) => console.error(`[TallStackUI] ${message}`);
  * @param params {Object|Null}
  * @param prefix {Boolean}
  */
-// eslint-disable-next-line max-len
 export const event = (name, params = null, prefix = true) => {
   const identification = prefix ? `tallstackui:${name}` : name;
 

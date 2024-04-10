@@ -1,6 +1,5 @@
 import {event, error} from '../helpers';
 
-// eslint-disable-next-line require-jsdoc
 export default class Interaction {
   #data;
   #type;

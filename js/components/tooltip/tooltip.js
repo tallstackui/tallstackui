@@ -1,7 +1,6 @@
 import 'tippy.js/dist/tippy.css';
 import tippy from 'tippy.js';
 
-// eslint-disable-next-line require-jsdoc
 export default function(Alpine) {
   /**
      * @param el {HTMLElement}

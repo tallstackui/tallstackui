@@ -45,7 +45,7 @@ export default (model, full, times, required, livewire, property, value, change 
     if (!this.model) return;
 
     const [time, interval] = this.model.split(' ');
-    const [hours, minutes] = time?.split(':');
+    const [hours, minutes] = time ? time.split(':') : ['00', '00'];
 
     this.hours = hours;
     this.minutes = minutes;
