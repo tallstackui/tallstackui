@@ -27,17 +27,18 @@ trait DispatchInteraction
             $data = array_merge($data, $this->additional());
         }
 
-        $data['component'] = $this->component->getId();
+        $data['component'] = $this->component?->getId() ?? null;
+
         $event = sprintf('tallstackui:%s', $this->event());
 
-        if (! $this->flash) {
+        if ($this->component && ! $this->flash) {
             $this->component->dispatch($event, ...$data);
 
             return;
         }
 
-        // For some unknown reason the `flash`
-        // doesn't work, so we use `put` and `pull`
+        // For some unknown reason the `flash` doesn't work,
+        // so we use `put` here and `pull` in the blade file.
         session()->put($event, $data);
     }
 }
