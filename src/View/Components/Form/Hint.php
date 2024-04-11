@@ -22,6 +22,6 @@ class Hint extends BaseComponent implements Personalization
 
     public function personalization(): array
     {
-        return ['text' => 'mt-2 text-sm text-gray-500 dark:text-dark-400'];
+        return ['text' => 'dark:text-dark-400 mt-2 block text-sm text-gray-500'];
     }
 }

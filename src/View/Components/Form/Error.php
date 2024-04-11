@@ -22,6 +22,6 @@ class Error extends BaseComponent implements Personalization
 
     public function personalization(): array
     {
-        return ['text' => 'mt-2 text-sm font-medium text-red-500'];
+        return ['text' => 'mt-2 block text-sm font-medium text-red-500'];
     }
 }
