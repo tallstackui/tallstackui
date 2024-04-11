@@ -39,7 +39,7 @@ class UploadComponentFileAdapter
             return false;
         }
 
-        return in_array($extension, ['jpg', 'jpeg', 'png', 'gif', 'svg']);
+        return in_array($extension, ['jpg', 'jpeg', 'png', 'gif', 'svg', 'webp']);
     }
 
     /** @throws Exception */
