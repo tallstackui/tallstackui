@@ -2,7 +2,7 @@
     [$property,, $id, $entangle] = $bind($attributes, $errors ?? null, $livewire);
     $personalize = $classes();
     $value = $attributes->get('value');
-    $attributes = $merge($selectable === true, [
+    $attributes = $mergeWhen($selectable, [
         'x-on:click' => 'show = !show',
         'class' => 'cursor-pointer caret-transparent',
         'x-on:keydown' => '$event.preventDefault()',

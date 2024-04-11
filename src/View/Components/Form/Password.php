@@ -9,13 +9,13 @@ use Illuminate\Support\Collection;
 use TallStackUi\Facades\TallStackUi;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\Foundation\Traits\MergeConditionalAttributes;
+use TallStackUi\Foundation\Traits\MergeAttributes;
 use TallStackUi\View\Components\BaseComponent;
 
 #[SoftPersonalization('form.password')]
 class Password extends BaseComponent implements Personalization
 {
-    use MergeConditionalAttributes;
+    use MergeAttributes;
 
     public function __construct(
         public ?string $label = null,
