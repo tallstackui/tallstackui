@@ -10,7 +10,7 @@ trait DispatchInteraction
     /**
      * Whether to dispatch the interaction when flashed.
      */
-    protected bool $dispatch = false;
+    protected bool $dispatch = true;
 
     /**
      * Whether to flash the interaction into session.
@@ -20,7 +20,7 @@ trait DispatchInteraction
     /**
      * Persist the interaction into session to be displayed after redirects.
      */
-    public function flash(bool $dispatch = true): self
+    public function flash(bool $dispatch = false): self
     {
         $this->flash = true;
 
