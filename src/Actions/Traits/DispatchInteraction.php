@@ -2,19 +2,35 @@
 
 namespace TallStackUi\Actions\Traits;
 
+use TallStackUi\Actions\Banner;
+use TallStackUi\Actions\Dialog;
+use TallStackUi\Actions\Toast;
+
 /**
  * @internal This trait is not meant to be used directly.
  */
 trait DispatchInteraction
 {
+    /**
+     * Whether to dispatch the interaction when flashed.
+     */
+    protected bool $dispatch = false;
+
+    /**
+     * Whether to flash the interaction into session.
+     */
     protected bool $flash = false;
 
     /**
      * Persist the interaction into session to be displayed after redirects.
+     *
+     * @return DispatchInteraction|Banner|Dialog|Toast
      */
-    public function flash(): self
+    public function flash(bool $dispatch = true): self
     {
         $this->flash = true;
+
+        $this->dispatch = $dispatch;
 
         return $this;
     }
@@ -31,7 +47,9 @@ trait DispatchInteraction
 
         $event = sprintf('tallstackui:%s', $this->event());
 
-        $this->component->dispatch($event, ...$data);
+        if ($this->dispatch) {
+            $this->component->dispatch($event, ...$data);
+        }
 
         if (! $this->flash) {
             return;
