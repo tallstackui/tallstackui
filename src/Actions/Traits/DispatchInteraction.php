@@ -2,10 +2,6 @@
 
 namespace TallStackUi\Actions\Traits;
 
-use TallStackUi\Actions\Banner;
-use TallStackUi\Actions\Dialog;
-use TallStackUi\Actions\Toast;
-
 /**
  * @internal This trait is not meant to be used directly.
  */
