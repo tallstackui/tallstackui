@@ -19,6 +19,8 @@ trait DispatchInteraction
 
     /**
      * Persist the interaction into session to be displayed after redirects.
+     *
+     * @param  bool  $dispatch  Avoid continuing the dispatch of the interaction.
      */
     public function flash(bool $dispatch = false): self
     {
