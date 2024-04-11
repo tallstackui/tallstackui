@@ -2,8 +2,6 @@
 
 namespace TallStackUi\Actions\Traits;
 
-use Exception;
-
 /**
  * @internal This trait is not meant to be used directly.
  */
@@ -12,7 +10,7 @@ trait DispatchInteraction
     protected bool $flash = false;
 
     /**
-     * Persist the interaction into session to be displayed after redirect.
+     * Persist the interaction into session to be displayed after redirects.
      */
     public function flash(): self
     {
@@ -29,17 +27,13 @@ trait DispatchInteraction
             $data = array_merge($data, $this->additional());
         }
 
-        $data['component'] = $this->component?->getId() ?? null;
+        $data['component'] = $this->component->getId();
 
         $event = sprintf('tallstackui:%s', $this->event());
 
-        if (($this->flash && isset($this->data['options'])) && ! $this->component) {
-            throw new Exception('You can not use Interaction confirmations out of the Livewire context.');
-        }
+        $this->component->dispatch($event, ...$data);
 
-        if (! $this->flash && $this->component) {
-            $this->component->dispatch($event, ...$data);
-
+        if (! $this->flash) {
             return;
         }
 

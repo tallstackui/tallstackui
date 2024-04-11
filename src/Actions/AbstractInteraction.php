@@ -9,7 +9,7 @@ use Livewire\Component;
  */
 abstract class AbstractInteraction
 {
-    public function __construct(public ?Component $component = null)
+    public function __construct(public Component $component)
     {
         //
     }
