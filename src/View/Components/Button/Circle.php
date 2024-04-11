@@ -4,15 +4,18 @@ namespace TallStackUi\View\Components\Button;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
+use Illuminate\View\ComponentAttributeBag;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Foundation\Traits\MergeAttributes;
 use TallStackUi\View\Components\BaseComponent;
 use TallStackUi\View\Components\Button\Traits\SetupButton;
 
 #[SoftPersonalization('button.circle')]
 class Circle extends BaseComponent implements Personalization
 {
+    use MergeAttributes;
     use SetupButton;
 
     public function __construct(
@@ -33,6 +36,8 @@ class Circle extends BaseComponent implements Personalization
         public ?bool $light = false,
         #[SkipDebug]
         public ?string $style = null,
+        #[SkipDebug]
+        public ?ComponentAttributeBag $removable = null,
     ) {
         $this->setup();
     }

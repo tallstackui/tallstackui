@@ -51,7 +51,6 @@ class BladeSupport
             return null;
         }
 
-        /** @var WireDirective $wire */
         $wire = $this->attributes->wire('model');
 
         if (! $wire->directive() && ! $wire->value()) {
