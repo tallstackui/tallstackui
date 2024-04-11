@@ -1,7 +1,10 @@
-@php($personalize = $classes())
+@php
+    $personalize = $classes();
+    $flash = session()->pull('tallstackui:toast');
+@endphp
 
 <div x-cloak
-     x-data="tallstackui_toastBase()"
+     x-data="tallstackui_toastBase(@js($flash))"
      x-on:tallstackui:toast.window="add($event)"
      @class([
         $personalize['wrapper.first'],

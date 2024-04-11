@@ -7,6 +7,28 @@ namespace TallStackUi\Actions\Traits;
  */
 trait DispatchInteraction
 {
+    /**
+     * Whether to dispatch the interaction when flashed.
+     */
+    protected bool $dispatch = false;
+
+    /**
+     * Whether to flash the interaction into session.
+     */
+    protected bool $flash = false;
+
+    /**
+     * Persist the interaction into session to be displayed after redirects.
+     */
+    public function flash(bool $dispatch = true): self
+    {
+        $this->flash = true;
+
+        $this->dispatch = $dispatch;
+
+        return $this;
+    }
+
     public function send(): void
     {
         $data = $this->data;
@@ -17,6 +39,18 @@ trait DispatchInteraction
 
         $data['component'] = $this->component->getId();
 
-        $this->component->dispatch(sprintf('tallstackui:%s', $this->event()), ...$data);
+        $event = sprintf('tallstackui:%s', $this->event());
+
+        if ($this->dispatch) {
+            $this->component->dispatch($event, ...$data);
+        }
+
+        if (! $this->flash) {
+            return;
+        }
+
+        // For some unknown reason the `flash` doesn't work,
+        // so we use `put` here and `pull` in the blade file.
+        session()->put($event, $data);
     }
 }

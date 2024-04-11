@@ -98,7 +98,7 @@ class Banner extends AbstractInteraction
 
     protected function event(): string
     {
-        return 'navbar';
+        return 'banner';
     }
 
     protected function messages(): array
