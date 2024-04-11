@@ -16,7 +16,7 @@ trait SetupButton
             return;
         }
 
-        $this->target = (new ComponentAttributeBag(['wire:target' => "{$this->loading}"]))
+        $this->removable = (new ComponentAttributeBag(['wire:target' => "{$this->loading}"]))
             ->when(
                 $this->loading || $this->delay,
                 fn (ComponentAttributeBag $bag) => $bag->merge([

@@ -36,7 +36,8 @@ class Circle extends BaseComponent implements Personalization
         public ?bool $light = false,
         #[SkipDebug]
         public ?string $style = null,
-        public ?ComponentAttributeBag $target = null,
+        #[SkipDebug]
+        public ?ComponentAttributeBag $removable = null,
     ) {
         $this->setup();
     }

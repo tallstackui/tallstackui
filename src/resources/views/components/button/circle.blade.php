@@ -11,7 +11,7 @@
 @if ($icon)
     <x-dynamic-component :component="TallStackUi::component('icon')"
                          :$icon
-                         :attributes="$target"
+                         :attributes="$removable"
                          @class([$personalize['icon.sizes.' . $size], $colors['icon']]) />
 @else
     <span @if ($livewire && $loading) wire:loading.remove @endif @class([$personalize['text.sizes.' . $size]])>{{ $text ?? $slot }}</span>
