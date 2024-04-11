@@ -23,8 +23,6 @@ trait DispatchInteraction
 
     /**
      * Persist the interaction into session to be displayed after redirects.
-     *
-     * @return DispatchInteraction|Banner|Dialog|Toast
      */
     public function flash(bool $dispatch = true): self
     {
