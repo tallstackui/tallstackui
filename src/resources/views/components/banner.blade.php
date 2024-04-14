@@ -68,7 +68,7 @@
                                          outline
                                          @class([$personalize['icon']]) />
                 </div>
-                <span class="text-white" x-text="text"></span>
+                <span class="text-white" x-html="text"></span>
             </div>
         @else
             <span @class([$personalize['text'], $colors['text'] ?? $color['text']])>
