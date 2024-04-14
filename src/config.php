@@ -60,7 +60,7 @@ return [
         |----------------------------------
         | Allowed: heroicons, phosphoricons, google, tablericons.
         */
-        'type' => 'heroicons',
+        'type' => env('TALLSTACKUI_ICON_TYPE', 'heroicons'),
 
         /*
         |----------------------------------
@@ -73,7 +73,7 @@ return [
         | Google: default
         | Tablericons: default
         */
-        'style' => 'solid',
+        'style' => env('TALLSTACKUI_ICON_STYLE', 'solid'),
 
         /*
         |----------------------------------

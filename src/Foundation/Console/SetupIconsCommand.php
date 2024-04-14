@@ -74,21 +74,13 @@ class SetupIconsCommand extends Command
         $zip->extractTo($extract);
         $zip->close();
 
-        $this->flush($file, $extract);
+        $this->prepare($file, $extract);
 
         return true;
     }
 
-    private function flush(string $file, string $extract): void
+    private function flush(): void
     {
-        if ($this->option('force')) {
-            File::deleteDirectory(self::PATH.$this->data->get('type'));
-        }
-
-        File::copyDirectory($extract, self::PATH.$this->data->get('type'));
-        File::deleteDirectory($extract);
-        unlink($file);
-
         if (config('tallstackui.icons.flush', true) === false) {
             return;
         }
@@ -103,6 +95,19 @@ class SetupIconsCommand extends Command
             // avoid the existence of unused files.
             File::deleteDirectory(self::PATH.$type);
         }
+    }
+
+    private function prepare(string $file, string $extract): void
+    {
+        if ($this->option('force')) {
+            File::deleteDirectory(self::PATH.$this->data->get('type'));
+        }
+
+        File::copyDirectory($extract, self::PATH.$this->data->get('type'));
+        File::deleteDirectory($extract);
+        unlink($file);
+
+        $this->flush();
     }
 
     private function setup(): bool|string
@@ -132,6 +137,8 @@ class SetupIconsCommand extends Command
         }
 
         if (! $this->option('force') && is_dir(self::PATH.$type)) {
+            $this->flush();
+
             return 'The icons selected ['.$type.'] are already installed.';
         }
 
