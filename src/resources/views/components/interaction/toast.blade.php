@@ -61,9 +61,9 @@
                     </div>
                     <div @class($personalize['content.wrapper'])>
                         <p @class($personalize['content.text']) x-bind:class="{ 'font-medium' : !toast.confirm, 'font-semibold' : toast.confirm }"
-                           x-text="toast.title"></p>
+                           x-html="toast.title"></p>
                         <p @class($personalize['content.description'])
-                           x-text="toast.description"
+                           x-html="toast.description"
                            x-show="!toast.expandable"
                            x-bind:class="{ 'truncate': toast.expandable }"
                            x-collapse.min.20px></p>

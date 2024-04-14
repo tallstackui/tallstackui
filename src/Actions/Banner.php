@@ -35,7 +35,6 @@ class Banner extends AbstractInteraction
         $this->data = [
             'type' => 'error',
             'title' => $title,
-            'description' => $description,
         ];
 
         return $this;
@@ -46,7 +45,6 @@ class Banner extends AbstractInteraction
         $this->data = [
             'type' => 'info',
             'title' => $title,
-            'description' => $description,
         ];
 
         return $this;
@@ -70,7 +68,6 @@ class Banner extends AbstractInteraction
         $this->data = [
             'type' => 'success',
             'title' => $title,
-            'description' => $description,
         ];
 
         return $this;
@@ -81,7 +78,6 @@ class Banner extends AbstractInteraction
         $this->data = [
             'type' => 'warning',
             'title' => $title,
-            'description' => $description,
         ];
 
         return $this;
