@@ -2,10 +2,16 @@
 
 namespace TallStackUi\View\Components\Select\Traits;
 
+use Illuminate\Support\Collection;
+
 trait InteractsWithSelectOptions
 {
     private function options(): void
     {
+        $this->options = $this->options instanceof Collection
+            ? $this->options->toArray()
+            : $this->options;
+
         if (! $this->select || ($this->options !== [] && ! is_array($this->options[0]))) {
             return;
         }
