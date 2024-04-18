@@ -37,8 +37,8 @@ class Step extends BaseComponent implements Personalization
     {
         return Arr::dot([
             'wrapper' => [
-                'panels' => 'rounded-md border border-gray-300 dark:border-dark-700 dark:divide-dark-700 md:flex overflow-auto soft-scrollbar',
-                'simple' => 'space-y-4 md:flex md:gap-8 md:space-y-0 overflow-auto soft-scrollbar pb-3',
+                'panels' => 'rounded-md border border-gray-300 dark:border-dark-700 dark:divide-dark-700 md:flex overflow-auto soft-scrollbar mb-2',
+                'simple' => 'space-y-2 md:flex md:gap-8 md:space-y-0 overflow-auto soft-scrollbar pb-2',
                 'circles' => 'relative flex flex-col md:flex-row',
             ],
             'circles' => [
@@ -63,7 +63,7 @@ class Step extends BaseComponent implements Personalization
                     'active' => 'bg-green-600',
                 ],
                 'text' => [
-                    'wrapper' => 'grow pb-5 transition-colors md:mt-3 md:grow-0',
+                    'wrapper' => 'grow pb-2 transition-colors md:mt-3 md:grow-0',
                     'title' => 'block text-base font-medium transition-colors text-gray-600 dark:text-dark-300',
                     'description' => 'text-sm font-medium text-gray-500 transition-colors dark:text-dark-400',
                 ],
@@ -114,7 +114,7 @@ class Step extends BaseComponent implements Personalization
                     'description' => 'ml-4 whitespace-nowrap text-xs font-medium text-gray-500 dark:text-dark-400',
                 ],
             ],
-            'content' => 'my-5',
+            'content' => 'my-2',
             'button' => [
                 'wrapper' => 'dark:text-dark-400 mb-2 me-2 inline-flex select-none items-center rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm font-medium text-gray-600 transition hover:bg-gray-100 focus:outline-none dark:border-gray-600 dark:bg-gray-800 dark:hover:border-gray-600 dark:hover:bg-gray-700',
                 'icon' => 'dark:text-dark-300 h-4 w-4',

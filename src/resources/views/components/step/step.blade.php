@@ -6,17 +6,15 @@
         previous: @js($navigatePrevious), 
         steps: [],
     }">
-    <nav>
-        <div @class(['overflow-hidden rounded-md' => $variation === 'panels'])>
-            <ul role="list"
-                @class($personalize['wrapper.' . $variation])>
-                <template x-for="item in steps">
-                    <x-dynamic-component component="tallstack-ui::step.variations.{{ $variation }}"
-                                         :$personalize
-                                         :$navigate />
-                </template>
-            </ul>
-        </div>
+    <nav @if ($variation === 'panels') class="overflow-hidden rounded-md" @endif>
+        <ul role="list"
+            @class($personalize['wrapper.' . $variation])>
+            <template x-for="item in steps">
+                <x-dynamic-component component="tallstack-ui::step.variations.{{ $variation }}"
+                                        :$personalize
+                                        :$navigate />
+            </template>
+        </ul>
     </nav>
     <div @class($personalize['content'])>
         {{ $slot }}
