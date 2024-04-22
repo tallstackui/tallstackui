@@ -217,6 +217,7 @@ return [
         'progress.circle' => Components\Progress\Circle::class,
         'radio' => Components\Form\Radio::class,
         'range' => Components\Form\Range::class,
+        'rating' => Components\Rating::class,
         'select.native' => Components\Select\Native::class,
         'select.styled' => Components\Select\Styled::class,
         'slide' => Components\Slide::class,
