@@ -53,6 +53,20 @@ class IndexTest extends BrowserTestCase
     }
 
     /** @test */
+    public function can_dispatch_events(): void
+    {
+        Livewire::visit(BannerEnterLeaveComponent::class)
+            ->assertDontSee('event leave')
+            ->click('@leave')
+            ->waitForText('event leave')
+            ->assertSeeIn('@target', 'event leave')
+            ->click('@enter')
+            ->waitForText('event enter')
+            ->assertDontSee('event leave')
+            ->assertSeeIn('@target', 'event enter');
+    }
+
+    /** @test */
     public function can_dispatch_info(): void
     {
         Livewire::visit(BannerComponent::class)
@@ -146,12 +160,16 @@ class BannerEnterLeaveComponent extends Component
 {
     use Interactions;
 
+    public string $target = '';
+
     public function enter(): void
     {
         $this->banner()
             ->enter(2)
             ->success('Foo bar enter')
             ->send();
+
+        $this->target = 'event enter';
     }
 
     public function leave(): void
@@ -160,12 +178,15 @@ class BannerEnterLeaveComponent extends Component
             ->leave(2)
             ->success('Foo bar leave')
             ->send();
+
+        $this->target = 'event leave';
     }
 
     public function render(): string
     {
         return <<<'HTML'
         <div>
+            <p dusk="target">{{ $target }}</p>
             <x-button dusk="enter" wire:click="enter">Enter</x-button>
             <x-button dusk="leave" wire:click="leave">Leave</x-button>
         </div>
