@@ -35,7 +35,10 @@ class Textarea extends BaseComponent implements Personalization
         return Arr::dot([
             'input' => [...$this->input()],
             'error' => $this->error(),
-            'count' => 'dark:text-dark-400 absolute right-0 mt-1 text-sm text-gray-500',
+            'count' => [
+                'base' => 'dark:text-dark-400 absolute right-0 mt-1 text-sm text-gray-500',
+                'max' => 'font-semibold text-red-500 dark:text-red-500',
+            ],
         ]);
     }
 }
