@@ -1,5 +1,5 @@
 @php
-    [$property, $error, $id, $entangle] = $bind($attributes, $errors ?? null, $livewire);
+    [$property, $error, $id] = $bind($attributes, $errors ?? null, $livewire);
     $personalize = $classes();
 @endphp
 
@@ -15,7 +15,7 @@
             <textarea @if ($id) id="{{ $id }}" @endif
                     x-ref="textarea"
                     @if ($count) x-on:keyup="counter()" @endif
-                    @if ($resizeAuto) x-on:input="resize()" @endif 
+                    @if ($resizeAuto) x-on:input="resize()" @endif
                     {{ $attributes->class([
                         'resize-none' => !$resize && !$resizeAuto,
                         $personalize['input.base'],

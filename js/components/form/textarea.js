@@ -5,6 +5,7 @@ export default (color) => ({
   counter() {
     const max = this.$refs.textarea.maxLength;
     const length = this.$refs.textarea.value.length;
+    const defined = max !== undefined && max !== -1;
 
     const colors = color.split(' ');
 
@@ -22,13 +23,13 @@ export default (color) => ({
         return this.$refs.counter.innerText = '';
     }
 
-    if (max !== -1 && length >= max) {
+    if (defined && length >= max) {
       colors.forEach((color) => this.$refs.counter.classList.add(color));
     }
 
-    if (length === (max - 1)) cleanup();
+    if (defined && length === (max - 1)) cleanup();
 
-    if (max !== undefined && max !== -1) {
+    if (defined) {
       return this.$refs.counter.innerText = `${length}/${max}`;
     }
 
