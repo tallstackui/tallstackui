@@ -1,8 +1,16 @@
 export default () => ({
   init() {
-    setTimeout(() => {
-      this.resize();
-    }, 100);
+    setTimeout(() => this.resize(), 100);
+  },
+  counter() {
+    const max = this.$refs.textarea.maxLength;
+    const length = this.$refs.textarea.value.length;
+
+    if (max !== undefined && max !== -1) {
+      return this.$refs.counter.innerText = `${length}/${max}`;
+    }
+
+    this.$refs.counter.innerText = length;
   },
   resize() {
     if (!this.$el.value) {

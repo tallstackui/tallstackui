@@ -20,6 +20,7 @@ class Textarea extends BaseComponent implements Personalization
         public ?bool $resize = false,
         public ?bool $resizeAuto = false,
         public ?bool $invalidate = null,
+        public ?bool $count = false,
     ) {
         //
     }
@@ -34,6 +35,7 @@ class Textarea extends BaseComponent implements Personalization
         return Arr::dot([
             'input' => [...$this->input()],
             'error' => $this->error(),
+            'count' => 'dark:text-dark-400 absolute right-0 mt-1 text-sm text-gray-500',
         ]);
     }
 }
