@@ -6,23 +6,27 @@ export default (color) => ({
     const max = this.$refs.textarea.maxLength;
     const length = this.$refs.textarea.value.length;
 
-    if (length === 0) {
-        return this.$refs.counter.innerText = '';
-    }
-
     const colors = color.split(' ');
 
-    if (length >= max) {
-      colors.forEach((color) => this.$refs.counter.classList.add(color));
-    }
-
-    if (length === (max - 1)) {
+    const cleanup = () => {
       colors.forEach((color) => {
         if (!this.$refs.counter.classList.contains(color)) return;
 
         this.$refs.counter.classList.remove(color)
       });
     }
+
+    if (length === 0) {
+        cleanup();
+
+        return this.$refs.counter.innerText = '';
+    }
+
+    if (length >= max) {
+      colors.forEach((color) => this.$refs.counter.classList.add(color));
+    }
+
+    if (length === (max - 1)) cleanup();
 
     if (max !== undefined && max !== -1) {
       return this.$refs.counter.innerText = `${length}/${max}`;
