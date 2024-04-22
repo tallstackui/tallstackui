@@ -10,10 +10,16 @@ export default (flash, animated, wire, text, enter, leave, close) => ({
     if (flash) window.onload = () => this.add(flash);
 
     if (this.animated) {
-      setTimeout(() => this.show = true, this.enter ? this.enter * 1000 : 0);
+      setTimeout(() => {
+        this.show = true;
+        this.$el.dispatchEvent(new CustomEvent('enter'));
+      }, this.enter ? this.enter * 1000 : 0);
 
       if (this.leave) {
-        setTimeout(() => this.show = false, this.leave * 1000);
+        setTimeout(() => {
+          this.show = false;
+          this.$el.dispatchEvent(new CustomEvent('leave'));
+        }, this.leave * 1000);
       }
     }
 

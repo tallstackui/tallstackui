@@ -21,6 +21,7 @@
             'bg-blue-600' : type === 'info'
          }" @endif
         x-show="show && text !== ''"
+        {{ $attributes->only(['x-on:enter', 'x-on:leave']) }}
         x-cloak
         @if ($wire) x-on:tallstackui:banner.window="add($event)" @endif
         @if ($animated || $close || $wire)
