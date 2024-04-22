@@ -22,7 +22,7 @@ export default (color) => ({
         return this.$refs.counter.innerText = '';
     }
 
-    if (length >= max) {
+    if (max !== -1 && length >= max) {
       colors.forEach((color) => this.$refs.counter.classList.add(color));
     }
 
