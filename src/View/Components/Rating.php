@@ -4,7 +4,6 @@ namespace TallStackUi\View\Components;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
-use Illuminate\View\ComponentSlot;
 use InvalidArgumentException;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
@@ -16,7 +15,7 @@ class Rating extends BaseComponent implements Personalization
     public function __construct(
         public ?int $quantity = 5,
         public float|int|null $rate = null,
-        public ComponentSlot|string|null $text = null,
+        public ?string $text = null,
         public string $evaluateMethod = 'evaluate',
         public ?bool $xs = null,
         public ?bool $sm = null,
@@ -25,8 +24,12 @@ class Rating extends BaseComponent implements Personalization
         public ?string $color = 'primary',
         #[SkipDebug]
         public ?string $size = null,
+        #[SkipDebug]
+        public ?string $position = 'left',
     ) {
         $this->size = $this->xs ? 'xs' : ($this->sm ? 'sm' : ($this->lg ? 'lg' : 'md'));
+
+        $this->position = $this->position === 'left' ? 'left' : 'right';
 
         $this->validate();
     }
@@ -41,7 +44,7 @@ class Rating extends BaseComponent implements Personalization
         return Arr::dot([
             'wrapper' => 'flex items-center gap-1',
             'button' => 'cursor-pointer transition hover:scale-125 has-[:focus]:scale-125',
-            'text' => 'font-medium',
+            'text' => 'text-gray-700 dark:text-dark-300 font-medium',
             'star' => 'dark:text-dark-300 text-gray-300',
             'sizes' => [
                 'xs' => 'h-4 w-4',

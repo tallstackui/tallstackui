@@ -1,17 +1,28 @@
- @php
+@php
     \TallStackUi\Foundation\Exceptions\MissingLivewireException::throwIf($livewire, 'reaction');
     $personalize = $classes();
+    $property = $bind($attributes, livewire: $livewire)[0];
+    $rate ??= data_get($this, $property);
 @endphp
 
- <div @class($personalize['wrapper'])
-      x-data="{ rate: @js($rate), quantity: @js($quantity), evaluate(method, evaluate) {
-            this.rate = evaluate;
-            this.$el.dispatchEvent(new CustomEvent('evaluate', {detail: {evaluate: { method, rate: this.rate }}}));
-            this.$wire.call(method, this.rate);
-        }
-     }">
+<div @class($personalize['wrapper'])
+  x-data="{ rate: @js($rate), quantity: @js($quantity), evaluate(method, evaluate) {
+        this.rate = evaluate;
+        this.$el.dispatchEvent(new CustomEvent('evaluate', {detail: {evaluate: { method, rate: this.rate }}}));
+        this.$wire.call(method, this.rate);
+    }
+ }">
+    @if ($position === 'right')
+        @if ($text)
+        <p @class($personalize['text'])>
+            {{ $text }}
+        </p>
+        @else
+            {{ $slot }}
+        @endif
+    @endif
     <template x-for="(star, index) in Array.from({ length: quantity })" :key="index">
-        <button x-on:click.prevent="evaluate('{{ $evaluateMethod }}', index + 1);" 
+        <button x-on:click.prevent="evaluate('{{ $evaluateMethod }}', index + 1);"
                 {{ $attributes->only('x-on:evaluate') }}
                 @class($personalize['button'])>
                 <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"
@@ -24,7 +35,13 @@
                 </svg>
         </button>
     </template>
-    <div @class($personalize['text'])>
-        {!! $text ?? $slot !!}
-    </div>
+    @if ($position === 'left')
+        @if ($text)
+            <p @class($personalize['text'])>
+                {{ $text }}
+            </p>
+        @else
+            {{ $slot }}
+        @endif
+    @endif
 </div>
