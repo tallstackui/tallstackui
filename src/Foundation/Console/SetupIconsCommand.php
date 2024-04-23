@@ -114,17 +114,11 @@ class SetupIconsCommand extends Command
     {
         sleep(1);
 
-        if (! file_exists(config_path('tallstackui.php'))) {
-            return 'The TallStackUI configuration file does not exist. Please, review the docs.';
-        }
-
         $config = config('tallstackui');
+        $type = data_get($config, 'icons.type');
+        $style = data_get($config, 'icons.style');
 
-        if (
-            blank(data_get($config, 'icons')) ||
-            blank($type = data_get($config, 'icons.type')) ||
-            blank($style = data_get($config, 'icons.style'))
-        ) {
+        if (blank(data_get($config, 'icons')) || blank($type) || blank($style)) {
             return 'Wrong configuration file. Please, review the docs.';
         }
 
