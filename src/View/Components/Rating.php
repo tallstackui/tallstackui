@@ -27,6 +27,7 @@ class Rating extends BaseComponent implements Personalization
         public ?string $size = null,
     ) {
         $this->size = $this->xs ? 'xs' : ($this->sm ? 'sm' : ($this->lg ? 'lg' : 'md'));
+
         $this->validate();
     }
 
@@ -54,12 +55,11 @@ class Rating extends BaseComponent implements Personalization
     protected function validate(): void
     {
         if (blank($this->evaluateMethod)) {
-            throw new InvalidArgumentException('The evaluate [evaluateMethod] is required.');
+            throw new InvalidArgumentException('The rating [evaluateMethod] is required.');
         }
 
         if ($this->quantity > 5) {
-            throw new InvalidArgumentException('The [quantity] of star in rating must be less than 5');
+            throw new InvalidArgumentException('The rating [quantity] of star must be less than 5');
         }
-
     }
 }
