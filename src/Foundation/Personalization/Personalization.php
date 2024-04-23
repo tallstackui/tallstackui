@@ -46,6 +46,7 @@ use TallStackUi\View\Components\Loading;
 use TallStackUi\View\Components\Modal;
 use TallStackUi\View\Components\Progress\Circle as ProgressCircle;
 use TallStackUi\View\Components\Progress\Progress;
+use TallStackUi\View\Components\Rating;
 use TallStackUi\View\Components\Reaction;
 use TallStackUi\View\Components\Select\Native as SelectNative;
 use TallStackUi\View\Components\Select\Styled as SelectStyled;
@@ -243,6 +244,11 @@ class Personalization
         };
 
         return app($this->component($class));
+    }
+
+    public function rating(): PersonalizationResources
+    {
+        return app($this->component(Rating::class));
     }
 
     public function reaction(): PersonalizationResources
