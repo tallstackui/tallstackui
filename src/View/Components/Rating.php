@@ -39,8 +39,9 @@ class Rating extends BaseComponent implements Personalization
     {
         return Arr::dot([
             'wrapper' => 'flex items-center gap-1',
-            'button' => 'has-[:focus]:scale-125 cursor-pointer transition hover:scale-125',
+            'button' => 'cursor-pointer transition hover:scale-125 has-[:focus]:scale-125',
             'text' => 'font-medium',
+            'star' => 'dark:text-dark-300 text-gray-300',
             'sizes' => [
                 'xs' => 'h-4 w-4',
                 'sm' => 'h-5 w-5',
