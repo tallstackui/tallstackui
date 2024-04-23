@@ -19,6 +19,7 @@ use TallStackUi\View\Components\Interaction\Toast;
 use TallStackUi\View\Components\Link;
 use TallStackUi\View\Components\Progress\Circle as ProgressCircle;
 use TallStackUi\View\Components\Progress\Progress;
+use TallStackUi\View\Components\Rating;
 use TallStackUi\View\Components\Stats;
 use TallStackUi\View\Components\Tooltip;
 
@@ -45,6 +46,7 @@ class ResolveColor
             $component instanceof Tooltip => TooltipColors::class,
             $component instanceof Stats => StatsColors::class,
             $component instanceof Range => RangeColors::class,
+            $component instanceof Rating => RatingColors::class,
             $component instanceof Button || $component instanceof Circle => ButtonColors::class,
             $component instanceof Progress || $component instanceof ProgressCircle => ProgressColors::class,
             $component instanceof Radio || $component instanceof Checkbox => RadioColors::class,
