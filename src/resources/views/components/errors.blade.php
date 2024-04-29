@@ -11,7 +11,9 @@
             <div @class([$personalize['title.wrapper'], $colors['border']])>
                 <span @class([$personalize['title.text'], $colors['text']])>
                     @if ($icon !== null)
-                        <x-dynamic-component :component="TallStackUi::component('icon')" :$icon class="w-5 h-5" outline />
+                        <x-dynamic-component :component="TallStackUi::component('icon')"
+                                             :icon="TallStackUi::icon($icon)"
+                                             class="w-5 h-5" outline />
                     @endif
                     {{ __($title, ['count' => $count($errors)]) }}
                 </span>
