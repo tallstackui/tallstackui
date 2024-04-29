@@ -1,6 +1,6 @@
 @php
     \TallStackUi\Foundation\Exceptions\MissingLivewireException::throwIf($livewire, 'upload');
-    $property = $bind($attributes, null, $livewire)[0];
+    [$property] = $bind($attributes, livewire: $livewire);
     $personalize = $classes();
     $value = data_get($this, $property);
     if (is_null($property)) throw new Exception('The [upload] component requires a property to bind using [wire:model].');

@@ -1,7 +1,7 @@
 @php
-    \TallStackUi\Foundation\Exceptions\MissingLivewireException::throwIf($livewire, 'reaction');
+    if (!$static) \TallStackUi\Foundation\Exceptions\MissingLivewireException::throwIf($livewire, 'reaction');
     $personalize = $classes();
-    $property = $bind($attributes, livewire: $livewire)[0];
+    [$property] = $bind($attributes, livewire: $livewire);
     $rate ??= data_get($this, $property);
 @endphp
 
