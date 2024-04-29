@@ -145,7 +145,7 @@ class IndexTest extends BrowserTestCase
                 <div>
                     <p dusk="rating">{{ $rating }}</p>
 
-                    <x-rating />
+                    <x-rating static />
                 </div>
                 HTML;
             }
