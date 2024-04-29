@@ -131,4 +131,34 @@ class IndexTest extends BrowserTestCase
             ->assertVisible('@rated')
             ->assertSeeIn('@rated', 'rated');
     }
+
+    /** @test */
+    public function cannot_rating_when_static(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public string $rating = '3.5';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="rating">{{ $rating }}</p>
+
+                    <x-rating />
+                </div>
+                HTML;
+            }
+
+            public function evaluate(string $rating): void
+            {
+                $this->rating = $rating;
+            }
+        })
+            ->assertSeeIn('@rating', '3.5')
+            ->clickAtXPath('/html/body/div[3]/div/button[4]')
+            ->waitForTextIn('@rating', '3.5')
+            ->assertSeeIn('@rating', '3.5')
+            ->assertSee('3.5');
+    }
 }
