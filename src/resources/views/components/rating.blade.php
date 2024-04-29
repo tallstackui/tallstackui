@@ -2,7 +2,7 @@
     if (!$static) \TallStackUi\Foundation\Exceptions\MissingLivewireException::throwIf($livewire, 'reaction');
     $personalize = $classes();
     [$property] = $bind($attributes, livewire: $livewire);
-    $rate ??= data_get($this, $property);
+    $rate ??= $livewire ? data_get($this, $property) : $rate;
 @endphp
 
 <div @class($personalize['wrapper'])
