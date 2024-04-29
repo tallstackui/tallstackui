@@ -1,6 +1,6 @@
 @php
     \TallStackUi\Foundation\Exceptions\MissingLivewireException::throwIf($livewire, 'reaction');
-    $entangle = $bind($attributes, null, $livewire)[3];
+    $entangle = $bind($attributes, livewire: $livewire)[3];
     $personalize = $classes();
     $extension = $animated === true ? 'gif' : 'png';
     $id = $this->getId();

@@ -21,6 +21,7 @@ class Rating extends BaseComponent implements Personalization
         public ?bool $sm = null,
         public ?bool $md = null,
         public ?bool $lg = null,
+        public ?bool $static = false,
         public ?string $color = 'primary',
         #[SkipDebug]
         public ?string $size = null,

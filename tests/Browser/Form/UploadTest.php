@@ -395,30 +395,6 @@ class UploadTest extends BrowserTestCase
     }
 
     /** @test */
-    public function can_thrown_exception_if_delete_method_does_not_exists()
-    {
-        Livewire::visit(new class extends Component
-        {
-            use WithFileUploads;
-
-            public $photo;
-
-            public function render(): string
-            {
-                return <<<'HTML'
-                <div>
-                    @if ($photo)
-                        <p dusk="uploaded">{{ $photo->getClientOriginalName() }}</p>
-                    @endif
-                    
-                    <x-upload label="Document" wire:model.live="photo" delete />
-                </div>
-                HTML;
-            }
-        })->assertSee('The [upload] component delete method');
-    }
-
-    /** @test */
     public function can_thrown_exception_if_property_bind_was_not_defined()
     {
         Livewire::visit(new class extends Component

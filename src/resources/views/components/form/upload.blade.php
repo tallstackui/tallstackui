@@ -1,10 +1,9 @@
 @php
     \TallStackUi\Foundation\Exceptions\MissingLivewireException::throwIf($livewire, 'upload');
-    $property = $bind($attributes, null, $livewire)[0];
+    [$property] = $bind($attributes, livewire: $livewire);
     $personalize = $classes();
     $value = data_get($this, $property);
     if (is_null($property)) throw new Exception('The [upload] component requires a property to bind using [wire:model].');
-    if ($delete && !method_exists($this, $deleteMethod)) throw new Exception('The [upload] component delete method [' . $deleteMethod . '] does not exist in [' . get_class($this) . '].');
 @endphp
 
 <div x-data="tallstackui_formUpload(

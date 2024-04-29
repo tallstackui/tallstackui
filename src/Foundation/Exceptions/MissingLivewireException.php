@@ -12,9 +12,19 @@ class MissingLivewireException extends Exception
     }
 
     /** @throws MissingLivewireException */
-    public static function throwIf(bool $livewire, string $component): ?self
+    public static function throwIf(bool $boolean, string $component): ?self
     {
-        if ($livewire) {
+        if ($boolean) {
+            return null;
+        }
+
+        throw new self($component);
+    }
+
+    /** @throws MissingLivewireException */
+    public static function throwUnless(bool $boolean, string $component): ?self
+    {
+        if (! $boolean) {
             return null;
         }
 
