@@ -22,7 +22,7 @@
         @endif
     @endif
     <template x-for="(star, index) in Array.from({ length: quantity })" :key="index">
-        <button x-on:click.prevent="evaluate('{{ $evaluateMethod }}', index + 1);"
+        <button @if (!$static) x-on:click.prevent="evaluate('{{ $evaluateMethod }}', index + 1);" @endif
                 {{ $attributes->only('x-on:evaluate') }}
                 @class($personalize['button'])>
                 <svg xmlns="http://www.w3.org/2000/svg"
