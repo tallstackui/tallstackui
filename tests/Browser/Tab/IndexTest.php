@@ -9,6 +9,37 @@ use Tests\Browser\BrowserTestCase;
 class IndexTest extends BrowserTestCase
 {
     /** @test */
+    public function can_render_and_select_with_accents(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>        
+                    <x-tab selected="Données d'identification">
+                        <x-tab.items tab="Données d'identification">
+                            Lorem ipsum dolor sit amet
+                        </x-tab.items>
+                        <x-tab.items tab="Données d'accès incorrectes">
+                            Consectetur adipiscing elit
+                        </x-tab.items>
+                    </x-tab>
+                </div>
+                HTML;
+            }
+        })
+            ->assertSee('Données d\'identification')
+            ->assertSee('Lorem ipsum dolor sit amet')
+            ->assertSee('Données d\'accès incorrectes')
+            ->assertDontSee('Consectetur adipiscing elit')
+            ->clickAtXPath('/html/body/div[3]/div/ul/li[2]')
+            ->waitForText('Consectetur adipiscing elit')
+            ->assertSee('Consectetur adipiscing elit')
+            ->assertDontSee('Lorem ipsum dolor sit amet');
+    }
+
+    /** @test */
     public function can_render_left_slot_using_slot(): void
     {
         Livewire::visit(new class extends Component
