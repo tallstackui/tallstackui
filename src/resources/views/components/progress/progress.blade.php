@@ -1,4 +1,6 @@
-@php($personalize = $classes())
+@php
+    $personalize = $classes();
+@endphp
 
 <div>
     <x-dynamic-component component="tallstack-ui::progress.variations.{{ $variation }}"

@@ -1,4 +1,6 @@
-@php($personalize = $classes())
+@php
+    $personalize = $classes();
+@endphp
 
 @if ($errors->count())
     <div @class(['w-full'])

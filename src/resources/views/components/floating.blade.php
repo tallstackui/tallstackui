@@ -1,4 +1,6 @@
-@php($personalize = $classes())
+@php
+    $personalize = $classes();
+@endphp
 
 <div x-show="{{ $attributes->get('x-show', 'show') }}" 
      x-cloak

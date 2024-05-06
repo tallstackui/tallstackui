@@ -1,4 +1,6 @@
-@php($personalize = $classes())
+@php
+    $personalize = $classes();
+@endphp
 
 <div>
     <div @class($personalize['wrapper.first'])>

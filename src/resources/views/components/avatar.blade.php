@@ -1,4 +1,6 @@
-@php($personalize = $classes())
+@php
+    $personalize = $classes();
+@endphp
 
 <div {{ $attributes->class([
         'rounded-full' => !$square,

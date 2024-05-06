@@ -1,4 +1,6 @@
-@php($personalize = $classes())
+@php
+    $personalize = $classes();
+@endphp
 
 <div @class([$personalize['wrapper'], $colors['background']])
      x-data="{ show : true }"

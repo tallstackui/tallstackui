@@ -1,4 +1,6 @@
-@php($personalize = $classes())
+@php
+    $personalize = $classes();
+@endphp
 
 <span {{ $attributes->class([
         'gap-x-2' => $icon,

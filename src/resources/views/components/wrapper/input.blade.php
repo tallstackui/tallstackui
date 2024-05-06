@@ -1,4 +1,6 @@
-@php($personalize = ['wrapper' => $attributes->get('wrapper', $classes()['wrapper'])])
+@php
+    $personalize = ['wrapper' => $attributes->get('wrapper', $classes()['wrapper'])];
+@endphp
 
 <div>
     @if ($label)

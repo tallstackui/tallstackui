@@ -1,4 +1,6 @@
-@php($personalize = $classes())
+@php
+    $personalize = $classes();
+@endphp
 
 <div @class($personalize['wrapper.first'])
      x-data="tallstackui_dropdown(@js(!$static))">

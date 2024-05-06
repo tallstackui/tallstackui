@@ -1,4 +1,6 @@
-@php($span = $left || $right)
+@php
+    $span = $left || $right;
+@endphp
 
 @if ($span)
     <span class="inline-flex items-center gap-x-1">

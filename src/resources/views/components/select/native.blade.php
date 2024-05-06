@@ -17,7 +17,9 @@
             $personalize['error'] => $error
         ]) }}>
         @forelse ($options as $option)
-            @php($value = (string) ($select ? $option[$selectable['value']] : $option))
+            @php
+                $value = (string) ($select ? $option[$selectable['value']] : $option);
+            @endphp
             <option value="{{ $value }}" @selected(!$livewire && $value === (string) $attributes->get('value'))>{{ $select ? $option[$selectable['label']] : $option }}</option>
         @empty
             {{ $slot }}

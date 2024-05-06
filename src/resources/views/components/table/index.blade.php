@@ -74,11 +74,15 @@
             @else
                 @forelse ($rows as $key => $value)
                     @if ($livewire)
-                        @php($this->loop = $loop)
+                        @php
+                            $this->loop = $loop;
+                        @endphp
                     @endif
                     <tr @class(['bg-gray-50 dark:bg-dark-800/50' => $striped && $loop->index % 2 === 0]) @if ($livewire) wire:key="{{ md5(serialize($value).$key) }}" @endif>
                         @foreach($headers as $header)
-                            @php($row = str_replace('.', '_', $header['index']))
+                            @php
+                                $row = str_replace('.', '_', $header['index']);
+                            @endphp
                             @isset(${"column_".$row})
                                 <td @class($personalize['table.td'])>
                                     {{ ${"column_".$row}($value) }}

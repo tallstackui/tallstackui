@@ -1,4 +1,6 @@
-@php($personalize = $classes())
+@php
+    $personalize = $classes();
+@endphp
 
 <a href="{{ $formatted }}" {{ $attributes->class([
         'inline-flex',
@@ -16,4 +18,3 @@
         <x-dynamic-component :component="TallStackUi::component('icon')" :$icon @class($personalize['icon.size']) />
     @endif
 </a>
-
