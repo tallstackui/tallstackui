@@ -7,6 +7,7 @@ export default (model, rules) => ({
   symbols: rules.symbols ?? null,
   numbers: rules.numbers ?? null,
   mixed: rules.mixed ?? null,
+  caps: false,
   results: {
     min: false,
     symbols: false,
