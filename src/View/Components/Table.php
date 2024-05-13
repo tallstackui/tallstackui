@@ -89,8 +89,9 @@ class Table extends BaseComponent implements Personalization
     public function personalization(): array
     {
         return Arr::dot([
-            'wrapper' => 'soft-scrollbar dark:ring-dark-600 overflow-auto rounded-lg shadow ring-1 ring-gray-300',
+            'wrapper' => 'overflow-hidden rounded-lg',
             'table' => [
+                'wrapper' => 'relative soft-scrollbar overflow-auto shadow',
                 'base' => 'dark:divide-dark-500/50 min-w-full divide-y divide-gray-200',
                 'sort' => 'ml-2 h-4 w-4',
                 'th' => 'dark:text-dark-200 px-3 py-3.5 text-left text-sm font-semibold text-gray-700',

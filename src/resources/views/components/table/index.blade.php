@@ -3,7 +3,7 @@
     $personalize = $classes();
 @endphp
 
-<div @if ($persistent && $id) id="{{ $id }}" @endif>
+<div @if ($persistent && $id) id="{{ $id }}" @endif @class($personalize['wrapper'])>
     @if (is_string($header))
         <p @class($personalize['slots.header'])>{{ $header }}</p>
     @else
@@ -38,7 +38,7 @@
             @endisset
         </div>
     @endif
-    <div @class(['relative', $personalize['wrapper']])>
+    <div @class($personalize['table.wrapper'])>
         <table @class($personalize['table.base']) @if ($livewire && $loading) wire:loading.class="{{ $personalize['loading.table'] }}" @endif>
             @if ($livewire && $loading)
                 <x-tallstack-ui::icon.generic.loading class="{{ $personalize['loading.icon'] }}" wire:loading="{{ $target }}" />
