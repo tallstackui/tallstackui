@@ -21,10 +21,31 @@ class Password extends BaseComponent implements Personalization
         public ?string $label = null,
         public ?string $hint = null,
         public Collection|array|null $rules = null,
+        public ?bool $mixedCase = false,
         public ?bool $generator = false,
         public ?bool $invalidate = null
     ) {
-        $this->setup();
+        $this->rules = collect($this->rules)->reduce(function (Collection $carry, string $value) {
+            $defaults = self::defaults();
+
+            if (str_contains($value, 'min')) {
+                $carry->put('min', (explode(':', $value)[1] ?? $defaults['min']));
+            }
+
+            if (str_contains($value, 'numbers')) {
+                $carry->put('numbers', true);
+            }
+
+            if (str_contains($value, 'symbols')) {
+                $carry->put('symbols', (explode(':', $value)[1] ?? $defaults['symbols']));
+            }
+
+            if (str_contains($value, 'mixed')) {
+                $carry->put('mixed', true);
+            }
+
+            return $carry;
+        }, collect());
     }
 
     /**
@@ -68,31 +89,6 @@ class Password extends BaseComponent implements Personalization
                 ],
             ],
         ]);
-    }
-
-    protected function setup(): void
-    {
-        $this->rules = collect($this->rules)->reduce(function (Collection $carry, string $value) {
-            $defaults = self::defaults();
-
-            if (str_contains($value, 'min')) {
-                $carry->put('min', (explode(':', $value)[1] ?? $defaults['min']));
-            }
-
-            if (str_contains($value, 'numbers')) {
-                $carry->put('numbers', true);
-            }
-
-            if (str_contains($value, 'symbols')) {
-                $carry->put('symbols', (explode(':', $value)[1] ?? $defaults['symbols']));
-            }
-
-            if (str_contains($value, 'mixed')) {
-                $carry->put('mixed', true);
-            }
-
-            return $carry;
-        }, collect());
     }
 
     /** @throws Exception */
