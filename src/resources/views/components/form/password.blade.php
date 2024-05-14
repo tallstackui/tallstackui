@@ -19,13 +19,9 @@
          <x-slot:suffix>
              <div @class([$personalize['icon.wrapper'], 'justify-between gap-2']) x-cloak>
                  @if (!$mixedCase)
-                 <div x-show="caps">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-500" viewBox="0 0 256 256">
-                        <rect width="256" height="256" fill="none"/>
-                        <polygon points="32 120 128 24 224 120 176 120 176 184 80 184 80 120 32 120" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/>
-                        <line x1="176" y1="216" x2="80" y2="216" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/>
-                    </svg>
-                 </div>
+                     <div x-show="caps">
+                         <x-tallstack-ui::icon.generic.password-capslock-indicator class="h-5 w-5 text-red-500" />
+                     </div>
                  @endif
                  @if ($generator)
                      <button type="button" x-ref="generator" dusk="tallstackui_form_password_generate" x-on:click="generator(); show = true;" {!! $attributes->only('x-on:generate') !!}>
