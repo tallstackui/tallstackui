@@ -124,7 +124,7 @@
                         </div>
                         <template x-for="(range, index) in yearRange()" :key="index">
                             <button type="button" @class($personalize['box.picker.range'])
-                                    x-bind:class="{ '{{ $personalize['button.today'] }}': range.year === new Date().getFullYear() }"
+                                    x-bind:class="{ '{{ $personalize['button.today'] }}': range.year === year }"
                                     x-bind:disabled="range.disabled"
                                     x-on:click="selectYear($event, range.year)"
                                     x-text="range.year">
