@@ -385,7 +385,7 @@ export default (
     this.month = month;
     this.picker.month = false;
 
-    if(this.monthYear){
+    if (this.monthYear) {
       this.picker.year = true;
       this.range.year.start = (this.year - 11)
     }
@@ -433,9 +433,9 @@ export default (
 
     this.year = year;
 
-    if(this.monthYear){
+    if (this.monthYear) {
       this.picker.month = true;
-      this.date.start = dayjs(`${this.year}-${this.month + 1}-01`).$d;
+      this.date.start = dayjs(`${this.year}-${this.month + 1}`).$d;
       this.model = this.date.start;
       this.sync();
     }
