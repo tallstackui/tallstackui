@@ -441,6 +441,36 @@ class DateTest extends BrowserTestCase
     }
 
     /** @test */
+    public function can_select_month_year()
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $date = '2020-01';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="date">{{ $date }}</p>
+
+                    <x-date label="DatePicker"
+                            wire:model.live="date"
+                            month-year />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->waitForTextIn('@date', '2020-01')
+            ->assertSeeIn('@date', '2020-01')
+            ->click('@tallstackui_date_open_close')
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div[1]/div[1]/div/button[2]')
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div[1]/div[1]/div/button[13]')
+            ->waitForTextIn('@date', '2021-02')
+            ->assertSeeIn('@date', '2021-02');
+    }
+
+    /** @test */
     public function can_select_today(): void
     {
         Livewire::visit(new class extends Component
