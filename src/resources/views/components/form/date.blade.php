@@ -19,6 +19,7 @@
      @js($livewire),
      @js($property),
      @js($value),
+     @js($monthYear),
      @js(__('tallstack-ui::messages.date.calendar')),
      @js($change($attributes, $__livewire ?? null, $livewire)))"
      x-cloak x-on:click.outside="picker.common = false">
@@ -62,10 +63,10 @@
                 <div @class($personalize['box.picker.wrapper.first']) x-cloak>
                     <div @class($personalize['box.picker.wrapper.second'])>
                         <div @class($personalize['box.picker.wrapper.third'])>
-                            <button type="button" @class($personalize['box.picker.label']) x-on:click="picker.month = false">
+                            <button type="button" @class($personalize['box.picker.label']) x-on:click="if (monthYear) {return false}; picker.month = false">
                                 <span x-text="calendar.months[month]" @class($personalize['label.month'])></span>
                             </button>
-                            <button type="button" class="mr-2" x-on:click="now()">
+                            <button type="button" class="mr-2" x-on:click="now()" x-show="monthYear === false">
                                 {{ __('tallstack-ui::messages.date.helpers.today') }}
                             </button>
                         </div>
@@ -89,7 +90,7 @@
                                 <span class="mx-1">-</span>
                                 <span x-text="range.year.last" @class($personalize['label.month'])></span>
                             </div>
-                            <button type="button" x-on:click="now()">
+                            <button type="button" x-on:click="now()" x-show="monthYear === false">
                                 {{ __('tallstack-ui::messages.date.helpers.today') }}
                             </button>
                             <div>

@@ -16,6 +16,7 @@ export default (
     livewire,
     property,
     value,
+    monthYear = null,
     calendar,
     change = null,
 ) => ({
@@ -50,10 +51,13 @@ export default (
   interval: null,
   livewire: livewire,
   property: property,
+  monthYear: monthYear,
   value: value,
   calendar: calendar,
   init() {
     this.translations();
+
+    if (this.monthYear === true) this.picker.month = true;
 
     this.date.min = dates.date.min ? dayjs(dates.date.min) : null;
     this.date.max = dates.date.max ? dayjs(dates.date.max) : null;
@@ -168,6 +172,14 @@ export default (
 
       this.input = `${start} - ${end === 'Invalid Date' ? '' : end}`;
 
+      return;
+    }
+
+    if (monthYear) {
+      this.model = this.formatted(this.date.start, 'YYYY-MM');
+      this.input = this.formatted(this.date.start, 'MMMM YYYY');
+      this.picker.month = true;
+      this.picker.common = false;
       return;
     }
 
@@ -373,6 +385,11 @@ export default (
     this.month = month;
     this.picker.month = false;
 
+    if(this.monthYear){
+      this.picker.year = true;
+      this.range.year.start = (this.year - 11)
+    }
+
     this.map();
   },
   /**
@@ -415,6 +432,14 @@ export default (
     event.stopPropagation();
 
     this.year = year;
+
+    if(this.monthYear){
+      this.picker.month = true;
+      this.date.start = dayjs(`${this.year}-${this.month + 1}-01`).$d;
+      this.model = this.date.start;
+      this.sync();
+    }
+
     this.picker.year = false;
 
     this.map();
