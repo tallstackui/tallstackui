@@ -33,8 +33,8 @@ class Signature extends BaseComponent implements Personalization
             'wrapper' => [
                 'first' => 'rounded-lg border border-gray-300 bg-white',
                 'second' => 'flex items-center justify-between space-x-4 border-b px-4 py-2',
+                'button' => 'flex items-center space-x-4',
             ],
-            'button' => 'mr-2',
             'canvas' => 'rounded-lg',
             'icons' => 'dark:text-dark-400 h-5 w-5 text-gray-500',
         ]);

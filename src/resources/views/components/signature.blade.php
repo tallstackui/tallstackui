@@ -8,30 +8,28 @@
          @class($personalize['wrapper.first'])>
         <input type="hidden" x-model="model" {!! $attributes->except('x-on:export') !!}>
         <div @class($personalize['wrapper.second'])>
-            <div>
-                <button type="button" aria-label="undo" x-on:click="undo" @class($personalize['button'])>
+            <div @class($personalize['wrapper.button'])>
+                <button type="button" aria-label="undo" x-on:click="undo">
                     <x-dynamic-component :component="TallStackUi::component('icon')" 
                                          :icon="TallStackUi::icon('arrow-uturn-left')" 
                                          @class($personalize['icons']) />
                 </button>
-                <button type="button" aria-label="redo" x-on:click="redo" @class($personalize['button'])>
+                <button type="button" aria-label="redo" x-on:click="redo">
                     <x-dynamic-component :component="TallStackUi::component('icon')" 
                                          :icon="TallStackUi::icon('arrow-uturn-right')" 
                                          @class($personalize['icons']) />
                 </button>
-                <button type="button" aria-label="clear" x-on:click="clear" @class($personalize['button'])>
+                <button type="button" aria-label="clear" x-on:click="clear">
                     <x-dynamic-component :component="TallStackUi::component('icon')" 
                                          :icon="TallStackUi::icon('trash')" 
                                          @class($personalize['icons']) />
                 </button>
             </div>
-            <div>
-                <button type="button" aria-label="export" x-on:click="exportImage" {{ $attributes->only('x-on:export') }}>
-                    <x-dynamic-component :component="TallStackUi::component('icon')" 
-                                         :icon="TallStackUi::icon('document-arrow-down')" 
-                                         @class($personalize['icons']) />
-                </button>
-            </div>
+            <button type="button" aria-label="export" x-on:click="exportImage" {{ $attributes->only('x-on:export') }}>
+                <x-dynamic-component :component="TallStackUi::component('icon')" 
+                                        :icon="TallStackUi::icon('document-arrow-down')" 
+                                        @class($personalize['icons']) />
+            </button>
         </div>
         <div class="w-full">
             <canvas x-ref="canvas"
