@@ -50,6 +50,7 @@ use TallStackUi\View\Components\Rating;
 use TallStackUi\View\Components\Reaction;
 use TallStackUi\View\Components\Select\Native as SelectNative;
 use TallStackUi\View\Components\Select\Styled as SelectStyled;
+use TallStackUi\View\Components\Signature;
 use TallStackUi\View\Components\Slide;
 use TallStackUi\View\Components\Stats;
 use TallStackUi\View\Components\Step\Step;
@@ -267,6 +268,11 @@ class Personalization
         };
 
         return app($this->component($class));
+    }
+
+    public function signature(): PersonalizationResources
+    {
+        return app($this->component(Signature::class));
     }
 
     public function slide(): PersonalizationResources
