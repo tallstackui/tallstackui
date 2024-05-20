@@ -157,9 +157,7 @@ export default (
     this.$el.dispatchEvent(new CustomEvent('select', {detail: {type: this.type, date: this.model}}));
 
     if (multiple) {
-      this.input = this.model
-          .map((date) => this.formatted(date))
-          .join(', ');
+      this.input = this.model.map((date) => this.formatted(date)).join(', ');
 
       return;
     }
@@ -176,17 +174,21 @@ export default (
       return;
     }
 
-    if (this.monthYearOnly) {
-      this.model = this.formatted(this.date.start, 'YYYY-MM');
-      this.input = this.formatted(this.date.start, 'MMMM YYYY');
-      this.resetPicker({month: true});
-
-      return;
-    }
-
-    this.input = start;
     this.show = false;
-    this.resetPicker();
+
+    const action = {
+      true: () => {
+        this.model = this.formatted(this.date.start, 'YYYY-MM');
+        this.input = this.formatted(this.date.start, 'MMMM YYYY');
+        this.resetPicker({month: true});
+      },
+      false: () => {
+        this.input = start;
+        this.resetPicker();
+      }
+    };
+
+    action[this.monthYearOnly]();
   },
   /**
    * Select the date.
@@ -217,6 +219,7 @@ export default (
       const condition = this.date.start && !this.date.end && date > this.date.start;
 
       this.date.end = condition ? date : null;
+
       if (!condition) this.date.start = date;
 
       this.model = [];
@@ -280,11 +283,11 @@ export default (
     this.date.end = null;
     this.model = this.type !== 'single' ? [current] : current;
 
+    this.show = false;
+
     this.reset();
     this.input = date.format(this.format);
     this.map();
-
-    this.show = false;
   },
   /**
    * Checks if the given day is selected.
@@ -438,8 +441,6 @@ export default (
     this.year = year;
 
     if (this.monthYearOnly) {
-      this.picker.month = true;
-
       this.date.start = dayjs(`${this.year}-${this.month + 1}`).$d;
       this.model = this.date.start;
 
