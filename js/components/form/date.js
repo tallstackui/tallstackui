@@ -330,7 +330,6 @@ export default (
   now() {
     this.reset();
     this.map();
-    this.show = false;
     this.resetPicker();
   },
   /**
