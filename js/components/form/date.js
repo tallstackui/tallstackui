@@ -444,7 +444,7 @@ export default (
       this.date.start = dayjs(`${this.year}-${this.month + 1}`).$d;
       this.model = this.date.start;
 
-      this.sync();
+      return this.sync();
     }
 
     this.resetPicker();
