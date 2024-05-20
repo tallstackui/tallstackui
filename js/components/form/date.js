@@ -16,7 +16,7 @@ export default (
     livewire,
     property,
     value,
-    monthYear = null,
+    monthYearOnly,
     calendar,
     change = null,
 ) => ({
@@ -51,13 +51,13 @@ export default (
   interval: null,
   livewire: livewire,
   property: property,
-  monthYear: monthYear,
+  monthYearOnly: monthYearOnly,
   value: value,
   calendar: calendar,
   init() {
     this.translations();
 
-    if (this.monthYear === true) this.picker.month = true;
+    if (this.monthYearOnly) this.picker.month = true;
 
     this.date.min = dates.date.min ? dayjs(dates.date.min) : null;
     this.date.max = dates.date.max ? dayjs(dates.date.max) : null;
@@ -175,11 +175,12 @@ export default (
       return;
     }
 
-    if (monthYear) {
+    if (this.monthYearOnly) {
       this.model = this.formatted(this.date.start, 'YYYY-MM');
       this.input = this.formatted(this.date.start, 'MMMM YYYY');
       this.picker.month = true;
       this.picker.common = false;
+
       return;
     }
 
@@ -189,9 +190,9 @@ export default (
   /**
    * Select the date.
    *
-   * @param event
-   * @param day
-   * @return {*|string}
+   * @param {Event} event
+   * @param {String} day
+   * @return {*}
    */
   select(event, day) {
     event.preventDefault();
@@ -298,7 +299,7 @@ export default (
   /**
    * Checks if the given date is between the range date.
    *
-   * @param {string} date
+   * @param {String} date
    * @returns boolean
    */
   between(date) {
@@ -314,7 +315,7 @@ export default (
   /**
    * Checks if the date is today
    *
-   * @param date
+   * @param {String} date
    * @return {Boolean}
    */
   today(date) {
@@ -322,6 +323,8 @@ export default (
   },
   /**
    * Set the calendar to today's date.
+   *
+   * @return {void}
    */
   now() {
     this.reset();
@@ -375,8 +378,9 @@ export default (
   /**
    * Select the month.
    *
-   * @param event
-   * @param month
+   * @param {Event} event
+   * @param {String} month
+   * @return {void}
    */
   selectMonth(event, month) {
     event.preventDefault();
@@ -385,7 +389,7 @@ export default (
     this.month = month;
     this.picker.month = false;
 
-    if (this.monthYear) {
+    if (this.monthYearOnly) {
       this.picker.year = true;
       this.range.year.start = (this.year - 11)
     }
@@ -424,7 +428,7 @@ export default (
    * Select the year.
    *
    * @param {Event} event
-   * @param year
+   * @param {String} year
    * @return {void}
    */
   selectYear(event, year) {
@@ -433,10 +437,12 @@ export default (
 
     this.year = year;
 
-    if (this.monthYear) {
+    if (this.monthYearOnly) {
       this.picker.month = true;
+
       this.date.start = dayjs(`${this.year}-${this.month + 1}`).$d;
       this.model = this.date.start;
+
       this.sync();
     }
 

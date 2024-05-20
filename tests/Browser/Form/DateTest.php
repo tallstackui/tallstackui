@@ -455,7 +455,7 @@ class DateTest extends BrowserTestCase
 
                     <x-date label="DatePicker"
                             wire:model.live="date"
-                            month-year />
+                            month-year-only />
                 </div>
                 HTML;
             }
@@ -464,6 +464,14 @@ class DateTest extends BrowserTestCase
             ->waitForTextIn('@date', '2020-01')
             ->assertSeeIn('@date', '2020-01')
             ->click('@tallstackui_date_open_close')
+            ->waitForText('January')
+            ->assertDontSee('Sun')
+            ->assertDontSee('Mon')
+            ->assertDontSee('Tue')
+            ->assertDontSee('Wed')
+            ->assertDontSee('Thu')
+            ->assertDontSee('Fri')
+            ->assertDontSee('Sat')
             ->clickAtXPath('/html/body/div[3]/div/div[2]/div[1]/div[1]/div/button[2]')
             ->clickAtXPath('/html/body/div[3]/div/div[2]/div[1]/div[1]/div/button[13]')
             ->waitForTextIn('@date', '2021-02')

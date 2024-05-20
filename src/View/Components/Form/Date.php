@@ -32,7 +32,7 @@ class Date extends BaseComponent implements Personalization
         public ?int $minYear = null,
         public ?int $maxYear = null,
         public ?bool $helpers = null,
-        public ?bool $monthYear = false,
+        public ?bool $monthYearOnly = false,
         public array|Collection $disable = [],
     ) {
         $this->disable = collect($this->disable)
