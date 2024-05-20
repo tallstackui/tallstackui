@@ -42,7 +42,7 @@
                                          :icon="TallStackUi::icon('x-mark')"
                                          @class([$personalize['icon.size'], $personalize['icon.clear']])/>
                 </button>
-                <button type="button" x-on:click="picker.common = !picker.common" dusk="tallstackui_date_open_close">
+                <button type="button" x-on:click="picker.common = !picker.common; picker.year = false;" dusk="tallstackui_date_open_close">
                     <x-dynamic-component :component="TallStackUi::component('icon')"
                                          :icon="TallStackUi::icon('calendar')"
                                          @class($personalize['icon.size']) />

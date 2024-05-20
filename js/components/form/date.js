@@ -57,8 +57,6 @@ export default (
   init() {
     this.translations();
 
-    if (this.monthYearOnly) this.picker.month = true;
-
     this.date.min = dates.date.min ? dayjs(dates.date.min) : null;
     this.date.max = dates.date.max ? dayjs(dates.date.max) : null;
 
@@ -77,6 +75,7 @@ export default (
     }
 
     this.$watch('picker.common', (value) => {
+      if (this.monthYearOnly) this.picker.month = true;
       if (!value || (this.picker.year || this.picker.month)) return;
 
       this.reset();
