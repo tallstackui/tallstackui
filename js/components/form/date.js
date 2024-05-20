@@ -20,6 +20,7 @@ export default (
     calendar,
     change = null,
 ) => ({
+  show: false,
   picker: {
     common: false,
     year: false,
@@ -76,7 +77,7 @@ export default (
       this.model = this.model.filter((value, key) => key < 2);
     }
 
-    this.$watch('picker.common', (value) => {
+    this.$watch('show', (value) => {
       if (!value || (this.picker.year || this.picker.month)) return;
 
       this.reset();
@@ -178,14 +179,14 @@ export default (
     if (this.monthYearOnly) {
       this.model = this.formatted(this.date.start, 'YYYY-MM');
       this.input = this.formatted(this.date.start, 'MMMM YYYY');
-      this.picker.month = true;
-      this.picker.common = false;
+      this.resetPicker({month: true});
 
       return;
     }
 
     this.input = start;
-    this.picker.common = false;
+    this.show = false;
+    this.resetPicker();
   },
   /**
    * Select the date.
@@ -219,7 +220,7 @@ export default (
       if (!condition) this.date.start = date;
 
       this.model = [];
-      this.picker.common = this.date.start !== null && this.date.end === null;
+      this.show = this.date.start !== null && this.date.end === null;
 
       return this.sync();
     }
@@ -283,7 +284,7 @@ export default (
     this.input = date.format(this.format);
     this.map();
 
-    this.picker.common = false;
+    this.show = false;
   },
   /**
    * Checks if the given day is selected.
@@ -329,8 +330,7 @@ export default (
   now() {
     this.reset();
     this.map();
-    this.picker.year = false;
-    this.picker.month = false;
+    this.resetPicker();
   },
   /**
    * Checks if the date is disabled
@@ -446,8 +446,7 @@ export default (
       this.sync();
     }
 
-    this.picker.year = false;
-
+    this.resetPicker();
     this.map();
   },
   /**
@@ -498,6 +497,19 @@ export default (
     this.day = date.date();
     this.month = date.month();
     this.year = date.year();
+  },
+  /**
+   * Reset the picker properties.
+   *
+   * @param {Object} picker
+   * @return {void}
+   */
+  resetPicker(picker = {}) {
+    this.picker = {
+      common: picker?.common ?? false,
+      year: picker?.year ?? false,
+      month: picker?.month ?? false,
+    };
   },
   /**
    * Format the date.

@@ -22,7 +22,7 @@
      @js($monthYearOnly),
      @js(__('tallstack-ui::messages.date.calendar')),
      @js($change($attributes, $__livewire ?? null, $livewire)))"
-     x-cloak x-on:click.outside="picker.common = false">
+     x-cloak x-on:click.outside="show = false">
     <x-dynamic-component :component="TallStackUi::component('input')"
                          {{ $attributes->except(['name', 'value']) }}
                          :$label
@@ -31,7 +31,7 @@
                          :alternative="$attributes->get('name')"
                          floatable
                          x-ref="input"
-                         x-on:click="picker.common = !picker.common; picker.year = false;"
+                         x-on:click="show = !show"
                          x-on:keydown="$event.preventDefault()"
                          dusk="tallstackui_date_input"
                          class="cursor-pointer caret-transparent">
@@ -42,7 +42,7 @@
                                          :icon="TallStackUi::icon('x-mark')"
                                          @class([$personalize['icon.size'], $personalize['icon.clear']])/>
                 </button>
-                <button type="button" x-on:click="picker.common = !picker.common" dusk="tallstackui_date_open_close">
+                <button type="button" x-on:click="show = !show" dusk="tallstackui_date_open_close">
                     <x-dynamic-component :component="TallStackUi::component('icon')"
                                          :icon="TallStackUi::icon('calendar')"
                                          @class($personalize['icon.size']) />
@@ -51,7 +51,6 @@
         </x-slot:suffix>
     </x-dynamic-component>
     <x-dynamic-component :component="TallStackUi::component('floating')"
-                         x-show="picker.common"
                          class="p-3 w-[17rem]"
                          x-bind:class="{ 'h-[17rem]' : picker.year || picker.month }">
         <div @class($personalize['box.picker.button'])>
