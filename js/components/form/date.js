@@ -447,9 +447,7 @@ export default (
       this.sync();
     }
 
-    this.show = false;
     this.resetPicker();
-
     this.map();
   },
   /**
