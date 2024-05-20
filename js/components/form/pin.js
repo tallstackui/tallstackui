@@ -236,7 +236,7 @@ export default (
 
     wireChange(change, this.model);
 
-    if (this.model.length === this.length) {
+    if (this.model && this.model.length === this.length) {
       this.$refs.wrapper.dispatchEvent(new CustomEvent('filled', {detail: {model: this.model}}));
     }
   },
