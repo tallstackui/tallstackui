@@ -48,7 +48,7 @@ export default (
         // the model is possibly receiving effects from external changes,
         // so we use this code to synchronize the changes internally.
         if (!value) {
-          this.erase();
+          this.erase(true);
 
           return;
         }
@@ -66,7 +66,7 @@ export default (
     });
   },
   /**
-   * @returns {void}
+   * @return {void}
    */
   observation() {
     this.errors();
@@ -83,7 +83,7 @@ export default (
     });
   },
   /**
-   * @returns {Promise<void>}
+   * @return {void}
    */
   async observed() {
     if (this.observer && !this.observing) {
@@ -99,7 +99,9 @@ export default (
     this.observation();
   },
   /**
-   * @returns {void}
+   * Verify if the input has errors.
+   *
+   * @return {void}
    */
   errors() {
     const errors = this.validate;
@@ -107,13 +109,17 @@ export default (
     this.error = Boolean(errors?.innerText === 'true');
   },
   /**
-     * @param index {Number}
-     * @returns {void}
-     */
+   * Focus on the input element.
+   *
+   * @param {Number} index
+   * @return {void}
+   */
   focus(index) {
     this.input(index)?.focus();
   },
   /**
+   * Navigate to the left input.
+   *
    * @param index {Number}
    * @return {void}
    */
@@ -126,7 +132,9 @@ export default (
     this.focus(index - 1);
   },
   /**
-   * @param index {Number}
+   * Navigate to the right input.
+   *
+   * @param {Number} index
    * @return {void}
    */
   right(index) {
@@ -138,7 +146,9 @@ export default (
     this.focus(index + 1);
   },
   /**
-   * @param index {Number}
+   * Handle the keyup event.
+   *
+   * @param {Number} index
    * @return {void}
    */
   keyup(index) {
@@ -150,9 +160,12 @@ export default (
 
         if (previous.value === '') {
           this.focus(i);
+
           this.input(i).value = this.input(index).value;
           this.input(index).value = '';
+
           this.syncModel();
+
           return;
         }
       }
@@ -170,6 +183,7 @@ export default (
     if (input.value && index !== this.length) {
       if (this.input(index + 1)?.value !== '') {
         this.focus(index + 1);
+
         return;
       }
 
@@ -179,9 +193,11 @@ export default (
     this.syncModel();
   },
   /**
-     * @param index {Number}
-     * @returns {void}
-     */
+   * Handle the backspace key.
+   *
+   * @param {Number} index
+   * @return {void}
+   */
   backspace(index) {
     const current = this.input(index);
 
@@ -203,7 +219,9 @@ export default (
     this.syncModel();
   },
   /**
-   * @returns {void}
+   * Sync the input elements with the model.
+   *
+   * @return {void}
    */
   syncModel() {
     this.model = '';
@@ -217,9 +235,15 @@ export default (
     }
 
     wireChange(change, this.model);
+
+    if (this.model.length === this.length) {
+      this.$refs.wrapper.dispatchEvent(new CustomEvent('filled', {detail: {model: this.model}}));
+    }
   },
   /**
-   * @returns {void}
+   * Sync the input elements with the model.
+   *
+   * @return {void}
    */
   syncInput(value = null) {
     // We don't need to syncModel here because this method
@@ -235,15 +259,19 @@ export default (
     wireChange(change, this.model);
   },
   /**
+   * Retrieve the input element.
+   *
    * @param index
-   * @returns {HTMLElement|null}
+   * @return {HTMLElement|null}
    */
   input(index) {
     return document.getElementById(`pin-${id}-${index}`);
   },
   /**
-   * @param event {ClipboardEvent}
-   * @returns {void}
+   * Handle the paste event.
+   *
+   * @param {ClipboardEvent} event
+   * @return {void}
    */
   paste(event) {
     event.preventDefault();
@@ -264,12 +292,15 @@ export default (
       input.value += data[index];
     }
 
-    this.sync();
+    this.syncModel();
   },
   /**
-   * @returns {void}
+   * Erase all inputs.
+   *
+   * @param {Boolean} internal
+   * @return {void}
    */
-  erase() {
+  erase(internal = false) {
     for (let index = 1; index <= this.length; index++) {
       const input = this.input(index);
 
@@ -278,21 +309,29 @@ export default (
       input.value = '';
     }
 
+    const model = this.model;
     this.model = null;
 
     this.focus(1);
+
+    if (!internal) {
+      this.$refs.wrapper.dispatchEvent(new CustomEvent('clear', {detail: {model: model}}));
+    }
   },
+  /**
+   * Verify if the value is invalid according to the mask.
+   *
+   * @return {Boolean}
+   */
   invalidate(value) {
     if (this.numbers && !/^\d+$/.test(value)) return true;
 
-    if (this.letters && !/^[a-zA-Z]+$/.test(value)) return true;
-
-    return false;
+    return this.letters && !/^[a-zA-Z]+$/.test(value);
   },
   /**
    * The hidden div element used to validate the inputs.
    *
-   * @returns {HTMLElement|null}
+   * @return {HTMLElement|null}
    */
   get validate() {
     return document.getElementById(id);
