@@ -67,6 +67,79 @@ class PinTest extends BrowserTestCase
     }
 
     /** @test */
+    public function can_dispatch_clear_event(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $value = '1515';
+
+            public bool $cleared = false;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="value">{{ $value }}</p>
+                    
+                    @if ($cleared)
+                        <p dusk="cleared">Cleared</p>
+                    @endif
+                    
+                    <x-pin length="4" label="Foo" hint="Test" wire:model.live="value" clear x-on:clear="$wire.set('cleared', 1)" />
+                </div>
+                HTML;
+            }
+
+            public function sync(): void
+            {
+                //
+            }
+        })
+            ->waitForLivewireToLoad()->click('@form_pin_clear')
+            ->waitUntilMissingText('1515')
+            ->assertDontSeeIn('@value', '1515')
+            ->assertVisible('@cleared')
+            ->assertSeeIn('@cleared', 'Cleared');
+    }
+
+    /** @test */
+    public function can_dispatch_filled_event(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $value = null;
+
+            public bool $filled = false;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="value">{{ $value }}</p>
+                    
+                    @if ($filled)
+                        <p dusk="filled">Filled</p>
+                    @endif
+                    
+                    <x-pin length="1" label="Foo" hint="Test" wire:model.live="value" x-on:filled="$wire.set('filled', 1)" />
+                </div>
+                HTML;
+            }
+
+            public function sync(): void
+            {
+                //
+            }
+        })
+            ->clickAtXPath('/html/body/div[3]/div[2]/div/div/input[1]')
+            ->waitForLivewire()->type('@pin-1', '1')
+            ->waitForTextIn('@value', '1')
+            ->assertSeeIn('@value', '1')
+            ->assertVisible('@filled')
+            ->assertSeeIn('@filled', 'Filled');
+    }
+
+    /** @test */
     public function can_fill(): void
     {
         Livewire::visit(new class extends Component
