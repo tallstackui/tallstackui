@@ -32,9 +32,10 @@
             </button>
         </div>
         <canvas x-ref="canvas"
+                wire:ignore
                 @class($personalize['canvas'])
                 :height="height"
-                style="image-rendering: pixelated; cursor: crosshair; min-height: {{ $height }}"
+                style="image-rendering: pixelated; cursor: crosshair; max-height: {{ $height }}"
                 x-on:mousedown="startDrawing"
                 x-on:mousemove="draw"
                 x-on:mouseup="stopDrawing"
