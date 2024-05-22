@@ -3,7 +3,7 @@
     $personalize = $classes();
 @endphp
 
-<div @if ($persistent && $id) id="{{ $id }}" @endif @class($personalize['wrapper'])>
+<div @if ($persistent && $id) id="{{ $id }}" @endif>
     @if (is_string($header))
         <p @class($personalize['slots.header'])>{{ $header }}</p>
     @else
@@ -38,72 +38,74 @@
             @endisset
         </div>
     @endif
-    <div @class($personalize['table.wrapper'])>
-        <table @class($personalize['table.base']) @if ($livewire && $loading) wire:loading.class="{{ $personalize['loading.table'] }}" @endif>
-            @if ($livewire && $loading)
-                <x-tallstack-ui::icon.generic.loading class="{{ $personalize['loading.icon'] }}" wire:loading="{{ $target }}" />
-            @endif
-            @if (!$headerless)
-                <thead @class(['uppercase', $personalize['table.thead.normal'] => !$striped, $personalize['table.thead.striped'] => $striped])>
-                    <tr>
-                        @foreach ($headers as $header)
-                            <th scope="col" @class($personalize['table.th'])>
-                                <a @if ($livewire && $sortable($header))
-                                        class="inline-flex cursor-pointer truncate"
-                                        wire:click="$set('sort', {column: '{{ $head($header)['column'] }}', direction: '{{ $head($header)['direction'] }}' })"
-                                    @endif>
-                                    {{ $header['label'] ?? '' }}
-                                    @if ($livewire && $sortable($header) && $sorted($header))
-                                        <x-dynamic-component :component="TallStackUi::component('icon')"
-                                                             :icon="TallStackUi::icon($head($header)['direction'] === 'desc' ? 'chevron-up' : 'chevron-down')"
-                                                             class="ml-2 h-4 w-4" />
-                                    @endif
-                                </a>
-                            </th>
-                        @endforeach
-                    </tr>
-                </thead>
-            @endif
-            <tbody @class($personalize['table.tbody'])>
-            @if (is_array($rows) && (count($rows) === 1 && empty($rows[0])))
-                <tr>
-                    <td @class($personalize['empty']) colspan="100%">
-                        {{ $placeholders['empty'] }}
-                    </td>
-                </tr>
-            @else
-                @forelse ($rows as $key => $value)
-                    @if ($livewire)
-                        @php
-                            $this->loop = $loop;
-                        @endphp
-                    @endif
-                    <tr @class(['bg-gray-50 dark:bg-dark-800/50' => $striped && $loop->index % 2 === 0]) @if ($livewire) wire:key="{{ md5(serialize($value).$key) }}" @endif>
-                        @foreach($headers as $header)
-                            @php
-                                $row = str_replace('.', '_', $header['index']);
-                            @endphp
-                            @isset(${"column_".$row})
-                                <td @class($personalize['table.td'])>
-                                    {{ ${"column_".$row}($value) }}
-                                </td>
-                            @else
-                                <td @class($personalize['table.td'])>
-                                    {{ data_get($value, $header['index']) }}
-                                </td>
-                            @endisset
-                        @endforeach
-                    </tr>
-                @empty
+    <div @class($personalize['wrapper'])>
+        <div @class($personalize['table.wrapper'])>
+            <table @class($personalize['table.base']) @if ($livewire && $loading) wire:loading.class="{{ $personalize['loading.table'] }}" @endif>
+                @if ($livewire && $loading)
+                    <x-tallstack-ui::icon.generic.loading class="{{ $personalize['loading.icon'] }}" wire:loading="{{ $target }}" />
+                @endif
+                @if (!$headerless)
+                    <thead @class(['uppercase', $personalize['table.thead.normal'] => !$striped, $personalize['table.thead.striped'] => $striped])>
+                        <tr>
+                            @foreach ($headers as $header)
+                                <th scope="col" @class($personalize['table.th'])>
+                                    <a @if ($livewire && $sortable($header))
+                                            class="inline-flex cursor-pointer truncate"
+                                            wire:click="$set('sort', {column: '{{ $head($header)['column'] }}', direction: '{{ $head($header)['direction'] }}' })"
+                                        @endif>
+                                        {{ $header['label'] ?? '' }}
+                                        @if ($livewire && $sortable($header) && $sorted($header))
+                                            <x-dynamic-component :component="TallStackUi::component('icon')"
+                                                                :icon="TallStackUi::icon($head($header)['direction'] === 'desc' ? 'chevron-up' : 'chevron-down')"
+                                                                class="ml-2 h-4 w-4" />
+                                        @endif
+                                    </a>
+                                </th>
+                            @endforeach
+                        </tr>
+                    </thead>
+                @endif
+                <tbody @class($personalize['table.tbody'])>
+                @if (is_array($rows) && (count($rows) === 1 && empty($rows[0])))
                     <tr>
                         <td @class($personalize['empty']) colspan="100%">
                             {{ $placeholders['empty'] }}
                         </td>
                     </tr>
-                @endforelse
-            @endif
-            </tbody>
-        </table>
+                @else
+                    @forelse ($rows as $key => $value)
+                        @if ($livewire)
+                            @php
+                                $this->loop = $loop;
+                            @endphp
+                        @endif
+                        <tr @class(['bg-gray-50 dark:bg-dark-800/50' => $striped && $loop->index % 2 === 0]) @if ($livewire) wire:key="{{ md5(serialize($value).$key) }}" @endif>
+                            @foreach($headers as $header)
+                                @php
+                                    $row = str_replace('.', '_', $header['index']);
+                                @endphp
+                                @isset(${"column_".$row})
+                                    <td @class($personalize['table.td'])>
+                                        {{ ${"column_".$row}($value) }}
+                                    </td>
+                                @else
+                                    <td @class($personalize['table.td'])>
+                                        {{ data_get($value, $header['index']) }}
+                                    </td>
+                                @endisset
+                            @endforeach
+                        </tr>
+                    @empty
+                        <tr>
+                            <td @class($personalize['empty']) colspan="100%">
+                                {{ $placeholders['empty'] }}
+                            </td>
+                        </tr>
+                    @endforelse
+                @endif
+                </tbody>
+            </table>
+        </div>
     </div>
     @if (is_string($footer))
         <p @class($personalize['slots.footer'])>{{ $footer }}</p>

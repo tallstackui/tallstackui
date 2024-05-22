@@ -124,7 +124,7 @@ class IconGuide
             'cloud-arrow-up' => 'cloud-upload',
             'clock' => 'schedule',
             'document-check' => 'assignment',
-            'document-text' => 'file-text',
+            'document-text' => 'description',
             'exclamation-circle' => 'info',
             'eye' => 'visibility',
             'eye-slash' => 'visibility-off',

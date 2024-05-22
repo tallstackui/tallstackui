@@ -13,9 +13,16 @@
                           :$invalidate
                           ::type="!show ? 'password' : 'text'"
                           floatable
-                          autocomplete="{{ $attributes->get('autocomplete', 'off') }}">
+                          autocomplete="{{ $attributes->get('autocomplete', 'off') }}"
+                          x-on:keydown="caps = $event.getModifierState('CapsLock')"
+                          x-on:keyup="caps = $event.getModifierState('CapsLock')">
          <x-slot:suffix>
              <div @class([$personalize['icon.wrapper'], 'justify-between gap-2']) x-cloak>
+                 @if (!$mixedCase)
+                     <div x-show="caps">
+                         <x-tallstack-ui::icon.generic.password-capslock-indicator class="h-5 w-5 text-red-500" />
+                     </div>
+                 @endif
                  @if ($generator)
                      <button type="button" x-ref="generator" dusk="tallstackui_form_password_generate" x-on:click="generator(); show = true;" {!! $attributes->only('x-on:generate') !!}>
                          <x-dynamic-component :component="TallStackUi::component('icon')"

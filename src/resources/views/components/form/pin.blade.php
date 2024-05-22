@@ -28,7 +28,7 @@
              @js($value),
              @js($change($attributes, $__livewire ?? null, $livewire)))"
          x-on:paste="pasting = true; paste($event)" x-cloak wire:ignore>
-        <div @class($personalize['wrapper'])>
+        <div @class($personalize['wrapper']) x-ref="wrapper" {{ $attributes->only(['x-on:filled', 'x-on:clear']) }}>
             @if ($prefix)
                 <input type="text"
                        value="{{ $prefix }}"
