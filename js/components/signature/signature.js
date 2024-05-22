@@ -17,11 +17,9 @@ export default (
   background: background,
   line: line,
   height: height,
-  /**
-   * Initializes the canvas and sets initial configurations
-   */
   init() {
     this.canvas = this.$refs.canvas;
+
     this.ctx = this.canvas.getContext('2d', { willReadFrequently: true });
     this.ctx.line = this.line;
     this.ctx.lineCap = 'round';
@@ -38,7 +36,9 @@ export default (
   clear() {
     this.ctx.fillStyle = this.background;
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+
     this.saveState();
+
     this.model = null;
   },
   /**
@@ -48,10 +48,14 @@ export default (
    */
   startDrawing(event) {
     event.preventDefault();
+
     this.drawing = true;
+
     const { offsetX, offsetY } = this.getEventCoordinates(event);
+
     this.lastX = offsetX;
     this.lastY = offsetY;
+
     this.draw(event);
   },
   /**
@@ -60,21 +64,26 @@ export default (
    * @param event
    */
   draw(event) {
-    if (this.drawing) {
-      event.preventDefault();
-      const { offsetX, offsetY } = this.getEventCoordinates(event);
-      const distance = Math.sqrt(
-        Math.pow(offsetX - this.lastX, 2) + Math.pow(offsetY - this.lastY, 2)
-      );
-      const angle = Math.atan2(offsetY - this.lastY, offsetX - this.lastX);
-      for (let i = 0; i < distance; i += this.line / 3) {
-        const x = this.lastX + Math.cos(angle) * i;
-        const y = this.lastY + Math.sin(angle) * i;
-        this.drawDot(x, y);
-      }
-      this.lastX = offsetX;
-      this.lastY = offsetY;
+    if (!this.drawing) {
+      return;
     }
+
+    event.preventDefault();
+
+    const { offsetX, offsetY } = this.getEventCoordinates(event);
+
+    const distance = Math.sqrt(Math.pow(offsetX - this.lastX, 2) + Math.pow(offsetY - this.lastY, 2));
+
+    const angle = Math.atan2(offsetY - this.lastY, offsetX - this.lastX);
+
+    for (let i = 0; i < distance; i += this.line / 3) {
+      const x = this.lastX + Math.cos(angle) * i;
+      const y = this.lastY + Math.sin(angle) * i;
+      this.drawDot(x, y);
+    }
+
+    this.lastX = offsetX;
+    this.lastY = offsetY;
   },
   /**
    * Draws a dot on the canvas
@@ -95,11 +104,15 @@ export default (
    * @param event
    */
   stopDrawing(event) {
-    if (this.drawing) {
-      event.preventDefault();
-      this.drawing = false;
-      this.saveState();
+    if (!this.drawing) {
+      return;
     }
+
+    event.preventDefault();
+
+    this.drawing = false;
+
+    this.saveState();
   },
   /**
    * Undoes the last action
@@ -126,18 +139,15 @@ export default (
   /**
    * Saves the image
    */
-  save() {
-    this.model = this.canvas.toDataURL();
-  },
-
+  save() { this.model = this.canvas.toDataURL() },
   /**
    * Saves the current state of the canvas to allow undoing and redoing
    */
   saveState() {
-    this.undoStack.push(
-      this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height)
-    );
+    this.undoStack.push(this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height));
+
     this.redoStack = [];
+
     this.save();
   },
   /**
@@ -145,16 +155,20 @@ export default (
    */
   exportImage() {
     const dataUrl = this.canvas.toDataURL();
+
     const link = document.createElement('a');
+
     link.href = dataUrl;
     link.download = 'signature.png';
+
     document.body.appendChild(link);
+
     link.click();
+
     document.body.removeChild(link);
 
     this.$el.dispatchEvent(new CustomEvent('export', {detail: {signature: dataUrl}}));
   },
-
   /**
    * Changes the background color of the canvas
    */
@@ -167,17 +181,19 @@ export default (
    */
   updateBackgroundColor() {
     this.ctx.fillStyle = this.background;
+
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
   },
-
   /**
    * Updates the size of the canvas
    */
   updateCanvasSize() {
     const container = this.$refs.canvas.parentElement;
     const containerWidth = container.clientWidth;
+
     this.canvas.width = containerWidth;
     this.canvas.height = this.height;
+
     this.updateBackgroundColor();
   },
   /**
@@ -195,9 +211,7 @@ export default (
         offsetY: touch.clientY - rect.top
       };
     }
-    return {
-      offsetX: event.offsetX,
-      offsetY: event.offsetY
-    };
+
+    return {offsetX: event.offsetX, offsetY: event.offsetY};
   }
 });
