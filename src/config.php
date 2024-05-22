@@ -191,6 +191,7 @@ return [
         'banner' => Components\Banner::class,
         'button' => Components\Button\Button::class,
         'button.circle' => Components\Button\Circle::class,
+        'boolean' => Components\Boolean::class,
         'card' => Components\Card::class,
         'checkbox' => Components\Form\Checkbox::class,
         'color' => Components\Form\Color::class,

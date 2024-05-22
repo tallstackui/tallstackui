@@ -14,6 +14,7 @@ use TallStackUi\View\Components\Alert;
 use TallStackUi\View\Components\Avatar;
 use TallStackUi\View\Components\Badge;
 use TallStackUi\View\Components\Banner;
+use TallStackUi\View\Components\Boolean;
 use TallStackUi\View\Components\Button\Button;
 use TallStackUi\View\Components\Button\Circle;
 use TallStackUi\View\Components\Card;
@@ -116,6 +117,11 @@ class Personalization
     public function block(string|array $name, string|Closure|Personalizable|null $code = null): PersonalizationResources
     {
         return $this->instance()->block($name, $code);
+    }
+
+    public function boolean(): PersonalizationResources
+    {
+        return app($this->component(Boolean::class));
     }
 
     public function button(?string $component = null): PersonalizationResources

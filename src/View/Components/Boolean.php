@@ -12,16 +12,17 @@ class Boolean extends BaseComponent implements Personalization
 {
     public function __construct(
         public bool|Closure $boolean = false,
+        public ?bool $clickable = null,
         public ?string $iconWhenTrue = null,
         public ?string $iconWhenFalse = null,
         public ?string $colorWhenTrue = null,
         public ?string $colorWhenFalse = null,
     ) {
-        $this->boolean = is_bool($this->boolean) ? $this->boolean : ($this->boolean)();
+        $this->boolean = value($this->boolean);
 
         $this->iconWhenTrue ??= 'check-circle';
         $this->iconWhenFalse ??= 'check-circle';
-        $this->colorWhenTrue ??= 'green';
+        $this->colorWhenTrue ??= 'primary';
         $this->colorWhenFalse ??= 'gray';
     }
 
@@ -32,6 +33,6 @@ class Boolean extends BaseComponent implements Personalization
 
     public function personalization(): array
     {
-        return [];
+        return ['icon' => 'w-5 h-5'];
     }
 }
