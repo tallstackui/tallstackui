@@ -35,7 +35,7 @@ class Signature extends BaseComponent implements Personalization
                 'second' => 'flex items-center justify-between space-x-4 border-b px-4 py-2',
                 'button' => 'flex items-center space-x-4',
             ],
-            'canvas' => 'rounded-lg',
+            'canvas' => 'w-full rounded-lg rounded-t-none',
             'icons' => 'dark:text-dark-400 h-5 w-5 text-gray-500',
         ]);
     }
