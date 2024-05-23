@@ -18,9 +18,7 @@ class BooleanColors
     {
         $color = $this->component->boolean ? $this->component->colorWhenTrue : $this->component->colorWhenFalse;
 
-        return [
-            'icon' => data_get($this->get('icon'), $color, data_get($this->icon(), $color)),
-        ];
+        return ['icon' => data_get($this->get('icon'), $color, data_get($this->icon(), $color))];
     }
 
     private function icon(): array
