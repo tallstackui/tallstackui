@@ -31,7 +31,8 @@
                                      @class($personalize['icons']) />
             </button>
         </div>
-        <canvas x-ref="canvas"
+       <div class="p-3">
+         <canvas x-ref="canvas"
                 wire:ignore
                 @class($personalize['canvas'])
                 :height="height"
@@ -45,5 +46,6 @@
                 x-on:touchend="stopDrawing"
                 x-on:touchcancel="stopDrawing">
         </canvas>
+       </div>
     </div>
 </x-dynamic-component>

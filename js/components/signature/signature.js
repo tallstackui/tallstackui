@@ -34,11 +34,8 @@ export default (
    * Clears the drawing on the canvas
    */
   clear() {
-    this.ctx.fillStyle = this.background;
-    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.saveState();
-
     this.model = null;
   },
   /**
@@ -121,9 +118,13 @@ export default (
     if (this.undoStack.length > 1) {
       this.redoStack.push(this.undoStack.pop());
       this.ctx.putImageData(this.undoStack[this.undoStack.length - 1], 0, 0);
+      this.model = this.canvas.toDataURL();
+      this.save();
+      return;
     }
 
-    this.save();
+    this.redoStack.push(this.undoStack.pop());
+    this.clear();
   },
   /**
    * Redoes the last undone action
@@ -203,15 +204,19 @@ export default (
    * @returns {{offsetX: number, offsetY: number}}
    */
   getEventCoordinates(event) {
+    const rect = this.canvas.getBoundingClientRect();
+    
     if (event.touches && event.touches.length > 0) {
       const touch = event.touches[0];
-      const rect = this.canvas.getBoundingClientRect();
       return {
-        offsetX: touch.clientX - rect.left,
-        offsetY: touch.clientY - rect.top
+        offsetX: (touch.clientX - rect.left) * (this.canvas.width / rect.width),
+        offsetY: (touch.clientY - rect.top) * (this.canvas.height / rect.height),
       };
     }
 
-    return {offsetX: event.offsetX, offsetY: event.offsetY};
+    return {
+      offsetX: (event.clientX - rect.left) * (this.canvas.width / rect.width),
+      offsetY: (event.clientY - rect.top) * (this.canvas.height / rect.height),
+    };
   }
 });

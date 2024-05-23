@@ -31,11 +31,11 @@ class Signature extends BaseComponent implements Personalization
     {
         return Arr::dot([
             'wrapper' => [
-                'first' => 'rounded-lg border border-gray-300 bg-white',
-                'second' => 'flex items-center justify-between space-x-4 border-b px-4 py-2',
+                'first' => 'dark:bg-dark-800 dark:border-dark-600 rounded-lg border border-gray-300 bg-white',
+                'second' => 'dark:border-dark-600 flex items-center justify-between space-x-4 border-b border-gray-300 px-4 py-2',
                 'button' => 'flex items-center space-x-4',
             ],
-            'canvas' => 'w-full rounded-lg rounded-t-none',
+            'canvas' => 'dark:border-dark-600 w-full rounded-lg border border-dashed border-gray-300',
             'icons' => 'dark:text-dark-400 h-5 w-5 text-gray-500',
         ]);
     }
