@@ -12,7 +12,6 @@ class Boolean extends BaseComponent implements Personalization
 {
     public function __construct(
         public bool|Closure $boolean = false,
-        public ?bool $clickable = null,
         public ?string $iconWhenTrue = null,
         public ?string $iconWhenFalse = null,
         public ?string $colorWhenTrue = null,

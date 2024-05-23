@@ -51,3 +51,13 @@ it('can render different colors', function () {
 
     expect($component)->render()->toContain('text-yellow-500');
 });
+
+it('can render clickable action', function () {
+    $component = <<<'HTML'
+    <x-boolean :boolean="true" wire:click="foo" />
+    HTML;
+
+    expect($component)
+        ->render()
+        ->toContain('wire:click="foo"');
+});
