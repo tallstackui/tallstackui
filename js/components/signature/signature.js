@@ -25,16 +25,16 @@ export default (
     this.ctx.lineCap = 'round';
     this.ctx.lineJoin = 'round';
 
-    this.updateCanvasSize();
-    this.updateBackgroundColor();
-
-    window.addEventListener('resize', this.updateCanvasSize);
+    setTimeout(() => {this.updateCanvasSize(); this.clear();}, 100);
+    
+    window.addEventListener('resize', this.updateCanvasSize.bind(this));
   },
   /**
    * Clears the drawing on the canvas
    */
   clear() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.updateBackgroundColor();
     this.saveState();
     this.model = null;
   },
@@ -171,13 +171,6 @@ export default (
     this.$el.dispatchEvent(new CustomEvent('export', {detail: {signature: dataUrl}}));
   },
   /**
-   * Changes the background color of the canvas
-   */
-  changeBackgroundColor() {
-    this.updateBackgroundColor();
-    this.clear();
-  },
-  /**
    * Updates the background color of the canvas
    */
   updateBackgroundColor() {
@@ -195,7 +188,7 @@ export default (
     this.canvas.width = containerWidth;
     this.canvas.height = this.height;
 
-    this.updateBackgroundColor();
+    this.clear();
   },
   /**
    * Gets the event (mouse or touch) coordinates on the canvas

@@ -15,7 +15,7 @@ class Signature extends BaseComponent implements Personalization
         public ?string $hint = null,
         public ?bool $invalidate = null,
         public ?string $color = '#000000',
-        public ?string $background = '#FFFFFF',
+        public ?string $background = 'transparent',
         public int|float|null $line = 2,
         public ?int $height = 150,
     ) {

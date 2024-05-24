@@ -36,7 +36,7 @@
                 wire:ignore
                 @class($personalize['canvas'])
                 :height="height"
-                style="image-rendering: pixelated; cursor: crosshair; max-height: {{ $height }}"
+                style="cursor: crosshair; max-height: {{ $height }}"
                 x-on:mousedown="startDrawing"
                 x-on:mousemove="draw"
                 x-on:mouseup="stopDrawing"
