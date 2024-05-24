@@ -25,7 +25,7 @@ export default (
     this.ctx.lineCap = 'round';
     this.ctx.lineJoin = 'round';
 
-    setTimeout(() => {this.updateCanvasSize(); this.clear();}, 100);
+    setTimeout(() => { this.updateCanvasSize(); this.clear(); }, 100);
     
     window.addEventListener('resize', this.updateCanvasSize.bind(this));
   },
