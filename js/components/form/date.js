@@ -16,9 +16,11 @@ export default (
     livewire,
     property,
     value,
+    monthYearOnly,
     calendar,
     change = null,
 ) => ({
+  show: false,
   picker: {
     common: false,
     year: false,
@@ -50,10 +52,13 @@ export default (
   interval: null,
   livewire: livewire,
   property: property,
+  monthYearOnly: monthYearOnly,
   value: value,
   calendar: calendar,
   init() {
     this.translations();
+
+    if (this.monthYearOnly) this.picker.month = true;
 
     this.date.min = dates.date.min ? dayjs(dates.date.min) : null;
     this.date.max = dates.date.max ? dayjs(dates.date.max) : null;
@@ -72,7 +77,7 @@ export default (
       this.model = this.model.filter((value, key) => key < 2);
     }
 
-    this.$watch('picker.common', (value) => {
+    this.$watch('show', (value) => {
       if (!value || (this.picker.year || this.picker.month)) return;
 
       this.reset();
@@ -152,9 +157,7 @@ export default (
     this.$el.dispatchEvent(new CustomEvent('select', {detail: {type: this.type, date: this.model}}));
 
     if (multiple) {
-      this.input = this.model
-          .map((date) => this.formatted(date))
-          .join(', ');
+      this.input = this.model.map((date) => this.formatted(date)).join(', ');
 
       return;
     }
@@ -171,15 +174,28 @@ export default (
       return;
     }
 
-    this.input = start;
-    this.picker.common = false;
+    this.show = false;
+
+    const action = {
+      true: () => {
+        this.model = this.formatted(this.date.start, 'YYYY-MM');
+        this.input = this.formatted(this.date.start, 'MMMM YYYY');
+        this.resetPicker({month: true});
+      },
+      false: () => {
+        this.input = start;
+        this.resetPicker();
+      }
+    };
+
+    action[this.monthYearOnly]();
   },
   /**
    * Select the date.
    *
-   * @param event
-   * @param day
-   * @return {*|string}
+   * @param {Event} event
+   * @param {String} day
+   * @return {*}
    */
   select(event, day) {
     event.preventDefault();
@@ -203,10 +219,11 @@ export default (
       const condition = this.date.start && !this.date.end && date > this.date.start;
 
       this.date.end = condition ? date : null;
+
       if (!condition) this.date.start = date;
 
       this.model = [];
-      this.picker.common = this.date.start !== null && this.date.end === null;
+      this.show = this.date.start !== null && this.date.end === null;
 
       return this.sync();
     }
@@ -266,11 +283,11 @@ export default (
     this.date.end = null;
     this.model = this.type !== 'single' ? [current] : current;
 
+    this.show = false;
+
     this.reset();
     this.input = date.format(this.format);
     this.map();
-
-    this.picker.common = false;
   },
   /**
    * Checks if the given day is selected.
@@ -286,7 +303,7 @@ export default (
   /**
    * Checks if the given date is between the range date.
    *
-   * @param {string} date
+   * @param {String} date
    * @returns boolean
    */
   between(date) {
@@ -302,7 +319,7 @@ export default (
   /**
    * Checks if the date is today
    *
-   * @param date
+   * @param {String} date
    * @return {Boolean}
    */
   today(date) {
@@ -310,12 +327,13 @@ export default (
   },
   /**
    * Set the calendar to today's date.
+   *
+   * @return {void}
    */
   now() {
     this.reset();
     this.map();
-    this.picker.year = false;
-    this.picker.month = false;
+    this.resetPicker();
   },
   /**
    * Checks if the date is disabled
@@ -363,8 +381,9 @@ export default (
   /**
    * Select the month.
    *
-   * @param event
-   * @param month
+   * @param {Event} event
+   * @param {String} month
+   * @return {void}
    */
   selectMonth(event, month) {
     event.preventDefault();
@@ -372,6 +391,11 @@ export default (
 
     this.month = month;
     this.picker.month = false;
+
+    if (this.monthYearOnly) {
+      this.picker.year = true;
+      this.range.year.start = (this.year - 11)
+    }
 
     this.map();
   },
@@ -407,7 +431,7 @@ export default (
    * Select the year.
    *
    * @param {Event} event
-   * @param year
+   * @param {String} year
    * @return {void}
    */
   selectYear(event, year) {
@@ -415,8 +439,15 @@ export default (
     event.stopPropagation();
 
     this.year = year;
-    this.picker.year = false;
 
+    if (this.monthYearOnly) {
+      this.date.start = dayjs(`${this.year}-${this.month + 1}`).$d;
+      this.model = this.date.start;
+
+      return this.sync();
+    }
+
+    this.resetPicker();
     this.map();
   },
   /**
@@ -467,6 +498,19 @@ export default (
     this.day = date.date();
     this.month = date.month();
     this.year = date.year();
+  },
+  /**
+   * Reset the picker properties.
+   *
+   * @param {Object} picker
+   * @return {void}
+   */
+  resetPicker(picker = {}) {
+    this.picker = {
+      common: picker?.common ?? false,
+      year: picker?.year ?? false,
+      month: picker?.month ?? false,
+    };
   },
   /**
    * Format the date.

@@ -7,6 +7,7 @@ use TallStackUi\View\Components\Alert;
 use TallStackUi\View\Components\Avatar;
 use TallStackUi\View\Components\Badge;
 use TallStackUi\View\Components\Banner;
+use TallStackUi\View\Components\Boolean;
 use TallStackUi\View\Components\Button\Button;
 use TallStackUi\View\Components\Button\Circle;
 use TallStackUi\View\Components\Errors;
@@ -38,6 +39,7 @@ class ResolveColor
             $component instanceof Avatar => AvatarColors::class,
             $component instanceof Badge => BadgeColors::class,
             $component instanceof Banner => BannerColors::class,
+            $component instanceof Boolean => BooleanColors::class,
             $component instanceof Dialog => DialogColors::class,
             $component instanceof Errors => ErrorsColors::class,
             $component instanceof Link => LinkColors::class,
