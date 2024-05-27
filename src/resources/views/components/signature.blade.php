@@ -4,8 +4,7 @@
 @endphp
 
 <x-dynamic-component :component="TallStackUi::component('wrapper.input')" :$id :$property :$error :$label :$hint :$invalidate>
-    <div x-data="tallstackui_signature({!! $entangle !!}, @js($color), @js($background), @js($line), @js($height))"
-         @class($personalize['wrapper.first'])>
+    <div x-data="tallstackui_signature({!! $entangle !!}, @js($color), @js($background), @js($line), @js($height))" @class($personalize['wrapper.first']) x-cloak>
         <input type="hidden" x-model="model" {!! $attributes->except('x-on:export') !!}>
         <div @class($personalize['wrapper.second'])>
             <div @class($personalize['wrapper.button'])>

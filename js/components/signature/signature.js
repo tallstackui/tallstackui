@@ -25,7 +25,7 @@ export default (
     this.ctx.lineCap = 'round';
     this.ctx.lineJoin = 'round';
 
-    setTimeout(() => { this.updateCanvasSize(); this.clear(); }, 100);
+    this.$nextTick(() => this.updateCanvasSize(true));
     
     window.addEventListener('resize', this.updateCanvasSize.bind(this));
   },
@@ -181,12 +181,11 @@ export default (
   /**
    * Updates the size of the canvas
    */
-  updateCanvasSize() {
-    const container = this.$refs.canvas.parentElement;
-    const containerWidth = container.clientWidth;
-
-    this.canvas.width = containerWidth;
+  updateCanvasSize(clear = false) {
+    this.canvas.width = this.$refs.canvas.parentElement.clientWidth;
     this.canvas.height = this.height;
+
+    if (!clear) return;
 
     this.clear();
   },
