@@ -458,6 +458,8 @@ export default (
    * @return {void}
    */
   navigate(event) {
+    if (!this.show && event.key === 'Tab') return;
+
     if (event.key !== 'ArrowUp' && event.key !== 'ArrowDown' && event.key !== 'Tab') return;
 
     event.preventDefault();
