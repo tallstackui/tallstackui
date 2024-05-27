@@ -4,7 +4,7 @@
 @endphp
 
 <x-dynamic-component :component="TallStackUi::component('wrapper.input')" :$id :$property :$error :$label :$hint :$invalidate>
-    <div x-data="tallstackui_signature({!! $entangle !!}, @js($color), @js($background), @js($line), @js($height))" @class($personalize['wrapper.first']) x-cloak>
+    <div x-data="tallstackui_signature({!! $entangle !!}, @js($color), @js($background), @js($line), @js($height), @js($extension))" @class($personalize['wrapper.first']) x-cloak>
         <input type="hidden" x-model="model" {!! $attributes->except('x-on:export') !!}>
         <div @class($personalize['wrapper.second'])>
             <div @class($personalize['wrapper.button'])>
@@ -35,7 +35,7 @@
                 wire:ignore
                 @class($personalize['canvas'])
                 :height="height"
-                style="cursor: crosshair; max-height: {{ $height }}"
+                style="cursor: crosshair; max-height: {{ $height }}px"
                 x-on:mousedown="startDrawing"
                 x-on:mousemove="draw"
                 x-on:mouseup="stopDrawing"

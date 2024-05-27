@@ -4,6 +4,7 @@ export default (
   background,
   line, 
   height,
+  extension,
 ) => ({
   model: model,
   canvas: null,
@@ -17,6 +18,7 @@ export default (
   background: background,
   line: line,
   height: height,
+  extension: extension,
   init() {
     this.canvas = this.$refs.canvas;
 
@@ -155,12 +157,18 @@ export default (
    * Exports the image
    */
   exportImage() {
-    const dataUrl = this.canvas.toDataURL();
+    let dataUrl;
+
+    if (extension === 'jpeg' || extension === 'jpg') {
+        dataUrl = this.canvas.toDataURL('image/jpeg');
+    } else {
+        dataUrl = this.canvas.toDataURL('image/png');
+    }
 
     const link = document.createElement('a');
 
     link.href = dataUrl;
-    link.download = 'signature.png';
+    link.download = `signature.${extension}`;
 
     document.body.appendChild(link);
 
@@ -174,6 +182,10 @@ export default (
    * Updates the background color of the canvas
    */
   updateBackgroundColor() {
+    if (this.extension === 'jpg' || this.extension === 'jpeg' && this.background === 'transparent') {
+      this.background = '#FFFFFF';
+    }
+
     this.ctx.fillStyle = this.background;
 
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
