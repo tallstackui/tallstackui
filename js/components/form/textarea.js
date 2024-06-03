@@ -1,6 +1,6 @@
 export default (color) => ({
   init() {
-    setTimeout(() => this.resize(), 100);
+    this.$nextTick(() => this.resize());
   },
   counter() {
     const max = this.$refs.textarea.maxLength;
@@ -36,11 +36,11 @@ export default (color) => ({
     this.$refs.counter.innerText = length;
   },
   resize() {
-    if (!this.$el.value) {
-      return;
-    }
+    const textarea = this.$refs.textarea;
 
-    this.$el.style.height = '0px';
-    this.$el.style.height = this.$el.scrollHeight + 'px';
+    if (!textarea) return;
+
+    textarea.style.height = '0px';
+    textarea.style.height = `${textarea.scrollHeight}px`;
   },
 });
