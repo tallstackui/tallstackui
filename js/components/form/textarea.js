@@ -41,6 +41,6 @@ export default (color) => ({
     if (!textarea) return;
 
     textarea.style.height = '0px';
-    textarea.style.height = `${this.$refs.textarea.scrollHeight}px`;
+    textarea.style.height = `${textarea.scrollHeight}px`;
   },
 });
