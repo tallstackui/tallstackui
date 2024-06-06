@@ -4,6 +4,7 @@ namespace TallStackUi\View\Components\Form;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
+use InvalidArgumentException;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\View\Components\BaseComponent;
@@ -40,5 +41,13 @@ class Textarea extends BaseComponent implements Personalization
                 'max' => 'font-semibold text-red-500 dark:text-red-500',
             ],
         ]);
+    }
+
+    /** @throws InvalidArgumentException */
+    protected function validate(): void
+    {
+        if ($this->attributes->has('rows') && $this->resizeAuto) {
+            throw new InvalidArgumentException('The textarea cannot be used with [rows] and [resize-auto] at the same time because the rows will have no effect since resizing is automatic.');
+        }
     }
 }
