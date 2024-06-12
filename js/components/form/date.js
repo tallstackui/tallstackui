@@ -288,6 +288,8 @@ export default (
     this.reset();
     this.input = date.format(this.format);
     this.map();
+
+    wireChange(change, this.model);
   },
   /**
    * Checks if the given day is selected.
