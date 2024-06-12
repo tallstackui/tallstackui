@@ -7,12 +7,13 @@ use Illuminate\View\ComponentAttributeBag;
 use Livewire\Component;
 use Livewire\WireDirective;
 
-trait LivewireChangeEvent
+trait WireChangeEvent
 {
-    // As the select.styled component is not an input, the only way to adapt the
-    // wire:change event was to create this structure, where we share information
-    // about the current livewire component and the method to be triggered in wire:change,
-    // so that this is consumed by the javascript associated with the component.
+    // As some components are not normal input, the only way to adapt the
+    // wire:change event was to create this structure, where we share
+    // information about the current livewire component and the method
+    // to be triggered in wire:change, so that this is consumed by the
+    // javascript associated with the component.
     /** @throws Exception */
     public function change(ComponentAttributeBag $attributes, ?Component $component = null, bool $livewire = true): ?array
     {
@@ -27,9 +28,6 @@ trait LivewireChangeEvent
             return null;
         }
 
-        return [
-            'id' => $component->getId(),
-            'method' => $method,
-        ];
+        return ['id' => $component->getId(), 'method' => $method];
     }
 }

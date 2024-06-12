@@ -56,6 +56,11 @@
             "./vendor/bin/pest --filter=Feature --parallel --stop-on-failure",
             "./vendor/bin/testbench optimize:clear",
             "CI=true ./vendor/bin/pest --filter=Browser"
+        ],
+        "ci:analyse": [
+            "./vendor/bin/pint --test",
+            "./vendor/bin/phpstan analyse --memory-limit=2G",
+            "php ./vendor/bin/rector process --dry-run --config=rector.php"
         ]
     },
     "config": {

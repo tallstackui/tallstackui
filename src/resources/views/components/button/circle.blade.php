@@ -3,11 +3,11 @@
     $personalize = $classes();
 @endphp
 
-<{{ $tag }} @if ($href) href="{{ $href }}" @else role="button" @endif {{ $attributes->class([
+<{{ $tag }} @if ($href) href="{{ $href }}" @else role="button" @endif {{ $attributes->except('type')->class([
         $personalize['wrapper.base'],
         $personalize['wrapper.sizes.' . $size],
         $colors['background']
-    ]) }} @if ($livewire && $loading) wire:loading.attr="disabled" wire:loading.class="!cursor-wait" @endif>
+    ]) }} type="{{ $attributes->get('type', 'button') }}" @if ($livewire && $loading) wire:loading.attr="disabled" wire:loading.class="!cursor-wait" @endif>
 @if ($icon)
     <x-dynamic-component :component="TallStackUi::component('icon')"
                          :$icon
