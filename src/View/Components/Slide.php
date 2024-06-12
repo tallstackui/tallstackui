@@ -17,7 +17,7 @@ class Slide extends BaseComponent implements Personalization
         public string|bool|null $wire = null,
         public ?string $title = null,
         public ?string $footer = null,
-        public ?bool $blur = null,
+        public bool|string|null $blur = null,
         public ?bool $left = null,
         public ?bool $persistent = null,
         public ?string $size = null,
@@ -40,6 +40,12 @@ class Slide extends BaseComponent implements Personalization
                 'third' => 'absolute inset-0 overflow-hidden',
                 'fourth' => 'pointer-events-none fixed inset-y-0 flex max-w-full',
                 'fifth' => 'flex h-full flex-col overflow-y-auto bg-white py-6 shadow-xl soft-scrollbar dark:bg-dark-700',
+            ],
+            'blur' => [
+                'sm' => 'backdrop-blur-sm',
+                'md' => 'backdrop-blur-md',
+                'lg' => 'backdrop-blur-lg',
+                'xl' => 'backdrop-blur-xl',
             ],
             'title' => [
                 'text' => 'whitespace-normal font-medium text-md text-secondary-600 dark:text-dark-300',
