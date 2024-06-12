@@ -309,6 +309,80 @@ class DateTest extends BrowserTestCase
     }
 
     /** @test */
+    public function can_react_to_wire_change(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public bool $changed = false;
+
+            public ?string $date = '2020-01-01';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    @if ($changed)
+                        <p dusk="changed">Changed</p>
+                    @endif
+                
+                    <p dusk="date">{{ $date }}</p>
+
+                    <x-date label="DatePicker" wire:change="change" />
+                </div>
+                HTML;
+            }
+
+            public function change(): void
+            {
+                $this->changed = true;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->click('@tallstackui_date_open_close')
+            ->waitForText(now()->monthName)
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div[3]/div[18]/button')
+            ->waitForTextIn('@changed', 'Changed');
+    }
+
+    /** @test */
+    public function can_react_to_wire_change_through_helpers(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public bool $changed = false;
+
+            public ?string $date = '2020-01-01';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    @if ($changed)
+                        <p dusk="changed">Changed</p>
+                    @endif
+
+                    <p dusk="date">{{ $date }}</p>
+
+                    <x-date label="DatePicker"
+                            helpers
+                            wire:change="change" />
+                </div>
+                HTML;
+            }
+
+            public function change(): void
+            {
+                $this->changed = true;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->click('@tallstackui_date_open_close')
+            ->waitForText('Yesterday')
+            ->click('@tallstackui_date_helper_today')
+            ->waitForTextIn('@changed', 'Changed');
+    }
+
+    /** @test */
     public function can_reset_calendar_when_reopen(): void
     {
         Livewire::visit(new class extends Component

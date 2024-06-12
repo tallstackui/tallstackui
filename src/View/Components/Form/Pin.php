@@ -8,13 +8,13 @@ use InvalidArgumentException;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\Foundation\Traits\LivewireChangeEvent;
+use TallStackUi\Foundation\Traits\WireChangeEvent;
 use TallStackUi\View\Components\BaseComponent;
 
 #[SoftPersonalization('form.pin')]
 class Pin extends BaseComponent implements Personalization
 {
-    use LivewireChangeEvent;
+    use WireChangeEvent;
 
     public function __construct(
         public ?string $label = null,
