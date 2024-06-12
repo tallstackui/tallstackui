@@ -17,7 +17,7 @@ class Modal extends BaseComponent implements Personalization
         public string|bool|null $wire = null,
         public ?string $title = null,
         public ?string $footer = null,
-        public ?bool $blur = null,
+        public bool|string|null $blur = null,
         public ?bool $persistent = null,
         public ?string $size = null,
         public ?string $entangle = 'modal',
@@ -44,7 +44,12 @@ class Modal extends BaseComponent implements Personalization
                 'top' => 'items-end sm:items-start',
                 'center' => 'items-end sm:items-center',
             ],
-            'blur' => 'backdrop-blur-sm',
+            'blur' => [
+                'sm' => 'backdrop-blur-sm',
+                'md' => 'backdrop-blur-md',
+                'lg' => 'backdrop-blur-lg',
+                'xl' => 'backdrop-blur-xl',
+            ],
             'title' => [
                 'wrapper' => 'dark:border-b-dark-600 flex items-center justify-between border-b border-b-gray-100 px-4 py-2.5',
                 'text' => 'text-md text-secondary-600 dark:text-dark-300 whitespace-normal font-medium',
