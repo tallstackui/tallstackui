@@ -3,20 +3,27 @@
 namespace TallStackUi\Foundation\Personalization;
 
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\App;
 
 class BuildScopePersonalization
 {
     public function __construct(
         private array $classes,
-        private readonly ?array $attributes = null,
+        private readonly array|string|null $attributes = null,
         private ?Collection $collection = null,
     ) {
-        $this->collection = collect($this->attributes);
+        if (is_array($this->attributes)) {
+            $this->collection = collect($this->attributes);
+        } elseif (is_string($this->attributes)) {
+            $this->collection = collect(App::call($this->attributes, ['classes' => $this->classes]));
+        } else {
+            $this->collection = collect();
+        }
     }
 
     public function __invoke(): array
     {
-        if ($this->attributes) {
+        if ($this->collection->isNotEmpty()) {
             $this->common();
             $this->replace();
             $this->remove();
@@ -39,7 +46,7 @@ class BuildScopePersonalization
             }
 
             $this->classes[$key] = $this->classes[$key].' '.$value['append'];
-            $this->classes[$key] = str($this->classes[$key])->squish()->trim()->value();
+            $this->classes[$key] = $this->sanitize($this->classes[$key]);
         }
     }
 
@@ -53,7 +60,7 @@ class BuildScopePersonalization
             }
 
             $this->classes[$key] = $value;
-            $this->classes[$key] = str($this->classes[$key])->squish()->trim()->value();
+            $this->classes[$key] = $this->sanitize($this->classes[$key]);
         }
     }
 
@@ -67,7 +74,7 @@ class BuildScopePersonalization
             }
 
             $this->classes[$key] = $value['prepend'].' '.$this->classes[$key];
-            $this->classes[$key] = str($this->classes[$key])->squish()->trim()->value();
+            $this->classes[$key] = $this->sanitize($this->classes[$key]);
         }
     }
 
@@ -81,7 +88,7 @@ class BuildScopePersonalization
             }
 
             $this->classes[$key] = str_replace($value['remove'], '', (string) $this->classes[$key]);
-            $this->classes[$key] = str($this->classes[$key])->squish()->trim()->value();
+            $this->classes[$key] = $this->sanitize($this->classes[$key]);
         }
     }
 
@@ -96,5 +103,10 @@ class BuildScopePersonalization
 
             $this->classes[$key] = str_replace(array_keys($value['replace']), array_values($value['replace']), (string) $this->classes[$key]);
         }
+    }
+
+    private function sanitize(string $string): string
+    {
+        return str($string)->squish()->trim()->value();
     }
 }
