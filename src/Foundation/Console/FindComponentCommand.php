@@ -33,7 +33,7 @@ class FindComponentCommand extends Command
             ->keys()
             ->filter(fn ($component) => ! in_array($component, self::IGNORES));
 
-        $original = suggest('Select Component', $components->values()->toArray(), scroll: 10);
+        $original = suggest('Select Component', $components->values()->toArray());
 
         $process = new Process(['grep', '-rn', $this->prefix($original), resource_path('views')]);
 
