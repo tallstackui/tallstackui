@@ -40,7 +40,7 @@ class FindComponentCommand extends Command
         try {
             $process->mustRun();
 
-            $this->format($process->getOutput(), $original);
+            $this->output($process->getOutput(), $original);
 
             return self::SUCCESS;
         } catch (ProcessFailedException) {
@@ -52,7 +52,7 @@ class FindComponentCommand extends Command
         return self::FAILURE;
     }
 
-    private function format(string $output, string $component): void
+    private function output(string $output, string $component): void
     {
         if (blank($output)) {
             return;
