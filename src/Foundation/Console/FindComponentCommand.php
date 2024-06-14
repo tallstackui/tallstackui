@@ -7,7 +7,7 @@ use Illuminate\Console\Command;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
-use function Laravel\Prompts\select;
+use function Laravel\Prompts\suggest;
 
 class FindComponentCommand extends Command
 {
@@ -33,7 +33,7 @@ class FindComponentCommand extends Command
             ->keys()
             ->filter(fn ($component) => ! in_array($component, self::IGNORES));
 
-        $component = select('Select a component to find', $components->values()->toArray(), scroll: 10);
+        $component = suggest('Select a component to find', $components->values()->toArray(), scroll: 10);
         $component = $this->prefix($component);
 
         $process = new Process(['grep', '-rn', $component, resource_path('views')]);
@@ -61,16 +61,19 @@ class FindComponentCommand extends Command
             return;
         }
 
-        $lines = collect(explode(PHP_EOL, $output))->filter();
-        $total = count($lines);
+        $lines = collect(explode(PHP_EOL, $output))
+            ->filter()
+            ->filter(fn ($line) => ! str_contains($line, '</'));
 
-        $this->components->info('🎉 Found '.count($lines).' occurrences.');
+        $total = $lines->count();
 
-        foreach ($lines as $key => $line) {
+        $this->components->info('🎉 Found '.$total.' occurrences.');
+
+        $lines->each(function (string $line, int $key) use ($total) {
             preg_match('/^(.*?):(\d+):(.*)$/', $line, $matches);
 
             if (blank($line) || count($matches) !== 4) {
-                continue;
+                return false;
             }
 
             $path = str($matches[1])->afterLast(base_path().'/')->value();
@@ -86,7 +89,7 @@ class FindComponentCommand extends Command
             } else {
                 $this->newLine();
             }
-        }
+        });
     }
 
     private function prefix(string $component, bool $remove = false): string
