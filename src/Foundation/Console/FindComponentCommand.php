@@ -33,21 +33,18 @@ class FindComponentCommand extends Command
             ->keys()
             ->filter(fn ($component) => ! in_array($component, self::IGNORES));
 
-        $component = suggest('Select a component to find', $components->values()->toArray(), scroll: 10);
-        $component = $this->prefix($component);
+        $original = suggest('Select Component', $components->values()->toArray(), scroll: 10);
 
-        $process = new Process(['grep', '-rn', $component, resource_path('views')]);
+        $process = new Process(['grep', '-rn', $this->prefix($original), resource_path('views')]);
 
         try {
             $process->mustRun();
 
-            $this->format($process->getOutput());
+            $this->format($process->getOutput(), $original);
 
             return self::SUCCESS;
         } catch (ProcessFailedException) {
-            $component = $this->prefix($component, true);
-
-            $this->components->error('The component ['.$component.'] was not found in use.');
+            $this->components->error('The component ['.$original.'] was not found in use.');
         } catch (Exception $exception) {
             $this->components->error('Unexpected Error Occurred: '.$exception->getMessage());
         }
@@ -55,19 +52,22 @@ class FindComponentCommand extends Command
         return self::FAILURE;
     }
 
-    private function format(string $output): void
+    private function format(string $output, string $component): void
     {
-        if (empty($output)) {
+        if (blank($output)) {
             return;
         }
 
         $lines = collect(explode(PHP_EOL, $output))
             ->filter()
+            // We need to ignore lines that contain </ because
+            // they are closing tags and not the actual component,
+            // like examples of </x-modal> and </x-slide>
             ->filter(fn ($line) => ! str_contains($line, '</'));
 
         $total = $lines->count();
 
-        $this->components->info('🎉 Found '.$total.' occurrences.');
+        $this->components->info('🎉 Found '.$total.' usage occurrences of the ['.$component.'] component.');
 
         $lines->each(function (string $line, int $key) use ($total) {
             preg_match('/^(.*?):(\d+):(.*)$/', $line, $matches);
@@ -92,15 +92,12 @@ class FindComponentCommand extends Command
         });
     }
 
-    private function prefix(string $component, bool $remove = false): string
+    private function prefix(string $component): string
     {
         if (! ($prefix = config('tallstackui.prefix'))) {
             return $component;
         }
 
-        return match ($remove) {
-            true => str($component)->after($prefix)->value(),
-            default => $prefix.$component,
-        };
+        return $prefix.$component;
     }
 }
