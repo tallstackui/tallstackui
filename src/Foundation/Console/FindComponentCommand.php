@@ -35,8 +35,16 @@ class FindComponentCommand extends Command
             ->filter(fn ($component) => ! in_array($component, self::IGNORES));
 
         $original = suggest('Select Component', $components->values()->toArray(), required: true);
+        $prefix = config('tallstackui.prefix');
 
-        $process = new Process(['grep', '-rn', $this->prefix($original), resource_path('views')]);
+        $process = new Process([
+            'grep',
+            '-rn',
+            // When prefix is set, we need to search
+            // for the component with the prefix
+            $prefix ? $prefix.$original : $original,
+            resource_path('views'),
+        ]);
 
         try {
             $process->mustRun();
@@ -61,9 +69,7 @@ class FindComponentCommand extends Command
 
         $rows = [];
 
-        if (($prefix = config('tallstackui.prefix'))) {
-            $this->components->info('🔍 Searching for ['.$component.'] component with prefix ['.$prefix.']');
-        }
+        $this->components->info('🔍 Searching for ['.$component.'] component...');
 
         $lines = collect(explode(PHP_EOL, $output))
             ->filter()
@@ -74,7 +80,7 @@ class FindComponentCommand extends Command
 
         $total = $lines->count();
 
-        $this->components->info('🎉 '.$total.' occurrences found.');
+        $this->components->info('🎉 '.$total.' occurrences found');
 
         $lines->each(function (string $line) use (&$rows) {
             preg_match('/^(.*?):(\d+):(.*)$/', $line, $matches);
@@ -90,14 +96,5 @@ class FindComponentCommand extends Command
         });
 
         table(['File', 'Line'], $rows);
-    }
-
-    private function prefix(string $component): string
-    {
-        if (! ($prefix = config('tallstackui.prefix'))) {
-            return $component;
-        }
-
-        return $prefix.$component;
     }
 }
