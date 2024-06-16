@@ -36,13 +36,12 @@ class FindComponentCommand extends Command
 
         $original = suggest('Select Component', $components->values()->toArray(), required: true);
         $prefix = config('tallstackui.prefix');
+        $find = sprintf('<x-%s', $prefix ? $prefix.$original : $original);
 
         $process = new Process([
             'grep',
             '-rn',
-            // When prefix is set, we need to search
-            // for the component with the prefix
-            $prefix ? $prefix.$original : $original,
+            $find,
             resource_path('views'),
         ]);
 
@@ -72,11 +71,12 @@ class FindComponentCommand extends Command
         $this->components->info('🔍 Searching for ['.$component.'] component...');
 
         $lines = collect(explode(PHP_EOL, $output))
+            // We need to keep this here to remove possible empty lines
             ->filter()
-            // We need to ignore lines that contain </ because
-            // they are closing tags and not the actual component,
-            // like examples of </x-modal> and </x-slide>
-            ->filter(fn ($line) => ! str_contains($line, '</'));
+            // After that, need to ignore lines that contain
+            // </x- because they are closing tags and not the
+            // actual component, like examples of </x-modal> and </x-slide>
+            ->filter(fn ($line) => ! str_contains($line, '</x-'));
 
         $total = $lines->count();
 
