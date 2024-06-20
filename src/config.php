@@ -99,7 +99,7 @@ return [
         | Dialog
         |----------------------------------------------------------------------
         | z-index: controls the default z-index.
-        | overflow: enables the overflow effect by default.
+        | overflow: avoids hiding the overflow, allowing you to scroll the page when the dialog is open.
         | blur: enables the background blur effect by default.
         | persistent: enables the dialog to not be closed by clicking outside by default.
         */
