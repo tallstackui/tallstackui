@@ -99,11 +99,13 @@ return [
         | Dialog
         |----------------------------------------------------------------------
         | z-index: controls the default z-index.
+        | overflow: enables the overflow effect by default.
         | blur: enables the background blur effect by default.
         | persistent: enables the dialog to not be closed by clicking outside by default.
         */
         'dialog' => [
             'z-index' => 'z-50',
+            'overflow' => false,
             'blur' => false,
             'persistent' => false,
         ],

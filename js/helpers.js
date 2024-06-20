@@ -24,10 +24,10 @@ export const event = (name, params = null, prefix = true) => {
 /**
  * @param status {Boolean}
  * @param component {String|Null}
- * @param overflow {Boolean}
+ * @param control {Boolean}
  */
-export const overflow = (status, component = null, overflow = true) => {
-  if (overflow) return;
+export const overflow = (status, component = null, control = false) => {
+  if (control) return;
 
   // The strategy here was adopted to prevent the loading component
   // from removing overflow when used in conjunction with other
