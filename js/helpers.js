@@ -24,8 +24,13 @@ export const event = (name, params = null, prefix = true) => {
 /**
  * @param status {Boolean}
  * @param component {String|Null}
+ * @param skip {Boolean}
  */
-export const overflow = (status, component = null) => {
+export const overflow = (status, component = null, skip = false) => {
+  // When true, then we need to preserve the
+  // overflow avoiding to hiding the scrollbar.
+  if (skip) return;
+
   // The strategy here was adopted to prevent the loading component
   // from removing overflow when used in conjunction with other
   // components that handle overflow: modal, slide, dialogs.
