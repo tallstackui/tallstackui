@@ -22,6 +22,7 @@ class Modal extends BaseComponent implements Personalization
         public ?string $size = null,
         public ?string $entangle = 'modal',
         public ?bool $center = null,
+        public ?bool $overflow = false,
     ) {
         $this->entangle = is_string($this->wire) ? $this->wire : (is_bool($this->wire) ? 'modal' : $this->entangle);
     }

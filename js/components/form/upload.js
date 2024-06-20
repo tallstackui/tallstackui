@@ -1,6 +1,15 @@
 import {overflow} from '../../helpers';
 
-export default (id, property, multiple, error, staticMode, placeholder, placeholders) => ({
+export default (
+    id,
+    property,
+    multiple,
+    error,
+    staticMode,
+    placeholder,
+    placeholders,
+    overflowing
+) => ({
   show: false,
   uploading: false,
   error: false,
@@ -17,7 +26,7 @@ export default (id, property, multiple, error, staticMode, placeholder, placehol
   init() {
     this.component = Livewire.find(id).__instance;
     this.$watch('uploading', () => this.text());
-    this.$watch('preview', (value) => overflow(value, 'upload'));
+    this.$watch('preview', (value) => overflow(value, 'upload', overflowing));
   },
   /**
    * Toggle the file upload modal.

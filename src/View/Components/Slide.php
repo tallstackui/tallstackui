@@ -22,6 +22,7 @@ class Slide extends BaseComponent implements Personalization
         public ?bool $persistent = null,
         public ?string $size = null,
         public string $entangle = 'slide',
+        public ?bool $overflow = false,
     ) {
         $this->entangle = is_string($this->wire) ? $this->wire : (is_bool($this->wire) ? 'slide' : $this->entangle);
     }
