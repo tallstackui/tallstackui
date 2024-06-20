@@ -27,6 +27,8 @@ export const event = (name, params = null, prefix = true) => {
  * @param control {Boolean}
  */
 export const overflow = (status, component = null, control = false) => {
+  // When true, then we need to preserve the
+  // overflow avoiding to hiding the scrollbar.
   if (control) return;
 
   // The strategy here was adopted to prevent the loading component
