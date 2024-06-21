@@ -53,7 +53,7 @@
                                             class="inline-flex cursor-pointer truncate"
                                             wire:click="$set('sort', {column: '{{ $head($header)['column'] }}', direction: '{{ $head($header)['direction'] }}' })"
                                         @endif>
-                                        @if (strip_tags($header['label']) !== $header['label'])
+                                        @if ($header['unescaped'] ?? false)
                                             {!! $header['label'] ?? '' !!}
                                         @else
                                             {{ $header['label'] ?? '' }}
