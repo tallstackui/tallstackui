@@ -53,7 +53,11 @@
                                             class="inline-flex cursor-pointer truncate"
                                             wire:click="$set('sort', {column: '{{ $head($header)['column'] }}', direction: '{{ $head($header)['direction'] }}' })"
                                         @endif>
-                                        {{ $header['label'] ?? '' }}
+                                        @if ($header['unescaped'] ?? false)
+                                            {!! $header['label'] ?? '' !!}
+                                        @else
+                                            {{ $header['label'] ?? '' }}
+                                        @endif
                                         @if ($livewire && $sortable($header) && $sorted($header))
                                             <x-dynamic-component :component="TallStackUi::component('icon')"
                                                                 :icon="TallStackUi::icon($head($header)['direction'] === 'desc' ? 'chevron-up' : 'chevron-down')"
