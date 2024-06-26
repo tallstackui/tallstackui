@@ -4,7 +4,7 @@
 @endphp
 
 <div x-cloak
-     x-data="tallstackui_dialog(@js($flash), @js(__('tallstack-ui::messages.dialog.button')), @js($configurations['overflow']))"
+     x-data="tallstackui_dialog(@js($flash), @js(__('tallstack-ui::messages.dialog.button')), @js($configurations['overflow'] ?? false))"
      x-on:tallstackui:dialog.window="add($event.detail)"
      @class(['relative', $configurations['z-index']])
      aria-labelledby="modal-title"
