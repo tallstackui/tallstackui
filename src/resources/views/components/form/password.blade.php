@@ -14,8 +14,8 @@
                           ::type="!show ? 'password' : 'text'"
                           floatable
                           autocomplete="{{ $attributes->get('autocomplete', 'off') }}"
-                          x-on:keydown="indicator()"
-                          x-on:keyup="indicator()">
+                          x-on:keydown="indicator($event)"
+                          x-on:keyup="indicator($event)">
          <x-slot:suffix>
              <div @class([$personalize['icon.wrapper'], 'justify-between gap-2']) x-cloak>
                  @if (!$mixedCase)

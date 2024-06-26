@@ -104,7 +104,7 @@ export default (model, rules) => ({
   /**
    * Activate the caps lock indicator.
    *
-   * @param event
+   * @param {Event} event
    */
   indicator(event) {
     // This was necessary to prevent the "$event.getModifierState is not a function." error.
