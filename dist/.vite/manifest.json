@@ -1,6 +1,6 @@
 {
   "js/tallstackui.js": {
-    "file": "tallstackui-18HKGvZ6.js",
+    "file": "tallstackui-3hmx95B6.js",
     "name": "tallstackui",
     "src": "js/tallstackui.js",
     "isEntry": true,
@@ -9,7 +9,7 @@
     ]
   },
   "src/resources/css/tallstackui.css": {
-    "file": "tallstackui-BwwVQT6l.css",
+    "file": "tallstackui-DCQmq1HL.css",
     "src": "src/resources/css/tallstackui.css",
     "isEntry": true
   }

@@ -42,6 +42,8 @@ export default (model, rules) => ({
     this.results = {min: false, symbols: false, numbers: false, mixed: false};
   },
   /**
+   * Check if the password meets the requirements.
+   *
    * @param value {String}
    */
   check(value) {
@@ -57,6 +59,8 @@ export default (model, rules) => ({
     this.results.mixed = this.mixed && value.match(/[a-z]/) && value.match(/[A-Z]/);
   },
   /**
+   * Generate a random password based on the rules.
+   *
    * @returns {void}
    */
   generator() {
@@ -97,4 +101,15 @@ export default (model, rules) => ({
 
     setTimeout(() => this.$refs.generator.classList.remove('animate-spin'), 250);
   },
+  /**
+   * Activate the caps lock indicator.
+   *
+   * @param event
+   */
+  indicator(event) {
+    // This was necessary to prevent the "$event.getModifierState is not a function." error.
+    if (typeof event.getModifierState !== 'function') return;
+
+    this.caps = event.getModifierState('CapsLock');
+  }
 });
