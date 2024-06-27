@@ -3,6 +3,7 @@
 namespace TallStackUi\Foundation;
 
 use Exception;
+use Illuminate\Support\Collection;
 use TallStackUi\View\Components\Interaction\Dialog;
 use TallStackUi\View\Components\Interaction\Toast;
 use TallStackUi\View\Components\Loading;
@@ -34,9 +35,7 @@ class ResolveConfiguration
         }
 
         if (is_string($data)) {
-            $configuration = config('tallstackui.settings.'.$data);
-
-            $data = collect($configuration)
+            $data = $class->config($data)
                 ->mapWithKeys(fn (string|bool|array $value, string $key) => [$key => $value])
                 ->toArray();
         }
@@ -44,9 +43,14 @@ class ResolveConfiguration
         return $data;
     }
 
+    private function config(string $index): Collection
+    {
+        return collect(config('tallstackui.settings.'.$index));
+    }
+
     private function loading(Loading $component): array
     {
-        $configuration = collect(config('tallstackui.settings.loading'));
+        $configuration = $this->config('loading');
 
         $component->zIndex ??= $configuration->get('z-index', 'z-50');
         $component->overflow ??= $configuration->get('overflow', false);
@@ -60,7 +64,7 @@ class ResolveConfiguration
 
     private function modal(Modal $component): array
     {
-        $configuration = collect(config('tallstackui.settings.modal'));
+        $configuration = $this->config('modal');
 
         $component->zIndex ??= $configuration->get('z-index', 'z-50');
         $component->overflow ??= $configuration->get('overflow', false);
@@ -89,14 +93,14 @@ class ResolveConfiguration
 
     private function slide(Slide $component): array
     {
-        $configuration = collect(config('tallstackui.settings.slide'));
+        $configuration = $this->config('slide');
 
         $component->zIndex ??= $configuration->get('z-index', 'z-50');
         $component->overflow ??= $configuration->get('overflow', false);
         $component->size ??= $configuration->get('size', 'lg');
         $component->blur ??= $configuration->get('blur', false);
         $component->persistent ??= $configuration->get('persistent', false);
-        $component->left ??= $configuration->get('position', 'right') === 'left'; // @phpstan-ignore-line
+        $component->left ??= $configuration->get('position', 'right') === 'left';
 
         $component->size = match ($component->size) {
             'sm' => 'sm:max-w-sm',
