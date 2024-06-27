@@ -27,7 +27,7 @@ class Upload extends BaseComponent implements Personalization
         public string $deleteMethod = 'deleteUpload',
         public string|bool|null $error = null,
         public ?ComponentSlot $footer = null,
-        public ?bool $overflow = false,
+        public ?bool $overflow = null,
     ) {
         $this->placeholder ??= __('tallstack-ui::messages.upload.placeholder');
         $this->error ??= __('tallstack-ui::messages.upload.error');
