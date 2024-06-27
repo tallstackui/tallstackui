@@ -49,11 +49,12 @@ class ResolveConfiguration
         $configuration = collect(config('tallstackui.settings.loading'));
 
         $component->zIndex ??= $configuration->get('z-index', 'z-50');
+        $component->overflow ??= $configuration->get('overflow', false);
         $component->blur ??= $configuration->get('blur', false);
         $component->opacity ??= $configuration->get('opacity', true);
 
         return collect($component)
-            ->only(['zIndex', 'blur', 'opacity'])
+            ->only(['zIndex', 'overflow', 'blur', 'opacity'])
             ->toArray();
     }
 
@@ -62,6 +63,7 @@ class ResolveConfiguration
         $configuration = collect(config('tallstackui.settings.modal'));
 
         $component->zIndex ??= $configuration->get('z-index', 'z-50');
+        $component->overflow ??= $configuration->get('overflow', false);
         $component->size ??= $configuration->get('size', '2xl');
         $component->blur ??= $configuration->get('blur', false);
         $component->persistent ??= $configuration->get('persistent', false);
@@ -81,7 +83,7 @@ class ResolveConfiguration
         };
 
         return collect($component)
-            ->only(['zIndex', 'size', 'blur', 'persistent', 'center'])
+            ->only(['zIndex', 'overflow', 'size', 'blur', 'persistent', 'center'])
             ->toArray();
     }
 
@@ -90,10 +92,11 @@ class ResolveConfiguration
         $configuration = collect(config('tallstackui.settings.slide'));
 
         $component->zIndex ??= $configuration->get('z-index', 'z-50');
+        $component->overflow ??= $configuration->get('overflow', false);
         $component->size ??= $configuration->get('size', 'lg');
         $component->blur ??= $configuration->get('blur', false);
         $component->persistent ??= $configuration->get('persistent', false);
-        $component->left ??= $configuration->get('position', 'right') === 'left';
+        $component->left ??= $configuration->get('position', 'right') === 'left'; // @phpstan-ignore-line
 
         $component->size = match ($component->size) {
             'sm' => 'sm:max-w-sm',
@@ -110,7 +113,7 @@ class ResolveConfiguration
         };
 
         return collect($component)
-            ->only(['zIndex', 'left', 'size', 'blur', 'persistent'])
+            ->only(['zIndex', 'overflow', 'left', 'size', 'blur', 'persistent'])
             ->toArray();
     }
 }
