@@ -9,9 +9,9 @@
 
 <div x-cloak
      @if ($wire)
-         x-data="tallstackui_slide(@entangle($entangle), @js($overflow))"
+         x-data="tallstackui_slide(@entangle($entangle), @js($configurations['overflow'] ?? false))"
      @else
-         x-data="tallstackui_slide(false, @js($overflow))"
+         x-data="tallstackui_slide(false, @js($configurations['overflow'] ?? false))"
      @endif
      x-show="show"
      @if (!$configurations['persistent']) x-on:keydown.escape.window="show = false;" @endif

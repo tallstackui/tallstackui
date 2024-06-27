@@ -24,7 +24,7 @@ export const event = (name, params = null, prefix = true) => {
 /**
  * @param status {Boolean}
  * @param component {String|Null}
- * @param skip {Boolean}
+ * @param skip {Boolean|Null}
  */
 export const overflow = (status, component = null, skip = false) => {
   // When true, then we need to preserve the

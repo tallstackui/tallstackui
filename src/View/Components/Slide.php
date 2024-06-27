@@ -12,17 +12,18 @@ use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 class Slide extends BaseComponent implements Personalization
 {
     public function __construct(
-        public ?string $id = 'modal',
+        public ?string $id = 'slide',
         public ?string $zIndex = null,
         public string|bool|null $wire = null,
         public ?string $title = null,
         public ?string $footer = null,
         public bool|string|null $blur = null,
-        public ?bool $left = null,
         public ?bool $persistent = null,
         public ?string $size = null,
-        public string $entangle = 'slide',
-        public ?bool $overflow = false,
+        public ?string $entangle = 'slide',
+        public ?bool $center = null,
+        public ?bool $overflow = null,
+        public ?bool $left = null,
     ) {
         $this->entangle = is_string($this->wire) ? $this->wire : (is_bool($this->wire) ? 'slide' : $this->entangle);
     }

@@ -14,9 +14,9 @@
      role="dialog"
      aria-modal="true"
      @if ($wire)
-         x-data="tallstackui_modal(@entangle($entangle), @js($overflow))"
+         x-data="tallstackui_modal(@entangle($entangle), @js($configurations['overflow'] ?? false))"
      @else
-         x-data="tallstackui_modal(false, @js($overflow))"
+         x-data="tallstackui_modal(false, @js($configurations['overflow'] ?? false))"
      @endif
      x-show="show"
      @if (!$configurations['persistent']) x-on:keydown.escape.window="show = false;" @endif
