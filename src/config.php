@@ -99,7 +99,7 @@ return [
         | Dialog
         |----------------------------------------------------------------------
         | z-index: controls the default z-index.
-        | overflow: avoids hiding the overflow, allowing scroll the page when the dialog is open.
+        | overflow: avoids hiding the overflow, allowing the scroll of the page.
         | blur: enables the background blur effect by default.
         | persistent: enables the dialog to not be closed by clicking outside by default.
         */
@@ -115,7 +115,7 @@ return [
         |----------------------------------------------------------------------
         |
         | z-index: controls the default z-index.
-        | overflow: avoids hiding the overflow, allowing scroll the page when the modal is open.
+        | overflow: avoids hiding the overflow, allowing the scroll of the page.
         | blur: enables the background blur effect by default (Allowed: false, sm, md, lg, xl).
         | persistent: enables the modal to not be closed by clicking outside by default.
         | size: controls the default modal size (Allowed: sm, md, lg, xl, 2xl, 3xl, 4xl, 5xl, 6xl, 7xl).
@@ -135,7 +135,7 @@ return [
         |----------------------------------------------------------------------
         |
         | z-index: controls the default z-index.
-        | overflow: avoids hiding the overflow, allowing scroll the page when the loading is open.
+        | overflow: avoids hiding the overflow, allowing the scroll of the page.
         | blur: enables the background blur effect by default.
         | opacity: enables the background opacity by default.
         */
@@ -151,7 +151,7 @@ return [
         |----------------------------------------------------------------------
         |
         | z-index: controls the default z-index.
-        | overflow: avoids hiding the overflow, allowing scroll the page when the slide is open.
+        | overflow: avoids hiding the overflow, allowing the scroll of the page.
         | blur: enables the background blur effect by default (Allowed: false, sm, md, lg, xl).
         | persistent: enables the slide to not be closed by clicking outside by default.
         | size: controls the default modal size (Allowed: sm, md, lg, xl, 2xl, 3xl, 4xl, 5xl, 6xl, 7xl, full).
