@@ -21,6 +21,7 @@ class Step extends BaseComponent implements Personalization
         public ?bool $helpers = false,
         public ?bool $navigate = false,
         public ?bool $navigatePrevious = false,
+        public ?bool $allowForward = true,
         public ?string $variation = null,
         #[SkipDebug]
         public ComponentSlot|string|null $finish = null,

@@ -40,6 +40,7 @@
             <div>
                 <button type="button"
                         x-show="selected < steps.length"
+                        @if(!$allowForward) disabled @endif
                         x-on:click="selected++; $refs.buttons.dispatchEvent(new CustomEvent('change', {detail: {step: selected}}));"
                         dusk="tallstackui_step_next"
                         @class($personalize['button.wrapper'])>
