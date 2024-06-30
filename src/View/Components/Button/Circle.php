@@ -34,6 +34,7 @@ class Circle extends BaseComponent implements Personalization
         public ?bool $solid = null,
         public ?bool $outline = null,
         public ?bool $light = false,
+        public ?bool $flat = false,
         #[SkipDebug]
         public ?string $style = null,
         #[SkipDebug]
