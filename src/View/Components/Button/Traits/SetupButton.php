@@ -11,8 +11,11 @@ trait SetupButton
     {
         return (match (true) {
             $this->flat => function () use ($classes) {
-                // We need to remove the border for the flat style.
-                $classes['wrapper.class'] = str_replace('border', '', $classes['wrapper.class']);
+                if (isset($classes['wrapper.class'])) {
+                    $classes['wrapper.class'] = str_replace('border', '', $classes['wrapper.class']);
+                } elseif (isset($classes['wrapper.base'])) {
+                    $classes['wrapper.base'] = str_replace('border', '', $classes['wrapper.base']);
+                }
 
                 return $classes;
             },
