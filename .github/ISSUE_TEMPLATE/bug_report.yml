@@ -23,7 +23,6 @@ body:
       description: If the issue occurs with a specific component, select it here.
       multiple: false
       options:
-        - None (Other)
         - Alert
         - Avatar
         - Badge
@@ -69,6 +68,7 @@ body:
         - Toggle
         - Tooltip
         - Reaction
+        - None (N/A)
     validations:
       required: true
   - type: textarea
