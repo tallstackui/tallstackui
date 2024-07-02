@@ -32,7 +32,16 @@ trait SetupButton
             return;
         }
 
-        $this->removable = (new ComponentAttributeBag(['wire:target' => "{$this->loading}"]))
+        $this->wireable['icon'] = (new ComponentAttributeBag(['wire:target' => "{$this->loading}"]))
+            ->when(
+                $this->loading || $this->delay,
+                fn (ComponentAttributeBag $bag) => $bag->merge([
+                    sprintf($this->delay ? 'wire:loading.remove.delay.%s' : 'wire:loading.remove.delay', $this->delay) => '',
+                ])
+            )
+            ->when($this->loading === '1', fn (ComponentAttributeBag $bag) => $bag->except('wire:target'));
+
+        $this->wireable['text'] = (new ComponentAttributeBag(['wire:target' => "{$this->loading}"]))
             ->when(
                 $this->loading || $this->delay,
                 fn (ComponentAttributeBag $bag) => $bag->merge([
