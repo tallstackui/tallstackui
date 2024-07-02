@@ -75,14 +75,20 @@ abstract class BaseComponent extends Component
             ->instance()
             ->toArray();
 
-        // We merge scope with soft personalization
-        // changes, but we prioritize scope changes.
-        $merged = empty($scope) ? $soft : Arr::only(array_merge($soft, $scope), array_keys($scope));
+        $merged = empty($scope) ? $soft : Arr::only(array_merge($soft, $scope), array_keys($scope)); // We merge scope with soft personalization changes, but we prioritize scope changes.
 
         // Here we do a second merge, now with the original classes and
         // the result of the previous operation that will use scoped
         // prioritization and soft personalization definitions.
-        return Arr::only(array_merge($personalization, $merged), array_keys($personalization));
+        $classes = Arr::only(array_merge($personalization, $merged), array_keys($personalization));
+
+        // We use 'manipulation' method to manipulate default
+        // classes that come from the personalization method.
+        if (method_exists($this, 'manipulation')) {
+            $classes = $this->manipulation($classes);
+        }
+
+        return $classes;
     }
 
     public function render(): Closure

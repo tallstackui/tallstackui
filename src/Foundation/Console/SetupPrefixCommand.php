@@ -17,8 +17,9 @@ class SetupPrefixCommand extends Command
     public function handle(): int
     {
         $prefix = text('What prefix do you want to use for the TallStackUI components?', required: true, hint: 'Type null to remove the current prefix, if set.');
+        $null = $prefix === 'null';
 
-        if ($prefix === 'null' && config('tallstackui.prefix') === null) {
+        if ($null && blank(config('tallstackui.prefix'))) {
             $this->components->error('The prefix is already set to null.');
 
             return self::FAILURE;
@@ -30,12 +31,8 @@ class SetupPrefixCommand extends Command
             return self::FAILURE;
         }
 
-        Process::run([
-            'php artisan view:clear',
-            'php artisan config:clear',
-        ]);
-
-        $this->components->info('The prefix ['.$prefix.'] was successfully set up.');
+        $this->components->info($null ? 'The prefix was successfully removed.' : 'The prefix ['.$prefix.'] was successfully set up.');
+        $this->components->info('Please, run <options=bold,underscore>php artisan optimize:clear</> to clear the cache.');
 
         return self::SUCCESS;
     }

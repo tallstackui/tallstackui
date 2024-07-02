@@ -99,11 +99,13 @@ return [
         | Dialog
         |----------------------------------------------------------------------
         | z-index: controls the default z-index.
+        | overflow: avoids hiding the overflow, allowing the scroll of the page.
         | blur: enables the background blur effect by default.
         | persistent: enables the dialog to not be closed by clicking outside by default.
         */
         'dialog' => [
             'z-index' => 'z-50',
+            'overflow' => false,
             'blur' => false,
             'persistent' => false,
         ],
@@ -113,13 +115,15 @@ return [
         |----------------------------------------------------------------------
         |
         | z-index: controls the default z-index.
-        | blur: enables the background blur effect by default.
+        | overflow: avoids hiding the overflow, allowing the scroll of the page.
+        | blur: enables the background blur effect by default (Allowed: false, sm, md, lg, xl).
         | persistent: enables the modal to not be closed by clicking outside by default.
         | size: controls the default modal size (Allowed: sm, md, lg, xl, 2xl, 3xl, 4xl, 5xl, 6xl, 7xl).
         | center: controls if the modal is centered by default.
         */
         'modal' => [
             'z-index' => 'z-50',
+            'overflow' => false,
             'blur' => false,
             'persistent' => false,
             'size' => '2xl',
@@ -131,11 +135,13 @@ return [
         |----------------------------------------------------------------------
         |
         | z-index: controls the default z-index.
+        | overflow: avoids hiding the overflow, allowing the scroll of the page.
         | blur: enables the background blur effect by default.
         | opacity: enables the background opacity by default.
         */
         'loading' => [
             'z-index' => 'z-50',
+            'overflow' => false,
             'blur' => false,
             'opacity' => true,
         ],
@@ -145,13 +151,15 @@ return [
         |----------------------------------------------------------------------
         |
         | z-index: controls the default z-index.
-        | blur: enables the background blur effect by default.
+        | overflow: avoids hiding the overflow, allowing the scroll of the page.
+        | blur: enables the background blur effect by default (Allowed: false, sm, md, lg, xl).
         | persistent: enables the slide to not be closed by clicking outside by default.
         | size: controls the default modal size (Allowed: sm, md, lg, xl, 2xl, 3xl, 4xl, 5xl, 6xl, 7xl, full).
         | position: controls the default slide position (Allowed: right, left).
         */
         'slide' => [
             'z-index' => 'z-50',
+            'overflow' => false,
             'blur' => false,
             'persistent' => false,
             'size' => 'lg',

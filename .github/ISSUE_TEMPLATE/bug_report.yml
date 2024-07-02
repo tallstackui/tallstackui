@@ -16,6 +16,61 @@ body:
       placeholder: When I use <x-button /> I get an error
     validations:
       required: true
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      description: If the issue occurs with a specific component, select it here.
+      multiple: false
+      options:
+        - Alert
+        - Avatar
+        - Badge
+        - Banner
+        - Boolean
+        - Button
+        - Button Circle
+        - Card
+        - Checkbox
+        - Color
+        - Clipboard
+        - Date
+        - Dialog
+        - Dropdown
+        - Errors
+        - Upload
+        - Hint
+        - Icon
+        - Input
+        - Label
+        - Link
+        - Loading
+        - Modal
+        - Number
+        - Password
+        - Pin
+        - Progress
+        - Radio
+        - Range
+        - Rating
+        - Select Native
+        - Select Styled
+        - Slide
+        - Stats
+        - Step
+        - Tab
+        - Tag
+        - Table
+        - Textarea
+        - Theme Switch
+        - Time
+        - Toast
+        - Toggle
+        - Tooltip
+        - Reaction
+        - None (N/A)
+    validations:
+      required: true
   - type: textarea
     id: how-to-reproduce
     attributes:
@@ -25,11 +80,11 @@ body:
     validations:
       required: true
   - type: input
-    id: repository-sample
+    id: public-repository
     attributes:
-      label: Sample Repository
-      description: If possible, please provide a sample repository that reproduces the issue.
-      placeholder: https://github.com.br/your-username/your-repository
+      label: Public Repository
+      description: If possible, please provide a public repository that reproduces the issue.
+      placeholder: https://github.com/your-username/repository
   - type: input
     id: laravel-version
     attributes:

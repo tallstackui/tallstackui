@@ -11,10 +11,10 @@
 @if ($icon)
     <x-dynamic-component :component="TallStackUi::component('icon')"
                          :$icon
-                         :attributes="$removable"
+                         :attributes="$wireable['icon']"
                          @class([$personalize['icon.sizes.' . $size], $colors['icon']]) />
 @else
-    <span @if ($livewire && $loading) wire:loading.remove @endif @class([$personalize['text.sizes.' . $size]])>{{ $text ?? $slot }}</span>
+    <span @if ($livewire && $loading) {{ $wireable['text'] }} @endif @class([$personalize['text.sizes.' . $size]])>{{ $text ?? $slot }}</span>
 @endif
 @if ($livewire && $loading)
     <x-tallstack-ui::icon.generic.loading-button :$loading :$delay @class([

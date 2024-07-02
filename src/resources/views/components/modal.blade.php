@@ -14,9 +14,9 @@
      role="dialog"
      aria-modal="true"
      @if ($wire)
-         x-data="tallstackui_modal(@entangle($entangle))"
+         x-data="tallstackui_modal(@entangle($entangle), @js($configurations['overflow'] ?? false))"
      @else
-         x-data="tallstackui_modal(false)"
+         x-data="tallstackui_modal(false, @js($configurations['overflow'] ?? false))"
      @endif
      x-show="show"
      @if (!$configurations['persistent']) x-on:keydown.escape.window="show = false;" @endif
@@ -30,7 +30,7 @@
          x-transition:leave="ease-in duration-200"
          x-transition:leave-start="opacity-100"
          x-transition:leave-end="opacity-0"
-         @class([$personalize['wrapper.first'], $personalize['blur'] => $configurations['blur']])></div>
+         @class([$personalize['wrapper.first'], $personalize['blur.'.($configurations['blur'] === true ? 'sm' : $configurations['blur'])] ?? null => $configurations['blur']])></div>
     <div @class($personalize['wrapper.second'])>
         <div @class([
                 $personalize['wrapper.third'],

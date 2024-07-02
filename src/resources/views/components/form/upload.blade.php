@@ -13,7 +13,8 @@
         @js($error),
         @js($static),
         @js($placeholder),
-        @js(__('tallstack-ui::messages.upload.uploaded')))"
+        @js(__('tallstack-ui::messages.upload.uploaded')),
+        @js($overflow))"
      x-cloak
      x-on:livewire-upload-start="uploading = true"
      x-on:livewire-upload-finish="uploading = false"

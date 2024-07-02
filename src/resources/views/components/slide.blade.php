@@ -9,9 +9,9 @@
 
 <div x-cloak
      @if ($wire)
-         x-data="tallstackui_slide(@entangle($entangle))"
+         x-data="tallstackui_slide(@entangle($entangle), @js($configurations['overflow'] ?? false))"
      @else
-         x-data="tallstackui_slide(false)"
+         x-data="tallstackui_slide(false, @js($configurations['overflow'] ?? false))"
      @endif
      x-show="show"
      @if (!$configurations['persistent']) x-on:keydown.escape.window="show = false;" @endif
@@ -26,7 +26,7 @@
          x-transition:leave="ease-in-out duration-200"
          x-transition:leave-start="opacity-100"
          x-transition:leave-end="opacity-0"
-         @class([$personalize['wrapper.first'], 'backdrop-blur-sm' => $configurations['blur'] === true])></div>
+         @class([$personalize['wrapper.first'], $personalize['blur.'.($configurations['blur'] === true ? 'sm' : $configurations['blur'])] ?? null => $configurations['blur']])></div>
     <div @class($personalize['wrapper.second'])>
         <div @class($personalize['wrapper.third'])>
             <div @class([

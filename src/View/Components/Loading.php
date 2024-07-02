@@ -18,6 +18,7 @@ class Loading extends BaseComponent implements Personalization
         public ?string $delay = null,
         public ?bool $blur = null,
         public ?bool $opacity = true,
+        public ?bool $overflow = null,
     ) {
         //
     }

@@ -6,6 +6,7 @@ use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
 use TallStackUi\Facades\TallStackUi as Facade;
+use TallStackUi\Foundation\Console\FindComponentCommand;
 use TallStackUi\Foundation\Console\SetupIconsCommand;
 use TallStackUi\Foundation\Console\SetupPrefixCommand;
 use TallStackUi\Foundation\Personalization\Personalization;
@@ -41,7 +42,11 @@ class TallStackUiServiceProvider extends ServiceProvider
             return;
         }
 
-        $this->commands([SetupIconsCommand::class, SetupPrefixCommand::class]);
+        $this->commands([
+            SetupIconsCommand::class,
+            SetupPrefixCommand::class,
+            FindComponentCommand::class,
+        ]);
     }
 
     protected function registerComponentPersonalizations(): void
