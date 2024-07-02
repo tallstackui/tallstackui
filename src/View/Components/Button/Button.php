@@ -34,6 +34,7 @@ class Button extends BaseComponent implements Personalization
         public ?bool $solid = true,
         public ?bool $outline = false,
         public ?bool $light = false,
+        public ?bool $flat = false,
         #[SkipDebug]
         public ?string $style = null,
         #[SkipDebug]

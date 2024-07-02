@@ -23,7 +23,7 @@ class BladeDirectives
         // The objective of this directive is to allow interaction with contents of the table
         // component. The  concept was taken from konradkalemba/blade-components-scoped-slots.
         Blade::directive('interact', function (mixed $expression): string {
-            $directive = array_map('trim', preg_split('/,(?![^(]*[)])/', $expression));
+            $directive = array_map(trim(...), preg_split('/,(?![^(]*[)])/', $expression));
             $directive[1] ??= ''; // Prevents the error "Undefined key: 1" when the parameter is not defined.
 
             [$name, $arguments] = $directive;

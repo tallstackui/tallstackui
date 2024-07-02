@@ -4,7 +4,6 @@ namespace TallStackUi\View\Components\Button;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
-use Illuminate\View\ComponentAttributeBag;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
@@ -34,10 +33,11 @@ class Circle extends BaseComponent implements Personalization
         public ?bool $solid = null,
         public ?bool $outline = null,
         public ?bool $light = false,
+        public ?bool $flat = false,
         #[SkipDebug]
         public ?string $style = null,
         #[SkipDebug]
-        public ?ComponentAttributeBag $removable = null,
+        public ?array $wireable = null,
     ) {
         $this->setup();
     }
