@@ -9,7 +9,7 @@
         $personalize['icon.base'] => $icon,
         $personalize['sizes.'.$size],
         $colors['text'] => !$colorless,
-    ]) }} @if ($blank) target="_blank" @endif>
+    ]) }} @if ($blank) target="_blank" @endif @if ($navigate) wire:navigate @elseif($navigateHover) wire:navigate.hover @endif>
     @if ($icon && $position === 'left')
         <x-dynamic-component :component="TallStackUi::component('icon')" :$icon @class($personalize['icon.size']) />
     @endif
