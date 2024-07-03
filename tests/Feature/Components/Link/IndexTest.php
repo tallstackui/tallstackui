@@ -108,6 +108,18 @@ it('can render without color', function () {
         ->not->toContain('text-primary-500');
 });
 
+it('can render with wire:navigate')
+    ->expect('<x-link href="https://google.com.br" navigate />')
+    ->render()
+    ->toContain('<a href="https://google.com.br"')
+    ->toContain('wire:navigate');
+
+it('can render with wire:navigate.hover')
+    ->expect('<x-link href="https://google.com.br" navigate-hover />')
+    ->render()
+    ->toContain('<a href="https://google.com.br"')
+    ->toContain('wire:navigate.hover');
+
 it('cannot render without href', function () {
     $this->expectException(ViewException::class);
 
