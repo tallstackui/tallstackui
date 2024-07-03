@@ -35,6 +35,7 @@ class Link extends BaseComponent implements Personalization
         #[SkipDebug]
         public ?string $formatted = null,
     ) {
+        $this->text ??= $this->href;
         $this->size = $this->lg ? 'lg' : ($this->sm ? 'sm' : 'md');
 
         $this->formatted = $this->href;
