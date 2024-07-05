@@ -13,7 +13,7 @@
     @if ($icon && $position === 'left')
         <x-dynamic-component :component="TallStackUi::component('icon')" :$icon @class($personalize['icon.size']) />
     @endif
-    {!! $text ?? $slot !!}
+    {!! $text ?? ($slot->isNotEmpty() ? $slot : $href) !!}
     @if ($icon && $position === 'right')
         <x-dynamic-component :component="TallStackUi::component('icon')" :$icon @class($personalize['icon.size']) />
     @endif
