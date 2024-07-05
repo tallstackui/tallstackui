@@ -18,13 +18,13 @@ class UploadComponentFileAdapter
         private readonly bool $static,
         private readonly TemporaryUploadedFile|array $files,
         private ?Collection $collection = null,
-        private ?bool $size = false,
+        private ?bool $intl = false,
     ) {
         $this->collection = collect(Arr::wrap($this->files));
 
         // A simple way to avoid exceptions when PHP intl
         // and Laravel Number classes are not available.
-        $this->size = extension_loaded('intl') && class_exists(Number::class);
+        $this->intl = extension_loaded('intl') && class_exists(Number::class);
     }
 
     /** @throws Exception */
@@ -40,6 +40,22 @@ class UploadComponentFileAdapter
         }
 
         return in_array($extension, ['jpg', 'jpeg', 'png', 'gif', 'svg', 'webp']);
+    }
+
+    private function size(int|TemporaryUploadedFile $file): ?string
+    {
+        if (! $this->intl) {
+            return null;
+        }
+
+        // The strategy adopted here aims to overcome problems encountered
+        // with the UnableToRetrieveMetadata exception when the name of a
+        // PDF file is too long, which generates the exception.
+        return rescue(
+            fn () => Number::fileSize($file instanceof TemporaryUploadedFile ? $file->getSize() : $file),
+            fn () => null,
+            false
+        );
     }
 
     /** @throws Exception */
@@ -61,7 +77,7 @@ class UploadComponentFileAdapter
             'temporary_name' => $file['name'],
             'real_name' => $file['name'],
             'extension' => $file['extension'],
-            'size' => $this->size ? Number::fileSize($file['size']) : null,
+            'size' => $this->size($file['size']),
             'path' => $file['path'],
             'is_image' => $image = $this->image($file['extension']),
             'url' => ! $image ?: $file['url'],
@@ -74,7 +90,7 @@ class UploadComponentFileAdapter
             'temporary_name' => $file->getFilename(),
             'real_name' => $file->getClientOriginalName(),
             'extension' => $extension = $file->extension(),
-            'size' => $this->size ? Number::fileSize($file->getSize()) : null,
+            'size' => $this->size($file),
             'path' => $file->getPathname(),
             'is_image' => $image = $this->image($extension),
             'url' => ! $image ?: $file->temporaryUrl(),
