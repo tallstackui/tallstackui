@@ -25,6 +25,6 @@
   },
   "dependencies": {
     "clipboard": "^2.0.11",
-    "dayjs": "^1.11.11"
+    "dayjs": "^1.11.12"
   }
 }
