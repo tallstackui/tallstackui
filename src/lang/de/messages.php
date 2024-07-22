@@ -2,20 +2,20 @@
 
 return [
     'errors' => [
-        'title' => 'Es liegen :count validierungsfehler vor:',
+        'title' => 'Es liegen :count Validierungsfehler vor:',
     ],
 
     'select' => [
-        'default' => 'Wähle eine option',
-        'search' => 'Suchen sie hier nach etwas',
-        'empty' => 'keine ergebnisse gefunden',
+        'default' => 'Auswählen',
+        'search' => 'Suchen',
+        'empty' => 'Keine Ergebnisse.',
     ],
 
     'toast' => [
         'button' => [
             'ok' => 'Ok',
             'confirm' => 'Bestätigen',
-            'cancel' => 'Stornieren',
+            'cancel' => 'Abbrechen',
         ],
     ],
 
@@ -23,14 +23,14 @@ return [
         'button' => [
             'ok' => 'Ok',
             'confirm' => 'Bestätigen',
-            'cancel' => 'Stornieren',
+            'cancel' => 'Abbrechen',
         ],
     ],
 
     'table' => [
-        'empty' => 'Keine ergebnisse gefunden.',
+        'empty' => 'Keine Ergebnisse.',
         'quantity' => 'Menge',
-        'search' => 'Suchen sie hier nach etwas',
+        'search' => 'Suchen',
     ],
 
     'clipboard' => [
@@ -42,29 +42,29 @@ return [
 
     'password' => [
         'rules' => [
-            'title' => 'Erwartetes passwortformat:',
+            'title' => 'Passwortanforderungen:',
             'formats' => [
-                'min' => 'Mindestens :min zeichen',
-                'numbers' => 'Mindestens eine nummer',
-                'symbols' => 'Mindestens ein symbol (:symbols)',
-                'mixed' => 'Groß-und kleinbuchstaben',
+                'min' => 'Mindestens :min Zeichen',
+                'numbers' => 'Mindestens eine Nummer',
+                'symbols' => 'Mindestens ein Symbol (:symbols)',
+                'mixed' => 'Groß- und Kleinbuchstaben',
             ],
         ],
     ],
 
     'upload' => [
-        'placeholder' => 'Wähle eine datei',
+        'placeholder' => 'Datei auswählen',
         'size' => 'Größe',
-        'upload' => 'Klicken sie hier, um zu senden',
+        'upload' => 'Hochladen',
         'uploaded' => [
-            'single' => ':count datei abgeschickt',
-            'multiple' => ':count gesendete dateien',
+            'single' => 'Eine Datei hochgeladen.',
+            'multiple' => ':count Dateien hochgeladen.',
         ],
-        'error' => 'Etwas ist schief gelaufen. Bitte versuche es erneut.',
+        'error' => 'Ein Fehler ist aufgetreten. Bitte versuche es erneut.',
         'static' => [
             'empty' => [
-                'title' => 'Keine bilder',
-                'description' => 'Sie haben noch keine bilder.',
+                'title' => 'Keine Bilder',
+                'description' => 'Sie haben noch keine Bilder.',
             ],
         ],
     ],
@@ -74,7 +74,7 @@ return [
             'months' => [
                 'january' => 'Januar',
                 'february' => 'Februar',
-                'march' => 'Marsch',
+                'march' => 'März',
                 'april' => 'April',
                 'may' => 'Mai',
                 'june' => 'Juni',
@@ -86,13 +86,13 @@ return [
                 'december' => 'Dezember',
             ],
             'week' => [
-                'sunday' => 'Sonntag',
                 'monday' => 'Montag',
                 'tuesday' => 'Dienstag',
                 'wednesday' => 'Mittwoch',
                 'thursday' => 'Donnerstag',
                 'friday' => 'Freitag',
                 'saturday' => 'Samstag',
+                'sunday' => 'Sonntag',
             ],
         ],
         'helpers' => [
@@ -107,8 +107,8 @@ return [
     ],
 
     'step' => [
-        'next' => 'Nachfolgend',
-        'previous' => 'Vorherige',
+        'next' => 'Weiter',
+        'previous' => 'Zurück',
         'finish' => 'Beenden',
     ],
 ];
