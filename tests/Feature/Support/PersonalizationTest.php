@@ -193,7 +193,9 @@ it('can personalize chained', function () {
 });
 
 it('can personalize components overriding the original', function () {
-    $class = new class extends Alert {};
+    $class = new class extends Alert
+    {
+    };
 
     config()->set('tallstackui.components.alert', $class);
 
