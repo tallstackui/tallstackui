@@ -64,7 +64,7 @@ class SetupIconsCommand extends Command
         $file = storage_path('app/'.$temp.'.zip');
         file_put_contents($file, $response->body());
 
-        $zip = new ZipArchive();
+        $zip = new ZipArchive;
 
         if (! $zip->open($file)) {
             return 'Failed to extract the .zip file.';
