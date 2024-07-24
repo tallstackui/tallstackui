@@ -24,8 +24,7 @@ class BrowserTestCase extends TestCase
 
     public static function tweakApplicationHook(): Closure
     {
-        return function () {
-        };
+        return function () {};
     }
 
     //    protected function getApplicationTimezone($app): string

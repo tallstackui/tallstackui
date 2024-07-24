@@ -18,7 +18,7 @@ class ResolveConfiguration
     /** @throws Exception */
     public static function from(object $component): ?array
     {
-        $class = new self();
+        $class = new self;
 
         /** @var string|array $data */
         $data = (match (true) {

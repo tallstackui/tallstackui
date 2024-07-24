@@ -21,8 +21,8 @@ class PersonalizationResources
         private readonly ?string $component = null,
         private ?string $block = null,
         private ?Collection $originals = null,
-        private readonly ?Collection $interactions = new Collection(),
-        private ?Collection $parts = new Collection(),
+        private readonly ?Collection $interactions = new Collection,
+        private ?Collection $parts = new Collection,
     ) {
         $this->originals = collect($this->personalization());
     }
@@ -38,7 +38,7 @@ class PersonalizationResources
 
     public function and(): Personalization
     {
-        return new Personalization();
+        return new Personalization;
     }
 
     public function append(string $content): self
