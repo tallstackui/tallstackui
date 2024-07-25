@@ -7,6 +7,16 @@ use TallStackUi\Facades\TallStackUi as Facade;
 
 class BladeDirectives
 {
+    /**
+     * Get all built files from the dist directory.
+     */
+    public static function built(string $type): array
+    {
+        $files = scandir(__DIR__.'/../../../../dist');
+
+        return collect($files)->filter(fn ($file) => preg_match('/\.'.$type.'$/', $file))->toArray();
+    }
+
     public static function register(): void
     {
         Blade::directive('tallStackUiScript', fn (): string => Facade::directives()->script());
