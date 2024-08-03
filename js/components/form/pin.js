@@ -146,6 +146,20 @@ export default (
     this.focus(index + 1);
   },
   /**
+   * Get the last input that is filled.
+   *
+   * @return {Number}
+   */
+  filled() {
+    for (let index = this.length; index > 0; index--) {
+      if (this.input(index)?.value === '') {
+        continue;
+      }
+
+      return index;
+    }
+  },
+  /**
    * Handle the keyup event.
    *
    * @param {Number} index
@@ -201,20 +215,29 @@ export default (
   backspace(index) {
     const current = this.input(index);
 
-    if (current.value !== '') {
-      current.value = '';
+    // If the attempt here is to clear an input that is not the last one, we go to the last filled input.
+    // Otherwise, cleaning occurs normally. This was done to correct the attempt to delete an intermediate
+    // input, which doesn't work very well due to the logic we adopted in the component's behavior.
+    if (current.value !== '' && index !== this.length) {
+      const last = this.filled();
+
+      this.focus(last);
+      this.input(last).value = '';
+
       this.syncModel();
 
       return;
+    } else {
+      current.value = '';
     }
 
-    const input = this.input(index - 1);
+    const decreased = index - 1;
 
-    if (!input) return;
+    // All of this code is responsible for navigation back.
+    if (!this.input(decreased)) return;
 
-    const previous = this.input(index - 1);
-    previous.value = '';
-    this.focus(index - 1);
+    this.input(decreased).value = '';
+    this.focus(decreased);
 
     this.syncModel();
   },

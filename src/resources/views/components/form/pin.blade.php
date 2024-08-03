@@ -56,7 +56,7 @@
                             $personalize['input.color.background'],
                        ]) x-bind:class="{
                            '{{ $personalize['input.color.base'] }}': !error,
-                           '{{ $personalize['input.color.error'] }}': error,
+                           '{{ $personalize['input.color.error'] }}': @js($invalidate ?? false) === false && error,
                        }" maxlength="1"
                        autocomplete="false"
                        x-on:keyup="keyup(@js($index))"
