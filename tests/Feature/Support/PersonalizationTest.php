@@ -5,6 +5,8 @@ use TallStackUi\Foundation\Personalization\Personalization;
 use TallStackUi\Foundation\Personalization\PersonalizationResources;
 use TallStackUi\View\Components\Alert;
 
+use function Livewire\invade;
+
 it('can be instantiated', function () {
     expect(TallStackUi::personalize())->toBeInstanceOf(Personalization::class);
 });
@@ -435,3 +437,16 @@ it('cannot duplicated append or prepend personalizations', function () {
         ->and(str($view)->substrCount('bar-baz-foo'))
         ->toBe(1);
 });
+
+// This test is useful to verify that all customization
+// keys are in use in the component's blade file.
+it('cannot have unused personalization keys', function (string $component) {
+    $class = new $component();
+    $blade = invade($class->blade())->path;
+
+    $content = file_get_contents($blade);
+
+    foreach (array_keys($class->personalization()) as $key) {
+        expect($content)->toContain($key);
+    }
+})->with('personalizations.components')->skip('This test must be performed manually.');
