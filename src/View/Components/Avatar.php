@@ -17,6 +17,7 @@ class Avatar extends BaseComponent implements Personalization
         public ?Model $model = null,
         public ?string $text = null,
         public ?string $color = 'primary',
+        public ?string $image = null,
         public ?bool $xs = null,
         public ?bool $sm = null,
         public ?bool $md = null,
@@ -24,6 +25,7 @@ class Avatar extends BaseComponent implements Personalization
         public bool $square = false,
         public ?string $property = 'name',
         public ?string $background = '0D8ABC',
+        public ?bool $borderless = false,
         #[SkipDebug]
         public ?string $size = null,
         public ?array $options = [],

@@ -4,17 +4,17 @@
 
 <div {{ $attributes->class([
         'rounded-full' => !$square,
-        'border-2' => !$model,
+        'border-2' => !$borderless && !$model,
         $personalize['wrapper.class'],
         $colors['background'] => !$model,
         $personalize['wrapper.sizes.' . $size],
     ]) }}>
-    @if ($model)
+    @if ($model || $image)
         <img @class([
             'rounded-full' => !$square,
             $personalize['content.image.class'],
             $personalize['content.image.sizes.' . $size],
-        ]) src="{{ $modelable() }}" alt="{{ $model->getAttribute($property ?? null) }}"/>
+        ]) src="{{ $image ?? $modelable() }}" alt="{{ $text ?? $model?->getAttribute($property ?? null) }}"/>
     @elseif ($text || $slot->isNotEmpty())
         <span @class([
                 $personalize['content.text.class'],
