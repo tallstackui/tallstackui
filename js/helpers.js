@@ -35,15 +35,17 @@ export const overflow = (status, component = null, skip = false) => {
   // from removing overflow when used in conjunction with other
   // components that handle overflow: modal, slide, dialogs.
   const element = document.querySelector('body');
-  const data = 'data-overflow';
-  const exists = [...element.attributes].some((attr) => attr.name === data);
+  const key = 'data-overflow';
+  const exists = [...element.attributes].some((attr) => attr.name === key);
 
-  if (status && (!exists || element.getAttribute(data) === component)) {
+  if (status && (!exists || element.getAttribute(key) === component)) {
     element.classList.add('!overflow-hidden');
-    element.setAttribute(data, component);
-  } else if (!status && exists && element.getAttribute(data) === component) {
-    element.removeAttribute(data);
+    element.setAttribute(key, component);
+    element.style.paddingRight = '15px'; // Fix the scrollbar jump.
+  } else if (!status && exists && element.getAttribute(key) === component) {
+    element.removeAttribute(key);
     element.classList.remove('!overflow-hidden');
+    element.style.paddingRight = '';
   }
 };
 
