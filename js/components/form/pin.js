@@ -146,7 +146,7 @@ export default (
     this.focus(index + 1);
   },
   /**
-   * Gets the last input that is filled.
+   * Get the last input that is filled.
    *
    * @return {Number}
    */
