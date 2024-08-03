@@ -65,7 +65,7 @@
                        x-on:keyup.up="left(@js($index))"
                        x-on:keyup.down="right(@js($index))"
                        x-on:keyup.delete="backspace(@js($index))"
-                       x-on:keydown.backspace="backspace(@js($index))" />
+                       x-on:keyup.backspace="backspace($event, @js($index))" />
             @endforeach
             <template x-if="clear && model">
                 <button class="cursor-pointer" x-on:click="erase();" dusk="form_pin_clear">

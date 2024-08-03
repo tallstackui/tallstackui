@@ -209,10 +209,13 @@ export default (
   /**
    * Handle the backspace key.
    *
+   * @param {KeyboardEvent} event
    * @param {Number} index
    * @return {void}
    */
-  backspace(index) {
+  backspace(event, index) {
+    event.preventDefault();
+
     const current = this.input(index);
 
     // If the attempt here is to clear an input that is not the last one, we go to the last filled input.
@@ -227,17 +230,9 @@ export default (
       this.syncModel();
 
       return;
-    } else {
-      current.value = '';
+    } else if (index !== 1) {
+      this.focus(index - 1);
     }
-
-    const decreased = index - 1;
-
-    // All of this code is responsible for navigation back.
-    if (!this.input(decreased)) return;
-
-    this.input(decreased).value = '';
-    this.focus(decreased);
 
     this.syncModel();
   },
