@@ -35,6 +35,10 @@ class Table extends BaseComponent implements Personalization
         #[SkipDebug]
         public ?string $paginator = 'tallstack-ui::components.table.paginators',
         public ?bool $simplePagination = false,
+        public ?bool $selectable = null,
+        public string $selectableProperty = 'id',
+        public ?string $link = null,
+        public ?bool $blank = false,
         #[SkipDebug]
         public mixed $loop = null,
         #[SkipDebug]
@@ -45,8 +49,6 @@ class Table extends BaseComponent implements Personalization
         public ComponentSlot|string|null $footer = null,
         #[SkipDebug]
         public ?ComponentSlot $middle = null,
-        public ?bool $selectable = null,
-        public string $selectableProperty = 'id',
     ) {
         $this->placeholders = __('tallstack-ui::messages.table');
 
@@ -90,6 +92,12 @@ class Table extends BaseComponent implements Personalization
         $direction = $this->sort['direction'] === 'asc' ? 'desc' : 'asc';
 
         return ['column' => $header['index'], 'direction' => $direction];
+    }
+
+    // Prepare the href link for the row replacing tokens
+    public function href(mixed $row): string
+    {
+        return str($this->link)->replaceMatches('/\{(.*?)\}/', fn ($match): ?string => data_get($row, $match[1]))->value();
     }
 
     public function ids(): array

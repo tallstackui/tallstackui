@@ -64,4 +64,14 @@ export default (model, ids, selectable) => ({
     remove() {
         this.model =  this.model.filter(index => !this.ids.includes(index) )
     },
+    /**
+     * Redirect to a new page
+     *
+     * @param {String} url
+     * @param {Boolean} blank
+     * @returns {void}
+     */
+    redirect(url, blank) {
+        window.open(url, blank ? '_blank' : '_self');
+    }
 });

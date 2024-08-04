@@ -109,13 +109,15 @@
                             @foreach($headers as $header)
                                 @php
                                     $row = str_replace('.', '_', $header['index']);
+                                    $url = $href($value);
+                                    $clickable = $link !== null;
                                 @endphp
                                 @isset(${"column_".$row})
-                                    <td @class($personalize['table.td'])>
+                                    <td @if ($clickable) x-on:click.prevent="redirect(@js($url), @js($blank))" @endif @class([$personalize['table.td'], 'cursor-pointer' => $clickable])>
                                         {{ ${"column_".$row}($value) }}
                                     </td>
                                 @else
-                                    <td @class($personalize['table.td'])>
+                                    <td @if ($clickable) x-on:click.prevent="redirect(@js($url), @js($blank))" @endif @class([$personalize['table.td'], 'cursor-pointer' => $clickable])>
                                         {{ data_get($value, $header['index']) }}
                                     </td>
                                 @endisset
