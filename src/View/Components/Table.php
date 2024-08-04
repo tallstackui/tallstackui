@@ -160,5 +160,9 @@ class Table extends BaseComponent implements Personalization
         if ($this->persistent && blank($this->id)) {
             throw new InvalidArgumentException('The table [id] property is required when [persistent] is set.');
         }
+
+        if ($this->selectable && blank($this->selectableProperty)) {
+            throw new InvalidArgumentException('The table [selectableProperty] property is required when [selectable] is set.');
+        }
     }
 }
