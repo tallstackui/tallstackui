@@ -2,6 +2,7 @@
 
 namespace TallStackUi\View\Components;
 
+use ArrayAccess;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Contracts\View\View;
 use Illuminate\Pagination\Paginator;
@@ -17,6 +18,8 @@ use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 #[SoftPersonalization('table')]
 class Table extends BaseComponent implements Personalization
 {
+    public string $uuid;
+
     public function __construct(
         public ?string $id = null,
         public Collection|array $headers = [],
@@ -71,6 +74,8 @@ class Table extends BaseComponent implements Personalization
                 ->lower()
                 ->value();
         }
+
+        $this->uuid = 'test'.md5(serialize($this));
     }
 
     public function blade(): View
@@ -91,7 +96,9 @@ class Table extends BaseComponent implements Personalization
 
     public function ids(): array
     {
-        return collect($this->rows)->pluck($this->selectableProperty)->all();
+        return $this->rows instanceof ArrayAccess
+            ? $this->rows->pluck($this->selectableProperty)->all() // @phpstan-ignore-line
+            : collect($this->rows)->pluck($this->selectableProperty)->all();
     }
 
     final public function modifier(): ComponentAttributeBag

@@ -4,7 +4,7 @@
     [$property, $error, $id, $entangle] = $bind($attributes, livewire: $livewire);
 @endphp
 
-<div x-data="tallstackui_table({!! $entangle !!}, @js($ids()))" @if ($persistent && $id) id="{{ $id }}" @endif>
+<div x-data="tallstackui_table({!! $entangle !!}, @js($ids()), @js($selectable))" @if ($persistent && $id) id="{{ $id }}" @endif>
     @if (is_string($header))
         <p @class($personalize['slots.header'])>{{ $header }}</p>
     @else
@@ -49,10 +49,10 @@
                     <thead @class(['uppercase', $personalize['table.thead.normal'] => !$striped, $personalize['table.thead.striped'] => $striped])>
                         <tr>
                             @if ($selectable)
-                                <th @class(['w-6', $personalize['table.th']]) wire:key="checkall-{{ implode(',', $ids()) }}">
+                                <th @class(['w-6', $personalize['table.th']]) wire:key="{{ $uuid }}-checkall-{{ implode(',', $ids()) }}">
                                     <x-dynamic-component :component="TallStackUi::component('checkbox')"
                                                          x-ref="checkbox"
-                                                         x-on:click="all($el.checked)"
+                                                         x-on:click="all($el.checked, {{ \Illuminate\Support\Js::from($ids()) }})"
                                                          sm />
                                 </th>
                             @endif
@@ -95,7 +95,7 @@
                             @if ($selectable)
                                 <td @class($personalize['table.td'])>
                                     <x-dynamic-component :component="TallStackUi::component('checkbox')"
-                                                         id="checkbox-{{ $id }}"
+                                                         id="checkbox-{{ $uuid }}-{{ $key }}"
                                                          :attributes="$modifier()"
                                                          value="{{ data_get($value, $selectableProperty) }}"
                                                          x-on:click="select($el.checked, {{ \Illuminate\Support\Js::from($value) }})"
