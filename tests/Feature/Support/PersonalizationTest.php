@@ -441,7 +441,7 @@ it('cannot duplicated append or prepend personalizations', function () {
 // This test is useful to verify that all customization
 // keys are in use in the component's blade file.
 it('cannot have unused personalization keys', function (string $component) {
-    $class = new $component();
+    $class = new $component;
     $blade = invade($class->blade())->path;
 
     $content = file_get_contents($blade);
