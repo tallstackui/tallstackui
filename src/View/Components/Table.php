@@ -99,6 +99,9 @@ class Table extends BaseComponent implements Personalization
             : collect($this->rows)->pluck($this->selectableProperty)->all();
     }
 
+    // We need this to be applied to the checkbox corresponding
+    // to the line because it is the x-model from here that "pushes"
+    // the selected values, as well as removing them, when clicked.
     final public function modifier(): ComponentAttributeBag
     {
         $modifier = is_string($this->ids()[0] ?? null) ? '' : '.number';
