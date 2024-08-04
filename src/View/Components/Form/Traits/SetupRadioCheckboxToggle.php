@@ -13,11 +13,7 @@ trait SetupRadioCheckboxToggle
         $position = $sloteable && $label->attributes->has('left') ? 'left' : $this->position;
         $alignment = $sloteable && $label->attributes->has('start') ? 'start' : 'middle';
 
-        return [
-            $position,
-            $alignment,
-            $label,
-        ];
+        return [$position, $alignment, $label];
     }
 
     private function setup(): void

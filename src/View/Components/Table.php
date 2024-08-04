@@ -2,11 +2,13 @@
 
 namespace TallStackUi\View\Components;
 
+use ArrayAccess;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Contracts\View\View;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\View\ComponentAttributeBag;
 use Illuminate\View\ComponentSlot;
 use InvalidArgumentException;
 use TallStackUi\Foundation\Attributes\SkipDebug;
@@ -41,6 +43,10 @@ class Table extends BaseComponent implements Personalization
         public ComponentSlot|string|null $header = null,
         #[SkipDebug]
         public ComponentSlot|string|null $footer = null,
+        #[SkipDebug]
+        public ?ComponentSlot $middle = null,
+        public ?bool $selectable = null,
+        public string $selectableProperty = 'id',
     ) {
         $this->placeholders = __('tallstack-ui::messages.table');
 
@@ -84,6 +90,23 @@ class Table extends BaseComponent implements Personalization
         $direction = $this->sort['direction'] === 'asc' ? 'desc' : 'asc';
 
         return ['column' => $header['index'], 'direction' => $direction];
+    }
+
+    public function ids(): array
+    {
+        return $this->rows instanceof ArrayAccess
+            ? $this->rows->pluck($this->selectableProperty)->all() // @phpstan-ignore-line
+            : collect($this->rows)->pluck($this->selectableProperty)->all();
+    }
+
+    // We need this to be applied to the checkbox corresponding
+    // to the line because it is the x-model from here that "pushes"
+    // the selected values, as well as removing them, when clicked.
+    final public function modifier(): ComponentAttributeBag
+    {
+        $modifier = is_string($this->ids()[0] ?? null) ? '' : '.number';
+
+        return new ComponentAttributeBag(['x-model'.$modifier => 'model']);
     }
 
     public function personalization(): array
@@ -144,6 +167,10 @@ class Table extends BaseComponent implements Personalization
 
         if ($this->persistent && blank($this->id)) {
             throw new InvalidArgumentException('The table [id] property is required when [persistent] is set.');
+        }
+
+        if ($this->selectable && blank($this->selectableProperty)) {
+            throw new InvalidArgumentException('The table [selectableProperty] property is required when [selectable] is set.');
         }
     }
 }
