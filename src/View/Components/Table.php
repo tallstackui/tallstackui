@@ -7,6 +7,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\View\ComponentAttributeBag;
 use Illuminate\View\ComponentSlot;
 use InvalidArgumentException;
 use TallStackUi\Foundation\Attributes\SkipDebug;
@@ -41,6 +42,7 @@ class Table extends BaseComponent implements Personalization
         public ComponentSlot|string|null $header = null,
         #[SkipDebug]
         public ComponentSlot|string|null $footer = null,
+        public bool|string|null $selectable = null,
     ) {
         $this->placeholders = __('tallstack-ui::messages.table');
 
@@ -86,6 +88,11 @@ class Table extends BaseComponent implements Personalization
         return ['column' => $header['index'], 'direction' => $direction];
     }
 
+    public function ids(): array
+    {
+        return collect($this->rows)->pluck($this->selectableKey())->all();
+    }
+
     public function personalization(): array
     {
         return Arr::dot([
@@ -112,6 +119,20 @@ class Table extends BaseComponent implements Personalization
                 'header' => 'mb-2 dark:text-dark-300 text-gray-500',
                 'footer' => 'mt-2 dark:text-dark-300 text-gray-500',
             ],
+        ]);
+    }
+
+    public function selectableKey(): string
+    {
+        return is_bool($this->selectable) || is_null($this->selectable) ? 'id' : (string) $this->selectable;
+    }
+
+    public function selectableModifier(): ComponentAttributeBag
+    {
+        $modifier = is_string($this->ids()[0] ?? null) ? '' : '.number';
+
+        return new ComponentAttributeBag([
+            'x-model.'.$modifier => 'selection',
         ]);
     }
 

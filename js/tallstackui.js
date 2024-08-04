@@ -15,6 +15,7 @@ import stats from './components/stats/stats';
 import password from './components/form/password';
 import pin from './components/form/pin';
 import reaction from './components/reaction/reaction';
+import table from './components/table/table';
 import tag from './components/form/tag';
 import textArea from './components/form/textarea';
 import time from './components/form/time';
@@ -45,6 +46,7 @@ document.addEventListener('alpine:init', () => {
   Alpine.data('tallstackui_select', select);
   Alpine.data('tallstackui_slide', slide);
   Alpine.data('tallstackui_stats', stats);
+  Alpine.data('tallstackui_table', table);
   Alpine.data('tallstackui_toastBase', toastBase);
   Alpine.data('tallstackui_toastLoop', toastLoop);
 });
