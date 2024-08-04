@@ -1,3 +1,5 @@
+import {stringify} from 'qs';
+
 export const body = (request, search, selected) => {
   const simple = request.constructor === String;
 
@@ -21,20 +23,16 @@ export const body = (request, search, selected) => {
   if (token) init.headers['X-CSRF-TOKEN'] = token;
 
   if (method === 'get') {
-    const query = new URLSearchParams(params);
-
     if (search !== '') {
-      query.set('search', search);
+      params.search = search
     }
 
     if (selected.length > 0) {
-      query.set('selected', JSON.stringify(selected));
+      params.selected = JSON.stringify(selected);
     }
 
-    if (query.toString() !== '') {
-      url += `?${query.toString()}`;
-    }
-  } else if (method === 'post') {
+    url += '?' + stringify(params);
+  } else {
     init.body = JSON.stringify({
       ...params,
       search: search,
