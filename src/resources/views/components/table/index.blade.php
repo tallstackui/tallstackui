@@ -53,6 +53,7 @@
                                     <x-dynamic-component :component="TallStackUi::component('checkbox')"
                                                          x-ref="checkbox"
                                                          x-on:click="all($el.checked, {{ \Illuminate\Support\Js::from($ids()) }})"
+                                                         dusk="tallstackui_table_select_all"
                                                          sm />
                                 </th>
                             @endif
