@@ -45,7 +45,7 @@ class Table extends BaseComponent implements Personalization
         public ComponentSlot|string|null $footer = null,
         #[SkipDebug]
         public ?ComponentSlot $middle = null,
-        public bool|string|null $selectable = null,
+        public ?bool $selectable = null,
         public string $selectableProperty = 'id',
     ) {
         $this->placeholders = __('tallstack-ui::messages.table');
