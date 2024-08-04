@@ -12,6 +12,7 @@ use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\Traits\SanitizePropertyValue;
 use TallStackUi\Foundation\Traits\WireChangeEvent;
 use TallStackUi\View\Components\BaseComponent;
+use TallStackUi\View\Components\Floating;
 use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
 use TallStackUi\View\Components\Select\Traits\InteractsWithSelectOptions;
 use Throwable;
@@ -81,6 +82,7 @@ class Styled extends BaseComponent implements Personalization
                 'base' => 'dark:text-dark-400 text-gray-500 hover:text-red-500 dark:hover:text-red-500',
                 'error' => 'text-red-500',
             ],
+            'floating' => collect(app(Floating::class)->personalization())->get('wrapper'),
             'box' => [
                 'button' => [
                     'class' => 'absolute inset-y-0 right-2 flex cursor-pointer items-center px-2',

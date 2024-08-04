@@ -11,6 +11,7 @@ use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\Traits\WireChangeEvent;
 use TallStackUi\View\Components\BaseComponent;
+use TallStackUi\View\Components\Floating;
 
 #[SoftPersonalization('form.time')]
 class Time extends BaseComponent implements Personalization
@@ -48,6 +49,7 @@ class Time extends BaseComponent implements Personalization
                 'size' => 'h-5 w-5',
                 'clear' => 'hover:text-red-500',
             ],
+            'floating' => collect(app(Floating::class)->personalization())->get('wrapper'),
             'time' => 'text-primary-600 dark:text-dark-300 dark:border-dark-700 w-20 rounded-full p-2 text-center text-4xl font-medium transition',
             'separator' => 'dark:text-dark-400 h-14 text-5xl text-gray-300',
             'interval' => [

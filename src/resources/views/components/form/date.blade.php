@@ -51,6 +51,7 @@
         </x-slot:suffix>
     </x-dynamic-component>
     <x-dynamic-component :component="TallStackUi::component('floating')"
+                         :floating="$personalize['floating']"
                          class="p-3 w-[17rem]"
                          x-bind:class="{ 'h-[17rem]' : picker.year || picker.month }">
         <div @class($personalize['box.picker.button'])>

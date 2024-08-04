@@ -28,6 +28,7 @@
             {!! $action !!}
         @endif
         <x-dynamic-component :component="TallStackUi::component('floating')"
+                             :floating="$personalize['floating']"
                              class="w-56"
                              offset="5"
                              :$position

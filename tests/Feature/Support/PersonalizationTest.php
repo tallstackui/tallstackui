@@ -449,4 +449,4 @@ it('cannot have unused personalization keys', function (string $component) {
     foreach (array_keys($class->personalization()) as $key) {
         expect($content)->toContain($key);
     }
-})->with('personalizations.components')->skip('This test must be performed manually.');
+})->with('personalizations.components')->skip('This test is useful to verify that all customization keys are in use in the component\'s blade file.');

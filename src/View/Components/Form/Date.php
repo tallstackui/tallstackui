@@ -13,6 +13,7 @@ use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\Traits\SanitizePropertyValue;
 use TallStackUi\Foundation\Traits\WireChangeEvent;
 use TallStackUi\View\Components\BaseComponent;
+use TallStackUi\View\Components\Floating;
 
 #[SoftPersonalization('form.date')]
 class Date extends BaseComponent implements Personalization
@@ -73,6 +74,7 @@ class Date extends BaseComponent implements Personalization
             'wrapper' => [
                 'helpers' => 'custom-scrollbar flex items-center justify-between space-x-2 overflow-auto pb-2',
             ],
+            'floating' => collect(app(Floating::class)->personalization())->get('wrapper'),
             'box' => [
                 'picker' => [
                     'button' => 'text-gray-900 focus:ring-dark-200 flex items-center justify-between rounded-lg px-2 py-1 mb-6 text-sm font-semibold focus:outline-none focus:ring-2 dark:text-white',
