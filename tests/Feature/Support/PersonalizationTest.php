@@ -449,4 +449,4 @@ it('cannot have unused personalization keys', function (string $component) {
     foreach (array_keys($class->personalization()) as $key) {
         expect($content)->toContain($key);
     }
-})->with('personalizations.components')->skip('This test must be performed manually.');
+})->with('personalizations.components');

@@ -101,6 +101,7 @@
             @endif
         </button>
         <x-dynamic-component :component="TallStackUi::component('floating')"
+                             :floating="$personalize['floating']"
                              class="w-full overflow-auto"
                              x-anchor="$refs.button">
             <template x-if="searchable">

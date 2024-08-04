@@ -11,6 +11,7 @@ use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\Support\Components\UploadComponentFileAdapter;
 use TallStackUi\View\Components\BaseComponent;
+use TallStackUi\View\Components\Floating;
 
 #[SoftPersonalization('form.upload')]
 class Upload extends BaseComponent implements Personalization
@@ -58,6 +59,7 @@ class Upload extends BaseComponent implements Personalization
                 'tip' => 'mx-4 mt-2 text-center text-sm text-gray-500 dark:text-gray-400',
                 'icon.class' => 'dark:text-dark-300 h-6 w-6 text-gray-600',
             ],
+            'floating' => collect(app(Floating::class)->personalization())->get('wrapper'),
             'upload' => [
                 'wrapper' => 'mt-2 flex h-1 w-full overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700',
                 'progress' => 'flex flex-col justify-center overflow-hidden whitespace-nowrap rounded-full bg-green-600 text-center text-xs text-white transition duration-500',

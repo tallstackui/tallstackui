@@ -11,6 +11,7 @@ use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\Traits\MergeAttributes;
 use TallStackUi\View\Components\BaseComponent;
+use TallStackUi\View\Components\Floating;
 
 #[SoftPersonalization('form.color')]
 class Color extends BaseComponent implements Personalization
@@ -46,6 +47,7 @@ class Color extends BaseComponent implements Personalization
                 'wrapper' => 'absolute inset-y-0 right-0 flex items-center pr-2.5',
                 'class' => 'h-5 w-5',
             ],
+            'floating' => collect(app(Floating::class)->personalization())->get('wrapper'),
             'box' => [
                 'base' => 'shadow-xs dark:bg-dark-700 soft-scrollbar max-h-60 overflow-auto rounded-md bg-white py-4',
                 'range' => [

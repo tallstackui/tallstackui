@@ -11,6 +11,7 @@ use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\Traits\MergeAttributes;
 use TallStackUi\View\Components\BaseComponent;
+use TallStackUi\View\Components\Floating;
 
 #[SoftPersonalization('form.password')]
 class Password extends BaseComponent implements Personalization
@@ -77,6 +78,7 @@ class Password extends BaseComponent implements Personalization
                 'wrapper' => 'flex items-center',
                 'class' => 'h-5 w-5 cursor-pointer',
             ],
+            'floating' => collect(app(Floating::class)->personalization())->get('wrapper'),
             'rules' => [
                 'title' => 'text-md font-semibold text-red-500 dark:text-dark-300',
                 'block' => 'mt-2 flex flex-col',

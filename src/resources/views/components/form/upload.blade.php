@@ -65,7 +65,9 @@
             </div>
         </template>
     @endif
-     <x-dynamic-component :component="TallStackUi::component('floating')" class="p-3 w-full">
+     <x-dynamic-component :component="TallStackUi::component('floating')"
+                          :floating="$personalize['floating']"
+                          class="p-3 w-full">
          @if (!$static)
          <div @class(['flex flex-col w-full items-center justify-center', 'mb-2' => $footer->isNotEmpty()])>
              <div @class($personalize['placeholder.wrapper']) :class="{ 'bg-primary-100': dragging }">
