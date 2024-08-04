@@ -18,8 +18,6 @@ use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 #[SoftPersonalization('table')]
 class Table extends BaseComponent implements Personalization
 {
-    public string $uuid;
-
     public function __construct(
         public ?string $id = null,
         public Collection|array $headers = [],
@@ -74,8 +72,6 @@ class Table extends BaseComponent implements Personalization
                 ->lower()
                 ->value();
         }
-
-        $this->uuid = 'test'.md5(serialize($this));
     }
 
     public function blade(): View
