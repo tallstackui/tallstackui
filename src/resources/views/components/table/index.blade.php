@@ -4,7 +4,7 @@
     [$property, $error, $id, $entangle] = $bind($attributes, livewire: $livewire);
 @endphp
 
-<div x-data="tallstackui_table({!! $entangle !!}, @js($ids()), @js($selectable))" @if ($persistent && $id) id="{{ $id }}" @endif>
+<div x-data="tallstackui_table({!! $entangle !!}, @js($ids()))" @if ($persistent && $id) id="{{ $id }}" @endif>
     @if (is_string($header))
         <p @class($personalize['slots.header'])>{{ $header }}</p>
     @else
@@ -49,11 +49,11 @@
                     <thead @class(['uppercase', $personalize['table.thead.normal'] => !$striped, $personalize['table.thead.striped'] => $striped])>
                         <tr>
                             @if ($selectable)
-                                <th class="w-1" wire:key="checkall-{{ implode(',', $ids()) }}">
-                                    <input type="checkbox"
-                                           class="checkbox checkbox-sm"
-                                           x-ref="mainCheckbox"
-                                           @click="toggleCheckAll($el.checked)" />
+                                <th @class(['w-6', $personalize['table.th']]) wire:key="checkall-{{ implode(',', $ids()) }}">
+                                    <x-dynamic-component :component="TallStackUi::component('checkbox')"
+                                                         x-ref="checkbox"
+                                                         x-on:click="all($el.checked)"
+                                                         sm />
                                 </th>
                             @endif
                             @foreach ($headers as $header)
@@ -90,19 +90,18 @@
                         @php
                             $this->loop = $loop;
                             $id = md5(serialize($value).$key);
-                            $modifier = $selectableModifier();
                         @endphp
-                        @if ($selectable)
-                            <td class="w-1">
-                                <input id="checkbox-{{ $id }}"
-                                       {{ $modifier }}
-                                        type="checkbox"
-                                        class="checkbox checkbox-sm checkbox-primary"
-                                        value="{{ data_get($value, $selectableKey()) }}"
-                                        x-on:click="toggleCheck($el.checked, {{ json_encode($value) }})" />
-                            </td>
-                        @endif
                         <tr @class(['bg-gray-50 dark:bg-dark-800/50' => $striped && $loop->index % 2 === 0]) @if ($livewire) wire:key="{{ $id }}" @endif>
+                            @if ($selectable)
+                                <td @class($personalize['table.td'])>
+                                    <x-dynamic-component :component="TallStackUi::component('checkbox')"
+                                                         id="checkbox-{{ $id }}"
+                                                         :attributes="$modifier()"
+                                                         value="{{ data_get($value, $selectableProperty) }}"
+                                                         x-on:click="select($el.checked, {{ \Illuminate\Support\Js::from($value) }})"
+                                                         sm />
+                                </td>
+                            @endif
                             @foreach($headers as $header)
                                 @php
                                     $row = str_replace('.', '_', $header['index']);

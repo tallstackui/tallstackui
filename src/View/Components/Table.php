@@ -43,6 +43,7 @@ class Table extends BaseComponent implements Personalization
         #[SkipDebug]
         public ComponentSlot|string|null $footer = null,
         public bool|string|null $selectable = null,
+        public string $selectableProperty = 'id',
     ) {
         $this->placeholders = __('tallstack-ui::messages.table');
 
@@ -90,7 +91,14 @@ class Table extends BaseComponent implements Personalization
 
     public function ids(): array
     {
-        return collect($this->rows)->pluck($this->selectableKey())->all();
+        return collect($this->rows)->pluck($this->selectableProperty)->all();
+    }
+
+    final public function modifier(): ComponentAttributeBag
+    {
+        $modifier = is_string($this->ids()[0] ?? null) ? '' : '.number';
+
+        return new ComponentAttributeBag(['x-model'.$modifier => 'model']);
     }
 
     public function personalization(): array
@@ -119,20 +127,6 @@ class Table extends BaseComponent implements Personalization
                 'header' => 'mb-2 dark:text-dark-300 text-gray-500',
                 'footer' => 'mt-2 dark:text-dark-300 text-gray-500',
             ],
-        ]);
-    }
-
-    public function selectableKey(): string
-    {
-        return is_bool($this->selectable) || is_null($this->selectable) ? 'id' : (string) $this->selectable;
-    }
-
-    public function selectableModifier(): ComponentAttributeBag
-    {
-        $modifier = is_string($this->ids()[0] ?? null) ? '' : '.number';
-
-        return new ComponentAttributeBag([
-            'x-model.'.$modifier => 'selection',
         ]);
     }
 
