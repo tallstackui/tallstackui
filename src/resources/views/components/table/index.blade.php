@@ -27,8 +27,8 @@
                                          invalidate />
                 </div>
             @endisset
-            @if ($action)
-                {{ $action }}
+            @if ($middle)
+                {{ $middle }}
             @endif
             @isset ($filter['search'])
                 <div class="sm:w-1/5">
