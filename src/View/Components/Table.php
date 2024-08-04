@@ -97,10 +97,7 @@ class Table extends BaseComponent implements Personalization
     // Prepare the href link for the row replacing tokens
     public function href(mixed $row): string
     {
-        return str($this->link)
-            ->replaceMatches('/\{(.*?)\}/', function ($match) use ($row): ?string {
-                return data_get($row, $match[1]);
-            })->value();
+        return str($this->link)->replaceMatches('/\{(.*?)\}/', fn ($match): ?string => data_get($row, $match[1]))->value();
     }
 
     public function ids(): array
