@@ -43,6 +43,8 @@ class Table extends BaseComponent implements Personalization
         public ComponentSlot|string|null $header = null,
         #[SkipDebug]
         public ComponentSlot|string|null $footer = null,
+        #[SkipDebug]
+        public ?ComponentSlot $action = null,
         public bool|string|null $selectable = null,
         public string $selectableProperty = 'id',
     ) {
