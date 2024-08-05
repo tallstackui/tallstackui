@@ -40,6 +40,7 @@ class Dropdown extends BaseComponent implements Personalization
                 'second' => 'relative inline-block text-left',
                 'slot' => 'overflow-hidden rounded-md',
             ],
+            'width' => 'w-56',
             'floating' => collect(app(Floating::class)->personalization())->get('wrapper'),
             'action' => [
                 'wrapper' => 'inline-flex w-full gap-x-1.5',
