@@ -214,14 +214,12 @@ export default (
    * @return {void}
    */
   backspace(event, index) {
-    event?.preventDefault();
-
     const current = this.input(index);
 
     // If the attempt here is to clear an input that is not the last one, we go to the last filled input.
     // Otherwise, cleaning occurs normally. This was done to correct the attempt to delete an intermediate
     // input, which doesn't work very well due to the logic we adopted in the component's behavior.
-    if (current && current.value !== '' && index !== this.length) {
+    if (current?.value !== '' && index !== this.length) {
       const last = this.filled();
 
       this.focus(last);

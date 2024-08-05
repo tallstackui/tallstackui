@@ -59,12 +59,13 @@
                            '{{ $personalize['input.color.error'] }}': @js($invalidate ?? false) === false && error,
                        }" maxlength="1"
                        autocomplete="false"
+                       x-on:focus="setTimeout(() => $el.selectionStart = $el.selectionEnd = $el.value.length, 0)"
                        x-on:keyup="keyup(@js($index))"
                        x-on:keyup.left="left(@js($index))"
                        x-on:keyup.right="right(@js($index))"
                        x-on:keyup.up="left(@js($index))"
                        x-on:keyup.down="right(@js($index))"
-                       x-on:keyup.delete="backspace(@js($index))"
+                       x-on:keyup.delete="backspace($event, @js($index))"
                        x-on:keyup.backspace="backspace($event, @js($index))" />
             @endforeach
             <template x-if="clear && model">
