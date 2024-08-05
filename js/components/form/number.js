@@ -23,14 +23,12 @@ export default (value, min, max, delay) => ({
         return;
       }
 
-      this.disableMinus = this.defined && this.atMinus;
-      this.disablePlus = this.defined && this.atPlus;
+      this.disableMinus = this.atMinus;
+      this.disablePlus = this.atPlus;
     }
 
     this.$watch('value', (value) => {
-      if (isNaN(value) || !value) {
-        return;
-      }
+      if (isNaN(value) || !value) return;
 
       this.$refs.input.value = this.value = value;
     });
