@@ -27,9 +27,6 @@
                                          invalidate />
                 </div>
             @endisset
-            @if ($middle)
-                {{ $middle }}
-            @endif
             @isset ($filter['search'])
                 <div class="sm:w-1/5">
                     <x-dynamic-component :component="TallStackUi::component('input')"
