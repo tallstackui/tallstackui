@@ -39,7 +39,6 @@ class Styled extends BaseComponent implements Personalization
         public ?array $selectable = [],
         #[SkipDebug]
         public ?string $after = null,
-        public ?bool $disabled = false,
         #[SkipDebug]
         public ?bool $common = true,
         public ?array $placeholders = null,
