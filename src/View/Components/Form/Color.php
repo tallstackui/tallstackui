@@ -22,7 +22,7 @@ class Color extends BaseComponent implements Personalization
         public ?string $label = null,
         public ?string $hint = null,
         public ?bool $picker = false,
-        public Collection|array $colors = [],
+        public Collection|array|null $colors = null,
         #[SkipDebug]
         public ?string $mode = null,
         public ?bool $invalidate = null,

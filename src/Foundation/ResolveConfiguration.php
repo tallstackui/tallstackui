@@ -4,6 +4,7 @@ namespace TallStackUi\Foundation;
 
 use Exception;
 use Illuminate\Support\Collection;
+use TallStackUi\View\Components\Form\Color;
 use TallStackUi\View\Components\Interaction\Dialog;
 use TallStackUi\View\Components\Interaction\Toast;
 use TallStackUi\View\Components\Loading;
@@ -22,6 +23,7 @@ class ResolveConfiguration
 
         /** @var string|array $data */
         $data = (match (true) {
+            $component instanceof Color => fn () => $class->color($component),
             $component instanceof Dialog => fn () => 'dialog',
             $component instanceof Loading => fn () => $class->loading($component),
             $component instanceof Modal => fn () => $class->modal($component),
@@ -41,6 +43,15 @@ class ResolveConfiguration
         }
 
         return $data;
+    }
+
+    private function color(Color $component): array
+    {
+        $configuration = $this->config('form.color');
+
+        $component->colors ??= $configuration->get('colors') ?? [];
+
+        return collect($component)->only('colors')->toArray();
     }
 
     private function config(string $index): Collection

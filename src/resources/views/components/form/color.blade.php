@@ -17,7 +17,7 @@
 <div x-data="tallstackui_formColor(
         {!! $entangle !!},
         @js($mode),
-        @js($colors),
+        @js($configurations['colors']),
         @js($livewire),
         @js($property),
         @js($value))"
