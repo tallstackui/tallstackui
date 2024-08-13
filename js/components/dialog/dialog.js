@@ -41,13 +41,18 @@ export default (flash, texts, overflowing) => ({
   accept(dialog, element) {
     event('dialog:accepted', dialog, false);
 
+    const component = Livewire.find(dialog.component);
+
     if (dialog.options.confirm.static === true || dialog.options.confirm.method === null) {
+      if (dialog.hooks?.accept) {
+        component.call(dialog.hooks.accept.method, dialog.hooks.accept.params);
+      }
+
       return this.remove();
     }
 
     setTimeout(() => {
-      Livewire.find(dialog.component)
-          .call(dialog.options.confirm.method, dialog.options.confirm.params);
+      component.call(dialog.options.confirm.method, dialog.options.confirm.params);
 
       // This is a little trick to prevent the element from being
       // focused if there is another dialog displayed sequentially.
@@ -64,7 +69,13 @@ export default (flash, texts, overflowing) => ({
   reject(dialog, element) {
     event('dialog:rejected', dialog, false);
 
+    const component = Livewire.find(dialog.component);
+
     if (!dialog.options || dialog.options.cancel.static === true || dialog.options.cancel.method === null) {
+      if (dialog.hooks?.reject) {
+        component.call(dialog.hooks.reject.method, dialog.hooks.reject.params);
+      }
+
       return this.remove();
     }
 

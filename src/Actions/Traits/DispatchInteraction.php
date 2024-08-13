@@ -2,6 +2,8 @@
 
 namespace TallStackUi\Actions\Traits;
 
+use InvalidArgumentException;
+
 /**
  * @internal This trait is not meant to be used directly.
  */
@@ -27,6 +29,24 @@ trait DispatchInteraction
         $this->flash = true;
 
         $this->dispatch = $dispatch;
+
+        return $this;
+    }
+
+    /**
+     * Interact with hooks: `close`, `dismiss` and `timeout`
+     *
+     * @return $this
+     */
+    public function hook(array $hooks): self
+    {
+        $expected = ['accept', 'reject', 'close', 'dismiss', 'timeout'];
+
+        if (collect($hooks)->keys()->diff($expected)->isNotEmpty()) {
+            throw new InvalidArgumentException('The interaction hooks must be: close, dismiss, timeout');
+        }
+
+        $this->data['hooks'] = $hooks;
 
         return $this;
     }
