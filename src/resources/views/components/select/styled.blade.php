@@ -85,7 +85,7 @@
             @if (!$disabled)
                 <div @class($personalize['buttons.wrapper'])>
                     @if (!$required)
-                    <template x-if="!empty">
+                    <template x-if="!empty" wire:ignore>
                         <button dusk="tallstackui_select_clear"
                                 type="button"
                                 x-on:click="$event.stopPropagation(); clear();">
@@ -116,10 +116,10 @@
                     <button type="button"
                             @class($personalize['box.button.class'])
                             x-on:click="search = ''; $refs.search.focus();"
-                            x-show="search?.length > 0">
+                            x-show="search?.length > 0" wire:ignore>
                         <x-dynamic-component :component="TallStackUi::component('icon')"
                                              :icon="TallStackUi::icon('x-mark')"
-                                @class($personalize['box.button.icon']) />
+                                             @class($personalize['box.button.icon']) />
                     </button>
                 </div>
             </template>
