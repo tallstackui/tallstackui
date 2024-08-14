@@ -30,8 +30,6 @@ export default (flash, texts, overflowing) => ({
   remove(dismissed = false, internal = false) {
     this.show = false;
 
-    console.log(this.dialog.hooks);
-
     const hook = dismissed ? this.dialog.hooks?.dismiss : this.dialog.hooks?.close;
 
     if (hook && !internal) Livewire.find(this.dialog.component).call(hook.method, hook.params);

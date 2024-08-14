@@ -27,10 +27,10 @@ class BrowserTestCase extends TestCase
         return function () {};
     }
 
-    //    protected function getApplicationTimezone($app): string
-    //    {
-    //        return 'America/Sao_Paulo';
-    //    }
+    protected function getApplicationTimezone($app): string
+    {
+        return 'America/Sao_Paulo';
+    }
 
     protected function getEnvironmentSetUp($app): void
     {
@@ -54,6 +54,7 @@ class BrowserTestCase extends TestCase
                 'driver' => 'local',
                 'root' => self::tmpPath(),
             ]);
+            $config->set('cache.default', 'array');
         });
     }
 
