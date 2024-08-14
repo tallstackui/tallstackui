@@ -24,6 +24,8 @@ class Stats extends BaseComponent implements Personalization
         public ?bool $animated = false,
         public ?bool $increase = false,
         public ?bool $decrease = false,
+        public ?bool $navigate = null,
+        public ?bool $navigateHover = null,
         #[SkipDebug]
         public ?string $style = null,
         #[SkipDebug]

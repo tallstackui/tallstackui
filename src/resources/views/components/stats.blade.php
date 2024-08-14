@@ -3,7 +3,7 @@
     $personalize = $classes();
 @endphp
 
-<{{ $tag }} @if ($href) href="{{ $href }}" @endif 
+<{{ $tag }} @if ($href) href="{{ $href }}" @if ($navigate) wire:navigate @elseif($navigateHover) wire:navigate.hover @endif @endif
      {{ $attributes->class($personalize['wrapper.first']) }}
      x-data="tallstackui_stats(@js($number), @js($animated))"
      x-intersect:enter.full="visible = true"
