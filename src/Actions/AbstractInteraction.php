@@ -2,6 +2,7 @@
 
 namespace TallStackUi\Actions;
 
+use Exception;
 use Livewire\Component;
 
 /**
@@ -9,7 +10,7 @@ use Livewire\Component;
  */
 abstract class AbstractInteraction
 {
-    public function __construct(public Component $component)
+    public function __construct(public ?Component $component = null)
     {
         //
     }
@@ -21,6 +22,16 @@ abstract class AbstractInteraction
     abstract public function question(string $title, ?string $description = null): self;
 
     abstract public function success(string $title, ?string $description = null): self;
+
+    /** @throws Exception */
+    public function unsupported(string $what): void
+    {
+        if ($this->component && $this->component->getId()) {
+            return;
+        }
+
+        throw new Exception('This interaction ['.$what.'] using Interaction trait is not supported through Controllers.');
+    }
 
     abstract public function warning(string $title, ?string $description = null): self;
 

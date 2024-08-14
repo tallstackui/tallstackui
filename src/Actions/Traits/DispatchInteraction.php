@@ -46,6 +46,8 @@ trait DispatchInteraction
      */
     public function hook(array $hooks): self
     {
+        $this->unsupported('hook');
+
         $expected = match (true) {
             $this instanceof Dialog => ['ok', 'close', 'dismiss'],
             $this instanceof Toast => ['close', 'timeout'], // @phpstan-ignore-line
@@ -71,12 +73,17 @@ trait DispatchInteraction
             $data = array_merge($data, $this->additional());
         }
 
-        $data['component'] = $this->component->getId();
-
         $event = sprintf('tallstackui:%s', $this->event());
 
-        if ($this->dispatch) {
-            $this->component->dispatch($event, ...$data);
+        if ($this->component) {
+            $data['component'] = $this->component->getId();
+
+            $this->dispatch && $this->component->dispatch($event, ...$data);
+        } else {
+            // This else indicates that the sending is taking place via
+            // Controller, outside the Livewire scope. So we automatically
+            // set the send to flush to make it necessary to manually set it.
+            $this->flash();
         }
 
         if (! $this->flash) {

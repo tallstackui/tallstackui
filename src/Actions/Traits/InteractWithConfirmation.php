@@ -11,6 +11,8 @@ trait InteractWithConfirmation
 {
     public function cancel(?string $text = null, ?string $method = null, array|string|int|null $params = null): self
     {
+        $this->unsupported('cancel');
+
         [, $message] = $this->messages();
 
         $this->data['options']['cancel'] = [
@@ -25,6 +27,8 @@ trait InteractWithConfirmation
 
     public function confirm(?string $text = null, ?string $method = null, array|string|int|null $params = null): self
     {
+        $this->unsupported('confirm');
+
         [$message] = $this->messages();
 
         $this->data['options']['confirm'] = [
