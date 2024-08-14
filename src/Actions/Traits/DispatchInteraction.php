@@ -42,14 +42,14 @@ trait DispatchInteraction
      *
      * @return $this
      *
-     * @throws Exception|InvalidArgumentException
+     * @throws Exception
      */
     public function hook(array $hooks): self
     {
-        $expected = match (static::class) {
-            Dialog::class => ['ok', 'close', 'dismiss'],
-            Toast::class => ['close', 'timeout'],
-            default => throw new Exception('Unknown Interaction class'),
+        $expected = match (true) {
+            $this instanceof Dialog => ['ok', 'close', 'dismiss'],
+            $this instanceof Toast => ['close', 'timeout'], // @phpstan-ignore-line
+            default => throw new Exception('The interaction hooks is not supported for '.static::class),
         };
 
         $collect = collect($hooks)->mapWithKeys(fn (array|Closure $hook, string $key): array => [$key => $hook instanceof Closure ? app()->call(fn () => $hook()) : $hook]);
