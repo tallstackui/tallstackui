@@ -3,6 +3,7 @@
     $text ??= $slot->toHtml();
     $personalize = $classes();
     $flash = session()->pull('tallstackui:banner');
+    $wire = $flash ? true : $wire;
 @endphp
 
 @if ($show)

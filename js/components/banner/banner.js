@@ -25,8 +25,13 @@ export default (flash, animated, wire, text, enter, leave, close) => ({
       setTimeout(() => this.show = false, this.leave * 1000);
     });
   },
+  /**
+   * Add a new banner.
+   *
+   * @param event {Event|Object}
+   */
   add(event) {
-    const data = event.detail ?? flash;
+    const data = event.detail ?? event;
 
     this.type = data.type;
     this.text = data.title;
