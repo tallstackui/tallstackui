@@ -3,7 +3,10 @@
 namespace TallStackUi\Actions\Traits;
 
 use Closure;
+use Exception;
 use InvalidArgumentException;
+use TallStackUi\Actions\Dialog;
+use TallStackUi\Actions\Toast;
 
 /**
  * @internal This trait is not meant to be used directly.
@@ -38,15 +41,21 @@ trait DispatchInteraction
      * Interact with hooks: `close`, `dismiss` and `timeout`
      *
      * @return $this
+     *
+     * @throws Exception|InvalidArgumentException
      */
     public function hook(array $hooks): self
     {
-        $expected = ['ok', 'close', 'dismiss', 'timeout'];
+        $expected = match (static::class) {
+            Dialog::class => ['ok', 'close', 'dismiss'],
+            Toast::class => ['close', 'timeout'],
+            default => throw new Exception('Unknown Interaction class'),
+        };
 
         $collect = collect($hooks)->mapWithKeys(fn (array|Closure $hook, string $key): array => [$key => $hook instanceof Closure ? app()->call(fn () => $hook()) : $hook]);
 
         if ($collect->keys()->diff($expected)->isNotEmpty()) {
-            throw new InvalidArgumentException('The interaction hooks must be: close, dismiss, timeout');
+            throw new InvalidArgumentException('The interaction hooks for ['.class_basename(static::class).'] must be one of the following: '.implode(', ', $expected));
         }
 
         $this->data['hooks'] = $collect->toArray();
