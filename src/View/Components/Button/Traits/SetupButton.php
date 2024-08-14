@@ -3,6 +3,7 @@
 namespace TallStackUi\View\Components\Button\Traits;
 
 use Illuminate\View\ComponentAttributeBag;
+use TallStackUi\View\Components\Button\Button;
 use TallStackUi\View\Components\Button\Circle;
 
 trait SetupButton
@@ -27,7 +28,10 @@ trait SetupButton
     {
         $this->style = $this->outline ? 'outline' : ($this->light ? 'light' : ($this->flat ? 'flat' : 'solid'));
         $this->size = $this->xs ? 'xs' : ($this->sm ? 'sm' : ($this->lg ? 'lg' : 'md'));
-        $this->position = $this->position === 'right' ? 'right' : 'left';
+
+        if ($this instanceof Button) {
+            $this->position = $this->position === 'right' ? 'right' : 'left';
+        }
 
         if (! $this instanceof Circle) {
             return;
