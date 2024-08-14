@@ -2,8 +2,7 @@
     $personalize = $classes();
 @endphp
 
-<div x-data="{ selected: @if (!$selected) {!! TallStackUi::blade($attributes, $livewire)->entangle() !!} @else @js($selected) @endif, tabs: [] }"
-     @class($personalize['base.wrapper'])>
+<div x-data="{ selected: @if (!$selected) {!! TallStackUi::blade($attributes, $livewire)->entangle() !!} @else @js($selected) @endif, tabs: [] }" @class($personalize['base.wrapper'])>
     <div @class($personalize['base.padding'])>
         <select x-model="selected" @class($personalize['base.select'])>
             <template x-for="item in tabs">
@@ -11,10 +10,10 @@
             </template>
         </select>
     </div>
-    <ul @class($personalize['base.body'])>
+    <ul @class($personalize['base.body']) {{ $attributes->only('x-on:navigate') }} x-ref="ul">
         <template x-for="item in tabs">
             <li role="tab"
-                x-on:click="selected = item.tab"
+                x-on:click="selected = item.tab; $refs.ul.dispatchEvent(new CustomEvent('navigate', {detail: {select: item.tab}}));"
                 x-bind:class="{
                     '{{ $personalize['item.select'] }}' : selected === item.tab,
                     '{{ $personalize['item.unselect'] }}' : selected !== item.tab

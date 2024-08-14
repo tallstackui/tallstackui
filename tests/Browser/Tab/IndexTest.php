@@ -9,6 +9,41 @@ use Tests\Browser\BrowserTestCase;
 class IndexTest extends BrowserTestCase
 {
     /** @test */
+    public function can_dispatch_event(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $selected = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>        
+                    <p dusk="selected">{{ $selected }}</p>
+
+                    <x-tab selected="Foo" x-on:navigate="$wire.set('selected', $event.detail.select)">
+                        <x-tab.items tab="Foo">
+                            Foo bar baz
+                        </x-tab.items>
+                        <x-tab.items tab="Bar">
+                            Baz bar foo
+                        </x-tab.items>
+                    </x-tab>
+                </div>
+                HTML;
+            }
+        })
+            ->assertSee('Foo')
+            ->assertSee('Bar')
+            ->assertSee('Foo bar baz')
+            ->assertDontSee('Baz bar foo')
+            ->clickAtXPath('/html/body/div[3]/div/ul/li[2]')
+            ->waitForText('Baz bar foo')
+            ->assertDontSee('Foo bar baz')
+            ->waitForTextIn('@selected', 'Bar');
+    }
+
+    /** @test */
     public function can_render_and_select_with_accents(): void
     {
         Livewire::visit(new class extends Component
