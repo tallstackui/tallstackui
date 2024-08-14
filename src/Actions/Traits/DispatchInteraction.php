@@ -2,6 +2,12 @@
 
 namespace TallStackUi\Actions\Traits;
 
+use Closure;
+use Exception;
+use InvalidArgumentException;
+use TallStackUi\Actions\Dialog;
+use TallStackUi\Actions\Toast;
+
 /**
  * @internal This trait is not meant to be used directly.
  */
@@ -27,6 +33,32 @@ trait DispatchInteraction
         $this->flash = true;
 
         $this->dispatch = $dispatch;
+
+        return $this;
+    }
+
+    /**
+     * Interact with hooks: `close`, `dismiss` and `timeout`
+     *
+     * @return $this
+     *
+     * @throws Exception
+     */
+    public function hook(array $hooks): self
+    {
+        $expected = match (true) {
+            $this instanceof Dialog => ['ok', 'close', 'dismiss'],
+            $this instanceof Toast => ['close', 'timeout'], // @phpstan-ignore-line
+            default => throw new Exception('The interaction hooks is not supported for '.static::class),
+        };
+
+        $collect = collect($hooks)->mapWithKeys(fn (array|Closure $hook, string $key): array => [$key => $hook instanceof Closure ? app()->call(fn () => $hook()) : $hook]);
+
+        if ($collect->keys()->diff($expected)->isNotEmpty()) {
+            throw new InvalidArgumentException('The interaction hooks for ['.class_basename(static::class).'] must be one of the following: '.implode(', ', $expected));
+        }
+
+        $this->data['hooks'] = $collect->toArray();
 
         return $this;
     }

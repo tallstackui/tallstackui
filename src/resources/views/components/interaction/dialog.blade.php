@@ -34,6 +34,7 @@
                     <button x-on:click="remove()">
                         <x-dynamic-component :component="TallStackUi::component('icon')"
                                              :icon="TallStackUi::icon('x-mark')"
+                                             dusk="tallstackui_dialog_close"
                                              @class($personalize['buttons.close.icon']) />
                     </button>
                 </div>

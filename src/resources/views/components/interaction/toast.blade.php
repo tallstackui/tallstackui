@@ -82,9 +82,10 @@
                     </div>
                     <div @class($personalize['buttons.wrapper.second'])>
                         <div @class($personalize['buttons.close.wrapper'])>
-                            <button x-on:click="hide()" type="button" @class($personalize['buttons.close.class'])>
+                            <button x-on:click="hide(true, false)" type="button" @class($personalize['buttons.close.class'])>
                                 <x-dynamic-component :component="TallStackUi::component('icon')"
                                                      :icon="TallStackUi::icon('x-mark')"
+                                                     dusk="tallstackui_toast_close"
                                                      @class($personalize['buttons.close.size']) />
                             </button>
                         </div>

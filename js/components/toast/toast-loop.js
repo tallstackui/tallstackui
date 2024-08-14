@@ -6,6 +6,7 @@ export default (toast) => ({
   init() {
     let paused = false;
     let elapsed = 0;
+
     const time = this.toast.timeout * 10;
     const max = this.toast.timeout * 1000;
 
@@ -17,9 +18,16 @@ export default (toast) => ({
           clearInterval(interval);
         } else if (!paused) {
           elapsed += time;
+
           if (elapsed >= max) {
-            this.hide(true);
+            this.hide();
+
+            if (toast.hooks?.timeout) {
+              Livewire.find(toast.component).call(toast.hooks.timeout.method, toast.hooks.timeout.params);
+            }
+
             event('toast:timeout', this.toast, false);
+
             clearInterval(interval);
           }
         }
@@ -49,7 +57,7 @@ export default (toast) => ({
           progress.classList.add('animate-progress');
           progress.style.animationDuration = max - elapsed + 'ms';
         } else {
-          this.hide(true);
+          this.hide();
         }
       });
     });
@@ -78,7 +86,19 @@ export default (toast) => ({
 
     this.hide();
   },
-  hide(immediately = true) {
+  /**
+   * Hide the toast.
+   *
+   * @param immediately {Boolean}
+   * @param internal {Boolean}
+   * @return {void}
+   */
+  hide(immediately = true, internal = true) {
+    if (!internal && toast.hooks?.close) {
+      Livewire.find(toast.component)
+          .call(toast.hooks.close.method, toast.hooks.close.params);
+    }
+
     setTimeout(() => {
       this.show = false;
       this.remove(this.toast);
