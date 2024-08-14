@@ -32,7 +32,7 @@ class FindComponentCommand extends Command
     {
         $components = collect(config('tallstackui.components'))
             ->keys()
-            ->filter(fn ($component) => ! in_array($component, self::IGNORES));
+            ->filter(fn (string $component) => ! in_array($component, self::IGNORES));
 
         $original = suggest('Select Component', $components->values()->toArray(), required: true);
         $prefix = config('tallstackui.prefix');
@@ -76,7 +76,7 @@ class FindComponentCommand extends Command
             // After that, need to ignore lines that contain
             // </x- because they are closing tags and not the
             // actual component, like examples of </x-modal> and </x-slide>
-            ->filter(fn ($line) => ! str_contains($line, '</x-'));
+            ->filter(fn (string $line) => ! str_contains($line, '</x-'));
 
         $total = $lines->count();
 

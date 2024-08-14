@@ -14,7 +14,7 @@ class BladeDirectives
     {
         $files = scandir(__DIR__.'/../../../../dist');
 
-        return collect($files)->filter(fn ($file) => preg_match('/\.'.$type.'$/', $file))->toArray();
+        return collect($files)->filter(fn (string $file) => preg_match('/\.'.$type.'$/', $file))->toArray();
     }
 
     public static function register(): void
