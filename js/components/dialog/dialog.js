@@ -24,10 +24,17 @@ export default (flash, texts, overflowing) => ({
   },
   /**
    * @param dismissed {Boolean}
+   * @param internal {Boolean}
    * @return {void}
    */
-  remove(dismissed = false) {
+  remove(dismissed = false, internal = false) {
     this.show = false;
+
+    console.log(this.dialog.hooks);
+
+    const hook = dismissed ? this.dialog.hooks?.dismiss : this.dialog.hooks?.close;
+
+    if (hook && !internal) Livewire.find(this.dialog.component).call(hook.method, hook.params);
 
     if (!dismissed) return;
 
@@ -44,11 +51,11 @@ export default (flash, texts, overflowing) => ({
     const component = Livewire.find(dialog.component);
 
     if (dialog.options.confirm.static === true || dialog.options.confirm.method === null) {
-      if (dialog.hooks?.accept) {
-        component.call(dialog.hooks.accept.method, dialog.hooks.accept.params);
+      if (dialog.hooks?.ok) {
+        component.call(dialog.hooks.ok.method, dialog.hooks.ok.params);
       }
 
-      return this.remove();
+      return this.remove(false, true);
     }
 
     setTimeout(() => {
@@ -59,7 +66,7 @@ export default (flash, texts, overflowing) => ({
       element.blur();
     }, 100);
 
-    this.remove();
+    this.remove(false, true);
   },
   /**
    * @param dialog {Object}
@@ -76,18 +83,17 @@ export default (flash, texts, overflowing) => ({
         component.call(dialog.hooks.reject.method, dialog.hooks.reject.params);
       }
 
-      return this.remove();
+      return this.remove(false, true);
     }
 
     setTimeout(() => {
-      Livewire.find(dialog.component)
-          .call(dialog.options.cancel.method, dialog.options.cancel.params);
+      component.call(dialog.options.cancel.method, dialog.options.cancel.params);
 
       // This is a little trick to prevent the element from being
       // focused if there is another dialog displayed sequentially.
       element.blur();
     }, 100);
 
-    this.remove();
+    return this.remove(false, true);
   },
 });

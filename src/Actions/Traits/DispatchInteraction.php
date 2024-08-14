@@ -2,6 +2,7 @@
 
 namespace TallStackUi\Actions\Traits;
 
+use Closure;
 use InvalidArgumentException;
 
 /**
@@ -40,13 +41,15 @@ trait DispatchInteraction
      */
     public function hook(array $hooks): self
     {
-        $expected = ['accept', 'reject', 'close', 'dismiss', 'timeout'];
+        $expected = ['ok', 'close', 'dismiss', 'timeout'];
 
-        if (collect($hooks)->keys()->diff($expected)->isNotEmpty()) {
+        $collect = collect($hooks)->mapWithKeys(fn (array|Closure $hook, string $key): array => [$key => $hook instanceof Closure ? app()->call(fn () => $hook()) : $hook]);
+
+        if ($collect->keys()->diff($expected)->isNotEmpty()) {
             throw new InvalidArgumentException('The interaction hooks must be: close, dismiss, timeout');
         }
 
-        $this->data['hooks'] = $hooks;
+        $this->data['hooks'] = $collect->toArray();
 
         return $this;
     }
