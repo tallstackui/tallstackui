@@ -6,7 +6,7 @@ trait SetupSelects
 {
     private function setup(): void
     {
-        $this->options = collect(array_values($this->options));
+        $this->options = collect(array_values($this->options))->toArray();
 
         if (! $this->select || ($this->options !== [] && ! is_array($this->options[0]))) {
             return;
@@ -16,7 +16,7 @@ trait SetupSelects
         $label = explode(':', $select[0])[1];
         $value = explode(':', $select[1])[1];
 
-        $this->options = $this->options->map(fn (array $item) => [
+        $this->options = collect($this->options)->map(fn (array $item) => [
             $label => $item[$label],
             $value => $item[$value],
             'disabled' => $item['disabled'] ?? false,
