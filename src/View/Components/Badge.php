@@ -22,11 +22,11 @@ class Badge extends BaseComponent implements Personalization
         public ?string $color = 'primary',
         public ?bool $square = false,
         public ?bool $round = false,
-        #[SkipDebug]
-        public ?string $size = null,
         public ?bool $solid = true,
         public ?bool $outline = null,
         public ?bool $light = null,
+        #[SkipDebug]
+        public ?string $size = null,
         #[SkipDebug]
         public ?string $style = null,
         #[SkipDebug]

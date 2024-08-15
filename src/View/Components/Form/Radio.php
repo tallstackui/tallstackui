@@ -22,11 +22,11 @@ class Radio extends BaseComponent implements Personalization
         public ?string $sm = null,
         public ?string $md = null,
         public ?string $lg = null,
-        #[SkipDebug]
-        public ?string $size = null,
         public ?string $position = 'right',
         public ?string $color = 'primary',
         public ?bool $invalidate = null,
+        #[SkipDebug]
+        public ?string $size = null,
     ) {
         $this->setup();
     }

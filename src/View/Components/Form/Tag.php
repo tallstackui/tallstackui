@@ -17,13 +17,8 @@ class Tag extends BaseComponent implements Personalization
     use DefaultInputClasses;
     use SanitizePropertyValue;
 
-    public function __construct(
-        public ?string $label = null,
-        public ?string $hint = null,
-        public ?string $prefix = null,
-        public ?int $limit = null,
-        public ?bool $invalidate = null,
-    ) {
+    public function __construct(public ?string $label = null, public ?string $hint = null, public ?string $prefix = null, public ?int $limit = null, public ?bool $invalidate = null)
+    {
         //
     }
 

@@ -30,21 +30,21 @@ class Styled extends BaseComponent implements Personalization
         public ?string $label = null,
         public ?string $hint = null,
         public ?string $placeholder = null,
-        #[SkipDebug]
-        public Collection|array $options = [],
         public string|array|null $request = null,
         public ?bool $multiple = false,
         public ?bool $searchable = false,
         public ?string $select = null,
         public ?array $selectable = [],
-        #[SkipDebug]
-        public ?string $after = null,
-        #[SkipDebug]
-        public ?bool $common = true,
         public ?array $placeholders = null,
         public ?bool $invalidate = null,
         public ?bool $required = false,
         public ?int $limit = null,
+        #[SkipDebug]
+        public Collection|array $options = [],
+        #[SkipDebug]
+        public ?string $after = null,
+        #[SkipDebug]
+        public ?bool $common = true,
     ) {
         $this->placeholders ??= [...__('tallstack-ui::messages.select')];
         $this->placeholder ??= data_get($this->placeholders, 'default');

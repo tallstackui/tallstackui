@@ -23,8 +23,6 @@ class Button extends BaseComponent implements Personalization
         public ?bool $sm = null,
         public ?bool $md = null,
         public ?bool $lg = null,
-        #[SkipDebug]
-        public ?string $size = null,
         public ?string $color = 'primary',
         public ?string $square = null,
         public ?string $round = null,
@@ -35,6 +33,8 @@ class Button extends BaseComponent implements Personalization
         public ?bool $outline = false,
         public ?bool $light = false,
         public ?bool $flat = false,
+        #[SkipDebug]
+        public ?string $size = null,
         #[SkipDebug]
         public ?string $style = null,
         #[SkipDebug]

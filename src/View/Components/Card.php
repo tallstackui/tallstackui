@@ -11,12 +11,8 @@ use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 #[SoftPersonalization('card')]
 class Card extends BaseComponent implements Personalization
 {
-    public function __construct(
-        #[SkipDebug]
-        public ?string $header = null,
-        #[SkipDebug]
-        public ?string $footer = null
-    ) {
+    public function __construct(#[SkipDebug] public ?string $header = null, #[SkipDebug] public ?string $footer = null)
+    {
         //
     }
 

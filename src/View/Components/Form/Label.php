@@ -10,12 +10,8 @@ use TallStackUi\View\Components\BaseComponent;
 #[SoftPersonalization('form.label')]
 class Label extends BaseComponent implements Personalization
 {
-    public function __construct(
-        public ?string $id = null,
-        public ?string $label = null,
-        public ?bool $error = false,
-        public ?bool $invalidate = null,
-    ) {
+    public function __construct(public ?string $id = null, public ?string $label = null, public ?bool $error = false, public ?bool $invalidate = null)
+    {
         //
     }
 

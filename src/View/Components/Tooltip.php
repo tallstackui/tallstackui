@@ -26,9 +26,9 @@ class Tooltip extends BaseComponent implements Personalization
         public ?bool $sm = null,
         public ?bool $md = null,
         public ?bool $lg = null,
+        public ?string $position = 'top',
         #[SkipDebug]
         public ?string $size = null,
-        public ?string $position = 'top',
     ) {
         $this->icon = IconGuide::internal($this->icon);
         $this->size = $this->lg ? 'lg' : ($this->md ? 'md' : ($this->xs ? 'xs' : 'sm'));
