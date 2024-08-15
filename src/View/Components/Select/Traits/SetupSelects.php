@@ -2,15 +2,11 @@
 
 namespace TallStackUi\View\Components\Select\Traits;
 
-use Illuminate\Support\Collection;
-
-trait InteractsWithSelectOptions
+trait SetupSelects
 {
-    private function options(): void
+    private function setup(): void
     {
-        $this->options = $this->options instanceof Collection
-            ? $this->options->toArray()
-            : $this->options;
+        $this->options = collect(array_values($this->options));
 
         if (! $this->select || ($this->options !== [] && ! is_array($this->options[0]))) {
             return;
@@ -20,7 +16,7 @@ trait InteractsWithSelectOptions
         $label = explode(':', $select[0])[1];
         $value = explode(':', $select[1])[1];
 
-        $this->options = collect($this->options)->map(fn (array $item) => [
+        $this->options = $this->options->map(fn (array $item) => [
             $label => $item[$label],
             $value => $item[$value],
             'disabled' => $item['disabled'] ?? false,
@@ -28,9 +24,6 @@ trait InteractsWithSelectOptions
             'image' => current(array_intersect_key($item, array_flip(['image', 'img', 'img_src']))) ?: null,
         ])->toArray();
 
-        $this->selectable = [
-            'label' => $label,
-            'value' => $value,
-        ];
+        $this->selectable = ['label' => $label, 'value' => $value];
     }
 }
