@@ -7,12 +7,8 @@ use TallStackUi\View\Components\BaseComponent;
 
 class Items extends BaseComponent
 {
-    public function __construct(
-        public int $step,
-        public ?string $title = null,
-        public ?string $description = null,
-        public ?bool $completed = false,
-    ) {
+    public function __construct(public int $step, public ?string $title = null, public ?string $description = null, public ?bool $completed = false)
+    {
         //
     }
 

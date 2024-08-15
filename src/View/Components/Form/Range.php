@@ -18,10 +18,10 @@ class Range extends BaseComponent implements Personalization
         public ?bool $sm = null,
         public ?bool $md = null,
         public ?bool $lg = null,
-        #[SkipDebug]
-        public ?string $size = null,
         public ?string $color = 'primary',
         public ?bool $invalidate = null,
+        #[SkipDebug]
+        public ?string $size = null,
     ) {
         $this->size = $this->sm ? 'sm' : ($this->lg ? 'lg' : 'md');
     }

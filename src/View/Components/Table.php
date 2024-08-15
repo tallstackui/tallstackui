@@ -28,17 +28,17 @@ class Table extends BaseComponent implements Personalization
         public bool|array|null $filter = null,
         public ?bool $loading = false,
         public ?array $quantity = [10, 25, 50, 100],
-        #[SkipDebug]
-        public ?array $placeholders = [],
         public ?bool $paginate = false,
         public ?bool $persistent = false,
-        #[SkipDebug]
-        public ?string $paginator = 'tallstack-ui::components.table.paginators',
         public ?bool $simplePagination = false,
         public ?bool $selectable = null,
         public string $selectableProperty = 'id',
         public ?string $link = null,
         public ?bool $blank = false,
+        #[SkipDebug]
+        public ?array $placeholders = [],
+        #[SkipDebug]
+        public ?string $paginator = 'tallstack-ui::components.table.paginators',
         #[SkipDebug]
         public mixed $loop = null,
         #[SkipDebug]

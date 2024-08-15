@@ -19,11 +19,11 @@ class Input extends BaseComponent implements Personalization
         public ?string $label = null,
         public ?string $hint = null,
         public ?string $icon = null,
+        public ?bool $invalidate = null,
         #[SkipDebug]
         public ?string $prefix = null,
         #[SkipDebug]
         public ?string $suffix = null,
-        public ?bool $invalidate = null,
         #[SkipDebug]
         public ?string $position = 'left',
     ) {

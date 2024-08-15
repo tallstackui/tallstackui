@@ -23,10 +23,10 @@ class Color extends BaseComponent implements Personalization
         public ?string $hint = null,
         public ?bool $picker = false,
         public Collection|array|null $colors = null,
-        #[SkipDebug]
-        public ?string $mode = null,
         public ?bool $invalidate = null,
         public ?bool $selectable = null,
+        #[SkipDebug]
+        public ?string $mode = null,
     ) {
         $this->mode = $this->picker ? 'picker' : 'range';
     }

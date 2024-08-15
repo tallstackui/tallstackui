@@ -26,9 +26,9 @@ class Avatar extends BaseComponent implements Personalization
         public ?string $property = 'name',
         public ?string $background = '0D8ABC',
         public ?bool $borderless = false,
+        public ?array $options = [],
         #[SkipDebug]
         public ?string $size = null,
-        public ?array $options = [],
     ) {
         $this->size = $this->xs ? 'xs' : ($this->sm ? 'sm' : ($this->lg ? 'lg' : 'md'));
     }

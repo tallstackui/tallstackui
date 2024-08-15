@@ -28,12 +28,12 @@ class Circle extends BaseComponent implements Personalization
         public ?string $sm = null,
         public ?string $md = null,
         public ?string $lg = null,
-        #[SkipDebug]
-        public ?string $size = null,
         public ?bool $solid = null,
         public ?bool $outline = null,
         public ?bool $light = false,
         public ?bool $flat = false,
+        #[SkipDebug]
+        public ?string $size = null,
         #[SkipDebug]
         public ?string $style = null,
         #[SkipDebug]
