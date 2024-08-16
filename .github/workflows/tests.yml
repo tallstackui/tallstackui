@@ -5,7 +5,6 @@ on:
     branches:
       - 1.x
   pull_request:
-    types: [ready_for_review]
     branches:
       - 1.x
   workflow_dispatch:
