@@ -31,7 +31,6 @@
     },
     "require-dev": {
         "pestphp/pest": "^2.0",
-        "laravel/framework": "^10.0|^11.0",
         "laravel/pint": "^1.13",
         "orchestra/testbench": "8.x-dev|9.x-dev",
         "orchestra/testbench-dusk": "8.x-dev|9.x-dev",
