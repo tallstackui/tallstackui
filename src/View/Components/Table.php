@@ -19,7 +19,6 @@ use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 class Table extends BaseComponent implements Personalization
 {
     public function __construct(
-        public ?string $id = null,
         public Collection|array $headers = [],
         public LengthAwarePaginator|Paginator|Collection|array $rows = [],
         public ?bool $headerless = false,
@@ -69,12 +68,6 @@ class Table extends BaseComponent implements Personalization
 
         // Imploding to transform into "wire:target="quantity,search""
         $this->target = implode(',', $this->target);
-
-        if ($this->id !== null) {
-            $this->id = str($this->id)->kebab()
-                ->lower()
-                ->value();
-        }
     }
 
     public function blade(): View
@@ -170,10 +163,6 @@ class Table extends BaseComponent implements Personalization
 
         if (blank($messages['search'] ?? null)) {
             throw new InvalidArgumentException('The table [search] message cannot be empty.');
-        }
-
-        if ($this->persistent && blank($this->id)) {
-            throw new InvalidArgumentException('The table [id] property is required when [persistent] is set.');
         }
 
         if ($this->selectable && blank($this->selectableProperty)) {

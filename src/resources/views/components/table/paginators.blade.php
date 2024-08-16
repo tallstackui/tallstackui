@@ -7,7 +7,7 @@ if (! isset($scrollTo)) {
 
 $scrollIntoViewJsSnippet = ($scrollTo !== false)
     ? <<<JS
-       (\$el.closest('{$scrollTo}') || document.querySelector('{$scrollTo}')).scrollIntoView()
+       \$refs.persist.scrollIntoView();
     JS
     : '';
 @endphp
