@@ -9,6 +9,7 @@ use Laravel\Dusk\Browser;
 use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\Dusk\Options;
 use Orchestra\Testbench\Dusk\TestCase;
+use TallStackUi\Facades\TallStackUi;
 use TallStackUi\TallStackUiServiceProvider;
 
 use function Livewire\trigger;
@@ -56,6 +57,13 @@ class BrowserTestCase extends TestCase
             ]);
             $config->set('cache.default', 'array');
         });
+    }
+
+    protected function getPackageAliases($app)
+    {
+        return [
+            'TallStackUi' => TallStackUi::class,
+        ];
     }
 
     protected function getPackageProviders($app): array

@@ -2,10 +2,8 @@
 
 namespace TallStackUi;
 
-use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
-use TallStackUi\Facades\TallStackUi as Facade;
 use TallStackUi\Foundation\Console\FindComponentCommand;
 use TallStackUi\Foundation\Console\SetupIconsCommand;
 use TallStackUi\Foundation\Console\SetupPrefixCommand;
@@ -32,8 +30,6 @@ class TallStackUiServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->singleton('TallStackUi', TallStackUi::class);
-
-        AliasLoader::getInstance()->alias('TallStackUi', Facade::class);
     }
 
     protected function registerCommands(): void
