@@ -138,7 +138,7 @@
         {{ $footer }}
     @endif
     @if ($paginate && (!is_array($rows) && $rows->hasPages()))
-        {{ $rows->onEachSide($this->onEachSide)->links($paginator, [
+        {{ $rows->onEachSide($onEachSide)->links($paginator, [
             'simplePagination' => $simplePagination,
             'scrollTo' => $persistent && $id ? '#'.$id : false,
         ]) }}
