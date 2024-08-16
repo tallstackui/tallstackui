@@ -32,10 +32,10 @@ class Table extends BaseComponent implements Personalization
         public ?bool $persistent = false,
         public ?bool $simplePagination = false,
         public ?bool $selectable = null,
-        public string $selectableProperty = 'id',
+        public ?string $selectableProperty = 'id',
         public ?string $link = null,
         public ?bool $blank = false,
-        public int $onEachSide = 1,
+        public ?int $onEachSide = 1,
         #[SkipDebug]
         public ?array $placeholders = [],
         #[SkipDebug]
