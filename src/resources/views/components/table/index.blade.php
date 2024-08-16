@@ -1,10 +1,10 @@
 @php
     \TallStackUi\Foundation\Exceptions\MissingLivewireException::throwIf($livewire, 'table');
     $personalize = $classes();
-    [$property, $error, $id, $entangle] = $bind($attributes, livewire: $livewire);
+    $entangle = $bind($attributes, livewire: $livewire)[3];
 @endphp
 
-<div x-data="tallstackui_table({!! $entangle !!}, @js($ids()), @js($selectable))" @if ($persistent && $id) id="{{ $id }}" @endif>
+<div x-data="tallstackui_table({!! $entangle !!}, @js($ids()), @js($selectable))" @if ($persistent) x-ref="persist" @endif>
     @if (is_string($header))
         <p @class($personalize['slots.header'])>{{ $header }}</p>
     @else
@@ -140,7 +140,7 @@
     @if ($paginate && (!is_array($rows) && $rows->hasPages()))
         {{ $rows->onEachSide($onEachSide)->links($paginator, [
             'simplePagination' => $simplePagination,
-            'scrollTo' => $persistent && $id ? '#'.$id : false,
+            'scrollTo' => $persistent ?? false,
         ]) }}
     @endif
 </div>
