@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "32af0fe074b4730c402670be82c37895",
+    "content-hash": "1e6305e90266178ca7fb5669d6f914cc",
     "packages": [
         {
             "name": "brick/math",
@@ -1377,16 +1377,16 @@
         },
         {
             "name": "league/commonmark",
-            "version": "2.5.2",
+            "version": "2.5.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/commonmark.git",
-                "reference": "df09d5b6a4188f8f3c3ab2e43a109076a5eeb767"
+                "reference": "b650144166dfa7703e62a22e493b853b58d874b0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/df09d5b6a4188f8f3c3ab2e43a109076a5eeb767",
-                "reference": "df09d5b6a4188f8f3c3ab2e43a109076a5eeb767",
+                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/b650144166dfa7703e62a22e493b853b58d874b0",
+                "reference": "b650144166dfa7703e62a22e493b853b58d874b0",
                 "shasum": ""
             },
             "require": {
@@ -1399,8 +1399,8 @@
             },
             "require-dev": {
                 "cebe/markdown": "^1.0",
-                "commonmark/cmark": "0.31.0",
-                "commonmark/commonmark.js": "0.31.0",
+                "commonmark/cmark": "0.31.1",
+                "commonmark/commonmark.js": "0.31.1",
                 "composer/package-versions-deprecated": "^1.8",
                 "embed/embed": "^4.4",
                 "erusev/parsedown": "^1.0",
@@ -1479,7 +1479,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-08-14T10:56:57+00:00"
+            "time": "2024-08-16T11:46:16+00:00"
         },
         {
             "name": "league/config",
@@ -6902,7 +6902,7 @@
         },
         {
             "name": "orchestra/testbench",
-            "version": "9.x-dev",
+            "version": "v9.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/testbench.git",
@@ -6927,7 +6927,6 @@
                 "symfony/yaml": "^7.0",
                 "vlucas/phpdotenv": "^5.4.1"
             },
-            "default-branch": true,
             "type": "library",
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -6958,7 +6957,7 @@
         },
         {
             "name": "orchestra/testbench-core",
-            "version": "9.x-dev",
+            "version": "v9.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/testbench-core.git",
@@ -7006,7 +7005,6 @@
                 "symfony/yaml": "Required for Testbench CLI (^7.0).",
                 "vlucas/phpdotenv": "Required for Testbench CLI (^5.4.1)."
             },
-            "default-branch": true,
             "bin": [
                 "testbench"
             ],
@@ -7048,16 +7046,16 @@
         },
         {
             "name": "orchestra/testbench-dusk",
-            "version": "9.x-dev",
+            "version": "v9.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/testbench-dusk.git",
-                "reference": "3c90375d93b9e8ff8025997e330b280be61d8ff6"
+                "reference": "c5ab3a9edb38bbec6c60ac221e1134278acf6bbf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/testbench-dusk/zipball/3c90375d93b9e8ff8025997e330b280be61d8ff6",
-                "reference": "3c90375d93b9e8ff8025997e330b280be61d8ff6",
+                "url": "https://api.github.com/repos/orchestral/testbench-dusk/zipball/c5ab3a9edb38bbec6c60ac221e1134278acf6bbf",
+                "reference": "c5ab3a9edb38bbec6c60ac221e1134278acf6bbf",
                 "shasum": ""
             },
             "require": {
@@ -7065,8 +7063,8 @@
                 "laravel/dusk": "^8.1",
                 "laravel/serializable-closure": "^1.0",
                 "orchestra/dusk-updater": "^2.6",
-                "orchestra/testbench": "9.x-dev",
-                "orchestra/testbench-core": "9.x-dev",
+                "orchestra/testbench": "^9.3",
+                "orchestra/testbench-core": ">=9.3.0 <9.4.0",
                 "php": "^8.2",
                 "php-webdriver/webdriver": "^1.15.1",
                 "symfony/polyfill-php83": "^1.28"
@@ -7110,9 +7108,9 @@
             "description": "Laravel Dusk Testing Helper for Packages Development",
             "support": {
                 "issues": "https://github.com/orchestral/testbench-dusk/issues",
-                "source": "https://github.com/orchestral/testbench-dusk/tree/9.x"
+                "source": "https://github.com/orchestral/testbench-dusk/tree/v9.6.0"
             },
-            "time": "2024-08-14T07:38:08+00:00"
+            "time": "2024-08-14T07:31:39+00:00"
         },
         {
             "name": "orchestra/workbench",
@@ -10532,10 +10530,7 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "orchestra/testbench": 20,
-        "orchestra/testbench-dusk": 20
-    },
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
