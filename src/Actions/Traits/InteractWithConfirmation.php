@@ -12,9 +12,9 @@ trait InteractWithConfirmation
     /** Sets the cancellation aspect */
     public function cancel(?string $text = null, ?string $method = null, array|string|int|null $params = null): self
     {
-        $this->unsupported('cancel');
+        $this->requireLivewire('cancel');
 
-        [, $message] = $this->messages();
+        $message = $this->messages()[1];
 
         $this->data['options']['cancel'] = [
             'static' => blank($text) && blank($method),
@@ -29,9 +29,9 @@ trait InteractWithConfirmation
     /** Sets the confirmation aspect */
     public function confirm(?string $text = null, ?string $method = null, array|string|int|null $params = null): self
     {
-        $this->unsupported('confirm');
+        $this->requireLivewire('confirm');
 
-        [$message] = $this->messages();
+        $message = $this->messages()[0];
 
         $this->data['options']['confirm'] = [
             'static' => blank($text) && blank($method),

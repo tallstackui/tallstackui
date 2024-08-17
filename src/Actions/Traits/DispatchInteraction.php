@@ -46,7 +46,7 @@ trait DispatchInteraction
      */
     public function hook(array $hooks): self
     {
-        $this->unsupported('hook');
+        $this->requireLivewire('hook');
 
         $expected = match (true) {
             $this instanceof Dialog => ['ok', 'close', 'dismiss'],

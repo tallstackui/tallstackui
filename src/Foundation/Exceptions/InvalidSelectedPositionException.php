@@ -29,15 +29,17 @@ class InvalidSelectedPositionException extends Exception
         parent::__construct('The '.$component.' [position] must be one of the following: ['.implode(', ', self::ALLOWED).']');
     }
 
-    /** @throws InvalidSelectedPositionException */
+    /**
+     * Validates whether the position is acceptable
+     *
+     * @throws InvalidSelectedPositionException
+     */
     public static function validate(string $component, ?string $position = null): ?self
     {
-        $component = str($component)->afterLast('\\')->lower()->value();
-
         if (! $position || in_array($position, self::ALLOWED)) {
             return null;
         }
 
-        throw new self($component);
+        throw new self(str($component)->classBasename()->value());
     }
 }

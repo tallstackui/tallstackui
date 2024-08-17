@@ -40,7 +40,7 @@ class PersonalizationResources
     }
 
     /**
-     * Personalize sequentially.
+     * Personalize sequentially creating a new instance of the Personalization class.
      */
     public function and(): Personalization
     {

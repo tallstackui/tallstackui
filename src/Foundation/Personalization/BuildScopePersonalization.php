@@ -115,6 +115,9 @@ class BuildScopePersonalization
         }
     }
 
+    /**
+     * Sanitize string by removing extra spaces and trimming it.
+     */
     private function sanitize(string $string): string
     {
         return str($string)->squish()->trim()->value();
