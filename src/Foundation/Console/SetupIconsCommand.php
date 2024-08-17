@@ -88,7 +88,7 @@ class SetupIconsCommand extends Command
         foreach (
             collect(array_keys(IconGuide::AVAILABLE))
                 ->mapWithKeys(fn (string $value) => [$value => $value])
-                ->except(['heroicons', $this->data->get('type')]) // Heroicons is always required.
+                ->except(['heroicons', $this->data->get('type')]) // Ignoring heroicons because it is always required.
                 ->toArray() as $type
         ) {
             // Flushing the other unused icons to

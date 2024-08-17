@@ -11,6 +11,8 @@ trait SetupButton
     protected function manipulation(array $classes): array
     {
         return (match (true) {
+            // When the button is a flat style, part of what we need
+            // to do to make the flat work is remove the borders.
             $this->flat => function () use ($classes) {
                 if (isset($classes['wrapper.class'])) {
                     $classes['wrapper.class'] = str_replace('border', '', $classes['wrapper.class']);

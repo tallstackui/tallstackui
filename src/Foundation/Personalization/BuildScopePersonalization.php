@@ -31,6 +31,9 @@ class BuildScopePersonalization
         return $this->collection->mapWithKeys(fn (string|array $value, string $key) => [$key => $this->classes[$key] ?? []])->toArray();
     }
 
+    /**
+     * Append scoped personalization (adding classes to the end of a block).
+     */
     private function append(): void
     {
         $attributes = $this->collection->filter(fn (string|array $value) => is_array($value) && isset($value['append']))->toArray();
@@ -45,6 +48,9 @@ class BuildScopePersonalization
         }
     }
 
+    /**
+     * Common scoped personalization (replacing the entire content of a block).
+     */
     private function common(): void
     {
         $attributes = $this->collection->filter(fn (string|array $value) => is_string($value))->toArray();
@@ -59,6 +65,9 @@ class BuildScopePersonalization
         }
     }
 
+    /**
+     * Prepend scoped personalization (adding classes to the beginning of a block).
+     */
     private function prepend(): void
     {
         $attributes = $this->collection->filter(fn (string|array $value) => is_array($value) && isset($value['prepend']))->toArray();
@@ -73,6 +82,9 @@ class BuildScopePersonalization
         }
     }
 
+    /**
+     * Remove scoped personalization (removing classes from a block).
+     */
     private function remove(): void
     {
         $attributes = $this->collection->filter(fn (string|array $value) => is_array($value) && isset($value['remove']))->toArray();
@@ -87,6 +99,9 @@ class BuildScopePersonalization
         }
     }
 
+    /**
+     * Replace scoped personalization (replacing classes in a block).
+     */
     private function replace(): void
     {
         $attributes = $this->collection->filter(fn (string|array $value) => is_array($value) && isset($value['replace']))->toArray();

@@ -27,6 +27,9 @@ class PersonalizationResources
         $this->originals = collect($this->personalization());
     }
 
+    /**
+     * Creating ability to use Pest's style: ->and->block('name', 'content').
+     */
     public function __get(string $property): Personalization
     {
         if ($property === 'and') {
@@ -36,11 +39,19 @@ class PersonalizationResources
         throw new RuntimeException("Property [{$property}] does not exist.");
     }
 
+    /**
+     * Personalize sequentially.
+     */
     public function and(): Personalization
     {
         return new Personalization;
     }
 
+    /**
+     * Append content to the block.
+     *
+     * @return $this
+     */
     public function append(string $content): self
     {
         $this->interactions->put('append', $content);
@@ -50,6 +61,11 @@ class PersonalizationResources
         return $this;
     }
 
+    /**
+     * Interact with the block.
+     *
+     * @return $this
+     */
     public function block(string|array $name, string|Closure|Personalizable|null $code = null): self
     {
         // If the $code was not set, then we
@@ -76,6 +92,11 @@ class PersonalizationResources
         return data_get($this->parts, $block);
     }
 
+    /**
+     * Prepend content to the block.
+     *
+     * @return $this
+     */
     public function prepend(string $content): self
     {
         $this->interactions->put('prepend', $content);
@@ -85,6 +106,11 @@ class PersonalizationResources
         return $this;
     }
 
+    /**
+     * Remove content to the block.
+     *
+     * @return $this
+     */
     public function remove(string|array $class): self
     {
         $this->interactions->put('remove', is_array($class) ? $class : [$class]);
@@ -94,6 +120,11 @@ class PersonalizationResources
         return $this;
     }
 
+    /**
+     * Replace content to the block.
+     *
+     * @return $this
+     */
     public function replace(string|array $from, ?string $to = null): self
     {
         $this->interactions->put('replace', is_array($from) ? $from : [$from => $to]);
@@ -108,11 +139,17 @@ class PersonalizationResources
         return $this->parts->toArray();
     }
 
+    /**
+     * Get all the blocks available for personalization in the component.
+     */
     private function blocks(): array
     {
         return array_keys($this->personalization());
     }
 
+    /**
+     * Compile the personalization into View::composer.
+     */
     private function compile(string $block, string|Closure|Personalizable|null $code = null): void
     {
         $view = $this->personalization(true)->blade()->name(); // @phpstan-ignore-line
@@ -123,9 +160,15 @@ class PersonalizationResources
             throw new InvalidArgumentException("Component [$component] does not have the block [$block] to be personalized. Alloweds: ".implode(', ', $blocks));
         }
 
+        // We leave everything prepared and linked with the
+        // Blade file associated with the component so that
+        // the $classes() call obtains the personalization.
         Facade::composer($view, fn (View $view) => $this->set($block, is_callable($code) ? $code($view->getData()) : $code));
     }
 
+    /**
+     * Retrieve the component instance through container.
+     */
     private function personalization(bool $instance = false): array|object
     {
         $class = app($this->component);
@@ -137,6 +180,9 @@ class PersonalizationResources
         return $class->personalization();
     }
 
+    /**
+     * Persist the personalization storing it temporarily in the `parts`.
+     */
     private function set(string $block, ?string $content = null): void
     {
         foreach ($this->interactions->get('replace', []) as $old => $new) {

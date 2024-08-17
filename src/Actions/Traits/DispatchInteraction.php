@@ -65,6 +65,9 @@ trait DispatchInteraction
         return $this;
     }
 
+    /**
+     * Dispatch the interaction.
+     */
     public function send(): void
     {
         $data = $this->data;

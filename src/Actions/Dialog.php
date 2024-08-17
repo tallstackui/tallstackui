@@ -10,8 +10,6 @@ class Dialog extends AbstractInteraction
     use DispatchInteraction;
     use InteractWithConfirmation;
 
-    protected array $data = [];
-
     public function error(string $title, ?string $description = null): self
     {
         $this->data = [
@@ -25,6 +23,9 @@ class Dialog extends AbstractInteraction
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function info(string $title, ?string $description = null): self
     {
         $this->data = [
@@ -38,6 +39,9 @@ class Dialog extends AbstractInteraction
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function question(string $title, ?string $description = null): self
     {
         $this->data = [
@@ -51,6 +55,9 @@ class Dialog extends AbstractInteraction
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function success(string $title, ?string $description = null): self
     {
         $this->data = [
@@ -64,6 +71,9 @@ class Dialog extends AbstractInteraction
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function warning(string $title, ?string $description = null): self
     {
         $this->data = [
@@ -77,11 +87,17 @@ class Dialog extends AbstractInteraction
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function event(): string
     {
         return 'dialog';
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function messages(): array
     {
         return [

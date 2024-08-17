@@ -19,7 +19,11 @@ class BladeBindProperty
         $this->support = new BladeSupport($this->attributes, $this->livewire);
     }
 
-    /** @throws Exception */
+    /**
+     * Compiles an array of needed information to bind a property.
+     *
+     * @throws Exception
+     */
     public function data(): array
     {
         return [
@@ -47,6 +51,7 @@ class BladeBindProperty
             return false;
         }
 
+        // Invalidate negates the need to check for errors.
         if ($this->errors->isEmpty() || $this->invalidate) {
             return false;
         }

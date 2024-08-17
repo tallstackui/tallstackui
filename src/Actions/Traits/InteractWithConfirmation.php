@@ -9,6 +9,7 @@ use TallStackUi\Actions\Dialog;
  */
 trait InteractWithConfirmation
 {
+    /** Sets the cancellation aspect */
     public function cancel(?string $text = null, ?string $method = null, array|string|int|null $params = null): self
     {
         $this->unsupported('cancel');
@@ -25,6 +26,7 @@ trait InteractWithConfirmation
         return $this;
     }
 
+    /** Sets the confirmation aspect */
     public function confirm(?string $text = null, ?string $method = null, array|string|int|null $params = null): self
     {
         $this->unsupported('confirm');
@@ -41,6 +43,9 @@ trait InteractWithConfirmation
         return $this;
     }
 
+    /**
+     * Determine the interaction as static for normal types (success, error, warning, info).
+     */
     private function static(): void
     {
         // We just need this for the Dialog because only the Dialog needs

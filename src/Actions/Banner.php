@@ -2,20 +2,31 @@
 
 namespace TallStackUi\Actions;
 
+use Exception;
 use TallStackUi\Actions\Traits\DispatchInteraction;
 
 class Banner extends AbstractInteraction
 {
     use DispatchInteraction;
 
+    /**
+     * Control the close button.
+     */
     protected bool $close = false;
 
-    protected array $data = [];
-
+    /**
+     * Control the enter effect seconds.
+     */
     protected int $enter = 0;
 
+    /**
+     * Control the leave effect seconds.
+     */
     protected ?int $leave = null;
 
+    /**
+     * Sets the close button.
+     */
     public function close(): self
     {
         $this->close = true;
@@ -23,6 +34,9 @@ class Banner extends AbstractInteraction
         return $this;
     }
 
+    /**
+     * Sets the enter effect.
+     */
     public function enter(int $seconds): self
     {
         $this->enter = $seconds;
@@ -30,6 +44,9 @@ class Banner extends AbstractInteraction
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function error(string $title, ?string $description = null): self
     {
         $this->data = [
@@ -40,6 +57,9 @@ class Banner extends AbstractInteraction
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function info(string $title, ?string $description = null): self
     {
         $this->data = [
@@ -50,6 +70,9 @@ class Banner extends AbstractInteraction
         return $this;
     }
 
+    /**
+     * Sets the leave effect.
+     */
     public function leave(int $seconds): self
     {
         $this->leave = $seconds;
@@ -57,12 +80,21 @@ class Banner extends AbstractInteraction
         return $this;
     }
 
-    /** @deprecated This method is not supported with Banner. */
+    /**
+     * {@inheritdoc}
+     *
+     * @throws Exception
+     *
+     * @deprecated This method is not supported with Banner.
+     */
     public function question(string $title, ?string $description = null): self
     {
-        return $this;
+        throw new Exception('The question method is not supported with Banner.');
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function success(string $title, ?string $description = null): self
     {
         $this->data = [
@@ -73,6 +105,9 @@ class Banner extends AbstractInteraction
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function warning(string $title, ?string $description = null): self
     {
         $this->data = [
@@ -92,11 +127,17 @@ class Banner extends AbstractInteraction
         ];
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function event(): string
     {
         return 'banner';
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function messages(): array
     {
         return []; // not supported
