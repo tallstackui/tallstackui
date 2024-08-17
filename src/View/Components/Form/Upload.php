@@ -7,12 +7,14 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\ComponentSlot;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
+use TallStackUi\Foundation\Attributes\RequireLivewireContext;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\Support\Components\UploadComponentFileAdapter;
 use TallStackUi\View\Components\BaseComponent;
 use TallStackUi\View\Components\Floating;
 
+#[RequireLivewireContext]
 #[SoftPersonalization('form.upload')]
 class Upload extends BaseComponent implements Personalization
 {

@@ -23,7 +23,7 @@ class TallStackUi
     {
         $prefix = app(BladeComponentPrefix::class);
 
-        return blank($name) ? $prefix : $prefix($name);
+        return blank($name) ? $prefix : $prefix->add($name);
     }
 
     public function directives(): BladeDirectives

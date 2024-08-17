@@ -11,7 +11,7 @@ describe('BuildScopePersonalization', function () {
         expect(BuildScopePersonalization::class)
             ->toHaveMethod($method);
     })->with([
-        '__invoke',
+        'execute',
         'append',
         'common',
         'prepend',

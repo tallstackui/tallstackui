@@ -2,6 +2,7 @@
 
 namespace TallStackUi\Foundation\Support\Blade;
 
+use Exception;
 use Illuminate\Support\ViewErrorBag;
 use Illuminate\View\ComponentAttributeBag;
 use Livewire\WireDirective;
@@ -18,6 +19,7 @@ class BladeBindProperty
         $this->support = new BladeSupport($this->attributes, $this->livewire);
     }
 
+    /** @throws Exception */
     public function data(): array
     {
         return [

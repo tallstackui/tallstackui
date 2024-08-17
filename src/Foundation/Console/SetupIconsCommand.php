@@ -112,8 +112,6 @@ class SetupIconsCommand extends Command
 
     private function setup(): bool|string
     {
-        sleep(1);
-
         $config = config('tallstackui');
         $type = data_get($config, 'icons.type');
         $style = data_get($config, 'icons.style');

@@ -3,7 +3,6 @@
 namespace TallStackUi\Foundation\Personalization;
 
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\App;
 
 class BuildScopePersonalization
 {
@@ -12,16 +11,12 @@ class BuildScopePersonalization
         private readonly array|string|null $attributes = null,
         private ?Collection $collection = null,
     ) {
-        if (is_array($this->attributes)) {
-            $this->collection = collect($this->attributes);
-        } elseif (is_string($this->attributes)) {
-            $this->collection = collect(App::call($this->attributes, ['classes' => $this->classes]));
-        } else {
-            $this->collection = collect();
-        }
+        $this->collection = is_array($this->attributes)
+            ? collect($this->attributes)
+            : (is_string($this->attributes) ? collect(app()->call($this->attributes, ['classes' => $this->classes])) : collect());
     }
 
-    public function __invoke(): array
+    public function execute(): array
     {
         if ($this->collection->isNotEmpty()) {
             $this->common();

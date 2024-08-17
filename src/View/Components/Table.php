@@ -11,10 +11,12 @@ use Illuminate\Support\Collection;
 use Illuminate\View\ComponentAttributeBag;
 use Illuminate\View\ComponentSlot;
 use InvalidArgumentException;
+use TallStackUi\Foundation\Attributes\RequireLivewireContext;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 
+#[RequireLivewireContext]
 #[SoftPersonalization('table')]
 class Table extends BaseComponent implements Personalization
 {

@@ -7,7 +7,9 @@ describe('BladeComponentPrefix', function () {
         ->expect(BladeComponentPrefix::class)
         ->toHaveConstructor();
 
-    test('class has invoke method', function () {
-        expect(BladeComponentPrefix::class)->toBeInvokable();
+    test('class has methods', function () {
+        expect(BladeComponentPrefix::class)
+            ->toHaveMethod('add')
+            ->toHaveMethod('remove');
     });
 });

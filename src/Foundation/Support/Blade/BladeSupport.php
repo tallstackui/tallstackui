@@ -20,6 +20,7 @@ class BladeSupport
         //
     }
 
+    /** @throws Exception */
     public function entangle(): string
     {
         if (! ($wire = $this->wire()) instanceof WireDirective) {
@@ -38,6 +39,7 @@ class BladeSupport
         return "JSON.parse(atob('".base64_encode(json_encode($data))."'))";
     }
 
+    /** @throws Exception */
     public function wire(): ?WireDirective
     {
         if (! $this->attributes instanceof ComponentAttributeBag) {
@@ -53,10 +55,6 @@ class BladeSupport
 
         $wire = $this->attributes->wire('model');
 
-        if (! $wire->directive() && ! $wire->value()) {
-            return null;
-        }
-
-        return $wire;
+        return ! $wire->directive() && ! $wire->value() ? null : $wire;
     }
 }
