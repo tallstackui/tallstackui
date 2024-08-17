@@ -10,12 +10,19 @@ class Toast extends AbstractInteraction
     use DispatchInteraction;
     use InteractWithConfirmation;
 
-    protected array $data = [];
-
+    /**
+     * Control the expandable effect.
+     */
     protected ?bool $expand = null;
 
+    /**
+     * Control the timeout seconds.
+     */
     protected ?int $timeout = 3;
 
+    /**
+     * {@inheritdoc}
+     */
     public function error(string $title, ?string $description = null): self
     {
         $this->data = [
@@ -27,6 +34,9 @@ class Toast extends AbstractInteraction
         return $this;
     }
 
+    /**
+     * Sets the expandable effect.
+     */
     public function expandable(bool $expand = true): self
     {
         $this->expand = $expand;
@@ -34,6 +44,9 @@ class Toast extends AbstractInteraction
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function info(string $title, ?string $description = null): self
     {
         $this->data = [
@@ -45,6 +58,9 @@ class Toast extends AbstractInteraction
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function question(string $title, ?string $description = null): self
     {
         $this->data = [
@@ -56,6 +72,9 @@ class Toast extends AbstractInteraction
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function success(string $title, ?string $description = null): self
     {
         $this->data = [
@@ -67,6 +86,9 @@ class Toast extends AbstractInteraction
         return $this;
     }
 
+    /**
+     * Sets the timeout seconds.
+     */
     public function timeout(?int $seconds = null): self
     {
         $this->timeout = $seconds ?? (int) config('tallstackui.settings.toast.timeout', 3);
@@ -74,6 +96,9 @@ class Toast extends AbstractInteraction
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function warning(string $title, ?string $description = null): self
     {
         $this->data = [
@@ -85,6 +110,9 @@ class Toast extends AbstractInteraction
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function additional(): array
     {
         return [
@@ -93,11 +121,17 @@ class Toast extends AbstractInteraction
         ];
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function event(): string
     {
         return 'toast';
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function messages(): array
     {
         return [

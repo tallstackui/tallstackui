@@ -20,6 +20,11 @@ class BladeSupport
         //
     }
 
+    /**
+     * Get the entangle directive.
+     *
+     * @throws Exception
+     */
     public function entangle(): string
     {
         if (! ($wire = $this->wire()) instanceof WireDirective) {
@@ -33,11 +38,14 @@ class BladeSupport
             : Blade::render("@entangle('{$property}')");
     }
 
+    // This is a helper function commonly used in Blade
+    // files to allow data to be passed between Blade and JS.
     public function json(array $data = []): string
     {
         return "JSON.parse(atob('".base64_encode(json_encode($data))."'))";
     }
 
+    /** @throws Exception */
     public function wire(): ?WireDirective
     {
         if (! $this->attributes instanceof ComponentAttributeBag) {
@@ -53,10 +61,6 @@ class BladeSupport
 
         $wire = $this->attributes->wire('model');
 
-        if (! $wire->directive() && ! $wire->value()) {
-            return null;
-        }
-
-        return $wire;
+        return ! $wire->directive() && ! $wire->value() ? null : $wire;
     }
 }

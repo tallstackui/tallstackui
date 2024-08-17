@@ -37,6 +37,9 @@ class SetupPrefixCommand extends Command
         return self::SUCCESS;
     }
 
+    /**
+     * Define the component prefix in the config file.
+     */
     private function config(string $prefix): bool|string
     {
         if (! file_exists(config_path('tallstackui.php'))) {
@@ -65,6 +68,9 @@ class SetupPrefixCommand extends Command
         return file_get_contents(config_path('tallstackui.php'));
     }
 
+    /**
+     * Define the component prefix in the .env file.
+     */
     private function env(string $prefix): bool|string
     {
         try {
@@ -85,6 +91,8 @@ class SetupPrefixCommand extends Command
 
     private function setup(string $prefix): bool|string
     {
+        // When the configuration file is old and does not have the key
+        // for the env variable, we configure it directly in the config file.
         if (file_exists(config_path('tallstackui.php')) && ! str_contains($this->content(), 'TALLSTACKUI_PREFIX')) {
             return $this->config($prefix);
         }

@@ -1,5 +1,4 @@
 @php
-    \TallStackUi\Foundation\Exceptions\MissingLivewireException::throwIf($livewire, 'table');
     $personalize = $classes();
     $entangle = $bind($attributes, livewire: $livewire)[3];
 @endphp

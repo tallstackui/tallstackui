@@ -46,6 +46,8 @@ class FindComponentCommand extends Command
         ]);
 
         try {
+            // This is identical to run() except that an exception is
+            // thrown if the process exits with a non-zero exit code.
             $process->mustRun();
 
             $this->output($process->getOutput(), $original);
@@ -82,7 +84,7 @@ class FindComponentCommand extends Command
 
         $this->components->info('🎉 '.$total.' occurrences found');
 
-        $lines->each(function (string $line) use (&$rows) {
+        $lines->each(function (string $line) use (&$rows): bool {
             preg_match('/^(.*?):(\d+):(.*)$/', $line, $matches);
 
             if (blank($line) || count($matches) !== 4) {
@@ -93,6 +95,8 @@ class FindComponentCommand extends Command
             $number = $matches[2];
 
             $rows[] = [$path, $number];
+
+            return true;
         });
 
         table(['File', 'Line'], $rows);

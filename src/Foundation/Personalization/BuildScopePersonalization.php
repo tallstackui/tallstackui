@@ -3,7 +3,6 @@
 namespace TallStackUi\Foundation\Personalization;
 
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\App;
 
 class BuildScopePersonalization
 {
@@ -12,16 +11,12 @@ class BuildScopePersonalization
         private readonly array|string|null $attributes = null,
         private ?Collection $collection = null,
     ) {
-        if (is_array($this->attributes)) {
-            $this->collection = collect($this->attributes);
-        } elseif (is_string($this->attributes)) {
-            $this->collection = collect(App::call($this->attributes, ['classes' => $this->classes]));
-        } else {
-            $this->collection = collect();
-        }
+        $this->collection = is_array($this->attributes)
+            ? collect($this->attributes)
+            : (is_string($this->attributes) ? collect(app()->call($this->attributes, ['classes' => $this->classes])) : collect());
     }
 
-    public function __invoke(): array
+    public function execute(): array
     {
         if ($this->collection->isNotEmpty()) {
             $this->common();
@@ -36,6 +31,9 @@ class BuildScopePersonalization
         return $this->collection->mapWithKeys(fn (string|array $value, string $key) => [$key => $this->classes[$key] ?? []])->toArray();
     }
 
+    /**
+     * Append scoped personalization (adding classes to the end of a block).
+     */
     private function append(): void
     {
         $attributes = $this->collection->filter(fn (string|array $value) => is_array($value) && isset($value['append']))->toArray();
@@ -50,6 +48,9 @@ class BuildScopePersonalization
         }
     }
 
+    /**
+     * Common scoped personalization (replacing the entire content of a block).
+     */
     private function common(): void
     {
         $attributes = $this->collection->filter(fn (string|array $value) => is_string($value))->toArray();
@@ -64,6 +65,9 @@ class BuildScopePersonalization
         }
     }
 
+    /**
+     * Prepend scoped personalization (adding classes to the beginning of a block).
+     */
     private function prepend(): void
     {
         $attributes = $this->collection->filter(fn (string|array $value) => is_array($value) && isset($value['prepend']))->toArray();
@@ -78,6 +82,9 @@ class BuildScopePersonalization
         }
     }
 
+    /**
+     * Remove scoped personalization (removing classes from a block).
+     */
     private function remove(): void
     {
         $attributes = $this->collection->filter(fn (string|array $value) => is_array($value) && isset($value['remove']))->toArray();
@@ -92,6 +99,9 @@ class BuildScopePersonalization
         }
     }
 
+    /**
+     * Replace scoped personalization (replacing classes in a block).
+     */
     private function replace(): void
     {
         $attributes = $this->collection->filter(fn (string|array $value) => is_array($value) && isset($value['replace']))->toArray();
@@ -105,6 +115,9 @@ class BuildScopePersonalization
         }
     }
 
+    /**
+     * Sanitize string by removing extra spaces and trimming it.
+     */
     private function sanitize(string $string): string
     {
         return str($string)->squish()->trim()->value();

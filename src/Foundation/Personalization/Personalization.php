@@ -213,6 +213,9 @@ class Personalization
             $this->component = str_replace('tallstack-ui::personalizations.', '', $this->component);
         }
 
+        // This is necessary for cases where personalization aims to
+        // manipulate components like form.number. We explode to get
+        // the namespace - form, and the component - number.
         $parts = explode('.', $this->component);
         $main = $parts[0];
         $secondary = $parts[1] ?? null;
@@ -328,7 +331,11 @@ class Personalization
         return app($this->component($class));
     }
 
-    /** @throws Exception */
+    /**
+     * Searches for the component from the list of all components using the customization attribute.
+     *
+     * @throws Exception
+     */
     private function component(string $class): string
     {
         $component = array_search($class, self::components());

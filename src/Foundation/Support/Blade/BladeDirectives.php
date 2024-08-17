@@ -17,6 +17,9 @@ class BladeDirectives
         return collect($files)->filter(fn (string $file) => preg_match('/\.'.$type.'$/', $file))->toArray();
     }
 
+    /**
+     * Register the Blade directives.
+     */
     public static function register(): void
     {
         Blade::directive('tallStackUiScript', fn (): string => Facade::directives()->script());
@@ -62,6 +65,9 @@ class BladeDirectives
         }, $string));
     }
 
+    /**
+     * Get the HTML that represents the script load.
+     */
     public function script(): string
     {
         $manifest = $this->manifest('js/tallstackui.js');
@@ -80,11 +86,17 @@ class BladeDirectives
         return $html;
     }
 
+    /**
+     * Get the HTML that represents the style load.
+     */
     public function style(): string
     {
         return $this->format($this->manifest('src/resources/css/tallstackui.css', 'file'));
     }
 
+    /**
+     * Format according to the file extension.
+     */
     private function format(string $file): string
     {
         return (match (true) { // @phpstan-ignore-line
@@ -93,6 +105,9 @@ class BladeDirectives
         })();
     }
 
+    /**
+     * Load the manifest file and retrieve the desired data.
+     */
     private function manifest(string $file, ?string $index = null): string|array
     {
         $content = json_decode(file_get_contents(__DIR__.'/../../../../dist/.vite/manifest.json'), true);

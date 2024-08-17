@@ -2,6 +2,7 @@
 
 namespace TallStackUi\Foundation\Colors\Traits;
 
+use Illuminate\Support\Arr;
 use Illuminate\View\InvokableComponentVariable;
 use ReflectionClass;
 use ReflectionMethod;
@@ -21,21 +22,27 @@ trait OverrideColors
         return implode('.', $terms);
     }
 
+    /**
+     * Get the colors of the component.
+     *
+     * @param  string|string[]  $methods
+     */
     protected function get(...$methods): array
     {
-        $methods = count($methods) === 1 ? $methods[0] : $methods;
+        $targets = Arr::wrap($methods);
+        $targets = count($targets) === 1 ? $targets[0] : $targets;
 
-        if (is_array($methods)) {
+        if (is_array($targets)) {
             $results = [];
 
-            foreach ($methods as $method) {
-                $results[] = $this->overrides[$method];
+            foreach ($targets as $target) {
+                $results[] = $this->overrides[$target];
             }
 
             return $results;
         }
 
-        return $this->overrides[$methods];
+        return data_get($this->overrides, $targets);
     }
 
     /**
@@ -66,7 +73,7 @@ trait OverrideColors
 
             // We execute this as a closure because it will be
             // an instance of the InvokableComponentVariable
-            $result = $data[$method](); // @phpstan-ignore-line
+            $result = app()->call(fn () => $data[$method]()); // @phpstan-ignore-line
 
             $this->overrides[$original] = blank($result) ? null : $result;
         }

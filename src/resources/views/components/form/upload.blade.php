@@ -1,5 +1,4 @@
 @php
-    \TallStackUi\Foundation\Exceptions\MissingLivewireException::throwIf($livewire, 'upload');
     [$property] = $bind($attributes, livewire: $livewire);
     $personalize = $classes();
     $value = data_get($this, $property);
