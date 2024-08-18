@@ -17,7 +17,7 @@
                                              :icon="TallStackUi::icon($icon)"
                                              class="w-5 h-5" outline />
                     @endif
-                    {{ __($title, ['count' => $count($errors)]) }}
+                    {{ trans($title, ['count' => $count($errors)]) }}
                 </span>
                 @if ($close)
                 <button dusk="errors-close-button"
