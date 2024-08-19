@@ -57,7 +57,7 @@ trait ManagesClasses
             if (filled($scoped)) {
                 // Starting from v2, scope personalization creates a multidimensional array,
                 // where the key is the scope name. Therefore, we need to get the scope name.
-                $scoped = data_get($scoped, $scope, $scoped);
+                $scoped = Arr::dot(data_get($scoped, $scope, $scoped));
             }
         }
 

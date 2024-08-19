@@ -319,7 +319,7 @@ class Personalization
         if (($scope = $this->scope) !== null) {
             $this->scope = null; // Resetting the scope to avoid infinite recursion.
 
-            $instance = new PersonalizationResources($component, scope: $scope);
+            $instance = new PersonalizationResources($class, scope: $scope);
 
             app()->singleton(__ts_scope_container_key($component, $scope), fn () => $instance);
 

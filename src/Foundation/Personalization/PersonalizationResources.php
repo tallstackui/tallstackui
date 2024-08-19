@@ -22,7 +22,7 @@ class PersonalizationResources
         private ?string $block = null,
         private ?Collection $originals = null,
         private readonly ?Collection $interactions = new Collection,
-        private readonly ?Collection $parts = new Collection,
+        private ?Collection $parts = new Collection,
         private readonly ?string $scope = null,
     ) {
         $this->originals = collect($this->personalization());
@@ -204,8 +204,12 @@ class PersonalizationResources
 
         $content = fn () => trim($content ?? str($this->originals->get($block))->squish());
 
+        $parts = $this->parts->toArray();
+
         if ($this->scope) {
-            $this->parts->put($this->scope, [$block => $content()]);
+            data_set($parts, $this->scope.'.'.$block, $content());
+
+            $this->parts = collect($parts);
         } else {
             $this->parts->put($block, $content());
         }
