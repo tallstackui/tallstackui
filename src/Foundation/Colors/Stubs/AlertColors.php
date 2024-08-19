@@ -4,50 +4,188 @@ namespace TallStackUi\Foundation\Colors\Stubs;
 
 class AlertColors
 {
-    protected function backgroundColors(): array
+    /**
+     * Background colors.
+     */
+    public function backgroundColors(): array
     {
         return [
             'solid' => [
+                'white' => null,
+                'black' => null,
                 'primary' => null,
-
-                // Other colors goes here
-                // 'secondary' => '...',
+                'secondary' => null,
+                'slate' => null,
+                'gray' => null,
+                'zinc' => null,
+                'neutral' => null,
+                'stone' => null,
+                'red' => null,
+                'orange' => null,
+                'amber' => null,
+                'yellow' => null,
+                'lime' => null,
+                'green' => null,
+                'emerald' => null,
+                'teal' => null,
+                'cyan' => null,
+                'sky' => null,
+                'blue' => null,
+                'indigo' => null,
+                'violet' => null,
+                'purple' => null,
+                'fuchsia' => null,
+                'pink' => null,
+                'rose' => null,
             ],
             'outline' => [
+                'white' => null,
+                'black' => null,
                 'primary' => null,
-
-                // Other colors goes here
-                // 'secondary' => '...',
+                'secondary' => null,
+                'slate' => null,
+                'gray' => null,
+                'zinc' => null,
+                'neutral' => null,
+                'stone' => null,
+                'red' => null,
+                'orange' => null,
+                'amber' => null,
+                'yellow' => null,
+                'lime' => null,
+                'green' => null,
+                'emerald' => null,
+                'teal' => null,
+                'cyan' => null,
+                'sky' => null,
+                'blue' => null,
+                'indigo' => null,
+                'violet' => null,
+                'purple' => null,
+                'fuchsia' => null,
+                'pink' => null,
+                'rose' => null,
             ],
             'light' => [
+                'white' => null,
+                'black' => null,
                 'primary' => null,
-
-                // Other colors goes here
-                // 'secondary' => '...',
+                'secondary' => null,
+                'slate' => null,
+                'gray' => null,
+                'zinc' => null,
+                'neutral' => null,
+                'stone' => null,
+                'red' => null,
+                'orange' => null,
+                'amber' => null,
+                'yellow' => null,
+                'lime' => null,
+                'green' => null,
+                'emerald' => null,
+                'teal' => null,
+                'cyan' => null,
+                'sky' => null,
+                'blue' => null,
+                'indigo' => null,
+                'violet' => null,
+                'purple' => null,
+                'fuchsia' => null,
+                'pink' => null,
+                'rose' => null,
             ],
         ];
     }
 
-    protected function textColors(): array
+    /**
+     * Text colors.
+     */
+    public function textColors(): array
     {
         return [
             'solid' => [
+                'white' => null,
+                'black' => null,
                 'primary' => null,
-
-                // Other colors goes here
-                // 'secondary' => '...',
+                'secondary' => null,
+                'slate' => null,
+                'gray' => null,
+                'zinc' => null,
+                'neutral' => null,
+                'stone' => null,
+                'red' => null,
+                'orange' => null,
+                'amber' => null,
+                'yellow' => null,
+                'lime' => null,
+                'green' => null,
+                'emerald' => null,
+                'teal' => null,
+                'cyan' => null,
+                'sky' => null,
+                'blue' => null,
+                'indigo' => null,
+                'violet' => null,
+                'purple' => null,
+                'fuchsia' => null,
+                'pink' => null,
+                'rose' => null,
             ],
             'outline' => [
+                'white' => null,
+                'black' => null,
                 'primary' => null,
-
-                // Other colors goes here
-                // 'secondary' => '...',
+                'secondary' => null,
+                'slate' => null,
+                'gray' => null,
+                'zinc' => null,
+                'neutral' => null,
+                'stone' => null,
+                'red' => null,
+                'orange' => null,
+                'amber' => null,
+                'yellow' => null,
+                'lime' => null,
+                'green' => null,
+                'emerald' => null,
+                'teal' => null,
+                'cyan' => null,
+                'sky' => null,
+                'blue' => null,
+                'indigo' => null,
+                'violet' => null,
+                'purple' => null,
+                'fuchsia' => null,
+                'pink' => null,
+                'rose' => null,
             ],
             'light' => [
+                'white' => null,
+                'black' => null,
                 'primary' => null,
-
-                // Other colors goes here
-                // 'secondary' => '...',
+                'secondary' => null,
+                'slate' => null,
+                'gray' => null,
+                'zinc' => null,
+                'neutral' => null,
+                'stone' => null,
+                'red' => null,
+                'orange' => null,
+                'amber' => null,
+                'yellow' => null,
+                'lime' => null,
+                'green' => null,
+                'emerald' => null,
+                'teal' => null,
+                'cyan' => null,
+                'sky' => null,
+                'blue' => null,
+                'indigo' => null,
+                'violet' => null,
+                'purple' => null,
+                'fuchsia' => null,
+                'pink' => null,
+                'rose' => null,
             ],
         ];
     }
