@@ -22,7 +22,8 @@ class PersonalizationResources
         private ?string $block = null,
         private ?Collection $originals = null,
         private readonly ?Collection $interactions = new Collection,
-        private ?Collection $parts = new Collection,
+        private readonly ?Collection $parts = new Collection,
+        private readonly ?string $scope = null,
     ) {
         $this->originals = collect($this->personalization());
     }
@@ -201,7 +202,13 @@ class PersonalizationResources
             $this->originals->put($block, str_replace($class, '', (string) $this->originals->get($block)));
         }
 
-        $this->parts[$block] = trim($content ?? str($this->originals->get($block))->squish());
+        $content = fn () => trim($content ?? str($this->originals->get($block))->squish());
+
+        if ($this->scope) {
+            $this->parts->put($this->scope, [$block => $content()]);
+        } else {
+            $this->parts->put($block, $content());
+        }
 
         $this->interactions->forget('replace');
         $this->interactions->forget('append');

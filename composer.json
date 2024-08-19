@@ -12,7 +12,10 @@
     "autoload": {
         "psr-4": {
             "TallStackUi\\": "src/"
-        }
+        },
+        "files": [
+            "src/helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

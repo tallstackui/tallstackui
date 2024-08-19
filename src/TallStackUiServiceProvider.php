@@ -7,10 +7,11 @@ use Illuminate\View\Compilers\BladeCompiler;
 use TallStackUi\Foundation\Console\FindComponentCommand;
 use TallStackUi\Foundation\Console\SetupIconsCommand;
 use TallStackUi\Foundation\Console\SetupPrefixCommand;
-use TallStackUi\Foundation\Personalization\Personalization;
 use TallStackUi\Foundation\Personalization\PersonalizationResources;
 use TallStackUi\Foundation\Support\Blade\BladeComponentPrefix;
 use TallStackUi\Foundation\Support\Blade\BladeDirectives;
+
+include __DIR__.'/helpers.php';
 
 class TallStackUiServiceProvider extends ServiceProvider
 {
@@ -22,7 +23,7 @@ class TallStackUiServiceProvider extends ServiceProvider
 
         $this->registerComponents();
 
-        $this->registerComponentPersonalizations();
+        $this->registerComponentPersonalization();
 
         BladeDirectives::register();
     }
@@ -45,9 +46,9 @@ class TallStackUiServiceProvider extends ServiceProvider
         ]);
     }
 
-    protected function registerComponentPersonalizations(): void
+    protected function registerComponentPersonalization(): void
     {
-        foreach (Personalization::components() as $key => $component) {
+        foreach (__ts_components() as $key => $component) {
             $this->app->singleton($key, fn () => new PersonalizationResources($component));
         }
     }

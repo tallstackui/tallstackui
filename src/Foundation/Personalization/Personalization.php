@@ -4,12 +4,8 @@ namespace TallStackUi\Foundation\Personalization;
 
 use Closure;
 use Exception;
-use Illuminate\Support\Facades\File;
-use ReflectionClass;
 use RuntimeException;
-use Symfony\Component\Finder\SplFileInfo;
 use TallStackUi\Contracts\Personalizable;
-use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\View\Components\Alert;
 use TallStackUi\View\Components\Avatar;
 use TallStackUi\View\Components\Badge;
@@ -66,52 +62,29 @@ use TallStackUi\View\Components\Wrapper\Radio as RadioWrapper;
  */
 class Personalization
 {
-    public function __construct(public ?string $component = null)
+    public function __construct(public ?string $component = null, public ?string $scope = null)
     {
         //
     }
 
-    /**
-     * Recursively maps all Blade components that use the
-     * SoftPersonalization attribute to the soft personalization.
-     */
-    public static function components(): array
-    {
-        // This strategy was adopted by deep personalization. If the original component
-        // class was changed to some custom component, we would have some problems.
-        return collect(File::allFiles(__DIR__.'/../../View/Components'))
-            ->map(fn (SplFileInfo $file) => 'TallStackUi\\View\\'.str($file->getPathname())->after('View/')
-                ->remove('.php')
-                ->replace('/', '\\')
-                ->value())
-            ->filter(fn (string $component) => (new ReflectionClass($component))->getAttributes(SoftPersonalization::class)) // @phpstan-ignore-line
-            ->mapWithKeys(function (string $component) {
-                $reflect = new ReflectionClass($component);
-                $attribute = $reflect->getAttributes(SoftPersonalization::class)[0];
-
-                return [$attribute->newInstance()->key() => $reflect->getName()];
-            })
-            ->toArray();
-    }
-
     public function alert(): PersonalizationResources
     {
-        return app($this->component(Alert::class));
+        return $this->component(Alert::class);
     }
 
     public function avatar(): PersonalizationResources
     {
-        return app($this->component(Avatar::class));
+        return $this->component(Avatar::class);
     }
 
     public function badge(): PersonalizationResources
     {
-        return app($this->component(Badge::class));
+        return $this->component(Badge::class);
     }
 
     public function banner(): PersonalizationResources
     {
-        return app($this->component(Banner::class));
+        return $this->component(Banner::class);
     }
 
     public function block(string|array $name, string|Closure|Personalizable|null $code = null): PersonalizationResources
@@ -121,7 +94,7 @@ class Personalization
 
     public function boolean(): PersonalizationResources
     {
-        return app($this->component(Boolean::class));
+        return $this->component(Boolean::class);
     }
 
     public function button(?string $component = null): PersonalizationResources
@@ -134,22 +107,22 @@ class Personalization
             default => $component,
         };
 
-        return app($this->component($class));
+        return $this->component($class);
     }
 
     public function card(): PersonalizationResources
     {
-        return app($this->component(Card::class));
+        return $this->component(Card::class);
     }
 
     public function clipboard(): PersonalizationResources
     {
-        return app($this->component(Clipboard::class));
+        return $this->component(Clipboard::class);
     }
 
     public function dialog(): PersonalizationResources
     {
-        return app($this->component(Dialog::class));
+        return $this->component(Dialog::class);
     }
 
     public function dropdown(?string $component = null): PersonalizationResources
@@ -162,17 +135,17 @@ class Personalization
             default => $component,
         };
 
-        return app($this->component($class));
+        return $this->component($class);
     }
 
     public function errors(): PersonalizationResources
     {
-        return app($this->component(Errors::class));
+        return $this->component(Errors::class);
     }
 
     public function floating(): PersonalizationResources
     {
-        return app($this->component(Floating::class));
+        return $this->component(Floating::class);
     }
 
     public function form(?string $component = null): PersonalizationResources
@@ -200,7 +173,7 @@ class Personalization
             default => $component,
         };
 
-        return app($this->component($class));
+        return $this->component($class);
     }
 
     public function instance(): PersonalizationResources
@@ -229,17 +202,17 @@ class Personalization
 
     public function link(): PersonalizationResources
     {
-        return app($this->component(Link::class));
+        return $this->component(Link::class);
     }
 
     public function loading(): PersonalizationResources
     {
-        return app($this->component(Loading::class));
+        return $this->component(Loading::class);
     }
 
     public function modal(): PersonalizationResources
     {
-        return app($this->component(Modal::class));
+        return $this->component(Modal::class);
     }
 
     public function progress(?string $component = null): PersonalizationResources
@@ -252,17 +225,17 @@ class Personalization
             default => $component,
         };
 
-        return app($this->component($class));
+        return $this->component($class);
     }
 
     public function rating(): PersonalizationResources
     {
-        return app($this->component(Rating::class));
+        return $this->component(Rating::class);
     }
 
     public function reaction(): PersonalizationResources
     {
-        return app($this->component(Reaction::class));
+        return $this->component(Reaction::class);
     }
 
     public function select(?string $component = null): PersonalizationResources
@@ -275,47 +248,47 @@ class Personalization
             default => $component,
         };
 
-        return app($this->component($class));
+        return $this->component($class);
     }
 
     public function slide(): PersonalizationResources
     {
-        return app($this->component(Slide::class));
+        return $this->component(Slide::class);
     }
 
     public function stats(): PersonalizationResources
     {
-        return app($this->component(Stats::class));
+        return $this->component(Stats::class);
     }
 
     public function step(): PersonalizationResources
     {
-        return app($this->component(Step::class));
+        return $this->component(Step::class);
     }
 
     public function tab(): PersonalizationResources
     {
-        return app($this->component(Tab::class));
+        return $this->component(Tab::class);
     }
 
     public function table(): PersonalizationResources
     {
-        return app($this->component(Table::class));
+        return $this->component(Table::class);
     }
 
     public function themeSwitch(): PersonalizationResources
     {
-        return app($this->component(ThemeSwitch::class));
+        return $this->component(ThemeSwitch::class);
     }
 
     public function toast(): PersonalizationResources
     {
-        return app($this->component(Toast::class));
+        return $this->component(Toast::class);
     }
 
     public function tooltip(): PersonalizationResources
     {
-        return app($this->component(Tooltip::class));
+        return $this->component(Tooltip::class);
     }
 
     public function wrapper(?string $component = null): PersonalizationResources
@@ -328,7 +301,7 @@ class Personalization
             default => $component,
         };
 
-        return app($this->component($class));
+        return $this->component($class);
     }
 
     /**
@@ -336,14 +309,23 @@ class Personalization
      *
      * @throws Exception
      */
-    private function component(string $class): string
+    private function component(string $class): string|PersonalizationResources
     {
-        $component = array_search($class, self::components());
+        $component = __ts_search_component($class);
 
-        if (! $component) {
-            throw new Exception("Component [{$class}] is not allowed to be personalized");
+        // This is the strategy adopted for scope personalization. We create a temporary
+        // key in the Laravel container and instead of returning the same instance - which
+        // would normally happen, as in v1, we return a new instance of PersonalizationResources.
+        if (($scope = $this->scope) !== null) {
+            $this->scope = null; // Resetting the scope to avoid infinite recursion.
+
+            $instance = new PersonalizationResources($component, scope: $scope);
+
+            app()->singleton(__ts_scope_container_key($component, $scope), fn () => $instance);
+
+            return $instance;
         }
 
-        return $component;
+        return app($component);
     }
 }

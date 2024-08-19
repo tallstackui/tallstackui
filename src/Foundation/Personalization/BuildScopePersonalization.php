@@ -4,6 +4,11 @@ namespace TallStackUi\Foundation\Personalization;
 
 use Illuminate\Support\Collection;
 
+/**
+ * TODO: deprecated
+ *
+ * @deprecated
+ */
 class BuildScopePersonalization
 {
     public function __construct(

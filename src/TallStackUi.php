@@ -36,8 +36,8 @@ class TallStackUi
         return app(IconGuide::class)::internal($key);
     }
 
-    public function personalize(?string $component = null): Personalization
+    public function personalize(?string $component = null, ?string $scope = null): Personalization
     {
-        return app(Personalization::class, ['component' => $component]);
+        return app(Personalization::class, ['component' => $component, 'scope' => $scope]);
     }
 }

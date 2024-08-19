@@ -14,7 +14,7 @@ use TallStackUi\Foundation\Support\Blade\BladeSupport;
  * @method static BladeComponentPrefix|string component(?string $name = null)
  * @method static string icon(string $key)
  * @method static BladeDirectives directives()
- * @method static Personalization personalize(?string $component = null)
+ * @method static Personalization personalize(?string $component = null, ?string $scope = null)
  *
  * @see \TallStackUi\TallStackUi
  */
