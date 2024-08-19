@@ -578,6 +578,47 @@ it('can personalize scoped multiples components - component as method', function
         ->not->toContain('text-lg');
 });
 
+it('can personalize scoped multiples components sequentially', function () {
+    TallStackUi::personalize(scope: 'alert')
+        ->alert()
+        ->block('text.title')
+        ->replace('text-lg', 'text-xl')
+        ->and()
+        ->badge(scope: 'badge')
+        ->block('wrapper.class')
+        ->replace('border', 'text-xl');
+
+    $alert = <<<'HTML'
+    <x-alert title="Foo bar" scope="alert" />
+    HTML;
+
+    $badge = <<<'HTML'
+    <x-badge text="Bar foo" scope="badge" />
+    HTML;
+
+    expect($alert)->render()
+        ->toContain('text-xl')
+        ->not->toContain('text-lg')
+        ->and($badge)->render()
+        ->toContain('text-xl')
+        ->not->toContain('text-lg');
+
+    $alert = <<<'HTML'
+    <x-alert title="Foo bar" />
+    HTML;
+
+    $badge = <<<'HTML'
+    <x-badge text="Bar foo" scope="badge" />
+    HTML;
+
+    expect($alert)->render()
+        ->not->toContain('text-xl')
+        ->toContain('text-lg')
+        ->and($badge)->render()
+        ->toContain('border')
+        ->not->toContain('text-lg');
+});
+
 it('cannot personalize wrong component', function () {
     $this->expectException(Exception::class);
 

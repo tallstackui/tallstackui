@@ -67,23 +67,31 @@ class Personalization
         //
     }
 
-    public function alert(): PersonalizationResources
+    public function alert(?string $scope = null): PersonalizationResources
     {
+        $this->scope ??= $scope;
+
         return $this->component(Alert::class);
     }
 
-    public function avatar(): PersonalizationResources
+    public function avatar(?string $scope = null): PersonalizationResources
     {
+        $this->scope ??= $scope;
+
         return $this->component(Avatar::class);
     }
 
-    public function badge(): PersonalizationResources
+    public function badge(?string $scope = null): PersonalizationResources
     {
+        $this->scope ??= $scope;
+
         return $this->component(Badge::class);
     }
 
-    public function banner(): PersonalizationResources
+    public function banner(?string $scope = null): PersonalizationResources
     {
+        $this->scope ??= $scope;
+
         return $this->component(Banner::class);
     }
 
@@ -92,12 +100,14 @@ class Personalization
         return $this->instance()->block($name, $code);
     }
 
-    public function boolean(): PersonalizationResources
+    public function boolean(?string $scope = null): PersonalizationResources
     {
+        $this->scope ??= $scope;
+
         return $this->component(Boolean::class);
     }
 
-    public function button(?string $component = null): PersonalizationResources
+    public function button(?string $component = null, ?string $scope = null): PersonalizationResources
     {
         $component ??= 'button';
 
@@ -110,23 +120,31 @@ class Personalization
         return $this->component($class);
     }
 
-    public function card(): PersonalizationResources
+    public function card(?string $scope = null): PersonalizationResources
     {
+        $this->scope ??= $scope;
+
         return $this->component(Card::class);
     }
 
-    public function clipboard(): PersonalizationResources
+    public function clipboard(?string $scope = null): PersonalizationResources
     {
+        $this->scope ??= $scope;
+
         return $this->component(Clipboard::class);
     }
 
-    public function dialog(): PersonalizationResources
+    public function dialog(?string $scope = null): PersonalizationResources
     {
+        $this->scope ??= $scope;
+
         return $this->component(Dialog::class);
     }
 
-    public function dropdown(?string $component = null): PersonalizationResources
+    public function dropdown(?string $component = null, ?string $scope = null): PersonalizationResources
     {
+        $this->scope ??= $scope;
+
         $component ??= 'dropdown';
 
         $class = match ($component) {
@@ -138,18 +156,24 @@ class Personalization
         return $this->component($class);
     }
 
-    public function errors(): PersonalizationResources
+    public function errors(?string $scope = null): PersonalizationResources
     {
+        $this->scope ??= $scope;
+
         return $this->component(Errors::class);
     }
 
-    public function floating(): PersonalizationResources
+    public function floating(?string $scope = null): PersonalizationResources
     {
+        $this->scope ??= $scope;
+
         return $this->component(Floating::class);
     }
 
-    public function form(?string $component = null): PersonalizationResources
+    public function form(?string $component = null, ?string $scope = null): PersonalizationResources
     {
+        $this->scope ??= $scope;
+
         $component ??= 'input';
 
         $class = match ($component) {
@@ -190,6 +214,7 @@ class Personalization
         // manipulate components like form.number. We explode to get
         // the namespace - form, and the component - number.
         $parts = explode('.', $this->component);
+
         $main = $parts[0];
         $secondary = $parts[1] ?? null;
 
@@ -200,23 +225,31 @@ class Personalization
         return call_user_func([$this, $main], $main === $secondary ?: $secondary);
     }
 
-    public function link(): PersonalizationResources
+    public function link(?string $scope = null): PersonalizationResources
     {
+        $this->scope ??= $scope;
+
         return $this->component(Link::class);
     }
 
-    public function loading(): PersonalizationResources
+    public function loading(?string $scope = null): PersonalizationResources
     {
+        $this->scope ??= $scope;
+
         return $this->component(Loading::class);
     }
 
-    public function modal(): PersonalizationResources
+    public function modal(?string $scope = null): PersonalizationResources
     {
+        $this->scope ??= $scope;
+
         return $this->component(Modal::class);
     }
 
-    public function progress(?string $component = null): PersonalizationResources
+    public function progress(?string $component = null, ?string $scope = null): PersonalizationResources
     {
+        $this->scope ??= $scope;
+
         $component ??= 'progress';
 
         $class = match ($component) {
@@ -228,18 +261,24 @@ class Personalization
         return $this->component($class);
     }
 
-    public function rating(): PersonalizationResources
+    public function rating(?string $scope = null): PersonalizationResources
     {
+        $this->scope ??= $scope;
+
         return $this->component(Rating::class);
     }
 
-    public function reaction(): PersonalizationResources
+    public function reaction(?string $scope = null): PersonalizationResources
     {
+        $this->scope ??= $scope;
+
         return $this->component(Reaction::class);
     }
 
-    public function select(?string $component = null): PersonalizationResources
+    public function select(?string $component = null, ?string $scope = null): PersonalizationResources
     {
+        $this->scope ??= $scope;
+
         $component ??= 'native';
 
         $class = match ($component) {
@@ -251,48 +290,66 @@ class Personalization
         return $this->component($class);
     }
 
-    public function slide(): PersonalizationResources
+    public function slide(?string $scope = null): PersonalizationResources
     {
+        $this->scope ??= $scope;
+
         return $this->component(Slide::class);
     }
 
-    public function stats(): PersonalizationResources
+    public function stats(?string $scope = null): PersonalizationResources
     {
+        $this->scope ??= $scope;
+
         return $this->component(Stats::class);
     }
 
-    public function step(): PersonalizationResources
+    public function step(?string $scope = null): PersonalizationResources
     {
+        $this->scope ??= $scope;
+
         return $this->component(Step::class);
     }
 
-    public function tab(): PersonalizationResources
+    public function tab(?string $scope = null): PersonalizationResources
     {
+        $this->scope ??= $scope;
+
         return $this->component(Tab::class);
     }
 
-    public function table(): PersonalizationResources
+    public function table(?string $scope = null): PersonalizationResources
     {
+        $this->scope ??= $scope;
+
         return $this->component(Table::class);
     }
 
-    public function themeSwitch(): PersonalizationResources
+    public function themeSwitch(?string $scope = null): PersonalizationResources
     {
+        $this->scope ??= $scope;
+
         return $this->component(ThemeSwitch::class);
     }
 
-    public function toast(): PersonalizationResources
+    public function toast(?string $scope = null): PersonalizationResources
     {
+        $this->scope ??= $scope;
+
         return $this->component(Toast::class);
     }
 
-    public function tooltip(): PersonalizationResources
+    public function tooltip(?string $scope = null): PersonalizationResources
     {
+        $this->scope ??= $scope;
+
         return $this->component(Tooltip::class);
     }
 
-    public function wrapper(?string $component = null): PersonalizationResources
+    public function wrapper(?string $component = null, ?string $scope = null): PersonalizationResources
     {
+        $this->scope ??= $scope;
+
         $component ??= 'input';
 
         $class = match ($component) {
