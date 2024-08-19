@@ -1,18 +1,12 @@
 <?php
 
-namespace TallStackUi\Foundation\Colors;
+namespace TallStackUi\Foundation\Colors\Classes;
 
-use TallStackUi\Foundation\Colors\Traits\OverrideColors;
-use TallStackUi\View\Components\Badge;
+use TallStackUi\Foundation\Colors\Traits\ShareableConstructor;
 
 class BadgeColors
 {
-    use OverrideColors;
-
-    public function __construct(protected Badge $component)
-    {
-        $this->setup();
-    }
+    use ShareableConstructor;
 
     public function __invoke(): array
     {
@@ -21,9 +15,9 @@ class BadgeColors
         $getter = $this->format($this->component->style, $this->component->color);
 
         return [
-            'background' => data_get($background, $getter, data_get($this->background(), $getter)),
-            'text' => data_get($text, $getter, data_get($this->text(), $getter)),
-            'icon' => data_get($icon, $getter, data_get($this->icon(), $getter)),
+            'background' => data_get($background, $getter) ?? data_get($this->background(), $getter),
+            'text' => data_get($text, $getter) ?? data_get($this->text(), $getter),
+            'icon' => data_get($icon, $getter) ?? data_get($this->icon(), $getter),
         ];
     }
 

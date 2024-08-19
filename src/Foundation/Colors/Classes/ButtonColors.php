@@ -1,19 +1,12 @@
 <?php
 
-namespace TallStackUi\Foundation\Colors;
+namespace TallStackUi\Foundation\Colors\Classes;
 
-use TallStackUi\Foundation\Colors\Traits\OverrideColors;
-use TallStackUi\View\Components\Button\Button;
-use TallStackUi\View\Components\Button\Circle;
+use TallStackUi\Foundation\Colors\Traits\ShareableConstructor;
 
 class ButtonColors
 {
-    use OverrideColors;
-
-    public function __construct(protected Button|Circle $component)
-    {
-        $this->setup();
-    }
+    use ShareableConstructor;
 
     public function __invoke(): array
     {
@@ -22,8 +15,8 @@ class ButtonColors
         $getter = $this->format($this->component->style, $this->component->color);
 
         return [
-            'background' => data_get($background, $getter, data_get($this->background(), $getter)),
-            'icon' => data_get($icon, $getter, data_get($this->icon(), $getter)),
+            'background' => data_get($background, $getter) ?? data_get($this->background(), $getter),
+            'icon' => data_get($icon, $getter) ?? data_get($this->icon(), $getter),
         ];
     }
 

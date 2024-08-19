@@ -1,18 +1,12 @@
 <?php
 
-namespace TallStackUi\Foundation\Colors;
+namespace TallStackUi\Foundation\Colors\Classes;
 
-use TallStackUi\Foundation\Colors\Traits\OverrideColors;
-use TallStackUi\View\Components\Form\Range;
+use TallStackUi\Foundation\Colors\Traits\ShareableConstructor;
 
 class RangeColors
 {
-    use OverrideColors;
-
-    public function __construct(protected Range $component)
-    {
-        $this->setup();
-    }
+    use ShareableConstructor;
 
     public function __invoke(): array
     {
@@ -21,7 +15,7 @@ class RangeColors
         // can just use the color as the getter.
         $getter = $this->component->color;
 
-        return ['thumb' => data_get($this->get('thumb'), $getter, data_get($this->thumb(), $getter))];
+        return ['thumb' => data_get($this->get('thumb'), $getter) ?? data_get($this->thumb(), $getter)];
     }
 
     private function thumb(): array

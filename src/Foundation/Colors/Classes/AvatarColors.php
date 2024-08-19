@@ -1,18 +1,12 @@
 <?php
 
-namespace TallStackUi\Foundation\Colors;
+namespace TallStackUi\Foundation\Colors\Classes;
 
-use TallStackUi\Foundation\Colors\Traits\OverrideColors;
-use TallStackUi\View\Components\Avatar;
+use TallStackUi\Foundation\Colors\Traits\ShareableConstructor;
 
 class AvatarColors
 {
-    use OverrideColors;
-
-    public function __construct(protected Avatar $component)
-    {
-        $this->setup();
-    }
+    use ShareableConstructor;
 
     public function __invoke(): array
     {
@@ -21,7 +15,7 @@ class AvatarColors
         // can just use the color as the getter.
         $getter = $this->component->color;
 
-        return ['background' => data_get($this->get('background'), $getter, data_get($this->background(), $getter))];
+        return ['background' => data_get($this->get('background'), $getter) ?? data_get($this->background(), $getter)];
     }
 
     private function background(): array

@@ -1,31 +1,28 @@
 <?php
 
-namespace TallStackUi\Foundation\Colors;
+namespace TallStackUi\Foundation\Colors\Classes;
 
-use TallStackUi\Foundation\Colors\Traits\OverrideColors;
-use TallStackUi\View\Components\Boolean as BooleanComponent;
+use TallStackUi\Foundation\Colors\Traits\ShareableConstructor;
 
-class BooleanColors
+class TooltipColors
 {
-    use OverrideColors;
-
-    public function __construct(protected BooleanComponent $component)
-    {
-        $this->setup();
-    }
+    use ShareableConstructor;
 
     public function __invoke(): array
     {
-        $color = $this->component->boolean ? $this->component->colorWhenTrue : $this->component->colorWhenFalse;
+        // We just need to $this->format when we
+        // have a style and color, otherwise we
+        // can just use the color as the getter.
+        $getter = $this->component->color;
 
-        return ['icon' => data_get($this->get('icon'), $color, data_get($this->icon(), $color))];
+        return ['icon' => data_get($this->get('icon'), $getter) ?? data_get($this->icon(), $getter)];
     }
 
     private function icon(): array
     {
         return [
-            'white' => 'text-black',
-            'black' => 'text-white',
+            'white' => 'text-white',
+            'black' => 'text-black',
             'primary' => 'text-primary-500',
             'secondary' => 'text-secondary-500',
             'slate' => 'text-slate-500',

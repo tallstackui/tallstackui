@@ -1,18 +1,12 @@
 <?php
 
-namespace TallStackUi\Foundation\Colors;
+namespace TallStackUi\Foundation\Colors\Classes;
 
-use TallStackUi\Foundation\Colors\Traits\OverrideColors;
-use TallStackUi\View\Components\Stats;
+use TallStackUi\Foundation\Colors\Traits\ShareableConstructor;
 
 class StatsColors
 {
-    use OverrideColors;
-
-    public function __construct(protected Stats $component)
-    {
-        $this->setup();
-    }
+    use ShareableConstructor;
 
     public function __invoke(): array
     {
@@ -21,7 +15,7 @@ class StatsColors
         // can just use the color as the getter.
         $getter = $this->format($this->component->style, $this->component->color);
 
-        return ['background' => data_get($this->get('background'), $getter, data_get($this->background(), $getter))];
+        return ['background' => data_get($this->get('background'), $getter) ?? data_get($this->background(), $getter)];
     }
 
     private function background(): array

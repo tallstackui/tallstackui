@@ -1,18 +1,12 @@
 <?php
 
-namespace TallStackUi\Foundation\Colors;
+namespace TallStackUi\Foundation\Colors\Classes;
 
-use TallStackUi\Foundation\Colors\Traits\OverrideColors;
-use TallStackUi\View\Components\Interaction\Toast;
+use TallStackUi\Foundation\Colors\Traits\ShareableConstructor;
 
 class ToastColors
 {
-    use OverrideColors;
-
-    public function __construct(protected Toast $component)
-    {
-        $this->setup();
-    }
+    use ShareableConstructor;
 
     public function __invoke(): array
     {

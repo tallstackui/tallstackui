@@ -3,7 +3,6 @@
 namespace TallStackUi\Foundation\Colors\Traits;
 
 use Illuminate\Support\Arr;
-use Illuminate\View\InvokableComponentVariable;
 use ReflectionClass;
 use ReflectionMethod;
 
@@ -57,25 +56,23 @@ trait OverrideColors
             ->values()
             ->toArray();
 
-        $data = $this->component->data();
+        $namespace = config('tallstackui.color_classes_namespace');
+        $stubClassName = class_basename($this->reflect->parent()->name).'Colors';
+        $usingCustomColors = class_exists($class = $namespace.'\\'.$stubClassName);
 
         foreach ($methods as $method) {
             $original = $method;
-            $method .= 'Color';
+            $method .= 'Colors';
 
-            if (! isset($data[$method]) || ! $data[$method] instanceof InvokableComponentVariable) {
-                // If the colors was not overridden, we will get the default
-                // colors of the methods of the class that is using this trait.
+            if ($usingCustomColors) {
+                $instance = new $class;
+
+                $result = app()->call(fn () => $instance->{$method}());
+
+                $this->overrides[$original] = blank($result) ? null : $result;
+            } else {
                 $this->overrides[$original] = $this->{$original}();
-
-                continue;
             }
-
-            // We execute this as a closure because it will be
-            // an instance of the InvokableComponentVariable
-            $result = app()->call(fn () => $data[$method]()); // @phpstan-ignore-line
-
-            $this->overrides[$original] = blank($result) ? null : $result;
         }
     }
 }

@@ -31,7 +31,7 @@ class PersonalizationResources
     /**
      * Original classes of the component personalization.
      */
-    private Collection $originals;
+    private readonly Collection $originals;
 
     /**
      * Parts of the component personalization.

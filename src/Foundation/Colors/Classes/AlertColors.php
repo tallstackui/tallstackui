@@ -1,18 +1,12 @@
 <?php
 
-namespace TallStackUi\Foundation\Colors;
+namespace TallStackUi\Foundation\Colors\Classes;
 
-use TallStackUi\Foundation\Colors\Traits\OverrideColors;
-use TallStackUi\View\Components\Alert;
+use TallStackUi\Foundation\Colors\Traits\ShareableConstructor;
 
 class AlertColors
 {
-    use OverrideColors;
-
-    public function __construct(protected Alert $component)
-    {
-        $this->setup();
-    }
+    use ShareableConstructor;
 
     public function __invoke(): array
     {
@@ -21,8 +15,8 @@ class AlertColors
         $getter = $this->format($this->component->style, $this->component->color);
 
         return [
-            'background' => data_get($background, $getter, data_get($this->background(), $getter)),
-            'text' => data_get($text, $getter, data_get($this->text(), $getter)),
+            'background' => data_get($background, $getter) ?? data_get($this->background(), $getter),
+            'text' => data_get($text, $getter) ?? data_get($this->text(), $getter),
         ];
     }
 

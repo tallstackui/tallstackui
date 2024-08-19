@@ -1,18 +1,13 @@
 <?php
 
-namespace TallStackUi\Foundation\Colors;
+namespace TallStackUi\Foundation\Colors\Classes;
 
-use TallStackUi\Foundation\Colors\Traits\OverrideColors;
+use TallStackUi\Foundation\Colors\Traits\ShareableConstructor;
 use TallStackUi\View\Components\Banner;
 
 class BannerColors
 {
-    use OverrideColors;
-
-    public function __construct(protected Banner $component)
-    {
-        $this->setup();
-    }
+    use ShareableConstructor;
 
     public function __invoke(): array
     {
@@ -27,8 +22,8 @@ class BannerColors
         $getter = $this->format($this->component->style, $this->component->color);
 
         return [
-            'background' => data_get($background, $getter, data_get($this->background(), $getter)),
-            'text' => data_get($text, $getter, data_get($this->text(), $getter)),
+            'background' => data_get($background, $getter) ?? data_get($this->background(), $getter),
+            'text' => data_get($text, $getter) ?? data_get($this->text(), $getter),
         ];
     }
 

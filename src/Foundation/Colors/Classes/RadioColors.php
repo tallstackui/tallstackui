@@ -1,19 +1,12 @@
 <?php
 
-namespace TallStackUi\Foundation\Colors;
+namespace TallStackUi\Foundation\Colors\Classes;
 
-use TallStackUi\Foundation\Colors\Traits\OverrideColors;
-use TallStackUi\View\Components\Form\Checkbox;
-use TallStackUi\View\Components\Form\Radio;
+use TallStackUi\Foundation\Colors\Traits\ShareableConstructor;
 
 class RadioColors
 {
-    use OverrideColors;
-
-    public function __construct(protected Radio|Checkbox $component)
-    {
-        $this->setup();
-    }
+    use ShareableConstructor;
 
     public function __invoke(): array
     {
@@ -22,7 +15,7 @@ class RadioColors
         // can just use the color as the getter.
         $getter = $this->component->color;
 
-        return ['background' => data_get($this->get('background'), $getter, data_get($this->background(), $getter))];
+        return ['background' => data_get($this->get('background'), $getter) ?? data_get($this->background(), $getter)];
     }
 
     private function background(): array

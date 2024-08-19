@@ -1,34 +1,25 @@
 <?php
 
-namespace TallStackUi\Foundation\Colors;
+namespace TallStackUi\Foundation\Colors\Classes;
 
-use TallStackUi\Foundation\Colors\Traits\OverrideColors;
-use TallStackUi\View\Components\Rating;
+use TallStackUi\Foundation\Colors\Traits\ShareableConstructor;
 
-class RatingColors
+class BooleanColors
 {
-    use OverrideColors;
-
-    public function __construct(protected Rating $component)
-    {
-        $this->setup();
-    }
+    use ShareableConstructor;
 
     public function __invoke(): array
     {
-        // We just need to $this->format when we
-        // have a style and color, otherwise we
-        // can just use the color as the getter.
-        $getter = $this->component->color;
+        $color = $this->component->boolean ? $this->component->colorWhenTrue : $this->component->colorWhenFalse;
 
-        return ['background' => data_get($this->get('background'), $getter, data_get($this->background(), $getter))];
+        return ['icon' => data_get($this->get('icon'), $color) ?? data_get($this->icon(), $color)];
     }
 
-    private function background(): array
+    private function icon(): array
     {
         return [
-            'white' => 'text-white',
-            'black' => 'text-black',
+            'white' => 'text-black',
+            'black' => 'text-white',
             'primary' => 'text-primary-500',
             'secondary' => 'text-secondary-500',
             'slate' => 'text-slate-500',

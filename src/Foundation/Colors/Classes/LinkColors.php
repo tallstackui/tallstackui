@@ -1,30 +1,31 @@
 <?php
 
-namespace TallStackUi\Foundation\Colors;
+namespace TallStackUi\Foundation\Colors\Classes;
 
-use TallStackUi\Foundation\Colors\Traits\OverrideColors;
-use TallStackUi\View\Components\Tooltip;
+use TallStackUi\Foundation\Colors\Traits\ShareableConstructor;
 
-class TooltipColors
+class LinkColors
 {
-    use OverrideColors;
-
-    public function __construct(protected Tooltip $component)
-    {
-        $this->setup();
-    }
+    use ShareableConstructor;
 
     public function __invoke(): array
     {
+        $text = $this->get('text');
+
         // We just need to $this->format when we
         // have a style and color, otherwise we
         // can just use the color as the getter.
         $getter = $this->component->color;
 
-        return ['icon' => data_get($this->get('icon'), $getter, data_get($this->icon(), $getter))];
+        // For :color="null"
+        if (! $getter || $this->component->colorless === true) {
+            return ['text' => ''];
+        }
+
+        return ['text' => data_get($text, $getter) ?? data_get($this->text(), $getter)];
     }
 
-    private function icon(): array
+    private function text(): array
     {
         return [
             'white' => 'text-white',

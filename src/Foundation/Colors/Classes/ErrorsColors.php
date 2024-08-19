@@ -1,18 +1,12 @@
 <?php
 
-namespace TallStackUi\Foundation\Colors;
+namespace TallStackUi\Foundation\Colors\Classes;
 
-use TallStackUi\Foundation\Colors\Traits\OverrideColors;
-use TallStackUi\View\Components\Errors;
+use TallStackUi\Foundation\Colors\Traits\ShareableConstructor;
 
 class ErrorsColors
 {
-    use OverrideColors;
-
-    public function __construct(protected Errors $component)
-    {
-        $this->setup();
-    }
+    use ShareableConstructor;
 
     public function __invoke(): array
     {
@@ -24,9 +18,9 @@ class ErrorsColors
         $getter = $this->component->color;
 
         return [
-            'background' => data_get($background, $getter, data_get($this->background(), $getter)),
-            'text' => data_get($text, $getter, data_get($this->text(), $getter)),
-            'border' => data_get($border, $getter, data_get($this->border(), $getter)),
+            'background' => data_get($background, $getter) ?? data_get($this->background(), $getter),
+            'text' => data_get($text, $getter) ?? data_get($this->text(), $getter),
+            'border' => data_get($border, $getter) ?? data_get($this->border(), $getter),
         ];
     }
 

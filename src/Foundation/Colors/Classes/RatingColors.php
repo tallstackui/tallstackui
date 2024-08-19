@@ -1,37 +1,24 @@
 <?php
 
-namespace TallStackUi\Foundation\Colors;
+namespace TallStackUi\Foundation\Colors\Classes;
 
-use TallStackUi\Foundation\Colors\Traits\OverrideColors;
-use TallStackUi\View\Components\Link;
+use TallStackUi\Foundation\Colors\Traits\ShareableConstructor;
 
-class LinkColors
+class RatingColors
 {
-    use OverrideColors;
-
-    public function __construct(protected Link $component)
-    {
-        $this->setup();
-    }
+    use ShareableConstructor;
 
     public function __invoke(): array
     {
-        $text = $this->get('text');
-
         // We just need to $this->format when we
         // have a style and color, otherwise we
         // can just use the color as the getter.
         $getter = $this->component->color;
 
-        // For :color="null"
-        if (! $getter || $this->component->colorless === true) {
-            return ['text' => ''];
-        }
-
-        return ['text' => data_get($text, $getter, data_get($this->text(), $getter))];
+        return ['background' => data_get($this->get('background'), $getter) ?? data_get($this->background(), $getter)];
     }
 
-    private function text(): array
+    private function background(): array
     {
         return [
             'white' => 'text-white',
