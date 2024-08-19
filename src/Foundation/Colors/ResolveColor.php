@@ -48,7 +48,7 @@ use TallStackUi\View\Components\Tooltip;
 class ResolveColor
 {
     /** @throws Exception */
-    public static function from(object $component): ?array
+    public static function of(object $component): ?array
     {
         $reflect = app(ReflectComponent::class, ['component' => $component::class]);
         $parent = $reflect->parent()->name;

@@ -18,7 +18,7 @@ use TallStackUi\View\Components\Slide;
 class ResolveConfiguration
 {
     /** @throws Exception */
-    public static function from(object $component): ?array
+    public static function of(object $component): ?array
     {
         $class = new self;
 
