@@ -3,6 +3,7 @@
 namespace TallStackUi\Foundation\Personalization;
 
 use Closure;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\View as Facade;
 use Illuminate\View\View;
@@ -11,21 +12,37 @@ use RuntimeException;
 use TallStackUi\Contracts\Personalizable;
 
 /**
- * @internal This class is not meant to be used directly.
+ * @internal
  *
  * @property-read Personalization $and
  */
 class PersonalizationResources
 {
-    public function __construct(
-        private readonly ?string $component = null,
-        private ?string $block = null,
-        private ?Collection $originals = null,
-        private readonly ?Collection $interactions = new Collection,
-        private ?Collection $parts = new Collection,
-        private readonly ?string $scope = null,
-    ) {
-        $this->originals = collect($this->personalization());
+    /**
+     * Block name to be personalized.
+     */
+    public ?string $block = null;
+
+    /**
+     * Interactions, for when we are personalizing without $code for the block.
+     */
+    private Collection $interactions;
+
+    /**
+     * Original classes of the component personalization.
+     */
+    private Collection $originals;
+
+    /**
+     * Parts of the component personalization.
+     */
+    private Collection $parts;
+
+    public function __construct(private readonly string $component, private readonly ?string $scope = null)
+    {
+        $this->interactions = collect();
+        $this->parts = collect();
+        $this->originals = collect(app($this->component)->personalization());
     }
 
     /**
@@ -57,20 +74,20 @@ class PersonalizationResources
     {
         $this->interactions->put('append', $content);
 
-        $this->set($this->block);
+        $this->compile();
 
         return $this;
     }
 
     /**
-     * Interact with the block.
+     * Interact with the block to start the personalization.
      *
      * @return $this
      */
     public function block(string|array $name, string|Closure|Personalizable|null $code = null): self
     {
         // If the $code was not set, then we
-        // are interacting with the helpers.
+        // are interacting with the shortcuts.
         if (is_string($name) && ! $code) {
             $this->block = $name;
 
@@ -79,10 +96,10 @@ class PersonalizationResources
 
         if (is_array($name)) {
             foreach ($name as $key => $value) {
-                $this->compile($key, $value);
+                $this->composer($key, $value);
             }
         } else {
-            $this->compile($name, $code);
+            $this->composer($name, $code);
         }
 
         return $this;
@@ -102,7 +119,7 @@ class PersonalizationResources
     {
         $this->interactions->put('prepend', $content);
 
-        $this->set($this->block);
+        $this->compile();
 
         return $this;
     }
@@ -114,9 +131,9 @@ class PersonalizationResources
      */
     public function remove(string|array $class): self
     {
-        $this->interactions->put('remove', is_array($class) ? $class : [$class]);
+        $this->interactions->put('remove', Arr::wrap($class));
 
-        $this->set($this->block);
+        $this->compile();
 
         return $this;
     }
@@ -130,11 +147,14 @@ class PersonalizationResources
     {
         $this->interactions->put('replace', is_array($from) ? $from : [$from => $to]);
 
-        $this->set($this->block);
+        $this->compile();
 
         return $this;
     }
 
+    /**
+     * Get the parts as array.
+     */
     public function toArray(): array
     {
         return $this->parts->toArray();
@@ -145,47 +165,16 @@ class PersonalizationResources
      */
     private function blocks(): array
     {
-        return array_keys($this->personalization());
+        return array_keys(app($this->component)->personalization());
     }
 
     /**
-     * Compile the personalization into View::composer.
+     * Compile the personalization.
      */
-    private function compile(string $block, string|Closure|Personalizable|null $code = null): void
+    private function compile(?string $block = null, ?string $content = null): void
     {
-        $view = $this->personalization(true)->blade()->name(); // @phpstan-ignore-line
+        $block ??= $this->block;
 
-        if (! in_array($block, $blocks = $this->blocks())) {
-            $component = str_replace('tallstack-ui::components.', '', (string) $view);
-
-            throw new InvalidArgumentException("Component [$component] does not have the block [$block] to be personalized. Alloweds: ".implode(', ', $blocks));
-        }
-
-        // We leave everything prepared and linked with the
-        // Blade file associated with the component so that
-        // the $classes() call obtains the personalization.
-        Facade::composer($view, fn (View $view) => $this->set($block, is_callable($code) ? $code($view->getData()) : $code));
-    }
-
-    /**
-     * Retrieve the component instance through container.
-     */
-    private function personalization(bool $instance = false): array|object
-    {
-        $class = app($this->component);
-
-        if ($instance) {
-            return $class;
-        }
-
-        return $class->personalization();
-    }
-
-    /**
-     * Persist the personalization storing it temporarily in the `parts`.
-     */
-    private function set(string $block, ?string $content = null): void
-    {
         foreach ($this->interactions->get('replace', []) as $old => $new) {
             $this->originals->put($block, str_replace($old, $new, (string) $this->originals->get($block)));
         }
@@ -202,10 +191,12 @@ class PersonalizationResources
             $this->originals->put($block, str_replace($class, '', (string) $this->originals->get($block)));
         }
 
+        // Reusable closure to get the content.
         $content = fn () => trim($content ?? str($this->originals->get($block))->squish());
 
         $parts = $this->parts->toArray();
 
+        // When scoped we need to set the parts as a multidimensional array.
         if ($this->scope) {
             data_set($parts, $this->scope.'.'.$block, $content());
 
@@ -214,9 +205,27 @@ class PersonalizationResources
             $this->parts->put($block, $content());
         }
 
-        $this->interactions->forget('replace');
-        $this->interactions->forget('append');
-        $this->interactions->forget('prepend');
-        $this->interactions->forget('remove');
+        // Flushing
+        $this->interactions = collect();
+    }
+
+    /**
+     * Composes the personalization in View::composer for cases where
+     * we are not interacting with the customization method without $code.
+     */
+    private function composer(string $block, string|Closure|Personalizable|null $code = null): void
+    {
+        $view = app($this->component)->blade()->name();
+
+        if (! in_array($block, $blocks = $this->blocks())) {
+            $component = str_replace('tallstack-ui::components.', '', (string) $view);
+
+            throw new InvalidArgumentException("Component [$component] does not have the block [$block] to be personalized. Alloweds: ".implode(', ', $blocks));
+        }
+
+        // We leave everything prepared and linked with the
+        // Blade file associated with the component so that
+        // the $classes() call obtains the personalization.
+        Facade::composer($view, fn (View $view) => $this->compile($block, is_callable($code) ? $code($view->getData()) : $code));
     }
 }

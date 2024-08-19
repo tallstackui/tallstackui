@@ -9,7 +9,7 @@ use TallStackUi\Actions\Dialog;
 use TallStackUi\Actions\Toast;
 
 /**
- * @internal This trait is not meant to be used directly.
+ * @internal
  */
 trait DispatchInteraction
 {
@@ -46,7 +46,7 @@ trait DispatchInteraction
      */
     public function hook(array $hooks): self
     {
-        $this->requireLivewire('hook');
+        $this->wireable('hook');
 
         $expected = match (true) {
             $this instanceof Dialog => ['ok', 'close', 'dismiss'],

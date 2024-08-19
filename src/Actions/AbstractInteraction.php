@@ -6,7 +6,7 @@ use Exception;
 use Livewire\Component;
 
 /**
- * @internal This class is not meant to be used directly.
+ * @internal
  */
 abstract class AbstractInteraction
 {
@@ -35,17 +35,6 @@ abstract class AbstractInteraction
      */
     abstract public function question(string $title, ?string $description = null): self;
 
-    /** @throws Exception */
-    public function requireLivewire(string $what): void
-    {
-        if ($this->component && $this->component->getId()) {
-            return;
-        }
-
-        // For situations where interactions are being used via Controllers.
-        throw new Exception('This interaction ['.$what.'] using Interaction trait is not supported through Controllers.');
-    }
-
     /**
      * Sets the interaction as success.
      */
@@ -55,6 +44,17 @@ abstract class AbstractInteraction
      * Sets the interaction as warning.
      */
     abstract public function warning(string $title, ?string $description = null): self;
+
+    /** @throws Exception */
+    public function wireable(string $what): void
+    {
+        if ($this->component && $this->component->getId()) {
+            return;
+        }
+
+        // For situations where interactions are being used via Controllers.
+        throw new Exception('This interaction ['.$what.'] using Interaction trait is not supported through Controllers.');
+    }
 
     /**
      * Determine the event name.

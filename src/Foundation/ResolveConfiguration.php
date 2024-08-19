@@ -12,7 +12,7 @@ use TallStackUi\View\Components\Modal;
 use TallStackUi\View\Components\Slide;
 
 /**
- * @internal This class is not meant to be used directly.
+ * @internal
  */
 class ResolveConfiguration
 {

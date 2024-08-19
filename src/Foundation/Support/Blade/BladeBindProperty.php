@@ -34,6 +34,11 @@ class BladeBindProperty
         ];
     }
 
+    /**
+     * Get the element bind.
+     *
+     * @throws Exception
+     */
     private function bind(): ?string
     {
         return $this->livewire && $this->support->wire() instanceof WireDirective
@@ -45,6 +50,9 @@ class BladeBindProperty
             : $this->attributes->get('name', $this->attributes->get('alternative'));
     }
 
+    /**
+     * Check if the property has an error.
+     */
     private function error(?string $property = null): bool
     {
         if (! $this->errors instanceof ViewErrorBag) {
@@ -59,6 +67,9 @@ class BladeBindProperty
         return $property && $this->errors->has($property);
     }
 
+    /**
+     * Get the element ID.
+     */
     private function id(?string $property = null): ?string
     {
         return $this->attributes->get('id', $property);

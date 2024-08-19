@@ -44,7 +44,10 @@
     "scripts": {
         "test": "./vendor/bin/pest",
         "test:ci": "CI=true ./vendor/bin/pest",
-        "test:feature": "./vendor/bin/pest --filter=Feature --parallel",
+        "test:feature": [
+            "vendor/bin/testbench view:clear",
+            "./vendor/bin/pest --filter=Feature --parallel"
+        ],
         "test:browser": "./vendor/bin/pest --filter=Browser",
         "test:browser:ci": "CI=true ./vendor/bin/pest --filter=Browser",
         "bench": "vendor/bin/testbench",

@@ -12,6 +12,9 @@ class SoftPersonalization
         //
     }
 
+    /**
+     * Whether the personalization key should be prefixed.
+     */
     public function key(bool $prefix = true): string
     {
         return $prefix ? 'tallstack-ui::personalizations.'.$this->key : $this->key;

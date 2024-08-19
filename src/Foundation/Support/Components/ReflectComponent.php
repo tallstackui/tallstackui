@@ -8,7 +8,7 @@ use ReflectionException;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\View\Components\BaseComponent;
 
-class ReflectParentComponent
+class ReflectComponent
 {
     public function __construct(private readonly string $component)
     {
@@ -20,9 +20,19 @@ class ReflectParentComponent
      *
      * @throws ReflectionException
      */
-    public function attribute(): ReflectionAttribute
+    public function attribute(string $attribute = SoftPersonalization::class): ReflectionAttribute
     {
-        return collect($this->parent()->getAttributes(SoftPersonalization::class))->first();
+        return collect($this->parent()->getAttributes($attribute))->first();
+    }
+
+    /**
+     * Get the ReflectionClass instance.
+     *
+     * @throws ReflectionException
+     */
+    public function class(): ReflectionClass
+    {
+        return $this->reflection();
     }
 
     /**
@@ -37,5 +47,15 @@ class ReflectParentComponent
 
         // If the parent isn't the BaseComponent, then a deep personalization is happening.
         return $parent->name !== BaseComponent::class ? $parent : $class;
+    }
+
+    /**
+     * Get a new ReflectionClass instance.
+     *
+     * @throws ReflectionException
+     */
+    private function reflection(): ReflectionClass
+    {
+        return new ReflectionClass($this->component);
     }
 }

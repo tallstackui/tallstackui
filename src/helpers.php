@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\File;
 use Symfony\Component\Finder\SplFileInfo;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
+use TallStackUi\Foundation\Support\Components\ReflectComponent;
 
 if (! function_exists('__ts_components')) {
     /**
@@ -20,10 +21,9 @@ if (! function_exists('__ts_components')) {
                 ->value())
             ->filter(fn (string $component) => (new ReflectionClass($component))->getAttributes(SoftPersonalization::class)) // @phpstan-ignore-line
             ->mapWithKeys(function (string $component) {
-                $reflect = new ReflectionClass($component);
-                $attribute = $reflect->getAttributes(SoftPersonalization::class)[0];
+                $reflect = new ReflectComponent($component);
 
-                return [$attribute->newInstance()->key() => $reflect->getName()];
+                return [$reflect->attribute()->newInstance()->key(prefix: true) => $reflect->class()->getName()];
             })
             ->toArray();
     }

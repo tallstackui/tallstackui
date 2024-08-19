@@ -5,14 +5,14 @@ namespace TallStackUi\Actions\Traits;
 use TallStackUi\Actions\Dialog;
 
 /**
- * @internal This trait is not meant to be used directly.
+ * @internal
  */
 trait InteractWithConfirmation
 {
     /** Sets the cancellation aspect */
     public function cancel(?string $text = null, ?string $method = null, array|string|int|null $params = null): self
     {
-        $this->requireLivewire('cancel');
+        $this->wireable('cancel');
 
         $message = $this->messages()[1];
 
@@ -29,7 +29,7 @@ trait InteractWithConfirmation
     /** Sets the confirmation aspect */
     public function confirm(?string $text = null, ?string $method = null, array|string|int|null $params = null): self
     {
-        $this->requireLivewire('confirm');
+        $this->wireable('confirm');
 
         $message = $this->messages()[0];
 

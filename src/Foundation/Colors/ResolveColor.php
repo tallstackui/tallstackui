@@ -25,7 +25,7 @@ use TallStackUi\View\Components\Stats;
 use TallStackUi\View\Components\Tooltip;
 
 /**
- * @internal This class is not meant to be used directly.
+ * @internal
  */
 class ResolveColor
 {

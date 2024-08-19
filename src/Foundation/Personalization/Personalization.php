@@ -58,7 +58,7 @@ use TallStackUi\View\Components\Wrapper\Input as InputWrapper;
 use TallStackUi\View\Components\Wrapper\Radio as RadioWrapper;
 
 /**
- * @internal This class is not meant to be used directly.
+ * @internal
  */
 class Personalization
 {
@@ -95,6 +95,9 @@ class Personalization
         return $this->component(Banner::class);
     }
 
+    /**
+     * Interact with the block to start the personalization.
+     */
     public function block(string|array $name, string|Closure|Personalizable|null $code = null): PersonalizationResources
     {
         return $this->instance()->block($name, $code);

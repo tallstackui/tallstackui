@@ -9,7 +9,7 @@ use Psr\Container\NotFoundExceptionInterface;
 use ReflectionException;
 use TallStackUi\Facades\TallStackUi;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\Foundation\Support\Components\ReflectParentComponent;
+use TallStackUi\Foundation\Support\Components\ReflectComponent;
 
 trait ManagesClasses
 {
@@ -29,7 +29,7 @@ trait ManagesClasses
         // be personalized by the "deep" method, we need ReflectionApi to determine which
         // component is the parent to get its SoftPersonalization attribute. This way, all
         // personalization continue to work even when "deep" customization is in effect.
-        $reflection = app(ReflectParentComponent::class, ['component' => static::class]);
+        $reflection = app(ReflectComponent::class, ['component' => static::class]);
 
         $attribute = $reflection->attribute();
 
@@ -39,7 +39,7 @@ trait ManagesClasses
 
         unset($this->attributes['personalize']);
 
-        $soft = TallStackUi::personalize($attribute->newInstance()->key(false))
+        $soft = TallStackUi::personalize($attribute->newInstance()->key(prefix: false))
             ->instance()
             ->toArray();
 
@@ -61,9 +61,9 @@ trait ManagesClasses
             }
         }
 
+        // If $scoped !== [] we merge the soft with scoped, but prioritize scoped.
         $merge = $scoped === []
             ? $soft
-            // If $scoped !== [] we merge the soft with scoped, but prioritize scoped.
             : Arr::only(array_merge($soft, $scoped), array_keys($scoped));
 
         // Here we do a second merge, now with the original classes and the result
