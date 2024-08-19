@@ -33,25 +33,17 @@ if (! function_exists('__ts_search_component')) {
     /**
      * Search for the component key in the components.
      *
-     * @param  bool  $keys  - Whether to flip the component array to search for the key instead of the value.
-     *
      * @throws Exception
      */
-    function __ts_search_component(string $component, bool $keys = false): string
+    function __ts_search_component(string $component): string
     {
-        $components = __ts_components();
+        $result = array_search($component, __ts_components());
 
-        if ($keys) {
-            $components = array_flip($components);
-        }
-
-        $component = array_search($component, $components);
-
-        if (! $component) {
+        if (! $result) {
             throw new Exception("Component [{$component}] is not allowed to be personalized");
         }
 
-        return $component;
+        return $result;
     }
 }
 

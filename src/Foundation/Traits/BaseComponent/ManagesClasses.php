@@ -6,11 +6,10 @@ use Exception;
 use Illuminate\Support\Arr;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
-use ReflectionClass;
 use ReflectionException;
 use TallStackUi\Facades\TallStackUi;
-use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Foundation\Support\Components\ReflectParentComponent;
 
 trait ManagesClasses
 {
@@ -26,56 +25,45 @@ trait ManagesClasses
             return [];
         }
 
-        // Trying to get the attribute from the current class, and if we
-        // can't find it, we get the attribute from the parent class in
-        // case of the deep personalization extending the original component.
-        $attribute = rescue(
-            /** @throws Exception */
-            function () {
-                $attribute = collect((new ReflectionClass($this))->getAttributes(SoftPersonalization::class))->first();
+        // The idea of this approach is to get the parent component. Since the component can
+        // be personalized by the "deep" method, we need ReflectionApi to determine which
+        // component is the parent to get its SoftPersonalization attribute. This way, all
+        // personalization continue to work even when "deep" customization is in effect.
+        $reflection = app(ReflectParentComponent::class, ['component' => static::class]);
 
-                // We need to throw an exception here to trigger the rescue.
-                if ($attribute === null) {
-                    throw new Exception('No attribute found');
-                }
+        $attribute = $reflection->attribute();
 
-                return $attribute;
-            }, fn () => collect((new ReflectionClass(get_parent_class($this)))->getAttributes(SoftPersonalization::class))->first(), false);
-
-        if (! $attribute || empty($attribute->getArguments())) {
+        if (blank($attribute->getArguments())) {
             return [];
         }
 
         unset($this->attributes['personalize']);
 
-        $soft = TallStackUi::personalize(str_replace('tallstack-ui::personalizations.', '', $attribute->newInstance()->key()))
+        $soft = TallStackUi::personalize($attribute->newInstance()->key(false))
             ->instance()
             ->toArray();
 
-        $scope = $this->attributes['scope'] ?? null;
         $scoped = [];
 
-        if ($scope) {
+        if (isset($this->attributes['scope'])) {
+            $scope = $this->attributes['scope'];
+
             unset($this->attributes['scope']);
 
-            // TODO: test it!
-            // For cases where the component may be being personalized through deep
-            // personalization we look in the current component or the parent component.
-            // Since the attribute will be found anywhere, we use the attribute -
-            // flipping components, rather than something like static::class.
-            $component = __ts_search_component($attribute->newInstance()->key(), true);
-
-            $scoped = rescue(fn () => app()->get(__ts_scope_container_key($component, $scope))->toArray(), [], false);
+            // We use rescue here as a way to ignore errors. If we don't find the personalization
+            // in the container, we just don't apply it. This must be stated in the documentation.
+            $scoped = rescue(fn () => app()->get(__ts_scope_container_key(__ts_search_component($reflection->parent()->getName()), $scope))->toArray(), [], false);
 
             if (filled($scoped)) {
+                // Starting from v2, scope personalization creates a multidimensional array,
+                // where the key is the scope name. Therefore, we need to get the scope name.
                 $scoped = data_get($scoped, $scope, $scoped);
             }
         }
 
-        $merge = is_null($scope)
-            // When null, we only use the default personalization that comes from the component.
+        $merge = $scoped === []
             ? $soft
-            // Otherwise, we merge the soft with scoped, but prioritize scoped.
+            // If $scoped !== [] we merge the soft with scoped, but prioritize scoped.
             : Arr::only(array_merge($soft, $scoped), array_keys($scoped));
 
         // Here we do a second merge, now with the original classes and the result

@@ -12,8 +12,8 @@ class SoftPersonalization
         //
     }
 
-    public function key(): string
+    public function key(bool $prefix = true): string
     {
-        return 'tallstack-ui::personalizations.'.$this->key;
+        return $prefix ? 'tallstack-ui::personalizations.'.$this->key : $this->key;
     }
 }
