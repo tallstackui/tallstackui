@@ -50,7 +50,7 @@ class Table extends BaseComponent implements Personalization
         #[SkipDebug]
         public ComponentSlot|string|null $footer = null
     ) {
-        $this->placeholders = __('tallstack-ui::messages.table');
+        $this->placeholders = trans('tallstack-ui::messages.table');
 
         if (is_bool($filter) && $this->filter === true) {
             $this->filter = ['quantity' => 'quantity', 'search' => 'search'];
@@ -153,7 +153,7 @@ class Table extends BaseComponent implements Personalization
     /** @throws InvalidArgumentException */
     protected function validate(): void
     {
-        $messages = __('tallstack-ui::messages.table');
+        $messages = trans('tallstack-ui::messages.table');
 
         if (blank($messages['empty'] ?? null)) {
             throw new InvalidArgumentException('The table [empty] message cannot be empty.');

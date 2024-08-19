@@ -2,10 +2,10 @@
     $personalize = $classes();
 @endphp
 
-<div x-data="{ 
-        selected: @if (!$selected) {!! TallStackUi::blade($attributes, $livewire)->entangle() !!} @else @js($selected) @endif, 
-        navigate: @js($navigate), 
-        previous: @js($navigatePrevious), 
+<div x-data="{
+        selected: @if (!$selected) {!! TallStackUi::blade($attributes, $livewire)->entangle() !!} @else @js($selected) @endif,
+        navigate: @js($navigate),
+        previous: @js($navigatePrevious),
         steps: [],
     }">
     <nav @if ($variation === 'panels') class="overflow-hidden rounded-md" @endif>
@@ -33,7 +33,7 @@
                         <x-dynamic-component :component="TallStackUi::component('icon')"
                                              :icon="TallStackUi::icon('chevron-left')"
                                              @class(['mr-1', $personalize['button.icon']]) />
-                        {{ __('tallstack-ui::messages.step.previous') }}
+                        {{ trans('tallstack-ui::messages.step.previous') }}
                     </button>
                 @endif
             </div>
@@ -43,7 +43,7 @@
                         x-on:click="selected++; $refs.buttons.dispatchEvent(new CustomEvent('change', {detail: {step: selected}}));"
                         dusk="tallstackui_step_next"
                         @class($personalize['button.wrapper'])>
-                    {{ __('tallstack-ui::messages.step.next') }}
+                    {{ trans('tallstack-ui::messages.step.next') }}
                     <x-dynamic-component :component="TallStackUi::component('icon')"
                                          :icon="TallStackUi::icon('chevron-right')"
                                          @class(['ml-1', $personalize['button.icon']]) />
@@ -60,7 +60,7 @@
                                 dusk="tallstackui_step_finish"
                                 {{ $attributes->only('x-on:finish') }}
                                 @class($personalize['button.wrapper'])>
-                            {{ __('tallstack-ui::messages.step.finish') }}
+                            {{ trans('tallstack-ui::messages.step.finish') }}
                         </button>
                     @endif
                 @endif

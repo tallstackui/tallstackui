@@ -28,11 +28,11 @@ it('can render with rules', function () {
 
     expect($component)
         ->render()
-        ->toContain(__('tallstack-ui::messages.password.rules.title'))
-        ->toContain(__('tallstack-ui::messages.password.rules.formats.min', ['min' => Password::defaults()['min']]))
-        ->toContain(__('tallstack-ui::messages.password.rules.formats.symbols', ['symbols' => '!@#']))
-        ->toContain(__('tallstack-ui::messages.password.rules.formats.numbers'))
-        ->toContain(__('tallstack-ui::messages.password.rules.formats.mixed'));
+        ->toContain(trans('tallstack-ui::messages.password.rules.title'))
+        ->toContain(trans('tallstack-ui::messages.password.rules.formats.min', ['min' => Password::defaults()['min']]))
+        ->toContain(trans('tallstack-ui::messages.password.rules.formats.symbols', ['symbols' => '!@#']))
+        ->toContain(trans('tallstack-ui::messages.password.rules.formats.numbers'))
+        ->toContain(trans('tallstack-ui::messages.password.rules.formats.mixed'));
 });
 
 it('cannot render with generator and without rules', function () {

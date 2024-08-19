@@ -101,8 +101,8 @@ class Dialog extends AbstractInteraction
     protected function messages(): array
     {
         return [
-            __('tallstack-ui::messages.dialog.button.confirm'),
-            __('tallstack-ui::messages.dialog.button.cancel'),
+            trans('tallstack-ui::messages.dialog.button.confirm'),
+            trans('tallstack-ui::messages.dialog.button.cancel'),
         ];
     }
 }

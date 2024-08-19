@@ -49,7 +49,7 @@ class Dialog extends BaseComponent implements Personalization
     /** @throws InvalidArgumentException */
     protected function validate(): void
     {
-        $messages = __('tallstack-ui::messages.dialog.button');
+        $messages = trans('tallstack-ui::messages.dialog.button');
 
         if (! str(config('tallstackui.settings.dialog.z-index', 'z-50'))->startsWith('z-')) {
             throw new InvalidArgumentException('The dialog z-index must start with z- prefix');
