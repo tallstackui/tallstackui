@@ -9,6 +9,7 @@ use TallStackUi\Foundation\Support\Blade\BladeDirectives;
 use TallStackUi\Foundation\Support\Blade\BladeSupport;
 use TallStackUi\Foundation\Support\Components\IconGuide;
 
+// TODO: refactor (commnets)
 class TallStackUi
 {
     public function blade(?ComponentAttributeBag $attributes = null, bool $livewire = false): BladeSupport

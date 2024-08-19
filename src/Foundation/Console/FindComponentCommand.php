@@ -10,6 +10,7 @@ use Symfony\Component\Process\Process;
 use function Laravel\Prompts\suggest;
 use function Laravel\Prompts\table;
 
+// TODO: refactor
 class FindComponentCommand extends Command
 {
     // List of components that should not be searched because

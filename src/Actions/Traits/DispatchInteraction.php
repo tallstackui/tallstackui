@@ -42,7 +42,7 @@ trait DispatchInteraction
      *
      * @return $this
      *
-     * @throws Exception
+     * @throws Exception|InvalidArgumentException
      */
     public function hook(array $hooks): self
     {

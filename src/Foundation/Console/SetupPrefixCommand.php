@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Process;
 
 use function Laravel\Prompts\text;
 
+// TODO: refactor
 class SetupPrefixCommand extends Command
 {
     public $description = 'TallStackUI prefix set up';

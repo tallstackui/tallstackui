@@ -7,6 +7,7 @@ use ReflectionAttribute;
 use ReflectionClass;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 
+// TODO: refactor
 trait ManagesOutput
 {
     private function output(View $view, array $data): View|string

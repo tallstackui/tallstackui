@@ -13,6 +13,7 @@ use TallStackUi\View\Components\Slide;
 
 /**
  * @internal
+ * TODO: refactor
  */
 class ResolveConfiguration
 {
