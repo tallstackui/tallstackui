@@ -20,7 +20,7 @@
      @js($property),
      @js($value),
      @js($monthYearOnly),
-     @js(__('tallstack-ui::messages.date.calendar')),
+     @js(trans('tallstack-ui::messages.date.calendar')),
      @js($change($attributes, $__livewire ?? null, $livewire)))"
      x-cloak x-on:click.outside="show = false">
     <x-dynamic-component :component="TallStackUi::component('input')"
@@ -67,7 +67,7 @@
                                 <span x-text="calendar.months[month]" @class($personalize['label.month'])></span>
                             </button>
                             <button type="button" class="mr-2" x-on:click="now()" x-show="!monthYearOnly">
-                                {{ __('tallstack-ui::messages.date.helpers.today') }}
+                                {{ trans('tallstack-ui::messages.date.helpers.today') }}
                             </button>
                         </div>
                         <template x-for="(months, index) in calendar.months" :key="index">
@@ -91,7 +91,7 @@
                                 <span x-text="range.year.last" @class($personalize['label.month'])></span>
                             </div>
                             <button type="button" x-on:click="now()" x-show="!monthYearOnly">
-                                {{ __('tallstack-ui::messages.date.helpers.today') }}
+                                {{ trans('tallstack-ui::messages.date.helpers.today') }}
                             </button>
                             <div>
                                 <button type="button"
@@ -201,7 +201,7 @@
                                 dusk="tallstackui_date_helper_{{ $helper }}"
                                 x-on:click="helper($event, @js($helper))"
                                 @class($personalize['button.helpers'])>
-                            {{ __('tallstack-ui::messages.date.helpers.' . $helper) }}
+                            {{ trans('tallstack-ui::messages.date.helpers.' . $helper) }}
                         </button>
                     @endforeach
                 </div>

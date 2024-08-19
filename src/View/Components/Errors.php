@@ -21,7 +21,7 @@ class Errors extends BaseComponent implements Personalization
         public bool $close = false,
         public ComponentSlot|string|null $footer = null,
     ) {
-        $this->title ??= __('tallstack-ui::messages.errors.title');
+        $this->title ??= trans('tallstack-ui::messages.errors.title');
     }
 
     public function blade(): View

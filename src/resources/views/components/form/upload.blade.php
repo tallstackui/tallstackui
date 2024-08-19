@@ -12,7 +12,7 @@
         @js($error),
         @js($static),
         @js($placeholder),
-        @js(__('tallstack-ui::messages.upload.uploaded')),
+        @js(trans('tallstack-ui::messages.upload.uploaded')),
         @js($overflow))"
      x-cloak
      x-on:livewire-upload-start="uploading = true"
@@ -43,7 +43,7 @@
         </x-dynamic-component>
     @if ($preview)
         <template x-teleport="body">
-            <div x-show="preview" 
+            <div x-show="preview"
                  x-on:click="preview = false; $nextTick(() => show = true)"
                  x-transition:enter="ease-out duration-300"
                  x-transition:enter-start="opacity-0"
@@ -75,7 +75,7 @@
                                           :icon="TallStackUi::icon('cloud-arrow-up')"
                                           @class($personalize['placeholder.icon.class']) />
                      <p @class($personalize['placeholder.title'])>
-                         {{ __('tallstack-ui::messages.upload.upload') }}
+                         {{ trans('tallstack-ui::messages.upload.upload') }}
                      </p>
                  </div>
                  @if (is_string($tip))
@@ -127,7 +127,7 @@
                                                           :property="is_array($value) ? $property . '.' . $key : $property" />
                                      @if ($file['size'] !== null)
                                          <p @class($personalize['item.size'])>
-                                             <span>{{ __('tallstack-ui::messages.upload.size') }}: </span>
+                                             <span>{{ trans('tallstack-ui::messages.upload.size') }}: </span>
                                              <span>{{ $file['size'] }}</span>
                                          </p>
                                      @endif
@@ -154,10 +154,10 @@
                                       :icon="TallStackUi::icon('photo')"
                                       :class="$personalize['static.empty.icon']" />
                  <h3 @class($personalize['static.empty.title'])>
-                     {{ __('tallstack-ui::messages.upload.static.empty.title') }}
+                     {{ trans('tallstack-ui::messages.upload.static.empty.title') }}
                  </h3>
                  <p @class($personalize['static.empty.description'])>
-                     {{ __('tallstack-ui::messages.upload.static.empty.description') }}
+                     {{ trans('tallstack-ui::messages.upload.static.empty.description') }}
                  </p>
              </div>
          @endif

@@ -28,7 +28,7 @@ class Clipboard extends BaseComponent implements Personalization
         #[SkipDebug]
         public ?string $type = null,
     ) {
-        $this->placeholders = __('tallstack-ui::messages.clipboard');
+        $this->placeholders = trans('tallstack-ui::messages.clipboard');
 
         $this->type = $this->icon ? 'icon' : 'input';
 
@@ -86,7 +86,7 @@ class Clipboard extends BaseComponent implements Personalization
     /** @throws InvalidArgumentException */
     protected function validate(): void
     {
-        $messages = __('tallstack-ui::messages.clipboard');
+        $messages = trans('tallstack-ui::messages.clipboard');
 
         if (blank(data_get($messages, 'button.copy'))) {
             throw new InvalidArgumentException('The clipboard [button.copy] message cannot be empty.');

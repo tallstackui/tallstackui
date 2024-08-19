@@ -105,7 +105,7 @@
             <x-slot:footer>
                 @if ($helper)
                 <x-dynamic-component :component="TallStackUi::component('button')"
-                                     :text="__('tallstack-ui::messages.time.helper')"
+                                     :text="trans('tallstack-ui::messages.time.helper')"
                                      type="button"
                                      @class([$personalize['helper.button'], 'mt-2' => $format === '24'])
                                      x-on:click="current()"

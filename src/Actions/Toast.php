@@ -135,8 +135,8 @@ class Toast extends AbstractInteraction
     protected function messages(): array
     {
         return [
-            __('tallstack-ui::messages.toast.button.confirm'),
-            __('tallstack-ui::messages.toast.button.cancel'),
+            trans('tallstack-ui::messages.toast.button.confirm'),
+            trans('tallstack-ui::messages.toast.button.cancel'),
         ];
     }
 }

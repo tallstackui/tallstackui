@@ -64,7 +64,7 @@ class Toast extends BaseComponent implements Personalization
     {
         $configuration = collect(config('tallstackui.settings.toast'));
         $positions = ['top-right', 'top-left', 'bottom-right', 'bottom-left'];
-        $messages = __('tallstack-ui::messages.toast.button');
+        $messages = trans('tallstack-ui::messages.toast.button');
 
         if (! in_array($configuration->get('position', 'top-right'), $positions)) {
             throw new InvalidArgumentException('The toast position must be one of the following: ['.implode(', ', $positions).']');

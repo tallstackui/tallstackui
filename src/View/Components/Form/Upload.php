@@ -32,8 +32,8 @@ class Upload extends BaseComponent implements Personalization
         public ?ComponentSlot $footer = null,
         public ?bool $overflow = null,
     ) {
-        $this->placeholder ??= __('tallstack-ui::messages.upload.placeholder');
-        $this->error ??= __('tallstack-ui::messages.upload.error');
+        $this->placeholder ??= trans('tallstack-ui::messages.upload.placeholder');
+        $this->error ??= trans('tallstack-ui::messages.upload.error');
     }
 
     /** @throws Exception */
