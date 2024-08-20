@@ -1,6 +1,6 @@
 <?php
 
-namespace TallStackUi\Foundation\Colors\Stubs;
+namespace {{ namespace }};
 
 class DialogColors
 {

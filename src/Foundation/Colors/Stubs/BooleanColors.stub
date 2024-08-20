@@ -1,13 +1,13 @@
 <?php
 
-namespace TallStackUi\Foundation\Colors\Stubs;
+namespace {{ namespace }};
 
-class ToggleColors
+class BooleanColors
 {
     /**
-     * Background colors.
+     * Icon colors.
      */
-    protected function backgroundColors(): array
+    protected function iconColors(): array
     {
         return [
             'white' => null,

@@ -1,13 +1,13 @@
 <?php
 
-namespace TallStackUi\Foundation\Colors\Stubs;
+namespace {{ namespace }};
 
-class BooleanColors
+class LinkColors
 {
     /**
-     * Icon colors.
+     * Text colors.
      */
-    protected function iconColors(): array
+    protected function textColors(): array
     {
         return [
             'white' => null,

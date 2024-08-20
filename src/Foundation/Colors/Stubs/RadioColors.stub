@@ -1,8 +1,8 @@
 <?php
 
-namespace TallStackUi\Foundation\Colors\Stubs;
+namespace {{ namespace }};
 
-class AvatarColors
+class RadioColors
 {
     /**
      * Background colors.
