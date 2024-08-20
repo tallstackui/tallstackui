@@ -60,7 +60,7 @@
                            '{{ $personalize['input.color.error'] }}': @js($invalidate ?? false) === false && error,
                        }" maxlength="1"
                        autocomplete="false"
-                       @if($required) required @endif
+                       @required($required)
                        x-on:focus="setTimeout(() => $el.selectionStart = $el.selectionEnd = $el.value.length, 0)"
                        x-on:keyup="keyup(@js($index))"
                        x-on:keyup.left="left(@js($index))"
