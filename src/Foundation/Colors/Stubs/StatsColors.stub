@@ -7,7 +7,7 @@ class StatsColors
     /**
      * Background colors.
      */
-    protected function backgroundColors(): array
+    public function backgroundColors(): array
     {
         return [
             'solid' => [

@@ -7,7 +7,7 @@ class LinkColors
     /**
      * Text colors.
      */
-    protected function textColors(): array
+    public function textColors(): array
     {
         return [
             'white' => null,

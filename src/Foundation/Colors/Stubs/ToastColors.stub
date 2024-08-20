@@ -7,7 +7,7 @@ class ToastColors
     /**
      * Icon colors.
      */
-    protected function iconColor(): array
+    public function iconColor(): array
     {
         return [
             'success' => null,

@@ -7,7 +7,7 @@ class RangeColors
     /**
      * Thumb colors.
      */
-    protected function thumbColors(): array
+    public function thumbColors(): array
     {
         return [
             'white' => null,

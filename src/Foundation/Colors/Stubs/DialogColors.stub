@@ -4,12 +4,13 @@ namespace {{ namespace }};
 
 class DialogColors
 {
-    protected function cancelColor(): ?string
+    public function cancelColor(): ?string
     {
-        return null;
+        // This should be one of the button colors (e.g. 'red', 'blue', 'green', etc.)
+        return 'red';
     }
 
-    protected function confirmColor(): array
+    public function confirmColor(): array
     {
         return [
             'success' => null,
@@ -20,7 +21,7 @@ class DialogColors
         ];
     }
 
-    protected function iconColor(): array
+    public function iconColor(): array
     {
         return [
             'background' => [

@@ -7,7 +7,7 @@ class TooltipColors
     /**
      * Icon colors.
      */
-    protected function iconColors(): array
+    public function iconColors(): array
     {
         return [
             'white' => null,

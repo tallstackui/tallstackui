@@ -7,7 +7,7 @@ class ErrorsColors
     /**
      * Background colors.
      */
-    protected function backgroundColors(): array
+    public function backgroundColors(): array
     {
         return [
             'white' => null,
@@ -42,7 +42,7 @@ class ErrorsColors
     /**
      * Border colors.
      */
-    protected function borderColors(): array
+    public function borderColors(): array
     {
         return [
             'white' => null,
@@ -77,7 +77,7 @@ class ErrorsColors
     /**
      * Text colors.
      */
-    protected function textColors(): array
+    public function textColors(): array
     {
         return [
             'white' => null,

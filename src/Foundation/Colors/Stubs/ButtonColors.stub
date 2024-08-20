@@ -7,7 +7,7 @@ class ButtonColors
     /**
      * Background colors.
      */
-    protected function backgroundColors(): array
+    public function backgroundColors(): array
     {
         return [
             'solid' => [
@@ -128,7 +128,7 @@ class ButtonColors
     /**
      * Icon colors.
      */
-    protected function iconColors(): array
+    public function iconColors(): array
     {
         return [
             'solid' => [
