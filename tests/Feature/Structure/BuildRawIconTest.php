@@ -1,6 +1,6 @@
 <?php
 
-use TallStackUi\Foundation\Traits\BuildRawIcon;
+use TallStackUi\Foundation\Components\Concerns\BuildRawIcon;
 use TallStackUi\View\Components\Icon;
 use TallStackUi\View\Components\Tooltip;
 

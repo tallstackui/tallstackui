@@ -6,13 +6,13 @@ use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
+use TallStackUi\Foundation\Components\Concerns\SanitizePropertyValue;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\Foundation\Traits\SanitizePropertyValue;
-use TallStackUi\View\Components\BaseComponent;
+use TallStackUi\Foundation\TallStackUiComponent;
 use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
 
 #[SoftPersonalization('form.tag')]
-class Tag extends BaseComponent implements Personalization
+class Tag extends TallStackUiComponent implements Personalization
 {
     use DefaultInputClasses;
     use SanitizePropertyValue;

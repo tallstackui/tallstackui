@@ -5,10 +5,10 @@ namespace TallStackUi\View\Components\Dropdown;
 use Illuminate\Contracts\View\View;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\View\Components\BaseComponent;
+use TallStackUi\Foundation\TallStackUiComponent;
 
 #[SoftPersonalization('dropdown.items')]
-class Items extends BaseComponent implements Personalization
+class Items extends TallStackUiComponent implements Personalization
 {
     public function __construct(
         public ?string $text = null,

@@ -7,9 +7,10 @@ use Illuminate\Support\Arr;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Foundation\TallStackUiComponent;
 
 #[SoftPersonalization('alert')]
-class Alert extends BaseComponent implements Personalization
+class Alert extends TallStackUiComponent implements Personalization
 {
     public function __construct(
         public ?string $title = null,

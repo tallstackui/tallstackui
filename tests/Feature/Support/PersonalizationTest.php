@@ -2,7 +2,7 @@
 
 use TallStackUi\Facades\TallStackUi;
 use TallStackUi\Foundation\Personalization\Personalization;
-use TallStackUi\Foundation\Personalization\PersonalizationResources;
+use TallStackUi\Foundation\Personalization\PersonalizationFactory;
 use TallStackUi\View\Components\Alert;
 
 use function Livewire\invade;
@@ -14,11 +14,11 @@ it('can be instantiated', function () {
 it('can be instantiated with a component', function () {
     expect(TallStackUi::personalize('alert')
         ->block('wrapper', fn () => 'string'))
-        ->toBeInstanceOf(PersonalizationResources::class);
+        ->toBeInstanceOf(PersonalizationFactory::class);
 });
 
 it('can instantiate all components', function (string $component) {
-    expect(TallStackUi::personalize($component)->instance())->toBeInstanceOf(PersonalizationResources::class);
+    expect(TallStackUi::personalize($component)->instance())->toBeInstanceOf(PersonalizationFactory::class);
 })->with('personalizations.keys');
 
 it('can personalize using facade and string', function () {

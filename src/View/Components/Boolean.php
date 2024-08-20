@@ -6,9 +6,10 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Foundation\TallStackUiComponent;
 
 #[SoftPersonalization('boolean')]
-class Boolean extends BaseComponent implements Personalization
+class Boolean extends TallStackUiComponent implements Personalization
 {
     public function __construct(
         public bool|Closure $boolean = false,

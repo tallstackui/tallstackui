@@ -9,9 +9,10 @@ use InvalidArgumentException;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Foundation\TallStackUiComponent;
 
 #[SoftPersonalization('link')]
-class Link extends BaseComponent implements Personalization
+class Link extends TallStackUiComponent implements Personalization
 {
     public function __construct(
         public ?string $text = null,

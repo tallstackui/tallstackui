@@ -11,9 +11,10 @@ use InvalidArgumentException;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Foundation\TallStackUiComponent;
 
 #[SoftPersonalization('banner')]
-class Banner extends BaseComponent implements Personalization
+class Banner extends TallStackUiComponent implements Personalization
 {
     public function __construct(
         public string|array|Collection|null $text = null,

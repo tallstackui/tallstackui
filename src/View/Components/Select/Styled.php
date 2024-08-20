@@ -8,17 +8,17 @@ use Illuminate\Support\Collection;
 use InvalidArgumentException;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
+use TallStackUi\Foundation\Components\Concerns\SanitizePropertyValue;
+use TallStackUi\Foundation\Components\Concerns\WireChangeEvent;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\Foundation\Traits\SanitizePropertyValue;
-use TallStackUi\Foundation\Traits\WireChangeEvent;
-use TallStackUi\View\Components\BaseComponent;
+use TallStackUi\Foundation\TallStackUiComponent;
 use TallStackUi\View\Components\Floating;
 use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
 use TallStackUi\View\Components\Select\Traits\SetupSelects;
 use Throwable;
 
 #[SoftPersonalization('select.styled')]
-class Styled extends BaseComponent implements Personalization
+class Styled extends TallStackUiComponent implements Personalization
 {
     use DefaultInputClasses;
     use SanitizePropertyValue;

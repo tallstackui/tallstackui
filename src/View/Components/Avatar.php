@@ -9,9 +9,10 @@ use InvalidArgumentException;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Foundation\TallStackUiComponent;
 
 #[SoftPersonalization('avatar')]
-class Avatar extends BaseComponent implements Personalization
+class Avatar extends TallStackUiComponent implements Personalization
 {
     public function __construct(
         public ?Model $model = null,

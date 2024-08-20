@@ -7,9 +7,10 @@ use Illuminate\Support\Arr;
 use InvalidArgumentException;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Foundation\TallStackUiComponent;
 
 #[SoftPersonalization('slide')]
-class Slide extends BaseComponent implements Personalization
+class Slide extends TallStackUiComponent implements Personalization
 {
     public function __construct(
         public ?string $id = 'slide',

@@ -5,9 +5,9 @@ namespace TallStackUi\View\Components\Tab;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\ComponentSlot;
 use TallStackUi\Foundation\Attributes\SkipDebug;
-use TallStackUi\View\Components\BaseComponent;
+use TallStackUi\Foundation\TallStackUiComponent;
 
-class Items extends BaseComponent
+class Items extends TallStackUiComponent
 {
     public function __construct(
         public ?string $tab = null,

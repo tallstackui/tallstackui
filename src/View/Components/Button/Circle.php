@@ -6,13 +6,13 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
+use TallStackUi\Foundation\Components\Concerns\MergeAttributes;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\Foundation\Traits\MergeAttributes;
-use TallStackUi\View\Components\BaseComponent;
+use TallStackUi\Foundation\TallStackUiComponent;
 use TallStackUi\View\Components\Button\Traits\SetupButton;
 
 #[SoftPersonalization('button.circle')]
-class Circle extends BaseComponent implements Personalization
+class Circle extends TallStackUiComponent implements Personalization
 {
     use MergeAttributes;
     use SetupButton;

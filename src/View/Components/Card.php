@@ -7,9 +7,10 @@ use Illuminate\Support\Arr;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Foundation\TallStackUiComponent;
 
 #[SoftPersonalization('card')]
-class Card extends BaseComponent implements Personalization
+class Card extends TallStackUiComponent implements Personalization
 {
     public function __construct(#[SkipDebug] public ?string $header = null, #[SkipDebug] public ?string $footer = null)
     {

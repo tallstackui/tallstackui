@@ -7,9 +7,10 @@ use Illuminate\Support\Arr;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Foundation\TallStackUiComponent;
 
 #[SoftPersonalization('badge')]
-class Badge extends BaseComponent implements Personalization
+class Badge extends TallStackUiComponent implements Personalization
 {
     public function __construct(
         public ?string $text = null,

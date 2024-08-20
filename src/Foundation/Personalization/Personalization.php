@@ -67,28 +67,28 @@ class Personalization
         //
     }
 
-    public function alert(?string $scope = null): PersonalizationResources
+    public function alert(?string $scope = null): PersonalizationFactory
     {
         $this->scope ??= $scope;
 
         return $this->component(Alert::class);
     }
 
-    public function avatar(?string $scope = null): PersonalizationResources
+    public function avatar(?string $scope = null): PersonalizationFactory
     {
         $this->scope ??= $scope;
 
         return $this->component(Avatar::class);
     }
 
-    public function badge(?string $scope = null): PersonalizationResources
+    public function badge(?string $scope = null): PersonalizationFactory
     {
         $this->scope ??= $scope;
 
         return $this->component(Badge::class);
     }
 
-    public function banner(?string $scope = null): PersonalizationResources
+    public function banner(?string $scope = null): PersonalizationFactory
     {
         $this->scope ??= $scope;
 
@@ -98,19 +98,19 @@ class Personalization
     /**
      * Interact with the block to start the personalization.
      */
-    public function block(string|array $name, string|Closure|Personalizable|null $code = null): PersonalizationResources
+    public function block(string|array $name, string|Closure|Personalizable|null $code = null): PersonalizationFactory
     {
         return $this->instance()->block($name, $code);
     }
 
-    public function boolean(?string $scope = null): PersonalizationResources
+    public function boolean(?string $scope = null): PersonalizationFactory
     {
         $this->scope ??= $scope;
 
         return $this->component(Boolean::class);
     }
 
-    public function button(?string $component = null, ?string $scope = null): PersonalizationResources
+    public function button(?string $component = null, ?string $scope = null): PersonalizationFactory
     {
         $component ??= 'button';
 
@@ -123,28 +123,28 @@ class Personalization
         return $this->component($class);
     }
 
-    public function card(?string $scope = null): PersonalizationResources
+    public function card(?string $scope = null): PersonalizationFactory
     {
         $this->scope ??= $scope;
 
         return $this->component(Card::class);
     }
 
-    public function clipboard(?string $scope = null): PersonalizationResources
+    public function clipboard(?string $scope = null): PersonalizationFactory
     {
         $this->scope ??= $scope;
 
         return $this->component(Clipboard::class);
     }
 
-    public function dialog(?string $scope = null): PersonalizationResources
+    public function dialog(?string $scope = null): PersonalizationFactory
     {
         $this->scope ??= $scope;
 
         return $this->component(Dialog::class);
     }
 
-    public function dropdown(?string $component = null, ?string $scope = null): PersonalizationResources
+    public function dropdown(?string $component = null, ?string $scope = null): PersonalizationFactory
     {
         $this->scope ??= $scope;
 
@@ -159,21 +159,21 @@ class Personalization
         return $this->component($class);
     }
 
-    public function errors(?string $scope = null): PersonalizationResources
+    public function errors(?string $scope = null): PersonalizationFactory
     {
         $this->scope ??= $scope;
 
         return $this->component(Errors::class);
     }
 
-    public function floating(?string $scope = null): PersonalizationResources
+    public function floating(?string $scope = null): PersonalizationFactory
     {
         $this->scope ??= $scope;
 
         return $this->component(Floating::class);
     }
 
-    public function form(?string $component = null, ?string $scope = null): PersonalizationResources
+    public function form(?string $component = null, ?string $scope = null): PersonalizationFactory
     {
         $this->scope ??= $scope;
 
@@ -203,7 +203,7 @@ class Personalization
         return $this->component($class);
     }
 
-    public function instance(): PersonalizationResources
+    public function instance(): PersonalizationFactory
     {
         if (! $this->component) {
             throw new RuntimeException('No component has been set');
@@ -228,28 +228,28 @@ class Personalization
         return call_user_func([$this, $main], $main === $secondary ?: $secondary);
     }
 
-    public function link(?string $scope = null): PersonalizationResources
+    public function link(?string $scope = null): PersonalizationFactory
     {
         $this->scope ??= $scope;
 
         return $this->component(Link::class);
     }
 
-    public function loading(?string $scope = null): PersonalizationResources
+    public function loading(?string $scope = null): PersonalizationFactory
     {
         $this->scope ??= $scope;
 
         return $this->component(Loading::class);
     }
 
-    public function modal(?string $scope = null): PersonalizationResources
+    public function modal(?string $scope = null): PersonalizationFactory
     {
         $this->scope ??= $scope;
 
         return $this->component(Modal::class);
     }
 
-    public function progress(?string $component = null, ?string $scope = null): PersonalizationResources
+    public function progress(?string $component = null, ?string $scope = null): PersonalizationFactory
     {
         $this->scope ??= $scope;
 
@@ -264,21 +264,21 @@ class Personalization
         return $this->component($class);
     }
 
-    public function rating(?string $scope = null): PersonalizationResources
+    public function rating(?string $scope = null): PersonalizationFactory
     {
         $this->scope ??= $scope;
 
         return $this->component(Rating::class);
     }
 
-    public function reaction(?string $scope = null): PersonalizationResources
+    public function reaction(?string $scope = null): PersonalizationFactory
     {
         $this->scope ??= $scope;
 
         return $this->component(Reaction::class);
     }
 
-    public function select(?string $component = null, ?string $scope = null): PersonalizationResources
+    public function select(?string $component = null, ?string $scope = null): PersonalizationFactory
     {
         $this->scope ??= $scope;
 
@@ -293,63 +293,63 @@ class Personalization
         return $this->component($class);
     }
 
-    public function slide(?string $scope = null): PersonalizationResources
+    public function slide(?string $scope = null): PersonalizationFactory
     {
         $this->scope ??= $scope;
 
         return $this->component(Slide::class);
     }
 
-    public function stats(?string $scope = null): PersonalizationResources
+    public function stats(?string $scope = null): PersonalizationFactory
     {
         $this->scope ??= $scope;
 
         return $this->component(Stats::class);
     }
 
-    public function step(?string $scope = null): PersonalizationResources
+    public function step(?string $scope = null): PersonalizationFactory
     {
         $this->scope ??= $scope;
 
         return $this->component(Step::class);
     }
 
-    public function tab(?string $scope = null): PersonalizationResources
+    public function tab(?string $scope = null): PersonalizationFactory
     {
         $this->scope ??= $scope;
 
         return $this->component(Tab::class);
     }
 
-    public function table(?string $scope = null): PersonalizationResources
+    public function table(?string $scope = null): PersonalizationFactory
     {
         $this->scope ??= $scope;
 
         return $this->component(Table::class);
     }
 
-    public function themeSwitch(?string $scope = null): PersonalizationResources
+    public function themeSwitch(?string $scope = null): PersonalizationFactory
     {
         $this->scope ??= $scope;
 
         return $this->component(ThemeSwitch::class);
     }
 
-    public function toast(?string $scope = null): PersonalizationResources
+    public function toast(?string $scope = null): PersonalizationFactory
     {
         $this->scope ??= $scope;
 
         return $this->component(Toast::class);
     }
 
-    public function tooltip(?string $scope = null): PersonalizationResources
+    public function tooltip(?string $scope = null): PersonalizationFactory
     {
         $this->scope ??= $scope;
 
         return $this->component(Tooltip::class);
     }
 
-    public function wrapper(?string $component = null, ?string $scope = null): PersonalizationResources
+    public function wrapper(?string $component = null, ?string $scope = null): PersonalizationFactory
     {
         $this->scope ??= $scope;
 
@@ -369,7 +369,7 @@ class Personalization
      *
      * @throws Exception
      */
-    private function component(string $class): string|PersonalizationResources
+    private function component(string $class): string|PersonalizationFactory
     {
         $component = __ts_search_component($class);
 
@@ -379,7 +379,7 @@ class Personalization
         if (($scope = $this->scope) !== null) {
             $this->scope = null; // Resetting the scope to avoid infinite recursion.
 
-            $instance = new PersonalizationResources($class, scope: $scope);
+            $instance = new PersonalizationFactory($class, scope: $scope);
 
             app()->singleton(__ts_scope_container_key($component, $scope), fn () => $instance);
 

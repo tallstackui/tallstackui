@@ -9,14 +9,14 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use InvalidArgumentException;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
+use TallStackUi\Foundation\Components\Concerns\SanitizePropertyValue;
+use TallStackUi\Foundation\Components\Concerns\WireChangeEvent;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\Foundation\Traits\SanitizePropertyValue;
-use TallStackUi\Foundation\Traits\WireChangeEvent;
-use TallStackUi\View\Components\BaseComponent;
+use TallStackUi\Foundation\TallStackUiComponent;
 use TallStackUi\View\Components\Floating;
 
 #[SoftPersonalization('form.date')]
-class Date extends BaseComponent implements Personalization
+class Date extends TallStackUiComponent implements Personalization
 {
     use SanitizePropertyValue;
     use WireChangeEvent;

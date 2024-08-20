@@ -9,9 +9,10 @@ use Illuminate\View\ComponentSlot;
 use InvalidArgumentException;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Foundation\TallStackUiComponent;
 
 #[SoftPersonalization('errors')]
-class Errors extends BaseComponent implements Personalization
+class Errors extends TallStackUiComponent implements Personalization
 {
     public function __construct(
         public ?string $title = null,

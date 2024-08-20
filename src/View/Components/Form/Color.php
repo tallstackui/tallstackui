@@ -8,13 +8,13 @@ use Illuminate\Support\Collection;
 use InvalidArgumentException;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
+use TallStackUi\Foundation\Components\Concerns\MergeAttributes;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\Foundation\Traits\MergeAttributes;
-use TallStackUi\View\Components\BaseComponent;
+use TallStackUi\Foundation\TallStackUiComponent;
 use TallStackUi\View\Components\Floating;
 
 #[SoftPersonalization('form.color')]
-class Color extends BaseComponent implements Personalization
+class Color extends TallStackUiComponent implements Personalization
 {
     use MergeAttributes;
 

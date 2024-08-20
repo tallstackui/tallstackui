@@ -7,10 +7,10 @@ use Illuminate\Support\Arr;
 use InvalidArgumentException;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\View\Components\BaseComponent;
+use TallStackUi\Foundation\TallStackUiComponent;
 
 #[SoftPersonalization('toast')]
-class Toast extends BaseComponent implements Personalization
+class Toast extends TallStackUiComponent implements Personalization
 {
     public function blade(): View
     {

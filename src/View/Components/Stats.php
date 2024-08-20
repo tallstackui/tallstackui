@@ -8,9 +8,10 @@ use Illuminate\View\ComponentSlot;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Foundation\TallStackUiComponent;
 
 #[SoftPersonalization('stats')]
-class Stats extends BaseComponent implements Personalization
+class Stats extends TallStackUiComponent implements Personalization
 {
     public function __construct(
         public string|int|null $number = null,

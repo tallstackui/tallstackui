@@ -8,7 +8,7 @@ use TallStackUi\Foundation\Console\FindComponentCommand;
 use TallStackUi\Foundation\Console\PublishColorsClassCommand;
 use TallStackUi\Foundation\Console\SetupIconsCommand;
 use TallStackUi\Foundation\Console\SetupPrefixCommand;
-use TallStackUi\Foundation\Personalization\PersonalizationResources;
+use TallStackUi\Foundation\Personalization\PersonalizationFactory;
 use TallStackUi\Foundation\Support\Blade\BladeComponentPrefix;
 use TallStackUi\Foundation\Support\Blade\BladeDirectives;
 
@@ -51,7 +51,7 @@ class TallStackUiServiceProvider extends ServiceProvider
     protected function registerComponentPersonalization(): void
     {
         foreach (__ts_components() as $key => $component) {
-            $this->app->singleton($key, fn () => new PersonalizationResources($component));
+            $this->app->singleton($key, fn () => new PersonalizationFactory($component));
         }
     }
 

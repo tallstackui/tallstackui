@@ -8,10 +8,10 @@ use Illuminate\View\ComponentSlot;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\View\Components\BaseComponent;
+use TallStackUi\Foundation\TallStackUiComponent;
 
 #[SoftPersonalization('step')]
-class Step extends BaseComponent implements Personalization
+class Step extends TallStackUiComponent implements Personalization
 {
     public function __construct(
         public ?int $selected = null,

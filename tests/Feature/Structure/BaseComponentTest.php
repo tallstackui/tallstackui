@@ -1,24 +1,24 @@
 <?php
 
 use Illuminate\View\Component;
-use TallStackUi\Foundation\Traits\BaseComponent\ManagesBindProperty;
-use TallStackUi\Foundation\Traits\BaseComponent\ManagesClasses;
-use TallStackUi\Foundation\Traits\BaseComponent\ManagesCompilation;
-use TallStackUi\Foundation\Traits\BaseComponent\ManagesOutput;
-use TallStackUi\Foundation\Traits\BaseComponent\ManagesRender;
-use TallStackUi\View\Components\BaseComponent;
+use TallStackUi\Foundation\Components\Concerns\TallStackUiComponent\ManagesBindProperty;
+use TallStackUi\Foundation\Components\Concerns\TallStackUiComponent\ManagesClasses;
+use TallStackUi\Foundation\Components\Concerns\TallStackUiComponent\ManagesCompilation;
+use TallStackUi\Foundation\Components\Concerns\TallStackUiComponent\ManagesOutput;
+use TallStackUi\Foundation\Components\Concerns\TallStackUiComponent\ManagesRender;
+use TallStackUi\Foundation\TallStackUiComponent;
 
-describe('BaseComponent', function () {
-    test('BaseComponent should be abstract')
-        ->expect(BaseComponent::class)
+describe('TallStackUiComponent', function () {
+    test('TallStackUiComponent should be abstract')
+        ->expect(TallStackUiComponent::class)
         ->toBeAbstract();
 
-    test('BaseComponent should extends Component')
-        ->expect(BaseComponent::class)
+    test('TallStackUiComponent should extends Component')
+        ->expect(TallStackUiComponent::class)
         ->toExtend(Component::class);
 
-    test('BaseComponent should have all the expected methods', function (string $method) {
-        expect(BaseComponent::class)
+    test('TallStackUiComponent should have all the expected methods', function (string $method) {
+        expect(TallStackUiComponent::class)
             ->toHaveMethod($method);
     })->with([
         'blade',
@@ -29,18 +29,8 @@ describe('BaseComponent', function () {
         'output',
     ]);
 
-    test('BaseComponent should implement traits', function (string $trait) {
-        expect(BaseComponent::class)->toUse($trait);
-    })->with([
-        ManagesBindProperty::class,
-        ManagesClasses::class,
-        ManagesCompilation::class,
-        ManagesOutput::class,
-        ManagesRender::class,
-    ]);
-
-    test('BaseComponent traits should only be used in the BaseComponent', function (string $trait) {
-        expect($trait)->toOnlyBeUsedIn(BaseComponent::class);
+    test('TallStackUiComponent traits should only be used in the TallStackUiComponent', function (string $trait) {
+        expect($trait)->toOnlyBeUsedIn(TallStackUiComponent::class);
     })->with([
         ManagesBindProperty::class,
         ManagesClasses::class,
@@ -50,6 +40,6 @@ describe('BaseComponent', function () {
     ]);
 
     test('all components should extends base component', function (string $component) {
-        expect($component)->toExtend(BaseComponent::class);
+        expect($component)->toExtend(TallStackUiComponent::class);
     })->with('personalizations.components');
 });

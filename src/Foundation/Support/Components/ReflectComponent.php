@@ -6,7 +6,7 @@ use ReflectionAttribute;
 use ReflectionClass;
 use ReflectionException;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
-use TallStackUi\View\Components\BaseComponent;
+use TallStackUi\Foundation\TallStackUiComponent;
 
 class ReflectComponent
 {
@@ -46,7 +46,7 @@ class ReflectComponent
         $parent = $class->getParentClass();
 
         // If the parent isn't the BaseComponent, then a deep personalization is happening.
-        return $parent->name !== BaseComponent::class ? $parent : $class;
+        return $parent->name !== TallStackUiComponent::class ? $parent : $class;
     }
 
     /**

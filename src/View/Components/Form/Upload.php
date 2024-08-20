@@ -11,12 +11,12 @@ use TallStackUi\Foundation\Attributes\RequireLivewireContext;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\Support\Components\UploadComponentFileAdapter;
-use TallStackUi\View\Components\BaseComponent;
+use TallStackUi\Foundation\TallStackUiComponent;
 use TallStackUi\View\Components\Floating;
 
 #[RequireLivewireContext]
 #[SoftPersonalization('form.upload')]
-class Upload extends BaseComponent implements Personalization
+class Upload extends TallStackUiComponent implements Personalization
 {
     public function __construct(
         public ?string $label = null,

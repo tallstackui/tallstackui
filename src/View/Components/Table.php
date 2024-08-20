@@ -15,10 +15,11 @@ use TallStackUi\Foundation\Attributes\RequireLivewireContext;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Foundation\TallStackUiComponent;
 
 #[RequireLivewireContext]
 #[SoftPersonalization('table')]
-class Table extends BaseComponent implements Personalization
+class Table extends TallStackUiComponent implements Personalization
 {
     public function __construct(
         public Collection|array $headers = [],

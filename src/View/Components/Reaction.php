@@ -11,10 +11,11 @@ use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Exceptions\InvalidSelectedPositionException;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Foundation\TallStackUiComponent;
 
 #[RequireLivewireContext]
 #[SoftPersonalization('reaction')]
-class Reaction extends BaseComponent implements Personalization
+class Reaction extends TallStackUiComponent implements Personalization
 {
     /**
      * Default supported icons.

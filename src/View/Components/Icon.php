@@ -4,9 +4,10 @@ namespace TallStackUi\View\Components;
 
 use Illuminate\Contracts\View\View;
 use TallStackUi\Foundation\Attributes\SkipDebug;
-use TallStackUi\Foundation\Traits\BuildRawIcon;
+use TallStackUi\Foundation\Components\Concerns\BuildRawIcon;
+use TallStackUi\Foundation\TallStackUiComponent;
 
-class Icon extends BaseComponent
+class Icon extends TallStackUiComponent
 {
     use BuildRawIcon;
 

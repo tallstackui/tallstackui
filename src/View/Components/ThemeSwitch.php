@@ -7,9 +7,10 @@ use Illuminate\Support\Arr;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Foundation\TallStackUiComponent;
 
 #[SoftPersonalization('themeSwitch')]
-class ThemeSwitch extends BaseComponent implements Personalization
+class ThemeSwitch extends TallStackUiComponent implements Personalization
 {
     public function __construct(
         public ?bool $onlyIcons = false,

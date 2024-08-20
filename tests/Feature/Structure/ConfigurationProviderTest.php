@@ -1,6 +1,6 @@
 <?php
 
-use TallStackUi\Foundation\ResolveConfiguration;
+use TallStackUi\Foundation\Components\Configurations\ResolveConfiguration;
 
 describe('ResolveConfiguration', function () {
     test('class has method', function (string $method) {

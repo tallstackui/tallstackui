@@ -8,11 +8,11 @@ use Illuminate\View\ComponentSlot;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\View\Components\BaseComponent;
+use TallStackUi\Foundation\TallStackUiComponent;
 use TallStackUi\View\Components\Progress\Traits\SetupProgress;
 
 #[SoftPersonalization('progress.circle')]
-class Circle extends BaseComponent implements Personalization
+class Circle extends TallStackUiComponent implements Personalization
 {
     use SetupProgress;
 

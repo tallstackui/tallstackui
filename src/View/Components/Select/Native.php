@@ -8,12 +8,12 @@ use Illuminate\Support\Collection;
 use InvalidArgumentException;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\View\Components\BaseComponent;
+use TallStackUi\Foundation\TallStackUiComponent;
 use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
 use TallStackUi\View\Components\Select\Traits\SetupSelects;
 
 #[SoftPersonalization('select.native')]
-class Native extends BaseComponent implements Personalization
+class Native extends TallStackUiComponent implements Personalization
 {
     use DefaultInputClasses;
     use SetupSelects;
