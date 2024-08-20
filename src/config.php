@@ -21,7 +21,7 @@ return [
     | Color Classes Namespace
     |--------------------------------------------------------------------------
     |
-    | Determines the namespace from which color classes for personalization.
+    | The namespace related to classes used for component color personalization.
     */
     'color_classes_namespace' => 'App\\View\\Components\\TallStackUi\\Colors',
 
