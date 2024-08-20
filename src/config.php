@@ -36,7 +36,7 @@ return [
         'status' => env('TALLSTACKUI_DEBUG_MODE', false),
         /*
         |----------------------------------------------------------------------
-        | You can control in which environments the debug mode is enabled.
+        | Controls the environments where the debug mode can be enabled.
         |----------------------------------------------------------------------
         */
         'environments' => [
@@ -46,12 +46,11 @@ return [
         ],
         /*
         |----------------------------------------------------------------------
-        | You can ignore debug mode for certain specific components
-        | by setting the exact component name in this array.
+        | Ignore debug mode for specific components.
         |----------------------------------------------------------------------
         */
         'ignore' => [
-            //
+            // Components\Alert::class,
         ],
     ],
 

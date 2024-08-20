@@ -39,6 +39,7 @@ class Toast extends TallStackUiComponent implements Personalization
                     'first' => 'mt-2 flex',
                     'second' => 'ml-4 flex min-h-full flex-col justify-between',
                 ],
+                //TODO: move colors to the colors file
                 'confirm' => 'text-primary-600 dark:text-dark-200 text-sm font-medium focus:outline-none',
                 'cancel' => 'text-red-700 dark:text-red-500 text-sm font-medium focus:outline-none',
                 'close' => [

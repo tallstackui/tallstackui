@@ -7,34 +7,28 @@ use ReflectionAttribute;
 use ReflectionClass;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 
-// TODO: refactor
 trait ManagesOutput
 {
     private function output(View $view, array $data): View|string
     {
-        if (app()->runningUnitTests()) {
-            return $view;
-        }
-
         $config = collect(config('tallstackui'));
         $debug = collect($config->get('debug', []));
 
-        $ignores = collect(array_merge($debug->get('ignore', []), ['floating']))
-            ->map(function (string $component) use ($config) {
-                $prefix = $config->get('prefix', '');
+        // To improve performance, we disable debug mode when unit tests are running.
+        if (app()->runningUnitTests() || ! $debug->get('status', false)) {
+            return $view;
+        }
 
-                if (blank($prefix) || str_starts_with($component, $prefix)) {
-                    return $component;
-                }
+        $ignores = array_merge($debug->get('ignore', []), ['floating']);
 
-                return $prefix.$component;
-            })
-            ->toArray();
-
-        if (! $debug->get('status', false) ||
-            ! ($environment = $debug->get('environments', [])) ||
+        // Ignoring when:
+        // 1. Environment is not in the list
+        // 2. Component is in the ignore list
+        // 3. THIS class is in the ignore list
+        if (! ($environment = $debug->get('environments', [])) ||
             ! in_array(app()->environment(), $environment) ||
-            in_array($this->componentName, $ignores)
+            in_array($this->componentName, $ignores) ||
+            in_array(get_class($this), $ignores)
         ) {
             return $view;
         }
@@ -42,9 +36,12 @@ trait ManagesOutput
         $data = collect($data)->filter(function (mixed $value, string $key) {
             $reflection = new ReflectionClass($this);
 
-            return ! $reflection->hasProperty($key) || ! collect(
-                $reflection->getProperty($key)->getAttributes()
-            )->contains(fn (ReflectionAttribute $attribute) => $attribute->getName() === SkipDebug::class);
+            // This strategy aims to filter only the properties that the
+            // component has. Everything defined by the Laravel Component
+            // will be filtered. Like: $blade, $attributes, $componentName, etc.
+            return ! $reflection->hasProperty($key)
+                    // Finally, we filter what should not be displayed using the SkipDebug attribute.
+                || ! collect($reflection->getProperty($key)->getAttributes())->contains(fn (ReflectionAttribute $attribute) => $attribute->getName() === SkipDebug::class);
         })->toArray();
 
         $attributes = $this->view('tallstack-ui::components.debug.attributes', ['data' => $data])->render();
