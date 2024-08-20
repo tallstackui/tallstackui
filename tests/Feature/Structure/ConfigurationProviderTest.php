@@ -6,7 +6,7 @@ describe('ResolveConfiguration', function () {
     test('class has method', function (string $method) {
         expect(ResolveConfiguration::class)->toHaveMethod($method);
     })->with([
-        'from',
+        'of',
         'loading',
         'modal',
         'slide',
