@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\File;
 
 test('should not use dangerous functions in PHP files')
-    ->expect(['dd', 'dump', 'exit', 'var_dump'])
+    ->expect(['dd', 'dump', 'exit', 'ray', 'var_dump'])
     ->not
     ->toBeUsed();
 
