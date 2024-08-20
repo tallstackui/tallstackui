@@ -9,6 +9,9 @@ use function Laravel\Prompts\select;
 
 class PublishColorsClassCommand extends Command
 {
+    /**
+     * List of available components whose colors can be customized.
+     */
     private const COMPONENTS = [
         'Alert',
         'Avatar',

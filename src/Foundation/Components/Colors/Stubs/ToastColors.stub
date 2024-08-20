@@ -2,12 +2,14 @@
 
 namespace {{ namespace }};
 
+use Illuminate\View\Component;
+
 class ToastColors
 {
     /**
      * Icon colors.
      */
-    public function iconColors(): array
+    public function iconColors(Component $component): array
     {
         return [
             'success' => null,

@@ -2,12 +2,14 @@
 
 namespace {{ namespace }};
 
+use Illuminate\View\Component;
+
 class RatingColors
 {
     /**
      * Background colors.
      */
-    public function backgroundColors(): array
+    public function backgroundColors(Component $component): array
     {
         return [
             'white' => null,

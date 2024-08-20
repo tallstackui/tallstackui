@@ -2,12 +2,14 @@
 
 namespace {{ namespace }};
 
+use Illuminate\View\Component;
+
 class ErrorsColors
 {
     /**
      * Background colors.
      */
-    public function backgroundColors(): array
+    public function backgroundColors(Component $component): array
     {
         return [
             'white' => null,
@@ -42,7 +44,7 @@ class ErrorsColors
     /**
      * Border colors.
      */
-    public function borderColors(): array
+    public function borderColors(Component $component): array
     {
         return [
             'white' => null,
@@ -77,7 +79,7 @@ class ErrorsColors
     /**
      * Text colors.
      */
-    public function textColors(): array
+    public function textColors(Component $component): array
     {
         return [
             'white' => null,

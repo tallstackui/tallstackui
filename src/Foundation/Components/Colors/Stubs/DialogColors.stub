@@ -2,15 +2,17 @@
 
 namespace {{ namespace }};
 
+use Illuminate\View\Component;
+
 class DialogColors
 {
     // This should be one of the button colors (e.g. 'red', 'blue', 'green', etc.)
-    public function cancelColors(): ?string
+    public function cancelColors(Component $component): ?string
     {
         return 'red';
     }
 
-    public function confirmColors(): array
+    public function confirmColors(Component $component): array
     {
         return [
             'success' => null,
@@ -21,7 +23,7 @@ class DialogColors
         ];
     }
 
-    public function iconColors(): array
+    public function iconColors(Component $component): array
     {
         return [
             'background' => [

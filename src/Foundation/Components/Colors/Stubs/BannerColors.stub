@@ -2,12 +2,14 @@
 
 namespace {{ namespace }};
 
+use Illuminate\View\Component;
+
 class BannerColors
 {
     /**
      * Background colors.
      */
-    public function backgroundColors(): array
+    public function backgroundColors(Component $component): array
     {
         return [
             'solid' => [
@@ -72,7 +74,7 @@ class BannerColors
     /**
      * Text colors.
      */
-    public function textColors(): array
+    public function textColors(Component $component): array
     {
         return [
             'solid' => [

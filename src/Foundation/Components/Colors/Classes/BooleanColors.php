@@ -2,7 +2,7 @@
 
 namespace TallStackUi\Foundation\Components\Colors\Classes;
 
-use TallStackUi\Foundation\Components\Colors\Traits\ShareableConstructor;
+use TallStackUi\Foundation\Components\Colors\Concerns\ShareableConstructor;
 
 class BooleanColors
 {

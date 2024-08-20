@@ -1,6 +1,6 @@
 <?php
 
-namespace TallStackUi\Foundation\Components\Colors\Traits;
+namespace TallStackUi\Foundation\Components\Colors\Concerns;
 
 use Illuminate\Support\Arr;
 use ReflectionClass;
@@ -69,7 +69,7 @@ trait SetupColors
 
             if ($class) {
                 // We use invade to ensure that regardless of the method's visibility, we can obtain the value.
-                $result = app()->call(fn () => invade($class)->{$method}($this->component->data()));
+                $result = app()->call(fn () => invade($class)->{$method}($this->component));
 
                 $this->classes[$original] = blank($result) ? null : $result;
             } else {

@@ -34,16 +34,16 @@ trait SanitizePropertyValue
 
         // If the value is not an array, we just sanitize the value.
         if (! $string->contains(',')) {
-            $array = $string->contains(['[', ']']);
-            $value = $string->remove(['[', ']'])->trim()->value();
+            $result = $sanitize($string->remove(['[', ']'])->trim()->value());
 
-            $sanitize = $sanitize($value);
-
-            return $array ? [$sanitize] : $sanitize;
+            return $string->contains(['[', ']']) ? [$result] : $result;
         }
 
         // If the value is an array, we need to explode
         // the string and map the values to sanitize them.
-        return $string->explode(',')->collect()->map(fn (string|int $value) => $sanitize($value))->toArray();
+        return $string->explode(',')
+            ->collect()
+            ->map(fn (string|int $value) => $sanitize($value))
+            ->toArray();
     }
 }

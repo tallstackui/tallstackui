@@ -2,12 +2,14 @@
 
 namespace {{ namespace }};
 
+use Illuminate\View\Component;
+
 class LinkColors
 {
     /**
      * Text colors.
      */
-    public function textColors(): array
+    public function textColors(Component $component): array
     {
         return [
             'white' => null,

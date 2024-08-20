@@ -3,6 +3,7 @@
 namespace TallStackUi\Foundation\Components\Colors;
 
 use Exception;
+use Illuminate\View\Component;
 use TallStackUi\Foundation\Components\Colors\Classes\AlertColors;
 use TallStackUi\Foundation\Components\Colors\Classes\AvatarColors;
 use TallStackUi\Foundation\Components\Colors\Classes\BadgeColors;
@@ -48,7 +49,7 @@ use TallStackUi\View\Components\Tooltip;
 class ResolveColor
 {
     /** @throws Exception */
-    public static function of(object $component): ?array
+    public static function of(Component $component): ?array
     {
         $reflect = app(ReflectComponent::class, ['component' => $component::class]);
         $parent = $reflect->parent()->name;

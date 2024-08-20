@@ -2,12 +2,14 @@
 
 namespace {{ namespace }};
 
+use Illuminate\View\Component;
+
 class RangeColors
 {
     /**
      * Thumb colors.
      */
-    public function thumbColors(): array
+    public function thumbColors(Component $component): array
     {
         return [
             'white' => null,
