@@ -4,6 +4,7 @@ namespace {{ namespace }};
 
 use Illuminate\View\Component;
 
+// Radio & Checkbox Colors
 class RadioColors
 {
     /**
