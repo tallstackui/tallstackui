@@ -5,9 +5,9 @@ namespace TallStackUi\Foundation\Colors\Stubs;
 class BooleanColors
 {
     /**
-     * Background colors.
+     * Icon colors.
      */
-    protected function backgroundColors(): array
+    protected function iconColors(): array
     {
         return [
             'white' => null,
