@@ -34,69 +34,49 @@ class PublishColorsClassCommand extends Command
     public $signature = 'tallstackui:personalize-colors';
 
     /**
-     * The class name.
+     * The selected component.
      */
-    private string $class;
-
-    /**
-     * The full class name, with the namespace.
-     */
-    private string $full;
-
-    /**
-     * The namespace of the color classes.
-     */
-    private string $namespace;
+    private string $component;
 
     public function handle(): int
     {
-        $namespace = config('tallstackui.color_classes_namespace');
-
-        if (! $namespace) {
+        if (! config('tallstackui.color_classes_namespace')) {
             $this->components->error('The namespace for the color classes is not defined in the config. file.');
 
             return self::FAILURE;
         }
 
-        $component = select('Select the component to personalize', self::COMPONENTS, required: true);
-
-        $this->namespace = $namespace;
-        $this->class = $component.'Colors';
-        $this->full = $namespace.'\\'.$this->class;
+        $this->component = select('Select the component to personalize', self::COMPONENTS, hint: 'Only colored components are listed.', required: true);
 
         return $this->publish();
     }
 
     private function publish(): int
     {
-        if (class_exists($this->full)) {
+        $collect = __ts_class_collection($this->component);
+
+        if ($collect->get('file_exists') === true) {
             $this->components->error('According to the namespace, the class file already exists.');
 
             return self::FAILURE;
         }
 
         try {
-            $stub = file_get_contents(__DIR__.'/../../Foundation/Colors/Stubs/'.$this->class.'.stub');
+            $stub = file_get_contents(__DIR__.'/../../Foundation/Colors/Stubs/'.$collect->get('file_raw').'.stub');
 
             // We start by replacing {{ namespace }} with the class
             // namespace based on the value coming from the configuration.
-            $stub = str_replace('{{ namespace }}', $this->namespace, $stub);
-
-            // We remove 'App\\' from the namespace so that we can refer
-            // to the app/ structure, and then we obtain the file path.
-            $namespace = str_replace('\\', '/', str($this->namespace)->remove('App\\')->value());
-
-            $path = app_path($namespace.'/'.$this->class.'.php');
+            $stub = str_replace('{{ namespace }}', $collect->get('namespace'), $stub);
 
             // To avoid: 'Failed to open stream: No such file or directory',
             // we make sure that the destination directory exists.
-            if (! is_dir(dirname($path))) {
+            if (! is_dir(dirname($path = $collect->get('app_path')))) {
                 mkdir(dirname($path), 0755, true);
             }
 
             file_put_contents($path, $stub);
 
-            $this->components->success("The color class <options=bold>[{$this->class}]</> has been created successfully.");
+            $this->components->success("The color class <options=bold>[{$collect->get('file_raw')}]</> has been created successfully.");
 
             return self::SUCCESS;
         } catch (Exception $e) {

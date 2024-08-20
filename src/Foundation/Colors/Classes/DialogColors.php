@@ -12,27 +12,19 @@ class DialogColors
     {
         [$cancel, $confirm, $icon] = $this->get('cancel', 'confirm', 'icon');
 
+        // We merge the values that were not defined (null) with
+        // the default values, defined in the methods of these classes.
         return [
             'cancel' => $cancel,
-            'confirm' => $this->default($this->confirm(), $confirm),
+            'confirm' => array_merge($this->confirm(), array_filter($confirm)),
             'icon' => [
-                'background' => $this->default($this->icon()['background'], $icon['background']),
-                'icon' => $this->default($this->icon()['icon'], $icon['icon']),
+                'background' => array_merge($this->icon()['background'], array_filter($icon['background'])),
+                'icon' => array_merge($this->icon()['icon'], array_filter($icon['icon'])),
             ],
         ];
     }
 
-    // Get the colors not defined in the personalization array.
-    protected function default(string|array $colors, string|array &$target): array
-    {
-        collect($colors)
-            ->each(function (string $color, string $key) use (&$target) {
-                $target[$key] = data_get($target, $key, $color);
-            });
-
-        return $target;
-    }
-
+    // This should represent the button color (e.g., red, blue, etc).
     private function cancel(): string
     {
         return 'red';

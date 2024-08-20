@@ -6,9 +6,14 @@ use Illuminate\Support\Arr;
 use ReflectionClass;
 use ReflectionMethod;
 
-trait OverrideColors
+use function Livewire\invade;
+
+trait SetupColors
 {
-    protected array $overrides = [];
+    /**
+     * The color classes.
+     */
+    protected array $classes = [];
 
     /**
      * This method is used to build the strings to data_get format:
@@ -35,43 +40,40 @@ trait OverrideColors
             $results = [];
 
             foreach ($targets as $target) {
-                $results[] = $this->overrides[$target];
+                $results[] = $this->classes[$target];
             }
 
             return $results;
         }
 
-        return data_get($this->overrides, $targets);
+        return data_get($this->classes, $targets);
     }
 
     /**
-     * This method is used to determine which colors will be applied
-     * to the component, whether they will be the custom colors in a
-     * custom component class or whether they will be the default colors.
+     * Set up the colors for the component.
      */
     protected function setup(): void
     {
+        // We use private visibility as a way to mark the methods.
         $methods = collect((new ReflectionClass($this))->getMethods(ReflectionMethod::IS_PRIVATE))
             ->map(fn (ReflectionMethod $method) => $method->getName())
             ->values()
             ->toArray();
 
-        $namespace = config('tallstackui.color_classes_namespace');
-        $stubClassName = class_basename($this->reflect->parent()->name).'Colors';
-        $usingCustomColors = class_exists($class = $namespace.'\\'.$stubClassName);
+        $collect = __ts_class_collection(class_basename($this->reflect->parent()->name));
+        $class = $collect->get('instance');
 
         foreach ($methods as $method) {
             $original = $method;
             $method .= 'Colors';
 
-            if ($usingCustomColors) {
-                $instance = new $class;
+            if ($class) {
+                // We use invade to ensure that regardless of the method's visibility, we can obtain the value.
+                $result = app()->call(fn () => invade($class)->{$method}($this->component->data()));
 
-                $result = app()->call(fn () => $instance->{$method}());
-
-                $this->overrides[$original] = blank($result) ? null : $result;
+                $this->classes[$original] = blank($result) ? null : $result;
             } else {
-                $this->overrides[$original] = $this->{$original}();
+                $this->classes[$original] = $this->{$original}();
             }
         }
     }

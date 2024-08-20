@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
 use Symfony\Component\Finder\SplFileInfo;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
@@ -59,5 +60,32 @@ if (! function_exists('__ts_scope_container_key')) {
             ->value();
 
         return $component.'::scoped::'.$key;
+    }
+}
+
+if (! function_exists('__ts_class_collection')) {
+    /**
+     * Creates a collection with metadata about the class color.
+     */
+    function __ts_class_collection(string $component): Collection
+    {
+        $collect = collect();
+
+        if (($namespace = config('tallstackui.color_classes_namespace')) === null) {
+            return $collect;
+        }
+
+        $collect->put('component', $component);
+        $collect->put('namespace', $namespace);
+        $collect->put('file', $component.'Colors.php');
+        $collect->put('file_raw', $component.'Colors');
+
+        $class = $namespace.'\\'.$collect->get('file_raw');
+
+        $collect->put('app_path', app_path(str($namespace)->remove('App\\')->replace('\\', '/')->value().'/'.$collect->get('file')));
+        $collect->put('file_exists', $exists = file_exists($collect->get('app_path')));
+        $collect->put('instance', $exists ? new $class : null);
+
+        return $collect;
     }
 }
