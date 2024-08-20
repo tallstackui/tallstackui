@@ -3,7 +3,6 @@
 namespace TallStackUi\Foundation\Components\Configurations;
 
 use Exception;
-use Illuminate\Support\Collection;
 use TallStackUi\View\Components\Form\Color;
 use TallStackUi\View\Components\Interaction\Dialog;
 use TallStackUi\View\Components\Interaction\Toast;
@@ -13,7 +12,6 @@ use TallStackUi\View\Components\Slide;
 
 /**
  * @internal
- * TODO: refactor
  */
 class ResolveConfiguration
 {
@@ -22,7 +20,7 @@ class ResolveConfiguration
     {
         $class = new self;
 
-        /** @var string|array $data */
+        /** @var string|array|null $data */
         $data = (match (true) {
             $component instanceof Color => fn () => $class->color($component),
             $component instanceof Dialog => fn () => 'dialog',
@@ -37,8 +35,11 @@ class ResolveConfiguration
             return null;
         }
 
+        // When the result of $data is a string, then we consult the
+        // config file and make a direct mapping so there is no need
+        // to create a method for each component.
         if (is_string($data)) {
-            $data = $class->config($data)
+            $data = __ts_configuration('settings.'.$data)
                 ->mapWithKeys(fn (string|bool|array $value, string $key) => [$key => $value])
                 ->toArray();
         }
@@ -46,23 +47,24 @@ class ResolveConfiguration
         return $data;
     }
 
+    /**
+     * Defines the Color component configurations.
+     */
     private function color(Color $component): array
     {
-        $configuration = $this->config('form.color');
+        $configuration = __ts_configuration('form.color');
 
         $component->colors ??= $configuration->get('colors') ?? [];
 
         return collect($component)->only('colors')->toArray();
     }
 
-    private function config(string $index): Collection
-    {
-        return collect(config('tallstackui.settings.'.$index));
-    }
-
+    /**
+     * Defines the Loading component configurations.
+     */
     private function loading(Loading $component): array
     {
-        $configuration = $this->config('loading');
+        $configuration = __ts_configuration('loading');
 
         $component->zIndex ??= $configuration->get('z-index', 'z-50');
         $component->overflow ??= $configuration->get('overflow', false);
@@ -74,9 +76,12 @@ class ResolveConfiguration
             ->toArray();
     }
 
+    /**
+     * Defines the Modal component configurations.
+     */
     private function modal(Modal $component): array
     {
-        $configuration = $this->config('modal');
+        $configuration = __ts_configuration('modal');
 
         $component->zIndex ??= $configuration->get('z-index', 'z-50');
         $component->overflow ??= $configuration->get('overflow', false);
@@ -103,9 +108,12 @@ class ResolveConfiguration
             ->toArray();
     }
 
+    /**
+     * Defines the Slide component configurations.
+     */
     private function slide(Slide $component): array
     {
-        $configuration = $this->config('slide');
+        $configuration = __ts_configuration('slide');
 
         $component->zIndex ??= $configuration->get('z-index', 'z-50');
         $component->overflow ??= $configuration->get('overflow', false);

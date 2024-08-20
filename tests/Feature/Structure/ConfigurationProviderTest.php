@@ -7,7 +7,6 @@ test('class has method', function (string $method) {
 })->with([
     'of',
     'loading',
-    'config',
     'modal',
     'slide',
 ]);

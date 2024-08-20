@@ -90,3 +90,19 @@ if (! function_exists('__ts_class_collection')) {
         return $collect;
     }
 }
+
+if (! function_exists('__ts_configuration')) {
+    /**
+     * Creates a collection with metadata about the class color.
+     */
+    function __ts_configuration(?string $index = null, bool $collection = true): Collection|array
+    {
+        $collect = collect(config('tallstackui'));
+
+        $array = $collect->toArray();
+
+        $result = $index ? collect(data_get($array, $index)) : $collect;
+
+        return $collection ? $result : $result->toArray();
+    }
+}
