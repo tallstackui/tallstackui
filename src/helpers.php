@@ -93,15 +93,13 @@ if (! function_exists('__ts_class_collection')) {
 
 if (! function_exists('__ts_configuration')) {
     /**
-     * Creates a collection with metadata about the class color.
+     * Creates a collection/array with the configuration values.
      */
     function __ts_configuration(?string $index = null, bool $collection = true): Collection|array
     {
-        $collect = collect(config('tallstackui'));
+        $config = config('tallstackui');
 
-        $array = $collect->toArray();
-
-        $result = $index ? collect(data_get($array, $index)) : $collect;
+        $result = $index ? collect(data_get($config, $index)) : collect($config);
 
         return $collection ? $result : $result->toArray();
     }

@@ -10,7 +10,6 @@ use Symfony\Component\Process\Process;
 use function Laravel\Prompts\suggest;
 use function Laravel\Prompts\table;
 
-// TODO: refactor
 class FindComponentCommand extends Command
 {
     // List of components that should not be searched because
@@ -25,7 +24,7 @@ class FindComponentCommand extends Command
         'wrapper.radio',
     ];
 
-    public $description = 'TallStackUI find component';
+    public $description = 'TallStackUI command used to find component usages.';
 
     public $signature = 'tallstackui:find-component';
 
@@ -86,6 +85,11 @@ class FindComponentCommand extends Command
         $this->components->info('🎉 '.$total.' occurrences found');
 
         $lines->each(function (string $line) use (&$rows): bool {
+            // This creates an array with up to 4 positions, being:
+            // 0 => complete line
+            // 1 => file path
+            // 2 => line number
+            // 3 => line content
             preg_match('/^(.*?):(\d+):(.*)$/', $line, $matches);
 
             if (blank($line) || count($matches) !== 4) {

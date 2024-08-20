@@ -32,7 +32,7 @@ class PublishColorsClassCommand extends Command
         'Tooltip',
     ];
 
-    public $description = 'TallStackUI color personalization';
+    public $description = 'TallStackUI command to publish stubs to personalize colors.';
 
     public $signature = 'tallstackui:personalize-colors';
 

@@ -17,7 +17,7 @@ class SetupIconsCommand extends Command
 {
     private const PATH = __DIR__.'/../../resources/views/components/icon/';
 
-    public $description = 'TallStackUI icon set up';
+    public $description = 'TallStackUI command used to set up custom icons.';
 
     public $signature = 'tallstackui:setup-icons {--force : Install icons even when the icons are already installed}';
 
@@ -26,12 +26,6 @@ class SetupIconsCommand extends Command
     public function handle(): void
     {
         $this->data = collect();
-
-        if (! extension_loaded('zip')) {
-            $this->components->error('The PHP zip extension is not installed. Please, review the docs.');
-
-            return;
-        }
 
         if (($result = spin(fn () => $this->setup(), 'Setting up...')) !== true) {
             $this->components->error($result);
@@ -88,7 +82,8 @@ class SetupIconsCommand extends Command
         foreach (
             collect(array_keys(IconGuide::AVAILABLE))
                 ->mapWithKeys(fn (string $value) => [$value => $value])
-                ->except(['heroicons', $this->data->get('type')]) // Ignoring heroicons because it is always required.
+                // Excluding all except the type defined and Heroicons.
+                ->except(['heroicons', $this->data->get('type')])
                 ->toArray() as $type
         ) {
             // Flushing the other unused icons to

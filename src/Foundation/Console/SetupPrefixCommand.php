@@ -8,10 +8,9 @@ use Illuminate\Support\Facades\Process;
 
 use function Laravel\Prompts\text;
 
-// TODO: refactor
 class SetupPrefixCommand extends Command
 {
-    public $description = 'TallStackUI prefix set up';
+    public $description = 'TallStackUI command used to set up the component prefix.';
 
     public $signature = 'tallstackui:setup-prefix';
 
@@ -64,6 +63,9 @@ class SetupPrefixCommand extends Command
         }
     }
 
+    /**
+     * Get the content of the config file.
+     */
     private function content(): string
     {
         return file_get_contents(config_path('tallstackui.php'));
@@ -90,6 +92,9 @@ class SetupPrefixCommand extends Command
         }
     }
 
+    /**
+     * Set up the prefix in the config file or in the .env file.
+     */
     private function setup(string $prefix): bool|string
     {
         // When the configuration file is old and does not have the key
