@@ -94,10 +94,20 @@ if (! function_exists('__ts_class_collection')) {
 if (! function_exists('__ts_configuration')) {
     /**
      * Creates a collection/array with the configuration values.
+     *
+     * @throws Exception
      */
     function __ts_configuration(?string $index = null, bool $collection = true): Collection|array
     {
+        // Making sure we didn't accidentally add tallstackui.
+        $index = str($index)->remove(['tallstackui', 'tallstackui.'])->value();
+
         $config = config('tallstackui');
+
+        // Test if $index exists on the config array.
+        if (! data_get($config, $index)) {
+            throw new Exception("Configuration [{$index}] does not exist");
+        }
 
         $result = $index ? collect(data_get($config, $index)) : collect($config);
 

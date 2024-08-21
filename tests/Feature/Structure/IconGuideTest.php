@@ -12,6 +12,5 @@ test('class has method', function (string $method) {
 })->with([
     'build',
     'internal',
-    'configuration',
     'validate',
 ]);

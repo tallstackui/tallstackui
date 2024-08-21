@@ -52,7 +52,7 @@ class ResolveConfiguration
      */
     private function color(Color $component): array
     {
-        $configuration = __ts_configuration('form.color');
+        $configuration = __ts_configuration('settings.form.color');
 
         $component->colors ??= $configuration->get('colors') ?? [];
 
@@ -64,7 +64,7 @@ class ResolveConfiguration
      */
     private function loading(Loading $component): array
     {
-        $configuration = __ts_configuration('loading');
+        $configuration = __ts_configuration('settings.loading');
 
         $component->zIndex ??= $configuration->get('z-index', 'z-50');
         $component->overflow ??= $configuration->get('overflow', false);
@@ -81,7 +81,7 @@ class ResolveConfiguration
      */
     private function modal(Modal $component): array
     {
-        $configuration = __ts_configuration('modal');
+        $configuration = __ts_configuration('settings.modal');
 
         $component->zIndex ??= $configuration->get('z-index', 'z-50');
         $component->overflow ??= $configuration->get('overflow', false);
@@ -113,7 +113,7 @@ class ResolveConfiguration
      */
     private function slide(Slide $component): array
     {
-        $configuration = __ts_configuration('slide');
+        $configuration = __ts_configuration('settings.slide');
 
         $component->zIndex ??= $configuration->get('z-index', 'z-50');
         $component->overflow ??= $configuration->get('overflow', false);

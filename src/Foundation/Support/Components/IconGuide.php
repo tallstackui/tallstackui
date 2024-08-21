@@ -3,7 +3,6 @@
 namespace TallStackUi\Foundation\Support\Components;
 
 use Exception;
-use Illuminate\Support\Collection;
 use Illuminate\View\Component;
 use TallStackUi\Foundation\Exceptions\InappropriateIconGuideExecution;
 
@@ -219,11 +218,12 @@ class IconGuide
     ];
 
     /** @throws Exception|InappropriateIconGuideExecution */
-    public static function build(Component $component): string
+    public static function build(Component $component, ?string $path = null): string
     {
-        InappropriateIconGuideExecution::validate($component::class);
+        $configuration = __ts_configuration('icons');
+        $custom = str_contains($configuration->get('type'), '/');
 
-        $configuration = self::configuration();
+        InappropriateIconGuideExecution::validate($component::class);
 
         $type = $configuration->get('type');
         $style = $configuration->get('style');
@@ -231,7 +231,7 @@ class IconGuide
         self::validate($type);
 
         foreach (array_keys($component->attributes->getAttributes()) as $attribute) {
-            if (! in_array($attribute, self::AVAILABLE[$type])) {
+            if ($custom || ! in_array($attribute, self::AVAILABLE[$type])) {
                 continue;
             }
 
@@ -250,7 +250,14 @@ class IconGuide
             $name = $name.'-'.$style;
         }
 
-        return sprintf('%s.%s.%s', $type, $style, $name);
+        // When custom, we need to return only the "namespace" + icon name
+        if ($custom) {
+            return sprintf('%s.%s', str_replace('/', '.', $type), $name);
+        }
+
+        $component = sprintf('%s.%s.%s', $type, $style, $name);
+
+        return $path ? $path.$component : $component;
     }
 
     /**
@@ -260,22 +267,27 @@ class IconGuide
      */
     public static function internal(string $key): string
     {
-        $configuration = self::configuration();
+        $configuration = __ts_configuration('icons');
 
         self::validate($type = $configuration->get('type'));
 
-        return self::GUIDE[$type][$key] ?? $key;
-    }
+        $type = str_replace('/', '.', $type);
+        $icon = $configuration->get('guide')[$key] ?? null;
 
-    private static function configuration(): Collection
-    {
-        return collect(config('tallstackui.icons'));
+        // If we are dealing with custom icons and the $key is not mapped in the guide,
+        // we throw an exception as a way of notifying the need to map the icon.
+        if (($custom = str_contains($configuration->get('type'), '/')) && blank($icon)) {
+            throw new Exception("The icon [$key] was not mapped in the custom icon guide.");
+        }
+
+        return $custom ? $icon : (self::GUIDE[$type][$key] ?? $key);
     }
 
     /** @throws Exception */
     private static function validate(string $type): void
     {
-        if (in_array($type, array_keys(self::AVAILABLE))) {
+        // If $type contains /, it's a custom icon.
+        if (in_array($type, array_keys(self::AVAILABLE)) || str_contains($type, '/')) {
             return;
         }
 

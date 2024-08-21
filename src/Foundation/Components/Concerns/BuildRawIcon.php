@@ -13,12 +13,6 @@ trait BuildRawIcon
     {
         InappropriateIconGuideExecution::validate(static::class);
 
-        $result = IconGuide::build($this);
-
-        if ($path) {
-            return $path.$result;
-        }
-
-        return $result;
+        return IconGuide::build($this, $path);
     }
 }
