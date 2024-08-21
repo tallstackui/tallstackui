@@ -34,6 +34,7 @@ return [
     */
     'debug' => [
         'status' => env('TALLSTACKUI_DEBUG_MODE', false),
+
         /*
         |----------------------------------------------------------------------
         | Controls the environments where the debug mode can be enabled.
@@ -44,6 +45,7 @@ return [
             'sandbox',
             'staging',
         ],
+
         /*
         |----------------------------------------------------------------------
         | Ignore debug mode for specific components.
@@ -58,8 +60,6 @@ return [
     |--------------------------------------------------------------------------
     | Icon Style
     |--------------------------------------------------------------------------
-    |
-    | MAKE SURE TO READ THE DOCS BEFORE CHANGE THIS CONFIGURATION HERE.
     */
     'icons' => [
         /*
