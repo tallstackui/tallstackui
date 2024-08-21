@@ -221,7 +221,7 @@ class IconGuide
     public static function build(Component $component, ?string $path = null): string
     {
         $configuration = __ts_configuration('icons');
-        $custom = str_contains($configuration->get('type'), '/');
+        $custom = str_contains((string) $configuration->get('type'), '/');
 
         InappropriateIconGuideExecution::validate($component::class);
 
@@ -272,15 +272,13 @@ class IconGuide
         self::validate($type = $configuration->get('type'));
 
         $type = str_replace('/', '.', $type);
-        $icon = $configuration->get('guide')[$key] ?? null;
 
-        // If we are dealing with custom icons and the $key is not mapped in the guide,
-        // we throw an exception as a way of notifying the need to map the icon.
-        if (($custom = str_contains($configuration->get('type'), '/')) && blank($icon)) {
-            throw new Exception("The icon [$key] was not mapped in the custom icon guide.");
-        }
+        // We start by returning $icon because when we are
+        // dealing with custom icons and cannot find the
+        // guide for a particular icon, we use the default.
+        $guide = $configuration->get('guide')[$key];
 
-        return $custom ? $icon : (self::GUIDE[$type][$key] ?? $key);
+        return filled($guide) ? $guide : (self::GUIDE[$type][$key] ?? $key);
     }
 
     /** @throws Exception */
