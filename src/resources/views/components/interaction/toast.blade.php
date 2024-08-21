@@ -69,11 +69,11 @@
                            x-collapse.min.20px></p>
                         <template x-if="toast.options && (toast.options.confirm?.text || toast.options.cancel?.text)">
                             <div @class($personalize['buttons.wrapper.first']) x-bind:class="{ 'gap-x-2' : toast.options.confirm && toast.options.cancel }">
-                                <button dusk="tallstackui_toast_confirmation" @class($personalize['buttons.confirm'])
+                                <button dusk="tallstackui_toast_confirmation" @class([$personalize['buttons.confirm'], $colors['text']['confirm']])
                                         x-on:click="accept(toast)"
                                         x-text="toast.options?.confirm?.text"></button>
                                 <div x-show="toast.options.cancel">
-                                    <button dusk="tallstackui_toast_rejection" @class($personalize['buttons.cancel'])
+                                    <button dusk="tallstackui_toast_rejection" @class([$personalize['buttons.cancel'],  $colors['text']['cancel']])
                                             x-on:click="reject(toast)"
                                             x-text="toast.options?.cancel?.text"></button>
                                 </div>

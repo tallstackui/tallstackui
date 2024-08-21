@@ -19,4 +19,15 @@ class ToastColors
             'question' => null,
         ];
     }
+
+    /**
+     * Text colors.
+     */
+    public function textColors(Component $component): array
+    {
+        return [
+            'confirm' => null,
+            'cancel' => null,
+        ];
+    }
 }
