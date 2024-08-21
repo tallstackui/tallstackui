@@ -1,9 +1,9 @@
 <?php
 
-namespace TallStackUi\Actions;
+namespace TallStackUi\Foundation\Actions;
 
 use Exception;
-use TallStackUi\Actions\Traits\DispatchInteraction;
+use TallStackUi\Foundation\Actions\Traits\DispatchInteraction;
 
 class Banner extends AbstractInteraction
 {
