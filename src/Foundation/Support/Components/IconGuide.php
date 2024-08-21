@@ -276,9 +276,9 @@ class IconGuide
         // We start by returning $icon because when we are
         // dealing with custom icons and cannot find the
         // guide for a particular icon, we use the default.
-        $guide = $configuration->get('guide')[$key];
+        $guide = $configuration->get('guide')[$key] ?? null;
 
-        return filled($guide) ? $guide : (self::GUIDE[$type][$key] ?? $key);
+        return $guide ?? self::GUIDE[$type][$key] ?? $key;
     }
 
     /** @throws Exception */
