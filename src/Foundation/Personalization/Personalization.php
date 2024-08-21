@@ -2,10 +2,8 @@
 
 namespace TallStackUi\Foundation\Personalization;
 
-use Closure;
 use Exception;
 use RuntimeException;
-use TallStackUi\Contracts\Personalizable;
 use TallStackUi\View\Components\Alert;
 use TallStackUi\View\Components\Avatar;
 use TallStackUi\View\Components\Badge;
@@ -98,7 +96,7 @@ class Personalization
     /**
      * Interact with the block to start the personalization.
      */
-    public function block(string|array $name, string|Closure|Personalizable|null $code = null): PersonalizationFactory
+    public function block(string|array $name, string|callable|null $code = null): PersonalizationFactory
     {
         return $this->instance()->block($name, $code);
     }

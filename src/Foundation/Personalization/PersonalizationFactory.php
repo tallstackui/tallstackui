@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\View as Facade;
 use Illuminate\View\View;
 use InvalidArgumentException;
 use RuntimeException;
-use TallStackUi\Contracts\Personalizable;
 
 /**
  * @internal
@@ -84,7 +83,7 @@ class PersonalizationFactory
      *
      * @return $this
      */
-    public function block(string|array $name, string|Closure|Personalizable|null $code = null): self
+    public function block(string|array $name, string|callable|null $code = null): self
     {
         // If the $code was not set, then we
         // are interacting with the shortcuts.
@@ -213,7 +212,7 @@ class PersonalizationFactory
      * Composes the personalization in View::composer for cases where
      * we are not interacting with the customization method without $code.
      */
-    private function composer(string $block, string|Closure|Personalizable|null $code = null): void
+    private function composer(string $block, string|callable|null $code = null): void
     {
         $view = app($this->component)->blade()->name();
 
@@ -226,6 +225,6 @@ class PersonalizationFactory
         // We leave everything prepared and linked with the
         // Blade file associated with the component so that
         // the $classes() call obtains the personalization.
-        Facade::composer($view, fn (View $view) => $this->compile($block, is_callable($code) ? $code($view->getData()) : $code));
+        Facade::composer($view, fn (View $view) => $this->compile($block, is_callable($code) ? app()->call(fn () => $code($view->getData())) : $code));
     }
 }
