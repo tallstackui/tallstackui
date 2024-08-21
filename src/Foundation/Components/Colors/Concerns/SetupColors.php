@@ -68,6 +68,13 @@ trait SetupColors
             $method .= 'Colors';
 
             if ($class) {
+                // If for any unknown reason the method does not exist, we will use the default.
+                if (! method_exists($class, $method)) {
+                    $this->classes[$original] = $this->{$original}();
+
+                    continue;
+                }
+
                 // We use invade to ensure that regardless of the method's visibility, we can obtain the value.
                 $result = app()->call(fn () => invade($class)->{$method}($this->component));
 
