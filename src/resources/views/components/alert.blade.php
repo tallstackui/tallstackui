@@ -8,7 +8,7 @@
     <div @class([$personalize['content.wrapper'], 'items-start' => $title !== null])>
         <div @class([$personalize['content.base']])>
             @if ($icon)
-                <div @class(['mr-2' => $icon, 'mt-1' => $icon && $title])>
+                <div @class([$personalize['icon.wrapper'] => $icon, 'mt-1' => $icon && $title])>
                     @if ($icon)
                         <x-dynamic-component :component="TallStackUi::component('icon')"
                                              :$icon

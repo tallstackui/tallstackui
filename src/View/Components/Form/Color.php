@@ -44,7 +44,6 @@ class Color extends TallStackUiComponent implements Personalization
                 'base' => 'dark:border-dark-700 h-6 w-6 rounded shadow',
             ],
             'icon' => [
-                'wrapper' => 'absolute inset-y-0 right-0 flex items-center pr-2.5',
                 'class' => 'h-5 w-5',
             ],
             'floating' => collect(app(Floating::class)->personalization())->get('wrapper'),

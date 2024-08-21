@@ -70,7 +70,7 @@
                                         @if ($livewire && $sortable($header) && $sorted($header))
                                             <x-dynamic-component :component="TallStackUi::component('icon')"
                                                                  :icon="TallStackUi::icon($head($header)['direction'] === 'desc' ? 'chevron-up' : 'chevron-down')"
-                                                                 class="ml-2 h-4 w-4" />
+                                                                 @class($personalize['table.sort']) />
                                         @endif
                                     </a>
                                 </th>
