@@ -6,7 +6,7 @@ use Illuminate\View\ComponentAttributeBag;
 use TallStackUi\View\Components\Button\Button;
 use TallStackUi\View\Components\Button\Circle;
 
-trait SetupButton
+trait Setup
 {
     protected function manipulation(array $classes): array
     {

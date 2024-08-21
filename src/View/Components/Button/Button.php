@@ -8,12 +8,12 @@ use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\TallStackUiComponent;
-use TallStackUi\View\Components\Button\Traits\SetupButton;
+use TallStackUi\View\Components\Button\Traits\Setup;
 
 #[SoftPersonalization('button')]
 class Button extends TallStackUiComponent implements Personalization
 {
-    use SetupButton;
+    use Setup;
 
     public function __construct(
         public ?string $text = null,
@@ -42,7 +42,7 @@ class Button extends TallStackUiComponent implements Personalization
         #[SkipDebug]
         public ?string $right = null,
     ) {
-        $this->setup();
+        //
     }
 
     public function blade(): View

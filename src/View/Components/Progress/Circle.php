@@ -34,7 +34,7 @@ class Circle extends TallStackUiComponent implements Personalization
         #[SkipDebug]
         public ?string $size = null,
     ) {
-        $this->setup();
+        //
     }
 
     public function blade(): View

@@ -14,7 +14,7 @@ use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\TallStackUiComponent;
 use TallStackUi\View\Components\Floating;
 use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
-use TallStackUi\View\Components\Select\Traits\SetupSelects;
+use TallStackUi\View\Components\Select\Traits\Setup;
 use Throwable;
 
 #[SoftPersonalization('select.styled')]
@@ -22,7 +22,7 @@ class Styled extends TallStackUiComponent implements Personalization
 {
     use DefaultInputClasses;
     use SanitizePropertyValue;
-    use SetupSelects;
+    use Setup;
     use WireChangeEvent;
 
     /** @throws Throwable */
@@ -51,8 +51,6 @@ class Styled extends TallStackUiComponent implements Personalization
 
         $this->common = ! filled($this->request);
         $this->searchable = $this->common ? $this->searchable : true;
-
-        $this->setup();
 
         if (is_array($this->request)) {
             $this->request['method'] ??= 'get';

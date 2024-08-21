@@ -28,7 +28,7 @@ trait ManagesOutput
         if (! ($environment = $debug->get('environments', [])) ||
             ! in_array(app()->environment(), $environment) ||
             in_array($this->componentName, $ignores) ||
-            in_array(get_class($this), $ignores)
+            in_array($this::class, $ignores)
         ) {
             return $view;
         }

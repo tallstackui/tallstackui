@@ -4,7 +4,7 @@ namespace TallStackUi\View\Components\Form\Traits;
 
 use Illuminate\View\ComponentSlot;
 
-trait SetupRadioCheckboxToggle
+trait Setup
 {
     public function sloteable(string|null|ComponentSlot $label): array
     {
@@ -16,7 +16,7 @@ trait SetupRadioCheckboxToggle
         return [$position, $alignment, $label];
     }
 
-    private function setup(): void
+    protected function setup(): void
     {
         $this->position = match ($this->position) {
             'left' => 'left',

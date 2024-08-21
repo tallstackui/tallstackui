@@ -73,8 +73,8 @@ class PublishColorsClassCommand extends Command
 
             // To avoid: 'Failed to open stream: No such file or directory',
             // we make sure that the destination directory exists.
-            if (! is_dir(dirname($path = $collect->get('app_path')))) {
-                mkdir(dirname($path), 0755, true);
+            if (! is_dir(dirname((string) $path = $collect->get('app_path')))) {
+                mkdir(dirname((string) $path), 0755, true);
             }
 
             file_put_contents($path, $stub);

@@ -15,6 +15,10 @@ trait ManagesRender
 
     public function render(): Closure
     {
+        if (method_exists($this, 'setup')) {
+            $this->setup();
+        }
+
         return function (array $data): View|string {
             // This is an approach used to avoid having to "manually" check (isset($__livewire))
             // whether the component is being used within the Livewire context or not.

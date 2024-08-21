@@ -10,7 +10,7 @@ class BooleanColors
 
     public function __invoke(): array
     {
-        $color = $this->component->boolean ? $this->component->colorWhenTrue : $this->component->colorWhenFalse;
+        $color = $this->component->boolean ? $this->component->colorWhenTrue : $this->component->colorWhenFalse; // @phpstan-ignore-line
 
         return ['icon' => data_get($this->get('icon'), $color) ?? data_get($this->icon(), $color)];
     }

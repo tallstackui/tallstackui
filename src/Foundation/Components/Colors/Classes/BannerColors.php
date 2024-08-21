@@ -12,13 +12,13 @@ class BannerColors
     {
         // If the banner color is an array then the colors will
         // be set directly in the component as hexadecimal.
-        if (is_array($this->component->color)) {
+        if (is_array($this->component->color)) { // @phpstan-ignore-line
             return [];
         }
 
         [$background, $text] = $this->get('background', 'text');
 
-        $getter = $this->format($this->component->style, $this->component->color);
+        $getter = $this->format($this->component->style, $this->component->color); // @phpstan-ignore-line
 
         return [
             'background' => data_get($background, $getter) ?? data_get($this->background(), $getter),

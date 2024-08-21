@@ -9,13 +9,13 @@ use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Components\Concerns\MergeAttributes;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\TallStackUiComponent;
-use TallStackUi\View\Components\Button\Traits\SetupButton;
+use TallStackUi\View\Components\Button\Traits\Setup;
 
 #[SoftPersonalization('button.circle')]
 class Circle extends TallStackUiComponent implements Personalization
 {
     use MergeAttributes;
-    use SetupButton;
+    use Setup;
 
     public function __construct(
         public ?string $text = null,
@@ -39,7 +39,7 @@ class Circle extends TallStackUiComponent implements Personalization
         #[SkipDebug]
         public ?array $wireable = null,
     ) {
-        $this->setup();
+        //
     }
 
     public function blade(): View

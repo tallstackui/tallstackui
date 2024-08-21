@@ -39,7 +39,7 @@ class Progress extends TallStackUiComponent implements Personalization
     ) {
         $this->variation = $this->title ? 'title' : ($this->floating ? 'floating' : 'simple');
 
-        $this->setup();
+        //
     }
 
     public function blade(): View

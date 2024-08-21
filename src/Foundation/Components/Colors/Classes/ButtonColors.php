@@ -12,7 +12,7 @@ class ButtonColors
     {
         [$background, $icon] = $this->get('background', 'icon');
 
-        $getter = $this->format($this->component->style, $this->component->color);
+        $getter = $this->format($this->component->style, $this->component->color); // @phpstan-ignore-line
 
         return [
             'background' => data_get($background, $getter) ?? data_get($this->background(), $getter),

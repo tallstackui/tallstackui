@@ -4,9 +4,9 @@ namespace TallStackUi\View\Components\Select\Traits;
 
 use Illuminate\Support\Collection;
 
-trait SetupSelects
+trait Setup
 {
-    private function setup(): void
+    protected function setup(): void
     {
         $this->options = $this->options instanceof Collection
             ? $this->options->values()->toArray()

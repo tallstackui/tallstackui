@@ -13,7 +13,7 @@ class ToggleColors
         // We just need to $this->format when we
         // have a style and color, otherwise we
         // can just use the color as the getter.
-        $getter = $this->component->color;
+        $getter = $this->component->color; // @phpstan-ignore-line
 
         return ['background' => data_get($this->get('background'), $getter) ?? data_get($this->background(), $getter)];
     }

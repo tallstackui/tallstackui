@@ -15,10 +15,10 @@ class LinkColors
         // We just need to $this->format when we
         // have a style and color, otherwise we
         // can just use the color as the getter.
-        $getter = $this->component->color;
+        $getter = $this->component->color; // @phpstan-ignore-line
 
         // For :color="null"
-        if (! $getter || $this->component->colorless === true) {
+        if (! $getter || $this->component->colorless === true) { // @phpstan-ignore-line
             return ['text' => ''];
         }
 

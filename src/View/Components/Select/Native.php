@@ -10,13 +10,13 @@ use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\TallStackUiComponent;
 use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
-use TallStackUi\View\Components\Select\Traits\SetupSelects;
+use TallStackUi\View\Components\Select\Traits\Setup;
 
 #[SoftPersonalization('select.native')]
 class Native extends TallStackUiComponent implements Personalization
 {
     use DefaultInputClasses;
-    use SetupSelects;
+    use Setup;
 
     public function __construct(
         public ?string $label = null,
@@ -26,7 +26,7 @@ class Native extends TallStackUiComponent implements Personalization
         public ?array $selectable = [],
         public ?bool $invalidate = null,
     ) {
-        $this->setup();
+        //
     }
 
     public function blade(): View

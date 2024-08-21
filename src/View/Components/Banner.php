@@ -34,8 +34,6 @@ class Banner extends TallStackUiComponent implements Personalization
         public ?string $style = 'solid',
     ) {
         $this->style = $this->light ? 'light' : $this->style;
-
-        $this->setup();
     }
 
     public function blade(): View
@@ -58,6 +56,34 @@ class Banner extends TallStackUiComponent implements Personalization
             'icon' => 'w-5 h-5 text-white',
             'close' => 'h-4 w-4 cursor-pointer',
         ]);
+    }
+
+    protected function setup(): void
+    {
+        // If the banner is wire, we don't need to set up anything else
+        // Because the banner will be displayed through the Livewire events
+        if ($this->wire) {
+            return;
+        }
+
+        if ($this->text instanceof Collection) {
+            $this->text = $this->text->values()
+                ->toArray();
+        }
+
+        if (is_array($this->text)) {
+            $this->text = $this->text[array_rand($this->text)];
+        }
+
+        if (is_null($this->until)) {
+            return;
+        }
+
+        if (today()->lessThanOrEqualTo(Carbon::parse($this->until))) {
+            return;
+        }
+
+        $this->show = false;
     }
 
     protected function validate(): void
@@ -95,33 +121,5 @@ class Banner extends TallStackUiComponent implements Personalization
         if (blank($until)) {
             throw new InvalidArgumentException('The banner [until] attribute must be a Carbon instance or a valid date string.');
         }
-    }
-
-    private function setup(): void
-    {
-        // If the banner is wire, we don't need to set up anything else
-        // Because the banner will be displayed through the Livewire events
-        if ($this->wire) {
-            return;
-        }
-
-        if ($this->text instanceof Collection) {
-            $this->text = $this->text->values()
-                ->toArray();
-        }
-
-        if (is_array($this->text)) {
-            $this->text = $this->text[array_rand($this->text)];
-        }
-
-        if (is_null($this->until)) {
-            return;
-        }
-
-        if (today()->lessThanOrEqualTo(Carbon::parse($this->until))) {
-            return;
-        }
-
-        $this->show = false;
     }
 }
