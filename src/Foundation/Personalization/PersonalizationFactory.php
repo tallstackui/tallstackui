@@ -87,7 +87,7 @@ class PersonalizationFactory
     {
         // If the $code was not set, then we
         // are interacting with the shortcuts.
-        if (is_string($name) && ! $code) {
+        if (is_string($name) && value($code) === null) {
             $this->block = $name;
 
             return $this;
