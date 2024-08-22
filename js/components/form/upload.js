@@ -38,11 +38,11 @@ export default (
     this.uploading = true;
     this.error = false;
 
+    this.$el.dispatchEvent(new CustomEvent('upload', {detail: {files: this.$refs.files.files}}));
+
     if (this.multiple) return this.multiples();
 
     this.single();
-
-    this.$el.dispatchEvent(new CustomEvent('upload', {detail: {files: this.$refs.files.files}}));
   },
   /**
    * Upload multiple files.
