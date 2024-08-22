@@ -65,7 +65,7 @@ class PublishColorsClassCommand extends Command
         }
 
         try {
-            $stub = file_get_contents(__DIR__.'/../../Foundation/Components/Colors/Stubs/'.$collect->get('file_raw').'.stub');
+            $stub = file_get_contents(__DIR__.'/../../Foundation/Support/Colors/Stubs/'.$collect->get('file_raw').'.stub');
 
             // We start by replacing {{ namespace }} with the class
             // namespace based on the value coming from the configuration.
