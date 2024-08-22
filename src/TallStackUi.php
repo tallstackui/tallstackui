@@ -7,7 +7,7 @@ use TallStackUi\Foundation\Personalization\Personalization;
 use TallStackUi\Foundation\Support\Blade\BladeComponentPrefix;
 use TallStackUi\Foundation\Support\Blade\BladeDirectives;
 use TallStackUi\Foundation\Support\Blade\BladeSupport;
-use TallStackUi\Foundation\Support\Components\IconGuide;
+use TallStackUi\Foundation\Support\Icons\IconGuideMap;
 
 class TallStackUi
 {
@@ -45,7 +45,7 @@ class TallStackUi
      */
     public function icon(string $key): string
     {
-        return app(IconGuide::class)::internal($key);
+        return app(IconGuideMap::class)::internal($key);
     }
 
     /**

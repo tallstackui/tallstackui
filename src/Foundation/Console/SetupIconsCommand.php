@@ -2,13 +2,14 @@
 
 namespace TallStackUi\Foundation\Console;
 
+use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Str;
-use TallStackUi\Foundation\Support\Components\IconGuide;
+use TallStackUi\Foundation\Support\Icons\IconGuide;
 use ZipArchive;
 
 use function Laravel\Prompts\spin;
@@ -23,9 +24,16 @@ class SetupIconsCommand extends Command
 
     protected ?Collection $data = null;
 
+    /** @throws Exception */
     public function handle(): void
     {
         $this->data = collect();
+
+        if (str_contains(__ts_configuration('icons.type'), 'custom:')) {
+            $this->components->error('You are using custom icons. This command has no effect with custom icons.');
+
+            return;
+        }
 
         if (($result = spin(fn () => $this->setup(), 'Setting up...')) !== true) {
             $this->components->error($result);
@@ -80,8 +88,7 @@ class SetupIconsCommand extends Command
         }
 
         foreach (
-            collect(array_keys(IconGuide::AVAILABLE))
-                ->mapWithKeys(fn (string $value) => [$value => $value])
+            collect(IconGuide::Supported)
                 // Excluding all except the type defined and Heroicons.
                 ->except(['heroicons', $this->data->get('type')])
                 ->toArray() as $type
@@ -105,6 +112,7 @@ class SetupIconsCommand extends Command
         $this->flush();
     }
 
+    /** @throws Exception */
     private function setup(): bool|string
     {
         $config = config('tallstackui');
@@ -115,11 +123,11 @@ class SetupIconsCommand extends Command
             return 'Wrong configuration file. Please, review the docs.';
         }
 
-        if (! in_array($type, array_keys(IconGuide::AVAILABLE))) {
+        if (! IconGuide::supported($type)) {
             return 'Unsupported icon type. Please, review the configuration file.';
         }
 
-        if (! in_array($style, IconGuide::AVAILABLE[$type])) {
+        if (! in_array($style, IconGuide::styles($type))) {
             return 'Unsupported icon style. Please, review the configuration file.';
         }
 

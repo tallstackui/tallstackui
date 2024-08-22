@@ -153,7 +153,7 @@ return [
             | exceptions when using a custom icon that doesn't exist. For example,
             | if you use a "check" icon and don't have a custom one "check" icon,
             | the Heroicons "check" icon will be used. Preferably you should only
-            | disable this when you are customizing all components of the "guide".
+            | disable this when you are customizing ALL components of the "guide".
             */
             'fallback' => true,
         ],

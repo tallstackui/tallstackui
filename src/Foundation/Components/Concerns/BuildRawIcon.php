@@ -4,7 +4,7 @@ namespace TallStackUi\Foundation\Components\Concerns;
 
 use Exception;
 use TallStackUi\Foundation\Exceptions\InappropriateIconGuideExecution;
-use TallStackUi\Foundation\Support\Components\IconGuide;
+use TallStackUi\Foundation\Support\Icons\IconGuideMap;
 
 trait BuildRawIcon
 {
@@ -13,6 +13,6 @@ trait BuildRawIcon
     {
         InappropriateIconGuideExecution::validate(static::class);
 
-        return IconGuide::build($this, $path);
+        return IconGuideMap::build($this, $path);
     }
 }

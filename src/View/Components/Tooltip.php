@@ -10,7 +10,7 @@ use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Components\Concerns\BuildRawIcon;
 use TallStackUi\Foundation\Exceptions\InvalidSelectedPositionException;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\Foundation\Support\Components\IconGuide;
+use TallStackUi\Foundation\Support\Icons\IconGuideMap;
 use TallStackUi\Foundation\TallStackUiComponent;
 
 #[SoftPersonalization('tooltip')]
@@ -31,7 +31,7 @@ class Tooltip extends TallStackUiComponent implements Personalization
         #[SkipDebug]
         public ?string $size = null,
     ) {
-        $this->icon = IconGuide::internal($this->icon);
+        $this->icon = IconGuideMap::internal($this->icon);
         $this->size = $this->lg ? 'lg' : ($this->md ? 'md' : ($this->xs ? 'xs' : 'sm'));
     }
 
