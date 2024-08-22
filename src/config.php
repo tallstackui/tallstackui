@@ -95,45 +95,67 @@ return [
 
         /*
         |----------------------------------
-        | Icon Guide.
+        | Custom icon configuration.
         |----------------------------------
-        |
-        | Icon guide for when you are using custom icons.
         */
-        'guide' => [
-            'arrow-path' => null,
-            'arrow-trending-up' => null,
-            'arrow-trending-down' => null,
-            'arrow-up-tray' => null,
-            'calendar' => null,
-            'check' => null,
-            'check-circle' => null,
-            'chevron-down' => null,
-            'chevron-left' => null,
-            'chevron-right' => null,
-            'chevron-up' => null,
-            'chevron-up-down' => null,
-            'clipboard' => null,
-            'clipboard-document' => null,
-            'cloud-arrow-up' => null,
-            'clock' => null,
-            'document-check' => null,
-            'document-text' => null,
-            'exclamation-circle' => null,
-            'eye' => null,
-            'eye-slash' => null,
-            'information-circle' => null,
-            'magnifying-glass' => null,
-            'minus' => null,
-            'moon' => null,
-            'photo' => null,
-            'plus' => null,
-            'question-mark-circle' => null,
-            'swatch' => null,
-            'sun' => null,
-            'trash' => null,
-            'x-circle' => null,
-            'x-mark' => null,
+        'custom' => [
+            /*
+            |----------------------------------
+            | Custom icons guide.
+            |----------------------------------
+            |
+            | These icons are used internally in the components. When using custom
+            | icons you can optionally change the internal icons to custom icons,
+            | causing this to reflect new icon looks for the internal components.
+            */
+            'guide' => [
+                'arrow-path' => null,
+                'arrow-trending-up' => null,
+                'arrow-trending-down' => null,
+                'arrow-up-tray' => null,
+                'calendar' => null,
+                'check' => null,
+                'check-circle' => null,
+                'chevron-down' => null,
+                'chevron-left' => null,
+                'chevron-right' => null,
+                'chevron-up' => null,
+                'chevron-up-down' => null,
+                'clipboard' => null,
+                'clipboard-document' => null,
+                'cloud-arrow-up' => null,
+                'clock' => null,
+                'document-check' => null,
+                'document-text' => null,
+                'exclamation-circle' => null,
+                'eye' => null,
+                'eye-slash' => null,
+                'information-circle' => null,
+                'magnifying-glass' => null,
+                'minus' => null,
+                'moon' => null,
+                'photo' => null,
+                'plus' => null,
+                'question-mark-circle' => null,
+                'swatch' => null,
+                'sun' => null,
+                'trash' => null,
+                'x-circle' => null,
+                'x-mark' => null,
+            ],
+
+            /*
+            |----------------------------------
+            | Custom icon fallback behavior.
+            |----------------------------------
+            |
+            | When enabling it we will use internal icons (Heroicons) to avoid
+            | exceptions when using a custom icon that doesn't exist. For example,
+            | if you use a "check" icon and don't have a custom one "check" icon,
+            | the Heroicons "check" icon will be used. Preferably you should only
+            | disable this when you are customizing all components of the "guide".
+            */
+            'fallback' => true,
         ],
     ],
 

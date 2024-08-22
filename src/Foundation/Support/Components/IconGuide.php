@@ -3,6 +3,8 @@
 namespace TallStackUi\Foundation\Support\Components;
 
 use Exception;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\View;
 use Illuminate\View\Component;
 use TallStackUi\Foundation\Exceptions\InappropriateIconGuideExecution;
 
@@ -218,21 +220,30 @@ class IconGuide
         ],
     ];
 
+    /**
+     * The icon configuration.
+     */
+    protected static Collection $configuration;
+
+    /**
+     * Determine if the icon is custom.
+     */
+    protected static bool $custom = false;
+
     /** @throws Exception|InappropriateIconGuideExecution */
     public static function build(Component $component, ?string $path = null): string
     {
-        $configuration = __ts_configuration('icons');
-        $custom = str_contains((string) $configuration->get('type'), '/');
-
         InappropriateIconGuideExecution::validate($component::class);
 
-        $type = $configuration->get('type');
-        $style = $configuration->get('style');
+        self::configuration();
+
+        $type = self::$configuration->get('type');
+        $style = self::$configuration->get('style');
 
         self::validate($type);
 
         foreach (array_keys($component->attributes->getAttributes()) as $attribute) {
-            if ($custom || ! in_array($attribute, self::AVAILABLE[$type])) {
+            if (self::$custom || ! in_array($attribute, self::AVAILABLE[$type])) {
                 continue;
             }
 
@@ -251,15 +262,20 @@ class IconGuide
             $name = $name.'-'.$style;
         }
 
-        // When customized, we only need to return the "namespace" + icon name.
-        // If the file does not exist, we use the internal icons to avoid exceptions.
-        if ($custom) {
-            $icon = sprintf('%s.%s', str_replace('/', '.', $type), $name);
+        if (self::$custom) {
+            $icon = sprintf('%s.%s', str_replace('/', '.', explode(':', (string) $type)[1]), $name);
 
-            return view()->exists('components.'.$icon)
-                ? $icon
-                //TODO: test that when the icon exists, it will be used in place of the internal one
-                : sprintf('tallstack-ui::icon.heroicons.solid.%s', $name);
+            // When the custom icon does not exist in the custom icons and the
+            // fallback is enabled, we use the internal icons to avoid exceptions.
+            if (
+                ! View::exists('components.'.$icon) &&
+                data_get(self::$configuration->get('custom'), 'fallback', true) === true &&
+                isset(self::GUIDE['heroicons'][$name])
+            ) {
+                return sprintf('tallstack-ui::icon.heroicons.%s.%s', $style === 'outline' ? $style : 'solid', $name);
+            }
+
+            return $icon;
         }
 
         $component = sprintf('%s.%s.%s', $type, $style, $name);
@@ -274,25 +290,39 @@ class IconGuide
      */
     public static function internal(string $key): string
     {
-        $configuration = __ts_configuration('icons');
+        self::configuration();
 
-        self::validate($type = $configuration->get('type'));
+        self::validate($type = self::$configuration->get('type'));
 
-        $type = str_replace('/', '.', $type);
+        $guide = null;
 
         // We start by returning $icon because when we are
         // dealing with custom icons and cannot find the
         // guide for a particular icon, we use the default.
-        $guide = $configuration->get('guide')[$key] ?? null;
+        if (self::$custom) {
+            $type = str_replace('/', '.', explode(':', (string) $type)[1]);
+            $guide = self::$configuration->get('custom')['guide'][$key] ?? null;
+        }
 
         return $guide ?? self::GUIDE[$type][$key] ?? $key;
+    }
+
+    /**
+     * Get the configuration for icons and determine if it is custom.
+     *
+     * @throws Exception
+     */
+    private static function configuration(): void
+    {
+        self::$configuration = __ts_configuration('icons');
+
+        self::$custom = str_contains((string) self::$configuration->get('type'), 'custom:') && self::$configuration->get('custom') !== null;
     }
 
     /** @throws Exception */
     private static function validate(string $type): void
     {
-        // If $type contains /, it's a custom icon.
-        if (in_array($type, array_keys(self::AVAILABLE)) || str_contains($type, '/')) {
+        if (in_array($type, array_keys(self::AVAILABLE)) || self::$custom) {
             return;
         }
 

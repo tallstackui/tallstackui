@@ -86,7 +86,7 @@ class PersonalizationFactory
     {
         // If the $code was not set, then we
         // are interacting with the shortcuts.
-        if (is_string($name) && value($code) === null) {
+        if (is_string($name) && is_null($code)) {
             $this->block = $name;
 
             return $this;
@@ -189,7 +189,6 @@ class PersonalizationFactory
             $this->originals->put($block, str_replace($class, '', (string) $this->originals->get($block)));
         }
 
-        // Reusable closure to get the content.
         $content = fn () => trim($content ?? str($this->originals->get($block))->squish());
 
         $parts = $this->parts->toArray();
