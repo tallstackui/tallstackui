@@ -9,11 +9,17 @@ use Illuminate\View\ComponentAttributeBag;
 // require if/else in inputs through dynamic components.
 trait MergeAttributes
 {
+    /**
+     * Merge attributes.
+     */
     public function merge(array $data = [], bool $escape = true): ComponentAttributeBag
     {
         return $this->attributes->merge($data, $escape);
     }
 
+    /**
+     * Merge attributes unless a condition is met.
+     */
     public function mergeUnless(bool $boolean, array $data = [], bool $escape = true): ComponentAttributeBag
     {
         if (! $boolean) {
@@ -23,6 +29,9 @@ trait MergeAttributes
         return $this->attributes;
     }
 
+    /**
+     * Merge attributes when a condition is met.
+     */
     public function mergeWhen(bool $boolean, array $data = [], bool $escape = true): ComponentAttributeBag
     {
         if ($boolean) {

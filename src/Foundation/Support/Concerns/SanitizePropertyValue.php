@@ -20,7 +20,6 @@ trait SanitizePropertyValue
             return $value;
         }
 
-        // We start by removing the quotes from the string.
         $string = str(htmlspecialchars_decode($value))->remove('"');
 
         // This function aims to sanitize the value, removing the
