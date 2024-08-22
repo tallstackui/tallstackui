@@ -5,15 +5,15 @@ namespace TallStackUi\Facades;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\View\ComponentAttributeBag;
 use TallStackUi\Foundation\Personalization\Personalization;
-use TallStackUi\Foundation\Support\Blade\BladeComponentPrefix;
-use TallStackUi\Foundation\Support\Blade\BladeDirectives;
-use TallStackUi\Foundation\Support\Blade\BladeSupport;
+use TallStackUi\Foundation\Support\Blade\ComponentPrefix;
+use TallStackUi\Foundation\Support\Blade\Directives;
+use TallStackUi\Foundation\Support\Blade\Wireable;
 
 /**
- * @method static BladeSupport blade(?ComponentAttributeBag $attributes = null, bool $livewire = false)
- * @method static BladeComponentPrefix|string component(?string $name = null)
+ * @method static Wireable blade(?ComponentAttributeBag $attributes = null, bool $livewire = false)
+ * @method static ComponentPrefix|string component(?string $name = null)
  * @method static string icon(string $key)
- * @method static BladeDirectives directives()
+ * @method static Directives directives()
  * @method static Personalization personalize(?string $component = null, ?string $scope = null)
  *
  * @see \TallStackUi\TallStackUi

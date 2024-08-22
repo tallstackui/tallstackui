@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\View\ComponentAttributeBag;
 use Livewire\WireDirective;
 
-class BladeSupport
+class Wireable
 {
     public function __construct(
         private readonly ?ComponentAttributeBag $attributes = null,

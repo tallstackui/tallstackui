@@ -5,7 +5,7 @@ namespace TallStackUi\Foundation\Support\Blade;
 use Illuminate\Support\Facades\Blade;
 use TallStackUi\Facades\TallStackUi as Facade;
 
-class BladeDirectives
+class Directives
 {
     /**
      * Get all built files from the dist directory.

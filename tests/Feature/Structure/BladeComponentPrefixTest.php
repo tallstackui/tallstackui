@@ -1,12 +1,12 @@
 <?php
 
-use TallStackUi\Foundation\Support\Blade\BladeComponentPrefix;
+use TallStackUi\Foundation\Support\Blade\ComponentPrefix;
 
 test('class should have constructor')
-    ->expect(BladeComponentPrefix::class)->toHaveConstructor();
+    ->expect(ComponentPrefix::class)->toHaveConstructor();
 
 test('class has methods', function () {
-    expect(BladeComponentPrefix::class)
+    expect(ComponentPrefix::class)
         ->toHaveMethod('add')
         ->toHaveMethod('remove');
 });

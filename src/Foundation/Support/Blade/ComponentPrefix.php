@@ -2,7 +2,7 @@
 
 namespace TallStackUi\Foundation\Support\Blade;
 
-class BladeComponentPrefix
+class ComponentPrefix
 {
     public function __construct(private ?string $prefix = null)
     {

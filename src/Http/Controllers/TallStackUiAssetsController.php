@@ -6,7 +6,7 @@ use Exception;
 use Livewire\Drawer\Utils;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Response;
-use TallStackUi\Foundation\Support\Blade\BladeDirectives;
+use TallStackUi\Foundation\Support\Blade\Directives;
 
 class TallStackUiAssetsController
 {
@@ -14,7 +14,7 @@ class TallStackUiAssetsController
     public function script(?string $file = null): Response|BinaryFileResponse
     {
         if (! file_exists($path = __DIR__.'/../../../dist/'.$file)) {
-            $files = BladeDirectives::built('js');
+            $files = Directives::built('js');
 
             abort(new Response('File not found: '.$file.'. Available files: '.implode(', ', $files), 404));
         }
@@ -26,7 +26,7 @@ class TallStackUiAssetsController
     public function style(?string $file = null): Response|BinaryFileResponse
     {
         if (! file_exists($path = __DIR__.'/../../../dist/'.$file)) {
-            $files = BladeDirectives::built('js');
+            $files = Directives::built('js');
 
             abort(new Response('File not found: '.$file.'. Available files: '.implode(', ', $files), 404));
         }

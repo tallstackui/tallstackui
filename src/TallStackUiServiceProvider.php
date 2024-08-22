@@ -9,8 +9,8 @@ use TallStackUi\Foundation\Console\PublishColorsClassCommand;
 use TallStackUi\Foundation\Console\SetupIconsCommand;
 use TallStackUi\Foundation\Console\SetupPrefixCommand;
 use TallStackUi\Foundation\Personalization\PersonalizationFactory;
-use TallStackUi\Foundation\Support\Blade\BladeComponentPrefix;
-use TallStackUi\Foundation\Support\Blade\BladeDirectives;
+use TallStackUi\Foundation\Support\Blade\ComponentPrefix;
+use TallStackUi\Foundation\Support\Blade\Directives;
 
 include __DIR__.'/helpers.php';
 
@@ -26,7 +26,7 @@ class TallStackUiServiceProvider extends ServiceProvider
 
         $this->registerComponentPersonalization();
 
-        BladeDirectives::register();
+        Directives::register();
     }
 
     public function register(): void
@@ -58,7 +58,7 @@ class TallStackUiServiceProvider extends ServiceProvider
     protected function registerComponents(): void
     {
         $this->callAfterResolving(BladeCompiler::class, function (BladeCompiler $blade): void {
-            $prefix = app(BladeComponentPrefix::class);
+            $prefix = app(ComponentPrefix::class);
 
             foreach (config('tallstackui.components') as $alias => $class) {
                 $blade->component($class, $prefix->add($alias));

@@ -1,13 +1,13 @@
 <?php
 
-use TallStackUi\Foundation\Support\Blade\BladeBindProperty;
+use TallStackUi\Foundation\Support\Blade\BindProperty;
 
 test('class should have constructor')
-    ->expect(BladeBindProperty::class)
+    ->expect(BindProperty::class)
     ->toHaveConstructor();
 
 test('class has method', function (string $method) {
-    expect(BladeBindProperty::class)->toHaveMethod($method);
+    expect(BindProperty::class)->toHaveMethod($method);
 })->with([
     'data',
     'bind',

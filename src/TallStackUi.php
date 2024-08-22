@@ -4,9 +4,9 @@ namespace TallStackUi;
 
 use Illuminate\View\ComponentAttributeBag;
 use TallStackUi\Foundation\Personalization\Personalization;
-use TallStackUi\Foundation\Support\Blade\BladeComponentPrefix;
-use TallStackUi\Foundation\Support\Blade\BladeDirectives;
-use TallStackUi\Foundation\Support\Blade\BladeSupport;
+use TallStackUi\Foundation\Support\Blade\ComponentPrefix;
+use TallStackUi\Foundation\Support\Blade\Directives;
+use TallStackUi\Foundation\Support\Blade\Wireable;
 use TallStackUi\Foundation\Support\Icons\IconGuideMap;
 
 class TallStackUi
@@ -14,9 +14,9 @@ class TallStackUi
     /**
      * Create an instance of the BladeSupport class.
      */
-    public function blade(?ComponentAttributeBag $attributes = null, bool $livewire = false): BladeSupport
+    public function blade(?ComponentAttributeBag $attributes = null, bool $livewire = false): Wireable
     {
-        return app(BladeSupport::class, [
+        return app(Wireable::class, [
             'attributes' => $attributes,
             'livewire' => $livewire,
         ]);
@@ -25,9 +25,9 @@ class TallStackUi
     /**
      * Get the component name adding the prefix when set.
      */
-    public function component(?string $name = null): BladeComponentPrefix|string
+    public function component(?string $name = null): ComponentPrefix|string
     {
-        $prefix = app(BladeComponentPrefix::class);
+        $prefix = app(ComponentPrefix::class);
 
         return blank($name) ? $prefix : $prefix->add($name);
     }
@@ -35,9 +35,9 @@ class TallStackUi
     /**
      * Create an instance of the BladeDirectives class.
      */
-    public function directives(): BladeDirectives
+    public function directives(): Directives
     {
-        return app(BladeDirectives::class);
+        return app(Directives::class);
     }
 
     /**

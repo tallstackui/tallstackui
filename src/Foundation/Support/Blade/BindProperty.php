@@ -7,16 +7,16 @@ use Illuminate\Support\ViewErrorBag;
 use Illuminate\View\ComponentAttributeBag;
 use Livewire\WireDirective;
 
-class BladeBindProperty
+class BindProperty
 {
     public function __construct(
         private readonly ComponentAttributeBag $attributes,
         private readonly ?ViewErrorBag $errors = null,
         private readonly bool $invalidate = false,
         private readonly bool $livewire = false,
-        private ?BladeSupport $support = null,
+        private ?Wireable $support = null,
     ) {
-        $this->support = new BladeSupport($this->attributes, $this->livewire);
+        $this->support = new Wireable($this->attributes, $this->livewire);
     }
 
     /**

@@ -7,7 +7,7 @@ use Illuminate\Contracts\View\View;
 use ReflectionClass;
 use TallStackUi\Foundation\Attributes\RequireLivewireContext;
 use TallStackUi\Foundation\Exceptions\MissingLivewireException;
-use TallStackUi\Foundation\Support\Blade\BladeComponentPrefix;
+use TallStackUi\Foundation\Support\Blade\ComponentPrefix;
 
 trait ManagesRender
 {
@@ -27,7 +27,7 @@ trait ManagesRender
             $require = (new ReflectionClass($this))->getAttributes(RequireLivewireContext::class) !== [];
 
             if (! $livewire && $require) {
-                throw new MissingLivewireException(app(BladeComponentPrefix::class)->remove($this->componentName));
+                throw new MissingLivewireException(app(ComponentPrefix::class)->remove($this->componentName));
             }
 
             return $this->output($this->blade()->with(array_merge($this->compile($data), [
