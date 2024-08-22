@@ -3,7 +3,7 @@
 namespace TallStackUi\View\Components\Step;
 
 use Illuminate\Contracts\View\View;
-use TallStackUi\Foundation\TallStackUiComponent;
+use TallStackUi\TallStackUiComponent;
 
 class Items extends TallStackUiComponent
 {

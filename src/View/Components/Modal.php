@@ -7,7 +7,7 @@ use Illuminate\Support\Arr;
 use InvalidArgumentException;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\Foundation\TallStackUiComponent;
+use TallStackUi\TallStackUiComponent;
 
 #[SoftPersonalization('modal')]
 class Modal extends TallStackUiComponent implements Personalization

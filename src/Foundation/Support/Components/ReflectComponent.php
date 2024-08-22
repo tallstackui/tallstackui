@@ -6,7 +6,7 @@ use ReflectionAttribute;
 use ReflectionClass;
 use ReflectionException;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
-use TallStackUi\Foundation\TallStackUiComponent;
+use TallStackUi\TallStackUiComponent;
 
 class ReflectComponent
 {

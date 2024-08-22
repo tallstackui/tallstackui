@@ -5,7 +5,7 @@ namespace TallStackUi\View\Components\Form;
 use Illuminate\Contracts\View\View;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\Foundation\TallStackUiComponent;
+use TallStackUi\TallStackUiComponent;
 
 #[SoftPersonalization('form.label')]
 class Label extends TallStackUiComponent implements Personalization

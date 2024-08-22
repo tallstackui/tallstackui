@@ -1,6 +1,6 @@
 <?php
 
-use TallStackUi\Foundation\Components\Colors\ResolveColor;
+use TallStackUi\Foundation\Support\Colors\ResolveColor;
 
 test('contains method')
     ->expect(ResolveColor::class)

@@ -1,6 +1,6 @@
 <?php
 
-use TallStackUi\Foundation\Components\Concerns\MergeAttributes;
+use TallStackUi\Foundation\Support\Concerns\MergeAttributes;
 use TallStackUi\View\Components\Button\Circle;
 use TallStackUi\View\Components\Form\Color;
 use TallStackUi\View\Components\Form\Password;

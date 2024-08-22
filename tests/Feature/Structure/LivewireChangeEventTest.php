@@ -1,6 +1,6 @@
 <?php
 
-use TallStackUi\Foundation\Components\Concerns\WireChangeEvent;
+use TallStackUi\Foundation\Support\Concerns\WireChangeEvent;
 use TallStackUi\View\Components\Form\Date;
 use TallStackUi\View\Components\Form\Pin;
 use TallStackUi\View\Components\Form\Time;

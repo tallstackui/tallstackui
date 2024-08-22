@@ -1,12 +1,12 @@
 <?php
 
 use Illuminate\View\Component;
-use TallStackUi\Foundation\Components\Concerns\TallStackUiComponent\ManagesBindProperty;
-use TallStackUi\Foundation\Components\Concerns\TallStackUiComponent\ManagesClasses;
-use TallStackUi\Foundation\Components\Concerns\TallStackUiComponent\ManagesCompilation;
-use TallStackUi\Foundation\Components\Concerns\TallStackUiComponent\ManagesOutput;
-use TallStackUi\Foundation\Components\Concerns\TallStackUiComponent\ManagesRender;
-use TallStackUi\Foundation\TallStackUiComponent;
+use TallStackUi\Foundation\Support\Concerns\TallStackUiComponent\ManagesBindProperty;
+use TallStackUi\Foundation\Support\Concerns\TallStackUiComponent\ManagesClasses;
+use TallStackUi\Foundation\Support\Concerns\TallStackUiComponent\ManagesCompilation;
+use TallStackUi\Foundation\Support\Concerns\TallStackUiComponent\ManagesOutput;
+use TallStackUi\Foundation\Support\Concerns\TallStackUiComponent\ManagesRender;
+use TallStackUi\TallStackUiComponent;
 
 test('TallStackUiComponent should be abstract')
     ->expect(TallStackUiComponent::class)

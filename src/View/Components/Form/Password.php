@@ -8,9 +8,9 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use TallStackUi\Facades\TallStackUi;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
-use TallStackUi\Foundation\Components\Concerns\MergeAttributes;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\Foundation\TallStackUiComponent;
+use TallStackUi\Foundation\Support\Concerns\MergeAttributes;
+use TallStackUi\TallStackUiComponent;
 use TallStackUi\View\Components\Floating;
 
 #[SoftPersonalization('form.password')]

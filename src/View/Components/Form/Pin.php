@@ -7,9 +7,9 @@ use Illuminate\Support\Arr;
 use InvalidArgumentException;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
-use TallStackUi\Foundation\Components\Concerns\WireChangeEvent;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\Foundation\TallStackUiComponent;
+use TallStackUi\Foundation\Support\Concerns\WireChangeEvent;
+use TallStackUi\TallStackUiComponent;
 
 #[SoftPersonalization('form.pin')]
 class Pin extends TallStackUiComponent implements Personalization

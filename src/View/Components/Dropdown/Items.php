@@ -5,7 +5,7 @@ namespace TallStackUi\View\Components\Dropdown;
 use Illuminate\Contracts\View\View;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\Foundation\TallStackUiComponent;
+use TallStackUi\TallStackUiComponent;
 
 #[SoftPersonalization('dropdown.items')]
 class Items extends TallStackUiComponent implements Personalization

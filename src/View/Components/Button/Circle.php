@@ -6,9 +6,9 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
-use TallStackUi\Foundation\Components\Concerns\MergeAttributes;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\Foundation\TallStackUiComponent;
+use TallStackUi\Foundation\Support\Concerns\MergeAttributes;
+use TallStackUi\TallStackUiComponent;
 use TallStackUi\View\Components\Button\Traits\Setup;
 
 #[SoftPersonalization('button.circle')]

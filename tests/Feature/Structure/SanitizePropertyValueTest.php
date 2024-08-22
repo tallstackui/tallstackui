@@ -1,6 +1,6 @@
 <?php
 
-use TallStackUi\Foundation\Components\Concerns\SanitizePropertyValue;
+use TallStackUi\Foundation\Support\Concerns\SanitizePropertyValue;
 use TallStackUi\View\Components\Form\Date;
 use TallStackUi\View\Components\Form\Tag;
 use TallStackUi\View\Components\Select\Styled;

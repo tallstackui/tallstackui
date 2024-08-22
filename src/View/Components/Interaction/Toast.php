@@ -7,7 +7,7 @@ use Illuminate\Support\Arr;
 use InvalidArgumentException;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\Foundation\TallStackUiComponent;
+use TallStackUi\TallStackUiComponent;
 
 #[SoftPersonalization('toast')]
 class Toast extends TallStackUiComponent implements Personalization

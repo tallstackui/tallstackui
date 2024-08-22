@@ -9,7 +9,7 @@ use Illuminate\View\ComponentSlot;
 use InvalidArgumentException;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\Foundation\TallStackUiComponent;
+use TallStackUi\TallStackUiComponent;
 
 #[SoftPersonalization('errors')]
 class Errors extends TallStackUiComponent implements Personalization

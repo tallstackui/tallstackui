@@ -7,7 +7,7 @@ use Illuminate\Support\Arr;
 use TallStackUi\Facades\TallStackUi;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\Foundation\TallStackUiComponent;
+use TallStackUi\TallStackUiComponent;
 use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
 
 #[SoftPersonalization('form.number')]

@@ -8,7 +8,7 @@ use Illuminate\Support\Collection;
 use InvalidArgumentException;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\Foundation\TallStackUiComponent;
+use TallStackUi\TallStackUiComponent;
 use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
 use TallStackUi\View\Components\Select\Traits\Setup;
 

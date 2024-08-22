@@ -6,7 +6,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\View\ComponentSlot;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\Foundation\TallStackUiComponent;
+use TallStackUi\TallStackUiComponent;
 
 #[SoftPersonalization('floating')]
 class Floating extends TallStackUiComponent implements Personalization

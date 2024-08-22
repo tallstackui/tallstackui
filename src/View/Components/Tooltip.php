@@ -7,11 +7,11 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
-use TallStackUi\Foundation\Components\Concerns\BuildRawIcon;
 use TallStackUi\Foundation\Exceptions\InvalidSelectedPositionException;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Foundation\Support\Concerns\BuildRawIcon;
 use TallStackUi\Foundation\Support\Icons\IconGuideMap;
-use TallStackUi\Foundation\TallStackUiComponent;
+use TallStackUi\TallStackUiComponent;
 
 #[SoftPersonalization('tooltip')]
 class Tooltip extends TallStackUiComponent implements Personalization
