@@ -43,8 +43,8 @@ class PublishColorsClassCommand extends Command
 
     public function handle(): int
     {
-        if (! config('tallstackui.color_classes_namespace')) {
-            $this->components->error('The namespace for the color classes is not defined in the config. file.');
+        if (blank(config('tallstackui.color_classes_namespace'))) {
+            $this->components->error('The namespace for the color classes is blank.');
 
             return self::FAILURE;
         }
