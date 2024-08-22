@@ -31,6 +31,7 @@ class IconGuide
         ],
     ];
 
+    // TODO: move to a enum class
     // The idea of this constant is to be used as a map of internal icons in
     // components. As new icons are supported, this guide should be updated
     // and icon references should use generic names when possible.
@@ -250,9 +251,15 @@ class IconGuide
             $name = $name.'-'.$style;
         }
 
-        // When custom, we need to return only the "namespace" + icon name
+        // When customized, we only need to return the "namespace" + icon name.
+        // If the file does not exist, we use the internal icons to avoid exceptions.
         if ($custom) {
-            return sprintf('%s.%s', str_replace('/', '.', $type), $name);
+            $icon = sprintf('%s.%s', str_replace('/', '.', $type), $name);
+
+            return view()->exists('components.'.$icon)
+                ? $icon
+                //TODO: test that when the icon exists, it will be used in place of the internal one
+                : sprintf('tallstack-ui::icon.heroicons.solid.%s', $name);
         }
 
         $component = sprintf('%s.%s.%s', $type, $style, $name);

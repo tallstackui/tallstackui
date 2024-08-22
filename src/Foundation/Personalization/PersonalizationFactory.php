@@ -2,7 +2,6 @@
 
 namespace TallStackUi\Foundation\Personalization;
 
-use Closure;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\View as Facade;
