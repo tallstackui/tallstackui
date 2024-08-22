@@ -89,8 +89,7 @@ class SetupIconsCommand extends Command
 
         foreach (
             collect(IconGuide::Supported)
-                // Excluding all except the type defined and Heroicons.
-                ->except(['heroicons', $this->data->get('type')])
+                ->filter(fn (string $type) => ! in_array($type, ['heroicons', $this->data->get('type')]))
                 ->toArray() as $type
         ) {
             // Flushing the other unused icons to
