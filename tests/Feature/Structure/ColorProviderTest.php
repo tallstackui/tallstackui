@@ -1,7 +1,7 @@
 <?php
 
-use TallStackUi\Foundation\Support\Colors\ResolveColor;
+use TallStackUi\Foundation\Support\Colors\CompileColors;
 
 test('contains method')
-    ->expect(ResolveColor::class)
+    ->expect(CompileColors::class)
     ->toHaveMethod('of');

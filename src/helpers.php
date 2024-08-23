@@ -4,7 +4,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
 use Symfony\Component\Finder\SplFileInfo;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
-use TallStackUi\Foundation\Support\Components\ReflectComponent;
+use TallStackUi\Foundation\Support\Miscellaneous\ReflectComponent;
 
 if (! function_exists('__ts_components')) {
     /**

@@ -4,10 +4,11 @@ namespace TallStackUi\Foundation\Support\Concerns\TallStackUiComponent;
 
 use Closure;
 use Illuminate\Contracts\View\View;
-use ReflectionClass;
 use TallStackUi\Foundation\Attributes\RequireLivewireContext;
 use TallStackUi\Foundation\Exceptions\MissingLivewireException;
 use TallStackUi\Foundation\Support\Blade\ComponentPrefix;
+use TallStackUi\Foundation\Support\Miscellaneous\ReflectComponent;
+use TallStackUi\Foundation\Support\Runtime\CompileRuntime;
 
 trait ManagesRender
 {
@@ -20,18 +21,21 @@ trait ManagesRender
         }
 
         return function (array $data): View|string {
+            $shared = $this->factory()->getShared();
+
             // This is an approach used to avoid having to "manually" check (isset($__livewire))
             // whether the component is being used within the Livewire context or not.
-            $livewire = isset($this->factory()->getShared()['__livewire']);
+            $livewire = isset($shared['__livewire']);
 
-            $require = (new ReflectionClass($this))->getAttributes(RequireLivewireContext::class) !== [];
+            $require = app(ReflectComponent::class, ['component' => static::class])->attribute(RequireLivewireContext::class);
 
-            if (! $livewire && $require) {
+            if (! $livewire && $require !== null) {
                 throw new MissingLivewireException(app(ComponentPrefix::class)->remove($this->componentName));
             }
 
             return $this->output($this->blade()->with(array_merge($this->compile($data), [
                 'livewire' => $livewire,
+                ...CompileRuntime::of($data, component: $this, livewire: $livewire, errors: $shared['errors'] ?? null),
             ])), $data);
         };
     }

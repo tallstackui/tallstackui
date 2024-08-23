@@ -1,6 +1,6 @@
 <?php
 
-namespace TallStackUi\Foundation\Support\Components;
+namespace TallStackUi\Foundation\Support\Miscellaneous;
 
 use ReflectionAttribute;
 use ReflectionClass;
@@ -20,7 +20,7 @@ class ReflectComponent
      *
      * @throws ReflectionException
      */
-    public function attribute(string $attribute = SoftPersonalization::class): ReflectionAttribute
+    public function attribute(string $attribute = SoftPersonalization::class): ?ReflectionAttribute
     {
         return collect($this->parent()->getAttributes($attribute))->first();
     }

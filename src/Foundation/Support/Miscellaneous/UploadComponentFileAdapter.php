@@ -1,6 +1,6 @@
 <?php
 
-namespace TallStackUi\Foundation\Support\Components;
+namespace TallStackUi\Foundation\Support\Miscellaneous;
 
 use Exception;
 use Illuminate\Support\Arr;

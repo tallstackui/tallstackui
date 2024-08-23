@@ -13,7 +13,7 @@ use TallStackUi\View\Components\Slide;
 /**
  * @internal
  */
-class ResolveConfiguration
+class CompileConfigurations
 {
     /** @throws Exception */
     public static function of(object $component): ?array

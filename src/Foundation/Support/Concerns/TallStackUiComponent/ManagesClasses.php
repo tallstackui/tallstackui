@@ -9,7 +9,7 @@ use Psr\Container\NotFoundExceptionInterface;
 use ReflectionException;
 use TallStackUi\Facades\TallStackUi;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\Foundation\Support\Components\ReflectComponent;
+use TallStackUi\Foundation\Support\Miscellaneous\ReflectComponent;
 
 trait ManagesClasses
 {

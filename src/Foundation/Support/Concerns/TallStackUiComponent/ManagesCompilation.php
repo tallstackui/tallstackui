@@ -2,8 +2,8 @@
 
 namespace TallStackUi\Foundation\Support\Concerns\TallStackUiComponent;
 
-use TallStackUi\Foundation\Support\Colors\ResolveColor;
-use TallStackUi\Foundation\Support\Configurations\ResolveConfiguration;
+use TallStackUi\Foundation\Support\Colors\CompileColors;
+use TallStackUi\Foundation\Support\Configurations\CompileConfigurations;
 use Throwable;
 
 trait ManagesCompilation
@@ -17,11 +17,11 @@ trait ManagesCompilation
             $this->validate();
         }
 
-        if ($colors = ResolveColor::of($this)) {
+        if ($colors = CompileColors::of($this)) {
             $data = array_merge($data, ['colors' => [...$colors]]);
         }
 
-        if ($configurations = ResolveConfiguration::of($this)) {
+        if ($configurations = CompileConfigurations::of($this)) {
             $data = array_merge($data, ['configurations' => [...$configurations]]);
         }
 

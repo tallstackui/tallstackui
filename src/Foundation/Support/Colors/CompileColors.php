@@ -21,7 +21,7 @@ use TallStackUi\Foundation\Support\Colors\Classes\StatsColors;
 use TallStackUi\Foundation\Support\Colors\Classes\ToastColors;
 use TallStackUi\Foundation\Support\Colors\Classes\ToggleColors;
 use TallStackUi\Foundation\Support\Colors\Classes\TooltipColors;
-use TallStackUi\Foundation\Support\Components\ReflectComponent;
+use TallStackUi\Foundation\Support\Miscellaneous\ReflectComponent;
 use TallStackUi\View\Components\Alert;
 use TallStackUi\View\Components\Avatar;
 use TallStackUi\View\Components\Badge;
@@ -46,7 +46,7 @@ use TallStackUi\View\Components\Tooltip;
 /**
  * @internal
  */
-class ResolveColor
+class CompileColors
 {
     /** @throws Exception */
     public static function of(Component $component): ?array

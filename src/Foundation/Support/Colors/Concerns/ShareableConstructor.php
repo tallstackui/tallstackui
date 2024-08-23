@@ -3,7 +3,7 @@
 namespace TallStackUi\Foundation\Support\Colors\Concerns;
 
 use Illuminate\View\Component;
-use TallStackUi\Foundation\Support\Components\ReflectComponent;
+use TallStackUi\Foundation\Support\Miscellaneous\ReflectComponent;
 
 trait ShareableConstructor
 {

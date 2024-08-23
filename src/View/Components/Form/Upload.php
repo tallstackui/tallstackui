@@ -10,7 +10,7 @@ use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use TallStackUi\Foundation\Attributes\RequireLivewireContext;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\Foundation\Support\Components\UploadComponentFileAdapter;
+use TallStackUi\Foundation\Support\Miscellaneous\UploadComponentFileAdapter;
 use TallStackUi\TallStackUiComponent;
 use TallStackUi\View\Components\Floating;
 
