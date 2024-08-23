@@ -9,7 +9,10 @@ use TallStackUi\Foundation\Support\Runtime\Components\CheckboxRuntime;
 use TallStackUi\Foundation\Support\Runtime\Components\ColorRuntime;
 use TallStackUi\Foundation\Support\Runtime\Components\InputRuntime;
 use TallStackUi\Foundation\Support\Runtime\Components\RangeRuntime;
+use TallStackUi\Foundation\Support\Runtime\Components\SelectNativeRuntime;
+use TallStackUi\Foundation\Support\Runtime\Components\StatsRuntime;
 use TallStackUi\Foundation\Support\Runtime\Components\TextareaRuntime;
+use TallStackUi\Foundation\Support\Runtime\Components\TooltipRuntime;
 use TallStackUi\View\Components\Button\Button;
 use TallStackUi\View\Components\Button\Circle;
 use TallStackUi\View\Components\Form\Checkbox;
@@ -19,6 +22,9 @@ use TallStackUi\View\Components\Form\Radio;
 use TallStackUi\View\Components\Form\Range;
 use TallStackUi\View\Components\Form\Textarea;
 use TallStackUi\View\Components\Form\Toggle;
+use TallStackUi\View\Components\Select\Native;
+use TallStackUi\View\Components\Stats;
+use TallStackUi\View\Components\Tooltip;
 
 class CompileRuntime
 {
@@ -28,6 +34,9 @@ class CompileRuntime
         $parent = $reflect->parent()->name;
 
         $class = match (true) {
+            $parent === Tooltip::class => TooltipRuntime::class,
+            $parent === Stats::class => StatsRuntime::class,
+            $parent === Native::class => SelectNativeRuntime::class,
             $parent === Textarea::class => TextareaRuntime::class,
             $parent === Range::class => RangeRuntime::class,
             $parent === Input::class => InputRuntime::class,

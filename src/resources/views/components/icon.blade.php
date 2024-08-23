@@ -1,8 +1,4 @@
-@php
-    $span = $left || $right;
-@endphp
-
-@if ($span)
+@if ($left || $right)
     <span class="inline-flex items-center gap-x-1">
 @endif
     @if ($left)
@@ -12,6 +8,6 @@
     @if ($right)
         {!! $right !!}
     @endif
-@if ($span)
+@if ($left || $right)
     </span>
 @endif
