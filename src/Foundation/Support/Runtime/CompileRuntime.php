@@ -6,9 +6,11 @@ use Illuminate\Support\ViewErrorBag;
 use TallStackUi\Foundation\Support\Miscellaneous\ReflectComponent;
 use TallStackUi\Foundation\Support\Runtime\Components\ButtonRuntime;
 use TallStackUi\Foundation\Support\Runtime\Components\CheckboxRuntime;
+use TallStackUi\Foundation\Support\Runtime\Components\ColorRuntime;
 use TallStackUi\View\Components\Button\Button;
 use TallStackUi\View\Components\Button\Circle;
 use TallStackUi\View\Components\Form\Checkbox;
+use TallStackUi\View\Components\Form\Color;
 use TallStackUi\View\Components\Form\Radio;
 use TallStackUi\View\Components\Form\Toggle;
 
@@ -20,6 +22,7 @@ class CompileRuntime
         $parent = $reflect->parent()->name;
 
         $class = match (true) {
+            $parent === Color::class => ColorRuntime::class,
             $parent === Button::class || $parent === Circle::class => ButtonRuntime::class,
             $parent === Radio::class || $parent === Checkbox::class || $parent === Toggle::class => CheckboxRuntime::class,
             default => null,

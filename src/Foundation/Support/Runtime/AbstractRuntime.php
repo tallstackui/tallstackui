@@ -9,7 +9,7 @@ use TallStackUi\Foundation\Support\Blade\BindProperty;
 abstract class AbstractRuntime
 {
     public function __construct(
-        protected readonly array $data,
+        protected array $data,
         protected readonly object $component,
         protected readonly bool $livewire,
         protected readonly ?ViewErrorBag $errors = null
@@ -38,10 +38,10 @@ abstract class AbstractRuntime
     /**
      * Get data from $this->data using data_get when $key is set or return the whole data as a collection.
      */
-    protected function data(?string $key = null): mixed
+    protected function data(?string $key = null, mixed $default = null): mixed
     {
         if ($key) {
-            return data_get($this->data, $key);
+            return data_get($this->data, $key, $default);
         }
 
         return collect($this->data);

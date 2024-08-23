@@ -1,13 +1,5 @@
 @php
-    [$property,, $id, $entangle] = $bind($attributes, $errors ?? null, $livewire);
     $personalize = $classes();
-    $value = $attributes->get('value');
-    $attributes = $mergeWhen($selectable === true, [
-        'x-on:click' => 'show = !show',
-        'class' => 'cursor-pointer caret-transparent',
-        'x-on:keydown' => '$event.preventDefault()',
-        'spellcheck' => 'false',
-    ]);
 @endphp
 
 @if (!$livewire && $property)
@@ -20,10 +12,10 @@
         @js($configurations['colors']),
         @js($livewire),
         @js($property),
-        @js($value))"
+        @js($attributes->get('value')))"
         x-cloak>
     <x-dynamic-component :component="TallStackUi::component('input')"
-                         {{ $attributes->class([
+                         {{ $attributes->merge($select)->class([
                             '-ml-3',
                             'cursor-pointer caret-transparent' => $selectable,
                          ])->except(['name', 'value']) }}
