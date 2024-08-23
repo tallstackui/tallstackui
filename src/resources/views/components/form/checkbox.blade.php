@@ -1,7 +1,5 @@
 @php
-    [$property, $error, $id] = $bind($attributes, $errors ?? null, $livewire);
     $personalize = $classes();
-    [$position, $alignment, $label] = $sloteable($label);
 @endphp
 
 <x-dynamic-component :component="TallStackUi::component('wrapper.radio')" :$id :$property :$error :$label :$position :$alignment :$invalidate>

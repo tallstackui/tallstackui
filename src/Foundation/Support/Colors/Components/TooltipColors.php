@@ -1,10 +1,10 @@
 <?php
 
-namespace TallStackUi\Foundation\Support\Colors\Classes;
+namespace TallStackUi\Foundation\Support\Colors\Components;
 
 use TallStackUi\Foundation\Support\Colors\Concerns\ShareableConstructor;
 
-class RatingColors
+class TooltipColors
 {
     use ShareableConstructor;
 
@@ -15,10 +15,10 @@ class RatingColors
         // can just use the color as the getter.
         $getter = $this->component->color; // @phpstan-ignore-line
 
-        return ['background' => data_get($this->get('background'), $getter) ?? data_get($this->background(), $getter)];
+        return ['icon' => data_get($this->get('icon'), $getter) ?? data_get($this->icon(), $getter)];
     }
 
-    private function background(): array
+    private function icon(): array
     {
         return [
             'white' => 'text-white',

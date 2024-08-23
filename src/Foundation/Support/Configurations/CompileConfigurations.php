@@ -49,6 +49,8 @@ class CompileConfigurations
 
     /**
      * Defines the Color component configurations.
+     *
+     * @throws Exception
      */
     private function color(Color $component): array
     {
@@ -61,6 +63,8 @@ class CompileConfigurations
 
     /**
      * Defines the Loading component configurations.
+     *
+     * @throws Exception
      */
     private function loading(Loading $component): array
     {
@@ -78,6 +82,8 @@ class CompileConfigurations
 
     /**
      * Defines the Modal component configurations.
+     *
+     * @throws Exception
      */
     private function modal(Modal $component): array
     {
@@ -110,6 +116,8 @@ class CompileConfigurations
 
     /**
      * Defines the Slide component configurations.
+     *
+     * @throws Exception
      */
     private function slide(Slide $component): array
     {

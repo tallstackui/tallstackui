@@ -9,7 +9,8 @@ test('class should have constructor')
 test('class has method', function (string $method) {
     expect(BindProperty::class)->toHaveMethod($method);
 })->with([
-    'data',
+    'toArray',
+    'toCollection',
     'bind',
     'error',
     'id',

@@ -9,9 +9,6 @@ test('should be used only in checkbox, toggle and radio')
     ->expect(Setup::class)
     ->toOnlyBeUsedIn([Toggle::class, Radio::class, Checkbox::class]);
 
-test('should have methods', function (string $method) {
-    expect(Setup::class)->toHaveMethod($method);
-})->with([
-    'sloteable',
-    'setup',
-]);
+test('should have setup method', function () {
+    expect(Setup::class)->toHaveMethod('setup');
+});

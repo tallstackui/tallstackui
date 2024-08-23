@@ -17,6 +17,6 @@ trait ManagesBindProperty
             'errors' => $errors,
             'invalidate' => $this->data()['invalidate'] ?? false,
             'livewire' => $livewire,
-        ])->data();
+        ])->toArray();
     }
 }

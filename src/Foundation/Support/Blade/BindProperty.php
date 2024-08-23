@@ -3,6 +3,7 @@
 namespace TallStackUi\Foundation\Support\Blade;
 
 use Exception;
+use Illuminate\Support\Collection;
 use Illuminate\Support\ViewErrorBag;
 use Illuminate\View\ComponentAttributeBag;
 use Livewire\WireDirective;
@@ -20,11 +21,11 @@ class BindProperty
     }
 
     /**
-     * Compiles an array of needed information to bind a property.
+     * Return an array with the needed information to bind a property.
      *
      * @throws Exception
      */
-    public function data(): array
+    public function toArray(): array
     {
         return [
             $property = $this->bind(),
@@ -32,6 +33,21 @@ class BindProperty
             $this->id($property),
             $this->support->entangle(),
         ];
+    }
+
+    /**
+     * Return a collection with the needed information to bind a property.
+     */
+    public function toCollection(): Collection
+    {
+        $array = $this->toArray();
+
+        return collect([
+            'property' => $array[0],
+            'error' => $array[1],
+            'id' => $array[2],
+            'entangle' => $array[3],
+        ]);
     }
 
     /**

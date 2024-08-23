@@ -2,15 +2,27 @@
 
 namespace TallStackUi\Foundation\Support\Runtime\Components;
 
-use Illuminate\Support\ViewErrorBag;
-use TallStackUi\View\Components\Form\Checkbox;
-use TallStackUi\View\Components\Form\Radio;
-use TallStackUi\View\Components\Form\Toggle;
+use Illuminate\View\ComponentSlot;
+use TallStackUi\Foundation\Support\Runtime\AbstractRuntime;
 
-class CheckboxRuntime
+class CheckboxRuntime extends AbstractRuntime
 {
-    public function runtime(array $data, Checkbox|Radio|Toggle $component, bool $livewire, ?ViewErrorBag $errors = null): array
+    public function runtime(): array
     {
-        //
+        $bind = $this->bind();
+
+        /** @var string|null|ComponentSlot $label $label */
+        $label = $this->data['label'];
+        $slot = $label instanceof ComponentSlot;
+
+        return [
+            'property' => $bind->get('property'),
+            'error' => $bind->get('error'),
+            'id' => $bind->get('id'),
+            'entangle' => $bind->get('entangle'),
+            'position' => $slot && $label->attributes->has('left') ? 'left' : $this->data['position'],
+            'alignment' => $slot && $label->attributes->has('start') ? 'start' : 'middle',
+            'label' => $label,
+        ];
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace TallStackUi\Foundation\Support\Colors\Classes;
+namespace TallStackUi\Foundation\Support\Colors\Components;
 
 use TallStackUi\Foundation\Support\Colors\Concerns\ShareableConstructor;
 

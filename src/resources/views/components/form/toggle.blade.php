@@ -1,7 +1,6 @@
 @php
-    [$property, $error, $id] = $bind($attributes, $errors ?? null, $livewire);
+    // TODO: idea to pass callback into $classes
     $personalize = $classes();
-    [$position, $alignment, $label] = $sloteable($label);
 
     // We remove any bg color classes from the wrapper if there
     // is an error to apply the red bg color to the input instead
