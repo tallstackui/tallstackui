@@ -11,8 +11,7 @@ trait SanitizePropertyValue
     public function sanitize(ComponentAttributeBag $attributes, ?string $property = null, ?bool $livewire = false): null|int|string|array
     {
         $value = $attributes->get('value');
-        $value = $value === 'null' ? null : $value;
-        $value = $value === '[]' ? [] : $value;
+        $value = $value === 'null' ? null : ($value === '[]' ? [] : $value);
 
         // We just transform the value when is not a Livewire
         // component or when the value is not empty and is a string.
