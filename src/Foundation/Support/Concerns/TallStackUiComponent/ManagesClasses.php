@@ -2,6 +2,7 @@
 
 namespace TallStackUi\Foundation\Support\Concerns\TallStackUiComponent;
 
+use Closure;
 use Exception;
 use Illuminate\Support\Arr;
 use Psr\Container\ContainerExceptionInterface;
@@ -19,7 +20,7 @@ trait ManagesClasses
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    public function classes(): array
+    public function classes(?Closure $callback = null): array
     {
         if (! $this instanceof Personalization) {
             return [];
@@ -76,6 +77,11 @@ trait ManagesClasses
         // manipulation when necessary - a good example for this is the flat button.
         if (method_exists($this, 'manipulation')) {
             $classes = $this->manipulation($classes);
+        }
+
+        // TODO: comment!
+        if ($callback) {
+            $classes = $callback($classes);
         }
 
         return $classes;

@@ -1,12 +1,12 @@
 @php
-    // TODO: idea to pass callback into $classes
-    $personalize = $classes();
+    //TODO: decide about it!
+    $personalize = $classes(function ($personalize) use ($error): array {
+        if (! $error) return $personalize;
 
-    // We remove any bg color classes from the wrapper if there
-    // is an error to apply the red bg color to the input instead
-    $personalize['wrapper.class'] = $error
-        ? preg_replace('/\bbg-[a-zA-Z0-9-]+/', '', $personalize['background.class'])
-        : $personalize['background.class'];
+        $personalize['background.class'] = preg_replace('/\bbg-[a-zA-Z0-9-]+/', '', $personalize['background.class']);
+
+        return $personalize;
+    });
 @endphp
 
 <x-dynamic-component :component="TallStackUi::component('wrapper.radio')" :$id :$property :$error :$label :$position :$alignment :$invalidate>
