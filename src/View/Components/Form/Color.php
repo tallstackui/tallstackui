@@ -6,14 +6,17 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use InvalidArgumentException;
+use TallStackUi\Foundation\Attributes\PassThroughRuntime;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\Support\Concerns\MergeAttributes;
+use TallStackUi\Foundation\Support\Runtime\Components\ColorRuntime;
 use TallStackUi\TallStackUiComponent;
 use TallStackUi\View\Components\Floating;
 
 #[SoftPersonalization('form.color')]
+#[PassThroughRuntime(ColorRuntime::class)]
 class Color extends TallStackUiComponent implements Personalization
 {
     use MergeAttributes;

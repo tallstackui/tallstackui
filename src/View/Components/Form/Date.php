@@ -8,12 +8,15 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use InvalidArgumentException;
+use TallStackUi\Foundation\Attributes\PassThroughRuntime;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Foundation\Support\Runtime\Components\DateRuntime;
 use TallStackUi\TallStackUiComponent;
 use TallStackUi\View\Components\Floating;
 
 #[SoftPersonalization('form.date')]
+#[PassThroughRuntime(DateRuntime::class)]
 class Date extends TallStackUiComponent implements Personalization
 {
     public function __construct(

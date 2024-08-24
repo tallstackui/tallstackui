@@ -4,13 +4,16 @@ namespace TallStackUi\View\Components\Button;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
+use TallStackUi\Foundation\Attributes\PassThroughRuntime;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Foundation\Support\Runtime\Components\ButtonRuntime;
 use TallStackUi\TallStackUiComponent;
 use TallStackUi\View\Components\Button\Traits\Setup;
 
 #[SoftPersonalization('button')]
+#[PassThroughRuntime(ButtonRuntime::class)]
 class Button extends TallStackUiComponent implements Personalization
 {
     use Setup;

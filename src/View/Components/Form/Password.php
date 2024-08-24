@@ -6,13 +6,16 @@ use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use TallStackUi\Foundation\Attributes\PassThroughRuntime;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\Support\Concerns\MergeAttributes;
+use TallStackUi\Foundation\Support\Runtime\Components\PasswordRuntime;
 use TallStackUi\TallStackUiComponent;
 use TallStackUi\View\Components\Floating;
 
 #[SoftPersonalization('form.password')]
+#[PassThroughRuntime(PasswordRuntime::class)]
 class Password extends TallStackUiComponent implements Personalization
 {
     use MergeAttributes;
