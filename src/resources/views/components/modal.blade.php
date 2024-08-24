@@ -1,10 +1,5 @@
 @php
-    use Illuminate\Support\Str;
-    $event = Str::slug(Str::kebab($id));
-    $open = $event . '-open';
-    $close = $event . '-close';
     $personalize = $classes();
-    $events = $attributes->whereStartsWith('x-on:');
 @endphp
 
 <div x-cloak
@@ -22,7 +17,7 @@
      @if (!$configurations['persistent']) x-on:keydown.escape.window="show = false;" @endif
      x-on:modal:{{ $open }}.window="show = true;"
      x-on:modal:{{ $close }}.window="show = false;"
-     {!! $events !!}>
+     {{ $attributes->whereStartsWith('x-on:') }}>
     <div x-show="show"
          x-transition:enter="ease-out duration-300"
          x-transition:enter-start="opacity-0"
