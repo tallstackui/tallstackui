@@ -10,6 +10,8 @@ use TallStackUi\Foundation\Support\Runtime\Components\CheckboxRuntime;
 use TallStackUi\Foundation\Support\Runtime\Components\ColorRuntime;
 use TallStackUi\Foundation\Support\Runtime\Components\DateRuntime;
 use TallStackUi\Foundation\Support\Runtime\Components\InputRuntime;
+use TallStackUi\Foundation\Support\Runtime\Components\LabelRuntime;
+use TallStackUi\Foundation\Support\Runtime\Components\NumberRuntime;
 use TallStackUi\Foundation\Support\Runtime\Components\RangeRuntime;
 use TallStackUi\Foundation\Support\Runtime\Components\SelectNativeRuntime;
 use TallStackUi\Foundation\Support\Runtime\Components\StatsRuntime;
@@ -21,6 +23,8 @@ use TallStackUi\View\Components\Form\Checkbox;
 use TallStackUi\View\Components\Form\Color;
 use TallStackUi\View\Components\Form\Date;
 use TallStackUi\View\Components\Form\Input;
+use TallStackUi\View\Components\Form\Label;
+use TallStackUi\View\Components\Form\Number;
 use TallStackUi\View\Components\Form\Radio;
 use TallStackUi\View\Components\Form\Range;
 use TallStackUi\View\Components\Form\Textarea;
@@ -36,7 +40,10 @@ class CompileRuntime
         $reflect = app(ReflectComponent::class, ['component' => $component::class]);
         $parent = $reflect->parent()->name;
 
+        // TODO: order using alphabetical order
         $class = match (true) {
+            $parent === Number::class => NumberRuntime::class,
+            $parent === Label::class => LabelRuntime::class,
             $parent === Date::class => DateRuntime::class,
             $parent === Tooltip::class => TooltipRuntime::class,
             $parent === Stats::class => StatsRuntime::class,

@@ -4,7 +4,6 @@ namespace TallStackUi\View\Components\Form;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
-use TallStackUi\Facades\TallStackUi;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\TallStackUiComponent;
@@ -32,19 +31,6 @@ class Number extends TallStackUiComponent implements Personalization
     public function blade(): View
     {
         return view('tallstack-ui::components.form.number');
-    }
-
-    final public function icons(): array
-    {
-        [$left, $right] = [
-            $this->chevron ? 'chevron-down' : 'minus',
-            $this->chevron ? 'chevron-up' : 'plus',
-        ];
-
-        return [
-            'left' => TallStackUi::icon($left),
-            'right' => TallStackUi::icon($right),
-        ];
     }
 
     public function personalization(): array
