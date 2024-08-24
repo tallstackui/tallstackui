@@ -1,13 +1,11 @@
 @php
-    /** @var \Illuminate\View\ComponentSlot|string $left */
-    $text ??= $slot->toHtml();
     $personalize = $classes();
     $flash = session()->pull('tallstackui:banner');
     $wire = $flash ? true : $wire;
 @endphp
 
 @if ($show)
-    <div x-data="tallstackui_banner(@js($flash), @js($animated), @js($wire), @js($text), @js($enter), @js($leave), @js($close))"
+    <div x-data="tallstackui_banner(@js($flash), @js($animated), @js($wire), @js($text ??= $slot->toHtml()), @js($enter), @js($leave), @js($close))"
         @class([
             $personalize['wire'] => $wire,
             $personalize['wrapper'],
@@ -74,7 +72,7 @@
             </div>
         @else
             <span @class([$personalize['text'], $colors['text'] ?? $color['text']])>
-                {!! $text !!}
+                {!! $text ??= $slot->toHtml() !!}
             </span>
         @endif
         <button type="button" x-on:click="show = false" x-show="close" dusk="tallstackui_banner_close">
