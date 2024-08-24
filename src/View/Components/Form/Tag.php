@@ -5,12 +5,15 @@ namespace TallStackUi\View\Components\Form;
 use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
+use TallStackUi\Foundation\Attributes\PassThroughRuntime;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\Support\Concerns\SanitizePropertyValue;
+use TallStackUi\Foundation\Support\Runtime\Components\TagRuntime;
 use TallStackUi\TallStackUiComponent;
 use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
 
+#[PassThroughRuntime(TagRuntime::class)]
 #[SoftPersonalization('form.tag')]
 class Tag extends TallStackUiComponent implements Personalization
 {

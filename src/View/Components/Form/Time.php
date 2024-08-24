@@ -6,18 +6,18 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\ComponentSlot;
 use InvalidArgumentException;
+use TallStackUi\Foundation\Attributes\PassThroughRuntime;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\Foundation\Support\Concerns\WireChangeEvent;
+use TallStackUi\Foundation\Support\Runtime\Components\TimeRuntime;
 use TallStackUi\TallStackUiComponent;
 use TallStackUi\View\Components\Floating;
 
+#[PassThroughRuntime(TimeRuntime::class)]
 #[SoftPersonalization('form.time')]
 class Time extends TallStackUiComponent implements Personalization
 {
-    use WireChangeEvent;
-
     public function __construct(
         public ?string $label = null,
         public ?string $hint = null,
@@ -86,17 +86,6 @@ class Time extends TallStackUiComponent implements Personalization
                 'max' => $this->maxMinute,
             ],
         ];
-    }
-
-    final public function validating(mixed $value): void
-    {
-        if (is_null($value)) {
-            return;
-        }
-
-        if (! is_string($value)) {
-            throw new InvalidArgumentException('The time [value] must be a string.');
-        }
     }
 
     /** @throws InvalidArgumentException */
