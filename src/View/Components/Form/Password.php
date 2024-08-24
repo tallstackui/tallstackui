@@ -6,7 +6,6 @@ use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use TallStackUi\Facades\TallStackUi;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\Support\Concerns\MergeAttributes;
@@ -64,11 +63,6 @@ class Password extends TallStackUiComponent implements Personalization
     public function blade(): View
     {
         return view('tallstack-ui::components.form.password');
-    }
-
-    final public function icons(): array
-    {
-        return ['x-circle' => TallStackUi::icon('x-circle'), 'check-circle' => TallStackUi::icon('check-circle')];
     }
 
     public function personalization(): array

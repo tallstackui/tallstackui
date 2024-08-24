@@ -12,6 +12,7 @@ use TallStackUi\Foundation\Support\Runtime\Components\DateRuntime;
 use TallStackUi\Foundation\Support\Runtime\Components\InputRuntime;
 use TallStackUi\Foundation\Support\Runtime\Components\LabelRuntime;
 use TallStackUi\Foundation\Support\Runtime\Components\NumberRuntime;
+use TallStackUi\Foundation\Support\Runtime\Components\PasswordRuntime;
 use TallStackUi\Foundation\Support\Runtime\Components\RangeRuntime;
 use TallStackUi\Foundation\Support\Runtime\Components\SelectNativeRuntime;
 use TallStackUi\Foundation\Support\Runtime\Components\StatsRuntime;
@@ -25,6 +26,7 @@ use TallStackUi\View\Components\Form\Date;
 use TallStackUi\View\Components\Form\Input;
 use TallStackUi\View\Components\Form\Label;
 use TallStackUi\View\Components\Form\Number;
+use TallStackUi\View\Components\Form\Password;
 use TallStackUi\View\Components\Form\Radio;
 use TallStackUi\View\Components\Form\Range;
 use TallStackUi\View\Components\Form\Textarea;
@@ -42,6 +44,7 @@ class CompileRuntime
 
         // TODO: order using alphabetical order
         $class = match (true) {
+            $parent === Password::class => PasswordRuntime::class,
             $parent === Number::class => NumberRuntime::class,
             $parent === Label::class => LabelRuntime::class,
             $parent === Date::class => DateRuntime::class,
