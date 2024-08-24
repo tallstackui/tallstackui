@@ -31,7 +31,7 @@ class SelectStyledRuntime extends AbstractRuntime
             'entangle' => $bind->get('entangle'),
             'value' => __ts_sanitize_value($this->data['attributes']?->get('value'), $property, $livewire),
             'change' => [...$change],
-            'disabled' => (bool) $this->data['attributes']->get('disabled', $this->data['attributes']->get('readonly', false)) === true,
+            'disabled' => (bool) $this->data['attributes']->get('disabled', $this->data['attributes']->get('readonly', false)),
         ];
     }
 }

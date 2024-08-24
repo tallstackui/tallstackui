@@ -1,6 +1,5 @@
 @php
     $personalize = $classes();
-    $entangle = $bind($attributes, livewire: $livewire)[3];
 @endphp
 
 <div x-data="tallstackui_table({!! $entangle !!}, @js($ids()), @js($selectable))" @if ($persistent) x-ref="persist" @endif>

@@ -17,7 +17,7 @@ trait ManagesRender
     public function render(): Closure
     {
         if (method_exists($this, 'setup')) {
-            $this->setup();
+            $this->setup($this->data());
         }
 
         return function (array $data): View|string {
