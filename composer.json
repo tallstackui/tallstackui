@@ -65,7 +65,7 @@
             "php ./vendor/bin/rector process --dry-run --config=rector.php",
             "./vendor/bin/testbench view:clear",
             "./vendor/bin/pest --filter=Feature --parallel --stop-on-failure",
-            "./vendor/bin/testbench optimize:clear",
+            "./vendor/bin/testbench view:clear",
             "CI=true ./vendor/bin/pest --filter=Browser"
         ],
         "ci:analyse": [
