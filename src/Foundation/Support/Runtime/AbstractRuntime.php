@@ -2,8 +2,10 @@
 
 namespace TallStackUi\Foundation\Support\Runtime;
 
+use Exception;
 use Illuminate\Support\Collection;
 use Illuminate\Support\ViewErrorBag;
+use Livewire\Component;
 use TallStackUi\Foundation\Support\Blade\BindProperty;
 
 abstract class AbstractRuntime
@@ -11,7 +13,7 @@ abstract class AbstractRuntime
     public function __construct(
         protected array $data,
         protected readonly object $component,
-        protected readonly bool $livewire,
+        protected readonly ?Component $livewire = null,
         protected readonly ?ViewErrorBag $errors = null
     ) {
         //
@@ -19,6 +21,8 @@ abstract class AbstractRuntime
 
     /**
      * Shortcut to retrieve the bind data ready to use as a collection.
+     *
+     * @throws Exception
      */
     public function bind(): Collection
     {
@@ -26,7 +30,9 @@ abstract class AbstractRuntime
             'attributes' => $this->data['attributes'],
             'errors' => $this->errors,
             'invalidate' => $this->data['invalidate'] ?? false,
-            'livewire' => $this->livewire,
+            // Livewire here is a boolean to check if the
+            // component is being used within a Livewire context.
+            'livewire' => $this->livewire !== null,
         ])->toCollection();
     }
 

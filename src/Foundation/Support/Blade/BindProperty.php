@@ -37,6 +37,8 @@ class BindProperty
 
     /**
      * Return a collection with the needed information to bind a property.
+     *
+     * @throws Exception
      */
     public function toCollection(): Collection
     {

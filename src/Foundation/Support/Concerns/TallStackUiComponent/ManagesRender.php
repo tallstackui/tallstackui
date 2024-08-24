@@ -35,7 +35,7 @@ trait ManagesRender
 
             return $this->output($this->blade()->with(array_merge($this->compile($data), [
                 'livewire' => $livewire,
-                ...CompileRuntime::of($data, component: $this, livewire: $livewire, errors: $shared['errors'] ?? null),
+                ...CompileRuntime::of($data, component: $this, livewire: $shared['__livewire'] ?? null, errors: $shared['errors'] ?? null),
             ])), $data);
         };
     }
