@@ -1,8 +1,5 @@
 @php
-    [$property, $error, $id, $entangle] = $bind($attributes, $errors ?? null, $livewire);
     $personalize = $classes();
-    $value = $sanitize($attributes, $property, $livewire);
-    $disabled = (bool) $attributes->get('disabled', $attributes->get('readonly', false)) === true;
 @endphp
 
 @if (!$livewire && $property)
@@ -23,7 +20,7 @@
         @js($property),
         @js($value),
         @js($limit),
-        @js($change($attributes, $__livewire ?? null, $livewire)))"
+        @js($change))"
         x-cloak
         x-on:keydown="navigate($event)"
         wire:ignore.self>

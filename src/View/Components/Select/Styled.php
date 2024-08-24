@@ -6,17 +6,20 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use InvalidArgumentException;
+use TallStackUi\Foundation\Attributes\PassThroughRuntime;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\Support\Concerns\SanitizePropertyValue;
 use TallStackUi\Foundation\Support\Concerns\WireChangeEvent;
+use TallStackUi\Foundation\Support\Runtime\Components\SelectStyledRuntime;
 use TallStackUi\TallStackUiComponent;
 use TallStackUi\View\Components\Floating;
 use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
 use TallStackUi\View\Components\Select\Traits\Setup;
 use Throwable;
 
+#[PassThroughRuntime(SelectStyledRuntime::class)]
 #[SoftPersonalization('select.styled')]
 class Styled extends TallStackUiComponent implements Personalization
 {

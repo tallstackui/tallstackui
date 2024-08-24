@@ -5,9 +5,9 @@ namespace TallStackUi\Foundation\Support\Runtime\Components;
 use Livewire\WireDirective;
 use TallStackUi\Foundation\Support\Runtime\AbstractRuntime;
 
-// TODO: refactor
-class PinRuntime extends AbstractRuntime
+class SelectStyledRuntime extends AbstractRuntime
 {
+    // TODO: refactor
     public function runtime(): array
     {
         $bind = $this->bind();
@@ -29,8 +29,9 @@ class PinRuntime extends AbstractRuntime
             'error' => $bind->get('error'),
             'id' => $bind->get('id'),
             'entangle' => $bind->get('entangle'),
-            'hash' => $livewire ? $this->livewire->getId().'-'.$property : uniqid(),
+            'value' => __ts_sanitize_value($this->data['attributes']?->get('value'), $property, $livewire),
             'change' => [...$change],
+            'disabled' => (bool) $this->data['attributes']->get('disabled', $this->data['attributes']->get('readonly', false)) === true,
         ];
     }
 }

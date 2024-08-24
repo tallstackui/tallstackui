@@ -1,5 +1,6 @@
 @php
     $personalize = $classes();
+    // TODO: review that!
     // Replaces bg- with text- because svg uses text to apply the color
     // and there is no need to create a new method in the progress color.
     $colors['background'] = str_replace('bg-', 'text-', $colors['background']);
