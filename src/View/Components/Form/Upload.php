@@ -7,14 +7,17 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\ComponentSlot;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
+use TallStackUi\Foundation\Attributes\PassThroughRuntime;
 use TallStackUi\Foundation\Attributes\RequireLivewireContext;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\Support\Miscellaneous\UploadComponentFileAdapter;
+use TallStackUi\Foundation\Support\Runtime\Components\UploadRuntime;
 use TallStackUi\TallStackUiComponent;
 use TallStackUi\View\Components\Floating;
 
 #[RequireLivewireContext]
+#[PassThroughRuntime(UploadRuntime::class)]
 #[SoftPersonalization('form.upload')]
 class Upload extends TallStackUiComponent implements Personalization
 {
