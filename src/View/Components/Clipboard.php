@@ -5,13 +5,16 @@ namespace TallStackUi\View\Components;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use InvalidArgumentException;
+use TallStackUi\Foundation\Attributes\PassThroughRuntime;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Foundation\Support\Runtime\Components\ClipboardRuntime;
 use TallStackUi\TallStackUiComponent;
 use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
 
 #[SoftPersonalization('clipboard')]
+#[PassThroughRuntime(ClipboardRuntime::class)]
 class Clipboard extends TallStackUiComponent implements Personalization
 {
     use DefaultInputClasses;
@@ -82,6 +85,17 @@ class Clipboard extends TallStackUiComponent implements Personalization
         if (! $text) {
             throw new InvalidArgumentException('The clipboard [text] cannot be empty. You should specify the text using property or slot.');
         }
+    }
+
+    protected function setup(array $data)
+    {
+        //        $text ??= $slot->toHtml();
+        //        $hash = md5($text.uniqid());
+        //        $personalize = $classes();
+        //        $validating($text);
+        //
+        //        $this->text ??= $this->attributes-
+        //dd($this->data());
     }
 
     /** @throws InvalidArgumentException */
