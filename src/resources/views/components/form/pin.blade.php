@@ -1,16 +1,12 @@
 @php
-    [$property, $error, $id, $entangle] = $bind($attributes, $errors ?? null, $livewire);
     $personalize = $classes();
-    $hash = $livewire ? $__livewire->getId().'-'.$property : uniqid();
-    $value = $attributes->get('value');
-    $required = $attributes->get('required', false);
 @endphp
 
 @if ($livewire)
     <div hidden id="{{ $hash }}">@js($error)</div>
 @elseif ($property)
     <div hidden id="{{ $hash }}">@js($errors->has($property))</div>
-    <input hidden name="{{ $property }}" @if ($value) value="{{ $value }}" @endif>
+    <input hidden name="{{ $property }}" @if ($attributes->has('value')) value="{{ $attributes->get('value') }}" @endif>
 @endif
 
 <div>
@@ -26,7 +22,7 @@
              @js($letters),
              @js($livewire),
              @js($property),
-             @js($value),
+             @js($attributes->get('value')),
              @js($change($attributes, $__livewire ?? null, $livewire)))"
          x-on:paste="pasting = true; paste($event)" x-cloak wire:ignore>
         <div @class($personalize['wrapper']) x-ref="wrapper" {{ $attributes->only(['x-on:filled', 'x-on:clear']) }}>
@@ -49,7 +45,7 @@
                        @if ($livewire)
                            value="{{ isset($__livewire->{$property}) ? (strval($__livewire->{$property})[$index-1] ?? '') : '' }}"
                        @elseif ($property)
-                           value="{{ $value[$index-1] ?? '' }}"
+                           value="{{ $attributes->get('value')[$index-1] ?? '' }}"
                        @endif
                        @class([
                            'w-[38px]',
@@ -60,7 +56,7 @@
                            '{{ $personalize['input.color.error'] }}': @js($invalidate ?? false) === false && error,
                        }" maxlength="1"
                        autocomplete="false"
-                       @required($required)
+                       @required($attributes->get('required', false))
                        x-on:focus="setTimeout(() => $el.selectionStart = $el.selectionEnd = $el.value.length, 0)"
                        x-on:keyup="keyup(@js($index))"
                        x-on:keyup.left="left(@js($index))"

@@ -80,7 +80,7 @@ trait ManagesClasses
         }
 
         // TODO: comment!
-        if ($callback) {
+        if ($callback !== null) {
             $classes = $callback($classes);
         }
 

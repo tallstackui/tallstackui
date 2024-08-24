@@ -5,12 +5,15 @@ namespace TallStackUi\View\Components\Form;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use InvalidArgumentException;
+use TallStackUi\Foundation\Attributes\PassThroughRuntime;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\Support\Concerns\WireChangeEvent;
+use TallStackUi\Foundation\Support\Runtime\Components\PinRuntime;
 use TallStackUi\TallStackUiComponent;
 
+#[PassThroughRuntime(PinRuntime::class)]
 #[SoftPersonalization('form.pin')]
 class Pin extends TallStackUiComponent implements Personalization
 {
