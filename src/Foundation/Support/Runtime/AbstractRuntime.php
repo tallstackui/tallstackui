@@ -5,7 +5,9 @@ namespace TallStackUi\Foundation\Support\Runtime;
 use Exception;
 use Illuminate\Support\Collection;
 use Illuminate\Support\ViewErrorBag;
+use Illuminate\View\ComponentAttributeBag;
 use Livewire\Component;
+use Livewire\WireDirective;
 use TallStackUi\Foundation\Support\Blade\BindProperty;
 
 abstract class AbstractRuntime
@@ -37,9 +39,51 @@ abstract class AbstractRuntime
     }
 
     /**
+     * Compiles the `wire:change` event for the component when we are in Livewire context.
+     */
+    public function change(): ?array
+    {
+        if (! $this->wireable()) {
+            return null;
+        }
+
+        /** @var ComponentAttributeBag $attributes */
+        $attributes = $this->data['attributes'];
+
+        /** @var WireDirective|null $wire */
+        $wire = $attributes->wire('change');
+
+        if (! $wire || ! ($method = $wire->value()) !== false) {
+            return null;
+        }
+
+        return ['id' => $this->livewire->getId(), 'method' => $method];
+    }
+
+    /**
      * Determine the runtime properties for the component.
      */
     abstract public function runtime(): array;
+
+    /**
+     * Get the correct value to use in the validation step.
+     * The value of a Livewire component `$property` - when in
+     * the context of Livewire, or the `$value` provided.
+     */
+    public function value(mixed $value, ?string $property = null): mixed
+    {
+        return $this->wireable() && ! is_null($property) && property_exists($this->livewire, $property)
+            ? data_get($this->livewire, $property)
+            : $value;
+    }
+
+    /**
+     * Determines whether we are within the context of Livewire.
+     */
+    public function wireable(): bool
+    {
+        return $this->livewire !== null;
+    }
 
     /**
      * Get data from $this->data using data_get when $key is set or return the whole data as a collection.

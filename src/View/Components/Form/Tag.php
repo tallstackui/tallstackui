@@ -8,7 +8,6 @@ use Illuminate\Support\Arr;
 use TallStackUi\Foundation\Attributes\PassThroughRuntime;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\Foundation\Support\Concerns\SanitizePropertyValue;
 use TallStackUi\Foundation\Support\Runtime\Components\TagRuntime;
 use TallStackUi\TallStackUiComponent;
 use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
@@ -18,7 +17,6 @@ use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
 class Tag extends TallStackUiComponent implements Personalization
 {
     use DefaultInputClasses;
-    use SanitizePropertyValue;
 
     public function __construct(public ?string $label = null, public ?string $hint = null, public ?string $prefix = null, public ?int $limit = null, public ?bool $invalidate = null)
     {

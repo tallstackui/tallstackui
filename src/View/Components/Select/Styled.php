@@ -10,8 +10,6 @@ use TallStackUi\Foundation\Attributes\PassThroughRuntime;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\Foundation\Support\Concerns\SanitizePropertyValue;
-use TallStackUi\Foundation\Support\Concerns\WireChangeEvent;
 use TallStackUi\Foundation\Support\Runtime\Components\SelectStyledRuntime;
 use TallStackUi\TallStackUiComponent;
 use TallStackUi\View\Components\Floating;
@@ -24,9 +22,7 @@ use Throwable;
 class Styled extends TallStackUiComponent implements Personalization
 {
     use DefaultInputClasses;
-    use SanitizePropertyValue;
     use Setup;
-    use WireChangeEvent;
 
     /** @throws Throwable */
     public function __construct(
