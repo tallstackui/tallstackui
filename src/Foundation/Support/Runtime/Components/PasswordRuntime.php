@@ -2,11 +2,13 @@
 
 namespace TallStackUi\Foundation\Support\Runtime\Components;
 
+use Exception;
 use TallStackUi\Facades\TallStackUi;
 use TallStackUi\Foundation\Support\Runtime\AbstractRuntime;
 
 class PasswordRuntime extends AbstractRuntime
 {
+    /** @throws Exception */
     public function runtime(): array
     {
         return [

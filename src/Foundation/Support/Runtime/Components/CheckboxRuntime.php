@@ -2,11 +2,13 @@
 
 namespace TallStackUi\Foundation\Support\Runtime\Components;
 
+use Exception;
 use Illuminate\View\ComponentSlot;
 use TallStackUi\Foundation\Support\Runtime\AbstractRuntime;
 
 class CheckboxRuntime extends AbstractRuntime
 {
+    /** @throws Exception */
     public function runtime(): array
     {
         /** @var string|null|ComponentSlot $label $label */
