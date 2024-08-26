@@ -17,11 +17,10 @@ test('contains constructor', function (string $index) {
     $ignores = [Dialog::class, Toast::class];
 
     if (in_array($index, $ignores)) {
-        test()->markTestSkipped("[$index] doesn't have constructor"); // @phpstan-ignore-line
+        $this->markTestSkipped("[$index] doesn't have constructor"); // @phpstan-ignore-line
     }
 
-    expect($index)
-        ->toHaveConstructor();
+    expect($index)->toHaveConstructor();
 })->with('personalizations.components');
 
 test('throws exception if component name is wrong', function () {

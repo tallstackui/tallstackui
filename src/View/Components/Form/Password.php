@@ -9,7 +9,6 @@ use Illuminate\Support\Collection;
 use TallStackUi\Foundation\Attributes\PassThroughRuntime;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\Foundation\Support\Concerns\MergeAttributes;
 use TallStackUi\Foundation\Support\Runtime\Components\PasswordRuntime;
 use TallStackUi\TallStackUiComponent;
 use TallStackUi\View\Components\Floating;
@@ -18,8 +17,6 @@ use TallStackUi\View\Components\Floating;
 #[PassThroughRuntime(PasswordRuntime::class)]
 class Password extends TallStackUiComponent implements Personalization
 {
-    use MergeAttributes;
-
     public function __construct(
         public ?string $label = null,
         public ?string $hint = null,
@@ -28,6 +25,7 @@ class Password extends TallStackUiComponent implements Personalization
         public ?bool $generator = false,
         public ?bool $invalidate = null
     ) {
+        //TODO: move to setup
         $this->rules = collect($this->rules)->reduce(function (Collection $carry, string $value) {
             $defaults = self::defaults();
 

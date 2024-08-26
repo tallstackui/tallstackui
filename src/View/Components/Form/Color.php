@@ -10,7 +10,6 @@ use TallStackUi\Foundation\Attributes\PassThroughRuntime;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\Foundation\Support\Concerns\MergeAttributes;
 use TallStackUi\Foundation\Support\Runtime\Components\ColorRuntime;
 use TallStackUi\TallStackUiComponent;
 use TallStackUi\View\Components\Floating;
@@ -19,8 +18,6 @@ use TallStackUi\View\Components\Floating;
 #[PassThroughRuntime(ColorRuntime::class)]
 class Color extends TallStackUiComponent implements Personalization
 {
-    use MergeAttributes;
-
     public function __construct(
         public ?string $label = null,
         public ?string $hint = null,
