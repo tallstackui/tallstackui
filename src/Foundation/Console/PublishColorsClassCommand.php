@@ -79,7 +79,7 @@ class PublishColorsClassCommand extends Command
 
             file_put_contents($path, $stub);
 
-            $this->components->success("The color class <options=bold>[{$collect->get('file_raw')}]</> has been created successfully.");
+            $this->components->info("The color class <options=bold>[{$collect->get('file_raw')}]</> has been created successfully.");
 
             return self::SUCCESS;
         } catch (Exception $e) {
