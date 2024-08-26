@@ -8,7 +8,7 @@ class ToastColors
 {
     use ShareableConstructor;
 
-    public function __invoke(): array
+    public function colors(): array
     {
         [$icon, $text] = $this->get('icon', 'text');
 

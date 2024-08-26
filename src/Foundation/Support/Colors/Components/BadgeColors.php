@@ -8,7 +8,7 @@ class BadgeColors
 {
     use ShareableConstructor;
 
-    public function __invoke(): array
+    public function colors(): array
     {
         [$background, $text, $icon] = $this->get('background', 'text', 'icon');
 

@@ -8,7 +8,7 @@ class BannerColors
 {
     use ShareableConstructor;
 
-    public function __invoke(): array
+    public function colors(): array
     {
         // If the banner color is an array then the colors will
         // be set directly in the component as hexadecimal.

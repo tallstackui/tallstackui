@@ -24,7 +24,7 @@ if (! function_exists('__ts_components')) {
             ->mapWithKeys(function (string $component) {
                 $reflect = new ReflectComponent($component);
 
-                return [$reflect->attribute()->newInstance()->key(prefix: true) => $reflect->class()->getName()];
+                return [$reflect->attribute(SoftPersonalization::class)->newInstance()->prefixed() => $reflect->class()->getName()];
             })
             ->toArray();
     }

@@ -8,7 +8,7 @@ class ProgressColors
 {
     use ShareableConstructor;
 
-    public function __invoke(): array
+    public function colors(): array
     {
         $getter = $this->format($this->component->style, $this->component->color); // @phpstan-ignore-line
 

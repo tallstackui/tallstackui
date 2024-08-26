@@ -9,6 +9,7 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use ReflectionException;
 use TallStackUi\Facades\TallStackUi;
+use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\Support\Miscellaneous\ReflectComponent;
 
@@ -32,7 +33,7 @@ trait ManagesClasses
         // personalization continue to work even when "deep" customization is in effect.
         $reflection = app(ReflectComponent::class, ['component' => static::class]);
 
-        $attribute = $reflection->attribute();
+        $attribute = $reflection->attribute(SoftPersonalization::class);
 
         if (blank($attribute->getArguments())) {
             return [];
@@ -40,7 +41,7 @@ trait ManagesClasses
 
         unset($this->attributes['personalize']);
 
-        $soft = TallStackUi::personalize($attribute->newInstance()->key(prefix: false))
+        $soft = TallStackUi::personalize($attribute->newInstance()->key)
             ->instance()
             ->toArray();
 

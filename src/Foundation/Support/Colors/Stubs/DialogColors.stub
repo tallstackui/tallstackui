@@ -12,6 +12,9 @@ class DialogColors
         return 'red';
     }
 
+    /**
+     * Confirm button colors.
+     */
     public function confirmColors(Component $component): array
     {
         return [
@@ -23,6 +26,9 @@ class DialogColors
         ];
     }
 
+    /**
+     * Icon colors.
+     */
     public function iconColors(Component $component): array
     {
         return [

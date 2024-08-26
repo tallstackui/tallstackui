@@ -8,12 +8,10 @@ class DialogColors
 {
     use ShareableConstructor;
 
-    public function __invoke(): array
+    public function colors(): array
     {
         [$cancel, $confirm, $icon] = $this->get('cancel', 'confirm', 'icon');
 
-        // We merge the values that were not defined (null) with
-        // the default values, defined in the methods of these classes.
         return [
             'cancel' => $cancel,
             'confirm' => array_merge($this->confirm(), array_filter($confirm)),

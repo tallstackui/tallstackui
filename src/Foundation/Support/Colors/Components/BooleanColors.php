@@ -8,7 +8,7 @@ class BooleanColors
 {
     use ShareableConstructor;
 
-    public function __invoke(): array
+    public function colors(): array
     {
         $color = $this->component->boolean ? $this->component->colorWhenTrue : $this->component->colorWhenFalse; // @phpstan-ignore-line
 

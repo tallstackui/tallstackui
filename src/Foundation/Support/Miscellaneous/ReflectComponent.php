@@ -20,7 +20,7 @@ class ReflectComponent
      *
      * @throws ReflectionException
      */
-    public function attribute(string $attribute = SoftPersonalization::class): ?ReflectionAttribute
+    public function attribute(string $attribute): ?ReflectionAttribute
     {
         return collect($this->parent()->getAttributes($attribute))->first();
     }

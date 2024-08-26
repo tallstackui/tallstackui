@@ -8,13 +8,10 @@ class LinkColors
 {
     use ShareableConstructor;
 
-    public function __invoke(): array
+    public function colors(): array
     {
         $text = $this->get('text');
 
-        // We just need to $this->format when we
-        // have a style and color, otherwise we
-        // can just use the color as the getter.
         $getter = $this->component->color; // @phpstan-ignore-line
 
         // For :color="null"

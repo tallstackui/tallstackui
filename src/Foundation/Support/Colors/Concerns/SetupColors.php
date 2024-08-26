@@ -76,7 +76,7 @@ trait SetupColors
                 }
 
                 // We use invade to ensure that regardless of the method's visibility, we can obtain the value.
-                $result = app()->call(fn () => invade($class)->{$method}($this->component));
+                $result = invade($class)->{$method}($this->component);
 
                 $this->classes[$original] = blank($result) ? null : $result;
             } else {

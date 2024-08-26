@@ -8,7 +8,7 @@ class ButtonColors
 {
     use ShareableConstructor;
 
-    public function __invoke(): array
+    public function colors(): array
     {
         [$background, $icon] = $this->get('background', 'icon');
 

@@ -22,6 +22,6 @@ class CompileColors
             return null;
         }
 
-        return app($class, ['component' => $component, 'reflect' => $reflect])();
+        return app($class, ['component' => $component, 'reflect' => $reflect])->colors();
     }
 }
