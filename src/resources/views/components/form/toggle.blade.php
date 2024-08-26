@@ -1,12 +1,5 @@
 @php
-    //TODO: decide about it!
-    $personalize = $classes(function ($personalize) use ($error): array {
-        if (! $error) return $personalize;
-
-        $personalize['background.class'] = preg_replace('/\bbg-[a-zA-Z0-9-]+/', '', $personalize['background.class']);
-
-        return $personalize;
-    });
+    $personalize = $classes(fn (array $personalize) => $error ? array_merge($personalize, ['background.class' => preg_replace('/\bbg-[a-zA-Z0-9-]+/', '', $personalize['background.class'])]) : $personalize);
 @endphp
 
 <x-dynamic-component :component="TallStackUi::component('wrapper.radio')" :$id :$property :$error :$label :$position :$alignment :$invalidate>

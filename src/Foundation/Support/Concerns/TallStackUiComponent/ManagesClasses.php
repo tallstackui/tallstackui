@@ -74,13 +74,12 @@ trait ManagesClasses
         // $merge does not contain all the necessary keys in use by the component.
         $classes = Arr::only(array_merge($personalization = $this->personalization(), $merge), array_keys($personalization));
 
-        // Lastly, we just pass the classes to a special hook method to allow
+        // We just pass the classes to a special hook method to allow
         // manipulation when necessary - a good example for this is the flat button.
         if (method_exists($this, 'manipulation')) {
             $classes = $this->manipulation($classes);
         }
 
-        // TODO: comment!
         if ($callback !== null) {
             $classes = $callback($classes);
         }
