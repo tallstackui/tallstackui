@@ -12,6 +12,7 @@ use TallStackUi\View\Components\Button\Circle;
 use TallStackUi\View\Components\Errors;
 use TallStackUi\View\Components\Form\Checkbox;
 use TallStackUi\View\Components\Form\Radio;
+use TallStackUi\View\Components\Form\Range;
 use TallStackUi\View\Components\Form\Toggle;
 use TallStackUi\View\Components\Interaction\Dialog;
 use TallStackUi\View\Components\Interaction\Toast;
@@ -39,6 +40,7 @@ test('should use attribute', function (string $component) {
     Errors::class,
     Link::class,
     Radio::class,
+    Range::class,
     Rating::class,
     Progress::class,
     ProgressCircle::class,
@@ -47,6 +49,33 @@ test('should use attribute', function (string $component) {
     Tooltip::class,
     Toggle::class,
 ]);
+
+test('attribute should only be used in the components', function () {
+    expect(ColorsThroughOf::class)
+        ->toOnlyBeUsedIn([
+            CompileColors::class,
+            Alert::class,
+            Avatar::class,
+            Button::class,
+            Badge::class,
+            Banner::class,
+            Boolean::class,
+            Circle::class,
+            Checkbox::class,
+            Dialog::class,
+            Errors::class,
+            Link::class,
+            Radio::class,
+            Range::class,
+            Rating::class,
+            Progress::class,
+            ProgressCircle::class,
+            Stats::class,
+            Toast::class,
+            Tooltip::class,
+            Toggle::class,
+        ]);
+});
 
 test('should return a correct array', function () {
     $colors = CompileColors::of(new Alert);
