@@ -1,11 +1,11 @@
 <?php
 
 use Illuminate\View\Component;
-use TallStackUi\Foundation\Support\Concerns\TallStackUiComponent\ManagesBindProperty;
-use TallStackUi\Foundation\Support\Concerns\TallStackUiComponent\ManagesClasses;
-use TallStackUi\Foundation\Support\Concerns\TallStackUiComponent\ManagesCompilation;
-use TallStackUi\Foundation\Support\Concerns\TallStackUiComponent\ManagesOutput;
-use TallStackUi\Foundation\Support\Concerns\TallStackUiComponent\ManagesRender;
+use TallStackUi\Foundation\Support\Concerns\BaseComponent\ManagesBindProperty;
+use TallStackUi\Foundation\Support\Concerns\BaseComponent\ManagesClasses;
+use TallStackUi\Foundation\Support\Concerns\BaseComponent\ManagesCompilation;
+use TallStackUi\Foundation\Support\Concerns\BaseComponent\ManagesOutput;
+use TallStackUi\Foundation\Support\Concerns\BaseComponent\ManagesRender;
 use TallStackUi\TallStackUiComponent;
 
 test('TallStackUiComponent should be abstract')

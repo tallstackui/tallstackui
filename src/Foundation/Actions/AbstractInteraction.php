@@ -45,7 +45,11 @@ abstract class AbstractInteraction
      */
     abstract public function warning(string $title, ?string $description = null): self;
 
-    /** @throws Exception */
+    /**
+     * Thrown an exception if the component is not being used inside Livewire context.
+     *
+     * @throws Exception
+     */
     public function wireable(string $what): void
     {
         if ($this->component && $this->component->getId()) {

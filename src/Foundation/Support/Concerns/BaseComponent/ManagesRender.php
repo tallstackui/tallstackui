@@ -1,6 +1,6 @@
 <?php
 
-namespace TallStackUi\Foundation\Support\Concerns\TallStackUiComponent;
+namespace TallStackUi\Foundation\Support\Concerns\BaseComponent;
 
 use Closure;
 use Illuminate\Contracts\View\View;

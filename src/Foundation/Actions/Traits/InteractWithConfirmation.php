@@ -14,11 +14,9 @@ trait InteractWithConfirmation
     {
         $this->wireable('cancel');
 
-        $message = $this->messages()[1];
-
         $this->data['options']['cancel'] = [
             'static' => blank($text) && blank($method),
-            'text' => $text ?? $message,
+            'text' => $text ?? $this->messages()[1],
             'method' => $method,
             'params' => is_array($params) ? [...$params] : $params,
         ];
@@ -31,11 +29,9 @@ trait InteractWithConfirmation
     {
         $this->wireable('confirm');
 
-        $message = $this->messages()[0];
-
         $this->data['options']['confirm'] = [
             'static' => blank($text) && blank($method),
-            'text' => $text ?? $message,
+            'text' => $text ?? $this->messages()[0],
             'method' => $method,
             'params' => is_array($params) ? [...$params] : $params,
         ];

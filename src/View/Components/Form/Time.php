@@ -95,7 +95,7 @@ class Time extends TallStackUiComponent implements Personalization
             return;
         }
 
-        if (($this->minHour && $this->maxHour)) {
+        if ($this->minHour && $this->maxHour) {
             if ($this->minHour < 0 || $this->minHour > 23) {
                 throw new InvalidArgumentException('The date [min-hour] must be between 0 and 23.');
             }
@@ -109,7 +109,7 @@ class Time extends TallStackUiComponent implements Personalization
             }
         }
 
-        if (($this->minMinute && $this->maxMinute)) {
+        if ($this->minMinute && $this->maxMinute) {
             if ($this->minMinute < 0 || $this->minMinute > 59) {
                 throw new InvalidArgumentException('The date [min-minute] must be between 0 and 59.');
             }

@@ -1,6 +1,6 @@
 <?php
 
-namespace TallStackUi\Foundation\Support\Concerns\TallStackUiComponent;
+namespace TallStackUi\Foundation\Support\Concerns\BaseComponent;
 
 use TallStackUi\Foundation\Support\Colors\CompileColors;
 use TallStackUi\Foundation\Support\Configurations\CompileConfigurations;
