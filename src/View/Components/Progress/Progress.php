@@ -5,13 +5,16 @@ namespace TallStackUi\View\Components\Progress;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\ComponentSlot;
+use TallStackUi\Foundation\Attributes\ColorsThroughOf;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Foundation\Support\Colors\Components\ProgressColors;
 use TallStackUi\TallStackUiComponent;
 use TallStackUi\View\Components\Progress\Traits\SetupProgress;
 
 #[SoftPersonalization('progress')]
+#[ColorsThroughOf(ProgressColors::class)]
 class Progress extends TallStackUiComponent implements Personalization
 {
     use SetupProgress;

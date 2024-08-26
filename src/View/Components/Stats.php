@@ -5,14 +5,17 @@ namespace TallStackUi\View\Components;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\ComponentSlot;
+use TallStackUi\Foundation\Attributes\ColorsThroughOf;
 use TallStackUi\Foundation\Attributes\PassThroughRuntime;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Foundation\Support\Colors\Components\StatsColors;
 use TallStackUi\Foundation\Support\Runtime\Components\StatsRuntime;
 use TallStackUi\TallStackUiComponent;
 
 #[SoftPersonalization('stats')]
+#[ColorsThroughOf(StatsColors::class)]
 #[PassThroughRuntime(StatsRuntime::class)]
 class Stats extends TallStackUiComponent implements Personalization
 {

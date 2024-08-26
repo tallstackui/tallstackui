@@ -5,11 +5,14 @@ namespace TallStackUi\View\Components\Interaction;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use InvalidArgumentException;
+use TallStackUi\Foundation\Attributes\ColorsThroughOf;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Foundation\Support\Colors\Components\ToastColors;
 use TallStackUi\TallStackUiComponent;
 
 #[SoftPersonalization('toast')]
+#[ColorsThroughOf(ToastColors::class)]
 class Toast extends TallStackUiComponent implements Personalization
 {
     public function blade(): View

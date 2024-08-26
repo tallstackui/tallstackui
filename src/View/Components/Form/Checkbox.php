@@ -5,14 +5,17 @@ namespace TallStackUi\View\Components\Form;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\ComponentSlot;
+use TallStackUi\Foundation\Attributes\ColorsThroughOf;
 use TallStackUi\Foundation\Attributes\PassThroughRuntime;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Foundation\Support\Colors\Components\RadioColors;
 use TallStackUi\Foundation\Support\Runtime\Components\CheckboxRuntime;
 use TallStackUi\TallStackUiComponent;
 use TallStackUi\View\Components\Form\Traits\Setup;
 
+#[ColorsThroughOf(RadioColors::class)]
 #[SoftPersonalization('form.checkbox')]
 #[PassThroughRuntime(CheckboxRuntime::class)]
 class Checkbox extends TallStackUiComponent implements Personalization

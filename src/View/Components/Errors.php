@@ -7,11 +7,14 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\ViewErrorBag;
 use Illuminate\View\ComponentSlot;
 use InvalidArgumentException;
+use TallStackUi\Foundation\Attributes\ColorsThroughOf;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Foundation\Support\Colors\Components\ErrorsColors;
 use TallStackUi\TallStackUiComponent;
 
 #[SoftPersonalization('errors')]
+#[ColorsThroughOf(ErrorsColors::class)]
 class Errors extends TallStackUiComponent implements Personalization
 {
     public function __construct(

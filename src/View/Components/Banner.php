@@ -8,12 +8,15 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use InvalidArgumentException;
+use TallStackUi\Foundation\Attributes\ColorsThroughOf;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Foundation\Support\Colors\Components\BannerColors;
 use TallStackUi\TallStackUiComponent;
 
 #[SoftPersonalization('banner')]
+#[ColorsThroughOf(BannerColors::class)]
 class Banner extends TallStackUiComponent implements Personalization
 {
     public function __construct(

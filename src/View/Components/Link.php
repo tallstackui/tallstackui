@@ -6,12 +6,15 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use InvalidArgumentException;
+use TallStackUi\Foundation\Attributes\ColorsThroughOf;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Foundation\Support\Colors\Components\LinkColors;
 use TallStackUi\TallStackUiComponent;
 
 #[SoftPersonalization('link')]
+#[ColorsThroughOf(LinkColors::class)]
 class Link extends TallStackUiComponent implements Personalization
 {
     public function __construct(

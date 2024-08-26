@@ -4,14 +4,17 @@ namespace TallStackUi\View\Components\Form;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
+use TallStackUi\Foundation\Attributes\ColorsThroughOf;
 use TallStackUi\Foundation\Attributes\PassThroughRuntime;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Foundation\Support\Colors\Components\RangeColors;
 use TallStackUi\Foundation\Support\Runtime\Components\RangeRuntime;
 use TallStackUi\TallStackUiComponent;
 
 #[SoftPersonalization('form.range')]
+#[ColorsThroughOf(RangeColors::class)]
 #[PassThroughRuntime(RangeRuntime::class)]
 class Range extends TallStackUiComponent implements Personalization
 {

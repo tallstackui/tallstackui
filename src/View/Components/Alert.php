@@ -4,12 +4,15 @@ namespace TallStackUi\View\Components;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
+use TallStackUi\Foundation\Attributes\ColorsThroughOf;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Foundation\Support\Colors\Components\AlertColors;
 use TallStackUi\TallStackUiComponent;
 
 #[SoftPersonalization('alert')]
+#[ColorsThroughOf(AlertColors::class)]
 class Alert extends TallStackUiComponent implements Personalization
 {
     public function __construct(
