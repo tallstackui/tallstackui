@@ -21,13 +21,9 @@ return [
     | Assets Fallback
     |--------------------------------------------------------------------------
     |
-    | This controls the fallback behavior for loading assets. By enabling this,
-    | if the TallStackUi asset (JS or CSS) cannot find the asset file, the
-    | existing file will be used. This is useful for troubleshooting cases where
-    | '/tallstackui/style/tallstackui-LriLsbSV.css net::ERR_ABORTED 404 (Not Found)'
-    | occurs, but can be an issue with fetching old, out-of-date files. We recommend
-    | only enabling this if you are certain that "ERR_ABORTED 404 (Not Found)" issues
-    | are not occurring due to invalid application or Browser's cache.
+    | Controls the fallback behavior for loading assets.
+    |
+    | READ THE DOCS BEFORE ENABLING THIS FEATURE.
     */
     'assets_fallback' => false,
 

@@ -25,26 +25,26 @@ class TallStackUiAssetsController
         return Utils::pretendResponseIsFile(__DIR__.'/../../../dist/'.$file, 'text/css');
     }
 
-    /** @throws Exception */
+    /**
+     * Apply assets fallback feature.
+     *
+     * @throws Exception
+     */
     private function fallback(string $file): string
     {
-        $fallback = __ts_configuration('assets_fallback')->first();
-
-        if (! $fallback) {
-            return $file;
-        }
-
-        if (file_exists(__DIR__.'/../../../dist/'.$file)) {
+        if (__ts_configuration('assets_fallback')->first() === false || file_exists(__DIR__.'/../../../dist/'.$file)) {
             return $file;
         }
 
         $type = str_contains($file, '.css') ? 'css' : 'js';
-        $plugin = request()->query('plugin');
+        $plugin = (string) request()->query('plugin');
 
+        // We get all files from the dist directory and filter them according to their type
+        // and also whether the request is for a "plugin" and whether the file contains the plugin name.
         $files = collect(scandir(__DIR__.'/../../../dist'))
             ->filter(fn (string $file) => preg_match('/\.'.$type.'$/', $file))
             ->filter(function (string $file) use ($plugin) {
-                if (! $plugin) {
+                if (blank($plugin)) {
                     return $file;
                 }
 
