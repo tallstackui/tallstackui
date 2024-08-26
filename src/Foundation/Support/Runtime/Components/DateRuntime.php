@@ -19,7 +19,7 @@ class DateRuntime extends AbstractRuntime
             'error' => $bind->get('error'),
             'id' => $bind->get('id'),
             'entangle' => $bind->get('entangle'),
-            'value' => $value = __ts_sanitize_value($this->data['attributes']?->get('value'), $property, $this->wireable()),
+            'value' => $value = $this->sanitize(),
             'change' => $this->change(),
         ];
 

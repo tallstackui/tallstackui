@@ -20,7 +20,6 @@ class CompileRuntime
 
         return app($class, [
             'data' => $data,
-            'component' => $component,
             'livewire' => $livewire,
             'errors' => $errors,
         ])->runtime();
