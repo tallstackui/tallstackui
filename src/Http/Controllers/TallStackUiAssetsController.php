@@ -6,31 +6,52 @@ use Exception;
 use Livewire\Drawer\Utils;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Response;
-use TallStackUi\Foundation\Support\Blade\Directives;
 
 class TallStackUiAssetsController
 {
     /** @throws Exception */
     public function script(?string $file = null): Response|BinaryFileResponse
     {
-        if (! file_exists($path = __DIR__.'/../../../dist/'.$file)) {
-            $files = Directives::built('js');
+        $file = $this->fallback($file);
 
-            abort(new Response('File not found: '.$file.'. Available files: '.implode(', ', $files), 404));
-        }
-
-        return Utils::pretendResponseIsFile($path, 'text/javascript');
+        return Utils::pretendResponseIsFile(__DIR__.'/../../../dist/'.$file, 'text/javascript');
     }
 
     /** @throws Exception */
     public function style(?string $file = null): Response|BinaryFileResponse
     {
-        if (! file_exists($path = __DIR__.'/../../../dist/'.$file)) {
-            $files = Directives::built('js');
+        $file = $this->fallback($file);
 
-            abort(new Response('File not found: '.$file.'. Available files: '.implode(', ', $files), 404));
+        return Utils::pretendResponseIsFile(__DIR__.'/../../../dist/'.$file, 'text/css');
+    }
+
+    /** @throws Exception */
+    private function fallback(string $file): string
+    {
+        $fallback = __ts_configuration('assets_fallback')->first();
+
+        if (! $fallback) {
+            return $file;
         }
 
-        return Utils::pretendResponseIsFile($path, 'text/css');
+        if (file_exists(__DIR__.'/../../../dist/'.$file)) {
+            return $file;
+        }
+
+        $type = str_contains($file, '.css') ? 'css' : 'js';
+        $plugin = request()->query('plugin');
+
+        $files = collect(scandir(__DIR__.'/../../../dist'))
+            ->filter(fn (string $file) => preg_match('/\.'.$type.'$/', $file))
+            ->filter(function (string $file) use ($plugin) {
+                if (! $plugin) {
+                    return $file;
+                }
+
+                return str_contains($file, $plugin);
+            })
+            ->toArray();
+
+        return rescue(fn () => reset($files), $file, false);
     }
 }

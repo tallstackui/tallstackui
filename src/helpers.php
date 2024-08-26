@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
 use Symfony\Component\Finder\SplFileInfo;
@@ -104,8 +105,7 @@ if (! function_exists('__ts_configuration')) {
 
         $config = config('tallstackui');
 
-        // Test if $index exists on the config array.
-        if (! data_get($config, $index)) {
+        if ($index !== '' && Arr::has($config, $index) === false) {
             throw new Exception("Configuration [{$index}] does not exist");
         }
 
