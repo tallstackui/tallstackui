@@ -2,6 +2,7 @@
 
 namespace TallStackUi\Foundation\Support\Runtime;
 
+use ReflectionException;
 use TallStackUi\Foundation\Attributes\PassThroughRuntime;
 use TallStackUi\Foundation\Support\Miscellaneous\ReflectComponent;
 
@@ -14,6 +15,7 @@ use TallStackUi\Foundation\Support\Miscellaneous\ReflectComponent;
 // the original variables, but rather create new ones.
 class CompileRuntime
 {
+    /** @throws ReflectionException */
     public static function of(string $component, array $data, array $shared): array
     {
         $reflect = app(ReflectComponent::class, ['component' => $component]);
