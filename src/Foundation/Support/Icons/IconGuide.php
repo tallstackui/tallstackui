@@ -9,7 +9,7 @@ class IconGuide
     /**
      * Supported icon libraries.
      */
-    final public const Supported = [
+    public const Supported = [
         'heroicons',
         'phosphoricons',
         'google',
