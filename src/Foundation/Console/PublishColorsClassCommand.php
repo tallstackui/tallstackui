@@ -28,6 +28,7 @@ class PublishColorsClassCommand extends Command
         }
 
         $components = __ts_components_using_attribute(ColorsThroughOf::class)
+            // We remove the Circle component because its colors are personalized via Progress.
             ->reject(fn (string $component): bool => str($component)->contains('Circle'))
             ->mapWithKeys(function (string $component): array {
                 $component = str($component)
