@@ -1,6 +1,6 @@
 <?php
 
-use TallStackUi\Http\Controllers\TallStackUiAssetsController;
+use TallStackUi\Foundation\Http\Controllers\TallStackUiAssetsController;
 
 test('contains all methods')
     ->expect(TallStackUiAssetsController::class)

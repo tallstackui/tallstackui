@@ -3,8 +3,11 @@
 namespace TallStackUi\Foundation\Support\Colors\Concerns;
 
 use Illuminate\Support\Arr;
+use Illuminate\View\Component;
 use ReflectionClass;
+use ReflectionException;
 use ReflectionMethod;
+use TallStackUi\Foundation\Support\Miscellaneous\ReflectComponent;
 
 use function Livewire\invade;
 
@@ -15,9 +18,14 @@ trait SetupColors
      */
     protected array $classes = [];
 
+    /** @throws ReflectionException */
+    public function __construct(protected Component $component, protected ReflectComponent $reflect)
+    {
+        $this->setup();
+    }
+
     /**
-     * This method is used to build the strings to data_get format:
-     * Using: $this->getter('foo', 'bar') will result in: foo.bar
+     * Format the string to the data_get format (dot notation).
      *
      * @param  string  ...$terms
      */
@@ -51,6 +59,8 @@ trait SetupColors
 
     /**
      * Set up the colors for the component.
+     *
+     * @throws ReflectionException
      */
     protected function setup(): void
     {

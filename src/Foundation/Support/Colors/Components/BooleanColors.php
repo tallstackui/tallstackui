@@ -2,11 +2,11 @@
 
 namespace TallStackUi\Foundation\Support\Colors\Components;
 
-use TallStackUi\Foundation\Support\Colors\Concerns\ShareableConstructor;
+use TallStackUi\Foundation\Support\Colors\Concerns\SetupColors;
 
 class BooleanColors
 {
-    use ShareableConstructor;
+    use SetupColors;
 
     public function colors(): array
     {

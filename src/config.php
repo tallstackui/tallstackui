@@ -25,7 +25,7 @@ return [
     |
     | READ THE DOCS BEFORE ENABLING THIS FEATURE.
     */
-    'assets_fallback' => false,
+    'assets_fallback' => env('TALLSTACKUI_ASSETS_FALLBACK', false),
 
     /*
     |--------------------------------------------------------------------------
