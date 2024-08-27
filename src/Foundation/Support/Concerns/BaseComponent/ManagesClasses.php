@@ -63,7 +63,6 @@ trait ManagesClasses
             }
         }
 
-        // If $scoped !== [] we merge the soft with scoped, but prioritize scoped.
         $merge = $scoped === []
             ? $soft
             : Arr::only(array_merge($soft, $scoped), array_keys($scoped));

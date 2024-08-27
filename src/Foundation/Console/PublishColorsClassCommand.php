@@ -6,7 +6,7 @@ use Exception;
 use Illuminate\Console\Command;
 use TallStackUi\Foundation\Attributes\ColorsThroughOf;
 
-use function Laravel\Prompts\select;
+use function Laravel\Prompts\suggest;
 
 class PublishColorsClassCommand extends Command
 {
@@ -28,7 +28,8 @@ class PublishColorsClassCommand extends Command
         }
 
         $components = __ts_components_using_attribute(ColorsThroughOf::class)
-            ->mapWithKeys(function (string $component, int $key) {
+            ->reject(fn (string $component): bool => str($component)->contains('Circle'))
+            ->mapWithKeys(function (string $component): array {
                 $component = str($component)
                     ->remove('TallStackUi\\View\\Components\\')
                     ->afterLast('\\')
@@ -38,7 +39,7 @@ class PublishColorsClassCommand extends Command
             })
             ->all();
 
-        $this->component = select('Select the component to personalize', $components, hint: 'Only colored components are listed.', required: true);
+        $this->component = suggest('Select the component to personalize the colors', $components, required: true, hint: 'Only colored components are listed.');
 
         return $this->publish();
     }

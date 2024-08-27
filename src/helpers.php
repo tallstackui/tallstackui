@@ -11,7 +11,7 @@ if (! function_exists('__ts_components_using_attribute')) {
     /**
      * Get all components that use the given attribute.
      */
-    function __ts_components_using_attribute(?string $attribute = null): Collection
+    function __ts_components_using_attribute(string $attribute): Collection
     {
         return collect(File::allFiles(__DIR__.'/View/Components'))
             ->map(fn (SplFileInfo $file) => 'TallStackUi\\View\\'.str($file->getPathname())->after('View/')
