@@ -1,4 +1,4 @@
-import {error, warning, wireChange} from '../../helpers';
+import {error, warning, wireChange} from '../../../helpers';
 import {body} from './helpers';
 
 export default (

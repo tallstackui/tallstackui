@@ -9,7 +9,7 @@ import dropdown from './components/dropdown/dropdown';
 import loading from './components/loading/loading';
 import modal from './components/modal/modal';
 import number from './components/form/number';
-import select from './components/select/select';
+import select from './components/form/select/select';
 import slide from './components/slide/slide';
 import stats from './components/stats/stats';
 import password from './components/form/password';
