@@ -12,8 +12,8 @@ use TallStackUi\Foundation\Support\Runtime\Components\TagRuntime;
 use TallStackUi\TallStackUiComponent;
 use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
 
-#[PassThroughRuntime(TagRuntime::class)]
 #[SoftPersonalization('form.tag')]
+#[PassThroughRuntime(TagRuntime::class)]
 class Tag extends TallStackUiComponent implements Personalization
 {
     use DefaultInputClasses;

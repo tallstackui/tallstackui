@@ -14,8 +14,8 @@ use TallStackUi\Foundation\Support\Runtime\Components\TimeRuntime;
 use TallStackUi\TallStackUiComponent;
 use TallStackUi\View\Components\Floating;
 
-#[PassThroughRuntime(TimeRuntime::class)]
 #[SoftPersonalization('form.time')]
+#[PassThroughRuntime(TimeRuntime::class)]
 class Time extends TallStackUiComponent implements Personalization
 {
     public function __construct(

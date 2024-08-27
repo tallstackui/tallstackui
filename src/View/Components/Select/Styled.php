@@ -17,8 +17,8 @@ use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
 use TallStackUi\View\Components\Select\Traits\Setup;
 use Throwable;
 
-#[PassThroughRuntime(SelectStyledRuntime::class)]
 #[SoftPersonalization('select.styled')]
+#[PassThroughRuntime(SelectStyledRuntime::class)]
 class Styled extends TallStackUiComponent implements Personalization
 {
     use DefaultInputClasses;

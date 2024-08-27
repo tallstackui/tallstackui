@@ -12,8 +12,8 @@ use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\Support\Runtime\Components\PinRuntime;
 use TallStackUi\TallStackUiComponent;
 
-#[PassThroughRuntime(PinRuntime::class)]
 #[SoftPersonalization('form.pin')]
+#[PassThroughRuntime(PinRuntime::class)]
 class Pin extends TallStackUiComponent implements Personalization
 {
     public function __construct(

@@ -17,8 +17,8 @@ use TallStackUi\TallStackUiComponent;
 use TallStackUi\View\Components\Floating;
 
 #[RequireLivewireContext]
-#[PassThroughRuntime(UploadRuntime::class)]
 #[SoftPersonalization('form.upload')]
+#[PassThroughRuntime(UploadRuntime::class)]
 class Upload extends TallStackUiComponent implements Personalization
 {
     public function __construct(

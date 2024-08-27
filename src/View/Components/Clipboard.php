@@ -87,17 +87,6 @@ class Clipboard extends TallStackUiComponent implements Personalization
         }
     }
 
-    protected function setup(array $data)
-    {
-        //        $text ??= $slot->toHtml();
-        //        $hash = md5($text.uniqid());
-        //        $personalize = $classes();
-        //        $validating($text);
-        //
-        //        $this->text ??= $this->attributes-
-        //dd($this->data());
-    }
-
     /** @throws InvalidArgumentException */
     protected function validate(): void
     {
