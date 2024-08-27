@@ -4,34 +4,12 @@ namespace TallStackUi\Foundation\Console;
 
 use Exception;
 use Illuminate\Console\Command;
+use TallStackUi\Foundation\Attributes\ColorsThroughOf;
 
 use function Laravel\Prompts\select;
 
 class PublishColorsClassCommand extends Command
 {
-    /**
-     * List of available components whose colors can be customized.
-     */
-    private const COMPONENTS = [
-        'Alert',
-        'Avatar',
-        'Badge',
-        'Banner',
-        'Boolean',
-        'Button',
-        'Dialog',
-        'Errors',
-        'Link',
-        'Progress',
-        'Radio',
-        'Range',
-        'Rating',
-        'Stats',
-        'Toast',
-        'Toggle',
-        'Tooltip',
-    ];
-
     public $description = 'TallStackUI command to publish stubs to personalize colors.';
 
     public $signature = 'tallstackui:personalize-colors';
@@ -49,7 +27,18 @@ class PublishColorsClassCommand extends Command
             return self::FAILURE;
         }
 
-        $this->component = select('Select the component to personalize', self::COMPONENTS, hint: 'Only colored components are listed.', required: true);
+        $components = __ts_components_using_attribute(ColorsThroughOf::class)
+            ->mapWithKeys(function (string $component, int $key) {
+                $component = str($component)
+                    ->remove('TallStackUi\\View\\Components\\')
+                    ->afterLast('\\')
+                    ->value();
+
+                return [$component => $component];
+            })
+            ->all();
+
+        $this->component = select('Select the component to personalize', $components, hint: 'Only colored components are listed.', required: true);
 
         return $this->publish();
     }

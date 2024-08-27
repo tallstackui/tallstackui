@@ -7,25 +7,35 @@ use Symfony\Component\Finder\SplFileInfo;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Support\Miscellaneous\ReflectComponent;
 
-if (! function_exists('__ts_components')) {
+if (! function_exists('__ts_components_using_attribute')) {
     /**
-     * Recursively maps all Blade components that use the
-     * SoftPersonalization attribute to the soft personalization.
+     * Get all components that use the given attribute.
      */
-    function __ts_components(): array
+    function __ts_components_using_attribute(?string $attribute = null): Collection
     {
-        // This strategy was adopted by deep personalization. If the original component
-        // class was changed to some custom component, we would have some problems.
         return collect(File::allFiles(__DIR__.'/View/Components'))
             ->map(fn (SplFileInfo $file) => 'TallStackUi\\View\\'.str($file->getPathname())->after('View/')
                 ->remove('.php')
                 ->replace('/', '\\')
                 ->value())
-            ->filter(fn (string $component) => (new ReflectionClass($component))->getAttributes(SoftPersonalization::class)) // @phpstan-ignore-line
-            ->mapWithKeys(function (string $component) {
+            ->filter(fn (string $component) => (new ReflectionClass($component))->getAttributes($attribute)); // @phpstan-ignore-line
+    }
+}
+
+if (! function_exists('__ts_components')) {
+    /**
+     * Get all components that use the SoftPersonalization attribute.
+     */
+    function __ts_components(): array
+    {
+        return __ts_components_using_attribute(SoftPersonalization::class)
+            ->mapWithKeys(function (string $component): array {
                 $reflect = new ReflectComponent($component);
 
-                return [$reflect->attribute(SoftPersonalization::class)->newInstance()->prefixed() => $reflect->class()->getName()];
+                /** @var SoftPersonalization $instance */
+                $instance = $reflect->attribute(SoftPersonalization::class)->newInstance();
+
+                return [$instance->prefixed() => $reflect->class()->getName()];
             })
             ->toArray();
     }
