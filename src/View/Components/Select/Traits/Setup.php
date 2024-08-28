@@ -12,6 +12,7 @@ trait Setup
             ? $this->options->values()->toArray()
             : array_values($this->options);
 
+        // TODO: create a browser test for it.
         $this->select ??= $this->options !== [] ? 'label:label|value:value' : $this->select;
 
         if (! $this->select || ($this->options !== [] && ! is_array($this->options[0]))) {
