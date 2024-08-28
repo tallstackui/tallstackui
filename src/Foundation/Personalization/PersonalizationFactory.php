@@ -22,25 +22,25 @@ class PersonalizationFactory
     public ?string $block = null;
 
     /**
+     * Original classes of the component with changes applied.
+     */
+    private readonly Collection $changes;
+
+    /**
      * Interactions, for when we are personalizing without $code for the block.
      */
     private Collection $interactions;
-
-    /**
-     * Original classes of the component personalization.
-     */
-    private readonly Collection $originals;
 
     /**
      * Parts of the component personalization.
      */
     private Collection $parts;
 
-    public function __construct(private readonly string $component, private readonly ?string $scope = null)
+    public function __construct(public readonly string $component, private readonly ?string $scope = null)
     {
         $this->interactions = collect();
         $this->parts = collect();
-        $this->originals = collect(app($this->component)->personalization());
+        $this->changes = collect(app($this->component)->personalization());
     }
 
     /**
@@ -174,22 +174,22 @@ class PersonalizationFactory
         $block ??= $this->block;
 
         foreach ($this->interactions->get('replace', []) as $old => $new) {
-            $this->originals->put($block, str_replace($old, $new, (string) $this->originals->get($block)));
+            $this->changes->put($block, str_replace($old, $new, (string) $this->changes->get($block)));
         }
 
         if ($append = $this->interactions->get('append')) {
-            $this->originals->put($block, $this->originals->get($block).' '.$append);
+            $this->changes->put($block, $this->changes->get($block).' '.$append);
         }
 
         if ($prepend = $this->interactions->get('prepend')) {
-            $this->originals->put($block, $prepend.' '.$this->originals->get($block));
+            $this->changes->put($block, $prepend.' '.$this->changes->get($block));
         }
 
         foreach ($this->interactions->get('remove', []) as $class) {
-            $this->originals->put($block, str_replace($class, '', (string) $this->originals->get($block)));
+            $this->changes->put($block, str_replace($class, '', (string) $this->changes->get($block)));
         }
 
-        $content = fn () => trim($content ?? str($this->originals->get($block))->squish());
+        $content = fn () => trim($content ?? str($this->changes->get($block))->squish());
 
         $parts = $this->parts->toArray();
 

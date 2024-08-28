@@ -10,9 +10,9 @@ use function Laravel\Prompts\text;
 
 class SetupPrefixCommand extends Command
 {
-    public $description = 'TallStackUI command used to set up the component prefix.';
+    public $description = 'Set up Component prefix.';
 
-    public $signature = 'tallstackui:setup-prefix';
+    public $signature = 'tallstackui:prefix';
 
     public function handle(): int
     {

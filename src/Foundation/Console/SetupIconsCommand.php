@@ -18,9 +18,9 @@ class SetupIconsCommand extends Command
 {
     private const PATH = __DIR__.'/../../resources/views/components/icon/';
 
-    public $description = 'TallStackUI command used to set up custom icons.';
+    public $description = 'Set up different custom icons.';
 
-    public $signature = 'tallstackui:setup-icons {--force : Install icons even when the icons are already installed}';
+    public $signature = 'tallstackui:icons {--force : Install icons even when the icons are already installed}';
 
     protected ?Collection $data = null;
 

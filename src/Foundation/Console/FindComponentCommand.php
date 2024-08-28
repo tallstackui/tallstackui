@@ -24,9 +24,9 @@ class FindComponentCommand extends Command
         'wrapper.radio',
     ];
 
-    public $description = 'TallStackUI command used to find component usages.';
+    public $description = 'Find Components occurrences usage through all Blade files.';
 
-    public $signature = 'tallstackui:find-component';
+    public $signature = 'tallstackui:occurrences';
 
     public function handle(): int
     {

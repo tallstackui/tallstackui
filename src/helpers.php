@@ -7,11 +7,11 @@ use Symfony\Component\Finder\SplFileInfo;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Support\Miscellaneous\ReflectComponent;
 
-if (! function_exists('__ts_components_using_attribute')) {
+if (! function_exists('__ts_filter_components_using_attribute')) {
     /**
-     * Get all components that use the given attribute.
+     * Filter all components that use the given attribute.
      */
-    function __ts_components_using_attribute(string $attribute): Collection
+    function __ts_filter_components_using_attribute(string $attribute): Collection
     {
         return collect(File::allFiles(__DIR__.'/View/Components'))
             ->map(fn (SplFileInfo $file) => 'TallStackUi\\View\\'.str($file->getPathname())->after('View/')
@@ -28,7 +28,7 @@ if (! function_exists('__ts_components')) {
      */
     function __ts_components(): array
     {
-        return __ts_components_using_attribute(SoftPersonalization::class)
+        return __ts_filter_components_using_attribute(SoftPersonalization::class)
             ->mapWithKeys(function (string $component): array {
                 $reflect = new ReflectComponent($component);
 

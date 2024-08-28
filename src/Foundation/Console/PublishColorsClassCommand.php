@@ -10,14 +10,9 @@ use function Laravel\Prompts\suggest;
 
 class PublishColorsClassCommand extends Command
 {
-    public $description = 'TallStackUI command to publish stubs to personalize colors.';
+    public $description = 'Publish stubs to personalize Component colors.';
 
-    public $signature = 'tallstackui:personalize-colors';
-
-    /**
-     * The selected component.
-     */
-    private string $component;
+    public $signature = 'tallstackui:colors';
 
     public function handle(): int
     {
@@ -27,7 +22,7 @@ class PublishColorsClassCommand extends Command
             return self::FAILURE;
         }
 
-        $components = __ts_components_using_attribute(ColorsThroughOf::class)
+        $components = __ts_filter_components_using_attribute(ColorsThroughOf::class)
             // We remove the Circle component because its colors are personalized via Progress.
             ->reject(fn (string $component): bool => str($component)->contains('Circle'))
             ->mapWithKeys(function (string $component): array {
@@ -40,14 +35,14 @@ class PublishColorsClassCommand extends Command
             })
             ->all();
 
-        $this->component = suggest('Select the component to personalize the colors', $components, required: true, hint: 'Only colored components are listed.');
+        $component = suggest('Select the component to personalize the colors', $components, required: true, hint: 'Only colored components are listed.');
 
-        return $this->publish();
+        return $this->publish($component);
     }
 
-    private function publish(): int
+    private function publish(string $component): int
     {
-        $collect = __ts_class_collection($this->component);
+        $collect = __ts_class_collection($component);
 
         if ($collect->get('file_exists') === true) {
             $this->components->error('According to the namespace, the class file already exists.');
