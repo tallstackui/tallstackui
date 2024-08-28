@@ -223,6 +223,6 @@ class PersonalizationFactory
         // We leave everything prepared and linked with the
         // Blade file associated with the component so that
         // the $classes() call obtains the personalization.
-        Facade::composer($view, fn (View $view) => $this->compile($block, is_callable($code) ? app()->call(fn () => $code($view->getData())) : $code));
+        Facade::composer($view, fn (View $view) => $this->compile($block, is_callable($code) ? $code($view->getData()) : $code));
     }
 }
