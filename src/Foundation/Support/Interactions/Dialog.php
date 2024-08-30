@@ -1,28 +1,15 @@
 <?php
 
-namespace TallStackUi\Foundation\Actions;
+namespace TallStackUi\Foundation\Support\Interactions;
 
-use TallStackUi\Foundation\Actions\Traits\DispatchInteraction;
-use TallStackUi\Foundation\Actions\Traits\InteractWithConfirmation;
+use TallStackUi\Foundation\Support\Interactions\Traits\DispatchInteraction;
+use TallStackUi\Foundation\Support\Interactions\Traits\InteractWithConfirmation;
 
-class Toast extends AbstractInteraction
+class Dialog extends AbstractInteraction
 {
     use DispatchInteraction;
     use InteractWithConfirmation;
 
-    /**
-     * Control the expandable effect.
-     */
-    protected ?bool $expand = null;
-
-    /**
-     * Control the timeout seconds.
-     */
-    protected ?int $timeout = 3;
-
-    /**
-     * {@inheritdoc}
-     */
     public function error(string $title, ?string $description = null): self
     {
         $this->data = [
@@ -31,15 +18,7 @@ class Toast extends AbstractInteraction
             'description' => $description,
         ];
 
-        return $this;
-    }
-
-    /**
-     * Sets the expandable effect.
-     */
-    public function expandable(bool $expand = true): self
-    {
-        $this->expand = $expand;
+        $this->static();
 
         return $this;
     }
@@ -55,6 +34,8 @@ class Toast extends AbstractInteraction
             'description' => $description,
         ];
 
+        $this->static();
+
         return $this;
     }
 
@@ -68,6 +49,8 @@ class Toast extends AbstractInteraction
             'title' => $title,
             'description' => $description,
         ];
+
+        $this->static();
 
         return $this;
     }
@@ -83,15 +66,7 @@ class Toast extends AbstractInteraction
             'description' => $description,
         ];
 
-        return $this;
-    }
-
-    /**
-     * Sets the timeout seconds.
-     */
-    public function timeout(?int $seconds = null): self
-    {
-        $this->timeout = $seconds ?? (int) config('tallstackui.settings.toast.timeout', 3);
+        $this->static();
 
         return $this;
     }
@@ -107,18 +82,9 @@ class Toast extends AbstractInteraction
             'description' => $description,
         ];
 
-        return $this;
-    }
+        $this->static();
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function additional(): array
-    {
-        return [
-            'expandable' => $this->expand ?? config('tallstackui.settings.toast.expandable', false),
-            'timeout' => $this->timeout,
-        ];
+        return $this;
     }
 
     /**
@@ -126,7 +92,7 @@ class Toast extends AbstractInteraction
      */
     protected function event(): string
     {
-        return 'toast';
+        return 'dialog';
     }
 
     /**
@@ -135,8 +101,8 @@ class Toast extends AbstractInteraction
     protected function messages(): array
     {
         return [
-            trans('tallstack-ui::messages.toast.button.confirm'),
-            trans('tallstack-ui::messages.toast.button.cancel'),
+            trans('tallstack-ui::messages.dialog.button.confirm'),
+            trans('tallstack-ui::messages.dialog.button.cancel'),
         ];
     }
 }
