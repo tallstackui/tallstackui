@@ -17,7 +17,7 @@
     "autoprefixer": "^10.4.19",
     "eslint": "^9.9.1",
     "globals": "^15.9.0",
-    "postcss": "^8.4.43",
+    "postcss": "^8.4.44",
     "postcss-import": "^16.0.1",
     "tailwindcss": "^3.4.10",
     "tippy.js": "^6.3.7",
