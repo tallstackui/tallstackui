@@ -57,7 +57,7 @@ class BladeDirectives
             $script = Facade::directives()->script();
             $style = Facade::directives()->style();
 
-            return match ($matches[1]) { // @phpstan-ignore-line
+            return match ($matches[1]) {
                 'setup' => "{$script}\n{$style}",
                 'script' => $script,
                 'style' => $style,
