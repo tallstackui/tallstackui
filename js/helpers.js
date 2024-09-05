@@ -41,7 +41,10 @@ export const overflow = (status, component = null, skip = false) => {
   if (status && (!exists || element.getAttribute(key) === component)) {
     element.classList.add('!overflow-hidden');
     element.setAttribute(key, component);
-    element.style.paddingRight = '15px'; // Fix the scrollbar jump.
+    // Prevent the scrollbar jump when the scrollbar is visible.
+    if (document.documentElement.scrollHeight > document.documentElement.clientHeight) {
+      element.style.paddingRight = '15px';
+    }
   } else if (!status && exists && element.getAttribute(key) === component) {
     element.removeAttribute(key);
     element.classList.remove('!overflow-hidden');
