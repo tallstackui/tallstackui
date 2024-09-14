@@ -20,6 +20,8 @@ class Card extends TallStackUiComponent implements Personalization
         public ?string $color = null,
         public ?bool $light = null,
         public ?bool $bordered = null,
+        public ?bool $minimize = null,
+        public ?bool $close = null,
         #[SkipDebug]
         public string $style = 'solid',
         #[SkipDebug]
@@ -46,7 +48,10 @@ class Card extends TallStackUiComponent implements Personalization
                 'second' => 'dark:bg-dark-700 flex w-full flex-col rounded-lg bg-white shadow-md',
             ],
             'header' => [
-                'wrapper' => 'dark:border-b-dark-600 flex items-center justify-between border-b border-b-gray-100 p-4',
+                'wrapper' => [
+                    'base' => 'dark:border-b-dark-600 flex items-center justify-between p-4',
+                    'border' => 'border-b border-gray-100',
+                ],
                 'text' => [
                     'size' => 'text-md font-medium',
                     'color' => 'text-secondary-700 dark:text-dark-300',

@@ -22,7 +22,7 @@ class Errors extends TallStackUiComponent implements Personalization
         public string|array|null $only = null,
         public ?string $icon = 'x-circle',
         public ?string $color = 'red',
-        public bool $close = false,
+        public ?bool $close = false,
         public ComponentSlot|string|null $footer = null,
     ) {
         $this->title ??= trans('tallstack-ui::messages.errors.title');
