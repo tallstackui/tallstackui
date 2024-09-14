@@ -20,11 +20,11 @@ class Signature extends TallStackUiComponent implements Personalization
         public ?string $label = null,
         public ?string $hint = null,
         public ?bool $invalidate = null,
-        public ?string $color = '#000000',
-        public ?string $background = 'transparent',
+        public ?string $color = '#000000', // test
+        public ?string $background = 'transparent', // test
         public int|float|null $line = 2,
         public ?int $height = 150,
-        public ?string $extension = 'png',
+        public ?string $extension = 'png', // rename it
     ) {
         //
     }
