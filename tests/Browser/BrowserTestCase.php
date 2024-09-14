@@ -3,12 +3,14 @@
 namespace Tests\Browser;
 
 use Closure;
+use Illuminate\Config\Repository;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 use Laravel\Dusk\Browser;
 use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\Dusk\Options;
 use Orchestra\Testbench\Dusk\TestCase;
+use TallStackUi\Facades\TallStackUi;
 use TallStackUi\TallStackUiServiceProvider;
 
 use function Livewire\trigger;
@@ -27,20 +29,14 @@ class BrowserTestCase extends TestCase
         return function () {};
     }
 
-    //    protected function getApplicationTimezone($app): string
-    //    {
-    //        return 'America/Sao_Paulo';
-    //    }
-
-    protected function getEnvironmentSetUp($app): void
+    protected function defineEnvironment($app): void
     {
         tap($app['session'], function ($session) {
             $session->put('_token', str()->random(40));
         });
 
-        tap($app['config'], function ($config) {
+        tap($app['config'], function (Repository $config) {
             $config->set('app.env', 'testing');
-            $config->set('app.timezone', 'America/Sao_Paulo');
             $config->set('app.debug', true);
             $config->set('view.paths', [__DIR__.'/views', resource_path('views')]);
             $config->set('app.key', 'base64:Hupx3yAySikrM2/edkZQNQHslgDWYfiBfCuSThJ5SK8=');
@@ -54,7 +50,20 @@ class BrowserTestCase extends TestCase
                 'driver' => 'local',
                 'root' => self::tmpPath(),
             ]);
+            $config->set('cache.default', 'array');
         });
+    }
+
+    protected function getApplicationTimezone($app): string
+    {
+        return (bool) getenv('GITHUB_ACTIONS') === false ? 'America/Sao_Paulo' : $app['config']['app.timezone'];
+    }
+
+    protected function getPackageAliases($app)
+    {
+        return [
+            'TallStackUi' => TallStackUi::class,
+        ];
     }
 
     protected function getPackageProviders($app): array

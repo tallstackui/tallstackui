@@ -5,13 +5,17 @@ namespace TallStackUi\View\Components;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use InvalidArgumentException;
+use TallStackUi\Foundation\Attributes\PassThroughRuntime;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Foundation\Support\Runtime\Components\ClipboardRuntime;
+use TallStackUi\TallStackUiComponent;
 use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
 
 #[SoftPersonalization('clipboard')]
-class Clipboard extends BaseComponent implements Personalization
+#[PassThroughRuntime(ClipboardRuntime::class)]
+class Clipboard extends TallStackUiComponent implements Personalization
 {
     use DefaultInputClasses;
 
@@ -28,7 +32,7 @@ class Clipboard extends BaseComponent implements Personalization
         #[SkipDebug]
         public ?string $type = null,
     ) {
-        $this->placeholders = __('tallstack-ui::messages.clipboard');
+        $this->placeholders = trans('tallstack-ui::messages.clipboard');
 
         $this->type = $this->icon ? 'icon' : 'input';
 
@@ -86,7 +90,7 @@ class Clipboard extends BaseComponent implements Personalization
     /** @throws InvalidArgumentException */
     protected function validate(): void
     {
-        $messages = __('tallstack-ui::messages.clipboard');
+        $messages = trans('tallstack-ui::messages.clipboard');
 
         if (blank(data_get($messages, 'button.copy'))) {
             throw new InvalidArgumentException('The clipboard [button.copy] message cannot be empty.');

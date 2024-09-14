@@ -2,17 +2,17 @@
 
 namespace TallStackUi;
 
-use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
-use TallStackUi\Facades\TallStackUi as Facade;
 use TallStackUi\Foundation\Console\FindComponentCommand;
+use TallStackUi\Foundation\Console\PublishColorsClassCommand;
 use TallStackUi\Foundation\Console\SetupIconsCommand;
 use TallStackUi\Foundation\Console\SetupPrefixCommand;
-use TallStackUi\Foundation\Personalization\Personalization;
-use TallStackUi\Foundation\Personalization\PersonalizationResources;
-use TallStackUi\Foundation\Support\Blade\BladeComponentPrefix;
-use TallStackUi\Foundation\Support\Blade\BladeDirectives;
+use TallStackUi\Foundation\Personalization\PersonalizationFactory;
+use TallStackUi\Foundation\Support\Blade\ComponentPrefix;
+use TallStackUi\Foundation\Support\Blade\Directives;
+
+include __DIR__.'/helpers.php';
 
 class TallStackUiServiceProvider extends ServiceProvider
 {
@@ -20,20 +20,18 @@ class TallStackUiServiceProvider extends ServiceProvider
     {
         $this->registerConfig();
 
-        $this->registerCommands();
-
         $this->registerComponents();
 
-        $this->registerComponentPersonalizations();
+        $this->registerComponentPersonalization();
 
-        BladeDirectives::register();
+        $this->registerCommands();
+
+        Directives::register();
     }
 
     public function register(): void
     {
         $this->app->singleton('TallStackUi', TallStackUi::class);
-
-        AliasLoader::getInstance()->alias('TallStackUi', Facade::class);
     }
 
     protected function registerCommands(): void
@@ -46,23 +44,22 @@ class TallStackUiServiceProvider extends ServiceProvider
             SetupIconsCommand::class,
             SetupPrefixCommand::class,
             FindComponentCommand::class,
+            PublishColorsClassCommand::class,
         ]);
     }
 
-    protected function registerComponentPersonalizations(): void
+    protected function registerComponentPersonalization(): void
     {
-        foreach (Personalization::components() as $key => $component) {
-            $this->app->singleton($key, fn () => new PersonalizationResources($component));
+        foreach (__ts_components() as $key => $class) {
+            $this->app->singleton($key, fn () => new PersonalizationFactory($class));
         }
     }
 
     protected function registerComponents(): void
     {
         $this->callAfterResolving(BladeCompiler::class, function (BladeCompiler $blade): void {
-            $prefix = app(BladeComponentPrefix::class);
-
-            foreach (config('tallstackui.components') as $alias => $class) {
-                $blade->component($class, $prefix($alias));
+            foreach (config('tallstackui.components') as $name => $class) {
+                $blade->component($class, app(ComponentPrefix::class)->add($name));
             }
         });
     }

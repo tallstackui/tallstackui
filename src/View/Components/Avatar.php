@@ -6,17 +6,22 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use InvalidArgumentException;
+use TallStackUi\Foundation\Attributes\ColorsThroughOf;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Foundation\Support\Colors\Components\AvatarColors;
+use TallStackUi\TallStackUiComponent;
 
 #[SoftPersonalization('avatar')]
-class Avatar extends BaseComponent implements Personalization
+#[ColorsThroughOf(AvatarColors::class)]
+class Avatar extends TallStackUiComponent implements Personalization
 {
     public function __construct(
         public ?Model $model = null,
         public ?string $text = null,
         public ?string $color = 'primary',
+        public ?string $image = null,
         public ?bool $xs = null,
         public ?bool $sm = null,
         public ?bool $md = null,
@@ -24,9 +29,10 @@ class Avatar extends BaseComponent implements Personalization
         public bool $square = false,
         public ?string $property = 'name',
         public ?string $background = '0D8ABC',
+        public ?bool $borderless = false,
+        public ?array $options = [],
         #[SkipDebug]
         public ?string $size = null,
-        public ?array $options = [],
     ) {
         $this->size = $this->xs ? 'xs' : ($this->sm ? 'sm' : ($this->lg ? 'lg' : 'md'));
     }

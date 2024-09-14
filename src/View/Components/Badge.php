@@ -4,12 +4,16 @@ namespace TallStackUi\View\Components;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
+use TallStackUi\Foundation\Attributes\ColorsThroughOf;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Foundation\Support\Colors\Components\BadgeColors;
+use TallStackUi\TallStackUiComponent;
 
 #[SoftPersonalization('badge')]
-class Badge extends BaseComponent implements Personalization
+#[ColorsThroughOf(BadgeColors::class)]
+class Badge extends TallStackUiComponent implements Personalization
 {
     public function __construct(
         public ?string $text = null,
@@ -22,11 +26,11 @@ class Badge extends BaseComponent implements Personalization
         public ?string $color = 'primary',
         public ?bool $square = false,
         public ?bool $round = false,
-        #[SkipDebug]
-        public ?string $size = null,
         public ?bool $solid = true,
         public ?bool $outline = null,
         public ?bool $light = null,
+        #[SkipDebug]
+        public ?string $size = null,
         #[SkipDebug]
         public ?string $style = null,
         #[SkipDebug]

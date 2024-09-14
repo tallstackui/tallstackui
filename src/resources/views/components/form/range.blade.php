@@ -1,5 +1,4 @@
 @php
-    [$property, $error, $id] = $bind($attributes, $errors ?? null, $livewire);
     $personalize = $classes();
 @endphp
 

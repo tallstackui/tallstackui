@@ -277,6 +277,153 @@ class IndexTest extends BrowserTestCase
     }
 
     /** @test */
+    public function can_use_close_hook()
+    {
+        Livewire::visit(new class extends Component
+        {
+            use Interactions;
+
+            public ?string $close = null;
+
+            public function success(): void
+            {
+                $this->dialog()
+                    ->success('Foo!')
+                    ->hook([
+                        'close' => [
+                            'method' => 'hook',
+                            'params' => 'close',
+                        ],
+                    ])
+                    ->send();
+            }
+
+            public function hook(string $term): void
+            {
+                $this->close = $term;
+            }
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="close">{{ $close }}</p>
+                
+                    <x-button dusk="success" wire:click="success">Success</x-button>
+                </div>
+                HTML;
+            }
+        })
+            ->assertDontSee('close')
+            ->assertDontSee('Foo')
+            ->assertSee('Success')
+            ->click('@success')
+            ->waitForText('Foo')
+            ->assertSee('Foo')
+            ->click('@tallstackui_dialog_close')
+            ->waitForTextIn('@close', 'close')
+            ->assertSee('close');
+    }
+
+    /** @test */
+    public function can_use_dismiss_hook()
+    {
+        Livewire::visit(new class extends Component
+        {
+            use Interactions;
+
+            public ?string $dismiss = null;
+
+            public function success(): void
+            {
+                $this->dialog()
+                    ->success('Foo!')
+                    ->hook([
+                        'dismiss' => [
+                            'method' => 'hook',
+                            'params' => 'dismiss',
+                        ],
+                    ])
+                    ->send();
+            }
+
+            public function hook(string $term): void
+            {
+                $this->dismiss = $term;
+            }
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="dismiss">{{ $dismiss }}</p>
+                
+                    <x-button dusk="success" wire:click="success">Success</x-button>
+                </div>
+                HTML;
+            }
+        })
+            ->assertDontSee('dismiss')
+            ->assertDontSee('Foo')
+            ->assertSee('Success')
+            ->click('@success')
+            ->waitForText('Foo')
+            ->assertSee('Foo')
+            ->clickAtPoint(350, 350)
+            ->waitForTextIn('@dismiss', 'dismiss')
+            ->assertSee('dismiss');
+    }
+
+    /** @test */
+    public function can_use_ok_hook()
+    {
+        Livewire::visit(new class extends Component
+        {
+            use Interactions;
+
+            public ?string $ok = null;
+
+            public function success(): void
+            {
+                $this->dialog()
+                    ->success('Foo!')
+                    ->hook([
+                        'ok' => [
+                            'method' => 'hook',
+                            'params' => 'ok',
+                        ],
+                    ])
+                    ->send();
+            }
+
+            public function hook(string $term): void
+            {
+                $this->ok = $term;
+            }
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="ok">{{ $ok }}</p>
+                
+                    <x-button dusk="success" wire:click="success">Success</x-button>
+                </div>
+                HTML;
+            }
+        })
+            ->assertDontSee('ok')
+            ->assertDontSee('Foo')
+            ->assertSee('Success')
+            ->click('@success')
+            ->waitForText('Foo')
+            ->assertSee('Foo')
+            ->click('@tallstackui_dialog_confirmation')
+            ->waitForTextIn('@ok', 'ok')
+            ->assertSee('ok');
+    }
+
+    /** @test */
     public function cannot_close_when_dialog_is_persistent(): void
     {
         config()->set('tallstackui.settings.dialog.persistent', true);

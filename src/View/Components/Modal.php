@@ -5,11 +5,15 @@ namespace TallStackUi\View\Components;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use InvalidArgumentException;
+use TallStackUi\Foundation\Attributes\PassThroughRuntime;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Foundation\Support\Runtime\Components\ModalRuntime;
+use TallStackUi\TallStackUiComponent;
 
 #[SoftPersonalization('modal')]
-class Modal extends BaseComponent implements Personalization
+#[PassThroughRuntime(ModalRuntime::class)]
+class Modal extends TallStackUiComponent implements Personalization
 {
     public function __construct(
         public ?string $id = 'modal',

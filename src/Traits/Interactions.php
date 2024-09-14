@@ -3,27 +3,27 @@
 namespace TallStackUi\Traits;
 
 use Livewire\Component;
-use TallStackUi\Actions\Banner;
-use TallStackUi\Actions\Dialog;
-use TallStackUi\Actions\Toast;
+use TallStackUi\Foundation\Interactions\Banner;
+use TallStackUi\Foundation\Interactions\Dialog;
+use TallStackUi\Foundation\Interactions\Toast;
 
 trait Interactions
 {
     public function banner(): Banner
     {
-        /** @var Component $this */
-        return new Banner($this);
+        /** @var Component|null $this */
+        return new Banner(str_contains(static::class, 'Controllers') ? null : $this);
     }
 
     public function dialog(): Dialog
     {
-        /** @var Component $this */
-        return new Dialog($this);
+        /** @var Component|null $this */
+        return new Dialog(str_contains(static::class, 'Controllers') ? null : $this);
     }
 
     public function toast(): Toast
     {
-        /** @var Component $this */
-        return new Toast($this);
+        /** @var Component|null $this */
+        return new Toast(str_contains(static::class, 'Controllers') ? null : $this);
     }
 }

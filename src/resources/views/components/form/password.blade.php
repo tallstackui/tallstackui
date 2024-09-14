@@ -1,13 +1,10 @@
 @php
-    [$property, $error, $id, $entangle] = $bind($attributes, $errors ?? null, $livewire);
     $personalize = $classes();
-    $icon = $icons();
-    $attributes = $mergeWhen($rules->isNotEmpty(), ['x-on:click' => 'rules = true', 'x-model.debounce' => 'input']);
 @endphp
 
 <div x-data="tallstackui_formPassword({!! $entangle !!}, @js($rules), @js($generator))" class="relative" x-cloak x-on:click.outside="rules = false">
      <x-dynamic-component :component="TallStackUi::component('input')"
-                          {{ $attributes->except('autocomplete') }}
+                          {{ $attributes->merge($password)->except('autocomplete') }}
                           :$label
                           :$hint
                           :$invalidate
@@ -51,9 +48,10 @@
      </x-dynamic-component>
     @if ($rules->isNotEmpty())
         <x-dynamic-component :component="TallStackUi::component('floating')"
+                             :floating="$personalize['floating']"
                              class="w-full p-3"
                              x-show="rules">
-            <h3 @class($personalize['rules.title'])>{{ __('tallstack-ui::messages.password.rules.title') }}</h3>
+            <h3 @class($personalize['rules.title'])>{{ trans('tallstack-ui::messages.password.rules.title') }}</h3>
             <div @class($personalize['rules.block'])>
                 @if ($rules->has('min'))
                     <span @class($personalize['rules.items.base'])>
@@ -65,7 +63,7 @@
                                                  :icon="$icon['check-circle']"
                                                  :class="$personalize['rules.items.icons.success']"
                                                  x-show="results.min" />
-                            <p x-bind:class="{ 'line-through' : results.min }">{{ __('tallstack-ui::messages.password.rules.formats.min', ['min' => $rules->get('min')]) }}</p>
+                            <p x-bind:class="{ 'line-through' : results.min }">{{ trans('tallstack-ui::messages.password.rules.formats.min', ['min' => $rules->get('min')]) }}</p>
                         </span>
                 @endif
                 @if ($rules->has('symbols'))
@@ -78,7 +76,7 @@
                                                  :icon="$icon['check-circle']"
                                                  :class="$personalize['rules.items.icons.success']"
                                                  x-show="results.symbols" />
-                            <p x-bind:class="{ 'line-through' : results.symbols }">{{ __('tallstack-ui::messages.password.rules.formats.symbols', ['symbols' => $rules->get('symbols')]) }}</p>
+                            <p x-bind:class="{ 'line-through' : results.symbols }">{{ trans('tallstack-ui::messages.password.rules.formats.symbols', ['symbols' => $rules->get('symbols')]) }}</p>
                         </span>
                 @endif
                 @if ($rules->has('numbers'))
@@ -91,7 +89,7 @@
                                                  :icon="$icon['check-circle']"
                                                  :class="$personalize['rules.items.icons.success']"
                                                  x-show="results.numbers" />
-                            <p x-bind:class="{ 'line-through' : results.numbers }">{{ __('tallstack-ui::messages.password.rules.formats.numbers') }}</p>
+                            <p x-bind:class="{ 'line-through' : results.numbers }">{{ trans('tallstack-ui::messages.password.rules.formats.numbers') }}</p>
                         </span>
                 @endif
                 @if ($rules->has('mixed'))
@@ -104,7 +102,7 @@
                                                  :icon="$icon['check-circle']"
                                                  :class="$personalize['rules.items.icons.success']"
                                                  x-show="results.mixed" />
-                            <p x-bind:class="{ 'line-through' : results.mixed }">{{ __('tallstack-ui::messages.password.rules.formats.mixed') }}</p>
+                            <p x-bind:class="{ 'line-through' : results.mixed }">{{ trans('tallstack-ui::messages.password.rules.formats.mixed') }}</p>
                         </span>
                 @endif
             </div>

@@ -221,4 +221,77 @@ class IndexTest extends BrowserTestCase
             ->assertDontSee('Quantity')
             ->assertSee('Showing 1 to 5 of 14 results');
     }
+
+    /** @test */
+    public function can_render_selectable_and_select_rows(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public array $rows = [
+                ['id' => 1, 'name' => 'Foo'],
+                ['id' => 2, 'name' => 'Bar'],
+            ];
+
+            public array $selected = [];
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="selected">{{ implode(',', $selected) }}</p>
+
+                    @php
+                        $headers = [
+                            ['index' => 'id', 'label' => '#'],
+                            ['index' => 'name', 'label' => 'Name'],
+                        ];
+                    @endphp
+                    
+                    <x-table wire:model.live="selected" :$headers :$rows selectable />
+                </div>
+                HTML;
+            }
+        })
+            ->assertSee('Foo')
+            ->assertSee('Bar')
+            ->click('@tallstackui_table_select_all')
+            ->waitForTextIn('@selected', '1,2');
+
+    }
+
+    /** @test */
+    public function can_render_selectable_and_select_rows_using_different_property(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public array $rows = [
+                ['id' => 1, 'name' => 'Foo', 'email' => 'foo@bar.com'],
+                ['id' => 2, 'name' => 'Bar', 'email' => 'bar@foo.com'],
+            ];
+
+            public array $selected = [];
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="selected">{{ implode(',', $selected) }}</p>
+
+                    @php
+                        $headers = [
+                            ['index' => 'id', 'label' => '#'],
+                            ['index' => 'name', 'label' => 'Name'],
+                        ];
+                    @endphp
+                    
+                    <x-table wire:model.live="selected" :$headers :$rows selectable selectable-property="email" />
+                </div>
+                HTML;
+            }
+        })
+            ->assertSee('Foo')
+            ->assertSee('Bar')
+            ->click('@tallstackui_table_select_all')
+            ->waitForTextIn('@selected', 'foo@bar.com,bar@foo.com');
+    }
 }

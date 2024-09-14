@@ -6,26 +6,27 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use InvalidArgumentException;
+use TallStackUi\Foundation\Attributes\PassThroughRuntime;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\Foundation\Traits\MergeAttributes;
-use TallStackUi\View\Components\BaseComponent;
+use TallStackUi\Foundation\Support\Runtime\Components\ColorRuntime;
+use TallStackUi\TallStackUiComponent;
+use TallStackUi\View\Components\Floating;
 
 #[SoftPersonalization('form.color')]
-class Color extends BaseComponent implements Personalization
+#[PassThroughRuntime(ColorRuntime::class)]
+class Color extends TallStackUiComponent implements Personalization
 {
-    use MergeAttributes;
-
     public function __construct(
         public ?string $label = null,
         public ?string $hint = null,
         public ?bool $picker = false,
-        public Collection|array $colors = [],
-        #[SkipDebug]
-        public ?string $mode = null,
+        public Collection|array|null $colors = null,
         public ?bool $invalidate = null,
         public ?bool $selectable = null,
+        #[SkipDebug]
+        public ?string $mode = null,
     ) {
         $this->mode = $this->picker ? 'picker' : 'range';
     }
@@ -43,9 +44,9 @@ class Color extends BaseComponent implements Personalization
                 'base' => 'dark:border-dark-700 h-6 w-6 rounded shadow',
             ],
             'icon' => [
-                'wrapper' => 'absolute inset-y-0 right-0 flex items-center pr-2.5',
                 'class' => 'h-5 w-5',
             ],
+            'floating' => collect(app(Floating::class)->personalization())->get('wrapper'),
             'box' => [
                 'base' => 'shadow-xs dark:bg-dark-700 soft-scrollbar max-h-60 overflow-auto rounded-md bg-white py-4',
                 'range' => [

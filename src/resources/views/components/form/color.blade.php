@@ -1,13 +1,5 @@
 @php
-    [$property,, $id, $entangle] = $bind($attributes, $errors ?? null, $livewire);
     $personalize = $classes();
-    $value = $attributes->get('value');
-    $attributes = $mergeWhen($selectable === true, [
-        'x-on:click' => 'show = !show',
-        'class' => 'cursor-pointer caret-transparent',
-        'x-on:keydown' => '$event.preventDefault()',
-        'spellcheck' => 'false',
-    ]);
 @endphp
 
 @if (!$livewire && $property)
@@ -17,13 +9,13 @@
 <div x-data="tallstackui_formColor(
         {!! $entangle !!},
         @js($mode),
-        @js($colors),
+        @js($configurations['colors']),
         @js($livewire),
         @js($property),
-        @js($value))"
+        @js($attributes->get('value')))"
         x-cloak>
     <x-dynamic-component :component="TallStackUi::component('input')"
-                         {{ $attributes->class([
+                         {{ $attributes->merge($select)->class([
                             '-ml-3',
                             'cursor-pointer caret-transparent' => $selectable,
                          ])->except(['name', 'value']) }}
@@ -49,13 +41,14 @@
             <div class="flex items-center">
                 <button type="button" x-on:click="show = !show" dusk="tallstackui_form_color_open_close">
                     <x-dynamic-component :component="TallStackUi::component('icon')"
-                                            :icon="TallStackUi::icon('swatch')"
-                                            @class($personalize['icon.class']) />
+                                         :icon="TallStackUi::icon('swatch')"
+                                         @class($personalize['icon.class']) />
                 </button>
             </div>
         </x-slot:suffix>
     </x-dynamic-component>
     <x-dynamic-component :component="TallStackUi::component('floating')"
+                         :floating="$personalize['floating']"
                          class="w-[18rem] overflow-auto"
                          x-on:click.outside="show = false">
         <div @class($personalize['box.base'])>

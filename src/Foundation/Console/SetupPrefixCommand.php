@@ -10,13 +10,13 @@ use function Laravel\Prompts\text;
 
 class SetupPrefixCommand extends Command
 {
-    public $description = 'TallStackUI prefix set up';
+    public $description = 'Set up Component prefix.';
 
-    public $signature = 'tallstackui:setup-prefix';
+    public $signature = 'tallstackui:prefix';
 
     public function handle(): int
     {
-        $prefix = text('What prefix do you want to use for the TallStackUI components?', required: true, hint: 'Type null to remove the current prefix, if set.');
+        $prefix = text('What prefix do you want to use?', required: true, hint: 'Type null to remove the current prefix, if set.');
         $null = $prefix === 'null';
 
         if ($null && blank(config('tallstackui.prefix'))) {
@@ -37,6 +37,9 @@ class SetupPrefixCommand extends Command
         return self::SUCCESS;
     }
 
+    /**
+     * Define the component prefix in the config file.
+     */
     private function config(string $prefix): bool|string
     {
         if (! file_exists(config_path('tallstackui.php'))) {
@@ -60,11 +63,17 @@ class SetupPrefixCommand extends Command
         }
     }
 
+    /**
+     * Get the content of the config file.
+     */
     private function content(): string
     {
         return file_get_contents(config_path('tallstackui.php'));
     }
 
+    /**
+     * Define the component prefix in the .env file.
+     */
     private function env(string $prefix): bool|string
     {
         try {
@@ -83,8 +92,13 @@ class SetupPrefixCommand extends Command
         }
     }
 
+    /**
+     * Set up the prefix in the config file or in the .env file.
+     */
     private function setup(string $prefix): bool|string
     {
+        // When the configuration file is old and does not have the key
+        // for the env variable, we configure it directly in the config file.
         if (file_exists(config_path('tallstackui.php')) && ! str_contains($this->content(), 'TALLSTACKUI_PREFIX')) {
             return $this->config($prefix);
         }

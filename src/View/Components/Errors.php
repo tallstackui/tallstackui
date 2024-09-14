@@ -7,21 +7,25 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\ViewErrorBag;
 use Illuminate\View\ComponentSlot;
 use InvalidArgumentException;
+use TallStackUi\Foundation\Attributes\ColorsThroughOf;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Foundation\Support\Colors\Components\ErrorsColors;
+use TallStackUi\TallStackUiComponent;
 
 #[SoftPersonalization('errors')]
-class Errors extends BaseComponent implements Personalization
+#[ColorsThroughOf(ErrorsColors::class)]
+class Errors extends TallStackUiComponent implements Personalization
 {
     public function __construct(
         public ?string $title = null,
         public string|array|null $only = null,
         public ?string $icon = 'x-circle',
         public ?string $color = 'red',
-        public bool $close = false,
+        public ?bool $close = false,
         public ComponentSlot|string|null $footer = null,
     ) {
-        $this->title ??= __('tallstack-ui::messages.errors.title');
+        $this->title ??= trans('tallstack-ui::messages.errors.title');
     }
 
     public function blade(): View

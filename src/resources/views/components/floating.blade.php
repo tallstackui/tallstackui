@@ -17,7 +17,7 @@
          x-transition:leave-start="opacity-100 translate-y-0"
          x-transition:leave-end="opacity-0 -translate-y-2"
      @elseif ($transition->isNotEmpty()) {{ $transition }} @else {!! $attributes->except(['x-show', 'x-anchor', 'class']) !!} @endif
-    {{ $attributes->except('x-anchor')->merge(['class' => $personalize['wrapper']]) }}>
+    {{ $attributes->except(['floating', 'x-anchor'])->merge(['class' => $attributes->get('floating', $personalize['wrapper'])]) }}>
     {{ $slot }}
     {{ $footer }}
 </div>

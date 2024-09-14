@@ -5,15 +5,22 @@ namespace TallStackUi\View\Components;
 use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
+use TallStackUi\Foundation\Attributes\ColorsThroughOf;
+use TallStackUi\Foundation\Attributes\PassThroughRuntime;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Exceptions\InvalidSelectedPositionException;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\Foundation\Support\Components\IconGuide;
-use TallStackUi\Foundation\Traits\BuildRawIcon;
+use TallStackUi\Foundation\Support\Colors\Components\TooltipColors;
+use TallStackUi\Foundation\Support\Concerns\BuildRawIcon;
+use TallStackUi\Foundation\Support\Icons\IconGuideMap;
+use TallStackUi\Foundation\Support\Runtime\Components\TooltipRuntime;
+use TallStackUi\TallStackUiComponent;
 
 #[SoftPersonalization('tooltip')]
-class Tooltip extends BaseComponent implements Personalization
+#[ColorsThroughOf(TooltipColors::class)]
+#[PassThroughRuntime(TooltipRuntime::class)]
+class Tooltip extends TallStackUiComponent implements Personalization
 {
     use BuildRawIcon;
 
@@ -26,11 +33,11 @@ class Tooltip extends BaseComponent implements Personalization
         public ?bool $sm = null,
         public ?bool $md = null,
         public ?bool $lg = null,
+        public ?string $position = 'top',
         #[SkipDebug]
         public ?string $size = null,
-        public ?string $position = 'top',
     ) {
-        $this->icon = IconGuide::internal($this->icon);
+        $this->icon = IconGuideMap::internal($this->icon);
         $this->size = $this->lg ? 'lg' : ($this->md ? 'md' : ($this->xs ? 'xs' : 'sm'));
     }
 

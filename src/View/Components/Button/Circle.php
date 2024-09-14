@@ -4,18 +4,22 @@ namespace TallStackUi\View\Components\Button;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
+use TallStackUi\Foundation\Attributes\ColorsThroughOf;
+use TallStackUi\Foundation\Attributes\PassThroughRuntime;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\Foundation\Traits\MergeAttributes;
-use TallStackUi\View\Components\BaseComponent;
-use TallStackUi\View\Components\Button\Traits\SetupButton;
+use TallStackUi\Foundation\Support\Colors\Components\ButtonColors;
+use TallStackUi\Foundation\Support\Runtime\Components\ButtonRuntime;
+use TallStackUi\TallStackUiComponent;
+use TallStackUi\View\Components\Button\Traits\Setup;
 
 #[SoftPersonalization('button.circle')]
-class Circle extends BaseComponent implements Personalization
+#[ColorsThroughOf(ButtonColors::class)]
+#[PassThroughRuntime(ButtonRuntime::class)]
+class Circle extends TallStackUiComponent implements Personalization
 {
-    use MergeAttributes;
-    use SetupButton;
+    use Setup;
 
     public function __construct(
         public ?string $text = null,
@@ -28,18 +32,18 @@ class Circle extends BaseComponent implements Personalization
         public ?string $sm = null,
         public ?string $md = null,
         public ?string $lg = null,
-        #[SkipDebug]
-        public ?string $size = null,
         public ?bool $solid = null,
         public ?bool $outline = null,
         public ?bool $light = false,
         public ?bool $flat = false,
         #[SkipDebug]
+        public ?string $size = null,
+        #[SkipDebug]
         public ?string $style = null,
         #[SkipDebug]
         public ?array $wireable = null,
     ) {
-        $this->setup();
+        //
     }
 
     public function blade(): View

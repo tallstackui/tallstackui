@@ -1,12 +1,11 @@
 @php
-    /** @var \Illuminate\View\ComponentSlot|string $left */
-    $text ??= $slot->toHtml();
     $personalize = $classes();
     $flash = session()->pull('tallstackui:banner');
+    $wire = $flash ? true : $wire;
 @endphp
 
 @if ($show)
-    <div x-data="tallstackui_banner(@js($flash), @js($animated), @js($wire), @js($text), @js($enter), @js($leave), @js($close))"
+    <div x-data="tallstackui_banner(@js($flash), @js($animated), @js($wire), @js($text ??= $slot->toHtml()), @js($enter), @js($leave), @js($close))"
         @class([
             $personalize['wire'] => $wire,
             $personalize['wrapper'],
@@ -49,30 +48,31 @@
                     <x-dynamic-component :component="TallStackUi::component('icon')"
                                          :icon="TallStackUi::icon('check-circle')"
                                          outline
-                                         @class([$personalize['icon']]) />
+                                         @class($personalize['icon']) />
                 </div>
                 <div x-show="type === 'error'">
                     <x-dynamic-component :component="TallStackUi::component('icon')"
                                          :icon="TallStackUi::icon('x-circle')"
                                          outline
-                                         @class([$personalize['icon']]) />
+                                         @class($personalize['icon']) />
                 </div>
                 <div x-show="type === 'info'">
                     <x-dynamic-component :component="TallStackUi::component('icon')"
                                          :icon="TallStackUi::icon('information-circle')"
-                                         outline @class([$personalize['icon']]) />
+                                         outline
+                                         @class($personalize['icon']) />
                 </div>
                 <div x-show="type === 'warning'">
                     <x-dynamic-component :component="TallStackUi::component('icon')"
                                          :icon="TallStackUi::icon('exclamation-circle')"
                                          outline
-                                         @class([$personalize['icon']]) />
+                                         @class($personalize['icon']) />
                 </div>
                 <span class="text-white" x-html="text"></span>
             </div>
         @else
             <span @class([$personalize['text'], $colors['text'] ?? $color['text']])>
-                {!! $text !!}
+                {!! $text ??= $slot->toHtml() !!}
             </span>
         @endif
         <button type="button" x-on:click="show = false" x-show="close" dusk="tallstackui_banner_close">

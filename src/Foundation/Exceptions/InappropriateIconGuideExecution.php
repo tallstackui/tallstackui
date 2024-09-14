@@ -20,6 +20,6 @@ class InappropriateIconGuideExecution extends Exception
             return null;
         }
 
-        throw new self();
+        throw new self;
     }
 }

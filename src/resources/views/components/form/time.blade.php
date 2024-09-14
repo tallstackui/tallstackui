@@ -1,8 +1,5 @@
 @php
-    [$property, $error, $id, $entangle] = $bind($attributes, $errors ?? null, $livewire);
     $personalize = $classes();
-    $value = $attributes->get('value');
-    $validating($livewire ? ($property ? data_get($this, $property) : null) : $value);
 @endphp
 
 @if (!$livewire && $property)
@@ -16,8 +13,8 @@
     @js($attributes->get('required', false)),
     @js($livewire),
     @js($property),
-    @js($value),
-    @js($change($attributes, $__livewire ?? null, $livewire)))"
+    @js($attributes->get('value')),
+    @js($change))"
     x-cloak x-on:click.outside="show = false">
     <x-dynamic-component :component="TallStackUi::component('input')"
                          {{ $attributes->except('name') }}
@@ -49,7 +46,9 @@
                              </div>
                          </x-slot:suffix>
     </x-dynamic-component>
-    <x-dynamic-component :component="TallStackUi::component('floating')" class="p-3 w-[18rem]">
+    <x-dynamic-component :component="TallStackUi::component('floating')"
+                         :floating="$personalize['floating']"
+                         class="p-3 w-[18rem]">
         <div @class(['flex flex-col', 'mb-2' => $helper || $footer->isNotEmpty(), 'w-full' => $format === '24'])>
             <div @class($personalize['wrapper'])>
                 <span x-text="formatted.hours" x-ref="hours" @class($personalize['time'])></span>
@@ -103,7 +102,7 @@
             <x-slot:footer>
                 @if ($helper)
                 <x-dynamic-component :component="TallStackUi::component('button')"
-                                     :text="__('tallstack-ui::messages.time.helper')"
+                                     :text="trans('tallstack-ui::messages.time.helper')"
                                      type="button"
                                      @class([$personalize['helper.button'], 'mt-2' => $format === '24'])
                                      x-on:click="current()"

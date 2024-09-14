@@ -12,19 +12,20 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.1.0",
-    "@eslint/js": "^9.6.0",
-    "@tailwindcss/forms": "^0.5.6",
+    "@eslint/js": "^9.10.0",
+    "@tailwindcss/forms": "^0.5.8",
     "autoprefixer": "^10.4.19",
-    "eslint": "^9.6.0",
-    "globals": "^15.7.0",
-    "postcss": "^8.4.39",
+    "eslint": "^9.10.0",
+    "globals": "^15.9.0",
+    "postcss": "^8.4.45",
     "postcss-import": "^16.0.1",
-    "tailwindcss": "^3.4.4",
+    "tailwindcss": "^3.4.11",
     "tippy.js": "^6.3.7",
-    "vite": "^5.3.2"
+    "vite": "^5.4.4"
   },
   "dependencies": {
     "clipboard": "^2.0.11",
-    "dayjs": "^1.11.11"
+    "dayjs": "^1.11.13",
+    "qs": "^6.13.0"
   }
 }

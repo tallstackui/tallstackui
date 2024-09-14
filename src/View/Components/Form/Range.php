@@ -4,13 +4,19 @@ namespace TallStackUi\View\Components\Form;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
+use TallStackUi\Foundation\Attributes\ColorsThroughOf;
+use TallStackUi\Foundation\Attributes\PassThroughRuntime;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\View\Components\BaseComponent;
+use TallStackUi\Foundation\Support\Colors\Components\RangeColors;
+use TallStackUi\Foundation\Support\Runtime\Components\RangeRuntime;
+use TallStackUi\TallStackUiComponent;
 
 #[SoftPersonalization('form.range')]
-class Range extends BaseComponent implements Personalization
+#[ColorsThroughOf(RangeColors::class)]
+#[PassThroughRuntime(RangeRuntime::class)]
+class Range extends TallStackUiComponent implements Personalization
 {
     public function __construct(
         public ?string $label = null,
@@ -18,10 +24,10 @@ class Range extends BaseComponent implements Personalization
         public ?bool $sm = null,
         public ?bool $md = null,
         public ?bool $lg = null,
-        #[SkipDebug]
-        public ?string $size = null,
         public ?string $color = 'primary',
         public ?bool $invalidate = null,
+        #[SkipDebug]
+        public ?string $size = null,
     ) {
         $this->size = $this->sm ? 'sm' : ($this->lg ? 'lg' : 'md');
     }

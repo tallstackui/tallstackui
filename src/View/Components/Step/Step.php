@@ -8,10 +8,10 @@ use Illuminate\View\ComponentSlot;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\View\Components\BaseComponent;
+use TallStackUi\TallStackUiComponent;
 
 #[SoftPersonalization('step')]
-class Step extends BaseComponent implements Personalization
+class Step extends TallStackUiComponent implements Personalization
 {
     public function __construct(
         public ?int $selected = null,
@@ -94,8 +94,8 @@ class Step extends BaseComponent implements Personalization
                 'circle' => [
                     'wrapper' => 'flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full',
                     'inactive' => 'border-2 border-primary-500 dark:border-dark-300',
-                    'current' => 'bg-primary-500 dark:border-primary-500 group-hover:bg-primary-400',
-                    'active' => 'bg-green-600 dark:border-green-600 group-hover:bg-green-500',
+                    'current' => 'bg-primary-500 dark:border-primary-500',
+                    'active' => 'bg-green-600 dark:border-green-600',
                 ],
                 'divider' => [
                     'wrapper' => 'absolute right-0 top-0 hidden h-full w-5 md:block',

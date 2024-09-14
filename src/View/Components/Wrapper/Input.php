@@ -5,10 +5,10 @@ namespace TallStackUi\View\Components\Wrapper;
 use Illuminate\Contracts\View\View;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\View\Components\BaseComponent;
+use TallStackUi\TallStackUiComponent;
 
 #[SoftPersonalization('wrapper.input')]
-class Input extends BaseComponent implements Personalization
+class Input extends TallStackUiComponent implements Personalization
 {
     public function __construct(
         public ?string $property = null,

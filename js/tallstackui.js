@@ -1,5 +1,6 @@
 import './globals/globals';
 import banner from './components/banner/banner';
+import card from './components/card/card';
 import color from './components/form/color';
 import clipboard from './components/clipboard/clipboard';
 import date from './components/form/date';
@@ -9,13 +10,14 @@ import dropdown from './components/dropdown/dropdown';
 import loading from './components/loading/loading';
 import modal from './components/modal/modal';
 import number from './components/form/number';
-import select from './components/select/select';
+import select from './components/form/select/select';
 import signature from './components/signature/signature';
 import slide from './components/slide/slide';
 import stats from './components/stats/stats';
 import password from './components/form/password';
 import pin from './components/form/pin';
 import reaction from './components/reaction/reaction';
+import table from './components/table/table';
 import tag from './components/form/tag';
 import textArea from './components/form/textarea';
 import time from './components/form/time';
@@ -27,6 +29,7 @@ import upload from './components/form/upload';
 document.addEventListener('alpine:init', () => {
   Alpine.plugin(tooltip);
   Alpine.data('tallstackui_banner', banner);
+  Alpine.data('tallstackui_card', card);
   Alpine.data('tallstackui_clipboard', clipboard);
   Alpine.data('tallstackui_formDate', date);
   Alpine.data('tallstackui_formColor', color);
@@ -47,6 +50,7 @@ document.addEventListener('alpine:init', () => {
   Alpine.data('tallstackui_signature', signature);
   Alpine.data('tallstackui_slide', slide);
   Alpine.data('tallstackui_stats', stats);
+  Alpine.data('tallstackui_table', table);
   Alpine.data('tallstackui_toastBase', toastBase);
   Alpine.data('tallstackui_toastLoop', toastLoop);
 });

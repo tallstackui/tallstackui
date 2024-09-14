@@ -36,23 +36,6 @@ HTML;
         ->toContain('Foo bar baz');
 });
 
-it('can thrown exception when select was not defined using select as common', function () {
-    $this->expectException(ViewException::class);
-    $this->expectExceptionMessage('The [select.styled] parameter [select] must be defined');
-
-    $component = <<<'HTML'
-    <x-select.styled label="Foo bar baz" 
-                     hint="Foo bar baz" 
-                     :options="[
-                        ['label' => 'Foo', 'value' => 'foo'],
-                        ['label' => 'Bar', 'value' => 'bar'],
-                     ]" />
-HTML;
-
-    expect($component)->render()
-        ->toContain('Foo bar baz');
-});
-
 it('can thrown exception when request is array using unaceptable method', function (string $method) {
     $this->expectException(ViewException::class);
     $this->expectExceptionMessage('The [select.styled] parameter [method] must be get or post');
@@ -117,23 +100,6 @@ it('can thrown exception when select was not defined using select as request', f
     <x-select.styled label="Foo bar baz" 
                      hint="Foo bar baz" 
                      request="https://foo-bar.com" 
-    />
-HTML;
-
-    expect($component)->render();
-});
-
-it('can thrown exception when options is array of arrays without using select', function () {
-    $this->expectException(ViewException::class);
-    $this->expectExceptionMessage('The [select.styled] parameter [select] must be defined.');
-
-    $component = <<<'HTML'
-    <x-select.styled label="Foo bar baz" 
-                     hint="Foo bar baz" 
-                     :options="[
-                        ['label' => 'foo', 'value' => 'bar'],
-                        ['label' => 'baz', 'value' => 'qux'],
-                     ]" 
     />
 HTML;
 

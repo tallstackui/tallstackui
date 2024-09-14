@@ -1,9 +1,8 @@
 @php
-    \TallStackUi\Foundation\Exceptions\MissingLivewireException::throwIf($livewire, 'table');
     $personalize = $classes();
 @endphp
 
-<div @if ($persistent && $id) id="{{ $id }}" @endif>
+<div x-data="tallstackui_table({!! $entangle !!}, @js($ids()), @js($selectable))" @if ($persistent) x-ref="persist" @endif>
     @if (is_string($header))
         <p @class($personalize['slots.header'])>{{ $header }}</p>
     @else
@@ -47,6 +46,15 @@
                 @if (!$headerless)
                     <thead @class(['uppercase', $personalize['table.thead.normal'] => !$striped, $personalize['table.thead.striped'] => $striped])>
                         <tr>
+                            @if ($selectable)
+                                <th @class(['w-6', $personalize['table.th']]) wire:key="checkall-{{ implode(',', $ids()) }}">
+                                    <x-dynamic-component :component="TallStackUi::component('checkbox')"
+                                                         x-ref="checkbox"
+                                                         x-on:click="all($el.checked, {{ \Illuminate\Support\Js::from($ids()) }})"
+                                                         dusk="tallstackui_table_select_all"
+                                                         sm />
+                                </th>
+                            @endif
                             @foreach ($headers as $header)
                                 <th scope="col" @class($personalize['table.th'])>
                                     <a @if ($livewire && $sortable($header))
@@ -60,8 +68,8 @@
                                         @endif
                                         @if ($livewire && $sortable($header) && $sorted($header))
                                             <x-dynamic-component :component="TallStackUi::component('icon')"
-                                                                :icon="TallStackUi::icon($head($header)['direction'] === 'desc' ? 'chevron-up' : 'chevron-down')"
-                                                                class="ml-2 h-4 w-4" />
+                                                                 :icon="TallStackUi::icon($head($header)['direction'] === 'desc' ? 'chevron-up' : 'chevron-down')"
+                                                                 @class($personalize['table.sort']) />
                                         @endif
                                     </a>
                                 </th>
@@ -78,22 +86,33 @@
                     </tr>
                 @else
                     @forelse ($rows as $key => $value)
-                        @if ($livewire)
-                            @php
-                                $this->loop = $loop;
-                            @endphp
-                        @endif
-                        <tr @class(['bg-gray-50 dark:bg-dark-800/50' => $striped && $loop->index % 2 === 0]) @if ($livewire) wire:key="{{ md5(serialize($value).$key) }}" @endif>
+                        @php
+                            $this->loop = $loop;
+                            $id = md5(serialize($value).$key);
+                        @endphp
+                        <tr @class(['bg-gray-50 dark:bg-dark-800/50' => $striped && $loop->index % 2 === 0]) @if ($livewire) wire:key="{{ $id }}" @endif>
+                            @if ($selectable)
+                                <td @class($personalize['table.td'])>
+                                    <x-dynamic-component :component="TallStackUi::component('checkbox')"
+                                                         id="checkbox-{{ $key }}"
+                                                         :attributes="$modifier()"
+                                                         value="{{ data_get($value, $selectableProperty) }}"
+                                                         x-on:click="select($el.checked, {{ \Illuminate\Support\Js::from($value) }})"
+                                                         sm />
+                                </td>
+                            @endif
                             @foreach($headers as $header)
                                 @php
                                     $row = str_replace('.', '_', $header['index']);
+                                    $url = $href($value);
+                                    $clickable = $link !== null;
                                 @endphp
                                 @isset(${"column_".$row})
-                                    <td @class($personalize['table.td'])>
+                                    <td @if ($clickable) x-on:click.prevent="redirect(@js($url), @js($blank))" @endif @class([$personalize['table.td'], 'cursor-pointer' => $clickable])>
                                         {{ ${"column_".$row}($value) }}
                                     </td>
                                 @else
-                                    <td @class($personalize['table.td'])>
+                                    <td @if ($clickable) x-on:click.prevent="redirect(@js($url), @js($blank))" @endif @class([$personalize['table.td'], 'cursor-pointer' => $clickable])>
                                         {{ data_get($value, $header['index']) }}
                                     </td>
                                 @endisset
@@ -117,9 +136,9 @@
         {{ $footer }}
     @endif
     @if ($paginate && (!is_array($rows) && $rows->hasPages()))
-        {{ $rows->onEachSide(1)->links($paginator, [
+        {{ $rows->onEachSide($onEachSide)->links($paginator, [
             'simplePagination' => $simplePagination,
-            'scrollTo' => $persistent && $id ? '#'.$id : false,
+            'scrollTo' => $persistent ?? false,
         ]) }}
     @endif
 </div>

@@ -1,13 +1,12 @@
 <?php
 
-use TallStackUi\Foundation\Support\Blade\BladeComponentPrefix;
+use TallStackUi\Foundation\Support\Blade\ComponentPrefix;
 
-describe('BladeComponentPrefix', function () {
-    test('class should have constructor')
-        ->expect(BladeComponentPrefix::class)
-        ->toHaveConstructor();
+test('class should have constructor')
+    ->expect(ComponentPrefix::class)->toHaveConstructor();
 
-    test('class has invoke method', function () {
-        expect(BladeComponentPrefix::class)->toBeInvokable();
-    });
+test('class has methods', function () {
+    expect(ComponentPrefix::class)
+        ->toHaveMethod('add')
+        ->toHaveMethod('remove');
 });

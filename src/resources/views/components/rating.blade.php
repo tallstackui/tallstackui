@@ -1,12 +1,9 @@
 @php
-    if (!$static) \TallStackUi\Foundation\Exceptions\MissingLivewireException::throwIf($livewire, 'reaction');
     $personalize = $classes();
-    [$property] = $bind($attributes, livewire: $livewire);
-    $rate ??= $livewire ? data_get($this, $property) : $rate;
 @endphp
 
 <div @class($personalize['wrapper'])
-  x-data="{ rate: @js($rate), quantity: @js($quantity), evaluate(method, evaluate) {
+  x-data="{ rate: @js($tax), quantity: @js($quantity), evaluate(method, evaluate) {
         this.rate = evaluate;
         this.$el.dispatchEvent(new CustomEvent('evaluate', {detail: {evaluate: { method, rate: this.rate }}}));
         this.$wire.call(method, this.rate);

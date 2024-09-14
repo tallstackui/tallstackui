@@ -28,7 +28,8 @@
             {!! $action !!}
         @endif
         <x-dynamic-component :component="TallStackUi::component('floating')"
-                             class="w-56"
+                             :floating="$personalize['floating']"
+                             :class="$personalize['width']"
                              offset="5"
                              :$position
                              x-anchor="$refs.dropdown">

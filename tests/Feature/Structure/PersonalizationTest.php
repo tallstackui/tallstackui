@@ -2,25 +2,42 @@
 
 use TallStackUi\Foundation\Personalization\Personalization;
 
-test('Personalization', function (string $method) {
+test('contains constructor', function () {
+    expect(Personalization::class)->toHaveConstructor();
+});
+
+test('contains method', function (string $method) {
     expect(Personalization::class)->toHaveMethod($method);
 })->with([
-    '__construct',
-    'block',
-    'instance',
     'alert',
-    'modal',
-    'button',
     'avatar',
     'badge',
+    'banner',
+    'block',
+    'boolean',
+    'button',
     'card',
+    'clipboard',
     'dialog',
     'dropdown',
     'errors',
-    'toast',
+    'floating',
     'form',
+    'instance',
+    'link',
+    'loading',
+    'modal',
+    'progress',
+    'rating',
+    'reaction',
     'select',
+    'slide',
+    'stats',
+    'step',
     'tab',
+    'table',
+    'themeSwitch',
+    'toast',
     'tooltip',
     'wrapper',
     'component',

@@ -2,20 +2,43 @@
     $personalize = $classes();
 @endphp
 
-<div @class($personalize['wrapper.first'])>
+<div x-data="tallstackui_card(@js($initializeMinimized))" @class($personalize['wrapper.first']) x-show="show">
     <div @class($personalize['wrapper.second'])>
         @if ($header)
-            <div @class($personalize['header.wrapper'])>
-                <div @class($personalize['header.text'])>
+            <div @class([$personalize['header.wrapper.base'], $colors['background']]) x-bind:class="{ '{{ $personalize['header.wrapper.border'] }}' : !minimize }">
+                <div @class($personalize['header.text.size'])>
                     {{ $header }}
                 </div>
+                @if ($minimize || $close)
+                <div>
+                    @if ($minimize)
+                    <button type="button" @click="minimize = !minimize" dusk="tallstackui_card_minimize">
+                        <x-dynamic-component :component="TallStackUi::component('icon')"
+                                             :icon="TallStackUi::icon('minus')"
+                                             class="h-6 w-6"
+                                             x-show="!minimize" />
+                        <x-dynamic-component :component="TallStackUi::component('icon')"
+                                             :icon="TallStackUi::icon('plus')"
+                                             class="h-6 w-6"
+                                             x-show="minimize" />
+                    </button>
+                    @endif
+                    @if ($close)
+                    <button type="button" @click="show = false" dusk="tallstackui_card_close">
+                        <x-dynamic-component :component="TallStackUi::component('icon')"
+                                             :icon="TallStackUi::icon('x-mark')"
+                                             class="h-6 w-6" />
+                    </button>
+                    @endif
+                </div>
+                @endif
             </div>
         @endif
-        <div {{ $attributes->class($personalize['body']) }}>
+        <div {{ $attributes->class($personalize['body']) }} x-show="!minimize">
             {{ $slot }}
         </div>
         @if ($footer)
-            <div @class($personalize['footer.wrapper'])>
+            <div @class($personalize['footer.wrapper']) x-show="!minimize">
                 <div @class($personalize['footer.text'])>
                     {{ $footer }}
                 </div>

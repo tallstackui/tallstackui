@@ -24,10 +24,15 @@ export default (flash, texts, overflowing) => ({
   },
   /**
    * @param dismissed {Boolean}
+   * @param internal {Boolean}
    * @return {void}
    */
-  remove(dismissed = false) {
+  remove(dismissed = false, internal = false) {
     this.show = false;
+
+    const hook = dismissed ? this.dialog.hooks?.dismiss : this.dialog.hooks?.close;
+
+    if (hook && !internal) Livewire.find(this.dialog.component).call(hook.method, hook.params);
 
     if (!dismissed) return;
 
@@ -41,20 +46,25 @@ export default (flash, texts, overflowing) => ({
   accept(dialog, element) {
     event('dialog:accepted', dialog, false);
 
+    const component = Livewire.find(dialog.component);
+
     if (dialog.options.confirm.static === true || dialog.options.confirm.method === null) {
-      return this.remove();
+      if (dialog.hooks?.ok) {
+        component.call(dialog.hooks.ok.method, dialog.hooks.ok.params);
+      }
+
+      return this.remove(false, true);
     }
 
     setTimeout(() => {
-      Livewire.find(dialog.component)
-          .call(dialog.options.confirm.method, dialog.options.confirm.params);
+      component.call(dialog.options.confirm.method, dialog.options.confirm.params);
 
       // This is a little trick to prevent the element from being
       // focused if there is another dialog displayed sequentially.
       element.blur();
     }, 100);
 
-    this.remove();
+    this.remove(false, true);
   },
   /**
    * @param dialog {Object}
@@ -64,19 +74,24 @@ export default (flash, texts, overflowing) => ({
   reject(dialog, element) {
     event('dialog:rejected', dialog, false);
 
+    const component = Livewire.find(dialog.component);
+
     if (!dialog.options || dialog.options.cancel.static === true || dialog.options.cancel.method === null) {
-      return this.remove();
+      if (dialog.hooks?.reject) {
+        component.call(dialog.hooks.reject.method, dialog.hooks.reject.params);
+      }
+
+      return this.remove(false, true);
     }
 
     setTimeout(() => {
-      Livewire.find(dialog.component)
-          .call(dialog.options.cancel.method, dialog.options.cancel.params);
+      component.call(dialog.options.cancel.method, dialog.options.cancel.params);
 
       // This is a little trick to prevent the element from being
       // focused if there is another dialog displayed sequentially.
       element.blur();
     }, 100);
 
-    this.remove();
+    return this.remove(false, true);
   },
 });

@@ -7,13 +7,19 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\ComponentSlot;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
+use TallStackUi\Foundation\Attributes\PassThroughRuntime;
+use TallStackUi\Foundation\Attributes\RequireLivewireContext;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\Foundation\Support\Components\UploadComponentFileAdapter;
-use TallStackUi\View\Components\BaseComponent;
+use TallStackUi\Foundation\Support\Miscellaneous\UploadComponentFileAdapter;
+use TallStackUi\Foundation\Support\Runtime\Components\UploadRuntime;
+use TallStackUi\TallStackUiComponent;
+use TallStackUi\View\Components\Floating;
 
+#[RequireLivewireContext]
 #[SoftPersonalization('form.upload')]
-class Upload extends BaseComponent implements Personalization
+#[PassThroughRuntime(UploadRuntime::class)]
+class Upload extends TallStackUiComponent implements Personalization
 {
     public function __construct(
         public ?string $label = null,
@@ -29,8 +35,8 @@ class Upload extends BaseComponent implements Personalization
         public ?ComponentSlot $footer = null,
         public ?bool $overflow = null,
     ) {
-        $this->placeholder ??= __('tallstack-ui::messages.upload.placeholder');
-        $this->error ??= __('tallstack-ui::messages.upload.error');
+        $this->placeholder ??= trans('tallstack-ui::messages.upload.placeholder');
+        $this->error ??= trans('tallstack-ui::messages.upload.error');
     }
 
     /** @throws Exception */
@@ -58,6 +64,7 @@ class Upload extends BaseComponent implements Personalization
                 'tip' => 'mx-4 mt-2 text-center text-sm text-gray-500 dark:text-gray-400',
                 'icon.class' => 'dark:text-dark-300 h-6 w-6 text-gray-600',
             ],
+            'floating' => collect(app(Floating::class)->personalization())->get('wrapper'),
             'upload' => [
                 'wrapper' => 'mt-2 flex h-1 w-full overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700',
                 'progress' => 'flex flex-col justify-center overflow-hidden whitespace-nowrap rounded-full bg-green-600 text-center text-xs text-white transition duration-500',

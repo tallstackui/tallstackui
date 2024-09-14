@@ -1,9 +1,5 @@
 @php
-    \TallStackUi\Foundation\Exceptions\MissingLivewireException::throwIf($livewire, 'upload');
-    [$property] = $bind($attributes, livewire: $livewire);
     $personalize = $classes();
-    $value = data_get($this, $property);
-    if (is_null($property)) throw new Exception('The [upload] component requires a property to bind using [wire:model].');
 @endphp
 
 <div x-data="tallstackui_formUpload(
@@ -13,7 +9,7 @@
         @js($error),
         @js($static),
         @js($placeholder),
-        @js(__('tallstack-ui::messages.upload.uploaded')),
+        @js(trans('tallstack-ui::messages.upload.uploaded')),
         @js($overflow))"
      x-cloak
      x-on:livewire-upload-start="uploading = true"
@@ -44,7 +40,7 @@
         </x-dynamic-component>
     @if ($preview)
         <template x-teleport="body">
-            <div x-show="preview" 
+            <div x-show="preview"
                  x-on:click="preview = false; $nextTick(() => show = true)"
                  x-transition:enter="ease-out duration-300"
                  x-transition:enter-start="opacity-0"
@@ -65,7 +61,9 @@
             </div>
         </template>
     @endif
-     <x-dynamic-component :component="TallStackUi::component('floating')" class="p-3 w-full">
+     <x-dynamic-component :component="TallStackUi::component('floating')"
+                          :floating="$personalize['floating']"
+                          class="p-3 w-full">
          @if (!$static)
          <div @class(['flex flex-col w-full items-center justify-center', 'mb-2' => $footer->isNotEmpty()])>
              <div @class($personalize['placeholder.wrapper']) :class="{ 'bg-primary-100': dragging }">
@@ -74,7 +72,7 @@
                                           :icon="TallStackUi::icon('cloud-arrow-up')"
                                           @class($personalize['placeholder.icon.class']) />
                      <p @class($personalize['placeholder.title'])>
-                         {{ __('tallstack-ui::messages.upload.upload') }}
+                         {{ trans('tallstack-ui::messages.upload.upload') }}
                      </p>
                  </div>
                  @if (is_string($tip))
@@ -126,7 +124,7 @@
                                                           :property="is_array($value) ? $property . '.' . $key : $property" />
                                      @if ($file['size'] !== null)
                                          <p @class($personalize['item.size'])>
-                                             <span>{{ __('tallstack-ui::messages.upload.size') }}: </span>
+                                             <span>{{ trans('tallstack-ui::messages.upload.size') }}: </span>
                                              <span>{{ $file['size'] }}</span>
                                          </p>
                                      @endif
@@ -153,10 +151,10 @@
                                       :icon="TallStackUi::icon('photo')"
                                       :class="$personalize['static.empty.icon']" />
                  <h3 @class($personalize['static.empty.title'])>
-                     {{ __('tallstack-ui::messages.upload.static.empty.title') }}
+                     {{ trans('tallstack-ui::messages.upload.static.empty.title') }}
                  </h3>
                  <p @class($personalize['static.empty.description'])>
-                     {{ __('tallstack-ui::messages.upload.static.empty.description') }}
+                     {{ trans('tallstack-ui::messages.upload.static.empty.description') }}
                  </p>
              </div>
          @endif

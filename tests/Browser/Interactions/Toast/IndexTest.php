@@ -269,6 +269,104 @@ class IndexTest extends BrowserTestCase
     }
 
     /** @test */
+    public function can_use_close_hook()
+    {
+        Livewire::visit(new class extends Component
+        {
+            use Interactions;
+
+            public ?string $close = null;
+
+            public function success(): void
+            {
+                $this->toast()
+                    ->success('Foo!')
+                    ->hook([
+                        'close' => [
+                            'method' => 'hook',
+                            'params' => 'close',
+                        ],
+                    ])
+                    ->send();
+            }
+
+            public function hook(string $term): void
+            {
+                $this->close = $term;
+            }
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="close">{{ $close }}</p>
+                
+                    <x-button dusk="success" wire:click="success">Success</x-button>
+                </div>
+                HTML;
+            }
+        })
+            ->assertDontSee('close')
+            ->assertDontSee('Foo')
+            ->assertSee('Success')
+            ->click('@success')
+            ->waitForText('Foo')
+            ->assertSee('Foo')
+            ->click('@tallstackui_toast_close')
+            ->waitForTextIn('@close', 'close')
+            ->assertSee('close');
+    }
+
+    /** @test */
+    public function can_use_timeout_hook()
+    {
+        Livewire::visit(new class extends Component
+        {
+            use Interactions;
+
+            public ?string $timeout = null;
+
+            public function success(): void
+            {
+                $this->toast()
+                    ->success('Foo!')
+                    ->timeout(1)
+                    ->hook([
+                        'timeout' => [
+                            'method' => 'hook',
+                            'params' => 'timeout',
+                        ],
+                    ])
+                    ->send();
+            }
+
+            public function hook(string $term): void
+            {
+                $this->timeout = $term;
+            }
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="timeout">{{ $timeout }}</p>
+                
+                    <x-button dusk="success" wire:click="success">Success</x-button>
+                </div>
+                HTML;
+            }
+        })
+            ->assertDontSee('close')
+            ->assertDontSee('Foo')
+            ->assertSee('Success')
+            ->click('@success')
+            ->waitForText('Foo')
+            ->assertSee('Foo')
+            ->waitForTextIn('@timeout', 'timeout')
+            ->assertSee('timeout');
+    }
+
+    /** @test */
     public function cannot_see_cancellation_if_it_was_not_defined(): void
     {
         Livewire::visit(new class extends Component

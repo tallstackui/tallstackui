@@ -5,25 +5,21 @@ namespace TallStackUi\View\Components\Form;
 use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
+use TallStackUi\Foundation\Attributes\PassThroughRuntime;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\Foundation\Traits\SanitizePropertyValue;
-use TallStackUi\View\Components\BaseComponent;
+use TallStackUi\Foundation\Support\Runtime\Components\TagRuntime;
+use TallStackUi\TallStackUiComponent;
 use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
 
 #[SoftPersonalization('form.tag')]
-class Tag extends BaseComponent implements Personalization
+#[PassThroughRuntime(TagRuntime::class)]
+class Tag extends TallStackUiComponent implements Personalization
 {
     use DefaultInputClasses;
-    use SanitizePropertyValue;
 
-    public function __construct(
-        public ?string $label = null,
-        public ?string $hint = null,
-        public ?string $prefix = null,
-        public ?int $limit = null,
-        public ?bool $invalidate = null,
-    ) {
+    public function __construct(public ?string $label = null, public ?string $hint = null, public ?string $prefix = null, public ?int $limit = null, public ?bool $invalidate = null)
+    {
         //
     }
 

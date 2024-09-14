@@ -2,14 +2,8 @@
 
 namespace TallStackUi\Foundation\Personalization;
 
-use Closure;
 use Exception;
-use Illuminate\Support\Facades\File;
-use ReflectionClass;
 use RuntimeException;
-use Symfony\Component\Finder\SplFileInfo;
-use TallStackUi\Contracts\Personalizable;
-use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\View\Components\Alert;
 use TallStackUi\View\Components\Avatar;
 use TallStackUi\View\Components\Badge;
@@ -63,69 +57,59 @@ use TallStackUi\View\Components\Wrapper\Input as InputWrapper;
 use TallStackUi\View\Components\Wrapper\Radio as RadioWrapper;
 
 /**
- * @internal This class is not meant to be used directly.
+ * @internal
  */
 class Personalization
 {
-    public function __construct(public ?string $component = null)
+    public function __construct(public ?string $component = null, public ?string $scope = null)
     {
         //
     }
 
+    public function alert(?string $scope = null): PersonalizationFactory
+    {
+        $this->scope ??= $scope;
+
+        return $this->component(Alert::class);
+    }
+
+    public function avatar(?string $scope = null): PersonalizationFactory
+    {
+        $this->scope ??= $scope;
+
+        return $this->component(Avatar::class);
+    }
+
+    public function badge(?string $scope = null): PersonalizationFactory
+    {
+        $this->scope ??= $scope;
+
+        return $this->component(Badge::class);
+    }
+
+    public function banner(?string $scope = null): PersonalizationFactory
+    {
+        $this->scope ??= $scope;
+
+        return $this->component(Banner::class);
+    }
+
     /**
-     * Recursively maps all Blade components that use the
-     * SoftPersonalization attribute to the soft personalization.
+     * Interact with the block to start the personalization.
      */
-    public static function components(): array
-    {
-        // This strategy was adopted by deep personalization. If the original component
-        // class was changed to some custom component, we would have some problems.
-        return collect(File::allFiles(__DIR__.'/../../View/Components'))
-            ->map(fn (SplFileInfo $file) => 'TallStackUi\\View\\'.str($file->getPathname())->after('View/')
-                ->remove('.php')
-                ->replace('/', '\\')
-                ->value())
-            ->filter(fn (string $component) => (new ReflectionClass($component))->getAttributes(SoftPersonalization::class)) // @phpstan-ignore-line
-            ->mapWithKeys(function (string $component) {
-                $reflect = new ReflectionClass($component);
-                $attribute = $reflect->getAttributes(SoftPersonalization::class)[0];
-
-                return [$attribute->newInstance()->key() => $reflect->getName()];
-            })
-            ->toArray();
-    }
-
-    public function alert(): PersonalizationResources
-    {
-        return app($this->component(Alert::class));
-    }
-
-    public function avatar(): PersonalizationResources
-    {
-        return app($this->component(Avatar::class));
-    }
-
-    public function badge(): PersonalizationResources
-    {
-        return app($this->component(Badge::class));
-    }
-
-    public function banner(): PersonalizationResources
-    {
-        return app($this->component(Banner::class));
-    }
-
-    public function block(string|array $name, string|Closure|Personalizable|null $code = null): PersonalizationResources
+    public function block(string|array $name, string|callable|null $code = null): PersonalizationFactory
     {
         return $this->instance()->block($name, $code);
     }
 
-    public function boolean(): PersonalizationResources
+    public function boolean(?string $scope = null): PersonalizationFactory
     {
-        return app($this->component(Boolean::class));
+        $this->scope ??= $scope;
+
+        return $this->component(Boolean::class);
     }
 
-    public function button(?string $component = null): PersonalizationResources
+    public function button(?string $component = null, ?string $scope = null): PersonalizationFactory
     {
         $component ??= 'button';
 
@@ -135,26 +119,34 @@ class Personalization
             default => $component,
         };
 
-        return app($this->component($class));
+        return $this->component($class);
     }
 
-    public function card(): PersonalizationResources
+    public function card(?string $scope = null): PersonalizationFactory
     {
-        return app($this->component(Card::class));
+        $this->scope ??= $scope;
+
+        return $this->component(Card::class);
     }
 
-    public function clipboard(): PersonalizationResources
+    public function clipboard(?string $scope = null): PersonalizationFactory
     {
-        return app($this->component(Clipboard::class));
+        $this->scope ??= $scope;
+
+        return $this->component(Clipboard::class);
     }
 
-    public function dialog(): PersonalizationResources
+    public function dialog(?string $scope = null): PersonalizationFactory
     {
-        return app($this->component(Dialog::class));
+        $this->scope ??= $scope;
+
+        return $this->component(Dialog::class);
     }
 
-    public function dropdown(?string $component = null): PersonalizationResources
+    public function dropdown(?string $component = null, ?string $scope = null): PersonalizationFactory
     {
+        $this->scope ??= $scope;
+
         $component ??= 'dropdown';
 
         $class = match ($component) {
@@ -163,21 +155,27 @@ class Personalization
             default => $component,
         };
 
-        return app($this->component($class));
+        return $this->component($class);
     }
 
-    public function errors(): PersonalizationResources
+    public function errors(?string $scope = null): PersonalizationFactory
     {
-        return app($this->component(Errors::class));
+        $this->scope ??= $scope;
+
+        return $this->component(Errors::class);
     }
 
-    public function floating(): PersonalizationResources
+    public function floating(?string $scope = null): PersonalizationFactory
     {
-        return app($this->component(Floating::class));
+        $this->scope ??= $scope;
+
+        return $this->component(Floating::class);
     }
 
-    public function form(?string $component = null): PersonalizationResources
+    public function form(?string $component = null, ?string $scope = null): PersonalizationFactory
     {
+        $this->scope ??= $scope;
+
         $component ??= 'input';
 
         $class = match ($component) {
@@ -201,10 +199,10 @@ class Personalization
             default => $component,
         };
 
-        return app($this->component($class));
+        return $this->component($class);
     }
 
-    public function instance(): PersonalizationResources
+    public function instance(): PersonalizationFactory
     {
         if (! $this->component) {
             throw new RuntimeException('No component has been set');
@@ -214,7 +212,11 @@ class Personalization
             $this->component = str_replace('tallstack-ui::personalizations.', '', $this->component);
         }
 
+        // This is necessary for cases where personalization aims to
+        // manipulate components like form.number. We explode to get
+        // the namespace - form, and the component - number.
         $parts = explode('.', $this->component);
+
         $main = $parts[0];
         $secondary = $parts[1] ?? null;
 
@@ -225,23 +227,31 @@ class Personalization
         return call_user_func([$this, $main], $main === $secondary ?: $secondary);
     }
 
-    public function link(): PersonalizationResources
+    public function link(?string $scope = null): PersonalizationFactory
     {
-        return app($this->component(Link::class));
+        $this->scope ??= $scope;
+
+        return $this->component(Link::class);
     }
 
-    public function loading(): PersonalizationResources
+    public function loading(?string $scope = null): PersonalizationFactory
     {
-        return app($this->component(Loading::class));
+        $this->scope ??= $scope;
+
+        return $this->component(Loading::class);
     }
 
-    public function modal(): PersonalizationResources
+    public function modal(?string $scope = null): PersonalizationFactory
     {
-        return app($this->component(Modal::class));
+        $this->scope ??= $scope;
+
+        return $this->component(Modal::class);
     }
 
-    public function progress(?string $component = null): PersonalizationResources
+    public function progress(?string $component = null, ?string $scope = null): PersonalizationFactory
     {
+        $this->scope ??= $scope;
+
         $component ??= 'progress';
 
         $class = match ($component) {
@@ -250,21 +260,27 @@ class Personalization
             default => $component,
         };
 
-        return app($this->component($class));
+        return $this->component($class);
     }
 
-    public function rating(): PersonalizationResources
+    public function rating(?string $scope = null): PersonalizationFactory
     {
-        return app($this->component(Rating::class));
+        $this->scope ??= $scope;
+
+        return $this->component(Rating::class);
     }
 
-    public function reaction(): PersonalizationResources
+    public function reaction(?string $scope = null): PersonalizationFactory
     {
-        return app($this->component(Reaction::class));
+        $this->scope ??= $scope;
+
+        return $this->component(Reaction::class);
     }
 
-    public function select(?string $component = null): PersonalizationResources
+    public function select(?string $component = null, ?string $scope = null): PersonalizationFactory
     {
+        $this->scope ??= $scope;
+
         $component ??= 'native';
 
         $class = match ($component) {
@@ -273,56 +289,76 @@ class Personalization
             default => $component,
         };
 
-        return app($this->component($class));
+        return $this->component($class);
     }
 
-    public function signature(): PersonalizationResources
+    public function signature(?string $scope = null): PersonalizationResources
     {
-        return app($this->component(Signature::class));
+        $this->scope ??= $scope;
+
+        return $this->component($class);
     }
 
-    public function slide(): PersonalizationResources
+    public function slide(?string $scope = null): PersonalizationResources
     {
-        return app($this->component(Slide::class));
+        $this->scope ??= $scope;
+
+        return $this->component(Slide::class);
     }
 
-    public function stats(): PersonalizationResources
+    public function stats(?string $scope = null): PersonalizationFactory
     {
-        return app($this->component(Stats::class));
+        $this->scope ??= $scope;
+
+        return $this->component(Stats::class);
     }
 
-    public function step(): PersonalizationResources
+    public function step(?string $scope = null): PersonalizationFactory
     {
-        return app($this->component(Step::class));
+        $this->scope ??= $scope;
+
+        return $this->component(Step::class);
     }
 
-    public function tab(): PersonalizationResources
+    public function tab(?string $scope = null): PersonalizationFactory
     {
-        return app($this->component(Tab::class));
+        $this->scope ??= $scope;
+
+        return $this->component(Tab::class);
     }
 
-    public function table(): PersonalizationResources
+    public function table(?string $scope = null): PersonalizationFactory
     {
-        return app($this->component(Table::class));
+        $this->scope ??= $scope;
+
+        return $this->component(Table::class);
     }
 
-    public function themeSwitch(): PersonalizationResources
+    public function themeSwitch(?string $scope = null): PersonalizationFactory
     {
-        return app($this->component(ThemeSwitch::class));
+        $this->scope ??= $scope;
+
+        return $this->component(ThemeSwitch::class);
     }
 
-    public function toast(): PersonalizationResources
+    public function toast(?string $scope = null): PersonalizationFactory
     {
-        return app($this->component(Toast::class));
+        $this->scope ??= $scope;
+
+        return $this->component(Toast::class);
     }
 
-    public function tooltip(): PersonalizationResources
+    public function tooltip(?string $scope = null): PersonalizationFactory
     {
-        return app($this->component(Tooltip::class));
+        $this->scope ??= $scope;
+
+        return $this->component(Tooltip::class);
     }
 
-    public function wrapper(?string $component = null): PersonalizationResources
+    public function wrapper(?string $component = null, ?string $scope = null): PersonalizationFactory
     {
+        $this->scope ??= $scope;
+
         $component ??= 'input';
 
         $class = match ($component) {
@@ -331,18 +367,31 @@ class Personalization
             default => $component,
         };
 
-        return app($this->component($class));
+        return $this->component($class);
     }
 
-    /** @throws Exception */
-    private function component(string $class): string
+    /**
+     * Searches for the component from the list of all components using the customization attribute.
+     *
+     * @throws Exception
+     */
+    private function component(string $class): string|PersonalizationFactory
     {
-        $component = array_search($class, self::components());
+        $component = __ts_search_component($class);
 
-        if (! $component) {
-            throw new Exception("Component [{$class}] is not allowed to be personalized");
+        // This is the strategy adopted for scope personalization. We create a temporary
+        // key in the Laravel container and instead of returning the same instance - which
+        // would normally happen, as in v1, we return a new instance of PersonalizationResources.
+        if (($scope = $this->scope) !== null) {
+            $this->scope = null; // Resetting the scope to avoid infinite recursion.
+
+            $instance = new PersonalizationFactory($class, scope: $scope);
+
+            app()->singleton(__ts_scope_container_key($component, $scope), fn () => $instance);
+
+            return $instance;
         }
 
-        return $component;
+        return app($component);
     }
 }

@@ -11,7 +11,7 @@ export default (flash) => ({
 
     this.toasts.push(event.detail ?? flash);
   },
-  remove(notification) {
-    this.toasts = this.toasts.filter((element) => element.id !== notification.id);
+  remove(toast) {
+    this.toasts = this.toasts.filter((element) => element.id !== toast.id);
   },
 });

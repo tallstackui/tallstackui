@@ -6,17 +6,20 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use InvalidArgumentException;
+use TallStackUi\Foundation\Attributes\PassThroughRuntime;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\View\Components\BaseComponent;
+use TallStackUi\Foundation\Support\Runtime\Components\SelectNativeRuntime;
+use TallStackUi\TallStackUiComponent;
 use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
-use TallStackUi\View\Components\Select\Traits\InteractsWithSelectOptions;
+use TallStackUi\View\Components\Select\Traits\Setup;
 
 #[SoftPersonalization('select.native')]
-class Native extends BaseComponent implements Personalization
+#[PassThroughRuntime(SelectNativeRuntime::class)]
+class Native extends TallStackUiComponent implements Personalization
 {
     use DefaultInputClasses;
-    use InteractsWithSelectOptions;
+    use Setup;
 
     public function __construct(
         public ?string $label = null,
@@ -26,7 +29,7 @@ class Native extends BaseComponent implements Personalization
         public ?array $selectable = [],
         public ?bool $invalidate = null,
     ) {
-        $this->options();
+        //
     }
 
     public function blade(): View
