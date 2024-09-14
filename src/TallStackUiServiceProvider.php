@@ -21,11 +21,11 @@ class TallStackUiServiceProvider extends ServiceProvider
     {
         $this->registerConfig();
 
-        $this->registerCommands();
-
         $this->registerComponents();
 
         $this->registerComponentPersonalization();
+
+        $this->registerCommands();
 
         Directives::register();
     }
@@ -52,18 +52,16 @@ class TallStackUiServiceProvider extends ServiceProvider
 
     protected function registerComponentPersonalization(): void
     {
-        foreach (__ts_components() as $key => $component) {
-            $this->app->singleton($key, fn () => new PersonalizationFactory($component));
+        foreach (__ts_components() as $key => $class) {
+            $this->app->singleton($key, fn () => new PersonalizationFactory($class));
         }
     }
 
     protected function registerComponents(): void
     {
         $this->callAfterResolving(BladeCompiler::class, function (BladeCompiler $blade): void {
-            $prefix = app(ComponentPrefix::class);
-
-            foreach (config('tallstackui.components') as $alias => $class) {
-                $blade->component($class, $prefix->add($alias));
+            foreach (config('tallstackui.components') as $name => $class) {
+                $blade->component($class, app(ComponentPrefix::class)->add($name));
             }
         });
     }
