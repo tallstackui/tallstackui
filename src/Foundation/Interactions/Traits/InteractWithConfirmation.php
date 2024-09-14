@@ -2,7 +2,7 @@
 
 namespace TallStackUi\Foundation\Interactions\Traits;
 
-use TallStackUi\Interactions\Dialog;
+use TallStackUi\Foundation\Interactions\Dialog;
 
 /**
  * @internal

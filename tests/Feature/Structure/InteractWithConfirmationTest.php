@@ -1,7 +1,7 @@
 <?php
 
-use TallStackUi\Interactions\Dialog;
-use TallStackUi\Interactions\Toast;
+use TallStackUi\Foundation\Interactions\Dialog;
+use TallStackUi\Foundation\Interactions\Toast;
 use TallStackUi\Interactions\Traits\InteractWithConfirmation;
 
 test('can only be used in Dialog and Toast')

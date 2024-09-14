@@ -5,8 +5,8 @@ namespace TallStackUi\Foundation\Interactions\Traits;
 use Closure;
 use Exception;
 use InvalidArgumentException;
-use TallStackUi\Interactions\Dialog;
-use TallStackUi\Interactions\Toast;
+use TallStackUi\Foundation\Interactions\Dialog;
+use TallStackUi\Foundation\Interactions\Toast;
 
 /**
  * @internal
