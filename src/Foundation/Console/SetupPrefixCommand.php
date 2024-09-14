@@ -16,7 +16,7 @@ class SetupPrefixCommand extends Command
 
     public function handle(): int
     {
-        $prefix = text('What prefix do you want to use for the TallStackUI components?', required: true, hint: 'Type null to remove the current prefix, if set.');
+        $prefix = text('What prefix do you want to use?', required: true, hint: 'Type null to remove the current prefix, if set.');
         $null = $prefix === 'null';
 
         if ($null && blank(config('tallstackui.prefix'))) {
