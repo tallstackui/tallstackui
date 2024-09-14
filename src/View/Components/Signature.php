@@ -4,11 +4,15 @@ namespace TallStackUi\View\Components;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
+use TallStackUi\Foundation\Attributes\PassThroughRuntime;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Foundation\Support\Runtime\Components\SignatureRuntime;
 use TallStackUi\TallStackUiComponent;
 
 #[SoftPersonalization('signature')]
+#[PassThroughRuntime(SignatureRuntime::class)]
+//TODO: tests
 class Signature extends TallStackUiComponent implements Personalization
 {
     public function __construct(

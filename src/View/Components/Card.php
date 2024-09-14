@@ -14,7 +14,6 @@ use TallStackUi\TallStackUiComponent;
 
 #[SoftPersonalization('card')]
 #[ColorsThroughOf(CardColors::class)]
-// TODO: browser tests for minimize and close properties
 class Card extends TallStackUiComponent implements Personalization
 {
     public function __construct(

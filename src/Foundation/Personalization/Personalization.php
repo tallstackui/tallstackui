@@ -292,14 +292,14 @@ class Personalization
         return $this->component($class);
     }
 
-    public function signature(?string $scope = null): PersonalizationResources
+    public function signature(?string $scope = null): PersonalizationFactory
     {
         $this->scope ??= $scope;
 
-        return $this->component($class);
+        return $this->component(Signature::class);
     }
 
-    public function slide(?string $scope = null): PersonalizationResources
+    public function slide(?string $scope = null): PersonalizationFactory
     {
         $this->scope ??= $scope;
 
