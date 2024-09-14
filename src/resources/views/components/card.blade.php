@@ -3,7 +3,7 @@
 @endphp
 
 {{-- TODO: move to a js dedicated file --}}
-<div x-data="{ minimize: false, show: true }" @class($personalize['wrapper.first']) x-show="show">
+<div x-data="{ minimize: @js($initializeMinimized ?? false), show: true }" @class($personalize['wrapper.first']) x-show="show">
     <div @class($personalize['wrapper.second'])>
         @if ($header)
             <div @class([$personalize['header.wrapper.base'], $colors['background']]) x-bind:class="{ '{{ $personalize['header.wrapper.border'] }}' : !minimize }">
