@@ -2,8 +2,7 @@
     $personalize = $classes();
 @endphp
 
-{{-- TODO: move to a js dedicated file --}}
-<div x-data="{ minimize: @js($initializeMinimized ?? false), show: true }" @class($personalize['wrapper.first']) x-show="show">
+<div x-data="tallstackui_card(@js($initializeMinimized))" @class($personalize['wrapper.first']) x-show="show">
     <div @class($personalize['wrapper.second'])>
         @if ($header)
             <div @class([$personalize['header.wrapper.base'], $colors['background']]) x-bind:class="{ '{{ $personalize['header.wrapper.border'] }}' : !minimize }">
@@ -35,25 +34,11 @@
                 @endif
             </div>
         @endif
-        <div {{ $attributes->class($personalize['body']) }}
-             x-show="!minimize"
-             x-transition:enter="transition ease-out duration-100"
-             x-transition:enter-start="max-height-0 opacity-0"
-             x-transition:enter-end="max-height-full opacity-100"
-             x-transition:leave="transition ease-in duration-100"
-             x-transition:leave-start="max-height-full opacity-100"
-             x-transition:leave-end="max-height-0 opacity-0">
+        <div {{ $attributes->class($personalize['body']) }} x-show="!minimize">
             {{ $slot }}
         </div>
         @if ($footer)
-            <div @class($personalize['footer.wrapper'])
-                 x-show="!minimize"
-                 x-transition:enter="transition ease-out duration-100"
-                 x-transition:enter-start="max-height-0 opacity-0"
-                 x-transition:enter-end="max-height-full opacity-100"
-                 x-transition:leave="transition ease-in duration-100"
-                 x-transition:leave-start="max-height-full opacity-100"
-                 x-transition:leave-end="max-height-0 opacity-0">
+            <div @class($personalize['footer.wrapper']) x-show="!minimize">
                 <div @class($personalize['footer.text'])>
                     {{ $footer }}
                 </div>
