@@ -13,6 +13,7 @@ use TallStackUi\TallStackUiComponent;
 #[SoftPersonalization('signature')]
 #[PassThroughRuntime(SignatureRuntime::class)]
 //TODO: tests
+//TODO: when using wire:model the content has `data:image/png;base64,` prepended to the value, this is really needed?
 class Signature extends TallStackUiComponent implements Personalization
 {
     public function __construct(
