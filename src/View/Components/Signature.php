@@ -6,9 +6,10 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\TallStackUiComponent;
 
 #[SoftPersonalization('signature')]
-class Signature extends BaseComponent implements Personalization
+class Signature extends TallStackUiComponent implements Personalization
 {
     public function __construct(
         public ?string $label = null,
