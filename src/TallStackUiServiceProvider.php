@@ -5,7 +5,6 @@ namespace TallStackUi;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
 use TallStackUi\Foundation\Console\FindComponentCommand;
-use TallStackUi\Foundation\Console\PersonalizationScopesCommand;
 use TallStackUi\Foundation\Console\PublishColorsClassCommand;
 use TallStackUi\Foundation\Console\SetupIconsCommand;
 use TallStackUi\Foundation\Console\SetupPrefixCommand;
@@ -46,7 +45,6 @@ class TallStackUiServiceProvider extends ServiceProvider
             SetupPrefixCommand::class,
             FindComponentCommand::class,
             PublishColorsClassCommand::class,
-            PersonalizationScopesCommand::class,
         ]);
     }
 
