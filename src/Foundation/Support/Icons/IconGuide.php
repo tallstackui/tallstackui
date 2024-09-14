@@ -33,6 +33,8 @@ class IconGuide
         return [
             'styles' => ['default'],
             'icons' => [
+                'arrow-uturn-left' => 'undo',
+                'arrow-uturn-right' => 'redo',
                 'arrow-path' => 'sync',
                 'arrow-trending-up' => 'trending-up',
                 'arrow-trending-down' => 'trending-down',
@@ -51,6 +53,7 @@ class IconGuide
                 'clock' => 'schedule',
                 'document-check' => 'assignment',
                 'document-text' => 'description',
+                'document-arrow-down' => 'file-save',
                 'exclamation-circle' => 'info',
                 'eye' => 'visibility',
                 'eye-slash' => 'visibility-off',
@@ -76,6 +79,8 @@ class IconGuide
         return [
             'styles' => ['outline', 'solid'],
             'icons' => [
+                'arrow-uturn-left' => 'arrow-uturn-left',
+                'arrow-uturn-right' => 'arrow-uturn-right',
                 'arrow-path' => 'arrow-path',
                 'arrow-trending-up' => 'arrow-trending-up',
                 'arrow-trending-down' => 'arrow-trending-down',
@@ -94,6 +99,7 @@ class IconGuide
                 'clock' => 'clock',
                 'document-check' => 'document-check',
                 'document-text' => 'document-text',
+                'document-arrow-down' => 'document-arrow-down',
                 'exclamation-circle' => 'exclamation-circle',
                 'eye' => 'eye',
                 'eye-slash' => 'eye-slash',
@@ -168,6 +174,8 @@ class IconGuide
                 'duotone',
             ],
             'icons' => [
+                'arrow-uturn-left' => 'arrow-u-up-left',
+                'arrow-uturn-right' => 'arrow-u-up-right',
                 'arrow-path' => 'arrows-clockwise',
                 'arrow-trending-up' => 'trend-up',
                 'arrow-trending-down' => 'trend-down',
@@ -186,6 +194,7 @@ class IconGuide
                 'clock' => 'clock',
                 'document-check' => 'clipboard-text',
                 'document-text' => 'file-text',
+                'document-arrow-down' => 'file-arrow-down',
                 'exclamation-circle' => 'info',
                 'eye' => 'eye',
                 'eye-slash' => 'eye-slash',
@@ -246,6 +255,8 @@ class IconGuide
         return [
             'styles' => ['default'],
             'icons' => [
+                'arrow-uturn-left' => 'arrow-back-up',
+                'arrow-uturn-right' => 'arrow-forward-up',
                 'arrow-path' => 'refresh',
                 'arrow-trending-up' => 'trending-up',
                 'arrow-trending-down' => 'trending-down',
@@ -264,6 +275,7 @@ class IconGuide
                 'clock' => 'clock',
                 'document-check' => 'file-check',
                 'document-text' => 'file-text',
+                'document-arrow-down' => 'file-download',
                 'exclamation-circle' => 'exclamation-circle',
                 'eye' => 'eye',
                 'eye-slash' => 'eye-off',

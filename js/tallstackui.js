@@ -11,6 +11,7 @@ import loading from './components/loading/loading';
 import modal from './components/modal/modal';
 import number from './components/form/number';
 import select from './components/form/select/select';
+import signature from './components/signature/signature';
 import slide from './components/slide/slide';
 import stats from './components/stats/stats';
 import password from './components/form/password';
@@ -46,6 +47,7 @@ document.addEventListener('alpine:init', () => {
   Alpine.data('tallstackui_modal', modal);
   Alpine.data('tallstackui_reaction', reaction);
   Alpine.data('tallstackui_select', select);
+  Alpine.data('tallstackui_signature', signature);
   Alpine.data('tallstackui_slide', slide);
   Alpine.data('tallstackui_stats', stats);
   Alpine.data('tallstackui_table', table);

@@ -330,6 +330,7 @@ return [
         'rating' => Components\Rating::class,
         'select.native' => Components\Select\Native::class,
         'select.styled' => Components\Select\Styled::class,
+        'signature' => Components\Signature::class,
         'slide' => Components\Slide::class,
         'stats' => Components\Stats::class,
         'step' => Components\Step\Step::class,
