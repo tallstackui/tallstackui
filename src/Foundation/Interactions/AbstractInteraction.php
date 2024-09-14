@@ -1,6 +1,6 @@
 <?php
 
-namespace TallStackUi\Foundation\Support\Interactions;
+namespace TallStackUi\Foundation\Interactions;
 
 use Exception;
 use Livewire\Component;

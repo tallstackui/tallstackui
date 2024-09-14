@@ -1,8 +1,8 @@
 <?php
 
-namespace TallStackUi\Foundation\Support\Interactions\Traits;
+namespace TallStackUi\Foundation\Interactions\Traits;
 
-use TallStackUi\Foundation\Support\Interactions\Dialog;
+use TallStackUi\Interactions\Dialog;
 
 /**
  * @internal

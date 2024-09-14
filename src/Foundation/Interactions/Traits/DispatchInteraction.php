@@ -1,12 +1,12 @@
 <?php
 
-namespace TallStackUi\Foundation\Support\Interactions\Traits;
+namespace TallStackUi\Foundation\Interactions\Traits;
 
 use Closure;
 use Exception;
 use InvalidArgumentException;
-use TallStackUi\Foundation\Support\Interactions\Dialog;
-use TallStackUi\Foundation\Support\Interactions\Toast;
+use TallStackUi\Interactions\Dialog;
+use TallStackUi\Interactions\Toast;
 
 /**
  * @internal

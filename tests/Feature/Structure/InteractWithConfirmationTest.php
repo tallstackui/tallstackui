@@ -1,8 +1,8 @@
 <?php
 
-use TallStackUi\Foundation\Support\Interactions\Dialog;
-use TallStackUi\Foundation\Support\Interactions\Toast;
-use TallStackUi\Foundation\Support\Interactions\Traits\InteractWithConfirmation;
+use TallStackUi\Interactions\Dialog;
+use TallStackUi\Interactions\Toast;
+use TallStackUi\Interactions\Traits\InteractWithConfirmation;
 
 test('can only be used in Dialog and Toast')
     ->expect(InteractWithConfirmation::class)
