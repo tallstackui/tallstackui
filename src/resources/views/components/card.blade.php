@@ -5,8 +5,8 @@
 <div @class($personalize['wrapper.first'])>
     <div @class($personalize['wrapper.second'])>
         @if ($header)
-            <div @class($personalize['header.wrapper'])>
-                <div @class($personalize['header.text'])>
+            <div @class([$personalize['header.wrapper'], $colors['background']])>
+                <div @class($personalize['header.text.size'])>
                     {{ $header }}
                 </div>
             </div>

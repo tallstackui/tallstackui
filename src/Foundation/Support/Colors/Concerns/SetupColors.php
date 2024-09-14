@@ -2,11 +2,13 @@
 
 namespace TallStackUi\Foundation\Support\Colors\Concerns;
 
+use Exception;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionMethod;
+use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\Support\Miscellaneous\ReflectComponent;
 
 use function Livewire\invade;
@@ -58,6 +60,24 @@ trait SetupColors
     }
 
     /**
+     * Get default personalization contents of the component.
+     *
+     * @throws Exception
+     */
+    protected function personalization(string $index): ?string
+    {
+        if (! $this->component instanceof Personalization) {
+            return null;
+        }
+
+        if (! Arr::exists($this->component->personalization(), $index)) {
+            throw new Exception("The personalization key [{$index}] does not exist.");
+        }
+
+        return $this->component->personalization()[$index] ?? null;
+    }
+
+    /**
      * Set up the colors for the component.
      *
      * @throws ReflectionException
@@ -78,14 +98,12 @@ trait SetupColors
             $method .= 'Colors';
 
             if ($class) {
-                // If for any unknown reason the method does not exist, we will use the default.
                 if (! method_exists($class, $method)) {
                     $this->classes[$original] = $this->{$original}();
 
                     continue;
                 }
 
-                // We use invade to ensure that regardless of the method's visibility, we can obtain the value.
                 $result = invade($class)->{$method}($this->component);
 
                 $this->classes[$original] = blank($result) ? null : $result;
