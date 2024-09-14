@@ -42,7 +42,7 @@ class DateRuntime extends AbstractRuntime
         }
 
         if ($range && count($value) === 2) {
-            [$start, $end] = array_map(fn (string $date) => Carbon::parse($date), $value);
+            [$start, $end] = array_map(fn (?string $date) => Carbon::parse($date), $value);
 
             if ($start->greaterThan($end)) {
                 throw new InvalidArgumentException('The start date in the [range] must be greater than the second date.');

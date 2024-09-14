@@ -1,8 +1,16 @@
 import {overflow} from '../../helpers';
 
-export default (overflowing) => ({
+export default (name, overflowing) => ({
   init() {
-    Livewire.hook('commit.prepare', () => overflow(true, 'loading', overflowing));
-    Livewire.hook('morph.updated', () => overflow(false, 'loading', overflowing));
+    Livewire.hook('commit.prepare', ({ component }) => {
+      if (component.name !== name) return;
+
+      overflow(true, 'loading', overflowing)
+    });
+    Livewire.hook('morph.updated', ({ component }) => {
+        if (component.name !== name) return;
+
+      overflow(false, 'loading', overflowing);
+    });
   },
 });

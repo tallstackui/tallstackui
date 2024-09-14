@@ -11,7 +11,7 @@
         $personalize['wrapper.first'],
         $personalize['blur'] => $configurations['blur'] === true,
         $personalize['opacity'] => $configurations['opacity'] === true,
-    ]) x-ref="loading" x-data="tallstackui_loading(@js($configurations['overflow'] ?? false))">
+    ]) x-ref="loading" x-data="tallstackui_loading(@js($this->getName()), @js($configurations['overflow'] ?? false))">
     <div @class($personalize['wrapper.second'])>
         @if (!$text && empty($slot->toHtml()))
             <x-tallstack-ui::icon.generic.loading @class($personalize['spinner']) />
