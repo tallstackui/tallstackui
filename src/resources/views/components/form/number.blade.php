@@ -9,7 +9,7 @@
             $personalize['input.color.background'] => !$attributes->get('disabled') && !$attributes->get('readonly'),
             $personalize['input.color.disabled'] => $attributes->get('disabled') || $attributes->get('readonly'),
             $personalize['error'] => $error === true
-        ]) x-data="tallstackui_formNumber({!! $entangle !!}, @js($min), @js($max), @js($delay))">
+        ]) x-data="tallstackui_formNumber({!! $entangle !!}, @js($min), @js($max), @js($delay), @js($step))">
         <div @class([$personalize['buttons.wrapper'], 'justify-between' => $centralized])>
             <input @if ($id) id="{{ $id }}" @endif
                type="number"

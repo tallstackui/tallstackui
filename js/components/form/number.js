@@ -1,6 +1,6 @@
 import {warning} from '../../helpers';
 
-export default (value, min, max, delay) => ({
+export default (value, min, max, delay, step) => ({
   value: value,
   min: min,
   max: max,
@@ -44,7 +44,7 @@ export default (value, min, max, delay) => ({
       this.$refs.input.value ||= this.min;
     }
 
-    this.$refs.input.stepUp();
+    this.$refs.input.stepUp(step);
     this.$refs.input.dispatchEvent(new Event('change'));
     this.update();
   },
@@ -59,7 +59,7 @@ export default (value, min, max, delay) => ({
       this.$refs.input.value ||= this.min;
     }
 
-    this.$refs.input.stepDown();
+    this.$refs.input.stepDown(step);
     this.$refs.input.dispatchEvent(new Event('change'));
     this.update();
   },
