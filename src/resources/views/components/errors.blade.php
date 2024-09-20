@@ -2,9 +2,10 @@
     $personalize = $classes();
 @endphp
 
-@if ($errors->count())
+@if ($errors->isNotEmpty())
     <div @class(['w-full'])
          x-data="{ show : true, close () { this.show = false; this.$el.dispatchEvent(new CustomEvent('close')) } }"
+         x-init="() => Livewire.hook('commit.prepare', () => show = true)"
          x-show="show">
         <div {{ $attributes->class([
                 $personalize['wrapper'],
