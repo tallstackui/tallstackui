@@ -148,7 +148,7 @@
                         </div>
                     </li>
                 </template>
-                <li x-show="available.length >= 10" x-intersect:once="load()"></li>
+                <li x-show="request === null && available.length >= 10" x-intersect:once="load()"></li>
                 @if (!$after)
                     <template x-if="!loading && available.length === 0">
                         <li class="m-2">

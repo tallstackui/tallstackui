@@ -3,7 +3,7 @@ import {body} from './helpers';
 
 export default (
     model = null,
-    request,
+    request = null,
     selectable = {},
     multiple = false,
     placeholder = 'Select an option',
@@ -89,8 +89,6 @@ export default (
    * @returns {void}
    */
   initAsCommon() {
-    this.options = Alpine.evaluate(this, this.$refs.options.innerText);
-
     this.observation();
 
     this.hydrate();
@@ -534,24 +532,34 @@ export default (
    * @returns {Array}
    */
   get available() {
-    const available = this.common ? this.options : this.response;
+    let available = this.common ? this.options : this.response;
 
-    if (this.search === '') return Object.values(available).slice(0, this.max);
+    if (this.common) {
+        available = Object.values(available).slice(0, this.max);
+    }
+
+    if (this.search === '') return available;
 
     const search = this.normalize(this.search.toLowerCase());
 
-    return available.filter((option) => {
-      const label = this.normalize(this.dimensional ?
-          option[selectable.label].toString().toLowerCase() :
-          option.toString().toLowerCase());
+    const filter = (option) => {
+        const label = this.normalize(this.dimensional ?
+            option[selectable.label].toString().toLowerCase() :
+            option.toString().toLowerCase());
 
-      const description = option.description ?
-        this.normalize(option.description.toString().toLowerCase()) :
-        null;
+        const description = option.description ?
+            this.normalize(option.description.toString().toLowerCase()) :
+            null;
 
-      return this.dimensional ?
-        (label.indexOf(search) !== -1 || (this.common && description && description.indexOf(search) !== -1)) :
-          this.normalize(option.toString().toLowerCase()).indexOf(search) !== -1;
-    }).slice(0, this.max);
+        return this.dimensional ?
+            (label.indexOf(search) !== -1 || (this.common && description && description.indexOf(search) !== -1)) :
+            this.normalize(option.toString().toLowerCase()).indexOf(search) !== -1;
+    };
+
+    if (this.common) {
+        return available.filter(filter).slice(0, this.max);
+    }
+
+    return available.filter(filter);
   },
 });
