@@ -15,6 +15,7 @@ export default (
     value,
     limit = null,
     change = null,
+    max = 10,
 ) => ({
   show: false,
   model: model,
@@ -40,10 +41,8 @@ export default (
   limit: limit,
   image: null,
   index: null,
-  max: 10,
+  max: max,
   async init() {
-    this.options = Alpine.evaluate(this, this.$refs.options.innerText);
-
     if (!this.livewire) {
       if (this.common) {
         this.$nextTick(() => this.initAsVanilla());
@@ -90,6 +89,8 @@ export default (
    * @returns {void}
    */
   initAsCommon() {
+    this.options = Alpine.evaluate(this, this.$refs.options.innerText);
+
     this.observation();
 
     this.hydrate();
@@ -489,9 +490,9 @@ export default (
     this.index = next;
   },
   load() {
-    this.max += 10;
+    if (this.options.length === this.available.length) return;
 
-    console.log(this.available.length, this.max);
+    this.max += max;
   },
   /**
    * Set the input value when is not Livewire.
