@@ -20,6 +20,7 @@ use TallStackUi\TallStackUiComponent;
 class Rating extends TallStackUiComponent implements Personalization
 {
     public function __construct(
+        public ?string $icon = null,
         public ?int $quantity = 5,
         public float|int|null $rate = null,
         public ?string $text = null,
