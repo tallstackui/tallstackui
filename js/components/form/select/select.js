@@ -5,7 +5,6 @@ export default (
     model = null,
     request,
     selectable = {},
-    options = [],
     multiple = false,
     placeholder = 'Select an option',
     searchable = false,
@@ -32,7 +31,7 @@ export default (
   common: common,
   required: required,
   response: [],
-  options: options,
+  options: null,
   observer: null,
   observing: false,
   livewire: livewire,
@@ -41,7 +40,10 @@ export default (
   limit: limit,
   image: null,
   index: null,
+  max: 10,
   async init() {
+    this.options = Alpine.evaluate(this, this.$refs.options.innerText);
+
     if (!this.livewire) {
       if (this.common) {
         this.$nextTick(() => this.initAsVanilla());
@@ -486,6 +488,11 @@ export default (
 
     this.index = next;
   },
+  load() {
+    this.max += 10;
+
+    console.log(this.available.length, this.max);
+  },
   /**
    * Set the input value when is not Livewire.
    *
@@ -528,7 +535,7 @@ export default (
   get available() {
     const available = this.common ? this.options : this.response;
 
-    if (this.search === '') return Object.values(available);
+    if (this.search === '') return Object.values(available).slice(0, this.max);
 
     const search = this.normalize(this.search.toLowerCase());
 
@@ -544,6 +551,6 @@ export default (
       return this.dimensional ?
         (label.indexOf(search) !== -1 || (this.common && description && description.indexOf(search) !== -1)) :
           this.normalize(option.toString().toLowerCase()).indexOf(search) !== -1;
-    });
+    }).slice(0, this.max);
   },
 });

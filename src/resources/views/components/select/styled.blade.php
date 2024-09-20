@@ -10,7 +10,6 @@
         {!! $entangle !!},
         @js($request),
         @js($selectable),
-        @js($options),
         @js($multiple),
         @js($placeholder),
         @js($searchable),
@@ -149,6 +148,7 @@
                         </div>
                     </li>
                 </template>
+                <li x-show="available.length >= 10" x-intersect:once="load()"></li>
                 @if (!$after)
                     <template x-if="!loading && available.length === 0">
                         <li class="m-2">
