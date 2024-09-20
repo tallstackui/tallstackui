@@ -19,7 +19,8 @@
         @js($property),
         @js($value),
         @js($limit),
-        @js($change))"
+        @js($change),
+        @js($lazy))"
         x-cloak
         x-on:keydown="navigate($event)"
         wire:ignore.self>
@@ -148,7 +149,7 @@
                         </div>
                     </li>
                 </template>
-                <li x-show="request === null && available.length >= 10" x-intersect:once="load()"></li>
+                <li x-show="@js($common) === true && available.length >= 10" x-intersect:once="load()"></li>
                 @if (!$after)
                     <template x-if="!loading && available.length === 0">
                         <li class="m-2">
