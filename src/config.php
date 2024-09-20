@@ -23,9 +23,9 @@ return [
     |
     | Controls the fallback behavior for loading assets.
     |
-    | READ THE DOCS BEFORE ENABLING THIS FEATURE.
+    | MAKE SURE TO READ THE DOCS BEFORE MANIPULATING THIS.
     */
-    'assets_fallback' => env('TALLSTACKUI_ASSETS_FALLBACK', false),
+    'assets_fallback' => env('TALLSTACKUI_ASSETS_FALLBACK', true),
 
     /*
     |--------------------------------------------------------------------------

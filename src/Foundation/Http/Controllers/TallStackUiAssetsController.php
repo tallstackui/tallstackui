@@ -43,8 +43,9 @@ class TallStackUiAssetsController
             return $file;
         }
 
-        $type = str_contains($file, '.css') ? 'css' : 'js';
-        $plugin = (string) request()->query('plugin');
+        $string = str(request()->url())->afterLast('/');
+        $type = request()->segment(2) === 'script' ? 'js' : 'css';
+        $plugin = $string->contains('tallstackui') ? null : $string->before('-');
 
         // We get all files from the dist directory and filter them according to their type
         // and also whether the request is for a "plugin" and whether the file contains the plugin name.

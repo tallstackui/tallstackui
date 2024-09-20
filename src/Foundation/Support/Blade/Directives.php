@@ -70,7 +70,7 @@ class Directives
         // extra CSS is not load by Vite from the project that uses TallStackUI we need to deliver
         // the CSS automatically through the <tallstackui:script /> or @tallStackUiScript directive
         if (($manifest['css'][0] ?? null) !== null) {
-            $html .= $this->format($this->manifest('node_modules/tippy.js/dist/tippy.css', 'file'), 'tippy');
+            $html .= $this->format($this->manifest('node_modules/tippy.js/dist/tippy.css', 'file'));
         }
 
         return $html;
@@ -87,14 +87,12 @@ class Directives
     /**
      * Format according to the file extension.
      */
-    private function format(string $file, ?string $plugin = null): string
+    private function format(string $file): string
     {
-        $link = (match (true) { // @phpstan-ignore-line
-            str_ends_with($file, '.js') => fn () => "<script src=\"/tallstackui/script/{$file}{plugin}\" defer></script>",
-            str_ends_with($file, '.css') => fn () => "<link href=\"/tallstackui/style/{$file}{plugin}\" rel=\"stylesheet\" type=\"text/css\">",
+        return (match (true) { // @phpstan-ignore-line
+            str_ends_with($file, '.js') => fn () => "<script src=\"/tallstackui/script/{$file}\" defer></script>",
+            str_ends_with($file, '.css') => fn () => "<link href=\"/tallstackui/style/{$file}\" rel=\"stylesheet\" type=\"text/css\">",
         })();
-
-        return str_replace('{plugin}', $plugin ? '?plugin='.$plugin : '', $link);
     }
 
     /**

@@ -198,6 +198,36 @@ class NumberTest extends BrowserTestCase
     }
 
     /** @test */
+    public function can_increase_and_dispatch_change_event(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?int $quantity = 0;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="increased">{{ $quantity }}</p>
+                    
+                    <x-number label="Quantity" wire:change="sync" wire:model="quantity" />
+                </div>
+                HTML;
+            }
+
+            public function sync(): void
+            {
+                //
+            }
+        })
+            ->assertSee('Quantity')
+            ->waitForLivewire()->click('@tallstackui_form_number_increment')
+            ->waitForLivewire()->click('@tallstackui_form_number_increment')
+            ->waitForLivewire()->click('@tallstackui_form_number_increment')
+            ->waitForTextIn('@increased', '3');
+    }
+
+    /** @test */
     public function can_increase_by_step(): void
     {
         Livewire::visit(new class extends Component
@@ -227,36 +257,6 @@ class NumberTest extends BrowserTestCase
             ->click('@tallstackui_form_number_increment')
             ->click('@sync')
             ->waitForTextIn('@increased', '15');
-    }
-
-    /** @test */
-    public function can_increase_and_dispatch_change_event(): void
-    {
-        Livewire::visit(new class extends Component
-        {
-            public ?int $quantity = 0;
-
-            public function render(): string
-            {
-                return <<<'HTML'
-                <div>
-                    <p dusk="increased">{{ $quantity }}</p>
-                    
-                    <x-number label="Quantity" wire:change="sync" wire:model="quantity" />
-                </div>
-                HTML;
-            }
-
-            public function sync(): void
-            {
-                //
-            }
-        })
-            ->assertSee('Quantity')
-            ->waitForLivewire()->click('@tallstackui_form_number_increment')
-            ->waitForLivewire()->click('@tallstackui_form_number_increment')
-            ->waitForLivewire()->click('@tallstackui_form_number_increment')
-            ->waitForTextIn('@increased', '3');
     }
 
     /** @test */
