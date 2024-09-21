@@ -7,3 +7,8 @@ parameters:
         - src/
 
     level: 5
+
+    editorUrl: 'phpstorm://open?file=%%file%%&line=%%line%%'
+
+    excludePaths:
+        - *Test.php

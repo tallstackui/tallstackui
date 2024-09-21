@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\View\Component;
-use TallStackUi\Foundation\Support\Concerns\BaseComponent\ManagesBindProperty;
 use TallStackUi\Foundation\Support\Concerns\BaseComponent\ManagesClasses;
 use TallStackUi\Foundation\Support\Concerns\BaseComponent\ManagesCompilation;
 use TallStackUi\Foundation\Support\Concerns\BaseComponent\ManagesOutput;
@@ -30,7 +29,6 @@ test('TallStackUiComponent should have all the expected methods', function (stri
 test('TallStackUiComponent traits should only be used in the TallStackUiComponent', function (string $trait) {
     expect($trait)->toOnlyBeUsedIn(TallStackUiComponent::class);
 })->with([
-    ManagesBindProperty::class,
     ManagesClasses::class,
     ManagesCompilation::class,
     ManagesOutput::class,
