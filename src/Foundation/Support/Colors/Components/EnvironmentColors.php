@@ -1,0 +1,40 @@
+<?php
+
+namespace TallStackUi\Foundation\Support\Colors\Components;
+
+use Illuminate\Support\Str;
+use TallStackUi\Foundation\Support\Colors\Concerns\SetupColors;
+
+class EnvironmentColors
+{
+    use SetupColors;
+
+    public function colors(): array
+    {
+        [$background, $text] = $this->get('background', 'text');
+
+        return ['background' => $background, 'text' => $text];
+    }
+
+    private function background(): string // @phpstan-ignore-line
+    {
+        return match (Str::lower(app()->environment())) {
+            'local' => 'border-green-500 bg-green-500 dark:bg-green-700 dark:bg-opacity-80 dark:border-transparent',
+            'staging' => 'border-yellow-500 bg-yellow-500 dark:bg-yellow-700 dark:bg-opacity-80 dark:border-transparent',
+            'sandbox' => 'border-blue-500 bg-blue-500 dark:bg-blue-700 dark:bg-opacity-80 dark:border-transparent',
+            'production' => 'border-red-500 bg-red-500 dark:bg-red-700 dark:bg-opacity-80 dark:border-transparent',
+            default => 'border-primary-500 bg-primary-500 dark:bg-primary-700 dark:bg-opacity-80 dark:border-transparent',
+        };
+    }
+
+    private function text(): string // @phpstan-ignore-line
+    {
+        return match (Str::lower(app()->environment())) {
+            'local' => 'text-green-50',
+            'staging' => 'text-yellow-50',
+            'sandbox' => 'text-blue-50',
+            'production' => 'text-red-50',
+            default => 'text-primary-50',
+        };
+    }
+}

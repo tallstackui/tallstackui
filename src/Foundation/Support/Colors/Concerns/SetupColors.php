@@ -28,20 +28,16 @@ trait SetupColors
 
     /**
      * Format the string to the data_get format (dot notation).
-     *
-     * @param  string  ...$terms
      */
-    protected function format(...$terms): string
+    protected function format(string ...$terms): string
     {
         return implode('.', $terms);
     }
 
     /**
      * Get the colors of the component.
-     *
-     * @param  string|string[]  $methods
      */
-    protected function get(...$methods): array
+    protected function get(string ...$methods): array
     {
         $targets = Arr::wrap($methods);
         $targets = count($targets) === 1 ? $targets[0] : $targets;
