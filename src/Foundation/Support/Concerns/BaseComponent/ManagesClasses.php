@@ -35,7 +35,7 @@ trait ManagesClasses
 
         $attribute = $reflection->attribute(SoftPersonalization::class);
 
-        if (blank($attribute->getArguments())) {
+        if (blank($attribute?->getArguments())) {
             return [];
         }
 

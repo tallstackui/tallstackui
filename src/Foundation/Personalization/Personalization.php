@@ -15,6 +15,7 @@ use TallStackUi\View\Components\Card;
 use TallStackUi\View\Components\Clipboard;
 use TallStackUi\View\Components\Dropdown\Dropdown;
 use TallStackUi\View\Components\Dropdown\Items as DropdownItems;
+use TallStackUi\View\Components\Environment;
 use TallStackUi\View\Components\Errors;
 use TallStackUi\View\Components\Floating;
 use TallStackUi\View\Components\Form\Checkbox;
@@ -156,6 +157,13 @@ class Personalization
         };
 
         return $this->component($class);
+    }
+
+    public function environment(?string $scope = null): PersonalizationFactory
+    {
+        $this->scope ??= $scope;
+
+        return $this->component(Environment::class);
     }
 
     public function errors(?string $scope = null): PersonalizationFactory
