@@ -11,6 +11,7 @@ use TallStackUi\View\Components\Boolean;
 use TallStackUi\View\Components\Button\Button;
 use TallStackUi\View\Components\Button\Circle;
 use TallStackUi\View\Components\Card;
+use TallStackUi\View\Components\Environment;
 use TallStackUi\View\Components\Errors;
 use TallStackUi\View\Components\Form\Checkbox;
 use TallStackUi\View\Components\Form\Radio;
@@ -40,6 +41,7 @@ test('should use attribute', function (string $component) {
     Circle::class,
     Checkbox::class,
     Dialog::class,
+    Environment::class,
     Errors::class,
     Link::class,
     Radio::class,
@@ -68,6 +70,7 @@ test('attribute should only be used in the components', function () {
             Circle::class,
             Checkbox::class,
             Dialog::class,
+            Environment::class,
             Errors::class,
             Link::class,
             Radio::class,

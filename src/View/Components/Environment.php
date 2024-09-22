@@ -50,7 +50,6 @@ class Environment extends TallStackUiComponent implements Personalization
                     'lg' => 'text-lg',
                 ],
             ],
-            'icon' => 'h-3 w-3',
         ]);
     }
 

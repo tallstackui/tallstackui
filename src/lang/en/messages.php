@@ -1,7 +1,6 @@
 <?php
 
 return [
-    // TODO: translate this to all other languages
     'environment' => [
         'environment' => 'Environment',
         'branch' => 'Branch',

@@ -1,6 +1,11 @@
 <?php
 
 return [
+    'environment' => [
+        'environment' => 'Ortam',
+        'branch' => 'Dal',
+    ],
+
     'errors' => [
         'title' => ':count doğrulama hatası mevcut:',
     ],

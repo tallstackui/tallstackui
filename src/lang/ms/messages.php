@@ -1,6 +1,11 @@
 <?php
 
 return [
+    'environment' => [
+        'environment' => 'Persekitaran',
+        'branch' => 'Cawangan',
+    ],
+
     'errors' => [
         'title' => 'Terdapat :count ralat pengesahan:',
     ],

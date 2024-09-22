@@ -90,7 +90,7 @@ if (! function_exists('__ts_class_collection')) {
         $collect->put('namespace', $namespace);
         $collect->put('file', $component.'Colors.php');
         $collect->put('file_raw', $component.'Colors');
-        $collect->put('stub', __DIR__.'/Foundation/Components/Colors/Stubs/'.$collect->get('file_raw').'.stub');
+        $collect->put('stub', __DIR__.'/Foundation/Support/Colors/Stubs/'.$collect->get('file_raw').'.stub');
 
         $class = $namespace.'\\'.$collect->get('file_raw');
 
