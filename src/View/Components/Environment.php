@@ -5,6 +5,7 @@ namespace TallStackUi\View\Components;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\File;
+use Illuminate\View\ComponentSlot;
 use TallStackUi\Foundation\Attributes\ColorsThroughOf;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
@@ -28,6 +29,10 @@ class Environment extends TallStackUiComponent implements Personalization
         public ?string $branch = null,
         #[SkipDebug]
         public ?string $size = null,
+        #[SkipDebug]
+        public ComponentSlot|string|null $left = null,
+        #[SkipDebug]
+        public ComponentSlot|string|null $right = null,
     ) {
         $this->branch = $this->branch();
         $this->size = $this->lg ? 'lg' : ($this->md ? 'md' : ($this->sm ? 'sm' : 'xs'));
