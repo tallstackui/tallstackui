@@ -210,6 +210,23 @@ return [
                 'colors' => null,
             ],
         ],
+
+        /*
+        |----------------------------------------------------------------------
+        | Environment
+        |----------------------------------------------------------------------
+        |
+        | colors: array of colors for each environment.
+        */
+        'environment' => [
+            'colors' => [
+                'local' => 'green',
+                'sandbox' => 'yellow',
+                'staging' => 'yellow',
+                'production' => 'red',
+            ],
+        ],
+
         /*
         |----------------------------------------------------------------------
         | Modal
@@ -309,6 +326,7 @@ return [
         'dialog' => Components\Interaction\Dialog::class,
         'dropdown' => Components\Dropdown\Dropdown::class,
         'dropdown.items' => Components\Dropdown\Items::class,
+        'environment' => Components\Environment::class,
         'error' => Components\Form\Error::class,
         'errors' => Components\Errors::class,
         'floating' => Components\Floating::class,
