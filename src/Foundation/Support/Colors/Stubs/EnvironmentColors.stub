@@ -1,0 +1,36 @@
+<?php
+
+namespace {{ namespace }};
+
+use Illuminate\Support\Str;
+
+class EnvironmentColors
+{
+    /**
+     * Background colors.
+     */
+    public function backgroundColors(): ?string
+    {
+        return match (Str::lower(app()->environment())) {
+            'local' => null,
+            'staging' => null,
+            'sandbox' => null,
+            'production' => null,
+            default => null,
+        };
+    }
+
+    /**
+     * Text colors.
+     */
+    public function textColors(): ?string
+    {
+        return match (Str::lower(app()->environment())) {
+            'local' => null,
+            'staging' => null,
+            'sandbox' => null,
+            'production' => null,
+            default => null,
+        };
+    }
+}

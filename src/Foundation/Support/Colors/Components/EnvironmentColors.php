@@ -13,7 +13,7 @@ class EnvironmentColors
     {
         [$background, $text] = $this->get('background', 'text');
 
-        return ['background' => $background, 'text' => $text];
+        return ['background' => $background ?? $this->background(), 'text' => $text ?? $this->text()];
     }
 
     private function background(): string // @phpstan-ignore-line
