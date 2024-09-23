@@ -13,7 +13,7 @@ class DialogColors
         [$cancel, $confirm, $icon] = $this->get('cancel', 'confirm', 'icon');
 
         return [
-            'cancel' => $cancel,
+            'cancel' => $cancel ?? $this->cancel(),
             'confirm' => array_merge($this->confirm(), array_filter($confirm)),
             'icon' => [
                 'background' => array_merge($this->icon()['background'], array_filter($icon['background'])),
@@ -22,7 +22,6 @@ class DialogColors
         ];
     }
 
-    // This should represent the button color (e.g., red, blue, etc).
     private function cancel(): string
     {
         return 'red';
