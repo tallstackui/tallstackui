@@ -1,13 +1,10 @@
 @php
-    [$property, $error, $id, $entangle] = $bind($attributes, $errors ?? null, $livewire);
     $personalize = $classes();
-    $icon = $icons();
-    $attributes = $mergeWhen($rules->isNotEmpty(), ['x-on:click' => 'rules = true', 'x-model.debounce' => 'input']);
 @endphp
 
 <div x-data="tallstackui_formPassword({!! $entangle !!}, @js($rules), @js($generator))" class="relative" x-cloak x-on:click.outside="rules = false">
      <x-dynamic-component :component="TallStackUi::component('input')"
-                          {{ $attributes->except('autocomplete') }}
+                          {{ $attributes->merge($password)->except('autocomplete') }}
                           :$label
                           :$hint
                           :$invalidate

@@ -18,6 +18,26 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Assets Fallback
+    |--------------------------------------------------------------------------
+    |
+    | Controls the fallback behavior for loading assets.
+    |
+    | MAKE SURE TO READ THE DOCS BEFORE MANIPULATING THIS.
+    */
+    'assets_fallback' => env('TALLSTACKUI_ASSETS_FALLBACK', true),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Color Classes Namespace
+    |--------------------------------------------------------------------------
+    |
+    | The namespace related to classes used for component color personalization.
+    */
+    'color_classes_namespace' => env('TALLSTACKUI_COLOR_CLASSES_NAMESPACE', 'App\\View\\Components\\TallStackUi\\Colors'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Debug Mode
     |--------------------------------------------------------------------------
     |
@@ -25,9 +45,10 @@ return [
     */
     'debug' => [
         'status' => env('TALLSTACKUI_DEBUG_MODE', false),
+
         /*
         |----------------------------------------------------------------------
-        | You can control in which environments the debug mode is enabled.
+        | Controls the environments where the debug mode can be enabled.
         |----------------------------------------------------------------------
         */
         'environments' => [
@@ -35,14 +56,14 @@ return [
             'sandbox',
             'staging',
         ],
+
         /*
         |----------------------------------------------------------------------
-        | You can ignore debug mode for certain specific components
-        | by setting the exact component name in this array.
+        | Ignore debug mode for specific components.
         |----------------------------------------------------------------------
         */
         'ignore' => [
-            //
+            // Components\Alert::class,
         ],
     ],
 
@@ -50,8 +71,6 @@ return [
     |--------------------------------------------------------------------------
     | Icon Style
     |--------------------------------------------------------------------------
-    |
-    | MAKE SURE TO READ THE DOCS BEFORE CHANGE THIS CONFIGURATION HERE.
     */
     'icons' => [
         /*
@@ -84,6 +103,71 @@ return [
         | not in use can be deleted automatically when new icons are set.
         */
         'flush' => true,
+
+        /*
+        |----------------------------------
+        | Custom icon configuration.
+        |----------------------------------
+        */
+        'custom' => [
+            /*
+            |----------------------------------
+            | Custom icons guide.
+            |----------------------------------
+            |
+            | These icons are used internally in the components. When using custom
+            | icons you can optionally change the internal icons to custom icons,
+            | causing this to reflect new icon looks for the internal components.
+            */
+            'guide' => [
+                'arrow-path' => null,
+                'arrow-trending-up' => null,
+                'arrow-trending-down' => null,
+                'arrow-up-tray' => null,
+                'calendar' => null,
+                'check' => null,
+                'check-circle' => null,
+                'chevron-down' => null,
+                'chevron-left' => null,
+                'chevron-right' => null,
+                'chevron-up' => null,
+                'chevron-up-down' => null,
+                'clipboard' => null,
+                'clipboard-document' => null,
+                'cloud-arrow-up' => null,
+                'clock' => null,
+                'document-check' => null,
+                'document-text' => null,
+                'exclamation-circle' => null,
+                'eye' => null,
+                'eye-slash' => null,
+                'information-circle' => null,
+                'magnifying-glass' => null,
+                'minus' => null,
+                'moon' => null,
+                'photo' => null,
+                'plus' => null,
+                'question-mark-circle' => null,
+                'swatch' => null,
+                'sun' => null,
+                'trash' => null,
+                'x-circle' => null,
+                'x-mark' => null,
+            ],
+
+            /*
+            |----------------------------------
+            | Custom icon fallback behavior.
+            |----------------------------------
+            |
+            | When enabling it we will use internal icons (Heroicons) to avoid
+            | exceptions when using a custom icon that doesn't exist. For example,
+            | if you use a "check" icon and don't have a custom one "check" icon,
+            | the Heroicons "check" icon will be used. Preferably you should only
+            | disable this when you are customizing ALL components of the "guide".
+            */
+            'fallback' => true,
+        ],
     ],
 
     /*
@@ -126,6 +210,7 @@ return [
                 'colors' => null,
             ],
         ],
+
         /*
         |----------------------------------------------------------------------
         | Modal
@@ -225,6 +310,7 @@ return [
         'dialog' => Components\Interaction\Dialog::class,
         'dropdown' => Components\Dropdown\Dropdown::class,
         'dropdown.items' => Components\Dropdown\Items::class,
+        'environment' => Components\Environment::class,
         'error' => Components\Form\Error::class,
         'errors' => Components\Errors::class,
         'floating' => Components\Floating::class,
@@ -246,6 +332,7 @@ return [
         'rating' => Components\Rating::class,
         'select.native' => Components\Select\Native::class,
         'select.styled' => Components\Select\Styled::class,
+        'signature' => Components\Signature::class,
         'slide' => Components\Slide::class,
         'stats' => Components\Stats::class,
         'step' => Components\Step\Step::class,

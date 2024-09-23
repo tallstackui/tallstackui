@@ -6,18 +6,18 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use InvalidArgumentException;
+use TallStackUi\Foundation\Attributes\PassThroughRuntime;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\Foundation\Traits\MergeAttributes;
-use TallStackUi\View\Components\BaseComponent;
+use TallStackUi\Foundation\Support\Runtime\Components\ColorRuntime;
+use TallStackUi\TallStackUiComponent;
 use TallStackUi\View\Components\Floating;
 
 #[SoftPersonalization('form.color')]
-class Color extends BaseComponent implements Personalization
+#[PassThroughRuntime(ColorRuntime::class)]
+class Color extends TallStackUiComponent implements Personalization
 {
-    use MergeAttributes;
-
     public function __construct(
         public ?string $label = null,
         public ?string $hint = null,
@@ -44,7 +44,6 @@ class Color extends BaseComponent implements Personalization
                 'base' => 'dark:border-dark-700 h-6 w-6 rounded shadow',
             ],
             'icon' => [
-                'wrapper' => 'absolute inset-y-0 right-0 flex items-center pr-2.5',
                 'class' => 'h-5 w-5',
             ],
             'floating' => collect(app(Floating::class)->personalization())->get('wrapper'),

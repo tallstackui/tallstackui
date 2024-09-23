@@ -1,11 +1,8 @@
 @php
-    $text ??= $slot->toHtml();
-    $hash = md5($text.uniqid());
     $personalize = $classes();
-    $validating($text);
 @endphp
 
-<div x-data="tallstackui_clipboard(@js($text), @js($hash), @js($type), @js($placeholders['button']))" {!! $attributes->except('x-on:copy') !!}>
+<div x-data="tallstackui_clipboard(@js($sentence), @js($hash), @js($type), @js($placeholders['button']))" {!! $attributes->except('x-on:copy') !!}>
     @if ($type === 'input' && $label)
         <x-dynamic-component :component="TallStackUi::component('label')" :$label />
     @endif
@@ -31,7 +28,7 @@
                              $personalize['input.color.background'],
                              $personalize['input.sides.left'] => $left,
                              $personalize['input.sides.right'] => ! $left,
-                        ]) value="{{ $text }}" readonly>
+                        ]) value="{{ $sentence }}" readonly>
                 </div>
             @if (! $left)
                 <button data-hash="{{ $hash }}"

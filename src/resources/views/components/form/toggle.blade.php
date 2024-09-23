@@ -1,13 +1,5 @@
 @php
-    [$property, $error, $id] = $bind($attributes, $errors ?? null, $livewire);
-    $personalize = $classes();
-    [$position, $alignment, $label] = $sloteable($label);
-
-    // We remove any bg color classes from the wrapper if there
-    // is an error to apply the red bg color to the input instead
-    $personalize['wrapper.class'] = $error
-        ? preg_replace('/\bbg-[a-zA-Z0-9-]+/', '', $personalize['background.class'])
-        : $personalize['background.class'];
+    $personalize = $classes(fn (array $personalize) => $error ? array_merge($personalize, ['background.class' => preg_replace('/\bbg-[a-zA-Z0-9-]+/', '', $personalize['background.class'])]) : $personalize);
 @endphp
 
 <x-dynamic-component :component="TallStackUi::component('wrapper.radio')" :$id :$property :$error :$label :$position :$alignment :$invalidate>

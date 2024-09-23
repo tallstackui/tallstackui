@@ -6,10 +6,10 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\View\Components\BaseComponent;
+use TallStackUi\TallStackUiComponent;
 
 #[SoftPersonalization('tab')]
-class Tab extends BaseComponent implements Personalization
+class Tab extends TallStackUiComponent implements Personalization
 {
     public function __construct(public ?string $selected = null)
     {

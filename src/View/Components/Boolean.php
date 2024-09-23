@@ -4,11 +4,15 @@ namespace TallStackUi\View\Components;
 
 use Closure;
 use Illuminate\Contracts\View\View;
+use TallStackUi\Foundation\Attributes\ColorsThroughOf;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Foundation\Support\Colors\Components\BooleanColors;
+use TallStackUi\TallStackUiComponent;
 
 #[SoftPersonalization('boolean')]
-class Boolean extends BaseComponent implements Personalization
+#[ColorsThroughOf(BooleanColors::class)]
+class Boolean extends TallStackUiComponent implements Personalization
 {
     public function __construct(
         public bool|Closure $boolean = false,

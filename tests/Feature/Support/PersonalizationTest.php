@@ -2,7 +2,7 @@
 
 use TallStackUi\Facades\TallStackUi;
 use TallStackUi\Foundation\Personalization\Personalization;
-use TallStackUi\Foundation\Personalization\PersonalizationResources;
+use TallStackUi\Foundation\Personalization\PersonalizationFactory;
 use TallStackUi\View\Components\Alert;
 
 use function Livewire\invade;
@@ -14,11 +14,11 @@ it('can be instantiated', function () {
 it('can be instantiated with a component', function () {
     expect(TallStackUi::personalize('alert')
         ->block('wrapper', fn () => 'string'))
-        ->toBeInstanceOf(PersonalizationResources::class);
+        ->toBeInstanceOf(PersonalizationFactory::class);
 });
 
 it('can instantiate all components', function (string $component) {
-    expect(TallStackUi::personalize($component)->instance())->toBeInstanceOf(PersonalizationResources::class);
+    expect(TallStackUi::personalize($component)->instance())->toBeInstanceOf(PersonalizationFactory::class);
 })->with('personalizations.keys');
 
 it('can personalize using facade and string', function () {
@@ -217,17 +217,18 @@ it('can personalize components overriding the original', function () {
         ->not->toContain('flex-wrap', 'justify-between');
 });
 
-it('can personalize scoped using common', function () {
+it('can personalize scoped using common - component as string', function () {
     $component = <<<'HTML'
     <x-alert title="Foo bar" />
     HTML;
 
     expect($component)->render()->not->toContain('text-xl');
 
+    TallStackUi::personalize('alert', 'testing')
+        ->block('text.title', 'text-xl');
+
     $component = <<<'HTML'
-    <x-alert title="Foo bar" :personalize="[
-        'text.title' => 'text-xl',
-    ]" />
+    <x-alert title="Foo bar" scope="testing" />
     HTML;
 
     expect($component)->render()
@@ -235,7 +236,7 @@ it('can personalize scoped using common', function () {
         ->not->toContain('text-lg', 'font-semibold');
 });
 
-it('can personalize scoped using replace', function () {
+it('can personalize scoped using replace - component as string', function () {
     $component = <<<'HTML'
     <x-alert title="Foo bar" />
     HTML;
@@ -243,15 +244,13 @@ it('can personalize scoped using replace', function () {
     expect($component)->render()
         ->not->toContain('text-xl', 'font-bold');
 
+    TallStackUi::personalize('alert', 'testing')
+        ->block('text.title')
+        ->replace('text-lg', 'text-xl')
+        ->replace('font-semibold', 'font-bold');
+
     $component = <<<'HTML'
-    <x-alert title="Foo bar" :personalize="[
-        'text.title' => [
-            'replace' => [
-                'text-lg' => 'text-xl',
-                'font-semibold' => 'font-bold',
-            ],
-        ],
-    ]" />
+    <x-alert title="Foo bar" scope="testing" />
     HTML;
 
     expect($component)->render()
@@ -259,27 +258,26 @@ it('can personalize scoped using replace', function () {
         ->not->toContain('text-lg', 'font-semibold');
 });
 
-it('can personalize scoped using remove', function () {
+it('can personalize scoped using remove - component as string', function () {
     $component = <<<'HTML'
     <x-alert title="Foo bar" />
     HTML;
 
-    expect($component)->render()
-        ->toContain('text-lg', 'font-semibold');
+    expect($component)->render()->toContain('text-lg', 'font-semibold');
+
+    TallStackUi::personalize('alert', 'testing')
+        ->block('text.title')
+        ->remove('text-lg');
 
     $component = <<<'HTML'
-    <x-alert title="Foo bar" :personalize="[
-        'text.title' => [
-            'remove' => ['text-lg', 'font-semibold'],
-        ],
-    ]" />
+    <x-alert title="Foo bar" scope="testing" />
     HTML;
 
     expect($component)->render()
         ->not->toContain('text-lg', 'font-semibold');
 });
 
-it('can personalize scoped using append', function () {
+it('can personalize scoped using append - component as string', function () {
     $component = <<<'HTML'
     <x-alert title="Foo bar" />
     HTML;
@@ -287,19 +285,19 @@ it('can personalize scoped using append', function () {
     expect($component)->render()
         ->not->toContain('transition-all');
 
+    TallStackUi::personalize('alert', 'testing')
+        ->block('text.title')
+        ->append('transition-all');
+
     $component = <<<'HTML'
-    <x-alert title="Foo bar" :personalize="[
-        'text.title' => [
-            'append' => 'transition-all',
-        ],
-    ]" />
+    <x-alert title="Foo bar" scope="testing" />
     HTML;
 
     expect($component)->render()
         ->toContain('transition-all');
 });
 
-it('can personalize scoped using prepend', function () {
+it('can personalize scoped using prepend - component as string', function () {
     $component = <<<'HTML'
     <x-alert title="Foo bar" />
     HTML;
@@ -307,19 +305,19 @@ it('can personalize scoped using prepend', function () {
     expect($component)->render()
         ->not->toContain('transition-all');
 
+    TallStackUi::personalize('alert', 'testing')
+        ->block('text.title')
+        ->prepend('transition-all');
+
     $component = <<<'HTML'
-    <x-alert title="Foo bar" :personalize="[
-        'text.title' => [
-            'prepend' => 'transition-all',
-        ],
-    ]" />
+    <x-alert title="Foo bar" scope="testing" />
     HTML;
 
     expect($component)->render()
         ->toContain('transition-all');
 });
 
-it('can personalize scoped using multiple changes', function () {
+it('can personalize scoped using multiple changes - component as string', function () {
     $component = <<<'HTML'
     <x-alert title="Foo bar" />
     HTML;
@@ -327,24 +325,21 @@ it('can personalize scoped using multiple changes', function () {
     expect($component)->render()
         ->toContain('text-lg', 'font-semibold', 'text-sm', 'flex-wrap');
 
+    TallStackUi::personalize('alert', 'testing')
+        ->block('wrapper')
+        ->append('foo-bar')
+        ->prepend('baz-bah')
+        ->block('text.title')
+        ->replace('text-lg', 'text-xl')
+        ->replace('font-semibold', 'font-bold')
+        ->remove('font-bold')
+        ->block('text.description')
+        ->remove('text-sm')
+        ->block('content.wrapper')
+        ->replace('flex-wrap', 'flex-col');
+
     $component = <<<'HTML'
-    <x-alert title="Foo bar" :personalize="[
-        'wrapper' => [
-            'append' => 'foo-bar',
-            'prepend' => 'baz-bah',
-        ],
-        'text.title' => [
-            'replace' => [
-                'text-lg' => 'text-xl',
-                'font-semibold' => 'font-bold',
-            ],
-            'remove' => ['font-bold'],
-        ],
-        'text.description' => [
-            'remove' => 'text-sm',
-        ],
-        'content.wrapper' => 'flex-col',
-    ]" />
+    <x-alert title="Foo bar" text="Bar baz" scope="testing" />
     HTML;
 
     expect($component)->render()
@@ -352,59 +347,275 @@ it('can personalize scoped using multiple changes', function () {
         ->not->toContain('font-bold', 'text-sm', 'flex-wrap');
 });
 
-it('can priorize the scoped personalization', function () {
+it('can personalize scoped using common - component as method', function () {
+    $component = <<<'HTML'
+    <x-alert title="Foo bar" />
+    HTML;
+
+    expect($component)->render()->not->toContain('text-xl');
+
+    TallStackUi::personalize(scope: 'testing')
+        ->alert()
+        ->block('text.title', 'text-xl');
+
+    $component = <<<'HTML'
+    <x-alert title="Foo bar" scope="testing" />
+    HTML;
+
+    expect($component)->render()
+        ->toContain('text-xl')
+        ->not->toContain('text-lg', 'font-semibold');
+});
+
+it('can personalize scoped using replace - component as method', function () {
+    $component = <<<'HTML'
+    <x-alert title="Foo bar" />
+    HTML;
+
+    expect($component)->render()
+        ->not->toContain('text-xl', 'font-bold');
+
+    TallStackUi::personalize(scope: 'testing')
+        ->alert()
+        ->block('text.title')
+        ->replace('text-lg', 'text-xl')
+        ->replace('font-semibold', 'font-bold');
+
+    $component = <<<'HTML'
+    <x-alert title="Foo bar" scope="testing" />
+    HTML;
+
+    expect($component)->render()
+        ->toContain('text-xl', 'font-bold')
+        ->not->toContain('text-lg', 'font-semibold');
+});
+
+it('can personalize scoped using remove - component as method', function () {
+    $component = <<<'HTML'
+    <x-alert title="Foo bar" />
+    HTML;
+
+    expect($component)->render()->toContain('text-lg', 'font-semibold');
+
+    TallStackUi::personalize(scope: 'testing')
+        ->alert()
+        ->block('text.title')
+        ->remove('text-lg');
+
+    $component = <<<'HTML'
+    <x-alert title="Foo bar" scope="testing" />
+    HTML;
+
+    expect($component)->render()
+        ->not->toContain('text-lg', 'font-semibold');
+});
+
+it('can personalize scoped using append - component as method', function () {
+    $component = <<<'HTML'
+    <x-alert title="Foo bar" />
+    HTML;
+
+    expect($component)->render()
+        ->not->toContain('transition-all');
+
+    TallStackUi::personalize(scope: 'testing')
+        ->alert()
+        ->block('text.title')
+        ->append('transition-all');
+
+    $component = <<<'HTML'
+    <x-alert title="Foo bar" scope="testing" />
+    HTML;
+
+    expect($component)->render()
+        ->toContain('transition-all');
+});
+
+it('can personalize scoped using prepend - component as method', function () {
+    $component = <<<'HTML'
+    <x-alert title="Foo bar" />
+    HTML;
+
+    expect($component)->render()
+        ->not->toContain('transition-all');
+
+    TallStackUi::personalize(scope: 'testing')
+        ->alert()
+        ->block('text.title')
+        ->prepend('transition-all');
+
+    $component = <<<'HTML'
+    <x-alert title="Foo bar" scope="testing" />
+    HTML;
+
+    expect($component)->render()
+        ->toContain('transition-all');
+});
+
+it('can personalize scoped using multiple changes - component as method', function () {
+    $component = <<<'HTML'
+    <x-alert title="Foo bar" />
+    HTML;
+
+    expect($component)->render()
+        ->toContain('text-lg', 'font-semibold', 'text-sm', 'flex-wrap');
+
+    TallStackUi::personalize(scope: 'testing')
+        ->alert()
+        ->block('wrapper')
+        ->append('foo-bar')
+        ->prepend('baz-bah')
+        ->block('text.title')
+        ->replace('text-lg', 'text-xl')
+        ->replace('font-semibold', 'font-bold')
+        ->remove('font-bold')
+        ->block('text.description')
+        ->remove('text-sm')
+        ->block('content.wrapper')
+        ->replace('flex-wrap', 'flex-col');
+
+    $component = <<<'HTML'
+    <x-alert title="Foo bar" text="Bar baz" scope="testing" />
+    HTML;
+
+    expect($component)->render()
+        ->toContain('text-xl', 'foo-bar', 'baz-bah', 'flex-col')
+        ->not->toContain('font-bold', 'text-sm', 'flex-wrap');
+});
+
+it('can merge scoped and soft personalization', function () {
     expect('<x-alert title="Foo bar" />')->render()
         ->toContain('text-lg')
         ->not->toContain('text-xl');
 
-    // Creating soft personalization...
-    TallStackUi::personalize('alert')
-        ->block('text.title')
-        ->replace('text-lg', 'foo-bar-baz');
+    TallStackUi::personalize('alert', 'testing')
+        ->block('text.description')
+        ->replace('text-sm', 'text-xl');
 
-    // Ignoring soft personalization due scope personalization...
     $component = <<<'HTML'
-    <x-alert title="Foo bar" :personalize="[
-        'text.title' => [
-            'replace' => [
-                'text-lg' => 'text-xl',
-            ],
-        ],
-    ]" />
-    HTML;
-
-    expect($component)->render()
-        ->toContain('text-xl')
-        ->not->toContain('foo-bar-baz'); // it shouldn't exist because was defined in soft personalization
-});
-
-it('cannot thrown exception when block name is wrong in scoped personalization', function () {
-    $component = <<<'HTML'
-    <x-alert title="Foo bar" :personalize="[
-        'text.foo' => [
-            'replace' => [
-                'text-lg' => 'text-xl',
-            ],
-        ],
-    ]" />
+    <x-alert title="Foo bar" scope="testing" />
     HTML;
 
     expect($component)->render()
         ->toContain('text-lg')
-        ->not->toContain('text-xl');
+        ->toContain('text-xl')
+        ->not->toContain('text-sm');
+});
 
+it('can personalize scoped multiples components - component as string', function () {
     $component = <<<'HTML'
-    <x-alert title="Foo bar" :personalize="[
-        'text.title' => [
-            'replace' => [
-                'text-lg' => 'text-xl',
-            ],
-        ],
-    ]" />
+    <x-alert title="Foo bar" />
     HTML;
 
-    expect($component)->render()
+    expect($component)->render()->not->toContain('text-xl');
+
+    $component = <<<'HTML'
+    <x-badge text="Bar foo" />
+    HTML;
+
+    expect($component)->render()->not->toContain('text-xl');
+
+    TallStackUi::personalize('alert', 'alert')
+        ->block('text.title')
+        ->replace('text-lg', 'text-xl');
+
+    TallStackUi::personalize('badge', 'badge')
+        ->block('wrapper.class')
+        ->replace('border', 'text-xl');
+
+    $alert = <<<'HTML'
+    <x-alert title="Foo bar" scope="alert" />
+    HTML;
+
+    $badge = <<<'HTML'
+    <x-badge text="Bar foo" scope="badge" />
+    HTML;
+
+    expect($alert)->render()
         ->toContain('text-xl')
+        ->not->toContain('text-lg')
+        ->and($badge)->render()
+        ->toContain('text-xl')
+        ->not->toContain('text-lg');
+});
+
+it('can personalize scoped multiples components - component as method', function () {
+    $component = <<<'HTML'
+    <x-alert title="Foo bar" />
+    HTML;
+
+    expect($component)->render()->not->toContain('text-xl');
+
+    $component = <<<'HTML'
+    <x-badge text="Bar foo" />
+    HTML;
+
+    expect($component)->render()->not->toContain('text-xl');
+
+    TallStackUi::personalize(scope: 'alert')
+        ->alert()
+        ->block('text.title')
+        ->replace('text-lg', 'text-xl');
+
+    TallStackUi::personalize(scope: 'badge')
+        ->badge()
+        ->block('wrapper.class')
+        ->replace('border', 'text-xl');
+
+    $alert = <<<'HTML'
+    <x-alert title="Foo bar" scope="alert" />
+    HTML;
+
+    $badge = <<<'HTML'
+    <x-badge text="Bar foo" scope="badge" />
+    HTML;
+
+    expect($alert)->render()
+        ->toContain('text-xl')
+        ->not->toContain('text-lg')
+        ->and($badge)->render()
+        ->toContain('text-xl')
+        ->not->toContain('text-lg');
+});
+
+it('can personalize scoped multiples components sequentially', function () {
+    TallStackUi::personalize(scope: 'alert')
+        ->alert()
+        ->block('text.title')
+        ->replace('text-lg', 'text-xl')
+        ->and()
+        ->badge(scope: 'badge')
+        ->block('wrapper.class')
+        ->replace('border', 'text-xl');
+
+    $alert = <<<'HTML'
+    <x-alert title="Foo bar" scope="alert" />
+    HTML;
+
+    $badge = <<<'HTML'
+    <x-badge text="Bar foo" scope="badge" />
+    HTML;
+
+    expect($alert)->render()
+        ->toContain('text-xl')
+        ->not->toContain('text-lg')
+        ->and($badge)->render()
+        ->toContain('text-xl')
+        ->not->toContain('text-lg');
+
+    $alert = <<<'HTML'
+    <x-alert title="Foo bar" />
+    HTML;
+
+    $badge = <<<'HTML'
+    <x-badge text="Bar foo" scope="badge" />
+    HTML;
+
+    expect($alert)->render()
+        ->not->toContain('text-xl')
+        ->toContain('text-lg')
+        ->and($badge)->render()
+        ->toContain('border')
         ->not->toContain('text-lg');
 });
 

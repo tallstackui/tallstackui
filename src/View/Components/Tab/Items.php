@@ -4,10 +4,13 @@ namespace TallStackUi\View\Components\Tab;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\View\ComponentSlot;
+use TallStackUi\Foundation\Attributes\PassThroughRuntime;
 use TallStackUi\Foundation\Attributes\SkipDebug;
-use TallStackUi\View\Components\BaseComponent;
+use TallStackUi\Foundation\Support\Runtime\Components\TabItemsRuntime;
+use TallStackUi\TallStackUiComponent;
 
-class Items extends BaseComponent
+#[PassThroughRuntime(TabItemsRuntime::class)]
+class Items extends TallStackUiComponent
 {
     public function __construct(
         public ?string $tab = null,

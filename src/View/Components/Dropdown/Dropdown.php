@@ -8,11 +8,11 @@ use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Exceptions\InvalidSelectedPositionException;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\View\Components\BaseComponent;
+use TallStackUi\TallStackUiComponent;
 use TallStackUi\View\Components\Floating;
 
 #[SoftPersonalization('dropdown')]
-class Dropdown extends BaseComponent implements Personalization
+class Dropdown extends TallStackUiComponent implements Personalization
 {
     public function __construct(
         public ?string $text = null,

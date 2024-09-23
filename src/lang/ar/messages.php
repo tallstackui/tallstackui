@@ -1,6 +1,11 @@
 <?php
 
 return [
+    'environment' => [
+        'environment' => 'البيئة',
+        'branch' => 'الفرع',
+    ],
+
     'errors' => [
         'title' => 'يوجد :count أخطاء في تحقق:',
     ],

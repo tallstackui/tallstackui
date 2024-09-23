@@ -1,6 +1,11 @@
 <?php
 
 return [
+    'environment' => [
+        'environment' => 'បរិយាយ',
+        'branch' => 'ដីកន្លែង',
+    ],
+
     'errors' => [
         'title' => 'មានកំហុសចំនួន :count ក្នុងការផ្ទៀងផ្ទាត់៖',
     ],

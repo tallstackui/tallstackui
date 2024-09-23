@@ -1,6 +1,11 @@
 <?php
 
 return [
+    'environment' => [
+        'environment' => 'Ambiente',
+        'branch' => 'Ramo',
+    ],
+
     'errors' => [
         'title' => 'Sono presenti :count errori di convalida:',
     ],

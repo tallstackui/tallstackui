@@ -7,12 +7,12 @@ use Attribute;
 #[Attribute(Attribute::TARGET_CLASS)]
 class SoftPersonalization
 {
-    public function __construct(protected string $key)
+    public function __construct(public string $key)
     {
         //
     }
 
-    public function key(): string
+    public function prefixed(): string
     {
         return 'tallstack-ui::personalizations.'.$this->key;
     }

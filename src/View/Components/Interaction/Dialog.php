@@ -5,12 +5,15 @@ namespace TallStackUi\View\Components\Interaction;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use InvalidArgumentException;
+use TallStackUi\Foundation\Attributes\ColorsThroughOf;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\View\Components\BaseComponent;
+use TallStackUi\Foundation\Support\Colors\Components\DialogColors;
+use TallStackUi\TallStackUiComponent;
 
 #[SoftPersonalization('dialog')]
-class Dialog extends BaseComponent implements Personalization
+#[ColorsThroughOf(DialogColors::class)]
+class Dialog extends TallStackUiComponent implements Personalization
 {
     public function blade(): View
     {

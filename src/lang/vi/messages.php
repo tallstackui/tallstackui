@@ -1,6 +1,11 @@
 <?php
 
 return [
+    'environment' => [
+        'environment' => 'Môi trường',
+        'branch' => 'Nhánh',
+    ],
+
     'errors' => [
         'title' => 'Có :count lỗi xác thực:',
     ],

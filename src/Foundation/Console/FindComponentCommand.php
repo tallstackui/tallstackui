@@ -24,9 +24,9 @@ class FindComponentCommand extends Command
         'wrapper.radio',
     ];
 
-    public $description = 'TallStackUI find component';
+    public $description = 'Find Components occurrences usage through all Blade files.';
 
-    public $signature = 'tallstackui:find-component';
+    public $signature = 'tallstackui:occurrences';
 
     public function handle(): int
     {
@@ -85,6 +85,11 @@ class FindComponentCommand extends Command
         $this->components->info('🎉 '.$total.' occurrences found');
 
         $lines->each(function (string $line) use (&$rows): bool {
+            // This creates an array with up to 4 positions, being:
+            // 0 => complete line
+            // 1 => file path
+            // 2 => line number
+            // 3 => line content
             preg_match('/^(.*?):(\d+):(.*)$/', $line, $matches);
 
             if (blank($line) || count($matches) !== 4) {

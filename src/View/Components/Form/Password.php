@@ -6,18 +6,17 @@ use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use TallStackUi\Facades\TallStackUi;
+use TallStackUi\Foundation\Attributes\PassThroughRuntime;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\Foundation\Traits\MergeAttributes;
-use TallStackUi\View\Components\BaseComponent;
+use TallStackUi\Foundation\Support\Runtime\Components\PasswordRuntime;
+use TallStackUi\TallStackUiComponent;
 use TallStackUi\View\Components\Floating;
 
 #[SoftPersonalization('form.password')]
-class Password extends BaseComponent implements Personalization
+#[PassThroughRuntime(PasswordRuntime::class)]
+class Password extends TallStackUiComponent implements Personalization
 {
-    use MergeAttributes;
-
     public function __construct(
         public ?string $label = null,
         public ?string $hint = null,
@@ -26,27 +25,7 @@ class Password extends BaseComponent implements Personalization
         public ?bool $generator = false,
         public ?bool $invalidate = null
     ) {
-        $this->rules = collect($this->rules)->reduce(function (Collection $carry, string $value) {
-            $defaults = self::defaults();
-
-            if (str_contains($value, 'min')) {
-                $carry->put('min', (explode(':', $value)[1] ?? $defaults['min']));
-            }
-
-            if (str_contains($value, 'numbers')) {
-                $carry->put('numbers', true);
-            }
-
-            if (str_contains($value, 'symbols')) {
-                $carry->put('symbols', (explode(':', $value)[1] ?? $defaults['symbols']));
-            }
-
-            if (str_contains($value, 'mixed')) {
-                $carry->put('mixed', true);
-            }
-
-            return $carry;
-        }, collect());
+        //
     }
 
     /**
@@ -64,11 +43,6 @@ class Password extends BaseComponent implements Personalization
     public function blade(): View
     {
         return view('tallstack-ui::components.form.password');
-    }
-
-    final public function icons(): array
-    {
-        return ['x-circle' => TallStackUi::icon('x-circle'), 'check-circle' => TallStackUi::icon('check-circle')];
     }
 
     public function personalization(): array
@@ -91,6 +65,31 @@ class Password extends BaseComponent implements Personalization
                 ],
             ],
         ]);
+    }
+
+    protected function setup(): void
+    {
+        $this->rules = collect($this->rules)->reduce(function (Collection $carry, string $value) {
+            $defaults = self::defaults();
+
+            if (str_contains($value, 'min')) {
+                $carry->put('min', (explode(':', $value)[1] ?? $defaults['min']));
+            }
+
+            if (str_contains($value, 'numbers')) {
+                $carry->put('numbers', true);
+            }
+
+            if (str_contains($value, 'symbols')) {
+                $carry->put('symbols', (explode(':', $value)[1] ?? $defaults['symbols']));
+            }
+
+            if (str_contains($value, 'mixed')) {
+                $carry->put('mixed', true);
+            }
+
+            return $carry;
+        }, collect());
     }
 
     /** @throws Exception */
