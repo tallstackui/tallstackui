@@ -1,4 +1,4 @@
-import {event, overflow} from '../../helpers';
+import {event, overflow} from '../../../helpers';
 
 export default (flash, texts, overflowing) => ({
   show: false,
