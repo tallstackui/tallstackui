@@ -12,6 +12,7 @@ trait Interactions
     public function banner(): Banner
     {
         /** @var Component|null $this */
+        // TODO: what will happens if the parent class doesn't have Controllers in its name?
         return new Banner(str_contains(static::class, 'Controllers') ? null : $this);
     }
 
