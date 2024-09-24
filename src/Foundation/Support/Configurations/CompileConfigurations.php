@@ -48,7 +48,7 @@ class CompileConfigurations
     }
 
     /**
-     * Defines the Color component configurations.
+     * Define the Color component configurations.
      *
      * @throws Exception
      */
@@ -62,7 +62,7 @@ class CompileConfigurations
     }
 
     /**
-     * Defines the Loading component configurations.
+     * Define the Loading component configurations.
      *
      * @throws Exception
      */
@@ -81,7 +81,7 @@ class CompileConfigurations
     }
 
     /**
-     * Defines the Modal component configurations.
+     * Define the Modal component configurations.
      *
      * @throws Exception
      */
@@ -115,7 +115,7 @@ class CompileConfigurations
     }
 
     /**
-     * Defines the Slide component configurations.
+     * Define the Slide component configurations.
      *
      * @throws Exception
      */
@@ -132,21 +132,19 @@ class CompileConfigurations
         $component->top ??= $configuration->get('position', 'right') === 'top';
         $component->bottom ??= $configuration->get('position', 'right') === 'bottom';
 
-        $orientation = ($component->bottom || $component->top) ? 'h' : 'w';
-        
         $component->size = match ($component->size) {
-            'sm' => ($orientation === 'w') ? 'sm:max-w-sm'     : 'h-[24rem] sm:max-h-[12rem]', 
-            'md' => ($orientation === 'w') ? 'sm:max-w-md'     : 'h-[28rem] sm:max-h-[16rem]',
-            'lg' => ($orientation === 'w') ? 'sm:max-w-lg'     : 'h-[32rem] sm:max-h-[20rem]',
-            'xl' => ($orientation === 'w') ? 'sm:max-w-xl'     : 'h-[36rem] sm:max-h-[24rem]',
-            '2xl' => ($orientation === 'w') ? 'sm:max-w-2xl'   : 'h-[40rem] sm:max-h-[28rem]',
-            '3xl' => ($orientation === 'w') ? 'sm:max-w-3xl'   : 'h-[48rem] sm:max-h-[32rem]',
-            '4xl' => ($orientation === 'w') ? 'sm:max-w-4xl'   : 'h-[56rem] sm:max-h-[32rem]',
-            '5xl' => ($orientation === 'w') ? 'sm:max-w-5xl'   : 'h-[64rem] sm:max-h-[42rem]',
-            '6xl' => ($orientation === 'w') ? 'sm:max-w-6xl'   : 'h-[72rem] sm:max-h-[48rem]',
-            '7xl' => ($orientation === 'w') ? 'sm:max-w-7xl'   : 'h-[80rem] sm:max-h-[56rem]',
-            'full' => ($orientation === 'w') ? 'full'          : 'h-full',
-            default => ($orientation === 'w') ? 'sm:max-w-2xl' : 'h-fit sm:max-h-fit',
+            'sm' => $component->bottom || $component->top ? 'h-[24rem] sm:max-h-[12rem]' : 'sm:max-w-sm',
+            'md' => $component->bottom || $component->top ? 'h-[28rem] sm:max-h-[16rem]' : 'sm:max-w-md',
+            'lg' => $component->bottom || $component->top ? 'h-[32rem] sm:max-h-[20rem]' : 'sm:max-w-lg',
+            'xl' => $component->bottom || $component->top ? 'h-[36rem] sm:max-h-[24rem]' : 'sm:max-w-xl',
+            '2xl' => $component->bottom || $component->top ? 'h-[40rem] sm:max-h-[28rem]' : 'sm:max-w-2xl',
+            '3xl' => $component->bottom || $component->top ? 'h-[48rem] sm:max-h-[32rem]' : 'sm:max-w-3xl',
+            '4xl' => $component->bottom || $component->top ? 'h-[56rem] sm:max-h-[32rem]' : 'sm:max-w-4xl',
+            '5xl' => $component->bottom || $component->top ? 'h-[64rem] sm:max-h-[42rem]' : 'sm:max-w-5xl',
+            '6xl' => $component->bottom || $component->top ? 'h-[72rem] sm:max-h-[48rem]' : 'sm:max-w-6xl',
+            '7xl' => $component->bottom || $component->top ? 'h-[80rem] sm:max-h-[56rem]' : 'sm:max-w-7xl',
+            'full' => $component->bottom || $component->top ? 'h-full' : 'full',
+            default => $component->bottom || $component->top ? 'h-fit sm:max-h-fit' : 'sm:max-w-2xl',
         };
 
         return collect($component)
