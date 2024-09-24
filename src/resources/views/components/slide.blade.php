@@ -41,7 +41,8 @@
                         $configurations['size'] !== 'full' &&
                         $configurations['top'] === false && 
                         $configurations['bottom'] === false,
-                    '!h-fit' => $configurations['top'] || $configurations['bottom'],
+                    $configurations['size'] => $configurations['top'] || $configurations['bottom'],
+                    'h-full' => !$configurations['top'] || !$configurations['bottom'],
                     'w-[100dvw]' => $configurations['top'] || $configurations['bottom'],
                 ])>
                 <div x-show="show"
@@ -51,9 +52,13 @@
                     x-transition:leave="transform transition ease-in-out duration-700"
                     x-transition:leave-start="@if ($configurations['left']) translate-x-0 @elseif ($configurations['top']) translate-y-0 @elseif ($configurations['bottom']) translate-y-0 @else translate-x-0 @endif"
                     x-transition:leave-end="@if ($configurations['left']) -translate-x-full @elseif ($configurations['top']) -translate-y-full @elseif ($configurations['bottom']) translate-y-full @else translate-x-full @endif"
-                     @class(['pointer-events-auto w-screen', $configurations['size'] => !$configurations['bottom'] && !$configurations['top']])
+                     @class(['pointer-events-auto w-screen', $configurations['size'],  'h-full' => !$configurations['top'] || !$configurations['bottom']])
                      @if (!$configurations['persistent']) x-on:mousedown.away="show = false" @endif>
-                    <div @class($personalize['wrapper.fifth'])>
+                    <div @class([
+                            $personalize['wrapper.fifth'], 
+                            $configurations['size'],
+                            'h-full' => !$configurations['top'] || !$configurations['bottom']
+                        ])>
                         <div @class($personalize['header'])>
                             <div @class(['flex items-start', 'justify-between' => $title !== null, 'justify-end' => $title === null])>
                                 @if ($title)
