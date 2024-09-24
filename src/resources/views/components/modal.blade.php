@@ -32,6 +32,7 @@
                 $configurations['size'],
                 $personalize['positions.top'] => !$configurations['center'],
                 $personalize['positions.center'] => $configurations['center'],
+                $configurations['size'] === 'min-h-[100dvh] w-[100dvw]' ? 'p-0' : 'p-4',
             ])>
             <div x-show="show"
                  @if (!$configurations['persistent']) x-on:mousedown.away="show = false" @endif

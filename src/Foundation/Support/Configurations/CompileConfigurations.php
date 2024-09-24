@@ -106,7 +106,7 @@ class CompileConfigurations
             '5xl' => 'sm:max-w-5xl',
             '6xl' => 'sm:max-w-6xl',
             '7xl' => 'sm:max-w-7xl',
-            'full' => 'min-h-[96.8dvh] w-[100dvw]',
+            'full' => 'min-h-[100dvh] w-[100dvw]',
             default => 'sm:max-w-2xl',
         };
 

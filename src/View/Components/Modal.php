@@ -42,7 +42,7 @@ class Modal extends TallStackUiComponent implements Personalization
             'wrapper' => [
                 'first' => 'fixed inset-0 bg-gray-400 bg-opacity-50 transition-opacity',
                 'second' => 'fixed inset-0 z-50 w-screen overflow-y-auto',
-                'third' => 'mx-auto flex min-h-full w-full transform justify-center p-4',
+                'third' => 'mx-auto flex w-full transform justify-center',
                 'fourth' => 'dark:bg-dark-700 relative flex w-full transform flex-col rounded-xl bg-white text-left shadow-xl transition-all',
             ],
             'positions' => [
