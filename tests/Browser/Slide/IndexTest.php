@@ -4,10 +4,21 @@ namespace Tests\Browser\Slide;
 
 use Livewire\Component;
 use Livewire\Livewire;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\BrowserTestCase;
 
 class IndexTest extends BrowserTestCase
 {
+    public static function positions(): array
+    {
+        return [
+            ['top'],
+            ['bottom'],
+            ['right'],
+            ['left'],
+        ];
+    }
+
     /** @test */
     public function can_dispatch_events(): void
     {
@@ -130,6 +141,60 @@ class IndexTest extends BrowserTestCase
             ->waitForText(['Foo bar', 'Bar baz'])
             ->assertSee('Foo bar')
             ->assertSee('Bar baz');
+    }
+
+    /** @test */
+    public function can_open_in_bottom(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public bool $slide = false;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>        
+                    <x-slide wire bottom>
+                        Foo bar
+                    </x-slide>
+                
+                    <x-button dusk="open" wire:click="$toggle('slide')">Open</x-button>
+                </div>
+                HTML;
+            }
+        })
+            ->assertSee('Open')
+            ->assertDontSee('Foo bar')
+            ->click('@open')
+            ->waitForText('Foo bar')
+            ->assertSee('Foo bar');
+    }
+
+    /** @test */
+    public function can_open_in_top(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public bool $slide = false;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>        
+                    <x-slide wire top>
+                        Foo bar
+                    </x-slide>
+                
+                    <x-button dusk="open" wire:click="$toggle('slide')">Open</x-button>
+                </div>
+                HTML;
+            }
+        })
+            ->assertSee('Open')
+            ->assertDontSee('Foo bar')
+            ->click('@open')
+            ->waitForText('Foo bar')
+            ->assertSee('Foo bar');
     }
 
     /** @test */
