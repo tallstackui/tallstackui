@@ -73,12 +73,12 @@ class Modal extends TallStackUiComponent implements Personalization
         }
 
         $configuration = collect(config('tallstackui.settings.modal'));
-        $sizes = ['sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl', '5xl', '6xl', '7xl'];
+        $sizes = ['sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl', '5xl', '6xl', '7xl', 'full'];
 
         if (! in_array($this->size ?? $configuration->get('size', '2xl'), $sizes)) {
             throw new InvalidArgumentException('The modal size must be one of the following: ['.implode(', ', $sizes).']');
         }
-
+        
         if (! str($this->zIndex ?? $configuration->get('z-index', 'z-50'))->startsWith('z-')) {
             throw new InvalidArgumentException('The modal z-index must start with z- prefix');
         }
