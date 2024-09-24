@@ -8,19 +8,17 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use InvalidArgumentException;
+use TallStackUi\Foundation\Attributes\PassThroughRuntime;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\Foundation\Traits\SanitizePropertyValue;
-use TallStackUi\Foundation\Traits\WireChangeEvent;
-use TallStackUi\View\Components\BaseComponent;
+use TallStackUi\Foundation\Support\Runtime\Components\DateRuntime;
+use TallStackUi\TallStackUiComponent;
 use TallStackUi\View\Components\Floating;
 
 #[SoftPersonalization('form.date')]
-class Date extends BaseComponent implements Personalization
+#[PassThroughRuntime(DateRuntime::class)]
+class Date extends TallStackUiComponent implements Personalization
 {
-    use SanitizePropertyValue;
-    use WireChangeEvent;
-
     public function __construct(
         public ?string $label = null,
         public ?string $hint = null,
@@ -109,21 +107,6 @@ class Date extends BaseComponent implements Personalization
             ],
             'range' => 'bg-dark-200 dark:bg-dark-600',
         ]);
-    }
-
-    final public function validating(array|string|null $value = null): void
-    {
-        if (($this->range || $this->multiple) && ! is_array($value)) {
-            throw new InvalidArgumentException('The date [value] must be an array when using the [range] or [multiple].');
-        }
-
-        if ($this->range && count($value) === 2) {
-            [$start, $end] = array_map(fn (?string $date) => Carbon::parse($date), $value);
-
-            if ($start->greaterThan($end)) {
-                throw new InvalidArgumentException('The start date in the [range] must be greater than the second date.');
-            }
-        }
     }
 
     /** @throws InvalidArgumentException */

@@ -4,7 +4,11 @@ export default {
     assetsDir: '',
     manifest: true,
     rollupOptions: {
-      input: ['js/tallstackui.js', 'src/resources/css/tallstackui.css'],
+      input: [
+          'js/tallstackui.js',
+          'src/resources/css/tallstackui.css',
+          'tippy.js/dist/tippy.css',
+      ],
     },
   },
 };

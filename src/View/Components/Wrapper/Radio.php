@@ -6,10 +6,10 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\View\Components\BaseComponent;
+use TallStackUi\TallStackUiComponent;
 
 #[SoftPersonalization('wrapper.radio')]
-class Radio extends BaseComponent implements Personalization
+class Radio extends TallStackUiComponent implements Personalization
 {
     public function __construct(
         public ?string $property = null,

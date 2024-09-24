@@ -10,13 +10,13 @@ use function Laravel\Prompts\text;
 
 class SetupPrefixCommand extends Command
 {
-    public $description = 'TallStackUI prefix set up';
+    public $description = 'Set up Component prefix.';
 
-    public $signature = 'tallstackui:setup-prefix';
+    public $signature = 'tallstackui:prefix';
 
     public function handle(): int
     {
-        $prefix = text('What prefix do you want to use for the TallStackUI components?', required: true, hint: 'Type null to remove the current prefix, if set.');
+        $prefix = text('What prefix do you want to use?', required: true, hint: 'Type null to remove the current prefix, if set.');
         $null = $prefix === 'null';
 
         if ($null && blank(config('tallstackui.prefix'))) {
@@ -63,6 +63,9 @@ class SetupPrefixCommand extends Command
         }
     }
 
+    /**
+     * Get the content of the config file.
+     */
     private function content(): string
     {
         return file_get_contents(config_path('tallstackui.php'));
@@ -89,6 +92,9 @@ class SetupPrefixCommand extends Command
         }
     }
 
+    /**
+     * Set up the prefix in the config file or in the .env file.
+     */
     private function setup(string $prefix): bool|string
     {
         // When the configuration file is old and does not have the key

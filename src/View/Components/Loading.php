@@ -8,10 +8,11 @@ use InvalidArgumentException;
 use TallStackUi\Foundation\Attributes\RequireLivewireContext;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\TallStackUiComponent;
 
 #[RequireLivewireContext]
 #[SoftPersonalization('loading')]
-class Loading extends BaseComponent implements Personalization
+class Loading extends TallStackUiComponent implements Personalization
 {
     public function __construct(
         public ?string $zIndex = null,

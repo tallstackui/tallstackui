@@ -3,9 +3,11 @@
 namespace Tests\Browser;
 
 use Closure;
+use Illuminate\Config\Repository;
+use Illuminate\Http\Request;
+use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
-use Laravel\Dusk\Browser;
 use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\Dusk\Options;
 use Orchestra\Testbench\Dusk\TestCase;
@@ -16,11 +18,9 @@ use function Livewire\trigger;
 
 class BrowserTestCase extends TestCase
 {
-    use BrowserFunctions;
-
-    public static function tmpPath(string $path = ''): string
+    public static function tmp(): string
     {
-        return __DIR__."/tmp/{$path}";
+        return __DIR__.'/tmp/';
     }
 
     public static function tweakApplicationHook(): Closure
@@ -28,20 +28,27 @@ class BrowserTestCase extends TestCase
         return function () {};
     }
 
-    /* protected function getApplicationTimezone($app): string
+    protected function clean(): void
     {
-        return 'America/Sao_Paulo';
-    } */
+        Artisan::call('view:clear');
 
-    protected function getEnvironmentSetUp($app): void
+        File::deleteDirectory(self::tmp());
+        File::deleteDirectory($this->livewireViewsPath());
+        File::deleteDirectory($this->livewireClassesPath());
+        File::deleteDirectory($this->livewireTestsPath());
+        File::delete(app()->bootstrapPath('cache/livewire-components.php'));
+
+        File::ensureDirectoryExists(self::tmp());
+    }
+
+    protected function defineEnvironment($app): void
     {
         tap($app['session'], function ($session) {
             $session->put('_token', str()->random(40));
         });
 
-        tap($app['config'], function ($config) {
+        tap($app['config'], function (Repository $config) {
             $config->set('app.env', 'testing');
-            $config->set('app.timezone', 'America/Sao_Paulo');
             $config->set('app.debug', true);
             $config->set('view.paths', [__DIR__.'/views', resource_path('views')]);
             $config->set('app.key', 'base64:Hupx3yAySikrM2/edkZQNQHslgDWYfiBfCuSThJ5SK8=');
@@ -53,17 +60,83 @@ class BrowserTestCase extends TestCase
             ]);
             $config->set('filesystems.disks.tmp-for-tests', [
                 'driver' => 'local',
-                'root' => self::tmpPath(),
+                'root' => self::tmp(),
             ]);
             $config->set('cache.default', 'array');
         });
     }
 
-    protected function getPackageAliases($app)
+    /** @param  Router  $router */
+    protected function defineWebRoutes($router): void
     {
-        return [
-            'TallStackUi' => TallStackUi::class,
-        ];
+        $router->get('/searchable-simple', fn () => [
+            [
+                'label' => 'delectus aut autem',
+                'value' => 'delectus aut autem',
+            ],
+            [
+                'label' => 'quis ut nam facilis et officia qui',
+                'value' => 'quis ut nam facilis et officia qui',
+            ],
+            [
+                'label' => 'fugiat veniam minus',
+                'value' => 'fugiat veniam minus',
+            ],
+            [
+                'label' => 'et porro tempora',
+                'value' => 'et porro tempora',
+            ],
+            [
+                'label' => 'laboriosam mollitia et enim quasi adipisci quia provident illum',
+                'value' => 'laboriosam mollitia et enim quasi adipisci quia provident illum',
+            ],
+        ])->name('searchable.simple');
+
+        $router->get('/searchable-filtered', function (Request $request) {
+            $options = collect([
+                [
+                    'label' => 'delectus aut autem',
+                    'value' => 'delectus aut autem',
+                ],
+                [
+                    'label' => 'quis ut nam facilis et officia qui',
+                    'value' => 'quis ut nam facilis et officia qui',
+                ],
+                [
+                    'label' => 'fugiat veniam minus',
+                    'value' => 'fugiat veniam minus',
+                ],
+                [
+                    'label' => 'et porro tempora',
+                    'value' => 'et porro tempora',
+                ],
+                [
+                    'label' => 'laboriosam mollitia et enim quasi adipisci quia provident illum',
+                    'value' => 'laboriosam mollitia et enim quasi adipisci quia provident illum',
+                ],
+            ]);
+
+            if (! $request->has('search')) {
+                return $options;
+            }
+
+            return [
+                [
+                    'label' => 'et porro tempora',
+                    'value' => 'et porro tempora',
+                ],
+            ];
+        })->name('searchable.filtered');
+    }
+
+    protected function getApplicationTimezone($app): string
+    {
+        return (bool) getenv('GITHUB_ACTIONS') === false ? 'America/Sao_Paulo' : $app['config']['app.timezone'];
+    }
+
+    protected function getPackageAliases($app): array
+    {
+        return ['TallStackUi' => TallStackUi::class];
     }
 
     protected function getPackageProviders($app): array
@@ -89,19 +162,6 @@ class BrowserTestCase extends TestCase
         return resource_path('views').'/livewire'.($path ? '/'.$path : '');
     }
 
-    protected function makeACleanSlate(): void
-    {
-        Artisan::call('view:clear');
-
-        File::deleteDirectory(self::tmpPath());
-        File::deleteDirectory($this->livewireViewsPath());
-        File::deleteDirectory($this->livewireClassesPath());
-        File::deleteDirectory($this->livewireTestsPath());
-        File::delete(app()->bootstrapPath('cache/livewire-components.php'));
-
-        File::ensureDirectoryExists(self::tmpPath());
-    }
-
     protected function paused(int $seconds = 3): int
     {
         return 1000 * $seconds;
@@ -113,15 +173,9 @@ class BrowserTestCase extends TestCase
             Options::withoutUI();
         }
 
-        Browser::$waitSeconds = 7;
+        $this->afterApplicationCreated(fn () => $this->clean());
 
-        $this->afterApplicationCreated(function () {
-            $this->makeACleanSlate();
-        });
-
-        $this->beforeApplicationDestroyed(function () {
-            $this->makeACleanSlate();
-        });
+        $this->beforeApplicationDestroyed(fn () => $this->clean());
 
         parent::setUp();
 
@@ -139,8 +193,6 @@ class BrowserTestCase extends TestCase
 
     protected function tearDown(): void
     {
-        $this->removeApplicationTweaks();
-
         trigger('browser.testCase.tearDown', $this);
 
         if (! $this->status()->isSuccess()) {

@@ -1,10 +1,8 @@
 @php
-    [$property, $error, $id] = $bind($attributes, $errors ?? null, $livewire);
     $personalize = $classes();
-    $floatable = $attributes->get('floatable', false);
 @endphp
 
-<x-dynamic-component :component="TallStackUi::component('wrapper.input')" :$id :$property :$error :$label :$hint :$invalidate :$floatable>
+<x-dynamic-component :component="TallStackUi::component('wrapper.input')" :$id :$property :$error :$label :$hint :$invalidate :floatable="$attributes->get('floatable', false)">
     @if ($icon)
         <div @class([ $personalize['icon.wrapper'], $personalize['icon.paddings.' . $position]])>
             <x-dynamic-component :component="TallStackUi::component('icon')"

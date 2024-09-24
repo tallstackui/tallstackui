@@ -3,9 +3,9 @@
 namespace TallStackUi\View\Components\Step;
 
 use Illuminate\Contracts\View\View;
-use TallStackUi\View\Components\BaseComponent;
+use TallStackUi\TallStackUiComponent;
 
-class Items extends BaseComponent
+class Items extends TallStackUiComponent
 {
     public function __construct(public int $step, public ?string $title = null, public ?string $description = null, public ?bool $completed = false)
     {

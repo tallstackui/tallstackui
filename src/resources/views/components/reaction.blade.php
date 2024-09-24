@@ -1,8 +1,5 @@
 @php
-    $entangle = $bind($attributes, livewire: $livewire)[3];
     $personalize = $classes();
-    $extension = $animated === true ? 'gif' : 'png';
-    $id = $this->getId();
 @endphp
 
 <div wire:ignore>
@@ -19,8 +16,7 @@
       @else
         @foreach ($icons as $icon => $key)
           @if ($loop->iteration <= 3)
-            <img @class($personalize['image'])
-                 src="https://fonts.gstatic.com/s/e/notoemoji/latest/{{ $key }}/512.{{ $extension }}">
+            <img @class($personalize['image']) src="https://fonts.gstatic.com/s/e/notoemoji/latest/{{ $key }}/512.{{ $extension }}">
           @endif
         @endforeach
       @endif

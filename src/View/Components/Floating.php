@@ -6,9 +6,10 @@ use Illuminate\Contracts\View\View;
 use Illuminate\View\ComponentSlot;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\TallStackUiComponent;
 
 #[SoftPersonalization('floating')]
-class Floating extends BaseComponent implements Personalization
+class Floating extends TallStackUiComponent implements Personalization
 {
     public function __construct(
         public ?string $offset = '10',

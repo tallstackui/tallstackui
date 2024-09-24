@@ -12,7 +12,10 @@
     "autoload": {
         "psr-4": {
             "TallStackUi\\": "src/"
-        }
+        },
+        "files": [
+            "src/helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
@@ -22,6 +25,7 @@
     },
     "require": {
         "php": "^8.1",
+        "ext-zip": "*",
         "livewire/livewire": "^3.4.9",
         "illuminate/console": "^10.0|^11.0",
         "illuminate/contracts": "^10.0|^11.0",
@@ -41,7 +45,10 @@
     "scripts": {
         "test": "./vendor/bin/pest",
         "test:ci": "CI=true ./vendor/bin/pest",
-        "test:feature": "./vendor/bin/pest --filter=Feature --parallel",
+        "test:feature": [
+            "vendor/bin/testbench view:clear",
+            "./vendor/bin/pest --filter=Feature --parallel"
+        ],
         "test:browser": "./vendor/bin/pest --filter=Browser",
         "test:browser:ci": "CI=true ./vendor/bin/pest --filter=Browser",
         "bench": "vendor/bin/testbench",
@@ -56,9 +63,9 @@
             "./vendor/bin/pint --test",
             "./vendor/bin/phpstan analyse --memory-limit=2G",
             "php ./vendor/bin/rector process --dry-run --config=rector.php",
-            "./vendor/bin/testbench optimize:clear",
+            "./vendor/bin/testbench view:clear",
             "./vendor/bin/pest --filter=Feature --parallel --stop-on-failure",
-            "./vendor/bin/testbench optimize:clear",
+            "./vendor/bin/testbench view:clear",
             "CI=true ./vendor/bin/pest --filter=Browser"
         ],
         "ci:analyse": [

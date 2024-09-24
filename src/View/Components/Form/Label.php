@@ -3,12 +3,15 @@
 namespace TallStackUi\View\Components\Form;
 
 use Illuminate\Contracts\View\View;
+use TallStackUi\Foundation\Attributes\PassThroughRuntime;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\View\Components\BaseComponent;
+use TallStackUi\Foundation\Support\Runtime\Components\LabelRuntime;
+use TallStackUi\TallStackUiComponent;
 
 #[SoftPersonalization('form.label')]
-class Label extends BaseComponent implements Personalization
+#[PassThroughRuntime(LabelRuntime::class)]
+class Label extends TallStackUiComponent implements Personalization
 {
     public function __construct(public ?string $id = null, public ?string $label = null, public ?bool $error = false, public ?bool $invalidate = null)
     {

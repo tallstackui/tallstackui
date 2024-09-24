@@ -2,13 +2,14 @@
 
 namespace TallStackUi\Foundation\Console;
 
+use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Str;
-use TallStackUi\Foundation\Support\Components\IconGuide;
+use TallStackUi\Foundation\Support\Icons\IconGuide;
 use ZipArchive;
 
 use function Laravel\Prompts\spin;
@@ -17,18 +18,19 @@ class SetupIconsCommand extends Command
 {
     private const PATH = __DIR__.'/../../resources/views/components/icon/';
 
-    public $description = 'TallStackUI icon set up';
+    public $description = 'Set up different custom icons.';
 
-    public $signature = 'tallstackui:setup-icons {--force : Install icons even when the icons are already installed}';
+    public $signature = 'tallstackui:icons {--force : Install icons even when the icons are already installed}';
 
     protected ?Collection $data = null;
 
+    /** @throws Exception */
     public function handle(): void
     {
         $this->data = collect();
 
-        if (! extension_loaded('zip')) {
-            $this->components->error('The PHP zip extension is not installed. Please, review the docs.');
+        if (str_contains(__ts_configuration('icons.type'), 'custom:')) {
+            $this->components->error('You are using custom icons. This command has no effect with custom icons.');
 
             return;
         }
@@ -86,9 +88,8 @@ class SetupIconsCommand extends Command
         }
 
         foreach (
-            collect(array_keys(IconGuide::AVAILABLE))
-                ->mapWithKeys(fn (string $value) => [$value => $value])
-                ->except(['heroicons', $this->data->get('type')]) // Ignoring heroicons because it is always required.
+            collect(IconGuide::Supported)
+                ->filter(fn (string $type) => ! in_array($type, ['heroicons', $this->data->get('type')]))
                 ->toArray() as $type
         ) {
             // Flushing the other unused icons to
@@ -110,6 +111,7 @@ class SetupIconsCommand extends Command
         $this->flush();
     }
 
+    /** @throws Exception */
     private function setup(): bool|string
     {
         $config = config('tallstackui');
@@ -120,11 +122,11 @@ class SetupIconsCommand extends Command
             return 'Wrong configuration file. Please, review the docs.';
         }
 
-        if (! in_array($type, array_keys(IconGuide::AVAILABLE))) {
+        if (! IconGuide::supported($type)) {
             return 'Unsupported icon type. Please, review the configuration file.';
         }
 
-        if (! in_array($style, IconGuide::AVAILABLE[$type])) {
+        if (! in_array($style, IconGuide::styles($type))) {
             return 'Unsupported icon style. Please, review the configuration file.';
         }
 

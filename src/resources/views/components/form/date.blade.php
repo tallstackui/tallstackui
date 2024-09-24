@@ -1,8 +1,5 @@
 @php
-    [$property, $error, $id, $entangle] = $bind($attributes, $errors ?? null, $livewire);
     $personalize = $classes();
-    $value = $sanitize($attributes, $property, $livewire);
-    $validating($livewire ? ($property ? data_get($this, $property) : null) : $value);
 @endphp
 
 @if (!$livewire && $property)
@@ -21,7 +18,7 @@
      @js($value),
      @js($monthYearOnly),
      @js(trans('tallstack-ui::messages.date.calendar')),
-     @js($change($attributes, $__livewire ?? null, $livewire)))"
+     @js($change))"
      x-cloak x-on:click.outside="show = false">
     <x-dynamic-component :component="TallStackUi::component('input')"
                          {{ $attributes->except(['name', 'value']) }}

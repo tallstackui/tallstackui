@@ -5,12 +5,15 @@ namespace TallStackUi\View\Components\Interaction;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use InvalidArgumentException;
+use TallStackUi\Foundation\Attributes\ColorsThroughOf;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\View\Components\BaseComponent;
+use TallStackUi\Foundation\Support\Colors\Components\ToastColors;
+use TallStackUi\TallStackUiComponent;
 
 #[SoftPersonalization('toast')]
-class Toast extends BaseComponent implements Personalization
+#[ColorsThroughOf(ToastColors::class)]
+class Toast extends TallStackUiComponent implements Personalization
 {
     public function blade(): View
     {
@@ -39,8 +42,8 @@ class Toast extends BaseComponent implements Personalization
                     'first' => 'mt-2 flex',
                     'second' => 'ml-4 flex min-h-full flex-col justify-between',
                 ],
-                'confirm' => 'text-primary-600 dark:text-dark-200 text-sm font-medium focus:outline-none',
-                'cancel' => 'text-red-700 dark:text-red-500 text-sm font-medium focus:outline-none',
+                'confirm' => 'text-sm font-medium focus:outline-none',
+                'cancel' => 'text-sm font-medium focus:outline-none',
                 'close' => [
                     'wrapper' => 'ml-4 flex flex-shrink-0',
                     'class' => 'inline-flex text-gray-400 focus:outline-none focus:ring-0',

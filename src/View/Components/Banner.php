@@ -8,12 +8,16 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use InvalidArgumentException;
+use TallStackUi\Foundation\Attributes\ColorsThroughOf;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Foundation\Support\Colors\Components\BannerColors;
+use TallStackUi\TallStackUiComponent;
 
 #[SoftPersonalization('banner')]
-class Banner extends BaseComponent implements Personalization
+#[ColorsThroughOf(BannerColors::class)]
+class Banner extends TallStackUiComponent implements Personalization
 {
     public function __construct(
         public string|array|Collection|null $text = null,
@@ -33,8 +37,6 @@ class Banner extends BaseComponent implements Personalization
         public ?string $style = 'solid',
     ) {
         $this->style = $this->light ? 'light' : $this->style;
-
-        $this->setup();
     }
 
     public function blade(): View
@@ -57,6 +59,34 @@ class Banner extends BaseComponent implements Personalization
             'icon' => 'w-5 h-5 text-white',
             'close' => 'h-4 w-4 cursor-pointer',
         ]);
+    }
+
+    protected function setup(): void
+    {
+        // If the banner is wire, we don't need to set up anything else
+        // Because the banner will be displayed through the Livewire events
+        if ($this->wire) {
+            return;
+        }
+
+        if ($this->text instanceof Collection) {
+            $this->text = $this->text->values()
+                ->toArray();
+        }
+
+        if (is_array($this->text)) {
+            $this->text = $this->text[array_rand($this->text)];
+        }
+
+        if (is_null($this->until)) {
+            return;
+        }
+
+        if (today()->lessThanOrEqualTo(Carbon::parse($this->until))) {
+            return;
+        }
+
+        $this->show = false;
     }
 
     protected function validate(): void
@@ -94,33 +124,5 @@ class Banner extends BaseComponent implements Personalization
         if (blank($until)) {
             throw new InvalidArgumentException('The banner [until] attribute must be a Carbon instance or a valid date string.');
         }
-    }
-
-    private function setup(): void
-    {
-        // If the banner is wire, we don't need to set up anything else
-        // Because the banner will be displayed through the Livewire events
-        if ($this->wire) {
-            return;
-        }
-
-        if ($this->text instanceof Collection) {
-            $this->text = $this->text->values()
-                ->toArray();
-        }
-
-        if (is_array($this->text)) {
-            $this->text = $this->text[array_rand($this->text)];
-        }
-
-        if (is_null($this->until)) {
-            return;
-        }
-
-        if (today()->lessThanOrEqualTo(Carbon::parse($this->until))) {
-            return;
-        }
-
-        $this->show = false;
     }
 }

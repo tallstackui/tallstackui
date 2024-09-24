@@ -1,6 +1,5 @@
 @php
     $personalize = $classes();
-    $entangle = $bind($attributes, livewire: $livewire)[3];
 @endphp
 
 <div x-data="tallstackui_table({!! $entangle !!}, @js($ids()), @js($selectable))" @if ($persistent) x-ref="persist" @endif>
@@ -70,7 +69,7 @@
                                         @if ($livewire && $sortable($header) && $sorted($header))
                                             <x-dynamic-component :component="TallStackUi::component('icon')"
                                                                  :icon="TallStackUi::icon($head($header)['direction'] === 'desc' ? 'chevron-up' : 'chevron-down')"
-                                                                 class="ml-2 h-4 w-4" />
+                                                                 @class($personalize['table.sort']) />
                                         @endif
                                     </a>
                                 </th>

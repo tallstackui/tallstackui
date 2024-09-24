@@ -1,8 +1,5 @@
 @php
-    [$property] = $bind($attributes, livewire: $livewire);
     $personalize = $classes();
-    $value = data_get($this, $property);
-    if (is_null($property)) throw new Exception('The [upload] component requires a property to bind using [wire:model].');
 @endphp
 
 <div x-data="tallstackui_formUpload(

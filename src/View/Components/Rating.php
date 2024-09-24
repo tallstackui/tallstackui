@@ -5,14 +5,22 @@ namespace TallStackUi\View\Components;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use InvalidArgumentException;
+use TallStackUi\Foundation\Attributes\ColorsThroughOf;
+use TallStackUi\Foundation\Attributes\PassThroughRuntime;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Foundation\Support\Colors\Components\RatingColors;
+use TallStackUi\Foundation\Support\Runtime\Components\RatingRuntime;
+use TallStackUi\TallStackUiComponent;
 
 #[SoftPersonalization('rating')]
-class Rating extends BaseComponent implements Personalization
+#[ColorsThroughOf(RatingColors::class)]
+#[PassThroughRuntime(RatingRuntime::class)]
+class Rating extends TallStackUiComponent implements Personalization
 {
     public function __construct(
+        public ?string $icon = null,
         public ?int $quantity = 5,
         public float|int|null $rate = null,
         public ?string $text = null,

@@ -1,5 +1,4 @@
 @php
-    $tag = $href ? 'a' : 'div';
     $personalize = $classes();
 @endphp
 

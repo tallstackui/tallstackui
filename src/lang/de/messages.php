@@ -1,6 +1,11 @@
 <?php
 
 return [
+    'environment' => [
+        'environment' => 'Umgebung',
+        'branch' => 'Branch',
+    ],
+
     'errors' => [
         'title' => 'Es liegen :count Validierungsfehler vor:',
     ],

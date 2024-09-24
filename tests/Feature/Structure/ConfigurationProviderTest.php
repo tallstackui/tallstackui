@@ -1,14 +1,12 @@
 <?php
 
-use TallStackUi\Foundation\ResolveConfiguration;
+use TallStackUi\Foundation\Support\Configurations\CompileConfigurations;
 
-describe('ResolveConfiguration', function () {
-    test('class has method', function (string $method) {
-        expect(ResolveConfiguration::class)->toHaveMethod($method);
-    })->with([
-        'from',
-        'loading',
-        'modal',
-        'slide',
-    ]);
-});
+test('class has method', function (string $method) {
+    expect(CompileConfigurations::class)->toHaveMethod($method);
+})->with([
+    'of',
+    'loading',
+    'modal',
+    'slide',
+]);
