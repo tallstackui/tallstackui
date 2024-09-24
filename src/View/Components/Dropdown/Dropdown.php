@@ -39,6 +39,7 @@ class Dropdown extends TallStackUiComponent implements Personalization
                 'first' => 'flex items-start',
                 'second' => 'relative inline-block text-left',
                 'slot' => 'overflow-hidden rounded-md',
+                'header' => 'm-2'
             ],
             'width' => 'w-56',
             'floating' => collect(app(Floating::class)->personalization())->get('wrapper'),

@@ -37,7 +37,7 @@
                 {!! $transitions() !!}
             </x-slot:transition>
             @if ($header)
-                <div class="m-2">
+                <div @class($personalize['wrapper.header'])>
                     {!! $header !!}
                 </div>
             @endif
