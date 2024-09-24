@@ -9,16 +9,6 @@ use Tests\Browser\BrowserTestCase;
 
 class IndexTest extends BrowserTestCase
 {
-    public static function positions(): array
-    {
-        return [
-            ['top'],
-            ['bottom'],
-            ['right'],
-            ['left'],
-        ];
-    }
-
     /** @test */
     public function can_dispatch_events(): void
     {
