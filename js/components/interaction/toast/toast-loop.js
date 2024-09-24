@@ -1,4 +1,4 @@
-import {event} from '../../helpers';
+import {event} from '../../../helpers';
 
 export default (toast) => ({
   toast: toast,

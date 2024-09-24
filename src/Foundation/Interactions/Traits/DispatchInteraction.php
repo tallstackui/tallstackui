@@ -93,8 +93,6 @@ trait DispatchInteraction
             return;
         }
 
-        // For some unknown reason the `flash` doesn't work,
-        // so we use `put` here and `pull` in the blade file.
         session()->put($event, $data);
     }
 }

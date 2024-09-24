@@ -47,7 +47,7 @@ class Slide extends TallStackUiComponent implements Personalization
                 'second' => 'fixed inset-0 overflow-hidden',
                 'third' => 'absolute inset-0 overflow-hidden',
                 'fourth' => 'pointer-events-none fixed flex max-w-full',
-                'fifth' => 'flex flex-col overflow-y-auto bg-white py-6 shadow-xl soft-scrollbar dark:bg-dark-700',
+                'fifth' => 'flex flex-col bg-white py-6 shadow-xl dark:bg-dark-700',
             ],
             'blur' => [
                 'sm' => 'backdrop-blur-sm',
@@ -59,7 +59,7 @@ class Slide extends TallStackUiComponent implements Personalization
                 'text' => 'whitespace-normal font-medium text-md text-secondary-600 dark:text-dark-300',
                 'close' => 'h-5 w-5 cursor-pointer text-secondary-300',
             ],
-            'body' => 'grow rounded-b-xl px-6 py-5 text-gray-700 dark:text-dark-300',
+            'body' => 'soft-scrollbar dark:text-dark-300 grow overflow-y-auto rounded-b-xl px-6 py-5 text-gray-700',
             'footer' => 'flex border-t border-t-gray-200 px-4 pt-6 dark:border-t-dark-600',
             'header' => 'px-6',
         ]);

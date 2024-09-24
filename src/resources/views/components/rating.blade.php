@@ -3,12 +3,7 @@
 @endphp
 
 <div @class($personalize['wrapper'])
-  x-data="{ rate: @js($tax), quantity: @js($quantity), evaluate(method, evaluate) {
-        this.rate = evaluate;
-        this.$el.dispatchEvent(new CustomEvent('evaluate', {detail: {evaluate: { method, rate: this.rate }}}));
-        this.$wire.call(method, this.rate);
-    }
- }">
+  x-data="tallstackui_rating({!! $entangle !!}, @js($quantity))">
     @if ($position === 'right')
         @if ($text)
         <p @class($personalize['text'])>
@@ -19,7 +14,7 @@
         @endif
     @endif
     <template x-for="(star, index) in Array.from({ length: quantity })" :key="index">
-        <button @if (!$static) x-on:click.prevent="evaluate('{{ $evaluateMethod }}', index + 1);" @endif
+        <button type="button" @if ($livewire && !$static) x-on:click.prevent="evaluate('{{ $evaluateMethod }}', index + 1);" @endif
                 {{ $attributes->only('x-on:evaluate') }}
                 @class($personalize['button'])>
                 @unless($icon)
