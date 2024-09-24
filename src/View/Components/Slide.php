@@ -28,6 +28,8 @@ class Slide extends TallStackUiComponent implements Personalization
         public ?bool $center = null,
         public ?bool $overflow = null,
         public ?bool $left = null,
+        public ?bool $top = null,
+        public ?bool $bottom = null,
     ) {
         $this->entangle = is_string($this->wire) ? $this->wire : (is_bool($this->wire) ? 'slide' : $this->entangle);
     }
@@ -44,8 +46,8 @@ class Slide extends TallStackUiComponent implements Personalization
                 'first' => 'fixed inset-0 bg-gray-400 bg-opacity-50 transition-opacity',
                 'second' => 'fixed inset-0 overflow-hidden',
                 'third' => 'absolute inset-0 overflow-hidden',
-                'fourth' => 'pointer-events-none fixed inset-y-0 flex max-w-full',
-                'fifth' => 'dark:bg-dark-700 flex h-full flex-col bg-white py-6 shadow-xl',
+                'fourth' => 'pointer-events-none fixed flex max-w-full',
+                'fifth' => 'flex flex-col bg-white py-6 shadow-xl dark:bg-dark-700',
             ],
             'blur' => [
                 'sm' => 'backdrop-blur-sm',
@@ -72,7 +74,7 @@ class Slide extends TallStackUiComponent implements Personalization
 
         $configuration = collect(config('tallstackui.settings.slide'));
         $sizes = ['sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl', '5xl', '6xl', '7xl', 'full'];
-        $positions = ['right', 'left'];
+        $positions = ['right', 'left', 'top', 'bottom'];
 
         if (! in_array($this->size ?? $configuration->get('size', 'lg'), $sizes)) {
             throw new InvalidArgumentException('The slide size must be one of the following: ['.implode(', ', $sizes).']');
@@ -82,7 +84,7 @@ class Slide extends TallStackUiComponent implements Personalization
             throw new InvalidArgumentException('The slide [z-index] must start with z- prefix');
         }
 
-        if (! in_array($this->left ? 'left' : $configuration->get('position', 'right'), $positions)) {
+        if (! in_array($this->left ? 'left' : $configuration->get('position', 'right'), $positions) && ! in_array($this->top ? 'top' : $configuration->get('position', 'right'), $positions) && ! in_array($this->bottom ? 'bottom' : $configuration->get('position', 'right'), $positions)) {
             throw new InvalidArgumentException('The slide [position] must be one of the following: ['.implode(', ', $positions).']');
         }
     }

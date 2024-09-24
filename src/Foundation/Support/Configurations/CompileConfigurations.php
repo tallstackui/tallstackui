@@ -48,7 +48,7 @@ class CompileConfigurations
     }
 
     /**
-     * Defines the Color component configurations.
+     * Define the Color component configurations.
      *
      * @throws Exception
      */
@@ -62,7 +62,7 @@ class CompileConfigurations
     }
 
     /**
-     * Defines the Loading component configurations.
+     * Define the Loading component configurations.
      *
      * @throws Exception
      */
@@ -81,7 +81,7 @@ class CompileConfigurations
     }
 
     /**
-     * Defines the Modal component configurations.
+     * Define the Modal component configurations.
      *
      * @throws Exception
      */
@@ -115,7 +115,7 @@ class CompileConfigurations
     }
 
     /**
-     * Defines the Slide component configurations.
+     * Define the Slide component configurations.
      *
      * @throws Exception
      */
@@ -129,23 +129,26 @@ class CompileConfigurations
         $component->blur ??= $configuration->get('blur', false);
         $component->persistent ??= $configuration->get('persistent', false);
         $component->left ??= $configuration->get('position', 'right') === 'left';
+        $component->top ??= $configuration->get('position', 'right') === 'top';
+        $component->bottom ??= $configuration->get('position', 'right') === 'bottom';
 
         $component->size = match ($component->size) {
-            'sm' => 'sm:max-w-sm',
-            'md' => 'sm:max-w-md',
-            'lg' => 'sm:max-w-lg',
-            'xl' => 'sm:max-w-xl',
-            '3xl' => 'sm:max-w-3xl',
-            '4xl' => 'sm:max-w-4xl',
-            '5xl' => 'sm:max-w-5xl',
-            '6xl' => 'sm:max-w-6xl',
-            '7xl' => 'sm:max-w-7xl',
-            'full' => 'full',
-            default => 'sm:max-w-2xl',
+            'sm' => $component->bottom || $component->top ? 'h-[24rem] sm:max-h-[12rem]' : 'sm:max-w-sm',
+            'md' => $component->bottom || $component->top ? 'h-[28rem] sm:max-h-[16rem]' : 'sm:max-w-md',
+            'lg' => $component->bottom || $component->top ? 'h-[32rem] sm:max-h-[20rem]' : 'sm:max-w-lg',
+            'xl' => $component->bottom || $component->top ? 'h-[36rem] sm:max-h-[24rem]' : 'sm:max-w-xl',
+            '2xl' => $component->bottom || $component->top ? 'h-[40rem] sm:max-h-[28rem]' : 'sm:max-w-2xl',
+            '3xl' => $component->bottom || $component->top ? 'h-[48rem] sm:max-h-[32rem]' : 'sm:max-w-3xl',
+            '4xl' => $component->bottom || $component->top ? 'h-[56rem] sm:max-h-[32rem]' : 'sm:max-w-4xl',
+            '5xl' => $component->bottom || $component->top ? 'h-[64rem] sm:max-h-[42rem]' : 'sm:max-w-5xl',
+            '6xl' => $component->bottom || $component->top ? 'h-[72rem] sm:max-h-[48rem]' : 'sm:max-w-6xl',
+            '7xl' => $component->bottom || $component->top ? 'h-[80rem] sm:max-h-[56rem]' : 'sm:max-w-7xl',
+            'full' => $component->bottom || $component->top ? 'h-full' : 'full',
+            default => $component->bottom || $component->top ? 'h-fit sm:max-h-fit' : 'sm:max-w-2xl',
         };
 
         return collect($component)
-            ->only(['zIndex', 'overflow', 'left', 'size', 'blur', 'persistent'])
+            ->only(['zIndex', 'overflow', 'left', 'size', 'blur', 'persistent', 'top', 'bottom'])
             ->toArray();
     }
 }
