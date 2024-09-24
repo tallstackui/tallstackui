@@ -220,7 +220,7 @@ return [
         | overflow: avoids hiding the overflow, allowing the scroll of the page.
         | blur: enables the background blur effect by default (Allowed: false, sm, md, lg, xl).
         | persistent: enables the modal to not be closed by clicking outside by default.
-        | size: controls the default modal size (Allowed: sm, md, lg, xl, 2xl, 3xl, 4xl, 5xl, 6xl, 7xl).
+        | size: controls the default modal size (Allowed: sm, md, lg, xl, 2xl, 3xl, 4xl, 5xl, 6xl, 7xl, full).
         | center: controls if the modal is centered by default.
         */
         'modal' => [

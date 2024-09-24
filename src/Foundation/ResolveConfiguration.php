@@ -1,8 +1,9 @@
 <?php
 
-namespace TallStackUi\Foundation\Support\Configurations;
+namespace TallStackUi\Foundation;
 
 use Exception;
+use Illuminate\Support\Collection;
 use TallStackUi\View\Components\Form\Color;
 use TallStackUi\View\Components\Interaction\Dialog;
 use TallStackUi\View\Components\Interaction\Toast;
@@ -11,16 +12,16 @@ use TallStackUi\View\Components\Modal;
 use TallStackUi\View\Components\Slide;
 
 /**
- * @internal
+ * @internal This class ResolveConfiguration not meant to be used directly.
  */
-class CompileConfigurations
+class ResolveConfiguration
 {
     /** @throws Exception */
-    public static function of(object $component): ?array
+    public static function from(object $component): ?array
     {
         $class = new self;
 
-        /** @var string|array|null $data */
+        /** @var string|array $data */
         $data = (match (true) {
             $component instanceof Color => fn () => $class->color($component),
             $component instanceof Dialog => fn () => 'dialog',
@@ -35,11 +36,8 @@ class CompileConfigurations
             return null;
         }
 
-        // When the result of $data is a string, then we consult the
-        // config file and make a direct mapping so there is no need
-        // to create a method for each component.
         if (is_string($data)) {
-            $data = __ts_configuration('settings.'.$data)
+            $data = $class->config($data)
                 ->mapWithKeys(fn (string|bool|array $value, string $key) => [$key => $value])
                 ->toArray();
         }
@@ -47,28 +45,23 @@ class CompileConfigurations
         return $data;
     }
 
-    /**
-     * Defines the Color component configurations.
-     *
-     * @throws Exception
-     */
     private function color(Color $component): array
     {
-        $configuration = __ts_configuration('settings.form.color');
+        $configuration = $this->config('form.color');
 
         $component->colors ??= $configuration->get('colors') ?? [];
 
         return collect($component)->only('colors')->toArray();
     }
 
-    /**
-     * Defines the Loading component configurations.
-     *
-     * @throws Exception
-     */
+    private function config(string $index): Collection
+    {
+        return collect(config('tallstackui.settings.'.$index));
+    }
+
     private function loading(Loading $component): array
     {
-        $configuration = __ts_configuration('settings.loading');
+        $configuration = $this->config('loading');
 
         $component->zIndex ??= $configuration->get('z-index', 'z-50');
         $component->overflow ??= $configuration->get('overflow', false);
@@ -80,14 +73,9 @@ class CompileConfigurations
             ->toArray();
     }
 
-    /**
-     * Defines the Modal component configurations.
-     *
-     * @throws Exception
-     */
     private function modal(Modal $component): array
     {
-        $configuration = __ts_configuration('settings.modal');
+        $configuration = $this->config('modal');
 
         $component->zIndex ??= $configuration->get('z-index', 'z-50');
         $component->overflow ??= $configuration->get('overflow', false);
@@ -115,14 +103,9 @@ class CompileConfigurations
             ->toArray();
     }
 
-    /**
-     * Defines the Slide component configurations.
-     *
-     * @throws Exception
-     */
     private function slide(Slide $component): array
     {
-        $configuration = __ts_configuration('settings.slide');
+        $configuration = $this->config('slide');
 
         $component->zIndex ??= $configuration->get('z-index', 'z-50');
         $component->overflow ??= $configuration->get('overflow', false);
@@ -130,6 +113,8 @@ class CompileConfigurations
         $component->blur ??= $configuration->get('blur', false);
         $component->persistent ??= $configuration->get('persistent', false);
         $component->left ??= $configuration->get('position', 'right') === 'left';
+        $component->top ??= $configuration->get('position', 'right') === 'top';
+        $component->bottom ??= $configuration->get('position', 'right') === 'bottom';
 
         $component->size = match ($component->size) {
             'sm' => 'sm:max-w-sm',
@@ -146,7 +131,7 @@ class CompileConfigurations
         };
 
         return collect($component)
-            ->only(['zIndex', 'overflow', 'left', 'size', 'blur', 'persistent'])
+            ->only(['zIndex', 'overflow', 'left', 'size', 'blur', 'persistent', 'top', 'bottom'])
             ->toArray();
     }
 }
