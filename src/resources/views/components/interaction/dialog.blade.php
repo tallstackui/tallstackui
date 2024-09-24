@@ -79,7 +79,7 @@
                     </div>
                     <div @class($personalize['text.wrapper'])>
                         <h3 @class($personalize['text.title']) x-html="dialog.title"></h3>
-                        <div class="mt-2">
+                        <div @class($personalize['text.content.wrapper'])>
                             <p @class($personalize['text.content']) x-html="dialog.description"></p>
                         </div>
                     </div>
