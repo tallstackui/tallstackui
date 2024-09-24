@@ -33,7 +33,7 @@
                          dusk="tallstackui_date_input"
                          class="cursor-pointer caret-transparent">
         <x-slot:suffix>
-            <div class="flex items-center gap-1.5">
+            <div @class([$personalize['icon.wrapper']])>
                 <button type="button" x-on:click="clear()" x-show="quantity > 0" {{ $attributes->only('x-on:clear') }} dusk="tallstackui_date_clear">
                     <x-dynamic-component :component="TallStackUi::component('icon')"
                                          :icon="TallStackUi::icon('x-mark')"
@@ -84,7 +84,7 @@
                         <div @class($personalize['box.picker.wrapper.third'])>
                             <div @class($personalize['box.picker.label'])>
                                 <span x-text="range.year.first" @class($personalize['label.month'])></span>
-                                <span class="mx-1">-</span>
+                                <span @class($personalize['box.picker.separator'])>-</span>
                                 <span x-text="range.year.last" @class($personalize['label.month'])></span>
                             </div>
                             <button type="button" x-on:click="now()" x-show="!monthYearOnly">

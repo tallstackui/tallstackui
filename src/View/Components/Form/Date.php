@@ -83,6 +83,7 @@ class Date extends TallStackUiComponent implements Personalization
                     ],
                     'label' => 'text-gray-900 dark:bg-dark-700 hover:bg-dark-100 dark:hover:bg-dark-600 focus:ring-dark-200 flex cursor-pointer items-center justify-between rounded-lg bg-white px-2 py-1 text-sm font-semibold focus:outline-none focus:ring-0 dark:text-white',
                     'range' => 'text-gray-400 dark:text-dark-400 font-medium hover:bg-dark-100 dark:hover:bg-dark-600 text-gray-600 dark:text-dark-400 disabled:text-gray-400 dark:disabled:text-dark-500 flex h-6 w-1/4 cursor-pointer select-none items-center justify-center rounded-md p-1 text-center font-normal disabled:cursor-not-allowed',
+                    'separator' => 'mx-1',
                 ],
             ],
             'label' => [
@@ -100,6 +101,7 @@ class Date extends TallStackUiComponent implements Personalization
                 'navigate' => 'focus:shadow-outline hover:bg-dark-100 dark:hover:bg-dark-600 inline-flex cursor-pointer rounded-full p-1 transition duration-100 ease-in-out focus:outline-none',
             ],
             'icon' => [
+                'wrapper' => 'flex items-center gap-1.5',
                 'size' => 'h-5 w-5',
                 'clear' => 'hover:text-red-500',
                 'input' => 'text-secondary-500 dark:text-dark-400 flex cursor-pointer items-center gap-2',
