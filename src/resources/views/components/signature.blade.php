@@ -29,10 +29,10 @@
                                      @class($personalize['icons']) />
             </button>
         </div>
-       <div class="p-3">
+       <div @class($personalize['canvas.wrapper'])>
          <canvas x-ref="canvas"
                 wire:ignore
-                @class($personalize['canvas'])
+                @class($personalize['canvas.base'])
                 :height="height"
                 style="cursor: crosshair; max-height: {{ $height }}px"
                 x-on:mousedown="startDrawing"

@@ -84,6 +84,10 @@ class Avatar extends TallStackUiComponent implements Personalization
                     ],
                 ],
             ],
+            'border' => [
+                'base' => 'border-2',
+                'radius' => 'rounded-full',
+            ],
         ]);
     }
 

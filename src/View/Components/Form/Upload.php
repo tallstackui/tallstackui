@@ -62,7 +62,10 @@ class Upload extends TallStackUiComponent implements Personalization
                 'wrapper' => 'dark:border-dark-500 dark:bg-dark-600 relative flex h-20 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 transition',
                 'title' => 'text-md dark:text-dark-300 font-bold text-gray-600',
                 'tip' => 'mx-4 mt-2 text-center text-sm text-gray-500 dark:text-gray-400',
-                'icon.class' => 'dark:text-dark-300 h-6 w-6 text-gray-600',
+                'icon' => [
+                    'class' => 'dark:text-dark-300 h-6 w-6 text-gray-600',
+                    'wrapper' => 'inline-flex items-center justify-center space-x-2',
+                ],
             ],
             'floating' => collect(app(Floating::class)->personalization())->get('wrapper'),
             'upload' => [

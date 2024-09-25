@@ -52,7 +52,7 @@
                          class="w-[18rem] overflow-auto"
                          x-on:click.outside="show = false">
         <div @class($personalize['box.base'])>
-            <div class="px-4">
+            <div @class($personalize['box.range.wrapper'])>
                 <input type="range"
                        min="1"
                        max="11"

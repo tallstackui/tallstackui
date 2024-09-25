@@ -3,15 +3,15 @@
 @endphp
 
 <div {{ $attributes->class([
-        'rounded-full' => !$square,
-        'border-2' => !$borderless && !$model,
+        $personalize['border.base'] => !$borderless && !$model,
+        $personalize['border.radius'] => !$square,
         $personalize['wrapper.class'],
         $colors['background'] => !$model,
         $personalize['wrapper.sizes.' . $size],
     ]) }}>
     @if ($model || $image)
         <img @class([
-            'rounded-full' => !$square,
+            $personalize['circle'] => !$square,
             $personalize['content.image.class'],
             $personalize['content.image.sizes.' . $size],
         ]) src="{{ $image ?? $modelable() }}" alt="{{ $text ?? $model?->getAttribute($property ?? null) }}"/>

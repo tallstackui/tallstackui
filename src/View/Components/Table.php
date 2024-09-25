@@ -136,7 +136,11 @@ class Table extends TallStackUiComponent implements Personalization
                 'icon' => 'text-primary-500 dark:text-dark-300 absolute bottom-0 left-0 right-0 top-0 m-auto grid h-10 w-10 animate-spin place-items-center',
             ],
             'empty' => 'dark:text-dark-300 col-span-full whitespace-nowrap px-3 py-4 text-sm text-gray-500',
-            'filter' => 'mb-4 flex items-end gap-x-2 sm:gap-x-0',
+            'filter' => [
+                'wrapper' => 'mb-4 flex items-end gap-x-2 sm:gap-x-0',
+                'quantity' => 'w-1/4 sm:w-1/5',
+                'search' => 'sm:w-1/5',
+            ],
             'slots' => [
                 'header' => 'mb-2 dark:text-dark-300 text-gray-500',
                 'footer' => 'mt-2 dark:text-dark-300 text-gray-500',

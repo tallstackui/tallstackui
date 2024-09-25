@@ -63,11 +63,11 @@
     @endif
      <x-dynamic-component :component="TallStackUi::component('floating')"
                           :floating="$personalize['floating']"
-                          class="p-3 w-full">
+                          class="w-full p-3">
          @if (!$static)
          <div @class(['flex flex-col w-full items-center justify-center', 'mb-2' => $footer->isNotEmpty()])>
              <div @class($personalize['placeholder.wrapper']) :class="{ 'bg-primary-100': dragging }">
-                 <div class="inline-flex items-center justify-center space-x-2">
+                 <div @class($personalize['placeholder.icon.wrapper'])>
                      <x-dynamic-component :component="TallStackUi::component('icon')"
                                           :icon="TallStackUi::icon('cloud-arrow-up')"
                                           @class($personalize['placeholder.icon.class']) />
@@ -118,7 +118,7 @@
                                                           :icon="TallStackUi::icon('document-text')"
                                                           :class="$personalize['item.document']" />
                                  @endif
-                                 <div class="min-w-0 flex-auto">
+                                 <div class="flex-auto min-w-0">
                                      <p @class($personalize['item.title'])>{{ $file['real_name'] }}</p>
                                      <x-dynamic-component :component="TallStackUi::component('error')"
                                                           :property="is_array($value) ? $property . '.' . $key : $property" />
@@ -130,7 +130,7 @@
                                      @endif
                                  </div>
                              </div>
-                             <div class="flex shrink-0 flex-col items-end">
+                             <div class="flex flex-col items-end shrink-0">
                                  @if ($delete)
                                      <button type="button"
                                              {{ $attributes->only('x-on:remove') }}

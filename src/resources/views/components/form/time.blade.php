@@ -29,7 +29,7 @@
                          dusk="tallstackui_time_input"
                          class="cursor-pointer caret-transparent">
                          <x-slot:suffix>
-                             <div class="flex items-center gap-2">
+                             <div @class([$personalize['icon.wrapper']])>
                                  @if (!$attributes->has('required'))
                                     <button type="button" x-on:click="clear()" x-show="model">
                                         <x-dynamic-component :component="TallStackUi::component('icon')"

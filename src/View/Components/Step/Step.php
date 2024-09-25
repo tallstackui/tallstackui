@@ -115,6 +115,7 @@ class Step extends TallStackUiComponent implements Personalization
                 ],
             ],
             'content' => 'my-2',
+            'helpers.wrapper' => 'flex justify-between',
             'button' => [
                 'wrapper' => 'dark:text-dark-400 mb-2 me-2 inline-flex select-none items-center rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm font-medium text-gray-600 transition hover:bg-gray-100 focus:outline-none dark:border-gray-600 dark:bg-gray-800 dark:hover:border-gray-600 dark:hover:bg-gray-700',
                 'icon' => 'dark:text-dark-300 h-4 w-4',

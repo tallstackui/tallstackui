@@ -16,7 +16,8 @@
                     @if ($icon !== null)
                         <x-dynamic-component :component="TallStackUi::component('icon')"
                                              :icon="TallStackUi::icon($icon)"
-                                             class="w-5 h-5" outline />
+                                             @class([$personalize['title.icon']])
+                                             outline />
                     @endif
                     {{ trans($title, ['count' => $count($errors)]) }}
                 </span>

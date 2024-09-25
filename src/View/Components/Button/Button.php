@@ -67,6 +67,10 @@ class Button extends TallStackUiComponent implements Personalization
                     'md' => 'text-md px-4 py-2',
                     'lg' => 'text-lg px-6 py-3',
                 ],
+                'border.radius' => [
+                    'rounded' => 'rounded-md',
+                    'circle' => 'rounded-full',
+                ],
             ],
             'icon.sizes' => [
                 'xs' => 'w-2 h-2',

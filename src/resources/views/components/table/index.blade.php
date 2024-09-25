@@ -10,13 +10,13 @@
     @endif
     @if (count((array) $rows) > 0 && $livewire && !is_null($filter))
         <div @class([
-                $personalize['filter'],
+                $personalize['filter.wrapper'],
                 'justify-between' => isset($filter['quantity']) && isset($filter['search']),
                 'justify-start'   => isset($filter['quantity']) && ! isset($filter['search']),
                 'justify-end'     => ! isset($filter['quantity']) && isset($filter['search']),
             ])>
             @isset ($filter['quantity'])
-                <div class="w-1/4 sm:w-1/5">
+                <div @class($personalize['filter.quantity'])>
                     <x-dynamic-component :component="TallStackUi::component('select.styled')"
                                          :label="$placeholders['quantity']"
                                          :options="$quantity"
@@ -26,7 +26,7 @@
                 </div>
             @endisset
             @isset ($filter['search'])
-                <div class="sm:w-1/5">
+                <div @class($personalize['filter.search'])>
                     <x-dynamic-component :component="TallStackUi::component('input')"
                                          :icon="TallStackUi::icon('magnifying-glass')"
                                          wire:model.live.debounce.500ms="{{ $filter['search'] }}"
@@ -58,7 +58,7 @@
                             @foreach ($headers as $header)
                                 <th scope="col" @class($personalize['table.th'])>
                                     <a @if ($livewire && $sortable($header))
-                                            class="inline-flex cursor-pointer truncate"
+                                            class="inline-flex truncate cursor-pointer"
                                             wire:click="$set('sort', {column: '{{ $head($header)['column'] }}', direction: '{{ $head($header)['direction'] }}' })"
                                         @endif>
                                         @if ($header['unescaped'] ?? false)

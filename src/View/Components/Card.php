@@ -63,6 +63,11 @@ class Card extends TallStackUiComponent implements Personalization
                 'wrapper' => 'text-secondary-700 dark:text-dark-300 dark:border-t-dark-600 rounded-lg rounded-t-none border-t p-4 px-6',
                 'text' => 'flex items-center justify-end gap-2',
             ],
+            'button' => [
+                'minimize' => 'w-6 h-6',
+                'maximize' => 'w-6 h-6',
+                'close' => 'w-6 h-6',
+            ],
         ]);
     }
 }

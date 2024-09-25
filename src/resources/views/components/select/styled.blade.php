@@ -39,17 +39,17 @@
                 aria-haspopup="listbox"
                 :aria-expanded="show"
                 dusk="tallstackui_select_open_close">
-            <div @class($personalize['input.content'])>
-                <div class="flex items-center gap-2">
+            <div @class($personalize['input.content.wrapper.first'])>
+                <div @class($personalize['input.content.wrapper.second'])>
                     <div x-show="multiple && quantity > 0">
                         <span x-text="quantity"></span>
                     </div>
                     <div x-show="empty || !multiple">
-                        <div class="flex items-center">
-                            <img x-bind:src="image" class="w-6 h-6 rounded-full mr-1" x-show="image" />
+                        <div @class($personalize['itens.placeholder.wrapper'])>
+                            <img x-bind:src="image" @class($personalize['itens.image']) x-show="image" />
                             <span @class(['text-red-500 dark:text-red-500' => $error])
                                 x-bind:class="{
-                                    '{{ $personalize['itens.placeholder'] }}': empty,
+                                    '{{ $personalize['itens.placeholder.text'] }}': empty,
                                     '{{ $personalize['itens.single'] }}': !empty
                                 }" x-text="placeholder"></span>
                         </div>
@@ -58,9 +58,9 @@
                         <template x-for="(select, index) in selects" :key="index">
                             <a class="cursor-pointer">
                                 <div @class($personalize['itens.multiple.item'])>
-                                    <div class="flex items-center">
+                                    <div @class($personalize['itens.multiple.label.wrapper'])>
                                         <template x-if="select.image">
-                                            <img x-bind:src="select.image" class="w-3 h-3 rounded-full mr-1" />
+                                            <img x-bind:src="select.image" @class($personalize['itens.multiple.image']) />
                                         </template>
                                         <span @class($personalize['itens.multiple.label']) x-text="select[selectable.label] ?? select"></span>
                                     </div>
@@ -104,7 +104,7 @@
                              class="w-full overflow-auto"
                              x-anchor="$refs.button">
             <template x-if="searchable">
-                <div class="relative my-2 px-2">
+                <div @class($personalize['box.searchable.wrapper'])>
                     <x-dynamic-component :component="TallStackUi::component('input')"
                                          :placeholder="data_get($placeholders, 'search')"
                                          x-model.debounce.500ms="search"
@@ -135,9 +135,9 @@
                         <div @class($personalize['box.list.item.options'])>
                             <div @class($personalize['box.list.item.base'])>
                                 <img @class($personalize['box.list.item.image']) x-bind:src="option.image" x-show="option.image">
-                                <div class="flex flex-col ml-2">
+                                <div @class($personalize['box.list.item.description.wrapper'])>
                                     <span x-text="option[selectable.label] ?? option"></span>
-                                    <span @class($personalize['box.list.item.description']) x-show="option.description" x-text="option.description"></span>
+                                    <span @class($personalize['box.list.item.description.text']) x-show="option.description" x-text="option.description"></span>
                                 </div>
                             </div>
                             <div @class($personalize['box.list.item.check'])>
