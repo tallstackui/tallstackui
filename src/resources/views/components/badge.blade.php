@@ -3,8 +3,8 @@
 @endphp
 
 <span {{ $attributes->class([
-        'rounded-md' => !$round && !$square,
-        'rounded-full' => $round,
+        $personalize['border-radius.rounded'] => !$round && !$square,
+        $personalize['border-radius.circle'] => $round,
         $personalize['wrapper.class'],
         $personalize['wrapper.sizes.' . $size],
         $colors['background'],
