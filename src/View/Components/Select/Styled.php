@@ -71,7 +71,10 @@ class Styled extends TallStackUiComponent implements Personalization
                     'color' => 'focus:ring-primary-600 text-gray-600 focus:outline-none focus:ring-2',
                     'error' => $this->error(),
                 ],
-                'content' => 'relative inset-y-0 left-0 flex w-full items-center space-x-2 overflow-hidden rounded-lg pl-2 transition',
+                'content.wrapper' => [
+                    'first' => 'relative inset-y-0 left-0 flex w-full items-center space-x-2 overflow-hidden rounded-lg pl-2 transition',
+                    'second' => 'flex items-center gap-2',
+                ]
             ],
             'buttons' => [
                 'wrapper' => 'mr-2 flex items-center',
@@ -100,19 +103,25 @@ class Styled extends TallStackUiComponent implements Personalization
                         'image' => 'h-6 w-6 rounded-full',
                         'check' => 'h-5 w-5',
                         'description' => 'text-xs font-normal opacity-70',
+                        'description.wrapper' => 'flex flex-col ml-2',
                     ],
                     'empty' => 'dark:text-dark-300 block w-full pr-2 text-gray-600',
                 ],
+                'searchable.wrapper' => 'relative px-2 my-2',
             ],
             'itens' => [
                 'wrapper' => 'truncate',
                 'placeholder' => 'dark:text-dark-400 truncate leading-6 text-gray-400',
+                'placeholder.wrapper' => 'flex items-center',
                 'single' => 'dark:text-dark-300 truncate leading-6 text-gray-600',
                 'multiple' => [
                     'item' => 'dark:text-dark-100 dark:bg-dark-700 dark:ring-dark-600 inline-flex h-6 items-center space-x-1 rounded-lg bg-gray-100 px-2 text-sm font-medium text-gray-600 ring-1 ring-inset ring-gray-200',
                     'label' => 'text-left',
+                    'label.wrapper' => 'flex items-center',
                     'icon' => 'h-4 w-4 text-red-500',
+                    'image' => 'w-3 h-3 mr-1 rounded-full',
                 ],
+                'image' => 'w-6 h-6 mr-1 rounded-full',
             ],
         ]);
     }
