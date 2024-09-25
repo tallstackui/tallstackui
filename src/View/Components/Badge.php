@@ -61,7 +61,7 @@ class Badge extends TallStackUiComponent implements Personalization
                 ],
             ],
             'icon' => 'h-3 w-3',
-            'border-radius' => [
+            'border.radius' => [
                 'rounded' => 'rounded-md',
                 'circle' => 'rounded-full',
             ],
