@@ -4,7 +4,7 @@
 
 <div {{ $attributes->class([
         $personalize['border'] => !$borderless && !$model,
-        $personalize['border.radius'] => !$square,
+        $personalize['border-radius'] => !$square,
         $personalize['wrapper.class'],
         $colors['background'] => !$model,
         $personalize['wrapper.sizes.' . $size],
