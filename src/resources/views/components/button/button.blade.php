@@ -6,8 +6,8 @@
         $personalize['wrapper.class'],
         $personalize['wrapper.sizes.' . $size],
         $colors['background'],
-        $personalize['wrapper.border-radius.rounded'] => !$square && !$round,
-        $personalize['wrapper.border-radius.circle'] => !$square && $round !== null,
+        $personalize['wrapper.border.radius.rounded'] => !$square && !$round,
+        $personalize['wrapper.border.radius.circle'] => !$square && $round !== null,
     ]) }} type="{{ $attributes->get('type', 'button') }}" @if ($livewire && $loading) wire:loading.attr="disabled" wire:loading.class="!cursor-wait" @endif>
     @if ($livewire && $loading && $position === 'left')
         <x-tallstack-ui::icon.generic.loading-button :$loading :$delay @class([
