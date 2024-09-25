@@ -37,11 +37,11 @@
                 {!! $transitions() !!}
             </x-slot:transition>
             @if ($header)
-                <div @class($personalize['wrapper.header'])>
+                <div @class($personalize['header.wrapper'])>
                     {!! $header !!}
                 </div>
             @endif
-            <div @class($personalize['wrapper.slot'])>
+            <div @class($personalize['slot.wrapper'])>
                 {!! $slot !!}
             </div>
         </x-dynamic-component>

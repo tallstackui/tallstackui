@@ -76,7 +76,7 @@ class Styled extends TallStackUiComponent implements Personalization
                         'first' => 'relative inset-y-0 left-0 flex w-full items-center space-x-2 overflow-hidden rounded-lg pl-2 transition',
                         'second' => 'flex items-center gap-2',
                     ],
-                ]
+                ],
             ],
             'buttons' => [
                 'wrapper' => 'mr-2 flex items-center',
