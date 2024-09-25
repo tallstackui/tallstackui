@@ -43,6 +43,7 @@ class Signature extends TallStackUiComponent implements Personalization
                 'button' => 'flex items-center space-x-4',
             ],
             'canvas' => 'dark:border-dark-600 w-full rounded-lg border border-dashed border-gray-300',
+            'canvas.wrapper' => 'p-3',
             'icons' => 'dark:text-dark-400 h-5 w-5 text-gray-500',
         ]);
     }

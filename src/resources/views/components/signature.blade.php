@@ -29,7 +29,7 @@
                                      @class($personalize['icons']) />
             </button>
         </div>
-       <div class="p-3">
+       <div @class($personalize['canvas.wrapper'])>
          <canvas x-ref="canvas"
                 wire:ignore
                 @class($personalize['canvas'])
