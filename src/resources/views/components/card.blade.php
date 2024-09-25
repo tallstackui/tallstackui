@@ -15,11 +15,11 @@
                     <button type="button" @click="minimize = !minimize" dusk="tallstackui_card_minimize">
                         <x-dynamic-component :component="TallStackUi::component('icon')"
                                              :icon="TallStackUi::icon('minus')"
-                                             class="h-6 w-6"
+                                             @class($personalize['button.minimize'])
                                              x-show="!minimize" />
                         <x-dynamic-component :component="TallStackUi::component('icon')"
                                              :icon="TallStackUi::icon('plus')"
-                                             class="h-6 w-6"
+                                             @class($personalize['button.maximize'])
                                              x-show="minimize" />
                     </button>
                     @endif
@@ -27,7 +27,7 @@
                     <button type="button" @click="show = false" dusk="tallstackui_card_close">
                         <x-dynamic-component :component="TallStackUi::component('icon')"
                                              :icon="TallStackUi::icon('x-mark')"
-                                             class="h-6 w-6" />
+                                             @class($personalize['button.close']) />
                     </button>
                     @endif
                 </div>
