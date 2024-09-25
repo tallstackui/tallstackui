@@ -19,7 +19,7 @@ $scrollIntoViewJsSnippet = ($scrollTo !== false)
             <div @class(['flex flex-1 gap-x-2 mb-4', 'justify-end' => $simplePagination, 'justify-between sm:hidden' => !$simplePagination])>
                 <span>
                     @if ($paginator->onFirstPage())
-                        <span class="relative inline-flex items-center px-4 py-2 text-sm font-medium leading-5 text-gray-400 bg-gray-100 border border-gray-200 rounded-md cursor-default cursor-pointer select-none dark:text-dark-500 dark:bg-dark-700 dark:border-transparent">
+                        <span class="relative inline-flex items-center px-4 py-2 text-sm font-medium leading-5 text-gray-400 bg-gray-100 border border-gray-200 rounded-md cursor-pointer select-none dark:text-dark-500 dark:bg-dark-700 dark:border-transparent">
                             {!! trans('pagination.previous') !!}
                         </span>
                     @else
@@ -34,7 +34,7 @@ $scrollIntoViewJsSnippet = ($scrollTo !== false)
                             {!! trans('pagination.next') !!}
                         </button>
                     @else
-                        <span class="relative inline-flex items-center px-4 py-2 text-sm font-medium leading-5 text-gray-400 bg-gray-100 border border-gray-200 rounded-md cursor-default cursor-pointer select-none dark:text-dark-500 dark:bg-dark-700 dark:border-transparent">
+                        <span class="relative inline-flex items-center px-4 py-2 text-sm font-medium leading-5 text-gray-400 bg-gray-100 border border-gray-200 rounded-md cursor-pointer select-none dark:text-dark-500 dark:bg-dark-700 dark:border-transparent">
                             {!! trans('pagination.next') !!}
                         </span>
                     @endif
