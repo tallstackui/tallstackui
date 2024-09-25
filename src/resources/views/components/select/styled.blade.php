@@ -49,7 +49,7 @@
                             <img x-bind:src="image" @class($personalize['itens.image']) x-show="image" />
                             <span @class(['text-red-500 dark:text-red-500' => $error])
                                 x-bind:class="{
-                                    '{{ $personalize['itens.placeholder'] }}': empty,
+                                    '{{ $personalize['itens.placeholder.text'] }}': empty,
                                     '{{ $personalize['itens.single'] }}': !empty
                                 }" x-text="placeholder"></span>
                         </div>
@@ -137,7 +137,7 @@
                                 <img @class($personalize['box.list.item.image']) x-bind:src="option.image" x-show="option.image">
                                 <div @class($personalize['box.list.item.description.wrapper'])>
                                     <span x-text="option[selectable.label] ?? option"></span>
-                                    <span @class($personalize['box.list.item.description']) x-show="option.description" x-text="option.description"></span>
+                                    <span @class($personalize['box.list.item.description.text']) x-show="option.description" x-text="option.description"></span>
                                 </div>
                             </div>
                             <div @class($personalize['box.list.item.check'])>
