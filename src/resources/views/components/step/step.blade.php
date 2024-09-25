@@ -22,7 +22,7 @@
         {{ $slot }}
     </div>
     @if ($helpers)
-        <div class="flex justify-between" {{ $attributes->only('x-on:change') }} x-ref="buttons">
+        <div @class($personalize['helpers.wrapper']) {{ $attributes->only('x-on:change') }} x-ref="buttons">
             <div>
                 @if ($navigatePrevious)
                     <button type="button"
