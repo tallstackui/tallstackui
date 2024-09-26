@@ -11,7 +11,7 @@
     ]) }}>
     @if ($model || $image)
         <img @class([
-            $personalize['circle'] => !$square,
+            $personalize['border.radius'] => !$square,
             $personalize['content.image.class'],
             $personalize['content.image.sizes.' . $size],
         ]) src="{{ $image ?? $modelable() }}" alt="{{ $text ?? $model?->getAttribute($property ?? null) }}"/>
