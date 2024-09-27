@@ -4,16 +4,19 @@
 
 <div x-data="{ selected: @if (!$selected) {!! TallStackUi::blade($attributes, $livewire)->entangle() !!} @else @js($selected) @endif, tabs: [] }" @class($personalize['base.wrapper'])>
     <div @class($personalize['base.padding'])>
-        <select x-model="selected" @class($personalize['base.select'])>
+        <select x-model="selected" @class($personalize['base.select']) aria-label="Select a tab">
             <template x-for="item in tabs">
                 <option x-bind:value="item.tab" x-text="item.tab"></option>
             </template>
         </select>
     </div>
-    <ul @class($personalize['base.body']) {{ $attributes->only('x-on:navigate') }} x-ref="ul">
+    <ul role="tablist" @class($personalize['base.body']) {{ $attributes->only('x-on:navigate') }} x-ref="ul">
         <template x-for="item in tabs">
             <li role="tab"
+                tabindex="0"
                 x-on:click="selected = item.tab; $refs.ul.dispatchEvent(new CustomEvent('navigate', {detail: {select: item.tab}}));"
+                x-on:keypress.enter="selected = item.tab; $refs.ul.dispatchEvent(new CustomEvent('navigate', {detail: {select: item.tab}}));"
+                x-bind:aria-selected="selected === item.tab ? 'true' : 'false'"
                 x-bind:class="{
                     '{{ $personalize['item.select'] }}' : selected === item.tab,
                     '{{ $personalize['item.unselect'] }}' : selected !== item.tab
@@ -31,7 +34,7 @@
         </template>
     </ul>
     <hr @class($personalize['base.divider'])>
-    <div role="tablist" @class($personalize['base.content'])>
+    <div @class($personalize['base.content'])>
         {{ $slot }}
     </div>
 </div>
