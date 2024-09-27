@@ -7,7 +7,6 @@ import date from './components/form/date';
 import darkTheme from './helpers/dark-theme';
 import dialog from './components/interaction/dialog/dialog';
 import dropdown from './components/dropdown/dropdown';
-import input from './components/form/input';
 import loading from './components/loading/loading';
 import modal from './components/modal/modal';
 import number from './components/form/number';
@@ -45,7 +44,6 @@ document.addEventListener('alpine:init', () => {
   Alpine.data('tallstackui_darkTheme', darkTheme);
   Alpine.data('tallstackui_dialog', dialog);
   Alpine.data('tallstackui_dropdown', dropdown);
-  Alpine.data('tallstackui_input', input);
   Alpine.data('tallstackui_loading', loading);
   Alpine.data('tallstackui_modal', modal);
   Alpine.data('tallstackui_rating', rating);

@@ -3,7 +3,6 @@
 @endphp
 
 <x-dynamic-component :component="TallStackUi::component('wrapper.input')" :$clearable :$id :$property :$error :$label :$hint :$invalidate :floatable="$attributes->get('floatable', false)">
-<div x-data="tallstackui_input()">
     @if ($icon)
         <div @class([ $personalize['icon.wrapper'], $personalize['icon.paddings.' . $position]])>
             <x-dynamic-component :component="TallStackUi::component('icon')"
@@ -20,7 +19,7 @@
         <div @class([$personalize['clearable.wrapper'], $personalize['clearable.paddings.' . $clearablePosition], '!pr-8' => $icon && $clearablePosition === 'right', '!pl-8' => $icon && $clearablePosition === 'left'])>
             <x-dynamic-component :component="TallStackUi::component('icon')"
                                 :icon="TallStackUi::icon('x-mark')"
-                                x-on:click="clear()"
+                                x-on:click="$refs.input.value = ''"
                                 @class([
                                     $personalize['clearable.size'],
                                     $personalize['clearable.color'] => !$error && !$invalidate,
@@ -54,5 +53,4 @@
             <span @class(['ml-1 mr-2', $personalize['input.slot'], $personalize['error'] => $error])>{{ $suffix }}</span>
         @endif
     </div>
-</div>
 </x-dynamic-component>
