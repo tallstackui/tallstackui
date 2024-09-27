@@ -106,7 +106,7 @@ class Styled extends TallStackUiComponent implements Personalization
                         'check' => 'h-5 w-5',
                         'description' => [
                             'text' => 'text-xs font-normal opacity-70',
-                            'description.wrapper' => 'flex flex-col ml-2',
+                            'wrapper' => 'flex flex-col ml-2',
                         ],
                     ],
                     'empty' => 'dark:text-dark-300 block w-full pr-2 text-gray-600',
