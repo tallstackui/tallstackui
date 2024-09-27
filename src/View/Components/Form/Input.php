@@ -30,11 +30,8 @@ class Input extends TallStackUiComponent implements Personalization
         public ?string $suffix = null,
         #[SkipDebug]
         public ?string $position = 'left',
-        #[SkipDebug]
-        public ?string $clearablePosition = 'right',
     ) {
         $this->position = $this->position === 'left' ? 'left' : 'right';
-        $this->clearablePosition = $this->clearablePosition === 'right' ? 'right' : 'left';
     }
 
     public function blade(): View
