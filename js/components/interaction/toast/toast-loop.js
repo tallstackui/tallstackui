@@ -13,6 +13,10 @@ export default (toast) => ({
     this.$nextTick(() => {
       this.show = true;
 
+      if (this.toast.persistent) {
+        return;
+      }
+
       const interval = setInterval(() => {
         if (!this.show) {
           clearInterval(interval);
