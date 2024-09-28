@@ -38,6 +38,19 @@ export default (
     this.uploading = true;
     this.error = false;
 
+    let abort = null;
+
+    if (typeof window.TallStackUi.upload === 'function') {
+      abort = window.TallStackUi.upload(this.$refs.files.files);
+    }
+
+    if (Boolean(abort) === false) {
+      this.progress = 0;
+      this.uploading = false;
+
+      return;
+    }
+
     this.$el.dispatchEvent(new CustomEvent('upload', {detail: {files: this.$refs.files.files}}));
 
     if (this.multiple) return this.multiples();
