@@ -101,7 +101,7 @@
                     </div>
                 </div>
                 @if ($configurations['progress'])
-                    <div @class($personalize['progress.wrapper'])>
+                    <div x-show="!toast.persistent" @class($personalize['progress.wrapper'])>
                         <span x-ref="progress" x-bind:style="`animation-duration:${toast.timeout * 1000}ms`" @class(['animate-progress', $personalize['progress.bar']]) x-cloak></span>
                     </div>
                 @endif

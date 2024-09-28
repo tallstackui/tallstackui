@@ -16,7 +16,7 @@
         @endif
     @endif
     <div @class([
-            'mx-4' => !$slot->isNotEmpty(),
+            'mx-2' => !$slot->isNotEmpty(),
             'mt-4' => !$header, 
             'mb-4' => !$footer, 
             $personalize['wrapper.second'],
