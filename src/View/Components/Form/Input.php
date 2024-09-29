@@ -22,6 +22,7 @@ class Input extends TallStackUiComponent implements Personalization
         public ?string $label = null,
         public ?string $hint = null,
         public ?string $icon = null,
+        public ?bool $clearable = null,
         public ?bool $invalidate = null,
         #[SkipDebug]
         public ?string $prefix = null,
@@ -44,8 +45,11 @@ class Input extends TallStackUiComponent implements Personalization
             'input' => [
                 ...$this->input(),
                 'paddings' => [
+                    'prefix' => 'pr-3 pl-0',
+                    'suffix' => 'pl-3 pr-0',
                     'left' => 'pl-8',
                     'right' => 'pr-8',
+                    'clearable' => '!pr-14',
                 ],
             ],
             'icon' => [
@@ -54,6 +58,12 @@ class Input extends TallStackUiComponent implements Personalization
                     'left' => 'left-0 pl-2',
                     'right' => 'right-0 pr-2',
                 ],
+                'size' => 'h-5 w-5',
+                'color' => 'text-gray-500 dark:text-dark-400',
+            ],
+            'clearable' => [
+                'wrapper' => 'cursor-pointer absolute inset-y-0 flex items-center text-gray-500 dark:text-dark-400',
+                'padding' => 'right-0 pr-2',
                 'size' => 'h-5 w-5',
                 'color' => 'text-gray-500 dark:text-dark-400',
             ],

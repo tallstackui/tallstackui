@@ -7,6 +7,7 @@ import date from './components/form/date';
 import darkTheme from './helpers/dark-theme';
 import dialog from './components/interaction/dialog/dialog';
 import dropdown from './components/dropdown/dropdown';
+import clearable from './components/form/clearable';
 import loading from './components/loading/loading';
 import modal from './components/modal/modal';
 import number from './components/form/number';
@@ -32,8 +33,9 @@ document.addEventListener('alpine:init', () => {
   Alpine.data('tallstackui_banner', banner);
   Alpine.data('tallstackui_card', card);
   Alpine.data('tallstackui_clipboard', clipboard);
-  Alpine.data('tallstackui_formDate', date);
   Alpine.data('tallstackui_formColor', color);
+  Alpine.data('tallstackui_formDate', date);
+  Alpine.data('tallstackui_formInputClearable', clearable);
   Alpine.data('tallstackui_formNumber', number);
   Alpine.data('tallstackui_formPassword', password);
   Alpine.data('tallstackui_formPin', pin);

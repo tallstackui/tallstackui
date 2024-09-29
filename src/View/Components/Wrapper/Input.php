@@ -17,6 +17,7 @@ class Input extends TallStackUiComponent implements Personalization
         public ?string $hint = null,
         public ?bool $invalidate = null,
         public ?bool $error = false,
+        public ?bool $clearable = null,
     ) {
         //
     }
