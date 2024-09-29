@@ -21,10 +21,10 @@
                 <x-dynamic-component :component="TallStackUi::component('icon')"
                                      :icon="TallStackUi::icon('x-mark')"
                                      x-on:click="clear()"
-                        @class([
-                            $personalize['clearable.size'],
-                            $personalize['clearable.color'] => !$error && !$invalidate,
-                        ]) />
+                                     @class([
+                                         $personalize['clearable.size'],
+                                         $personalize['clearable.color'] => !$error && !$invalidate,
+                                     ]) />
             </button>
         </div>
     @endif
