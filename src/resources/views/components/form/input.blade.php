@@ -17,13 +17,15 @@
     @endif
     @if ($clearable)
         <div x-data="tallstackui_formInputClearable()" @class([ $personalize['clearable.wrapper'], $personalize['clearable.padding'], '!pr-8' => $icon && $position === 'right']) x-show="clearable">
-            <x-dynamic-component :component="TallStackUi::component('icon')"
-                                 :icon="TallStackUi::icon('x-mark')"
-                                 x-on:click="clear()"
-                                 @class([
-                                     $personalize['clearable.size'],
-                                     $personalize['clearable.color'] => !$error && !$invalidate,
-                                 ]) />
+            <button type="button" dusk="tallstackui_form_input_clearable">
+                <x-dynamic-component :component="TallStackUi::component('icon')"
+                                     :icon="TallStackUi::icon('x-mark')"
+                                     x-on:click="clear()"
+                        @class([
+                            $personalize['clearable.size'],
+                            $personalize['clearable.color'] => !$error && !$invalidate,
+                        ]) />
+            </button>
         </div>
     @endif
     <div @class([

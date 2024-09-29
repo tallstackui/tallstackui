@@ -13,5 +13,7 @@ export default () => ({
     this.$refs.input.value = '';
 
     this.clearable = false;
+
+    this.$refs.input.dispatchEvent(new Event('input'));
   }
 });
