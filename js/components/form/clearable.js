@@ -7,6 +7,7 @@ export default () => ({
   },
   /**
    * Clear the input value
+   *
    * @returns {void}
    */
   clear() {
