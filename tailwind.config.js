@@ -52,6 +52,7 @@ module.exports = {
     'z-40',
     'z-50',
     'z-auto',
+    { pattern: /^(w|h)-\d+$/ },
   ],
   plugins: [
     forms,
