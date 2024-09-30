@@ -333,6 +333,7 @@ return [
         'select.native' => Components\Select\Native::class,
         'select.styled' => Components\Select\Styled::class,
         'signature' => Components\Signature::class,
+        'skeleton' => Components\Skeleton::class,
         'slide' => Components\Slide::class,
         'stats' => Components\Stats::class,
         'step' => Components\Step\Step::class,
