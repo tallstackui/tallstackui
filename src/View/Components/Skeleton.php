@@ -12,6 +12,9 @@ use TallStackUi\TallStackUiComponent;
 class Skeleton extends TallStackUiComponent implements Personalization
 {
     public function __construct(
+        public ?string $width = null,
+        public ?string $height = null,
+        public ?string $size = null,
         public ?string $rounded = null,
         public ?bool $image = false,
         public ?bool $video = false,
@@ -27,6 +30,10 @@ class Skeleton extends TallStackUiComponent implements Personalization
             'full' => 'rounded-full',
             default => $rounded,
         };
+
+        $this->size = $this->size ? "size-{$this->size}" : null;
+        $this->width = $this->width ? "w-{$this->width}" : 'w-full';
+        $this->height = $this->height ? "h-{$this->height}" : 'h-5';
     }
 
     public function blade(): View

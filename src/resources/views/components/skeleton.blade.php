@@ -5,8 +5,9 @@
 <div @class([
     $personalize['wrapper'],
     $rounded ?? 'rounded-md',
-    'w-full' => !Str::contains($attributes->get('class'), 'w-') && !Str::contains($attributes->get('class'), 'size-'),
-    'h-5' => !Str::contains($attributes->get('class'), 'h-') && !Str::contains($attributes->get('class'), 'size-'),
+    $size,
+    $width => !$size,
+    $height => !$size,
     $attributes->get('class'),
     ])
     aria-hidden="true"
@@ -23,7 +24,7 @@
     @elseif($avatar)
         <x-dynamic-component :component="TallStackUi::component('icon')"
             :icon="TallStackUi::icon('user-circle')"
-            @class('w-6 h-6 text-gray-400 dark:text-gray-500')/>
+            @class([$personalize['icon']])/>
     @else
         {{ $slot }}
     @endif
