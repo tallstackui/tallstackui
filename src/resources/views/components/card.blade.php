@@ -55,7 +55,7 @@
                 </div>
             </div>
         @endif
-        @if ($image && ($position === 'bottom' || $position === 'right') && !$overlay)
+        @if ($image && $position === 'bottom' && !$overlay)
             <div @class([$personalize['image.wrapper']]) x-show="!minimize">
                 <img src="{{ $image }}" @class([
                     $personalize['image.rounded.bottom'],
