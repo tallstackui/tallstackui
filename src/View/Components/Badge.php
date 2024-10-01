@@ -60,6 +60,7 @@ class Badge extends TallStackUiComponent implements Personalization
                     'lg' => 'text-lg',
                 ],
             ],
+            'clickable' => 'cursor-pointer',
             'icon' => 'h-3 w-3',
             'border.radius' => [
                 'rounded' => 'rounded-md',
