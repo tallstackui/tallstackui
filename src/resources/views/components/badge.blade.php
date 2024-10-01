@@ -9,7 +9,7 @@
         $personalize['wrapper.sizes.' . $size],
         $colors['background'],
         $colors['text'],
-        $personalize['wrapper.clickable'] => preg_match('/\b(x-on:click|wire:click)\b/', $attributes->toHtml()),
+        $personalize['wrapper.clickable'] => $attributes->hasAny(['wire:click', 'x-on:click']),
     ]) }}>
     @if ($left)
         {{ $left }}
