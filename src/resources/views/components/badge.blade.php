@@ -9,6 +9,7 @@
         $personalize['wrapper.sizes.' . $size],
         $colors['background'],
         $colors['text'],
+        $personalize['clickable'] => $attributes->hasAny(['wire:click', 'x-on:click']),
     ]) }}>
     @if ($left)
         {{ $left }}
