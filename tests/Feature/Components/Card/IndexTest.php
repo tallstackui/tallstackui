@@ -23,3 +23,9 @@ it('can render with title and footer')
     ->toContain('Foo bar')
     ->toContain('Lorem Ipsum')
     ->toContain('Bar Baz');
+
+it('can render with image')
+    ->expect('<x-card image="https://via.placeholder.com/150">Foo bar</x-card>')
+    ->render()
+    ->toContain('Foo bar')
+    ->toContain('https://via.placeholder.com/150');

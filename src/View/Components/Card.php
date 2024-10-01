@@ -23,6 +23,9 @@ class Card extends TallStackUiComponent implements Personalization
         public ?bool $minimize = null,
         public ?bool $initializeMinimized = false,
         public ?bool $close = null,
+        public ?string $image = null,
+        public ?string $position = 'top',
+        public ?bool $overlay = null,
         #[SkipDebug]
         public string $style = 'solid',
         #[SkipDebug]
@@ -47,6 +50,7 @@ class Card extends TallStackUiComponent implements Personalization
             'wrapper' => [
                 'first' => 'flex justify-center gap-4',
                 'second' => 'dark:bg-dark-700 flex w-full flex-col rounded-lg bg-white shadow-md',
+                'overlay' => 'min-h-64 bg-cover opacity-75',
             ],
             'header' => [
                 'wrapper' => [
@@ -68,6 +72,14 @@ class Card extends TallStackUiComponent implements Personalization
                 'maximize' => 'w-6 h-6',
                 'close' => 'w-6 h-6',
             ],
+            'image' => [
+                'wrapper' => 'flex items-center gap-2',
+                'rounded' => [
+                    'top' => 'rounded-t-lg',
+                    'bottom' => 'rounded-b-lg',
+                ],
+                'size' => 'w-full h-64',
+            ]
         ]);
     }
 }
