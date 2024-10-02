@@ -3,7 +3,7 @@
 @endphp
 
 <div x-data="tallstackui_card(@js($initializeMinimized))" @class($personalize['wrapper.first']) x-show="show">
-    <div x-ref="card" @class($personalize['wrapper.second']) >
+    <div @class($personalize['wrapper.second']) >
         @if ($image && $position !== 'bottom')
             <div @class([$personalize['image.wrapper']])>
                 <img src="{{ $image }}" @class([
