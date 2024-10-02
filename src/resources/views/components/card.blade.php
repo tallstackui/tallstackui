@@ -3,11 +3,8 @@
 @endphp
 
 <div x-data="tallstackui_card(@js($initializeMinimized))" @class($personalize['wrapper.first']) x-show="show">
-    <div @class([
-            $personalize['wrapper.second'], 
-            $personalize['wrapper.overlay'] => $overlay
-        ]) @if($overlay) style="background-image: url('{{ $image }}'); background-size: cover;" @endif >
-        @if ($image && $position !== 'bottom' && !$overlay)
+    <div @class($personalize['wrapper.second']) >
+        @if ($image && $position !== 'bottom')
             <div @class([$personalize['image.wrapper']])>
                 <img src="{{ $image }}" @class([
                     $personalize['image.rounded.top'],
@@ -55,7 +52,7 @@
                 </div>
             </div>
         @endif
-        @if ($image && $position === 'bottom' && !$overlay)
+        @if ($image && $position === 'bottom')
             <div @class([$personalize['image.wrapper']]) x-show="!minimize">
                 <img src="{{ $image }}" @class([
                     $personalize['image.rounded.bottom'],
