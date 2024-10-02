@@ -11,9 +11,9 @@
                     {!! $label !!}
                 </span>
                 @endif
-                <div>
-                    {!! $slot !!}
-                </div>
+                
+                {!! $slot !!}
+                
                 @if ($label && $position === 'right')
                 <span @class([$personalize['label.text'], $personalize['label.error'] => $error, 'ml-2'])>
                     {!! $label !!}
