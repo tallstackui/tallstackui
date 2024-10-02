@@ -66,9 +66,9 @@
                                         @else
                                             {{ $header['label'] ?? '' }}
                                         @endif
-                                        @if ($livewire && $sortable($header) && $sorted($header))
+                                        @if ($livewire && $sortable($header))
                                             <x-dynamic-component :component="TallStackUi::component('icon')"
-                                                                 :icon="TallStackUi::icon($head($header)['direction'] === 'desc' ? 'chevron-up' : 'chevron-down')"
+                                                                 :icon="TallStackUi::icon($sorted($header) ? ($head($header)['direction'] === 'desc' ? 'chevron-up' : 'chevron-down') : 'chevron-up-down')" 
                                                                  @class($personalize['table.sort']) />
                                         @endif
                                     </a>
