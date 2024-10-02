@@ -3,7 +3,15 @@
 @endphp
 
 <div x-data="tallstackui_card(@js($initializeMinimized))" @class($personalize['wrapper.first']) x-show="show">
-    <div @class($personalize['wrapper.second'])>
+    <div @class($personalize['wrapper.second']) >
+        @if ($image && $position !== 'bottom')
+            <div @class([$personalize['image.wrapper']])>
+                <img src="{{ $image }}" @class([
+                    $personalize['image.rounded.top'],
+                    $personalize['image.size'],
+                ]) />
+            </div>
+        @endif
         @if ($header)
             <div @class([$personalize['header.wrapper.base'], $colors['background']]) x-bind:class="{ '{{ $personalize['header.wrapper.border'] }}' : !minimize }">
                 <div @class($personalize['header.text.size'])>
@@ -42,6 +50,14 @@
                 <div @class($personalize['footer.text'])>
                     {{ $footer }}
                 </div>
+            </div>
+        @endif
+        @if ($image && $position === 'bottom')
+            <div @class([$personalize['image.wrapper']]) x-show="!minimize">
+                <img src="{{ $image }}" @class([
+                    $personalize['image.rounded.bottom'],
+                    $personalize['image.size'],
+                ]) />
             </div>
         @endif
     </div>

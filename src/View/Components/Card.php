@@ -23,6 +23,8 @@ class Card extends TallStackUiComponent implements Personalization
         public ?bool $minimize = null,
         public ?bool $initializeMinimized = false,
         public ?bool $close = null,
+        public ?string $image = null,
+        public ?string $position = 'top',
         #[SkipDebug]
         public string $style = 'solid',
         #[SkipDebug]
@@ -67,6 +69,14 @@ class Card extends TallStackUiComponent implements Personalization
                 'minimize' => 'w-6 h-6',
                 'maximize' => 'w-6 h-6',
                 'close' => 'w-6 h-6',
+            ],
+            'image' => [
+                'wrapper' => 'flex items-center gap-2',
+                'rounded' => [
+                    'top' => 'rounded-t-lg',
+                    'bottom' => 'rounded-b-lg',
+                ],
+                'size' => 'w-full h-64',
             ],
         ]);
     }
