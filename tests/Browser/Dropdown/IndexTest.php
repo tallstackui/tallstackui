@@ -22,7 +22,7 @@ class IndexTest extends BrowserTestCase
                     <x-dropdown>
                         <x-slot:action>
                             <x-button id="action" x-on:click="show = !show">
-                                FooBar                
+                                FooBar
                             </x-button>
                         </x-slot:action>
                         <x-dropdown.items text="Lorem" />
@@ -66,6 +66,42 @@ class IndexTest extends BrowserTestCase
             ->assertSee('Lorem')
             ->assertSee('Ipsum')
             ->click('@open-dropdown')
+            ->waitUntilMissingText('Lorem')
+            ->waitUntilMissingText('Ipsum');
+    }
+
+    /** @test */
+    public function can_render_with_submenu(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $foo = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-dropdown text="FooBar">
+                        <x-dropdown.items text="Lorem" />
+                        <x-dropdown.items text="Ipsum" />
+                        <x-dropdown.submenu text="Submenu">
+                            <x-dropdown.items text="Item 1" />
+                            <x-dropdown.items text="Item 2" />
+                        </x-dropdown.submenu>
+                    </x-dropdown>
+                </div>
+                HTML;
+            }
+        })
+            ->assertSee('FooBar')
+            ->click('@open-dropdown')
+            ->waitForText('Lorem')
+            ->waitForText('Ipsum')
+            ->clickAtXPath('/html/body/div[3]/div/div/div[2]/div/div/button')
+            ->waitForText('Item 1')
+            ->assertSee('Item 1')
+            ->click('@open-dropdown')
+            ->waitUntilMissingText('Item 1')
             ->waitUntilMissingText('Lorem')
             ->waitUntilMissingText('Ipsum');
     }
