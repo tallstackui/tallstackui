@@ -6,6 +6,7 @@ export default (model, mode, colors, livewire, property, value) => ({
   livewire: livewire,
   property: property,
   value: value,
+  clearable : false,
   weight: 6,
   palette: [],
   default: {
@@ -299,6 +300,8 @@ export default (model, mode, colors, livewire, property, value) => ({
   init() {
     if (!this.livewire) this.model = this.value;
 
+    this.$nextTick(() => this.clearable = this.$refs.input.value !== '');
+
     if (this.colors.length === 0) {
       const modes = {
         'range': () => {
@@ -324,9 +327,10 @@ export default (model, mode, colors, livewire, property, value) => ({
 
     this.$watch('model', (value) => {
       this.model = this.hashing(value);
-
       this.sync();
     });
+
+    this.$refs.input.addEventListener('input', () => this.clearable = this.$refs.input.value !== '');
 
     this.sync();
   },
@@ -343,6 +347,7 @@ export default (model, mode, colors, livewire, property, value) => ({
     if (!input) return;
 
     input.value = !this.model ? '' : this.model;
+    this.clearable = !!input.value;
   },
   /**
    * Hashing the color value with #.
@@ -366,6 +371,7 @@ export default (model, mode, colors, livewire, property, value) => ({
     this.$refs.input.value = color;
     this.$refs.input.dispatchEvent(new Event('change'));
     this.$el.dispatchEvent(new CustomEvent('set', {detail: {color: color}}));
+    this.clearable = !!color;
   },
   /**
    * @returns {FlatArray<any[][], 1>[]}
@@ -404,4 +410,15 @@ export default (model, mode, colors, livewire, property, value) => ({
 
     return luminosity > 0.7;
   },
+  /**
+   * Clear the input value.
+   * 
+   * @returns {void}
+   */
+  clear() {
+    this.model = '';
+    this.$refs.input.value = '';
+    this.$refs.input.dispatchEvent(new Event('change'));
+    this.clearable = false; 
+  }
 });
