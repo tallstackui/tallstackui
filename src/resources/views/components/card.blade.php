@@ -44,24 +44,14 @@
         @endif
         <div {{ $attributes->class($personalize['body']) }} x-show="!minimize"
                 @if ($transition)
-                x-transition:enter="transition ease-out duration-500"
-                x-transition:enter-start="opacity-0 -translate-y-10"
-                x-transition:enter-end="opacity-100 translate-y-0"
-                x-transition:leave="transition ease-in duration-150"
-                x-transition:leave-start="opacity-100 translate-y-0"
-                x-transition:leave-end="opacity-0 -translate-y-10"
+                    {!! $transitions() !!}
                 @endif>
             {{ $slot }}
         </div>
         @if ($footer)
             <div @class($personalize['footer.wrapper']) x-show="!minimize"
                 @if ($transition)
-                x-transition:enter="transition ease-out duration-500"
-                x-transition:enter-start="opacity-0 -translate-y-10"
-                x-transition:enter-end="opacity-100 translate-y-0"
-                x-transition:leave="transition ease-in duration-150"
-                x-transition:leave-start="opacity-100 translate-y-0"
-                x-transition:leave-end="opacity-0 -translate-y-10"
+                    {!! $transitions() !!}
                 @endif>
                 <div @class($personalize['footer.text'])>
                     {{ $footer }}
@@ -71,12 +61,7 @@
         @if ($image && $position === 'bottom')
             <div @class([$personalize['image.wrapper']]) x-show="!minimize"
                 @if ($transition)
-                x-transition:enter="transition ease-out duration-500"
-                x-transition:enter-start="opacity-0 -translate-y-10"
-                x-transition:enter-end="opacity-100 translate-y-0"
-                x-transition:leave="transition ease-in duration-150"
-                x-transition:leave-start="opacity-100 translate-y-0"
-                x-transition:leave-end="opacity-0 -translate-y-10"
+                    {!! $transitions() !!}
                 @endif>
                 <img src="{{ $image }}" @class([
                     $personalize['image.rounded.bottom'],
