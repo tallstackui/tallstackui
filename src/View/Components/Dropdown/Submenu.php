@@ -3,6 +3,7 @@
 namespace TallStackUi\View\Components\Dropdown;
 
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Arr;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\TallStackUiComponent;
@@ -27,15 +28,18 @@ class Submenu extends TallStackUiComponent implements Personalization
 
     public function personalization(): array
     {
-        return [
+        return Arr::dot([
             'wrapper' => 'flex items-center gap-1',
             'item' => 'text-secondary-600 dark:hover:bg-dark-600 dark:text-dark-300 dark:focus:bg-dark-600 flex w-full cursor-pointer items-center justify-between whitespace-nowrap px-4 py-2 text-sm transition-colors duration-150 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none',
             'border' => 'dark:border-t-dark-600 border-t border-t-gray-100',
             'icon' => 'h-5 w-5',
-            'submenu' => 'ml-5 h-4 w-4',
+            'submenu' => [
+                'left' => 'mr-2 h-4 w-4',
+                'right' => 'ml-2 h-4 w-4',
+            ],
             'floating' => collect(app(Floating::class)->personalization())->get('wrapper'),
             'slot' => 'overflow-hidden rounded-md',
-        ];
+        ]);
     }
 
     final public function transitions(): string
