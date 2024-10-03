@@ -276,7 +276,8 @@ class ColorTest extends BrowserTestCase
             ->clickAtXPath('/html/body/div[3]/div/div[2]/div/div[2]/button[1]')
             ->waitForTextIn('@selected', '#64748b')
             ->click('@tallstackui_form_color_clearable')
-            ->assertSeeIn('@selected', '#');
+            ->pause(50)
+            ->assertDontSee('#64748b');
     }
 
     /** @test */ 
@@ -309,6 +310,7 @@ class ColorTest extends BrowserTestCase
             ->waitForTextIn('@selected', '#64748b')
             ->assertVisible('@tallstackui_form_color_clearable')
             ->click('@tallstackui_form_color_clearable')
-            ->assertSeeIn('@selected', '#');
+            ->pause(50)
+            ->assertDontSee('#64748b');
     }
 }
