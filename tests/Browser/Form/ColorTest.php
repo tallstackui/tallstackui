@@ -247,4 +247,35 @@ class ColorTest extends BrowserTestCase
             ->waitForTextIn('@selected', '#64748b')
             ->assertSeeIn('@selected', '#64748b');
     }
+
+    /** @test */
+    public function can_open_select_a_color_and_clear_it(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $color = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="selected">{{ $color }}</p>
+                    
+                    <x-color label="Color" wire:model.live="color" />
+                </div>
+                HTML;
+            }
+
+            public function sync(): void
+            {
+                //
+            }
+        })
+            ->waitForText('Color')
+            ->click('@tallstackui_form_color_open_close')
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div/div[2]/button[1]')
+            ->waitForTextIn('@selected', '#64748b')
+            ->click('@tallstackui_form_color_clearable')
+            ->assertSeeIn('@selected', '#');
+    }
 }
