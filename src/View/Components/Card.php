@@ -25,6 +25,7 @@ class Card extends TallStackUiComponent implements Personalization
         public ?bool $close = null,
         public ?string $image = null,
         public ?string $position = 'top',
+        public ?bool $transition = null,
         #[SkipDebug]
         public string $style = 'solid',
         #[SkipDebug]
