@@ -416,9 +416,10 @@ export default (model, mode, colors, livewire, property, value) => ({
    * @returns {void}
    */
   clear() {
-    this.model = '';
-    this.$refs.input.value = '';
+    this.model = '#';
+    this.$refs.input.value = '#';
     this.$refs.input.dispatchEvent(new Event('change'));
+    this.$el.dispatchEvent(new CustomEvent('set', {detail: {color: '#'}}));
     this.clearable = false; 
   }
 });
