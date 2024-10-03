@@ -40,7 +40,7 @@
         <x-slot:suffix>
             <div class="flex items-center min-w-full">
                 <div @class([ $personalize['clearable.wrapper'], $personalize['clearable.padding']])>
-                    <button type="button" dusk="tallstackui_form_input_clearable" x-show="clearable">
+                    <button type="button" dusk="tallstackui_form_color_clearable" x-show="clearable">
                         <x-dynamic-component :component="TallStackUi::component('icon')"
                         :icon="TallStackUi::icon('x-mark')"
                         x-on:click="clear()"
