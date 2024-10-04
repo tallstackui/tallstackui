@@ -32,6 +32,9 @@ export default (locale) => ({
 
     value = parseFloat(value) / 100; // Convert to currency
 
-    this.$refs.input.value = new Intl.NumberFormat(this.locale).format(value);
+    this.$refs.input.value = new Intl.NumberFormat(this.locale, {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 4
+    }).format(value);
   },
 });
