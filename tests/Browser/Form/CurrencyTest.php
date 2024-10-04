@@ -8,7 +8,6 @@ use Tests\Browser\BrowserTestCase;
 
 class CurrencyTest extends BrowserTestCase
 {    
-
     /** @test */
     public function formatting_money_correctly(): void
     {

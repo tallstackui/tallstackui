@@ -30,7 +30,7 @@ export default (locale) => ({
     let value = this.$refs.input.value.replace(/[^\d]/g, '');
     if (value === '') return;
 
-    value = parseFloat(value) / 100;
+    value = parseFloat(value) / 100; // Convert to currency
 
     this.$refs.input.value = new Intl.NumberFormat(this.locale).format(value);
   },
