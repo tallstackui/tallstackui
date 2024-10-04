@@ -2,6 +2,7 @@
     $personalize = $classes();
 @endphp
 
+<div x-data="tallstackui_formCurrency(@js($locale),@js($minFractionDigits),@js($maxFractionDigits))">
 <x-dynamic-component :component="TallStackUi::component('wrapper.input')" :$id :$property :$error :$label :$hint :$invalidate :floatable="$attributes->get('floatable', false)">
     @if ($icon)
         <div @class([ $personalize['icon.wrapper'], $personalize['icon.paddings.' . $position]])>
@@ -17,7 +18,7 @@
     @endif
     @if ($clearable)
         <div @class([ $personalize['clearable.wrapper'], $personalize['clearable.padding'], '!pr-8' => $icon && $position === 'right']) x-show="clearable">
-            <button type="button" dusk="tallstackui_form_input_clearable">
+            <button type="button" dusk="tallstackui_form_currency_clearable">
                 <x-dynamic-component :component="TallStackUi::component('icon')"
                                      :icon="TallStackUi::icon('x-mark')"
                                      x-on:click="clear()"
@@ -28,11 +29,7 @@
             </button>
         </div>
     @endif
-    <div x-data="tallstackui_formCurrency(
-            @js($locale),
-            @js($minFractionDigits),
-            @js($maxFractionDigits),
-        )" @class([
+    <div @class([
             $personalize['input.wrapper'],
             $personalize['input.color.base'] => !$error,
             $personalize['input.color.background'] => !$attributes->get('disabled') && !$attributes->get('readonly'),
@@ -58,3 +55,4 @@
         @endif
     </div>
 </x-dynamic-component>
+</div>
