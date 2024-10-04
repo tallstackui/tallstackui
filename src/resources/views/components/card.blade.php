@@ -42,18 +42,27 @@
                 @endif
             </div>
         @endif
-        <div {{ $attributes->class($personalize['body']) }} x-show="!minimize">
+        <div {{ $attributes->class($personalize['body']) }} x-show="!minimize"
+                @if ($transition)
+                    {!! $transitions() !!}
+                @endif>
             {{ $slot }}
         </div>
         @if ($footer)
-            <div @class($personalize['footer.wrapper']) x-show="!minimize">
+            <div @class($personalize['footer.wrapper']) x-show="!minimize"
+                @if ($transition)
+                    {!! $transitions() !!}
+                @endif>
                 <div @class($personalize['footer.text'])>
                     {{ $footer }}
                 </div>
             </div>
         @endif
         @if ($image && $position === 'bottom')
-            <div @class([$personalize['image.wrapper']]) x-show="!minimize">
+            <div @class([$personalize['image.wrapper']]) x-show="!minimize"
+                @if ($transition)
+                    {!! $transitions() !!}
+                @endif>
                 <img src="{{ $image }}" @class([
                     $personalize['image.rounded.bottom'],
                     $personalize['image.size'],
