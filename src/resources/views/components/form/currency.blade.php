@@ -17,7 +17,7 @@
         </div>
     @endif
     @if ($clearable)
-        <div @class([ $personalize['clearable.wrapper'], $personalize['clearable.padding'], '!pr-8' => $icon && $position === 'right']) x-show="clearable">
+        <div x-data="tallstackui_formInputClearable()" @class([ $personalize['clearable.wrapper'], $personalize['clearable.padding'], '!pr-8' => $icon && $position === 'right']) x-show="clearable">
             <button type="button" dusk="tallstackui_form_currency_clearable">
                 <x-dynamic-component :component="TallStackUi::component('icon')"
                                      :icon="TallStackUi::icon('x-mark')"

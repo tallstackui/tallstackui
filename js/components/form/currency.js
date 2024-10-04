@@ -1,25 +1,9 @@
 export default (locale) => ({
-  clearable: false,
   locale: locale,
   init() {
-    this.$nextTick(() => {
-      this.clearable = this.$refs.input.value !== '';
-    });
-
     this.$refs.input.addEventListener('input', () => {
-      this.clearable = this.$refs.input.value !== '';
       this.format();
     });
-  },
-  /**
-   * Clear the input value
-   *
-   * @returns {void}
-   */
-  clear() {
-    this.$refs.input.value = '';
-    this.clearable = false;
-    this.$refs.input.dispatchEvent(new Event('input'));
   },
   /**
    * Format the input value based on locale
