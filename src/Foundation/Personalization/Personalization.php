@@ -190,7 +190,7 @@ class Personalization
         $class = match ($component) {
             'checkbox' => Checkbox::class,
             'color' => Color::class,
-            'currency' => Currency  ::class,
+            'currency' => Currency::class,
             'date' => Date::class,
             'error' => Error::class,
             'hint' => Hint::class,
