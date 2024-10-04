@@ -1,8 +1,6 @@
-export default (locale, minFractionDigits, maxFractionDigits) => ({
+export default (locale) => ({
   clearable: false,
   locale: locale,
-  minFractionDigits: minFractionDigits,
-  maxFractionDigits: maxFractionDigits,
   init() {
     this.$nextTick(() => {
       this.clearable = this.$refs.input.value !== '';
@@ -34,9 +32,6 @@ export default (locale, minFractionDigits, maxFractionDigits) => ({
 
     value = parseFloat(value) / 100;
 
-    this.$refs.input.value = new Intl.NumberFormat(this.locale, {
-      minimumFractionDigits: this.minFractionDigits,
-      maximumFractionDigits: this.maxFractionDigits,
-    }).format(value);
+    this.$refs.input.value = new Intl.NumberFormat(this.locale).format(value);
   },
 });

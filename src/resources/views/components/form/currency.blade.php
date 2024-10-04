@@ -2,7 +2,7 @@
     $personalize = $classes();
 @endphp
 
-<div x-data="tallstackui_formCurrency(@js($locale),@js($minFractionDigits),@js($maxFractionDigits))">
+<div x-data="tallstackui_formCurrency(@js($locale))">
 <x-dynamic-component :component="TallStackUi::component('wrapper.input')" :$id :$property :$error :$label :$hint :$invalidate :floatable="$attributes->get('floatable', false)">
     @if ($icon)
         <div @class([ $personalize['icon.wrapper'], $personalize['icon.paddings.' . $position]])>

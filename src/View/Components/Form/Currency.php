@@ -25,8 +25,6 @@ class Currency extends TallStackUiComponent implements Personalization
         public ?bool $clearable = null,
         public ?bool $invalidate = null,
         public ?string $locale = 'en-US',
-        public ?int $minFractionDigits = 2,
-        public ?int $maxFractionDigits = 4,
         #[SkipDebug]
         public ?string $prefix = null,
         #[SkipDebug]
