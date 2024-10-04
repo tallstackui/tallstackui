@@ -306,6 +306,7 @@ return [
         'checkbox' => Components\Form\Checkbox::class,
         'color' => Components\Form\Color::class,
         'clipboard' => Components\Clipboard::class,
+        'currency' => Components\Form\Currency::class,
         'date' => Components\Form\Date::class,
         'dialog' => Components\Interaction\Dialog::class,
         'dropdown' => Components\Dropdown\Dropdown::class,

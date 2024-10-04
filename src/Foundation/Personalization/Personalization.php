@@ -20,6 +20,7 @@ use TallStackUi\View\Components\Errors;
 use TallStackUi\View\Components\Floating;
 use TallStackUi\View\Components\Form\Checkbox;
 use TallStackUi\View\Components\Form\Color;
+use TallStackUi\View\Components\Form\Currency;
 use TallStackUi\View\Components\Form\Date;
 use TallStackUi\View\Components\Form\Error;
 use TallStackUi\View\Components\Form\Hint;
@@ -189,6 +190,7 @@ class Personalization
         $class = match ($component) {
             'checkbox' => Checkbox::class,
             'color' => Color::class,
+            'currency' => Currency  ::class,
             'date' => Date::class,
             'error' => Error::class,
             'hint' => Hint::class,
