@@ -326,8 +326,6 @@ export default (model, mode, colors, livewire, property, value) => ({
     }
 
     this.$watch('model', (value) => {
-      if (this.internal) return;
-
       this.model = this.hashing(value);
 
       this.sync();
@@ -356,10 +354,10 @@ export default (model, mode, colors, livewire, property, value) => ({
    * Hashing the color value with #.
    *
    * @param {String} value
-   * @returns {*}
+   * @returns {String|Null}
    */
   hashing(value) {
-    if (!value) return;
+    if (!value) return null;
 
     return value[0] === '#' ? value : `#${value}`;
   },
@@ -421,7 +419,6 @@ export default (model, mode, colors, livewire, property, value) => ({
   clear() {
     this.model = null;
     this.clearable = false;
-    this.internal = true;
     this.$refs.input.value = '';
     this.$el.dispatchEvent(new CustomEvent('clear', {detail: {color: ''}}));
   }
