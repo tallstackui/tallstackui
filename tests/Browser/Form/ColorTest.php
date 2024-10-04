@@ -310,7 +310,6 @@ class ColorTest extends BrowserTestCase
             ->waitForTextIn('@selected', '#64748b')
             ->assertVisible('@tallstackui_form_color_clearable')
             ->click('@tallstackui_form_color_clearable')
-            ->pause(50)
-            ->assertDontSee('#64748b');
+            ->waitUntilMissingText('#64748b');
     }
 }
