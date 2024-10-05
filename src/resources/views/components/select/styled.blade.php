@@ -130,12 +130,14 @@
                 @if($group)
                 <template x-for="(option, index) in available" :key="index">
                     <li> 
-                        <div @class($personalize['box.list.item.options'])>
-                            <div @class($personalize['box.list.item.base'])>
-                                <img @class($personalize['box.list.item.image']) x-bind:src="option.image" x-show="option.image">
-                                <div @class($personalize['box.list.item.description.wrapper'])>
-                                    <span x-text="option[selectable.label] ?? option"></span>
-                                    <span @class($personalize['box.list.item.description.text']) x-show="option.description" x-text="option.description"></span>
+                        <div @class($personalize['box.list.group.wrapper'])>
+                            <div @class($personalize['box.list.group.options'])>
+                                <div @class($personalize['box.list.group.base'])>
+                                    <img @class($personalize['box.list.group.image']) x-bind:src="option.image" x-show="option.image">
+                                    <div @class($personalize['box.list.group.description.wrapper'])>
+                                        <span x-text="option[selectable.label] ?? option"></span>
+                                        <span @class($personalize['box.list.group.description.text']) x-show="option.description" x-text="option.description"></span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
