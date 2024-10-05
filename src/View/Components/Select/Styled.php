@@ -97,7 +97,7 @@ class Styled extends TallStackUiComponent implements Personalization
                         'wrapper' => 'flex items-center justify-center space-x-4 p-4',
                         'class' => 'text-primary-600 dark:text-dark-400 h-12 w-12 animate-spin',
                     ],
-                    'group' => [
+                    'grouped' => [
                         'wrapper' => 'my-1 ml-2',
                         'options' => 'flex items-center justify-between',
                         'base' => 'flex items-center truncate',
@@ -110,6 +110,7 @@ class Styled extends TallStackUiComponent implements Personalization
                     'item' => [
                         'wrapper' => 'dark:text-dark-300 dark:hover:bg-dark-500 dark:focus:bg-dark-500 relative cursor-pointer select-none px-2 py-2 text-gray-700 transition hover:bg-gray-100 focus:bg-gray-100 focus:outline-none',
                         'options' => 'flex items-center justify-between',
+                        'grouped' => 'flex items-center justify-between pl-3',
                         'base' => 'flex items-center truncate',
                         'selected' => 'font-semibold hover:bg-red-500 hover:text-white dark:hover:bg-red-500',
                         'disabled' => 'dark:bg-dark-500 !cursor-not-allowed bg-gray-100',

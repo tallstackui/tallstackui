@@ -130,13 +130,13 @@
                 @if ($grouped)
                 <template x-for="(option, index) in available" :key="index">
                     <li> 
-                        <div @class($personalize['box.list.group.wrapper'])>
-                            <div @class($personalize['box.list.group.options'])>
-                                <div @class($personalize['box.list.group.base'])>
-                                    <img @class($personalize['box.list.group.image']) x-bind:src="option.image" x-show="option.image">
-                                    <div @class($personalize['box.list.group.description.wrapper'])>
+                        <div @class($personalize['box.list.grouped.wrapper'])>
+                            <div @class($personalize['box.list.grouped.options'])>
+                                <div @class($personalize['box.list.grouped.base'])>
+                                    <img @class($personalize['box.list.grouped.image']) x-bind:src="option.image" x-show="option.image">
+                                    <div @class($personalize['box.list.grouped.description.wrapper'])>
                                         <span x-text="option[selectable.label] ?? option"></span>
-                                        <span @class($personalize['box.list.group.description.text']) x-show="option.description" x-text="option.description"></span>
+                                        <span @class($personalize['box.list.grouped.description.text']) x-show="option.description" x-text="option.description"></span>
                                     </div>
                                 </div>
                             </div>
@@ -146,7 +146,7 @@
                                 x-on:keypress.enter="select(item)"
                                 x-bind:class="{'{{ $personalize['box.list.item.selected'] }}': selected(item), '{{ $personalize['box.list.item.disabled'] }}': item.disabled === true}"
                                 role="option" @class($personalize['box.list.item.wrapper'])>
-                                <div @class($personalize['box.list.item.options'])>
+                                <div @class($personalize['box.list.item.grouped'])>
                                     <div @class($personalize['box.list.item.base'])>
                                         <img @class($personalize['box.list.item.image']) x-bind:src="item.image" x-show="item.image">
                                         <div @class($personalize['box.list.item.description.wrapper'])>
