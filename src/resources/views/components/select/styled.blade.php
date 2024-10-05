@@ -127,7 +127,7 @@
                         <x-tallstack-ui::icon.generic.loading @class($personalize['box.list.loading.class']) />
                     </div>
                 @endif
-                @if($group)
+                @if ($grouped)
                 <template x-for="(option, index) in available" :key="index">
                     <li> 
                         <div @class($personalize['box.list.group.wrapper'])>

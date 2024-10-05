@@ -39,7 +39,7 @@ class Styled extends TallStackUiComponent implements Personalization
         public ?bool $required = false,
         public ?int $limit = null,
         public ?int $lazy = 10,
-        public ?bool $group = false,
+        public ?bool $grouped = false,
         #[SkipDebug]
         public Collection|array $options = [],
         #[SkipDebug]
