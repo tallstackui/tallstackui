@@ -32,6 +32,8 @@ trait Setup
                 throw new InvalidArgumentException("The select.styled [$value] is missing in the options array.");
             }
 
+            $this->grouped = is_array($item[$value]);
+
             return [
                 $label => $item[$label],
                 $value => $item[$value],
