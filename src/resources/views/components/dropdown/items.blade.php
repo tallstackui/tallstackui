@@ -2,11 +2,12 @@
     $personalize = $classes();
 @endphp
 
-<span {{ $attributes->class([
+<{{ $tag }} @if ($href) href="{{ $href }}" @else role="menuitem" @endif tabindex="0"
+    {{ $attributes->class([
         'gap-x-2' => $icon,
         $personalize['item'],
         $personalize['border'] => $separator,
-    ]) }} role="menuitem">
+    ]) }}>
     @if ($icon && $position === 'left')
         <x-dynamic-component :component="TallStackUi::component('icon')" :$icon @class($personalize['icon']) />
     @endif
@@ -14,4 +15,4 @@
     @if ($icon && $position === 'right')
         <x-dynamic-component :component="TallStackUi::component('icon')" :$icon @class($personalize['icon']) />
     @endif
-</span>
+</{{ $tag }}>

@@ -32,10 +32,14 @@ class DateRuntime extends AbstractRuntime
         return $data;
     }
 
-    private function validate(array|string $value): void
+    private function validate(array|string|null $value): void
     {
         $range = $this->data('range');
         $multiple = $this->data('multiple');
+
+        if (is_null($value)) {
+            return;
+        }
 
         if (($range || $multiple) && ! is_array($value)) {
             throw new InvalidArgumentException('The date [value] must be an array when using the [range] or [multiple].');
