@@ -16,10 +16,21 @@
             $personalize['error'] => $error
         ]) }}>
         @forelse ($options as $option)
-            @php
-                $value = (string) ($select ? $option[$selectable['value']] : $option);
-            @endphp
-            <option value="{{ $value }}" @selected(!$livewire && $value === (string) $attributes->get('value'))>{{ $select ? $option[$selectable['label']] : $option }}</option>
+            @if (is_array($option[$selectable['value']]))
+                <optgroup label="{{ $option[$selectable['label']] }}">
+                    @foreach ($option[$selectable['value']] as $children)
+                        @php
+                            $value = (string) ($select ? $children[$selectable['value']] : $children);
+                        @endphp
+                        <option value="{{ $value }}" @selected(!$livewire && $value === (string) $attributes->get('value'))>{{ $select ? $children[$selectable['label']] : $children }}</option>
+                    @endforeach
+                </optgroup>
+            @else
+                @php
+                    $value = (string) ($select ? $option[$selectable['value']] : $option);
+                @endphp
+                <option value="{{ $value }}" @selected(!$livewire && $value === (string) $attributes->get('value'))>{{ $select ? $option[$selectable['label']] : $option }}</option>
+            @endif
         @empty
             {{ $slot }}
         @endforelse

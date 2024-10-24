@@ -28,6 +28,7 @@ class Native extends TallStackUiComponent implements Personalization
         public ?string $select = null,
         public ?array $selectable = [],
         public ?bool $invalidate = null,
+        public ?bool $grouped = null,
     ) {
         //
     }
