@@ -40,7 +40,7 @@
         @endif
         <input @if ($id) id="{{ $id }}" @endif
                type="{{ $attributes->get('type', 'text') }}"
-               x-ref="input"
+               x-ref="{{ $attributes->get('x-ref', 'input') }}"
                @if ($prefix || $suffix) autocomplete="{{ $attributes->get('autocomplete', 'off') }}" @endif
                {{ $attributes->class([
                     $personalize['input.base'],
