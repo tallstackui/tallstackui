@@ -13,6 +13,8 @@ use TallStackUi\View\Components\Button\Button;
 use TallStackUi\View\Components\Button\Circle;
 use TallStackUi\View\Components\Card;
 use TallStackUi\View\Components\Clipboard;
+use TallStackUi\View\Components\Dial\Dial;
+use TallStackUi\View\Components\Dial\Items;
 use TallStackUi\View\Components\Dropdown\Dropdown;
 use TallStackUi\View\Components\Dropdown\Items as DropdownItems;
 use TallStackUi\View\Components\Dropdown\Submenu as DropdownSubmenu;
@@ -136,6 +138,21 @@ class Personalization
         $this->scope ??= $scope;
 
         return $this->component(Clipboard::class);
+    }
+
+    public function dial(?string $component = null, ?string $scope = null): PersonalizationFactory
+    {
+        $this->scope ??= $scope;
+
+        $component ??= 'dial';
+
+        $class = match ($component) {
+            'dial' => Dial::class,
+            'items' => Items::class,
+            default => $component,
+        };
+
+        return $this->component($class);
     }
 
     public function dialog(?string $scope = null): PersonalizationFactory

@@ -307,6 +307,8 @@ return [
         'color' => Components\Form\Color::class,
         'clipboard' => Components\Clipboard::class,
         'date' => Components\Form\Date::class,
+        'dial' => Components\Dial\Dial::class,
+        'dial.items' => Components\Dial\Items::class,
         'dialog' => Components\Interaction\Dialog::class,
         'dropdown' => Components\Dropdown\Dropdown::class,
         'dropdown.items' => Components\Dropdown\Items::class,
