@@ -312,6 +312,7 @@ return [
         'dialog' => Components\Interaction\Dialog::class,
         'dropdown' => Components\Dropdown\Dropdown::class,
         'dropdown.items' => Components\Dropdown\Items::class,
+        'dropdown.submenu' => Components\Dropdown\Submenu::class,
         'environment' => Components\Environment::class,
         'error' => Components\Form\Error::class,
         'errors' => Components\Errors::class,

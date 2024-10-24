@@ -17,6 +17,7 @@ use TallStackUi\View\Components\Dial\Dial;
 use TallStackUi\View\Components\Dial\Items;
 use TallStackUi\View\Components\Dropdown\Dropdown;
 use TallStackUi\View\Components\Dropdown\Items as DropdownItems;
+use TallStackUi\View\Components\Dropdown\Submenu as DropdownSubmenu;
 use TallStackUi\View\Components\Environment;
 use TallStackUi\View\Components\Errors;
 use TallStackUi\View\Components\Floating;
@@ -169,6 +170,7 @@ class Personalization
 
         $class = match ($component) {
             'dropdown' => Dropdown::class,
+            'submenu' => DropdownSubmenu::class,
             'items' => DropdownItems::class,
             default => $component,
         };

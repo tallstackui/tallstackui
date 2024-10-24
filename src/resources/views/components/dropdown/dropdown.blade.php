@@ -3,12 +3,18 @@
 @endphp
 
 <div @class($personalize['wrapper.first'])
-     x-data="tallstackui_dropdown(@js(!$static))">
+     x-data="tallstackui_dropdown(@js(!$static))"
+     role="button" 
+     aria-haspopup="true" 
+     x-bind:aria-expanded="show">
     <div @class($personalize['wrapper.second']) x-on:click.outside="show = false" x-ref="dropdown">
         @if ($text)
             <div @class($personalize['action.wrapper'])>
                 <span @class($personalize['action.text'])>{{ $text }}</span>
-                <button type="button" x-on:click="show = !show" dusk="open-dropdown">
+                <button type="button" 
+                        x-on:click="show = !show"
+                        aria-controls="dropdown-menu"
+                        dusk="tallstackui_open_dropdown">
                     <x-dynamic-component :component="TallStackUi::component('icon')"
                                          :icon="TallStackUi::icon('chevron-down')"
                                          @class($personalize['action.icon'])
@@ -17,11 +23,14 @@
             </div>
         @elseif ($icon)
             <div @class($personalize['action.wrapper'])>
-                <button type="button" x-on:click="show = !show" dusk="open-dropdown">
+                <button type="button" 
+                        x-on:click="show = !show"
+                        aria-controls="dropdown-menu"
+                        dusk="tallstackui_open_dropdown">
                     <x-dynamic-component :component="TallStackUi::component('icon')"
-                                        :$icon
-                                        @class($personalize['action.icon'])
-                                        x-bind:class="{ 'transform rotate-180': animate && show }" />
+                                         :$icon
+                                         @class($personalize['action.icon'])
+                                         x-bind:class="{ 'transform rotate-180': animate && show }" />
                 </button>
             </div>
         @else
@@ -29,10 +38,10 @@
         @endif
         <x-dynamic-component :component="TallStackUi::component('floating')"
                              :floating="$personalize['floating']"
-                             :class="$personalize['width']"
                              offset="5"
                              :$position
-                             x-anchor="$refs.dropdown">
+                             x-anchor="$refs.dropdown"
+                             role="menu">
             <x-slot:transition>
                 {!! $transitions() !!}
             </x-slot:transition>
