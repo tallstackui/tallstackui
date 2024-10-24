@@ -22,6 +22,6 @@ class TallStackUi extends Facade
 {
     protected static function getFacadeAccessor(): string
     {
-        return \TallStackUi\TallStackUi::class;
+        return 'TallStackUi';
     }
 }
