@@ -3,6 +3,7 @@
 namespace TallStackUi\View\Components\Select\Traits;
 
 use Illuminate\Support\Collection;
+use InvalidArgumentException;
 
 trait Setup
 {
