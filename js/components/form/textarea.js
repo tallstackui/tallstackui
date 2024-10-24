@@ -38,7 +38,7 @@ export default (color) => ({
   resize() {
     const textarea = this.$refs.textarea;
 
-    if (!textarea || !textarea.value) return;
+    if (!textarea || !textarea.value || textarea.scrollHeight === 0) return;
 
     textarea.style.height = '0px';
     textarea.style.height = `${textarea.scrollHeight}px`;

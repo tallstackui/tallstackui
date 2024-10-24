@@ -219,6 +219,38 @@ class ColorTest extends BrowserTestCase
     }
 
     /** @test */
+    public function can_open_select_a_color_and_clear_it(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $color = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="selected">{{ $color }}</p>
+                    
+                    <x-color label="Color" wire:model.live="color" />
+                </div>
+                HTML;
+            }
+
+            public function sync(): void
+            {
+                //
+            }
+        })
+            ->waitForText('Color')
+            ->click('@tallstackui_form_color_open_close')
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div/div[2]/button[1]')
+            ->waitForTextIn('@selected', '#64748b')
+            ->click('@tallstackui_form_color_clearable')
+            ->pause(50)
+            ->assertDontSee('#64748b');
+    }
+
+    /** @test */
     public function can_open_select_a_color_and_dispatch_change_event(): void
     {
         Livewire::visit(new class extends Component
@@ -246,5 +278,38 @@ class ColorTest extends BrowserTestCase
             ->clickAtXPath('/html/body/div[3]/div/div[2]/div/div[2]/button[1]')
             ->waitForTextIn('@selected', '#64748b')
             ->assertSeeIn('@selected', '#64748b');
+    }
+
+    /** @test */
+    public function cannot_see_clearable_when_no_color_is_selected(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $color = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="selected">{{ $color }}</p>
+                    
+                    <x-color label="Color" wire:model.live="color" />
+                </div>
+                HTML;
+            }
+
+            public function sync(): void
+            {
+                //
+            }
+        })
+            ->waitForText('Color')
+            ->click('@tallstackui_form_color_open_close')
+            ->assertMissing('tallstackui_form_color_clearable')
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div/div[2]/button[1]')
+            ->waitForTextIn('@selected', '#64748b')
+            ->assertVisible('@tallstackui_form_color_clearable')
+            ->click('@tallstackui_form_color_clearable')
+            ->waitUntilMissingText('#64748b');
     }
 }

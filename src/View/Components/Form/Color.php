@@ -61,6 +61,12 @@ class Color extends TallStackUiComponent implements Personalization
                     'icon' => 'h-3 w-3',
                 ],
             ],
+            'clearable' => [
+                'wrapper' => 'cursor-pointer flex items-center text-gray-500 dark:text-dark-400',
+                'padding' => 'pr-1.5',
+                'size' => 'h-5 w-5',
+                'color' => 'text-gray-500 dark:text-dark-400',
+            ],
         ]);
     }
 
