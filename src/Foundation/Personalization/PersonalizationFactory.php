@@ -38,8 +38,7 @@ class PersonalizationFactory
 
     public function __construct(public readonly string $component, private readonly ?string $scope = null)
     {
-        $this->interactions = collect();
-        $this->parts = collect();
+        $this->interactions = $this->parts = collect();
         $this->changes = collect(app($this->component)->personalization());
     }
 
@@ -217,7 +216,7 @@ class PersonalizationFactory
         if (! in_array($block, $blocks = $this->blocks())) {
             $component = str_replace('tallstack-ui::components.', '', (string) $view);
 
-            throw new InvalidArgumentException("Component [$component] does not have the block [$block] to be personalized. Alloweds: ".implode(', ', $blocks));
+            throw new InvalidArgumentException("Component [$component] does not have the block [$block] to be personalized. Allowed: ".implode(', ', $blocks));
         }
 
         // We leave everything prepared and linked with the
