@@ -60,12 +60,12 @@ class IndexTest extends BrowserTestCase
                 HTML;
             }
         })
-            ->click('@open-dropdown')
+            ->click('@tallstackui_open_dropdown')
             ->waitForText('Lorem')
             ->waitForText('Ipsum')
             ->assertSee('Lorem')
             ->assertSee('Ipsum')
-            ->click('@open-dropdown')
+            ->click('@tallstackui_open_dropdown')
             ->waitUntilMissingText('Lorem')
             ->waitUntilMissingText('Ipsum');
     }
@@ -94,13 +94,13 @@ class IndexTest extends BrowserTestCase
             }
         })
             ->assertSee('FooBar')
-            ->click('@open-dropdown')
+            ->click('@tallstackui_open_dropdown')
             ->waitForText('Lorem')
             ->waitForText('Ipsum')
             ->clickAtXPath('/html/body/div[3]/div/div/div[2]/div/div/button')
             ->waitForText('Item 1')
             ->assertSee('Item 1')
-            ->click('@open-dropdown')
+            ->click('@tallstackui_open_dropdown')
             ->waitUntilMissingText('Item 1')
             ->waitUntilMissingText('Lorem')
             ->waitUntilMissingText('Ipsum');
@@ -126,10 +126,10 @@ class IndexTest extends BrowserTestCase
             }
         })
             ->assertSee('FooBar')
-            ->click('@open-dropdown')
+            ->click('@tallstackui_open_dropdown')
             ->waitForText('Lorem')
             ->waitForText('Ipsum')
-            ->click('@open-dropdown')
+            ->click('@tallstackui_open_dropdown')
             ->waitUntilMissingText('Lorem')
             ->waitUntilMissingText('Ipsum');
     }

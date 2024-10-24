@@ -14,7 +14,7 @@
                 <button type="button" 
                         x-on:click="show = !show"
                         aria-controls="dropdown-menu"
-                        dusk="open-dropdown">
+                        dusk="tallstackui_open_dropdown">
                     <x-dynamic-component :component="TallStackUi::component('icon')"
                                          :icon="TallStackUi::icon('chevron-down')"
                                          @class($personalize['action.icon'])
@@ -26,7 +26,7 @@
                 <button type="button" 
                         x-on:click="show = !show"
                         aria-controls="dropdown-menu"
-                        dusk="open-dropdown">
+                        dusk="tallstackui_open_dropdown">
                     <x-dynamic-component :component="TallStackUi::component('icon')"
                                          :$icon
                                          @class($personalize['action.icon'])

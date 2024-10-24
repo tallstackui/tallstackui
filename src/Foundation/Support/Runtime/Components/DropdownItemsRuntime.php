@@ -8,8 +8,6 @@ class DropdownItemsRuntime extends AbstractRuntime
 {
     public function runtime(): array
     {
-        return [
-            'tag' => filled($this->data('href')) ? 'a' : 'button',
-        ];
+        return ['tag' => filled($this->data('href')) ? 'a' : 'button'];
     }
 }
