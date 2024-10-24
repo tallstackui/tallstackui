@@ -4,9 +4,9 @@
 
 <div x-data="{ selected: @if (!$selected) {!! TallStackUi::blade($attributes, $livewire)->entangle() !!} @else @js($selected) @endif, tabs: [] }" @class($personalize['base.wrapper'])>
     <div @class($personalize['base.padding'])>
-        <select x-model="selected" @class($personalize['base.select'])>
+        <select x-model="selected" @class($personalize['base.select']) x-on:change="$refs.ul.dispatchEvent(new CustomEvent('navigate', {detail: {select: selected}}));">
             <template x-for="item in tabs">
-                <option x-bind:value="item.tab" x-text="item.tab"></option>
+                <option x-bind:value="item.tab" x-text="item.tab" x-bind:selected="item.tab === selected"></option>
             </template>
         </select>
     </div>
