@@ -42,6 +42,7 @@ class Submenu extends TallStackUiComponent implements Personalization
         ]);
     }
 
+    // TODO: enhancements on this
     final public function transitions(): string
     {
         $side = str_contains((string) $this->position, 'right') || str_contains((string) $this->position, 'left');
