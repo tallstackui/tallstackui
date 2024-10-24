@@ -53,10 +53,14 @@
             {{ $slot }}
         </div>
         @if ($footer)
-            <div @class($personalize['footer.wrapper']) x-show="!minimize"
-                @if ($transition)
-                    {!! $transitions() !!}
-                @endif>
+            <div @class($personalize['footer.wrapper'])
+                 x-show="!minimize"
+                 x-transition:enter="transition ease-out duration-100"
+                 x-transition:enter-start="opacity-0 -translate-y-10"
+                 x-transition:enter-end="opacity-100 translate-y-0"
+                 x-transition:leave="transition ease-in duration-100"
+                 x-transition:leave-start="opacity-100 translate-y-0"
+                 x-transition:leave-end="opacity-0 -translate-y-10">
                 <div @class($personalize['footer.text'])>
                     {{ $footer }}
                 </div>
