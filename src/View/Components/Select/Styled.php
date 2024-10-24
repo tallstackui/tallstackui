@@ -98,7 +98,7 @@ class Styled extends TallStackUiComponent implements Personalization
                         'class' => 'text-primary-600 dark:text-dark-400 h-12 w-12 animate-spin',
                     ],
                     'grouped' => [
-                        'wrapper' => 'my-1 ml-2 dark:text-dark-300 font-semibold',
+                        'wrapper' => 'my-1 ml-2 text-gray-700 dark:text-dark-300 font-semibold',
                         'options' => 'flex items-center justify-between',
                         'base' => 'flex items-center truncate',
                         'image' => 'h-6 w-6 rounded-full',
