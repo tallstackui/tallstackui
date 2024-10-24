@@ -16,7 +16,7 @@ class EnvironmentColors
         return ['background' => $background ?? $this->background(), 'text' => $text ?? $this->text()];
     }
 
-    private function background(): string // @phpstan-ignore-line
+    private function background(): string
     {
         return match (Str::lower(app()->environment())) {
             'local' => 'border-green-500 bg-green-500 dark:bg-green-700 dark:bg-opacity-80 dark:border-transparent',
@@ -27,7 +27,7 @@ class EnvironmentColors
         };
     }
 
-    private function text(): string // @phpstan-ignore-line
+    private function text(): string
     {
         return match (Str::lower(app()->environment())) {
             'local' => 'text-green-50',
