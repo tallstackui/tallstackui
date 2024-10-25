@@ -27,7 +27,7 @@ class Number extends TallStackUiComponent implements Personalization
         public ?bool $chevron = false,
         public ?bool $invalidate = null,
         public ?bool $centralized = null,
-        public ?int $step = null,
+        public int $step = 1,
     ) {
         //
     }

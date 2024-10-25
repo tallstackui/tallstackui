@@ -40,6 +40,14 @@ export default (value, min, max, delay, step) => ({
         return;
       }
 
+      if ((this.value + step) > this.max) {
+        this.value = this.max;
+        this.$refs.input.value = this.max;
+        this.disablePlus = true;
+
+        return;
+      }
+
       this.value ||= this.min;
       this.$refs.input.value ||= this.min;
     }
@@ -52,6 +60,14 @@ export default (value, min, max, delay, step) => ({
     if (this.limiters) {
       if (this.defined && this.atMinus) {
         this.disableMinus = true;
+        return;
+      }
+
+      if ((this.value - step) < this.min) {
+        this.value = this.min;
+        this.$refs.input.value = this.min;
+        this.disableMinus = true;
+
         return;
       }
 
