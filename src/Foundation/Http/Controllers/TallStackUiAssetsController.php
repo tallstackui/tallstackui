@@ -56,7 +56,7 @@ class TallStackUiAssetsController
                     return true;
                 }
 
-                return str_contains($file, $plugin);
+                return str_contains($file, (string) $plugin);
             })
             ->toArray();
 
