@@ -58,13 +58,16 @@ trait Setup
 
                 $this->grouped = is_array($item[$value]);
 
-                return [
-                    $label => $item[$label],
-                    $value => $item[$value],
-                    $image ?? 'image' => $item[$image] ?? current(array_intersect_key($item, $images)) ?: null,
-                    'disabled' => $item['disabled'] ?? false,
-                    $description ?? 'description' => $item[$description] ?? (current(array_intersect_key($item, $descriptions)) ?: null),
-                ];
+                return array_merge(
+                    $this->reduceOptions ? [] : $item,
+                    [
+                        $label => $item[$label],
+                        $value => $item[$value],
+                        $image ?? 'image' => $item[$image] ?? current(array_intersect_key($item, $images)) ?: null,
+                        'disabled' => $item['disabled'] ?? false,
+                        $description ?? 'description' => $item[$description] ?? (current(array_intersect_key($item, $descriptions)) ?: null),
+                    ]
+                );
             })
             ->toArray();
 

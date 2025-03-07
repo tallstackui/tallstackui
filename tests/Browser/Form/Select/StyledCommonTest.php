@@ -140,7 +140,8 @@ class StyledCommonTest extends BrowserTestCase
             ->assertDontSee('baz')
             ->click('@tallstackui_select_open_close')
             ->waitForText(['foo', 'bar', 'baz'])
-            ->waitForLivewire()->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[1]')
+            ->waitForLivewire()
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[1]')
             ->waitForText('Select')
             ->assertVisible('@select')
             ->clickAtXPath('/html/body/div[3]/div/div[2]/button/div[1]/div/div[3]/a/div/div[2]/button')
@@ -292,6 +293,57 @@ class StyledCommonTest extends BrowserTestCase
             ->assertDontSee('DDD')
             ->assertDontSee('EEE')
             ->assertDontSee('FFF');
+    }
+
+    #[Test]
+    public function can_keep_full_options(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $something = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    @if ($something)
+                        <p dusk="something">{{ $something }}</p>
+                    @endif
+
+                    <x-select.styled
+                                     label="Select"
+                                     hint="Select"
+                                     :options="[
+                                        ['label' => 'foo', 'value' => 'foo', 'something' => 'foo-bar'],
+                                        ['label' => 'bar', 'value' => 'bar', 'something' => 'foo-baz'],
+                                        ['label' => 'baz', 'value' => 'baz', 'something' => 'baz-bar'],
+                                     ]"
+                                     x-on:select="$wire.set('something', $event.detail.select.something)"
+                                     select="label:label|value:value"
+                                     :reduce-options="false"
+                    />
+                </div>
+                HTML;
+            }
+
+            public function sync(): void
+            {
+                // ...
+            }
+        })
+            ->assertSee('Select an option')
+            ->assertDontSee('foo')
+            ->assertDontSee('bar')
+            ->assertDontSee('baz')
+            ->click('@tallstackui_select_open_close')
+            ->waitForText(['foo', 'bar', 'baz'])
+            ->assertDontSee('foo-bar')
+            ->assertDontSee('foo-baz')
+            ->assertDontSee('baz-bar')
+            ->waitForLivewire()
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[1]')
+            ->assertVisible('@something')
+            ->waitForText('foo-bar');
     }
 
     #[Test]
