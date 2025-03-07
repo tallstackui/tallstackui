@@ -38,8 +38,8 @@ trait Setup
         $label = $select['label'] ?? 'label';
         $value = $select['value'] ?? 'value';
 
-        $description = $select['description'] ?? null;
-        $image = $select['image'] ?? null;
+        $description = $select['description'] ?? 'description';
+        $image = $select['image'] ?? 'image';
 
         $component = $this instanceof Native ? 'select.native' : 'select.styled';
 
@@ -58,24 +58,33 @@ trait Setup
 
                 $this->grouped = is_array($item[$value]);
 
-                return array_merge(
-                    $this->reduceOptions ? [] : $item,
-                    [
-                        $label => $item[$label],
-                        $value => $item[$value],
-                        $image ?? 'image' => $item[$image] ?? current(array_intersect_key($item, $images)) ?: null,
-                        'disabled' => $item['disabled'] ?? false,
-                        $description ?? 'description' => $item[$description] ?? (current(array_intersect_key($item, $descriptions)) ?: null),
-                    ]
-                );
+                $result = $item;
+
+                $result[$label] = $item[$label];
+                $result[$value] = $item[$value];
+
+                $imageValue = $item[$image] ?? current(array_intersect_key($item, $images)) ?: null;
+                if ($image !== 'image' || ! isset($result['image'])) {
+                    $result[$image] = $imageValue;
+                }
+
+                $descriptionValue = $item[$description] ?? current(array_intersect_key($item, $descriptions)) ?: null;
+                if ($description !== 'description' || ! isset($result['description'])) {
+                    $result[$description] = $descriptionValue;
+                }
+
+                // Always ensure disabled is set
+                $result['disabled'] = $item['disabled'] ?? false;
+
+                return $result;
             })
             ->toArray();
 
         $this->selectable = [
             'label' => $label,
             'value' => $value,
-            'description' => $description ?? 'description',
-            'image' => $image ?? 'image',
+            'description' => $description,
+            'image' => $image,
         ];
     }
 }

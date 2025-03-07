@@ -320,7 +320,6 @@ class StyledCommonTest extends BrowserTestCase
                                      ]"
                                      x-on:select="$wire.set('something', $event.detail.select.something)"
                                      select="label:label|value:value"
-                                     :reduce-options="false"
                     />
                 </div>
                 HTML;
