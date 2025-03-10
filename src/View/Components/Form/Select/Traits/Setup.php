@@ -38,8 +38,8 @@ trait Setup
         $label = $select['label'] ?? 'label';
         $value = $select['value'] ?? 'value';
 
-        $description = $select['description'] ?? 'description';
         $image = $select['image'] ?? 'image';
+        $description = $select['description'] ?? 'description';
 
         $component = $this instanceof Native ? 'select.native' : 'select.styled';
 
@@ -47,7 +47,15 @@ trait Setup
         $descriptions = array_flip(['description', 'note']);
 
         $this->options = collect($this->options)
-            ->map(function (array $item) use ($label, $value, $description, $image, $component, $images, $descriptions): array {
+            ->map(function (array $item) use (
+                $label,
+                $value,
+                $image,
+                $images,
+                $component,
+                $description,
+                $descriptions
+            ): array {
                 if (! array_key_exists($label, $item)) {
                     throw new InvalidArgumentException("The $component key [$label] is missing in the options array.");
                 }
@@ -63,17 +71,14 @@ trait Setup
                 $result[$label] = $item[$label];
                 $result[$value] = $item[$value];
 
-                $imageValue = $item[$image] ?? current(array_intersect_key($item, $images)) ?: null;
                 if ($image !== 'image' || ! isset($result['image'])) {
-                    $result[$image] = $imageValue;
+                    $result[$image] = $item[$image] ?? current(array_intersect_key($item, $images)) ?: null;
                 }
 
-                $descriptionValue = $item[$description] ?? current(array_intersect_key($item, $descriptions)) ?: null;
                 if ($description !== 'description' || ! isset($result['description'])) {
-                    $result[$description] = $descriptionValue;
+                    $result[$description] = $item[$description] ?? current(array_intersect_key($item, $descriptions)) ?: null;
                 }
 
-                // Always ensure disabled is set
                 $result['disabled'] = $item['disabled'] ?? false;
 
                 return $result;
