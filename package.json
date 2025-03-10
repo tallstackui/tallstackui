@@ -14,7 +14,7 @@
     "@eslint/eslintrc": "^3.2.0",
     "@eslint/js": "^9.21.0",
     "@tailwindcss/forms": "^0.5.9",
-    "autoprefixer": "^10.4.20",
+    "autoprefixer": "^10.4.21",
     "eslint": "^9.21.0",
     "globals": "^16.0.0",
     "postcss": "^8.5.3",
