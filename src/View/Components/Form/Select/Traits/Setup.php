@@ -33,11 +33,8 @@ trait Setup
             []
         );
 
-        // $label is actually the name of the label, and not the label itself. The same
-        // happens to the $value, is the name of the value and not the value itself.
         $label = $select['label'] ?? 'label';
         $value = $select['value'] ?? 'value';
-
         $image = $select['image'] ?? 'image';
         $description = $select['description'] ?? 'description';
 
@@ -47,7 +44,7 @@ trait Setup
         $descriptions = array_flip(['description', 'note']);
 
         $this->options = collect($this->options)
-            ->map(function (array $item) use (
+            ->map(function (array $option) use (
                 $label,
                 $value,
                 $image,
@@ -56,30 +53,30 @@ trait Setup
                 $description,
                 $descriptions
             ): array {
-                if (! array_key_exists($label, $item)) {
+                if (! array_key_exists($label, $option)) {
                     throw new InvalidArgumentException("The $component key [$label] is missing in the options array.");
                 }
 
-                if (! array_key_exists($value, $item)) {
+                if (! array_key_exists($value, $option)) {
                     throw new InvalidArgumentException("The $component [$value] is missing in the options array.");
                 }
 
-                $this->grouped = is_array($item[$value]);
+                $this->grouped = is_array($option[$value]);
 
-                $result = $item;
+                $result = $option;
 
-                $result[$label] = $item[$label];
-                $result[$value] = $item[$value];
+                $result[$label] = $option[$label];
+                $result[$value] = $option[$value];
 
                 if ($image !== 'image' || ! isset($result['image'])) {
-                    $result[$image] = $item[$image] ?? current(array_intersect_key($item, $images)) ?: null;
+                    $result[$image] = $option[$image] ?? current(array_intersect_key($option, $images)) ?: null;
                 }
 
                 if ($description !== 'description' || ! isset($result['description'])) {
-                    $result[$description] = $item[$description] ?? current(array_intersect_key($item, $descriptions)) ?: null;
+                    $result[$description] = $option[$description] ?? current(array_intersect_key($option, $descriptions)) ?: null;
                 }
 
-                $result['disabled'] = $item['disabled'] ?? false;
+                $result['disabled'] = $option['disabled'] ?? false;
 
                 return $result;
             })
