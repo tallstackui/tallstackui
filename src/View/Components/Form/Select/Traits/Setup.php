@@ -33,13 +33,10 @@ trait Setup
             []
         );
 
-        // $label is actually the name of the label, and not the label itself. The same
-        // happens to the $value, is the name of the value and not the value itself.
         $label = $select['label'] ?? 'label';
         $value = $select['value'] ?? 'value';
-
-        $description = $select['description'] ?? null;
-        $image = $select['image'] ?? null;
+        $image = $select['image'] ?? 'image';
+        $description = $select['description'] ?? 'description';
 
         $component = $this instanceof Native ? 'select.native' : 'select.styled';
 
@@ -47,32 +44,49 @@ trait Setup
         $descriptions = array_flip(['description', 'note']);
 
         $this->options = collect($this->options)
-            ->map(function (array $item) use ($label, $value, $description, $image, $component, $images, $descriptions): array {
-                if (! array_key_exists($label, $item)) {
+            ->map(function (array $option) use (
+                $label,
+                $value,
+                $image,
+                $images,
+                $component,
+                $description,
+                $descriptions
+            ): array {
+                if (! array_key_exists($label, $option)) {
                     throw new InvalidArgumentException("The $component key [$label] is missing in the options array.");
                 }
 
-                if (! array_key_exists($value, $item)) {
+                if (! array_key_exists($value, $option)) {
                     throw new InvalidArgumentException("The $component [$value] is missing in the options array.");
                 }
 
-                $this->grouped = is_array($item[$value]);
+                $this->grouped = is_array($option[$value]);
 
-                return [
-                    $label => $item[$label],
-                    $value => $item[$value],
-                    $image ?? 'image' => $item[$image] ?? current(array_intersect_key($item, $images)) ?: null,
-                    'disabled' => $item['disabled'] ?? false,
-                    $description ?? 'description' => $item[$description] ?? (current(array_intersect_key($item, $descriptions)) ?: null),
-                ];
+                $result = $option;
+
+                $result[$label] = $option[$label];
+                $result[$value] = $option[$value];
+
+                if ($image !== 'image' || ! isset($result['image'])) {
+                    $result[$image] = $option[$image] ?? current(array_intersect_key($option, $images)) ?: null;
+                }
+
+                if ($description !== 'description' || ! isset($result['description'])) {
+                    $result[$description] = $option[$description] ?? current(array_intersect_key($option, $descriptions)) ?: null;
+                }
+
+                $result['disabled'] = $option['disabled'] ?? false;
+
+                return $result;
             })
             ->toArray();
 
         $this->selectable = [
             'label' => $label,
             'value' => $value,
-            'description' => $description ?? 'description',
-            'image' => $image ?? 'image',
+            'description' => $description,
+            'image' => $image,
         ];
     }
 }
