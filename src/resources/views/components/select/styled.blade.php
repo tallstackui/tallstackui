@@ -23,8 +23,8 @@
         @js($configurations['unfiltered']),
         @js($lazy))"
         @if ($attributes->whereStartsWith('x-model'))
-        x-modelable="model"
-        {{ $attributes->whereStartsWith('x-model') }}
+            x-modelable="model"
+            {{ $attributes->whereStartsWith('x-model') }}
         @endif
         x-cloak
         x-on:keydown="navigate($event)"
