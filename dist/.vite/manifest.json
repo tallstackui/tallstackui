@@ -13,9 +13,9 @@
     "src": "node_modules/tippy.js/dist/tippy.css",
     "isEntry": true
   },
-  "src/resources/css/tallstackui.css": {
-    "file": "tallstackui-F3MJ2ImE.css",
-    "src": "src/resources/css/tallstackui.css",
+  "src/resources/css/v3.css": {
+    "file": "v3-F3MJ2ImE.css",
+    "src": "src/resources/css/v3.css",
     "isEntry": true
   }
 }
