@@ -7,6 +7,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use TallStackUi\Foundation\Attributes\PassThroughRuntime;
+use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\Support\Runtime\Components\PasswordRuntime;
@@ -22,15 +23,19 @@ class Password extends TallStackUiComponent implements Personalization
         public ?string $hint = null,
         public Collection|array|bool|null $rules = null,
         public ?bool $mixedCase = false,
-        public ?bool $generator = false,
-        public ?bool $invalidate = null
+        public ?bool $generator = null,
+        public ?bool $invalidate = null,
+        #[SkipDebug]
+        public ?bool $simple = null,
     ) {
         $default = config('tallstackui.settings.form.password.rules');
 
+        $this->simple = $this->rules === null && $this->generator === null;
+
         $this->rules = collect(is_bool($this->rules) || is_null($this->rules) ? $default : $this->rules)
             ->mapWithKeys(function (string $value, ?string $key = null) use ($default): array {
-                // When $this->rules is null, we interact with default values.
-                if (is_null($this->rules)) {
+                // When $this->rules is bool/null, we interact with default values.
+                if (is_bool($this->rules) || is_null($this->rules)) {
                     return match ($key) {
                         'min' => ['min' => $value],
                         'numbers' => ['numbers' => (bool) $value],
@@ -45,9 +50,9 @@ class Password extends TallStackUiComponent implements Personalization
                 return match (true) {
                     str_contains($value, 'min') => ['min' => $rescued ?? data_get($default, 'min', 8)],
                     str_contains($value, 'numbers') => ['numbers' => true],
-                    str_contains($value, 'symbols') => ['symbols' => $rescued ?? data_get($default, 'symbols', '!@#$%^&*()_+-=')],
                     str_contains($value, 'mixed') => ['mixed' => true],
-                    default => [],
+                    str_contains($value, 'symbols') => ['symbols' => $rescued ?? data_get($default, 'symbols', '!@#$%^&*()_+-=')],
+                    default => [$key => $value],
                 };
             });
     }
