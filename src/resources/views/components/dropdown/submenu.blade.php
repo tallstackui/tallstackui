@@ -32,7 +32,7 @@
         @endif
     </button>
     <x-dynamic-component :component="TallStackUi::prefix('floating')"
-                         :floating="$personalize['floating']"
+                         :floating="$personalize['floating.default']"
                          :$position
                          offset="8"
                          x-show="show"

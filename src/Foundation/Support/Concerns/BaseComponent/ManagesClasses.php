@@ -12,6 +12,7 @@ use TallStackUi\Facades\TallStackUi;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\Support\Miscellaneous\ReflectComponent;
+use TallStackUi\View\Components\Floating;
 
 trait ManagesClasses
 {
@@ -30,7 +31,7 @@ trait ManagesClasses
         // The idea of this approach is to get the parent component. Since the component can
         // be personalized by the "deep" method, we need ReflectionApi to determine which
         // component is the parent to get its SoftPersonalization attribute. This way, all
-        // personalization continue to work even when "deep" customization is in effect.
+        // personalization continue to work even when "deep" personalization is in effect.
         $reflection = app(ReflectComponent::class, ['component' => static::class]);
 
         $attribute = $reflection->attribute(SoftPersonalization::class);
@@ -39,11 +40,8 @@ trait ManagesClasses
             return [];
         }
 
-        unset($this->attributes['personalize']);
-
-        $soft = TallStackUi::personalize($attribute->newInstance()->key)
-            ->forward()
-            ->toArray();
+        $factory = TallStackUi::personalize($attribute->newInstance()->key)->forward();
+        $soft = $factory->toArray();
 
         $scoped = [];
 
@@ -67,7 +65,7 @@ trait ManagesClasses
 
         // Here we do a second merge, now with the original classes and the result
         // of the previous operation that will use the scope smooth prioritization
-        // and customization settings. This is extremely necessary for cases where
+        // and personalization settings. This is extremely necessary for cases where
         // $merge does not contain all the necessary keys in use by the component.
         $classes = Arr::only(array_merge($personalization = $this->personalization(), $merge), array_keys($personalization));
 
@@ -79,6 +77,19 @@ trait ManagesClasses
 
         if ($callback !== null) {
             $classes = $callback($classes);
+        }
+
+        // The idea of this code is to nullable the floating.default personalization to ensure
+        // that soft personalization can customize floating globally. This way we can ensure
+        // that we can customize floating globally while also customizing the floating of a
+        // specific component in a different way than the global personalization.
+        if (
+            ! $this instanceof Floating
+            // This is what indicates that the component does not have any personalization applied.
+            && $factory->toArray() === []
+            && isset($classes['floating.default'])
+        ) {
+            $classes['floating.default'] = null;
         }
 
         return $classes;
