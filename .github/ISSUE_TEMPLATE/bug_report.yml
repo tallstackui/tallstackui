@@ -31,6 +31,7 @@ body:
         - Button
         - Button Circle
         - Card
+        - Carousel
         - Checkbox
         - Color
         - Clipboard
@@ -38,10 +39,12 @@ body:
         - Dialog
         - Dropdown
         - Errors
+        - Environment
         - Upload
         - Hint
         - Icon
         - Input
+        - Layout
         - Label
         - Link
         - Loading
@@ -55,6 +58,7 @@ body:
         - Rating
         - Select Native
         - Select Styled
+        - Signature
         - Slide
         - Stats
         - Step
@@ -101,16 +105,14 @@ body:
       placeholder: For example, 3.0.5
     validations:
       required: true
-  - type: dropdown
-    id: tallstackui-version
+  - type: input
+    id: tsui-version
     attributes:
       label: TallStackUI Version
       description: What version of our Package are you running? Please be as specific as possible
-      multiple: false
-      options:
-        - 2.x
-        - 1.x
-      default: 0
+      placeholder: For example, 2.1.2
+    validations:
+      required: true
   - type: input
     id: php-version
     attributes:
