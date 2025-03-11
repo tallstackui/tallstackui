@@ -16,6 +16,8 @@ if you haven't created a new branch on your fork. -->
 
 ### What:
 
+<!-- Use a "x" to mark the option that best fits your PR. -->
+
 - [ ] Feature
 - [ ] Enhancements
 - [ ] Bugfix
@@ -27,5 +29,5 @@ if you haven't created a new branch on your fork. -->
 ### Demonstration & Notes:
 
 <!-- Insert a demonstration about the changes or 
-the features (image, gif or video), and also
+the features (image, gif, or video), and also
 add any notes that you think are important.  -->
