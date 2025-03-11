@@ -34,8 +34,8 @@ class Wireable
         $property = $wire->value();
 
         return $wire->hasModifier('live') || $wire->hasModifier('blur')
-            ? Blade::render("@entangle('{$property}').live")
-            : Blade::render("@entangle('{$property}')");
+            ? Blade::render("\$wire.entangle('{$property}').live")
+            : Blade::render("\$wire.entangle('{$property}')");
     }
 
     // This is a helper function commonly used in Blade
