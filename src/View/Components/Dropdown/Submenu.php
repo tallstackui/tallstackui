@@ -40,7 +40,7 @@ class Submenu extends TallStackUiComponent implements Personalization
                 'left' => 'mr-2 h-4 w-4',
                 'right' => 'ml-2 h-4 w-4',
             ],
-            'floating' => collect(app(Floating::class)->personalization())->get('wrapper'),
+            'floating.default' => collect(app(Floating::class)->personalization())->get('wrapper'),
             'slot' => 'overflow-hidden rounded-md',
         ]);
     }
