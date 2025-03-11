@@ -1,4 +1,6 @@
 /** @type {import('vite').UserConfig} */
+import tailwindcss from '@tailwindcss/vite';
+
 export default {
   build: {
     assetsDir: '',
@@ -11,4 +13,7 @@ export default {
       ],
     },
   },
+  plugins: [
+      tailwindcss(),
+  ],
 };
