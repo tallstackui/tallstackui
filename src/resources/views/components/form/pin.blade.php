@@ -56,6 +56,9 @@
                            '{{ $personalize['input.color.error'] }}': @js($invalidate ?? false) === false && error,
                        }" maxlength="1"
                        autocomplete="false"
+                       @if ($numbers)
+                          inputmode="numeric"
+                       @endif
                        @required($attributes->get('required', false))
                        x-on:focus="setTimeout(() => $el.selectionStart = $el.selectionEnd = $el.value.length, 0)"
                        x-on:keyup="keyup(@js($index))"
