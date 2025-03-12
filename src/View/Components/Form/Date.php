@@ -96,7 +96,7 @@ class Date extends TallStackUiComponent implements Personalization
             ],
             'button' => [
                 'blank' => 'border border-transparent p-1 text-center text-sm',
-                'day' => 'focus:shadow-outline disabled:text-gray-400 dark:disabled:text-dark-500 dark:active:bg-primary-500 ring-primary-500 active:bg-primary-600 flex h-7 w-7 items-center justify-center rounded-full text-center text-sm leading-none outline-hidden transition-all duration-200 ease-in-out hover:shadow-sm active:text-white disabled:cursor-not-allowed',
+                'day' => 'focus:shadow-outline disabled:text-gray-400 dark:disabled:text-dark-500 dark:active:bg-primary-500 ring-primary-500 active:bg-primary-600 flex h-7 w-7 items-center justify-center rounded-full text-center text-sm leading-none outline-hidden transition-all duration-200 ease-in-out hover:shadow-sm hover:shadow-xs active:text-white disabled:cursor-not-allowed',
                 'select' => 'text-gray-600 dark:text-dark-400 hover:bg-dark-200 dark:hover:bg-dark-600',
                 'today' => 'text-primary-500 dark:text-dark-300 !font-bold',
                 'selected' => 'bg-primary-500 !text-white hover:bg-opacity-75',
