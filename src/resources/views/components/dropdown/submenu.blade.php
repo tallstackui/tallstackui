@@ -9,7 +9,7 @@
      x-bind:aria-expanded="show">
     <button @class([$personalize['item'], $personalize['border'] => $separator])
             type="button" 
-            x-on:click="show = !show" 
+            x-on:click="show = !show; $refs.dropdown.dispatchEvent(new CustomEvent('open', {detail: {status: show}}))"
             x-ref="button"
             aria-expanded="show">
         @if ($position === 'left-start')
@@ -32,7 +32,7 @@
         @endif
     </button>
     <x-dynamic-component :component="TallStackUi::prefix('floating')"
-                         :floating="$personalize['floating']"
+                         :floating="$personalize['floating.default']"
                          :$position
                          offset="8"
                          x-show="show"
