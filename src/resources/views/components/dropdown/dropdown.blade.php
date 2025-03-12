@@ -5,14 +5,17 @@
 <div class="{{ $personalize['wrapper.first'] }}"
      x-data="tallstackui_dropdown(@js(!$static))"
      role="button" 
-     aria-haspopup="true" 
+     aria-haspopup="true"
      x-bind:aria-expanded="show">
-    <div class="{{ $personalize['wrapper.second'] }}" x-on:click.outside="show = false" x-ref="dropdown">
+    <div x-ref="dropdown"
+         class="{{ $personalize['wrapper.second'] }}"
+         x-on:click.outside="show = false"
+         {{ $attributes->only(['x-on:open', 'x-on:select']) }}>
         @if ($text)
             <div class="{{ $personalize['action.wrapper'] }}">
                 <span class="{{ $personalize['action.text'] }}">{{ $text }}</span>
                 <button type="button" 
-                        x-on:click="show = !show"
+                        x-on:click="show = !show; $refs.dropdown.dispatchEvent(new CustomEvent('open', {detail: {status: show}}))"
                         aria-controls="dropdown-menu"
                         dusk="tallstackui_open_dropdown">
                     <x-dynamic-component :component="TallStackUi::prefix('icon')"
@@ -25,7 +28,7 @@
         @elseif ($icon)
             <div class="{{ $personalize['action.wrapper'] }}">
                 <button type="button" 
-                        x-on:click="show = !show"
+                        x-on:click="show = !show; $refs.dropdown.dispatchEvent(new CustomEvent('open', {detail: {status: show}}))"
                         aria-controls="dropdown-menu"
                         dusk="tallstackui_open_dropdown">
                     <x-dynamic-component :component="TallStackUi::prefix('icon')"
