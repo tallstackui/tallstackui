@@ -25,6 +25,7 @@ class Color extends TallStackUiComponent implements Personalization
         public Collection|array|null $colors = null,
         public ?bool $invalidate = null,
         public ?bool $selectable = null,
+        public ?bool $clearable = null,
         #[SkipDebug]
         public ?string $mode = null,
     ) {
@@ -76,13 +77,11 @@ class Color extends TallStackUiComponent implements Personalization
     /** @throws InvalidArgumentException */
     protected function validate(): void
     {
-        $colors = collect($this->colors);
-
-        if ($colors->isEmpty()) {
+        if (($colors = collect($this->colors))->isEmpty()) {
             return;
         }
 
-        $colors->each(function (string $color) {
+        $colors->each(function (string $color): void {
             if (! str($color)->startsWith('#')) {
                 throw new InvalidArgumentException('All the [colors] must starts with #');
             }
