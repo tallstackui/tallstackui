@@ -36,6 +36,8 @@ class Tooltip extends TallStackUiComponent implements Personalization
         public ?string $position = 'top',
         #[SkipDebug]
         public ?string $size = null,
+        #[SkipDebug]
+        public bool $internal = true,
     ) {
         $this->icon = IconGuideMap::internal($this->icon);
         $this->size = $this->lg ? 'lg' : ($this->md ? 'md' : ($this->xs ? 'xs' : 'sm'));
