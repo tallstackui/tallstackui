@@ -1,4 +1,4 @@
-export default (model, mode, colors, livewire, property, value) => ({
+export default (model, mode, colors, livewire, property, value, clearable) => ({
   show: false,
   model: model,
   mode: mode,
@@ -6,7 +6,7 @@ export default (model, mode, colors, livewire, property, value) => ({
   livewire: livewire,
   property: property,
   value: value,
-  clearable : false,
+  clearable : clearable,
   weight: 6,
   palette: [],
   default: {

@@ -4,6 +4,7 @@ namespace Tests\Browser\Form;
 
 use Livewire\Component;
 use Livewire\Livewire;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\BrowserTestCase;
 
 class ColorTest extends BrowserTestCase
@@ -234,7 +235,7 @@ class ColorTest extends BrowserTestCase
                 <div>
                     <p dusk="selected">{{ $color }}</p>
                     
-                    <x-color label="Color" wire:model.live="color" />
+                    <x-color label="Color" wire:model.live="color" clearable />
                 </div>
                 HTML;
             }
@@ -296,7 +297,7 @@ class ColorTest extends BrowserTestCase
                 <div>
                     <p dusk="selected">{{ $color }}</p>
                     
-                    <x-color label="Color" wire:model.live="color" />
+                    <x-color label="Color" wire:model.live="color" clearable />
                 </div>
                 HTML;
             }
@@ -314,5 +315,36 @@ class ColorTest extends BrowserTestCase
             ->assertVisible('@tallstackui_form_color_clearable')
             ->click('@tallstackui_form_color_clearable')
             ->waitUntilMissingText('#64748b');
+    }
+
+    #[Test]
+    public function cannt_see_clear_button(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $color = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="selected">{{ $color }}</p>
+                    
+                    <x-color label="Color" wire:model.live="color" />
+                </div>
+                HTML;
+            }
+
+            public function sync(): void
+            {
+                //
+            }
+        })
+            ->waitForText('Color')
+            ->click('@tallstackui_form_color_open_close')
+            ->waitFor('@tallstackui_form_color_floating')
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div/div[2]/button[1]')
+            ->waitForTextIn('@selected', '#64748b')
+            ->assertNotPresent('@tallstackui_form_color_clearable');
     }
 }
