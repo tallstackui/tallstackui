@@ -81,7 +81,7 @@ class Directives
      */
     public function style(): string
     {
-        return $this->format($this->manifest('src/resources/css/v3.css', 'file'));
+        return $this->format($this->manifest('css/v3.css', 'file'));
     }
 
     /**

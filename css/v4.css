@@ -1,7 +1,7 @@
 @import 'tailwindcss';
-@import '../../../js/plugins/custom-scrollbar.css';
-@import '../../../js/plugins/number-appearance-none.css';
-@import '../../../js/plugins/soft-scrollbar.css';
+@import '../js/plugins/custom-scrollbar.css';
+@import '../js/plugins/number-appearance-none.css';
+@import '../js/plugins/soft-scrollbar.css';
 
 [x-cloak] {
     display: none;
@@ -13,8 +13,8 @@
     strategy: 'class';
 }
 
-@source '../../../js/';
-@source '../../../scr/';
+@source '../js/';
+@source '../scr/';
 
 @theme {
     --color-primary-50: #eef2ff;
