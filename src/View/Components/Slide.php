@@ -43,7 +43,7 @@ class Slide extends TallStackUiComponent implements Personalization
     {
         return Arr::dot([
             'wrapper' => [
-                'first' => 'fixed inset-0 bg-gray-400 bg-opacity-50 transition-opacity',
+                'first' => 'fixed inset-0 bg-gray-400/50 transform transition-opacity',
                 'second' => 'fixed inset-0 overflow-hidden',
                 'third' => 'absolute inset-0 overflow-hidden',
                 'fourth' => 'pointer-events-none fixed flex max-w-full',
