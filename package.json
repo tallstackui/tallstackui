@@ -5,7 +5,7 @@
   "author": "AJ Meireles <alvaro.meireles@live.com>",
   "license": "MIT",
   "scripts": {
-    "build": "vite build && npx @tailwindcss/cli -i ./src/resources/css/v4.css -o ./dist/tallstackui.css --minify",
+    "build": "vite build && npx @tailwindcss/cli -i ./src/resources/css/v4.css -o ./dist/tailwind.css --minify",
     "dev": "vite build --watch",
     "lint": "npx eslint \"js/**\"",
     "lint:fix": "npx eslint \"js/**\" --fix"
