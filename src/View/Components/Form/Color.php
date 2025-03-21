@@ -52,7 +52,7 @@ class Color extends TallStackUiComponent implements Personalization
                 'class' => 'w-[18rem] overflow-auto',
             ],
             'box' => [
-                'base' => 'shadow-xs dark:bg-dark-700 soft-scrollbar max-h-60 overflow-auto rounded-md bg-white py-4',
+                'base' => 'shadow-sm dark:bg-dark-700 soft-scrollbar max-h-60 overflow-auto rounded-md bg-white py-4',
                 'range' => [
                     'wrapper' => 'px-4',
                     'base' => 'mb-4 h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 dark:bg-gray-600',

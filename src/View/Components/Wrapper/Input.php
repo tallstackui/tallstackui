@@ -29,6 +29,6 @@ class Input extends TallStackUiComponent implements Personalization
 
     public function personalization(): array
     {
-        return ['wrapper' => 'relative mt-1 rounded-md shadow-sm shadow-xs'];
+        return ['wrapper' => 'relative mt-1 rounded-md shadow-sm'];
     }
 }
