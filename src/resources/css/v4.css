@@ -3,6 +3,10 @@
 @import '../../../js/plugins/number-appearance-none.css';
 @import '../../../js/plugins/soft-scrollbar.css';
 
+[x-cloak] {
+    display: none;
+}
+
 @custom-variant dark (&:where(.dark, .dark *));
 
 @plugin '@tailwindcss/forms' {
