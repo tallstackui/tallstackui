@@ -55,7 +55,7 @@ class Circle extends TallStackUiComponent implements Personalization
     {
         return Arr::dot([
             'wrapper' => [
-                'base' => 'focus:ring-offset-white focus:shadow-outline group inline-flex items-center justify-center rounded-full gap-x-2 border text-sm outline-hidden transition-all duration-200 ease-in-out hover:shadow-sm focus:border-transparent focus:ring-2 disabled:cursor-not-allowed disabled:opacity-50',
+                'base' => 'focus:shadow-outline group inline-flex items-center justify-center gap-x-2 rounded-full border text-sm outline-hidden transition-all duration-200 ease-in-out hover:shadow-sm focus:border-transparent focus:ring-2 focus:ring-offset-white enabled:cursor-pointer disabled:cursor-not-allowed disabled:opacity-50',
                 'sizes' => [
                     'xs' => 'w-4 h-4',
                     'sm' => 'w-6 h-6',
