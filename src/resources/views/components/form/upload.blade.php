@@ -144,6 +144,7 @@
                              <div class="flex flex-col items-end shrink-0">
                                  @if ($delete)
                                      <button type="button"
+                                             class="cursor-pointer"
                                              {{ $attributes->only('x-on:remove') }}
                                              x-on:click="remove(@js($deleteMethod), @js($file))">
                                          <x-dynamic-component :component="TallStackUi::prefix('icon')"
