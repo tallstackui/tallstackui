@@ -14,11 +14,11 @@ class Directives
     {
         Blade::directive('tallStackUiScript', fn (): string => Facade::directives()->script());
 
-        Blade::directive('tallStackUiStyle', fn (): string => Facade::directives()->style());
+        Blade::directive('tallStackUiStyle', fn (mixed $expression): string => Facade::directives()->style($expression));
 
-        Blade::directive('tallStackUiSetup', function (): string {
+        Blade::directive('tallStackUiSetup', function (mixed $expression): string {
             $script = Facade::directives()->script();
-            $style = Facade::directives()->style();
+            $style = Facade::directives()->style($expression);
 
             return "{$script}\n{$style}";
         });
@@ -43,9 +43,9 @@ class Directives
 
         Blade::directive('endinteract', fn (): string => '<?php }); ?>');
 
-        Blade::precompiler(fn (string $string): string => preg_replace_callback('/<\s*tallstackui\:(setup|script|style)\s*\/?>/', function (array $matches): string {
+        Blade::precompiler(fn (string $string): string => preg_replace_callback('/<\s*tallstackui\:(setup|script|style)(\s+[a-zA-Z0-9_-]+(?:\s+[a-zA-Z0-9_-]+)*)?\s*\/?>/', function (array $matches): string {
             $script = Facade::directives()->script();
-            $style = Facade::directives()->style();
+            $style = Facade::directives()->style($matches);
 
             return match ($matches[1]) {
                 'setup' => "{$script}\n{$style}",
@@ -79,9 +79,14 @@ class Directives
     /**
      * Get the HTML that represents the style load.
      */
-    public function style(): string
+    public function style(mixed $matches = null): string
     {
-        return $this->format($this->manifest('css/v3.css', 'file'));
+        $version = is_array($matches) ? trim(data_get($matches, 2)) : str_replace('\'', '', $matches);
+
+        return $this->format(match ($version) {
+            'v4' => 'tallstackui.css',
+            default => $this->manifest('css/v3.css', 'file'),
+        });
     }
 
     /**
