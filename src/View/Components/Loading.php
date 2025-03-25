@@ -38,7 +38,7 @@ class Loading extends TallStackUiComponent implements Personalization
                 'first' => 'fixed inset-0 bg-gray-300 dark:bg-dark-600',
                 'second' => 'flex h-full items-center justify-center',
             ],
-            'opacity' => 'bg-opacity-80 dark:bg-opacity-70',
+            'opacity' => 'opacity-80 dark:opacity-70',
             'blur' => 'backdrop-blur-sm',
             'spinner' => 'h-12 w-12 animate-spin text-primary-700 dark:text-white',
             'text' => 'inline-flex items-center text-lg font-semibold text-primary-500',
