@@ -31,7 +31,7 @@
                        value="{{ $prefix }}"
                        dusk="form_pin_prefix"
                        @class([
-                           'w-[60px]',
+                            $personalize['input.size.prefix'],
                             $personalize['input.base'],
                             $personalize['input.color.background'],
                             $personalize['input.color.base'],
@@ -48,7 +48,7 @@
                            value="{{ $attributes->get('value')[$index-1] ?? '' }}"
                        @endif
                        @class([
-                           'w-[38px]',
+                            $personalize['input.size.base'],
                             $personalize['input.base'],
                             $personalize['input.color.background'],
                        ]) x-bind:class="{

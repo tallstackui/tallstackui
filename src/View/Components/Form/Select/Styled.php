@@ -81,7 +81,7 @@ class Styled extends TallStackUiComponent implements Personalization
                 ],
             ],
             'buttons' => [
-                'wrapper' => 'mr-2 flex items-center',
+                'wrapper' => 'mr-2 flex items-center gap-1.5',
                 'size' => 'h-5 w-5',
                 'base' => 'dark:text-dark-400 text-gray-500 hover:text-red-500 dark:hover:text-red-500',
                 'error' => 'text-red-500',

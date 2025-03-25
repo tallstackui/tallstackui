@@ -61,11 +61,11 @@ class Carousel extends TallStackUiComponent implements Personalization
             ],
             'buttons' => [
                 'left' => [
-                    'base' => 'absolute left-5 top-1/2 z-20 flex rounded-full -translate-y-1/2 items-center justify-center bg-white/40 p-2 text-slate-700 transition hover:bg-white/60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700 active:outline-offset-0 dark:bg-dark-900/40 dark:text-dark-300 dark:hover:bg-dark-900/60 dark:focus-visible:outline-blue-600',
+                    'base' => 'cursor-pointer absolute left-5 top-1/2 z-20 flex rounded-full -translate-y-1/2 items-center justify-center bg-white/40 p-2 text-slate-700 transition hover:bg-white/60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700 active:outline-offset-0 dark:bg-dark-900/40 dark:text-dark-300 dark:hover:bg-dark-900/60 dark:focus-visible:outline-blue-600',
                     'icon.size' => 'w-6 h-6 pr-0.5',
                 ],
                 'right' => [
-                    'base' => 'absolute right-5 top-1/2 z-20 flex rounded-full -translate-y-1/2 items-center justify-center bg-white/40 p-2 text-slate-700 transition hover:bg-white/60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700 active:outline-offset-0 dark:bg-dark-900/40 dark:text-dark-300 dark:hover:bg-dark-900/60 dark:focus-visible:outline-blue-600',
+                    'base' => 'cursor-pointer absolute right-5 top-1/2 z-20 flex rounded-full -translate-y-1/2 items-center justify-center bg-white/40 p-2 text-slate-700 transition hover:bg-white/60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700 active:outline-offset-0 dark:bg-dark-900/40 dark:text-dark-300 dark:hover:bg-dark-900/60 dark:focus-visible:outline-blue-600',
                     'icon.size' => 'w-6 h-6 pl-0.5',
                 ],
             ],

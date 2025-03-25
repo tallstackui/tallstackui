@@ -38,22 +38,17 @@
             </div>
         </x-slot:prefix>
         <x-slot:suffix class="mr-2">
-            <div class="flex items-center min-w-full">
+            <div class="{{ $personalize['icon.wrapper'] }}">
                 @if ($clearable)
-                    <div @class([ $personalize['clearable.wrapper'], $personalize['clearable.padding']])>
-                        <button type="button" dusk="tallstackui_form_color_clearable" x-show="clearable">
-                            <x-dynamic-component :component="TallStackUi::prefix('icon')"
-                                                 :icon="TallStackUi::icon('x-mark')"
-                                                 internal
-                                                 x-on:click="clear()"
-                                                 @class([
-                                                     $personalize['clearable.size'],
-                                                     $personalize['clearable.color'] => !$invalidate,
-                                                 ]) />
-                        </button>
-                    </div>
+                    <button type="button" class="{{ $personalize['clearable.button'] }}" dusk="tallstackui_form_color_clearable" x-show="clearable">
+                        <x-dynamic-component :component="TallStackUi::prefix('icon')"
+                                             :icon="TallStackUi::icon('x-mark')"
+                                             internal
+                                             x-on:click="clear()"
+                                             class="{{ $personalize['clearable.size'] }}" />
+                    </button>
                 @endif
-                <button type="button" x-on:click="show = !show" dusk="tallstackui_form_color_open_close">
+                <button type="button" class="cursor-pointer" x-on:click="show = !show" dusk="tallstackui_form_color_open_close">
                     <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                          :icon="TallStackUi::icon('swatch')"
                                          internal
