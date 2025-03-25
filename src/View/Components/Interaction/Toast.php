@@ -42,8 +42,8 @@ class Toast extends TallStackUiComponent implements Personalization
                     'first' => 'mt-2 flex',
                     'second' => 'ml-4 flex min-h-full flex-col justify-between',
                 ],
-                'confirm' => 'text-sm font-medium focus:outline-hidden',
-                'cancel' => 'text-sm font-medium focus:outline-hidden',
+                'confirm' => 'text-sm font-medium focus:outline-hidden cursor-pointer',
+                'cancel' => 'text-sm font-medium focus:outline-hidden cursor-pointer',
                 'close' => [
                     'wrapper' => 'ml-4 flex shrink-0',
                     'class' => 'inline-flex text-gray-400 focus:outline-hidden focus:ring-0 cursor-pointer',

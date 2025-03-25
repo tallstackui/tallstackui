@@ -75,7 +75,7 @@
     --z-index-50: 50;
     --z-auto: auto;
 
-    --animate-progress: linear-progress 2s linear infinite;
+    --animate-progress: progress 2s linear infinite;
 
     @keyframes progress {
         0% {
