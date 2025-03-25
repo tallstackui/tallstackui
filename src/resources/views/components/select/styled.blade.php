@@ -71,7 +71,7 @@
                                     </div>
                                     @if (!$disabled)
                                         <div class="{{ $personalize['items.multiple.icon'] }}">
-                                            <button type="button" x-on:click="$event.stopPropagation(); clear(select)">
+                                            <button type="button" class="cursor-pointer" x-on:click="$event.stopPropagation(); clear(select)">
                                                 <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                                                      :icon="TallStackUi::icon('x-mark')"
                                                                      internal
@@ -92,6 +92,7 @@
                         <button dusk="tallstackui_select_clear"
                                 id="select-clear"
                                 type="button"
+                                class="cursor-pointer"
                                 x-on:click="$event.stopPropagation(); clear();">
                             <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                                  :icon="TallStackUi::icon('x-mark')"
