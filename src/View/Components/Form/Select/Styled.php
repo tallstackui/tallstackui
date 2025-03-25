@@ -69,13 +69,13 @@ class Styled extends TallStackUiComponent implements Personalization
         return Arr::dot([
             'input' => [
                 'wrapper' => [
-                    'base' => 'dark:text-dark-300 dark:bg-dark-800 dark:focus:ring-primary-600 dark:disabled:bg-dark-600 dark:ring-dark-600 mt-1 flex w-full cursor-pointer items-center gap-x-2 rounded-md border-0 bg-white py-1.5 text-sm ring-1 ring-gray-300 transition disabled:bg-gray-100 disabled:text-gray-500 disabled:ring-gray-300',
+                    'base' => 'dark:text-dark-300 dark:bg-dark-800 dark:focus:ring-primary-600 dark:disabled:bg-dark-600 dark:ring-dark-600 mt-1 flex w-full cursor-pointer items-center gap-x-2 rounded-md border-0 bg-white py-1.5 text-sm ring-1 ring-gray-300 disabled:bg-gray-100 disabled:text-gray-500 disabled:ring-gray-300',
                     'color' => 'focus:ring-primary-600 text-gray-600 focus:outline-hidden focus:ring-2',
                     'error' => $this->error(),
                 ],
                 'content' => [
                     'wrapper' => [
-                        'first' => 'relative inset-y-0 left-0 flex w-full items-center space-x-2 overflow-hidden rounded-lg pl-2 transition',
+                        'first' => 'relative inset-y-0 left-0 flex w-full items-center space-x-2 overflow-hidden rounded-lg pl-2',
                         'second' => 'flex items-center gap-2',
                     ],
                 ],
@@ -93,7 +93,7 @@ class Styled extends TallStackUiComponent implements Personalization
             'box' => [
                 'button' => [
                     'class' => 'absolute inset-y-0 right-2 flex cursor-pointer items-center px-2',
-                    'icon' => 'dark:text-dark-400 h-5 w-5 text-gray-500 transition hover:text-red-500',
+                    'icon' => 'dark:text-dark-400 h-5 w-5 text-gray-500 hover:text-red-500',
                 ],
                 'list' => [
                     'wrapper' => 'soft-scrollbar z-50 max-h-60 w-full overflow-auto text-base focus:outline-hidden sm:text-sm',
@@ -112,7 +112,7 @@ class Styled extends TallStackUiComponent implements Personalization
                         ],
                     ],
                     'item' => [
-                        'wrapper' => 'dark:text-dark-300 dark:hover:bg-dark-500 dark:focus:bg-dark-500 relative cursor-pointer select-none px-2 py-2 text-gray-700 transition hover:bg-gray-100 focus:bg-gray-100 focus:outline-hidden',
+                        'wrapper' => 'dark:text-dark-300 dark:hover:bg-dark-500 dark:focus:bg-dark-500 relative cursor-pointer select-none px-2 py-2 text-gray-700 hover:bg-gray-100 focus:bg-gray-100 focus:outline-hidden',
                         'options' => 'flex items-center justify-between',
                         'grouped' => 'flex items-center justify-between pl-3',
                         'base' => 'flex items-center truncate',
