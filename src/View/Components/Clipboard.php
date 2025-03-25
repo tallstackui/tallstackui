@@ -51,7 +51,7 @@ class Clipboard extends TallStackUiComponent implements Personalization
             'input' => [
                 'wrapper' => 'relative flex grow items-stretch ring-inset focus-within:z-10',
                 'buttons' => [
-                    'base' => 'dark:ring-dark-600 dark:text-dark-300 dark:bg-dark-700 relative inline-flex items-center gap-x-1.5 bg-white px-2 py-2 text-xs font-semibold uppercase text-gray-700 ring-1 ring-gray-300',
+                    'base' => 'dark:ring-dark-600 dark:text-dark-300 dark:bg-dark-700 relative inline-flex items-center gap-x-1.5 bg-white px-2 py-2 text-xs font-semibold uppercase text-gray-700 ring-1 ring-gray-300 cursor-pointer',
                     'left' => '-mr-px rounded-l-md',
                     'right' => '-ml-px rounded-r-md',
                     'icon.class' => 'text-primary-500 dark:text-dark-300 h-4 w-4 cursor-pointer',
@@ -64,7 +64,7 @@ class Clipboard extends TallStackUiComponent implements Personalization
                 ],
             ],
             'icon' => [
-                'wrapper' => 'inline-flex',
+                'wrapper' => 'inline-flex cursor-pointer',
                 'icons' => [
                     'copy' => [
                         'name' => 'clipboard',
