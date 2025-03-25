@@ -29,7 +29,7 @@
                             x-show="selected > 1"
                             x-on:click="selected--; $refs.buttons.dispatchEvent(new CustomEvent('change', {detail: {step: selected}}));"
                             dusk="tallstackui_step_previous"
-                            class="{{ $personalize['button.wrapper'] }}">
+                            class="{{ $personalize['button.base'] }}">
                         <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                              :icon="TallStackUi::icon('chevron-left')"
                                              internal
@@ -43,7 +43,7 @@
                         x-show="selected < steps.length"
                         x-on:click="selected++; $refs.buttons.dispatchEvent(new CustomEvent('change', {detail: {step: selected}}));"
                         dusk="tallstackui_step_next"
-                        class="{{ $personalize['button.wrapper'] }}">
+                        class="{{ $personalize['button.base'] }}">
                     {{ trans('tallstack-ui::messages.step.next') }}
                     <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                          :icon="TallStackUi::icon('chevron-right')"
@@ -61,7 +61,7 @@
                                 x-on:click="$el.dispatchEvent(new CustomEvent('finish', {detail: {step: selected}}))"
                                 dusk="tallstackui_step_finish"
                                 {{ $attributes->only('x-on:finish') }}
-                                class="{{ $personalize['button.wrapper'] }}">
+                                class="{{ $personalize['button.base'] }}">
                             {{ trans('tallstack-ui::messages.step.finish') }}
                         </button>
                     @endif

@@ -15,11 +15,13 @@
         @if ($header instanceof \Illuminate\View\ComponentSlot)
             {{ $header }}
         @else
-            <p class="{{ $personalize['slots.header'] }}">{{ $header }}</p>
+            <div class="mx-2">
+                <p class="{{ $personalize['slots.header'] }}">{{ $header }}</p>
+            </div>
         @endif
     @endif
     <div @class([
-            'mx-2' => !$slot->isNotEmpty(),
+            'mx-4' => !$slot->isNotEmpty(),
             'mt-4' => !$header, 
             'mb-4' => !$footer, 
             $personalize['wrapper.second'],
@@ -62,7 +64,9 @@
         @if ($footer instanceof \Illuminate\View\ComponentSlot)
             {{ $footer }}
         @else
-            <p class="{{ $personalize['slots.footer'] }}">{{ $footer }}</p>
+            <div class="mx-2">
+                <p class="{{ $personalize['slots.footer'] }}">{{ $footer }}</p>
+            </div>
         @endif
     @endif
 </{{ $tag }}>
