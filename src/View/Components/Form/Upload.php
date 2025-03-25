@@ -87,11 +87,11 @@ class Upload extends TallStackUiComponent implements Personalization
                 'delete' => 'h-4 w-4 shrink-0 text-red-500',
             ],
             'preview' => [
-                'backdrop' => 'fixed left-0 top-0 z-50 flex h-full w-full items-center justify-center bg-gray-500 bg-opacity-75',
+                'backdrop' => 'fixed left-0 top-0 z-50 flex h-full w-full items-center justify-center bg-gray-500/80',
                 'wrapper' => 'relative m-5 max-w-3xl rounded shadow-lg',
                 'image' => 'h-auto max-w-full',
                 'button' => [
-                    'wrapper' => 'absolute -right-5 -top-10 h-10 w-10',
+                    'base' => 'absolute -right-5 -top-10 h-10 w-10 cursor-pointer',
                     'icon' => 'dark:text-dark-300 h-5 w-5 text-white',
                 ],
             ],
