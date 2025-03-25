@@ -42,7 +42,7 @@ class Color extends TallStackUiComponent implements Personalization
         return Arr::dot([
             'selected' => [
                 'wrapper' => 'flex items-center',
-                'base' => 'dark:border-dark-700 h-6 w-6 rounded shadow',
+                'base' => 'dark:border-dark-700 h-6 w-6 rounded-sm shadow',
             ],
             'icon' => [
                 'class' => 'h-5 w-5',
@@ -60,8 +60,7 @@ class Color extends TallStackUiComponent implements Personalization
                 ],
                 'button' => [
                     'wrapper' => 'mx-auto flex w-[17rem] flex-wrap items-center justify-center gap-1',
-                    'base' => 'rounded shadow-lg',
-                    'color' => 'flex h-5 w-5 cursor-pointer items-center justify-center rounded',
+                    'color' => 'flex h-5 w-5 cursor-pointer items-center justify-center rounded-sm',
                     'icon' => 'h-3 w-3',
                 ],
             ],
