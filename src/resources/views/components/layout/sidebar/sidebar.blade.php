@@ -37,7 +37,12 @@
                 </button>
             </div>
             @endif
-            <div class="{{ $personalize['mobile.wrapper.fourth'] }}" x-on:click.outside="tallStackUiMenuMobile = false">
+            <div @class([
+                    $personalize['mobile.wrapper.fourth'],
+                    'soft-scrollbar' => $thinScroll,
+                    'custom-scrollbar' => $thickScroll,
+                 ])
+                 x-on:click.outside="tallStackUiMenuMobile = false">
                 @if ($brand)
                     {{ $brand }}
                 @endif
@@ -53,7 +58,11 @@
     </div>
 </div>
 <div class="{{ $personalize['desktop.wrapper.first'] }}">
-    <div class="{{ $personalize['desktop.wrapper.second'] }}">
+    <div @class([
+            $personalize['desktop.wrapper.second'],
+            'soft-scrollbar' => $thinScroll,
+            'custom-scrollbar' => $thickScroll,
+        ])>
         @if ($brand)
             {{ $brand }}
         @endif
