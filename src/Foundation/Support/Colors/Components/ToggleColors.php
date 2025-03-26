@@ -18,7 +18,6 @@ class ToggleColors
     private function background(): array
     {
         return [
-            'white' => 'peer-checked:bg-white peer-focus:ring-white group-focus:ring-white dark:ring-offset-dark-900',
             'black' => 'peer-checked:bg-black peer-focus:ring-black group-focus:ring-black dark:ring-offset-dark-900',
             'primary' => 'peer-checked:bg-primary-500 peer-focus:ring-primary-500 group-focus:ring-primary-500 dark:ring-offset-dark-900',
             'secondary' => 'peer-checked:bg-secondary-500 peer-focus:ring-secondary-500 group-focus:ring-secondary-500 dark:ring-offset-dark-900',

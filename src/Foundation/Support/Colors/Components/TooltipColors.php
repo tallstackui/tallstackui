@@ -21,7 +21,6 @@ class TooltipColors
     private function icon(): array
     {
         return [
-            'white' => 'text-white',
             'black' => 'text-black',
             'primary' => 'text-primary-500',
             'secondary' => 'text-secondary-500',

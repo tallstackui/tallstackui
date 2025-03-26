@@ -19,7 +19,6 @@ class StatsColors
     {
         return [
             'solid' => [
-                'white' => 'bg-white text-black',
                 'black' => 'bg-black text-white',
                 'primary' => 'bg-primary-500 text-white',
                 'secondary' => 'bg-secondary-500 text-white',
@@ -47,8 +46,7 @@ class StatsColors
                 'rose' => 'bg-rose-500 text-white',
             ],
             'outline' => [
-                'white' => 'text-white',
-                'black' => 'text-black',
+                'black' => 'text-black/50',
                 'primary' => 'text-primary-600',
                 'secondary' => 'text-secondary-600',
                 'slate' => 'text-slate-600',
@@ -75,7 +73,6 @@ class StatsColors
                 'rose' => 'text-rose-600',
             ],
             'light' => [
-                'white' => 'text-white',
                 'black' => 'text-black',
                 'primary' => 'text-primary-400',
                 'secondary' => 'text-secondary-400',

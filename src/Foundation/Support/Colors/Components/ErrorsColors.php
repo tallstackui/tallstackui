@@ -24,7 +24,6 @@ class ErrorsColors
     private function background(): array
     {
         return [
-            'white' => 'bg-white',
             'black' => 'bg-black',
             'primary' => 'bg-primary-50 dark:bg-primary-900/70',
             'secondary' => 'bg-secondary-50 dark:bg-secondary-900/70',
@@ -56,7 +55,6 @@ class ErrorsColors
     private function border(): array
     {
         return [
-            'white' => 'border-b-black',
             'black' => 'border-b-white',
             'primary' => 'border-b-primary-200 dark:border-b-primary-900/70',
             'secondary' => 'border-b-secondary-200 dark:border-b-secondary-900/70',
@@ -88,7 +86,6 @@ class ErrorsColors
     private function text(): array
     {
         return [
-            'white' => 'text-black',
             'black' => 'text-white',
             'primary' => 'text-primary-700 dark:text-primary-300',
             'secondary' => 'text-secondary-700 dark:text-secondary-300',

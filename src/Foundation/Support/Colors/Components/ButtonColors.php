@@ -51,7 +51,7 @@ class ButtonColors
                 'rose' => 'text-rose-50 ring-rose-500 bg-rose-500 focus:bg-rose-600 hover:bg-rose-600 border-transparent focus:ring-offset-2 dark:focus:ring-offset-dark-900 dark:focus:ring-rose-600 dark:bg-rose-700 dark:hover:bg-rose-600 dark:hover:ring-rose-600',
             ],
             'light' => [
-                'black' => 'text-black/50 ring-black/50 bg-black/30 hover:bg-black/50 border-transparent focus:ring-offset-2 dark:focus:text-black/50 dark:focus:ring-offset-dark-900 dark:focus:ring-black-500 dark:bg-black-500/20 dark:hover:bg-black-500/30 dark:hover:bg-opacity-30 dark:text-black/60 dark:hover:ring-black/50',
+                'black' => 'text-black/50 ring-black/50 bg-black/30 hover:bg-black/50 border-transparent focus:ring-offset-2 dark:focus:text-black/50 dark:focus:ring-offset-dark-900 dark:focus:ring-black/50 dark:bg-black/20 dark:hover:bg-black/30 dark:hover:bg-opacity-30 dark:text-black/60 dark:hover:ring-black/50',
                 'primary' => 'text-primary-600 ring-primary-400 bg-primary-300 hover:bg-primary-400 border-transparent focus:ring-offset-2 dark:focus:text-primary-400 dark:focus:ring-offset-dark-900 dark:focus:ring-primary-500 dark:bg-primary-500/20 dark:hover:bg-primary-500/30 dark:hover:bg-opacity-30 dark:text-primary-400 dark:hover:ring-primary-600',
                 'secondary' => 'text-secondary-600 ring-secondary-400 bg-secondary-300 hover:bg-secondary-400 border-transparent focus:ring-offset-2 dark:focus:text-secondary-400 dark:focus:ring-offset-dark-900 dark:focus:ring-secondary-500 dark:bg-secondary-500/20 dark:hover:bg-secondary-500/30 dark:hover:bg-opacity-30 dark:text-secondary-400 dark:hover:ring-secondary-600',
                 'slate' => 'text-slate-600 ring-slate-400 bg-slate-300 hover:bg-slate-400 border-transparent focus:ring-offset-2 dark:focus:text-slate-400 dark:focus:ring-offset-dark-900 dark:focus:ring-slate-500 dark:bg-slate-500/20 dark:hover:bg-slate-500/30 dark:hover:bg-opacity-30 dark:text-slate-400 dark:hover:ring-slate-600',
@@ -138,7 +138,6 @@ class ButtonColors
     {
         return [
             'solid' => [
-                'white' => 'text-white',
                 'black' => 'text-white',
                 'primary' => 'text-primary-50',
                 'secondary' => 'text-secondary-50',
@@ -166,7 +165,6 @@ class ButtonColors
                 'rose' => 'text-rose-50',
             ],
             'outline' => [
-                'white' => 'text-white',
                 'black' => 'text-black',
                 'primary' => 'text-primary-600',
                 'secondary' => 'text-secondary-600',
@@ -194,8 +192,7 @@ class ButtonColors
                 'rose' => 'text-rose-600',
             ],
             'light' => [
-                'white' => 'text-black',
-                'black' => 'text-black-600',
+                'black' => 'text-black',
                 'primary' => 'text-primary-600 dark:text-primary-500',
                 'secondary' => 'text-secondary-600 dark:text-secondary-500',
                 'slate' => 'text-slate-600 dark:text-slate-500',
@@ -222,7 +219,6 @@ class ButtonColors
                 'rose' => 'text-rose-600 dark:text-rose-500',
             ],
             'flat' => [
-                'white' => 'text-white',
                 'black' => 'text-black',
                 'primary' => 'text-primary-600',
                 'secondary' => 'text-secondary-600',

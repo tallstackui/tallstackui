@@ -30,7 +30,6 @@ class BannerColors
     {
         return [
             'solid' => [
-                'white' => 'bg-white border border-gray-100',
                 'black' => 'bg-black',
                 'primary' => 'bg-primary-600 dark:bg-opacity-70',
                 'secondary' => 'bg-secondary-600 dark:bg-opacity-70',
@@ -58,8 +57,7 @@ class BannerColors
                 'rose' => 'bg-rose-600 dark:bg-opacity-70',
             ],
             'light' => [
-                'white' => 'bg-white border border-gray-100',
-                'black' => 'bg-black-300',
+                'black' => 'bg-black/70',
                 'primary' => 'bg-primary-300 dark:bg-primary-600 dark:bg-opacity-30',
                 'secondary' => 'bg-secondary-300 dark:bg-secondary-600 dark:bg-opacity-30',
                 'slate' => 'bg-slate-300 dark:bg-slate-600 dark:bg-opacity-30',
@@ -92,7 +90,6 @@ class BannerColors
     {
         return [
             'solid' => [
-                'white' => 'text-black',
                 'black' => 'text-white',
                 'primary' => 'text-primary-50',
                 'secondary' => 'text-secondary-50',
@@ -120,8 +117,7 @@ class BannerColors
                 'rose' => 'text-rose-50',
             ],
             'light' => [
-                'white' => 'text-black',
-                'black' => 'text-black',
+                'black' => 'text-white',
                 'primary' => 'text-primary-600 dark:text-primary-300',
                 'secondary' => 'text-secondary-600 dark:text-secondary-300',
                 'slate' => 'text-slate-600 dark:text-slate-300',

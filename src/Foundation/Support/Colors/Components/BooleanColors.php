@@ -18,8 +18,7 @@ class BooleanColors
     private function icon(): array
     {
         return [
-            'white' => 'text-black',
-            'black' => 'text-white',
+            'black' => 'text-black',
             'primary' => 'text-primary-500',
             'secondary' => 'text-secondary-500',
             'slate' => 'text-slate-500',

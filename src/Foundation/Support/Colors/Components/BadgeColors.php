@@ -25,7 +25,6 @@ class BadgeColors
     {
         return [
             'solid' => [
-                'white' => 'border-white bg-white',
                 'black' => 'border-black bg-black dark:border-transparent',
                 'primary' => 'border-primary-500 bg-primary-500 dark:bg-primary-700 dark:bg-opacity-80 dark:border-transparent',
                 'secondary' => 'border-secondary-500 bg-secondary-500 dark:bg-secondary-700 dark:bg-opacity-80 dark:border-transparent',
@@ -53,7 +52,6 @@ class BadgeColors
                 'rose' => 'border-rose-500 bg-rose-500 dark:bg-rose-700 dark:bg-opacity-80 dark:border-transparent',
             ],
             'outline' => [
-                'white' => 'border-white text-white bg-transparent',
                 'black' => 'border-black bg-transparent',
                 'primary' => 'border-primary-600 bg-transparent',
                 'secondary' => 'border-secondary-600 bg-transparent',
@@ -81,8 +79,7 @@ class BadgeColors
                 'rose' => 'border-rose-600 bg-transparent',
             ],
             'light' => [
-                'white' => 'border-white text-black bg-white',
-                'black' => 'border-black-300 bg-black-300 dark:bg-black-700 dark:bg-opacity-30 dark:border-transparent',
+                'black' => 'border-black/5 bg-black/30 dark:bg-black/30 dark:border-transparent',
                 'primary' => 'border-primary-300 bg-primary-300 dark:bg-primary-700 dark:bg-opacity-30 dark:border-transparent',
                 'secondary' => 'border-secondary-300 bg-secondary-300 dark:bg-secondary-700 dark:bg-opacity-30 dark:border-transparent',
                 'slate' => 'border-slate-300 bg-slate-300 dark:bg-slate-700 dark:bg-opacity-30 dark:border-transparent',
@@ -120,8 +117,7 @@ class BadgeColors
     {
         return [
             'solid' => [
-                'white' => 'text-black',
-                'black' => 'text-black-50',
+                'black' => 'text-white',
                 'primary' => 'text-primary-50',
                 'secondary' => 'text-secondary-50',
                 'slate' => 'text-slate-50',
@@ -148,7 +144,6 @@ class BadgeColors
                 'rose' => 'text-rose-50',
             ],
             'outline' => [
-                'white' => 'text-black',
                 'black' => 'text-black',
                 'primary' => 'text-primary-600',
                 'secondary' => 'text-secondary-600',
@@ -176,8 +171,7 @@ class BadgeColors
                 'rose' => 'text-rose-600',
             ],
             'light' => [
-                'white' => 'text-black',
-                'black' => 'text-black-600 dark:text-black-400',
+                'black' => 'text-black/30 dark:text-white',
                 'primary' => 'text-primary-600 dark:text-primary-400',
                 'secondary' => 'text-secondary-600 dark:text-secondary-400',
                 'slate' => 'text-slate-600 dark:text-slate-400',
