@@ -78,7 +78,7 @@ class AlertColors
                 'rose' => 'border border-rose-600',
             ],
             'light' => [
-                'black' => 'bg-black/5 shadow',
+                'black' => 'bg-black/5 dark:bg-black/30 shadow',
                 'primary' => 'bg-primary-50 shadow',
                 'secondary' => 'bg-secondary-50 shadow',
                 'slate' => 'bg-slate-50 shadow',
@@ -165,7 +165,7 @@ class AlertColors
                 'rose' => 'text-rose-600',
             ],
             'light' => [
-                'black' => 'text-black',
+                'black' => 'text-black dark:text-white',
                 'primary' => 'text-primary-600',
                 'secondary' => 'text-secondary-600',
                 'slate' => 'text-slate-600',

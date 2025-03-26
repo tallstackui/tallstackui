@@ -47,7 +47,7 @@ class Toggle extends TallStackUiComponent implements Personalization
         return Arr::dot([
             'wrapper' => 'relative flex items-center justify-end',
             'input' => [
-                'class' => 'peer absolute inset-y-0 left-0.5 translate-x-0 my-0.5 transform cursor-pointer appearance-none rounded-full border-0 bg-white shadow transition duration-200 ease-in-out checked:bg-none checked:text-white focus:outline-hidden focus:ring-0 focus:ring-offset-0',
+                'class' => 'peer absolute inset-y-0 left-0.5 translate-x-0 my-0.5 transform cursor-pointer appearance-none rounded-full border-0 bg-white shadow checked:bg-none checked:text-white focus:outline-hidden ring-0 ring-offset-0 focus:ring-0 focus:ring-offset-0',
                 'sizes' => [
                     'xs' => 'h-2 w-2 checked:translate-x-2',
                     'sm' => 'h-3 w-3 checked:translate-x-3',
@@ -56,7 +56,7 @@ class Toggle extends TallStackUiComponent implements Personalization
                 ],
             ],
             'background' => [
-                'class' => 'bg-secondary-200 dark:bg-dark-800 block cursor-pointer rounded-full transition duration-100 ease-in-out group-focus:ring-2 group-focus:ring-offset-2 peer-focus:ring-2 peer-focus:ring-offset-2',
+                'class' => 'bg-secondary-200 dark:bg-dark-800 block cursor-pointer rounded-full group-focus:ring-0 group-focus:ring-offset-0 peer-focus:ring-0 peer-focus:ring-offset-0',
                 'sizes' => [
                     'xs' => 'h-3 w-5',
                     'sm' => 'h-4 w-7',
