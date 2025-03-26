@@ -13,7 +13,6 @@ class ButtonColors
     {
         return [
             'solid' => [
-                'white' => null,
                 'black' => null,
                 'primary' => null,
                 'secondary' => null,
@@ -41,7 +40,6 @@ class ButtonColors
                 'rose' => null,
             ],
             'outline' => [
-                'white' => null,
                 'black' => null,
                 'primary' => null,
                 'secondary' => null,
@@ -69,7 +67,6 @@ class ButtonColors
                 'rose' => null,
             ],
             'light' => [
-                'white' => null,
                 'black' => null,
                 'primary' => null,
                 'secondary' => null,
@@ -97,7 +94,6 @@ class ButtonColors
                 'rose' => null,
             ],
             'flat' => [
-                'white' => null,
                 'black' => null,
                 'primary' => null,
                 'secondary' => null,
@@ -134,7 +130,6 @@ class ButtonColors
     {
         return [
             'solid' => [
-                'white' => null,
                 'black' => null,
                 'primary' => null,
                 'secondary' => null,
@@ -162,7 +157,6 @@ class ButtonColors
                 'rose' => null,
             ],
             'outline' => [
-                'white' => null,
                 'black' => null,
                 'primary' => null,
                 'secondary' => null,
@@ -190,7 +184,6 @@ class ButtonColors
                 'rose' => null,
             ],
             'light' => [
-                'white' => null,
                 'black' => null,
                 'primary' => null,
                 'secondary' => null,
@@ -218,7 +211,6 @@ class ButtonColors
                 'rose' => null,
             ],
             'flat' => [
-                'white' => null,
                 'black' => null,
                 'primary' => null,
                 'secondary' => null,
