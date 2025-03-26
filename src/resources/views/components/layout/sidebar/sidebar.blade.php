@@ -46,7 +46,7 @@
                 @if ($brand)
                     {{ $brand }}
                 @endif
-                <div class="{{ $personalize['mobile.wrapper.fifth'] }}">
+                <div @class([$personalize['mobile.wrapper.third'], $personalize['mobile.wrapper.brand.margin'] => blank($brand)])>
                     <nav class="{{ $personalize['mobile.wrapper.sixth'] }}">
                         <ul role="list" class="{{ $personalize['mobile.wrapper.seventh'] }}">
                             {{ $slot }}
@@ -66,7 +66,7 @@
         @if ($brand)
             {{ $brand }}
         @endif
-        <div class="{{ $personalize['desktop.wrapper.third'] }}">
+        <div @class([$personalize['desktop.wrapper.third'], $personalize['desktop.wrapper.brand.margin'] => blank($brand)])>
             <nav class="{{ $personalize['desktop.wrapper.fourth'] }}">
                 <ul role="list" class="{{ $personalize['desktop.wrapper.fifth'] }}">
                     {{ $slot }}
