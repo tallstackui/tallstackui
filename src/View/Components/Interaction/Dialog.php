@@ -23,7 +23,7 @@ class Dialog extends TallStackUiComponent implements Personalization
     public function personalization(): array
     {
         return Arr::dot([
-            'background' => 'fixed inset-0 bg-gray-400 bg-opacity-75 transition-opacity',
+            'background' => 'fixed inset-0 bg-gray-400/75 transform transition-opacity',
             'wrapper' => [
                 'first' => 'fixed inset-0 z-10 w-screen overflow-y-auto',
                 'second' => 'flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0',
@@ -43,7 +43,7 @@ class Dialog extends TallStackUiComponent implements Personalization
             ],
             'buttons' => [
                 'wrapper' => 'mt-4 space-y-2 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3 sm:space-y-0',
-                'confirm' => 'group inline-flex w-full items-center justify-center rounded-md px-4 py-2 text-sm font-semibold text-white outline-hidden transition ease-in focus:ring-2 focus:ring-offset-2',
+                'confirm' => 'cursor-pointer group inline-flex w-full items-center justify-center rounded-md px-4 py-2 text-sm font-semibold text-white outline-hidden transition ease-in focus:ring-2 focus:ring-offset-2',
                 'close' => [
                     'wrapper' => 'flex justify-end',
                     'icon' => 'h-5 w-5 cursor-pointer text-gray-400',

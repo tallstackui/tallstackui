@@ -18,7 +18,6 @@ class AvatarColors
     private function background(): array
     {
         return [
-            'white' => 'bg-white dark:bg-white dark:border-white',
             'black' => 'bg-black border-black',
             'primary' => 'bg-primary-500 border-primary-500',
             'secondary' => 'bg-secondary-500 border-secondary-500',

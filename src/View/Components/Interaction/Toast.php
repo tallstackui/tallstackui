@@ -26,7 +26,7 @@ class Toast extends TallStackUiComponent implements Personalization
             'wrapper' => [
                 'first' => 'pointer-events-none fixed inset-0 flex flex-col items-end justify-end gap-y-2 px-4 py-4',
                 'second' => 'flex w-full flex-col items-center space-y-4',
-                'third' => 'dark:bg-dark-700 pointer-events-auto w-full max-w-sm overflow-hidden rounded-xl bg-white shadow-lg ring-1 ring-black ring-opacity-5',
+                'third' => 'dark:bg-dark-700 pointer-events-auto w-full max-w-sm overflow-hidden rounded-xl bg-white shadow-lg ring-1 ring-black/5',
                 'fourth' => 'flex p-4',
             ],
             'icon' => [
@@ -42,11 +42,11 @@ class Toast extends TallStackUiComponent implements Personalization
                     'first' => 'mt-2 flex',
                     'second' => 'ml-4 flex min-h-full flex-col justify-between',
                 ],
-                'confirm' => 'text-sm font-medium focus:outline-hidden',
-                'cancel' => 'text-sm font-medium focus:outline-hidden',
+                'confirm' => 'text-sm font-medium focus:outline-hidden cursor-pointer',
+                'cancel' => 'text-sm font-medium focus:outline-hidden cursor-pointer',
                 'close' => [
                     'wrapper' => 'ml-4 flex shrink-0',
-                    'class' => 'inline-flex text-gray-400 focus:outline-hidden focus:ring-0',
+                    'class' => 'inline-flex text-gray-400 focus:outline-hidden focus:ring-0 cursor-pointer',
                     'size' => 'h-5 w-5',
                 ],
                 'expand' => [

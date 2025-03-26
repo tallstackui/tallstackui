@@ -25,7 +25,9 @@ class TallStackUiAssetsController
     /** @throws Exception */
     public function style(?string $file = null): Response|BinaryFileResponse
     {
-        $file = $this->fallback($file);
+        $file = $file === 'tallstackui.css'
+            ? 'tallstackui.css' // TailwindCSS v4
+            : $this->fallback($file);
 
         return Utils::pretendResponseIsFile(self::DIST_PATH.'/'.$file, 'text/css');
     }

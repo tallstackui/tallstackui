@@ -1,4 +1,6 @@
 /** @type {import('vite').UserConfig} */
+import tailwindcss from '@tailwindcss/vite';
+
 export default {
   build: {
     assetsDir: '',
@@ -6,9 +8,10 @@ export default {
     rollupOptions: {
       input: [
           'js/tallstackui.js',
-          'src/resources/css/tallstackui.css',
+          'css/v3.css',
           'tippy.js/dist/tippy.css',
       ],
     },
   },
+  plugins: [tailwindcss()],
 };

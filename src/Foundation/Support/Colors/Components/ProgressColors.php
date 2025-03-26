@@ -19,7 +19,6 @@ class ProgressColors
     {
         return [
             'solid' => [
-                'white' => 'bg-white',
                 'black' => 'bg-black',
                 'primary' => 'bg-primary-600',
                 'secondary' => 'bg-secondary-600',
@@ -47,8 +46,7 @@ class ProgressColors
                 'rose' => 'bg-rose-600',
             ],
             'light' => [
-                'white' => 'bg-white',
-                'black' => 'bg-black',
+                'black' => 'bg-black/50',
                 'primary' => 'bg-primary-400',
                 'secondary' => 'bg-secondary-400',
                 'slate' => 'bg-slate-400',

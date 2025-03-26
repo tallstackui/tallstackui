@@ -17,7 +17,7 @@
                 @if ($minimize || $close)
                 <div>
                     @if ($minimize)
-                    <button type="button" @click="minimize = !minimize" dusk="tallstackui_card_minimize">
+                    <button type="button" class="cursor-pointer" x-on:click="minimize = !minimize" dusk="tallstackui_card_minimize">
                         <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                              :icon="TallStackUi::icon('minus')"
                                              class="{{ $personalize['button.minimize'] }}"
@@ -31,7 +31,7 @@
                     </button>
                     @endif
                     @if ($close)
-                    <button type="button" @click="show = false" dusk="tallstackui_card_close">
+                    <button type="button" class="cursor-pointer" x-on:click="show = false" dusk="tallstackui_card_close">
                         <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                              :icon="TallStackUi::icon('x-mark')"
                                              internal

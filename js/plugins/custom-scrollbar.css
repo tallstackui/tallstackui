@@ -1,0 +1,29 @@
+/* @utility custom-scrollbar */
+.custom-scrollbar {
+    scrollbar-width: auto;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+    @apply w-2;
+}
+
+.custom-scrollbar::-webkit-scrollbar:horizontal {
+    @apply h-2;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    @apply bg-transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-gray-400 rounded-lg border-transparent;
+}
+
+/* Dark mode styles */
+.dark .custom-scrollbar::-webkit-scrollbar-track {
+    @apply bg-gray-600 cursor-pointer;
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-gray-500 cursor-pointer;
+}

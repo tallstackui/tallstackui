@@ -31,7 +31,7 @@
                          <x-slot:suffix class="ml-1 mr-2">
                              <div class="{{ $personalize['icon.wrapper'] }}">
                                  @if (!$attributes->has('required'))
-                                    <button type="button" x-on:click="clear()" x-show="model">
+                                    <button type="button" class="cursor-pointer" x-on:click="clear()" x-show="model">
                                         <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                                              dusk="tallstackui_time_clear"
                                                              internal
@@ -39,7 +39,7 @@
                                                              @class([$personalize['icon.size'], $personalize['icon.clear']]) />
                                     </button>
                                  @endif
-                                <button type="button" x-on:click="show = !show">
+                                <button type="button" class="cursor-pointer" x-on:click="show = !show">
                                     <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                                          :icon="TallStackUi::icon('clock')"
                                                          internal

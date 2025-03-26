@@ -32,7 +32,7 @@
                              invalidate
                              floatable>
                              <x-slot:suffix class="ml-1 mr-2">
-                                <button type="button" x-on:click="show = !show">
+                                <button type="button" class="cursor-pointer" x-on:click="show = !show">
                                     <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                                          :icon="TallStackUi::icon('arrow-up-tray')"
                                                          internal
@@ -58,7 +58,7 @@
                  class="{{ $personalize['preview.backdrop'] }}"
                  dusk="tallstackui_file_preview_backdrop">
                     <div class="{{ $personalize['preview.wrapper'] }}">
-                        <button class="{{ $personalize['preview.button.wrapper'] }}" x-on:click="preview = false; $nextTick(() => show = true)">
+                        <button class="{{ $personalize['preview.button.base'] }}" x-on:click="preview = false; $nextTick(() => show = true)">
                             <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                                  :icon="TallStackUi::icon('x-mark')"
                                                  class="{{ $personalize['preview.button.icon'] }}"
@@ -144,6 +144,7 @@
                              <div class="flex flex-col items-end shrink-0">
                                  @if ($delete)
                                      <button type="button"
+                                             class="cursor-pointer"
                                              {{ $attributes->only('x-on:remove') }}
                                              x-on:click="remove(@js($deleteMethod), @js($file))">
                                          <x-dynamic-component :component="TallStackUi::prefix('icon')"

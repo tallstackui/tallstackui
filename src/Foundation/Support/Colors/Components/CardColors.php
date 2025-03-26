@@ -36,6 +36,7 @@ class CardColors
         return [
             'border' => [
                 'solid' => [
+                    'black' => 'rounded-tl-lg rounded-tr-lg border-t-4 border-t-black/30',
                     'primary' => 'rounded-tl-lg rounded-tr-lg border-t-4 border-t-primary-600',
                     'secondary' => 'rounded-tl-lg rounded-tr-lg border-t-4 border-t-secondary-600',
                     'slate' => 'rounded-tl-lg rounded-tr-lg border-t-4 border-t-slate-600',
@@ -64,6 +65,7 @@ class CardColors
             ],
             'background' => [
                 'solid' => [
+                    'black' => 'text-white rounded-tl-lg rounded-tr-lg bg-black',
                     'primary' => 'text-primary-50 rounded-tl-lg rounded-tr-lg bg-primary-600',
                     'secondary' => 'text-secondary-50 rounded-tl-lg rounded-tr-lg bg-secondary-600',
                     'slate' => 'text-slate-50 rounded-tl-lg rounded-tr-lg bg-slate-600',
@@ -90,6 +92,7 @@ class CardColors
                     'rose' => 'text-rose-50 rounded-tl-lg rounded-tr-lg bg-rose-600',
                 ],
                 'light' => [
+                    'black' => 'text-black/80 rounded-tl-lg rounded-tr-lg bg-black/30',
                     'primary' => 'text-primary-600 rounded-tl-lg rounded-tr-lg bg-primary-50',
                     'secondary' => 'text-secondary-600 rounded-tl-lg rounded-tr-lg bg-secondary-50',
                     'slate' => 'text-slate-600 rounded-tl-lg rounded-tr-lg bg-slate-50',

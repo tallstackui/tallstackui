@@ -48,7 +48,7 @@ class Time extends TallStackUiComponent implements Personalization
             'icon' => [
                 'size' => 'h-5 w-5',
                 'clear' => 'hover:text-red-500',
-                'wrapper' => 'flex items-center gap-2',
+                'wrapper' => 'flex items-center gap-1.5',
             ],
             'floating' => [
                 'default' => collect(app(Floating::class)->personalization())->get('wrapper'),

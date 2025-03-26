@@ -66,7 +66,7 @@ class Item extends TallStackUiComponent implements Personalization
                         'rotate' => 'text-primary-500 rotate-180 dark:text-white',
                     ],
                 ],
-                'group' => 'mt-1 px-2 pl-5',
+                'group' => 'px-2 pl-5',
             ],
             'item' => [
                 'wrapper' => [

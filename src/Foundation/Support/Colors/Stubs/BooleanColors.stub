@@ -12,7 +12,6 @@ class BooleanColors
     public function iconColors(Component $component): array
     {
         return [
-            'white' => null,
             'black' => null,
             'primary' => null,
             'secondary' => null,

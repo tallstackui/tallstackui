@@ -12,7 +12,6 @@ class AvatarColors
     public function backgroundColors(Component $component): array
     {
         return [
-            'white' => null,
             'black' => null,
             'primary' => null,
             'secondary' => null,

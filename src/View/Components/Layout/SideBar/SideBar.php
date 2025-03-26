@@ -16,7 +16,9 @@ class SideBar extends TallStackUiComponent implements Personalization
         public ComponentSlot|string|null $brand = null,
         public ?bool $smart = null,
         public ?bool $navigate = null,
-        public ?bool $navigateHover = null
+        public ?bool $navigateHover = null,
+        public ?bool $thinScroll = null,
+        public ?bool $thickScroll = null,
     ) {
         //
     }

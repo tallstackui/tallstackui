@@ -6,6 +6,7 @@
         'inline-flex',
         $personalize['bold'] => $bold,
         $personalize['underline'] => $underline,
+        $personalize['italic'] => $italic,
         $personalize['icon.base'] => $icon,
         $personalize['sizes.'.$size],
         $colors['text'] => !$colorless,

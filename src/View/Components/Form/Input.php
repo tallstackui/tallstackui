@@ -66,7 +66,7 @@ class Input extends TallStackUiComponent implements Personalization
                 'wrapper' => 'cursor-pointer absolute inset-y-0 flex items-center text-gray-500 dark:text-dark-400',
                 'padding' => 'right-0 pr-2',
                 'size' => 'h-5 w-5',
-                'color' => 'text-gray-500 dark:text-dark-400',
+                'color' => 'hover:text-red-500',
             ],
             'error' => $this->error(),
         ]);
