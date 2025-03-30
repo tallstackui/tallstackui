@@ -151,7 +151,7 @@ class Table extends TallStackUiComponent implements Personalization
 
     final public function sortable(Collection|array $header): bool
     {
-        return filled($this->sort) && ($header['sortable'] ?? true);
+        return data_get($header, 'index') !== 'action' && filled($this->sort) && ($header['sortable'] ?? true);
     }
 
     final public function sorted(Collection|array $header): bool
