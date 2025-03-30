@@ -19,7 +19,6 @@ test('TallStackUiComponent should have all the expected methods', function (stri
     expect(TallStackUiComponent::class)->toHaveMethod($method);
 })->with([
     'blade',
-    'bind',
     'classes',
     'render',
     'compile',
