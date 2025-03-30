@@ -8,3 +8,13 @@ window.$slideOpen = (name) => event(`slide:${name}-open`, null, false);
 window.$slideClose = (name) => event(`slide:${name}-close`, null, false);
 
 window.$interaction = (type) => new Interaction(type);
+
+window.$focusOn = (name, time = 250) => setTimeout(() => {
+    let element = document.querySelector(`[data-focus="${name}"]`);
+
+    if (! element) {
+        element = document.getElementById(name);
+    }
+
+    element.focus();
+}, time);
