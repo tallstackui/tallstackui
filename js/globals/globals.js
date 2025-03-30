@@ -16,5 +16,7 @@ window.$focusOn = (name, time = 250) => setTimeout(() => {
         element = document.getElementById(name);
     }
 
-    element.focus();
+    if (element) {
+        element.focus();
+    }
 }, time);
