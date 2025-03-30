@@ -22,7 +22,7 @@ class Stats extends TallStackUiComponent implements Personalization
     public function __construct(
         public string|int|null $number = null,
         public ?string $title = null,
-        public ?string $icon = null,
+        public ComponentSlot|string|null $icon = null,
         public ?string $color = 'primary',
         public ?string $href = null,
         public ?bool $solid = true,
