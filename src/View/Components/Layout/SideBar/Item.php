@@ -2,6 +2,7 @@
 
 namespace TallStackUi\View\Components\Layout\SideBar;
 
+use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Route;
@@ -20,8 +21,9 @@ class Item extends TallStackUiComponent implements Personalization
         public ComponentSlot|string|null $icon = null,
         public ?bool $current = null,
         public ?bool $opened = null,
+        public Closure|bool $visible = true,
     ) {
-        //
+        $this->visible = value($this->visible);
     }
 
     public function blade(): View
@@ -58,7 +60,7 @@ class Item extends TallStackUiComponent implements Personalization
     {
         return Arr::dot([
             'group' => [
-                'button' => 'text-primary-500 hover:bg-primary-50/50 dark:hover:bg-dark-600/50 flex w-full items-center gap-x-3 rounded-md p-2 text-left text-sm font-semibold transition-all dark:text-white',
+                'button' => 'text-primary-500 hover:bg-primary-50/50 dark:hover:bg-dark-600/50 flex w-full items-center gap-x-3 rounded-md p-2 text-left text-sm font-semibold transition-all dark:text-white cursor-pointer',
                 'icon' => [
                     'base' => 'text-primary-500 h-6 w-6 shrink-0 dark:text-white',
                     'collapse' => [
