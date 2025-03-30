@@ -27,12 +27,18 @@
             $personalize['wrapper.second'],
         ])>
         @if ($icon)
-            <div @class([$personalize['wrapper.third'], $colors['background']])>
-                <x-dynamic-component :component="TallStackUi::prefix('icon')"
-                                     :$icon
-                                     internal
-                                     class="{{ $personalize['icon'] }}" />
-            </div>
+            @if (!$icon instanceof \Illuminate\View\ComponentSlot)
+                <div @class([$personalize['wrapper.third'], $colors['background']])>
+                    <x-dynamic-component :component="TallStackUi::prefix('icon')"
+                                         :$icon
+                                         internal
+                                         class="{{ $personalize['icon'] }}" />
+                </div>
+            @else
+                <div class="{{ $personalize['wrapper.third'] }}">
+                    {{ $icon }}
+                </div>
+            @endif
         @endif
         <div class="grow">
             @if ($title) <h2 class="{{ $personalize['title'] }}">{{ $title }}</h2> @endif
