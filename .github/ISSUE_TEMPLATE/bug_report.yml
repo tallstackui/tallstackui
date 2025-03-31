@@ -13,7 +13,7 @@ body:
     attributes:
       label: What Happened
       description: What did you expect to happen?
-      placeholder: When I use <x-button /> I get an error
+      placeholder: When I use <x-button /> I get an error...
     validations:
       required: true
   - type: dropdown
@@ -33,19 +33,18 @@ body:
         - Card
         - Carousel
         - Checkbox
-        - Color
         - Clipboard
+        - Color
         - Date
         - Dialog
         - Dropdown
-        - Errors
         - Environment
-        - Upload
+        - Errors
         - Hint
         - Icon
         - Input
-        - Layout
         - Label
+        - Layout
         - Link
         - Loading
         - Modal
@@ -56,6 +55,7 @@ body:
         - Radio
         - Range
         - Rating
+        - Reaction
         - Select Native
         - Select Styled
         - Signature
@@ -63,15 +63,15 @@ body:
         - Stats
         - Step
         - Tab
-        - Tag
         - Table
+        - Tag
         - Textarea
         - Theme Switch
         - Time
         - Toast
         - Toggle
         - Tooltip
-        - Reaction
+        - Upload
         - None (N/A)
     validations:
       required: true

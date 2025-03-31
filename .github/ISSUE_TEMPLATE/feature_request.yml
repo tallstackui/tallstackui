@@ -2,6 +2,7 @@ name: Feature Request
 description: Request a new feature to the TallStackUI
 title: "[Feature Request]: "
 labels: ["feature request"]
+assignees: devajmeireles
 body:
   - type: markdown
     attributes:
