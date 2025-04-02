@@ -38,7 +38,14 @@
         <button type="button"
                 x-ref="button"
                 @disabled($disabled)
-                @class([$personalize['input.wrapper.base'], $personalize['input.wrapper.color'] => !$error, $personalize['input.wrapper.error'] => $error])
+                @class([
+                    $personalize['input.wrapper.base'],
+                    $personalize['input.round.none'] => !$selectorSide,
+                    $personalize['input.round.left'] => $selectorSide === 'left',
+                    $personalize['input.round.right'] => $selectorSide === 'right',
+                    $personalize['input.wrapper.color'] => !$error,
+                    $personalize['input.wrapper.error'] => $error
+                ])
                 @if (!$disabled) x-on:click="show = !show" @endif
                 {{ $attributes->only(['x-on:select', 'x-on:remove']) }}
                 aria-haspopup="listbox"

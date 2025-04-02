@@ -5,6 +5,7 @@ namespace TallStackUi\View\Components\Form\Select;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 use InvalidArgumentException;
 use TallStackUi\Foundation\Attributes\PassThroughRuntime;
 use TallStackUi\Foundation\Attributes\SkipDebug;
@@ -47,6 +48,8 @@ class Styled extends TallStackUiComponent implements Personalization
         public ?string $after = null,
         #[SkipDebug]
         public ?bool $common = true,
+        #[SkipDebug]
+        public ?string $selectorSide = null,
     ) {
         $this->placeholders = array_merge(trans('tallstack-ui::messages.select'), $this->placeholders ?? []);
         $this->placeholder ??= data_get($this->placeholders, 'default');
@@ -57,6 +60,8 @@ class Styled extends TallStackUiComponent implements Personalization
         if (is_array($this->request)) {
             $this->request['method'] ??= 'get';
         }
+
+        $this->selectorSide = Cache::driver('array')->pull('tallstackui.form.input.selector')['side'] ?? null;
     }
 
     public function blade(): View
@@ -69,9 +74,14 @@ class Styled extends TallStackUiComponent implements Personalization
         return Arr::dot([
             'input' => [
                 'wrapper' => [
-                    'base' => 'dark:text-dark-300 dark:bg-dark-800 dark:focus:ring-primary-600 dark:disabled:bg-dark-600 dark:ring-dark-600 mt-1 flex w-full cursor-pointer items-center gap-x-2 rounded-md border-0 bg-white py-1.5 text-sm ring-1 ring-gray-300 disabled:bg-gray-100 disabled:text-gray-500 disabled:ring-gray-300',
+                    'base' => 'dark:text-dark-300 dark:bg-dark-800 dark:focus:ring-primary-600 dark:disabled:bg-dark-600 dark:ring-dark-600 mt-1 flex w-full cursor-pointer items-center gap-x-2 border-0 bg-white py-1.5 text-sm ring-1 ring-gray-300 disabled:bg-gray-100 disabled:text-gray-500 disabled:ring-gray-300',
                     'color' => 'focus:ring-primary-600 text-gray-600 focus:outline-hidden focus:ring-2',
                     'error' => $this->error(),
+                ],
+                'round' => [
+                    'none' => 'rounded-md',
+                    'left' => 'rounded-l-lg',
+                    'right' => 'rounded-r-lg',
                 ],
                 'content' => [
                     'wrapper' => [

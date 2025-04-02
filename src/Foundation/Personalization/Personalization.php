@@ -26,6 +26,7 @@ use TallStackUi\View\Components\Form\Date;
 use TallStackUi\View\Components\Form\Error;
 use TallStackUi\View\Components\Form\Hint;
 use TallStackUi\View\Components\Form\Input;
+use TallStackUi\View\Components\Form\InputSelector;
 use TallStackUi\View\Components\Form\Label;
 use TallStackUi\View\Components\Form\Number;
 use TallStackUi\View\Components\Form\Password;
@@ -210,6 +211,7 @@ class Personalization
             'error' => Error::class,
             'hint' => Hint::class,
             'input' => Input::class,
+            'input.selector' => InputSelector::class,
             'label' => Label::class,
             'number' => Number::class,
             'upload' => Upload::class,
@@ -249,7 +251,7 @@ class Personalization
         $parts = explode('.', $this->component);
 
         $main = $parts[0];
-        $secondary = $parts[1] ?? null;
+        $secondary = isset($parts[2]) ? $parts[1].'.'.$parts[2] : $parts[1] ?? null;
 
         if (! method_exists($this, $main)) {
             throw new RuntimeException("The method [{$main}] is not supported");

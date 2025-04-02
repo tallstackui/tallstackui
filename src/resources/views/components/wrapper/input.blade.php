@@ -6,7 +6,7 @@
     @if ($label)
         <x-dynamic-component :component="TallStackUi::prefix('label')" :$id :$label :$error :$invalidate />
     @endif
-    <div @if ($attributes->get('floatable', false)) x-ref="anchor" @endif class="{{ $personalize['wrapper'] }}">
+    <div @if ($attributes->get('floatable', false)) x-ref="anchor" @endif {{ $attributes->only('class')->merge(['class' => $personalize['wrapper']]) }}>
         {!! $slot !!}
     </div>
     @if ($hint && !$error)

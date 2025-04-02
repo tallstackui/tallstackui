@@ -349,6 +349,7 @@ return [
         'hint' => Components\Form\Hint::class,
         'icon' => Components\Icon::class,
         'input' => Components\Form\Input::class,
+        'input.selector' => Components\Form\InputSelector::class,
         'label' => Components\Form\Label::class,
         'layout' => Components\Layout\Layout::class,
         'layout.header' => Components\Layout\Header::class,
