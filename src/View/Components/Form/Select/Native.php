@@ -40,7 +40,7 @@ class Native extends TallStackUiComponent implements Personalization
     public function personalization(): array
     {
         return Arr::dot([
-            'wrapper' => 'relative mt-1',
+            'wrapper' => 'relative',
             'input' => [...$this->input()],
             'error' => $this->error('focus:ring-2'),
         ]);
