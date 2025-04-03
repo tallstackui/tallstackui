@@ -9,11 +9,11 @@
                                  :$icon
                                  :$error
                                  internal
-                    @class([
-                        $personalize['icon.size'],
-                        $personalize['error'] => $error,
-                        $personalize['icon.color'] => !$error && !$invalidate
-                    ]) />
+                                 @class([
+                                     $personalize['icon.size'],
+                                     $personalize['error'] => $error,
+                                     $personalize['icon.color'] => !$error && !$invalidate
+                                 ]) />
         </div>
     @endif
     @if ($clearable)
@@ -23,10 +23,10 @@
                                      :icon="TallStackUi::icon('x-mark')"
                                      x-on:click="clear()"
                                      internal
-                        @class([
-                            $personalize['clearable.size'],
-                            $personalize['clearable.color'] => !$error && !$invalidate,
-                        ]) />
+                                     @class([
+                                         $personalize['clearable.size'],
+                                         $personalize['clearable.color'] => !$error && !$invalidate,
+                                     ]) />
             </button>
         </div>
     @endif
