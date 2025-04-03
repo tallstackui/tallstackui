@@ -4,6 +4,7 @@ namespace TallStackUi\View\Components\Form;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\View\ComponentSlot;
 use TallStackUi\Foundation\Attributes\PassThroughRuntime;
 use TallStackUi\Foundation\Attributes\SkipDebug;
@@ -31,8 +32,14 @@ class Input extends TallStackUiComponent implements Personalization
         public ComponentSlot|string|null $prefix = null,
         #[SkipDebug]
         public ComponentSlot|string|null $suffix = null,
+        #[SkipDebug]
+        public ComponentSlot|string|null $left = null,
+        #[SkipDebug]
+        public ComponentSlot|string|null $right = null,
     ) {
         $this->position = $this->position === 'left' ? 'left' : 'right';
+
+        Cache::driver('array')->put('tallstackui::form::input-selector::side', $this->right ? 'right' : 'left');
     }
 
     public function blade(): View
@@ -51,6 +58,10 @@ class Input extends TallStackUiComponent implements Personalization
                     'left' => 'pl-8',
                     'right' => 'pr-8',
                     'clearable' => '!pr-14',
+                ],
+                'round' => [
+                    'left' => 'rounded-l-md',
+                    'right' => 'rounded-r-md',
                 ],
             ],
             'icon' => [

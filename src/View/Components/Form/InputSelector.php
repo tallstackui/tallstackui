@@ -23,19 +23,23 @@ class InputSelector extends TallStackUiComponent implements Personalization
     public function __construct(
         public ?string $label = null,
         public ?string $hint = null,
-        public ?bool $right = null,
+        public ?string $icon = null,
+        public ?bool $clearable = null,
         public ?bool $invalidate = null,
-        public ?ComponentSlot $selector = null,
+        #[SkipDebug]
+        public ?string $position = 'left',
         #[SkipDebug]
         public ComponentSlot|string|null $prefix = null,
         #[SkipDebug]
         public ComponentSlot|string|null $suffix = null,
         #[SkipDebug]
-        public ?string $side = null,
+        public ComponentSlot|string|null $left = null,
+        #[SkipDebug]
+        public ComponentSlot|string|null $right = null,
     ) {
-        $this->side = $this->right ? 'right' : 'left';
+        $this->position = $this->position === 'left' ? 'left' : 'right';
 
-        Cache::driver('array')->put('tallstackui::form::input-selector::side', $this->side);
+        Cache::driver('array')->put('tallstackui::form::input-selector::side', $this->right ? 'right' : 'left');
     }
 
     public function blade(): View
@@ -47,14 +51,33 @@ class InputSelector extends TallStackUiComponent implements Personalization
     {
         return Arr::dot([
             'input' => [
-                'wrapper' => 'flex grow items-stretch ring-inset focus-within:z-50',
-                'base' => 'focus:ring-primary-600 dark:focus:ring-primary-600 dark:ring-dark-600 dark:text-dark-300 dark:bg-dark-800 block w-full border-0 bg-white py-1.5 text-gray-600 ring-1 ring-gray-300 placeholder:text-gray-400 focus:ring-2 sm:text-sm sm:leading-6',
-                'slot' => 'dark:text-dark-400 flex select-none items-center whitespace-nowrap text-gray-500 sm:text-sm',
-                'color' => [...$this->input()['color']],
-                'round' => [
-                    'right' => 'rounded-l-md',
-                    'left' => 'rounded-r-md',
+                ...$this->input(),
+                'paddings' => [
+                    'prefix' => 'pr-3 pl-0',
+                    'suffix' => 'pl-3 pr-0',
+                    'left' => 'pl-8',
+                    'right' => 'pr-8',
+                    'clearable' => '!pr-14',
                 ],
+                'round' => [
+                    'left' => 'rounded-l-md',
+                    'right' => 'rounded-r-md',
+                ],
+            ],
+            'icon' => [
+                'wrapper' => 'pointer-events-none absolute inset-y-0 flex items-center text-gray-500 dark:text-dark-400',
+                'paddings' => [
+                    'left' => 'left-0 pl-2',
+                    'right' => 'right-0 pr-2',
+                ],
+                'size' => 'h-5 w-5',
+                'color' => 'text-gray-500 dark:text-dark-400',
+            ],
+            'clearable' => [
+                'wrapper' => 'cursor-pointer absolute inset-y-0 flex items-center text-gray-500 dark:text-dark-400',
+                'padding' => 'right-0 pr-2',
+                'size' => 'h-5 w-5',
+                'color' => 'hover:text-red-500',
             ],
             'error' => $this->error(),
         ]);
