@@ -24,6 +24,7 @@ class StyledSearchableTest extends BrowserTestCase
             ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[1]')
             ->click('@sync')
             ->waitForText('delectus aut autem')
+            ->pause(100)
             ->click('@tallstackui_select_clear')
             ->click('@sync')
             ->waitUntilMissingText('delectus aut autem')
@@ -152,6 +153,7 @@ class StyledSearchableTest extends BrowserTestCase
             ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[1]')
             ->click('@sync')
             ->waitForText('delectus aut autem')
+            ->pause(100)
             ->assertDontSee('Select an option');
     }
 
@@ -302,6 +304,7 @@ class StyledSearchableTest extends BrowserTestCase
             ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[1]')
             ->click('@sync')
             ->waitForText('delectus aut autem')
+            ->pause(100)
             ->click('@tallstackui_select_clear')
             ->click('@sync')
             ->waitUntilMissingText('delectus aut autem')
