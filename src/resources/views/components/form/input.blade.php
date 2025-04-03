@@ -31,7 +31,6 @@
         </div>
     @endif
     <div @class([
-            'flex-1' => $left || $right,
             $personalize['input.wrapper'],
             $personalize['input.color.base'] => !$error,
             $personalize['input.color.background'] => !$attributes->get('disabled') && !$attributes->get('readonly'),
