@@ -2,7 +2,7 @@
 
 it('can render askerisk', function () {
     expect('<x-input label="FooBar *" hint="Insert your name" />')->render()
-        ->toContain('font-bold not-italic text-red-500');
+        ->toContain('font-bold text-red-500 not-italic');
 });
 
 it('cannot render askerisk', function (string $label) {
