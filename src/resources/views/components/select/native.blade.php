@@ -8,6 +8,9 @@
     @endif
     <select {{ $attributes->class([
             $personalize['wrapper'],
+            $personalize['input.round.none'] => !$side,
+            $personalize['input.round.left'] => $side === 'left',
+            $personalize['input.round.right'] => $side === 'right',
             $personalize['input.wrapper'],
             $personalize['input.base'],
             $personalize['input.color.base'] => !$error,

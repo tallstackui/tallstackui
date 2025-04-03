@@ -4,10 +4,14 @@ namespace TallStackUi\View\Components\Form\Select\Traits;
 
 use Illuminate\Support\Collection;
 use InvalidArgumentException;
+use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\View\Components\Form\Select\Native;
 
 trait Setup
 {
+    #[SkipDebug]
+    public ?string $side = null;
+
     protected function setup(): void
     {
         $this->options = $this->options instanceof Collection

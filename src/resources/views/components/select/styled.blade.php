@@ -40,9 +40,9 @@
                 @disabled($disabled)
                 @class([
                     $personalize['input.wrapper.base'],
-                    $personalize['input.round.none'] => !$selectorSide,
-                    $personalize['input.round.left'] => $selectorSide === 'left',
-                    $personalize['input.round.right'] => $selectorSide === 'right',
+                    $personalize['input.round.none'] => !$side,
+                    $personalize['input.round.left'] => $side === 'left',
+                    $personalize['input.round.right'] => $side === 'right',
                     $personalize['input.wrapper.color'] => !$error,
                     $personalize['input.wrapper.error'] => $error
                 ])

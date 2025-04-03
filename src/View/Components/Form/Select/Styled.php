@@ -48,8 +48,6 @@ class Styled extends TallStackUiComponent implements Personalization
         public ?string $after = null,
         #[SkipDebug]
         public ?bool $common = true,
-        #[SkipDebug]
-        public ?string $selectorSide = null,
     ) {
         $this->placeholders = array_merge(trans('tallstack-ui::messages.select'), $this->placeholders ?? []);
         $this->placeholder ??= data_get($this->placeholders, 'default');
@@ -61,7 +59,7 @@ class Styled extends TallStackUiComponent implements Personalization
             $this->request['method'] ??= 'get';
         }
 
-        $this->selectorSide = Cache::driver('array')->pull('tallstackui.form.input.selector')['side'] ?? null;
+        $this->side = Cache::driver('array')->pull('tallstackui::form::input-selector::side');
     }
 
     public function blade(): View
