@@ -6,12 +6,31 @@
     @if ($side === 'left')
         {{ $selector }}
     @endif
-    <div class="flex grow items-stretch ring-inset focus-within:z-50">
-        <input type="text" @class([
-            'rounded-r-md' => $side === 'left',
-            'rounded-l-md' => $side === 'right',
-            'focus:ring-primary-600 dark:focus:ring-primary-600 block w-full border-0 py-1.5 text-gray-900 ring-1 ring-gray-300 placeholder:text-gray-400 focus:ring-2 sm:text-sm sm:leading-6 dark:ring-dark-600 dark:text-dark-300 text-gray-600 ring-gray-300 dark:bg-dark-800 bg-white'
-        ]) value="TallStackUI" readonly="">
+    <div class="{{ $personalize['input.wrapper'] }}">
+        @if ($prefix instanceof \Illuminate\View\ComponentSlot)
+            <div {{ $prefix->attributes->merge(['class' => $personalize['input.slot']]) }}>
+                {{ $prefix }}
+            </div>
+        @elseif (is_string($prefix))
+            <span @class(['ml-2 mr-1', $personalize['input.slot'], $personalize['error'] => $error])>{{ $prefix }}</span>
+        @endif
+        <input @if ($id) id="{{ $id }}" @endif
+               type="{{ $attributes->get('type', 'text') }}"
+               x-ref="{{ $attributes->get('x-ref', 'input') }}"
+               {{ $attributes->class([
+                    $personalize['input.base'],
+                    $personalize['input.color.base'],
+                    $personalize['input.color.background'],
+                    $personalize['input.round.left'] => $side === 'left',
+                    $personalize['input.round.right'] => $side === 'right'
+               ]) }}>
+        @if ($suffix instanceof \Illuminate\View\ComponentSlot)
+            <div {{ $suffix->attributes->merge(['class' => $personalize['input.slot']]) }}>
+                {{ $suffix }}
+            </div>
+        @elseif (is_string($suffix))
+            <span @class(['ml-1 mr-2', $personalize['input.slot'], $personalize['error'] => $error])>{{ $suffix }}</span>
+        @endif
     </div>
     @if ($side === 'right')
         {{ $selector }}

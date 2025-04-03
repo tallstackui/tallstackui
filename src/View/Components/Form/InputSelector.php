@@ -45,6 +45,18 @@ class InputSelector extends TallStackUiComponent implements Personalization
 
     public function personalization(): array
     {
-        return Arr::dot([]);
+        return Arr::dot([
+            'input' => [
+                'wrapper' => 'flex grow items-stretch ring-inset focus-within:z-50',
+                'base' => 'focus:ring-primary-600 dark:focus:ring-primary-600 dark:ring-dark-600 dark:text-dark-300 dark:bg-dark-800 block w-full border-0 bg-white py-1.5 text-gray-600 ring-1 ring-gray-300 placeholder:text-gray-400 focus:ring-2 sm:text-sm sm:leading-6',
+                'slot' => 'dark:text-dark-400 flex select-none items-center whitespace-nowrap text-gray-500 sm:text-sm',
+                'color' => [...$this->input()['color']],
+                'round' => [
+                    'right' => 'rounded-l-md',
+                    'left' => 'rounded-r-md',
+                ],
+            ],
+            'error' => $this->error(),
+        ]);
     }
 }
