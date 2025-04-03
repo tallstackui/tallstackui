@@ -76,6 +76,7 @@ trait Setup
                     $result[$description] = $option[$description] ?? current(array_intersect_key($option, $descriptions)) ?: null;
                 }
 
+                $result['id'] = substr(sha1($label.$value.$description.$image.uniqid()), 14, 12);
                 $result['disabled'] = $option['disabled'] ?? false;
 
                 return $result;
