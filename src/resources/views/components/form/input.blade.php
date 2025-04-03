@@ -30,51 +30,39 @@
             </button>
         </div>
     @endif
-    @if ($left || $right) <div class="flex w-full"> @endif
-        @if ($left)
-            <div class="flex-none">
-                {{ $left }}
+    <div @class([
+            'flex-1' => $left || $right,
+            $personalize['input.wrapper'],
+            $personalize['input.color.base'] => !$error,
+            $personalize['input.color.background'] => !$attributes->get('disabled') && !$attributes->get('readonly'),
+            $personalize['input.color.disabled'] => $attributes->get('disabled') || $attributes->get('readonly'),
+            $personalize['error'] => $error
+        ])>
+        @if ($prefix instanceof \Illuminate\View\ComponentSlot)
+            <div {{ $prefix->attributes->merge(['class' => $personalize['input.slot']]) }}>
+                {{ $prefix }}
             </div>
+        @elseif (is_string($prefix))
+            <span @class(['ml-2 mr-1', $personalize['input.slot'], $personalize['error'] => $error])>{{ $prefix }}</span>
         @endif
-        <div @class([
-                'flex-1' => $left || $right,
-                $personalize['input.wrapper'],
-                $personalize['input.color.base'] => !$error,
-                $personalize['input.color.background'] => !$attributes->get('disabled') && !$attributes->get('readonly'),
-                $personalize['input.color.disabled'] => $attributes->get('disabled') || $attributes->get('readonly'),
-                $personalize['error'] => $error
-            ])>
-            @if ($prefix instanceof \Illuminate\View\ComponentSlot)
-                <div {{ $prefix->attributes->merge(['class' => $personalize['input.slot']]) }}>
-                    {{ $prefix }}
-                </div>
-            @elseif (is_string($prefix))
-                <span @class(['ml-2 mr-1', $personalize['input.slot'], $personalize['error'] => $error])>{{ $prefix }}</span>
-            @endif
-            <input @if ($id) id="{{ $id }}" @endif
-                   type="{{ $attributes->get('type', 'text') }}"
-                   x-ref="{{ $attributes->get('x-ref', 'input') }}"
-                   @if ($prefix || $suffix) autocomplete="{{ $attributes->get('autocomplete', 'off') }}" @endif
-                   {{ $attributes->class([
-                        $personalize['input.base'],
-                        $personalize['input.paddings.prefix'] => $prefix,
-                        $personalize['input.paddings.suffix'] => $suffix,
-                        $personalize['input.paddings.left'] => $icon && ($position === null || $position === 'left'),
-                        $personalize['input.paddings.right'] => $icon && $position === 'right' || $icon && $clearable,
-                        $personalize['input.paddings.clearable'] => $icon && $clearable && $position === 'right',
-                    ]) }}>
-            @if ($suffix instanceof \Illuminate\View\ComponentSlot)
-                <div {{ $suffix->attributes->merge(['class' => $personalize['input.slot']]) }}>
-                    {{ $suffix }}
-                </div>
-            @elseif (is_string($suffix))
-                <span @class(['ml-1 mr-2', $personalize['input.slot'], $personalize['error'] => $error])>{{ $suffix }}</span>
-            @endif
-        </div>
-        @if ($right)
-            <div class="flex-none">
-                {{ $right }}
+        <input @if ($id) id="{{ $id }}" @endif
+               type="{{ $attributes->get('type', 'text') }}"
+               x-ref="{{ $attributes->get('x-ref', 'input') }}"
+               @if ($prefix || $suffix) autocomplete="{{ $attributes->get('autocomplete', 'off') }}" @endif
+               {{ $attributes->class([
+                    $personalize['input.base'],
+                    $personalize['input.paddings.prefix'] => $prefix,
+                    $personalize['input.paddings.suffix'] => $suffix,
+                    $personalize['input.paddings.left'] => $icon && ($position === null || $position === 'left'),
+                    $personalize['input.paddings.right'] => $icon && $position === 'right' || $icon && $clearable,
+                    $personalize['input.paddings.clearable'] => $icon && $clearable && $position === 'right',
+                ]) }}>
+        @if ($suffix instanceof \Illuminate\View\ComponentSlot)
+            <div {{ $suffix->attributes->merge(['class' => $personalize['input.slot']]) }}>
+                {{ $suffix }}
             </div>
+        @elseif (is_string($suffix))
+            <span @class(['ml-1 mr-2', $personalize['input.slot'], $personalize['error'] => $error])>{{ $suffix }}</span>
         @endif
-    @if ($left || $right) </div> @endif
+    </div>
 </x-dynamic-component>
