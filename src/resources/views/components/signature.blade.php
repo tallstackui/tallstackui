@@ -38,7 +38,7 @@
         </div>
        <div class="{{ $personalize['canvas.wrapper'] }}">
          <canvas x-ref="canvas"
-                wire:ignore
+                wire:replace
                 class="{{ $personalize['canvas.base'] }}"
                 :height="height"
                 style="cursor: crosshair; max-height: {{ $height }}px"

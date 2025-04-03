@@ -24,7 +24,7 @@
              @js($property),
              @js($attributes->get('value')),
              @js($change))"
-         x-on:paste="pasting = true; paste($event)" x-cloak wire:ignore>
+         x-on:paste="pasting = true; paste($event)" x-cloak wire:replace.self>
         <div class="{{ $personalize['wrapper'] }}" x-ref="wrapper" {{ $attributes->only(['x-on:filled', 'x-on:clear']) }}>
             @if ($prefix)
                 <input type="text"
