@@ -30,7 +30,7 @@
             </button>
         </div>
     @endif
-    @if ($left || $right) <div class="flex w-full"> @endif
+    @if ($left || $right) <div class="{{ $personalize['input.wrapper.first'] }}"> @endif
         @if ($left)
             <div class="flex-none">
                 {{ $left }}
@@ -38,7 +38,9 @@
         @endif
         <div @class([
                 'flex-1' => $left || $right,
-                $personalize['input.wrapper'],
+                $personalize['input.wrapper.second'],
+                $personalize['input.wrapper.round.left'] => $left,
+                $personalize['input.wrapper.round.right'] => $right,
                 $personalize['input.color.base'] => !$error,
                 $personalize['input.color.background'] => !$attributes->get('disabled') && !$attributes->get('readonly'),
                 $personalize['input.color.disabled'] => $attributes->get('disabled') || $attributes->get('readonly'),

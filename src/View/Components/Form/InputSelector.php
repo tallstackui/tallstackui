@@ -51,17 +51,27 @@ class InputSelector extends TallStackUiComponent implements Personalization
     {
         return Arr::dot([
             'input' => [
-                ...$this->input(),
+                'wrapper' => [
+                    'first' => 'flex w-full',
+                    'second' => 'focus:ring-primary-600 focus-within:focus:ring-primary-600 focus-within:ring-primary-600 dark:focus-within:ring-primary-600 flex ring-1 focus-within:ring-2',
+                    'round' => [
+                        'left' => 'rounded-r-md',
+                        'right' => 'rounded-l-md',
+                    ],
+                ],
+                'base' => 'dark:placeholder-dark-400 w-full border-0 bg-transparent py-1.5 ring-0 placeholder:text-gray-400 focus:outline-hidden focus:ring-transparent sm:text-sm sm:leading-6',
+                'slot' => 'dark:text-dark-400 flex select-none items-center whitespace-nowrap text-gray-500 sm:text-sm',
+                'color' => [
+                    'base' => 'dark:ring-dark-600 dark:text-dark-300 text-gray-600 ring-gray-300',
+                    'background' => 'dark:bg-dark-800 bg-white',
+                    'disabled' => 'dark:bg-dark-600 bg-gray-100',
+                ],
                 'paddings' => [
-                    'prefix' => 'pr-3 pl-0',
-                    'suffix' => 'pl-3 pr-0',
+                    'prefix' => 'pr-2 pl-0',
+                    'suffix' => 'pl-2 pr-0',
                     'left' => 'pl-8',
                     'right' => 'pr-8',
-                    'clearable' => '!pr-14',
-                ],
-                'round' => [
-                    'left' => 'rounded-l-md',
-                    'right' => 'rounded-r-md',
+                    'clearable' => 'pr-14!',
                 ],
             ],
             'icon' => [
