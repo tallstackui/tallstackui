@@ -20,10 +20,6 @@ class InputSelectorRuntime extends AbstractRuntime
         $left = $this->data('left');
         $right = $this->data('right');
 
-        if (blank($left) && blank($right)) {
-            __ts_validation_exception($this->component, 'You must provide a [left] or [right] slot with a select component.');
-        }
-
         if ($left && $right) {
             __ts_validation_exception($this->component, 'You cannot use [left] and [right] at the same time.');
         }

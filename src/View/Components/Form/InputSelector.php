@@ -40,6 +40,10 @@ class InputSelector extends TallStackUiComponent implements Personalization
         $this->position = $this->position === 'left' ? 'left' : 'right';
 
         Cache::driver('array')->put('__tsui::input-selector::side', $this->right ? 'right' : 'left');
+
+        if ($this->left === null && $this->right === null) {
+            $this->left = true;
+        }
     }
 
     public function blade(): View
@@ -69,7 +73,7 @@ class InputSelector extends TallStackUiComponent implements Personalization
                 'paddings' => [
                     'prefix' => 'pr-2 pl-0',
                     'suffix' => 'pl-2 pr-0',
-                    'left' => 'pl-10',
+                    'left' => 'pl-2',
                     'right' => 'pr-8',
                     'clearable' => 'pr-14!',
                 ],
@@ -77,7 +81,7 @@ class InputSelector extends TallStackUiComponent implements Personalization
             'icon' => [
                 'wrapper' => 'pointer-events-none absolute inset-y-0 flex items-center text-gray-500 dark:text-dark-400',
                 'paddings' => [
-                    'left' => 'left-0 pl-18',
+                    'left' => 'left-0 pl-2',
                     'right' => 'right-0 pr-2',
                 ],
                 'size' => 'h-5 w-5',
