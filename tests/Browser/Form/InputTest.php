@@ -56,7 +56,7 @@ class InputTest extends BrowserTestCase
     }
 
     #[Test]
-    public function cannot_see_validation_error(): void
+    public function can_see_validation_error(): void
     {
         Livewire::visit(new class extends Component
         {
@@ -98,6 +98,41 @@ class InputTest extends BrowserTestCase
                 return <<<'HTML'
                 <div>
                     <x-input dusk="input" wire:model="name" invalidate />
+                    
+                    <x-button dusk="sync" wire:click="sync">Save</x-button>
+                </div>
+                HTML;
+            }
+
+            public function sync(): void
+            {
+                $this->validate();
+            }
+        })
+            ->waitForLivewireToLoad()->type('@input', '')
+            ->waitForLivewire()->click('@sync')
+            ->waitUntilMissingText('Foo bar baz')
+            ->assertDontSee('The name field is required.');
+    }
+
+    #[Test]
+    public function cannot_see_validation_error_when_invalidate_based_on_config(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            #[Validate('required')]
+            public ?string $name = null;
+
+            public function boot(): void
+            {
+                config(['tallstackui.invalidate_global' => true]);
+            }
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-input dusk="input" wire:model="name" />
                     
                     <x-button dusk="sync" wire:click="sync">Save</x-button>
                 </div>

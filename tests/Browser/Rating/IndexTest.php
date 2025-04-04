@@ -149,7 +149,7 @@ class IndexTest extends BrowserTestCase
                 $this->rating = $rating;
             }
         })
-            ->assertSee('The rating [value] must be a int.');
+            ->assertSee('[TallStackUI] Rating: The [value] must be a int.');
     }
 
     #[Test]
@@ -203,6 +203,6 @@ class IndexTest extends BrowserTestCase
                 $this->rating = $rating;
             }
         })
-            ->assertSee('The rating [rate] can be omitted because you are in Livewire context. You can use `wire:model` instead.');
+            ->assertSee('[TallStackUI] Rating: The [rate] can be omitted because you are in Livewire context. You can use `wire:model` instead.');
     }
 }

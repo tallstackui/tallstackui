@@ -784,7 +784,7 @@ class DateTest extends BrowserTestCase
                 HTML;
             }
         })
-            ->assertSee('The date [min-date] must be less than or equal to [max-date].');
+            ->assertSee('[TallStackUI] Form\Date: The [min-date] must be less than or equal to [max-date].');
     }
 
     #[Test]
@@ -805,7 +805,7 @@ class DateTest extends BrowserTestCase
                 HTML;
             }
         })
-            ->assertSee('The year [min-year] must be less than or equal to [max-year].');
+            ->assertSee('[TallStackUI] Form\Date: The year [min-year] must be less than or equal to [max-year].');
     }
 
     #[Test]
@@ -826,6 +826,6 @@ class DateTest extends BrowserTestCase
                 HTML;
             }
         })
-            ->assertSee('The start date in the [range] must be greater than the second date.');
+            ->assertSee('[TallStackUI] Form\Date: The start date in the [range] must be greater than the second date.');
     }
 }

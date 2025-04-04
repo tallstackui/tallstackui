@@ -3,7 +3,6 @@
 namespace TallStackUi\Foundation\Support\Runtime\Components;
 
 use Exception;
-use InvalidArgumentException;
 use TallStackUi\Foundation\Support\Runtime\AbstractRuntime;
 
 class TimeRuntime extends AbstractRuntime
@@ -34,11 +33,11 @@ class TimeRuntime extends AbstractRuntime
     private function validate(mixed $value): void
     {
         if (! is_string($value)) {
-            throw new InvalidArgumentException('The time [value] must be a string.');
+            __ts_validation_exception($this->component, 'The [value] must be a string.');
         }
 
         if ($this->data('format') === '12' && ! preg_match('/(AM|PM)/', $value)) {
-            throw new InvalidArgumentException(__ts_validation_exception($this->component, 'The [format] is not 24 and the value does not contain the interval (AM/PM).'));
+            __ts_validation_exception($this->component, 'The [format] is not 24 and the value does not contain the interval (AM/PM).');
         }
     }
 }
