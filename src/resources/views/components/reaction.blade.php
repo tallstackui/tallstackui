@@ -2,7 +2,7 @@
     $personalize = $classes();
 @endphp
 
-<div wire:replace>
+<div wire:ignore>
     <button x-data="tallstackui_reaction({!! $entangle !!}, @js($content($id)), @js($position))"
             x-on:click="show = !show"
             dusk="tallstackui_reaction_button"

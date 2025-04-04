@@ -2,7 +2,7 @@
     $personalize = $classes();
 @endphp
 
-<div wire:replace.self x-cloak x-data="{ themeSwitch() { this.$el.dispatchEvent(new CustomEvent('theme', {detail: { darkTheme: darkTheme }})); } }">
+<div wire:ignore.self x-cloak x-data="{ themeSwitch() { this.$el.dispatchEvent(new CustomEvent('theme', {detail: { darkTheme: darkTheme }})); } }">
     <button type="button"
             role="switch"
             aria-checked="false"

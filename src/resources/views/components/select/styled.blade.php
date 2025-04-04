@@ -28,7 +28,7 @@
         @endif
         x-cloak
         x-on:keydown="navigate($event)"
-        wire:replace.self>
+        wire:ignore>
     <div hidden x-ref="options">{{ TallStackUi::blade()->json($options) }}</div>
     @if ($request['params'] ?? null) <div hidden x-ref="params">{{ TallStackUi::blade()->json($request['params']) }}</div> @endif
     @if ($label)
@@ -59,7 +59,7 @@
                                 }" x-text="placeholder"></span>
                         </div>
                     </div>
-                    <div wire:replace class="{{ $personalize['items.wrapper'] }}" x-show="multiple && quantity > 0">
+                    <div wire:ignore class="{{ $personalize['items.wrapper'] }}" x-show="multiple && quantity > 0">
                         <template x-for="(select, index) in selects" :key="index">
                             <a class="cursor-pointer">
                                 <div class="{{ $personalize['items.multiple.item'] }}">
@@ -86,7 +86,7 @@
                 </div>
             </div>
             @if (!$disabled)
-                <div class="{{ $personalize['buttons.wrapper'] }}" wire:replace>
+                <div class="{{ $personalize['buttons.wrapper'] }}" wire:ignore>
                     @if (!$required)
                     <template x-if="!empty">
                         <button dusk="tallstackui_select_clear"
@@ -131,7 +131,7 @@
                     </button>
                 </div>
             </template>
-            <ul class="{{ $personalize['box.list.wrapper'] }}" dusk="tallstackui_select_options" role="listbox" x-ref="list">
+            <ul class="{{ $personalize['box.list.wrapper'] }}" dusk="tallstackui_select_options" role="listbox" x-ref="list" wire:ignore.self>
                 @if ($request)
                     <div x-show="loading" class="{{ $personalize['box.list.loading.wrapper'] }}">
                         <x-tallstack-ui::icon.generic.loading class="{{ $personalize['box.list.loading.class'] }}" />

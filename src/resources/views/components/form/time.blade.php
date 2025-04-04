@@ -62,7 +62,7 @@
                     </div>
                 @endif
             </div>
-            <div wire:replace.self class="{{ $personalize['helper.wrapper'] }}">
+            <div wire:ignore.self class="{{ $personalize['helper.wrapper'] }}">
                 <input type="range"
                        min="{{ $format === '12' ? 1 : 0 }}"
                        max="{{ $format === '12' ? 12 : 23 }}"
