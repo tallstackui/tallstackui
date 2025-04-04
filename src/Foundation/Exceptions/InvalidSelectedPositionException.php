@@ -26,7 +26,7 @@ class InvalidSelectedPositionException extends Exception
 
     public function __construct(string $component)
     {
-        parent::__construct('The '.$component.' [position] must be one of the following: ['.implode(', ', self::ALLOWED).']');
+        parent::__construct(sprintf('[TallStackUI] %s: %s', $component, 'The [position] must be one of the following: ['.implode(', ', self::ALLOWED).']'));
     }
 
     /**

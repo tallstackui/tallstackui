@@ -61,7 +61,7 @@ class Tag extends TallStackUiComponent implements Personalization
         }
 
         if (strlen($this->prefix) > 1) {
-            throw new Exception('The tag [prefix] must be a single character.');
+            __ts_validation_exception($this, 'The [prefix] must be a single character.');
         }
     }
 }

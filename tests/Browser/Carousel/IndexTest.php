@@ -321,7 +321,7 @@ class IndexTest extends BrowserTestCase
             HTML;
             }
         })
-            ->assertSee('The [carousel] images attribute is required.');
+            ->assertSee('[TallStackUI] Carousel: The [images] attribute is required.');
     }
 
     protected function setUp(): void

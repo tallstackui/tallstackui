@@ -58,19 +58,19 @@ class Dialog extends TallStackUiComponent implements Personalization
         $messages = trans('tallstack-ui::messages.dialog.button');
 
         if (! str(config('tallstackui.settings.dialog.z-index', 'z-50'))->startsWith('z-')) {
-            throw new InvalidArgumentException('The dialog z-index must start with z- prefix');
+            __ts_validation_exception($this, 'The [z-index] must start with z- prefix');
         }
 
         if (blank($messages['ok'] ?? null)) {
-            throw new InvalidArgumentException('The dialog [ok] message cannot be empty.');
+            __ts_validation_exception($this, 'The [ok] message cannot be empty.');
         }
 
         if (blank($messages['confirm'] ?? null)) {
-            throw new InvalidArgumentException('The dialog [confirm] message cannot be empty.');
+            __ts_validation_exception($this, 'The [confirm] message cannot be empty.');
         }
 
         if (blank($messages['cancel'] ?? null)) {
-            throw new InvalidArgumentException('The dialog [cancel] message cannot be empty.');
+            __ts_validation_exception($this, 'The [cancel] message cannot be empty.');
         }
     }
 }

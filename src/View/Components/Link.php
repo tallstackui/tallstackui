@@ -90,7 +90,7 @@ class Link extends TallStackUiComponent implements Personalization
         // is not set. With that, we allow the usage
         // of link component for anchor links.
         if (! $this->fragment && ! $this->href) {
-            throw new InvalidArgumentException('The link [href] attribute is required when no [fragment] is provided.');
+            __ts_validation_exception($this, 'The [href] attribute is required when no [fragment] is provided.');
         }
     }
 }

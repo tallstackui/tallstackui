@@ -7,7 +7,6 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
-use InvalidArgumentException;
 use TallStackUi\Foundation\Attributes\ColorsThroughOf;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
@@ -94,16 +93,16 @@ class Banner extends TallStackUiComponent implements Personalization
         $sizes = ['sm', 'md', 'lg'];
 
         if (! in_array($this->size, $sizes)) {
-            throw new InvalidArgumentException('The banner [size] must be one of the following: ['.implode(', ', $sizes).']');
+            __ts_validation_exception($this, 'The [size] must be one of the following: ['.implode(', ', $sizes).']');
         }
 
         if (is_array($this->color)) {
             if (! isset($this->color['background'])) {
-                throw new InvalidArgumentException('The banner [background] key must exists when color is an array.');
+                __ts_validation_exception($this, 'The [background] key must exists when color is an array.');
             }
 
             if (! isset($this->color['text'])) {
-                throw new InvalidArgumentException('The banner [color] key must exists when color is an array.');
+                __ts_validation_exception($this, 'The [color] key must exists when color is an array.');
             }
         }
 
@@ -122,7 +121,7 @@ class Banner extends TallStackUiComponent implements Personalization
         }
 
         if (blank($until)) {
-            throw new InvalidArgumentException('The banner [until] attribute must be a Carbon instance or a valid date string.');
+            __ts_validation_exception($this, 'The [until] attribute must be a Carbon instance or a valid date string.');
         }
     }
 }

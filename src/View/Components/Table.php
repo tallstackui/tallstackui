@@ -165,19 +165,19 @@ class Table extends TallStackUiComponent implements Personalization
         $messages = trans('tallstack-ui::messages.table');
 
         if (blank($messages['empty'] ?? null)) {
-            throw new InvalidArgumentException('The table [empty] message cannot be empty.');
+            __ts_validation_exception($this, 'The [empty] message cannot be empty.');
         }
 
         if (blank($messages['quantity'] ?? null)) {
-            throw new InvalidArgumentException('The table [quantity] message cannot be empty.');
+            __ts_validation_exception($this, 'The [quantity] message cannot be empty.');
         }
 
         if (blank($messages['search'] ?? null)) {
-            throw new InvalidArgumentException('The table [search] message cannot be empty.');
+            __ts_validation_exception($this, 'The [search] message cannot be empty.');
         }
 
         if ($this->selectable && blank($this->selectableProperty)) {
-            throw new InvalidArgumentException('The table [selectableProperty] property is required when [selectable] is set.');
+            __ts_validation_exception($this, 'The [selectableProperty] property is required when [selectable] is set.');
         }
     }
 }

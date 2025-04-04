@@ -91,7 +91,7 @@ class Password extends TallStackUiComponent implements Personalization
     protected function validate(): void
     {
         if ($this->generator && $this->rules?->isEmpty()) {
-            throw new Exception('The password [generator] requires the [rules] of the password.');
+            __ts_validation_exception($this, 'The [generator] requires the [rules] of the password.');
         }
     }
 }

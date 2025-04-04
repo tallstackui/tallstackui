@@ -49,7 +49,7 @@ class Loading extends TallStackUiComponent implements Personalization
     protected function validate(): void
     {
         if (! str(config('tallstackui.settings.loading')['z-index'])->startsWith('z-')) {
-            throw new InvalidArgumentException('The loading [z-index] must start with z- prefix');
+            __ts_validation_exception($this, 'The [z-index] must start with z- prefix');
         }
     }
 }

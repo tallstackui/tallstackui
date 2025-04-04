@@ -162,11 +162,11 @@ class Styled extends TallStackUiComponent implements Personalization
     protected function validate(): void
     {
         if (filled($this->options) && filled($this->request)) {
-            throw new InvalidArgumentException('The [select.styled] [options] and [request] cannot be defined at the same time.');
+            __ts_validation_exception($this, 'The [options] and [request] cannot be defined at the same time.');
         }
 
         if ($this->common && ($this->lazy && $this->lazy < 10)) {
-            throw new InvalidArgumentException('The [select.styled] parameter [lazy] must be greater than or equal to 10.');
+            __ts_validation_exception($this, 'The attribute [lazy] must be greater than or equal to 10.');
         }
 
         if ($this->common || ($this->request !== null && ! is_array($this->request))) {
@@ -174,13 +174,13 @@ class Styled extends TallStackUiComponent implements Personalization
         }
 
         if (! isset($this->request['url'])) {
-            throw new InvalidArgumentException('The [select.styled] parameter [url] is required in the request array.');
+            __ts_validation_exception($this, 'The attribute [url] is required in the request array.');
         }
 
         $this->request['method'] = strtolower((string) $this->request['method']);
 
         if (! in_array($this->request['method'], ['get', 'post'])) {
-            throw new InvalidArgumentException('The [select.styled] parameter [method] must be "get" or "post".');
+            __ts_validation_exception($this, 'The attribute [method] must be "get" or "post".');
         }
 
         if (! isset($this->request['params'])) {
@@ -188,7 +188,7 @@ class Styled extends TallStackUiComponent implements Personalization
         }
 
         if (! is_array($this->request['params']) || blank($this->request['params'])) {
-            throw new InvalidArgumentException('The [select.styled] parameter [params] must be an array and cannot be empty.');
+            __ts_validation_exception($this, 'The attribute [params] must be an array and cannot be empty.');
         }
     }
 }

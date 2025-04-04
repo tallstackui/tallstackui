@@ -3,7 +3,6 @@
 namespace TallStackUi\Foundation\Support\Runtime\Components;
 
 use Exception;
-use InvalidArgumentException;
 use TallStackUi\Facades\TallStackUi;
 use TallStackUi\Foundation\Support\Runtime\AbstractRuntime;
 
@@ -42,21 +41,21 @@ class NumberRuntime extends AbstractRuntime
         $max = $this->data('max');
 
         if (($min && $max) && ($min > $max)) {
-            throw new InvalidArgumentException('The [number] min value must be less than the max value.');
+            __ts_validation_exception($this->component, 'The [min] value must be less than the [max] value.');
         }
 
         if (($min && $max) && ($max < $min)) {
-            throw new InvalidArgumentException('The [number] max value must be greater than the min value.');
+            __ts_validation_exception($this->component, 'The [max] value must be greater than the [min] value.');
         }
 
         $label = $this->wireable() ? 'wire:model' : 'value';
 
         if ($value && $min && ((int) $value < $min)) {
-            throw new InvalidArgumentException("The [number] min value must be greater than or equals to the defined in [$label] property.");
+            __ts_validation_exception($this->component, "The [min] value must be greater than or equals to the defined in [$label] property.");
         }
 
         if ($value && $max && ((int) $value > $max)) {
-            throw new InvalidArgumentException("The [number] max value must be less than or equals to the defined in [$label] property.");
+            __ts_validation_exception($this->component, "The [max] value must be less than or equals to the defined in [$label] property.");
         }
     }
 }

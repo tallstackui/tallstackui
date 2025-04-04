@@ -9,11 +9,16 @@ use Illuminate\View\ComponentAttributeBag;
 use Livewire\Component;
 use Livewire\WireDirective;
 use TallStackUi\Foundation\Support\Blade\BindProperty;
+use TallStackUi\TallStackUiComponent;
 
 abstract class AbstractRuntime
 {
-    public function __construct(protected array $data, protected readonly ?Component $livewire = null, protected readonly ?ViewErrorBag $errors = null)
-    {
+    public function __construct(
+        protected TallStackUiComponent $component,
+        protected array $data,
+        protected readonly ?Component $livewire = null,
+        protected readonly ?ViewErrorBag $errors = null
+    ) {
         //
     }
 

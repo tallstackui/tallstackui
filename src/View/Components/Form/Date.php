@@ -128,11 +128,11 @@ class Date extends TallStackUiComponent implements Personalization
         }
 
         if (blank($min)) {
-            throw new InvalidArgumentException('The date [min-date] attribute must be a Carbon instance or a valid date string.');
+            __ts_validation_exception($this, 'The [min-date] attribute must be a Carbon instance or a valid date string.');
         }
 
         if (blank($max)) {
-            throw new InvalidArgumentException('The date [max-date] attribute must be a Carbon instance or a valid date string.');
+            __ts_validation_exception($this, 'The [max-date] attribute must be a Carbon instance or a valid date string.');
         }
 
         // We should only apply this logic if $this->maxDate is defined,
@@ -140,11 +140,11 @@ class Date extends TallStackUiComponent implements Personalization
         // current one, causing the comparison to always result in true
         // since $min can be greater than the $max (set incorrectly).
         if (($this->minDate && $this->maxDate) && $min->greaterThan($max)) {
-            throw new InvalidArgumentException('The date [min-date] must be less than or equal to [max-date].');
+            __ts_validation_exception($this, 'The [min-date] must be less than or equal to [max-date].');
         }
 
         if (($this->minYear && $this->maxYear) && $this->maxYear < $this->minYear) {
-            throw new InvalidArgumentException('The year [min-year] must be less than or equal to [max-year].');
+            __ts_validation_exception($this, 'The year [min-year] must be less than or equal to [max-year].');
         }
     }
 }
