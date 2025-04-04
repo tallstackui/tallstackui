@@ -3,7 +3,7 @@
 use Illuminate\View\ViewException;
 
 it('can render using left slot', function () {
-    $component = <<<HTML
+    $component = <<<'HTML'
     <x-input.selector label="Foo bar" hint="Bar baz">
         <x-slot:left>
             <x-select.native :options="[1,2,3]" />       
@@ -17,7 +17,7 @@ it('can render using left slot', function () {
 });
 
 it('can render using right slot', function () {
-    $component = <<<HTML
+    $component = <<<'HTML'
     <x-input.selector label="Foo bar" hint="Bar baz">
         <x-slot:right>
             <x-select.native :options="[1,2,3]" />       
@@ -34,7 +34,7 @@ it('can throw exception when trying to render without slots', function () {
     $this->expectException(ViewException::class);
     $this->expectExceptionMessage("[TallStackUI] Form\InputSelector: You must provide a [left] or [right] slot with a select component.");
 
-    $component = <<<HTML
+    $component = <<<'HTML'
     <x-input.selector label="Foo bar" hint="Bar baz" />
     HTML;
 
