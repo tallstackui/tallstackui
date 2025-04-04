@@ -33,13 +33,13 @@ class InputSelector extends TallStackUiComponent implements Personalization
         #[SkipDebug]
         public ComponentSlot|string|null $suffix = null,
         #[SkipDebug]
-        public ?ComponentSlot $left = null,
+        public ?bool $left = null,
         #[SkipDebug]
-        public ?ComponentSlot $right = null,
+        public ?bool $right = null,
     ) {
         $this->position = $this->position === 'left' ? 'left' : 'right';
 
-        Cache::driver('array')->put('tallstackui::form::input-selector::side', $this->right ? 'right' : 'left');
+        Cache::driver('array')->put('__tsui::input-selector::side', $this->right ? 'right' : 'left');
     }
 
     public function blade(): View

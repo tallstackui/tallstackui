@@ -59,7 +59,7 @@ class Styled extends TallStackUiComponent implements Personalization
             $this->request['method'] ??= 'get';
         }
 
-        $this->side = Cache::driver('array')->pull('tallstackui::form::input-selector::side');
+        $this->side = Cache::driver('array')->pull('__tsui::input-selector::side');
     }
 
     public function blade(): View

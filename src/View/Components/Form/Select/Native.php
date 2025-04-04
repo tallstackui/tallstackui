@@ -30,7 +30,7 @@ class Native extends TallStackUiComponent implements Personalization
         public ?bool $invalidate = null,
         public ?bool $grouped = null,
     ) {
-        $this->side = Cache::driver('array')->pull('tallstackui::form::input-selector::side');
+        $this->side = Cache::driver('array')->pull('__tsui::input-selector::side');
     }
 
     public function blade(): View

@@ -33,7 +33,7 @@
     @if ($left || $right) <div class="{{ $personalize['input.wrapper.first'] }}"> @endif
         @if ($left)
             <div class="flex-none">
-                {{ $left }}
+                {{ $slot }}
             </div>
         @endif
         <div @class([
@@ -75,7 +75,7 @@
         </div>
         @if ($right)
             <div class="flex-none">
-                {{ $right }}
+                {{ $slot }}
             </div>
         @endif
         @if ($left || $right) </div> @endif
