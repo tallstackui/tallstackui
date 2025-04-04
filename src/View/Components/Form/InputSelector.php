@@ -33,9 +33,9 @@ class InputSelector extends TallStackUiComponent implements Personalization
         #[SkipDebug]
         public ComponentSlot|string|null $suffix = null,
         #[SkipDebug]
-        public ComponentSlot|string|null $left = null,
+        public ?ComponentSlot $left = null,
         #[SkipDebug]
-        public ComponentSlot|string|null $right = null,
+        public ?ComponentSlot $right = null,
     ) {
         $this->position = $this->position === 'left' ? 'left' : 'right';
 
@@ -69,7 +69,7 @@ class InputSelector extends TallStackUiComponent implements Personalization
                 'paddings' => [
                     'prefix' => 'pr-2 pl-0',
                     'suffix' => 'pl-2 pr-0',
-                    'left' => 'pl-8',
+                    'left' => 'pl-10',
                     'right' => 'pr-8',
                     'clearable' => 'pr-14!',
                 ],
@@ -77,7 +77,7 @@ class InputSelector extends TallStackUiComponent implements Personalization
             'icon' => [
                 'wrapper' => 'pointer-events-none absolute inset-y-0 flex items-center text-gray-500 dark:text-dark-400',
                 'paddings' => [
-                    'left' => 'left-0 pl-2',
+                    'left' => 'left-0 pl-18',
                     'right' => 'right-0 pr-2',
                 ],
                 'size' => 'h-5 w-5',
