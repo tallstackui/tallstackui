@@ -30,4 +30,15 @@ trait DefaultInputClasses
             ],
         ];
     }
+
+    protected function validations(): void
+    {
+        if ($this->icon && (($this->position === 'left' && $this->prefix !== null) || ($this->position === 'right' && $this->suffix !== null))) {
+            __ts_validation_exception($this, 'The [icon] cannot be used with [prefix] or [suffix] at the same side');
+        }
+
+        if ($this->clearable && $this->suffix !== null) {
+            __ts_validation_exception($this, 'The [clearable] cannot be used with [suffix]');
+        }
+    }
 }

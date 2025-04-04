@@ -43,7 +43,6 @@ if (! function_exists('__ts_validation_exception')) {
     {
         $title = str($component::class)
             ->after('TallStackUi\\View\\Components\\')
-            ->title()
             ->value();
 
         throw new InvalidArgumentException(sprintf('[TallStackUI] %s: %s', $title, $message));

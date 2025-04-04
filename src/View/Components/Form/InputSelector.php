@@ -92,4 +92,9 @@ class InputSelector extends TallStackUiComponent implements Personalization
             'error' => $this->error(),
         ]);
     }
+
+    protected function validate(): void
+    {
+        $this->validations();
+    }
 }
