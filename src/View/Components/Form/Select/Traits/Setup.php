@@ -77,7 +77,7 @@ trait Setup
                     $result[$description] = $option[$description] ?? current(array_intersect_key($option, $descriptions)) ?: null;
                 }
 
-                $result['id'] = Str::random();
+                $result['__tsui_key'] = Str::random();
                 $result['disabled'] = $option['disabled'] ?? false;
 
                 return $result;

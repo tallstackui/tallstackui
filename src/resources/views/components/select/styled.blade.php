@@ -138,7 +138,7 @@
                     </div>
                 @endif
                 @if ($grouped)
-                <template x-for="(option, index) in available" :key="option.id ?? index">
+                <template x-for="(option, index) in available" :key="option.__tsui_key ?? index">
                     <li>
                         <div class="{{ $personalize['box.list.grouped.wrapper'] }}">
                             <div class="{{ $personalize['box.list.grouped.options'] }}">
@@ -178,7 +178,7 @@
                     </li>
                 </template>
                 @else
-                <template x-for="(option, index) in available" :key="option.id ?? index">
+                <template x-for="(option, index) in available" :key="option.__tsui_key ?? index">
                     <li x-on:click="select(option)"
                         x-on:keypress.enter="select(option)"
                         x-bind:class="{'{{ $personalize['box.list.item.selected'] }}': selected(option), '{{ $personalize['box.list.item.disabled'] }}': option.disabled === true}"
