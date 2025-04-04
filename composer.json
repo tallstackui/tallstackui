@@ -50,8 +50,14 @@
             "vendor/bin/testbench view:clear",
             "./vendor/bin/pest --filter=Feature --parallel"
         ],
-        "test:browser": "./vendor/bin/pest --filter=Browser",
-        "test:browser:ci": "CI=true ./vendor/bin/pest --filter=Browser",
+        "test:browser": [
+            "Composer\\Config::disableProcessTimeout",
+            "./vendor/bin/pest --filter=Browser"
+        ],
+        "test:browser:ci": [
+            "Composer\\Config::disableProcessTimeout",
+            "CI=true ./vendor/bin/pest --filter=Browser"
+        ],
         "test:browser:setup": "./vendor/bin/dusk-updater detect --no-interaction",
         "bench": "vendor/bin/testbench",
         "type": "./vendor/bin/pest --type-coverage",
