@@ -5,7 +5,6 @@ namespace TallStackUi\View\Components\Form\Select\Traits;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use TallStackUi\Foundation\Attributes\SkipDebug;
-use TallStackUi\View\Components\Form\Select\Native;
 
 trait Setup
 {

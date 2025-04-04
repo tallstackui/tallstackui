@@ -4,6 +4,17 @@ namespace TallStackUi\View\Components\Form\Traits;
 
 trait DefaultInputClasses
 {
+    protected function validations(): void
+    {
+        if ($this->icon && (($this->position === 'left' && $this->prefix !== null) || ($this->position === 'right' && $this->suffix !== null))) {
+            __ts_validation_exception($this, 'The [icon] cannot be used with [prefix] or [suffix] at the same side');
+        }
+
+        if ($this->clearable && $this->suffix !== null) {
+            __ts_validation_exception($this, 'The [clearable] cannot be used with [suffix]');
+        }
+    }
+
     private function error(...$excepts): string
     {
         $classes = '!text-red-600 ring-red-300 placeholder:text-red-600 focus-within:ring-red-500 focus-within:placeholder:text-red-600 focus:ring-red-500 focus-within:focus:ring-red-500 dark:ring-red-500 dark:focus-within:ring-red-500';
@@ -29,16 +40,5 @@ trait DefaultInputClasses
                 'disabled' => 'dark:bg-dark-600 bg-gray-100',
             ],
         ];
-    }
-
-    protected function validations(): void
-    {
-        if ($this->icon && (($this->position === 'left' && $this->prefix !== null) || ($this->position === 'right' && $this->suffix !== null))) {
-            __ts_validation_exception($this, 'The [icon] cannot be used with [prefix] or [suffix] at the same side');
-        }
-
-        if ($this->clearable && $this->suffix !== null) {
-            __ts_validation_exception($this, 'The [clearable] cannot be used with [suffix]');
-        }
     }
 }
