@@ -4,7 +4,6 @@ namespace TallStackUi\View\Components\Form\Select\Traits;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
-use InvalidArgumentException;
 use TallStackUi\View\Components\Form\Select\Native;
 
 trait Setup
@@ -50,16 +49,15 @@ trait Setup
                 $value,
                 $image,
                 $images,
-                $component,
                 $description,
                 $descriptions
             ): array {
                 if (! array_key_exists($label, $option)) {
-                    throw new InvalidArgumentException("The $component key [$label] is missing in the options array.");
+                    __ts_validation_exception($this, "The key [$label] is missing in the options array.");
                 }
 
                 if (! array_key_exists($value, $option)) {
-                    throw new InvalidArgumentException("The $component [$value] is missing in the options array.");
+                    __ts_validation_exception($this, "The [$value] is missing in the options array.");
                 }
 
                 $this->grouped = is_array($option[$value]);

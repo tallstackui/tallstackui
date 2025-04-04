@@ -452,6 +452,6 @@ class TimeTest extends BrowserTestCase
                 </div>
                 HTML;
             }
-        })->assertSee('The time format is not 24 and the value does not contain the interval (AM/PM).');
+        })->assertSee('[TallStackUI] Form\Time: The [format] is not 24 and the value does not contain the interval (AM/PM).');
     }
 }

@@ -120,11 +120,11 @@ class Reaction extends TallStackUiComponent implements Personalization
     protected function validate(): void
     {
         if (blank($this->reactMethod)) {
-            throw new InvalidArgumentException('The react [reactMethod] is required.');
+            __ts_validation_exception($this, 'The react [reactMethod] is required.');
         }
 
         if (array_diff($this->only ?? [], array_keys(self::ICONS)) !== []) {
-            throw new InvalidArgumentException('The react [only] icons is invalid. Supported: '.implode(', ', array_keys(self::ICONS)));
+            __ts_validation_exception($this, 'The react [only] icons is invalid. Supported: '.implode(', ', array_keys(self::ICONS)));
         }
 
         InvalidSelectedPositionException::validate(static::class, $this->position);

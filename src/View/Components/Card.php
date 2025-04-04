@@ -5,7 +5,6 @@ namespace TallStackUi\View\Components;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\ComponentSlot;
-use InvalidArgumentException;
 use TallStackUi\Foundation\Attributes\ColorsThroughOf;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
@@ -90,7 +89,7 @@ class Card extends TallStackUiComponent implements Personalization
     protected function validate(): void
     {
         if ($this->image !== null && $this->color !== null) {
-            throw new InvalidArgumentException('The card [image] and [color] cannot be used together.');
+            __ts_validation_exception($this, 'The [image] and [color] cannot be used together.');
         }
     }
 }

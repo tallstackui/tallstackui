@@ -4,7 +4,6 @@ namespace TallStackUi\View\Components;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
-use InvalidArgumentException;
 use TallStackUi\Foundation\Attributes\ColorsThroughOf;
 use TallStackUi\Foundation\Attributes\PassThroughRuntime;
 use TallStackUi\Foundation\Attributes\SkipDebug;
@@ -65,11 +64,11 @@ class Rating extends TallStackUiComponent implements Personalization
     protected function validate(): void
     {
         if (blank($this->evaluateMethod)) {
-            throw new InvalidArgumentException('The rating [evaluateMethod] is required.');
+            __ts_validation_exception($this, 'The [evaluateMethod] is required.');
         }
 
         if ($this->quantity > 5) {
-            throw new InvalidArgumentException('The rating [quantity] of stars must be  equal or less than 5');
+            __ts_validation_exception($this, 'The [quantity] of stars must be  equal or less than 5');
         }
     }
 }

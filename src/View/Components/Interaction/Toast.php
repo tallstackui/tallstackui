@@ -70,23 +70,23 @@ class Toast extends TallStackUiComponent implements Personalization
         $messages = trans('tallstack-ui::messages.toast.button');
 
         if (! in_array($configuration->get('position', 'top-right'), $positions)) {
-            throw new InvalidArgumentException('The toast position must be one of the following: ['.implode(', ', $positions).']');
+            __ts_validation_exception($this, 'The [position] must be one of the following: ['.implode(', ', $positions).']');
         }
 
         if (! str($configuration->get('z-index', 'z-50'))->startsWith('z-')) {
-            throw new InvalidArgumentException('The toast z-index must start with z- prefix');
+            __ts_validation_exception($this, 'The [z-index] must start with z- prefix');
         }
 
         if (blank($messages['ok'] ?? null)) {
-            throw new InvalidArgumentException('The toast [ok] message cannot be empty.');
+            __ts_validation_exception($this, 'The [ok] message cannot be empty.');
         }
 
         if (blank($messages['confirm'] ?? null)) {
-            throw new InvalidArgumentException('The toast [confirm] message cannot be empty.');
+            __ts_validation_exception($this, 'The [confirm] message cannot be empty.');
         }
 
         if (blank($messages['cancel'] ?? null)) {
-            throw new InvalidArgumentException('The toast [cancel] message cannot be empty.');
+            __ts_validation_exception($this, 'The [cancel] message cannot be empty.');
         }
     }
 }

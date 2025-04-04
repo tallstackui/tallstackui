@@ -24,7 +24,7 @@ class UploadRuntime extends AbstractRuntime
         ];
 
         if (is_null($property)) {
-            throw new Exception('The [upload] component requires a property to bind using [wire:model].');
+            throw new Exception(__ts_validation_exception($this->component, 'The component requires a property to bind using [wire:model].'));
         }
 
         return $data;

@@ -38,7 +38,7 @@ class TimeRuntime extends AbstractRuntime
         }
 
         if ($this->data('format') === '12' && ! preg_match('/(AM|PM)/', $value)) {
-            throw new InvalidArgumentException('The time format is not 24 and the value does not contain the interval (AM/PM).');
+            throw new InvalidArgumentException(__ts_validation_exception($this->component, 'The [format] is not 24 and the value does not contain the interval (AM/PM).'));
         }
     }
 }
