@@ -28,7 +28,7 @@
         @endif
         x-cloak
         x-on:keydown="navigate($event)"
-        wire:ignore.self>
+        wire:ignore>
     <div hidden x-ref="options">{{ TallStackUi::blade()->json($options) }}</div>
     @if ($request['params'] ?? null) <div hidden x-ref="params">{{ TallStackUi::blade()->json($request['params']) }}</div> @endif
     @if ($label)
@@ -138,14 +138,14 @@
                     </button>
                 </div>
             </template>
-            <ul class="{{ $personalize['box.list.wrapper'] }}" dusk="tallstackui_select_options" role="listbox" x-ref="list">
+            <ul class="{{ $personalize['box.list.wrapper'] }}" dusk="tallstackui_select_options" role="listbox" x-ref="list" wire:ignore.self>
                 @if ($request)
                     <div x-show="loading" class="{{ $personalize['box.list.loading.wrapper'] }}">
                         <x-tallstack-ui::icon.generic.loading class="{{ $personalize['box.list.loading.class'] }}" />
                     </div>
                 @endif
                 @if ($grouped)
-                <template x-for="(option, index) in available" :key="option.id">
+                <template x-for="(option, index) in available" :key="option.__tsui_key ?? index">
                     <li>
                         <div class="{{ $personalize['box.list.grouped.wrapper'] }}">
                             <div class="{{ $personalize['box.list.grouped.options'] }}">
@@ -185,7 +185,7 @@
                     </li>
                 </template>
                 @else
-                <template x-for="(option, index) in available" :key="option.id">
+                <template x-for="(option, index) in available" :key="option.__tsui_key ?? index">
                     <li x-on:click="select(option)"
                         x-on:keypress.enter="select(option)"
                         x-bind:class="{'{{ $personalize['box.list.item.selected'] }}': selected(option), '{{ $personalize['box.list.item.disabled'] }}': option.disabled === true}"

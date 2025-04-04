@@ -3,6 +3,7 @@
 namespace TallStackUi\View\Components\Form\Select\Traits;
 
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use InvalidArgumentException;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\View\Components\Form\Select\Native;
@@ -80,7 +81,7 @@ trait Setup
                     $result[$description] = $option[$description] ?? current(array_intersect_key($option, $descriptions)) ?: null;
                 }
 
-                $result['id'] = substr(sha1($label.$value.$description.$image.uniqid()), 14, 12);
+                $result['__tsui_key'] = Str::random();
                 $result['disabled'] = $option['disabled'] ?? false;
 
                 return $result;
