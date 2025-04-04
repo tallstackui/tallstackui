@@ -22,7 +22,7 @@ HTML;
 
 it('can thrown exception when using options and request', function () {
     $this->expectException(ViewException::class);
-    $this->expectExceptionMessage('The [select.styled] [options] and [request] cannot be defined at the same time.');
+    $this->expectExceptionMessage('[TallStackUI] Form\Select\Styled: The [options] and [request] cannot be defined at the same time.');
 
     $component = <<<'HTML'
     <x-select.styled label="Foo bar baz" 
@@ -38,7 +38,7 @@ HTML;
 
 it('can thrown exception when request is array using unaceptable method', function (string $method) {
     $this->expectException(Exception::class);
-    $this->expectExceptionMessage('The [select.styled] parameter [method] must be "get" or "post".');
+    $this->expectExceptionMessage('[TallStackUI] Form\Select\Styled: The attribute [method] must be "get" or "post".');
 
     $component = <<<'HTML'
     <x-select.styled label="Foo bar baz" 
@@ -58,8 +58,8 @@ HTML;
 
 it('can thrown exception when params is empty', function () {
     $this->expectException(Exception::class);
-    $this->expectExceptionMessage('The [select.styled] parameter [method] must be "get" or "post".');
-    $this->expectExceptionMessage('The [select.styled] parameter [params] must be an array and cannot be empty.');
+    $this->expectExceptionMessage('[TallStackUI] Form\Select\Styled: The attribute [method] must be "get" or "post".');
+    $this->expectExceptionMessage('[TallStackUI] Form\Select\Styled: The attribute [params] must be an array and cannot be empty.');
 
     $component = <<<'HTML'
     <x-select.styled label="Foo bar baz" 
@@ -77,7 +77,7 @@ HTML;
 
 it('can thrown exception when params is not array', function () {
     $this->expectException(Exception::class);
-    $this->expectExceptionMessage('The [select.styled] parameter [params] must be an array and cannot be empty.');
+    $this->expectExceptionMessage('[TallStackUI] Form\Select\Styled: The attribute [params] must be an array and cannot be empty.');
 
     $component = <<<'HTML'
     <x-select.styled label="Foo bar baz" 
@@ -95,7 +95,7 @@ HTML;
 
 it('can thrown exception when lazy is less than 10', function () {
     $this->expectException(Exception::class);
-    $this->expectExceptionMessage('The [select.styled] parameter [lazy] must be greater than or equal to 10.');
+    $this->expectExceptionMessage('[TallStackUI] Form\Select\Styled: The attribute [lazy] must be greater than or equal to 10.');
 
     $component = <<<'HTML'
     <x-select.styled :options="range(1,10000)" :lazy="9" />

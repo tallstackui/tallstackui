@@ -83,7 +83,7 @@ class Clipboard extends TallStackUiComponent implements Personalization
     public function validating(?string $text = null): void
     {
         if (! $text) {
-            throw new InvalidArgumentException('The clipboard [text] cannot be empty. You should specify the text using property or slot.');
+            __ts_validation_exception($this, 'The [text] cannot be empty. You should specify the text using property or slot.');
         }
     }
 
@@ -93,11 +93,11 @@ class Clipboard extends TallStackUiComponent implements Personalization
         $messages = trans('tallstack-ui::messages.clipboard');
 
         if (blank(data_get($messages, 'button.copy'))) {
-            throw new InvalidArgumentException('The clipboard [button.copy] message cannot be empty.');
+            __ts_validation_exception($this, 'The [button.copy] message cannot be empty.');
         }
 
         if (blank(data_get($messages, 'button.copied'))) {
-            throw new InvalidArgumentException('The clipboard [button.copied] message cannot be empty.');
+            __ts_validation_exception($this, 'The [button.copied] message cannot be empty.');
         }
     }
 }

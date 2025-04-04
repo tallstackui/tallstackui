@@ -6,7 +6,6 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\View\ComponentSlot;
-use InvalidArgumentException;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\TallStackUiComponent;
@@ -83,7 +82,7 @@ class Carousel extends TallStackUiComponent implements Personalization
     protected function validate(): void
     {
         if (blank($this->images)) {
-            throw new InvalidArgumentException('The [carousel] images attribute is required.');
+            __ts_validation_exception($this, 'The [images] attribute is required.');
         }
     }
 }

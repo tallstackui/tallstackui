@@ -177,7 +177,7 @@ class IndexTest extends BrowserTestCase
                 HTML;
             }
         })
-            ->assertSee('The signature [height] must be at least 10.');
+            ->assertSee('[TallStackUI] Signature: The [height] must be at least 10.');
     }
 
     #[Test]
@@ -196,7 +196,7 @@ class IndexTest extends BrowserTestCase
                 HTML;
             }
         })
-            ->assertSee('The signature [line] must be a number.');
+            ->assertSee('[TallStackUI] Signature: The [line] must be a number.');
     }
 
     protected function setUp(): void

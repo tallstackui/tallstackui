@@ -29,7 +29,7 @@ it('can render footer attributes when is not string', function () {
 
 it('can thrown exception when wire is empty', function () {
     $this->expectException(ViewException::class);
-    $this->expectExceptionMessage('The slide [wire] property cannot be an empty string');
+    $this->expectExceptionMessage('[TallStackUI] Slide: The [wire] property cannot be an empty string');
 
     $slide = <<<'HTML'
     <x-slide wire="">
@@ -43,7 +43,7 @@ it('can thrown exception when wire is empty', function () {
 
 it('can thrown exception when size is unnaceptable', function (string $size) {
     $this->expectException(ViewException::class);
-    $this->expectExceptionMessage('The slide size must be one of the following: [sm, md, lg, xl, 2xl, 3xl, 4xl, 5xl, 6xl, 7xl, full]');
+    $this->expectExceptionMessage('[TallStackUI] Slide: The [size] must be one of the following: [sm, md, lg, xl, 2xl, 3xl, 4xl, 5xl, 6xl, 7xl, full]');
 
     $slide = <<<HTML
     <x-slide size="$size">

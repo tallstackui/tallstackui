@@ -50,7 +50,7 @@ class Textarea extends TallStackUiComponent implements Personalization
     protected function validate(): void
     {
         if ($this->attributes->has('rows') && $this->resizeAuto) {
-            throw new InvalidArgumentException('The textarea cannot be used with [rows] and [resize-auto] at the same time because the rows will have no effect since resizing is automatic.');
+            __ts_validation_exception($this, 'The textarea cannot be used with [rows] and [resize-auto] at the same time because the rows will have no effect since resizing is automatic.');
         }
     }
 }

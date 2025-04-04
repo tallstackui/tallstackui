@@ -485,7 +485,7 @@ class UploadTest extends BrowserTestCase
                 </div>
                 HTML;
             }
-        })->assertSee('The [upload] component requires a property to bind using [wire:model].');
+        })->assertSee('[TallStackUI] Form\Upload: The component requires a property to bind using [wire:model].');
     }
 
     #[Test]

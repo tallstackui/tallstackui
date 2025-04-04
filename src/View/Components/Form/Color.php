@@ -83,7 +83,7 @@ class Color extends TallStackUiComponent implements Personalization
 
         $colors->each(function (string $color): void {
             if (! str($color)->startsWith('#')) {
-                throw new InvalidArgumentException('All the [colors] must starts with #');
+                __ts_validation_exception($this, 'All the [colors] must starts with #');
             }
         });
     }

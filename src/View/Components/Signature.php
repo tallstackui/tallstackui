@@ -4,7 +4,6 @@ namespace TallStackUi\View\Components;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
-use InvalidArgumentException;
 use TallStackUi\Foundation\Attributes\PassThroughRuntime;
 use TallStackUi\Foundation\Attributes\RequireLivewireContext;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
@@ -56,11 +55,11 @@ class Signature extends TallStackUiComponent implements Personalization
     protected function validate(): void
     {
         if (is_null($this->line)) {
-            throw new InvalidArgumentException('The signature [line] must be a number.');
+            __ts_validation_exception($this, 'The [line] must be a number.');
         }
 
         if ($this->height < 10) {
-            throw new InvalidArgumentException('The signature [height] must be at least 10.');
+            __ts_validation_exception($this, 'The [height] must be at least 10.');
         }
     }
 }

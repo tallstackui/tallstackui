@@ -69,7 +69,7 @@ class Slide extends TallStackUiComponent implements Personalization
     protected function validate(): void
     {
         if (is_string($this->wire) && $this->wire === '') {
-            throw new InvalidArgumentException('The slide [wire] property cannot be an empty string');
+            __ts_validation_exception($this, 'The [wire] property cannot be an empty string');
         }
 
         $configuration = collect(config('tallstackui.settings.slide'));
@@ -77,15 +77,15 @@ class Slide extends TallStackUiComponent implements Personalization
         $positions = ['right', 'left', 'top', 'bottom'];
 
         if (! in_array($this->size ?? $configuration->get('size', 'lg'), $sizes)) {
-            throw new InvalidArgumentException('The slide size must be one of the following: ['.implode(', ', $sizes).']');
+            __ts_validation_exception($this, 'The [size] must be one of the following: ['.implode(', ', $sizes).']');
         }
 
         if (! str($this->zIndex ?? $configuration->get('z-index', 'z-50'))->startsWith('z-')) {
-            throw new InvalidArgumentException('The slide [z-index] must start with z- prefix');
+            __ts_validation_exception($this, 'The [z-index] must start with z- prefix');
         }
 
         if (! in_array($this->left ? 'left' : $configuration->get('position', 'right'), $positions) && ! in_array($this->top ? 'top' : $configuration->get('position', 'right'), $positions) && ! in_array($this->bottom ? 'bottom' : $configuration->get('position', 'right'), $positions)) {
-            throw new InvalidArgumentException('The slide [position] must be one of the following: ['.implode(', ', $positions).']');
+            __ts_validation_exception($this, 'The [position] must be one of the following: ['.implode(', ', $positions).']');
         }
     }
 }

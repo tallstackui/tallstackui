@@ -62,11 +62,11 @@ class Pin extends TallStackUiComponent implements Personalization
     protected function validate(): void
     {
         if (! $this->length) {
-            throw new InvalidArgumentException('The pin [length] is mandatory and should be set.');
+            __ts_validation_exception($this, 'The [length] is mandatory and should be set.');
         }
 
         if ($this->prefix && strlen($this->prefix) > 3) {
-            throw new InvalidArgumentException('The pin [prefix] must be 3 characters or less.');
+            __ts_validation_exception($this, 'The [prefix] must be 3 characters or less.');
         }
     }
 }

@@ -78,6 +78,6 @@ class Errors extends TallStackUiComponent implements Personalization
             return;
         }
 
-        throw new InvalidArgumentException('The errors [title] cannot be empty');
+        __ts_validation_exception($this, 'The [title] cannot be empty');
     }
 }

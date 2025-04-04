@@ -34,7 +34,7 @@ it('can render with image')
 
 it('cannot use image and color together', function () {
     $this->expectException(ViewException::class);
-    $this->expectExceptionMessage('The card [image] and [color] cannot be used together.');
+    $this->expectExceptionMessage('[TallStackUI] Card: The [image] and [color] cannot be used together.');
 
     expect('<x-card image="https://via.placeholder.com/150" color="red">Foo bar</x-card>')
         ->render();
