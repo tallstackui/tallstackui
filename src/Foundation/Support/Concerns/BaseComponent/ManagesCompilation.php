@@ -14,7 +14,7 @@ trait ManagesCompilation
         // We use the "validate" method as a hook to
         // perform generic validations on components.
         if (method_exists($this, 'validate')) {
-            $this->validate();
+            $this->validate($data);
         }
 
         if ($colors = CompileColors::of($this)) {

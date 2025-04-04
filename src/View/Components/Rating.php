@@ -39,8 +39,6 @@ class Rating extends TallStackUiComponent implements Personalization
         $this->size = $this->xs ? 'xs' : ($this->sm ? 'sm' : ($this->lg ? 'lg' : 'md'));
 
         $this->position = $this->position === 'left' ? 'left' : 'right';
-
-        $this->validate();
     }
 
     public function blade(): View
@@ -71,7 +69,7 @@ class Rating extends TallStackUiComponent implements Personalization
         }
 
         if ($this->quantity > 5) {
-            throw new InvalidArgumentException('The rating [quantity] of star must be less than 5');
+            throw new InvalidArgumentException('The rating [quantity] of stars must be  equal or less than 5');
         }
     }
 }

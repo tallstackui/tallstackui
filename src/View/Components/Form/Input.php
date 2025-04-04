@@ -5,6 +5,7 @@ namespace TallStackUi\View\Components\Form;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\ComponentSlot;
+use InvalidArgumentException;
 use TallStackUi\Foundation\Attributes\PassThroughRuntime;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
@@ -70,5 +71,16 @@ class Input extends TallStackUiComponent implements Personalization
             ],
             'error' => $this->error(),
         ]);
+    }
+
+    protected function validate(): void
+    {
+        if ($this->icon && (($this->position === 'left' && $this->prefix !== null) || ($this->position === 'right' && $this->suffix !== null))) {
+            throw new InvalidArgumentException('The input [icon] cannot be used with [prefix] or [suffix] at the same side');
+        }
+
+        if ($this->clearable && $this->suffix !== null) {
+            throw new InvalidArgumentException('The form input [clearable] cannot be used with [suffix]');
+        }
     }
 }

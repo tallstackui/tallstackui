@@ -72,7 +72,7 @@ class Errors extends TallStackUiComponent implements Personalization
     }
 
     /** @throws InvalidArgumentException */
-    public function validate(): void
+    protected function validate(): void
     {
         if (filled($this->title)) {
             return;
