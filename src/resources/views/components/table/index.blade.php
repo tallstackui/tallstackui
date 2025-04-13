@@ -62,9 +62,9 @@
                                             wire:click="$set('sort', {column: '{{ $head($header)['column'] }}', direction: '{{ $head($header)['direction'] }}' })"
                                         @endif>
                                         @if ($header['unescaped'] ?? false)
-                                            {!! $header['label'] ?? '' !!}
+                                            {!! __($header['label'] ?? '') !!}
                                         @else
-                                            {{ $header['label'] ?? '' }}
+                                            {{ __($header['label'] ?? '') }}
                                         @endif
                                         @if ($livewire && $sortable($header))
                                             <x-dynamic-component :component="TallStackUi::prefix('icon')"
