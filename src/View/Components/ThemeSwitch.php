@@ -34,7 +34,7 @@ class ThemeSwitch extends TallStackUiComponent implements Personalization
     {
         return Arr::dot([
             'wrapper' => 'absolute inset-0 flex h-full w-full items-center justify-center transition-opacity',
-            'button' => 'flex items-center',
+            'button' => 'flex items-center cursor-pointer',
             'colors' => [
                 'moon' => 'text-yellow-500',
                 'sun' => 'text-blue-500',
