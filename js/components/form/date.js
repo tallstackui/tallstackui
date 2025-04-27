@@ -18,6 +18,7 @@ export default (
     value,
     monthYearOnly,
     calendar,
+    disables = [],
     change = null,
 ) => ({
   show: false,
@@ -198,6 +199,8 @@ export default (
    * @return {*}
    */
   select(event, day) {
+    if ((disables['disabled'] ?? false) || (disables['readonly'] ?? false)) return;
+
     event.preventDefault();
 
     const date = this.instance(day);
