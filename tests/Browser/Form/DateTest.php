@@ -767,6 +767,54 @@ class DateTest extends BrowserTestCase
     }
 
     #[Test]
+    public function cannot_open_when_date_is_disabled(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $date = '2020-01-01';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="date">{{ $date }}</p>
+
+                    <x-date label="DatePicker" wire:model.live="date" disabled />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->click('@tallstackui_date_open_close')
+            ->waitUntilMissingText('January')
+            ->assertDontSee('January');
+    }
+
+    #[Test]
+    public function cannot_open_when_date_is_readonly(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $date = '2020-01-01';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="date">{{ $date }}</p>
+
+                    <x-date label="DatePicker" wire:model.live="date" readonly />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->click('@tallstackui_date_open_close')
+            ->waitUntilMissingText('January')
+            ->assertDontSee('January');
+    }
+
+    #[Test]
     public function cannot_use_a_min_date_greater_than_max_date(): void
     {
         Livewire::visit(new class extends Component
