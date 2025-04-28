@@ -19,7 +19,8 @@
      @js($monthYearOnly),
      @js(trans('tallstack-ui::messages.date.calendar')),
      @js($attributes->only(['disabled', 'readonly'])->all()),
-     @js($change))"
+     @js($change),
+     @js($start))"
      x-cloak x-on:click.outside="show = false">
     <x-dynamic-component :component="TallStackUi::prefix('input')"
                          {{ $attributes->except(['name', 'value']) }}
