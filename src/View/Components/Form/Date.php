@@ -33,6 +33,7 @@ class Date extends TallStackUiComponent implements Personalization
         public ?bool $helpers = null,
         public ?bool $monthYearOnly = false,
         public array|Collection $disable = [],
+        public int|string $start = 0,
     ) {
         $this->disable = collect($this->disable)
             ->flatten()
@@ -45,6 +46,8 @@ class Date extends TallStackUiComponent implements Personalization
                 return $value->format('Y-m-d');
             })
             ->values();
+
+        $this->start = (int) $this->start;
     }
 
     public function blade(): View
@@ -136,7 +139,7 @@ class Date extends TallStackUiComponent implements Personalization
         }
 
         // We should only apply this logic if $this->maxDate is defined,
-        // because when parsing a null date, the date returned is the
+        // because, when parsing a null date, the date returned is the
         // current one, causing the comparison to always result in true
         // since $min can be greater than the $max (set incorrectly).
         if (($this->minDate && $this->maxDate) && $min->greaterThan($max)) {
@@ -145,6 +148,10 @@ class Date extends TallStackUiComponent implements Personalization
 
         if (($this->minYear && $this->maxYear) && $this->maxYear < $this->minYear) {
             __ts_validation_exception($this, 'The year [min-year] must be less than or equal to [max-year].');
+        }
+
+        if ($this->start > 6) {
+            __ts_validation_exception($this, 'The [start] attribute must be between 0 and 6.');
         }
     }
 }
