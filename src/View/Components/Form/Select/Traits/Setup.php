@@ -38,8 +38,6 @@ trait Setup
         $image = $select['image'] ?? 'image';
         $description = $select['description'] ?? 'description';
 
-        $component = $this instanceof Native ? 'select.native' : 'select.styled';
-
         $images = array_flip(['image', 'img', 'img_src']);
         $descriptions = array_flip(['description', 'note']);
 
