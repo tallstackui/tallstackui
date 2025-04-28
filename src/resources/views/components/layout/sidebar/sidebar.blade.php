@@ -29,7 +29,7 @@
                  x-transition:leave-start="opacity-100"
                  x-transition:leave-end="opacity-0"
                  class="{{ $personalize['mobile.button.wrapper'] }}">
-                <button x-on:click="tallStackUiMenuMobile = false" type="button">
+                <button x-on:click="tallStackUiMenuMobile = false" type="button" class="cursor-pointer">
                     <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                          :icon="TallStackUi::icon($personalize['mobile.button.icon'])"
                                          internal

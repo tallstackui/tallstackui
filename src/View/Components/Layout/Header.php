@@ -31,7 +31,7 @@ class Header extends TallStackUiComponent implements Personalization
         return Arr::dot([
             'wrapper' => 'dark:bg-dark-700 dark:border-dark-600 sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-300/10 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8',
             'button' => [
-                'class' => 'md:hidden',
+                'class' => 'md:hidden cursor-pointer',
                 'icon.size' => 'h-6 w-6 text-gray-500 dark:text-white',
             ],
             'slots' => [
