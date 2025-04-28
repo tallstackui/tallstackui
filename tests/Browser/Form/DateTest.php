@@ -815,6 +815,27 @@ class DateTest extends BrowserTestCase
     }
 
     #[Test]
+    public function cannot_set_starts_out_of_range(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public array $date = ['2020-01-01', '2019-01-01'];
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="date">@json($date)</p>
+
+                    <x-date label="DatePicker" wire:model.live="date" range start="7" />
+                </div>
+                HTML;
+            }
+        })
+            ->assertSee('[TallStackUI] Form\Date: The [start] attribute must be between 0 and 6.');
+    }
+
+    #[Test]
     public function cannot_use_a_min_date_greater_than_max_date(): void
     {
         Livewire::visit(new class extends Component
@@ -875,26 +896,5 @@ class DateTest extends BrowserTestCase
             }
         })
             ->assertSee('[TallStackUI] Form\Date: The start date in the [range] must be greater than the second date.');
-    }
-
-    #[Test]
-    public function cannot_set_starts_out_of_range(): void
-    {
-        Livewire::visit(new class extends Component
-        {
-            public array $date = ['2020-01-01', '2019-01-01'];
-
-            public function render(): string
-            {
-                return <<<'HTML'
-                <div>
-                    <p dusk="date">@json($date)</p>
-
-                    <x-date label="DatePicker" wire:model.live="date" range start="7" />
-                </div>
-                HTML;
-            }
-        })
-            ->assertSee('[TallStackUI] Form\Date: The [start] attribute must be between 0 and 6.');
     }
 }
