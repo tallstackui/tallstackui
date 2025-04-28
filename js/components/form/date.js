@@ -18,6 +18,7 @@ export default (
     value,
     monthYearOnly,
     calendar,
+    disables = [],
     change = null,
 ) => ({
   show: false,
@@ -49,6 +50,7 @@ export default (
     end: null,
   },
   disable: disable,
+  disables: disables,
   interval: null,
   livewire: livewire,
   property: property,
@@ -198,6 +200,8 @@ export default (
    * @return {*}
    */
   select(event, day) {
+    if ((this.disables['disabled'] ?? false) || (this.disables['readonly'] ?? false)) return;
+
     event.preventDefault();
 
     const date = this.instance(day);

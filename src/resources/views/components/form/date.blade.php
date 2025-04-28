@@ -18,6 +18,7 @@
      @js($value),
      @js($monthYearOnly),
      @js(trans('tallstack-ui::messages.date.calendar')),
+     @js($attributes->only(['disabled', 'readonly'])->all()),
      @js($change))"
      x-cloak x-on:click.outside="show = false">
     <x-dynamic-component :component="TallStackUi::prefix('input')"
@@ -28,19 +29,19 @@
                          :alternative="$attributes->get('name')"
                          floatable
                          x-ref="input"
-                         x-on:click="show = !show"
+                         x-on:click="(disables['disabled'] ?? false) || (disables['readonly'] ?? false) ? false : show = !show"
                          x-on:keydown="$event.preventDefault()"
                          dusk="tallstackui_date_input"
                          class="cursor-pointer caret-transparent">
         <x-slot:suffix class="ml-1 mr-2">
             <div class="{{ $personalize['icon.wrapper'] }}">
-                <button type="button" class="cursor-pointer" x-on:click="clear()" x-show="quantity > 0" {{ $attributes->only('x-on:clear') }} dusk="tallstackui_date_clear">
+                <button type="button" class="cursor-pointer" x-on:click="clear()" x-show="quantity > 0" {{ $attributes->only(['disabled', 'readonly', 'x-on:clear']) }} dusk="tallstackui_date_clear">
                     <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                          :icon="TallStackUi::icon('x-mark')"
                                          internal
                                          @class([$personalize['icon.size'], $personalize['icon.clear']])/>
                 </button>
-                <button type="button" class="cursor-pointer" x-on:click="show = !show" dusk="tallstackui_date_open_close">
+                <button type="button" class="cursor-pointer" x-on:click="(disables['disabled'] ?? false) || (disables['readonly'] ?? false) ? false : show = !show" {{ $attributes->only(['disabled', 'readonly']) }} dusk="tallstackui_date_open_close">
                     <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                          :icon="TallStackUi::icon('calendar')"
                                          internal
