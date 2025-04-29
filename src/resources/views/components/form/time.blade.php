@@ -14,6 +14,7 @@
     @js($livewire),
     @js($property),
     @js($attributes->get('value')),
+    @js($attributes->only(['disabled', 'readonly'])->all()),
     @js($change))"
     x-cloak x-on:click.outside="show = false">
     <x-dynamic-component :component="TallStackUi::prefix('input')"
@@ -24,7 +25,7 @@
                          :alternative="$attributes->get('name')"
                          floatable
                          x-ref="input"
-                         x-on:click="show = !show"
+                         x-on:click="(disables['disabled'] ?? false) || (disables['readonly'] ?? false) ? false : show = !show"
                          x-on:keydown="$event.preventDefault()"
                          dusk="tallstackui_time_input"
                          class="cursor-pointer caret-transparent">
@@ -39,7 +40,7 @@
                                                              @class([$personalize['icon.size'], $personalize['icon.clear']]) />
                                     </button>
                                  @endif
-                                <button type="button" class="cursor-pointer" x-on:click="show = !show">
+                                <button type="button" class="cursor-pointer" x-on:click="(disables['disabled'] ?? false) || (disables['readonly'] ?? false) ? false : show = !show">
                                     <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                                          :icon="TallStackUi::icon('clock')"
                                                          internal
