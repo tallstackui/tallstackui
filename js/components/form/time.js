@@ -1,7 +1,17 @@
 import { wireChange } from '../../helpers';
 import dayjs from 'dayjs';
 
-export default (model, full, times, required, livewire, property, value, change = null) => ({
+export default (
+    model,
+    full,
+    times,
+    required,
+    livewire,
+    property,
+    value,
+    disables = [],
+    change = null
+) => ({
   model: model,
   show: false,
   hours: '00',
@@ -21,6 +31,7 @@ export default (model, full, times, required, livewire, property, value, change 
   property: property,
   value: value,
   empty: false,
+  disables: disables,
   init() {
     this.model ??= this.value ?? (required ? dayjs().format('HH:mm A') : null);
     this.empty = this.model === null;
