@@ -2,8 +2,8 @@
     $personalize = $classes();
 @endphp
 
-@error ($property)
-    <span class="{{ $personalize['text'] }}">
+@error($property)
+    <span class="{{ $personalize["text"] }}">
         {{ $message }}
     </span>
 @enderror

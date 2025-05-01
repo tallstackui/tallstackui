@@ -63,7 +63,8 @@
         "type": "./vendor/bin/pest --type-coverage",
         "format": [
             "./vendor/bin/pint",
-            "npm run lint:fix"
+            "npm run lint:fix",
+            "npm run format"
         ],
         "rector": "php ./vendor/bin/rector process --dry-run --config=rector.php",
         "analyse": "./vendor/bin/phpstan analyse --memory-limit=2G",
