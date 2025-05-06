@@ -1,4 +1,4 @@
-export default (color) => ({
+export default (resizeAuto, color) => ({
   init() {
     this.$nextTick(() => this.resize());
   },
@@ -48,7 +48,7 @@ export default (color) => ({
   resize() {
     const textarea = this.$refs.textarea;
 
-    if (!textarea || !textarea.value || textarea.scrollHeight === 0) return;
+    if (!textarea || !textarea.value || textarea.scrollHeight === 0 || !resizeAuto) return;
 
     textarea.style.height = '0px';
     textarea.style.height = `${textarea.scrollHeight}px`;

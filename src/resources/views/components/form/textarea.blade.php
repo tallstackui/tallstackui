@@ -3,7 +3,7 @@
 @endphp
 
 <x-dynamic-component :component="TallStackUi::prefix('wrapper.input')" :$id :$property :$error :$label :$hint :$invalidate>
-    <div x-data="tallstackui_formTextArea(@js($personalize['count.max']))">
+    <div x-data="tallstackui_formTextArea(@js($resizeAuto), @js($personalize['count.max']))">
         <div @class([
             $personalize['input.wrapper'],
             $personalize['input.color.base'] => !$error,
