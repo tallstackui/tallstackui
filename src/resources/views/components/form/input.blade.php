@@ -17,7 +17,7 @@
         </div>
     @endif
     @if ($clearable)
-        <div x-data="tallstackui_formInputClearable()" @class([ $personalize['clearable.wrapper'], $personalize['clearable.padding'], '!pr-8' => $icon && $position === 'right']) x-show="clearable">
+        <div x-data="tallstackui_formInputClearable(@js($ref))" @class([ $personalize['clearable.wrapper'], $personalize['clearable.padding'], '!pr-8' => $icon && $position === 'right']) x-show="clearable">
             <button type="button" class="cursor-pointer" dusk="tallstackui_form_input_clearable">
                 <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                      :icon="TallStackUi::icon('x-mark')"
@@ -46,7 +46,7 @@
         @endif
         <input @if ($id) id="{{ $id }}" @endif
                type="{{ $attributes->get('type', 'text') }}"
-               x-ref="{{ $attributes->get('x-ref', 'input') }}"
+               x-ref="{{ $attributes->get('x-ref', $ref) }}"
                @if ($prefix || $suffix) autocomplete="{{ $attributes->get('autocomplete', 'off') }}" @endif
                {{ $attributes->class([
                     $personalize['input.base'],

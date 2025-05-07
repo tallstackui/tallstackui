@@ -10,6 +10,13 @@ class InputRuntime extends AbstractRuntime
     /** @throws Exception */
     public function runtime(): array
     {
-        return [...$this->bind()->only('property', 'error', 'id')];
+        $bind = $this->bind();
+
+        return [
+            'property' => $property = $bind->get('property'),
+            'error' => $bind->get('error'),
+            'id' => $bind->get('id'),
+            'ref' => $property ?? uniqid(),
+        ];
     }
 }
