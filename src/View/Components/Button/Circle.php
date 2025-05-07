@@ -36,6 +36,7 @@ class Circle extends TallStackUiComponent implements Personalization
         public ?bool $outline = null,
         public ?bool $light = false,
         public ?bool $flat = false,
+        public ?bool $submit = false,
         #[SkipDebug]
         public ?string $size = null,
         #[SkipDebug]
