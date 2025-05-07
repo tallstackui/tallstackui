@@ -50,6 +50,11 @@ it('can render with icon')
     ->render()
     ->toContain('<svg');
 
+it('can render with type submit')
+    ->expect('<x-button text="Foo bar" submit />')
+    ->render()
+    ->toContain('type="submit"', false);
+
 it('can render colored', function (string $colors) {
     $component = <<<HTML
     <x-button text="Foo bar" color="$colors" />

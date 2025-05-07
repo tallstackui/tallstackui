@@ -80,3 +80,8 @@ it('can render xs', function () {
         ->toContain('w-4 h-4')
         ->toContain('w-2 h-2');
 });
+
+it('can render with type submit')
+    ->expect('<x-button.circle icon="pencil" submit />')
+    ->render()
+    ->toContain('type="submit"', false);
