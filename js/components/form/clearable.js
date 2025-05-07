@@ -1,9 +1,9 @@
-export default () => ({
+export default (property) => ({
   clearable : false,
   init() {
-    this.$nextTick(() => this.clearable = this.$refs.input.value !== '');
+    this.$nextTick(() => this.clearable = this.$refs[property].value !== '');
 
-    this.$refs.input.addEventListener('input', () => this.clearable = this.$refs.input.value !== '');
+    this.$refs[property].addEventListener('input', () => this.clearable = this.$refs[property].value !== '');
   },
   /**
    * Clear the input value
@@ -11,10 +11,10 @@ export default () => ({
    * @returns {void}
    */
   clear() {
-    this.$refs.input.value = '';
+    this.$refs[property].value = '';
 
     this.clearable = false;
 
-    this.$refs.input.dispatchEvent(new Event('input'));
-  }
+    this.$refs[property].dispatchEvent(new Event('input'));
+  },
 });
