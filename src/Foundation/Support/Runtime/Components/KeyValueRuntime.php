@@ -26,6 +26,10 @@ class KeyValueRuntime extends AbstractRuntime
             __ts_validation_exception($this->component, 'The [value] must be an array.');
         }
 
+        if (blank($value)) {
+            return;
+        }
+
         $valid = collect($value)
             ->lazy()
             ->every(fn ($item) => array_key_exists('key', $item) && array_key_exists('value', $item));
