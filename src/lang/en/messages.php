@@ -117,4 +117,12 @@ return [
         'previous' => 'Previous',
         'finish' => 'Finish',
     ],
+
+    'key-value' => [
+        'headers' => [
+            'key' => 'KEY',
+            'value' => 'VALUE',
+        ],
+        'empty' => 'No rows added.'
+    ]
 ];

@@ -1,25 +1,26 @@
 <div x-data="data()" class="bg-gray-100 border border-gray-200 rounded-lg overflow-hidden text-sm">
     <div class="grid grid-cols-2 bg-gray-200 px-4 py-2 font-semibold text-gray-600">
-        <p>KEY</p>
-        <p>VALUE</p>
+        <p>{{ trans('tallstack-ui::messages.key-value.headers.key') }}</p>
+        <p>{{ trans('tallstack-ui::messages.key-value.headers.value') }}</p>
     </div>
     <div x-bind:class="{ 'divide-y divide-gray-300' : rows.length > 0 }">
         <div class="flex items-center justify-center py-6" x-show="rows.length === 0">
-            <p class="text-gray-500">No rows added</p>
+            <p class="text-gray-500">{{ trans('tallstack-ui::messages.key-value.empty') }}</p>
         </div>
         <template x-for="(row, index) in rows" :key="row.index ?? index">
             <div class="grid grid-cols-2 px-4 items-center relative">
                 <div class="text-gray-600">
-                    <input value="description"
-                           x-model="row.key"
+                    <input x-model="row.key"
                            class="background-transparent border-0 bg-gray-100 focus:ring-0 focus:outline-none w-full" />
                 </div>
                 <div class="relative top-2 pr-8 mr-2">
                     <div class="text-gray-600">
                         <input x-model="row.value"
-                               value="Filament is a collection of Laravel packages that has a very long description that might overflow the visible space of this cell." class="background-transparent border-0 bg-gray-100 focus:ring-0 focus:outline-none w-full" />
+                               class="background-transparent border-0 bg-gray-100 focus:ring-0 focus:outline-none w-full" />
                     </div>
-                    <button class="cursor-pointer" x-on:click="remove(index)">
+                    <button class="cursor-pointer"
+                            {{ $attributes->only('x-on:remove') }}
+                            x-on:click="remove(index)">
                         <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                              :icon="TallStackUi::icon('trash')"
                                              internal
@@ -29,7 +30,9 @@
             </div>
         </template>
     </div>
-    <div x-on:click="add" class="px-4 py-2 text-center text-gray-600 hover:underline cursor-pointer bg-gray-200">
+    <div x-on:click="add"
+         {{ $attributes->only('x-on:add') }}
+         class="px-4 py-2 text-center text-gray-600 hover:underline cursor-pointer bg-gray-200">
         ADD ROW
     </div>
 </div>
@@ -48,9 +51,21 @@
                     key: '',
                     value: '',
                 })
+
+                this.$el.dispatchEvent(new CustomEvent('add', {
+                    detail: {
+                        rows: this.rows,
+                    },
+                }))
             },
             remove(index) {
                 this.rows = this.rows.filter((_, i) => i !== index)
+
+                this.$el.dispatchEvent(new CustomEvent('remove', {
+                    detail: {
+                        rows: this.rows,
+                    },
+                }))
             }
         }
     }
