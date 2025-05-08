@@ -82,14 +82,12 @@
                     },
                 }))
 
-                this.model = this.rows;
+                this.sync()
             },
             remove(index) {
                 const rows = this.rows;
 
                 this.rows = this.rows.filter((_, i) => i !== index)
-
-                this.model = this.rows;
 
                 this.$el.dispatchEvent(new CustomEvent('remove', {
                     detail: {
@@ -100,6 +98,16 @@
                 if (this.component && deleteMethod) {
                     this.component.$wire.call(deleteMethod, index, rows);
                 }
+
+                this.sync()
+            },
+            sync() {
+                this.rows = this.rows.map(row => ({
+                    key: row.key,
+                    value: row.value,
+                }))
+
+                this.model = this.rows;
             },
             get addable () {
                 const value = Number(limit);
