@@ -17,6 +17,7 @@
                 ])>
                 <div class="text-gray-600">
                     <input x-model="row.key"
+                           @if ($placeholders) placeholder="{{ trans('tallstack-ui::messages.key-value.placeholders.key') }}" @endif
                            class="background-transparent border-0 bg-gray-100 focus:ring-0 focus:outline-none w-full" />
                 </div>
                 <div @class([
@@ -25,6 +26,7 @@
                     ])>
                     <div class="text-gray-600">
                         <input x-model="row.value"
+                               @if ($placeholders) placeholder="{{ trans('tallstack-ui::messages.key-value.placeholders.value') }}" @endif
                                class="background-transparent border-0 bg-gray-100 focus:ring-0 focus:outline-none w-full" />
                     </div>
                     @if ($removable)
@@ -48,7 +50,7 @@
     <div x-on:click="add"
          {{ $attributes->only('x-on:add') }}
          class="px-4 py-2 text-center text-gray-600 hover:underline cursor-pointer bg-gray-200"
-         x-show="addable">
+         x-show="addable === true">
         {{ trans('tallstack-ui::messages.key-value.add-row') }}
     </div>
 </div>
@@ -90,7 +92,7 @@
             get addable () {
                 const value = Number(limit);
 
-                return value && this.rows.length < value
+                return limit && this.rows.length < value || addable === false
             }
         }
     }
