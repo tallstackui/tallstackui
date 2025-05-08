@@ -90,11 +90,11 @@ class IndexTest extends BrowserTestCase
         })
             ->assertSee('No rows added.')
             ->click('@tallstackui_add_row_button')
-            ->pause(250)
+            ->pause(100)
             ->assertPresent('@tallstackui_input_key')
-            ->pause(250)
+            ->pause(100)
             ->click('@tallstackui_delete_row_button')
-            ->pause(250)
+            ->pause(100)
             ->assertNotPresent('@tallstackui_input_key');
     }
 
@@ -127,11 +127,11 @@ class IndexTest extends BrowserTestCase
         })
             ->assertSee('No rows added.')
             ->click('@tallstackui_add_row_button')
-            ->pause(250)
+            ->pause(100)
             ->assertPresent('@tallstackui_input_key')
-            ->pause(250)
+            ->pause(100)
             ->click('@tallstackui_delete_row_button')
-            ->pause(250)
+            ->pause(100)
             ->assertNotPresent('@tallstackui_input_key')
             ->assertPresent('@deleted');
     }
@@ -180,9 +180,9 @@ class IndexTest extends BrowserTestCase
         $browser
             ->assertSee('No rows added.')
             ->click('@tallstackui_add_row_button')
-            ->pause(250)
+            ->pause(100)
             ->assertPresent('@tallstackui_input_key')
-            ->pause(250)
+            ->pause(100)
             ->click('@tallstackui_add_row_button')
             ->click('@tallstackui_add_row_button')
             ->click('@tallstackui_add_row_button')
@@ -208,10 +208,34 @@ class IndexTest extends BrowserTestCase
     }
 
     #[Test]
+    public function cannot_see_add_button_when_already_set_and_in_limit()
+    {
+        Livewire::visit(new class extends Component
+        {
+            public array $metadata = [
+                0 => [
+                    'key' => 'foo',
+                    'value' => 'bar',
+                ],
+            ];
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                    <div>
+                        <x-key-value wire:model="metadata" :limit="1" />
+                    </div>
+                HTML;
+            }
+        })
+            ->pause(100)
+            ->assertDontSee('No rows added.')
+            ->assertNotVisible('@tallstackui_add_row_button');
+    }
+
+    #[Test]
     public function cannot_see_delete_button_when_static()
     {
-        $this->markTestSkipped();
-
         Livewire::visit(new class extends Component
         {
             public array $metadata = [
@@ -230,16 +254,9 @@ class IndexTest extends BrowserTestCase
                 HTML;
             }
         })
-            ->pause(10000)
-            ->assertSee('No rows added.')
-            ->click('@tallstackui_add_row_button')
-            ->pause(250)
-            ->assertPresent('@tallstackui_input_key')
-            ->pause(250)
-            ->click('@tallstackui_delete_row_button')
-            ->pause(250)
-            ->assertNotPresent('@tallstackui_input_key')
-            ->assertPresent('@deleted');
+            ->pause(100)
+            ->assertDontSee('No rows added.')
+            ->assertNotPresent('@tallstackui_delete_row_button');
     }
 
     #[Test]

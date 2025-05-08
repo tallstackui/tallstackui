@@ -67,7 +67,7 @@
             dusk="tallstackui_add_row_button"
             {{ $attributes->only('x-on:add') }}
             class="{{ $personalize['button.add'] }}"
-            x-show="addable === true">
+            x-show="addable">
         {{ trans('tallstack-ui::messages.key-value.add-row') }}
     </button>
 </div>

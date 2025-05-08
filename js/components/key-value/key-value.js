@@ -84,13 +84,13 @@ export default (
         this.model = this.rows;
     },
     /**
-     * Check if the new rows are addable.
+     * Check if the new rows can be added.
      *
      * @returns {boolean}
      */
-    get addable () {
+    get addable() {
         const value = Number(limit);
 
-        return ! addable || limit && this.rows.length < value;
+        return addable !== null && Boolean(addable) === false || limit && (this.model.length < value && this.rows.length < value);
     }
 })
