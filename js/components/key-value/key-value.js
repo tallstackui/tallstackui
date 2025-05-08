@@ -11,16 +11,23 @@ export default (
     init() {
         this.component = Livewire.find(id).__instance;
 
-        this.$nextTick(() => {
-            this.model = this.model.map((row) => ({
-                index: Math.random().toString(36).substring(2, 12),
-                key: row.key,
-                value: row.value,
-            }))
+        if (this.model.length > 0) {
+            this.$nextTick(() => {
+                this.model = this.model.map((row) => ({
+                    index: Math.random().toString(36).substring(2, 12),
+                    key: row.key,
+                    value: row.value,
+                }))
 
-            this.rows = this.model
-        });
+                this.rows = this.model;
+            });
+        }
     },
+    /**
+     * Adds a new item to the row's array.
+     *
+     * @returns {void}
+     */
     add() {
         if (limit && this.rows.length >= limit) {
             return
@@ -40,6 +47,12 @@ export default (
 
         this.sync()
     },
+    /**
+     * Removes an item from the row's array.
+     *
+     * @param {Number} index
+     * @return {void}
+     */
     remove(index) {
         const rows = this.rows;
 
@@ -57,6 +70,11 @@ export default (
 
         this.sync()
     },
+    /**
+     * Sync the model with the rows.
+     *
+     * @returns {void}
+     */
     sync() {
         this.rows = this.rows.map(row => ({
             key: row.key,
@@ -65,6 +83,11 @@ export default (
 
         this.model = this.rows;
     },
+    /**
+     * Check if the new rows are addable.
+     *
+     * @returns {boolean}
+     */
     get addable () {
         const value = Number(limit);
 
