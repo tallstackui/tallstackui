@@ -1,14 +1,15 @@
-<div x-data="data({!! $entangle !!}, @js($this->getId()), @js($limit), @js($static), @js($deleteMethod))" class="bg-gray-100 border border-gray-200 rounded-lg overflow-hidden text-sm">
-    <div class="grid grid-cols-2 bg-gray-200 px-4 py-2 text-gray-600">
+<div x-data="data({!! $entangle !!}, @js($this->getId()), @js($limit), @js($static), @js($deleteMethod))"
+     class="bg-gray-100 border border-gray-200 rounded-lg overflow-hidden text-sm dark:bg-dark-600 dark:border-dark-600">
+    <div class="grid grid-cols-2 bg-gray-200 px-4 py-2 text-gray-600 dark:text-dark-300 dark:bg-dark-700">
         <p class="font-semibold">{{ $label ?? trans('tallstack-ui::messages.key-value.headers.key') }}</p>
         <p class="font-semibold">{{ $value ?? trans('tallstack-ui::messages.key-value.headers.value') }}</p>
         @if ($header)
             {{ $header }}
         @endif
     </div>
-    <div x-bind:class="{ 'divide-y divide-gray-300' : rows.length > 0 }">
+    <div x-bind:class="{ 'divide-y divide-gray-300 dark:divide-dark-500' : rows.length > 0 }">
         <div class="flex items-center justify-center py-5" x-show="rows.length === 0">
-            <p class="text-gray-500">{{ trans('tallstack-ui::messages.key-value.empty') }}</p>
+            <p class="text-gray-500 dark:text-dark-300">{{ trans('tallstack-ui::messages.key-value.empty') }}</p>
         </div>
         <template x-for="(row, index) in rows" :key="row.index ?? index">
             <div @class([
@@ -20,7 +21,7 @@
                            x-on:keyup.shift.enter="add"
                            x-on:keyup.enter="sync"
                            @if ($placeholders) placeholder="{{ trans('tallstack-ui::messages.key-value.placeholders.key') }}" @endif
-                           class="background-transparent border-0 bg-gray-100 focus:ring-0 focus:outline-none w-full" />
+                           class="background-transparent border-0 bg-gray-100 focus:ring-0 focus:outline-none w-full dark:bg-dark-600 dark:text-white dark:placeholder:text-dark-400" />
                 </div>
                 <div @class([
                         'relative pr-8 mr-2',
@@ -31,7 +32,7 @@
                                x-on:keyup.shift.enter="add"
                                x-on:keyup.enter="sync"
                                @if ($placeholders) placeholder="{{ trans('tallstack-ui::messages.key-value.placeholders.value') }}" @endif
-                               class="background-transparent border-0 bg-gray-100 focus:ring-0 focus:outline-none w-full" />
+                               class="background-transparent border-0 bg-gray-100 focus:ring-0 focus:outline-none w-full dark:bg-dark-600 dark:text-white dark:placeholder:text-dark-400" />
                     </div>
                     @if ($deletable)
                         <button class="cursor-pointer"
@@ -43,7 +44,7 @@
                             <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                                  :icon="TallStackUi::icon($icon ?? 'trash')"
                                                  internal
-                                                 class="absolute top-2 right-0 h-5 w-5 text-red-500 hover:text-red-700" />
+                                                 class="absolute top-2 right-0 h-5 w-5 text-red-500 " />
                             @endif
                         </button>
                     @endif
@@ -53,7 +54,7 @@
     </div>
     <div x-on:click="add"
          {{ $attributes->only('x-on:add') }}
-         class="px-4 py-2 text-center text-gray-600 hover:underline cursor-pointer bg-gray-200"
+         class="px-4 py-2 text-center text-gray-600 hover:underline cursor-pointer bg-gray-200 dark:bg-dark-700 dark:text-dark-300"
          x-show="addable === true">
         {{ trans('tallstack-ui::messages.key-value.add-row') }}
     </div>
