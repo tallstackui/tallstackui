@@ -184,9 +184,7 @@ class IndexTest extends BrowserTestCase
             ->assertPresent('@tallstackui_input_key')
             ->pause(100)
             ->click('@tallstackui_add_row_button')
-            ->click('@tallstackui_add_row_button')
-            ->click('@tallstackui_add_row_button')
-            ->pause(1000);
+            ->assertNotVisible('@tallstackui_add_row_button');
 
         $this->assertTrue(
             count(

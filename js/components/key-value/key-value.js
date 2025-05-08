@@ -91,6 +91,6 @@ export default (
     get addable() {
         const value = Number(limit);
 
-        return addable !== null && Boolean(addable) === false || limit && (this.model.length < value && this.rows.length < value);
+        return limit === null && Boolean(addable) === false || limit && (this.model.length < value && this.rows.length < value);
     }
 })
