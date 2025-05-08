@@ -1,39 +1,57 @@
-<div class="bg-gray-100 border border-gray-200 rounded-lg overflow-hidden text-sm">
+<div x-data="data()" class="bg-gray-100 border border-gray-200 rounded-lg overflow-hidden text-sm">
     <div class="grid grid-cols-2 bg-gray-200 px-4 py-2 font-semibold text-gray-600">
         <p>KEY</p>
         <p>VALUE</p>
     </div>
-    <div class="divide-y divide-gray-300">
-        <div class="grid grid-cols-2 px-4 py-2 items-start relative">
-            <div class="text-gray-600">
-                <input value="description" class="background-transparent border-0 bg-gray-100 focus:ring-0 focus:outline-none w-full" />
-            </div>
-            <div class="relative pr-8">
-                <div class="text-gray-600">
-                    <input value="Filament is a collection of Laravel packages that has a very long description that might overflow the visible space of this cell." class="background-transparent border-0 bg-gray-100 focus:ring-0 focus:outline-none w-full" />
-                </div>
-                <x-dynamic-component :component="TallStackUi::prefix('icon')"
-                                     :icon="TallStackUi::icon('trash')"
-                                     internal
-                                     class="absolute top-2 right-0 h-5 w-5 cursor-pointer text-red-500 hover:text-red-700" />
-            </div>
+    <div x-bind:class="{ 'divide-y divide-gray-300' : rows.length > 0 }">
+        <div class="flex items-center justify-center py-6" x-show="rows.length === 0">
+            <p class="text-gray-500">No rows added</p>
         </div>
-        <div class="grid grid-cols-2 px-4 py-2 items-start relative">
-            <div class="text-gray-600">
-                <input value="description" class="background-transparent border-0 bg-gray-100 focus:ring-0 focus:outline-none w-full" />
-            </div>
-            <div class="relative pr-8">
+        <template x-for="(row, index) in rows" :key="row.index ?? index">
+            <div class="grid grid-cols-2 px-4 items-center relative">
                 <div class="text-gray-600">
-                    <input value="Filament is a collection of Laravel packages that has a very long description that might overflow the visible space of this cell." class="background-transparent border-0 bg-gray-100 focus:ring-0 focus:outline-none w-full" />
+                    <input value="description"
+                           x-model="row.key"
+                           class="background-transparent border-0 bg-gray-100 focus:ring-0 focus:outline-none w-full" />
                 </div>
-                <x-dynamic-component :component="TallStackUi::prefix('icon')"
-                                     :icon="TallStackUi::icon('trash')"
-                                     internal
-                                     class="absolute top-2 right-0 h-5 w-5 cursor-pointer text-red-500 hover:text-red-700" />
+                <div class="relative top-2 pr-8 mr-2">
+                    <div class="text-gray-600">
+                        <input x-model="row.value"
+                               value="Filament is a collection of Laravel packages that has a very long description that might overflow the visible space of this cell." class="background-transparent border-0 bg-gray-100 focus:ring-0 focus:outline-none w-full" />
+                    </div>
+                    <button class="cursor-pointer" x-on:click="remove(index)">
+                        <x-dynamic-component :component="TallStackUi::prefix('icon')"
+                                             :icon="TallStackUi::icon('trash')"
+                                             internal
+                                             class="absolute top-2 right-0 h-5 w-5 text-red-500 hover:text-red-700" />
+                    </button>
+                </div>
             </div>
-        </div>
+        </template>
     </div>
-    <div class="px-4 py-2 text-center text-gray-600 hover:underline cursor-pointer bg-gray-200">
+    <div x-on:click="add" class="px-4 py-2 text-center text-gray-600 hover:underline cursor-pointer bg-gray-200">
         ADD ROW
     </div>
 </div>
+
+<script>
+    function data (model) {
+        return {
+            model: model,
+            rows: [],
+            init() {
+                // alert(1);
+            },
+            add() {
+                this.rows.push({
+                    index: Math.random().toString(36).substring(2, 12),
+                    key: '',
+                    value: '',
+                })
+            },
+            remove(index) {
+                this.rows = this.rows.filter((_, i) => i !== index)
+            }
+        }
+    }
+</script>
