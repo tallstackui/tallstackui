@@ -61,7 +61,7 @@
             type="button"
             dusk="tallstackui_add_row_button"
             {{ $attributes->only('x-on:add') }}
-            class="px-4 py-2 text-center text-gray-600 hover:underline cursor-pointer bg-gray-200 dark:bg-dark-700 dark:text-dark-300"
+            class="w-full px-4 py-2 text-center text-gray-600 hover:underline cursor-pointer bg-gray-200 dark:bg-dark-700 dark:text-dark-300"
             x-show="addable === true">
         {{ trans('tallstack-ui::messages.key-value.add-row') }}
     </button>

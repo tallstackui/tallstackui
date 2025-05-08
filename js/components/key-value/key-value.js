@@ -10,6 +10,16 @@ export default (
     component: null,
     init() {
         this.component = Livewire.find(id).__instance;
+
+        this.$nextTick(() => {
+            this.model = this.model.map((row) => ({
+                index: Math.random().toString(36).substring(2, 12),
+                key: row.key,
+                value: row.value,
+            }))
+
+            this.rows = this.model
+        });
     },
     add() {
         if (limit && this.rows.length >= limit) {

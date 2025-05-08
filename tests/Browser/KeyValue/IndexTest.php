@@ -262,6 +262,34 @@ class IndexTest extends BrowserTestCase
     }
 
     #[Test]
+    public function cannot_use_index_or_value_with_different_names()
+    {
+        Livewire::visit(new class extends Component
+        {
+            public array $metadata = [
+                [
+                    'key' => 'blabla',
+                    'value' => 'xoxo',
+                ],
+                [
+                    'key' => 'blabla',
+                    'asd' => 'xoxo',
+                ],
+            ];
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                    <div>
+                        <x-key-value wire:model="metadata" />
+                    </div>
+                HTML;
+            }
+        })
+            ->assertSee('[TallStackUI] Keyvalue: The [value] must be an array of arrays with [key] and [value] keys.');
+    }
+
+    #[Test]
     public function cannot_use_static_and_limit_at_same_time()
     {
         Livewire::visit(new class extends Component
