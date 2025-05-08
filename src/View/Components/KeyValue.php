@@ -5,9 +5,11 @@ namespace TallStackUi\View\Components;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\ComponentSlot;
+use TallStackUi\Foundation\Attributes\RequireLivewireContext;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\TallStackUiComponent;
 
+#[RequireLivewireContext]
 class KeyValue extends TallStackUiComponent
 {
     public function __construct(
@@ -15,7 +17,8 @@ class KeyValue extends TallStackUiComponent
         public ?string $value = null,
         public ?int $limit = null,
         public ?bool $static = null,
-        public ?bool $removable = null,
+        public ?bool $deletable = null,
+        public ?string $deleteMethod = null,
         public ?bool $placeholders = true,
         public ComponentSlot|string|null $icon = null,
         #[SkipDebug]

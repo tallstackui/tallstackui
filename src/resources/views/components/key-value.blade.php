@@ -1,4 +1,4 @@
-<div x-data="data(@js($limit), @js($static))" class="bg-gray-100 border border-gray-200 rounded-lg overflow-hidden text-sm">
+<div x-data="data(@js($this->getId()), @js($limit), @js($static), @js($deleteMethod))" class="bg-gray-100 border border-gray-200 rounded-lg overflow-hidden text-sm">
     <div class="grid grid-cols-2 bg-gray-200 px-4 py-2 text-gray-600">
         <p class="font-semibold">{{ $label ?? trans('tallstack-ui::messages.key-value.headers.key') }}</p>
         <p class="font-semibold">{{ $value ?? trans('tallstack-ui::messages.key-value.headers.value') }}</p>
@@ -13,7 +13,7 @@
         <template x-for="(row, index) in rows" :key="row.index ?? index">
             <div @class([
                     'grid grid-cols-2 px-4 items-center relative',
-                    'py-4' => ! $removable,
+                    'py-4' => ! $deletable,
                 ])>
                 <div class="text-gray-600">
                     <input x-model="row.key"
@@ -22,14 +22,14 @@
                 </div>
                 <div @class([
                         'relative pr-8 mr-2',
-                        'top-2' => $removable,
+                        'top-2' => $deletable,
                     ])>
                     <div class="text-gray-600">
                         <input x-model="row.value"
                                @if ($placeholders) placeholder="{{ trans('tallstack-ui::messages.key-value.placeholders.value') }}" @endif
                                class="background-transparent border-0 bg-gray-100 focus:ring-0 focus:outline-none w-full" />
                     </div>
-                    @if ($removable)
+                    @if ($deletable)
                         <button class="cursor-pointer"
                                 {{ $attributes->only('x-on:remove') }}
                                 x-on:click="remove(index)">
@@ -56,12 +56,13 @@
 </div>
 
 <script>
-    function data (limit, addable) {
+    function data (id, limit, addable, deleteMethod) {
         return {
             model: null,
             rows: [],
+            component: null,
             init() {
-                // alert(1);
+                this.component = Livewire.find(id).__instance;
             },
             add() {
                 if (limit && this.rows.length >= limit) {
@@ -81,6 +82,8 @@
                 }))
             },
             remove(index) {
+                const rows = this.rows;
+
                 this.rows = this.rows.filter((_, i) => i !== index)
 
                 this.$el.dispatchEvent(new CustomEvent('remove', {
@@ -88,6 +91,10 @@
                         rows: this.rows,
                     },
                 }))
+
+                if (this.component && deleteMethod) {
+                    this.component.$wire.call(deleteMethod, index, rows);
+                }
             },
             get addable () {
                 const value = Number(limit);
