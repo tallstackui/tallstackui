@@ -1,7 +1,10 @@
 <div x-data="data(@js($limit), @js($static))" class="bg-gray-100 border border-gray-200 rounded-lg overflow-hidden text-sm">
-    <div class="grid grid-cols-2 bg-gray-200 px-4 py-2 font-semibold text-gray-600">
-        <p>{{ trans('tallstack-ui::messages.key-value.headers.key') }}</p>
-        <p>{{ trans('tallstack-ui::messages.key-value.headers.value') }}</p>
+    <div class="grid grid-cols-2 bg-gray-200 px-4 py-2 text-gray-600">
+        <p class="font-semibold">{{ $label ?? trans('tallstack-ui::messages.key-value.headers.key') }}</p>
+        <p class="font-semibold">{{ $value ?? trans('tallstack-ui::messages.key-value.headers.value') }}</p>
+        @if ($header)
+            {{ $header }}
+        @endif
     </div>
     <div x-bind:class="{ 'divide-y divide-gray-300' : rows.length > 0 }">
         <div class="flex items-center justify-center py-5" x-show="rows.length === 0">
@@ -28,10 +31,14 @@
                         <button class="cursor-pointer"
                                 {{ $attributes->only('x-on:remove') }}
                                 x-on:click="remove(index)">
+                            @if ($icon instanceof \Illuminate\View\ComponentSlot)
+                                {{ $icon }}
+                            @else
                             <x-dynamic-component :component="TallStackUi::prefix('icon')"
-                                                 :icon="TallStackUi::icon('trash')"
+                                                 :icon="TallStackUi::icon($icon ?? 'trash')"
                                                  internal
                                                  class="absolute top-2 right-0 h-5 w-5 text-red-500 hover:text-red-700" />
+                            @endif
                         </button>
                     @endif
                 </div>
