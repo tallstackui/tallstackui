@@ -9,7 +9,9 @@ use TallStackUi\TallStackUiComponent;
 class KeyValue extends TallStackUiComponent
 {
     public function __construct(
-
+        public ?int $limit = null,
+        public ?bool $static = null,
+        public ?bool $removable = null,
     ) {
         //
     }

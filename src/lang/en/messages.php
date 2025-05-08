@@ -123,6 +123,7 @@ return [
             'key' => 'KEY',
             'value' => 'VALUE',
         ],
-        'empty' => 'No rows added.'
-    ]
+        'add-row' => 'ADD ROW',
+        'empty' => 'No rows added.',
+    ],
 ];
