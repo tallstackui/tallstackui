@@ -4,7 +4,7 @@
         <p>{{ trans('tallstack-ui::messages.key-value.headers.value') }}</p>
     </div>
     <div x-bind:class="{ 'divide-y divide-gray-300' : rows.length > 0 }">
-        <div class="flex items-center justify-center py-6" x-show="rows.length === 0">
+        <div class="flex items-center justify-center py-5" x-show="rows.length === 0">
             <p class="text-gray-500">{{ trans('tallstack-ui::messages.key-value.empty') }}</p>
         </div>
         <template x-for="(row, index) in rows" :key="row.index ?? index">
