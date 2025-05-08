@@ -117,4 +117,17 @@ return [
         'previous' => 'Vorige',
         'finish' => 'Voltooien',
     ],
+
+    'key-value' => [
+        'headers' => [
+            'key' => 'SLEUTEL',
+            'value' => 'WAARDE',
+        ],
+        'placeholders' => [
+            'key' => 'Voer een sleutel in',
+            'value' => 'Voer een waarde in',
+        ],
+        'add-row' => 'RIJ TOEVOEGEN',
+        'empty' => 'Geen rijen toegevoegd.',
+    ],
 ];

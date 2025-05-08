@@ -117,4 +117,17 @@ return [
         'previous' => 'Sebelumnya',
         'finish' => 'Selesai',
     ],
+
+    'key-value' => [
+        'headers' => [
+            'key' => 'KUNCI',
+            'value' => 'NILAI',
+        ],
+        'placeholders' => [
+            'key' => 'Masukkan kunci',
+            'value' => 'Masukkan nilai',
+        ],
+        'add-row' => 'TAMBAH BARIS',
+        'empty' => 'Tiada baris ditambah.',
+    ],
 ];

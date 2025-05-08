@@ -112,4 +112,17 @@ return [
         'previous' => 'Poprzedni',
         'finish' => 'Zakończ',
     ],
+
+    'key-value' => [
+        'headers' => [
+            'key' => 'KLUCZ',
+            'value' => 'WARTOŚĆ',
+        ],
+        'placeholders' => [
+            'key' => 'Wprowadź klucz',
+            'value' => 'Wprowadź wartość',
+        ],
+        'add-row' => 'DODAJ WIERSZ',
+        'empty' => 'Nie dodano żadnych wierszy.',
+    ],
 ];

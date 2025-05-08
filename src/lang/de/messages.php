@@ -117,4 +117,17 @@ return [
         'previous' => 'Zurück',
         'finish' => 'Beenden',
     ],
+
+    'key-value' => [
+        'headers' => [
+            'key' => 'SCHLÜSSEL',
+            'value' => 'WERT',
+        ],
+        'placeholders' => [
+            'key' => 'Schlüssel eingeben',
+            'value' => 'Wert eingeben',
+        ],
+        'add-row' => 'ZEILE HINZUFÜGEN',
+        'empty' => 'Keine Zeilen hinzugefügt.',
+    ],
 ];

@@ -10,6 +10,7 @@ import dialog from './components/interaction/dialog/dialog';
 import dropdown from './components/dropdown/dropdown';
 import clearable from './components/form/clearable';
 import loading from './components/loading/loading';
+import keyValue from './components/key-value/key-value';
 import modal from './components/modal/modal';
 import number from './components/form/number';
 import rating from './components/rating/rating';
@@ -49,6 +50,7 @@ document.addEventListener('alpine:init', () => {
   Alpine.data('tallstackui_dialog', dialog);
   Alpine.data('tallstackui_dropdown', dropdown);
   Alpine.data('tallstackui_loading', loading);
+  Alpine.data('tallstackui_keyValue', keyValue);
   Alpine.data('tallstackui_modal', modal);
   Alpine.data('tallstackui_rating', rating);
   Alpine.data('tallstackui_reaction', reaction);
