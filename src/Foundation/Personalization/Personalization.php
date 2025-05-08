@@ -41,6 +41,7 @@ use TallStackUi\View\Components\Form\Toggle;
 use TallStackUi\View\Components\Form\Upload;
 use TallStackUi\View\Components\Interaction\Dialog;
 use TallStackUi\View\Components\Interaction\Toast;
+use TallStackUi\View\Components\KeyValue;
 use TallStackUi\View\Components\Layout\Header;
 use TallStackUi\View\Components\Layout\Layout;
 use TallStackUi\View\Components\Layout\SideBar\Item as SideBarItem;
@@ -256,6 +257,13 @@ class Personalization
         }
 
         return call_user_func([$this, $main], $main === $secondary ?: $secondary);
+    }
+
+    public function keyValue(?string $scope = null): PersonalizationFactory
+    {
+        $this->scope ??= $scope;
+
+        return $this->component(KeyValue::class);
     }
 
     public function layout(?string $component = null, ?string $scope = null): PersonalizationFactory
