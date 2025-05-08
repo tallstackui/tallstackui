@@ -117,4 +117,17 @@ return [
         'previous' => 'Trước đó',
         'finish' => 'Hoàn thành',
     ],
+
+    'key-value' => [
+        'headers' => [
+            'key' => 'KHÓA',
+            'value' => 'GIÁ TRỊ',
+        ],
+        'placeholders' => [
+            'key' => 'Nhập khóa',
+            'value' => 'Nhập giá trị',
+        ],
+        'add-row' => 'THÊM DÒNG',
+        'empty' => 'Chưa thêm dòng nào.',
+    ],
 ];

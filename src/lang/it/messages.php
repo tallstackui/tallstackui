@@ -117,4 +117,17 @@ return [
         'previous' => 'Precedente',
         'finish' => 'Fine',
     ],
+
+    'key-value' => [
+        'headers' => [
+            'key' => 'CHIAVE',
+            'value' => 'VALORE',
+        ],
+        'placeholders' => [
+            'key' => 'Inserisci una chiave',
+            'value' => 'Inserisci un valore',
+        ],
+        'add-row' => 'AGGIUNGI RIGA',
+        'empty' => 'Nessuna riga aggiunta.',
+    ],
 ];
