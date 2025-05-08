@@ -8,7 +8,7 @@
         @endif
     </div>
     <div x-bind:class="{ 'divide-y divide-gray-300 dark:divide-dark-500' : rows.length > 0 }">
-        <div class="flex items-center justify-center py-5" x-show="rows.length === 0">
+        <div class="flex items-center justify-center py-5" dusk="tallstackui_empty_message" x-show="rows.length === 0">
             <p class="text-gray-500 dark:text-dark-300">{{ trans('tallstack-ui::messages.key-value.empty') }}</p>
         </div>
         <template x-for="(row, index) in rows" :key="row.index ?? index">
@@ -20,8 +20,10 @@
                     <input x-model="row.key"
                            x-on:keyup.shift.enter="add"
                            x-on:keyup.enter="sync"
-                           @if ($placeholders) placeholder="{{ trans('tallstack-ui::messages.key-value.placeholders.key') }}" @endif
-                           class="background-transparent border-0 bg-gray-100 focus:ring-0 focus:outline-none w-full dark:bg-dark-600 dark:text-white dark:placeholder:text-dark-400" />
+                           dusk="tallstackui_input_key"
+                           @if ($placeholders) placeholder="{{ trans('tallstack-ui::messages.key-value.placeholders.key') }}"
+                           @endif
+                           class="background-transparent border-0 bg-gray-100 focus:ring-0 focus:outline-none w-full dark:bg-dark-600 dark:text-white dark:placeholder:text-dark-400"/>
                 </div>
                 <div @class([
                         'relative pr-8 mr-2',
@@ -31,8 +33,10 @@
                         <input x-model="row.value"
                                x-on:keyup.shift.enter="add"
                                x-on:keyup.enter="sync"
-                               @if ($placeholders) placeholder="{{ trans('tallstack-ui::messages.key-value.placeholders.value') }}" @endif
-                               class="background-transparent border-0 bg-gray-100 focus:ring-0 focus:outline-none w-full dark:bg-dark-600 dark:text-white dark:placeholder:text-dark-400" />
+                               dusk="tallstackui_input_value"
+                               @if ($placeholders) placeholder="{{ trans('tallstack-ui::messages.key-value.placeholders.value') }}"
+                               @endif
+                               class="background-transparent border-0 bg-gray-100 focus:ring-0 focus:outline-none w-full dark:bg-dark-600 dark:text-white dark:placeholder:text-dark-400"/>
                     </div>
                     @if ($deletable)
                         <button class="cursor-pointer"
@@ -41,10 +45,11 @@
                             @if ($icon instanceof \Illuminate\View\ComponentSlot)
                                 {{ $icon }}
                             @else
-                            <x-dynamic-component :component="TallStackUi::prefix('icon')"
-                                                 :icon="TallStackUi::icon($icon ?? 'trash')"
-                                                 internal
-                                                 class="absolute top-2 right-0 h-5 w-5 text-red-500 " />
+                                <x-dynamic-component :component="TallStackUi::prefix('icon')"
+                                                     :icon="TallStackUi::icon($icon ?? 'trash')"
+                                                     dusk="tallstackui_delete_row_button"
+                                                     internal
+                                                     class="absolute top-2 right-0 h-5 w-5 text-red-500 "/>
                             @endif
                         </button>
                     @endif
@@ -52,10 +57,12 @@
             </div>
         </template>
     </div>
-    <div x-on:click="add"
-         {{ $attributes->only('x-on:add') }}
-         class="px-4 py-2 text-center text-gray-600 hover:underline cursor-pointer bg-gray-200 dark:bg-dark-700 dark:text-dark-300"
-         x-show="addable === true">
+    <button x-on:click="add"
+            type="button"
+            dusk="tallstackui_add_row_button"
+            {{ $attributes->only('x-on:add') }}
+            class="px-4 py-2 text-center text-gray-600 hover:underline cursor-pointer bg-gray-200 dark:bg-dark-700 dark:text-dark-300"
+            x-show="addable === true">
         {{ trans('tallstack-ui::messages.key-value.add-row') }}
-    </div>
+    </button>
 </div>
