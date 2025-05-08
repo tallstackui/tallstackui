@@ -2,7 +2,8 @@
     $personalize = $classes();
 @endphp
 
-<div x-data="tallstackui_keyValue({!! $entangle !!}, @js($this->getId()), @js($limit), @js($static), @js($deleteMethod))"
+<div x-cloak
+     x-data="tallstackui_keyValue({!! $entangle !!}, @js($this->getId()), @js($limit), @js($static), @js($deleteMethod))"
      class="{{ $personalize['wrapper.first'] }}">
     <div class="{{ $personalize['header.wrapper'] }}">
         <p class="{{ $personalize['header.key'] }}">{{ $label ?? trans('tallstack-ui::messages.key-value.headers.key') }}</p>
