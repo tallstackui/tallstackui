@@ -1,4 +1,4 @@
-<div x-data="data({!! $entangle !!}, @js($this->getId()), @js($limit), @js($static), @js($deleteMethod))"
+<div x-data="tallstackui_keyValue({!! $entangle !!}, @js($this->getId()), @js($limit), @js($static), @js($deleteMethod))"
      class="bg-gray-100 border border-gray-200 rounded-lg overflow-hidden text-sm dark:bg-dark-600 dark:border-dark-600">
     <div class="grid grid-cols-2 bg-gray-200 px-4 py-2 text-gray-600 dark:text-dark-300 dark:bg-dark-700">
         <p class="font-semibold">{{ $label ?? trans('tallstack-ui::messages.key-value.headers.key') }}</p>
@@ -59,65 +59,3 @@
         {{ trans('tallstack-ui::messages.key-value.add-row') }}
     </div>
 </div>
-
-<script>
-    function data (model, id, limit, addable, deleteMethod) {
-        return {
-            model: model,
-            rows: [],
-            component: null,
-            init() {
-                this.component = Livewire.find(id).__instance;
-            },
-            add() {
-                if (limit && this.rows.length >= limit) {
-                    return
-                }
-
-                this.rows.push({
-                    index: Math.random().toString(36).substring(2, 12),
-                    key: '',
-                    value: '',
-                })
-
-                this.$el.dispatchEvent(new CustomEvent('add', {
-                    detail: {
-                        rows: this.rows,
-                    },
-                }))
-
-                this.sync()
-            },
-            remove(index) {
-                const rows = this.rows;
-
-                this.rows = this.rows.filter((_, i) => i !== index)
-
-                this.$el.dispatchEvent(new CustomEvent('remove', {
-                    detail: {
-                        rows: this.rows,
-                    },
-                }))
-
-                if (this.component && deleteMethod) {
-                    this.component.$wire.call(deleteMethod, index, rows);
-                }
-
-                this.sync()
-            },
-            sync() {
-                this.rows = this.rows.map(row => ({
-                    key: row.key,
-                    value: row.value,
-                }))
-
-                this.model = this.rows;
-            },
-            get addable () {
-                const value = Number(limit);
-
-                return ! addable || limit && this.rows.length < value;
-            }
-        }
-    }
-</script>
