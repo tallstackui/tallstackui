@@ -5,11 +5,14 @@ namespace TallStackUi\View\Components;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\ComponentSlot;
+use TallStackUi\Foundation\Attributes\PassThroughRuntime;
 use TallStackUi\Foundation\Attributes\RequireLivewireContext;
 use TallStackUi\Foundation\Attributes\SkipDebug;
+use TallStackUi\Foundation\Support\Runtime\Components\KeyValueRuntime;
 use TallStackUi\TallStackUiComponent;
 
 #[RequireLivewireContext]
+#[PassThroughRuntime(KeyValueRuntime::class)]
 class KeyValue extends TallStackUiComponent
 {
     public function __construct(

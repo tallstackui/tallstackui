@@ -1,4 +1,4 @@
-<div x-data="data(@js($this->getId()), @js($limit), @js($static), @js($deleteMethod))" class="bg-gray-100 border border-gray-200 rounded-lg overflow-hidden text-sm">
+<div x-data="data({!! $entangle !!}, @js($this->getId()), @js($limit), @js($static), @js($deleteMethod))" class="bg-gray-100 border border-gray-200 rounded-lg overflow-hidden text-sm">
     <div class="grid grid-cols-2 bg-gray-200 px-4 py-2 text-gray-600">
         <p class="font-semibold">{{ $label ?? trans('tallstack-ui::messages.key-value.headers.key') }}</p>
         <p class="font-semibold">{{ $value ?? trans('tallstack-ui::messages.key-value.headers.value') }}</p>
@@ -56,9 +56,10 @@
 </div>
 
 <script>
-    function data (id, limit, addable, deleteMethod) {
+    function data (model, id, limit, addable, deleteMethod) {
         return {
-            model: null,
+            // TODO model deve ser array
+            model: model,
             rows: [],
             component: null,
             init() {
@@ -80,11 +81,15 @@
                         rows: this.rows,
                     },
                 }))
+
+                this.model = this.rows;
             },
             remove(index) {
                 const rows = this.rows;
 
                 this.rows = this.rows.filter((_, i) => i !== index)
+
+                this.model = this.rows;
 
                 this.$el.dispatchEvent(new CustomEvent('remove', {
                     detail: {
@@ -99,7 +104,7 @@
             get addable () {
                 const value = Number(limit);
 
-                return limit && this.rows.length < value || addable === false
+                return ! addable || limit && this.rows.length < value;
             }
         }
     }
