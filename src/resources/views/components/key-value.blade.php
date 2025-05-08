@@ -17,6 +17,8 @@
                 ])>
                 <div class="text-gray-600">
                     <input x-model="row.key"
+                           x-on:keyup.shift.enter="add"
+                           x-on:keyup.enter="sync"
                            @if ($placeholders) placeholder="{{ trans('tallstack-ui::messages.key-value.placeholders.key') }}" @endif
                            class="background-transparent border-0 bg-gray-100 focus:ring-0 focus:outline-none w-full" />
                 </div>
@@ -26,6 +28,8 @@
                     ])>
                     <div class="text-gray-600">
                         <input x-model="row.value"
+                               x-on:keyup.shift.enter="add"
+                               x-on:keyup.enter="sync"
                                @if ($placeholders) placeholder="{{ trans('tallstack-ui::messages.key-value.placeholders.value') }}" @endif
                                class="background-transparent border-0 bg-gray-100 focus:ring-0 focus:outline-none w-full" />
                     </div>
@@ -58,7 +62,6 @@
 <script>
     function data (model, id, limit, addable, deleteMethod) {
         return {
-            // TODO model deve ser array
             model: model,
             rows: [],
             component: null,
