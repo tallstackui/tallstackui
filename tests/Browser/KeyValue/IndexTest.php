@@ -206,6 +206,37 @@ class IndexTest extends BrowserTestCase
     }
 
     #[Test]
+    public function cannot_interact_with_input_when_static()
+    {
+        Livewire::visit(new class extends Component
+        {
+            public array $metadata = [
+                [
+                    'key' => 'blabla',
+                    'value' => 'xoxo',
+                ],
+                [
+                    'key' => 'blabla',
+                    'value' => 'xoxo',
+                ],
+            ];
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                    <div>
+                        <x-key-value wire:model="metadata" static />
+                    </div>
+                HTML;
+            }
+        })
+            ->assertSee('KEY')
+            ->assertSee('VALUE')
+            ->assertAttribute('@tallstackui_input_key', 'readonly', true)
+            ->assertAttribute('@tallstackui_input_value', 'readonly', true);
+    }
+
+    #[Test]
     public function cannot_see_add_button_when_already_set_and_in_limit()
     {
         Livewire::visit(new class extends Component

@@ -26,6 +26,7 @@
                            x-on:keyup.shift.enter="add"
                            x-on:keyup.enter="sync"
                            dusk="tallstackui_input_key"
+                           @readonly($static)
                            @if ($placeholders) placeholder="{{ trans('tallstack-ui::messages.key-value.placeholders.key') }}"
                            @endif
                            class="{{ $personalize['list.input.key'] }}"/>
@@ -41,6 +42,7 @@
                                dusk="tallstackui_input_value"
                                @if ($placeholders) placeholder="{{ trans('tallstack-ui::messages.key-value.placeholders.value') }}"
                                @endif
+                               @readonly($static)
                                class="{{ $personalize['list.input.value'] }}"/>
                     </div>
                     @if ($deletable)
