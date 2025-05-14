@@ -4,7 +4,7 @@ use Illuminate\View\ViewException;
 
 it('can render', function () {
     $component = <<<'HTML'
-    <x-drawer title="Foo Bar" footer="Foo bar baz">
+    <x-drawer title="Foo Bar" footer="Foo bar baz" position="left" size="lg">
     Bar Baz
     </x-drawer>
     HTML;
@@ -37,7 +37,7 @@ it('can thrown exception when size is unacceptable', function (string $size) {
 
     $component = <<<'HTML'
     <x-drawer size="{{ size }}">
-    Bar Baz
+        Bar Baz
     </x-drawer>
     HTML;
 
@@ -70,8 +70,8 @@ it('can thrown exception when position is unacceptable', function (string $posit
 })->with([
     'foo',
     'bar',
-    'top',
-    'bottom',
+    'top-right',
+    'bottom-end',
 ]);
 
 it('can thrown exception when z-index does not contains prefix', function () {

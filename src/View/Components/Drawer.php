@@ -74,22 +74,21 @@ class Drawer extends TallStackUiComponent implements Personalization
     protected function validate(): void
     {
         if (is_string($this->wire) && $this->wire === '') {
-            throw new InvalidArgumentException('The [wire] property cannot be an empty string');
+            __ts_validation_exception($this, 'The [wire] property cannot be an empty string');
         }
 
         $configuration = collect(config('tallstackui.settings.drawer'));
         $sizes = ['sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl', '5xl', '6xl', '7xl', 'full'];
         $positions = ['bottom','left','right','top'];
 
-        if (! in_array($this->size ?? $configuration->get('size', '2xl'), $sizes)) {
-            throw new InvalidArgumentException('The drawer size must be one of the following: ['.implode(', ', $sizes).']');
+        if (! in_array($this->size ?? $configuration->get('size', 'xl'), $sizes)) {
+            __ts_validation_exception($this, 'The [size] must be one of the following: ['.implode(', ', $sizes).']');
         }
         if (! in_array($this->position ?? $configuration->get('position', 'right'), $positions)) {
-            throw new InvalidArgumentException('The drawer position must be one of the following: ['.implode(', ', $positions).']');
+            __ts_validation_exception($this, 'The [position] must be one of the following: ['.implode(', ', $positions).']');
         }
-
         if (! str($this->zIndex ?? $configuration->get('z-index', 'z-50'))->startsWith('z-')) {
-            throw new InvalidArgumentException('The drawer z-index must start with z- prefix');
+            __ts_validation_exception($this, 'The [z-index] must start with z- prefix');
         }
     }
 }
