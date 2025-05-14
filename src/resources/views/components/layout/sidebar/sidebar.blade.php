@@ -70,12 +70,10 @@
         @if ($brand)
             {{ $brand }}
         @endif
-        @if(1==1)
         <button @click="$store.sidebar.toggle()" class="text-gray-600 hover:text-primary-600 w-6">
             <x-ts-icon name="arrow-left" x-show="$store.sidebar.open" outline />
             <x-ts-icon name="arrow-right" x-show="!$store.sidebar.open" outline />
         </button>
-        @endif
         <div @class([$personalize['desktop.wrapper.third'], $personalize['desktop.wrapper.brand.margin'] => blank($brand)]) >
 
             <nav class="{{ $personalize['desktop.wrapper.fourth'] }}">
