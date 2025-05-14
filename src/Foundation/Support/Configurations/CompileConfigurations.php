@@ -127,6 +127,19 @@ class CompileConfigurations
         $component->blur ??= $configuration->get('blur', false);
         $component->persistent ??= $configuration->get('persistent', false);
         $component->position ??= $configuration->get('position', 'right');
+        $component->size = match ($component->size) {
+            'sm' => 'sm:max-w-sm',
+            'md' => 'sm:max-w-md',
+            'lg' => 'sm:max-w-lg',
+            'xl' => 'sm:max-w-xl',
+            '3xl' => 'sm:max-w-3xl',
+            '4xl' => 'sm:max-w-4xl',
+            '5xl' => 'sm:max-w-5xl',
+            '6xl' => 'sm:max-w-6xl',
+            '7xl' => 'sm:max-w-7xl',
+            'full' => 'max-w-full',
+            default => 'sm:max-w-2xl',
+        };
         return collect($component)
             ->only(['zIndex', 'overflow', 'size', 'blur', 'persistent', 'position'])
             ->toArray();

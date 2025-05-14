@@ -61,7 +61,7 @@ class Drawer extends TallStackUiComponent implements Personalization
             'title' => [
                 'wrapper' => 'dark:border-b-dark-600 flex items-center justify-between border-b border-b-gray-100 px-4 py-2.5 mb-4 text-base font-semibold',
                 'text' => 'text-md text-secondary-600 dark:text-dark-300 whitespace-normal font-medium',
-                'button' => 'text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 inline-flex items-center justify-center dark:hover:bg-gray-600 dark:hover:text-white',
+                'button' => 'text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 inline-flex items-center justify-center dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer',
                 'close' => 'w-3 h-3',
             ],
             'body' => 'dark:text-dark-300 grow rounded-b-xl py-5 text-gray-700 px-4',

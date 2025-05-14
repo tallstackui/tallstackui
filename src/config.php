@@ -258,7 +258,7 @@ return [
         | position: controls default drawer position (Allowed: right, left, top, bottom).
         */
         'drawer' => [
-            'z-index' => 'z-30',
+            'z-index' => 'z-50',
             'overflow' => false,
             'blur' => false,
             'persistent' => false,
