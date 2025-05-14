@@ -36,7 +36,7 @@ class SideBar extends TallStackUiComponent implements Personalization
                     'first' => 'relative z-50 md:hidden',
                     'second' => 'fixed inset-0 flex',
                     'third' => 'relative mr-16 flex w-full max-w-xs flex-1',
-                    'fourth' => 'dark:bg-dark-700 flex grow flex-col gap-y-5 overflow-y-auto bg-white px-2 pb-4',
+                    'fourth' => 'dark:bg-dark-700 flex grow flex-col gap-y-5 overflow-y-auto overflow-x-hidden bg-white px-2 pb-4',
                     'fifth' => 'flex h-16 shrink-0 items-center',
                     'brand.margin' => 'mt-10',
                     'sixth' => 'flex h-16 flex-1 flex-col',
