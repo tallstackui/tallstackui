@@ -31,7 +31,10 @@ class Layout extends TallStackUiComponent implements Personalization
         return Arr::dot([
             'wrapper' => [
                 'first' => 'min-h-full',
-                'second' => 'md:pl-72',
+                'second' => [
+                    'expanded' => 'md:pl-64',
+                    'collapsed' => 'md:pl-20',
+                ],
             ],
             'main' => 'mx-auto max-w-full p-10',
         ]);
