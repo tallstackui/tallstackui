@@ -50,6 +50,7 @@ use TallStackUi\View\Components\Layout\SideBar\SideBar;
 use TallStackUi\View\Components\Link;
 use TallStackUi\View\Components\Loading;
 use TallStackUi\View\Components\Modal;
+use TallStackUi\View\Components\Drawer;
 use TallStackUi\View\Components\Progress\Circle as ProgressCircle;
 use TallStackUi\View\Components\Progress\Progress;
 use TallStackUi\View\Components\Rating;
@@ -300,6 +301,12 @@ class Personalization
         $this->scope ??= $scope;
 
         return $this->component(Modal::class);
+    }
+    public function drawer(?string $scope = null): PersonalizationFactory
+    {
+        $this->scope ??= $scope;
+
+        return $this->component(Drawer::class);
     }
 
     public function progress(?string $component = null, ?string $scope = null): PersonalizationFactory

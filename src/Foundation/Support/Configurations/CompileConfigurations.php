@@ -9,6 +9,7 @@ use TallStackUi\View\Components\Interaction\Dialog;
 use TallStackUi\View\Components\Interaction\Toast;
 use TallStackUi\View\Components\Loading;
 use TallStackUi\View\Components\Modal;
+use TallStackUi\View\Components\Drawer;
 use TallStackUi\View\Components\Slide;
 
 /**
@@ -27,6 +28,7 @@ class CompileConfigurations
             $component instanceof Dialog => fn () => 'dialog',
             $component instanceof Loading => fn () => $class->loading($component),
             $component instanceof Modal => fn () => $class->modal($component),
+            $component instanceof Drawer => fn () => $class->drawer($component),
             $component instanceof Styled => fn () => $class->select($component),
             $component instanceof Slide => fn () => $class->slide($component),
             $component instanceof Toast => fn () => 'toast',
@@ -110,6 +112,23 @@ class CompileConfigurations
 
         return collect($component)
             ->only(['zIndex', 'overflow', 'size', 'blur', 'persistent', 'center'])
+            ->toArray();
+    }
+
+    /**
+     * Define the Drawer component configurations.
+     */
+    private function drawer(Drawer $component): array
+    {
+        $configuration = collect(config('tallstackui.settings.drawer'));
+        $component->zIndex ??= $configuration->get('z-index', 'z-50');
+        $component->overflow ??= $configuration->get('overflow', false);
+        $component->size ??= $configuration->get('size', '2xl');
+        $component->blur ??= $configuration->get('blur', false);
+        $component->persistent ??= $configuration->get('persistent', false);
+        $component->position ??= $configuration->get('position', 'right');
+        return collect($component)
+            ->only(['zIndex', 'overflow', 'size', 'blur', 'persistent', 'position'])
             ->toArray();
     }
 

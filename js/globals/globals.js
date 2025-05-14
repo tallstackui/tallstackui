@@ -4,6 +4,9 @@ import Interaction from './interaction';
 window.$modalOpen = (name) => event(`modal:${name}-open`, null, false);
 window.$modalClose = (name) => event(`modal:${name}-close`, null, false);
 
+window.$drawerOpen = (name) => event(`drawer:${name}-open`, null, false);
+window.$drawerClose = (name) => event(`drawer:${name}-close`, null, false);
+
 window.$slideOpen = (name) => event(`slide:${name}-open`, null, false);
 window.$slideClose = (name) => event(`slide:${name}-close`, null, false);
 

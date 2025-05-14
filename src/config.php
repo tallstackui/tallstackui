@@ -247,6 +247,27 @@ return [
 
         /*
         |----------------------------------------------------------------------
+        | Drawer
+        |----------------------------------------------------------------------
+        |
+        | z-index: controls the default z-index.
+        | overflow: avoids hiding the overflow, allowing the scroll of the page.
+        | blur: enables the background blur effect by default (Allowed: false, sm, md, lg, xl).
+        | persistent: enables the drawer to not be closed by clicking outside by default.
+        | size: controls the default drawer size (Allowed: sm, md, lg, xl, 2xl, 3xl, 4xl, 5xl, 6xl, 7xl).
+        | position: controls default drawer position (Allowed: right, left, top, bottom).
+        */
+        'drawer' => [
+            'z-index' => 'z-30',
+            'overflow' => false,
+            'blur' => false,
+            'persistent' => false,
+            'size' => 'xl',
+            'position' => 'right',
+        ],
+
+        /*
+        |----------------------------------------------------------------------
         | Layout
         |----------------------------------------------------------------------
         |
@@ -338,6 +359,7 @@ return [
         'clipboard' => Components\Clipboard::class,
         'date' => Components\Form\Date::class,
         'dialog' => Components\Interaction\Dialog::class,
+        'drawer' => Components\Drawer::class,
         'dropdown' => Components\Dropdown\Dropdown::class,
         'dropdown.items' => Components\Dropdown\Items::class,
         'dropdown.submenu' => Components\Dropdown\Submenu::class,

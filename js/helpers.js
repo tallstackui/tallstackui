@@ -33,7 +33,7 @@ export const overflow = (status, component = null, skip = false) => {
 
   // The strategy here was adopted to prevent the loading component
   // from removing overflow when used in conjunction with other
-  // components that handle overflow: modal, slide, dialogs.
+  // components that handle overflow: drawer, modal, slide, dialogs.
   const element = document.querySelector('body');
   const key = 'data-overflow';
   const exists = [...element.attributes].some((attr) => attr.name === key);
