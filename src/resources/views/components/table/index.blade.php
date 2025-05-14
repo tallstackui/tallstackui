@@ -88,7 +88,6 @@
                 @else
                     @forelse ($rows as $key => $value)
                         @php
-                            $this->loop = $loop;
                             $id = md5(serialize($value).$key);
                         @endphp
                         <tr @class([$personalize['table.tr'], 'bg-gray-50 dark:bg-dark-800/50' => $striped && $loop->index % 2 === 0]) @if ($livewire) wire:key="{{ $id }}" @endif>

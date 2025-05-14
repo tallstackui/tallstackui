@@ -38,7 +38,7 @@ class Directives
 
             $name = str_replace('.', '_', $name);
 
-            return "<?php \$__env->slot({$name}, function({$arguments}) use ({$parameters}) { ?>";
+            return "<?php \$loop = null; \$__env->slot({$name}, function({$arguments}) use ({$parameters}) { \$loop = (object) \$__env->getLoopStack()[0] ?>";
         });
 
         Blade::directive('endinteract', fn (): string => '<?php }); ?>');
