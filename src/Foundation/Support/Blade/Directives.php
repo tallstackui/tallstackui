@@ -81,7 +81,11 @@ class Directives
      */
     public function style(mixed $matches = null): string
     {
-        $version = is_array($matches) ? trim(data_get($matches, 2)) : str_replace('\'', '', $matches);
+        $version = null;
+
+        if ($matches) {
+            $version = is_array($matches) ? trim(data_get($matches, 2)) : str_replace('\'', '', $matches);
+        }
 
         return $this->format(match ($version) {
             'v4' => 'tallstackui.css',
