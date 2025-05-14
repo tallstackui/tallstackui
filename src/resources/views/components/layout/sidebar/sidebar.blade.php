@@ -57,16 +57,27 @@
         </div>
     </div>
 </div>
-<div class="{{ $personalize['desktop.wrapper.first'] }}">
+<div class="{{ $personalize['desktop.wrapper.first'] }}"
+     x-data="{ open: JSON.parse(localStorage.getItem('sidebarOpen') || 'true') }"
+     x-init="$watch('open', value => localStorage.setItem('sidebarOpen', value))">
     <div @class([
             $personalize['desktop.wrapper.second'],
             'soft-scrollbar' => $thinScroll,
             'custom-scrollbar' => $thickScroll,
-        ])>
+        ])
+        :class="$store.sidebar.open ? 'w-64' : 'w-16'"
+        >
         @if ($brand)
             {{ $brand }}
         @endif
-        <div @class([$personalize['desktop.wrapper.third'], $personalize['desktop.wrapper.brand.margin'] => blank($brand)])>
+        @if(1==1)
+        <button @click="$store.sidebar.toggle()" class="text-gray-600 hover:text-primary-600 w-6">
+            <x-ts-icon name="arrow-left" x-show="$store.sidebar.open" outline />
+            <x-ts-icon name="arrow-right" x-show="!$store.sidebar.open" outline />
+        </button>
+        @endif
+        <div @class([$personalize['desktop.wrapper.third'], $personalize['desktop.wrapper.brand.margin'] => blank($brand)]) >
+
             <nav class="{{ $personalize['desktop.wrapper.fourth'] }}">
                 <ul role="list" class="{{ $personalize['desktop.wrapper.fifth'] }}">
                     {{ $slot }}
