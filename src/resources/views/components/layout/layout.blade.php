@@ -2,7 +2,7 @@
     $personalize = $classes();
 @endphp
 
-<div x-data="{ tallStackUiMenuMobile : false }" x-on:tallstackui-menu-mobile.window="tallStackUiMenuMobile = $event.detail.status">
+<div x-data="tallstackui_layout()" x-on:tallstackui-menu-mobile.window="tallStackUiMenuMobile = $event.detail.status">
     @if ($top)
         {{ $top }}
     @endif
