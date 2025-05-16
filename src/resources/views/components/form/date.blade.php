@@ -20,7 +20,9 @@
      @js(trans('tallstack-ui::messages.date.calendar')),
      @js($attributes->only(['disabled', 'readonly'])->all()),
      @js($change),
-     @js($start))"
+     @js($start),
+     @js($onlyWeekends),
+     @js($disableWeekends))"
      x-cloak x-on:click.outside="show = false">
     <x-dynamic-component :component="TallStackUi::prefix('input')"
                          {{ $attributes->except(['name', 'value']) }}
@@ -30,6 +32,7 @@
                          :alternative="$attributes->get('name')"
                          floatable
                          x-ref="input"
+                         data-only-day="{{ $onlyDay }}"
                          x-on:click="(disables['disabled'] ?? false) || (disables['readonly'] ?? false) ? false : show = !show"
                          x-on:keydown="$event.preventDefault()"
                          dusk="tallstackui_date_input"

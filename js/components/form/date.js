@@ -21,6 +21,8 @@ export default (
     disables = [],
     change = null,
     start = 5,
+    onlyWeekends = false,
+    disableWeekends = false,
 ) => ({
   show: false,
   picker: {
@@ -59,6 +61,8 @@ export default (
   value: value,
   calendar: calendar,
   start: start,
+  onlyWeekends: onlyWeekends,
+  disableWeekends: disableWeekends,
   init() {
     this.translations();
 
@@ -364,8 +368,12 @@ export default (
    * @return {Boolean}
    */
   disabled(date) {
+    const onlyDay = this.$refs.input.dataset.onlyDay;
     return (this.date.min && dayjs(date).isBefore(this.date.min)) ||
            (this.date.max && dayjs(date).isAfter(this.date.max)) ||
+            (this.disableWeekends && (dayjs(date).day() === 0 || dayjs(date).day() === 6)) ||
+            (this.onlyWeekends && (dayjs(date).day() !== 0 && dayjs(date).day() !== 6)) ||
+           (onlyDay && dayjs(date).day() !== parseInt(onlyDay)) ||
            this.disable.includes(this.formatted(date, 'YYYY-MM-DD'));
   },
   /**
