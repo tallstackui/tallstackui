@@ -18,7 +18,11 @@
                                          internal
                                          class="{{ $personalize['group.icon.base'] }}" />
                 @endif
-                <span x-show="$store.sidebar.open" x-transition class="whitespace-nowrap">{{ $text }}</span>
+                @if ($collapsible)
+                    <span x-show="$store.sidebar.open" x-transition class="{{ $personalize['group.text'] }}">{{ $text }}</span>
+                @else
+                    {{ $text }}
+                @endif
                 <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                      :icon="TallStackUi::icon('chevron-down')"
                                      internal
@@ -39,7 +43,7 @@
                 $personalize['item.state.base'],
                 $personalize['item.state.normal'] => ! $current || (! $smart && ! $matches()),
                 \Illuminate\Support\Arr::toCssClasses(['ts-ui-group-opened', $personalize['item.state.current']]) => $current || ($smart && $matches()),
-            ]) @if ($navigate) wire:navigate @elseif ($navigateHover) wire:navigate.hover @endif>
+            ]) x-bind:class="{'{{ $personalize['item.state.collapsed'] }}' : @js($collapsible) && ! $store.sidebar.open }" @if ($navigate) wire:navigate @elseif ($navigateHover) wire:navigate.hover @endif>
                 @if ($icon instanceof \Illuminate\View\ComponentSlot)
                     {{ $icon }}
                 @elseif ($icon)
@@ -48,7 +52,11 @@
                                          internal
                                          class="{{ $personalize['item.icon'] }}" />
                 @endif
-                <span x-cloak x-show="$store.sidebar.open" x-transition class="whitespace-nowrap">{{ $text }}</span>
+                @if ($collapsible)
+                    <span x-cloak x-show="$store.sidebar.open" x-transition class="{{ $personalize['item.text'] }}">{{ $text }}</span>
+                @else
+                    {{ $text }}
+                @endif
             </a>
         </li>
     @endif
