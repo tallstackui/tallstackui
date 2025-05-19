@@ -48,7 +48,7 @@ class Item extends TallStackUiComponent implements Personalization
             // route created in the route helper: route('dashboard')
             return $this->route === route(
                 $route->getName(),
-                // This is necessary to correctly resolve routes of view type
+                // This is necessary to correctly resolve routes of a view type
                 $route->getActionMethod() === "\Illuminate\Routing\ViewController" ? [] : $route->parameters()
             );
         }
@@ -69,6 +69,7 @@ class Item extends TallStackUiComponent implements Personalization
                     ],
                 ],
                 'group' => 'px-2 pl-5',
+                'text' => 'whitespace-nowrap',
             ],
             'item' => [
                 'wrapper' => [
@@ -79,8 +80,10 @@ class Item extends TallStackUiComponent implements Personalization
                     'base' => 'group flex items-center gap-x-3 rounded-md p-2 text-sm font-semibold transition-all',
                     'current' => 'text-primary-500 bg-primary-50 dark:bg-dark-600 dark:text-white',
                     'normal' => 'text-primary-500 hover:bg-primary-50 dark:hover:bg-dark-600 dark:text-white',
+                    'collapsed' => 'justify-center text-center',
                 ],
                 'icon' => 'text-primary-500 h-6 w-6 shrink-0 transition-all dark:text-white',
+                'text' => 'whitespace-nowrap',
             ],
         ]);
     }

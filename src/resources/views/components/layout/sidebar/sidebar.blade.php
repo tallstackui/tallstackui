@@ -62,7 +62,26 @@
             $personalize['desktop.wrapper.second'],
             'soft-scrollbar' => $thinScroll,
             'custom-scrollbar' => $thickScroll,
-        ])>
+        ]) @if ($collapsible) x-bind:class="{
+            '{{ $personalize['desktop.sizes.expanded'] }}' : $store['tsui.side-bar'].open,
+            '{{ $personalize['desktop.sizes.collapsed'] }}' : !$store['tsui.side-bar'].open,
+        }" @endif x-cloak>
+        @if ($collapsible)
+            <div class="{{ $personalize['desktop.collapse.wrapper'] }}">
+                <button x-on:click="$store['tsui.side-bar'].toggle()" class="cursor-pointer">
+                    <x-dynamic-component :component="TallStackUi::prefix('icon')"
+                                         :icon="TallStackUi::icon($personalize['desktop.collapse.buttons.expanded.icon'])"
+                                         internal
+                                         x-show="$store['tsui.side-bar'].open"
+                                         class="{{ $personalize['desktop.collapse.buttons.expanded.class'] }}" />
+                    <x-dynamic-component :component="TallStackUi::prefix('icon')"
+                                         :icon="TallStackUi::icon($personalize['desktop.collapse.buttons.collapsed.icon'])"
+                                         internal
+                                         x-show="!$store['tsui.side-bar'].open"
+                                         class="{{ $personalize['desktop.collapse.buttons.collapsed.class'] }}" />
+                </button>
+            </div>
+        @endif
         @if ($brand)
             {{ $brand }}
         @endif

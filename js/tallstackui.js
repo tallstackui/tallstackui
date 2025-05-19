@@ -4,6 +4,7 @@ import carousel from './components/carousel/carousel';
 import card from './components/card/card';
 import color from './components/form/color';
 import clipboard from './components/clipboard/clipboard';
+import collapse from './components/layout/collapse';
 import date from './components/form/date';
 import darkTheme from './helpers/dark-theme';
 import dialog from './components/interaction/dialog/dialog';
@@ -63,4 +64,6 @@ document.addEventListener('alpine:init', () => {
   Alpine.data('tallstackui_table', table);
   Alpine.data('tallstackui_toastBase', toastBase);
   Alpine.data('tallstackui_toastLoop', toastLoop);
+  // Stores
+  Alpine.store('tsui.side-bar', collapse);
 });

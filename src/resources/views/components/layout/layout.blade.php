@@ -10,7 +10,7 @@
         {{ $menu }}
     @endif
     <div class="{{ $personalize['wrapper.first'] }}">
-        <div class="{{ $personalize['wrapper.second'] }}">
+        <div x-bind:class="{ '{{ $personalize['wrapper.second.expanded'] }}' : $store['tsui.side-bar'].open, '{{ $personalize['wrapper.second.collapsed'] }}' : !$store['tsui.side-bar'].open }">
             @if ($header)
                 {{ $header }}
             @endif
