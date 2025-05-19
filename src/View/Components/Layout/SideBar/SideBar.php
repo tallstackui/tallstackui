@@ -60,7 +60,7 @@ class SideBar extends TallStackUiComponent implements Personalization
                     'fifth' => 'flex flex-1 flex-col gap-y-0.5',
                 ],
                 'sizes' => [
-                    'normal' => 'w-64',
+                    'expanded' => 'w-64',
                     'collapsed' => 'w-22',
                 ],
             ],

@@ -10,7 +10,7 @@
         {{ $menu }}
     @endif
     <div class="{{ $personalize['wrapper.first'] }}">
-        <div :class="$store.sidebar.open ? '{{ $personalize['wrapper.second.expanded'] }}' : '{{ $personalize['wrapper.second.collapsed'] }}'">
+        <div x-bind:class="{ '{{ $personalize['wrapper.second.expanded'] }}' : $store.sidebar.open, '{{ $personalize['wrapper.second.collapsed'] }}' : !$store.sidebar.open }">
             @if ($header)
                 {{ $header }}
             @endif
