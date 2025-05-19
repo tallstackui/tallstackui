@@ -6,7 +6,7 @@
 
 @if ($visible)
     @if ($slot->isNotEmpty())
-        <li x-data="{ show : @js($opened ?? \Illuminate\Support\Str::contains($slot, 'ts-ui-group-opened') ?? false), open: true }">
+        <li x-data="{ show : @js($opened ?? \Illuminate\Support\Str::contains($slot, 'ts-ui-group-opened') ?? false) }">
             <button x-on:click="show = !show"
                     type="button"
                     class="{{ $personalize['group.button'] }}">
@@ -34,9 +34,7 @@
             </ul>
         </li>
     @else
-        <li class="{{ $personalize['item.wrapper.base'] }}"
-            x-bind:class="{ '{{ $personalize['item.wrapper.border'] }}' : $refs.parent !== undefined }"
-            x-data="{ open: true }">
+        <li class="{{ $personalize['item.wrapper.base'] }}" x-bind:class="{ '{{ $personalize['item.wrapper.border'] }}' : $refs.parent !== undefined }">
             <a @if ($route) href="{{ $route }}" @endif
             @class([
                 $personalize['item.state.base'],
