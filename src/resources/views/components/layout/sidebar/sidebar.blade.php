@@ -67,18 +67,18 @@
             '{{ $personalize['desktop.sizes.collapsed'] }}' : !$store['tsui.side-bar'].open,
         }" @endif x-cloak>
         @if ($collapsible)
-            <div class="absolute top-2 left-5">
+            <div class="{{ $personalize['desktop.collapse.wrapper'] }}">
                 <button x-on:click="$store['tsui.side-bar'].toggle()" class="cursor-pointer">
                     <x-dynamic-component :component="TallStackUi::prefix('icon')"
-                                         :icon="TallStackUi::icon('chevron-left')"
+                                         :icon="TallStackUi::icon($personalize['desktop.collapse.buttons.expanded.icon'])"
                                          internal
                                          x-show="$store['tsui.side-bar'].open"
-                                         class="w-5 h-5 text-primary-500 dark:text-dark-300" />
+                                         class="{{ $personalize['desktop.collapse.buttons.expanded.class'] }}" />
                     <x-dynamic-component :component="TallStackUi::prefix('icon')"
-                                         :icon="TallStackUi::icon('chevron-right')"
+                                         :icon="TallStackUi::icon($personalize['desktop.collapse.buttons.collapsed.icon'])"
                                          internal
                                          x-show="!$store['tsui.side-bar'].open"
-                                         class="w-5 h-5 text-primary-500 dark:text-dark-300" />
+                                         class="{{ $personalize['desktop.collapse.buttons.collapsed.class'] }}" />
                 </button>
             </div>
         @endif
