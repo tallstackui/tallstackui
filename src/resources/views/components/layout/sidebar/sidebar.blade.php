@@ -65,7 +65,7 @@
             'soft-scrollbar' => $thinScroll,
             'custom-scrollbar' => $thickScroll,
         ])
-        :class="$store.sidebar.open ? 'w-64' : 'w-16'"
+        :class="$store.sidebar.open ? 'w-64' : 'w-22'"
         >
         @if ($brand)
             {{ $brand }}

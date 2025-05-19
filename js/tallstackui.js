@@ -64,3 +64,17 @@ document.addEventListener('alpine:init', () => {
   Alpine.data('tallstackui_toastBase', toastBase);
   Alpine.data('tallstackui_toastLoop', toastLoop);
 });
+
+document.addEventListener('alpine:init', () => {
+  Alpine.store('sidebar', {
+    open: true,
+    toggle() {
+      this.open = !this.open;
+      localStorage.setItem('sidebarOpen', JSON.stringify(this.open));
+    },
+    init() {
+      const saved = localStorage.getItem('sidebarOpen');
+      this.open = saved !== null ? JSON.parse(saved) : true;
+    }
+  });
+});
