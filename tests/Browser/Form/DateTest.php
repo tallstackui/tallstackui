@@ -2,6 +2,7 @@
 
 namespace Tests\Browser\Form;
 
+use Facebook\WebDriver\WebDriverBy;
 use Livewire\Component;
 use Livewire\Livewire;
 use PHPUnit\Framework\Attributes\Test;
@@ -812,6 +813,98 @@ class DateTest extends BrowserTestCase
             ->click('@tallstackui_date_open_close')
             ->waitUntilMissingText('January')
             ->assertDontSee('January');
+    }
+
+    #[Test]
+    public function cannot_select_other_days_different_than_only()
+    {
+        $this->travelTo(now()->createFromTimeString('2025-05-20 12:50:00'));
+
+        Livewire::visit(new class extends Component
+        {
+            public ?string $date = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="date">{{ $date }}</p>
+
+                    <x-date label="DatePicker" wire:model.live="date" only="1" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->waitForText('DatePicker')
+            ->assertSee('DatePicker')
+            ->click('@tallstackui_date_open_close')
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div[3]/div[24]/button')
+            ->assertDontSeeIn('@date', '2025-05-20');
+    }
+
+    #[Test]
+    public function cannot_select_weekdays_when_weekeend_is_enabled()
+    {
+        $this->travelTo(now()->createFromTimeString('2025-05-19 12:50:00'));
+
+        $browser = Livewire::visit(new class extends Component
+        {
+            public ?string $date = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="date">{{ $date }}</p>
+
+                    <x-date label="DatePicker" wire:model.live="date" weekends />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->waitForText('DatePicker')
+            ->assertSee('DatePicker')
+            ->click('@tallstackui_date_open_close')
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div[3]/div[23]/button')
+            ->assertDontSeeIn('@date', '2025-05-19');
+
+        $element = $browser->driver->findElement(WebDriverBy::xpath('/html/body/div[3]/div/div[2]/div[3]/div[23]/button'));
+
+        $this->assertStringContainsString('true', $element->getAttribute('disabled'));
+    }
+
+    #[Test]
+    public function cannot_select_weekends_when_weekdays_is_enabled()
+    {
+        $this->travelTo(now()->createFromTimeString('2025-05-18 12:50:00'));
+
+        $browser = Livewire::visit(new class extends Component
+        {
+            public ?string $date = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="date">{{ $date }}</p>
+
+                    <x-date label="DatePicker" wire:model.live="date" weekdays />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->waitForText('DatePicker')
+            ->assertSee('DatePicker')
+            ->click('@tallstackui_date_open_close')
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div[3]/div[22]/button')
+            ->assertDontSeeIn('@date', '2025-05-18');
+
+        $element = $browser->driver->findElement(WebDriverBy::xpath('/html/body/div[3]/div/div[2]/div[3]/div[22]/button'));
+
+        $this->assertStringContainsString('true', $element->getAttribute('disabled'));
     }
 
     #[Test]
