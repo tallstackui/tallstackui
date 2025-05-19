@@ -21,8 +21,9 @@ export default (
     disables = [],
     change = null,
     start = 5,
-    onlyWeekends = false,
-    disableWeekends = false,
+    only = null,
+    weekdays = false,
+    weekends = false,
 ) => ({
   show: false,
   picker: {
@@ -61,8 +62,9 @@ export default (
   value: value,
   calendar: calendar,
   start: start,
-  onlyWeekends: onlyWeekends,
-  disableWeekends: disableWeekends,
+  only: only,
+  weekends: weekends,
+  weekdays: weekdays,
   init() {
     this.translations();
 
@@ -136,8 +138,8 @@ export default (
     if (range && this.model) {
       const one = this.model[0];
 
-      // The two (model.1) can be an empty/null in
-      // situation where only the start was set.
+      // The two (model.1) can be empty /null in
+      // a situation where only the start was set.
       let two = this.model[1];
       two = two === 'null' ? null : two;
 
@@ -368,12 +370,11 @@ export default (
    * @return {Boolean}
    */
   disabled(date) {
-    const onlyDay = this.$refs.input.dataset.onlyDay;
     return (this.date.min && dayjs(date).isBefore(this.date.min)) ||
            (this.date.max && dayjs(date).isAfter(this.date.max)) ||
-            (this.disableWeekends && (dayjs(date).day() === 0 || dayjs(date).day() === 6)) ||
-            (this.onlyWeekends && (dayjs(date).day() !== 0 && dayjs(date).day() !== 6)) ||
-           (onlyDay && dayjs(date).day() !== parseInt(onlyDay)) ||
+           (this.weekdays && (dayjs(date).day() === 0 || dayjs(date).day() === 6)) ||
+           (this.weekends && (dayjs(date).day() !== 0 && dayjs(date).day() !== 6)) ||
+           (this.only && dayjs(date).day() !== parseInt(this.only)) ||
            this.disable.includes(this.formatted(date, 'YYYY-MM-DD'));
   },
   /**
