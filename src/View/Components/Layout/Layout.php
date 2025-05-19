@@ -32,7 +32,7 @@ class Layout extends TallStackUiComponent implements Personalization
             'wrapper' => [
                 'first' => 'min-h-full',
                 'second' => [
-                    'expanded' => 'md:pl-64',
+                    'expanded' => 'md:pl-72',
                     'collapsed' => 'md:pl-22',
                 ],
             ],
