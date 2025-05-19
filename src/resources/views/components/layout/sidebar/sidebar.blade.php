@@ -58,25 +58,35 @@
     </div>
 </div>
 <div class="{{ $personalize['desktop.wrapper.first'] }}"
-     x-data="{ open: JSON.parse(localStorage.getItem('sidebarOpen') || 'true') }"
-     x-init="$watch('open', value => localStorage.setItem('sidebarOpen', value))">
+     @if ($collapsible) x-data="{ open: JSON.parse(localStorage.getItem('sidebarOpen') || 'true') }" x-init="$watch('open', value => localStorage.setItem('sidebarOpen', value))" @endif>
     <div @class([
             $personalize['desktop.wrapper.second'],
             'soft-scrollbar' => $thinScroll,
             'custom-scrollbar' => $thickScroll,
-        ]) x-bind:class="{
+        ]) @if ($collapsible) x-bind:class="{
             '{{ $personalize['desktop.sizes.expanded'] }}' : $store.sidebar.open,
             '{{ $personalize['desktop.sizes.collapsed'] }}' : !$store.sidebar.open,
-        }">
+        }" @endif>
+        @if ($collapsible)
+            <div class="absolute top-2 left-5">
+                <button x-on:click="$store.sidebar.toggle()" class="cursor-pointer">
+                    <x-dynamic-component :component="TallStackUi::prefix('icon')"
+                                         :icon="TallStackUi::icon('chevron-left')"
+                                         internal
+                                         x-show="$store.sidebar.open"
+                                         class="w-5 h-5 text-primary-500 dark:text-dark-300" />
+                    <x-dynamic-component :component="TallStackUi::prefix('icon')"
+                                         :icon="TallStackUi::icon('chevron-right')"
+                                         internal
+                                         x-show="!$store.sidebar.open"
+                                         class="w-5 h-5 text-primary-500 dark:text-dark-300" />
+                </button>
+            </div>
+        @endif
         @if ($brand)
             {{ $brand }}
         @endif
-        <button @click="$store.sidebar.toggle()" class="text-gray-600 hover:text-primary-600 w-6">
-            <x-ts-icon name="arrow-left" x-show="$store.sidebar.open" outline />
-            <x-ts-icon name="arrow-right" x-show="!$store.sidebar.open" outline />
-        </button>
-        <div @class([$personalize['desktop.wrapper.third'], $personalize['desktop.wrapper.brand.margin'] => blank($brand)]) >
-
+        <div @class([$personalize['desktop.wrapper.third'], $personalize['desktop.wrapper.brand.margin'] => blank($brand)])>
             <nav class="{{ $personalize['desktop.wrapper.fourth'] }}">
                 <ul role="list" class="{{ $personalize['desktop.wrapper.fifth'] }}">
                     {{ $slot }}
