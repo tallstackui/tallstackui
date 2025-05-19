@@ -1,5 +1,5 @@
 export default {
-    open: false,
+    open: true,
     mobile: false,
     init() {
         const media = window.matchMedia('(max-width: 768px)');
@@ -13,13 +13,13 @@ export default {
             this.mobile = e.matches;
 
             if (this.mobile) {
-                this.open = false;
+                this.open = true;
             }
         });
 
         const sidebar = localStorage.getItem('side-bar');
 
-        this.open = sidebar !== null ? JSON.parse(sidebar) : true;
+        this.open = Boolean(sidebar !== null ? JSON.parse(sidebar) : true);
 
         if (this.mobile) {
             this.open = false;

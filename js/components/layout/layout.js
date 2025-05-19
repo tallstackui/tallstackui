@@ -4,7 +4,7 @@ export default () => ({
         this.$watch('tallStackUiMenuMobile', (value) => {
             const html = document.querySelector('html');
 
-            Alpine.store('tsui').toggle(false);
+            Alpine.store('tsui.side-bar').toggle(true);
 
             if (value) {
                 html.classList.add('overflow-hidden');
