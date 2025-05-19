@@ -64,7 +64,7 @@ class SideBar extends TallStackUiComponent implements Personalization
                     'collapsed' => 'w-22',
                 ],
                 'collapse' => [
-                    'wrapper' => 'absolute top-2 left-5',
+                    'wrapper' => 'absolute top-2 left-5 z-50',
                     'buttons' => [
                         'expanded' => [
                             'icon' => 'chevron-left',
