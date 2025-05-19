@@ -48,7 +48,7 @@ class Item extends TallStackUiComponent implements Personalization
             // route created in the route helper: route('dashboard')
             return $this->route === route(
                 $route->getName(),
-                // This is necessary to correctly resolve routes of view type
+                // This is necessary to correctly resolve routes of a view type
                 $route->getActionMethod() === "\Illuminate\Routing\ViewController" ? [] : $route->parameters()
             );
         }
