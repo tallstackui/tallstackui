@@ -36,8 +36,7 @@
     @else
         <li class="{{ $personalize['item.wrapper.base'] }}"
             x-bind:class="{ '{{ $personalize['item.wrapper.border'] }}' : $refs.parent !== undefined }"
-            x-data="{ open: true }"
-            >
+            x-data="{ open: true }">
             <a @if ($route) href="{{ $route }}" @endif
             @class([
                 $personalize['item.state.base'],
