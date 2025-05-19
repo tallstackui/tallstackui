@@ -57,28 +57,27 @@
         </div>
     </div>
 </div>
-<div class="{{ $personalize['desktop.wrapper.first'] }}"
-     @if ($collapsible) x-data="{ open: JSON.parse(localStorage.getItem('sidebarOpen') || 'true') }" x-init="$watch('open', value => localStorage.setItem('sidebarOpen', value))" @endif>
+<div class="{{ $personalize['desktop.wrapper.first'] }}">
     <div @class([
             $personalize['desktop.wrapper.second'],
             'soft-scrollbar' => $thinScroll,
             'custom-scrollbar' => $thickScroll,
         ]) @if ($collapsible) x-bind:class="{
-            '{{ $personalize['desktop.sizes.expanded'] }}' : $store.sidebar.open,
-            '{{ $personalize['desktop.sizes.collapsed'] }}' : !$store.sidebar.open,
-        }" @endif>
+            '{{ $personalize['desktop.sizes.expanded'] }}' : $store['tsui.side-bar'].open,
+            '{{ $personalize['desktop.sizes.collapsed'] }}' : !$store['tsui.side-bar'].open,
+        }" @endif x-cloak>
         @if ($collapsible)
             <div class="absolute top-2 left-5">
-                <button x-on:click="$store.sidebar.toggle()" class="cursor-pointer">
+                <button x-on:click="$store['tsui.side-bar'].toggle()" class="cursor-pointer">
                     <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                          :icon="TallStackUi::icon('chevron-left')"
                                          internal
-                                         x-show="$store.sidebar.open"
+                                         x-show="$store['tsui.side-bar'].open"
                                          class="w-5 h-5 text-primary-500 dark:text-dark-300" />
                     <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                          :icon="TallStackUi::icon('chevron-right')"
                                          internal
-                                         x-show="!$store.sidebar.open"
+                                         x-show="!$store['tsui.side-bar'].open"
                                          class="w-5 h-5 text-primary-500 dark:text-dark-300" />
                 </button>
             </div>

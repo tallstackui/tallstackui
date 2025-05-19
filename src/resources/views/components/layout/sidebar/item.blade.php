@@ -19,7 +19,7 @@
                                          class="{{ $personalize['group.icon.base'] }}" />
                 @endif
                 @if ($collapsible)
-                    <span x-show="$store.sidebar.open" x-transition class="{{ $personalize['group.text'] }}">{{ $text }}</span>
+                    <span x-show="($store['tsui.side-bar'].open && !$store['tsui.side-bar'].mobile) || $store['tsui.side-bar'].mobile" x-transition class="{{ $personalize['group.text'] }}">{{ $text }}</span>
                 @else
                     {{ $text }}
                 @endif
@@ -42,7 +42,7 @@
                 $personalize['item.state.base'],
                 $personalize['item.state.normal'] => ! $current || (! $smart && ! $matches()),
                 \Illuminate\Support\Arr::toCssClasses(['ts-ui-group-opened', $personalize['item.state.current']]) => $current || ($smart && $matches()),
-            ]) x-bind:class="{'{{ $personalize['item.state.collapsed'] }}' : @js($collapsible) && ! $store.sidebar.open }" @if ($navigate) wire:navigate @elseif ($navigateHover) wire:navigate.hover @endif>
+            ]) x-bind:class="{'{{ $personalize['item.state.collapsed'] }}' : @js($collapsible) && ! $store['tsui.side-bar'].open && ! $store['tsui.side-bar'].mobile }" @if ($navigate) wire:navigate @elseif ($navigateHover) wire:navigate.hover @endif>
                 @if ($icon instanceof \Illuminate\View\ComponentSlot)
                     {{ $icon }}
                 @elseif ($icon)
@@ -52,7 +52,7 @@
                                          class="{{ $personalize['item.icon'] }}" />
                 @endif
                 @if ($collapsible)
-                    <span x-cloak x-show="$store.sidebar.open" x-transition class="{{ $personalize['item.text'] }}">{{ $text }}</span>
+                    <span x-cloak x-show="($store['tsui.side-bar'].open && !$store['tsui.side-bar'].mobile) || $store['tsui.side-bar'].mobile" x-transition class="{{ $personalize['item.text'] }}">{{ $text }}</span>
                 @else
                     {{ $text }}
                 @endif
