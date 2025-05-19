@@ -21,7 +21,6 @@
      @if ($static) <p hidden x-ref="placeholder">{{ $placeholder }}</p> @endif
         <x-dynamic-component :component="TallStackUi::prefix('input')"
                              :value="$placeholder"
-                             :$label
                              :$hint
                              x-on:click="show = !show"
                              x-ref="input"
@@ -39,6 +38,14 @@
                                                          class="{{ $personalize['icon'] }}" />
                                 </button>
                              </x-slot:suffix>
+            <x-slot:label>
+                @if ($label)
+                    <x-dynamic-component :component="TallStackUi::prefix('label')"
+                                         :$id
+                                         :$label
+                                         :error="$errors->has($property)" />
+                @endif
+            </x-slot:label>
         </x-dynamic-component>
          @if ($invalid['status'])
             <span class="{{ $personalize['invalid'] }}">

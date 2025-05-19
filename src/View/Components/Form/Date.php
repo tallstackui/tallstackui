@@ -34,6 +34,9 @@ class Date extends TallStackUiComponent implements Personalization
         public ?bool $monthYearOnly = false,
         public array|Collection $disable = [],
         public int|string $start = 0,
+        public int|string|null $only = null,
+        public ?bool $weekdays = false,
+        public ?bool $weekends = false,
     ) {
         $this->disable = collect($this->disable)
             ->flatten()
@@ -152,6 +155,10 @@ class Date extends TallStackUiComponent implements Personalization
 
         if ($this->start > 6) {
             __ts_validation_exception($this, 'The [start] attribute must be between 0 and 6.');
+        }
+
+        if ($this->only && $this->only > 6) {
+            __ts_validation_exception($this, 'The [only] attribute must be between 0 and 6.');
         }
     }
 }

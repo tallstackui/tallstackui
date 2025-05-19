@@ -13,6 +13,7 @@ class UploadRuntime extends AbstractRuntime
         $bind = $this->bind();
 
         $data = [
+            'id' => $bind->get('id'),
             'property' => $property = $bind->get('property'),
             // We can get this directly - without need to check if we're in Livewire
             // context because this component is only used in Livewire context.

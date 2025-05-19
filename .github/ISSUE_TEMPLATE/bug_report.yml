@@ -47,6 +47,7 @@ body:
         - Layout
         - Link
         - Loading
+        - KeyValue
         - Modal
         - Number
         - Password

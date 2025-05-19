@@ -5,7 +5,7 @@
 <{{ $tag }} @if ($href) href="{{ $href }}" @if ($navigate) wire:navigate @elseif($navigateHover) wire:navigate.hover @endif @endif
      {{ $attributes->class([
         $personalize['wrapper.first'],
-        'cursor-pointer' => $tag === 'a',
+        'cursor-pointer' => $tag === 'a' && $href !== null,
      ]) }}
      x-data="tallstackui_stats(@js($number), @js($animated))"
      x-intersect:enter.full="visible = true"
