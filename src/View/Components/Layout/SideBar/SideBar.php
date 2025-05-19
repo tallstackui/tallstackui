@@ -19,6 +19,7 @@ class SideBar extends TallStackUiComponent implements Personalization
         public ?bool $navigateHover = null,
         public ?bool $thinScroll = null,
         public ?bool $thickScroll = null,
+        public ?bool $collapsible = null,
     ) {
         //
     }
@@ -57,6 +58,10 @@ class SideBar extends TallStackUiComponent implements Personalization
                     'brand.margin' => 'mt-10',
                     'fourth' => 'flex h-16 flex-1 flex-col',
                     'fifth' => 'flex flex-1 flex-col gap-y-0.5',
+                ],
+                'sizes' => [
+                    'normal' => 'w-64',
+                    'collapsed' => 'w-22',
                 ],
             ],
         ]);

@@ -64,9 +64,10 @@
             $personalize['desktop.wrapper.second'],
             'soft-scrollbar' => $thinScroll,
             'custom-scrollbar' => $thickScroll,
-        ])
-        :class="$store.sidebar.open ? 'w-64' : 'w-22'"
-        >
+        ]) x-bind:class="{
+            '{{ $personalize['desktop.sizes.normal'] }}' : $store.sidebar.open,
+            '{{ $personalize['desktop.sizes.collapsed'] }}' : !$store.sidebar.open,
+        }">
         @if ($brand)
             {{ $brand }}
         @endif

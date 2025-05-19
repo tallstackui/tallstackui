@@ -2,7 +2,7 @@
     $personalize = $classes();
 @endphp
 
-@aware(['smart' => null, 'navigate' => null, 'navigateHover' => null])
+@aware(['smart' => null, 'navigate' => null, 'navigateHover' => null, 'collapsible' => null])
 
 @if ($visible)
     @if ($slot->isNotEmpty())
