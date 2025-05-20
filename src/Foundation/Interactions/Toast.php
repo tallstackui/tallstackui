@@ -21,6 +21,11 @@ class Toast extends AbstractInteraction
     protected ?bool $persistent = null;
 
     /**
+     * Set the toast position dynamically.
+     */
+    protected ?bool $position = null;
+
+    /**
      * Control the timeout seconds.
      */
     protected ?int $timeout = 3;
@@ -69,6 +74,16 @@ class Toast extends AbstractInteraction
     public function persistent(): self
     {
         $this->persistent = true;
+
+        return $this;
+    }
+
+    /**
+     * Sets the toast position dinamically.
+     */
+    public function position(string $position): self
+    {
+        $this->position = $position;
 
         return $this;
     }
@@ -134,6 +149,7 @@ class Toast extends AbstractInteraction
             'expandable' => $this->expand ?? config('tallstackui.settings.toast.expandable', false),
             'timeout' => $this->timeout,
             'persistent' => $this->persistent,
+            'position' => $this->position ?? config('tallstackui.settings.toast.position', 'top-right'),
         ];
     }
 
