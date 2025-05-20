@@ -1056,16 +1056,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v11.44.7",
+            "version": "v11.45.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "00bc6ac91a6d577bf051c18ddaa638c0d221e1c7"
+                "reference": "d0730deb427632004d24801be7ca1ed2c10fbc4e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/00bc6ac91a6d577bf051c18ddaa638c0d221e1c7",
-                "reference": "00bc6ac91a6d577bf051c18ddaa638c0d221e1c7",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/d0730deb427632004d24801be7ca1ed2c10fbc4e",
+                "reference": "d0730deb427632004d24801be7ca1ed2c10fbc4e",
                 "shasum": ""
             },
             "require": {
@@ -1086,7 +1086,7 @@
                 "guzzlehttp/uri-template": "^1.0",
                 "laravel/prompts": "^0.1.18|^0.2.0|^0.3.0",
                 "laravel/serializable-closure": "^1.3|^2.0",
-                "league/commonmark": "^2.6",
+                "league/commonmark": "^2.7",
                 "league/flysystem": "^3.25.1",
                 "league/flysystem-local": "^3.25.1",
                 "league/uri": "^7.5.1",
@@ -1173,7 +1173,7 @@
                 "league/flysystem-read-only": "^3.25.1",
                 "league/flysystem-sftp-v3": "^3.25.1",
                 "mockery/mockery": "^1.6.10",
-                "orchestra/testbench-core": "^9.11.2",
+                "orchestra/testbench-core": "^9.13.2",
                 "pda/pheanstalk": "^5.0.6",
                 "php-http/discovery": "^1.15",
                 "phpstan/phpstan": "^2.0",
@@ -1267,7 +1267,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2025-04-25T12:40:47+00:00"
+            "time": "2025-05-20T15:15:58+00:00"
         },
         {
             "name": "laravel/prompts",
