@@ -4,6 +4,7 @@ namespace TallStackUi\Foundation\Interactions;
 
 use TallStackUi\Foundation\Interactions\Traits\DispatchInteraction;
 use TallStackUi\Foundation\Interactions\Traits\InteractWithConfirmation;
+use TallStackUi\View\Components\Interaction\Toast as Component;
 
 class Toast extends AbstractInteraction
 {
@@ -16,9 +17,14 @@ class Toast extends AbstractInteraction
     protected ?bool $expand = null;
 
     /**
-     * Set the toast as persistent (without timeout and progress bar).
+     * Set the toast as persistent (without a timeout and progress bar).
      */
     protected ?bool $persistent = null;
+
+    /**
+     * Set the toast position dynamically.
+     */
+    protected ?string $position = null;
 
     /**
      * Control the timeout seconds.
@@ -64,11 +70,25 @@ class Toast extends AbstractInteraction
     }
 
     /**
-     * Sets the toast as persistent (without timeout and progress bar).
+     * Sets the toast as persistent (without a timeout and progress bar).
      */
     public function persistent(): self
     {
         $this->persistent = true;
+
+        return $this;
+    }
+
+    /**
+     * Sets the toast position dynamically.
+     */
+    public function position(string $position): self
+    {
+        if (! in_array($position, ['top-right', 'top-left', 'bottom-right', 'bottom-left'])) {
+            __ts_validation_exception(Component::class, "Invalid position: {$position}. Allowed: top-right, top-left, bottom-right, bottom-left.");
+        }
+
+        $this->position = $position;
 
         return $this;
     }
@@ -134,6 +154,7 @@ class Toast extends AbstractInteraction
             'expandable' => $this->expand ?? config('tallstackui.settings.toast.expandable', false),
             'timeout' => $this->timeout,
             'persistent' => $this->persistent,
+            'position' => $this->position ?? config('tallstackui.settings.toast.position', 'top-right'),
         ];
     }
 

@@ -303,7 +303,7 @@ return [
         |
         | z-index: controls the default z-index.
         | progress: enables the progress bar.
-        | expandable: enables the expand effect by default.
+        | expandable: enables the expanded effect by default.
         | position: controls the default toast position (Allowed: top-right, top-left, bottom-right, bottom-left).
         | timeout: controls the default timeout in seconds.
         */

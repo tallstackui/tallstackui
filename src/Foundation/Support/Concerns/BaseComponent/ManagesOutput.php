@@ -22,8 +22,8 @@ trait ManagesOutput
         $ignores = array_merge($debug->get('ignore', []), ['floating']);
 
         // Ignoring when:
-        // 1. Environment is not in the list
-        // 2. Component is in the ignore list
+        // 1. Environment is not in list
+        // 2. Component is in ignore list
         // 3. THIS class is in the ignore list
         if (! ($environment = $debug->get('environments', [])) ||
             ! in_array(app()->environment(), $environment) ||

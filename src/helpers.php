@@ -39,9 +39,9 @@ if (! function_exists('__ts_validation_exception')) {
     /**
      * Throw a validation exception for the component rendering beautiful messages.
      */
-    function __ts_validation_exception(TallStackUiComponent $component, string $message): mixed
+    function __ts_validation_exception(TallStackUiComponent|string $component, string $message): mixed
     {
-        $title = str($component::class)
+        $title = str(is_string($component) ? $component : $component::class)
             ->after('TallStackUi\\View\\Components\\')
             ->title()
             ->value();
