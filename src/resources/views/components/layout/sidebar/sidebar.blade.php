@@ -2,7 +2,8 @@
     $personalize = $classes();
 @endphp
 
-<div class="{{ $personalize['mobile.wrapper.first'] }}" x-show="tallStackUiMenuMobile">
+<div class="{{ $personalize['mobile.wrapper.first'] }}"
+     x-show="tallStackUiMenuMobile">
     <div x-transition:enter="transition-opacity ease-linear duration-300"
          x-transition:enter-start="opacity-0"
          x-transition:enter-end="opacity-100"
@@ -57,7 +58,7 @@
         </div>
     </div>
 </div>
-<div class="{{ $personalize['desktop.wrapper.first'] }}">
+<div class="{{ $personalize['desktop.wrapper.first.base'] }}" x-bind:class="{ '{{ $personalize['desktop.wrapper.first.size'] }}' : $store['tsui.side-bar'].open }">
     <div @class([
             $personalize['desktop.wrapper.second'],
             'soft-scrollbar' => $thinScroll,

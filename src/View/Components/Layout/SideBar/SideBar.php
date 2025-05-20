@@ -52,7 +52,10 @@ class SideBar extends TallStackUiComponent implements Personalization
             ],
             'desktop' => [
                 'wrapper' => [
-                    'first' => 'hidden md:fixed md:inset-y-0 md:z-40 md:flex md:w-72 md:flex-col',
+                    'first' => [
+                        'base' => 'hidden md:fixed md:inset-y-0 md:z-40 md:flex md:flex-col',
+                        'size' => 'md:w-72',
+                    ],
                     'second' => 'dark:bg-dark-700 dark:border-dark-600 flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-2 pb-4',
                     'third' => 'flex h-16 shrink-0 items-center',
                     'brand.margin' => 'mt-10',
