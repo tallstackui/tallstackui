@@ -7,23 +7,16 @@
      x-on:tallstackui:toast.window="add($event)"
      @class([
         $personalize['wrapper.first'],
-        'md:justify-start' => str_contains($configurations['position'], 'top-'),
-        'md:justify-end' => str_contains($configurations['position'], 'bottom-'),
         $configurations['z-index']
-    ])>
+    ]) x-bind:class="{ 'md:justify-start' : position.includes('top-') === true, 'md:justify-end' : position.includes('bottom-') === true }">
     <template x-for="toast in toasts" :key="toast.id">
         <div x-data="tallstackui_toastLoop(toast)"
              x-show="show"
              x-ref="toast"
              x-on:mouseenter="toast.expandable = false"
-             x-transition:enter="transform ease-out duration-300 transition"
-             x-transition:enter-start="translate-y-2 opacity-0 sm:translate-y-0 @if (str_contains($configurations['position'], '-left')) sm:-translate-x-2 @else sm:translate-x-2 @endif"
-             x-transition:enter-end="translate-y-0 opacity-100 sm:translate-x-0"
-             @class([
-                 $personalize['wrapper.second'],
-                 'md:items-start' => $configurations['position'] === 'top-left' || $configurations['position'] === 'bottom-left',
-                 'md:items-end' => $configurations['position'] === 'top-right' || $configurations['position'] === 'bottom-right'
-             ])>
+             class="{{ $personalize['wrapper.second'] }}"
+             x-bind="transition"
+             x-bind:class="{ 'md:items-start' : position === 'top-left' || position === 'bottom-left', 'md:items-end' : position === 'top-right' || position === 'bottom-right' }">
             <div class="{{ $personalize['wrapper.third'] }}">
                 <div class="{{ $personalize['wrapper.fourth'] }}">
                     <div class="shrink-0">
