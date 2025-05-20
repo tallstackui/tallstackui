@@ -4,6 +4,7 @@ namespace TallStackUi\Foundation\Interactions;
 
 use TallStackUi\Foundation\Interactions\Traits\DispatchInteraction;
 use TallStackUi\Foundation\Interactions\Traits\InteractWithConfirmation;
+use TallStackUi\View\Components\Interaction\Toast as Component;
 
 class Toast extends AbstractInteraction
 {
@@ -83,6 +84,10 @@ class Toast extends AbstractInteraction
      */
     public function position(string $position): self
     {
+        if (! in_array($position, ['top-right', 'top-left', 'bottom-right', 'bottom-left'])) {
+            __ts_validation_exception(Component::class, "Invalid position: {$position}. Allowed: top-right, top-left, bottom-right, bottom-left.");
+        }
+
         $this->position = $position;
 
         return $this;
