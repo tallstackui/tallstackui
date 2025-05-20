@@ -23,7 +23,7 @@ class Toast extends AbstractInteraction
     /**
      * Set the toast position dynamically.
      */
-    protected ?bool $position = null;
+    protected ?string $position = null;
 
     /**
      * Control the timeout seconds.
@@ -79,7 +79,7 @@ class Toast extends AbstractInteraction
     }
 
     /**
-     * Sets the toast position dinamically.
+     * Sets the toast position dynamically.
      */
     public function position(string $position): self
     {
