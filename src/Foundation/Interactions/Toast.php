@@ -16,7 +16,7 @@ class Toast extends AbstractInteraction
     protected ?bool $expand = null;
 
     /**
-     * Set the toast as persistent (without timeout and progress bar).
+     * Set the toast as persistent (without a timeout and progress bar).
      */
     protected ?bool $persistent = null;
 
@@ -64,7 +64,7 @@ class Toast extends AbstractInteraction
     }
 
     /**
-     * Sets the toast as persistent (without timeout and progress bar).
+     * Sets the toast as persistent (without a timeout and progress bar).
      */
     public function persistent(): self
     {

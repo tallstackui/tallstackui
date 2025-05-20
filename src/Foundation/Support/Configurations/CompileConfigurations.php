@@ -38,7 +38,7 @@ class CompileConfigurations
         }
 
         // When the result of $data is a string, then we consult the
-        // config file and make a direct mapping so there is no need
+        // config file and make a direct mapping, so there is no need
         // to create a method for each component.
         if (is_string($data)) {
             $data = collect(config('tallstackui.settings.'.$data))
