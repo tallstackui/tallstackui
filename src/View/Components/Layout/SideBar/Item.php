@@ -17,6 +17,7 @@ class Item extends TallStackUiComponent implements Personalization
     public function __construct(
         public ?string $text = null,
         public ?string $route = null,
+        public ?string $href = null,
         public ?string $match = null,
         public ComponentSlot|string|null $icon = null,
         public ?bool $current = null,

@@ -35,12 +35,18 @@
         </li>
     @else
         <li class="{{ $personalize['item.wrapper.base'] }}" x-bind:class="{ '{{ $personalize['item.wrapper.border'] }}' : $refs.parent !== undefined }">
-            <a @if ($route) href="{{ $route }}" @endif
+            <a @if ($route || $href) href="{{ $route ?? $href }}" @endif
             @class([
                 $personalize['item.state.base'],
                 $personalize['item.state.normal'] => ! $current || (! $smart && ! $matches()),
                 \Illuminate\Support\Arr::toCssClasses(['ts-ui-group-opened', $personalize['item.state.current']]) => $current || ($smart && $matches()),
-            ]) x-bind:class="{'{{ $personalize['item.state.collapsed'] }}' : @js($collapsible) && ! $store['tsui.side-bar'].open && ! $store['tsui.side-bar'].mobile }" @if ($navigate) wire:navigate @elseif ($navigateHover) wire:navigate.hover @endif>
+            ]) x-bind:class="{'{{ $personalize['item.state.collapsed'] }}' : @js($collapsible) && ! $store['tsui.side-bar'].open && ! $store['tsui.side-bar'].mobile }"
+                @if ($navigate && ! $href)
+                    wire:navigate
+                @elseif ($navigateHover && ! $href)
+                   wire:navigate.hover
+                @endif
+                {{ $attributes }}>
                 @if ($icon instanceof \Illuminate\View\ComponentSlot)
                     {{ $icon }}
                 @elseif ($icon)
