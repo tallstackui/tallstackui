@@ -130,4 +130,9 @@ return [
         'add-row' => 'RIJ TOEVOEGEN',
         'empty' => 'Geen rijen toegevoegd.',
     ],
+
+    'currency' => [
+        'symbol' => '€',
+        'currency' => 'EUR',
+    ],
 ];

@@ -130,4 +130,9 @@ return [
         'add-row' => 'SATIR EKLE',
         'empty' => 'Hiçbir satır eklenmedi.',
     ],
+
+    'currency' => [
+        'symbol' => '₺',
+        'currency' => 'TRY',
+    ],
 ];

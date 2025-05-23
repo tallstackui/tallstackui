@@ -130,4 +130,9 @@ return [
         'add-row' => 'AGREGAR FILA',
         'empty' => 'No se han agregado filas.',
     ],
+
+    'currency' => [
+        'symbol' => '€',
+        'currency' => 'EUR',
+    ],
 ];

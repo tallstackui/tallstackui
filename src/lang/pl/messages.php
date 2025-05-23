@@ -125,4 +125,9 @@ return [
         'add-row' => 'DODAJ WIERSZ',
         'empty' => 'Nie dodano żadnych wierszy.',
     ],
+
+    'currency' => [
+        'symbol' => 'zł',
+        'currency' => 'PLN',
+    ],
 ];

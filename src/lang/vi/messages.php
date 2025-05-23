@@ -130,4 +130,9 @@ return [
         'add-row' => 'THÊM DÒNG',
         'empty' => 'Chưa thêm dòng nào.',
     ],
+
+    'currency' => [
+        'symbol' => '₫',
+        'currency' => 'VND',
+    ],
 ];

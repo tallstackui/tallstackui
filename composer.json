@@ -79,7 +79,7 @@
         "ci:analyse": [
             "./vendor/bin/pint --test",
             "./vendor/bin/phpstan analyse --memory-limit=2G",
-            "php ./vendor/bin/rector process --dry-run --config=rector.php"
+            "composer test:feature"
         ]
     },
     "config": {

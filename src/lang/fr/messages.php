@@ -130,4 +130,9 @@ return [
         'add-row' => 'AJOUTER UNE LIGNE',
         'empty' => 'Aucune ligne ajoutée.',
     ],
+
+    'currency' => [
+        'symbol' => '€',
+        'currency' => 'EUR',
+    ],
 ];
