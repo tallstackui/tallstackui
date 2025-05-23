@@ -130,4 +130,9 @@ return [
         'add-row' => 'ZEILE HINZUFÜGEN',
         'empty' => 'Keine Zeilen hinzugefügt.',
     ],
+
+    'currency' => [
+        'symbol' => '€',
+        'currency' => 'EUR',
+    ],
 ];

@@ -130,4 +130,9 @@ return [
         'add-row' => 'TAMBAH BARIS',
         'empty' => 'Tiada baris ditambah.',
     ],
+
+    'currency' => [
+        'symbol' => 'RM',
+        'currency' => 'MYR',
+    ],
 ];

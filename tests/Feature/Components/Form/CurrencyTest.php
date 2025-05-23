@@ -19,7 +19,7 @@ it('can render with label and hint')
     ->toContain('Foo bar');
 
 it('can render with prefix', function () {
-    $component = <<<HTML
+    $component = <<<'HTML'
     <x-currency prefix="£" />
     HTML;
 

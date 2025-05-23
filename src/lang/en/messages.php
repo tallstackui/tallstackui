@@ -130,4 +130,9 @@ return [
         'add-row' => 'ADD ROW',
         'empty' => 'No rows added.',
     ],
+
+    'currency' => [
+        'symbol' => '$',
+        'currency' => 'USD',
+    ],
 ];

@@ -19,23 +19,18 @@ class Currency extends TallStackUiComponent
         public ?string $hint = null,
         public ?bool $clearable = null,
         public ?bool $invalidate = null,
-        // TODO en only
         public ?string $locale = 'en-US',
-        //        #[SkipDebug]
-        //        public ?string $prefix = null,
-        //        #[SkipDebug]
-        //        public ?string $suffix = null,
+        public ?int $decimals = 2,
+        public ?int $precision = 4,
+        public ?bool $indicators = null,
+        #[SkipDebug]
+        public ?array $symbols = [],
     ) {
-        // $this->position = $this->position === 'left' ? 'left' : 'right';
+        $this->symbols = trans('tallstack-ui::messages.currency');
     }
 
     public function blade(): View
     {
         return view('tallstack-ui::components.form.currency');
-    }
-
-    public function personalization(): array
-    {
-        return [];
     }
 }

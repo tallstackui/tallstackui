@@ -130,4 +130,9 @@ return [
         'add-row' => 'إضافة صف',
         'empty' => 'لم تتم إضافة أي صفوف.',
     ],
+
+    'currency' => [
+        'symbol' => 'د.إ',
+        'currency' => 'AED',
+    ],
 ];
