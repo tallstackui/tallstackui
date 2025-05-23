@@ -10,13 +10,6 @@ class CurrencyRuntime extends AbstractRuntime
     /** @throws Exception */
     public function runtime(): array
     {
-        $bind = $this->bind();
-
-        return [
-            'entangle' => $bind->get('entangle'),
-            'property' => $property = $bind->get('property'),
-            'error' => $bind->get('error'),
-            'id' => $bind->get('id'),
-        ];
+        return [...$this->bind()];
     }
 }

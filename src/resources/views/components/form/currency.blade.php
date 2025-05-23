@@ -9,14 +9,16 @@
     @js($clearable),
     @js($locale))">
     <x-dynamic-component :component="TallStackUi::prefix('input')"
-                         {{ $attributes }}
+                         {{ $attributes->whereDoesntStartWith('wire:model') }}
                          :$label
                          :$hint
                          :$invalidate
+                         :alternative="$property"
+                         x-on:input="sync"
                          x-model="input">
         @if ($indicators)
             @if (!empty($symbols['symbol']))
-                <x-slot:prefix class="ml-2 mr-1">
+                <x-slot:prefix class="ml-2">
                     {{ $symbols['symbol'] }}
                 </x-slot:prefix>
             @endif

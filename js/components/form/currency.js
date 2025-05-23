@@ -19,14 +19,10 @@ export default (
                 this.$nextTick(() => this.format());
             }
 
-            this.$watch('input', (value) => {
-                this.format(value);
-
-                this.model = this.input;
-            });
+            this.$watch('input', (value) => this.format(value));
         },
         /**
-         * Format the input value based on locale.
+         * Format the input value.
          *
          * @returns {void}
          */
@@ -34,7 +30,7 @@ export default (
             let current = '';
 
             if (value) {
-                current = value.replace(/[^\d]/g, '');
+                current = value.replace(/\D/g, '');
             } else {
                 current = this.input;
             }
@@ -51,7 +47,17 @@ export default (
             }).format(current);
         },
         /**
+         * Sync the input value with the model.
+         *
+         * @returns {void}
+         */
+        sync () {
+            this.$nextTick(() => this.model = this.input.replace(/\D/g, ''));
+        },
+        /**
          * Clear the input.
+         *
+         * @returns {void}
          */
         clear() {
             this.input = '';

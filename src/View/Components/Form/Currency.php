@@ -30,8 +30,6 @@ class Currency extends TallStackUiComponent implements Personalization
         #[SkipDebug]
         public ?array $symbols = [],
     ) {
-        \Illuminate\Support\Number::currency()
-
         $this->symbols = trans('tallstack-ui::messages.currency');
     }
 
@@ -45,7 +43,7 @@ class Currency extends TallStackUiComponent implements Personalization
         return Arr::dot([
             'clearable' => [
                 'wrapper' => 'cursor-pointer absolute inset-y-0 flex items-center text-gray-500 dark:text-dark-400',
-                'padding' => 'right-8',
+                'padding' => 'right-9',
                 'size' => 'h-5 w-5',
                 'color' => 'hover:text-red-500',
             ],
