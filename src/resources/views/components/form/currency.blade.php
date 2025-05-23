@@ -10,24 +10,30 @@
     @js($locale))">
     <x-dynamic-component :component="TallStackUi::prefix('input')"
                          {{ $attributes->whereDoesntStartWith('wire:model') }}
+                         class="appearance-number-none"
+                         inputmode="numeric"
                          :$label
                          :$hint
                          :$invalidate
                          :alternative="$property"
                          x-on:input="sync"
                          x-model="input">
-        @if ($indicators)
-            @if (!empty($symbols['symbol']))
+        @if ($symbol || $currency || $clearable)
+            @if (!empty($symbols['symbol']) && $symbol)
                 <x-slot:prefix class="ml-2">
                     {{ $symbols['symbol'] }}
                 </x-slot:prefix>
             @endif
             <x-slot:suffix class="mr-2">
-                @if (!empty($symbols['currency']))
+                @if (!empty($symbols['currency']) && $currency)
                     {{ $symbols['currency'] }}
                 @endif
                 @if ($clearable)
-                        <div @class([ $personalize['clearable.wrapper'], $personalize['clearable.padding']]) x-show="input !== '' && clearable">
+                        <div @class([
+                                $personalize['clearable.wrapper'],
+                                $personalize['clearable.padding.with-currency'] => $currency,
+                                $personalize['clearable.padding.without-currency'] => ! $currency,
+                            ]) x-show="input !== '' && clearable">
                             <button type="button" class="cursor-pointer" dusk="tallstackui_form_currency_clearable">
                                 <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                                      :icon="TallStackUi::icon('x-mark')"

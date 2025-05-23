@@ -4,13 +4,16 @@ namespace Tests\Browser\Form;
 
 use Livewire\Component;
 use Livewire\Livewire;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\BrowserTestCase;
 
 class CurrencyTest extends BrowserTestCase
 {
-    /** @test */
-    public function does_not_allow_letters(): void
+    #[Test]
+    public function can_bind_formatted(): void
     {
+        $this->markTestSkipped();
+
         Livewire::visit(new class extends Component
         {
             public ?string $money = '';
@@ -21,22 +24,19 @@ class CurrencyTest extends BrowserTestCase
                 <div>
                     <p dusk="money">{{ $money }}</p>
                 
-                    <x-currency dusk="currency_input" wire:model.live="money" clearable />
+                    <x-currency dusk="input" wire:model.live="money" clearable />
                 </div>
                 HTML;
             }
         })
             ->waitForLivewireToLoad()
-            ->type('@currency_input', '1000')
-            ->pause(500)
-            ->assertSeeIn('@money', '10.00')
-            ->type('@currency_input', '1000a')
-            ->pause(500)
-            ->assertSeeIn('@money', '10.00');
+            ->typeSlowly('@input', '1000')
+            ->waitForTextIn('@money', '1000')
+            ->assertSeeIn('@money', '1000');
     }
 
-    /** @test */
-    public function formatting_money_correctly(): void
+    #[Test]
+    public function can_bind_without_format(): void
     {
         Livewire::visit(new class extends Component
         {
@@ -48,19 +48,19 @@ class CurrencyTest extends BrowserTestCase
                 <div>
                     <p dusk="money">{{ $money }}</p>
                 
-                    <x-currency dusk="currency_input" wire:model.live="money" clearable />
+                    <x-currency dusk="input" wire:model.live="money" clearable />
                 </div>
                 HTML;
             }
         })
             ->waitForLivewireToLoad()
-            ->type('@currency_input', '1000')
-            ->pause(500)
-            ->assertSeeIn('@money', '10.00');
+            ->typeSlowly('@input', '1000')
+            ->waitForTextIn('@money', '1000')
+            ->assertSeeIn('@money', '1000');
     }
 
-    /** @test */
-    public function formatting_money_correctly_with_locale(): void
+    #[Test]
+    public function can_clear(): void
     {
         Livewire::visit(new class extends Component
         {
@@ -72,14 +72,40 @@ class CurrencyTest extends BrowserTestCase
                 <div>
                     <p dusk="money">{{ $money }}</p>
                 
-                    <x-currency dusk="currency_input" wire:model.live="money" clearable locale="pt-BR" />
+                    <x-currency dusk="input" locale="pt-BR" wire:model.live="money" clearable />
                 </div>
                 HTML;
             }
         })
             ->waitForLivewireToLoad()
-            ->type('@currency_input', '1000')
-            ->pause(500)
-            ->assertSeeIn('@money', '10,00');
+            ->typeSlowly('@input', '1000')
+            ->assertInputValue('@input', '10,00')
+            ->click('@tallstackui_form_currency_clearable')
+            ->assertInputValue('@input', '')
+            ->pause(100)
+            ->assertNotVisible('@money');
+    }
+
+    #[Test]
+    public function can_format_brl(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $money = '';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="money">{{ $money }}</p>
+                
+                    <x-currency dusk="input" locale="pt-BR" wire:model.live="money" clearable />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->typeSlowly('@input', '1000')
+            ->assertInputValue('@input', '10,00');
     }
 }

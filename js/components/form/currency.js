@@ -45,7 +45,7 @@ export default (
      * @returns {void}
      */
     sync() {
-        this.$nextTick(() => (this.model = this.input.replace(/\D/g, '')));
+        this.$nextTick(() => this.model = this.input.replace(/\D/g, ''));
     },
     /**
      * Clear the input.

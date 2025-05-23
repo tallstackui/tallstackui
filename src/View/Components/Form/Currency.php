@@ -26,7 +26,8 @@ class Currency extends TallStackUiComponent implements Personalization
         public ?string $locale = 'en-US',
         public ?int $decimals = 2,
         public ?int $precision = 4,
-        public ?bool $indicators = null,
+        public ?bool $symbol = null,
+        public ?bool $currency = null,
         #[SkipDebug]
         public ?array $symbols = [],
     ) {
@@ -43,7 +44,10 @@ class Currency extends TallStackUiComponent implements Personalization
         return Arr::dot([
             'clearable' => [
                 'wrapper' => 'cursor-pointer absolute inset-y-0 flex items-center text-gray-500 dark:text-dark-400',
-                'padding' => 'right-9',
+                'padding' => [
+                    'with-currency' => 'right-9',
+                    'without-currency' => 'right-2',
+                ],
                 'size' => 'h-5 w-5',
                 'color' => 'hover:text-red-500',
             ],
