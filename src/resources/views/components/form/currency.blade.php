@@ -29,12 +29,12 @@
         @if ($symbol || $currency || $clearable)
             @if (!empty($symbols['symbol']) && $symbol)
                 <x-slot:prefix class="ml-2">
-                    {{ $symbols['symbol'] }}
+                    {{ is_string($symbol) && $symbol !== '1' ? $symbol : $symbols['symbol'] }}
                 </x-slot:prefix>
             @endif
             <x-slot:suffix class="mr-2">
                 @if (!empty($symbols['currency']) && $currency)
-                    {{ $symbols['currency'] }}
+                    {{ is_string($currency) && $currency !== '1' ? $currency : $symbols['currency'] }}
                 @endif
                 @if ($clearable)
                         <div @class([

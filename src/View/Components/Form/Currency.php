@@ -23,8 +23,8 @@ class Currency extends TallStackUiComponent implements Personalization
         public ?string $locale = 'en-US',
         public ?int $decimals = 2,
         public ?int $precision = 4,
-        public ?bool $symbol = null,
-        public ?bool $currency = null,
+        public bool|string|null $symbol = null,
+        public bool|string|null $currency = null,
         public ?bool $mutate = null,
         #[SkipDebug]
         public ?array $symbols = [],
