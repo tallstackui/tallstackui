@@ -3,6 +3,7 @@ export default (
     decimals,
     precision,
     clearable,
+    mutate,
     locale
 ) => ({
     model: model,
@@ -10,6 +11,7 @@ export default (
     decimals: decimals,
     precision: precision,
     clearable: clearable,
+    mutate: mutate,
     locale: locale,
     init() {
         if (this.model) {
@@ -45,7 +47,7 @@ export default (
      * @returns {void}
      */
     sync() {
-        this.$nextTick(() => this.model = this.input.replace(/\D/g, ''));
+        this.$nextTick(() => this.model = this.mutate ? this.input : this.input.replace(/\D/g, ''));
     },
     /**
      * Clear the input.

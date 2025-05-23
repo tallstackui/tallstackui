@@ -12,8 +12,6 @@ class CurrencyTest extends BrowserTestCase
     #[Test]
     public function can_bind_formatted(): void
     {
-        $this->markTestSkipped();
-
         Livewire::visit(new class extends Component
         {
             public ?string $money = '';
@@ -24,15 +22,15 @@ class CurrencyTest extends BrowserTestCase
                 <div>
                     <p dusk="money">{{ $money }}</p>
                 
-                    <x-currency dusk="input" wire:model.live="money" clearable />
+                    <x-currency dusk="input" wire:model.live="money" clearable mutate />
                 </div>
                 HTML;
             }
         })
             ->waitForLivewireToLoad()
             ->typeSlowly('@input', '1000')
-            ->waitForTextIn('@money', '1000')
-            ->assertSeeIn('@money', '1000');
+            ->waitForTextIn('@money', '10.00')
+            ->assertSeeIn('@money', '10.00');
     }
 
     #[Test]

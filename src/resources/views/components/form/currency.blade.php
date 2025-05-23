@@ -7,6 +7,7 @@
     @js($decimals),
     @js($precision),
     @js($clearable),
+    @js($mutate),
     @js($locale))">
     <x-dynamic-component :component="TallStackUi::prefix('input')"
                          {{ $attributes->whereDoesntStartWith('wire:model') }}

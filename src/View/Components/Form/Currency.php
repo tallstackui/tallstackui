@@ -28,6 +28,7 @@ class Currency extends TallStackUiComponent implements Personalization
         public ?int $precision = 4,
         public ?bool $symbol = null,
         public ?bool $currency = null,
+        public ?bool $mutate = null,
         #[SkipDebug]
         public ?array $symbols = [],
     ) {
