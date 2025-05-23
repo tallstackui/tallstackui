@@ -27,13 +27,7 @@ export default (
          * @returns {void}
          */
         format(value = null) {
-            let current = '';
-
-            if (value) {
-                current = value.replace(/\D/g, '');
-            } else {
-                current = this.input;
-            }
+            let current = value ? value.replace(/\D/g, '') : this.input;
 
             if (current === '') {
                 return;
