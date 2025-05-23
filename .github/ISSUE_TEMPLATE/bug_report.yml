@@ -35,6 +35,7 @@ body:
         - Checkbox
         - Clipboard
         - Color
+        - Currency
         - Date
         - Dialog
         - Dropdown
