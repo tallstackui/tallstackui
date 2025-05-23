@@ -4,11 +4,12 @@ namespace Tests\Browser\Button;
 
 use Livewire\Component;
 use Livewire\Livewire;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\BrowserTestCase;
 
 class IndexTest extends BrowserTestCase
 {
-    /** @test */
+    #[Test]
     public function can_see_loading_spinner_with_circle_button(): void
     {
         Livewire::visit(new class extends Component
@@ -39,7 +40,7 @@ class IndexTest extends BrowserTestCase
             ->waitFor('@button-loading-spinner');
     }
 
-    /** @test */
+    #[Test]
     public function can_see_loading_spinner_with_normal_button(): void
     {
         Livewire::visit(new class extends Component

@@ -25,7 +25,9 @@ class TallStackUiAssetsController
     /** @throws Exception */
     public function style(?string $file = null): Response|BinaryFileResponse
     {
-        $file = $this->fallback($file);
+        $file = $file === 'tallstackui.css'
+            ? 'tallstackui.css' // TailwindCSS v4
+            : $this->fallback($file);
 
         return Utils::pretendResponseIsFile(self::DIST_PATH.'/'.$file, 'text/css');
     }
@@ -37,7 +39,7 @@ class TallStackUiAssetsController
      */
     private function fallback(string $file): string
     {
-        $config = __ts_configuration('assets_fallback')->first();
+        $config = config('tallstackui.assets_fallback');
 
         if (blank($config) || $config === false || file_exists(self::DIST_PATH.'/'.$file)) {
             return $file;
@@ -56,7 +58,7 @@ class TallStackUiAssetsController
                     return true;
                 }
 
-                return str_contains($file, $plugin);
+                return str_contains($file, (string) $plugin);
             })
             ->toArray();
 

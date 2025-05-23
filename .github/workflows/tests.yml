@@ -3,10 +3,13 @@ name: Tests
 on:
   push:
     branches:
-      - 1.x
+      - 2.x
+    paths-ignore:
+      - '.github/**'
+      - 'README.md'
   pull_request:
     branches:
-      - 1.x
+      - 2.x
   workflow_dispatch:
 
 jobs:
@@ -17,11 +20,8 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest]
-        php: [8.1, 8.2, 8.3]
-        laravel: ['10.*', '11.*']
-        exclude:
-          - laravel: 11.*
-            php: 8.1
+        php: [8.3]
+        laravel: ['11.*']
 
     name: OS:${{ matrix.os }} / PHP:${{ matrix.php }} / Laravel:${{ matrix.laravel }}
 
@@ -32,13 +32,15 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 18.x
+          node-version: 22.x
 
-      - run: npm install
-
-      - run: npm run lint
-
-      - run: npm run build
+      - name: Install Node Dependencies
+        run: |
+          rm -rf node_modules
+          rm -f package-lock.json
+          npm install
+          npm run lint
+          npm run build
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -52,22 +54,13 @@ jobs:
         run: |
           composer require "laravel/framework:${{ matrix.laravel }}" --no-interaction --no-progress --ansi --no-update
           composer update --no-interaction --no-progress --ansi
-
-      - name: Rector Cache
-        uses: actions/cache@v4
-        with:
-          path: ./var/cache/rector
-          key: ${{ runner.os }}-rector-${{ hashFiles('**/composer.lock') }}
-          restore-keys: ${{ runner.os }}-rector-
+          composer require livewire/livewire:v3.4.9 --no-interaction --no-progress --ansi
 
       - name: Setup Google Chrome
         run: vendor/bin/dusk-updater detect --auto-update
 
       - name: Pint
         run: ./vendor/bin/pint --test
-
-      - name: Rector
-        run: ./vendor/bin/rector process --dry-run --config=rector.php
 
       - name: PHPStan
         run: ./vendor/bin/phpstan --configuration="phpstan.neon"

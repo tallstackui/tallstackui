@@ -18,7 +18,6 @@ class RangeColors
     private function thumb(): array
     {
         return [
-            'white' => '[&::-webkit-slider-thumb]:bg-white',
             'black' => '[&::-webkit-slider-thumb]:bg-black',
             'primary' => '[&::-webkit-slider-thumb]:bg-primary-500',
             'secondary' => '[&::-webkit-slider-thumb]:bg-secondary-500',

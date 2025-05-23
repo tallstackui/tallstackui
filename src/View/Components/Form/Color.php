@@ -25,6 +25,7 @@ class Color extends TallStackUiComponent implements Personalization
         public Collection|array|null $colors = null,
         public ?bool $invalidate = null,
         public ?bool $selectable = null,
+        public ?bool $clearable = null,
         #[SkipDebug]
         public ?string $mode = null,
     ) {
@@ -41,14 +42,17 @@ class Color extends TallStackUiComponent implements Personalization
         return Arr::dot([
             'selected' => [
                 'wrapper' => 'flex items-center',
-                'base' => 'dark:border-dark-700 h-6 w-6 rounded shadow',
+                'base' => 'dark:border-dark-700 h-6 w-6 rounded-sm shadow',
             ],
             'icon' => [
                 'class' => 'h-5 w-5',
             ],
-            'floating' => collect(app(Floating::class)->personalization())->get('wrapper'),
+            'floating' => [
+                'default' => collect(app(Floating::class)->personalization())->get('wrapper'),
+                'class' => 'w-[18rem] overflow-auto',
+            ],
             'box' => [
-                'base' => 'shadow-xs dark:bg-dark-700 soft-scrollbar max-h-60 overflow-auto rounded-md bg-white py-4',
+                'base' => 'shadow-sm dark:bg-dark-700 soft-scrollbar max-h-60 overflow-auto rounded-md bg-white py-4',
                 'range' => [
                     'wrapper' => 'px-4',
                     'base' => 'mb-4 h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 dark:bg-gray-600',
@@ -56,16 +60,16 @@ class Color extends TallStackUiComponent implements Personalization
                 ],
                 'button' => [
                     'wrapper' => 'mx-auto flex w-[17rem] flex-wrap items-center justify-center gap-1',
-                    'base' => 'rounded shadow-lg',
-                    'color' => 'flex h-5 w-5 cursor-pointer items-center justify-center rounded',
+                    'color' => 'flex h-5 w-5 cursor-pointer items-center justify-center rounded-sm',
                     'icon' => 'h-3 w-3',
                 ],
             ],
+            'icon.wrapper' => 'flex items-center min-w-full gap-1.5',
             'clearable' => [
-                'wrapper' => 'cursor-pointer flex items-center text-gray-500 dark:text-dark-400',
+                'wrapper' => 'flex items-center text-gray-500 dark:text-dark-400',
+                'button' => 'cursor-pointer hover:text-red-500',
                 'padding' => 'pr-1.5',
                 'size' => 'h-5 w-5',
-                'color' => 'text-gray-500 dark:text-dark-400',
             ],
         ]);
     }
@@ -73,15 +77,13 @@ class Color extends TallStackUiComponent implements Personalization
     /** @throws InvalidArgumentException */
     protected function validate(): void
     {
-        $colors = collect($this->colors);
-
-        if ($colors->isEmpty()) {
+        if (($colors = collect($this->colors))->isEmpty()) {
             return;
         }
 
-        $colors->each(function (string $color) {
+        $colors->each(function (string $color): void {
             if (! str($color)->startsWith('#')) {
-                throw new InvalidArgumentException('All the [colors] must starts with #');
+                __ts_validation_exception($this, 'All the [colors] must starts with #');
             }
         });
     }

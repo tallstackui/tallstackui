@@ -4,11 +4,12 @@ namespace Tests\Browser\Rating;
 
 use Livewire\Component;
 use Livewire\Livewire;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\BrowserTestCase;
 
 class IndexTest extends BrowserTestCase
 {
-    /** @test */
+    #[Test]
     public function can_render(): void
     {
         Livewire::visit(new class extends Component
@@ -33,7 +34,7 @@ class IndexTest extends BrowserTestCase
             ->assertSee('Rating');
     }
 
-    /** @test */
+    #[Test]
     public function can_render_slot(): void
     {
         Livewire::visit(new class extends Component
@@ -60,7 +61,7 @@ class IndexTest extends BrowserTestCase
         })->assertSee('FooBar');
     }
 
-    /** @test */
+    #[Test]
     public function can_use_custom_method(): void
     {
         Livewire::visit(new class extends Component
@@ -90,7 +91,7 @@ class IndexTest extends BrowserTestCase
             ->assertSee('5');
     }
 
-    /** @test */
+    #[Test]
     public function can_use_events(): void
     {
         Livewire::visit(new class extends Component
@@ -127,7 +128,7 @@ class IndexTest extends BrowserTestCase
             ->assertSeeIn('@rated', 'rated');
     }
 
-    /** @test */
+    #[Test]
     public function cannot_allow_usage_of_float(): void
     {
         Livewire::visit(new class extends Component
@@ -148,10 +149,10 @@ class IndexTest extends BrowserTestCase
                 $this->rating = $rating;
             }
         })
-            ->assertSee('The rating [value] must be a int.');
+            ->assertSee('[TallStackUI] Rating: The [value] must be a int.');
     }
 
-    /** @test */
+    #[Test]
     public function cannot_rating_when_static(): void
     {
         Livewire::visit(new class extends Component
@@ -181,7 +182,7 @@ class IndexTest extends BrowserTestCase
             ->assertSee('3');
     }
 
-    /** @test */
+    #[Test]
     public function does_not_need_to_use_rate_with_livewire_context(): void
     {
         Livewire::visit(new class extends Component
@@ -202,6 +203,6 @@ class IndexTest extends BrowserTestCase
                 $this->rating = $rating;
             }
         })
-            ->assertSee('The rating [rate] can be omitted because you are in Livewire context. You can use `wire:model` instead.');
+            ->assertSee('[TallStackUI] Rating: The [rate] can be omitted because you are in Livewire context. You can use `wire:model` instead.');
     }
 }

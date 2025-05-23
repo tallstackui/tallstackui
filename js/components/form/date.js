@@ -18,7 +18,12 @@ export default (
     value,
     monthYearOnly,
     calendar,
+    disables = [],
     change = null,
+    start = 5,
+    only = null,
+    weekdays = false,
+    weekends = false,
 ) => ({
   show: false,
   picker: {
@@ -49,12 +54,17 @@ export default (
     end: null,
   },
   disable: disable,
+  disables: disables,
   interval: null,
   livewire: livewire,
   property: property,
   monthYearOnly: monthYearOnly,
   value: value,
   calendar: calendar,
+  start: start,
+  only: only,
+  weekends: weekends,
+  weekdays: weekdays,
   init() {
     this.translations();
 
@@ -99,12 +109,24 @@ export default (
     this.calendar['months'] = Object.values(this.calendar['months']);
     this.calendar['week'] = Object.values(this.calendar['week']);
 
+    // Reorder the week days according to the start day
+    if (this.start > 0) {
+      const days = [...this.calendar['week']];
+
+      const first = days.slice(0, this.start);
+
+      const second = days.slice(this.start);
+
+      this.calendar['week'] = [...second, ...first];
+    }
+
     dayjs.updateLocale('en', {
       weekdays: this.calendar['week'],
       weekdaysShort: this.calendar['week'].map((day) => day.slice(0, 3)),
       weekdaysMin: this.calendar['week'].map((day) => day.slice(0, 2)),
       months: this.calendar['months'],
       monthsShort: this.calendar['months'].map((month) => month.slice(0, 3)),
+      weekStart: this.start,
     });
   },
   /**
@@ -116,8 +138,8 @@ export default (
     if (range && this.model) {
       const one = this.model[0];
 
-      // The two (model.1) can be an empty/null in
-      // situation where only the start was set.
+      // The two (model.1) can be empty /null in
+      // a situation where only the start was set.
       let two = this.model[1];
       two = two === 'null' ? null : two;
 
@@ -198,6 +220,8 @@ export default (
    * @return {*}
    */
   select(event, day) {
+    if ((this.disables['disabled'] ?? false) || (this.disables['readonly'] ?? false)) return;
+
     event.preventDefault();
 
     const date = this.instance(day);
@@ -245,12 +269,14 @@ export default (
     const start = this.instance('01');
 
     const month = start.endOf('month').date();
-    const week = start.day();
+    let week = start.day();
 
-    this.blanks = Array.from({length: week}, (key, value) => value + 1);
+    const count = (week - this.start + 7) % 7;
+
+    this.blanks = Array.from({length: count}, (key, value) => value + 1);
 
     this.days = Array.from({length: month}, (key, value) => {
-      const date = start.add(value, 'day');
+      const date = this.instance('01').add(value, 'day');
 
       return {
         instance: date,
@@ -346,6 +372,9 @@ export default (
   disabled(date) {
     return (this.date.min && dayjs(date).isBefore(this.date.min)) ||
            (this.date.max && dayjs(date).isAfter(this.date.max)) ||
+           (this.weekdays && (dayjs(date).day() === 0 || dayjs(date).day() === 6)) ||
+           (this.weekends && (dayjs(date).day() !== 0 && dayjs(date).day() !== 6)) ||
+           (this.only && dayjs(date).day() !== parseInt(this.only)) ||
            this.disable.includes(this.formatted(date, 'YYYY-MM-DD'));
   },
   /**

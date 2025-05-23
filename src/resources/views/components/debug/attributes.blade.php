@@ -1,5 +1,5 @@
 @php
-    $name = \TallStackUi\Facades\TallStackUi::component()->remove($data['componentName']);
+    $name = \TallStackUi\Facades\TallStackUi::prefix()->remove($data['componentName']);
     $attributes = collect($data['attributes'])->filter(fn (mixed $value, string $key) => ! is_array($value));
     $ignores = ['slot', 'trigger', 'content', 'componentName'];
 

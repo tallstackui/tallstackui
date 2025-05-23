@@ -66,6 +66,12 @@ export default (toast) => ({
       });
     });
   },
+  /**
+   * Accept the toast (by confirming).
+   *
+   * @param {Object} toast
+   * @return {void}
+   */
   accept(toast) {
     event('toast:accepted', toast, false);
 
@@ -73,11 +79,27 @@ export default (toast) => ({
       return this.hide();
     }
 
-    Livewire.find(toast.component)
-        .call(toast.options.confirm.method, toast.options.confirm.params);
+    // This piece of code was made to allow dialog/toast to be used inside Livewire custom
+    // directives in order to pass Livewire's action() as the method to be executed, allowing
+    // the fluent execution of the action associated with the directive.
+    const method = toast.options.confirm.method;
 
     this.hide();
+
+    if (typeof method === 'function') {
+        method();
+
+        return;
+    }
+
+    Livewire.find(toast.component).call(method, toast.options.confirm.params);
   },
+  /**
+   * Reject the toast (by cancelling).
+   *
+   * @param {Object} toast
+   * @return {void}
+   */
   reject(toast) {
     event('toast:rejected', toast, false);
 
@@ -85,22 +107,31 @@ export default (toast) => ({
       return this.hide();
     }
 
-    Livewire.find(toast.component)
-        .call(toast.options.cancel.method, toast.options.cancel.params);
+    // This piece of code was made to allow dialog/toast to be used inside Livewire custom
+    // directives in order to pass Livewire's action() as the method to be executed, allowing
+    // the fluent execution of the action associated with the directive.
+    const method = toast.options.cancel.method;
 
     this.hide();
+
+    if (typeof method === 'function') {
+      method();
+
+      return;
+    }
+
+    Livewire.find(toast.component).call(method, toast.options.cancel.params);
   },
   /**
    * Hide the toast.
    *
-   * @param immediately {Boolean}
-   * @param internal {Boolean}
+   * @param {Boolean} immediately
+   * @param {Boolean} internal
    * @return {void}
    */
   hide(immediately = true, internal = true) {
     if (!internal && toast.hooks?.close) {
-      Livewire.find(toast.component)
-          .call(toast.hooks.close.method, toast.hooks.close.params);
+      Livewire.find(toast.component).call(toast.hooks.close.method, toast.hooks.close.params);
     }
 
     setTimeout(() => {

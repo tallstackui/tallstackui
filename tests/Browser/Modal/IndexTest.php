@@ -4,11 +4,12 @@ namespace Tests\Browser\Modal;
 
 use Livewire\Component;
 use Livewire\Livewire;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\BrowserTestCase;
 
 class IndexTest extends BrowserTestCase
 {
-    /** @test */
+    #[Test]
     public function can_dispatch_events(): void
     {
         Livewire::visit(new class extends Component
@@ -44,7 +45,7 @@ class IndexTest extends BrowserTestCase
             ->assertSeeIn('@target', 'Closed');
     }
 
-    /** @test */
+    #[Test]
     public function can_open(): void
     {
         Livewire::visit(new class extends Component
@@ -71,7 +72,7 @@ class IndexTest extends BrowserTestCase
             ->assertSee('Foo bar');
     }
 
-    /** @test */
+    #[Test]
     public function can_open_and_see_footer(): void
     {
         Livewire::visit(new class extends Component
@@ -103,7 +104,7 @@ class IndexTest extends BrowserTestCase
             ->assertSee('Lorem');
     }
 
-    /** @test */
+    #[Test]
     public function can_open_and_see_title(): void
     {
         Livewire::visit(new class extends Component
@@ -132,7 +133,7 @@ class IndexTest extends BrowserTestCase
             ->assertSee('Bar baz');
     }
 
-    /** @test */
+    #[Test]
     public function can_open_using_different_entangle(): void
     {
         Livewire::visit(new class extends Component
@@ -159,7 +160,7 @@ class IndexTest extends BrowserTestCase
             ->assertSee('Foo bar');
     }
 
-    /** @test */
+    #[Test]
     public function can_open_using_helper(): void
     {
         Livewire::visit(new class extends Component
@@ -184,7 +185,7 @@ class IndexTest extends BrowserTestCase
             ->assertSee('Foo bar');
     }
 
-    /** @test */
+    #[Test]
     public function cannot_close_when_modal_is_persistent(): void
     {
         Livewire::visit(new class extends Component

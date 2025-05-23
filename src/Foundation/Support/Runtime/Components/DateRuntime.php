@@ -4,7 +4,6 @@ namespace TallStackUi\Foundation\Support\Runtime\Components;
 
 use Exception;
 use Illuminate\Support\Carbon;
-use InvalidArgumentException;
 use TallStackUi\Foundation\Support\Runtime\AbstractRuntime;
 
 class DateRuntime extends AbstractRuntime
@@ -23,7 +22,7 @@ class DateRuntime extends AbstractRuntime
             'change' => $this->change(),
         ];
 
-        $value = $this->value($value, $property);
+        $value = $this->value($property, $value);
 
         if (filled($value)) {
             $this->validate($value);
@@ -42,14 +41,14 @@ class DateRuntime extends AbstractRuntime
         }
 
         if (($range || $multiple) && ! is_array($value)) {
-            throw new InvalidArgumentException('The date [value] must be an array when using the [range] or [multiple].');
+            __ts_validation_exception($this->component, 'The [value] must be an array when using the [range] or [multiple].');
         }
 
         if ($range && count($value) === 2) {
             [$start, $end] = array_map(fn (?string $date) => Carbon::parse($date), $value);
 
             if ($start->greaterThan($end)) {
-                throw new InvalidArgumentException('The start date in the [range] must be greater than the second date.');
+                __ts_validation_exception($this->component, 'The start date in the [range] must be greater than the second date.');
             }
         }
     }

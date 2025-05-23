@@ -72,6 +72,7 @@ return [
                 'description' => 'Je hebt nog geen enkel beeld.',
             ],
         ],
+        'invalid' => 'Er trad een validatiefout op.',
     ],
 
     'date' => [
@@ -115,5 +116,18 @@ return [
         'next' => 'Volgende',
         'previous' => 'Vorige',
         'finish' => 'Voltooien',
+    ],
+
+    'key-value' => [
+        'headers' => [
+            'key' => 'SLEUTEL',
+            'value' => 'WAARDE',
+        ],
+        'placeholders' => [
+            'key' => 'Voer een sleutel in',
+            'value' => 'Voer een waarde in',
+        ],
+        'add-row' => 'RIJ TOEVOEGEN',
+        'empty' => 'Geen rijen toegevoegd.',
     ],
 ];

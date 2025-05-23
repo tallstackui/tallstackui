@@ -72,6 +72,7 @@ return [
                 'description' => 'You don\'t have any image yet.',
             ],
         ],
+        'invalid' => 'There was some validation error.',
     ],
 
     'date' => [
@@ -115,5 +116,18 @@ return [
         'next' => 'Next',
         'previous' => 'Previous',
         'finish' => 'Finish',
+    ],
+
+    'key-value' => [
+        'headers' => [
+            'key' => 'KEY',
+            'value' => 'VALUE',
+        ],
+        'placeholders' => [
+            'key' => 'Enter a key',
+            'value' => 'Enter a value',
+        ],
+        'add-row' => 'ADD ROW',
+        'empty' => 'No rows added.',
     ],
 ];

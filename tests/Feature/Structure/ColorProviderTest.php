@@ -1,7 +1,7 @@
 <?php
 
 use TallStackUi\Foundation\Attributes\ColorsThroughOf;
-use TallStackUi\Foundation\Console\PublishColorsClassCommand;
+use TallStackUi\Foundation\Console\SetupColorCommand;
 use TallStackUi\Foundation\Support\Colors\CompileColors;
 use TallStackUi\View\Components\Alert;
 use TallStackUi\View\Components\Avatar;
@@ -58,7 +58,7 @@ test('should use attribute', function (string $component) {
 test('attribute should only be used in the components', function () {
     expect(ColorsThroughOf::class)
         ->toOnlyBeUsedIn([
-            PublishColorsClassCommand::class,
+            SetupColorCommand::class,
             CompileColors::class,
             Alert::class,
             Avatar::class,

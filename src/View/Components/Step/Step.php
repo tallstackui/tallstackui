@@ -46,7 +46,7 @@ class Step extends TallStackUiComponent implements Personalization
                 'wrapper' => 'min-w-8 min-h-8 text-md flex flex-col items-center align-middle md:inline-flex md:w-full md:flex-row md:flex-wrap',
                 'check' => 'h-5 w-5 text-white',
                 'circle' => [
-                    'wrapper' => 'w-8 h-8 flex flex-shrink-0 items-center justify-center rounded-full font-bold',
+                    'wrapper' => 'w-8 h-8 flex shrink-0 items-center justify-center rounded-full font-bold',
                     'inactive' => 'border-2 border-gray-300 text-gray-500 dark:text-dark-300 dark:border-dark-500',
                     'current' => 'border-2 border-primary-500 text-primary-500',
                     'border' => 'border-2 border-green-600',
@@ -92,7 +92,7 @@ class Step extends TallStackUiComponent implements Personalization
                 'check' => 'h-5 w-5 text-white',
                 'item' => 'flex items-center px-6 py-4 text-sm font-medium',
                 'circle' => [
-                    'wrapper' => 'flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full',
+                    'wrapper' => 'flex h-10 w-10 shrink-0 items-center justify-center rounded-full',
                     'inactive' => 'border-2 border-primary-500 dark:border-dark-300',
                     'current' => 'bg-primary-500 dark:border-primary-500',
                     'active' => 'bg-green-600 dark:border-green-600',
@@ -117,7 +117,7 @@ class Step extends TallStackUiComponent implements Personalization
             'content' => 'my-2',
             'helpers.wrapper' => 'flex justify-between',
             'button' => [
-                'wrapper' => 'dark:text-dark-400 mb-2 me-2 inline-flex select-none items-center rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm font-medium text-gray-600 transition hover:bg-gray-100 focus:outline-none dark:border-gray-600 dark:bg-gray-800 dark:hover:border-gray-600 dark:hover:bg-gray-700',
+                'base' => 'cursor-pointer dark:text-dark-400 mb-2 me-2 inline-flex select-none items-center rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm font-medium text-gray-600 transition hover:bg-gray-100 focus:outline-hidden dark:border-gray-600 dark:bg-gray-800 dark:hover:border-gray-600 dark:hover:bg-gray-700',
                 'icon' => 'dark:text-dark-300 h-4 w-4',
             ],
         ]);

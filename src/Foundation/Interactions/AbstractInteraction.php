@@ -21,7 +21,7 @@ abstract class AbstractInteraction
     }
 
     /**
-     * Sets the interaction as error.
+     * Sets the interaction as an error.
      */
     abstract public function error(string $title, ?string $description = null): self;
 
@@ -31,17 +31,17 @@ abstract class AbstractInteraction
     abstract public function info(string $title, ?string $description = null): self;
 
     /**
-     * Sets the interaction as question.
+     * Sets the interaction as a question.
      */
     abstract public function question(string $title, ?string $description = null): self;
 
     /**
-     * Sets the interaction as success.
+     * Sets the interaction as a success.
      */
     abstract public function success(string $title, ?string $description = null): self;
 
     /**
-     * Sets the interaction as warning.
+     * Sets the interaction as a warning.
      */
     abstract public function warning(string $title, ?string $description = null): self;
 

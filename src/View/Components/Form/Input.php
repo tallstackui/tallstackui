@@ -4,6 +4,7 @@ namespace TallStackUi\View\Components\Form;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
+use Illuminate\View\ComponentSlot;
 use TallStackUi\Foundation\Attributes\PassThroughRuntime;
 use TallStackUi\Foundation\Attributes\SkipDebug;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
@@ -25,11 +26,11 @@ class Input extends TallStackUiComponent implements Personalization
         public ?bool $clearable = null,
         public ?bool $invalidate = null,
         #[SkipDebug]
-        public ?string $prefix = null,
-        #[SkipDebug]
-        public ?string $suffix = null,
-        #[SkipDebug]
         public ?string $position = 'left',
+        #[SkipDebug]
+        public ComponentSlot|string|null $prefix = null,
+        #[SkipDebug]
+        public ComponentSlot|string|null $suffix = null,
     ) {
         $this->position = $this->position === 'left' ? 'left' : 'right';
     }
@@ -65,9 +66,20 @@ class Input extends TallStackUiComponent implements Personalization
                 'wrapper' => 'cursor-pointer absolute inset-y-0 flex items-center text-gray-500 dark:text-dark-400',
                 'padding' => 'right-0 pr-2',
                 'size' => 'h-5 w-5',
-                'color' => 'text-gray-500 dark:text-dark-400',
+                'color' => 'hover:text-red-500',
             ],
             'error' => $this->error(),
         ]);
+    }
+
+    protected function validate(): void
+    {
+        if ($this->icon && (($this->position === 'left' && $this->prefix !== null) || ($this->position === 'right' && $this->suffix !== null))) {
+            __ts_validation_exception($this, 'The [icon] cannot be used with [prefix] or [suffix] at the same side');
+        }
+
+        if ($this->clearable && $this->suffix !== null) {
+            __ts_validation_exception($this, 'The [clearable] cannot be used with [suffix]');
+        }
     }
 }

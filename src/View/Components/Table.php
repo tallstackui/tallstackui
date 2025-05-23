@@ -42,7 +42,7 @@ class Table extends TallStackUiComponent implements Personalization
         public ?bool $blank = false,
         public ?int $onEachSide = 1,
         #[SkipDebug]
-        public ?array $placeholders = [],
+        public ?array $placeholders = null,
         #[SkipDebug]
         public ?string $paginator = 'tallstack-ui::components.table.paginators',
         #[SkipDebug]
@@ -54,7 +54,7 @@ class Table extends TallStackUiComponent implements Personalization
         #[SkipDebug]
         public ComponentSlot|string|null $footer = null
     ) {
-        $this->placeholders = trans('tallstack-ui::messages.table');
+        $this->placeholders = array_merge(trans('tallstack-ui::messages.table'), $this->placeholders ?? []);
 
         if (is_bool($filter) && $this->filter === true) {
             $this->filter = ['quantity' => 'quantity', 'search' => 'search'];
@@ -101,7 +101,7 @@ class Table extends TallStackUiComponent implements Personalization
     public function ids(): array
     {
         return $this->rows instanceof ArrayAccess
-            ? $this->rows->pluck($this->selectableProperty)->all() // @phpstan-ignore-line
+            ? $this->rows->pluck($this->selectableProperty)->all()
             : collect($this->rows)->pluck($this->selectableProperty)->all();
     }
 
@@ -126,6 +126,7 @@ class Table extends TallStackUiComponent implements Personalization
                 'th' => 'dark:text-dark-200 px-3 py-3.5 text-left text-sm font-semibold text-gray-700',
                 'tbody' => 'dark:bg-dark-700 dark:divide-dark-500/20 divide-y divide-gray-200 bg-white',
                 'td' => 'dark:text-dark-300 whitespace-nowrap px-3 py-4 text-sm text-gray-500',
+                'tr' => '',
                 'thead' => [
                     'normal' => 'bg-gray-50 dark:bg-dark-600',
                     'striped' => 'bg-white dark:bg-dark-700',
@@ -150,7 +151,7 @@ class Table extends TallStackUiComponent implements Personalization
 
     final public function sortable(Collection|array $header): bool
     {
-        return filled($this->sort) && ($header['sortable'] ?? true);
+        return data_get($header, 'index') !== 'action' && filled($this->sort) && ($header['sortable'] ?? true);
     }
 
     final public function sorted(Collection|array $header): bool
@@ -164,19 +165,19 @@ class Table extends TallStackUiComponent implements Personalization
         $messages = trans('tallstack-ui::messages.table');
 
         if (blank($messages['empty'] ?? null)) {
-            throw new InvalidArgumentException('The table [empty] message cannot be empty.');
+            __ts_validation_exception($this, 'The [empty] message cannot be empty.');
         }
 
         if (blank($messages['quantity'] ?? null)) {
-            throw new InvalidArgumentException('The table [quantity] message cannot be empty.');
+            __ts_validation_exception($this, 'The [quantity] message cannot be empty.');
         }
 
         if (blank($messages['search'] ?? null)) {
-            throw new InvalidArgumentException('The table [search] message cannot be empty.');
+            __ts_validation_exception($this, 'The [search] message cannot be empty.');
         }
 
         if ($this->selectable && blank($this->selectableProperty)) {
-            throw new InvalidArgumentException('The table [selectableProperty] property is required when [selectable] is set.');
+            __ts_validation_exception($this, 'The [selectableProperty] property is required when [selectable] is set.');
         }
     }
 }

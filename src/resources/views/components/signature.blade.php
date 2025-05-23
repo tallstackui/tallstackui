@@ -2,47 +2,55 @@
     $personalize = $classes();
 @endphp
 
-<x-dynamic-component :component="TallStackUi::component('wrapper.input')" :$id :$property :$error :$label :$hint :$invalidate>
-    <div x-data="tallstackui_signature({!! $entangle !!}, @js($color), @js($background), @js($line), @js($height), @js($extension))" @class($personalize['wrapper.first']) x-cloak>
-        <input type="hidden" x-model="model" {!! $attributes->except('x-on:export') !!}>
-        <div @class($personalize['wrapper.second'])>
-            <div @class($personalize['wrapper.button'])>
-                <button type="button" aria-label="undo" x-on:click="undo">
-                    <x-dynamic-component :component="TallStackUi::component('icon')"
+<x-dynamic-component :component="TallStackUi::prefix('wrapper.input')" :$id :$property :$error :$label :$hint :$invalidate>
+    <div x-data="tallstackui_signature({!! $entangle !!}, @js($color), @js($background), @js($line), @js($height), @js($jpeg))" class="{{ $personalize['wrapper.first'] }}" x-cloak>
+        <div class="{{ $personalize['wrapper.second'] }}">
+            <div class="{{ $personalize['wrapper.button'] }}">
+                <button type="button" aria-label="undo" x-on:click="undo" dusk="tallstackui_signature_undo">
+                    <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                          :icon="TallStackUi::icon('arrow-uturn-left')"
-                                         @class($personalize['icons']) />
+                                         internal
+                                         class="{{ $personalize['icons'] }}" />
                 </button>
-                <button type="button" aria-label="redo" x-on:click="redo">
-                    <x-dynamic-component :component="TallStackUi::component('icon')"
+                <button type="button" aria-label="redo" x-on:click="redo" dusk="tallstackui_signature_redo">
+                    <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                          :icon="TallStackUi::icon('arrow-uturn-right')"
-                                         @class($personalize['icons']) />
+                                         internal
+                                         class="{{ $personalize['icons'] }}" />
                 </button>
-                <button type="button" aria-label="clear" x-on:click="clear">
-                    <x-dynamic-component :component="TallStackUi::component('icon')"
-                                         :icon="TallStackUi::icon('trash')"
-                                         @class($personalize['icons']) />
-                </button>
+                @if ($clearable)
+                    <button type="button" aria-label="clear" x-on:click="clear" dusk="tallstackui_signature_clear">
+                        <x-dynamic-component :component="TallStackUi::prefix('icon')"
+                                             :icon="TallStackUi::icon('trash')"
+                                             internal
+                                             class="{{ $personalize['icons'] }}" />
+                    </button>
+                @endif
             </div>
-            <button type="button" aria-label="export" x-on:click="exportImage" {{ $attributes->only('x-on:export') }}>
-                <x-dynamic-component :component="TallStackUi::component('icon')"
-                                     :icon="TallStackUi::icon('document-arrow-down')"
-                                     @class($personalize['icons']) />
-            </button>
+            @if ($exportable)
+                <button type="button" aria-label="export" x-on:click="download" dusk="tallstackui_signature_export" {{ $attributes->only('x-on:export') }}>
+                    <x-dynamic-component :component="TallStackUi::prefix('icon')"
+                                         :icon="TallStackUi::icon('document-arrow-down')"
+                                         internal
+                                         class="{{ $personalize['icons'] }}" />
+                </button>
+            @endif
         </div>
-       <div @class($personalize['canvas.wrapper'])>
+       <div class="{{ $personalize['canvas.wrapper'] }}">
          <canvas x-ref="canvas"
                 wire:ignore
-                @class($personalize['canvas.base'])
+                class="{{ $personalize['canvas.base'] }}"
                 :height="height"
                 style="cursor: crosshair; max-height: {{ $height }}px"
-                x-on:mousedown="startDrawing"
+                dusk="tallstackui_signature_canva"
+                x-on:mousedown="start"
                 x-on:mousemove="draw"
-                x-on:mouseup="stopDrawing"
-                x-on:mouseleave="stopDrawing"
-                x-on:touchstart="startDrawing"
+                x-on:mouseup="stop"
+                x-on:mouseleave="stop"
+                x-on:touchstart="start"
                 x-on:touchmove="draw"
-                x-on:touchend="stopDrawing"
-                x-on:touchcancel="stopDrawing">
+                x-on:touchend="stop"
+                x-on:touchcancel="stop">
         </canvas>
        </div>
     </div>

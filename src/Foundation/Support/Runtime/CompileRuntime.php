@@ -5,6 +5,7 @@ namespace TallStackUi\Foundation\Support\Runtime;
 use ReflectionException;
 use TallStackUi\Foundation\Attributes\PassThroughRuntime;
 use TallStackUi\Foundation\Support\Miscellaneous\ReflectComponent;
+use TallStackUi\TallStackUiComponent;
 
 // The main purpose of this class, the classes inside the Components/ folder and
 // the PassThroughRuntime attribute is to allow us to define variables at runtime
@@ -16,9 +17,9 @@ use TallStackUi\Foundation\Support\Miscellaneous\ReflectComponent;
 class CompileRuntime
 {
     /** @throws ReflectionException */
-    public static function of(string $component, array $data, array $shared): array
+    public static function of(TallStackUiComponent $component, array $data, array $shared): array
     {
-        $reflect = app(ReflectComponent::class, ['component' => $component]);
+        $reflect = app(ReflectComponent::class, ['component' => $component::class]);
         $class = $reflect->attribute(PassThroughRuntime::class)?->newInstance()->runtime;
 
         if (! $class) {
@@ -26,6 +27,7 @@ class CompileRuntime
         }
 
         return app($class, [
+            'component' => $component,
             'data' => $data,
             'livewire' => $shared['__livewire'] ?? null,
             'errors' => $shared['errors'] ?? null,

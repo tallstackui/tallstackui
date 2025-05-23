@@ -24,7 +24,6 @@ class AlertColors
     {
         return [
             'solid' => [
-                'white' => 'bg-white border border-gray-100',
                 'black' => 'bg-black',
                 'primary' => 'bg-primary-600',
                 'secondary' => 'bg-secondary-600',
@@ -52,7 +51,6 @@ class AlertColors
                 'rose' => 'bg-rose-600',
             ],
             'outline' => [
-                'white' => 'border border border-gray-100',
                 'black' => 'border border-black',
                 'primary' => 'border border-primary-600',
                 'secondary' => 'border border-secondary-600',
@@ -80,8 +78,7 @@ class AlertColors
                 'rose' => 'border border-rose-600',
             ],
             'light' => [
-                'white' => 'bg-white shadow',
-                'black' => 'bg-black-50 shadow',
+                'black' => 'bg-black/5 dark:bg-black/30 shadow',
                 'primary' => 'bg-primary-50 shadow',
                 'secondary' => 'bg-secondary-50 shadow',
                 'slate' => 'bg-slate-50 shadow',
@@ -114,7 +111,6 @@ class AlertColors
     {
         return [
             'solid' => [
-                'white' => 'text-black',
                 'black' => 'text-white',
                 'primary' => 'text-primary-50',
                 'secondary' => 'text-secondary-50',
@@ -142,7 +138,6 @@ class AlertColors
                 'rose' => 'text-rose-50',
             ],
             'outline' => [
-                'white' => 'text-white',
                 'black' => 'text-black',
                 'primary' => 'text-primary-600',
                 'secondary' => 'text-secondary-600',
@@ -170,8 +165,7 @@ class AlertColors
                 'rose' => 'text-rose-600',
             ],
             'light' => [
-                'white' => 'text-black',
-                'black' => 'text-black',
+                'black' => 'text-black dark:text-white',
                 'primary' => 'text-primary-600',
                 'secondary' => 'text-secondary-600',
                 'slate' => 'text-slate-600',

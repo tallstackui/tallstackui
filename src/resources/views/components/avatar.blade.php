@@ -8,13 +8,13 @@
         $personalize['wrapper.class'],
         $colors['background'] => !$model,
         $personalize['wrapper.sizes.' . $size],
-    ]) }}>
+    ])->except('x-bind:src') }}>
     @if ($model || $image)
         <img @class([
             $personalize['border.radius'] => !$square,
             $personalize['content.image.class'],
             $personalize['content.image.sizes.' . $size],
-        ]) src="{{ $image ?? $modelable() }}" alt="{{ $text ?? $model?->getAttribute($property ?? null) }}"/>
+        ]) {{ $attributes->only('x-bind:src') }} src="{{ $image ?? $modelable() }}" alt="{{ $text ?? $model?->getAttribute($property ?? null) }}"/>
     @elseif ($text || $slot->isNotEmpty())
         <span @class([
                 $personalize['content.text.class'],

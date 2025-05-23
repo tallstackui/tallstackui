@@ -2,7 +2,7 @@
     $personalize = $classes();
 @endphp
 
-<x-dynamic-component :component="TallStackUi::component('wrapper.input')" :$id :$property :$error :$label :$hint :$invalidate :wrapper="$personalize['input.wrapper']">
+<x-dynamic-component :component="TallStackUi::prefix('wrapper.input')" :$id :$property :$error :$label :$hint :$invalidate :wrapper="$personalize['input.wrapper']">
     <input @if ($id) id="{{ $id }}" @endif
            type="range"
            {{ $attributes->class([

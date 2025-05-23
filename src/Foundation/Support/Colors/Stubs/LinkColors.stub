@@ -12,7 +12,6 @@ class LinkColors
     public function textColors(Component $component): array
     {
         return [
-            'white' => null,
             'black' => null,
             'primary' => null,
             'secondary' => null,

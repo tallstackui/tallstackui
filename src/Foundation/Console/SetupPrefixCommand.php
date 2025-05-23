@@ -12,7 +12,7 @@ class SetupPrefixCommand extends Command
 {
     public $description = 'Set up Component prefix.';
 
-    public $signature = 'tallstackui:prefix';
+    public $signature = 'tallstackui:setup-prefix';
 
     public function handle(): int
     {
@@ -76,6 +76,12 @@ class SetupPrefixCommand extends Command
      */
     private function env(string $prefix): bool|string
     {
+        if (! file_exists(base_path('.env'))) {
+            $this->components->error('The .env file does not exist.');
+
+            return false;
+        }
+
         try {
             $env = file_get_contents(base_path('.env'));
             $prefix = $prefix === 'null' ? '' : "\"$prefix\"";

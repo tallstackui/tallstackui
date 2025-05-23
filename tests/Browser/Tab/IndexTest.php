@@ -4,11 +4,12 @@ namespace Tests\Browser\Tab;
 
 use Livewire\Component;
 use Livewire\Livewire;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\BrowserTestCase;
 
 class IndexTest extends BrowserTestCase
 {
-    /** @test */
+    #[Test]
     public function can_dispatch_event(): void
     {
         Livewire::visit(new class extends Component
@@ -43,7 +44,7 @@ class IndexTest extends BrowserTestCase
             ->waitForTextIn('@selected', 'Bar');
     }
 
-    /** @test */
+    #[Test]
     public function can_render_and_select_with_accents(): void
     {
         Livewire::visit(new class extends Component
@@ -74,7 +75,7 @@ class IndexTest extends BrowserTestCase
             ->assertDontSee('Lorem ipsum dolor sit amet');
     }
 
-    /** @test */
+    #[Test]
     public function can_render_left_slot_using_slot(): void
     {
         Livewire::visit(new class extends Component
@@ -104,7 +105,7 @@ class IndexTest extends BrowserTestCase
             ->assertSee('TallStackUI');
     }
 
-    /** @test */
+    #[Test]
     public function can_render_livewire_component(): void
     {
         Livewire::component('test', new class extends Component
@@ -142,7 +143,7 @@ class IndexTest extends BrowserTestCase
             ->assertSee('Foo bar baz through Livewire Component');
     }
 
-    /** @test */
+    #[Test]
     public function can_render_right_slot_using_slot(): void
     {
         Livewire::visit(new class extends Component
@@ -172,7 +173,7 @@ class IndexTest extends BrowserTestCase
             ->assertSee('TallStackUI');
     }
 
-    /** @test */
+    #[Test]
     public function can_render_slots_using_raw_strings(): void
     {
         Livewire::visit(new class extends Component
@@ -200,7 +201,7 @@ class IndexTest extends BrowserTestCase
             ->assertSee('Livewire');
     }
 
-    /** @test */
+    #[Test]
     public function can_select(): void
     {
         Livewire::visit(new class extends Component
@@ -230,7 +231,7 @@ class IndexTest extends BrowserTestCase
             ->assertDontSee('Foo bar baz');
     }
 
-    /** @test */
+    #[Test]
     public function can_select_and_deselect(): void
     {
         Livewire::visit(new class extends Component
@@ -263,7 +264,7 @@ class IndexTest extends BrowserTestCase
             ->assertDontSee('Baz bar foo');
     }
 
-    /** @test */
+    #[Test]
     public function can_select_with_entangle(): void
     {
         Livewire::visit(new class extends Component
@@ -297,7 +298,7 @@ class IndexTest extends BrowserTestCase
             ->assertDontSee('Baz bar foo');
     }
 
-    /** @test */
+    #[Test]
     public function can_select_with_entangle_live(): void
     {
         Livewire::visit(new class extends Component

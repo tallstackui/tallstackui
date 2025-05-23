@@ -25,7 +25,7 @@
                     stroke-dashoffset="{{ 100 - $percent }}"></circle>
         </g>
     </svg>
-    <div @class($personalize['wrapper'])>
+    <div class="{{ $personalize['wrapper'] }}">
         <span @class([$personalize['text'], $personalize['sizes.text.' . $size]])>{{ $percent }}%</span>
     </div>
     @if ($footer)

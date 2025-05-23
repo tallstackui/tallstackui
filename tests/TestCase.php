@@ -12,7 +12,7 @@ abstract class TestCase extends BaseTestCase
     use InteractsWithViews;
     use WithWorkbench;
 
-    protected function getPackageAliases($app)
+    protected function getPackageAliases($app): array
     {
         return [
             'TallStackUi' => TallStackUi::class,

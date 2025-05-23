@@ -25,6 +25,9 @@ export default (
       setTimeout(() => ref.innerText = this.placeholders.copy, this.time);
     });
   },
+  /**
+   * Copy the content to the clipboard.
+   */
   copy() {
     // Using this.notification here to prevent the copy again during the text effect.
     if (!text || !hash || Boolean(this.notification) === true) {

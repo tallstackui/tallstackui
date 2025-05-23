@@ -16,6 +16,10 @@ trait ManagesRender
 
     public function render(): Closure
     {
+        // The idea of this method is to concentrate large amounts of code that must be
+        // executed when using the component. This is just an alternative to having to
+        // store a lot of logic in the __construct of the component classes. For small
+        // amounts of code, we can use __construct, for a lot of code, we use setup.
         if (method_exists($this, 'setup')) {
             $this->setup($this->data());
         }
@@ -35,7 +39,7 @@ trait ManagesRender
 
             return $this->output($this->blade()->with(array_merge($this->compile($data), [
                 'livewire' => $livewire,
-                ...CompileRuntime::of($this::class, data: $data, shared: $shared),
+                ...CompileRuntime::of($this, data: $data, shared: $shared),
             ])), $data);
         };
     }

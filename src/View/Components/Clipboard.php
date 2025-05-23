@@ -49,14 +49,14 @@ class Clipboard extends TallStackUiComponent implements Personalization
     {
         return Arr::dot([
             'input' => [
-                'wrapper' => 'relative flex flex-grow items-stretch ring-inset focus-within:z-10',
+                'wrapper' => 'relative flex grow items-stretch ring-inset focus-within:z-10',
                 'buttons' => [
-                    'base' => 'dark:ring-dark-600 dark:text-dark-300 dark:bg-dark-700 relative inline-flex items-center gap-x-1.5 bg-white px-2 py-2 text-xs font-semibold uppercase text-gray-700 ring-1 ring-gray-300 transition',
+                    'base' => 'dark:ring-dark-600 dark:text-dark-300 dark:bg-dark-700 relative inline-flex items-center gap-x-1.5 bg-white px-2 py-2 text-xs font-semibold uppercase text-gray-700 ring-1 ring-gray-300 cursor-pointer',
                     'left' => '-mr-px rounded-l-md',
                     'right' => '-ml-px rounded-r-md',
                     'icon.class' => 'text-primary-500 dark:text-dark-300 h-4 w-4 cursor-pointer',
                 ],
-                'base' => 'focus:ring-primary-600 dark:focus:ring-primary-600 block w-full rounded-none border-0 py-1.5 text-gray-900 ring-1 ring-gray-300 transition placeholder:text-gray-400 focus:ring-2 sm:text-sm sm:leading-6',
+                'base' => 'focus:ring-primary-600 dark:focus:ring-primary-600 block w-full rounded-none border-0 py-1.5 text-gray-900 ring-1 ring-gray-300 placeholder:text-gray-400 focus:ring-2 sm:text-sm sm:leading-6',
                 'color' => [...$this->input()['color']],
                 'sides' => [
                     'left' => 'rounded-r-md',
@@ -64,7 +64,7 @@ class Clipboard extends TallStackUiComponent implements Personalization
                 ],
             ],
             'icon' => [
-                'wrapper' => 'inline-flex',
+                'wrapper' => 'inline-flex cursor-pointer',
                 'icons' => [
                     'copy' => [
                         'name' => 'clipboard',
@@ -83,7 +83,7 @@ class Clipboard extends TallStackUiComponent implements Personalization
     public function validating(?string $text = null): void
     {
         if (! $text) {
-            throw new InvalidArgumentException('The clipboard [text] cannot be empty. You should specify the text using property or slot.');
+            __ts_validation_exception($this, 'The [text] cannot be empty. You should specify the text using property or slot.');
         }
     }
 
@@ -93,11 +93,11 @@ class Clipboard extends TallStackUiComponent implements Personalization
         $messages = trans('tallstack-ui::messages.clipboard');
 
         if (blank(data_get($messages, 'button.copy'))) {
-            throw new InvalidArgumentException('The clipboard [button.copy] message cannot be empty.');
+            __ts_validation_exception($this, 'The [button.copy] message cannot be empty.');
         }
 
         if (blank(data_get($messages, 'button.copied'))) {
-            throw new InvalidArgumentException('The clipboard [button.copied] message cannot be empty.');
+            __ts_validation_exception($this, 'The [button.copied] message cannot be empty.');
         }
     }
 }

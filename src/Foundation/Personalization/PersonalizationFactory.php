@@ -2,6 +2,7 @@
 
 namespace TallStackUi\Foundation\Personalization;
 
+use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\View as Facade;
@@ -14,7 +15,7 @@ use RuntimeException;
  *
  * @property-read Personalization $and
  */
-class PersonalizationFactory
+class PersonalizationFactory implements Arrayable
 {
     /**
      * Block name to be personalized.
@@ -22,9 +23,14 @@ class PersonalizationFactory
     public ?string $block = null;
 
     /**
+     * Blocks available for personalization.
+     */
+    public array $blocks = [];
+
+    /**
      * Original classes of the component with changes applied.
      */
-    private readonly Collection $changes;
+    private Collection $changes;
 
     /**
      * Interactions, for when we are personalizing without $code for the block.
@@ -38,9 +44,7 @@ class PersonalizationFactory
 
     public function __construct(public readonly string $component, private readonly ?string $scope = null)
     {
-        $this->interactions = collect();
-        $this->parts = collect();
-        $this->changes = collect(app($this->component)->personalization());
+        $this->interactions = $this->parts = collect();
     }
 
     /**
@@ -84,6 +88,13 @@ class PersonalizationFactory
      */
     public function block(string|array $name, string|callable|null $code = null): self
     {
+        // The idea of this code existing in the file and not in the construct
+        // is to avoid an unnecessary call every time the component is rendered,
+        // even if it has no customizations to be applied.
+        $personalization = app($this->component)->personalization();
+        $this->changes = collect($personalization);
+        $this->blocks = array_keys($personalization);
+
         // If the $code was not set, then we
         // are interacting with the shortcuts.
         if (is_string($name) && is_null($code)) {
@@ -150,20 +161,10 @@ class PersonalizationFactory
         return $this;
     }
 
-    /**
-     * Get the parts as array.
-     */
+    /** {@inheritDoc} */
     public function toArray(): array
     {
         return $this->parts->toArray();
-    }
-
-    /**
-     * Get all the blocks available for personalization in the component.
-     */
-    private function blocks(): array
-    {
-        return array_keys(app($this->component)->personalization());
     }
 
     /**
@@ -193,7 +194,6 @@ class PersonalizationFactory
 
         $parts = $this->parts->toArray();
 
-        // When scoped we need to set the parts as a multidimensional array.
         if ($this->scope) {
             data_set($parts, $this->scope.'.'.$block, $content());
 
@@ -202,7 +202,6 @@ class PersonalizationFactory
             $this->parts->put($block, $content());
         }
 
-        // Flushing
         $this->interactions = collect();
     }
 
@@ -214,10 +213,10 @@ class PersonalizationFactory
     {
         $view = app($this->component)->blade()->name();
 
-        if (! in_array($block, $blocks = $this->blocks())) {
+        if (! in_array($block, $this->blocks)) {
             $component = str_replace('tallstack-ui::components.', '', (string) $view);
 
-            throw new InvalidArgumentException("Component [$component] does not have the block [$block] to be personalized. Alloweds: ".implode(', ', $blocks));
+            throw new InvalidArgumentException("Component [$component] does not have the block [$block] to be personalized. Allowed: ".implode(', ', $this->blocks));
         }
 
         // We leave everything prepared and linked with the

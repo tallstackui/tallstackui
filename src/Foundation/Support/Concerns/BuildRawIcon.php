@@ -9,7 +9,7 @@ use TallStackUi\Foundation\Support\Icons\IconGuideMap;
 trait BuildRawIcon
 {
     /** @throws Exception */
-    public function icon(?string $path = null): string
+    public function raw(?string $path = null): string
     {
         InappropriateIconGuideExecution::validate(static::class);
 

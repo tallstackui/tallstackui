@@ -4,11 +4,12 @@ namespace Tests\Browser\Form;
 
 use Livewire\Component;
 use Livewire\Livewire;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\BrowserTestCase;
 
 class TimeTest extends BrowserTestCase
 {
-    /** @test */
+    #[Test]
     public function can_change_interval()
     {
         Livewire::visit(new class extends Component
@@ -44,7 +45,7 @@ class TimeTest extends BrowserTestCase
             ->assertSeeIn('@time', '07:00 AM');
     }
 
-    /** @test */
+    #[Test]
     public function can_clear(): void
     {
         Livewire::visit(new class extends Component
@@ -72,7 +73,7 @@ class TimeTest extends BrowserTestCase
             ->waitUntilMissing('@time');
     }
 
-    /** @test */
+    #[Test]
     public function can_dispatch_select_hour_event()
     {
         Livewire::visit(new class extends Component
@@ -102,7 +103,7 @@ class TimeTest extends BrowserTestCase
             ->assertSeeIn('@time', '7');
     }
 
-    /** @test */
+    #[Test]
     public function can_dispatch_select_minute_event()
     {
         Livewire::visit(new class extends Component
@@ -132,7 +133,7 @@ class TimeTest extends BrowserTestCase
             ->assertSeeIn('@time', '31');
     }
 
-    /** @test */
+    #[Test]
     public function can_dispatch_select_minute_interval()
     {
         Livewire::visit(new class extends Component
@@ -165,7 +166,7 @@ class TimeTest extends BrowserTestCase
             ->assertSeeIn('@interval', 'AM');
     }
 
-    /** @test */
+    #[Test]
     public function can_render_footer_slot()
     {
         Livewire::visit(new class extends Component
@@ -191,7 +192,7 @@ class TimeTest extends BrowserTestCase
             ->assertSee('FooBarBaz');
     }
 
-    /** @test */
+    #[Test]
     public function can_see_the_clear_button_when_not_required(): void
     {
         Livewire::visit(new class extends Component
@@ -214,7 +215,7 @@ class TimeTest extends BrowserTestCase
             ->assertPresent('@tallstackui_time_clear');
     }
 
-    /** @test */
+    #[Test]
     public function can_select_current_hour()
     {
         Livewire::visit(new class extends Component
@@ -242,7 +243,7 @@ class TimeTest extends BrowserTestCase
             ->assertVisible('@time');
     }
 
-    /** @test */
+    #[Test]
     public function can_select_hour()
     {
         Livewire::visit(new class extends Component
@@ -268,7 +269,7 @@ class TimeTest extends BrowserTestCase
             ->assertSeeIn('@time', '7');
     }
 
-    /** @test */
+    #[Test]
     public function can_select_minute()
     {
         Livewire::visit(new class extends Component
@@ -294,7 +295,7 @@ class TimeTest extends BrowserTestCase
             ->assertSeeIn('@time', '31');
     }
 
-    /** @test */
+    #[Test]
     public function cannot_pass_the_max_hour(): void
     {
         Livewire::visit(new class extends Component
@@ -322,7 +323,7 @@ class TimeTest extends BrowserTestCase
             ->assertSeeIn('@time', '05:00 AM');
     }
 
-    /** @test */
+    #[Test]
     public function cannot_pass_the_max_minute(): void
     {
         Livewire::visit(new class extends Component
@@ -352,7 +353,7 @@ class TimeTest extends BrowserTestCase
             ->assertSeeIn('@time', '11:30 PM');
     }
 
-    /** @test */
+    #[Test]
     public function cannot_pass_the_min_hour(): void
     {
         Livewire::visit(new class extends Component
@@ -382,7 +383,7 @@ class TimeTest extends BrowserTestCase
             ->assertSeeIn('@time', '05:30 PM');
     }
 
-    /** @test */
+    #[Test]
     public function cannot_pass_the_min_minute(): void
     {
         Livewire::visit(new class extends Component
@@ -412,7 +413,7 @@ class TimeTest extends BrowserTestCase
             ->assertSeeIn('@time', '11:15 PM');
     }
 
-    /** @test */
+    #[Test]
     public function cannot_see_the_clear_button_when_required(): void
     {
         Livewire::visit(new class extends Component
@@ -434,5 +435,23 @@ class TimeTest extends BrowserTestCase
             ->waitForText('Time')
             ->assertSee('Time')
             ->assertNotPresent('@tallstackui_time_clear');
+    }
+
+    #[Test]
+    public function cannot_use_12_hour_format_without_interval(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $time = '11:30';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-time label="Time" wire:model.live="time" />
+                </div>
+                HTML;
+            }
+        })->assertSee('[TallStackUI] Form\Time: The [format] is not 24 and the value does not contain the interval (AM/PM).');
     }
 }

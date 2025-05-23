@@ -17,7 +17,39 @@ use Tests\Browser\BrowserTestCase;
 
 class UploadTest extends BrowserTestCase
 {
-    /** @test */
+    #[Test]
+    public function can_close_after_upload(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            use WithFileUploads;
+
+            public $photo;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    @if ($photo)
+                        <p dusk="uploaded">{{ $photo->getClientOriginalName() }}</p>
+                    @endif
+                    
+                    <x-upload label="Document" wire:model.live="photo" close-after-upload />
+                </div>
+                HTML;
+            }
+        })
+            ->assertSee('Document')
+            ->assertMissing('@uploaded')
+            ->click('@tallstackui_upload_input')
+            ->waitForText('Click here to upload')
+            ->attach('@tallstackui_file_select', __DIR__.'/../../Fixtures/test.jpeg')
+            ->waitForTextIn('@uploaded', 'test.jpeg')
+            ->assertSeeIn('@uploaded', 'test.jpeg')
+            ->assertNotVisible('@tallstackui_upload_floating');
+    }
+
+    #[Test]
     public function can_delete_existent_files()
     {
         Artisan::call('storage:link');
@@ -89,7 +121,7 @@ class UploadTest extends BrowserTestCase
         File::deleteDirectory(storage_path('app/public/test'));
     }
 
-    /** @test */
+    #[Test]
     public function can_delete_file()
     {
         Livewire::visit(new class extends Component
@@ -141,7 +173,7 @@ class UploadTest extends BrowserTestCase
             ->assertMissing('@uploaded');
     }
 
-    /** @test */
+    #[Test]
     public function can_delete_file_using_custom_method()
     {
         Livewire::visit(new class extends Component
@@ -193,7 +225,7 @@ class UploadTest extends BrowserTestCase
             ->assertMissing('@uploaded');
     }
 
-    /** @test */
+    #[Test]
     public function can_only_see_footer_slot_when_not_empty()
     {
         Livewire::visit(new class extends Component
@@ -226,7 +258,7 @@ class UploadTest extends BrowserTestCase
             ->assertSee('Foo Bar Baz');
     }
 
-    /** @test */
+    #[Test]
     public function can_see_empty_state_for_static_usage()
     {
         Livewire::visit(new class extends Component
@@ -252,7 +284,7 @@ class UploadTest extends BrowserTestCase
             ->assertSee('You don\'t have any image yet.');
     }
 
-    /** @test */
+    #[Test]
     public function can_see_footer_slot()
     {
         Livewire::visit(new class extends Component
@@ -283,7 +315,7 @@ class UploadTest extends BrowserTestCase
             ->assertSee('Foo Bar Baz');
     }
 
-    /** @test */
+    #[Test]
     public function can_see_preview(): void
     {
         Livewire::visit(new class extends Component
@@ -317,7 +349,7 @@ class UploadTest extends BrowserTestCase
             ->assertVisible('@tallstackui_file_preview_backdrop');
     }
 
-    /** @test */
+    #[Test]
     public function can_see_preview_for_existent_files()
     {
         Artisan::call('storage:link');
@@ -367,7 +399,7 @@ class UploadTest extends BrowserTestCase
         File::deleteDirectory(storage_path('app/public/test'));
     }
 
-    /** @test */
+    #[Test]
     public function can_see_tip()
     {
         Livewire::visit(new class extends Component
@@ -394,7 +426,53 @@ class UploadTest extends BrowserTestCase
             ->assertSee('Accept pdf or png');
     }
 
-    /** @test */
+    #[Test]
+    public function can_show_validation_error(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            use WithFileUploads;
+
+            public $photo;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    @if ($photo)
+                        <p dusk="uploaded">{{ $photo->getClientOriginalName() }}</p>
+                    @endif
+                    
+                    <x-upload label="Document" wire:model.live="photo" />
+                    <button dusk="save" wire:click="save">Save</button>
+                </div>
+                HTML;
+            }
+
+            public function rules(): array
+            {
+                return [
+                    'photo' => ['required', 'mimes:pdf'],
+                ];
+            }
+
+            public function save(): void
+            {
+                $this->validate();
+            }
+        })
+            ->assertSee('Document')
+            ->assertMissing('@uploaded')
+            ->click('@tallstackui_upload_input')
+            ->waitForText('Click here to upload')
+            ->attach('@tallstackui_file_select', __DIR__.'/../../Fixtures/test.jpeg')
+            ->click('@tallstackui_upload_input')
+            ->pause(100)
+            ->click('@save')
+            ->waitForText('There was some validation error.');
+    }
+
+    #[Test]
     public function can_thrown_exception_if_property_bind_was_not_defined()
     {
         Livewire::visit(new class extends Component
@@ -407,10 +485,10 @@ class UploadTest extends BrowserTestCase
                 </div>
                 HTML;
             }
-        })->assertSee('The [upload] component requires a property to bind using [wire:model].');
+        })->assertSee('[TallStackUI] Form\Upload: The component requires a property to bind using [wire:model].');
     }
 
-    /** @test */
+    #[Test]
     public function can_upload_multiple_file(): void
     {
         Livewire::visit(new class extends Component
@@ -485,7 +563,7 @@ class UploadTest extends BrowserTestCase
             ->assertSeeIn('@uploaded-1', 'test.pdf');
     }
 
-    /** @test */
+    #[Test]
     public function can_upload_single_file(): void
     {
         Livewire::visit(new class extends Component
@@ -516,7 +594,7 @@ class UploadTest extends BrowserTestCase
             ->assertSeeIn('@uploaded', 'test.jpeg');
     }
 
-    /** @test */
+    #[Test]
     public function can_upload_single_file_using_livewire_form(): void
     {
         Livewire::visit(new class extends Component
@@ -547,7 +625,7 @@ class UploadTest extends BrowserTestCase
             ->assertSeeIn('@uploaded', 'test.jpeg');
     }
 
-    /** @test */
+    #[Test]
     public function can_use_existent_files()
     {
         Artisan::call('storage:link');
@@ -595,7 +673,7 @@ class UploadTest extends BrowserTestCase
         File::deleteDirectory(storage_path('app/public/test'));
     }
 
-    /** @test */
+    #[Test]
     public function can_use_remove_event()
     {
         Livewire::visit(new class extends Component
@@ -659,7 +737,7 @@ class UploadTest extends BrowserTestCase
             ->assertSeeIn('@remove', 'Remove');
     }
 
-    /** @test */
+    #[Test]
     public function can_use_upload_event()
     {
         Livewire::visit(new class extends Component

@@ -72,6 +72,7 @@ return [
                 'description' => 'Bạn chưa có bất kỳ hình ảnh nào.',
             ],
         ],
+        'invalid' => 'Đã xảy ra lỗi xác thực.',
     ],
 
     'date' => [
@@ -115,5 +116,18 @@ return [
         'next' => 'Tiếp theo',
         'previous' => 'Trước đó',
         'finish' => 'Hoàn thành',
+    ],
+
+    'key-value' => [
+        'headers' => [
+            'key' => 'KHÓA',
+            'value' => 'GIÁ TRỊ',
+        ],
+        'placeholders' => [
+            'key' => 'Nhập khóa',
+            'value' => 'Nhập giá trị',
+        ],
+        'add-row' => 'THÊM DÒNG',
+        'empty' => 'Chưa thêm dòng nào.',
     ],
 ];

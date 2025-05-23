@@ -4,6 +4,7 @@ namespace TallStackUi\Foundation\Interactions\Traits;
 
 use Closure;
 use Exception;
+use Illuminate\Support\Str;
 use InvalidArgumentException;
 use TallStackUi\Foundation\Interactions\Dialog;
 use TallStackUi\Foundation\Interactions\Toast;
@@ -78,6 +79,8 @@ trait DispatchInteraction
 
         $event = sprintf('tallstackui:%s', $this->event());
 
+        $data['id'] ??= (string) Str::uuid();
+
         if ($this->component) {
             $data['component'] = $this->component->getId();
 
@@ -85,7 +88,7 @@ trait DispatchInteraction
         } else {
             // This else indicates that the sending is taking place via
             // Controller, outside the Livewire scope. So we automatically
-            // set the send to flush to make it necessary to manually set it.
+            // set the sending to flush to make it necessary to manually set it.
             $this->flash();
         }
 

@@ -9,28 +9,30 @@
      x-bind:aria-expanded="show">
     <button @class([$personalize['item'], $personalize['border'] => $separator])
             type="button" 
-            x-on:click="show = !show" 
+            x-on:click="show = !show; $refs.dropdown.dispatchEvent(new CustomEvent('open', {detail: {status: show}}))"
             x-ref="button"
             aria-expanded="show">
         @if ($position === 'left-start')
-            <x-dynamic-component :component="TallStackUi::component('icon')"
+            <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                  :icon="TallStackUi::icon('chevron-left')"
-                    @class($personalize['submenu.left']) />
+                                 internal
+                                 class="{{ $personalize['submenu.left'] }}" />
         @endif
-        <div @class($personalize['wrapper'])>
+        <div class="{{ $personalize['wrapper'] }}">
             @if ($icon)
-                <x-dynamic-component :component="TallStackUi::component('icon')" :$icon @class($personalize['icon']) />
+                <x-dynamic-component :component="TallStackUi::prefix('icon')" internal :$icon class="{{ $personalize['icon'] }}" />
             @endif
             {{ $text }}
         </div>
         @if ($position === 'right-start')
-        <x-dynamic-component :component="TallStackUi::component('icon')"
+        <x-dynamic-component :component="TallStackUi::prefix('icon')"
                              :icon="TallStackUi::icon('chevron-right')"
-                             @class($personalize['submenu.right']) />
+                             internal
+                             class="{{ $personalize['submenu.right'] }}" />
         @endif
     </button>
-    <x-dynamic-component :component="TallStackUi::component('floating')"
-                         :floating="$personalize['floating']"
+    <x-dynamic-component :component="TallStackUi::prefix('floating')"
+                         :floating="$personalize['floating.default']"
                          :$position
                          offset="8"
                          x-show="show"

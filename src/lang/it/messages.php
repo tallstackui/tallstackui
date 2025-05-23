@@ -72,6 +72,7 @@ return [
                 'description' => 'Non hai ancora nessuna immagine.',
             ],
         ],
+        'invalid' => 'Si è verificato un errore di convalida.',
     ],
 
     'date' => [
@@ -115,5 +116,18 @@ return [
         'next' => 'Avanti',
         'previous' => 'Precedente',
         'finish' => 'Fine',
+    ],
+
+    'key-value' => [
+        'headers' => [
+            'key' => 'CHIAVE',
+            'value' => 'VALORE',
+        ],
+        'placeholders' => [
+            'key' => 'Inserisci una chiave',
+            'value' => 'Inserisci un valore',
+        ],
+        'add-row' => 'AGGIUNGI RIGA',
+        'empty' => 'Nessuna riga aggiunta.',
     ],
 ];

@@ -5,26 +5,28 @@ namespace TallStackUi\View\Components;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use TallStackUi\Foundation\Attributes\PassThroughRuntime;
+use TallStackUi\Foundation\Attributes\RequireLivewireContext;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\Support\Runtime\Components\SignatureRuntime;
 use TallStackUi\TallStackUiComponent;
 
+#[RequireLivewireContext]
 #[SoftPersonalization('signature')]
 #[PassThroughRuntime(SignatureRuntime::class)]
-//TODO: tests
-//TODO: when using wire:model the content has `data:image/png;base64,` prepended to the value, this is really needed?
 class Signature extends TallStackUiComponent implements Personalization
 {
     public function __construct(
         public ?string $label = null,
         public ?string $hint = null,
         public ?bool $invalidate = null,
-        public ?string $color = '#000000', // test
-        public ?string $background = 'transparent', // test
+        public ?string $color = '#000000',
+        public ?string $background = 'transparent',
         public int|float|null $line = 2,
         public ?int $height = 150,
-        public ?string $extension = 'png', // rename it
+        public ?bool $jpeg = null,
+        public ?bool $clearable = null,
+        public ?bool $exportable = null,
     ) {
         //
     }
@@ -48,5 +50,16 @@ class Signature extends TallStackUiComponent implements Personalization
             ],
             'icons' => 'dark:text-dark-400 h-5 w-5 text-gray-500',
         ]);
+    }
+
+    protected function validate(): void
+    {
+        if (is_null($this->line)) {
+            __ts_validation_exception($this, 'The [line] must be a number.');
+        }
+
+        if ($this->height < 10) {
+            __ts_validation_exception($this, 'The [height] must be at least 10.');
+        }
     }
 }

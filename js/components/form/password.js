@@ -72,28 +72,33 @@ export default (model, rules) => ({
     const upper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     const numeric = '0123456789';
 
-    password += lower.charAt(Math.floor(Math.random() * lower.length));
+    const all = lower + (this.mixed ? upper : '') + (this.numbers ? numeric : '') + (this.symbols ? this.symbols : '');
 
-    if (this.mixed) {
-      password += upper.charAt(Math.floor(Math.random() * upper.length));
+    if (typeof window.TallStackUi?.passwordGenerator === 'function') {
+      password = window.TallStackUi.passwordGenerator(this.min, this.mixed, this.numbers, this.symbols);
+    } else {
+      password += lower.charAt(Math.floor(Math.random() * lower.length));
+
+      if (this.mixed) {
+        password += upper.charAt(Math.floor(Math.random() * upper.length));
+      }
+
+      if (this.numbers) {
+        password += numeric.charAt(Math.floor(Math.random() * numeric.length));
+      }
+
+      if (this.symbols) {
+        password += this.symbols.charAt(Math.floor(Math.random() * this.symbols.length));
+      }
+
+      // We just fill the remaining password with random characters from all selected types
+      for (let i = password.length; i < this.min; i++) {
+        password += all.charAt(Math.floor(Math.random() * all.length));
+      }
+
+      // We just shuffle the password to avoid predictable patterns
+      password = password.split('').sort(() => 0.5 - Math.random()).join('');
     }
-
-    if (this.numbers) {
-      password += numeric.charAt(Math.floor(Math.random() * numeric.length));
-    }
-
-    if (this.symbols) {
-      password += this.symbols.charAt(Math.floor(Math.random() * this.symbols.length));
-    }
-
-    // We just fill the remaining password with random characters from all selected types
-    const allCharacters = lower + (this.mixed ? upper : '') + (this.numbers ? numeric : '') + (this.symbols ? this.symbols : '');
-    for (let i = password.length; i < this.min; i++) {
-      password += allCharacters.charAt(Math.floor(Math.random() * allCharacters.length));
-    }
-
-    // We just shuffle the password to avoid predictable patterns
-    password = password.split('').sort(() => 0.5 - Math.random()).join('');
 
     this.input = this.model = password;
 

@@ -1,4 +1,4 @@
-import {error, warning, wireChange} from '../../../helpers';
+import {error, wireChange} from '../../../helpers';
 import {body} from './helpers';
 
 export default (
@@ -15,7 +15,8 @@ export default (
     value,
     limit = null,
     change = null,
-    max = 10,
+    unfiltered = false,
+    lazy = 10,
 ) => ({
   show: false,
   model: model,
@@ -41,7 +42,7 @@ export default (
   limit: limit,
   image: null,
   index: null,
-  max: max,
+  lazy: lazy,
   async init() {
     if (!this.livewire) {
       if (this.common) {
@@ -51,20 +52,6 @@ export default (
         // for the component to be mounted and then initialize it.
         await this.$nextTick(() => this.initAsVanilla());
       }
-    }
-
-    const label = this.livewire ? 'wire:model' : 'value';
-
-    if (this.multiple && this.model && this.model.constructor !== Array) {
-      return warning(`The [${label}] must be an array when multiple is set`);
-    }
-
-    if (!this.multiple && this.model && this.model.constructor === Array) {
-      return warning(`The [${label}] must not be an array when is not multiple`);
-    }
-
-    if (this.common && (this.dimensional && this.selectable.constructor === Array && this.selectable?.length === 0)) {
-      return warning(`The [${label}] must be defined`);
     }
 
     if (this.common) {
@@ -181,10 +168,6 @@ export default (
 
     this.response = [];
 
-    if (this.request.params?.constructor === Array) {
-      return error('The [params] must be an array with key and value pairs');
-    }
-
     // When using request parameters we evaluate this through the ref which
     // stores the parameters to allow us to hydrate this when changes are made.
     this.request.params &&= Alpine.evaluate(this, this.$refs.params.innerText);
@@ -249,7 +232,7 @@ export default (
 
       this.model = this.dimensional ? option[this.selectable.value] : option;
       this.placeholder = this.dimensional ? option[this.selectable.label] : option;
-      this.image = option.image ?? null;
+      this.image = option[this.selectable.image] ?? null;
     }
 
     this.show = this.quantity === this.available?.length ? false : this.multiple;
@@ -424,7 +407,7 @@ export default (
       this.placeholder = this.dimensional ?
           this.selects[0]?.[this.selectable.label] ?? placeholder :
           this.selects[0] ?? placeholder;
-      this.image = this.selects[0]?.image ?? null;
+      this.image = this.selects[0]?.[this.selectable.image] ?? null;
     } else {
       this.selects = [];
     }
@@ -490,7 +473,7 @@ export default (
   load() {
     if (this.options.length === this.available.length) return;
 
-    this.max += max;
+    this.lazy += lazy;
   },
   /**
    * Set the input value when is not Livewire.
@@ -535,7 +518,9 @@ export default (
     let available = this.common ? this.options : this.response;
 
     if (this.common) {
-        available = Object.values(available).slice(0, this.max);
+        const values = Object.values(available);
+
+        available = this.lazy ? values.slice(0, this.lazy) : values;
     }
 
     if (this.search === '') return available;
@@ -547,19 +532,21 @@ export default (
             option[selectable.label].toString().toLowerCase() :
             option.toString().toLowerCase());
 
-        const description = option.description ?
-            this.normalize(option.description.toString().toLowerCase()) :
+        const description = option[this.selectable.description] ?
+            this.normalize(option[this.selectable.description].toString().toLowerCase()) :
             null;
 
         return this.dimensional ?
-            (label.indexOf(search) !== -1 || (this.common && description && description.indexOf(search) !== -1)) :
+            (label.indexOf(search) !== -1 || (description && description.indexOf(search) !== -1)) :
             this.normalize(option.toString().toLowerCase()).indexOf(search) !== -1;
     };
 
     if (this.common) {
-        return available.filter(filter).slice(0, this.max);
+        const result = available.filter(filter);
+
+        return this.lazy ? result.slice(0, this.lazy) : result;
     }
 
-    return available.filter(filter);
+    return unfiltered ? available : available.filter(filter);
   },
 });

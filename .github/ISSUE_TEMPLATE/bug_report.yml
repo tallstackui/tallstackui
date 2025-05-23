@@ -13,7 +13,7 @@ body:
     attributes:
       label: What Happened
       description: What did you expect to happen?
-      placeholder: When I use <x-button /> I get an error
+      placeholder: When I use <x-button /> I get an error...
     validations:
       required: true
   - type: dropdown
@@ -31,20 +31,23 @@ body:
         - Button
         - Button Circle
         - Card
+        - Carousel
         - Checkbox
-        - Color
         - Clipboard
+        - Color
         - Date
         - Dialog
         - Dropdown
+        - Environment
         - Errors
-        - Upload
         - Hint
         - Icon
         - Input
         - Label
+        - Layout
         - Link
         - Loading
+        - KeyValue
         - Modal
         - Number
         - Password
@@ -53,21 +56,23 @@ body:
         - Radio
         - Range
         - Rating
+        - Reaction
         - Select Native
         - Select Styled
+        - Signature
         - Slide
         - Stats
         - Step
         - Tab
-        - Tag
         - Table
+        - Tag
         - Textarea
         - Theme Switch
         - Time
         - Toast
         - Toggle
         - Tooltip
-        - Reaction
+        - Upload
         - None (N/A)
     validations:
       required: true
@@ -102,11 +107,11 @@ body:
     validations:
       required: true
   - type: input
-    id: tallstackui-version
+    id: tsui-version
     attributes:
       label: TallStackUI Version
       description: What version of our Package are you running? Please be as specific as possible
-      placeholder: For example, 1.0.0
+      placeholder: For example, 2.1.2
     validations:
       required: true
   - type: input

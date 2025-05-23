@@ -3,9 +3,8 @@
 @endphp
 
 @if ($errors->isNotEmpty())
-    <div @class(['w-full'])
+    <div class="w-full"
          x-data="{ show : true, close () { this.show = false; this.$el.dispatchEvent(new CustomEvent('close')) } }"
-         x-init="() => Livewire.hook('commit.prepare', () => show = true)"
          x-show="show">
         <div {{ $attributes->class([
                 $personalize['wrapper'],
@@ -14,25 +13,27 @@
             <div @class([$personalize['title.wrapper'], $colors['border']])>
                 <span @class([$personalize['title.text'], $colors['text']])>
                     @if ($icon !== null)
-                        <x-dynamic-component :component="TallStackUi::component('icon')"
+                        <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                              :icon="TallStackUi::icon($icon)"
-                                             @class([$personalize['title.icon']])
+                                             internal
+                                             class="{{ $personalize['title.icon'] }}"
                                              outline />
                     @endif
                     {{ trans($title, ['count' => $count($errors)]) }}
                 </span>
                 @if ($close)
-                <button dusk="errors-close-button"
+                <button dusk="tallstackui_errors_close_button"
                         class="cursor-pointer"
                         {{ $attributes->only('x-on:close') }}
                         x-on:click="close()">
-                    <x-dynamic-component :component="TallStackUi::component('icon')"
+                    <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                          :icon="TallStackUi::icon('x-mark')"
+                                         internal
                                          @class([$personalize['close'], $colors['text']]) />
                 </button>
                 @endif
             </div>
-            <div @class($personalize['body.wrapper'])>
+            <div class="{{ $personalize['body.wrapper'] }}">
                 <ul @class([$personalize['body.list'], $colors['text']])>
                     @foreach ($messages($errors) as $message)
                         <li>{{ head($message) }}</li>
@@ -40,7 +41,7 @@
                 </ul>
             </div>
             @if (is_string($footer))
-                <p @class($personalize['slots.footer'])>{{ $footer }}</p>
+                <p class="{{ $personalize['slots.footer'] }}">{{ $footer }}</p>
             @else
                 {{ $footer }}
             @endif

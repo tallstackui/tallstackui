@@ -4,7 +4,7 @@
 
 <div x-data="tallstackui_table({!! $entangle !!}, @js($ids()), @js($selectable))" @if ($persistent) x-ref="persist" @endif>
     @if (is_string($header))
-        <p @class($personalize['slots.header'])>{{ $header }}</p>
+        <p class="{{ $personalize['slots.header'] }}">{{ $header }}</p>
     @else
         {{ $header }}
     @endif
@@ -16,9 +16,9 @@
                 'justify-end'     => ! isset($filter['quantity']) && isset($filter['search']),
             ])>
             @isset ($filter['quantity'])
-                <div @class($personalize['filter.quantity'])>
-                    <x-dynamic-component :component="TallStackUi::component('select.styled')"
-                                         :label="$placeholders['quantity']"
+                <div class="{{ $personalize['filter.quantity'] }}">
+                    <x-dynamic-component :component="TallStackUi::prefix('select.styled')"
+                                         :label="data_get($placeholders, 'quantity')"
                                          :options="$quantity"
                                          wire:model.live="{{ $filter['quantity'] }}"
                                          required
@@ -26,20 +26,20 @@
                 </div>
             @endisset
             @isset ($filter['search'])
-                <div @class($personalize['filter.search'])>
-                    <x-dynamic-component :component="TallStackUi::component('input')"
+                <div class="{{ $personalize['filter.search'] }}">
+                    <x-dynamic-component :component="TallStackUi::prefix('input')"
                                          :icon="TallStackUi::icon('magnifying-glass')"
                                          wire:model.live.debounce.500ms="{{ $filter['search'] }}"
-                                         :placeholder="$placeholders['search']"
+                                         :placeholder="data_get($placeholders, 'search')"
                                          type="search"
                                          invalidate />
                 </div>
             @endisset
         </div>
     @endif
-    <div @class($personalize['wrapper'])>
-        <div @class($personalize['table.wrapper'])>
-            <table @class($personalize['table.base']) @if ($livewire && $loading) wire:loading.class="{{ $personalize['loading.table'] }}" @endif>
+    <div class="{{ $personalize['wrapper'] }}">
+        <div class="{{ $personalize['table.wrapper'] }}">
+            <table class="{{ $personalize['table.base'] }}" @if ($livewire && $loading) wire:loading.class="{{ $personalize['loading.table'] }}" @endif>
                 @if ($livewire && $loading)
                     <x-tallstack-ui::icon.generic.loading class="{{ $personalize['loading.icon'] }}" wire:loading="{{ $target }}" />
                 @endif
@@ -48,7 +48,7 @@
                         <tr>
                             @if ($selectable)
                                 <th @class(['w-6', $personalize['table.th']]) wire:key="checkall-{{ implode(',', $ids()) }}">
-                                    <x-dynamic-component :component="TallStackUi::component('checkbox')"
+                                    <x-dynamic-component :component="TallStackUi::prefix('checkbox')"
                                                          x-ref="checkbox"
                                                          x-on:click="all($el.checked, {{ \Illuminate\Support\Js::from($ids()) }})"
                                                          dusk="tallstackui_table_select_all"
@@ -56,9 +56,9 @@
                                 </th>
                             @endif
                             @foreach ($headers as $header)
-                                <th scope="col" @class($personalize['table.th'])>
+                                <th scope="col" class="{{ $personalize['table.th'] }}">
                                     <a @if ($livewire && $sortable($header))
-                                            class="inline-flex truncate cursor-pointer"
+                                            class="inline-flex cursor-pointer truncate"
                                             wire:click="$set('sort', {column: '{{ $head($header)['column'] }}', direction: '{{ $head($header)['direction'] }}' })"
                                         @endif>
                                         @if ($header['unescaped'] ?? false)
@@ -67,9 +67,10 @@
                                             {{ $header['label'] ?? '' }}
                                         @endif
                                         @if ($livewire && $sortable($header))
-                                            <x-dynamic-component :component="TallStackUi::component('icon')"
-                                                                 :icon="TallStackUi::icon($sorted($header) ? ($head($header)['direction'] === 'desc' ? 'chevron-up' : 'chevron-down') : 'chevron-up-down')" 
-                                                                 @class($personalize['table.sort']) />
+                                            <x-dynamic-component :component="TallStackUi::prefix('icon')"
+                                                                 :icon="TallStackUi::icon($sorted($header) ? ($head($header)['direction'] === 'desc' ? 'chevron-up' : 'chevron-down') : 'chevron-up-down')"
+                                                                 internal
+                                                                 class="{{ $personalize['table.sort'] }}" />
                                         @endif
                                     </a>
                                 </th>
@@ -77,23 +78,22 @@
                         </tr>
                     </thead>
                 @endif
-                <tbody @class($personalize['table.tbody'])>
+                <tbody class="{{ $personalize['table.tbody'] }}">
                 @if (is_array($rows) && (count($rows) === 1 && empty($rows[0])))
                     <tr>
-                        <td @class($personalize['empty']) colspan="100%">
-                            {{ $placeholders['empty'] }}
+                        <td class="{{ $personalize['empty'] }}" colspan="100%">
+                            {{ data_get($placeholders, 'empty') }}
                         </td>
                     </tr>
                 @else
                     @forelse ($rows as $key => $value)
                         @php
-                            $this->loop = $loop;
                             $id = md5(serialize($value).$key);
                         @endphp
-                        <tr @class(['bg-gray-50 dark:bg-dark-800/50' => $striped && $loop->index % 2 === 0]) @if ($livewire) wire:key="{{ $id }}" @endif>
+                        <tr @class([$personalize['table.tr'], 'bg-gray-50 dark:bg-dark-800/50' => $striped && $loop->index % 2 === 0]) @if ($livewire) wire:key="{{ $id }}" @endif>
                             @if ($selectable)
-                                <td @class($personalize['table.td'])>
-                                    <x-dynamic-component :component="TallStackUi::component('checkbox')"
+                                <td class="{{ $personalize['table.td'] }}">
+                                    <x-dynamic-component :component="TallStackUi::prefix('checkbox')"
                                                          id="checkbox-{{ $key }}"
                                                          :attributes="$modifier()"
                                                          value="{{ data_get($value, $selectableProperty) }}"
@@ -120,8 +120,8 @@
                         </tr>
                     @empty
                         <tr>
-                            <td @class($personalize['empty']) colspan="100%">
-                                {{ $placeholders['empty'] }}
+                            <td class="{{ $personalize['empty'] }}" colspan="100%">
+                                {{ data_get($placeholders, 'empty') }}
                             </td>
                         </tr>
                     @endforelse
@@ -131,7 +131,7 @@
         </div>
     </div>
     @if (is_string($footer))
-        <p @class($personalize['slots.footer'])>{{ $footer }}</p>
+        <p class="{{ $personalize['slots.footer'] }}">{{ $footer }}</p>
     @else
         {{ $footer }}
     @endif

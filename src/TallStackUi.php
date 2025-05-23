@@ -23,16 +23,6 @@ class TallStackUi
     }
 
     /**
-     * Get the component name adding the prefix when set.
-     */
-    public function component(?string $name = null): ComponentPrefix|string
-    {
-        $prefix = app(ComponentPrefix::class);
-
-        return blank($name) ? $prefix : $prefix->add($name);
-    }
-
-    /**
      * Create an instance of the BladeDirectives class.
      */
     public function directives(): Directives
@@ -54,5 +44,15 @@ class TallStackUi
     public function personalize(?string $component = null, ?string $scope = null): Personalization
     {
         return app(Personalization::class, ['component' => $component, 'scope' => $scope]);
+    }
+
+    /**
+     * Set the component prefix or get the ComponentPrefix instance when $name is null.
+     */
+    public function prefix(?string $name = null): ComponentPrefix|string
+    {
+        $prefix = app(ComponentPrefix::class);
+
+        return blank($name) ? $prefix : $prefix->add($name);
     }
 }

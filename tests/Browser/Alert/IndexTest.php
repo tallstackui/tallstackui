@@ -4,11 +4,12 @@ namespace Tests\Browser\Alert;
 
 use Livewire\Component;
 use Livewire\Livewire;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\BrowserTestCase;
 
 class IndexTest extends BrowserTestCase
 {
-    /** @test */
+    #[Test]
     public function can_close(): void
     {
         Livewire::visit(new class extends Component

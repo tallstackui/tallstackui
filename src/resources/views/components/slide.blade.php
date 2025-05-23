@@ -22,8 +22,8 @@
          x-transition:leave-start="opacity-100"
          x-transition:leave-end="opacity-0"
          @class([$personalize['wrapper.first'], $personalize['blur.'.($configurations['blur'] === true ? 'sm' : $configurations['blur'])] ?? null => $configurations['blur']])></div>
-    <div @class($personalize['wrapper.second'])>
-        <div @class($personalize['wrapper.third'])>
+    <div class="{{ $personalize['wrapper.second'] }}">
+        <div class="{{ $personalize['wrapper.third'] }}">
             <div @class([
                     $personalize['wrapper.fourth'],
                     'inset-y-0' => !$configurations['bottom'],
@@ -54,23 +54,24 @@
                             $configurations['size'],
                             'h-full' => !$configurations['top'] || !$configurations['bottom']
                         ])>
-                        <div @class($personalize['header'])>
+                        <div class="{{ $personalize['header'] }}">
                             <div @class(['flex items-start', 'justify-between' => $title !== null, 'justify-end' => $title === null])>
                                 @if ($title)
                                     <h2 @if ($title instanceof \Illuminate\View\ComponentSlot)
                                             {{ $title->attributes->class($personalize['title.text']) }}
                                         @else
-                                            @class($personalize['title.text'])
+                                            class="{{ $personalize['title.text'] }}"
                                         @endif>{{ $title }}</h2>
                                 @endif
                                 <button type="button" x-on:click="show = false">
-                                    <x-dynamic-component :component="TallStackUi::component('icon')"
+                                    <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                                          :icon="TallStackUi::icon('x-mark')"
-                                                         @class($personalize['title.close']) />
+                                                         internal
+                                                         class="{{ $personalize['title.close'] }}" />
                                 </button>
                             </div>
                         </div>
-                        <div @class($personalize['body'])>
+                        <div class="{{ $personalize['body'] }}">
                             {{ $slot }}
                         </div>
                         @if ($footer)
@@ -78,7 +79,7 @@
                                     $personalize['footer'],
                                     'justify-start' => $footer->attributes->get('start', false),
                                     'justify-end' => $footer->attributes->get('end', false),
-                                ]) }} @else @class($personalize['footer']) @endif>
+                                ]) }} @else class="{{ $personalize['footer'] }}" @endif>
                                 {{ $footer }}
                             </div>
                         @endif

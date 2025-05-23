@@ -4,11 +4,12 @@ namespace Tests\Browser\Loading;
 
 use Livewire\Component;
 use Livewire\Livewire;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\BrowserTestCase;
 
 class IndexTest extends BrowserTestCase
 {
-    /** @test */
+    #[Test]
     public function can_see_loading_using_svg(): void
     {
         Livewire::visit(new class extends Component
@@ -35,7 +36,7 @@ class IndexTest extends BrowserTestCase
             ->waitUntil('document.querySelector("svg")');
     }
 
-    /** @test */
+    #[Test]
     public function can_see_loading_using_text(): void
     {
         Livewire::visit(new class extends Component
@@ -66,7 +67,7 @@ class IndexTest extends BrowserTestCase
             ->waitForTextIn('@loading', 'Loading...');
     }
 
-    /** @test */
+    #[Test]
     public function can_see_loading_using_text_with_delay_longest(): void
     {
         Livewire::visit(new class extends Component

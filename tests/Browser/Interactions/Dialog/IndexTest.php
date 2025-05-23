@@ -4,12 +4,13 @@ namespace Tests\Browser\Interactions\Dialog;
 
 use Livewire\Component;
 use Livewire\Livewire;
+use PHPUnit\Framework\Attributes\Test;
 use TallStackUi\Traits\Interactions;
 use Tests\Browser\BrowserTestCase;
 
 class IndexTest extends BrowserTestCase
 {
-    /** @test */
+    #[Test]
     public function can_dispatch_confirmation_dialog_without_livewire_specifing_component_id()
     {
         Livewire::visit(new class extends Component
@@ -58,7 +59,7 @@ class IndexTest extends BrowserTestCase
             ->assertSee('Cancelled Without Livewire');
     }
 
-    /** @test */
+    #[Test]
     public function can_dispatch_confirmation_dialog_without_livewire_using_first_component_in_page()
     {
         Livewire::visit(new class extends Component
@@ -96,7 +97,7 @@ class IndexTest extends BrowserTestCase
             ->assertSee('Confirmed Without Livewire');
     }
 
-    /** @test */
+    #[Test]
     public function can_dispatch_dialog_without_livewire()
     {
         Livewire::visit(new class extends Component
@@ -131,7 +132,7 @@ class IndexTest extends BrowserTestCase
             ->click('@tallstackui_dialog_confirmation');
     }
 
-    /** @test */
+    #[Test]
     public function can_dispatch_dismissed_event()
     {
         $this->skipOnGitHubActions();
@@ -171,7 +172,7 @@ class IndexTest extends BrowserTestCase
             ->assertPresent('@target');
     }
 
-    /** @test */
+    #[Test]
     public function can_dispatch_events()
     {
         Livewire::visit(new class extends Component
@@ -219,7 +220,8 @@ class IndexTest extends BrowserTestCase
             ->assertSee('Foo bar confirmation')
             ->click('@tallstackui_dialog_confirmation')
             ->waitForText('Accepted')
-            ->assertSee('Accepted')
+            ->assertSeeIn('@target', 'Accepted')
+            ->waitForText('Foo bar confirmed foo')
             ->assertSee('Foo bar confirmed foo')
             ->click('@tallstackui_dialog_confirmation')
             ->click('@confirm')
@@ -232,7 +234,7 @@ class IndexTest extends BrowserTestCase
             ->assertSee('Bar foo cancelled bar');
     }
 
-    /** @test */
+    #[Test]
     public function can_send(): void
     {
         Livewire::visit(DialogComponent::class)
@@ -254,7 +256,7 @@ class IndexTest extends BrowserTestCase
             ->click('@tallstackui_dialog_confirmation');
     }
 
-    /** @test */
+    #[Test]
     public function can_send_cancellation(): void
     {
         Livewire::visit(DialogComponent::class)
@@ -265,7 +267,7 @@ class IndexTest extends BrowserTestCase
             ->waitForText('Bar foo cancelled bar');
     }
 
-    /** @test */
+    #[Test]
     public function can_send_confirmation(): void
     {
         Livewire::visit(DialogComponent::class)
@@ -276,7 +278,7 @@ class IndexTest extends BrowserTestCase
             ->waitUntilMissingText('Foo bar confirmation description');
     }
 
-    /** @test */
+    #[Test]
     public function can_use_close_hook()
     {
         Livewire::visit(new class extends Component
@@ -325,7 +327,7 @@ class IndexTest extends BrowserTestCase
             ->assertSee('close');
     }
 
-    /** @test */
+    #[Test]
     public function can_use_dismiss_hook()
     {
         Livewire::visit(new class extends Component
@@ -374,7 +376,7 @@ class IndexTest extends BrowserTestCase
             ->assertSee('dismiss');
     }
 
-    /** @test */
+    #[Test]
     public function can_use_ok_hook()
     {
         Livewire::visit(new class extends Component
@@ -423,7 +425,7 @@ class IndexTest extends BrowserTestCase
             ->assertSee('ok');
     }
 
-    /** @test */
+    #[Test]
     public function cannot_close_when_dialog_is_persistent(): void
     {
         config()->set('tallstackui.settings.dialog.persistent', true);
@@ -439,7 +441,7 @@ class IndexTest extends BrowserTestCase
             ->assertSee('Foo bar success');
     }
 
-    /** @test */
+    #[Test]
     public function cannot_see_cancellation_if_it_was_not_defined(): void
     {
         Livewire::visit(new class extends Component

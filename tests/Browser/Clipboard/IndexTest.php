@@ -6,11 +6,12 @@ use Facebook\WebDriver\WebDriverKeys;
 use Laravel\Dusk\OperatingSystem;
 use Livewire\Component;
 use Livewire\Livewire;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\BrowserTestCase;
 
 class IndexTest extends BrowserTestCase
 {
-    /** @test */
+    #[Test]
     public function can_copy_when_icon(): void
     {
         Livewire::visit(new class extends Component
@@ -33,7 +34,7 @@ class IndexTest extends BrowserTestCase
             ->assertInputValue('@paste', 'e4da3b7fbbce2345d7772b0674a318d5');
     }
 
-    /** @test */
+    #[Test]
     public function can_copy_when_input(): void
     {
         Livewire::visit(new class extends Component
@@ -56,7 +57,7 @@ class IndexTest extends BrowserTestCase
             ->assertInputValue('@paste', 'c4ca4238a0b923820dcc509a6f75849b');
     }
 
-    /** @test */
+    #[Test]
     public function can_use_event(): void
     {
         Livewire::visit(new class extends Component

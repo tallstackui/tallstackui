@@ -20,11 +20,12 @@ class Card extends TallStackUiComponent implements Personalization
         public ?string $color = null,
         public ?bool $light = null,
         public ?bool $bordered = null,
-        public ?bool $minimize = null,
-        public ?bool $initializeMinimized = false,
+        public ?string $minimize = null,
         public ?bool $close = null,
         public ?string $image = null,
         public ?string $position = 'top',
+        #[SkipDebug]
+        public ?bool $initializeMinimized = false,
         #[SkipDebug]
         public string $style = 'solid',
         #[SkipDebug]
@@ -36,6 +37,10 @@ class Card extends TallStackUiComponent implements Personalization
     ) {
         $this->style = $this->light ? 'light' : 'solid';
         $this->variation = $this->bordered ? 'border' : 'background';
+
+        if ($this->minimize === 'mount') {
+            $this->initializeMinimized = true;
+        }
     }
 
     public function blade(): View
@@ -62,7 +67,7 @@ class Card extends TallStackUiComponent implements Personalization
             ],
             'body' => 'text-secondary-700 dark:text-dark-300 grow rounded-b-xl px-4 py-5',
             'footer' => [
-                'wrapper' => 'text-secondary-700 dark:text-dark-300 dark:border-t-dark-600 rounded-lg rounded-t-none border-t p-4 px-6',
+                'wrapper' => 'text-secondary-700 dark:text-dark-300 dark:border-t-dark-600 rounded-lg rounded-t-none border-t border-t-secondary-200 p-4 px-6',
                 'text' => 'flex items-center justify-end gap-2',
             ],
             'button' => [
@@ -76,8 +81,15 @@ class Card extends TallStackUiComponent implements Personalization
                     'top' => 'rounded-t-lg',
                     'bottom' => 'rounded-b-lg',
                 ],
-                'size' => 'w-full h-64',
+                'size' => 'w-full',
             ],
         ]);
+    }
+
+    protected function validate(): void
+    {
+        if ($this->image !== null && $this->color !== null) {
+            __ts_validation_exception($this, 'The [image] and [color] cannot be used together.');
+        }
     }
 }

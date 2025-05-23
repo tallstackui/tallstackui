@@ -12,7 +12,6 @@ class ErrorsColors
     public function backgroundColors(Component $component): array
     {
         return [
-            'white' => null,
             'black' => null,
             'primary' => null,
             'secondary' => null,
@@ -47,7 +46,6 @@ class ErrorsColors
     public function borderColors(Component $component): array
     {
         return [
-            'white' => null,
             'black' => null,
             'primary' => null,
             'secondary' => null,
@@ -82,7 +80,6 @@ class ErrorsColors
     public function textColors(Component $component): array
     {
         return [
-            'white' => null,
             'black' => null,
             'primary' => null,
             'secondary' => null,

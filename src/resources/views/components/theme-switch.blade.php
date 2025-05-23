@@ -2,7 +2,7 @@
     $personalize = $classes();
 @endphp
 
-<div wire:ignore x-cloak x-data="{ themeSwitch() { this.$el.dispatchEvent(new CustomEvent('theme', {detail: { darkTheme: darkTheme }})); } }">
+<div wire:ignore.self x-cloak x-data="{ themeSwitch() { this.$el.dispatchEvent(new CustomEvent('theme', {detail: { darkTheme: darkTheme }})); } }">
     <button type="button"
             role="switch"
             aria-checked="false"
@@ -17,11 +17,12 @@
                 $personalize['simple.icons.sizes.' . $size] => $onlyIcons,
               ])
               @if (!$onlyIcons) x-bind:class="{ '{{ $personalize['switch.translate.' . $size] }}': darkTheme === true, 'translate-x-0': darkTheme === false }" @endif>
-            <span @class($personalize['wrapper'])
+            <span class="{{ $personalize['wrapper'] }}"
                   aria-hidden="true"
                   x-bind:class="{ 'opacity-0 duration-100 ease-out': darkTheme === true, 'opacity-100 duration-200 ease-in': darkTheme === false }">
-               <x-dynamic-component :component="TallStackUi::component('icon')"
+               <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                     :icon="TallStackUi::icon($onlyIcons ? 'moon' : 'sun')"
+                                    internal
                                     @class([
                                         $personalize['colors.moon'] => !$onlyIcons,
                                         $personalize['colors.sun'] => $onlyIcons,
@@ -29,11 +30,12 @@
                                         $personalize['simple.icons.sizes.' . $size] => $onlyIcons
                                     ]) />
             </span>
-            <span @class($personalize['wrapper'])
+            <span class="{{ $personalize['wrapper'] }}"
                   aria-hidden="true"
                   x-bind:class="{ 'opacity-100 duration-200 ease-in': darkTheme === true, 'opacity-0 duration-100 ease-out': darkTheme === false }">
-               <x-dynamic-component :component="TallStackUi::component('icon')"
+               <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                     :icon="TallStackUi::icon($onlyIcons ? 'sun' : 'moon')"
+                                    internal
                                     @class([
                                         $personalize['colors.sun'] => !$onlyIcons,
                                         $personalize['colors.moon'] => $onlyIcons,

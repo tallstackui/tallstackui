@@ -39,7 +39,7 @@ export const overflow = (status, component = null, skip = false) => {
   const exists = [...element.attributes].some((attr) => attr.name === key);
 
   if (status && (!exists || element.getAttribute(key) === component)) {
-    element.classList.add('!overflow-hidden');
+    element.style.setProperty('overflow', 'hidden', 'important');
     element.setAttribute(key, component);
     // Prevent the scrollbar jump when the scrollbar is visible.
     if (document.documentElement.scrollHeight > document.documentElement.clientHeight) {
@@ -47,7 +47,7 @@ export const overflow = (status, component = null, skip = false) => {
     }
   } else if (!status && exists && element.getAttribute(key) === component) {
     element.removeAttribute(key);
-    element.classList.remove('!overflow-hidden');
+    element.style.removeProperty('overflow');
     element.style.paddingRight = '';
   }
 };

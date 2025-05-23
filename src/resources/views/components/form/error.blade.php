@@ -3,7 +3,7 @@
 @endphp
 
 @error ($property)
-    <span @class($personalize['text'])>
+    <span class="{{ $personalize['text'] }}">
         {{ $message }}
     </span>
 @enderror

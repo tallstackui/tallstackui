@@ -25,6 +25,8 @@ export default (
     this.prefix();
   },
   /**
+   * Adds a tag.
+   *
    * @param event {Event}
    */
   add(event) {
@@ -64,12 +66,16 @@ export default (
     this.clean();
   },
   /**
+   * Clear the tags.
+   *
    * @returns {void}
    */
   clean() {
     this.$nextTick(() => this.tag = '');
   },
   /**
+   * Remove a tag.
+   *
    * @param index {Number}
    * @param event {Event}
    */
@@ -83,6 +89,8 @@ export default (
     this.$el.dispatchEvent(new CustomEvent('remove', {detail: {tag: removed[0]}}));
   },
   /**
+   * Erase the entire input.
+   *
    * @returns {void}
    */
   erase() {
@@ -91,6 +99,8 @@ export default (
     this.model = [];
   },
   /**
+   * Prefix the tag.
+   *
    * @returns {void}
    */
   prefix() {
@@ -102,6 +112,7 @@ export default (
   },
   /**
    * Set the input value when is not Livewire
+   *
    * @param {*} value
    */
   set input(value) {

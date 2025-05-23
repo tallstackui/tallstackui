@@ -14,7 +14,9 @@ export default (flash, texts, overflowing) => ({
     this.$watch('show', (value) => overflow(value, 'dialog', overflowing));
   },
   /**
-   * @param dialog {Object}
+   * Add a new dialog.
+   *
+   * @param {Object} dialog
    * @return {void}
    */
   add(dialog) {
@@ -23,8 +25,10 @@ export default (flash, texts, overflowing) => ({
     this.show = true;
   },
   /**
-   * @param dismissed {Boolean}
-   * @param internal {Boolean}
+   * Remove the dialog.
+   *
+   * @param {Boolean} dismissed
+   * @param {Boolean} internal
    * @return {void}
    */
   remove(dismissed = false, internal = false) {
@@ -39,8 +43,10 @@ export default (flash, texts, overflowing) => ({
     event('dialog:dismissed', this.dialog, false);
   },
   /**
-   * @param dialog {Object}
-   * @param element {HTMLElement}
+   * Accept the dialog (by confirming).
+   *
+   * @param {Object} dialog
+   * @param {HTMLElement} element
    * @return {void}
    */
   accept(dialog, element) {
@@ -57,7 +63,18 @@ export default (flash, texts, overflowing) => ({
     }
 
     setTimeout(() => {
-      component.call(dialog.options.confirm.method, dialog.options.confirm.params);
+      // This piece of code was made to allow dialog/toast to be used inside Livewire custom
+      // directives in order to pass Livewire's action() as the method to be executed, allowing
+      // the fluent execution of the action associated with the directive.
+      const method = dialog.options.confirm.method;
+
+      if (typeof method === 'function') {
+        method();
+
+        return;
+      }
+
+      component.call(method, dialog.options.confirm.params);
 
       // This is a little trick to prevent the element from being
       // focused if there is another dialog displayed sequentially.
@@ -67,8 +84,10 @@ export default (flash, texts, overflowing) => ({
     this.remove(false, true);
   },
   /**
-   * @param dialog {Object}
-   * @param element {HTMLElement}
+   * Reject the dialog (by cancelling).
+   *
+   * @param {Object} dialog
+   * @param {HTMLElement} element
    * @return {void}
    */
   reject(dialog, element) {
@@ -85,7 +104,18 @@ export default (flash, texts, overflowing) => ({
     }
 
     setTimeout(() => {
-      component.call(dialog.options.cancel.method, dialog.options.cancel.params);
+      // This piece of code was made to allow dialog/toast to be used inside Livewire custom
+      // directives in order to pass Livewire's action() as the method to be executed, allowing
+      // the fluent execution of the action associated with the directive.
+      const method = dialog.options.cancel.method;
+
+      if (typeof method === 'function') {
+        method();
+
+        return;
+      }
+
+      component.call(method, dialog.options.cancel.params);
 
       // This is a little trick to prevent the element from being
       // focused if there is another dialog displayed sequentially.

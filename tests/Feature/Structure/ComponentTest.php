@@ -27,12 +27,12 @@ test('throws exception if component name is wrong', function () {
     $this->expectExceptionMessage('The method [foo-bar] is not supported');
     $this->expectException(RuntimeException::class);
 
-    (new Personalization('foo-bar'))->instance();
+    (new Personalization('foo-bar'))->forward();
 });
 
 test('throws exception if not component was set', function () {
     $this->expectExceptionMessage('No component has been set');
     $this->expectException(RuntimeException::class);
 
-    (new Personalization)->instance();
+    (new Personalization)->forward();
 });

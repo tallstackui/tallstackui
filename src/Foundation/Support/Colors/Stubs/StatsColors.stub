@@ -13,7 +13,6 @@ class StatsColors
     {
         return [
             'solid' => [
-                'white' => null,
                 'black' => null,
                 'primary' => null,
                 'secondary' => null,
@@ -41,7 +40,6 @@ class StatsColors
                 'rose' => null,
             ],
             'outline' => [
-                'white' => null,
                 'black' => null,
                 'primary' => null,
                 'secondary' => null,
@@ -69,7 +67,6 @@ class StatsColors
                 'rose' => null,
             ],
             'light' => [
-                'white' => null,
                 'black' => null,
                 'primary' => null,
                 'secondary' => null,

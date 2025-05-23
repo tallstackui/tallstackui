@@ -31,7 +31,7 @@ class Items extends TallStackUiComponent implements Personalization
     public function personalization(): array
     {
         return [
-            'item' => 'text-secondary-600 dark:text-dark-300 dark:hover:bg-dark-600 dark:focus:bg-dark-600 flex w-full cursor-pointer items-center whitespace-nowrap px-4 py-2 text-sm transition-colors duration-150 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none',
+            'item' => 'text-secondary-600 dark:text-dark-300 dark:hover:bg-dark-600 dark:focus:bg-dark-600 flex w-full cursor-pointer items-center whitespace-nowrap px-4 py-2 text-sm transition-colors duration-150 hover:bg-gray-100 focus:bg-gray-100 focus:outline-hidden',
             'border' => 'dark:border-t-dark-600 border-t border-t-gray-100',
             'icon' => 'dark:text-dark-300 h-5 w-5 text-gray-500',
         ];

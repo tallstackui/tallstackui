@@ -8,7 +8,8 @@ export default (
     staticMode,
     placeholder,
     placeholders,
-    overflowing
+    overflowing,
+    closeAfterUpload
 ) => ({
   show: false,
   uploading: false,
@@ -25,6 +26,8 @@ export default (
   image: null,
   init() {
     this.component = Livewire.find(id).__instance;
+
+    this.component.$wire.watch(this.property, () => this.text());
     this.$watch('uploading', () => this.text());
     this.$watch('preview', (value) => overflow(value, 'upload', overflowing));
   },
@@ -38,13 +41,13 @@ export default (
     this.uploading = true;
     this.error = false;
 
-    let abort = null;
+    let abort = true;
 
-    if (typeof window.TallStackUi.upload === 'function') {
+    if (typeof window.TallStackUi?.upload === 'function') {
       abort = window.TallStackUi.upload(this.$refs.files.files);
     }
 
-    if (Boolean(abort) === false) {
+    if (!abort) {
       this.progress = 0;
       this.uploading = false;
 
@@ -76,6 +79,8 @@ export default (
         },
         (event) => this.progress = event.detail.progress,
     );
+
+    if (closeAfterUpload) this.show = false;
   },
   /**
    * Upload single file.
@@ -96,6 +101,8 @@ export default (
         },
         (event) => this.progress = event.detail.progress,
     );
+
+    if (closeAfterUpload) this.show = false;
   },
   /**
    * Remove a file through Livewire component.

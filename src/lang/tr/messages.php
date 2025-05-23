@@ -72,6 +72,7 @@ return [
                 'description' => 'Henüz hiç resminiz yok.',
             ],
         ],
+        'invalid' => 'Bir doğrulama hatası oluştu.',
     ],
 
     'date' => [
@@ -115,5 +116,18 @@ return [
         'next' => 'İleri',
         'previous' => 'Geri',
         'finish' => 'Bitir',
+    ],
+
+    'key-value' => [
+        'headers' => [
+            'key' => 'ANAHTAR',
+            'value' => 'DEĞER',
+        ],
+        'placeholders' => [
+            'key' => 'Bir anahtar girin',
+            'value' => 'Bir değer girin',
+        ],
+        'add-row' => 'SATIR EKLE',
+        'empty' => 'Hiçbir satır eklenmedi.',
     ],
 ];

@@ -33,7 +33,7 @@ it('can thrown exception when wire is empty', function () {
 
 it('can thrown exception when size is unnaceptable', function (string $size) {
     $this->expectException(ViewException::class);
-    $this->expectExceptionMessage('The modal size must be one of the following: [sm, md, lg, xl, 2xl, 3xl, 4xl, 5xl, 6xl, 7xl]');
+    $this->expectExceptionMessage('[TallStackUI] Modal: The [size] must be one of the following: [sm, md, lg, xl, 2xl, 3xl, 4xl, 5xl, 6xl, 7xl, full]');
 
     $component = <<<'HTML'
     <x-modal size="{{ size }}">
@@ -55,7 +55,7 @@ it('can thrown exception when size is unnaceptable', function (string $size) {
 
 it('can thrown exception when z-index does not contains prefix', function () {
     $this->expectException(ViewException::class);
-    $this->expectExceptionMessage('The modal z-index must start with z- prefix');
+    $this->expectExceptionMessage('[TallStackUI] Modal: The [z-index] must start with z- prefix');
 
     $component = <<<'HTML'
     <x-modal z-index="50">

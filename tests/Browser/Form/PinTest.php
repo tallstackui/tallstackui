@@ -7,11 +7,12 @@ use Laravel\Dusk\OperatingSystem;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\Livewire;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\BrowserTestCase;
 
 class PinTest extends BrowserTestCase
 {
-    /** @test */
+    #[Test]
     public function can_clear(): void
     {
         Livewire::visit(new class extends Component
@@ -39,7 +40,7 @@ class PinTest extends BrowserTestCase
             ->assertDontSeeIn('@value', '1515');
     }
 
-    /** @test */
+    #[Test]
     public function can_clear_the_inputs_when_clear_property_externally(): void
     {
         Livewire::visit(new class extends Component
@@ -66,7 +67,7 @@ class PinTest extends BrowserTestCase
             ->assertNotPresent('@value');
     }
 
-    /** @test */
+    #[Test]
     public function can_dispatch_clear_event(): void
     {
         Livewire::visit(new class extends Component
@@ -102,7 +103,7 @@ class PinTest extends BrowserTestCase
             ->assertSeeIn('@cleared', 'Cleared');
     }
 
-    /** @test */
+    #[Test]
     public function can_dispatch_filled_event(): void
     {
         Livewire::visit(new class extends Component
@@ -139,7 +140,7 @@ class PinTest extends BrowserTestCase
             ->assertSeeIn('@filled', 'Filled');
     }
 
-    /** @test */
+    #[Test]
     public function can_fill(): void
     {
         Livewire::visit(new class extends Component
@@ -168,7 +169,7 @@ class PinTest extends BrowserTestCase
             ->assertSeeIn('@value', '1');
     }
 
-    /** @test */
+    #[Test]
     public function can_fill_and_dispatch_change_event(): void
     {
         Livewire::visit(new class extends Component
@@ -197,7 +198,7 @@ class PinTest extends BrowserTestCase
             ->assertSeeIn('@value', '1');
     }
 
-    /** @test */
+    #[Test]
     public function can_fill_multiples(): void
     {
         Livewire::visit(new class extends Component
@@ -228,7 +229,7 @@ class PinTest extends BrowserTestCase
             ->assertSeeIn('@value', '15');
     }
 
-    /** @test */
+    #[Test]
     public function can_paste_letters(): void
     {
         Livewire::visit(new class extends Component
@@ -257,7 +258,7 @@ class PinTest extends BrowserTestCase
             ->assertSeeIn('@value', 'FOO');
     }
 
-    /** @test */
+    #[Test]
     public function can_paste_numbers(): void
     {
         Livewire::visit(new class extends Component
@@ -286,7 +287,7 @@ class PinTest extends BrowserTestCase
             ->assertSeeIn('@value', '15');
     }
 
-    /** @test */
+    #[Test]
     public function can_see_prefix(): void
     {
         Livewire::visit(new class extends Component
@@ -304,7 +305,7 @@ class PinTest extends BrowserTestCase
         })->assertVisible('@form_pin_prefix');
     }
 
-    /** @test */
+    #[Test]
     public function can_see_validation_error(): void
     {
         Livewire::visit(new class extends Component
@@ -337,7 +338,7 @@ class PinTest extends BrowserTestCase
             ->assertSee('The value field is required.');
     }
 
-    /** @test */
+    #[Test]
     public function cannot_paste_letters_when_numbers(): void
     {
         Livewire::visit(new class extends Component
@@ -365,7 +366,7 @@ class PinTest extends BrowserTestCase
             ->assertDontSee('FOO');
     }
 
-    /** @test */
+    #[Test]
     public function cannot_paste_numbers_when_letters(): void
     {
         Livewire::visit(new class extends Component
@@ -393,7 +394,7 @@ class PinTest extends BrowserTestCase
             ->assertDontSee('15');
     }
 
-    /** @test */
+    #[Test]
     public function cannot_see_clear_button(): void
     {
         Livewire::visit(new class extends Component
@@ -418,7 +419,7 @@ class PinTest extends BrowserTestCase
         })->assertNotPresent('@form_pin_clear');
     }
 
-    /** @test */
+    #[Test]
     public function cannot_see_validation_error_when_invalidate(): void
     {
         Livewire::visit(new class extends Component

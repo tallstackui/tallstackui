@@ -4,12 +4,13 @@ namespace Tests\Browser\Interactions\Banner;
 
 use Livewire\Component;
 use Livewire\Livewire;
+use PHPUnit\Framework\Attributes\Test;
 use TallStackUi\Traits\Interactions;
 use Tests\Browser\BrowserTestCase;
 
 class IndexTest extends BrowserTestCase
 {
-    /** @test */
+    #[Test]
     public function can_dispatch_and_close(): void
     {
         Livewire::visit(new class extends Component
@@ -42,7 +43,7 @@ class IndexTest extends BrowserTestCase
             ->assertDontSee('Foo bar success');
     }
 
-    /** @test */
+    #[Test]
     public function can_dispatch_error(): void
     {
         Livewire::visit(BannerComponent::class)
@@ -52,7 +53,7 @@ class IndexTest extends BrowserTestCase
             ->assertSee('Foo bar error');
     }
 
-    /** @test */
+    #[Test]
     public function can_dispatch_info(): void
     {
         Livewire::visit(BannerComponent::class)
@@ -62,7 +63,7 @@ class IndexTest extends BrowserTestCase
             ->assertSee('Foo bar info');
     }
 
-    /** @test */
+    #[Test]
     public function can_dispatch_success(): void
     {
         Livewire::visit(BannerComponent::class)
@@ -72,7 +73,7 @@ class IndexTest extends BrowserTestCase
             ->assertSee('Foo bar success');
     }
 
-    /** @test */
+    #[Test]
     public function can_dispatch_warning(): void
     {
         Livewire::visit(BannerComponent::class)
@@ -82,7 +83,7 @@ class IndexTest extends BrowserTestCase
             ->assertSee('Foo bar warning');
     }
 
-    /** @test */
+    #[Test]
     public function can_dispatch_with_enter_delay(): void
     {
         Livewire::visit(BannerEnterLeaveComponent::class)
@@ -92,7 +93,7 @@ class IndexTest extends BrowserTestCase
             ->assertSee('Foo bar enter');
     }
 
-    /** @test */
+    #[Test]
     public function can_dispatch_with_leave_delay(): void
     {
         Livewire::visit(BannerEnterLeaveComponent::class)

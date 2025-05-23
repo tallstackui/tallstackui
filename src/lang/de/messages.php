@@ -72,6 +72,7 @@ return [
                 'description' => 'Sie haben noch keine Bilder.',
             ],
         ],
+        'invalid' => 'Es gab einen Validierungsfehler.',
     ],
 
     'date' => [
@@ -91,13 +92,13 @@ return [
                 'december' => 'Dezember',
             ],
             'week' => [
+                'sunday' => 'Sonntag',
                 'monday' => 'Montag',
                 'tuesday' => 'Dienstag',
                 'wednesday' => 'Mittwoch',
                 'thursday' => 'Donnerstag',
                 'friday' => 'Freitag',
                 'saturday' => 'Samstag',
-                'sunday' => 'Sonntag',
             ],
         ],
         'helpers' => [
@@ -115,5 +116,18 @@ return [
         'next' => 'Weiter',
         'previous' => 'Zurück',
         'finish' => 'Beenden',
+    ],
+
+    'key-value' => [
+        'headers' => [
+            'key' => 'SCHLÜSSEL',
+            'value' => 'WERT',
+        ],
+        'placeholders' => [
+            'key' => 'Schlüssel eingeben',
+            'value' => 'Wert eingeben',
+        ],
+        'add-row' => 'ZEILE HINZUFÜGEN',
+        'empty' => 'Keine Zeilen hinzugefügt.',
     ],
 ];

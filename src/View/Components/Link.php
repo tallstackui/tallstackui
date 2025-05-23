@@ -21,6 +21,7 @@ class Link extends TallStackUiComponent implements Personalization
         public ?string $text = null,
         public ?string $href = null,
         public ?string $color = 'primary',
+        public ?string $xs = null,
         public ?string $sm = null,
         public ?string $md = null,
         public ?string $lg = null,
@@ -31,6 +32,7 @@ class Link extends TallStackUiComponent implements Personalization
         public ?bool $blank = null,
         public ?bool $bold = null,
         public ?bool $underline = null,
+        public ?bool $italic = null,
         public ?bool $colorless = null,
         public ?bool $navigate = null,
         public ?bool $navigateHover = null,
@@ -39,7 +41,7 @@ class Link extends TallStackUiComponent implements Personalization
         #[SkipDebug]
         public ?string $formatted = null,
     ) {
-        $this->size = $this->lg ? 'lg' : ($this->sm ? 'sm' : 'md');
+        $this->size = $this->lg ? 'lg' : ($this->sm ? 'sm' : ($this->xs ? 'xs' : 'md'));
 
         $this->formatted = $this->href;
 
@@ -67,11 +69,13 @@ class Link extends TallStackUiComponent implements Personalization
         return Arr::dot([
             'bold' => 'font-bold',
             'underline' => 'underline',
+            'italic' => 'italic',
             'icon' => [
                 'base' => 'flex items-center gap-x-1',
                 'size' => 'h-4 w-4',
             ],
             'sizes' => [
+                'xs' => 'text-xs',
                 'sm' => 'text-sm',
                 'md' => 'text-md',
                 'lg' => 'text-lg',
@@ -86,7 +90,7 @@ class Link extends TallStackUiComponent implements Personalization
         // is not set. With that, we allow the usage
         // of link component for anchor links.
         if (! $this->fragment && ! $this->href) {
-            throw new InvalidArgumentException('The link [href] attribute is required when no [fragment] is provided.');
+            __ts_validation_exception($this, 'The [href] attribute is required when no [fragment] is provided.');
         }
     }
 }

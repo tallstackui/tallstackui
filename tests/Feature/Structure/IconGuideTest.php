@@ -14,7 +14,6 @@ test('class has method', function (string $method) {
     'build',
     'internal',
     'configuration',
-    'validate',
 ]);
 
 test('helper class has method', function (string $method) {
@@ -23,9 +22,5 @@ test('helper class has method', function (string $method) {
     'resolve',
     'get',
     'styles',
-    'google',
-    'hero',
-    'phosphor',
-    'tabler',
-    'lucide',
+    'heroicons',
 ]);

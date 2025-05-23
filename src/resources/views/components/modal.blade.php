@@ -26,7 +26,7 @@
          x-transition:leave-start="opacity-100"
          x-transition:leave-end="opacity-0"
          @class([$personalize['wrapper.first'], $personalize['blur.'.($configurations['blur'] === true ? 'sm' : $configurations['blur'])] ?? null => $configurations['blur']])></div>
-    <div @class($personalize['wrapper.second'])>
+    <div class="{{ $personalize['wrapper.second'] }}">
         <div @class([
                 $personalize['wrapper.third'],
                 $configurations['size'],
@@ -43,20 +43,21 @@
                  x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                  @class([$personalize['wrapper.fourth'], $configurations['size']])>
                 @if ($title)
-                    <div @class($personalize['title.wrapper'])>
-                        <h3 @class($personalize['title.text'])>{{ $title }}</h3>
+                    <div class="{{ $personalize['title.wrapper'] }}">
+                        <h3 class="{{ $personalize['title.text'] }}">{{ $title }}</h3>
                          <button type="button" x-on:click="show = false">
-                            <x-dynamic-component :component="TallStackUi::component('icon')"
+                            <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                                  :icon="TallStackUi::icon('x-mark')"
-                                                 @class($personalize['title.close']) />
+                                                 internal
+                                                 class="{{ $personalize['title.close'] }}" />
                          </button>
                     </div>
                 @endif
-                <div @class($personalize['body'])>
+                <div class="{{ $personalize['body'] }}">
                     {{ $slot }}
                 </div>
                 @if ($footer)
-                    <div @class($personalize['footer'])>
+                    <div class="{{ $personalize['footer'] }}">
                         {{ $footer }}
                     </div>
                 @endif

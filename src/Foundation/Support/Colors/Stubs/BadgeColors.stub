@@ -13,7 +13,6 @@ class BadgeColors
     {
         return [
             'solid' => [
-                'white' => null,
                 'black' => null,
                 'primary' => null,
                 'secondary' => null,
@@ -41,7 +40,6 @@ class BadgeColors
                 'rose' => null,
             ],
             'outline' => [
-                'white' => null,
                 'black' => null,
                 'primary' => null,
                 'secondary' => null,
@@ -69,7 +67,6 @@ class BadgeColors
                 'rose' => null,
             ],
             'light' => [
-                'white' => null,
                 'black' => null,
                 'primary' => null,
                 'secondary' => null,
@@ -106,7 +103,6 @@ class BadgeColors
     {
         return [
             'solid' => [
-                'white' => null,
                 'black' => null,
                 'primary' => null,
                 'secondary' => null,
@@ -134,7 +130,6 @@ class BadgeColors
                 'rose' => null,
             ],
             'outline' => [
-                'white' => null,
                 'black' => null,
                 'primary' => null,
                 'secondary' => null,
@@ -162,7 +157,6 @@ class BadgeColors
                 'rose' => null,
             ],
             'light' => [
-                'white' => null,
                 'black' => null,
                 'primary' => null,
                 'secondary' => null,
@@ -199,7 +193,6 @@ class BadgeColors
     {
         return [
             'solid' => [
-                'white' => null,
                 'black' => null,
                 'primary' => null,
                 'secondary' => null,
@@ -227,7 +220,6 @@ class BadgeColors
                 'rose' => null,
             ],
             'outline' => [
-                'white' => null,
                 'black' => null,
                 'primary' => null,
                 'secondary' => null,
@@ -255,7 +247,6 @@ class BadgeColors
                 'rose' => null,
             ],
             'light' => [
-                'white' => null,
                 'black' => null,
                 'primary' => null,
                 'secondary' => null,

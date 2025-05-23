@@ -1,15 +1,15 @@
-/**
- * @param storage {String|Null}
- * @param initialize {String|Boolean|Null}
- */
-export default (storage = null, initialize = null) => ({
-  storage: storage ?? 'dark-theme',
-  darkTheme: Boolean(initialize) === true ? true : (localStorage.getItem(storage ?? 'dark-theme') === 'true'),
+export default (data = {}) => ({
+  storage: data?.name ?? 'dark-theme',
+  darkTheme: (() => {
+    const storage = localStorage.getItem(data?.name ?? 'dark-theme');
+
+    if (storage !== null) {
+      return storage === 'true';
+    }
+
+    return data?.default === 'dark' || data?.default === true;
+  })(),
   init() {
-    const dark = localStorage.getItem(this.storage);
-
-    this.darkTheme = Boolean(initialize) === true ? true : (dark === 'true');
-
     this.$watch('darkTheme', (value) => localStorage.setItem(this.storage, value));
   },
 });

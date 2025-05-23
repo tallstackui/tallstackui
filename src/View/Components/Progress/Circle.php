@@ -11,13 +11,13 @@ use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\Support\Colors\Components\ProgressColors;
 use TallStackUi\TallStackUiComponent;
-use TallStackUi\View\Components\Progress\Traits\SetupProgress;
+use TallStackUi\View\Components\Progress\Traits\Setup;
 
 #[SoftPersonalization('progress.circle')]
 #[ColorsThroughOf(ProgressColors::class)]
 class Circle extends TallStackUiComponent implements Personalization
 {
-    use SetupProgress;
+    use Setup;
 
     public function __construct(
         public string|int|null $percent = null,

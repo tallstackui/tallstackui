@@ -5,11 +5,12 @@ namespace Tests\Browser\Form;
 use Facebook\WebDriver\WebDriverKeys;
 use Livewire\Component;
 use Livewire\Livewire;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\BrowserTestCase;
 
 class TagTest extends BrowserTestCase
 {
-    /** @test */
+    #[Test]
     public function can_be_limited()
     {
         Livewire::visit(new class extends Component
@@ -41,7 +42,7 @@ class TagTest extends BrowserTestCase
             ->assertDontSeeIn('@tagged', 'baz');
     }
 
-    /** @test */
+    #[Test]
     public function can_erase_all()
     {
         Livewire::visit(new class extends Component
@@ -75,7 +76,7 @@ class TagTest extends BrowserTestCase
             ->assertDontSeeIn('@tagged', 'bar');
     }
 
-    /** @test */
+    #[Test]
     public function can_fill_using_comma(): void
     {
         Livewire::visit(new class extends Component
@@ -104,7 +105,7 @@ class TagTest extends BrowserTestCase
             ->assertSeeIn('@tagged', 'bar');
     }
 
-    /** @test */
+    #[Test]
     public function can_fill_using_enter(): void
     {
         Livewire::visit(new class extends Component
@@ -133,7 +134,7 @@ class TagTest extends BrowserTestCase
             ->assertSeeIn('@tagged', 'bar');
     }
 
-    /** @test */
+    #[Test]
     public function can_fill_using_prefixes(): void
     {
         Livewire::visit(new class extends Component
@@ -162,7 +163,7 @@ class TagTest extends BrowserTestCase
             ->assertSeeIn('@tagged', '@bar');
     }
 
-    /** @test */
+    #[Test]
     public function can_remove_manually(): void
     {
         Livewire::visit(new class extends Component
@@ -195,7 +196,7 @@ class TagTest extends BrowserTestCase
             ->assertDontSeeIn('@tagged', 'bar');
     }
 
-    /** @test */
+    #[Test]
     public function can_remove_using_backspace(): void
     {
         Livewire::visit(new class extends Component
@@ -228,7 +229,7 @@ class TagTest extends BrowserTestCase
             ->assertDontSeeIn('@tagged', 'bar');
     }
 
-    /** @test */
+    #[Test]
     public function can_use_events()
     {
         Livewire::visit(new class extends Component
@@ -277,7 +278,7 @@ class TagTest extends BrowserTestCase
             ->assertSeeIn('@erase', 'foobar');
     }
 
-    /** @test */
+    #[Test]
     public function cannot_duplicate(): void
     {
         Livewire::visit(new class extends Component
@@ -310,7 +311,7 @@ class TagTest extends BrowserTestCase
             ->assertSeeIn('@tagged', 'foo');
     }
 
-    /** @test */
+    #[Test]
     public function cannot_duplicate_using_prefixes(): void
     {
         Livewire::visit(new class extends Component
@@ -343,7 +344,7 @@ class TagTest extends BrowserTestCase
             ->assertSeeIn('@tagged', '#foo');
     }
 
-    /** @test */
+    #[Test]
     public function cannot_insert_empty_prefix(): void
     {
         Livewire::visit(new class extends Component

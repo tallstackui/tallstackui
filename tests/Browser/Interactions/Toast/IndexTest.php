@@ -4,12 +4,13 @@ namespace Tests\Browser\Interactions\Toast;
 
 use Livewire\Component;
 use Livewire\Livewire;
+use PHPUnit\Framework\Attributes\Test;
 use TallStackUi\Traits\Interactions;
 use Tests\Browser\BrowserTestCase;
 
 class IndexTest extends BrowserTestCase
 {
-    /** @test */
+    #[Test]
     public function can_dispatch_confirmation_toast_without_livewire_specifing_component_id()
     {
         Livewire::visit(new class extends Component
@@ -21,7 +22,7 @@ class IndexTest extends BrowserTestCase
                 return <<<'HTML'
                 <div>
                     <x-button dusk="confirm" onclick="confirm()">Confirm</x-button>
-                    
+
                     <script>
                         confirm = () => $interaction('toast').question('Confirm?')
                             .wireable(Livewire.first().id)
@@ -57,7 +58,7 @@ class IndexTest extends BrowserTestCase
             ->assertSee('Cancelled Without Livewire');
     }
 
-    /** @test */
+    #[Test]
     public function can_dispatch_confirmation_toast_without_livewire_using_first_component_in_page()
     {
         Livewire::visit(new class extends Component
@@ -69,7 +70,7 @@ class IndexTest extends BrowserTestCase
                 return <<<'HTML'
                 <div>
                     <x-button dusk="confirm" onclick="confirm()">Confirm</x-button>
-                    
+
                     <script>
                         confirm = () => $interaction('toast').question('Confirm?')
                             .wireable()
@@ -95,7 +96,7 @@ class IndexTest extends BrowserTestCase
             ->assertSee('Confirmed Without Livewire');
     }
 
-    /** @test */
+    #[Test]
     public function can_dispatch_events()
     {
         Livewire::visit(new class extends Component
@@ -136,11 +137,11 @@ class IndexTest extends BrowserTestCase
             public function render(): string
             {
                 return <<<'HTML'
-                <div x-on:toast:accepted.window="$wire.set('target', 'Accepted')" 
+                <div x-on:toast:accepted.window="$wire.set('target', 'Accepted')"
                      x-on:toast:rejected.window="$wire.set('target', 'Rejected')"
                      x-on:toast:timeout.window="$wire.set('target', 'Timeout')">
                     <p dusk="target">{{ $target }}</p>
-                
+
                     <x-button dusk="confirm" wire:click="confirm">Confirm</x-button>
                     <x-button dusk="timeout" wire:click="timeout">Timeout</x-button>
                 </div>
@@ -170,7 +171,7 @@ class IndexTest extends BrowserTestCase
             ->assertSeeIn('@target', 'Timeout');
     }
 
-    /** @test */
+    #[Test]
     public function can_dispatch_toast_without_livewire()
     {
         Livewire::visit(new class extends Component
@@ -201,7 +202,7 @@ class IndexTest extends BrowserTestCase
             ->waitForText('Warning Without Livewire');
     }
 
-    /** @test */
+    #[Test]
     public function can_expand(): void
     {
         Livewire::visit(ToastComponent::class)
@@ -213,7 +214,7 @@ class IndexTest extends BrowserTestCase
             ->assertSee('specimen');
     }
 
-    /** @test */
+    #[Test]
     public function can_expand_and_not_expand_sequentially(): void
     {
         Livewire::visit(ToastComponent::class)
@@ -228,7 +229,7 @@ class IndexTest extends BrowserTestCase
             ->assertSee('chunks');
     }
 
-    /** @test */
+    #[Test]
     public function can_send(): void
     {
         Livewire::visit(ToastComponent::class)
@@ -246,7 +247,7 @@ class IndexTest extends BrowserTestCase
             ->waitForText('Foo bar warning');
     }
 
-    /** @test */
+    #[Test]
     public function can_send_cancellation(): void
     {
         Livewire::visit(ToastComponent::class)
@@ -257,7 +258,7 @@ class IndexTest extends BrowserTestCase
             ->waitForText('Bar foo cancelled bar');
     }
 
-    /** @test */
+    #[Test]
     public function can_send_confirmation(): void
     {
         Livewire::visit(ToastComponent::class)
@@ -268,7 +269,21 @@ class IndexTest extends BrowserTestCase
             ->waitForText('Foo bar confirmed foo');
     }
 
-    /** @test */
+    #[Test]
+    public function can_send_multiple(): void
+    {
+        $browser = Livewire::visit(ToastComponent::class);
+
+        $browser->script('window.performance.now = () => 1234567890;');
+
+        $browser->assertDontSee('Foo bar 1')
+            ->assertDontSee('Foo bar 2')
+            ->click('#multiple')
+            ->waitForText('Foo bar 1')
+            ->waitForText('Foo bar 2');
+    }
+
+    #[Test]
     public function can_use_close_hook()
     {
         Livewire::visit(new class extends Component
@@ -300,7 +315,7 @@ class IndexTest extends BrowserTestCase
                 return <<<'HTML'
                 <div>
                     <p dusk="close">{{ $close }}</p>
-                
+
                     <x-button dusk="success" wire:click="success">Success</x-button>
                 </div>
                 HTML;
@@ -317,7 +332,7 @@ class IndexTest extends BrowserTestCase
             ->assertSee('close');
     }
 
-    /** @test */
+    #[Test]
     public function can_use_timeout_hook()
     {
         Livewire::visit(new class extends Component
@@ -350,7 +365,7 @@ class IndexTest extends BrowserTestCase
                 return <<<'HTML'
                 <div>
                     <p dusk="timeout">{{ $timeout }}</p>
-                
+
                     <x-button dusk="success" wire:click="success">Success</x-button>
                 </div>
                 HTML;
@@ -366,7 +381,7 @@ class IndexTest extends BrowserTestCase
             ->assertSee('timeout');
     }
 
-    /** @test */
+    #[Test]
     public function cannot_see_cancellation_if_it_was_not_defined(): void
     {
         Livewire::visit(new class extends Component
@@ -449,6 +464,12 @@ class ToastComponent extends Component
         $this->toast()->info('Foo bar info')->send();
     }
 
+    public function multiple(): void
+    {
+        $this->toast()->info('Foo bar 1')->send();
+        $this->toast()->info('Foo bar 2')->send();
+    }
+
     public function notExpandable(): void
     {
         $this->toast()
@@ -468,6 +489,7 @@ class ToastComponent extends Component
             <x-button id="confirm" wire:click="confirm">Confirm</x-button>
             <x-button id="expand" wire:click="expand">Expand</x-button>
             <x-button id="expandConfirmation" wire:click="expandConfirmation">Expand Confirmation</x-button>
+            <x-button id="multiple" wire:click="multiple">Multiple</x-button>
         </div>
         HTML;
     }

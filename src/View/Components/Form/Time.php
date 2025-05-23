@@ -48,9 +48,12 @@ class Time extends TallStackUiComponent implements Personalization
             'icon' => [
                 'size' => 'h-5 w-5',
                 'clear' => 'hover:text-red-500',
-                'wrapper' => 'flex items-center gap-2',
+                'wrapper' => 'flex items-center gap-1.5',
             ],
-            'floating' => collect(app(Floating::class)->personalization())->get('wrapper'),
+            'floating' => [
+                'default' => collect(app(Floating::class)->personalization())->get('wrapper'),
+                'class' => 'p-3 w-[18rem]',
+            ],
             'time' => 'text-primary-600 dark:text-dark-300 dark:border-dark-700 w-20 rounded-full p-2 text-center text-4xl font-medium transition',
             'separator' => 'dark:text-dark-400 h-14 text-5xl text-gray-300',
             'interval' => [
@@ -69,7 +72,7 @@ class Time extends TallStackUiComponent implements Personalization
                 'dark' => 'dark:bg-dark-600',
             ],
             'helper' => [
-                'wrapper' => 'mt-2 flex flex-col space-y-6 outline-none',
+                'wrapper' => 'mt-2 flex flex-col space-y-6 outline-hidden',
                 'button' => 'w-full uppercase',
             ],
         ]);
@@ -98,29 +101,29 @@ class Time extends TallStackUiComponent implements Personalization
 
         if ($this->minHour && $this->maxHour) {
             if ($this->minHour < 0 || $this->minHour > 23) {
-                throw new InvalidArgumentException('The date [min-hour] must be between 0 and 23.');
+                __ts_validation_exception($this, 'The [min-hour] must be between 0 and 23.');
             }
 
             if ($this->maxHour < 0 || $this->maxHour > 23) {
-                throw new InvalidArgumentException('The date [max-hour] must be between 0 and 23.');
+                __ts_validation_exception($this, 'The [max-hour] must be between 0 and 23.');
             }
 
             if ($this->minHour > $this->maxHour) {
-                throw new InvalidArgumentException('The date [min-hour] must be less than or equal to the date [max-hour].');
+                __ts_validation_exception($this, 'The [min-hour] must be less than or equal to the time [max-hour].');
             }
         }
 
         if ($this->minMinute && $this->maxMinute) {
             if ($this->minMinute < 0 || $this->minMinute > 59) {
-                throw new InvalidArgumentException('The date [min-minute] must be between 0 and 59.');
+                __ts_validation_exception($this, 'The [min-minute] must be between 0 and 59.');
             }
 
             if ($this->maxMinute < 0 || $this->maxMinute > 59) {
-                throw new InvalidArgumentException('The date [max-minute] must be between 0 and 59.');
+                __ts_validation_exception($this, 'The [max-minute] must be between 0 and 59.');
             }
 
             if ($this->minMinute > $this->maxMinute) {
-                throw new InvalidArgumentException('The date [min-minute] must be less than or equal to the date [max-minute].');
+                __ts_validation_exception($this, 'The [min-minute] must be less than or equal to the time [max-minute].');
             }
         }
     }

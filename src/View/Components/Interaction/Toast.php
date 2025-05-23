@@ -26,7 +26,7 @@ class Toast extends TallStackUiComponent implements Personalization
             'wrapper' => [
                 'first' => 'pointer-events-none fixed inset-0 flex flex-col items-end justify-end gap-y-2 px-4 py-4',
                 'second' => 'flex w-full flex-col items-center space-y-4',
-                'third' => 'dark:bg-dark-700 pointer-events-auto w-full max-w-sm overflow-hidden rounded-xl bg-white shadow-lg ring-1 ring-black ring-opacity-5',
+                'third' => 'dark:bg-dark-700 pointer-events-auto w-full max-w-sm overflow-hidden rounded-xl bg-white shadow-lg ring-1 ring-black/5',
                 'fourth' => 'flex p-4',
             ],
             'icon' => [
@@ -42,16 +42,16 @@ class Toast extends TallStackUiComponent implements Personalization
                     'first' => 'mt-2 flex',
                     'second' => 'ml-4 flex min-h-full flex-col justify-between',
                 ],
-                'confirm' => 'text-sm font-medium focus:outline-none',
-                'cancel' => 'text-sm font-medium focus:outline-none',
+                'confirm' => 'text-sm font-medium focus:outline-hidden cursor-pointer',
+                'cancel' => 'text-sm font-medium focus:outline-hidden cursor-pointer',
                 'close' => [
-                    'wrapper' => 'ml-4 flex flex-shrink-0',
-                    'class' => 'inline-flex text-gray-400 focus:outline-none focus:ring-0',
+                    'wrapper' => 'ml-4 flex shrink-0',
+                    'class' => 'inline-flex text-gray-400 focus:outline-hidden focus:ring-0 cursor-pointer',
                     'size' => 'h-5 w-5',
                 ],
                 'expand' => [
-                    'wrapper' => 'ml-4 flex flex-shrink-0',
-                    'class' => 'inline-flex text-gray-400 focus:outline-none focus:ring-0',
+                    'wrapper' => 'ml-4 flex shrink-0',
+                    'class' => 'inline-flex text-gray-400 focus:outline-hidden focus:ring-0',
                     'size' => 'h-5 w-5',
                 ],
             ],
@@ -70,23 +70,23 @@ class Toast extends TallStackUiComponent implements Personalization
         $messages = trans('tallstack-ui::messages.toast.button');
 
         if (! in_array($configuration->get('position', 'top-right'), $positions)) {
-            throw new InvalidArgumentException('The toast position must be one of the following: ['.implode(', ', $positions).']');
+            __ts_validation_exception($this, 'The [position] must be one of the following: ['.implode(', ', $positions).']');
         }
 
         if (! str($configuration->get('z-index', 'z-50'))->startsWith('z-')) {
-            throw new InvalidArgumentException('The toast z-index must start with z- prefix');
+            __ts_validation_exception($this, 'The [z-index] must start with z- prefix');
         }
 
         if (blank($messages['ok'] ?? null)) {
-            throw new InvalidArgumentException('The toast [ok] message cannot be empty.');
+            __ts_validation_exception($this, 'The [ok] message cannot be empty.');
         }
 
         if (blank($messages['confirm'] ?? null)) {
-            throw new InvalidArgumentException('The toast [confirm] message cannot be empty.');
+            __ts_validation_exception($this, 'The [confirm] message cannot be empty.');
         }
 
         if (blank($messages['cancel'] ?? null)) {
-            throw new InvalidArgumentException('The toast [cancel] message cannot be empty.');
+            __ts_validation_exception($this, 'The [cancel] message cannot be empty.');
         }
     }
 }

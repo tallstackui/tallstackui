@@ -13,7 +13,6 @@ class BannerColors
     {
         return [
             'solid' => [
-                'white' => null,
                 'black' => null,
                 'primary' => null,
                 'secondary' => null,
@@ -41,7 +40,6 @@ class BannerColors
                 'rose' => null,
             ],
             'light' => [
-                'white' => null,
                 'black' => null,
                 'primary' => null,
                 'secondary' => null,
@@ -78,7 +76,6 @@ class BannerColors
     {
         return [
             'solid' => [
-                'white' => null,
                 'black' => null,
                 'primary' => null,
                 'secondary' => null,
@@ -106,7 +103,6 @@ class BannerColors
                 'rose' => null,
             ],
             'light' => [
-                'white' => null,
                 'black' => null,
                 'primary' => null,
                 'secondary' => null,

@@ -18,7 +18,6 @@ class RadioColors
     private function background(): array
     {
         return [
-            'white' => 'text-white focus:ring-white dark:ring-offset-dark-900',
             'black' => 'text-black focus:ring-black dark:ring-offset-dark-900',
             'primary' => 'text-primary-500 focus:ring-primary-500 dark:ring-offset-dark-900',
             'secondary' => 'text-secondary-500 focus:ring-secondary-500 dark:ring-offset-dark-900',

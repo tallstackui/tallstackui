@@ -26,7 +26,7 @@ class FindComponentCommand extends Command
 
     public $description = 'Find Components occurrences usage through all Blade files.';
 
-    public $signature = 'tallstackui:occurrences';
+    public $signature = 'tallstackui:find-component';
 
     public function handle(): int
     {
@@ -38,19 +38,18 @@ class FindComponentCommand extends Command
         $prefix = config('tallstackui.prefix');
         $find = sprintf('<x-%s', $prefix ? $prefix.$original : $original);
 
-        $process = new Process([
-            'grep',
-            '-rn',
-            $find,
-            resource_path('views'),
-        ]);
+        $windows = windows_os();
+
+        $command = $windows
+            ? ['findstr', '/S', '/N', '/I', $find, resource_path('views').'\*.blade.php']
+            : ['grep', '-rn', $find, resource_path('views')];
+
+        $process = new Process($command);
 
         try {
-            // This is identical to run() except that an exception is
-            // thrown if the process exits with a non-zero exit code.
             $process->mustRun();
 
-            $this->output($process->getOutput(), $original);
+            $this->output($process->getOutput(), $original, $windows);
 
             return self::SUCCESS;
         } catch (ProcessFailedException) {
@@ -62,7 +61,7 @@ class FindComponentCommand extends Command
         return self::FAILURE;
     }
 
-    private function output(string $output, string $component): void
+    private function output(string $output, string $component, bool $window): void
     {
         if (blank($output)) {
             return;
@@ -84,20 +83,24 @@ class FindComponentCommand extends Command
 
         $this->components->info('🎉 '.$total.' occurrences found');
 
-        $lines->each(function (string $line) use (&$rows): bool {
-            // This creates an array with up to 4 positions, being:
-            // 0 => complete line
-            // 1 => file path
-            // 2 => line number
-            // 3 => line content
-            preg_match('/^(.*?):(\d+):(.*)$/', $line, $matches);
+        $lines->each(function (string $line) use (&$rows, $window): bool {
+            if ($window) {
+                preg_match('/^(.*\\\)([^\\\]+)\.blade\.php:(\d+):(.*)$/', $line, $matches);
+            } else {
+                preg_match('/^(.*?):(\d+):(.*)$/', $line, $matches);
+            }
 
-            if (blank($line) || count($matches) !== 4) {
+            if (blank($line) || count($matches) < 3) {
                 return false;
             }
 
-            $path = str($matches[1])->afterLast(base_path().'/')->value();
-            $number = $matches[2];
+            $path = $window
+                ? 'resources/views/'.$matches[2].'.blade.php'
+                : str($matches[1])->afterLast(base_path().'/')->value();
+
+            $number = $window
+                ? $matches[3]
+                : $matches[2];
 
             $rows[] = [$path, $number];
 

@@ -6,7 +6,7 @@ use Illuminate\View\Component;
 
 class DialogColors
 {
-    // This should be one of the button colors (e.g. 'red', 'blue', 'green', etc.)
+    // This should be one of the TailwindCSS colors (e.g. 'red', 'blue', 'green', or custom, etc.)
     public function cancelColors(Component $component): ?string
     {
         return 'red';

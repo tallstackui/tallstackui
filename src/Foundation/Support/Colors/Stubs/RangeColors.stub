@@ -12,7 +12,6 @@ class RangeColors
     public function thumbColors(Component $component): array
     {
         return [
-            'white' => null,
             'black' => null,
             'primary' => null,
             'secondary' => null,

@@ -11,7 +11,7 @@
 
 <div>
     @if ($label)
-        <x-dynamic-component :component="TallStackUi::component('label')" :$label :$error />
+        <x-dynamic-component :component="TallStackUi::prefix('label')" :$label :$error />
     @endif
     <div x-data="tallstackui_formPin(
              {!! $entangle !!},
@@ -24,14 +24,14 @@
              @js($property),
              @js($attributes->get('value')),
              @js($change))"
-         x-on:paste="pasting = true; paste($event)" x-cloak wire:ignore>
-        <div @class($personalize['wrapper']) x-ref="wrapper" {{ $attributes->only(['x-on:filled', 'x-on:clear']) }}>
+         x-on:paste="pasting = true; paste($event)" x-cloak wire:ignore.self>
+        <div class="{{ $personalize['wrapper'] }}" x-ref="wrapper" {{ $attributes->only(['x-on:filled', 'x-on:clear']) }}>
             @if ($prefix)
                 <input type="text"
                        value="{{ $prefix }}"
                        dusk="form_pin_prefix"
                        @class([
-                           'w-[60px]',
+                            $personalize['input.size.prefix'],
                             $personalize['input.base'],
                             $personalize['input.color.background'],
                             $personalize['input.color.base'],
@@ -48,7 +48,7 @@
                            value="{{ $attributes->get('value')[$index-1] ?? '' }}"
                        @endif
                        @class([
-                           'w-[38px]',
+                            $personalize['input.size.base'],
                             $personalize['input.base'],
                             $personalize['input.color.background'],
                        ]) x-bind:class="{
@@ -56,6 +56,9 @@
                            '{{ $personalize['input.color.error'] }}': @js($invalidate ?? false) === false && error,
                        }" maxlength="1"
                        autocomplete="false"
+                       @if ($numbers)
+                          inputmode="numeric"
+                       @endif
                        @required($attributes->get('required', false))
                        x-on:focus="setTimeout(() => $el.selectionStart = $el.selectionEnd = $el.value.length, 0)"
                        x-on:keyup="keyup(@js($index))"
@@ -68,18 +71,19 @@
             @endforeach
             <template x-if="clear && model">
                 <button class="cursor-pointer" x-on:click="erase();" dusk="form_pin_clear">
-                    <x-dynamic-component :component="TallStackUi::component('icon')"
+                    <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                          :icon="TallStackUi::icon('x-circle')"
                                          solid
-                                         @class($personalize['button']) />
+                                         internal
+                                         class="{{ $personalize['button'] }}" />
                 </button>
             </template>
         </div>
     </div>
     @if ($hint && !$error)
-        <x-dynamic-component :component="TallStackUi::component('hint')" :$hint />
+        <x-dynamic-component :component="TallStackUi::prefix('hint')" :$hint />
     @endif
     @if ($error)
-        <x-dynamic-component :component="TallStackUi::component('error')" :$property />
+        <x-dynamic-component :component="TallStackUi::prefix('error')" :$property />
     @endif
 </div>

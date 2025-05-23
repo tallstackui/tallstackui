@@ -4,8 +4,8 @@ export const body = (request, search, selected) => {
   const simple = request.constructor === String;
 
   let url = simple ? request : request.url;
-  let method = simple ? 'get' : request.method;
-  const params = simple ? {} : request.params;
+  let method = simple ? 'get' : request.method ?? 'get';
+  const params = simple ? {} : request.params ?? {};
 
   method = method.toLowerCase();
 
@@ -20,7 +20,10 @@ export const body = (request, search, selected) => {
   };
 
   const token = document.head.querySelector('[name="csrf-token"]')?.getAttribute('content');
-  if (token) init.headers['X-CSRF-TOKEN'] = token;
+
+  if (token) {
+    init.headers['X-CSRF-TOKEN'] = token
+  }
 
   if (method === 'get') {
     if (search !== '') {

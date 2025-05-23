@@ -47,7 +47,7 @@ class Environment extends TallStackUiComponent implements Personalization
     {
         return Arr::dot([
             'wrapper' => [
-                'class' => 'outline-none inline-flex items-center border px-2 py-0.5 font-bold',
+                'class' => 'outline-hidden inline-flex items-center border px-2 py-0.5 font-bold',
                 'sizes' => [
                     'xs' => 'text-xs',
                     'sm' => 'text-sm',

@@ -4,11 +4,12 @@ namespace Tests\Browser\Card;
 
 use Livewire\Component;
 use Livewire\Livewire;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\BrowserTestCase;
 
 class IndexTest extends BrowserTestCase
 {
-    /** @test */
+    #[Test]
     public function can_close_card(): void
     {
         Livewire::visit(new class extends Component
@@ -31,7 +32,7 @@ class IndexTest extends BrowserTestCase
             ->assertDontSee('TallStackUi');
     }
 
-    /** @test */
+    #[Test]
     public function can_minimize_card(): void
     {
         Livewire::visit(new class extends Component
@@ -56,7 +57,7 @@ class IndexTest extends BrowserTestCase
             ->assertDontSee('TallStackUi');
     }
 
-    /** @test */
+    #[Test]
     public function can_only_see_elements_when_card_has_header(): void
     {
         Livewire::visit(new class extends Component

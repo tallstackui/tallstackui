@@ -9,11 +9,16 @@ use Illuminate\View\ComponentAttributeBag;
 use Livewire\Component;
 use Livewire\WireDirective;
 use TallStackUi\Foundation\Support\Blade\BindProperty;
+use TallStackUi\TallStackUiComponent;
 
 abstract class AbstractRuntime
 {
-    public function __construct(protected array $data, protected readonly ?Component $livewire = null, protected readonly ?ViewErrorBag $errors = null)
-    {
+    public function __construct(
+        protected TallStackUiComponent $component,
+        protected array $data,
+        protected readonly ?Component $livewire = null,
+        protected readonly ?ViewErrorBag $errors = null
+    ) {
         //
     }
 
@@ -32,7 +37,7 @@ abstract class AbstractRuntime
         return app(BindProperty::class, [
             'attributes' => $this->data['attributes'],
             'errors' => $this->errors,
-            'invalidate' => $this->data['invalidate'] ?? false,
+            'invalidate' => $this->data['invalidate'] ?? config('tallstackui.invalidate_global') ?? false,
             // Livewire here is a boolean to check if the
             // component is being used within a Livewire context.
             'livewire' => $this->livewire !== null,
@@ -63,6 +68,8 @@ abstract class AbstractRuntime
 
     /**
      * Get data from $this->data using data_get when $key is set or return the whole data as a collection.
+     *
+     * @return mixed|Collection
      */
     protected function data(?string $key = null, mixed $default = null): mixed
     {
@@ -120,11 +127,11 @@ abstract class AbstractRuntime
      * The value of a Livewire component `$property` - when in
      * the context of Livewire, or the `$value` provided.
      */
-    protected function value(mixed $value, ?string $property = null): mixed
+    protected function value(?string $property = null, mixed $value = null): mixed
     {
         return $this->wireable() && ! is_null($property) && property_exists($this->livewire, $property)
             ? data_get($this->livewire, $property)
-            : $value;
+            : ($value ?: $this->data['attributes']->get('value'));
     }
 
     /**

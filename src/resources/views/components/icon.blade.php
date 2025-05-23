@@ -4,7 +4,11 @@
     @if ($left)
         {!! $left !!}
     @endif
-    <x-dynamic-component :component="$icon('tallstack-ui::icon.')" {{ $attributes->class(['text-red-500' => $error]) }} />
+    @if ($internal)
+        <x-dynamic-component :component="$raw('tallstack-ui::icon.')" {{ $attributes->class(['text-red-500' => $error]) }} />
+    @else
+        <x-blade-ui :name="$raw()" {{ $attributes->class(['text-red-500' => $error]) }} />
+    @endif
     @if ($right)
         {!! $right !!}
     @endif

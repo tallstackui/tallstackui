@@ -110,7 +110,7 @@ export default class Interaction {
 
   /**
    * @param text {String|Null}
-   * @param method {String|Null}
+   * @param method {String|Function|Null}
    * @param params {String|Number|Object|Null}
    * @return {Interaction|void}
    */
@@ -127,7 +127,7 @@ export default class Interaction {
 
   /**
    * @param text {String|Null}
-   * @param method {String|Null}
+   * @param method {String|Function|Null}
    * @param params {String|Number|Object|Null}
    */
   cancel = (text= null, method = null, params = null) => {
@@ -169,6 +169,16 @@ export default class Interaction {
   };
 
   /**
+   * @param persistent {Boolean}
+   * @return {Interaction}
+   */
+  persistent = (persistent = true) => {
+    this.#data.persistent = persistent;
+
+    return this;
+  };
+
+  /**
    * @return {Object}
    */
   #payload() {
@@ -178,6 +188,7 @@ export default class Interaction {
       ...(this.#type === 'toast' ? {
         timeout: this.#data.timeout ?? 3,
         expandable: this.#data.expandable ?? false,
+        persistent: this.#data.persistent ?? false,
       } : {}),
     };
   }

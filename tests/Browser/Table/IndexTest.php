@@ -6,11 +6,12 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\Livewire;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\BrowserTestCase;
 
 class IndexTest extends BrowserTestCase
 {
-    /** @test */
+    #[Test]
     public function can_render(): void
     {
         Livewire::visit(new class extends Component
@@ -40,7 +41,7 @@ class IndexTest extends BrowserTestCase
             ->assertSee('Quantity');
     }
 
-    /** @test */
+    #[Test]
     public function can_render_headless(): void
     {
         Livewire::visit(new class extends Component
@@ -71,7 +72,7 @@ class IndexTest extends BrowserTestCase
             ->assertDontSee('Name');
     }
 
-    /** @test */
+    #[Test]
     public function can_render_manipulating_columns()
     {
         Livewire::visit(new class extends Component
@@ -104,7 +105,7 @@ class IndexTest extends BrowserTestCase
             ->assertSee('Bar Test');
     }
 
-    /** @test */
+    #[Test]
     public function can_render_manipulating_columns_passing_extra_variables()
     {
         Livewire::visit(new class extends Component
@@ -139,7 +140,7 @@ class IndexTest extends BrowserTestCase
             ->assertSee('Bar Test Extra');
     }
 
-    /** @test */
+    #[Test]
     public function can_render_manipulating_columns_without_parameters()
     {
         Livewire::visit(new class extends Component
@@ -173,7 +174,7 @@ class IndexTest extends BrowserTestCase
             ->assertSee('Test');
     }
 
-    /** @test */
+    #[Test]
     public function can_render_paginated(): void
     {
         Livewire::visit(new class extends Component
@@ -222,7 +223,7 @@ class IndexTest extends BrowserTestCase
             ->assertSee('Showing 1 to 5 of 14 results');
     }
 
-    /** @test */
+    #[Test]
     public function can_render_selectable_and_select_rows(): void
     {
         Livewire::visit(new class extends Component
@@ -259,7 +260,7 @@ class IndexTest extends BrowserTestCase
 
     }
 
-    /** @test */
+    #[Test]
     public function can_render_selectable_and_select_rows_using_different_property(): void
     {
         Livewire::visit(new class extends Component

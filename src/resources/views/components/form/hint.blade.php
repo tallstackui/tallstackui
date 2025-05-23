@@ -2,6 +2,6 @@
     $personalize = $classes();
 @endphp
 
-<span @class($personalize['text'])>
+<span class="{{ $personalize['text'] }}">
     {!! $hint ?? $slot !!}
 </span>

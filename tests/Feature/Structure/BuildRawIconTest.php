@@ -6,7 +6,7 @@ use TallStackUi\View\Components\Icon;
 use TallStackUi\View\Components\Tooltip;
 
 test('trait has method', function () {
-    expect(BuildRawIcon::class)->toHaveMethod('icon');
+    expect(BuildRawIcon::class)->toHaveMethod('raw');
 });
 
 test('trait should only be used in', function () {
@@ -18,7 +18,7 @@ test('should return the correct icon', function () {
 
     $icon->attributes = new ComponentAttributeBag([]);
 
-    expect($icon->icon())->toBe('heroicons.solid.envelope');
+    expect($icon->raw())->toBe('heroicons.solid.envelope');
 });
 
 test('should replace icon style', function () {
@@ -28,5 +28,5 @@ test('should replace icon style', function () {
         'outline' => true,
     ]);
 
-    expect($icon->icon())->toBe('heroicons.outline.envelope');
+    expect($icon->raw())->toBe('heroicons.outline.envelope');
 });

@@ -15,7 +15,6 @@ class Floating extends TallStackUiComponent implements Personalization
         public ?string $offset = '10',
         public ?string $position = 'bottom-end',
         public ?ComponentSlot $transition = null,
-        public ?ComponentSlot $base = null,
         public ?ComponentSlot $footer = null,
     ) {
         //

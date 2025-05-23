@@ -106,7 +106,7 @@ class Avatar extends TallStackUiComponent implements Personalization
         $property = $this->model->getAttribute($this->property);
 
         if (blank($property)) {
-            throw new InvalidArgumentException("The avatar property [{$this->property}] does not exists or is blank at the model [$model]");
+            __ts_validation_exception($this, "The property [{$this->property}] does not exists or is blank at the model [$model]");
         }
     }
 }

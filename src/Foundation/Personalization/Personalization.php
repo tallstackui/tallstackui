@@ -12,6 +12,7 @@ use TallStackUi\View\Components\Boolean;
 use TallStackUi\View\Components\Button\Button;
 use TallStackUi\View\Components\Button\Circle;
 use TallStackUi\View\Components\Card;
+use TallStackUi\View\Components\Carousel;
 use TallStackUi\View\Components\Clipboard;
 use TallStackUi\View\Components\Dropdown\Dropdown;
 use TallStackUi\View\Components\Dropdown\Items as DropdownItems;
@@ -32,6 +33,8 @@ use TallStackUi\View\Components\Form\Password;
 use TallStackUi\View\Components\Form\Pin;
 use TallStackUi\View\Components\Form\Radio;
 use TallStackUi\View\Components\Form\Range;
+use TallStackUi\View\Components\Form\Select\Native as SelectNative;
+use TallStackUi\View\Components\Form\Select\Styled as SelectStyled;
 use TallStackUi\View\Components\Form\Tag;
 use TallStackUi\View\Components\Form\Textarea;
 use TallStackUi\View\Components\Form\Time;
@@ -39,6 +42,12 @@ use TallStackUi\View\Components\Form\Toggle;
 use TallStackUi\View\Components\Form\Upload;
 use TallStackUi\View\Components\Interaction\Dialog;
 use TallStackUi\View\Components\Interaction\Toast;
+use TallStackUi\View\Components\KeyValue;
+use TallStackUi\View\Components\Layout\Header;
+use TallStackUi\View\Components\Layout\Layout;
+use TallStackUi\View\Components\Layout\SideBar\Item as SideBarItem;
+use TallStackUi\View\Components\Layout\SideBar\Separator;
+use TallStackUi\View\Components\Layout\SideBar\SideBar;
 use TallStackUi\View\Components\Link;
 use TallStackUi\View\Components\Loading;
 use TallStackUi\View\Components\Modal;
@@ -46,8 +55,6 @@ use TallStackUi\View\Components\Progress\Circle as ProgressCircle;
 use TallStackUi\View\Components\Progress\Progress;
 use TallStackUi\View\Components\Rating;
 use TallStackUi\View\Components\Reaction;
-use TallStackUi\View\Components\Select\Native as SelectNative;
-use TallStackUi\View\Components\Select\Styled as SelectStyled;
 use TallStackUi\View\Components\Signature;
 use TallStackUi\View\Components\Slide;
 use TallStackUi\View\Components\Stats;
@@ -102,7 +109,7 @@ class Personalization
      */
     public function block(string|array $name, string|callable|null $code = null): PersonalizationFactory
     {
-        return $this->instance()->block($name, $code);
+        return $this->forward()->block($name, $code);
     }
 
     public function boolean(?string $scope = null): PersonalizationFactory
@@ -115,6 +122,8 @@ class Personalization
     public function button(?string $component = null, ?string $scope = null): PersonalizationFactory
     {
         $component ??= 'button';
+
+        $this->scope ??= $scope;
 
         $class = match ($component) {
             'button' => Button::class,
@@ -130,6 +139,13 @@ class Personalization
         $this->scope ??= $scope;
 
         return $this->component(Card::class);
+    }
+
+    public function carousel(?string $scope = null): PersonalizationFactory
+    {
+        $this->scope ??= $scope;
+
+        return $this->component(Carousel::class);
     }
 
     public function clipboard(?string $scope = null): PersonalizationFactory
@@ -214,7 +230,13 @@ class Personalization
         return $this->component($class);
     }
 
-    public function instance(): PersonalizationFactory
+    /**
+     * The purpose of this function is to forward the execution of
+     * the methods as they are called from auxiliary methods, such
+     * as: "form('input')", where in this example 'form' would be
+     * the method and 'input' the parameter to be injected into the method.
+     */
+    public function forward(): PersonalizationFactory
     {
         if (! $this->component) {
             throw new RuntimeException('No component has been set');
@@ -237,6 +259,28 @@ class Personalization
         }
 
         return call_user_func([$this, $main], $main === $secondary ?: $secondary);
+    }
+
+    public function keyValue(?string $scope = null): PersonalizationFactory
+    {
+        $this->scope ??= $scope;
+
+        return $this->component(KeyValue::class);
+    }
+
+    public function layout(?string $component = null, ?string $scope = null): PersonalizationFactory
+    {
+        $component ??= 'index';
+
+        $this->scope ??= $scope;
+
+        $class = match ($component) {
+            'index' => Layout::class,
+            'header' => Header::class,
+            default => $component,
+        };
+
+        return $this->component($class);
     }
 
     public function link(?string $scope = null): PersonalizationFactory
@@ -289,6 +333,18 @@ class Personalization
         return $this->component(Reaction::class);
     }
 
+    /**
+     * Set the scope for the personalization.
+     *
+     * @param  $name  string
+     */
+    public function scope(string $name): self
+    {
+        $this->scope = $name;
+
+        return $this;
+    }
+
     public function select(?string $component = null, ?string $scope = null): PersonalizationFactory
     {
         $this->scope ??= $scope;
@@ -298,6 +354,22 @@ class Personalization
         $class = match ($component) {
             'native' => SelectNative::class,
             'styled' => SelectStyled::class,
+            default => $component,
+        };
+
+        return $this->component($class);
+    }
+
+    public function sideBar(?string $component = null, ?string $scope = null): PersonalizationFactory
+    {
+        $component ??= 'side-bar';
+
+        $this->scope ??= $scope;
+
+        $class = match ($component) {
+            'side-bar' => SideBar::class,
+            'item' => SideBarItem::class,
+            'separator' => Separator::class,
             default => $component,
         };
 

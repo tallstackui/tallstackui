@@ -23,7 +23,7 @@ test('contains method', function (string $method) {
     'errors',
     'floating',
     'form',
-    'instance',
+    'forward',
     'link',
     'loading',
     'modal',

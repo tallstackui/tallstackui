@@ -38,6 +38,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Invalidate Components
+    |--------------------------------------------------------------------------
+    |
+    | Controls the "invalidation" of all form components globally. The "invalidate"
+    | is the way to prevent showing validation errors in the components. When you
+    | set this value as "true" you will use "invalidate" of all form components
+    | globally, without need to specific it individually per component.
+    */
+    'invalidate_global' => false,
+
+    /*
+    |--------------------------------------------------------------------------
     | Debug Mode
     |--------------------------------------------------------------------------
     |
@@ -64,6 +76,7 @@ return [
         */
         'ignore' => [
             // Components\Alert::class,
+            // Components\Avatar::class
         ],
     ],
 
@@ -77,7 +90,7 @@ return [
         |----------------------------------
         | Default and in-use icon type.
         |----------------------------------
-        | Allowed: heroicons, phosphoricons, google, tablericons.
+        | Allowed: heroicons or BladeUI (check the docs).
         */
         'type' => env('TALLSTACKUI_ICON_TYPE', 'heroicons'),
 
@@ -85,24 +98,9 @@ return [
         |----------------------------------
         | Default and in-use icon style.
         |----------------------------------
-        | Allowed:
-        |
-        | Heroicons: solid, outline
-        | Phosphoricons: thin, light, regular, bold, duotone
-        | Google: default
-        | Tablericons: default
+        | Allowed: solid, outline (Heroicons only).
         */
         'style' => env('TALLSTACKUI_ICON_STYLE', 'solid'),
-
-        /*
-        |----------------------------------
-        | Flush unused icons pack.
-        |----------------------------------
-        |
-        | To avoid the accumulation of unused files, the icon packs that are
-        | not in use can be deleted automatically when new icons are set.
-        */
-        'flush' => true,
 
         /*
         |----------------------------------
@@ -116,14 +114,15 @@ return [
             |----------------------------------
             |
             | These icons are used internally in the components. When using custom
-            | icons you can optionally change the internal icons to custom icons,
-            | causing this to reflect new icon looks for the internal components.
+            | icons via BladeUi you can optionally change the internal icons to custom
+            | icons, causing this to reflect new icon looks for the internal components.
             */
             'guide' => [
                 'arrow-path' => null,
                 'arrow-trending-up' => null,
                 'arrow-trending-down' => null,
                 'arrow-up-tray' => null,
+                'bars-4' => null,
                 'calendar' => null,
                 'check' => null,
                 'check-circle' => null,
@@ -154,19 +153,6 @@ return [
                 'x-circle' => null,
                 'x-mark' => null,
             ],
-
-            /*
-            |----------------------------------
-            | Custom icon fallback behavior.
-            |----------------------------------
-            |
-            | When enabling it we will use internal icons (Heroicons) to avoid
-            | exceptions when using a custom icon that doesn't exist. For example,
-            | if you use a "check" icon and don't have a custom one "check" icon,
-            | the Heroicons "check" icon will be used. Preferably you should only
-            | disable this when you are customizing ALL components of the "guide".
-            */
-            'fallback' => true,
         ],
     ],
 
@@ -209,6 +195,33 @@ return [
             'color' => [
                 'colors' => null,
             ],
+
+            /*
+            |----------------------------------------------------------------------
+            | Password
+            |----------------------------------------------------------------------
+            | rules: array of default rules for the password generator.
+            */
+            'password' => [
+                'rules' => [
+                    'min' => '8',
+                    'mixed' => true,
+                    'numbers' => true,
+                    'symbols' => '!@#$%^&*()_+-=',
+                ],
+            ],
+
+            /*
+            |----------------------------------------------------------------------
+            | Select Styled
+            |----------------------------------------------------------------------
+            | unfiltered: allow all select API styled components to be unfiltered by default.
+            */
+            'select' => [
+                'styled' => [
+                    'unfiltered' => false,
+                ],
+            ],
         ],
 
         /*
@@ -231,6 +244,20 @@ return [
             'size' => '2xl',
             'center' => false,
         ],
+
+        /*
+        |----------------------------------------------------------------------
+        | Layout
+        |----------------------------------------------------------------------
+        |
+        | Controls the registration of the layout component and all its children,
+        | useful for situations where you want to ignore these components in favor
+        | of avoiding conflict with your layout component.
+        */
+        'layout' => [
+            'avoid' => env('TALLSTACKUI_AVOID_LAYOUT_REGISTRATION', false),
+        ],
+
         /*
         |----------------------------------------------------------------------
         | Loading
@@ -247,6 +274,7 @@ return [
             'blur' => false,
             'opacity' => true,
         ],
+
         /*
         |----------------------------------------------------------------------
         | Slide
@@ -267,6 +295,7 @@ return [
             'size' => 'lg',
             'position' => 'right',
         ],
+
         /*
         |----------------------------------------------------------------------
         | Toast
@@ -274,7 +303,7 @@ return [
         |
         | z-index: controls the default z-index.
         | progress: enables the progress bar.
-        | expandable: enables the expand effect by default.
+        | expandable: enables the expanded effect by default.
         | position: controls the default toast position (Allowed: top-right, top-left, bottom-right, bottom-left).
         | timeout: controls the default timeout in seconds.
         */
@@ -302,6 +331,7 @@ return [
         'boolean' => Components\Boolean::class,
         'button' => Components\Button\Button::class,
         'button.circle' => Components\Button\Circle::class,
+        'carousel' => Components\Carousel::class,
         'card' => Components\Card::class,
         'checkbox' => Components\Form\Checkbox::class,
         'color' => Components\Form\Color::class,
@@ -316,13 +346,15 @@ return [
         'error' => Components\Form\Error::class,
         'errors' => Components\Errors::class,
         'floating' => Components\Floating::class,
-        'upload' => Components\Form\Upload::class,
         'hint' => Components\Form\Hint::class,
         'icon' => Components\Icon::class,
         'input' => Components\Form\Input::class,
         'label' => Components\Form\Label::class,
+        'layout' => Components\Layout\Layout::class,
+        'layout.header' => Components\Layout\Header::class,
         'link' => Components\Link::class,
         'loading' => Components\Loading::class,
+        'key-value' => Components\KeyValue::class,
         'modal' => Components\Modal::class,
         'number' => Components\Form\Number::class,
         'password' => Components\Form\Password::class,
@@ -332,8 +364,11 @@ return [
         'radio' => Components\Form\Radio::class,
         'range' => Components\Form\Range::class,
         'rating' => Components\Rating::class,
-        'select.native' => Components\Select\Native::class,
-        'select.styled' => Components\Select\Styled::class,
+        'side-bar' => Components\Layout\SideBar\SideBar::class,
+        'side-bar.item' => Components\Layout\SideBar\Item::class,
+        'side-bar.separator' => Components\Layout\SideBar\Separator::class,
+        'select.native' => Components\Form\Select\Native::class,
+        'select.styled' => Components\Form\Select\Styled::class,
         'signature' => Components\Signature::class,
         'slide' => Components\Slide::class,
         'stats' => Components\Stats::class,
@@ -349,6 +384,7 @@ return [
         'toast' => Components\Interaction\Toast::class,
         'toggle' => Components\Form\Toggle::class,
         'tooltip' => Components\Tooltip::class,
+        'upload' => Components\Form\Upload::class,
         'reaction' => Components\Reaction::class,
         'wrapper.input' => Components\Wrapper\Input::class,
         'wrapper.radio' => Components\Wrapper\Radio::class,

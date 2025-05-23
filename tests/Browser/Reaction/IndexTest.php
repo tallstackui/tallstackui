@@ -4,11 +4,12 @@ namespace Tests\Browser\Reaction;
 
 use Livewire\Component;
 use Livewire\Livewire;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\BrowserTestCase;
 
 class IndexTest extends BrowserTestCase
 {
-    /** @test */
+    #[Test]
     public function can_react(): void
     {
         Livewire::visit(new class extends Component
@@ -43,7 +44,7 @@ class IndexTest extends BrowserTestCase
             ->assertSee('2');
     }
 
-    /** @test */
+    #[Test]
     public function can_react_using_custom_method(): void
     {
         Livewire::visit(new class extends Component
@@ -78,7 +79,7 @@ class IndexTest extends BrowserTestCase
             ->assertSee('2');
     }
 
-    /** @test */
+    #[Test]
     public function can_render_slot(): void
     {
         Livewire::visit(new class extends Component
@@ -109,7 +110,7 @@ class IndexTest extends BrowserTestCase
         })->assertSee('FooBar');
     }
 
-    /** @test */
+    #[Test]
     public function can_use_events(): void
     {
         Livewire::visit(new class extends Component

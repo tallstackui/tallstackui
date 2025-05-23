@@ -4,6 +4,7 @@ namespace TallStackUi\Foundation\Support\Configurations;
 
 use Exception;
 use TallStackUi\View\Components\Form\Color;
+use TallStackUi\View\Components\Form\Select\Styled;
 use TallStackUi\View\Components\Interaction\Dialog;
 use TallStackUi\View\Components\Interaction\Toast;
 use TallStackUi\View\Components\Loading;
@@ -26,6 +27,7 @@ class CompileConfigurations
             $component instanceof Dialog => fn () => 'dialog',
             $component instanceof Loading => fn () => $class->loading($component),
             $component instanceof Modal => fn () => $class->modal($component),
+            $component instanceof Styled => fn () => $class->select($component),
             $component instanceof Slide => fn () => $class->slide($component),
             $component instanceof Toast => fn () => 'toast',
             default => fn () => null,
@@ -36,10 +38,10 @@ class CompileConfigurations
         }
 
         // When the result of $data is a string, then we consult the
-        // config file and make a direct mapping so there is no need
+        // config file and make a direct mapping, so there is no need
         // to create a method for each component.
         if (is_string($data)) {
-            $data = __ts_configuration('settings.'.$data)
+            $data = collect(config('tallstackui.settings.'.$data))
                 ->mapWithKeys(fn (string|bool|array $value, string $key) => [$key => $value])
                 ->toArray();
         }
@@ -54,7 +56,7 @@ class CompileConfigurations
      */
     private function color(Color $component): array
     {
-        $configuration = __ts_configuration('settings.form.color');
+        $configuration = collect(config('tallstackui.settings.form.color'));
 
         $component->colors ??= $configuration->get('colors') ?? [];
 
@@ -63,12 +65,10 @@ class CompileConfigurations
 
     /**
      * Define the Loading component configurations.
-     *
-     * @throws Exception
      */
     private function loading(Loading $component): array
     {
-        $configuration = __ts_configuration('settings.loading');
+        $configuration = collect(config('tallstackui.settings.loading'));
 
         $component->zIndex ??= $configuration->get('z-index', 'z-50');
         $component->overflow ??= $configuration->get('overflow', false);
@@ -82,12 +82,10 @@ class CompileConfigurations
 
     /**
      * Define the Modal component configurations.
-     *
-     * @throws Exception
      */
     private function modal(Modal $component): array
     {
-        $configuration = __ts_configuration('settings.modal');
+        $configuration = collect(config('tallstackui.settings.modal'));
 
         $component->zIndex ??= $configuration->get('z-index', 'z-50');
         $component->overflow ??= $configuration->get('overflow', false);
@@ -106,6 +104,7 @@ class CompileConfigurations
             '5xl' => 'sm:max-w-5xl',
             '6xl' => 'sm:max-w-6xl',
             '7xl' => 'sm:max-w-7xl',
+            'full' => 'max-w-full',
             default => 'sm:max-w-2xl',
         };
 
@@ -114,14 +113,23 @@ class CompileConfigurations
             ->toArray();
     }
 
+    private function select(Styled $component): array
+    {
+        $configuration = collect(config('tallstackui.settings.form.select.styled'));
+
+        $component->unfiltered ??= $configuration->get('unfiltered', false);
+
+        return collect($component)
+            ->only('unfiltered')
+            ->toArray();
+    }
+
     /**
      * Define the Slide component configurations.
-     *
-     * @throws Exception
      */
     private function slide(Slide $component): array
     {
-        $configuration = __ts_configuration('settings.slide');
+        $configuration = collect(config('tallstackui.settings.slide'));
 
         $component->zIndex ??= $configuration->get('z-index', 'z-50');
         $component->overflow ??= $configuration->get('overflow', false);

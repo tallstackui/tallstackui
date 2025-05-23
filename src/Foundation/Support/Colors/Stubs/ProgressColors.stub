@@ -13,7 +13,6 @@ class ProgressColors
     {
         return [
             'solid' => [
-                'white' => null,
                 'black' => null,
                 'primary' => null,
                 'secondary' => null,
@@ -41,7 +40,6 @@ class ProgressColors
                 'rose' => null,
             ],
             'light' => [
-                'white' => null,
                 'black' => null,
                 'primary' => null,
                 'secondary' => null,

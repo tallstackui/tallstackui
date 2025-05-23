@@ -4,11 +4,12 @@ namespace Tests\Browser\Form;
 
 use Livewire\Component;
 use Livewire\Livewire;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\BrowserTestCase;
 
 class ColorTest extends BrowserTestCase
 {
-    /** @test */
+    #[Test]
     public function can_dispatch_event_when_set(): void
     {
         Livewire::visit(new class extends Component
@@ -46,7 +47,7 @@ class ColorTest extends BrowserTestCase
             ->assertVisible('@set');
     }
 
-    /** @test */
+    #[Test]
     public function can_open_and_select_color_with_live_entangle(): void
     {
         Livewire::visit(new class extends Component
@@ -76,7 +77,7 @@ class ColorTest extends BrowserTestCase
             ->assertSeeIn('@selected', '#64748b');
     }
 
-    /** @test */
+    #[Test]
     public function can_open_and_select_first_color(): void
     {
         Livewire::visit(new class extends Component
@@ -108,7 +109,7 @@ class ColorTest extends BrowserTestCase
             ->assertSeeIn('@selected', '#64748b');
     }
 
-    /** @test */
+    #[Test]
     public function can_open_and_select_first_color_in_mode_custom(): void
     {
         $this->skipOnGitHubActions();
@@ -137,23 +138,26 @@ class ColorTest extends BrowserTestCase
         })
             ->waitForText('Color')
             ->click('@tallstackui_form_color_open_close')
+            ->waitFor('@tallstackui_form_color_floating')
             ->clickAtXPath('/html/body/div[3]/div/div[2]/div/div[2]/button[1]')
             ->click('@sync')
             ->waitForTextIn('@selected', '#FF0000')
             ->assertSee('#FF0000')
             ->click('@tallstackui_form_color_open_close')
+            ->waitFor('@tallstackui_form_color_floating')
             ->clickAtXPath('/html/body/div[3]/div/div[2]/div/div[2]/button[2]')
             ->click('@sync')
             ->waitForTextIn('@selected', '#FF5733')
             ->assertSee('#FF5733')
             ->click('@tallstackui_form_color_open_close')
+            ->waitFor('@tallstackui_form_color_floating')
             ->clickAtXPath('/html/body/div[3]/div/div[2]/div/div[2]/button[3]')
             ->click('@sync')
             ->waitForTextIn('@selected', '#D7E021')
             ->assertSee('#D7E021');
     }
 
-    /** @test */
+    #[Test]
     public function can_open_and_select_first_color_in_mode_picker(): void
     {
         Livewire::visit(new class extends Component
@@ -185,7 +189,7 @@ class ColorTest extends BrowserTestCase
             ->assertSeeIn('@selected', '#f8fafc');
     }
 
-    /** @test */
+    #[Test]
     public function can_open_and_select_first_color_in_mode_range(): void
     {
         Livewire::visit(new class extends Component
@@ -218,7 +222,7 @@ class ColorTest extends BrowserTestCase
             ->assertSeeIn('@selected', '#334155');
     }
 
-    /** @test */
+    #[Test]
     public function can_open_select_a_color_and_clear_it(): void
     {
         Livewire::visit(new class extends Component
@@ -231,7 +235,7 @@ class ColorTest extends BrowserTestCase
                 <div>
                     <p dusk="selected">{{ $color }}</p>
                     
-                    <x-color label="Color" wire:model.live="color" />
+                    <x-color label="Color" wire:model.live="color" clearable />
                 </div>
                 HTML;
             }
@@ -243,14 +247,14 @@ class ColorTest extends BrowserTestCase
         })
             ->waitForText('Color')
             ->click('@tallstackui_form_color_open_close')
+            ->waitFor('@tallstackui_form_color_floating')
             ->clickAtXPath('/html/body/div[3]/div/div[2]/div/div[2]/button[1]')
             ->waitForTextIn('@selected', '#64748b')
             ->click('@tallstackui_form_color_clearable')
-            ->pause(50)
-            ->assertDontSee('#64748b');
+            ->waitUntilMissingText('#64748b');
     }
 
-    /** @test */
+    #[Test]
     public function can_open_select_a_color_and_dispatch_change_event(): void
     {
         Livewire::visit(new class extends Component
@@ -280,8 +284,41 @@ class ColorTest extends BrowserTestCase
             ->assertSeeIn('@selected', '#64748b');
     }
 
-    /** @test */
+    #[Test]
     public function cannot_see_clearable_when_no_color_is_selected(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $color = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="selected">{{ $color }}</p>
+                    
+                    <x-color label="Color" wire:model.live="color" clearable />
+                </div>
+                HTML;
+            }
+
+            public function sync(): void
+            {
+                //
+            }
+        })
+            ->waitForText('Color')
+            ->click('@tallstackui_form_color_open_close')
+            ->assertMissing('tallstackui_form_color_clearable')
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div/div[2]/button[1]')
+            ->waitForTextIn('@selected', '#64748b')
+            ->assertVisible('@tallstackui_form_color_clearable')
+            ->click('@tallstackui_form_color_clearable')
+            ->waitUntilMissingText('#64748b');
+    }
+
+    #[Test]
+    public function cannt_see_clear_button(): void
     {
         Livewire::visit(new class extends Component
         {
@@ -305,11 +342,9 @@ class ColorTest extends BrowserTestCase
         })
             ->waitForText('Color')
             ->click('@tallstackui_form_color_open_close')
-            ->assertMissing('tallstackui_form_color_clearable')
+            ->waitFor('@tallstackui_form_color_floating')
             ->clickAtXPath('/html/body/div[3]/div/div[2]/div/div[2]/button[1]')
             ->waitForTextIn('@selected', '#64748b')
-            ->assertVisible('@tallstackui_form_color_clearable')
-            ->click('@tallstackui_form_color_clearable')
-            ->waitUntilMissingText('#64748b');
+            ->assertNotPresent('@tallstackui_form_color_clearable');
     }
 }

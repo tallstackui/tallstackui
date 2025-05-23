@@ -2,16 +2,16 @@
 
 namespace {{ namespace }};
 
-use Illuminate\Support\Str;
+use Illuminate\View\Component;
 
 class EnvironmentColors
 {
     /**
      * Background colors.
      */
-    public function backgroundColors(): ?string
+    public function backgroundColors(Component $component): ?string
     {
-        return match (Str::lower(app()->environment())) {
+        return match (mb_strtolower(app()->environment())) {
             'local' => null,
             'staging' => null,
             'sandbox' => null,
@@ -23,9 +23,9 @@ class EnvironmentColors
     /**
      * Text colors.
      */
-    public function textColors(): ?string
+    public function textColors(Component $component): ?string
     {
-        return match (Str::lower(app()->environment())) {
+        return match (mb_strtolower(app()->environment())) {
             'local' => null,
             'staging' => null,
             'sandbox' => null,

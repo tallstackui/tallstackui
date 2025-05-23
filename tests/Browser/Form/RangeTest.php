@@ -4,11 +4,12 @@ namespace Tests\Browser\Form;
 
 use Livewire\Component;
 use Livewire\Livewire;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\BrowserTestCase;
 
 class RangeTest extends BrowserTestCase
 {
-    /** @test */
+    #[Test]
     public function can_increase(): void
     {
         $this->skipOnGitHubActions();
@@ -41,7 +42,7 @@ class RangeTest extends BrowserTestCase
             ->assertSeeIn('@increased', '52');
     }
 
-    /** @test */
+    #[Test]
     public function can_increase_with_live_entangle(): void
     {
         $this->skipOnGitHubActions();

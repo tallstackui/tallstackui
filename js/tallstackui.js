@@ -1,8 +1,10 @@
 import './globals/globals';
 import banner from './components/banner/banner';
+import carousel from './components/carousel/carousel';
 import card from './components/card/card';
 import color from './components/form/color';
 import clipboard from './components/clipboard/clipboard';
+import collapse from './components/layout/collapse';
 import currency from './components/form/currency';
 import date from './components/form/date';
 import darkTheme from './helpers/dark-theme';
@@ -10,6 +12,8 @@ import dialog from './components/interaction/dialog/dialog';
 import dropdown from './components/dropdown/dropdown';
 import clearable from './components/form/clearable';
 import loading from './components/loading/loading';
+import layout from './components/layout/layout';
+import keyValue from './components/key-value/key-value';
 import modal from './components/modal/modal';
 import number from './components/form/number';
 import rating from './components/rating/rating';
@@ -32,6 +36,7 @@ import upload from './components/form/upload';
 document.addEventListener('alpine:init', () => {
   Alpine.plugin(tooltip);
   Alpine.data('tallstackui_banner', banner);
+  Alpine.data('tallstackui_carousel', carousel);
   Alpine.data('tallstackui_card', card);
   Alpine.data('tallstackui_clipboard', clipboard);
   Alpine.data('tallstackui_formColor', color);
@@ -49,6 +54,8 @@ document.addEventListener('alpine:init', () => {
   Alpine.data('tallstackui_dialog', dialog);
   Alpine.data('tallstackui_dropdown', dropdown);
   Alpine.data('tallstackui_loading', loading);
+  Alpine.data('tallstackui_layout', layout);
+  Alpine.data('tallstackui_keyValue', keyValue);
   Alpine.data('tallstackui_modal', modal);
   Alpine.data('tallstackui_rating', rating);
   Alpine.data('tallstackui_reaction', reaction);
@@ -59,4 +66,6 @@ document.addEventListener('alpine:init', () => {
   Alpine.data('tallstackui_table', table);
   Alpine.data('tallstackui_toastBase', toastBase);
   Alpine.data('tallstackui_toastLoop', toastLoop);
+  // Stores
+  Alpine.store('tsui.side-bar', collapse);
 });

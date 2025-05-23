@@ -4,11 +4,12 @@ namespace Tests\Browser\Step;
 
 use Livewire\Component;
 use Livewire\Livewire;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\BrowserTestCase;
 
 class IndexTest extends BrowserTestCase
 {
-    /** @test */
+    #[Test]
     public function can_render_finish_slot(): void
     {
         Livewire::visit(new class extends Component
@@ -43,7 +44,7 @@ class IndexTest extends BrowserTestCase
             ->assertSee('Finish');
     }
 
-    /** @test */
+    #[Test]
     public function can_render_livewire_component(): void
     {
         Livewire::component('test', new class extends Component
@@ -81,7 +82,7 @@ class IndexTest extends BrowserTestCase
             ->assertSee('Foo bar baz through Livewire Component');
     }
 
-    /** @test */
+    #[Test]
     public function can_select_with_entangle(): void
     {
         Livewire::visit(new class extends Component
@@ -115,7 +116,7 @@ class IndexTest extends BrowserTestCase
             ->assertDontSee('Baz bar foo');
     }
 
-    /** @test */
+    #[Test]
     public function can_select_with_entangle_live(): void
     {
         Livewire::visit(new class extends Component
@@ -150,7 +151,7 @@ class IndexTest extends BrowserTestCase
             ->assertDontSee('Foo bar baz');
     }
 
-    /** @test */
+    #[Test]
     public function can_select_with_helper(): void
     {
         Livewire::visit(new class extends Component
