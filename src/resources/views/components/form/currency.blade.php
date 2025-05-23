@@ -2,7 +2,12 @@
     $personalize = $classes();
 @endphp
 
-<div x-data="tallstackui_formCurrency({!! $entangle !!}, @js($decimals), @js($precision), @js($locale))">
+<div x-data="tallstackui_formCurrency(
+    {!! $entangle !!},
+    @js($decimals),
+    @js($precision),
+    @js($clearable),
+    @js($locale))">
     <x-dynamic-component :component="TallStackUi::prefix('input')"
                          {{ $attributes }}
                          :$label
@@ -15,11 +20,25 @@
                     {{ $symbols['symbol'] }}
                 </x-slot:prefix>
             @endif
-            @if (!empty($symbols['currency']))
-                <x-slot:suffix class="mr-2">
+            <x-slot:suffix class="mr-2">
+                @if (!empty($symbols['currency']))
                     {{ $symbols['currency'] }}
-                </x-slot:suffix>
-            @endif
+                @endif
+                @if ($clearable)
+                        <div @class([ $personalize['clearable.wrapper'], $personalize['clearable.padding']]) x-show="input !== '' && clearable">
+                            <button type="button" class="cursor-pointer" dusk="tallstackui_form_currency_clearable">
+                                <x-dynamic-component :component="TallStackUi::prefix('icon')"
+                                                     :icon="TallStackUi::icon('x-mark')"
+                                                     x-on:click="clear()"
+                                                     internal
+                                                     @class([
+                                                         $personalize['clearable.size'],
+                                                         $personalize['clearable.color'] => !$error && !$invalidate,
+                                                     ]) />
+                            </button>
+                        </div>
+                @endif
+            </x-slot:suffix>
         @endif
     </x-dynamic-component>
 </div>

@@ -17,7 +17,6 @@ class CurrencyRuntime extends AbstractRuntime
             'property' => $property = $bind->get('property'),
             'error' => $bind->get('error'),
             'id' => $bind->get('id'),
-            'ref' => $property ?? uniqid(),
         ];
     }
 }
