@@ -4,6 +4,9 @@ export default (
     precision,
     clearable,
     mutate,
+    livewire,
+    property,
+    value,
     locale
 ) => ({
     model: model,
@@ -12,8 +15,13 @@ export default (
     precision: precision,
     clearable: clearable,
     mutate: mutate,
+    livewire: livewire,
+    property: property,
+    value: value,
     locale: locale,
     init() {
+        if (!this.livewire) this.model = this.value;
+
         if (this.model) {
             this.input = this.model;
 
@@ -53,7 +61,21 @@ export default (
      * @returns {void}
      */
     sync() {
-        this.$nextTick(() => this.model = this.mutate ? this.input : this.input.replace(/\D/g, ''));
+        const value = this.mutate ? this.input : this.input.replace(/\D/g, '');
+
+        if (this.livewire) {
+            this.$nextTick(() => this.model = value);
+
+            return;
+        }
+
+        const input = document.getElementsByName(this.property)[0];
+
+        if (!input) {
+            return;
+        }
+
+        input.value = value;
     },
     /**
      * Clear the input.

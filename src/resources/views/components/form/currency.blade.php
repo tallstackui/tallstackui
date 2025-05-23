@@ -2,12 +2,19 @@
     $personalize = $classes();
 @endphp
 
+@if (!$livewire && $property)
+    <input hidden name="{{ $property }}">
+@endif
+
 <div x-data="tallstackui_formCurrency(
     {!! $entangle !!},
     @js($decimals),
     @js($precision),
     @js($clearable),
     @js($mutate),
+    @js($livewire),
+    @js($property),
+    @js($value),
     @js($locale))">
     <x-dynamic-component :component="TallStackUi::prefix('input')"
                          {{ $attributes->whereDoesntStartWith('wire:model') }}
