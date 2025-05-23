@@ -28,18 +28,24 @@ export default (
      * @returns {void}
      */
     format(value = null) {
-        let current = value ? value.replace(/\D/g, '') : this.input;
+        let current = value ?? this.input;
 
-        if (current === '') {
-            return;
+        if (!current && current !== 0) return;
+
+        let number;
+
+        if (typeof current === 'number') {
+            number = current;
+        } else {
+            const digits = String(current).replace(/\D/g, '');
+
+            number = parseFloat(digits) / 100;
         }
-
-        current = parseFloat(current) / 100;
 
         this.input = new Intl.NumberFormat(this.locale, {
             minimumFractionDigits: this.decimals,
             maximumFractionDigits: this.precision,
-        }).format(current);
+        }).format(number);
     },
     /**
      * Sync the input value with the model.

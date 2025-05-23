@@ -2,6 +2,7 @@
 
 namespace Tests\Browser\Form;
 
+use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\Livewire;
 use PHPUnit\Framework\Attributes\Test;
@@ -105,5 +106,31 @@ class CurrencyTest extends BrowserTestCase
             ->waitForLivewireToLoad()
             ->typeSlowly('@input', '1000')
             ->assertInputValue('@input', '10,00');
+    }
+
+    #[Test]
+    public function can_see_validation_error(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            #[Validate('required')]
+            public ?string $money = '10.00';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="money">{{ $money }}</p>
+                
+                    <x-currency dusk="input" wire:model.live="money" clearable />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->pause(250)
+            ->click('@tallstackui_form_currency_clearable')
+            ->pause(250)
+            ->assertSee('The money field is required.');
     }
 }
