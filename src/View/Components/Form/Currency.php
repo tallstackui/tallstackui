@@ -10,14 +10,11 @@ use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\Foundation\Support\Runtime\Components\CurrencyRuntime;
 use TallStackUi\TallStackUiComponent;
-use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
 
 #[SoftPersonalization('form.currency')]
 #[PassThroughRuntime(CurrencyRuntime::class)]
 class Currency extends TallStackUiComponent implements Personalization
 {
-    use DefaultInputClasses;
-
     public function __construct(
         public ?string $label = null,
         public ?string $hint = null,

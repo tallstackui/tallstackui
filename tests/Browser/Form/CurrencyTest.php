@@ -109,6 +109,29 @@ class CurrencyTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_format_correctly(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public float $money = 1041.3;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="money">{{ $money }}</p>
+                
+                    <x-currency dusk="input" wire:model.live="money" clearable />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->pause(250)
+            ->assertInputValue('@input', '1,041.30');
+    }
+
+    #[Test]
     public function can_see_validation_error(): void
     {
         Livewire::visit(new class extends Component
