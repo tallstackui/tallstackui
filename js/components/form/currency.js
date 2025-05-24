@@ -50,6 +50,12 @@ export default (
             number = parseFloat(digits) / 100;
         }
 
+        if (isNaN(number)) {
+            this.input = '';
+
+            return;
+        }
+
         this.input = new Intl.NumberFormat(this.locale, {
             minimumFractionDigits: this.decimals,
             maximumFractionDigits: this.precision,
