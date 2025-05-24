@@ -156,4 +156,31 @@ class CurrencyTest extends BrowserTestCase
             ->pause(250)
             ->assertSee('The money field is required.');
     }
+
+    #[Test]
+    public function cannot_insert_nan(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $money = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="money">{{ $money }}</p>
+                
+                    <x-currency dusk="input" wire:model.live="money" clearable />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->pause(250)
+            ->typeSlowly('@input', 'n')
+            ->typeSlowly('@input', 'a')
+            ->typeSlowly('@input', 'n')
+            ->typeSlowly('@input', 'nan')
+            ->assertNotVisible('@money');
+    }
 }
