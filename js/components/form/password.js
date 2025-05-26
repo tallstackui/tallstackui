@@ -1,4 +1,4 @@
-export default (model, rules) => ({
+export default (model, rules, typingOnly) => ({
   model: model,
   show: false,
   rules: false,
@@ -14,6 +14,7 @@ export default (model, rules) => ({
     numbers: false,
     mixed: false,
   },
+  typingOnly: typingOnly,
   init() {
     this.$watch('input', (value) => {
       if (!value) {
@@ -107,7 +108,24 @@ export default (model, rules) => ({
     setTimeout(() => this.$refs.generator.classList.remove('animate-spin'), 250);
   },
   /**
-   * Activate the caps lock indicator.
+   * Handle the paste event to insert the password.
+   *
+   * @param {ClipboardEvent} event
+   * @returns {void}
+   */
+  paste(event) {
+    event.preventDefault();
+
+    const data = event.clipboardData.getData('text');
+
+    if (!data || this.typingOnly) {
+      return;
+    }
+
+    this.input = this.model = data;
+  },
+  /**
+   * Activate the capslock indicator.
    *
    * @param {Event} event
    */
