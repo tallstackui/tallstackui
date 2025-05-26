@@ -2,6 +2,8 @@
 
 namespace Tests\Browser\Form;
 
+use Facebook\WebDriver\WebDriverKeys;
+use Laravel\Dusk\OperatingSystem;
 use Livewire\Component;
 use Livewire\Livewire;
 use PHPUnit\Framework\Attributes\Test;
@@ -156,5 +158,40 @@ class PasswordTest extends BrowserTestCase
             ->click('@tallstackui_form_password_generate')
             ->waitForTextIn('@reveal', 'abcedf')
             ->assertSeeIn('@reveal', 'abcedf');
+    }
+
+    #[Test]
+    public function cannot_paste_password_when_using_typing_only(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $password = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <input dusk="copy" value="secret-password" />
+                
+                    @if ($password)
+                        <p dusk="reveal">{{ $password }}</p>
+                    @endif
+                    
+                    <x-password dusk="cant-paste" wire:model.live="password" typing-only />
+                </div>
+                HTML;
+            }
+
+            public function sync(): void
+            {
+                $this->validate();
+            }
+        })
+            ->click('@copy')
+            ->keys('@copy', [OperatingSystem::onMac() ? WebDriverKeys::COMMAND : WebDriverKeys::CONTROL, 'a'])
+            ->keys('@copy', [OperatingSystem::onMac() ? WebDriverKeys::COMMAND : WebDriverKeys::CONTROL, 'c'])
+            ->click('@cant-paste')
+            ->keys('@cant-paste', [OperatingSystem::onMac() ? WebDriverKeys::COMMAND : WebDriverKeys::CONTROL, 'v'])
+            ->assertNotPresent('@reveal');
     }
 }

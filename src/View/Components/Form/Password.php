@@ -25,6 +25,7 @@ class Password extends TallStackUiComponent implements Personalization
         public ?bool $mixedCase = false,
         public ?bool $generator = null,
         public ?bool $invalidate = null,
+        public ?bool $typingOnly = null,
         #[SkipDebug]
         public ?bool $simple = null,
     ) {
