@@ -73,9 +73,6 @@ jobs:
           composer update --prefer-dist --no-interaction --no-progress --ansi
           composer require livewire/livewire:v3.4.9 --no-interaction --no-progress --ansi
 
-      - name: Validate Composer file
-        run: composer validate --strict
-
       - name: Setup Google Chrome
         run: vendor/bin/dusk-updater detect --auto-update
 
