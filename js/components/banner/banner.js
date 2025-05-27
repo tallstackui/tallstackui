@@ -10,10 +10,10 @@ export default (flash, animated, wire, text, enter, leave, close) => ({
     if (flash) window.onload = () => this.add(flash);
 
     if (this.animated) {
-      setTimeout(() => this.show = true, this.enter ? this.enter * 1000 : 0);
+      setTimeout(() => (this.show = true), this.enter ? this.enter * 1000 : 0);
 
       if (this.leave) {
-        setTimeout(() => this.show = false, this.leave * 1000);
+        setTimeout(() => (this.show = false), this.leave * 1000);
       }
     }
 
@@ -22,7 +22,7 @@ export default (flash, animated, wire, text, enter, leave, close) => ({
         return;
       }
 
-      setTimeout(() => this.show = false, this.leave * 1000);
+      setTimeout(() => (this.show = false), this.leave * 1000);
     });
   },
   /**
@@ -46,6 +46,6 @@ export default (flash, animated, wire, text, enter, leave, close) => ({
       return;
     }
 
-    setTimeout(() => this.show = true, this.enter * 1000);
+    setTimeout(() => (this.show = true), this.enter * 1000);
   },
 });

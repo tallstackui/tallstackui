@@ -1,16 +1,16 @@
-import {error as alert, wireChange} from '../../helpers';
+import { error as alert, wireChange } from '../../helpers';
 
 export default (
-    model,
-    id,
-    length,
-    clear,
-    numbers,
-    letters,
-    livewire,
-    property,
-    value,
-    change = null,
+  model,
+  id,
+  length,
+  clear,
+  numbers,
+  letters,
+  livewire,
+  property,
+  value,
+  change = null
 ) => ({
   model: model,
   id: id,
@@ -138,7 +138,7 @@ export default (
    * @return {void}
    */
   right(index) {
-    if ((index + 1) > this.length) {
+    if (index + 1 > this.length) {
       this.focus(1);
       return;
     }
@@ -253,7 +253,9 @@ export default (
     wireChange(change, this.model);
 
     if (this.model && this.model.length === this.length) {
-      this.$refs.wrapper.dispatchEvent(new CustomEvent('filled', {detail: {model: this.model}}));
+      this.$refs.wrapper.dispatchEvent(
+        new CustomEvent('filled', { detail: { model: this.model } })
+      );
     }
   },
   /**
@@ -301,7 +303,7 @@ export default (
     if (this.invalidate(data)) return;
 
     for (let index = 0; index <= this.length; index++) {
-      const input = this.input(index+1);
+      const input = this.input(index + 1);
 
       if (!input || !data[index]) continue;
 
@@ -331,7 +333,7 @@ export default (
     this.focus(1);
 
     if (!internal) {
-      this.$refs.wrapper.dispatchEvent(new CustomEvent('clear', {detail: {model: model}}));
+      this.$refs.wrapper.dispatchEvent(new CustomEvent('clear', { detail: { model: model } }));
     }
   },
   /**

@@ -47,7 +47,7 @@ class IdeCommand extends Command
 
         foreach (
             collect($components)
-                ->filter(fn ($class) => ! in_array($class, self::IGNORES)) as $name => $class
+                ->filter(fn (string $class) => ! in_array($class, self::IGNORES)) as $name => $class
         ) {
             $list[] = [
                 'name' => TallStackUi::prefix($name),

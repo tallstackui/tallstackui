@@ -32,7 +32,7 @@ class KeyValueRuntime extends AbstractRuntime
 
         $valid = collect($value)
             ->lazy()
-            ->every(fn ($item) => array_key_exists('key', $item) && array_key_exists('value', $item));
+            ->every(fn (array $item) => array_key_exists('key', $item) && array_key_exists('value', $item));
 
         if (! $valid) {
             __ts_validation_exception($this->component, 'The [value] must be an array of arrays with [key] and [value] keys.');

@@ -6,7 +6,7 @@ export default (model, mode, colors, livewire, property, value, clearable) => ({
   livewire: livewire,
   property: property,
   value: value,
-  clearable : clearable,
+  clearable: clearable,
   weight: 6,
   palette: [],
   default: {
@@ -300,15 +300,15 @@ export default (model, mode, colors, livewire, property, value, clearable) => ({
   init() {
     if (!this.livewire) this.model = this.value;
 
-    this.$nextTick(() => this.clearable = this.$refs.input.value !== '');
+    this.$nextTick(() => (this.clearable = this.$refs.input.value !== ''));
 
     if (this.colors.length === 0) {
       const modes = {
-        'range': () => {
+        range: () => {
           this.palette = this.range(this.weight);
-          this.$watch('weight', (value) => this.palette = this.range(value));
+          this.$watch('weight', (value) => (this.palette = this.range(value)));
         },
-        'picker': () => {
+        picker: () => {
           this.palette = this.hex();
         },
       };
@@ -331,7 +331,10 @@ export default (model, mode, colors, livewire, property, value, clearable) => ({
       this.sync();
     });
 
-    this.$refs.input.addEventListener('input', () => this.clearable = this.$refs.input.value !== '');
+    this.$refs.input.addEventListener(
+      'input',
+      () => (this.clearable = this.$refs.input.value !== '')
+    );
 
     this.sync();
   },
@@ -371,7 +374,7 @@ export default (model, mode, colors, livewire, property, value, clearable) => ({
     this.model = color;
     this.$refs.input.value = color;
     this.$refs.input.dispatchEvent(new Event('change'));
-    this.$el.dispatchEvent(new CustomEvent('set', {detail: {color: color}}));
+    this.$el.dispatchEvent(new CustomEvent('set', { detail: { color: color } }));
     this.clearable = !!color;
   },
   /**
@@ -379,9 +382,9 @@ export default (model, mode, colors, livewire, property, value, clearable) => ({
    */
   hex() {
     return Object.values(this.default)
-        .map(Object.values)
-        .flat()
-        .filter((color) => color.match(/^#(?:[0-9a-fA-F]{3}){1,2}$/));
+      .map(Object.values)
+      .flat()
+      .filter((color) => color.match(/^#(?:[0-9a-fA-F]{3}){1,2}$/));
   },
   /**
    * Generate a range of colors.
@@ -391,8 +394,8 @@ export default (model, mode, colors, livewire, property, value, clearable) => ({
    */
   range(index) {
     return Object.entries(this.default)
-        .filter(([key]) => Object.hasOwnProperty.call(this.default, key))
-        .map(([_, value]) => value[Object.keys(value)[index - 1]]); // eslint-disable-line
+      .filter(([key]) => Object.hasOwnProperty.call(this.default, key))
+      .map(([_, value]) => value[Object.keys(value)[index - 1]]); // eslint-disable-line
   },
   /**
    * Check the color contrast.
@@ -413,13 +416,13 @@ export default (model, mode, colors, livewire, property, value, clearable) => ({
   },
   /**
    * Clear the input value.
-   * 
+   *
    * @returns {void}
    */
   clear() {
     this.model = null;
     this.clearable = false;
     this.$refs.input.value = '';
-    this.$el.dispatchEvent(new CustomEvent('clear', {detail: {color: ''}}));
-  }
+    this.$el.dispatchEvent(new CustomEvent('clear', { detail: { color: '' } }));
+  },
 });

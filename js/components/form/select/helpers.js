@@ -1,11 +1,11 @@
-import {stringify} from 'qs';
+import { stringify } from 'qs';
 
 export const body = (request, search, selected) => {
   const simple = request.constructor === String;
 
   let url = simple ? request : request.url;
-  let method = simple ? 'get' : request.method ?? 'get';
-  const params = simple ? {} : request.params ?? {};
+  let method = simple ? 'get' : (request.method ?? 'get');
+  const params = simple ? {} : (request.params ?? {});
 
   method = method.toLowerCase();
 
@@ -14,7 +14,7 @@ export const body = (request, search, selected) => {
     headers: {
       'X-Requested-With': 'XMLHttpRequest',
       'Content-Type': 'application/json',
-      'Accept': 'application/json',
+      Accept: 'application/json',
       'X-TallStack-Ui': true,
     },
   };
@@ -22,12 +22,12 @@ export const body = (request, search, selected) => {
   const token = document.head.querySelector('[name="csrf-token"]')?.getAttribute('content');
 
   if (token) {
-    init.headers['X-CSRF-TOKEN'] = token
+    init.headers['X-CSRF-TOKEN'] = token;
   }
 
   if (method === 'get') {
     if (search !== '') {
-      params.search = search
+      params.search = search;
     }
 
     if (selected.length > 0) {
@@ -43,5 +43,5 @@ export const body = (request, search, selected) => {
     });
   }
 
-  return {url, init};
+  return { url, init };
 };

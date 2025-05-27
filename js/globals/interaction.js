@@ -1,4 +1,4 @@
-import {event, error} from '../helpers';
+import { event, error } from '../helpers';
 
 export default class Interaction {
   #data;
@@ -95,9 +95,7 @@ export default class Interaction {
   wireable = (id = '') => {
     const label = id === '' ? 'first in page' : id;
 
-    const livewire = id === '' ?
-        Livewire.first() :
-        Livewire.find(id);
+    const livewire = id === '' ? Livewire.first() : Livewire.find(id);
 
     if (!livewire) {
       return error(`The Livewire component [${label}] was not found in the current page.`);
@@ -114,7 +112,7 @@ export default class Interaction {
    * @param params {String|Number|Object|Null}
    * @return {Interaction|void}
    */
-  confirm = (text= null, method = null, params = null) => {
+  confirm = (text = null, method = null, params = null) => {
     this.#data.options.confirm = this.#data.options.confirm || {};
 
     this.#data.options.confirm.static = !method;
@@ -130,7 +128,7 @@ export default class Interaction {
    * @param method {String|Function|Null}
    * @param params {String|Number|Object|Null}
    */
-  cancel = (text= null, method = null, params = null) => {
+  cancel = (text = null, method = null, params = null) => {
     this.#data.options.cancel = this.#data.options.cancel || {};
 
     this.#data.options.cancel.static = !method;
@@ -185,11 +183,13 @@ export default class Interaction {
     return {
       event: this.#type === 'toast' ? 'toast' : 'dialog',
       ...this.#data,
-      ...(this.#type === 'toast' ? {
-        timeout: this.#data.timeout ?? 3,
-        expandable: this.#data.expandable ?? false,
-        persistent: this.#data.persistent ?? false,
-      } : {}),
+      ...(this.#type === 'toast'
+        ? {
+            timeout: this.#data.timeout ?? 3,
+            expandable: this.#data.expandable ?? false,
+            persistent: this.#data.persistent ?? false,
+          }
+        : {}),
     };
   }
 
@@ -210,7 +210,9 @@ export default class Interaction {
     }
 
     if ((options.cancel?.method || options.confirm?.method) && !this.#data.component) {
-      error('You must set the id of the Livewire component to interact with [confirm] or [cancel] action.');
+      error(
+        'You must set the id of the Livewire component to interact with [confirm] or [cancel] action.'
+      );
       return false;
     }
 

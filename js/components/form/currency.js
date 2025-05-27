@@ -1,96 +1,96 @@
 export default (
-    model,
-    decimals,
-    precision,
-    clearable,
-    mutate,
-    livewire,
-    property,
-    value,
-    locale
+  model,
+  decimals,
+  precision,
+  clearable,
+  mutate,
+  livewire,
+  property,
+  value,
+  locale
 ) => ({
-    model: model,
-    input: '',
-    decimals: decimals,
-    precision: precision,
-    clearable: clearable,
-    mutate: mutate,
-    livewire: livewire,
-    property: property,
-    value: value,
-    locale: locale,
-    init() {
-        if (!this.livewire) this.model = this.value;
+  model: model,
+  input: '',
+  decimals: decimals,
+  precision: precision,
+  clearable: clearable,
+  mutate: mutate,
+  livewire: livewire,
+  property: property,
+  value: value,
+  locale: locale,
+  init() {
+    if (!this.livewire) this.model = this.value;
 
-        if (this.model) {
-            this.input = this.model;
+    if (this.model) {
+      this.input = this.model;
 
-            this.$nextTick(() => this.format());
-        }
+      this.$nextTick(() => this.format());
+    }
 
-        this.$watch('input', (value) => this.format(value));
-    },
-    /**
-     * Format the input value.
-     *
-     * @returns {void}
-     */
-    format(value = null) {
-        let current = value ?? this.input;
+    this.$watch('input', (value) => this.format(value));
+  },
+  /**
+   * Format the input value.
+   *
+   * @returns {void}
+   */
+  format(value = null) {
+    let current = value ?? this.input;
 
-        if (!current && current !== 0) return;
+    if (!current && current !== 0) return;
 
-        let number;
+    let number;
 
-        if (typeof current === 'number') {
-            number = current;
-        } else {
-            const digits = String(current).replace(/\D/g, '');
+    if (typeof current === 'number') {
+      number = current;
+    } else {
+      const digits = String(current).replace(/\D/g, '');
 
-            number = parseFloat(digits) / 100;
-        }
+      number = parseFloat(digits) / 100;
+    }
 
-        if (isNaN(number)) {
-            this.input = '';
+    if (isNaN(number)) {
+      this.input = '';
 
-            return;
-        }
+      return;
+    }
 
-        this.input = new Intl.NumberFormat(this.locale, {
-            minimumFractionDigits: this.decimals,
-            maximumFractionDigits: this.precision,
-        }).format(number);
-    },
-    /**
-     * Sync the input value with the model.
-     *
-     * @returns {void}
-     */
-    sync() {
-        const value = this.mutate ? this.input : this.input.replace(/\D/g, '');
+    this.input = new Intl.NumberFormat(this.locale, {
+      minimumFractionDigits: this.decimals,
+      maximumFractionDigits: this.precision,
+    }).format(number);
+  },
+  /**
+   * Sync the input value with the model.
+   *
+   * @returns {void}
+   */
+  sync() {
+    const value = this.mutate ? this.input : this.input.replace(/\D/g, '');
 
-        if (this.livewire) {
-            this.$nextTick(() => this.model = value);
+    if (this.livewire) {
+      this.$nextTick(() => (this.model = value));
 
-            return;
-        }
+      return;
+    }
 
-        const input = document.getElementsByName(this.property)[0];
+    const input = document.getElementsByName(this.property)[0];
 
-        if (!input) {
-            return;
-        }
+    if (!input) {
+      return;
+    }
 
-        input.value = value;
-    },
-    /**
-     * Clear the input.
-     *
-     * @returns {void}
-     */
-    clear() {
-        this.input = '';
+    input.value = value;
+  },
+  /**
+   * Clear the input.
+   *
+   * @returns {void}
+   */
+  clear() {
+    this.input = '';
 
-        this.model = null;
-    },
+    this.model = null;
+  },
 });

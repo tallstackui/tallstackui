@@ -34,13 +34,13 @@ export default (model, rules, typingOnly) => ({
   toggle() {
     this.show = !this.show;
 
-    this.$el.dispatchEvent(new CustomEvent('reveal', {detail: {status: this.show}}));
+    this.$el.dispatchEvent(new CustomEvent('reveal', { detail: { status: this.show } }));
   },
   /**
    * @returns {void}
    */
   reset() {
-    this.results = {min: false, symbols: false, numbers: false, mixed: false};
+    this.results = { min: false, symbols: false, numbers: false, mixed: false };
   },
   /**
    * Check if the password meets the requirements.
@@ -51,11 +51,12 @@ export default (model, rules, typingOnly) => ({
     this.results.min = this.min && value.length >= this.min;
 
     if (this.symbols) {
+      // prettier-ignore
       /* eslint-disable-next-line no-useless-escape */
       this.results.symbols = (new RegExp(`[${this.symbols.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')}]`)).test(value);
     }
 
-    this.results.numbers = this.numbers &&value.match(/\d/) !== null;
+    this.results.numbers = this.numbers && value.match(/\d/) !== null;
 
     this.results.mixed = this.mixed && value.match(/[a-z]/) && value.match(/[A-Z]/);
   },
@@ -73,10 +74,19 @@ export default (model, rules, typingOnly) => ({
     const upper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     const numeric = '0123456789';
 
-    const all = lower + (this.mixed ? upper : '') + (this.numbers ? numeric : '') + (this.symbols ? this.symbols : '');
+    const all =
+      lower +
+      (this.mixed ? upper : '') +
+      (this.numbers ? numeric : '') +
+      (this.symbols ? this.symbols : '');
 
     if (typeof window.TallStackUi?.passwordGenerator === 'function') {
-      password = window.TallStackUi.passwordGenerator(this.min, this.mixed, this.numbers, this.symbols);
+      password = window.TallStackUi.passwordGenerator(
+        this.min,
+        this.mixed,
+        this.numbers,
+        this.symbols
+      );
     } else {
       password += lower.charAt(Math.floor(Math.random() * lower.length));
 
@@ -98,12 +108,15 @@ export default (model, rules, typingOnly) => ({
       }
 
       // We just shuffle the password to avoid predictable patterns
-      password = password.split('').sort(() => 0.5 - Math.random()).join('');
+      password = password
+        .split('')
+        .sort(() => 0.5 - Math.random())
+        .join('');
     }
 
     this.input = this.model = password;
 
-    this.$el.dispatchEvent(new CustomEvent('generate', {detail: {password: password}}));
+    this.$el.dispatchEvent(new CustomEvent('generate', { detail: { password: password } }));
 
     setTimeout(() => this.$refs.generator.classList.remove('animate-spin'), 250);
   },
@@ -134,5 +147,5 @@ export default (model, rules, typingOnly) => ({
     if (typeof event.getModifierState !== 'function') return;
 
     this.caps = event.getModifierState('CapsLock');
-  }
+  },
 });

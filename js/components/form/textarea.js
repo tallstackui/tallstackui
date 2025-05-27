@@ -18,24 +18,24 @@ export default (resizeAuto, color) => ({
       colors.forEach((color) => {
         if (!this.$refs.counter.classList.contains(color)) return;
 
-        this.$refs.counter.classList.remove(color)
+        this.$refs.counter.classList.remove(color);
       });
-    }
+    };
 
     if (length === 0) {
-        cleanup();
+      cleanup();
 
-        return this.$refs.counter.innerText = '';
+      return (this.$refs.counter.innerText = '');
     }
 
     if (defined && length >= max) {
       colors.forEach((color) => this.$refs.counter.classList.add(color));
     }
 
-    if (defined && length === (max - 1)) cleanup();
+    if (defined && length === max - 1) cleanup();
 
     if (defined) {
-      return this.$refs.counter.innerText = `${length}/${max}`;
+      return (this.$refs.counter.innerText = `${length}/${max}`);
     }
 
     this.$refs.counter.innerText = length;

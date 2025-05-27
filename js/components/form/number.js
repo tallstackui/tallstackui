@@ -97,13 +97,13 @@ export default (model, min, max, delay, step) => ({
       return;
     }
 
-    if (min !== null && current !== null && (current - step) > min) {
+    if (min !== null && current !== null && current - step > min) {
       update(step);
 
       return;
     } else if (min !== null && min < step) {
       if (current !== null) {
-        update((current - step) >= 0 ? step : 0);
+        update(current - step >= 0 ? step : 0);
 
         return;
       } else if (min === 0) {
@@ -162,7 +162,7 @@ export default (model, min, max, delay, step) => ({
    * @return {Boolean}
    */
   get atMinus() {
-    return this.min !== null && (this.model <= this.min);
+    return this.min !== null && this.model <= this.min;
   },
   /**
    * Check if the model is at the maximum value.
@@ -170,7 +170,7 @@ export default (model, min, max, delay, step) => ({
    * @return {Boolean}
    */
   get atPlus() {
-    return this.max !== null && (this.model >= this.max);
+    return this.max !== null && this.model >= this.max;
   },
   /**
    * Disable the minus button.

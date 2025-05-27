@@ -2,15 +2,15 @@ import { wireChange } from '../../helpers';
 import dayjs from 'dayjs';
 
 export default (
-    model,
-    full,
-    times,
-    required,
-    livewire,
-    property,
-    value,
-    disables = [],
-    change = null
+  model,
+  full,
+  times,
+  required,
+  livewire,
+  property,
+  value,
+  disables = [],
+  change = null
 ) => ({
   model: model,
   show: false,
@@ -70,24 +70,32 @@ export default (
       hours: () => {
         let value = parseInt(event.target.value);
 
-        value = this.range.hour.min && value < this.range.hour.min ?
-            this.range.hour.min :
-            (this.range.hour.max && value > this.range.hour.max ? this.range.hour.max : value);
+        value =
+          this.range.hour.min && value < this.range.hour.min
+            ? this.range.hour.min
+            : this.range.hour.max && value > this.range.hour.max
+              ? this.range.hour.max
+              : value;
 
         this.hours = value;
 
-        this.$el.dispatchEvent(new CustomEvent('hour', {detail: {hour: this.formatted.hours}}));
+        this.$el.dispatchEvent(new CustomEvent('hour', { detail: { hour: this.formatted.hours } }));
       },
       minutes: () => {
         let value = parseInt(event.target.value);
 
-        value = this.range.minute.min && value < this.range.minute.min ?
-            this.range.minute.min :
-            (this.range.minute.max && value > this.range.minute.max ? this.range.minute.max : value);
+        value =
+          this.range.minute.min && value < this.range.minute.min
+            ? this.range.minute.min
+            : this.range.minute.max && value > this.range.minute.max
+              ? this.range.minute.max
+              : value;
 
         this.minutes = value;
 
-        this.$el.dispatchEvent(new CustomEvent('minute', {detail: {minute: this.formatted.minutes}}));
+        this.$el.dispatchEvent(
+          new CustomEvent('minute', { detail: { minute: this.formatted.minutes } })
+        );
       },
     };
 
@@ -112,7 +120,11 @@ export default (
     this.hours = hours;
     this.minutes = minutes;
 
-    this.$el.dispatchEvent(new CustomEvent('current', {detail: {time: {hour: hours, minute: minutes, interval: this.interval}}}));
+    this.$el.dispatchEvent(
+      new CustomEvent('current', {
+        detail: { time: { hour: hours, minute: minutes, interval: this.interval } },
+      })
+    );
 
     this.show = this.empty = false;
 
@@ -147,7 +159,9 @@ export default (
   select(interval) {
     this.interval = interval.toUpperCase();
 
-    this.$refs.format.dispatchEvent(new CustomEvent('interval', {detail: {interval: this.interval}}));
+    this.$refs.format.dispatchEvent(
+      new CustomEvent('interval', { detail: { interval: this.interval } })
+    );
 
     this.sync();
 
@@ -169,7 +183,7 @@ export default (
 
     this.input = this.$refs.input.value = this.model = null;
 
-    this.$el.dispatchEvent(new CustomEvent('clear', {detail: {time: model}}));
+    this.$el.dispatchEvent(new CustomEvent('clear', { detail: { time: model } }));
   },
   /**
    * Set the input value.
