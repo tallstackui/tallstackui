@@ -18,7 +18,7 @@ return [
 
     'toast' => [
         'button' => [
-            'ok' => 'Oke',
+            'ok' => 'OK',
             'confirm' => 'Konfirmasi',
             'cancel' => 'Batal',
         ],
@@ -26,7 +26,7 @@ return [
 
     'dialog' => [
         'button' => [
-            'ok' => 'Oke',
+            'ok' => 'OK',
             'confirm' => 'Konfirmasi',
             'cancel' => 'Batal',
         ],
@@ -52,27 +52,27 @@ return [
                 'min' => 'Minimal :min karakter',
                 'numbers' => 'Minimal satu angka',
                 'symbols' => 'Minimal satu simbol (:symbols)',
-                'mixed' => 'Minimal satu huruf kapital',
+                'mixed' => 'Minimal satu huruf besar',
             ],
         ],
     ],
 
     'upload' => [
-        'placeholder' => 'Pilih berkas',
+        'placeholder' => 'Pilih file',
         'size' => 'Ukuran',
         'upload' => 'Klik di sini untuk mengunggah',
         'uploaded' => [
-            'single' => ':count berkas terkirim',
-            'multiple' => ':count berkas terkirim',
+            'single' => ':count file terunggah',
+            'multiple' => ':count file terunggah',
         ],
         'error' => 'Terjadi kesalahan. Silakan coba lagi.',
         'static' => [
             'empty' => [
                 'title' => 'Tidak ada gambar.',
-                'description' => 'Anda belum memiliki gambar apapun.',
+                'description' => 'Anda belum memiliki gambar.',
             ],
         ],
-        'invalid' => 'Terjadi beberapa kesalahan validasi.',
+        'invalid' => 'Terjadi kesalahan validasi.',
     ],
 
     'date' => [
@@ -103,7 +103,7 @@ return [
         ],
         'helpers' => [
             'yesterday' => 'Kemarin',
-            'today' => 'Hari Ini',
+            'today' => 'Hari ini',
             'tomorrow' => 'Besok',
         ],
     ],
@@ -116,5 +116,23 @@ return [
         'next' => 'Selanjutnya',
         'previous' => 'Sebelumnya',
         'finish' => 'Selesai',
+    ],
+
+    'key-value' => [
+        'headers' => [
+            'key' => 'KUNCI',
+            'value' => 'NILAI',
+        ],
+        'placeholders' => [
+            'key' => 'Masukkan kunci',
+            'value' => 'Masukkan nilai',
+        ],
+        'add-row' => 'TAMBAH BARIS',
+        'empty' => 'Tidak ada baris ditambahkan.',
+    ],
+
+    'currency' => [
+        'symbol' => 'Rp',
+        'currency' => 'IDR',
     ],
 ];
