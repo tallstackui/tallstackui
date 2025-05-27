@@ -1,11 +1,4 @@
-export default (
-  model,
-  color,
-  background,
-  line, 
-  height,
-  jpeg,
-) => ({
+export default (model, color, background, line, height, jpeg) => ({
   model: model,
   canvas: null,
   context: null,
@@ -26,12 +19,12 @@ export default (
     this.context.lineJoin = 'round';
 
     this.stacks = {
-        undo: [],
-        redo: [],
-    }
+      undo: [],
+      redo: [],
+    };
 
     this.$nextTick(() => this.size(true));
-    
+
     window.addEventListener('resize', this.size.bind(this));
   },
   /**
@@ -78,7 +71,9 @@ export default (
 
     const { offsetX, offsetY } = this.coordinates(event);
 
-    const distance = Math.sqrt(Math.pow(offsetX - this.lastX, 2) + Math.pow(offsetY - this.lastY, 2));
+    const distance = Math.sqrt(
+      Math.pow(offsetX - this.lastX, 2) + Math.pow(offsetY - this.lastY, 2)
+    );
 
     const angle = Math.atan2(offsetY - this.lastY, offsetX - this.lastX);
 
@@ -188,7 +183,7 @@ export default (
 
     document.body.removeChild(link);
 
-    this.$el.dispatchEvent(new CustomEvent('export', {detail: {signature: url}}));
+    this.$el.dispatchEvent(new CustomEvent('export', { detail: { signature: url } }));
   },
   /**
    * Updates the background color of the canvas.
@@ -226,7 +221,7 @@ export default (
    */
   coordinates(event) {
     const rect = this.canvas.getBoundingClientRect();
-    
+
     if (event.touches && event.touches.length > 0) {
       const touch = event.touches[0];
       return {
@@ -247,5 +242,5 @@ export default (
    */
   get extension() {
     return jpeg ? 'jpeg' : 'png';
-  }
+  },
 });

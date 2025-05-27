@@ -34,6 +34,14 @@ jobs:
         with:
           node-version: 22.x
 
+      - name: Cache Node modules
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: node-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            node-${{ runner.os }}-    
+
       - name: Install Node Dependencies
         run: |
           rm -rf node_modules
@@ -41,6 +49,7 @@ jobs:
           npm install
           npm run lint
           npm run build
+          npx prettier --check "js/**/*.js"
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -50,11 +59,22 @@ jobs:
           tools: composer:v2
           coverage: none
 
+      - name: Cache Composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: composer-${{ runner.os }}-${{ hashFiles('composer.lock') }}
+          restore-keys: |
+            composer-${{ runner.os }}-
+
       - name: Install Composer
         run: |
           composer require "laravel/framework:${{ matrix.laravel }}" --no-interaction --no-progress --ansi --no-update
-          composer update --no-interaction --no-progress --ansi
+          composer update --prefer-dist --no-interaction --no-progress --ansi --retry=1
           composer require livewire/livewire:v3.4.9 --no-interaction --no-progress --ansi
+
+      - name: Validate Composer file
+        run: composer validate --strict
 
       - name: Setup Google Chrome
         run: vendor/bin/dusk-updater detect --auto-update

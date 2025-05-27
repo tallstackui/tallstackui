@@ -1,4 +1,4 @@
-import {event} from '../../../helpers';
+import { event } from '../../../helpers';
 
 export default (toast) => ({
   toast: toast,
@@ -27,7 +27,10 @@ export default (toast) => ({
             this.hide();
 
             if (toast.hooks?.timeout) {
-              Livewire.find(toast.component).call(toast.hooks.timeout.method, toast.hooks.timeout.params);
+              Livewire.find(toast.component).call(
+                toast.hooks.timeout.method,
+                toast.hooks.timeout.params
+              );
             }
 
             event('toast:timeout', this.toast, false);
@@ -87,9 +90,9 @@ export default (toast) => ({
     this.hide();
 
     if (typeof method === 'function') {
-        method();
+      method();
 
-        return;
+      return;
     }
 
     Livewire.find(toast.component).call(method, toast.options.confirm.params);
@@ -134,9 +137,12 @@ export default (toast) => ({
       Livewire.find(toast.component).call(toast.hooks.close.method, toast.hooks.close.params);
     }
 
-    setTimeout(() => {
-      this.show = false;
-      this.remove(this.toast);
-    }, immediately ? 0 : this.toast.timeout * 100);
+    setTimeout(
+      () => {
+        this.show = false;
+        this.remove(this.toast);
+      },
+      immediately ? 0 : this.toast.timeout * 100
+    );
   },
 });

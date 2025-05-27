@@ -62,7 +62,8 @@
         ],
         "format": [
             "./vendor/bin/pint",
-            "npm run lint:fix"
+            "npm run lint:fix",
+            "npm run format"
         ],
         "ci:analyse": [
             "./vendor/bin/pint --test",

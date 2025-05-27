@@ -1,4 +1,4 @@
-import {event, overflow} from '../../../helpers';
+import { event, overflow } from '../../../helpers';
 
 export default (flash, texts, overflowing) => ({
   show: false,
@@ -95,7 +95,11 @@ export default (flash, texts, overflowing) => ({
 
     const component = Livewire.find(dialog.component);
 
-    if (!dialog.options || dialog.options.cancel.static === true || dialog.options.cancel.method === null) {
+    if (
+      !dialog.options ||
+      dialog.options.cancel.static === true ||
+      dialog.options.cancel.method === null
+    ) {
       if (dialog.hooks?.reject) {
         component.call(dialog.hooks.reject.method, dialog.hooks.reject.params);
       }

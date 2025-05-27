@@ -1,11 +1,6 @@
 import ClipboardJS from 'clipboard/dist/clipboard';
 
-export default (
-    text = null,
-    hash = null,
-    type,
-    placeholders,
-) => ({
+export default (text = null, hash = null, type, placeholders) => ({
   text: text,
   notification: null,
   placeholders: placeholders,
@@ -22,7 +17,7 @@ export default (
 
       ref.innerText = this.placeholders.copied;
 
-      setTimeout(() => ref.innerText = this.placeholders.copy, this.time);
+      setTimeout(() => (ref.innerText = this.placeholders.copy), this.time);
     });
   },
   /**
@@ -43,13 +38,13 @@ export default (
 
       event.clearSelection();
 
-      setTimeout(() => this.notification = false, this.time);
+      setTimeout(() => (this.notification = false), this.time);
 
-      this.$el.dispatchEvent(new CustomEvent('copy', {detail: {text: this.text}}));
+      this.$el.dispatchEvent(new CustomEvent('copy', { detail: { text: this.text } }));
 
       clipboard.destroy();
     });
 
-    clipboard.on('error', () => this.notification = false);
+    clipboard.on('error', () => (this.notification = false));
   },
 });

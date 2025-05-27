@@ -9,7 +9,7 @@
     "dev": "vite build --watch",
     "lint": "npx eslint \"js/**\"",
     "lint:fix": "npx eslint \"js/**\" --fix",
-    "format": "git diff --name-only --diff-filter=ACMRT HEAD | grep '\\.blade\\.php$' | xargs ./node_modules/.bin/prettier --write \"src/resources/views/components/**/*.blade.php\""
+    "format": "npx prettier --write \"js/**/*.js\""
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",
@@ -24,7 +24,6 @@
     "tippy.js": "^6.3.7",
     "vite": "^6.3.3",
     "prettier": "^3.5.3",
-    "prettier-plugin-blade": "^2.1.21",
     "prettier-plugin-tailwindcss": "^0.6.11"
   },
   "dependencies": {

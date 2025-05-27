@@ -1,6 +1,6 @@
 const plugin = require('tailwindcss/plugin');
 
-module.exports = plugin(function({addUtilities}) {
+module.exports = plugin(function ({ addUtilities }) {
   addUtilities({
     'input.appearance-number-none::-webkit-outer-spin-button': {
       '-webkit-appearance': 'none',

@@ -1,29 +1,29 @@
 import dayjs from 'dayjs';
 import updateLocale from 'dayjs/plugin/updateLocale';
 import isBetween from 'dayjs/plugin/isBetween';
-import {wireChange} from '../../helpers';
+import { wireChange } from '../../helpers';
 
 dayjs.extend(updateLocale);
 dayjs.extend(isBetween);
 
 export default (
-    model,
-    range,
-    multiple,
-    format,
-    dates,
-    disable,
-    livewire,
-    property,
-    value,
-    monthYearOnly,
-    calendar,
-    disables = [],
-    change = null,
-    start = 5,
-    only = null,
-    weekdays = false,
-    weekends = false,
+  model,
+  range,
+  multiple,
+  format,
+  dates,
+  disable,
+  livewire,
+  property,
+  value,
+  monthYearOnly,
+  calendar,
+  disables = [],
+  change = null,
+  start = 5,
+  only = null,
+  weekdays = false,
+  weekends = false
 ) => ({
   show: false,
   picker: {
@@ -73,7 +73,7 @@ export default (
     this.date.min = dates.date.min ? dayjs(dates.date.min) : null;
     this.date.max = dates.date.max ? dayjs(dates.date.max) : null;
 
-    if ((!this.livewire && !this.model) && this.value) this.model = this.value;
+    if (!this.livewire && !this.model && this.value) this.model = this.value;
 
     this.reset();
     this.map();
@@ -83,12 +83,12 @@ export default (
     // the model when it comes to interval mode, because
     // when this happens, the other dates are displayed
     // selected in the calendar.
-    if (range && this.model && (this.model.constructor === Array && this.model.length > 2)) {
+    if (range && this.model && this.model.constructor === Array && this.model.length > 2) {
       this.model = this.model.filter((value, key) => key < 2);
     }
 
     this.$watch('show', (value) => {
-      if (!value || (this.picker.year || this.picker.month)) return;
+      if (!value || this.picker.year || this.picker.month) return;
 
       this.reset();
       this.map();
@@ -176,7 +176,9 @@ export default (
   sync() {
     if (!this.model) return;
 
-    this.$el.dispatchEvent(new CustomEvent('select', {detail: {type: this.type, date: this.model}}));
+    this.$el.dispatchEvent(
+      new CustomEvent('select', { detail: { type: this.type, date: this.model } })
+    );
 
     if (multiple) {
       this.input = this.model.map((date) => this.formatted(date)).join(', ');
@@ -202,12 +204,12 @@ export default (
       true: () => {
         this.model = this.formatted(this.date.start, 'YYYY-MM');
         this.input = this.formatted(this.date.start, 'MMMM YYYY');
-        this.resetPicker({month: true});
+        this.resetPicker({ month: true });
       },
       false: () => {
         this.input = start;
         this.resetPicker();
-      }
+      },
     };
 
     action[this.monthYearOnly]();
@@ -230,11 +232,11 @@ export default (
     if (multiple) {
       // This code is basically: when the model already
       // has the date we remove it, otherwise we add it.
-      this.model = this.model ?
-          this.model.includes(formatted) ?
-              this.model.filter((day) => day !== formatted) :
-              [...this.model, formatted] :
-          [formatted];
+      this.model = this.model
+        ? this.model.includes(formatted)
+          ? this.model.filter((day) => day !== formatted)
+          : [...this.model, formatted]
+        : [formatted];
 
       return this.sync();
     }
@@ -273,9 +275,9 @@ export default (
 
     const count = (week - this.start + 7) % 7;
 
-    this.blanks = Array.from({length: count}, (key, value) => value + 1);
+    this.blanks = Array.from({ length: count }, (key, value) => value + 1);
 
-    this.days = Array.from({length: month}, (key, value) => {
+    this.days = Array.from({ length: month }, (key, value) => {
       const date = this.instance('01').add(value, 'day');
 
       return {
@@ -370,12 +372,14 @@ export default (
    * @return {Boolean}
    */
   disabled(date) {
-    return (this.date.min && dayjs(date).isBefore(this.date.min)) ||
-           (this.date.max && dayjs(date).isAfter(this.date.max)) ||
-           (this.weekdays && (dayjs(date).day() === 0 || dayjs(date).day() === 6)) ||
-           (this.weekends && (dayjs(date).day() !== 0 && dayjs(date).day() !== 6)) ||
-           (this.only && dayjs(date).day() !== parseInt(this.only)) ||
-           this.disable.includes(this.formatted(date, 'YYYY-MM-DD'));
+    return (
+      (this.date.min && dayjs(date).isBefore(this.date.min)) ||
+      (this.date.max && dayjs(date).isAfter(this.date.max)) ||
+      (this.weekdays && (dayjs(date).day() === 0 || dayjs(date).day() === 6)) ||
+      (this.weekends && dayjs(date).day() !== 0 && dayjs(date).day() !== 6) ||
+      (this.only && dayjs(date).day() !== parseInt(this.only)) ||
+      this.disable.includes(this.formatted(date, 'YYYY-MM-DD'))
+    );
   },
   /**
    * Navigate to the previous month
@@ -383,11 +387,11 @@ export default (
    * @return {void}
    */
   previousMonth() {
-    if (this.range.year.min && (this.month === 0 && this.year <= this.range.year.min)) {
+    if (this.range.year.min && this.month === 0 && this.year <= this.range.year.min) {
       return;
     }
 
-    this.month = (this.month === 0) ? 11 : this.month - 1;
+    this.month = this.month === 0 ? 11 : this.month - 1;
 
     if (this.month === 11) this.year--;
 
@@ -399,7 +403,7 @@ export default (
    * @return {void}
    */
   nextMonth() {
-    if (this.range.year.max && (this.month === 11 && this.year >= this.range.year.max)) {
+    if (this.range.year.max && this.month === 11 && this.year >= this.range.year.max) {
       return;
     }
 
@@ -425,7 +429,7 @@ export default (
 
     if (this.monthYearOnly) {
       this.picker.year = true;
-      this.range.year.start = (this.year - 11)
+      this.range.year.start = this.year - 11;
     }
 
     this.map();
@@ -492,11 +496,11 @@ export default (
     const min = this.range.year.min ?? -Infinity;
     const max = this.range.year.max ?? Infinity;
 
-    const range = Array.from({length: 20}, (key, index) => {
+    const range = Array.from({ length: 20 }, (key, index) => {
       const year = start + index;
       const disabled = year < min || year > max;
 
-      return {year, disabled};
+      return { year, disabled };
     });
 
     this.range.year.first = range[0]?.year;
@@ -514,7 +518,7 @@ export default (
 
     this.input = this.model = this.value = this.date.start = this.date.end = null;
 
-    this.$el.dispatchEvent(new CustomEvent('clear', {detail: {type: this.type, date: model}}));
+    this.$el.dispatchEvent(new CustomEvent('clear', { detail: { type: this.type, date: model } }));
   },
   /**
    * Reset the day, month and year to the current date.
@@ -577,8 +581,11 @@ export default (
 
     if (!input) return;
 
-    input.value = !this.model ? '' :
-        (typeof this.model === 'string' ? this.model : JSON.stringify(this.model));
+    input.value = !this.model
+      ? ''
+      : typeof this.model === 'string'
+        ? this.model
+        : JSON.stringify(this.model);
   },
   /**
    * Get the type of the date calendar.
@@ -586,7 +593,7 @@ export default (
    * @return {String}
    */
   get type() {
-    return multiple ? 'multiple' : (range ? 'range' : 'single');
+    return multiple ? 'multiple' : range ? 'range' : 'single';
   },
   /**
    * Get the quantity of the selected dates.

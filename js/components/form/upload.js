@@ -1,15 +1,15 @@
-import {overflow} from '../../helpers';
+import { overflow } from '../../helpers';
 
 export default (
-    id,
-    property,
-    multiple,
-    error,
-    staticMode,
-    placeholder,
-    placeholders,
-    overflowing,
-    closeAfterUpload
+  id,
+  property,
+  multiple,
+  error,
+  staticMode,
+  placeholder,
+  placeholders,
+  overflowing,
+  closeAfterUpload
 ) => ({
   show: false,
   uploading: false,
@@ -54,7 +54,9 @@ export default (
       return;
     }
 
-    this.$el.dispatchEvent(new CustomEvent('upload', {detail: {files: this.$refs.files.files}}));
+    this.$el.dispatchEvent(
+      new CustomEvent('upload', { detail: { files: this.$refs.files.files } })
+    );
 
     if (this.multiple) return this.multiples();
 
@@ -66,18 +68,18 @@ export default (
    */
   multiples() {
     this.component.$wire.uploadMultiple(
-        this.property,
-        this.$refs.files.files,
-        () => {
-          this.uploading = false;
-          this.progress = 0;
-        },
-        () => {
-          this.uploading = false;
-          this.error = true;
-          this.progress = 0;
-        },
-        (event) => this.progress = event.detail.progress,
+      this.property,
+      this.$refs.files.files,
+      () => {
+        this.uploading = false;
+        this.progress = 0;
+      },
+      () => {
+        this.uploading = false;
+        this.error = true;
+        this.progress = 0;
+      },
+      (event) => (this.progress = event.detail.progress)
     );
 
     if (closeAfterUpload) this.show = false;
@@ -88,18 +90,18 @@ export default (
    */
   single() {
     this.component.$wire.upload(
-        this.property,
-        this.$refs.files.files[0],
-        () => {
-          this.uploading = false;
-          this.progress = 0;
-        },
-        () => {
-          this.uploading = false;
-          this.error = true;
-          this.progress = 0;
-        },
-        (event) => this.progress = event.detail.progress,
+      this.property,
+      this.$refs.files.files[0],
+      () => {
+        this.uploading = false;
+        this.progress = 0;
+      },
+      () => {
+        this.uploading = false;
+        this.error = true;
+        this.progress = 0;
+      },
+      (event) => (this.progress = event.detail.progress)
     );
 
     if (closeAfterUpload) this.show = false;
@@ -115,7 +117,7 @@ export default (
 
     this.text();
 
-    this.$el.dispatchEvent(new CustomEvent('remove', {detail: {file: file}}));
+    this.$el.dispatchEvent(new CustomEvent('remove', { detail: { file: file } }));
   },
   /**
    * Set the input placeholder.
@@ -127,9 +129,8 @@ export default (
 
       if (this.multiple) {
         // For an unknown reason, sometimes the property returns as an object.
-        const quantity = typeof property === 'object' ?
-          Object.keys(property).length :
-          property.length;
+        const quantity =
+          typeof property === 'object' ? Object.keys(property).length : property.length;
 
         this.input = quantity === 0 ? null : quantity;
 

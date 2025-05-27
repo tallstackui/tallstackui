@@ -21,7 +21,7 @@ export default (number, animated) => ({
 
         number.innerHTML = value.toLocaleString();
 
-        if (progress < (this.duration * 1000)) {
+        if (progress < this.duration * 1000) {
           window.requestAnimationFrame(step);
         }
       };

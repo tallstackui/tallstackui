@@ -1,22 +1,22 @@
-import {error, wireChange} from '../../../helpers';
-import {body} from './helpers';
+import { error, wireChange } from '../../../helpers';
+import { body } from './helpers';
 
 export default (
-    model = null,
-    request = null,
-    selectable = {},
-    multiple = false,
-    placeholder = 'Select an option',
-    searchable = false,
-    common = true,
-    required = false,
-    livewire,
-    property,
-    value,
-    limit = null,
-    change = null,
-    unfiltered = false,
-    lazy = 10,
+  model = null,
+  request = null,
+  selectable = {},
+  multiple = false,
+  placeholder = 'Select an option',
+  searchable = false,
+  common = true,
+  required = false,
+  livewire,
+  property,
+  value,
+  limit = null,
+  change = null,
+  unfiltered = false,
+  lazy = 10
 ) => ({
   show: false,
   model: model,
@@ -102,7 +102,7 @@ export default (
 
       // This is used to avoid the need of hydrate the selects when
       // the changes are made internally, such as select options.
-      if (this.internal) return this.internal = false;
+      if (this.internal) return (this.internal = false);
 
       if (!value || value === old) return;
 
@@ -118,7 +118,7 @@ export default (
     this.$watch('show', async (value, old) => {
       if (value === old) return;
 
-      if (!value) return this.search = '';
+      if (!value) return (this.search = '');
 
       await this.makeRequest(false);
 
@@ -150,7 +150,7 @@ export default (
 
       // This is used to avoid the need of hydrate the selects when
       // the changes are made internally, such as select options.
-      if (value === old || this.internal) return this.internal = false;
+      if (value === old || this.internal) return (this.internal = false);
 
       if (this.response.length === 0) return;
 
@@ -172,9 +172,11 @@ export default (
     // stores the parameters to allow us to hydrate this when changes are made.
     this.request.params &&= Alpine.evaluate(this, this.$refs.params.innerText);
 
-    const {url, init} = body(this.request, this.search, selected && this.model ?
-        (this.model.constructor === Array ? this.model : [this.model]) :
-        []);
+    const { url, init } = body(
+      this.request,
+      this.search,
+      selected && this.model ? (this.model.constructor === Array ? this.model : [this.model]) : []
+    );
 
     try {
       const response = await fetch(url, init);
@@ -215,16 +217,14 @@ export default (
       return;
     }
 
-    if (this.limit !== null && (this.multiple && this.quantity >= this.limit)) return;
+    if (this.limit !== null && this.multiple && this.quantity >= this.limit) return;
 
     if (this.multiple) {
-      this.selects = !this.empty ?
-          [...this.selects, option] :
-          [option];
+      this.selects = !this.empty ? [...this.selects, option] : [option];
 
-      this.model = this.dimensional ?
-          this.selects.map((selected) => selected[this.selectable.value]) :
-          this.selects;
+      this.model = this.dimensional
+        ? this.selects.map((selected) => selected[this.selectable.value])
+        : this.selects;
 
       this.search = '';
     } else {
@@ -241,11 +241,15 @@ export default (
 
     const button = this.$refs.button;
 
-    this.$nextTick(() => button.dispatchEvent(new CustomEvent('select', {
-      detail: {
-        select: option,
-      },
-    })));
+    this.$nextTick(() =>
+      button.dispatchEvent(
+        new CustomEvent('select', {
+          detail: {
+            select: option,
+          },
+        })
+      )
+    );
 
     wireChange(change, this.model);
   },
@@ -258,9 +262,9 @@ export default (
   selected(option) {
     if (this.empty || this.available?.length === 0) return false;
 
-    return this.multiple ?
-        this.selects?.some((selected) => JSON.stringify(selected) === JSON.stringify(option)) :
-        JSON.stringify(this.selects[0] ?? this.selects) === JSON.stringify(option);
+    return this.multiple
+      ? this.selects?.some((selected) => JSON.stringify(selected) === JSON.stringify(option))
+      : JSON.stringify(this.selects[0] ?? this.selects) === JSON.stringify(option);
   },
   /**
    * Clear the `selected` option or all.
@@ -271,7 +275,9 @@ export default (
   clear(selected = null) {
     const button = this.$refs.button;
 
-    this.$nextTick(() => button.dispatchEvent(new CustomEvent('remove', {detail: {select: selected}})));
+    this.$nextTick(() =>
+      button.dispatchEvent(new CustomEvent('remove', { detail: { select: selected } }))
+    );
 
     if (selected && this.multiple) {
       if (this.required && this.quantity === 1) {
@@ -281,14 +287,16 @@ export default (
 
       this.selects = this.selects.filter((option) => {
         const value = JSON.stringify(this.dimensional ? option[this.selectable.value] : option);
-        const select = JSON.stringify(this.dimensional ? selected[this.selectable.value] : selected);
+        const select = JSON.stringify(
+          this.dimensional ? selected[this.selectable.value] : selected
+        );
 
         return value !== select;
       });
 
-      this.model = this.dimensional ?
-          this.selects.map((selected) => selected[this.selectable.value]) :
-          this.selects;
+      this.model = this.dimensional
+        ? this.selects.map((selected) => selected[this.selectable.value])
+        : this.selects;
 
       this.input = this.model;
 
@@ -316,7 +324,7 @@ export default (
     this.placeholder = placeholder;
     this.image = null;
     this.search = '';
-    this.$nextTick(() => this.selects = []);
+    this.$nextTick(() => (this.selects = []));
 
     if (ignore) return;
 
@@ -377,9 +385,9 @@ export default (
 
     if (!this.common) {
       this.selects = this.available.filter((option) => {
-        return this.multiple ?
-            this.model?.includes(option[this.selectable.value]) :
-            this.compare(this.model, option[this.selectable.value]);
+        return this.multiple
+          ? this.model?.includes(option[this.selectable.value])
+          : this.compare(this.model, option[this.selectable.value]);
       });
 
       if (!this.multiple) {
@@ -390,23 +398,27 @@ export default (
     }
 
     if (this.multiple) {
-      this.selects = this.available.filter((option) => this.dimensional ?
-          this.model?.includes(option[this.selectable.value]) :
-          this.model?.includes(option));
+      this.selects = this.available.filter((option) =>
+        this.dimensional
+          ? this.model?.includes(option[this.selectable.value])
+          : this.model?.includes(option)
+      );
 
       return;
     }
 
-    this.selects = this.available.find((option) => this.dimensional ?
-        this.compare(this.model, option[this.selectable.value]) :
-        this.compare(this.model, option));
+    this.selects = this.available.find((option) =>
+      this.dimensional
+        ? this.compare(this.model, option[this.selectable.value])
+        : this.compare(this.model, option)
+    );
 
     if (this.selects) {
       this.selects = [this.selects];
 
-      this.placeholder = this.dimensional ?
-          this.selects[0]?.[this.selectable.label] ?? placeholder :
-          this.selects[0] ?? placeholder;
+      this.placeholder = this.dimensional
+        ? (this.selects[0]?.[this.selectable.label] ?? placeholder)
+        : (this.selects[0] ?? placeholder);
       this.image = this.selects[0]?.[this.selectable.image] ?? null;
     } else {
       this.selects = [];
@@ -452,9 +464,9 @@ export default (
     const max = this.available.length - 1;
 
     const keys = {
-      ArrowUp: () => current === 0 ? max : current - 1,
+      ArrowUp: () => (current === 0 ? max : current - 1),
       ArrowDown: () => (current + 1) % this.available.length,
-      Tab: () => current === max ? 0 : current + 1,
+      Tab: () => (current === max ? 0 : current + 1),
     };
 
     const next = keys[event.key]();
@@ -489,9 +501,11 @@ export default (
 
     // If the value is null (undefined) we set the input as empty,
     // otherwise we stringify if is string with comma or an object
-    input.value = !value ?
-        '' :
-        (typeof value === 'string' && value.indexOf(',') !== -1 || typeof value === 'object' ? JSON.stringify(value) : value);
+    input.value = !value
+      ? ''
+      : (typeof value === 'string' && value.indexOf(',') !== -1) || typeof value === 'object'
+        ? JSON.stringify(value)
+        : value;
   },
   /**
    * The `selects` quantity.
@@ -518,9 +532,9 @@ export default (
     let available = this.common ? this.options : this.response;
 
     if (this.common) {
-        const values = Object.values(available);
+      const values = Object.values(available);
 
-        available = this.lazy ? values.slice(0, this.lazy) : values;
+      available = this.lazy ? values.slice(0, this.lazy) : values;
     }
 
     if (this.search === '') return available;
@@ -528,23 +542,25 @@ export default (
     const search = this.normalize(this.search.toLowerCase());
 
     const filter = (option) => {
-        const label = this.normalize(this.dimensional ?
-            option[selectable.label].toString().toLowerCase() :
-            option.toString().toLowerCase());
+      const label = this.normalize(
+        this.dimensional
+          ? option[selectable.label].toString().toLowerCase()
+          : option.toString().toLowerCase()
+      );
 
-        const description = option[this.selectable.description] ?
-            this.normalize(option[this.selectable.description].toString().toLowerCase()) :
-            null;
+      const description = option[this.selectable.description]
+        ? this.normalize(option[this.selectable.description].toString().toLowerCase())
+        : null;
 
-        return this.dimensional ?
-            (label.indexOf(search) !== -1 || (description && description.indexOf(search) !== -1)) :
-            this.normalize(option.toString().toLowerCase()).indexOf(search) !== -1;
+      return this.dimensional
+        ? label.indexOf(search) !== -1 || (description && description.indexOf(search) !== -1)
+        : this.normalize(option.toString().toLowerCase()).indexOf(search) !== -1;
     };
 
     if (this.common) {
-        const result = available.filter(filter);
+      const result = available.filter(filter);
 
-        return this.lazy ? result.slice(0, this.lazy) : result;
+      return this.lazy ? result.slice(0, this.lazy) : result;
     }
 
     return unfiltered ? available : available.filter(filter);

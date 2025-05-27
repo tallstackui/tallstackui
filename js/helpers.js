@@ -18,7 +18,7 @@ export const error = (message) => console.error(`[TallStackUI] ${message}`);
 export const event = (name, params = null, prefix = true) => {
   const identification = prefix ? `tallstackui:${name}` : name;
 
-  window.dispatchEvent(new CustomEvent(identification, params ? {detail: params} : {}));
+  window.dispatchEvent(new CustomEvent(identification, params ? { detail: params } : {}));
 };
 
 /**
@@ -57,7 +57,7 @@ export const overflow = (status, component = null, skip = false) => {
  * @param model {*}
  */
 export const wireChange = (change, model) => {
-  if (! change) {
+  if (!change) {
     return;
   }
 

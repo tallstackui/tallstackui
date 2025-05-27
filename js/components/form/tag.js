@@ -1,11 +1,4 @@
-export default (
-    model,
-    limit,
-    prefixes,
-    livewire,
-    property,
-    value,
-) => ({
+export default (model, limit, prefixes, livewire, property, value) => ({
   model: model,
   limit: limit,
   prefixes: prefixes,
@@ -17,10 +10,10 @@ export default (
     if (!this.livewire) {
       this.model = typeof this.value === 'string' ? [this.value] : this.value;
 
-      this.$nextTick(() => this.input = this.model);
+      this.$nextTick(() => (this.input = this.model));
     }
 
-    this.$watch('model', (value) => this.input = value);
+    this.$watch('model', (value) => (this.input = value));
 
     this.prefix();
   },
@@ -32,7 +25,7 @@ export default (
   add(event) {
     if (event.key !== 'Enter' && event.key !== ',') return;
 
-    if (this.limit && (this.model?.length >= this.limit)) {
+    if (this.limit && this.model?.length >= this.limit) {
       this.clean();
 
       return;
@@ -61,7 +54,7 @@ export default (
     this.model = Array.isArray(this.model) ? [...this.model, tag] : [tag];
     this.prefix();
 
-    this.$el.dispatchEvent(new CustomEvent('add', {detail: {tag: tag}}));
+    this.$el.dispatchEvent(new CustomEvent('add', { detail: { tag: tag } }));
 
     this.clean();
   },
@@ -71,7 +64,7 @@ export default (
    * @returns {void}
    */
   clean() {
-    this.$nextTick(() => this.tag = '');
+    this.$nextTick(() => (this.tag = ''));
   },
   /**
    * Remove a tag.
@@ -86,7 +79,7 @@ export default (
 
     const removed = this.model.splice(index, 1);
 
-    this.$el.dispatchEvent(new CustomEvent('remove', {detail: {tag: removed[0]}}));
+    this.$el.dispatchEvent(new CustomEvent('remove', { detail: { tag: removed[0] } }));
   },
   /**
    * Erase the entire input.
@@ -94,7 +87,7 @@ export default (
    * @returns {void}
    */
   erase() {
-    this.$el.dispatchEvent(new CustomEvent('erase', {detail: {tags: this.model}}));
+    this.$el.dispatchEvent(new CustomEvent('erase', { detail: { tags: this.model } }));
 
     this.model = [];
   },
@@ -108,7 +101,9 @@ export default (
       return;
     }
 
-    this.model = this.model.map((item) => (item.indexOf(this.prefixes) === -1 ? this.prefixes + item : item));
+    this.model = this.model.map((item) =>
+      item.indexOf(this.prefixes) === -1 ? this.prefixes + item : item
+    );
   },
   /**
    * Set the input value when is not Livewire
@@ -124,9 +119,12 @@ export default (
 
     value = value?.filter((value) => value !== '');
 
-    input.value = !value || value.length === 0 ?
-        '' :
-        // eslint-disable-next-line max-len
-        (typeof value === 'string' && value.indexOf(',') !== - 1 || typeof value === 'object' && value.length > 1 ? JSON.stringify(value) : value);
+    input.value =
+      !value || value.length === 0
+        ? ''
+        : (typeof value === 'string' && value.indexOf(',') !== -1) ||
+            (typeof value === 'object' && value.length > 1)
+          ? JSON.stringify(value)
+          : value;
   },
 });

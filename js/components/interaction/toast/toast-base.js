@@ -1,13 +1,11 @@
-export default (
-    flash,
-    position = null,
-) => ({
+export default (flash, position = null) => ({
   show: false,
   toasts: [],
   position: position,
-  init () {
+  init() {
     if (flash) window.onload = () => this.add(flash);
-    if (flash) document.addEventListener('livewire:navigated', () => this.add(flash), { once: true });
+    if (flash)
+      document.addEventListener('livewire:navigated', () => this.add(flash), { once: true });
   },
   /**
    * Add a new toast to the list.
@@ -16,7 +14,7 @@ export default (
    * @return {void}
    */
   add(event) {
-    this.$nextTick(() => this.show = true);
+    this.$nextTick(() => (this.show = true));
 
     if (flash) {
       // Since flash tends to be something to be
@@ -56,5 +54,5 @@ export default (
       return `translate-y-2 opacity-0 sm:translate-y-0 ${this.position.includes('-left') ? 'sm:-translate-x-2' : 'sm:translate-x-2'}`;
     },
     'x-transition:enter-end': 'translate-y-0 opacity-100 sm:translate-x-0',
-  }
+  },
 });
