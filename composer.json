@@ -45,7 +45,30 @@
     },
     "scripts": {
         "test": "./vendor/bin/pest",
+        "bench": "vendor/bin/testbench",
+        "type": "./vendor/bin/pest --type-coverage",
+        "rector": "php ./vendor/bin/rector process --dry-run --config=rector.php",
+        "analyse": "./vendor/bin/phpstan analyse --memory-limit=2G",
         "test:ci": "CI=true ./vendor/bin/pest",
+        "test:browser:setup": "./vendor/bin/dusk-updater detect --auto-update",
+        "ci": [
+            "Composer\\Config::disableProcessTimeout",
+            "./vendor/bin/pint --test",
+            "./vendor/bin/phpstan analyse --memory-limit=2G",
+            "./vendor/bin/testbench view:clear",
+            "./vendor/bin/pest --filter=Feature --parallel --stop-on-failure",
+            "./vendor/bin/testbench view:clear",
+            "CI=true ./vendor/bin/pest --filter=Browser"
+        ],
+        "format": [
+            "./vendor/bin/pint",
+            "npm run lint:fix"
+        ],
+        "ci:analyse": [
+            "./vendor/bin/pint --test",
+            "./vendor/bin/phpstan analyse --memory-limit=2G",
+            "composer test:feature"
+        ],
         "test:feature": [
             "vendor/bin/testbench view:clear",
             "./vendor/bin/pest --filter=Feature --parallel"
@@ -57,29 +80,6 @@
         "test:browser:ci": [
             "Composer\\Config::disableProcessTimeout",
             "CI=true ./vendor/bin/pest --filter=Browser"
-        ],
-        "test:browser:setup": "./vendor/bin/dusk-updater detect --no-interaction",
-        "bench": "vendor/bin/testbench",
-        "type": "./vendor/bin/pest --type-coverage",
-        "format": [
-            "./vendor/bin/pint",
-            "npm run lint:fix"
-        ],
-        "rector": "php ./vendor/bin/rector process --dry-run --config=rector.php",
-        "analyse": "./vendor/bin/phpstan analyse --memory-limit=2G",
-        "ci": [
-            "Composer\\Config::disableProcessTimeout",
-            "./vendor/bin/pint --test",
-            "./vendor/bin/phpstan analyse --memory-limit=2G",
-            "./vendor/bin/testbench view:clear",
-            "./vendor/bin/pest --filter=Feature --parallel --stop-on-failure",
-            "./vendor/bin/testbench view:clear",
-            "CI=true ./vendor/bin/pest --filter=Browser"
-        ],
-        "ci:analyse": [
-            "./vendor/bin/pint --test",
-            "./vendor/bin/phpstan analyse --memory-limit=2G",
-            "composer test:feature"
         ]
     },
     "config": {
