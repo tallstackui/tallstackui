@@ -27,6 +27,11 @@ class Toast extends AbstractInteraction
     protected ?string $position = null;
 
     /**
+     * Determines if only this toast will be shown, flushing any previous toasts.
+     */
+    protected ?bool $sole = false;
+
+    /**
      * Control the timeout seconds.
      */
     protected ?int $timeout = 3;
@@ -108,6 +113,16 @@ class Toast extends AbstractInteraction
     }
 
     /**
+     * Determines if only this toast will be shown, flushing any previous toasts.
+     */
+    public function sole(bool $sole = true): self
+    {
+        $this->sole = $sole;
+
+        return $this;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function success(string $title, ?string $description = null): self
@@ -155,6 +170,7 @@ class Toast extends AbstractInteraction
             'timeout' => $this->timeout,
             'persistent' => $this->persistent,
             'position' => $this->position ?? config('tallstackui.settings.toast.position', 'top-right'),
+            'sole' => $this->sole,
         ];
     }
 
