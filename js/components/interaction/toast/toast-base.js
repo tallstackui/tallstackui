@@ -26,6 +26,10 @@ export default (flash, position = null) => ({
     }
 
     if (event.detail) {
+      if (event.detail.sole && this.toasts.length > 0) {
+        this.toasts = [];
+      }
+
       event.detail.id ??= `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
 
       this.position = event.detail.position ?? this.position;
