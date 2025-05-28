@@ -77,7 +77,7 @@ class Reaction extends TallStackUiComponent implements Personalization
             $class = $personalize['icon'];
 
             return <<<HTML
-            <button type="button" x-on:click.prevent="react('$method', '$reaction')">
+            <button type="button" class="cursor-pointer" x-on:click.prevent="react('$method', '$reaction')">
                 <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/$icon/512.$extension" class="$class">
             </button>
             HTML;
