@@ -333,6 +333,54 @@ class IndexTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_use_sole()
+    {
+        Livewire::visit(new class extends Component
+        {
+            use Interactions;
+
+            public function multiple(): void
+            {
+                $this->toast()
+                    ->success('Foo!')
+                    ->send();
+            }
+
+            public function sole(): void
+            {
+                $this->toast()
+                    ->sole()
+                    ->success('Sole!', 'Only one toast will be shown')
+                    ->send();
+            }
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <button dusk="multiple" wire:click="multiple">Multiples</button>
+                    <button dusk="sole" wire:click="sole">Sole</button>
+                </div>
+                HTML;
+            }
+        })
+            ->assertDontSee('Sole!')
+            ->assertDontSee('Only one toast will be shown')
+            ->assertSee('Multiples')
+            ->assertSee('Sole')
+            ->click('@multiple')
+            ->click('@multiple')
+            ->click('@multiple')
+            ->waitForText('Foo!')
+            ->assertSee('Foo!')
+            ->click('@sole')
+            ->waitForText('Sole!')
+            ->assertSee('Sole!')
+            ->assertSee('Only one toast will be shown')
+            ->assertDontSee('Foo!');
+    }
+
+    #[Test]
     public function can_use_timeout_hook()
     {
         Livewire::visit(new class extends Component
