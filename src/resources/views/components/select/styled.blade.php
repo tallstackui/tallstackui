@@ -28,6 +28,7 @@
         @endif
         x-cloak
         x-on:keydown="navigate($event)"
+        wire:replace
         wire:ignore>
     <div hidden x-ref="options">{{ TallStackUi::blade()->json($options) }}</div>
     @if ($request['params'] ?? null) <div hidden x-ref="params">{{ TallStackUi::blade()->json($request['params']) }}</div> @endif
