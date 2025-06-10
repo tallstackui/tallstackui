@@ -737,7 +737,34 @@ class StyledCommonTest extends BrowserTestCase
     #[Test]
     public function can_unselect(): void
     {
-        Livewire::visit(StyledComponent_Common::class)
+        Livewire::visit(new class extends Component
+        {
+            public ?string $string = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="string">{{ $string }}</p>
+
+                    <x-select.styled wire:model="string"
+                                     label="Select"
+                                     hint="Select"
+                                     :options="[
+                                        ['label' => 'foo', 'value' => 'foo'],
+                                        ['label' => 'bar', 'value' => 'bar'],
+                                     ]" />
+
+                    <x-button dusk="sync" wire:click="sync">Sync</x-button>
+                </div>
+                HTML;
+            }
+
+            public function sync(): void
+            {
+                // ...
+            }
+        })
             ->assertSee('Select an option')
             ->assertDontSee('foo')
             ->assertDontSee('bar')
@@ -745,7 +772,7 @@ class StyledCommonTest extends BrowserTestCase
             ->waitForText(['foo', 'bar'])
             ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[1]')
             ->click('@sync')
-            ->waitForText('foo')
+            ->waitForTextIn('@string', 'foo')
             ->click('@tallstackui_select_open_close')
             ->waitForText(['foo', 'bar'])
             ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[1]')
@@ -753,7 +780,7 @@ class StyledCommonTest extends BrowserTestCase
             ->click('@sync')
             ->waitForText('Select an option')
             ->waitUntilMissingText('foo')
-            ->assertDontSee('foo');
+            ->assertDontSeeIn('@string', 'foo');
     }
 
     #[Test]

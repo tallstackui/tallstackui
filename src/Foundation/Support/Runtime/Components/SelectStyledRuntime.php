@@ -15,11 +15,12 @@ class SelectStyledRuntime extends AbstractRuntime
         return [
             'property' => $bind->get('property'),
             'error' => $bind->get('error'),
-            'id' => $bind->get('id'),
+            'id' => $id = $bind->get('id'),
             'entangle' => $bind->get('entangle'),
             'value' => $this->sanitize(),
             'change' => $this->change(),
             'disabled' => (bool) $this->data['attributes']->get('disabled', $this->data['attributes']->get('readonly', false)),
+            'unique' => uniqid($id ?? '', true),
         ];
     }
 }
