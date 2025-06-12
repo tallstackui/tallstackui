@@ -20,7 +20,7 @@ class SelectStyledRuntime extends AbstractRuntime
             'value' => $this->sanitize(),
             'change' => $this->change(),
             'disabled' => (bool) $this->data['attributes']->get('disabled', $this->data['attributes']->get('readonly', false)),
-            'ref' => uniqid($property . $id, true)
+            'ref' => uniqid($property.$id, true),
         ];
     }
 }
