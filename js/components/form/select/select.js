@@ -16,7 +16,8 @@ export default (
   limit = null,
   change = null,
   unfiltered = false,
-  lazy = 10
+  lazy = 10,
+  ref
 ) => ({
   show: false,
   model: model,
@@ -338,11 +339,11 @@ export default (
   observation() {
     this.sync();
 
-    if (!this.$refs.options) return;
+    if (!this.$refs[ref]) return;
 
     this.observer = new MutationObserver(this.sync.bind(this));
 
-    this.observer.observe(this.$refs.options, {
+    this.observer.observe(this.$refs[ref], {
       subtree: true,
       characterData: true,
     });
@@ -371,9 +372,9 @@ export default (
    * @returns {void}
    */
   sync() {
-    if (!this.$refs.options) return;
+    if (!this.$refs[ref]) return;
 
-    this.options = Alpine.evaluate(this, this.$refs.options.innerText);
+    this.options = Alpine.evaluate(this, this.$refs[ref].innerText);
   },
   /**
    * Hydrate the selects according to model.

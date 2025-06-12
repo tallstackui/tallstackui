@@ -6,6 +6,10 @@
     <input hidden name="{{ $property }}">
 @endif
 
+@if ($request === null && $options !== [])
+    <div hidden x-ref="{{ $ref }}" wire:ignore.self>{{ TallStackUi::blade()->json($options) }}</div>
+@endif
+
 <div x-data="tallstackui_select(
         {!! $entangle !!},
         @js($request),
@@ -21,7 +25,8 @@
         @js($limit),
         @js($change),
         @js($configurations['unfiltered']),
-        @js($lazy))"
+        @js($lazy),
+        @js($ref))"
         @if ($attributes->whereStartsWith('x-model'))
             x-modelable="model"
             {{ $attributes->whereStartsWith('x-model') }}
@@ -30,7 +35,6 @@
         x-on:keydown="navigate($event)"
         wire:replace
         wire:ignore>
-    <div hidden x-ref="options">{{ TallStackUi::blade()->json($options) }}</div>
     @if ($request['params'] ?? null) <div hidden x-ref="params">{{ TallStackUi::blade()->json($request['params']) }}</div> @endif
     @if ($label)
         <x-dynamic-component :component="TallStackUi::prefix('label')" :$label :$error />
