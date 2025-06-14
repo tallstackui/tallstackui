@@ -18,7 +18,7 @@
      @js($value),
      @js($monthYearOnly),
      @js(trans('tallstack-ui::messages.date.calendar')),
-     @js($attributes->only(['disabled', 'readonly'])->all()),
+     @js($attributes->only(['disabled', 'readonly'])->getAttributes()),
      @js($change),
      @js($start),
      @js($only),
