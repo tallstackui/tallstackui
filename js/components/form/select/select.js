@@ -43,6 +43,7 @@ export default (
   image: null,
   index: null,
   lazy: lazy,
+  _normalize: false,
   async init() {
     if (!this.livewire) {
       if (this.common) {
@@ -59,6 +60,13 @@ export default (
     }
 
     await this.initAsRequest();
+
+    this.$cleanup = () => {
+      if (this.observer) {
+        this.observer.disconnect();
+        this.observer = null;
+      }
+    };
   },
   /**
    * Initialize the component as Blade vanilla.
@@ -206,14 +214,13 @@ export default (
    * @return {void}
    */
   select(option) {
-    if (option.disabled) return;
+    if (!option || option.disabled) return;
 
     this.internal = true;
 
     if (this.selected(option)) {
       this.clear(option);
       this.input = this.model;
-
       return;
     }
 
@@ -225,46 +232,70 @@ export default (
       this.model = this.dimensional
         ? this.selects.map((selected) => selected[this.selectable.value])
         : this.selects;
-
-      this.search = '';
     } else {
       this.selects = [option];
 
       this.model = this.dimensional ? option[this.selectable.value] : option;
-      this.placeholder = this.dimensional ? option[this.selectable.label] : option;
+
+      this.placeholder = this.dimensional ? option[this.selectable.label] || '' : String(option);
+
       this.image = option[this.selectable.image] ?? null;
     }
 
-    this.show = this.quantity === this.available?.length ? false : this.multiple;
+    this.show = this.multiple && this.quantity !== this.available?.length;
+
     this.search = '';
+
     this.input = this.model;
 
     const button = this.$refs.button;
 
-    this.$nextTick(() =>
-      button.dispatchEvent(
-        new CustomEvent('select', {
-          detail: {
-            select: option,
-          },
-        })
-      )
-    );
+    if (button) {
+      this.$nextTick(() =>
+        button.dispatchEvent(
+          new CustomEvent('select', {
+            detail: {
+              select: option,
+            },
+          })
+        )
+      );
+    }
 
-    wireChange(change, this.model);
+    if (change) {
+      wireChange(change, this.model);
+    }
   },
   /**
    * Check if the `option` is selected.
    *
-   * @param option
+   * @param option {Object|String|Number}
    * @returns {boolean}
    */
   selected(option) {
-    if (this.empty || this.available?.length === 0) return false;
+    if (!option || this.empty || !this.selects || this.available?.length === 0) return false;
 
-    return this.multiple
-      ? this.selects?.some((selected) => JSON.stringify(selected) === JSON.stringify(option))
-      : JSON.stringify(this.selects[0] ?? this.selects) === JSON.stringify(option);
+    if (this.multiple) {
+      return this.selects.some((selected) => {
+        if (!selected) return false;
+
+        if (this.dimensional) {
+          return this.compare(selected[this.selectable.value], option[this.selectable.value]);
+        }
+
+        return selected.__tsui_key === option.__tsui_key;
+      });
+    }
+
+    const selected = this.selects[0];
+
+    if (!selected) return false;
+
+    if (this.dimensional) {
+      return this.compare(selected[this.selectable.value], option[this.selectable.value]);
+    }
+
+    return selected.__tsui_key === option.__tsui_key;
   },
   /**
    * Clear the `selected` option or all.
@@ -275,9 +306,13 @@ export default (
   clear(selected = null) {
     const button = this.$refs.button;
 
-    this.$nextTick(() =>
-      button.dispatchEvent(new CustomEvent('remove', { detail: { select: selected } }))
-    );
+    this.internal = true;
+
+    if (button) {
+      this.$nextTick(() =>
+        button.dispatchEvent(new CustomEvent('remove', { detail: { select: selected } }))
+      );
+    }
 
     if (selected && this.multiple) {
       if (this.required && this.quantity === 1) {
@@ -286,6 +321,8 @@ export default (
       }
 
       this.selects = this.selects.filter((option) => {
+        if (!option || !selected) return true;
+
         const value = JSON.stringify(this.dimensional ? option[this.selectable.value] : option);
         const select = JSON.stringify(
           this.dimensional ? selected[this.selectable.value] : selected
@@ -305,30 +342,39 @@ export default (
 
     if (this.required) {
       this.show = false;
-
       return;
     }
 
     this.selects = [];
-
     this.reset();
+
+    if (change) {
+      wireChange(change, this.model);
+    }
   },
   /**
    * Reset properties.
    *
    * @param ignore {Boolean} - If true, will not interact with `show` property
+   * @returns {void}
    */
   reset(ignore = false) {
+    this.internal = true;
+
     this.input = null;
     this.model = null;
     this.placeholder = placeholder;
     this.image = null;
     this.search = '';
-    this.$nextTick(() => (this.selects = []));
+    this.index = null;
 
-    if (ignore) return;
+    this.$nextTick(() => {
+      this.selects = [];
 
-    this.show = false;
+      if (!ignore) {
+        this.show = false;
+      }
+    });
   },
   /**
    * Observe the options element to sync the options.
@@ -383,45 +429,73 @@ export default (
   hydrate(value = null) {
     this.model = value ?? this.model;
 
+    if (this.model == null) {
+      this.selects = [];
+      this.placeholder = placeholder;
+      this.image = null;
+      return;
+    }
+
+    if (!this.available || this.available.length === 0) {
+      this.selects = [];
+      return;
+    }
+
     if (!this.common) {
       this.selects = this.available.filter((option) => {
+        if (!option) return false;
+
         return this.multiple
-          ? this.model?.includes(option[this.selectable.value])
+          ? Array.isArray(this.model) &&
+              this.model.some((modelValue) =>
+                this.compare(modelValue, option[this.selectable.value])
+              )
           : this.compare(this.model, option[this.selectable.value]);
       });
 
-      if (!this.multiple) {
+      if (!this.multiple && this.selects.length > 0) {
         this.placeholder = this.selects[0]?.[this.selectable.label] ?? placeholder;
+        this.image = this.selects[0]?.[this.selectable.image] ?? null;
       }
 
       return;
     }
 
     if (this.multiple) {
-      this.selects = this.available.filter((option) =>
-        this.dimensional
-          ? this.model?.includes(option[this.selectable.value])
-          : this.model?.includes(option)
-      );
+      if (!Array.isArray(this.model)) {
+        this.selects = [];
+        return;
+      }
+
+      this.selects = this.available.filter((option) => {
+        if (!option) return false;
+
+        return this.dimensional
+          ? this.model.some((modelValue) => this.compare(modelValue, option[this.selectable.value]))
+          : this.model.some((modelValue) => this.compare(modelValue, option));
+      });
 
       return;
     }
 
-    this.selects = this.available.find((option) =>
-      this.dimensional
+    const selected = this.available.find((option) => {
+      if (!option) return false;
+
+      return this.dimensional
         ? this.compare(this.model, option[this.selectable.value])
-        : this.compare(this.model, option)
-    );
+        : this.compare(this.model, option);
+    });
 
-    if (this.selects) {
-      this.selects = [this.selects];
-
+    if (selected) {
+      this.selects = [selected];
       this.placeholder = this.dimensional
-        ? (this.selects[0]?.[this.selectable.label] ?? placeholder)
-        : (this.selects[0] ?? placeholder);
-      this.image = this.selects[0]?.[this.selectable.image] ?? null;
+        ? (selected[this.selectable.label] ?? placeholder)
+        : String(selected);
+      this.image = selected[this.selectable.image] ?? null;
     } else {
       this.selects = [];
+      this.placeholder = placeholder;
+      this.image = null;
     }
   },
   /**
@@ -432,9 +506,25 @@ export default (
    * @return {boolean}
    */
   compare(model, data) {
-    if (typeof data === 'string') model = model?.toString();
+    if (model == null && data == null) return true;
+    if (model == null || data == null) return false;
 
-    if (typeof data === 'number') model = parseInt(model);
+    if (typeof data === 'string') {
+      return model.toString() === data;
+    }
+
+    if (typeof data === 'number') {
+      const numModel = Number(model);
+      return !isNaN(numModel) && numModel === data;
+    }
+
+    if (typeof data === 'boolean') {
+      return Boolean(model) === data;
+    }
+
+    if (typeof data === 'object') {
+      return JSON.stringify(model) === JSON.stringify(data);
+    }
 
     return model === data;
   },
@@ -445,7 +535,20 @@ export default (
    * @return {String}
    */
   normalize(string) {
-    return string.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    if (!string) return '';
+
+    if (!this._normalize) this._normalize = new Map();
+
+    if (!this._normalize.has(string)) {
+      this._normalize.set(string, string.normalize('NFD').replace(/[\u0300-\u036f]/g, ''));
+
+      if (this._normalize.size > 100) {
+        const firstKey = this._normalize.keys().next().value;
+        this._normalize.delete(firstKey);
+      }
+    }
+
+    return this._normalize.get(string);
   },
   /**
    * Navigate between select items.
@@ -454,38 +557,58 @@ export default (
    * @return {void}
    */
   navigate(event) {
-    if (!this.show && event.key === 'Tab') return;
+    if (!this.show) {
+      if (event.key === 'Tab') return;
+
+      if (event.key === 'ArrowDown') {
+        event.preventDefault();
+        this.show = true;
+        return;
+      }
+    }
 
     if (event.key !== 'ArrowUp' && event.key !== 'ArrowDown' && event.key !== 'Tab') return;
 
     event.preventDefault();
 
+    if (!this.available || this.available.length === 0) return;
+
     const current = this.index ?? -1;
     const max = this.available.length - 1;
 
     const keys = {
-      ArrowUp: () => (current === 0 ? max : current - 1),
-      ArrowDown: () => (current + 1) % this.available.length,
+      ArrowUp: () => (current <= 0 ? max : current - 1),
+      ArrowDown: () => (current >= max ? 0 : current + 1),
       Tab: () => (current === max ? 0 : current + 1),
     };
 
     const next = keys[event.key]();
 
-    this.$refs.list.querySelectorAll('[role="option"]').forEach((item, index) => {
-      item.removeAttribute('tabindex');
+    const options = this.$refs.list.querySelectorAll('[role="option"]');
 
-      if (index === next) {
-        item.setAttribute('tabindex', '0');
-        item.focus();
-      }
-    });
+    if (current >= 0 && current < options.length) {
+      options[current].removeAttribute('tabindex');
+    }
+
+    if (next >= 0 && next < options.length) {
+      options[next].setAttribute('tabindex', '0');
+      options[next].focus();
+    }
 
     this.index = next;
   },
+  /**
+   * Incrementally load more options when scrolling
+   * @returns {void}
+   */
   load() {
-    if (this.options.length === this.available.length) return;
+    if (!this.options || !this.available || this.options.length === this.available.length) return;
 
-    this.lazy += lazy;
+    const batch = Math.min(this.lazy + this.lazy, this.options.length);
+
+    if (batch > this.lazy) {
+      this.lazy = batch;
+    }
   },
   /**
    * Set the input value when is not Livewire.
@@ -499,8 +622,6 @@ export default (
 
     if (!input) return;
 
-    // If the value is null (undefined) we set the input as empty,
-    // otherwise we stringify if is string with comma or an object
     input.value = !value
       ? ''
       : (typeof value === 'string' && value.indexOf(',') !== -1) || typeof value === 'object'
@@ -531,6 +652,8 @@ export default (
   get available() {
     let available = this.common ? this.options : this.response;
 
+    if (!available) return [];
+
     if (this.common) {
       const values = Object.values(available);
 
@@ -542,9 +665,11 @@ export default (
     const search = this.normalize(this.search.toLowerCase());
 
     const filter = (option) => {
+      if (!option) return false;
+
       const label = this.normalize(
         this.dimensional
-          ? option[selectable.label].toString().toLowerCase()
+          ? option[this.selectable.label]?.toString().toLowerCase() || ''
           : option.toString().toLowerCase()
       );
 

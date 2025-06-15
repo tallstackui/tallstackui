@@ -28,8 +28,7 @@
      @endif
      x-cloak
      x-on:keydown="navigate($event)"
-     wire:replace
-     wire:ignore>
+     wire:ignore.self>
     <div hidden x-ref="options">{{ TallStackUi::blade()->json($options) }}</div>
     @if ($request['params'] ?? null) <div hidden x-ref="params">{{ TallStackUi::blade()->json($request['params']) }}</div> @endif
     @if ($label)
@@ -132,7 +131,7 @@
                     </button>
                 </div>
             </template>
-            <ul class="{{ $personalize['box.list.wrapper'] }}" dusk="tallstackui_select_options" role="listbox" x-ref="list" wire:ignore.self>
+            <ul class="{{ $personalize['box.list.wrapper'] }}" dusk="tallstackui_select_options" role="listbox" x-ref="list">
                 @if ($request)
                     <div x-show="loading" class="{{ $personalize['box.list.loading.wrapper'] }}">
                         <x-tallstack-ui::icon.generic.loading class="{{ $personalize['box.list.loading.class'] }}" />
