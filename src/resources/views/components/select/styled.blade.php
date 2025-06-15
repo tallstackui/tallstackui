@@ -28,8 +28,7 @@
      @endif
      x-cloak
      x-on:keydown="navigate($event)"
-     wire:replace
-     wire:ignore>
+     wire:ignore.self>
     <div hidden x-ref="options">{{ TallStackUi::blade()->json($options) }}</div>
     @if ($request['params'] ?? null) <div hidden x-ref="params">{{ TallStackUi::blade()->json($request['params']) }}</div> @endif
     @if ($label)
@@ -60,7 +59,7 @@
                                 }" x-text="placeholder"></span>
                         </div>
                     </div>
-                    <div wire:ignore class="{{ $personalize['items.wrapper'] }}" x-show="multiple && quantity > 0">
+                    <div class="{{ $personalize['items.wrapper'] }}" x-show="multiple && quantity > 0">
                         <template x-for="(select, index) in selects" :key="index">
                             <a class="cursor-pointer">
                                 <div class="{{ $personalize['items.multiple.item'] }}">
@@ -87,7 +86,7 @@
                 </div>
             </div>
             @if (!$disabled)
-                <div class="{{ $personalize['buttons.wrapper'] }}" wire:ignore>
+                <div class="{{ $personalize['buttons.wrapper'] }}">
                     @if (!$required)
                         <template x-if="!empty">
                             <button dusk="tallstackui_select_clear"
@@ -132,7 +131,7 @@
                     </button>
                 </div>
             </template>
-            <ul class="{{ $personalize['box.list.wrapper'] }}" dusk="tallstackui_select_options" role="listbox" x-ref="list" wire:ignore.self>
+            <ul class="{{ $personalize['box.list.wrapper'] }}" dusk="tallstackui_select_options" role="listbox" x-ref="list">
                 @if ($request)
                     <div x-show="loading" class="{{ $personalize['box.list.loading.wrapper'] }}">
                         <x-tallstack-ui::icon.generic.loading class="{{ $personalize['box.list.loading.class'] }}" />
@@ -155,7 +154,7 @@
                             <template x-for="(item, index) in option.value" :key="index">
                                 <li x-on:click="select(item)"
                                     x-on:keypress.enter="select(item)"
-                                    x-bind:class="{'{{ $personalize['box.list.item.selected'] }}': selected(item), '{{ $personalize['box.list.item.disabled'] }}': item.disabled === true}"
+                                    x-bind:class="{'{{ $personalize['box.list.item.disabled'] }}': item.disabled === true}"
                                     role="option"
                                     class="{{ $personalize['box.list.item.wrapper'] }}">
                                     <div class="{{ $personalize['box.list.item.grouped'] }}">
@@ -166,7 +165,7 @@
                                                 <span class="{{ $personalize['box.list.item.description.text'] }}" x-show="item[selectable.description]" x-text="item[selectable.description]"></span>
                                             </div>
                                         </div>
-                                        <div class="{{ $personalize['box.list.item.check'] }}">
+                                        <div>
                                             <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                                                  :icon="TallStackUi::icon('check')"
                                                                  x-show="selected(item)"
@@ -182,7 +181,7 @@
                     <template x-for="(option, index) in available" :key="option.__tsui_key ?? index">
                         <li x-on:click="select(option)"
                             x-on:keypress.enter="select(option)"
-                            x-bind:class="{'{{ $personalize['box.list.item.selected'] }}': selected(option), '{{ $personalize['box.list.item.disabled'] }}': option.disabled === true}"
+                            x-bind:class="{ '{{ $personalize['box.list.item.disabled'] }}': option.disabled === true}"
                             role="option"
                             class="{{ $personalize['box.list.item.wrapper'] }}">
                             <div class="{{ $personalize['box.list.item.options'] }}">
@@ -193,7 +192,7 @@
                                         <span class="{{ $personalize['box.list.item.description.text'] }}" x-show="option[selectable.description]" x-text="option[selectable.description]"></span>
                                     </div>
                                 </div>
-                                <div class="{{ $personalize['box.list.item.check'] }}">
+                                <div>
                                     <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                                          :icon="TallStackUi::icon('check')"
                                                          x-show="selected(option)"
