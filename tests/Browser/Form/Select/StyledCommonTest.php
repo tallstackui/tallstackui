@@ -3,6 +3,7 @@
 namespace Tests\Browser\Form\Select;
 
 use Illuminate\Support\Collection;
+use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\Livewire;
 use PHPUnit\Framework\Attributes\Test;
@@ -436,6 +437,46 @@ class StyledCommonTest extends BrowserTestCase
             ->waitUntilMissingText('bar')
             ->assertDontSee('bar')
             ->assertDontSee('JS');
+    }
+
+    #[Test]
+    public function can_see_validation_errors(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            #[Validate('required')]
+            public ?string $string = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="string">{{ $string }}</p>
+
+                    <x-select.styled wire:model.live="string"
+                                     label="Select"
+                                     hint="Select"
+                                     :options="[
+                                        ['label' => 'foo', 'value' => 'foo'],
+                                        ['label' => 'bar', 'value' => 'bar'],
+                                     ]" />
+                </div>
+                HTML;
+            }
+        })
+            ->assertDontSee('@tallstackui_select_clear')
+            ->assertSee('Select an option')
+            ->assertDontSee('foo')
+            ->assertDontSee('bar')
+            ->click('@tallstackui_select_open_close')
+            ->waitForText(['foo', 'bar'])
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[1]')
+            ->waitForTextIn('@string', 'foo')
+            ->click('@tallstackui_select_open_close')
+            ->waitForText(['foo', 'bar'])
+            ->waitForLivewire()->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[1]')
+            ->click('@tallstackui_select_open_close')
+            ->assertSee('The string field is required.');
     }
 
     #[Test]

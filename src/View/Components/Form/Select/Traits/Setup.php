@@ -3,7 +3,6 @@
 namespace TallStackUi\View\Components\Form\Select\Traits;
 
 use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
 
 trait Setup
 {
@@ -41,7 +40,7 @@ trait Setup
         $descriptions = array_flip(['description', 'note']);
 
         $this->options = collect($this->options)
-            ->map(function (array $option) use (
+            ->map(function (array $option, int $index) use (
                 $label,
                 $value,
                 $image,
@@ -72,7 +71,7 @@ trait Setup
                     $result[$description] = $option[$description] ?? current(array_intersect_key($option, $descriptions)) ?: null;
                 }
 
-                $result['__tsui_key'] = Str::random();
+                $result['__tsui_key'] = $index;
                 $result['disabled'] = $option['disabled'] ?? false;
 
                 return $result;
