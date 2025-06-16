@@ -2,7 +2,7 @@
     $personalize = $classes();
 @endphp
 
-<div x-data="tallstackui_carousel(@js($images), @js($cover), @js($autoplay), @js($interval), @js($withoutLoop))"
+<div x-data="tallstackui_carousel(@js($images), @js($cover), @js($autoplay), @js($interval), @js($withoutLoop), @js($shuffle))"
      {{ $attributes->only(['x-on:next', 'x-on:previous']) }}
      x-ref="carousel">
     @if ($header)

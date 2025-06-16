@@ -1,11 +1,24 @@
-export default (images, cover = 1, autoplay, interval, withoutLoop) => ({
+export default (images, cover = 1, autoplay, interval, withoutLoop, shuffle) => ({
   images: images,
   time: interval,
   current: cover,
   interval: null,
   paused: false,
   init() {
+    if (shuffle) this.shuffle();
     if (autoplay) this.play();
+  },
+  /**
+   * Shuffle the carousel images.
+   *
+   * @returns {void}
+   */
+  shuffle() {
+    for (let i = this.images.length - 1; i > 0; i--) {
+      const number = Math.floor(Math.random() * (i + 1));
+
+      [this.images[i], this.images[number]] = [this.images[number], this.images[i]];
+    }
   },
   /**
    * Start the carousel automation.
