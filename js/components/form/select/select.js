@@ -276,8 +276,8 @@ export default (
     if (this.empty || this.available?.length === 0) return false;
 
     return this.multiple
-        ? this.selects?.some((selected) => JSON.stringify(selected) === JSON.stringify(option))
-        : JSON.stringify(this.selects[0] ?? this.selects) === JSON.stringify(option);
+      ? this.selects?.some((selected) => JSON.stringify(selected) === JSON.stringify(option))
+      : JSON.stringify(this.selects[0] ?? this.selects) === JSON.stringify(option);
   },
   /**
    * Clear the `selected` option or all.
