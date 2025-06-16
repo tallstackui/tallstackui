@@ -273,29 +273,11 @@ export default (
    * @returns {boolean}
    */
   selected(option) {
-    if (!option || this.empty || !this.selects || this.available?.length === 0) return false;
+    if (this.empty || this.available?.length === 0) return false;
 
-    if (this.multiple) {
-      return this.selects.some((selected) => {
-        if (!selected) return false;
-
-        if (this.dimensional) {
-          return this.compare(selected[this.selectable.value], option[this.selectable.value]);
-        }
-
-        return selected.__tsui_key === option.__tsui_key;
-      });
-    }
-
-    const selected = this.selects[0];
-
-    if (!selected) return false;
-
-    if (this.dimensional) {
-      return this.compare(selected[this.selectable.value], option[this.selectable.value]);
-    }
-
-    return selected.__tsui_key === option.__tsui_key;
+    return this.multiple
+        ? this.selects?.some((selected) => JSON.stringify(selected) === JSON.stringify(option))
+        : JSON.stringify(this.selects[0] ?? this.selects) === JSON.stringify(option);
   },
   /**
    * Clear the `selected` option or all.
