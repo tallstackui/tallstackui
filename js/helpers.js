@@ -67,7 +67,7 @@ export const overflow = (status, component = null, skip = false) => {
   if (!has) return;
 
   const last = window.__tsui_elements.length === 1;
-  const same = window.__tsui_elements.some(el => el.type === component);
+  const same = window.__tsui_elements.some((el) => el.type === component);
   const others = window.__tsui_elements.length > 0;
 
   if (last || (!same && !others)) {
