@@ -5,7 +5,7 @@ export default (images, cover = 1, autoplay, interval, withoutLoop, shuffle) => 
   interval: null,
   paused: false,
   init() {
-    if (shuffle) this.shuffleImages();
+    if (shuffle) this.shuffle();
     if (autoplay) this.play();
   },
   /**
@@ -13,11 +13,11 @@ export default (images, cover = 1, autoplay, interval, withoutLoop, shuffle) => 
    *
    * @returns {void}
    */
-  shuffleImages() {
-    // Fisher-Yates shuffle algorithm
+  shuffle() {
     for (let i = this.images.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [this.images[i], this.images[j]] = [this.images[j], this.images[i]];
+      const number = Math.floor(Math.random() * (i + 1));
+
+      [this.images[i], this.images[number]] = [this.images[number], this.images[i]];
     }
   },
   /**
