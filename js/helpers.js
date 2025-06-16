@@ -1,3 +1,8 @@
+// Initialize the UI elements registry if it doesn't exist
+if (!window.__tsui_elements) {
+  window.__tsui_elements = [];
+}
+
 /**
  * @param message {String}
  * @return {void}
@@ -27,39 +32,46 @@ export const event = (name, params = null, prefix = true) => {
  * @param skip {Boolean|Null}
  */
 export const overflow = (status, component = null, skip = false) => {
-  // When true, then we need to preserve the
-  // overflow avoiding to hiding the scrollbar.
   if (skip) return;
 
-  // The strategy here was adopted to prevent the loading component
-  // from removing overflow when used in conjunction with other
-  // components that handle overflow: modal, slide, dialogs.
-  const element = document.querySelector('body');
+  const element = document.body;
   const key = 'data-overflow';
-  const exists = [...element.attributes].some((attr) => attr.name === key);
+  const current = element.getAttribute(key);
+  const has = current !== null;
 
-  if (status && (!exists || element.getAttribute(key) === component)) {
+  const set = () => {
     element.style.setProperty('overflow', 'hidden', 'important');
     element.setAttribute(key, component);
-    // Prevent the scrollbar jump when the scrollbar is visible.
-    if (document.documentElement.scrollHeight > document.documentElement.clientHeight) {
+
+    const scroll = document.documentElement.scrollHeight > document.documentElement.clientHeight;
+
+    if (scroll) {
       element.style.paddingRight = '15px';
     }
-  } else if (!status && exists && element.getAttribute(key) === component) {
-    // Check if there are any other UI elements of the same type still open
-    // If there are, don't remove the overflow style
-    const elements =
-      window.__tsui_elements && window.__tsui_elements.some((item) => item.type === component);
+  };
 
-    if (!elements) {
-      const others = window.__tsui_elements && window.__tsui_elements.length > 0;
+  const reset = () => {
+    element.removeAttribute(key);
+    element.style.removeProperty('overflow');
+    element.style.paddingRight = '';
+  };
 
-      if (!others) {
-        element.removeAttribute(key);
-        element.style.removeProperty('overflow');
-        element.style.paddingRight = '';
-      }
+  if (status) {
+    if (!has || current === component) {
+      set();
     }
+
+    return;
+  }
+
+  if (!has) return;
+
+  const last = window.__tsui_elements.length === 1;
+  const same = window.__tsui_elements.some(el => el.type === component);
+  const others = window.__tsui_elements.length > 0;
+
+  if (last || (!same && !others)) {
+    reset();
   }
 };
 
