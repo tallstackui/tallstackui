@@ -19,8 +19,8 @@ use TallStackUi\View\Components\Floating;
 class Color extends TallStackUiComponent implements Personalization
 {
     public function __construct(
-        public ?string $label = null,
-        public ?string $hint = null,
+        public ComponentSlot|string|null $label = null,
+        public ComponentSlot|string|null $hint = null,
         public ?bool $picker = false,
         public Collection|array|null $colors = null,
         public ?bool $invalidate = null,

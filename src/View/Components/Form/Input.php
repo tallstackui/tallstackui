@@ -20,8 +20,8 @@ class Input extends TallStackUiComponent implements Personalization
     use DefaultInputClasses;
 
     public function __construct(
-        public ?string $label = null,
-        public ?string $hint = null,
+        public ComponentSlot|string|null $label = null,
+        public ComponentSlot|string|null $hint = null,
         public ?string $icon = null,
         public ?bool $clearable = null,
         public ?bool $invalidate = null,

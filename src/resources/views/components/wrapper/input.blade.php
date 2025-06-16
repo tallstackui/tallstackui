@@ -3,7 +3,9 @@
 @endphp
 
 <div>
-    @if ($label)
+    @if ($label instanceof \Illuminate\View\ComponentSlot)
+        {{ $label }}
+    @elseif ($label && is_string($label))
         <x-dynamic-component :component="TallStackUi::prefix('label')" :$id :$label :$error :$invalidate />
     @endif
     <div @if ($attributes->get('floatable', false)) x-ref="anchor" @endif class="{{ $personalize['wrapper'] }}">
