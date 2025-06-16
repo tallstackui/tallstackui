@@ -3,6 +3,7 @@
 namespace TallStackUi\View\Components\Wrapper;
 
 use Illuminate\Contracts\View\View;
+use Illuminate\View\ComponentSlot;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
 use TallStackUi\Foundation\Personalization\Contracts\Personalization;
 use TallStackUi\TallStackUiComponent;
@@ -12,7 +13,7 @@ class Input extends TallStackUiComponent implements Personalization
 {
     public function __construct(
         public ?string $property = null,
-        public ?string $label = null,
+        public ComponentSlot|string|null $label = null,
         public ?string $id = null,
         public ?string $hint = null,
         public ?bool $invalidate = null,

@@ -23,7 +23,7 @@ class Toggle extends TallStackUiComponent implements Personalization
     use Setup;
 
     public function __construct(
-        public string|null|ComponentSlot $label = null,
+        public ComponentSlot|string|null $label = null,
         public ?string $xs = null,
         public ?string $sm = null,
         public ?string $md = null,

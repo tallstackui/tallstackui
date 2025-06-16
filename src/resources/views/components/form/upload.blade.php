@@ -43,6 +43,7 @@
                     <x-dynamic-component :component="TallStackUi::prefix('label')"
                                          :$id
                                          :$label
+                                         x-on:click="$event.preventDefault()"
                                          :error="$errors->has($property)" />
                 @endif
             </x-slot:label>

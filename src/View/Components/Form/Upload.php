@@ -22,8 +22,8 @@ use TallStackUi\View\Components\Floating;
 class Upload extends TallStackUiComponent implements Personalization
 {
     public function __construct(
-        public ?string $label = null,
-        public ?string $hint = null,
+        public ComponentSlot|string|null $label = null,
+        public ComponentSlot|string|null $hint = null,
         public ComponentSlot|string|null $tip = null,
         public ?bool $multiple = false,
         public ?bool $preview = true,

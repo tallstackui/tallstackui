@@ -19,8 +19,8 @@ use TallStackUi\View\Components\Floating;
 class Time extends TallStackUiComponent implements Personalization
 {
     public function __construct(
-        public ?string $label = null,
-        public ?string $hint = null,
+        public ComponentSlot|string|null $label = null,
+        public ComponentSlot|string|null $hint = null,
         public ?bool $invalidate = null,
         public ?bool $helper = null,
         public ?int $minHour = null,

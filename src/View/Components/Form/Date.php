@@ -7,6 +7,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\View\ComponentSlot;
 use InvalidArgumentException;
 use TallStackUi\Foundation\Attributes\PassThroughRuntime;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
@@ -20,8 +21,8 @@ use TallStackUi\View\Components\Floating;
 class Date extends TallStackUiComponent implements Personalization
 {
     public function __construct(
-        public ?string $label = null,
-        public ?string $hint = null,
+        public ComponentSlot|string|null $label = null,
+        public ComponentSlot|string|null $hint = null,
         public ?bool $invalidate = null,
         public ?bool $range = false,
         public ?bool $multiple = false,
