@@ -9,7 +9,7 @@
          x-data="tallstackui_slide(false, @js($configurations['overflow'] ?? false))"
      @endif
      x-show="show"
-     @if (!$configurations['persistent']) x-on:keydown.escape.window="show = false;" @endif
+     @if (!$configurations['persistent']) x-on:keydown.escape.window="top_ui && (show = false)" @endif
      x-on:slide:{{ $open }}.window="show = true;"
      x-on:slide:{{ $close }}.window="show = false;"
      @class(['relative', $configurations['zIndex']])
@@ -48,7 +48,7 @@
                     x-transition:leave-start="@if ($configurations['left']) translate-x-0 @elseif ($configurations['top']) translate-y-0 @elseif ($configurations['bottom']) translate-y-0 @else translate-x-0 @endif"
                     x-transition:leave-end="@if ($configurations['left']) -translate-x-full @elseif ($configurations['top']) -translate-y-full @elseif ($configurations['bottom']) translate-y-full @else translate-x-full @endif"
                      @class(['pointer-events-auto w-screen', $configurations['size'],  'h-full' => !$configurations['top'] || !$configurations['bottom']])
-                     @if (!$configurations['persistent']) x-on:mousedown.away="show = false" @endif>
+                     @if (!$configurations['persistent']) x-on:mousedown.away="top_ui && (show = false)" @endif>
                     <div @class([
                             $personalize['wrapper.fifth'], 
                             $configurations['size'],

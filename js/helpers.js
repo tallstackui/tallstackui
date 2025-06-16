@@ -46,9 +46,20 @@ export const overflow = (status, component = null, skip = false) => {
       element.style.paddingRight = '15px';
     }
   } else if (!status && exists && element.getAttribute(key) === component) {
-    element.removeAttribute(key);
-    element.style.removeProperty('overflow');
-    element.style.paddingRight = '';
+    // Check if there are any other UI elements of the same type still open
+    // If there are, don't remove the overflow style
+    const elements =
+      window.__tsui_elements && window.__tsui_elements.some((item) => item.type === component);
+
+    if (!elements) {
+      const others = window.__tsui_elements && window.__tsui_elements.length > 0;
+
+      if (!others) {
+        element.removeAttribute(key);
+        element.style.removeProperty('overflow');
+        element.style.paddingRight = '';
+      }
+    }
   }
 };
 
@@ -62,4 +73,41 @@ export const wireChange = (change, model) => {
   }
 
   Livewire.find(change.id).call(change.method, model);
+};
+
+/** @returns {string} */
+export const unique = () =>
+  [...crypto.getRandomValues(new Uint8Array(12))]
+    .map((b) => b.toString(36).padStart(2, '0'))
+    .join('')
+    .substring(0, 15);
+
+/**
+ * @param {String} id
+ * @param {String} type
+ */
+export const register_ui_element = (id, type) => {
+  window.__tsui_elements.push({ id, type });
+};
+
+/**
+ * @param {String} id - Unique ID of the element
+ */
+export const unregister_ui_element = (id) => {
+  const index = window.__tsui_elements.findIndex((item) => item.id === id);
+
+  if (index > -1) {
+    window.__tsui_elements.splice(index, 1);
+  }
+};
+
+/**
+ * @param {String} id
+ * @returns {Boolean}
+ */
+export const top_ui_element = (id) => {
+  return (
+    window.__tsui_elements.length > 0 &&
+    window.__tsui_elements[window.__tsui_elements.length - 1].id === id
+  );
 };

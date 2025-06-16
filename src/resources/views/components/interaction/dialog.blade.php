@@ -28,7 +28,7 @@
                  x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
                  x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                  class="{{ $personalize['wrapper.third'] }}"
-                 @if (!$configurations['persistent']) x-on:click.outside="remove(true)" @endif>
+                 @if (!$configurations['persistent']) x-on:click.outside="top_ui && remove(true)" @endif>
                 <div class="{{ $personalize['buttons.close.wrapper'] }}">
                     <button x-on:click="remove()">
                         <x-dynamic-component :component="TallStackUi::prefix('icon')"
