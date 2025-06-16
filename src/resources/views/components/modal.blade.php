@@ -14,7 +14,7 @@
          x-data="tallstackui_modal(false, @js($configurations['overflow'] ?? false))"
      @endif
      x-show="show"
-     @if (!$configurations['persistent']) x-on:keydown.escape.window="show = false;" @endif
+     @if (!$configurations['persistent']) x-on:keydown.escape.window="isTopMost() && (show = false);" @endif
      x-on:modal:{{ $open }}.window="show = true;"
      x-on:modal:{{ $close }}.window="show = false;"
      {{ $attributes->whereStartsWith('x-on:') }}>
@@ -34,7 +34,7 @@
                 $personalize['positions.center'] => $configurations['center'],
             ])>
             <div x-show="show"
-                 @if (!$configurations['persistent']) x-on:mousedown.away="show = false" @endif
+                 @if (!$configurations['persistent']) x-on:mousedown.away="top_ui && (show = false)" @endif
                  x-transition:enter="ease-out duration-300"
                  x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                  x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"

@@ -1,6 +1,14 @@
-import { event, overflow } from '../../../helpers';
+import {
+  event,
+  overflow,
+  unique,
+  top_ui_element,
+  register_ui_element,
+  unregister_ui_element,
+} from '../../../helpers';
 
 export default (flash, texts, overflowing) => ({
+  id: unique(),
   show: false,
   dialog: {},
   text: {
@@ -11,7 +19,11 @@ export default (flash, texts, overflowing) => ({
   init() {
     if (flash) window.onload = () => this.add(flash);
 
-    this.$watch('show', (value) => overflow(value, 'dialog', overflowing));
+    this.$watch('show', (value) => {
+      overflow(value, 'dialog', overflowing);
+
+      value ? register_ui_element(this.id, 'dialog') : unregister_ui_element(this.id);
+    });
   },
   /**
    * Add a new dialog.
@@ -127,5 +139,8 @@ export default (flash, texts, overflowing) => ({
     }, 100);
 
     return this.remove(false, true);
+  },
+  get top_ui() {
+    return top_ui_element(this.id);
   },
 });

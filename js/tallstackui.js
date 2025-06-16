@@ -33,6 +33,10 @@ import toastLoop from './components/interaction/toast/toast-loop';
 import tooltip from './components/tooltip/tooltip';
 import upload from './components/form/upload';
 
+if (!window.__tsui_elements) {
+  window.__tsui_elements = [];
+}
+
 document.addEventListener('alpine:init', () => {
   Alpine.plugin(tooltip);
   Alpine.data('tallstackui_banner', banner);
