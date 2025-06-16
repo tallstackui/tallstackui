@@ -49,8 +49,7 @@ export const overflow = (status, component = null, skip = false) => {
     // Check if there are any other UI elements of the same type still open
     // If there are, don't remove the overflow style
     const elements =
-      window.__tsui_elements &&
-      window.__tsui_elements.some((item) => item.type === component);
+      window.__tsui_elements && window.__tsui_elements.some((item) => item.type === component);
 
     if (!elements) {
       const others = window.__tsui_elements && window.__tsui_elements.length > 0;
@@ -77,8 +76,9 @@ export const wireChange = (change, model) => {
 };
 
 /** @returns {string} */
-export const unique = () => [...crypto.getRandomValues(new Uint8Array(12))]
-    .map(b => b.toString(36).padStart(2, '0'))
+export const unique = () =>
+  [...crypto.getRandomValues(new Uint8Array(12))]
+    .map((b) => b.toString(36).padStart(2, '0'))
     .join('')
     .substring(0, 15);
 
