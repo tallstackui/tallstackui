@@ -54,6 +54,49 @@ class IndexTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_be_opened_using_slide_and_close_the_dialog_instead_of_slide(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            use Interactions;
+
+            public function confirm(): void
+            {
+                $this->dialog()
+                    ->success('Foo bar confirmation', 'Foo bar confirmation description')
+                    ->send();
+            }
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-button dusk="confirm" x-on:click="$slideOpen('dialog')">Open</x-button>
+
+                    <x-slide title="Slide" id="dialog" z-index="z-40">
+                        <x-button dusk="confirming" wire:click="confirm">Click here to confirm</x-button>
+                    </x-slide>
+                </div>
+                HTML;
+            }
+        })
+            ->assertDontSee('Slide')
+            ->assertDontSee('Click here to confirm')
+            ->assertDontSee('Foo bar confirmation')
+            ->click('@confirm')
+            ->waitForText('Slide')
+            ->assertSee('Slide')
+            ->assertSee('Click here to confirm')
+            ->waitForLivewire()->click('@confirming')
+            ->waitForText('Foo bar confirmation')
+            ->assertSee('Foo bar confirmation')
+            ->clickAtPoint(350, 350)
+            ->waitUntilMissingText('Foo bar confirmation')
+            ->assertSee('Slide')
+            ->assertSee('Click here to confirm');
+    }
+
+    #[Test]
     public function can_dispatch_confirmation_dialog_without_livewire_specifing_component_id()
     {
         Livewire::visit(new class extends Component
