@@ -26,6 +26,12 @@ it('can render as tag a')
     ->toContain('<a  href="https://google.com.br"')
     ->toContain('_blank');
 
+it('can render as tag a using raw html')
+    ->expect('<x-button.circle href="https://google.com.br/?foo=bar&baz=bah" target="_blank">Foo bar</x-button.circle>')
+    ->render()
+    ->toContain('<a  href="https://google.com.br/?foo=bar&baz=bah')
+    ->toContain('_blank');
+
 it('can render colored', function (string $colors) {
     $component = <<<HTML
     <x-button.circle text="Foo bar" color="$colors" />
