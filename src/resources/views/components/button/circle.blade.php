@@ -2,7 +2,7 @@
     $personalize = $classes();
 @endphp
 
-<{{ $tag }} @if ($href) href="{{ $href }}" @else role="button" @endif {{ $attributes->except('type')->class([
+<{{ $tag }} @if ($href) href="{!! $href !!}" @else role="button" @endif {{ $attributes->except('type')->class([
         $personalize['wrapper.base'],
         $personalize['wrapper.sizes.' . $size],
         $colors['background']
