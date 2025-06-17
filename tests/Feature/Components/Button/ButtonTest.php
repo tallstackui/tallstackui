@@ -45,6 +45,11 @@ it('can render as tag a')
     ->toContain('<a  href="https://google.com.br"')
     ->not->toContain('<button');
 
+it('can render as tag a using raw html')
+    ->expect('<x-button href="https://google.com.br/?foo=bar&bar=baz" text="Foo bar" round />')->render()
+    ->toContain('<a  href="https://google.com.br/?foo=bar&bar=baz"')
+    ->not->toContain('<button');
+
 it('can render with icon')
     ->expect('<x-button text="Foo bar" icon="users" />')
     ->render()
