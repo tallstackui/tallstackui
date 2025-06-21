@@ -27,7 +27,6 @@ class Layout extends TallStackUiComponent implements Personalization
         return view('tallstack-ui::components.layout.layout');
     }
 
-
     public function personalization(): array
     {
         return Arr::dot([
