@@ -79,8 +79,8 @@ jobs:
       - name: Pint
         run: ./vendor/bin/pint --test
 
-      - name: PHPStan
-        run: ./vendor/bin/phpstan --configuration="phpstan.neon"
+      - name: Type Coverage
+        run: ./vendor/bin/pest --type-coverage
 
       - name: Clear Orchestra Testbench Cache
         run: ./vendor/bin/testbench view:clear

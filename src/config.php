@@ -235,6 +235,8 @@ return [
         | persistent: enables the modal to not be closed by clicking outside by default.
         | size: controls the default modal size (Allowed: sm, md, lg, xl, 2xl, 3xl, 4xl, 5xl, 6xl, 7xl).
         | center: controls if the modal is centered by default.
+        | scrollable: when enabled, fixes the title and footer while allowing only the body content to scroll.
+        | scrollbar: controls the type of scrollbar (Allowed: null, thin, thick),
         */
         'modal' => [
             'z-index' => 'z-50',
@@ -243,6 +245,8 @@ return [
             'persistent' => false,
             'size' => '2xl',
             'center' => false,
+            'scrollable' => false,
+            'scrollbar' => 'thin',
         ],
 
         /*

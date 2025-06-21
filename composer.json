@@ -39,7 +39,6 @@
         "orchestra/testbench": "^8.0|^9.0|^10.0",
         "orchestra/testbench-dusk": "^8.0|^9.0",
         "pestphp/pest-plugin-type-coverage": "^2.2|^3.3",
-        "larastan/larastan": "^2.7",
         "spatie/ray": "^1.41",
         "blade-ui-kit/blade-icons": "^1.7"
     },
@@ -48,13 +47,11 @@
         "bench": "vendor/bin/testbench",
         "type": "./vendor/bin/pest --type-coverage",
         "rector": "php ./vendor/bin/rector process --dry-run --config=rector.php",
-        "analyse": "./vendor/bin/phpstan analyse --memory-limit=2G",
         "test:ci": "CI=true ./vendor/bin/pest",
         "test:browser:setup": "./vendor/bin/dusk-updater detect --auto-update",
         "ci": [
             "Composer\\Config::disableProcessTimeout",
             "./vendor/bin/pint --test",
-            "./vendor/bin/phpstan analyse --memory-limit=2G",
             "./vendor/bin/testbench view:clear",
             "./vendor/bin/pest --filter=Feature --parallel --stop-on-failure",
             "./vendor/bin/testbench view:clear",
@@ -67,7 +64,6 @@
         ],
         "ci:analyse": [
             "./vendor/bin/pint --test",
-            "./vendor/bin/phpstan analyse --memory-limit=2G",
             "composer test:feature"
         ],
         "test:feature": [

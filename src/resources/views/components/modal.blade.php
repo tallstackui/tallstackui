@@ -41,7 +41,7 @@
                  x-transition:leave="ease-in duration-200"
                  x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
                  x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                 @class([$personalize['wrapper.fourth'], $configurations['size']])>
+                 @class([$personalize['wrapper.fourth'], $configurations['size'], $personalize['wrapper.scrollable'] => $configurations['scrollable']])>
                 @if ($title)
                     <div class="{{ $personalize['title.wrapper'] }}">
                         <h3 class="{{ $personalize['title.text'] }}">{{ $title }}</h3>
@@ -53,11 +53,16 @@
                          </button>
                     </div>
                 @endif
-                <div class="{{ $personalize['body'] }}">
+                <div @class([
+                        $personalize['body'],
+                        $personalize['body.scrollable'] => $configurations['scrollable'],
+                        'soft-scrollbar' => $configurations['scrollable'] && $configurations['scrollbar'] === 'thin',
+                        'custom-scrollbar' => $configurations['scrollable'] && $configurations['scrollbar'] === 'thick',
+                    ])>
                     {{ $slot }}
                 </div>
                 @if ($footer)
-                    <div class="{{ $personalize['footer'] }}">
+                    <div @class([$personalize['footer'], $personalize['footer.scrollable'] => $configurations['scrollable']])>
                         {{ $footer }}
                     </div>
                 @endif
