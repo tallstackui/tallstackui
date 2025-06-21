@@ -27,6 +27,7 @@ class Modal extends TallStackUiComponent implements Personalization
         public ?string $entangle = 'modal',
         public ?bool $center = null,
         public ?bool $overflow = null,
+        public ?bool $scrollable = null,
     ) {
         $this->entangle = is_string($this->wire) ? $this->wire : (is_bool($this->wire) ? 'modal' : $this->entangle);
     }
@@ -44,6 +45,7 @@ class Modal extends TallStackUiComponent implements Personalization
                 'second' => 'fixed inset-0 z-50 w-screen overflow-y-auto',
                 'third' => 'mx-auto flex min-h-full w-full transform justify-center p-4',
                 'fourth' => 'dark:bg-dark-700 relative flex w-full transform flex-col rounded-xl bg-white text-left shadow-xl transition-all',
+                'scrollable' => 'max-h-[80vh] flex flex-col',
             ],
             'positions' => [
                 'top' => 'items-end sm:items-start',
@@ -61,7 +63,9 @@ class Modal extends TallStackUiComponent implements Personalization
                 'close' => 'text-secondary-300 h-5 w-5 cursor-pointer',
             ],
             'body' => 'dark:text-dark-300 grow rounded-b-xl py-5 text-gray-700 px-4',
+            'body.scrollable' => 'overflow-y-auto',
             'footer' => 'dark:text-dark-300 dark:border-t-dark-600 flex justify-end gap-2 rounded-b-xl border-t border-t-gray-100 p-4 text-gray-700',
+            'footer.scrollable' => 'sticky bottom-0 z-10 bg-white dark:bg-dark-700',
         ]);
     }
 
