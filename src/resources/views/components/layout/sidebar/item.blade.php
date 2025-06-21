@@ -2,7 +2,7 @@
     $personalize = $classes();
 @endphp
 
-@aware(['smart' => null, 'navigate' => null, 'navigateHover' => null, 'collapsible' => null])
+@aware(['smart' => null, 'navigate' => null, 'navigateHover' => null])
 
 @if ($visible)
     @if ($slot->isNotEmpty())
@@ -18,11 +18,7 @@
                                          internal
                                          class="{{ $personalize['group.icon.base'] }}" />
                 @endif
-                @if ($collapsible)
-                    <span x-show="($store['tsui.side-bar'].open && !$store['tsui.side-bar'].mobile) || $store['tsui.side-bar'].mobile" x-transition class="{{ $personalize['group.text'] }}">{{ $text }}</span>
-                @else
-                    {{ $text }}
-                @endif
+                <span x-show="($store['tsui.side-bar'].open && !$store['tsui.side-bar'].mobile && $store.sidebar?.collapsible) || $store['tsui.side-bar'].mobile || !$store.sidebar?.collapsible" x-transition class="{{ $personalize['group.text'] }}">{{ $text }}</span>
                 <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                      :icon="TallStackUi::icon('chevron-down')"
                                      internal
@@ -40,7 +36,7 @@
                 $personalize['item.state.base'],
                 $personalize['item.state.normal'] => ! $current || (! $smart && ! $matches()),
                 \Illuminate\Support\Arr::toCssClasses(['ts-ui-group-opened', $personalize['item.state.current']]) => $current || ($smart && $matches()),
-            ]) x-bind:class="{'{{ $personalize['item.state.collapsed'] }}' : @js($collapsible) && ! $store['tsui.side-bar'].open && ! $store['tsui.side-bar'].mobile }"
+            ]) x-bind:class="{'{{ $personalize['item.state.collapsed'] }}' : $store.sidebar?.collapsible && ! $store['tsui.side-bar'].open && ! $store['tsui.side-bar'].mobile }"
                 @if ($navigate && ! $href)
                     wire:navigate
                 @elseif ($navigateHover && ! $href)
@@ -55,11 +51,7 @@
                                          internal
                                          class="{{ $personalize['item.icon'] }}" />
                 @endif
-                @if ($collapsible)
-                    <span x-cloak x-show="($store['tsui.side-bar'].open && !$store['tsui.side-bar'].mobile) || $store['tsui.side-bar'].mobile" x-transition class="{{ $personalize['item.text'] }}">{{ $text }}</span>
-                @else
-                    {{ $text }}
-                @endif
+                <span x-cloak x-show="($store['tsui.side-bar'].open && !$store['tsui.side-bar'].mobile && $store.sidebar?.collapsible) || $store['tsui.side-bar'].mobile || !$store.sidebar?.collapsible" x-transition class="{{ $personalize['item.text'] }}">{{ $text }}</span>
             </a>
         </li>
     @endif

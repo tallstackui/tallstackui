@@ -34,6 +34,19 @@ class Header extends TallStackUiComponent implements Personalization
                 'class' => 'md:hidden cursor-pointer',
                 'icon.size' => 'h-6 w-6 text-gray-500 dark:text-white',
             ],
+            'collapse' => [
+                'wrapper' => 'hidden md:flex items-center',
+                'buttons' => [
+                    'expanded' => [
+                        'icon' => 'chevron-left',
+                        'class' => 'w-5 h-5 text-primary-500 dark:text-dark-300 cursor-pointer',
+                    ],
+                    'collapsed' => [
+                        'icon' => 'chevron-right',
+                        'class' => 'w-5 h-5 text-primary-500 dark:text-dark-300 cursor-pointer',
+                    ],
+                ],
+            ],
             'slots' => [
                 'left' => 'flex items-center gap-2',
                 'middle' => 'flex items-center',

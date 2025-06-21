@@ -19,7 +19,6 @@ class SideBar extends TallStackUiComponent implements Personalization
         public ?bool $navigateHover = null,
         public ?bool $thinScroll = null,
         public ?bool $thickScroll = null,
-        public ?bool $collapsible = null,
     ) {
         //
     }
@@ -65,19 +64,6 @@ class SideBar extends TallStackUiComponent implements Personalization
                 'sizes' => [
                     'expanded' => 'w-72',
                     'collapsed' => 'w-22',
-                ],
-                'collapse' => [
-                    'wrapper' => 'absolute top-2 left-5 z-50',
-                    'buttons' => [
-                        'expanded' => [
-                            'icon' => 'chevron-left',
-                            'class' => 'w-5 h-5 text-primary-500 dark:text-dark-300',
-                        ],
-                        'collapsed' => [
-                            'icon' => 'chevron-right',
-                            'class' => 'w-5 h-5 text-primary-500 dark:text-dark-300',
-                        ],
-                    ],
                 ],
             ],
         ]);

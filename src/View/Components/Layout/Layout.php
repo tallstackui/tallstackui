@@ -17,6 +17,7 @@ class Layout extends TallStackUiComponent implements Personalization
         public ComponentSlot|string|null $header = null,
         public ComponentSlot|string|null $menu = null,
         public ComponentSlot|string|null $footer = null,
+        public bool $sidebarCollapsible = true,
     ) {
         //
     }
@@ -25,6 +26,7 @@ class Layout extends TallStackUiComponent implements Personalization
     {
         return view('tallstack-ui::components.layout.layout');
     }
+
 
     public function personalization(): array
     {
