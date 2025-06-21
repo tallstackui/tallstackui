@@ -246,7 +246,7 @@ return [
             'size' => '2xl',
             'center' => false,
             'scrollable' => false,
-            'scrollbar' => null,
+            'scrollbar' => 'thin',
         ],
 
         /*
