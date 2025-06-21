@@ -28,6 +28,18 @@ export default (
       this.$nextTick(() => this.format());
     }
 
+    this.$watch('model', (value) => {
+      if (value === null || value === undefined || value === '') {
+        this.clear();
+
+        return;
+      }
+
+      this.format(value);
+
+      this.sync();
+    });
+
     this.$watch('input', (value) => this.format(value));
   },
   /**

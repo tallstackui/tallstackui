@@ -11,6 +11,39 @@ use Tests\Browser\BrowserTestCase;
 class CurrencyTest extends BrowserTestCase
 {
     #[Test]
+    public function can_bind_and_clear(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $money = '';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="money">{{ $money }}</p>
+                
+                    <x-currency dusk="input" wire:model.live="money" clearable mutate />
+                    
+                    <x-button dusk="sync" wire:click="sync">Reset</x-button>
+                </div>
+                HTML;
+            }
+
+            public function sync(): void
+            {
+                $this->reset('money');
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->typeSlowly('@input', '1000')
+            ->waitForTextIn('@money', '10.00')
+            ->assertSeeIn('@money', '10.00')
+            ->waitForLivewire()->click('@sync')
+            ->assertInputValue('@input', '');
+    }
+
+    #[Test]
     public function can_bind_formatted(): void
     {
         Livewire::visit(new class extends Component
