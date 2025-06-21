@@ -40,8 +40,7 @@
                 $personalize['item.state.normal'] => !$current || (!$smart && !$matches()),
                 \Illuminate\Support\Arr::toCssClasses(['ts-ui-group-opened', $personalize['item.state.current']]) => $current || ($smart && $matches()),
             ]) x-bind:class="{
-                           '{{ $personalize['item.state.collapsed'] }}': $store.sidebar.collapsible && !$store['tsui.side-bar'].open && !$store['tsui.side-bar'].mobile,
-                           'cursor-pointer': @if ($route || $href) true @else false @endif
+                           '{{ $personalize['item.state.collapsed'] }}': $store.sidebar.collapsible && !$store['tsui.side-bar'].open && !$store['tsui.side-bar'].mobile
                        }" x-tooltip-conditional="{{ $text }}"
                 x-tooltip-condition="$store.sidebar.collapsible && !$store['tsui.side-bar'].open && !$store['tsui.side-bar'].mobile"
                 data-position="right" @if ($navigate && !$href) wire:navigate @elseif ($navigateHover && !$href)

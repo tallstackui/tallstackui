@@ -14,7 +14,7 @@ export default function (Alpine) {
   });
 
   /**
-   * Conditional tooltip directive - enables/disables based on condition
+   * Lazy loading conditional tooltip directive with Intersection Observer
    */
   Alpine.directive('tooltip-conditional', (el, { expression }) => {
     const content = expression;
@@ -25,21 +25,15 @@ export default function (Alpine) {
       return;
     }
 
-    // Initialize tippy
-    const tippyInstance = tippy(el, {
-      content: content,
-      placement: el.dataset.position ?? 'top',
-      duration: 0,
-      allowHTML: true,
-    });
-
-    // Get the actual tippy instance
-    const instance = Array.isArray(tippyInstance) ? tippyInstance[0] : tippyInstance;
+    let instance = null;
+    let isInitialized = false;
 
     // Function to evaluate condition and update tooltip
     const updateTooltipState = () => {
       try {
-        // Evaluate the condition expression in Alpine context
+        // Only proceed if tooltip is initialized
+        if (!instance) return;
+
         const shouldShow = Alpine.evaluate(el, condition);
 
         if (shouldShow) {
@@ -52,39 +46,100 @@ export default function (Alpine) {
       }
     };
 
-    // Initial evaluation
-    setTimeout(() => updateTooltipState(), 0);
+    // Initialize tooltip when element becomes visible
+    const initializeTooltip = () => {
+      if (isInitialized) return;
 
-    // Watch for Alpine store changes
-    Alpine.effect(() => {
-      updateTooltipState();
-    });
+      // Create tippy instance
+      const tippyInstance = tippy(el, {
+        content: content,
+        placement: el.dataset.position ?? 'right',
+        duration: 0,
+        allowHTML: true,
+      });
 
-    // Handle Livewire navigation
-    const handleNavigation = () => {
-      setTimeout(() => updateTooltipState(), 100);
-    };
+      // Get the actual tippy instance
+      instance = Array.isArray(tippyInstance) ? tippyInstance[0] : tippyInstance;
+      isInitialized = true;
 
-    document.addEventListener('livewire:navigated', handleNavigation);
+      // Initial state evaluation
+      setTimeout(() => updateTooltipState(), 0);
 
-    // Cleanup on element removal
-    Alpine.mutateDom(() => {
-      const observer = new MutationObserver((mutations) => {
-        mutations.forEach((mutation) => {
-          mutation.removedNodes.forEach((node) => {
-            if (node === el || (node.nodeType === 1 && node.contains(el))) {
-              document.removeEventListener('livewire:navigated', handleNavigation);
-              instance.destroy();
-              observer.disconnect();
-            }
+      // Watch for Alpine store changes
+      Alpine.effect(() => {
+        updateTooltipState();
+      });
+
+      // Handle Livewire navigation
+      const handleNavigation = () => {
+        setTimeout(() => updateTooltipState(), 100);
+      };
+
+      document.addEventListener('livewire:navigated', handleNavigation);
+
+      // Cleanup function
+      const cleanup = () => {
+        if (instance) {
+          document.removeEventListener('livewire:navigated', handleNavigation);
+          instance.destroy();
+          instance = null;
+          isInitialized = false;
+        }
+      };
+
+      // Cleanup on element removal
+      Alpine.mutateDom(() => {
+        const observer = new MutationObserver((mutations) => {
+          mutations.forEach((mutation) => {
+            mutation.removedNodes.forEach((node) => {
+              if (node === el || (node.nodeType === 1 && node.contains(el))) {
+                cleanup();
+                observer.disconnect();
+              }
+            });
           });
         });
-      });
 
-      observer.observe(document.body, {
-        childList: true,
-        subtree: true
+        observer.observe(document.body, {
+          childList: true,
+          subtree: true
+        });
       });
+    };
+
+    // Lazy loading with Intersection Observer
+    const observerCallback = (entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          // Initialize tooltip when element becomes visible
+          initializeTooltip();
+          
+          // Stop observing once initialized
+          observer.unobserve(entry.target);
+        }
+      });
+    };
+
+    // Create intersection observer with optimized options
+    const intersectionObserver = new IntersectionObserver(observerCallback, {
+      threshold: 0.1, // Trigger when 10% of element is visible
+      rootMargin: '50px', // Start loading 50px before element enters viewport
     });
+
+    // Start observing the element
+    intersectionObserver.observe(el);
+
+    // Fallback: Initialize immediately if element is already visible
+    // This handles cases where element is visible on initial page load
+    const rect = el.getBoundingClientRect();
+    const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+    
+    if (isVisible) {
+      // Small delay to ensure Alpine is ready
+      setTimeout(() => {
+        initializeTooltip();
+        intersectionObserver.unobserve(el);
+      }, 50);
+    }
   });
 }
