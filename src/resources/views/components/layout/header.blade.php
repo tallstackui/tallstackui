@@ -11,7 +11,7 @@
 ]) }}>
     @if (!$withoutMobileButton || $left)
         <div class="{{ $personalize['slots.left'] }}" x-data="{}"
-            x-init="$nextTick(() => { collapsible = $store.sidebar?.collapsible || false })">
+            x-init="$nextTick(() => { collapsible = $store.sidebar.collapsible || false })">
             @if (!$withoutMobileButton)
                 <button x-on:click="tallStackUiMenuMobile = !tallStackUiMenuMobile" type="button"
                     class="{{ $personalize['button.class'] }}">
@@ -19,7 +19,7 @@
                         class="{{ $personalize['button.icon.size'] }}" />
                 </button>
             @endif
-            <div class="{{ $personalize['collapse.wrapper'] }}" x-show="$store.sidebar?.collapsible">
+            <div class="{{ $personalize['collapse.wrapper'] }}" x-show="$store.sidebar.collapsible">
                 <button x-on:click="$store['tsui.side-bar'].toggle()" class="cursor-pointer">
                     <x-dynamic-component :component="TallStackUi::prefix('icon')"
                         :icon="TallStackUi::icon($personalize['collapse.buttons.expanded.icon'])" internal

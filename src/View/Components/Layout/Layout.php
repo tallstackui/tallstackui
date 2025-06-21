@@ -17,7 +17,7 @@ class Layout extends TallStackUiComponent implements Personalization
         public ComponentSlot|string|null $header = null,
         public ComponentSlot|string|null $menu = null,
         public ComponentSlot|string|null $footer = null,
-        public bool $sidebarCollapsible = true,
+        public bool $sidebarCollapsible = false,
     ) {
         //
     }

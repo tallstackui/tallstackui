@@ -44,15 +44,15 @@
         </div>
     </div>
 </div>
-<div class="{{ $personalize['desktop.wrapper.first.base'] }}" x-show="$store.sidebar?.collapsible"
-    x-bind:class="{ '{{ $personalize['desktop.wrapper.first.size'] }}' : $store['tsui.side-bar'].open }">
+<div class="{{ $personalize['desktop.wrapper.first.base'] }}"
+    x-bind:class="{ '{{ $personalize['desktop.wrapper.first.size'] }}' : $store['tsui.side-bar'].open && $store.sidebar.collapsible }">
     <div @class([
         $personalize['desktop.wrapper.second'],
         'soft-scrollbar' => $thinScroll,
         'custom-scrollbar' => $thickScroll,
     ]) x-bind:class="{
-            '{{ $personalize['desktop.sizes.expanded'] }}' : $store['tsui.side-bar'].open && $store.sidebar?.collapsible,
-            '{{ $personalize['desktop.sizes.collapsed'] }}' : !$store['tsui.side-bar'].open && $store.sidebar?.collapsible,
+            '{{ $personalize['desktop.sizes.expanded'] }}' : $store['tsui.side-bar'].open && !$store.sidebar.collapsible,
+            '{{ $personalize['desktop.sizes.collapsed'] }}' : !$store['tsui.side-bar'].open && $store.sidebar.collapsible,
         }" x-cloak>
 
         @if ($brand)

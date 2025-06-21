@@ -18,7 +18,7 @@
                                          internal
                                          class="{{ $personalize['group.icon.base'] }}" />
                 @endif
-                <span x-show="($store['tsui.side-bar'].open && !$store['tsui.side-bar'].mobile && $store.sidebar?.collapsible) || $store['tsui.side-bar'].mobile || !$store.sidebar?.collapsible" x-transition class="{{ $personalize['group.text'] }}">{{ $text }}</span>
+                <span x-show="!$store.sidebar.collapsible || $store['tsui.side-bar'].mobile || ($store.sidebar.collapsible && $store['tsui.side-bar'].open)" x-transition class="{{ $personalize['group.text'] }}">{{ $text }}</span>
                 <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                      :icon="TallStackUi::icon('chevron-down')"
                                      internal
@@ -36,7 +36,7 @@
                 $personalize['item.state.base'],
                 $personalize['item.state.normal'] => ! $current || (! $smart && ! $matches()),
                 \Illuminate\Support\Arr::toCssClasses(['ts-ui-group-opened', $personalize['item.state.current']]) => $current || ($smart && $matches()),
-            ]) x-bind:class="{'{{ $personalize['item.state.collapsed'] }}' : $store.sidebar?.collapsible && ! $store['tsui.side-bar'].open && ! $store['tsui.side-bar'].mobile }"
+            ]) x-bind:class="{'{{ $personalize['item.state.collapsed'] }}' : $store.sidebar.collapsible && !$store['tsui.side-bar'].open && !$store['tsui.side-bar'].mobile }"
                 @if ($navigate && ! $href)
                     wire:navigate
                 @elseif ($navigateHover && ! $href)
@@ -51,7 +51,7 @@
                                          internal
                                          class="{{ $personalize['item.icon'] }}" />
                 @endif
-                <span x-cloak x-show="($store['tsui.side-bar'].open && !$store['tsui.side-bar'].mobile && $store.sidebar?.collapsible) || $store['tsui.side-bar'].mobile || !$store.sidebar?.collapsible" x-transition class="{{ $personalize['item.text'] }}">{{ $text }}</span>
+                <span x-cloak x-show="!$store.sidebar.collapsible || $store['tsui.side-bar'].mobile || ($store.sidebar.collapsible && $store['tsui.side-bar'].open)" x-transition class="{{ $personalize['item.text'] }}">{{ $text }}</span>
             </a>
         </li>
     @endif
