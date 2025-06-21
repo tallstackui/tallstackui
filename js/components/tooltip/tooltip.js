@@ -21,7 +21,9 @@ export default function (Alpine) {
     const condition = el.getAttribute('x-tooltip-condition');
 
     if (!condition) {
-      console.warn('x-tooltip-conditional requires x-tooltip-condition attribute');
+      console.warn(
+        'x-tooltip-conditional requires x-tooltip-condition attribute'
+      );
       return;
     }
 
@@ -59,7 +61,9 @@ export default function (Alpine) {
       });
 
       // Get the actual tippy instance
-      instance = Array.isArray(tippyInstance) ? tippyInstance[0] : tippyInstance;
+      instance = Array.isArray(tippyInstance)
+        ? tippyInstance[0]
+        : tippyInstance;
       isInitialized = true;
 
       // Initial state evaluation
@@ -102,18 +106,18 @@ export default function (Alpine) {
 
         observer.observe(document.body, {
           childList: true,
-          subtree: true
+          subtree: true,
         });
       });
     };
 
     // Lazy loading with Intersection Observer
     const observerCallback = (entries, observer) => {
-      entries.forEach(entry => {
+      entries.forEach((entry) => {
         if (entry.isIntersecting) {
           // Initialize tooltip when element becomes visible
           initializeTooltip();
-          
+
           // Stop observing once initialized
           observer.unobserve(entry.target);
         }
@@ -133,7 +137,7 @@ export default function (Alpine) {
     // This handles cases where element is visible on initial page load
     const rect = el.getBoundingClientRect();
     const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
-    
+
     if (isVisible) {
       // Small delay to ensure Alpine is ready
       setTimeout(() => {
