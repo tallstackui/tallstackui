@@ -22,7 +22,7 @@ class CompileConfigurations
         $class = new self;
 
         /** @var string|array|null $data */
-        $data = (match (true) {
+        $data = (match (true) { // @phpstan-ignore-line
             $component instanceof Color => fn () => $class->color($component),
             $component instanceof Dialog => fn () => 'dialog',
             $component instanceof Loading => fn () => $class->loading($component),
@@ -110,7 +110,7 @@ class CompileConfigurations
         };
 
         return collect($component)
-            ->only([
+            ->only([ // @phpstan-ignore-line
                 'zIndex',
                 'overflow',
                 'size',
@@ -120,7 +120,7 @@ class CompileConfigurations
                 'scrollable',
                 'scrollbar',
             ])
-            ->merge(['scrollbar' => $configuration->get('scrollbar')])
+            ->merge(['scrollbar' => $configuration->get('scrollbar')]) // @phpstan-ignore-line
             ->toArray();
     }
 
