@@ -21,9 +21,7 @@ export default function (Alpine) {
     const condition = el.getAttribute('x-tooltip-condition');
 
     if (!condition) {
-      console.warn(
-        'x-tooltip-conditional requires x-tooltip-condition attribute'
-      );
+      console.warn('x-tooltip-conditional requires x-tooltip-condition attribute');
       return;
     }
 
@@ -61,9 +59,7 @@ export default function (Alpine) {
       });
 
       // Get the actual tippy instance
-      instance = Array.isArray(tippyInstance)
-        ? tippyInstance[0]
-        : tippyInstance;
+      instance = Array.isArray(tippyInstance) ? tippyInstance[0] : tippyInstance;
       isInitialized = true;
 
       // Initial state evaluation
