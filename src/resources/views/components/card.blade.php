@@ -42,7 +42,11 @@
                 @endif
             </div>
         @endif
+        @if ($table)
+        <div {{ $attributes->class($personalize['body-table']) }}
+        @else
         <div {{ $attributes->class($personalize['body']) }}
+        @endif
              x-show="!minimize"
              x-transition:enter="transition ease-out duration-100"
              x-transition:enter-start="opacity-0 -translate-y-10"
