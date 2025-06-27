@@ -19,6 +19,7 @@ class Card extends TallStackUiComponent implements Personalization
     public function __construct(
         public ?string $color = null,
         public ?bool $light = null,
+        public ?bool $table = false,
         public ?bool $bordered = null,
         public ?string $minimize = null,
         public ?bool $close = null,
@@ -66,6 +67,7 @@ class Card extends TallStackUiComponent implements Personalization
                 ],
             ],
             'body' => 'text-secondary-700 dark:text-dark-300 grow rounded-b-xl px-4 py-5',
+            'body-table' => 'text-secondary-700 dark:text-dark-300 grow rounded-b-xl',
             'footer' => [
                 'wrapper' => 'text-secondary-700 dark:text-dark-300 dark:border-t-dark-600 rounded-lg rounded-t-none border-t border-t-secondary-200 p-4 px-6',
                 'text' => 'flex items-center justify-end gap-2',
