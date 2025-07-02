@@ -108,7 +108,7 @@ export default (
       // situations where we are binding the same model in live entangle
       if (!value) return this.reset(true);
 
-      if (!value || value === old) return;
+      if (value === old) return;
 
       this.hydrate(value);
     });
@@ -271,9 +271,11 @@ export default (
   selected(option) {
     if (this.empty || this.available?.length === 0) return false;
 
-    return this.multiple
-      ? this.selects?.some((selected) => JSON.stringify(selected) === JSON.stringify(option))
-      : JSON.stringify(this.selects[0] ?? this.selects) === JSON.stringify(option);
+    if (this.multiple) {
+      return this.selects?.some(selected => this.compare(selected, option));
+    }
+
+    return this.compare(this.selects[0] ?? this.selects, option);
   },
   /**
    * Clear the `selected` option or all.
@@ -301,12 +303,11 @@ export default (
       this.selects = this.selects.filter((option) => {
         if (!option || !selected) return true;
 
-        const value = JSON.stringify(this.dimensional ? option[this.selectable.value] : option);
-        const select = JSON.stringify(
-          this.dimensional ? selected[this.selectable.value] : selected
-        );
+        // Use compare method instead of JSON.stringify for better performance
+        const optionValue = this.dimensional ? option[this.selectable.value] : option;
+        const selectedValue = this.dimensional ? selected[this.selectable.value] : selected;
 
-        return value !== select;
+        return !this.compare(optionValue, selectedValue);
       });
 
       this.model = this.dimensional
@@ -484,16 +485,30 @@ export default (
    * @return {boolean}
    */
   compare(model, data) {
-    if (model == null && data == null) return true;
-    if (model == null || data == null) return false;
+    if (model === data || (model == null && data == null)) {
+      return true;
+    }
+
+    if (model == null || data == null) {
+      return false;
+    }
+
+    if (typeof model === typeof data && typeof model !== 'object') {
+      return model === data;
+    }
 
     if (typeof data === 'string') {
       return model.toString() === data;
     }
 
     if (typeof data === 'number') {
-      const numModel = Number(model);
-      return !isNaN(numModel) && numModel === data;
+      if (typeof model !== 'number') {
+        const num = Number(model);
+
+        return !isNaN(num) && num === data;
+      }
+
+      return model === data;
     }
 
     if (typeof data === 'boolean') {
@@ -501,6 +516,20 @@ export default (
     }
 
     if (typeof data === 'object') {
+      if (Array.isArray(data) && Array.isArray(model)) {
+        if (data.length !== model.length) {
+          return false;
+        }
+
+        for (let i = 0; i < data.length; i++) {
+          if (!this.compare(model[i], data[i])) {
+            return false;
+          }
+        }
+
+        return true;
+      }
+
       return JSON.stringify(model) === JSON.stringify(data);
     }
 
@@ -517,16 +546,20 @@ export default (
 
     if (!this._normalize) this._normalize = new Map();
 
-    if (!this._normalize.has(string)) {
-      this._normalize.set(string, string.normalize('NFD').replace(/[\u0300-\u036f]/g, ''));
-
-      if (this._normalize.size > 100) {
-        const firstKey = this._normalize.keys().next().value;
-        this._normalize.delete(firstKey);
-      }
+    if (this._normalize.has(string)) {
+      return this._normalize.get(string);
     }
 
-    return this._normalize.get(string);
+    const normalized = string.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    this._normalize.set(string, normalized);
+
+    if (this._normalize.size > 100) {
+      const key = this._normalize.keys().next().value;
+
+      this._normalize.delete(key);
+    }
+
+    return normalized;
   },
   /**
    * Navigate between select items.
@@ -535,17 +568,23 @@ export default (
    * @return {void}
    */
   navigate(event) {
-    if (!this.show) {
-      if (event.key === 'Tab') return;
+    const key = event.key;
 
-      if (event.key === 'ArrowDown') {
+    if (!this.show) {
+      if (key === 'Tab') {
+        return;
+      }
+
+      if (key === 'ArrowDown') {
         event.preventDefault();
+
         this.show = true;
+
         return;
       }
     }
 
-    if (event.key !== 'ArrowUp' && event.key !== 'ArrowDown' && event.key !== 'Tab') return;
+    if (key !== 'ArrowUp' && key !== 'ArrowDown' && key !== 'Tab') return;
 
     event.preventDefault();
 
@@ -554,13 +593,13 @@ export default (
     const current = this.index ?? -1;
     const max = this.available.length - 1;
 
-    const keys = {
-      ArrowUp: () => (current <= 0 ? max : current - 1),
-      ArrowDown: () => (current >= max ? 0 : current + 1),
-      Tab: () => (current === max ? 0 : current + 1),
-    };
+    let next;
 
-    const next = keys[event.key]();
+    if (key === 'ArrowUp') {
+      next = current <= 0 ? max : current - 1;
+    } else if (key === 'ArrowDown' || key === 'Tab') {
+      next = current >= max ? 0 : current + 1;
+    }
 
     const options = this.$refs.list.querySelectorAll('[role="option"]');
 
@@ -580,13 +619,13 @@ export default (
    * @returns {void}
    */
   load() {
-    if (!this.options || !this.available || this.options.length === this.available.length) return;
+    if (!this.options || !this.available) return;
 
-    const batch = Math.min(this.lazy + this.lazy, this.options.length);
+    const length = this.options.length;
 
-    if (batch > this.lazy) {
-      this.lazy = batch;
-    }
+    if (length <= this.lazy) return;
+
+    this.lazy = Math.min(this.lazy * 2, length);
   },
   /**
    * Set the input value when is not Livewire.
@@ -645,19 +684,24 @@ export default (
     const filter = (option) => {
       if (!option) return false;
 
-      const label = this.normalize(
-        this.dimensional
-          ? option[this.selectable.label]?.toString().toLowerCase() || ''
-          : option.toString().toLowerCase()
-      );
+      if (this.dimensional) {
+        const labelValue = option[this.selectable.label];
+        if (!labelValue) return false;
 
-      const description = option[this.selectable.description]
-        ? this.normalize(option[this.selectable.description].toString().toLowerCase())
-        : null;
+        const label = this.normalize(labelValue.toString().toLowerCase());
 
-      return this.dimensional
-        ? label.indexOf(search) !== -1 || (description && description.indexOf(search) !== -1)
-        : this.normalize(option.toString().toLowerCase()).indexOf(search) !== -1;
+        if (label.indexOf(search) !== -1) return true;
+
+        if (option[this.selectable.description]) {
+          const description = this.normalize(option[this.selectable.description].toString().toLowerCase());
+
+          return description.indexOf(search) !== -1;
+        }
+
+        return false;
+      }
+
+      return this.normalize(option.toString().toLowerCase()).indexOf(search) !== -1;
     };
 
     if (this.common) {
