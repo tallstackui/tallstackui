@@ -40,7 +40,7 @@ class DateRuntime extends AbstractRuntime
             return;
         }
 
-        if (($range || $multiple) && !is_array($value)) {
+        if (($range || $multiple) && ! is_array($value)) {
             __ts_validation_exception($this->component, 'The [value] must be an array when using the [range] or [multiple].');
         }
 
