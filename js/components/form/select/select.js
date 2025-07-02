@@ -272,7 +272,7 @@ export default (
     if (this.empty || this.available?.length === 0) return false;
 
     if (this.multiple) {
-      return this.selects?.some(selected => this.compare(selected, option));
+      return this.selects?.some((selected) => this.compare(selected, option));
     }
 
     return this.compare(this.selects[0] ?? this.selects, option);
@@ -685,15 +685,18 @@ export default (
       if (!option) return false;
 
       if (this.dimensional) {
-        const labelValue = option[this.selectable.label];
-        if (!labelValue) return false;
+        const value = option[this.selectable.label];
 
-        const label = this.normalize(labelValue.toString().toLowerCase());
+        if (!value) return false;
+
+        const label = this.normalize(value.toString().toLowerCase());
 
         if (label.indexOf(search) !== -1) return true;
 
         if (option[this.selectable.description]) {
-          const description = this.normalize(option[this.selectable.description].toString().toLowerCase());
+          const description = this.normalize(
+            option[this.selectable.description].toString().toLowerCase()
+          );
 
           return description.indexOf(search) !== -1;
         }
