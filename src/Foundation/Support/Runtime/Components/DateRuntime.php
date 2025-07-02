@@ -40,15 +40,19 @@ class DateRuntime extends AbstractRuntime
             return;
         }
 
-        if (($range || $multiple) && ! is_array($value)) {
+        if (($range || $multiple) && !is_array($value)) {
             __ts_validation_exception($this->component, 'The [value] must be an array when using the [range] or [multiple].');
         }
 
         if ($range && count($value) === 2) {
-            [$start, $end] = array_map(fn (?string $date) => Carbon::parse($date), $value);
+            [$start, $end] = array_map(function (?string $date) {
+                return $date !== null ? Carbon::parse($date) : null;
+            }, $value);
 
-            if ($start->greaterThan($end)) {
-                __ts_validation_exception($this->component, 'The start date in the [range] must be greater than the second date.');
+            if ($start instanceof Carbon && $end instanceof Carbon) {
+                if ($start->greaterThan($end)) {
+                    __ts_validation_exception($this->component, 'The start date in the [range] must be greater than the second date.');
+                }
             }
         }
     }
