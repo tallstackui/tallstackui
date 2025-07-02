@@ -43,9 +43,9 @@
             </div>
         @endif
         @if ($table)
-        <div {{ $attributes->class($personalize['body-table']) }}
+        <div {{ $attributes->class($personalize['body.table']) }}
         @else
-        <div {{ $attributes->class($personalize['body']) }}
+             <div {{ $attributes->class($personalize['body']) }}
         @endif
              x-show="!minimize"
              x-transition:enter="transition ease-out duration-100"

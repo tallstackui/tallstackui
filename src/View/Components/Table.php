@@ -120,7 +120,7 @@ class Table extends TallStackUiComponent implements Personalization
     {
         return Arr::dot([
             'wrapper' => 'overflow-hidden dark:ring-dark-600 rounded-lg shadow ring-1 ring-gray-300',
-            'wrapper-borderless' => 'overflow-hidden',
+            'wrapper.borderless' => 'overflow-hidden',
             'table' => [
                 'wrapper' => 'relative soft-scrollbar overflow-auto',
                 'base' => 'dark:divide-dark-500/50 min-w-full divide-y divide-gray-200',

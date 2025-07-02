@@ -38,7 +38,7 @@
         </div>
     @endif
     @if ($borderless)
-    <div class="{{ $personalize['wrapper-borderless'] }}">
+    <div class="{{ $personalize['wrapper.borderless'] }}">
     @else
     <div class="{{ $personalize['wrapper'] }}">
     @endif
