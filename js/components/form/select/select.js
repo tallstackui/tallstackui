@@ -108,10 +108,6 @@ export default (
       // situations where we are binding the same model in live entangle
       if (!value) return this.reset(true);
 
-      // This is used to avoid the need of hydrate the selects when
-      // the changes are made internally, such as select options.
-      if (this.internal) return (this.internal = false);
-
       if (!value || value === old) return;
 
       this.hydrate(value);
