@@ -179,8 +179,8 @@
                     </template>
                 @else
                     <template x-for="(option, index) in available" :key="option.__tsui_key ?? index">
-                        <li x-on:click.stop="$nextTick(() => select(option))"
-                            x-on:keypress.enter="$nextTick(() => select(option))"
+                        <li x-on:click.stop="select(option)"
+                            x-on:keypress.enter="select(option)"
                             x-bind:class="{'{{ $personalize['box.list.item.selected'] }}': selects?.includes(option), '{{ $personalize['box.list.item.disabled'] }}': option.disabled === true}"
                             role="option"
                             class="{{ $personalize['box.list.item.wrapper'] }}">
