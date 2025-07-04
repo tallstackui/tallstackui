@@ -58,7 +58,7 @@
             "CI=true ./vendor/bin/pest --filter=Browser"
         ],
         "format": [
-            "./vendor/bin/pint",
+            "./vendor/bin/pint --parallel",
             "npm run lint:fix",
             "npm run format"
         ],

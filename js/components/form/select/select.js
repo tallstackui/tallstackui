@@ -21,7 +21,7 @@ export default (
   show: false,
   model: model,
   request: request,
-  selects: null,
+  selects: [],
   search: '',
   searchable: searchable,
   multiple: multiple,
@@ -217,13 +217,14 @@ export default (
     if (this.selected(option)) {
       this.clear(option);
       this.input = this.model;
+
       return;
     }
 
     if (this.limit !== null && this.multiple && this.quantity >= this.limit) return;
 
     if (this.multiple) {
-      this.selects = !this.empty ? [...this.selects, option] : [option];
+      this.selects = [...this.selects, option];
 
       this.model = this.dimensional
         ? this.selects.map((selected) => selected[this.selectable.value])
@@ -232,9 +233,7 @@ export default (
       this.selects = [option];
 
       this.model = this.dimensional ? option[this.selectable.value] : option;
-
       this.placeholder = this.dimensional ? option[this.selectable.label] || '' : String(option);
-
       this.image = option[this.selectable.image] ?? null;
     }
 
@@ -297,17 +296,17 @@ export default (
     if (selected && this.multiple) {
       if (this.required && this.quantity === 1) {
         this.show = false;
+
         return;
       }
 
       this.selects = this.selects.filter((option) => {
         if (!option || !selected) return true;
 
-        // Use compare method instead of JSON.stringify for better performance
-        const optionValue = this.dimensional ? option[this.selectable.value] : option;
-        const selectedValue = this.dimensional ? selected[this.selectable.value] : selected;
+        const value = this.dimensional ? option[this.selectable.value] : option;
+        const selecting = this.dimensional ? selected[this.selectable.value] : selected;
 
-        return !this.compare(optionValue, selectedValue);
+        return !this.compare(value, selecting);
       });
 
       this.model = this.dimensional
