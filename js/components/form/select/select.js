@@ -21,7 +21,7 @@ export default (
   show: false,
   model: model,
   request: request,
-  selects: null,
+  selects: [],
   search: '',
   searchable: searchable,
   multiple: multiple,
