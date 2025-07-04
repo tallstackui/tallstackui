@@ -154,7 +154,7 @@
                             <template x-for="(item, index) in option.value" :key="index">
                                 <li x-on:click="select(item)"
                                     x-on:keypress.enter="select(item)"
-                                    x-bind:class="{'{{ $personalize['box.list.item.selected'] }}': selected(item), '{{ $personalize['box.list.item.disabled'] }}': item.disabled === true}"
+                                    x-bind:class="{'{{ $personalize['box.list.item.selected'] }}': selects?.include(item), '{{ $personalize['box.list.item.disabled'] }}': item.disabled === true}"
                                     role="option"
                                     class="{{ $personalize['box.list.item.wrapper'] }}">
                                     <div class="{{ $personalize['box.list.item.grouped'] }}">
@@ -168,7 +168,7 @@
                                         <div class="{{ $personalize['box.list.item.check'] }}">
                                             <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                                                  :icon="TallStackUi::icon('check')"
-                                                                 x-show="selected(item)"
+                                                                 x-show="selects?.include(item)"
                                                                  internal
                                                                  class="{{ $personalize['box.list.item.check'] }}" />
                                         </div>
@@ -179,9 +179,9 @@
                     </template>
                 @else
                     <template x-for="(option, index) in available" :key="option.__tsui_key ?? index">
-                        <li x-on:click="select(option)"
-                            x-on:keypress.enter="select(option)"
-                            x-bind:class="{'{{ $personalize['box.list.item.selected'] }}': selected(option), '{{ $personalize['box.list.item.disabled'] }}': option.disabled === true}"
+                        <li x-on:click.stop="$nextTick(() => select(option))"
+                            x-on:keypress.enter="$nextTick(() => select(option))"
+                            x-bind:class="{'{{ $personalize['box.list.item.selected'] }}': selects?.includes(option), '{{ $personalize['box.list.item.disabled'] }}': option.disabled === true}"
                             role="option"
                             class="{{ $personalize['box.list.item.wrapper'] }}">
                             <div class="{{ $personalize['box.list.item.options'] }}">
@@ -195,7 +195,7 @@
                                 <div class="{{ $personalize['box.list.item.check'] }}">
                                     <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                                          :icon="TallStackUi::icon('check')"
-                                                         x-show="selected(option)"
+                                                         x-show="selects?.includes(option)"
                                                          internal
                                                          class="{{ $personalize['box.list.item.check'] }}" />
                                 </div>
