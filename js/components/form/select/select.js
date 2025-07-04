@@ -214,7 +214,7 @@ export default (
 
     this.internal = true;
 
-    if (!this.empty && this.available?.length > 0 && this.selects?.includes(option)) {
+    if (this.selected(option)) {
       this.clear(option);
       this.input = this.model;
 
@@ -260,6 +260,21 @@ export default (
     if (change) {
       wireChange(change, this.model);
     }
+  },
+  /**
+   * Check if the `option` is selected.
+   *
+   * @param option {Object|String|Number}
+   * @returns {boolean}
+   */
+  selected(option) {
+    if (this.empty || this.available?.length === 0) return false;
+
+    if (this.multiple) {
+      return this.selects?.some((selected) => this.compare(selected, option));
+    }
+
+    return this.compare(this.selects[0] ?? this.selects, option);
   },
   /**
    * Clear the `selected` option or all.
