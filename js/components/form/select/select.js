@@ -273,7 +273,9 @@ export default (
     this.internal = true;
 
     if (button) {
-      this.$nextTick(() => button.dispatchEvent(new CustomEvent('remove', { detail: { select: selected } })));
+      this.$nextTick(() =>
+        button.dispatchEvent(new CustomEvent('remove', { detail: { select: selected } }))
+      );
     }
 
     if (selected && this.multiple) {
