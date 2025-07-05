@@ -104,10 +104,6 @@ export default (
     // linked with `model` for situations where changes were made
     // out of the component to the variable that is linked to the `model`
     this.$watch('model', (value, old) => {
-      // When the value is null we clear the select. This is necessary due
-      // situations where we are binding the same model in live entangle
-      if (!value) return this.reset(true);
-
       if (value === old) return;
 
       this.hydrate(value);
@@ -143,10 +139,6 @@ export default (
     // linked with `model` for situations where changes were made
     // out of the component to the variable that is linked to the `model`
     this.$watch('model', async (value, old) => {
-      // When the value is null we clear the select. This is necessary due
-      // situations where we are binding the same model in live entangle
-      if (!value) return this.reset(true);
-
       // When the change was not internal and the model was different
       // from the old one, the component could probably be used in a
       // loop, so we make the request to hydrate the selected model.
@@ -337,6 +329,8 @@ export default (
    * @returns {void}
    */
   reset(ignore = false) {
+    console.log('asd')
+
     this.internal = true;
 
     this.input = null;
@@ -405,7 +399,9 @@ export default (
    * @returns {void}
    */
   hydrate(value = null) {
+    console.log(123);
     this.model = value ?? this.model;
+
 
     if (this.model == null) {
       this.selects = [];
