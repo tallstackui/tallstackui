@@ -329,8 +329,6 @@ export default (
    * @returns {void}
    */
   reset(ignore = false) {
-    console.log('asd');
-
     this.internal = true;
 
     this.input = null;
@@ -399,7 +397,6 @@ export default (
    * @returns {void}
    */
   hydrate(value = null) {
-    console.log(123);
     this.model = value ?? this.model;
 
     if (this.model == null) {
