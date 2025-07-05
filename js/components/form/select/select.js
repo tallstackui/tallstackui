@@ -329,7 +329,7 @@ export default (
    * @returns {void}
    */
   reset(ignore = false) {
-    console.log('asd')
+    console.log('asd');
 
     this.internal = true;
 
@@ -401,7 +401,6 @@ export default (
   hydrate(value = null) {
     console.log(123);
     this.model = value ?? this.model;
-
 
     if (this.model == null) {
       this.selects = [];
