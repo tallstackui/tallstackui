@@ -2,7 +2,7 @@
     $personalize = $classes();
 @endphp
 
-<div x-data="tallstackui_clipboard(@js($sentence), @js($hash), @js($type), @js($placeholders['button']))" {!! $attributes->except('x-on:copy') !!}>
+<div x-data="tallstackui_clipboard(@js($sentence), @js($hash), @js($type), @js($placeholders['button']))" {!! $attributes->except('x-on:copy') !!} wire:ignore>
     @if ($type === 'input' && $label)
         <x-dynamic-component :component="TallStackUi::prefix('label')" :$label />
     @endif
