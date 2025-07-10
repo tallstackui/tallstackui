@@ -2,11 +2,11 @@
     $personalize = $classes();
 @endphp
 
-<div x-data="tallstackui_clipboard(@js($sentence), @js($hash), @js($type), @js($placeholders['button']))" {!! $attributes->except('x-on:copy') !!} wire:ignore>
+<div x-data="tallstackui_clipboard(@js($sentence), @js($hash), @js($type), @js($placeholders['button']))" {!! $attributes->except('x-on:copy') !!}>
     @if ($type === 'input' && $label)
         <x-dynamic-component :component="TallStackUi::prefix('label')" :$label />
     @endif
-    <div class="mt-1 flex">
+    <div class="mt-1 flex" wire:key="{{ uniqid() }}" wire:ignore.self>
         @if ($type === 'input')
             @if ($left)
                 <button data-hash="{{ $hash }}"

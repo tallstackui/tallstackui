@@ -115,4 +115,31 @@ class IndexTest extends BrowserTestCase
             ->waitForTextIn('@copied', 'c4ca4238a0b923820dcc509a6f75849b')
             ->assertSeeIn('@copied', 'c4ca4238a0b923820dcc509a6f75849b');
     }
+
+    #[Test]
+    public function changing_value_externally_continue_providing_ability_to_copy(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public string $name = 'AJ';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-clipboard label="Your API" :text="$name" />
+                    
+                    <button dusk="change" wire:click="$set('name', 'FooBarBazBah')">Change</button>
+                    
+                    <input dusk="paste">
+                </div>
+            HTML;
+            }
+        })
+            ->assertSee('Your API')
+            ->waitForLivewire()->click('@change')
+            ->click('@tallstackui_clipboard_input_copy')
+            ->keys('@paste', [OperatingSystem::onMac() ? WebDriverKeys::COMMAND : WebDriverKeys::CONTROL, 'v'])
+            ->assertInputValue('@paste', 'FooBarBazBah');
+    }
 }
