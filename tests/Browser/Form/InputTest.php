@@ -149,4 +149,52 @@ class InputTest extends BrowserTestCase
             ->waitUntilMissingText('Foo bar baz')
             ->assertDontSee('The name field is required.');
     }
+
+    #[Test]
+    public function can_strip_leading_zeros(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $number = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="number">{{ $number }}</p>
+                
+                    <x-input dusk="input" wire:model.live="number" :strip-leading-zeros="true" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->type('@input', '00123')
+            ->waitForLivewire()
+            ->assertSeeIn('@number', '123');
+    }
+
+    #[Test]
+    public function can_preserve_single_zero(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $number = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="number">{{ $number }}</p>
+                
+                    <x-input dusk="input" wire:model.live="number" :strip-leading-zeros="true" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->type('@input', '0')
+            ->waitForLivewire()
+            ->assertSeeIn('@number', '0');
+    }
 }
