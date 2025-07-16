@@ -48,7 +48,7 @@ class InputTest extends BrowserTestCase
                 <div>
                     <p dusk="number">{{ $number }}</p>
                 
-                    <x-input dusk="input" wire:model.live="number" :strip-leading-zeros="true" />
+                    <x-input dusk="input" wire:model.live="number" strip-leading-zeros />
                 </div>
                 HTML;
             }
