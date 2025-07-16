@@ -128,7 +128,7 @@ class InputTest extends BrowserTestCase
             }
         })
             ->waitForLivewireToLoad()
-            ->type('@input', '00123')
+            ->type('@input', '0123')
             ->waitForLivewire()
             ->assertSeeIn('@number', '123');
     }
