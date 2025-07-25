@@ -48,6 +48,7 @@ class Button extends TallStackUiComponent implements Personalization
         public ?string $left = null,
         #[SkipDebug]
         public ?string $right = null,
+        public ?string $tooltip = null,
     ) {
         //
     }
