@@ -149,4 +149,104 @@ class InputTest extends BrowserTestCase
             ->waitUntilMissingText('Foo bar baz')
             ->assertDontSee('The name field is required.');
     }
+
+    #[Test]
+    public function can_strip_leading_zeros_from_text_input(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $value = '';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="value">{{ $value }}</p>
+                
+                    <x-input dusk="input" type="text" wire:model.live="value" strip-leading-zeros />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->type('@input', '0001')
+            ->waitForLivewire()
+            ->assertInputValue('@input', '1')
+            ->assertSeeIn('@value', '1');
+    }
+
+    #[Test]
+    public function can_strip_leading_zeros_from_number_input(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $value = '';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="value">{{ $value }}</p>
+                
+                    <x-input dusk="input" type="number" wire:model.live="value" strip-leading-zeros />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->type('@input', '0001')
+            ->waitForLivewire()
+            ->assertInputValue('@input', '1')
+            ->assertSeeIn('@value', '1');
+    }
+
+    #[Test]
+    public function can_preserve_single_zero_with_strip_leading_zeros(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $value = '';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="value">{{ $value }}</p>
+                
+                    <x-input dusk="input" type="text" wire:model.live="value" strip-leading-zeros />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->type('@input', '0')
+            ->waitForLivewire()
+            ->assertInputValue('@input', '0')
+            ->assertSeeIn('@value', '0');
+    }
+
+    #[Test]
+    public function can_handle_decimal_values_with_strip_leading_zeros(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $value = '';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="value">{{ $value }}</p>
+                
+                    <x-input dusk="input" type="text" wire:model.live="value" strip-leading-zeros />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->type('@input', '0001.50')
+            ->waitForLivewire()
+            ->assertInputValue('@input', '1.50')
+            ->assertSeeIn('@value', '1.50');
+    }
 }

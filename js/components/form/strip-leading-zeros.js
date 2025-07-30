@@ -1,24 +1,61 @@
 export default (property) => ({
   init() {
-    this.$refs[property].addEventListener('input', (event) => {
-      this.stripLeadingZeros(event);
-    });
+    this.$refs[property].addEventListener('input', this.handleInput.bind(this));
   },
-  stripLeadingZeros(event) {
+
+  handleInput(event) {
     const input = event.target;
-    const value = input.value;
+    const { value, type: inputType } = input;
 
-    if (value.length > 1 && value.startsWith('0') && /^\d+$/.test(value)) {
+    if (!this.shouldProcessValue(value)) {
+      return;
+    }
+
+    const strippedValue = this.stripZeros(value);
+    
+    if (inputType === 'number') {
+      this.updateNumberInput(input, strippedValue);
+    } else {
+      this.updateTextInput(input, value, strippedValue);
+    }
+  },
+
+  shouldProcessValue(value) {
+    return value && value.startsWith('0') && value.length > 1;
+  },
+
+  stripZeros(value) {
+    return value.replace(/^0+/, '') || '0';
+  },
+
+  updateNumberInput(input, strippedValue) {
+    if (/^0+\d/.test(input.value)) {
+      this.setValue(input, strippedValue);
+    }
+  },
+
+  updateTextInput(input, originalValue, strippedValue) {
+    if (/^\d+$/.test(originalValue)) {
       const cursorPosition = input.selectionStart;
-      const strippedValue = value.replace(/^0+/, '') || '0';
-      const removedZeros = value.length - strippedValue.length;
+      const removedZeros = originalValue.length - strippedValue.length;
+      
+      this.setValue(input, strippedValue);
+      this.setCursorPosition(input, cursorPosition - removedZeros);
+    }
+  },
 
-      input.value = strippedValue;
+  setValue(input, value) {
+    input.value = value;
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+  },
 
-      const newCursorPosition = Math.max(0, cursorPosition - removedZeros);
-      input.setSelectionRange(newCursorPosition, newCursorPosition);
-
-      input.dispatchEvent(new Event('input', { bubbles: true }));
+  setCursorPosition(input, position) {
+    const newPosition = Math.max(0, position);
+    
+    try {
+      input.setSelectionRange(newPosition, newPosition);
+    } catch (error) {
+      // Browser doesn't support setSelectionRange
     }
   },
 });
