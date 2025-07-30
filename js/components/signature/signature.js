@@ -11,11 +11,6 @@ export default (model, color, background, line, height, jpeg) => ({
   line: line,
   height: height,
   initialized: false,
-
-  /**
-   * Initialize the signature component
-   * Sets up canvas context, event listeners, and initializes the drawing state
-   */
   init() {
     this.canvas = this.$refs.canvas;
     this.context = this.canvas.getContext('2d', { willReadFrequently: true });
@@ -79,7 +74,7 @@ export default (model, color, background, line, height, jpeg) => ({
 
     this.canvas.width = this.$refs.canvas.parentElement.clientWidth;
     this.canvas.height = this.height;
-    this.setBackground();
+    this.backgroundColor();
     this.saveState();
   },
 
@@ -92,44 +87,46 @@ export default (model, color, background, line, height, jpeg) => ({
       this.setupCanvas();
     }
   },
-
   /**
-   * Clear the canvas and reset drawing state
-   * Resets the model value and saves the cleared state
+   * Clean the drawing on the canvas.
+   *
+   * @return {void}
    */
   clear() {
     if (!this.initialized || !this.isVisible()) return;
 
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    this.setBackground();
+    this.backgroundColor();
     this.saveState();
     this.model = null;
   },
-
   /**
-   * Start drawing operation
-   * @param {Event} event - Mouse or touch event
+   * Start drawing on the canvas.
+   *
+   * @param {Event} event
+   * @return {void}
    */
   start(event) {
     if (!this.initialized || !this.isVisible()) return;
 
     event.preventDefault();
     this.drawing = true;
-    const { offsetX, offsetY } = this.getCoordinates(event);
+    const { offsetX, offsetY } = this.coordinates(event);
     this.lastX = offsetX;
     this.lastY = offsetY;
     this.draw(event);
   },
-
   /**
-   * Handle drawing movement
-   * @param {Event} event - Mouse or touch move event
+   * Draws on the canvas.
+   *
+   * @param {Event} event
+   * @return {void}
    */
   draw(event) {
     if (!this.drawing || !this.initialized) return;
 
     event.preventDefault();
-    const { offsetX, offsetY } = this.getCoordinates(event);
+    const { offsetX, offsetY } = this.coordinates(event);
     const distance = Math.sqrt(
       Math.pow(offsetX - this.lastX, 2) + Math.pow(offsetY - this.lastY, 2)
     );
@@ -138,29 +135,31 @@ export default (model, color, background, line, height, jpeg) => ({
     for (let i = 0; i < distance; i += this.line / 3) {
       const x = this.lastX + Math.cos(angle) * i;
       const y = this.lastY + Math.sin(angle) * i;
-      this.drawDot(x, y);
+      this.dots(x, y);
     }
 
     this.lastX = offsetX;
     this.lastY = offsetY;
   },
-
   /**
-   * Draw a single dot at specified coordinates
-   * @param {number} x - X coordinate
-   * @param {number} y - Y coordinate
+   * Draws dots on the canvas.
+   *
+   * @param {Number} x
+   * @param {Number} y
+   * @return {void}
    */
-  drawDot(x, y) {
+  dots(x, y) {
     this.context.beginPath();
     this.context.arc(x, y, this.line / 2, 0, Math.PI * 2);
     this.context.fillStyle = this.color;
     this.context.fill();
     this.context.closePath();
   },
-
   /**
-   * Stop drawing operation
-   * @param {Event} event - Mouse or touch event
+   * Stops drawing on the canvas
+   *
+   * @param {Event} event
+   * @return {void}
    */
   stop(event) {
     if (!this.drawing || !this.initialized) return;
@@ -169,10 +168,10 @@ export default (model, color, background, line, height, jpeg) => ({
     this.drawing = false;
     this.saveState();
   },
-
   /**
-   * Undo the last drawing action
-   * Restores the previous canvas state from undo stack
+   * Undoes the last action.
+   *
+   * @return {void}
    */
   undo() {
     if (!this.initialized || this.stacks.undo.length === 0) return;
@@ -186,10 +185,10 @@ export default (model, color, background, line, height, jpeg) => ({
       this.clear();
     }
   },
-
   /**
-   * Redo the last undone action
-   * Restores canvas state from redo stack
+   * Redoes the last undone action/
+   *
+   * @return {void}
    */
   redo() {
     if (!this.initialized || this.stacks.redo.length === 0) return;
@@ -219,7 +218,7 @@ export default (model, color, background, line, height, jpeg) => ({
    */
   updateModel() {
     if (this.initialized && this.isVisible()) {
-      this.model = this.canvas.toDataURL(`image/${this.getExtension()}`);
+      this.model = this.canvas.toDataURL(`image/${this.extension()}`);
     }
   },
 
@@ -239,29 +238,29 @@ export default (model, color, background, line, height, jpeg) => ({
       console.warn('Failed to save canvas state');
     }
   },
-
   /**
-   * Download the signature as an image file
-   * Creates a download link and triggers the download
+   * Download the canvas as an image.
+   *
+   * @return {void}
    */
   download() {
     if (!this.initialized) return;
 
-    const url = this.canvas.toDataURL(`image/${this.getExtension()}`);
+    const url = this.canvas.toDataURL(`image/${this.extension()}`);
     const link = document.createElement('a');
     link.href = url;
-    link.download = `signature.${this.getExtension()}`;
+    link.download = `signature.${this.extension()}`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
     this.$el.dispatchEvent(new CustomEvent('export', { detail: { signature: url } }));
   },
-
   /**
-   * Set the canvas background color
-   * Handles transparent background for JPEG format
+   * Updates the background color of the canvas.
+   *
+   * @return {void}
    */
-  setBackground() {
+  backgroundColor() {
     if (!this.initialized) return;
 
     let bgColor = this.background;
@@ -271,13 +270,13 @@ export default (model, color, background, line, height, jpeg) => ({
     this.context.fillStyle = bgColor;
     this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
   },
-
   /**
-   * Get normalized coordinates from mouse or touch event
-   * @param {Event} event - Mouse or touch event
-   * @returns {Object} Object with offsetX and offsetY properties
+   * Gets the event (mouse or touch) coordinates on the canvas
+   *
+   * @param event
+   * @returns {{offsetX: number, offsetY: number}}
    */
-  getCoordinates(event) {
+  coordinates(event) {
     const rect = this.canvas.getBoundingClientRect();
 
     if (event.touches && event.touches.length > 0) {
@@ -293,12 +292,12 @@ export default (model, color, background, line, height, jpeg) => ({
       offsetY: (event.clientY - rect.top) * (this.canvas.height / rect.height),
     };
   },
-
   /**
-   * Get file extension based on JPEG setting
-   * @returns {string} File extension ('jpeg' or 'png')
+   * Gets the extension of the image.
+   *
+   * @returns {String}
    */
-  getExtension() {
+  get extension() {
     return jpeg ? 'jpeg' : 'png';
   },
 });
