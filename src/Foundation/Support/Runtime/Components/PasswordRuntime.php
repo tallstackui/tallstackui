@@ -17,7 +17,9 @@ class PasswordRuntime extends AbstractRuntime
                 'x-circle' => TallStackUi::icon('x-circle'),
                 'check-circle' => TallStackUi::icon('check-circle'),
             ],
-            'password' => $this->data('simple') ? [] : [
+            'password' => $this->data('simple') ? [
+                'x-model.debounce' => 'input',
+            ] : [
                 'x-on:click' => 'rules = true',
                 'x-model.debounce' => 'input',
             ],
