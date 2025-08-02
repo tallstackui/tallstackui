@@ -36,22 +36,22 @@ it('can render with icon', function (string $position) {
         ->toContain($position);
 })->with(['left', 'right']);
 
-it('can render with strip-leading-zeros')
-    ->expect('<x-input strip-leading-zeros />')
+it('can render with strip-zeros')
+    ->expect('<x-input strip-zeros />')
     ->render()
     ->toContain('<input')
-    ->toContain('x-data="tallstackui_formStripLeadingZeros');
+    ->toContain('x-data="tallstackui_formInputStripZeros');
 
-it('can render with strip-leading-zeros and type number')
-    ->expect('<x-input type="number" strip-leading-zeros />')
+it('can render with strip-zeros and type number')
+    ->expect('<x-input type="number" strip-zeros />')
     ->render()
     ->toContain('<input')
     ->toContain('type="number"')
-    ->toContain('x-data="tallstackui_formStripLeadingZeros');
+    ->toContain('x-data="tallstackui_formInputStripZeros');
 
-it('can render with strip-leading-zeros and initial value')
-    ->expect('<x-input strip-leading-zeros value="0001" />')
+it('can render with strip-zeros and initial value')
+    ->expect('<x-input strip-zeros value="0001" />')
     ->render()
     ->toContain('<input')
     ->toContain('value="0001"')
-    ->toContain('x-data="tallstackui_formStripLeadingZeros');
+    ->toContain('x-data="tallstackui_formInputStripZeros');
