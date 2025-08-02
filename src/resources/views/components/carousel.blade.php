@@ -36,7 +36,7 @@
         ])>
             <template x-for="(image, index) in images" :key="index">
                 <div x-show="current == index + 1" class="{{ $personalize['images.wrapper.first'] }}" x-transition.opacity.duration.1000ms>
-                    <a x-bind:href="image.url ?? '#'" x-bind:target="image.target">
+                    <a x-bind:href="image.url ?? null" x-bind:target="image.target">
                         <template x-if="image.title">
                             <div @class([$personalize['images.wrapper.second'], 'rounded-xl' => $round])>
                                 <h3 class="{{ $personalize['images.content.title'] }}" x-text="image.title"></h3>
