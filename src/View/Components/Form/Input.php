@@ -25,13 +25,13 @@ class Input extends TallStackUiComponent implements Personalization
         public ?string $icon = null,
         public ?bool $clearable = null,
         public ?bool $invalidate = null,
+        public ?bool $stripZeros = null,
         #[SkipDebug]
         public ?string $position = 'left',
         #[SkipDebug]
         public ComponentSlot|string|null $prefix = null,
         #[SkipDebug]
         public ComponentSlot|string|null $suffix = null,
-        public ?bool $stripLeadingZeros = null,
     ) {
         $this->position = $this->position === 'left' ? 'left' : 'right';
     }
