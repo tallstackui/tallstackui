@@ -114,7 +114,7 @@ export default (model, rules, typingOnly) => ({
         .join('');
     }
 
-    this.input = this.model = password;
+    this.password = password;
 
     this.$el.dispatchEvent(new CustomEvent('generate', { detail: { password: password } }));
 
@@ -129,13 +129,15 @@ export default (model, rules, typingOnly) => ({
   paste(event) {
     event.preventDefault();
 
-    const data = event.clipboardData.getData('text');
+    const data = event.clipboardData?.getData('text') ?? null;
 
     if (!data || this.typingOnly) {
       return;
     }
 
-    this.input = this.model = data;
+    this.password = data;
+
+    this.$el.dispatchEvent(new CustomEvent('paste', { detail: { password: data } }));
   },
   /**
    * Activate the capslock indicator.
@@ -147,5 +149,8 @@ export default (model, rules, typingOnly) => ({
     if (typeof event.getModifierState !== 'function') return;
 
     this.caps = event.getModifierState('CapsLock');
+  },
+  set password(value) {
+    this.input = this.model = value;
   },
 });

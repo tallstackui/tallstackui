@@ -8,7 +8,7 @@
         $colors['background'],
         $personalize['wrapper.border.radius.rounded'] => !$square && !$round,
         $personalize['wrapper.border.radius.circle'] => !$square && $round !== null,
-    ]) }} type="{{ $attributes->get('type', $submit ? 'submit' : 'button') }}" @if ($livewire && $loading) wire:loading.attr="disabled" wire:loading.class="!cursor-wait" @endif>
+    ]) }} type="{{ $attributes->get('type', $submit ? 'submit' : 'button') }}" @if ($livewire && $loading) wire:loading.attr="disabled" wire:loading.class="!cursor-wait" @endif @if ($tooltip) x-tooltip="{{ $tooltip }}" @endif>
     @if ($livewire && $loading && $position === 'left')
         <x-tallstack-ui::icon.generic.loading-button :$loading :$delay @class([
                 'animate-spin',

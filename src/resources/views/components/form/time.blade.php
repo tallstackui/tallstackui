@@ -14,7 +14,7 @@
     @js($livewire),
     @js($property),
     @js($attributes->get('value')),
-    @js($attributes->only(['disabled', 'readonly'])->all()),
+    @js($attributes->only(['disabled', 'readonly'])->getAttributes()),
     @js($change))"
     x-cloak x-on:click.outside="show = false">
     <x-dynamic-component :component="TallStackUi::prefix('input')"
