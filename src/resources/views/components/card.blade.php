@@ -42,7 +42,7 @@
                 @endif
             </div>
         @elseif ($header instanceof \Illuminate\View\ComponentSlot)
-            <div class="{{ $personalize['header.wrapper.border'] }}">
+            <div @class([$personalize['header.wrapper.border'], $colors['background']])>
                 {{ $header }}
             </div>
         @endif

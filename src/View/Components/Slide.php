@@ -4,6 +4,7 @@ namespace TallStackUi\View\Components;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
+use Illuminate\View\ComponentSlot;
 use InvalidArgumentException;
 use TallStackUi\Foundation\Attributes\PassThroughRuntime;
 use TallStackUi\Foundation\Attributes\SoftPersonalization;
@@ -19,8 +20,8 @@ class Slide extends TallStackUiComponent implements Personalization
         public ?string $id = 'slide',
         public ?string $zIndex = null,
         public string|bool|null $wire = null,
-        public ?string $title = null,
-        public ?string $footer = null,
+        public ComponentSlot|string|null $title = null,
+        public ComponentSlot|string|null $footer = null,
         public bool|string|null $blur = null,
         public ?bool $persistent = null,
         public ?string $size = null,
