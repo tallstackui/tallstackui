@@ -11,6 +11,7 @@ import darkTheme from './helpers/dark-theme';
 import dialog from './components/interaction/dialog/dialog';
 import dropdown from './components/dropdown/dropdown';
 import clearable from './components/form/clearable';
+import stripZeros from './components/form/strip-zeros';
 import loading from './components/loading/loading';
 import layout from './components/layout/layout';
 import keyValue from './components/key-value/key-value';
@@ -47,6 +48,7 @@ document.addEventListener('alpine:init', () => {
   Alpine.data('tallstackui_formCurrency', currency);
   Alpine.data('tallstackui_formDate', date);
   Alpine.data('tallstackui_formInputClearable', clearable);
+  Alpine.data('tallstackui_formInputStripZeros', stripZeros);
   Alpine.data('tallstackui_formNumber', number);
   Alpine.data('tallstackui_formPassword', password);
   Alpine.data('tallstackui_formPin', pin);

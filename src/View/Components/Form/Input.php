@@ -25,6 +25,7 @@ class Input extends TallStackUiComponent implements Personalization
         public ?string $icon = null,
         public ?bool $clearable = null,
         public ?bool $invalidate = null,
+        public ?bool $stripZeros = null,
         #[SkipDebug]
         public ?string $position = 'left',
         #[SkipDebug]
