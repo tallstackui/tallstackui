@@ -1,4 +1,4 @@
-export default (model, rules, typingOnly) => ({
+export default (model, rules, typingOnly, value = null) => ({
   model: model,
   show: false,
   rules: false,
@@ -16,6 +16,8 @@ export default (model, rules, typingOnly) => ({
   },
   typingOnly: typingOnly,
   init() {
+    this.password = value;
+
     this.$watch('input', (value) => {
       if (!value) {
         this.reset();

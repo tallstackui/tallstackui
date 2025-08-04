@@ -2,7 +2,7 @@
     $personalize = $classes();
 @endphp
 
-<div x-data="tallstackui_formPassword({!! $entangle !!}, @js($rules ?? []), @js($typingOnly))" class="relative" x-cloak x-on:click.outside="rules = false">
+<div x-data="tallstackui_formPassword({!! $entangle !!}, @js($rules ?? []), @js($typingOnly), @js($value))" class="relative" x-cloak x-on:click.outside="rules = false">
      <x-dynamic-component :component="TallStackUi::prefix('input')"
                           {{ $attributes->merge($password)->except(['autocomplete', 'x-on:reveal', 'x-on:generate']) }}
                           :$label

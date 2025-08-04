@@ -13,6 +13,7 @@ class PasswordRuntime extends AbstractRuntime
     {
         return [
             ...$this->bind(),
+            'value' => $this->sanitize(),
             'icon' => [
                 'x-circle' => TallStackUi::icon('x-circle'),
                 'check-circle' => TallStackUi::icon('check-circle'),
