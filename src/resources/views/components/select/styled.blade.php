@@ -27,6 +27,7 @@
      {{ $attributes->whereStartsWith('x-model') }}
      @endif
      x-cloak
+     translate="no"
      x-on:keydown="navigate($event)"
      wire:ignore.self>
     <div hidden x-ref="options">{{ TallStackUi::blade()->json($options) }}</div>
