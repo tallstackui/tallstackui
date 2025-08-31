@@ -19,6 +19,8 @@ class Items extends TallStackUiComponent implements Personalization
         public ?string $position = 'left',
         public ?string $href = null,
         public ?bool $separator = false,
+        public ?bool $navigate = null,
+        public ?bool $navigateHover = null,
     ) {
         $this->position = $this->position === 'left' ? 'left' : 'right';
     }
