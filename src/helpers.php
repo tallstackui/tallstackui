@@ -15,7 +15,7 @@ if (! function_exists('__ts_class_collection')) {
     {
         $bypass = [
             // class => replacement
-            'Circle' => 'Button'
+            'Circle' => 'Button',
         ];
 
         $collect = collect();
