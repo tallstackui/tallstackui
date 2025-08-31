@@ -2,7 +2,7 @@
     $personalize = $classes();
 @endphp
 
-<div x-data="tallstackui_card(@js($initializeMinimized))" class="{{ $personalize['wrapper.first'] }}" x-show="show" x-cloak wire:ignore.self>
+<div x-data="tallstackui_card(@js($initializeMinimized))" class="{{ $personalize['wrapper.first'] }}" x-cloak wire:ignore.self>
     <div class="{{ $personalize['wrapper.second'] }}">
         @if ($image && $position !== 'bottom')
             <div class="{{ $personalize['image.wrapper'] }}">
