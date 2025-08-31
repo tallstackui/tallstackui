@@ -13,16 +13,26 @@ if (! function_exists('__ts_class_collection')) {
      */
     function __ts_class_collection(string $component): Collection
     {
+        $bypass = [
+            // class => replacement
+            'Circle' => 'Button'
+        ];
+
         $collect = collect();
 
         if (($namespace = config('tallstackui.color_classes_namespace')) === null) {
             return $collect;
         }
 
+        // Bypass created to solve the issue of button.circle not receiving color in v2.
+        // Reported issue: https://github.com/tallstackui/tallstackui/issues/1102. In v3
+        // the Circle Button should have your own colors class.
+        $color = in_array($component, array_keys($bypass)) ? $bypass[$component] : $component;
+
         $collect->put('component', $component);
         $collect->put('namespace', $namespace);
-        $collect->put('file', $component.'Colors.php');
-        $collect->put('file_raw', $component.'Colors');
+        $collect->put('file', $color.'Colors.php');
+        $collect->put('file_raw', $color.'Colors');
         $collect->put('stub', __DIR__.'/Foundation/Support/Colors/Stubs/'.$collect->get('file_raw').'.stub');
 
         $class = $namespace.'\\'.$collect->get('file_raw');
