@@ -47,6 +47,7 @@
                     </div>
                     @if ($deletable)
                         <button class="cursor-pointer"
+                                type="button"
                                 {{ $attributes->only('x-on:remove') }}
                                 x-on:click="remove(index)">
                             @if ($icon instanceof \Illuminate\View\ComponentSlot)
