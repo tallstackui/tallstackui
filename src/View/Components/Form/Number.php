@@ -38,6 +38,32 @@ class Number extends TallStackUiComponent implements Personalization
         return view('tallstack-ui::components.form.number');
     }
 
+    public function inputMode(): string
+    {
+        if (is_null($this->min) || $this->min < 0) {
+            return 'text';
+        }
+
+        if ($this->step && $this->step < 1) {
+            return 'decimal';
+        }
+
+        return 'numeric';
+    }
+
+    public function inputPattern(): string
+    {
+        if (is_null($this->min) || $this->min < 0) {
+            return '-?[0-9]*[.,]?[0-9]*';
+        }
+
+        if ($this->step && $this->step < 1) {
+            return '[0-9]*[.,]?[0-9]*';
+        }
+
+        return '[0-9]*';
+    }
+
     public function personalization(): array
     {
         return Arr::dot([
