@@ -38,7 +38,7 @@ class Number extends TallStackUiComponent implements Personalization
         return view('tallstack-ui::components.form.number');
     }
 
-    public function inputMode(): string
+    final public function mode(): string
     {
         if (is_null($this->min) || $this->min < 0) {
             return 'text';
@@ -51,7 +51,7 @@ class Number extends TallStackUiComponent implements Personalization
         return 'numeric';
     }
 
-    public function inputPattern(): string
+    final public function pattern(): string
     {
         if (is_null($this->min) || $this->min < 0) {
             return '-?[0-9]*[.,]?[0-9]*';
