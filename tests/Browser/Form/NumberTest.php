@@ -351,6 +351,68 @@ class NumberTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_input_decimal_with_comma_on_mobile(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public float $quantity = 0.0;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="quantity">{{ $quantity }}</p>
+                    <x-number wire:model="quantity" min="0" step="0.01" />
+                    <x-button dusk="sync" wire:click="sync">Save</x-button>
+                </div>
+                HTML;
+            }
+
+            public function sync(): void
+            {
+                //
+            }
+        })
+            ->assertSee('Save')
+            ->type('@tallstackui_form_number_input', '10,5')
+            ->click('@sync')
+            ->waitForTextIn('@quantity', '10.5');
+    }
+
+    #[Test]
+    public function can_input_negative_numbers_when_allowed(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?int $quantity = 0;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="quantity">{{ $quantity }}</p>
+                    <x-number wire:model="quantity" min="-100" max="100" />
+                    <x-button dusk="sync" wire:click="sync">Save</x-button>
+                </div>
+                HTML;
+            }
+
+            public function sync(): void
+            {
+                //
+            }
+        })
+            ->assertSee('Save')
+            ->type('@tallstackui_form_number_input', '-50')
+            ->click('@sync')
+            ->waitForTextIn('@quantity', '-50')
+            ->clear('@tallstackui_form_number_input')
+            ->type('@tallstackui_form_number_input', '75')
+            ->click('@sync')
+            ->waitForTextIn('@quantity', '75');
+    }
+
+    #[Test]
     public function cannot_decrease_beyond_min(): void
     {
         Livewire::visit(new class extends Component
@@ -485,5 +547,85 @@ class NumberTest extends BrowserTestCase
             ->click('@tallstackui_form_number_decrement')
             ->click('@sync')
             ->waitForTextIn('@quantity', '0');
+    }
+
+    #[Test]
+    public function uses_decimal_inputmode_for_positive_decimals(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public float $quantity = 0.0;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-number wire:model="quantity" min="0" step="0.01" />
+                </div>
+                HTML;
+            }
+        })
+            ->assertAttribute('@tallstackui_form_number_input', 'inputmode', 'decimal')
+            ->assertAttribute('@tallstackui_form_number_input', 'pattern', '[0-9]*[.,]?[0-9]*');
+    }
+
+    #[Test]
+    public function uses_numeric_inputmode_for_positive_integers(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?int $quantity = 0;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-number wire:model="quantity" min="0" step="1" />
+                </div>
+                HTML;
+            }
+        })
+            ->assertAttribute('@tallstackui_form_number_input', 'inputmode', 'numeric')
+            ->assertAttribute('@tallstackui_form_number_input', 'pattern', '[0-9]*');
+    }
+
+    #[Test]
+    public function uses_text_inputmode_for_negative_numbers(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?int $quantity = 0;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-number wire:model="quantity" min="-100" step="1" />
+                </div>
+                HTML;
+            }
+        })
+            ->assertAttribute('@tallstackui_form_number_input', 'inputmode', 'text')
+            ->assertAttribute('@tallstackui_form_number_input', 'pattern', '-?[0-9]*[.,]?[0-9]*');
+    }
+
+    #[Test]
+    public function uses_text_inputmode_when_min_not_set(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?int $quantity = 0;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-number wire:model="quantity" step="1" />
+                </div>
+                HTML;
+            }
+        })
+            ->assertAttribute('@tallstackui_form_number_input', 'inputmode', 'text')
+            ->assertAttribute('@tallstackui_form_number_input', 'pattern', '-?[0-9]*[.,]?[0-9]*');
     }
 }

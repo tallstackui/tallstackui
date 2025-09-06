@@ -13,7 +13,8 @@
         <div @class([$personalize['buttons.wrapper'], 'justify-between' => $centralized])>
             <input @if ($id) id="{{ $id }}" @endif
                type="number"
-               inputmode="numeric"
+               inputmode="{{ $mode() }}"
+               pattern="{{ $pattern() }}"
                @if ($min) min="{{ $min }}" @endif
                @if ($max) max="{{ $max }}" @endif
                @if ($step) step="{{ $step }}" @endif
