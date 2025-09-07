@@ -16,7 +16,6 @@ it('can render', function () {
         ->toContain('Foo', 'Bar');
 });
 
-
 it('can render with title', function () {
     $component = <<<'HTML'
     <x-tab selected="A">
