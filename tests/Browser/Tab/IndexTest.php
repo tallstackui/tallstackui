@@ -45,6 +45,42 @@ class IndexTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_entangle_with_url_parameter(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public string $tab = 'foo';
+
+            public function mount(): void
+            {
+                if (request()->has('tab')) {
+                    $this->tab = request()->get('tab');
+                }
+            }
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>        
+                    <x-tab wire:model.live="tab">
+                        <x-tab.items tab="foo" title="Foo Title">
+                            Foo bar baz
+                        </x-tab.items>
+                        <x-tab.items tab="bar" title="Bar Title">
+                            Baz bar foo
+                        </x-tab.items>
+                    </x-tab>
+                </div>
+                HTML;
+            }
+        }, '?tab=bar')
+            ->assertSee('Foo Title')
+            ->assertSee('Bar Title')
+            ->assertSee('Baz bar foo')
+            ->assertDontSee('Foo bar baz');
+    }
+
+    #[Test]
     public function can_render_and_select_with_accents(): void
     {
         Livewire::visit(new class extends Component
@@ -331,41 +367,5 @@ class IndexTest extends BrowserTestCase
             ->waitForText('Foo bar baz')
             ->assertSee('Bar Title')
             ->assertDontSee('Baz bar foo');
-    }
-
-    #[Test]
-    public function can_entangle_with_url_parameter(): void
-    {
-        Livewire::visit(new class extends Component
-        {
-            public string $tab = 'foo';
-
-            public function mount(): void
-            {
-                if (request()->has('tab')) {
-                    $this->tab = request()->get('tab');
-                }
-            }
-
-            public function render(): string
-            {
-                return <<<'HTML'
-                <div>        
-                    <x-tab wire:model.live="tab">
-                        <x-tab.items tab="foo" title="Foo Title">
-                            Foo bar baz
-                        </x-tab.items>
-                        <x-tab.items tab="bar" title="Bar Title">
-                            Baz bar foo
-                        </x-tab.items>
-                    </x-tab>
-                </div>
-                HTML;
-            }
-        }, '?tab=bar')
-            ->assertSee('Foo Title')
-            ->assertSee('Bar Title')
-            ->assertSee('Baz bar foo')
-            ->assertDontSee('Foo bar baz');
     }
 }
