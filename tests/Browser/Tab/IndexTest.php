@@ -2,11 +2,11 @@
 
 namespace Tests\Browser\Tab;
 
-use Livewire\Livewire;
-use Livewire\Component;
 use Livewire\Attributes\Url;
-use Tests\Browser\BrowserTestCase;
+use Livewire\Component;
+use Livewire\Livewire;
 use PHPUnit\Framework\Attributes\Test;
+use Tests\Browser\BrowserTestCase;
 
 class IndexTest extends BrowserTestCase
 {
@@ -51,6 +51,7 @@ class IndexTest extends BrowserTestCase
         Livewire::visit(new class extends Component
         {
             public ?string $selected = null;
+
             public function render(): string
             {
                 return <<<'HTML'
@@ -78,6 +79,7 @@ class IndexTest extends BrowserTestCase
             ->assertDontSee('Foo bar baz')
             ->waitForTextIn('@selected', 'Bar');
     }
+
     #[Test]
     public function can_entangle_with_url_parameter(): void
     {
