@@ -22,7 +22,7 @@ class IndexTest extends BrowserTestCase
                 <div>        
                     <p dusk="selected">{{ $selected }}</p>
 
-                    <x-tab selected="Foo" x-on:navigate="$wire.set('selected', $event.detail.select)">
+                    <x-tab selected="foo" x-on:navigate="$wire.set('selected', $event.detail.select)">
                         <x-tab.items tab="foo" title="Foo Title">
                             Foo bar baz
                         </x-tab.items>
@@ -53,7 +53,7 @@ class IndexTest extends BrowserTestCase
             {
                 return <<<'HTML'
                 <div>        
-                    <x-tab selected="Données d'identification">
+                    <x-tab selected="données-d-identification">
                         <x-tab.items tab="données-d-identification" title="Données d'identification">
                             Lorem ipsum dolor sit amet
                         </x-tab.items>
@@ -159,7 +159,7 @@ class IndexTest extends BrowserTestCase
                             </x-slot:right>
                             Foo bar baz
                         </x-tab.items>
-                        <x-tab.items tab="bar" title="Bar Titles">
+                        <x-tab.items tab="bar" title="Bar Title">
                             Baz bar foo
                         </x-tab.items>
                     </x-tab>
@@ -168,7 +168,7 @@ class IndexTest extends BrowserTestCase
             }
         })
             ->assertSee('Foo Title')
-            ->assertSee('Bar Titles')
+            ->assertSee('Bar Title')
             ->assertSee('Foo bar baz')
             ->assertSee('TallStackUI');
     }
