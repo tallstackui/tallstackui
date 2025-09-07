@@ -2,10 +2,11 @@
 
 namespace Tests\Browser\Tab;
 
-use Livewire\Component;
 use Livewire\Livewire;
-use PHPUnit\Framework\Attributes\Test;
+use Livewire\Component;
+use Livewire\Attributes\Url;
 use Tests\Browser\BrowserTestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class IndexTest extends BrowserTestCase
 {
@@ -41,28 +42,55 @@ class IndexTest extends BrowserTestCase
             ->clickAtXPath('/html/body/div[3]/div/ul/li[2]')
             ->waitForText('Baz bar foo')
             ->assertDontSee('Foo bar baz')
-            ->waitForTextIn('@selected', 'Bar');
+            ->waitForTextIn('@selected', 'bar');
     }
 
     #[Test]
-    public function can_entangle_with_url_parameter(): void
+    public function can_display_tabs_without_title(): void
     {
         Livewire::visit(new class extends Component
         {
-            public string $tab = 'foo';
-
-            public function mount(): void
+            public ?string $selected = null;
+            public function render(): string
             {
-                if (request()->has('tab')) {
-                    $this->tab = request()->get('tab');
-                }
+                return <<<'HTML'
+                <div>        
+                    <p dusk="selected">{{ $selected }}</p>
+
+                    <x-tab selected="Foo" x-on:navigate="$wire.set('selected', $event.detail.select)">
+                        <x-tab.items tab="Foo">
+                            Foo bar baz
+                        </x-tab.items>
+                        <x-tab.items tab="Bar">
+                            Baz bar foo
+                        </x-tab.items>
+                    </x-tab>
+                </div>
+                HTML;
             }
+        })
+            ->assertSee('Foo')
+            ->assertSee('Bar')
+            ->assertSee('Foo bar baz')
+            ->assertDontSee('Baz bar foo')
+            ->clickAtXPath('/html/body/div[3]/div/ul/li[2]')
+            ->waitForText('Baz bar foo')
+            ->assertDontSee('Foo bar baz')
+            ->waitForTextIn('@selected', 'Bar');
+    }
+    #[Test]
+    public function can_entangle_with_url_parameter(): void
+    {
+        Livewire::withQueryParams(['tab' => 'bar'])->visit(new class extends Component
+        {
+            #[Url]
+            public string $tab = 'foo';
 
             public function render(): string
             {
                 return <<<'HTML'
                 <div>        
-                    <x-tab wire:model.live="tab">
+                    <x-tab wire:model="tab">
                         <x-tab.items tab="foo" title="Foo Title">
                             Foo bar baz
                         </x-tab.items>
@@ -73,9 +101,11 @@ class IndexTest extends BrowserTestCase
                 </div>
                 HTML;
             }
-        }, '?tab=bar')
+        })
+            ->waitForLivewireToLoad()
             ->assertSee('Foo Title')
             ->assertSee('Bar Title')
+            ->waitForText('Baz bar foo')
             ->assertSee('Baz bar foo')
             ->assertDontSee('Foo bar baz');
     }
