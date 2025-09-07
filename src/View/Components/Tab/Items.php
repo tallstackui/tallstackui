@@ -14,6 +14,7 @@ class Items extends TallStackUiComponent
 {
     public function __construct(
         public ?string $tab = null,
+        public ?string $title = null,
         #[SkipDebug]
         public ComponentSlot|string|null $left = null,
         #[SkipDebug]

@@ -23,10 +23,10 @@ class IndexTest extends BrowserTestCase
                     <p dusk="selected">{{ $selected }}</p>
 
                     <x-tab selected="Foo" x-on:navigate="$wire.set('selected', $event.detail.select)">
-                        <x-tab.items tab="Foo">
+                        <x-tab.items tab="foo" title="Foo Title">
                             Foo bar baz
                         </x-tab.items>
-                        <x-tab.items tab="Bar">
+                        <x-tab.items tab="bar" title="Bar Title">
                             Baz bar foo
                         </x-tab.items>
                     </x-tab>
@@ -34,8 +34,8 @@ class IndexTest extends BrowserTestCase
                 HTML;
             }
         })
-            ->assertSee('Foo')
-            ->assertSee('Bar')
+            ->assertSee('Foo Title')
+            ->assertSee('Bar Title')
             ->assertSee('Foo bar baz')
             ->assertDontSee('Baz bar foo')
             ->clickAtXPath('/html/body/div[3]/div/ul/li[2]')
@@ -54,10 +54,10 @@ class IndexTest extends BrowserTestCase
                 return <<<'HTML'
                 <div>        
                     <x-tab selected="Données d'identification">
-                        <x-tab.items tab="Données d'identification">
+                        <x-tab.items tab="données-d-identification" title="Données d'identification">
                             Lorem ipsum dolor sit amet
                         </x-tab.items>
-                        <x-tab.items tab="Données d'accès incorrectes">
+                        <x-tab.items tab="données-d-accès-incorrectes" title="Données d'accès incorrectes">
                             Consectetur adipiscing elit
                         </x-tab.items>
                     </x-tab>
@@ -84,14 +84,14 @@ class IndexTest extends BrowserTestCase
             {
                 return <<<'HTML'
                 <div>        
-                    <x-tab selected="Foo">
-                        <x-tab.items tab="Foo">
+                    <x-tab selected="foo">
+                        <x-tab.items tab="foo" title="Foo Title">
                             <x-slot:left>
                                 TallStackUI                            
                             </x-slot:left>
                             Foo bar baz
                         </x-tab.items>
-                        <x-tab.items tab="Bar">
+                        <x-tab.items tab="bar" title="Bar Title">
                             Baz bar foo
                         </x-tab.items>
                     </x-tab>
@@ -99,8 +99,8 @@ class IndexTest extends BrowserTestCase
                 HTML;
             }
         })
-            ->assertSee('Foo')
-            ->assertSee('Bar')
+            ->assertSee('Foo Title')
+            ->assertSee('Bar Title')
             ->assertSee('Foo bar baz')
             ->assertSee('TallStackUI');
     }
@@ -126,11 +126,11 @@ class IndexTest extends BrowserTestCase
             {
                 return <<<'HTML'
                 <div>        
-                    <x-tab selected="Foo">
-                        <x-tab.items tab="Foo">
+                    <x-tab selected="foo">
+                        <x-tab.items tab="foo" title="Foo Title">
                             <livewire:test />
                         </x-tab.items>
-                        <x-tab.items tab="Bar">
+                        <x-tab.items tab="bar" title="Bar Title">
                             Baz bar foo
                         </x-tab.items>
                     </x-tab>
@@ -138,8 +138,8 @@ class IndexTest extends BrowserTestCase
                 HTML;
             }
         })
-            ->assertSee('Foo')
-            ->assertSee('Bar')
+            ->assertSee('Foo Title')
+            ->assertSee('Bar Title')
             ->assertSee('Foo bar baz through Livewire Component');
     }
 
@@ -152,14 +152,14 @@ class IndexTest extends BrowserTestCase
             {
                 return <<<'HTML'
                 <div>        
-                    <x-tab selected="Foo">
-                        <x-tab.items tab="Foo">
+                    <x-tab selected="foo">
+                        <x-tab.items tab="foo" title="Foo Title">
                             <x-slot:right>
                                 TallStackUI                            
                             </x-slot:right>
                             Foo bar baz
                         </x-tab.items>
-                        <x-tab.items tab="Bar">
+                        <x-tab.items tab="bar" title="Bar Titles">
                             Baz bar foo
                         </x-tab.items>
                     </x-tab>
@@ -167,8 +167,8 @@ class IndexTest extends BrowserTestCase
                 HTML;
             }
         })
-            ->assertSee('Foo')
-            ->assertSee('Bar')
+            ->assertSee('Foo Title')
+            ->assertSee('Bar Titles')
             ->assertSee('Foo bar baz')
             ->assertSee('TallStackUI');
     }
@@ -182,11 +182,11 @@ class IndexTest extends BrowserTestCase
             {
                 return <<<'HTML'
                 <div>        
-                    <x-tab selected="Foo">
-                        <x-tab.items tab="Foo" left="TallStackUI" right="Livewire">
+                    <x-tab selected="foo">
+                        <x-tab.items tab="foo" title="Foo Title" left="TallStackUI" right="Livewire">
                             Foo bar baz
                         </x-tab.items>
-                        <x-tab.items tab="Bar">
+                        <x-tab.items tab="bar" title="Bar Title">
                             Baz bar foo
                         </x-tab.items>
                     </x-tab>
@@ -194,8 +194,8 @@ class IndexTest extends BrowserTestCase
                 HTML;
             }
         })
-            ->assertSee('Foo')
-            ->assertSee('Bar')
+            ->assertSee('Foo Title')
+            ->assertSee('Bar Title')
             ->assertSee('Foo bar baz')
             ->assertSee('TallStackUI')
             ->assertSee('Livewire');
@@ -210,11 +210,11 @@ class IndexTest extends BrowserTestCase
             {
                 return <<<'HTML'
                 <div>        
-                    <x-tab selected="Foo">
-                        <x-tab.items tab="Foo">
+                    <x-tab selected="foo">
+                        <x-tab.items tab="foo" title="Foo Title">
                             Foo bar baz
                         </x-tab.items>
-                        <x-tab.items tab="Bar">
+                        <x-tab.items tab="bar" title="Bar Title">
                             Baz bar foo
                         </x-tab.items>
                     </x-tab>
@@ -222,8 +222,8 @@ class IndexTest extends BrowserTestCase
                 HTML;
             }
         })
-            ->assertSee('Foo')
-            ->assertSee('Bar')
+            ->assertSee('Foo Title')
+            ->assertSee('Bar Title')
             ->assertSee('Foo bar baz')
             ->assertDontSee('Baz bar foo')
             ->clickAtXPath('/html/body/div[3]/div/ul/li[2]')
@@ -240,11 +240,11 @@ class IndexTest extends BrowserTestCase
             {
                 return <<<'HTML'
                 <div>        
-                    <x-tab selected="Foo">
-                        <x-tab.items tab="Foo">
+                    <x-tab selected="foo">
+                        <x-tab.items tab="foo" title="Foo Title">
                             Foo bar baz
                         </x-tab.items>
-                        <x-tab.items tab="Bar">
+                        <x-tab.items tab="bar" title="Bar Title">
                             Baz bar foo
                         </x-tab.items>
                     </x-tab>
@@ -252,8 +252,8 @@ class IndexTest extends BrowserTestCase
                 HTML;
             }
         })
-            ->assertSee('Foo')
-            ->assertSee('Bar')
+            ->assertSee('Foo Title')
+            ->assertSee('Bar Title')
             ->assertSee('Foo bar baz')
             ->assertDontSee('Baz bar foo')
             ->clickAtXPath('/html/body/div[3]/div/ul/li[2]')
@@ -269,28 +269,28 @@ class IndexTest extends BrowserTestCase
     {
         Livewire::visit(new class extends Component
         {
-            public string $tab = 'Bar';
+            public string $tab = 'bar';
 
             public function render(): string
             {
                 return <<<'HTML'
                 <div>        
                     <x-tab wire:model="tab">
-                        <x-tab.items tab="Foo">
+                        <x-tab.items tab="foo" title="Foo Title">
                             Foo bar baz
                         </x-tab.items>
-                        <x-tab.items tab="Bar">
+                        <x-tab.items tab="bar" title="Bar Title">
                             Baz bar foo
                         </x-tab.items>
                     </x-tab>
 
-                    <x-button id="change" wire:click="$set('tab', 'Foo')" text="Click" />
+                    <x-button id="change" wire:click="$set('tab', 'foo')" text="Click" />
                 </div>
                 HTML;
             }
         })
-            ->assertSee('Foo')
-            ->assertSee('Bar')
+            ->assertSee('Foo Title')
+            ->assertSee('Bar Title')
             ->assertSee('Baz bar foo')
             ->assertDontSee('Foo bar baz')
             ->click('#change')
@@ -303,7 +303,7 @@ class IndexTest extends BrowserTestCase
     {
         Livewire::visit(new class extends Component
         {
-            public string $tab = 'Bar';
+            public string $tab = 'bar';
 
             public function render(): string
             {
@@ -312,10 +312,10 @@ class IndexTest extends BrowserTestCase
                     {{ $tab }}
 
                     <x-tab wire:model.live="tab">
-                        <x-tab.items tab="Foo">
+                        <x-tab.items tab="foo" title="Foo Title">
                             Foo bar baz
                         </x-tab.items>
-                        <x-tab.items tab="Bar">
+                        <x-tab.items tab="bar" title="Bar Title">
                             Baz bar foo
                         </x-tab.items>
                     </x-tab>
@@ -323,13 +323,49 @@ class IndexTest extends BrowserTestCase
                 HTML;
             }
         })
-            ->assertSee('Foo')
-            ->assertSee('Bar')
+            ->assertSee('Foo Title')
+            ->assertSee('Bar Title')
             ->assertSee('Baz bar foo')
             ->assertDontSee('Foo bar baz')
             ->clickAtXPath('/html/body/div[3]/div/ul/li[1]')
             ->waitForText('Foo bar baz')
-            ->assertSee('Bar')
+            ->assertSee('Bar Title')
             ->assertDontSee('Baz bar foo');
+    }
+
+    #[Test]
+    public function can_entangle_with_url_parameter(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public string $tab = 'foo';
+
+            public function mount(): void
+            {
+                if (request()->has('tab')) {
+                    $this->tab = request()->get('tab');
+                }
+            }
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>        
+                    <x-tab wire:model.live="tab">
+                        <x-tab.items tab="foo" title="Foo Title">
+                            Foo bar baz
+                        </x-tab.items>
+                        <x-tab.items tab="bar" title="Bar Title">
+                            Baz bar foo
+                        </x-tab.items>
+                    </x-tab>
+                </div>
+                HTML;
+            }
+        }, '?tab=bar')
+            ->assertSee('Foo Title')
+            ->assertSee('Bar Title')
+            ->assertSee('Baz bar foo')
+            ->assertDontSee('Foo bar baz');
     }
 }
