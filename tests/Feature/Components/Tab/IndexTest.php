@@ -15,3 +15,18 @@ it('can render', function () {
     expect($component)->render()
         ->toContain('Foo', 'Bar');
 });
+
+it('can render with title', function () {
+    $component = <<<'HTML'
+    <x-tab selected="A">
+        <x-tab.items tab="A" title="First Tab">
+            First Tab Content
+        </x-tab.items>
+        <x-tab.items tab="B" title="Second Tab">
+            Second Tab Content
+        </x-tab.items>
+    </x-tab>
+    HTML;
+    expect($component)->render()
+        ->toContain('First Tab Content', 'Second Tab Content');
+});
