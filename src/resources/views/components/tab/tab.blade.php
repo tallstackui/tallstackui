@@ -13,9 +13,10 @@
         </select>
     </div>
     @endif
-    <ul role="tablist" @class([$personalize['base.body'], 'hidden sm:flex'=> ! $scrollOnMobile]) {{  $attributes->only('x-on:navigate') }} x-ref="ul">
+    <ul role="tablist" @class([$personalize['base.body'], 'hidden sm:flex' => ! $scrollOnMobile]) {{ $attributes->only('x-on:navigate') }} x-ref="ul">
         <template x-for="item in tabs">
-            <li role="tab" tabindex="0"
+            <li role="tab"
+                tabindex="0"
                 x-on:click="selected = item.tab; $refs.ul.dispatchEvent(new CustomEvent('navigate', {detail: {select: item.tab}}));"
                 x-on:keypress.enter="selected = item.tab; $refs.ul.dispatchEvent(new CustomEvent('navigate', {detail: {select: item.tab}}));"
                 x-bind:aria-selected="selected === item.tab ? 'true' : 'false'" x-bind:class="{
@@ -35,7 +36,7 @@
             </li>
         </template>
     </ul>
-    <hr @class([$personalize['base.divider'], 'hidden sm:block'=> ! $scrollOnMobile])>
+    <hr @class([$personalize['base.divider'], 'hidden sm:block' => ! $scrollOnMobile])>
     <div class="{{ $personalize['base.content'] }}">
         {{ $slot }}
     </div>
