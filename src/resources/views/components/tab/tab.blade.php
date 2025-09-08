@@ -19,7 +19,8 @@
                 tabindex="0"
                 x-on:click="selected = item.tab; $refs.ul.dispatchEvent(new CustomEvent('navigate', {detail: {select: item.tab}}));"
                 x-on:keypress.enter="selected = item.tab; $refs.ul.dispatchEvent(new CustomEvent('navigate', {detail: {select: item.tab}}));"
-                x-bind:aria-selected="selected === item.tab ? 'true' : 'false'" x-bind:class="{
+                x-bind:aria-selected="selected === item.tab ? 'true' : 'false'"
+                x-bind:class="{
                     '{{ $personalize['item.select'] }}' : selected === item.tab,
                     '{{ $personalize['item.unselect'] }}' : selected !== item.tab,
                     'hidden sm:flex': selected !== item.tab && ! @js($scrollOnMobile),
