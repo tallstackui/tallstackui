@@ -180,7 +180,7 @@
                     </template>
                 @else
                     <template x-for="(option, index) in available" :key="option.__tsui_key ?? index">
-                        <li x-on:click.stop="select(option)"
+                        <li x-bind:title="option[selectable.label] ?? option" x-on:click.stop="select(option)"
                             x-on:keypress.enter="select(option)"
                             x-bind:class="{'{{ $personalize['box.list.item.selected'] }}': !common ? selected(option) : selects.includes(option), '{{ $personalize['box.list.item.disabled'] }}': option.disabled === true}"
                             role="option"
