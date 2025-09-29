@@ -41,6 +41,7 @@ class Table extends TallStackUiComponent implements Personalization
         public ?string $link = null,
         public ?bool $blank = false,
         public ?int $onEachSide = 1,
+        public ?bool $borderless = false,
         #[SkipDebug]
         public ?array $placeholders = null,
         #[SkipDebug]
@@ -121,6 +122,7 @@ class Table extends TallStackUiComponent implements Personalization
             'wrapper' => 'overflow-hidden dark:ring-dark-600 rounded-lg shadow ring-1 ring-gray-300',
             'table' => [
                 'wrapper' => 'relative soft-scrollbar overflow-auto',
+                'wrapper-borderless' => 'overflow-hidden dark:ring-dark-600',
                 'base' => 'dark:divide-dark-500/50 min-w-full divide-y divide-gray-200',
                 'sort' => 'ml-2 h-4 w-4',
                 'th' => 'dark:text-dark-200 px-3 py-3.5 text-left text-sm font-semibold text-gray-700',
