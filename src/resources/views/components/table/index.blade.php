@@ -37,7 +37,11 @@
             @endisset
         </div>
     @endif
+    @if ($borderless)
+    <div class="{{ $personalize['wrapper-borderless'] }}">
+    @else
     <div class="{{ $personalize['wrapper'] }}">
+    @endif
         <div class="{{ $personalize['table.wrapper'] }}">
             <table class="{{ $personalize['table.base'] }}" @if ($livewire && $loading) wire:loading.class="{{ $personalize['loading.table'] }}" @endif>
                 @if ($livewire && $loading)
