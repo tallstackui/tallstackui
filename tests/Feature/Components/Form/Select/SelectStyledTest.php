@@ -103,3 +103,13 @@ HTML;
 
     expect($component)->render();
 });
+
+it('can accept wire attributes', function () {
+    $component = <<<'HTML'
+    <x-select.styled label="Foo bar baz" :options="['foo', 'bar', 'baz']" wire:key="my-select-key" />
+HTML;
+
+    expect($component)->render()
+        ->toContain('wire:key="my-select-key"')
+        ->toContain('Foo bar baz');
+});

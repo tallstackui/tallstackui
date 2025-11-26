@@ -29,6 +29,7 @@
      x-cloak
      translate="no"
      x-on:keydown="navigate($event)"
+     {{ $attributes->whereStartsWith('wire:') }}
      wire:ignore.self>
     <div hidden x-ref="options">{{ TallStackUi::blade()->json($options) }}</div>
     @if ($request['params'] ?? null) <div hidden x-ref="params">{{ TallStackUi::blade()->json($request['params']) }}</div> @endif
