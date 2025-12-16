@@ -7,6 +7,8 @@ export default (
   livewire,
   property,
   value,
+  min,
+  max,
   locale
 ) => ({
   model: model,
@@ -18,6 +20,8 @@ export default (
   livewire: livewire,
   property: property,
   value: value,
+  min: min,
+  max: max,
   locale: locale,
   init() {
     if (!this.livewire) this.model = this.value;
@@ -41,6 +45,37 @@ export default (
     });
 
     this.$watch('input', (value) => this.format(value));
+  },
+  /**
+   * Validate the input value.
+   *
+   * @returns {void}
+   */
+  validate() {
+    if (this.min === null && this.max === null) return;
+
+    let current = this.input;
+    let number;
+
+    if (typeof current === 'number') {
+      number = current;
+    } else {
+      const digits = String(current).replace(/\D/g, '');
+
+      if (digits === '') return;
+
+      number = parseFloat(digits) / 100;
+    }
+
+    if (isNaN(number)) return;
+
+    if (this.min !== null && number < this.min) {
+      this.clear();
+    }
+
+    if (this.max !== null && number > this.max) {
+      this.clear();
+    }
   },
   /**
    * Format the input value.

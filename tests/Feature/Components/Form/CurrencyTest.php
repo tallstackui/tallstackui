@@ -41,3 +41,22 @@ it('can render with different prefix and suffix', function () {
         ->toContain('R$')
         ->toContain('BRL');
 });
+
+it('can render with min and max', function () {
+    $component = <<<'HTML'
+    <x-currency min="10" max="20" />
+    HTML;
+
+    expect($component)->render()
+        ->toContain('min="10"')
+        ->toContain('max="20"');
+});
+
+it('can render with min zero', function () {
+    $component = <<<'HTML'
+    <x-currency min="0" />
+    HTML;
+
+    expect($component)->render()
+        ->toContain('min="0"');
+});

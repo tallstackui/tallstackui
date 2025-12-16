@@ -216,4 +216,35 @@ class CurrencyTest extends BrowserTestCase
             ->typeSlowly('@input', 'nan')
             ->assertNotVisible('@money');
     }
+
+    #[Test]
+    public function can_validate_min_and_max(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $money = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="money">{{ $money }}</p>
+                
+                    <x-currency dusk="input" wire:model.live="money" min="10" max="20" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->typeSlowly('@input', '5')
+            ->click('@money')
+            ->assertInputValue('@input', '')
+            ->typeSlowly('@input', '25')
+            ->click('@money')
+            ->assertInputValue('@input', '')
+            ->typeSlowly('@input', '15')
+            ->click('@money')
+            ->assertInputValue('@input', '15.00')
+            ->assertSeeIn('@money', '15.00');
+    }
 }

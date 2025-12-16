@@ -15,16 +15,21 @@
     @js($livewire),
     @js($property),
     @js($value),
+    @js($min),
+    @js($max),
     @js($locale))">
     <x-dynamic-component :component="TallStackUi::prefix('input')"
                          {{ $attributes->whereDoesntStartWith('wire:model') }}
                          class="appearance-number-none"
                          inputmode="numeric"
+                         :min="$min"
+                         :max="$max"
                          :$label
                          :$hint
                          :$invalidate
                          :alternative="$property"
                          x-on:input="sync"
+                         x-on:blur="validate()"
                          x-model="input">
         @if ($symbol || $currency || $clearable)
             @if (!empty($symbols['symbol']) && $symbol)
