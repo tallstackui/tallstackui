@@ -1,8 +1,8 @@
 <?php
 
 use TallStackUi\Facades\TallStackUi;
-use TallStackUi\Foundation\Personalization\Personalization;
-use TallStackUi\Foundation\Personalization\PersonalizationFactory;
+use TallStackUi\Personalization\Personalization;
+use TallStackUi\Personalization\PersonalizationFactory;
 use TallStackUi\View\Components\Alert;
 
 use function Livewire\invade;

@@ -1,7 +1,7 @@
 <?php
 
 use TallStackUi\Facades\TallStackUi;
-use TallStackUi\Foundation\Support\Blade\ComponentPrefix;
+use TallStackUi\Support\Blade\ComponentPrefix;
 
 test('can set prefix', function () {
     config()->set('tallstackui.prefix', 'ts-');

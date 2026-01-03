@@ -3,11 +3,11 @@
 namespace TallStackUi;
 
 use Illuminate\View\ComponentAttributeBag;
-use TallStackUi\Foundation\Personalization\Personalization;
-use TallStackUi\Foundation\Support\Blade\ComponentPrefix;
-use TallStackUi\Foundation\Support\Blade\Directives;
-use TallStackUi\Foundation\Support\Blade\Wireable;
-use TallStackUi\Foundation\Support\Icons\IconGuideMap;
+use TallStackUi\Personalization\Personalization;
+use TallStackUi\Support\Blade\ComponentPrefix;
+use TallStackUi\Support\Blade\Directives;
+use TallStackUi\Support\Blade\Wireable;
+use TallStackUi\Support\Icons\IconGuideMap;
 
 class TallStackUi
 {

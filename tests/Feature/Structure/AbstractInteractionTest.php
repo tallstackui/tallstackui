@@ -1,9 +1,9 @@
 <?php
 
-use TallStackUi\Foundation\Interactions\AbstractInteraction;
-use TallStackUi\Foundation\Interactions\Banner;
-use TallStackUi\Foundation\Interactions\Dialog;
-use TallStackUi\Foundation\Interactions\Toast;
+use TallStackUi\Interactions\AbstractInteraction;
+use TallStackUi\Interactions\Banner;
+use TallStackUi\Interactions\Dialog;
+use TallStackUi\Interactions\Toast;
 
 test('class should be abstract')
     ->expect(AbstractInteraction::class)

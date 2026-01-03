@@ -5,11 +5,11 @@ namespace TallStackUi\View\Components;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\ComponentSlot;
-use TallStackUi\Foundation\Attributes\ColorsThroughOf;
-use TallStackUi\Foundation\Attributes\SkipDebug;
-use TallStackUi\Foundation\Attributes\SoftPersonalization;
-use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\Foundation\Support\Colors\Components\CardColors;
+use TallStackUi\Attributes\ColorsThroughOf;
+use TallStackUi\Attributes\SkipDebug;
+use TallStackUi\Attributes\SoftPersonalization;
+use TallStackUi\Personalization\Contracts\Personalization;
+use TallStackUi\Support\Colors\Components\CardColors;
 use TallStackUi\TallStackUiComponent;
 
 #[SoftPersonalization('card')]

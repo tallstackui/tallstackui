@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use TallStackUi\Foundation\Http\Controllers\TallStackUiAssetsController;
+use TallStackUi\Http\Controllers\TallStackUiAssetsController;
 
 Route::name('tallstackui.')
     ->prefix('/tallstackui')

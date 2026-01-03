@@ -5,9 +5,9 @@ namespace TallStackUi\View\Components;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use InvalidArgumentException;
-use TallStackUi\Foundation\Attributes\RequireLivewireContext;
-use TallStackUi\Foundation\Attributes\SoftPersonalization;
-use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Attributes\RequireLivewireContext;
+use TallStackUi\Attributes\SoftPersonalization;
+use TallStackUi\Personalization\Contracts\Personalization;
 use TallStackUi\TallStackUiComponent;
 
 #[RequireLivewireContext]

@@ -4,10 +4,10 @@ namespace TallStackUi\View\Components\Dropdown;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
-use TallStackUi\Foundation\Attributes\SkipDebug;
-use TallStackUi\Foundation\Attributes\SoftPersonalization;
-use TallStackUi\Foundation\Exceptions\InvalidSelectedPositionException;
-use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Attributes\SkipDebug;
+use TallStackUi\Attributes\SoftPersonalization;
+use TallStackUi\Exceptions\InvalidSelectedPositionException;
+use TallStackUi\Personalization\Contracts\Personalization;
 use TallStackUi\TallStackUiComponent;
 use TallStackUi\View\Components\Dropdown\Traits\SharedTransitions;
 use TallStackUi\View\Components\Floating;

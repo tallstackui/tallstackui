@@ -1,7 +1,7 @@
 <?php
 
-use TallStackUi\Foundation\Support\Icons\IconGuide;
-use TallStackUi\Foundation\Support\Icons\IconGuideMap;
+use TallStackUi\Support\Icons\IconGuide;
+use TallStackUi\Support\Icons\IconGuideMap;
 
 test('class should not have constructor')
     ->expect(IconGuideMap::class)

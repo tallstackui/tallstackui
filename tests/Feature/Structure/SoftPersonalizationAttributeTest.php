@@ -1,6 +1,6 @@
 <?php
 
-use TallStackUi\Foundation\Attributes\SoftPersonalization;
+use TallStackUi\Attributes\SoftPersonalization;
 
 test('can implement the attribute', function (string $index) {
     expect($index)->toHaveAttribute(SoftPersonalization::class);

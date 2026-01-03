@@ -4,8 +4,8 @@ namespace TallStackUi\View\Components\Wrapper;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\View\ComponentSlot;
-use TallStackUi\Foundation\Attributes\SoftPersonalization;
-use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Attributes\SoftPersonalization;
+use TallStackUi\Personalization\Contracts\Personalization;
 use TallStackUi\TallStackUiComponent;
 
 #[SoftPersonalization('wrapper.input')]

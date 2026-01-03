@@ -3,8 +3,8 @@
 namespace TallStackUi\View\Components\Form;
 
 use Illuminate\Contracts\View\View;
-use TallStackUi\Foundation\Attributes\SoftPersonalization;
-use TallStackUi\Foundation\Personalization\Contracts\Personalization;
+use TallStackUi\Attributes\SoftPersonalization;
+use TallStackUi\Personalization\Contracts\Personalization;
 use TallStackUi\TallStackUiComponent;
 
 #[SoftPersonalization('form.error')]

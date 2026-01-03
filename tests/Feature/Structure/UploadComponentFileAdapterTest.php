@@ -1,6 +1,6 @@
 <?php
 
-use TallStackUi\Foundation\Support\Miscellaneous\UploadComponentFileAdapter;
+use TallStackUi\Support\Miscellaneous\UploadComponentFileAdapter;
 
 test('class should have constructor')
     ->expect(UploadComponentFileAdapter::class)

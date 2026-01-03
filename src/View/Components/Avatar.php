@@ -6,11 +6,11 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use InvalidArgumentException;
-use TallStackUi\Foundation\Attributes\ColorsThroughOf;
-use TallStackUi\Foundation\Attributes\SkipDebug;
-use TallStackUi\Foundation\Attributes\SoftPersonalization;
-use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\Foundation\Support\Colors\Components\AvatarColors;
+use TallStackUi\Attributes\ColorsThroughOf;
+use TallStackUi\Attributes\SkipDebug;
+use TallStackUi\Attributes\SoftPersonalization;
+use TallStackUi\Personalization\Contracts\Personalization;
+use TallStackUi\Support\Colors\Components\AvatarColors;
 use TallStackUi\TallStackUiComponent;
 
 #[SoftPersonalization('avatar')]

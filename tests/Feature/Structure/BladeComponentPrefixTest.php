@@ -1,6 +1,6 @@
 <?php
 
-use TallStackUi\Foundation\Support\Blade\ComponentPrefix;
+use TallStackUi\Support\Blade\ComponentPrefix;
 
 test('class should have constructor')
     ->expect(ComponentPrefix::class)->toHaveConstructor();

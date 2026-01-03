@@ -6,13 +6,13 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\ComponentSlot;
 use InvalidArgumentException;
-use TallStackUi\Foundation\Attributes\PassThroughRuntime;
-use TallStackUi\Foundation\Attributes\RequireLivewireContext;
-use TallStackUi\Foundation\Attributes\SkipDebug;
-use TallStackUi\Foundation\Attributes\SoftPersonalization;
-use TallStackUi\Foundation\Exceptions\InvalidSelectedPositionException;
-use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\Foundation\Support\Runtime\Components\ReactionRuntime;
+use TallStackUi\Attributes\PassThroughRuntime;
+use TallStackUi\Attributes\RequireLivewireContext;
+use TallStackUi\Attributes\SkipDebug;
+use TallStackUi\Attributes\SoftPersonalization;
+use TallStackUi\Exceptions\InvalidSelectedPositionException;
+use TallStackUi\Personalization\Contracts\Personalization;
+use TallStackUi\Support\Runtime\Components\ReactionRuntime;
 use TallStackUi\TallStackUiComponent;
 
 #[RequireLivewireContext]

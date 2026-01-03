@@ -1,8 +1,8 @@
 <?php
 
-use TallStackUi\Foundation\Attributes\ColorsThroughOf;
-use TallStackUi\Foundation\Console\SetupColorCommand;
-use TallStackUi\Foundation\Support\Colors\CompileColors;
+use TallStackUi\Attributes\ColorsThroughOf;
+use TallStackUi\Console\SetupColorCommand;
+use TallStackUi\Support\Colors\CompileColors;
 use TallStackUi\View\Components\Alert;
 use TallStackUi\View\Components\Avatar;
 use TallStackUi\View\Components\Badge;

@@ -4,10 +4,10 @@ namespace TallStackUi\View\Components;
 
 use Closure;
 use Illuminate\Contracts\View\View;
-use TallStackUi\Foundation\Attributes\ColorsThroughOf;
-use TallStackUi\Foundation\Attributes\SoftPersonalization;
-use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\Foundation\Support\Colors\Components\BooleanColors;
+use TallStackUi\Attributes\ColorsThroughOf;
+use TallStackUi\Attributes\SoftPersonalization;
+use TallStackUi\Personalization\Contracts\Personalization;
+use TallStackUi\Support\Colors\Components\BooleanColors;
 use TallStackUi\TallStackUiComponent;
 
 #[SoftPersonalization('boolean')]

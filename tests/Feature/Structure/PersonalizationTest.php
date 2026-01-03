@@ -1,6 +1,6 @@
 <?php
 
-use TallStackUi\Foundation\Personalization\Personalization;
+use TallStackUi\Personalization\Personalization;
 
 test('contains constructor', function () {
     expect(Personalization::class)->toHaveConstructor();

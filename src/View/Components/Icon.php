@@ -3,8 +3,8 @@
 namespace TallStackUi\View\Components;
 
 use Illuminate\Contracts\View\View;
-use TallStackUi\Foundation\Attributes\SkipDebug;
-use TallStackUi\Foundation\Support\Concerns\BuildRawIcon;
+use TallStackUi\Attributes\SkipDebug;
+use TallStackUi\Support\Concerns\BuildRawIcon;
 use TallStackUi\TallStackUiComponent;
 
 class Icon extends TallStackUiComponent

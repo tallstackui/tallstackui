@@ -4,13 +4,13 @@ namespace TallStackUi\View\Components\Button;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
-use TallStackUi\Foundation\Attributes\ColorsThroughOf;
-use TallStackUi\Foundation\Attributes\PassThroughRuntime;
-use TallStackUi\Foundation\Attributes\SkipDebug;
-use TallStackUi\Foundation\Attributes\SoftPersonalization;
-use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\Foundation\Support\Colors\Components\ButtonColors;
-use TallStackUi\Foundation\Support\Runtime\Components\ButtonRuntime;
+use TallStackUi\Attributes\ColorsThroughOf;
+use TallStackUi\Attributes\PassThroughRuntime;
+use TallStackUi\Attributes\SkipDebug;
+use TallStackUi\Attributes\SoftPersonalization;
+use TallStackUi\Personalization\Contracts\Personalization;
+use TallStackUi\Support\Colors\Components\ButtonColors;
+use TallStackUi\Support\Runtime\Components\ButtonRuntime;
 use TallStackUi\TallStackUiComponent;
 use TallStackUi\View\Components\Button\Traits\Setup;
 

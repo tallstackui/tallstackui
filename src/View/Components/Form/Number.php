@@ -5,10 +5,10 @@ namespace TallStackUi\View\Components\Form;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\ComponentSlot;
-use TallStackUi\Foundation\Attributes\PassThroughRuntime;
-use TallStackUi\Foundation\Attributes\SoftPersonalization;
-use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\Foundation\Support\Runtime\Components\NumberRuntime;
+use TallStackUi\Attributes\PassThroughRuntime;
+use TallStackUi\Attributes\SoftPersonalization;
+use TallStackUi\Personalization\Contracts\Personalization;
+use TallStackUi\Support\Runtime\Components\NumberRuntime;
 use TallStackUi\TallStackUiComponent;
 use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
 

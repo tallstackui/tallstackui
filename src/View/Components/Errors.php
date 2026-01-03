@@ -7,10 +7,10 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\ViewErrorBag;
 use Illuminate\View\ComponentSlot;
 use InvalidArgumentException;
-use TallStackUi\Foundation\Attributes\ColorsThroughOf;
-use TallStackUi\Foundation\Attributes\SoftPersonalization;
-use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\Foundation\Support\Colors\Components\ErrorsColors;
+use TallStackUi\Attributes\ColorsThroughOf;
+use TallStackUi\Attributes\SoftPersonalization;
+use TallStackUi\Personalization\Contracts\Personalization;
+use TallStackUi\Support\Colors\Components\ErrorsColors;
 use TallStackUi\TallStackUiComponent;
 
 #[SoftPersonalization('errors')]

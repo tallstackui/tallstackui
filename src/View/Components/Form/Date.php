@@ -9,10 +9,10 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\View\ComponentSlot;
 use InvalidArgumentException;
-use TallStackUi\Foundation\Attributes\PassThroughRuntime;
-use TallStackUi\Foundation\Attributes\SoftPersonalization;
-use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\Foundation\Support\Runtime\Components\DateRuntime;
+use TallStackUi\Attributes\PassThroughRuntime;
+use TallStackUi\Attributes\SoftPersonalization;
+use TallStackUi\Personalization\Contracts\Personalization;
+use TallStackUi\Support\Runtime\Components\DateRuntime;
 use TallStackUi\TallStackUiComponent;
 use TallStackUi\View\Components\Floating;
 

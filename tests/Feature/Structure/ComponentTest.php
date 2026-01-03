@@ -1,7 +1,7 @@
 <?php
 
-use TallStackUi\Foundation\Personalization\Contracts\Personalization as PersonalizationContract;
-use TallStackUi\Foundation\Personalization\Personalization;
+use TallStackUi\Personalization\Contracts\Personalization as PersonalizationContract;
+use TallStackUi\Personalization\Personalization;
 use TallStackUi\View\Components\Interaction\Dialog;
 use TallStackUi\View\Components\Interaction\Toast;
 

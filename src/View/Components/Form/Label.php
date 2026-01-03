@@ -3,10 +3,10 @@
 namespace TallStackUi\View\Components\Form;
 
 use Illuminate\Contracts\View\View;
-use TallStackUi\Foundation\Attributes\PassThroughRuntime;
-use TallStackUi\Foundation\Attributes\SoftPersonalization;
-use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\Foundation\Support\Runtime\Components\LabelRuntime;
+use TallStackUi\Attributes\PassThroughRuntime;
+use TallStackUi\Attributes\SoftPersonalization;
+use TallStackUi\Personalization\Contracts\Personalization;
+use TallStackUi\Support\Runtime\Components\LabelRuntime;
 use TallStackUi\TallStackUiComponent;
 
 #[SoftPersonalization('form.label')]

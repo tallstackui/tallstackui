@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\View\ComponentAttributeBag;
-use TallStackUi\Foundation\Support\Concerns\BuildRawIcon;
+use TallStackUi\Support\Concerns\BuildRawIcon;
 use TallStackUi\View\Components\Icon;
 use TallStackUi\View\Components\Tooltip;
 

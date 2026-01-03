@@ -3,8 +3,8 @@
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
 use Symfony\Component\Finder\SplFileInfo;
-use TallStackUi\Foundation\Attributes\SoftPersonalization;
-use TallStackUi\Foundation\Support\Miscellaneous\ReflectComponent;
+use TallStackUi\Attributes\SoftPersonalization;
+use TallStackUi\Support\Miscellaneous\ReflectComponent;
 use TallStackUi\TallStackUiComponent;
 
 if (! function_exists('__ts_class_collection')) {

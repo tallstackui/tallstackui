@@ -1,6 +1,6 @@
 <?php
 
-use TallStackUi\Foundation\Support\Blade\Wireable;
+use TallStackUi\Support\Blade\Wireable;
 
 test('class should have constructor')
     ->expect(Wireable::class)

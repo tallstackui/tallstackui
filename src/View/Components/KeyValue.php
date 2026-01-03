@@ -5,12 +5,12 @@ namespace TallStackUi\View\Components;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\ComponentSlot;
-use TallStackUi\Foundation\Attributes\PassThroughRuntime;
-use TallStackUi\Foundation\Attributes\RequireLivewireContext;
-use TallStackUi\Foundation\Attributes\SkipDebug;
-use TallStackUi\Foundation\Attributes\SoftPersonalization;
-use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\Foundation\Support\Runtime\Components\KeyValueRuntime;
+use TallStackUi\Attributes\PassThroughRuntime;
+use TallStackUi\Attributes\RequireLivewireContext;
+use TallStackUi\Attributes\SkipDebug;
+use TallStackUi\Attributes\SoftPersonalization;
+use TallStackUi\Personalization\Contracts\Personalization;
+use TallStackUi\Support\Runtime\Components\KeyValueRuntime;
 use TallStackUi\TallStackUiComponent;
 
 #[RequireLivewireContext]

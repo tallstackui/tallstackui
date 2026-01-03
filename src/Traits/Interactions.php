@@ -3,9 +3,9 @@
 namespace TallStackUi\Traits;
 
 use Livewire\Component;
-use TallStackUi\Foundation\Interactions\Banner;
-use TallStackUi\Foundation\Interactions\Dialog;
-use TallStackUi\Foundation\Interactions\Toast;
+use TallStackUi\Interactions\Banner;
+use TallStackUi\Interactions\Dialog;
+use TallStackUi\Interactions\Toast;
 
 trait Interactions
 {

@@ -5,13 +5,13 @@ namespace TallStackUi\View\Components\Form;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\ComponentSlot;
-use TallStackUi\Foundation\Attributes\ColorsThroughOf;
-use TallStackUi\Foundation\Attributes\PassThroughRuntime;
-use TallStackUi\Foundation\Attributes\SkipDebug;
-use TallStackUi\Foundation\Attributes\SoftPersonalization;
-use TallStackUi\Foundation\Personalization\Contracts\Personalization;
-use TallStackUi\Foundation\Support\Colors\Components\RangeColors;
-use TallStackUi\Foundation\Support\Runtime\Components\RangeRuntime;
+use TallStackUi\Attributes\ColorsThroughOf;
+use TallStackUi\Attributes\PassThroughRuntime;
+use TallStackUi\Attributes\SkipDebug;
+use TallStackUi\Attributes\SoftPersonalization;
+use TallStackUi\Personalization\Contracts\Personalization;
+use TallStackUi\Support\Colors\Components\RangeColors;
+use TallStackUi\Support\Runtime\Components\RangeRuntime;
 use TallStackUi\TallStackUiComponent;
 
 #[SoftPersonalization('form.range')]

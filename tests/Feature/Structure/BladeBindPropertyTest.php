@@ -1,6 +1,6 @@
 <?php
 
-use TallStackUi\Foundation\Support\Blade\BindProperty;
+use TallStackUi\Support\Blade\BindProperty;
 
 test('class should have constructor')
     ->expect(BindProperty::class)
