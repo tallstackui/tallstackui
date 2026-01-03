@@ -8,24 +8,24 @@ use TallStackUi\View\Components\Alert;
 use function Livewire\invade;
 
 it('can be instantiated', function () {
-    expect(TallStackUi::personalize())->toBeInstanceOf(Customization::class);
+    expect(TallStackUi::customize())->toBeInstanceOf(Customization::class);
 });
 
 it('can be instantiated with a component', function () {
-    expect(TallStackUi::personalize('alert')
+    expect(TallStackUi::customize('alert')
         ->block('wrapper', fn () => 'string'))
         ->toBeInstanceOf(CustomizationFactory::class);
 });
 
 it('can instantiate all components', function (string $component) {
-    expect(TallStackUi::personalize($component)->forward())->toBeInstanceOf(CustomizationFactory::class);
+    expect(TallStackUi::customize($component)->forward())->toBeInstanceOf(CustomizationFactory::class);
 })->with('customization.keys');
 
 it('can personalize using facade and string', function () {
     expect('<x-alert title="Foo bar" />')->render()
         ->toContain('Foo bar', 'bg-primary-600');
 
-    TallStackUi::personalize('alert')
+    TallStackUi::customize('alert')
         ->block('wrapper', 'p-4');
 
     expect('<x-alert title="Foo bar" />')->render()
@@ -37,7 +37,7 @@ it('can personalize using method and string', function () {
     expect('<x-alert title="Foo bar" />')->render()
         ->toContain('Foo bar', 'bg-primary-600');
 
-    TallStackUi::personalize()
+    TallStackUi::customize()
         ->alert()
         ->block('wrapper', 'p-4');
 
@@ -50,7 +50,7 @@ it('can personalize using method and closure', function () {
     expect('<x-alert title="Foo bar" />')->render()
         ->toContain('Foo bar', 'bg-primary-600');
 
-    TallStackUi::personalize()
+    TallStackUi::customize()
         ->alert()
         ->block('wrapper', fn () => 'p-4');
 
@@ -63,7 +63,7 @@ it('can personalize using method and array', function () {
     expect('<x-alert title="Foo bar" />')->render()
         ->toContain('Foo bar', 'bg-primary-600');
 
-    TallStackUi::personalize()
+    TallStackUi::customize()
         ->alert()
         ->block([
             'wrapper' => 'p-4',
@@ -81,7 +81,7 @@ it('can personalize in sequence', function () {
     expect('<x-avatar label="Lorem" md />')->render()
         ->toContain('w-12 h-12');
 
-    TallStackUi::personalize()
+    TallStackUi::customize()
         ->alert()
         ->block('wrapper', 'p-4')
         ->and()
@@ -102,7 +102,7 @@ it('can personalize using append', function () {
         ->toContain('Foo bar', 'bg-primary-600')
         ->not->toContain('foo-bar-baz');
 
-    TallStackUi::personalize('alert')
+    TallStackUi::customize('alert')
         ->block('wrapper')
         ->append('foo-bar-baz');
 
@@ -115,7 +115,7 @@ it('can personalize using prepend', function () {
         ->toContain('Foo bar', 'bg-primary-600')
         ->not->toContain('foo-bar-baz');
 
-    TallStackUi::personalize('alert')
+    TallStackUi::customize('alert')
         ->block('wrapper')
         ->prepend('foo-bar-baz');
 
@@ -128,7 +128,7 @@ it('can personalize using remove', function () {
         ->toContain('Foo bar', 'bg-primary-600', 'rounded-lg');
 
     /* string */
-    TallStackUi::personalize('alert')
+    TallStackUi::customize('alert')
         ->block('wrapper')
         ->remove('rounded-lg');
 
@@ -137,7 +137,7 @@ it('can personalize using remove', function () {
         ->not->toContain('rounded-lg');
 
     /* array */
-    TallStackUi::personalize('alert')
+    TallStackUi::customize('alert')
         ->block('wrapper')
         ->remove(['rounded-lg', 'p-4']);
 
@@ -151,7 +151,7 @@ it('can personalize using replace', function () {
         ->toContain('Foo bar', 'bg-primary-600', 'rounded-lg');
 
     /* array */
-    TallStackUi::personalize('alert')
+    TallStackUi::customize('alert')
         ->block('text.title')
         ->replace(['font-semibold' => 'foo-bar-baz']);
 
@@ -159,7 +159,7 @@ it('can personalize using replace', function () {
         ->toContain('Foo bar', 'foo-bar-baz');
 
     /* from -> to */
-    TallStackUi::personalize('alert')
+    TallStackUi::customize('alert')
         ->block('text.title')
         ->replace('text-lg', 'baz-bar-foo');
 
@@ -168,7 +168,7 @@ it('can personalize using replace', function () {
 });
 
 it('can personalize chained', function () {
-    TallStackUi::personalize('alert')
+    TallStackUi::customize('alert')
         ->block('text.title')
         ->replace('font-semibold', 'foo-bar-baz')
         ->replace('text-lg', 'baz-bar-foo')
@@ -199,7 +199,7 @@ it('can personalize components overriding the original', function () {
 
     config()->set('tallstackui.components.alert', $class);
 
-    TallStackUi::personalize('alert')
+    TallStackUi::customize('alert')
         ->block('text.title')
         ->replace('font-semibold', 'foo-bar-baz')
         ->replace('text-lg', 'baz-bar-foo')
@@ -224,7 +224,7 @@ it('can personalize scoped using common - component as string', function () {
 
     expect($component)->render()->not->toContain('text-xl');
 
-    TallStackUi::personalize('alert', 'testing')
+    TallStackUi::customize('alert', 'testing')
         ->block('text.title', 'text-xl');
 
     $component = <<<'HTML'
@@ -244,7 +244,7 @@ it('can personalize scoped using replace - component as string', function () {
     expect($component)->render()
         ->not->toContain('text-xl', 'font-bold');
 
-    TallStackUi::personalize('alert', 'testing')
+    TallStackUi::customize('alert', 'testing')
         ->block('text.title')
         ->replace('text-lg', 'text-xl')
         ->replace('font-semibold', 'font-bold');
@@ -265,7 +265,7 @@ it('can personalize scoped using remove - component as string', function () {
 
     expect($component)->render()->toContain('text-lg', 'font-semibold');
 
-    TallStackUi::personalize('alert', 'testing')
+    TallStackUi::customize('alert', 'testing')
         ->block('text.title')
         ->remove('text-lg');
 
@@ -285,7 +285,7 @@ it('can personalize scoped using append - component as string', function () {
     expect($component)->render()
         ->not->toContain('transition-all');
 
-    TallStackUi::personalize('alert', 'testing')
+    TallStackUi::customize('alert', 'testing')
         ->block('text.title')
         ->append('transition-all');
 
@@ -305,7 +305,7 @@ it('can personalize scoped using prepend - component as string', function () {
     expect($component)->render()
         ->not->toContain('transition-all');
 
-    TallStackUi::personalize('alert', 'testing')
+    TallStackUi::customize('alert', 'testing')
         ->block('text.title')
         ->prepend('transition-all');
 
@@ -325,7 +325,7 @@ it('can personalize scoped using multiple changes - component as string', functi
     expect($component)->render()
         ->toContain('text-lg', 'font-semibold', 'text-sm', 'flex-wrap');
 
-    TallStackUi::personalize('alert', 'testing')
+    TallStackUi::customize('alert', 'testing')
         ->block('wrapper')
         ->append('foo-bar')
         ->prepend('baz-bah')
@@ -354,7 +354,7 @@ it('can personalize scoped using common - component as method', function () {
 
     expect($component)->render()->not->toContain('text-xl');
 
-    TallStackUi::personalize(scope: 'testing')
+    TallStackUi::customize(scope: 'testing')
         ->alert()
         ->block('text.title', 'text-xl');
 
@@ -375,7 +375,7 @@ it('can personalize scoped using replace - component as method', function () {
     expect($component)->render()
         ->not->toContain('text-xl', 'font-bold');
 
-    TallStackUi::personalize(scope: 'testing')
+    TallStackUi::customize(scope: 'testing')
         ->alert()
         ->block('text.title')
         ->replace('text-lg', 'text-xl')
@@ -397,7 +397,7 @@ it('can personalize scoped using remove - component as method', function () {
 
     expect($component)->render()->toContain('text-lg', 'font-semibold');
 
-    TallStackUi::personalize(scope: 'testing')
+    TallStackUi::customize(scope: 'testing')
         ->alert()
         ->block('text.title')
         ->remove('text-lg');
@@ -418,7 +418,7 @@ it('can personalize scoped using append - component as method', function () {
     expect($component)->render()
         ->not->toContain('transition-all');
 
-    TallStackUi::personalize(scope: 'testing')
+    TallStackUi::customize(scope: 'testing')
         ->alert()
         ->block('text.title')
         ->append('transition-all');
@@ -439,7 +439,7 @@ it('can personalize scoped using prepend - component as method', function () {
     expect($component)->render()
         ->not->toContain('transition-all');
 
-    TallStackUi::personalize(scope: 'testing')
+    TallStackUi::customize(scope: 'testing')
         ->alert()
         ->block('text.title')
         ->prepend('transition-all');
@@ -460,7 +460,7 @@ it('can personalize scoped using multiple changes - component as method', functi
     expect($component)->render()
         ->toContain('text-lg', 'font-semibold', 'text-sm', 'flex-wrap');
 
-    TallStackUi::personalize(scope: 'testing')
+    TallStackUi::customize(scope: 'testing')
         ->alert()
         ->block('wrapper')
         ->append('foo-bar')
@@ -488,7 +488,7 @@ it('can merge scoped and soft personalization', function () {
         ->toContain('text-lg')
         ->not->toContain('text-xl');
 
-    TallStackUi::personalize('alert', 'testing')
+    TallStackUi::customize('alert', 'testing')
         ->block('text.description')
         ->replace('text-sm', 'text-xl');
 
@@ -515,11 +515,11 @@ it('can personalize scoped multiples components - component as string', function
 
     expect($component)->render()->not->toContain('text-xl');
 
-    TallStackUi::personalize('alert', 'alert')
+    TallStackUi::customize('alert', 'alert')
         ->block('text.title')
         ->replace('text-lg', 'text-xl');
 
-    TallStackUi::personalize('badge', 'badge')
+    TallStackUi::customize('badge', 'badge')
         ->block('wrapper.class')
         ->replace('border', 'text-xl');
 
@@ -552,12 +552,12 @@ it('can personalize scoped multiples components - component as method', function
 
     expect($component)->render()->not->toContain('text-xl');
 
-    TallStackUi::personalize(scope: 'alert')
+    TallStackUi::customize(scope: 'alert')
         ->alert()
         ->block('text.title')
         ->replace('text-lg', 'text-xl');
 
-    TallStackUi::personalize(scope: 'badge')
+    TallStackUi::customize(scope: 'badge')
         ->badge()
         ->block('wrapper.class')
         ->replace('border', 'text-xl');
@@ -579,7 +579,7 @@ it('can personalize scoped multiples components - component as method', function
 });
 
 it('can personalize scoped multiples components sequentially', function () {
-    TallStackUi::personalize(scope: 'alert')
+    TallStackUi::customize(scope: 'alert')
         ->alert()
         ->block('text.title')
         ->replace('text-lg', 'text-xl')
@@ -620,7 +620,7 @@ it('can personalize scoped multiples components sequentially', function () {
 });
 
 it('can set the scope using method', function () {
-    TallStackUi::personalize()
+    TallStackUi::customize()
         ->scope('alert')
         ->alert()
         ->block('text.title')
@@ -665,7 +665,7 @@ it('can set the scope using method', function () {
 it('cannot personalize wrong component', function () {
     $this->expectException(Exception::class);
 
-    TallStackUi::personalize()
+    TallStackUi::customize()
         ->form('input2')
         ->block('base2', 'rounded-md p-4');
 });
@@ -673,13 +673,13 @@ it('cannot personalize wrong component', function () {
 it('cannot personalize wrong block', function () {
     $this->expectException(Exception::class);
 
-    TallStackUi::personalize()
+    TallStackUi::customize()
         ->alert()
         ->block('base2', 'rounded-md p-4');
 });
 
 it('cannot duplicated append or prepend customization', function () {
-    TallStackUi::personalize('alert')
+    TallStackUi::customize('alert')
         ->block('text.title')
         ->append('foo-bar-baz')
         ->prepend('bar-baz-foo');

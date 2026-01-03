@@ -39,9 +39,9 @@ class TallStackUi
     }
 
     /**
-     * Create an instance of the Personalization class.
+     * Create an instance of the Customization class.
      */
-    public function personalize(?string $component = null, ?string $scope = null): Customization
+    public function customize(?string $component = null, ?string $scope = null): Customization
     {
         return app(Customization::class, ['component' => $component, 'scope' => $scope]);
     }

@@ -40,7 +40,7 @@ trait ManagesClasses
             return [];
         }
 
-        $factory = TallStackUi::personalize($attribute->newInstance()->key)->forward();
+        $factory = TallStackUi::customize($attribute->newInstance()->key)->forward();
         $soft = $factory->toArray();
 
         $scoped = [];
