@@ -81,9 +81,9 @@ class TallStackUiServiceProvider extends ServiceProvider
 
         $this->mergeConfigFrom(__DIR__.'/config.php', 'tallstackui');
 
-        $this->loadRoutesFrom(__DIR__.'/routes.php');
+        $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
 
-        $this->loadTranslationsFrom(__DIR__ . '/lang', 'tallstack-ui');
+        $this->loadTranslationsFrom(__DIR__ . '/../lang', 'tallstack-ui');
     }
 
     protected function registerPublishable(): void
