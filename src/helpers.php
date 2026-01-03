@@ -7,24 +7,6 @@ use TallStackUi\Attributes\SoftCustomization;
 use TallStackUi\Support\Miscellaneous\ReflectComponent;
 use TallStackUi\TallStackUiComponent;
 
-if (! function_exists('__ts_get_activated_components')) {
-    /**
-     * Get the activated components from the config file.
-     *
-     * @internal This function should not be used outside the package.
-     */
-    function __ts_get_activated_components(): array
-    {
-        return collect(config('tallstackui.components'))
-            ->mapWithKeys(function (string|array $configuration, string $key) {
-                $components = is_array($configuration) ? $configuration[0] : $configuration;
-
-                return [$key => $components];
-            })
-            ->toArray();
-    }
-}
-
 if (! function_exists('__ts_get_component_configuration')) {
     /**
      * Get the component configuration from the new config file format.
