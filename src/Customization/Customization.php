@@ -232,7 +232,7 @@ class Customization
     /**
      * The purpose of this function is to forward the execution of
      * the methods as they are called from auxiliary methods, such
-     * as: "form('input')", where in this example 'form' would be
+     * as "form('input')", where in this example 'form' would be
      * the method and 'input' the parameter to be injected into the method.
      */
     public function forward(): CustomizationFactory
@@ -257,14 +257,7 @@ class Customization
             throw new RuntimeException("The method [{$main}] is not supported");
         }
 
-        /** @var CustomizationFactory $instance */
-        $instance = call_user_func([$this, $main], $main === $secondary ?: $secondary);
-
-        $presets = app(CustomizationPresets::class);
-
-        $instance->preset($presets);
-
-        return $instance;
+        return call_user_func([$this, $main], $main === $secondary ?: $secondary);
     }
 
     public function keyValue(?string $scope = null): CustomizationFactory
@@ -308,11 +301,6 @@ class Customization
         $this->scope ??= $scope;
 
         return $this->component(Modal::class);
-    }
-
-    public function presets(): CustomizationPresets
-    {
-        return app(CustomizationPresets::class);
     }
 
     public function progress(?string $component = null, ?string $scope = null): CustomizationFactory

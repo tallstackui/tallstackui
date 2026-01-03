@@ -61,8 +61,6 @@ class TallStackUiServiceProvider extends ServiceProvider
         foreach (__ts_soft_customization_components() as $key => $class) {
             $this->app->singleton($key, fn () => new CustomizationFactory($class));
         }
-
-        $this->app->singleton(CustomizationPresets::class, fn () => new CustomizationPresets);
     }
 
     protected function registerComponents(): void
