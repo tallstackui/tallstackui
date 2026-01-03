@@ -6,21 +6,21 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use InvalidArgumentException;
 use TallStackUi\Attributes\ColorsThroughOf;
-use TallStackUi\Attributes\SoftPersonalization;
-use TallStackUi\Personalization\Contracts\Personalization;
+use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\Support\Colors\Components\DialogColors;
 use TallStackUi\TallStackUiComponent;
 
-#[SoftPersonalization('dialog')]
+#[SoftCustomization('dialog')]
 #[ColorsThroughOf(DialogColors::class)]
-class Dialog extends TallStackUiComponent implements Personalization
+class Dialog extends TallStackUiComponent implements Customization
 {
     public function blade(): View
     {
         return view('tallstack-ui::components.interaction.dialog');
     }
 
-    public function personalization(): array
+    public function customization(): array
     {
         return Arr::dot([
             'background' => 'fixed inset-0 bg-gray-400/75 transform transition-opacity',

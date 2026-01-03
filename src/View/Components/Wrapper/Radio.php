@@ -4,12 +4,12 @@ namespace TallStackUi\View\Components\Wrapper;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
-use TallStackUi\Attributes\SoftPersonalization;
-use TallStackUi\Personalization\Contracts\Personalization;
+use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\TallStackUiComponent;
 
-#[SoftPersonalization('wrapper.radio')]
-class Radio extends TallStackUiComponent implements Personalization
+#[SoftCustomization('wrapper.radio')]
+class Radio extends TallStackUiComponent implements Customization
 {
     public function __construct(
         public ?string $property = null,
@@ -28,7 +28,7 @@ class Radio extends TallStackUiComponent implements Personalization
         return view('tallstack-ui::components.wrapper.radio');
     }
 
-    public function personalization(): array
+    public function customization(): array
     {
         return Arr::dot([
             'wrapper' => [

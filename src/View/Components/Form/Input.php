@@ -7,15 +7,15 @@ use Illuminate\Support\Arr;
 use Illuminate\View\ComponentSlot;
 use TallStackUi\Attributes\PassThroughRuntime;
 use TallStackUi\Attributes\SkipDebug;
-use TallStackUi\Attributes\SoftPersonalization;
-use TallStackUi\Personalization\Contracts\Personalization;
+use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\Support\Runtime\Components\InputRuntime;
 use TallStackUi\TallStackUiComponent;
 use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
 
-#[SoftPersonalization('form.input')]
+#[SoftCustomization('form.input')]
 #[PassThroughRuntime(InputRuntime::class)]
-class Input extends TallStackUiComponent implements Personalization
+class Input extends TallStackUiComponent implements Customization
 {
     use DefaultInputClasses;
 
@@ -41,7 +41,7 @@ class Input extends TallStackUiComponent implements Personalization
         return view('tallstack-ui::components.form.input');
     }
 
-    public function personalization(): array
+    public function customization(): array
     {
         return Arr::dot([
             'input' => [

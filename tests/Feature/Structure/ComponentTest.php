@@ -1,7 +1,7 @@
 <?php
 
-use TallStackUi\Personalization\Contracts\Personalization as PersonalizationContract;
-use TallStackUi\Personalization\Personalization;
+use TallStackUi\Customization\Contracts\Customization as PersonalizationContract;
+use TallStackUi\Customization\Customization;
 use TallStackUi\View\Components\Interaction\Dialog;
 use TallStackUi\View\Components\Interaction\Toast;
 
@@ -27,12 +27,12 @@ test('throws exception if component name is wrong', function () {
     $this->expectExceptionMessage('The method [foo-bar] is not supported');
     $this->expectException(RuntimeException::class);
 
-    (new Personalization('foo-bar'))->forward();
+    (new Customization('foo-bar'))->forward();
 });
 
 test('throws exception if not component was set', function () {
     $this->expectExceptionMessage('No component has been set');
     $this->expectException(RuntimeException::class);
 
-    (new Personalization)->forward();
+    (new Customization)->forward();
 });

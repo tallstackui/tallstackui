@@ -6,15 +6,15 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\ComponentSlot;
 use TallStackUi\Attributes\PassThroughRuntime;
-use TallStackUi\Attributes\SoftPersonalization;
-use TallStackUi\Personalization\Contracts\Personalization;
+use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\Support\Runtime\Components\NumberRuntime;
 use TallStackUi\TallStackUiComponent;
 use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
 
-#[SoftPersonalization('form.number')]
+#[SoftCustomization('form.number')]
 #[PassThroughRuntime(NumberRuntime::class)]
-class Number extends TallStackUiComponent implements Personalization
+class Number extends TallStackUiComponent implements Customization
 {
     use DefaultInputClasses;
 
@@ -64,7 +64,7 @@ class Number extends TallStackUiComponent implements Personalization
         return '[0-9]*';
     }
 
-    public function personalization(): array
+    public function customization(): array
     {
         return Arr::dot([
             'input' => [...$this->input()],

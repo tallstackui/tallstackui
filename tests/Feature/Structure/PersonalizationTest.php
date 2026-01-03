@@ -1,13 +1,13 @@
 <?php
 
-use TallStackUi\Personalization\Personalization;
+use TallStackUi\Customization\Customization;
 
 test('contains constructor', function () {
-    expect(Personalization::class)->toHaveConstructor();
+    expect(Customization::class)->toHaveConstructor();
 });
 
 test('contains method', function (string $method) {
-    expect(Personalization::class)->toHaveMethod($method);
+    expect(Customization::class)->toHaveMethod($method);
 })->with([
     'alert',
     'avatar',

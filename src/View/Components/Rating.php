@@ -7,16 +7,16 @@ use Illuminate\Support\Arr;
 use TallStackUi\Attributes\ColorsThroughOf;
 use TallStackUi\Attributes\PassThroughRuntime;
 use TallStackUi\Attributes\SkipDebug;
-use TallStackUi\Attributes\SoftPersonalization;
-use TallStackUi\Personalization\Contracts\Personalization;
+use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\Support\Colors\Components\RatingColors;
 use TallStackUi\Support\Runtime\Components\RatingRuntime;
 use TallStackUi\TallStackUiComponent;
 
-#[SoftPersonalization('rating')]
+#[SoftCustomization('rating')]
 #[ColorsThroughOf(RatingColors::class)]
 #[PassThroughRuntime(RatingRuntime::class)]
-class Rating extends TallStackUiComponent implements Personalization
+class Rating extends TallStackUiComponent implements Customization
 {
     public function __construct(
         public ?string $icon = null,
@@ -45,7 +45,7 @@ class Rating extends TallStackUiComponent implements Personalization
         return view('tallstack-ui::components.rating');
     }
 
-    public function personalization(): array
+    public function customization(): array
     {
         return Arr::dot([
             'wrapper' => 'flex items-center gap-1',

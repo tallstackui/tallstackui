@@ -1,6 +1,6 @@
 <?php
 
-namespace TallStackUi\Personalization;
+namespace TallStackUi\Customization;
 
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Arr;
@@ -13,9 +13,9 @@ use RuntimeException;
 /**
  * @internal
  *
- * @property-read Personalization $and
+ * @property-read Customization $and
  */
-class PersonalizationFactory implements Arrayable
+class CustomizationFactory implements Arrayable
 {
     /**
      * Block name to be personalized.
@@ -50,7 +50,7 @@ class PersonalizationFactory implements Arrayable
     /**
      * Creating ability to use Pest's style: ->and->block('name', 'content').
      */
-    public function __get(string $property): Personalization
+    public function __get(string $property): Customization
     {
         if ($property === 'and') {
             return $this->and();
@@ -62,9 +62,9 @@ class PersonalizationFactory implements Arrayable
     /**
      * Personalize sequentially creating a new instance of the Personalization class.
      */
-    public function and(): Personalization
+    public function and(): Customization
     {
-        return new Personalization;
+        return new Customization;
     }
 
     /**
@@ -91,7 +91,7 @@ class PersonalizationFactory implements Arrayable
         // The idea of this code existing in the file and not in the construct
         // is to avoid an unnecessary call every time the component is rendered,
         // even if it has no customizations to be applied.
-        $personalization = app($this->component)->personalization();
+        $personalization = app($this->component)->customization();
         $this->changes = collect($personalization);
         $this->blocks = array_keys($personalization);
 

@@ -9,15 +9,15 @@ use Illuminate\View\ComponentSlot;
 use InvalidArgumentException;
 use TallStackUi\Attributes\PassThroughRuntime;
 use TallStackUi\Attributes\SkipDebug;
-use TallStackUi\Attributes\SoftPersonalization;
-use TallStackUi\Personalization\Contracts\Personalization;
+use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\Support\Runtime\Components\ColorRuntime;
 use TallStackUi\TallStackUiComponent;
 use TallStackUi\View\Components\Floating;
 
-#[SoftPersonalization('form.color')]
+#[SoftCustomization('form.color')]
 #[PassThroughRuntime(ColorRuntime::class)]
-class Color extends TallStackUiComponent implements Personalization
+class Color extends TallStackUiComponent implements Customization
 {
     public function __construct(
         public ComponentSlot|string|null $label = null,
@@ -38,7 +38,7 @@ class Color extends TallStackUiComponent implements Personalization
         return view('tallstack-ui::components.form.color');
     }
 
-    public function personalization(): array
+    public function customization(): array
     {
         return Arr::dot([
             'selected' => [
@@ -49,7 +49,7 @@ class Color extends TallStackUiComponent implements Personalization
                 'class' => 'h-5 w-5',
             ],
             'floating' => [
-                'default' => collect(app(Floating::class)->personalization())->get('wrapper'),
+                'default' => collect(app(Floating::class)->customization())->get('wrapper'),
                 'class' => 'w-[18rem] overflow-auto',
             ],
             'box' => [

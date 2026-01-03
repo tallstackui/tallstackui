@@ -7,12 +7,12 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Route;
 use Illuminate\View\ComponentSlot;
-use TallStackUi\Attributes\SoftPersonalization;
-use TallStackUi\Personalization\Contracts\Personalization;
+use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\TallStackUiComponent;
 
-#[SoftPersonalization('sideBar.item')]
-class Item extends TallStackUiComponent implements Personalization
+#[SoftCustomization('sideBar.item')]
+class Item extends TallStackUiComponent implements Customization
 {
     public function __construct(
         public ?string $text = null,
@@ -57,7 +57,7 @@ class Item extends TallStackUiComponent implements Personalization
         return $this->match && request()->routeIs($this->match);
     }
 
-    public function personalization(): array
+    public function customization(): array
     {
         return Arr::dot([
             'group' => [

@@ -9,15 +9,15 @@ use Illuminate\Support\Collection;
 use Illuminate\View\ComponentSlot;
 use TallStackUi\Attributes\PassThroughRuntime;
 use TallStackUi\Attributes\SkipDebug;
-use TallStackUi\Attributes\SoftPersonalization;
-use TallStackUi\Personalization\Contracts\Personalization;
+use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\Support\Runtime\Components\PasswordRuntime;
 use TallStackUi\TallStackUiComponent;
 use TallStackUi\View\Components\Floating;
 
-#[SoftPersonalization('form.password')]
+#[SoftCustomization('form.password')]
 #[PassThroughRuntime(PasswordRuntime::class)]
-class Password extends TallStackUiComponent implements Personalization
+class Password extends TallStackUiComponent implements Customization
 {
     public function __construct(
         public ComponentSlot|string|null $label = null,
@@ -64,7 +64,7 @@ class Password extends TallStackUiComponent implements Personalization
         return view('tallstack-ui::components.form.password');
     }
 
-    public function personalization(): array
+    public function customization(): array
     {
         return Arr::dot([
             'icon' => [
@@ -72,7 +72,7 @@ class Password extends TallStackUiComponent implements Personalization
                 'class' => 'h-5 w-5 cursor-pointer',
             ],
             'floating' => [
-                'default' => collect(app(Floating::class)->personalization())->get('wrapper'),
+                'default' => collect(app(Floating::class)->customization())->get('wrapper'),
                 'class' => 'w-full p-3',
             ],
             'rules' => [

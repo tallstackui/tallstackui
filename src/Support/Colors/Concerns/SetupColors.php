@@ -8,7 +8,7 @@ use Illuminate\View\Component;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionMethod;
-use TallStackUi\Personalization\Contracts\Personalization;
+use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\Support\Miscellaneous\ReflectComponent;
 
 use function Livewire\invade;
@@ -62,15 +62,15 @@ trait SetupColors
      */
     protected function personalization(string $index): ?string
     {
-        if (! $this->component instanceof Personalization) {
+        if (! $this->component instanceof Customization) {
             return null;
         }
 
-        if (! Arr::exists($this->component->personalization(), $index)) {
+        if (! Arr::exists($this->component->customization(), $index)) {
             throw new Exception("The personalization key [{$index}] does not exist.");
         }
 
-        return $this->component->personalization()[$index] ?? null;
+        return $this->component->customization()[$index] ?? null;
     }
 
     /**

@@ -8,15 +8,15 @@ use Illuminate\View\ComponentSlot;
 use TallStackUi\Attributes\PassThroughRuntime;
 use TallStackUi\Attributes\RequireLivewireContext;
 use TallStackUi\Attributes\SkipDebug;
-use TallStackUi\Attributes\SoftPersonalization;
-use TallStackUi\Personalization\Contracts\Personalization;
+use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\Support\Runtime\Components\KeyValueRuntime;
 use TallStackUi\TallStackUiComponent;
 
 #[RequireLivewireContext]
-#[SoftPersonalization('keyValue')]
+#[SoftCustomization('keyValue')]
 #[PassThroughRuntime(KeyValueRuntime::class)]
-class KeyValue extends TallStackUiComponent implements Personalization
+class KeyValue extends TallStackUiComponent implements Customization
 {
     public function __construct(
         public ?string $label = null,
@@ -38,7 +38,7 @@ class KeyValue extends TallStackUiComponent implements Personalization
         return view('tallstack-ui::components.key-value');
     }
 
-    public function personalization(): array
+    public function customization(): array
     {
         return Arr::dot([
             'wrapper' => [

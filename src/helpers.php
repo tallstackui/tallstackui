@@ -3,7 +3,7 @@
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
 use Symfony\Component\Finder\SplFileInfo;
-use TallStackUi\Attributes\SoftPersonalization;
+use TallStackUi\Attributes\SoftCustomization;
 use TallStackUi\Support\Miscellaneous\ReflectComponent;
 use TallStackUi\TallStackUiComponent;
 
@@ -119,12 +119,12 @@ if (! function_exists('__ts_soft_personalization_components')) {
      */
     function __ts_soft_personalization_components(): array
     {
-        return __ts_filter_components_using_attribute(SoftPersonalization::class)
+        return __ts_filter_components_using_attribute(SoftCustomization::class)
             ->mapWithKeys(function (string $component): array {
                 $reflect = new ReflectComponent($component);
 
-                /** @var SoftPersonalization $instance */
-                $instance = $reflect->attribute(SoftPersonalization::class)->newInstance();
+                /** @var SoftCustomization $instance */
+                $instance = $reflect->attribute(SoftCustomization::class)->newInstance();
 
                 return [$instance->prefixed() => $reflect->class()->getName()];
             })

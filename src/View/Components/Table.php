@@ -14,15 +14,15 @@ use InvalidArgumentException;
 use TallStackUi\Attributes\PassThroughRuntime;
 use TallStackUi\Attributes\RequireLivewireContext;
 use TallStackUi\Attributes\SkipDebug;
-use TallStackUi\Attributes\SoftPersonalization;
-use TallStackUi\Personalization\Contracts\Personalization;
+use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\Support\Runtime\Components\TableRuntime;
 use TallStackUi\TallStackUiComponent;
 
 #[RequireLivewireContext]
-#[SoftPersonalization('table')]
+#[SoftCustomization('table')]
 #[PassThroughRuntime(TableRuntime::class)]
-class Table extends TallStackUiComponent implements Personalization
+class Table extends TallStackUiComponent implements Customization
 {
     public function __construct(
         public Collection|array $headers = [],
@@ -115,7 +115,7 @@ class Table extends TallStackUiComponent implements Personalization
         return new ComponentAttributeBag(['x-model'.$modifier => 'model']);
     }
 
-    public function personalization(): array
+    public function customization(): array
     {
         return Arr::dot([
             'wrapper' => 'overflow-hidden dark:ring-dark-600 rounded-lg shadow ring-1 ring-gray-300',

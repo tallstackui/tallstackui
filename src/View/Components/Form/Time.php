@@ -8,15 +8,15 @@ use Illuminate\View\ComponentSlot;
 use InvalidArgumentException;
 use TallStackUi\Attributes\PassThroughRuntime;
 use TallStackUi\Attributes\SkipDebug;
-use TallStackUi\Attributes\SoftPersonalization;
-use TallStackUi\Personalization\Contracts\Personalization;
+use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\Support\Runtime\Components\TimeRuntime;
 use TallStackUi\TallStackUiComponent;
 use TallStackUi\View\Components\Floating;
 
-#[SoftPersonalization('form.time')]
+#[SoftCustomization('form.time')]
 #[PassThroughRuntime(TimeRuntime::class)]
-class Time extends TallStackUiComponent implements Personalization
+class Time extends TallStackUiComponent implements Customization
 {
     public function __construct(
         public ComponentSlot|string|null $label = null,
@@ -41,7 +41,7 @@ class Time extends TallStackUiComponent implements Personalization
         return view('tallstack-ui::components.form.time');
     }
 
-    public function personalization(): array
+    public function customization(): array
     {
         return Arr::dot([
             'wrapper' => 'flex select-none items-center justify-center gap-1',
@@ -51,7 +51,7 @@ class Time extends TallStackUiComponent implements Personalization
                 'wrapper' => 'flex items-center gap-1.5',
             ],
             'floating' => [
-                'default' => collect(app(Floating::class)->personalization())->get('wrapper'),
+                'default' => collect(app(Floating::class)->customization())->get('wrapper'),
                 'class' => 'p-3 w-[18rem]',
             ],
             'time' => 'text-primary-600 dark:text-dark-300 dark:border-dark-700 w-20 rounded-full p-2 text-center text-4xl font-medium transition',

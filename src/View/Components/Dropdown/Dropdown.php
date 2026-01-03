@@ -5,15 +5,15 @@ namespace TallStackUi\View\Components\Dropdown;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use TallStackUi\Attributes\SkipDebug;
-use TallStackUi\Attributes\SoftPersonalization;
+use TallStackUi\Attributes\SoftCustomization;
 use TallStackUi\Exceptions\InvalidSelectedPositionException;
-use TallStackUi\Personalization\Contracts\Personalization;
+use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\TallStackUiComponent;
 use TallStackUi\View\Components\Dropdown\Traits\SharedTransitions;
 use TallStackUi\View\Components\Floating;
 
-#[SoftPersonalization('dropdown')]
-class Dropdown extends TallStackUiComponent implements Personalization
+#[SoftCustomization('dropdown')]
+class Dropdown extends TallStackUiComponent implements Customization
 {
     use SharedTransitions;
 
@@ -35,7 +35,7 @@ class Dropdown extends TallStackUiComponent implements Personalization
         return view('tallstack-ui::components.dropdown.dropdown');
     }
 
-    public function personalization(): array
+    public function customization(): array
     {
         return Arr::dot([
             'wrapper' => [
@@ -45,7 +45,7 @@ class Dropdown extends TallStackUiComponent implements Personalization
             'header.wrapper' => 'm-2',
             'slot.wrapper' => 'overflow-hidden rounded-md',
             'floating' => [
-                'default' => collect(app(Floating::class)->personalization())->get('wrapper'),
+                'default' => collect(app(Floating::class)->customization())->get('wrapper'),
                 'class' => 'w-56',
             ],
             'action' => [

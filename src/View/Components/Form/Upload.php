@@ -9,17 +9,17 @@ use Illuminate\View\ComponentSlot;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use TallStackUi\Attributes\PassThroughRuntime;
 use TallStackUi\Attributes\RequireLivewireContext;
-use TallStackUi\Attributes\SoftPersonalization;
-use TallStackUi\Personalization\Contracts\Personalization;
+use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\Support\Miscellaneous\UploadComponentFileAdapter;
 use TallStackUi\Support\Runtime\Components\UploadRuntime;
 use TallStackUi\TallStackUiComponent;
 use TallStackUi\View\Components\Floating;
 
 #[RequireLivewireContext]
-#[SoftPersonalization('form.upload')]
+#[SoftCustomization('form.upload')]
 #[PassThroughRuntime(UploadRuntime::class)]
-class Upload extends TallStackUiComponent implements Personalization
+class Upload extends TallStackUiComponent implements Customization
 {
     public function __construct(
         public ComponentSlot|string|null $label = null,
@@ -54,7 +54,7 @@ class Upload extends TallStackUiComponent implements Personalization
         return view('tallstack-ui::components.form.upload');
     }
 
-    public function personalization(): array
+    public function customization(): array
     {
         return Arr::dot([
             'icon' => 'dark:text-dark-400 h-5 w-5 text-gray-500',
@@ -69,7 +69,7 @@ class Upload extends TallStackUiComponent implements Personalization
                 ],
             ],
             'floating' => [
-                'default' => collect(app(Floating::class)->personalization())->get('wrapper'),
+                'default' => collect(app(Floating::class)->customization())->get('wrapper'),
                 'class' => 'w-full p-3',
             ],
             'upload' => [

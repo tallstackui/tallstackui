@@ -3,12 +3,12 @@
 namespace TallStackUi\View\Components\Form;
 
 use Illuminate\Contracts\View\View;
-use TallStackUi\Attributes\SoftPersonalization;
-use TallStackUi\Personalization\Contracts\Personalization;
+use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\TallStackUiComponent;
 
-#[SoftPersonalization('form.error')]
-class Error extends TallStackUiComponent implements Personalization
+#[SoftCustomization('form.error')]
+class Error extends TallStackUiComponent implements Customization
 {
     public function __construct(public ?string $property = null)
     {
@@ -20,7 +20,7 @@ class Error extends TallStackUiComponent implements Personalization
         return view('tallstack-ui::components.form.error');
     }
 
-    public function personalization(): array
+    public function customization(): array
     {
         return ['text' => 'mt-1 block text-sm font-medium text-red-500'];
     }

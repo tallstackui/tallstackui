@@ -6,14 +6,14 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use InvalidArgumentException;
 use TallStackUi\Attributes\PassThroughRuntime;
-use TallStackUi\Attributes\SoftPersonalization;
-use TallStackUi\Personalization\Contracts\Personalization;
+use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\Support\Runtime\Components\ModalRuntime;
 use TallStackUi\TallStackUiComponent;
 
-#[SoftPersonalization('modal')]
+#[SoftCustomization('modal')]
 #[PassThroughRuntime(ModalRuntime::class)]
-class Modal extends TallStackUiComponent implements Personalization
+class Modal extends TallStackUiComponent implements Customization
 {
     public function __construct(
         public ?string $id = 'modal',
@@ -37,7 +37,7 @@ class Modal extends TallStackUiComponent implements Personalization
         return view('tallstack-ui::components.modal');
     }
 
-    public function personalization(): array
+    public function customization(): array
     {
         return Arr::dot([
             'wrapper' => [

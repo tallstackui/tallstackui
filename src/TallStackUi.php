@@ -3,7 +3,7 @@
 namespace TallStackUi;
 
 use Illuminate\View\ComponentAttributeBag;
-use TallStackUi\Personalization\Personalization;
+use TallStackUi\Customization\Customization;
 use TallStackUi\Support\Blade\ComponentPrefix;
 use TallStackUi\Support\Blade\Directives;
 use TallStackUi\Support\Blade\Wireable;
@@ -41,9 +41,9 @@ class TallStackUi
     /**
      * Create an instance of the Personalization class.
      */
-    public function personalize(?string $component = null, ?string $scope = null): Personalization
+    public function personalize(?string $component = null, ?string $scope = null): Customization
     {
-        return app(Personalization::class, ['component' => $component, 'scope' => $scope]);
+        return app(Customization::class, ['component' => $component, 'scope' => $scope]);
     }
 
     /**

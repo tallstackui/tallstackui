@@ -4,12 +4,12 @@ namespace TallStackUi\View\Components\Wrapper;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\View\ComponentSlot;
-use TallStackUi\Attributes\SoftPersonalization;
-use TallStackUi\Personalization\Contracts\Personalization;
+use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\TallStackUiComponent;
 
-#[SoftPersonalization('wrapper.input')]
-class Input extends TallStackUiComponent implements Personalization
+#[SoftCustomization('wrapper.input')]
+class Input extends TallStackUiComponent implements Customization
 {
     public function __construct(
         public ?string $property = null,
@@ -28,7 +28,7 @@ class Input extends TallStackUiComponent implements Personalization
         return view('tallstack-ui::components.wrapper.input');
     }
 
-    public function personalization(): array
+    public function customization(): array
     {
         return ['wrapper' => 'relative rounded-md shadow-sm'];
     }

@@ -8,17 +8,17 @@ use Illuminate\View\ComponentSlot;
 use TallStackUi\Attributes\ColorsThroughOf;
 use TallStackUi\Attributes\PassThroughRuntime;
 use TallStackUi\Attributes\SkipDebug;
-use TallStackUi\Attributes\SoftPersonalization;
-use TallStackUi\Personalization\Contracts\Personalization;
+use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\Support\Colors\Components\ToggleColors;
 use TallStackUi\Support\Runtime\Components\CheckboxRuntime;
 use TallStackUi\TallStackUiComponent;
 use TallStackUi\View\Components\Form\Traits\Setup;
 
-#[SoftPersonalization('form.toggle')]
+#[SoftCustomization('form.toggle')]
 #[ColorsThroughOf(ToggleColors::class)]
 #[PassThroughRuntime(CheckboxRuntime::class)]
-class Toggle extends TallStackUiComponent implements Personalization
+class Toggle extends TallStackUiComponent implements Customization
 {
     use Setup;
 
@@ -42,7 +42,7 @@ class Toggle extends TallStackUiComponent implements Personalization
         return view('tallstack-ui::components.form.toggle');
     }
 
-    public function personalization(): array
+    public function customization(): array
     {
         return Arr::dot([
             'wrapper' => 'relative flex items-center justify-end',

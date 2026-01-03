@@ -7,15 +7,15 @@ use Illuminate\Support\Arr;
 use Illuminate\View\ComponentSlot;
 use TallStackUi\Attributes\ColorsThroughOf;
 use TallStackUi\Attributes\SkipDebug;
-use TallStackUi\Attributes\SoftPersonalization;
-use TallStackUi\Personalization\Contracts\Personalization;
+use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\Support\Colors\Components\ProgressColors;
 use TallStackUi\TallStackUiComponent;
 use TallStackUi\View\Components\Progress\Traits\Setup;
 
-#[SoftPersonalization('progress')]
+#[SoftCustomization('progress')]
 #[ColorsThroughOf(ProgressColors::class)]
-class Progress extends TallStackUiComponent implements Personalization
+class Progress extends TallStackUiComponent implements Customization
 {
     use Setup;
 
@@ -50,7 +50,7 @@ class Progress extends TallStackUiComponent implements Personalization
         return view('tallstack-ui::components.progress.progress');
     }
 
-    public function personalization(): array
+    public function customization(): array
     {
         return Arr::dot([
             'simple' => [

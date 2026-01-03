@@ -4,12 +4,12 @@ namespace TallStackUi\View\Components\Tab;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
-use TallStackUi\Attributes\SoftPersonalization;
-use TallStackUi\Personalization\Contracts\Personalization;
+use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\TallStackUiComponent;
 
-#[SoftPersonalization('tab')]
-class Tab extends TallStackUiComponent implements Personalization
+#[SoftCustomization('tab')]
+class Tab extends TallStackUiComponent implements Customization
 {
     public function __construct(public ?string $selected = null, public ?bool $scrollOnMobile = null)
     {
@@ -21,7 +21,7 @@ class Tab extends TallStackUiComponent implements Personalization
         return view('tallstack-ui::components.tab.tab');
     }
 
-    public function personalization(): array
+    public function customization(): array
     {
         return Arr::dot([
             'base' => [

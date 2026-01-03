@@ -7,17 +7,17 @@ use Illuminate\Support\Arr;
 use TallStackUi\Attributes\ColorsThroughOf;
 use TallStackUi\Attributes\PassThroughRuntime;
 use TallStackUi\Attributes\SkipDebug;
-use TallStackUi\Attributes\SoftPersonalization;
-use TallStackUi\Personalization\Contracts\Personalization;
+use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\Support\Colors\Components\ButtonColors;
 use TallStackUi\Support\Runtime\Components\ButtonRuntime;
 use TallStackUi\TallStackUiComponent;
 use TallStackUi\View\Components\Button\Traits\Setup;
 
-#[SoftPersonalization('button')]
+#[SoftCustomization('button')]
 #[ColorsThroughOf(ButtonColors::class)]
 #[PassThroughRuntime(ButtonRuntime::class)]
-class Button extends TallStackUiComponent implements Personalization
+class Button extends TallStackUiComponent implements Customization
 {
     use Setup;
 
@@ -58,7 +58,7 @@ class Button extends TallStackUiComponent implements Personalization
         return view('tallstack-ui::components.button.button');
     }
 
-    public function personalization(): array
+    public function customization(): array
     {
         return Arr::dot([
             'wrapper' => [

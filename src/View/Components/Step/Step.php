@@ -6,12 +6,12 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\ComponentSlot;
 use TallStackUi\Attributes\SkipDebug;
-use TallStackUi\Attributes\SoftPersonalization;
-use TallStackUi\Personalization\Contracts\Personalization;
+use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\TallStackUiComponent;
 
-#[SoftPersonalization('step')]
-class Step extends TallStackUiComponent implements Personalization
+#[SoftCustomization('step')]
+class Step extends TallStackUiComponent implements Customization
 {
     public function __construct(
         public ?int $selected = null,
@@ -33,7 +33,7 @@ class Step extends TallStackUiComponent implements Personalization
         return view('tallstack-ui::components.step.step');
     }
 
-    public function personalization(): array
+    public function customization(): array
     {
         return Arr::dot([
             'wrapper' => [

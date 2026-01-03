@@ -8,14 +8,14 @@ use Illuminate\Support\Collection;
 use InvalidArgumentException;
 use TallStackUi\Attributes\ColorsThroughOf;
 use TallStackUi\Attributes\SkipDebug;
-use TallStackUi\Attributes\SoftPersonalization;
-use TallStackUi\Personalization\Contracts\Personalization;
+use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\Support\Colors\Components\LinkColors;
 use TallStackUi\TallStackUiComponent;
 
-#[SoftPersonalization('link')]
+#[SoftCustomization('link')]
 #[ColorsThroughOf(LinkColors::class)]
-class Link extends TallStackUiComponent implements Personalization
+class Link extends TallStackUiComponent implements Customization
 {
     public function __construct(
         public ?string $text = null,
@@ -64,7 +64,7 @@ class Link extends TallStackUiComponent implements Personalization
         return view('tallstack-ui::components.link');
     }
 
-    public function personalization(): array
+    public function customization(): array
     {
         return Arr::dot([
             'bold' => 'font-bold',

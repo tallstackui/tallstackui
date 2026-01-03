@@ -5,12 +5,12 @@ namespace TallStackUi\View\Components\Layout;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\ComponentSlot;
-use TallStackUi\Attributes\SoftPersonalization;
-use TallStackUi\Personalization\Contracts\Personalization;
+use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\TallStackUiComponent;
 
-#[SoftPersonalization('layout')]
-class Layout extends TallStackUiComponent implements Personalization
+#[SoftCustomization('layout')]
+class Layout extends TallStackUiComponent implements Customization
 {
     public function __construct(
         public ComponentSlot|string|null $top = null,
@@ -26,7 +26,7 @@ class Layout extends TallStackUiComponent implements Personalization
         return view('tallstack-ui::components.layout.layout');
     }
 
-    public function personalization(): array
+    public function customization(): array
     {
         return Arr::dot([
             'wrapper' => [

@@ -5,12 +5,12 @@ namespace TallStackUi\View\Components;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use TallStackUi\Attributes\SkipDebug;
-use TallStackUi\Attributes\SoftPersonalization;
-use TallStackUi\Personalization\Contracts\Personalization;
+use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\TallStackUiComponent;
 
-#[SoftPersonalization('themeSwitch')]
-class ThemeSwitch extends TallStackUiComponent implements Personalization
+#[SoftCustomization('themeSwitch')]
+class ThemeSwitch extends TallStackUiComponent implements Customization
 {
     public function __construct(
         public ?bool $onlyIcons = false,
@@ -30,7 +30,7 @@ class ThemeSwitch extends TallStackUiComponent implements Personalization
         return view('tallstack-ui::components.theme-switch');
     }
 
-    public function personalization(): array
+    public function customization(): array
     {
         return Arr::dot([
             'wrapper' => 'absolute inset-0 flex h-full w-full items-center justify-center transition-opacity',

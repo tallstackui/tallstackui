@@ -1,25 +1,25 @@
 <?php
 
 use TallStackUi\Facades\TallStackUi;
-use TallStackUi\Personalization\Personalization;
-use TallStackUi\Personalization\PersonalizationFactory;
+use TallStackUi\Customization\Customization;
+use TallStackUi\Customization\CustomizationFactory;
 use TallStackUi\View\Components\Alert;
 
 use function Livewire\invade;
 
 it('can be instantiated', function () {
-    expect(TallStackUi::personalize())->toBeInstanceOf(Personalization::class);
+    expect(TallStackUi::personalize())->toBeInstanceOf(Customization::class);
 });
 
 it('can be instantiated with a component', function () {
     expect(TallStackUi::personalize('alert')
         ->block('wrapper', fn () => 'string'))
-        ->toBeInstanceOf(PersonalizationFactory::class);
+        ->toBeInstanceOf(CustomizationFactory::class);
 });
 
 it('can instantiate all components', function (string $component) {
-    expect(TallStackUi::personalize($component)->forward())->toBeInstanceOf(PersonalizationFactory::class);
-})->with('personalizations.keys');
+    expect(TallStackUi::personalize($component)->forward())->toBeInstanceOf(CustomizationFactory::class);
+})->with('customization.keys');
 
 it('can personalize using facade and string', function () {
     expect('<x-alert title="Foo bar" />')->render()
@@ -678,7 +678,7 @@ it('cannot personalize wrong block', function () {
         ->block('base2', 'rounded-md p-4');
 });
 
-it('cannot duplicated append or prepend personalizations', function () {
+it('cannot duplicated append or prepend customization', function () {
     TallStackUi::personalize('alert')
         ->block('text.title')
         ->append('foo-bar-baz')
@@ -703,4 +703,4 @@ it('cannot have unused personalization keys', function (string $component) {
     foreach (array_keys($class->personalization()) as $key) {
         expect($content)->toContain($key);
     }
-})->with('personalizations.components')->skip('This test is useful to verify that all customization keys are in use in the component\'s blade file.');
+})->with('customization.components')->skip('This test is useful to verify that all customization keys are in use in the component\'s blade file.');

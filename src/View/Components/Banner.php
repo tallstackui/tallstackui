@@ -9,14 +9,14 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use TallStackUi\Attributes\ColorsThroughOf;
 use TallStackUi\Attributes\SkipDebug;
-use TallStackUi\Attributes\SoftPersonalization;
-use TallStackUi\Personalization\Contracts\Personalization;
+use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\Support\Colors\Components\BannerColors;
 use TallStackUi\TallStackUiComponent;
 
-#[SoftPersonalization('banner')]
+#[SoftCustomization('banner')]
 #[ColorsThroughOf(BannerColors::class)]
-class Banner extends TallStackUiComponent implements Personalization
+class Banner extends TallStackUiComponent implements Customization
 {
     public function __construct(
         public string|array|Collection|null $text = null,
@@ -43,7 +43,7 @@ class Banner extends TallStackUiComponent implements Personalization
         return view('tallstack-ui::components.banner');
     }
 
-    public function personalization(): array
+    public function customization(): array
     {
         return Arr::dot([
             'wire' => 'sticky top-0 z-50',

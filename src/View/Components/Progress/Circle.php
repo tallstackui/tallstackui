@@ -7,15 +7,15 @@ use Illuminate\Support\Arr;
 use Illuminate\View\ComponentSlot;
 use TallStackUi\Attributes\ColorsThroughOf;
 use TallStackUi\Attributes\SkipDebug;
-use TallStackUi\Attributes\SoftPersonalization;
-use TallStackUi\Personalization\Contracts\Personalization;
+use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\Support\Colors\Components\ProgressColors;
 use TallStackUi\TallStackUiComponent;
 use TallStackUi\View\Components\Progress\Traits\Setup;
 
-#[SoftPersonalization('progress.circle')]
+#[SoftCustomization('progress.circle')]
 #[ColorsThroughOf(ProgressColors::class)]
-class Circle extends TallStackUiComponent implements Personalization
+class Circle extends TallStackUiComponent implements Customization
 {
     use Setup;
 
@@ -45,7 +45,7 @@ class Circle extends TallStackUiComponent implements Personalization
         return view('tallstack-ui::components.progress.circle');
     }
 
-    public function personalization(): array
+    public function customization(): array
     {
         return Arr::dot([
             'wrapper' => 'absolute start-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform',

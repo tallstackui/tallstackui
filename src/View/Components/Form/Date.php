@@ -10,15 +10,15 @@ use Illuminate\Support\Collection;
 use Illuminate\View\ComponentSlot;
 use InvalidArgumentException;
 use TallStackUi\Attributes\PassThroughRuntime;
-use TallStackUi\Attributes\SoftPersonalization;
-use TallStackUi\Personalization\Contracts\Personalization;
+use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\Support\Runtime\Components\DateRuntime;
 use TallStackUi\TallStackUiComponent;
 use TallStackUi\View\Components\Floating;
 
-#[SoftPersonalization('form.date')]
+#[SoftCustomization('form.date')]
 #[PassThroughRuntime(DateRuntime::class)]
-class Date extends TallStackUiComponent implements Personalization
+class Date extends TallStackUiComponent implements Customization
 {
     public function __construct(
         public ComponentSlot|string|null $label = null,
@@ -73,14 +73,14 @@ class Date extends TallStackUiComponent implements Personalization
         ];
     }
 
-    public function personalization(): array
+    public function customization(): array
     {
         return Arr::dot([
             'wrapper' => [
                 'helpers' => 'custom-scrollbar flex items-center justify-between space-x-2 overflow-auto pb-2',
             ],
             'floating' => [
-                'default' => collect(app(Floating::class)->personalization())->get('wrapper'),
+                'default' => collect(app(Floating::class)->customization())->get('wrapper'),
                 'class' => 'p-3 w-[17rem]',
             ],
             'box' => [

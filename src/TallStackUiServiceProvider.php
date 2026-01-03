@@ -9,7 +9,7 @@ use TallStackUi\Console\FindComponentCommand;
 use TallStackUi\Console\IdeCommand;
 use TallStackUi\Console\SetupColorCommand;
 use TallStackUi\Console\SetupPrefixCommand;
-use TallStackUi\Personalization\PersonalizationFactory;
+use TallStackUi\Customization\CustomizationFactory;
 use TallStackUi\Support\Blade\ComponentPrefix;
 use TallStackUi\Support\Blade\Directives;
 use TallStackUi\View\Components\Icon;
@@ -24,7 +24,7 @@ class TallStackUiServiceProvider extends ServiceProvider
 
         $this->registerComponents();
 
-        $this->registerComponentPersonalization();
+        $this->registerComponentCustomization();
 
         $this->registerCommands();
 
@@ -52,13 +52,13 @@ class TallStackUiServiceProvider extends ServiceProvider
         ]);
     }
 
-    protected function registerComponentPersonalization(): void
+    protected function registerComponentCustomization(): void
     {
         // This ternary was needed to avoid exceptions when BladeUi is not installed in the base project.
         Blade::component(class_exists(\BladeUI\Icons\Components\Icon::class) ? 'BladeUI\Icons\Components\Icon' : Icon::class, 'blade-ui');
 
         foreach (__ts_soft_personalization_components() as $key => $class) {
-            $this->app->singleton($key, fn () => new PersonalizationFactory($class));
+            $this->app->singleton($key, fn () => new CustomizationFactory($class));
         }
     }
 

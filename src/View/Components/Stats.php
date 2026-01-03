@@ -8,16 +8,16 @@ use Illuminate\View\ComponentSlot;
 use TallStackUi\Attributes\ColorsThroughOf;
 use TallStackUi\Attributes\PassThroughRuntime;
 use TallStackUi\Attributes\SkipDebug;
-use TallStackUi\Attributes\SoftPersonalization;
-use TallStackUi\Personalization\Contracts\Personalization;
+use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\Support\Colors\Components\StatsColors;
 use TallStackUi\Support\Runtime\Components\StatsRuntime;
 use TallStackUi\TallStackUiComponent;
 
-#[SoftPersonalization('stats')]
+#[SoftCustomization('stats')]
 #[ColorsThroughOf(StatsColors::class)]
 #[PassThroughRuntime(StatsRuntime::class)]
-class Stats extends TallStackUiComponent implements Personalization
+class Stats extends TallStackUiComponent implements Customization
 {
     public function __construct(
         public string|int|null $number = null,
@@ -50,7 +50,7 @@ class Stats extends TallStackUiComponent implements Personalization
         return view('tallstack-ui::components.stats');
     }
 
-    public function personalization(): array
+    public function customization(): array
     {
         return Arr::dot([
             'wrapper' => [

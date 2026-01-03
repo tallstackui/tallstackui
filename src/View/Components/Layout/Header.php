@@ -5,12 +5,12 @@ namespace TallStackUi\View\Components\Layout;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\ComponentSlot;
-use TallStackUi\Attributes\SoftPersonalization;
-use TallStackUi\Personalization\Contracts\Personalization;
+use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\TallStackUiComponent;
 
-#[SoftPersonalization('layout.header')]
-class Header extends TallStackUiComponent implements Personalization
+#[SoftCustomization('layout.header')]
+class Header extends TallStackUiComponent implements Customization
 {
     public function __construct(
         public ComponentSlot|string|null $left = null,
@@ -26,7 +26,7 @@ class Header extends TallStackUiComponent implements Personalization
         return view('tallstack-ui::components.layout.header');
     }
 
-    public function personalization(): array
+    public function customization(): array
     {
         return Arr::dot([
             'wrapper' => 'dark:bg-dark-700 dark:border-dark-600 sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-300/10 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8',

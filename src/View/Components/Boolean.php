@@ -5,14 +5,14 @@ namespace TallStackUi\View\Components;
 use Closure;
 use Illuminate\Contracts\View\View;
 use TallStackUi\Attributes\ColorsThroughOf;
-use TallStackUi\Attributes\SoftPersonalization;
-use TallStackUi\Personalization\Contracts\Personalization;
+use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\Support\Colors\Components\BooleanColors;
 use TallStackUi\TallStackUiComponent;
 
-#[SoftPersonalization('boolean')]
+#[SoftCustomization('boolean')]
 #[ColorsThroughOf(BooleanColors::class)]
-class Boolean extends TallStackUiComponent implements Personalization
+class Boolean extends TallStackUiComponent implements Customization
 {
     public function __construct(
         public bool|Closure $boolean = false,
@@ -34,7 +34,7 @@ class Boolean extends TallStackUiComponent implements Personalization
         return view('tallstack-ui::components.boolean');
     }
 
-    public function personalization(): array
+    public function customization(): array
     {
         return ['icon' => 'w-5 h-5'];
     }

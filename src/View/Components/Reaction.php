@@ -9,16 +9,16 @@ use InvalidArgumentException;
 use TallStackUi\Attributes\PassThroughRuntime;
 use TallStackUi\Attributes\RequireLivewireContext;
 use TallStackUi\Attributes\SkipDebug;
-use TallStackUi\Attributes\SoftPersonalization;
+use TallStackUi\Attributes\SoftCustomization;
 use TallStackUi\Exceptions\InvalidSelectedPositionException;
-use TallStackUi\Personalization\Contracts\Personalization;
+use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\Support\Runtime\Components\ReactionRuntime;
 use TallStackUi\TallStackUiComponent;
 
 #[RequireLivewireContext]
-#[SoftPersonalization('reaction')]
+#[SoftCustomization('reaction')]
 #[PassThroughRuntime(ReactionRuntime::class)]
-class Reaction extends TallStackUiComponent implements Personalization
+class Reaction extends TallStackUiComponent implements Customization
 {
     /**
      * Default supported icons.
@@ -69,7 +69,7 @@ class Reaction extends TallStackUiComponent implements Personalization
     final public function content(string $component): string
     {
         $collect = collect($this->icons);
-        $personalize = $this->personalization();
+        $personalize = $this->customization();
 
         $buttons = $collect->map(function (string $icon, string $reaction) use ($personalize) {
             $method = $this->reactMethod;
@@ -99,7 +99,7 @@ class Reaction extends TallStackUiComponent implements Personalization
         HTML;
     }
 
-    public function personalization(): array
+    public function customization(): array
     {
         return Arr::dot([
             'wrapper' => [

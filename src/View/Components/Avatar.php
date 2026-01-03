@@ -8,14 +8,14 @@ use Illuminate\Support\Arr;
 use InvalidArgumentException;
 use TallStackUi\Attributes\ColorsThroughOf;
 use TallStackUi\Attributes\SkipDebug;
-use TallStackUi\Attributes\SoftPersonalization;
-use TallStackUi\Personalization\Contracts\Personalization;
+use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\Support\Colors\Components\AvatarColors;
 use TallStackUi\TallStackUiComponent;
 
-#[SoftPersonalization('avatar')]
+#[SoftCustomization('avatar')]
 #[ColorsThroughOf(AvatarColors::class)]
-class Avatar extends TallStackUiComponent implements Personalization
+class Avatar extends TallStackUiComponent implements Customization
 {
     public function __construct(
         public ?Model $model = null,
@@ -54,7 +54,7 @@ class Avatar extends TallStackUiComponent implements Personalization
         return "https://ui-avatars.com/api?{$params}";
     }
 
-    public function personalization(): array
+    public function customization(): array
     {
         return Arr::dot([
             'wrapper' => [

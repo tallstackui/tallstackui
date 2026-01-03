@@ -4,12 +4,12 @@ namespace TallStackUi\View\Components;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\View\ComponentSlot;
-use TallStackUi\Attributes\SoftPersonalization;
-use TallStackUi\Personalization\Contracts\Personalization;
+use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\TallStackUiComponent;
 
-#[SoftPersonalization('floating')]
-class Floating extends TallStackUiComponent implements Personalization
+#[SoftCustomization('floating')]
+class Floating extends TallStackUiComponent implements Customization
 {
     public function __construct(
         public ?string $offset = '10',
@@ -33,7 +33,7 @@ class Floating extends TallStackUiComponent implements Personalization
         return view('tallstack-ui::components.floating');
     }
 
-    public function personalization(): array
+    public function customization(): array
     {
         return ['wrapper' => 'dark:bg-dark-700 border-dark-200 dark:border-dark-600 absolute z-40 rounded-lg border bg-white'];
     }

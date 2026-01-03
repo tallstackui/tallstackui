@@ -6,14 +6,14 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use TallStackUi\Attributes\ColorsThroughOf;
 use TallStackUi\Attributes\SkipDebug;
-use TallStackUi\Attributes\SoftPersonalization;
-use TallStackUi\Personalization\Contracts\Personalization;
+use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\Support\Colors\Components\AlertColors;
 use TallStackUi\TallStackUiComponent;
 
-#[SoftPersonalization('alert')]
+#[SoftCustomization('alert')]
 #[ColorsThroughOf(AlertColors::class)]
-class Alert extends TallStackUiComponent implements Personalization
+class Alert extends TallStackUiComponent implements Customization
 {
     public function __construct(
         public ?string $title = null,
@@ -36,7 +36,7 @@ class Alert extends TallStackUiComponent implements Personalization
         return view('tallstack-ui::components.alert');
     }
 
-    public function personalization(): array
+    public function customization(): array
     {
         return Arr::dot([
             'wrapper' => 'rounded-lg p-4',

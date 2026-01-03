@@ -1,6 +1,6 @@
 <?php
 
-namespace TallStackUi\Personalization;
+namespace TallStackUi\Customization;
 
 use Exception;
 use RuntimeException;
@@ -69,35 +69,35 @@ use TallStackUi\View\Components\Wrapper\Radio as RadioWrapper;
 /**
  * @internal
  */
-class Personalization
+class Customization
 {
     public function __construct(public ?string $component = null, public ?string $scope = null)
     {
         //
     }
 
-    public function alert(?string $scope = null): PersonalizationFactory
+    public function alert(?string $scope = null): CustomizationFactory
     {
         $this->scope ??= $scope;
 
         return $this->component(Alert::class);
     }
 
-    public function avatar(?string $scope = null): PersonalizationFactory
+    public function avatar(?string $scope = null): CustomizationFactory
     {
         $this->scope ??= $scope;
 
         return $this->component(Avatar::class);
     }
 
-    public function badge(?string $scope = null): PersonalizationFactory
+    public function badge(?string $scope = null): CustomizationFactory
     {
         $this->scope ??= $scope;
 
         return $this->component(Badge::class);
     }
 
-    public function banner(?string $scope = null): PersonalizationFactory
+    public function banner(?string $scope = null): CustomizationFactory
     {
         $this->scope ??= $scope;
 
@@ -107,19 +107,19 @@ class Personalization
     /**
      * Interact with the block to start the personalization.
      */
-    public function block(string|array $name, string|callable|null $code = null): PersonalizationFactory
+    public function block(string|array $name, string|callable|null $code = null): CustomizationFactory
     {
         return $this->forward()->block($name, $code);
     }
 
-    public function boolean(?string $scope = null): PersonalizationFactory
+    public function boolean(?string $scope = null): CustomizationFactory
     {
         $this->scope ??= $scope;
 
         return $this->component(Boolean::class);
     }
 
-    public function button(?string $component = null, ?string $scope = null): PersonalizationFactory
+    public function button(?string $component = null, ?string $scope = null): CustomizationFactory
     {
         $component ??= 'button';
 
@@ -134,35 +134,35 @@ class Personalization
         return $this->component($class);
     }
 
-    public function card(?string $scope = null): PersonalizationFactory
+    public function card(?string $scope = null): CustomizationFactory
     {
         $this->scope ??= $scope;
 
         return $this->component(Card::class);
     }
 
-    public function carousel(?string $scope = null): PersonalizationFactory
+    public function carousel(?string $scope = null): CustomizationFactory
     {
         $this->scope ??= $scope;
 
         return $this->component(Carousel::class);
     }
 
-    public function clipboard(?string $scope = null): PersonalizationFactory
+    public function clipboard(?string $scope = null): CustomizationFactory
     {
         $this->scope ??= $scope;
 
         return $this->component(Clipboard::class);
     }
 
-    public function dialog(?string $scope = null): PersonalizationFactory
+    public function dialog(?string $scope = null): CustomizationFactory
     {
         $this->scope ??= $scope;
 
         return $this->component(Dialog::class);
     }
 
-    public function dropdown(?string $component = null, ?string $scope = null): PersonalizationFactory
+    public function dropdown(?string $component = null, ?string $scope = null): CustomizationFactory
     {
         $this->scope ??= $scope;
 
@@ -178,28 +178,28 @@ class Personalization
         return $this->component($class);
     }
 
-    public function environment(?string $scope = null): PersonalizationFactory
+    public function environment(?string $scope = null): CustomizationFactory
     {
         $this->scope ??= $scope;
 
         return $this->component(Environment::class);
     }
 
-    public function errors(?string $scope = null): PersonalizationFactory
+    public function errors(?string $scope = null): CustomizationFactory
     {
         $this->scope ??= $scope;
 
         return $this->component(Errors::class);
     }
 
-    public function floating(?string $scope = null): PersonalizationFactory
+    public function floating(?string $scope = null): CustomizationFactory
     {
         $this->scope ??= $scope;
 
         return $this->component(Floating::class);
     }
 
-    public function form(?string $component = null, ?string $scope = null): PersonalizationFactory
+    public function form(?string $component = null, ?string $scope = null): CustomizationFactory
     {
         $this->scope ??= $scope;
 
@@ -236,14 +236,14 @@ class Personalization
      * as: "form('input')", where in this example 'form' would be
      * the method and 'input' the parameter to be injected into the method.
      */
-    public function forward(): PersonalizationFactory
+    public function forward(): CustomizationFactory
     {
         if (! $this->component) {
             throw new RuntimeException('No component has been set');
         }
 
-        if (str_contains($this->component, 'tallstack-ui::personalizations')) {
-            $this->component = str_replace('tallstack-ui::personalizations.', '', $this->component);
+        if (str_contains($this->component, 'tallstack-ui::customization')) {
+            $this->component = str_replace('tallstack-ui::customization.', '', $this->component);
         }
 
         // This is necessary for cases where personalization aims to
@@ -261,14 +261,14 @@ class Personalization
         return call_user_func([$this, $main], $main === $secondary ?: $secondary);
     }
 
-    public function keyValue(?string $scope = null): PersonalizationFactory
+    public function keyValue(?string $scope = null): CustomizationFactory
     {
         $this->scope ??= $scope;
 
         return $this->component(KeyValue::class);
     }
 
-    public function layout(?string $component = null, ?string $scope = null): PersonalizationFactory
+    public function layout(?string $component = null, ?string $scope = null): CustomizationFactory
     {
         $component ??= 'index';
 
@@ -283,28 +283,28 @@ class Personalization
         return $this->component($class);
     }
 
-    public function link(?string $scope = null): PersonalizationFactory
+    public function link(?string $scope = null): CustomizationFactory
     {
         $this->scope ??= $scope;
 
         return $this->component(Link::class);
     }
 
-    public function loading(?string $scope = null): PersonalizationFactory
+    public function loading(?string $scope = null): CustomizationFactory
     {
         $this->scope ??= $scope;
 
         return $this->component(Loading::class);
     }
 
-    public function modal(?string $scope = null): PersonalizationFactory
+    public function modal(?string $scope = null): CustomizationFactory
     {
         $this->scope ??= $scope;
 
         return $this->component(Modal::class);
     }
 
-    public function progress(?string $component = null, ?string $scope = null): PersonalizationFactory
+    public function progress(?string $component = null, ?string $scope = null): CustomizationFactory
     {
         $this->scope ??= $scope;
 
@@ -319,14 +319,14 @@ class Personalization
         return $this->component($class);
     }
 
-    public function rating(?string $scope = null): PersonalizationFactory
+    public function rating(?string $scope = null): CustomizationFactory
     {
         $this->scope ??= $scope;
 
         return $this->component(Rating::class);
     }
 
-    public function reaction(?string $scope = null): PersonalizationFactory
+    public function reaction(?string $scope = null): CustomizationFactory
     {
         $this->scope ??= $scope;
 
@@ -345,7 +345,7 @@ class Personalization
         return $this;
     }
 
-    public function select(?string $component = null, ?string $scope = null): PersonalizationFactory
+    public function select(?string $component = null, ?string $scope = null): CustomizationFactory
     {
         $this->scope ??= $scope;
 
@@ -360,7 +360,7 @@ class Personalization
         return $this->component($class);
     }
 
-    public function sideBar(?string $component = null, ?string $scope = null): PersonalizationFactory
+    public function sideBar(?string $component = null, ?string $scope = null): CustomizationFactory
     {
         $component ??= 'side-bar';
 
@@ -376,70 +376,70 @@ class Personalization
         return $this->component($class);
     }
 
-    public function signature(?string $scope = null): PersonalizationFactory
+    public function signature(?string $scope = null): CustomizationFactory
     {
         $this->scope ??= $scope;
 
         return $this->component(Signature::class);
     }
 
-    public function slide(?string $scope = null): PersonalizationFactory
+    public function slide(?string $scope = null): CustomizationFactory
     {
         $this->scope ??= $scope;
 
         return $this->component(Slide::class);
     }
 
-    public function stats(?string $scope = null): PersonalizationFactory
+    public function stats(?string $scope = null): CustomizationFactory
     {
         $this->scope ??= $scope;
 
         return $this->component(Stats::class);
     }
 
-    public function step(?string $scope = null): PersonalizationFactory
+    public function step(?string $scope = null): CustomizationFactory
     {
         $this->scope ??= $scope;
 
         return $this->component(Step::class);
     }
 
-    public function tab(?string $scope = null): PersonalizationFactory
+    public function tab(?string $scope = null): CustomizationFactory
     {
         $this->scope ??= $scope;
 
         return $this->component(Tab::class);
     }
 
-    public function table(?string $scope = null): PersonalizationFactory
+    public function table(?string $scope = null): CustomizationFactory
     {
         $this->scope ??= $scope;
 
         return $this->component(Table::class);
     }
 
-    public function themeSwitch(?string $scope = null): PersonalizationFactory
+    public function themeSwitch(?string $scope = null): CustomizationFactory
     {
         $this->scope ??= $scope;
 
         return $this->component(ThemeSwitch::class);
     }
 
-    public function toast(?string $scope = null): PersonalizationFactory
+    public function toast(?string $scope = null): CustomizationFactory
     {
         $this->scope ??= $scope;
 
         return $this->component(Toast::class);
     }
 
-    public function tooltip(?string $scope = null): PersonalizationFactory
+    public function tooltip(?string $scope = null): CustomizationFactory
     {
         $this->scope ??= $scope;
 
         return $this->component(Tooltip::class);
     }
 
-    public function wrapper(?string $component = null, ?string $scope = null): PersonalizationFactory
+    public function wrapper(?string $component = null, ?string $scope = null): CustomizationFactory
     {
         $this->scope ??= $scope;
 
@@ -456,20 +456,18 @@ class Personalization
 
     /**
      * Searches for the component from the list of all components using the customization attribute.
-     *
-     * @throws Exception
      */
-    private function component(string $class): string|PersonalizationFactory
+    private function component(string $class): string|CustomizationFactory
     {
         $component = __ts_search_component($class);
 
         // This is the strategy adopted for scope personalization. We create a temporary
-        // key in the Laravel container and instead of returning the same instance - which
+        // key in the Laravel container, and instead of returning the same instance - which
         // would normally happen, as in v1, we return a new instance of PersonalizationResources.
         if (($scope = $this->scope) !== null) {
             $this->scope = null; // Resetting the scope to avoid infinite recursion.
 
-            $instance = new PersonalizationFactory($class, scope: $scope);
+            $instance = new CustomizationFactory($class, scope: $scope);
 
             app()->singleton(__ts_scope_container_key($component, $scope), fn () => $instance);
 

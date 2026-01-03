@@ -8,19 +8,19 @@ use Illuminate\Support\Arr;
 use TallStackUi\Attributes\ColorsThroughOf;
 use TallStackUi\Attributes\PassThroughRuntime;
 use TallStackUi\Attributes\SkipDebug;
-use TallStackUi\Attributes\SoftPersonalization;
+use TallStackUi\Attributes\SoftCustomization;
 use TallStackUi\Exceptions\InvalidSelectedPositionException;
-use TallStackUi\Personalization\Contracts\Personalization;
+use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\Support\Colors\Components\TooltipColors;
 use TallStackUi\Support\Concerns\BuildRawIcon;
 use TallStackUi\Support\Icons\IconGuideMap;
 use TallStackUi\Support\Runtime\Components\TooltipRuntime;
 use TallStackUi\TallStackUiComponent;
 
-#[SoftPersonalization('tooltip')]
+#[SoftCustomization('tooltip')]
 #[ColorsThroughOf(TooltipColors::class)]
 #[PassThroughRuntime(TooltipRuntime::class)]
-class Tooltip extends TallStackUiComponent implements Personalization
+class Tooltip extends TallStackUiComponent implements Customization
 {
     use BuildRawIcon;
 
@@ -48,7 +48,7 @@ class Tooltip extends TallStackUiComponent implements Personalization
         return view('tallstack-ui::components.tooltip');
     }
 
-    public function personalization(): array
+    public function customization(): array
     {
         return Arr::dot([
             'wrapper' => 'inline-flex',

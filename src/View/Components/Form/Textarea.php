@@ -7,15 +7,15 @@ use Illuminate\Support\Arr;
 use Illuminate\View\ComponentSlot;
 use InvalidArgumentException;
 use TallStackUi\Attributes\PassThroughRuntime;
-use TallStackUi\Attributes\SoftPersonalization;
-use TallStackUi\Personalization\Contracts\Personalization;
+use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\Support\Runtime\Components\TextareaRuntime;
 use TallStackUi\TallStackUiComponent;
 use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
 
-#[SoftPersonalization('form.textarea')]
+#[SoftCustomization('form.textarea')]
 #[PassThroughRuntime(TextareaRuntime::class)]
-class Textarea extends TallStackUiComponent implements Personalization
+class Textarea extends TallStackUiComponent implements Customization
 {
     use DefaultInputClasses;
 
@@ -35,7 +35,7 @@ class Textarea extends TallStackUiComponent implements Personalization
         return view('tallstack-ui::components.form.textarea');
     }
 
-    public function personalization(): array
+    public function customization(): array
     {
         return Arr::dot([
             'input' => [...$this->input()],

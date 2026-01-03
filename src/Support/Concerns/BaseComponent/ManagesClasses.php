@@ -8,9 +8,9 @@ use Illuminate\Support\Arr;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use ReflectionException;
-use TallStackUi\Attributes\SoftPersonalization;
+use TallStackUi\Attributes\SoftCustomization;
 use TallStackUi\Facades\TallStackUi;
-use TallStackUi\Personalization\Contracts\Personalization;
+use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\Support\Miscellaneous\ReflectComponent;
 use TallStackUi\View\Components\Floating;
 
@@ -24,7 +24,7 @@ trait ManagesClasses
      */
     public function classes(?Closure $callback = null): array
     {
-        if (! $this instanceof Personalization) {
+        if (! $this instanceof Customization) {
             return [];
         }
 
@@ -34,7 +34,7 @@ trait ManagesClasses
         // personalization continue to work even when "deep" personalization is in effect.
         $reflection = app(ReflectComponent::class, ['component' => static::class]);
 
-        $attribute = $reflection->attribute(SoftPersonalization::class);
+        $attribute = $reflection->attribute(SoftCustomization::class);
 
         if (blank($attribute?->getArguments())) {
             return [];
@@ -67,7 +67,7 @@ trait ManagesClasses
         // of the previous operation that will use the scope smooth prioritization
         // and personalization settings. This is extremely necessary for cases where
         // $merge does not contain all the necessary keys in use by the component.
-        $classes = Arr::only(array_merge($personalization = $this->personalization(), $merge), array_keys($personalization));
+        $classes = Arr::only(array_merge($personalization = $this->customization(), $merge), array_keys($personalization));
 
         // We just pass the classes to a special hook method to allow
         // manipulation when necessary - a good example for this is the flat button.

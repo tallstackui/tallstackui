@@ -8,14 +8,14 @@ use Illuminate\View\ComponentSlot;
 use InvalidArgumentException;
 use TallStackUi\Attributes\PassThroughRuntime;
 use TallStackUi\Attributes\SkipDebug;
-use TallStackUi\Attributes\SoftPersonalization;
-use TallStackUi\Personalization\Contracts\Personalization;
+use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\Support\Runtime\Components\PinRuntime;
 use TallStackUi\TallStackUiComponent;
 
-#[SoftPersonalization('form.pin')]
+#[SoftCustomization('form.pin')]
 #[PassThroughRuntime(PinRuntime::class)]
-class Pin extends TallStackUiComponent implements Personalization
+class Pin extends TallStackUiComponent implements Customization
 {
     public function __construct(
         public ComponentSlot|string|null $label = null,
@@ -38,7 +38,7 @@ class Pin extends TallStackUiComponent implements Personalization
         return view('tallstack-ui::components.form.pin');
     }
 
-    public function personalization(): array
+    public function customization(): array
     {
         return Arr::dot([
             'wrapper' => 'mt-1 flex items-center',

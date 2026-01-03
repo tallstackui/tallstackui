@@ -8,14 +8,14 @@ use Illuminate\Support\Facades\File;
 use Illuminate\View\ComponentSlot;
 use TallStackUi\Attributes\ColorsThroughOf;
 use TallStackUi\Attributes\SkipDebug;
-use TallStackUi\Attributes\SoftPersonalization;
-use TallStackUi\Personalization\Contracts\Personalization;
+use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\Support\Colors\Components\EnvironmentColors;
 use TallStackUi\TallStackUiComponent;
 
-#[SoftPersonalization('environment')]
+#[SoftCustomization('environment')]
 #[ColorsThroughOf(EnvironmentColors::class)]
-class Environment extends TallStackUiComponent implements Personalization
+class Environment extends TallStackUiComponent implements Customization
 {
     public function __construct(
         public ?bool $xs = null,
@@ -43,7 +43,7 @@ class Environment extends TallStackUiComponent implements Personalization
         return view('tallstack-ui::components.environment');
     }
 
-    public function personalization(): array
+    public function customization(): array
     {
         return Arr::dot([
             'wrapper' => [

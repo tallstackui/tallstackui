@@ -7,14 +7,14 @@ use Illuminate\Support\Arr;
 use Illuminate\View\ComponentSlot;
 use TallStackUi\Attributes\PassThroughRuntime;
 use TallStackUi\Attributes\SkipDebug;
-use TallStackUi\Attributes\SoftPersonalization;
-use TallStackUi\Personalization\Contracts\Personalization;
+use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\Support\Runtime\Components\CurrencyRuntime;
 use TallStackUi\TallStackUiComponent;
 
-#[SoftPersonalization('form.currency')]
+#[SoftCustomization('form.currency')]
 #[PassThroughRuntime(CurrencyRuntime::class)]
-class Currency extends TallStackUiComponent implements Personalization
+class Currency extends TallStackUiComponent implements Customization
 {
     public function __construct(
         public ComponentSlot|string|null $label = null,
@@ -38,7 +38,7 @@ class Currency extends TallStackUiComponent implements Personalization
         return view('tallstack-ui::components.form.currency');
     }
 
-    public function personalization(): array
+    public function customization(): array
     {
         return Arr::dot([
             'clearable' => [

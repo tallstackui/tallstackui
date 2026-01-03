@@ -8,8 +8,8 @@ use Illuminate\Support\Collection;
 use InvalidArgumentException;
 use TallStackUi\Attributes\PassThroughRuntime;
 use TallStackUi\Attributes\SkipDebug;
-use TallStackUi\Attributes\SoftPersonalization;
-use TallStackUi\Personalization\Contracts\Personalization;
+use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\Support\Runtime\Components\SelectStyledRuntime;
 use TallStackUi\TallStackUiComponent;
 use TallStackUi\View\Components\Floating;
@@ -17,9 +17,9 @@ use TallStackUi\View\Components\Form\Select\Traits\Setup;
 use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
 use Throwable;
 
-#[SoftPersonalization('select.styled')]
+#[SoftCustomization('select.styled')]
 #[PassThroughRuntime(SelectStyledRuntime::class)]
-class Styled extends TallStackUiComponent implements Personalization
+class Styled extends TallStackUiComponent implements Customization
 {
     use DefaultInputClasses;
     use Setup;
@@ -64,7 +64,7 @@ class Styled extends TallStackUiComponent implements Personalization
         return view('tallstack-ui::components.select.styled');
     }
 
-    public function personalization(): array
+    public function customization(): array
     {
         return Arr::dot([
             'input' => [
@@ -87,7 +87,7 @@ class Styled extends TallStackUiComponent implements Personalization
                 'error' => 'text-red-500',
             ],
             'floating' => [
-                'default' => collect(app(Floating::class)->personalization())->get('wrapper'),
+                'default' => collect(app(Floating::class)->customization())->get('wrapper'),
                 'class' => 'w-full overflow-auto',
             ],
             'box' => [

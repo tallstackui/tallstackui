@@ -4,14 +4,14 @@ namespace TallStackUi\View\Components\Dropdown;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
-use TallStackUi\Attributes\SoftPersonalization;
-use TallStackUi\Personalization\Contracts\Personalization;
+use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\TallStackUiComponent;
 use TallStackUi\View\Components\Dropdown\Traits\SharedTransitions;
 use TallStackUi\View\Components\Floating;
 
-#[SoftPersonalization('dropdown.submenu')]
-class Submenu extends TallStackUiComponent implements Personalization
+#[SoftCustomization('dropdown.submenu')]
+class Submenu extends TallStackUiComponent implements Customization
 {
     use SharedTransitions;
 
@@ -29,7 +29,7 @@ class Submenu extends TallStackUiComponent implements Personalization
         return view('tallstack-ui::components.dropdown.submenu');
     }
 
-    public function personalization(): array
+    public function customization(): array
     {
         return Arr::dot([
             'wrapper' => 'flex items-center gap-1',
@@ -40,7 +40,7 @@ class Submenu extends TallStackUiComponent implements Personalization
                 'left' => 'mr-2 h-4 w-4',
                 'right' => 'ml-2 h-4 w-4',
             ],
-            'floating.default' => collect(app(Floating::class)->personalization())->get('wrapper'),
+            'floating.default' => collect(app(Floating::class)->customization())->get('wrapper'),
             'slot' => 'overflow-hidden rounded-md',
         ]);
     }

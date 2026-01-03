@@ -4,12 +4,12 @@ namespace TallStackUi\View\Components\Layout\SideBar;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
-use TallStackUi\Attributes\SoftPersonalization;
-use TallStackUi\Personalization\Contracts\Personalization;
+use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\TallStackUiComponent;
 
-#[SoftPersonalization('sideBar.separator')]
-class Separator extends TallStackUiComponent implements Personalization
+#[SoftCustomization('sideBar.separator')]
+class Separator extends TallStackUiComponent implements Customization
 {
     public function __construct(
         public ?string $text = null,
@@ -30,7 +30,7 @@ class Separator extends TallStackUiComponent implements Personalization
         return view('tallstack-ui::components.layout.sidebar.separator');
     }
 
-    public function personalization(): array
+    public function customization(): array
     {
         return Arr::dot([
             'simple' => [

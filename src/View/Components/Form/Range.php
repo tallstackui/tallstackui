@@ -8,16 +8,16 @@ use Illuminate\View\ComponentSlot;
 use TallStackUi\Attributes\ColorsThroughOf;
 use TallStackUi\Attributes\PassThroughRuntime;
 use TallStackUi\Attributes\SkipDebug;
-use TallStackUi\Attributes\SoftPersonalization;
-use TallStackUi\Personalization\Contracts\Personalization;
+use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\Support\Colors\Components\RangeColors;
 use TallStackUi\Support\Runtime\Components\RangeRuntime;
 use TallStackUi\TallStackUiComponent;
 
-#[SoftPersonalization('form.range')]
+#[SoftCustomization('form.range')]
 #[ColorsThroughOf(RangeColors::class)]
 #[PassThroughRuntime(RangeRuntime::class)]
-class Range extends TallStackUiComponent implements Personalization
+class Range extends TallStackUiComponent implements Customization
 {
     public function __construct(
         public ComponentSlot|string|null $label = null,
@@ -38,7 +38,7 @@ class Range extends TallStackUiComponent implements Personalization
         return view('tallstack-ui::components.form.range');
     }
 
-    public function personalization(): array
+    public function customization(): array
     {
         return Arr::dot([
             'input' => [

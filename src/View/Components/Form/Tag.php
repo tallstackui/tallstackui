@@ -7,15 +7,15 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\ComponentSlot;
 use TallStackUi\Attributes\PassThroughRuntime;
-use TallStackUi\Attributes\SoftPersonalization;
-use TallStackUi\Personalization\Contracts\Personalization;
+use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\Support\Runtime\Components\TagRuntime;
 use TallStackUi\TallStackUiComponent;
 use TallStackUi\View\Components\Form\Traits\DefaultInputClasses;
 
-#[SoftPersonalization('form.tag')]
+#[SoftCustomization('form.tag')]
 #[PassThroughRuntime(TagRuntime::class)]
-class Tag extends TallStackUiComponent implements Personalization
+class Tag extends TallStackUiComponent implements Customization
 {
     use DefaultInputClasses;
 
@@ -34,7 +34,7 @@ class Tag extends TallStackUiComponent implements Personalization
         return view('tallstack-ui::components.form.tag');
     }
 
-    public function personalization(): array
+    public function customization(): array
     {
         return Arr::dot([
             'wrapper' => 'flex flex-wrap items-center gap-1 border-0 px-2 py-1.5 pr-4',

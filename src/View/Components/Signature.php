@@ -6,15 +6,15 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use TallStackUi\Attributes\PassThroughRuntime;
 use TallStackUi\Attributes\RequireLivewireContext;
-use TallStackUi\Attributes\SoftPersonalization;
-use TallStackUi\Personalization\Contracts\Personalization;
+use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\Support\Runtime\Components\SignatureRuntime;
 use TallStackUi\TallStackUiComponent;
 
 #[RequireLivewireContext]
-#[SoftPersonalization('signature')]
+#[SoftCustomization('signature')]
 #[PassThroughRuntime(SignatureRuntime::class)]
-class Signature extends TallStackUiComponent implements Personalization
+class Signature extends TallStackUiComponent implements Customization
 {
     public function __construct(
         public ?string $label = null,
@@ -36,7 +36,7 @@ class Signature extends TallStackUiComponent implements Personalization
         return view('tallstack-ui::components.signature');
     }
 
-    public function personalization(): array
+    public function customization(): array
     {
         return Arr::dot([
             'wrapper' => [

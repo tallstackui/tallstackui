@@ -8,14 +8,14 @@ use Illuminate\Support\ViewErrorBag;
 use Illuminate\View\ComponentSlot;
 use InvalidArgumentException;
 use TallStackUi\Attributes\ColorsThroughOf;
-use TallStackUi\Attributes\SoftPersonalization;
-use TallStackUi\Personalization\Contracts\Personalization;
+use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\Support\Colors\Components\ErrorsColors;
 use TallStackUi\TallStackUiComponent;
 
-#[SoftPersonalization('errors')]
+#[SoftCustomization('errors')]
 #[ColorsThroughOf(ErrorsColors::class)]
-class Errors extends TallStackUiComponent implements Personalization
+class Errors extends TallStackUiComponent implements Customization
 {
     public function __construct(
         public ?string $title = null,
@@ -51,7 +51,7 @@ class Errors extends TallStackUiComponent implements Personalization
         return array_filter($messages, fn (string $name) => in_array($name, $this->only), ARRAY_FILTER_USE_KEY);
     }
 
-    public function personalization(): array
+    public function customization(): array
     {
         return Arr::dot([
             'wrapper' => 'rounded-lg p-4 shadow',

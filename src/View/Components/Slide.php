@@ -7,14 +7,14 @@ use Illuminate\Support\Arr;
 use Illuminate\View\ComponentSlot;
 use InvalidArgumentException;
 use TallStackUi\Attributes\PassThroughRuntime;
-use TallStackUi\Attributes\SoftPersonalization;
-use TallStackUi\Personalization\Contracts\Personalization;
+use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\Support\Runtime\Components\SlideRuntime;
 use TallStackUi\TallStackUiComponent;
 
-#[SoftPersonalization('slide')]
+#[SoftCustomization('slide')]
 #[PassThroughRuntime(SlideRuntime::class)]
-class Slide extends TallStackUiComponent implements Personalization
+class Slide extends TallStackUiComponent implements Customization
 {
     public function __construct(
         public ?string $id = 'slide',
@@ -40,7 +40,7 @@ class Slide extends TallStackUiComponent implements Personalization
         return view('tallstack-ui::components.slide');
     }
 
-    public function personalization(): array
+    public function customization(): array
     {
         return Arr::dot([
             'wrapper' => [
