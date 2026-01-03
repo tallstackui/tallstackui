@@ -30,7 +30,7 @@ class Password extends TallStackUiComponent implements Personalization
         #[SkipDebug]
         public ?bool $simple = null,
     ) {
-        $default = config('tallstackui.settings.form.password.rules');
+        $default = __ts_get_component_configuration(self::class, 'rules');
 
         $this->simple = $this->rules === null && $this->generator === null;
 
@@ -50,10 +50,10 @@ class Password extends TallStackUiComponent implements Personalization
                 $rescued = rescue(fn () => explode(':', $value)[1], report: false);
 
                 return match (true) {
-                    str_contains($value, 'min') => ['min' => $rescued ?? data_get($default, 'min', 8)],
+                    str_contains($value, 'min') => ['min' => $rescued ?? $default->get('min', 8)],
                     str_contains($value, 'numbers') => ['numbers' => true],
                     str_contains($value, 'mixed') => ['mixed' => true],
-                    str_contains($value, 'symbols') => ['symbols' => $rescued ?? data_get($default, 'symbols', '!@#$%^&*()_+-=')],
+                    str_contains($value, 'symbols') => ['symbols' => $rescued ?? $default->get('symbols', '!@#$%^&*()_+-=')],
                     default => [$key => $value],
                 };
             });

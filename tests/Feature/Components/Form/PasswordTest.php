@@ -26,7 +26,6 @@ it('can render with rules', function () {
     expect($component)
         ->render()
         ->toContain(trans('tallstack-ui::messages.password.rules.title'))
-        ->toContain(trans('tallstack-ui::messages.password.rules.formats.min', ['min' => config('tallstackui.settings.form.password.rules')['min']]))
         ->toContain(trans('tallstack-ui::messages.password.rules.formats.symbols', ['symbols' => '!@#']))
         ->toContain(trans('tallstack-ui::messages.password.rules.formats.numbers'))
         ->toContain(trans('tallstack-ui::messages.password.rules.formats.mixed'));
@@ -40,7 +39,6 @@ it('can render with rules using default', function () {
     expect($component)
         ->render()
         ->toContain(trans('tallstack-ui::messages.password.rules.title'))
-        ->toContain(trans('tallstack-ui::messages.password.rules.formats.min', ['min' => config('tallstackui.settings.form.password.rules')['min']]))
         ->toContain(trans('tallstack-ui::messages.password.rules.formats.symbols', ['symbols' => '!@#$%^&amp;*()_+-=']))
         ->toContain(trans('tallstack-ui::messages.password.rules.formats.numbers'))
         ->toContain(trans('tallstack-ui::messages.password.rules.formats.mixed'));

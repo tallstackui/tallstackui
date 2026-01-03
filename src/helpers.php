@@ -11,17 +11,19 @@ if (! function_exists('__ts_get_component_configuration')) {
     /**
      * Get the component configuration from the new config file format.
      */
-    function __ts_get_component_configuration(string $component, bool $array = false): array|Collection|null
+    function __ts_get_component_configuration(string $component, ?string $key = null, ?bool $array = false): array|Collection|null
     {
         $configuration = (array) collect(config('tallstackui.components'))
             ->filter(fn (string|array $configuration) => $configuration === $component || in_array($component, (array) $configuration))
             ->first()[1] ?? null;
 
         if ($array) {
-            return $configuration;
+            return $key ? data_get($configuration, $key) : $configuration;
         }
 
-        return collect($configuration);
+        $collect = collect($configuration);
+
+        return $key ? collect(data_get($collect, $key)) : $collect;
     }
 }
 
