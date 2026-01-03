@@ -83,14 +83,14 @@ class TallStackUiServiceProvider extends ServiceProvider
 
         $this->loadRoutesFrom(__DIR__.'/routes.php');
 
-        $this->loadTranslationsFrom(__DIR__.'/lang', 'tallstack-ui');
+        $this->loadTranslationsFrom(__DIR__ . '/lang', 'tallstack-ui');
     }
 
     protected function registerPublishable(): void
     {
         $this->publishes([__DIR__.'/config.php' => config_path('tallstackui.php')], 'tallstackui.config');
 
-        $this->publishes([__DIR__.'/lang' => lang_path('vendor/tallstack-ui')], 'tallstackui.lang');
+        $this->publishes([__DIR__ . '/lang' => lang_path('vendor/tallstack-ui')], 'tallstackui.lang');
 
         $this->publishes([__DIR__.'/resources/views' => resource_path('views/vendor/tallstack-ui')], 'tallstackui.views');
     }

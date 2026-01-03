@@ -12,7 +12,7 @@ class TallStackUiAssetsController
     /**
      * The path to the dist directory.
      */
-    protected const DIST_PATH = __DIR__.'/../../../../dist';
+    protected const DIST_PATH = __DIR__.'/../../../dist';
 
     /** @throws Exception */
     public function script(?string $file = null): Response|BinaryFileResponse
