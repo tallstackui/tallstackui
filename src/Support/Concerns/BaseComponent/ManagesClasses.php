@@ -9,8 +9,8 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use ReflectionException;
 use TallStackUi\Attributes\SoftCustomization;
-use TallStackUi\Facades\TallStackUi;
 use TallStackUi\Customization\Contracts\Customization;
+use TallStackUi\Facades\TallStackUi;
 use TallStackUi\Support\Miscellaneous\ReflectComponent;
 use TallStackUi\View\Components\Floating;
 

@@ -32,31 +32,6 @@ class Item extends TallStackUiComponent implements Customization
         return view('tallstack-ui::components.layout.sidebar.item');
     }
 
-    final public function matches(): bool
-    {
-        if ($this->route) {
-            $str = str($this->route);
-
-            // If start with / and does not contain the app.url,
-            // then we assume it is a basic url: /dashboard
-            if ($str->startsWith('/') && ! $str->contains(config('app.url'))) {
-                return url($this->route) === url(request()->url());
-            }
-
-            $route = Route::getCurrentRoute();
-
-            // If contains the app.url, then we assume it is a
-            // route created in the route helper: route('dashboard')
-            return $this->route === route(
-                $route->getName(),
-                // This is necessary to correctly resolve routes of a view type
-                $route->getActionMethod() === "\Illuminate\Routing\ViewController" ? [] : $route->parameters()
-            );
-        }
-
-        return $this->match && request()->routeIs($this->match);
-    }
-
     public function customization(): array
     {
         return Arr::dot([
@@ -87,5 +62,30 @@ class Item extends TallStackUiComponent implements Customization
                 'text' => 'whitespace-nowrap',
             ],
         ]);
+    }
+
+    final public function matches(): bool
+    {
+        if ($this->route) {
+            $str = str($this->route);
+
+            // If start with / and does not contain the app.url,
+            // then we assume it is a basic url: /dashboard
+            if ($str->startsWith('/') && ! $str->contains(config('app.url'))) {
+                return url($this->route) === url(request()->url());
+            }
+
+            $route = Route::getCurrentRoute();
+
+            // If contains the app.url, then we assume it is a
+            // route created in the route helper: route('dashboard')
+            return $this->route === route(
+                $route->getName(),
+                // This is necessary to correctly resolve routes of a view type
+                $route->getActionMethod() === "\Illuminate\Routing\ViewController" ? [] : $route->parameters()
+            );
+        }
+
+        return $this->match && request()->routeIs($this->match);
     }
 }

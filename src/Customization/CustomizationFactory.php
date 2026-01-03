@@ -23,9 +23,14 @@ class CustomizationFactory implements Arrayable
     public ?string $block = null;
 
     /**
-     * Blocks available for personalization.
+     * Blocks available for customization.
      */
     public array $blocks = [];
+
+    /**
+     * Presets to be applied.
+     */
+    public CustomizationPresets $presets;
 
     /**
      * Original classes of the component with changes applied.
@@ -38,7 +43,7 @@ class CustomizationFactory implements Arrayable
     private Collection $interactions;
 
     /**
-     * Parts of the component personalization.
+     * Parts of the component customization.
      */
     private Collection $parts;
 
@@ -48,7 +53,7 @@ class CustomizationFactory implements Arrayable
     }
 
     /**
-     * Creating ability to use Pest's style: ->and->block('name', 'content').
+     * Creating the ability to use Pest's style: ->and->block('name', 'content').
      */
     public function __get(string $property): Customization
     {
@@ -82,7 +87,7 @@ class CustomizationFactory implements Arrayable
     }
 
     /**
-     * Interact with the block to start the personalization.
+     * Interact with the block to start the customization.
      *
      * @return $this
      */
@@ -91,9 +96,9 @@ class CustomizationFactory implements Arrayable
         // The idea of this code existing in the file and not in the construct
         // is to avoid an unnecessary call every time the component is rendered,
         // even if it has no customizations to be applied.
-        $personalization = app($this->component)->customization();
-        $this->changes = collect($personalization);
-        $this->blocks = array_keys($personalization);
+        $customization = app($this->component)->customization();
+        $this->changes = collect($customization);
+        $this->blocks = array_keys($customization);
 
         // If the $code was not set, then we
         // are interacting with the shortcuts.
@@ -127,6 +132,22 @@ class CustomizationFactory implements Arrayable
     public function prepend(string $content): self
     {
         $this->interactions->put('prepend', $content);
+
+        $this->compile();
+
+        return $this;
+    }
+
+    /**
+     * Apply preset to the customization.
+     */
+    public function preset(CustomizationPresets $presets): self
+    {
+        if ($presets->empty()) {
+            return $this;
+        }
+
+        $this->presets = $presets;
 
         $this->compile();
 
@@ -168,11 +189,13 @@ class CustomizationFactory implements Arrayable
     }
 
     /**
-     * Compile the personalization.
+     * Compile the customization.
      */
     private function compile(?string $block = null, ?string $content = null): void
     {
         $block ??= $this->block;
+
+        dump($this->presets->preset->components());
 
         foreach ($this->interactions->get('replace', []) as $old => $new) {
             $this->changes->put($block, str_replace($old, $new, (string) $this->changes->get($block)));
@@ -206,7 +229,7 @@ class CustomizationFactory implements Arrayable
     }
 
     /**
-     * Composes the personalization in View::composer for cases where
+     * Composes the customization in View::composer for cases where
      * we are not interacting with the customization method without $code.
      */
     private function composer(string $block, string|callable|null $code = null): void
@@ -221,7 +244,7 @@ class CustomizationFactory implements Arrayable
 
         // We leave everything prepared and linked with the
         // Blade file associated with the component so that
-        // the $classes() call obtains the personalization.
+        // the $classes() call obtains the customization.
         Facade::composer($view, fn (View $view) => $this->compile($block, is_callable($code) ? $code($view->getData()) : $code));
     }
 }

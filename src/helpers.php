@@ -7,9 +7,29 @@ use TallStackUi\Attributes\SoftCustomization;
 use TallStackUi\Support\Miscellaneous\ReflectComponent;
 use TallStackUi\TallStackUiComponent;
 
+if (! function_exists('__ts_get_activated_components')) {
+    /**
+     * Get the activated components from the config file.
+     *
+     * @internal This function should not be used outside the package.
+     */
+    function __ts_get_activated_components(): array
+    {
+        return collect(config('tallstackui.components'))
+            ->mapWithKeys(function (string|array $configuration, string $key) {
+                $components = is_array($configuration) ? $configuration[0] : $configuration;
+
+                return [$key => $components];
+            })
+            ->toArray();
+    }
+}
+
 if (! function_exists('__ts_get_component_configuration')) {
     /**
      * Get the component configuration from the new config file format.
+     *
+     * @internal This function should not be used outside the package.
      */
     function __ts_get_component_configuration(string $component, ?string $key = null, ?bool $array = false): array|Collection|null
     {
@@ -30,6 +50,8 @@ if (! function_exists('__ts_get_component_configuration')) {
 if (! function_exists('__ts_class_collection')) {
     /**
      * Creates a collection with metadata about the class color.
+     *
+     * @internal This function should not be used outside the package.
      */
     function __ts_class_collection(string $component): Collection
     {
@@ -68,6 +90,8 @@ if (! function_exists('__ts_class_collection')) {
 if (! function_exists('__ts_validation_exception')) {
     /**
      * Throw a validation exception for the component rendering beautiful messages.
+     *
+     * @internal This function should not be used outside the package.
      */
     function __ts_validation_exception(TallStackUiComponent|string $component, string $message): mixed
     {
@@ -100,10 +124,12 @@ if (! function_exists('__ts_search_component')) {
      * Search for the component key in the components.
      *
      * @throws Exception
+     *
+     * @internal This function should not be used outside the package.
      */
     function __ts_search_component(string $component): string
     {
-        $result = array_search($component, __ts_soft_personalization_components());
+        $result = array_search($component, __ts_soft_customization_components());
 
         if (! $result) {
             throw new Exception("Component [{$component}] is not allowed to be personalized");
@@ -113,11 +139,13 @@ if (! function_exists('__ts_search_component')) {
     }
 }
 
-if (! function_exists('__ts_soft_personalization_components')) {
+if (! function_exists('__ts_soft_customization_components')) {
     /**
      * Get all components that use the SoftPersonalization attribute.
+     *
+     * @internal This function should not be used outside the package.
      */
-    function __ts_soft_personalization_components(): array
+    function __ts_soft_customization_components(): array
     {
         return __ts_filter_components_using_attribute(SoftCustomization::class)
             ->mapWithKeys(function (string $component): array {
@@ -136,6 +164,8 @@ if (! function_exists('__ts_scope_container_key')) {
     /**
      * Creates the key that will be used to look up the
      * scope instance reference in the Laravel container.
+     *
+     * @internal This function should not be used outside the package.
      */
     function __ts_scope_container_key(string $component, string $key): string
     {

@@ -42,18 +42,6 @@ class Avatar extends TallStackUiComponent implements Customization
         return view('tallstack-ui::components.avatar');
     }
 
-    final public function modelable(): string
-    {
-        $params = Arr::query([
-            'name' => $this->model->getAttribute($this->property),
-            'background' => $this->background,
-            'color' => $this->color,
-            ...$this->options,
-        ]);
-
-        return "https://ui-avatars.com/api?{$params}";
-    }
-
     public function customization(): array
     {
         return Arr::dot([
@@ -89,6 +77,18 @@ class Avatar extends TallStackUiComponent implements Customization
                 'radius' => 'rounded-full',
             ],
         ]);
+    }
+
+    final public function modelable(): string
+    {
+        $params = Arr::query([
+            'name' => $this->model->getAttribute($this->property),
+            'background' => $this->background,
+            'color' => $this->color,
+            ...$this->options,
+        ]);
+
+        return "https://ui-avatars.com/api?{$params}";
     }
 
     /** @throws InvalidArgumentException */

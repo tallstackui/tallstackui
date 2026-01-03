@@ -81,40 +81,6 @@ class Table extends TallStackUiComponent implements Customization
         return view('tallstack-ui::components.table.index');
     }
 
-    public function head(Collection|array $header): array
-    {
-        if (! $this->sortable($header) || blank($this->sort)) {
-            return ['column' => '', 'direction' => ''];
-        }
-
-        $direction = $this->sort['direction'] === 'asc' ? 'desc' : 'asc';
-
-        return ['column' => $header['index'], 'direction' => $direction];
-    }
-
-    // Prepare the href link for the row replacing tokens
-    public function href(mixed $row): string
-    {
-        return str($this->link)->replaceMatches('/\{(.*?)\}/', fn (array $match): ?string => data_get($row, $match[1]))->value();
-    }
-
-    public function ids(): array
-    {
-        return $this->rows instanceof ArrayAccess
-            ? $this->rows->pluck($this->selectableProperty)->all()
-            : collect($this->rows)->pluck($this->selectableProperty)->all();
-    }
-
-    // We need this to be applied to the checkbox corresponding
-    // to the line because it is the x-model from here that "pushes"
-    // the selected values, as well as removing them, when clicked.
-    final public function modifier(): ComponentAttributeBag
-    {
-        $modifier = is_string($this->ids()[0] ?? null) ? '' : '.number';
-
-        return new ComponentAttributeBag(['x-model'.$modifier => 'model']);
-    }
-
     public function customization(): array
     {
         return Arr::dot([
@@ -147,6 +113,40 @@ class Table extends TallStackUiComponent implements Customization
                 'footer' => 'mt-2 dark:text-dark-300 text-gray-500',
             ],
         ]);
+    }
+
+    public function head(Collection|array $header): array
+    {
+        if (! $this->sortable($header) || blank($this->sort)) {
+            return ['column' => '', 'direction' => ''];
+        }
+
+        $direction = $this->sort['direction'] === 'asc' ? 'desc' : 'asc';
+
+        return ['column' => $header['index'], 'direction' => $direction];
+    }
+
+    // Prepare the href link for the row replacing tokens
+    public function href(mixed $row): string
+    {
+        return str($this->link)->replaceMatches('/\{(.*?)\}/', fn (array $match): ?string => data_get($row, $match[1]))->value();
+    }
+
+    public function ids(): array
+    {
+        return $this->rows instanceof ArrayAccess
+            ? $this->rows->pluck($this->selectableProperty)->all()
+            : collect($this->rows)->pluck($this->selectableProperty)->all();
+    }
+
+    // We need this to be applied to the checkbox corresponding
+    // to the line because it is the x-model from here that "pushes"
+    // the selected values, as well as removing them, when clicked.
+    final public function modifier(): ComponentAttributeBag
+    {
+        $modifier = is_string($this->ids()[0] ?? null) ? '' : '.number';
+
+        return new ComponentAttributeBag(['x-model'.$modifier => 'model']);
     }
 
     final public function sortable(Collection|array $header): bool

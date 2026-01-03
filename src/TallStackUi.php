@@ -23,6 +23,14 @@ class TallStackUi
     }
 
     /**
+     * Create an instance of the Customization class.
+     */
+    public function customize(?string $component = null, ?string $scope = null): Customization
+    {
+        return app(Customization::class, ['component' => $component, 'scope' => $scope]);
+    }
+
+    /**
      * Create an instance of the BladeDirectives class.
      */
     public function directives(): Directives
@@ -36,14 +44,6 @@ class TallStackUi
     public function icon(string $key): string
     {
         return app(IconGuideMap::class)::internal($key);
-    }
-
-    /**
-     * Create an instance of the Customization class.
-     */
-    public function customize(?string $component = null, ?string $scope = null): Customization
-    {
-        return app(Customization::class, ['component' => $component, 'scope' => $scope]);
     }
 
     /**

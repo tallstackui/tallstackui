@@ -59,20 +59,6 @@ class Date extends TallStackUiComponent implements Customization
         return view('tallstack-ui::components.form.date');
     }
 
-    final public function dates(): array
-    {
-        return [
-            'date' => [
-                'min' => $this->minDate ? Carbon::parse($this->minDate)->format('Y-m-d') : null,
-                'max' => $this->maxDate ? Carbon::parse($this->maxDate)->format('Y-m-d') : null,
-            ],
-            'year' => [
-                'min' => $this->minYear,
-                'max' => $this->maxYear,
-            ],
-        ];
-    }
-
     public function customization(): array
     {
         return Arr::dot([
@@ -119,6 +105,20 @@ class Date extends TallStackUiComponent implements Customization
             ],
             'range' => 'bg-dark-200 dark:bg-dark-600',
         ]);
+    }
+
+    final public function dates(): array
+    {
+        return [
+            'date' => [
+                'min' => $this->minDate ? Carbon::parse($this->minDate)->format('Y-m-d') : null,
+                'max' => $this->maxDate ? Carbon::parse($this->maxDate)->format('Y-m-d') : null,
+            ],
+            'year' => [
+                'min' => $this->minYear,
+                'max' => $this->maxYear,
+            ],
+        ];
     }
 
     /** @throws InvalidArgumentException */

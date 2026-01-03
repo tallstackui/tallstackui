@@ -2,7 +2,6 @@
 
 namespace TallStackUi\Customization;
 
-use Exception;
 use RuntimeException;
 use TallStackUi\View\Components\Alert;
 use TallStackUi\View\Components\Avatar;
@@ -258,7 +257,14 @@ class Customization
             throw new RuntimeException("The method [{$main}] is not supported");
         }
 
-        return call_user_func([$this, $main], $main === $secondary ?: $secondary);
+        /** @var CustomizationFactory $instance */
+        $instance = call_user_func([$this, $main], $main === $secondary ?: $secondary);
+
+        $presets = app(CustomizationPresets::class);
+
+        $instance->preset($presets);
+
+        return $instance;
     }
 
     public function keyValue(?string $scope = null): CustomizationFactory
@@ -302,6 +308,11 @@ class Customization
         $this->scope ??= $scope;
 
         return $this->component(Modal::class);
+    }
+
+    public function presets(): CustomizationPresets
+    {
+        return app(CustomizationPresets::class);
     }
 
     public function progress(?string $component = null, ?string $scope = null): CustomizationFactory

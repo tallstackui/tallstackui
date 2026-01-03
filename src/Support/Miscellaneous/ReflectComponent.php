@@ -5,7 +5,6 @@ namespace TallStackUi\Support\Miscellaneous;
 use ReflectionAttribute;
 use ReflectionClass;
 use ReflectionException;
-use TallStackUi\Attributes\SoftCustomization;
 use TallStackUi\TallStackUiComponent;
 
 class ReflectComponent

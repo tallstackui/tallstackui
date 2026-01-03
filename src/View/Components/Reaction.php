@@ -10,8 +10,8 @@ use TallStackUi\Attributes\PassThroughRuntime;
 use TallStackUi\Attributes\RequireLivewireContext;
 use TallStackUi\Attributes\SkipDebug;
 use TallStackUi\Attributes\SoftCustomization;
-use TallStackUi\Exceptions\InvalidSelectedPositionException;
 use TallStackUi\Customization\Contracts\Customization;
+use TallStackUi\Exceptions\InvalidSelectedPositionException;
 use TallStackUi\Support\Runtime\Components\ReactionRuntime;
 use TallStackUi\TallStackUiComponent;
 

@@ -38,6 +38,29 @@ class Number extends TallStackUiComponent implements Customization
         return view('tallstack-ui::components.form.number');
     }
 
+    public function customization(): array
+    {
+        return Arr::dot([
+            'input' => [...$this->input()],
+            'buttons' => [
+                'wrapper' => 'flex w-full items-center',
+                'left' => [
+                    'base' => 'inline-flex pr-3 items-center justify-center disabled:opacity-30 cursor-pointer',
+                    'size' => 'ml-2 h-4 w-4',
+                    'color' => 'dark:text-dark-400 text-gray-500',
+                    'error' => 'text-red-500',
+                ],
+                'right' => [
+                    'base' => 'inline-flex pl-3 items-center justify-center disabled:opacity-30 cursor-pointer',
+                    'size' => 'mr-2 h-4 w-4',
+                    'color' => 'dark:text-dark-400 text-gray-500',
+                    'error' => 'text-red-500',
+                ],
+            ],
+            'error' => $this->error(),
+        ]);
+    }
+
     final public function mode(): string
     {
         if (is_null($this->min) || $this->min < 0) {
@@ -62,28 +85,5 @@ class Number extends TallStackUiComponent implements Customization
         }
 
         return '[0-9]*';
-    }
-
-    public function customization(): array
-    {
-        return Arr::dot([
-            'input' => [...$this->input()],
-            'buttons' => [
-                'wrapper' => 'flex w-full items-center',
-                'left' => [
-                    'base' => 'inline-flex pr-3 items-center justify-center disabled:opacity-30 cursor-pointer',
-                    'size' => 'ml-2 h-4 w-4',
-                    'color' => 'dark:text-dark-400 text-gray-500',
-                    'error' => 'text-red-500',
-                ],
-                'right' => [
-                    'base' => 'inline-flex pl-3 items-center justify-center disabled:opacity-30 cursor-pointer',
-                    'size' => 'mr-2 h-4 w-4',
-                    'color' => 'dark:text-dark-400 text-gray-500',
-                    'error' => 'text-red-500',
-                ],
-            ],
-            'error' => $this->error(),
-        ]);
     }
 }

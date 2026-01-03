@@ -38,19 +38,6 @@ class Errors extends TallStackUiComponent implements Customization
         return count($this->messages($errors));
     }
 
-    public function messages(ViewErrorBag $errors): array
-    {
-        $messages = $errors->getMessages();
-
-        if (blank($this->only)) {
-            return $messages;
-        }
-
-        $this->only = is_array($this->only) ? $this->only : [$this->only];
-
-        return array_filter($messages, fn (string $name) => in_array($name, $this->only), ARRAY_FILTER_USE_KEY);
-    }
-
     public function customization(): array
     {
         return Arr::dot([
@@ -69,6 +56,19 @@ class Errors extends TallStackUiComponent implements Customization
                 'footer' => 'mt-2',
             ],
         ]);
+    }
+
+    public function messages(ViewErrorBag $errors): array
+    {
+        $messages = $errors->getMessages();
+
+        if (blank($this->only)) {
+            return $messages;
+        }
+
+        $this->only = is_array($this->only) ? $this->only : [$this->only];
+
+        return array_filter($messages, fn (string $name) => in_array($name, $this->only), ARRAY_FILTER_USE_KEY);
     }
 
     /** @throws InvalidArgumentException */
