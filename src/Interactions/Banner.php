@@ -3,7 +3,6 @@
 namespace TallStackUi\Interactions;
 
 use Exception;
-use TallStackUi\Interactions\AbstractInteraction;
 use TallStackUi\Interactions\Traits\DispatchInteraction;
 
 class Banner extends AbstractInteraction

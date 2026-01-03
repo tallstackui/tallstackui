@@ -5,7 +5,7 @@ namespace TallStackUi\Support\Icons;
 use Exception;
 use Illuminate\Support\Collection;
 use Illuminate\View\Component;
-use TallStackUi\Support\Icons\IconGuide;
+use TallStackUi\View\Components\Icon;
 
 class IconGuideMap
 {
@@ -98,7 +98,7 @@ class IconGuideMap
     {
         self::$guide = new IconGuide;
 
-        self::$configuration = collect(config('tallstackui.icons'));
+        self::$configuration = __ts_get_component_configuration(Icon::class);
 
         self::$custom = str_contains((string) self::$configuration->get('type'), '/blade-') && self::$configuration->get('custom') !== null;
     }

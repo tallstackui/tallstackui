@@ -24,12 +24,12 @@ class CompileConfigurations
         /** @var string|array|null $data */
         $data = (match (true) { // @phpstan-ignore-line
             $component instanceof Color => fn () => $class->color($component),
-            $component instanceof Dialog => fn () => 'dialog',
+            $component instanceof Dialog => fn () => Dialog::class,
             $component instanceof Loading => fn () => $class->loading($component),
             $component instanceof Modal => fn () => $class->modal($component),
             $component instanceof Styled => fn () => $class->select($component),
             $component instanceof Slide => fn () => $class->slide($component),
-            $component instanceof Toast => fn () => 'toast',
+            $component instanceof Toast => fn () => Toast::class,
             default => fn () => null,
         })();
 
@@ -41,7 +41,7 @@ class CompileConfigurations
         // config file and make a direct mapping, so there is no need
         // to create a method for each component.
         if (is_string($data)) {
-            $data = collect(config('tallstackui.settings.'.$data))
+            $data = __ts_get_component_configuration($data)
                 ->mapWithKeys(fn (string|bool|array $value, string $key) => [$key => $value])
                 ->toArray();
         }
@@ -56,7 +56,7 @@ class CompileConfigurations
      */
     private function color(Color $component): array
     {
-        $configuration = collect(config('tallstackui.settings.form.color'));
+        $configuration = __ts_get_component_configuration(Color::class);
 
         $component->colors ??= $configuration->get('colors') ?? [];
 
@@ -68,7 +68,7 @@ class CompileConfigurations
      */
     private function loading(Loading $component): array
     {
-        $configuration = collect(config('tallstackui.settings.loading'));
+        $configuration = __ts_get_component_configuration(Loading::class);
 
         $component->zIndex ??= $configuration->get('z-index', 'z-50');
         $component->overflow ??= $configuration->get('overflow', false);
@@ -85,7 +85,7 @@ class CompileConfigurations
      */
     private function modal(Modal $component): array
     {
-        $configuration = collect(config('tallstackui.settings.modal'));
+        $configuration = __ts_get_component_configuration(Modal::class);
 
         $component->zIndex ??= $configuration->get('z-index', 'z-50');
         $component->overflow ??= $configuration->get('overflow', false);
@@ -126,7 +126,7 @@ class CompileConfigurations
 
     private function select(Styled $component): array
     {
-        $configuration = collect(config('tallstackui.settings.form.select.styled'));
+        $configuration = __ts_get_component_configuration(Styled::class);
 
         $component->unfiltered ??= $configuration->get('unfiltered', false);
 
@@ -140,7 +140,7 @@ class CompileConfigurations
      */
     private function slide(Slide $component): array
     {
-        $configuration = collect(config('tallstackui.settings.slide'));
+        $configuration = __ts_get_component_configuration(Slide::class);
 
         $component->zIndex ??= $configuration->get('z-index', 'z-50');
         $component->overflow ??= $configuration->get('overflow', false);

@@ -7,6 +7,24 @@ use TallStackUi\Attributes\SoftPersonalization;
 use TallStackUi\Support\Miscellaneous\ReflectComponent;
 use TallStackUi\TallStackUiComponent;
 
+if (! function_exists('__ts_get_component_configuration')) {
+    /**
+     * Get the component configuration from the new config file format.
+     */
+    function __ts_get_component_configuration(string $component, bool $array = false): array|Collection|null
+    {
+        $configuration = (array) collect(config('tallstackui.components'))
+            ->filter(fn (string|array $configuration) => $configuration === $component || in_array($component, (array) $configuration))
+            ->first()[1] ?? null;
+
+        if ($array) {
+            return $configuration;
+        }
+
+        return collect($configuration);
+    }
+}
+
 if (! function_exists('__ts_class_collection')) {
     /**
      * Creates a collection with metadata about the class color.

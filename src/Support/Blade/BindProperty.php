@@ -7,7 +7,6 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\ViewErrorBag;
 use Illuminate\View\ComponentAttributeBag;
 use Livewire\WireDirective;
-use TallStackUi\Support\Blade\Wireable;
 
 class BindProperty
 {

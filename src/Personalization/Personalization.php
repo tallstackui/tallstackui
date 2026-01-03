@@ -4,7 +4,6 @@ namespace TallStackUi\Personalization;
 
 use Exception;
 use RuntimeException;
-use TallStackUi\Personalization\PersonalizationFactory;
 use TallStackUi\View\Components\Alert;
 use TallStackUi\View\Components\Avatar;
 use TallStackUi\View\Components\Badge;

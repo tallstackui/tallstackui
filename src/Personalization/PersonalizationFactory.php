@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\View as Facade;
 use Illuminate\View\View;
 use InvalidArgumentException;
 use RuntimeException;
-use TallStackUi\Personalization\Personalization;
 
 /**
  * @internal

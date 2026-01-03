@@ -2,7 +2,6 @@
 
 namespace TallStackUi\Interactions;
 
-use TallStackUi\Interactions\AbstractInteraction;
 use TallStackUi\Interactions\Traits\DispatchInteraction;
 use TallStackUi\Interactions\Traits\InteractWithConfirmation;
 use TallStackUi\View\Components\Interaction\Toast as Component;

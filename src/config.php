@@ -12,7 +12,7 @@ return [
     | to prefix all TallStackUI components. This is useful to avoid conflicts
     | with other components registered by other libraries or created by yourself.
     |
-    | For example: prefixing as 'ts-', the `alert` usage will be: '<x-ts-alert />'
+    | For example, prefixing as 'ts-', the `alert` usage will be: '<x-ts-alert />'
     */
     'prefix' => env('TALLSTACKUI_PREFIX'),
 
@@ -43,8 +43,8 @@ return [
     |
     | Controls the "invalidation" of all form components globally. The "invalidate"
     | is the way to prevent showing validation errors in the components. When you
-    | set this value as "true" you will use "invalidate" of all form components
-    | globally, without need to specific it individually per component.
+    | set this value as "true," you will use "invalidate" of all form components
+    | globally, without the need to specific it individually per component.
     */
     'invalidate_global' => false,
 
@@ -82,246 +82,6 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Icon Style
-    |--------------------------------------------------------------------------
-    */
-    'icons' => [
-        /*
-        |----------------------------------
-        | Default and in-use icon type.
-        |----------------------------------
-        | Allowed: heroicons or BladeUI (check the docs).
-        */
-        'type' => env('TALLSTACKUI_ICON_TYPE', 'heroicons'),
-
-        /*
-        |----------------------------------
-        | Default and in-use icon style.
-        |----------------------------------
-        | Allowed: solid, outline (Heroicons only).
-        */
-        'style' => env('TALLSTACKUI_ICON_STYLE', 'solid'),
-
-        /*
-        |----------------------------------
-        | Custom icon configuration.
-        |----------------------------------
-        */
-        'custom' => [
-            /*
-            |----------------------------------
-            | Custom icons guide.
-            |----------------------------------
-            |
-            | These icons are used internally in the components. When using custom
-            | icons via BladeUi you can optionally change the internal icons to custom
-            | icons, causing this to reflect new icon looks for the internal components.
-            */
-            'guide' => [
-                'arrow-path' => null,
-                'arrow-trending-up' => null,
-                'arrow-trending-down' => null,
-                'arrow-up-tray' => null,
-                'bars-4' => null,
-                'calendar' => null,
-                'check' => null,
-                'check-circle' => null,
-                'chevron-down' => null,
-                'chevron-left' => null,
-                'chevron-right' => null,
-                'chevron-up' => null,
-                'chevron-up-down' => null,
-                'clipboard' => null,
-                'clipboard-document' => null,
-                'cloud-arrow-up' => null,
-                'clock' => null,
-                'document-check' => null,
-                'document-text' => null,
-                'exclamation-circle' => null,
-                'eye' => null,
-                'eye-slash' => null,
-                'information-circle' => null,
-                'magnifying-glass' => null,
-                'minus' => null,
-                'moon' => null,
-                'photo' => null,
-                'plus' => null,
-                'question-mark-circle' => null,
-                'swatch' => null,
-                'sun' => null,
-                'trash' => null,
-                'x-circle' => null,
-                'x-mark' => null,
-            ],
-        ],
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Component Settings
-    |--------------------------------------------------------------------------
-    |
-    | General components settings.
-    */
-    'settings' => [
-        /*
-        |----------------------------------------------------------------------
-        | Dialog
-        |----------------------------------------------------------------------
-        | z-index: controls the default z-index.
-        | overflow: avoids hiding the overflow, allowing the scroll of the page.
-        | blur: enables the background blur effect by default.
-        | persistent: enables the dialog to not be closed by clicking outside by default.
-        */
-        'dialog' => [
-            'z-index' => 'z-50',
-            'overflow' => false,
-            'blur' => false,
-            'persistent' => false,
-        ],
-
-        /*
-        |----------------------------------------------------------------------
-        | Form
-        |----------------------------------------------------------------------
-        */
-        'form' => [
-            /*
-            |----------------------------------------------------------------------
-            | Color
-            |----------------------------------------------------------------------
-            | colors: array of custom colors to be used in the color picker.
-            */
-            'color' => [
-                'colors' => null,
-            ],
-
-            /*
-            |----------------------------------------------------------------------
-            | Password
-            |----------------------------------------------------------------------
-            | rules: array of default rules for the password generator.
-            */
-            'password' => [
-                'rules' => [
-                    'min' => '8',
-                    'mixed' => true,
-                    'numbers' => true,
-                    'symbols' => '!@#$%^&*()_+-=',
-                ],
-            ],
-
-            /*
-            |----------------------------------------------------------------------
-            | Select Styled
-            |----------------------------------------------------------------------
-            | unfiltered: allow all select API styled components to be unfiltered by default.
-            */
-            'select' => [
-                'styled' => [
-                    'unfiltered' => false,
-                ],
-            ],
-        ],
-
-        /*
-        |----------------------------------------------------------------------
-        | Modal
-        |----------------------------------------------------------------------
-        |
-        | z-index: controls the default z-index.
-        | overflow: avoids hiding the overflow, allowing the scroll of the page.
-        | blur: enables the background blur effect by default (Allowed: false, sm, md, lg, xl).
-        | persistent: enables the modal to not be closed by clicking outside by default.
-        | size: controls the default modal size (Allowed: sm, md, lg, xl, 2xl, 3xl, 4xl, 5xl, 6xl, 7xl).
-        | center: controls if the modal is centered by default.
-        | scrollable: when enabled, fixes the title and footer while allowing only the body content to scroll.
-        | scrollbar: controls the type of scrollbar (Allowed: null, thin, thick),
-        */
-        'modal' => [
-            'z-index' => 'z-50',
-            'overflow' => false,
-            'blur' => false,
-            'persistent' => false,
-            'size' => '2xl',
-            'center' => false,
-            'scrollable' => false,
-            'scrollbar' => 'thin',
-        ],
-
-        /*
-        |----------------------------------------------------------------------
-        | Layout
-        |----------------------------------------------------------------------
-        |
-        | Controls the registration of the layout component and all its children,
-        | useful for situations where you want to ignore these components in favor
-        | of avoiding conflict with your layout component.
-        */
-        'layout' => [
-            'avoid' => env('TALLSTACKUI_AVOID_LAYOUT_REGISTRATION', false),
-        ],
-
-        /*
-        |----------------------------------------------------------------------
-        | Loading
-        |----------------------------------------------------------------------
-        |
-        | z-index: controls the default z-index.
-        | overflow: avoids hiding the overflow, allowing the scroll of the page.
-        | blur: enables the background blur effect by default.
-        | opacity: enables the background opacity by default.
-        */
-        'loading' => [
-            'z-index' => 'z-50',
-            'overflow' => false,
-            'blur' => false,
-            'opacity' => true,
-        ],
-
-        /*
-        |----------------------------------------------------------------------
-        | Slide
-        |----------------------------------------------------------------------
-        |
-        | z-index: controls the default z-index.
-        | overflow: avoids hiding the overflow, allowing the scroll of the page.
-        | blur: enables the background blur effect by default (Allowed: false, sm, md, lg, xl).
-        | persistent: enables the slide to not be closed by clicking outside by default.
-        | size: controls the default modal size (Allowed: sm, md, lg, xl, 2xl, 3xl, 4xl, 5xl, 6xl, 7xl, full).
-        | position: controls the default slide position (Allowed: right, left, top, bottom).
-        */
-        'slide' => [
-            'z-index' => 'z-50',
-            'overflow' => false,
-            'blur' => false,
-            'persistent' => false,
-            'size' => 'lg',
-            'position' => 'right',
-        ],
-
-        /*
-        |----------------------------------------------------------------------
-        | Toast
-        |----------------------------------------------------------------------
-        |
-        | z-index: controls the default z-index.
-        | progress: enables the progress bar.
-        | expandable: enables the expanded effect by default.
-        | position: controls the default toast position (Allowed: top-right, top-left, bottom-right, bottom-left).
-        | timeout: controls the default timeout in seconds.
-        */
-        'toast' => [
-            'z-index' => 'z-50',
-            'progress' => true,
-            'expandable' => false,
-            'position' => 'top-right',
-            'timeout' => 3,
-        ],
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
     | Component List
     |--------------------------------------------------------------------------
     |
@@ -338,11 +98,39 @@ return [
         'carousel' => Components\Carousel::class,
         'card' => Components\Card::class,
         'checkbox' => Components\Form\Checkbox::class,
-        'color' => Components\Form\Color::class,
+        'color' => [
+            Components\Form\Color::class,
+            /*
+            |----------------------------------------------------------------------
+            | Color Settings
+            |----------------------------------------------------------------------
+            | custom: array of custom colors to be used in the color picker.
+            */
+            [
+                'custom' => [],
+            ],
+        ],
         'clipboard' => Components\Clipboard::class,
         'currency' => Components\Form\Currency::class,
         'date' => Components\Form\Date::class,
-        'dialog' => Components\Interaction\Dialog::class,
+        'dialog' => [
+            Components\Interaction\Dialog::class,
+            /*
+            |----------------------------------------------------------------------
+            | Dialog Settings
+            |----------------------------------------------------------------------
+            | z-index: controls the default z-index.
+            | overflow: avoids hiding the overflow, allowing the scroll of the page.
+            | blur: enables the background blur effect by default.
+            | persistent: enables the dialog to not be closed by clicking outside by default.
+            */
+            [
+                'z-index' => 'z-50',
+                'overflow' => false,
+                'blur' => false,
+                'persistent' => false,
+            ],
+        ],
         'dropdown' => Components\Dropdown\Dropdown::class,
         'dropdown.items' => Components\Dropdown\Items::class,
         'dropdown.submenu' => Components\Dropdown\Submenu::class,
@@ -351,17 +139,163 @@ return [
         'errors' => Components\Errors::class,
         'floating' => Components\Floating::class,
         'hint' => Components\Form\Hint::class,
-        'icon' => Components\Icon::class,
+        'icon' => [
+            Components\Icon::class,
+            [
+                /*
+                |----------------------------------
+                | Default and in-use icon type.
+                |----------------------------------
+                | Allowed: heroicons or BladeUI (check the docs).
+                */
+                'type' => env('TALLSTACKUI_ICON_TYPE', 'heroicons'),
+
+                /*
+                |----------------------------------
+                | Default and in-use icon style.
+                |----------------------------------
+                | Allowed: solid, outline (Heroicons only).
+                */
+                'style' => env('TALLSTACKUI_ICON_STYLE', 'solid'),
+
+                /*
+                |----------------------------------
+                | Custom icon configuration.
+                |----------------------------------
+                */
+                'custom' => [
+                    /*
+                    |----------------------------------
+                    | Custom icons guide.
+                    |----------------------------------
+                    |
+                    | These icons are used internally in the components. When using custom
+                    | icons via BladeUI, you can optionally change the internal icons to custom
+                    | icons, causing this to reflect new icon looks for the internal components.
+                    */
+                    'guide' => [
+                        'arrow-path' => null,
+                        'arrow-trending-up' => null,
+                        'arrow-trending-down' => null,
+                        'arrow-up-tray' => null,
+                        'bars-4' => null,
+                        'calendar' => null,
+                        'check' => null,
+                        'check-circle' => null,
+                        'chevron-down' => null,
+                        'chevron-left' => null,
+                        'chevron-right' => null,
+                        'chevron-up' => null,
+                        'chevron-up-down' => null,
+                        'clipboard' => null,
+                        'clipboard-document' => null,
+                        'cloud-arrow-up' => null,
+                        'clock' => null,
+                        'document-check' => null,
+                        'document-text' => null,
+                        'exclamation-circle' => null,
+                        'eye' => null,
+                        'eye-slash' => null,
+                        'information-circle' => null,
+                        'magnifying-glass' => null,
+                        'minus' => null,
+                        'moon' => null,
+                        'photo' => null,
+                        'plus' => null,
+                        'question-mark-circle' => null,
+                        'swatch' => null,
+                        'sun' => null,
+                        'trash' => null,
+                        'x-circle' => null,
+                        'x-mark' => null,
+                    ],
+                ],
+            ],
+        ],
         'input' => Components\Form\Input::class,
         'label' => Components\Form\Label::class,
-        'layout' => Components\Layout\Layout::class,
+        'layout' => [
+            Components\Layout\Layout::class,
+            /*
+            |----------------------------------------------------------------------
+            | Layout Global Settings
+            |----------------------------------------------------------------------
+            |
+            | ignore: Controls the registration of the layout component and all its children,
+            | useful for situations where you want to ignore these components in favor
+            | of avoiding conflict with your layout component.
+            */
+            [
+                'ignore' => env('TALLSTACKUI_IGNORE_LAYOUT_REGISTRATION', false),
+            ],
+        ],
         'layout.header' => Components\Layout\Header::class,
         'link' => Components\Link::class,
-        'loading' => Components\Loading::class,
+        'loading' => [
+            Components\Loading::class,
+            [
+                /*
+                |----------------------------------------------------------------------
+                | Loading Global Settings
+                |----------------------------------------------------------------------
+                |
+                | z-index: controls the default z-index.
+                | overflow: avoids hiding the overflow, allowing the scroll of the page.
+                | blur: enables the background blur effect by default.
+                | opacity: enables the background opacity by default.
+                */
+                'z-index' => 'z-50',
+                'overflow' => false,
+                'blur' => false,
+                'opacity' => true,
+            ],
+        ],
         'key-value' => Components\KeyValue::class,
-        'modal' => Components\Modal::class,
+        'modal' => [
+            Components\Modal::class,
+            [
+                /*
+                |----------------------------------------------------------------------
+                | Modal Global Settings
+                |----------------------------------------------------------------------
+                |
+                | z-index: controls the default z-index.
+                | overflow: avoids hiding the overflow, allowing the scroll of the page.
+                | blur: enables the background blur effect by default (Allowed: false, sm, md, lg, xl).
+                | persistent: enables the modal to not be closed by clicking outside by default.
+                | size: controls the default modal size (Allowed: sm, md, lg, xl, 2xl, 3xl, 4xl, 5xl, 6xl, 7xl).
+                | center: controls if the modal is centered by default.
+                | scrollable: when enabled, fixes the title and footer while allowing only the body content to scroll.
+                | scrollbar: controls the type of scrollbar (Allowed: null, thin, thick),
+                */
+                'z-index' => 'z-50',
+                'overflow' => false,
+                'blur' => false,
+                'persistent' => false,
+                'size' => '2xl',
+                'center' => false,
+                'scrollable' => false,
+                'scrollbar' => 'thin',
+            ],
+        ],
         'number' => Components\Form\Number::class,
-        'password' => Components\Form\Password::class,
+        'password' => [
+            Components\Form\Password::class,
+            /*
+            |----------------------------------------------------------------------
+            | Password Global Settings
+            |----------------------------------------------------------------------
+            | rules: array of default rules for the password generator.
+            */
+            [
+                'rules' => [
+                    'min' => '8',
+                    'mixed' => true,
+                    'numbers' => true,
+                    'symbols' => '!@#$%^&*()_+-=',
+                ],
+            ],
+        ],
         'pin' => Components\Form\Pin::class,
         'progress' => Components\Progress\Progress::class,
         'progress.circle' => Components\Progress\Circle::class,
@@ -372,9 +306,42 @@ return [
         'side-bar.item' => Components\Layout\SideBar\Item::class,
         'side-bar.separator' => Components\Layout\SideBar\Separator::class,
         'select.native' => Components\Form\Select\Native::class,
-        'select.styled' => Components\Form\Select\Styled::class,
+        'select.styled' => [
+            Components\Form\Select\Styled::class,
+            [
+                /*
+                |----------------------------------------------------------------------
+                | Select Styled Global Settings
+                |----------------------------------------------------------------------
+                | unfiltered: allow all select API-styled components to be unfiltered by default.
+                */
+                'unfiltered' => false,
+            ],
+        ],
         'signature' => Components\Signature::class,
-        'slide' => Components\Slide::class,
+        'slide' => [
+            Components\Slide::class,
+            [
+                /*
+                |----------------------------------------------------------------------
+                | Slide Global Settings
+                |----------------------------------------------------------------------
+                |
+                | z-index: controls the default z-index.
+                | overflow: avoids hiding the overflow, allowing the scroll of the page.
+                | blur: enables the background blur effect by default (Allowed: false, sm, md, lg, xl).
+                | persistent: enables the slide to not be closed by clicking outside by default.
+                | size: controls the default modal size (Allowed: sm, md, lg, xl, 2xl, 3xl, 4xl, 5xl, 6xl, 7xl, full).
+                | position: controls the default slide position (Allowed: right, left, top, bottom).
+                */
+                'z-index' => 'z-50',
+                'overflow' => false,
+                'blur' => false,
+                'persistent' => false,
+                'size' => 'lg',
+                'position' => 'right',
+            ],
+        ],
         'stats' => Components\Stats::class,
         'step' => Components\Step\Step::class,
         'step.items' => Components\Step\Items::class,
@@ -385,7 +352,27 @@ return [
         'textarea' => Components\Form\Textarea::class,
         'theme-switch' => Components\ThemeSwitch::class,
         'time' => Components\Form\Time::class,
-        'toast' => Components\Interaction\Toast::class,
+        'toast' => [
+            Components\Interaction\Toast::class,
+            [
+                /*
+                |----------------------------------------------------------------------
+                | Toast Global Settings
+                |----------------------------------------------------------------------
+                |
+                | z-index: controls the default z-index.
+                | progress: enables the progress bar.
+                | expandable: enables the expanded effect by default.
+                | position: controls the default toast position (Allowed: top-right, top-left, bottom-right, bottom-left).
+                | timeout: controls the default timeout in seconds.
+                */
+                'z-index' => 'z-50',
+                'progress' => true,
+                'expandable' => false,
+                'position' => 'top-right',
+                'timeout' => 3,
+            ],
+        ],
         'toggle' => Components\Form\Toggle::class,
         'tooltip' => Components\Tooltip::class,
         'upload' => Components\Form\Upload::class,
