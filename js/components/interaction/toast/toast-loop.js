@@ -27,7 +27,7 @@ export default (toast) => ({
             this.hide();
 
             if (toast.hooks?.timeout) {
-              Livewire.find(toast.component).call(
+              Livewire.find(toast.reference).call(
                 toast.hooks.timeout.method,
                 toast.hooks.timeout.params
               );
@@ -95,7 +95,7 @@ export default (toast) => ({
       return;
     }
 
-    Livewire.find(toast.component).call(method, toast.options.confirm.params);
+    Livewire.find(toast.reference).call(method, toast.options.confirm.params);
   },
   /**
    * Reject the toast (by cancelling).
@@ -123,7 +123,7 @@ export default (toast) => ({
       return;
     }
 
-    Livewire.find(toast.component).call(method, toast.options.cancel.params);
+    Livewire.find(toast.reference).call(method, toast.options.cancel.params);
   },
   /**
    * Hide the toast.
@@ -134,7 +134,7 @@ export default (toast) => ({
    */
   hide(immediately = true, internal = true) {
     if (!internal && toast.hooks?.close) {
-      Livewire.find(toast.component).call(toast.hooks.close.method, toast.hooks.close.params);
+      Livewire.find(toast.reference).call(toast.hooks.close.method, toast.hooks.close.params);
     }
 
     setTimeout(

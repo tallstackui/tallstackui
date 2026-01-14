@@ -48,7 +48,7 @@ export default (flash, texts, overflowing) => ({
 
     const hook = dismissed ? this.dialog.hooks?.dismiss : this.dialog.hooks?.close;
 
-    if (hook && !internal) Livewire.find(this.dialog.component).call(hook.method, hook.params);
+    if (hook && !internal) Livewire.find(this.dialog.reference).call(hook.method, hook.params);
 
     if (!dismissed) return;
 
@@ -64,7 +64,7 @@ export default (flash, texts, overflowing) => ({
   accept(dialog, element) {
     event('dialog:accepted', dialog, false);
 
-    const component = Livewire.find(dialog.component);
+    const component = Livewire.find(dialog.reference);
 
     if (dialog.options.confirm.static === true || dialog.options.confirm.method === null) {
       if (dialog.hooks?.ok) {
@@ -105,7 +105,7 @@ export default (flash, texts, overflowing) => ({
   reject(dialog, element) {
     event('dialog:rejected', dialog, false);
 
-    const component = Livewire.find(dialog.component);
+    const component = Livewire.find(dialog.reference);
 
     if (
       !dialog.options ||

@@ -379,14 +379,14 @@ class IndexTest extends BrowserTestCase
                     ->success('Foo!')
                     ->hook([
                         'close' => [
-                            'method' => 'hook',
+                            'method' => 'closed',
                             'params' => 'close',
                         ],
                     ])
                     ->send();
             }
 
-            public function hook(string $term): void
+            public function closed(string $term): void
             {
                 $this->close = $term;
             }
@@ -420,7 +420,7 @@ class IndexTest extends BrowserTestCase
         {
             use Interactions;
 
-            public ?string $dismiss = null;
+            public bool $dismiss = false;
 
             public function success(): void
             {
@@ -428,23 +428,25 @@ class IndexTest extends BrowserTestCase
                     ->success('Foo!')
                     ->hook([
                         'dismiss' => [
-                            'method' => 'hook',
+                            'method' => 'dismissed',
                             'params' => 'dismiss',
                         ],
                     ])
                     ->send();
             }
 
-            public function hook(string $term): void
+            public function dismissed(): void
             {
-                $this->dismiss = $term;
+                $this->dismiss = true;
             }
 
             public function render(): string
             {
                 return <<<'HTML'
                 <div>
-                    <p dusk="dismiss">{{ $dismiss }}</p>
+                    @if ($dismiss)
+                      <p dusk="dismiss">Dismissed</p>
+                    @endif
                 
                     <x-button dusk="success" wire:click="success">Success</x-button>
                 </div>
@@ -458,8 +460,8 @@ class IndexTest extends BrowserTestCase
             ->waitForText('Foo')
             ->assertSee('Foo')
             ->clickAtPoint(350, 350)
-            ->waitForTextIn('@dismiss', 'dismiss')
-            ->assertSee('dismiss');
+            ->waitForTextIn('@dismiss', 'Dismissed')
+            ->assertSee('Dismissed');
     }
 
     #[Test]
@@ -477,14 +479,14 @@ class IndexTest extends BrowserTestCase
                     ->success('Foo!')
                     ->hook([
                         'ok' => [
-                            'method' => 'hook',
+                            'method' => 'pressed',
                             'params' => 'ok',
                         ],
                     ])
                     ->send();
             }
 
-            public function hook(string $term): void
+            public function pressed(string $term): void
             {
                 $this->ok = $term;
             }
