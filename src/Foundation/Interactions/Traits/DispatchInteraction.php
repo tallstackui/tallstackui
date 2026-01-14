@@ -82,9 +82,9 @@ trait DispatchInteraction
         $data['id'] ??= (string) Str::uuid();
 
         if ($this->component) {
-            $data['component'] = $this->component->getId();
+            $data['reference'] = $this->component->getId();
 
-            $this->dispatch && $this->component->dispatch($event, ...$data);
+            $this->component->dispatch($event, ...$data);
         } else {
             // This else indicates that the sending is taking place via
             // Controller, outside the Livewire scope. So we automatically
