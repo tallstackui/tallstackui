@@ -379,14 +379,14 @@ class IndexTest extends BrowserTestCase
                     ->success('Foo!')
                     ->hook([
                         'close' => [
-                            'method' => 'hook',
+                            'method' => 'closed',
                             'params' => 'close',
                         ],
                     ])
                     ->send();
             }
 
-            public function hook(string $term): void
+            public function closed(string $term): void
             {
                 $this->close = $term;
             }
@@ -428,14 +428,14 @@ class IndexTest extends BrowserTestCase
                     ->success('Foo!')
                     ->hook([
                         'dismiss' => [
-                            'method' => 'dismissing',
+                            'method' => 'dismissed',
                             'params' => 'dismiss',
                         ],
                     ])
                     ->send();
             }
 
-            public function dismissing(): void
+            public function dismissed(): void
             {
                 $this->dismiss = true;
             }
@@ -479,14 +479,14 @@ class IndexTest extends BrowserTestCase
                     ->success('Foo!')
                     ->hook([
                         'ok' => [
-                            'method' => 'confirmed',
+                            'method' => 'pressed',
                             'params' => 'ok',
                         ],
                     ])
                     ->send();
             }
 
-            public function confirmed(string $term): void
+            public function pressed(string $term): void
             {
                 $this->ok = $term;
             }
