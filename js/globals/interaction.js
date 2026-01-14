@@ -101,7 +101,7 @@ export default class Interaction {
       return error(`The Livewire component [${label}] was not found in the current page.`);
     }
 
-    this.#data.component = livewire.id ?? null;
+    this.#data.reference = livewire.id ?? null;
 
     return this;
   };
@@ -209,7 +209,7 @@ export default class Interaction {
       return false;
     }
 
-    if ((options.cancel?.method || options.confirm?.method) && !this.#data.component) {
+    if ((options.cancel?.method || options.confirm?.method) && !this.#data.reference) {
       error(
         'You must set the id of the Livewire component to interact with [confirm] or [cancel] action.'
       );
