@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\View\Factory;
 use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\Dusk\Options;
 use Orchestra\Testbench\Dusk\TestCase;
@@ -31,6 +33,10 @@ class BrowserTestCase extends TestCase
     protected function clean(): void
     {
         Artisan::call('view:clear');
+
+        app()->forgetInstance('livewire.factory');
+
+        RateLimiter::clear('livewire-checksum-failures:127.0.0.1');
 
         File::deleteDirectory(self::tmp());
         File::deleteDirectory($this->livewireViewsPath());
@@ -64,9 +70,14 @@ class BrowserTestCase extends TestCase
             ]);
             $config->set('cache.default', 'array');
         });
+
+        tap($app['view'], function (Factory $factory) {
+            $factory->addNamespace('layouts', __DIR__.'/views/layouts');
+            $factory->addNamespace('pages', __DIR__.'/views/pages');
+        });
     }
 
-    /** @param  Router  $router */
+    /** @param Router $router */
     protected function defineWebRoutes($router): void
     {
         $router->get('/searchable-simple', fn () => [
