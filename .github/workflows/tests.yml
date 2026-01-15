@@ -25,7 +25,7 @@ jobs:
         livewire: ['^3.0', '^4.0']
         shard: [1, 2, 3, 4, 5]
 
-    name: OS:${{ matrix.os }} / PHP:${{ matrix.php }} / Laravel:${{ matrix.laravel }}
+    name: Laravel:${{ matrix.laravel }} / Livewire:${{ matrix.livewire }} / Shard:${{ matrix.shard }}
 
     steps:
       - name: Checkout
@@ -75,25 +75,19 @@ jobs:
           composer update --prefer-dist --no-interaction --no-progress --ansi
           composer require livewire/livewire:${{ matrix.livewire }} --no-interaction --no-progress --ansi
 
-      - name: Setup Google Chrome
-        run: vendor/bin/dusk-updater detect --auto-update
-
       - name: Pint
         run: ./vendor/bin/pint --test --parallel
 
       - name: Type Coverage
         run: ./vendor/bin/pest --type-coverage
 
-      - name: Clear Orchestra Testbench Cache
-        run: ./vendor/bin/testbench view:clear
-
-      - name: Feature Tests
-        run: ./vendor/bin/pest --ci --filter Feature
+      - name: Setup Google Chrome
+        run: vendor/bin/dusk-updater detect --auto-update
 
       - name: Clear Orchestra Testbench Cache
         run: ./vendor/bin/testbench view:clear
 
-      - name: Browser Tests
-        run: ./vendor/bin/pest --ci --filter Browser --order-by random --stop-on-failure --shard ${{ matrix.shard }}/5
+      - name: Tests
+        run: ./vendor/bin/pest --ci --stop-on-failure --shard ${{ matrix.shard }}/5
         env:
           CI: true
