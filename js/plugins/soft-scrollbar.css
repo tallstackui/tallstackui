@@ -1,0 +1,25 @@
+/* @utility soft-scrollbar */
+.soft-scrollbar {
+    scrollbar-width: auto;
+}
+
+.soft-scrollbar::-webkit-scrollbar {
+    @apply w-1 h-1 cursor-pointer;
+}
+
+.soft-scrollbar::-webkit-scrollbar-track {
+    @apply bg-gray-200 cursor-pointer;
+}
+
+.soft-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-gray-400 cursor-pointer;
+}
+
+/* Dark mode styles */
+.dark .soft-scrollbar::-webkit-scrollbar-track {
+    @apply bg-gray-600 cursor-pointer;
+}
+
+.dark .soft-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-gray-400 cursor-pointer;
+}

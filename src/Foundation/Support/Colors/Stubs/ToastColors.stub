@@ -1,0 +1,33 @@
+<?php
+
+namespace {{ namespace }};
+
+use Illuminate\View\Component;
+
+class ToastColors
+{
+    /**
+     * Icon colors.
+     */
+    public function iconColors(Component $component): array
+    {
+        return [
+            'success' => null,
+            'error' => null,
+            'info' => null,
+            'warning' => null,
+            'question' => null,
+        ];
+    }
+
+    /**
+     * Text colors.
+     */
+    public function textColors(Component $component): array
+    {
+        return [
+            'confirm' => null,
+            'cancel' => null,
+        ];
+    }
+}

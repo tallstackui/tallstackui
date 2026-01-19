@@ -1,11 +1,36 @@
 {
+  "name": "tallstackui",
+  "description": "TallStack UI Components",
+  "repository": "git@github.com:tallstackui/tallstackui.git",
+  "author": "AJ Meireles <alvaro.meireles@live.com>",
+  "license": "MIT",
+  "scripts": {
+    "build": "vite build && npx @tailwindcss/cli -i css/v4.css -o ./dist/tallstackui.css --minify",
+    "dev": "vite build --watch",
+    "lint": "npx eslint \"js/**\"",
+    "lint:fix": "npx eslint \"js/**\" --fix",
+    "format": "npx prettier --write \"js/**/*.js\""
+  },
   "devDependencies": {
-    "laravel-mix": "^6.0.49",
-    "postcss": "^8.4.29",
-    "postcss-import": "^15.1.0",
-    "tailwindcss": "^3.3.3"
+    "@eslint/eslintrc": "^3.2.0",
+    "@eslint/js": "^9.22.0",
+    "@tailwindcss/forms": "^0.5.10",
+    "autoprefixer": "^10.4.21",
+    "eslint": "^9.21.0",
+    "globals": "^17.0.0",
+    "postcss": "^8.5.3",
+    "postcss-import": "^16.1.0",
+    "tailwindcss": "^4.0.0",
+    "tippy.js": "^6.3.7",
+    "vite": "^7.0.5",
+    "prettier": "^3.8.0",
+    "prettier-plugin-tailwindcss": "^0.6.11"
   },
   "dependencies": {
-    "@tailwindcss/forms": "^0.5.6"
+    "@tailwindcss/postcss": "^4.0.17",
+    "@tailwindcss/vite": "^4.0.12",
+    "clipboard": "^2.0.11",
+    "dayjs": "^1.11.13",
+    "qs": "^6.13.1"
   }
 }

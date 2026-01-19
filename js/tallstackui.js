@@ -1,0 +1,77 @@
+import './globals/globals';
+import banner from './components/banner/banner';
+import carousel from './components/carousel/carousel';
+import card from './components/card/card';
+import color from './components/form/color';
+import clipboard from './components/clipboard/clipboard';
+import collapse from './components/layout/collapse';
+import currency from './components/form/currency';
+import date from './components/form/date';
+import darkTheme from './helpers/dark-theme';
+import dialog from './components/interaction/dialog/dialog';
+import dropdown from './components/dropdown/dropdown';
+import clearable from './components/form/clearable';
+import stripZeros from './components/form/strip-zeros';
+import loading from './components/loading/loading';
+import layout from './components/layout/layout';
+import keyValue from './components/key-value/key-value';
+import modal from './components/modal/modal';
+import number from './components/form/number';
+import rating from './components/rating/rating';
+import reaction from './components/reaction/reaction';
+import select from './components/form/select/select';
+import signature from './components/signature/signature';
+import slide from './components/slide/slide';
+import stats from './components/stats/stats';
+import password from './components/form/password';
+import pin from './components/form/pin';
+import table from './components/table/table';
+import tag from './components/form/tag';
+import textArea from './components/form/textarea';
+import time from './components/form/time';
+import toastBase from './components/interaction/toast/toast-base';
+import toastLoop from './components/interaction/toast/toast-loop';
+import tooltip from './components/tooltip/tooltip';
+import upload from './components/form/upload';
+
+if (!window.__tsui_elements) {
+  window.__tsui_elements = [];
+}
+
+document.addEventListener('alpine:init', () => {
+  Alpine.plugin(tooltip);
+  Alpine.data('tallstackui_banner', banner);
+  Alpine.data('tallstackui_carousel', carousel);
+  Alpine.data('tallstackui_card', card);
+  Alpine.data('tallstackui_clipboard', clipboard);
+  Alpine.data('tallstackui_formColor', color);
+  Alpine.data('tallstackui_formCurrency', currency);
+  Alpine.data('tallstackui_formDate', date);
+  Alpine.data('tallstackui_formInputClearable', clearable);
+  Alpine.data('tallstackui_formInputStripZeros', stripZeros);
+  Alpine.data('tallstackui_formNumber', number);
+  Alpine.data('tallstackui_formPassword', password);
+  Alpine.data('tallstackui_formPin', pin);
+  Alpine.data('tallstackui_formTag', tag);
+  Alpine.data('tallstackui_formTextArea', textArea);
+  Alpine.data('tallstackui_formTime', time);
+  Alpine.data('tallstackui_formUpload', upload);
+  Alpine.data('tallstackui_darkTheme', darkTheme);
+  Alpine.data('tallstackui_dialog', dialog);
+  Alpine.data('tallstackui_dropdown', dropdown);
+  Alpine.data('tallstackui_loading', loading);
+  Alpine.data('tallstackui_layout', layout);
+  Alpine.data('tallstackui_keyValue', keyValue);
+  Alpine.data('tallstackui_modal', modal);
+  Alpine.data('tallstackui_rating', rating);
+  Alpine.data('tallstackui_reaction', reaction);
+  Alpine.data('tallstackui_select', select);
+  Alpine.data('tallstackui_signature', signature);
+  Alpine.data('tallstackui_slide', slide);
+  Alpine.data('tallstackui_stats', stats);
+  Alpine.data('tallstackui_table', table);
+  Alpine.data('tallstackui_toastBase', toastBase);
+  Alpine.data('tallstackui_toastLoop', toastLoop);
+  // Stores
+  Alpine.store('tsui.side-bar', collapse);
+});

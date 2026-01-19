@@ -4,9 +4,12 @@ coverage
 tests/Browser/console
 tests/Browser/screenshots
 tests/Browser/source
+tests/Browser/**/tests/
 .phpunit.result.cache
 yarn-error.log
 _DS_Store
 .idea
 .vscode
 .php-cs-fixer.cache
+.DS_Store
+.run

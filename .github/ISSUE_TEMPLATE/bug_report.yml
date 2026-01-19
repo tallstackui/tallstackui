@@ -1,0 +1,144 @@
+name: Bug Report
+description: Report an issue or bug with the TallStackUI
+title: "[Bug]: "
+labels: ["bug"]
+assignees: devajmeireles
+body:
+  - type: markdown
+    attributes:
+      value: |
+        We're sorry to hear you have a problem. Can you help us solve it by providing the following details.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What Happened
+      description: What did you expect to happen?
+      placeholder: When I use <x-button /> I get an error...
+    validations:
+      required: true
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      description: If the issue occurs with a specific component, select it here.
+      multiple: false
+      options:
+        - Alert
+        - Avatar
+        - Badge
+        - Banner
+        - Boolean
+        - Button
+        - Button Circle
+        - Card
+        - Carousel
+        - Checkbox
+        - Clipboard
+        - Color
+        - Currency
+        - Date
+        - Dialog
+        - Dropdown
+        - Environment
+        - Errors
+        - Hint
+        - Icon
+        - Input
+        - Label
+        - Layout
+        - Link
+        - Loading
+        - KeyValue
+        - Modal
+        - Number
+        - Password
+        - Pin
+        - Progress
+        - Radio
+        - Range
+        - Rating
+        - Reaction
+        - Select Native
+        - Select Styled
+        - Signature
+        - Slide
+        - Stats
+        - Step
+        - Tab
+        - Table
+        - Tag
+        - Textarea
+        - Theme Switch
+        - Time
+        - Toast
+        - Toggle
+        - Tooltip
+        - Upload
+        - None (N/A)
+    validations:
+      required: true
+  - type: textarea
+    id: how-to-reproduce
+    attributes:
+      label: How to Reproduce
+      description: How did this occur, please add any config values used and provide a set of reliable steps if possible.
+      placeholder: Install a fresh Laravel app, install TallStackUI, add a <x-button /> to a Livewire component, visit the page
+    validations:
+      required: true
+  - type: input
+    id: public-repository
+    attributes:
+      label: Public Repository
+      description: If possible, please provide a public repository that reproduces the issue.
+      placeholder: https://github.com/your-username/repository
+  - type: input
+    id: laravel-version
+    attributes:
+      label: Laravel Version
+      description: What version of Laravel are you running? Please be as specific as possible
+      placeholder: For example, 10.30.0
+    validations:
+      required: true
+  - type: input
+    id: livewire-version
+    attributes:
+      label: Livewire Version
+      description: What version of Livewire are you running? Please be as specific as possible
+      placeholder: For example, 3.0.5
+    validations:
+      required: true
+  - type: input
+    id: tsui-version
+    attributes:
+      label: TallStackUI Version
+      description: What version of our Package are you running? Please be as specific as possible
+      placeholder: For example, 2.1.2
+    validations:
+      required: true
+  - type: input
+    id: php-version
+    attributes:
+      label: PHP Version
+      description: What version of PHP are you running? Please be as specific as possible
+      placeholder: For example, 8.1.20
+    validations:
+      required: true
+  - type: dropdown
+    id: operating-systems
+    attributes:
+      label: Operation System
+      description: On which operating systems does the problem occur? You can select more than one.
+      multiple: true
+      options:
+        - macOS
+        - Windows
+        - Linux
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes
+      description: Use this field to provide any other notes that you feel might be relevant to the issue.
+    validations:
+      required: false

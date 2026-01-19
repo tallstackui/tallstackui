@@ -1,0 +1,51 @@
+<?php
+
+namespace {{ namespace }};
+
+use Illuminate\View\Component;
+
+class DialogColors
+{
+    // This should be one of the TailwindCSS colors (e.g. 'red', 'blue', 'green', or custom, etc.)
+    public function cancelColors(Component $component): ?string
+    {
+        return 'red';
+    }
+
+    /**
+     * Confirm button colors.
+     */
+    public function confirmColors(Component $component): array
+    {
+        return [
+            'success' => null,
+            'error' => null,
+            'info' => null,
+            'warning' => null,
+            'question' => null,
+        ];
+    }
+
+    /**
+     * Icon colors.
+     */
+    public function iconColors(Component $component): array
+    {
+        return [
+            'background' => [
+                'success' => null,
+                'error' => null,
+                'info' => null,
+                'warning' => null,
+                'question' => null,
+            ],
+            'icon' => [
+                'success' => null,
+                'error' => null,
+                'info' => null,
+                'warning' => null,
+                'question' => null,
+            ],
+        ];
+    }
+}

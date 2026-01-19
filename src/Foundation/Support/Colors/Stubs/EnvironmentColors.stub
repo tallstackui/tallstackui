@@ -1,0 +1,36 @@
+<?php
+
+namespace {{ namespace }};
+
+use Illuminate\View\Component;
+
+class EnvironmentColors
+{
+    /**
+     * Background colors.
+     */
+    public function backgroundColors(Component $component): ?string
+    {
+        return match (mb_strtolower(app()->environment())) {
+            'local' => null,
+            'staging' => null,
+            'sandbox' => null,
+            'production' => null,
+            default => null,
+        };
+    }
+
+    /**
+     * Text colors.
+     */
+    public function textColors(Component $component): ?string
+    {
+        return match (mb_strtolower(app()->environment())) {
+            'local' => null,
+            'staging' => null,
+            'sandbox' => null,
+            'production' => null,
+            default => null,
+        };
+    }
+}
