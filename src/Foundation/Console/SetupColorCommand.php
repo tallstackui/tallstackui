@@ -5,8 +5,10 @@ namespace TallStackUi\Foundation\Console;
 use Exception;
 use Illuminate\Console\Command;
 use TallStackUi\Foundation\Attributes\ColorsThroughOf;
+use TallStackUi\View\Components\Button\Circle;
+use TallStackUi\View\Components\Form\Checkbox;
 
-use function Laravel\Prompts\suggest;
+use function Laravel\Prompts\select;
 
 class SetupColorCommand extends Command
 {
@@ -22,9 +24,13 @@ class SetupColorCommand extends Command
             return self::FAILURE;
         }
 
+        $reject = [
+            Checkbox::class, // -> merged with Radio
+            Circle::class, // -> merged with Progress
+        ];
+
         $components = __ts_filter_components_using_attribute(ColorsThroughOf::class)
-            // We remove the Circle component because its colors are personalized via Progress.
-            ->reject(fn (string $component): bool => str($component)->contains('Circle'))
+            ->reject(fn (string $component): bool => in_array($component, $reject))
             ->mapWithKeys(function (string $component): array {
                 $component = str($component)
                     ->remove('TallStackUi\\View\\Components\\')
@@ -35,7 +41,7 @@ class SetupColorCommand extends Command
             })
             ->all();
 
-        $component = suggest('Select the component to personalize the colors', $components, required: true, hint: 'Only colored components are listed.');
+        $component = select('Select the component to personalize the colors', $components, hint: 'Only colored components are listed.');
 
         return $this->publish($component);
     }
