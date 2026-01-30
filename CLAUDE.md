@@ -146,7 +146,7 @@ class Input extends \TallStackUi\View\Components\Form\Input
 
 ### Color Personalization
 
-Components with color support use the `#[ColorsThroughOf(ColorClass::class)]` attribute to link to color definitions.
+Components with color support use the `#[ColorsThroughOf(ColorClass::class)]` attribute to link to color definitions. The idea behind this is to allow TallStackUI users to customize the internal colors without needing to publish/change external content.
 
 **Structure:**
 
@@ -243,6 +243,8 @@ class InputRuntime extends AbstractRuntime
     }
 }
 ```
+
+The idea behind this is to avoid having too many `@php` tags in the components. So each component only has one `@php` tag at the top of the file related to Soft Customization.
 
 ### Support Directory
 
