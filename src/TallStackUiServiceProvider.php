@@ -10,7 +10,6 @@ use TallStackUi\Console\IdeCommand;
 use TallStackUi\Console\SetupColorCommand;
 use TallStackUi\Console\SetupPrefixCommand;
 use TallStackUi\Customization\CustomizationFactory;
-use TallStackUi\Customization\CustomizationPresets;
 use TallStackUi\Support\Blade\ComponentPrefix;
 use TallStackUi\Support\Blade\Directives;
 use TallStackUi\View\Components\Icon;
