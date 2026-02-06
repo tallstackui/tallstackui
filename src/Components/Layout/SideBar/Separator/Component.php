@@ -1,6 +1,6 @@
 <?php
 
-namespace TallStackUi\Components\SideBar\Separator;
+namespace TallStackUi\Components\Layout\SideBar\Separator;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;

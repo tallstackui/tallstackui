@@ -1,6 +1,6 @@
 <?php
 
-namespace TallStackUi\Components\SideBar\Item;
+namespace TallStackUi\Components\Layout\SideBar\Item;
 
 use Closure;
 use Illuminate\Contracts\View\View;

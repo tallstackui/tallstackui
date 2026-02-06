@@ -1,6 +1,6 @@
 <?php
 
-namespace TallStackUi\Components\SideBar\Main;
+namespace TallStackUi\Components\Layout\SideBar\Main;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;

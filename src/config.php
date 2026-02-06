@@ -302,9 +302,9 @@ return [
         'radio' => Components\Form\Radio\Component::class,
         'range' => Components\Form\Range\Component::class,
         'rating' => Components\Rating\Component::class,
-        'side-bar' => Components\SideBar\Main\Component::class,
-        'side-bar.item' => Components\SideBar\Item\Component::class,
-        'side-bar.separator' => Components\SideBar\Separator\Component::class,
+        'side-bar' => Components\Layout\SideBar\Main\Component::class,
+        'side-bar.item' => Components\Layout\SideBar\Item\Component::class,
+        'side-bar.separator' => Components\Layout\SideBar\Separator\Component::class,
         'select.native' => Components\Form\Select\Native\Component::class,
         'select.styled' => [
             Components\Form\Select\Styled\Component::class,
