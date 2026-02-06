@@ -76,9 +76,10 @@ if (! function_exists('__ts_validation_exception')) {
     {
         $class = is_string($component) ? $component : $component::class;
 
-        $prefix = 'TallStackUi\\View\\Components\\';
+        $prefix = 'TallStackUi\\Components\\';
 
         $title = str_starts_with($class, $prefix) ? substr($class, strlen($prefix)) : $class;
+        $title = preg_replace('/\\\\Component$/', '', $title);
 
         throw new InvalidArgumentException(sprintf('[TallStackUI] %s: %s', $title, $message));
     }
@@ -94,17 +95,25 @@ if (! function_exists('__ts_filter_components_using_attribute')) {
 
         if ($classes === null) {
             $classes = [];
-            $dir = __DIR__.'/View/Components';
-            $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir));
 
-            foreach ($iterator as $file) {
-                if ($file->getExtension() !== 'php') {
-                    continue;
+            $scan = static function (string $dir, string $prefix) use (&$classes): void {
+                if (! is_dir($dir)) {
+                    return;
                 }
 
-                $relative = substr($file->getPathname(), strlen($dir) + 1, -4);
-                $classes[] = 'TallStackUi\\View\\Components\\'.str_replace('/', '\\', $relative);
-            }
+                $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir));
+
+                foreach ($iterator as $file) {
+                    if ($file->getFilename() !== 'Component.php') {
+                        continue;
+                    }
+
+                    $relative = substr($file->getPathname(), strlen($dir) + 1, -4);
+                    $classes[] = $prefix.str_replace('/', '\\', $relative);
+                }
+            };
+
+            $scan(__DIR__.'/Components', 'TallStackUi\\Components\\');
         }
 
         return array_filter($classes, fn (string $class): bool => (new ReflectionClass($class))->getAttributes($attribute) !== []);

@@ -3,8 +3,8 @@
 namespace TallStackUi\Exceptions;
 
 use Exception;
-use TallStackUi\View\Components\Icon;
-use TallStackUi\View\Components\Tooltip;
+use TallStackUi\Components\Icon\Component as Icon;
+use TallStackUi\Components\Tooltip\Component as Tooltip;
 
 class InappropriateIconGuideExecution extends Exception
 {

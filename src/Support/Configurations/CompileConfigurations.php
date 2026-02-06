@@ -3,13 +3,13 @@
 namespace TallStackUi\Support\Configurations;
 
 use Exception;
-use TallStackUi\View\Components\Form\Color;
-use TallStackUi\View\Components\Form\Select\Styled;
-use TallStackUi\View\Components\Interaction\Dialog;
-use TallStackUi\View\Components\Interaction\Toast;
-use TallStackUi\View\Components\Loading;
-use TallStackUi\View\Components\Modal;
-use TallStackUi\View\Components\Slide;
+use TallStackUi\Components\Dialog\Component as Dialog;
+use TallStackUi\Components\Form\Color\Component as Color;
+use TallStackUi\Components\Form\Select\Styled\Component as Styled;
+use TallStackUi\Components\Loading\Component as Loading;
+use TallStackUi\Components\Modal\Component as Modal;
+use TallStackUi\Components\Slide\Component as Slide;
+use TallStackUi\Components\Toast\Component as Toast;
 
 /**
  * @internal

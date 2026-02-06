@@ -4,17 +4,19 @@ namespace TallStackUi\Console;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
+use TallStackUi\Components\Floating\Component as Floating;
+use TallStackUi\Components\Wrapper\Input\Component as InputWrapper;
+use TallStackUi\Components\Wrapper\Radio\Component as RadioWrapper;
 use TallStackUi\Facades\TallStackUi;
-use TallStackUi\View\Components;
 
 use function Laravel\Prompts\confirm;
 
 class IdeCommand extends Command
 {
     private const IGNORES = [
-        Components\Floating::class,
-        Components\Wrapper\Input::class,
-        Components\Wrapper\Radio::class,
+        Floating::class,
+        InputWrapper::class,
+        RadioWrapper::class,
     ];
 
     protected $description = 'Generate IDE configuration file for TallStackUI components.';

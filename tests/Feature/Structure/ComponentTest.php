@@ -1,9 +1,9 @@
 <?php
 
+use TallStackUi\Components\Dialog\Component as Dialog;
+use TallStackUi\Components\Toast\Component as Toast;
 use TallStackUi\Customization\Contracts\Customization as CustomizationContract;
 use TallStackUi\Customization\Customization;
-use TallStackUi\View\Components\Interaction\Dialog;
-use TallStackUi\View\Components\Interaction\Toast;
 
 test('is customizable', function (string $index) {
     expect($index)->toImplement(CustomizationContract::class);

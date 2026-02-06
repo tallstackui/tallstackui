@@ -1,30 +1,31 @@
 <?php
 
 use TallStackUi\Attributes\ColorsThroughOf;
+use TallStackUi\Components\Alert\Component as Alert;
+use TallStackUi\Components\Avatar\Component as Avatar;
+use TallStackUi\Components\Badge\Component as Badge;
+use TallStackUi\Components\Banner\Component as Banner;
+use TallStackUi\Components\Boolean\Component as Boolean;
+use TallStackUi\Components\Button\Circle\Component as Circle;
+use TallStackUi\Components\Button\Normal\Component as Button;
+use TallStackUi\Components\Card\Component as Card;
+use TallStackUi\Components\Dialog\Component as Dialog;
+use TallStackUi\Components\Environment\Component as Environment;
+use TallStackUi\Components\Errors\Component as Errors;
+use TallStackUi\Components\Form\Checkbox\Component as Checkbox;
+use TallStackUi\Components\Form\Radio\Component as Radio;
+use TallStackUi\Components\Form\Range\Component as Range;
+use TallStackUi\Components\Form\Toggle\Component as Toggle;
+use TallStackUi\Components\Link\Component as Link;
+use TallStackUi\Components\Progress\Bar\Component as Progress;
+use TallStackUi\Components\Progress\Circle\Component as ProgressCircle;
+use TallStackUi\Components\Rating\Component as Rating;
+use TallStackUi\Components\Stats\Component as Stats;
+use TallStackUi\Components\Toast\Component as Toast;
+use TallStackUi\Components\Tooltip\Component as Tooltip;
 use TallStackUi\Console\SetupColorCommand;
 use TallStackUi\Support\Colors\CompileColors;
-use TallStackUi\View\Components\Alert;
-use TallStackUi\View\Components\Avatar;
-use TallStackUi\View\Components\Badge;
-use TallStackUi\View\Components\Banner;
-use TallStackUi\View\Components\Boolean;
-use TallStackUi\View\Components\Button\Button;
-use TallStackUi\View\Components\Button\Circle;
-use TallStackUi\View\Components\Card;
-use TallStackUi\View\Components\Environment;
-use TallStackUi\View\Components\Errors;
-use TallStackUi\View\Components\Form\Checkbox;
-use TallStackUi\View\Components\Form\Radio;
-use TallStackUi\View\Components\Form\Range;
-use TallStackUi\View\Components\Form\Toggle;
-use TallStackUi\View\Components\Interaction\Dialog;
-use TallStackUi\View\Components\Interaction\Toast;
-use TallStackUi\View\Components\Link;
-use TallStackUi\View\Components\Progress\Circle as ProgressCircle;
-use TallStackUi\View\Components\Progress\Progress;
-use TallStackUi\View\Components\Rating;
-use TallStackUi\View\Components\Stats;
-use TallStackUi\View\Components\Tooltip;
+use TallStackUi\Support\Colors\Concerns\SetupColors;
 
 test('contains method')->expect(CompileColors::class)->toHaveMethod('of');
 
@@ -59,6 +60,7 @@ test('attribute should only be used in the components', function () {
     expect(ColorsThroughOf::class)
         ->toOnlyBeUsedIn([
             SetupColorCommand::class,
+            SetupColors::class,
             CompileColors::class,
             Alert::class,
             Avatar::class,

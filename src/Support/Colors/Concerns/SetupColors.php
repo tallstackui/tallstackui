@@ -8,6 +8,7 @@ use Illuminate\View\Component;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionMethod;
+use TallStackUi\Attributes\ColorsThroughOf;
 use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\Support\Miscellaneous\ReflectComponent;
 
@@ -86,7 +87,13 @@ trait SetupColors
             ->values()
             ->toArray();
 
-        $collect = __ts_class_collection(class_basename($this->reflect->parent()->name));
+        /** @var ReflectionClass $parent */
+        $parent = $this->reflect->parent();
+        $colorAttributes = $parent->getAttributes(ColorsThroughOf::class);
+        $colorClassName = class_basename($colorAttributes[0]->getArguments()[0]);
+        $component = str_replace('Colors', '', $colorClassName);
+
+        $collect = __ts_class_collection($component);
         $class = $collect['instance'] ?? null;
 
         foreach ($methods as $method) {

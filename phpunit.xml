@@ -3,9 +3,11 @@
   <testsuites>
     <testsuite name="Feature">
       <directory>tests/Feature</directory>
+      <directory suffix="FeatureTest.php">src/Components</directory>
     </testsuite>
     <testsuite name="Browser">
       <directory>tests/Browser</directory>
+      <directory suffix="BrowserTest.php">src/Components</directory>
     </testsuite>
   </testsuites>
   <coverage/>

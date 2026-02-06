@@ -4,7 +4,7 @@ namespace TallStackUi\Support\Icons;
 
 use Exception;
 use Illuminate\View\Component;
-use TallStackUi\View\Components\Icon;
+use TallStackUi\Components\Icon\Component as Icon;
 
 class IconGuideMap
 {

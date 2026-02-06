@@ -1,9 +1,9 @@
 <?php
 
 use Illuminate\View\ComponentAttributeBag;
+use TallStackUi\Components\Icon\Component as Icon;
+use TallStackUi\Components\Tooltip\Component as Tooltip;
 use TallStackUi\Support\Concerns\BuildRawIcon;
-use TallStackUi\View\Components\Icon;
-use TallStackUi\View\Components\Tooltip;
 
 test('trait has method', function () {
     expect(BuildRawIcon::class)->toHaveMethod('raw');

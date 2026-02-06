@@ -5,8 +5,6 @@ namespace TallStackUi\Customization;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\View as Facade;
-use Illuminate\View\View;
 use InvalidArgumentException;
 use RuntimeException;
 
@@ -206,22 +204,20 @@ class CustomizationFactory implements Arrayable
     }
 
     /**
-     * Composes the customization in View::composer for cases where
-     * we are not interacting with the customization method without $code.
+     * Compiles the customization for the given block and code.
      */
     private function composer(string $block, string|callable|null $code = null): void
     {
-        $view = app($this->component)->blade()->name();
-
         if (! in_array($block, $this->blocks)) {
-            $component = str_replace('tallstack-ui::components.', '', (string) $view);
+            $view = app($this->component)->blade()->name();
+
+            $component = str_contains((string) $view, DIRECTORY_SEPARATOR)
+                ? basename(dirname((string) $view))
+                : str_replace('tallstack-ui::components.', '', (string) $view);
 
             throw new InvalidArgumentException("Component [$component] does not have the block [$block] to be personalized. Allowed: ".implode(', ', $this->blocks));
         }
 
-        // We leave everything prepared and linked with the
-        // Blade file associated with the component so that
-        // the $classes() call obtains the customization.
-        Facade::composer($view, fn (View $view) => $this->compile($block, is_callable($code) ? $code($view->getData()) : $code));
+        $this->compile($block, is_callable($code) ? $code([]) : $code);
     }
 }

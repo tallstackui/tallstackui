@@ -5,8 +5,8 @@ namespace TallStackUi\Console;
 use Exception;
 use Illuminate\Console\Command;
 use TallStackUi\Attributes\ColorsThroughOf;
-use TallStackUi\View\Components\Button\Circle;
-use TallStackUi\View\Components\Form\Checkbox;
+use TallStackUi\Components\Button\Circle\Component as Circle;
+use TallStackUi\Components\Form\Checkbox\Component as Checkbox;
 
 use function Laravel\Prompts\select;
 

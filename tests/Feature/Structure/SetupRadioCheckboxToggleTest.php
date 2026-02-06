@@ -1,14 +1,14 @@
 <?php
 
-use TallStackUi\View\Components\Form\Checkbox;
-use TallStackUi\View\Components\Form\Radio;
-use TallStackUi\View\Components\Form\Toggle;
-use TallStackUi\View\Components\Form\Traits\Setup;
+use TallStackUi\Components\Form\Checkbox\Component as Checkbox;
+use TallStackUi\Components\Form\Radio\Component as Radio;
+use TallStackUi\Components\Form\Toggle\Component as Toggle;
+use TallStackUi\Components\Traits\FormSetup;
 
 test('should be used only in checkbox, toggle and radio')
-    ->expect(Setup::class)
+    ->expect(FormSetup::class)
     ->toOnlyBeUsedIn([Toggle::class, Radio::class, Checkbox::class]);
 
 test('should have setup method', function () {
-    expect(Setup::class)->toHaveMethod('setup');
+    expect(FormSetup::class)->toHaveMethod('setup');
 });

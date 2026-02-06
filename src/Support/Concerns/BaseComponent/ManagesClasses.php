@@ -9,10 +9,10 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use ReflectionException;
 use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Components\Floating\Component as Floating;
 use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\Facades\TallStackUi;
 use TallStackUi\Support\Miscellaneous\ReflectComponent;
-use TallStackUi\View\Components\Floating;
 
 trait ManagesClasses
 {

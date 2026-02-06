@@ -5,6 +5,7 @@ namespace TallStackUi;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
+use TallStackUi\Components\Icon\Component as Icon;
 use TallStackUi\Console\FindComponentCommand;
 use TallStackUi\Console\IdeCommand;
 use TallStackUi\Console\SetupColorCommand;
@@ -12,7 +13,6 @@ use TallStackUi\Console\SetupPrefixCommand;
 use TallStackUi\Customization\CustomizationFactory;
 use TallStackUi\Support\Blade\ComponentPrefix;
 use TallStackUi\Support\Blade\Directives;
-use TallStackUi\View\Components\Icon;
 
 include __DIR__.'/helpers.php';
 
