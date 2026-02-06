@@ -73,9 +73,7 @@ trait DispatchInteraction
     {
         $data = $this->data;
 
-        if (method_exists($this, 'additional')) {
-            $data = array_merge($data, $this->additional());
-        }
+        $data = array_merge($data, $this->additional());
 
         $event = sprintf('tallstackui:%s', $this->event());
 

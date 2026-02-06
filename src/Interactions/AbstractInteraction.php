@@ -61,6 +61,14 @@ abstract class AbstractInteraction
     }
 
     /**
+     * Additional data to be merged into the interaction payload.
+     */
+    protected function additional(): array
+    {
+        return [];
+    }
+
+    /**
      * Determine the event name.
      */
     abstract protected function event(): string;
