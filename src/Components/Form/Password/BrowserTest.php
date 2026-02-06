@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Browser\Form;
+namespace TallStackUi\Components\Form\Password;
 
 use Facebook\WebDriver\WebDriverKeys;
 use Laravel\Dusk\OperatingSystem;
@@ -9,7 +9,7 @@ use Livewire\Livewire;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\BrowserTestCase;
 
-class PasswordTest extends BrowserTestCase
+class BrowserTest extends BrowserTestCase
 {
     #[Test]
     public function can_dispatch_event_when_generate(): void

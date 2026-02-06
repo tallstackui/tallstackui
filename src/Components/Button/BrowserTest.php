@@ -1,13 +1,13 @@
 <?php
 
-namespace Tests\Browser\Button;
+namespace TallStackUi\Components\Button;
 
 use Livewire\Component;
 use Livewire\Livewire;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\BrowserTestCase;
 
-class IndexTest extends BrowserTestCase
+class BrowserTest extends BrowserTestCase
 {
     #[Test]
     public function can_see_loading_spinner_with_circle_button(): void

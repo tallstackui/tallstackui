@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Browser\Form;
+namespace TallStackUi\Components\Form\Currency;
 
 use Livewire\Attributes\Validate;
 use Livewire\Component;
@@ -8,7 +8,7 @@ use Livewire\Livewire;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\BrowserTestCase;
 
-class CurrencyTest extends BrowserTestCase
+class BrowserTest extends BrowserTestCase
 {
     #[Test]
     public function can_bind_and_clear(): void

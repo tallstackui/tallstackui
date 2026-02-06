@@ -1,13 +1,13 @@
 <?php
 
-namespace Tests\Browser\Form\Select;
+namespace TallStackUi\Components\Form\Select\Styled;
 
 use Livewire\Component;
 use Livewire\Livewire;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\BrowserTestCase;
 
-class StyledSearchableTest extends BrowserTestCase
+class SearchableBrowserTest extends BrowserTestCase
 {
     #[Test]
     public function can_clear(): void

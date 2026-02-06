@@ -1,13 +1,13 @@
 <?php
 
-namespace Tests\Browser\Loading;
+namespace TallStackUi\Components\Loading;
 
 use Livewire\Component;
 use Livewire\Livewire;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\BrowserTestCase;
 
-class IndexTest extends BrowserTestCase
+class BrowserTest extends BrowserTestCase
 {
     #[Test]
     public function can_see_loading_using_svg(): void

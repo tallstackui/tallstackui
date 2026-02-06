@@ -1,13 +1,13 @@
 <?php
 
-namespace Tests\Browser\Signature;
+namespace TallStackUi\Components\Signature;
 
 use Livewire\Component;
 use Livewire\Livewire;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\BrowserTestCase;
 
-class IndexTest extends BrowserTestCase
+class BrowserTest extends BrowserTestCase
 {
     #[Test]
     public function can_clear(): void

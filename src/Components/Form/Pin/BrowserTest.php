@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Browser\Form;
+namespace TallStackUi\Components\Form\Pin;
 
 use Facebook\WebDriver\WebDriverKeys;
 use Laravel\Dusk\OperatingSystem;
@@ -10,7 +10,7 @@ use Livewire\Livewire;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\BrowserTestCase;
 
-class PinTest extends BrowserTestCase
+class BrowserTest extends BrowserTestCase
 {
     #[Test]
     public function can_clear(): void

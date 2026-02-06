@@ -1,13 +1,13 @@
 <?php
 
-namespace Tests\Browser\Form;
+namespace TallStackUi\Components\Form\Color;
 
 use Livewire\Component;
 use Livewire\Livewire;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\BrowserTestCase;
 
-class ColorTest extends BrowserTestCase
+class BrowserTest extends BrowserTestCase
 {
     #[Test]
     public function can_dispatch_event_when_set(): void

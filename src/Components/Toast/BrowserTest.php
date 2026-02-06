@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Browser\Interactions\Toast;
+namespace TallStackUi\Components\Toast;
 
 use Livewire\Component;
 use Livewire\Livewire;
@@ -8,7 +8,7 @@ use PHPUnit\Framework\Attributes\Test;
 use TallStackUi\Traits\Interactions;
 use Tests\Browser\BrowserTestCase;
 
-class IndexTest extends BrowserTestCase
+class BrowserTest extends BrowserTestCase
 {
     #[Test]
     public function can_dispatch_confirmation_toast_without_livewire_specifing_component_id()

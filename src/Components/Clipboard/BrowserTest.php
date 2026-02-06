@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Browser\Clipboard;
+namespace TallStackUi\Components\Clipboard;
 
 use Facebook\WebDriver\WebDriverKeys;
 use Laravel\Dusk\OperatingSystem;
@@ -9,7 +9,7 @@ use Livewire\Livewire;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\BrowserTestCase;
 
-class IndexTest extends BrowserTestCase
+class BrowserTest extends BrowserTestCase
 {
     #[Test]
     public function can_copy_when_icon(): void

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Browser\KeyValue;
+namespace TallStackUi\Components\KeyValue;
 
 use Facebook\WebDriver\WebDriverBy;
 use Livewire\Component;
@@ -8,7 +8,7 @@ use Livewire\Livewire;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\BrowserTestCase;
 
-class IndexTest extends BrowserTestCase
+class BrowserTest extends BrowserTestCase
 {
     #[Test]
     public function can_add_row()

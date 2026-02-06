@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Browser\Tab;
+namespace TallStackUi\Components\Tab;
 
 use Livewire\Attributes\Url;
 use Livewire\Component;
@@ -8,7 +8,7 @@ use Livewire\Livewire;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\BrowserTestCase;
 
-class IndexTest extends BrowserTestCase
+class BrowserTest extends BrowserTestCase
 {
     #[Test]
     public function can_dispatch_event(): void

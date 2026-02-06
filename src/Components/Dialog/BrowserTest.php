@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Browser\Interactions\Dialog;
+namespace TallStackUi\Components\Dialog;
 
 use Livewire\Component;
 use Livewire\Livewire;
@@ -8,7 +8,7 @@ use PHPUnit\Framework\Attributes\Test;
 use TallStackUi\Traits\Interactions;
 use Tests\Browser\BrowserTestCase;
 
-class IndexTest extends BrowserTestCase
+class BrowserTest extends BrowserTestCase
 {
     #[Test]
     public function can_be_opened_using_modal_and_close_the_dialog_instead_of_modal(): void

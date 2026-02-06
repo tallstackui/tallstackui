@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Browser\Form;
+namespace TallStackUi\Components\Form\Upload;
 
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
@@ -15,7 +15,7 @@ use PHPUnit\Framework\Attributes\Test;
 use Symfony\Component\Finder\SplFileInfo;
 use Tests\Browser\BrowserTestCase;
 
-class UploadTest extends BrowserTestCase
+class BrowserTest extends BrowserTestCase
 {
     #[Test]
     public function can_close_after_upload(): void

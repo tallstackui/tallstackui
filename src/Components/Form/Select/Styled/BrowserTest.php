@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Browser\Form\Select;
+namespace TallStackUi\Components\Form\Select\Styled;
 
 use Illuminate\Support\Collection;
 use Livewire\Attributes\Validate;
@@ -9,7 +9,7 @@ use Livewire\Livewire;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\BrowserTestCase;
 
-class StyledCommonTest extends BrowserTestCase
+class BrowserTest extends BrowserTestCase
 {
     #[Test]
     public function can_change_selectable(): void

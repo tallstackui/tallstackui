@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Browser\Form;
+namespace TallStackUi\Components\Form\Date;
 
 use Facebook\WebDriver\WebDriverBy;
 use Livewire\Component;
@@ -8,7 +8,7 @@ use Livewire\Livewire;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\BrowserTestCase;
 
-class DateTest extends BrowserTestCase
+class BrowserTest extends BrowserTestCase
 {
     #[Test]
     public function can_advance_to_next_month(): void
