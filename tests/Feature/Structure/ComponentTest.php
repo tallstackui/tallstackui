@@ -1,17 +1,17 @@
 <?php
 
-use TallStackUi\Customization\Contracts\Customization as PersonalizationContract;
+use TallStackUi\Customization\Contracts\Customization as CustomizationContract;
 use TallStackUi\Customization\Customization;
 use TallStackUi\View\Components\Interaction\Dialog;
 use TallStackUi\View\Components\Interaction\Toast;
 
 test('is customizable', function (string $index) {
-    expect($index)->toImplement(PersonalizationContract::class);
-})->with('personalizations.components');
+    expect($index)->toImplement(CustomizationContract::class);
+})->with('customization.components');
 
-test('contains personalization method', function (string $index) {
-    expect($index)->toHaveMethod('personalization');
-})->with('personalizations.components');
+test('contains customization method', function (string $index) {
+    expect($index)->toHaveMethod('customization');
+})->with('customization.components');
 
 test('contains constructor', function (string $index) {
     $ignores = [Dialog::class, Toast::class];
@@ -21,7 +21,7 @@ test('contains constructor', function (string $index) {
     }
 
     expect($index)->toHaveConstructor();
-})->with('personalizations.components');
+})->with('customization.components');
 
 test('throws exception if component name is wrong', function () {
     $this->expectExceptionMessage('The method [foo-bar] is not supported');

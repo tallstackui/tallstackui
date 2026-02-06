@@ -36,4 +36,4 @@ test('TallStackUiComponent traits should only be used in the TallStackUiComponen
 
 test('all components should extends base component', function (string $component) {
     expect($component)->toExtend(TallStackUiComponent::class);
-})->with('personalizations.components');
+})->with('customization.components');
