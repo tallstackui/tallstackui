@@ -28,11 +28,6 @@ class CustomizationFactory implements Arrayable
     public array $blocks = [];
 
     /**
-     * Presets to be applied.
-     */
-    public CustomizationPresets $presets;
-
-    /**
      * Original classes of the component with changes applied.
      */
     private Collection $changes;
@@ -139,22 +134,6 @@ class CustomizationFactory implements Arrayable
     }
 
     /**
-     * Apply preset to the customization.
-     */
-    public function preset(CustomizationPresets $presets): self
-    {
-        if ($presets->empty()) {
-            return $this;
-        }
-
-        $this->presets = $presets;
-
-        $this->compile();
-
-        return $this;
-    }
-
-    /**
      * Remove content to the block.
      *
      * @return $this
@@ -194,8 +173,6 @@ class CustomizationFactory implements Arrayable
     private function compile(?string $block = null, ?string $content = null): void
     {
         $block ??= $this->block;
-
-        dump($this->presets->preset->components());
 
         foreach ($this->interactions->get('replace', []) as $old => $new) {
             $this->changes->put($block, str_replace($old, $new, (string) $this->changes->get($block)));
