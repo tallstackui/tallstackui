@@ -43,7 +43,7 @@ class BrowserTest extends BrowserTestCase
             ->assertMissing('@uploaded')
             ->click('@tallstackui_upload_input')
             ->waitForText('Click here to upload')
-            ->attach('@tallstackui_file_select', __DIR__.'/../../Fixtures/test.jpeg')
+            ->attach('@tallstackui_file_select', __DIR__.'/test.jpeg')
             ->waitForTextIn('@uploaded', 'test.jpeg')
             ->assertSeeIn('@uploaded', 'test.jpeg')
             ->assertNotVisible('@tallstackui_upload_floating');
@@ -56,7 +56,7 @@ class BrowserTest extends BrowserTestCase
 
         File::ensureDirectoryExists(storage_path('app/public/test'));
 
-        File::copy(__DIR__.'/../../Fixtures/test.jpeg', public_path('storage/test/test.jpeg'));
+        File::copy(__DIR__.'/test.jpeg', public_path('storage/test/test.jpeg'));
 
         $this->assertTrue(File::exists(public_path('storage/test/test.jpeg')));
 
@@ -165,7 +165,7 @@ class BrowserTest extends BrowserTestCase
             ->assertMissing('@uploaded')
             ->click('@tallstackui_upload_input')
             ->waitForText('Click here to upload')
-            ->attach('@tallstackui_file_select', __DIR__.'/../../Fixtures/test.jpeg')
+            ->attach('@tallstackui_file_select', __DIR__.'/test.jpeg')
             ->waitForTextIn('@uploaded', 'test.jpeg')
             ->assertSeeIn('@uploaded', 'test.jpeg')
             ->waitForLivewire()
@@ -217,7 +217,7 @@ class BrowserTest extends BrowserTestCase
             ->assertMissing('@uploaded')
             ->click('@tallstackui_upload_input')
             ->waitForText('Click here to upload')
-            ->attach('@tallstackui_file_select', __DIR__.'/../../Fixtures/test.jpeg')
+            ->attach('@tallstackui_file_select', __DIR__.'/test.jpeg')
             ->waitForTextIn('@uploaded', 'test.jpeg')
             ->assertSeeIn('@uploaded', 'test.jpeg')
             ->waitForLivewire()
@@ -253,7 +253,7 @@ class BrowserTest extends BrowserTestCase
             ->waitForText('Click here to upload')
             ->waitUntilMissingText('Foo Bar Baz')
             ->assertDontSee('Foo Bar Baz')
-            ->attach('@tallstackui_file_select', __DIR__.'/../../Fixtures/test.jpeg')
+            ->attach('@tallstackui_file_select', __DIR__.'/test.jpeg')
             ->waitForText('Foo Bar Baz')
             ->assertSee('Foo Bar Baz');
     }
@@ -341,7 +341,7 @@ class BrowserTest extends BrowserTestCase
             ->assertMissing('@uploaded')
             ->click('@tallstackui_upload_input')
             ->waitForText('Click here to upload')
-            ->attach('@tallstackui_file_select', __DIR__.'/../../Fixtures/test.jpeg')
+            ->attach('@tallstackui_file_select', __DIR__.'/test.jpeg')
             ->waitForTextIn('@uploaded', 'test.jpeg')
             ->assertSeeIn('@uploaded', 'test.jpeg')
             ->click('@tallstackui_file_preview')
@@ -356,7 +356,7 @@ class BrowserTest extends BrowserTestCase
 
         File::ensureDirectoryExists(storage_path('app/public/test'));
 
-        File::copy(__DIR__.'/../../Fixtures/test.jpeg', public_path('storage/test/test.jpeg'));
+        File::copy(__DIR__.'/test.jpeg', public_path('storage/test/test.jpeg'));
 
         $this->assertTrue(File::exists(public_path('storage/test/test.jpeg')));
 
@@ -465,7 +465,7 @@ class BrowserTest extends BrowserTestCase
             ->assertMissing('@uploaded')
             ->click('@tallstackui_upload_input')
             ->waitForText('Click here to upload')
-            ->attach('@tallstackui_file_select', __DIR__.'/../../Fixtures/test.jpeg')
+            ->attach('@tallstackui_file_select', __DIR__.'/test.jpeg')
             ->click('@tallstackui_upload_input')
             ->pause(100)
             ->click('@save')
@@ -537,7 +537,7 @@ class BrowserTest extends BrowserTestCase
 
                 $this->photos = collect($file)->unique(fn (UploadedFile $item) => $item->getClientOriginalName())->toArray();
 
-                // This is only necessary in tests, to make sure
+                // This is only necessary in tests to make sure
                 // the order of the files is always the same
                 $this->photos = array_values($this->photos);
             }
@@ -552,10 +552,10 @@ class BrowserTest extends BrowserTestCase
             ->assertMissing('@uploaded-1')
             ->click('@tallstackui_upload_input')
             ->waitForText('Click here to upload')
-            ->attach('@tallstackui_file_select', __DIR__.'/../../Fixtures/test.jpeg')
-            ->attach('@tallstackui_file_select', __DIR__.'/../../Fixtures/test.pdf')
+            ->attach('@tallstackui_file_select', __DIR__.'/test.jpeg')
+            ->attach('@tallstackui_file_select', __DIR__.'/test.pdf')
             // This is necessary because Livewire always send
-            // request to the backend when file is uploaded
+            // request to the backend when a file is uploaded
             ->waitForTextIn('@upload-finish', 'Uploaded')
             ->waitForTextIn('@uploaded-0', 'test.jpeg')
             ->assertSeeIn('@uploaded-0', 'test.jpeg')
@@ -589,7 +589,7 @@ class BrowserTest extends BrowserTestCase
             ->assertMissing('@uploaded')
             ->click('@tallstackui_upload_input')
             ->waitForText('Click here to upload')
-            ->attach('@tallstackui_file_select', __DIR__.'/../../Fixtures/test.jpeg')
+            ->attach('@tallstackui_file_select', __DIR__.'/test.jpeg')
             ->waitForTextIn('@uploaded', 'test.jpeg')
             ->assertSeeIn('@uploaded', 'test.jpeg');
     }
@@ -620,7 +620,7 @@ class BrowserTest extends BrowserTestCase
             ->assertMissing('@uploaded')
             ->click('@tallstackui_upload_input')
             ->waitForText('Click here to upload')
-            ->attach('@tallstackui_file_select', __DIR__.'/../../Fixtures/test.jpeg')
+            ->attach('@tallstackui_file_select', __DIR__.'/test.jpeg')
             ->waitForTextIn('@uploaded', 'test.jpeg')
             ->assertSeeIn('@uploaded', 'test.jpeg');
     }
@@ -632,7 +632,7 @@ class BrowserTest extends BrowserTestCase
 
         File::ensureDirectoryExists(storage_path('app/public/test'));
 
-        File::copy(__DIR__.'/../../Fixtures/test.jpeg', public_path('storage/test/test.jpeg'));
+        File::copy(__DIR__.'/test.jpeg', public_path('storage/test/test.jpeg'));
 
         $this->assertTrue(File::exists(public_path('storage/test/test.jpeg')));
 
@@ -726,7 +726,7 @@ class BrowserTest extends BrowserTestCase
             ->assertMissing('@uploaded')
             ->click('@tallstackui_upload_input')
             ->waitForText('Click here to upload')
-            ->attach('@tallstackui_file_select', __DIR__.'/../../Fixtures/test.jpeg')
+            ->attach('@tallstackui_file_select', __DIR__.'/test.jpeg')
             ->waitForTextIn('@uploaded', 'test.jpeg')
             ->assertSeeIn('@uploaded', 'test.jpeg')
             ->waitForLivewire()
@@ -771,7 +771,7 @@ class BrowserTest extends BrowserTestCase
             ->assertMissing('@uploaded')
             ->click('@tallstackui_upload_input')
             ->waitForText('Click here to upload')
-            ->attach('@tallstackui_file_select', __DIR__.'/../../Fixtures/test.jpeg')
+            ->attach('@tallstackui_file_select', __DIR__.'/test.jpeg')
             ->waitForTextIn('@uploaded', 'test.jpeg')
             ->assertSeeIn('@uploaded', 'test.jpeg')
             ->assertVisible('@upload')

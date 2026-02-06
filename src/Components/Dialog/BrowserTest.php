@@ -516,7 +516,15 @@ class BrowserTest extends BrowserTestCase
     #[Test]
     public function cannot_close_when_dialog_is_persistent(): void
     {
-        config()->set('ts-ui.settings.dialog.persistent', true);
+        config()->set('ts-ui.components.dialog', [
+            \TallStackUi\Components\Dialog\Component::class,
+            [
+                'z-index' => 'z-50',
+                'overflow' => false,
+                'blur' => false,
+                'persistent' => true,
+            ],
+        ]);
 
         Livewire::visit(DialogComponent::class)
             ->assertDontSee('Foo bar success')

@@ -304,7 +304,7 @@ class BrowserTest extends BrowserTestCase
                 HTML;
             }
         })
-            ->assertSee('[TallStackUI] Keyvalue: The [value] must be an array.');
+            ->assertSee('[TallStackUI] KeyValue: The [value] must be an array.');
     }
 
     #[Test]
@@ -332,7 +332,7 @@ class BrowserTest extends BrowserTestCase
                 HTML;
             }
         })
-            ->assertSee('[TallStackUI] Keyvalue: The [value] must be an array of arrays with [key] and [value] keys.');
+            ->assertSee('[TallStackUI] KeyValue: The [value] must be an array of arrays with [key] and [value] keys.');
     }
 
     #[Test]
@@ -351,6 +351,6 @@ class BrowserTest extends BrowserTestCase
                 HTML;
             }
         })
-            ->assertSee('[TallStackUI] Keyvalue: The [static] and [limit] attributes cannot be used at the same time.');
+            ->assertSee('[TallStackUI] KeyValue: The [static] and [limit] attributes cannot be used at the same time.');
     }
 }

@@ -197,7 +197,7 @@ it('can personalize chained', function () {
 it('can personalize components overriding the original', function () {
     $class = new class extends Alert {};
 
-    config()->set('tallstackui.components.alert', $class);
+    config()->set('ts-ui.components.alert', $class);
 
     TallStackUi::customize('alert')
         ->block('text.title')
