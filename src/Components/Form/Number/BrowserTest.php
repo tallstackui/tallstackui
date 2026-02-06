@@ -74,7 +74,7 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
-    public function can_decrease_more_than_zero()
+    public function can_decrease_more_than_zero(): void
     {
         Livewire::visit(new class extends Component
         {
@@ -447,7 +447,7 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
-    public function cannot_decrease_beyond_zero()
+    public function cannot_decrease_beyond_zero(): void
     {
         Livewire::visit(new class extends Component
         {

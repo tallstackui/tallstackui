@@ -73,7 +73,7 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
-    public function can_render_manipulating_columns()
+    public function can_render_manipulating_columns(): void
     {
         Livewire::visit(new class extends Component
         {
@@ -106,7 +106,7 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
-    public function can_render_manipulating_columns_passing_extra_variables()
+    public function can_render_manipulating_columns_passing_extra_variables(): void
     {
         Livewire::visit(new class extends Component
         {
@@ -141,7 +141,7 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
-    public function can_render_manipulating_columns_without_parameters()
+    public function can_render_manipulating_columns_without_parameters(): void
     {
         Livewire::visit(new class extends Component
         {

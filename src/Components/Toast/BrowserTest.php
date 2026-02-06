@@ -11,7 +11,7 @@ use Tests\Browser\BrowserTestCase;
 class BrowserTest extends BrowserTestCase
 {
     #[Test]
-    public function can_dispatch_confirmation_toast_without_livewire_specifing_component_id()
+    public function can_dispatch_confirmation_toast_without_livewire_specifing_component_id(): void
     {
         Livewire::visit(new class extends Component
         {
@@ -59,7 +59,7 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
-    public function can_dispatch_confirmation_toast_without_livewire_using_first_component_in_page()
+    public function can_dispatch_confirmation_toast_without_livewire_using_first_component_in_page(): void
     {
         Livewire::visit(new class extends Component
         {
@@ -97,7 +97,7 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
-    public function can_dispatch_events()
+    public function can_dispatch_events(): void
     {
         Livewire::visit(new class extends Component
         {
@@ -172,7 +172,7 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
-    public function can_dispatch_toast_without_livewire()
+    public function can_dispatch_toast_without_livewire(): void
     {
         Livewire::visit(new class extends Component
         {
@@ -284,7 +284,7 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
-    public function can_use_close_hook()
+    public function can_use_close_hook(): void
     {
         Livewire::visit(new class extends Component
         {
@@ -333,7 +333,7 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
-    public function can_use_sole()
+    public function can_use_sole(): void
     {
         Livewire::visit(new class extends Component
         {
@@ -381,7 +381,7 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
-    public function can_use_timeout_hook()
+    public function can_use_timeout_hook(): void
     {
         Livewire::visit(new class extends Component
         {

@@ -10,7 +10,7 @@ use Tests\Browser\BrowserTestCase;
 class BrowserTest extends BrowserTestCase
 {
     #[Test]
-    public function can_change_interval()
+    public function can_change_interval(): void
     {
         Livewire::visit(new class extends Component
         {
@@ -74,7 +74,7 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
-    public function can_dispatch_select_hour_event()
+    public function can_dispatch_select_hour_event(): void
     {
         Livewire::visit(new class extends Component
         {
@@ -104,7 +104,7 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
-    public function can_dispatch_select_minute_event()
+    public function can_dispatch_select_minute_event(): void
     {
         Livewire::visit(new class extends Component
         {
@@ -134,7 +134,7 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
-    public function can_dispatch_select_minute_interval()
+    public function can_dispatch_select_minute_interval(): void
     {
         Livewire::visit(new class extends Component
         {
@@ -167,7 +167,7 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
-    public function can_render_footer_slot()
+    public function can_render_footer_slot(): void
     {
         Livewire::visit(new class extends Component
         {
@@ -216,7 +216,7 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
-    public function can_select_current_hour()
+    public function can_select_current_hour(): void
     {
         Livewire::visit(new class extends Component
         {
@@ -244,7 +244,7 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
-    public function can_select_hour()
+    public function can_select_hour(): void
     {
         Livewire::visit(new class extends Component
         {
@@ -270,7 +270,7 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
-    public function can_select_minute()
+    public function can_select_minute(): void
     {
         Livewire::visit(new class extends Component
         {

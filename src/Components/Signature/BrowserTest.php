@@ -181,7 +181,7 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
-    public function cannot_set_height_less_than_10()
+    public function cannot_set_height_less_than_10(): void
     {
         Livewire::visit(new class extends Component
         {
@@ -200,7 +200,7 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
-    public function cannot_set_line_as_null()
+    public function cannot_set_line_as_null(): void
     {
         Livewire::visit(new class extends Component
         {

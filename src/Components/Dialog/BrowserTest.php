@@ -97,7 +97,7 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
-    public function can_dispatch_confirmation_dialog_without_livewire_specifing_component_id()
+    public function can_dispatch_confirmation_dialog_without_livewire_specifing_component_id(): void
     {
         Livewire::visit(new class extends Component
         {
@@ -146,7 +146,7 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
-    public function can_dispatch_confirmation_dialog_without_livewire_using_first_component_in_page()
+    public function can_dispatch_confirmation_dialog_without_livewire_using_first_component_in_page(): void
     {
         Livewire::visit(new class extends Component
         {
@@ -184,7 +184,7 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
-    public function can_dispatch_dialog_without_livewire()
+    public function can_dispatch_dialog_without_livewire(): void
     {
         Livewire::visit(new class extends Component
         {
@@ -219,7 +219,7 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
-    public function can_dispatch_dismissed_event()
+    public function can_dispatch_dismissed_event(): void
     {
         $this->skipOnGitHubActions();
 
@@ -259,7 +259,7 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
-    public function can_dispatch_events()
+    public function can_dispatch_events(): void
     {
         Livewire::visit(new class extends Component
         {
@@ -365,7 +365,7 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
-    public function can_use_close_hook()
+    public function can_use_close_hook(): void
     {
         Livewire::visit(new class extends Component
         {
@@ -414,7 +414,7 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
-    public function can_use_dismiss_hook()
+    public function can_use_dismiss_hook(): void
     {
         Livewire::visit(new class extends Component
         {
@@ -465,7 +465,7 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
-    public function can_use_ok_hook()
+    public function can_use_ok_hook(): void
     {
         Livewire::visit(new class extends Component
         {

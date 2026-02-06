@@ -11,7 +11,7 @@ use Tests\Browser\BrowserTestCase;
 class BrowserTest extends BrowserTestCase
 {
     #[Test]
-    public function can_add_row()
+    public function can_add_row(): void
     {
         Livewire::visit(new class extends Component
         {
@@ -33,7 +33,7 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
-    public function can_change_label_title()
+    public function can_change_label_title(): void
     {
         Livewire::visit(new class extends Component
         {
@@ -53,7 +53,7 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
-    public function can_change_value_title()
+    public function can_change_value_title(): void
     {
         Livewire::visit(new class extends Component
         {
@@ -73,7 +73,7 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
-    public function can_delete_row()
+    public function can_delete_row(): void
     {
         Livewire::visit(new class extends Component
         {
@@ -99,7 +99,7 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
-    public function can_delete_row_and_call_livewire_method()
+    public function can_delete_row_and_call_livewire_method(): void
     {
         Livewire::visit(new class extends Component
         {
@@ -120,7 +120,7 @@ class BrowserTest extends BrowserTestCase
                 HTML;
             }
 
-            public function delete()
+            public function delete(): void
             {
                 $this->deleted = true;
             }
@@ -137,7 +137,7 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
-    public function can_see_header()
+    public function can_see_header(): void
     {
         Livewire::visit(new class extends Component
         {
@@ -161,7 +161,7 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
-    public function cannot_exceed_limit()
+    public function cannot_exceed_limit(): void
     {
         $browser = Livewire::visit(new class extends Component
         {
@@ -206,7 +206,7 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
-    public function cannot_interact_with_input_when_static()
+    public function cannot_interact_with_input_when_static(): void
     {
         Livewire::visit(new class extends Component
         {
@@ -237,7 +237,7 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
-    public function cannot_see_add_button_when_already_set_and_in_limit()
+    public function cannot_see_add_button_when_already_set_and_in_limit(): void
     {
         Livewire::visit(new class extends Component
         {
@@ -263,7 +263,7 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
-    public function cannot_see_delete_button_when_static()
+    public function cannot_see_delete_button_when_static(): void
     {
         Livewire::visit(new class extends Component
         {
@@ -289,11 +289,11 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
-    public function cannot_use_bind_to_something_different_than_array()
+    public function cannot_use_bind_to_something_different_than_array(): void
     {
         Livewire::visit(new class extends Component
         {
-            public $metadata = '';
+            public string $metadata = '';
 
             public function render(): string
             {
@@ -308,7 +308,7 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
-    public function cannot_use_index_or_value_with_different_names()
+    public function cannot_use_index_or_value_with_different_names(): void
     {
         Livewire::visit(new class extends Component
         {
@@ -336,7 +336,7 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
-    public function cannot_use_static_and_limit_at_same_time()
+    public function cannot_use_static_and_limit_at_same_time(): void
     {
         Livewire::visit(new class extends Component
         {

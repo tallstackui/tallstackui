@@ -411,7 +411,7 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
-    public function can_select_date()
+    public function can_select_date(): void
     {
         Livewire::visit(new class extends Component
         {
@@ -438,7 +438,7 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
-    public function can_select_date_on_multiple()
+    public function can_select_date_on_multiple(): void
     {
         Livewire::visit(new class extends Component
         {
@@ -468,7 +468,7 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
-    public function can_select_date_on_range()
+    public function can_select_date_on_range(): void
     {
         Livewire::visit(new class extends Component
         {
@@ -496,7 +496,7 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
-    public function can_select_month_year()
+    public function can_select_month_year(): void
     {
         Livewire::visit(new class extends Component
         {
@@ -816,7 +816,7 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
-    public function cannot_select_other_days_different_than_only()
+    public function cannot_select_other_days_different_than_only(): void
     {
         $this->travelTo(now()->createFromTimeString('2025-05-20 12:50:00'));
 
@@ -844,7 +844,7 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
-    public function cannot_select_weekdays_when_weekeend_is_enabled()
+    public function cannot_select_weekdays_when_weekeend_is_enabled(): void
     {
         $this->travelTo(now()->createFromTimeString('2025-05-19 12:50:00'));
 
@@ -876,7 +876,7 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
-    public function cannot_select_weekends_when_weekdays_is_enabled()
+    public function cannot_select_weekends_when_weekdays_is_enabled(): void
     {
         $this->travelTo(now()->createFromTimeString('2025-05-18 12:50:00'));
 

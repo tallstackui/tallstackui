@@ -24,7 +24,7 @@ class BrowserTest extends BrowserTestCase
         {
             use WithFileUploads;
 
-            public $photo;
+            public mixed $photo;
 
             public function render(): string
             {
@@ -50,7 +50,7 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
-    public function can_delete_existent_files()
+    public function can_delete_existent_files(): void
     {
         Artisan::call('storage:link');
 
@@ -64,7 +64,7 @@ class BrowserTest extends BrowserTestCase
         {
             use WithFileUploads;
 
-            public $photo;
+            public mixed $photo;
 
             public function mount(): void
             {
@@ -122,13 +122,13 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
-    public function can_delete_file()
+    public function can_delete_file(): void
     {
         Livewire::visit(new class extends Component
         {
             use WithFileUploads;
 
-            public $photo;
+            public mixed $photo;
 
             public function render(): string
             {
@@ -174,13 +174,13 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
-    public function can_delete_file_using_custom_method()
+    public function can_delete_file_using_custom_method(): void
     {
         Livewire::visit(new class extends Component
         {
             use WithFileUploads;
 
-            public $photo;
+            public mixed $photo;
 
             public function render(): string
             {
@@ -226,13 +226,13 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
-    public function can_only_see_footer_slot_when_not_empty()
+    public function can_only_see_footer_slot_when_not_empty(): void
     {
         Livewire::visit(new class extends Component
         {
             use WithFileUploads;
 
-            public $photo;
+            public mixed $photo;
 
             public function render(): string
             {
@@ -259,13 +259,13 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
-    public function can_see_empty_state_for_static_usage()
+    public function can_see_empty_state_for_static_usage(): void
     {
         Livewire::visit(new class extends Component
         {
             use WithFileUploads;
 
-            public $photo;
+            public mixed $photo;
 
             public function render(): string
             {
@@ -285,13 +285,13 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
-    public function can_see_footer_slot()
+    public function can_see_footer_slot(): void
     {
         Livewire::visit(new class extends Component
         {
             use WithFileUploads;
 
-            public $photo;
+            public mixed $photo;
 
             public function render(): string
             {
@@ -322,7 +322,7 @@ class BrowserTest extends BrowserTestCase
         {
             use WithFileUploads;
 
-            public $photo;
+            public mixed $photo;
 
             public function render(): string
             {
@@ -350,7 +350,7 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
-    public function can_see_preview_for_existent_files()
+    public function can_see_preview_for_existent_files(): void
     {
         Artisan::call('storage:link');
 
@@ -364,7 +364,7 @@ class BrowserTest extends BrowserTestCase
         {
             use WithFileUploads;
 
-            public $photo;
+            public mixed $photo;
 
             public function mount(): void
             {
@@ -400,13 +400,13 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
-    public function can_see_tip()
+    public function can_see_tip(): void
     {
         Livewire::visit(new class extends Component
         {
             use WithFileUploads;
 
-            public $photo;
+            public mixed $photo;
 
             public function render(): string
             {
@@ -433,7 +433,7 @@ class BrowserTest extends BrowserTestCase
         {
             use WithFileUploads;
 
-            public $photo;
+            public mixed $photo;
 
             public function render(): string
             {
@@ -473,7 +473,7 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
-    public function can_thrown_exception_if_property_bind_was_not_defined()
+    public function can_thrown_exception_if_property_bind_was_not_defined(): void
     {
         Livewire::visit(new class extends Component
         {
@@ -495,9 +495,9 @@ class BrowserTest extends BrowserTestCase
         {
             use WithFileUploads;
 
-            public $photos = [];
+            public array $photos = [];
 
-            protected $saved = [];
+            protected array $saved = [];
 
             public function render(): string
             {
@@ -542,7 +542,7 @@ class BrowserTest extends BrowserTestCase
                 $this->photos = array_values($this->photos);
             }
 
-            public function sync()
+            public function sync(): void
             {
                 // ...
             }
@@ -570,7 +570,7 @@ class BrowserTest extends BrowserTestCase
         {
             use WithFileUploads;
 
-            public $photo;
+            public mixed $photo;
 
             public function render(): string
             {
@@ -626,7 +626,7 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
-    public function can_use_existent_files()
+    public function can_use_existent_files(): void
     {
         Artisan::call('storage:link');
 
@@ -640,7 +640,7 @@ class BrowserTest extends BrowserTestCase
         {
             use WithFileUploads;
 
-            public $photo;
+            public mixed $photo;
 
             public function mount(): void
             {
@@ -674,15 +674,15 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
-    public function can_use_remove_event()
+    public function can_use_remove_event(): void
     {
         Livewire::visit(new class extends Component
         {
             use WithFileUploads;
 
-            public $photo;
+            public mixed $photo;
 
-            public $removed = null;
+            public mixed $removed = null;
 
             public function render(): string
             {
@@ -738,15 +738,15 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
-    public function can_use_upload_event()
+    public function can_use_upload_event(): void
     {
         Livewire::visit(new class extends Component
         {
             use WithFileUploads;
 
-            public $photo;
+            public mixed $photo;
 
-            public $uploaded = null;
+            public mixed $uploaded = null;
 
             public function render(): string
             {
@@ -782,5 +782,5 @@ class BrowserTest extends BrowserTestCase
 
 class Upload extends Form
 {
-    public $photo;
+    public mixed $photo;
 }

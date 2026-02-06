@@ -68,7 +68,7 @@ class TallStackUiServiceProvider extends ServiceProvider
         $configuration = config('ts-ui.components.layout')[1];
 
         if ($configuration['ignore'] === true) {
-            $components = array_filter(config('ts-ui.components'), fn ($component) => ! str_contains($component, 'Layout'));
+            $components = array_filter(config('ts-ui.components'), fn (string|array $component) => ! str_contains($component, 'Layout'));
         }
 
         $this->callAfterResolving(BladeCompiler::class, function (BladeCompiler $blade) use ($components): void {

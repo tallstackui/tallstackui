@@ -11,7 +11,7 @@ use Tests\Browser\BrowserTestCase;
 class BrowserTest extends BrowserTestCase
 {
     #[Test]
-    public function can_be_limited()
+    public function can_be_limited(): void
     {
         Livewire::visit(new class extends Component
         {
@@ -43,7 +43,7 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
-    public function can_erase_all()
+    public function can_erase_all(): void
     {
         Livewire::visit(new class extends Component
         {
@@ -230,7 +230,7 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
-    public function can_use_events()
+    public function can_use_events(): void
     {
         Livewire::visit(new class extends Component
         {

@@ -199,7 +199,7 @@ class BrowserTest extends BrowserTestCase
                 // ...
             }
 
-            public function updated($property, $value): void
+            public function updated(string $property, mixed $value): void
             {
                 if ($property === 'type') {
                     (match ($value) { // @phpstan-ignore-line
