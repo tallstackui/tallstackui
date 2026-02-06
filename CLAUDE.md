@@ -18,26 +18,35 @@ TallStackUI is a suite of Blade components for Laravel TALL Stack applications (
 
 ## Essential Commands
 
-```bash  
-# Build & Development  
-npm run build              # Build JS + Tailwind CSS  
-npm run dev                # Watch mode  
-  
-# Testing  
-composer test                    # Run all Pest tests  
-composer test:feature --parallel # Feature tests only (parallel)  
-composer test:browser            # Browser/Dusk tests only  
-composer type                    # Type coverage check  
-  
-# Code Quality  
-./vendor/bin/pint --parallel     # Format PHP  
-npm run lint:fix                 # Fix ESLint issues  
-npm run format                   # Format JS with Prettier  
-composer format                  # Run all formatters  
-  
-# CI Pipeline  
-composer ci                # Full CI: pint, feature tests, browser tests  
-```  
+```bash
+# Build & Development
+npm run build              # Build JS + Tailwind CSS
+npm run dev                # Watch mode
+
+# Testing
+composer test                    # Run all Pest tests
+composer test:feature --parallel # Feature tests only (parallel)
+composer test:browser            # Browser/Dusk tests only
+composer type                    # Type coverage check
+
+# Code Quality
+./vendor/bin/pint --parallel     # Format PHP
+npm run lint:fix                 # Fix ESLint issues
+npm run format                   # Format JS with Prettier
+composer format                  # Run all formatters (pint + eslint + prettier)
+
+# Static Analysis
+composer analyse           # PHPStan level 5 (via larastan)
+composer rector            # Rector dry-run
+
+# CI Pipeline
+composer ci                # Full CI: pint, feature tests, browser tests
+composer ci:analyse        # Pint + feature tests only
+
+# Utilities
+composer bench             # Orchestra Testbench
+composer test:browser:setup # Update ChromeDriver for Dusk
+```
 
 ## Development Workflow
 
@@ -58,6 +67,22 @@ Components live in `src/View/Components/` and extend `TallStackUiComponent`. Eac
 - A PHP class defining properties and customization
 - A Blade template in `src/resources/views/components/`
 - Optional color classes in `src/Support/Colors/Components/`
+
+**Component Organization (70+ classes):**
+
+| Directory      | Components                                                                                                                                                                                                            |
+|----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Root           | Alert, Avatar, Badge, Banner, Boolean, Card, Carousel, Clipboard, Environment, Errors, Floating, Icon, KeyValue, Link, Loading, Modal, Rating, Reaction, Signature, Slide, Stats, Table, ThemeSwitch, Tooltip, Upload |
+| `Button/`      | Button, Circle                                                                                                                                                                                                        |
+| `Dropdown/`    | Dropdown, Items, Submenu                                                                                                                                                                                              |
+| `Form/`        | Checkbox, Color, Currency, Date, Error, Hint, Input, Label, Number, Password, Pin, Radio, Range, Tag, Textarea, Time, Toggle, Upload                                                                                  |
+| `Form/Select/` | Native, Styled                                                                                                                                                                                                        |
+| `Interaction/` | Dialog, Toast                                                                                                                                                                                                         |
+| `Layout/`      | Layout, Header, SideBar (Item, Separator)                                                                                                                                                                             |
+| `Progress/`    | Progress, Circle                                                                                                                                                                                                      |
+| `Step/`        | Step, Items                                                                                                                                                                                                           |
+| `Tab/`         | Tab, Items                                                                                                                                                                                                            |
+| `Wrapper/`     | Input, Radio (utility wrappers used internally by form components)                                                                                                                                                    |
 
 ### Soft Customization System
 
@@ -250,6 +275,63 @@ class InputRuntime extends AbstractRuntime
 
 The idea behind this is to avoid having too many `@php` tags in the components. So each component only has one `@php` tag at the top of the file related to Soft Customization.
 
+### Interactions System
+
+`src/Interactions/` provides a fluent notification system for Banner, Dialog, and Toast from Livewire components or Controllers.
+
+**Structure:**
+
+- `AbstractInteraction.php` - Base class with abstract `error()`, `info()`, `success()`, `warning()`, `question()` methods
+- `Banner.php` - Banner notifications (no `question()` support)
+- `Dialog.php` - Modal dialogs with confirmation actions
+- `Toast.php` - Toast notifications with timeout, position, persistence
+- `src/Traits/Interactions.php` - Trait providing `banner()`, `dialog()`, `toast()` methods
+- `src/Interactions/Traits/DispatchInteraction.php` - Handles `send()`, `flash()`, `hook()` dispatch
+- `src/Interactions/Traits/InteractWithConfirmation.php` - Adds `confirm()`, `cancel()` for Dialog/Toast
+
+**Usage in Livewire Components:**
+
+```php
+use TallStackUi\Traits\Interactions;
+
+class MyComponent extends Component
+{
+    use Interactions;
+
+    public function save(): void
+    {
+        $this->toast()->success('Saved!', 'Record updated.')->send();
+
+        $this->dialog()->question('Delete?', 'Are you sure?')
+            ->confirm('Yes', 'deleteItem', $id)
+            ->cancel('No')
+            ->send();
+    }
+}
+```
+
+**Usage in Controllers** (auto-flashes to session):
+
+```php
+use TallStackUi\Traits\Interactions;
+
+class MyController extends Controller
+{
+    use Interactions;
+
+    public function store(): RedirectResponse
+    {
+        $this->toast()->success('Created!')->send();
+
+        return redirect()->back();
+    }
+}
+```
+
+**Toast Methods:** `expandable(bool)`, `persistent()`, `position('top-right'|'top-left'|'bottom-right'|'bottom-left')`, `sole(bool)`, `timeout(int)`
+
+**Hooks:** `hook(['timeout' => fn() => ..., 'close' => fn() => ...])` for lifecycle callbacks
+
 ### Support Directory
 
 #### Blade Utilities (`src/Support/Blade/`)
@@ -301,6 +383,41 @@ The idea behind this is to avoid having too many `@php` tags in the components. 
 - `__ts_search_component()` - Maps class to config key
 - `__ts_soft_customization_components()` - Gets all customizable components
 - `__ts_scope_container_key()` - Generates scoped customization keys
+
+### PHP Attributes
+
+5 PHP attributes in `src/Attributes/`:
+
+| Attribute | Target | Purpose |
+|-----------|--------|---------|
+| `#[SoftCustomization('key')]` | Class | Marks customizable components |
+| `#[ColorsThroughOf(ColorClass::class)]` | Class | Links component to color definitions |
+| `#[PassThroughRuntime(RuntimeClass::class)]` | Class | Links component to runtime compilation |
+| `#[RequireLivewireContext]` | Class | Marks components that require Livewire context |
+| `#[SkipDebug]` | Property/Parameter | Excludes properties from debug output |
+
+### Custom Exceptions
+
+3 exceptions in `src/Exceptions/`:
+
+- `InappropriateIconGuideExecution` - Thrown when IconGuide is accessed outside Icon/Tooltip components
+- `InvalidSelectedPositionException` - Thrown for invalid positioning (validates against allowed positions like `top`, `bottom-start`, etc.)
+- `MissingLivewireException` - Thrown when Livewire-only components are used outside Livewire context
+
+### Component Validation
+
+Components validate their props via a `validate()` method called during render:
+
+```php
+protected function validate(): void
+{
+    if ($this->image !== null && $this->color !== null) {
+        __ts_validation_exception($this, 'The [image] and [color] cannot be used together.');
+    }
+}
+```
+
+The `__ts_validation_exception()` helper throws `InvalidArgumentException` with format: `[TallStackUI] ComponentName: message`.
 
 ### JavaScript/Alpine Integration
 
@@ -380,15 +497,72 @@ export default (options) => ({
 
 **`css/v3.css`** - Legacy Tailwind CSS 3 support
 
+### Routes & Asset Serving
+
+`routes/web.php` registers two routes under `/tallstackui` prefix:
+
+- `GET /tallstackui/script/{file?}` - Serves compiled JS from `dist/`
+- `GET /tallstackui/style/{file?}` - Serves compiled CSS from `dist/`
+
+Controller: `src/Http/Controllers/TallStackUiAssetsController.php` with configurable asset fallback (`config('tallstackui.assets_fallback')`).
+
+### Build System
+
+**`vite.config.mjs`** entry points: `js/tallstackui.js`, `css/v3.css`, `tippy.js/dist/tippy.css` with `@tailwindcss/vite` plugin.
+
+**`npm run build`** = Vite build + `@tailwindcss/cli -i css/v4.css -o ./dist/tallstackui.css --minify`
+
+**Build output in `dist/`:**
+
+- `tallstackui-*.js` - Main Alpine.js component bundle
+- `tallstackui.css` - Minified Tailwind CSS v4
+- `v3-*.css` - Legacy Tailwind CSS v3
+- `tippy-*.css` - Tooltip styles
+- `.vite/manifest.json` - Asset manifest for dynamic loading
+
+**Key JS dependencies:** `clipboard` (copy), `dayjs` (date/time pickers), `qs` (query strings for select requests), `tippy.js` (tooltips)
+
 ## Testing Patterns
+
+**Custom Pest Expectation** (`tests/Pest.php`): `render()` extends `expect()` to render Blade components inline via `Blade::render()`.
 
 **Feature Tests** in `tests/Feature/Components/{Component}/IndexTest.php`:
 
-```php  
-expect('<x-alert title="Foo" />')->render()->toContain('Foo');  
-```  
+```php
+it('can render')
+    ->expect('<x-alert title="Foo" />')
+    ->render()
+    ->toContain('Foo');
 
-**Browser Tests** in `tests/Browser/{Component}/IndexTest.php` use Livewire with `Livewire::visit()` for interactive testing.
+it('cannot use conflicting props', function () {
+    $this->expectException(ViewException::class);
+    expect('<x-card image="..." color="red">Foo</x-card>')->render();
+});
+```
+
+**Browser Tests** in `tests/Browser/{Component}/IndexTest.php`:
+
+- Base class: `tests/Browser/BrowserTestCase.php` (extends Orchestra Testbench Dusk)
+- Test views: `tests/Browser/views/` with `components/` and `layouts/`
+- Database: SQLite in-memory
+- Pattern: anonymous Livewire components with Dusk assertions
+
+```php
+Livewire::visit(new class extends Component {
+    public function render(): string {
+        return <<<'HTML'
+        <div>
+            <x-dropdown text="Menu">
+                <x-dropdown.items text="Settings" />
+            </x-dropdown>
+        </div>
+        HTML;
+    }
+})
+    ->click('@tallstackui_open_dropdown')
+    ->waitForText('Settings')
+    ->assertSee('Settings');
+```
 
 ## Code Style
 
@@ -426,6 +600,17 @@ expect('<x-alert title="Foo" />')->render()->toContain('Foo');
 6. Write feature tests in `tests/Feature/Components/ComponentName/IndexTest.php`
 7. For interactive components, add browser tests in `tests/Browser/`
 8. Run `npm run build` to compile assets
+
+## Artisan Commands
+
+4 commands in `src/Console/`:
+
+| Command                      | Purpose                                                       |
+|------------------------------|---------------------------------------------------------------|
+| `tallstackui:setup-prefix`   | Configure component prefix (updates `.env` or config)         |
+| `tallstackui:find-component` | Search Blade files for component usage with file/line results |
+| `tallstackui:setup-color`    | Publish customizable color class stubs to user's project      |
+| `tallstackui:ide`            | Generate `ide.json` for IDE component autocompletion          |
 
 ## Environment Variables
 
