@@ -285,6 +285,70 @@ class ColorTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_select_color_with_excluded_color_in_picker_mode(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $color = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="selected">{{ $color }}</p>
+
+                    <x-color label="Color" wire:model="color" picker excluded-color="slate" />
+                    <x-button dusk="sync" wire:click="sync">Save</x-button>
+                </div>
+                HTML;
+            }
+
+            public function sync(): void
+            {
+                //
+            }
+        })
+            ->waitForText('Color')
+            ->click('@tallstackui_form_color_open_close')
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div/div[2]/button[1]')
+            ->click('@sync')
+            ->waitForTextIn('@selected', '#f9fafb')
+            ->assertSeeIn('@selected', '#f9fafb');
+    }
+
+    #[Test]
+    public function can_select_color_with_excluded_step_in_picker_mode(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $color = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="selected">{{ $color }}</p>
+
+                    <x-color label="Color" wire:model="color" picker excluded-step="50" />
+                    <x-button dusk="sync" wire:click="sync">Save</x-button>
+                </div>
+                HTML;
+            }
+
+            public function sync(): void
+            {
+                //
+            }
+        })
+            ->waitForText('Color')
+            ->click('@tallstackui_form_color_open_close')
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div/div[2]/button[1]')
+            ->click('@sync')
+            ->waitForTextIn('@selected', '#f1f5f9')
+            ->assertSeeIn('@selected', '#f1f5f9');
+    }
+
+    #[Test]
     public function cannot_see_clearable_when_no_color_is_selected(): void
     {
         Livewire::visit(new class extends Component
