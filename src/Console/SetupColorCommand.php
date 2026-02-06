@@ -29,17 +29,14 @@ class SetupColorCommand extends Command
             Circle::class, // -> merged with Progress
         ];
 
-        $components = __ts_filter_components_using_attribute(ColorsThroughOf::class)
-            ->reject(fn (string $component): bool => in_array($component, $reject))
-            ->mapWithKeys(function (string $component): array {
-                $component = str($component)
-                    ->remove('TallStackUi\\View\\Components\\')
-                    ->afterLast('\\')
-                    ->value();
+        $filtered = array_diff(__ts_filter_components_using_attribute(ColorsThroughOf::class), $reject);
 
-                return [$component => $component];
-            })
-            ->all();
+        $components = [];
+
+        foreach ($filtered as $class) {
+            $name = substr(strrchr($class, '\\'), 1);
+            $components[$name] = $name;
+        }
 
         $component = select('Select the component to personalize the colors', $components, hint: 'Only colored components are listed.');
 
@@ -50,28 +47,28 @@ class SetupColorCommand extends Command
     {
         $collect = __ts_class_collection($component);
 
-        if ($collect->get('file_exists') === true) {
+        if ($collect['file_exists'] === true) {
             $this->components->error('According to the namespace, the class file already exists.');
 
             return self::FAILURE;
         }
 
         try {
-            $stub = file_get_contents(__DIR__.'/../../Foundation/Support/Colors/Stubs/'.$collect->get('file_raw').'.stub');
+            $stub = file_get_contents($collect['stub']);
 
             // We start by replacing {{ namespace }} with the class
             // namespace based on the value coming from the configuration.
-            $stub = str_replace('{{ namespace }}', $collect->get('namespace'), $stub);
+            $stub = str_replace('{{ namespace }}', $collect['namespace'], $stub);
 
             // To avoid: 'Failed to open stream: No such file or directory',
             // we make sure that the destination directory exists.
-            if (! is_dir(dirname((string) $path = $collect->get('app_path')))) {
-                mkdir(dirname((string) $path), 0755, true);
+            if (! is_dir(dirname($path = $collect['app_path']))) {
+                mkdir(dirname($path), 0755, true);
             }
 
             file_put_contents($path, $stub);
 
-            $this->components->info("The color class <options=bold>[{$collect->get('file_raw')}]</> has been created successfully.");
+            $this->components->info("The color class <options=bold>[{$collect['file_raw']}]</> has been created successfully.");
 
             return self::SUCCESS;
         } catch (Exception $e) {

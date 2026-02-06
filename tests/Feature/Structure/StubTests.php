@@ -4,7 +4,7 @@ use Illuminate\Support\Arr;
 
 test('contains methods', function (string $component, string|array $methods) {
     $collect = __ts_class_collection($component);
-    $content = file_get_contents($collect->get('stub'));
+    $content = file_get_contents($collect['stub']);
 
     collect(Arr::wrap($methods))
         ->each(function (string $method) use ($content): void {

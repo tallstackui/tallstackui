@@ -1,8 +1,5 @@
 <?php
 
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\File;
-use Symfony\Component\Finder\SplFileInfo;
 use TallStackUi\Attributes\SoftCustomization;
 use TallStackUi\Support\Miscellaneous\ReflectComponent;
 use TallStackUi\TallStackUiComponent;
@@ -33,41 +30,39 @@ if (! function_exists('__ts_get_component_configuration')) {
 
 if (! function_exists('__ts_class_collection')) {
     /**
-     * Creates a collection with metadata about the class color.
+     * Creates an array with metadata about the class color.
      *
      * @internal This function should not be used outside the package.
      */
-    function __ts_class_collection(string $component): Collection
+    function __ts_class_collection(string $component): array
     {
         $bypass = [
             // class => replacement
             'Circle' => 'Button',
         ];
 
-        $collect = collect();
+        $namespace = config('tallstackui.color_classes_namespace');
 
-        if (($namespace = config('tallstackui.color_classes_namespace')) === null) {
-            return $collect;
+        if ($namespace === null) {
+            return [];
         }
 
-        // Bypass created to solve the issue of button.circle not receiving color in v2.
-        // Reported issue: https://github.com/tallstackui/tallstackui/issues/1102. In v3
-        // the Circle Button should have your own colors class.
-        $color = in_array($component, array_keys($bypass)) ? $bypass[$component] : $component;
+        $color = $bypass[$component] ?? $component;
+        $raw = $color.'Colors';
+        $file = $raw.'.php';
+        $path = app_path(str_replace('\\', '/', str_replace('App\\', '', $namespace)).'/'.$file);
+        $exists = file_exists($path);
 
-        $collect->put('component', $component);
-        $collect->put('namespace', $namespace);
-        $collect->put('file', $color.'Colors.php');
-        $collect->put('file_raw', $color.'Colors');
-        $collect->put('stub', __DIR__.'/Foundation/Support/Colors/Stubs/'.$collect->get('file_raw').'.stub');
-
-        $class = $namespace.'\\'.$collect->get('file_raw');
-
-        $collect->put('app_path', app_path(str($namespace)->remove('App\\')->replace('\\', '/')->value().'/'.$collect->get('file')));
-        $collect->put('file_exists', $exists = file_exists($collect->get('app_path')));
-        $collect->put('instance', $exists ? new $class : null);
-
-        return $collect;
+        return [
+            'component' => $component,
+            'namespace' => $namespace,
+            'file' => $file,
+            'file_raw' => $raw,
+            'stub' => __DIR__.'/Support/Colors/Stubs/'.$raw.'.stub',
+            'app_path' => $path,
+            'file_exists' => $exists,
+            'instance' => $exists ? new ($namespace.'\\'.$raw) : null,
+        ];
     }
 }
 
@@ -79,10 +74,11 @@ if (! function_exists('__ts_validation_exception')) {
      */
     function __ts_validation_exception(TallStackUiComponent|string $component, string $message): mixed
     {
-        $title = str(is_string($component) ? $component : $component::class)
-            ->after('TallStackUi\\View\\Components\\')
-            ->title()
-            ->value();
+        $class = is_string($component) ? $component : $component::class;
+
+        $prefix = 'TallStackUi\\View\\Components\\';
+
+        $title = str_starts_with($class, $prefix) ? substr($class, strlen($prefix)) : $class;
 
         throw new InvalidArgumentException(sprintf('[TallStackUI] %s: %s', $title, $message));
     }
@@ -92,14 +88,26 @@ if (! function_exists('__ts_filter_components_using_attribute')) {
     /**
      * Filter all components that use the given attribute.
      */
-    function __ts_filter_components_using_attribute(string $attribute): Collection
+    function __ts_filter_components_using_attribute(string $attribute): array
     {
-        return collect(File::allFiles(__DIR__.'/View/Components'))
-            ->map(fn (SplFileInfo $file) => 'TallStackUi\\View\\'.str($file->getPathname())->after('View/')
-                ->remove('.php')
-                ->replace('/', '\\')
-                ->value())
-            ->filter(fn (string $component) => (new ReflectionClass($component))->getAttributes($attribute)); // @phpstan-ignore-line
+        static $classes = null;
+
+        if ($classes === null) {
+            $classes = [];
+            $dir = __DIR__.'/View/Components';
+            $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir));
+
+            foreach ($iterator as $file) {
+                if ($file->getExtension() !== 'php') {
+                    continue;
+                }
+
+                $relative = substr($file->getPathname(), strlen($dir) + 1, -4);
+                $classes[] = 'TallStackUi\\View\\Components\\'.str_replace('/', '\\', $relative);
+            }
+        }
+
+        return array_filter($classes, fn (string $class): bool => (new ReflectionClass($class))->getAttributes($attribute) !== []);
     }
 }
 
@@ -113,13 +121,13 @@ if (! function_exists('__ts_search_component')) {
      */
     function __ts_search_component(string $component): string
     {
-        $result = array_search($component, __ts_soft_customization_components());
+        static $flipped = null;
 
-        if (! $result) {
-            throw new Exception("Component [{$component}] is not allowed to be personalized");
+        if ($flipped === null) {
+            $flipped = array_flip(__ts_soft_customization_components());
         }
 
-        return $result;
+        return $flipped[$component] ?? throw new Exception("Component [{$component}] is not allowed to be personalized");
     }
 }
 
@@ -131,16 +139,25 @@ if (! function_exists('__ts_soft_customization_components')) {
      */
     function __ts_soft_customization_components(): array
     {
-        return __ts_filter_components_using_attribute(SoftCustomization::class)
-            ->mapWithKeys(function (string $component): array {
-                $reflect = new ReflectComponent($component);
+        static $cache = null;
 
-                /** @var SoftCustomization $instance */
-                $instance = $reflect->attribute(SoftCustomization::class)->newInstance();
+        if ($cache !== null) {
+            return $cache;
+        }
 
-                return [$instance->prefixed() => $reflect->class()->getName()];
-            })
-            ->toArray();
+        $components = __ts_filter_components_using_attribute(SoftCustomization::class);
+        $result = [];
+
+        foreach ($components as $component) {
+            $reflect = new ReflectComponent($component);
+
+            /** @var SoftCustomization $instance */
+            $instance = $reflect->attribute(SoftCustomization::class)->newInstance();
+
+            $result[$instance->prefixed()] = $reflect->class()->getName();
+        }
+
+        return $cache = $result;
     }
 }
 
@@ -153,10 +170,6 @@ if (! function_exists('__ts_scope_container_key')) {
      */
     function __ts_scope_container_key(string $component, string $key): string
     {
-        $key = str($key)->lower()
-            ->snake('::')
-            ->value();
-
-        return $component.'::scoped::'.$key;
+        return $component.'::scoped::'.strtolower($key);
     }
 }

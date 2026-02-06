@@ -87,7 +87,7 @@ trait SetupColors
             ->toArray();
 
         $collect = __ts_class_collection(class_basename($this->reflect->parent()->name));
-        $class = $collect->get('instance');
+        $class = $collect['instance'] ?? null;
 
         foreach ($methods as $method) {
             $original = $method;
