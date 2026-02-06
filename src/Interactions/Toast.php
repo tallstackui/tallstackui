@@ -141,7 +141,7 @@ class Toast extends AbstractInteraction
      */
     public function timeout(?int $seconds = null): self
     {
-        $this->timeout = $seconds ?? (int) config('ts-ui.settings.toast.timeout', 3);
+        $this->timeout = $seconds ?? (int) (__ts_get_component_configuration(Component::class, 'timeout') ?? 3);
 
         return $this;
     }
@@ -165,11 +165,13 @@ class Toast extends AbstractInteraction
      */
     protected function additional(): array
     {
+        $configuration = __ts_get_component_configuration(Component::class);
+
         return [
-            'expandable' => $this->expand ?? config('ts-ui.settings.toast.expandable', false),
+            'expandable' => $this->expand ?? $configuration['expandable'] ?? false,
             'timeout' => $this->timeout,
             'persistent' => $this->persistent,
-            'position' => $this->position ?? config('ts-ui.settings.toast.position', 'top-right'),
+            'position' => $this->position ?? $configuration['position'] ?? 'top-right',
             'sole' => $this->sole,
         ];
     }

@@ -57,7 +57,7 @@ class Component extends TallStackUiComponent implements Customization
     {
         $messages = trans('ts-ui::messages.dialog.button');
 
-        if (! str(config('ts-ui.settings.dialog.z-index', 'z-50'))->startsWith('z-')) {
+        if (! str(__ts_get_component_configuration(self::class, 'z-index') ?? 'z-50')->startsWith('z-')) {
             __ts_validation_exception($this, 'The [z-index] must start with z- prefix');
         }
 

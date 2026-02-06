@@ -65,15 +65,15 @@ class Component extends TallStackUiComponent implements Customization
     /** @throws InvalidArgumentException */
     protected function validate(): void
     {
-        $configuration = collect(config('ts-ui.settings.toast'));
+        $configuration = __ts_get_component_configuration(self::class);
         $positions = ['top-right', 'top-left', 'bottom-right', 'bottom-left'];
         $messages = trans('ts-ui::messages.toast.button');
 
-        if (! in_array($configuration->get('position', 'top-right'), $positions)) {
+        if (! in_array($configuration['position'] ?? 'top-right', $positions)) {
             __ts_validation_exception($this, 'The [position] must be one of the following: ['.implode(', ', $positions).']');
         }
 
-        if (! str($configuration->get('z-index', 'z-50'))->startsWith('z-')) {
+        if (! str($configuration['z-index'] ?? 'z-50')->startsWith('z-')) {
             __ts_validation_exception($this, 'The [z-index] must start with z- prefix');
         }
 

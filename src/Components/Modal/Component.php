@@ -76,14 +76,14 @@ class Component extends TallStackUiComponent implements Customization
             __ts_validation_exception($this, 'The [wire] property cannot be an empty string');
         }
 
-        $configuration = collect(config('ts-ui.settings.modal'));
+        $configuration = __ts_get_component_configuration(self::class);
         $sizes = ['sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl', '5xl', '6xl', '7xl', 'full'];
 
-        if (! in_array($this->size ?? $configuration->get('size', '2xl'), $sizes)) {
+        if (! in_array($this->size ?? $configuration['size'] ?? '2xl', $sizes)) {
             __ts_validation_exception($this, 'The [size] must be one of the following: ['.implode(', ', $sizes).']');
         }
 
-        if (! str($this->zIndex ?? $configuration->get('z-index', 'z-50'))->startsWith('z-')) {
+        if (! str($this->zIndex ?? $configuration['z-index'] ?? 'z-50')->startsWith('z-')) {
             __ts_validation_exception($this, 'The [z-index] must start with z- prefix');
         }
     }
