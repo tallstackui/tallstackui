@@ -12,8 +12,11 @@
         @js($configurations['colors']),
         @js($livewire),
         @js($property),
-        @js($attributes->get('value')))"
-        x-cloak>
+        @js($attributes->get('value')),
+        @js($clearable),
+        @js($excludedColor),
+        @js($excludedStep))"
+     x-cloak>
     <x-dynamic-component :component="TallStackUi::prefix('input')"
                          {{ $attributes->merge($select)->class([
                             '-ml-3',
@@ -40,7 +43,8 @@
         <x-slot:suffix class="mr-2">
             <div class="{{ $personalize['icon.wrapper'] }}">
                 @if ($clearable)
-                    <button type="button" class="{{ $personalize['clearable.button'] }}" dusk="tallstackui_form_color_clearable" x-show="clearable">
+                    <button type="button" class="{{ $personalize['clearable.button'] }}"
+                            dusk="tallstackui_form_color_clearable" x-show="clearable">
                         <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                              :icon="TallStackUi::icon('x-mark')"
                                              internal
@@ -48,7 +52,8 @@
                                              class="{{ $personalize['clearable.size'] }}" />
                     </button>
                 @endif
-                <button type="button" class="cursor-pointer" x-on:click="show = !show" dusk="tallstackui_form_color_open_close">
+                <button type="button" class="cursor-pointer" x-on:click="show = !show"
+                        dusk="tallstackui_form_color_open_close">
                     <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                          :icon="TallStackUi::icon('swatch')"
                                          internal
@@ -65,17 +70,18 @@
             <div class="{{ $personalize['box.range.wrapper'] }}">
                 <input type="range"
                        min="1"
-                       max="11"
+                       x-bind:max="max"
                        x-model="weight"
                        x-show="mode === 'range' && colors.length === 0"
                        dusk="tallstackui_form_range"
-                       @class([$personalize['box.range.base'], $personalize['box.range.thumb']])>
+                        @class([$personalize['box.range.base'], $personalize['box.range.thumb']])>
             </div>
             <div class="{{ $personalize['box.button.wrapper'] }}">
                 <template x-for="color in palette">
                     <button type="button" {{ $attributes->only('x-on:set') }} x-on:click="set(color)">
                         <div class="{{ $personalize['box.button.color'] }}" :style="{ 'background-color': color }">
-                            <span x-show="color === model" x-bind:class="{'text-white': !check(color), 'text-dark-500': check(color)}">
+                            <span x-show="color === model"
+                                  x-bind:class="{'text-white': !check(color), 'text-dark-500': check(color)}">
                                 <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                                      :icon="TallStackUi::icon('check')"
                                                      internal

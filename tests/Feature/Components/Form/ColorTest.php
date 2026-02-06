@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\View\ViewException;
+
 it('can render')
     ->expect('<x-color />')
     ->render()
@@ -32,3 +34,21 @@ it('can render with label and hint')
     ->toContain('<input')
     ->toContain('Foo bar')
     ->toContain('Bar baz');
+
+it('cannot render with excluded step without picker', function () {
+    $this->expectException(ViewException::class);
+
+    expect('<x-color excluded-step="500" />')->render();
+});
+
+it('cannot render with invalid excluded color', function () {
+    $this->expectException(ViewException::class);
+
+    expect('<x-color excluded-color="invalid" />')->render();
+});
+
+it('cannot render with invalid excluded step', function () {
+    $this->expectException(ViewException::class);
+
+    expect('<x-color excluded-step="999" />')->render();
+});

@@ -1,4 +1,14 @@
-export default (model, mode, colors, livewire, property, value, clearable) => ({
+export default (
+  model,
+  mode,
+  colors,
+  livewire,
+  property,
+  value,
+  clearable,
+  excludedColor,
+  excludedStep
+) => ({
   show: false,
   model: model,
   mode: mode,
@@ -7,7 +17,10 @@ export default (model, mode, colors, livewire, property, value, clearable) => ({
   property: property,
   value: value,
   clearable: clearable,
+  excludedColor: excludedColor || [],
+  excludedStep: excludedStep || [],
   weight: 6,
+  max: 11,
   palette: [],
   default: {
     slate: {
@@ -298,6 +311,8 @@ export default (model, mode, colors, livewire, property, value, clearable) => ({
     },
   },
   init() {
+    this.exclusions();
+
     if (!this.livewire) this.model = this.value;
 
     this.$nextTick(() => (this.clearable = this.$refs.input.value !== ''));
@@ -404,6 +419,8 @@ export default (model, mode, colors, livewire, property, value, clearable) => ({
    * @returns {boolean}
    */
   check(color) {
+    if (!color) return false;
+
     color = color.replace('#', '');
 
     const r = parseInt(color.substring(0, 2), 16);
@@ -424,5 +441,33 @@ export default (model, mode, colors, livewire, property, value, clearable) => ({
     this.clearable = false;
     this.$refs.input.value = '';
     this.$el.dispatchEvent(new CustomEvent('clear', { detail: { color: '' } }));
+  },
+  /**
+   * Apply color and step exclusions to the default Tailwind palette.
+   *
+   * @returns {void}
+   */
+  exclusions() {
+    if (this.excludedColor.length === 0 && this.excludedStep.length === 0) {
+      return;
+    }
+
+    for (const color of this.excludedColor) {
+      delete this.default[color];
+    }
+
+    if (this.excludedStep.length > 0) {
+      const steps = this.excludedStep.map(String);
+
+      for (const color in this.default) {
+        for (const step of steps) {
+          delete this.default[color][step];
+        }
+      }
+    }
+
+    const first = Object.values(this.default)[0];
+    if (first) this.rangeMax = Object.keys(first).length;
+    if (this.weight > this.rangeMax) this.weight = this.rangeMax;
   },
 });

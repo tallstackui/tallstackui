@@ -27,10 +27,20 @@ class Color extends TallStackUiComponent implements Customization
         public ?bool $invalidate = null,
         public ?bool $selectable = null,
         public ?bool $clearable = null,
+        public string|array|null $excludedColor = null,
+        public string|array|null $excludedStep = null,
         #[SkipDebug]
         public ?string $mode = null,
     ) {
         $this->mode = $this->picker ? 'picker' : 'range';
+
+        $this->excludedColor = $this->excludedColor !== null
+            ? (array) $this->excludedColor
+            : [];
+
+        $this->excludedStep = $this->excludedStep !== null
+            ? array_map('strval', (array) $this->excludedStep)
+            : [];
     }
 
     public function blade(): View
@@ -78,14 +88,38 @@ class Color extends TallStackUiComponent implements Customization
     /** @throws InvalidArgumentException */
     protected function validate(): void
     {
-        if (($colors = collect($this->colors))->isEmpty()) {
-            return;
+        if (($colors = collect($this->colors))->isNotEmpty()) {
+            $colors->each(function (string $color): void {
+                if (! str($color)->startsWith('#')) {
+                    __ts_validation_exception($this, 'All the [colors] must starts with #');
+                }
+            });
         }
 
-        $colors->each(function (string $color): void {
-            if (! str($color)->startsWith('#')) {
-                __ts_validation_exception($this, 'All the [colors] must starts with #');
+        if (! $this->picker && $this->excludedStep) {
+            __ts_validation_exception($this, 'The [excluded-step] attribute can only be used with [picker] attribute.');
+        }
+
+        $colors = [
+            'slate', 'gray', 'zinc', 'neutral', 'stone',
+            'red', 'orange', 'amber', 'yellow', 'lime',
+            'green', 'emerald', 'teal', 'cyan', 'sky',
+            'blue', 'indigo', 'violet', 'purple', 'fuchsia',
+            'pink', 'rose',
+        ];
+
+        $steps = ['50', '100', '200', '300', '400', '500', '600', '700', '800', '900', '950'];
+
+        foreach ($this->excludedColor as $color) {
+            if (! in_array($color, $colors, true)) {
+                __ts_validation_exception($this, "The [excluded-color] value [{$color}] is not a valid Tailwind CSS color.");
             }
-        });
+        }
+
+        foreach ($this->excludedStep as $step) {
+            if (! in_array($step, $steps, true)) {
+                __ts_validation_exception($this, "The [excluded-step] value [{$step}] is not a valid Tailwind CSS color step.");
+            }
+        }
     }
 }
