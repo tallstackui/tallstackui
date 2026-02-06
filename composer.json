@@ -40,7 +40,8 @@
     "orchestra/testbench-dusk": "^8.0|^9.0",
     "pestphp/pest-plugin-type-coverage": "^4.0",
     "spatie/ray": "^1.41",
-    "blade-ui-kit/blade-icons": "^1.7"
+    "blade-ui-kit/blade-icons": "^1.7",
+    "larastan/larastan": "^3.9"
   },
   "scripts": {
     "test": "./vendor/bin/pest",
@@ -76,8 +77,10 @@
     ],
     "test:browser:ci": [
       "Composer\\Config::disableProcessTimeout",
+      "./vendor/bin/testbench view:clear",
       "CI=true ./vendor/bin/pest --filter=Browser"
-    ]
+    ],
+    "analyse": "./vendor/bin/phpstan analyse --memory-limit=2G"
   },
   "config": {
     "allow-plugins": {
