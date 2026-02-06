@@ -5,10 +5,10 @@ namespace TallStackUi\Components\Dropdown\Submenu;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Components\Floating\Component as Floating;
+use TallStackUi\Components\Traits\DropdownSharedTransitions;
 use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\TallStackUiComponent;
-use TallStackUi\Components\Traits\DropdownSharedTransitions;
-use TallStackUi\Components\Floating\Component as Floating;
 
 #[SoftCustomization('dropdown.submenu')]
 class Component extends TallStackUiComponent implements Customization
@@ -26,7 +26,7 @@ class Component extends TallStackUiComponent implements Customization
 
     public function blade(): View
     {
-        return view()->file(__DIR__.'/view.blade.php');
+        return view('ts-ui::components.dropdown.submenu');
     }
 
     public function customization(): array

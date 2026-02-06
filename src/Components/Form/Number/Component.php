@@ -7,10 +7,10 @@ use Illuminate\Support\Arr;
 use Illuminate\View\ComponentSlot;
 use TallStackUi\Attributes\PassThroughRuntime;
 use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Components\Traits\FormDefaultInputClasses;
 use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\Support\Runtime\Components\NumberRuntime;
 use TallStackUi\TallStackUiComponent;
-use TallStackUi\Components\Traits\FormDefaultInputClasses;
 
 #[SoftCustomization('form.number')]
 #[PassThroughRuntime(NumberRuntime::class)]
@@ -35,7 +35,7 @@ class Component extends TallStackUiComponent implements Customization
 
     public function blade(): View
     {
-        return view()->file(__DIR__.'/view.blade.php');
+        return view('ts-ui::components.form.number');
     }
 
     public function customization(): array

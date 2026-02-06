@@ -213,7 +213,7 @@ class CustomizationFactory implements Arrayable
 
             $component = str_contains((string) $view, DIRECTORY_SEPARATOR)
                 ? basename(dirname((string) $view))
-                : str_replace('tallstack-ui::components.', '', (string) $view);
+                : str_replace('ts-ui::components.', '', (string) $view);
 
             throw new InvalidArgumentException("Component [$component] does not have the block [$block] to be personalized. Allowed: ".implode(', ', $this->blocks));
         }

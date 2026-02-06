@@ -14,6 +14,6 @@ class SoftCustomization
 
     public function prefixed(): string
     {
-        return 'tallstack-ui::customization.'.$this->key;
+        return 'ts-ui::customization.'.$this->key;
     }
 }

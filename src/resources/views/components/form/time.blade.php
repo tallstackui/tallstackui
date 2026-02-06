@@ -16,7 +16,7 @@
     @js($attributes->get('value')),
     @js($attributes->only(['disabled', 'readonly'])->getAttributes()),
     @js($change))"
-    x-cloak x-on:click.outside="show = false">
+     x-cloak x-on:click.outside="show = false">
     <x-dynamic-component :component="TallStackUi::prefix('input')"
                          {{ $attributes->except('name') }}
                          :$label
@@ -29,25 +29,26 @@
                          x-on:keydown="$event.preventDefault()"
                          dusk="tallstackui_time_input"
                          class="cursor-pointer caret-transparent">
-                         <x-slot:suffix class="ml-1 mr-2">
-                             <div class="{{ $personalize['icon.wrapper'] }}">
-                                 @if (!$attributes->has('required'))
-                                    <button type="button" class="cursor-pointer" x-on:click="clear()" x-show="model">
-                                        <x-dynamic-component :component="TallStackUi::prefix('icon')"
-                                                             dusk="tallstackui_time_clear"
-                                                             internal
-                                                             :icon="TallStackUi::icon('x-mark')"
-                                                             @class([$personalize['icon.size'], $personalize['icon.clear']]) />
-                                    </button>
-                                 @endif
-                                <button type="button" class="cursor-pointer" x-on:click="(disables['disabled'] ?? false) || (disables['readonly'] ?? false) ? false : show = !show">
-                                    <x-dynamic-component :component="TallStackUi::prefix('icon')"
-                                                         :icon="TallStackUi::icon('clock')"
-                                                         internal
-                                                         class="{{ $personalize['icon.size'] }}" />
-                                </button>
-                             </div>
-                         </x-slot:suffix>
+        <x-slot:suffix class="ml-1 mr-2">
+            <div class="{{ $personalize['icon.wrapper'] }}">
+                @if (!$attributes->has('required'))
+                    <button type="button" class="cursor-pointer" x-on:click="clear()" x-show="model">
+                        <x-dynamic-component :component="TallStackUi::prefix('icon')"
+                                             dusk="tallstackui_time_clear"
+                                             internal
+                                             :icon="TallStackUi::icon('x-mark')"
+                                @class([$personalize['icon.size'], $personalize['icon.clear']]) />
+                    </button>
+                @endif
+                <button type="button" class="cursor-pointer"
+                        x-on:click="(disables['disabled'] ?? false) || (disables['readonly'] ?? false) ? false : show = !show">
+                    <x-dynamic-component :component="TallStackUi::prefix('icon')"
+                                         :icon="TallStackUi::icon('clock')"
+                                         internal
+                                         class="{{ $personalize['icon.size'] }}" />
+                </button>
+            </div>
+        </x-slot:suffix>
     </x-dynamic-component>
     <x-dynamic-component :component="TallStackUi::prefix('floating')"
                          :floating="$personalize['floating.default']"
@@ -75,7 +76,7 @@
                        x-on:change="alert(1);"
                        x-on:mouseenter="$refs.hours.classList.add('{{ $personalize['range.light'] }}', '{{ $personalize['range.dark'] }}')"
                        x-on:mouseleave="$refs.hours.classList.remove('{{ $personalize['range.light'] }}', '{{ $personalize['range.dark'] }}')"
-                       @class(['focus:outline-hidden', $personalize['range.base'], $personalize['range.thumb']])>
+                        @class(['focus:outline-hidden', $personalize['range.base'], $personalize['range.thumb']])>
                 <input type="range"
                        min="0"
                        max="59"
@@ -86,32 +87,35 @@
                        dusk="tallstackui_time_minutes"
                        x-on:mouseenter="$refs.minutes.classList.add('{{ $personalize['range.light'] }}', '{{ $personalize['range.dark'] }}')"
                        x-on:mouseleave="$refs.minutes.classList.remove('{{ $personalize['range.light'] }}', '{{ $personalize['range.dark'] }}')"
-                       @class(['focus:outline-hidden', $personalize['range.base'], $personalize['range.thumb']])>
+                        @class(['focus:outline-hidden', $personalize['range.base'], $personalize['range.thumb']])>
             </div>
             @if ($format === '12')
-                <div x-ref="format" {{ $attributes->only('x-on:interval') }} class="{{ $personalize['interval.buttons.wrapper'] }}">
+                <div x-ref="format"
+                     {{ $attributes->only('x-on:interval') }} class="{{ $personalize['interval.buttons.wrapper'] }}">
                     <button type="button"
                             x-on:click="select('AM')"
                             class="{{ $personalize['interval.buttons.am'] }}"
-                            dusk="tallstackui_time_am">AM</button>
+                            dusk="tallstackui_time_am">AM
+                    </button>
                     <button type="button"
                             x-on:click="select('PM')"
                             class="{{ $personalize['interval.buttons.pm'] }}"
-                            dusk="tallstackui_time_pm">PM</button>
+                            dusk="tallstackui_time_pm">PM
+                    </button>
                 </div>
             @endif
         </div>
         @if ($helper || $footer)
             <x-slot:footer>
                 @if ($helper)
-                <x-dynamic-component :component="TallStackUi::prefix('button')"
-                                     :text="trans('tallstack-ui::messages.time.helper')"
-                                     type="button"
-                                     @class([$personalize['helper.button'], 'mt-2' => $format === '24'])
-                                     x-on:click="current()"
-                                     {{ $attributes->only('x-on:current') }}
-                                     dusk="tallstackui_time_current"
-                                     xs />
+                    <x-dynamic-component :component="TallStackUi::prefix('button')"
+                                         :text="trans('ts-ui::messages.time.helper')"
+                                         type="button"
+                                         @class([$personalize['helper.button'], 'mt-2' => $format === '24'])
+                                         x-on:click="current()"
+                                         {{ $attributes->only('x-on:current') }}
+                                         dusk="tallstackui_time_current"
+                                         xs />
                 @endif
                 @if ($footer)
                     {{ $footer }}

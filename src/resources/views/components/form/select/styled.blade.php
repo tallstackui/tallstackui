@@ -31,7 +31,9 @@
      x-on:keydown="navigate($event)"
      wire:ignore.self>
     <div hidden x-ref="options">{{ TallStackUi::blade()->json($options) }}</div>
-    @if ($request['params'] ?? null) <div hidden x-ref="params">{{ TallStackUi::blade()->json($request['params']) }}</div> @endif
+    @if ($request['params'] ?? null)
+        <div hidden x-ref="params">{{ TallStackUi::blade()->json($request['params']) }}</div>
+    @endif
     @if ($label)
         <x-dynamic-component :component="TallStackUi::prefix('label')" :$label :$error />
     @endif
@@ -66,13 +68,16 @@
                                 <div class="{{ $personalize['items.multiple.item'] }}">
                                     <div class="{{ $personalize['items.multiple.label.wrapper'] }}">
                                         <template x-if="select.image">
-                                            <img x-bind:src="select.image" class="{{ $personalize['items.multiple.image'] }}" />
+                                            <img x-bind:src="select.image"
+                                                 class="{{ $personalize['items.multiple.image'] }}" />
                                         </template>
-                                        <span class="{{ $personalize['items.multiple.label'] }}" x-text="select[selectable.label] ?? select"></span>
+                                        <span class="{{ $personalize['items.multiple.label'] }}"
+                                              x-text="select[selectable.label] ?? select"></span>
                                     </div>
                                     @if (!$disabled)
                                         <div class="{{ $personalize['items.multiple.icon'] }}">
-                                            <button type="button" class="cursor-pointer" x-on:click="$event.stopPropagation(); clear(select)">
+                                            <button type="button" class="cursor-pointer"
+                                                    x-on:click="$event.stopPropagation(); clear(select)">
                                                 <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                                                      :icon="TallStackUi::icon('x-mark')"
                                                                      internal
@@ -132,10 +137,11 @@
                     </button>
                 </div>
             </template>
-            <ul class="{{ $personalize['box.list.wrapper'] }}" dusk="tallstackui_select_options" role="listbox" x-ref="list">
+            <ul class="{{ $personalize['box.list.wrapper'] }}" dusk="tallstackui_select_options" role="listbox"
+                x-ref="list">
                 @if ($request)
                     <div x-show="loading" class="{{ $personalize['box.list.loading.wrapper'] }}">
-                        <x-tallstack-ui::icon.generic.loading class="{{ $personalize['box.list.loading.class'] }}" />
+                        <x-ts-ui::icon.generic.loading class="{{ $personalize['box.list.loading.class'] }}" />
                     </div>
                 @endif
                 @if ($grouped)
@@ -144,10 +150,12 @@
                             <div class="{{ $personalize['box.list.grouped.wrapper'] }}">
                                 <div class="{{ $personalize['box.list.grouped.options'] }}">
                                     <div class="{{ $personalize['box.list.grouped.base'] }}">
-                                        <img class="{{ $personalize['box.list.grouped.image'] }}" x-bind:src="option.image" x-show="option.image">
+                                        <img class="{{ $personalize['box.list.grouped.image'] }}"
+                                             x-bind:src="option.image" x-show="option.image">
                                         <div class="{{ $personalize['box.list.grouped.description.wrapper'] }}">
                                             <span x-text="option[selectable.label] ?? option"></span>
-                                            <span class="{{ $personalize['box.list.grouped.description.text'] }}" x-show="option.description" x-text="option.description"></span>
+                                            <span class="{{ $personalize['box.list.grouped.description.text'] }}"
+                                                  x-show="option.description" x-text="option.description"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -160,10 +168,14 @@
                                     class="{{ $personalize['box.list.item.wrapper'] }}">
                                     <div class="{{ $personalize['box.list.item.grouped'] }}">
                                         <div class="{{ $personalize['box.list.item.base'] }}">
-                                            <img class="{{ $personalize['box.list.item.image'] }}" x-bind:src="item[selectable.image]" x-show="item[selectable.description]">
+                                            <img class="{{ $personalize['box.list.item.image'] }}"
+                                                 x-bind:src="item[selectable.image]"
+                                                 x-show="item[selectable.description]">
                                             <div class="{{ $personalize['box.list.item.description.wrapper'] }}">
                                                 <span x-text="item[selectable.label] ?? item"></span>
-                                                <span class="{{ $personalize['box.list.item.description.text'] }}" x-show="item[selectable.description]" x-text="item[selectable.description]"></span>
+                                                <span class="{{ $personalize['box.list.item.description.text'] }}"
+                                                      x-show="item[selectable.description]"
+                                                      x-text="item[selectable.description]"></span>
                                             </div>
                                         </div>
                                         <div class="{{ $personalize['box.list.item.check'] }}">
@@ -187,10 +199,13 @@
                             class="{{ $personalize['box.list.item.wrapper'] }}">
                             <div class="{{ $personalize['box.list.item.options'] }}">
                                 <div class="{{ $personalize['box.list.item.base'] }}">
-                                    <img class="{{ $personalize['box.list.item.image'] }}" x-bind:src="option[selectable.image]" x-show="option[selectable.image]">
+                                    <img class="{{ $personalize['box.list.item.image'] }}"
+                                         x-bind:src="option[selectable.image]" x-show="option[selectable.image]">
                                     <div class="{{ $personalize['box.list.item.description.wrapper'] }}">
                                         <span x-text="option[selectable.label] ?? option"></span>
-                                        <span class="{{ $personalize['box.list.item.description.text'] }}" x-show="option[selectable.description]" x-text="option[selectable.description]"></span>
+                                        <span class="{{ $personalize['box.list.item.description.text'] }}"
+                                              x-show="option[selectable.description]"
+                                              x-text="option[selectable.description]"></span>
                                     </div>
                                 </div>
                                 <div class="{{ $personalize['box.list.item.check'] }}">

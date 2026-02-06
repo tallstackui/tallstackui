@@ -3,7 +3,7 @@
 @endphp
 
 <div x-cloak
-     x-data="tallstackui_dialog(@js(session()->pull('tallstackui:dialog')), @js(trans('tallstack-ui::messages.dialog.button')), @js($configurations['overflow'] ?? false))"
+     x-data="tallstackui_dialog(@js(session()->pull('ts-ui:dialog')), @js(trans('ts-ui::messages.dialog.button')), @js($configurations['overflow'] ?? false))"
      x-on:tallstackui:dialog.window="add($event.detail)"
      @class(['relative', $configurations['z-index']])
      aria-labelledby="modal-title"
@@ -52,35 +52,35 @@
                                                  :icon="TallStackUi::icon('check-circle')"
                                                  outline
                                                  internal
-                                                 @class([$personalize['icon.size'], $colors['icon']['icon']['success']]) />
+                                    @class([$personalize['icon.size'], $colors['icon']['icon']['success']]) />
                         </div>
                         <div x-show="dialog.type === 'error'">
                             <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                                  :icon="TallStackUi::icon('x-circle')"
                                                  outline
                                                  internal
-                                                 @class([$personalize['icon.size'], $colors['icon']['icon']['error']]) />
+                                    @class([$personalize['icon.size'], $colors['icon']['icon']['error']]) />
                         </div>
                         <div x-show="dialog.type === 'info'">
                             <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                                  :icon="TallStackUi::icon('information-circle')"
                                                  outline
                                                  internal
-                                                 @class([$personalize['icon.size'], $colors['icon']['icon']['info']]) />
+                                    @class([$personalize['icon.size'], $colors['icon']['icon']['info']]) />
                         </div>
                         <div x-show="dialog.type === 'warning'">
                             <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                                  :icon="TallStackUi::icon('exclamation-circle')"
                                                  outline
                                                  internal
-                                                 @class([$personalize['icon.size'], $colors['icon']['icon']['warning']]) />
+                                    @class([$personalize['icon.size'], $colors['icon']['icon']['warning']]) />
                         </div>
                         <div x-show="dialog.type === 'question'">
                             <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                                  :icon="TallStackUi::icon('question-mark-circle')"
                                                  outline
                                                  internal
-                                                 @class([$personalize['icon.size'], $colors['icon']['icon']['question']]) />
+                                    @class([$personalize['icon.size'], $colors['icon']['icon']['question']]) />
                         </div>
                     </div>
                     <div class="{{ $personalize['text.wrapper'] }}">
@@ -108,9 +108,9 @@
                             '{{ $colors['confirm']['warning'] }}': dialog.type === 'warning',
                             '{{ $colors['confirm']['question'] }}': dialog.type === 'question'
                         }" dusk="tallstackui_dialog_confirmation"
-                           x-on:click="accept(dialog, $el)"
-                           x-show="dialog.options?.confirm"
-                           x-text="dialog.options?.confirm?.text ?? text.ok"></button>
+                            x-on:click="accept(dialog, $el)"
+                            x-show="dialog.options?.confirm"
+                            x-text="dialog.options?.confirm?.text ?? text.ok"></button>
                 </div>
             </div>
         </div>

@@ -33,7 +33,7 @@ class IdeCommand extends Command
 
         $list = [];
 
-        $components = config('tallstackui.components');
+        $components = config('ts-ui.components');
 
         if (count($components) === 0) {
             $this->components->error('No TallStackUI components found based on the config file.');

@@ -18,7 +18,7 @@ class SetupColorCommand extends Command
 
     public function handle(): int
     {
-        if (blank(config('tallstackui.color_classes_namespace'))) {
+        if (blank(config('ts-ui.color_classes_namespace'))) {
             $this->components->error('The namespace for the color classes is blank.');
 
             return self::FAILURE;

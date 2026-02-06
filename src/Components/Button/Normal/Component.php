@@ -8,11 +8,11 @@ use TallStackUi\Attributes\ColorsThroughOf;
 use TallStackUi\Attributes\PassThroughRuntime;
 use TallStackUi\Attributes\SkipDebug;
 use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Components\Traits\ButtonSetup;
 use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\Support\Colors\Components\ButtonColors;
 use TallStackUi\Support\Runtime\Components\ButtonRuntime;
 use TallStackUi\TallStackUiComponent;
-use TallStackUi\Components\Traits\ButtonSetup;
 
 #[SoftCustomization('button')]
 #[ColorsThroughOf(ButtonColors::class)]
@@ -55,7 +55,7 @@ class Component extends TallStackUiComponent implements Customization
 
     public function blade(): View
     {
-        return view()->file(__DIR__.'/view.blade.php');
+        return view('ts-ui::components.button.button');
     }
 
     public function customization(): array

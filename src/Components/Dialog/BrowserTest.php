@@ -516,7 +516,7 @@ class IndexTest extends BrowserTestCase
     #[Test]
     public function cannot_close_when_dialog_is_persistent(): void
     {
-        config()->set('tallstackui.settings.dialog.persistent', true);
+        config()->set('ts-ui.settings.dialog.persistent', true);
 
         Livewire::visit(DialogComponent::class)
             ->assertDontSee('Foo bar success')

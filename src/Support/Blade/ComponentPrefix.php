@@ -6,7 +6,7 @@ class ComponentPrefix
 {
     public function __construct(private ?string $prefix = null)
     {
-        $this->prefix = config('tallstackui.prefix');
+        $this->prefix = config('ts-ui.prefix');
     }
 
     /**

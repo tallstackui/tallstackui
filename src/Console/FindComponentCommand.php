@@ -30,12 +30,12 @@ class FindComponentCommand extends Command
 
     public function handle(): int
     {
-        $components = collect(config('tallstackui.components'))
+        $components = collect(config('ts-ui.components'))
             ->keys()
             ->filter(fn (string $component) => ! in_array($component, self::IGNORES));
 
         $original = suggest('Select Component', $components->values()->toArray(), required: true);
-        $prefix = config('tallstackui.prefix');
+        $prefix = config('ts-ui.prefix');
         $find = sprintf('<x-%s', $prefix ? $prefix.$original : $original);
 
         $windows = windows_os();

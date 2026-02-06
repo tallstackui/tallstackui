@@ -11,10 +11,10 @@ use Illuminate\View\ComponentSlot;
 use InvalidArgumentException;
 use TallStackUi\Attributes\PassThroughRuntime;
 use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Components\Floating\Component as Floating;
 use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\Support\Runtime\Components\DateRuntime;
 use TallStackUi\TallStackUiComponent;
-use TallStackUi\Components\Floating\Component as Floating;
 
 #[SoftCustomization('form.date')]
 #[PassThroughRuntime(DateRuntime::class)]
@@ -56,7 +56,7 @@ class Component extends TallStackUiComponent implements Customization
 
     public function blade(): View
     {
-        return view()->file(__DIR__.'/view.blade.php');
+        return view('ts-ui::components.form.date');
     }
 
     public function customization(): array

@@ -30,12 +30,12 @@ class Component extends TallStackUiComponent implements Customization
         #[SkipDebug]
         public ?array $symbols = [],
     ) {
-        $this->symbols = trans('tallstack-ui::messages.currency');
+        $this->symbols = trans('ts-ui::messages.currency');
     }
 
     public function blade(): View
     {
-        return view()->file(__DIR__.'/view.blade.php');
+        return view('ts-ui::components.form.currency');
     }
 
     public function customization(): array

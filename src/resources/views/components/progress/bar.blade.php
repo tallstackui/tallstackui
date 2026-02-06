@@ -3,7 +3,7 @@
 @endphp
 
 <div>
-    <x-dynamic-component component="tallstack-ui::progress.variations.{{ $variation }}"
+    <x-dynamic-component component="ts-ui::progress.variations.{{ $variation }}"
                          :$title
                          :$percent
                          :$size
@@ -11,6 +11,6 @@
                          :$withoutText
                          :$personalize />
     @if ($footer)
-       <div>{{ $footer }}</div>
+        <div>{{ $footer }}</div>
     @endif
 </div>

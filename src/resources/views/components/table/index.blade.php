@@ -2,7 +2,8 @@
     $personalize = $classes();
 @endphp
 
-<div x-data="tallstackui_table({!! $entangle !!}, @js($ids()), @js($selectable))" @if ($persistent) x-ref="persist" @endif>
+<div x-data="tallstackui_table({!! $entangle !!}, @js($ids()), @js($selectable))"
+     @if ($persistent) x-ref="persist" @endif>
     @if (is_string($header))
         <p class="{{ $personalize['slots.header'] }}">{{ $header }}</p>
     @else
@@ -39,43 +40,45 @@
     @endif
     <div class="{{ $personalize['wrapper'] }}">
         <div class="{{ $personalize['table.wrapper'] }}">
-            <table class="{{ $personalize['table.base'] }}" @if ($livewire && $loading) wire:loading.class="{{ $personalize['loading.table'] }}" @endif>
+            <table class="{{ $personalize['table.base'] }}"
+                   @if ($livewire && $loading) wire:loading.class="{{ $personalize['loading.table'] }}" @endif>
                 @if ($livewire && $loading)
-                    <x-tallstack-ui::icon.generic.loading class="{{ $personalize['loading.icon'] }}" wire:loading="{{ $target }}" />
+                    <x-ts-ui::icon.generic.loading class="{{ $personalize['loading.icon'] }}"
+                                                   wire:loading="{{ $target }}" />
                 @endif
                 @if (!$headerless)
                     <thead @class(['uppercase', $personalize['table.thead.normal'] => !$striped, $personalize['table.thead.striped'] => $striped])>
-                        <tr>
-                            @if ($selectable)
-                                <th @class(['w-6', $personalize['table.th']]) wire:key="checkall-{{ implode(',', $ids()) }}">
-                                    <x-dynamic-component :component="TallStackUi::prefix('checkbox')"
-                                                         x-ref="checkbox"
-                                                         x-on:click="all($el.checked, {{ \Illuminate\Support\Js::from($ids()) }})"
-                                                         dusk="tallstackui_table_select_all"
-                                                         sm />
-                                </th>
-                            @endif
-                            @foreach ($headers as $header)
-                                <th scope="col" class="{{ $personalize['table.th'] }}">
-                                    <a @if ($livewire && $sortable($header))
-                                            class="inline-flex cursor-pointer truncate"
-                                            wire:click="$set('sort', {column: '{{ $head($header)['column'] }}', direction: '{{ $head($header)['direction'] }}' })"
+                    <tr>
+                        @if ($selectable)
+                            <th @class(['w-6', $personalize['table.th']]) wire:key="checkall-{{ implode(',', $ids()) }}">
+                                <x-dynamic-component :component="TallStackUi::prefix('checkbox')"
+                                                     x-ref="checkbox"
+                                                     x-on:click="all($el.checked, {{ \Illuminate\Support\Js::from($ids()) }})"
+                                                     dusk="tallstackui_table_select_all"
+                                                     sm />
+                            </th>
+                        @endif
+                        @foreach ($headers as $header)
+                            <th scope="col" class="{{ $personalize['table.th'] }}">
+                                <a @if ($livewire && $sortable($header))
+                                       class="inline-flex cursor-pointer truncate"
+                                   wire:click="$set('sort', {column: '{{ $head($header)['column'] }}', direction: '{{ $head($header)['direction'] }}' })"
                                         @endif>
-                                        @if ($header['unescaped'] ?? false)
-                                            {!! $header['label'] ?? '' !!}
-                                        @else
-                                            {{ $header['label'] ?? '' }}
-                                        @endif
-                                        @if ($livewire && $sortable($header))
-                                            <x-dynamic-component :component="TallStackUi::prefix('icon')"
-                                                                 :icon="TallStackUi::icon($sorted($header) ? ($head($header)['direction'] === 'desc' ? 'chevron-up' : 'chevron-down') : 'chevron-up-down')"
-                                                                 internal
-                                                                 class="{{ $personalize['table.sort'] }}" />
-                                        @endif
-                                    </a>
-                                </th>
-                            @endforeach
-                        </tr>
+                                    @if ($header['unescaped'] ?? false)
+                                        {!! $header['label'] ?? '' !!}
+                                    @else
+                                        {{ $header['label'] ?? '' }}
+                                    @endif
+                                    @if ($livewire && $sortable($header))
+                                        <x-dynamic-component :component="TallStackUi::prefix('icon')"
+                                                             :icon="TallStackUi::icon($sorted($header) ? ($head($header)['direction'] === 'desc' ? 'chevron-up' : 'chevron-down') : 'chevron-up-down')"
+                                                             internal
+                                                             class="{{ $personalize['table.sort'] }}" />
+                                    @endif
+                                </a>
+                            </th>
+                        @endforeach
+                    </tr>
                     </thead>
                 @endif
                 <tbody class="{{ $personalize['table.tbody'] }}">

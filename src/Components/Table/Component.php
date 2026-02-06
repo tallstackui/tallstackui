@@ -44,7 +44,7 @@ class Component extends TallStackUiComponent implements Customization
         #[SkipDebug]
         public ?array $placeholders = null,
         #[SkipDebug]
-        public ?string $paginator = 'tallstack-ui::components.table.paginators',
+        public ?string $paginator = 'ts-ui::components.table.paginators',
         #[SkipDebug]
         public mixed $loop = null,
         #[SkipDebug]
@@ -54,7 +54,7 @@ class Component extends TallStackUiComponent implements Customization
         #[SkipDebug]
         public ComponentSlot|string|null $footer = null
     ) {
-        $this->placeholders = array_merge(trans('tallstack-ui::messages.table'), $this->placeholders ?? []);
+        $this->placeholders = array_merge(trans('ts-ui::messages.table'), $this->placeholders ?? []);
 
         if (is_bool($filter) && $this->filter === true) {
             $this->filter = ['quantity' => 'quantity', 'search' => 'search'];
@@ -78,7 +78,7 @@ class Component extends TallStackUiComponent implements Customization
 
     public function blade(): View
     {
-        return view()->file(__DIR__.'/view.blade.php');
+        return view('ts-ui::components.table');
     }
 
     public function customization(): array
@@ -162,7 +162,7 @@ class Component extends TallStackUiComponent implements Customization
     /** @throws InvalidArgumentException */
     protected function validate(): void
     {
-        $messages = trans('tallstack-ui::messages.table');
+        $messages = trans('ts-ui::messages.table');
 
         if (blank($messages['empty'] ?? null)) {
             __ts_validation_exception($this, 'The [empty] message cannot be empty.');

@@ -9,11 +9,11 @@ use TallStackUi\Attributes\ColorsThroughOf;
 use TallStackUi\Attributes\PassThroughRuntime;
 use TallStackUi\Attributes\SkipDebug;
 use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Components\Traits\FormSetup;
 use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\Support\Colors\Components\RadioColors;
 use TallStackUi\Support\Runtime\Components\CheckboxRuntime;
 use TallStackUi\TallStackUiComponent;
-use TallStackUi\Components\Traits\FormSetup;
 
 #[ColorsThroughOf(RadioColors::class)]
 #[SoftCustomization('form.checkbox')]
@@ -39,7 +39,7 @@ class Component extends TallStackUiComponent implements Customization
 
     public function blade(): View
     {
-        return view()->file(__DIR__.'/view.blade.php');
+        return view('ts-ui::components.form.checkbox');
     }
 
     public function customization(): array

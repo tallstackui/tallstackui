@@ -19,7 +19,9 @@
         @forelse ($properties as $key => $value)
             <li>{{ $key }}: <span class="text-red-500">{{ $value }}</span></li>
             @if ($loop->last && $data['slot']->isNotEmpty())
-                <li class="inline-flex gap-x-1">slot mode: <x-tallstack-ui::icon.generic.check class="w-4 h-4 text-green-500" /></li>
+                <li class="inline-flex gap-x-1">slot mode:
+                    <x-ts-ui::icon.generic.check class="w-4 h-4 text-green-500" />
+                </li>
             @endif
         @empty
             <span class="text-white">No attributes</span>

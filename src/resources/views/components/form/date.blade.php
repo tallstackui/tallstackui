@@ -17,7 +17,7 @@
      @js($property),
      @js($value),
      @js($monthYearOnly),
-     @js(trans('tallstack-ui::messages.date.calendar')),
+     @js(trans('ts-ui::messages.date.calendar')),
      @js($attributes->only(['disabled', 'readonly'])->getAttributes()),
      @js($change),
      @js($start),
@@ -39,13 +39,16 @@
                          class="cursor-pointer caret-transparent">
         <x-slot:suffix class="ml-1 mr-2">
             <div class="{{ $personalize['icon.wrapper'] }}">
-                <button type="button" class="cursor-pointer" x-on:click="clear()" x-show="quantity > 0" {{ $attributes->only(['disabled', 'readonly', 'x-on:clear']) }} dusk="tallstackui_date_clear">
+                <button type="button" class="cursor-pointer" x-on:click="clear()" x-show="quantity > 0"
+                        {{ $attributes->only(['disabled', 'readonly', 'x-on:clear']) }} dusk="tallstackui_date_clear">
                     <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                          :icon="TallStackUi::icon('x-mark')"
                                          internal
-                                         @class([$personalize['icon.size'], $personalize['icon.clear']])/>
+                            @class([$personalize['icon.size'], $personalize['icon.clear']])/>
                 </button>
-                <button type="button" class="cursor-pointer" x-on:click="(disables['disabled'] ?? false) || (disables['readonly'] ?? false) ? false : show = !show" {{ $attributes->only(['disabled', 'readonly']) }} dusk="tallstackui_date_open_close">
+                <button type="button" class="cursor-pointer"
+                        x-on:click="(disables['disabled'] ?? false) || (disables['readonly'] ?? false) ? false : show = !show"
+                        {{ $attributes->only(['disabled', 'readonly']) }} dusk="tallstackui_date_open_close">
                     <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                          :icon="TallStackUi::icon('calendar')"
                                          internal
@@ -60,18 +63,21 @@
                          x-bind:class="{ 'h-[17rem]' : picker.year || picker.month }">
         <div class="{{ $personalize['box.picker.button'] }}">
             <span>
-                <button type="button" x-text="calendar.months[month]" x-on:click="picker.month = true" class="{{ $personalize['label.month'] }}"></button>
-                <button type="button" x-text="year" x-on:click="picker.year = true; range.year.start = (year - 11)" class="{{ $personalize['label.year'] }}"></button>
+                <button type="button" x-text="calendar.months[month]" x-on:click="picker.month = true"
+                        class="{{ $personalize['label.month'] }}"></button>
+                <button type="button" x-text="year" x-on:click="picker.year = true; range.year.start = (year - 11)"
+                        class="{{ $personalize['label.year'] }}"></button>
             </span>
             <template x-if="picker.month">
                 <div class="{{ $personalize['box.picker.wrapper.first'] }}" x-cloak>
                     <div class="{{ $personalize['box.picker.wrapper.second'] }}">
                         <div class="{{ $personalize['box.picker.wrapper.third'] }}">
-                            <button type="button" class="{{ $personalize['box.picker.label'] }}" x-on:click="if (monthYearOnly) {return false}; picker.month = false">
+                            <button type="button" class="{{ $personalize['box.picker.label'] }}"
+                                    x-on:click="if (monthYearOnly) {return false}; picker.month = false">
                                 <span x-text="calendar.months[month]" class="{{ $personalize['label.month'] }}"></span>
                             </button>
                             <button type="button" class="mr-2" x-on:click="now()" x-show="!monthYearOnly">
-                                {{ trans('tallstack-ui::messages.date.helpers.today') }}
+                                {{ trans('ts-ui::messages.date.helpers.today') }}
                             </button>
                         </div>
                         <template x-for="(months, index) in calendar.months" :key="index">
@@ -95,7 +101,7 @@
                                 <span x-text="range.year.last" class="{{ $personalize['label.month'] }}"></span>
                             </div>
                             <button type="button" x-on:click="now()" x-show="!monthYearOnly">
-                                {{ trans('tallstack-ui::messages.date.helpers.today') }}
+                                {{ trans('ts-ui::messages.date.helpers.today') }}
                             </button>
                             <div>
                                 <button type="button"
@@ -189,7 +195,7 @@
                             'rounded-r-full w-7 h-7': new Date(day.instance).getTime() === new Date(date.end).getTime(),
                             '{{ $personalize['range'] }}': between(day.instance) === true,
                          }">
-                        <button type="button" 
+                        <button type="button"
                                 x-text="day.day"
                                 {{ $attributes->only('x-on:select') }}
                                 x-on:click="select($event, day.day);"
@@ -210,7 +216,7 @@
                                 dusk="tallstackui_date_helper_{{ $helper }}"
                                 x-on:click="helper($event, @js($helper))"
                                 class="{{ $personalize['button.helpers'] }}">
-                            {{ trans('tallstack-ui::messages.date.helpers.' . $helper) }}
+                            {{ trans('ts-ui::messages.date.helpers.' . $helper) }}
                         </button>
                     @endforeach
                 </div>

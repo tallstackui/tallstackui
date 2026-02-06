@@ -11,7 +11,7 @@ trait ManagesOutput
 {
     private function output(View $view, array $data): View|string
     {
-        $config = collect(config('tallstackui'));
+        $config = collect(config('ts-ui'));
         $debug = collect($config->get('debug', []));
 
         // To improve performance, we disable debug mode when unit tests are running.
@@ -44,15 +44,15 @@ trait ManagesOutput
                 || ! collect($reflection->getProperty($key)->getAttributes())->contains(fn (ReflectionAttribute $attribute) => $attribute->getName() === SkipDebug::class);
         })->toArray();
 
-        $attributes = $this->view('tallstack-ui::components.debug.attributes', ['data' => $data])->render();
+        $attributes = $this->view('ts-ui::components.debug.attributes', ['data' => $data])->render();
 
         return <<<blade
-            <x-tallstack-ui::debug>
+            <x-ts-ui::debug>
                 {$view->render()}
                 <x-slot:code>
                     $attributes
                 </x-slot:code>
-            </x-tallstack-ui::debug>
+            </x-ts-ui::debug>
         blade;
     }
 }

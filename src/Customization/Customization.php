@@ -241,8 +241,8 @@ class Customization
             throw new RuntimeException('No component has been set');
         }
 
-        if (str_contains($this->component, 'tallstack-ui::customization')) {
-            $this->component = str_replace('tallstack-ui::customization.', '', $this->component);
+        if (str_contains($this->component, 'ts-ui::customization')) {
+            $this->component = str_replace('ts-ui::customization.', '', $this->component);
         }
 
         // This is necessary for cases where personalization aims to

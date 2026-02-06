@@ -19,7 +19,7 @@ class SetupPrefixCommand extends Command
         $prefix = text('What prefix do you want to use?', required: true, hint: 'Type null to remove the current prefix, if set.');
         $null = $prefix === 'null';
 
-        if ($null && blank(config('tallstackui.prefix'))) {
+        if ($null && blank(config('ts-ui.prefix'))) {
             $this->components->error('The prefix is already set to null.');
 
             return self::FAILURE;

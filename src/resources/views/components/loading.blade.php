@@ -14,7 +14,7 @@
     ]) x-ref="loading" x-data="tallstackui_loading(@js($this->getName()), @js($configurations['overflow'] ?? false))">
     <div class="{{ $personalize['wrapper.second'] }}">
         @if (!$text && empty($slot->toHtml()))
-            <x-tallstack-ui::icon.generic.loading class="{{ $personalize['spinner'] }}" />
+            <x-ts-ui::icon.generic.loading class="{{ $personalize['spinner'] }}" />
         @else
             <div class="{{ $personalize['text'] }}">
                 {!! $text ?? $slot !!}

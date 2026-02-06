@@ -10,11 +10,11 @@
     }">
     <nav @if ($variation === 'panels') class="overflow-hidden rounded-md" @endif>
         <ul role="list"
-            @class($personalize['wrapper.' . $variation])>
+                @class($personalize['wrapper.' . $variation])>
             <template x-for="item in steps">
-                <x-dynamic-component component="tallstack-ui::step.variations.{{ $variation }}"
-                                        :$personalize
-                                        :$navigate />
+                <x-dynamic-component component="ts-ui::step.variations.{{ $variation }}"
+                                     :$personalize
+                                     :$navigate />
             </template>
         </ul>
     </nav>
@@ -33,8 +33,8 @@
                         <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                              :icon="TallStackUi::icon('chevron-left')"
                                              internal
-                                             @class(['mr-1', $personalize['button.icon']]) />
-                        {{ trans('tallstack-ui::messages.step.previous') }}
+                                @class(['mr-1', $personalize['button.icon']]) />
+                        {{ trans('ts-ui::messages.step.previous') }}
                     </button>
                 @endif
             </div>
@@ -44,11 +44,11 @@
                         x-on:click="selected++; $refs.buttons.dispatchEvent(new CustomEvent('change', {detail: {step: selected}}));"
                         dusk="tallstackui_step_next"
                         class="{{ $personalize['button.base'] }}">
-                    {{ trans('tallstack-ui::messages.step.next') }}
+                    {{ trans('ts-ui::messages.step.next') }}
                     <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                          :icon="TallStackUi::icon('chevron-right')"
                                          internal
-                                         @class(['ml-1', $personalize['button.icon']]) />
+                            @class(['ml-1', $personalize['button.icon']]) />
                 </button>
                 @if ($finish)
                     @if ($finish instanceof \Illuminate\View\ComponentSlot)
@@ -62,7 +62,7 @@
                                 dusk="tallstackui_step_finish"
                                 {{ $attributes->only('x-on:finish') }}
                                 class="{{ $personalize['button.base'] }}">
-                            {{ trans('tallstack-ui::messages.step.finish') }}
+                            {{ trans('ts-ui::messages.step.finish') }}
                         </button>
                     @endif
                 @endif

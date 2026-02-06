@@ -8,10 +8,10 @@ use Illuminate\Support\Arr;
 use Illuminate\View\ComponentSlot;
 use TallStackUi\Attributes\PassThroughRuntime;
 use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Components\Traits\FormDefaultInputClasses;
 use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\Support\Runtime\Components\TagRuntime;
 use TallStackUi\TallStackUiComponent;
-use TallStackUi\Components\Traits\FormDefaultInputClasses;
 
 #[SoftCustomization('form.tag')]
 #[PassThroughRuntime(TagRuntime::class)]
@@ -31,7 +31,7 @@ class Component extends TallStackUiComponent implements Customization
 
     public function blade(): View
     {
-        return view()->file(__DIR__.'/view.blade.php');
+        return view('ts-ui::components.form.tag');
     }
 
     public function customization(): array

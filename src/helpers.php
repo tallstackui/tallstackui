@@ -15,7 +15,7 @@ if (! function_exists('__ts_get_component_configuration')) {
         static $map = null;
 
         if ($map === null) {
-            $components = config('tallstackui.components');
+            $components = config('ts-ui.components');
             $arrays = array_filter($components, 'is_array');
             $map = array_combine(array_column($arrays, 0), array_column($arrays, 1));
         }
@@ -41,7 +41,7 @@ if (! function_exists('__ts_class_collection')) {
             'Circle' => 'Button',
         ];
 
-        $namespace = config('tallstackui.color_classes_namespace');
+        $namespace = config('ts-ui.color_classes_namespace');
 
         if ($namespace === null) {
             return [];

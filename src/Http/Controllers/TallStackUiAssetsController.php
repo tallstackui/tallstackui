@@ -39,7 +39,7 @@ class TallStackUiAssetsController
      */
     private function fallback(string $file): string
     {
-        $config = config('tallstackui.assets_fallback');
+        $config = config('ts-ui.assets_fallback');
 
         if (blank($config) || $config === false || file_exists(self::DIST_PATH.'/'.$file)) {
             return $file;

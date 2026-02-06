@@ -7,11 +7,11 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use TallStackUi\Attributes\PassThroughRuntime;
 use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Components\Traits\FormDefaultInputClasses;
+use TallStackUi\Components\Traits\SelectSetup;
 use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\Support\Runtime\Components\SelectNativeRuntime;
 use TallStackUi\TallStackUiComponent;
-use TallStackUi\Components\Traits\SelectSetup;
-use TallStackUi\Components\Traits\FormDefaultInputClasses;
 
 #[SoftCustomization('select.native')]
 #[PassThroughRuntime(SelectNativeRuntime::class)]
@@ -34,7 +34,7 @@ class Component extends TallStackUiComponent implements Customization
 
     public function blade(): View
     {
-        return view()->file(__DIR__.'/view.blade.php');
+        return view('ts-ui::components.form.select.native');
     }
 
     public function customization(): array

@@ -64,11 +64,11 @@ class TallStackUiServiceProvider extends ServiceProvider
 
     protected function registerComponents(): void
     {
-        $components = config('tallstackui.components');
-        $configuration = config('tallstackui.components.layout')[1];
+        $components = config('ts-ui.components');
+        $configuration = config('ts-ui.components.layout')[1];
 
         if ($configuration['ignore'] === true) {
-            $components = array_filter(config('tallstackui.components'), fn ($component) => ! str_contains($component, 'Layout'));
+            $components = array_filter(config('ts-ui.components'), fn ($component) => ! str_contains($component, 'Layout'));
         }
 
         $this->callAfterResolving(BladeCompiler::class, function (BladeCompiler $blade) use ($components): void {
@@ -82,21 +82,21 @@ class TallStackUiServiceProvider extends ServiceProvider
 
     protected function registerConfig(): void
     {
-        $this->loadViewsFrom(__DIR__.'/resources/views', 'tallstack-ui');
+        $this->loadViewsFrom(__DIR__.'/resources/views', 'ts-ui');
 
-        $this->mergeConfigFrom(__DIR__.'/config.php', 'tallstackui');
+        $this->mergeConfigFrom(__DIR__.'/config.php', 'ts-ui');
 
         $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
 
-        $this->loadTranslationsFrom(__DIR__.'/../lang', 'tallstack-ui');
+        $this->loadTranslationsFrom(__DIR__.'/../lang', 'ts-ui');
     }
 
     protected function registerPublishable(): void
     {
         $this->publishes([__DIR__.'/config.php' => config_path('tallstackui.php')], 'tallstackui.config');
 
-        $this->publishes([__DIR__.'/lang' => lang_path('vendor/tallstack-ui')], 'tallstackui.lang');
+        $this->publishes([__DIR__.'/lang' => lang_path('vendor/ts-ui')], 'tallstackui.lang');
 
-        $this->publishes([__DIR__.'/resources/views' => resource_path('views/vendor/tallstack-ui')], 'tallstackui.views');
+        $this->publishes([__DIR__.'/resources/views' => resource_path('views/vendor/ts-ui')], 'tallstackui.views');
     }
 }

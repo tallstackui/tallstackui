@@ -10,10 +10,10 @@ use Illuminate\View\ComponentSlot;
 use TallStackUi\Attributes\PassThroughRuntime;
 use TallStackUi\Attributes\SkipDebug;
 use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Components\Floating\Component as Floating;
 use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\Support\Runtime\Components\PasswordRuntime;
 use TallStackUi\TallStackUiComponent;
-use TallStackUi\Components\Floating\Component as Floating;
 
 #[SoftCustomization('form.password')]
 #[PassThroughRuntime(PasswordRuntime::class)]
@@ -61,7 +61,7 @@ class Component extends TallStackUiComponent implements Customization
 
     public function blade(): View
     {
-        return view()->file(__DIR__.'/view.blade.php');
+        return view('ts-ui::components.form.password');
     }
 
     public function customization(): array

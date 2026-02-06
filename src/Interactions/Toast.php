@@ -141,7 +141,7 @@ class Toast extends AbstractInteraction
      */
     public function timeout(?int $seconds = null): self
     {
-        $this->timeout = $seconds ?? (int) config('tallstackui.settings.toast.timeout', 3);
+        $this->timeout = $seconds ?? (int) config('ts-ui.settings.toast.timeout', 3);
 
         return $this;
     }
@@ -166,10 +166,10 @@ class Toast extends AbstractInteraction
     protected function additional(): array
     {
         return [
-            'expandable' => $this->expand ?? config('tallstackui.settings.toast.expandable', false),
+            'expandable' => $this->expand ?? config('ts-ui.settings.toast.expandable', false),
             'timeout' => $this->timeout,
             'persistent' => $this->persistent,
-            'position' => $this->position ?? config('tallstackui.settings.toast.position', 'top-right'),
+            'position' => $this->position ?? config('ts-ui.settings.toast.position', 'top-right'),
             'sole' => $this->sole,
         ];
     }
@@ -187,6 +187,6 @@ class Toast extends AbstractInteraction
      */
     protected function messages(): array
     {
-        return [trans('tallstack-ui::messages.toast.button.confirm'), trans('tallstack-ui::messages.toast.button.cancel')];
+        return [trans('ts-ui::messages.toast.button.confirm'), trans('ts-ui::messages.toast.button.cancel')];
     }
 }

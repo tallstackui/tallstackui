@@ -29,6 +29,6 @@ class Component extends TallStackUiComponent
 
     public function blade(): View
     {
-        return view()->file(__DIR__.'/view.blade.php');
+        return view('ts-ui::components.icon');
     }
 }

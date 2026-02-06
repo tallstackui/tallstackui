@@ -28,7 +28,7 @@ class Component extends TallStackUiComponent implements Customization
 
     public function blade(): View
     {
-        return view()->file(__DIR__.'/view.blade.php');
+        return view('ts-ui::components.loading');
     }
 
     public function customization(): array
@@ -48,7 +48,7 @@ class Component extends TallStackUiComponent implements Customization
     /** @throws InvalidArgumentException */
     protected function validate(): void
     {
-        if (! str(config('tallstackui.settings.loading')['z-index'])->startsWith('z-')) {
+        if (! str(config('ts-ui.settings.loading')['z-index'])->startsWith('z-')) {
             __ts_validation_exception($this, 'The [z-index] must start with z- prefix');
         }
     }

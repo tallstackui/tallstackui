@@ -25,12 +25,12 @@ class Component extends TallStackUiComponent implements Customization
         public ?bool $close = false,
         public ComponentSlot|string|null $footer = null,
     ) {
-        $this->title ??= trans('tallstack-ui::messages.errors.title');
+        $this->title ??= trans('ts-ui::messages.errors.title');
     }
 
     public function blade(): View
     {
-        return view()->file(__DIR__.'/view.blade.php');
+        return view('ts-ui::components.errors');
     }
 
     public function count(ViewErrorBag $errors): int

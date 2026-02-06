@@ -10,11 +10,11 @@ use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use TallStackUi\Attributes\PassThroughRuntime;
 use TallStackUi\Attributes\RequireLivewireContext;
 use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Components\Floating\Component as Floating;
 use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\Support\Miscellaneous\UploadComponentFileAdapter;
 use TallStackUi\Support\Runtime\Components\UploadRuntime;
 use TallStackUi\TallStackUiComponent;
-use TallStackUi\Components\Floating\Component as Floating;
 
 #[RequireLivewireContext]
 #[SoftCustomization('form.upload')]
@@ -36,8 +36,8 @@ class Component extends TallStackUiComponent implements Customization
         public ?bool $overflow = null,
         public ?bool $closeAfterUpload = null,
     ) {
-        $this->placeholder ??= trans('tallstack-ui::messages.upload.placeholder');
-        $this->error ??= trans('tallstack-ui::messages.upload.error');
+        $this->placeholder ??= trans('ts-ui::messages.upload.placeholder');
+        $this->error ??= trans('ts-ui::messages.upload.error');
     }
 
     /** @throws Exception */
@@ -51,7 +51,7 @@ class Component extends TallStackUiComponent implements Customization
 
     public function blade(): View
     {
-        return view()->file(__DIR__.'/view.blade.php');
+        return view('ts-ui::components.form.upload');
     }
 
     public function customization(): array

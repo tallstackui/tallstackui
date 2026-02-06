@@ -8,10 +8,10 @@ use Illuminate\View\ComponentSlot;
 use InvalidArgumentException;
 use TallStackUi\Attributes\PassThroughRuntime;
 use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Components\Traits\FormDefaultInputClasses;
 use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\Support\Runtime\Components\TextareaRuntime;
 use TallStackUi\TallStackUiComponent;
-use TallStackUi\Components\Traits\FormDefaultInputClasses;
 
 #[SoftCustomization('form.textarea')]
 #[PassThroughRuntime(TextareaRuntime::class)]
@@ -32,7 +32,7 @@ class Component extends TallStackUiComponent implements Customization
 
     public function blade(): View
     {
-        return view()->file(__DIR__.'/view.blade.php');
+        return view('ts-ui::components.form.textarea');
     }
 
     public function customization(): array

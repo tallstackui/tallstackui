@@ -13,9 +13,10 @@
     @if ($left)
         {{ $left }}
     @endif
-    {{ __('tallstack-ui::messages.environment.environment') }}: {{ str(app()->environment())->title() }}
+    {{ __('ts-ui::messages.environment.environment') }}: {{ str(app()->environment())->title() }}
     @if ($branch)
-        ({{ __('tallstack-ui::messages.environment.branch') }}: <x-tallstack-ui::icon.generic.fork class="w-4 h-4" /> {{ $branch }})
+        ({{ __('ts-ui::messages.environment.branch') }}:
+        <x-ts-ui::icon.generic.fork class="w-4 h-4" /> {{ $branch }})
     @endif
     @if ($right)
         {{ $right }}

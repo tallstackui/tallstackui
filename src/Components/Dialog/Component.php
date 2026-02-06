@@ -17,7 +17,7 @@ class Component extends TallStackUiComponent implements Customization
 {
     public function blade(): View
     {
-        return view()->file(__DIR__.'/view.blade.php');
+        return view('ts-ui::components.dialog');
     }
 
     public function customization(): array
@@ -55,9 +55,9 @@ class Component extends TallStackUiComponent implements Customization
     /** @throws InvalidArgumentException */
     protected function validate(): void
     {
-        $messages = trans('tallstack-ui::messages.dialog.button');
+        $messages = trans('ts-ui::messages.dialog.button');
 
-        if (! str(config('tallstackui.settings.dialog.z-index', 'z-50'))->startsWith('z-')) {
+        if (! str(config('ts-ui.settings.dialog.z-index', 'z-50'))->startsWith('z-')) {
             __ts_validation_exception($this, 'The [z-index] must start with z- prefix');
         }
 

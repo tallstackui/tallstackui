@@ -225,7 +225,7 @@ class InputTest extends BrowserTestCase
 
             public function boot(): void
             {
-                config(['tallstackui.invalidate_global' => true]);
+                config(['ts-ui.invalidate_global' => true]);
             }
 
             public function render(): string

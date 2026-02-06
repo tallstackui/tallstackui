@@ -6,11 +6,11 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use TallStackUi\Attributes\SkipDebug;
 use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Components\Floating\Component as Floating;
+use TallStackUi\Components\Traits\DropdownSharedTransitions;
 use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\Exceptions\InvalidSelectedPositionException;
 use TallStackUi\TallStackUiComponent;
-use TallStackUi\Components\Traits\DropdownSharedTransitions;
-use TallStackUi\Components\Floating\Component as Floating;
 
 #[SoftCustomization('dropdown')]
 class Component extends TallStackUiComponent implements Customization
@@ -32,7 +32,7 @@ class Component extends TallStackUiComponent implements Customization
 
     public function blade(): View
     {
-        return view()->file(__DIR__.'/view.blade.php');
+        return view('ts-ui::components.dropdown');
     }
 
     public function customization(): array

@@ -8,10 +8,10 @@ use Illuminate\View\ComponentSlot;
 use TallStackUi\Attributes\ColorsThroughOf;
 use TallStackUi\Attributes\SkipDebug;
 use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Components\Traits\ProgressSetup;
 use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\Support\Colors\Components\ProgressColors;
 use TallStackUi\TallStackUiComponent;
-use TallStackUi\Components\Traits\ProgressSetup;
 
 #[SoftCustomization('progress')]
 #[ColorsThroughOf(ProgressColors::class)]
@@ -47,7 +47,7 @@ class Component extends TallStackUiComponent implements Customization
 
     public function blade(): View
     {
-        return view()->file(__DIR__.'/view.blade.php');
+        return view('ts-ui::components.progress.bar');
     }
 
     public function customization(): array

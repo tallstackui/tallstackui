@@ -34,7 +34,7 @@ class Component extends TallStackUiComponent implements Customization
 
     public function blade(): View
     {
-        return view()->file(__DIR__.'/view.blade.php');
+        return view('ts-ui::components.modal');
     }
 
     public function customization(): array
@@ -76,7 +76,7 @@ class Component extends TallStackUiComponent implements Customization
             __ts_validation_exception($this, 'The [wire] property cannot be an empty string');
         }
 
-        $configuration = collect(config('tallstackui.settings.modal'));
+        $configuration = collect(config('ts-ui.settings.modal'));
         $sizes = ['sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl', '5xl', '6xl', '7xl', 'full'];
 
         if (! in_array($this->size ?? $configuration->get('size', '2xl'), $sizes)) {

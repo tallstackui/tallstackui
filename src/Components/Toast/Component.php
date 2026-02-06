@@ -17,7 +17,7 @@ class Component extends TallStackUiComponent implements Customization
 {
     public function blade(): View
     {
-        return view()->file(__DIR__.'/view.blade.php');
+        return view('ts-ui::components.toast');
     }
 
     public function customization(): array
@@ -65,9 +65,9 @@ class Component extends TallStackUiComponent implements Customization
     /** @throws InvalidArgumentException */
     protected function validate(): void
     {
-        $configuration = collect(config('tallstackui.settings.toast'));
+        $configuration = collect(config('ts-ui.settings.toast'));
         $positions = ['top-right', 'top-left', 'bottom-right', 'bottom-left'];
-        $messages = trans('tallstack-ui::messages.toast.button');
+        $messages = trans('ts-ui::messages.toast.button');
 
         if (! in_array($configuration->get('position', 'top-right'), $positions)) {
             __ts_validation_exception($this, 'The [position] must be one of the following: ['.implode(', ', $positions).']');

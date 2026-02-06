@@ -8,10 +8,10 @@ use InvalidArgumentException;
 use TallStackUi\Attributes\PassThroughRuntime;
 use TallStackUi\Attributes\SkipDebug;
 use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Components\Traits\FormDefaultInputClasses;
 use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\Support\Runtime\Components\ClipboardRuntime;
 use TallStackUi\TallStackUiComponent;
-use TallStackUi\Components\Traits\FormDefaultInputClasses;
 
 #[SoftCustomization('clipboard')]
 #[PassThroughRuntime(ClipboardRuntime::class)]
@@ -32,7 +32,7 @@ class Component extends TallStackUiComponent implements Customization
         #[SkipDebug]
         public ?string $type = null,
     ) {
-        $this->placeholders = trans('tallstack-ui::messages.clipboard');
+        $this->placeholders = trans('ts-ui::messages.clipboard');
 
         $this->type = $this->icon ? 'icon' : 'input';
 
@@ -42,7 +42,7 @@ class Component extends TallStackUiComponent implements Customization
 
     public function blade(): View
     {
-        return view()->file(__DIR__.'/view.blade.php');
+        return view('ts-ui::components.clipboard');
     }
 
     public function customization(): array
@@ -90,7 +90,7 @@ class Component extends TallStackUiComponent implements Customization
     /** @throws InvalidArgumentException */
     protected function validate(): void
     {
-        $messages = trans('tallstack-ui::messages.clipboard');
+        $messages = trans('ts-ui::messages.clipboard');
 
         if (blank(data_get($messages, 'button.copy'))) {
             __ts_validation_exception($this, 'The [button.copy] message cannot be empty.');
