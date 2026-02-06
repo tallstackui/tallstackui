@@ -23,7 +23,7 @@ class Component extends TallStackUiComponent implements Customization
 
     public function blade(): View
     {
-        return view('ts-ui::components.layout');
+        return view('ts-ui::components.layout.main');
     }
 
     public function customization(): array
