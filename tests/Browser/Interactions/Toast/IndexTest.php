@@ -298,14 +298,14 @@ class IndexTest extends BrowserTestCase
                     ->success('Foo!')
                     ->hook([
                         'close' => [
-                            'method' => 'hook',
+                            'method' => 'closed',
                             'params' => 'close',
                         ],
                     ])
                     ->send();
             }
 
-            public function hook(string $term): void
+            public function closed(string $term): void
             {
                 $this->close = $term;
             }
@@ -396,14 +396,14 @@ class IndexTest extends BrowserTestCase
                     ->timeout(1)
                     ->hook([
                         'timeout' => [
-                            'method' => 'hook',
+                            'method' => 'hooked',
                             'params' => 'timeout',
                         ],
                     ])
                     ->send();
             }
 
-            public function hook(string $term): void
+            public function hooked(string $term): void
             {
                 $this->timeout = $term;
             }

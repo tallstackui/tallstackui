@@ -353,6 +353,8 @@ class NumberTest extends BrowserTestCase
     #[Test]
     public function can_input_decimal_with_comma_on_mobile(): void
     {
+        $this->skipOnGitHubActions('This test only works locally.');
+
         Livewire::visit(new class extends Component
         {
             public float $quantity = 0.0;
