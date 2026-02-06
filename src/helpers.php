@@ -9,23 +9,25 @@ use TallStackUi\TallStackUiComponent;
 
 if (! function_exists('__ts_get_component_configuration')) {
     /**
-     * Get the component configuration from the new config file format.
+     * Get the component configuration from the config file.
      *
      * @internal This function should not be used outside the package.
      */
-    function __ts_get_component_configuration(string $component, ?string $key = null, ?bool $array = false): array|Collection|null
+    function __ts_get_component_configuration(string $component, ?string $key = null): mixed
     {
-        $configuration = (array) collect(config('tallstackui.components'))
-            ->filter(fn (string|array $configuration) => $configuration === $component || in_array($component, (array) $configuration))
-            ->first()[1] ?? null;
+        static $map = null;
 
-        if ($array) {
-            return $key ? data_get($configuration, $key) : $configuration;
+        if ($map === null) {
+            $components = config('tallstackui.components');
+            $arrays = array_filter($components, 'is_array');
+            $map = array_combine(array_column($arrays, 0), array_column($arrays, 1));
         }
 
-        $collect = collect($configuration);
+        if ($key !== null) {
+            return $map[$component][$key] ?? null;
+        }
 
-        return $key ? collect(data_get($collect, $key)) : $collect;
+        return $map[$component] ?? null;
     }
 }
 

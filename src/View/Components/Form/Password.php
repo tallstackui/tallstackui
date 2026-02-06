@@ -50,10 +50,10 @@ class Password extends TallStackUiComponent implements Customization
                 $rescued = rescue(fn () => explode(':', $value)[1], report: false);
 
                 return match (true) {
-                    str_contains($value, 'min') => ['min' => $rescued ?? $default->get('min', 8)],
+                    str_contains($value, 'min') => ['min' => $rescued ?? $default['min'] ?? 8],
                     str_contains($value, 'numbers') => ['numbers' => true],
                     str_contains($value, 'mixed') => ['mixed' => true],
-                    str_contains($value, 'symbols') => ['symbols' => $rescued ?? $default->get('symbols', '!@#$%^&*()_+-=')],
+                    str_contains($value, 'symbols') => ['symbols' => $rescued ?? $default['symbols'] ?? '!@#$%^&*()_+-='],
                     default => [$key => $value],
                 };
             });

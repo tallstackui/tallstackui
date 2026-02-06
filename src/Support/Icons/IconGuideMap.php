@@ -3,7 +3,6 @@
 namespace TallStackUi\Support\Icons;
 
 use Exception;
-use Illuminate\Support\Collection;
 use Illuminate\View\Component;
 use TallStackUi\View\Components\Icon;
 
@@ -12,7 +11,7 @@ class IconGuideMap
     /**
      * The icon configuration.
      */
-    protected static Collection $configuration;
+    protected static array $configuration;
 
     /**
      * Determine if the icon is custom.
@@ -33,8 +32,8 @@ class IconGuideMap
     {
         self::configuration();
 
-        $type = self::$configuration->get('type');
-        $style = self::$configuration->get('style');
+        $type = self::$configuration['type'];
+        $style = self::$configuration['style'];
 
         foreach (array_keys($component->attributes->getAttributes()) as $attribute) {
             if (self::$custom || ! in_array($attribute, self::$guide::styles($type))) {
@@ -58,12 +57,12 @@ class IconGuideMap
         if (
             self::$custom &&
             $component->internal && // @phpstan-ignore-line
-            collect(self::$configuration->get('custom')['guide'])
+            collect(self::$configuration['custom']['guide'])
                 ->filter()
                 ->keys()
                 ->contains($name)
         ) {
-            return $format(self::$configuration->get('custom')['guide'][$format($name)]);
+            return $format(self::$configuration['custom']['guide'][$format($name)]);
             // Otherwise, if it is customized and not internal, then it is a custom icon
             // that is not mapped, for manual use purposes, so the dot sign is strategic.
         } elseif (self::$custom && str_contains($name, '.')) {
@@ -88,7 +87,7 @@ class IconGuideMap
             return $key;
         }
 
-        return self::$configuration->get('custom')['guide'][$key] ?? self::$guide::get('heroicons', $key) ?? $key;
+        return self::$configuration['custom']['guide'][$key] ?? self::$guide::get('heroicons', $key) ?? $key;
     }
 
     /**
@@ -100,6 +99,6 @@ class IconGuideMap
 
         self::$configuration = __ts_get_component_configuration(Icon::class);
 
-        self::$custom = str_contains((string) self::$configuration->get('type'), '/blade-') && self::$configuration->get('custom') !== null;
+        self::$custom = str_contains((string) self::$configuration['type'], '/blade-') && self::$configuration['custom'] !== null;
     }
 }

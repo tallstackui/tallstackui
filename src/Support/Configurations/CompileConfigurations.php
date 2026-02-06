@@ -41,9 +41,7 @@ class CompileConfigurations
         // config file and make a direct mapping, so there is no need
         // to create a method for each component.
         if (is_string($data)) {
-            $data = __ts_get_component_configuration($data)
-                ->mapWithKeys(fn (string|bool|array $value, string $key) => [$key => $value])
-                ->toArray();
+            $data = __ts_get_component_configuration($data);
         }
 
         return $data;
@@ -58,7 +56,7 @@ class CompileConfigurations
     {
         $configuration = __ts_get_component_configuration(Color::class);
 
-        $component->colors ??= $configuration->get('colors') ?? [];
+        $component->colors ??= $configuration['colors'] ?? [];
 
         return collect($component)->only('colors')->toArray();
     }
@@ -70,10 +68,10 @@ class CompileConfigurations
     {
         $configuration = __ts_get_component_configuration(Loading::class);
 
-        $component->zIndex ??= $configuration->get('z-index', 'z-50');
-        $component->overflow ??= $configuration->get('overflow', false);
-        $component->blur ??= $configuration->get('blur', false);
-        $component->opacity ??= $configuration->get('opacity', true);
+        $component->zIndex ??= $configuration['z-index'] ?? 'z-50';
+        $component->overflow ??= $configuration['overflow'] ?? false;
+        $component->blur ??= $configuration['blur'] ?? false;
+        $component->opacity ??= $configuration['opacity'] ?? true;
 
         return collect($component)
             ->only(['zIndex', 'overflow', 'blur', 'opacity'])
@@ -87,13 +85,13 @@ class CompileConfigurations
     {
         $configuration = __ts_get_component_configuration(Modal::class);
 
-        $component->zIndex ??= $configuration->get('z-index', 'z-50');
-        $component->overflow ??= $configuration->get('overflow', false);
-        $component->size ??= $configuration->get('size', '2xl');
-        $component->blur ??= $configuration->get('blur', false);
-        $component->persistent ??= $configuration->get('persistent', false);
-        $component->center ??= $configuration->get('center', false);
-        $component->scrollable ??= $configuration->get('scrollable', false);
+        $component->zIndex ??= $configuration['z-index'] ?? 'z-50';
+        $component->overflow ??= $configuration['overflow'] ?? false;
+        $component->size ??= $configuration['size'] ?? '2xl';
+        $component->blur ??= $configuration['blur'] ?? false;
+        $component->persistent ??= $configuration['persistent'] ?? false;
+        $component->center ??= $configuration['center'] ?? false;
+        $component->scrollable ??= $configuration['scrollable'] ?? false;
 
         $component->size = match ($component->size) {
             'sm' => 'sm:max-w-sm',
@@ -110,7 +108,7 @@ class CompileConfigurations
         };
 
         return collect($component)
-            ->only([ // @phpstan-ignore-line
+            ->only([
                 'zIndex',
                 'overflow',
                 'size',
@@ -120,7 +118,7 @@ class CompileConfigurations
                 'scrollable',
                 'scrollbar',
             ])
-            ->merge(['scrollbar' => $configuration->get('scrollbar')]) // @phpstan-ignore-line
+            ->merge(['scrollbar' => $configuration['scrollbar'] ?? null])
             ->toArray();
     }
 
@@ -128,7 +126,7 @@ class CompileConfigurations
     {
         $configuration = __ts_get_component_configuration(Styled::class);
 
-        $component->unfiltered ??= $configuration->get('unfiltered', false);
+        $component->unfiltered ??= $configuration['unfiltered'] ?? false;
 
         return collect($component)
             ->only('unfiltered')
@@ -142,14 +140,14 @@ class CompileConfigurations
     {
         $configuration = __ts_get_component_configuration(Slide::class);
 
-        $component->zIndex ??= $configuration->get('z-index', 'z-50');
-        $component->overflow ??= $configuration->get('overflow', false);
-        $component->size ??= $configuration->get('size', 'lg');
-        $component->blur ??= $configuration->get('blur', false);
-        $component->persistent ??= $configuration->get('persistent', false);
-        $component->left ??= $configuration->get('position', 'right') === 'left';
-        $component->top ??= $configuration->get('position', 'right') === 'top';
-        $component->bottom ??= $configuration->get('position', 'right') === 'bottom';
+        $component->zIndex ??= $configuration['z-index'] ?? 'z-50';
+        $component->overflow ??= $configuration['overflow'] ?? false;
+        $component->size ??= $configuration['size'] ?? 'lg';
+        $component->blur ??= $configuration['blur'] ?? false;
+        $component->persistent ??= $configuration['persistent'] ?? false;
+        $component->left ??= ($configuration['position'] ?? 'right') === 'left';
+        $component->top ??= ($configuration['position'] ?? 'right') === 'top';
+        $component->bottom ??= ($configuration['position'] ?? 'right') === 'bottom';
 
         $component->size = match ($component->size) {
             'sm' => $component->bottom || $component->top ? 'h-[24rem] sm:max-h-[12rem]' : 'sm:max-w-sm',
