@@ -11,7 +11,7 @@ use TallStackUi\TallStackUiComponent;
 #[SoftCustomization('tab')]
 class Component extends TallStackUiComponent implements Customization
 {
-    public function __construct(public ?string $selected = null, public ?bool $scrollOnMobile = null)
+    public function __construct(public ?string $selected = null, public ?bool $scrollOnMobile = null, public ?bool $centered = null)
     {
         //
     }

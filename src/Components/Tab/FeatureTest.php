@@ -18,6 +18,22 @@ it('can render', function () {
         ->toContain('Foo', 'Bar');
 });
 
+it('can render centered', function () {
+    $component = <<<'HTML'
+    <x-tab selected="A" centered>
+        <x-tab.items tab="A">
+            Foo
+        </x-tab.items>
+        <x-tab.items tab="B">
+            Bar
+        </x-tab.items>
+    </x-tab>
+    HTML;
+
+    expect($component)->render()
+        ->toContain('justify-center');
+});
+
 it('can render with title', function () {
     $component = <<<'HTML'
     <x-tab selected="A">

@@ -13,7 +13,7 @@
         </select>
     </div>
     @endif
-    <ul role="tablist" @class([$personalize['base.body'], 'hidden sm:flex' => ! $scrollOnMobile]) {{ $attributes->only('x-on:navigate') }} x-ref="ul">
+    <ul role="tablist" @class([$personalize['base.body'], 'hidden sm:flex' => ! $scrollOnMobile, 'justify-center' => $centered]) {{ $attributes->only('x-on:navigate') }} x-ref="ul">
         <template x-for="item in tabs">
             <li role="tab"
                 tabindex="0"
