@@ -27,7 +27,7 @@ class Component extends TallStackUiComponent implements Customization
 
     public function blade(): View
     {
-        return view('ts-ui::components.side-bar.separator');
+        return view('ts-ui::components.layout.sidebar.separator');
     }
 
     public function customization(): array

@@ -3,8 +3,8 @@
 namespace TallStackUi\Components\Traits;
 
 use Illuminate\View\ComponentAttributeBag;
-use TallStackUi\Components\Button\Normal\Component as Button;
 use TallStackUi\Components\Button\Circle\Component as Circle;
+use TallStackUi\Components\Button\Normal\Component as Button;
 
 trait ButtonSetup
 {

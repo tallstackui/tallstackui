@@ -1,5 +1,7 @@
 <?php
 
+use TallStackUi\Components;
+
 return [
     /*
     |--------------------------------------------------------------------------
@@ -73,8 +75,8 @@ return [
         |----------------------------------------------------------------------
         */
         'ignore' => [
-            // \TallStackUi\Components\Alert\Component::class,
-            // \TallStackUi\Components\Avatar\Component::class
+            // Components\Alert\Component::class,
+            // Components\Avatar\Component::class
         ],
     ],
 
@@ -86,18 +88,18 @@ return [
     | List of all TallStackUI components.
     */
     'components' => [
-        'alert' => \TallStackUi\Components\Alert\Component::class,
-        'avatar' => \TallStackUi\Components\Avatar\Component::class,
-        'badge' => \TallStackUi\Components\Badge\Component::class,
-        'banner' => \TallStackUi\Components\Banner\Component::class,
-        'boolean' => \TallStackUi\Components\Boolean\Component::class,
-        'button' => \TallStackUi\Components\Button\Normal\Component::class,
-        'button.circle' => \TallStackUi\Components\Button\Circle\Component::class,
-        'carousel' => \TallStackUi\Components\Carousel\Component::class,
-        'card' => \TallStackUi\Components\Card\Component::class,
-        'checkbox' => \TallStackUi\Components\Form\Checkbox\Component::class,
+        'alert' => Components\Alert\Component::class,
+        'avatar' => Components\Avatar\Component::class,
+        'badge' => Components\Badge\Component::class,
+        'banner' => Components\Banner\Component::class,
+        'boolean' => Components\Boolean\Component::class,
+        'button' => Components\Button\Normal\Component::class,
+        'button.circle' => Components\Button\Circle\Component::class,
+        'carousel' => Components\Carousel\Component::class,
+        'card' => Components\Card\Component::class,
+        'checkbox' => Components\Form\Checkbox\Component::class,
         'color' => [
-            \TallStackUi\Components\Form\Color\Component::class,
+            Components\Form\Color\Component::class,
             /*
             |----------------------------------------------------------------------
             | Color Settings
@@ -108,11 +110,11 @@ return [
                 'custom' => [],
             ],
         ],
-        'clipboard' => \TallStackUi\Components\Clipboard\Component::class,
-        'currency' => \TallStackUi\Components\Form\Currency\Component::class,
-        'date' => \TallStackUi\Components\Form\Date\Component::class,
+        'clipboard' => Components\Clipboard\Component::class,
+        'currency' => Components\Form\Currency\Component::class,
+        'date' => Components\Form\Date\Component::class,
         'dialog' => [
-            \TallStackUi\Components\Dialog\Component::class,
+            Components\Dialog\Component::class,
             /*
             |----------------------------------------------------------------------
             | Dialog Settings
@@ -129,16 +131,16 @@ return [
                 'persistent' => false,
             ],
         ],
-        'dropdown' => \TallStackUi\Components\Dropdown\Main\Component::class,
-        'dropdown.items' => \TallStackUi\Components\Dropdown\Items\Component::class,
-        'dropdown.submenu' => \TallStackUi\Components\Dropdown\Submenu\Component::class,
-        'environment' => \TallStackUi\Components\Environment\Component::class,
-        'error' => \TallStackUi\Components\Form\Error\Component::class,
-        'errors' => \TallStackUi\Components\Errors\Component::class,
-        'floating' => \TallStackUi\Components\Floating\Component::class,
-        'hint' => \TallStackUi\Components\Form\Hint\Component::class,
+        'dropdown' => Components\Dropdown\Main\Component::class,
+        'dropdown.items' => Components\Dropdown\Items\Component::class,
+        'dropdown.submenu' => Components\Dropdown\Submenu\Component::class,
+        'environment' => Components\Environment\Component::class,
+        'error' => Components\Form\Error\Component::class,
+        'errors' => Components\Errors\Component::class,
+        'floating' => Components\Floating\Component::class,
+        'hint' => Components\Form\Hint\Component::class,
         'icon' => [
-            \TallStackUi\Components\Icon\Component::class,
+            Components\Icon\Component::class,
             [
                 /*
                 |----------------------------------
@@ -210,10 +212,10 @@ return [
                 ],
             ],
         ],
-        'input' => \TallStackUi\Components\Form\Input\Component::class,
-        'label' => \TallStackUi\Components\Form\Label\Component::class,
+        'input' => Components\Form\Input\Component::class,
+        'label' => Components\Form\Label\Component::class,
         'layout' => [
-            \TallStackUi\Components\Layout\Main\Component::class,
+            Components\Layout\Main\Component::class,
             /*
             |----------------------------------------------------------------------
             | Layout Global Settings
@@ -227,10 +229,10 @@ return [
                 'ignore' => env('TALLSTACKUI_IGNORE_LAYOUT_REGISTRATION', false),
             ],
         ],
-        'layout.header' => \TallStackUi\Components\Layout\Header\Component::class,
-        'link' => \TallStackUi\Components\Link\Component::class,
+        'layout.header' => Components\Layout\Header\Component::class,
+        'link' => Components\Link\Component::class,
         'loading' => [
-            \TallStackUi\Components\Loading\Component::class,
+            Components\Loading\Component::class,
             [
                 /*
                 |----------------------------------------------------------------------
@@ -248,9 +250,9 @@ return [
                 'opacity' => true,
             ],
         ],
-        'key-value' => \TallStackUi\Components\KeyValue\Component::class,
+        'key-value' => Components\KeyValue\Component::class,
         'modal' => [
-            \TallStackUi\Components\Modal\Component::class,
+            Components\Modal\Component::class,
             [
                 /*
                 |----------------------------------------------------------------------
@@ -276,9 +278,9 @@ return [
                 'scrollbar' => 'thin',
             ],
         ],
-        'number' => \TallStackUi\Components\Form\Number\Component::class,
+        'number' => Components\Form\Number\Component::class,
         'password' => [
-            \TallStackUi\Components\Form\Password\Component::class,
+            Components\Form\Password\Component::class,
             /*
             |----------------------------------------------------------------------
             | Password Global Settings
@@ -294,18 +296,18 @@ return [
                 ],
             ],
         ],
-        'pin' => \TallStackUi\Components\Form\Pin\Component::class,
-        'progress' => \TallStackUi\Components\Progress\Bar\Component::class,
-        'progress.circle' => \TallStackUi\Components\Progress\Circle\Component::class,
-        'radio' => \TallStackUi\Components\Form\Radio\Component::class,
-        'range' => \TallStackUi\Components\Form\Range\Component::class,
-        'rating' => \TallStackUi\Components\Rating\Component::class,
-        'side-bar' => \TallStackUi\Components\SideBar\Main\Component::class,
-        'side-bar.item' => \TallStackUi\Components\SideBar\Item\Component::class,
-        'side-bar.separator' => \TallStackUi\Components\SideBar\Separator\Component::class,
-        'select.native' => \TallStackUi\Components\Form\Select\Native\Component::class,
+        'pin' => Components\Form\Pin\Component::class,
+        'progress' => Components\Progress\Bar\Component::class,
+        'progress.circle' => Components\Progress\Circle\Component::class,
+        'radio' => Components\Form\Radio\Component::class,
+        'range' => Components\Form\Range\Component::class,
+        'rating' => Components\Rating\Component::class,
+        'side-bar' => Components\SideBar\Main\Component::class,
+        'side-bar.item' => Components\SideBar\Item\Component::class,
+        'side-bar.separator' => Components\SideBar\Separator\Component::class,
+        'select.native' => Components\Form\Select\Native\Component::class,
         'select.styled' => [
-            \TallStackUi\Components\Form\Select\Styled\Component::class,
+            Components\Form\Select\Styled\Component::class,
             [
                 /*
                 |----------------------------------------------------------------------
@@ -316,9 +318,9 @@ return [
                 'unfiltered' => false,
             ],
         ],
-        'signature' => \TallStackUi\Components\Signature\Component::class,
+        'signature' => Components\Signature\Component::class,
         'slide' => [
-            \TallStackUi\Components\Slide\Component::class,
+            Components\Slide\Component::class,
             [
                 /*
                 |----------------------------------------------------------------------
@@ -340,18 +342,18 @@ return [
                 'position' => 'right',
             ],
         ],
-        'stats' => \TallStackUi\Components\Stats\Component::class,
-        'step' => \TallStackUi\Components\Step\Main\Component::class,
-        'step.items' => \TallStackUi\Components\Step\Items\Component::class,
-        'tab' => \TallStackUi\Components\Tab\Main\Component::class,
-        'tag' => \TallStackUi\Components\Form\Tag\Component::class,
-        'table' => \TallStackUi\Components\Table\Component::class,
-        'tab.items' => \TallStackUi\Components\Tab\Items\Component::class,
-        'textarea' => \TallStackUi\Components\Form\Textarea\Component::class,
-        'theme-switch' => \TallStackUi\Components\ThemeSwitch\Component::class,
-        'time' => \TallStackUi\Components\Form\Time\Component::class,
+        'stats' => Components\Stats\Component::class,
+        'step' => Components\Step\Main\Component::class,
+        'step.items' => Components\Step\Items\Component::class,
+        'tab' => Components\Tab\Main\Component::class,
+        'tag' => Components\Form\Tag\Component::class,
+        'table' => Components\Table\Component::class,
+        'tab.items' => Components\Tab\Items\Component::class,
+        'textarea' => Components\Form\Textarea\Component::class,
+        'theme-switch' => Components\ThemeSwitch\Component::class,
+        'time' => Components\Form\Time\Component::class,
         'toast' => [
-            \TallStackUi\Components\Toast\Component::class,
+            Components\Toast\Component::class,
             [
                 /*
                 |----------------------------------------------------------------------
@@ -371,11 +373,11 @@ return [
                 'timeout' => 3,
             ],
         ],
-        'toggle' => \TallStackUi\Components\Form\Toggle\Component::class,
-        'tooltip' => \TallStackUi\Components\Tooltip\Component::class,
-        'upload' => \TallStackUi\Components\Form\Upload\Component::class,
-        'reaction' => \TallStackUi\Components\Reaction\Component::class,
-        'wrapper.input' => \TallStackUi\Components\Wrapper\Input\Component::class,
-        'wrapper.radio' => \TallStackUi\Components\Wrapper\Radio\Component::class,
+        'toggle' => Components\Form\Toggle\Component::class,
+        'tooltip' => Components\Tooltip\Component::class,
+        'upload' => Components\Form\Upload\Component::class,
+        'reaction' => Components\Reaction\Component::class,
+        'wrapper.input' => Components\Wrapper\Input\Component::class,
+        'wrapper.radio' => Components\Wrapper\Radio\Component::class,
     ],
 ];

@@ -8,10 +8,10 @@ use Illuminate\View\ComponentSlot;
 use TallStackUi\Attributes\ColorsThroughOf;
 use TallStackUi\Attributes\SkipDebug;
 use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Components\Traits\ProgressSetup;
 use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\Support\Colors\Components\ProgressColors;
 use TallStackUi\TallStackUiComponent;
-use TallStackUi\Components\Traits\ProgressSetup;
 
 #[SoftCustomization('progress.circle')]
 #[ColorsThroughOf(ProgressColors::class)]
