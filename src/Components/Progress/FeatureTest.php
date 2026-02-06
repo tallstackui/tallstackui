@@ -43,7 +43,7 @@ it('can render with colors', function (string $colors) {
         ->render()
         ->toContain('35%')
         ->toContain($color);
-})->with('colors');
+})->with(colorsDataset());
 
 it('can render simple variation')
     ->expect('<x-progress percent="35" simple />')

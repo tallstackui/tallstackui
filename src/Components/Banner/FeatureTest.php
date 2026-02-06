@@ -38,7 +38,7 @@ it('can render with colors', function (string $colors) {
 
     expect($component)->render()
         ->toContain('Foo bar');
-})->with('colors');
+})->with(colorsDataset());
 
 it('can render with multiple text as array', function () {
     $component = <<<'HTML'

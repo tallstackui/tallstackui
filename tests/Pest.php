@@ -112,33 +112,36 @@ dataset('customization.components', [
     TallStackUi\Components\Wrapper\Radio\Component::class,
 ]);
 
-dataset('colors', [
-    'primary',
-    'secondary',
-    'black',
-    'slate',
-    'gray',
-    'zinc',
-    'neutral',
-    'stone',
-    'red',
-    'orange',
-    'amber',
-    'yellow',
-    'lime',
-    'green',
-    'emerald',
-    'teal',
-    'cyan',
-    'sky',
-    'blue',
-    'indigo',
-    'violet',
-    'purple',
-    'fuchsia',
-    'pink',
-    'rose',
-]);
+function colorsDataset(): array
+{
+    return [
+        'primary',
+        'secondary',
+        'black',
+        'slate',
+        'gray',
+        'zinc',
+        'neutral',
+        'stone',
+        'red',
+        'orange',
+        'amber',
+        'yellow',
+        'lime',
+        'green',
+        'emerald',
+        'teal',
+        'cyan',
+        'sky',
+        'blue',
+        'indigo',
+        'violet',
+        'purple',
+        'fuchsia',
+        'pink',
+        'rose',
+    ];
+}
 
 expect()->extend('render', function (array $data = []): Expectation {
     /** @var Expectation $this */

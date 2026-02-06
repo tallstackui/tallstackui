@@ -54,4 +54,4 @@ it('can render with colors', function (string $colors) {
     expect($component)->render()
         ->toContain('<input')
         ->toContain($colors);
-})->with('colors');
+})->with(colorsDataset());

@@ -75,4 +75,4 @@ it('can render colored', function (string $colors) {
 
     expect($component)->render()
         ->toContain($color);
-})->with('colors');
+})->with(colorsDataset());

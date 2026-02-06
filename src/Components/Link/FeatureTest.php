@@ -90,7 +90,7 @@ it('can render with color', function (string $colors) {
     expect($component)->render()
         ->toContain('<a href="https://google.com.br"')
         ->toContain($color);
-})->with('colors');
+})->with(colorsDataset());
 
 it('can render without color', function () {
     $component = <<<'HTML'

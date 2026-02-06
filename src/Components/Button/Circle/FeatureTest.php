@@ -47,7 +47,7 @@ it('can render colored', function (string $colors) {
 
     expect($component)->render()
         ->toContain($color);
-})->with('colors');
+})->with(colorsDataset());
 
 it('can render lg', function () {
     expect('<x-button.circle text="LG" color="primary" lg />')->render()

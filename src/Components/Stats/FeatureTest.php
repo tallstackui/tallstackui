@@ -140,4 +140,4 @@ it('can render with colors', function (string $colors) {
         ->render()
         ->toContain('333')
         ->toContain('FooBarBaz');
-})->with('colors');
+})->with(colorsDataset());
