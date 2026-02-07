@@ -9,6 +9,9 @@ use TallStackUi\TallStackUiComponent;
 
 class ReflectComponent
 {
+    /** @var array<string, array{reflection?: ReflectionClass, parent?: ReflectionClass}> */
+    private static array $cache = [];
+
     public function __construct(private readonly string $component)
     {
         //
@@ -41,20 +44,24 @@ class ReflectComponent
      */
     public function parent(): bool|ReflectionClass
     {
-        $class = new ReflectionClass($this->component);
+        if (isset(self::$cache[$this->component]['parent'])) {
+            return self::$cache[$this->component]['parent'];
+        }
+
+        $class = $this->reflection();
         $parent = $class->getParentClass();
 
         // If the parent isn't the BaseComponent, then a deep personalization is happening.
-        return $parent->name !== TallStackUiComponent::class ? $parent : $class;
+        return self::$cache[$this->component]['parent'] = $parent->name !== TallStackUiComponent::class ? $parent : $class;
     }
 
     /**
-     * Get a new ReflectionClass instance.
+     * Get the ReflectionClass instance, cached per component class.
      *
      * @throws ReflectionException
      */
     private function reflection(): ReflectionClass
     {
-        return new ReflectionClass($this->component);
+        return self::$cache[$this->component]['reflection'] ??= new ReflectionClass($this->component);
     }
 }
