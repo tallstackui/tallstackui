@@ -13,6 +13,46 @@ use Tests\Browser\BrowserTestCase;
 class BrowserTest extends BrowserTestCase
 {
     #[Test]
+    public function can_auto_submit_form_when_smart(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $value = null;
+
+            public bool $submitted = false;
+
+            public function save(): void
+            {
+                $this->submitted = true;
+            }
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="value">{{ $value }}</p>
+
+                    @if ($submitted)
+                        <p dusk="submitted">Submitted</p>
+                    @endif
+
+                    <form wire:submit="save">
+                        <x-pin length="1" wire:model.live="value" smart />
+                    </form>
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->clickAtXPath('/html/body/div[3]/form/div[2]/div/div/input[1]')
+            ->waitForLivewire()->type('@pin-1', '1')
+            ->waitForTextIn('@value', '1')
+            ->waitFor('@submitted')
+            ->assertVisible('@submitted')
+            ->assertSeeIn('@submitted', 'Submitted');
+    }
+
+    #[Test]
     public function can_clear(): void
     {
         Livewire::visit(new class extends Component

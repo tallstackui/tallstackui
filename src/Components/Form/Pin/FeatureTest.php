@@ -22,6 +22,11 @@ it('can render with label and hint')
     ->toContain('Foo bar')
     ->toContain('Bar baz');
 
+it('can render with smart')
+    ->expect('<x-pin length="4" smart />')
+    ->render()
+    ->toContain('true');
+
 it('cannot use the pin without length', function () {
     $this->expectException(ViewException::class);
 

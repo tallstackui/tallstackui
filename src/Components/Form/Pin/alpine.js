@@ -10,7 +10,8 @@ export default (
   livewire,
   property,
   value,
-  change = null
+  change = null,
+  smart = null
 ) => ({
   model: model,
   id: id,
@@ -25,6 +26,7 @@ export default (
   livewire: livewire,
   property: property,
   value: value,
+  smart: smart,
   init() {
     if (!this.model && this.value) {
       this.model = this.value;
@@ -256,6 +258,22 @@ export default (
       this.$refs.wrapper.dispatchEvent(
         new CustomEvent('filled', { detail: { model: this.model } })
       );
+
+      if (this.smart) {
+        this.$nextTick(() => {
+          const form = this.$refs.wrapper.closest('form');
+
+          if (!form) {
+            return;
+          }
+
+          if (typeof form.requestSubmit === 'function') {
+            form.requestSubmit();
+          } else {
+            form.submit();
+          }
+        });
+      }
     }
   },
   /**

@@ -26,6 +26,7 @@ class Component extends TallStackUiComponent implements Customization
         public ?bool $invalidate = null,
         public ?bool $numbers = null,
         public ?bool $letters = null,
+        public ?bool $smart = null,
         #[SkipDebug]
         public ?string $mask = null,
     ) {
