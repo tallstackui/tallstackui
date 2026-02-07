@@ -170,8 +170,10 @@ return [
                     |----------------------------------
                     |
                     | These icons are used internally in the components. When using custom
-                    | icons via BladeUI, you can optionally change the internal icons to custom
-                    | icons, causing this to reflect new icon looks for the internal components.
+                    | icons via BladeUI or local SVG files, you can change the internal icons
+                    | to custom icons, causing this to reflect new icon looks for the internal
+                    | components. For local SVGs, map keys to your SVG filenames. If null,
+                    | uses the key as filename (e.g., 'check-circle' → check-circle.blade.php).
                     */
                     'guide' => [
                         'arrow-path' => null,

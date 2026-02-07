@@ -10,9 +10,13 @@ if (! function_exists('__ts_get_component_configuration')) {
      *
      * @internal This function should not be used outside the package.
      */
-    function __ts_get_component_configuration(string $component, ?string $key = null): mixed
+    function __ts_get_component_configuration(string $component, ?string $key = null, bool $flush = false): mixed
     {
         static $map = null;
+
+        if ($flush) {
+            $map = null;
+        }
 
         if ($map === null) {
             $components = config('ts-ui.components');

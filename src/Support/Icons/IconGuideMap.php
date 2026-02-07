@@ -24,6 +24,11 @@ class IconGuideMap
     protected static IconGuide $guide;
 
     /**
+     * Determine if the icon type is a local SVG path.
+     */
+    protected static bool $local = false;
+
+    /**
      * Build the icon.
      *
      * @throws Exception
@@ -36,7 +41,7 @@ class IconGuideMap
         $style = self::$configuration['style'];
 
         foreach (array_keys($component->attributes->getAttributes()) as $attribute) {
-            if (self::$custom || ! in_array($attribute, self::$guide::styles($type))) {
+            if (self::$custom || self::$local || ! in_array($attribute, self::$guide::styles($type))) {
                 continue;
             }
 
@@ -47,6 +52,25 @@ class IconGuideMap
         }
 
         $name = $component->icon ?? $component->name; // @phpstan-ignore-line
+
+        // When using local SVG icons, we resolve the icon name from the
+        // configured path, extracting the Blade component namespace from
+        // it. For internal icons, the guide mapping is checked first.
+        if (self::$local) {
+            $namespace = str_replace(['views/components/', '/'], ['', '.'], $type);
+
+            if (
+                $component->internal && // @phpstan-ignore-line
+                collect(self::$configuration['custom']['guide'])
+                    ->filter()
+                    ->keys()
+                    ->contains($name)
+            ) {
+                return $namespace.'.'.self::$configuration['custom']['guide'][$name];
+            }
+
+            return $namespace.'.'.$name;
+        }
 
         $format = fn (?string $name) => str_replace('.', '-', $name);
 
@@ -83,7 +107,7 @@ class IconGuideMap
     {
         self::configuration();
 
-        if (self::$custom) {
+        if (self::$custom || self::$local) {
             return $key;
         }
 
@@ -99,6 +123,9 @@ class IconGuideMap
 
         self::$configuration = __ts_get_component_configuration(Icon::class);
 
-        self::$custom = str_contains((string) self::$configuration['type'], '/blade-') && self::$configuration['custom'] !== null;
+        $type = (string) self::$configuration['type'];
+
+        self::$custom = str_contains($type, '/blade-') && self::$configuration['custom'] !== null;
+        self::$local = ! in_array($type, ['heroicons', 'hero']) && ! self::$custom;
     }
 }
