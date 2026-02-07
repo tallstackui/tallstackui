@@ -30,7 +30,7 @@ trait ManagesClasses
         // The idea of this approach is to get the parent component. Since the component can
         // be personalized by the "deep" method, we need ReflectionApi to determine which
         // component is the parent to get its SoftPersonalization attribute. This way, all
-        // personalization continues to work even when "deep" personalization is in effect.
+        // customization continues to work even when "deep" customization is in effect.
         $reflection = new ReflectComponent(static::class);
 
         $attribute = $reflection->attribute(SoftCustomization::class);
@@ -58,7 +58,7 @@ trait ManagesClasses
                 $scoped = app()->get($scopeKey)->toArray();
 
                 if (filled($scoped)) {
-                    // Starting from v2, scope personalization creates a multidimensional array,
+                    // Starting from v2, scope customization creates a multidimensional array,
                     // where the key is the scope name. Therefore, we need to get the scope name.
                     $scoped = Arr::dot(data_get($scoped, $scope, $scoped));
                 }
@@ -69,12 +69,12 @@ trait ManagesClasses
 
         // Here we do a second merge, now with the original classes and the result
         // of the previous operation that will use the scope smooth prioritization
-        // and personalization settings. This is extremely necessary for cases where
+        // and customization settings. This is extremely necessary for cases where
         // $merge does not contain all the necessary keys in use by the component.
-        $classes = Arr::only(array_merge($personalization = $this->customization(), $merge), array_keys($personalization));
+        $classes = Arr::only(array_merge($customization = $this->customization(), $merge), array_keys($customization));
 
         // We just pass the classes to a special hook method to allow
-        // manipulation when necessary - a good example for this is the flat button.
+        // manipulation when necessary - a good example of this is the flat button.
         if (method_exists($this, 'manipulation')) {
             $classes = $this->manipulation($classes);
         }
@@ -83,10 +83,10 @@ trait ManagesClasses
             $classes = $callback($classes);
         }
 
-        // The idea of this code is to nullable the floating.default personalization to ensure
-        // that soft personalization can customize floating globally. This way we can ensure
+        // The idea of this code is to nullable the floating.default customization to ensure
+        // that soft customization can customize floating globally. This way we can ensure
         // that we can customize floating globally while also customizing the floating of a
-        // specific component in a different way than the global personalization.
+        // specific component in a different way than the global customization.
         if (
             ! $this instanceof Floating
             && $soft === []

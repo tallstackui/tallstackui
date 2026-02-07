@@ -37,7 +37,7 @@ class CustomizationFactory implements Arrayable
     /**
      * Original customization cached to avoid redundant container resolutions.
      */
-    private array $originalCustomization = [];
+    private array $original = [];
 
     /**
      * Parts of the component customization.
@@ -93,12 +93,12 @@ class CustomizationFactory implements Arrayable
         // The idea of this code existing in the file and not in the construct
         // is to avoid an unnecessary call every time the component is rendered,
         // even if it has no customizations to be applied.
-        if ($this->originalCustomization === []) {
-            $this->originalCustomization = app($this->component)->customization();
-            $this->blocks = array_keys($this->originalCustomization);
+        if ($this->original === []) {
+            $this->original = app($this->component)->customization();
+            $this->blocks = array_keys($this->original);
         }
 
-        $this->changes = $this->originalCustomization;
+        $this->changes = $this->original;
 
         // If the $code was not set, then we
         // are interacting with the shortcuts.
