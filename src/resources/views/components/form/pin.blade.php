@@ -23,7 +23,8 @@
              @js($livewire),
              @js($property),
              @js($attributes->get('value')),
-             @js($change))"
+             @js($change),
+             @js($autoSubmit))"
          x-on:paste="pasting = true; paste($event)" x-cloak wire:ignore.self>
         <div class="{{ $personalize['wrapper'] }}" x-ref="wrapper" {{ $attributes->only(['x-on:filled', 'x-on:clear']) }}>
             @if ($prefix)

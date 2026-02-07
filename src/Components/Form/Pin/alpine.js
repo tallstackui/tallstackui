@@ -10,7 +10,8 @@ export default (
   livewire,
   property,
   value,
-  change = null
+  change = null,
+  autoSubmit = false
 ) => ({
   model: model,
   id: id,
@@ -25,6 +26,7 @@ export default (
   livewire: livewire,
   property: property,
   value: value,
+  autoSubmit: autoSubmit,
   init() {
     if (!this.model && this.value) {
       this.model = this.value;
@@ -256,6 +258,10 @@ export default (
       this.$refs.wrapper.dispatchEvent(
         new CustomEvent('filled', { detail: { model: this.model } })
       );
+
+      if (this.autoSubmit) {
+        this.$el.closest('form')?.requestSubmit();
+      }
     }
   },
   /**
