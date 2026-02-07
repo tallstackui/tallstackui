@@ -12,7 +12,7 @@ use function Laravel\Prompts\select;
 
 class SetupColorCommand extends Command
 {
-    public $description = 'Publish stubs to personalize Component colors.';
+    public $description = 'Publish stubs to customize Component colors.';
 
     public $signature = 'tallstackui:setup-color';
 
@@ -38,7 +38,7 @@ class SetupColorCommand extends Command
             $components[$name] = $name;
         }
 
-        $component = select('Select the component to personalize the colors', $components, hint: 'Only colored components are listed.');
+        $component = select('Select the component to customize the colors', $components, hint: 'Only colored components are listed.');
 
         return $this->publish($component);
     }

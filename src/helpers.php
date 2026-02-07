@@ -145,7 +145,7 @@ if (! function_exists('__ts_search_component')) {
             $flipped = array_flip(__ts_soft_customization_components());
         }
 
-        return $flipped[$component] ?? throw new Exception("Component [{$component}] is not allowed to be personalized");
+        return $flipped[$component] ?? throw new Exception("Component [{$component}] is not allowed to be customized");
     }
 }
 

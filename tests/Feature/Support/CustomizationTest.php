@@ -19,7 +19,7 @@ it('can instantiate all components', function (string $component) {
     expect(TallStackUi::customize($component)->forward())->toBeInstanceOf(CustomizationFactory::class);
 })->with('customization.keys');
 
-it('can personalize using facade and string', function () {
+it('can customize using facade and string', function () {
     expect('<x-alert title="Foo bar" />')->render()
         ->toContain('Foo bar', 'bg-primary-600');
 
@@ -31,7 +31,7 @@ it('can personalize using facade and string', function () {
         ->not->toContain('rounded-lg');
 });
 
-it('can personalize using method and string', function () {
+it('can customize using method and string', function () {
     expect('<x-alert title="Foo bar" />')->render()
         ->toContain('Foo bar', 'bg-primary-600');
 
@@ -44,7 +44,7 @@ it('can personalize using method and string', function () {
         ->not->toContain('rounded-lg');
 });
 
-it('can personalize using method and closure', function () {
+it('can customize using method and closure', function () {
     expect('<x-alert title="Foo bar" />')->render()
         ->toContain('Foo bar', 'bg-primary-600');
 
@@ -57,7 +57,7 @@ it('can personalize using method and closure', function () {
         ->not->toContain('rounded-md');
 });
 
-it('can personalize using method and array', function () {
+it('can customize using method and array', function () {
     expect('<x-alert title="Foo bar" />')->render()
         ->toContain('Foo bar', 'bg-primary-600');
 
@@ -72,7 +72,7 @@ it('can personalize using method and array', function () {
         ->not->toContain('rounded-md');
 });
 
-it('can personalize in sequence', function () {
+it('can customize in sequence', function () {
     expect('<x-alert title="Foo bar" />')->render()
         ->toContain('Foo bar', 'bg-primary-600');
 
@@ -95,7 +95,7 @@ it('can personalize in sequence', function () {
         ->not->toContain('overflow-hidden');
 });
 
-it('can personalize using append', function () {
+it('can customize using append', function () {
     expect('<x-alert title="Foo bar" />')->render()
         ->toContain('Foo bar', 'bg-primary-600')
         ->not->toContain('foo-bar-baz');
@@ -108,7 +108,7 @@ it('can personalize using append', function () {
         ->toContain('Foo bar', 'foo-bar-baz');
 });
 
-it('can personalize using prepend', function () {
+it('can customize using prepend', function () {
     expect('<x-alert title="Foo bar" />')->render()
         ->toContain('Foo bar', 'bg-primary-600')
         ->not->toContain('foo-bar-baz');
@@ -121,7 +121,7 @@ it('can personalize using prepend', function () {
         ->toContain('Foo bar', 'foo-bar-baz');
 });
 
-it('can personalize using remove', function () {
+it('can customize using remove', function () {
     expect('<x-alert title="Foo bar" />')->render()
         ->toContain('Foo bar', 'bg-primary-600', 'rounded-lg');
 
@@ -144,7 +144,7 @@ it('can personalize using remove', function () {
         ->not->toContain('rounded-md', 'p-4');
 });
 
-it('can personalize using replace', function () {
+it('can customize using replace', function () {
     expect('<x-alert title="Foo bar" />')->render()
         ->toContain('Foo bar', 'bg-primary-600', 'rounded-lg');
 
@@ -165,7 +165,7 @@ it('can personalize using replace', function () {
         ->toContain('Foo bar', 'baz-bar-foo');
 });
 
-it('can personalize chained', function () {
+it('can customize chained', function () {
     TallStackUi::customize('alert')
         ->block('text.title')
         ->replace('font-semibold', 'foo-bar-baz')
@@ -192,7 +192,7 @@ it('can personalize chained', function () {
         ->not->toContain('text-xs');
 });
 
-it('can personalize components overriding the original', function () {
+it('can customize components overriding the original', function () {
     $class = new class extends Alert {};
 
     config()->set('ts-ui.components.alert', $class);
@@ -215,7 +215,7 @@ it('can personalize components overriding the original', function () {
         ->not->toContain('flex-wrap', 'justify-between');
 });
 
-it('can personalize scoped using common - component as string', function () {
+it('can customize scoped using common - component as string', function () {
     $component = <<<'HTML'
     <x-alert title="Foo bar" />
     HTML;
@@ -234,7 +234,7 @@ it('can personalize scoped using common - component as string', function () {
         ->not->toContain('text-lg', 'font-semibold');
 });
 
-it('can personalize scoped using replace - component as string', function () {
+it('can customize scoped using replace - component as string', function () {
     $component = <<<'HTML'
     <x-alert title="Foo bar" />
     HTML;
@@ -256,7 +256,7 @@ it('can personalize scoped using replace - component as string', function () {
         ->not->toContain('text-lg', 'font-semibold');
 });
 
-it('can personalize scoped using remove - component as string', function () {
+it('can customize scoped using remove - component as string', function () {
     $component = <<<'HTML'
     <x-alert title="Foo bar" />
     HTML;
@@ -275,7 +275,7 @@ it('can personalize scoped using remove - component as string', function () {
         ->not->toContain('text-lg', 'font-semibold');
 });
 
-it('can personalize scoped using append - component as string', function () {
+it('can customize scoped using append - component as string', function () {
     $component = <<<'HTML'
     <x-alert title="Foo bar" />
     HTML;
@@ -295,7 +295,7 @@ it('can personalize scoped using append - component as string', function () {
         ->toContain('transition-all');
 });
 
-it('can personalize scoped using prepend - component as string', function () {
+it('can customize scoped using prepend - component as string', function () {
     $component = <<<'HTML'
     <x-alert title="Foo bar" />
     HTML;
@@ -315,7 +315,7 @@ it('can personalize scoped using prepend - component as string', function () {
         ->toContain('transition-all');
 });
 
-it('can personalize scoped using multiple changes - component as string', function () {
+it('can customize scoped using multiple changes - component as string', function () {
     $component = <<<'HTML'
     <x-alert title="Foo bar" />
     HTML;
@@ -345,7 +345,7 @@ it('can personalize scoped using multiple changes - component as string', functi
         ->not->toContain('font-bold', 'text-sm', 'flex-wrap');
 });
 
-it('can personalize scoped using common - component as method', function () {
+it('can customize scoped using common - component as method', function () {
     $component = <<<'HTML'
     <x-alert title="Foo bar" />
     HTML;
@@ -365,7 +365,7 @@ it('can personalize scoped using common - component as method', function () {
         ->not->toContain('text-lg', 'font-semibold');
 });
 
-it('can personalize scoped using replace - component as method', function () {
+it('can customize scoped using replace - component as method', function () {
     $component = <<<'HTML'
     <x-alert title="Foo bar" />
     HTML;
@@ -388,7 +388,7 @@ it('can personalize scoped using replace - component as method', function () {
         ->not->toContain('text-lg', 'font-semibold');
 });
 
-it('can personalize scoped using remove - component as method', function () {
+it('can customize scoped using remove - component as method', function () {
     $component = <<<'HTML'
     <x-alert title="Foo bar" />
     HTML;
@@ -408,7 +408,7 @@ it('can personalize scoped using remove - component as method', function () {
         ->not->toContain('text-lg', 'font-semibold');
 });
 
-it('can personalize scoped using append - component as method', function () {
+it('can customize scoped using append - component as method', function () {
     $component = <<<'HTML'
     <x-alert title="Foo bar" />
     HTML;
@@ -429,7 +429,7 @@ it('can personalize scoped using append - component as method', function () {
         ->toContain('transition-all');
 });
 
-it('can personalize scoped using prepend - component as method', function () {
+it('can customize scoped using prepend - component as method', function () {
     $component = <<<'HTML'
     <x-alert title="Foo bar" />
     HTML;
@@ -450,7 +450,7 @@ it('can personalize scoped using prepend - component as method', function () {
         ->toContain('transition-all');
 });
 
-it('can personalize scoped using multiple changes - component as method', function () {
+it('can customize scoped using multiple changes - component as method', function () {
     $component = <<<'HTML'
     <x-alert title="Foo bar" />
     HTML;
@@ -500,7 +500,7 @@ it('can merge scoped and soft personalization', function () {
         ->not->toContain('text-sm');
 });
 
-it('can personalize scoped multiples components - component as string', function () {
+it('can customize scoped multiples components - component as string', function () {
     $component = <<<'HTML'
     <x-alert title="Foo bar" />
     HTML;
@@ -537,7 +537,7 @@ it('can personalize scoped multiples components - component as string', function
         ->not->toContain('text-lg');
 });
 
-it('can personalize scoped multiples components - component as method', function () {
+it('can customize scoped multiples components - component as method', function () {
     $component = <<<'HTML'
     <x-alert title="Foo bar" />
     HTML;
@@ -576,7 +576,7 @@ it('can personalize scoped multiples components - component as method', function
         ->not->toContain('text-lg');
 });
 
-it('can personalize scoped multiples components sequentially', function () {
+it('can customize scoped multiples components sequentially', function () {
     TallStackUi::customize(scope: 'alert')
         ->alert()
         ->block('text.title')
@@ -660,7 +660,7 @@ it('can set the scope using method', function () {
         ->not->toContain('text-lg');
 });
 
-it('cannot personalize wrong component', function () {
+it('cannot customize wrong component', function () {
     $this->expectException(Exception::class);
 
     TallStackUi::customize()
@@ -668,7 +668,7 @@ it('cannot personalize wrong component', function () {
         ->block('base2', 'rounded-md p-4');
 });
 
-it('cannot personalize wrong block', function () {
+it('cannot customize wrong block', function () {
     $this->expectException(Exception::class);
 
     TallStackUi::customize()

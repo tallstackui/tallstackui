@@ -69,12 +69,12 @@ class Component extends TallStackUiComponent implements Customization
     final public function content(string $component): string
     {
         $collect = collect($this->icons);
-        $personalize = $this->customization();
+        $customization = $this->customization();
 
-        $buttons = $collect->map(function (string $icon, string $reaction) use ($personalize) {
+        $buttons = $collect->map(function (string $icon, string $reaction) use ($customization) {
             $method = $this->reactMethod;
             $extension = $this->animated ? 'gif' : 'png';
-            $class = $personalize['icon'];
+            $class = $customization['icon'];
 
             return <<<HTML
             <button type="button" class="cursor-pointer" x-on:click.prevent="react('$method', '$reaction')">
@@ -83,7 +83,7 @@ class Component extends TallStackUiComponent implements Customization
             HTML;
         })->implode('');
 
-        $class = $personalize['box.'.($collect->count() > 5 ? 'grid' : 'inline')];
+        $class = $customization['box.'.($collect->count() > 5 ? 'grid' : 'inline')];
 
         return <<<HTML
         <div x-data="{

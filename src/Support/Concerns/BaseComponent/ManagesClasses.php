@@ -28,7 +28,7 @@ trait ManagesClasses
         }
 
         // The idea of this approach is to get the parent component. Since the component can
-        // be personalized by the "deep" method, we need ReflectionApi to determine which
+        // be customized by the "deep" method, we need ReflectionApi to determine which
         // component is the parent to get its SoftPersonalization attribute. This way, all
         // customization continues to work even when "deep" customization is in effect.
         $reflection = new ReflectComponent(static::class);

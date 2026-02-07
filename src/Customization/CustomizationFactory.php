@@ -15,7 +15,7 @@ use RuntimeException;
 class CustomizationFactory implements Arrayable
 {
     /**
-     * Block name to be personalized.
+     * Block name to be customized.
      */
     public ?string $block = null;
 
@@ -62,7 +62,7 @@ class CustomizationFactory implements Arrayable
     }
 
     /**
-     * Personalize sequentially creating a new instance of the Personalization class.
+     * Customize sequentially creating a new instance of the Customization class.
      */
     public function and(): Customization
     {
@@ -218,7 +218,7 @@ class CustomizationFactory implements Arrayable
                 ? basename(dirname((string) $view))
                 : str_replace('ts-ui::components.', '', (string) $view);
 
-            throw new InvalidArgumentException("Component [$component] does not have the block [$block] to be personalized. Allowed: ".implode(', ', $this->blocks));
+            throw new InvalidArgumentException("Component [$component] does not have the block [$block] to be customized. Allowed: ".implode(', ', $this->blocks));
         }
 
         $this->compile($block, is_callable($code) ? $code([]) : $code);
