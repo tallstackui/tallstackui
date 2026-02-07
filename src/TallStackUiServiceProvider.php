@@ -86,6 +86,12 @@ class TallStackUiServiceProvider extends ServiceProvider
 
         $this->mergeConfigFrom(__DIR__.'/config.php', 'ts-ui');
 
+        // The config is published as 'tallstackui' but used internally as 'ts-ui'.
+        // We merge published values so user customizations take effect.
+        if ($published = config('tallstackui')) {
+            config(['ts-ui' => array_replace_recursive(config('ts-ui'), $published)]);
+        }
+
         $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
 
         $this->loadTranslationsFrom(__DIR__.'/../lang', 'ts-ui');
