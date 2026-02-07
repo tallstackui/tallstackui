@@ -45,6 +45,32 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_render_id_on_step_navigation(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-step selected="1">
+                        <x-step.items step="1" title="Foo" id="wizard-step-one">
+                            Foo bar baz
+                        </x-step.items>
+                        <x-step.items step="2" title="Bar" id="wizard-step-two">
+                            Baz bar foo
+                        </x-step.items>
+                    </x-step>
+                </div>
+                HTML;
+            }
+        })
+            ->waitFor('#wizard-step-one')
+            ->assertPresent('#wizard-step-one')
+            ->assertPresent('#wizard-step-two');
+    }
+
+    #[Test]
     public function can_render_livewire_component(): void
     {
         Livewire::component('test', new class extends Component
@@ -159,7 +185,7 @@ class BrowserTest extends BrowserTestCase
             public function render(): string
             {
                 return <<<'HTML'
-                <div>        
+                <div>
                     <x-step selected="1" helpers>
                         <x-step.items step="1" title="Foo">
                             Foo bar baz

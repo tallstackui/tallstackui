@@ -11,7 +11,8 @@ class Component extends TallStackUiComponent
         public int $step,
         public ?string $title = null,
         public ?string $description = null,
-        public ?bool $completed = false
+        public ?bool $completed = false,
+        public ?string $id = null,
     ) {
         //
     }
