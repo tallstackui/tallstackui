@@ -1,5 +1,5 @@
 @php
-    $personalize = $classes();
+    $customization = $classes();
 @endphp
 
 <div>
@@ -9,7 +9,7 @@
                          :$size
                          :$colors
                          :$withoutText
-                         :$personalize />
+                         :$customization />
     @if ($footer)
         <div>{{ $footer }}</div>
     @endif

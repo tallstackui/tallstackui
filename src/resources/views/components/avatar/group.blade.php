@@ -1,7 +1,7 @@
 @php
-    $personalize = $classes();
+    $customization = $classes();
 @endphp
 
-<div {{ $attributes->class([$personalize['wrapper']]) }}>
+<div {{ $attributes->class([$customization['wrapper']]) }}>
     {{ $slot }}
 </div>

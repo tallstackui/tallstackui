@@ -1,7 +1,7 @@
 @php
-    $personalize = $classes();
+    $customization = $classes();
 @endphp
 
-<span class="{{ $personalize['text'] }}">
+<span class="{{ $customization['text'] }}">
     {!! $hint ?? $slot !!}
 </span>

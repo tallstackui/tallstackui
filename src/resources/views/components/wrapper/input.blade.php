@@ -1,5 +1,5 @@
 @php
-    $personalize = ['wrapper' => $attributes->get('wrapper', $classes()['wrapper'])];
+    $customization = ['wrapper' => $attributes->get('wrapper', $classes()['wrapper'])];
 @endphp
 
 <div>
@@ -8,7 +8,7 @@
     @elseif ($label && is_string($label))
         <x-dynamic-component :component="TallStackUi::prefix('label')" :$id :$label :$error :$invalidate />
     @endif
-    <div @if ($attributes->get('floatable', false)) x-ref="anchor" @endif class="{{ $personalize['wrapper'] }}">
+    <div @if ($attributes->get('floatable', false)) x-ref="anchor" @endif class="{{ $customization['wrapper'] }}">
         {!! $slot !!}
     </div>
     @if ($hint && !$error)

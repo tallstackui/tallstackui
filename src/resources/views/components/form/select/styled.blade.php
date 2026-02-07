@@ -1,5 +1,5 @@
 @php
-    $personalize = $classes();
+    $customization = $classes();
 @endphp
 
 @if (!$livewire && $property)
@@ -41,47 +41,47 @@
         <button type="button"
                 x-ref="button"
                 @disabled($disabled)
-                @class([$personalize['input.wrapper.base'], $personalize['input.wrapper.color'] => !$error, $personalize['input.wrapper.error'] => $error])
+                @class([$customization['input.wrapper.base'], $customization['input.wrapper.color'] => !$error, $customization['input.wrapper.error'] => $error])
                 @if (!$disabled) x-on:click="show = !show" @endif
                 {{ $attributes->only(['x-on:select', 'x-on:remove']) }}
                 aria-haspopup="listbox"
                 :aria-expanded="show"
                 dusk="tallstackui_select_open_close">
-            <div class="{{ $personalize['input.content.wrapper.first'] }}">
-                <div class="{{ $personalize['input.content.wrapper.second'] }}">
+            <div class="{{ $customization['input.content.wrapper.first'] }}">
+                <div class="{{ $customization['input.content.wrapper.second'] }}">
                     <div x-show="multiple && quantity > 0">
                         <span x-text="quantity"></span>
                     </div>
                     <div x-show="empty || !multiple">
-                        <div class="{{ $personalize['items.placeholder.wrapper'] }}">
-                            <img x-bind:src="image" class="{{ $personalize['items.image'] }}" x-show="image" />
+                        <div class="{{ $customization['items.placeholder.wrapper'] }}">
+                            <img x-bind:src="image" class="{{ $customization['items.image'] }}" x-show="image" />
                             <span @class(['text-red-500 dark:text-red-500' => $error])
                                   x-bind:class="{
-                                    '{{ $personalize['items.placeholder.text'] }}': empty,
-                                    '{{ $personalize['items.single'] }}': !empty
+                                    '{{ $customization['items.placeholder.text'] }}': empty,
+                                    '{{ $customization['items.single'] }}': !empty
                                 }" x-text="placeholder"></span>
                         </div>
                     </div>
-                    <div wire:ignore class="{{ $personalize['items.wrapper'] }}" x-show="multiple && quantity > 0">
+                    <div wire:ignore class="{{ $customization['items.wrapper'] }}" x-show="multiple && quantity > 0">
                         <template x-for="(select, index) in selects" :key="index">
                             <a class="cursor-pointer">
-                                <div class="{{ $personalize['items.multiple.item'] }}">
-                                    <div class="{{ $personalize['items.multiple.label.wrapper'] }}">
+                                <div class="{{ $customization['items.multiple.item'] }}">
+                                    <div class="{{ $customization['items.multiple.label.wrapper'] }}">
                                         <template x-if="select.image">
                                             <img x-bind:src="select.image"
-                                                 class="{{ $personalize['items.multiple.image'] }}" />
+                                                 class="{{ $customization['items.multiple.image'] }}" />
                                         </template>
-                                        <span class="{{ $personalize['items.multiple.label'] }}"
+                                        <span class="{{ $customization['items.multiple.label'] }}"
                                               x-text="select[selectable.label] ?? select"></span>
                                     </div>
                                     @if (!$disabled)
-                                        <div class="{{ $personalize['items.multiple.icon'] }}">
+                                        <div class="{{ $customization['items.multiple.icon'] }}">
                                             <button type="button" class="cursor-pointer"
                                                     x-on:click="$event.stopPropagation(); clear(select)">
                                                 <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                                                      :icon="TallStackUi::icon('x-mark')"
                                                                      internal
-                                                                     class="{{ $personalize['items.multiple.icon'] }}" />
+                                                                     class="{{ $customization['items.multiple.icon'] }}" />
                                             </button>
                                         </div>
                                     @endif
@@ -92,7 +92,7 @@
                 </div>
             </div>
             @if (!$disabled)
-                <div class="{{ $personalize['buttons.wrapper'] }}" wire:ignore>
+                <div class="{{ $customization['buttons.wrapper'] }}" wire:ignore>
                     @if (!$required)
                         <template x-if="!empty">
                             <button dusk="tallstackui_select_clear"
@@ -103,23 +103,23 @@
                                 <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                                      :icon="TallStackUi::icon('x-mark')"
                                                      internal
-                                        @class([$personalize['buttons.size'], $personalize['buttons.base'] => !$error, $personalize['buttons.error'] => $error]) />
+                                        @class([$customization['buttons.size'], $customization['buttons.base'] => !$error, $customization['buttons.error'] => $error]) />
                             </button>
                         </template>
                     @endif
                     <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                          :icon="TallStackUi::icon('chevron-up-down')"
                                          internal
-                            @class([$personalize['buttons.size'], $personalize['buttons.base'] => !$error, $personalize['buttons.error'] => $error]) />
+                            @class([$customization['buttons.size'], $customization['buttons.base'] => !$error, $customization['buttons.error'] => $error]) />
                 </div>
             @endif
         </button>
         <x-dynamic-component :component="TallStackUi::prefix('floating')"
-                             :floating="$personalize['floating.default']"
-                             :class="$personalize['floating.class']"
+                             :floating="$customization['floating.default']"
+                             :class="$customization['floating.class']"
                              x-anchor="$refs.button">
             <template x-if="searchable">
-                <div class="{{ $personalize['box.searchable.wrapper'] }}">
+                <div class="{{ $customization['box.searchable.wrapper'] }}">
                     <x-dynamic-component :component="TallStackUi::prefix('input')"
                                          :placeholder="data_get($placeholders, 'search')"
                                          x-model.debounce.500ms="search"
@@ -127,34 +127,34 @@
                                          dusk="tallstackui_select_search_input"
                                          invalidate />
                     <button type="button"
-                            class="{{ $personalize['box.button.class'] }}"
+                            class="{{ $customization['box.button.class'] }}"
                             x-on:click="search = ''; $refs.search.focus();"
                             x-show="search?.length > 0">
                         <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                              :icon="TallStackUi::icon('x-mark')"
                                              internal
-                                             class="{{ $personalize['box.button.icon'] }}" />
+                                             class="{{ $customization['box.button.icon'] }}" />
                     </button>
                 </div>
             </template>
-            <ul class="{{ $personalize['box.list.wrapper'] }}" dusk="tallstackui_select_options" role="listbox"
+            <ul class="{{ $customization['box.list.wrapper'] }}" dusk="tallstackui_select_options" role="listbox"
                 x-ref="list">
                 @if ($request)
-                    <div x-show="loading" class="{{ $personalize['box.list.loading.wrapper'] }}">
-                        <x-ts-ui::icon.generic.loading class="{{ $personalize['box.list.loading.class'] }}" />
+                    <div x-show="loading" class="{{ $customization['box.list.loading.wrapper'] }}">
+                        <x-ts-ui::icon.generic.loading class="{{ $customization['box.list.loading.class'] }}" />
                     </div>
                 @endif
                 @if ($grouped)
                     <template x-for="(option, index) in available" :key="option.__tsui_key ?? index">
                         <li>
-                            <div class="{{ $personalize['box.list.grouped.wrapper'] }}">
-                                <div class="{{ $personalize['box.list.grouped.options'] }}">
-                                    <div class="{{ $personalize['box.list.grouped.base'] }}">
-                                        <img class="{{ $personalize['box.list.grouped.image'] }}"
+                            <div class="{{ $customization['box.list.grouped.wrapper'] }}">
+                                <div class="{{ $customization['box.list.grouped.options'] }}">
+                                    <div class="{{ $customization['box.list.grouped.base'] }}">
+                                        <img class="{{ $customization['box.list.grouped.image'] }}"
                                              x-bind:src="option.image" x-show="option.image">
-                                        <div class="{{ $personalize['box.list.grouped.description.wrapper'] }}">
+                                        <div class="{{ $customization['box.list.grouped.description.wrapper'] }}">
                                             <span x-text="option[selectable.label] ?? option"></span>
-                                            <span class="{{ $personalize['box.list.grouped.description.text'] }}"
+                                            <span class="{{ $customization['box.list.grouped.description.text'] }}"
                                                   x-show="option.description" x-text="option.description"></span>
                                         </div>
                                     </div>
@@ -163,27 +163,27 @@
                             <template x-for="(item, index) in option.value" :key="index">
                                 <li x-on:click="select(item)"
                                     x-on:keypress.enter="select(item)"
-                                    x-bind:class="{'{{ $personalize['box.list.item.selected'] }}': !common ? selected(item) : selects.includes(item), '{{ $personalize['box.list.item.disabled'] }}': item.disabled === true}"
+                                    x-bind:class="{'{{ $customization['box.list.item.selected'] }}': !common ? selected(item) : selects.includes(item), '{{ $customization['box.list.item.disabled'] }}': item.disabled === true}"
                                     role="option"
-                                    class="{{ $personalize['box.list.item.wrapper'] }}">
-                                    <div class="{{ $personalize['box.list.item.grouped'] }}">
-                                        <div class="{{ $personalize['box.list.item.base'] }}">
-                                            <img class="{{ $personalize['box.list.item.image'] }}"
+                                    class="{{ $customization['box.list.item.wrapper'] }}">
+                                    <div class="{{ $customization['box.list.item.grouped'] }}">
+                                        <div class="{{ $customization['box.list.item.base'] }}">
+                                            <img class="{{ $customization['box.list.item.image'] }}"
                                                  x-bind:src="item[selectable.image]"
                                                  x-show="item[selectable.description]">
-                                            <div class="{{ $personalize['box.list.item.description.wrapper'] }}">
+                                            <div class="{{ $customization['box.list.item.description.wrapper'] }}">
                                                 <span x-text="item[selectable.label] ?? item"></span>
-                                                <span class="{{ $personalize['box.list.item.description.text'] }}"
+                                                <span class="{{ $customization['box.list.item.description.text'] }}"
                                                       x-show="item[selectable.description]"
                                                       x-text="item[selectable.description]"></span>
                                             </div>
                                         </div>
-                                        <div class="{{ $personalize['box.list.item.check'] }}">
+                                        <div class="{{ $customization['box.list.item.check'] }}">
                                             <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                                                  :icon="TallStackUi::icon('check')"
                                                                  x-show="!common ? selected(item) : selects.includes(item)"
                                                                  internal
-                                                                 class="{{ $personalize['box.list.item.check'] }}" />
+                                                                 class="{{ $customization['box.list.item.check'] }}" />
                                         </div>
                                     </div>
                                 </li>
@@ -194,26 +194,26 @@
                     <template x-for="(option, index) in available" :key="option.__tsui_key ?? index">
                         <li x-bind:title="option[selectable.label] ?? option" x-on:click.stop="select(option)"
                             x-on:keypress.enter="select(option)"
-                            x-bind:class="{'{{ $personalize['box.list.item.selected'] }}': !common ? selected(option) : selects.includes(option), '{{ $personalize['box.list.item.disabled'] }}': option.disabled === true}"
+                            x-bind:class="{'{{ $customization['box.list.item.selected'] }}': !common ? selected(option) : selects.includes(option), '{{ $customization['box.list.item.disabled'] }}': option.disabled === true}"
                             role="option"
-                            class="{{ $personalize['box.list.item.wrapper'] }}">
-                            <div class="{{ $personalize['box.list.item.options'] }}">
-                                <div class="{{ $personalize['box.list.item.base'] }}">
-                                    <img class="{{ $personalize['box.list.item.image'] }}"
+                            class="{{ $customization['box.list.item.wrapper'] }}">
+                            <div class="{{ $customization['box.list.item.options'] }}">
+                                <div class="{{ $customization['box.list.item.base'] }}">
+                                    <img class="{{ $customization['box.list.item.image'] }}"
                                          x-bind:src="option[selectable.image]" x-show="option[selectable.image]">
-                                    <div class="{{ $personalize['box.list.item.description.wrapper'] }}">
+                                    <div class="{{ $customization['box.list.item.description.wrapper'] }}">
                                         <span x-text="option[selectable.label] ?? option"></span>
-                                        <span class="{{ $personalize['box.list.item.description.text'] }}"
+                                        <span class="{{ $customization['box.list.item.description.text'] }}"
                                               x-show="option[selectable.description]"
                                               x-text="option[selectable.description]"></span>
                                     </div>
                                 </div>
-                                <div class="{{ $personalize['box.list.item.check'] }}">
+                                <div class="{{ $customization['box.list.item.check'] }}">
                                     <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                                          :icon="TallStackUi::icon('check')"
                                                          x-show="!common ? selected(option) : selects.includes(option)"
                                                          internal
-                                                         class="{{ $personalize['box.list.item.check'] }}" />
+                                                         class="{{ $customization['box.list.item.check'] }}" />
                                 </div>
                             </div>
                         </li>
@@ -223,7 +223,7 @@
                 @if (!$after)
                     <template x-if="!loading && available.length === 0">
                         <li class="m-2">
-                            <span class="{{ $personalize['box.list.empty'] }}">
+                            <span class="{{ $customization['box.list.empty'] }}">
                                 {{ data_get($placeholders, 'empty') }}
                             </span>
                         </li>

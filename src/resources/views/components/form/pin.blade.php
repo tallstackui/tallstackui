@@ -1,5 +1,5 @@
 @php
-    $personalize = $classes();
+    $customization = $classes();
 @endphp
 
 @if ($livewire)
@@ -26,16 +26,17 @@
              @js($change),
              @js($smart))"
          x-on:paste="pasting = true; paste($event)" x-cloak wire:ignore.self>
-        <div class="{{ $personalize['wrapper'] }}" x-ref="wrapper" {{ $attributes->only(['x-on:filled', 'x-on:clear']) }}>
+        <div class="{{ $customization['wrapper'] }}"
+             x-ref="wrapper" {{ $attributes->only(['x-on:filled', 'x-on:clear']) }}>
             @if ($prefix)
                 <input type="text"
                        value="{{ $prefix }}"
                        dusk="form_pin_prefix"
                        @class([
-                            $personalize['input.size.prefix'],
-                            $personalize['input.base'],
-                            $personalize['input.color.background'],
-                            $personalize['input.color.base'],
+                            $customization['input.size.prefix'],
+                            $customization['input.base'],
+                            $customization['input.color.background'],
+                            $customization['input.color.base'],
                        ]) disabled />
             @endif
             @foreach (range(1, $length) as $index)
@@ -49,16 +50,16 @@
                            value="{{ $attributes->get('value')[$index-1] ?? '' }}"
                        @endif
                        @class([
-                            $personalize['input.size.base'],
-                            $personalize['input.base'],
-                            $personalize['input.color.background'],
+                            $customization['input.size.base'],
+                            $customization['input.base'],
+                            $customization['input.color.background'],
                        ]) x-bind:class="{
-                           '{{ $personalize['input.color.base'] }}': !error,
-                           '{{ $personalize['input.color.error'] }}': @js($invalidate ?? false) === false && error,
+                           '{{ $customization['input.color.base'] }}': !error,
+                           '{{ $customization['input.color.error'] }}': @js($invalidate ?? false) === false && error,
                        }" maxlength="1"
                        autocomplete="false"
                        @if ($numbers)
-                          inputmode="numeric"
+                           inputmode="numeric"
                        @endif
                        @required($attributes->get('required', false))
                        x-on:focus="setTimeout(() => $el.selectionStart = $el.selectionEnd = $el.value.length, 0)"
@@ -76,7 +77,7 @@
                                          :icon="TallStackUi::icon('x-circle')"
                                          solid
                                          internal
-                                         class="{{ $personalize['button'] }}" />
+                                         class="{{ $customization['button'] }}" />
                 </button>
             </template>
         </div>

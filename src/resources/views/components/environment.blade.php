@@ -1,12 +1,12 @@
 @php
-    $personalize = $classes();
+    $customization = $classes();
 @endphp
 
 <span {{ $attributes->class([
         'rounded-md' => !$round && !$square,
         'rounded-full' => $round,
-        $personalize['wrapper.class'],
-        $personalize['wrapper.sizes.' . $size],
+        $customization['wrapper.class'],
+        $customization['wrapper.sizes.' . $size],
         $colors['background'],
         $colors['text'],
     ]) }}>

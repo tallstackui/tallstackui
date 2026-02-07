@@ -1,12 +1,12 @@
 @php
-    $personalize = $classes();
+    $customization = $classes();
 @endphp
 
 @unless(blank($sentence))
-    <div class="{{ $personalize['wrapper'] }}" x-data>
+    <div class="{{ $customization['wrapper'] }}" x-data>
         <x-dynamic-component :component="$raw('ts-ui::icon.')"
                              data-position="{{ $position }}"
                              x-tooltip="{!! $sentence !!}"
-                {{ $attributes->class([$personalize['sizes.' . $size], $colors['icon']]) }} />
+                {{ $attributes->class([$customization['sizes.' . $size], $colors['icon']]) }} />
     </div>
 @endunless

@@ -1,14 +1,15 @@
 @php
-    $personalize = $classes();
+    $customization = $classes();
 @endphp
 
-<x-dynamic-component :component="TallStackUi::prefix('wrapper.input')" :$id :$property :$error :$label :$hint :$invalidate :wrapper="$personalize['input.wrapper']">
+<x-dynamic-component :component="TallStackUi::prefix('wrapper.input')" :$id :$property :$error :$label :$hint
+                     :$invalidate :wrapper="$customization['input.wrapper']">
     <input @if ($id) id="{{ $id }}" @endif
-           type="range"
+    type="range"
            {{ $attributes->class([
-                $personalize['input.base'],
-                $personalize['input.sizes.' . $size],
-                $personalize['input.disabled'] => $attributes->get('disabled') || $attributes->get('readonly'),
+                $customization['input.base'],
+                $customization['input.sizes.' . $size],
+                $customization['input.disabled'] => $attributes->get('disabled') || $attributes->get('readonly'),
                 $colors['thumb'],
             ]) }} dusk="tallstackui_form_range_input">
 </x-dynamic-component>

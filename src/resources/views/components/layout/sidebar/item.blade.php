@@ -1,5 +1,5 @@
 @php
-    $personalize = $classes();
+    $customization = $classes();
 @endphp
 
 @aware(['smart' => null, 'navigate' => null, 'navigateHover' => null, 'collapsible' => null])
@@ -9,54 +9,58 @@
         <li x-data="{ show : @js($opened ?? \Illuminate\Support\Str::contains($slot, 'ts-ui-group-opened') ?? false) }">
             <button x-on:click="show = !show"
                     type="button"
-                    class="{{ $personalize['group.button'] }}">
+                    class="{{ $customization['group.button'] }}">
                 @if ($icon instanceof \Illuminate\View\ComponentSlot)
                     {{ $icon }}
                 @elseif ($icon)
                     <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                          :icon="TallStackUi::icon($icon)"
                                          internal
-                                         class="{{ $personalize['group.icon.base'] }}" />
+                                         class="{{ $customization['group.icon.base'] }}" />
                 @endif
                 @if ($collapsible)
-                    <span x-show="($store['tsui.side-bar'].open && !$store['tsui.side-bar'].mobile) || $store['tsui.side-bar'].mobile" x-transition class="{{ $personalize['group.text'] }}">{{ $text }}</span>
+                    <span x-show="($store['tsui.side-bar'].open && !$store['tsui.side-bar'].mobile) || $store['tsui.side-bar'].mobile"
+                          x-transition class="{{ $customization['group.text'] }}">{{ $text }}</span>
                 @else
                     {{ $text }}
                 @endif
                 <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                      :icon="TallStackUi::icon('chevron-down')"
                                      internal
-                                     class="{{ $personalize['group.icon.collapse.base'] }}"
-                                     x-bind:class="{ '{{ $personalize['group.icon.collapse.rotate'] }}': show }" />
+                                     class="{{ $customization['group.icon.collapse.base'] }}"
+                                     x-bind:class="{ '{{ $customization['group.icon.collapse.rotate'] }}': show }" />
             </button>
-            <ul x-show="show" class="{{ $personalize['group.group'] }}" x-data x-ref="parent">
+            <ul x-show="show" class="{{ $customization['group.group'] }}" x-data x-ref="parent">
                 {{ $slot }}
             </ul>
         </li>
     @else
-        <li class="{{ $personalize['item.wrapper.base'] }}" x-bind:class="{ '{{ $personalize['item.wrapper.border'] }}' : $refs.parent !== undefined }">
+        <li class="{{ $customization['item.wrapper.base'] }}"
+            x-bind:class="{ '{{ $customization['item.wrapper.border'] }}' : $refs.parent !== undefined }">
             <a @if ($route || $href) href="{{ $route ?? $href }}" @endif
             @class([
-                $personalize['item.state.base'],
-                $personalize['item.state.normal'] => ! $current || (! $smart && ! $matches()),
-                \Illuminate\Support\Arr::toCssClasses(['ts-ui-group-opened', $personalize['item.state.current']]) => $current || ($smart && $matches()),
-            ]) x-bind:class="{'{{ $personalize['item.state.collapsed'] }}' : @js($collapsible) && ! $store['tsui.side-bar'].open && ! $store['tsui.side-bar'].mobile }"
-                @if ($navigate && ! $href)
-                    wire:navigate
-                @elseif ($navigateHover && ! $href)
+                $customization['item.state.base'],
+                $customization['item.state.normal'] => ! $current || (! $smart && ! $matches()),
+                \Illuminate\Support\Arr::toCssClasses(['ts-ui-group-opened', $customization['item.state.current']]) => $current || ($smart && $matches()),
+            ]) x-bind:class="{'{{ $customization['item.state.collapsed'] }}' : @js($collapsible) && ! $store['tsui.side-bar'].open && ! $store['tsui.side-bar'].mobile }"
+               @if ($navigate && ! $href)
+                   wire:navigate
+               @elseif ($navigateHover && ! $href)
                    wire:navigate.hover
-                @endif
-                {{ $attributes }}>
+                    @endif
+                    {{ $attributes }}>
                 @if ($icon instanceof \Illuminate\View\ComponentSlot)
                     {{ $icon }}
                 @elseif ($icon)
                     <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                          :icon="TallStackUi::icon($icon)"
                                          internal
-                                         class="{{ $personalize['item.icon'] }}" />
+                                         class="{{ $customization['item.icon'] }}" />
                 @endif
                 @if ($collapsible)
-                    <span x-cloak x-show="($store['tsui.side-bar'].open && !$store['tsui.side-bar'].mobile) || $store['tsui.side-bar'].mobile" x-transition class="{{ $personalize['item.text'] }}">{{ $text }}</span>
+                    <span x-cloak
+                          x-show="($store['tsui.side-bar'].open && !$store['tsui.side-bar'].mobile) || $store['tsui.side-bar'].mobile"
+                          x-transition class="{{ $customization['item.text'] }}">{{ $text }}</span>
                 @else
                     {{ $text }}
                 @endif

@@ -1,9 +1,9 @@
 @php
-    $personalize = $classes();
+    $customization = $classes();
 @endphp
 
 @error ($property)
-    <span class="{{ $personalize['text'] }}">
+<span class="{{ $customization['text'] }}">
         {{ $message }}
     </span>
 @enderror

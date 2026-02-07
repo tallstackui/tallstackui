@@ -1,8 +1,8 @@
 @php
-    $personalize = $classes();
+    $customization = $classes();
 @endphp
 
-<div @class(['relative', $personalize['sizes.circle.' . $size]])>
+<div @class(['relative', $customization['sizes.circle.' . $size]])>
     <svg class="h-full w-full"
          width="{{ $sizeCircle }}"
          height="{{ $sizeCircle }}"
@@ -12,7 +12,7 @@
                 cy="18"
                 r="{{ $sizeCircle / 2 - $strokePercent / 2 }}"
                 fill="none"
-                @class(['stroke-current', $personalize['background']])
+                @class(['stroke-current', $customization['background']])
                 stroke-width="{{ $strokeCircle }}"></circle>
         <g class="origin-center -rotate-90 transform">
             <circle cx="18"
@@ -25,10 +25,10 @@
                     stroke-dashoffset="{{ 100 - $percent }}"></circle>
         </g>
     </svg>
-    <div class="{{ $personalize['wrapper'] }}">
-        <span @class([$personalize['text'], $personalize['sizes.text.' . $size]])>{{ $percent }}%</span>
+    <div class="{{ $customization['wrapper'] }}">
+        <span @class([$customization['text'], $customization['sizes.text.' . $size]])>{{ $percent }}%</span>
     </div>
     @if ($footer)
-       <div>{{ $footer }}</div>
+        <div>{{ $footer }}</div>
     @endif
 </div>

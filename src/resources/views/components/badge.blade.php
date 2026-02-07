@@ -1,15 +1,15 @@
 @php
-    $personalize = $classes();
+    $customization = $classes();
 @endphp
 
 <span {{ $attributes->class([
-        $personalize['border.radius.rounded'] => !$round && !$square,
-        $personalize['border.radius.circle'] => $round,
-        $personalize['wrapper.class'],
-        $personalize['wrapper.sizes.' . $size],
+        $customization['border.radius.rounded'] => !$round && !$square,
+        $customization['border.radius.circle'] => $round,
+        $customization['wrapper.class'],
+        $customization['wrapper.sizes.' . $size],
         $colors['background'],
         $colors['text'],
-        $personalize['clickable'] => $attributes->hasAny(['wire:click', 'x-on:click']),
+        $customization['clickable'] => $attributes->hasAny(['wire:click', 'x-on:click']),
     ]) }}>
     @if ($left)
         {{ $left }}
@@ -17,7 +17,7 @@
         <x-dynamic-component :component="TallStackUi::prefix('icon')"
                              :$icon
                              internal
-                             @class(['mr-1' => $position === 'left', $personalize['icon'], $colors['icon']]) />
+                             @class(['mr-1' => $position === 'left', $customization['icon'], $colors['icon']]) />
     @endif
     {{ $text ?? $slot }}
     @if ($right)
@@ -26,6 +26,6 @@
         <x-dynamic-component :component="TallStackUi::prefix('icon')"
                              :$icon
                              internal
-                             @class(['ml-1' => $position === 'right', $personalize['icon'], $colors['icon']]) />
+                             @class(['ml-1' => $position === 'right', $customization['icon'], $colors['icon']]) />
     @endif
 </span>

@@ -1,5 +1,5 @@
 @php
-    $personalize = $classes();
+    $customization = $classes();
 @endphp
 
 <div>
@@ -7,13 +7,13 @@
         <x-dynamic-component :component="TallStackUi::prefix('label')" :$label :$error />
     @endif
     <select {{ $attributes->class([
-            $personalize['wrapper'],
-            $personalize['input.wrapper'],
-            $personalize['input.base'],
-            $personalize['input.color.base'] => !$error,
-            $personalize['input.color.background'] => !$attributes->get('disabled') && !$attributes->get('readonly'),
-            $personalize['input.color.disabled'] => $attributes->get('disabled') || $attributes->get('readonly'),
-            $personalize['error'] => $error
+            $customization['wrapper'],
+            $customization['input.wrapper'],
+            $customization['input.base'],
+            $customization['input.color.base'] => !$error,
+            $customization['input.color.background'] => !$attributes->get('disabled') && !$attributes->get('readonly'),
+            $customization['input.color.disabled'] => $attributes->get('disabled') || $attributes->get('readonly'),
+            $customization['error'] => $error
         ]) }}>
         @forelse ($options as $option)
             @if (!empty($selectable) && is_array($option[$selectable['value']]))
