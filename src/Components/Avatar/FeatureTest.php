@@ -43,3 +43,57 @@ it('can render image with alt')
     ->render()
     ->toContain('src="https://cdn.dribbble.com/users/17793/screenshots/16101765/media/beca221aaebf1d3ea7684ce067bc16e5.png"')
     ->toContain('alt="Beca');
+
+it('can render presence')
+    ->expect('<x-avatar text="AJ" presence />')
+    ->render()
+    ->toContain('relative inline-flex')
+    ->toContain('bg-green-500');
+
+it('cannot render presence without it')
+    ->expect('<x-avatar text="AJ" />')
+    ->render()
+    ->not
+    ->toContain('bg-green-500');
+
+it('can render presence with custom color')
+    ->expect('<x-avatar text="AJ" presence presence-color="red" />')
+    ->render()
+    ->toContain('bg-red-500');
+
+it('can render presence at right-top by default')
+    ->expect('<x-avatar text="AJ" presence />')
+    ->render()
+    ->toContain('top-0 right-0');
+
+it('can render presence at right-bottom')
+    ->expect('<x-avatar text="AJ" presence presence-position="right-bottom" />')
+    ->render()
+    ->toContain('bottom-0 right-0');
+
+it('can render presence at left-top')
+    ->expect('<x-avatar text="AJ" presence presence-position="left-top" />')
+    ->render()
+    ->toContain('top-0 left-0');
+
+it('can render presence at left-bottom')
+    ->expect('<x-avatar text="AJ" presence presence-position="left-bottom" />')
+    ->render()
+    ->toContain('bottom-0 left-0');
+
+it('can render presence with pulse')
+    ->expect('<x-avatar text="AJ" presence pulse />')
+    ->render()
+    ->toContain('animate-ping');
+
+it('cannot render presence with pulse without pulse')
+    ->expect('<x-avatar text="AJ" presence />')
+    ->render()
+    ->not
+    ->toContain('animate-ping');
+
+it('cannot use invalid presence position', function () {
+    $this->expectException(\Illuminate\View\ViewException::class);
+
+    expect('<x-avatar text="AJ" presence presence-position="center" />')->render();
+});

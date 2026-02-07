@@ -2,6 +2,7 @@
 
 namespace TallStackUi\Components\Avatar;
 
+use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
@@ -31,9 +32,15 @@ class Component extends TallStackUiComponent implements Customization
         public ?string $background = '0D8ABC',
         public ?bool $borderless = false,
         public ?array $options = [],
+        public bool|Closure $presence = false,
+        public ?string $presenceColor = 'green',
+        public ?string $presencePosition = 'right-top',
+        public bool|Closure $pulse = false,
         #[SkipDebug]
         public ?string $size = null,
     ) {
+        $this->presence = value($this->presence);
+        $this->pulse = value($this->pulse);
         $this->size = $this->xs ? 'xs' : ($this->sm ? 'sm' : ($this->lg ? 'lg' : 'md'));
     }
 
@@ -76,6 +83,24 @@ class Component extends TallStackUiComponent implements Customization
                 'base' => 'border-2',
                 'radius' => 'rounded-full',
             ],
+            'presence' => [
+                'base' => 'relative inline-flex',
+                'wrapper' => 'absolute flex',
+                'dot' => 'rounded-full ring-2 ring-white dark:ring-dark-700',
+                'ping' => 'animate-ping absolute inline-flex h-full w-full rounded-full opacity-75',
+                'sizes' => [
+                    'xs' => 'h-1.5 w-1.5',
+                    'sm' => 'h-2 w-2',
+                    'md' => 'h-3 w-3',
+                    'lg' => 'h-3.5 w-3.5',
+                ],
+                'positions' => [
+                    'right-top' => 'top-0 right-0',
+                    'right-bottom' => 'bottom-0 right-0',
+                    'left-top' => 'top-0 left-0',
+                    'left-bottom' => 'bottom-0 left-0',
+                ],
+            ],
         ]);
     }
 
@@ -94,6 +119,10 @@ class Component extends TallStackUiComponent implements Customization
     /** @throws InvalidArgumentException */
     protected function validate(): void
     {
+        if ($this->presence && ! in_array($this->presencePosition, ['right-top', 'right-bottom', 'left-top', 'left-bottom'])) {
+            __ts_validation_exception($this, 'The [presence-position] must be one of: right-top, right-bottom, left-top, left-bottom.');
+        }
+
         if (! $this->model && ! $this->text) {
             return;
         }
