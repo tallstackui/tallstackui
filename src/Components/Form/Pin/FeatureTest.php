@@ -27,3 +27,8 @@ it('cannot use the pin without length', function () {
 
     expect('<x-pin />')->render();
 });
+
+it('can render with auto submit')
+    ->expect('<x-pin length="4" auto-submit />')
+    ->render()
+    ->toContain('true');
