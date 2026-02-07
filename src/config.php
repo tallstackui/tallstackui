@@ -90,6 +90,7 @@ return [
     'components' => [
         'alert' => Components\Alert\Component::class,
         'avatar' => Components\Avatar\Component::class,
+        'avatar.group' => Components\Avatar\Group\Component::class,
         'badge' => Components\Badge\Component::class,
         'banner' => Components\Banner\Component::class,
         'boolean' => Components\Boolean\Component::class,
