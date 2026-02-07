@@ -17,10 +17,10 @@
  */
 require dirname(__DIR__).'/vendor/autoload.php';
 
+use function Laravel\Prompts\error;
 use function Laravel\Prompts\info;
 use function Laravel\Prompts\note;
 use function Laravel\Prompts\table;
-use function Laravel\Prompts\warning;
 
 $root = dirname(__DIR__);
 $componentsDir = $root.'/src/Components';
@@ -406,7 +406,7 @@ if (empty($results)) {
     exit(0);
 }
 
-warning("Found {$totalUnused} unused customization block(s).");
+error("Found {$totalUnused} unused customization block(s).");
 
 $rows = [];
 

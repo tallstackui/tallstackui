@@ -78,6 +78,9 @@ jobs:
       - name: Pint
         run: ./vendor/bin/pint --test --parallel
 
+      - name: Unused Customization Blocks
+        run: php scripts/find-unused-customization-blocks.php
+
       - name: Type Coverage
         run: ./vendor/bin/pest --type-coverage
 
