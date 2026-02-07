@@ -7,8 +7,8 @@
  * sub-views (variations), color classes, or the component PHP class itself.
  *
  * Handles:
- * - Static key access:  $personalize['exact.key']
- * - Dynamic key concat: $personalize['prefix.' . $variable]
+ * - Static key access:  $customization['exact.key']
+ * - Dynamic key concat: $customization['prefix.' . $variable]
  * - Sub-view delegation (variations directories)
  * - Color class personalization() calls
  * - Keys used directly in component PHP code
@@ -52,7 +52,7 @@ function findRelatedBladeFiles(string $mainBladePath, string $viewsDir): array
     $files = [$mainBladePath];
     $mainContent = file_get_contents($mainBladePath);
 
-    if (strpos($mainContent, ':$personalize') === false
+    if (strpos($mainContent, ':$customization') === false
         && strpos($mainContent, ':personalize=') === false) {
         return $files;
     }
@@ -243,16 +243,16 @@ function findPersonalizeUsage(string $content): array
     $staticKeys = [];
     $dynamicPrefixes = [];
 
-    // Static: $personalize['exact.key']
-    preg_match_all('/\$personalize\[[\'"]([^\'"]+)[\'"]\]/', $content, $matches);
+    // Static: $customization['exact.key']
+    preg_match_all('/\$customization\[[\'"]([^\'"]+)[\'"]\]/', $content, $matches);
     $staticKeys = $matches[1] ?? [];
 
-    // Dynamic concatenation: $personalize['prefix.' . $var]
-    preg_match_all('/\$personalize\[[\'"]([^\'"]+\.)[\'"]\\s*\\./', $content, $dynMatches);
+    // Dynamic concatenation: $customization['prefix.' . $var]
+    preg_match_all('/\$customization\[[\'"]([^\'"]+\.)[\'"]\\s*\\./', $content, $dynMatches);
     $dynamicPrefixes = array_merge($dynamicPrefixes, $dynMatches[1] ?? []);
 
-    // Dynamic concatenation: $personalize['prefix.'.expr]  (no space before dot)
-    preg_match_all('/\$personalize\[[\'"]([^\'"]+\.)[\'"]\\./', $content, $dynMatches2);
+    // Dynamic concatenation: $customization['prefix.'.expr]  (no space before dot)
+    preg_match_all('/\$customization\[[\'"]([^\'"]+\.)[\'"]\\./', $content, $dynMatches2);
     $dynamicPrefixes = array_merge($dynamicPrefixes, $dynMatches2[1] ?? []);
 
     return [
