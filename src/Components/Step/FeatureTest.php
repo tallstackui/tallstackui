@@ -33,7 +33,7 @@ it('can render with id on step items', function () {
     expect($component)->render()
         ->toContain("id: 'step-one'")
         ->toContain("id: 'step-two'")
-        ->toContain('x-bind:id="item.id"');
+        ->toContain("x-bind:id=\"item.id ? 'li-' + item.id : null\"");
 });
 
 it('can render without id on step items', function () {

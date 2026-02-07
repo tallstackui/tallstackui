@@ -1,4 +1,4 @@
-<li x-bind:id="item.id"
+<li x-bind:id="item.id ? 'li-' + item.id : null"
     class="{{ $personalize['circles.li'] }}"
     x-bind:class="{ 'cursor-pointer': navigate === true }"
     x-on:click="if (navigate === false || (previous === false && item.step < parseInt(selected))) return; selected = item.step;">

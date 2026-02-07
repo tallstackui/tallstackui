@@ -65,9 +65,12 @@ class BrowserTest extends BrowserTestCase
                 HTML;
             }
         })
-            ->waitFor('#wizard-step-one')
-            ->assertPresent('#wizard-step-one')
-            ->assertPresent('#wizard-step-two');
+            ->waitFor('#li-wizard-step-one')
+            ->assertPresent('#li-wizard-step-one')
+            ->assertPresent('#li-wizard-step-two')
+            ->waitFor('#div-wizard-step-one')
+            ->assertPresent('#div-wizard-step-one')
+            ->assertPresent('#div-wizard-step-two');
     }
 
     #[Test]
