@@ -19,16 +19,14 @@ class CompileConfigurations
     /** @throws Exception */
     public static function of(object $component): ?array
     {
-        $class = new self;
-
         /** @var string|array|null $data */
         $data = (match (true) { // @phpstan-ignore-line
-            $component instanceof Color => fn () => $class->color($component),
+            $component instanceof Color => fn () => self::color($component),
             $component instanceof Dialog => fn () => Dialog::class,
-            $component instanceof Loading => fn () => $class->loading($component),
-            $component instanceof Modal => fn () => $class->modal($component),
-            $component instanceof Styled => fn () => $class->select($component),
-            $component instanceof Slide => fn () => $class->slide($component),
+            $component instanceof Loading => fn () => self::loading($component),
+            $component instanceof Modal => fn () => self::modal($component),
+            $component instanceof Styled => fn () => self::select($component),
+            $component instanceof Slide => fn () => self::slide($component),
             $component instanceof Toast => fn () => Toast::class,
             default => fn () => null,
         })();
@@ -52,19 +50,19 @@ class CompileConfigurations
      *
      * @throws Exception
      */
-    private function color(Color $component): array
+    private static function color(Color $component): array
     {
         $configuration = __ts_get_component_configuration(Color::class);
 
         $component->colors ??= $configuration['colors'] ?? [];
 
-        return collect($component)->only('colors')->toArray();
+        return ['colors' => $component->colors];
     }
 
     /**
      * Define the Loading component configurations.
      */
-    private function loading(Loading $component): array
+    private static function loading(Loading $component): array
     {
         $configuration = __ts_get_component_configuration(Loading::class);
 
@@ -73,15 +71,18 @@ class CompileConfigurations
         $component->blur ??= $configuration['blur'] ?? false;
         $component->opacity ??= $configuration['opacity'] ?? true;
 
-        return collect($component)
-            ->only(['zIndex', 'overflow', 'blur', 'opacity'])
-            ->toArray();
+        return [
+            'zIndex' => $component->zIndex,
+            'overflow' => $component->overflow,
+            'blur' => $component->blur,
+            'opacity' => $component->opacity,
+        ];
     }
 
     /**
      * Define the Modal component configurations.
      */
-    private function modal(Modal $component): array
+    private static function modal(Modal $component): array
     {
         $configuration = __ts_get_component_configuration(Modal::class);
 
@@ -107,36 +108,31 @@ class CompileConfigurations
             default => 'sm:max-w-2xl',
         };
 
-        return collect($component)
-            ->only([
-                'zIndex',
-                'overflow',
-                'size',
-                'blur',
-                'persistent',
-                'center',
-                'scrollable',
-                'scrollbar',
-            ])
-            ->merge(['scrollbar' => $configuration['scrollbar'] ?? null])
-            ->toArray();
+        return [
+            'zIndex' => $component->zIndex,
+            'overflow' => $component->overflow,
+            'size' => $component->size,
+            'blur' => $component->blur,
+            'persistent' => $component->persistent,
+            'center' => $component->center,
+            'scrollable' => $component->scrollable,
+            'scrollbar' => $configuration['scrollbar'] ?? null,
+        ];
     }
 
-    private function select(Styled $component): array
+    private static function select(Styled $component): array
     {
         $configuration = __ts_get_component_configuration(Styled::class);
 
         $component->unfiltered ??= $configuration['unfiltered'] ?? false;
 
-        return collect($component)
-            ->only('unfiltered')
-            ->toArray();
+        return ['unfiltered' => $component->unfiltered];
     }
 
     /**
      * Define the Slide component configurations.
      */
-    private function slide(Slide $component): array
+    private static function slide(Slide $component): array
     {
         $configuration = __ts_get_component_configuration(Slide::class);
 
@@ -164,8 +160,15 @@ class CompileConfigurations
             default => $component->bottom || $component->top ? 'h-fit sm:max-h-fit' : 'sm:max-w-2xl',
         };
 
-        return collect($component)
-            ->only(['zIndex', 'overflow', 'left', 'size', 'blur', 'persistent', 'top', 'bottom'])
-            ->toArray();
+        return [
+            'zIndex' => $component->zIndex,
+            'overflow' => $component->overflow,
+            'left' => $component->left,
+            'size' => $component->size,
+            'blur' => $component->blur,
+            'persistent' => $component->persistent,
+            'top' => $component->top,
+            'bottom' => $component->bottom,
+        ];
     }
 }

@@ -96,11 +96,10 @@ abstract class AbstractRuntime
             return $value;
         }
 
-        $string = str(htmlspecialchars_decode($value))->remove('"');
+        $decoded = str_replace('"', '', htmlspecialchars_decode($value));
 
         // This function aims to sanitize the value, removing the
         // brackets and converting the value to the correct type.
-        // We avoid use the `Stringable` here to increase the performance.
         $sanitize = function (string $value): int|string {
             $value = trim(str_replace(['[', ']'], '', $value));
 
@@ -108,23 +107,21 @@ abstract class AbstractRuntime
         };
 
         // If the value is not an array, we just sanitize the value.
-        if (! $string->contains(',')) {
-            $result = $sanitize($string->remove(['[', ']'])->trim()->value());
+        if (! str_contains($decoded, ',')) {
+            $result = $sanitize($decoded);
+            $array = str_contains($decoded, '[') || str_contains($decoded, ']');
 
-            return $string->contains(['[', ']']) ? [$result] : $result;
+            return $array ? [$result] : $result;
         }
 
         // If the value is an array, we need to explode
         // the string and map the values to sanitize them.
-        return $string->explode(',')
-            ->collect()
-            ->map(fn (string|int $value) => $sanitize($value))
-            ->toArray();
+        return array_map($sanitize, explode(',', $decoded));
     }
 
     /**
      * Get the correct value to use in the validation step.
-     * The value of a Livewire component `$property` - when in
+     * The value of a Livewire component is `$property` - when in
      * the context of Livewire, or the `$value` provided.
      */
     protected function value(?string $property = null, mixed $value = null): mixed

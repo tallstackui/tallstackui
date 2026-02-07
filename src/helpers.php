@@ -96,6 +96,11 @@ if (! function_exists('__ts_filter_components_using_attribute')) {
     function __ts_filter_components_using_attribute(string $attribute): array
     {
         static $classes = null;
+        static $filtered = [];
+
+        if (isset($filtered[$attribute])) {
+            return $filtered[$attribute];
+        }
 
         if ($classes === null) {
             $classes = [];
@@ -120,7 +125,7 @@ if (! function_exists('__ts_filter_components_using_attribute')) {
             $scan(__DIR__.'/Components', 'TallStackUi\\Components\\');
         }
 
-        return array_filter($classes, fn (string $class): bool => (new ReflectionClass($class))->getAttributes($attribute) !== []);
+        return $filtered[$attribute] = array_filter($classes, fn (string $class): bool => (new ReflectionClass($class))->getAttributes($attribute) !== []);
     }
 }
 

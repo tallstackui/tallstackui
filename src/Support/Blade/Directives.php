@@ -7,6 +7,8 @@ use TallStackUi\Facades\TallStackUi as Facade;
 
 class Directives
 {
+    private static ?array $cache = null;
+
     /**
      * Register the Blade directives.
      */
@@ -109,8 +111,8 @@ class Directives
      */
     private function manifest(string $file, ?string $index = null): string|array
     {
-        $content = json_decode(file_get_contents(__DIR__.'/../../../dist/.vite/manifest.json'), true);
+        self::$cache ??= json_decode(file_get_contents(__DIR__.'/../../../dist/.vite/manifest.json'), true);
 
-        return data_get($content[$file], $index);
+        return data_get(self::$cache[$file], $index);
     }
 }

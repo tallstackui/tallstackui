@@ -81,17 +81,27 @@ trait SetupColors
      */
     protected function setup(): void
     {
+        static $cache = [];
+
+        $colorClass = static::class;
+
         // We use private visibility as a way to mark the methods.
-        $methods = collect((new ReflectionClass($this))->getMethods(ReflectionMethod::IS_PRIVATE))
-            ->map(fn (ReflectionMethod $method) => $method->getName())
-            ->values()
-            ->toArray();
+        if (! isset($cache[$colorClass])) {
+            $cache[$colorClass] = array_values(array_map(
+                fn (ReflectionMethod $method) => $method->getName(),
+                (new ReflectionClass($this))->getMethods(ReflectionMethod::IS_PRIVATE)
+            ));
+        }
+
+        $methods = $cache[$colorClass];
 
         /** @var ReflectionClass $parent */
         $parent = $this->reflect->parent();
-        $colorAttributes = $parent->getAttributes(ColorsThroughOf::class);
-        $colorClassName = class_basename($colorAttributes[0]->getArguments()[0]);
-        $component = str_replace('Colors', '', $colorClassName);
+
+        $attribute = $parent->getAttributes(ColorsThroughOf::class);
+        $class = class_basename($attribute[0]->getArguments()[0]);
+
+        $component = str_replace('Colors', '', $class);
 
         $collect = __ts_class_collection($component);
         $class = $collect['instance'] ?? null;
