@@ -11,7 +11,6 @@ use ReflectionException;
 use TallStackUi\Attributes\SoftCustomization;
 use TallStackUi\Components\Floating\Component as Floating;
 use TallStackUi\Customization\Contracts\Customization;
-use TallStackUi\Facades\TallStackUi;
 use TallStackUi\Support\Miscellaneous\ReflectComponent;
 
 trait ManagesClasses
@@ -31,8 +30,8 @@ trait ManagesClasses
         // The idea of this approach is to get the parent component. Since the component can
         // be personalized by the "deep" method, we need ReflectionApi to determine which
         // component is the parent to get its SoftPersonalization attribute. This way, all
-        // personalization continue to work even when "deep" personalization is in effect.
-        $reflection = app(ReflectComponent::class, ['component' => static::class]);
+        // personalization continues to work even when "deep" personalization is in effect.
+        $reflection = new ReflectComponent(static::class);
 
         $attribute = $reflection->attribute(SoftCustomization::class);
 
@@ -40,7 +39,7 @@ trait ManagesClasses
             return [];
         }
 
-        $factory = TallStackUi::customize($attribute->newInstance()->key)->forward();
+        $factory = app($attribute->newInstance()->prefixed());
         $soft = $factory->toArray();
 
         $scoped = [];
@@ -50,14 +49,19 @@ trait ManagesClasses
 
             unset($this->attributes['scope']);
 
-            // We use rescue here as a way to ignore errors. If we don't find the personalization
-            // in the container, we just don't apply it. This must be stated in the documentation.
-            $scoped = rescue(fn () => app()->get(__ts_scope_container_key(__ts_search_component($reflection->parent()->getName()), $scope))->toArray(), [], false);
+            $scopeKey = __ts_scope_container_key(
+                __ts_search_component($reflection->parent()->getName()),
+                $scope
+            );
 
-            if (filled($scoped)) {
-                // Starting from v2, scope personalization creates a multidimensional array,
-                // where the key is the scope name. Therefore, we need to get the scope name.
-                $scoped = Arr::dot(data_get($scoped, $scope, $scoped));
+            if (app()->bound($scopeKey)) {
+                $scoped = app()->get($scopeKey)->toArray();
+
+                if (filled($scoped)) {
+                    // Starting from v2, scope personalization creates a multidimensional array,
+                    // where the key is the scope name. Therefore, we need to get the scope name.
+                    $scoped = Arr::dot(data_get($scoped, $scope, $scoped));
+                }
             }
         }
 
@@ -85,8 +89,7 @@ trait ManagesClasses
         // specific component in a different way than the global personalization.
         if (
             ! $this instanceof Floating
-            // This is what indicates that the component does not have any personalization applied.
-            && $factory->toArray() === []
+            && $soft === []
             && isset($classes['floating.default'])
         ) {
             $classes['floating.default'] = null;

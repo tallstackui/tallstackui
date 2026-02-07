@@ -4,7 +4,7 @@
 
 <div x-cloak
      x-data="tallstackui_keyValue({!! $entangle !!}, @js($this->getId()), @js($limit), @js($static), @js($deleteMethod))"
-     class="{{ $personalize['wrapper.first'] }}">
+     class="{{ $personalize['wrapper'] }}">
     <div class="{{ $personalize['header.wrapper'] }}">
         <p class="{{ $personalize['header.key'] }}">{{ $label ?? trans('ts-ui::messages.key-value.headers.key') }}</p>
         <p class="{{ $personalize['header.value'] }}">{{ $value ?? trans('ts-ui::messages.key-value.headers.value') }}</p>

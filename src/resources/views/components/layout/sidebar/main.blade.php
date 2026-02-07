@@ -22,21 +22,21 @@
              class="{{ $personalize['mobile.wrapper.third'] }}"
              x-show="tallStackUiMenuMobile">
             @if (filled($personalize['mobile.button.icon']))
-            <div x-show="tallStackUiMenuMobile"
-                 x-transition:enter="ease-in-out duration-300"
-                 x-transition:enter-start="opacity-0"
-                 x-transition:enter-end="opacity-100"
-                 x-transition:leave="ease-in-out duration-300"
-                 x-transition:leave-start="opacity-100"
-                 x-transition:leave-end="opacity-0"
-                 class="{{ $personalize['mobile.button.wrapper'] }}">
-                <button x-on:click="tallStackUiMenuMobile = false" type="button" class="cursor-pointer">
-                    <x-dynamic-component :component="TallStackUi::prefix('icon')"
-                                         :icon="TallStackUi::icon($personalize['mobile.button.icon'])"
-                                         internal
-                                         class="{{ $personalize['mobile.button.size'] }}" />
-                </button>
-            </div>
+                <div x-show="tallStackUiMenuMobile"
+                     x-transition:enter="ease-in-out duration-300"
+                     x-transition:enter-start="opacity-0"
+                     x-transition:enter-end="opacity-100"
+                     x-transition:leave="ease-in-out duration-300"
+                     x-transition:leave-start="opacity-100"
+                     x-transition:leave-end="opacity-0"
+                     class="{{ $personalize['mobile.button.wrapper'] }}">
+                    <button x-on:click="tallStackUiMenuMobile = false" type="button" class="cursor-pointer">
+                        <x-dynamic-component :component="TallStackUi::prefix('icon')"
+                                             :icon="TallStackUi::icon($personalize['mobile.button.icon'])"
+                                             internal
+                                             class="{{ $personalize['mobile.button.size'] }}" />
+                    </button>
+                </div>
             @endif
             <div @class([
                     $personalize['mobile.wrapper.fourth'],
@@ -48,8 +48,8 @@
                     {{ $brand }}
                 @endif
                 <div @class([$personalize['mobile.wrapper.third'], $personalize['mobile.wrapper.brand.margin'] => blank($brand)])>
-                    <nav class="{{ $personalize['mobile.wrapper.sixth'] }}">
-                        <ul role="list" class="{{ $personalize['mobile.wrapper.seventh'] }}">
+                    <nav class="{{ $personalize['mobile.wrapper.fifth'] }}">
+                        <ul role="list" class="{{ $personalize['mobile.wrapper.sixth'] }}">
                             {{ $slot }}
                         </ul>
                     </nav>
@@ -58,7 +58,8 @@
         </div>
     </div>
 </div>
-<div class="{{ $personalize['desktop.wrapper.first.base'] }}" x-bind:class="{ '{{ $personalize['desktop.wrapper.first.size'] }}' : $store['tsui.side-bar'].open }">
+<div class="{{ $personalize['desktop.wrapper.first.base'] }}"
+     x-bind:class="{ '{{ $personalize['desktop.wrapper.first.size'] }}' : $store['tsui.side-bar'].open }">
     <div @class([
             $personalize['desktop.wrapper.second'],
             'soft-scrollbar' => $thinScroll,

@@ -24,7 +24,9 @@ class ReflectComponent
      */
     public function attribute(string $attribute): ?ReflectionAttribute
     {
-        return collect($this->parent()->getAttributes($attribute))->first();
+        $key = $this->component.'|'.$attribute;
+
+        return self::$cache[$key] ??= ($this->parent()->getAttributes($attribute)[0] ?? null);
     }
 
     /**

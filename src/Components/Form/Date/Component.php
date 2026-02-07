@@ -100,7 +100,6 @@ class Component extends TallStackUiComponent implements Customization
                 'wrapper' => 'flex items-center gap-1.5',
                 'size' => 'h-5 w-5',
                 'clear' => 'hover:text-red-500',
-                'input' => 'text-secondary-500 dark:text-dark-400 flex cursor-pointer items-center gap-2',
                 'navigate' => 'text-gray-600 dark:text-dark-300 h-5 w-5',
             ],
             'range' => 'bg-dark-200 dark:bg-dark-600',

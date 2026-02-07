@@ -38,10 +38,9 @@ class Component extends TallStackUiComponent implements Customization
                     'second' => 'fixed inset-0 flex',
                     'third' => 'relative mr-16 flex w-full max-w-xs flex-1',
                     'fourth' => 'dark:bg-dark-700 flex grow flex-col gap-y-5 overflow-y-auto overflow-x-hidden bg-white px-2 pb-4',
-                    'fifth' => 'flex h-16 shrink-0 items-center',
+                    'fifth' => 'flex h-16 flex-1 flex-col',
+                    'sixth' => 'flex flex-1 flex-col gap-y-0.5',
                     'brand.margin' => 'mt-10',
-                    'sixth' => 'flex h-16 flex-1 flex-col',
-                    'seventh' => 'flex flex-1 flex-col gap-y-0.5',
                 ],
                 'backdrop' => 'fixed inset-0 bg-gray-900/80 dark:bg-dark-900/50',
                 'button' => [

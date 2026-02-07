@@ -4,7 +4,6 @@ namespace TallStackUi\Customization;
 
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Collection;
 use InvalidArgumentException;
 use RuntimeException;
 
@@ -28,21 +27,26 @@ class CustomizationFactory implements Arrayable
     /**
      * Original classes of the component with changes applied.
      */
-    private Collection $changes;
+    private array $changes = [];
 
     /**
      * Interactions, for when we are personalizing without $code for the block.
      */
-    private Collection $interactions;
+    private array $interactions = [];
+
+    /**
+     * Original customization cached to avoid redundant container resolutions.
+     */
+    private array $originalCustomization = [];
 
     /**
      * Parts of the component customization.
      */
-    private Collection $parts;
+    private array $parts = [];
 
     public function __construct(public readonly string $component, private readonly ?string $scope = null)
     {
-        $this->interactions = $this->parts = collect();
+        //
     }
 
     /**
@@ -72,7 +76,7 @@ class CustomizationFactory implements Arrayable
      */
     public function append(string $content): self
     {
-        $this->interactions->put('append', $content);
+        $this->interactions['append'] = $content;
 
         $this->compile();
 
@@ -89,9 +93,12 @@ class CustomizationFactory implements Arrayable
         // The idea of this code existing in the file and not in the construct
         // is to avoid an unnecessary call every time the component is rendered,
         // even if it has no customizations to be applied.
-        $customization = app($this->component)->customization();
-        $this->changes = collect($customization);
-        $this->blocks = array_keys($customization);
+        if ($this->originalCustomization === []) {
+            $this->originalCustomization = app($this->component)->customization();
+            $this->blocks = array_keys($this->originalCustomization);
+        }
+
+        $this->changes = $this->originalCustomization;
 
         // If the $code was not set, then we
         // are interacting with the shortcuts.
@@ -114,7 +121,7 @@ class CustomizationFactory implements Arrayable
 
     public function get(string $block): ?string
     {
-        return data_get($this->parts, $block);
+        return $this->parts[$block] ?? null;
     }
 
     /**
@@ -124,7 +131,7 @@ class CustomizationFactory implements Arrayable
      */
     public function prepend(string $content): self
     {
-        $this->interactions->put('prepend', $content);
+        $this->interactions['prepend'] = $content;
 
         $this->compile();
 
@@ -138,7 +145,7 @@ class CustomizationFactory implements Arrayable
      */
     public function remove(string|array $class): self
     {
-        $this->interactions->put('remove', Arr::wrap($class));
+        $this->interactions['remove'] = Arr::wrap($class);
 
         $this->compile();
 
@@ -152,7 +159,7 @@ class CustomizationFactory implements Arrayable
      */
     public function replace(string|array $from, ?string $to = null): self
     {
-        $this->interactions->put('replace', is_array($from) ? $from : [$from => $to]);
+        $this->interactions['replace'] = is_array($from) ? $from : [$from => $to];
 
         $this->compile();
 
@@ -162,7 +169,7 @@ class CustomizationFactory implements Arrayable
     /** {@inheritDoc} */
     public function toArray(): array
     {
-        return $this->parts->toArray();
+        return $this->parts;
     }
 
     /**
@@ -172,35 +179,31 @@ class CustomizationFactory implements Arrayable
     {
         $block ??= $this->block;
 
-        foreach ($this->interactions->get('replace', []) as $old => $new) {
-            $this->changes->put($block, str_replace($old, $new, (string) $this->changes->get($block)));
+        foreach (($this->interactions['replace'] ?? []) as $old => $new) {
+            $this->changes[$block] = str_replace($old, $new, (string) ($this->changes[$block] ?? ''));
         }
 
-        if ($append = $this->interactions->get('append')) {
-            $this->changes->put($block, $this->changes->get($block).' '.$append);
+        if ($append = ($this->interactions['append'] ?? null)) {
+            $this->changes[$block] = ($this->changes[$block] ?? '').' '.$append;
         }
 
-        if ($prepend = $this->interactions->get('prepend')) {
-            $this->changes->put($block, $prepend.' '.$this->changes->get($block));
+        if ($prepend = ($this->interactions['prepend'] ?? null)) {
+            $this->changes[$block] = $prepend.' '.($this->changes[$block] ?? '');
         }
 
-        foreach ($this->interactions->get('remove', []) as $class) {
-            $this->changes->put($block, str_replace($class, '', (string) $this->changes->get($block)));
+        foreach (($this->interactions['remove'] ?? []) as $class) {
+            $this->changes[$block] = str_replace($class, '', (string) ($this->changes[$block] ?? ''));
         }
 
-        $content = fn () => trim($content ?? str($this->changes->get($block))->squish());
-
-        $parts = $this->parts->toArray();
+        $content = fn () => trim($content ?? preg_replace('/\s+/', ' ', trim($this->changes[$block] ?? '')));
 
         if ($this->scope) {
-            data_set($parts, $this->scope.'.'.$block, $content());
-
-            $this->parts = collect($parts);
+            data_set($this->parts, $this->scope.'.'.$block, $content());
         } else {
-            $this->parts->put($block, $content());
+            $this->parts[$block] = $content();
         }
 
-        $this->interactions = collect();
+        $this->interactions = [];
     }
 
     /**
