@@ -44,6 +44,13 @@ export default (
   index: null,
   lazy: lazy,
   _normalize: false,
+  // Performance: caches the `available` getter result to avoid redundant
+  // recomputation across multiple accesses within the same interaction cycle.
+  _availableCache: [],
+  _availableDirty: true,
+  // Performance: caches querySelectorAll result for keyboard navigation,
+  // invalidated together with `_availableDirty` when options change.
+  _navigateOptions: null,
   async init() {
     if (!this.livewire) {
       if (this.common) {
@@ -100,6 +107,9 @@ export default (
 
     this.$watch('options', async () => this.observed());
 
+    this.$watch('search', () => this.invalidateAvailable());
+    this.$watch('lazy', () => this.invalidateAvailable());
+
     // This watch aims to monitor external changes to the property
     // linked with `model` for situations where changes were made
     // out of the component to the variable that is linked to the `model`
@@ -125,7 +135,10 @@ export default (
       setTimeout(() => this.$refs.search.focus(), 100);
     });
 
-    this.$watch('search', async () => this.makeRequest(false));
+    this.$watch('search', async () => {
+      this.invalidateAvailable();
+      this.makeRequest(false);
+    });
 
     // We only make the request when rendering
     // the component if the model is defined.
@@ -163,6 +176,7 @@ export default (
     this.loading = true;
 
     this.response = [];
+    this.invalidateAvailable();
 
     // When using request parameters we evaluate this through the ref which
     // stores the parameters to allow us to hydrate this when changes are made.
@@ -189,10 +203,60 @@ export default (
           [this.selectable.label]: option[this.selectable.label].toString(),
         };
       });
+
+      this.preNormalize(this.response);
+      this.invalidateAvailable();
     } catch (e) {
       error(e.message);
     } finally {
       this.loading = false;
+    }
+  },
+  /**
+   * Invalidate the available options cache and the
+   * navigation DOM cache. Called when any dependency
+   * of the `available` getter changes (search, options,
+   * response, lazy) to ensure stale data is never served.
+   *
+   * @returns {void}
+   */
+  invalidateAvailable() {
+    this._availableDirty = true;
+    this._navigateOptions = null;
+  },
+  /**
+   * Pre-compute normalized labels for search filtering.
+   * Attaches `__normalized` (and `__normalizedDesc`) to each
+   * option object so the `available` getter can compare against
+   * pre-computed values instead of calling `normalize()` +
+   * `toLowerCase()` per option on every search keystroke.
+   *
+   * @param {Array} options
+   * @returns {void}
+   */
+  preNormalize(options) {
+    if (!options || !Array.isArray(options)) return;
+
+    for (let i = 0; i < options.length; i++) {
+      const option = options[i];
+
+      if (!option) continue;
+
+      if (typeof option !== 'object') continue;
+
+      if (this.dimensional) {
+        const label = option[this.selectable.label];
+
+        if (label) {
+          option.__normalized = this.normalize(label.toString().toLowerCase());
+        }
+
+        const desc = option[this.selectable.description];
+
+        if (desc) {
+          option.__normalizedDesc = this.normalize(desc.toString().toLowerCase());
+        }
+      }
     }
   },
   /**
@@ -382,17 +446,28 @@ export default (
     this.observation();
   },
   /**
-   * Sync the options through observation.
+   * Sync the options through observation. Converts to
+   * array once here (instead of `Object.values()` on
+   * every `available` access) and pre-normalizes labels.
    *
    * @returns {void}
    */
   sync() {
     if (!this.$refs.options) return;
 
-    this.options = Alpine.evaluate(this, this.$refs.options.innerText);
+    const raw = Alpine.evaluate(this, this.$refs.options.innerText);
+
+    this.options = Array.isArray(raw) ? raw : Object.values(raw);
+
+    this.preNormalize(this.options);
+    this.invalidateAvailable();
   },
   /**
-   * Hydrate the selects according to model.
+   * Hydrate the select according to model. Uses a Set of
+   * string-coerced model values for O(1) lookups instead
+   * of nested `compare()` calls, reducing complexity from
+   * O(n*m) to O(n+m) for multiple select.
+   *
    * @param value {*}
    * @returns {void}
    */
@@ -406,22 +481,27 @@ export default (
       return;
     }
 
-    if (!this.available || this.available.length === 0) {
+    const items = this.available;
+
+    if (!items || items.length === 0) {
       this.selects = [];
       return;
     }
 
     if (!this.common) {
-      this.selects = this.available.filter((option) => {
-        if (!option) return false;
+      if (this.multiple && Array.isArray(this.model)) {
+        const set = new Set(this.model.map((v) => String(v)));
 
-        return this.multiple
-          ? Array.isArray(this.model) &&
-              this.model.some((modelValue) =>
-                this.compare(modelValue, option[this.selectable.value])
-              )
-          : this.compare(this.model, option[this.selectable.value]);
-      });
+        this.selects = items.filter(
+          (option) => option && set.has(String(option[this.selectable.value]))
+        );
+      } else {
+        const target = String(this.model);
+
+        this.selects = items.filter(
+          (option) => option && String(option[this.selectable.value]) === target
+        );
+      }
 
       if (!this.multiple && this.selects.length > 0) {
         this.placeholder = this.selects[0]?.[this.selectable.label] ?? placeholder;
@@ -437,23 +517,27 @@ export default (
         return;
       }
 
-      this.selects = this.available.filter((option) => {
+      const set = new Set(this.model.map((v) => String(v)));
+
+      this.selects = items.filter((option) => {
         if (!option) return false;
 
-        return this.dimensional
-          ? this.model.some((modelValue) => this.compare(modelValue, option[this.selectable.value]))
-          : this.model.some((modelValue) => this.compare(modelValue, option));
+        const val = this.dimensional ? option[this.selectable.value] : option;
+
+        return set.has(String(val));
       });
 
       return;
     }
 
-    const selected = this.available.find((option) => {
+    const target = String(this.model);
+
+    const selected = items.find((option) => {
       if (!option) return false;
 
-      return this.dimensional
-        ? this.compare(this.model, option[this.selectable.value])
-        : this.compare(this.model, option);
+      const val = this.dimensional ? option[this.selectable.value] : option;
+
+      return String(val) === target;
     });
 
     if (selected) {
@@ -579,10 +663,12 @@ export default (
 
     event.preventDefault();
 
-    if (!this.available || this.available.length === 0) return;
+    const items = this.available;
+
+    if (!items || items.length === 0) return;
 
     const current = this.index ?? -1;
-    const max = this.available.length - 1;
+    const max = items.length - 1;
 
     let next;
 
@@ -592,7 +678,11 @@ export default (
       next = current >= max ? 0 : current + 1;
     }
 
-    const options = this.$refs.list.querySelectorAll('[role="option"]');
+    if (!this._navigateOptions) {
+      this._navigateOptions = this.$refs.list.querySelectorAll('[role="option"]');
+    }
+
+    const options = this._navigateOptions;
 
     if (current >= 0 && current < options.length) {
       options[current].removeAttribute('tabindex');
@@ -653,22 +743,38 @@ export default (
     return !this.selects || this.quantity === 0;
   },
   /**
-   * Available options to select.
+   * Available options to select. The result is cached via
+   * `_availableCache` / `_availableDirty` to avoid redundant
+   * recomputation — this getter is accessed multiple times per
+   * interaction cycle (hydrate, selected, navigate, template).
+   * Search filtering uses pre-normalized labels (`__normalized`)
+   * attached by `preNormalize()` instead of recomputing on
+   * every access.
    *
    * @returns {Array}
    */
   get available() {
+    if (!this._availableDirty) return this._availableCache;
+
     let available = this.common ? this.options : this.response;
 
-    if (!available) return [];
+    if (!available) {
+      this._availableCache = [];
+      this._availableDirty = false;
 
-    if (this.common) {
-      const values = Object.values(available);
-
-      available = this.lazy ? values.slice(0, this.lazy) : values;
+      return this._availableCache;
     }
 
-    if (this.search === '') return available;
+    if (this.common) {
+      available = this.lazy ? available.slice(0, this.lazy) : available;
+    }
+
+    if (this.search === '') {
+      this._availableCache = available;
+      this._availableDirty = false;
+
+      return this._availableCache;
+    }
 
     const search = this.normalize(this.search.toLowerCase());
 
@@ -676,34 +782,35 @@ export default (
       if (!option) return false;
 
       if (this.dimensional) {
-        const value = option[this.selectable.label];
+        const label = option.__normalized;
 
-        if (!value) return false;
-
-        const label = this.normalize(value.toString().toLowerCase());
+        if (!label) return false;
 
         if (label.indexOf(search) !== -1) return true;
 
-        if (option[this.selectable.description]) {
-          const description = this.normalize(
-            option[this.selectable.description].toString().toLowerCase()
-          );
-
-          return description.indexOf(search) !== -1;
+        if (option.__normalizedDesc) {
+          return option.__normalizedDesc.indexOf(search) !== -1;
         }
 
         return false;
       }
 
-      return this.normalize(option.toString().toLowerCase()).indexOf(search) !== -1;
+      return (
+        (option.__normalized || this.normalize(option.toString().toLowerCase())).indexOf(search) !==
+        -1
+      );
     };
 
     if (this.common) {
       const result = available.filter(filter);
 
-      return this.lazy ? result.slice(0, this.lazy) : result;
+      this._availableCache = this.lazy ? result.slice(0, this.lazy) : result;
+    } else {
+      this._availableCache = unfiltered ? available : available.filter(filter);
     }
 
-    return unfiltered ? available : available.filter(filter);
+    this._availableDirty = false;
+
+    return this._availableCache;
   },
 });
