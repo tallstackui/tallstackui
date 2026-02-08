@@ -156,3 +156,56 @@ it('can use helper function with class string', function () {
     expect(__ts_preset('flash', Modal::class))->toBeTrue()
         ->and(__ts_preset('flash', Slide::class))->toBeFalse();
 });
+
+// Square preset tests
+
+it('can chain square preset', function () {
+    expect(TallStackUi::customize()->presets()->square())->toBeInstanceOf(Presets::class);
+});
+
+it('can remove rounded classes from card when square is global', function () {
+    $component = '<x-card header="Foo">Bar</x-card>';
+
+    expect($component)->render()->toContain('rounded-lg');
+
+    TallStackUi::customize()->presets()->square();
+
+    expect($component)->render()->not->toMatch('/\brounded-/');
+});
+
+it('can remove rounded classes from input when square is global', function () {
+    $component = '<x-input label="Name" />';
+
+    expect($component)->render()->toContain('rounded-md');
+
+    TallStackUi::customize()->presets()->square();
+
+    expect($component)->render()->not->toMatch('/\brounded-/');
+});
+
+it('can apply square only to components in the in list', function () {
+    TallStackUi::customize()->presets()->square(in: [Card::class]);
+
+    $card = '<x-card header="Foo">Bar</x-card>';
+    $input = '<x-input label="Name" />';
+
+    expect($card)->render()->not->toMatch('/\brounded-/')
+        ->and($input)->render()->toContain('rounded-md');
+});
+
+it('can exclude components using the except list', function () {
+    TallStackUi::customize()->presets()->square(except: [Card::class]);
+
+    $card = '<x-card header="Foo">Bar</x-card>';
+    $input = '<x-input label="Name" />';
+
+    expect($card)->render()->toContain('rounded-lg')
+        ->and($input)->render()->not->toMatch('/\brounded-/');
+});
+
+it('throws exception when a component is in both in and except', function () {
+    expect(fn () => TallStackUi::customize()->presets()->square(
+        in: [Card::class],
+        except: [Card::class],
+    ))->toThrow(InvalidArgumentException::class);
+});

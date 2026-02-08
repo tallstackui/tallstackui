@@ -83,6 +83,14 @@ trait ManagesClasses
             $classes = $callback($classes);
         }
 
+        if (__ts_preset('square', static::class)) {
+            foreach ($classes as $key => $value) {
+                if (is_string($value)) {
+                    $classes[$key] = preg_replace('/\s+/', ' ', trim((string) preg_replace('/(?:[\w-]+:)*rounded(?:-[a-z0-9]+)*/', '', $value)));
+                }
+            }
+        }
+
         // The idea of this code is to nullable the floating.default customization to ensure
         // that soft customization can customize floating globally. This way we can ensure
         // that we can customize floating globally while also customizing the floating of a

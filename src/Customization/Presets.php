@@ -2,9 +2,11 @@
 
 namespace TallStackUi\Customization;
 
+use InvalidArgumentException;
+
 class Presets
 {
-    /** @var array<string, true|string[]> */
+    /** @var array<string, true|string[]|array{except: string[]}> */
     private static array $active = [];
 
     /**
@@ -18,7 +20,15 @@ class Presets
 
         $value = self::$active[$preset];
 
-        return $value === true || in_array($component, $value, true);
+        if ($value === true) {
+            return true;
+        }
+
+        if (isset($value['except'])) {
+            return ! in_array($component, $value['except'], true);
+        }
+
+        return in_array($component, $value, true);
     }
 
     /**
@@ -35,6 +45,26 @@ class Presets
     public function flash(string ...$components): self
     {
         self::$active['flash'] = $components === [] ? true : $components;
+
+        return $this;
+    }
+
+    /**
+     * Remove all border-radius classes from components.
+     */
+    public function square(array $in = [], array $except = []): self
+    {
+        if ($in !== [] && $except !== [] && array_intersect($in, $except) !== []) {
+            throw new InvalidArgumentException('[TallStackUI] A component cannot be listed in both [in] and [except].');
+        }
+
+        if ($in !== []) {
+            self::$active['square'] = $in;
+        } elseif ($except !== []) {
+            self::$active['square'] = ['except' => $except];
+        } else {
+            self::$active['square'] = true;
+        }
 
         return $this;
     }
