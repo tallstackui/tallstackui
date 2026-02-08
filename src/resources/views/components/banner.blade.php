@@ -22,7 +22,7 @@
          x-show="show && text !== ''"
          x-cloak
          @if ($wire) x-on:tallstackui:banner.window="add($event)" @endif
-         @if ($animated || $close || $wire)
+         @if (($animated || $close || $wire) && !$flashPreset)
              x-transition:enter="transition ease-out duration-300"
          x-transition:enter-start="-translate-y-10"
          x-transition:enter-end="translate-y-0"

@@ -3,7 +3,7 @@
 @endphp
 
 <div x-cloak
-     x-data="tallstackui_toastBase(@js(session()->pull('ts-ui:toast')), @js($configurations['position']))"
+     x-data="tallstackui_toastBase(@js(session()->pull('ts-ui:toast')), @js($configurations['position']), @js($flashPreset))"
      x-on:tallstackui:toast.window="add($event)"
      @class([
         $customization['wrapper.first'],

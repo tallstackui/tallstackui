@@ -179,6 +179,21 @@ if (! function_exists('__ts_soft_customization_components')) {
     }
 }
 
+if (! function_exists('__ts_preset')) {
+    /**
+     * Check if a preset is active for the given component.
+     *
+     * @internal This function should not be used outside the package.
+     */
+    function __ts_preset(string $preset, TallStackUiComponent|string $component): bool
+    {
+        return \TallStackUi\Customization\Presets::is(
+            $preset,
+            is_string($component) ? $component : $component::class
+        );
+    }
+}
+
 if (! function_exists('__ts_scope_container_key')) {
     /**
      * Creates the key that will be used to look up the

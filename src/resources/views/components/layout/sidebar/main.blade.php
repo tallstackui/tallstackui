@@ -4,31 +4,37 @@
 
 <div class="{{ $customization['mobile.wrapper.first'] }}"
      x-show="tallStackUiMenuMobile">
-    <div x-transition:enter="transition-opacity ease-linear duration-300"
+    <div @if (!$flashPreset)
+             x-transition:enter="transition-opacity ease-linear duration-300"
          x-transition:enter-start="opacity-0"
          x-transition:enter-end="opacity-100"
          x-transition:leave="transition-opacity ease-linear duration-300"
          x-transition:leave-start="opacity-100"
          x-transition:leave-end="opacity-0"
+         @endif
          class="{{ $customization['mobile.backdrop'] }}"
          x-show="tallStackUiMenuMobile"></div>
     <div class="{{ $customization['mobile.wrapper.second'] }}">
-        <div x-transition:enter="transition ease-in-out duration-300 transform"
+        <div @if (!$flashPreset)
+                 x-transition:enter="transition ease-in-out duration-300 transform"
              x-transition:enter-start="-translate-x-full"
              x-transition:enter-end="translate-x-0"
              x-transition:leave="transition ease-in-out duration-300 transform"
              x-transition:leave-start="translate-x-0"
              x-transition:leave-end="-translate-x-full"
+             @endif
              class="{{ $customization['mobile.wrapper.third'] }}"
              x-show="tallStackUiMenuMobile">
             @if (filled($customization['mobile.button.icon']))
                 <div x-show="tallStackUiMenuMobile"
-                     x-transition:enter="ease-in-out duration-300"
+                     @if (!$flashPreset)
+                         x-transition:enter="ease-in-out duration-300"
                      x-transition:enter-start="opacity-0"
                      x-transition:enter-end="opacity-100"
                      x-transition:leave="ease-in-out duration-300"
                      x-transition:leave-start="opacity-100"
                      x-transition:leave-end="opacity-0"
+                     @endif
                      class="{{ $customization['mobile.button.wrapper'] }}">
                     <button x-on:click="tallStackUiMenuMobile = false" type="button" class="cursor-pointer">
                         <x-dynamic-component :component="TallStackUi::prefix('icon')"

@@ -6,6 +6,10 @@ trait DropdownSharedTransitions
 {
     public function transitions(): string
     {
+        if (__ts_preset('flash', $this)) {
+            return '';
+        }
+
         $side = str_contains((string) $this->position, 'right') || str_contains((string) $this->position, 'left');
         $orientation = str_contains((string) $this->position, 'bottom') || str_contains((string) $this->position, 'right');
 

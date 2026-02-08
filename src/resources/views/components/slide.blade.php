@@ -15,12 +15,14 @@
         @class(['relative', $configurations['zIndex']])
         {{ $attributes->whereStartsWith('x-on:') }}>
     <div x-show="show"
-         x-transition:enter="ease-in-out duration-300"
+         @if (!$flashPreset)
+             x-transition:enter="ease-in-out duration-300"
          x-transition:enter-start="opacity-0"
          x-transition:enter-end="opacity-100"
          x-transition:leave="ease-in-out duration-200"
          x-transition:leave-start="opacity-100"
          x-transition:leave-end="opacity-0"
+            @endif
             @class([$customization['wrapper.first'], $customization['blur.'.($configurations['blur'] === true ? 'sm' : $configurations['blur'])] ?? null => $configurations['blur']])></div>
     <div class="{{ $customization['wrapper.second'] }}">
         <div class="{{ $customization['wrapper.third'] }}">
@@ -41,12 +43,14 @@
                     'w-[100dvw]' => $configurations['top'] || $configurations['bottom'],
                 ])>
                 <div x-show="show"
-                     x-transition:enter="transform transition ease-in-out duration-700"
+                     @if (!$flashPreset)
+                         x-transition:enter="transform transition ease-in-out duration-700"
                      x-transition:enter-start="@if ($configurations['left']) -translate-x-full @elseif ($configurations['top']) -translate-y-full @elseif ($configurations['bottom']) translate-y-full @else translate-x-full @endif"
                      x-transition:enter-end="@if ($configurations['left']) translate-x-0 @elseif ($configurations['top']) translate-y-0 @elseif ($configurations['bottom']) translate-y-0 @else translate-x-0 @endif"
                      x-transition:leave="transform transition ease-in-out duration-700"
                      x-transition:leave-start="@if ($configurations['left']) translate-x-0 @elseif ($configurations['top']) translate-y-0 @elseif ($configurations['bottom']) translate-y-0 @else translate-x-0 @endif"
                      x-transition:leave-end="@if ($configurations['left']) -translate-x-full @elseif ($configurations['top']) -translate-y-full @elseif ($configurations['bottom']) translate-y-full @else translate-x-full @endif"
+                     @endif
                      @class(['pointer-events-auto w-screen', $configurations['size'],  'h-full' => !$configurations['top'] || !$configurations['bottom']])
                      @if (!$configurations['persistent']) x-on:mousedown.away="top_ui && (show = false)" @endif>
                     <div @class([

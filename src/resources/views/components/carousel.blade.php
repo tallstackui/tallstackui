@@ -36,7 +36,7 @@
         ])>
             <template x-for="(image, index) in images" :key="index">
                 <div x-show="current == index + 1" class="{{ $customization['images.wrapper.first'] }}"
-                     x-transition.opacity.duration.1000ms>
+                     @if (!$flashPreset) x-transition.opacity.duration.1000ms @endif>
                     <a x-bind:href="image.url ?? null" x-bind:target="image.target">
                         <template x-if="image.title">
                             <div @class([$customization['images.wrapper.second'], 'rounded-xl' => $round])>

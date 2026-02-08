@@ -303,6 +303,11 @@ class Customization
         return $this->component(Modal::class);
     }
 
+    public function presets(): Presets
+    {
+        return new Presets;
+    }
+
     public function progress(?string $component = null, ?string $scope = null): CustomizationFactory
     {
         $this->scope ??= $scope;

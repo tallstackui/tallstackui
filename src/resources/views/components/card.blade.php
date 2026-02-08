@@ -51,23 +51,27 @@
         @endif
         <div {{ $attributes->class($customization['body']) }}
              x-show="!minimize"
-             x-transition:enter="transition ease-out duration-100"
+             @if (!$flashPreset)
+                 x-transition:enter="transition ease-out duration-100"
              x-transition:enter-start="opacity-0 -translate-y-10"
              x-transition:enter-end="opacity-100 translate-y-0"
              x-transition:leave="transition ease-in duration-100"
              x-transition:leave-start="opacity-100 translate-y-0"
-             x-transition:leave-end="opacity-0 -translate-y-10">
+             x-transition:leave-end="opacity-0 -translate-y-10"
+                @endif>
             {{ $slot }}
         </div>
         @if ($footer)
             <div class="{{ $customization['footer.wrapper'] }}"
                  x-show="!minimize"
-                 x-transition:enter="transition ease-out duration-100"
+                 @if (!$flashPreset)
+                     x-transition:enter="transition ease-out duration-100"
                  x-transition:enter-start="opacity-0 -translate-y-10"
                  x-transition:enter-end="opacity-100 translate-y-0"
                  x-transition:leave="transition ease-in duration-100"
                  x-transition:leave-start="opacity-100 translate-y-0"
-                 x-transition:leave-end="opacity-0 -translate-y-10">
+                 x-transition:leave-end="opacity-0 -translate-y-10"
+                    @endif>
                 @if (! $footer instanceof \Illuminate\View\ComponentSlot)
                     <div class="{{ $customization['footer.text'] }}">
                         {{ $footer }}
@@ -80,12 +84,14 @@
         @if ($image && $position === 'bottom')
             <div class="{{ $customization['image.wrapper'] }}"
                  x-show="!minimize"
-                 x-transition:enter="transition ease-out duration-100"
+                 @if (!$flashPreset)
+                     x-transition:enter="transition ease-out duration-100"
                  x-transition:enter-start="opacity-0 -translate-y-10"
                  x-transition:enter-end="opacity-100 translate-y-0"
                  x-transition:leave="transition ease-in duration-100"
                  x-transition:leave-start="opacity-100 translate-y-0"
-                 x-transition:leave-end="opacity-0 -translate-y-10">
+                 x-transition:leave-end="opacity-0 -translate-y-10"
+                    @endif>
                 <img src="{{ $image }}" @class([$customization['image.rounded.bottom'], $customization['image.size']]) />
             </div>
         @endif

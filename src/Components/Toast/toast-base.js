@@ -1,4 +1,4 @@
-export default (flash, position = null) => ({
+export default (flash, position = null, flashPreset = false) => ({
   show: false,
   toasts: [],
   position: position,
@@ -51,7 +51,7 @@ export default (flash, position = null) => ({
    *
    * @returns {Object}
    */
-  transition: {
+  transition: flashPreset ? {} : {
     'x-transition:enter': 'transform ease-out duration-300 transition',
     'x-transition:enter-start'() {
       // eslint-disable-next-line max-len
