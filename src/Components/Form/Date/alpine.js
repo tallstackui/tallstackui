@@ -299,9 +299,7 @@ export default (
 
       const isBetween =
         rangeStart && rangeEnd
-          ? date.isBetween(rangeStart, rangeEnd) ||
-            date.isSame(rangeStart) ||
-            date.isSame(rangeEnd)
+          ? date.isBetween(rangeStart, rangeEnd) || date.isSame(rangeStart) || date.isSame(rangeEnd)
           : false;
 
       return {
