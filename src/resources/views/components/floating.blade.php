@@ -1,3 +1,5 @@
+@blaze
+
 @php
     $customization = $classes();
 @endphp

@@ -1,6 +1,7 @@
 <?php
 
 use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Customization\Presets;
 use TallStackUi\Support\Miscellaneous\ReflectComponent;
 use TallStackUi\TallStackUiComponent;
 
@@ -187,10 +188,7 @@ if (! function_exists('__ts_preset')) {
      */
     function __ts_preset(string $preset, TallStackUiComponent|string $component): bool
     {
-        return \TallStackUi\Customization\Presets::is(
-            $preset,
-            is_string($component) ? $component : $component::class
-        );
+        return Presets::is($preset, is_string($component) ? $component : $component::class);
     }
 }
 
