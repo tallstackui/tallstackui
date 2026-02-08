@@ -6,7 +6,7 @@ trait DropdownSharedTransitions
 {
     public function transitions(): string
     {
-        if (__ts_preset('flash', $this)) {
+        if (__ts_global('flash', $this)) {
             return '';
         }
 

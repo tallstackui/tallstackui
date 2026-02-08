@@ -303,9 +303,9 @@ class Customization
         return $this->component(Modal::class);
     }
 
-    public function presets(): Presets
+    public function globals(): Globals
     {
-        return new Presets;
+        return new Globals;
     }
 
     public function progress(?string $component = null, ?string $scope = null): CustomizationFactory

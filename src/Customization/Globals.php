@@ -4,21 +4,21 @@ namespace TallStackUi\Customization;
 
 use InvalidArgumentException;
 
-class Presets
+class Globals
 {
     /** @var array<string, true|string[]|array{except: string[]}> */
     private static array $active = [];
 
     /**
-     * Determine whether a preset is active for the given component.
+     * Determine whether a global is active for the given component.
      */
-    public static function is(string $preset, string $component): bool
+    public static function is(string $global, string $component): bool
     {
-        if (! isset(self::$active[$preset])) {
+        if (! isset(self::$active[$global])) {
             return false;
         }
 
-        $value = self::$active[$preset];
+        $value = self::$active[$global];
 
         if ($value === true) {
             return true;
@@ -32,7 +32,7 @@ class Presets
     }
 
     /**
-     * Clear all registered presets.
+     * Clear all registered globals.
      */
     public static function reset(): void
     {
@@ -42,9 +42,19 @@ class Presets
     /**
      * Remove transition/animation directives from components.
      */
-    public function flash(string ...$components): self
+    public function flash(array $only = [], array $except = []): self
     {
-        self::$active['flash'] = $components === [] ? true : $components;
+        if ($only !== [] && $except !== [] && array_intersect($only, $except) !== []) {
+            throw new InvalidArgumentException('[TallStackUI] A component cannot be listed in both [only] and [except].');
+        }
+
+        if ($only !== []) {
+            self::$active['flash'] = $only;
+        } elseif ($except !== []) {
+            self::$active['flash'] = ['except' => $except];
+        } else {
+            self::$active['flash'] = true;
+        }
 
         return $this;
     }

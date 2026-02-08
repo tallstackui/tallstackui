@@ -83,7 +83,7 @@ trait ManagesClasses
             $classes = $callback($classes);
         }
 
-        if (__ts_preset('square', static::class)) {
+        if (__ts_global('square', static::class)) {
             foreach ($classes as $key => $value) {
                 if (is_string($value)) {
                     $classes[$key] = preg_replace('/\s+/', ' ', trim((string) preg_replace('/(?:[\w-]+:)*rounded(?:-[a-z0-9]+)*/', '', $value)));

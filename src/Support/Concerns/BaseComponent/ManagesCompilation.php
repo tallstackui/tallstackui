@@ -25,7 +25,7 @@ trait ManagesCompilation
             $data = array_merge($data, ['configurations' => [...$configurations]]);
         }
 
-        $data['ts_ui__flash'] = __ts_preset('flash', static::class);
+        $data['ts_ui__flash'] = __ts_global('flash', static::class);
 
         return [...$data];
     }

@@ -5,7 +5,7 @@ namespace TallStackUi\Support\Configurations;
 use Exception;
 use TallStackUi\Components\Dialog\Component as Dialog;
 use TallStackUi\Components\Form\Color\Component as Color;
-use TallStackUi\Components\Form\Select\Styled\Component as Styled;
+use TallStackUi\Components\Form\Select\Styled\Component as SelectStyled;
 use TallStackUi\Components\Loading\Component as Loading;
 use TallStackUi\Components\Modal\Component as Modal;
 use TallStackUi\Components\Slide\Component as Slide;
@@ -25,7 +25,7 @@ class CompileConfigurations
             $component instanceof Dialog => fn () => Dialog::class,
             $component instanceof Loading => fn () => self::loading($component),
             $component instanceof Modal => fn () => self::modal($component),
-            $component instanceof Styled => fn () => self::select($component),
+            $component instanceof SelectStyled => fn () => self::select($component),
             $component instanceof Slide => fn () => self::slide($component),
             $component instanceof Toast => fn () => Toast::class,
             default => fn () => null,
@@ -120,9 +120,9 @@ class CompileConfigurations
         ];
     }
 
-    private static function select(Styled $component): array
+    private static function select(SelectStyled $component): array
     {
-        $configuration = __ts_get_component_configuration(Styled::class);
+        $configuration = __ts_get_component_configuration(SelectStyled::class);
 
         $component->unfiltered ??= $configuration['unfiltered'] ?? false;
 

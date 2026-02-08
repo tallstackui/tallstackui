@@ -1,7 +1,7 @@
 <?php
 
 use TallStackUi\Attributes\SoftCustomization;
-use TallStackUi\Customization\Presets;
+use TallStackUi\Customization\Globals;
 use TallStackUi\Support\Miscellaneous\ReflectComponent;
 use TallStackUi\TallStackUiComponent;
 
@@ -180,15 +180,15 @@ if (! function_exists('__ts_soft_customization_components')) {
     }
 }
 
-if (! function_exists('__ts_preset')) {
+if (! function_exists('__ts_global')) {
     /**
-     * Check if a preset is active for the given component.
+     * Check if a global is active for the given component.
      *
      * @internal This function should not be used outside the package.
      */
-    function __ts_preset(string $preset, TallStackUiComponent|string $component): bool
+    function __ts_global(string $global, TallStackUiComponent|string $component): bool
     {
-        return Presets::is($preset, is_string($component) ? $component : $component::class);
+        return Globals::is($global, is_string($component) ? $component : $component::class);
     }
 }
 

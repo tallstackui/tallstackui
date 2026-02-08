@@ -5,6 +5,14 @@ use TallStackUi\Components\Icon\Component as Icon;
 use TallStackUi\Support\Icons\IconGuideMap;
 
 beforeEach(function () {
+    $this->original = config('ts-ui.components.icon');
+
+    __ts_get_component_configuration('', flush: true);
+});
+
+afterEach(function () {
+    config()->set('ts-ui.components.icon', $this->original);
+
     __ts_get_component_configuration('', flush: true);
 });
 
