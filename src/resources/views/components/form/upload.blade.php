@@ -59,7 +59,7 @@
         <template x-teleport="body">
             <div x-show="preview"
                  x-on:click="preview = false; $nextTick(() => show = true)"
-                 @if (!$flashPreset)
+                 @if (!$ts_ui__flash)
                      x-transition:enter="ease-out duration-300"
                  x-transition:enter-start="opacity-0"
                  x-transition:enter-end="opacity-100"

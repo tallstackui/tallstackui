@@ -52,14 +52,14 @@ class Presets
     /**
      * Remove all border-radius classes from components.
      */
-    public function square(array $in = [], array $except = []): self
+    public function square(array $only = [], array $except = []): self
     {
-        if ($in !== [] && $except !== [] && array_intersect($in, $except) !== []) {
-            throw new InvalidArgumentException('[TallStackUI] A component cannot be listed in both [in] and [except].');
+        if ($only !== [] && $except !== [] && array_intersect($only, $except) !== []) {
+            throw new InvalidArgumentException('[TallStackUI] A component cannot be listed in both [only] and [except].');
         }
 
-        if ($in !== []) {
-            self::$active['square'] = $in;
+        if ($only !== []) {
+            self::$active['square'] = $only;
         } elseif ($except !== []) {
             self::$active['square'] = ['except' => $except];
         } else {

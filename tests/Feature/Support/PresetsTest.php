@@ -183,8 +183,8 @@ it('can remove rounded classes from input when square is global', function () {
     expect($component)->render()->not->toMatch('/\brounded-/');
 });
 
-it('can apply square only to components in the in list', function () {
-    TallStackUi::customize()->presets()->square(in: [Card::class]);
+it('can apply square only to components in the only list', function () {
+    TallStackUi::customize()->presets()->square(only: [Card::class]);
 
     $card = '<x-card header="Foo">Bar</x-card>';
     $input = '<x-input label="Name" />';
@@ -203,9 +203,9 @@ it('can exclude components using the except list', function () {
         ->and($input)->render()->not->toMatch('/\brounded-/');
 });
 
-it('throws exception when a component is in both in and except', function () {
+it('throws exception when a component is in both only and except', function () {
     expect(fn () => TallStackUi::customize()->presets()->square(
-        in: [Card::class],
+        only: [Card::class],
         except: [Card::class],
     ))->toThrow(InvalidArgumentException::class);
 });

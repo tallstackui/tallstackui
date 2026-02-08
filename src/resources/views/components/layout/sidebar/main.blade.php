@@ -4,7 +4,7 @@
 
 <div class="{{ $customization['mobile.wrapper.first'] }}"
      x-show="tallStackUiMenuMobile">
-    <div @if (!$flashPreset)
+    <div @if (!$ts_ui__flash)
              x-transition:enter="transition-opacity ease-linear duration-300"
          x-transition:enter-start="opacity-0"
          x-transition:enter-end="opacity-100"
@@ -15,7 +15,7 @@
          class="{{ $customization['mobile.backdrop'] }}"
          x-show="tallStackUiMenuMobile"></div>
     <div class="{{ $customization['mobile.wrapper.second'] }}">
-        <div @if (!$flashPreset)
+        <div @if (!$ts_ui__flash)
                  x-transition:enter="transition ease-in-out duration-300 transform"
              x-transition:enter-start="-translate-x-full"
              x-transition:enter-end="translate-x-0"
@@ -27,7 +27,7 @@
              x-show="tallStackUiMenuMobile">
             @if (filled($customization['mobile.button.icon']))
                 <div x-show="tallStackUiMenuMobile"
-                     @if (!$flashPreset)
+                     @if (!$ts_ui__flash)
                          x-transition:enter="ease-in-out duration-300"
                      x-transition:enter-start="opacity-0"
                      x-transition:enter-end="opacity-100"

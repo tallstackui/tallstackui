@@ -11,7 +11,7 @@
      x-intersect:leave="{{ $attributes->get('x-show', 'show') }} = false"
 {{ $anchor() }}="{{ $attributes->get('x-anchor', '$refs.anchor') }}"
 {{ $attributes->whereStartsWith('x-on') }}
-@if (!$flashPreset)
+@if (!$ts_ui__flash)
     @if (count($attributes->whereStartsWith('x-transition')->getAttributes()) === 0 || $transition?->isEmpty())
         x-transition:enter="transition duration-100 ease-out"
         x-transition:enter-start="opacity-0 -translate-y-2"

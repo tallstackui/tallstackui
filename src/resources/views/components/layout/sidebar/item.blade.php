@@ -20,7 +20,7 @@
                 @endif
                 @if ($collapsible)
                     <span x-show="($store['tsui.side-bar'].open && !$store['tsui.side-bar'].mobile) || $store['tsui.side-bar'].mobile"
-                          @if (!$flashPreset) x-transition
+                          @if (!$ts_ui__flash) x-transition
                           @endif class="{{ $customization['group.text'] }}">{{ $text }}</span>
                 @else
                     {{ $text }}
@@ -61,7 +61,7 @@
                 @if ($collapsible)
                     <span x-cloak
                           x-show="($store['tsui.side-bar'].open && !$store['tsui.side-bar'].mobile) || $store['tsui.side-bar'].mobile"
-                          @if (!$flashPreset) x-transition
+                          @if (!$ts_ui__flash) x-transition
                           @endif class="{{ $customization['item.text'] }}">{{ $text }}</span>
                 @else
                     {{ $text }}

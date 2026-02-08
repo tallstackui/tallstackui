@@ -15,7 +15,7 @@
         @class(['relative', $configurations['zIndex']])
         {{ $attributes->whereStartsWith('x-on:') }}>
     <div x-show="show"
-         @if (!$flashPreset)
+         @if (!$ts_ui__flash)
              x-transition:enter="ease-in-out duration-300"
          x-transition:enter-start="opacity-0"
          x-transition:enter-end="opacity-100"
@@ -43,7 +43,7 @@
                     'w-[100dvw]' => $configurations['top'] || $configurations['bottom'],
                 ])>
                 <div x-show="show"
-                     @if (!$flashPreset)
+                     @if (!$ts_ui__flash)
                          x-transition:enter="transform transition ease-in-out duration-700"
                      x-transition:enter-start="@if ($configurations['left']) -translate-x-full @elseif ($configurations['top']) -translate-y-full @elseif ($configurations['bottom']) translate-y-full @else translate-x-full @endif"
                      x-transition:enter-end="@if ($configurations['left']) translate-x-0 @elseif ($configurations['top']) translate-y-0 @elseif ($configurations['bottom']) translate-y-0 @else translate-x-0 @endif"

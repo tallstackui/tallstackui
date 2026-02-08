@@ -51,7 +51,7 @@
         @endif
         <div {{ $attributes->class($customization['body']) }}
              x-show="!minimize"
-             @if (!$flashPreset)
+             @if (!$ts_ui__flash)
                  x-transition:enter="transition ease-out duration-100"
              x-transition:enter-start="opacity-0 -translate-y-10"
              x-transition:enter-end="opacity-100 translate-y-0"
@@ -64,7 +64,7 @@
         @if ($footer)
             <div class="{{ $customization['footer.wrapper'] }}"
                  x-show="!minimize"
-                 @if (!$flashPreset)
+                 @if (!$ts_ui__flash)
                      x-transition:enter="transition ease-out duration-100"
                  x-transition:enter-start="opacity-0 -translate-y-10"
                  x-transition:enter-end="opacity-100 translate-y-0"
@@ -84,7 +84,7 @@
         @if ($image && $position === 'bottom')
             <div class="{{ $customization['image.wrapper'] }}"
                  x-show="!minimize"
-                 @if (!$flashPreset)
+                 @if (!$ts_ui__flash)
                      x-transition:enter="transition ease-out duration-100"
                  x-transition:enter-start="opacity-0 -translate-y-10"
                  x-transition:enter-end="opacity-100 translate-y-0"
