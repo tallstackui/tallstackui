@@ -192,9 +192,9 @@
                 <template x-for="(day, index) in days" :key="index">
                     <div class="mb-2"
                          x-bind:class="{
-                            'rounded-l-full': new Date(day.instance).getTime() === new Date(date.start).getTime(),
-                            'rounded-r-full w-7 h-7': new Date(day.instance).getTime() === new Date(date.end).getTime(),
-                            '{{ $customization['range'] }}': between(day.instance) === true,
+                            'rounded-l-full': day.isStart,
+                            'rounded-r-full w-7 h-7': day.isEnd,
+                            '{{ $customization['range'] }}': day.isBetween,
                          }">
                         <button type="button"
                                 x-text="day.day"
@@ -202,9 +202,9 @@
                                 x-on:click="select($event, day.day);"
                                 x-bind:disabled="day.disabled"
                                 x-bind:class="{
-                                    '{{ $customization['button.today'] }}': today(day.day) === true,
-                                    '{{ $customization['button.select'] }}': today(day.day) === false && selected(day.day) === false,
-                                    '{{ $customization['button.selected'] }}': selected(day.day) === true
+                                    '{{ $customization['button.today'] }}': day.isToday,
+                                    '{{ $customization['button.select'] }}': !day.isToday && !day.isSelected,
+                                    '{{ $customization['button.selected'] }}': day.isSelected
                                 }" class="{{ $customization['button.day'] }}" x-show="!picker.year && !picker.month">
                         </button>
                     </div>

@@ -154,19 +154,24 @@ export default (
       // preventing the request from sending an empty array.
       if (!start && !end) this.model = null;
 
-      return this.sync();
+      this.sync();
+
+      return this.refresh();
     }
 
     if (multiple) {
       // ... same as above!
       this.model = this.quantity === 0 ? null : this.model;
 
-      return this.sync();
+      this.sync();
+
+      return this.refresh();
     }
 
     this.date.start = this.model ? dayjs(this.model).$d : null;
 
     this.sync();
+    this.refresh();
   },
   /**
    * Sync the input.
@@ -238,7 +243,9 @@ export default (
           : [...this.model, formatted]
         : [formatted];
 
-      return this.sync();
+      this.sync();
+
+      return this.refresh();
     }
 
     if (range) {
@@ -251,7 +258,9 @@ export default (
       this.model = [];
       this.show = this.date.start !== null && this.date.end === null;
 
-      return this.sync();
+      this.sync();
+
+      return this.refresh();
     }
 
     this.date.start = date;
@@ -259,6 +268,7 @@ export default (
     this.model = date.format('YYYY-MM-DD');
 
     this.sync();
+    this.refresh();
 
     wireChange(change, this.model);
   },
@@ -269,21 +279,41 @@ export default (
    */
   map() {
     const start = this.instance('01');
-
     const month = start.endOf('month').date();
-    let week = start.day();
-
+    const week = start.day();
     const count = (week - this.start + 7) % 7;
 
     this.blanks = Array.from({ length: count }, (key, value) => value + 1);
 
+    const todayStr = dayjs().format('YYYY-MM-DD');
+    const startTime = this.date.start ? new Date(this.date.start).getTime() : null;
+    const endTime = this.date.end ? new Date(this.date.end).getTime() : null;
+    const rangeStart = range && this.date.start ? dayjs(this.date.start) : null;
+    const rangeEnd = range && this.date.end ? dayjs(this.date.end) : null;
+    const selectedSet = multiple && this.model ? new Set(this.model) : null;
+
     this.days = Array.from({ length: month }, (key, value) => {
-      const date = this.instance('01').add(value, 'day');
+      const date = start.add(value, 'day');
+      const formatted = date.format('YYYY-MM-DD');
+      const timestamp = date.toDate().getTime();
+
+      const isBetween =
+        rangeStart && rangeEnd
+          ? date.isBetween(rangeStart, rangeEnd) ||
+            date.isSame(rangeStart) ||
+            date.isSame(rangeEnd)
+          : false;
 
       return {
         instance: date,
         day: date.date(),
-        disabled: this.disabled(date.toDate()),
+        formatted: formatted,
+        disabled: this.disabled(date),
+        isToday: formatted === todayStr,
+        isSelected: this.isSelected(formatted, selectedSet),
+        isBetween: isBetween,
+        isStart: startTime !== null && timestamp === startTime,
+        isEnd: endTime !== null && timestamp === endTime,
       };
     });
   },
@@ -320,40 +350,51 @@ export default (
     wireChange(change, this.model);
   },
   /**
-   * Checks if the given day is selected.
+   * Checks if the given formatted date is selected.
    *
-   * @param {String} day
-   * @returns boolean
+   * @param {String} formatted
+   * @param {Set|null} selectedSet
+   * @returns {Boolean}
    */
-  selected(day) {
+  isSelected(formatted, selectedSet = null) {
     if (!this.model) return false;
 
-    return this.model.includes(this.instance(day).format('YYYY-MM-DD'));
+    if (selectedSet) return selectedSet.has(formatted);
+
+    return this.model.includes(formatted);
   },
   /**
-   * Checks if the given date is between the range date.
+   * Refresh pre-computed metadata on existing day
+   * objects after selection changes, avoiding a full
+   * map() recomputation.
    *
-   * @param {String} date
-   * @returns boolean
+   * @return {void}
    */
-  between(date) {
-    if (!range || !this.date.end) return false;
+  refresh() {
+    if (!this.days || this.days.length === 0) {
+      return;
+    }
 
-    const current = dayjs(date);
+    const startTime = this.date.start ? new Date(this.date.start).getTime() : null;
+    const endTime = this.date.end ? new Date(this.date.end).getTime() : null;
+    const rangeStart = range && this.date.start ? dayjs(this.date.start) : null;
+    const rangeEnd = range && this.date.end ? dayjs(this.date.end) : null;
+    const selectedSet = multiple && this.model ? new Set(this.model) : null;
 
-    const start = dayjs(this.date.start);
-    const end = dayjs(this.date.end);
+    for (let i = 0; i < this.days.length; i++) {
+      const day = this.days[i];
+      const timestamp = day.instance.toDate().getTime();
 
-    return current.isBetween(start, end) || current.isSame(start) || current.isSame(end);
-  },
-  /**
-   * Checks if the date is today
-   *
-   * @param {String} date
-   * @return {Boolean}
-   */
-  today(date) {
-    return Boolean(dayjs().isSame(this.instance(date), 'day'));
+      day.isSelected = this.isSelected(day.formatted, selectedSet);
+      day.isBetween =
+        rangeStart && rangeEnd
+          ? day.instance.isBetween(rangeStart, rangeEnd) ||
+            day.instance.isSame(rangeStart) ||
+            day.instance.isSame(rangeEnd)
+          : false;
+      day.isStart = startTime !== null && timestamp === startTime;
+      day.isEnd = endTime !== null && timestamp === endTime;
+    }
   },
   /**
    * Set the calendar to today's date.
@@ -372,13 +413,16 @@ export default (
    * @return {Boolean}
    */
   disabled(date) {
+    const d = dayjs.isDayjs(date) ? date : dayjs(date);
+    const day = d.day();
+
     return (
-      (this.date.min && dayjs(date).isBefore(this.date.min)) ||
-      (this.date.max && dayjs(date).isAfter(this.date.max)) ||
-      (this.weekdays && (dayjs(date).day() === 0 || dayjs(date).day() === 6)) ||
-      (this.weekends && dayjs(date).day() !== 0 && dayjs(date).day() !== 6) ||
-      (this.only && dayjs(date).day() !== parseInt(this.only)) ||
-      this.disable.includes(this.formatted(date, 'YYYY-MM-DD'))
+      (this.date.min && d.isBefore(this.date.min)) ||
+      (this.date.max && d.isAfter(this.date.max)) ||
+      (this.weekdays && (day === 0 || day === 6)) ||
+      (this.weekends && day !== 0 && day !== 6) ||
+      (this.only && day !== parseInt(this.only)) ||
+      this.disable.includes(d.format('YYYY-MM-DD'))
     );
   },
   /**
@@ -521,7 +565,7 @@ export default (
     this.$el.dispatchEvent(new CustomEvent('clear', { detail: { type: this.type, date: model } }));
   },
   /**
-   * Reset the day, month and year to the current date.
+   * Reset the day, month, and year to the current date.
    *
    * @return {void}
    */
