@@ -69,11 +69,11 @@
     ],
     "test:feature": [
       "vendor/bin/testbench view:clear",
-      "./vendor/bin/pest --filter=Feature --parallel"
+      "CI=true ./vendor/bin/pest --filter=Feature --parallel"
     ],
     "test:browser": [
       "Composer\\Config::disableProcessTimeout",
-      "./vendor/bin/pest --filter=Browser"
+      "CI=true ./vendor/bin/pest --filter=Browser"
     ],
     "test:browser:ci": [
       "Composer\\Config::disableProcessTimeout",
