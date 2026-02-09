@@ -44,6 +44,10 @@ export default (flash, texts, overflowing) => ({
    * @return {void}
    */
   remove(dismissed = false, internal = false) {
+    if (dismissed && this.dialog.persistent) {
+      return;
+    }
+
     this.show = false;
 
     const hook = dismissed ? this.dialog.hooks?.dismiss : this.dialog.hooks?.close;

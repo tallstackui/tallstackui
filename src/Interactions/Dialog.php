@@ -10,6 +10,11 @@ class Dialog extends AbstractInteraction
     use DispatchInteraction;
     use InteractWithConfirmation;
 
+    /**
+     * Set the dialog as persistent (prevent close on outside click).
+     */
+    protected ?bool $persistent = null;
+
     public function error(string $title, ?string $description = null): self
     {
         $this->data = [
@@ -35,6 +40,16 @@ class Dialog extends AbstractInteraction
         ];
 
         $this->static();
+
+        return $this;
+    }
+
+    /**
+     * Sets the dialog as persistent (prevent close on outside click).
+     */
+    public function persistent(): self
+    {
+        $this->persistent = true;
 
         return $this;
     }
@@ -85,6 +100,16 @@ class Dialog extends AbstractInteraction
         $this->static();
 
         return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function additional(): array
+    {
+        return [
+            'persistent' => $this->persistent,
+        ];
     }
 
     /**

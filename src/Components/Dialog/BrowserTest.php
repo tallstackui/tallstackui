@@ -11,6 +11,51 @@ use Tests\Browser\BrowserTestCase;
 class BrowserTest extends BrowserTestCase
 {
     #[Test]
+    public function can_accept_persistent_interaction_dialog_with_confirmation(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            use Interactions;
+
+            public function confirm(): void
+            {
+                $this->dialog()
+                    ->persistent()
+                    ->question('Persistent Confirm', 'Are you sure?')
+                    ->confirm('Yes', 'confirmed', 'Confirmed persistent')
+                    ->cancel('No', 'cancelled', 'Cancelled persistent')
+                    ->send();
+            }
+
+            public function confirmed(string $message): void
+            {
+                $this->dialog()->success($message)->send();
+            }
+
+            public function cancelled(string $message): void
+            {
+                $this->dialog()->error($message)->send();
+            }
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-button dusk="confirm" wire:click="confirm">Confirm</x-button>
+                </div>
+                HTML;
+            }
+        })
+            ->assertDontSee('Persistent Confirm')
+            ->click('@confirm')
+            ->waitForText('Persistent Confirm')
+            ->assertSee('Are you sure?')
+            ->click('@tallstackui_dialog_confirmation')
+            ->waitForText('Confirmed persistent')
+            ->assertSee('Confirmed persistent');
+    }
+
+    #[Test]
     public function can_be_opened_using_modal_and_close_the_dialog_instead_of_modal(): void
     {
         Livewire::visit(new class extends Component
@@ -94,6 +139,72 @@ class BrowserTest extends BrowserTestCase
             ->waitUntilMissingText('Foo bar confirmation')
             ->assertSee('Slide')
             ->assertSee('Click here to confirm');
+    }
+
+    #[Test]
+    public function can_close_persistent_interaction_dialog_by_clicking_close_button(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            use Interactions;
+
+            public function success(): void
+            {
+                $this->dialog()
+                    ->persistent()
+                    ->success('Persistent Close Button')
+                    ->send();
+            }
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-button dusk="success" wire:click="success">Success</x-button>
+                </div>
+                HTML;
+            }
+        })
+            ->assertDontSee('Persistent Close Button')
+            ->click('@success')
+            ->waitForText('Persistent Close Button')
+            ->assertSee('Persistent Close Button')
+            ->click('@tallstackui_dialog_close')
+            ->waitUntilMissingText('Persistent Close Button')
+            ->assertDontSee('Persistent Close Button');
+    }
+
+    #[Test]
+    public function can_close_persistent_interaction_dialog_by_clicking_ok_button(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            use Interactions;
+
+            public function success(): void
+            {
+                $this->dialog()
+                    ->persistent()
+                    ->success('Persistent OK Button')
+                    ->send();
+            }
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-button dusk="success" wire:click="success">Success</x-button>
+                </div>
+                HTML;
+            }
+        })
+            ->assertDontSee('Persistent OK Button')
+            ->click('@success')
+            ->waitForText('Persistent OK Button')
+            ->assertSee('Persistent OK Button')
+            ->click('@tallstackui_dialog_confirmation')
+            ->waitUntilMissingText('Persistent OK Button')
+            ->assertDontSee('Persistent OK Button');
     }
 
     #[Test]
@@ -321,6 +432,51 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_reject_persistent_interaction_dialog_with_confirmation(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            use Interactions;
+
+            public function confirm(): void
+            {
+                $this->dialog()
+                    ->persistent()
+                    ->question('Persistent Reject', 'Are you sure?')
+                    ->confirm('Yes', 'confirmed', 'Confirmed persistent')
+                    ->cancel('No', 'cancelled', 'Cancelled persistent')
+                    ->send();
+            }
+
+            public function confirmed(string $message): void
+            {
+                $this->dialog()->success($message)->send();
+            }
+
+            public function cancelled(string $message): void
+            {
+                $this->dialog()->error($message)->send();
+            }
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-button dusk="confirm" wire:click="confirm">Confirm</x-button>
+                </div>
+                HTML;
+            }
+        })
+            ->assertDontSee('Persistent Reject')
+            ->click('@confirm')
+            ->waitForText('Persistent Reject')
+            ->assertSee('Are you sure?')
+            ->click('@tallstackui_dialog_rejection')
+            ->waitForText('Cancelled persistent')
+            ->assertSee('Cancelled persistent');
+    }
+
+    #[Test]
     public function can_send(): void
     {
         Livewire::visit(DialogComponent::class)
@@ -511,6 +667,42 @@ class BrowserTest extends BrowserTestCase
             ->click('@tallstackui_dialog_confirmation')
             ->waitForTextIn('@ok', 'ok')
             ->assertSee('ok');
+    }
+
+    #[Test]
+    public function cannot_close_persistent_interaction_dialog_by_clicking_outside(): void
+    {
+        $this->skipOnGitHubActions();
+
+        Livewire::visit(new class extends Component
+        {
+            use Interactions;
+
+            public function success(): void
+            {
+                $this->dialog()
+                    ->persistent()
+                    ->success('Persistent Dialog', 'This should not close on outside click')
+                    ->send();
+            }
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-button dusk="success" wire:click="success">Success</x-button>
+                </div>
+                HTML;
+            }
+        })
+            ->assertDontSee('Persistent Dialog')
+            ->click('@success')
+            ->waitForText('Persistent Dialog')
+            ->assertSee('This should not close on outside click')
+            ->clickAtPoint(350, 350)
+            ->pause(300)
+            ->assertSee('Persistent Dialog')
+            ->assertSee('This should not close on outside click');
     }
 
     #[Test]
