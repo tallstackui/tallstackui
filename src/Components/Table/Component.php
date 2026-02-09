@@ -39,6 +39,8 @@ class Component extends TallStackUiComponent implements Customization
         public ?bool $selectable = null,
         public ?string $selectableProperty = 'id',
         public ?bool $expandable = false,
+        public ?bool $highlight = false,
+        public ?string $highlightProperty = 'highlight',
         public ?string $link = null,
         public ?bool $blank = false,
         public ?int $onEachSide = 1,
@@ -134,6 +136,49 @@ class Component extends TallStackUiComponent implements Customization
         return ['column' => $header['index'], 'direction' => $direction];
     }
 
+    final public function highlighted(mixed $row): ?string
+    {
+        if (! $this->highlight) {
+            return null;
+        }
+
+        $color = data_get($row, $this->highlightProperty);
+
+        if (blank($color)) {
+            return null;
+        }
+
+        return match ($color) {
+            'primary' => 'bg-primary-100 dark:bg-primary-900/20',
+            'secondary' => 'bg-secondary-100 dark:bg-secondary-900/20',
+            'black' => 'bg-gray-200 dark:bg-gray-800/40',
+            'white' => 'bg-white dark:bg-dark-600',
+            'slate' => 'bg-slate-100 dark:bg-slate-900/20',
+            'gray' => 'bg-gray-100 dark:bg-gray-900/20',
+            'zinc' => 'bg-zinc-100 dark:bg-zinc-900/20',
+            'neutral' => 'bg-neutral-100 dark:bg-neutral-900/20',
+            'stone' => 'bg-stone-100 dark:bg-stone-900/20',
+            'red' => 'bg-red-100 dark:bg-red-900/20',
+            'orange' => 'bg-orange-100 dark:bg-orange-900/20',
+            'amber' => 'bg-amber-100 dark:bg-amber-900/20',
+            'yellow' => 'bg-yellow-100 dark:bg-yellow-900/20',
+            'lime' => 'bg-lime-100 dark:bg-lime-900/20',
+            'green' => 'bg-green-100 dark:bg-green-900/20',
+            'emerald' => 'bg-emerald-100 dark:bg-emerald-900/20',
+            'teal' => 'bg-teal-100 dark:bg-teal-900/20',
+            'cyan' => 'bg-cyan-100 dark:bg-cyan-900/20',
+            'sky' => 'bg-sky-100 dark:bg-sky-900/20',
+            'blue' => 'bg-blue-100 dark:bg-blue-900/20',
+            'indigo' => 'bg-indigo-100 dark:bg-indigo-900/20',
+            'violet' => 'bg-violet-100 dark:bg-violet-900/20',
+            'purple' => 'bg-purple-100 dark:bg-purple-900/20',
+            'fuchsia' => 'bg-fuchsia-100 dark:bg-fuchsia-900/20',
+            'pink' => 'bg-pink-100 dark:bg-pink-900/20',
+            'rose' => 'bg-rose-100 dark:bg-rose-900/20',
+            default => $color
+        };
+    }
+
     // Prepare the href link for the row replacing tokens
     public function href(mixed $row): string
     {
@@ -186,6 +231,10 @@ class Component extends TallStackUiComponent implements Customization
 
         if ($this->selectable && blank($this->selectableProperty)) {
             __ts_validation_exception($this, 'The [selectableProperty] property is required when [selectable] is set.');
+        }
+
+        if ($this->highlight && blank($this->highlightProperty)) {
+            __ts_validation_exception($this, 'The [highlightProperty] property is required when [highlight] is set.');
         }
     }
 }

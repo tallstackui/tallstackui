@@ -100,7 +100,11 @@
                         @php
                             $id = md5(serialize($value).$key);
                         @endphp
-                        <tr @class([$customization['table.tr'], 'bg-gray-50 dark:bg-dark-800/50' => $striped && $loop->index % 2 === 0]) @if ($livewire) wire:key="{{ $id }}" @endif>
+                        <tr @class([
+                            $customization['table.tr'],
+                            'bg-gray-50 dark:bg-dark-800/50' => $striped && $loop->index % 2 === 0 && ! $highlighted($value),
+                            $highlighted($value),
+                        ]) @if ($livewire) wire:key="{{ $id }}" @endif>
                             @if ($expandable)
                                 <td class="{{ $customization['table.td'] }}">
                                     @isset($sub_table)
@@ -145,7 +149,8 @@
                         </tr>
                         @if ($expandable)
                             @isset($sub_table)
-                                <tr x-show="expanded('{{ $id }}')" x-cloak @if ($livewire) wire:key="sub-{{ $id }}" @endif class="{{ $customization['expandable.wrapper'] }}">
+                                <tr x-show="expanded('{{ $id }}')" x-cloak @if ($livewire) wire:key="sub-{{ $id }}"
+                                    @endif class="{{ $customization['expandable.wrapper'] }}">
                                     <td colspan="100%" class="{{ $customization['expandable.content'] }}">
                                         {{ $sub_table($value) }}
                                     </td>

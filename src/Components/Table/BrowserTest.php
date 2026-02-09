@@ -326,6 +326,69 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_render_with_highlighted_rows(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public array $rows = [
+                ['id' => 1, 'name' => 'Foo', 'highlight' => 'green'],
+                ['id' => 2, 'name' => 'Bar', 'highlight' => 'red'],
+                ['id' => 3, 'name' => 'Baz'],
+            ];
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    @php
+                        $headers = [
+                            ['index' => 'id', 'label' => '#'],
+                            ['index' => 'name', 'label' => 'Name'],
+                        ];
+                    @endphp
+                    <x-table :$headers :$rows highlight />
+                </div>
+                HTML;
+            }
+        })
+            ->assertSee('Foo')
+            ->assertSee('Bar')
+            ->assertSee('Baz')
+            ->assertSourceHas('bg-green-100')
+            ->assertSourceHas('bg-red-100');
+    }
+
+    #[Test]
+    public function can_render_with_highlighted_rows_using_custom_property(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public array $rows = [
+                ['id' => 1, 'name' => 'Foo', 'status_color' => 'blue'],
+                ['id' => 2, 'name' => 'Bar'],
+            ];
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    @php
+                        $headers = [
+                            ['index' => 'id', 'label' => '#'],
+                            ['index' => 'name', 'label' => 'Name'],
+                        ];
+                    @endphp
+                    <x-table :$headers :$rows highlight highlight-property="status_color" />
+                </div>
+                HTML;
+            }
+        })
+            ->assertSee('Foo')
+            ->assertSee('Bar')
+            ->assertSourceHas('bg-blue-100');
+    }
+
+    #[Test]
     public function can_render_selectable_and_select_rows_using_different_property(): void
     {
         Livewire::visit(new class extends Component
