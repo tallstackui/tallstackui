@@ -47,7 +47,7 @@ class Component extends TallStackUiComponent implements Customization
 
         if ($this->query) {
             // We just transform to collect to avoid the need
-            // to check if $this->query is instance of Collection
+            // to check if $this->query is an instance of Collection
             $this->formatted .= '?';
             $this->formatted .= Arr::query(collect($this->query)->toArray());
         }
@@ -61,7 +61,7 @@ class Component extends TallStackUiComponent implements Customization
 
     public function blade(): View
     {
-        return view('ts-ui::components.link');
+        return view('ts-ui::components.link.main');
     }
 
     public function customization(): array

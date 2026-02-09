@@ -29,6 +29,6 @@ class Component extends TallStackUiComponent
 
     public function blade(): View
     {
-        return view('ts-ui::components.icon');
+        return view('ts-ui::components.icon.main');
     }
 }

@@ -27,7 +27,7 @@ class Component extends TallStackUiComponent implements Customization
 
     public function blade(): View
     {
-        return view('ts-ui::components.theme-switch');
+        return view('ts-ui::components.theme-switch.main');
     }
 
     public function customization(): array

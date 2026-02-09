@@ -30,7 +30,7 @@ class Component extends TallStackUiComponent implements Customization
 
     public function blade(): View
     {
-        return view('ts-ui::components.errors');
+        return view('ts-ui::components.errors.main');
     }
 
     public function count(ViewErrorBag $errors): int

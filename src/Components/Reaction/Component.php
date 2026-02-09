@@ -63,7 +63,7 @@ class Component extends TallStackUiComponent implements Customization
 
     public function blade(): View
     {
-        return view('ts-ui::components.reaction');
+        return view('ts-ui::components.reaction.main');
     }
 
     final public function content(string $component): string

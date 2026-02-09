@@ -42,7 +42,7 @@ class Component extends TallStackUiComponent implements Customization
 
     public function blade(): View
     {
-        return view('ts-ui::components.rating');
+        return view('ts-ui::components.rating.main');
     }
 
     public function customization(): array
