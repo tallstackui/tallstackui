@@ -3,7 +3,7 @@
 @endphp
 
 @if ($errors->isNotEmpty())
-    <div class="w-full"
+    <div wire:key="errors-{{ uniqid() }}" class="w-full"
          x-data="{ show : true, close () { this.show = false; this.$el.dispatchEvent(new CustomEvent('close')) } }"
          x-show="show">
         <div {{ $attributes->class([

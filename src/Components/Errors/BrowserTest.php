@@ -84,6 +84,42 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_reappear_after_close_on_new_validation(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            #[Rule('required')]
+            public ?string $name = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-errors close />
+
+                    <x-button dusk="save" wire:click="save">Save</x-button>
+                </div>
+                HTML;
+            }
+
+            public function save(): void
+            {
+                $this->validate();
+            }
+        })
+            ->assertSee('Save')
+            ->assertDontSee('There are 1 validation errors:')
+            ->click('@save')
+            ->waitForText('There are 1 validation errors:')
+            ->click('@tallstackui_errors_close_button')
+            ->waitUntilMissingText('There are 1 validation errors:')
+            ->assertDontSee('There are 1 validation errors:')
+            ->click('@save')
+            ->waitForText('There are 1 validation errors:')
+            ->assertSee('There are 1 validation errors:');
+    }
+
+    #[Test]
     public function can_render(): void
     {
         Livewire::visit(new class extends Component
