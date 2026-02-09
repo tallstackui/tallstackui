@@ -2,20 +2,6 @@
     $customization = $classes();
 @endphp
 
-<div x-data="{
-    expandedRows: [],
-    toggleRow(id) {
-        const idx = this.expandedRows.indexOf(id);
-        if (idx > -1) {
-            this.expandedRows.splice(idx, 1);
-        } else {
-            this.expandedRows.push(id);
-        }
-    },
-    isRowExpanded(id) {
-        return this.expandedRows.includes(id);
-    }
-}">
 <div x-data="tallstackui_table({!! $entangle !!}, @js($ids()), @js($selectable))"
      @if ($persistent) x-ref="persist" @endif>
     @if (is_string($header))
@@ -115,12 +101,12 @@
                                 <td class="{{ $customization['table.td'] }}">
                                     @isset($sub_table)
                                         <button type="button"
-                                                x-on:click="toggleRow('{{ $id }}')"
+                                                x-on:click="toggle('{{ $id }}')"
                                                 class="{{ $customization['expandable.button'] }} cursor-pointer">
                                             <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                                                  :icon="TallStackUi::icon('chevron-right')"
                                                                  internal
-                                                                 x-bind:class="isRowExpanded('{{ $id }}') ? 'rotate-90' : ''"
+                                                                 x-bind:class="expanded('{{ $id }}') ? 'rotate-90' : ''"
                                                                  class="h-4 w-4 transition-transform duration-200" />
                                         </button>
                                     @endisset
@@ -155,8 +141,8 @@
                         </tr>
                         @if ($expandable)
                             @isset($sub_table)
-                                <tr x-show="isRowExpanded('{{ $id }}')" x-cloak @if ($livewire) wire:key="sub-{{ $id }}" @endif class="{{ $customization['expandable.wrapper'] }}">
-                                    <td colspan="100%" class="px-4 py-3">
+                                <tr x-show="expanded('{{ $id }}')" x-cloak @if ($livewire) wire:key="sub-{{ $id }}" @endif class="{{ $customization['expandable.wrapper'] }}">
+                                    <td colspan="100%" class="{{ $customization['expandable.content'] }}">
                                         {{ $sub_table($value) }}
                                     </td>
                                 </tr>
@@ -185,5 +171,4 @@
             'scrollTo' => $persistent ?? false,
         ]) }}
     @endif
-</div>
 </div>

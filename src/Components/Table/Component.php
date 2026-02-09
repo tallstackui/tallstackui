@@ -38,9 +38,9 @@ class Component extends TallStackUiComponent implements Customization
         public ?bool $simplePagination = false,
         public ?bool $selectable = null,
         public ?string $selectableProperty = 'id',
+        public ?bool $expandable = false,
         public ?string $link = null,
         public ?bool $blank = false,
-        public ?bool $expandable = false,
         public ?int $onEachSide = 1,
         #[SkipDebug]
         public ?array $placeholders = null,
@@ -116,11 +116,7 @@ class Component extends TallStackUiComponent implements Customization
             'expandable' => [
                 'wrapper' => 'bg-gray-50 dark:bg-dark-800',
                 'button' => 'text-gray-500 dark:text-dark-300 hover:text-gray-700 dark:hover:text-dark-100 transition-transform duration-200',
-                'table' => 'dark:divide-dark-500/50 min-w-full divide-y divide-gray-200 ml-4',
-                'th' => 'dark:text-dark-200 px-3 py-2 text-left text-xs font-semibold text-gray-600',
-                'tbody' => 'dark:bg-dark-700 dark:divide-dark-500/20 divide-y divide-gray-200 bg-white',
-                'td' => 'dark:text-dark-300 whitespace-nowrap px-3 py-2 text-xs text-gray-500',
-                'tr' => '',
+                'content' => 'px-4 py-3',
             ],
         ]);
     }

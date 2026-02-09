@@ -42,6 +42,41 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_render_expandable(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public array $rows = [
+                ['id' => 1, 'name' => 'Foo'],
+                ['id' => 2, 'name' => 'Bar'],
+            ];
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    @php
+                        $headers = [
+                            ['index' => 'id', 'label' => '#'],
+                            ['index' => 'name', 'label' => 'Name'],
+                        ];
+                    @endphp
+                    <x-table :$headers :$rows expandable>
+                        @interact('sub_table', $row)
+                            <p dusk="sub-{{ $row['id'] }}">Details for {{ $row['name'] }}</p>
+                        @endinteract
+                    </x-table>
+                </div>
+                HTML;
+            }
+        })
+            ->assertSee('Foo')
+            ->assertSee('Bar')
+            ->assertDontSee('Details for Foo')
+            ->assertDontSee('Details for Bar');
+    }
+
+    #[Test]
     public function can_render_headless(): void
     {
         Livewire::visit(new class extends Component

@@ -1,6 +1,7 @@
 export default (model, ids, selectable) => ({
   model: model,
   ids: ids,
+  rows: [],
   init() {
     if (selectable) this.checked();
   },
@@ -73,5 +74,28 @@ export default (model, ids, selectable) => ({
    */
   redirect(url, blank) {
     window.open(url, blank ? '_blank' : '_self');
+  },
+  /**
+   * Toggle the expanded state of a row
+   *
+   * @param {String} id
+   */
+  toggle(id) {
+    const idx = this.rows.indexOf(id);
+
+    if (idx > -1) {
+      this.rows.splice(idx, 1);
+    } else {
+      this.rows.push(id);
+    }
+  },
+  /**
+   * Check if a row is expanded
+   *
+   * @param {String} id
+   * @returns {Boolean}
+   */
+  expanded(id) {
+    return this.rows.includes(id);
   },
 });
