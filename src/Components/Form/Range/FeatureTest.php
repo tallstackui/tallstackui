@@ -1,6 +1,6 @@
 <?php
 
-uses(Tests\TestCase::class);
+uses(Tests\TestCase::class)->group('Feature');
 
 it('can render')
     ->expect('<x-range />')

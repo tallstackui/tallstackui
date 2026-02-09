@@ -1,6 +1,6 @@
 <?php
 
-uses(Tests\TestCase::class);
+uses(Tests\TestCase::class)->group('Feature');
 
 it('can render askerisk', function () {
     expect('<x-input label="FooBar *" hint="Insert your name" />')->render()
