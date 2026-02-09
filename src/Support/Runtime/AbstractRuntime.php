@@ -141,7 +141,7 @@ abstract class AbstractRuntime
     protected function value(?string $property = null, mixed $value = null): mixed
     {
         return $this->wireable() && ! is_null($property) && property_exists($this->livewire, $property)
-            ? ($this->property($property) ?? $value ?: $this->data['attributes']->get('value'))
+            ? $this->property($property)
             : ($value ?: $this->data['attributes']->get('value'));
     }
 

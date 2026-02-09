@@ -19,11 +19,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest]
-        php: [8.3]
-        laravel: ['11.*']
-        livewire: ['^3.0', '^4.0']
-        shard: [1, 2, 3, 4, 5]
+        os: [ ubuntu-latest ]
+        php: [ 8.3 ]
+        laravel: [ '11.*' ]
+        livewire: [ '^3.0', '^4.0' ]
+        shard: [ 1, 2, 3, 4, 5 ]
 
     name: Laravel:${{ matrix.laravel }} / Livewire:${{ matrix.livewire }} / Shard:${{ matrix.shard }}
 
@@ -91,6 +91,6 @@ jobs:
         run: ./vendor/bin/testbench view:clear
 
       - name: Tests
-        run: ./vendor/bin/pest --ci --stop-on-failure --shard ${{ matrix.shard }}/5
+        run: ./vendor/bin/pest --stop-on-failure --shard ${{ matrix.shard }}/5
         env:
           CI: true
