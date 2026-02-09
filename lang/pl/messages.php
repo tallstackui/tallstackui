@@ -1,6 +1,11 @@
 <?php
 
 return [
+    'environment' => [
+        'environment' => 'Środowisko',
+        'branch' => 'Gałąź',
+    ],
+
     'errors' => [
         'title' => 'Wystąpiły :count błędy walidacji:',
     ],
@@ -47,7 +52,7 @@ return [
                 'min' => 'Co najmniej :min znaków',
                 'numbers' => 'Co najmniej jedna liczba',
                 'symbols' => 'Co najmniej jeden symbol (:symbols)',
-                'mixed' => 'Co najmniej jedna wielka litera',
+                'mixed' => 'Wielkie i małe litery',
             ],
         ],
     ],

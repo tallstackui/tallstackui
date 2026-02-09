@@ -52,7 +52,7 @@ return [
                 'min' => 'En az :min karakter',
                 'numbers' => 'En az bir rakam',
                 'symbols' => 'En az bir sembol (:symbols)',
-                'mixed' => 'En az bir büyük harf',
+                'mixed' => 'Büyük ve küçük harfler',
             ],
         ],
     ],

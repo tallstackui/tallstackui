@@ -47,9 +47,9 @@ return [
 
     'password' => [
         'rules' => [
-            'title' => 'Formato della parola chiave previsto:',
+            'title' => 'Formato password previsto:',
             'formats' => [
-                'min' => 'Almeno :min personaggi',
+                'min' => 'Almeno :min caratteri',
                 'numbers' => 'Almeno un numero',
                 'symbols' => 'Almeno un simbolo (:symbols)',
                 'mixed' => 'Lettere maiuscole e minuscole',
@@ -59,7 +59,7 @@ return [
 
     'upload' => [
         'placeholder' => 'Scegli un file',
-        'size' => 'Misurare',
+        'size' => 'Dimensione',
         'upload' => 'Clicca qui per inviare',
         'uploaded' => [
             'single' => ':count file inviato',

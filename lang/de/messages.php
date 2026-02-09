@@ -62,7 +62,7 @@ return [
         'size' => 'Größe',
         'upload' => 'Hochladen',
         'uploaded' => [
-            'single' => 'Eine Datei hochgeladen.',
+            'single' => ':count Datei hochgeladen.',
             'multiple' => ':count Dateien hochgeladen.',
         ],
         'error' => 'Ein Fehler ist aufgetreten. Bitte versuche es erneut.',

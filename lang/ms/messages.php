@@ -52,7 +52,7 @@ return [
                 'min' => 'Mestilah mempunyai sekurang-kurangnya :min karakter',
                 'numbers' => 'Mestilah mempunyai sekurang-kurangnya satu nombor',
                 'symbols' => 'Mestilah mempunyai sekurang-kurangnya satu simbol (:symbols)',
-                'mixed' => 'Mestilah mempunyai sekurang-kurangnya satu huruf besar',
+                'mixed' => 'Huruf besar dan huruf kecil',
             ],
         ],
     ],
@@ -80,7 +80,7 @@ return [
             'months' => [
                 'january' => 'Januari',
                 'february' => 'Februari',
-                'march' => 'Mar',
+                'march' => 'Mac',
                 'april' => 'April',
                 'may' => 'Mei',
                 'june' => 'Jun',

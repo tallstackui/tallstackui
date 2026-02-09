@@ -52,7 +52,7 @@ return [
                 'min' => 'Ít nhất :min ký tự',
                 'numbers' => 'Ít nhất một số',
                 'symbols' => 'Ít nhất một ký tự đặc biệt (:symbols)',
-                'mixed' => 'Ít nhất một ký tự viết hoa',
+                'mixed' => 'Chữ hoa và chữ thường',
             ],
         ],
     ],

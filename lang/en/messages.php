@@ -52,7 +52,7 @@ return [
                 'min' => 'At least :min characters',
                 'numbers' => 'At least one number',
                 'symbols' => 'At least one symbol (:symbols)',
-                'mixed' => 'At least one uppercase character',
+                'mixed' => 'Uppercase and lowercase letters',
             ],
         ],
     ],
@@ -62,8 +62,8 @@ return [
         'size' => 'Size',
         'upload' => 'Click here to upload',
         'uploaded' => [
-            'single' => ':count file send',
-            'multiple' => ':count files send',
+            'single' => ':count file sent',
+            'multiple' => ':count files sent',
         ],
         'error' => 'Something went wrong. Please, try again.',
         'static' => [

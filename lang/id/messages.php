@@ -52,7 +52,7 @@ return [
                 'min' => 'Minimal :min karakter',
                 'numbers' => 'Minimal satu angka',
                 'symbols' => 'Minimal satu simbol (:symbols)',
-                'mixed' => 'Minimal satu huruf besar',
+                'mixed' => 'Huruf besar dan kecil',
             ],
         ],
     ],

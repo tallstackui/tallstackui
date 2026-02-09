@@ -52,7 +52,7 @@ return [
                 'min' => 'Tenminste :min karakters',
                 'numbers' => 'Tenminste 1 getal',
                 'symbols' => 'Tenminste 1 symbool (:symbols)',
-                'mixed' => 'Tenminste 1 hoofdletter',
+                'mixed' => 'Hoofd- en kleine letters',
             ],
         ],
     ],

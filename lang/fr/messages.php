@@ -52,7 +52,7 @@ return [
                 'min' => 'Au moins :min caractères',
                 'numbers' => 'Au moins un chiffre',
                 'symbols' => 'Au moins un symbole (:symbols)',
-                'mixed' => 'Au moins une lettre majuscule',
+                'mixed' => 'Lettres majuscules et minuscules',
             ],
         ],
     ],
@@ -72,7 +72,7 @@ return [
                 'description' => 'Vous n\'avez pas encore d\'image.',
             ],
         ],
-        'invalid' => 'Une erreur de validation s’est produite.',
+        'invalid' => 'Une erreur de validation s\'est produite.',
     ],
 
     'date' => [

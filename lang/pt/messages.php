@@ -52,7 +52,7 @@ return [
                 'min' => 'Pelo menos :min caracteres',
                 'numbers' => 'Pelo menos um número',
                 'symbols' => 'Pelo menos um símbolo (:symbols)',
-                'mixed' => 'Pelo menos uma letra maiúscula',
+                'mixed' => 'Letras maiúsculas e minúsculas',
             ],
         ],
     ],
