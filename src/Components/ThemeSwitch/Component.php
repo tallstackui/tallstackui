@@ -13,6 +13,7 @@ use TallStackUi\TallStackUiComponent;
 class Component extends TallStackUiComponent implements Customization
 {
     public function __construct(
+        public ?bool $simple = false,
         public ?bool $onlyIcons = false,
         public ?bool $xs = null,
         public ?bool $sm = null,
@@ -21,8 +22,16 @@ class Component extends TallStackUiComponent implements Customization
         public ?bool $xl = null,
         #[SkipDebug]
         public ?string $size = null,
+        #[SkipDebug]
+        public ?string $variation = null,
     ) {
         $this->size = $this->xl ? 'xl' : ($this->xs ? 'xs' : ($this->sm ? 'sm' : ($this->lg ? 'lg' : 'md')));
+
+        $this->variation = $this->simple ? 'simple' : 'segmented';
+
+        if ($this->onlyIcons && ! $this->simple) {
+            __ts_validation_exception($this, 'The [only-icons] property requires [simple] to be enabled.');
+        }
     }
 
     public function blade(): View
@@ -48,6 +57,26 @@ class Component extends TallStackUiComponent implements Customization
                         'md' => 'h-5 w-5',
                         'lg' => 'h-6 w-6',
                         'xl' => 'h-7 w-7',
+                    ],
+                ],
+            ],
+            'segmented' => [
+                'wrapper' => 'dark:bg-dark-600 inline-flex items-center gap-1 rounded-lg bg-gray-100 p-1',
+                'button' => 'cursor-pointer rounded-md p-1.5 transition-colors',
+                'active' => 'dark:bg-dark-500 bg-white',
+                'inactive' => 'dark:text-dark-300 dark:hover:text-dark-100 text-gray-500 hover:text-gray-700',
+                'colors' => [
+                    'moon' => 'text-blue-500',
+                    'sun' => 'text-yellow-500',
+                    'system' => 'dark:text-white text-gray-500',
+                ],
+                'icons' => [
+                    'sizes' => [
+                        'xs' => 'h-3 w-3',
+                        'sm' => 'h-3.5 w-3.5',
+                        'md' => 'h-4 w-4',
+                        'lg' => 'h-5 w-5',
+                        'xl' => 'h-6 w-6',
                     ],
                 ],
             ],
