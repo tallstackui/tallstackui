@@ -42,7 +42,7 @@ class Globals
     }
 
     /**
-     * Invert component (Dialog & Toast) colors making the body take the type color.
+     * Invert component (Dialog & Toast) colors, making the body take the type color.
      */
     public function colorful(bool $toast = true, bool $dialog = true): self
     {
