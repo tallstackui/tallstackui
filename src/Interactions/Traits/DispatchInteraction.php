@@ -75,14 +75,16 @@ trait DispatchInteraction
 
         $data = array_merge($data, $this->additional());
 
-        $event = sprintf('tallstackui:%s', $this->event());
+        $event = sprintf('ts-ui:%s', $this->event());
 
         $data['id'] ??= (string) Str::uuid();
 
         if ($this->component) {
             $data['reference'] = $this->component->getId();
 
-            $this->component->dispatch($event, ...$data);
+            if ($this->dispatch) {
+                $this->component->dispatch($event, ...$data);
+            }
         } else {
             // This else indicates that the sending is taking place via
             // Controller, outside the Livewire scope. So we automatically
