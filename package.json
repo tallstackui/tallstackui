@@ -7,9 +7,9 @@
   "scripts": {
     "build": "vite build && npx @tailwindcss/cli -i css/v4.css -o ./dist/tallstackui.css --minify",
     "dev": "vite build --watch",
-    "lint": "npx eslint \"js/**\"",
-    "lint:fix": "npx eslint \"js/**\" --fix",
-    "format": "npx prettier --write \"js/**/*.js\""
+    "lint": "npx eslint \"js/**\" \"src/Components/**/*.js\"",
+    "lint:fix": "npx eslint \"js/**\" \"src/Components/**/*.js\" --fix",
+    "format": "npx prettier --write \"js/**/*.js\" \"src/Components/**/*.js\""
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",

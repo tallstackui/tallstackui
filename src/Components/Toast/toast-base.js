@@ -51,12 +51,14 @@ export default (flash, position = null, flashGlobal = false) => ({
    *
    * @returns {Object}
    */
-  transition: flashGlobal ? {} : {
-    'x-transition:enter': 'transform ease-out duration-300 transition',
-    'x-transition:enter-start'() {
-      // eslint-disable-next-line max-len
-      return `translate-y-2 opacity-0 sm:translate-y-0 ${this.position.includes('-left') ? 'sm:-translate-x-2' : 'sm:translate-x-2'}`;
-    },
-    'x-transition:enter-end': 'translate-y-0 opacity-100 sm:translate-x-0',
-  },
+  transition: flashGlobal
+    ? {}
+    : {
+        'x-transition:enter': 'transform ease-out duration-300 transition',
+        'x-transition:enter-start'() {
+          // eslint-disable-next-line max-len
+          return `translate-y-2 opacity-0 sm:translate-y-0 ${this.position.includes('-left') ? 'sm:-translate-x-2' : 'sm:translate-x-2'}`;
+        },
+        'x-transition:enter-end': 'translate-y-0 opacity-100 sm:translate-x-0',
+      },
 });
