@@ -34,6 +34,34 @@ it('can render with image')
     ->toContain('Foo bar')
     ->toContain('https://via.placeholder.com/150');
 
+it('can render with loading')
+    ->expect('<x-card loading="save">Foo bar</x-card>')
+    ->render()
+    ->toContain('Foo bar')
+    ->toContain('wire:loading')
+    ->toContain('wire:target="save"');
+
+it('can render with loading and delay')
+    ->expect('<x-card loading="save" delay="longest">Foo bar</x-card>')
+    ->render()
+    ->toContain('wire:loading.delay.longest')
+    ->toContain('wire:target="save"');
+
+it('does not render loading bar by default')
+    ->expect('<x-card>Foo bar</x-card>')
+    ->render()
+    ->not->toContain('wire:loading');
+
+it('adds relative class when loading is set')
+    ->expect('<x-card loading="save">Foo bar</x-card>')
+    ->render()
+    ->toContain('relative');
+
+it('renders loading bar with indeterminate animation')
+    ->expect('<x-card loading="save">Foo bar</x-card>')
+    ->render()
+    ->toContain('animate-indeterminate');
+
 it('cannot use image and color together', function () {
     $this->expectException(ViewException::class);
     $this->expectExceptionMessage('[TallStackUI] Card: The [image] and [color] cannot be used together.');

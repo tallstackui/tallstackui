@@ -4,7 +4,18 @@
 
 <div x-data="tallstackui_card(@js($initializeMinimized))" class="{{ $customization['wrapper.first'] }}" x-cloak
      @if ($close) x-show="show" @endif wire:ignore.self>
-    <div class="{{ $customization['wrapper.second'] }}">
+    <div @class([$customization['wrapper.second'], 'relative' => $loading])>
+        @if ($loading)
+            <div class="{{ $customization['loading.wrapper'] }}"
+                 @if (!$delay)
+                     wire:loading
+                 @else
+                     wire:loading.delay{{ is_string($delay) && $delay !== "1" ? ".{$delay}" : "" }}
+                 @endif
+                 wire:target="{{ $loading }}">
+                <div class="{{ $customization['loading.bar'] }}"></div>
+            </div>
+        @endif
         @if ($image && $position !== 'bottom')
             <div class="{{ $customization['image.wrapper'] }}">
                 <img src="{{ $image }}" @class([$customization['image.rounded.top'], $customization['image.size']]) />

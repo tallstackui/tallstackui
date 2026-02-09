@@ -64,6 +64,7 @@
     --z-auto: auto;
 
     --animate-progress: progress 2s linear infinite;
+    --animate-indeterminate: indeterminate 1.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 
     @keyframes progress {
         0% {
@@ -71,6 +72,15 @@
         }
         100% {
             width: 100%;
+        }
+    }
+
+    @keyframes indeterminate {
+        0% {
+            transform: translateX(-100%);
+        }
+        100% {
+            transform: translateX(400%);
         }
     }
 }
