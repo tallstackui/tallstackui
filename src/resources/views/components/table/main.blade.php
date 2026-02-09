@@ -2,6 +2,20 @@
     $customization = $classes();
 @endphp
 
+<div x-data="{
+    expandedRows: [],
+    toggleRow(id) {
+        const idx = this.expandedRows.indexOf(id);
+        if (idx > -1) {
+            this.expandedRows.splice(idx, 1);
+        } else {
+            this.expandedRows.push(id);
+        }
+    },
+    isRowExpanded(id) {
+        return this.expandedRows.includes(id);
+    }
+}">
 <div x-data="tallstackui_table({!! $entangle !!}, @js($ids()), @js($selectable))"
      @if ($persistent) x-ref="persist" @endif>
     @if (is_string($header))
@@ -49,6 +63,9 @@
                 @if (!$headerless)
                     <thead @class(['uppercase', $customization['table.thead.normal'] => !$striped, $customization['table.thead.striped'] => $striped])>
                     <tr>
+                        @if ($expandable)
+                            <th @class(['w-8', $customization['table.th']])></th>
+                        @endif
                         @if ($selectable)
                             <th @class(['w-6', $customization['table.th']]) wire:key="checkall-{{ implode(',', $ids()) }}">
                                 <x-dynamic-component :component="TallStackUi::prefix('checkbox')"
@@ -94,6 +111,21 @@
                             $id = md5(serialize($value).$key);
                         @endphp
                         <tr @class([$customization['table.tr'], 'bg-gray-50 dark:bg-dark-800/50' => $striped && $loop->index % 2 === 0]) @if ($livewire) wire:key="{{ $id }}" @endif>
+                            @if ($expandable)
+                                <td class="{{ $customization['table.td'] }}">
+                                    @isset($sub_table)
+                                        <button type="button"
+                                                x-on:click="toggleRow('{{ $id }}')"
+                                                class="{{ $customization['expandable.button'] }} cursor-pointer">
+                                            <x-dynamic-component :component="TallStackUi::prefix('icon')"
+                                                                 :icon="TallStackUi::icon('chevron-right')"
+                                                                 internal
+                                                                 x-bind:class="isRowExpanded('{{ $id }}') ? 'rotate-90' : ''"
+                                                                 class="h-4 w-4 transition-transform duration-200" />
+                                        </button>
+                                    @endisset
+                                </td>
+                            @endif
                             @if ($selectable)
                                 <td class="{{ $customization['table.td'] }}">
                                     <x-dynamic-component :component="TallStackUi::prefix('checkbox')"
@@ -121,6 +153,15 @@
                                 @endisset
                             @endforeach
                         </tr>
+                        @if ($expandable)
+                            @isset($sub_table)
+                                <tr x-show="isRowExpanded('{{ $id }}')" x-cloak @if ($livewire) wire:key="sub-{{ $id }}" @endif class="{{ $customization['expandable.wrapper'] }}">
+                                    <td colspan="100%" class="px-4 py-3">
+                                        {{ $sub_table($value) }}
+                                    </td>
+                                </tr>
+                            @endisset
+                        @endif
                     @empty
                         <tr>
                             <td class="{{ $customization['empty'] }}" colspan="100%">
@@ -144,4 +185,5 @@
             'scrollTo' => $persistent ?? false,
         ]) }}
     @endif
+</div>
 </div>
