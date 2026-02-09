@@ -52,11 +52,16 @@ composer test:browser:setup # Update ChromeDriver for Dusk
 
 After completing any code changes (PHP, JS, or CSS), always run:
 
-```bash  
-npm run build  
-```  
+```bash
+npm run build
+```
 
 This ensures the built assets in `dist/` are updated and reflect your changes.
+
+## Testing Rules
+
+- **Browser tests**: NEVER run with `--parallel`. Always run with `--filter` to target specific test classes or methods. Example: `./vendor/bin/pest --filter="can_render_with_highlighted"`
+- **Feature tests**: CAN run with `--parallel`. Example: `composer test:feature --parallel`
 
 ## Architecture
 

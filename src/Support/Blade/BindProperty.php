@@ -90,6 +90,6 @@ class BindProperty
      */
     private function id(?string $property = null): ?string
     {
-        return $this->attributes->get('id', $property);
+        return $this->attributes->get('id') ?? ($property ? $property.'-'.uniqid() : null);
     }
 }
