@@ -15,8 +15,6 @@ use TallStackUi\TallStackUiComponent;
 #[ColorsThroughOf(ToastColors::class)]
 class Component extends TallStackUiComponent implements Customization
 {
-    public function __construct(public ?string $simplevisual = null) {}
-
     public function blade(): View
     {
         return view('ts-ui::components.toast.main');
