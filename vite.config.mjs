@@ -8,7 +8,6 @@ export default {
     rollupOptions: {
       input: [
           'js/tallstackui.js',
-          'css/v3.css',
           'tippy.js/dist/tippy.css',
       ],
     },

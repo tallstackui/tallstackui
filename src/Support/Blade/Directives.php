@@ -83,16 +83,7 @@ class Directives
      */
     public function style(mixed $matches = null): string
     {
-        $version = null;
-
-        if ($matches) {
-            $version = is_array($matches) ? trim(data_get($matches, 2)) : str_replace('\'', '', $matches);
-        }
-
-        return $this->format(match ($version) {
-            'v4' => 'tallstackui.css',
-            default => $this->manifest('css/v3.css', 'file'),
-        });
+        return $this->format('tallstackui.css');
     }
 
     /**
