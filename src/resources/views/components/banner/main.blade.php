@@ -1,6 +1,6 @@
 @php
     $customization = $classes();
-    $flash = session()->pull('tallstackui:banner');
+    $flash = session()->pull('ts-ui:banner');
     $wire = $flash ? true : $wire;
 @endphp
 
@@ -21,7 +21,7 @@
          }" @endif
          x-show="show && text !== ''"
          x-cloak
-         @if ($wire) x-on:tallstackui:banner.window="add($event)" @endif
+         @if ($wire) x-on:ts-ui:banner.window="add($event)" @endif
          @if (($animated || $close || $wire) && !$ts_ui__flash)
              x-transition:enter="transition ease-out duration-300"
          x-transition:enter-start="-translate-y-10"
