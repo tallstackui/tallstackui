@@ -24,7 +24,7 @@ class BrowserTest extends BrowserTestCase
         {
             use WithFileUploads;
 
-            public mixed $photo;
+            public mixed $photo = null;
 
             public function render(): string
             {
@@ -64,7 +64,7 @@ class BrowserTest extends BrowserTestCase
         {
             use WithFileUploads;
 
-            public mixed $photo;
+            public mixed $photo = null;
 
             public function mount(): void
             {
@@ -128,7 +128,7 @@ class BrowserTest extends BrowserTestCase
         {
             use WithFileUploads;
 
-            public mixed $photo;
+            public mixed $photo = null;
 
             public function render(): string
             {
@@ -180,7 +180,7 @@ class BrowserTest extends BrowserTestCase
         {
             use WithFileUploads;
 
-            public mixed $photo;
+            public mixed $photo = null;
 
             public function render(): string
             {
@@ -232,7 +232,7 @@ class BrowserTest extends BrowserTestCase
         {
             use WithFileUploads;
 
-            public mixed $photo;
+            public mixed $photo = null;
 
             public function render(): string
             {
@@ -265,7 +265,7 @@ class BrowserTest extends BrowserTestCase
         {
             use WithFileUploads;
 
-            public mixed $photo;
+            public mixed $photo = null;
 
             public function render(): string
             {
@@ -291,7 +291,7 @@ class BrowserTest extends BrowserTestCase
         {
             use WithFileUploads;
 
-            public mixed $photo;
+            public mixed $photo = null;
 
             public function render(): string
             {
@@ -322,7 +322,7 @@ class BrowserTest extends BrowserTestCase
         {
             use WithFileUploads;
 
-            public mixed $photo;
+            public mixed $photo = null;
 
             public function render(): string
             {
@@ -364,7 +364,7 @@ class BrowserTest extends BrowserTestCase
         {
             use WithFileUploads;
 
-            public mixed $photo;
+            public mixed $photo = null;
 
             public function mount(): void
             {
@@ -406,7 +406,7 @@ class BrowserTest extends BrowserTestCase
         {
             use WithFileUploads;
 
-            public mixed $photo;
+            public mixed $photo = null;
 
             public function render(): string
             {
@@ -433,7 +433,7 @@ class BrowserTest extends BrowserTestCase
         {
             use WithFileUploads;
 
-            public mixed $photo;
+            public mixed $photo = null;
 
             public function render(): string
             {
@@ -570,7 +570,7 @@ class BrowserTest extends BrowserTestCase
         {
             use WithFileUploads;
 
-            public mixed $photo;
+            public mixed $photo = null;
 
             public function render(): string
             {
@@ -640,7 +640,7 @@ class BrowserTest extends BrowserTestCase
         {
             use WithFileUploads;
 
-            public mixed $photo;
+            public mixed $photo = null;
 
             public function mount(): void
             {
@@ -680,7 +680,7 @@ class BrowserTest extends BrowserTestCase
         {
             use WithFileUploads;
 
-            public mixed $photo;
+            public mixed $photo = null;
 
             public mixed $removed = null;
 
@@ -744,7 +744,7 @@ class BrowserTest extends BrowserTestCase
         {
             use WithFileUploads;
 
-            public mixed $photo;
+            public mixed $photo = null;
 
             public mixed $uploaded = null;
 
@@ -782,5 +782,5 @@ class BrowserTest extends BrowserTestCase
 
 class Upload extends Form
 {
-    public mixed $photo;
+    public mixed $photo = null;
 }

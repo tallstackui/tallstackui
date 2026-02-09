@@ -2,6 +2,7 @@
 
 namespace TallStackUi\Support\Runtime;
 
+use Error;
 use Exception;
 use Illuminate\Support\Collection;
 use Illuminate\Support\ViewErrorBag;
@@ -81,6 +82,24 @@ abstract class AbstractRuntime
     }
 
     /**
+     * Get the correct value to use in the validation step.
+     * The value of a Livewire component is `$property` - when in
+     * the context of Livewire, or the `$value` provided.
+     */
+    protected function property(?string $property): mixed
+    {
+        if (is_null($property) || ! property_exists($this->livewire, $property)) {
+            return null;
+        }
+
+        try {
+            return data_get($this->livewire, $property);
+        } catch (Error) {
+            return null;
+        }
+    }
+
+    /**
      * Sanitizes the value to prepare the component when we are
      * out of the Livewire context, applied to components: `date`,
      * `select.styled`, `tag` and `time`.
@@ -119,15 +138,10 @@ abstract class AbstractRuntime
         return array_map($sanitize, explode(',', $decoded));
     }
 
-    /**
-     * Get the correct value to use in the validation step.
-     * The value of a Livewire component is `$property` - when in
-     * the context of Livewire, or the `$value` provided.
-     */
     protected function value(?string $property = null, mixed $value = null): mixed
     {
         return $this->wireable() && ! is_null($property) && property_exists($this->livewire, $property)
-            ? data_get($this->livewire, $property)
+            ? ($this->property($property) ?? $value ?: $this->data['attributes']->get('value'))
             : ($value ?: $this->data['attributes']->get('value'));
     }
 

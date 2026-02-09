@@ -95,6 +95,8 @@ class SelectStyledCommonBrowserTest extends BrowserTestCase
                 <div>
                     <p dusk="string">{{ $string }}</p>
 
+                    <x-button dusk="close" x-on:click="$selectClose('test')">Close</x-button>
+
                     <x-select.styled wire:model="string"
                                      id="test"
                                      label="Select"
@@ -104,8 +106,6 @@ class SelectStyledCommonBrowserTest extends BrowserTestCase
                                      ]"
                                      select="label:label|value:value"
                     />
-
-                    <x-button dusk="close" x-on:click="$selectClose('test')">Close</x-button>
                 </div>
                 HTML;
             }

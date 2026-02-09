@@ -35,7 +35,7 @@ class RatingRuntime extends AbstractRuntime
             __ts_validation_exception($this->component, 'The [rate] can be omitted because you are in Livewire context. You can use `wire:model` instead.');
         }
 
-        if (($value = data_get($this->livewire, $property)) !== null && ! is_int($value)) {
+        if (($value = $this->property($property)) !== null && ! is_int($value)) {
             __ts_validation_exception($this->component, 'The [value] must be a int.');
         }
     }
