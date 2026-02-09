@@ -88,7 +88,11 @@
                 @if (is_array($rows) && (count($rows) === 1 && empty($rows[0])))
                     <tr>
                         <td class="{{ $customization['empty'] }}" colspan="100%">
-                            {{ data_get($placeholders, 'empty') }}
+                            @if ($empty)
+                                {{ $empty }}
+                            @else
+                                {{ data_get($placeholders, 'empty') }}
+                            @endif
                         </td>
                     </tr>
                 @else
@@ -151,7 +155,11 @@
                     @empty
                         <tr>
                             <td class="{{ $customization['empty'] }}" colspan="100%">
-                                {{ data_get($placeholders, 'empty') }}
+                                @if ($empty)
+                                    {{ $empty }}
+                                @else
+                                    {{ data_get($placeholders, 'empty') }}
+                                @endif
                             </td>
                         </tr>
                     @endforelse

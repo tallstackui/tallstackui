@@ -296,6 +296,36 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_render_empty_slot(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public array $rows = [];
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    @php
+                        $headers = [
+                            ['index' => 'id', 'label' => '#'],
+                            ['index' => 'name', 'label' => 'Name'],
+                        ];
+                    @endphp
+                    <x-table :$headers :$rows>
+                        <x-slot:empty>
+                            <p dusk="custom-empty">No records found here</p>
+                        </x-slot:empty>
+                    </x-table>
+                </div>
+                HTML;
+            }
+        })
+            ->waitForText('No records found here')
+            ->assertVisible('@custom-empty');
+    }
+
+    #[Test]
     public function can_render_selectable_and_select_rows_using_different_property(): void
     {
         Livewire::visit(new class extends Component

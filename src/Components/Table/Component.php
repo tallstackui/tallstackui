@@ -53,7 +53,9 @@ class Component extends TallStackUiComponent implements Customization
         #[SkipDebug]
         public ComponentSlot|string|null $header = null,
         #[SkipDebug]
-        public ComponentSlot|string|null $footer = null
+        public ComponentSlot|string|null $footer = null,
+        #[SkipDebug]
+        public ComponentSlot|string|null $empty = null
     ) {
         $this->placeholders = array_merge(trans('ts-ui::messages.table'), $this->placeholders ?? []);
 
@@ -170,7 +172,7 @@ class Component extends TallStackUiComponent implements Customization
     {
         $messages = trans('ts-ui::messages.table');
 
-        if (blank($messages['empty'] ?? null)) {
+        if (blank($this->empty) && blank($messages['empty'] ?? null)) {
             __ts_validation_exception($this, 'The [empty] message cannot be empty.');
         }
 
