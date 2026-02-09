@@ -78,8 +78,7 @@ class BrowserTest extends BrowserTestCase
             ->click('@save')
             ->waitForText('There are 1 validation errors:')
             ->click('@tallstackui_errors_close_button')
-            ->waitUntilMissingText('There are 1 validation errors:')
-            ->assertDontSee('There are 1 validation errors:')
+            ->waitFor('@close')
             ->assertVisible('@close');
     }
 

@@ -4,9 +4,9 @@
 
 @if ($errors->isNotEmpty())
     <div wire:key="errors-{{ uniqid() }}" class="w-full"
-         x-data="{ show : true, close () { this.show = false; this.$el.dispatchEvent(new CustomEvent('close')) } }"
+         x-data="{ show : true }"
          x-show="show">
-        <div {{ $attributes->class([
+        <div {{ $attributes->except('x-on:close')->class([
                 $customization['wrapper'],
                 $colors['background']
             ]) }}>
@@ -25,7 +25,7 @@
                     <button dusk="tallstackui_errors_close_button"
                             class="cursor-pointer"
                             {{ $attributes->only('x-on:close') }}
-                            x-on:click="close()">
+                            x-on:click="show = false; $dispatch('close')">
                         <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                              :icon="TallStackUi::icon('x-mark')"
                                              internal
