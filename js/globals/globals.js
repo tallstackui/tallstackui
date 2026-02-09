@@ -17,6 +17,10 @@ window.$focusOn = (name, time = 250) =>
       element = document.getElementById(name);
     }
 
+    if (!element) {
+      element = document.querySelector(`[x-ref="${name}"]`);
+    }
+
     if (element) {
       element.focus();
     }
