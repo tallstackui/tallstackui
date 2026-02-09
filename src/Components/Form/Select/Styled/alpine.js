@@ -120,7 +120,7 @@ export default (
     });
   },
   /**
-   * Initialize the component as request.
+   * Initialize the component as a request.
    *
    * @returns {void}
    */
@@ -178,7 +178,7 @@ export default (
     this.response = [];
     this.invalidateAvailable();
 
-    // When using request parameters we evaluate this through the ref which
+    // When using request parameters, we evaluate this through the ref which
     // stores the parameters to allow us to hydrate this when changes are made.
     this.request.params &&= Alpine.evaluate(this, this.$refs.params.innerText);
 

@@ -9,7 +9,7 @@ use Livewire\Livewire;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\BrowserTestCase;
 
-class BrowserTest extends BrowserTestCase
+class SelectStyledCommonBrowserTest extends BrowserTestCase
 {
     #[Test]
     public function can_change_selectable(): void
@@ -80,6 +80,44 @@ class BrowserTest extends BrowserTestCase
             ->click('@sync')
             ->waitUntilMissingText('foo')
             ->assertSee('Select an option');
+    }
+
+    #[Test]
+    public function can_close_using_helper(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $string = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="string">{{ $string }}</p>
+
+                    <x-select.styled wire:model="string"
+                                     id="test"
+                                     label="Select"
+                                     :options="[
+                                        ['label' => 'foo', 'value' => 'foo'],
+                                        ['label' => 'bar', 'value' => 'bar'],
+                                     ]"
+                                     select="label:label|value:value"
+                    />
+
+                    <x-button dusk="close" x-on:click="$selectClose('test')">Close</x-button>
+                </div>
+                HTML;
+            }
+        })
+            ->assertSee('Select an option')
+            ->click('@tallstackui_select_open_close')
+            ->waitForText(['foo', 'bar'])
+            ->assertVisible('@tallstackui_select_options')
+            ->click('@close')
+            ->waitUntilMissingText('foo')
+            ->assertDontSee('foo')
+            ->assertDontSee('bar');
     }
 
     #[Test]
@@ -358,6 +396,42 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_open_using_helper(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $string = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="string">{{ $string }}</p>
+
+                    <x-select.styled wire:model="string"
+                                     id="test"
+                                     label="Select"
+                                     :options="[
+                                        ['label' => 'foo', 'value' => 'foo'],
+                                        ['label' => 'bar', 'value' => 'bar'],
+                                     ]"
+                                     select="label:label|value:value"
+                    />
+
+                    <x-button dusk="open" x-on:click="$selectOpen('test')">Open</x-button>
+                </div>
+                HTML;
+            }
+        })
+            ->assertSee('Select an option')
+            ->assertDontSee('foo')
+            ->assertDontSee('bar')
+            ->click('@open')
+            ->waitForText(['foo', 'bar'])
+            ->assertVisible('@tallstackui_select_options');
+    }
+
+    #[Test]
     public function can_render_after_slot(): void
     {
         Livewire::visit(StyledSearchableComponent_Common::class)
@@ -494,6 +568,48 @@ class BrowserTest extends BrowserTestCase
             ->waitUntilMissingText('bar')
             ->assertDontSee('bar')
             ->assertDontSee('Select an option');
+    }
+
+    #[Test]
+    public function can_select_after_opening_with_helper(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $string = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="string">{{ $string }}</p>
+
+                    <x-select.styled wire:model="string"
+                                     id="test"
+                                     label="Select"
+                                     :options="[
+                                        ['label' => 'foo', 'value' => 'foo'],
+                                        ['label' => 'bar', 'value' => 'bar'],
+                                     ]"
+                                     select="label:label|value:value"
+                    />
+
+                    <x-button dusk="open" x-on:click="$selectOpen('test')">Open</x-button>
+                    <x-button dusk="sync" wire:click="sync">Sync</x-button>
+                </div>
+                HTML;
+            }
+
+            public function sync(): void
+            {
+                // ...
+            }
+        })
+            ->assertSee('Select an option')
+            ->click('@open')
+            ->waitForText(['foo', 'bar'])
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[1]')
+            ->click('@sync')
+            ->waitForTextIn('@string', 'foo');
     }
 
     #[Test]

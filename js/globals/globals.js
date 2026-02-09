@@ -7,6 +7,9 @@ window.$modalClose = (name) => event(`modal:${name}-close`, null, false);
 window.$slideOpen = (name) => event(`slide:${name}-open`, null, false);
 window.$slideClose = (name) => event(`slide:${name}-close`, null, false);
 
+window.$selectOpen = (name) => event(`select:${name}-open`, null, false);
+window.$selectClose = (name) => event(`select:${name}-close`, null, false);
+
 window.$interaction = (type) => new Interaction(type);
 
 window.$focusOn = (name, time = 250) =>

@@ -26,6 +26,7 @@ class Component extends TallStackUiComponent implements Customization
 
     /** @throws Throwable */
     public function __construct(
+        public ?string $id = null,
         public ?string $label = null,
         public ?string $hint = null,
         public ?string $placeholder = null,

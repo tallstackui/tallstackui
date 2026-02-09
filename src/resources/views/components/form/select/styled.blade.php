@@ -29,6 +29,8 @@
      x-cloak
      translate="no"
      x-on:keydown="navigate($event)"
+     @if ($open) x-on:select:{{ $open }}.window="$nextTick(() => show = true)" @endif
+     @if ($close) x-on:select:{{ $close }}.window="show = false" @endif
      wire:ignore.self>
     <div hidden x-ref="options">{{ TallStackUi::blade()->json($options) }}</div>
     @if ($request['params'] ?? null)

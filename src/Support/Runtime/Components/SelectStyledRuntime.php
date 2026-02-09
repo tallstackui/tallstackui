@@ -11,6 +11,7 @@ class SelectStyledRuntime extends AbstractRuntime
     public function runtime(): array
     {
         $bind = $this->bind();
+        $id = $this->data('id');
 
         return [
             'property' => $bind->get('property'),
@@ -20,6 +21,8 @@ class SelectStyledRuntime extends AbstractRuntime
             'value' => $this->sanitize(),
             'change' => $this->change(),
             'disabled' => (bool) $this->data['attributes']->get('disabled', $this->data['attributes']->get('readonly', false)),
+            'open' => $id ? str($id)->slug()->kebab().'-open' : null,
+            'close' => $id ? str($id)->slug()->kebab().'-close' : null,
         ];
     }
 }
