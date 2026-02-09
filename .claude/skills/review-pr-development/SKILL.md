@@ -47,7 +47,7 @@ Furthermore:
 
 - PHP code written following PSR 12
 - PHP constructor parameters are typed correctly
-- Commands such as: `./vendor/bin/pest --type-coverage`, `./vendor/bin/pint --test --parallel` and `./vendor/bin/phpstan analyse --memory-limit=2G` are passing successfully. If they do not pass, suggest corrections for the errors described.
+- Commands such as: `./vendor/bin/pest --type-coverage`, `./vendor/bin/pint --test --parallel` and `./vendor/bin/phpstan analyse --memory-limit=2G` and `php scripts/find-unused-customization-blocks.php` are passing successfully. If they do not pass, suggest corrections for the errors described.
 
 5. Ensure that everything done makes sense according to the business logic rules of the library - scan CLAUDE.md again if you want to remember something from the project.
 
