@@ -42,6 +42,36 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_render_empty_slot(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public array $rows = [];
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    @php
+                        $headers = [
+                            ['index' => 'id', 'label' => '#'],
+                            ['index' => 'name', 'label' => 'Name'],
+                        ];
+                    @endphp
+                    <x-table :$headers :$rows>
+                        <x-slot:empty>
+                            <p dusk="custom-empty">No records found here</p>
+                        </x-slot:empty>
+                    </x-table>
+                </div>
+                HTML;
+            }
+        })
+            ->waitForText('No records found here')
+            ->assertVisible('@custom-empty');
+    }
+
+    #[Test]
     public function can_render_expandable(): void
     {
         Livewire::visit(new class extends Component
@@ -296,33 +326,39 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
-    public function can_render_empty_slot(): void
+    public function can_render_selectable_and_select_rows_using_different_property(): void
     {
         Livewire::visit(new class extends Component
         {
-            public array $rows = [];
+            public array $rows = [
+                ['id' => 1, 'name' => 'Foo', 'email' => 'foo@bar.com'],
+                ['id' => 2, 'name' => 'Bar', 'email' => 'bar@foo.com'],
+            ];
+
+            public array $selected = [];
 
             public function render(): string
             {
                 return <<<'HTML'
                 <div>
+                    <p dusk="selected">{{ implode(',', $selected) }}</p>
+
                     @php
                         $headers = [
                             ['index' => 'id', 'label' => '#'],
                             ['index' => 'name', 'label' => 'Name'],
                         ];
                     @endphp
-                    <x-table :$headers :$rows>
-                        <x-slot:empty>
-                            <p dusk="custom-empty">No records found here</p>
-                        </x-slot:empty>
-                    </x-table>
+                    
+                    <x-table wire:model.live="selected" :$headers :$rows selectable selectable-property="email" />
                 </div>
                 HTML;
             }
         })
-            ->waitForText('No records found here')
-            ->assertVisible('@custom-empty');
+            ->assertSee('Foo')
+            ->assertSee('Bar')
+            ->click('@tallstackui_table_select_all')
+            ->waitForTextIn('@selected', 'foo@bar.com,bar@foo.com');
     }
 
     #[Test]
@@ -386,41 +422,5 @@ class BrowserTest extends BrowserTestCase
             ->assertSee('Foo')
             ->assertSee('Bar')
             ->assertSourceHas('bg-blue-100');
-    }
-
-    #[Test]
-    public function can_render_selectable_and_select_rows_using_different_property(): void
-    {
-        Livewire::visit(new class extends Component
-        {
-            public array $rows = [
-                ['id' => 1, 'name' => 'Foo', 'email' => 'foo@bar.com'],
-                ['id' => 2, 'name' => 'Bar', 'email' => 'bar@foo.com'],
-            ];
-
-            public array $selected = [];
-
-            public function render(): string
-            {
-                return <<<'HTML'
-                <div>
-                    <p dusk="selected">{{ implode(',', $selected) }}</p>
-
-                    @php
-                        $headers = [
-                            ['index' => 'id', 'label' => '#'],
-                            ['index' => 'name', 'label' => 'Name'],
-                        ];
-                    @endphp
-                    
-                    <x-table wire:model.live="selected" :$headers :$rows selectable selectable-property="email" />
-                </div>
-                HTML;
-            }
-        })
-            ->assertSee('Foo')
-            ->assertSee('Bar')
-            ->click('@tallstackui_table_select_all')
-            ->waitForTextIn('@selected', 'foo@bar.com,bar@foo.com');
     }
 }
