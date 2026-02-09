@@ -30,4 +30,18 @@ class ToastColors
             'cancel' => null,
         ];
     }
+
+    /**
+     * Background colors (used by colorful global).
+     */
+    public function backgroundColors(Component $component): array
+    {
+        return [
+            'success' => null,
+            'error' => null,
+            'info' => null,
+            'warning' => null,
+            'question' => null,
+        ];
+    }
 }

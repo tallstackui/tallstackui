@@ -3,6 +3,8 @@
 namespace TallStackUi\Customization;
 
 use InvalidArgumentException;
+use TallStackUi\Components\Dialog\Component as Dialog;
+use TallStackUi\Components\Toast\Component as Toast;
 
 class Globals
 {
@@ -37,6 +39,22 @@ class Globals
     public static function reset(): void
     {
         self::$active = [];
+    }
+
+    /**
+     * Invert component (Dialog & Toast) colors making the body take the type color.
+     */
+    public function colorful(bool $toast = true, bool $dialog = true): self
+    {
+        if ($toast) {
+            self::$active['colorful'][] = Toast::class;
+        }
+
+        if ($dialog) {
+            self::$active['colorful'][] = Dialog::class;
+        }
+
+        return $this;
     }
 
     /**

@@ -26,6 +26,7 @@ trait ManagesCompilation
         }
 
         $data['ts_ui__flash'] = __ts_global('flash', static::class);
+        $data['ts_ui__colorful'] = __ts_global('colorful', static::class);
 
         return [...$data];
     }

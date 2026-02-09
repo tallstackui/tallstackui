@@ -39,7 +39,7 @@ class Component extends TallStackUiComponent implements Customization
             ],
             'buttons' => [
                 'wrapper' => [
-                    'first' => 'mt-2 flex',
+                    'first' => 'mt-2 flex items-baseline',
                     'second' => 'ml-4 flex min-h-full flex-col justify-between',
                 ],
                 'confirm' => 'text-sm font-medium focus:outline-hidden cursor-pointer',

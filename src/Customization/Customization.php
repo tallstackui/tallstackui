@@ -260,6 +260,11 @@ class Customization
         return call_user_func([$this, $main], $main === $secondary ?: $secondary);
     }
 
+    public function globals(): Globals
+    {
+        return new Globals;
+    }
+
     public function keyValue(?string $scope = null): CustomizationFactory
     {
         $this->scope ??= $scope;
@@ -301,11 +306,6 @@ class Customization
         $this->scope ??= $scope;
 
         return $this->component(Modal::class);
-    }
-
-    public function globals(): Globals
-    {
-        return new Globals;
     }
 
     public function progress(?string $component = null, ?string $scope = null): CustomizationFactory

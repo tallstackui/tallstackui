@@ -10,7 +10,13 @@ class DialogColors
 
     public function colors(): array
     {
-        [$cancel, $confirm, $icon] = $this->get('cancel', 'confirm', 'icon');
+        [
+            $cancel,
+            $confirm,
+            $icon,
+            $background,
+            $colorful
+        ] = $this->get('cancel', 'confirm', 'icon', 'background', 'colorful');
 
         return [
             'cancel' => $cancel ?? $this->cancel(),
@@ -19,12 +25,32 @@ class DialogColors
                 'background' => array_merge($this->icon()['background'], array_filter($icon['background'])),
                 'icon' => array_merge($this->icon()['icon'], array_filter($icon['icon'])),
             ],
+            'background' => array_merge($this->background(), array_filter($background)),
+            'colorful' => array_merge($this->colorful(), array_filter($colorful)),
+        ];
+    }
+
+    private function background(): array
+    {
+        return [
+            'success' => 'bg-green-500! dark:bg-green-500!',
+            'error' => 'bg-red-500! dark:bg-red-500!',
+            'info' => 'bg-blue-500! dark:bg-blue-500!',
+            'warning' => 'bg-yellow-500! dark:bg-yellow-500!',
+            'question' => 'bg-neutral-500! dark:bg-neutral-500!',
         ];
     }
 
     private function cancel(): string
     {
         return 'red';
+    }
+
+    private function colorful(): array
+    {
+        return [
+            'cancel' => 'bg-white/10 hover:bg-white/20 text-white/80',
+        ];
     }
 
     private function confirm(): array
