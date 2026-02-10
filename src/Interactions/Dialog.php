@@ -2,6 +2,7 @@
 
 namespace TallStackUi\Interactions;
 
+use TallStackUi\Components\Dialog\Component;
 use TallStackUi\Interactions\Traits\DispatchInteraction;
 use TallStackUi\Interactions\Traits\InteractWithConfirmation;
 
@@ -108,7 +109,7 @@ class Dialog extends AbstractInteraction
     protected function additional(): array
     {
         return [
-            'persistent' => $this->persistent,
+            'persistent' => $this->persistent ?? __ts_get_component_configuration(Component::class, 'persistent'),
         ];
     }
 

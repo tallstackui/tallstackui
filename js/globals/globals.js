@@ -1,5 +1,6 @@
-import { event } from '../helpers';
-import Interaction from './interaction';
+import { event, error } from '../helpers';
+import DialogInteraction from '../../src/Components/Dialog/frontend';
+import ToastInteraction from '../../src/Components/Toast/frontend';
 
 window.$modalOpen = (name) => event(`modal:${name}-open`, null, false);
 window.$modalClose = (name) => event(`modal:${name}-close`, null, false);
@@ -13,7 +14,20 @@ window.$selectClose = (name) => event(`select:${name}-close`, null, false);
 window.$commandPaletteOpen = () => event('command-palette-open', null, false);
 window.$commandPaletteClose = () => event('command-palette-close', null, false);
 
-window.$interaction = (type) => new Interaction(type);
+const interactions = {
+  dialog: DialogInteraction,
+  toast: ToastInteraction,
+};
+
+window.$interaction = (type = 'dialog') => {
+  const InteractionClass = interactions[type];
+
+  if (!InteractionClass) {
+    return error(`Unknown interaction type: ${type}`);
+  }
+
+  return new InteractionClass();
+};
 
 window.$focusOn = (name, time = 250) =>
   setTimeout(() => {

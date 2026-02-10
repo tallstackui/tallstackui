@@ -708,24 +708,33 @@ class BrowserTest extends BrowserTestCase
     #[Test]
     public function cannot_close_when_dialog_is_persistent(): void
     {
-        config()->set('ts-ui.components.dialog', [
-            \TallStackUi\Components\Dialog\Component::class,
-            [
-                'z-index' => 'z-50',
-                'overflow' => false,
-                'blur' => false,
-                'persistent' => true,
-            ],
-        ]);
+        Livewire::visit(new class extends Component
+        {
+            use Interactions;
 
-        Livewire::visit(DialogComponent::class)
+            public function success(): void
+            {
+                $this->dialog()
+                    ->persistent()
+                    ->success('Foo bar success')
+                    ->send();
+            }
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-button dusk="success" wire:click="success">Success</x-button>
+                </div>
+                HTML;
+            }
+        })
             ->assertDontSee('Foo bar success')
             ->click('@success')
             ->waitForText('Foo bar success')
             ->assertSee('Foo bar success')
             ->clickAtPoint(350, 350)
-            ->pause(100)
-            ->waitForText('Foo bar success')
+            ->pause(300)
             ->assertSee('Foo bar success');
     }
 
