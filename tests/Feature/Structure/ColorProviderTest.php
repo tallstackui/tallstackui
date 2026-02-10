@@ -9,6 +9,7 @@ use TallStackUi\Components\Boolean\Component as Boolean;
 use TallStackUi\Components\Button\Circle\Component as Circle;
 use TallStackUi\Components\Button\Normal\Component as Button;
 use TallStackUi\Components\Card\Component as Card;
+use TallStackUi\Components\Dial\Main\Component as Dial;
 use TallStackUi\Components\Dialog\Component as Dialog;
 use TallStackUi\Components\Environment\Component as Environment;
 use TallStackUi\Components\Errors\Component as Errors;
@@ -41,6 +42,7 @@ test('should use attribute', function (string $component) {
     Card::class,
     Circle::class,
     Checkbox::class,
+    Dial::class,
     Dialog::class,
     Environment::class,
     Errors::class,
@@ -71,6 +73,7 @@ test('attribute should only be used in the components', function () {
             Card::class,
             Circle::class,
             Checkbox::class,
+            Dial::class,
             Dialog::class,
             Environment::class,
             Errors::class,

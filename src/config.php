@@ -132,6 +132,8 @@ return [
                 'persistent' => false,
             ],
         ],
+        'dial' => Components\Dial\Main\Component::class,
+        'dial.items' => Components\Dial\Items\Component::class,
         'dropdown' => Components\Dropdown\Main\Component::class,
         'dropdown.items' => Components\Dropdown\Items\Component::class,
         'dropdown.submenu' => Components\Dropdown\Submenu\Component::class,

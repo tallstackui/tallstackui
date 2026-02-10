@@ -8,6 +8,7 @@ import collapse from '../src/Components/Layout/SideBar/Main/collapse';
 import currency from '../src/Components/Form/Currency/alpine';
 import date from '../src/Components/Form/Date/alpine';
 import darkTheme from './helpers/dark-theme';
+import dial from '../src/Components/Dial/Main/alpine';
 import dialog from '../src/Components/Dialog/alpine';
 import dropdown from '../src/Components/Dropdown/Main/alpine';
 import clearable from '../src/Components/Form/Input/clearable';
@@ -57,6 +58,7 @@ document.addEventListener('alpine:init', () => {
   Alpine.data('tallstackui_formTime', time);
   Alpine.data('tallstackui_formUpload', upload);
   Alpine.data('tallstackui_darkTheme', darkTheme);
+  Alpine.data('tallstackui_dial', dial);
   Alpine.data('tallstackui_dialog', dialog);
   Alpine.data('tallstackui_dropdown', dropdown);
   Alpine.data('tallstackui_loading', loading);
