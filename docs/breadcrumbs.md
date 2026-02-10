@@ -70,16 +70,16 @@ The default size is `md`. Available sizes: `xs`, `sm`, `md`, `lg`.
 <x-breadcrumbs lg :items="$items" />
 ```
 
-| Size | Text        | Item Icon     | Separator Icon | Gap       |
-|------|-------------|---------------|----------------|-----------|
-| `xs` | `text-xs`   | `w-3 h-3`     | `w-3 h-3`      | `gap-0.5` |
-| `sm` | `text-xs`   | `w-3.5 h-3.5` | `w-3.5 h-3.5`  | `gap-0.5` |
-| `md` | `text-sm`   | `w-4 h-4`     | `w-4 h-4`      | `gap-1`   |
-| `lg` | `text-base` | `w-5 h-5`     | `w-5 h-5`      | `gap-1.5` |
+| Size | Text        | Item Icon      | Separator Icon  | Gap       |
+|------|-------------|----------------|-----------------|-----------|
+| `xs` | `text-xs`   | `w-3 h-3`      | `w-3 h-3`      | `gap-0.5` |
+| `sm` | `text-xs`   | `w-3.5 h-3.5`  | `w-3.5 h-3.5`  | `gap-0.5` |
+| `md` | `text-sm`   | `w-4 h-4`      | `w-4 h-4`      | `gap-1`   |
+| `lg` | `text-base` | `w-5 h-5`      | `w-5 h-5`      | `gap-1.5` |
 
 ## Separator
 
-The default separator is `/`. You can customize it with text or an icon name.
+The default separator is `/`. You can customize it with text or an icon.
 
 ### Custom Text
 
@@ -122,14 +122,14 @@ Add custom content to the left or right of the breadcrumb trail:
 
 ## Properties
 
-| Prop              | Type                | Default | Description                                   |
-|-------------------|---------------------|---------|-----------------------------------------------|
-| `items`           | `array\|Collection` | `null`  | Breadcrumb items (auto-resolved if null)      |
-| `separator`       | `string`            | `/`     | Separator text or icon name                   |
-| `separator-class` | `string`            | `null`  | Additional CSS classes for separator elements |
-| `xs`              | `bool`              | `false` | Extra small size                              |
-| `sm`              | `bool`              | `false` | Small size                                    |
-| `lg`              | `bool`              | `false` | Large size                                    |
+| Prop              | Type                | Default | Description                                              |
+|-------------------|---------------------|---------|----------------------------------------------------------|
+| `items`           | `array\|Collection` | `null`  | Breadcrumb items (auto-resolved if null)                 |
+| `separator`       | `string`            | `/`     | Separator text or icon (use `icon:` prefix for icons)    |
+| `separator-class` | `string`            | `null`  | Additional CSS classes for separator elements            |
+| `xs`              | `bool`              | `false` | Extra small size                                         |
+| `sm`              | `bool`              | `false` | Small size                                               |
+| `lg`              | `bool`              | `false` | Large size                                               |
 
 ## Soft Customization
 
@@ -222,13 +222,15 @@ TallStackUi::breadcrumbs()
     )
     ->for('users.index', fn (BreadcrumbTrail $trail) => $trail
         ->parent('home')
-        ->add('Users', route('users.index'))
+        ->add('Users', 'users.index')
     )
     ->for('users.show', fn (BreadcrumbTrail $trail, User $user) => $trail
         ->parent('users.index')
         ->add($user->name)
     );
 ```
+
+The `link` parameter in `add()` supports both URLs and named routes, just like the `items` array.
 
 ### Rendering
 
@@ -255,7 +257,7 @@ TallStackUi::breadcrumbs()
     )
     ->for('settings.index', fn (BreadcrumbTrail $trail) => $trail
         ->parent('home')
-        ->add('Settings', route('settings.index'))
+        ->add('Settings', 'settings.index')
     )
     ->for('settings.profile', fn (BreadcrumbTrail $trail) => $trail
         ->parent('settings.index')
@@ -286,12 +288,12 @@ TallStackUi::breadcrumbs()
 | Method   | Signature                                                                      | Description                           |
 |----------|--------------------------------------------------------------------------------|---------------------------------------|
 | `add`    | `add(string $label, ?string $link, ?string $icon, ?string $tooltip): self`     | Add a breadcrumb item to the trail    |
-| `parent` | `parent(string $routeName): self`                                              | Set parent route for item inheritance |
+| `parent` | `parent(string $route): self`                                                  | Set parent route for item inheritance |
 
 ### BreadcrumbRegistry Methods
 
-| Method    | Signature                                          | Description                                    |
-|-----------|----------------------------------------------------|------------------------------------------------|
-| `for`     | `for(string $routeName, Closure $callback): self`  | Register breadcrumb definition for a route     |
-| `has`     | `has(string $routeName): bool`                     | Check if a definition exists for a route       |
-| `resolve` | `resolve(?string $routeName = null): array`        | Resolve the full breadcrumb items for a route  |
+| Method    | Signature                                      | Description                                    |
+|-----------|-------------------------------------------------|------------------------------------------------|
+| `for`     | `for(string $route, Closure $callback): self`  | Register breadcrumb definition for a route     |
+| `has`     | `has(string $route): bool`                     | Check if a definition exists for a route       |
+| `resolve` | `resolve(?string $route = null): array`        | Resolve the full breadcrumb items for a route  |
