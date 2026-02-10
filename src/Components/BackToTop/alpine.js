@@ -18,7 +18,7 @@ export default (anchor, smooth) => ({
       () => {
         this.show = window.scrollY > 200;
       },
-      { passive: true },
+      { passive: true }
     );
   },
   scroll() {

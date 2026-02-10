@@ -1,6 +1,6 @@
 # Command Palette
 
-A global search overlay component that provides keyboard-driven API search functionality.
+A global search overlay component that provides keyboard-driven API search functionality with full keyboard navigation, customizable shortcuts, and dark mode support.
 
 ## Basic Usage
 
@@ -9,14 +9,16 @@ A global search overlay component that provides keyboard-driven API search funct
                    select="label:name|value:id" />
 ```
 
-The component requires two attributes:
+The component requires:
 
-- `request` — The API endpoint URL (string or array)
+- `request` — The data source (URL string, array, or Laravel named route)
 - `select` — Maps API response fields to display properties
 
 ## Request Configuration
 
-### Simple URL
+The `request` can be defined **inline** on the component or **globally** in the config file. Inline always takes priority over config.
+
+### Simple URL (GET)
 
 ```blade
 <x-command-palette request="https://api.example.com/search"
@@ -33,9 +35,56 @@ The component requires two attributes:
 ]" select="label:name|value:id" />
 ```
 
-- `url` (required) — The endpoint URL
-- `method` (optional) — `get` (default) or `post`
-- `params` (optional) — Additional query/body parameters
+| Key      | Required | Description                        | Default |
+|----------|----------|------------------------------------|---------|
+| `url`    | Yes      | The endpoint URL                   | —       |
+| `method` | No       | HTTP method (`get` or `post`)      | `get`   |
+| `params` | No       | Additional query/body parameters   | `[]`    |
+
+### Laravel Named Route
+
+```blade
+<x-command-palette request="api.users.search"
+                   select="label:name|value:id" />
+```
+
+The component automatically resolves Laravel named routes. If the string is not a valid route name, it is treated as a plain URL.
+
+### Global Config
+
+Define `request` in the config file so the component works without inline attributes:
+
+```php
+// config/tallstackui.php
+'command-palette' => [
+    TallStackUi\Components\CommandPalette\Component::class,
+    [
+        'request' => 'https://api.example.com/search',
+        // or a named route:
+        // 'request' => 'api.users.search',
+        // or an array:
+        // 'request' => ['url' => 'https://...', 'method' => 'post'],
+    ],
+],
+```
+
+Then use the component without `request`:
+
+```blade
+<x-command-palette select="label:name|value:id" />
+```
+
+If `request` is not defined anywhere (inline or config), a validation exception is thrown.
+
+### Priority
+
+Inline `request` always overrides the config value:
+
+```blade
+{{-- Uses inline URL, ignores config --}}
+<x-command-palette request="https://api.example.com/custom-search"
+                   select="label:name|value:id" />
+```
 
 ## Select Mapping
 
@@ -45,20 +94,21 @@ The `select` attribute maps API response fields to the component's display slots
 label:fieldName|value:fieldName|description:fieldName|image:fieldName
 ```
 
-| Key           | Purpose                          | Default       |
-|---------------|----------------------------------|---------------|
-| `label`       | Main display text                | `label`       |
-| `value`       | Unique identifier                | `value`       |
-| `description` | Secondary text below the label   | `description` |
-| `image`       | Avatar/image URL                 | `image`       |
+| Key           | Purpose                        | Default       |
+|---------------|--------------------------------|---------------|
+| `label`       | Main display text              | `label`       |
+| `value`       | Unique identifier              | `value`       |
+| `description` | Secondary text below the label | `description` |
+| `image`       | Avatar/image URL               | `image`       |
 
 ### Example
 
-API returns:
+Given an API response:
 
 ```json
 [
-  { "name": "John Doe", "id": 1, "role": "Engineer", "avatar": "https://..." }
+  { "name": "John Doe", "id": 1, "role": "Engineer", "avatar": "https://..." },
+  { "name": "Jane Smith", "id": 2, "role": "Designer", "avatar": "https://..." }
 ]
 ```
 
@@ -67,9 +117,13 @@ API returns:
                    select="label:name|value:id|description:role|image:avatar" />
 ```
 
+### Disabled Options
+
+Options with `"disabled": true` in the API response are rendered with reduced opacity and cannot be selected.
+
 ## Recycle Mode
 
-Keep previous search results visible when reopening the palette:
+By default, the results list clears every time the palette opens. With `recycle`, previous results are preserved:
 
 ```blade
 <x-command-palette request="/api/search"
@@ -77,27 +131,46 @@ Keep previous search results visible when reopening the palette:
                    recycle />
 ```
 
-Without `recycle`, the results list clears every time the palette opens.
+Recycle can also be enabled globally via config:
+
+```php
+'command-palette' => [
+    TallStackUi\Components\CommandPalette\Component::class,
+    [
+        'recycle' => true,
+        // ...
+    ],
+],
+```
+
+Inline `recycle` overrides the config value.
 
 ## Programmatic Open/Close
 
-Open or close the palette from any Alpine.js context:
+### Alpine.js Helpers
 
 ```blade
 <x-button x-on:click="$commandPaletteOpen()">Search</x-button>
 <x-button x-on:click="$commandPaletteClose()">Close</x-button>
 ```
 
-Or via browser events:
+### Browser Events
 
 ```blade
 <x-button x-on:click="$dispatch('command-palette-open')">Open</x-button>
 <x-button x-on:click="$dispatch('command-palette-close')">Close</x-button>
 ```
 
+### From JavaScript
+
+```javascript
+window.dispatchEvent(new Event('command-palette-open'));
+window.dispatchEvent(new Event('command-palette-close'));
+```
+
 ## Selection Events
 
-When a user selects an option, a `tallstackui:command-palette` window event is dispatched:
+When a user selects an option, a `tallstackui:command-palette` window event is dispatched with the selected option's data:
 
 ```blade
 <div x-on:tallstackui:command-palette.window="handleSelection($event.detail)">
@@ -105,7 +178,7 @@ When a user selects an option, a `tallstackui:command-palette` window event is d
 </div>
 ```
 
-The `$event.detail` contains the selected option's data (all internal keys are stripped).
+The `$event.detail` contains all fields from the selected option (internal keys prefixed with `__` are stripped).
 
 ### Livewire Integration
 
@@ -113,6 +186,24 @@ The `$event.detail` contains the selected option's data (all internal keys are s
 <div x-on:tallstackui:command-palette.window="$wire.call('onSelect', $event.detail)">
     <x-command-palette request="/api/search" select="label:name|value:id" />
 </div>
+```
+
+```php
+// In your Livewire component
+public function onSelect(array $option): void
+{
+    // $option = ['name' => 'John Doe', 'id' => 1, 'role' => 'Engineer', ...]
+}
+```
+
+### Using x-on Directly
+
+You can also listen for the event directly on the component:
+
+```blade
+<x-command-palette request="/api/search"
+                   select="label:name|value:id"
+                   x-on:tallstackui:command-palette.window="handleSelection($event.detail)" />
 ```
 
 ## Empty State
@@ -127,24 +218,69 @@ Customize the empty state when no results are found:
 </x-command-palette>
 ```
 
-## Keyboard Navigation
+The default message is "No results found." and can be customized via i18n (see Internationalization below).
+
+## Keyboard Shortcuts
+
+### Default Shortcut
+
+The palette opens/closes with **Ctrl+K** (or **Cmd+K** on Mac) by default.
+
+### Custom Shortcuts
+
+Format: `modifier1.modifier2.key` (dot-separated)
+
+**Available modifiers:** `ctrl`, `meta`, `shift`, `alt`
+
+```blade
+<x-command-palette request="/api/search"
+                   select="label:name|value:id"
+                   shortcut="ctrl.shift.p" />
+```
+
+Or globally via config:
+
+```php
+'command-palette' => [
+    TallStackUi\Components\CommandPalette\Component::class,
+    [
+        'shortcut' => 'ctrl.shift.p',
+        // ...
+    ],
+],
+```
+
+| Shortcut          | Keys                             |
+|-------------------|----------------------------------|
+| `ctrl.k`          | Ctrl+K / Cmd+K (default)         |
+| `ctrl.shift.p`    | Ctrl+Shift+P / Cmd+Shift+P       |
+| `meta.k`          | Cmd+K / Ctrl+K                   |
+| `alt.space`        | Alt+Space                        |
+| `ctrl.shift.f`    | Ctrl+Shift+F / Cmd+Shift+F       |
+| `shift.p`          | Shift+P                          |
+
+> **Note:** `ctrl` and `meta` are interchangeable — when either modifier is specified, both `ctrlKey` and `metaKey` are accepted for cross-platform compatibility.
+
+### Keyboard Navigation
 
 | Key       | Action                    |
 |-----------|---------------------------|
-| `Ctrl+K`  | Toggle palette (default)  |
 | `↑` / `↓` | Navigate results          |
 | `Enter`   | Select highlighted option |
 | `Escape`  | Close palette             |
 
 ## Configuration
 
-Publish or override in `config/tallstackui.php`:
+All options in `config/tallstackui.php` under `components.command-palette`:
 
 ```php
 'command-palette' => [
     TallStackUi\Components\CommandPalette\Component::class,
     [
-        // Controls the z-index of the overlay
+        // Data source: URL string, array, or Laravel named route
+        'request' => null,
+
+        // Z-index of the overlay
         'z-index' => 'z-50',
 
         // Background blur effect (false, 'sm', 'md', 'lg', 'xl')
@@ -153,14 +289,17 @@ Publish or override in `config/tallstackui.php`:
         // Allow page scroll when palette is open
         'overflow' => false,
 
-        // Keyboard shortcut to toggle ('ctrl.k', 'ctrl.shift.p', 'meta.k')
+        // Keyboard shortcut to toggle
         'shortcut' => 'ctrl.k',
 
         // Prevent closing by clicking outside
         'persistent' => false,
 
-        // Hide keyboard hints in the footer
-        'elements' => false,
+        // Preserve previous results when reopening
+        'recycle' => false,
+
+        // Show keyboard hints in the footer
+        'elements' => true,
 
         // Scrollbar style for results list (null, 'soft', 'custom')
         'scrollbar' => null,
@@ -168,17 +307,88 @@ Publish or override in `config/tallstackui.php`:
 ],
 ```
 
+| Option       | Type              | Default    | Description                                     |
+|--------------|-------------------|------------|-------------------------------------------------|
+| `request`    | `string\|array\|null` | `null`     | Global data source (overridden by inline prop)  |
+| `z-index`    | `string`          | `z-50`     | Tailwind z-index class for the overlay          |
+| `blur`       | `false\|string`   | `false`    | Backdrop blur (`false`, `sm`, `md`, `lg`, `xl`) |
+| `overflow`   | `bool`            | `false`    | Allow page scroll when open                     |
+| `shortcut`   | `string`          | `ctrl.k`   | Keyboard shortcut to toggle                     |
+| `persistent` | `bool`            | `false`    | Prevent closing by clicking outside             |
+| `recycle`    | `bool`            | `false`    | Preserve results when reopening                 |
+| `elements`   | `bool`            | `true`     | Show keyboard hints footer                      |
+| `scrollbar`  | `null\|string`    | `null`     | Scrollbar style (`null`, `soft`, `custom`)      |
+
+## API Response Format
+
+The API endpoint must return a JSON array of objects. The search term is sent as a `search` query parameter (GET) or body field (POST).
+
+### GET Request
+
+```
+GET /api/search?search=john
+```
+
+### POST Request
+
+```
+POST /api/search
+Content-Type: application/json
+
+{ "search": "john" }
+```
+
+### Expected Response
+
+```json
+[
+  {
+    "name": "John Doe",
+    "id": 1,
+    "role": "Engineer",
+    "avatar": "https://example.com/avatar.jpg"
+  }
+]
+```
+
+Each object must contain at least the field mapped to `label` in the `select` attribute. Other fields (`description`, `image`) are optional.
+
+### Disabling Options
+
+Include `"disabled": true` on any option to prevent selection:
+
+```json
+[
+  { "name": "Active User", "id": 1 },
+  { "name": "Archived User", "id": 2, "disabled": true }
+]
+```
+
 ## Mobile Behavior
 
 On mobile devices:
 
 - The palette appears at the bottom of the screen (sheet-like)
-- Keyboard hints in the footer are hidden
-- The box uses top-rounded corners for a native feel
+- Keyboard hints in the footer are hidden (`hidden sm:flex`)
+- The box uses top-rounded corners (`rounded-t-xl`) for a native feel
+
+## Internationalization
+
+Translation keys under `ts-ui::messages.command-palette`:
+
+| Key        | Default (en)       | Usage                          |
+|------------|--------------------|--------------------------------|
+| `search`   | Search...          | Search input placeholder       |
+| `empty`    | No results found.  | Default empty state message    |
+| `navigate` | navigate           | Footer keyboard hint           |
+| `select`   | select             | Footer keyboard hint           |
+| `close`    | close              | Footer keyboard hint           |
+
+Translations are available in 15 locales: ar, de, en, es, fr, id, it, km, ms, nl, pl, pt, pt_BR, tr, vi.
 
 ## Soft Customization
 
-All visual blocks can be customized:
+All visual blocks can be customized via the soft personalization API:
 
 ```php
 TallStackUi::personalize()
@@ -201,3 +411,26 @@ TallStackUi::personalize()
     ->block('empty', '...')
     ->block('footer', '...');
 ```
+
+### Available Blocks
+
+| Block                | Default Classes                                                                                   |
+|----------------------|---------------------------------------------------------------------------------------------------|
+| `backdrop`           | `fixed inset-0 bg-gray-400/75 transform transition-opacity`                                      |
+| `blur.sm\|md\|lg\|xl` | `backdrop-blur-{size}`                                                                           |
+| `wrapper`            | `fixed inset-0 flex items-end sm:items-start justify-center sm:pt-[15vh]`                        |
+| `box`                | `w-full max-w-lg overflow-hidden rounded-t-xl sm:rounded-xl bg-white shadow-2xl ...`             |
+| `input.wrapper`      | `flex items-center border-b border-dark-100 px-4 dark:border-dark-700`                           |
+| `input.icon`         | `h-5 w-5 text-dark-400 dark:text-dark-500`                                                       |
+| `input.base`         | `h-12 w-full border-0 bg-transparent text-sm ... focus:ring-0 focus:outline-none ...`            |
+| `input.loading`      | `flex items-center`                                                                               |
+| `list`               | `max-h-72 scroll-py-2 overflow-y-auto p-2`                                                       |
+| `option.base`        | `flex w-full cursor-pointer items-center gap-x-3 rounded-lg px-3 py-2 text-left`                 |
+| `option.active`      | `bg-primary-50 dark:bg-dark-700`                                                                  |
+| `option.disabled`    | `opacity-50 cursor-not-allowed`                                                                   |
+| `option.image`       | `h-8 w-8 flex-shrink-0 rounded-full object-cover`                                                |
+| `option.content`     | `flex flex-col overflow-hidden`                                                                   |
+| `option.label`       | `truncate text-sm font-medium text-dark-600 dark:text-dark-300`                                   |
+| `option.description` | `truncate text-xs text-dark-500 dark:text-dark-400`                                               |
+| `empty`              | `px-4 py-8 text-center text-sm text-dark-500 dark:text-dark-400`                                  |
+| `footer`             | `hidden sm:flex items-center gap-x-4 border-t border-dark-100 px-4 py-2.5 text-xs ...`           |

@@ -120,20 +120,26 @@ return [
             | Command Palette Settings
             |----------------------------------------------------------------------
             |
+            | request: the data source for the command palette. Accepts a URL string (GET),
+            |          an array ['url' => '...', 'method' => 'get|post', 'params' => [...]],
+            |          or a Laravel-named route (e.g., 'api.search').
             | z-index: controls the default z-index.
             | blur: enables the background blur effect (Allowed: false, sm, md, lg, xl).
             | overflow: avoids hiding the overflow, allowing the scroll of the page.
             | shortcut: keyboard shortcut to toggle the palette (e.g., 'ctrl.k', 'ctrl.shift.p').
             | persistent: when true, prevents closing by clicking outside.
+            | recycle: when true, preserves previous results when reopening the palette.
             | elements: when true, hides the keyboard hints in the footer.
             | scrollbar: controls the scrollbar style for the results list (Allowed: null, 'soft', 'custom').
             */
             [
+                'request' => null,
                 'z-index' => 'z-50',
                 'blur' => false,
                 'overflow' => false,
                 'shortcut' => 'ctrl.k',
                 'persistent' => false,
+                'recycle' => false,
                 'elements' => true,
                 'scrollbar' => null,
             ],

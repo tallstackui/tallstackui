@@ -9,6 +9,7 @@ use TallStackUi\Attributes\SoftCustomization;
 use TallStackUi\Components\Traits\SelectSetup;
 use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\TallStackUiComponent;
+use Throwable;
 
 #[SoftCustomization('commandPalette')]
 class Component extends TallStackUiComponent implements Customization
@@ -22,8 +23,13 @@ class Component extends TallStackUiComponent implements Customization
         public ?array $selectable = [],
         public ?array $placeholders = null,
         public ?bool $grouped = null,
-        public bool $recycle = false,
+        public ?bool $recycle = null,
     ) {
+        $this->request ??= __ts_get_component_configuration(self::class, 'request');
+        $this->recycle ??= __ts_get_component_configuration(self::class, 'recycle') ?? false;
+
+        $this->request();
+
         $this->placeholders = array_merge(trans('ts-ui::messages.command-palette'), $this->placeholders ?? []);
     }
 
@@ -47,7 +53,7 @@ class Component extends TallStackUiComponent implements Customization
             'input' => [
                 'wrapper' => 'flex items-center border-b border-dark-100 px-4 dark:border-dark-700',
                 'icon' => 'h-5 w-5 text-dark-400 dark:text-dark-500',
-                'base' => 'h-12 w-full border-0 bg-transparent text-sm text-dark-900 placeholder-dark-400 focus:ring-0 dark:text-dark-100 dark:placeholder-dark-500',
+                'base' => 'h-12 w-full border-0 bg-transparent text-sm text-dark-900 placeholder-dark-400 focus:ring-0 focus:outline-none dark:text-dark-100 dark:placeholder-dark-500',
                 'loading' => 'flex items-center',
             ],
             'list' => 'max-h-72 scroll-py-2 overflow-y-auto p-2',
@@ -68,7 +74,7 @@ class Component extends TallStackUiComponent implements Customization
     protected function validate(): void
     {
         if (! filled($this->request)) {
-            __ts_validation_exception($this, 'The [request] attribute is required.');
+            __ts_validation_exception($this, 'The [request] must be configured either as an inline attribute or in the config file (tallstackui.components.command-palette.request).');
         }
 
         if (! is_array($this->request)) {
@@ -87,6 +93,20 @@ class Component extends TallStackUiComponent implements Customization
 
         if (isset($this->request['params']) && (! is_array($this->request['params']) || blank($this->request['params']))) {
             __ts_validation_exception($this, 'The attribute [params] must be an array and cannot be empty.');
+        }
+    }
+
+    /** Resolve the request URL. */
+    private function request(): void
+    {
+        if (! is_string($this->request) || str_starts_with($this->request, 'http')) {
+            return;
+        }
+
+        try {
+            $this->request = route($this->request);
+        } catch (Throwable) {
+            //
         }
     }
 }

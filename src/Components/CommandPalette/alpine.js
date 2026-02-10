@@ -1,13 +1,7 @@
 import { error, overflow, register_ui_element, unregister_ui_element } from '../../../js/helpers';
 import { body } from '../Form/Select/helpers';
 
-export default (
-  request,
-  selectable = {},
-  shortcutKey = 'ctrl.k',
-  smooth = true,
-  recycle = false
-) => ({
+export default (request, selectable = {}, shortcutKey = 'ctrl.k', recycle = false) => ({
   show: false,
   search: '',
   selected: -1,
@@ -113,7 +107,6 @@ export default (
         };
       });
 
-      this.preNormalize(this.response);
       this.invalidateAvailable();
       this.selected = -1;
     } catch (e) {
@@ -125,31 +118,6 @@ export default (
   invalidateAvailable() {
     this._availableDirty = true;
     this._navigateOptions = null;
-  },
-  preNormalize(items) {
-    if (!items || !Array.isArray(items)) {
-      return;
-    }
-
-    for (let i = 0; i < items.length; i++) {
-      const item = items[i];
-
-      if (!item || typeof item !== 'object') {
-        continue;
-      }
-
-      const label = item[selectable.label];
-
-      if (label) {
-        item.__normalized = this.normalize(label.toString().toLowerCase());
-      }
-
-      const desc = item[selectable.description];
-
-      if (desc) {
-        item.__normalizedDesc = this.normalize(desc.toString().toLowerCase());
-      }
-    }
   },
   selectOption(option) {
     if (!option || option.disabled) {
@@ -189,30 +157,6 @@ export default (
     if (options && this.selected >= 0 && this.selected < options.length) {
       options[this.selected].scrollIntoView({ block: 'nearest' });
     }
-  },
-  normalize(string) {
-    if (!string) {
-      return '';
-    }
-
-    if (!this._normalize) {
-      this._normalize = new Map();
-    }
-
-    if (this._normalize.has(string)) {
-      return this._normalize.get(string);
-    }
-
-    const normalized = string.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-    this._normalize.set(string, normalized);
-
-    if (this._normalize.size > 100) {
-      const key = this._normalize.keys().next().value;
-
-      this._normalize.delete(key);
-    }
-
-    return normalized;
   },
   get available() {
     if (!this._availableDirty) {
