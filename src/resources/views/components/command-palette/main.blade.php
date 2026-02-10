@@ -32,7 +32,7 @@
         <div @class([$customization['box']])
              dusk="tallstackui_command_palette">
             <div @class([$customization['input.wrapper']])
-                 :class="{ '!border-b-0': available.length === 0 && (!search || loading || !fetched) }">
+                 x-bind:class="{ 'border-b-0!': available.length === 0 && (!search || loading || !fetched) }">
                 <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                      :icon="TallStackUi::icon('magnifying-glass')"
                                      internal

@@ -441,24 +441,24 @@ TallStackUi::personalize()
 
 ### Available Blocks
 
-| Block                | Default Classes                                                                                   |
-|----------------------|---------------------------------------------------------------------------------------------------|
-| `backdrop`           | `fixed inset-0 bg-gray-400/75 transform transition-opacity`                                      |
-| `blur.sm\|md\|lg\|xl` | `backdrop-blur-{size}`                                                                           |
-| `wrapper`            | `fixed inset-0 flex items-end sm:items-start justify-center sm:pt-[15vh]`                        |
-| `box`                | `w-full max-w-lg overflow-hidden rounded-t-xl sm:rounded-xl bg-white shadow-2xl ...`             |
-| `input.wrapper`      | `flex items-center border-b border-dark-100 px-4 dark:border-dark-700`                           |
-| `input.icon`         | `h-5 w-5 text-dark-400 dark:text-dark-500`                                                       |
-| `input.base`         | `h-12 w-full border-0 bg-transparent text-sm ... focus:ring-0 focus:outline-none ...`            |
-| `input.loading`      | `flex items-center`                                                                               |
-| `list`               | `max-h-72 scroll-py-2 overflow-y-auto p-2`                                                       |
-| `option.base`        | `flex w-full cursor-pointer items-center gap-x-3 rounded-lg px-3 py-2 text-left`                 |
-| `option.active`      | `bg-primary-50 dark:bg-dark-700`                                                                  |
-| `option.disabled`    | `opacity-50 cursor-not-allowed`                                                                   |
-| `option.image`       | `h-8 w-8 flex-shrink-0 rounded-full object-cover`                                                |
-| `option.icon`        | `h-8 w-8 flex-shrink-0 text-dark-400 dark:text-dark-500 [&>svg]:h-full [&>svg]:w-full`           |
-| `option.content`     | `flex flex-col overflow-hidden`                                                                   |
-| `option.label`       | `truncate text-sm font-medium text-dark-600 dark:text-dark-300`                                   |
-| `option.description` | `truncate text-xs text-dark-500 dark:text-dark-400`                                               |
-| `empty`              | `px-4 py-8 text-center text-sm text-dark-500 dark:text-dark-400`                                  |
-| `footer`             | `hidden sm:flex items-center gap-x-4 border-t border-dark-100 px-4 py-2.5 text-xs ...`           |
+| Block                 | Default Classes                                                                        |
+|-----------------------|----------------------------------------------------------------------------------------|
+| `backdrop`            | `fixed inset-0 bg-gray-400/75 transform transition-opacity`                            |
+| `blur.sm\|md\|lg\|xl` | `backdrop-blur-{size}`                                                                 |
+| `wrapper`             | `fixed inset-0 flex items-end sm:items-start justify-center sm:pt-[15vh]`              |
+| `box`                 | `w-full max-w-lg overflow-hidden rounded-t-xl sm:rounded-xl bg-white shadow-2xl ...`   |
+| `input.wrapper`       | `flex items-center border-b border-dark-100 px-4 dark:border-dark-700`                 |
+| `input.icon`          | `h-5 w-5 text-dark-400 dark:text-dark-500`                                             |
+| `input.base`          | `h-12 w-full border-0 bg-transparent text-sm ... focus:ring-0 focus:outline-none ...`  |
+| `input.loading`       | `flex items-center`                                                                    |
+| `list`                | `max-h-72 scroll-py-2 overflow-y-auto p-2`                                             |
+| `option.base`         | `flex w-full cursor-pointer items-center gap-x-3 rounded-lg px-3 py-2 text-left`       |
+| `option.active`       | `bg-primary-50 dark:bg-dark-700`                                                       |
+| `option.disabled`     | `opacity-50 cursor-not-allowed`                                                        |
+| `option.image`        | `h-8 w-8 flex-shrink-0 rounded-full object-cover`                                      |
+| `option.icon`         | `h-8 w-8 flex-shrink-0 text-dark-400 dark:text-dark-500 [&>svg]:h-full [&>svg]:w-full` |
+| `option.content`      | `flex flex-col overflow-hidden`                                                        |
+| `option.label`        | `truncate text-sm font-medium text-dark-600 dark:text-dark-300`                        |
+| `option.description`  | `truncate text-xs text-dark-500 dark:text-dark-400`                                    |
+| `empty`               | `px-4 py-8 text-center text-sm text-dark-500 dark:text-dark-400`                       |
+| `footer`              | `hidden sm:flex items-center gap-x-4 border-t border-dark-100 px-4 py-2.5 text-xs ...` |

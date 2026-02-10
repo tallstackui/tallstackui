@@ -103,7 +103,7 @@ class Component extends TallStackUiComponent implements Customization
     protected function validate(): void
     {
         if (! filled($this->request)) {
-            __ts_validation_exception($this, 'The [request] must be configured either as an inline attribute or in the config file (tallstackui.components.command-palette.request).');
+            __ts_validation_exception($this, 'The [request] must be configured either as an inline attribute or in the config file.');
         }
 
         if (! is_array($this->request)) {
