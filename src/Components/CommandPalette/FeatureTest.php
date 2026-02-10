@@ -176,7 +176,7 @@ it('shows keyboard hints by default', function () {
         ->toContain('↵');
 });
 
-it('hides keyboard hints when elements config is true', function () {
+it('hides keyboard hints when elements config is false', function () {
     config()->set('ts-ui.components.command-palette', [
         TallStackUi\Components\CommandPalette\Component::class,
         [

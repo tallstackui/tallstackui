@@ -32,6 +32,14 @@ return [
         ],
     ],
 
+    'command-palette' => [
+        'search' => 'بحث...',
+        'empty' => 'لا توجد نتائج.',
+        'navigate' => 'تنقل',
+        'select' => 'تحديد',
+        'close' => 'إغلاق',
+    ],
+
     'table' => [
         'empty' => 'لا توجد بيانات',
         'quantity' => 'عدد النتائج',

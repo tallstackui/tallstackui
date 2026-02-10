@@ -32,6 +32,14 @@ return [
         ],
     ],
 
+    'command-palette' => [
+        'search' => 'Ara...',
+        'empty' => 'Sonuç bulunamadı.',
+        'navigate' => 'gezin',
+        'select' => 'seç',
+        'close' => 'kapat',
+    ],
+
     'table' => [
         'empty' => 'Sonuç bulunamadı.',
         'quantity' => 'Miktar',

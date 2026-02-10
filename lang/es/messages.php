@@ -32,6 +32,14 @@ return [
         ],
     ],
 
+    'command-palette' => [
+        'search' => 'Buscar...',
+        'empty' => 'No se encontraron resultados.',
+        'navigate' => 'navegar',
+        'select' => 'seleccionar',
+        'close' => 'cerrar',
+    ],
+
     'table' => [
         'empty' => 'No se encontraron resultados.',
         'quantity' => 'Cantidad',

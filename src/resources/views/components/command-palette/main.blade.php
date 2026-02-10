@@ -42,7 +42,7 @@
                        x-on:keydown.arrow-up.prevent="navigate('previous')"
                        x-on:keydown.enter.prevent="available[selected] && selectOption(available[selected])"
                        type="text"
-                       placeholder="{{ __('Search...') }}"
+                       placeholder="{{ data_get($placeholders, 'search') }}"
                        dusk="tallstackui_command_palette_search"
                        @class([$customization['input.base']]) />
                 <div x-show="loading" @class([$customization['input.loading']])>
@@ -84,15 +84,15 @@
                     @if (isset($empty))
                         {{ $empty }}
                     @else
-                        <p @class([$customization['empty']])>{{ __('No results found.') }}</p>
+                        <p @class([$customization['empty']])>{{ data_get($placeholders, 'empty') }}</p>
                     @endif
                 </div>
             </div>
             @if ($configurations['elements'])
                 <div @class([$customization['footer']])>
-                    <span>↑↓ {{ __('navigate') }}</span>
-                    <span>↵ {{ __('select') }}</span>
-                    <span>esc {{ __('close') }}</span>
+                    <span>↑↓ {{ data_get($placeholders, 'navigate') }}</span>
+                    <span>↵ {{ data_get($placeholders, 'select') }}</span>
+                    <span>esc {{ data_get($placeholders, 'close') }}</span>
                 </div>
             @endif
         </div>

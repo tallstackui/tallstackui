@@ -32,6 +32,14 @@ return [
         ],
     ],
 
+    'command-palette' => [
+        'search' => 'ស្វែងរក...',
+        'empty' => 'រកមិនឃើញលទ្ធផលទេ។',
+        'navigate' => 'រុករក',
+        'select' => 'ជ្រើសរើស',
+        'close' => 'បិទ',
+    ],
+
     'table' => [
         'empty' => 'រកមិនឃើញលទ្ធផលទេ។',
         'quantity' => 'បរិមាណ',

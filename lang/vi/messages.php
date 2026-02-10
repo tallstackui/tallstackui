@@ -32,6 +32,14 @@ return [
         ],
     ],
 
+    'command-palette' => [
+        'search' => 'Tìm kiếm...',
+        'empty' => 'Không tìm thấy kết quả.',
+        'navigate' => 'điều hướng',
+        'select' => 'chọn',
+        'close' => 'đóng',
+    ],
+
     'table' => [
         'empty' => 'Không tìm thấy kết quả.',
         'quantity' => 'Số lượng',

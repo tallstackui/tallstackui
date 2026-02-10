@@ -20,10 +20,11 @@ class Component extends TallStackUiComponent implements Customization
         public ?string $select = null,
         public Collection|array $options = [],
         public ?array $selectable = [],
+        public ?array $placeholders = null,
         public ?bool $grouped = null,
         public bool $recycle = false,
     ) {
-        //
+        $this->placeholders = array_merge(trans('ts-ui::messages.command-palette'), $this->placeholders ?? []);
     }
 
     public function blade(): View

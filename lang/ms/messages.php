@@ -32,6 +32,14 @@ return [
         ],
     ],
 
+    'command-palette' => [
+        'search' => 'Carian...',
+        'empty' => 'Tiada data dijumpai.',
+        'navigate' => 'navigasi',
+        'select' => 'pilih',
+        'close' => 'tutup',
+    ],
+
     'table' => [
         'empty' => 'Tiada data dijumpai',
         'quantity' => 'Kuantiti',
