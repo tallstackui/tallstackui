@@ -83,17 +83,17 @@ trait SetupColors
     {
         static $cache = [];
 
-        $colorClass = static::class;
+        $color = static::class;
 
         // We use private visibility as a way to mark the methods.
-        if (! isset($cache[$colorClass])) {
-            $cache[$colorClass] = array_values(array_map(
+        if (! isset($cache[$color])) {
+            $cache[$color] = array_values(array_map(
                 fn (ReflectionMethod $method) => $method->getName(),
                 (new ReflectionClass($this))->getMethods(ReflectionMethod::IS_PRIVATE)
             ));
         }
 
-        $methods = $cache[$colorClass];
+        $methods = $cache[$color];
 
         /** @var ReflectionClass $parent */
         $parent = $this->reflect->parent();
