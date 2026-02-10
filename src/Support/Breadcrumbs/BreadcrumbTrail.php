@@ -42,8 +42,7 @@ class BreadcrumbTrail
     }
 
     /**
-     * Set a parent route whose breadcrumb items will be
-     * prepended before this trail's items during resolution.
+     * Set a parent route whose breadcrumb items will be prepended before this trail's items during resolution.
      */
     public function parent(string $route): self
     {
