@@ -4,7 +4,7 @@ namespace {{ namespace }};
 
 use Illuminate\View\Component;
 
-class ButtonColors
+class NormalButtonColors
 {
     /**
      * Background colors.

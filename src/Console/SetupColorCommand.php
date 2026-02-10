@@ -4,8 +4,9 @@ namespace TallStackUi\Console;
 
 use Exception;
 use Illuminate\Console\Command;
+use ReflectionClass;
+use ReflectionException;
 use TallStackUi\Attributes\ColorsThroughOf;
-use TallStackUi\Components\Button\Circle\Component as Circle;
 use TallStackUi\Components\Form\Checkbox\Component as Checkbox;
 
 use function Laravel\Prompts\select;
@@ -16,6 +17,7 @@ class SetupColorCommand extends Command
 
     public $signature = 'tallstackui:setup-color';
 
+    /** @throws ReflectionException */
     public function handle(): int
     {
         if (blank(config('ts-ui.color_classes_namespace'))) {
@@ -25,22 +27,30 @@ class SetupColorCommand extends Command
         }
 
         $reject = [
-            Checkbox::class, // -> merged with Radio
-            Circle::class, // -> merged with Progress
+            // merged with Radio
+            Checkbox::class,
         ];
 
         $filtered = array_diff(__ts_filter_components_using_attribute(ColorsThroughOf::class), $reject);
 
         $components = [];
+        $map = [];
 
         foreach ($filtered as $class) {
-            $name = substr(strrchr($class, '\\'), 1);
-            $components[$name] = $name;
+            $display = str_replace('TallStackUi\\Components\\', '', $class);
+            $display = preg_replace('/\\\\Component$/', '', $display);
+            $display = str_replace('\\Main', '', $display);
+
+            $attribute = (new ReflectionClass($class))->getAttributes(ColorsThroughOf::class);
+            $key = str_replace('Colors', '', class_basename($attribute[0]->getArguments()[0]));
+
+            $components[$display] = $display;
+            $map[$display] = $key;
         }
 
         $component = select('Select the component to customize the colors', $components, hint: 'Only colored components are listed.');
 
-        return $this->publish($component);
+        return $this->publish($map[$component]);
     }
 
     private function publish(string $component): int

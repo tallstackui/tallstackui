@@ -4,7 +4,7 @@ namespace TallStackUi\Support\Colors\Components;
 
 use TallStackUi\Support\Colors\Concerns\SetupColors;
 
-class ButtonColors
+class CircleButtonColors
 {
     use SetupColors;
 

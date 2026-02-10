@@ -41,19 +41,13 @@ if (! function_exists('__ts_class_collection')) {
      */
     function __ts_class_collection(string $component): array
     {
-        $bypass = [
-            // class => replacement
-            'Circle' => 'Button',
-        ];
-
         $namespace = config('ts-ui.color_classes_namespace');
 
         if ($namespace === null) {
             return [];
         }
 
-        $color = $bypass[$component] ?? $component;
-        $raw = $color.'Colors';
+        $raw = $component.'Colors';
         $file = $raw.'.php';
         $path = app_path(str_replace('\\', '/', str_replace('App\\', '', $namespace)).'/'.$file);
         $exists = file_exists($path);

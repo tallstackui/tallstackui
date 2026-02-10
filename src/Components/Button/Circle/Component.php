@@ -10,12 +10,12 @@ use TallStackUi\Attributes\SkipDebug;
 use TallStackUi\Attributes\SoftCustomization;
 use TallStackUi\Components\Traits\ButtonSetup;
 use TallStackUi\Customization\Contracts\Customization;
-use TallStackUi\Support\Colors\Components\ButtonColors;
+use TallStackUi\Support\Colors\Components\CircleButtonColors;
 use TallStackUi\Support\Runtime\Components\ButtonRuntime;
 use TallStackUi\TallStackUiComponent;
 
 #[SoftCustomization('button.circle')]
-#[ColorsThroughOf(ButtonColors::class)]
+#[ColorsThroughOf(CircleButtonColors::class)]
 #[PassThroughRuntime(ButtonRuntime::class)]
 class Component extends TallStackUiComponent implements Customization
 {
