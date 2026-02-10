@@ -96,6 +96,13 @@ return [
         'banner' => Components\Banner\Component::class,
         'breadcrumbs' => [
             Components\Breadcrumbs\Component::class,
+            /*
+            |----------------------------------------------------------------------
+            | Breadcrumbs Settings
+            |----------------------------------------------------------------------
+            |
+            | files: array of files (relative to base_path()) that register breadcrumb definitions.
+            */
             [
                 'files' => [
                     'routes/breadcrumbs.php',

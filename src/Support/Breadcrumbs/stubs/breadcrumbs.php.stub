@@ -16,9 +16,9 @@ use TallStackUi\Support\Breadcrumbs\BreadcrumbTrail;
 
 // TallStackUi::breadcrumbs()
 //     ->for('home', fn (BreadcrumbTrail $trail) => $trail
-//         ->add('Home', '/')
+//         ->add(label: 'Home', link: '/')
 //     )
 //     ->for('users.index', fn (BreadcrumbTrail $trail) => $trail
 //         ->parent('home')
-//         ->add('Users', 'users.index')
+//         ->add(label: 'Users', link: 'users.index', icon: 'users', tooltip: 'View all users')
 //     );
