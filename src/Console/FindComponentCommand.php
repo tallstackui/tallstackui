@@ -39,17 +39,18 @@ class FindComponentCommand extends Command
         $find = sprintf('<x-%s', $prefix ? $prefix.$original : $original);
 
         $windows = windows_os();
+        $pattern = str_replace('.', '\\.', $find).'([^a-zA-Z0-9-]|$)';
 
         $command = $windows
             ? ['findstr', '/S', '/N', '/I', $find, resource_path('views').'\*.blade.php']
-            : ['grep', '-rn', $find, resource_path('views')];
+            : ['grep', '-rnE', $pattern, resource_path('views')];
 
         $process = new Process($command);
 
         try {
             $process->mustRun();
 
-            $this->output($process->getOutput(), $original, $windows);
+            $this->output($process->getOutput(), $original, $find, $windows);
 
             return self::SUCCESS;
         } catch (ProcessFailedException) {
@@ -61,7 +62,7 @@ class FindComponentCommand extends Command
         return self::FAILURE;
     }
 
-    private function output(string $output, string $component, bool $window): void
+    private function output(string $output, string $component, string $find, bool $window): void
     {
         if (blank($output)) {
             return;
@@ -77,7 +78,24 @@ class FindComponentCommand extends Command
             // After that, need to ignore lines that contain
             // </x- because they are closing tags and not the
             // actual component, like examples of </x-modal> and </x-slide>
-            ->filter(fn (string $line) => ! str_contains($line, '</x-'));
+            ->filter(fn (string $line) => ! str_contains($line, '</x-'))
+            ->filter(function (string $line) use ($find): bool {
+                $pos = stripos($line, $find);
+
+                if ($pos === false) {
+                    return false;
+                }
+
+                $after = $pos + strlen($find);
+
+                if ($after >= strlen($line)) {
+                    return true;
+                }
+
+                $next = $line[$after];
+
+                return ! ctype_alnum($next) && $next !== '-';
+            });
 
         $total = $lines->count();
 
