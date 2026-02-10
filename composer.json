@@ -48,6 +48,13 @@
     "bench": "./vendor/bin/testbench",
     "type": "./vendor/bin/pest --type-coverage",
     "test:browser:setup": "./vendor/bin/dusk-updater detect --auto-update",
+    "ci": [
+      "composer run analyse",
+      "composer run type",
+      "./vendor/bin/pint --parallel --test",
+      "composer run test:feature",
+      "composer run test:browser"
+    ],
     "format": [
       "./vendor/bin/pint --parallel",
       "npm run lint:fix",

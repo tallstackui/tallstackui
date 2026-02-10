@@ -4,11 +4,11 @@ namespace TallStackUi\Support\Runtime;
 
 use Error;
 use Exception;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\ViewErrorBag;
 use Illuminate\View\ComponentAttributeBag;
-use Illuminate\Contracts\View\Factory;
 use Livewire\Component;
 use Livewire\WireDirective;
 use TallStackUi\Support\Blade\BindProperty;
