@@ -45,6 +45,7 @@ use TallStackUi\Components\Form\Textarea\Component as Textarea;
 use TallStackUi\Components\Form\Time\Component as Time;
 use TallStackUi\Components\Form\Toggle\Component as Toggle;
 use TallStackUi\Components\Form\Upload\Component as Upload;
+use TallStackUi\Components\Kbd\Component as Kbd;
 use TallStackUi\Components\KeyValue\Component as KeyValue;
 use TallStackUi\Components\Layout\Header\Component as Header;
 use TallStackUi\Components\Layout\Main\Component as Layout;
@@ -301,6 +302,13 @@ class Customization
     public function globals(): Globals
     {
         return new Globals;
+    }
+
+    public function kbd(?string $scope = null): CustomizationFactory
+    {
+        $this->scope ??= $scope;
+
+        return $this->component(Kbd::class);
     }
 
     public function keyValue(?string $scope = null): CustomizationFactory

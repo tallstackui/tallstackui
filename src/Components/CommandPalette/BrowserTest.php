@@ -84,27 +84,6 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
-    public function can_open_using_helper(): void
-    {
-        Livewire::visit(new class extends Component
-        {
-            public function render(): string
-            {
-                return <<<'HTML'
-                <div>
-                    <x-command-palette request="https://example.com/search" select="label:title|value:id" />
-                    <x-button dusk="open" x-on:click="$commandPaletteOpen()">Open</x-button>
-                </div>
-                HTML;
-            }
-        })
-            ->assertMissing('@tallstackui_command_palette')
-            ->click('@open')
-            ->waitFor('@tallstackui_command_palette')
-            ->assertVisible('@tallstackui_command_palette');
-    }
-
-    #[Test]
     public function can_open_and_close_with_keyboard_shortcut(): void
     {
         $browser = Livewire::visit(new class extends Component
@@ -126,6 +105,27 @@ class BrowserTest extends BrowserTestCase
             ->keys('', ['{control}', 'k'])
             ->waitUntilMissing('@tallstackui_command_palette')
             ->assertMissing('@tallstackui_command_palette');
+    }
+
+    #[Test]
+    public function can_open_using_helper(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-command-palette request="https://example.com/search" select="label:title|value:id" />
+                    <x-button dusk="open" x-on:click="$commandPaletteOpen()">Open</x-button>
+                </div>
+                HTML;
+            }
+        })
+            ->assertMissing('@tallstackui_command_palette')
+            ->click('@open')
+            ->waitFor('@tallstackui_command_palette')
+            ->assertVisible('@tallstackui_command_palette');
     }
 
     #[Test]

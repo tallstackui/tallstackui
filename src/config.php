@@ -288,6 +288,7 @@ return [
                 'opacity' => true,
             ],
         ],
+        'kbd' => Components\Kbd\Component::class,
         'key-value' => Components\KeyValue\Component::class,
         'modal' => [
             Components\Modal\Component::class,

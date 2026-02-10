@@ -2,7 +2,7 @@
 
 namespace TallStackUi\Support\Runtime;
 
-use Illuminate\View\Factory;
+use Illuminate\Contracts\View\Factory;
 use ReflectionException;
 use TallStackUi\Attributes\PassThroughRuntime;
 use TallStackUi\Support\Miscellaneous\ReflectComponent;
