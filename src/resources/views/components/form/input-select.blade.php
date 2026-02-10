@@ -3,25 +3,24 @@
 @endphp
 
 <x-dynamic-component :component="TallStackUi::prefix('wrapper.input')" :$id :$property :$error :$label :$hint :$invalidate>
-    @if ($hasSlot)
+    @if ($left || $right)
         <div @class([
             $customization['input.wrapper.first'],
             $customization['input.color.base'] => !$error,
             $customization['input.wrapper.error'] => $error,
         ])>
-            @if ($hasLeft)
+            @if ($left)
                 <div class="flex-none">
-                    {{ $left->withAttributes(['side' => 'left']) }}
+                    {{ $left }}
                 </div>
             @endif
     @endif
     <div @class([
-            'relative flex-1' => $hasSlot,
+            'relative flex-1 ring-0! focus-within:ring-0!',
             $customization['input.wrapper.second'],
-            'ring-0! focus-within:ring-0!' => $hasSlot,
-            $customization['input.wrapper.round.left'] => $hasLeft,
-            $customization['input.wrapper.round.right'] => $hasRight,
-            $customization['input.color.base'] => !$error && !$hasSlot,
+            $customization['input.wrapper.round.left'] => $left,
+            $customization['input.wrapper.round.right'] => $right,
+            $customization['input.color.base'] => !$error,
             $customization['input.color.background'] => !$attributes->get('disabled') && !$attributes->get('readonly'),
             $customization['input.color.disabled'] => $attributes->get('disabled') || $attributes->get('readonly'),
             $customization['error'] => $error
@@ -32,11 +31,11 @@
                                      :$icon
                                      :$error
                                      internal
-                        @class([
-                            $customization['icon.size'],
-                            $customization['error'] => $error,
-                            $customization['icon.color'] => !$error && !$invalidate
-                        ]) />
+                                     @class([
+                                         $customization['icon.size'],
+                                         $customization['error'] => $error,
+                                         $customization['icon.color'] => !$error && !$invalidate
+                                     ]) />
             </div>
         @endif
         @if ($clearable)
@@ -47,10 +46,10 @@
                                          :icon="TallStackUi::icon('x-mark')"
                                          x-on:click="clear()"
                                          internal
-                            @class([
-                                $customization['clearable.size'],
-                                $customization['clearable.color'] => !$error && !$invalidate,
-                            ]) />
+                                        @class([
+                                            $customization['clearable.size'],
+                                            $customization['clearable.color'] => !$error && !$invalidate,
+                                        ]) />
                 </button>
             </div>
         @endif
@@ -81,10 +80,10 @@
             <span @class(['ml-1 mr-2', $customization['input.slot'], $customization['error'] => $error])>{{ $suffix }}</span>
         @endif
     </div>
-    @if ($hasSlot)
-            @if ($hasRight)
+    @if ($left || $right)
+            @if ($right)
                 <div class="flex-none">
-                    {{ $right->withAttributes(['side' => 'right']) }}
+                    {{ $right }}
                 </div>
             @endif
         </div>
