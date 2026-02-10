@@ -21,7 +21,7 @@ export const error = (message) => console.error(`[TallStackUI] ${message}`);
  * @param prefix {Boolean}
  */
 export const event = (name, params = null, prefix = true) => {
-  const identification = prefix ? `tallstackui:${name}` : name;
+  const identification = prefix ? `ts-ui:${name}` : name;
 
   window.dispatchEvent(new CustomEvent(identification, params ? { detail: params } : {}));
 };
