@@ -8,6 +8,7 @@ export default (request, selectable = {}, shortcutKey = 'ctrl.k', recycle = fals
   selectable: selectable,
   response: [],
   loading: false,
+  fetched: false,
   _availableCache: [],
   _availableDirty: true,
   _navigateOptions: null,
@@ -16,6 +17,7 @@ export default (request, selectable = {}, shortcutKey = 'ctrl.k', recycle = fals
     this.shortcut(shortcutKey);
 
     this.$watch('search', () => {
+      this.fetched = false;
       this.invalidateAvailable();
 
       clearTimeout(this._debounce);
@@ -113,6 +115,7 @@ export default (request, selectable = {}, shortcutKey = 'ctrl.k', recycle = fals
       error(e.message);
     } finally {
       this.loading = false;
+      this.fetched = true;
     }
   },
   invalidateAvailable() {

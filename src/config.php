@@ -129,8 +129,8 @@ return [
             | shortcut: keyboard shortcut to toggle the palette (e.g., 'ctrl.k', 'ctrl.shift.p').
             | persistent: when true, prevents closing by clicking outside.
             | recycle: when true, preserves previous results when reopening the palette.
-            | elements: when true, hides the keyboard hints in the footer.
-            | scrollbar: controls the scrollbar style for the results list (Allowed: null, 'soft', 'custom').
+            | elements: when true, shows the keyboard hints in the footer.
+            | scrollbar: when true, applies a custom minimal scrollbar to the results list.
             */
             [
                 'request' => null,
@@ -139,9 +139,9 @@ return [
                 'overflow' => false,
                 'shortcut' => 'ctrl.k',
                 'persistent' => false,
-                'recycle' => false,
+                'recycle' => true,
                 'elements' => true,
-                'scrollbar' => null,
+                'scrollbar' => true,
             ],
         ],
         'currency' => Components\Form\Currency\Component::class,

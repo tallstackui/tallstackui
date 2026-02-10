@@ -5,6 +5,7 @@ namespace TallStackUi\Components\CommandPalette;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use TallStackUi\Attributes\SkipDebug;
 use TallStackUi\Attributes\SoftCustomization;
 use TallStackUi\Components\Traits\SelectSetup;
 use TallStackUi\Customization\Contracts\Customization;
@@ -14,19 +15,23 @@ use Throwable;
 #[SoftCustomization('commandPalette')]
 class Component extends TallStackUiComponent implements Customization
 {
-    use SelectSetup;
+    use SelectSetup {
+        SelectSetup::setup as boot;
+    }
 
     public function __construct(
         public string|array|null $request = null,
-        public ?string $select = null,
         public Collection|array $options = [],
         public ?array $selectable = [],
         public ?array $placeholders = null,
-        public ?bool $grouped = null,
         public ?bool $recycle = null,
+        #[SkipDebug]
+        public ?bool $grouped = null,
+        #[SkipDebug]
+        public ?string $select = null,
     ) {
         $this->request ??= __ts_get_component_configuration(self::class, 'request');
-        $this->recycle ??= __ts_get_component_configuration(self::class, 'recycle') ?? false;
+        $this->recycle ??= __ts_get_component_configuration(self::class, 'recycle') ?? true;
 
         $this->request();
 
@@ -62,6 +67,7 @@ class Component extends TallStackUiComponent implements Customization
                 'active' => 'bg-primary-50 dark:bg-dark-700',
                 'disabled' => 'opacity-50 cursor-not-allowed',
                 'image' => 'h-8 w-8 flex-shrink-0 rounded-full object-cover',
+                'icon' => 'h-8 w-8 flex-shrink-0 text-dark-400 dark:text-dark-500 [&>svg]:h-full [&>svg]:w-full',
                 'content' => 'flex flex-col overflow-hidden',
                 'label' => 'truncate text-sm font-medium text-dark-600 dark:text-dark-300',
                 'description' => 'truncate text-xs text-dark-500 dark:text-dark-400',
@@ -69,6 +75,29 @@ class Component extends TallStackUiComponent implements Customization
             'empty' => 'px-4 py-8 text-center text-sm text-dark-500 dark:text-dark-400',
             'footer' => 'hidden sm:flex items-center gap-x-4 border-t border-dark-100 px-4 py-2.5 text-xs text-dark-400 dark:border-dark-700 dark:text-dark-500',
         ]);
+    }
+
+    protected function setup(): void
+    {
+        $this->select ??= 'label:label|value:value|description:description|image:image|icon:icon';
+
+        $this->boot();
+
+        $parsed = array_reduce(
+            explode('|', $this->select),
+            function (array $result, string $item): array {
+                $parts = explode(':', $item, 2);
+
+                if (count($parts) === 2) {
+                    $result[$parts[0]] = $parts[1];
+                }
+
+                return $result;
+            },
+            []
+        );
+
+        $this->selectable['icon'] = $parsed['icon'] ?? 'icon';
     }
 
     protected function validate(): void

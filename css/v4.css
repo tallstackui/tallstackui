@@ -2,6 +2,7 @@
 @import '../js/plugins/custom-scrollbar.css';
 @import '../js/plugins/number-appearance-none.css';
 @import '../js/plugins/soft-scrollbar.css';
+@import '../js/plugins/command-palette-scrollbar.css';
 
 [x-cloak] {
     display: none;

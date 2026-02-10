@@ -15,9 +15,9 @@ afterEach(function () {
             'overflow' => false,
             'shortcut' => 'ctrl.k',
             'persistent' => false,
-            'recycle' => false,
+            'recycle' => true,
             'elements' => true,
-            'scrollbar' => null,
+            'scrollbar' => true,
         ],
     ]);
 
@@ -127,15 +127,6 @@ it('renders keyboard hints', function () {
         ->toContain('esc');
 });
 
-it('can render with recycle prop', function () {
-    $component = <<<'HTML'
-    <x-command-palette request="https://example.com/search" select="label:title|value:id" recycle />
-    HTML;
-
-    expect($component)->render()
-        ->toContain('tallstackui_commandPalette');
-});
-
 it('renders with click-outside close by default', function () {
     $component = <<<'HTML'
     <x-command-palette request="https://example.com/search" select="label:title|value:id" />
@@ -155,9 +146,9 @@ it('renders without click-outside close when persistent', function () {
             'overflow' => false,
             'shortcut' => 'ctrl.k',
             'persistent' => true,
-            'recycle' => false,
+            'recycle' => true,
             'elements' => false,
-            'scrollbar' => null,
+            'scrollbar' => true,
         ],
     ]);
 
@@ -191,9 +182,9 @@ it('hides keyboard hints when elements config is false', function () {
             'overflow' => false,
             'shortcut' => 'ctrl.k',
             'persistent' => false,
-            'recycle' => false,
+            'recycle' => true,
             'elements' => false,
-            'scrollbar' => null,
+            'scrollbar' => true,
         ],
     ]);
 
@@ -208,7 +199,18 @@ it('hides keyboard hints when elements config is false', function () {
         ->not->toContain('↵');
 });
 
-it('renders with soft scrollbar', function () {
+// --- Scrollbar tests ---
+
+it('renders with custom scrollbar by default', function () {
+    $component = <<<'HTML'
+    <x-command-palette request="https://example.com/search" select="label:title|value:id" />
+    HTML;
+
+    expect($component)->render()
+        ->toContain('command-palette-scrollbar');
+});
+
+it('renders without custom scrollbar when disabled', function () {
     config()->set('ts-ui.components.command-palette', [
         TallStackUi\Components\CommandPalette\Component::class,
         [
@@ -218,8 +220,9 @@ it('renders with soft scrollbar', function () {
             'overflow' => false,
             'shortcut' => 'ctrl.k',
             'persistent' => false,
-            'elements' => false,
-            'scrollbar' => 'soft',
+            'recycle' => true,
+            'elements' => true,
+            'scrollbar' => false,
         ],
     ]);
 
@@ -230,42 +233,37 @@ it('renders with soft scrollbar', function () {
     HTML;
 
     expect($component)->render()
-        ->toContain('soft-scrollbar');
+        ->not->toContain('command-palette-scrollbar');
 });
 
-it('renders with custom scrollbar', function () {
-    config()->set('ts-ui.components.command-palette', [
-        TallStackUi\Components\CommandPalette\Component::class,
-        [
-            'request' => null,
-            'z-index' => 'z-50',
-            'blur' => false,
-            'overflow' => false,
-            'shortcut' => 'ctrl.k',
-            'persistent' => false,
-            'elements' => false,
-            'scrollbar' => 'custom',
-        ],
-    ]);
+// --- Icon support tests ---
 
-    __ts_get_component_configuration(TallStackUi\Components\CommandPalette\Component::class, flush: true);
+it('includes icon key in selectable', function () {
+    $component = <<<'HTML'
+    <x-command-palette request="https://example.com/search" select="label:title|value:id|icon:my_icon" />
+    HTML;
 
+    expect($component)->render()
+        ->toContain('icon')
+        ->toContain('my_icon');
+});
+
+it('includes default icon key in selectable', function () {
     $component = <<<'HTML'
     <x-command-palette request="https://example.com/search" select="label:title|value:id" />
     HTML;
 
     expect($component)->render()
-        ->toContain('custom-scrollbar');
+        ->toContain('selectable.icon');
 });
 
-it('renders without scrollbar class by default', function () {
+it('renders icon template in options', function () {
     $component = <<<'HTML'
     <x-command-palette request="https://example.com/search" select="label:title|value:id" />
     HTML;
 
     expect($component)->render()
-        ->not->toContain('soft-scrollbar')
-        ->not->toContain('custom-scrollbar');
+        ->toContain('x-html="option[selectable.icon]"');
 });
 
 // --- Config fallback tests ---
@@ -280,9 +278,9 @@ it('can render with request from config as string url', function () {
             'overflow' => false,
             'shortcut' => 'ctrl.k',
             'persistent' => false,
-            'recycle' => false,
+            'recycle' => true,
             'elements' => true,
-            'scrollbar' => null,
+            'scrollbar' => true,
         ],
     ]);
 
@@ -303,9 +301,9 @@ it('can render with request from config as array', function () {
             'overflow' => false,
             'shortcut' => 'ctrl.k',
             'persistent' => false,
-            'recycle' => false,
+            'recycle' => true,
             'elements' => true,
-            'scrollbar' => null,
+            'scrollbar' => true,
         ],
     ]);
 
@@ -326,9 +324,9 @@ it('inline request overrides config request', function () {
             'overflow' => false,
             'shortcut' => 'ctrl.k',
             'persistent' => false,
-            'recycle' => false,
+            'recycle' => true,
             'elements' => true,
-            'scrollbar' => null,
+            'scrollbar' => true,
         ],
     ]);
 
@@ -369,9 +367,9 @@ it('can resolve route name from config', function () {
             'overflow' => false,
             'shortcut' => 'ctrl.k',
             'persistent' => false,
-            'recycle' => false,
+            'recycle' => true,
             'elements' => true,
-            'scrollbar' => null,
+            'scrollbar' => true,
         ],
     ]);
 
@@ -394,16 +392,16 @@ it('treats unresolvable string as plain url', function () {
 
 // --- Recycle config tests ---
 
-it('recycle is false by default', function () {
+it('recycle is true by default', function () {
     $component = <<<'HTML'
     <x-command-palette request="https://example.com/search" select="label:title|value:id" />
     HTML;
 
     expect($component)->render()
-        ->toContain("'ctrl.k',false)");
+        ->toContain("'ctrl.k',true)");
 });
 
-it('recycle can be enabled via config', function () {
+it('recycle can be disabled via config', function () {
     config()->set('ts-ui.components.command-palette', [
         TallStackUi\Components\CommandPalette\Component::class,
         [
@@ -413,9 +411,9 @@ it('recycle can be enabled via config', function () {
             'overflow' => false,
             'shortcut' => 'ctrl.k',
             'persistent' => false,
-            'recycle' => true,
+            'recycle' => false,
             'elements' => true,
-            'scrollbar' => null,
+            'scrollbar' => true,
         ],
     ]);
 
@@ -426,7 +424,7 @@ it('recycle can be enabled via config', function () {
     HTML;
 
     expect($component)->render()
-        ->toContain("'ctrl.k',true)");
+        ->toContain("'ctrl.k',false)");
 });
 
 it('inline recycle overrides config recycle', function () {
@@ -441,7 +439,7 @@ it('inline recycle overrides config recycle', function () {
             'persistent' => false,
             'recycle' => false,
             'elements' => true,
-            'scrollbar' => null,
+            'scrollbar' => true,
         ],
     ]);
 
@@ -453,4 +451,17 @@ it('inline recycle overrides config recycle', function () {
 
     expect($component)->render()
         ->toContain("'ctrl.k',true)");
+});
+
+// --- Footer visibility tests ---
+
+it('renders footer with x-show for conditional visibility', function () {
+    $component = <<<'HTML'
+    <x-command-palette request="https://example.com/search" select="label:title|value:id" />
+    HTML;
+
+    expect($component)->render()
+        ->toContain('x-show="available.length > 0 || (search &')
+        ->toContain('!loading &')
+        ->toContain('fetched)"');
 });

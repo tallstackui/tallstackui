@@ -91,15 +91,18 @@ Inline `request` always overrides the config value:
 The `select` attribute maps API response fields to the component's display slots:
 
 ```
-label:fieldName|value:fieldName|description:fieldName|image:fieldName
+label:fieldName|value:fieldName|description:fieldName|image:fieldName|icon:fieldName
 ```
 
-| Key           | Purpose                        | Default       |
-|---------------|--------------------------------|---------------|
-| `label`       | Main display text              | `label`       |
-| `value`       | Unique identifier              | `value`       |
-| `description` | Secondary text below the label | `description` |
-| `image`       | Avatar/image URL               | `image`       |
+| Key           | Purpose                              | Default       |
+|---------------|--------------------------------------|---------------|
+| `label`       | Main display text                    | `label`       |
+| `value`       | Unique identifier                    | `value`       |
+| `description` | Secondary text below the label       | `description` |
+| `image`       | Avatar/image URL                     | `image`       |
+| `icon`        | HTML/SVG icon (rendered via x-html)  | `icon`        |
+
+When both `image` and `icon` are present on an option, the image takes priority.
 
 ### Example
 
@@ -117,27 +120,50 @@ Given an API response:
                    select="label:name|value:id|description:role|image:avatar" />
 ```
 
+### Icon Support
+
+Options can include an HTML/SVG icon instead of an image. The `icon` field is rendered via `x-html`, so it supports raw SVG or any HTML content:
+
+```json
+[
+  { "name": "Settings", "id": 1, "icon": "<svg>...</svg>" },
+  { "name": "Profile", "id": 2, "icon": "<svg>...</svg>" }
+]
+```
+
+```blade
+<x-command-palette request="/api/actions"
+                   select="label:name|value:id|icon:icon" />
+```
+
+Map a custom field name:
+
+```blade
+<x-command-palette request="/api/actions"
+                   select="label:name|value:id|icon:my_icon" />
+```
+
 ### Disabled Options
 
 Options with `"disabled": true` in the API response are rendered with reduced opacity and cannot be selected.
 
 ## Recycle Mode
 
-By default, the results list clears every time the palette opens. With `recycle`, previous results are preserved:
+By default, previous results are preserved when reopening the palette (`recycle` is `true`). To clear results on every open, disable recycle:
 
 ```blade
 <x-command-palette request="/api/search"
                    select="label:name|value:id"
-                   recycle />
+                   :recycle="false" />
 ```
 
-Recycle can also be enabled globally via config:
+Recycle can also be configured globally via config:
 
 ```php
 'command-palette' => [
     TallStackUi\Components\CommandPalette\Component::class,
     [
-        'recycle' => true,
+        'recycle' => false, // clear results on every open
         // ...
     ],
 ],
@@ -296,13 +322,13 @@ All options in `config/tallstackui.php` under `components.command-palette`:
         'persistent' => false,
 
         // Preserve previous results when reopening
-        'recycle' => false,
+        'recycle' => true,
 
         // Show keyboard hints in the footer
         'elements' => true,
 
-        // Scrollbar style for results list (null, 'soft', 'custom')
-        'scrollbar' => null,
+        // Apply a custom minimal scrollbar to the results list
+        'scrollbar' => true,
     ],
 ],
 ```
@@ -315,9 +341,9 @@ All options in `config/tallstackui.php` under `components.command-palette`:
 | `overflow`   | `bool`            | `false`    | Allow page scroll when open                     |
 | `shortcut`   | `string`          | `ctrl.k`   | Keyboard shortcut to toggle                     |
 | `persistent` | `bool`            | `false`    | Prevent closing by clicking outside             |
-| `recycle`    | `bool`            | `false`    | Preserve results when reopening                 |
+| `recycle`    | `bool`            | `true`     | Preserve results when reopening                 |
 | `elements`   | `bool`            | `true`     | Show keyboard hints footer                      |
-| `scrollbar`  | `null\|string`    | `null`     | Scrollbar style (`null`, `soft`, `custom`)      |
+| `scrollbar`  | `bool`            | `true`     | Apply custom minimal scrollbar to results list  |
 
 ## API Response Format
 
@@ -405,6 +431,7 @@ TallStackUi::personalize()
     ->block('option.active', '...')
     ->block('option.disabled', '...')
     ->block('option.image', '...')
+    ->block('option.icon', '...')
     ->block('option.content', '...')
     ->block('option.label', '...')
     ->block('option.description', '...')
@@ -429,6 +456,7 @@ TallStackUi::personalize()
 | `option.active`      | `bg-primary-50 dark:bg-dark-700`                                                                  |
 | `option.disabled`    | `opacity-50 cursor-not-allowed`                                                                   |
 | `option.image`       | `h-8 w-8 flex-shrink-0 rounded-full object-cover`                                                |
+| `option.icon`        | `h-8 w-8 flex-shrink-0 text-dark-400 dark:text-dark-500 [&>svg]:h-full [&>svg]:w-full`           |
 | `option.content`     | `flex flex-col overflow-hidden`                                                                   |
 | `option.label`       | `truncate text-sm font-medium text-dark-600 dark:text-dark-300`                                   |
 | `option.description` | `truncate text-xs text-dark-500 dark:text-dark-400`                                               |

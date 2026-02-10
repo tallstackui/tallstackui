@@ -71,8 +71,8 @@ class CompileConfigurations
             'overflow' => $configuration['overflow'] ?? false,
             'shortcut' => $configuration['shortcut'] ?? 'ctrl.k',
             'persistent' => $configuration['persistent'] ?? false,
-            'elements' => $configuration['elements'] ?? false,
-            'scrollbar' => $configuration['scrollbar'] ?? null,
+            'elements' => $configuration['elements'] ?? true,
+            'scrollbar' => $configuration['scrollbar'] ?? true,
         ];
     }
 

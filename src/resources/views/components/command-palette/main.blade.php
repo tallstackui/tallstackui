@@ -31,7 +31,8 @@
          @class([$customization['wrapper'], $configurations['zIndex']])>
         <div @class([$customization['box']])
              dusk="tallstackui_command_palette">
-            <div @class([$customization['input.wrapper']])>
+            <div @class([$customization['input.wrapper']])
+                 :class="{ '!border-b-0': available.length === 0 && (!search || loading || !fetched) }">
                 <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                      :icon="TallStackUi::icon('magnifying-glass')"
                                      internal
@@ -50,12 +51,8 @@
                 </div>
             </div>
             <div x-ref="list"
-                 @class([
-                     $customization['list'],
-                     'soft-scrollbar' => $configurations['scrollbar'] === 'soft',
-                     'custom-scrollbar' => $configurations['scrollbar'] === 'custom',
-                 ])
-                 x-show="available.length > 0 || (search && !loading)">
+                 @class([$customization['list'], 'command-palette-scrollbar' => $configurations['scrollbar']])
+                 x-show="available.length > 0 || (search && !loading && fetched)">
                 <template x-for="(option, index) in available" :key="option.__tsui_key ?? index">
                     <button type="button"
                             x-on:click="selectOption(option)"
@@ -70,6 +67,10 @@
                             <img :src="option[selectable.image]"
                                  @class([$customization['option.image']]) />
                         </template>
+                        <template x-if="!option[selectable.image] && option[selectable.icon]">
+                            <div x-html="option[selectable.icon]"
+                                 @class([$customization['option.icon']])></div>
+                        </template>
                         <div @class([$customization['option.content']])>
                             <span x-text="option[selectable.label]"
                                   @class([$customization['option.label']])></span>
@@ -80,7 +81,7 @@
                         </div>
                     </button>
                 </template>
-                <div x-show="search && available.length === 0 && !loading">
+                <div x-show="search && available.length === 0 && !loading && fetched">
                     @if (isset($empty))
                         {{ $empty }}
                     @else
@@ -89,7 +90,8 @@
                 </div>
             </div>
             @if ($configurations['elements'])
-                <div @class([$customization['footer']])>
+                <div x-show="available.length > 0 || (search && !loading && fetched)"
+                     @class([$customization['footer']])>
                     <span>↑↓ {{ data_get($placeholders, 'navigate') }}</span>
                     <span>↵ {{ data_get($placeholders, 'select') }}</span>
                     <span>esc {{ data_get($placeholders, 'close') }}</span>

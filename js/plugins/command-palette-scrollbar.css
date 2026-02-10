@@ -1,0 +1,30 @@
+/* @utility command-palette-scrollbar */
+.command-palette-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 transparent;
+}
+
+.command-palette-scrollbar::-webkit-scrollbar {
+    @apply w-1.5;
+}
+
+.command-palette-scrollbar::-webkit-scrollbar-track {
+    @apply bg-white;
+}
+
+.command-palette-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-gray-300 rounded-full;
+}
+
+/* Dark mode styles */
+.dark .command-palette-scrollbar {
+    scrollbar-color: #475569 transparent;
+}
+
+.dark .command-palette-scrollbar::-webkit-scrollbar-track {
+    @apply bg-dark-800;
+}
+
+.dark .command-palette-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-dark-600 rounded-full;
+}
