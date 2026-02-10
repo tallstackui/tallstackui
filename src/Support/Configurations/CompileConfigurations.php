@@ -3,6 +3,7 @@
 namespace TallStackUi\Support\Configurations;
 
 use Exception;
+use TallStackUi\Components\CommandPalette\Component as CommandPalette;
 use TallStackUi\Components\Dialog\Component as Dialog;
 use TallStackUi\Components\Form\Color\Component as Color;
 use TallStackUi\Components\Form\Select\Styled\Component as SelectStyled;
@@ -21,6 +22,7 @@ class CompileConfigurations
     {
         /** @var string|array|null $data */
         $data = (match (true) { // @phpstan-ignore-line
+            $component instanceof CommandPalette => fn () => self::commandPalette($component),
             $component instanceof Color => fn () => self::color($component),
             $component instanceof Dialog => fn () => Dialog::class,
             $component instanceof Loading => fn () => self::loading($component),
@@ -57,6 +59,18 @@ class CompileConfigurations
         $component->colors ??= $configuration['colors'] ?? [];
 
         return ['colors' => $component->colors];
+    }
+
+    private static function commandPalette(CommandPalette $component): array
+    {
+        $configuration = __ts_get_component_configuration(CommandPalette::class);
+
+        return [
+            'zIndex' => $configuration['z-index'] ?? 'z-50',
+            'blur' => $configuration['blur'] ?? false,
+            'overflow' => $configuration['overflow'] ?? false,
+            'shortcut' => $configuration['shortcut'] ?? 'ctrl.k',
+        ];
     }
 
     /**

@@ -5,6 +5,7 @@ import carousel from '../src/Components/Carousel/alpine';
 import card from '../src/Components/Card/alpine';
 import color from '../src/Components/Form/Color/alpine';
 import clipboard from '../src/Components/Clipboard/alpine';
+import commandPalette from '../src/Components/CommandPalette/alpine';
 import collapse from '../src/Components/Layout/SideBar/Main/collapse';
 import currency from '../src/Components/Form/Currency/alpine';
 import date from '../src/Components/Form/Date/alpine';
@@ -47,6 +48,7 @@ document.addEventListener('alpine:init', () => {
   Alpine.data('tallstackui_carousel', carousel);
   Alpine.data('tallstackui_card', card);
   Alpine.data('tallstackui_clipboard', clipboard);
+  Alpine.data('tallstackui_commandPalette', commandPalette);
   Alpine.data('tallstackui_formColor', color);
   Alpine.data('tallstackui_formCurrency', currency);
   Alpine.data('tallstackui_formDate', date);

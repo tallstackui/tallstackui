@@ -113,6 +113,15 @@ return [
             ],
         ],
         'clipboard' => Components\Clipboard\Component::class,
+        'command-palette' => [
+            Components\CommandPalette\Component::class,
+            [
+                'z-index' => 'z-50',
+                'blur' => false,
+                'overflow' => false,
+                'shortcut' => 'ctrl.k',
+            ],
+        ],
         'currency' => Components\Form\Currency\Component::class,
         'date' => Components\Form\Date\Component::class,
         'dialog' => [

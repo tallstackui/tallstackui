@@ -62,6 +62,7 @@ This ensures the built assets in `dist/` are updated and reflect your changes.
 
 - **Browser tests**: NEVER run with `--parallel`. Always run with `--filter` to target specific test classes or methods. Example: `./vendor/bin/pest --filter="can_render_with_highlighted"`
 - **Feature tests**: CAN run with `--parallel`. Example: `composer test:feature --parallel`
+- Never run browser tests in parallel mode.
 
 ## Architecture
 
@@ -628,3 +629,19 @@ Livewire::visit(new class extends Component {
 
 - `3.x` - Active development (current)
 - `2.x` - Main stable release branch
+
+## Efficiency
+
+When exploring a codebase for implementation, limit exploration to a maximum of 2 reads per file. If you've already read and documented a file's structure, reference your notes instead of re-reading it.
+
+## Git Workflow
+
+Always verify which branch you're working on before making changes. Confirm the target branch matches the PR or task requirements. Run `git branch --show-current` before starting work.
+
+## Code Quality
+
+Never leave @dump(), dd(), console.log(), or other debug statements in code. Before completing any task, search modified files for debug artifacts.
+
+## TallStackUI Conventions
+
+For TallStackUI work: follow the V3 architecture conventions — components use Runtime classes for logic, Alpine.js modules for interactivity, and Blade templates for rendering. Check existing components like Select, Dialog, or Table for patterns before implementing new ones.

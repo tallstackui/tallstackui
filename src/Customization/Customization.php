@@ -14,6 +14,7 @@ use TallStackUi\Components\Button\Normal\Component as Button;
 use TallStackUi\Components\Card\Component as Card;
 use TallStackUi\Components\Carousel\Component as Carousel;
 use TallStackUi\Components\Clipboard\Component as Clipboard;
+use TallStackUi\Components\CommandPalette\Component as CommandPalette;
 use TallStackUi\Components\Dial\Items\Component as DialItems;
 use TallStackUi\Components\Dial\Main\Component as Dial;
 use TallStackUi\Components\Dialog\Component as Dialog;
@@ -163,6 +164,13 @@ class Customization
         $this->scope ??= $scope;
 
         return $this->component(Clipboard::class);
+    }
+
+    public function commandPalette(?string $scope = null): CustomizationFactory
+    {
+        $this->scope ??= $scope;
+
+        return $this->component(CommandPalette::class);
     }
 
     public function dial(?string $component = null, ?string $scope = null): CustomizationFactory

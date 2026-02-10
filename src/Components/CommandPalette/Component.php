@@ -1,0 +1,84 @@
+<?php
+
+namespace TallStackUi\Components\CommandPalette;
+
+use Illuminate\Contracts\View\View;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
+use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Components\Traits\SelectSetup;
+use TallStackUi\Customization\Contracts\Customization;
+use TallStackUi\TallStackUiComponent;
+
+#[SoftCustomization('commandPalette')]
+class Component extends TallStackUiComponent implements Customization
+{
+    use SelectSetup;
+
+    public function __construct(
+        public string|array|null $request = null,
+        public ?string $select = null,
+        public ?array $selectable = [],
+        public ?bool $grouped = null,
+        public Collection|array $options = [],
+    ) {
+        //
+    }
+
+    public function blade(): View
+    {
+        return view('ts-ui::components.command-palette.main');
+    }
+
+    public function customization(): array
+    {
+        return Arr::dot([
+            'backdrop' => 'fixed inset-0 bg-dark-950/60 dark:bg-dark-950/80',
+            'wrapper' => 'fixed inset-0 flex items-start justify-center pt-[15vh]',
+            'box' => 'w-full max-w-lg overflow-hidden rounded-xl bg-white shadow-2xl ring-1 ring-dark-900/5 dark:bg-dark-800 dark:ring-dark-700',
+            'input' => [
+                'wrapper' => 'flex items-center border-b border-dark-100 px-4 dark:border-dark-700',
+                'icon' => 'h-5 w-5 text-dark-400 dark:text-dark-500',
+                'base' => 'h-12 w-full border-0 bg-transparent text-sm text-dark-900 placeholder-dark-400 focus:ring-0 dark:text-dark-100 dark:placeholder-dark-500',
+                'loading' => 'flex items-center',
+            ],
+            'list' => 'max-h-72 scroll-py-2 overflow-y-auto p-2',
+            'option' => [
+                'base' => 'flex w-full cursor-pointer items-center gap-x-3 rounded-lg px-3 py-2 text-left',
+                'active' => 'bg-primary-50 dark:bg-dark-700',
+                'disabled' => 'opacity-50 cursor-not-allowed',
+                'image' => 'h-8 w-8 flex-shrink-0 rounded-full object-cover',
+                'content' => 'flex flex-col overflow-hidden',
+                'label' => 'truncate text-sm font-medium text-dark-900 dark:text-dark-100',
+                'description' => 'truncate text-xs text-dark-500 dark:text-dark-400',
+            ],
+            'empty' => 'px-4 py-8 text-center text-sm text-dark-500 dark:text-dark-400',
+            'footer' => 'flex items-center gap-x-4 border-t border-dark-100 px-4 py-2.5 text-xs text-dark-400 dark:border-dark-700 dark:text-dark-500',
+        ]);
+    }
+
+    protected function validate(): void
+    {
+        if (filled($this->options) && filled($this->request)) {
+            __ts_validation_exception($this, 'The [options] and [request] cannot be defined at the same time.');
+        }
+
+        if (! filled($this->request) || ! is_array($this->request)) {
+            return;
+        }
+
+        if (! isset($this->request['url'])) {
+            __ts_validation_exception($this, 'The attribute [url] is required in the request array.');
+        }
+
+        $this->request['method'] = strtolower((string) ($this->request['method'] ?? 'get'));
+
+        if (! in_array($this->request['method'], ['get', 'post'])) {
+            __ts_validation_exception($this, 'The attribute [method] must be "get" or "post".');
+        }
+
+        if (isset($this->request['params']) && (! is_array($this->request['params']) || blank($this->request['params']))) {
+            __ts_validation_exception($this, 'The attribute [params] must be an array and cannot be empty.');
+        }
+    }
+}

@@ -10,6 +10,9 @@ window.$slideClose = (name) => event(`slide:${name}-close`, null, false);
 window.$selectOpen = (name) => event(`select:${name}-open`, null, false);
 window.$selectClose = (name) => event(`select:${name}-close`, null, false);
 
+window.$commandPaletteOpen = () => event('command-palette-open', null, false);
+window.$commandPaletteClose = () => event('command-palette-close', null, false);
+
 window.$interaction = (type) => new Interaction(type);
 
 window.$focusOn = (name, time = 250) =>
