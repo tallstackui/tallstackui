@@ -98,7 +98,7 @@ return [
             Components\Breadcrumbs\Component::class,
             [
                 'files' => [
-                    // 'routes/breadcrumbs.php',
+                    'routes/breadcrumbs.php',
                 ],
             ],
         ],
