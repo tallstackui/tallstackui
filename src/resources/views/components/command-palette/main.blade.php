@@ -3,18 +3,11 @@
 @endphp
 
 <div x-cloak
-     x-data="tallstackui_commandPalette(
-         @js($request),
-         @js($selectable),
-         @js($options),
-         @js($configurations['shortcut']),
-         @js(!$ts_ui__flash)
-     )"
+     x-data="tallstackui_commandPalette(@js($request),@js($selectable),@js($configurations['shortcut']),@js(!$ts_ui__flash),@js($recycle))"
      x-on:command-palette-open.window="open()"
      x-on:command-palette-close.window="close()"
      {{ $attributes->whereStartsWith('x-on:') }}>
     <div x-show="show"
-         x-on:click="close()"
          @if (!$ts_ui__flash)
              x-transition:enter="ease-out duration-200"
              x-transition:enter-start="opacity-0"
@@ -25,6 +18,7 @@
          @endif
          @class([$customization['backdrop'], $configurations['zIndex'], $customization['blur.'.($configurations['blur'] === true ? 'sm' : $configurations['blur'])] ?? null => $configurations['blur']])></div>
     <div x-show="show"
+         @if (!$configurations['persistent']) x-on:click.self="close()" @endif
          x-on:keydown.escape.window="close()"
          @if (!$ts_ui__flash)
              x-transition:enter="ease-out duration-200"
@@ -55,7 +49,13 @@
                     <x-ts-ui::icon.generic.loading class="h-5 w-5 animate-spin text-dark-400" />
                 </div>
             </div>
-            <div x-ref="list" @class([$customization['list']]) x-show="available.length > 0 || (search && !loading)">
+            <div x-ref="list"
+                 @class([
+                     $customization['list'],
+                     'soft-scrollbar' => $configurations['scrollbar'] === 'soft',
+                     'custom-scrollbar' => $configurations['scrollbar'] === 'custom',
+                 ])
+                 x-show="available.length > 0 || (search && !loading)">
                 <template x-for="(option, index) in available" :key="option.__tsui_key ?? index">
                     <button type="button"
                             x-on:click="selectOption(option)"
@@ -88,11 +88,13 @@
                     @endif
                 </div>
             </div>
-            <div @class([$customization['footer']])>
-                <span>↑↓ {{ __('navigate') }}</span>
-                <span>↵ {{ __('select') }}</span>
-                <span>esc {{ __('close') }}</span>
-            </div>
+            @if ($configurations['elements'])
+                <div @class([$customization['footer']])>
+                    <span>↑↓ {{ __('navigate') }}</span>
+                    <span>↵ {{ __('select') }}</span>
+                    <span>esc {{ __('close') }}</span>
+                </div>
+            @endif
         </div>
     </div>
 </div>

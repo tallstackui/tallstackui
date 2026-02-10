@@ -1,53 +1,60 @@
 import { error, overflow, register_ui_element, unregister_ui_element } from '../../../js/helpers';
 import { body } from '../Form/Select/helpers';
 
-export default (request = null, selectable = {}, options = null, shortcut = 'ctrl.k', smooth = true) => ({
+export default (
+  request,
+  selectable = {},
+  shortcutKey = 'ctrl.k',
+  smooth = true,
+  recycle = false
+) => ({
   show: false,
   search: '',
   selected: -1,
   selectable: selectable,
   response: [],
   loading: false,
-  _options: [],
   _availableCache: [],
   _availableDirty: true,
   _navigateOptions: null,
-  _normalize: false,
   _debounce: null,
   init() {
-    if (options && Array.isArray(options) && options.length > 0) {
-      this._options = options;
-      this.preNormalize(this._options);
-      this.invalidateAvailable();
-    }
-
-    this.registerShortcut(shortcut);
+    this.shortcut(shortcutKey);
 
     this.$watch('search', () => {
       this.invalidateAvailable();
 
-      if (request) {
-        clearTimeout(this._debounce);
-        this._debounce = setTimeout(() => this.makeRequest(), 300);
-      }
+      clearTimeout(this._debounce);
+
+      this._debounce = setTimeout(() => this.makeRequest(), 300);
     });
   },
-  registerShortcut(shortcut) {
-    const parts = shortcut.split('.');
-    const key = parts[parts.length - 1].toLowerCase();
+  shortcut(key) {
+    const parts = key.split('.');
+    const letter = parts[parts.length - 1].toLowerCase();
     const modifiers = parts.slice(0, -1).map((m) => m.toLowerCase());
 
     window.addEventListener('keydown', (event) => {
-      if (event.key.toLowerCase() !== key) return;
+      if (event.key.toLowerCase() !== letter) {
+        return;
+      }
 
       const ctrl = modifiers.includes('ctrl');
       const meta = modifiers.includes('meta');
       const shift = modifiers.includes('shift');
       const alt = modifiers.includes('alt');
 
-      if ((ctrl || meta) && !(event.ctrlKey || event.metaKey)) return;
-      if (shift && !event.shiftKey) return;
-      if (alt && !event.altKey) return;
+      if ((ctrl || meta) && !(event.ctrlKey || event.metaKey)) {
+        return;
+      }
+
+      if (shift && !event.shiftKey) {
+        return;
+      }
+
+      if (alt && !event.altKey) {
+        return;
+      }
 
       event.preventDefault();
 
@@ -61,6 +68,10 @@ export default (request = null, selectable = {}, options = null, shortcut = 'ctr
     this._availableDirty = true;
     this._navigateOptions = null;
 
+    if (!recycle) {
+      this.response = [];
+    }
+
     overflow(true, 'command-palette');
     register_ui_element('command-palette', 'command-palette');
 
@@ -73,8 +84,11 @@ export default (request = null, selectable = {}, options = null, shortcut = 'ctr
     unregister_ui_element('command-palette');
   },
   async makeRequest() {
-    if (!request || this.search.length < 1) {
-      this.response = [];
+    if (this.search.length < 1) {
+      if (!recycle || this.response.length === 0) {
+        this.response = [];
+      }
+
       this.invalidateAvailable();
 
       return;
@@ -113,12 +127,16 @@ export default (request = null, selectable = {}, options = null, shortcut = 'ctr
     this._navigateOptions = null;
   },
   preNormalize(items) {
-    if (!items || !Array.isArray(items)) return;
+    if (!items || !Array.isArray(items)) {
+      return;
+    }
 
     for (let i = 0; i < items.length; i++) {
       const item = items[i];
 
-      if (!item || typeof item !== 'object') continue;
+      if (!item || typeof item !== 'object') {
+        continue;
+      }
 
       const label = item[selectable.label];
 
@@ -134,18 +152,24 @@ export default (request = null, selectable = {}, options = null, shortcut = 'ctr
     }
   },
   selectOption(option) {
-    if (!option || option.disabled) return;
+    if (!option || option.disabled) {
+      return;
+    }
 
-    window.dispatchEvent(
-      new CustomEvent('tallstackui:command-palette', { detail: option })
+    const sanitized = Object.fromEntries(
+      Object.entries(option).filter(([key]) => !key.startsWith('__'))
     );
+
+    window.dispatchEvent(new CustomEvent('tallstackui:command-palette', { detail: sanitized }));
 
     this.close();
   },
   navigate(direction) {
     const items = this.available;
 
-    if (!items || items.length === 0) return;
+    if (!items || items.length === 0) {
+      return;
+    }
 
     const current = this.selected;
     const max = items.length - 1;
@@ -167,9 +191,13 @@ export default (request = null, selectable = {}, options = null, shortcut = 'ctr
     }
   },
   normalize(string) {
-    if (!string) return '';
+    if (!string) {
+      return '';
+    }
 
-    if (!this._normalize) this._normalize = new Map();
+    if (!this._normalize) {
+      this._normalize = new Map();
+    }
 
     if (this._normalize.has(string)) {
       return this._normalize.get(string);
@@ -187,49 +215,18 @@ export default (request = null, selectable = {}, options = null, shortcut = 'ctr
     return normalized;
   },
   get available() {
-    if (!this._availableDirty) return this._availableCache;
+    if (!this._availableDirty) {
+      return this._availableCache;
+    }
 
-    const items = request ? this.response : this._options;
-
-    if (!items || items.length === 0) {
+    if (!this.response || this.response.length === 0) {
       this._availableCache = [];
       this._availableDirty = false;
 
       return this._availableCache;
     }
 
-    if (this.search === '') {
-      this._availableCache = items;
-      this._availableDirty = false;
-
-      return this._availableCache;
-    }
-
-    if (request) {
-      this._availableCache = items;
-      this._availableDirty = false;
-
-      return this._availableCache;
-    }
-
-    const search = this.normalize(this.search.toLowerCase());
-
-    this._availableCache = items.filter((option) => {
-      if (!option) return false;
-
-      const label = option.__normalized;
-
-      if (!label) return false;
-
-      if (label.indexOf(search) !== -1) return true;
-
-      if (option.__normalizedDesc) {
-        return option.__normalizedDesc.indexOf(search) !== -1;
-      }
-
-      return false;
-    });
-
+    this._availableCache = this.response;
     this._availableDirty = false;
 
     return this._availableCache;

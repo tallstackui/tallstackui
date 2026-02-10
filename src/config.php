@@ -115,11 +115,27 @@ return [
         'clipboard' => Components\Clipboard\Component::class,
         'command-palette' => [
             Components\CommandPalette\Component::class,
+            /*
+            |----------------------------------------------------------------------
+            | Command Palette Settings
+            |----------------------------------------------------------------------
+            |
+            | z-index: controls the default z-index.
+            | blur: enables the background blur effect (Allowed: false, sm, md, lg, xl).
+            | overflow: avoids hiding the overflow, allowing the scroll of the page.
+            | shortcut: keyboard shortcut to toggle the palette (e.g., 'ctrl.k', 'ctrl.shift.p').
+            | persistent: when true, prevents closing by clicking outside.
+            | elements: when true, hides the keyboard hints in the footer.
+            | scrollbar: controls the scrollbar style for the results list (Allowed: null, 'soft', 'custom').
+            */
             [
                 'z-index' => 'z-50',
                 'blur' => false,
                 'overflow' => false,
                 'shortcut' => 'ctrl.k',
+                'persistent' => false,
+                'elements' => true,
+                'scrollbar' => null,
             ],
         ],
         'currency' => Components\Form\Currency\Component::class,

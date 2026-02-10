@@ -18,9 +18,10 @@ class Component extends TallStackUiComponent implements Customization
     public function __construct(
         public string|array|null $request = null,
         public ?string $select = null,
+        public Collection|array $options = [],
         public ?array $selectable = [],
         public ?bool $grouped = null,
-        public Collection|array $options = [],
+        public bool $recycle = false,
     ) {
         //
     }
@@ -33,9 +34,15 @@ class Component extends TallStackUiComponent implements Customization
     public function customization(): array
     {
         return Arr::dot([
-            'backdrop' => 'fixed inset-0 bg-dark-950/60 dark:bg-dark-950/80',
-            'wrapper' => 'fixed inset-0 flex items-start justify-center pt-[15vh]',
-            'box' => 'w-full max-w-lg overflow-hidden rounded-xl bg-white shadow-2xl ring-1 ring-dark-900/5 dark:bg-dark-800 dark:ring-dark-700',
+            'backdrop' => 'fixed inset-0 bg-gray-400/75 transform transition-opacity',
+            'blur' => [
+                'sm' => 'backdrop-blur-sm',
+                'md' => 'backdrop-blur-md',
+                'lg' => 'backdrop-blur-lg',
+                'xl' => 'backdrop-blur-xl',
+            ],
+            'wrapper' => 'fixed inset-0 flex items-end sm:items-start justify-center sm:pt-[15vh]',
+            'box' => 'w-full max-w-lg overflow-hidden rounded-t-xl sm:rounded-xl bg-white shadow-2xl ring-1 ring-dark-900/5 dark:bg-dark-800 dark:ring-dark-700',
             'input' => [
                 'wrapper' => 'flex items-center border-b border-dark-100 px-4 dark:border-dark-700',
                 'icon' => 'h-5 w-5 text-dark-400 dark:text-dark-500',
@@ -49,21 +56,21 @@ class Component extends TallStackUiComponent implements Customization
                 'disabled' => 'opacity-50 cursor-not-allowed',
                 'image' => 'h-8 w-8 flex-shrink-0 rounded-full object-cover',
                 'content' => 'flex flex-col overflow-hidden',
-                'label' => 'truncate text-sm font-medium text-dark-900 dark:text-dark-100',
+                'label' => 'truncate text-sm font-medium text-dark-600 dark:text-dark-300',
                 'description' => 'truncate text-xs text-dark-500 dark:text-dark-400',
             ],
             'empty' => 'px-4 py-8 text-center text-sm text-dark-500 dark:text-dark-400',
-            'footer' => 'flex items-center gap-x-4 border-t border-dark-100 px-4 py-2.5 text-xs text-dark-400 dark:border-dark-700 dark:text-dark-500',
+            'footer' => 'hidden sm:flex items-center gap-x-4 border-t border-dark-100 px-4 py-2.5 text-xs text-dark-400 dark:border-dark-700 dark:text-dark-500',
         ]);
     }
 
     protected function validate(): void
     {
-        if (filled($this->options) && filled($this->request)) {
-            __ts_validation_exception($this, 'The [options] and [request] cannot be defined at the same time.');
+        if (! filled($this->request)) {
+            __ts_validation_exception($this, 'The [request] attribute is required.');
         }
 
-        if (! filled($this->request) || ! is_array($this->request)) {
+        if (! is_array($this->request)) {
             return;
         }
 
