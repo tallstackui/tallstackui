@@ -7,6 +7,7 @@ use TallStackUi\Customization\Customization;
 use TallStackUi\Support\Blade\ComponentPrefix;
 use TallStackUi\Support\Blade\Directives;
 use TallStackUi\Support\Blade\Wireable;
+use TallStackUi\Support\Breadcrumbs\BreadcrumbRegistry;
 use TallStackUi\Support\Icons\IconGuideMap;
 
 class TallStackUi
@@ -20,6 +21,14 @@ class TallStackUi
             'attributes' => $attributes,
             'livewire' => $livewire,
         ]);
+    }
+
+    /**
+     * Get the breadcrumb registry for defining route-based breadcrumbs.
+     */
+    public function breadcrumbs(): BreadcrumbRegistry
+    {
+        return app(BreadcrumbRegistry::class);
     }
 
     /**

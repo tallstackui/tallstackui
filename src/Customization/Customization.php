@@ -9,6 +9,7 @@ use TallStackUi\Components\BackToTop\Component as BackToTop;
 use TallStackUi\Components\Badge\Component as Badge;
 use TallStackUi\Components\Banner\Component as Banner;
 use TallStackUi\Components\Boolean\Component as Boolean;
+use TallStackUi\Components\Breadcrumbs\Component as Breadcrumbs;
 use TallStackUi\Components\Button\Circle\Component as Circle;
 use TallStackUi\Components\Button\Normal\Component as Button;
 use TallStackUi\Components\Card\Component as Card;
@@ -129,6 +130,13 @@ class Customization
         $this->scope ??= $scope;
 
         return $this->component(Boolean::class);
+    }
+
+    public function breadcrumbs(?string $scope = null): CustomizationFactory
+    {
+        $this->scope ??= $scope;
+
+        return $this->component(Breadcrumbs::class);
     }
 
     public function button(?string $component = null, ?string $scope = null): CustomizationFactory

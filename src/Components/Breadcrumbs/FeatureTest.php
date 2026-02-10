@@ -1,0 +1,177 @@
+<?php
+
+uses(Tests\TestCase::class)->group('Feature');
+
+it('can render with items', function () {
+    $component = <<<'HTML'
+    <x-breadcrumbs :items="[
+        ['label' => 'Home', 'link' => '/'],
+        ['label' => 'Users', 'link' => '/users'],
+        ['label' => 'John'],
+    ]" />
+    HTML;
+
+    expect($component)->render()
+        ->toContain('Home')
+        ->toContain('Users')
+        ->toContain('John')
+        ->toContain('<nav');
+});
+
+it('can render item links as anchor tags', function () {
+    $component = <<<'HTML'
+    <x-breadcrumbs :items="[
+        ['label' => 'Home', 'link' => '/'],
+        ['label' => 'Users', 'link' => '/users'],
+    ]" />
+    HTML;
+
+    expect($component)->render()
+        ->toContain('<a')
+        ->toContain('href="/"')
+        ->toContain('href="/users"');
+});
+
+it('can render current item without link as span', function () {
+    $component = <<<'HTML'
+    <x-breadcrumbs :items="[
+        ['label' => 'Home', 'link' => '/'],
+        ['label' => 'Current Page'],
+    ]" />
+    HTML;
+
+    $rendered = expect($component)->render();
+    $rendered->toContain('Current Page');
+    $rendered->toContain('font-medium');
+});
+
+it('can render default separator', function () {
+    $component = <<<'HTML'
+    <x-breadcrumbs :items="[
+        ['label' => 'Home', 'link' => '/'],
+        ['label' => 'Page'],
+    ]" />
+    HTML;
+
+    expect($component)->render()
+        ->toContain('/')
+        ->toContain('select-none');
+});
+
+it('can render custom text separator', function () {
+    $component = <<<'HTML'
+    <x-breadcrumbs separator="»" :items="[
+        ['label' => 'Home', 'link' => '/'],
+        ['label' => 'Page'],
+    ]" />
+    HTML;
+
+    expect($component)->render()
+        ->toContain('»');
+});
+
+it('can render separator class', function () {
+    $component = <<<'HTML'
+    <x-breadcrumbs separator-class="text-red-500" :items="[
+        ['label' => 'Home', 'link' => '/'],
+        ['label' => 'Page'],
+    ]" />
+    HTML;
+
+    expect($component)->render()
+        ->toContain('text-red-500');
+});
+
+it('can render item with tooltip', function () {
+    $component = <<<'HTML'
+    <x-breadcrumbs :items="[
+        ['label' => 'Home', 'link' => '/', 'tooltip' => 'Go home'],
+        ['label' => 'Page'],
+    ]" />
+    HTML;
+
+    expect($component)->render()
+        ->toContain('x-tooltip="Go home"')
+        ->toContain('x-data');
+});
+
+it('can render left slot', function () {
+    $component = <<<'HTML'
+    <x-breadcrumbs :items="[['label' => 'Home', 'link' => '/']]">
+        <x-slot:left>
+            <span id="left-content">Left</span>
+        </x-slot:left>
+    </x-breadcrumbs>
+    HTML;
+
+    expect($component)->render()
+        ->toContain('id="left-content"')
+        ->toContain('Left');
+});
+
+it('can render right slot', function () {
+    $component = <<<'HTML'
+    <x-breadcrumbs :items="[['label' => 'Home', 'link' => '/']]">
+        <x-slot:right>
+            <span id="right-content">Right</span>
+        </x-slot:right>
+    </x-breadcrumbs>
+    HTML;
+
+    expect($component)->render()
+        ->toContain('id="right-content"')
+        ->toContain('Right');
+});
+
+it('can render dark mode classes', function () {
+    $component = <<<'HTML'
+    <x-breadcrumbs :items="[
+        ['label' => 'Home', 'link' => '/'],
+        ['label' => 'Page'],
+    ]" />
+    HTML;
+
+    expect($component)->render()
+        ->toContain('dark:text-dark-300')
+        ->toContain('dark:text-dark-200');
+});
+
+it('can render with collection', function () {
+    $items = collect([
+        ['label' => 'Home', 'link' => '/'],
+        ['label' => 'Users', 'link' => '/users'],
+    ]);
+
+    $rendered = Blade::render('<x-breadcrumbs :items="$items" />', ['items' => $items]);
+
+    expect($rendered)
+        ->toContain('Home')
+        ->toContain('Users');
+});
+
+it('can render aria label', function () {
+    $component = <<<'HTML'
+    <x-breadcrumbs :items="[['label' => 'Home', 'link' => '/']]" />
+    HTML;
+
+    expect($component)->render()
+        ->toContain('aria-label="Breadcrumb"');
+});
+
+it('renders nothing when items is empty', function () {
+    $component = <<<'HTML'
+    <x-breadcrumbs :items="[]" />
+    HTML;
+
+    expect($component)->render()
+        ->not->toContain('<nav');
+});
+
+it('does not render separator before first item', function () {
+    $component = <<<'HTML'
+    <x-breadcrumbs :items="[['label' => 'Home', 'link' => '/']]" />
+    HTML;
+
+    expect($component)->render()
+        ->not->toContain('select-none');
+});

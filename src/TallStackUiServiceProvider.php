@@ -13,6 +13,7 @@ use TallStackUi\Console\SetupPrefixCommand;
 use TallStackUi\Customization\CustomizationFactory;
 use TallStackUi\Support\Blade\ComponentPrefix;
 use TallStackUi\Support\Blade\Directives;
+use TallStackUi\Support\Breadcrumbs\BreadcrumbRegistry;
 
 include __DIR__.'/helpers.php';
 
@@ -36,6 +37,8 @@ class TallStackUiServiceProvider extends ServiceProvider
         $this->registerConfig();
 
         $this->app->singleton('TallStackUi', TallStackUi::class);
+
+        $this->app->singleton(BreadcrumbRegistry::class);
     }
 
     protected function registerCommands(): void
