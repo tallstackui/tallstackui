@@ -16,7 +16,8 @@ export default (
   limit = null,
   change = null,
   unfiltered = false,
-  lazy = 10
+  lazy = 10,
+  recycle = false
 ) => ({
   show: false,
   model: model,
@@ -130,6 +131,13 @@ export default (
 
       if (!value) return (this.search = '');
 
+      if (recycle && this.response.length > 0) {
+        this.invalidateAvailable();
+        setTimeout(() => this.$refs.search.focus(), 100);
+
+        return;
+      }
+
       await this.makeRequest(false);
 
       setTimeout(() => this.$refs.search.focus(), 100);
@@ -137,6 +145,11 @@ export default (
 
     this.$watch('search', async () => {
       this.invalidateAvailable();
+
+      if (recycle && this.search === '' && this.response.length > 0) {
+        return;
+      }
+
       this.makeRequest(false);
     });
 
@@ -175,7 +188,10 @@ export default (
   async makeRequest(selected = true) {
     this.loading = true;
 
-    this.response = [];
+    if (!recycle) {
+      this.response = [];
+    }
+
     this.invalidateAvailable();
 
     // When using request parameters, we evaluate this through the ref which

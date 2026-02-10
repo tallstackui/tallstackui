@@ -141,9 +141,10 @@ class CompileConfigurations
     {
         $configuration = __ts_get_component_configuration(SelectStyled::class);
 
+        $component->recycle ??= $configuration['recycle'] ?? false;
         $component->unfiltered ??= $configuration['unfiltered'] ?? false;
 
-        return ['unfiltered' => $component->unfiltered];
+        return ['recycle' => $component->recycle, 'unfiltered' => $component->unfiltered];
     }
 
     /**

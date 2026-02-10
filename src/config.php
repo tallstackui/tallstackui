@@ -368,9 +368,10 @@ return [
                 | Select Styled Global Settings
                 |----------------------------------------------------------------------
                 | unfiltered: allow all select API-styled components to be unfiltered by default.
-                | (read the docs to know more about it).
+                | recycle: when true, preserves previous results when reopening the select.
                 */
                 'unfiltered' => false,
+                'recycle' => false,
             ],
         ],
         'signature' => Components\Signature\Component::class,

@@ -21,7 +21,8 @@
         @js($limit),
         @js($change),
         @js($configurations['unfiltered']),
-        @js($lazy))"
+        @js($lazy),
+        @js($configurations['recycle']))"
      @if ($attributes->whereStartsWith('x-model'))
          x-modelable="model"
      {{ $attributes->whereStartsWith('x-model') }}

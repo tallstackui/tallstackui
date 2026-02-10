@@ -41,6 +41,7 @@ class Component extends TallStackUiComponent implements Customization
         public ?int $limit = null,
         public ?int $lazy = null,
         public ?bool $grouped = null,
+        public ?bool $recycle = null,
         public ?bool $unfiltered = null,
         #[SkipDebug]
         public Collection|array $options = [],
