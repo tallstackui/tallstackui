@@ -3,7 +3,7 @@
 @endphp
 
 <div x-data="tallstackui_dial(@js($hover))"
-     @class([$customization["position.{$position}"]])
+     @class([$customization['position.'.$position]])
      x-on:mouseenter="enter()"
      x-on:mouseleave="leave()"
      x-on:click.outside="show = false"

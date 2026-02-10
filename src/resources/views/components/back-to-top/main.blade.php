@@ -3,7 +3,7 @@
 @endphp
 
 <div x-data="tallstackui_backToTop(@js($anchor), @js(!$immediate))"
-     @class([$customization["position.{$position}"]])
+     @class([$customization['position.'.$position]])
      {{ $attributes }}>
     <button type="button"
             dusk="tallstackui_back_to_top"
