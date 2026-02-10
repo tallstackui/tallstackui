@@ -21,7 +21,7 @@ class BindProperty
     }
 
     /**
-     * Return an array with the needed information to bind a property.
+     * Return an array with the necessary information to bind a property.
      *
      * @throws Exception
      */
@@ -36,7 +36,7 @@ class BindProperty
     }
 
     /**
-     * Return a collection with the needed information to bind a property.
+     * Return a collection with the necessary information to bind a property.
      *
      * @throws Exception
      */
@@ -44,12 +44,7 @@ class BindProperty
     {
         $array = $this->toArray();
 
-        return collect([
-            'property' => $array[0],
-            'error' => $array[1],
-            'id' => $array[2],
-            'entangle' => $array[3],
-        ]);
+        return collect(['property' => $array[0], 'error' => $array[1], 'id' => $array[2], 'entangle' => $array[3]]);
     }
 
     /**
@@ -63,7 +58,7 @@ class BindProperty
             ? $this->support->wire()->value()
             // For components such as datepicker, timepicker and others, we use an
             // "alternative" (attribute) way of defining the parameter that will be
-            // used to obtain validation errors without being "name", because as these
+            // used to get validation errors without being "name". As these
             // components can be used out of Livewire, "name" is used no input hidden.
             : $this->attributes->get('name', $this->attributes->get('alternative'));
     }

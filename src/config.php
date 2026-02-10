@@ -18,17 +18,6 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Assets Fallback
-    |--------------------------------------------------------------------------
-    |
-    | Controls the fallback behavior for loading assets.
-    |
-    | MAKE SURE TO READ THE DOCS BEFORE MANIPULATING THIS.
-    */
-    'assets_fallback' => env('TALLSTACKUI_ASSETS_FALLBACK', true),
-
-    /*
-    |--------------------------------------------------------------------------
     | Color Classes Namespace
     |--------------------------------------------------------------------------
     |
@@ -85,7 +74,7 @@ return [
     | Component List
     |--------------------------------------------------------------------------
     |
-    | List of all TallStackUI components.
+    | List of all TallStackUI components and their possible settings.
     */
     'components' => [
         'alert' => Components\Alert\Component::class,
@@ -135,9 +124,7 @@ return [
             | Command Palette Settings
             |----------------------------------------------------------------------
             |
-            | request: the data source for the command palette. Accepts a URL string (GET),
-            |          an array ['url' => '...', 'method' => 'get|post', 'params' => [...]],
-            |          or a Laravel-named route (e.g., 'api.search').
+            | request: the data source for the command palette.
             | z-index: controls the default z-index.
             | blur: enables the background blur effect (Allowed: false, sm, md, lg, xl).
             | overflow: avoids hiding the overflow, allowing the scroll of the page.
