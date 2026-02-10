@@ -1,7 +1,7 @@
 /* @utility command-palette-scrollbar */
 .command-palette-scrollbar {
     scrollbar-width: thin;
-    scrollbar-color: #cbd5e1 transparent;
+    scrollbar-color: var(--color-dark-300) transparent;
 }
 
 .command-palette-scrollbar::-webkit-scrollbar {
@@ -13,12 +13,12 @@
 }
 
 .command-palette-scrollbar::-webkit-scrollbar-thumb {
-    @apply bg-gray-300 rounded-full;
+    @apply bg-gray-400 rounded-full;
 }
 
 /* Dark mode styles */
 .dark .command-palette-scrollbar {
-    scrollbar-color: #475569 transparent;
+    scrollbar-color: var(--color-dark-500) transparent;
 }
 
 .dark .command-palette-scrollbar::-webkit-scrollbar-track {
