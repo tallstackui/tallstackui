@@ -36,14 +36,21 @@
     @if ($request['params'] ?? null)
         <div hidden x-ref="params">{{ TallStackUi::blade()->json($request['params']) }}</div>
     @endif
-    @if ($label)
+    @if ($label && !$side)
         <x-dynamic-component :component="TallStackUi::prefix('label')" :$label :$error />
     @endif
     <div class="relative" x-on:click.outside="show = false">
         <button type="button"
                 x-ref="button"
                 @disabled($disabled)
-                @class([$customization['input.wrapper.base'], $customization['input.wrapper.color'] => !$error, $customization['input.wrapper.error'] => $error])
+                @class([
+                    $customization['input.wrapper.base'],
+                    $customization['input.wrapper.color'] => !$error,
+                    $customization['input.wrapper.error'] => $error,
+                    $customization['input.wrapper.round.left'] => $side === 'left',
+                    $customization['input.wrapper.round.right'] => $side === 'right',
+                    $customization['input.wrapper.borderless'] => $side,
+                ])
                 @if (!$disabled) x-on:click="show = !show" @endif
                 {{ $attributes->only(['x-on:select', 'x-on:remove']) }}
                 aria-haspopup="listbox"
@@ -57,7 +64,7 @@
                     <div x-show="empty || !multiple">
                         <div class="{{ $customization['items.placeholder.wrapper'] }}">
                             <img x-bind:src="image" class="{{ $customization['items.image'] }}" x-show="image" />
-                            <span @class(['text-red-500 dark:text-red-500' => $error])
+                            <span @class(['text-red-500 dark:text-red-500' => $error && ! $side])
                                   x-bind:class="{
                                     '{{ $customization['items.placeholder.text'] }}': empty,
                                     '{{ $customization['items.single'] }}': !empty
@@ -118,7 +125,8 @@
         </button>
         <x-dynamic-component :component="TallStackUi::prefix('floating')"
                              :floating="$customization['floating.default']"
-                             :class="$customization['floating.class']"
+                             @class([$customization['floating.class'], $customization['floating.side'] => $side])
+                             :position="$side === 'left' ? 'bottom-start' : 'bottom-end'"
                              x-anchor="$refs.button">
             <template x-if="searchable">
                 <div class="{{ $customization['box.searchable.wrapper'] }}">
@@ -238,10 +246,10 @@
             </ul>
         </x-dynamic-component>
     </div>
-    @if ($hint && !$error)
+    @if ($hint && !$error && !$side)
         <x-dynamic-component :component="TallStackUi::prefix('hint')" :$hint />
     @endif
-    @if ($error)
+    @if ($error && !$side)
         <x-dynamic-component :component="TallStackUi::prefix('error')" :$property />
     @endif
 </div>

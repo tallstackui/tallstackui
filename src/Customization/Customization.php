@@ -27,6 +27,7 @@ use TallStackUi\Components\Form\Date\Component as Date;
 use TallStackUi\Components\Form\Error\Component as Error;
 use TallStackUi\Components\Form\Hint\Component as Hint;
 use TallStackUi\Components\Form\Input\Component as Input;
+use TallStackUi\Components\Form\InputSelect\Component as InputSelect;
 use TallStackUi\Components\Form\Label\Component as Label;
 use TallStackUi\Components\Form\Number\Component as Number;
 use TallStackUi\Components\Form\Password\Component as Password;
@@ -212,6 +213,7 @@ class Customization
             'error' => Error::class,
             'hint' => Hint::class,
             'input' => Input::class,
+            'input.select' => InputSelect::class,
             'label' => Label::class,
             'number' => Number::class,
             'upload' => Upload::class,
@@ -247,11 +249,14 @@ class Customization
 
         // This is necessary for cases where personalization aims to
         // manipulate components like form.number. We explode to get
-        // the namespace - form, and the component - number.
+        // the namespace - form, and the component - number. For deeper
+        // keys like form.input.select, we join the remaining parts.
         $parts = explode('.', $this->component);
 
         $main = $parts[0];
-        $secondary = $parts[1] ?? null;
+        $secondary = count($parts) > 2
+            ? implode('.', array_slice($parts, 1))
+            : ($parts[1] ?? null);
 
         if (! method_exists($this, $main)) {
             throw new RuntimeException("The method [{$main}] is not supported");

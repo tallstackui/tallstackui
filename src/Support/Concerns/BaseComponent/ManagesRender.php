@@ -25,7 +25,8 @@ trait ManagesRender
         }
 
         return function (array $data): View|string {
-            $shared = $this->factory()->getShared();
+            $factory = $this->factory();
+            $shared = $factory->getShared();
 
             // This is an approach used to avoid having to "manually" check (isset($__livewire))
             // whether the component is being used within the Livewire context or not.
@@ -39,7 +40,7 @@ trait ManagesRender
 
             return $this->output($this->blade()->with(array_merge($this->compile($data), [
                 'livewire' => $livewire,
-                ...CompileRuntime::of($this, data: $data, shared: $shared),
+                ...CompileRuntime::of($this, $factory, $data, $shared),
             ])), $data);
         };
     }

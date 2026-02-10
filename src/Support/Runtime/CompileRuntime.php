@@ -2,6 +2,7 @@
 
 namespace TallStackUi\Support\Runtime;
 
+use Illuminate\View\Factory;
 use ReflectionException;
 use TallStackUi\Attributes\PassThroughRuntime;
 use TallStackUi\Support\Miscellaneous\ReflectComponent;
@@ -17,8 +18,12 @@ use TallStackUi\TallStackUiComponent;
 class CompileRuntime
 {
     /** @throws ReflectionException */
-    public static function of(TallStackUiComponent $component, array $data, array $shared): array
-    {
+    public static function of(
+        TallStackUiComponent $component,
+        Factory $factory,
+        array $data,
+        array $shared,
+    ): array {
         $reflect = app(ReflectComponent::class, ['component' => $component::class]);
         $class = $reflect->attribute(PassThroughRuntime::class)?->newInstance()->runtime;
 
@@ -29,6 +34,7 @@ class CompileRuntime
         return app($class, [
             'component' => $component,
             'data' => $data,
+            'factory' => $factory,
             'livewire' => $shared['__livewire'] ?? null,
             'errors' => $shared['errors'] ?? null,
         ])->runtime();

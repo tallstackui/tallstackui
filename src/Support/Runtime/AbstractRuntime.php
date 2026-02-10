@@ -4,21 +4,26 @@ namespace TallStackUi\Support\Runtime;
 
 use Error;
 use Exception;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\ViewErrorBag;
 use Illuminate\View\ComponentAttributeBag;
+use Illuminate\View\Factory;
 use Livewire\Component;
 use Livewire\WireDirective;
 use TallStackUi\Support\Blade\BindProperty;
 use TallStackUi\TallStackUiComponent;
+
+use function Livewire\invade;
 
 abstract class AbstractRuntime
 {
     public function __construct(
         protected TallStackUiComponent $component,
         protected array $data,
+        protected readonly Factory $factory,
         protected readonly ?Component $livewire = null,
-        protected readonly ?ViewErrorBag $errors = null
+        protected readonly ?ViewErrorBag $errors = null,
     ) {
         //
     }
@@ -46,7 +51,7 @@ abstract class AbstractRuntime
     }
 
     /**
-     * Compiles the `wire:change` event for the component when we are in Livewire context.
+     * Compiles the `wire:change` event for the component when we are in the Livewire context.
      */
     protected function change(): ?array
     {
@@ -136,6 +141,25 @@ abstract class AbstractRuntime
         // If the value is an array, we need to explode
         // the string and map the values to sanitize them.
         return array_map($sanitize, explode(',', $decoded));
+    }
+
+    /**
+     * Retrieves an array indicating the presence of 'left' and 'right' keys in the first slot.
+     */
+    protected function slots(): array
+    {
+        $slots = invade($this->factory)->slots;
+
+        /** @var Collection $slot */
+        $slot = collect($slots)->filter()->values();
+
+        /** @var array $first */
+        $first = $slot->first();
+
+        $left = Arr::has($first, 'left');
+        $right = Arr::has($first, 'right');
+
+        return [$left, $right];
     }
 
     protected function value(?string $property = null, mixed $value = null): mixed

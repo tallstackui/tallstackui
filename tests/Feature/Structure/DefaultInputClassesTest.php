@@ -2,6 +2,7 @@
 
 use TallStackUi\Components\Clipboard\Component as Clipboard;
 use TallStackUi\Components\Form\Input\Component as Input;
+use TallStackUi\Components\Form\InputSelect\Component as InputSelect;
 use TallStackUi\Components\Form\Number\Component as Number;
 use TallStackUi\Components\Form\Select\Native\Component as Native;
 use TallStackUi\Components\Form\Select\Styled\Component as Styled;
@@ -14,6 +15,7 @@ describe('DefaultInputClasses', function () {
         ->expect(FormDefaultInputClasses::class)
         ->toOnlyBeUsedIn([
             Input::class,
+            InputSelect::class,
             Number::class,
             Tag::class,
             Textarea::class,

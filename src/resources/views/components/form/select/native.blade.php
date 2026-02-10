@@ -3,7 +3,7 @@
 @endphp
 
 <div>
-    @if ($label)
+    @if ($label && !$side)
         <x-dynamic-component :component="TallStackUi::prefix('label')" :$label :$error />
     @endif
     <select {{ $attributes->class([
@@ -13,7 +13,10 @@
             $customization['input.color.base'] => !$error,
             $customization['input.color.background'] => !$attributes->get('disabled') && !$attributes->get('readonly'),
             $customization['input.color.disabled'] => $attributes->get('disabled') || $attributes->get('readonly'),
-            $customization['error'] => $error
+            $customization['error'] => $error && ! $side,
+            $customization['input.round.left'] => $side === 'left',
+            $customization['input.round.right'] => $side === 'right',
+            $customization['input.borderless'] => $side,
         ]) }}>
         @forelse ($options as $option)
             @if (!empty($selectable) && is_array($option[$selectable['value']]))
@@ -35,10 +38,10 @@
             {{ $slot }}
         @endforelse
     </select>
-    @if ($hint && !$error)
+    @if ($hint && !$error && !$side)
         <x-dynamic-component :component="TallStackUi::prefix('hint')" :$hint />
     @endif
-    @if ($error)
+    @if ($error && !$side)
         <x-dynamic-component :component="TallStackUi::prefix('error')" :$property />
     @endif
 </div>

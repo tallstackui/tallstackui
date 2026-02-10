@@ -41,7 +41,14 @@ class Component extends TallStackUiComponent implements Customization
     {
         return Arr::dot([
             'wrapper' => 'relative',
-            'input' => [...$this->input()],
+            'input' => [
+                ...$this->input(),
+                'round' => [
+                    'left' => 'rounded-r-none!',
+                    'right' => 'rounded-l-none!',
+                ],
+                'borderless' => 'ring-0! focus:ring-0!',
+            ],
             'error' => $this->error('focus:ring-2'),
         ]);
     }

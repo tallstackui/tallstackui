@@ -216,6 +216,7 @@ return [
             ],
         ],
         'input' => Components\Form\Input\Component::class,
+        'input.select' => Components\Form\InputSelect\Component::class,
         'label' => Components\Form\Label\Component::class,
         'layout' => [
             Components\Layout\Main\Component::class,

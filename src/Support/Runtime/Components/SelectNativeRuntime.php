@@ -10,6 +10,11 @@ class SelectNativeRuntime extends AbstractRuntime
     /** @throws Exception */
     public function runtime(): array
     {
-        return [...$this->bind()->only('property', 'error')];
+        [$left, $right] = $this->slots();
+
+        return [
+            ...$this->bind()->only('property', 'error'),
+            'side' => $left ? 'left' : ($right ? 'right' : null),
+        ];
     }
 }
