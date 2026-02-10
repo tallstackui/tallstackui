@@ -94,7 +94,14 @@ return [
         'avatar.group' => Components\Avatar\Group\Component::class,
         'badge' => Components\Badge\Component::class,
         'banner' => Components\Banner\Component::class,
-        'breadcrumbs' => Components\Breadcrumbs\Component::class,
+        'breadcrumbs' => [
+            Components\Breadcrumbs\Component::class,
+            [
+                'files' => [
+                    // 'routes/breadcrumbs.php',
+                ],
+            ],
+        ],
         'boolean' => Components\Boolean\Component::class,
         'button' => Components\Button\Normal\Component::class,
         'button.circle' => Components\Button\Circle\Component::class,

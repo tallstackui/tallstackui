@@ -29,6 +29,8 @@ class TallStackUiServiceProvider extends ServiceProvider
 
         $this->registerCommands();
 
+        $this->registerBreadcrumbs();
+
         Directives::register();
     }
 
@@ -39,6 +41,23 @@ class TallStackUiServiceProvider extends ServiceProvider
         $this->app->singleton('TallStackUi', TallStackUi::class);
 
         $this->app->singleton(BreadcrumbRegistry::class);
+    }
+
+    protected function registerBreadcrumbs(): void
+    {
+        $configuration = __ts_get_component_configuration(Components\Breadcrumbs\Component::class);
+
+        if (! $configuration || empty($configuration['files'])) {
+            return;
+        }
+
+        foreach ($configuration['files'] as $path) {
+            $file = base_path($path);
+
+            if (file_exists($file)) {
+                require $file;
+            }
+        }
     }
 
     protected function registerCommands(): void
@@ -107,5 +126,7 @@ class TallStackUiServiceProvider extends ServiceProvider
         $this->publishes([__DIR__.'/lang' => lang_path('vendor/ts-ui')], 'tallstackui.lang');
 
         $this->publishes([__DIR__.'/resources/views' => resource_path('views/vendor/ts-ui')], 'tallstackui.views');
+
+        $this->publishes([__DIR__.'/Support/Breadcrumbs/stubs/breadcrumbs.php.stub' => base_path('routes/breadcrumbs.php')], 'tallstackui.breadcrumbs');
     }
 }

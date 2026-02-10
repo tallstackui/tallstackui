@@ -210,7 +210,15 @@ The breadcrumbs component includes a builder API that lets you define breadcrumb
 
 ### Registering Breadcrumbs
 
-Register breadcrumbs in `AppServiceProvider::boot()` (or any service provider):
+#### Via Breadcrumb File (Recommended)
+
+Publish the breadcrumb file:
+
+```bash
+php artisan vendor:publish --tag=tallstackui.breadcrumbs
+```
+
+This creates `routes/breadcrumbs.php`. Define your breadcrumbs there:
 
 ```php
 use TallStackUi\Facades\TallStackUi;
@@ -227,6 +235,36 @@ TallStackUi::breadcrumbs()
     ->for('users.show', fn (BreadcrumbTrail $trail, User $user) => $trail
         ->parent('users.index')
         ->add($user->name)
+    );
+```
+
+The file is loaded automatically during boot. You can configure additional files in `config/tallstackui.php`:
+
+```php
+'breadcrumbs' => [
+    Components\Breadcrumbs\Component::class,
+    [
+        'files' => [
+            'routes/breadcrumbs.php',
+            'routes/admin-breadcrumbs.php', // additional files
+        ],
+    ],
+],
+```
+
+Paths are relative to `base_path()`. Non-existent files are silently skipped.
+
+#### Via Service Provider
+
+Alternatively, register breadcrumbs in any service provider's `boot()` method:
+
+```php
+use TallStackUi\Facades\TallStackUi;
+use TallStackUi\Support\Breadcrumbs\BreadcrumbTrail;
+
+TallStackUi::breadcrumbs()
+    ->for('home', fn (BreadcrumbTrail $trail) => $trail
+        ->add('Home', '/')
     );
 ```
 

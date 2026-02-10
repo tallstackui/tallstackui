@@ -241,6 +241,33 @@ it('can resolve named route in link', function () {
         ->toContain('/test-breadcrumb-route');
 });
 
+it('can load breadcrumb definitions from file paths', function () {
+    $tmp = tempnam(sys_get_temp_dir(), 'bc_').'.php';
+
+    file_put_contents($tmp, '<?php
+        use TallStackUi\Facades\TallStackUi;
+        use TallStackUi\Support\Breadcrumbs\BreadcrumbTrail;
+
+        TallStackUi::breadcrumbs()
+            ->for("file.loaded.home", fn (BreadcrumbTrail $trail) => $trail->add("Home", "/"));
+    ');
+
+    config()->set('ts-ui.components.breadcrumbs', [
+        TallStackUi\Components\Breadcrumbs\Component::class,
+        ['files' => [$tmp]],
+    ]);
+
+    __ts_get_component_configuration('', flush: true);
+
+    require $tmp;
+
+    $registry = app(TallStackUi\Support\Breadcrumbs\BreadcrumbRegistry::class);
+
+    expect($registry->has('file.loaded.home'))->toBeTrue();
+
+    @unlink($tmp);
+});
+
 it('keeps regular urls unchanged', function () {
     $component = <<<'HTML'
     <x-breadcrumbs :items="[
