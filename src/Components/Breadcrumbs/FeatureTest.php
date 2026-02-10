@@ -175,3 +175,81 @@ it('does not render separator before first item', function () {
     expect($component)->render()
         ->not->toContain('select-none');
 });
+
+it('can render default md size', function () {
+    $component = <<<'HTML'
+    <x-breadcrumbs :items="[
+        ['label' => 'Home', 'link' => '/'],
+        ['label' => 'Page'],
+    ]" />
+    HTML;
+
+    expect($component)->render()
+        ->toContain('text-sm')
+        ->toContain('gap-1');
+});
+
+it('can render xs size', function () {
+    $component = <<<'HTML'
+    <x-breadcrumbs xs :items="[
+        ['label' => 'Home', 'link' => '/'],
+        ['label' => 'Page'],
+    ]" />
+    HTML;
+
+    expect($component)->render()
+        ->toContain('text-xs')
+        ->toContain('gap-0.5');
+});
+
+it('can render sm size', function () {
+    $component = <<<'HTML'
+    <x-breadcrumbs sm :items="[
+        ['label' => 'Home', 'link' => '/'],
+        ['label' => 'Page'],
+    ]" />
+    HTML;
+
+    expect($component)->render()
+        ->toContain('text-xs')
+        ->toContain('gap-0.5');
+});
+
+it('can render lg size', function () {
+    $component = <<<'HTML'
+    <x-breadcrumbs lg :items="[
+        ['label' => 'Home', 'link' => '/'],
+        ['label' => 'Page'],
+    ]" />
+    HTML;
+
+    expect($component)->render()
+        ->toContain('text-base')
+        ->toContain('gap-1.5');
+});
+
+it('can resolve named route in link', function () {
+    Route::get('/test-breadcrumb-route', fn () => '')->name('test.breadcrumb');
+
+    $rendered = Blade::render('<x-breadcrumbs :items="$items" />', [
+        'items' => [
+            ['label' => 'Test', 'link' => 'test.breadcrumb'],
+        ],
+    ]);
+
+    expect($rendered)
+        ->toContain('/test-breadcrumb-route');
+});
+
+it('keeps regular urls unchanged', function () {
+    $component = <<<'HTML'
+    <x-breadcrumbs :items="[
+        ['label' => 'Home', 'link' => '/'],
+        ['label' => 'External', 'link' => 'https://example.com'],
+    ]" />
+    HTML;
+
+    expect($component)->render()
+        ->toContain('href="/"')
+        ->toContain('href="https://example.com"');
+});

@@ -14,7 +14,7 @@ class BreadcrumbTrail
     /**
      * The parent route name whose items are prepended during resolution.
      */
-    protected ?string $parentRoute = null;
+    protected ?string $parent = null;
 
     /**
      * Add a breadcrumb item to the trail.
@@ -26,7 +26,7 @@ class BreadcrumbTrail
             'link' => $link,
             'icon' => $icon,
             'tooltip' => $tooltip,
-        ], fn (mixed $val) => $val !== null);
+        ], fn (mixed $value) => $value !== null);
 
         return $this;
     }
@@ -47,7 +47,7 @@ class BreadcrumbTrail
      */
     public function parent(string $route): self
     {
-        $this->parentRoute = $route;
+        $this->parent = $route;
 
         return $this;
     }
@@ -57,6 +57,6 @@ class BreadcrumbTrail
      */
     public function parentRoute(): ?string
     {
-        return $this->parentRoute;
+        return $this->parent;
     }
 }

@@ -1,6 +1,6 @@
 # Breadcrumbs
 
-A component for displaying navigation breadcrumb trails with support for icons, tooltips, custom separators, and a route-aware builder API.
+A component for displaying navigation breadcrumb trails with support for icons, tooltips, custom separators, sizes, and a route-aware builder API.
 
 ## Basic Usage
 
@@ -18,12 +18,26 @@ The last item without a `link` renders as the current page (non-clickable, bold 
 
 ## Item Fields
 
-| Field     | Type     | Required | Description                        |
-|-----------|----------|----------|------------------------------------|
-| `label`   | `string` | Yes      | Text displayed for the item        |
-| `link`    | `string` | No       | URL for clickable items            |
-| `icon`    | `string` | No       | Icon name (e.g. `heroicon-o-home`) |
-| `tooltip` | `string` | No       | Tooltip text on hover              |
+| Field     | Type     | Required | Description                                  |
+|-----------|----------|----------|----------------------------------------------|
+| `label`   | `string` | Yes      | Text displayed for the item                  |
+| `link`    | `string` | No       | URL or named route for clickable items       |
+| `icon`    | `string` | No       | Icon name (e.g. `heroicon-o-home`)           |
+| `tooltip` | `string` | No       | Tooltip text on hover                        |
+
+### Named Routes
+
+The `link` field accepts both URLs and Laravel named routes. Named routes are resolved automatically:
+
+```blade
+<x-breadcrumbs :items="[
+    ['label' => 'Home', 'link' => 'home'],
+    ['label' => 'Users', 'link' => 'users.index'],
+    ['label' => 'John Doe'],
+]" />
+```
+
+Regular URLs (starting with `/` or `http`) are kept as-is. Any other string is treated as a named route and resolved via `route()`.
 
 ### Icons
 
@@ -45,6 +59,24 @@ The last item without a `link` renders as the current page (non-clickable, bold 
 ]" />
 ```
 
+## Sizes
+
+The default size is `md`. Available sizes: `xs`, `sm`, `md`, `lg`.
+
+```blade
+<x-breadcrumbs xs :items="$items" />
+<x-breadcrumbs sm :items="$items" />
+<x-breadcrumbs :items="$items" />      {{-- md (default) --}}
+<x-breadcrumbs lg :items="$items" />
+```
+
+| Size | Text        | Item Icon     | Separator Icon | Gap       |
+|------|-------------|---------------|----------------|-----------|
+| `xs` | `text-xs`   | `w-3 h-3`     | `w-3 h-3`      | `gap-0.5` |
+| `sm` | `text-xs`   | `w-3.5 h-3.5` | `w-3.5 h-3.5`  | `gap-0.5` |
+| `md` | `text-sm`   | `w-4 h-4`     | `w-4 h-4`      | `gap-1`   |
+| `lg` | `text-base` | `w-5 h-5`     | `w-5 h-5`      | `gap-1.5` |
+
 ## Separator
 
 The default separator is `/`. You can customize it with text or an icon name.
@@ -59,10 +91,10 @@ The default separator is `/`. You can customize it with text or an icon name.
 
 ### Icon Separator
 
-Pass an icon name (detected automatically by the presence of `-` in the string):
+Prefix the icon name with `icon:` to use an icon as separator:
 
 ```blade
-<x-breadcrumbs separator="heroicon-o-chevron-right" :items="$items" />
+<x-breadcrumbs separator="icon:heroicon-o-chevron-right" :items="$items" />
 ```
 
 ## Separator Class
@@ -90,49 +122,82 @@ Add custom content to the left or right of the breadcrumb trail:
 
 ## Properties
 
-| Prop              | Type               | Default | Description                                       |
-|-------------------|--------------------|---------|---------------------------------------------------|
-| `items`           | `array\|Collection` | `null`  | Breadcrumb items (auto-resolved if null)           |
-| `separator`       | `string`           | `/`     | Separator text or icon name                        |
-| `separator-class` | `string`           | `null`  | Additional CSS classes for separator elements      |
+| Prop              | Type                | Default | Description                                   |
+|-------------------|---------------------|---------|-----------------------------------------------|
+| `items`           | `array\|Collection` | `null`  | Breadcrumb items (auto-resolved if null)      |
+| `separator`       | `string`            | `/`     | Separator text or icon name                   |
+| `separator-class` | `string`            | `null`  | Additional CSS classes for separator elements |
+| `xs`              | `bool`              | `false` | Extra small size                              |
+| `sm`              | `bool`              | `false` | Small size                                    |
+| `lg`              | `bool`              | `false` | Large size                                    |
 
 ## Soft Customization
 
-All visual blocks can be customized via the soft personalization API:
+All visual blocks can be customized via the soft personalization API. Each size-dependent block uses the `{block}.class` + `{block}.sizes.{size}` pattern:
 
 ```php
 TallStackUi::personalize()
     ->breadcrumbs()
     ->block('wrapper', '...')
-    ->block('list', '...')
+    ->block('list.class', '...')
+    ->block('list.sizes.md', '...')
     ->block('separator.wrapper', '...')
-    ->block('separator.text', '...')
-    ->block('separator.icon', '...')
+    ->block('separator.text.class', '...')
+    ->block('separator.text.sizes.md', '...')
+    ->block('separator.icon.class', '...')
+    ->block('separator.icon.sizes.md', '...')
     ->block('item.wrapper', '...')
-    ->block('item.link', '...')
-    ->block('item.current', '...')
-    ->block('item.icon', '...');
+    ->block('item.link.class', '...')
+    ->block('item.link.sizes.md', '...')
+    ->block('item.current.class', '...')
+    ->block('item.current.sizes.md', '...')
+    ->block('item.icon.class', '...')
+    ->block('item.icon.sizes.md', '...');
 ```
 
 ### Available Blocks
 
-| Block               | Default Classes                                                                               |
-|---------------------|-----------------------------------------------------------------------------------------------|
-| `wrapper`           | `flex items-center`                                                                           |
-| `list`              | `flex items-center gap-1`                                                                     |
-| `separator.wrapper` | `flex items-center`                                                                           |
-| `separator.text`    | `text-sm text-gray-400 dark:text-dark-400 mx-1 select-none`                                  |
-| `separator.icon`    | `w-4 h-4 text-gray-400 dark:text-dark-400 mx-0.5 shrink-0`                                   |
-| `item.wrapper`      | `flex items-center`                                                                           |
-| `item.link`         | `text-sm text-gray-500 dark:text-dark-300 transition-colors hover:text-gray-700 dark:hover:text-dark-100` |
-| `item.current`      | `text-sm font-medium text-gray-700 dark:text-dark-200`                                       |
-| `item.icon`         | `w-4 h-4 mr-1 shrink-0`                                                                      |
+| Block                     | Default Classes                                                                                                            |
+|---------------------------|----------------------------------------------------------------------------------------------------------------------------|
+| `wrapper`                 | `flex items-center`                                                                                                        |
+| `list.class`              | `flex items-center`                                                                                                        |
+| `list.sizes.xs`           | `gap-0.5`                                                                                                                  |
+| `list.sizes.sm`           | `gap-0.5`                                                                                                                  |
+| `list.sizes.md`           | `gap-1`                                                                                                                    |
+| `list.sizes.lg`           | `gap-1.5`                                                                                                                  |
+| `separator.wrapper`       | `flex items-center`                                                                                                        |
+| `separator.text.class`    | `text-gray-400 dark:text-dark-400 select-none`                                                                             |
+| `separator.text.sizes.xs` | `text-xs mx-0.5`                                                                                                           |
+| `separator.text.sizes.sm` | `text-xs mx-0.5`                                                                                                           |
+| `separator.text.sizes.md` | `text-sm mx-1`                                                                                                             |
+| `separator.text.sizes.lg` | `text-base mx-1`                                                                                                           |
+| `separator.icon.class`    | `text-gray-400 dark:text-dark-400 shrink-0`                                                                                |
+| `separator.icon.sizes.xs` | `w-3 h-3 mx-0.5`                                                                                                           |
+| `separator.icon.sizes.sm` | `w-3.5 h-3.5 mx-0.5`                                                                                                       |
+| `separator.icon.sizes.md` | `w-4 h-4 mx-0.5`                                                                                                           |
+| `separator.icon.sizes.lg` | `w-5 h-5 mx-1`                                                                                                             |
+| `item.wrapper`            | `flex items-center`                                                                                                        |
+| `item.link.class`         | `inline-flex items-center text-gray-500 dark:text-dark-300 transition-colors hover:text-gray-700 dark:hover:text-dark-100` |
+| `item.link.sizes.xs`      | `text-xs`                                                                                                                  |
+| `item.link.sizes.sm`      | `text-xs`                                                                                                                  |
+| `item.link.sizes.md`      | `text-sm`                                                                                                                  |
+| `item.link.sizes.lg`      | `text-base`                                                                                                                |
+| `item.current.class`      | `inline-flex items-center font-medium text-gray-700 dark:text-dark-200`                                                    |
+| `item.current.sizes.xs`   | `text-xs`                                                                                                                  |
+| `item.current.sizes.sm`   | `text-xs`                                                                                                                  |
+| `item.current.sizes.md`   | `text-sm`                                                                                                                  |
+| `item.current.sizes.lg`   | `text-base`                                                                                                                |
+| `item.icon.class`         | `shrink-0`                                                                                                                 |
+| `item.icon.sizes.xs`      | `w-3 h-3 mr-0.5`                                                                                                           |
+| `item.icon.sizes.sm`      | `w-3.5 h-3.5 mr-0.5`                                                                                                       |
+| `item.icon.sizes.md`      | `w-4 h-4 mr-1`                                                                                                             |
+| `item.icon.sizes.lg`      | `w-5 h-5 mr-1.5`                                                                                                           |
 
 ### Scoped Customization
 
 ```php
 TallStackUi::personalize('breadcrumbs', scope: 'admin')
-    ->block('item.link', 'text-sm text-blue-500 hover:text-blue-700');
+    ->block('item.link.class', 'inline-flex items-center text-blue-500 hover:text-blue-700');
 ```
 
 ```blade

@@ -55,13 +55,10 @@ class BreadcrumbRegistry
 
         $trail = new BreadcrumbTrail;
 
-        $route = Route::current();
-        $parameters = $route ? $route->parameters() : [];
+        $current = Route::current();
+        $parameters = $current ? $current->parameters() : [];
 
-        app()->call($this->definitions[$route], array_merge(
-            ['trail' => $trail],
-            $parameters
-        ));
+        app()->call($this->definitions[$route], array_merge(['trail' => $trail], $parameters));
 
         $items = [];
 
