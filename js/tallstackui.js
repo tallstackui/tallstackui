@@ -1,4 +1,5 @@
 import './globals/globals';
+import backToTop from '../src/Components/BackToTop/alpine';
 import banner from '../src/Components/Banner/alpine';
 import carousel from '../src/Components/Carousel/alpine';
 import card from '../src/Components/Card/alpine';
@@ -41,6 +42,7 @@ if (!window.__tsui_elements) {
 
 document.addEventListener('alpine:init', () => {
   Alpine.plugin(tooltip);
+  Alpine.data('tallstackui_backToTop', backToTop);
   Alpine.data('tallstackui_banner', banner);
   Alpine.data('tallstackui_carousel', carousel);
   Alpine.data('tallstackui_card', card);

@@ -89,6 +89,7 @@ return [
     */
     'components' => [
         'alert' => Components\Alert\Component::class,
+        'back-to-top' => Components\BackToTop\Component::class,
         'avatar' => Components\Avatar\Component::class,
         'avatar.group' => Components\Avatar\Group\Component::class,
         'badge' => Components\Badge\Component::class,

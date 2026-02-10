@@ -9,6 +9,7 @@ uses(Tests\TestCase::class)->in('Feature')->group('Feature');
 
 dataset('customization.keys', [
     'ts-ui::customization.alert',
+    'ts-ui::customization.backToTop',
     'ts-ui::customization.avatar',
     'ts-ui::customization.badge',
     'ts-ui::customization.button',
@@ -65,6 +66,7 @@ dataset('customization.keys', [
 
 dataset('customization.components', [
     TallStackUi\Components\Alert\Component::class,
+    TallStackUi\Components\BackToTop\Component::class,
     TallStackUi\Components\Avatar\Component::class,
     TallStackUi\Components\Badge\Component::class,
     TallStackUi\Components\Banner\Component::class,

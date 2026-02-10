@@ -5,6 +5,7 @@ namespace TallStackUi\Customization;
 use RuntimeException;
 use TallStackUi\Components\Alert\Component as Alert;
 use TallStackUi\Components\Avatar\Component as Avatar;
+use TallStackUi\Components\BackToTop\Component as BackToTop;
 use TallStackUi\Components\Badge\Component as Badge;
 use TallStackUi\Components\Banner\Component as Banner;
 use TallStackUi\Components\Boolean\Component as Boolean;
@@ -90,6 +91,13 @@ class Customization
         $this->scope ??= $scope;
 
         return $this->component(Avatar::class);
+    }
+
+    public function backToTop(?string $scope = null): CustomizationFactory
+    {
+        $this->scope ??= $scope;
+
+        return $this->component(BackToTop::class);
     }
 
     public function badge(?string $scope = null): CustomizationFactory

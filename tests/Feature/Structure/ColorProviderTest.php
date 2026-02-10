@@ -3,6 +3,7 @@
 use TallStackUi\Attributes\ColorsThroughOf;
 use TallStackUi\Components\Alert\Component as Alert;
 use TallStackUi\Components\Avatar\Component as Avatar;
+use TallStackUi\Components\BackToTop\Component as BackToTop;
 use TallStackUi\Components\Badge\Component as Badge;
 use TallStackUi\Components\Banner\Component as Banner;
 use TallStackUi\Components\Boolean\Component as Boolean;
@@ -34,6 +35,7 @@ test('should use attribute', function (string $component) {
     expect($component)->toHaveAttribute(ColorsThroughOf::class);
 })->with([
     Alert::class,
+    BackToTop::class,
     Avatar::class,
     Button::class,
     Badge::class,
@@ -65,6 +67,7 @@ test('attribute should only be used in the components', function () {
             SetupColors::class,
             CompileColors::class,
             Alert::class,
+            BackToTop::class,
             Avatar::class,
             Button::class,
             Badge::class,
