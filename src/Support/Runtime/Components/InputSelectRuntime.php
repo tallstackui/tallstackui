@@ -3,7 +3,6 @@
 namespace TallStackUi\Support\Runtime\Components;
 
 use Exception;
-use Illuminate\View\ComponentSlot;
 use TallStackUi\Components\Form\InputSelect\Component;
 use TallStackUi\Support\Runtime\AbstractRuntime;
 
