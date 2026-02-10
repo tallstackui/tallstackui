@@ -210,7 +210,7 @@ The breadcrumbs component includes a builder API that lets you define breadcrumb
 
 ### Registering Breadcrumbs
 
-In your `AppServiceProvider::boot()` (or any service provider):
+Register breadcrumbs in `AppServiceProvider::boot()` (or any service provider):
 
 ```php
 use TallStackUi\Facades\TallStackUi;
