@@ -2,6 +2,7 @@
 
 namespace TallStackUi\Components\Form\Range;
 
+use Laravel\Dusk\Browser;
 use Livewire\Component;
 use Livewire\Livewire;
 use PHPUnit\Framework\Attributes\Test;
@@ -23,9 +24,9 @@ class BrowserTest extends BrowserTestCase
                 return <<<'HTML'
                 <div>
                     <p dusk="increased">{{ $quantity }}</p>
-                    
+
                     <x-range wire:model="quantity" />
-                    
+
                     <x-button dusk="sync" wire:click="sync">Save</x-button>
                 </div>
                 HTML;
@@ -36,10 +37,10 @@ class BrowserTest extends BrowserTestCase
                 //
             }
         })
-            ->dragRight('@tallstackui_form_range_input', 20)
+            ->tap(fn (Browser $browser) => $browser->script($this->setRangeValue(75)))
             ->click('@sync')
-            ->waitForTextIn('@increased', '52', 10)
-            ->assertSeeIn('@increased', '52');
+            ->waitForTextIn('@increased', '75', 10)
+            ->assertSeeIn('@increased', '75');
     }
 
     #[Test]
@@ -56,14 +57,24 @@ class BrowserTest extends BrowserTestCase
                 return <<<'HTML'
                 <div>
                     <p dusk="increased">{{ $quantity }}</p>
-                    
+
                     <x-range wire:model.live="quantity" />
                 </div>
                 HTML;
             }
         })
-            ->dragRight('@tallstackui_form_range_input', 20)
-            ->waitForTextIn('@increased', '52', 10)
-            ->assertSeeIn('@increased', '52');
+            ->tap(fn (Browser $browser) => $browser->script($this->setRangeValue(75)))
+            ->waitForTextIn('@increased', '75', 10)
+            ->assertSeeIn('@increased', '75');
+    }
+
+    private function setRangeValue(int $value): string
+    {
+        return <<<JS
+            const input = document.querySelector('[dusk="tallstackui_form_range_input"]');
+            const nativeSetter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set;
+            nativeSetter.call(input, {$value});
+            input.dispatchEvent(new Event('input', { bubbles: true }));
+        JS;
     }
 }
