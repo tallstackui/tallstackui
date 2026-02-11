@@ -1,0 +1,103 @@
+# TallStackUI: Upload
+
+> TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
+> component library providing 40+ Blade components for building modern web interfaces.
+
+> **Requires Livewire:** This component must be used within a Livewire component.
+
+A file upload component with drag-and-drop support, upload progress tracking, image previews, file deletion, and a static mode for displaying previously uploaded files. Integrates with Livewire's file upload system and renders uploaded files in a floating panel.
+
+## Basic Usage
+
+```blade
+<x-upload wire:model="photos" label="Photos" tip="JPG, PNG up to 5MB" multiple delete />
+```
+
+```blade
+<x-upload wire:model="document" label="Document" :preview="false" />
+```
+
+```blade
+<x-upload wire:model="files" label="Attachments" multiple delete close-after-upload>
+    <x-slot:footer when-uploaded>
+        <x-button wire:click="save" text="Save Files" />
+    </x-slot:footer>
+</x-upload>
+```
+
+```blade
+<x-upload wire:model="avatar" label="Existing Files" static delete />
+```
+
+## Attributes
+
+| Attribute          | Type                        | Default        | Description                                                                  |
+|--------------------|-----------------------------|----------------|------------------------------------------------------------------------------|
+| label              | string\|ComponentSlot\|null | null           | Label text displayed above the upload input                                  |
+| hint               | string\|ComponentSlot\|null | null           | Hint text displayed below the upload input                                   |
+| tip                | string\|ComponentSlot\|null | null           | Tip text displayed inside the drag-and-drop area                             |
+| multiple           | bool                        | false          | Allows multiple file selection                                               |
+| preview            | bool                        | true           | Enables image preview on click (fullscreen lightbox)                         |
+| delete             | bool                        | false          | Shows a delete button next to each uploaded file                             |
+| static             | bool                        | false          | Static mode for displaying previously uploaded files (no drag-and-drop area) |
+| placeholder        | string\|null                | null           | Custom placeholder text for the input (defaults to translation)              |
+| delete-method      | string                      | 'deleteUpload' | Name of the Livewire method called when deleting a file                      |
+| error              | string\|bool\|null          | null           | Custom error message for upload failures (defaults to translation)           |
+| footer             | ComponentSlot\|null         | null           | Footer slot content displayed at the bottom of the floating panel            |
+| overflow           | bool\|null                  | null           | Controls body overflow when the upload panel is open                         |
+| close-after-upload | bool\|null                  | null           | Automatically closes the floating panel after files are uploaded             |
+
+## Slots
+
+| Slot   | Description                                                                                                                          |
+|--------|--------------------------------------------------------------------------------------------------------------------------------------|
+| tip    | Custom content for the upload area tip. Can be a string or a full slot with markup.                                                  |
+| footer | Footer content rendered at the bottom of the floating panel. Supports `when-uploaded` attribute to only show when files are present. |
+
+## Soft Customization
+
+Soft customization allows you to override default Tailwind CSS classes used by this component at runtime, either through a service provider or scoped per-instance.
+
+### Personalization
+
+```php
+TallStackUi::personalize()
+    ->form('upload')
+    ->block('placeholder.wrapper', 'your-tailwind-classes');
+```
+
+### Available Blocks
+
+| Block Name               | Purpose                                                  |
+|--------------------------|----------------------------------------------------------|
+| icon                     | Icon styles for the upload trigger button                |
+| placeholder.input        | Hidden file input overlay styles                         |
+| placeholder.wrapper      | Drag-and-drop area container (border, background, shape) |
+| placeholder.title        | Upload area title text styles                            |
+| placeholder.tip          | Upload area tip text styles                              |
+| placeholder.icon.class   | Upload area icon styles                                  |
+| placeholder.icon.wrapper | Upload area icon container                               |
+| floating.default         | Default floating panel wrapper styles                    |
+| floating.class           | Floating panel additional styles                         |
+| upload.wrapper           | Progress bar outer wrapper                               |
+| upload.progress          | Progress bar fill styles                                 |
+| item.wrapper             | File list scrollable container                           |
+| item.ul                  | File list divider styles                                 |
+| item.li                  | File list item flex layout                               |
+| item.title               | File name text styles                                    |
+| item.size                | File size text styles                                    |
+| item.image               | Image thumbnail styles (rounded, sized)                  |
+| item.document            | Document icon styles for non-image files                 |
+| item.delete              | Delete icon styles                                       |
+| preview.backdrop         | Fullscreen image preview backdrop                        |
+| preview.wrapper          | Preview image container                                  |
+| preview.image            | Preview image styles                                     |
+| preview.button.base      | Preview close button positioning                         |
+| preview.button.icon      | Preview close button icon styles                         |
+| error.wrapper            | Error message container                                  |
+| error.message            | Error message text styles                                |
+| static.empty.wrapper     | Empty state wrapper for static mode                      |
+| static.empty.icon        | Empty state icon                                         |
+| static.empty.title       | Empty state title text                                   |
+| static.empty.description | Empty state description text                             |
+| invalid                  | Validation error message text below the input            |

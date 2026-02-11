@@ -1,0 +1,95 @@
+# TallStackUI: Card
+
+> TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
+> component library providing 40+ Blade components for building modern web interfaces.
+
+A versatile card container with optional header, footer, image, color styling, minimize/expand toggle, close button, and Livewire loading indicator. Supports both solid and light color variants with bordered or background variations.
+
+## Basic Usage
+
+```blade
+<x-card>
+    This is a simple card body.
+</x-card>
+```
+
+```blade
+<x-card header="User Profile">
+    <p>Name: John Doe</p>
+    <x-slot:footer>
+        <x-button text="Save" />
+    </x-slot:footer>
+</x-card>
+```
+
+```blade
+<x-card image="https://example.com/cover.jpg"
+        position="top"
+        header="Featured Article"
+        minimize="true"
+        close>
+    Article content goes here.
+</x-card>
+```
+
+## Attributes
+
+| Attribute | Type         | Default | Description                                                          |
+|-----------|--------------|---------|----------------------------------------------------------------------|
+| color     | string\|null | null    | Color theme for the header background                                |
+| light     | bool         | null    | Uses the light color style variant                                   |
+| bordered  | bool         | null    | Uses a bordered variation instead of background fill                 |
+| minimize  | string\|null | null    | Enables minimize/maximize toggle; set to 'mount' to start minimized  |
+| close     | bool         | null    | Shows a close button to hide the entire card                         |
+| loading   | string\|null | null    | Livewire `wire:target` value that shows an indeterminate loading bar |
+| delay     | string\|null | null    | Livewire loading delay modifier (e.g., 'long', 'longest')            |
+| image     | string\|null | null    | URL for a card image                                                 |
+| position  | string\|null | 'top'   | Image position: 'top' or 'bottom'                                    |
+
+## Slots
+
+| Slot      | Description                                                                               |
+|-----------|-------------------------------------------------------------------------------------------|
+| (default) | Main card body content                                                                    |
+| header    | Card header area; accepts plain string or ComponentSlot for custom markup                 |
+| footer    | Card footer area; accepts plain string (right-aligned) or ComponentSlot for custom layout |
+
+## Validation Constraints
+
+- The `image` and `color` attributes cannot be used together.
+
+## Soft Customization
+
+Soft customization allows you to override default Tailwind CSS classes used by this component at runtime, either through a service provider or scoped per-instance.
+
+### Personalization
+
+```php
+TallStackUi::personalize()
+    ->card()
+    ->block('body', 'your-tailwind-classes');
+```
+
+### Available Blocks
+
+| Block Name              | Purpose                                         |
+|-------------------------|-------------------------------------------------|
+| wrapper.first           | Outer flex container                            |
+| wrapper.second          | Inner card container with background and shadow |
+| header.wrapper.base     | Header flex layout and padding                  |
+| header.wrapper.border   | Bottom border shown when card is expanded       |
+| header.wrapper.minimize | Border radius applied when card is minimized    |
+| header.text.size        | Header text font size and weight                |
+| header.text.color       | Header text color                               |
+| body                    | Card body padding and text color                |
+| footer.wrapper          | Footer container with top border                |
+| footer.text             | Footer content alignment (flex, end-aligned)    |
+| button.minimize         | Minimize button icon dimensions                 |
+| button.maximize         | Maximize button icon dimensions                 |
+| button.close            | Close button icon dimensions                    |
+| image.wrapper           | Image container flex layout                     |
+| image.rounded.top       | Top image border radius                         |
+| image.rounded.bottom    | Bottom image border radius                      |
+| image.size              | Image width                                     |
+| loading.wrapper         | Loading bar outer container                     |
+| loading.bar             | Loading bar animation element                   |

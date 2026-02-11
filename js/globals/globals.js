@@ -2,11 +2,6 @@ import { event, error } from '../helpers';
 import DialogInteraction from '../../src/Components/Dialog/frontend';
 import ToastInteraction from '../../src/Components/Toast/frontend';
 
-const interactions = {
-  dialog: DialogInteraction,
-  toast: ToastInteraction,
-};
-
 window.$tsui = {
   open: {
     modal: (name) => event(`modal:${name}-open`, null, false),
@@ -21,6 +16,11 @@ window.$tsui = {
     commandPalette: () => event('command-palette-close', null, false),
   },
   interaction: (type = 'dialog') => {
+    const interactions = {
+      dialog: DialogInteraction,
+      toast: ToastInteraction,
+    };
+
     const InteractionClass = interactions[type];
 
     if (!InteractionClass) {
