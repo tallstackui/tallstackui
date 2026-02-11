@@ -24,7 +24,7 @@ class BrowserTest extends BrowserTestCase
                     <x-button dusk="confirm" onclick="confirm()">Confirm</x-button>
 
                     <script>
-                        confirm = () => $interaction('toast').question('Confirm?')
+                        confirm = () => $tsui.interaction('toast').question('Confirm?')
                             .wireable(Livewire.first().id)
                             .confirm('Confirm', 'confirmed', 'Confirmed Without Livewire')
                             .cancel('Cancel', 'cancelled', 'Cancelled Without Livewire')
@@ -72,7 +72,7 @@ class BrowserTest extends BrowserTestCase
                     <x-button dusk="confirm" onclick="confirm()">Confirm</x-button>
 
                     <script>
-                        confirm = () => $interaction('toast').question('Confirm?')
+                        confirm = () => $tsui.interaction('toast').question('Confirm?')
                             .wireable()
                             .confirm('Confirm', 'confirmed', 'Confirmed Without Livewire')
                             .cancel('Cancel', 'cancelled', 'Cancelled Without Livewire')
@@ -180,10 +180,10 @@ class BrowserTest extends BrowserTestCase
             {
                 return <<<'HTML'
                 <div>
-                    <x-button dusk="success" x-on:click="$interaction('toast').success('Success Without Livewire').send()">Success</x-button>
-                    <x-button dusk="error" x-on:click="$interaction('toast').error('Error Without Livewire').send()">Error</x-button>
-                    <x-button dusk="info" x-on:click="$interaction('toast').info('Info Without Livewire').send()">Info</x-button>
-                    <x-button dusk="warning" x-on:click="$interaction('toast').warning('Warning Without Livewire').send()">Error</x-button>
+                    <x-button dusk="success" x-on:click="$tsui.interaction('toast').success('Success Without Livewire').send()">Success</x-button>
+                    <x-button dusk="error" x-on:click="$tsui.interaction('toast').error('Error Without Livewire').send()">Error</x-button>
+                    <x-button dusk="info" x-on:click="$tsui.interaction('toast').info('Info Without Livewire').send()">Info</x-button>
+                    <x-button dusk="warning" x-on:click="$tsui.interaction('toast').warning('Warning Without Livewire').send()">Error</x-button>
                 </div>
                 HTML;
             }

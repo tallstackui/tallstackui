@@ -74,7 +74,7 @@ class BrowserTest extends BrowserTestCase
             {
                 return <<<'HTML'
                 <div>
-                    <x-button dusk="confirm" x-on:click="$modalOpen('dialog')">Open</x-button>
+                    <x-button dusk="confirm" x-on:click="$tsui.open.modal('dialog')">Open</x-button>
 
                     <x-modal title="Modal" id="dialog" z-index="z-40">
                         <x-button dusk="confirming" wire:click="confirm">Click here to confirm</x-button>
@@ -117,7 +117,7 @@ class BrowserTest extends BrowserTestCase
             {
                 return <<<'HTML'
                 <div>
-                    <x-button dusk="confirm" x-on:click="$slideOpen('dialog')">Open</x-button>
+                    <x-button dusk="confirm" x-on:click="$tsui.open.slide('dialog')">Open</x-button>
 
                     <x-slide title="Slide" id="dialog" z-index="z-40">
                         <x-button dusk="confirming" wire:click="confirm">Click here to confirm</x-button>
@@ -222,7 +222,7 @@ class BrowserTest extends BrowserTestCase
                     <x-button dusk="confirm" onclick="confirm()">Confirm</x-button>
                     
                     <script>
-                        confirm = () => $interaction('dialog').question('Confirm?')
+                        confirm = () => $tsui.interaction('dialog').question('Confirm?')
                             .wireable(Livewire.first().id)
                             .confirm('Confirm', 'confirmed', 'Confirmed Without Livewire')
                             .cancel('Cancel', 'cancelled', 'Cancelled Without Livewire')
@@ -271,7 +271,7 @@ class BrowserTest extends BrowserTestCase
                     <x-button dusk="confirm" onclick="confirm()">Confirm</x-button>
                     
                     <script>
-                        confirm = () => $interaction('dialog').question('Confirm?')
+                        confirm = () => $tsui.interaction('dialog').question('Confirm?')
                             .wireable()
                             .confirm('Confirm', 'confirmed', 'Confirmed Without Livewire')
                             .cancel('Cancel', 'cancelled', 'Cancelled Without Livewire')
@@ -304,10 +304,10 @@ class BrowserTest extends BrowserTestCase
             {
                 return <<<'HTML'
                 <div>
-                    <x-button dusk="success" x-on:click="$interaction('dialog').success('Success Without Livewire').send()">Success</x-button>
-                    <x-button dusk="error" x-on:click="$interaction('dialog').error('Error Without Livewire').send()">Error</x-button>
-                    <x-button dusk="info" x-on:click="$interaction('dialog').info('Info Without Livewire').send()">Info</x-button>
-                    <x-button dusk="warning" x-on:click="$interaction('dialog').warning('Warning Without Livewire').send()">Error</x-button>
+                    <x-button dusk="success" x-on:click="$tsui.interaction('dialog').success('Success Without Livewire').send()">Success</x-button>
+                    <x-button dusk="error" x-on:click="$tsui.interaction('dialog').error('Error Without Livewire').send()">Error</x-button>
+                    <x-button dusk="info" x-on:click="$tsui.interaction('dialog').info('Info Without Livewire').send()">Info</x-button>
+                    <x-button dusk="warning" x-on:click="$tsui.interaction('dialog').warning('Warning Without Livewire').send()">Error</x-button>
                 </div>
                 HTML;
             }

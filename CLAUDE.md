@@ -445,10 +445,12 @@ The `__ts_validation_exception()` helper throws `InvalidArgumentException` with 
 
 **Global Functions (`js/globals/globals.js`):**
 
-- `$modalOpen(name)` / `$modalClose(name)` - Modal control
-- `$slideOpen(name)` / `$slideClose(name)` - Slide control
-- `$interaction(type)` - Creates interaction handler
-- `$focusOn(name, time)` - Focuses element by ID or data-focus
+- `$tsui.open.modal(name)` / `$tsui.close.modal(name)` - Modal control
+- `$tsui.open.slide(name)` / `$tsui.close.slide(name)` - Slide control
+- `$tsui.open.select(name)` / `$tsui.close.select(name)` - Select control
+- `$tsui.open.commandPalette()` / `$tsui.close.commandPalette()` - Command Palette control
+- `$tsui.interaction(type)` - Creates interaction handler
+- `$tsui.focusOn(name, time)` - Focuses element by ID or data-focus
 
 **Component Pattern:**
 

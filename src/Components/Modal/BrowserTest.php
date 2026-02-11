@@ -174,7 +174,7 @@ class BrowserTest extends BrowserTestCase
                         Foo bar
                     </x-modal>
                 
-                    <x-button dusk="open" x-on:click="$modalOpen('test')">Open</x-button>
+                    <x-button dusk="open" x-on:click="$tsui.open.modal('test')">Open</x-button>
                 </div>
                 HTML;
             }
@@ -199,7 +199,7 @@ class BrowserTest extends BrowserTestCase
                         Foo bar
                     </x-modal>
                 
-                    <x-button dusk="open" x-on:click="$modalOpen('persistent')">Open</x-button>
+                    <x-button dusk="open" x-on:click="$tsui.open.modal('persistent')">Open</x-button>
                 </div>
                 HTML;
             }
@@ -237,7 +237,7 @@ class BrowserTest extends BrowserTestCase
                         <x-button dusk="trigger-dialog" wire:click="triggerDialog">Trigger Dialog</x-button>
                     </x-modal>
 
-                    <x-button dusk="open-modal" x-on:click="$modalOpen('test-modal')">Open Modal</x-button>
+                    <x-button dusk="open-modal" x-on:click="$tsui.open.modal('test-modal')">Open Modal</x-button>
                 </div>
                 HTML;
             }
@@ -276,7 +276,7 @@ class BrowserTest extends BrowserTestCase
                         <x-button dusk="trigger-toast" wire:click="triggerToast">Trigger Toast</x-button>
                     </x-modal>
 
-                    <x-button dusk="open-modal" x-on:click="$modalOpen('test-modal')">Open Modal</x-button>
+                    <x-button dusk="open-modal" x-on:click="$tsui.open.modal('test-modal')">Open Modal</x-button>
                 </div>
                 HTML;
             }
@@ -306,7 +306,7 @@ class BrowserTest extends BrowserTestCase
                 <div>
                     <x-modal wire title="Modal Content" z-index="z-40">
                         Modal body
-                        <x-button dusk="open-slide" x-on:click="$slideOpen('test-slide')">Open Slide</x-button>
+                        <x-button dusk="open-slide" x-on:click="$tsui.open.slide('test-slide')">Open Slide</x-button>
                     </x-modal>
 
                     <x-slide id="test-slide" title="Slide Content" z-index="z-50">

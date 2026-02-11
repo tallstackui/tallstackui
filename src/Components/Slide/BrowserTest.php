@@ -227,7 +227,7 @@ class BrowserTest extends BrowserTestCase
                         Foo bar
                     </x-slide>
                 
-                    <x-button dusk="open" x-on:click="$slideOpen('test')">Open</x-button>
+                    <x-button dusk="open" x-on:click="$tsui.open.slide('test')">Open</x-button>
                 </div>
                 HTML;
             }
@@ -252,7 +252,7 @@ class BrowserTest extends BrowserTestCase
                         Foo bar
                     </x-slide>
                 
-                    <x-button dusk="open" x-on:click="$slideOpen('persistent')">Open</x-button>
+                    <x-button dusk="open" x-on:click="$tsui.open.slide('persistent')">Open</x-button>
                 </div>
                 HTML;
             }

@@ -176,8 +176,8 @@ Inline `recycle` overrides the config value.
 ### Alpine.js Helpers
 
 ```blade
-<x-button x-on:click="$commandPaletteOpen()">Search</x-button>
-<x-button x-on:click="$commandPaletteClose()">Close</x-button>
+<x-button x-on:click="$tsui.open.commandPalette()">Search</x-button>
+<x-button x-on:click="$tsui.close.commandPalette()">Close</x-button>
 ```
 
 ### Browser Events
