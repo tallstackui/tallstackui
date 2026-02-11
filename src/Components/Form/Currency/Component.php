@@ -52,4 +52,11 @@ class Component extends TallStackUiComponent implements Customization
             ],
         ]);
     }
+
+    protected function validate(): void
+    {
+        if ($this->precision < $this->decimals) {
+            __ts_validation_exception($this, 'The [precision] must be greater than or equal to [decimals].');
+        }
+    }
 }

@@ -59,7 +59,7 @@ export default (
     } else {
       const digits = String(current).replace(/\D/g, '');
 
-      number = parseFloat(digits) / 100;
+      number = parseFloat(digits) / Math.pow(10, this.decimals);
     }
 
     if (isNaN(number)) {
@@ -70,7 +70,7 @@ export default (
 
     this.input = new Intl.NumberFormat(this.locale, {
       minimumFractionDigits: this.decimals,
-      maximumFractionDigits: this.precision,
+      maximumFractionDigits: Math.max(this.decimals, this.precision),
     }).format(number);
   },
   /**

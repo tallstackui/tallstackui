@@ -43,3 +43,11 @@ it('can render with different prefix and suffix', function () {
         ->toContain('R$')
         ->toContain('BRL');
 });
+
+it('cannot use precision lower than decimals', function () {
+    $this->expectException(\Illuminate\View\ViewException::class);
+    $this->expectExceptionMessage('The [precision] must be greater than or equal to [decimals].');
+
+    expect('<x-currency :decimals="3" :precision="2" />')
+        ->render();
+});

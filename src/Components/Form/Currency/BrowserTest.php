@@ -165,6 +165,30 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_format_with_three_decimals(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $money = '';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="money">{{ $money }}</p>
+
+                    <x-currency dusk="input" wire:model.live="money" :decimals="3" :precision="5" mutate />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->typeSlowly('@input', '12345')
+            ->pause(500)
+            ->assertInputValue('@input', '12.345');
+    }
+
+    #[Test]
     public function can_see_validation_error(): void
     {
         Livewire::visit(new class extends Component
