@@ -33,6 +33,35 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_close_card_with_header_slot(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-card close>
+                        <x-slot:header>
+                            SlotHeader
+                        </x-slot:header>
+                        TallStackUi
+                    </x-card>
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->assertSee('SlotHeader')
+            ->assertSee('TallStackUi')
+            ->assertPresent('@tallstackui_card_close')
+            ->click('@tallstackui_card_close')
+            ->waitUntilMissingText('TallStackUi')
+            ->assertDontSee('SlotHeader')
+            ->assertDontSee('TallStackUi');
+    }
+
+    #[Test]
     public function can_minimize_card(): void
     {
         Livewire::visit(new class extends Component
@@ -54,6 +83,35 @@ class BrowserTest extends BrowserTestCase
             ->assertSee('TallStackUi')
             ->click('@tallstackui_card_minimize')
             ->waitUntilMissingText('TallStackUi')
+            ->assertDontSee('TallStackUi');
+    }
+
+    #[Test]
+    public function can_minimize_card_with_header_slot(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-card minimize>
+                        <x-slot:header>
+                            SlotHeader
+                        </x-slot:header>
+                        TallStackUi
+                    </x-card>
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->assertSee('SlotHeader')
+            ->assertSee('TallStackUi')
+            ->assertPresent('@tallstackui_card_minimize')
+            ->click('@tallstackui_card_minimize')
+            ->waitUntilMissingText('TallStackUi')
+            ->assertSee('SlotHeader')
             ->assertDontSee('TallStackUi');
     }
 

@@ -22,7 +22,7 @@
             </div>
         @endif
         @if ($header && ! $header instanceof \Illuminate\View\ComponentSlot)
-            <div @class([$customization['header.wrapper.base'], $colors['background']]) x-bind:class="{ '{{ $customization['header.wrapper.border'] }}' : !minimize }">
+            <div @class([$customization['header.wrapper.base'], $colors['background']]) x-bind:class="{ '{{ $customization['header.wrapper.border'] }}' : !minimize, 'rounded-b-lg' : minimize }">
                 <div class="{{ $customization['header.text.size'] }}">
                     {{ $header }}
                 </div>
@@ -56,8 +56,36 @@
                 @endif
             </div>
         @elseif ($header instanceof \Illuminate\View\ComponentSlot)
-            <div @class([$customization['header.wrapper.border'], $colors['background']])>
+            <div @class([$customization['header.wrapper.base'], $colors['background']]) x-bind:class="{ '{{ $customization['header.wrapper.border'] }}' : !minimize, 'rounded-b-lg' : minimize }">
                 {{ $header }}
+                @if ($minimize || $close)
+                    <div>
+                        @if ($minimize)
+                            <button type="button" class="cursor-pointer" x-on:click="minimize = !minimize"
+                                    dusk="tallstackui_card_minimize">
+                                <x-dynamic-component :component="TallStackUi::prefix('icon')"
+                                                     :icon="TallStackUi::icon('minus')"
+                                                     class="{{ $customization['button.minimize'] }}"
+                                                     internal
+                                                     x-show="!minimize" />
+                                <x-dynamic-component :component="TallStackUi::prefix('icon')"
+                                                     :icon="TallStackUi::icon('plus')"
+                                                     class="{{ $customization['button.maximize'] }}"
+                                                     internal
+                                                     x-show="minimize" />
+                            </button>
+                        @endif
+                        @if ($close)
+                            <button type="button" class="cursor-pointer" x-on:click="show = false"
+                                    dusk="tallstackui_card_close">
+                                <x-dynamic-component :component="TallStackUi::prefix('icon')"
+                                                     :icon="TallStackUi::icon('x-mark')"
+                                                     internal
+                                                     class="{{ $customization['button.close'] }}" />
+                            </button>
+                        @endif
+                    </div>
+                @endif
             </div>
         @endif
         <div {{ $attributes->class($customization['body']) }}
