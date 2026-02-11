@@ -23,9 +23,8 @@ jobs:
         php: [ 8.3 ]
         laravel: [ '11.*' ]
         livewire: [ '^3.0', '^4.0' ]
-        shard: [ 1, 2, 3, 4, 5 ]
 
-    name: Laravel:${{ matrix.laravel }} / Livewire:${{ matrix.livewire }} / Shard:${{ matrix.shard }}
+    name: Laravel:${{ matrix.laravel }} / Livewire:${{ matrix.livewire }}
 
     steps:
       - name: Checkout
@@ -91,6 +90,6 @@ jobs:
         run: ./vendor/bin/testbench view:clear
 
       - name: Tests
-        run: ./vendor/bin/pest --stop-on-failure --shard ${{ matrix.shard }}/5
+        run: ./vendor/bin/pest --stop-on-failure
         env:
           CI: true
