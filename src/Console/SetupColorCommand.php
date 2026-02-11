@@ -7,7 +7,6 @@ use Illuminate\Console\Command;
 use ReflectionClass;
 use ReflectionException;
 use TallStackUi\Attributes\ColorsThroughOf;
-use TallStackUi\Components\Form\Checkbox\Component as Checkbox;
 
 use function Laravel\Prompts\select;
 
@@ -26,12 +25,7 @@ class SetupColorCommand extends Command
             return self::FAILURE;
         }
 
-        $reject = [
-            // merged with Radio
-            Checkbox::class,
-        ];
-
-        $filtered = array_diff(__ts_filter_components_using_attribute(ColorsThroughOf::class), $reject);
+        $filtered = __ts_filter_components_using_attribute(ColorsThroughOf::class);
 
         $components = [];
         $map = [];

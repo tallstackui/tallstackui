@@ -11,11 +11,11 @@ use TallStackUi\Attributes\SkipDebug;
 use TallStackUi\Attributes\SoftCustomization;
 use TallStackUi\Components\Traits\FormSetup;
 use TallStackUi\Customization\Contracts\Customization;
-use TallStackUi\Support\Colors\Components\RadioColors;
+use TallStackUi\Support\Colors\Components\CheckboxColors;
 use TallStackUi\Support\Runtime\Components\CheckboxRuntime;
 use TallStackUi\TallStackUiComponent;
 
-#[ColorsThroughOf(RadioColors::class)]
+#[ColorsThroughOf(CheckboxColors::class)]
 #[SoftCustomization('form.checkbox')]
 #[PassThroughRuntime(CheckboxRuntime::class)]
 class Component extends TallStackUiComponent implements Customization
