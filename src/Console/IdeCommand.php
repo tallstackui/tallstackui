@@ -49,6 +49,7 @@ class IdeCommand extends Command
 
         foreach (
             collect($components)
+                ->map(fn (string|array $class) => is_array($class) ? $class[0] : $class)
                 ->filter(fn (string $class) => ! in_array($class, self::IGNORES)) as $name => $class
         ) {
             $list[] = [
