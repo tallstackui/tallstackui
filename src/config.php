@@ -222,6 +222,9 @@ return [
                     'unfiltered' => false,
                 ],
             ],
+            'upload' => [
+                'chunk' => 1024 * 1024 * 2, // 2MB
+            ],
         ],
 
         /*

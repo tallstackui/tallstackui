@@ -43,7 +43,10 @@
     "blade-ui-kit/blade-icons": "^1.7.0"
   },
   "scripts": {
-    "test": "./vendor/bin/pest",
+    "test": [
+      "Composer\\Config::disableProcessTimeout",
+      "./vendor/bin/pest"
+    ],
     "bench": "vendor/bin/testbench",
     "type": "./vendor/bin/pest --type-coverage",
     "rector": "php ./vendor/bin/rector process --dry-run --config=rector.php",

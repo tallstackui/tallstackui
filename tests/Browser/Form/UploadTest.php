@@ -13,6 +13,7 @@ use Livewire\Livewire;
 use Livewire\WithFileUploads;
 use PHPUnit\Framework\Attributes\Test;
 use Symfony\Component\Finder\SplFileInfo;
+use TallStackUi\Traits\WithChunkUploads;
 use Tests\Browser\BrowserTestCase;
 
 class UploadTest extends BrowserTestCase
@@ -33,7 +34,7 @@ class UploadTest extends BrowserTestCase
                     @if ($photo)
                         <p dusk="uploaded">{{ $photo->getClientOriginalName() }}</p>
                     @endif
-                    
+
                     <x-upload label="Document" wire:model.live="photo" close-after-upload />
                 </div>
                 HTML;
@@ -43,7 +44,7 @@ class UploadTest extends BrowserTestCase
             ->assertMissing('@uploaded')
             ->click('@tallstackui_upload_input')
             ->waitForText('Click here to upload')
-            ->attach('@tallstackui_file_select', __DIR__.'/../../Fixtures/test.jpeg')
+            ->attach('@tallstackui_file_select', __DIR__ . '/../../Fixtures/test.jpeg')
             ->waitForTextIn('@uploaded', 'test.jpeg')
             ->assertSeeIn('@uploaded', 'test.jpeg')
             ->assertNotVisible('@tallstackui_upload_floating');
@@ -56,7 +57,7 @@ class UploadTest extends BrowserTestCase
 
         File::ensureDirectoryExists(storage_path('app/public/test'));
 
-        File::copy(__DIR__.'/../../Fixtures/test.jpeg', public_path('storage/test/test.jpeg'));
+        File::copy(__DIR__ . '/../../Fixtures/test.jpeg', public_path('storage/test/test.jpeg'));
 
         $this->assertTrue(File::exists(public_path('storage/test/test.jpeg')));
 
@@ -68,12 +69,12 @@ class UploadTest extends BrowserTestCase
 
             public function mount(): void
             {
-                $this->photo = collect(File::allFiles(public_path('storage/test')))->map(fn (SplFileInfo $file) => [
+                $this->photo = collect(File::allFiles(public_path('storage/test')))->map(fn(SplFileInfo $file) => [
                     'name' => $file->getFilename(),
                     'extension' => $file->getExtension(),
                     'size' => $file->getSize(),
                     'path' => $file->getPathname(),
-                    'url' => Storage::url('public/test/'.$file->getFilename()),
+                    'url' => Storage::url('public/test/' . $file->getFilename()),
                 ])->toArray();
             }
 
@@ -81,9 +82,9 @@ class UploadTest extends BrowserTestCase
             {
                 return <<<'HTML'
                 <div>
-                    <x-upload label="Document" 
-                              wire:model.live="photo" 
-                              static 
+                    <x-upload label="Document"
+                              wire:model.live="photo"
+                              static
                               delete />
                 </div>
                 HTML;
@@ -99,7 +100,7 @@ class UploadTest extends BrowserTestCase
 
                 $files = Arr::wrap($this->photo);
 
-                $collect = collect($files)->filter(fn (array $item) => $item['name'] !== $content['real_name']);
+                $collect = collect($files)->filter(fn(array $item) => $item['name'] !== $content['real_name']);
 
                 $this->photo = $collect->toArray();
             }
@@ -137,7 +138,7 @@ class UploadTest extends BrowserTestCase
                     @if ($photo)
                         <p dusk="uploaded">{{ $photo->getClientOriginalName() }}</p>
                     @endif
-                    
+
                     <x-upload label="Document" wire:model.live="photo" delete />
                 </div>
                 HTML;
@@ -152,11 +153,11 @@ class UploadTest extends BrowserTestCase
                 $files = Arr::wrap($this->photo);
 
                 /** @var UploadedFile $file */
-                $file = collect($files)->filter(fn (UploadedFile $item) => $item->getFilename() === $content['temporary_name'])->first();
+                $file = collect($files)->filter(fn(UploadedFile $item) => $item->getFilename() === $content['temporary_name'])->first();
 
-                rescue(fn () => $file->delete(), report: false); // @phpstan-ignore-line
+                rescue(fn() => $file->delete(), report: false); // @phpstan-ignore-line
 
-                $collect = collect($files)->filter(fn (UploadedFile $item) => $item->getFilename() !== $content['temporary_name']);
+                $collect = collect($files)->filter(fn(UploadedFile $item) => $item->getFilename() !== $content['temporary_name']);
 
                 $this->photo = is_array($this->photo) ? $collect->toArray() : $collect->first();
             }
@@ -165,7 +166,7 @@ class UploadTest extends BrowserTestCase
             ->assertMissing('@uploaded')
             ->click('@tallstackui_upload_input')
             ->waitForText('Click here to upload')
-            ->attach('@tallstackui_file_select', __DIR__.'/../../Fixtures/test.jpeg')
+            ->attach('@tallstackui_file_select', __DIR__ . '/../../Fixtures/test.jpeg')
             ->waitForTextIn('@uploaded', 'test.jpeg')
             ->assertSeeIn('@uploaded', 'test.jpeg')
             ->waitForLivewire()
@@ -189,7 +190,7 @@ class UploadTest extends BrowserTestCase
                     @if ($photo)
                         <p dusk="uploaded">{{ $photo->getClientOriginalName() }}</p>
                     @endif
-                    
+
                     <x-upload label="Document" wire:model.live="photo" delete delete-method="fooBar" />
                 </div>
                 HTML;
@@ -204,11 +205,11 @@ class UploadTest extends BrowserTestCase
                 $files = Arr::wrap($this->photo);
 
                 /** @var UploadedFile $file */
-                $file = collect($files)->filter(fn (UploadedFile $item) => $item->getFilename() === $content['temporary_name'])->first();
+                $file = collect($files)->filter(fn(UploadedFile $item) => $item->getFilename() === $content['temporary_name'])->first();
 
-                rescue(fn () => $file->delete(), report: false); // @phpstan-ignore-line
+                rescue(fn() => $file->delete(), report: false); // @phpstan-ignore-line
 
-                $collect = collect($files)->filter(fn (UploadedFile $item) => $item->getFilename() !== $content['temporary_name']);
+                $collect = collect($files)->filter(fn(UploadedFile $item) => $item->getFilename() !== $content['temporary_name']);
 
                 $this->photo = is_array($this->photo) ? $collect->toArray() : $collect->first();
             }
@@ -217,7 +218,7 @@ class UploadTest extends BrowserTestCase
             ->assertMissing('@uploaded')
             ->click('@tallstackui_upload_input')
             ->waitForText('Click here to upload')
-            ->attach('@tallstackui_file_select', __DIR__.'/../../Fixtures/test.jpeg')
+            ->attach('@tallstackui_file_select', __DIR__ . '/../../Fixtures/test.jpeg')
             ->waitForTextIn('@uploaded', 'test.jpeg')
             ->assertSeeIn('@uploaded', 'test.jpeg')
             ->waitForLivewire()
@@ -237,7 +238,7 @@ class UploadTest extends BrowserTestCase
             public function render(): string
             {
                 return <<<'HTML'
-                <div>                    
+                <div>
                     <x-upload label="Document" wire:model="photo">
                         <x-slot:footer when-uploaded>
                             Foo Bar Baz
@@ -253,7 +254,7 @@ class UploadTest extends BrowserTestCase
             ->waitForText('Click here to upload')
             ->waitUntilMissingText('Foo Bar Baz')
             ->assertDontSee('Foo Bar Baz')
-            ->attach('@tallstackui_file_select', __DIR__.'/../../Fixtures/test.jpeg')
+            ->attach('@tallstackui_file_select', __DIR__ . '/../../Fixtures/test.jpeg')
             ->waitForText('Foo Bar Baz')
             ->assertSee('Foo Bar Baz');
     }
@@ -270,7 +271,7 @@ class UploadTest extends BrowserTestCase
             public function render(): string
             {
                 return <<<'HTML'
-                <div>                    
+                <div>
                     <x-upload label="Document" wire:model="photo" static />
                 </div>
                 HTML;
@@ -296,7 +297,7 @@ class UploadTest extends BrowserTestCase
             public function render(): string
             {
                 return <<<'HTML'
-                <div>                    
+                <div>
                     <x-upload label="Document" wire:model="photo">
                         <x-slot:footer>
                             Foo Bar Baz
@@ -331,7 +332,7 @@ class UploadTest extends BrowserTestCase
                     @if ($photo)
                         <p dusk="uploaded">{{ $photo->getClientOriginalName() }}</p>
                     @endif
-                    
+
                     <x-upload label="Document" wire:model.live="photo" />
                 </div>
                 HTML;
@@ -341,7 +342,7 @@ class UploadTest extends BrowserTestCase
             ->assertMissing('@uploaded')
             ->click('@tallstackui_upload_input')
             ->waitForText('Click here to upload')
-            ->attach('@tallstackui_file_select', __DIR__.'/../../Fixtures/test.jpeg')
+            ->attach('@tallstackui_file_select', __DIR__ . '/../../Fixtures/test.jpeg')
             ->waitForTextIn('@uploaded', 'test.jpeg')
             ->assertSeeIn('@uploaded', 'test.jpeg')
             ->click('@tallstackui_file_preview')
@@ -356,7 +357,7 @@ class UploadTest extends BrowserTestCase
 
         File::ensureDirectoryExists(storage_path('app/public/test'));
 
-        File::copy(__DIR__.'/../../Fixtures/test.jpeg', public_path('storage/test/test.jpeg'));
+        File::copy(__DIR__ . '/../../Fixtures/test.jpeg', public_path('storage/test/test.jpeg'));
 
         $this->assertTrue(File::exists(public_path('storage/test/test.jpeg')));
 
@@ -368,12 +369,12 @@ class UploadTest extends BrowserTestCase
 
             public function mount(): void
             {
-                $this->photo = collect(File::allFiles(public_path('storage/test')))->map(fn (SplFileInfo $file) => [
+                $this->photo = collect(File::allFiles(public_path('storage/test')))->map(fn(SplFileInfo $file) => [
                     'name' => $file->getFilename(),
                     'extension' => $file->getExtension(),
                     'size' => $file->getSize(),
                     'path' => $file->getPathname(),
-                    'url' => Storage::url('public/test/'.$file->getFilename()),
+                    'url' => Storage::url('public/test/' . $file->getFilename()),
                 ])->toArray();
             }
 
@@ -381,8 +382,8 @@ class UploadTest extends BrowserTestCase
             {
                 return <<<'HTML'
                 <div>
-                    <x-upload label="Document" 
-                              wire:model.live="photo" 
+                    <x-upload label="Document"
+                              wire:model.live="photo"
                               static />
                 </div>
                 HTML;
@@ -411,7 +412,7 @@ class UploadTest extends BrowserTestCase
             public function render(): string
             {
                 return <<<'HTML'
-                <div>                    
+                <div>
                     <x-upload label="Document" tip="Accept pdf or png" wire:model="photo" />
                 </div>
                 HTML;
@@ -442,7 +443,7 @@ class UploadTest extends BrowserTestCase
                     @if ($photo)
                         <p dusk="uploaded">{{ $photo->getClientOriginalName() }}</p>
                     @endif
-                    
+
                     <x-upload label="Document" wire:model.live="photo" />
                     <button dusk="save" wire:click="save">Save</button>
                 </div>
@@ -465,7 +466,7 @@ class UploadTest extends BrowserTestCase
             ->assertMissing('@uploaded')
             ->click('@tallstackui_upload_input')
             ->waitForText('Click here to upload')
-            ->attach('@tallstackui_file_select', __DIR__.'/../../Fixtures/test.jpeg')
+            ->attach('@tallstackui_file_select', __DIR__ . '/../../Fixtures/test.jpeg')
             ->click('@tallstackui_upload_input')
             ->pause(100)
             ->click('@save')
@@ -512,7 +513,7 @@ class UploadTest extends BrowserTestCase
                             <p dusk="uploaded-1">{{ $photos[1]->getClientOriginalName() }}</p>
                         @endif
                     @endif
-                    
+
                     <x-upload label="Document" wire:model="photos" multiple />
                 </div>
                 HTML;
@@ -535,7 +536,7 @@ class UploadTest extends BrowserTestCase
 
                 $file = Arr::flatten(array_merge($this->saved, [$this->photos]));
 
-                $this->photos = collect($file)->unique(fn (UploadedFile $item) => $item->getClientOriginalName())->toArray();
+                $this->photos = collect($file)->unique(fn(UploadedFile $item) => $item->getClientOriginalName())->toArray();
 
                 // This is only necessary in tests, to make sure
                 // the order of the files is always the same
@@ -552,8 +553,8 @@ class UploadTest extends BrowserTestCase
             ->assertMissing('@uploaded-1')
             ->click('@tallstackui_upload_input')
             ->waitForText('Click here to upload')
-            ->attach('@tallstackui_file_select', __DIR__.'/../../Fixtures/test.jpeg')
-            ->attach('@tallstackui_file_select', __DIR__.'/../../Fixtures/test.pdf')
+            ->attach('@tallstackui_file_select', __DIR__ . '/../../Fixtures/test.jpeg')
+            ->attach('@tallstackui_file_select', __DIR__ . '/../../Fixtures/test.pdf')
             // This is necessary because Livewire always send
             // request to the backend when file is uploaded
             ->waitForTextIn('@upload-finish', 'Uploaded')
@@ -579,7 +580,7 @@ class UploadTest extends BrowserTestCase
                     @if ($photo)
                         <p dusk="uploaded">{{ $photo->getClientOriginalName() }}</p>
                     @endif
-                    
+
                     <x-upload label="Document" wire:model.live="photo" />
                 </div>
                 HTML;
@@ -589,7 +590,7 @@ class UploadTest extends BrowserTestCase
             ->assertMissing('@uploaded')
             ->click('@tallstackui_upload_input')
             ->waitForText('Click here to upload')
-            ->attach('@tallstackui_file_select', __DIR__.'/../../Fixtures/test.jpeg')
+            ->attach('@tallstackui_file_select', __DIR__ . '/../../Fixtures/test.jpeg')
             ->waitForTextIn('@uploaded', 'test.jpeg')
             ->assertSeeIn('@uploaded', 'test.jpeg');
     }
@@ -610,7 +611,7 @@ class UploadTest extends BrowserTestCase
                     @if ($form)
                         <p dusk="uploaded">{{ $form->photo?->getClientOriginalName() }}</p>
                     @endif
-                    
+
                     <x-upload label="Document" wire:model.live="form.photo" />
                 </div>
                 HTML;
@@ -620,7 +621,7 @@ class UploadTest extends BrowserTestCase
             ->assertMissing('@uploaded')
             ->click('@tallstackui_upload_input')
             ->waitForText('Click here to upload')
-            ->attach('@tallstackui_file_select', __DIR__.'/../../Fixtures/test.jpeg')
+            ->attach('@tallstackui_file_select', __DIR__ . '/../../Fixtures/test.jpeg')
             ->waitForTextIn('@uploaded', 'test.jpeg')
             ->assertSeeIn('@uploaded', 'test.jpeg');
     }
@@ -632,7 +633,7 @@ class UploadTest extends BrowserTestCase
 
         File::ensureDirectoryExists(storage_path('app/public/test'));
 
-        File::copy(__DIR__.'/../../Fixtures/test.jpeg', public_path('storage/test/test.jpeg'));
+        File::copy(__DIR__ . '/../../Fixtures/test.jpeg', public_path('storage/test/test.jpeg'));
 
         $this->assertTrue(File::exists(public_path('storage/test/test.jpeg')));
 
@@ -644,12 +645,12 @@ class UploadTest extends BrowserTestCase
 
             public function mount(): void
             {
-                $this->photo = collect(File::allFiles(public_path('storage/test')))->map(fn (SplFileInfo $file) => [
+                $this->photo = collect(File::allFiles(public_path('storage/test')))->map(fn(SplFileInfo $file) => [
                     'name' => $file->getFilename(),
                     'extension' => $file->getExtension(),
                     'size' => $file->getSize(),
                     'path' => $file->getPath(),
-                    'url' => Storage::url('test/'.$file->getFilename()),
+                    'url' => Storage::url('test/' . $file->getFilename()),
                 ])->toArray();
             }
 
@@ -657,8 +658,8 @@ class UploadTest extends BrowserTestCase
             {
                 return <<<'HTML'
                 <div>
-                    <x-upload label="Document" 
-                              wire:model.live="photo" 
+                    <x-upload label="Document"
+                              wire:model.live="photo"
                               static />
                 </div>
                 HTML;
@@ -691,12 +692,12 @@ class UploadTest extends BrowserTestCase
                     @if ($removed)
                         <p dusk="remove">{{ $removed }}</p>
                     @endif
-                
+
                     @if ($photo)
                         <p dusk="uploaded">{{ $photo->getClientOriginalName() }}</p>
                     @endif
-                    
-                    <x-upload label="Document" 
+
+                    <x-upload label="Document"
                               wire:model.live="photo"
                               x-on:remove="$wire.set('removed', 'Remove')"
                               delete />
@@ -713,11 +714,11 @@ class UploadTest extends BrowserTestCase
                 $files = Arr::wrap($this->photo);
 
                 /** @var UploadedFile $file */
-                $file = collect($files)->filter(fn (UploadedFile $item) => $item->getFilename() === $content['temporary_name'])->first();
+                $file = collect($files)->filter(fn(UploadedFile $item) => $item->getFilename() === $content['temporary_name'])->first();
 
-                rescue(fn () => $file->delete(), report: false); // @phpstan-ignore-line
+                rescue(fn() => $file->delete(), report: false); // @phpstan-ignore-line
 
-                $collect = collect($files)->filter(fn (UploadedFile $item) => $item->getFilename() !== $content['temporary_name']);
+                $collect = collect($files)->filter(fn(UploadedFile $item) => $item->getFilename() !== $content['temporary_name']);
 
                 $this->photo = is_array($this->photo) ? $collect->toArray() : $collect->first();
             }
@@ -726,7 +727,7 @@ class UploadTest extends BrowserTestCase
             ->assertMissing('@uploaded')
             ->click('@tallstackui_upload_input')
             ->waitForText('Click here to upload')
-            ->attach('@tallstackui_file_select', __DIR__.'/../../Fixtures/test.jpeg')
+            ->attach('@tallstackui_file_select', __DIR__ . '/../../Fixtures/test.jpeg')
             ->waitForTextIn('@uploaded', 'test.jpeg')
             ->assertSeeIn('@uploaded', 'test.jpeg')
             ->waitForLivewire()
@@ -755,13 +756,13 @@ class UploadTest extends BrowserTestCase
                     @if ($uploaded)
                         <p dusk="upload">{{ $uploaded }}</p>
                     @endif
-                    
+
                     @if ($photo)
                         <p dusk="uploaded">{{ $photo->getClientOriginalName() }}</p>
                     @endif
-                    
-                    <x-upload label="Document" 
-                              wire:model.live="photo" 
+
+                    <x-upload label="Document"
+                              wire:model.live="photo"
                               x-on:upload="$wire.set('uploaded', 'Upload')" />
                 </div>
                 HTML;
@@ -771,12 +772,44 @@ class UploadTest extends BrowserTestCase
             ->assertMissing('@uploaded')
             ->click('@tallstackui_upload_input')
             ->waitForText('Click here to upload')
-            ->attach('@tallstackui_file_select', __DIR__.'/../../Fixtures/test.jpeg')
+            ->attach('@tallstackui_file_select', __DIR__ . '/../../Fixtures/test.jpeg')
             ->waitForTextIn('@uploaded', 'test.jpeg')
             ->assertSeeIn('@uploaded', 'test.jpeg')
             ->assertVisible('@upload')
             ->waitForTextIn('@upload', 'Upload')
             ->assertSeeIn('@upload', 'Upload');
+    }
+
+    #[Test]
+    public function can_upload_single_file_in_chunks(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            use WithFileUploads;
+            use WithChunkUploads;
+
+            public $photo;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    @if ($photo)
+                        <p dusk="uploaded">{{ $photo->getClientOriginalName() }}</p>
+                    @endif
+
+                    <x-upload label="Document" wire:model.live="photo" chunk />
+                </div>
+                HTML;
+            }
+        })
+            ->assertSee('Document')
+            ->assertMissing('@uploaded')
+            ->click('@tallstackui_upload_input')
+            ->waitForText('Click here to upload')
+            ->attach('@tallstackui_file_select', __DIR__ . '/../../Fixtures/test.jpeg')
+            ->waitForTextIn('@uploaded', 'test.jpeg')
+            ->assertSeeIn('@uploaded', 'test.jpeg');
     }
 }
 
