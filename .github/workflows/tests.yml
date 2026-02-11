@@ -91,7 +91,7 @@ jobs:
         run: ./vendor/bin/testbench view:clear
 
       - name: Tests (Feature)
-        run: ./vendor/bin/pest --stop-on-failure --stop-on-error --group Feature --parallel
+        run: ./vendor/bin/pest --stop-on-failure --stop-on-error --filter Feature --parallel
         env:
           CI: true
 
@@ -99,6 +99,6 @@ jobs:
         run: ./vendor/bin/testbench view:clear
 
       - name: Tests (Browser)
-        run: ./vendor/bin/pest --stop-on-failure --stop-on-error --group Browser
+        run: ./vendor/bin/pest --stop-on-failure --stop-on-error --filter Browser
         env:
           CI: true
