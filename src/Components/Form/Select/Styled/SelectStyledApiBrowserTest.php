@@ -290,6 +290,112 @@ class SelectStyledApiBrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function request_params_update_when_livewire_property_changes(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $item = null;
+
+            public string $category = 'A';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="category">{{ $category }}</p>
+                    <p dusk="selected">{{ $item }}</p>
+
+                    <x-select.styled wire:model.live="item"
+                                    :request="[
+                                        'url' => route('searchable.by-category'),
+                                        'method' => 'post',
+                                        'params' => ['category' => $this->category],
+                                    ]"
+                                    label="Items"
+                                    select="label:label|value:value"
+                    />
+
+                    <x-button dusk="switch-b" wire:click="$set('category', 'B')">Switch to B</x-button>
+                </div>
+                HTML;
+            }
+        })
+            ->assertSeeIn('@category', 'A')
+            ->click('@tallstackui_select_open_close')
+            ->waitForText('Alpha One')
+            ->assertSee('Alpha Two')
+            ->assertDontSee('Beta One')
+            ->click('@tallstackui_select_open_close')
+            ->pause(200)
+            ->click('@switch-b')
+            ->waitForTextIn('@category', 'B')
+            ->pause(200)
+            ->click('@tallstackui_select_open_close')
+            ->waitForText('Beta One')
+            ->assertSee('Beta Two')
+            ->assertDontSee('Alpha One');
+    }
+
+    #[Test]
+    public function request_params_update_across_multiple_sequential_changes(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $item = null;
+
+            public string $category = 'A';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="category">{{ $category }}</p>
+
+                    <x-select.styled wire:model.live="item"
+                                    :request="[
+                                        'url' => route('searchable.by-category'),
+                                        'method' => 'post',
+                                        'params' => ['category' => $this->category],
+                                    ]"
+                                    label="Items"
+                                    select="label:label|value:value"
+                    />
+
+                    <x-button dusk="switch-a" wire:click="$set('category', 'A')">Switch to A</x-button>
+                    <x-button dusk="switch-b" wire:click="$set('category', 'B')">Switch to B</x-button>
+                </div>
+                HTML;
+            }
+        })
+            // 1. Initial state: category A
+            ->assertSeeIn('@category', 'A')
+            ->click('@tallstackui_select_open_close')
+            ->waitForText('Alpha One')
+            ->assertSee('Alpha Two')
+            ->assertDontSee('Beta One')
+            ->click('@tallstackui_select_open_close')
+            ->pause(200)
+            // 2. Switch to B → verify
+            ->click('@switch-b')
+            ->waitForTextIn('@category', 'B')
+            ->pause(200)
+            ->click('@tallstackui_select_open_close')
+            ->waitForText('Beta One')
+            ->assertSee('Beta Two')
+            ->assertDontSee('Alpha One')
+            ->click('@tallstackui_select_open_close')
+            ->pause(200)
+            // 3. Switch back to A → verify again
+            ->click('@switch-a')
+            ->waitForTextIn('@category', 'A')
+            ->pause(200)
+            ->click('@tallstackui_select_open_close')
+            ->waitForText('Alpha One')
+            ->assertSee('Alpha Two')
+            ->assertDontSee('Beta One');
+    }
+
+    #[Test]
     public function can_unselect(): void
     {
         Livewire::visit(StyledComponent_Searchable::class)

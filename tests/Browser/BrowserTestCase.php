@@ -138,6 +138,24 @@ class BrowserTestCase extends TestCase
                 ],
             ];
         })->name('searchable.filtered');
+
+        $router->match(['get', 'post'], '/searchable-by-category', function (Request $request) {
+            $category = $request->input('category', 'none');
+
+            return match ($category) {
+                'A' => [
+                    ['label' => 'Alpha One', 'value' => 'alpha-1'],
+                    ['label' => 'Alpha Two', 'value' => 'alpha-2'],
+                ],
+                'B' => [
+                    ['label' => 'Beta One', 'value' => 'beta-1'],
+                    ['label' => 'Beta Two', 'value' => 'beta-2'],
+                ],
+                default => [
+                    ['label' => 'Default Item', 'value' => 'default'],
+                ],
+            };
+        })->name('searchable.by-category');
     }
 
     protected function getApplicationTimezone($app): string
