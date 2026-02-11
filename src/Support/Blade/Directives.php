@@ -16,11 +16,11 @@ class Directives
     {
         Blade::directive('tallStackUiScript', fn (): string => Facade::directives()->script());
 
-        Blade::directive('tallStackUiStyle', fn (mixed $expression): string => Facade::directives()->style($expression));
+        Blade::directive('tallStackUiStyle', fn (): string => Facade::directives()->style());
 
-        Blade::directive('tallStackUiSetup', function (mixed $expression): string {
+        Blade::directive('tallStackUiSetup', function (): string {
             $script = Facade::directives()->script();
-            $style = Facade::directives()->style($expression);
+            $style = Facade::directives()->style();
 
             return "{$script}\n{$style}";
         });

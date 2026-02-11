@@ -61,6 +61,7 @@ class Component extends TallStackUiComponent implements Customization
                 'wrapper' => [
                     'base' => 'flex items-center justify-between p-4',
                     'border' => 'dark:border-b-dark-600 border-b border-gray-100',
+                    'minimize' => 'rounded-b-lg',
                 ],
                 'text' => [
                     'size' => 'text-md font-medium',

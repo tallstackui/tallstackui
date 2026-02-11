@@ -22,7 +22,7 @@
             </div>
         @endif
         @if ($header && ! $header instanceof \Illuminate\View\ComponentSlot)
-            <div @class([$customization['header.wrapper.base'], $colors['background']]) x-bind:class="{ '{{ $customization['header.wrapper.border'] }}' : !minimize, 'rounded-b-lg' : minimize }">
+            <div @class([$customization['header.wrapper.base'], $colors['background']]) x-bind:class="{ '{{ $customization['header.wrapper.border'] }}' : !minimize, '{{ $customization['header.wrapper.minimize'] }}' : minimize }">
                 <div class="{{ $customization['header.text.size'] }}">
                     {{ $header }}
                 </div>
@@ -56,7 +56,7 @@
                 @endif
             </div>
         @elseif ($header instanceof \Illuminate\View\ComponentSlot)
-            <div @class([$customization['header.wrapper.base'], $colors['background']]) x-bind:class="{ '{{ $customization['header.wrapper.border'] }}' : !minimize, 'rounded-b-lg' : minimize }">
+            <div @class([$customization['header.wrapper.base'], $colors['background']]) x-bind:class="{ '{{ $customization['header.wrapper.border'] }}' : !minimize, '{{ $customization['header.wrapper.minimize'] }}' : minimize }">
                 {{ $header }}
                 @if ($minimize || $close)
                     <div>
