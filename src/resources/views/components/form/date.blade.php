@@ -26,6 +26,7 @@
      @js($weekends))"
      x-cloak x-on:click.outside="show = false">
     <x-dynamic-component :component="TallStackUi::prefix('input')"
+                         scope="form.date.input"
                          {{ $attributes->except(['name', 'value']) }}
                          :$label
                          :$hint
@@ -58,6 +59,7 @@
         </x-slot:suffix>
     </x-dynamic-component>
     <x-dynamic-component :component="TallStackUi::prefix('floating')"
+                         scope="form.date.floating"
                          :floating="$customization['floating.default']"
                          :class="$customization['floating.class']"
                          x-bind:class="{ 'h-[17rem]' : picker.year || picker.month }">

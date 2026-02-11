@@ -19,6 +19,7 @@
             @isset ($filter['quantity'])
                 <div class="{{ $customization['filter.quantity'] }}">
                     <x-dynamic-component :component="TallStackUi::prefix('select.styled')"
+                                         scope="table.select-styled"
                                          :label="data_get($placeholders, 'quantity')"
                                          :options="$quantity"
                                          wire:model.live="{{ $filter['quantity'] }}"
@@ -29,6 +30,7 @@
             @isset ($filter['search'])
                 <div class="{{ $customization['filter.search'] }}">
                     <x-dynamic-component :component="TallStackUi::prefix('input')"
+                                         scope="table.input"
                                          :icon="TallStackUi::icon('magnifying-glass')"
                                          wire:model.live.debounce.500ms="{{ $filter['search'] }}"
                                          :placeholder="data_get($placeholders, 'search')"
@@ -55,6 +57,7 @@
                         @if ($selectable)
                             <th @class(['w-6', $customization['table.th']]) wire:key="checkall-{{ implode(',', $ids()) }}">
                                 <x-dynamic-component :component="TallStackUi::prefix('checkbox')"
+                                                     scope="table.checkbox"
                                                      x-ref="checkbox"
                                                      x-on:click="all($el.checked, {{ \Illuminate\Support\Js::from($ids()) }})"
                                                      dusk="tallstackui_table_select_all"
@@ -123,6 +126,7 @@
                             @if ($selectable)
                                 <td class="{{ $customization['table.td'] }}">
                                     <x-dynamic-component :component="TallStackUi::prefix('checkbox')"
+                                                         scope="table.checkbox"
                                                          id="checkbox-{{ $key }}"
                                                          :attributes="$modifier()"
                                                          value="{{ data_get($value, $selectableProperty) }}"

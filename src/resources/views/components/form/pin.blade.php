@@ -11,7 +11,7 @@
 
 <div>
     @if ($label)
-        <x-dynamic-component :component="TallStackUi::prefix('label')" :$label :$error />
+        <x-dynamic-component :component="TallStackUi::prefix('label')" scope="form.pin.label" :$label :$error />
     @endif
     <div x-data="tallstackui_formPin(
              {!! $entangle !!},
@@ -83,9 +83,9 @@
         </div>
     </div>
     @if ($hint && !$error)
-        <x-dynamic-component :component="TallStackUi::prefix('hint')" :$hint />
+        <x-dynamic-component :component="TallStackUi::prefix('hint')" scope="form.pin.hint" :$hint />
     @endif
     @if ($error)
-        <x-dynamic-component :component="TallStackUi::prefix('error')" :$property />
+        <x-dynamic-component :component="TallStackUi::prefix('error')" scope="form.pin.error" :$property />
     @endif
 </div>

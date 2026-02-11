@@ -660,6 +660,34 @@ it('can set the scope using method', function () {
         ->not->toContain('text-lg');
 });
 
+it('can customize scoped with dotted scope name', function () {
+    $component = <<<'HTML'
+    <x-alert title="Foo bar" />
+    HTML;
+
+    expect($component)->render()->not->toContain('text-xl');
+
+    TallStackUi::customize('alert', 'form.color.input')
+        ->block('text.title')
+        ->replace('text-lg', 'text-xl');
+
+    $component = <<<'HTML'
+    <x-alert title="Foo bar" scope="form.color.input" />
+    HTML;
+
+    expect($component)->render()
+        ->toContain('text-xl')
+        ->not->toContain('text-lg');
+
+    $unscoped = <<<'HTML'
+    <x-alert title="Foo bar" />
+    HTML;
+
+    expect($unscoped)->render()
+        ->toContain('text-lg')
+        ->not->toContain('text-xl');
+});
+
 it('cannot customize wrong component', function () {
     $this->expectException(Exception::class);
 

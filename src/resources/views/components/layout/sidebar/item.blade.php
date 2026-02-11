@@ -35,6 +35,7 @@
                 @if ($badge !== null)
                     @if ($collapsible)
                         <x-dynamic-component :component="TallStackUi::prefix('badge')"
+                                             scope="sidebar.item.badge"
                                              :color="$badgeColor"
                                              round
                                              xs
@@ -45,6 +46,7 @@
                                              }">{{ $badge }}</x-dynamic-component>
                     @else
                         <x-dynamic-component :component="TallStackUi::prefix('badge')"
+                                             scope="sidebar.item.badge"
                                              :color="$badgeColor"
                                              round
                                              xs
@@ -102,6 +104,7 @@
                 @if ($badge !== null)
                     @if ($collapsible)
                         <x-dynamic-component :component="TallStackUi::prefix('badge')"
+                                             scope="sidebar.item.badge"
                                              :color="$badgeColor"
                                              round
                                              xs
@@ -112,6 +115,7 @@
                                              }">{{ $badge }}</x-dynamic-component>
                     @else
                         <x-dynamic-component :component="TallStackUi::prefix('badge')"
+                                             scope="sidebar.item.badge"
                                              :color="$badgeColor"
                                              round
                                              xs

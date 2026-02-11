@@ -4,7 +4,7 @@
 
 <div x-data="tallstackui_clipboard(@js($sentence), @js($hash), @js($type), @js($placeholders['button']))" {!! $attributes->except('x-on:copy') !!}>
     @if ($type === 'input' && $label)
-        <x-dynamic-component :component="TallStackUi::prefix('label')" :$label />
+        <x-dynamic-component :component="TallStackUi::prefix('label')" scope="clipboard.label" :$label />
     @endif
     <div class="mt-1 flex" wire:key="{{ uniqid() }}" wire:ignore.self>
         @if ($type === 'input')
@@ -65,6 +65,6 @@
         @endif
     </div>
     @if ($type === 'input' && $hint)
-        <x-dynamic-component :component="TallStackUi::prefix('hint')" :$hint />
+        <x-dynamic-component :component="TallStackUi::prefix('hint')" scope="clipboard.hint" :$hint />
     @endif
 </div>

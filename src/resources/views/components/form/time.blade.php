@@ -18,6 +18,7 @@
     @js($change))"
      x-cloak x-on:click.outside="show = false">
     <x-dynamic-component :component="TallStackUi::prefix('input')"
+                         scope="form.time.input"
                          {{ $attributes->except('name') }}
                          :$label
                          :$hint
@@ -51,6 +52,7 @@
         </x-slot:suffix>
     </x-dynamic-component>
     <x-dynamic-component :component="TallStackUi::prefix('floating')"
+                         scope="form.time.floating"
                          :floating="$customization['floating.default']"
                          :class="$customization['floating.class']">
         <div @class(['flex flex-col', 'mb-2' => $helper || $footer?->isNotEmpty(), 'w-full' => $format === '24'])>
@@ -109,6 +111,7 @@
             <x-slot:footer>
                 @if ($helper)
                     <x-dynamic-component :component="TallStackUi::prefix('button')"
+                                         scope="form.time.button"
                                          :text="trans('ts-ui::messages.time.helper')"
                                          type="button"
                                          @class([$customization['helper.button'], 'mt-2' => $format === '24'])

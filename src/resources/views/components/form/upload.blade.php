@@ -22,6 +22,7 @@
         <p hidden x-ref="placeholder">{{ $placeholder }}</p>
     @endif
     <x-dynamic-component :component="TallStackUi::prefix('input')"
+                         scope="form.upload.input"
                          :value="$placeholder"
                          :$hint
                          x-on:click="show = !show"
@@ -43,6 +44,7 @@
         <x-slot:label>
             @if ($label)
                 <x-dynamic-component :component="TallStackUi::prefix('label')"
+                                     scope="form.upload.label"
                                      :$id
                                      :$label
                                      x-on:click="$event.preventDefault()"
@@ -83,6 +85,7 @@
         </template>
     @endif
     <x-dynamic-component :component="TallStackUi::prefix('floating')"
+                         scope="form.upload.floating"
                          :floating="$customization['floating.default']"
                          :class="$customization['floating.class']"
                          dusk="tallstackui_upload_floating">
@@ -145,6 +148,7 @@
                                 <div class="flex-auto min-w-0">
                                     <p class="{{ $customization['item.title'] }}">{{ $file['real_name'] }}</p>
                                     <x-dynamic-component :component="TallStackUi::prefix('error')"
+                                                         scope="form.upload.error"
                                                          :property="is_array($value) ? $property . '.' . $key : $property" />
                                     @if ($file['size'] !== null)
                                         <p class="{{ $customization['item.size'] }}">

@@ -33,6 +33,7 @@
         @endif
     </button>
     <x-dynamic-component :component="TallStackUi::prefix('floating')"
+                         scope="dropdown.submenu.floating"
                          :floating="$customization['floating.default']"
                          :$position
                          offset="8"

@@ -116,6 +116,7 @@
                                     dusk="tallstackui_dialog_rejection"></button>
                         @else
                             <x-dynamic-component :component="TallStackUi::prefix('button')"
+                                                 scope="dialog.button"
                                                  :color="$colors['cancel']"
                                                  class="w-full text-sm focus:ring-0! focus:ring-offset-0!"
                                                  x-on:click="reject(dialog, $el)"

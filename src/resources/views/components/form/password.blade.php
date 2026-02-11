@@ -5,6 +5,7 @@
 <div x-data="tallstackui_formPassword({!! $entangle !!}, @js($rules ?? []), @js($typingOnly), @js($value))"
      class="relative" x-cloak x-on:click.outside="rules = false">
     <x-dynamic-component :component="TallStackUi::prefix('input')"
+                         scope="form.password.input"
                          {{ $attributes->merge($password)->except(['autocomplete', 'x-on:reveal', 'x-on:generate']) }}
                          :$label
                          :$hint
@@ -54,6 +55,7 @@
     </x-dynamic-component>
     @if ($rules?->isNotEmpty())
         <x-dynamic-component :component="TallStackUi::prefix('floating')"
+                             scope="form.password.floating"
                              :floating="$customization['floating.default']"
                              :class="$customization['floating.class']"
                              x-show="rules">

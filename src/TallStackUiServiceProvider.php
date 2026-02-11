@@ -123,7 +123,7 @@ class TallStackUiServiceProvider extends ServiceProvider
     {
         $this->publishes([__DIR__.'/config.php' => config_path('tallstackui.php')], 'tallstackui.config');
 
-        $this->publishes([__DIR__.'/lang' => lang_path('vendor/ts-ui')], 'tallstackui.lang');
+        $this->publishes([__DIR__.'/../lang' => lang_path('vendor/ts-ui')], 'tallstackui.lang');
 
         $this->publishes([__DIR__.'/resources/views' => resource_path('views/vendor/ts-ui')], 'tallstackui.views');
 

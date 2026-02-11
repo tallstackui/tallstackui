@@ -38,7 +38,7 @@
         <div hidden x-ref="params">{{ TallStackUi::blade()->json($request['params']) }}</div>
     @endif
     @if ($label && !$side)
-        <x-dynamic-component :component="TallStackUi::prefix('label')" :$label :$error />
+        <x-dynamic-component :component="TallStackUi::prefix('label')" scope="form.select-styled.label" :$label :$error />
     @endif
     <div class="relative" x-on:click.outside="show = false">
         <button type="button"
@@ -125,6 +125,7 @@
             @endif
         </button>
         <x-dynamic-component :component="TallStackUi::prefix('floating')"
+                             scope="form.select-styled.floating"
                              :floating="$customization['floating.default']"
                              @class([$customization['floating.class'], $customization['floating.side'] => $side])
                              :position="$side === 'left' ? 'bottom-start' : 'bottom-end'"
@@ -132,6 +133,7 @@
             <template x-if="searchable">
                 <div class="{{ $customization['box.searchable.wrapper'] }}">
                     <x-dynamic-component :component="TallStackUi::prefix('input')"
+                                         scope="form.select-styled.input"
                                          :placeholder="data_get($placeholders, 'search')"
                                          x-model.debounce.500ms="search"
                                          x-ref="search"
@@ -248,9 +250,9 @@
         </x-dynamic-component>
     </div>
     @if ($hint && !$error && !$side)
-        <x-dynamic-component :component="TallStackUi::prefix('hint')" :$hint />
+        <x-dynamic-component :component="TallStackUi::prefix('hint')" scope="form.select-styled.hint" :$hint />
     @endif
     @if ($error && !$side)
-        <x-dynamic-component :component="TallStackUi::prefix('error')" :$property />
+        <x-dynamic-component :component="TallStackUi::prefix('error')" scope="form.select-styled.error" :$property />
     @endif
 </div>

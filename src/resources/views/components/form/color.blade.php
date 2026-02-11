@@ -18,6 +18,7 @@
         @js($excludedStep))"
      x-cloak>
     <x-dynamic-component :component="TallStackUi::prefix('input')"
+                         scope="form.color.input"
                          {{ $attributes->merge($select)->class([
                             '-ml-3',
                             'cursor-pointer caret-transparent' => $selectable,
@@ -63,6 +64,7 @@
         </x-slot:suffix>
     </x-dynamic-component>
     <x-dynamic-component :component="TallStackUi::prefix('floating')"
+                         scope="form.color.floating"
                          :floating="$customization['floating.default']"
                          :class="$customization['floating.class']"
                          x-on:click.outside="show = false">
