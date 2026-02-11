@@ -25,9 +25,12 @@ body:
       options:
         - Alert
         - Avatar
+        - Avatar Group
+        - Back to Top
         - Badge
         - Banner
         - Boolean
+        - Breadcrumbs
         - Button
         - Button Circle
         - Card
@@ -35,8 +38,10 @@ body:
         - Checkbox
         - Clipboard
         - Color
+        - Command Palette
         - Currency
         - Date
+        - Dial
         - Dialog
         - Dropdown
         - Environment
@@ -44,16 +49,19 @@ body:
         - Hint
         - Icon
         - Input
+        - Input Select
+        - Kbd
+        - KeyValue
         - Label
         - Layout
         - Link
         - Loading
-        - KeyValue
         - Modal
         - Number
         - Password
         - Pin
         - Progress
+        - Progress Circle
         - Radio
         - Range
         - Rating
