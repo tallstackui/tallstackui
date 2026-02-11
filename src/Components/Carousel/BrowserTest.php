@@ -98,7 +98,7 @@ class BrowserTest extends BrowserTestCase
             ->waitForText('1-foo')
             ->assertSee('1-foo')
             ->assertSee('1-bar')
-            ->assertPresent('@next');
+            ->waitFor('@next');
     }
 
     #[Test]

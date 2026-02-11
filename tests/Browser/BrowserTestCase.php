@@ -198,9 +198,7 @@ class BrowserTestCase extends TestCase
 
     protected function setUp(): void
     {
-        if (isset($_SERVER['CI'])) {
-            Options::withoutUI();
-        }
+        Options::withoutUI();
 
         $this->afterApplicationCreated(fn () => $this->clean());
 
