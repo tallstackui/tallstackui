@@ -113,7 +113,7 @@ class BrowserTest extends BrowserTestCase
             ->typeSlowly('@input', '1000')
             ->assertInputValue('@input', '10,00')
             ->click('@tallstackui_form_currency_clearable')
-            ->waitForLivewire()
+            ->pause(500)
             ->assertInputValue('@input', '')
             ->pause(100)
             ->assertNotVisible('@money');
