@@ -19,7 +19,7 @@ class BrowserTest extends BrowserTestCase
                 return <<<'HTML'
                 <div>
                     <x-command-palette request="https://example.com/search" select="label:title|value:id" />
-                    <x-button dusk="open" x-on:click="$commandPaletteOpen()">Open</x-button>
+                    <x-button dusk="open" x-on:click="$tsui.open.commandPalette()">Open</x-button>
                 </div>
                 HTML;
             }
@@ -43,7 +43,7 @@ class BrowserTest extends BrowserTestCase
                 return <<<'HTML'
                 <div>
                     <x-command-palette request="https://example.com/search" select="label:title|value:id" />
-                    <x-button dusk="open" x-on:click="$commandPaletteOpen()">Open</x-button>
+                    <x-button dusk="open" x-on:click="$tsui.open.commandPalette()">Open</x-button>
                 </div>
                 HTML;
             }
@@ -53,7 +53,7 @@ class BrowserTest extends BrowserTestCase
             ->waitFor('@tallstackui_command_palette')
             ->assertVisible('@tallstackui_command_palette');
 
-        $browser->script('$commandPaletteClose()');
+        $browser->script('$tsui.close.commandPalette()');
 
         $browser->waitUntilMissing('@tallstackui_command_palette')
             ->assertMissing('@tallstackui_command_palette');
@@ -69,7 +69,7 @@ class BrowserTest extends BrowserTestCase
                 return <<<'HTML'
                 <div>
                     <x-command-palette request="https://example.com/search" select="label:title|value:id" />
-                    <x-button dusk="open" x-on:click="$commandPaletteOpen()">Open</x-button>
+                    <x-button dusk="open" x-on:click="$tsui.open.commandPalette()">Open</x-button>
                 </div>
                 HTML;
             }
@@ -117,7 +117,7 @@ class BrowserTest extends BrowserTestCase
                 return <<<'HTML'
                 <div>
                     <x-command-palette request="https://example.com/search" select="label:title|value:id" />
-                    <x-button dusk="open" x-on:click="$commandPaletteOpen()">Open</x-button>
+                    <x-button dusk="open" x-on:click="$tsui.open.commandPalette()">Open</x-button>
                 </div>
                 HTML;
             }
@@ -154,7 +154,7 @@ class BrowserTest extends BrowserTestCase
                 return <<<'HTML'
                 <div>
                     <x-command-palette request="https://example.com/search" select="label:title|value:id" />
-                    <x-button dusk="open" x-on:click="$commandPaletteOpen()">Open</x-button>
+                    <x-button dusk="open" x-on:click="$tsui.open.commandPalette()">Open</x-button>
                 </div>
                 HTML;
             }
@@ -177,7 +177,7 @@ class BrowserTest extends BrowserTestCase
                 return <<<'HTML'
                 <div>
                     <x-command-palette request="https://example.com/search" select="label:title|value:id" />
-                    <x-button dusk="open" x-on:click="$commandPaletteOpen()">Open</x-button>
+                    <x-button dusk="open" x-on:click="$tsui.open.commandPalette()">Open</x-button>
                 </div>
                 HTML;
             }

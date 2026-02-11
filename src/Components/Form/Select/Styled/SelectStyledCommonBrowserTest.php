@@ -95,7 +95,7 @@ class SelectStyledCommonBrowserTest extends BrowserTestCase
                 <div>
                     <p dusk="string">{{ $string }}</p>
 
-                    <x-button dusk="close" x-on:click="$selectClose('test')">Close</x-button>
+                    <x-button dusk="close" x-on:click="$tsui.close.select('test')">Close</x-button>
 
                     <x-select.styled wire:model="string"
                                      id="test"
@@ -418,7 +418,7 @@ class SelectStyledCommonBrowserTest extends BrowserTestCase
                                      select="label:label|value:value"
                     />
 
-                    <x-button dusk="open" x-on:click="$selectOpen('test')">Open</x-button>
+                    <x-button dusk="open" x-on:click="$tsui.open.select('test')">Open</x-button>
                 </div>
                 HTML;
             }
@@ -593,7 +593,7 @@ class SelectStyledCommonBrowserTest extends BrowserTestCase
                                      select="label:label|value:value"
                     />
 
-                    <x-button dusk="open" x-on:click="$selectOpen('test')">Open</x-button>
+                    <x-button dusk="open" x-on:click="$tsui.open.select('test')">Open</x-button>
                     <x-button dusk="sync" wire:click="sync">Sync</x-button>
                 </div>
                 HTML;
