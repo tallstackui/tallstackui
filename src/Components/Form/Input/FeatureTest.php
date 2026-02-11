@@ -57,3 +57,75 @@ it('can render with strip-zeros and initial value')
     ->toContain('<input')
     ->toContain('value="0001"')
     ->toContain('x-data="tallstackui_formInputStripZeros');
+
+it('can render with suffix button addon', function () {
+    $component = <<<'HTML'
+    <x-input label="Search">
+        <x-slot:suffix button>
+            <x-button text="Go" sm />
+        </x-slot:suffix>
+    </x-input>
+    HTML;
+
+    expect($component)->render()
+        ->toContain('<input')
+        ->toContain('Go')
+        ->toContain('flex-none')
+        ->toContain('ring-0!')
+        ->toContain('focus-within:ring-0!')
+        ->toContain('rounded-l-none!')
+        ->toContain('focus-within:ring-primary-600');
+});
+
+it('can render with prefix button addon', function () {
+    $component = <<<'HTML'
+    <x-input label="URL">
+        <x-slot:prefix button>
+            <x-button text="https" sm />
+        </x-slot:prefix>
+    </x-input>
+    HTML;
+
+    expect($component)->render()
+        ->toContain('<input')
+        ->toContain('https')
+        ->toContain('flex-none')
+        ->toContain('rounded-r-none!')
+        ->toContain('[&>button]:rounded-r-none!');
+});
+
+it('can render with buttons on both sides', function () {
+    $component = <<<'HTML'
+    <x-input label="Amount">
+        <x-slot:prefix button>
+            <x-button text="-" sm />
+        </x-slot:prefix>
+        <x-slot:suffix button>
+            <x-button text="+" sm />
+        </x-slot:suffix>
+    </x-input>
+    HTML;
+
+    expect($component)->render()
+        ->toContain('<input')
+        ->toContain('rounded-l-none!')
+        ->toContain('rounded-r-none!');
+});
+
+it('does not render addon wrapper for string prefix')
+    ->expect('<x-input prefix="$" />')
+    ->render()
+    ->toContain('<input')
+    ->not->toContain('flex-none');
+
+it('does not render addon wrapper for slot prefix without button attribute', function () {
+    $component = <<<'HTML'
+    <x-input>
+        <x-slot:prefix>$</x-slot:prefix>
+    </x-input>
+    HTML;
+
+    expect($component)->render()
+        ->toContain('<input')
+        ->not->toContain('flex-none');
+});

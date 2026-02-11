@@ -645,3 +645,7 @@ Never leave @dump(), dd(), console.log(), or other debug statements in code. Bef
 ## TallStackUI Conventions
 
 For TallStackUI work: follow the V3 architecture conventions — components use Runtime classes for logic, Alpine.js modules for interactivity, and Blade templates for rendering. Check existing components like Select, Dialog, or Table for patterns before implementing new ones.
+
+### Blade `@php` Block Rule
+
+Blade component templates must have at most one `@php/@endphp` block (typically `$customization = $classes();` at the top). When additional logic or computed variables are needed in a template, they must be provided through the component's Runtime class (`src/Support/Runtime/Components/`), not by adding extra `@php` blocks. The Runtime system (see `AbstractRuntime`, `CompileRuntime`, and the `#[PassThroughRuntime]` attribute) automatically injects the `runtime()` array into the Blade view data. If a component already has more than one `@php` block, you must request explicit permission before adding another one.

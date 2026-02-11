@@ -30,7 +30,7 @@ trait SetupColors
     /**
      * Format the string to the data_get format (dot notation).
      */
-    protected function format(string ...$terms): string
+    protected function format(?string ...$terms): string
     {
         return implode('.', $terms);
     }

@@ -53,6 +53,19 @@ class Component extends TallStackUiComponent implements Customization
                     'right' => 'pr-8',
                     'clearable' => '!pr-14',
                 ],
+                'addon' => [
+                    'wrapper' => 'flex w-full rounded-md ring-1 focus-within:ring-2 focus-within:ring-primary-600 dark:focus-within:ring-primary-600',
+                    'round' => [
+                        'left' => 'rounded-l-none!',
+                        'right' => 'rounded-r-none!',
+                    ],
+                    'error' => 'ring-red-300 focus-within:ring-red-500 dark:ring-red-500 dark:focus-within:ring-red-500',
+                    'button' => [
+                        'base' => 'flex-none [&>button]:h-full! [&>a]:h-full! [&>button]:border-0! [&>a]:border-0! [&>button]:focus:ring-0! [&>a]:focus:ring-0! [&>button]:focus:ring-offset-0! [&>a]:focus:ring-offset-0! [&>button]:shadow-none! [&>a]:shadow-none! [&>button]:hover:shadow-none! [&>a]:hover:shadow-none! [&>button]:focus:shadow-none! [&>a]:focus:shadow-none!',
+                        'left' => '[&>button]:rounded-r-none! [&>a]:rounded-r-none! [&>button]:rounded-l-md [&>a]:rounded-l-md',
+                        'right' => '[&>button]:rounded-l-none! [&>a]:rounded-l-none! [&>button]:rounded-r-md [&>a]:rounded-r-md',
+                    ],
+                ],
             ],
             'icon' => [
                 'wrapper' => 'pointer-events-none absolute inset-y-0 flex items-center text-gray-500 dark:text-dark-400',
