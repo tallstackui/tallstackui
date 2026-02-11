@@ -81,7 +81,16 @@
             '{{ $customization['desktop.sizes.collapsed'] }}' : !$store['tsui.side-bar'].open,
         }" @endif x-cloak>
         @if ($brand)
-            {{ $brand }}
+            @if ($brandCollapsed && $collapsible)
+                <div x-show="$store['tsui.side-bar'].open" x-cloak>
+                    {{ $brand }}
+                </div>
+                <div x-show="!$store['tsui.side-bar'].open" x-cloak>
+                    {{ $brandCollapsed }}
+                </div>
+            @else
+                {{ $brand }}
+            @endif
         @endif
         <div @class([
                 $customization['desktop.wrapper.items'],

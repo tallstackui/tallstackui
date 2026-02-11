@@ -49,13 +49,10 @@ trait ManagesClasses
 
             unset($this->attributes['scope']);
 
-            $scopeKey = __ts_scope_container_key(
-                __ts_search_component($reflection->parent()->getName()),
-                $scope
-            );
+            $key = __ts_scope_container_key(__ts_search_component($reflection->parent()->getName()), $scope);
 
-            if (app()->bound($scopeKey)) {
-                $scoped = app()->get($scopeKey)->toArray();
+            if (app()->bound($key)) {
+                $scoped = app()->get($key)->toArray();
 
                 if (filled($scoped)) {
                     // Starting from v2, scope customization creates a multidimensional array,

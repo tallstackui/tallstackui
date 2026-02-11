@@ -20,6 +20,8 @@ class Component extends TallStackUiComponent implements Customization
         public ?string $href = null,
         public ?string $match = null,
         public ComponentSlot|string|null $icon = null,
+        public ComponentSlot|string|null $badge = null,
+        public ?string $badgeColor = 'red',
         public ?bool $current = null,
         public ?bool $opened = null,
         public Closure|bool $visible = true,
@@ -48,6 +50,9 @@ class Component extends TallStackUiComponent implements Customization
                 'text' => 'whitespace-nowrap overflow-hidden transition-all duration-150',
                 'text.visible' => 'opacity-100 max-w-48',
                 'text.hidden' => 'opacity-0 max-w-0',
+                'badge' => 'overflow-hidden transition-all duration-150',
+                'badge.visible' => 'opacity-100 scale-100',
+                'badge.hidden' => 'opacity-0 scale-0',
             ],
             'item' => [
                 'wrapper' => [
@@ -64,6 +69,9 @@ class Component extends TallStackUiComponent implements Customization
                 'text' => 'whitespace-nowrap overflow-hidden transition-all duration-150',
                 'text.visible' => 'opacity-100 max-w-48',
                 'text.hidden' => 'opacity-0 max-w-0',
+                'badge' => 'ml-auto overflow-hidden transition-all duration-150',
+                'badge.visible' => 'opacity-100 scale-100',
+                'badge.hidden' => 'opacity-0 scale-0',
             ],
         ]);
     }

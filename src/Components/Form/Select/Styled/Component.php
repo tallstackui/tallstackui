@@ -104,7 +104,7 @@ class Component extends TallStackUiComponent implements Customization
                     'icon' => 'dark:text-dark-400 h-5 w-5 text-gray-500 hover:text-red-500',
                 ],
                 'list' => [
-                    'wrapper' => 'soft-scrollbar z-50 max-h-60 w-full overflow-auto text-base focus:outline-hidden sm:text-sm',
+                    'wrapper' => 'custom-scrollbar z-50 max-h-60 w-full overflow-auto text-base focus:outline-hidden sm:text-sm',
                     'loading' => [
                         'wrapper' => 'flex items-center justify-center space-x-4 p-4',
                         'class' => 'text-primary-600 dark:text-dark-400 h-12 w-12 animate-spin',

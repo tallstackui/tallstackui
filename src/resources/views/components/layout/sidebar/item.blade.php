@@ -9,7 +9,12 @@
         <li x-data="{ show : @js($opened ?? \Illuminate\Support\Str::contains($slot, 'ts-ui-group-opened') ?? false) }">
             <button x-on:click="show = !show"
                     type="button"
-                    class="{{ $customization['group.button'] }}">
+                    class="{{ $customization['group.button'] }}"
+                    @if ($collapsible)
+                        x-tooltip="{{ $text }}"
+                        data-position="right"
+                        x-effect="$el._tippy && ($store['tsui.side-bar'].open || $store['tsui.side-bar'].mobile ? $el._tippy.disable() : $el._tippy.enable())"
+                    @endif>
                 @if ($icon instanceof \Illuminate\View\ComponentSlot)
                     {{ $icon }}
                 @elseif ($icon)
@@ -26,6 +31,25 @@
                           }">{{ $text }}</span>
                 @else
                     {{ $text }}
+                @endif
+                @if ($badge !== null)
+                    @if ($collapsible)
+                        <x-dynamic-component :component="TallStackUi::prefix('badge')"
+                                             :color="$badgeColor"
+                                             round
+                                             xs
+                                             class="{{ $customization['group.badge'] }}"
+                                             x-bind:class="{
+                                                 '{{ $customization['group.badge.visible'] }}' : ($store['tsui.side-bar'].open && !$store['tsui.side-bar'].mobile) || $store['tsui.side-bar'].mobile,
+                                                 '{{ $customization['group.badge.hidden'] }}' : !($store['tsui.side-bar'].open || $store['tsui.side-bar'].mobile),
+                                             }">{{ $badge }}</x-dynamic-component>
+                    @else
+                        <x-dynamic-component :component="TallStackUi::prefix('badge')"
+                                             :color="$badgeColor"
+                                             round
+                                             xs
+                                             class="{{ $customization['group.badge'] }}">{{ $badge }}</x-dynamic-component>
+                    @endif
                 @endif
                 <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                      :icon="TallStackUi::icon('chevron-down')"
@@ -47,6 +71,11 @@
                 $customization['item.state.normal'] => ! $current || (! $smart && ! $matches()),
                 \Illuminate\Support\Arr::toCssClasses(['ts-ui-group-opened', $customization['item.state.current']]) => $current || ($smart && $matches()),
             ]) x-bind:class="{'{{ $customization['item.state.collapsed'] }}' : @js($collapsible) && ! $store['tsui.side-bar'].open && ! $store['tsui.side-bar'].mobile }"
+               @if ($collapsible)
+                   x-tooltip="{{ $text }}"
+                   data-position="right"
+                   x-effect="$el._tippy && ($store['tsui.side-bar'].open || $store['tsui.side-bar'].mobile ? $el._tippy.disable() : $el._tippy.enable())"
+               @endif
                @if ($navigate && ! $href)
                    wire:navigate
                @elseif ($navigateHover && ! $href)
@@ -69,6 +98,25 @@
                           }">{{ $text }}</span>
                 @else
                     {{ $text }}
+                @endif
+                @if ($badge !== null)
+                    @if ($collapsible)
+                        <x-dynamic-component :component="TallStackUi::prefix('badge')"
+                                             :color="$badgeColor"
+                                             round
+                                             xs
+                                             class="{{ $customization['item.badge'] }}"
+                                             x-bind:class="{
+                                                 '{{ $customization['item.badge.visible'] }}' : ($store['tsui.side-bar'].open && !$store['tsui.side-bar'].mobile) || $store['tsui.side-bar'].mobile,
+                                                 '{{ $customization['item.badge.hidden'] }}' : !($store['tsui.side-bar'].open || $store['tsui.side-bar'].mobile),
+                                             }">{{ $badge }}</x-dynamic-component>
+                    @else
+                        <x-dynamic-component :component="TallStackUi::prefix('badge')"
+                                             :color="$badgeColor"
+                                             round
+                                             xs
+                                             class="{{ $customization['item.badge'] }}">{{ $badge }}</x-dynamic-component>
+                    @endif
                 @endif
             </a>
         </li>

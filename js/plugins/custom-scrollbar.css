@@ -21,7 +21,7 @@
 
 /* Dark mode styles */
 .dark .custom-scrollbar::-webkit-scrollbar-track {
-    @apply bg-dark-700 cursor-pointer;
+    @apply bg-transparent cursor-pointer;
 }
 
 .dark .custom-scrollbar::-webkit-scrollbar-thumb {

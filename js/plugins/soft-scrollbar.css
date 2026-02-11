@@ -8,7 +8,7 @@
 }
 
 .soft-scrollbar::-webkit-scrollbar-track {
-    @apply bg-gray-200 cursor-pointer;
+    @apply bg-transparent cursor-pointer;
 }
 
 .soft-scrollbar::-webkit-scrollbar-thumb {
@@ -17,7 +17,7 @@
 
 /* Dark mode styles */
 .dark .soft-scrollbar::-webkit-scrollbar-track {
-    @apply bg-gray-600 cursor-pointer;
+    @apply bg-transparent cursor-pointer;
 }
 
 .dark .soft-scrollbar::-webkit-scrollbar-thumb {
