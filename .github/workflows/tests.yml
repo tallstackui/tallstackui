@@ -3,13 +3,14 @@ name: Tests
 on:
   push:
     branches:
-      - 2.x
+      - 3.x
     paths-ignore:
       - '.github/**'
-      - 'README.md'
+      - '.claude/**'
+      - '**.md'
   pull_request:
     branches:
-      - 2.x
+      - 3.x
   workflow_dispatch:
 
 jobs:
@@ -20,9 +21,9 @@ jobs:
       fail-fast: false
       matrix:
         os: [ ubuntu-latest ]
-        php: [ 8.3 ]
+        php: [ 8.4 ]
         laravel: [ '11.*' ]
-        livewire: [ '^3.0', '^4.0' ]
+        livewire: [ '^4.0' ]
 
     name: Laravel:${{ matrix.laravel }} / Livewire:${{ matrix.livewire }}
 
@@ -89,7 +90,12 @@ jobs:
       - name: Clear Orchestra Testbench Cache
         run: ./vendor/bin/testbench view:clear
 
-      - name: Tests
-        run: ./vendor/bin/pest --stop-on-failure
+      - name: Tests (Feature)
+        run: ./vendor/bin/pest --stop-on-failure --stop-on-error --group Feature --parallel
+        env:
+          CI: true
+
+      - name: Tests (Browser)
+        run: ./vendor/bin/pest --stop-on-failure --stop-on-error --group Browser
         env:
           CI: true
