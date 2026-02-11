@@ -8,6 +8,8 @@ export default (flash, animated, wire, text, enter, leave, close) => ({
   close: close,
   init() {
     if (flash) window.onload = () => this.add(flash);
+    if (flash)
+      document.addEventListener('livewire:navigated', () => this.add(flash), { once: true });
 
     if (this.animated) {
       setTimeout(() => (this.show = true), this.enter ? this.enter * 1000 : 0);

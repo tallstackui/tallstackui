@@ -18,6 +18,8 @@ export default (flash, texts, overflowing) => ({
   },
   init() {
     if (flash) window.onload = () => this.add(flash);
+    if (flash)
+      document.addEventListener('livewire:navigated', () => this.add(flash), { once: true });
 
     this.$watch('show', (value) => {
       overflow(value, 'dialog', overflowing);

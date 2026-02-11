@@ -2,6 +2,7 @@
 
 namespace TallStackUi\Components\Dialog;
 
+use Laravel\Dusk\Browser;
 use Livewire\Component;
 use Livewire\Livewire;
 use PHPUnit\Framework\Attributes\Test;
@@ -429,6 +430,78 @@ class BrowserTest extends BrowserTestCase
             ->assertSee('Rejected')
             ->waitForText('Bar foo cancelled bar')
             ->assertSee('Bar foo cancelled bar');
+    }
+
+    #[Test]
+    public function can_display_flash_on_livewire_navigated_event(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            use Interactions;
+
+            public function storeFlash(): void
+            {
+                $this->dialog()
+                    ->success('Flash Dialog Navigate', 'Flash dialog navigate description')
+                    ->flash()
+                    ->send();
+            }
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <script>
+                        // Prevent window.onload from triggering flash (simulates SPA navigation where onload does not fire)
+                        Object.defineProperty(window, 'onload', { set() {}, get() { return null; }, configurable: true });
+                        // Block the first livewire:navigated so the dialog's {once:true} listener is preserved for manual dispatch
+                        document.addEventListener('livewire:navigated', (e) => e.stopImmediatePropagation(), { capture: true, once: true });
+                    </script>
+                    <x-button dusk="flash" wire:click="storeFlash">Store Flash</x-button>
+                </div>
+                HTML;
+            }
+        })
+            ->assertDontSee('Flash Dialog Navigate')
+            ->waitForLivewire()->click('@flash')
+            ->refresh()
+            ->pause(500)
+            ->assertDontSee('Flash Dialog Navigate')
+            ->tap(fn (Browser $browser) => $browser->script("document.dispatchEvent(new Event('livewire:navigated'))"))
+            ->waitForText('Flash Dialog Navigate')
+            ->assertSee('Flash Dialog Navigate');
+    }
+
+    #[Test]
+    public function can_display_flash_on_page_reload(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            use Interactions;
+
+            public function storeFlash(): void
+            {
+                $this->dialog()
+                    ->success('Flash Dialog Reload', 'Flash dialog description')
+                    ->flash()
+                    ->send();
+            }
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-button dusk="flash" wire:click="storeFlash">Store Flash</x-button>
+                </div>
+                HTML;
+            }
+        })
+            ->assertDontSee('Flash Dialog Reload')
+            ->waitForLivewire()->click('@flash')
+            ->refresh()
+            ->waitForText('Flash Dialog Reload', 10)
+            ->assertSee('Flash Dialog Reload')
+            ->assertSee('Flash dialog description');
     }
 
     #[Test]

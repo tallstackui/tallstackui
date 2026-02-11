@@ -290,50 +290,52 @@ class SelectStyledApiBrowserTest extends BrowserTestCase
     }
 
     #[Test]
-    public function request_params_update_when_livewire_property_changes(): void
+    public function can_unselect(): void
     {
-        Livewire::visit(new class extends Component
-        {
-            public ?string $item = null;
-
-            public string $category = 'A';
-
-            public function render(): string
-            {
-                return <<<'HTML'
-                <div>
-                    <p dusk="category">{{ $category }}</p>
-                    <p dusk="selected">{{ $item }}</p>
-
-                    <x-select.styled wire:model.live="item"
-                                    :request="[
-                                        'url' => route('searchable.by-category'),
-                                        'method' => 'post',
-                                        'params' => ['category' => $this->category],
-                                    ]"
-                                    label="Items"
-                                    select="label:label|value:value"
-                    />
-
-                    <x-button dusk="switch-b" wire:click="$set('category', 'B')">Switch to B</x-button>
-                </div>
-                HTML;
-            }
-        })
-            ->assertSeeIn('@category', 'A')
+        Livewire::visit(StyledComponent_Searchable::class)
+            ->assertSee('Select an option')
+            ->assertDontSee('delectus aut autem')
+            ->assertDontSee('quis ut nam facilis et officia qui')
+            ->assertDontSee('fugiat veniam minus')
+            ->assertDontSee('et porro tempora')
+            ->assertDontSee('laboriosam mollitia et enim quasi adipisci quia provident illum')
             ->click('@tallstackui_select_open_close')
-            ->waitForText('Alpha One')
-            ->assertSee('Alpha Two')
-            ->assertDontSee('Beta One')
+            ->waitForText(['delectus aut autem', 'quis ut nam facilis et officia qui', 'fugiat veniam minus', 'et porro tempora', 'laboriosam mollitia et enim quasi adipisci quia provident illum'])
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[1]')
+            ->click('@sync')
+            ->waitForText('delectus aut autem')
+            ->pause(100)
+            ->click('@tallstackui_select_clear')
+            ->click('@sync')
+            ->waitUntilMissingText('delectus aut autem')
+            ->assertDontSee('delectus aut autem')
+            ->assertSee('Select an option');
+    }
+
+    #[Test]
+    public function can_unselect_multiple(): void
+    {
+        Livewire::visit(StyledMultipleComponent_Searchable::class)
+            ->assertSee('Select an option')
+            ->assertDontSee('delectus aut autem')
+            ->assertDontSee('quis ut nam facilis et officia qui')
+            ->assertDontSee('fugiat veniam minus')
+            ->assertDontSee('et porro tempora')
+            ->assertDontSee('laboriosam mollitia et enim quasi adipisci quia provident illum')
             ->click('@tallstackui_select_open_close')
-            ->pause(200)
-            ->click('@switch-b')
-            ->waitForTextIn('@category', 'B')
-            ->pause(200)
+            ->waitForText(['delectus aut autem', 'quis ut nam facilis et officia qui', 'fugiat veniam minus', 'et porro tempora', 'laboriosam mollitia et enim quasi adipisci quia provident illum'])
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[1]')
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[2]')
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[3]')
             ->click('@tallstackui_select_open_close')
-            ->waitForText('Beta One')
-            ->assertSee('Beta Two')
-            ->assertDontSee('Alpha One');
+            ->click('@sync')
+            ->waitForText(['delectus aut autem', 'quis ut nam facilis et officia qui', 'fugiat veniam minus'])
+            ->click('@tallstackui_select_open_close')
+            ->waitForText(['delectus aut autem', 'quis ut nam facilis et officia qui', 'fugiat veniam minus', 'et porro tempora', 'laboriosam mollitia et enim quasi adipisci quia provident illum'])
+            ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[3]')
+            ->click('@tallstackui_select_open_close')
+            ->click('@sync')
+            ->waitForText(['delectus aut autem', 'quis ut nam facilis et officia qui']);
     }
 
     #[Test]
@@ -396,52 +398,50 @@ class SelectStyledApiBrowserTest extends BrowserTestCase
     }
 
     #[Test]
-    public function can_unselect(): void
+    public function request_params_update_when_livewire_property_changes(): void
     {
-        Livewire::visit(StyledComponent_Searchable::class)
-            ->assertSee('Select an option')
-            ->assertDontSee('delectus aut autem')
-            ->assertDontSee('quis ut nam facilis et officia qui')
-            ->assertDontSee('fugiat veniam minus')
-            ->assertDontSee('et porro tempora')
-            ->assertDontSee('laboriosam mollitia et enim quasi adipisci quia provident illum')
-            ->click('@tallstackui_select_open_close')
-            ->waitForText(['delectus aut autem', 'quis ut nam facilis et officia qui', 'fugiat veniam minus', 'et porro tempora', 'laboriosam mollitia et enim quasi adipisci quia provident illum'])
-            ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[1]')
-            ->click('@sync')
-            ->waitForText('delectus aut autem')
-            ->pause(100)
-            ->click('@tallstackui_select_clear')
-            ->click('@sync')
-            ->waitUntilMissingText('delectus aut autem')
-            ->assertDontSee('delectus aut autem')
-            ->assertSee('Select an option');
-    }
+        Livewire::visit(new class extends Component
+        {
+            public ?string $item = null;
 
-    #[Test]
-    public function can_unselect_multiple(): void
-    {
-        Livewire::visit(StyledMultipleComponent_Searchable::class)
-            ->assertSee('Select an option')
-            ->assertDontSee('delectus aut autem')
-            ->assertDontSee('quis ut nam facilis et officia qui')
-            ->assertDontSee('fugiat veniam minus')
-            ->assertDontSee('et porro tempora')
-            ->assertDontSee('laboriosam mollitia et enim quasi adipisci quia provident illum')
+            public string $category = 'A';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="category">{{ $category }}</p>
+                    <p dusk="selected">{{ $item }}</p>
+
+                    <x-select.styled wire:model.live="item"
+                                    :request="[
+                                        'url' => route('searchable.by-category'),
+                                        'method' => 'post',
+                                        'params' => ['category' => $this->category],
+                                    ]"
+                                    label="Items"
+                                    select="label:label|value:value"
+                    />
+
+                    <x-button dusk="switch-b" wire:click="$set('category', 'B')">Switch to B</x-button>
+                </div>
+                HTML;
+            }
+        })
+            ->assertSeeIn('@category', 'A')
             ->click('@tallstackui_select_open_close')
-            ->waitForText(['delectus aut autem', 'quis ut nam facilis et officia qui', 'fugiat veniam minus', 'et porro tempora', 'laboriosam mollitia et enim quasi adipisci quia provident illum'])
-            ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[1]')
-            ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[2]')
-            ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[3]')
+            ->waitForText('Alpha One')
+            ->assertSee('Alpha Two')
+            ->assertDontSee('Beta One')
             ->click('@tallstackui_select_open_close')
-            ->click('@sync')
-            ->waitForText(['delectus aut autem', 'quis ut nam facilis et officia qui', 'fugiat veniam minus'])
+            ->pause(200)
+            ->click('@switch-b')
+            ->waitForTextIn('@category', 'B')
+            ->pause(200)
             ->click('@tallstackui_select_open_close')
-            ->waitForText(['delectus aut autem', 'quis ut nam facilis et officia qui', 'fugiat veniam minus', 'et porro tempora', 'laboriosam mollitia et enim quasi adipisci quia provident illum'])
-            ->clickAtXPath('/html/body/div[3]/div/div[2]/div/ul/li[3]')
-            ->click('@tallstackui_select_open_close')
-            ->click('@sync')
-            ->waitForText(['delectus aut autem', 'quis ut nam facilis et officia qui']);
+            ->waitForText('Beta One')
+            ->assertSee('Beta Two')
+            ->assertDontSee('Alpha One');
     }
 }
 
