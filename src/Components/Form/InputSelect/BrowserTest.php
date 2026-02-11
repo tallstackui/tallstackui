@@ -339,7 +339,6 @@ class BrowserTest extends BrowserTestCase
         })
             ->waitForLivewireToLoad()
             ->click('@save')
-            ->waitForLivewire()
             ->waitForText('The phone field is required.')
             ->assertSee('The phone field is required.');
     }
