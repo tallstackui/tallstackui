@@ -44,61 +44,62 @@
                     </button>
                 </div>
             @endif
-            <div @class([
-                    $customization['mobile.wrapper.fourth'],
-                    'soft-scrollbar' => $thinScroll,
-                    'custom-scrollbar' => $thickScroll,
-                 ])
+            <div class="{{ $customization['mobile.wrapper.fourth'] }}"
                  x-on:click.outside="tallStackUiMenuMobile = false">
                 @if ($brand)
                     {{ $brand }}
                 @endif
-                <div @class([$customization['mobile.wrapper.third'], $customization['mobile.wrapper.brand.margin'] => blank($brand)])>
-                    <nav class="{{ $customization['mobile.wrapper.fifth'] }}">
-                        <ul role="list" class="{{ $customization['mobile.wrapper.sixth'] }}">
-                            {{ $slot }}
-                        </ul>
-                    </nav>
+                <div @class([
+                        $customization['mobile.wrapper.items'],
+                        'soft-scrollbar' => $thinScroll,
+                        'custom-scrollbar' => $thickScroll,
+                     ])>
+                    <div @class([$customization['mobile.wrapper.third'], $customization['mobile.wrapper.brand.margin'] => blank($brand)])>
+                        <nav class="{{ $customization['mobile.wrapper.fifth'] }}">
+                            <ul role="list" class="{{ $customization['mobile.wrapper.sixth'] }}">
+                                {{ $slot }}
+                            </ul>
+                        </nav>
+                    </div>
                 </div>
+                @if ($footer)
+                    <div class="{{ $customization['mobile.footer'] }}">
+                        {{ $footer }}
+                    </div>
+                @endif
             </div>
         </div>
     </div>
 </div>
 <div class="{{ $customization['desktop.wrapper.first.base'] }}"
-     x-bind:class="{ '{{ $customization['desktop.wrapper.first.size'] }}' : $store['tsui.side-bar'].open }">
+     x-bind:class="{ '{{ $customization['desktop.wrapper.first.size'] }}' : $store['tsui.side-bar'].open }"
+     @if ($collapsible) x-init="$store['tsui.side-bar'].collapsible = true" @endif>
     <div @class([
             $customization['desktop.wrapper.second'],
-            'soft-scrollbar' => $thinScroll,
-            'custom-scrollbar' => $thickScroll,
         ]) @if ($collapsible) x-bind:class="{
             '{{ $customization['desktop.sizes.expanded'] }}' : $store['tsui.side-bar'].open,
             '{{ $customization['desktop.sizes.collapsed'] }}' : !$store['tsui.side-bar'].open,
         }" @endif x-cloak>
-        @if ($collapsible)
-            <div class="{{ $customization['desktop.collapse.wrapper'] }}">
-                <button x-on:click="$store['tsui.side-bar'].toggle()" class="cursor-pointer">
-                    <x-dynamic-component :component="TallStackUi::prefix('icon')"
-                                         :icon="TallStackUi::icon($customization['desktop.collapse.buttons.expanded.icon'])"
-                                         internal
-                                         x-show="$store['tsui.side-bar'].open"
-                                         class="{{ $customization['desktop.collapse.buttons.expanded.class'] }}" />
-                    <x-dynamic-component :component="TallStackUi::prefix('icon')"
-                                         :icon="TallStackUi::icon($customization['desktop.collapse.buttons.collapsed.icon'])"
-                                         internal
-                                         x-show="!$store['tsui.side-bar'].open"
-                                         class="{{ $customization['desktop.collapse.buttons.collapsed.class'] }}" />
-                </button>
-            </div>
-        @endif
         @if ($brand)
             {{ $brand }}
         @endif
-        <div @class([$customization['desktop.wrapper.third'], $customization['desktop.wrapper.brand.margin'] => blank($brand)])>
-            <nav class="{{ $customization['desktop.wrapper.fourth'] }}">
-                <ul role="list" class="{{ $customization['desktop.wrapper.fifth'] }}">
-                    {{ $slot }}
-                </ul>
-            </nav>
+        <div @class([
+                $customization['desktop.wrapper.items'],
+                'soft-scrollbar' => $thinScroll,
+                'custom-scrollbar' => $thickScroll,
+             ])>
+            <div @class([$customization['desktop.wrapper.third'], $customization['desktop.wrapper.brand.margin'] => blank($brand)])>
+                <nav class="{{ $customization['desktop.wrapper.fourth'] }}">
+                    <ul role="list" class="{{ $customization['desktop.wrapper.fifth'] }}">
+                        {{ $slot }}
+                    </ul>
+                </nav>
+            </div>
         </div>
+        @if ($footer)
+            <div class="{{ $customization['desktop.footer'] }}">
+                {{ $footer }}
+            </div>
+        @endif
     </div>
 </div>

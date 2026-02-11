@@ -1,6 +1,7 @@
 export default {
   open: true,
   mobile: false,
+  collapsible: false,
   init() {
     const media = window.matchMedia('(max-width: 768px)');
     this.mobile = media.matches;

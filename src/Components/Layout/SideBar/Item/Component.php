@@ -45,7 +45,9 @@ class Component extends TallStackUiComponent implements Customization
                     ],
                 ],
                 'group' => 'px-2 pl-5',
-                'text' => 'whitespace-nowrap',
+                'text' => 'whitespace-nowrap overflow-hidden transition-all duration-150',
+                'text.visible' => 'opacity-100 max-w-48',
+                'text.hidden' => 'opacity-0 max-w-0',
             ],
             'item' => [
                 'wrapper' => [
@@ -59,7 +61,9 @@ class Component extends TallStackUiComponent implements Customization
                     'collapsed' => 'justify-center text-center',
                 ],
                 'icon' => 'text-primary-500 h-6 w-6 shrink-0 transition-all dark:text-white',
-                'text' => 'whitespace-nowrap',
+                'text' => 'whitespace-nowrap overflow-hidden transition-all duration-150',
+                'text.visible' => 'opacity-100 max-w-48',
+                'text.hidden' => 'opacity-0 max-w-0',
             ],
         ]);
     }

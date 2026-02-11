@@ -21,9 +21,9 @@
 
 /* Dark mode styles */
 .dark .custom-scrollbar::-webkit-scrollbar-track {
-    @apply bg-gray-600 cursor-pointer;
+    @apply bg-dark-700 cursor-pointer;
 }
 
 .dark .custom-scrollbar::-webkit-scrollbar-thumb {
-    @apply bg-gray-500 cursor-pointer;
+    @apply bg-dark-400 cursor-pointer;
 }

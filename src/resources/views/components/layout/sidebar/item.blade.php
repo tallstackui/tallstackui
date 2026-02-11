@@ -19,9 +19,11 @@
                                          class="{{ $customization['group.icon.base'] }}" />
                 @endif
                 @if ($collapsible)
-                    <span x-show="($store['tsui.side-bar'].open && !$store['tsui.side-bar'].mobile) || $store['tsui.side-bar'].mobile"
-                          @if (!$ts_ui__flash) x-transition
-                          @endif class="{{ $customization['group.text'] }}">{{ $text }}</span>
+                    <span class="{{ $customization['group.text'] }}"
+                          x-bind:class="{
+                              '{{ $customization['group.text.visible'] }}' : ($store['tsui.side-bar'].open && !$store['tsui.side-bar'].mobile) || $store['tsui.side-bar'].mobile,
+                              '{{ $customization['group.text.hidden'] }}' : !($store['tsui.side-bar'].open || $store['tsui.side-bar'].mobile),
+                          }">{{ $text }}</span>
                 @else
                     {{ $text }}
                 @endif
@@ -29,9 +31,10 @@
                                      :icon="TallStackUi::icon('chevron-down')"
                                      internal
                                      class="{{ $customization['group.icon.collapse.base'] }}"
-                                     x-bind:class="{ '{{ $customization['group.icon.collapse.rotate'] }}': show }" />
+                                     x-bind:class="{ '{{ $customization['group.icon.collapse.rotate'] }}': show }"
+                                     x-show="!@js($collapsible) || $store['tsui.side-bar'].open || $store['tsui.side-bar'].mobile" />
             </button>
-            <ul x-show="show" class="{{ $customization['group.group'] }}" x-data x-ref="parent">
+            <ul x-show="show && (!@js($collapsible) || $store['tsui.side-bar'].open || $store['tsui.side-bar'].mobile)" class="{{ $customization['group.group'] }}" x-data x-ref="parent">
                 {{ $slot }}
             </ul>
         </li>
@@ -59,10 +62,11 @@
                                          class="{{ $customization['item.icon'] }}" />
                 @endif
                 @if ($collapsible)
-                    <span x-cloak
-                          x-show="($store['tsui.side-bar'].open && !$store['tsui.side-bar'].mobile) || $store['tsui.side-bar'].mobile"
-                          @if (!$ts_ui__flash) x-transition
-                          @endif class="{{ $customization['item.text'] }}">{{ $text }}</span>
+                    <span class="{{ $customization['item.text'] }}"
+                          x-bind:class="{
+                              '{{ $customization['item.text.visible'] }}' : ($store['tsui.side-bar'].open && !$store['tsui.side-bar'].mobile) || $store['tsui.side-bar'].mobile,
+                              '{{ $customization['item.text.hidden'] }}' : !($store['tsui.side-bar'].open || $store['tsui.side-bar'].mobile),
+                          }">{{ $text }}</span>
                 @else
                     {{ $text }}
                 @endif

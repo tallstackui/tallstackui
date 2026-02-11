@@ -32,8 +32,8 @@ class Component extends TallStackUiComponent implements Customization
             'wrapper' => [
                 'first' => 'min-h-full',
                 'second' => [
-                    'expanded' => 'md:pl-72',
-                    'collapsed' => 'md:pl-22',
+                    'expanded' => 'md:pl-72 transition-[padding] duration-300',
+                    'collapsed' => 'md:pl-22 transition-[padding] duration-300',
                 ],
             ],
             'main' => 'mx-auto max-w-full p-10',

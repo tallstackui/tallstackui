@@ -35,7 +35,9 @@ class Component extends TallStackUiComponent implements Customization
         return Arr::dot([
             'simple' => [
                 'wrapper' => 'flex py-2 pl-2',
-                'base' => 'text-primary-600 dark:text-dark-100 text-base font-semibold leading-6',
+                'base' => 'text-primary-600 dark:text-dark-100 text-base font-semibold leading-6 whitespace-nowrap overflow-hidden transition-all duration-150',
+                'base.visible' => 'opacity-100 max-w-48',
+                'base.hidden' => 'opacity-0 max-w-0',
             ],
             'line' => [
                 'wrapper' => [
@@ -44,7 +46,9 @@ class Component extends TallStackUiComponent implements Customization
                     'third' => 'relative flex justify-center',
                 ],
                 'border' => 'border-primary-100 dark:border-dark-500 w-full border-t',
-                'base' => 'dark:bg-dark-700 text-primary-600 dark:text-dark-100 bg-white px-3 text-base font-semibold',
+                'base' => 'dark:bg-dark-700 text-primary-600 dark:text-dark-100 bg-white px-3 text-base font-semibold whitespace-nowrap overflow-hidden transition-all duration-150',
+                'base.visible' => 'opacity-100 max-w-48',
+                'base.hidden' => 'opacity-0 max-w-0',
             ],
             'line-right' => [
                 'wrapper' => [
@@ -53,7 +57,9 @@ class Component extends TallStackUiComponent implements Customization
                     'third' => 'relative flex justify-start',
                 ],
                 'border' => 'border-primary-100 dark:border-dark-500 w-full border-t',
-                'base' => 'dark:bg-dark-700 text-primary-600 dark:text-dark-100 bg-white px-3 text-base font-semibold',
+                'base' => 'dark:bg-dark-700 text-primary-600 dark:text-dark-100 bg-white px-3 text-base font-semibold whitespace-nowrap overflow-hidden transition-all duration-150',
+                'base.visible' => 'opacity-100 max-w-48',
+                'base.hidden' => 'opacity-0 max-w-0',
             ],
         ]);
     }

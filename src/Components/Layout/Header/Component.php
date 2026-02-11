@@ -34,6 +34,11 @@ class Component extends TallStackUiComponent implements Customization
                 'class' => 'md:hidden cursor-pointer',
                 'icon.size' => 'h-6 w-6 text-gray-500 dark:text-white',
             ],
+            'collapse' => [
+                'class' => 'hidden md:block cursor-pointer',
+                'icon' => 'bars-4',
+                'icon.size' => 'h-6 w-6 text-gray-500 dark:text-white',
+            ],
             'slots' => [
                 'left' => 'flex items-center gap-2',
                 'middle' => 'flex items-center',
