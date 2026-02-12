@@ -27,6 +27,7 @@ export default (
   property: property,
   value: value,
   smart: smart,
+  submitted: false,
   init() {
     if (!this.model && this.value) {
       this.model = this.value;
@@ -259,7 +260,9 @@ export default (
         new CustomEvent('filled', { detail: { model: this.model } })
       );
 
-      if (this.smart) {
+      if (this.smart && !this.submitted) {
+        this.submitted = true;
+
         this.$nextTick(() => {
           const form = this.$refs.wrapper.closest('form');
 
@@ -274,6 +277,8 @@ export default (
           }
         });
       }
+    } else {
+      this.submitted = false;
     }
   },
   /**
@@ -347,6 +352,7 @@ export default (
 
     const model = this.model;
     this.model = null;
+    this.submitted = false;
 
     this.focus(1);
 

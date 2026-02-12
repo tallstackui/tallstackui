@@ -379,6 +379,49 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function cannot_auto_submit_form_more_than_once_when_smart(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $value = null;
+
+            public int $count = 0;
+
+            public function save(): void
+            {
+                $this->count++;
+            }
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="count">{{ $count }}</p>
+
+                    <form wire:submit="save">
+                        <x-pin length="5" wire:model.live="value" smart numbers />
+                    </form>
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->clickAtXPath('//input[@dusk="pin-1"]')
+            ->waitForLivewire()->type('@pin-1', '1')
+            ->waitForLivewire()->type('@pin-2', '2')
+            ->waitForLivewire()->type('@pin-3', '3')
+            ->waitForLivewire()->type('@pin-4', '4')
+            ->waitForLivewire()->type('@pin-5', '5')
+            ->waitForTextIn('@count', '1')
+            ->assertSeeIn('@count', '1')
+            ->type('@pin-5', '9')
+            ->pause(250)
+            ->type('@pin-5', '8')
+            ->pause(250)
+            ->assertSeeIn('@count', '1');
+    }
+
+    #[Test]
     public function cannot_paste_letters_when_numbers(): void
     {
         Livewire::visit(new class extends Component

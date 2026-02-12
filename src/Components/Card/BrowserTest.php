@@ -137,4 +137,64 @@ class BrowserTest extends BrowserTestCase
             ->assertNotPresent('@tallstackui_card_minimize')
             ->assertNotPresent('@tallstackui_card_close');
     }
+
+    #[Test]
+    public function can_see_loading_bar(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-card header="Loading Card" loading="save">
+                        <p>Card Content</p>
+                        <x-button dusk="save" wire:click="save">Save</x-button>
+                    </x-card>
+                </div>
+                HTML;
+            }
+
+            public function save(): void
+            {
+                sleep(1);
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->assertSee('Card Content')
+            ->click('@save')
+            ->waitUntil('document.querySelector(".animate-indeterminate")');
+    }
+
+    #[Test]
+    public function can_see_loading_bar_with_header_slot(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-card loading="save">
+                        <x-slot:header>
+                            <span>Custom Slot Header</span>
+                        </x-slot:header>
+                        <p>Card Content</p>
+                        <x-button dusk="save" wire:click="save">Save</x-button>
+                    </x-card>
+                </div>
+                HTML;
+            }
+
+            public function save(): void
+            {
+                sleep(1);
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->assertSee('Custom Slot Header')
+            ->assertSee('Card Content')
+            ->click('@save')
+            ->waitUntil('document.querySelector(".animate-indeterminate")');
+    }
 }
