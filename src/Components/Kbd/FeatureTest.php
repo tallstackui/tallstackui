@@ -14,7 +14,7 @@ it('can render slot')
     ->toContain('K')
     ->toContain('bg-gray-100');
 
-it('can render default size as md')
+it('can render default size as sm')
     ->expect('<x-kbd>Ctrl</x-kbd>')
     ->render()
     ->toContain('text-sm')
@@ -52,28 +52,11 @@ it('can render with tooltip')
     ->toContain('x-tooltip="Press this key"')
     ->toContain('x-data');
 
-it('can render as link with href')
-    ->expect('<x-kbd href="https://example.com">Ctrl</x-kbd>')
-    ->render()
-    ->toContain('<a')
-    ->toContain('href="https://example.com"')
-    ->toContain('cursor-pointer');
-
-it('can render as kbd without href')
+it('can render as kbd tag')
     ->expect('<x-kbd>Ctrl</x-kbd>')
     ->render()
     ->toContain('<kbd')
     ->not->toContain('<a');
-
-it('can render with wire:click', function () {
-    $component = <<<'HTML'
-    <x-kbd wire:click="doSomething">Enter</x-kbd>
-    HTML;
-
-    expect($component)->render()
-        ->toContain('cursor-pointer')
-        ->toContain('Enter');
-});
 
 it('can render dark mode classes')
     ->expect('<x-kbd>Esc</x-kbd>')
@@ -81,7 +64,8 @@ it('can render dark mode classes')
     ->toContain('dark:bg-dark-600')
     ->toContain('dark:text-dark-300');
 
-it('can render with code tag')
+it('can render with monospace font')
     ->expect('<x-kbd>K</x-kbd>')
     ->render()
-    ->toContain('<code>K</code>');
+    ->toContain('font-mono')
+    ->not->toContain('<code>');
