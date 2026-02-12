@@ -11,6 +11,35 @@ use Tests\Browser\BrowserTestCase;
 class BrowserTest extends BrowserTestCase
 {
     #[Test]
+    public function can_auto_select_tab_based_on_url_match(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public function render(): string
+            {
+                $currentUrl = request()->url();
+
+                return <<<HTML
+                <div>
+                    <x-tab selected="other">
+                        <x-tab.items tab="other" title="Other" when="https://not-matching.test/other">
+                            Other Content
+                        </x-tab.items>
+                        <x-tab.items tab="current" title="Current" when="{$currentUrl}">
+                            Current Content
+                        </x-tab.items>
+                    </x-tab>
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->waitForText('Current Content')
+            ->assertSee('Current Content')
+            ->assertDontSee('Other Content');
+    }
+
+    #[Test]
     public function can_dispatch_event(): void
     {
         Livewire::visit(new class extends Component
@@ -113,6 +142,35 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_navigate_to_url_when_clicking_tab_with_when_and_navigate(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public function render(): string
+            {
+                $currentUrl = request()->url();
+
+                return <<<HTML
+                <div>
+                    <x-tab>
+                        <x-tab.items tab="current" title="Current" when="{$currentUrl}" navigate>
+                            Current Content
+                        </x-tab.items>
+                        <x-tab.items tab="about" title="About" when="/about" navigate>
+                            About Content
+                        </x-tab.items>
+                    </x-tab>
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->assertSee('Current Content')
+            ->assertSee('About')
+            ->assertDontSee('About Content');
+    }
+
+    #[Test]
     public function can_render_and_select_with_accents(): void
     {
         Livewire::visit(new class extends Component
@@ -209,6 +267,36 @@ class BrowserTest extends BrowserTestCase
             ->assertSee('Foo Title')
             ->assertSee('Bar Title')
             ->assertSee('Foo bar baz through Livewire Component');
+    }
+
+    #[Test]
+    public function can_render_only_matching_tab_content_with_when(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public function render(): string
+            {
+                $currentUrl = request()->url();
+
+                return <<<HTML
+                <div>
+                    <x-tab>
+                        <x-tab.items tab="current" title="Current" when="{$currentUrl}">
+                            Matched Tab Content
+                        </x-tab.items>
+                        <x-tab.items tab="other" title="Other" when="https://not-matching.test/other">
+                            Other Tab Content
+                        </x-tab.items>
+                    </x-tab>
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->assertSee('Current')
+            ->assertSee('Other')
+            ->assertSee('Matched Tab Content')
+            ->assertDontSee('Other Tab Content');
     }
 
     #[Test]
@@ -399,93 +487,5 @@ class BrowserTest extends BrowserTestCase
             ->waitForText('Foo bar baz')
             ->assertSee('Bar Title')
             ->assertDontSee('Baz bar foo');
-    }
-
-    #[Test]
-    public function can_render_only_matching_tab_content_with_when(): void
-    {
-        Livewire::visit(new class extends Component
-        {
-            public function render(): string
-            {
-                $currentUrl = request()->url();
-
-                return <<<HTML
-                <div>
-                    <x-tab>
-                        <x-tab.items tab="current" title="Current" when="{$currentUrl}">
-                            Matched Tab Content
-                        </x-tab.items>
-                        <x-tab.items tab="other" title="Other" when="https://not-matching.test/other">
-                            Other Tab Content
-                        </x-tab.items>
-                    </x-tab>
-                </div>
-                HTML;
-            }
-        })
-            ->waitForLivewireToLoad()
-            ->assertSee('Current')
-            ->assertSee('Other')
-            ->assertSee('Matched Tab Content')
-            ->assertDontSee('Other Tab Content');
-    }
-
-    #[Test]
-    public function can_navigate_to_url_when_clicking_tab_with_when_and_navigate(): void
-    {
-        Livewire::visit(new class extends Component
-        {
-            public function render(): string
-            {
-                $currentUrl = request()->url();
-
-                return <<<HTML
-                <div>
-                    <x-tab>
-                        <x-tab.items tab="current" title="Current" when="{$currentUrl}" navigate>
-                            Current Content
-                        </x-tab.items>
-                        <x-tab.items tab="about" title="About" when="/about" navigate>
-                            About Content
-                        </x-tab.items>
-                    </x-tab>
-                </div>
-                HTML;
-            }
-        })
-            ->waitForLivewireToLoad()
-            ->assertSee('Current Content')
-            ->assertSee('About')
-            ->assertDontSee('About Content');
-    }
-
-    #[Test]
-    public function can_auto_select_tab_based_on_url_match(): void
-    {
-        Livewire::visit(new class extends Component
-        {
-            public function render(): string
-            {
-                $currentUrl = request()->url();
-
-                return <<<HTML
-                <div>
-                    <x-tab selected="other">
-                        <x-tab.items tab="other" title="Other" when="https://not-matching.test/other">
-                            Other Content
-                        </x-tab.items>
-                        <x-tab.items tab="current" title="Current" when="{$currentUrl}">
-                            Current Content
-                        </x-tab.items>
-                    </x-tab>
-                </div>
-                HTML;
-            }
-        })
-            ->waitForLivewireToLoad()
-            ->waitForText('Current Content')
-            ->assertSee('Current Content')
-            ->assertDontSee('Other Content');
     }
 }
