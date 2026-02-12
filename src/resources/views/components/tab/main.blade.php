@@ -7,7 +7,7 @@
     @if (!$scrollOnMobile)
         <div class="{{ $customization['base.padding'] }}">
             <select x-model="selected" class="{{ $customization['base.select'] }}" aria-label="Select a tab"
-                    x-on:change="$refs.ul.dispatchEvent(new CustomEvent('navigate', {detail: {select: selected}}));">
+                    x-on:change="let t = tabs.find(i => i.tab === selected); if (t && t.when) { if (t.navigate || t.navigateHover) { Livewire.navigate(t.when); } else { window.location.href = t.when; } } else { $refs.ul.dispatchEvent(new CustomEvent('navigate', {detail: {select: selected}})); }">
                 <template x-for="item in tabs">
                     <option x-bind:value="item.tab" x-text="item.title ?? item.tab"
                             x-bind:selected="item.tab === selected">
@@ -21,8 +21,9 @@
         <template x-for="item in tabs">
             <li role="tab"
                 tabindex="0"
-                x-on:click="selected = item.tab; $refs.ul.dispatchEvent(new CustomEvent('navigate', {detail: {select: item.tab}}));"
-                x-on:keypress.enter="selected = item.tab; $refs.ul.dispatchEvent(new CustomEvent('navigate', {detail: {select: item.tab}}));"
+                x-on:click="if (item.when) { if (item.navigate || item.navigateHover) { Livewire.navigate(item.when); } else { window.location.href = item.when; } } else { selected = item.tab; $refs.ul.dispatchEvent(new CustomEvent('navigate', {detail: {select: item.tab}})); }"
+                x-on:keypress.enter="if (item.when) { if (item.navigate || item.navigateHover) { Livewire.navigate(item.when); } else { window.location.href = item.when; } } else { selected = item.tab; $refs.ul.dispatchEvent(new CustomEvent('navigate', {detail: {select: item.tab}})); }"
+                x-on:mouseenter="if (item.when && item.navigateHover && !item._prefetched) { let link = document.createElement('link'); link.rel = 'prefetch'; link.href = item.when; document.head.appendChild(link); item._prefetched = true; }"
                 x-bind:aria-selected="selected === item.tab ? 'true' : 'false'"
                 x-bind:class="{
                     '{{ $customization['item.select'] }}' : selected === item.tab,
