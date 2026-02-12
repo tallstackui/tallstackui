@@ -73,6 +73,31 @@ Listening for tab navigation events:
 |---------------|--------------------|-------------------------------------------------------|
 | x-on:navigate | `{select: string}` | Fired when a tab is selected, with the tab identifier |
 
+## Route-Based Tabs
+
+Tabs can be associated with URLs using the `when` attribute on `<x-tab.items>`. When set, the tab's content only renders server-side if the current URL matches. Clicking a different tab navigates to its URL. This avoids rendering heavy Livewire components for inactive tabs.
+
+```blade
+<x-tab>
+    <x-tab.items tab="users" title="Users" :when="route('users.index')" navigate>
+        <livewire:users.index />
+    </x-tab.items>
+    <x-tab.items tab="invoices" title="Invoices" :when="route('invoices.index')" navigate>
+        <livewire:invoices.index />
+    </x-tab.items>
+</x-tab>
+```
+
+Key behaviors:
+- Tab headers always appear regardless of URL match
+- The tab whose `when` matches the current URL is auto-selected
+- `navigate` uses `Livewire.navigate()` for SPA navigation
+- `navigate-hover` adds prefetching on hover before navigation
+- Without `navigate`/`navigate-hover`, uses plain `window.location.href`
+- Tabs without `when` continue to work as before (client-side switching)
+
+See `<x-tab.items>` documentation for full attribute details.
+
 ## Soft Customization
 
 Soft customization allows you to override default Tailwind CSS classes used by this component at runtime, either through a service provider or scoped per-instance.

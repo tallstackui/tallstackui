@@ -44,10 +44,13 @@ With left and right decorations in the tab label:
 
 | Attribute | Type               | Default | Description                                                                |
 |-----------|--------------------|---------|----------------------------------------------------------------------------|
-| tab       | string\|null       | null    | Unique identifier for this tab (used to match `selected` on the parent)    |
-| title     | string\|null       | null    | Display label in the tab navigation (falls back to `tab` value if not set) |
-| left      | slot\|string\|null | null    | Content rendered to the left of the tab title in the navigation            |
-| right     | slot\|string\|null | null    | Content rendered to the right of the tab title in the navigation           |
+| tab            | string\|null       | null    | Unique identifier for this tab (used to match `selected` on the parent)    |
+| title          | string\|null       | null    | Display label in the tab navigation (falls back to `tab` value if not set) |
+| when           | string\|null       | null    | URL that determines when this tab's content renders (compared to current URL) |
+| navigate       | bool\|null         | null    | Use Livewire SPA navigation (`Livewire.navigate()`) when clicking this tab |
+| navigate-hover | bool\|null         | null    | Same as `navigate` but prefetches the URL on hover                         |
+| left           | slot\|string\|null | null    | Content rendered to the left of the tab title in the navigation            |
+| right          | slot\|string\|null | null    | Content rendered to the right of the tab title in the navigation           |
 
 ## Slots
 
@@ -56,3 +59,43 @@ With left and right decorations in the tab label:
 | (default) | Content displayed when this tab is active                   |
 | left      | Content rendered before the tab title in the tab navigation |
 | right     | Content rendered after the tab title in the tab navigation  |
+
+## Route-Based Rendering
+
+When `when` is set, the tab's slot content only renders server-side if the current URL matches the `when` value. Tab headers always appear regardless of URL match. Clicking a tab with `when` navigates to that URL instead of switching client-side.
+
+With `navigate` (SPA navigation via Livewire):
+
+```blade
+<x-tab>
+    <x-tab.items tab="users" title="Users" :when="route('users.index')" navigate>
+        <livewire:users.index />
+    </x-tab.items>
+    <x-tab.items tab="invoices" title="Invoices" :when="route('invoices.index')" navigate>
+        <livewire:invoices.index />
+    </x-tab.items>
+</x-tab>
+```
+
+With `navigate-hover` (prefetches on hover, then SPA navigation on click):
+
+```blade
+<x-tab>
+    <x-tab.items tab="users" title="Users" :when="route('users.index')" navigate-hover>
+        <livewire:users.index />
+    </x-tab.items>
+    <x-tab.items tab="invoices" title="Invoices" :when="route('invoices.index')" navigate-hover>
+        <livewire:invoices.index />
+    </x-tab.items>
+</x-tab>
+```
+
+Without `navigate` or `navigate-hover` (plain `window.location.href` navigation):
+
+```blade
+<x-tab>
+    <x-tab.items tab="users" title="Users" :when="route('users.index')">
+        <livewire:users.index />
+    </x-tab.items>
+</x-tab>
+```
