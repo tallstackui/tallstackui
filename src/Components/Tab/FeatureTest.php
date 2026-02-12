@@ -48,3 +48,13 @@ it('can render with title', function () {
     expect($component)->render()
         ->toContain('First Tab Content', 'Second Tab Content');
 });
+
+it('can render with when matching current url', function () {
+    $url = request()->url();
+
+    $component = '<x-tab selected="A"><x-tab.items tab="A" when="'.$url.'">Matched Content</x-tab.items><x-tab.items tab="B" when="https://not-matching.test/other">Hidden Content</x-tab.items></x-tab>';
+
+    expect($component)->render()
+        ->toContain('Matched Content')
+        ->not->toContain('Hidden Content');
+});
