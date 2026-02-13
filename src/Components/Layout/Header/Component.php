@@ -40,6 +40,7 @@ class Component extends TallStackUiComponent implements Customization
                 'icon.size' => 'h-6 w-6 text-gray-500 dark:text-white',
             ],
             'slots' => [
+                'wrapper' => 'flex flex-1 items-center',
                 'left' => 'flex items-center gap-2',
                 'middle' => 'flex items-center',
                 'right' => 'flex items-center',
