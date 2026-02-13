@@ -22,10 +22,10 @@ class BrowserTest extends BrowserTestCase
                 return <<<HTML
                 <div>
                     <x-tab selected="other">
-                        <x-tab.items tab="other" title="Other" when="https://not-matching.test/other">
+                        <x-tab.items tab="other" title="Other" href="https://not-matching.test/other">
                             Other Content
                         </x-tab.items>
-                        <x-tab.items tab="current" title="Current" when="{$currentUrl}">
+                        <x-tab.items tab="current" title="Current" href="{$currentUrl}">
                             Current Content
                         </x-tab.items>
                     </x-tab>
@@ -142,6 +142,38 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_navigate_to_another_page_when_clicking_tab_with_href(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public function render(): string
+            {
+                $currentUrl = request()->url();
+
+                return <<<HTML
+                <div>
+                    <x-tab>
+                        <x-tab.items tab="current" title="Current" href="{$currentUrl}">
+                            Current Content
+                        </x-tab.items>
+                        <x-tab.items tab="target" title="Target" href="/tab-navigation-target">
+                            Target Content
+                        </x-tab.items>
+                    </x-tab>
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->assertSee('Current Content')
+            ->assertSee('Target')
+            ->clickAtXPath('/html/body/div[3]/div/ul/li[2]')
+            ->waitForText('Tab Navigation Target Page')
+            ->assertSee('Tab Navigation Target Page')
+            ->assertDontSee('Current Content');
+    }
+
+    #[Test]
     public function can_navigate_to_url_when_clicking_tab_with_when_and_navigate(): void
     {
         Livewire::visit(new class extends Component
@@ -153,10 +185,10 @@ class BrowserTest extends BrowserTestCase
                 return <<<HTML
                 <div>
                     <x-tab>
-                        <x-tab.items tab="current" title="Current" when="{$currentUrl}" navigate>
+                        <x-tab.items tab="current" title="Current" href="{$currentUrl}" navigate>
                             Current Content
                         </x-tab.items>
-                        <x-tab.items tab="about" title="About" when="/about" navigate>
+                        <x-tab.items tab="about" title="About" href="/about" navigate>
                             About Content
                         </x-tab.items>
                     </x-tab>
@@ -281,10 +313,10 @@ class BrowserTest extends BrowserTestCase
                 return <<<HTML
                 <div>
                     <x-tab>
-                        <x-tab.items tab="current" title="Current" when="{$currentUrl}">
+                        <x-tab.items tab="current" title="Current" href="{$currentUrl}">
                             Matched Tab Content
                         </x-tab.items>
-                        <x-tab.items tab="other" title="Other" when="https://not-matching.test/other">
+                        <x-tab.items tab="other" title="Other" href="https://not-matching.test/other">
                             Other Tab Content
                         </x-tab.items>
                     </x-tab>

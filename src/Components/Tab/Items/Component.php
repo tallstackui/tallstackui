@@ -15,7 +15,7 @@ class Component extends TallStackUiComponent
     public function __construct(
         public ?string $tab = null,
         public ?string $title = null,
-        public ?string $when = null,
+        public ?string $href = null,
         public ?bool $navigate = null,
         public ?bool $navigateHover = null,
         #[SkipDebug]

@@ -15,15 +15,15 @@ class TabItemsRuntime extends AbstractRuntime
         /** @var ComponentSlot|string|null $left */
         $left = $this->data('left');
 
-        /** @var string|null $when */
-        $when = $this->data('when');
+        /** @var string|null $href */
+        $href = $this->data('href');
 
         return [
             'content' => [
                 'right' => is_string($right) ? $right : ($right?->toHtml() ?? null),
                 'left' => is_string($left) ? $left : ($left?->toHtml() ?? null),
             ],
-            'shouldRender' => ! $when || rtrim(request()->url(), '/') === rtrim($when, '/'),
+            'shouldRender' => ! $href || rtrim(request()->url(), '/') === rtrim($href, '/'),
         ];
     }
 }

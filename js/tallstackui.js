@@ -28,6 +28,7 @@ import slide from '../src/Components/Slide/alpine';
 import stats from '../src/Components/Stats/alpine';
 import password from '../src/Components/Form/Password/alpine';
 import pin from '../src/Components/Form/Pin/alpine';
+import tab from '../src/Components/Tab/Main/alpine';
 import table from '../src/Components/Table/alpine';
 import tag from '../src/Components/Form/Tag/alpine';
 import textArea from '../src/Components/Form/Textarea/alpine';
@@ -75,6 +76,7 @@ document.addEventListener('alpine:init', () => {
   Alpine.data('tallstackui_signature', signature);
   Alpine.data('tallstackui_slide', slide);
   Alpine.data('tallstackui_stats', stats);
+  Alpine.data('tallstackui_tab', tab);
   Alpine.data('tallstackui_table', table);
   Alpine.data('tallstackui_toastBase', toastBase);
   Alpine.data('tallstackui_toastLoop', toastLoop);

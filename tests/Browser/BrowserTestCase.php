@@ -139,6 +139,8 @@ class BrowserTestCase extends TestCase
             ];
         })->name('searchable.filtered');
 
+        $router->get('/tab-navigation-target', fn () => '<html><head></head><body>Tab Navigation Target Page</body></html>');
+
         $router->match(['get', 'post'], '/searchable-by-category', function (Request $request) {
             $category = $request->input('category', 'none');
 

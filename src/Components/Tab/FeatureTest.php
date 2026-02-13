@@ -52,7 +52,7 @@ it('can render with title', function () {
 it('can render with when matching current url', function () {
     $url = request()->url();
 
-    $component = '<x-tab selected="A"><x-tab.items tab="A" when="'.$url.'">Matched Content</x-tab.items><x-tab.items tab="B" when="https://not-matching.test/other">Hidden Content</x-tab.items></x-tab>';
+    $component = '<x-tab selected="A"><x-tab.items tab="A" href="'.$url.'">Matched Content</x-tab.items><x-tab.items tab="B" href="https://not-matching.test/other">Hidden Content</x-tab.items></x-tab>';
 
     expect($component)->render()
         ->toContain('Matched Content')
@@ -62,7 +62,7 @@ it('can render with when matching current url', function () {
 it('does not render slot when url does not match', function () {
     $component = <<<'HTML'
     <x-tab selected="A">
-        <x-tab.items tab="A" when="https://not-matching.test/other">
+        <x-tab.items tab="A" href="https://not-matching.test/other">
             Should Not Render
         </x-tab.items>
     </x-tab>
@@ -88,7 +88,7 @@ it('renders slot when no when attribute is set', function () {
 it('passes navigate to alpine data', function () {
     $url = request()->url();
 
-    $component = '<x-tab selected="A"><x-tab.items tab="A" when="'.$url.'" navigate>Content</x-tab.items></x-tab>';
+    $component = '<x-tab selected="A"><x-tab.items tab="A" href="'.$url.'" navigate>Content</x-tab.items></x-tab>';
 
     expect($component)->render()
         ->toContain('navigate: true');
@@ -97,7 +97,7 @@ it('passes navigate to alpine data', function () {
 it('passes navigateHover to alpine data', function () {
     $url = request()->url();
 
-    $component = '<x-tab selected="A"><x-tab.items tab="A" when="'.$url.'" navigate-hover>Content</x-tab.items></x-tab>';
+    $component = '<x-tab selected="A"><x-tab.items tab="A" href="'.$url.'" navigate-hover>Content</x-tab.items></x-tab>';
 
     expect($component)->render()
         ->toContain('navigateHover: true');
@@ -106,7 +106,7 @@ it('passes navigateHover to alpine data', function () {
 it('auto selects tab when url matches', function () {
     $url = request()->url();
 
-    $component = '<x-tab selected="B"><x-tab.items tab="A" when="'.$url.'">Content A</x-tab.items><x-tab.items tab="B">Content B</x-tab.items></x-tab>';
+    $component = '<x-tab selected="B"><x-tab.items tab="A" href="'.$url.'">Content A</x-tab.items><x-tab.items tab="B">Content B</x-tab.items></x-tab>';
 
     expect($component)->render()
         ->toContain("selected = 'A'");
