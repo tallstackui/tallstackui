@@ -66,7 +66,7 @@ class Component extends TallStackUiComponent implements Customization
                 'active' => 'dark:bg-dark-500 bg-white',
                 'inactive' => 'dark:text-dark-300 dark:hover:text-dark-100 text-gray-500 hover:text-gray-700',
                 'colors' => [
-                    'moon' => 'text-blue-500 dark:text-blue-400',
+                    'moon' => 'text-blue-500',
                     'sun' => 'text-yellow-500',
                     'system' => 'dark:text-white text-gray-500',
                 ],
