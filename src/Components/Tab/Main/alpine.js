@@ -40,7 +40,7 @@ export default (selected = null) => ({
       link.href = item.href;
 
       document.head.appendChild(link);
-      
+
       item._prefetched = true;
     }
   },
