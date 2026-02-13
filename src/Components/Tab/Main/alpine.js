@@ -11,12 +11,14 @@ export default (selected = null) => ({
       }
     } else {
       this.selected = item.tab;
+
       this.$refs.ul.dispatchEvent(new CustomEvent('navigate', { detail: { select: item.tab } }));
     }
   },
   // Handles the mobile select dropdown change event.
   change() {
     const tab = this.tabs.find((i) => i.tab === this.selected);
+
     if (tab && tab.href) {
       if (tab.navigate || tab.navigateHover) {
         Livewire.navigate(tab.href);
@@ -33,9 +35,12 @@ export default (selected = null) => ({
   prefetch(item) {
     if (item.href && item.navigateHover && !item._prefetched) {
       const link = document.createElement('link');
+
       link.rel = 'prefetch';
       link.href = item.href;
+
       document.head.appendChild(link);
+      
       item._prefetched = true;
     }
   },

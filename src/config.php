@@ -183,7 +183,7 @@ return [
                 |----------------------------------
                 | Default and in-use icon type.
                 |----------------------------------
-                | Allowed: heroicons or BladeUI (check the docs).
+                | Allowed: heroicons, BladeUI or anonymous Blade components as svg (check the docs).
                 */
                 'type' => env('TALLSTACKUI_ICON_TYPE', 'heroicons'),
 
