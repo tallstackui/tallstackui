@@ -189,6 +189,103 @@ class SelectStyledCommonBrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_hydrate_grouped_options_with_default_values(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public array $cities = [4, 5];
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="cities">@json($cities)</p>
+
+                    <x-select.styled wire:model="cities"
+                                     label="Cities"
+                                     :options="[
+                                        [
+                                            'label' => 'Brazil',
+                                            'value' => [
+                                                ['label' => 'São Paulo', 'value' => 4],
+                                                ['label' => 'Rio de Janeiro', 'value' => 5],
+                                                ['label' => 'Brasília', 'value' => 6],
+                                            ]
+                                        ],
+                                        [
+                                            'label' => 'United States',
+                                            'value' => [
+                                                ['label' => 'New York', 'value' => 7],
+                                                ['label' => 'Los Angeles', 'value' => 8],
+                                                ['label' => 'Chicago', 'value' => 9],
+                                            ]
+                                        ],
+                                     ]"
+                                     select="label:label|value:value"
+                                     multiple
+                    />
+
+                    <x-button dusk="sync" wire:click="sync">Sync</x-button>
+                </div>
+                HTML;
+            }
+
+            public function sync(): void
+            {
+                // ...
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->pause(500)
+            ->assertDontSee('Select an option')
+            ->assertSeeIn('@tallstackui_select_open_close', 'São Paulo')
+            ->assertSeeIn('@tallstackui_select_open_close', 'Rio de Janeiro');
+    }
+
+    #[Test]
+    public function can_hydrate_grouped_single_option_with_default_value(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?int $city = 7;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="city">{{ $city }}</p>
+
+                    <x-select.styled wire:model="city"
+                                     label="City"
+                                     :options="[
+                                        [
+                                            'label' => 'Brazil',
+                                            'value' => [
+                                                ['label' => 'São Paulo', 'value' => 4],
+                                                ['label' => 'Rio de Janeiro', 'value' => 5],
+                                            ]
+                                        ],
+                                        [
+                                            'label' => 'United States',
+                                            'value' => [
+                                                ['label' => 'New York', 'value' => 7],
+                                                ['label' => 'Los Angeles', 'value' => 8],
+                                            ]
+                                        ],
+                                     ]"
+                                     select="label:label|value:value"
+                    />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->pause(500)
+            ->assertDontSee('Select an option')
+            ->assertSeeIn('@tallstackui_select_open_close', 'New York');
+    }
+
+    #[Test]
     public function can_interact_with_multiples_selects(): void
     {
         $this->skipOnGitHubActions();
@@ -385,6 +482,66 @@ class SelectStyledCommonBrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_navigate_grouped_options_with_keyboard(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?int $city = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="city">{{ $city }}</p>
+
+                    <x-select.styled wire:model="city"
+                                     label="City"
+                                     :options="[
+                                        [
+                                            'label' => 'Brazil',
+                                            'value' => [
+                                                ['label' => 'São Paulo', 'value' => 4],
+                                                ['label' => 'Rio de Janeiro', 'value' => 5],
+                                            ]
+                                        ],
+                                        [
+                                            'label' => 'United States',
+                                            'value' => [
+                                                ['label' => 'New York', 'value' => 7],
+                                                ['label' => 'Los Angeles', 'value' => 8],
+                                            ]
+                                        ],
+                                     ]"
+                                     select="label:label|value:value"
+                    />
+
+                    <x-button dusk="sync" wire:click="sync">Sync</x-button>
+                </div>
+                HTML;
+            }
+
+            public function sync(): void
+            {
+                // ...
+            }
+        })
+            ->assertSee('Select an option')
+            ->click('@tallstackui_select_open_close')
+            ->waitForText(['Brazil', 'São Paulo', 'New York'])
+            ->keys('@tallstackui_select_open_close', '{arrow_down}')
+            ->pause(200)
+            ->keys('@tallstackui_select_open_close', '{arrow_down}')
+            ->pause(200)
+            ->keys('@tallstackui_select_open_close', '{arrow_down}')
+            ->pause(200)
+            ->tap(fn ($browser) => $browser->script('document.activeElement.click()'))
+            ->pause(300)
+            ->click('@sync')
+            ->waitForTextIn('@city', '7')
+            ->assertSeeIn('@tallstackui_select_open_close', 'New York');
+    }
+
+    #[Test]
     public function can_open(): void
     {
         Livewire::visit(StyledComponent_Common::class)
@@ -511,6 +668,63 @@ class SelectStyledCommonBrowserTest extends BrowserTestCase
             ->waitUntilMissingText('bar')
             ->assertDontSee('bar')
             ->assertDontSee('JS');
+    }
+
+    #[Test]
+    public function can_search_within_grouped_options(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?int $city = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="city">{{ $city }}</p>
+
+                    <x-select.styled wire:model="city"
+                                     label="City"
+                                     :options="[
+                                        [
+                                            'label' => 'Brazil',
+                                            'value' => [
+                                                ['label' => 'São Paulo', 'value' => 4],
+                                                ['label' => 'Rio de Janeiro', 'value' => 5],
+                                            ]
+                                        ],
+                                        [
+                                            'label' => 'United States',
+                                            'value' => [
+                                                ['label' => 'New York', 'value' => 7],
+                                                ['label' => 'Los Angeles', 'value' => 8],
+                                            ]
+                                        ],
+                                     ]"
+                                     select="label:label|value:value"
+                                     searchable
+                    />
+
+                    <x-button dusk="sync" wire:click="sync">Sync</x-button>
+                </div>
+                HTML;
+            }
+
+            public function sync(): void
+            {
+                // ...
+            }
+        })
+            ->assertSee('Select an option')
+            ->click('@tallstackui_select_open_close')
+            ->waitForText(['Brazil', 'United States', 'São Paulo', 'New York'])
+            ->type('@tallstackui_select_search_input', 'York')
+            ->waitForText('New York')
+            ->assertSee('United States')
+            ->assertSee('New York')
+            ->waitUntilMissingText('São Paulo')
+            ->assertDontSee('São Paulo')
+            ->assertDontSee('Brazil');
     }
 
     #[Test]
@@ -654,6 +868,63 @@ class SelectStyledCommonBrowserTest extends BrowserTestCase
             ->waitUntilMissingText('bar')
             ->assertDontSee('bar')
             ->assertDontSee('Select an option');
+    }
+
+    #[Test]
+    public function can_select_grouped_options(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?int $city = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="city">{{ $city }}</p>
+
+                    <x-select.styled wire:model="city"
+                                     label="City"
+                                     :options="[
+                                        [
+                                            'label' => 'Brazil',
+                                            'value' => [
+                                                ['label' => 'São Paulo', 'value' => 4],
+                                                ['label' => 'Rio de Janeiro', 'value' => 5],
+                                            ]
+                                        ],
+                                        [
+                                            'label' => 'United States',
+                                            'value' => [
+                                                ['label' => 'New York', 'value' => 7],
+                                                ['label' => 'Los Angeles', 'value' => 8],
+                                            ]
+                                        ],
+                                     ]"
+                                     select="label:label|value:value"
+                    />
+
+                    <x-button dusk="sync" wire:click="sync">Sync</x-button>
+                </div>
+                HTML;
+            }
+
+            public function sync(): void
+            {
+                // ...
+            }
+        })
+            ->assertSee('Select an option')
+            ->click('@tallstackui_select_open_close')
+            ->waitForText(['Brazil', 'United States', 'São Paulo', 'New York'])
+            ->assertSee('Brazil')
+            ->assertSee('United States')
+            ->assertSee('São Paulo')
+            ->assertSee('New York')
+            ->clickAtXPath('//li[contains(., "São Paulo")]')
+            ->click('@sync')
+            ->waitForTextIn('@city', '4')
+            ->assertSeeIn('@tallstackui_select_open_close', 'São Paulo');
     }
 
     #[Test]

@@ -272,6 +272,12 @@ export default (
         if (desc) {
           option.__normalizedDesc = this.normalize(desc.toString().toLowerCase());
         }
+
+        const value = option[this.selectable.value];
+
+        if (Array.isArray(value)) {
+          this.preNormalize(value);
+        }
       }
     }
   },
@@ -497,7 +503,7 @@ export default (
       return;
     }
 
-    const items = this.available;
+    const items = this._flatItems(this.available);
 
     if (!items || items.length === 0) {
       this.selects = [];
@@ -567,6 +573,32 @@ export default (
       this.placeholder = placeholder;
       this.image = null;
     }
+  },
+  /**
+   * Flatten grouped options into individual items. Returns
+   * the original array unchanged when options are not grouped.
+   *
+   * @param {Array} items
+   * @returns {Array}
+   */
+  _flatItems(items) {
+    if (!items || items.length === 0 || !this.dimensional) return items;
+
+    const first = items[0];
+
+    if (!first || !Array.isArray(first[this.selectable.value])) return items;
+
+    const flat = [];
+
+    for (const group of items) {
+      const children = group[this.selectable.value];
+
+      if (Array.isArray(children)) {
+        for (const child of children) flat.push(child);
+      }
+    }
+
+    return flat;
   },
   /**
    * Compare the model and data using the same type.
@@ -679,7 +711,7 @@ export default (
 
     event.preventDefault();
 
-    const items = this.available;
+    const items = this._flatItems(this.available);
 
     if (!items || items.length === 0) return;
 
@@ -818,9 +850,33 @@ export default (
     };
 
     if (this.common) {
-      const result = available.filter(filter);
+      const grouped =
+        this.dimensional &&
+        available.length > 0 &&
+        available[0] &&
+        Array.isArray(available[0][this.selectable.value]);
 
-      this._availableCache = this.lazy ? result.slice(0, this.lazy) : result;
+      if (grouped) {
+        const result = [];
+
+        for (const group of available) {
+          const children = group[this.selectable.value];
+
+          if (!Array.isArray(children)) continue;
+
+          const filtered = children.filter(filter);
+
+          if (filtered.length > 0) {
+            result.push({ ...group, [this.selectable.value]: filtered });
+          }
+        }
+
+        this._availableCache = result;
+      } else {
+        const result = available.filter(filter);
+
+        this._availableCache = this.lazy ? result.slice(0, this.lazy) : result;
+      }
     } else {
       this._availableCache = unfiltered ? available : available.filter(filter);
     }

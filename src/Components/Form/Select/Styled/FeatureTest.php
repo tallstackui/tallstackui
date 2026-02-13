@@ -95,6 +95,32 @@ HTML;
     expect($component)->render();
 });
 
+it('can render with grouped options', function () {
+    $options = [
+        [
+            'label' => 'Brazil',
+            'value' => [
+                ['label' => 'São Paulo', 'value' => 4],
+                ['label' => 'Rio de Janeiro', 'value' => 5],
+            ],
+        ],
+        [
+            'label' => 'United States',
+            'value' => [
+                ['label' => 'New York', 'value' => 7],
+                ['label' => 'Los Angeles', 'value' => 8],
+            ],
+        ],
+    ];
+
+    $html = Blade::render('<x-select.styled label="Cities" :options="$options" select="label:label|value:value" />', ['options' => $options]);
+
+    expect($html)
+        ->toContain('Cities')
+        ->toContain('option.value')
+        ->toContain('option[selectable.label]');
+});
+
 it('can thrown exception when lazy is less than 10', function () {
     $this->expectException(Exception::class);
     $this->expectExceptionMessage('[TallStackUI] Form\Select\Styled: The attribute [lazy] must be greater than or equal to 10.');

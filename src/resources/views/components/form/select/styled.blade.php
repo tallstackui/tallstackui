@@ -176,7 +176,7 @@
                             <template x-for="(item, index) in option.value" :key="index">
                                 <li x-on:click="select(item)"
                                     x-on:keypress.enter="select(item)"
-                                    x-bind:class="{'{{ $customization['box.list.item.selected'] }}': !common ? selected(item) : selects.includes(item), '{{ $customization['box.list.item.disabled'] }}': item.disabled === true}"
+                                    x-bind:class="{'{{ $customization['box.list.item.selected'] }}': selected(item), '{{ $customization['box.list.item.disabled'] }}': item.disabled === true}"
                                     role="option"
                                     class="{{ $customization['box.list.item.wrapper'] }}">
                                     <div class="{{ $customization['box.list.item.grouped'] }}">
@@ -194,7 +194,7 @@
                                         <div class="{{ $customization['box.list.item.check'] }}">
                                             <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                                                  :icon="TallStackUi::icon('check')"
-                                                                 x-show="!common ? selected(item) : selects.includes(item)"
+                                                                 x-show="selected(item)"
                                                                  internal
                                                                  class="{{ $customization['box.list.item.check'] }}" />
                                         </div>

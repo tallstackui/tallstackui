@@ -50,6 +50,41 @@ A feature-rich styled select component built with Alpine.js, supporting single a
 | options      | Collection\|array   | []      | Array of options for client-side mode                                                                             |
 | after        | string\|null        | null    | Custom HTML content displayed when no options match the search                                                    |
 
+## Grouped Options
+
+Options can be organized into groups. When an option's `value` is an array of sub-options, the component automatically detects grouped mode (the `grouped` attribute is auto-set).
+
+```blade
+<x-select.styled wire:model="city" label="City"
+    :options="[
+        [
+            'label' => 'Brazil',
+            'description' => 'South America',
+            'image' => 'https://example.com/br.png',
+            'value' => [
+                ['label' => 'São Paulo', 'value' => 4],
+                ['label' => 'Rio de Janeiro', 'value' => 5],
+            ]
+        ],
+        [
+            'label' => 'United States',
+            'value' => [
+                ['label' => 'New York', 'value' => 7],
+                ['label' => 'Los Angeles', 'value' => 8],
+            ]
+        ],
+    ]"
+    select="label:label|value:value" />
+```
+
+Key behaviors:
+- Group headers display label, optional description, and optional image
+- Only nested items within groups are selectable (group headers are display-only)
+- Pre-selected values (via `wire:model`) are correctly resolved from nested items
+- Search filters items within groups and hides groups with no matching items
+- Works with both single and multiple selection modes
+- The same `select` mapping applies to both groups and their nested items
+
 ## Validation Constraints
 
 - The `options` and `request` cannot be defined at the same time.
