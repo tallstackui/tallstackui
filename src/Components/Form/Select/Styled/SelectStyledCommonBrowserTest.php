@@ -3,6 +3,7 @@
 namespace TallStackUi\Components\Form\Select\Styled;
 
 use Illuminate\Support\Collection;
+use Laravel\Dusk\Browser;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\Livewire;
@@ -534,7 +535,7 @@ class SelectStyledCommonBrowserTest extends BrowserTestCase
             ->pause(200)
             ->keys('@tallstackui_select_open_close', '{arrow_down}')
             ->pause(200)
-            ->tap(fn ($browser) => $browser->script('document.activeElement.click()'))
+            ->tap(fn (Browser $browser) => $browser->script('document.activeElement.click()'))
             ->pause(300)
             ->click('@sync')
             ->waitForTextIn('@city', '7')

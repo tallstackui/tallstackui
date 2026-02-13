@@ -124,6 +124,7 @@ return [
             | Command Palette Settings
             |----------------------------------------------------------------------
             |
+            | actionable: the callable class for handling item selection (e.g., App\Support\GlobalSearch::class).
             | request: the data source for the command palette.
             | z-index: controls the default z-index.
             | blur: enables the background blur effect (Allowed: false, sm, md, lg, xl).
@@ -135,6 +136,7 @@ return [
             | scrollbar: when true, applies a custom minimal scrollbar to the results list.
             */
             [
+                'actionable' => null,
                 'request' => null,
                 'z-index' => 'z-50',
                 'blur' => false,

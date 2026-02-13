@@ -141,6 +141,14 @@ class BrowserTestCase extends TestCase
 
         $router->get('/tab-navigation-target', fn () => '<html><head></head><body>Tab Navigation Target Page</body></html>');
 
+        $router->post('/mock-command-palette-action', fn () => response()->json([
+            'type' => 'event',
+            'data' => ['name' => 'action-executed', 'params' => ['source' => 'actionable']],
+            'external' => false,
+        ]));
+
+        $router->get('/command-palette-redirect-target', fn () => '<html><head></head><body>Redirect Target</body></html>');
+
         $router->match(['get', 'post'], '/searchable-by-category', function (Request $request) {
             $category = $request->input('category', 'none');
 

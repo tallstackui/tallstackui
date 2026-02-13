@@ -640,6 +640,8 @@ When exploring a codebase for implementation, limit exploration to a maximum of 
 
 Always verify which branch you're working on before making changes. Confirm the target branch matches the PR or task requirements. Run `git branch --show-current` before starting work.
 
+**NEVER create commits unless the user explicitly requests it.** Do not proactively stage or commit changes. Wait for a clear instruction such as "commit", "create a commit", or "commit the changes" before running any `git add` or `git commit` commands.
+
 ## Code Quality
 
 Never leave @dump(), dd(), console.log(), or other debug statements in code. Before completing any task, search modified files for debug artifacts.

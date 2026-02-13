@@ -49,6 +49,121 @@ A searchable command palette overlay that fetches results from a server endpoint
 - When `request` is an array, the `url` key is required.
 - When `request` is an array with a `method` key, it must be `get` or `post`.
 - When `request` is an array with a `params` key, it must be a non-empty array.
+- When `actionable` is set in config, the class must exist and be invocable (`__invoke`).
+
+## Selection Handling
+
+When a user selects an option, the component uses a priority chain to determine how to handle it:
+
+1. **Inline event** (`x-on:select`) — If the component has an `x-on:select` listener, dispatches the event with the selected option data. The global event is suppressed.
+2. **Actionable** (`config actionable`) — If an actionable class is configured, sends a POST request to a signed internal route. The server invokes the class and returns a `Callback` response (redirect or event).
+3. **Global event** (fallback) — Dispatches a `command-palette:select` window event with the selected option data.
+
+### Inline Event (x-on:select)
+
+```blade
+<x-command-palette request="/api/search"
+                   select="label:name|value:id"
+                   x-on:select="handleSelection($event.detail)" />
+```
+
+The `$event.detail` contains all fields from the selected option (internal keys prefixed with `__` are stripped).
+
+### Actionable (Server-Side Action)
+
+Configure an invocable class in `config/tallstackui.php`:
+
+```php
+'command-palette' => [
+    TallStackUi\Components\CommandPalette\Component::class,
+    [
+        'actionable' => App\Actions\CommandPaletteAction::class,
+        // ...
+    ],
+],
+```
+
+The class receives an `ItemSelected` value object and must return a `Callback`:
+
+```php
+use TallStackUi\Support\CommandPalette\Callback;
+use TallStackUi\Support\CommandPalette\ItemSelected;
+
+class CommandPaletteAction
+{
+    public function __invoke(ItemSelected $selected): Callback
+    {
+        return Callback::redirect("/items/{$selected->value}");
+    }
+}
+```
+
+#### ItemSelected Value Object
+
+Immutable DTO implementing `Arrayable`. All properties are `readonly`.
+
+| Property    | Type    | Description                          |
+|-------------|---------|--------------------------------------|
+| label       | mixed   | The selected option's label          |
+| value       | mixed   | The selected option's value          |
+| description | ?string | Optional description text            |
+| image       | ?string | Optional image URL                   |
+| icon        | ?string | Optional icon HTML                   |
+| search      | ?string | The search term at time of selection |
+| additional  | array   | Extra fields from the API response   |
+
+`toArray()` returns all properties as an associative array.
+
+#### Callback Response Object
+
+```php
+// Redirect to an internal page
+Callback::redirect('/dashboard');
+
+// Redirect to an external URL (opens in new tab)
+Callback::redirect('https://example.com')->external();
+
+// Dispatch a browser event
+Callback::event('item-selected');
+
+// Dispatch a browser event with parameters
+Callback::event('item-selected')->with(['id' => $selected->value]);
+```
+
+### Global Event (Fallback)
+
+When no inline `x-on:select` or actionable is configured:
+
+```blade
+<div x-on:command-palette:select.window="handleSelection($event.detail)">
+    <x-command-palette request="/api/search" select="label:name|value:id" />
+</div>
+```
+
+## Lifecycle Events
+
+Open/close events are always dispatched regardless of selection mode:
+
+| Event                   | Channel     | Trigger        |
+|-------------------------|-------------|----------------|
+| `open` (inline)         | `$dispatch` | Palette opens  |
+| `close` (inline)        | `$dispatch` | Palette closes |
+| `command-palette:open`  | `window`    | Palette opens  |
+| `command-palette:close` | `window`    | Palette closes |
+
+```blade
+{{-- Inline lifecycle events --}}
+<x-command-palette request="/api/search"
+                   select="label:name|value:id"
+                   x-on:open="console.log('opened')"
+                   x-on:close="console.log('closed')" />
+
+{{-- Global lifecycle events --}}
+<div x-on:command-palette:open.window="console.log('opened')"
+     x-on:command-palette:close.window="console.log('closed')">
+    <x-command-palette request="/api/search" select="label:name|value:id" />
+</div>
+```
 
 ## Configuration
 
@@ -56,6 +171,7 @@ In `config/tallstackui.php` under `components.command-palette`:
 
 | Option     | Type                | Default  | Description                                                       |
 |------------|---------------------|----------|-------------------------------------------------------------------|
+| actionable | string\|null        | null     | Invocable PHP class for server-side action handling               |
 | request    | string\|array\|null | null     | Default data source for all command palettes                      |
 | z-index    | string              | 'z-50'   | Default z-index class                                             |
 | blur       | false\|string       | false    | Background blur effect (false, sm, md, lg, xl)                    |

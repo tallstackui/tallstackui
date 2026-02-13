@@ -3,6 +3,7 @@
 namespace TallStackUi\Support\Configurations;
 
 use Exception;
+use Illuminate\Support\Facades\URL;
 use TallStackUi\Components\CommandPalette\Component as CommandPalette;
 use TallStackUi\Components\Dialog\Component as Dialog;
 use TallStackUi\Components\Form\Color\Component as Color;
@@ -65,7 +66,10 @@ class CompileConfigurations
     {
         $configuration = __ts_get_component_configuration(CommandPalette::class);
 
+        $actionable = $configuration['actionable'] ?? null;
+
         return [
+            'url' => $actionable ? URL::signedRoute('tallstackui.command-palette.action') : null,
             'zIndex' => $configuration['z-index'] ?? 'z-50',
             'blur' => $configuration['blur'] ?? false,
             'overflow' => $configuration['overflow'] ?? false,

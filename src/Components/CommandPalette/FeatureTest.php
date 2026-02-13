@@ -9,6 +9,7 @@ afterEach(function () {
     config()->set('ts-ui.components.command-palette', [
         TallStackUi\Components\CommandPalette\Component::class,
         [
+            'actionable' => null,
             'request' => null,
             'z-index' => 'z-50',
             'blur' => false,
@@ -140,6 +141,7 @@ it('renders without click-outside close when persistent', function () {
     config()->set('ts-ui.components.command-palette', [
         TallStackUi\Components\CommandPalette\Component::class,
         [
+            'actionable' => null,
             'request' => null,
             'z-index' => 'z-50',
             'blur' => false,
@@ -176,6 +178,7 @@ it('hides keyboard hints when elements config is false', function () {
     config()->set('ts-ui.components.command-palette', [
         TallStackUi\Components\CommandPalette\Component::class,
         [
+            'actionable' => null,
             'request' => null,
             'z-index' => 'z-50',
             'blur' => false,
@@ -214,6 +217,7 @@ it('renders without custom scrollbar when disabled', function () {
     config()->set('ts-ui.components.command-palette', [
         TallStackUi\Components\CommandPalette\Component::class,
         [
+            'actionable' => null,
             'request' => null,
             'z-index' => 'z-50',
             'blur' => false,
@@ -272,6 +276,7 @@ it('can render with request from config as string url', function () {
     config()->set('ts-ui.components.command-palette', [
         TallStackUi\Components\CommandPalette\Component::class,
         [
+            'actionable' => null,
             'request' => 'https://example.com/global-search',
             'z-index' => 'z-50',
             'blur' => false,
@@ -295,6 +300,7 @@ it('can render with request from config as array', function () {
     config()->set('ts-ui.components.command-palette', [
         TallStackUi\Components\CommandPalette\Component::class,
         [
+            'actionable' => null,
             'request' => ['url' => 'https://example.com/global-search', 'method' => 'post'],
             'z-index' => 'z-50',
             'blur' => false,
@@ -318,6 +324,7 @@ it('inline request overrides config request', function () {
     config()->set('ts-ui.components.command-palette', [
         TallStackUi\Components\CommandPalette\Component::class,
         [
+            'actionable' => null,
             'request' => 'https://example.com/global-search',
             'z-index' => 'z-50',
             'blur' => false,
@@ -361,6 +368,7 @@ it('can resolve route name from config', function () {
     config()->set('ts-ui.components.command-palette', [
         TallStackUi\Components\CommandPalette\Component::class,
         [
+            'actionable' => null,
             'request' => 'global.command.palette.search',
             'z-index' => 'z-50',
             'blur' => false,
@@ -398,13 +406,14 @@ it('recycle is true by default', function () {
     HTML;
 
     expect($component)->render()
-        ->toContain("'ctrl.k',true)");
+        ->toContain("'ctrl.k',true,null,false)");
 });
 
 it('recycle can be disabled via config', function () {
     config()->set('ts-ui.components.command-palette', [
         TallStackUi\Components\CommandPalette\Component::class,
         [
+            'actionable' => null,
             'request' => null,
             'z-index' => 'z-50',
             'blur' => false,
@@ -424,13 +433,14 @@ it('recycle can be disabled via config', function () {
     HTML;
 
     expect($component)->render()
-        ->toContain("'ctrl.k',false)");
+        ->toContain("'ctrl.k',false,null,false)");
 });
 
 it('inline recycle overrides config recycle', function () {
     config()->set('ts-ui.components.command-palette', [
         TallStackUi\Components\CommandPalette\Component::class,
         [
+            'actionable' => null,
             'request' => null,
             'z-index' => 'z-50',
             'blur' => false,
@@ -450,7 +460,7 @@ it('inline recycle overrides config recycle', function () {
     HTML;
 
     expect($component)->render()
-        ->toContain("'ctrl.k',true)");
+        ->toContain("'ctrl.k',true,null,false)");
 });
 
 // --- Footer visibility tests ---
@@ -464,4 +474,90 @@ it('renders footer with x-show for conditional visibility', function () {
         ->toContain('x-show="available.length > 0 || (search &')
         ->toContain('!loading &')
         ->toContain('fetched)"');
+});
+
+it('cannot use non-existent actionable class', function () {
+    config()->set('ts-ui.components.command-palette', [
+        TallStackUi\Components\CommandPalette\Component::class,
+        [
+            'actionable' => 'App\\NonExistent\\FakeClass',
+            'request' => null,
+            'z-index' => 'z-50',
+            'blur' => false,
+            'overflow' => false,
+            'shortcut' => 'ctrl.k',
+            'persistent' => false,
+            'recycle' => true,
+            'elements' => true,
+            'scrollbar' => true,
+        ],
+    ]);
+
+    __ts_get_component_configuration(TallStackUi\Components\CommandPalette\Component::class, flush: true);
+
+    $this->expectException(ViewException::class);
+    $this->expectExceptionMessage('[TallStackUI] CommandPalette: The [actionable] class does not exist.');
+
+    expect('<x-command-palette request="https://example.com/search" select="label:title|value:id" />')->render();
+});
+
+it('cannot use non-invocable actionable class', function () {
+    config()->set('ts-ui.components.command-palette', [
+        TallStackUi\Components\CommandPalette\Component::class,
+        [
+            'actionable' => Tests\TestCase::class,
+            'request' => null,
+            'z-index' => 'z-50',
+            'blur' => false,
+            'overflow' => false,
+            'shortcut' => 'ctrl.k',
+            'persistent' => false,
+            'recycle' => true,
+            'elements' => true,
+            'scrollbar' => true,
+        ],
+    ]);
+
+    __ts_get_component_configuration(TallStackUi\Components\CommandPalette\Component::class, flush: true);
+
+    $this->expectException(ViewException::class);
+    $this->expectExceptionMessage('[TallStackUI] CommandPalette: The [actionable] class must be invocable (__invoke).');
+
+    expect('<x-command-palette request="https://example.com/search" select="label:title|value:id" />')->render();
+});
+
+it('renders with null actionable by default', function () {
+    $component = <<<'HTML'
+    <x-command-palette request="https://example.com/search" select="label:title|value:id" />
+    HTML;
+
+    expect($component)->render()
+        ->toContain('tallstackui_commandPalette');
+});
+
+it('passes action url when actionable is configured', function () {
+    config()->set('ts-ui.components.command-palette', [
+        TallStackUi\Components\CommandPalette\Component::class,
+        [
+            'actionable' => Tests\Support\CommandPaletteActionableStub::class,
+            'request' => null,
+            'z-index' => 'z-50',
+            'blur' => false,
+            'overflow' => false,
+            'shortcut' => 'ctrl.k',
+            'persistent' => false,
+            'recycle' => true,
+            'elements' => true,
+            'scrollbar' => true,
+        ],
+    ]);
+
+    __ts_get_component_configuration(TallStackUi\Components\CommandPalette\Component::class, flush: true);
+
+    $component = <<<'HTML'
+    <x-command-palette request="https://example.com/search" select="label:title|value:id" />
+    HTML;
+
+    expect($component)->render()
+        ->toContain('command-palette\/action');
 });

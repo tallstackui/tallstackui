@@ -3,7 +3,7 @@
 @endphp
 
 <div x-cloak
-     x-data="tallstackui_commandPalette(@js($request),@js($selectable),@js($configurations['shortcut']),@js($recycle))"
+     x-data="tallstackui_commandPalette(@js($request),@js($selectable),@js($configurations['shortcut']),@js($recycle),@js($configurations['url'] ?? null),@js($attributes->has('x-on:select')))"
      x-on:command-palette-open.window="open()"
      x-on:command-palette-close.window="close()"
      {{ $attributes->whereStartsWith('x-on:') }}>
@@ -51,12 +51,13 @@
                 </div>
             </div>
             <div x-ref="list"
+                 x-on:mousemove="_keyboard = false"
                  @class([$customization['list'], 'command-palette-scrollbar' => $configurations['scrollbar']])
                  x-show="available.length > 0 || (search && !loading && fetched)">
                 <template x-for="(option, index) in available" :key="option.__tsui_key ?? index">
                     <button type="button"
                             x-on:click="selectOption(option)"
-                            x-on:mouseenter="selected = index"
+                            x-on:mouseenter="mouseHover(index)"
                             role="option"
                             :class="{
                                 '{{ $customization['option.active'] }}': selected === index,

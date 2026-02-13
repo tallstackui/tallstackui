@@ -66,8 +66,8 @@ class Component extends TallStackUiComponent implements Customization
                 'base' => 'flex w-full cursor-pointer items-center gap-x-3 rounded-lg px-3 py-2 text-left',
                 'active' => 'bg-primary-50 dark:bg-dark-700',
                 'disabled' => 'opacity-50 cursor-not-allowed',
-                'image' => 'h-8 w-8 flex-shrink-0 rounded-full object-cover',
-                'icon' => 'h-8 w-8 flex-shrink-0 text-dark-400 dark:text-dark-500 [&>svg]:h-full [&>svg]:w-full',
+                'image' => 'h-6 w-6 flex-shrink-0 rounded-full object-cover',
+                'icon' => 'h-6 w-6 flex-shrink-0 text-dark-400 dark:text-dark-500 [&>svg]:h-full [&>svg]:w-full',
                 'content' => 'flex flex-col overflow-hidden',
                 'label' => 'truncate text-sm font-medium text-dark-600 dark:text-dark-300',
                 'description' => 'truncate text-xs text-dark-500 dark:text-dark-400',
@@ -104,6 +104,16 @@ class Component extends TallStackUiComponent implements Customization
     {
         if (! filled($this->request)) {
             __ts_validation_exception($this, 'The [request] must be configured either as an inline attribute or in the config file.');
+        }
+
+        $actionable = __ts_get_component_configuration(self::class, 'actionable');
+
+        if ($actionable !== null && ! class_exists($actionable)) {
+            __ts_validation_exception($this, 'The [actionable] class does not exist.');
+        }
+
+        if ($actionable !== null && ! method_exists($actionable, '__invoke')) {
+            __ts_validation_exception($this, 'The [actionable] class must be invocable (__invoke).');
         }
 
         if (! is_array($this->request)) {
