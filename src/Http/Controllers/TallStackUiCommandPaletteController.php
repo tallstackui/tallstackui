@@ -20,10 +20,17 @@ class TallStackUiCommandPaletteController
         abort_unless(method_exists($actionable, '__invoke'), 422, '[TallStackUI] Actionable class must have an __invoke method.');
 
         $item = (array) $request->input('item', []);
-        $search = $request->input('search', '');
 
         /** @var Callback $callback */
-        $callback = app($actionable)(new ItemSelected(...$item, search: $search));
+        $callback = app($actionable)(new ItemSelected(
+            search: $request->input('search', ''),
+            label: $item['label'] ?? null,
+            value: $item['value'] ?? null,
+            description: $item['description'] ?? null,
+            image: $item['image'] ?? null,
+            icon: $item['icon'] ?? null,
+            additional: $item['additional'] ?? [],
+        ));
 
         return response()->json($callback->toArray());
     }

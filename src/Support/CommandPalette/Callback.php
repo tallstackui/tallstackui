@@ -20,18 +20,18 @@ class Callback implements Arrayable
         return new self('event', ['name' => $name]);
     }
 
+    /** Create a callback that redirects the browser to the given path. */
+    public static function redirect(string $to): self
+    {
+        return new self('redirect', ['to' => $to]);
+    }
+
     /** Mark the redirect callback to open in a new tab. */
     public function external(): self
     {
         $this->external = true;
 
         return $this;
-    }
-
-    /** Create a callback that redirects the browser to the given path. */
-    public static function redirect(string $to): self
-    {
-        return new self('redirect', ['to' => $to]);
     }
 
     /** {@inheritDoc} */
