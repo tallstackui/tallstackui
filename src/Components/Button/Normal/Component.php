@@ -32,6 +32,7 @@ class Component extends TallStackUiComponent implements Customization
         public ?string $color = 'primary',
         public ?string $square = null,
         public ?string $round = null,
+        public ?bool $block = false,
         public ?string $href = null,
         public ?string $loading = null,
         public ?string $delay = null,

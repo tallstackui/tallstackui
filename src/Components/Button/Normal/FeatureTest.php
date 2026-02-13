@@ -62,6 +62,16 @@ it('can render with type submit')
     ->render()
     ->toContain('type="submit"', false);
 
+it('can render block')
+    ->expect('<x-button text="Foo bar" block />')
+    ->render()
+    ->toContain('w-full');
+
+it('cannot render block class without block property')
+    ->expect('<x-button text="Foo bar" />')
+    ->render()
+    ->not->toContain('w-full');
+
 it('can render colored', function (string $colors) {
     $component = <<<HTML
     <x-button text="Foo bar" color="$colors" />

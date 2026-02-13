@@ -8,6 +8,7 @@
         $customization['wrapper.class'],
         $customization['wrapper.sizes.' . $size],
         $colors['background'],
+        'w-full' => $block,
         $customization['wrapper.border.radius.rounded'] => !$square && !$round,
         $customization['wrapper.border.radius.circle'] => !$square && $round !== null,
     ]) }} type="{{ $attributes->get('type', $submit ? 'submit' : 'button') }}" @if ($livewire && $loading)

@@ -37,6 +37,7 @@ A versatile button component supporting solid, light, outline, and flat styles w
 | color     | string\|null | 'primary' | Color theme (e.g., primary, red, green, yellow)                 |
 | square    | string\|null | null      | Removes border radius for square corners                        |
 | round     | string\|null | null      | Uses fully rounded (pill) border radius                         |
+| block     | bool         | false     | Expands button to full width (`w-full`)                         |
 | href      | string\|null | null      | When set, renders as an anchor tag instead of a button          |
 | loading   | string\|null | null      | Livewire action name to show a loading spinner during execution |
 | delay     | string\|null | null      | Delay duration for the loading indicator (e.g., 'longest')      |
