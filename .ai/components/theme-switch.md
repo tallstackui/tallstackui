@@ -23,21 +23,28 @@ A dark mode toggle component with two display variations: a segmented control (w
 <x-theme-switch xs />
 ```
 
+```blade
+{{-- Full-width segmented with centered icons (useful inside dropdowns header slot) --}}
+<x-theme-switch block />
+```
+
 ## Attributes
 
-| Attribute  | Type | Default | Description                                                                       |
-|------------|------|---------|-----------------------------------------------------------------------------------|
-| simple     | bool | false   | Uses a toggle switch instead of the segmented control                             |
-| only-icons | bool | false   | Hides text labels in simple mode, showing only sun/moon icons (requires `simple`) |
-| xs         | bool | null    | Extra-small size                                                                  |
-| sm         | bool | null    | Small size                                                                        |
-| md         | bool | null    | Medium size (default)                                                             |
-| lg         | bool | null    | Large size                                                                        |
-| xl         | bool | null    | Extra-large size                                                                  |
+| Attribute  | Type | Default | Description                                                                                              |
+|------------|------|---------|----------------------------------------------------------------------------------------------------------|
+| simple     | bool | false   | Uses a toggle switch instead of the segmented control                                                    |
+| only-icons | bool | false   | Hides text labels in simple mode, showing only sun/moon icons (requires `simple`)                        |
+| block      | bool | false   | Expands segmented control to full width with centered icons and no focus ring (segmented variation only) |
+| xs         | bool | null    | Extra-small size                                                                                         |
+| sm         | bool | null    | Small size                                                                                               |
+| md         | bool | null    | Medium size (default)                                                                                    |
+| lg         | bool | null    | Large size                                                                                               |
+| xl         | bool | null    | Extra-large size                                                                                         |
 
 ## Validation Constraints
 
 - The `only-icons` attribute requires `simple` to be enabled.
+- The `block` attribute is not supported with `simple` variation.
 
 ## Soft Customization
 

@@ -15,6 +15,7 @@ class Component extends TallStackUiComponent implements Customization
     public function __construct(
         public ?bool $simple = false,
         public ?bool $onlyIcons = false,
+        public ?bool $block = false,
         public ?bool $xs = null,
         public ?bool $sm = null,
         public ?bool $md = null,
@@ -31,6 +32,10 @@ class Component extends TallStackUiComponent implements Customization
 
         if ($this->onlyIcons && ! $this->simple) {
             __ts_validation_exception($this, 'The [only-icons] property requires [simple] to be enabled.');
+        }
+
+        if ($this->block && $this->simple) {
+            __ts_validation_exception($this, 'The [block] property is not supported with [simple] variation.');
         }
     }
 
