@@ -25,7 +25,7 @@
         {!! $attributes->except(['x-show', 'x-anchor', 'class']) !!}
     @endif
 @endif
-x-effect="if ({{ $attributes->get('x-show', 'show') }}) $nextTick(() => { let a = {{ $attributes->get('x-anchor', '$refs.anchor') }}; if (a && $el.classList.contains('w-full')) $el.style.width = a.offsetWidth + 'px' })"
+x-effect="if (@js($attributes->get('x-show', 'show')) $nextTick(() => { let anchor = {{ $attributes->get('x-anchor', '$refs.anchor') }}; if (anchor && $el.classList.contains('w-full')) $el.style.width = anchor.offsetWidth + 'px' })"
 {{ $attributes->except(['floating', 'x-anchor'])->merge(['class' => $attributes->get('floating', $customization['wrapper']), 'data-floating' => true]) }}>
 {{ $slot }}
 {{ $footer }}
