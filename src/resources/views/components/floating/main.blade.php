@@ -2,8 +2,10 @@
     $customization = $classes();
 @endphp
 
+<template x-teleport="body">
 <div x-show="{{ $attributes->get('x-show', 'show') }}"
      x-cloak
+     x-on:click.stop
      x-on:click.outside="{{ $attributes->get('x-show', 'show') }} = false"
      x-on:keydown.escape.window="{{ $attributes->get('x-show', 'show') }} = false"
      x-intersect:leave="{{ $attributes->get('x-show', 'show') }} = false"
@@ -23,7 +25,9 @@
         {!! $attributes->except(['x-show', 'x-anchor', 'class']) !!}
     @endif
 @endif
-{{ $attributes->except(['floating', 'x-anchor'])->merge(['class' => $attributes->get('floating', $customization['wrapper'])]) }}>
+x-effect="if (@js($attributes->get('x-show', 'show')) $nextTick(() => { let anchor = {{ $attributes->get('x-anchor', '$refs.anchor') }}; if (anchor && $el.classList.contains('w-full')) $el.style.width = anchor.offsetWidth + 'px' })"
+{{ $attributes->except(['floating', 'x-anchor'])->merge(['class' => $attributes->get('floating', $customization['wrapper']), 'data-floating' => true]) }}>
 {{ $slot }}
 {{ $footer }}
 </div>
+</template>
