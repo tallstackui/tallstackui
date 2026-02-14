@@ -109,7 +109,7 @@ class BrowserTest extends BrowserTestCase
             ->waitForText('test.jpeg')
             ->assertSee('test.jpeg')
             ->waitForLivewire()
-            ->clickAtXPath('/html/body/div[3]/div/div[2]/div[3]/ul/li/div[2]/button')
+            ->clickAtXPath('(//div[@data-floating])[1]/div[3]/ul/li/div[2]/button')
             ->assertMissing('@uploaded')
             ->waitForText('No images.')
             ->assertSee('No images.')
@@ -169,7 +169,7 @@ class BrowserTest extends BrowserTestCase
             ->waitForTextIn('@uploaded', 'test.jpeg')
             ->assertSeeIn('@uploaded', 'test.jpeg')
             ->waitForLivewire()
-            ->clickAtXPath('/html/body/div[3]/div/div[2]/div[4]/ul/li/div[2]/button')
+            ->clickAtXPath('(//div[@data-floating])[1]/div[4]/ul/li/div[2]/button')
             ->assertMissing('@uploaded');
     }
 
@@ -221,7 +221,7 @@ class BrowserTest extends BrowserTestCase
             ->waitForTextIn('@uploaded', 'test.jpeg')
             ->assertSeeIn('@uploaded', 'test.jpeg')
             ->waitForLivewire()
-            ->clickAtXPath('/html/body/div[3]/div/div[2]/div[4]/ul/li/div[2]/button')
+            ->clickAtXPath('(//div[@data-floating])[1]/div[4]/ul/li/div[2]/button')
             ->assertMissing('@uploaded');
     }
 
@@ -730,7 +730,7 @@ class BrowserTest extends BrowserTestCase
             ->waitForTextIn('@uploaded', 'test.jpeg')
             ->assertSeeIn('@uploaded', 'test.jpeg')
             ->waitForLivewire()
-            ->clickAtXPath('/html/body/div[3]/div/div[2]/div[4]/ul/li/div[2]/button')
+            ->clickAtXPath('(//div[@data-floating])[1]/div[4]/ul/li/div[2]/button')
             ->assertMissing('@uploaded')
             ->assertVisible('@remove')
             ->waitForTextIn('@remove', 'Remove')
