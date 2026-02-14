@@ -4,11 +4,8 @@ import banner from '../src/Components/Banner/alpine';
 import carousel from '../src/Components/Carousel/alpine';
 import card from '../src/Components/Card/alpine';
 import color from '../src/Components/Form/Color/alpine';
-import clipboard from '../src/Components/Clipboard/alpine';
-import commandPalette from '../src/Components/CommandPalette/alpine';
 import collapse from '../src/Components/Layout/SideBar/Main/collapse';
 import currency from '../src/Components/Form/Currency/alpine';
-import date from '../src/Components/Form/Date/alpine';
 import darkTheme from './helpers/dark-theme';
 import dial from '../src/Components/Dial/Main/alpine';
 import dialog from '../src/Components/Dialog/alpine';
@@ -21,8 +18,6 @@ import keyValue from '../src/Components/KeyValue/alpine';
 import modal from '../src/Components/Modal/alpine';
 import number from '../src/Components/Form/Number/alpine';
 import rating from '../src/Components/Rating/alpine';
-import reaction from '../src/Components/Reaction/alpine';
-import select from '../src/Components/Form/Select/Styled/alpine';
 import signature from '../src/Components/Signature/alpine';
 import slide from '../src/Components/Slide/alpine';
 import stats from '../src/Components/Stats/alpine';
@@ -32,10 +27,8 @@ import tab from '../src/Components/Tab/Main/alpine';
 import table from '../src/Components/Table/alpine';
 import tag from '../src/Components/Form/Tag/alpine';
 import textArea from '../src/Components/Form/Textarea/alpine';
-import time from '../src/Components/Form/Time/alpine';
 import toastBase from '../src/Components/Toast/toast-base';
 import toastLoop from '../src/Components/Toast/toast-loop';
-import tooltip from '../src/Components/Tooltip/alpine';
 import upload from '../src/Components/Form/Upload/alpine';
 
 if (!window.__tsui_elements) {
@@ -43,16 +36,12 @@ if (!window.__tsui_elements) {
 }
 
 document.addEventListener('alpine:init', () => {
-  Alpine.plugin(tooltip);
   Alpine.data('tallstackui_backToTop', backToTop);
   Alpine.data('tallstackui_banner', banner);
   Alpine.data('tallstackui_carousel', carousel);
   Alpine.data('tallstackui_card', card);
-  Alpine.data('tallstackui_clipboard', clipboard);
-  Alpine.data('tallstackui_commandPalette', commandPalette);
   Alpine.data('tallstackui_formColor', color);
   Alpine.data('tallstackui_formCurrency', currency);
-  Alpine.data('tallstackui_formDate', date);
   Alpine.data('tallstackui_formInputClearable', clearable);
   Alpine.data('tallstackui_formInputStripZeros', stripZeros);
   Alpine.data('tallstackui_formNumber', number);
@@ -60,7 +49,6 @@ document.addEventListener('alpine:init', () => {
   Alpine.data('tallstackui_formPin', pin);
   Alpine.data('tallstackui_formTag', tag);
   Alpine.data('tallstackui_formTextArea', textArea);
-  Alpine.data('tallstackui_formTime', time);
   Alpine.data('tallstackui_formUpload', upload);
   Alpine.data('tallstackui_darkTheme', darkTheme);
   Alpine.data('tallstackui_dial', dial);
@@ -71,8 +59,6 @@ document.addEventListener('alpine:init', () => {
   Alpine.data('tallstackui_keyValue', keyValue);
   Alpine.data('tallstackui_modal', modal);
   Alpine.data('tallstackui_rating', rating);
-  Alpine.data('tallstackui_reaction', reaction);
-  Alpine.data('tallstackui_select', select);
   Alpine.data('tallstackui_signature', signature);
   Alpine.data('tallstackui_slide', slide);
   Alpine.data('tallstackui_stats', stats);

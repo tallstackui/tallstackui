@@ -62,17 +62,25 @@ class Directives
      */
     public function script(): string
     {
-        $manifest = $this->manifest('js/tallstackui.js');
-        $js = $manifest['file'];
+        $manifest = $this->manifest();
+        $html = '';
 
-        $html = $this->format($js);
+        foreach ($manifest as $entry) {
+            if (! ($entry['isEntry'] ?? false) || ! str_ends_with($entry['file'], '.js')) {
+                continue;
+            }
 
-        // This was created to solve problems linked to custom CSS from plugins like Tippy.js. If
-        // we have a custom CSS, we can load it into JS, and it will build to extra CSS. As the
-        // extra CSS is not loaded by Vite from the project that uses TallStackUI, we need to deliver
-        // the CSS automatically through the <tallstackui:script /> or @tallStackUiScript directive
-        if (($manifest['css'][0] ?? null) !== null) {
-            $html .= $this->format($this->manifest('node_modules/tippy.js/dist/tippy.css', 'file'));
+            $html .= $this->format($entry['file']);
+
+            foreach ($entry['css'] ?? [] as $css) {
+                $html .= $this->format($css);
+            }
+        }
+
+        foreach ($manifest as $key => $entry) {
+            if (str_starts_with($key, '_') && str_ends_with($entry['file'], '.js')) {
+                $html .= "<link rel=\"modulepreload\" href=\"/tallstackui/script/{$entry['file']}\">";
+            }
         }
 
         return $html;
@@ -92,18 +100,16 @@ class Directives
     private function format(string $file): string
     {
         return (match (true) { // @phpstan-ignore-line
-            str_ends_with($file, '.js') => fn () => "<script src=\"/tallstackui/script/{$file}\" defer></script>",
+            str_ends_with($file, '.js') => fn () => "<script type=\"module\" src=\"/tallstackui/script/{$file}\"></script>",
             str_ends_with($file, '.css') => fn () => "<link href=\"/tallstackui/style/{$file}\" rel=\"stylesheet\" type=\"text/css\">",
         })();
     }
 
     /**
-     * Load the manifest file and retrieve the desired data.
+     * Load the manifest file.
      */
-    private function manifest(string $file, ?string $index = null): string|array
+    private function manifest(): array
     {
-        self::$cache ??= json_decode(file_get_contents(__DIR__.'/../../../dist/.vite/manifest.json'), true);
-
-        return data_get(self::$cache[$file], $index);
+        return self::$cache ??= json_decode(file_get_contents(__DIR__.'/../../../dist/.vite/manifest.json'), true);
     }
 }

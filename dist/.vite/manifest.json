@@ -1,20 +1,57 @@
 {
+  "__commonjsHelpers-CE1G-McA.js": {
+    "file": "_commonjsHelpers-CE1G-McA.js",
+    "name": "_commonjsHelpers"
+  },
+  "_helpers-PxZpGeM-.js": {
+    "file": "helpers-PxZpGeM-.js",
+    "name": "helpers"
+  },
+  "js/tallstackui-clipboard.js": {
+    "file": "tallstackui-clipboard-DuE-BsLA.js",
+    "name": "tallstackui-clipboard",
+    "src": "js/tallstackui-clipboard.js",
+    "isEntry": true,
+    "imports": [
+      "__commonjsHelpers-CE1G-McA.js"
+    ]
+  },
+  "js/tallstackui-date.js": {
+    "file": "tallstackui-date-BooYpD7D.js",
+    "name": "tallstackui-date",
+    "src": "js/tallstackui-date.js",
+    "isEntry": true,
+    "imports": [
+      "__commonjsHelpers-CE1G-McA.js",
+      "_helpers-PxZpGeM-.js"
+    ]
+  },
+  "js/tallstackui-select.js": {
+    "file": "tallstackui-select-D3pJ0Avi.js",
+    "name": "tallstackui-select",
+    "src": "js/tallstackui-select.js",
+    "isEntry": true,
+    "imports": [
+      "_helpers-PxZpGeM-.js",
+      "__commonjsHelpers-CE1G-McA.js"
+    ]
+  },
+  "js/tallstackui-tooltip.js": {
+    "file": "tallstackui-tooltip-i8XYJEm7.js",
+    "name": "tallstackui-tooltip",
+    "src": "js/tallstackui-tooltip.js",
+    "isEntry": true,
+    "css": [
+      "tallstackui-tooltip-BHH8rdGj.css"
+    ]
+  },
   "js/tallstackui.js": {
-    "file": "tallstackui-DTvqpz5u.js",
+    "file": "tallstackui-C2jflF8v.js",
     "name": "tallstackui",
     "src": "js/tallstackui.js",
     "isEntry": true,
-    "css": [
-      "tippy-BHH8rdGj.css"
-    ]
-  },
-  "node_modules/tippy.js/dist/tippy.css": {
-    "file": "tippy-BHH8rdGj.css",
-    "src": "node_modules/tippy.js/dist/tippy.css",
-    "isEntry": true,
-    "name": "tippy",
-    "names": [
-      "tippy.css"
+    "imports": [
+      "_helpers-PxZpGeM-.js"
     ]
   }
 }

@@ -7,8 +7,11 @@ export default {
     manifest: true,
     rollupOptions: {
       input: [
-          'js/tallstackui.js',
-          'tippy.js/dist/tippy.css',
+        'js/tallstackui.js',
+        'js/tallstackui-date.js',
+        'js/tallstackui-select.js',
+        'js/tallstackui-tooltip.js',
+        'js/tallstackui-clipboard.js',
       ],
     },
   },

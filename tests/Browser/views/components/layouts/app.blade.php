@@ -2,7 +2,7 @@
 <head>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
-    <tallstackui:setup v4 />
+    <tallstackui:setup />
 </head>
 <body>
     <x-dialog />
