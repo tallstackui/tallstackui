@@ -58,7 +58,7 @@
                                      internal
                                      class="{{ $customization['group.icon.collapse.base'] }}"
                                      x-bind:class="{ '{{ $customization['group.icon.collapse.rotate'] }}': show }"
-                                     x-show="!@js($collapsible) || $store['tsui.side-bar'].open || $store['tsui.side-bar'].mobile" />
+                                     x-show="!{{ $collapsible ? 'true' : 'false' }} || $store['tsui.side-bar'].open || $store['tsui.side-bar'].mobile" />
             </button>
             <ul x-show="show && (!@js($collapsible) || $store['tsui.side-bar'].open || $store['tsui.side-bar'].mobile)" class="{{ $customization['group.group'] }}" x-data x-ref="parent">
                 {{ $slot }}
