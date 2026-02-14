@@ -168,8 +168,8 @@ TallStackUi::personalize()
 
 | Block Name          | Purpose                                              |
 |---------------------|------------------------------------------------------|
-| wrapper             | Outer container with rounded corners and ring border |
-| table.wrapper       | Scrollable table container                           |
+| wrapper             | Outer container with rounded corners, ring border, and `overflow-x-clip` to allow floating elements (dropdowns) to overflow vertically |
+| table.wrapper       | Horizontally scrollable table container (`overflow-x-auto`) |
 | table.base          | Table element with dividers                          |
 | table.sort          | Sort icon dimensions                                 |
 | table.th            | Table header cell padding and text styling           |
