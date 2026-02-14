@@ -3,7 +3,45 @@
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
 > component library providing 40+ Blade components for building modern web interfaces.
 
-A searchable command palette overlay that fetches results from a server endpoint, supporting keyboard navigation, images, icons, descriptions, and grouped results. Triggered by a configurable keyboard shortcut (default: Ctrl+K).
+A searchable command palette overlay that fetches results from a server endpoint, supporting keyboard navigation, images, icons, descriptions, grouped results, and disabled options. Triggered by a configurable keyboard shortcut (default: Ctrl+K). Search input is debounced (300ms) to avoid excessive API calls.
+
+## Usage Patterns
+
+The command palette supports two usage patterns:
+
+### Global Usage (Layout-Level)
+
+Place the component in your application layout (e.g., `resources/views/components/layouts/app.blade.php`) for app-wide access. Combine with an `actionable` class in config for server-side selection handling:
+
+```blade
+{{-- resources/views/components/layouts/app.blade.php --}}
+<body>
+    {{ $slot }}
+    <x-command-palette />
+</body>
+```
+
+```php
+// config/tallstackui.php
+'command-palette' => [
+    TallStackUi\Components\CommandPalette\Component::class,
+    [
+        'actionable' => App\Actions\CommandPaletteAction::class,
+        'request' => '/api/search',
+        // ...
+    ],
+],
+```
+
+### Page-Specific Usage (Inline Events)
+
+Place the component on specific pages and handle selection with inline `x-on:select`:
+
+```blade
+<x-command-palette request="/api/search"
+                   select="label:name|value:id"
+                   x-on:select="handleSelection($event.detail)" />
+```
 
 ## Basic Usage
 
@@ -51,13 +89,28 @@ A searchable command palette overlay that fetches results from a server endpoint
 - When `request` is an array with a `params` key, it must be a non-empty array.
 - When `actionable` is set in config, the class must exist and be invocable (`__invoke`).
 
+## Option Features
+
+### Disabled Options
+
+Options can be marked as disabled in the API response. Disabled options are displayed with muted styles and cannot be selected:
+
+```json
+[
+    { "label": "Active Item", "value": 1 },
+    { "label": "Unavailable Item", "value": 2, "disabled": true }
+]
+```
+
 ## Selection Handling
 
 When a user selects an option, the component uses a priority chain to determine how to handle it:
 
-1. **Inline event** (`x-on:select`) — If the component has an `x-on:select` listener, dispatches the event with the selected option data. The global event is suppressed.
-2. **Actionable** (`config actionable`) — If an actionable class is configured, sends a POST request to a signed internal route. The server invokes the class and returns a `Callback` response (redirect or event).
+1. **Inline event** (`x-on:select`) — If the component has an `x-on:select` listener, dispatches via Alpine's `$dispatch()` (component-scoped, not window). The actionable and global event are suppressed.
+2. **Actionable** (`config actionable`) — If an actionable class is configured, sends a POST request to a Laravel signed route. The server invokes the class and returns a `Callback` response (redirect or event).
 3. **Global event** (fallback) — Dispatches a `command-palette:select` window event with the selected option data.
+
+In all cases, internal keys prefixed with `__` are stripped from the option data before dispatching.
 
 ### Inline Event (x-on:select)
 
@@ -98,18 +151,20 @@ class CommandPaletteAction
 }
 ```
 
+The actionable endpoint uses Laravel's signed URLs (`URL::signedRoute()`) for security. The controller validates the signature with `abort_unless($request->hasValidSignature(), 403)`.
+
 #### ItemSelected Value Object
 
 Immutable DTO implementing `Arrayable`. All properties are `readonly`.
 
 | Property    | Type    | Description                          |
 |-------------|---------|--------------------------------------|
+| search      | string  | The search term at time of selection |
 | label       | mixed   | The selected option's label          |
 | value       | mixed   | The selected option's value          |
 | description | ?string | Optional description text            |
 | image       | ?string | Optional image URL                   |
 | icon        | ?string | Optional icon HTML                   |
-| search      | ?string | The search term at time of selection |
 | additional  | array   | Extra fields from the API response   |
 
 `toArray()` returns all properties as an associative array.
@@ -128,6 +183,16 @@ Callback::event('item-selected');
 
 // Dispatch a browser event with parameters
 Callback::event('item-selected')->with(['id' => $selected->value]);
+```
+
+The JavaScript receives the full callback response structure:
+
+```js
+{
+    type: 'redirect' | 'event',
+    data: { to: '...' } | { name: '...', params: {...} },
+    external: boolean
+}
 ```
 
 ### Global Event (Fallback)
@@ -165,22 +230,31 @@ Open/close events are always dispatched regardless of selection mode:
 </div>
 ```
 
+## Keyboard Navigation
+
+The component supports full keyboard navigation:
+
+- **Arrow Up/Down** — Navigate through search results, auto-scrolling into view
+- **Enter** — Select the highlighted option
+- **Escape** — Close the palette
+- Mouse hover updates the highlighted option, but does not conflict with keyboard navigation (the component tracks input mode internally)
+
 ## Configuration
 
 In `config/tallstackui.php` under `components.command-palette`:
 
-| Option     | Type                | Default  | Description                                                       |
-|------------|---------------------|----------|-------------------------------------------------------------------|
-| actionable | string\|null        | null     | Invocable PHP class for server-side action handling               |
-| request    | string\|array\|null | null     | Default data source for all command palettes                      |
-| z-index    | string              | 'z-50'   | Default z-index class                                             |
-| blur       | false\|string       | false    | Background blur effect (false, sm, md, lg, xl)                    |
-| overflow   | bool                | false    | When true, avoids hiding body overflow                            |
-| shortcut   | string              | 'ctrl.k' | Keyboard shortcut to toggle the palette                           |
-| persistent | bool                | false    | When true, prevents closing by clicking outside                   |
-| recycle    | bool                | true     | When true, preserves previous results when reopening              |
-| elements   | bool                | true     | When true, shows keyboard hint elements in the footer             |
-| scrollbar  | bool                | true     | When true, applies a custom minimal scrollbar to the results list |
+| Option     | Type                | Default  | Description                                                                             |
+|------------|---------------------|----------|-----------------------------------------------------------------------------------------|
+| actionable | string\|null        | null     | Invocable PHP class for server-side action handling                                     |
+| request    | string\|array\|null | null     | Default data source for all command palettes                                            |
+| z-index    | string              | 'z-50'   | Default z-index class                                                                   |
+| blur       | bool\|string        | false    | Background blur effect (`false` disables, `true` defaults to 'sm', or 'sm'/'md'/'lg'/'xl') |
+| overflow   | bool                | false    | When true, avoids hiding body overflow                                                  |
+| shortcut   | string              | 'ctrl.k' | Keyboard shortcut in dot notation (e.g., `ctrl.k`, `ctrl.shift.p`, `meta.k`)           |
+| persistent | bool                | false    | When true, prevents closing by clicking outside                                         |
+| recycle    | bool                | true     | When true, preserves previous results when reopening                                    |
+| elements   | bool                | true     | When true, shows keyboard hint elements in the footer                                   |
+| scrollbar  | bool                | true     | When true, applies a custom minimal scrollbar to the results list                       |
 
 ## JavaScript Control
 

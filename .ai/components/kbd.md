@@ -3,7 +3,7 @@
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
 > component library providing 40+ Blade components for building modern web interfaces.
 
-A keyboard key indicator component for displaying keyboard shortcuts or key references. Supports multiple sizes, borderless mode, click actions, and optional tooltips.
+A keyboard key indicator component for displaying keyboard shortcuts or key references. Supports multiple sizes, borderless mode, and optional tooltips.
 
 ## Basic Usage
 
@@ -16,7 +16,7 @@ A keyboard key indicator component for displaying keyboard shortcuts or key refe
 ```
 
 ```blade
-<x-kbd text="Esc" borderless href="/back" tooltip="Go back" />
+<x-kbd text="Esc" borderless tooltip="Go back" />
 ```
 
 ## Attributes
@@ -29,7 +29,6 @@ A keyboard key indicator component for displaying keyboard shortcuts or key refe
 | md         | bool         | null    | Medium size                                            |
 | lg         | bool         | null    | Large size                                             |
 | borderless | bool         | false   | Removes the border and shadow for a minimal appearance |
-| href       | string\|null | null    | When set, renders as an anchor tag instead of a span   |
 | tooltip    | string\|null | null    | Tooltip text shown on hover                            |
 
 ## Slots
@@ -60,4 +59,3 @@ TallStackUi::personalize()
 | wrapper.sizes.md | Medium text and padding                                                       |
 | wrapper.sizes.lg | Large text and padding                                                        |
 | borderless       | Styles applied when borderless mode is active (transparent border, no shadow) |
-| clickable        | Styles applied when the element is interactive (cursor, hover opacity)        |

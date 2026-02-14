@@ -68,10 +68,10 @@ With `navigate` (SPA navigation via Livewire):
 
 ```blade
 <x-tab>
-    <x-tab.items tab="users" title="Users" :when="route('users.index')" navigate>
+    <x-tab.items tab="users" title="Users" :href="route('users.index')" navigate>
         <livewire:users.index />
     </x-tab.items>
-    <x-tab.items tab="invoices" title="Invoices" :when="route('invoices.index')" navigate>
+    <x-tab.items tab="invoices" title="Invoices" :href="route('invoices.index')" navigate>
         <livewire:invoices.index />
     </x-tab.items>
 </x-tab>
@@ -81,10 +81,10 @@ With `navigate-hover` (prefetches on hover, then SPA navigation on click):
 
 ```blade
 <x-tab>
-    <x-tab.items tab="users" title="Users" :when="route('users.index')" navigate-hover>
+    <x-tab.items tab="users" title="Users" :href="route('users.index')" navigate-hover>
         <livewire:users.index />
     </x-tab.items>
-    <x-tab.items tab="invoices" title="Invoices" :when="route('invoices.index')" navigate-hover>
+    <x-tab.items tab="invoices" title="Invoices" :href="route('invoices.index')" navigate-hover>
         <livewire:invoices.index />
     </x-tab.items>
 </x-tab>
@@ -94,7 +94,7 @@ Without `navigate` or `navigate-hover` (plain `window.location.href` navigation)
 
 ```blade
 <x-tab>
-    <x-tab.items tab="users" title="Users" :when="route('users.index')">
+    <x-tab.items tab="users" title="Users" :href="route('users.index')">
         <livewire:users.index />
     </x-tab.items>
 </x-tab>
