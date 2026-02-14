@@ -12,8 +12,16 @@
                  @else
                      wire:loading.delay{{ is_string($delay) && $delay !== "1" ? ".{$delay}" : "" }}
                  @endif
-                 wire:target="{{ $loading }}">
+                 @if (is_string($loading)) wire:target="{{ $loading }}" @endif>
                 <div class="{{ $customization['loading.bar'] }}"></div>
+            </div>
+            <div class="{{ $customization['loading.overlay'] }}"
+                 @if (!$delay)
+                     wire:loading
+                 @else
+                     wire:loading.delay{{ is_string($delay) && $delay !== "1" ? ".{$delay}" : "" }}
+                 @endif
+                 @if (is_string($loading)) wire:target="{{ $loading }}" @endif>
             </div>
         @endif
         @if ($image && $position !== 'bottom')

@@ -243,18 +243,18 @@ The component supports full keyboard navigation:
 
 In `config/tallstackui.php` under `components.command-palette`:
 
-| Option     | Type                | Default  | Description                                                                             |
-|------------|---------------------|----------|-----------------------------------------------------------------------------------------|
-| actionable | string\|null        | null     | Invocable PHP class for server-side action handling                                     |
-| request    | string\|array\|null | null     | Default data source for all command palettes                                            |
-| z-index    | string              | 'z-50'   | Default z-index class                                                                   |
+| Option     | Type                | Default  | Description                                                                                |
+|------------|---------------------|----------|--------------------------------------------------------------------------------------------|
+| actionable | string\|null        | null     | Invocable PHP class for server-side action handling                                        |
+| request    | string\|array\|null | null     | Default data source for all command palettes                                               |
+| z-index    | string              | 'z-50'   | Default z-index class                                                                      |
 | blur       | bool\|string        | false    | Background blur effect (`false` disables, `true` defaults to 'sm', or 'sm'/'md'/'lg'/'xl') |
-| overflow   | bool                | false    | When true, avoids hiding body overflow                                                  |
-| shortcut   | string              | 'ctrl.k' | Keyboard shortcut in dot notation (e.g., `ctrl.k`, `ctrl.shift.p`, `meta.k`)           |
-| persistent | bool                | false    | When true, prevents closing by clicking outside                                         |
-| recycle    | bool                | true     | When true, preserves previous results when reopening                                    |
-| elements   | bool                | true     | When true, shows keyboard hint elements in the footer                                   |
-| scrollbar  | bool                | true     | When true, applies a custom minimal scrollbar to the results list                       |
+| overflow   | bool                | false    | When true, avoids hiding body overflow                                                     |
+| shortcut   | string              | 'ctrl.k' | Keyboard shortcut in dot notation (e.g., `ctrl.k`, `ctrl.shift.p`, `meta.k`)               |
+| persistent | bool                | false    | When true, prevents closing by clicking outside                                            |
+| recycle    | bool                | true     | When true, preserves previous results when reopening                                       |
+| elements   | bool                | true     | When true, shows keyboard hint elements in the footer                                      |
+| scrollbar  | bool                | true     | When true, applies a custom minimal scrollbar to the results list                          |
 
 ## JavaScript Control
 

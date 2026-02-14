@@ -34,17 +34,17 @@ A versatile card container with optional header, footer, image, color styling, m
 
 ## Attributes
 
-| Attribute | Type         | Default | Description                                                          |
-|-----------|--------------|---------|----------------------------------------------------------------------|
-| color     | string\|null | null    | Color theme for the header background                                |
-| light     | bool         | null    | Uses the light color style variant                                   |
-| bordered  | bool         | null    | Uses a bordered variation instead of background fill                 |
-| minimize  | string\|null | null    | Enables minimize/maximize toggle; set to 'mount' to start minimized  |
-| close     | bool         | null    | Shows a close button to hide the entire card                         |
-| loading   | string\|null | null    | Livewire `wire:target` value that shows an indeterminate loading bar |
-| delay     | string\|null | null    | Livewire loading delay modifier (e.g., 'long', 'longest')            |
-| image     | string\|null | null    | URL for a card image                                                 |
-| position  | string\|null | 'top'   | Image position: 'top' or 'bottom'                                    |
+| Attribute | Type         | Default | Description                                                                                                                   |
+|-----------|--------------|---------|-------------------------------------------------------------------------------------------------------------------------------|
+| color     | string\|null | null    | Color theme for the header background                                                                                         |
+| light     | bool         | null    | Uses the light color style variant                                                                                            |
+| bordered  | bool         | null    | Uses a bordered variation instead of background fill                                                                          |
+| minimize  | string\|null | null    | Enables minimize/maximize toggle; set to 'mount' to start minimized                                                           |
+| close     | bool         | null    | Shows a close button to hide the entire card                                                                                  |
+| loading   | string\|null | null    | Livewire `wire:target` value that shows an indeterminate loading bar and a semi-transparent overlay that disables interaction |
+| delay     | string\|null | null    | Livewire loading delay modifier (e.g., 'long', 'longest')                                                                     |
+| image     | string\|null | null    | URL for a card image                                                                                                          |
+| position  | string\|null | 'top'   | Image position: 'top' or 'bottom'                                                                                             |
 
 ## Slots
 
@@ -72,24 +72,25 @@ TallStackUi::personalize()
 
 ### Available Blocks
 
-| Block Name              | Purpose                                         |
-|-------------------------|-------------------------------------------------|
-| wrapper.first           | Outer flex container                            |
-| wrapper.second          | Inner card container with background and shadow |
-| header.wrapper.base     | Header flex layout and padding                  |
-| header.wrapper.border   | Bottom border shown when card is expanded       |
-| header.wrapper.minimize | Border radius applied when card is minimized    |
-| header.text.size        | Header text font size and weight                |
-| header.text.color       | Header text color                               |
-| body                    | Card body padding and text color                |
-| footer.wrapper          | Footer container with top border                |
-| footer.text             | Footer content alignment (flex, end-aligned)    |
-| button.minimize         | Minimize button icon dimensions                 |
-| button.maximize         | Maximize button icon dimensions                 |
-| button.close            | Close button icon dimensions                    |
-| image.wrapper           | Image container flex layout                     |
-| image.rounded.top       | Top image border radius                         |
-| image.rounded.bottom    | Bottom image border radius                      |
-| image.size              | Image width                                     |
-| loading.wrapper         | Loading bar outer container                     |
-| loading.bar             | Loading bar animation element                   |
+| Block Name              | Purpose                                                   |
+|-------------------------|-----------------------------------------------------------|
+| wrapper.first           | Outer flex container                                      |
+| wrapper.second          | Inner card container with background and shadow           |
+| header.wrapper.base     | Header flex layout and padding                            |
+| header.wrapper.border   | Bottom border shown when card is expanded                 |
+| header.wrapper.minimize | Border radius applied when card is minimized              |
+| header.text.size        | Header text font size and weight                          |
+| header.text.color       | Header text color                                         |
+| body                    | Card body padding and text color                          |
+| footer.wrapper          | Footer container with top border                          |
+| footer.text             | Footer content alignment (flex, end-aligned)              |
+| button.minimize         | Minimize button icon dimensions                           |
+| button.maximize         | Maximize button icon dimensions                           |
+| button.close            | Close button icon dimensions                              |
+| image.wrapper           | Image container flex layout                               |
+| image.rounded.top       | Top image border radius                                   |
+| image.rounded.bottom    | Bottom image border radius                                |
+| image.size              | Image width                                               |
+| loading.wrapper         | Loading bar outer container                               |
+| loading.bar             | Loading bar animation element                             |
+| loading.overlay         | Semi-transparent overlay covering the card during loading |

@@ -22,7 +22,7 @@ class Component extends TallStackUiComponent implements Customization
         public ?bool $bordered = null,
         public ?string $minimize = null,
         public ?bool $close = null,
-        public ?string $loading = null,
+        public string|bool|null $loading = null,
         public ?string $delay = null,
         public ?string $image = null,
         public ?string $position = 'top',
@@ -89,6 +89,7 @@ class Component extends TallStackUiComponent implements Customization
             'loading' => [
                 'wrapper' => 'absolute top-0 left-0 right-0 h-0.5 overflow-hidden rounded-t-lg z-10',
                 'bar' => 'h-full w-1/4 bg-primary-500 animate-indeterminate',
+                'overlay' => 'absolute inset-0 z-10 cursor-not-allowed rounded-lg bg-white/50 dark:bg-dark-700/50',
             ],
         ]);
     }
