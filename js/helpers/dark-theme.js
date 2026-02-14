@@ -41,8 +41,12 @@ export default (data = {}) => ({
 
     this.listen();
   },
-  // Manages the OS preference listener. Attaches when the mode is 'system',
-  // removes when switching to 'light' or 'dark' to prevent leaks.
+  /**
+   * Manage the OS preference listener. Attaches when mode is 'system',
+   * removes when switching to 'light' or 'dark' to prevent leaks.
+   *
+   * @return {void}
+   */
   listen() {
     const mq = window.matchMedia('(prefers-color-scheme: dark)');
 

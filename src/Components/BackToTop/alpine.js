@@ -21,6 +21,11 @@ export default (anchor, smooth) => ({
       { passive: true }
     );
   },
+  /**
+   * Scroll the page back to the top.
+   *
+   * @return {void}
+   */
   scroll() {
     window.scrollTo({ top: 0, behavior: smooth ? 'smooth' : 'instant' });
   },

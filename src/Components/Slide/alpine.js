@@ -18,6 +18,7 @@ export default (state, overflowing) => ({
       this.$el.dispatchEvent(new CustomEvent(value ? 'open' : 'close'));
     });
   },
+  /** @return {Boolean} Whether this slide is the topmost UI element. */
   get top_ui() {
     return top_ui_element(this.id);
   },

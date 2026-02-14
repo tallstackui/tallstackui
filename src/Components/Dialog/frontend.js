@@ -78,15 +78,30 @@ export default class DialogInteraction extends Interaction {
     return this;
   };
 
+  /**
+   * Initialize default confirm options when setting the dialog type.
+   *
+   * @return {void}
+   */
   onType() {
     this._data.options.confirm = {};
     this._data.options.confirm.static = true;
   }
 
+  /**
+   * Return the event name for this interaction type.
+   *
+   * @return {String}
+   */
   event() {
     return 'dialog';
   }
 
+  /**
+   * Validate that confirm/cancel texts and Livewire reference are properly set.
+   *
+   * @return {Boolean}
+   */
   validate() {
     const options = this._data.options ?? null;
 

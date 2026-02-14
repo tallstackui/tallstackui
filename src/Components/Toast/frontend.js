@@ -97,10 +97,20 @@ export default class ToastInteraction extends Interaction {
     return this;
   };
 
+  /**
+   * Return the event name for this interaction type.
+   *
+   * @return {String}
+   */
   event() {
     return 'toast';
   }
 
+  /**
+   * Validate that confirm/cancel texts and Livewire reference are properly set.
+   *
+   * @return {Boolean}
+   */
   validate() {
     const options = this._data.options ?? null;
 
@@ -124,6 +134,11 @@ export default class ToastInteraction extends Interaction {
     return true;
   }
 
+  /**
+   * Build the payload with default values for timeout, expandable and persistent.
+   *
+   * @return {Object}
+   */
   payload() {
     return {
       event: this.event(),

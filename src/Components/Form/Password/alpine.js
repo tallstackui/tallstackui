@@ -152,6 +152,7 @@ export default (model, rules, typingOnly, value = null) => ({
 
     this.caps = event.getModifierState('CapsLock');
   },
+  /** @param {String} value */
   set password(value) {
     this.input = this.model = value;
   },

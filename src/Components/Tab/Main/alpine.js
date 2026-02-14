@@ -1,7 +1,12 @@
 export default (selected = null) => ({
   selected: selected,
   tabs: [],
-  // Selects a tab by clicking. Navigates to href if set, otherwise switches locally.
+  /**
+   * Select a tab by clicking. Navigates to href if set, otherwise switches locally.
+   *
+   * @param {Object} item
+   * @return {void}
+   */
   select(item) {
     if (item.href) {
       if (item.navigate || item.navigateHover) {
@@ -15,7 +20,11 @@ export default (selected = null) => ({
       this.$refs.ul.dispatchEvent(new CustomEvent('navigate', { detail: { select: item.tab } }));
     }
   },
-  // Handles the mobile select dropdown change event.
+  /**
+   * Handle the mobile select dropdown change event.
+   *
+   * @return {void}
+   */
   change() {
     const tab = this.tabs.find((i) => i.tab === this.selected);
 
@@ -31,7 +40,12 @@ export default (selected = null) => ({
       );
     }
   },
-  // Prefetches the href on hover for tabs with navigateHover enabled.
+  /**
+   * Prefetch the href on hover for tabs with navigateHover enabled.
+   *
+   * @param {Object} item
+   * @return {void}
+   */
   prefetch(item) {
     if (item.href && item.navigateHover && !item._prefetched) {
       const link = document.createElement('link');

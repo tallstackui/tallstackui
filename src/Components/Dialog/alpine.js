@@ -146,6 +146,7 @@ export default (flash, texts, overflowing) => ({
 
     return this.remove(false, true);
   },
+  /** @return {Boolean} Whether this dialog is the topmost UI element. */
   get top_ui() {
     return top_ui_element(this.id);
   },

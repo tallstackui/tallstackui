@@ -68,16 +68,36 @@ export default class Interaction {
     return this;
   };
 
+  /**
+   * Hook called after setting the interaction type. Override in subclasses.
+   *
+   * @return {void}
+   */
   onType() {}
 
+  /**
+   * Return the event name for this interaction type. Override in subclasses.
+   *
+   * @return {String}
+   */
   event() {
     return '';
   }
 
+  /**
+   * Validate the interaction data before sending. Override in subclasses.
+   *
+   * @return {Boolean}
+   */
   validate() {
     return true;
   }
 
+  /**
+   * Build the payload object to be dispatched.
+   *
+   * @return {Object}
+   */
   payload() {
     return {
       event: this.event(),

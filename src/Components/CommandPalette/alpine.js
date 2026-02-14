@@ -41,6 +41,12 @@ export default (
       this._debounce = setTimeout(() => this.makeRequest(), 300);
     });
   },
+  /**
+   * Register the keyboard shortcut listener for toggling the palette.
+   *
+   * @param {String} key
+   * @return {void}
+   */
   shortcut(key) {
     const parts = key.split('.');
     const letter = parts[parts.length - 1].toLowerCase();
@@ -73,6 +79,11 @@ export default (
       this.show ? this.close() : this.open();
     });
   },
+  /**
+   * Open the command palette and reset state.
+   *
+   * @return {void}
+   */
   open() {
     this.show = true;
     this.search = '';
@@ -92,6 +103,11 @@ export default (
     this.$dispatch('open');
     event('command-palette:open', null, false);
   },
+  /**
+   * Close the command palette and restore overflow.
+   *
+   * @return {void}
+   */
   close() {
     this.show = false;
 
@@ -101,6 +117,11 @@ export default (
     this.$dispatch('close');
     event('command-palette:close', null, false);
   },
+  /**
+   * Fetch search results from the server endpoint.
+   *
+   * @return {Promise<void>}
+   */
   async makeRequest() {
     if (this.search.length < 1) {
       if (!recycle || this.response.length === 0) {
@@ -140,13 +161,30 @@ export default (
       this.fetched = true;
     }
   },
+  /**
+   * Mark the available options cache as dirty.
+   *
+   * @return {void}
+   */
   invalidateAvailable() {
     this._dirty = true;
     this._options = null;
   },
+  /**
+   * Strip internal keys prefixed with '__' from an option.
+   *
+   * @param {Object} option
+   * @return {Object}
+   */
   sanitize(option) {
     return Object.fromEntries(Object.entries(option).filter(([key]) => !key.startsWith('__')));
   },
+  /**
+   * Map an option's keys to the standard selectable fields.
+   *
+   * @param {Object} option
+   * @return {Object}
+   */
   remap(option) {
     return {
       label: option[this.selectable.label] ?? null,
@@ -157,6 +195,13 @@ export default (
       additional: option.additional ?? {},
     };
   },
+  /**
+   * Handle option selection using the priority chain:
+   * inline event > actionable > global event.
+   *
+   * @param {Object} option
+   * @return {Promise<void>}
+   */
   async selectOption(option) {
     if (!option || option.disabled) {
       return;
@@ -181,6 +226,12 @@ export default (
 
     this.close();
   },
+  /**
+   * Send the selected item to the actionable server endpoint.
+   *
+   * @param {Object} item
+   * @return {Promise<void>}
+   */
   async executeAction(item) {
     try {
       this.loading = true;
@@ -214,6 +265,12 @@ export default (
       this.loading = false;
     }
   },
+  /**
+   * Process the server callback response (redirect or event).
+   *
+   * @param {Object} callback
+   * @return {void}
+   */
   handleCallback(callback) {
     this.close();
 
@@ -231,11 +288,23 @@ export default (
       event(callback.data.name, callback.data.params ?? {}, false);
     }
   },
+  /**
+   * Update the selected index on mouse hover. Ignored during keyboard navigation.
+   *
+   * @param {Number} index
+   * @return {void}
+   */
   mouseHover(index) {
     if (this._keyboard) return;
 
     this.selected = index;
   },
+  /**
+   * Move selection up or down with keyboard arrows.
+   *
+   * @param {String} direction - 'next' or 'previous'
+   * @return {void}
+   */
   navigate(direction) {
     const items = this.available;
 
@@ -264,6 +333,11 @@ export default (
       options[this.selected].scrollIntoView({ block: 'nearest' });
     }
   },
+  /**
+   * Get the cached list of available options.
+   *
+   * @return {Array}
+   */
   get available() {
     if (!this._dirty) {
       return this._cache;
