@@ -79,6 +79,7 @@ class BrowserTest extends BrowserTestCase
         })
             ->waitForLivewireToLoad()->typeSlowly('@input', '123')
             ->waitForLivewire()->click('@tallstackui_form_password_reveal')
+            ->waitFor('@reveal')
             ->assertVisible('@reveal')
             ->assertSeeIn('@reveal', '123');
     }
