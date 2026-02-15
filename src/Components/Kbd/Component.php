@@ -41,7 +41,7 @@ class Component extends TallStackUiComponent implements Customization
                     'lg' => 'text-lg px-2.5 py-1 min-w-8',
                 ],
             ],
-            'borderless' => 'border-transparent shadow-none',
+            'borderless' => 'border-transparent! shadow-none',
         ]);
     }
 }
