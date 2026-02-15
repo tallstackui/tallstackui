@@ -109,7 +109,7 @@ All components support runtime customization of their Tailwind CSS classes:
 
 ```php
 // In AppServiceProvider::boot()
-TallStackUi::personalize()
+TallStackUi::customize()
     ->alert()
     ->block('wrapper', 'your-tailwind-classes');
 

@@ -75,10 +75,10 @@ The breadcrumbs component supports a file-based registry for defining breadcrumb
 In `routes/breadcrumbs.php`, register breadcrumbs using the `BreadcrumbRegistry`:
 
 ```php
-use TallStackUi\Support\Breadcrumbs\BreadcrumbRegistry;
+use TallStackUi\Facades\TallStackUi;
 use TallStackUi\Support\Breadcrumbs\BreadcrumbTrail;
 
-app(BreadcrumbRegistry::class)
+TallStackUi::breadcrumbs()
     ->for('dashboard', fn (BreadcrumbTrail $trail) =>
         $trail->push('Dashboard', route('dashboard'))
     )
@@ -95,7 +95,7 @@ Soft customization allows you to override default Tailwind CSS classes used by t
 ### Personalization
 
 ```php
-TallStackUi::personalize()
+TallStackUi::customize()
     ->breadcrumbs()
     ->block('wrapper', 'your-tailwind-classes');
 ```

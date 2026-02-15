@@ -56,7 +56,7 @@ Soft customization allows you to override default Tailwind CSS classes used by t
 ### Personalization
 
 ```php
-TallStackUi::personalize()
+TallStackUi::customize()
     ->form('input')
     ->block('input.base', 'your-tailwind-classes');
 ```

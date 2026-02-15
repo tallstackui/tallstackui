@@ -100,7 +100,7 @@ Soft customization allows you to override default Tailwind CSS classes used by t
 ### Personalization
 
 ```php
-TallStackUi::personalize()
+TallStackUi::customize()
     ->modal()
     ->block('wrapper.first', 'your-tailwind-classes');
 ```

@@ -270,7 +270,7 @@ Soft customization allows you to override default Tailwind CSS classes used by t
 ### Personalization
 
 ```php
-TallStackUi::personalize()
+TallStackUi::customize()
     ->commandPalette()
     ->block('backdrop', 'your-tailwind-classes');
 ```
