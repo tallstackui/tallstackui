@@ -14,6 +14,7 @@ return [
         'default' => 'Auswählen',
         'search' => 'Suchen',
         'empty' => 'Keine Ergebnisse.',
+        'selected' => ':count ausgewählt',
     ],
 
     'toast' => [

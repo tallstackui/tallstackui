@@ -14,6 +14,7 @@ return [
         'default' => 'Pilihan',
         'search' => 'Carian',
         'empty' => 'Tiada data dijumpai',
+        'selected' => ':count dipilih',
     ],
 
     'toast' => [

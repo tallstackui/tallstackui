@@ -14,6 +14,7 @@ return [
         'default' => 'Chọn một tùy chọn',
         'search' => 'Tìm kiếm ở đây',
         'empty' => 'Không tìm thấy kết quả',
+        'selected' => ':count đã chọn',
     ],
 
     'toast' => [

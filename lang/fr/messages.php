@@ -14,6 +14,7 @@ return [
         'default' => 'Choisir une option',
         'search' => 'Cherchez quelque chose ici',
         'empty' => 'Aucun résultat trouvé',
+        'selected' => ':count sélectionnés',
     ],
 
     'toast' => [

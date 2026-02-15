@@ -60,7 +60,11 @@
             <div class="{{ $customization['input.content.wrapper.first'] }}">
                 <div class="{{ $customization['input.content.wrapper.second'] }}">
                     <div x-show="multiple && quantity > 0">
-                        <span x-text="quantity"></span>
+                        @if ($side)
+                            <span class="{{ $customization['items.single'] }}" x-text="@js(data_get($placeholders, 'selected')).replace(':count', quantity)"></span>
+                        @else
+                            <span x-text="quantity"></span>
+                        @endif
                     </div>
                     <div x-show="empty || !multiple">
                         <div class="{{ $customization['items.placeholder.wrapper'] }}">
@@ -72,33 +76,35 @@
                                 }" x-text="placeholder"></span>
                         </div>
                     </div>
-                    <div wire:ignore class="{{ $customization['items.wrapper'] }}" x-show="multiple && quantity > 0">
-                        <template x-for="(select, index) in selects" :key="index">
-                            <a class="cursor-pointer">
-                                <div class="{{ $customization['items.multiple.item'] }}">
-                                    <div class="{{ $customization['items.multiple.label.wrapper'] }}">
-                                        <template x-if="select.image">
-                                            <img x-bind:src="select.image"
-                                                 class="{{ $customization['items.multiple.image'] }}" />
-                                        </template>
-                                        <span class="{{ $customization['items.multiple.label'] }}"
-                                              x-text="select[selectable.label] ?? select"></span>
-                                    </div>
-                                    @if (!$disabled)
-                                        <div class="{{ $customization['items.multiple.icon'] }}">
-                                            <button type="button" class="cursor-pointer"
-                                                    x-on:click="$event.stopPropagation(); clear(select)">
-                                                <x-dynamic-component :component="TallStackUi::prefix('icon')"
-                                                                     :icon="TallStackUi::icon('x-mark')"
-                                                                     internal
-                                                                     class="{{ $customization['items.multiple.icon'] }}" />
-                                            </button>
+                    @if (!$side)
+                        <div wire:ignore class="{{ $customization['items.wrapper'] }}" x-show="multiple && quantity > 0">
+                            <template x-for="(select, index) in selects" :key="index">
+                                <a class="cursor-pointer">
+                                    <div class="{{ $customization['items.multiple.item'] }}">
+                                        <div class="{{ $customization['items.multiple.label.wrapper'] }}">
+                                            <template x-if="select.image">
+                                                <img x-bind:src="select.image"
+                                                     class="{{ $customization['items.multiple.image'] }}" />
+                                            </template>
+                                            <span class="{{ $customization['items.multiple.label'] }}"
+                                                  x-text="select[selectable.label] ?? select"></span>
                                         </div>
-                                    @endif
-                                </div>
-                            </a>
-                        </template>
-                    </div>
+                                        @if (!$disabled)
+                                            <div class="{{ $customization['items.multiple.icon'] }}">
+                                                <button type="button" class="cursor-pointer"
+                                                        x-on:click="$event.stopPropagation(); clear(select)">
+                                                    <x-dynamic-component :component="TallStackUi::prefix('icon')"
+                                                                         :icon="TallStackUi::icon('x-mark')"
+                                                                         internal
+                                                                         class="{{ $customization['items.multiple.icon'] }}" />
+                                                </button>
+                                            </div>
+                                        @endif
+                                    </div>
+                                </a>
+                            </template>
+                        </div>
+                    @endif
                 </div>
             </div>
             @if (!$disabled)

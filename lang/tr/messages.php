@@ -14,6 +14,7 @@ return [
         'default' => 'Seçim yapınız',
         'search' => 'Arama yapın...',
         'empty' => 'Sonuç bulunamadı',
+        'selected' => ':count seçildi',
     ],
 
     'toast' => [

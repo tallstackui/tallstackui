@@ -14,6 +14,7 @@ return [
         'default' => 'إختر خيار',
         'search' => 'إبحث هنا',
         'empty' => 'لا توجد نتائج',
+        'selected' => ':count محدد',
     ],
 
     'toast' => [

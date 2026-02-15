@@ -14,6 +14,7 @@ return [
         'default' => 'Pilih opsi',
         'search' => 'Cari sesuatu di sini',
         'empty' => 'Tidak ada hasil ditemukan',
+        'selected' => ':count dipilih',
     ],
 
     'toast' => [

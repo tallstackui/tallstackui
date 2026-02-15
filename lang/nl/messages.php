@@ -14,6 +14,7 @@ return [
         'default' => 'Kies een optie',
         'search' => 'Zoek hier',
         'empty' => 'Geen resultaten gevonden',
+        'selected' => ':count geselecteerd',
     ],
 
     'toast' => [
