@@ -65,6 +65,7 @@ TallStackUi::customize()
 | input.color.base       | Default ring and text colors                                   |
 | input.color.background | Background color for normal state                              |
 | input.color.disabled   | Background color for disabled/readonly state                   |
+| input.slot             | Slot text styles (prefix/suffix area)                          |
 | input.round.left       | Removes left border radius when used as right-side addon       |
 | input.round.right      | Removes right border radius when used as left-side addon       |
 | input.borderless       | Removes ring/border when used as a side addon                  |

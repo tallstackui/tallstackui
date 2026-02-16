@@ -1,8 +1,8 @@
-@aware(['position' => 'bottom-right', 'withoutTooltip' => null])
-
 @php
     $customization = $classes();
 @endphp
+
+@aware(['position' => 'bottom-right', 'withoutTooltip' => null, 'square' => null])
 
 <div class="relative flex items-center">
     @if ($label && !$withoutTooltip)
@@ -17,7 +17,6 @@
         {{ $attributes->class([
             $customization['item'],
             'rounded-full' => !$square,
-            'rounded-lg' => $square,
         ]) }}
         dusk="tallstackui_dial_item">
         <x-dynamic-component :component="TallStackUi::prefix('icon')"

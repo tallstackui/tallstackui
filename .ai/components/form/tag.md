@@ -63,6 +63,7 @@ TallStackUi::customize()
 | input.color.base       | Default ring and text colors                   |
 | input.color.background | Background color                               |
 | input.color.disabled   | Disabled/readonly background color             |
+| input.slot             | Slot text styles (prefix/suffix area)          |
 | input.wrapper          | Outer input wrapper with ring and focus styles |
 | button.wrapper         | Erase button positioning                       |
 | button.icon            | Erase button icon size and hover color         |

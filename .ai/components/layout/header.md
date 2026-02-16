@@ -70,6 +70,7 @@ TallStackUi::customize()
 | collapse.class     | Desktop sidebar collapse toggle button visibility         |
 | collapse.icon      | Icon name used for the collapse toggle (default: bars-4)  |
 | collapse.icon.size | Collapse toggle icon dimensions and color                 |
+| slots.wrapper      | Flex container wrapping all three slot areas              |
 | slots.left         | Flex container for the left slot                          |
 | slots.middle       | Flex container for the middle slot                        |
 | slots.right        | Flex container for the right slot                         |

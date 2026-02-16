@@ -37,8 +37,6 @@ A combined text input with a native select dropdown side-by-side. Supports icons
 | clearable  | bool\|null                  | null    | Shows a clear button when the input has a value |
 | invalidate | bool\|null                  | null    | Prevents displaying validation error messages   |
 | position   | string\|null                | 'left'  | Icon position: 'left' or 'right'                |
-| prefix     | string\|ComponentSlot\|null | null    | Prefix content displayed before the input       |
-| suffix     | string\|ComponentSlot\|null | null    | Suffix content displayed after the input        |
 
 ## Slots
 
@@ -75,7 +73,6 @@ TallStackUi::customize()
 | input.wrapper.round.left  | Removes left border radius when left addon is present                 |
 | input.wrapper.round.right | Removes right border radius when right addon is present               |
 | input.wrapper.error       | Error state ring styles for the wrapper                               |
-| input.wrapper             | Focus ring and rounded styles for the input container                 |
 | input.base                | Core input element styles (border, background, padding)               |
 | input.slot                | Prefix/suffix text slot styles                                        |
 | input.color.base          | Default ring and text colors                                          |

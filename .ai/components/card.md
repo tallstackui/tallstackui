@@ -34,17 +34,17 @@ A versatile card container with optional header, footer, image, color styling, m
 
 ## Attributes
 
-| Attribute | Type         | Default | Description                                                                                                                   |
-|-----------|--------------|---------|-------------------------------------------------------------------------------------------------------------------------------|
-| color     | string\|null | null    | Color theme for the header background                                                                                         |
-| light     | bool         | null    | Uses the light color style variant                                                                                            |
-| bordered  | bool         | null    | Uses a bordered variation instead of background fill                                                                          |
-| minimize  | string\|null | null    | Enables minimize/maximize toggle; set to 'mount' to start minimized                                                           |
-| close     | bool         | null    | Shows a close button to hide the entire card                                                                                  |
-| loading   | string\|null | null    | Livewire `wire:target` value that shows an indeterminate loading bar and a semi-transparent overlay that disables interaction |
-| delay     | string\|null | null    | Livewire loading delay modifier (e.g., 'long', 'longest')                                                                     |
-| image     | string\|null | null    | URL for a card image                                                                                                          |
-| position  | string\|null | 'top'   | Image position: 'top' or 'bottom'                                                                                             |
+| Attribute | Type               | Default | Description                                                                                                                   |
+|-----------|--------------------|---------|-------------------------------------------------------------------------------------------------------------------------------|
+| color     | string\|null       | null    | Color theme for the header background                                                                                         |
+| light     | bool               | null    | Uses the light color style variant                                                                                            |
+| bordered  | bool               | null    | Uses a bordered variation instead of background fill                                                                          |
+| minimize  | string\|null       | null    | Enables minimize/maximize toggle; set to 'mount' to start minimized                                                           |
+| close     | bool               | null    | Shows a close button to hide the entire card                                                                                  |
+| loading   | string\|bool\|null | null    | Livewire `wire:target` value that shows an indeterminate loading bar and a semi-transparent overlay that disables interaction |
+| delay     | string\|null       | null    | Livewire loading delay modifier (e.g., 'long', 'longest')                                                                     |
+| image     | string\|null       | null    | URL for a card image                                                                                                          |
+| position  | string\|null       | 'top'   | Image position: 'top' or 'bottom'                                                                                             |
 
 ## Slots
 

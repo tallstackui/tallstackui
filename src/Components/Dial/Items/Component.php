@@ -16,7 +16,6 @@ class Component extends TallStackUiComponent implements Customization
     public function __construct(
         public ?string $icon = null,
         public ?string $label = null,
-        public ?bool $square = false,
         public ?string $href = null,
         public ?bool $navigate = null,
         public ?bool $navigateHover = null,

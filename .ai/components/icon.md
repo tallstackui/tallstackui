@@ -27,15 +27,14 @@ An icon component that renders SVG icons from Heroicons (built-in) or BladeUI ic
 
 ## Attributes
 
-| Attribute | Type         | Default | Description                                                                   |
-|-----------|--------------|---------|-------------------------------------------------------------------------------|
-| icon      | string\|null | null    | The icon name (e.g., `home`, `check-circle`, `arrow-right`)                   |
-| name      | string\|null | null    | Alternative to `icon` for specifying the icon name                            |
-| error     | bool         | false   | Applies red error color styling to the icon                                   |
-| type      | string\|null | null    | Override the icon type (e.g., `heroicons`). Defaults to the configured type.  |
-| left      | string\|null | null    | Text or HTML content displayed to the left of the icon                        |
-| right     | string\|null | null    | Text or HTML content displayed to the right of the icon                       |
-| internal  | bool         | true    | Whether to use the internal icon set. When false, uses BladeUI package icons. |
+| Attribute | Type          | Default      | Description                                                                  |
+|-----------|---------------|--------------|------------------------------------------------------------------------------|
+| icon      | string\|null  | null         | The icon name (e.g., `home`, `check-circle`, `arrow-right`)                  |
+| name      | string\|null  | null         | Alternative to `icon` for specifying the icon name                           |
+| error     | bool          | false        | Applies red error color styling to the icon                                  |
+| type      | string\|null  | null         | Override the icon type (e.g., `heroicons`). Defaults to the configured type. |
+| left      | ComponentSlot | string\|null | null                                                                         | Text or HTML content displayed to the left of the icon                        |
+| right     | ComponentSlot | string\|null | null                                                                         | Text or HTML content displayed to the right of the icon                       |
 
 ## Slots
 

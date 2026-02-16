@@ -3,6 +3,7 @@
 namespace TallStackUi\Components\Icon;
 
 use Illuminate\Contracts\View\View;
+use Illuminate\View\ComponentSlot;
 use TallStackUi\Attributes\SkipDebug;
 use TallStackUi\Support\Concerns\BuildRawIcon;
 use TallStackUi\TallStackUiComponent;
@@ -18,9 +19,9 @@ class Component extends TallStackUiComponent
         #[SkipDebug]
         public ?string $type = null,
         #[SkipDebug]
-        public ?string $left = null,
+        public ComponentSlot|string|null $left = null,
         #[SkipDebug]
-        public ?string $right = null,
+        public ComponentSlot|string|null $right = null,
         #[SkipDebug]
         public bool $internal = true,
     ) {

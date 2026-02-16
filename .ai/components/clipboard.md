@@ -66,6 +66,7 @@ TallStackUi::customize()
 | input.base               | Input field base styles                         |
 | input.color.base         | Input text and ring color                       |
 | input.color.background   | Input background color                          |
+| input.color.disabled     | Disabled state color styles for the input       |
 | input.sides.left         | Input border radius when button is on the left  |
 | input.sides.right        | Input border radius when button is on the right |
 | icon.wrapper             | Icon-only mode wrapper (inline-flex, cursor)    |

@@ -26,10 +26,10 @@ A tooltip icon component that displays informational text on hover using Tippy.j
 | text      | string\|null | null                   | Tooltip text content displayed on hover                   |
 | icon      | string\|null | 'question-mark-circle' | Heroicon name used as the tooltip trigger                 |
 | color     | string       | 'primary'              | Color theme for the icon (e.g., primary, red, blue, gray) |
-| xs        | bool         | null                   | Extra-small icon size                                     |
-| sm        | bool         | null                   | Small icon size (default)                                 |
-| md        | bool         | null                   | Medium icon size                                          |
-| lg        | bool         | null                   | Large icon size                                           |
+| xs        | bool\|null   | null                   | Extra-small icon size                                     |
+| sm        | bool\|null   | null                   | Small icon size (default)                                 |
+| md        | bool\|null   | null                   | Medium icon size                                          |
+| lg        | bool\|null   | null                   | Large icon size                                           |
 | position  | string\|null | 'top'                  | Tooltip position relative to the icon                     |
 
 ## Allowed Positions

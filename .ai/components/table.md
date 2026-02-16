@@ -120,9 +120,6 @@ Rows should include a `highlight` property (or custom property via `highlight-pr
 | link                | string\|null                                       | null              | URL template for clickable rows. Use `{column}` tokens (e.g., `/users/{id}`)                                  |
 | blank               | bool                                               | false             | Opens row links in a new tab                                                                                  |
 | on-each-side        | int\|null                                          | 1                 | Number of pagination links on each side of the current page                                                   |
-| header              | slot\|string\|null                                 | null              | Content rendered above the table (as text or custom HTML)                                                     |
-| footer              | slot\|string\|null                                 | null              | Content rendered below the table (as text or custom HTML)                                                     |
-| empty               | slot\|string\|null                                 | null              | Custom content shown when the table has no rows                                                               |
 
 ## Slots
 

@@ -30,7 +30,6 @@
             x-bind:aria-expanded="show"
             @class([
                 'rounded-full' => !$square,
-                'rounded-lg' => $square,
                 $colors['background'],
                 $customization['button.base'],
                 $customization['button.sizes.'.$size],

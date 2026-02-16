@@ -42,15 +42,15 @@ With left and right decorations in the tab label:
 
 ## Attributes
 
-| Attribute      | Type               | Default | Description                                                                   |
-|----------------|--------------------|---------|-------------------------------------------------------------------------------|
-| tab            | string\|null       | null    | Unique identifier for this tab (used to match `selected` on the parent)       |
-| title          | string\|null       | null    | Display label in the tab navigation (falls back to `tab` value if not set)    |
-| href           | string\|null       | null    | URL that determines when this tab's content renders (compared to current URL) |
-| navigate       | bool\|null         | null    | Use Livewire SPA navigation (`Livewire.navigate()`) when clicking this tab    |
-| navigate-hover | bool\|null         | null    | Same as `navigate` but prefetches the URL on hover                            |
-| left           | slot\|string\|null | null    | Content rendered to the left of the tab title in the navigation               |
-| right          | slot\|string\|null | null    | Content rendered to the right of the tab title in the navigation              |
+| Attribute      | Type                        | Default | Description                                                                   |
+|----------------|-----------------------------|---------|-------------------------------------------------------------------------------|
+| tab            | string\|null                | null    | Unique identifier for this tab (used to match `selected` on the parent)       |
+| title          | string\|null                | null    | Display label in the tab navigation (falls back to `tab` value if not set)    |
+| href           | string\|null                | null    | URL that determines when this tab's content renders (compared to current URL) |
+| navigate       | bool\|null                  | null    | Use Livewire SPA navigation (`Livewire.navigate()`) when clicking this tab    |
+| navigate-hover | bool\|null                  | null    | Same as `navigate` but prefetches the URL on hover                            |
+| left           | ComponentSlot\|string\|null | null    | Content rendered to the left of the tab title in the navigation               |
+| right          | ComponentSlot\|string\|null | null    | Content rendered to the right of the tab title in the navigation              |
 
 ## Slots
 

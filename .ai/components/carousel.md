@@ -44,6 +44,8 @@ An image carousel/slider component with manual navigation or autoplay, optional 
 | round             | bool                    | null    | Applies rounded corners to images and overlay                                                                                  |
 | shuffle           | bool                    | null    | Randomizes the image order on initialization                                                                                   |
 | wrapper           | string\|null            | null    | Custom CSS class for the slide container height (overrides default `min-h-[50svh]`)                                            |
+| header            | ComponentSlot\|null     | null    | Header slot content displayed above the carousel                                                                               |
+| footer            | ComponentSlot\|null     | null    | Footer slot content displayed below the carousel                                                                               |
 
 ## Image Object Structure
 

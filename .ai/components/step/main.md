@@ -54,16 +54,16 @@ Panel variation with finish button:
 
 ## Attributes
 
-| Attribute         | Type               | Default | Description                                                                      |
-|-------------------|--------------------|---------|----------------------------------------------------------------------------------|
-| selected          | int\|null          | null    | Initially selected step number (or use `wire:model` for Livewire binding)        |
-| panels            | bool               | false   | Uses the bordered panels variation                                               |
-| circles           | bool               | false   | Uses the numbered circles variation                                              |
-| simple            | bool               | false   | Uses the simple bar indicators variation (default)                               |
-| helpers           | bool               | false   | Shows next/previous/finish navigation buttons                                    |
-| navigate          | bool               | false   | Allows forward navigation by clicking step indicators                            |
-| navigate-previous | bool               | false   | Shows a "Previous" button in the helpers area                                    |
-| finish            | slot\|string\|null | null    | Custom finish button slot, or when set as a string shows a default finish button |
+| Attribute         | Type         | Default | Description                                                               |
+|-------------------|--------------|---------|---------------------------------------------------------------------------|
+| selected          | int\|null    | null    | Initially selected step number (or use `wire:model` for Livewire binding) |
+| panels            | bool         | false   | Uses the bordered panels variation                                        |
+| circles           | bool         | false   | Uses the numbered circles variation                                       |
+| simple            | bool         | false   | Uses the simple bar indicators variation (default)                        |
+| helpers           | bool         | false   | Shows next/previous/finish navigation buttons                             |
+| navigate          | bool         | false   | Allows forward navigation by clicking step indicators                     |
+| navigate-previous | bool         | false   | Shows a "Previous" button in the helpers area                             |
+| variation         | string\|null | null    | Visual variation type (automatically set from panels/circles/simple)      |
 
 ## Slots
 
