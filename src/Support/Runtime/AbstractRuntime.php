@@ -5,7 +5,6 @@ namespace TallStackUi\Support\Runtime;
 use Error;
 use Exception;
 use Illuminate\Contracts\View\Factory;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\ViewErrorBag;
 use Illuminate\View\ComponentAttributeBag;
@@ -150,14 +149,8 @@ abstract class AbstractRuntime
     {
         $slots = invade($this->factory)->slots;
 
-        /** @var Collection $slot */
-        $slot = collect($slots)->filter()->values();
-
-        /** @var array $first */
-        $first = $slot->first();
-
-        $left = Arr::has($first, 'left');
-        $right = Arr::has($first, 'right');
+        $left = ! empty(array_filter($slots, fn (array $item) => array_key_exists('left', $item)));
+        $right = ! empty(array_filter($slots, fn (array $item) => array_key_exists('right', $item)));
 
         return [$left, $right];
     }
