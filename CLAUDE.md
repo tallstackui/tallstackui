@@ -450,7 +450,7 @@ The `__ts_validation_exception()` helper throws `InvalidArgumentException` with 
 - `$tsui.open.select(name)` / `$tsui.close.select(name)` - Select control
 - `$tsui.open.commandPalette()` / `$tsui.close.commandPalette()` - Command Palette control
 - `$tsui.interaction(type)` - Creates interaction handler
-- `$tsui.focusOn(name, time)` - Focuses element by ID or data-focus
+- `$tsui.focus(name, time)` - Focuses element by ID or data-focus
 
 **Component Pattern:**
 

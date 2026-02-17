@@ -52,7 +52,7 @@ window.$tsui = {
    * @param {Number} time - Delay in milliseconds
    * @return {void}
    */
-  focusOn: (name, time = 250) =>
+  focus: (name, time = 250) =>
     setTimeout(() => {
       let element = document.querySelector(`[data-focus="${name}"]`);
 

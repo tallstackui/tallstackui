@@ -147,7 +147,7 @@ $tsui.open.commandPalette()
 $tsui.close.commandPalette()
 
 // Focus element
-$tsui.focusOn('element-id')
+$tsui.focus('element-id')
 
 // Programmatic interactions
 $tsui.interaction('dialog').success('Title', 'Description').send()
