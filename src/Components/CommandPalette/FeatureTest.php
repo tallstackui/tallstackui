@@ -34,6 +34,26 @@ it('can render', function () {
         ->toContain('tallstackui_commandPalette');
 });
 
+it('can render with default id', function () {
+    $component = <<<'HTML'
+    <x-command-palette request="https://example.com/search" select="label:title|value:id" />
+    HTML;
+
+    expect($component)->render()
+        ->toContain('command-palette:command-palette-open')
+        ->toContain('command-palette:command-palette-close');
+});
+
+it('can render with custom id', function () {
+    $component = <<<'HTML'
+    <x-command-palette id="search-palette" request="https://example.com/search" select="label:title|value:id" />
+    HTML;
+
+    expect($component)->render()
+        ->toContain('command-palette:search-palette-open')
+        ->toContain('command-palette:search-palette-close');
+});
+
 it('cannot render without request anywhere', function () {
     $this->expectException(ViewException::class);
     $this->expectExceptionMessage('[TallStackUI] CommandPalette: The [request] must be configured either as an inline attribute or in the config file');
@@ -406,7 +426,7 @@ it('recycle is true by default', function () {
     HTML;
 
     expect($component)->render()
-        ->toContain("'ctrl.k',true,null,false)");
+        ->toContain("'ctrl.k',true,null,false,'command-palette')");
 });
 
 it('recycle can be disabled via config', function () {
@@ -433,7 +453,7 @@ it('recycle can be disabled via config', function () {
     HTML;
 
     expect($component)->render()
-        ->toContain("'ctrl.k',false,null,false)");
+        ->toContain("'ctrl.k',false,null,false,'command-palette')");
 });
 
 it('inline recycle overrides config recycle', function () {
@@ -460,7 +480,7 @@ it('inline recycle overrides config recycle', function () {
     HTML;
 
     expect($component)->render()
-        ->toContain("'ctrl.k',true,null,false)");
+        ->toContain("'ctrl.k',true,null,false,'command-palette')");
 });
 
 // --- Footer visibility tests ---

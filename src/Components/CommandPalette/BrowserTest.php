@@ -34,6 +34,33 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_close_specific_palette_by_id(): void
+    {
+        $browser = Livewire::visit(new class extends Component
+        {
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-command-palette id="first" request="https://example.com/search" select="label:title|value:id" />
+                    <x-command-palette id="second" request="https://example.com/search" select="label:title|value:id" />
+                    <x-button dusk="open-first" x-on:click="$tsui.open.commandPalette('first')">Open First</x-button>
+                </div>
+                HTML;
+            }
+        });
+
+        $browser->click('@open-first')
+            ->waitFor('[dusk="tallstackui_command_palette"]')
+            ->assertVisible('[dusk="tallstackui_command_palette"]');
+
+        $browser->script('$tsui.close.commandPalette("first")');
+
+        $browser->waitUntilMissing('[dusk="tallstackui_command_palette"]')
+            ->assertMissing('[dusk="tallstackui_command_palette"]');
+    }
+
+    #[Test]
     public function can_close_using_helper(): void
     {
         $browser = Livewire::visit(new class extends Component
@@ -53,7 +80,7 @@ class BrowserTest extends BrowserTestCase
             ->waitFor('@tallstackui_command_palette')
             ->assertVisible('@tallstackui_command_palette');
 
-        $browser->script('$tsui.close.commandPalette()');
+        $browser->script('$tsui.close.commandPalette("command-palette")');
 
         $browser->waitUntilMissing('@tallstackui_command_palette')
             ->assertMissing('@tallstackui_command_palette');
@@ -91,7 +118,7 @@ class BrowserTest extends BrowserTestCase
             public function render(): string
             {
                 return <<<'HTML'
-                <div x-data="{ closed: false }" x-on:command-palette:close.window="closed = true">
+                <div x-data="{ closed: false }" x-on:command-palette:command-palette:close.window="closed = true">
                     <x-command-palette request="https://example.com/search" select="label:title|value:id" />
                     <x-button dusk="open" x-on:click="$tsui.open.commandPalette()">Open</x-button>
                     <span x-show="closed" dusk="closed">Closed</span>
@@ -116,7 +143,7 @@ class BrowserTest extends BrowserTestCase
             public function render(): string
             {
                 return <<<'HTML'
-                <div x-data="{ selected: '' }" x-on:command-palette:select.window="selected = $event.detail.label">
+                <div x-data="{ selected: '' }" x-on:command-palette:command-palette:select.window="selected = $event.detail.label">
                     <x-command-palette request="/searchable-filtered" select="label:label|value:value" />
                     <x-button dusk="open" x-on:click="$tsui.open.commandPalette()">Open</x-button>
                     <span dusk="global-result" x-text="selected"></span>
@@ -196,7 +223,7 @@ class BrowserTest extends BrowserTestCase
             public function render(): string
             {
                 return <<<'HTML'
-                <div x-data="{ opened: false }" x-on:command-palette:open.window="opened = true">
+                <div x-data="{ opened: false }" x-on:command-palette:command-palette:open.window="opened = true">
                     <x-command-palette request="https://example.com/search" select="label:title|value:id" />
                     <x-button dusk="open" x-on:click="$tsui.open.commandPalette()">Open</x-button>
                     <span x-show="opened" dusk="opened">Opened</span>
@@ -326,6 +353,29 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_open_specific_palette_by_id(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-command-palette id="first" request="https://example.com/search" select="label:title|value:id" />
+                    <x-command-palette id="second" request="https://example.com/search" select="label:title|value:id" />
+                    <x-button dusk="open-first" x-on:click="$tsui.open.commandPalette('first')">Open First</x-button>
+                    <x-button dusk="open-second" x-on:click="$tsui.open.commandPalette('second')">Open Second</x-button>
+                </div>
+                HTML;
+            }
+        })
+            ->assertMissing('[dusk="tallstackui_command_palette"]')
+            ->click('@open-first')
+            ->waitFor('[dusk="tallstackui_command_palette"]')
+            ->assertVisible('[dusk="tallstackui_command_palette"]');
+    }
+
+    #[Test]
     public function can_open_using_helper(): void
     {
         Livewire::visit(new class extends Component
@@ -335,7 +385,7 @@ class BrowserTest extends BrowserTestCase
                 return <<<'HTML'
                 <div>
                     <x-command-palette request="https://example.com/search" select="label:title|value:id" />
-                    <x-button dusk="open" x-on:click="$tsui.open.commandPalette()">Open</x-button>
+                    <x-button dusk="open" x-on:click="$tsui.open.commandPalette('command-palette')">Open</x-button>
                 </div>
                 HTML;
             }
@@ -415,7 +465,7 @@ class BrowserTest extends BrowserTestCase
             public function render(): string
             {
                 return <<<'HTML'
-                <div x-data="{ inlineResult: '', globalResult: '' }" x-on:command-palette:select.window="globalResult = 'global-fired'">
+                <div x-data="{ inlineResult: '', globalResult: '' }" x-on:command-palette:command-palette:select.window="globalResult = 'global-fired'">
                     <x-command-palette
                         request="/searchable-filtered"
                         select="label:label|value:value"

@@ -5,14 +5,17 @@ namespace TallStackUi\Components\CommandPalette;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use TallStackUi\Attributes\PassThroughRuntime;
 use TallStackUi\Attributes\SkipDebug;
 use TallStackUi\Attributes\SoftCustomization;
 use TallStackUi\Components\Traits\SelectSetup;
 use TallStackUi\Customization\Contracts\Customization;
+use TallStackUi\Support\Runtime\Components\CommandPaletteRuntime;
 use TallStackUi\TallStackUiComponent;
 use Throwable;
 
 #[SoftCustomization('commandPalette')]
+#[PassThroughRuntime(CommandPaletteRuntime::class)]
 class Component extends TallStackUiComponent implements Customization
 {
     use SelectSetup {
@@ -20,6 +23,7 @@ class Component extends TallStackUiComponent implements Customization
     }
 
     public function __construct(
+        public ?string $id = 'command-palette',
         public string|array|null $request = null,
         public Collection|array $options = [],
         public ?array $selectable = [],

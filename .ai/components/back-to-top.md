@@ -21,18 +21,18 @@ A floating button that appears when the user scrolls down, allowing them to smoo
 
 ## Attributes
 
-| Attribute | Type         | Default        | Description                                                      |
-|-----------|--------------|----------------|------------------------------------------------------------------|
-| icon      | string\|null | 'chevron-up'   | Heroicon name displayed inside the button                        |
-| color     | string\|null | 'primary'      | Color theme (e.g., primary, red, green, blue)                    |
-| position  | string\|null | 'bottom-right' | Screen position: 'bottom-right' or 'bottom-left'                 |
-| anchor    | string\|null | null           | CSS selector of the element to scroll to instead of the page top |
-| immediate | bool         | false          | Shows the button immediately without waiting for scroll          |
-| square    | bool         | false          | Uses rounded-lg corners instead of fully rounded                 |
-| xs        | bool         | null           | Extra-small size                                                 |
-| sm        | bool         | null           | Small size                                                       |
-| md        | bool         | null           | Medium size (default)                                            |
-| lg        | bool         | null           | Large size                                                       |
+| Attribute | Type         | Default        | Description                                                                |
+|-----------|--------------|----------------|----------------------------------------------------------------------------|
+| icon      | string\|null | 'chevron-up'   | Heroicon name displayed inside the button                                  |
+| color     | string\|null | 'primary'      | Color theme (e.g., primary, red, green, blue)                              |
+| position  | string\|null | 'bottom-right' | Screen position: 'bottom-right' or 'bottom-left'                           |
+| anchor    | string\|null | null           | CSS selector of the element to scroll to instead of the page top           |
+| immediate | bool         | false          | Uses instant scroll instead of smooth animation when scrolling back to top |
+| square    | bool         | false          | Uses rounded-lg corners instead of fully rounded                           |
+| xs        | bool         | null           | Extra-small size                                                           |
+| sm        | bool         | null           | Small size                                                                 |
+| md        | bool         | null           | Medium size (default)                                                      |
+| lg        | bool         | null           | Large size                                                                 |
 
 ## Validation Constraints
 

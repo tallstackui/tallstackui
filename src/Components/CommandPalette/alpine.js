@@ -13,7 +13,8 @@ export default (
   shortcutKey = 'ctrl.k',
   recycle = false,
   url = null,
-  inline = false
+  inline = false,
+  id = 'command-palette'
 ) => ({
   show: false,
   search: '',
@@ -95,13 +96,13 @@ export default (
       this.response = [];
     }
 
-    overflow(true, 'command-palette');
-    register_ui_element('command-palette', 'command-palette');
+    overflow(true, id);
+    register_ui_element(id, 'command-palette');
 
     this.$nextTick(() => this.$refs.search?.focus());
 
     this.$dispatch('open');
-    event('command-palette:open', null, false);
+    event(`command-palette:${id}:open`, null, false);
   },
   /**
    * Close the command palette and restore overflow.
@@ -111,11 +112,11 @@ export default (
   close() {
     this.show = false;
 
-    overflow(false, 'command-palette');
-    unregister_ui_element('command-palette');
+    overflow(false, id);
+    unregister_ui_element(id);
 
     this.$dispatch('close');
-    event('command-palette:close', null, false);
+    event(`command-palette:${id}:close`, null, false);
   },
   /**
    * Fetch search results from the server endpoint.
@@ -222,7 +223,7 @@ export default (
       return;
     }
 
-    event('command-palette:select', sanitized, false);
+    event(`command-palette:${id}:select`, sanitized, false);
 
     this.close();
   },

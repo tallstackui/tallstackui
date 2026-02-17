@@ -11,8 +11,8 @@ window.$tsui = {
     slide: (name) => event(`slide:${name}-open`, null, false),
     /** @param {String} name @return {void} */
     select: (name) => event(`select:${name}-open`, null, false),
-    /** @return {void} */
-    commandPalette: () => event('command-palette-open', null, false),
+    /** @param {String} id @return {void} */
+    commandPalette: (id = 'command-palette') => event(`command-palette:${id}-open`, null, false),
   },
   /** Methods to close components by name. */
   close: {
@@ -22,8 +22,8 @@ window.$tsui = {
     slide: (name) => event(`slide:${name}-close`, null, false),
     /** @param {String} name @return {void} */
     select: (name) => event(`select:${name}-close`, null, false),
-    /** @return {void} */
-    commandPalette: () => event('command-palette-close', null, false),
+    /** @param {String} id @return {void} */
+    commandPalette: (id = 'command-palette') => event(`command-palette:${id}-close`, null, false),
   },
   /**
    * Create a dialog or toast interaction instance.

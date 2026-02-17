@@ -43,6 +43,18 @@ Place the component on specific pages and handle selection with inline `x-on:sel
                    x-on:select="handleSelection($event.detail)" />
 ```
 
+### Multiple Instances
+
+Use the `id` attribute to place multiple command palettes on the same page and target them independently:
+
+```blade
+<x-command-palette id="search" request="/api/search" select="label:name|value:id" />
+<x-command-palette id="actions" request="/api/actions" select="label:name|value:id" />
+
+<x-button x-on:click="$tsui.open.commandPalette('search')">Search</x-button>
+<x-button x-on:click="$tsui.open.commandPalette('actions')">Actions</x-button>
+```
+
 ## Basic Usage
 
 ```blade
@@ -68,6 +80,7 @@ Place the component on specific pages and handle selection with inline `x-on:sel
 
 | Attribute    | Type                | Default                                                                     | Description                                                                                                 |
 |--------------|---------------------|-----------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------|
+| id           | string\|null        | 'command-palette'                                                           | Unique identifier for targeting with `$tsui.open.commandPalette(id)`. Required when using multiple palettes |
 | request      | string\|array\|null | null (from config)                                                          | Data source URL (string, route name, or array with `url`, `method`, `params` keys)                          |
 | options      | Collection\|array   | []                                                                          | Static options array (each item should have label, value, and optionally description, image, icon)          |
 | selectable   | array\|null         | []                                                                          | Parsed field mapping (auto-generated from `select`)                                                         |
@@ -108,7 +121,7 @@ When a user selects an option, the component uses a priority chain to determine 
 
 1. **Inline event** (`x-on:select`) — If the component has an `x-on:select` listener, dispatches via Alpine's `$dispatch()` (component-scoped, not window). The actionable and global event are suppressed.
 2. **Actionable** (`config actionable`) — If an actionable class is configured, sends a POST request to a Laravel signed route. The server invokes the class and returns a `Callback` response (redirect or event).
-3. **Global event** (fallback) — Dispatches a `command-palette:select` window event with the selected option data.
+3. **Global event** (fallback) — Dispatches a `command-palette:{id}:select` window event with the selected option data.
 
 In all cases, internal keys prefixed with `__` are stripped from the option data before dispatching.
 
@@ -200,21 +213,27 @@ The JavaScript receives the full callback response structure:
 When no inline `x-on:select` or actionable is configured:
 
 ```blade
-<div x-on:command-palette:select.window="handleSelection($event.detail)">
+{{-- Default id --}}
+<div x-on:command-palette:command-palette:select.window="handleSelection($event.detail)">
     <x-command-palette request="/api/search" select="label:name|value:id" />
+</div>
+
+{{-- Custom id --}}
+<div x-on:command-palette:search:select.window="handleSelection($event.detail)">
+    <x-command-palette id="search" request="/api/search" select="label:name|value:id" />
 </div>
 ```
 
 ## Lifecycle Events
 
-Open/close events are always dispatched regardless of selection mode:
+Open/close events are always dispatched regardless of selection mode. Window events include the component's `id` in the event name:
 
-| Event                   | Channel     | Trigger        |
-|-------------------------|-------------|----------------|
-| `open` (inline)         | `$dispatch` | Palette opens  |
-| `close` (inline)        | `$dispatch` | Palette closes |
-| `command-palette:open`  | `window`    | Palette opens  |
-| `command-palette:close` | `window`    | Palette closes |
+| Event                        | Channel     | Trigger        |
+|------------------------------|-------------|----------------|
+| `open` (inline)              | `$dispatch` | Palette opens  |
+| `close` (inline)             | `$dispatch` | Palette closes |
+| `command-palette:{id}:open`  | `window`    | Palette opens  |
+| `command-palette:{id}:close` | `window`    | Palette closes |
 
 ```blade
 {{-- Inline lifecycle events --}}
@@ -223,10 +242,16 @@ Open/close events are always dispatched regardless of selection mode:
                    x-on:open="console.log('opened')"
                    x-on:close="console.log('closed')" />
 
-{{-- Global lifecycle events --}}
-<div x-on:command-palette:open.window="console.log('opened')"
-     x-on:command-palette:close.window="console.log('closed')">
+{{-- Global lifecycle events (default id) --}}
+<div x-on:command-palette:command-palette:open.window="console.log('opened')"
+     x-on:command-palette:command-palette:close.window="console.log('closed')">
     <x-command-palette request="/api/search" select="label:name|value:id" />
+</div>
+
+{{-- Global lifecycle events (custom id) --}}
+<div x-on:command-palette:search:open.window="console.log('search opened')"
+     x-on:command-palette:search:close.window="console.log('search closed')">
+    <x-command-palette id="search" request="/api/search" select="label:name|value:id" />
 </div>
 ```
 
@@ -259,8 +284,13 @@ In `config/tallstackui.php` under `components.command-palette`:
 ## JavaScript Control
 
 ```js
+// Default (targets id="command-palette")
 $tsui.open.commandPalette()
 $tsui.close.commandPalette()
+
+// Target specific palette by ID
+$tsui.open.commandPalette('search')
+$tsui.close.commandPalette('search')
 ```
 
 ## Soft Customization
