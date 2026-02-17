@@ -12,7 +12,6 @@ beforeEach(function () {
             'blur' => false,
             'overflow' => false,
             'shortcut' => 'ctrl.k',
-            'persistent' => false,
             'recycle' => true,
             'elements' => true,
             'scrollbar' => true,
@@ -32,7 +31,6 @@ afterEach(function () {
             'blur' => false,
             'overflow' => false,
             'shortcut' => 'ctrl.k',
-            'persistent' => false,
             'recycle' => true,
             'elements' => true,
             'scrollbar' => true,
@@ -60,6 +58,7 @@ it('processes actionable with valid signed request', function () {
             'type' => 'redirect',
             'data' => ['to' => '/test'],
             'external' => false,
+            'navigate' => false,
         ]);
 });
 
@@ -73,7 +72,6 @@ it('returns 404 when actionable is not configured', function () {
             'blur' => false,
             'overflow' => false,
             'shortcut' => 'ctrl.k',
-            'persistent' => false,
             'recycle' => true,
             'elements' => true,
             'scrollbar' => true,
@@ -100,7 +98,6 @@ it('returns 422 when actionable is not invocable', function () {
             'blur' => false,
             'overflow' => false,
             'shortcut' => 'ctrl.k',
-            'persistent' => false,
             'recycle' => true,
             'elements' => true,
             'scrollbar' => true,
@@ -127,7 +124,6 @@ it('passes search term to item selected', function () {
             'blur' => false,
             'overflow' => false,
             'shortcut' => 'ctrl.k',
-            'persistent' => false,
             'recycle' => true,
             'elements' => true,
             'scrollbar' => true,
@@ -151,6 +147,38 @@ it('passes search term to item selected', function () {
         ]);
 });
 
+it('returns navigate flag when callback uses navigate', function () {
+    config()->set('ts-ui.components.command-palette', [
+        TallStackUi\Components\CommandPalette\Component::class,
+        [
+            'actionable' => Tests\Support\CommandPaletteActionableWithNavigateStub::class,
+            'request' => null,
+            'z-index' => 'z-50',
+            'blur' => false,
+            'overflow' => false,
+            'shortcut' => 'ctrl.k',
+            'recycle' => true,
+            'elements' => true,
+            'scrollbar' => true,
+        ],
+    ]);
+
+    __ts_get_component_configuration(TallStackUi\Components\CommandPalette\Component::class, flush: true);
+
+    $url = URL::signedRoute('tallstackui.command-palette.action');
+
+    $this->postJson($url, [
+        'item' => ['label' => 'Test', 'value' => 1],
+        'search' => 'test',
+    ])->assertOk()
+        ->assertJson([
+            'type' => 'redirect',
+            'data' => ['to' => '/test'],
+            'external' => false,
+            'navigate' => true,
+        ]);
+});
+
 it('passes additional data to item selected', function () {
     config()->set('ts-ui.components.command-palette', [
         TallStackUi\Components\CommandPalette\Component::class,
@@ -161,7 +189,6 @@ it('passes additional data to item selected', function () {
             'blur' => false,
             'overflow' => false,
             'shortcut' => 'ctrl.k',
-            'persistent' => false,
             'recycle' => true,
             'elements' => true,
             'scrollbar' => true,

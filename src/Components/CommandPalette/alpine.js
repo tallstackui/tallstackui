@@ -278,6 +278,8 @@ export default (
     if (callback.type === 'redirect') {
       if (callback.external) {
         window.open(callback.data.to, '_blank');
+      } else if (callback.navigate && window.Livewire) {
+        window.Livewire.navigate(callback.data.to);
       } else {
         window.location.href = callback.data.to;
       }

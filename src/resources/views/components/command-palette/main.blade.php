@@ -18,7 +18,7 @@
          @endif
          @class([$customization['backdrop'], $configurations['zIndex'], $customization['blur.'.($configurations['blur'] === true ? 'sm' : $configurations['blur'])] ?? null => $configurations['blur']])></div>
     <div x-show="show"
-         @if (!$configurations['persistent']) x-on:click.self="close()" @endif
+         x-on:click.self="close()"
          x-on:keydown.escape.window="close()"
          @if (!$ts_ui__flash)
              x-transition:enter="ease-out duration-200"

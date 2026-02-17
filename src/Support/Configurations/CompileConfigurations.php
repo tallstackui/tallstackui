@@ -78,7 +78,6 @@ class CompileConfigurations
             'overflow' => $configuration['overflow'] ?? false,
             'shortcut' => $component->shortcut,
             'recycle' => $component->recycle,
-            'persistent' => $configuration['persistent'] ?? false,
             'elements' => $configuration['elements'] ?? true,
             'scrollbar' => $configuration['scrollbar'] ?? true,
         ];

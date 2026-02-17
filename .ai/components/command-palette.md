@@ -192,6 +192,9 @@ Callback::redirect('/dashboard');
 // Redirect to an external URL (opens in new tab)
 Callback::redirect('https://example.com')->external();
 
+// Redirect using Livewire.navigate (SPA-style navigation)
+Callback::redirect('/dashboard')->navigate();
+
 // Dispatch a browser event
 Callback::event('item-selected');
 
@@ -205,9 +208,12 @@ The JavaScript receives the full callback response structure:
 {
     type: 'redirect' | 'event',
     data: { to: '...' } | { name: '...', params: {...} },
-    external: boolean
+    external: boolean,
+    navigate: boolean
 }
 ```
+
+When `navigate` is `true`, the redirect uses `Livewire.navigate()` for SPA-style navigation without a full page reload. Falls back to `window.location.href` if Livewire is not available.
 
 ### Global Event (Fallback)
 
@@ -277,7 +283,6 @@ In `config/tallstackui.php` under `components.command-palette`:
 | blur       | bool\|string        | false    | Background blur effect (`false` disables, `true` defaults to 'sm', or 'sm'/'md'/'lg'/'xl') |
 | overflow   | bool                | false    | When true, avoids hiding body overflow                                                     |
 | shortcut   | string              | 'ctrl.k' | Keyboard shortcut in dot notation (e.g., `ctrl.k`, `ctrl.shift.p`, `meta.k`)               |
-| persistent | bool                | false    | When true, prevents closing by clicking outside                                            |
 | recycle    | bool                | true     | When true, preserves previous results when reopening                                       |
 | elements   | bool                | true     | When true, shows keyboard hint elements in the footer                                      |
 | scrollbar  | bool                | true     | When true, applies a custom minimal scrollbar to the results list                          |

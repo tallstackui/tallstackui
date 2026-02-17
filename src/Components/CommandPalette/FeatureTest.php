@@ -15,7 +15,6 @@ afterEach(function () {
             'blur' => false,
             'overflow' => false,
             'shortcut' => 'ctrl.k',
-            'persistent' => false,
             'recycle' => true,
             'elements' => true,
             'scrollbar' => true,
@@ -157,33 +156,6 @@ it('renders with click-outside close by default', function () {
         ->toContain('x-on:click.self="close()"');
 });
 
-it('renders without click-outside close when persistent', function () {
-    config()->set('ts-ui.components.command-palette', [
-        TallStackUi\Components\CommandPalette\Component::class,
-        [
-            'actionable' => null,
-            'request' => null,
-            'z-index' => 'z-50',
-            'blur' => false,
-            'overflow' => false,
-            'shortcut' => 'ctrl.k',
-            'persistent' => true,
-            'recycle' => true,
-            'elements' => false,
-            'scrollbar' => true,
-        ],
-    ]);
-
-    __ts_get_component_configuration(TallStackUi\Components\CommandPalette\Component::class, flush: true);
-
-    $component = <<<'HTML'
-    <x-command-palette request="https://example.com/search" select="label:title|value:id" />
-    HTML;
-
-    expect($component)->render()
-        ->not->toContain('x-on:click.self="close()"');
-});
-
 it('shows keyboard hints by default', function () {
     $component = <<<'HTML'
     <x-command-palette request="https://example.com/search" select="label:title|value:id" />
@@ -204,7 +176,6 @@ it('hides keyboard hints when elements config is false', function () {
             'blur' => false,
             'overflow' => false,
             'shortcut' => 'ctrl.k',
-            'persistent' => false,
             'recycle' => true,
             'elements' => false,
             'scrollbar' => true,
@@ -243,7 +214,6 @@ it('renders without custom scrollbar when disabled', function () {
             'blur' => false,
             'overflow' => false,
             'shortcut' => 'ctrl.k',
-            'persistent' => false,
             'recycle' => true,
             'elements' => true,
             'scrollbar' => false,
@@ -302,7 +272,6 @@ it('can render with request from config as string url', function () {
             'blur' => false,
             'overflow' => false,
             'shortcut' => 'ctrl.k',
-            'persistent' => false,
             'recycle' => true,
             'elements' => true,
             'scrollbar' => true,
@@ -326,7 +295,6 @@ it('can render with request from config as array', function () {
             'blur' => false,
             'overflow' => false,
             'shortcut' => 'ctrl.k',
-            'persistent' => false,
             'recycle' => true,
             'elements' => true,
             'scrollbar' => true,
@@ -350,7 +318,6 @@ it('inline request overrides config request', function () {
             'blur' => false,
             'overflow' => false,
             'shortcut' => 'ctrl.k',
-            'persistent' => false,
             'recycle' => true,
             'elements' => true,
             'scrollbar' => true,
@@ -394,7 +361,6 @@ it('can resolve route name from config', function () {
             'blur' => false,
             'overflow' => false,
             'shortcut' => 'ctrl.k',
-            'persistent' => false,
             'recycle' => true,
             'elements' => true,
             'scrollbar' => true,
@@ -439,7 +405,6 @@ it('recycle can be disabled via config', function () {
             'blur' => false,
             'overflow' => false,
             'shortcut' => 'ctrl.k',
-            'persistent' => false,
             'recycle' => false,
             'elements' => true,
             'scrollbar' => true,
@@ -466,7 +431,6 @@ it('inline recycle overrides config recycle', function () {
             'blur' => false,
             'overflow' => false,
             'shortcut' => 'ctrl.k',
-            'persistent' => false,
             'recycle' => false,
             'elements' => true,
             'scrollbar' => true,
@@ -504,7 +468,6 @@ it('shortcut can be changed via config', function () {
             'blur' => false,
             'overflow' => false,
             'shortcut' => 'ctrl.shift.p',
-            'persistent' => false,
             'recycle' => true,
             'elements' => true,
             'scrollbar' => true,
@@ -531,7 +494,6 @@ it('inline shortcut overrides config shortcut', function () {
             'blur' => false,
             'overflow' => false,
             'shortcut' => 'ctrl.shift.p',
-            'persistent' => false,
             'recycle' => true,
             'elements' => true,
             'scrollbar' => true,
@@ -572,7 +534,6 @@ it('cannot use non-existent actionable class', function () {
             'blur' => false,
             'overflow' => false,
             'shortcut' => 'ctrl.k',
-            'persistent' => false,
             'recycle' => true,
             'elements' => true,
             'scrollbar' => true,
@@ -597,7 +558,6 @@ it('cannot use non-invocable actionable class', function () {
             'blur' => false,
             'overflow' => false,
             'shortcut' => 'ctrl.k',
-            'persistent' => false,
             'recycle' => true,
             'elements' => true,
             'scrollbar' => true,
@@ -631,7 +591,6 @@ it('passes action url when actionable is configured', function () {
             'blur' => false,
             'overflow' => false,
             'shortcut' => 'ctrl.k',
-            'persistent' => false,
             'recycle' => true,
             'elements' => true,
             'scrollbar' => true,

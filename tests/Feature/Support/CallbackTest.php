@@ -10,6 +10,7 @@ it('creates redirect callback', function () {
             'type' => 'redirect',
             'data' => ['to' => '/users/1'],
             'external' => false,
+            'navigate' => false,
         ]);
 });
 
@@ -21,6 +22,19 @@ it('creates external redirect callback', function () {
             'type' => 'redirect',
             'data' => ['to' => 'https://google.com'],
             'external' => true,
+            'navigate' => false,
+        ]);
+});
+
+it('creates navigate redirect callback', function () {
+    $callback = Callback::redirect('/dashboard')->navigate();
+
+    expect($callback->toArray())
+        ->toBe([
+            'type' => 'redirect',
+            'data' => ['to' => '/dashboard'],
+            'external' => false,
+            'navigate' => true,
         ]);
 });
 
@@ -32,6 +46,7 @@ it('creates event callback', function () {
             'type' => 'event',
             'data' => ['name' => 'user-selected'],
             'external' => false,
+            'navigate' => false,
         ]);
 });
 
@@ -43,6 +58,7 @@ it('creates event callback with params', function () {
             'type' => 'event',
             'data' => ['name' => 'user-selected', 'params' => ['id' => 1, 'role' => 'admin']],
             'external' => false,
+            'navigate' => false,
         ]);
 });
 

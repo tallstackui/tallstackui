@@ -10,6 +10,7 @@ class Callback implements Arrayable
         private readonly string $type,
         private array $data = [],
         private bool $external = false,
+        private bool $navigate = false,
     ) {
         //
     }
@@ -34,6 +35,14 @@ class Callback implements Arrayable
         return $this;
     }
 
+    /** Mark the redirect callback to use Livewire.navigate. */
+    public function navigate(): self
+    {
+        $this->navigate = true;
+
+        return $this;
+    }
+
     /** {@inheritDoc} */
     public function toArray(): array
     {
@@ -41,6 +50,7 @@ class Callback implements Arrayable
             'type' => $this->type,
             'data' => $this->data,
             'external' => $this->external,
+            'navigate' => $this->navigate,
         ];
     }
 

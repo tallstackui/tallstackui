@@ -130,7 +130,6 @@ return [
             | blur: enables the background blur effect (Allowed: false, sm, md, lg, xl).
             | overflow: avoids hiding the overflow, allowing the scroll of the page.
             | shortcut: keyboard shortcut to toggle the palette (e.g., 'ctrl.k', 'ctrl.shift.p').
-            | persistent: when true, prevents closing by clicking outside.
             | recycle: when true, preserves previous results when reopening the palette.
             | elements: when true, shows the keyboard hints in the footer.
             | scrollbar: when true, applies a custom minimal scrollbar to the results list.
@@ -142,7 +141,6 @@ return [
                 'blur' => false,
                 'overflow' => false,
                 'shortcut' => 'ctrl.k',
-                'persistent' => false,
                 'recycle' => true,
                 'elements' => true,
                 'scrollbar' => true,
