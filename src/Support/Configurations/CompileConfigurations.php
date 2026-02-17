@@ -68,12 +68,16 @@ class CompileConfigurations
 
         $actionable = $configuration['actionable'] ?? null;
 
+        $component->recycle ??= $configuration['recycle'] ?? true;
+        $component->shortcut ??= $configuration['shortcut'] ?? 'ctrl.k';
+
         return [
             'url' => $actionable ? URL::signedRoute('tallstackui.command-palette.action') : null,
             'zIndex' => $configuration['z-index'] ?? 'z-50',
             'blur' => $configuration['blur'] ?? false,
             'overflow' => $configuration['overflow'] ?? false,
-            'shortcut' => $configuration['shortcut'] ?? 'ctrl.k',
+            'shortcut' => $component->shortcut,
+            'recycle' => $component->recycle,
             'persistent' => $configuration['persistent'] ?? false,
             'elements' => $configuration['elements'] ?? true,
             'scrollbar' => $configuration['scrollbar'] ?? true,

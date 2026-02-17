@@ -29,13 +29,13 @@ class Component extends TallStackUiComponent implements Customization
         public ?array $selectable = [],
         public ?array $placeholders = null,
         public ?bool $recycle = null,
+        public ?string $shortcut = null,
         #[SkipDebug]
         public ?bool $grouped = null,
         #[SkipDebug]
         public ?string $select = null,
     ) {
         $this->request ??= __ts_get_component_configuration(self::class, 'request');
-        $this->recycle ??= __ts_get_component_configuration(self::class, 'recycle') ?? true;
 
         $this->request();
 

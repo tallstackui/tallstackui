@@ -483,6 +483,72 @@ it('inline recycle overrides config recycle', function () {
         ->toContain("'ctrl.k',true,null,false,'command-palette')");
 });
 
+// --- Shortcut config tests ---
+
+it('shortcut defaults to ctrl.k', function () {
+    $component = <<<'HTML'
+    <x-command-palette request="https://example.com/search" select="label:title|value:id" />
+    HTML;
+
+    expect($component)->render()
+        ->toContain("'ctrl.k',");
+});
+
+it('shortcut can be changed via config', function () {
+    config()->set('ts-ui.components.command-palette', [
+        TallStackUi\Components\CommandPalette\Component::class,
+        [
+            'actionable' => null,
+            'request' => null,
+            'z-index' => 'z-50',
+            'blur' => false,
+            'overflow' => false,
+            'shortcut' => 'ctrl.shift.p',
+            'persistent' => false,
+            'recycle' => true,
+            'elements' => true,
+            'scrollbar' => true,
+        ],
+    ]);
+
+    __ts_get_component_configuration(TallStackUi\Components\CommandPalette\Component::class, flush: true);
+
+    $component = <<<'HTML'
+    <x-command-palette request="https://example.com/search" select="label:title|value:id" />
+    HTML;
+
+    expect($component)->render()
+        ->toContain("'ctrl.shift.p',");
+});
+
+it('inline shortcut overrides config shortcut', function () {
+    config()->set('ts-ui.components.command-palette', [
+        TallStackUi\Components\CommandPalette\Component::class,
+        [
+            'actionable' => null,
+            'request' => null,
+            'z-index' => 'z-50',
+            'blur' => false,
+            'overflow' => false,
+            'shortcut' => 'ctrl.shift.p',
+            'persistent' => false,
+            'recycle' => true,
+            'elements' => true,
+            'scrollbar' => true,
+        ],
+    ]);
+
+    __ts_get_component_configuration(TallStackUi\Components\CommandPalette\Component::class, flush: true);
+
+    $component = <<<'HTML'
+    <x-command-palette request="https://example.com/search" select="label:title|value:id" shortcut="meta.k" />
+    HTML;
+
+    expect($component)->render()
+        ->toContain("'meta.k',")
+        ->not->toContain("'ctrl.shift.p',");
+});
+
 // --- Footer visibility tests ---
 
 it('renders footer with x-show for conditional visibility', function () {

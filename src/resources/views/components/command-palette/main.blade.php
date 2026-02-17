@@ -3,7 +3,7 @@
 @endphp
 
 <div x-cloak
-     x-data="tallstackui_commandPalette(@js($request),@js($selectable),@js($configurations['shortcut']),@js($recycle),@js($configurations['url'] ?? null),@js($attributes->has('x-on:select')),@js($id))"
+     x-data="tallstackui_commandPalette(@js($request),@js($selectable),@js($configurations['shortcut']),@js($configurations['recycle']),@js($configurations['url'] ?? null),@js($attributes->has('x-on:select')),@js($id))"
      x-on:command-palette:{{ $open }}.window="open()"
      x-on:command-palette:{{ $close }}.window="close()"
      {{ $attributes->whereStartsWith('x-on:') }}>

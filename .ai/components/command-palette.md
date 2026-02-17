@@ -86,6 +86,7 @@ Use the `id` attribute to place multiple command palettes on the same page and t
 | selectable   | array\|null         | []                                                                          | Parsed field mapping (auto-generated from `select`)                                                         |
 | placeholders | array\|null         | null                                                                        | Override default placeholder texts (keys: `search`, `empty`, `navigate`, `select`, `close`)                 |
 | recycle      | bool\|null          | true (from config)                                                          | When true, preserves previous search results when reopening the palette                                     |
+| shortcut     | string\|null        | 'ctrl.k' (from config)                                                      | Keyboard shortcut in dot notation (e.g., `ctrl.k`, `ctrl.shift.p`, `meta.k`). Inline overrides config       |
 | select       | string\|null        | 'label:label\|value:value\|description:description\|image:image\|icon:icon' | Field mapping string for option data (format: `label:key\|value:key\|description:key\|image:key\|icon:key`) |
 
 ## Slots
