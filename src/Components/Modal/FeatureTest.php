@@ -55,6 +55,20 @@ it('can thrown exception when size is unnaceptable', function (string $size) {
     '10xl',
 ]);
 
+it('can render centered modal with items-center on all viewports', function () {
+    $component = <<<'HTML'
+    <x-modal title="Centered" center>
+    Content
+    </x-modal>
+    HTML;
+
+    expect($component)->render()
+        ->toContain('items-center')
+        ->toContain('p-4')
+        ->toContain('rounded-xl')
+        ->not->toContain('items-end');
+});
+
 it('can thrown exception when z-index does not contains prefix', function () {
     $this->expectException(ViewException::class);
     $this->expectExceptionMessage('[TallStackUI] Modal: The [z-index] must start with z- prefix');

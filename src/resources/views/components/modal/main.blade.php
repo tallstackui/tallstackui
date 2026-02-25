@@ -34,6 +34,7 @@
                 $configurations['size'],
                 $customization['positions.top'] => !$configurations['center'],
                 $customization['positions.center'] => $configurations['center'],
+                'p-4' => $configurations['center'],
             ])>
             <div x-show="show"
                  @if (!$configurations['persistent']) x-on:mousedown.away="top_ui && (show = false)" @endif
@@ -45,7 +46,7 @@
                  x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
                  x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                     @endif
-                    @class([$customization['wrapper.fourth'], $configurations['size'], $customization['wrapper.scrollable'] => $configurations['scrollable']])>
+                    @class([$customization['wrapper.fourth'], $configurations['size'], $customization['wrapper.scrollable'] => $configurations['scrollable'], 'rounded-xl' => $configurations['center']])>
                 @if ($title)
                     <div class="{{ $customization['title.wrapper'] }}">
                         <h3 class="{{ $customization['title.text'] }}">{{ $title }}</h3>

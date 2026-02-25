@@ -49,7 +49,7 @@ class Component extends TallStackUiComponent implements Customization
             ],
             'positions' => [
                 'top' => 'items-end sm:items-start',
-                'center' => 'items-end sm:items-center',
+                'center' => 'items-center',
             ],
             'blur' => [
                 'sm' => 'backdrop-blur-sm',

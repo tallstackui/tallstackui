@@ -42,20 +42,20 @@ Using `wire:model` for Livewire-controlled state:
 
 ## Attributes
 
-| Attribute  | Type               | Default                    | Description                                                                |
-|------------|--------------------|----------------------------|----------------------------------------------------------------------------|
-| id         | string\|null       | 'modal'                    | Unique identifier used for targeting with JS API and events                |
-| zIndex     | string\|null       | null (from config: 'z-50') | CSS z-index class                                                          |
-| wire       | string\|bool\|null | null                       | Livewire entangle property name (string) or boolean to use default 'modal' |
-| title      | string\|null       | null                       | Title text displayed in the modal header with a close button               |
-| footer     | string\|null       | null                       | Footer slot content                                                        |
-| blur       | bool\|string\|null | null (from config: false)  | Backdrop blur effect (false, sm, md, lg, xl, or true for sm)               |
-| persistent | bool\|null         | null (from config: false)  | When true, prevents closing via outside click or Escape key                |
-| size       | string\|null       | null (from config: '2xl')  | Modal width (sm, md, lg, xl, 2xl, 3xl, 4xl, 5xl, 6xl, 7xl, full)           |
-| entangle   | string\|null       | 'modal'                    | Livewire property name for entangle binding                                |
-| center     | bool\|null         | null (from config: false)  | When true, vertically centers the modal                                    |
-| overflow   | bool\|null         | null (from config: false)  | When true, avoids hiding body overflow                                     |
-| scrollable | bool\|null         | null (from config: false)  | When true, fixes title and footer while body scrolls                       |
+| Attribute  | Type               | Default                    | Description                                                                                                  |
+|------------|--------------------|----------------------------|--------------------------------------------------------------------------------------------------------------|
+| id         | string\|null       | 'modal'                    | Unique identifier used for targeting with JS API and events                                                  |
+| zIndex     | string\|null       | null (from config: 'z-50') | CSS z-index class                                                                                            |
+| wire       | string\|bool\|null | null                       | Livewire entangle property name (string) or boolean to use default 'modal'                                   |
+| title      | string\|null       | null                       | Title text displayed in the modal header with a close button                                                 |
+| footer     | string\|null       | null                       | Footer slot content                                                                                          |
+| blur       | bool\|string\|null | null (from config: false)  | Backdrop blur effect (false, sm, md, lg, xl, or true for sm)                                                 |
+| persistent | bool\|null         | null (from config: false)  | When true, prevents closing via outside click or Escape key                                                  |
+| size       | string\|null       | null (from config: '2xl')  | Modal width (sm, md, lg, xl, 2xl, 3xl, 4xl, 5xl, 6xl, 7xl, full)                                             |
+| entangle   | string\|null       | 'modal'                    | Livewire property name for entangle binding                                                                  |
+| center     | bool\|null         | null (from config: false)  | When true, vertically centers the modal on all viewport sizes with full border radius and padding (v2-style) |
+| overflow   | bool\|null         | null (from config: false)  | When true, avoids hiding body overflow                                                                       |
+| scrollable | bool\|null         | null (from config: false)  | When true, fixes title and footer while body scrolls                                                         |
 
 ## Slots
 
