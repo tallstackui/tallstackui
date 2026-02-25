@@ -3,7 +3,7 @@
 @endphp
 
 <div x-data="tallstackui_card(@js($initializeMinimized))" class="{{ $customization['wrapper.first'] }}" x-cloak
-     @if ($close) x-show="show" @endif wire:ignore.self>
+     @if ($close) x-show="show" @endif wire:ignore.self {{ $attributes->whereStartsWith('x-on:') }}>
     <div @class([$customization['wrapper.second'], 'relative' => $loading])>
         @if ($loading)
             <div class="{{ $customization['loading.wrapper'] }}"
@@ -96,7 +96,7 @@
                 @endif
             </div>
         @endif
-        <div {{ $attributes->class($customization['body']) }}
+        <div {{ $attributes->whereDoesntStartWith('x-on:')->class($customization['body']) }}
              x-show="!minimize"
              @if (!$ts_ui__flash)
                  x-transition:enter="transition ease-out duration-100"

@@ -62,6 +62,12 @@ it('renders loading bar with indeterminate animation')
     ->render()
     ->toContain('animate-indeterminate');
 
+it('can render with event listeners on wrapper')
+    ->expect('<x-card header="Test" minimize x-on:minimize="handleMinimize" x-on:maximize="handleMaximize">Foo bar</x-card>')
+    ->render()
+    ->toContain('x-on:minimize="handleMinimize"')
+    ->toContain('x-on:maximize="handleMaximize"');
+
 it('cannot use image and color together', function () {
     $this->expectException(ViewException::class);
     $this->expectExceptionMessage('[TallStackUI] Card: The [image] and [color] cannot be used together.');

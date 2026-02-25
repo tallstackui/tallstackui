@@ -54,6 +54,25 @@ A versatile card container with optional header, footer, image, color styling, m
 | header    | Card header area; accepts plain string or ComponentSlot for custom markup                 |
 | footer    | Card footer area; accepts plain string (right-aligned) or ComponentSlot for custom layout |
 
+## Events
+
+The Card component dispatches Alpine.js `CustomEvent`s when its state changes. Listen using `x-on:` directives.
+
+| Event      | Fired When                    |
+|------------|-------------------------------|
+| `minimize` | Card is minimized (collapsed) |
+| `maximize` | Card is maximized (expanded)  |
+| `close`    | Card is closed (hidden)       |
+
+```blade
+<x-card header="Products" minimize="mount"
+        x-on:maximize="$wire.loadProducts()"
+        x-on:minimize="console.log('minimized')"
+        x-on:close="console.log('closed')">
+    ...
+</x-card>
+```
+
 ## Validation Constraints
 
 - The `image` and `color` attributes cannot be used together.

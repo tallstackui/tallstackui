@@ -62,6 +62,87 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_dispatch_close_event(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public string $target = '';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="target">{{ $target }}</p>
+
+                    <x-card header="Closeable" close x-on:close="$wire.set('target', 'Closed')">
+                        TallStackUi
+                    </x-card>
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->assertSee('TallStackUi')
+            ->click('@tallstackui_card_close')
+            ->waitUntilMissingText('TallStackUi')
+            ->assertSeeIn('@target', 'Closed');
+    }
+
+    #[Test]
+    public function can_dispatch_maximize_event(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public string $target = '';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="target">{{ $target }}</p>
+
+                    <x-card header="Minimizable" minimize="mount" x-on:maximize="$wire.set('target', 'Maximized')">
+                        TallStackUi
+                    </x-card>
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->assertDontSee('TallStackUi')
+            ->click('@tallstackui_card_minimize')
+            ->waitForText('TallStackUi')
+            ->assertSeeIn('@target', 'Maximized');
+    }
+
+    #[Test]
+    public function can_dispatch_minimize_event(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public string $target = '';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="target">{{ $target }}</p>
+
+                    <x-card header="Minimizable" minimize x-on:minimize="$wire.set('target', 'Minimized')">
+                        TallStackUi
+                    </x-card>
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->assertSee('TallStackUi')
+            ->click('@tallstackui_card_minimize')
+            ->waitUntilMissingText('TallStackUi')
+            ->assertSeeIn('@target', 'Minimized');
+    }
+
+    #[Test]
     public function can_minimize_card(): void
     {
         Livewire::visit(new class extends Component
