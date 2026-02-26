@@ -1,7 +1,7 @@
 # TallStackUI: Command Palette
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 40+ Blade components for building modern web interfaces.
+> component library providing 65+ Blade components for building modern web interfaces.
 
 A searchable command palette overlay that fetches results from a server endpoint, supporting keyboard navigation, images, icons, descriptions, grouped results, and disabled options. Triggered by a configurable keyboard shortcut (default: Ctrl+K). Search input is debounced (300ms) to avoid excessive API calls.
 

@@ -1,7 +1,7 @@
 # TallStackUI: Range
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 40+ Blade components for building modern web interfaces.
+> component library providing 65+ Blade components for building modern web interfaces.
 
 A range slider input component with configurable sizes, color themes, and support for labels and hints. Renders as a native HTML range input with customized track and thumb styling.
 

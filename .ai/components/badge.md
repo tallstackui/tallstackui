@@ -1,7 +1,7 @@
 # TallStackUI: Badge
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 40+ Blade components for building modern web interfaces.
+> component library providing 65+ Blade components for building modern web interfaces.
 
 An inline badge component for labels, tags, and status indicators. Supports solid, light, and outline styles with optional icons and multiple sizes.
 

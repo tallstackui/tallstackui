@@ -1,7 +1,7 @@
 # TallStackUI: Dial Items
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 40+ Blade components for building modern web interfaces.
+> component library providing 65+ Blade components for building modern web interfaces.
 
 An individual action item within a Dial speed dial component. Displays an icon button with an optional tooltip label, and renders as a link or button depending on whether an href is provided.
 

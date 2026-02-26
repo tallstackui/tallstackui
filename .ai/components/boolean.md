@@ -1,7 +1,7 @@
 # TallStackUI: Boolean
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 40+ Blade components for building modern web interfaces.
+> component library providing 65+ Blade components for building modern web interfaces.
 
 A simple boolean display component that renders a colored icon based on a true/false value. Useful for displaying status columns in tables or read-only boolean fields.
 

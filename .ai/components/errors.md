@@ -1,7 +1,7 @@
 # TallStackUI: Errors
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 40+ Blade components for building modern web interfaces.
+> component library providing 65+ Blade components for building modern web interfaces.
 
 A validation error summary component that displays all (or filtered) Laravel validation errors in a styled list with a title, icon, optional close button, and footer slot. Automatically hides when no errors are present.
 

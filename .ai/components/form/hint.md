@@ -1,7 +1,7 @@
 # TallStackUI: Hint
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 40+ Blade components for building modern web interfaces.
+> component library providing 65+ Blade components for building modern web interfaces.
 
 A form hint component that displays helper text below a form field. Supports both an attribute-based hint string and a default slot for custom HTML content.
 

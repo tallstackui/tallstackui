@@ -1,7 +1,7 @@
 # TallStackUI: Select Native
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 40+ Blade components for building modern web interfaces.
+> component library providing 65+ Blade components for building modern web interfaces.
 
 A native HTML `<select>` component with support for simple arrays, key-value option arrays, grouped options (optgroups), and inline `<option>` elements via the default slot. Can also be used as a side addon within `<x-input.select>`.
 

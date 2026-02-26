@@ -1,7 +1,7 @@
 # TallStackUI: Tab Items
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 40+ Blade components for building modern web interfaces.
+> component library providing 65+ Blade components for building modern web interfaces.
 
 A child component of `<x-tab>` that defines a single tab panel's content and optional left/right slot content displayed alongside the tab label in the navigation.
 

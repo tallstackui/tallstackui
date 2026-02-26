@@ -1,7 +1,7 @@
 # TallStackUI: Rating
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 40+ Blade components for building modern web interfaces.
+> component library providing 65+ Blade components for building modern web interfaces.
 
 A star rating component for displaying or collecting user ratings. Supports custom icons, interactive evaluation via Livewire methods, and a static read-only mode.
 

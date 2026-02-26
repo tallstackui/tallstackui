@@ -1,7 +1,7 @@
 # TallStackUI: Time
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 40+ Blade components for building modern web interfaces.
+> component library providing 65+ Blade components for building modern web interfaces.
 
 A time picker component with a floating panel featuring range sliders for hours and minutes, 12-hour (AM/PM) or 24-hour format support, configurable min/max and step values for hours and minutes, a "current time" helper button, and an optional footer slot.
 

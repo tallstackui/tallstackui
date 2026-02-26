@@ -1,7 +1,7 @@
 # TallStackUI: Error
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 40+ Blade components for building modern web interfaces.
+> component library providing 65+ Blade components for building modern web interfaces.
 
 A form error message component that displays the first validation error for a given property. Renders only when a validation error exists for the specified property name.
 

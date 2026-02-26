@@ -1,7 +1,7 @@
 # TallStackUI: Input
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 40+ Blade components for building modern web interfaces.
+> component library providing 65+ Blade components for building modern web interfaces.
 
 A versatile text input component with support for icons, prefix/suffix addons (text, slots, or buttons), clearable values, and automatic zero-stripping for numeric inputs.
 

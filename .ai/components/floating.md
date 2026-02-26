@@ -1,7 +1,7 @@
 # TallStackUI: Floating
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 40+ Blade components for building modern web interfaces.
+> component library providing 65+ Blade components for building modern web interfaces.
 
 > **Internal Component:** This component is used internally by other TallStackUI components (such as Dropdown and Submenu) and is not typically used directly.
 

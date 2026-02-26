@@ -1,7 +1,7 @@
 # TallStackUI: Currency
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 40+ Blade components for building modern web interfaces.
+> component library providing 65+ Blade components for building modern web interfaces.
 
 A currency input component that formats numeric values with locale-aware decimal separators, configurable precision, optional currency/symbol display, and a clearable button. Built on top of the Input component with Alpine.js-powered real-time formatting.
 

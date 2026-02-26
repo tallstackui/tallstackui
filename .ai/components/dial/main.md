@@ -1,7 +1,7 @@
 # TallStackUI: Dial
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 40+ Blade components for building modern web interfaces.
+> component library providing 65+ Blade components for building modern web interfaces.
 
 A floating action button (FAB) / speed dial component that reveals a set of action items on click or hover. Supports fixed corner positioning, multiple sizes, color styles, and horizontal or vertical item layouts.
 

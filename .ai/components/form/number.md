@@ -1,7 +1,7 @@
 # TallStackUI: Number
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 40+ Blade components for building modern web interfaces.
+> component library providing 65+ Blade components for building modern web interfaces.
 
 A numeric input component with increment/decrement buttons, configurable min/max bounds, decimal step support, long-press acceleration, and optional centralized or chevron layouts.
 

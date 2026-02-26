@@ -1,7 +1,7 @@
 # TallStackUI: Select Styled
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 40+ Blade components for building modern web interfaces.
+> component library providing 65+ Blade components for building modern web interfaces.
 
 A feature-rich styled select component built with Alpine.js, supporting single and multiple selection, searchable filtering, server-side data via API requests, grouped options, images, descriptions, lazy loading, and keyboard navigation. Renders as a custom dropdown instead of a native `<select>`.
 

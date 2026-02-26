@@ -1,7 +1,7 @@
 # TallStackUI: Toast
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 40+ Blade components for building modern web interfaces.
+> component library providing 65+ Blade components for building modern web interfaces.
 
 A notification toast component for displaying brief, auto-dismissing messages with icon, title, description, optional confirm/cancel actions, progress bar, and expandable content. Dispatched programmatically from Livewire components or controllers via the Interactions trait.
 

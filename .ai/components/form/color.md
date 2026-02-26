@@ -1,7 +1,7 @@
 # TallStackUI: Color
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 40+ Blade components for building modern web interfaces.
+> component library providing 65+ Blade components for building modern web interfaces.
 
 A color picker component with two modes: a full Tailwind CSS palette picker with shade range slider, or a custom colors-only picker. Supports selectable-only mode, clearable values, and the ability to exclude specific colors or shade steps from the palette.
 
@@ -54,7 +54,7 @@ A color picker component with two modes: a full Tailwind CSS palette picker with
 
 - All `colors` array entries must start with `#`.
 - The `excluded-step` attribute can only be used with the `picker` attribute.
-- The `excluded-color` values must be valid Tailwind CSS colors: slate, gray, zinc, neutral, stone, red, orange, amber, yellow, lime, green, emerald, teal, cyan, sky, blue, indigo, violet, purple, fuchsia, pink, rose.
+- The `excluded-color` values must be valid Tailwind CSS colors: slate, gray, zinc, neutral, stone, red, orange, amber, yellow, lime, green, emerald, teal, cyan, sky, blue, indigo, violet, purple, fuchsia, pink, rose, mauve, olive, mist, taupe.
 - The `excluded-step` values must be valid Tailwind CSS shade steps: 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950.
 
 ## Configuration

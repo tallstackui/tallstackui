@@ -1,7 +1,7 @@
 # TallStackUI Component Documentation
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 40+ Blade components for building modern web interfaces.
+> component library providing 65+ Blade components for building modern web interfaces.
 >
 > **Stack:** PHP 8.1+, Laravel 10/11/12/13, Livewire 3.5+, Tailwind CSS 4, Alpine.js 3
 

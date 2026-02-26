@@ -1,7 +1,7 @@
 # TallStackUI: Sidebar Item
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 40+ Blade components for building modern web interfaces.
+> component library providing 65+ Blade components for building modern web interfaces.
 
 A sidebar navigation item component that renders as either a single link or a collapsible group containing nested items. Supports active state detection via route matching, icons, badges, tooltips in collapsed mode, and visibility control.
 

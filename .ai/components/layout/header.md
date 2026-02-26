@@ -1,7 +1,7 @@
 # TallStackUI: Layout Header
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 40+ Blade components for building modern web interfaces.
+> component library providing 65+ Blade components for building modern web interfaces.
 
 A sticky top header component for the application layout. Provides left, middle, and right content slots with automatic justification, a mobile hamburger button for toggling the sidebar, and a collapse toggle button for the collapsible sidebar.
 

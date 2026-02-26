@@ -1,7 +1,7 @@
 # TallStackUI: Toggle
 
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
-> component library providing 40+ Blade components for building modern web interfaces.
+> component library providing 65+ Blade components for building modern web interfaces.
 
 A toggle switch component for boolean inputs with multiple sizes, label positioning, and color customization. Uses a checkbox input under the hood with a stylized toggle appearance.
 
