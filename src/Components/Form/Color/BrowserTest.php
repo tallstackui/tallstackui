@@ -266,33 +266,28 @@ class BrowserTest extends BrowserTestCase
         {
             public ?string $color = null;
 
-            public ?bool $changed = false;
-
             public function render(): string
             {
                 return <<<'HTML'
                 <div>
                     <p dusk="selected">{{ $color }}</p>
 
-                    @if ($changed)
-                        <p dusk="changed">Changed</p>
-                    @endif
-
-                    <x-color wire:change="sync" label="Color" wire:model.live="color" />
+                    <x-color wire:change="sync" label="Color" wire:model="color" />
+                    <x-button dusk="sync" wire:click="sync">Save</x-button>
                 </div>
                 HTML;
             }
 
             public function sync(): void
             {
-                $this->changed = true;
+                //
             }
         })
             ->waitForText('Color')
             ->click('@tallstackui_form_color_open_close')
             ->waitFor('@tallstackui_form_color_floating')
             ->clickAtXPath('(//div[@data-floating])[1]/div/div[2]/button[1]')
-            ->waitFor('@changed')
+            ->click('@sync')
             ->waitForTextIn('@selected', '#64748b')
             ->assertSeeIn('@selected', '#64748b');
     }
