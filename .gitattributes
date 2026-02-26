@@ -19,8 +19,6 @@
 .phpunit.result.cache export-ignore
 .prettierignore       export-ignore
 .prettierrc           export-ignore
-bun.lockb             export-ignore
-captainhook.json      export-ignore
 CLAUDE.md             export-ignore
 composer.lock         export-ignore
 CONTRIBUTING.md       export-ignore
@@ -32,4 +30,3 @@ phpunit.xml           export-ignore
 pint.json             export-ignore
 testbench.yaml        export-ignore
 vite.config.mjs       export-ignore
-webpack.mix.js        export-ignore
