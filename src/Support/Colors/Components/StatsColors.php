@@ -44,6 +44,10 @@ class StatsColors
                 'fuchsia' => 'bg-fuchsia-500 text-white',
                 'pink' => 'bg-pink-500 text-white',
                 'rose' => 'bg-rose-500 text-white',
+                'mauve' => 'bg-mauve-500 text-white',
+                'olive' => 'bg-olive-500 text-white',
+                'mist' => 'bg-mist-500 text-white',
+                'taupe' => 'bg-taupe-500 text-white',
             ],
             'outline' => [
                 'black' => 'text-black/50',
@@ -71,6 +75,10 @@ class StatsColors
                 'fuchsia' => 'text-fuchsia-600',
                 'pink' => 'text-pink-600',
                 'rose' => 'text-rose-600',
+                'mauve' => 'text-mauve-600',
+                'olive' => 'text-olive-600',
+                'mist' => 'text-mist-600',
+                'taupe' => 'text-taupe-600',
             ],
             'light' => [
                 'black' => 'text-black',
@@ -98,6 +106,10 @@ class StatsColors
                 'fuchsia' => 'text-fuchsia-400',
                 'pink' => 'text-pink-400',
                 'rose' => 'text-rose-400',
+                'mauve' => 'text-mauve-400',
+                'olive' => 'text-olive-400',
+                'mist' => 'text-mist-400',
+                'taupe' => 'text-taupe-400',
             ],
         ];
     }

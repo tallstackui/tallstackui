@@ -61,6 +61,10 @@ class CardColors
                     'fuchsia' => 'rounded-tl-lg rounded-tr-lg border-t-4 border-t-fuchsia-600',
                     'pink' => 'rounded-tl-lg rounded-tr-lg border-t-4 border-t-pink-600',
                     'rose' => 'rounded-tl-lg rounded-tr-lg border-t-4 border-t-rose-600',
+                    'mauve' => 'rounded-tl-lg rounded-tr-lg border-t-4 border-t-mauve-600',
+                    'olive' => 'rounded-tl-lg rounded-tr-lg border-t-4 border-t-olive-600',
+                    'mist' => 'rounded-tl-lg rounded-tr-lg border-t-4 border-t-mist-600',
+                    'taupe' => 'rounded-tl-lg rounded-tr-lg border-t-4 border-t-taupe-600',
                 ],
             ],
             'background' => [
@@ -90,6 +94,10 @@ class CardColors
                     'fuchsia' => 'text-fuchsia-50 rounded-tl-lg rounded-tr-lg bg-fuchsia-600',
                     'pink' => 'text-pink-50 rounded-tl-lg rounded-tr-lg bg-pink-600',
                     'rose' => 'text-rose-50 rounded-tl-lg rounded-tr-lg bg-rose-600',
+                    'mauve' => 'text-mauve-50 rounded-tl-lg rounded-tr-lg bg-mauve-600',
+                    'olive' => 'text-olive-50 rounded-tl-lg rounded-tr-lg bg-olive-600',
+                    'mist' => 'text-mist-50 rounded-tl-lg rounded-tr-lg bg-mist-600',
+                    'taupe' => 'text-taupe-50 rounded-tl-lg rounded-tr-lg bg-taupe-600',
                 ],
                 'light' => [
                     'black' => 'text-black/80 rounded-tl-lg rounded-tr-lg bg-black/30',
@@ -117,6 +125,10 @@ class CardColors
                     'fuchsia' => 'text-fuchsia-600 rounded-tl-lg rounded-tr-lg bg-fuchsia-50',
                     'pink' => 'text-pink-600 rounded-tl-lg rounded-tr-lg bg-pink-50',
                     'rose' => 'text-rose-600 rounded-tl-lg rounded-tr-lg bg-rose-50',
+                    'mauve' => 'text-mauve-600 rounded-tl-lg rounded-tr-lg bg-mauve-50',
+                    'olive' => 'text-olive-600 rounded-tl-lg rounded-tr-lg bg-olive-50',
+                    'mist' => 'text-mist-600 rounded-tl-lg rounded-tr-lg bg-mist-50',
+                    'taupe' => 'text-taupe-600 rounded-tl-lg rounded-tr-lg bg-taupe-50',
                 ],
             ],
         ];

@@ -49,6 +49,10 @@ class AlertColors
                 'fuchsia' => 'bg-fuchsia-600',
                 'pink' => 'bg-pink-600',
                 'rose' => 'bg-rose-600',
+                'mauve' => 'bg-mauve-600',
+                'olive' => 'bg-olive-600',
+                'mist' => 'bg-mist-600',
+                'taupe' => 'bg-taupe-600',
             ],
             'outline' => [
                 'black' => 'border border-black',
@@ -76,6 +80,10 @@ class AlertColors
                 'fuchsia' => 'border border-fuchsia-600',
                 'pink' => 'border border-pink-600',
                 'rose' => 'border border-rose-600',
+                'mauve' => 'border border-mauve-600',
+                'olive' => 'border border-olive-600',
+                'mist' => 'border border-mist-600',
+                'taupe' => 'border border-taupe-600',
             ],
             'light' => [
                 'black' => 'bg-black/5 dark:bg-black/30 shadow',
@@ -103,6 +111,10 @@ class AlertColors
                 'fuchsia' => 'bg-fuchsia-50 shadow',
                 'pink' => 'bg-pink-50 shadow',
                 'rose' => 'bg-rose-50 shadow',
+                'mauve' => 'bg-mauve-50 shadow',
+                'olive' => 'bg-olive-50 shadow',
+                'mist' => 'bg-mist-50 shadow',
+                'taupe' => 'bg-taupe-50 shadow',
             ],
         ];
     }
@@ -136,6 +148,10 @@ class AlertColors
                 'fuchsia' => 'text-fuchsia-50',
                 'pink' => 'text-pink-50',
                 'rose' => 'text-rose-50',
+                'mauve' => 'text-mauve-50',
+                'olive' => 'text-olive-50',
+                'mist' => 'text-mist-50',
+                'taupe' => 'text-taupe-50',
             ],
             'outline' => [
                 'black' => 'text-black',
@@ -163,6 +179,10 @@ class AlertColors
                 'fuchsia' => 'text-fuchsia-600',
                 'pink' => 'text-pink-600',
                 'rose' => 'text-rose-600',
+                'mauve' => 'text-mauve-600',
+                'olive' => 'text-olive-600',
+                'mist' => 'text-mist-600',
+                'taupe' => 'text-taupe-600',
             ],
             'light' => [
                 'black' => 'text-black dark:text-white',
@@ -190,6 +210,10 @@ class AlertColors
                 'fuchsia' => 'text-fuchsia-600',
                 'pink' => 'text-pink-600',
                 'rose' => 'text-rose-600',
+                'mauve' => 'text-mauve-600',
+                'olive' => 'text-olive-600',
+                'mist' => 'text-mist-600',
+                'taupe' => 'text-taupe-600',
             ],
         ];
     }

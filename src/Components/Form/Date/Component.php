@@ -92,7 +92,7 @@ class Component extends TallStackUiComponent implements Customization
                 'day' => 'focus:shadow-outline disabled:text-gray-400 dark:disabled:text-dark-500 dark:active:bg-primary-500 ring-primary-500 active:bg-primary-600 flex h-7 w-7 items-center justify-center rounded-full text-center text-sm leading-none outline-hidden transition-all duration-200 ease-in-out hover:shadow-sm active:text-white disabled:cursor-not-allowed cursor-pointer',
                 'select' => 'text-gray-600 dark:text-dark-400 hover:bg-dark-200 dark:hover:bg-dark-600',
                 'today' => 'text-primary-500 dark:text-dark-300 !font-bold',
-                'selected' => 'bg-primary-500 !text-white hover:bg-opacity-75',
+                'selected' => 'bg-primary-500 !text-white hover:bg-primary-500/75',
                 'helpers' => 'text-gray-500 dark:text-dark-300 bg-dark-200 dark:bg-dark-600 hover:bg-dark-300 dark:hover:bg-dark-500 select-none whitespace-nowrap rounded-md px-2 py-1 text-sm font-medium',
                 'navigate' => 'focus:shadow-outline hover:bg-dark-100 dark:hover:bg-dark-600 inline-flex cursor-pointer rounded-full p-1 transition duration-100 ease-in-out focus:outline-hidden',
             ],

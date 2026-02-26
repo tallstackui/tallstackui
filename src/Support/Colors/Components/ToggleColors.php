@@ -43,6 +43,10 @@ class ToggleColors
             'fuchsia' => 'peer-checked:bg-fuchsia-500',
             'pink' => 'peer-checked:bg-pink-500',
             'rose' => 'peer-checked:bg-rose-500',
+            'mauve' => 'peer-checked:bg-mauve-500',
+            'olive' => 'peer-checked:bg-olive-500',
+            'mist' => 'peer-checked:bg-mist-500',
+            'taupe' => 'peer-checked:bg-taupe-500',
         ];
     }
 }

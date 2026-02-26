@@ -41,6 +41,7 @@ class BrowserTest extends BrowserTestCase
         })
             ->waitForText('Color')
             ->click('@tallstackui_form_color_open_close')
+            ->waitFor('@tallstackui_form_color_floating')
             ->clickAtXPath('(//div[@data-floating])[1]/div/div[2]/button[1]')
             ->click('@sync')
             ->waitForTextIn('@selected', '#f8fafc')
@@ -72,6 +73,7 @@ class BrowserTest extends BrowserTestCase
         })
             ->waitForText('Color')
             ->click('@tallstackui_form_color_open_close')
+            ->waitFor('@tallstackui_form_color_floating')
             ->clickAtXPath('(//div[@data-floating])[1]/div/div[2]/button[1]')
             ->waitForTextIn('@selected', '#64748b')
             ->assertSeeIn('@selected', '#64748b');
@@ -103,6 +105,7 @@ class BrowserTest extends BrowserTestCase
         })
             ->waitForText('Color')
             ->click('@tallstackui_form_color_open_close')
+            ->waitFor('@tallstackui_form_color_floating')
             ->clickAtXPath('(//div[@data-floating])[1]/div/div[2]/button[1]')
             ->click('@sync')
             ->waitForTextIn('@selected', '#64748b')
@@ -183,6 +186,7 @@ class BrowserTest extends BrowserTestCase
         })
             ->waitForText('Color')
             ->click('@tallstackui_form_color_open_close')
+            ->waitFor('@tallstackui_form_color_floating')
             ->clickAtXPath('(//div[@data-floating])[1]/div/div[2]/button[1]')
             ->click('@sync')
             ->waitForTextIn('@selected', '#f8fafc')
@@ -215,6 +219,7 @@ class BrowserTest extends BrowserTestCase
         })
             ->waitForText('Color')
             ->click('@tallstackui_form_color_open_close')
+            ->waitFor('@tallstackui_form_color_floating')
             ->dragRight('@tallstackui_form_range', 50)
             ->clickAtXPath('(//div[@data-floating])[1]/div/div[2]/button[1]')
             ->click('@sync')
@@ -266,8 +271,9 @@ class BrowserTest extends BrowserTestCase
                 return <<<'HTML'
                 <div>
                     <p dusk="selected">{{ $color }}</p>
-                    
+
                     <x-color wire:change="sync" label="Color" wire:model="color" />
+                    <x-button dusk="sync" wire:click="sync">Save</x-button>
                 </div>
                 HTML;
             }
@@ -279,7 +285,9 @@ class BrowserTest extends BrowserTestCase
         })
             ->waitForText('Color')
             ->click('@tallstackui_form_color_open_close')
+            ->waitFor('@tallstackui_form_color_floating')
             ->clickAtXPath('(//div[@data-floating])[1]/div/div[2]/button[1]')
+            ->click('@sync')
             ->waitForTextIn('@selected', '#64748b')
             ->assertSeeIn('@selected', '#64748b');
     }
@@ -310,6 +318,7 @@ class BrowserTest extends BrowserTestCase
         })
             ->waitForText('Color')
             ->click('@tallstackui_form_color_open_close')
+            ->waitFor('@tallstackui_form_color_floating')
             ->clickAtXPath('(//div[@data-floating])[1]/div/div[2]/button[1]')
             ->click('@sync')
             ->waitForTextIn('@selected', '#f9fafb')
@@ -342,6 +351,7 @@ class BrowserTest extends BrowserTestCase
         })
             ->waitForText('Color')
             ->click('@tallstackui_form_color_open_close')
+            ->waitFor('@tallstackui_form_color_floating')
             ->clickAtXPath('(//div[@data-floating])[1]/div/div[2]/button[1]')
             ->click('@sync')
             ->waitForTextIn('@selected', '#f1f5f9')
@@ -373,6 +383,7 @@ class BrowserTest extends BrowserTestCase
         })
             ->waitForText('Color')
             ->click('@tallstackui_form_color_open_close')
+            ->waitFor('@tallstackui_form_color_floating')
             ->assertMissing('tallstackui_form_color_clearable')
             ->clickAtXPath('(//div[@data-floating])[1]/div/div[2]/button[1]')
             ->waitForTextIn('@selected', '#64748b')
