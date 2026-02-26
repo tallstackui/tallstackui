@@ -35,6 +35,6 @@ class Component extends TallStackUiComponent implements Customization
 
     public function customization(): array
     {
-        return ['wrapper' => 'dark:bg-dark-700 border-dark-200 dark:border-dark-600 absolute z-40 rounded-lg border bg-white'];
+        return ['wrapper' => 'dark:bg-dark-700 border-dark-200 dark:border-dark-600 absolute z-50 rounded-lg border bg-white'];
     }
 }
