@@ -74,7 +74,7 @@ class ItemController extends Controller
 | question   | `question(string $title, ?string $description = null)`                      | Shows a question dialog with a question mark circle icon      |
 | confirm    | `confirm(?string $text, ?string $method, array\|string\|int\|null $params)` | Adds a confirm button that calls a Livewire method            |
 | cancel     | `cancel(?string $text, ?string $method, array\|string\|int\|null $params)`  | Adds a cancel button that optionally calls a Livewire method  |
-| persistent | `persistent()`                                                              | Prevents closing the dialog by clicking outside               |
+| persistent | `persistent()`                                                              | Prevents cl``osing the dialog by clicking outside             |
 | hook       | `hook(array $hooks)`                                                        | Registers lifecycle hooks (allowed: `ok`, `close`, `dismiss`) |
 | flash      | `flash(bool $dispatch = false)`                                             | Flashes the interaction to session for display after redirect |
 | send       | `send()`                                                                    | Dispatches the dialog                                         |
