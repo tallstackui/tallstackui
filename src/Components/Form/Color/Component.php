@@ -103,7 +103,7 @@ class Component extends TallStackUiComponent implements Customization
             'red', 'orange', 'amber', 'yellow', 'lime',
             'green', 'emerald', 'teal', 'cyan', 'sky',
             'blue', 'indigo', 'violet', 'purple', 'fuchsia',
-            'pink', 'rose',
+            'pink', 'rose', 'mauve', 'olive', 'mist', 'taupe',
         ];
 
         $steps = ['50', '100', '200', '300', '400', '500', '600', '700', '800', '900', '950'];

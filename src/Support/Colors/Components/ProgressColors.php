@@ -44,6 +44,10 @@ class ProgressColors
                 'fuchsia' => 'bg-fuchsia-600',
                 'pink' => 'bg-pink-600',
                 'rose' => 'bg-rose-600',
+                'mauve' => 'bg-mauve-600',
+                'olive' => 'bg-olive-600',
+                'mist' => 'bg-mist-600',
+                'taupe' => 'bg-taupe-600',
             ],
             'light' => [
                 'black' => 'bg-black/50',
@@ -71,6 +75,10 @@ class ProgressColors
                 'fuchsia' => 'bg-fuchsia-400',
                 'pink' => 'bg-pink-400',
                 'rose' => 'bg-rose-400',
+                'mauve' => 'bg-mauve-400',
+                'olive' => 'bg-olive-400',
+                'mist' => 'bg-mist-400',
+                'taupe' => 'bg-taupe-400',
             ],
         ];
     }

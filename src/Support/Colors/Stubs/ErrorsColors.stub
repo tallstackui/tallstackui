@@ -37,6 +37,10 @@ class ErrorsColors
             'fuchsia' => null,
             'pink' => null,
             'rose' => null,
+            'mauve' => null,
+            'olive' => null,
+            'mist' => null,
+            'taupe' => null,
         ];
     }
 
@@ -71,6 +75,10 @@ class ErrorsColors
             'fuchsia' => null,
             'pink' => null,
             'rose' => null,
+            'mauve' => null,
+            'olive' => null,
+            'mist' => null,
+            'taupe' => null,
         ];
     }
 
@@ -105,6 +113,10 @@ class ErrorsColors
             'fuchsia' => null,
             'pink' => null,
             'rose' => null,
+            'mauve' => null,
+            'olive' => null,
+            'mist' => null,
+            'taupe' => null,
         ];
     }
 }

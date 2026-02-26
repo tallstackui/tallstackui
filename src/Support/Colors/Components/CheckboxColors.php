@@ -43,6 +43,10 @@ class CheckboxColors
             'fuchsia' => 'text-fuchsia-500 focus:ring-fuchsia-500 dark:ring-offset-dark-900',
             'pink' => 'text-pink-500 focus:ring-pink-500 dark:ring-offset-dark-900',
             'rose' => 'text-rose-500 focus:ring-rose-500 dark:ring-offset-dark-900',
+            'mauve' => 'text-mauve-500 focus:ring-mauve-500 dark:ring-offset-dark-900',
+            'olive' => 'text-olive-500 focus:ring-olive-500 dark:ring-offset-dark-900',
+            'mist' => 'text-mist-500 focus:ring-mist-500 dark:ring-offset-dark-900',
+            'taupe' => 'text-taupe-500 focus:ring-taupe-500 dark:ring-offset-dark-900',
         ];
     }
 }

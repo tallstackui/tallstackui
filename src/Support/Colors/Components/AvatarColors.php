@@ -51,6 +51,10 @@ class AvatarColors
             'fuchsia' => 'bg-fuchsia-500 border-fuchsia-500',
             'pink' => 'bg-pink-500 border-pink-500',
             'rose' => 'bg-rose-500 border-rose-500',
+            'mauve' => 'bg-mauve-500 border-mauve-500',
+            'olive' => 'bg-olive-500 border-olive-500',
+            'mist' => 'bg-mist-500 border-mist-500',
+            'taupe' => 'bg-taupe-500 border-taupe-500',
         ];
     }
 
@@ -82,6 +86,10 @@ class AvatarColors
             'fuchsia' => 'bg-fuchsia-500',
             'pink' => 'bg-pink-500',
             'rose' => 'bg-rose-500',
+            'mauve' => 'bg-mauve-500',
+            'olive' => 'bg-olive-500',
+            'mist' => 'bg-mist-500',
+            'taupe' => 'bg-taupe-500',
         ];
     }
 }

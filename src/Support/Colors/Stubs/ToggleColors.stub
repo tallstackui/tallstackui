@@ -37,6 +37,10 @@ class ToggleColors
             'fuchsia' => null,
             'pink' => null,
             'rose' => null,
+            'mauve' => null,
+            'olive' => null,
+            'mist' => null,
+            'taupe' => null,
         ];
     }
 }

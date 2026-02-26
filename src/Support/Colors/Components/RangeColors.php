@@ -43,6 +43,10 @@ class RangeColors
             'fuchsia' => '[&::-webkit-slider-thumb]:bg-fuchsia-500',
             'pink' => '[&::-webkit-slider-thumb]:bg-pink-500',
             'rose' => '[&::-webkit-slider-thumb]:bg-rose-500',
+            'mauve' => '[&::-webkit-slider-thumb]:bg-mauve-500',
+            'olive' => '[&::-webkit-slider-thumb]:bg-olive-500',
+            'mist' => '[&::-webkit-slider-thumb]:bg-mist-500',
+            'taupe' => '[&::-webkit-slider-thumb]:bg-taupe-500',
         ];
     }
 }

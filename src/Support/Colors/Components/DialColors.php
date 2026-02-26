@@ -49,6 +49,10 @@ class DialColors
                 'fuchsia' => 'text-fuchsia-50 ring-fuchsia-500 bg-fuchsia-500 focus:bg-fuchsia-600 hover:bg-fuchsia-600 border-transparent focus:ring-offset-2 dark:focus:ring-offset-dark-900 dark:focus:ring-fuchsia-600 dark:bg-fuchsia-700 dark:hover:bg-fuchsia-600 dark:hover:ring-fuchsia-600',
                 'pink' => 'text-pink-50 ring-pink-500 bg-pink-500 focus:bg-pink-600 hover:bg-pink-600 border-transparent focus:ring-offset-2 dark:focus:ring-offset-dark-900 dark:focus:ring-pink-600 dark:bg-pink-700 dark:hover:bg-pink-600 dark:hover:ring-pink-600',
                 'rose' => 'text-rose-50 ring-rose-500 bg-rose-500 focus:bg-rose-600 hover:bg-rose-600 border-transparent focus:ring-offset-2 dark:focus:ring-offset-dark-900 dark:focus:ring-rose-600 dark:bg-rose-700 dark:hover:bg-rose-600 dark:hover:ring-rose-600',
+                'mauve' => 'text-mauve-50 ring-mauve-500 bg-mauve-500 focus:bg-mauve-600 hover:bg-mauve-600 border-transparent focus:ring-offset-2 dark:focus:ring-offset-dark-900 dark:focus:ring-mauve-600 dark:bg-mauve-700 dark:hover:bg-mauve-600 dark:hover:ring-mauve-600',
+                'olive' => 'text-olive-50 ring-olive-500 bg-olive-500 focus:bg-olive-600 hover:bg-olive-600 border-transparent focus:ring-offset-2 dark:focus:ring-offset-dark-900 dark:focus:ring-olive-600 dark:bg-olive-700 dark:hover:bg-olive-600 dark:hover:ring-olive-600',
+                'mist' => 'text-mist-50 ring-mist-500 bg-mist-500 focus:bg-mist-600 hover:bg-mist-600 border-transparent focus:ring-offset-2 dark:focus:ring-offset-dark-900 dark:focus:ring-mist-600 dark:bg-mist-700 dark:hover:bg-mist-600 dark:hover:ring-mist-600',
+                'taupe' => 'text-taupe-50 ring-taupe-500 bg-taupe-500 focus:bg-taupe-600 hover:bg-taupe-600 border-transparent focus:ring-offset-2 dark:focus:ring-offset-dark-900 dark:focus:ring-taupe-600 dark:bg-taupe-700 dark:hover:bg-taupe-600 dark:hover:ring-taupe-600',
             ],
         ];
     }
@@ -82,6 +86,10 @@ class DialColors
                 'fuchsia' => 'text-fuchsia-50',
                 'pink' => 'text-pink-50',
                 'rose' => 'text-rose-50',
+                'mauve' => 'text-mauve-50',
+                'olive' => 'text-olive-50',
+                'mist' => 'text-mist-50',
+                'taupe' => 'text-taupe-50',
             ],
         ];
     }

@@ -50,6 +50,10 @@ class LinkColors
             'fuchsia' => 'text-fuchsia-500',
             'pink' => 'text-pink-500',
             'rose' => 'text-rose-500',
+            'mauve' => 'text-mauve-500',
+            'olive' => 'text-olive-500',
+            'mist' => 'text-mist-500',
+            'taupe' => 'text-taupe-500',
         ];
     }
 }
