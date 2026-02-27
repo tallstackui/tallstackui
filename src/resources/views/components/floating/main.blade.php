@@ -6,6 +6,7 @@
 <div x-show="{{ $attributes->get('x-show', 'show') }}"
      x-cloak
      x-on:click.stop
+     x-on:mousedown.stop
      x-on:click.outside="{{ $attributes->get('x-show', 'show') }} = false"
      x-on:keydown.escape.window="{{ $attributes->get('x-show', 'show') }} = false"
      x-intersect:leave="{{ $attributes->get('x-show', 'show') }} = false"
@@ -26,6 +27,7 @@
     @endif
 @endif
 x-effect="if ({{ $attributes->get('x-show', 'show') }}) $nextTick(() => { let anchor = {{ $attributes->get('x-anchor', '$refs.anchor') }}; if (anchor && $el.classList.contains('w-full')) $el.style.width = anchor.offsetWidth + 'px' })"
+x-init="if ($el.classList.contains('w-full')) { let _r, _c = () => { let a = {{ $attributes->get('x-anchor', '$refs.anchor') }}; if (a) $el.style.width = a.offsetWidth + 'px' }; new MutationObserver(() => { cancelAnimationFrame(_r); _r = requestAnimationFrame(_c) }).observe($el, { childList: true, subtree: true }) }"
 {{ $attributes->except(['floating', 'x-anchor'])->merge(['class' => $attributes->get('floating', $customization['wrapper']), 'data-floating' => true]) }}>
 {{ $slot }}
 {{ $footer }}
