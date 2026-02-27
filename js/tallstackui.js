@@ -10,7 +10,6 @@ import darkTheme from './helpers/dark-theme';
 import dial from '../src/Components/Dial/Main/alpine';
 import dialog from '../src/Components/Dialog/alpine';
 import dropdown from '../src/Components/Dropdown/Main/alpine';
-import floating from '../src/Components/Floating/alpine';
 import clearable from '../src/Components/Form/Input/clearable';
 import stripZeros from '../src/Components/Form//Input/strip-zeros';
 import loading from '../src/Components/Loading/alpine';
@@ -55,7 +54,6 @@ document.addEventListener('alpine:init', () => {
   Alpine.data('tallstackui_dial', dial);
   Alpine.data('tallstackui_dialog', dialog);
   Alpine.data('tallstackui_dropdown', dropdown);
-  Alpine.data('tallstackui_floating', floating);
   Alpine.data('tallstackui_loading', loading);
   Alpine.data('tallstackui_layout', layout);
   Alpine.data('tallstackui_keyValue', keyValue);

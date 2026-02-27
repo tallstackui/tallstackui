@@ -135,7 +135,8 @@
                              :floating="$customization['floating.default']"
                              @class([$customization['floating.class'], $customization['floating.side'] => $side])
                              :position="$side === 'left' ? 'bottom-start' : 'bottom-end'"
-                             x-anchor="$refs.button">
+                             x-anchor="$refs.button"
+                             x-on:keydown="navigate($event)">
             <template x-if="searchable">
                 <div class="{{ $customization['box.searchable.wrapper'] }}">
                     <x-dynamic-component :component="TallStackUi::prefix('input')"

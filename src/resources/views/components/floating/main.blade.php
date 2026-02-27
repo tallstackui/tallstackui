@@ -26,7 +26,7 @@
         {!! $attributes->except(['x-show', 'x-anchor', 'class']) !!}
     @endif
 @endif
-x-data="tallstackui_floating('{{ $attributes->get('x-show', 'show') }}', () => {{ $attributes->get('x-anchor', '$refs.anchor') }})"
+x-init="(() => { const anchor = (() => { try { return {{ $attributes->get('x-anchor', '$refs.anchor') }} } catch(e) { return null } })(); if ($el.classList.contains('w-full') && anchor) { $watch('{{ $attributes->get('x-show', 'show') }}', v => { if (v) $nextTick(() => $el.style.width = anchor.offsetWidth + 'px') }); let _r; new MutationObserver(() => { cancelAnimationFrame(_r); _r = requestAnimationFrame(() => $el.style.width = anchor.offsetWidth + 'px') }).observe($el, { childList: true, subtree: true }) } if (anchor) { const overlay = anchor.closest('[x-data*=tallstackui_modal], [x-data*=tallstackui_slide]'); if (overlay) overlay.addEventListener('close', () => {{ $attributes->get('x-show', 'show') }} = false) } })()"
 {{ $attributes->except(['floating', 'x-anchor'])->merge(['class' => $attributes->get('floating', $customization['wrapper']), 'data-floating' => true]) }}>
 {{ $slot }}
 {{ $footer }}
