@@ -73,11 +73,28 @@ A date picker component with a floating calendar panel, month/year pickers, rang
 - The `start` attribute must not be greater than 6.
 - The `only` attribute must not be greater than 6.
 
+## Event Payload Details
+
+```blade
+<x-date x-on:select="alert(`Selected Date: ${$event.detail.date}`)"
+        x-on:clear="alert('Cleaned!')" />
+```
+
+### Backend Format Note
+
+The component uses `Y-m-d` format internally. If your date is in a different format, convert it server-side:
+
+```php
+$date = '20/02/2024';
+$date = now()->createFromFormat('d/m/Y', $date)->format('Y-m-d');
+// Result: '2024-02-20'
+```
+
 ## Soft Customization
 
 Soft customization allows you to override default Tailwind CSS classes used by this component at runtime, either through a service provider or scoped per-instance.
 
-### Personalization
+### Customization
 
 ```php
 TallStackUi::customize()

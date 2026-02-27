@@ -93,11 +93,69 @@ In `config/tallstackui.php` under `components.modal`:
 | scrollable | bool          | false   | When true, fixes title/footer while body scrolls        |
 | scrollbar  | string\|null  | 'thin'  | Scrollbar style for scrollable mode (null, thin, thick) |
 
+## Wireable Mode (Livewire Property Binding)
+
+Use `wire` to bind modal visibility to a Livewire boolean property:
+
+```blade
+<!-- Livewire boolean property: $modal -->
+<x-modal title="TallStackUi" wire>
+    TallStackUi
+</x-modal>
+
+<x-button wire:click="$toggle('modal')">
+    Open
+</x-button>
+```
+
+Custom property name:
+
+```blade
+<!-- Livewire boolean property: $tallstackui -->
+<x-modal title="TallStackUi" wire="tallstackui">
+    TallStackUi
+</x-modal>
+
+<x-button wire:click="$toggle('tallstackui')">
+    Open
+</x-button>
+```
+
+## Alpine.js Events
+
+```blade
+<x-modal title="TallStackUi"
+         x-on:open="alert('Opened!')"
+         x-on:close="alert('Closed!')">
+    TallStackUi
+</x-modal>
+```
+
+## Focus Helper
+
+Auto-focus an input when the modal opens using `$tsui.focus()`:
+
+```blade
+<x-modal id="modal-id" x-on:open="$tsui.focus('email')">
+    <form>
+        <x-input label="Email" id="email" hint="Insert your best email address" />
+    </form>
+</x-modal>
+```
+
+Optional delay in milliseconds: `$tsui.focus('email', 1000)`
+
+You can also target elements by `data-focus` attribute instead of `id`:
+
+```blade
+<x-input label="Email" data-focus="email" />
+```
+
 ## Soft Customization
 
 Soft customization allows you to override default Tailwind CSS classes used by this component at runtime, either through a service provider or scoped per-instance.
 
-### Personalization
+### Customization
 
 ```php
 TallStackUi::customize()

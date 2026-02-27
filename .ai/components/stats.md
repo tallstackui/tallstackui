@@ -58,7 +58,7 @@ A statistics card component for displaying numeric metrics with titles, icons, a
 
 Soft customization allows you to override default Tailwind CSS classes used by this component at runtime, either through a service provider or scoped per-instance.
 
-### Personalization
+### Customization
 
 ```php
 TallStackUi::customize()

@@ -59,11 +59,37 @@ In `config/tallstackui.php` under `components.loading`:
 | blur     | bool   | false   | Enables background blur effect         |
 | opacity  | bool   | true    | Enables background opacity effect      |
 
+## Livewire Integration Details
+
+### Simplified Syntax
+
+Instead of raw `wire:loading` directives, use the component's `loading` and `delay` attributes:
+
+```blade
+<!-- Instead of: <x-loading wire:loading.delay.longest wire:target="save" /> -->
+<x-loading delay="longest" loading="save" />
+```
+
+### Basic Usage
+
+Place the component in your Livewire view. It automatically displays during any Livewire request:
+
+```blade
+<div>
+    <x-loading />
+
+    <form wire:submit="save">
+        <input type="text" wire:model="title">
+        <button type="submit">Save</button>
+    </form>
+</div>
+```
+
 ## Soft Customization
 
 Soft customization allows you to override default Tailwind CSS classes used by this component at runtime, either through a service provider or scoped per-instance.
 
-### Personalization
+### Customization
 
 ```php
 TallStackUi::customize()

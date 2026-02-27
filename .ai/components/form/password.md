@@ -64,11 +64,52 @@ Default password rules can be configured in `config/tallstackui.php`:
 ],
 ```
 
+## Rules & Generator Details
+
+### Strength Rules
+
+```blade
+<x-password :rules="['min:8', 'symbols:!@#', 'numbers', 'mixed']" />
+```
+
+Available rules: `min:{length}`, `symbols` or `symbols:{chars}`, `numbers`, `mixed` (uppercase + lowercase).
+
+### Password Generator
+
+When enabled, adds a generate button that creates passwords matching the specified rules:
+
+```blade
+<x-password generator :rules="['min:5', 'symbols:!@']" />
+```
+
+### Custom Generator Algorithm
+
+Override the default password generator with a custom JavaScript function:
+
+```html
+<script>
+    window.TallStackUi = window.TallStackUi || {};
+
+    window.TallStackUi.passwordGenerator = function (min, mixed, numbers, symbols) {
+        return 'your-generated-password';
+    };
+</script>
+```
+
+### Event Payload Details
+
+```blade
+<x-password generator
+            :rules="['min:8', 'symbols', 'numbers', 'mixed']"
+            x-on:reveal="alert(`Password Revealed: ${$event.detail.status}`)"
+            x-on:generate="alert(`Password Generated: ${$event.detail.password}`)" />
+```
+
 ## Soft Customization
 
 Soft customization allows you to override default Tailwind CSS classes used by this component at runtime, either through a service provider or scoped per-instance.
 
-### Personalization
+### Customization
 
 ```php
 TallStackUi::customize()

@@ -98,11 +98,63 @@ In `config/tallstackui.php` under `components.slide`:
 | size       | string        | 'lg'    | Default panel size                              |
 | position   | string        | 'right' | Default position (right, left, top, bottom)     |
 
+## Wireable Mode (Livewire Property Binding)
+
+Use `wire` to bind slide visibility to a Livewire boolean property:
+
+```blade
+<!-- Livewire boolean property: $slide -->
+<x-slide title="TallStackUi" wire>
+    TallStackUi
+</x-slide>
+
+<x-button wire:click="$toggle('slide')">
+    Open
+</x-button>
+```
+
+Custom property name:
+
+```blade
+<!-- Livewire boolean property: $tallstackui -->
+<x-slide title="TallStackUi" wire="tallstackui">
+    TallStackUi
+</x-slide>
+
+<x-button wire:click="$toggle('tallstackui')">
+    Open
+</x-button>
+```
+
+## Alpine.js Events
+
+```blade
+<x-slide title="TallStackUi"
+         x-on:open="alert('Opened!')"
+         x-on:close="alert('Closed!')">
+    TallStackUi
+</x-slide>
+```
+
+## Focus Helper
+
+Auto-focus an input when the slide opens:
+
+```blade
+<x-slide id="slide-id" x-on:open="$tsui.focus('email')">
+    <form>
+        <x-input label="Email" id="email" hint="Insert your best email address" />
+    </form>
+</x-slide>
+```
+
+Optional delay: `$tsui.focus('email', 1000)`. Also supports `data-focus` attribute targeting.
+
 ## Soft Customization
 
 Soft customization allows you to override default Tailwind CSS classes used by this component at runtime, either through a service provider or scoped per-instance.
 
-### Personalization
+### Customization
 
 ```php
 TallStackUi::customize()

@@ -90,11 +90,111 @@ In `config/tallstackui.php` under `components.dialog`:
 | blur       | bool   | false   | Enables background blur effect                             |
 | persistent | bool   | false   | When true, prevents closing by clicking outside by default |
 
+## Confirm/Cancel Method Signatures
+
+The `confirm()` and `cancel()` methods accept: text, method name, and params:
+
+```php
+public function save(): void
+{
+    $this->dialog()
+        ->question('Warning!', 'Are you sure?')
+        ->confirm('Confirm', 'confirmed', 'Confirmed Successfully')
+        ->cancel('Cancel', 'cancelled', 'Cancelled Successfully')
+        ->send();
+}
+
+public function confirmed(string $message): void
+{
+    $this->dialog()->success('Success', $message)->send();
+}
+
+public function cancelled(string $message): void
+{
+    $this->dialog()->error('Cancelled', $message)->send();
+}
+```
+
+Both methods are optional. You can use only one, make them static (text only), or pass only method/params:
+
+```php
+// Static buttons (no method call)
+->confirm('Confirm')
+->cancel('Cancel')
+
+// Named params only
+->confirm(method: 'confirmed', params: 'data')
+->cancel(method: 'cancelled', params: 'data')
+
+// Confirmation with non-question types
+$this->dialog()
+    ->success('Done!', 'Process completed.')
+    ->confirm('Undo', 'undo')
+    ->cancel('Ok')
+    ->send();
+```
+
+### Flash (Redirect Support)
+
+Use `.flash()` to display after a redirect:
+
+```php
+$this->dialog()
+    ->success('Done!', 'Your money has been sent!')
+    ->flash()
+    ->send();
+
+return $this->redirect(route('dashboard'));
+```
+
+### Controller Usage
+
+When using in Controllers, `confirm()` and `cancel()` are **not available** (no Livewire context). Only simple notifications work:
+
+```php
+use TallStackUi\Traits\Interactions;
+
+class PaymentController extends Controller
+{
+    use Interactions;
+
+    public function update(Request $request)
+    {
+        $this->dialog()->success('Updated!')->send();
+    }
+}
+```
+
+### Lifecycle Hooks
+
+```php
+$this->dialog()
+    ->success('...')
+    ->hook([
+        'ok' => ['method' => 'onOk', 'params' => ['param1', 'param2']],
+        'close' => ['method' => 'onClose', 'params' => ['param1']],
+        'dismiss' => ['method' => 'onDismiss', 'params' => ['param1']],
+    ])
+    ->send();
+```
+
+Hook params can also be callables: `'params' => fn () => ['param1', 'param2']`
+
+### Window Events
+
+```blade
+<div x-on:dialog:accepted.window="alert($event.detail.description)"
+     x-on:dialog:rejected.window="alert($event.detail.description)"
+     x-on:dialog:dismissed.window="alert($event.detail.description)">
+    ...
+</div>
+```
+
 ## Soft Customization
 
 Soft customization allows you to override default Tailwind CSS classes used by this component at runtime, either through a service provider or scoped per-instance.
 
-### Personalization
+### Customization
 
 ```php
 TallStackUi::customize()

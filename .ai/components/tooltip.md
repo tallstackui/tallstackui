@@ -44,7 +44,7 @@ A tooltip icon component that displays informational text on hover using Tippy.j
 
 Soft customization allows you to override default Tailwind CSS classes used by this component at runtime, either through a service provider or scoped per-instance.
 
-### Personalization
+### Customization
 
 ```php
 TallStackUi::customize()

@@ -53,11 +53,28 @@ A PIN/OTP input component that renders individual character boxes with automatic
 - The `length` is mandatory and must be set.
 - The `prefix` must be 3 characters or less.
 
+## Event Payload Details
+
+```blade
+<x-pin length="5" x-on:filled="alert(`Filled: ${$event.detail.model}`)" />
+<x-pin length="5" clear x-on:clear="alert(`Cleared: ${$event.detail.model}`)" />
+```
+
+### Smart Auto-Submit
+
+When `smart` is enabled, the form auto-submits when all pin fields are filled:
+
+```blade
+<form wire:submit="verify">
+    <x-pin length="5" wire:model.live="pin" label="Enter your code" smart numbers />
+</form>
+```
+
 ## Soft Customization
 
 Soft customization allows you to override default Tailwind CSS classes used by this component at runtime, either through a service provider or scoped per-instance.
 
-### Personalization
+### Customization
 
 ```php
 TallStackUi::customize()

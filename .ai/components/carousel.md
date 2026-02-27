@@ -70,11 +70,45 @@ An image carousel/slider component with manual navigation or autoplay, optional 
 
 - The `images` attribute is required and cannot be empty.
 
+## Autoplay
+
+```blade
+<x-carousel :images="$images" autoplay />
+
+<!-- Custom interval in seconds -->
+<x-carousel :images="$images" autoplay interval="2" />
+```
+
+## Cover Image
+
+Set a specific image as the initial cover:
+
+```blade
+<!-- By index (1-based) -->
+<x-carousel :images="$images" :cover="2" />
+
+<!-- Per image in the array -->
+<x-carousel :images="[
+    ['src' => '/img/1.jpg', 'alt' => 'Image 1'],
+    ['src' => '/img/2.jpg', 'alt' => 'Image 2', 'cover' => true],
+    ['src' => '/img/3.jpg', 'alt' => 'Image 3'],
+]" />
+```
+
+## Alpine.js Event Payloads
+
+```blade
+<!-- $event.detail: { current: integer, image: object } -->
+<x-carousel :images="$images"
+    x-on:next="alert('Navigated to the next image')"
+    x-on:previous="alert('Navigated to the previous image')" />
+```
+
 ## Soft Customization
 
 Soft customization allows you to override default Tailwind CSS classes used by this component at runtime, either through a service provider or scoped per-instance.
 
-### Personalization
+### Customization
 
 ```php
 TallStackUi::customize()

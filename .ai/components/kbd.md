@@ -41,7 +41,7 @@ A keyboard key indicator component for displaying keyboard shortcuts or key refe
 
 Soft customization allows you to override default Tailwind CSS classes used by this component at runtime, either through a service provider or scoped per-instance.
 
-### Personalization
+### Customization
 
 ```php
 TallStackUi::customize()

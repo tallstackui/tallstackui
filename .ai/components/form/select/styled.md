@@ -111,11 +111,105 @@ $tsui.open.select('name')
 $tsui.close.select('name')
 ```
 
+## API / Server-Side Integration
+
+### Simple API Request
+
+```blade
+<x-select.styled :request="route('api.users')" />
+```
+
+### Advanced Request Configuration
+
+```blade
+<x-select.styled :request="[
+    'url' => route('api.users'),
+    'method' => 'get',
+    'params' => ['library' => 'TallStackUi'],
+]" />
+```
+
+### Server-Side Implementation
+
+The component sends a `search` query parameter. Your endpoint must return a JSON array of objects:
+
+```php
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Builder;
+
+Route::get('/users', function (Request $request) {
+    $search = $request->get('search');
+
+    return User::query()
+        ->when($search, fn (Builder $query) => $query->where('name', 'like', "%{$search}%"))
+        ->unless($search, fn (Builder $query) => $query->limit(10))
+        ->get()
+        ->map(fn (User $user): array => [
+            'label' => $user->name,
+            'value' => $user->id,
+        ]);
+})->name('api.users');
+```
+
+Use `unfiltered` when the server handles all filtering (the component won't filter client-side):
+
+```blade
+<x-select.styled :request="route('api.users')" unfiltered />
+```
+
+### Disabled Options
+
+Include `disabled: true` in the option array to prevent selection:
+
+```blade
+<x-select.styled :options="[
+    ['label' => 'Active', 'value' => 1],
+    ['label' => 'Inactive', 'value' => 2, 'disabled' => true],
+]" />
+```
+
+### Image and Description in Options
+
+```blade
+<x-select.styled :options="[
+    ['label' => 'Taylor Otwell', 'value' => 1, 'image' => 'https://...', 'description' => 'Creator of Laravel'],
+]" />
+
+<!-- Custom field names -->
+<x-select.styled :options="[
+    ['name' => 'Taylor', 'id' => 1, 'avatar' => 'https://...', 'note' => 'Creator of Laravel'],
+]" select="label:name|value:id|image:avatar|description:note" />
+```
+
+### After Slot (Custom Action When Empty)
+
+```blade
+<x-select.styled searchable :options="[1,2,3]">
+    <x-slot:after>
+        <div class="px-2 mb-2 flex justify-center items-center">
+            <x-button x-on:click="show = false; $dispatch('confirmed', { term: search })">
+                <span x-html="`Create user <b>${search}</b>`"></span>
+            </x-button>
+        </div>
+    </x-slot:after>
+</x-select.styled>
+```
+
+### Alpine.js Events
+
+```blade
+<x-select.styled :options="[...]"
+    x-on:select="alert(`Selected: ${JSON.stringify($event.detail.select)}`)"
+    x-on:remove="alert(`Removed: ${JSON.stringify($event.detail.select)}`)"
+    multiple />
+```
+
 ## Soft Customization
 
 Soft customization allows you to override default Tailwind CSS classes used by this component at runtime, either through a service provider or scoped per-instance.
 
-### Personalization
+### Customization
 
 ```php
 TallStackUi::customize()

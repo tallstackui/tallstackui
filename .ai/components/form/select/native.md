@@ -43,11 +43,24 @@ A native HTML `<select>` component with support for simple arrays, key-value opt
 |-----------|-------------------------------------------------------------|
 | (default) | Inline `<option>` elements rendered when `options` is empty |
 
+## Field Mapping
+
+When using multidimensional arrays with different key names, use the `select` attribute to map fields:
+
+```blade
+<x-select.native :options="[
+    ['name' => 'TALL', 'id' => 1],
+    ['name' => 'LIVT', 'id' => 2],
+]" select="label:name|value:id" />
+```
+
+Format: `label:key|value:key|description:key|image:key`
+
 ## Soft Customization
 
 Soft customization allows you to override default Tailwind CSS classes used by this component at runtime, either through a service provider or scoped per-instance.
 
-### Personalization
+### Customization
 
 ```php
 TallStackUi::customize()

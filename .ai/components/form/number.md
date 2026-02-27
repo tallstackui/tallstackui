@@ -38,11 +38,27 @@ A numeric input component with increment/decrement buttons, configurable min/max
 | centralized | bool\|null                  | null    | Centers the input text and places buttons on opposite sides            |
 | step        | int\|float                  | 1       | Increment/decrement step value. Values less than 1 enable decimal mode |
 
+## Additional Options
+
+```blade
+<!-- Centralized layout (buttons on both sides) -->
+<x-number centralized />
+
+<!-- Chevron style (up/down arrows instead of +/-) -->
+<x-number chevron />
+
+<!-- Selectable only (no manual typing) -->
+<x-number selectable />
+
+<!-- Delay in seconds for long-press acceleration -->
+<x-number delay="1" min="1" max="10" />
+```
+
 ## Soft Customization
 
 Soft customization allows you to override default Tailwind CSS classes used by this component at runtime, either through a service provider or scoped per-instance.
 
-### Personalization
+### Customization
 
 ```php
 TallStackUi::customize()

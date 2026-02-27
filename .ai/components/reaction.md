@@ -58,11 +58,45 @@ An emoji reaction picker component using Google Noto Emoji icons. Displays a flo
 - The `only` array may only contain valid emoji names from the supported list.
 - The `position` must be one of the allowed positions listed above.
 
+## Livewire Integration
+
+When an emoji is clicked, the `react` method is triggered on your Livewire component, receiving the emoji name as a parameter:
+
+```php
+use Livewire\Component;
+
+class MyComponent extends Component
+{
+    public function react(string $reaction): void
+    {
+        // $reaction will be the emoji name: 'thumbs-up', 'thumbs-down', etc.
+        // Your logic to persist the reaction here...
+    }
+}
+```
+
+To use a different method name, set the `react-method` attribute:
+
+```blade
+<x-reaction react-method="addReaction" />
+```
+
+Your Livewire component must then have an `addReaction(string $reaction)` method instead.
+
+### Quantity with Real-Time Binding
+
+To show a live-updating reaction count, bind a Livewire property with `wire:model`:
+
+```blade
+<!-- $quantity is an integer Livewire public property -->
+<x-reaction wire:model="quantity" :$quantity />
+```
+
 ## Soft Customization
 
 Soft customization allows you to override default Tailwind CSS classes used by this component at runtime, either through a service provider or scoped per-instance.
 
-### Personalization
+### Customization
 
 ```php
 TallStackUi::customize()

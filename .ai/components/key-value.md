@@ -56,7 +56,7 @@ A dynamic key-value pair editor that allows users to add, edit, and remove entri
 
 Soft customization allows you to override default Tailwind CSS classes used by this component at runtime, either through a service provider or scoped per-instance.
 
-### Personalization
+### Customization
 
 ```php
 TallStackUi::customize()

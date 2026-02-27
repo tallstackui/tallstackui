@@ -149,11 +149,53 @@ Each header in the `headers` array supports these keys:
 - When `selectable` is true, `selectable-property` must not be blank.
 - When `highlight` is true, `highlight-property` must not be blank.
 
+## Selectable Rows
+
+Bind selected rows to a Livewire array property:
+
+```blade
+<x-table :$headers :$rows selectable wire:model="selected" />
+```
+
+`$selected` will be an array of selected row data.
+
+## Clickable Rows (Link)
+
+Make rows clickable with dynamic URL interpolation using column values:
+
+```blade
+<x-table :$headers :$rows link="https://example.com/users/{id}" />
+
+<!-- Using relationship data with dot notation -->
+<x-table :$headers :$rows link="https://example.com/?postcode={address.postcode}" />
+
+<!-- Open in new tab -->
+<x-table :$headers :$rows link="https://example.com/users/{id}" blank />
+```
+
+## Expandable with Nested Tables
+
+Use `@interact` directive to render sub-tables inside expandable rows:
+
+```blade
+<x-table :$headers :$rows expandable>
+    @interact('sub_table', $row)
+        <x-table :headers="[
+            ['index' => 'property', 'label' => 'Property'],
+            ['index' => 'value', 'label' => 'Value'],
+        ]" :rows="[
+            ['property' => 'Email', 'value' => $row->email],
+            ['property' => 'Created', 'value' => $row->created_at->format('Y-m-d')],
+        ]" />
+    @endinteract
+</x-table>
+```
+
 ## Soft Customization
 
 Soft customization allows you to override default Tailwind CSS classes used by this component at runtime, either through a service provider or scoped per-instance.
 
-### Personalization
+### Customization
 
 ```php
 TallStackUi::customize()

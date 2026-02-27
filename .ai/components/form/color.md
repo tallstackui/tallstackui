@@ -67,11 +67,21 @@ Custom color palettes can be configured in `config/tallstackui.php`:
 ],
 ```
 
+## Event Payload Details
+
+The `x-on:set` event detail contains the selected color string:
+
+```blade
+<x-color x-on:set="alert(`Selected Color: ${$event.detail.color}`)" />
+```
+
+`$event.detail.color` is a string like `"red-500"` or `"#ff0000"` depending on the selection.
+
 ## Soft Customization
 
 Soft customization allows you to override default Tailwind CSS classes used by this component at runtime, either through a service provider or scoped per-instance.
 
-### Personalization
+### Customization
 
 ```php
 TallStackUi::customize()

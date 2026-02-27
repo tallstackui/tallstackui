@@ -99,11 +99,98 @@ In `config/tallstackui.php` under `components.toast`:
 | position   | string | 'top-right' | Default position (top-right, top-left, bottom-right, bottom-left) |
 | timeout    | int    | 3           | Default auto-dismiss timeout in seconds                           |
 
+## Confirm/Cancel Method Signatures
+
+Works the same as Dialog:
+
+```php
+$this->toast()
+    ->question('Warning!', 'Are you sure?')
+    ->confirm('Confirm', 'confirmed', 'Confirmed Successfully')
+    ->cancel('Cancel', 'cancelled', 'Cancelled Successfully')
+    ->send();
+
+public function confirmed(string $message): void
+{
+    $this->toast()->success('Success', $message)->send();
+}
+```
+
+Both methods are optional. Unlike Dialog, when only one button is defined, only that button appears.
+
+### Additional Options
+
+```php
+// Timeout in seconds
+$this->toast()->timeout(seconds: 10)->success('...')->send();
+
+// Persistent (no auto-dismiss)
+$this->toast()->persistent()->success('...')->send();
+
+// Expandable (for long descriptions 30+ chars)
+$this->toast()->expandable()->success('...')->send();
+
+// Position: top-left, top-right, bottom-left, bottom-right
+$this->toast()->position('top-left')->success('...')->send();
+
+// Sole (only one toast at a time)
+$this->toast()->sole()->success('...')->send();
+```
+
+### Flash (Redirect Support)
+
+```php
+$this->toast()
+    ->success('Done!', 'Your money has been sent!')
+    ->flash()
+    ->send();
+
+return $this->redirect(route('dashboard'));
+```
+
+### Controller Usage
+
+```php
+use TallStackUi\Traits\Interactions;
+
+class PaymentController extends Controller
+{
+    use Interactions;
+
+    public function update(Request $request)
+    {
+        $this->toast()->success('Updated!')->send();
+    }
+}
+```
+
+### Lifecycle Hooks
+
+```php
+$this->toast()
+    ->success('...')
+    ->hook([
+        'close' => ['method' => 'onClose', 'params' => ['param1']],
+        'timeout' => ['method' => 'onTimeout', 'params' => ['param1']],
+    ])
+    ->send();
+```
+
+### Window Events
+
+```blade
+<div x-on:toast:accepted.window="alert($event.detail.description)"
+     x-on:toast:rejected.window="alert($event.detail.description)"
+     x-on:toast:timeout.window="alert($event.detail.description)">
+    ...
+</div>
+```
+
 ## Soft Customization
 
 Soft customization allows you to override default Tailwind CSS classes used by this component at runtime, either through a service provider or scoped per-instance.
 
-### Personalization
+### Customization
 
 ```php
 TallStackUi::customize()

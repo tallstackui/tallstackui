@@ -35,7 +35,7 @@ A range slider input component with configurable sizes, color themes, and suppor
 
 Soft customization allows you to override default Tailwind CSS classes used by this component at runtime, either through a service provider or scoped per-instance.
 
-### Personalization
+### Customization
 
 ```php
 TallStackUi::customize()

@@ -40,11 +40,21 @@ A tag input component that allows users to add multiple tag values by pressing E
 
 - The `prefix` must be a single character.
 
+## Event Payload Details
+
+```blade
+<x-tag x-on:add="alert(`Introduced: ${$event.detail.tag}`)"
+       x-on:remove="alert(`Removed: ${$event.detail.tag}`)"
+       x-on:erase="alert(`Erased: ${$event.detail.tags}`)" />
+```
+
+Note: for the `erase` event the key is `$event.detail.tags` (plural), not `$event.detail.tag`.
+
 ## Soft Customization
 
 Soft customization allows you to override default Tailwind CSS classes used by this component at runtime, either through a service provider or scoped per-instance.
 
-### Personalization
+### Customization
 
 ```php
 TallStackUi::customize()

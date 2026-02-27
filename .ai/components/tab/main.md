@@ -98,11 +98,54 @@ Key behaviors:
 
 See `<x-tab.items>` documentation for full attribute details.
 
+## Wireable Mode (Livewire Property Binding)
+
+Bind the active tab to a Livewire string property:
+
+```blade
+<!-- Livewire string property: $tab - initial value: "Tab 1" -->
+<x-tab wire:model="tab">
+    <x-tab.items tab="Tab 1">Tab 1</x-tab.items>
+    <x-tab.items tab="Tab 2">Tab 2</x-tab.items>
+    <x-tab.items tab="Tab 3">Tab 3</x-tab.items>
+</x-tab>
+
+<x-button wire:click="$set('tab', 'Tab 3')">Change to Tab 3</x-button>
+```
+
+Use `wire:model.live` for real-time server sync on every tab change.
+
+## Route-Based Tabs
+
+Tabs can be linked to routes for URL-based navigation:
+
+```blade
+<x-tab>
+    <x-tab.items tab="users" title="Users" :href="route('users.index')" navigate>
+        <livewire:users.index />
+    </x-tab.items>
+    <x-tab.items tab="invoices" title="Invoices" :href="route('invoices.index')" navigate>
+        <livewire:invoices.index />
+    </x-tab.items>
+</x-tab>
+```
+
+The `navigate` attribute uses Livewire's SPA-style navigation.
+
+## Alpine.js Event Payload
+
+```blade
+<x-tab selected="Invoices" x-on:navigate="alert($event.detail.select)">
+    <x-tab.items tab="Invoices">Invoices</x-tab.items>
+    <x-tab.items tab="Transactions">Transactions</x-tab.items>
+</x-tab>
+```
+
 ## Soft Customization
 
 Soft customization allows you to override default Tailwind CSS classes used by this component at runtime, either through a service provider or scoped per-instance.
 
-### Personalization
+### Customization
 
 ```php
 TallStackUi::customize()

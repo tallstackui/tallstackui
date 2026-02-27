@@ -56,11 +56,59 @@ A star rating component for displaying or collecting user ratings. Supports cust
 - The `evaluate-method` attribute must not be blank.
 - The `quantity` must be 5 or less.
 
+## Livewire Integration
+
+When a star is clicked, the `evaluate` method is triggered, receiving the rating quantity:
+
+```php
+use Livewire\Component;
+use Illuminate\Contracts\View\View;
+
+class Profile extends Component
+{
+    public $rate = 2;
+
+    public function render(): View
+    {
+        return view('livewire.profile');
+    }
+
+    public function evaluate(int $quantity): void
+    {
+        // $quantity is the number of stars selected (e.g., 1, 2, 3, 4, 5)
+        $this->rate = $quantity;
+    }
+}
+```
+
+Blade usage:
+
+```blade
+<x-rating wire:model="rate" />
+```
+
+To use a different method name:
+
+```blade
+<x-rating wire:model="rate" evaluate-method="setRating" />
+```
+
+### Static (Non-Livewire) Usage
+
+The `rate` parameter sets the current displayed rating. Combined with `static`, it disables click interaction:
+
+```blade
+<x-rating :$rate />
+
+<!-- Disable click interaction -->
+<x-rating :$rate static />
+```
+
 ## Soft Customization
 
 Soft customization allows you to override default Tailwind CSS classes used by this component at runtime, either through a service provider or scoped per-instance.
 
-### Personalization
+### Customization
 
 ```php
 TallStackUi::customize()

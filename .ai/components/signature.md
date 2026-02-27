@@ -47,11 +47,29 @@ A canvas-based signature pad component for capturing handwritten signatures. Sup
 - The `line` attribute must be a number (cannot be null).
 - The `height` attribute must be at least 10.
 
+## Export Feature
+
+The `exportable` attribute adds a download button. Use `jpeg` for JPEG format (default is PNG):
+
+```blade
+<x-signature exportable />
+<x-signature exportable jpeg />
+```
+
+### Export Event Payload
+
+When exported, the `x-on:export` event provides the signature data URL:
+
+```blade
+<!-- $event.detail contains: { signature: 'data:image/png;base64,...' } -->
+<x-signature exportable x-on:export="alert('Exported!')" />
+```
+
 ## Soft Customization
 
 Soft customization allows you to override default Tailwind CSS classes used by this component at runtime, either through a service provider or scoped per-instance.
 
-### Personalization
+### Customization
 
 ```php
 TallStackUi::customize()

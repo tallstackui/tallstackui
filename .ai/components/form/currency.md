@@ -42,11 +42,40 @@ A currency input component that formats numeric values with locale-aware decimal
 
 - The `precision` must be greater than or equal to `decimals`.
 
+## Locale & Formatting Details
+
+### How `decimals` and `precision` Work
+
+```blade
+<x-currency decimals="2" precision="4" />
+```
+
+Internally uses JavaScript `Intl.NumberFormat`:
+- `decimals` → `minimumFractionDigits`
+- `precision` → `maximumFractionDigits`
+
+### Mutate Mode
+
+When `mutate` is enabled, the raw numeric value (without formatting) is sent to the server instead of the formatted string:
+
+```blade
+<x-currency mutate />
+```
+
+### Custom Symbols
+
+Override the default currency/symbol display:
+
+```blade
+<x-currency symbol="$$" />
+<x-currency currency="$$" />
+```
+
 ## Soft Customization
 
 Soft customization allows you to override default Tailwind CSS classes used by this component at runtime, either through a service provider or scoped per-instance.
 
-### Personalization
+### Customization
 
 ```php
 TallStackUi::customize()

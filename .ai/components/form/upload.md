@@ -54,11 +54,155 @@ A file upload component with drag-and-drop support, upload progress tracking, im
 | tip    | Custom content for the upload area tip. Can be a string or a full slot with markup.                                                  |
 | footer | Footer content rendered at the bottom of the floating panel. Supports `when-uploaded` attribute to only show when files are present. |
 
+## Livewire Integration
+
+### Delete Method
+
+When `delete` is enabled, clicking the delete icon calls a `deleteUpload` method on your Livewire component. The method receives an array with file metadata:
+
+```php
+use Illuminate\Support\Arr;
+use Illuminate\Http\UploadedFile;
+
+public function deleteUpload(array $content): void
+{
+    /*
+     $content contains:
+     [
+         'temporary_name',
+         'real_name',
+         'extension',
+         'size',
+         'path',
+         'url',
+     ]
+     */
+
+    if (! $this->photo) {
+        return;
+    }
+
+    $files = Arr::wrap($this->photo);
+
+    /** @var UploadedFile $file */
+    $file = collect($files)
+        ->filter(fn (UploadedFile $item) => $item->getFilename() === $content['temporary_name'])
+        ->first();
+
+    rescue(fn () => $file->delete(), report: false);
+
+    $collect = collect($files)
+        ->filter(fn (UploadedFile $item) => $item->getFilename() !== $content['temporary_name']);
+
+    $this->photo = is_array($this->photo) ? $collect->toArray() : $collect->first();
+}
+```
+
+To use a different method name: `<x-upload delete delete-method="removeFile" />`
+
+### Multiple File Uploads (Batch Merging)
+
+When uploading multiple files in batches, new selections replace previous ones by default. Use Livewire lifecycle hooks to merge batches:
+
+```php
+use Livewire\Component;
+use Livewire\WithFileUploads;
+use Illuminate\Http\UploadedFile;
+
+class MyComponent extends Component
+{
+    use WithFileUploads;
+
+    public $photos = [];
+    public $backup = [];
+
+    public function updatingPhotos(): void
+    {
+        $this->backup = $this->photos;
+    }
+
+    public function updatedPhotos(): void
+    {
+        if (!$this->photos) {
+            return;
+        }
+
+        $file = Arr::flatten(array_merge($this->backup, [$this->photos]));
+
+        $this->photos = collect($file)
+            ->unique(fn (UploadedFile $item) => $item->getClientOriginalName())
+            ->toArray();
+    }
+}
+```
+
+If using a different property name (e.g., `$files` instead of `$photos`), rename the lifecycle hooks accordingly: `updatingFiles()`, `updatedFiles()`.
+
+### Static Mode (Displaying Existing Files)
+
+Static mode displays previously uploaded files without the drag-and-drop area:
+
+```php
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
+use Symfony\Component\Finder\SplFileInfo;
+
+public function mount(): void
+{
+    $this->photos = collect(File::allFiles(public_path('storage/images')))
+        ->map(fn (SplFileInfo $file) => [
+            'name' => $file->getFilename(),
+            'extension' => $file->getExtension(),
+            'size' => $file->getSize(),
+            'path' => $file->getPath(),
+            'url' => Storage::url('images/'.$file->getFilename()),
+        ])->toArray();
+}
+```
+
+Blade usage:
+
+```blade
+<x-upload wire:model="photos" static />
+<x-upload wire:model="photos" static delete />
+<x-upload wire:model="photos" :placeholder="count($photos) . ' images'" static delete />
+```
+
+Static mode delete method differs (files are arrays, not UploadedFile):
+
+```php
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\File;
+
+public function deleteUpload(array $content): void
+{
+    if (empty($this->photos)) {
+        return;
+    }
+
+    File::delete($content['path']);
+
+    $this->photos = collect(Arr::wrap($this->photos))
+        ->filter(fn (array $item) => $item['name'] !== $content['real_name'])
+        ->toArray();
+}
+```
+
+### Alpine.js Events
+
+```blade
+<!-- Fires when files are uploaded -->
+<x-upload x-on:upload="console.log($event.detail.files)" />
+
+<!-- Fires when a file is deleted -->
+<x-upload delete x-on:remove="console.log($event.detail.file)" />
+```
+
 ## Soft Customization
 
 Soft customization allows you to override default Tailwind CSS classes used by this component at runtime, either through a service provider or scoped per-instance.
 
-### Personalization
+### Customization
 
 ```php
 TallStackUi::customize()

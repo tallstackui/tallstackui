@@ -79,11 +79,50 @@ Panel variation with finish button:
 | x-on:change | `{step: number}` | Fired when the active step changes via helper buttons                    |
 | x-on:finish | `{step: number}` | Fired when the finish button is clicked (string `finish` attribute only) |
 
+## Wireable Mode (Livewire Property Binding)
+
+Bind the current step to a Livewire string property:
+
+```blade
+<!-- Livewire string property: $step - initial value: "1" -->
+<x-step wire:model="step" helpers previous>
+    <x-step.items step="1" title="Starting" description="Step One">
+        Step one...
+    </x-step.items>
+    <x-step.items step="2" title="Advancing" description="Step Two">
+        Step two...
+    </x-step.items>
+    <x-step.items step="3" title="Finishing" description="Step Three">
+        Step three...
+    </x-step.items>
+</x-step>
+```
+
+Use `wire:model.live` for real-time server sync on every step change.
+
+## Alpine.js Event Payloads
+
+```blade
+<x-step selected="1" helpers
+    x-on:change="alert(`Changed: ${$event.detail.step}`)"
+    x-on:finish="alert(`Finished: ${$event.detail.step}`)">
+    <x-step.items step="1" title="Starting" description="Step One">
+        Step one...
+    </x-step.items>
+    <x-step.items step="2" title="Advancing" description="Step Two">
+        Step two...
+    </x-step.items>
+    <x-step.items step="3" title="Finishing" description="Step Three" completed>
+        Step three...
+    </x-step.items>
+</x-step>
+```
+
 ## Soft Customization
 
 Soft customization allows you to override default Tailwind CSS classes used by this component at runtime, either through a service provider or scoped per-instance.
 
-### Personalization
+### Customization
 
 ```php
 TallStackUi::customize()

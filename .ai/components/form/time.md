@@ -71,11 +71,19 @@ A time picker component with a floating panel featuring range sliders for hours 
 - The `max-minute` must be between 0 and 59.
 - The `min-minute` must be less than or equal to `max-minute` when both are set.
 
+## Event Payload Details
+
+```blade
+<x-time x-on:hour="alert(`Hour Selected: ${$event.detail.hour}`)"
+        x-on:minute="alert(`Minute Selected: ${$event.detail.minute}`)"
+        x-on:interval="alert(`Interval Changed: ${$event.detail.interval}`)" />
+```
+
 ## Soft Customization
 
 Soft customization allows you to override default Tailwind CSS classes used by this component at runtime, either through a service provider or scoped per-instance.
 
-### Personalization
+### Customization
 
 ```php
 TallStackUi::customize()

@@ -55,11 +55,70 @@ A top-of-page banner component for announcements or notifications. Supports stat
 - When `color` is an array, it must contain both `background` and `text` keys.
 - The `until` attribute must be a valid date string or Carbon instance.
 
+## Livewire Programmatic Usage
+
+```php
+use TallStackUi\Traits\Interactions;
+
+class CreateUser extends Component
+{
+    use Interactions;
+
+    public function save(): void
+    {
+        $this->banner()->success('Operation completed!')->send();
+        $this->banner()->error('Something went wrong.')->send();
+        $this->banner()->warning('Please review your input.')->send();
+        $this->banner()->info('System maintenance scheduled.')->send();
+    }
+}
+```
+
+### Options
+
+```php
+$this->banner()
+    ->close()              // Add close button
+    ->enter(seconds: 3)    // Delay before entering
+    ->leave(seconds: 10)   // Auto-dismiss after seconds
+    ->success('...')
+    ->send();
+```
+
+### Flash (Redirect Support)
+
+```php
+$this->banner()
+    ->success('Done!', 'Your money has been sent!')
+    ->flash()
+    ->send();
+
+return $this->redirect(route('dashboard'));
+```
+
+### Controller Usage
+
+```php
+use TallStackUi\Traits\Interactions;
+
+class PaymentController extends Controller
+{
+    use Interactions;
+
+    public function update(Request $request)
+    {
+        $this->banner()->success('Updated!')->close()->leave(seconds: 10)->send();
+    }
+}
+```
+
+Unlike Dialog/Toast, Banner does **not** support `confirm()`, `cancel()`, or `question()`.
+
 ## Soft Customization
 
 Soft customization allows you to override default Tailwind CSS classes used by this component at runtime, either through a service provider or scoped per-instance.
 
-### Personalization
+### Customization
 
 ```php
 TallStackUi::customize()

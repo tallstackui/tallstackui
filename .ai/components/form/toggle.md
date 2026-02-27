@@ -36,7 +36,7 @@ A toggle switch component for boolean inputs with multiple sizes, label position
 
 Soft customization allows you to override default Tailwind CSS classes used by this component at runtime, either through a service provider or scoped per-instance.
 
-### Personalization
+### Customization
 
 ```php
 TallStackUi::customize()

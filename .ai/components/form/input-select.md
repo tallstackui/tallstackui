@@ -56,7 +56,7 @@ A combined text input with a native select dropdown side-by-side. Supports icons
 
 Soft customization allows you to override default Tailwind CSS classes used by this component at runtime, either through a service provider or scoped per-instance.
 
-### Personalization
+### Customization
 
 ```php
 TallStackUi::customize()

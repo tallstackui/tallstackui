@@ -40,7 +40,7 @@ This component supports the TallStackUI color system via the `color` attribute. 
 
 Soft customization allows you to override default Tailwind CSS classes used by this component at runtime, either through a service provider or scoped per-instance.
 
-### Personalization
+### Customization
 
 ```php
 TallStackUi::customize()
