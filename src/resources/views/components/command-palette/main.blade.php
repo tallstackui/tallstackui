@@ -28,8 +28,17 @@
              x-transition:leave-start="opacity-100 scale-100"
              x-transition:leave-end="opacity-0 scale-95"
          @endif
-         @class([$customization['wrapper'], $configurations['zIndex']])>
-        <div @class([$customization['box']])
+         @class([
+             $customization['wrapper'],
+             $configurations['zIndex'],
+             $customization['positions.bottom'] => !$configurations['centered'],
+             $customization['positions.center'] => $configurations['centered'],
+         ])>
+        <div @class([
+                 $customization['box'],
+                 $customization['box.radius.default'] => !$configurations['centered'],
+                 $customization['box.radius.center'] => $configurations['centered'],
+             ])
              dusk="tallstackui_command_palette">
             <div @class([$customization['input.wrapper']])
                  x-bind:class="{ 'border-b-0!': available.length === 0 && (!search || loading || !fetched) }">

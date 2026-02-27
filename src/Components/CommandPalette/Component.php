@@ -30,6 +30,7 @@ class Component extends TallStackUiComponent implements Customization
         public ?array $placeholders = null,
         public ?bool $recycle = null,
         public ?string $shortcut = null,
+        public ?bool $centered = null,
         #[SkipDebug]
         public ?bool $grouped = null,
         #[SkipDebug]
@@ -57,8 +58,16 @@ class Component extends TallStackUiComponent implements Customization
                 'lg' => 'backdrop-blur-lg',
                 'xl' => 'backdrop-blur-xl',
             ],
-            'wrapper' => 'fixed inset-0 flex items-end sm:items-start justify-center sm:pt-[15vh]',
-            'box' => 'w-full max-w-lg overflow-hidden rounded-t-xl sm:rounded-xl bg-white shadow-2xl ring-1 ring-dark-900/5 dark:bg-dark-800 dark:ring-dark-700',
+            'wrapper' => 'fixed inset-0 flex justify-center sm:pt-[15vh]',
+            'positions' => [
+                'bottom' => 'items-end sm:items-start',
+                'center' => 'items-center p-4 sm:p-0',
+            ],
+            'box' => 'w-full max-w-lg overflow-hidden bg-white shadow-2xl ring-1 ring-dark-900/5 dark:bg-dark-800 dark:ring-dark-700',
+            'box.radius' => [
+                'default' => 'rounded-t-xl sm:rounded-xl',
+                'center' => 'rounded-xl',
+            ],
             'input' => [
                 'wrapper' => 'flex items-center border-b border-dark-100 px-4 dark:border-dark-700',
                 'icon' => 'h-5 w-5 text-dark-400 dark:text-dark-500',

@@ -76,6 +76,11 @@ Use the `id` attribute to place multiple command palettes on the same page and t
 </x-command-palette>
 ```
 
+```blade
+{{-- Centered: vertically centers on mobile with fully rounded corners --}}
+<x-command-palette request="/api/search" centered />
+```
+
 ## Attributes
 
 | Attribute    | Type                | Default                                                                     | Description                                                                                                 |
@@ -88,6 +93,7 @@ Use the `id` attribute to place multiple command palettes on the same page and t
 | recycle      | bool\|null          | true (from config)                                                          | When true, preserves previous search results when reopening the palette                                     |
 | shortcut     | string\|null        | 'ctrl.k' (from config)                                                      | Keyboard shortcut in dot notation (e.g., `ctrl.k`, `ctrl.shift.p`, `meta.k`). Inline overrides config       |
 | select       | string\|null        | 'label:label\|value:value\|description:description\|image:image\|icon:icon' | Field mapping string for option data (format: `label:key\|value:key\|description:key\|image:key\|icon:key`) |
+| centered     | bool\|null          | false (from config)                                                         | When true, centers the palette vertically on mobile with rounded corners on all sides                       |
 
 ## Slots
 
@@ -286,6 +292,7 @@ In `config/tallstackui.php` under `components.command-palette`:
 | recycle    | bool                | true     | When true, preserves previous results when reopening                                       |
 | elements   | bool                | true     | When true, shows keyboard hint elements in the footer                                      |
 | scrollbar  | bool                | true     | When true, applies a custom minimal scrollbar to the results list                          |
+| centered   | bool                | false    | When true, centers the palette vertically on mobile with all corners rounded               |
 
 ## JavaScript Control
 
@@ -321,7 +328,11 @@ TallStackUi::customize()
 | blur.lg            | Large backdrop blur effect                        |
 | blur.xl            | Extra-large backdrop blur effect                  |
 | wrapper            | Fixed container that positions the palette        |
-| box                | Main palette card with rounded corners and shadow |
+| positions.bottom   | Bottom-aligned position classes (default)         |
+| positions.center   | Center-aligned position classes (centered mode)   |
+| box                | Main palette card with shadow                     |
+| box.radius.default | Border radius for default (bottom) position       |
+| box.radius.center  | Border radius for centered position               |
 | input.wrapper      | Flex container for the search input area          |
 | input.icon         | Search magnifying glass icon styles               |
 | input.base         | Search text input field styles                    |
