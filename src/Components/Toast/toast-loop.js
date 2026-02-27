@@ -55,6 +55,8 @@ export default (toast) => ({
       });
 
       document.addEventListener('visibilitychange', () => {
+        if (document.hidden) return;
+
         const remaining = max - elapsed;
 
         if (remaining > 2000) {
