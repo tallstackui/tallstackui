@@ -31,16 +31,6 @@ Ensure the Laravel Pint is passing using:
 
 If pass successfully, proceed and check the next one. If you noticed any issue, ask if you can fix it.
 
-## PHPStan
-
-Ensure the PhpStan is passing using:
-
-```shell
-./vendor/bin/phpstan analyse --memory-limit=2G
-```
-
-If pass successfully, proceed and check the next one. If you noticed any issue, ask if you can fix it.
-
 ## NPM ESLint
 
 Ensure the Eslint is passing using:

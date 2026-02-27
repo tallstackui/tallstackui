@@ -26,8 +26,7 @@
         {!! $attributes->except(['x-show', 'x-anchor', 'class']) !!}
     @endif
 @endif
-x-effect="if ({{ $attributes->get('x-show', 'show') }}) $nextTick(() => { let anchor = {{ $attributes->get('x-anchor', '$refs.anchor') }}; if (anchor && $el.classList.contains('w-full')) $el.style.width = anchor.offsetWidth + 'px' })"
-x-init="if ($el.classList.contains('w-full')) { let _r, _c = () => { let a = {{ $attributes->get('x-anchor', '$refs.anchor') }}; if (a) $el.style.width = a.offsetWidth + 'px' }; new MutationObserver(() => { cancelAnimationFrame(_r); _r = requestAnimationFrame(_c) }).observe($el, { childList: true, subtree: true }) }"
+x-data="tallstackui_floating('{{ $attributes->get('x-show', 'show') }}', () => {{ $attributes->get('x-anchor', '$refs.anchor') }})"
 {{ $attributes->except(['floating', 'x-anchor'])->merge(['class' => $attributes->get('floating', $customization['wrapper']), 'data-floating' => true]) }}>
 {{ $slot }}
 {{ $footer }}

@@ -7,6 +7,7 @@ on:
     paths-ignore:
       - '.github/**'
       - '.claude/**'
+      - '.ai/**'
       - '**.md'
   pull_request:
     branches:
