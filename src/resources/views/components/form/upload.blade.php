@@ -60,6 +60,7 @@
     @if ($preview)
         <template x-teleport="body">
             <div x-show="preview"
+                 x-on:mousedown.stop
                  x-on:click="preview = false; $nextTick(() => show = true)"
                  @if (!$ts_ui__flash)
                      x-transition:enter="ease-out duration-300"
