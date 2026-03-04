@@ -19,7 +19,7 @@
      x-cloak x-on:click.outside="show = false">
     <x-dynamic-component :component="TallStackUi::prefix('input')"
                          scope="form.time.input"
-                         {{ $attributes->except('name') }}
+                         {{ $attributes->except('name')->whereDoesntStartWith('wire:model') }}
                          :$label
                          :$hint
                          :$invalidate
