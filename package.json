@@ -12,7 +12,7 @@
     "format": "npx prettier --write \"js/**/*.js\" \"src/Components/**/*.js\""
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3.2.0",
+    "@eslint/eslintrc": "^3.3.5",
     "@eslint/js": "^9.22.0",
     "@tailwindcss/forms": "^0.5.11",
     "eslint": "^9.21.0",
