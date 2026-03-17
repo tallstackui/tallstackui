@@ -503,7 +503,7 @@ export default (
       return;
     }
 
-    const items = this._flatItems(this.available);
+    const items = this._flatItems(this.common && this.lazy ? this.options : this.available);
 
     if (!items || items.length === 0) {
       this.selects = [];
