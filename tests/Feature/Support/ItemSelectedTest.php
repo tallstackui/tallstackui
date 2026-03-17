@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Contracts\Support\Arrayable;
 use TallStackUi\Support\CommandPalette\ItemSelected;
 
 it('creates with required fields', function () {
@@ -37,7 +38,7 @@ it('creates with all fields', function () {
 it('implements Arrayable interface', function () {
     $item = new ItemSelected(search: 'test', label: 'Test', value: 1);
 
-    expect($item)->toBeInstanceOf(\Illuminate\Contracts\Support\Arrayable::class);
+    expect($item)->toBeInstanceOf(Arrayable::class);
 });
 
 it('converts to array with all properties', function () {

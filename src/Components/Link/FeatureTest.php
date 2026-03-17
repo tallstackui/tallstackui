@@ -1,8 +1,9 @@
 <?php
 
-uses(Tests\TestCase::class)->group('Feature');
+uses(TestCase::class)->group('Feature');
 
 use Illuminate\View\ViewException;
+use Tests\TestCase;
 
 it('can render')
     ->expect('<x-link href="https://google.com.br" />')

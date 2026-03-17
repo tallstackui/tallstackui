@@ -1,12 +1,18 @@
 <?php
 
 use Illuminate\Support\Facades\URL;
+use TallStackUi\Components\CommandPalette\Component;
+use Tests\Support\CommandPaletteActionableStub;
+use Tests\Support\CommandPaletteActionableWithAdditionalStub;
+use Tests\Support\CommandPaletteActionableWithNavigateStub;
+use Tests\Support\CommandPaletteActionableWithSearchStub;
+use Tests\Support\CommandPaletteNonInvocableStub;
 
 beforeEach(function () {
     config()->set('ts-ui.components.command-palette', [
-        TallStackUi\Components\CommandPalette\Component::class,
+        Component::class,
         [
-            'actionable' => Tests\Support\CommandPaletteActionableStub::class,
+            'actionable' => CommandPaletteActionableStub::class,
             'request' => null,
             'z-index' => 'z-50',
             'blur' => false,
@@ -18,12 +24,12 @@ beforeEach(function () {
         ],
     ]);
 
-    __ts_get_component_configuration(TallStackUi\Components\CommandPalette\Component::class, flush: true);
+    __ts_get_component_configuration(Component::class, flush: true);
 });
 
 afterEach(function () {
     config()->set('ts-ui.components.command-palette', [
-        TallStackUi\Components\CommandPalette\Component::class,
+        Component::class,
         [
             'actionable' => null,
             'request' => null,
@@ -37,7 +43,7 @@ afterEach(function () {
         ],
     ]);
 
-    __ts_get_component_configuration(TallStackUi\Components\CommandPalette\Component::class, flush: true);
+    __ts_get_component_configuration(Component::class, flush: true);
 });
 
 it('returns 403 without valid signature', function () {
@@ -64,7 +70,7 @@ it('processes actionable with valid signed request', function () {
 
 it('returns 404 when actionable is not configured', function () {
     config()->set('ts-ui.components.command-palette', [
-        TallStackUi\Components\CommandPalette\Component::class,
+        Component::class,
         [
             'actionable' => null,
             'request' => null,
@@ -78,7 +84,7 @@ it('returns 404 when actionable is not configured', function () {
         ],
     ]);
 
-    __ts_get_component_configuration(TallStackUi\Components\CommandPalette\Component::class, flush: true);
+    __ts_get_component_configuration(Component::class, flush: true);
 
     $url = URL::signedRoute('tallstackui.command-palette.action');
 
@@ -90,9 +96,9 @@ it('returns 404 when actionable is not configured', function () {
 
 it('returns 422 when actionable is not invocable', function () {
     config()->set('ts-ui.components.command-palette', [
-        TallStackUi\Components\CommandPalette\Component::class,
+        Component::class,
         [
-            'actionable' => Tests\Support\CommandPaletteNonInvocableStub::class,
+            'actionable' => CommandPaletteNonInvocableStub::class,
             'request' => null,
             'z-index' => 'z-50',
             'blur' => false,
@@ -104,7 +110,7 @@ it('returns 422 when actionable is not invocable', function () {
         ],
     ]);
 
-    __ts_get_component_configuration(TallStackUi\Components\CommandPalette\Component::class, flush: true);
+    __ts_get_component_configuration(Component::class, flush: true);
 
     $url = URL::signedRoute('tallstackui.command-palette.action');
 
@@ -116,9 +122,9 @@ it('returns 422 when actionable is not invocable', function () {
 
 it('passes search term to item selected', function () {
     config()->set('ts-ui.components.command-palette', [
-        TallStackUi\Components\CommandPalette\Component::class,
+        Component::class,
         [
-            'actionable' => Tests\Support\CommandPaletteActionableWithSearchStub::class,
+            'actionable' => CommandPaletteActionableWithSearchStub::class,
             'request' => null,
             'z-index' => 'z-50',
             'blur' => false,
@@ -130,7 +136,7 @@ it('passes search term to item selected', function () {
         ],
     ]);
 
-    __ts_get_component_configuration(TallStackUi\Components\CommandPalette\Component::class, flush: true);
+    __ts_get_component_configuration(Component::class, flush: true);
 
     $url = URL::signedRoute('tallstackui.command-palette.action');
 
@@ -149,9 +155,9 @@ it('passes search term to item selected', function () {
 
 it('returns navigate flag when callback uses navigate', function () {
     config()->set('ts-ui.components.command-palette', [
-        TallStackUi\Components\CommandPalette\Component::class,
+        Component::class,
         [
-            'actionable' => Tests\Support\CommandPaletteActionableWithNavigateStub::class,
+            'actionable' => CommandPaletteActionableWithNavigateStub::class,
             'request' => null,
             'z-index' => 'z-50',
             'blur' => false,
@@ -163,7 +169,7 @@ it('returns navigate flag when callback uses navigate', function () {
         ],
     ]);
 
-    __ts_get_component_configuration(TallStackUi\Components\CommandPalette\Component::class, flush: true);
+    __ts_get_component_configuration(Component::class, flush: true);
 
     $url = URL::signedRoute('tallstackui.command-palette.action');
 
@@ -181,9 +187,9 @@ it('returns navigate flag when callback uses navigate', function () {
 
 it('passes additional data to item selected', function () {
     config()->set('ts-ui.components.command-palette', [
-        TallStackUi\Components\CommandPalette\Component::class,
+        Component::class,
         [
-            'actionable' => Tests\Support\CommandPaletteActionableWithAdditionalStub::class,
+            'actionable' => CommandPaletteActionableWithAdditionalStub::class,
             'request' => null,
             'z-index' => 'z-50',
             'blur' => false,
@@ -195,7 +201,7 @@ it('passes additional data to item selected', function () {
         ],
     ]);
 
-    __ts_get_component_configuration(TallStackUi\Components\CommandPalette\Component::class, flush: true);
+    __ts_get_component_configuration(Component::class, flush: true);
 
     $url = URL::signedRoute('tallstackui.command-palette.action');
 

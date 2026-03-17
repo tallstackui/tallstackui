@@ -86,6 +86,30 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_retain_focus_with_live_model(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $search = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="search">{{ $search }}</p>
+
+                    <x-input dusk="input" wire:model.live.debounce.150ms="search" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->typeSlowly('@input', 'hello')
+            ->pause(500)
+            ->assertFocused('@input');
+    }
+
+    #[Test]
     public function can_see_clearable(): void
     {
         Livewire::visit(new class extends Component

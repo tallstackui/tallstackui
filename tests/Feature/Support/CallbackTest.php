@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Contracts\Support\Arrayable;
 use TallStackUi\Support\CommandPalette\Callback;
 
 it('creates redirect callback', function () {
@@ -65,5 +66,5 @@ it('creates event callback with params', function () {
 it('implements Arrayable interface', function () {
     $callback = Callback::redirect('/test');
 
-    expect($callback)->toBeInstanceOf(\Illuminate\Contracts\Support\Arrayable::class);
+    expect($callback)->toBeInstanceOf(Arrayable::class);
 });

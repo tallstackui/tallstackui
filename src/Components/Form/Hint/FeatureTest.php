@@ -1,6 +1,8 @@
 <?php
 
-uses(Tests\TestCase::class)->group('Feature');
+use Tests\TestCase;
+
+uses(TestCase::class)->group('Feature');
 
 it('can render with hint prop')
     ->expect('<x-hint hint="This is a hint" />')

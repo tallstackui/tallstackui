@@ -2,10 +2,13 @@
 
 use Illuminate\Support\Facades\Blade;
 use Pest\Expectation;
+use TallStackUi\Components\Alert\Component;
+use Tests\Browser\BrowserTestCase;
+use Tests\TestCase;
 
-uses(Tests\Browser\BrowserTestCase::class)->in('Browser')->group('Browser');
+uses(BrowserTestCase::class)->in('Browser')->group('Browser');
 
-uses(Tests\TestCase::class)->in('Feature')->group('Feature');
+uses(TestCase::class)->in('Feature')->group('Feature');
 
 dataset('customization.keys', [
     'ts-ui::customization.alert',
@@ -66,7 +69,7 @@ dataset('customization.keys', [
 ]);
 
 dataset('customization.components', [
-    TallStackUi\Components\Alert\Component::class,
+    Component::class,
     TallStackUi\Components\BackToTop\Component::class,
     TallStackUi\Components\Avatar\Component::class,
     TallStackUi\Components\Badge\Component::class,

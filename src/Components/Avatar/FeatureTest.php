@@ -1,6 +1,9 @@
 <?php
 
-uses(Tests\TestCase::class)->group('Feature');
+use Illuminate\View\ViewException;
+use Tests\TestCase;
+
+uses(TestCase::class)->group('Feature');
 
 it('can render')
     ->expect('<x-avatar label="Lorem" />')
@@ -93,7 +96,7 @@ it('cannot render presence with pulse without pulse')
     ->toContain('animate-ping');
 
 it('cannot use invalid presence position', function () {
-    $this->expectException(\Illuminate\View\ViewException::class);
+    $this->expectException(ViewException::class);
 
     expect('<x-avatar text="AJ" presence presence-position="center" />')->render();
 });

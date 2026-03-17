@@ -1,6 +1,10 @@
 <?php
 
-uses(Tests\TestCase::class)->group('Feature');
+use TallStackUi\Components\Breadcrumbs\Component;
+use TallStackUi\Support\Breadcrumbs\BreadcrumbRegistry;
+use Tests\TestCase;
+
+uses(TestCase::class)->group('Feature');
 
 it('can render with items', function () {
     $component = <<<'HTML'
@@ -253,7 +257,7 @@ it('can load breadcrumb definitions from file paths', function () {
     ');
 
     config()->set('ts-ui.components.breadcrumbs', [
-        TallStackUi\Components\Breadcrumbs\Component::class,
+        Component::class,
         ['files' => [$tmp]],
     ]);
 
@@ -261,7 +265,7 @@ it('can load breadcrumb definitions from file paths', function () {
 
     require $tmp;
 
-    $registry = app(TallStackUi\Support\Breadcrumbs\BreadcrumbRegistry::class);
+    $registry = app(BreadcrumbRegistry::class);
 
     expect($registry->has('file.loaded.home'))->toBeTrue();
 

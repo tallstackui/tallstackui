@@ -1,6 +1,8 @@
 <?php
 
-uses(Tests\TestCase::class)->group('Feature');
+use Tests\TestCase;
+
+uses(TestCase::class)->group('Feature');
 
 it('can render with slot')
     ->expect('<x-button>Foo bar</x-button>')

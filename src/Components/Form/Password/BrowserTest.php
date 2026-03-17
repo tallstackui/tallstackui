@@ -116,53 +116,6 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
-    public function can_use_a_custom_generator_rule(): void
-    {
-        Livewire::visit(new class extends Component
-        {
-            public ?string $password = null;
-
-            public ?string $reveal = null;
-
-            public function render(): string
-            {
-                return <<<'HTML'
-                <div>
-                    @if ($reveal)
-                        <p dusk="reveal">{{ $password }}</p>
-                    @endif
-                    
-                    <x-password dusk="input" 
-                                wire:model.live="password" 
-                                generator
-                                x-on:generate="$wire.set('reveal', 1)" />
-                </div>
-
-                <script>
-                    window.TallStackUi = window.TallStackUi || {};
-                
-                    window.TallStackUi.passwordGenerator = function (min, mixed, numbers, symbols) {
-                        console.log(min, mixed, numbers, symbols);
-                
-                        return 'abcedf';
-                    };
-                </script> 
-                HTML;
-            }
-
-            public function sync(): void
-            {
-                $this->validate();
-            }
-        })
-            ->waitForLivewireToLoad()
-            ->waitForLivewire()
-            ->click('@tallstackui_form_password_generate')
-            ->waitForTextIn('@reveal', 'abcedf')
-            ->assertSeeIn('@reveal', 'abcedf');
-    }
-
-    #[Test]
     public function can_persist_generated_password_on_confirmation_field(): void
     {
         Livewire::visit(new class extends Component
@@ -228,6 +181,53 @@ class BrowserTest extends BrowserTestCase
             ->click('@tallstackui_form_password_generate')
             ->pause(3000)
             ->assertScript('document.querySelector("[dusk=confirmation]").value.length > 0');
+    }
+
+    #[Test]
+    public function can_use_a_custom_generator_rule(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $password = null;
+
+            public ?string $reveal = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    @if ($reveal)
+                        <p dusk="reveal">{{ $password }}</p>
+                    @endif
+                    
+                    <x-password dusk="input" 
+                                wire:model.live="password" 
+                                generator
+                                x-on:generate="$wire.set('reveal', 1)" />
+                </div>
+
+                <script>
+                    window.TallStackUi = window.TallStackUi || {};
+                
+                    window.TallStackUi.passwordGenerator = function (min, mixed, numbers, symbols) {
+                        console.log(min, mixed, numbers, symbols);
+                
+                        return 'abcedf';
+                    };
+                </script> 
+                HTML;
+            }
+
+            public function sync(): void
+            {
+                $this->validate();
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->waitForLivewire()
+            ->click('@tallstackui_form_password_generate')
+            ->waitForTextIn('@reveal', 'abcedf')
+            ->assertSeeIn('@reveal', 'abcedf');
     }
 
     #[Test]

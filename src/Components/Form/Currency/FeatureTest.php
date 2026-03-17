@@ -1,6 +1,9 @@
 <?php
 
-uses(Tests\TestCase::class)->group('Feature');
+use Illuminate\View\ViewException;
+use Tests\TestCase;
+
+uses(TestCase::class)->group('Feature');
 
 it('can render')
     ->expect('<x-currency />')
@@ -45,7 +48,7 @@ it('can render with different prefix and suffix', function () {
 });
 
 it('cannot use precision lower than decimals', function () {
-    $this->expectException(\Illuminate\View\ViewException::class);
+    $this->expectException(ViewException::class);
     $this->expectExceptionMessage('The [precision] must be greater than or equal to [decimals].');
 
     expect('<x-currency :decimals="3" :precision="2" />')

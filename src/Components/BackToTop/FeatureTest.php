@@ -1,6 +1,9 @@
 <?php
 
-uses(Tests\TestCase::class)->group('Feature');
+use Illuminate\View\ViewException;
+use Tests\TestCase;
+
+uses(TestCase::class)->group('Feature');
 
 it('can render')
     ->expect('<x-back-to-top />')
@@ -20,7 +23,7 @@ it('can render with bottom-right position')
     ->toContain('right-6');
 
 it('cannot render with invalid position', function () {
-    $this->expectException(\Illuminate\View\ViewException::class);
+    $this->expectException(ViewException::class);
 
     expect('<x-back-to-top position="top-right" />')->render();
 });

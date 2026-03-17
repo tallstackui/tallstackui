@@ -3,8 +3,9 @@
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\MessageBag;
 use Illuminate\Support\ViewErrorBag;
+use Tests\TestCase;
 
-uses(Tests\TestCase::class)->group('Feature');
+uses(TestCase::class)->group('Feature');
 
 it('can render without errors', function () {
     View::share('errors', new ViewErrorBag);
