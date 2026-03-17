@@ -163,6 +163,74 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_persist_generated_password_on_confirmation_field(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $new_password = null;
+
+            public ?string $new_password_confirmation = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-password label="Nova Senha *"
+                                wire:model.live.debounce="new_password"
+                                generator
+                                :rules="['min', 'symbols', 'numbers', 'mixed']"
+                                x-on:generate="$wire.set('new_password_confirmation', $event.detail.password)"
+                                required />
+
+                    <x-password dusk="confirmation"
+                                label="Confirme a Nova Senha *"
+                                wire:model="new_password_confirmation"
+                                :rules="['min', 'symbols', 'numbers', 'mixed']"
+                                required />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->click('@tallstackui_form_password_generate')
+            ->pause(3000)
+            ->assertScript('document.querySelector("[dusk=confirmation]").value.length > 0');
+    }
+
+    #[Test]
+    public function can_persist_generated_password_on_confirmation_field_without_live(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $password = null;
+
+            public ?string $password_confirmation = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-password label="Password"
+                                wire:model="password"
+                                rules
+                                generator
+                                x-on:generate="$wire.set('password_confirmation', $event.detail.password)" />
+
+                    <x-password dusk="confirmation"
+                                label="Confirm password"
+                                wire:model="password_confirmation"
+                                rules />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->click('@tallstackui_form_password_generate')
+            ->pause(3000)
+            ->assertScript('document.querySelector("[dusk=confirmation]").value.length > 0');
+    }
+
+    #[Test]
     public function cannot_paste_password_when_using_typing_only(): void
     {
         Livewire::visit(new class extends Component

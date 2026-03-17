@@ -13,3 +13,4 @@ _DS_Store
 .php-cs-fixer.cache
 .DS_Store
 .run
+.claude/settings.local.json

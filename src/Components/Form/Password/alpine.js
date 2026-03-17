@@ -18,6 +18,8 @@ export default (model, rules, typingOnly, value = null) => ({
   init() {
     this.password = value;
 
+    this.$watch('model', (value) => (this.input = value ?? ''));
+
     this.$watch('input', (value) => {
       if (!value) {
         this.reset();
