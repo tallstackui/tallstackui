@@ -1,9 +1,9 @@
 <?php
 
-uses(TestCase::class)->group('Feature');
-
 use Illuminate\View\ViewException;
 use Tests\TestCase;
+
+uses(TestCase::class)->group('Feature');
 
 it('can use as common select', function () {
     $component = <<<'HTML'
