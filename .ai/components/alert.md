@@ -35,8 +35,19 @@ A dismissible alert component for displaying contextual messages with optional t
 | icon      | string\|null | null      | Heroicon name displayed to the left of the content |
 | color     | string\|null | 'primary' | Color theme (e.g., primary, red, green, yellow)    |
 | close     | bool         | false     | Shows a dismiss button to hide the alert           |
+| dismiss   | int\|null    | null      | Auto-dismiss the alert after N seconds             |
 | light     | bool         | false     | Uses the light color style variant                 |
 | outline   | bool         | false     | Uses the outline color style variant               |
+
+## Auto-Dismiss
+
+```blade
+{{-- Disappears after 5 seconds --}}
+<x-alert :dismiss="5" text="This alert will auto-dismiss." />
+
+{{-- Auto-dismiss with manual close option --}}
+<x-alert :dismiss="10" close text="Closes automatically or click X." />
+```
 
 ## Slots
 

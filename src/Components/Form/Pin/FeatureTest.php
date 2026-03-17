@@ -1,9 +1,9 @@
 <?php
 
-uses(TestCase::class)->group('Feature');
-
 use Illuminate\View\ViewException;
 use Tests\TestCase;
+
+uses(TestCase::class)->group('Feature');
 
 it('can render')
     ->expect('<x-pin length="2" />')

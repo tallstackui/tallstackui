@@ -1,12 +1,12 @@
 <?php
 
-uses(TestCase::class)->group('Feature');
-
 use Illuminate\Support\Facades\Route;
 use Illuminate\View\ViewException;
 use TallStackUi\Components\CommandPalette\Component;
 use Tests\Support\CommandPaletteActionableStub;
 use Tests\TestCase;
+
+uses(TestCase::class)->group('Feature');
 
 afterEach(function () {
     config()->set('ts-ui.components.command-palette', [

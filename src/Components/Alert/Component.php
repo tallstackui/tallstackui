@@ -23,6 +23,7 @@ class Component extends TallStackUiComponent implements Customization
         public ?bool $close = false,
         public ?bool $light = false,
         public ?bool $outline = false,
+        public ?int $dismiss = null,
         #[SkipDebug]
         public ?string $style = 'solid',
         #[SkipDebug]
@@ -57,5 +58,12 @@ class Component extends TallStackUiComponent implements Customization
                 'size' => 'w-5 h-5',
             ],
         ]);
+    }
+
+    protected function validate(): void
+    {
+        if ($this->dismiss !== null && $this->dismiss < 1) {
+            __ts_validation_exception($this, 'The [dismiss] must be a positive integer.');
+        }
     }
 }

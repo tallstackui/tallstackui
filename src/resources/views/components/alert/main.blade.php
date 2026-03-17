@@ -3,8 +3,11 @@
 @endphp
 
 <div @class([$customization['wrapper'], $colors['background']])
-     x-data="{ show : true }"
-     x-show="show">
+     x-data="tallstackui_alert(@js($dismiss))"
+     x-show="show"
+     x-transition:leave="transition ease-in duration-300"
+     x-transition:leave-start="opacity-100"
+     x-transition:leave-end="opacity-0">
     <div @class([$customization['content.wrapper'], 'items-start' => $title !== null])>
         <div class="{{ $customization['content.base'] }}">
             @if ($icon)

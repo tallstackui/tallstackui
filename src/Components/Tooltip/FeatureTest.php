@@ -1,9 +1,9 @@
 <?php
 
-uses(TestCase::class)->group('Feature');
-
 use Illuminate\View\ViewException;
 use Tests\TestCase;
+
+uses(TestCase::class)->group('Feature');
 
 it('can render size variations', function (array $size) {
     $key = array_key_first($size);
