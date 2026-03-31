@@ -10,7 +10,7 @@
      x-on:click.outside="{{ $attributes->get('x-show', 'show') }} = false"
      x-on:keydown.escape.window="{{ $attributes->get('x-show', 'show') }} = false"
      x-intersect:leave="{{ $attributes->get('x-show', 'show') }} = false"
-{{ $anchor() }}="{{ $attributes->get('x-anchor', '$refs.anchor') }}"
+{{ $anchor() }}="{{ $attributes->get('x-anchor', '$refs.anchor') }} || $el"
 {{ $attributes->whereStartsWith('x-on') }}
 @if (!$ts_ui__flash)
     @if (count($attributes->whereStartsWith('x-transition')->getAttributes()) === 0 || $transition?->isEmpty())

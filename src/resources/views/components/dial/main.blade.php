@@ -9,7 +9,7 @@
      x-on:click.outside="show = false"
      x-on:keydown.escape.window="show = false"
      {{ $attributes->only('x-on:open') }}>
-    <div x-anchor.{{ $anchor }}.offset.10="$refs.button"
+    <div x-anchor.{{ $anchor }}.offset.10="$refs.button || $el"
          x-show="show"
          @if (!$ts_ui__flash)
              x-transition:enter="transition ease-out duration-200"
