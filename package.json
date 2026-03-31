@@ -15,13 +15,13 @@
     "@eslint/eslintrc": "^3.3.5",
     "@eslint/js": "^9.22.0",
     "@tailwindcss/forms": "^0.5.11",
-    "eslint": "^10.0.3",
+    "eslint": "^10.1.0",
     "globals": "^17.4.0",
     "prettier": "^3.8.1",
     "prettier-plugin-tailwindcss": "^0.6.11",
-    "tailwindcss": "^4.2.1",
+    "tailwindcss": "^4.2.2",
     "tippy.js": "^6.3.7",
-    "vite": "^7.0.5"
+    "vite": "^8.0.2"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.2.2",
