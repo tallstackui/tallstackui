@@ -48,7 +48,7 @@ class Component extends TallStackUiComponent implements Customization
     public function customization(): array
     {
         return Arr::dot([
-            'wrapper' => 'absolute inset-s-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform',
+            'wrapper' => 'col-start-1 row-start-1 z-10 flex items-center justify-center',
             'text' => 'text-center font-bold text-gray-700 dark:text-dark-400',
             'background' => 'dark:text-dark-700 text-gray-200',
             'sizes' => [

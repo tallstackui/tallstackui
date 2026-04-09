@@ -15,7 +15,7 @@
 }
 
 @source '../js/';
-@source '../scr/';
+@source '../src/';
 
 @theme {
     --color-primary-50: #eef2ff;

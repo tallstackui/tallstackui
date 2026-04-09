@@ -2,8 +2,8 @@
     $customization = $classes();
 @endphp
 
-<div @class(['relative', $customization['sizes.circle.' . $size]])>
-    <svg class="h-full w-full"
+<div @class(['relative grid', $customization['sizes.circle.' . $size]])>
+    <svg class="h-full w-full col-start-1 row-start-1"
          width="{{ $sizeCircle }}"
          height="{{ $sizeCircle }}"
          viewBox="0 0 36 36"
