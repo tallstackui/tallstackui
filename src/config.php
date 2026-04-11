@@ -104,6 +104,87 @@ return [
         'carousel' => Components\Carousel\Component::class,
         'card' => Components\Card\Component::class,
         'checkbox' => Components\Form\Checkbox\Component::class,
+        'comments' => [
+            Components\Comments\Component::class,
+            /*
+            |----------------------------------------------------------------------
+            | Comments Global Settings
+            |----------------------------------------------------------------------
+            |
+            | models.comment: Eloquent model used to persist comments.
+            | table: database table used by the comment model and publish command.
+            | mode: authentication mode, guest mode and optional guard name.
+            | actions: enable or disable comment actions.
+            | moderation: moderation flow and automatic approval behaviour.
+            | threading: reply support and maximum nesting depth.
+            | pagination: root comments pagination.
+            | sorting: default order and supported values.
+            | editor: form limits and default rows.
+            | guest_fields: enable or require extra guest fields.
+            | visibility: owner visibility for pending comments.
+            | authorization: nullable callbacks or invokable classes for actions.
+            | ownership: guest session key and optional edit window in minutes.
+            */
+            [
+                'models' => [
+                    'comment' => \TallStackUi\Comments\Models\Comment::class,
+                ],
+                'table' => env('TALLSTACKUI_COMMENTS_TABLE', 'tallstackui_comments'),
+                'mode' => [
+                    'auth' => true,
+                    'guest' => false,
+                    'guard' => null,
+                ],
+                'actions' => [
+                    'comment' => true,
+                    'reply' => true,
+                    'edit' => true,
+                    'delete' => true,
+                ],
+                'moderation' => [
+                    'enabled' => false,
+                    'require_approval' => false,
+                    'auto_approve_authenticated' => true,
+                    'auto_approve_guests' => false,
+                    'reapprove_on_edit' => false,
+                ],
+                'threading' => [
+                    'enabled' => true,
+                    'max_depth' => 3,
+                ],
+                'pagination' => [
+                    'per_page' => 10,
+                ],
+                'sorting' => [
+                    'default' => 'latest',
+                    'options' => ['latest', 'oldest', 'popular'],
+                ],
+                'editor' => [
+                    'min' => 3,
+                    'max' => 5000,
+                    'rows' => 4,
+                ],
+                'guest_fields' => [
+                    'name' => true,
+                    'email' => true,
+                    'website' => false,
+                ],
+                'visibility' => [
+                    'show_pending_to_owner' => true,
+                ],
+                'authorization' => [
+                    'comment' => null,
+                    'reply' => null,
+                    'edit' => null,
+                    'delete' => null,
+                    'moderate' => null,
+                ],
+                'ownership' => [
+                    'guest_session_key' => 'tallstackui.comments.guest',
+                    'edit_window_in_minutes' => null,
+                ],
+            ],
+        ],
         'color' => [
             Components\Form\Color\Component::class,
             /*

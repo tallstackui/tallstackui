@@ -47,6 +47,45 @@ return [
         'search' => 'Search something here',
     ],
 
+    'comments' => [
+        'title' => 'Comments',
+        'counter' => '{0} No comments yet|{1} :count comment|[2,*] :count comments',
+        'hint' => 'Write something useful and respectful.',
+        'policy' => 'Pending comments stay visible to their author when moderation is enabled.',
+        'empty' => 'No comments yet. Start the conversation.',
+        'pending' => 'Pending review',
+        'edited' => 'Edited',
+        'login_required' => 'You need to be authenticated to comment here.',
+        'fields' => [
+            'name' => 'Name',
+            'email' => 'Email',
+            'website' => 'Website',
+            'comment' => 'Comment',
+        ],
+        'sort' => [
+            'label' => 'Sort',
+            'latest' => 'Latest first',
+            'oldest' => 'Oldest first',
+            'popular' => 'Most replied',
+        ],
+        'actions' => [
+            'comment' => 'Publish comment',
+            'reply' => 'Reply',
+            'send_reply' => 'Publish reply',
+            'edit' => 'Edit',
+            'save' => 'Save changes',
+            'delete' => 'Delete',
+            'cancel' => 'Cancel',
+            'approve' => 'Approve',
+        ],
+        'errors' => [
+            'comment' => 'You are not allowed to publish comments right now.',
+            'reply' => 'You are not allowed to reply to this comment.',
+            'edit' => 'You are not allowed to edit this comment.',
+            'delete' => 'You are not allowed to delete this comment.',
+        ],
+    ],
+
     'clipboard' => [
         'button' => [
             'copy' => 'Copy',
