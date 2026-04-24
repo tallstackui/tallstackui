@@ -14,3 +14,5 @@ _DS_Store
 .DS_Store
 .run
 .claude/settings.local.json
+docs/
+.superpowers/

@@ -1,6 +1,6 @@
 {
-  "_chunk-DrgAwqJ9.js": {
-    "file": "chunk-DrgAwqJ9.js",
+  "_chunk-DJhY7h8f.js": {
+    "file": "chunk-DJhY7h8f.js",
     "name": "chunk"
   },
   "_helpers-CqbgxKUD.js": {
@@ -8,31 +8,31 @@
     "name": "helpers"
   },
   "js/tallstackui-clipboard.js": {
-    "file": "tallstackui-clipboard-C5Xs1Nhf.js",
+    "file": "tallstackui-clipboard-DN6tjWy_.js",
     "name": "tallstackui-clipboard",
     "src": "js/tallstackui-clipboard.js",
     "isEntry": true,
     "imports": [
-      "_chunk-DrgAwqJ9.js"
+      "_chunk-DJhY7h8f.js"
     ]
   },
   "js/tallstackui-date.js": {
-    "file": "tallstackui-date-JtsMzwL2.js",
+    "file": "tallstackui-date-RWD102Ww.js",
     "name": "tallstackui-date",
     "src": "js/tallstackui-date.js",
     "isEntry": true,
     "imports": [
-      "_chunk-DrgAwqJ9.js",
+      "_chunk-DJhY7h8f.js",
       "_helpers-CqbgxKUD.js"
     ]
   },
   "js/tallstackui-select.js": {
-    "file": "tallstackui-select-B2qudLp0.js",
+    "file": "tallstackui-select-HgxwK_NP.js",
     "name": "tallstackui-select",
     "src": "js/tallstackui-select.js",
     "isEntry": true,
     "imports": [
-      "_chunk-DrgAwqJ9.js",
+      "_chunk-DJhY7h8f.js",
       "_helpers-CqbgxKUD.js"
     ]
   },
@@ -46,7 +46,7 @@
     ]
   },
   "js/tallstackui.js": {
-    "file": "tallstackui-8LAMemro.js",
+    "file": "tallstackui-CgPf2w82.js",
     "name": "tallstackui",
     "src": "js/tallstackui.js",
     "isEntry": true,

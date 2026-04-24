@@ -77,6 +77,8 @@ return [
     | List of all TallStackUI components and their possible settings.
     */
     'components' => [
+        'accordion' => Components\Accordion\Main\Component::class,
+        'accordion.items' => Components\Accordion\Items\Component::class,
         'alert' => Components\Alert\Component::class,
         'back-to-top' => Components\BackToTop\Component::class,
         'avatar' => Components\Avatar\Component::class,

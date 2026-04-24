@@ -73,6 +73,8 @@
 
 ### Navigation & Layout
 
+- [Accordion](components/accordion/main.md)
+- [Accordion Items](components/accordion/items.md)
 - [Dial](components/dial/main.md)
 - [Dial Items](components/dial/items.md)
 - [Layout](components/layout/main.md)

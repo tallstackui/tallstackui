@@ -320,31 +320,31 @@ TallStackUi::customize()
 
 ### Available Blocks
 
-| Block Name         | Purpose                                           |
-|--------------------|---------------------------------------------------|
-| backdrop           | Fixed overlay background behind the palette       |
-| blur.sm            | Small backdrop blur effect                        |
-| blur.md            | Medium backdrop blur effect                       |
-| blur.lg            | Large backdrop blur effect                        |
-| blur.xl            | Extra-large backdrop blur effect                  |
-| wrapper            | Fixed container that positions the palette        |
-| positions.bottom   | Bottom-aligned position classes (default)         |
-| positions.center   | Center-aligned position classes (centered mode)   |
-| box                | Main palette card with shadow                     |
-| box.radius.default | Border radius for default (bottom) position       |
-| box.radius.center  | Border radius for centered position               |
-| input.wrapper      | Flex container for the search input area          |
-| input.icon         | Search magnifying glass icon styles               |
-| input.base         | Search text input field styles                    |
-| input.loading      | Loading spinner container                         |
-| list               | Scrollable results list container                 |
-| option.base        | Base styles for each result option                |
-| option.active      | Active/highlighted option styles                  |
-| option.disabled    | Disabled option styles                            |
-| option.image       | Option image (avatar) styles                      |
-| option.icon        | Option icon container styles                      |
-| option.content     | Option text content wrapper                       |
-| option.label       | Option label text styles                          |
-| option.description | Option description text styles                    |
-| empty              | Empty state message styles                        |
-| footer             | Keyboard hints footer container                   |
+| Block Name         | Purpose                                         |
+|--------------------|-------------------------------------------------|
+| backdrop           | Fixed overlay background behind the palette     |
+| blur.sm            | Small backdrop blur effect                      |
+| blur.md            | Medium backdrop blur effect                     |
+| blur.lg            | Large backdrop blur effect                      |
+| blur.xl            | Extra-large backdrop blur effect                |
+| wrapper            | Fixed container that positions the palette      |
+| positions.bottom   | Bottom-aligned position classes (default)       |
+| positions.center   | Center-aligned position classes (centered mode) |
+| box                | Main palette card with shadow                   |
+| box.radius.default | Border radius for default (bottom) position     |
+| box.radius.center  | Border radius for centered position             |
+| input.wrapper      | Flex container for the search input area        |
+| input.icon         | Search magnifying glass icon styles             |
+| input.base         | Search text input field styles                  |
+| input.loading      | Loading spinner container                       |
+| list               | Scrollable results list container               |
+| option.base        | Base styles for each result option              |
+| option.active      | Active/highlighted option styles                |
+| option.disabled    | Disabled option styles                          |
+| option.image       | Option image (avatar) styles                    |
+| option.icon        | Option icon container styles                    |
+| option.content     | Option text content wrapper                     |
+| option.label       | Option label text styles                        |
+| option.description | Option description text styles                  |
+| empty              | Empty state message styles                      |
+| footer             | Keyboard hints footer container                 |
