@@ -29,7 +29,7 @@ class Component extends TallStackUiComponent implements Customization
         return Arr::dot([
             'wrapper' => [
                 'base' => 'dark:bg-dark-700 w-full bg-white',
-                'bordered' => 'overflow-hidden rounded-lg border border-gray-200 dark:border-dark-600 shadow-sm',
+                'bordered' => 'overflow-hidden rounded-lg border border-gray-200 dark:border-dark-600 shadow-md',
                 'chevron-left-cascade' => '[&>div>button]:flex-row-reverse [&>div>button]:justify-end',
             ],
         ]);
