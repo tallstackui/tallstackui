@@ -71,17 +71,17 @@ Compact spacing (no gap between items, continuous line):
 | Attribute  | Type                    | Default     | Description                                                                                                                                                                |
 |------------|-------------------------|-------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | items      | array\|Collection\|null | null        | Items rendered server-side. Each entry accepts keys `title`, `description`, `date`, `icon`, `color`. When omitted, items come from slot children.                          |
-| horizontal | bool\|null              | false       | When true, the timeline renders horizontally. Default is vertical.                                                                                                          |
+| horizontal | bool\|null              | false       | When true, the timeline renders horizontally. Default is vertical.                                                                                                         |
 | alternate  | bool\|null              | false       | When true, the layout switches to a 3-column (vertical) or 3-row (horizontal) grid with the line centered and items alternating between sides. Requires a container width. |
-| compact    | bool\|null              | false       | Removes the gap between items so the line runs continuously, with no visible break between segments. Default is a 24px gap.                                                 |
+| compact    | bool\|null              | false       | Removes the gap between items so the line runs continuously, with no visible break between segments. Default is a 24px gap.                                                |
 | color      | string\|null            | `'primary'` | Tailwind palette name for the markers and line. Accepts any v4 palette (primary, secondary, red, green, amber, blue, indigo, violet, pink, etc.).                          |
-| style      | string\|null            | `'solid'`   | Color style variant: `'solid'`, `'light'`, or `'outline'`.                                                                                                                   |
+| style      | string\|null            | `'solid'`   | Color style variant: `'solid'`, `'light'`, or `'outline'`.                                                                                                                 |
 
 ## Slots
 
-| Slot      | Description                                                                                       |
-|-----------|---------------------------------------------------------------------------------------------------|
-| (default) | `<x-timeline.items>` children defining each event. Ignored when `:items` is provided.             |
+| Slot      | Description                                                                           |
+|-----------|---------------------------------------------------------------------------------------|
+| (default) | `<x-timeline.items>` children defining each event. Ignored when `:items` is provided. |
 
 ## Render Modes
 
