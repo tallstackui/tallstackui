@@ -73,20 +73,20 @@ Rich trigger slot (replaces the plain `title`):
 
 ## Attributes
 
-| Attribute | Type                        | Default | Description                                                                                                      |
-|-----------|-----------------------------|---------|------------------------------------------------------------------------------------------------------------------|
-| title     | string\|null                | null    | Text label shown in the trigger when no `<x-slot:trigger>` is provided.                                           |
-| open      | bool\|null                  | false   | When true, the item starts expanded.                                                                              |
+| Attribute | Type                        | Default | Description                                                                                                                                                                                                                                 |
+|-----------|-----------------------------|---------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| title     | string\|null                | null    | Text label shown in the trigger when no `<x-slot:trigger>` is provided.                                                                                                                                                                     |
+| open      | bool\|null                  | false   | When true, the item starts expanded.                                                                                                                                                                                                        |
 | id        | string\|null                | null    | Stable identifier for this item. Used in event payloads (`$event.detail.id`) and test selectors. When omitted, a random identifier is generated (recommended: always pass an explicit `id` for stable behavior across Livewire re-renders). |
-| icon      | ComponentSlot\|string\|null | null    | Replacement for the default chevron. Pass a Heroicon name (e.g. `"plus-circle"`) for a string value, or use `<x-slot:icon>` for full HTML control. |
-| trigger   | ComponentSlot\|string\|null | null    | Full replacement for the trigger content. When set via `<x-slot:trigger>`, replaces the `title`.                  |
+| icon      | ComponentSlot\|string\|null | null    | Replacement for the default chevron. Pass a Heroicon name (e.g. `"plus-circle"`) for a string value, or use `<x-slot:icon>` for full HTML control.                                                                                          |
+| trigger   | ComponentSlot\|string\|null | null    | Full replacement for the trigger content. When set via `<x-slot:trigger>`, replaces the `title`.                                                                                                                                            |
 
 ## Slots
 
-| Slot      | Description                                                                                       |
-|-----------|---------------------------------------------------------------------------------------------------|
-| (default) | Panel body content, shown when the item is open.                                                   |
-| trigger   | Replaces the trigger area (normally the `title`). Useful for avatars, badges, multi-line headings. |
+| Slot      | Description                                                                                                                            |
+|-----------|----------------------------------------------------------------------------------------------------------------------------------------|
+| (default) | Panel body content, shown when the item is open.                                                                                       |
+| trigger   | Replaces the trigger area (normally the `title`). Useful for avatars, badges, multi-line headings.                                     |
 | icon      | Replaces the default chevron with arbitrary HTML. Rotation-on-open styling is not applied to slot content — the slot is emitted as-is. |
 
 ## Icon Prop vs Icon Slot
@@ -110,10 +110,10 @@ The `icon` prop accepts two shapes:
 
 Each item renders two stable `dusk` selectors derived from its `id`:
 
-| Selector                                      | Target                              |
-|-----------------------------------------------|-------------------------------------|
-| `@tallstackui_accordion_trigger_{id}`         | The clickable trigger button.       |
-| `@tallstackui_accordion_content_{id}`         | The animated content panel.         |
+| Selector                              | Target                        |
+|---------------------------------------|-------------------------------|
+| `@tallstackui_accordion_trigger_{id}` | The clickable trigger button. |
+| `@tallstackui_accordion_content_{id}` | The animated content panel.   |
 
 Use them in Dusk tests:
 
@@ -136,12 +136,12 @@ TallStackUi::customize()
 
 ### Available Blocks
 
-| Block Name           | Purpose                                                                |
-|----------------------|------------------------------------------------------------------------|
-| item.wrapper         | Per-item container (includes the inter-item divider).                  |
-| item.trigger.base    | Base classes for the `<button>` trigger (layout, padding, transitions). |
-| item.trigger.open    | Classes applied to the trigger when the item is open.                   |
-| item.trigger.closed  | Classes applied to the trigger when the item is closed.                 |
-| item.content         | Padding and typography for the panel body.                              |
-| item.icon.base       | Base sizing and transition for the chevron/icon.                        |
-| item.icon.rotated    | Extra classes applied when the item is open (default: `rotate-180`).    |
+| Block Name          | Purpose                                                                 |
+|---------------------|-------------------------------------------------------------------------|
+| item.wrapper        | Per-item container (includes the inter-item divider).                   |
+| item.trigger.base   | Base classes for the `<button>` trigger (layout, padding, transitions). |
+| item.trigger.open   | Classes applied to the trigger when the item is open.                   |
+| item.trigger.closed | Classes applied to the trigger when the item is closed.                 |
+| item.content        | Padding and typography for the panel body.                              |
+| item.icon.base      | Base sizing and transition for the chevron/icon.                        |
+| item.icon.rotated   | Extra classes applied when the item is open (default: `rotate-180`).    |

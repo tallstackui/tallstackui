@@ -67,10 +67,10 @@ Binding events to a Livewire method:
 
 ## Attributes
 
-| Attribute | Type         | Default   | Description                                                                     |
-|-----------|--------------|-----------|---------------------------------------------------------------------------------|
-| multiple  | bool\|null   | false     | When set, multiple items can be open at the same time. Default is single-open.  |
-| flat      | bool\|null   | false     | Removes the outer border, rounding, and shadow. Item separators remain.         |
+| Attribute | Type         | Default   | Description                                                                       |
+|-----------|--------------|-----------|-----------------------------------------------------------------------------------|
+| multiple  | bool\|null   | false     | When set, multiple items can be open at the same time. Default is single-open.    |
+| flat      | bool\|null   | false     | Removes the outer border, rounding, and shadow. Item separators remain.           |
 | chevron   | string\|null | `'right'` | Position of the trigger's trailing icon. Accepts `'right'` (default) or `'left'`. |
 
 ## Slots
@@ -83,10 +83,10 @@ Binding events to a Livewire method:
 
 Events are dispatched as `CustomEvent`s on the accordion's root `<div>` and bubble up. Listen with `x-on:open` / `x-on:close` on the `<x-accordion>` itself or on any ancestor.
 
-| Event       | Detail        | Description                                       |
-|-------------|---------------|---------------------------------------------------|
-| x-on:open   | `{id: string}` | Fired when an item opens. Payload identifies it. |
-| x-on:close  | `{id: string}` | Fired when an item closes.                        |
+| Event      | Detail         | Description                                      |
+|------------|----------------|--------------------------------------------------|
+| x-on:open  | `{id: string}` | Fired when an item opens. Payload identifies it. |
+| x-on:close | `{id: string}` | Fired when an item closes.                       |
 
 ## Single-Open vs Multiple
 
@@ -137,8 +137,8 @@ Then in Blade:
 
 ### Available Blocks
 
-| Block Name                   | Purpose                                                                          |
-|------------------------------|----------------------------------------------------------------------------------|
-| wrapper.base                 | Base container styles applied to every accordion (background, width).            |
-| wrapper.bordered             | Border, radius, shadow, and overflow clipping applied when `flat` is not set.    |
+| Block Name                   | Purpose                                                                           |
+|------------------------------|-----------------------------------------------------------------------------------|
+| wrapper.base                 | Base container styles applied to every accordion (background, width).             |
+| wrapper.bordered             | Border, radius, shadow, and overflow clipping applied when `flat` is not set.     |
 | wrapper.chevron-left-cascade | Tailwind arbitrary-variant class that flips trigger layout when `chevron="left"`. |
