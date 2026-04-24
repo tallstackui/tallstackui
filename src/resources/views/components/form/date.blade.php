@@ -110,11 +110,10 @@
                                 <button type="button"
                                         dusk="tallstackui_date_previous_year"
                                         class="{{ $customization['button.navigate'] }}"
-                                        x-on:mousedown="if (!interval) { previousYear($event); interval = setInterval(() => previousYear($event), 200); }"
-                                        x-on:touchstart="if (!interval) { previousYear($event); interval = setInterval(() => previousYear($event), 200); }"
-                                        x-on:mouseup="if (interval) { clearInterval(interval); interval = null; }"
-                                        x-on:mouseleave="if (interval) { clearInterval(interval); interval = null; }"
-                                        x-on:touchend="if (interval) { clearInterval(interval); interval = null; }">
+                                        x-on:pointerdown="if (!interval) { previousYear($event); interval = setInterval(() => previousYear($event), 200); }"
+                                        x-on:pointerup="if (interval) { clearInterval(interval); interval = null; }"
+                                        x-on:pointerleave="if (interval) { clearInterval(interval); interval = null; }"
+                                        x-on:pointercancel="if (interval) { clearInterval(interval); interval = null; }">
                                     <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                                          :icon="TallStackUi::icon('chevron-left')"
                                                          internal
@@ -123,11 +122,10 @@
                                 <button type="button"
                                         dusk="tallstackui_date_next_year"
                                         class="{{ $customization['button.navigate'] }}"
-                                        x-on:mousedown="if (!interval) { nextYear($event); interval = setInterval(() => nextYear($event), 200); }"
-                                        x-on:touchstart="if (!interval) { nextYear($event); interval = setInterval(() => nextYear($event), 200); }"
-                                        x-on:mouseup="if (interval) { clearInterval(interval); interval = null; }"
-                                        x-on:mouseleave="if (interval) { clearInterval(interval); interval = null; }"
-                                        x-on:touchend="if (interval) { clearInterval(interval); interval = null; }">
+                                        x-on:pointerdown="if (!interval) { nextYear($event); interval = setInterval(() => nextYear($event), 200); }"
+                                        x-on:pointerup="if (interval) { clearInterval(interval); interval = null; }"
+                                        x-on:pointerleave="if (interval) { clearInterval(interval); interval = null; }"
+                                        x-on:pointercancel="if (interval) { clearInterval(interval); interval = null; }">
                                     <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                                          :icon="TallStackUi::icon('chevron-right')"
                                                          internal
@@ -150,11 +148,10 @@
                 <button type="button"
                         dusk="tallstackui_date_previous_month"
                         class="{{ $customization['button.navigate'] }}"
-                        x-on:mousedown="if (!interval) { previousMonth(); interval = setInterval(() => previousMonth(), 200); }"
-                        x-on:touchstart="if (!interval) { previousMonth(); interval = setInterval(() => previousMonth(), 200); }"
-                        x-on:mouseup="if (interval) { clearInterval(interval); interval = null; }"
-                        x-on:mouseleave="if (interval) { clearInterval(interval); interval = null; }"
-                        x-on:touchend="if (interval) { clearInterval(interval); interval = null; }">
+                        x-on:pointerdown="if (!interval) { previousMonth(); interval = setInterval(() => previousMonth(), 200); }"
+                        x-on:pointerup="if (interval) { clearInterval(interval); interval = null; }"
+                        x-on:pointerleave="if (interval) { clearInterval(interval); interval = null; }"
+                        x-on:pointercancel="if (interval) { clearInterval(interval); interval = null; }">
                     <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                          :icon="TallStackUi::icon('chevron-left')"
                                          internal
@@ -163,11 +160,10 @@
                 <button type="button"
                         class="{{ $customization['button.navigate'] }}"
                         dusk="tallstackui_date_next_month"
-                        x-on:mousedown="if (!interval) { nextMonth(); interval = setInterval(() => nextMonth(), 200); }"
-                        x-on:touchstart="if (!interval) { nextMonth(); interval = setInterval(() => nextMonth(), 200); }"
-                        x-on:mouseup="if (interval) { clearInterval(interval); interval = null; }"
-                        x-on:mouseleave="if (interval) { clearInterval(interval); interval = null; }"
-                        x-on:touchend="if (interval) { clearInterval(interval); interval = null; }">
+                        x-on:pointerdown="if (!interval) { nextMonth(); interval = setInterval(() => nextMonth(), 200); }"
+                        x-on:pointerup="if (interval) { clearInterval(interval); interval = null; }"
+                        x-on:pointerleave="if (interval) { clearInterval(interval); interval = null; }"
+                        x-on:pointercancel="if (interval) { clearInterval(interval); interval = null; }">
                     <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                          :icon="TallStackUi::icon('chevron-right')"
                                          internal

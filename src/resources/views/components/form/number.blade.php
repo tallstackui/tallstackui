@@ -31,11 +31,10 @@
                    x-ref="input">
             <button @if (!$attributes->get('disabled', $attributes->get('readonly', false))) x-on:click="decrement()"
                     @endif
-                    x-on:mousedown="interval = setInterval(() => decrement(), delay * 100);"
-                    x-on:touchstart="if (!interval) interval = setInterval(() => decrement(), delay * 100);"
-                    x-on:touchend="if (interval) { clearInterval(interval); interval = null; }"
-                    x-on:mouseup="if (interval) { clearInterval(interval); interval = null; }"
-                    x-on:mouseleave="if (interval) { clearInterval(interval); interval = null; }"
+                    x-on:pointerdown="if (!interval) interval = setInterval(() => decrement(), delay * 100);"
+                    x-on:pointerup="if (interval) { clearInterval(interval); interval = null; }"
+                    x-on:pointerleave="if (interval) { clearInterval(interval); interval = null; }"
+                    x-on:pointercancel="if (interval) { clearInterval(interval); interval = null; }"
                     x-ref="minus"
                     type="button"
                     @disabled($attributes->get('disabled', $attributes->get('readonly', false)))
@@ -48,11 +47,10 @@
             </button>
             <button @if (!$attributes->get('disabled', $attributes->get('readonly', false))) x-on:click="increment()"
                     @endif
-                    x-on:mousedown="interval = setInterval(() => increment(), delay * 100);"
-                    x-on:touchstart="if (!interval) interval = setInterval(() => increment(), delay * 100);"
-                    x-on:touchend="if (interval) { clearInterval(interval); interval = null; }"
-                    x-on:mouseup="if (interval) { clearInterval(interval); interval = null; }"
-                    x-on:mouseleave="if (interval) { clearInterval(interval); interval = null; }"
+                    x-on:pointerdown="if (!interval) interval = setInterval(() => increment(), delay * 100);"
+                    x-on:pointerup="if (interval) { clearInterval(interval); interval = null; }"
+                    x-on:pointerleave="if (interval) { clearInterval(interval); interval = null; }"
+                    x-on:pointercancel="if (interval) { clearInterval(interval); interval = null; }"
                     x-ref="plus"
                     type="button"
                     @disabled($attributes->get('disabled', $attributes->get('readonly', false)))
