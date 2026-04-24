@@ -27,7 +27,7 @@
          x-transition:leave-start="opacity-100"
          x-transition:leave-end="opacity-0"
             @endif
-            @class([$customization['wrapper.first'], $customization['blur.'.($configurations['blur'] === true ? 'sm' : $configurations['blur'])] ?? null => $configurations['blur']])></div>
+            @class([$customization['wrapper.first'], ($configurations['blur'] ? $customization['blur.'.($configurations['blur'] === true ? 'sm' : $configurations['blur'])] : '') => (bool) $configurations['blur']])></div>
     <div class="{{ $customization['wrapper.second'] }}">
         <div @class([
                 $customization['wrapper.third'],
