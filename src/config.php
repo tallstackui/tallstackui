@@ -399,6 +399,8 @@ return [
         'textarea' => Components\Form\Textarea\Component::class,
         'theme-switch' => Components\ThemeSwitch\Component::class,
         'time' => Components\Form\Time\Component::class,
+        'timeline' => Components\Timeline\Main\Component::class,
+        'timeline.items' => Components\Timeline\Items\Component::class,
         'toast' => [
             Components\Toast\Component::class,
             [

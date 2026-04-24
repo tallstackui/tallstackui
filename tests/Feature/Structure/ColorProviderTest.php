@@ -23,6 +23,8 @@ use TallStackUi\Components\Progress\Bar\Component as Progress;
 use TallStackUi\Components\Progress\Circle\Component as ProgressCircle;
 use TallStackUi\Components\Rating\Component as Rating;
 use TallStackUi\Components\Stats\Component as Stats;
+use TallStackUi\Components\Timeline\Items\Component as TimelineItems;
+use TallStackUi\Components\Timeline\Main\Component as Timeline;
 use TallStackUi\Components\Toast\Component as Toast;
 use TallStackUi\Components\Tooltip\Component as Tooltip;
 use TallStackUi\Console\SetupColorCommand;
@@ -55,6 +57,8 @@ test('should use attribute', function (string $component) {
     Progress::class,
     ProgressCircle::class,
     Stats::class,
+    Timeline::class,
+    TimelineItems::class,
     Toast::class,
     Tooltip::class,
     Toggle::class,
@@ -87,6 +91,8 @@ test('attribute should only be used in the components', function () {
             Progress::class,
             ProgressCircle::class,
             Stats::class,
+            Timeline::class,
+            TimelineItems::class,
             Toast::class,
             Tooltip::class,
             Toggle::class,
