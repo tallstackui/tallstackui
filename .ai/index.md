@@ -28,6 +28,8 @@
 - [Link](components/link.md)
 - [Stats](components/stats.md)
 - [Table](components/table.md) *(Livewire only)*
+- [Timeline](components/timeline/main.md)
+- [Timeline Items](components/timeline/items.md)
 - [Tooltip](components/tooltip.md)
 
 ### Buttons
