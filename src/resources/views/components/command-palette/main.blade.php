@@ -16,7 +16,7 @@
              x-transition:leave-start="opacity-100"
              x-transition:leave-end="opacity-0"
          @endif
-         @class([$customization['backdrop'], $configurations['zIndex'], $customization['blur.'.($configurations['blur'] === true ? 'sm' : $configurations['blur'])] ?? null => $configurations['blur']])></div>
+         @class([$customization['backdrop'], $configurations['zIndex'], ($configurations['blur'] ? $customization['blur.'.($configurations['blur'] === true ? 'sm' : $configurations['blur'])] : '') => (bool) $configurations['blur']])></div>
     <div x-show="show"
          x-on:click.self="close()"
          x-on:keydown.escape.window="close()"
