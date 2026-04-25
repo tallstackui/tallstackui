@@ -13,7 +13,7 @@
          x-on:click="$refs.input.focus()"
             {{ $attributes->whereStartsWith('x-on')->except('x-on:erase') }}
             @class([
-               '!block',
+               'block!',
                $customization['input.wrapper'],
                $customization['input.color.base'] => !$error,
                $customization['input.color.background'] => !$attributes->get('disabled') && !$attributes->get('readonly'),

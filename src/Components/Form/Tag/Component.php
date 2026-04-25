@@ -43,7 +43,7 @@ class Component extends TallStackUiComponent implements Customization
                 'icon' => 'h-4 w-4 cursor-pointer text-red-500',
             ],
             'input' => [
-                'base' => 'flex grow items-center border-0 border-transparent py-0 px-1 text-gray-600 outline-hidden focus:outline-hidden focus:ring-0 !bg-transparent',
+                'base' => 'flex grow items-center border-0 border-transparent py-0 px-1 text-gray-600 outline-hidden focus:outline-hidden focus:ring-0 bg-transparent!',
                 ...collect($this->input())->except('base')->toArray(),
             ],
             'button' => [

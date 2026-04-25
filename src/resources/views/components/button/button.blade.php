@@ -12,7 +12,7 @@
         $customization['wrapper.border.radius.rounded'] => !$square && !$round,
         $customization['wrapper.border.radius.circle'] => !$square && $round !== null,
     ]) }} type="{{ $attributes->get('type', $submit ? 'submit' : 'button') }}" @if ($livewire && $loading)
-    wire:loading.attr="disabled" wire:loading.class="!cursor-wait"
+    wire:loading.attr="disabled" wire:loading.class="cursor-wait!"
 @endif @if ($tooltip)
     x-tooltip="{{ $tooltip }}"
 @endif>

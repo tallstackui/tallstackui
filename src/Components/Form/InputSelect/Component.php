@@ -61,7 +61,7 @@ class Component extends TallStackUiComponent implements Customization
                     'suffix' => 'pl-2 pr-0',
                     'left' => 'pl-8',
                     'right' => 'pr-8',
-                    'clearable' => '!pr-14',
+                    'clearable' => 'pr-14!',
                 ],
             ],
             'icon' => [

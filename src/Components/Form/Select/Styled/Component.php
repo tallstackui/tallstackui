@@ -125,7 +125,7 @@ class Component extends TallStackUiComponent implements Customization
                         'grouped' => 'flex items-center justify-between pl-3',
                         'base' => 'flex items-center truncate',
                         'selected' => 'font-semibold hover:bg-red-500 hover:text-white dark:hover:bg-red-500',
-                        'disabled' => 'dark:bg-dark-500 !cursor-not-allowed bg-gray-100',
+                        'disabled' => 'dark:bg-dark-500 cursor-not-allowed! bg-gray-100',
                         'image' => 'h-6 w-6 rounded-full',
                         'check' => 'h-5 w-5',
                         'description' => [

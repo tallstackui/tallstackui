@@ -9,7 +9,7 @@
         $customization['wrapper.sizes.' . $size],
         $colors['background']
     ]) }} type="{{ $attributes->get('type', $submit ? 'submit' : 'button') }}" @if ($livewire && $loading)
-    wire:loading.attr="disabled" wire:loading.class="!cursor-wait"
+    wire:loading.attr="disabled" wire:loading.class="cursor-wait!"
 @endif>
 @if ($icon)
     <x-dynamic-component :component="TallStackUi::prefix('icon')"
