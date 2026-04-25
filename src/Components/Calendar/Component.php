@@ -92,7 +92,7 @@ class Component extends TallStackUiComponent implements Customization
                 'days' => 'text-gray-400 dark:text-dark-400 select-none text-center text-xs font-medium',
                 'month' => 'text-gray-800 dark:text-dark-100 cursor-pointer select-none text-lg font-bold',
                 'year' => 'text-gray-600 dark:text-dark-400 ml-1 cursor-pointer select-none text-lg font-normal',
-                'locked' => 'cursor-default opacity-60 pointer-events-none',
+                'locked' => 'cursor-default pointer-events-none',
             ],
             'button' => [
                 'blank' => 'border border-transparent p-1 text-center text-sm',

@@ -46,7 +46,7 @@ it('does not apply locked styles by default', function () {
 it('applies locked styles to month and year buttons when lock-month-year is set', function () {
     expect('<x-calendar lock-month-year />')->render()
         ->toContain('pointer-events-none')
-        ->toContain('opacity-60');
+        ->toContain('cursor-default');
 });
 
 it('throws when lock-month-year and month-year-only are both set', function () {
