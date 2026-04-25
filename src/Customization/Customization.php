@@ -3,6 +3,8 @@
 namespace TallStackUi\Customization;
 
 use RuntimeException;
+use TallStackUi\Components\Accordion\Items\Component as AccordionItems;
+use TallStackUi\Components\Accordion\Main\Component as Accordion;
 use TallStackUi\Components\Alert\Component as Alert;
 use TallStackUi\Components\Avatar\Component as Avatar;
 use TallStackUi\Components\BackToTop\Component as BackToTop;
@@ -12,6 +14,7 @@ use TallStackUi\Components\Boolean\Component as Boolean;
 use TallStackUi\Components\Breadcrumbs\Component as Breadcrumbs;
 use TallStackUi\Components\Button\Circle\Component as Circle;
 use TallStackUi\Components\Button\Normal\Component as Button;
+use TallStackUi\Components\Calendar\Component as Calendar;
 use TallStackUi\Components\Card\Component as Card;
 use TallStackUi\Components\Carousel\Component as Carousel;
 use TallStackUi\Components\Clipboard\Component as Clipboard;
@@ -67,6 +70,8 @@ use TallStackUi\Components\Step\Main\Component as Step;
 use TallStackUi\Components\Tab\Main\Component as Tab;
 use TallStackUi\Components\Table\Component as Table;
 use TallStackUi\Components\ThemeSwitch\Component as ThemeSwitch;
+use TallStackUi\Components\Timeline\Items\Component as TimelineItems;
+use TallStackUi\Components\Timeline\Main\Component as Timeline;
 use TallStackUi\Components\Toast\Component as Toast;
 use TallStackUi\Components\Tooltip\Component as Tooltip;
 use TallStackUi\Components\Wrapper\Input\Component as InputWrapper;
@@ -80,6 +85,21 @@ class Customization
     public function __construct(public ?string $component = null, public ?string $scope = null)
     {
         //
+    }
+
+    public function accordion(?string $component = null, ?string $scope = null): CustomizationFactory
+    {
+        $this->scope ??= $scope;
+
+        $component ??= 'accordion';
+
+        $class = match ($component) {
+            'accordion' => Accordion::class,
+            'items' => AccordionItems::class,
+            default => $component,
+        };
+
+        return $this->component($class);
     }
 
     public function alert(?string $scope = null): CustomizationFactory
@@ -152,6 +172,13 @@ class Customization
         };
 
         return $this->component($class);
+    }
+
+    public function calendar(?string $scope = null): CustomizationFactory
+    {
+        $this->scope ??= $scope;
+
+        return $this->component(Calendar::class);
     }
 
     public function card(?string $scope = null): CustomizationFactory
@@ -481,6 +508,21 @@ class Customization
         $this->scope ??= $scope;
 
         return $this->component(ThemeSwitch::class);
+    }
+
+    public function timeline(?string $component = null, ?string $scope = null): CustomizationFactory
+    {
+        $this->scope ??= $scope;
+
+        $component ??= 'timeline';
+
+        $class = match ($component) {
+            'timeline' => Timeline::class,
+            'items' => TimelineItems::class,
+            default => $component,
+        };
+
+        return $this->component($class);
     }
 
     public function toast(?string $scope = null): CustomizationFactory
