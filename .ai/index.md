@@ -17,6 +17,7 @@
 - [Banner](components/banner.md)
 - [Boolean](components/boolean.md)
 - [Breadcrumbs](components/breadcrumbs.md)
+- [Calendar](components/calendar.md)
 - [Card](components/card.md)
 - [Carousel](components/carousel.md)
 - [Clipboard](components/clipboard.md)

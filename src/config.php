@@ -103,6 +103,7 @@ return [
         'boolean' => Components\Boolean\Component::class,
         'button' => Components\Button\Normal\Component::class,
         'button.circle' => Components\Button\Circle\Component::class,
+        'calendar' => Components\Calendar\Component::class,
         'carousel' => Components\Carousel\Component::class,
         'card' => Components\Card\Component::class,
         'checkbox' => Components\Form\Checkbox\Component::class,
