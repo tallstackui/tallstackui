@@ -123,7 +123,7 @@ TallStackUi::customize()
 ### Scoped Customization
 
 ```php
-TallStackUi::personalize('accordion', scope: 'muted')
+TallStackUi::customize('accordion', scope: 'muted')
     ->block('wrapper.bordered', 'border border-dashed border-gray-400 rounded-xl');
 ```
 

@@ -71,26 +71,26 @@ Lock the month/year header (only allow picking days within the displayed month):
 
 ## Attributes
 
-| Attribute       | Type                        | Default        | Description                                                                                                                            |
-|-----------------|-----------------------------|----------------|----------------------------------------------------------------------------------------------------------------------------------------|
-| label           | ComponentSlot\|string\|null | null           | Label rendered above the calendar grid.                                                                                                |
-| hint            | ComponentSlot\|string\|null | null           | Hint rendered below the calendar grid.                                                                                                 |
-| range           | bool\|null                  | false          | Enables range selection: first click sets the start date, second click sets the end date.                                              |
-| multiple        | bool\|null                  | false          | Enables multi-date selection. Cannot be combined with `range`.                                                                         |
-| double          | bool\|null                  | false          | Renders two months side-by-side (primary + primary+1). Only valid with `range`. On screens smaller than `sm`, the secondary is hidden. |
-| format          | string\|null                | `'YYYY-MM-DD'` | Display format for selected dates (Day.js tokens).                                                                                     |
-| min-date        | string\|Carbon\|null        | null           | Earliest selectable date.                                                                                                              |
-| max-date        | string\|Carbon\|null        | null           | Latest selectable date.                                                                                                                |
-| min-year        | int\|null                   | null           | Earliest selectable year in the year picker.                                                                                           |
-| max-year        | int\|null                   | null           | Latest selectable year in the year picker.                                                                                             |
-| helpers         | bool\|null                  | null           | When true, renders `yesterday` / `today` / `tomorrow` quick buttons below the grid.                                                    |
-| month-year-only | bool\|null                  | false          | Locks the view to month + year selection (no day grid). Output format switches to `YYYY-MM`.                                           |
+| Attribute       | Type                        | Default        | Description                                                                                                                                                                                                                                               |
+|-----------------|-----------------------------|----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| label           | ComponentSlot\|string\|null | null           | Label rendered above the calendar grid.                                                                                                                                                                                                                   |
+| hint            | ComponentSlot\|string\|null | null           | Hint rendered below the calendar grid.                                                                                                                                                                                                                    |
+| range           | bool\|null                  | false          | Enables range selection: first click sets the start date, second click sets the end date.                                                                                                                                                                 |
+| multiple        | bool\|null                  | false          | Enables multi-date selection. Cannot be combined with `range`.                                                                                                                                                                                            |
+| double          | bool\|null                  | false          | Renders two months side-by-side (primary + primary+1). Only valid with `range`. On screens smaller than `sm`, the secondary is hidden.                                                                                                                    |
+| format          | string\|null                | `'YYYY-MM-DD'` | Display format for selected dates (Day.js tokens).                                                                                                                                                                                                        |
+| min-date        | string\|Carbon\|null        | null           | Earliest selectable date.                                                                                                                                                                                                                                 |
+| max-date        | string\|Carbon\|null        | null           | Latest selectable date.                                                                                                                                                                                                                                   |
+| min-year        | int\|null                   | null           | Earliest selectable year in the year picker.                                                                                                                                                                                                              |
+| max-year        | int\|null                   | null           | Latest selectable year in the year picker.                                                                                                                                                                                                                |
+| helpers         | bool\|null                  | null           | When true, renders `yesterday` / `today` / `tomorrow` quick buttons below the grid.                                                                                                                                                                       |
+| month-year-only | bool\|null                  | false          | Locks the view to month + year selection (no day grid). Output format switches to `YYYY-MM`.                                                                                                                                                              |
 | lock-month-year | bool\|null                  | false          | When true, the month and year header buttons no longer open the floating month/year pickers. Day selection and prev/next month navigation continue to work. Use it when the displayed month/year is fixed and you only want users picking days within it. |
-| disable         | array\|Collection           | `[]`           | List of disabled date strings or Carbon instances.                                                                                     |
-| start           | int\|string                 | `0`            | First day of the week (0 = Sunday, 6 = Saturday).                                                                                      |
-| only            | int\|string\|null           | null           | Restricts selection to a single weekday (0–6).                                                                                         |
-| weekdays        | bool\|null                  | false          | When true, weekends are disabled.                                                                                                      |
-| weekends        | bool\|null                  | false          | When true, weekdays are disabled.                                                                                                      |
+| disable         | array\|Collection           | `[]`           | List of disabled date strings or Carbon instances.                                                                                                                                                                                                        |
+| start           | int\|string                 | `0`            | First day of the week (0 = Sunday, 6 = Saturday).                                                                                                                                                                                                         |
+| only            | int\|string\|null           | null           | Restricts selection to a single weekday (0–6).                                                                                                                                                                                                            |
+| weekdays        | bool\|null                  | false          | When true, weekends are disabled.                                                                                                                                                                                                                         |
+| weekends        | bool\|null                  | false          | When true, weekdays are disabled.                                                                                                                                                                                                                         |
 
 ## Slots
 
@@ -170,7 +170,7 @@ TallStackUi::customize()
 ### Scoped
 
 ```php
-TallStackUi::personalize('calendar', scope: 'filter')
+TallStackUi::customize('calendar', scope: 'filter')
     ->block('wrapper.body', 'p-2 rounded-md bg-gray-100 shadow-none');
 ```
 
@@ -180,36 +180,36 @@ TallStackUi::personalize('calendar', scope: 'filter')
 
 ### Available Blocks
 
-| Block Name                  | Purpose                                                                                |
-|-----------------------------|----------------------------------------------------------------------------------------|
-| wrapper.outer               | Outer container (flex column, gap between label / body / hint).                        |
-| wrapper.body                | Calendar body card — padding, background, rounded corners, shadow.                     |
-| wrapper.single              | Fixed width applied to each panel (`w-[17rem]`).                                       |
-| wrapper.dual                | Dual-panel grid (`grid-cols-1 sm:grid-cols-2 gap-4`) used with `double`.               |
-| wrapper.helpers             | Helpers row (yesterday/today/tomorrow buttons).                                        |
-| floating.default            | Base classes for the month/year picker popover (inherits `<x-floating>` defaults).     |
-| floating.class              | Additional class applied to the popover (`p-3 w-[17rem]`).                             |
-| box.picker.button           | Month/year header row.                                                                 |
-| box.picker.wrapper.second   | Month/year picker flex wrap inside the floating popover.                               |
-| box.picker.wrapper.third    | Month/year picker top bar inside the floating popover.                                 |
-| box.picker.label            | Month/year picker label button.                                                        |
-| box.picker.range            | Month/year grid cell.                                                                  |
-| box.picker.separator        | Dash between year range labels.                                                        |
-| box.picker.today            | "Today" shortcut button inside the picker.                                             |
-| box.picker.navigate-wrapper | Wrapper around the year-picker prev/next chevrons (forces side-by-side layout).        |
-| label.days                  | Weekday header labels (Sun, Mon, Tue…).                                                |
-| label.month                 | Current-month label in header.                                                          |
-| label.year                  | Current-year label in header.                                                           |
+| Block Name                  | Purpose                                                                                                                         |
+|-----------------------------|---------------------------------------------------------------------------------------------------------------------------------|
+| wrapper.outer               | Outer container (flex column, gap between label / body / hint).                                                                 |
+| wrapper.body                | Calendar body card — padding, background, rounded corners, shadow.                                                              |
+| wrapper.single              | Fixed width applied to each panel (`w-[17rem]`).                                                                                |
+| wrapper.dual                | Dual-panel grid (`grid-cols-1 sm:grid-cols-2 gap-4`) used with `double`.                                                        |
+| wrapper.helpers             | Helpers row (yesterday/today/tomorrow buttons).                                                                                 |
+| floating.default            | Base classes for the month/year picker popover (inherits `<x-floating>` defaults).                                              |
+| floating.class              | Additional class applied to the popover (`p-3 w-[17rem]`).                                                                      |
+| box.picker.button           | Month/year header row.                                                                                                          |
+| box.picker.wrapper.second   | Month/year picker flex wrap inside the floating popover.                                                                        |
+| box.picker.wrapper.third    | Month/year picker top bar inside the floating popover.                                                                          |
+| box.picker.label            | Month/year picker label button.                                                                                                 |
+| box.picker.range            | Month/year grid cell.                                                                                                           |
+| box.picker.separator        | Dash between year range labels.                                                                                                 |
+| box.picker.today            | "Today" shortcut button inside the picker.                                                                                      |
+| box.picker.navigate-wrapper | Wrapper around the year-picker prev/next chevrons (forces side-by-side layout).                                                 |
+| label.days                  | Weekday header labels (Sun, Mon, Tue…).                                                                                         |
+| label.month                 | Current-month label in header.                                                                                                  |
+| label.year                  | Current-year label in header.                                                                                                   |
 | label.locked                | Extra classes applied to month/year header buttons when `lock-month-year` is set (`pointer-events-none opacity-60` by default). |
-| button.blank                | Blank day cell (before month start).                                                   |
-| button.day                  | Day button.                                                                            |
-| button.select               | Day cell default state.                                                                |
-| button.today                | Day cell for today.                                                                    |
-| button.selected             | Day cell for selected dates.                                                           |
-| button.helpers              | Yesterday/today/tomorrow helper button (rendered with `helpers` prop).                  |
-| button.navigate             | Prev/next month/year arrow button.                                                     |
-| icon.navigate               | Navigation arrow icon.                                                                  |
-| range                       | Background tint for days between the range start and end.                               |
+| button.blank                | Blank day cell (before month start).                                                                                            |
+| button.day                  | Day button.                                                                                                                     |
+| button.select               | Day cell default state.                                                                                                         |
+| button.today                | Day cell for today.                                                                                                             |
+| button.selected             | Day cell for selected dates.                                                                                                    |
+| button.helpers              | Yesterday/today/tomorrow helper button (rendered with `helpers` prop).                                                          |
+| button.navigate             | Prev/next month/year arrow button.                                                                                              |
+| icon.navigate               | Navigation arrow icon.                                                                                                          |
+| range                       | Background tint for days between the range start and end.                                                                       |
 
 ## Notes
 

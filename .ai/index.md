@@ -119,8 +119,7 @@ TallStackUi::customize()
     ->block('wrapper', 'your-tailwind-classes');
 
 // Scoped customization
-TallStackUi::personalize('alert', scope: 'hero')
-    ->block('wrapper', 'your-tailwind-classes');
+TallStackUi::customize('alert', scope: 'hero')->block('wrapper', 'your-tailwind-classes');
 // Then: <x-alert scope="hero" />
 ```
 

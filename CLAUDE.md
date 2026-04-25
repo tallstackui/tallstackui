@@ -116,7 +116,7 @@ class AppServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
-        TallStackUi::personalize()->form('input')->block('input.base', 'w-full rounded-full');
+        TallStackUi::customize()->form('input')->block('input.base', 'w-full rounded-full');
     }
 }
 ```  
@@ -136,7 +136,7 @@ class AppServiceProvider extends ServiceProvider
 For component-specific customizations:
 
 ```php  
-TallStackUi::personalize('input', scope: 'search')->block('input.base', 'rounded-full');  
+TallStackUi::customize('input', scope: 'search')->block('input.base', 'rounded-full');  
 ```  
 
 Then in Blade: `<x-input scope="search" />`
@@ -370,15 +370,15 @@ class MyController extends Controller
 
 ### Core Files
 
-| File                                         | Purpose                                                                  |  
-|----------------------------------------------|--------------------------------------------------------------------------|  
-| `src/config.php`                             | Component registry with 40+ components, settings per component           |  
-| `src/helpers.php`                            | Global `__ts_*` functions (see below)                                    |  
-| `src/TallStackUi.php`                        | Facade: `blade()`, `personalize()`, `directives()`, `icon()`, `prefix()` |  
-| `src/TallStackUiComponent.php`               | Abstract base using 4 traits                                             |  
-| `src/TallStackUiServiceProvider.php`         | Registers components, singletons, commands, directives                   |  
-| `src/Customization/Customization.php`        | Entry point with fluent component methods                                |  
-| `src/Customization/CustomizationFactory.php` | Customization engine with block manipulation                             |  
+| File                                         | Purpose                                                                |  
+|----------------------------------------------|------------------------------------------------------------------------|  
+| `src/config.php`                             | Component registry with 40+ components, settings per component         |  
+| `src/helpers.php`                            | Global `__ts_*` functions (see below)                                  |  
+| `src/TallStackUi.php`                        | Facade: `blade()`, `customize()`, `directives()`, `icon()`, `prefix()` |  
+| `src/TallStackUiComponent.php`               | Abstract base using 4 traits                                           |  
+| `src/TallStackUiServiceProvider.php`         | Registers components, singletons, commands, directives                 |  
+| `src/Customization/Customization.php`        | Entry point with fluent component methods                              |  
+| `src/Customization/CustomizationFactory.php` | Customization engine with block manipulation                           |  
 
 **Helper Functions (`src/helpers.php`):**
 
@@ -394,13 +394,13 @@ class MyController extends Controller
 
 5 PHP attributes in `src/Attributes/`:
 
-| Attribute | Target | Purpose |
-|-----------|--------|---------|
-| `#[SoftCustomization('key')]` | Class | Marks customizable components |
-| `#[ColorsThroughOf(ColorClass::class)]` | Class | Links component to color definitions |
-| `#[PassThroughRuntime(RuntimeClass::class)]` | Class | Links component to runtime compilation |
-| `#[RequireLivewireContext]` | Class | Marks components that require Livewire context |
-| `#[SkipDebug]` | Property/Parameter | Excludes properties from debug output |
+| Attribute                                    | Target             | Purpose                                        |
+|----------------------------------------------|--------------------|------------------------------------------------|
+| `#[SoftCustomization('key')]`                | Class              | Marks customizable components                  |
+| `#[ColorsThroughOf(ColorClass::class)]`      | Class              | Links component to color definitions           |
+| `#[PassThroughRuntime(RuntimeClass::class)]` | Class              | Links component to runtime compilation         |
+| `#[RequireLivewireContext]`                  | Class              | Marks components that require Livewire context |
+| `#[SkipDebug]`                               | Property/Parameter | Excludes properties from debug output          |
 
 ### Custom Exceptions
 

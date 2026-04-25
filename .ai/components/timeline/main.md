@@ -135,7 +135,7 @@ TallStackUi::customize()
 ### Scoped
 
 ```php
-TallStackUi::personalize('timeline', scope: 'compact')
+TallStackUi::customize('timeline', scope: 'compact')
     ->block('wrapper.vertical', 'flex flex-col gap-3');
 ```
 
