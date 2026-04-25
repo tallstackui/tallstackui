@@ -25,12 +25,7 @@
         @endif
 
         @if ($icon instanceof \Illuminate\View\ComponentSlot)
-            <span
-                x-bind:class="{ '{{ $customization['item.icon.rotated'] }}': isOpen(id) }"
-                class="{{ $customization['item.icon.base'] }}"
-            >
-                {!! $icon->toHtml() !!}
-            </span>
+            {!! $icon->toHtml() !!}
         @elseif (is_string($icon) && $icon !== '')
             <x-icon
                 :name="$icon"
