@@ -6,6 +6,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\Livewire;
+use Livewire\WithPagination;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\BrowserTestCase;
 
@@ -422,5 +423,66 @@ class BrowserTest extends BrowserTestCase
             ->assertSee('Foo')
             ->assertSee('Bar')
             ->assertSourceHas('bg-blue-100');
+    }
+
+    #[Test]
+    public function selectable_select_all_reflects_only_current_page_after_pagination(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            use WithPagination;
+
+            public array $selected = [];
+
+            #[Computed]
+            public function rows(): LengthAwarePaginator
+            {
+                $items = collect([
+                    ['id' => 1, 'name' => 'Foo'],
+                    ['id' => 2, 'name' => 'Bar'],
+                    ['id' => 3, 'name' => 'Baz'],
+                    ['id' => 4, 'name' => 'Qux'],
+                ]);
+
+                $page = $this->getPage();
+
+                return new LengthAwarePaginator(
+                    $items->forPage($page, 2),
+                    $items->count(),
+                    2,
+                    $page
+                );
+            }
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="selected">{{ implode(',', $selected) }}</p>
+
+                    @php
+                        $headers = [
+                            ['index' => 'id', 'label' => '#'],
+                            ['index' => 'name', 'label' => 'Name'],
+                        ];
+                    @endphp
+
+                    <x-table wire:model.live="selected" :$headers :rows="$this->rows" selectable paginate />
+                </div>
+                HTML;
+            }
+        })
+            ->assertSee('Foo')
+            ->assertSee('Bar')
+            ->click('@tallstackui_table_select_all')
+            ->waitForTextIn('@selected', '1,2')
+            ->assertChecked('@tallstackui_table_select_all')
+            ->click('@nextPage.after')
+            ->waitForText('Baz')
+            ->assertNotChecked('@tallstackui_table_select_all')
+            ->click('input[type=checkbox][value="3"]')
+            ->waitForTextIn('@selected', '1,2,3')
+            ->pause(150)
+            ->assertNotChecked('@tallstackui_table_select_all');
     }
 }

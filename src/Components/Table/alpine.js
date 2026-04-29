@@ -1,9 +1,36 @@
-export default (model, ids, selectable) => ({
+export default (model, selectable) => ({
   model: model,
-  ids: ids,
   rows: [],
+  _observer: null,
   init() {
-    if (selectable) this.checked();
+    if (!selectable) {
+      return;
+    }
+
+    this.checked();
+
+    // The list of ids changes whenever Livewire re-renders the table
+    // (pagination, filter, search). Re-syncing the "select all" checkbox
+    // from a MutationObserver keeps it consistent without depending on
+    // Alpine re-initialising the component.
+    this._observer = new MutationObserver(() => this.checked());
+    this._observer.observe(this.$el, { attributes: true, attributeFilter: ['data-ids'] });
+  },
+  destroy() {
+    this._observer?.disconnect();
+  },
+  /**
+   * Ids of the rows currently rendered. Read from the data-ids attribute
+   * so it stays in sync with the server-rendered page.
+   *
+   * @returns {Array}
+   */
+  get ids() {
+    try {
+      return JSON.parse(this.$el.dataset.ids || '[]');
+    } catch {
+      return [];
+    }
   },
   /**
    * Check if all rows are selected
@@ -11,25 +38,30 @@ export default (model, ids, selectable) => ({
    * @returns {Boolean}
    */
   fully() {
-    return this.ids.every((id) => this.model.includes(id));
+    const ids = this.ids;
+
+    return ids.length > 0 && ids.every((id) => this.model.includes(id));
   },
   /**
    * Mark the "main" checkbox as checked.
    */
   checked() {
+    if (!this.$refs.checkbox) {
+      return;
+    }
+
     this.$nextTick(() => {
-      return this.fully()
-        ? (this.$refs.checkbox.checked = true)
-        : (this.$refs.checkbox.checked = false);
+      if (this.$refs.checkbox) {
+        this.$refs.checkbox.checked = this.fully();
+      }
     });
   },
   /**
    * Select a row
    *
-   * @param {Boolean} checked
    * @param {*} content
    */
-  select(checked, content) {
+  select(content) {
     this.checked();
 
     this.$dispatch('select', { row: content });
@@ -42,28 +74,25 @@ export default (model, ids, selectable) => ({
    * @returns {void}
    */
   all(checked = true, ids) {
-    // We need to receive Blade ids for situations where we are dealing
-    // with pagination and data changes from page to page. With this
-    // approach, we ensure that selecting all from the current page works correctly.
-    this.ids = ids;
-
-    return checked ? this.push() : this.remove();
+    return checked ? this.push(ids) : this.remove(ids);
   },
   /**
    * Push selected rows
    *
+   * @param {Array} ids
    * @returns {void}
    */
-  push() {
-    this.model.push(...this.ids.filter((index) => !this.model.includes(index)));
+  push(ids) {
+    this.model.push(...ids.filter((id) => !this.model.includes(id)));
   },
   /**
    * Remove selected rows
    *
+   * @param {Array} ids
    * @returns {void}
    */
-  remove() {
-    this.model = this.model.filter((index) => !this.ids.includes(index));
+  remove(ids) {
+    this.model = this.model.filter((id) => !ids.includes(id));
   },
   /**
    * Redirect to a new page

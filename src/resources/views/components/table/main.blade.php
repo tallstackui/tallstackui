@@ -2,7 +2,8 @@
     $customization = $classes();
 @endphp
 
-<div x-data="tallstackui_table({!! $entangle !!}, @js($ids()), @js($selectable))"
+<div x-data="tallstackui_table({!! $entangle !!}, @js($selectable))"
+     @if ($selectable) data-ids='@json($ids())' @endif
      @if ($persistent) x-ref="persist" @endif>
     @if (is_string($header))
         <p class="{{ $customization['slots.header'] }}">{{ $header }}</p>
@@ -59,7 +60,7 @@
                                 <x-dynamic-component :component="TallStackUi::prefix('checkbox')"
                                                      scope="table.checkbox"
                                                      x-ref="checkbox"
-                                                     x-on:click="all($el.checked, {{ \Illuminate\Support\Js::from($ids()) }})"
+                                                     x-on:change="all($el.checked, {{ \Illuminate\Support\Js::from($ids()) }})"
                                                      dusk="tallstackui_table_select_all"
                                                      sm />
                             </th>
@@ -130,7 +131,7 @@
                                                          id="checkbox-{{ $key }}"
                                                          :attributes="$modifier()"
                                                          value="{{ data_get($value, $selectableProperty) }}"
-                                                         x-on:click="select($el.checked, {{ \Illuminate\Support\Js::from($value) }})"
+                                                         x-on:change="select({{ \Illuminate\Support\Js::from($value) }})"
                                                          sm />
                                 </td>
                             @endif
