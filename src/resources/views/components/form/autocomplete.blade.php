@@ -70,15 +70,9 @@
         <ul class="{{ $customization['box.list.wrapper'] }}"
             role="listbox"
             dusk="tallstackui_autocomplete_options">
-            <template x-if="loading">
-                <li class="{{ $customization['box.list.loading.wrapper'] }}">
-                    <x-dynamic-component :component="TallStackUi::prefix('icon')"
-                                         :icon="TallStackUi::icon('arrow-path')"
-                                         internal
-                                         class="{{ $customization['box.list.loading.icon'] }}" />
-                    <span class="{{ $customization['box.list.loading.text'] }}">{{ data_get($placeholders, 'loading') }}</span>
-                </li>
-            </template>
+            <div x-show="loading" class="{{ $customization['box.list.loading.wrapper'] }}">
+                <x-ts-ui::icon.generic.loading class="{{ $customization['box.list.loading.class'] }}" />
+            </div>
             <template x-if="!loading">
                 <template x-for="(item, index) in available" :key="index">
                     <li role="option"

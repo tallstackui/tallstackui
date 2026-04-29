@@ -86,9 +86,8 @@ class Component extends TallStackUiComponent implements Customization
                     ],
                     'empty' => 'block w-full px-3 py-2 text-sm text-gray-600 dark:text-dark-300',
                     'loading' => [
-                        'wrapper' => 'flex items-center justify-center gap-2 p-4',
-                        'icon' => 'text-primary-600 dark:text-dark-400 h-6 w-6 animate-spin',
-                        'text' => 'text-sm text-gray-600 dark:text-dark-300',
+                        'wrapper' => 'flex items-center justify-center space-x-4 p-4',
+                        'class' => 'text-primary-600 dark:text-dark-400 h-12 w-12 animate-spin',
                     ],
                 ],
             ],

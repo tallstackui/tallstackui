@@ -190,5 +190,4 @@ The Autocomplete delegates the input rendering to `Form/Input`, so any styling r
 | box.list.item.disabled    | Disabled row.                                                                            |
 | box.list.empty            | Default "no results" message when the `after` slot is not used.                          |
 | box.list.loading.wrapper  | Loading container inside the dropdown.                                                   |
-| box.list.loading.icon     | Spinner icon inside the dropdown.                                                        |
-| box.list.loading.text     | Loading label text inside the dropdown.                                                  |
+| box.list.loading.class    | Spinner icon classes inside the dropdown (matches Select Styled's loading animation).    |
