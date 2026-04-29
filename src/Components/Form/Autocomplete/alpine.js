@@ -170,14 +170,19 @@ export default (model = null, items = [], request = null, strict = false, lazy =
       this.model = this.search;
     }
 
-    if (!this.show) {
-      this.show = true;
+    // Bail out under the lazy threshold BEFORE flipping `show`. Otherwise
+    // `show = true` here would briefly satisfy x-show (search.length > 0)
+    // and the panel would flash for one frame before the show watcher
+    // reset it back to false.
+    if (this.lazy && this.search.length < this.lazy) {
+      this.available = [];
+      this.loading = false;
 
       return;
     }
 
-    if (this.lazy && this.search.length < this.lazy) {
-      this.available = [];
+    if (!this.show) {
+      this.show = true;
 
       return;
     }
