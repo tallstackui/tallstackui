@@ -17,6 +17,12 @@ return [
         'selected' => ':count dipilih',
     ],
 
+    'autocomplete' => [
+        'default' => 'Taip untuk mencari...',
+        'empty' => 'Tiada data dijumpai',
+        'loading' => 'Memuatkan...',
+    ],
+
     'toast' => [
         'button' => [
             'ok' => 'Ok',

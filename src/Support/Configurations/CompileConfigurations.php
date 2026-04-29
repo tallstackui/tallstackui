@@ -6,6 +6,7 @@ use Exception;
 use Illuminate\Support\Facades\URL;
 use TallStackUi\Components\CommandPalette\Component as CommandPalette;
 use TallStackUi\Components\Dialog\Component as Dialog;
+use TallStackUi\Components\Form\Autocomplete\Component as Autocomplete;
 use TallStackUi\Components\Form\Color\Component as Color;
 use TallStackUi\Components\Form\Select\Styled\Component as SelectStyled;
 use TallStackUi\Components\Loading\Component as Loading;
@@ -23,6 +24,7 @@ class CompileConfigurations
     {
         /** @var string|array|null $data */
         $data = (match (true) { // @phpstan-ignore-line
+            $component instanceof Autocomplete => fn () => self::autocomplete($component),
             $component instanceof CommandPalette => fn () => self::commandPalette($component),
             $component instanceof Color => fn () => self::color($component),
             $component instanceof Dialog => fn () => Dialog::class,
@@ -46,6 +48,20 @@ class CompileConfigurations
         }
 
         return $data;
+    }
+
+    /**
+     * Define the Autocomplete component configurations.
+     *
+     * @throws Exception
+     */
+    private static function autocomplete(Autocomplete $component): array
+    {
+        $configuration = __ts_get_component_configuration(Autocomplete::class);
+
+        $component->strict ??= $configuration['strict'] ?? false;
+
+        return ['strict' => $component->strict];
     }
 
     /**

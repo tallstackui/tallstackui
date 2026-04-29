@@ -17,6 +17,12 @@ return [
         'selected' => ':count محدد',
     ],
 
+    'autocomplete' => [
+        'default' => 'اكتب للبحث...',
+        'empty' => 'لا توجد نتائج',
+        'loading' => 'جاري التحميل...',
+    ],
+
     'toast' => [
         'button' => [
             'ok' => 'حسناً',

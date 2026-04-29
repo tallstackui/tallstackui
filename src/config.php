@@ -80,6 +80,21 @@ return [
         'accordion' => Components\Accordion\Main\Component::class,
         'accordion.items' => Components\Accordion\Items\Component::class,
         'alert' => Components\Alert\Component::class,
+        'autocomplete' => [
+            Components\Form\Autocomplete\Component::class,
+            [
+                /*
+                |----------------------------------------------------------------------
+                | Autocomplete Global Settings
+                |----------------------------------------------------------------------
+                | strict: when true, all autocomplete components will, by default, only
+                | accept values that exist in their items list. The wire:model is only
+                | updated when a row is picked from the dropdown, and the input reverts
+                | to the last selected value on blur with an unmatched query.
+                */
+                'strict' => false,
+            ],
+        ],
         'back-to-top' => Components\BackToTop\Component::class,
         'avatar' => Components\Avatar\Component::class,
         'avatar.group' => Components\Avatar\Group\Component::class,
