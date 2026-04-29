@@ -11,7 +11,7 @@ class AutocompleteRuntime extends AbstractRuntime
     public function runtime(): array
     {
         return [
-            ...$this->bind()->all(),
+            ...$this->bind(),
             'value' => $this->sanitize(),
         ];
     }
