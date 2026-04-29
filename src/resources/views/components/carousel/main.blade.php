@@ -2,8 +2,8 @@
     $customization = $classes();
 @endphp
 
-<div x-data="tallstackui_carousel(@js($images), @js($cover), @js($autoplay), @js($interval), @js($withoutLoop), @js($shuffle))"
-     {{ $attributes->only(['x-on:next', 'x-on:previous']) }}
+<div x-data="tallstackui_carousel(@js($images), @js($cover), @js($autoplay), @js($interval), @js($withoutLoop), @js($shuffle), @js($clickable))"
+     {{ $attributes->only(['x-on:next', 'x-on:previous', 'x-on:expand', 'x-on:collapse']) }}
      x-ref="carousel">
     @if ($header)
         {{ $header }}
@@ -37,22 +37,44 @@
             <template x-for="(image, index) in images" :key="index">
                 <div x-show="current == index + 1" class="{{ $customization['images.wrapper.first'] }}"
                      @if (!$ts_ui__flash) x-transition.opacity.duration.1000ms @endif>
-                    <a x-bind:href="image.url ?? null" x-bind:target="image.target">
-                        <template x-if="image.title">
-                            <div @class([$customization['images.wrapper.second'], 'rounded-xl' => $round])>
-                                <h3 class="{{ $customization['images.content.title'] }}" x-text="image.title"></h3>
-                                <p class="{{ $customization['images.content.description'] }}"
-                                   x-text="image.description"></p>
-                            </div>
-                        </template>
-                        <img @class([$customization['images.base'], 'rounded-xl' => $round])
-                             x-bind:src="image.src"
-                             x-bind:alt="image.alt"
-                             @if ($autoplay && $stopOnHover)
-                                 x-on:mouseover="(paused = !paused), reset()"
-                             x-on:mouseleave="(paused = !paused), reset()"
-                                @endif />
-                    </a>
+                    @if ($clickable)
+                        <button type="button"
+                                class="{{ $customization['clickable.trigger'] }}"
+                                x-on:click="expand(image)"
+                                dusk="tallstackui_carousel_expand">
+                            <template x-if="image.title">
+                                <div @class([$customization['images.wrapper.second'], 'rounded-xl' => $round])>
+                                    <h3 class="{{ $customization['images.content.title'] }}" x-text="image.title"></h3>
+                                    <p class="{{ $customization['images.content.description'] }}"
+                                       x-text="image.description"></p>
+                                </div>
+                            </template>
+                            <img @class([$customization['images.base'], 'rounded-xl' => $round])
+                                 x-bind:src="image.src"
+                                 x-bind:alt="image.alt"
+                                 @if ($autoplay && $stopOnHover)
+                                     x-on:mouseover="(paused = !paused), reset()"
+                                 x-on:mouseleave="(paused = !paused), reset()"
+                                    @endif />
+                        </button>
+                    @else
+                        <a x-bind:href="image.url ?? null" x-bind:target="image.target">
+                            <template x-if="image.title">
+                                <div @class([$customization['images.wrapper.second'], 'rounded-xl' => $round])>
+                                    <h3 class="{{ $customization['images.content.title'] }}" x-text="image.title"></h3>
+                                    <p class="{{ $customization['images.content.description'] }}"
+                                       x-text="image.description"></p>
+                                </div>
+                            </template>
+                            <img @class([$customization['images.base'], 'rounded-xl' => $round])
+                                 x-bind:src="image.src"
+                                 x-bind:alt="image.alt"
+                                 @if ($autoplay && $stopOnHover)
+                                     x-on:mouseover="(paused = !paused), reset()"
+                                 x-on:mouseleave="(paused = !paused), reset()"
+                                    @endif />
+                        </a>
+                    @endif
                 </div>
             </template>
         </div>
@@ -70,5 +92,32 @@
     </div>
     @if ($footer)
         {{ $footer }}
+    @endif
+    @if ($clickable)
+        <template x-teleport="body">
+            <div x-cloak
+                 x-show="expanded !== null"
+                 @if (!$ts_ui__flash)
+                     x-transition.opacity.duration.200ms
+                 @endif
+                 x-on:keydown.escape.window="top_ui && close()"
+                 x-on:click.self="close()"
+                 role="dialog"
+                 aria-modal="true"
+                 class="{{ $customization['clickable.overlay'] }}">
+                <button type="button"
+                        x-on:click="close()"
+                        class="{{ $customization['clickable.close.button'] }}"
+                        dusk="tallstackui_carousel_close">
+                    <x-dynamic-component :component="TallStackUi::prefix('icon')"
+                                         :icon="TallStackUi::icon('x-mark')"
+                                         internal
+                                         class="{{ $customization['clickable.close.icon'] }}" />
+                </button>
+                <img class="{{ $customization['clickable.image'] }}"
+                     x-bind:src="expanded?.src"
+                     x-bind:alt="expanded?.alt" />
+            </div>
+        </template>
     @endif
 </div>

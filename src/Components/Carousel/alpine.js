@@ -1,12 +1,61 @@
-export default (images, cover = 1, autoplay, interval, withoutLoop, shuffle) => ({
+import {
+  overflow,
+  unique,
+  register_ui_element,
+  unregister_ui_element,
+  top_ui_element,
+} from '../../../js/helpers';
+
+export default (images, cover = 1, autoplay, interval, withoutLoop, shuffle, clickable) => ({
+  id: unique(),
   images: images,
   time: interval,
   current: cover,
   interval: null,
   paused: false,
+  expanded: null,
   init() {
     if (shuffle) this.shuffle();
     if (autoplay) this.play();
+
+    if (!clickable) return;
+
+    this.$watch('expanded', (value) => {
+      overflow(value !== null, 'carousel');
+
+      value !== null
+        ? register_ui_element(this.id, 'carousel')
+        : unregister_ui_element(this.id);
+
+      this.$refs.carousel.dispatchEvent(
+        new CustomEvent(value !== null ? 'expand' : 'collapse', {
+          detail: { image: value },
+        })
+      );
+    });
+  },
+  /** @return {Boolean} Whether this carousel is the topmost UI element. */
+  get top_ui() {
+    return top_ui_element(this.id);
+  },
+  /**
+   * Open the lightbox with the given image.
+   *
+   * @param {Object} image
+   * @returns {void}
+   */
+  expand(image) {
+    if (!clickable) return;
+
+    this.expanded = image;
+  },
+  /**
+   * Close the lightbox.
+   *
+   * @returns {void}
+   */
+  close() {
+    this.expanded = null;
   },
   /**
    * Shuffle the carousel images.

@@ -60,6 +60,41 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_expand_image_when_clickable(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-carousel clickable :images="[
+                        [
+                            'src' => 'https://penguinui.s3.amazonaws.com/component-assets/carousel/default-slide-1.webp',
+                            'alt' => 'lightbox-image-1',
+                            'title' => '1-foo',
+                            'description' => '1-bar',
+                        ],
+                        [
+                            'src' => 'https://penguinui.s3.amazonaws.com/component-assets/carousel/default-slide-2.webp',
+                            'alt' => 'lightbox-image-2',
+                            'title' => '2-foo',
+                            'description' => '2-bar',
+                        ],
+                    ]" />
+                </div>
+            HTML;
+            }
+        })
+            ->click('@tallstackui_carousel_expand')
+            ->pause(300)
+            ->assertVisible('@tallstackui_carousel_close')
+            ->click('@tallstackui_carousel_close')
+            ->pause(300)
+            ->assertNotVisible('@tallstackui_carousel_close');
+    }
+
+    #[Test]
     public function can_navigate_automatically(): void
     {
         Livewire::visit(new class extends Component

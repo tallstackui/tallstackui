@@ -23,6 +23,7 @@ class Component extends TallStackUiComponent implements Customization
         public ?bool $stopOnHover = null,
         public ?bool $round = null,
         public ?bool $shuffle = null,
+        public ?bool $clickable = null,
         public ?string $wrapper = null,
         public ?ComponentSlot $header = null,
         public ?ComponentSlot $footer = null,
@@ -75,6 +76,15 @@ class Component extends TallStackUiComponent implements Customization
                     'base' => 'w-2 h-2 cursor-pointer rounded-full transition bg-dark-700 dark:bg-dark-300',
                     'current' => 'bg-dark-700 dark:bg-dark-300',
                     'inactive' => 'bg-dark-700/50 dark:bg-dark-300/50',
+                ],
+            ],
+            'clickable' => [
+                'trigger' => 'block h-full w-full cursor-zoom-in',
+                'overlay' => 'fixed inset-0 z-50 flex items-center justify-center bg-black/85 p-4 sm:p-8',
+                'image' => 'max-h-full max-w-full object-contain',
+                'close' => [
+                    'button' => 'absolute right-4 top-4 z-10 inline-flex cursor-pointer items-center justify-center text-white transition hover:opacity-80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white',
+                    'icon' => 'h-6 w-6',
                 ],
             ],
         ]);
