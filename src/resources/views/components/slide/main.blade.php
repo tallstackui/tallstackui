@@ -2,6 +2,7 @@
     $customization = $classes();
 @endphp
 
+<template x-teleport="body">
 <div x-cloak
      @if ($wire)
          x-data="tallstackui_slide(@entangle($entangle), @js($configurations['overflow'] ?? false))"
@@ -67,7 +68,7 @@
                                             class="{{ $customization['title.text'] }}"
                                             @endif>{{ $title }}</h2>
                                 @endif
-                                <button type="button" x-on:click="show = false">
+                                <button type="button" x-on:click="show = false" dusk="tallstackui_slide_close">
                                     <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                                          :icon="TallStackUi::icon('x-mark')"
                                                          internal
@@ -93,3 +94,4 @@
         </div>
     </div>
 </div>
+</template>

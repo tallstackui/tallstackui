@@ -40,7 +40,8 @@ class BrowserTest extends BrowserTestCase
             ->waitForText('Foo bar')
             ->assertSee('Foo bar')
             ->assertSeeIn('@target', 'Opened')
-            ->clickAtXPath('/html/body/div[3]/div/div[2]/div/div/div[1]/button')
+            ->pause(500)
+            ->click('@tallstackui_modal_close')
             ->waitUntilMissingText('Foo bar')
             ->assertDontSee('Foo bar')
             ->assertSeeIn('@target', 'Closed');
@@ -208,9 +209,8 @@ class BrowserTest extends BrowserTestCase
             ->assertDontSee('Foo bar')
             ->click('@open')
             ->waitForText('Foo bar')
-            ->clickAtPoint(350, 350)
-            ->clickAtXPath('/html/body/div[3]/div/div[2]/div')
-            ->waitForText('Foo bar')
+            ->clickAtPoint(20, 200)
+            ->pause(150)
             ->assertSee('Foo bar');
     }
 

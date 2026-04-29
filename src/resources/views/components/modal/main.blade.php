@@ -2,6 +2,7 @@
     $customization = $classes();
 @endphp
 
+<template x-teleport="body">
 <div x-cloak
      @if ($id) id="{{ $id }}" @endif
      @class(['relative', $configurations['zIndex']])
@@ -50,7 +51,7 @@
                 @if ($title)
                     <div class="{{ $customization['title.wrapper'] }}">
                         <h3 class="{{ $customization['title.text'] }}">{{ $title }}</h3>
-                        <button type="button" x-on:click="show = false">
+                        <button type="button" x-on:click="show = false" dusk="tallstackui_modal_close">
                             <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                                  :icon="TallStackUi::icon('x-mark')"
                                                  internal
@@ -75,3 +76,4 @@
         </div>
     </div>
 </div>
+</template>

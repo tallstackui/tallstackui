@@ -27,7 +27,7 @@ class BrowserTest extends BrowserTestCase
                     <x-slide wire x-on:open="$wire.set('target', 'Opened')" x-on:close="$wire.set('target', 'Closed')">
                         Foo bar
                     </x-slide>
-                
+
                     <x-button dusk="open" wire:click="$toggle('slide')">Open</x-button>
                 </div>
                 HTML;
@@ -39,7 +39,8 @@ class BrowserTest extends BrowserTestCase
             ->waitForText('Foo bar')
             ->assertSee('Foo bar')
             ->assertSeeIn('@target', 'Opened')
-            ->clickAtXPath('/html/body/div[3]/div/div[2]/div')
+            ->pause(800)
+            ->click('@tallstackui_slide_close')
             ->waitUntilMissingText('Foo bar')
             ->assertDontSee('Foo bar')
             ->assertSeeIn('@target', 'Closed');
@@ -262,7 +263,7 @@ class BrowserTest extends BrowserTestCase
             ->click('@open')
             ->waitForText('Foo bar')
             ->clickAtPoint(350, 350)
-            ->clickAtXPath('/html/body/div[3]/div/div[2]/div')
+            ->clickAtPoint(20, 200)
             ->pause(150)
             ->assertSee('Foo bar');
     }
