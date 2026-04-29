@@ -20,7 +20,6 @@ return [
     'autocomplete' => [
         'default' => 'Wpisz, aby wyszukać...',
         'empty' => 'Nie znaleziono rezultatów',
-        'loading' => 'Ładowanie...',
     ],
 
     'toast' => [

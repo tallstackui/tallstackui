@@ -20,7 +20,6 @@ return [
     'autocomplete' => [
         'default' => 'Aramak için yazın...',
         'empty' => 'Sonuç bulunamadı',
-        'loading' => 'Yükleniyor...',
     ],
 
     'toast' => [

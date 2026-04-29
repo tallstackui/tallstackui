@@ -40,6 +40,7 @@
 
 ### Form
 
+- [Autocomplete](components/form/autocomplete.md)
 - [Checkbox](components/form/checkbox.md)
 - [Color Picker](components/form/color.md)
 - [Currency](components/form/currency.md)

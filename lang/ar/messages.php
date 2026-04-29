@@ -20,7 +20,6 @@ return [
     'autocomplete' => [
         'default' => 'اكتب للبحث...',
         'empty' => 'لا توجد نتائج',
-        'loading' => 'جاري التحميل...',
     ],
 
     'toast' => [

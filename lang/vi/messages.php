@@ -20,7 +20,6 @@ return [
     'autocomplete' => [
         'default' => 'Nhập để tìm kiếm...',
         'empty' => 'Không tìm thấy kết quả',
-        'loading' => 'Đang tải...',
     ],
 
     'toast' => [

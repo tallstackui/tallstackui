@@ -20,7 +20,6 @@ return [
     'autocomplete' => [
         'default' => 'Ketik untuk mencari...',
         'empty' => 'Tidak ada hasil ditemukan',
-        'loading' => 'Memuat...',
     ],
 
     'toast' => [
