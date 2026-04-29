@@ -11,7 +11,6 @@ use TallStackUi\Attributes\PassThroughRuntime;
 use TallStackUi\Attributes\SkipDebug;
 use TallStackUi\Attributes\SoftCustomization;
 use TallStackUi\Components\Floating\Component as Floating;
-use TallStackUi\Components\Traits\FormDefaultInputClasses;
 use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\Support\Runtime\Components\AutocompleteRuntime;
 use TallStackUi\TallStackUiComponent;
@@ -20,8 +19,6 @@ use TallStackUi\TallStackUiComponent;
 #[PassThroughRuntime(AutocompleteRuntime::class)]
 class Component extends TallStackUiComponent implements Customization
 {
-    use FormDefaultInputClasses;
-
     public function __construct(
         public ?string $id = null,
         public ?string $label = null,
@@ -61,12 +58,7 @@ class Component extends TallStackUiComponent implements Customization
     public function customization(): array
     {
         return Arr::dot([
-            'input' => [
-                'base' => 'flex grow border-0 bg-transparent px-2 py-1.5 placeholder:text-gray-400 outline-hidden focus:outline-hidden focus:ring-0 sm:text-sm sm:leading-6 dark:placeholder:text-dark-400',
-                ...collect($this->input())->except('base')->toArray(),
-            ],
             'adornment' => [
-                'prefix' => 'dark:text-dark-400 flex select-none items-center whitespace-nowrap pl-3 text-gray-500 text-sm',
                 'suffix' => 'dark:text-dark-400 flex select-none items-center whitespace-nowrap pr-3 text-gray-500 text-sm',
             ],
             'icon' => [
@@ -74,7 +66,6 @@ class Component extends TallStackUiComponent implements Customization
                 'clear' => 'h-5 w-5 cursor-pointer text-gray-500 hover:text-red-500 dark:text-dark-400 dark:hover:text-red-500',
                 'loading' => 'h-5 w-5 animate-spin text-primary-500 dark:text-dark-400',
             ],
-            'error' => $this->error(),
             'floating' => [
                 'default' => collect(app(Floating::class)->customization())->get('wrapper'),
                 'class' => 'overflow-auto',

@@ -38,38 +38,38 @@ The component layers on top of `Form/Input` (so `floatable`, label, hint, error 
 
 ## Attributes
 
-| Attribute    | Type                          | Default                                            | Description                                                                                                                                  |
-|--------------|-------------------------------|----------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------|
-| items        | Collection\|array\|null       | null                                               | Local source. Mutually exclusive with `request`.                                                                                             |
-| request      | string\|array\|null           | null                                               | Remote source. String shorthand uses `GET <url>`; array form: `['url' => ..., 'method' => 'get'\|'post', 'params' => [...]]`.                |
-| id           | string\|null                  | null                                               | Forwarded to the underlying `<input>`.                                                                                                       |
-| label        | string\|null                  | null                                               | Rendered above the input.                                                                                                                    |
-| hint         | string\|null                  | null                                               | Rendered below the input when there is no error.                                                                                             |
-| placeholder  | string\|null                  | from translations                                  | Input placeholder text.                                                                                                                      |
-| prefix       | string\|null                  | null                                               | Adornment on the left of the input (forwarded to `Form/Input`).                                                                              |
-| suffix       | string\|null                  | null                                               | Adornment on the right of the input. Renders before the loading/clear icons.                                                                 |
-| clearable    | bool\|null                    | null                                               | Shows an `×` to empty the input. Dispatches the `clear` event.                                                                               |
-| invalidate   | bool\|null                    | null                                               | Same semantics as `Form/Input`: opts the component into Livewire validation styling.                                                         |
-| strict       | bool\|null                    | null (or global from config)                       | Constrains `wire:model` to values that exist in the items list. See "Strict mode".                                                           |
-| lazy         | int\|null                     | null                                               | Minimum chars before the dropdown opens / a remote request is fired.                                                                         |
-| disabled     | bool\|null                    | null                                               | Disables the input and prevents the dropdown from opening.                                                                                   |
-| placeholders | array\|null                   | merged from `trans('ts-ui::messages.autocomplete')` | Override translation strings (`empty`, `loading`, `default`).                                                                                |
+| Attribute    | Type                    | Default                                             | Description                                                                                                                   |
+|--------------|-------------------------|-----------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------|
+| items        | Collection\|array\|null | null                                                | Local source. Mutually exclusive with `request`.                                                                              |
+| request      | string\|array\|null     | null                                                | Remote source. String shorthand uses `GET <url>`; array form: `['url' => ..., 'method' => 'get'\|'post', 'params' => [...]]`. |
+| id           | string\|null            | null                                                | Forwarded to the underlying `<input>`.                                                                                        |
+| label        | string\|null            | null                                                | Rendered above the input.                                                                                                     |
+| hint         | string\|null            | null                                                | Rendered below the input when there is no error.                                                                              |
+| placeholder  | string\|null            | from translations                                   | Input placeholder text.                                                                                                       |
+| prefix       | string\|null            | null                                                | Adornment on the left of the input (forwarded to `Form/Input`).                                                               |
+| suffix       | string\|null            | null                                                | Adornment on the right of the input. Renders before the loading/clear icons.                                                  |
+| clearable    | bool\|null              | null                                                | Shows an `×` to empty the input. Dispatches the `clear` event.                                                                |
+| invalidate   | bool\|null              | null                                                | Same semantics as `Form/Input`: opts the component into Livewire validation styling.                                          |
+| strict       | bool\|null              | null (or global from config)                        | Constrains `wire:model` to values that exist in the items list. See "Strict mode".                                            |
+| lazy         | int\|null               | null                                                | Minimum chars before the dropdown opens / a remote request is fired.                                                          |
+| disabled     | bool\|null              | null                                                | Disables the input and prevents the dropdown from opening.                                                                    |
+| placeholders | array\|null             | merged from `trans('ts-ui::messages.autocomplete')` | Override translation strings (`empty`, `loading`, `default`).                                                                 |
 
 The component does **not** support `multiple`. Reach for `Form/Select/Styled` when multiple selection is required.
 
 ## Item Object Structure
 
-| Key         | Type   | Required | Description                                                                                       |
-|-------------|--------|----------|---------------------------------------------------------------------------------------------------|
-| value       | string | Yes      | Visible text in the input and value bound to `wire:model`. Filter matches against this.           |
-| description | string | No       | Subtitle line shown below `value` inside the dropdown row. Filter also matches against this.      |
-| image       | string | No       | URL displayed as a circular avatar on the left of the dropdown row.                               |
-| disabled    | bool   | No       | Dims the row and blocks selection.                                                                |
+| Key         | Type   | Required | Description                                                                                  |
+|-------------|--------|----------|----------------------------------------------------------------------------------------------|
+| value       | string | Yes      | Visible text in the input and value bound to `wire:model`. Filter matches against this.      |
+| description | string | No       | Subtitle line shown below `value` inside the dropdown row. Filter also matches against this. |
+| image       | string | No       | URL displayed as a circular avatar on the left of the dropdown row.                          |
+| disabled    | bool   | No       | Dims the row and blocks selection.                                                           |
 
 ## Slots
 
-| Slot  | Description                                                                                                                                                                                                                    |
-|-------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Slot  | Description                                                                                                                                                                                                                   |
+|-------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | after | Rendered inside the dropdown when the filtered list is empty. Mirrors `Form/Select/Styled`'s `after`. Useful for "no results — create one?" flows. When omitted, the component falls back to the `placeholders.empty` string. |
 
 ## Validation Constraints
@@ -127,12 +127,12 @@ Below the threshold the panel stays closed; once the user crosses it, the panel 
 
 ## Keyboard
 
-| Key       | Behavior                                                            |
-|-----------|---------------------------------------------------------------------|
-| ↓ / ↑     | Move the highlighted row.                                           |
-| Enter     | Pick the highlighted row.                                           |
-| Esc       | Close the dropdown without changing the model.                      |
-| Tab       | Close the dropdown and move focus naturally.                        |
+| Key   | Behavior                                       |
+|-------|------------------------------------------------|
+| ↓ / ↑ | Move the highlighted row.                      |
+| Enter | Pick the highlighted row.                      |
+| Esc   | Close the dropdown without changing the model. |
+| Tab   | Close the dropdown and move focus naturally.   |
 
 The highlighted row is auto-scrolled into view inside the dropdown.
 
@@ -147,12 +147,12 @@ The highlighted row is auto-scrolled into view inside the dropdown.
     x-on:close="console.log('closed')" />
 ```
 
-| Event  | `$event.detail`         | When                                                     |
-|--------|-------------------------|----------------------------------------------------------|
-| select | `{ item: <object> }`    | The user picked a row from the dropdown.                 |
-| clear  | `null`                  | The user pressed the clear `×` button.                   |
-| open   | `null`                  | The floating dropdown opened.                            |
-| close  | `null`                  | The floating dropdown closed.                            |
+| Event  | `$event.detail`      | When                                     |
+|--------|----------------------|------------------------------------------|
+| select | `{ item: <object> }` | The user picked a row from the dropdown. |
+| clear  | `null`               | The user pressed the clear `×` button.   |
+| open   | `null`               | The floating dropdown opened.            |
+| close  | `null`               | The floating dropdown closed.            |
 
 ## Soft Customization
 
@@ -168,32 +168,27 @@ TallStackUi::customize()
 
 ### Available Blocks
 
-| Block Name                  | Purpose                                                          |
-|-----------------------------|------------------------------------------------------------------|
-| input.base                  | Inner `<input>` element styles (overrides the trait default).    |
-| input.wrapper               | Outer wrapper with ring and focus styles (from trait).           |
-| input.color.base            | Default ring and text colors (from trait).                       |
-| input.color.background      | Background color for normal state (from trait).                  |
-| input.color.disabled        | Background color for disabled/readonly state (from trait).       |
-| adornment.prefix            | Prefix slot styling.                                             |
-| adornment.suffix            | Suffix slot styling.                                             |
-| icon.wrapper                | Container for the loading/clear icons inside the input.          |
-| icon.clear                  | Clear `×` icon.                                                  |
-| icon.loading                | Spinner shown while remote requests are in flight.               |
-| floating.default            | Inherits `Floating::customization()['wrapper']`.                 |
-| floating.class              | Width / overflow tweaks for the panel.                           |
-| box.list.wrapper            | The `<ul>` container.                                            |
-| box.list.item.wrapper       | Each option row.                                                 |
-| box.list.item.base          | Inner flex container (image + content).                          |
-| box.list.item.value         | Primary line (from `item.value`).                                |
-| box.list.item.description   | Secondary subtitle line (from `item.description`).               |
-| box.list.item.image         | Avatar circle on the left of the row.                            |
-| box.list.item.content       | Wrapper around value + description.                              |
-| box.list.item.highlighted   | Keyboard-highlighted row.                                        |
-| box.list.item.selected      | Currently selected row.                                          |
-| box.list.item.disabled      | Disabled row.                                                    |
-| box.list.empty              | Default "no results" message when the `after` slot is not used.  |
-| box.list.loading.wrapper    | Loading container.                                               |
-| box.list.loading.icon       | Spinner icon.                                                    |
-| box.list.loading.text       | Loading label text.                                              |
-| error                       | Error variant for the input wrapper.                             |
+The Autocomplete delegates the input rendering to `Form/Input`, so any styling related to the input wrapper, label, hint, error state, or prefix slot is customized via `form.input` (and the `Form/Input` AI doc), not here. The blocks below are only the bits the Autocomplete adds on top.
+
+| Block Name                | Purpose                                                                                  |
+|---------------------------|------------------------------------------------------------------------------------------|
+| adornment.suffix          | Wrapper around the user-provided `suffix` text inside the input's suffix slot.           |
+| icon.wrapper              | Container for the loading/clear icons inside the input.                                  |
+| icon.clear                | Clear `×` icon.                                                                          |
+| icon.loading              | Spinner shown next to the input while remote requests are in flight.                     |
+| floating.default          | Inherits `Floating::customization()['wrapper']`.                                         |
+| floating.class            | Overflow tweaks for the panel (the panel width is auto-synced to the input wrapper).     |
+| box.list.wrapper          | The `<ul>` container of the dropdown.                                                    |
+| box.list.item.wrapper     | Each option row.                                                                         |
+| box.list.item.base        | Inner flex container (image + content).                                                  |
+| box.list.item.value       | Primary line (from `item.value`).                                                        |
+| box.list.item.description | Secondary subtitle line (from `item.description`).                                       |
+| box.list.item.image       | Avatar circle on the left of the row.                                                    |
+| box.list.item.content     | Wrapper around value + description.                                                      |
+| box.list.item.highlighted | Keyboard-highlighted row.                                                                |
+| box.list.item.selected    | Currently selected row.                                                                  |
+| box.list.item.disabled    | Disabled row.                                                                            |
+| box.list.empty            | Default "no results" message when the `after` slot is not used.                          |
+| box.list.loading.wrapper  | Loading container inside the dropdown.                                                   |
+| box.list.loading.icon     | Spinner icon inside the dropdown.                                                        |
+| box.list.loading.text     | Loading label text inside the dropdown.                                                  |
