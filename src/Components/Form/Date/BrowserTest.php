@@ -990,4 +990,31 @@ class BrowserTest extends BrowserTestCase
         })
             ->assertSee('[TallStackUI] Form\Date: The start date in the [range] must be greater than the second date.');
     }
+
+    #[Test]
+    public function clears_input_when_model_is_reset_to_null(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $date = '2020-01-01';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="date">{{ $date ?? 'empty' }}</p>
+
+                    <button type="button" dusk="reset" wire:click="$set('date', null)">Reset</button>
+
+                    <x-date label="DatePicker" wire:model.live="date" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->assertInputValue('@tallstackui_date_input', '2020-01-01')
+            ->click('@reset')
+            ->waitForTextIn('@date', 'empty')
+            ->assertInputValue('@tallstackui_date_input', '');
+    }
 }

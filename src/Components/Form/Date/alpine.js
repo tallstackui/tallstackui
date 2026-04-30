@@ -179,7 +179,11 @@ export default (
    * @return {void}
    */
   sync() {
-    if (!this.model) return;
+    if (!this.model) {
+      this.input = '';
+
+      return;
+    }
 
     this.$el.dispatchEvent(
       new CustomEvent('select', { detail: { type: this.type, date: this.model } })
