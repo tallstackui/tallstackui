@@ -64,7 +64,6 @@
                          :floating="$customization['floating.default']"
                          :class="$customization['floating.class']"
                          position="bottom-start"
-                         offset="4"
                          x-show="show"
                          x-ref="floating">
         <ul class="{{ $customization['box.list.wrapper'] }}"
