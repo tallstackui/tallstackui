@@ -34,7 +34,7 @@
                          role="combobox"
                          :aria-expanded="'show'"
                          dusk="tallstackui_autocomplete_input">
-        <x-slot:suffix class="ml-1 mr-2">
+        <x-slot:suffix>
             @if ($suffix)
                 <span class="{{ $customization['adornment.suffix'] }}">{{ $suffix }}</span>
             @endif
