@@ -23,7 +23,9 @@ body:
       description: If the issue occurs with a specific component, select it here.
       multiple: false
       options:
+        - Accordion
         - Alert
+        - Autocomplete
         - Avatar
         - Avatar Group
         - Back to Top
@@ -33,6 +35,7 @@ body:
         - Breadcrumbs
         - Button
         - Button Circle
+        - Calendar
         - Card
         - Carousel
         - Checkbox
@@ -46,6 +49,7 @@ body:
         - Dropdown
         - Environment
         - Errors
+        - Floating
         - Hint
         - Icon
         - Input
@@ -78,6 +82,7 @@ body:
         - Textarea
         - Theme Switch
         - Time
+        - Timeline
         - Toast
         - Toggle
         - Tooltip
