@@ -28,6 +28,7 @@ use TallStackUi\Components\Dropdown\Submenu\Component as DropdownSubmenu;
 use TallStackUi\Components\Environment\Component as Environment;
 use TallStackUi\Components\Errors\Component as Errors;
 use TallStackUi\Components\Floating\Component as Floating;
+use TallStackUi\Components\Form\Autocomplete\Component as Autocomplete;
 use TallStackUi\Components\Form\Checkbox\Component as Checkbox;
 use TallStackUi\Components\Form\Color\Component as Color;
 use TallStackUi\Components\Form\Currency\Component as Currency;
@@ -275,6 +276,7 @@ class Customization
         $component ??= 'input';
 
         $class = match ($component) {
+            'autocomplete' => Autocomplete::class,
             'checkbox' => Checkbox::class,
             'color' => Color::class,
             'currency' => Currency::class,

@@ -32,12 +32,6 @@ export default (model = null, items = [], request = null, strict = false, lazy =
 
     this.$watch('show', (value) => {
       if (value) {
-        if (this.lazy && (this.search ?? '').length < this.lazy) {
-          this.show = false;
-
-          return;
-        }
-
         this.highlighted = -1;
 
         if (this.request) {
@@ -152,6 +146,35 @@ export default (model = null, items = [], request = null, strict = false, lazy =
   },
 
   /**
+   * Toggle the dropdown from a user-initiated click. Suppresses the open
+   * when:
+   *   - the lazy threshold isn't satisfied yet (regardless of source);
+   *   - the source is remote and there's nothing to query yet.
+   *
+   * Both gates exist so the panel never pops up empty just because the
+   * user clicked into the input.
+   *
+   * @returns {void}
+   */
+  toggle() {
+    if (this.show) {
+      this.show = false;
+
+      return;
+    }
+
+    if (this.lazy && (this.search ?? '').length < this.lazy) {
+      return;
+    }
+
+    if (this.request && !(this.search ?? '').toString().length) {
+      return;
+    }
+
+    this.show = true;
+  },
+
+  /**
    * Close the dropdown.
    *
    * @returns {void}
@@ -170,13 +193,25 @@ export default (model = null, items = [], request = null, strict = false, lazy =
       this.model = this.search;
     }
 
-    // Bail out under the lazy threshold BEFORE flipping `show`. Otherwise
-    // `show = true` here would briefly satisfy x-show (search.length > 0)
-    // and the panel would flash for one frame before the show watcher
-    // reset it back to false.
+    // Under the lazy threshold the panel must stay closed. If it was
+    // already open (e.g. the user typed past the threshold and is now
+    // backspacing), close it explicitly — otherwise the panel would
+    // hang around showing "no results".
     if (this.lazy && this.search.length < this.lazy) {
       this.available = [];
       this.loading = false;
+      this.show = false;
+
+      return;
+    }
+
+    // For remote sources, an empty query is not a valid request — stay
+    // closed (the user will reopen by typing) instead of flashing a
+    // useless panel.
+    if (this.request && !this.search) {
+      this.available = [];
+      this.loading = false;
+      this.show = false;
 
       return;
     }

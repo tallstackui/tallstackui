@@ -68,7 +68,8 @@ class Component extends TallStackUiComponent implements Customization
             ],
             'floating' => [
                 'default' => collect(app(Floating::class)->customization())->get('wrapper'),
-                'class' => 'overflow-auto',
+                // z-40! overrides the Floating wrapper's default z-50 so the dropdown stays under Dialog/Modal overlays (also z-50).
+                'class' => 'overflow-auto z-40!',
             ],
             'box' => [
                 'list' => [

@@ -27,7 +27,7 @@
                          floatable
                          x-ref="input"
                          x-model="search"
-                         x-on:click="show = !show"
+                         x-on:click="toggle()"
                          x-on:input.debounce.250ms="onInput()"
                          autocomplete="off"
                          spellcheck="false"
@@ -65,7 +65,7 @@
                          :class="$customization['floating.class']"
                          position="bottom-start"
                          offset="4"
-                         x-show="show && (!request || loading || available.length > 0 || search.length > 0)"
+                         x-show="show"
                          x-ref="floating">
         <ul class="{{ $customization['box.list.wrapper'] }}"
             role="listbox"
