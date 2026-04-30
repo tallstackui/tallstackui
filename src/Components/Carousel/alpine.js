@@ -23,9 +23,7 @@ export default (images, cover = 1, autoplay, interval, withoutLoop, shuffle, cli
     this.$watch('expanded', (value) => {
       overflow(value !== null, 'carousel');
 
-      value !== null
-        ? register_ui_element(this.id, 'carousel')
-        : unregister_ui_element(this.id);
+      value !== null ? register_ui_element(this.id, 'carousel') : unregister_ui_element(this.id);
 
       this.$refs.carousel.dispatchEvent(
         new CustomEvent(value !== null ? 'expand' : 'collapse', {

@@ -17,6 +17,11 @@ return [
         'selected' => ':count បានជ្រើសរើស',
     ],
 
+    'autocomplete' => [
+        'default' => 'វាយដើម្បីស្វែងរក...',
+        'empty' => 'រកមិនឃើញលទ្ធផលទេ',
+    ],
+
     'toast' => [
         'button' => [
             'ok' => 'យល់ព្រម',

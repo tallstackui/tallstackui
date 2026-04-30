@@ -17,6 +17,11 @@ return [
         'selected' => ':count geselecteerd',
     ],
 
+    'autocomplete' => [
+        'default' => 'Typ om te zoeken...',
+        'empty' => 'Geen resultaten gevonden',
+    ],
+
     'toast' => [
         'button' => [
             'ok' => 'Ok',

@@ -2,6 +2,7 @@ import './globals/globals';
 import alpineCollapse from '@alpinejs/collapse';
 import accordion from '../src/Components/Accordion/alpine';
 import alert from '../src/Components/Alert/alpine';
+import autocomplete from '../src/Components/Form/Autocomplete/alpine';
 import backToTop from '../src/Components/BackToTop/alpine';
 import banner from '../src/Components/Banner/alpine';
 import carousel from '../src/Components/Carousel/alpine';
@@ -42,6 +43,7 @@ document.addEventListener('alpine:init', () => {
   Alpine.plugin(alpineCollapse);
   Alpine.data('tallstackui_accordion', accordion);
   Alpine.data('tallstackui_alert', alert);
+  Alpine.data('tallstackui_autocomplete', autocomplete);
   Alpine.data('tallstackui_backToTop', backToTop);
   Alpine.data('tallstackui_banner', banner);
   Alpine.data('tallstackui_carousel', carousel);

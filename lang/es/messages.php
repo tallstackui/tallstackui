@@ -17,6 +17,11 @@ return [
         'selected' => ':count seleccionados',
     ],
 
+    'autocomplete' => [
+        'default' => 'Escribe para buscar...',
+        'empty' => 'No se encontraron resultados',
+    ],
+
     'toast' => [
         'button' => [
             'ok' => 'Ok',

@@ -17,6 +17,11 @@ return [
         'selected' => ':count seçildi',
     ],
 
+    'autocomplete' => [
+        'default' => 'Aramak için yazın...',
+        'empty' => 'Sonuç bulunamadı',
+    ],
+
     'toast' => [
         'button' => [
             'ok' => 'Tamam',

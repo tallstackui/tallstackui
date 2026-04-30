@@ -17,6 +17,11 @@ return [
         'selected' => ':count đã chọn',
     ],
 
+    'autocomplete' => [
+        'default' => 'Nhập để tìm kiếm...',
+        'empty' => 'Không tìm thấy kết quả',
+    ],
+
     'toast' => [
         'button' => [
             'ok' => 'Ok',
