@@ -59,7 +59,10 @@
                             $configurations['size'],
                             'h-full' => !$configurations['top'] || !$configurations['bottom']
                         ])>
-                        <div class="{{ $customization['header'] }}">
+                        <div @class([
+                                $customization['header'],
+                                $customization['header.divider'] => $title !== null,
+                            ])>
                             <div @class(['flex items-start', 'justify-between' => $title !== null, 'justify-end' => $title === null])>
                                 @if ($title)
                                     <h2 @if ($title instanceof \Illuminate\View\ComponentSlot)
