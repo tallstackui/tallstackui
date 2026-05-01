@@ -293,6 +293,8 @@ return [
         ],
         'layout.header' => Components\Layout\Header\Component::class,
         'link' => Components\Link\Component::class,
+        'list' => Components\List\Main\Component::class,
+        'list.items' => Components\List\Items\Component::class,
         'loading' => [
             Components\Loading\Component::class,
             [

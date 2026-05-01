@@ -27,6 +27,8 @@
 - [Kbd](components/kbd.md)
 - [Key-Value](components/key-value.md) *(Livewire only)*
 - [Link](components/link.md)
+- [List](components/list/main.md)
+- [List Items](components/list/items.md)
 - [Stats](components/stats.md)
 - [Table](components/table.md) *(Livewire only)*
 - [Timeline](components/timeline/main.md)

@@ -149,4 +149,9 @@ return [
         'symbol' => '៛',
         'currency' => 'KHR',
     ],
+
+    'list' => [
+        'search' => 'ស្វែងរក',
+        'empty' => 'គ្មានទិន្នន័យ។',
+    ],
 ];

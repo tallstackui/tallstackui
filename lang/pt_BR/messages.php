@@ -149,4 +149,9 @@ return [
         'symbol' => 'R$',
         'currency' => 'BRL',
     ],
+
+    'list' => [
+        'search' => 'Pesquisar',
+        'empty' => 'Nenhum item.',
+    ],
 ];

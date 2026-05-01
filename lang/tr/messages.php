@@ -149,4 +149,9 @@ return [
         'symbol' => '₺',
         'currency' => 'TRY',
     ],
+
+    'list' => [
+        'search' => 'Ara',
+        'empty' => 'Öğe yok.',
+    ],
 ];

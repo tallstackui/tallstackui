@@ -149,4 +149,9 @@ return [
         'symbol' => '₫',
         'currency' => 'VND',
     ],
+
+    'list' => [
+        'search' => 'Tìm kiếm',
+        'empty' => 'Không có mục nào.',
+    ],
 ];

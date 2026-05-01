@@ -27,6 +27,8 @@ class TallStackUiServiceProvider extends ServiceProvider
 
         $this->registerComponentCustomization();
 
+        $this->registerInternalCustomizations();
+
         $this->registerCommands();
 
         $this->registerBreadcrumbs();
@@ -117,6 +119,16 @@ class TallStackUiServiceProvider extends ServiceProvider
         $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
 
         $this->loadTranslationsFrom(__DIR__.'/../lang', 'ts-ui');
+    }
+
+    protected function registerInternalCustomizations(): void
+    {
+        // The dropdown rendered inside `<x-list.items>` ships with z-40! so it
+        // stays under Dialog/Modal/Slide/Toast overlays (all z-50). Without this,
+        // an open menu would render above an overlay invoked by one of its actions.
+        app(TallStackUi::class)->customize('dropdown', scope: 'list.items.menu')
+            ->block('floating.class')
+            ->append('z-40!');
     }
 
     protected function registerPublishable(): void

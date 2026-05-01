@@ -149,4 +149,9 @@ return [
         'symbol' => '€',
         'currency' => 'EUR',
     ],
+
+    'list' => [
+        'search' => 'Zoeken',
+        'empty' => 'Geen items.',
+    ],
 ];

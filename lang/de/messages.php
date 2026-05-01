@@ -149,4 +149,9 @@ return [
         'symbol' => '€',
         'currency' => 'EUR',
     ],
+
+    'list' => [
+        'search' => 'Suchen',
+        'empty' => 'Keine Einträge.',
+    ],
 ];

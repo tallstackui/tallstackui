@@ -149,4 +149,9 @@ return [
         'symbol' => 'Rp',
         'currency' => 'IDR',
     ],
+
+    'list' => [
+        'search' => 'Cari',
+        'empty' => 'Tidak ada item.',
+    ],
 ];

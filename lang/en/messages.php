@@ -149,4 +149,9 @@ return [
         'symbol' => '$',
         'currency' => 'USD',
     ],
+
+    'list' => [
+        'search' => 'Search',
+        'empty' => 'No items.',
+    ],
 ];

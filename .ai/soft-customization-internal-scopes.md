@@ -147,6 +147,19 @@ TallStackUi::customize()
 |----------------------|---------------|------------------|
 | `sidebar.item.badge` | `<x-badge />` | 38, 49, 107, 118 |
 
+### `list/items`
+
+| Scope             | Target           | Line(s) |
+|-------------------|------------------|---------|
+| `list.items.menu` | `<x-dropdown />` | 27      |
+
+### `list`
+
+| Scope        | Target        | Line(s) |
+|--------------|---------------|---------|
+| `list.label` | `<x-label />` | 9       |
+| `list.hint`  | `<x-hint />`  | 65      |
+
 ### `table`
 
 | Scope                 | Target                | Line(s) |
@@ -171,6 +184,6 @@ TallStackUi::customize()
 
 ## Stats
 
-- Total internal scope occurrences: 48
-- Distinct scopes: 43
-- Files declaring scopes: 19
+- Total internal scope occurrences: 51
+- Distinct scopes: 46
+- Files declaring scopes: 21
