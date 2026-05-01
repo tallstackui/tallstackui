@@ -115,10 +115,10 @@ When `label` is set, the component renders `<x-label>` internally with `scope="l
 
 ## Soft customization scopes
 
-| Scope             | Target                                                                                                         |
-|-------------------|----------------------------------------------------------------------------------------------------------------|
-| `list.label`      | The internal `<x-label>` rendered when `label` is set                                                          |
-| `list.hint`       | The internal `<x-hint>` rendered when `hint` is set                                                            |
+| Scope             | Target                                                                                                                                                                                          |
+|-------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `list.label`      | The internal `<x-label>` rendered when `label` is set                                                                                                                                           |
+| `list.hint`       | The internal `<x-hint>` rendered when `hint` is set                                                                                                                                             |
 | `list.items.menu` | The internal `<x-floating>` rendered for each row's menu (NB: the floating panel class is overridden via the `menu.floating` block on `<x-list.items>` and not by floating's own customization) |
 
 The per-row menu is rendered via an internal floating dropdown (NOT `<x-dropdown>`); customize its blocks via `<x-list.items>` directly (`menu.trigger`, `menu.icon`, `menu.floating`, etc. — see [list/items.md](items.md)).

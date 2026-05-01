@@ -151,14 +151,14 @@ TallStackUi::customize()
 
 | Scope             | Target           | Line(s) |
 |-------------------|------------------|---------|
-| `list.items.menu` | `<x-floating />` | 42      |
+| `list.items.menu` | `<x-floating />` | 39      |
 
 ### `list`
 
 | Scope        | Target        | Line(s) |
 |--------------|---------------|---------|
-| `list.label` | `<x-label />` | 9       |
-| `list.hint`  | `<x-hint />`  | 65      |
+| `list.label` | `<x-label />` | 8       |
+| `list.hint`  | `<x-hint />`  | 64      |
 
 ### `table`
 
