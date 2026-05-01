@@ -7,16 +7,18 @@
      x-on:command-palette:{{ $open }}.window="open()"
      x-on:command-palette:{{ $close }}.window="close()"
      {{ $attributes->whereStartsWith('x-on:') }}>
-    <div x-show="show"
-         @if (!$ts_ui__flash)
-             x-transition:enter="ease-out duration-200"
-             x-transition:enter-start="opacity-0"
-             x-transition:enter-end="opacity-100"
-             x-transition:leave="ease-in duration-150"
-             x-transition:leave-start="opacity-100"
-             x-transition:leave-end="opacity-0"
-         @endif
-         @class([$customization['backdrop'], $configurations['zIndex'], ($configurations['blur'] ? $customization['blur.'.($configurations['blur'] === true ? 'sm' : $configurations['blur'])] : '') => (bool) $configurations['blur']])></div>
+    @if ($configurations['overlay'])
+        <div x-show="show"
+             @if (!$ts_ui__flash)
+                 x-transition:enter="ease-out duration-200"
+                 x-transition:enter-start="opacity-0"
+                 x-transition:enter-end="opacity-100"
+                 x-transition:leave="ease-in duration-150"
+                 x-transition:leave-start="opacity-100"
+                 x-transition:leave-end="opacity-0"
+             @endif
+             @class([$customization['backdrop'], $configurations['zIndex'], ($configurations['blur'] ? $customization['blur.'.($configurations['blur'] === true ? 'sm' : $configurations['blur'])] : '') => (bool) $configurations['blur']])></div>
+    @endif
     <div x-show="show"
          x-on:click.self="close()"
          x-on:keydown.escape.window="close()"
