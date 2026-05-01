@@ -151,7 +151,7 @@ TallStackUi::customize()
 
 | Scope             | Target           | Line(s) |
 |-------------------|------------------|---------|
-| `list.items.menu` | `<x-dropdown />` | 27      |
+| `list.items.menu` | `<x-floating />` | 42      |
 
 ### `list`
 

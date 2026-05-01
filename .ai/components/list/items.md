@@ -60,7 +60,7 @@ Row with per-item menu:
 
 The row registers itself with the parent `<x-list>` at Alpine init time via `register(name, caption)`. This populates the parent's `items[]` array used by `match()` for search filtering and by `hasResults` for the empty state.
 
-When `<x-slot:menu>` is provided, the row renders an internal `<x-dropdown position="bottom-end">` with a borderless `ellipsis-vertical` trigger button. The menu content is the slot content (typically `<x-dropdown.items>` entries with `wire:click` actions).
+When `<x-slot:menu>` is provided, the row renders a self-contained dropdown menu (NOT `<x-dropdown>`) with a borderless `ellipsis-vertical` trigger and a narrow (`w-44`) floating panel pinned at `z-40` so Dialog/Modal/Slide/Toast overlays (all `z-50`) always render above it. The menu auto-closes when a `<x-dropdown.items>` entry is selected (via the `select` event) or when the user clicks outside.
 
 ## Validation
 
@@ -68,9 +68,25 @@ When `<x-slot:menu>` is provided, the row renders an internal `<x-dropdown posit
 
 Failures throw `InvalidArgumentException` (wrapped by Blade as `ViewException`).
 
-## Soft customization scope
+## Performance
 
-The `<x-dropdown>` rendered for the menu uses scope `list.items.menu`. Customizations targeted at this scope do not affect standalone `<x-dropdown>` usages.
+Each row applies `content-visibility: auto` + `contain-intrinsic-size: auto 2.5rem`. The browser skips layout/paint for rows scrolled off-screen, keeping scroll smooth even with hundreds of items. The intrinsic-size hint reserves ~40px per row so the scrollbar doesn't jump as rows are activated. See the parent [`<x-list>` docs](main.md) for guidance on lists larger than ~500 items.
+
+## Soft customization
+
+The menu trigger and floating panel are exposed as customization blocks under the `list.items` namespace:
+
+| Block           | Default                                                                                                                                        |
+|-----------------|------------------------------------------------------------------------------------------------------------------------------------------------|
+| `wrapper`       | Row layout + `content-visibility:auto` + `contain-intrinsic-size:auto 2.5rem`                                                                  |
+| `menu.wrapper`  | `shrink-0`                                                                                                                                     |
+| `menu.trigger`  | Borderless icon button styling                                                                                                                 |
+| `menu.icon`     | `size-5`                                                                                                                                       |
+| `menu.floating` | `absolute z-40 w-44` + border + `bg-white` / `dark:bg-dark-700` + `shadow-md` + `rounded-md` (the entire wrapper class for the floating panel) |
+
+Override via `TallStackUi::customize()->list('items')->block('menu.floating', '...')` for richer customization.
+
+The internal `<x-floating>` is invoked with `scope="list.items.menu"` so any future Floating customization blocks can be targeted at this scope without affecting standalone `<x-floating>` usages. (The floating's `wrapper` class is currently overridden via the `menu.floating` block above and not via the floating's own customization.)
 
 ## Constraint
 

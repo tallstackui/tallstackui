@@ -22,23 +22,30 @@
             @endif
         </div>
         @if ($hasMenu)
-            <div class="{{ $customization['menu.wrapper'] }}">
-                <x-dynamic-component :component="TallStackUi::prefix('dropdown')"
-                                     scope="list.items.menu"
-                                     position="bottom-end">
-                    <x-slot:action>
-                        <button type="button"
-                                class="{{ $customization['menu.trigger'] }}"
-                                x-on:click="show = !show; $refs.dropdown.dispatchEvent(new CustomEvent('open', {detail: {status: show}}))"
-                                dusk="tallstackui_list_items_menu">
-                            <x-dynamic-component :component="TallStackUi::prefix('icon')"
-                                                 :icon="TallStackUi::icon('ellipsis-vertical')"
-                                                 internal
-                                                 class="{{ $customization['menu.icon'] }}" />
-                        </button>
-                    </x-slot:action>
-                    {{ $menu }}
-                </x-dynamic-component>
+            <div class="{{ $customization['menu.wrapper'] }}" x-data="{ show: false }">
+                <div x-ref="dropdown"
+                     class="relative"
+                     x-on:click.outside="show = false"
+                     x-on:select="show = false">
+                    <button type="button"
+                            class="{{ $customization['menu.trigger'] }}"
+                            x-on:click="show = ! show"
+                            x-bind:aria-expanded="show"
+                            aria-haspopup="menu"
+                            dusk="tallstackui_list_items_menu">
+                        <x-dynamic-component :component="TallStackUi::prefix('icon')"
+                                             :icon="TallStackUi::icon('ellipsis-vertical')"
+                                             internal
+                                             class="{{ $customization['menu.icon'] }}" />
+                    </button>
+                    <x-dynamic-component :component="TallStackUi::prefix('floating')"
+                                         scope="list.items.menu"
+                                         :floating="$customization['menu.floating']"
+                                         offset="5"
+                                         position="bottom-end"
+                                         x-anchor="$refs.dropdown"
+                                         role="menu">{{ $menu }}</x-dynamic-component>
+                </div>
             </div>
         @endif
     </div>

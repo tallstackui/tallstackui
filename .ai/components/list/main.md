@@ -115,10 +115,49 @@ When `label` is set, the component renders `<x-label>` internally with `scope="l
 
 ## Soft customization scopes
 
-| Scope             | Target                                                          |
-|-------------------|-----------------------------------------------------------------|
-| `list.label`      | The internal `<x-label>` rendered when `label` is set           |
-| `list.hint`       | The internal `<x-hint>` rendered when `hint` is set             |
-| `list.items.menu` | The internal `<x-dropdown>` rendered when a row menu is present |
+| Scope             | Target                                                                                                         |
+|-------------------|----------------------------------------------------------------------------------------------------------------|
+| `list.label`      | The internal `<x-label>` rendered when `label` is set                                                          |
+| `list.hint`       | The internal `<x-hint>` rendered when `hint` is set                                                            |
+| `list.items.menu` | The internal `<x-floating>` rendered for each row's menu (NB: the floating panel class is overridden via the `menu.floating` block on `<x-list.items>` and not by floating's own customization) |
+
+The per-row menu is rendered via an internal floating dropdown (NOT `<x-dropdown>`); customize its blocks via `<x-list.items>` directly (`menu.trigger`, `menu.icon`, `menu.floating`, etc. — see [list/items.md](items.md)).
 
 See [`.ai/soft-customization-internal-scopes.md`](../../soft-customization-internal-scopes.md) for the canonical list of all internal scopes.
+
+## Performance
+
+The component is designed for **small to medium lists (~500 items)**. Two optimizations are baked in:
+
+- **`content-visibility: auto`** on every `<x-list.items>` row — the browser skips layout and paint for rows scrolled off-screen. With `contain-intrinsic-size: auto 2.5rem` reserving the row's intrinsic height, scrolling stays smooth even with hundreds of items. Native browser feature; no JS overhead.
+- **Debounced search input** (`150ms`) so reactive filtering doesn't fire on every keystroke.
+
+For lists exceeding ~500 items, **filter server-side** via Livewire instead of relying on Alpine's client-side filter:
+
+```blade
+{{-- in your Livewire view --}}
+<x-list :items="$this->filteredItems" searchable />
+```
+
+```php
+class MyComponent extends Component
+{
+    public string $search = '';
+
+    #[Computed]
+    public function filteredItems(): Collection
+    {
+        return Tag::query()
+            ->when(filled($this->search), fn ($q) => $q->where('name', 'like', "%{$this->search}%"))
+            ->limit(100)
+            ->get();
+    }
+}
+```
+
+```blade
+{{-- bind the search input to a Livewire property; the component re-renders on every search change --}}
+<x-list searchable wire:model.live.debounce.300ms="search" :items="$this->filteredItems" />
+```
+
+The slot mode `<x-list><x-list.items>...</x-list>` cannot be virtualized because each row is server-rendered Blade. For thousands of dynamically-loaded items, a paginated `<x-table>` is the appropriate component — `<x-list>` is intentionally lighter and aimed at curated/short lists.

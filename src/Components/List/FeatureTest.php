@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\View\ViewException;
+use TallStackUi\Facades\TallStackUi;
 use Tests\TestCase;
 
 uses(TestCase::class)->group('Feature');
@@ -209,12 +210,34 @@ it('renders the search input with x-model bound to search', function () {
         ->toContain('x-model.debounce.150ms="search"');
 });
 
-it('renders the items as a divided container', function () {
+it('does not use divide-y on the box (avoids phantom dividers under last visible row)', function () {
     expect('<x-list />')->render()
-        ->toContain('divide-y');
+        ->not->toContain('divide-y');
 });
 
-it('overrides dropdown z-index to z-40 inside items menu so dialogs render above', function () {
+it('places inter-row dividers via an arbitrary adjacent-sibling selector on items.wrapper', function () {
+    $component = <<<'HTML'
+    <x-list>
+        <x-list.items name="a" />
+        <x-list.items name="b" />
+    </x-list>
+    HTML;
+
+    expect($component)->render()
+        ->toContain('[&>[data-list-row]+[data-list-row]]:border-t');
+});
+
+it('renders a border-bottom on the search row when searchable', function () {
+    expect('<x-list searchable />')->render()
+        ->toContain('border-b');
+});
+
+it('does not render border-bottom from search row when searchable is false', function () {
+    expect('<x-list />')->render()
+        ->not->toContain('border-b');
+});
+
+it('uses an inline floating dropdown with z-40 and narrow width', function () {
     $component = <<<'HTML'
     <x-list>
         <x-list.items name="x">
@@ -226,10 +249,59 @@ it('overrides dropdown z-index to z-40 inside items menu so dialogs render above
     HTML;
 
     expect($component)->render()
-        ->toContain('z-40!');
+        ->toContain('z-40')
+        ->toContain('w-44')
+        ->not->toContain('z-50');
 });
 
-it('does not affect standalone dropdown z-index outside list', function () {
+it('does not use the dropdown component for the items menu', function () {
+    $component = <<<'HTML'
+    <x-list>
+        <x-list.items name="x">
+            <x-slot:menu>
+                <x-dropdown.items text="Edit" />
+            </x-slot:menu>
+        </x-list.items>
+    </x-list>
+    HTML;
+
+    expect($component)->render()
+        ->not->toContain('tallstackui_dropdown(')
+        ->not->toContain('tallstackui_open_dropdown');
+});
+
+it('does not affect standalone dropdown when used outside list', function () {
     expect('<x-dropdown text="Menu"><x-dropdown.items text="A" /></x-dropdown>')->render()
-        ->not->toContain('z-40!');
+        ->toContain('tallstackui_dropdown(')
+        ->toContain('z-50')
+        ->toContain('w-56');
+});
+
+it('applies content-visibility on each row to skip layout/paint of off-screen items', function () {
+    $component = <<<'HTML'
+    <x-list>
+        <x-list.items name="a" />
+    </x-list>
+    HTML;
+
+    expect($component)->render()
+        ->toContain('[content-visibility:auto]')
+        ->toContain('[contain-intrinsic-size:auto_2.5rem]');
+});
+
+it('scopes the floating menu under list.items.menu for soft customization', function () {
+    $component = <<<'HTML'
+    <x-list>
+        <x-list.items name="a">
+            <x-slot:menu>
+                <x-dropdown.items text="Edit" />
+            </x-slot:menu>
+        </x-list.items>
+    </x-list>
+    HTML;
+
+    expect($component)->render()
+        ->toBeString()
+        ->and(TallStackUi::customize('floating', scope: 'list.items.menu'))
+        ->not->toBeNull();
 });

@@ -30,7 +30,7 @@ class Component extends TallStackUiComponent implements Customization
     public function customization(): array
     {
         return Arr::dot([
-            'wrapper' => 'flex items-center gap-x-4 px-3 py-2',
+            'wrapper' => 'flex items-center gap-x-4 px-3 py-2 [content-visibility:auto] [contain-intrinsic-size:auto_2.5rem]',
             'content' => [
                 'wrapper' => 'flex grow items-center justify-between',
                 'inner' => 'flex flex-row items-center gap-2',
@@ -41,6 +41,7 @@ class Component extends TallStackUiComponent implements Customization
                 'wrapper' => 'shrink-0',
                 'trigger' => 'dark:text-dark-400 dark:hover:bg-dark-700 dark:hover:text-dark-200 flex cursor-pointer items-center justify-center rounded-md p-1 text-secondary-400 hover:bg-secondary-100 hover:text-secondary-600 focus:outline-none',
                 'icon' => 'size-5',
+                'floating' => 'dark:bg-dark-700 dark:border-dark-600 absolute z-40 w-44 overflow-hidden rounded-md border border-secondary-200 bg-white',
             ],
         ]);
     }
