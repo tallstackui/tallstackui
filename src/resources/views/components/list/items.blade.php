@@ -1,8 +1,5 @@
 @php
     $customization = $classes();
-    $hasMenu = $menu instanceof \Illuminate\View\ComponentSlot
-        ? ! $menu->isEmpty()
-        : ! empty($menu);
 @endphp
 
 <div class="{{ $customization['wrapper'] }}"
@@ -21,7 +18,7 @@
                 {{ $slot }}
             @endif
         </div>
-        @if ($hasMenu)
+        @if ($menu instanceof \Illuminate\View\ComponentSlot ? ! $menu->isEmpty() : ! empty($menu))
             <div class="{{ $customization['menu.wrapper'] }}" x-data="{ show: false }">
                 <div x-ref="dropdown"
                      class="relative"
