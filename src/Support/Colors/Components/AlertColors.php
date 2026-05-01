@@ -10,13 +10,17 @@ class AlertColors
 
     public function colors(): array
     {
-        [$background, $text] = $this->get('background', 'text');
+        [$background, $text, $bordered] = $this->get('background', 'text', 'bordered');
 
         $getter = $this->format($this->component->style, $this->component->color); // @phpstan-ignore-line
+        $borderedColor = $this->component->borderedAttributes['color'] ?? null;
 
         return [
             'background' => data_get($background, $getter) ?? data_get($this->background(), $getter),
             'text' => data_get($text, $getter) ?? data_get($this->text(), $getter),
+            'bordered' => $borderedColor === null
+                ? null
+                : (data_get($bordered, $borderedColor) ?? data_get($this->bordered(), $borderedColor)),
         ];
     }
 
@@ -116,6 +120,41 @@ class AlertColors
                 'mist' => 'bg-mist-50 shadow',
                 'taupe' => 'bg-taupe-50 shadow',
             ],
+        ];
+    }
+
+    private function bordered(): array
+    {
+        return [
+            'black' => 'border-black',
+            'primary' => 'border-primary-600',
+            'secondary' => 'border-secondary-600',
+            'slate' => 'border-slate-600',
+            'gray' => 'border-gray-600',
+            'zinc' => 'border-zinc-600',
+            'neutral' => 'border-neutral-600',
+            'stone' => 'border-stone-600',
+            'red' => 'border-red-600',
+            'orange' => 'border-orange-600',
+            'amber' => 'border-amber-600',
+            'yellow' => 'border-yellow-600',
+            'lime' => 'border-lime-600',
+            'green' => 'border-green-600',
+            'emerald' => 'border-emerald-600',
+            'teal' => 'border-teal-600',
+            'cyan' => 'border-cyan-600',
+            'sky' => 'border-sky-600',
+            'blue' => 'border-blue-600',
+            'indigo' => 'border-indigo-600',
+            'violet' => 'border-violet-600',
+            'purple' => 'border-purple-600',
+            'fuchsia' => 'border-fuchsia-600',
+            'pink' => 'border-pink-600',
+            'rose' => 'border-rose-600',
+            'mauve' => 'border-mauve-600',
+            'olive' => 'border-olive-600',
+            'mist' => 'border-mist-600',
+            'taupe' => 'border-taupe-600',
         ];
     }
 
