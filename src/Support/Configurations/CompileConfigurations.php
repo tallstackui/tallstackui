@@ -87,6 +87,7 @@ class CompileConfigurations
         $component->recycle ??= $configuration['recycle'] ?? true;
         $component->shortcut ??= $configuration['shortcut'] ?? 'ctrl.k';
         $component->centered ??= $configuration['centered'] ?? false;
+        $component->overlay ??= $configuration['overlay'] ?? true;
 
         return [
             'url' => $actionable ? URL::signedRoute('tallstackui.command-palette.action') : null,
@@ -98,6 +99,7 @@ class CompileConfigurations
             'elements' => $configuration['elements'] ?? true,
             'scrollbar' => $configuration['scrollbar'] ?? true,
             'centered' => $component->centered,
+            'overlay' => $component->overlay,
         ];
     }
 

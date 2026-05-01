@@ -31,6 +31,7 @@ class Component extends TallStackUiComponent implements Customization
         public ?bool $recycle = null,
         public ?string $shortcut = null,
         public ?bool $centered = null,
+        public ?bool $overlay = null,
         #[SkipDebug]
         public ?bool $grouped = null,
         #[SkipDebug]

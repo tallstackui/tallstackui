@@ -152,6 +152,7 @@ return [
             | elements: when true, shows the keyboard hints in the footer.
             | scrollbar: when true, applies a custom minimal scrollbar to the results list.
             | centered: when true, centers the palette vertically on mobile with fully rounded corners.
+            | overlay: when false, hides the dimmed background overlay rendered behind the palette.
             */
             [
                 'actionable' => null,
@@ -164,6 +165,7 @@ return [
                 'elements' => true,
                 'scrollbar' => true,
                 'centered' => false,
+                'overlay' => true,
             ],
         ],
         'currency' => Components\Form\Currency\Component::class,
