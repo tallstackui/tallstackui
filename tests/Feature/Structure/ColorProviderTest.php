@@ -105,5 +105,5 @@ test('should return a correct array', function () {
     expect($colors)
         ->toBeArray()
         ->and($colors)
-        ->toBe(['background' => 'bg-primary-600', 'text' => 'text-primary-50']);
+        ->toBe(['background' => 'bg-primary-600', 'text' => 'text-primary-50', 'bordered' => null]);
 });
