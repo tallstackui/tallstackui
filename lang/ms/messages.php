@@ -149,4 +149,9 @@ return [
         'symbol' => 'RM',
         'currency' => 'MYR',
     ],
+
+    'list' => [
+        'search' => 'Carian',
+        'empty' => 'Tiada item.',
+    ],
 ];

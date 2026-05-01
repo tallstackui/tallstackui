@@ -18,6 +18,7 @@ import clearable from '../src/Components/Form/Input/clearable';
 import stripZeros from '../src/Components/Form//Input/strip-zeros';
 import loading from '../src/Components/Loading/alpine';
 import layout from '../src/Components/Layout/Main/alpine';
+import list from '../src/Components/List/Main/alpine';
 import keyValue from '../src/Components/KeyValue/alpine';
 import modal from '../src/Components/Modal/alpine';
 import number from '../src/Components/Form/Number/alpine';
@@ -64,6 +65,7 @@ document.addEventListener('alpine:init', () => {
   Alpine.data('tallstackui_dropdown', dropdown);
   Alpine.data('tallstackui_loading', loading);
   Alpine.data('tallstackui_layout', layout);
+  Alpine.data('tallstackui_list', list);
   Alpine.data('tallstackui_keyValue', keyValue);
   Alpine.data('tallstackui_modal', modal);
   Alpine.data('tallstackui_rating', rating);

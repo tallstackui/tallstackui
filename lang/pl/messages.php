@@ -149,4 +149,9 @@ return [
         'symbol' => 'zł',
         'currency' => 'PLN',
     ],
+
+    'list' => [
+        'search' => 'Szukaj',
+        'empty' => 'Brak elementów.',
+    ],
 ];

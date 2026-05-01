@@ -58,6 +58,8 @@ use TallStackUi\Components\Layout\SideBar\Item\Component as SideBarItem;
 use TallStackUi\Components\Layout\SideBar\Main\Component as SideBar;
 use TallStackUi\Components\Layout\SideBar\Separator\Component as Separator;
 use TallStackUi\Components\Link\Component as Link;
+use TallStackUi\Components\List\Items\Component as ListItems;
+use TallStackUi\Components\List\Main\Component as TsList;
 use TallStackUi\Components\Loading\Component as Loading;
 use TallStackUi\Components\Modal\Component as Modal;
 use TallStackUi\Components\Progress\Bar\Component as Progress;
@@ -375,6 +377,21 @@ class Customization
         $this->scope ??= $scope;
 
         return $this->component(Link::class);
+    }
+
+    public function list(?string $component = null, ?string $scope = null): CustomizationFactory
+    {
+        $this->scope ??= $scope;
+
+        $component ??= 'list';
+
+        $class = match ($component) {
+            'list' => TsList::class,
+            'items' => ListItems::class,
+            default => $component,
+        };
+
+        return $this->component($class);
     }
 
     public function loading(?string $scope = null): CustomizationFactory

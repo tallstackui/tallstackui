@@ -149,4 +149,9 @@ return [
         'symbol' => 'د.إ',
         'currency' => 'AED',
     ],
+
+    'list' => [
+        'search' => 'بحث',
+        'empty' => 'لا توجد عناصر.',
+    ],
 ];
