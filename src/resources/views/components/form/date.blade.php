@@ -79,7 +79,7 @@
                                 <span x-text="calendar.months[month]"
                                       class="{{ $customization['label.month'] }}"></span>
                             </button>
-                            <button type="button" class="mr-2" x-on:click="now()" x-show="!monthYearOnly">
+                            <button type="button" class="mr-2 cursor-pointer" x-on:click="now()" x-show="!monthYearOnly">
                                 {{ trans('ts-ui::messages.date.helpers.today') }}
                             </button>
                         </div>
@@ -103,7 +103,7 @@
                                 <span class="{{ $customization['box.picker.separator'] }}">-</span>
                                 <span x-text="range.year.last" class="{{ $customization['label.month'] }}"></span>
                             </div>
-                            <button type="button" x-on:click="now()" x-show="!monthYearOnly">
+                            <button type="button" class="cursor-pointer" x-on:click="now()" x-show="!monthYearOnly">
                                 {{ trans('ts-ui::messages.date.helpers.today') }}
                             </button>
                             <div>
