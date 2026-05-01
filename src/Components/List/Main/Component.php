@@ -24,9 +24,13 @@ class Component extends TallStackUiComponent implements Customization
         #[SkipDebug]
         public ComponentSlot|string|null $empty = null,
         #[SkipDebug]
-        public array $resolvedItems = [],
+        public array $resolved = [],
     ) {
-        $this->resolvedItems = $this->normalize();
+        if ($this->items !== null) {
+            $items = $this->items instanceof Arrayable ? $this->items->toArray() : $this->items;
+
+            $this->resolved = array_values($items);
+        }
     }
 
     public function blade(): View
@@ -70,23 +74,12 @@ class Component extends TallStackUiComponent implements Customization
             __ts_validation_exception($this, 'The [height] must be one of: ['.implode(', ', $allowed).'].');
         }
 
-        foreach ($this->resolvedItems as $index => $item) {
+        foreach ($this->resolved as $index => $item) {
             $name = data_get($item, 'name');
 
             if (! is_string($name) || trim($name) === '') {
                 __ts_validation_exception($this, "The [name] is required for the item at index [{$index}].");
             }
         }
-    }
-
-    private function normalize(): array
-    {
-        if ($this->items === null) {
-            return [];
-        }
-
-        $items = $this->items instanceof Arrayable ? $this->items->toArray() : $this->items;
-
-        return array_values($items);
     }
 }

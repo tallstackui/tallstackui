@@ -1,6 +1,5 @@
 @php
     $customization = $classes();
-    $useDataDriven = $items !== null;
 @endphp
 
 <div class="{{ $customization['wrapper'] }}">
@@ -33,8 +32,8 @@
                 $customization['items.scroll'] => $height !== null,
                 ($customization['items.height.'.$height] ?? '') => $height !== null,
              ])>
-            @if ($useDataDriven)
-                @foreach ($resolvedItems as $item)
+            @if ($items !== null)
+                @foreach ($resolved as $item)
                     <x-dynamic-component :component="TallStackUi::prefix('list.items')"
                                          :name="data_get($item, 'name')"
                                          :caption="data_get($item, 'caption')">
