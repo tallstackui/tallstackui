@@ -7,12 +7,22 @@ use Tests\TestCase;
 
 uses(TestCase::class)->group('Feature');
 
-it('can render without errors', function () {
+it('can render without a property', function () {
+    View::share('errors', new ViewErrorBag);
+
+    expect('<x-error />')
+        ->render()
+        ->not->toContain('text-red-500');
+});
+
+it('always renders the reactive span when a property is given', function () {
     View::share('errors', new ViewErrorBag);
 
     expect('<x-error property="name" />')
         ->render()
-        ->not->toContain('text-red-500');
+        ->toContain('text-red-500')
+        ->toContain('$wire?.$errors?.has')
+        ->toContain("'name'");
 });
 
 it('can render with validation error', function () {

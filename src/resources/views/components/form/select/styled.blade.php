@@ -259,7 +259,7 @@
     @if ($hint && !$error && !$side)
         <x-dynamic-component :component="TallStackUi::prefix('hint')" scope="form.select-styled.hint" :$hint />
     @endif
-    @if ($error && !$side)
+    @if (($property || $error) && !$side)
         <x-dynamic-component :component="TallStackUi::prefix('error')" scope="form.select-styled.error" :$property />
     @endif
 </div>
