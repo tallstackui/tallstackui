@@ -170,24 +170,24 @@ TallStackUi::customize()
 
 The Autocomplete delegates the input rendering to `Form/Input`, so any styling related to the input wrapper, label, hint, error state, or prefix slot is customized via `form.input` (and the `Form/Input` AI doc), not here. The blocks below are only the bits the Autocomplete adds on top.
 
-| Block Name                | Purpose                                                                                  |
-|---------------------------|------------------------------------------------------------------------------------------|
-| adornment.suffix          | Wrapper around the user-provided `suffix` text inside the input's suffix slot.           |
-| icon.wrapper              | Container for the loading/clear icons inside the input.                                  |
-| icon.clear                | Clear `×` icon.                                                                          |
-| icon.loading              | Spinner shown next to the input while remote requests are in flight.                     |
-| floating.default          | Inherits `Floating::customization()['wrapper']`.                                         |
-| floating.class            | Overflow tweaks for the panel (the panel width is auto-synced to the input wrapper).     |
-| box.list.wrapper          | The `<ul>` container of the dropdown.                                                    |
-| box.list.item.wrapper     | Each option row.                                                                         |
-| box.list.item.base        | Inner flex container (image + content).                                                  |
-| box.list.item.value       | Primary line (from `item.value`).                                                        |
-| box.list.item.description | Secondary subtitle line (from `item.description`).                                       |
-| box.list.item.image       | Avatar circle on the left of the row.                                                    |
-| box.list.item.content     | Wrapper around value + description.                                                      |
-| box.list.item.highlighted | Keyboard-highlighted row.                                                                |
-| box.list.item.selected    | Currently selected row.                                                                  |
-| box.list.item.disabled    | Disabled row.                                                                            |
-| box.list.empty            | Default "no results" message when the `after` slot is not used.                          |
-| box.list.loading.wrapper  | Loading container inside the dropdown.                                                   |
-| box.list.loading.class    | Spinner icon classes inside the dropdown (matches Select Styled's loading animation).    |
+| Block Name                | Purpose                                                                               |
+|---------------------------|---------------------------------------------------------------------------------------|
+| adornment.suffix          | Wrapper around the user-provided `suffix` text inside the input's suffix slot.        |
+| icon.wrapper              | Container for the loading/clear icons inside the input.                               |
+| icon.clear                | Clear `×` icon.                                                                       |
+| icon.loading              | Spinner shown next to the input while remote requests are in flight.                  |
+| floating.default          | Inherits `Floating::customization()['wrapper']`.                                      |
+| floating.class            | Overflow tweaks for the panel (the panel width is auto-synced to the input wrapper).  |
+| box.list.wrapper          | The `<ul>` container of the dropdown.                                                 |
+| box.list.item.wrapper     | Each option row.                                                                      |
+| box.list.item.base        | Inner flex container (image + content).                                               |
+| box.list.item.value       | Primary line (from `item.value`).                                                     |
+| box.list.item.description | Secondary subtitle line (from `item.description`).                                    |
+| box.list.item.image       | Avatar circle on the left of the row.                                                 |
+| box.list.item.content     | Wrapper around value + description.                                                   |
+| box.list.item.highlighted | Keyboard-highlighted row.                                                             |
+| box.list.item.selected    | Currently selected row.                                                               |
+| box.list.item.disabled    | Disabled row.                                                                         |
+| box.list.empty            | Default "no results" message when the `after` slot is not used.                       |
+| box.list.loading.wrapper  | Loading container inside the dropdown.                                                |
+| box.list.loading.class    | Spinner icon classes inside the dropdown (matches Select Styled's loading animation). |
