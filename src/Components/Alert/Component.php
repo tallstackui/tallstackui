@@ -24,12 +24,26 @@ class Component extends TallStackUiComponent implements Customization
         public ?bool $light = false,
         public ?bool $outline = false,
         public ?int $dismiss = null,
+        public ?string $rounded = 'lg',
+        public ?bool $square = false,
+        public ?string $bordered = null,
         #[SkipDebug]
         public ?string $style = 'solid',
         #[SkipDebug]
         public ?string $footer = null,
+        #[SkipDebug]
+        public array $borderedAttributes = ['side' => null, 'color' => null],
     ) {
         $this->style = $this->outline ? 'outline' : ($this->light ? 'light' : 'solid');
+
+        if ($this->bordered !== null) {
+            [$side, $color] = array_pad(explode(':', $this->bordered, 2), 2, null);
+
+            $this->borderedAttributes = [
+                'side' => $side,
+                'color' => $color !== null && $color !== '' ? $color : $this->color,
+            ];
+        }
     }
 
     public function blade(): View
@@ -40,7 +54,19 @@ class Component extends TallStackUiComponent implements Customization
     public function customization(): array
     {
         return Arr::dot([
-            'wrapper' => 'rounded-lg p-4',
+            'wrapper' => 'p-4',
+            'rounded' => [
+                'xs' => 'rounded-xs',
+                'sm' => 'rounded-sm',
+                'md' => 'rounded-md',
+                'lg' => 'rounded-lg',
+                'xl' => 'rounded-xl',
+            ],
+            'square' => 'rounded-none',
+            'bordered' => [
+                'left' => 'border-l-4',
+                'right' => 'border-r-4',
+            ],
             'content' => [
                 'wrapper' => 'flex justify-between flex-wrap',
                 'base' => 'flex-1 flex',
@@ -64,6 +90,22 @@ class Component extends TallStackUiComponent implements Customization
     {
         if ($this->dismiss !== null && $this->dismiss < 1) {
             __ts_validation_exception($this, 'The [dismiss] must be a positive integer.');
+        }
+
+        $rounded = ['xs', 'sm', 'md', 'lg', 'xl'];
+
+        if ($this->rounded !== null && ! in_array($this->rounded, $rounded, true)) {
+            __ts_validation_exception($this, 'The [rounded] must be one of: ['.implode(', ', $rounded).'].');
+        }
+
+        if ($this->bordered === null) {
+            return;
+        }
+
+        $sides = ['left', 'right'];
+
+        if (! in_array($this->borderedAttributes['side'], $sides, true)) {
+            __ts_validation_exception($this, 'The [bordered] side must be one of: ['.implode(', ', $sides).'].');
         }
     }
 }

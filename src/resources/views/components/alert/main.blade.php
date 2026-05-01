@@ -2,7 +2,14 @@
     $customization = $classes();
 @endphp
 
-<div @class([$customization['wrapper'], $colors['background']])
+<div @class([
+        $customization['wrapper'],
+        $colors['background'],
+        $customization['square'] => $square,
+        ($customization['rounded.'.$rounded] ?? '') => ! $square && $rounded,
+        ($customization['bordered.'.$borderedAttributes['side']] ?? '') => $borderedAttributes['side'] !== null,
+        $colors['bordered'] => $borderedAttributes['side'] !== null && $colors['bordered'],
+     ])
      x-data="tallstackui_alert(@js($dismiss))"
      x-show="show"
      x-transition:leave="transition ease-in duration-300"

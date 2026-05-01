@@ -24,7 +24,7 @@ it('can customize using facade and string', function () {
         ->toContain('Foo bar', 'bg-primary-600');
 
     TallStackUi::customize('alert')
-        ->block('wrapper', 'p-4');
+        ->block('rounded.lg', 'rounded-md');
 
     expect('<x-alert title="Foo bar" />')->render()
         ->toContain('Foo bar')
@@ -37,7 +37,7 @@ it('can customize using method and string', function () {
 
     TallStackUi::customize()
         ->alert()
-        ->block('wrapper', 'p-4');
+        ->block('rounded.lg', 'rounded-md');
 
     expect('<x-alert title="Foo bar" />')->render()
         ->toContain('Foo bar')
@@ -127,7 +127,7 @@ it('can customize using remove', function () {
 
     /* string */
     TallStackUi::customize('alert')
-        ->block('wrapper')
+        ->block('rounded.lg')
         ->remove('rounded-lg');
 
     expect('<x-alert title="Foo bar" />')->render()
@@ -136,12 +136,12 @@ it('can customize using remove', function () {
 
     /* array */
     TallStackUi::customize('alert')
-        ->block('wrapper')
-        ->remove(['rounded-lg', 'p-4']);
+        ->block('rounded.lg')
+        ->remove(['rounded-lg']);
 
     expect('<x-alert title="Foo bar" />')->render()
         ->toContain('Foo bar')
-        ->not->toContain('rounded-md', 'p-4');
+        ->not->toContain('rounded-lg');
 });
 
 it('can customize using replace', function () {
