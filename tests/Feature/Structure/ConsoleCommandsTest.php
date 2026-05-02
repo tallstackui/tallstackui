@@ -3,6 +3,7 @@
 use Illuminate\Console\Command;
 use TallStackUi\Console\FindComponentCommand;
 use TallStackUi\Console\IdeCommand;
+use TallStackUi\Console\PublishCommentsTableCommand;
 use TallStackUi\Console\SetupColorCommand;
 use TallStackUi\Console\SetupPrefixCommand;
 
@@ -14,6 +15,7 @@ test('all commands extend illuminate command', function () {
         FindComponentCommand::class,
         SetupColorCommand::class,
         SetupPrefixCommand::class,
+        PublishCommentsTableCommand::class,
     ])->toExtend(Command::class);
 });
 
@@ -24,6 +26,7 @@ test('all commands have handle method', function (string $command) {
     FindComponentCommand::class,
     SetupColorCommand::class,
     SetupPrefixCommand::class,
+    PublishCommentsTableCommand::class,
 ]);
 
 test('ide command has ignores constant', function () {

@@ -8,6 +8,7 @@ use Illuminate\View\Compilers\BladeCompiler;
 use TallStackUi\Components\Icon\Component as Icon;
 use TallStackUi\Console\FindComponentCommand;
 use TallStackUi\Console\IdeCommand;
+use TallStackUi\Console\PublishCommentsTableCommand;
 use TallStackUi\Console\SetupColorCommand;
 use TallStackUi\Console\SetupPrefixCommand;
 use TallStackUi\Customization\CustomizationFactory;
@@ -71,6 +72,7 @@ class TallStackUiServiceProvider extends ServiceProvider
             FindComponentCommand::class,
             SetupColorCommand::class,
             IdeCommand::class,
+            PublishCommentsTableCommand::class,
         ]);
     }
 

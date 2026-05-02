@@ -18,4 +18,12 @@ abstract class TestCase extends BaseTestCase
             'TallStackUi' => TallStackUi::class,
         ];
     }
+
+    protected function getPackageProviders($app): array
+    {
+        return [
+            \Livewire\LivewireServiceProvider::class,
+            \TallStackUi\TallStackUiServiceProvider::class,
+        ];
+    }
 }
