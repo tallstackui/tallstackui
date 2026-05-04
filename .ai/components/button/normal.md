@@ -25,28 +25,29 @@ A versatile button component supporting solid, light, outline, and flat styles w
 
 ## Attributes
 
-| Attribute | Type         | Default   | Description                                                     |
-|-----------|--------------|-----------|-----------------------------------------------------------------|
-| text      | string\|null | null      | Button label text                                               |
-| icon      | string\|null | null      | Heroicon name displayed alongside the text                      |
-| position  | string\|null | 'left'    | Icon position relative to text: 'left' or 'right'               |
-| xs        | bool         | null      | Extra-small size                                                |
-| sm        | bool         | null      | Small size                                                      |
-| md        | bool         | null      | Medium size (default)                                           |
-| lg        | bool         | null      | Large size                                                      |
-| color     | string\|null | 'primary' | Color theme (e.g., primary, red, green, yellow)                 |
-| square    | string\|null | null      | Removes border radius for square corners                        |
-| round     | string\|null | null      | Uses fully rounded (pill) border radius                         |
-| block     | bool         | false     | Expands button to full width (`w-full`)                         |
-| href      | string\|null | null      | When set, renders as an anchor tag instead of a button          |
-| loading   | string\|null | null      | Livewire action name to show a loading spinner during execution |
-| delay     | string\|null | null      | Delay duration for the loading indicator (e.g., 'longest')      |
-| solid     | bool         | true      | Uses the solid color style variant (default)                    |
-| outline   | bool         | false     | Uses the outline color style variant                            |
-| light     | bool         | false     | Uses the light color style variant                              |
-| flat      | bool         | false     | Uses the flat color style variant (no border)                   |
-| submit    | bool         | false     | Sets button type to 'submit' for form submission                |
-| tooltip   | string\|null | null      | Tooltip text shown on hover                                     |
+| Attribute | Type         | Default   | Description                                                      |
+|-----------|--------------|-----------|------------------------------------------------------------------|
+| text      | string\|null | null      | Button label text                                                |
+| icon      | string\|null | null      | Heroicon name displayed alongside the text                       |
+| position  | string\|null | 'left'    | Icon position relative to text: 'left' or 'right'                |
+| xs        | bool         | null      | Extra-small size                                                 |
+| sm        | bool         | null      | Small size                                                       |
+| md        | bool         | null      | Medium size (default)                                            |
+| lg        | bool         | null      | Large size                                                       |
+| color     | string\|null | 'primary' | Color theme (e.g., primary, red, green, yellow)                  |
+| square    | string\|null | null      | Removes border radius for square corners                         |
+| round     | string\|null | null      | Uses fully rounded (pill) border radius                          |
+| block     | bool         | false     | Expands button to full width (`w-full`)                          |
+| href      | string\|null | null      | When set, renders as an anchor tag instead of a button           |
+| loading   | string\|null | null      | Livewire action name to show a loading spinner during execution  |
+| delay     | string\|null | null      | Delay duration for the loading indicator (e.g., 'longest')       |
+| solid     | bool         | true      | Uses the solid color style variant (default)                     |
+| outline   | bool         | false     | Uses the outline color style variant                             |
+| light     | bool         | false     | Uses the light color style variant                               |
+| flat      | bool         | false     | Uses the flat color style variant (no border)                    |
+| submit    | bool         | false     | Sets button type to 'submit' for form submission                 |
+| unfocus   | bool         | false     | Hides the focus ring when activated by mouse (kept for keyboard) |
+| tooltip   | string\|null | null      | Tooltip text shown on hover                                      |
 
 ## Slots
 

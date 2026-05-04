@@ -88,3 +88,13 @@ it('can render colored', function (string $colors) {
     expect($component)->render()
         ->toContain($color);
 })->with(colorsDataset());
+
+it('emits data-tsui-unfocus when unfocus is on')
+    ->expect('<x-button text="Foo bar" color="primary" unfocus />')
+    ->render()
+    ->toContain('data-tsui-unfocus');
+
+it('does not emit data-tsui-unfocus by default')
+    ->expect('<x-button text="Foo bar" color="primary" />')
+    ->render()
+    ->not->toContain('data-tsui-unfocus');
