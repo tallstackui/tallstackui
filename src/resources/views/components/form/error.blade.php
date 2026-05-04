@@ -1,6 +1,5 @@
 @php
     $customization = $classes();
-    $message = $property ? $errors->first($property) : null;
 @endphp
 
 @if ($property)
