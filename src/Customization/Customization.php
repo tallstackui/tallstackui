@@ -13,6 +13,7 @@ use TallStackUi\Components\Banner\Component as Banner;
 use TallStackUi\Components\Boolean\Component as Boolean;
 use TallStackUi\Components\Breadcrumbs\Component as Breadcrumbs;
 use TallStackUi\Components\Button\Circle\Component as Circle;
+use TallStackUi\Components\Button\Group\Component as ButtonGroup;
 use TallStackUi\Components\Button\Normal\Component as Button;
 use TallStackUi\Components\Calendar\Component as Calendar;
 use TallStackUi\Components\Card\Component as Card;
@@ -171,6 +172,7 @@ class Customization
         $class = match ($component) {
             'button' => Button::class,
             'circle' => Circle::class,
+            'group' => ButtonGroup::class,
             default => $component,
         };
 
