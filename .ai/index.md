@@ -39,6 +39,7 @@
 
 - [Button](components/button/normal.md)
 - [Button Circle](components/button/circle.md)
+- [Button Group](components/button/group.md)
 
 ### Form
 

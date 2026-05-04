@@ -54,44 +54,54 @@ it('can render colored', function (string $colors) {
 it('can render lg', function () {
     expect('<x-button.circle text="LG" color="primary" lg />')->render()
         ->toContain('w-12 h-12')
-        ->toContain('text-lg');
-
-    expect('<x-button.circle icon="users" color="primary" lg />')->render()
+        ->toContain('text-lg')
+        ->and('<x-button.circle icon="users" color="primary" lg />')->render()
         ->toContain('w-12 h-12')
         ->toContain('w-6 h-6');
+
 });
 
 it('can render md', function () {
     expect('<x-button.circle text="MD" color="primary" />')->render()
         ->toContain('w-9 h-9')
-        ->toContain('text-md');
-
-    expect('<x-button.circle icon="users" color="primary" />')->render()
+        ->toContain('text-md')
+        ->and('<x-button.circle icon="users" color="primary" />')->render()
         ->toContain('w-9 h-9')
         ->toContain('w-4 h-4');
+
 });
 
 it('can render sm', function () {
     expect('<x-button.circle sm text="MD" color="primary" />')->render()
         ->toContain('w-6 h-6')
-        ->toContain('text-sm');
-
-    expect('<x-button.circle sm icon="users" color="primary" />')->render()
+        ->toContain('text-sm')
+        ->and('<x-button.circle sm icon="users" color="primary" />')->render()
         ->toContain('w-6 h-6')
         ->toContain('w-3 h-3');
+
 });
 
 it('can render xs', function () {
     expect('<x-button.circle xs text="MD" color="primary" />')->render()
         ->toContain('w-4 h-4')
-        ->toContain('text-xs');
-
-    expect('<x-button.circle xs icon="users" color="primary" />')->render()
+        ->toContain('text-xs')
+        ->and('<x-button.circle xs icon="users" color="primary" />')->render()
         ->toContain('w-4 h-4')
         ->toContain('w-2 h-2');
+
 });
 
 it('can render with type submit')
     ->expect('<x-button.circle icon="pencil" submit />')
     ->render()
     ->toContain('type="submit"', false);
+
+it('emits data-tsui-unfocus when unfocus is on')
+    ->expect('<x-button.circle icon="pencil" color="primary" unfocus />')
+    ->render()
+    ->toContain('data-tsui-unfocus');
+
+it('does not emit data-tsui-unfocus by default')
+    ->expect('<x-button.circle icon="pencil" color="primary" />')
+    ->render()
+    ->not->toContain('data-tsui-unfocus');

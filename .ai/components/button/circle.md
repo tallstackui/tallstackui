@@ -42,6 +42,7 @@ A circular button component for icon-only or single-character actions. Supports 
 | light     | bool         | false     | Uses the light color style variant                                     |
 | flat      | bool         | false     | Uses the flat color style variant (no border)                          |
 | submit    | bool         | false     | Sets button type to 'submit' for form submission                       |
+| unfocus   | bool         | false     | Hides the focus ring when activated by mouse (kept for keyboard)       |
 
 ## Slots
 

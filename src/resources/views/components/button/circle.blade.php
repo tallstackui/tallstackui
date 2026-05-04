@@ -4,7 +4,7 @@
 
 <{{ $tag }} @if ($href) href="{!! $href !!}" @else
     role="button"
-@endif {{ $attributes->except('type')->class([
+        @endif @if ($unfocus) data-tsui-unfocus @endif {{ $attributes->except('type')->class([
         $customization['wrapper.base'],
         $customization['wrapper.sizes.' . $size],
         $colors['background']
