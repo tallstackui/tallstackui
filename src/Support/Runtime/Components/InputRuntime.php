@@ -23,6 +23,7 @@ class InputRuntime extends AbstractRuntime
             'property' => $property = $bind->get('property'),
             'error' => $bind->get('error'),
             'id' => $bind->get('id'),
+            'validate' => $bind->get('validate'),
             'ref' => $property ?? uniqid(),
             'prefixed' => $prefixed,
             'suffixed' => $suffixed,

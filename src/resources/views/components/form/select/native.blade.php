@@ -1,6 +1,5 @@
 @php
     $customization = $classes();
-    $resolvedInvalidate = $invalidate ?? config('ts-ui.invalidate_global') ?? false;
 @endphp
 
 <div>
@@ -42,7 +41,7 @@
     @if ($hint && !$error && !$side)
         <x-dynamic-component :component="TallStackUi::prefix('hint')" scope="form.select-native.hint" :$hint />
     @endif
-    @if (($property || $error) && !$side && !$resolvedInvalidate)
+    @if ($validate && !$side)
         <x-dynamic-component :component="TallStackUi::prefix('error')" scope="form.select-native.error" :$property />
     @endif
 </div>

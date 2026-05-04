@@ -1,6 +1,5 @@
 @php
     $customization = $classes();
-    $resolvedInvalidate = $invalidate ?? config('ts-ui.invalidate_global') ?? false;
 @endphp
 
 @if ($livewire)
@@ -86,7 +85,7 @@
     @if ($hint && !$error)
         <x-dynamic-component :component="TallStackUi::prefix('hint')" scope="form.pin.hint" :$hint />
     @endif
-    @if (($property || $error) && !$resolvedInvalidate)
+    @if ($validate)
         <x-dynamic-component :component="TallStackUi::prefix('error')" scope="form.pin.error" :$property />
     @endif
 </div>
