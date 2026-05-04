@@ -17,6 +17,7 @@ class PinRuntime extends AbstractRuntime
             'error' => $bind->get('error'),
             'id' => $bind->get('id'),
             'entangle' => $bind->get('entangle'),
+            'validate' => $bind->get('validate'),
             'hash' => $this->wireable() ? $this->livewire->getId().'-'.$property : uniqid(),
             'change' => $this->change(),
         ];

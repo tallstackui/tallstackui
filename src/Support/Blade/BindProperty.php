@@ -32,6 +32,7 @@ class BindProperty
             $this->error($property),
             $this->id($property),
             $this->support->entangle(),
+            $this->validate($property),
         ];
     }
 
@@ -44,7 +45,13 @@ class BindProperty
     {
         $array = $this->toArray();
 
-        return collect(['property' => $array[0], 'error' => $array[1], 'id' => $array[2], 'entangle' => $array[3]]);
+        return collect([
+            'property' => $array[0],
+            'error' => $array[1],
+            'id' => $array[2],
+            'entangle' => $array[3],
+            'validate' => $array[4],
+        ]);
     }
 
     /**
@@ -86,5 +93,13 @@ class BindProperty
     private function id(?string $property = null): ?string
     {
         return $this->attributes->get('id') ?? $property;
+    }
+
+    /**
+     * Decide whether the property is subject to validation feedback — i.e. an error span should be reserved in the DOM for it.
+     */
+    private function validate(?string $property = null): bool
+    {
+        return $property !== null && ! $this->invalidate;
     }
 }

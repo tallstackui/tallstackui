@@ -2,14 +2,15 @@
     $customization = $classes();
 @endphp
 
-@error ($property)
+@if ($property)
     <span
         class="{{ $customization['text'] }}"
+        x-cloak
         x-show="typeof $wire?.$errors?.has === 'function'
             ? $wire.$errors.has('{{ $property }}')
-            : true"
+            : @js($message !== null)"
         x-text="typeof $wire?.$errors?.first === 'function'
             ? ($wire.$errors.first('{{ $property }}') ?? '')
             : @js($message)"
     >{{ $message }}</span>
-@enderror
+@endif

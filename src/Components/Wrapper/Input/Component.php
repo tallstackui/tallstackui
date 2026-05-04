@@ -20,7 +20,7 @@ class Component extends TallStackUiComponent implements Customization
         public ?bool $error = false,
         public ?bool $clearable = null,
     ) {
-        //
+        $this->invalidate ??= config('ts-ui.invalidate_global') ?? false;
     }
 
     public function blade(): View

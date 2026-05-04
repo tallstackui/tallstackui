@@ -14,7 +14,7 @@
     @if ($hint && !$error)
         <x-dynamic-component :component="TallStackUi::prefix('hint')" scope="wrapper.input.hint" :$hint />
     @endif
-    @if ($error)
+    @if ($property && !$invalidate)
         <x-dynamic-component :component="TallStackUi::prefix('error')" scope="wrapper.input.error" :$property />
     @endif
 </div>

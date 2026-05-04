@@ -20,7 +20,7 @@
             </div>
         </label>
     </div>
-    @if ($error)
+    @if ($property && !$invalidate)
         <x-dynamic-component :component="TallStackUi::prefix('error')" scope="wrapper.radio.error" :$property />
     @endif
 </div>

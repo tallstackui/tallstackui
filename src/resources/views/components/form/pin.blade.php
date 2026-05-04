@@ -85,7 +85,7 @@
     @if ($hint && !$error)
         <x-dynamic-component :component="TallStackUi::prefix('hint')" scope="form.pin.hint" :$hint />
     @endif
-    @if ($error)
+    @if ($validate)
         <x-dynamic-component :component="TallStackUi::prefix('error')" scope="form.pin.error" :$property />
     @endif
 </div>
