@@ -1,5 +1,6 @@
 @php
     $customization = $classes();
+    $resolvedInvalidate = $invalidate ?? config('ts-ui.invalidate_global') ?? false;
 @endphp
 
 <div>
@@ -20,7 +21,7 @@
             </div>
         </label>
     </div>
-    @if ($property || $error)
+    @if (($property || $error) && !$resolvedInvalidate)
         <x-dynamic-component :component="TallStackUi::prefix('error')" scope="wrapper.radio.error" :$property />
     @endif
 </div>

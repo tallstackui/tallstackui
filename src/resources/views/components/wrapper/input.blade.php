@@ -1,5 +1,6 @@
 @php
     $customization = ['wrapper' => $attributes->get('wrapper', $classes()['wrapper'])];
+    $resolvedInvalidate = $invalidate ?? config('ts-ui.invalidate_global') ?? false;
 @endphp
 
 <div>
@@ -14,7 +15,7 @@
     @if ($hint && !$error)
         <x-dynamic-component :component="TallStackUi::prefix('hint')" scope="wrapper.input.hint" :$hint />
     @endif
-    @if ($property || $error)
+    @if (($property || $error) && !$resolvedInvalidate)
         <x-dynamic-component :component="TallStackUi::prefix('error')" scope="wrapper.input.error" :$property />
     @endif
 </div>
