@@ -15,6 +15,10 @@
     },
     "files": [
       "src/helpers.php"
+    ],
+    "exclude-from-classmap": [
+      "src/**/FeatureTest.php",
+      "src/**/BrowserTest.php"
     ]
   },
   "autoload-dev": {
