@@ -25,15 +25,15 @@ A badge-like component that displays the current Laravel application environment
 
 ## Attributes
 
-| Attribute     | Type | Default | Description                              |
-|---------------|------|---------|------------------------------------------|
-| xs            | bool | null    | Extra-small size (default)               |
-| sm            | bool | null    | Small size                               |
-| md            | bool | null    | Medium size                              |
-| lg            | bool | null    | Large size                               |
-| square        | bool | false   | Removes border radius for square corners |
-| round         | bool | false   | Uses fully rounded (pill) border radius  |
-| withoutBranch | bool | null    | Hides the Git branch name                |
+| Attribute     | Type         | Default | Description                                                                                                                                                                                                                                       |
+|---------------|--------------|---------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| xs            | bool         | null    | Extra-small size (default)                                                                                                                                                                                                                        |
+| sm            | bool         | null    | Small size                                                                                                                                                                                                                                        |
+| md            | bool         | null    | Medium size                                                                                                                                                                                                                                       |
+| lg            | bool         | null    | Large size                                                                                                                                                                                                                                        |
+| square        | bool         | false   | Removes border radius for square corners                                                                                                                                                                                                          |
+| round         | bool\|string | false   | When `true`, applies the historical fully-rounded (pill) shape. When set to `xs`, `sm`, `md`, `lg`, or `xl`, applies the matching `rounded-{size}` Tailwind utility. Without it, falls back to the default `rounded-md`. `square` overrides this. |
+| withoutBranch | bool         | null    | Hides the Git branch name                                                                                                                                                                                                                         |
 
 ## Slots
 
@@ -56,10 +56,16 @@ TallStackUi::customize()
 
 ### Available Blocks
 
-| Block Name       | Purpose                                                  |
-|------------------|----------------------------------------------------------|
-| wrapper.class    | Base wrapper styles (inline-flex, border, padding, font) |
-| wrapper.sizes.xs | Extra-small text size                                    |
-| wrapper.sizes.sm | Small text size                                          |
-| wrapper.sizes.md | Medium text size                                         |
-| wrapper.sizes.lg | Large text size                                          |
+| Block Name         | Purpose                                                    |
+|--------------------|------------------------------------------------------------|
+| wrapper.class      | Base wrapper styles (inline-flex, border, padding, font)   |
+| wrapper.sizes.xs   | Extra-small text size                                      |
+| wrapper.sizes.sm   | Small text size                                            |
+| wrapper.sizes.md   | Medium text size                                           |
+| wrapper.sizes.lg   | Large text size                                            |
+| border.radius.xs   | Border radius applied when `round="xs"`                    |
+| border.radius.sm   | Border radius applied when `round="sm"`                    |
+| border.radius.md   | Border radius applied when `round="md"` (default fallback) |
+| border.radius.lg   | Border radius applied when `round="lg"`                    |
+| border.radius.xl   | Border radius applied when `round="xl"`                    |
+| border.radius.full | Fully rounded (pill) shape applied when `round` is `true`  |

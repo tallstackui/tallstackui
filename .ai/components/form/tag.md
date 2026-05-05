@@ -21,13 +21,14 @@ A tag input component that allows users to add multiple tag values by pressing E
 
 ## Attributes
 
-| Attribute  | Type                        | Default | Description                                                   |
-|------------|-----------------------------|---------|---------------------------------------------------------------|
-| label      | string\|ComponentSlot\|null | null    | Label text displayed above the input                          |
-| hint       | string\|ComponentSlot\|null | null    | Hint text displayed below the input                           |
-| prefix     | string\|null                | null    | A single character prefix automatically prepended to each tag |
-| limit      | int\|null                   | null    | Maximum number of tags allowed                                |
-| invalidate | bool\|null                  | null    | Prevents displaying validation error messages                 |
+| Attribute  | Type                        | Default | Description                                                                                                                              |
+|------------|-----------------------------|---------|------------------------------------------------------------------------------------------------------------------------------------------|
+| label      | string\|ComponentSlot\|null | null    | Label text displayed above the input                                                                                                     |
+| hint       | string\|ComponentSlot\|null | null    | Hint text displayed below the input                                                                                                      |
+| prefix     | string\|null                | null    | A single character prefix automatically prepended to each tag                                                                            |
+| limit      | int\|null                   | null    | Maximum number of tags allowed                                                                                                           |
+| lazy       | int\|null                   | null    | Minimum length the typed content must reach before a tag is accepted on Enter or comma. The `prefix` character does not count toward it. |
+| invalidate | bool\|null                  | null    | Prevents displaying validation error messages                                                                                            |
 
 ## Alpine.js Events
 
@@ -39,6 +40,7 @@ A tag input component that allows users to add multiple tag values by pressing E
 ## Validation Constraints
 
 - The `prefix` must be a single character.
+- The `lazy` must be greater than zero.
 
 ## Event Payload Details
 

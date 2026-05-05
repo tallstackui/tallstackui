@@ -62,13 +62,23 @@ Soft customization allows you to override default Tailwind CSS classes used by t
 ```php
 TallStackUi::customize()
     ->dropdown('items')
-    ->block('item', 'your-tailwind-classes');
+    ->block('item.base', 'your-tailwind-classes');
 ```
 
 ### Available Blocks
 
-| Block Name | Purpose                                                           |
-|------------|-------------------------------------------------------------------|
-| item       | Menu item base styles (text color, padding, hover, focus, cursor) |
-| border     | Separator border styles                                           |
-| icon       | Icon size and color styles                                        |
+| Block Name    | Purpose                                                                                                      |
+|---------------|--------------------------------------------------------------------------------------------------------------|
+| item.base     | Menu item base styles (text color, hover, focus, cursor) — padding/text/icon sizes live in the size variants |
+| item.sizes.xs | Padding and text size applied when the parent dropdown is `xs`                                               |
+| item.sizes.sm | Padding and text size applied when the parent dropdown is `sm`                                               |
+| item.sizes.md | Padding and text size applied when the parent dropdown is `md` (default)                                     |
+| item.sizes.lg | Padding and text size applied when the parent dropdown is `lg`                                               |
+| border        | Separator border styles                                                                                      |
+| icon.base     | Icon color styles                                                                                            |
+| icon.sizes.xs | Icon dimensions when the parent dropdown is `xs`                                                             |
+| icon.sizes.sm | Icon dimensions when the parent dropdown is `sm`                                                             |
+| icon.sizes.md | Icon dimensions when the parent dropdown is `md` (default)                                                   |
+| icon.sizes.lg | Icon dimensions when the parent dropdown is `lg`                                                             |
+
+The `item.sizes.*` and `icon.sizes.*` blocks use Tailwind v4 arbitrary variants that read the `data-tsui-dropdown-size` attribute set by the parent floating panel — all four are emitted on every item, but only the one that matches the parent's size actually applies. There is no per-item size prop; cascade is automatic.

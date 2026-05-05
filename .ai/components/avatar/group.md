@@ -25,13 +25,27 @@ A wrapper component that stacks multiple avatar components together with overlap
 
 ## Attributes
 
-This component has no custom attributes. Standard HTML attributes are passed through to the wrapper element.
+| Attribute | Type | Default | Description                                                                                                                                                |
+|-----------|------|---------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| reverse   | bool | false   | Mirrors the visual stacking direction. The DOM order is preserved — only the painted overlap is reversed, so the first avatar in markup ends on the right. |
 
 ## Slots
 
 | Slot      | Description                                    |
 |-----------|------------------------------------------------|
 | (default) | Avatar components to be displayed in the group |
+
+## Reversed Stacking
+
+```blade
+<x-avatar.group reverse>
+    <x-avatar text="A" color="indigo" sm />
+    <x-avatar text="B" color="emerald" sm />
+    <x-avatar text="C" color="amber" sm />
+</x-avatar.group>
+```
+
+Useful for activity feeds where the most-recent contributor is the first array entry but should appear on the right of the stack.
 
 ## Soft Customization
 
@@ -41,12 +55,13 @@ Soft customization allows you to override default Tailwind CSS classes used by t
 
 ```php
 TallStackUi::customize()
-    ->avatar()
-    ->block('wrapper', 'your-tailwind-classes');
+    ->avatar('group')
+    ->block('wrapper.base', 'your-tailwind-classes');
 ```
 
 ### Available Blocks
 
-| Block Name | Purpose                                                                 |
-|------------|-------------------------------------------------------------------------|
-| wrapper    | Flex container with negative horizontal spacing for overlapping avatars |
+| Block Name      | Purpose                                                                  |
+|-----------------|--------------------------------------------------------------------------|
+| wrapper.base    | Flex container with negative horizontal spacing for overlapping avatars  |
+| wrapper.reverse | Extra classes applied only when `reverse` is enabled to flip the overlap |

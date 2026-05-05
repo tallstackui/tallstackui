@@ -21,21 +21,21 @@ An inline badge component for labels, tags, and status indicators. Supports soli
 
 ## Attributes
 
-| Attribute | Type         | Default   | Description                                       |
-|-----------|--------------|-----------|---------------------------------------------------|
-| text      | string\|null | null      | Text content of the badge                         |
-| icon      | string\|null | null      | Heroicon name displayed alongside the text        |
-| position  | string\|null | 'right'   | Icon position relative to text: 'left' or 'right' |
-| xs        | bool         | null      | Extra-small size (default)                        |
-| sm        | bool         | null      | Small size                                        |
-| md        | bool         | null      | Medium size                                       |
-| lg        | bool         | null      | Large size                                        |
-| color     | string\|null | 'primary' | Color theme (e.g., primary, red, green, yellow)   |
-| square    | bool         | false     | Removes border radius for square corners          |
-| round     | bool         | false     | Uses fully rounded (pill) border radius           |
-| solid     | bool         | true      | Uses the solid color style variant                |
-| outline   | bool         | null      | Uses the outline color style variant              |
-| light     | bool         | null      | Uses the light color style variant                |
+| Attribute | Type         | Default   | Description                                                                                                                                                                                                                                       |
+|-----------|--------------|-----------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| text      | string\|null | null      | Text content of the badge                                                                                                                                                                                                                         |
+| icon      | string\|null | null      | Heroicon name displayed alongside the text                                                                                                                                                                                                        |
+| position  | string\|null | 'right'   | Icon position relative to text: 'left' or 'right'                                                                                                                                                                                                 |
+| xs        | bool         | null      | Extra-small size (default)                                                                                                                                                                                                                        |
+| sm        | bool         | null      | Small size                                                                                                                                                                                                                                        |
+| md        | bool         | null      | Medium size                                                                                                                                                                                                                                       |
+| lg        | bool         | null      | Large size                                                                                                                                                                                                                                        |
+| color     | string\|null | 'primary' | Color theme (e.g., primary, red, green, yellow)                                                                                                                                                                                                   |
+| square    | bool         | false     | Removes border radius for square corners                                                                                                                                                                                                          |
+| round     | bool\|string | false     | When `true`, applies the historical fully-rounded (pill) shape. When set to `xs`, `sm`, `md`, `lg`, or `xl`, applies the matching `rounded-{size}` Tailwind utility. Without it, falls back to the default `rounded-md`. `square` overrides this. |
+| solid     | bool         | true      | Uses the solid color style variant                                                                                                                                                                                                                |
+| outline   | bool         | null      | Uses the outline color style variant                                                                                                                                                                                                              |
+| light     | bool         | null      | Uses the light color style variant                                                                                                                                                                                                                |
 
 ## Slots
 
@@ -59,14 +59,18 @@ TallStackUi::customize()
 
 ### Available Blocks
 
-| Block Name            | Purpose                                                       |
-|-----------------------|---------------------------------------------------------------|
-| wrapper.class         | Base badge styles (inline-flex, border, padding, font)        |
-| wrapper.sizes.xs      | Extra-small text size                                         |
-| wrapper.sizes.sm      | Small text size                                               |
-| wrapper.sizes.md      | Medium text size                                              |
-| wrapper.sizes.lg      | Large text size                                               |
-| clickable             | Cursor style applied when wire:click or x-on:click is present |
-| icon                  | Icon dimensions                                               |
-| border.radius.rounded | Default rounded border radius                                 |
-| border.radius.circle  | Fully rounded (pill) border radius                            |
+| Block Name         | Purpose                                                       |
+|--------------------|---------------------------------------------------------------|
+| wrapper.class      | Base badge styles (inline-flex, border, padding, font)        |
+| wrapper.sizes.xs   | Extra-small text size                                         |
+| wrapper.sizes.sm   | Small text size                                               |
+| wrapper.sizes.md   | Medium text size                                              |
+| wrapper.sizes.lg   | Large text size                                               |
+| clickable          | Cursor style applied when wire:click or x-on:click is present |
+| icon               | Icon dimensions                                               |
+| border.radius.xs   | Border radius applied when `round="xs"`                       |
+| border.radius.sm   | Border radius applied when `round="sm"`                       |
+| border.radius.md   | Border radius applied when `round="md"` (default fallback)    |
+| border.radius.lg   | Border radius applied when `round="lg"`                       |
+| border.radius.xl   | Border radius applied when `round="xl"`                       |
+| border.radius.full | Fully rounded (pill) shape applied when `round` is `true`     |
