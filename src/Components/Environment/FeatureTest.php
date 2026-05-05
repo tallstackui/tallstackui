@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\View\ViewException;
 use Tests\TestCase;
 
 uses(TestCase::class)->group('Feature');
@@ -8,6 +9,36 @@ it('can render')
     ->expect('<x-environment />')
     ->render()
     ->toContain('Environment:');
+
+it('can render square')
+    ->expect('<x-environment square />')
+    ->render()
+    ->not->toContain('rounded-md')
+    ->not->toContain('rounded-full');
+
+it('can render round')
+    ->expect('<x-environment round />')
+    ->render()
+    ->toContain('rounded-full')
+    ->not->toContain('rounded-md');
+
+it('can render round with named size', function (string $size, string $class) {
+    $component = "<x-environment round=\"$size\" />";
+
+    expect($component)->render()->toContain($class);
+})->with([
+    ['xs', 'rounded-xs'],
+    ['sm', 'rounded-sm'],
+    ['md', 'rounded-md'],
+    ['lg', 'rounded-lg'],
+    ['xl', 'rounded-xl'],
+]);
+
+it('cannot accept invalid round value', function () {
+    $this->expectException(ViewException::class);
+
+    expect('<x-environment round="huge" />')->render();
+});
 
 it('can render left slot', function () {
     $component = <<<'HTML'

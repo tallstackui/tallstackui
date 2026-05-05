@@ -23,12 +23,14 @@ class Component extends TallStackUiComponent implements Customization
         public ?bool $md = null,
         public ?bool $lg = null,
         public ?bool $square = false,
-        public ?bool $round = false,
+        public bool|string|null $round = false,
         public ?bool $withoutBranch = null,
         #[SkipDebug]
         public ?string $branch = null,
         #[SkipDebug]
         public ?string $size = null,
+        #[SkipDebug]
+        public ?string $rounded = null,
         #[SkipDebug]
         public ComponentSlot|string|null $left = null,
         #[SkipDebug]
@@ -36,6 +38,7 @@ class Component extends TallStackUiComponent implements Customization
     ) {
         $this->branch = $this->branch();
         $this->size = $this->lg ? 'lg' : ($this->md ? 'md' : ($this->sm ? 'sm' : 'xs'));
+        $this->rounded = $this->round === true ? 'full' : (is_string($this->round) ? $this->round : 'md');
     }
 
     public function blade(): View
@@ -55,7 +58,28 @@ class Component extends TallStackUiComponent implements Customization
                     'lg' => 'text-lg',
                 ],
             ],
+            'border.radius' => [
+                'xs' => 'rounded-xs',
+                'sm' => 'rounded-sm',
+                'md' => 'rounded-md',
+                'lg' => 'rounded-lg',
+                'xl' => 'rounded-xl',
+                'full' => 'rounded-full',
+            ],
         ]);
+    }
+
+    protected function validate(): void
+    {
+        if (! is_string($this->round)) {
+            return;
+        }
+
+        $sizes = ['xs', 'sm', 'md', 'lg', 'xl'];
+
+        if (! in_array($this->round, $sizes, true)) {
+            __ts_validation_exception($this, 'The [round] must be true or one of: ['.implode(', ', $sizes).'].');
+        }
     }
 
     private function branch(): ?string
