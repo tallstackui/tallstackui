@@ -44,11 +44,21 @@
         <x-dynamic-component :component="TallStackUi::prefix('floating')"
                              scope="dropdown.floating"
                              :floating="$customization['floating.default']"
-                             :class="$customization['floating.class']"
+                             @class([
+                                 $customization['floating.widths.xxs'],
+                                 $customization['floating.widths.xs'],
+                                 $customization['floating.widths.sm'],
+                                 $customization['floating.widths.md'],
+                                 $customization['floating.widths.lg'],
+                                 $customization['floating.widths.xl'],
+                                 $customization['floating.widths.2xl'],
+                             ])
                              offset="5"
                              :$position
                              x-anchor="$refs.dropdown"
-                             role="menu">
+                             role="menu"
+                             :data-tsui-dropdown-size="$size"
+                             :data-tsui-dropdown-width="$width">
             <x-slot:transition>
                 {!! $transitions() !!}
             </x-slot:transition>
