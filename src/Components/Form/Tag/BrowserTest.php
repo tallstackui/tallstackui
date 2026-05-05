@@ -11,6 +11,64 @@ use Tests\Browser\BrowserTestCase;
 class BrowserTest extends BrowserTestCase
 {
     #[Test]
+    public function can_be_lazy(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?array $tags = [];
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="tagged">@json($tags)</p>
+
+                    <x-tag :lazy="3" dusk="tags" wire:model.live="tags" label="Tags" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForText('Tags')
+            ->type('@tags', 'ab')
+            ->keys('@tags', WebDriverKeys::ENTER)
+            ->waitForTextIn('@tagged', '[]')
+            ->assertSeeIn('@tagged', '[]')
+            ->type('@tags', 'foo')
+            ->keys('@tags', WebDriverKeys::ENTER)
+            ->waitForTextIn('@tagged', 'foo')
+            ->assertSeeIn('@tagged', 'foo');
+    }
+
+    #[Test]
+    public function can_be_lazy_with_prefix(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?array $tags = [];
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="tagged">@json($tags)</p>
+
+                    <x-tag prefix="@" :lazy="3" dusk="tags" wire:model.live="tags" label="Tags" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForText('Tags')
+            ->type('@tags', '@ab')
+            ->keys('@tags', WebDriverKeys::ENTER)
+            ->waitForTextIn('@tagged', '[]')
+            ->assertSeeIn('@tagged', '[]')
+            ->type('@tags', '@foo')
+            ->keys('@tags', WebDriverKeys::ENTER)
+            ->waitForTextIn('@tagged', '@foo')
+            ->assertSeeIn('@tagged', '@foo');
+    }
+
+    #[Test]
     public function can_be_limited(): void
     {
         Livewire::visit(new class extends Component
