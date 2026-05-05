@@ -102,10 +102,30 @@ def process_file(filepath):
     result = []
     table_lines = []
     in_table = False
+    in_code_block = False
 
     for line in lines:
         stripped = line.rstrip('\n')
-        is_table_line = stripped.strip().startswith('|') and '|' in stripped.strip()[1:]
+        trimmed = stripped.strip()
+
+        # Track fenced code blocks (```/~~~). Lines inside a code block must
+        # never be reformatted as a table even if they happen to start with `|`.
+        if trimmed.startswith('```') or trimmed.startswith('~~~'):
+            if in_table:
+                formatted = repair_and_format_table(table_lines)
+                for fl in formatted:
+                    result.append(fl + '\n')
+                in_table = False
+                table_lines = []
+            in_code_block = not in_code_block
+            result.append(line)
+            continue
+
+        is_table_line = (
+            not in_code_block
+            and trimmed.startswith('|')
+            and '|' in trimmed[1:]
+        )
 
         if is_table_line:
             if not in_table:
