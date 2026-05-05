@@ -103,6 +103,8 @@ export default (images, cover = 1, autoplay, interval, withoutLoop, shuffle, cli
       return;
     }
 
+    window.dispatchEvent(new CustomEvent('tallstackui:floating-flush'));
+
     if (this.current < this.images.length) {
       this.current = this.current + 1;
 
@@ -125,6 +127,8 @@ export default (images, cover = 1, autoplay, interval, withoutLoop, shuffle, cli
       return;
     }
 
+    window.dispatchEvent(new CustomEvent('tallstackui:floating-flush'));
+
     if (this.current > 1) {
       this.current = this.current - 1;
 
@@ -136,6 +140,21 @@ export default (images, cover = 1, autoplay, interval, withoutLoop, shuffle, cli
     this.current = this.images.length;
 
     this.event('previous');
+  },
+  /**
+   * Jump to a specific carousel slide.
+   *
+   * @param {Number} index 1-based slide index.
+   * @returns {void}
+   */
+  seek(index) {
+    if (this.current === index) return;
+
+    window.dispatchEvent(new CustomEvent('tallstackui:floating-flush'));
+
+    this.current = index;
+
+    this.reset();
   },
   /**
    * Dispatch events.

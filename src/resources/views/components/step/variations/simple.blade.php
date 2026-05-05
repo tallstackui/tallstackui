@@ -1,7 +1,7 @@
 <li x-bind:id="item.id ? 'li-' + item.id : null"
     class="{{ $customization['simple.li'] }}"
     x-bind:class="{ 'cursor-pointer': navigate === true }"
-    x-on:click="if (navigate === false || (previous === false && item.step < parseInt(selected))) return; selected = item.step;">
+    x-on:click="if (navigate === false || (previous === false && item.step < parseInt(selected))) return; window.dispatchEvent(new CustomEvent('tallstackui:floating-flush')); selected = item.step;">
     <div class="{{ $customization['simple.bar.wrapper'] }}"
          x-bind:class="{
              '{{ $customization['simple.bar.inactive'] }}': parseInt(selected) < item.step,

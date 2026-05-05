@@ -14,11 +14,15 @@ export default (selected = null) => ({
       } else {
         window.location.href = item.href;
       }
-    } else {
-      this.selected = item.tab;
 
-      this.$refs.ul.dispatchEvent(new CustomEvent('navigate', { detail: { select: item.tab } }));
+      return;
     }
+
+    window.dispatchEvent(new CustomEvent('tallstackui:floating-flush'));
+
+    this.selected = item.tab;
+
+    this.$refs.ul.dispatchEvent(new CustomEvent('navigate', { detail: { select: item.tab } }));
   },
   /**
    * Handle the mobile select dropdown change event.
@@ -34,11 +38,15 @@ export default (selected = null) => ({
       } else {
         window.location.href = tab.href;
       }
-    } else {
-      this.$refs.ul.dispatchEvent(
-        new CustomEvent('navigate', { detail: { select: this.selected } })
-      );
+
+      return;
     }
+
+    window.dispatchEvent(new CustomEvent('tallstackui:floating-flush'));
+
+    this.$refs.ul.dispatchEvent(
+      new CustomEvent('navigate', { detail: { select: this.selected } })
+    );
   },
   /**
    * Prefetch the href on hover for tabs with navigateHover enabled.

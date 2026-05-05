@@ -26,7 +26,7 @@
         {!! $attributes->except(['x-show', 'x-anchor', 'class']) !!}
     @endif
 @endif
-x-init="(() => { const getAnchor = () => { try { return {{ $attributes->get('x-anchor', '$refs.anchor') }} } catch(e) { return null } }; const anchor = getAnchor(); if ($el.classList.contains('w-full') && anchor) { const setWidth = () => { const a = getAnchor(); if (a && a.offsetWidth) $el.style.width = a.offsetWidth + 'px' }; $watch('{{ $attributes->get('x-show', 'show') }}', v => { if (v) $nextTick(() => setWidth()) }); let _r; new MutationObserver(() => { cancelAnimationFrame(_r); _r = requestAnimationFrame(() => setWidth()) }).observe($el, { childList: true, subtree: true }); if ({{ $attributes->get('x-show', 'show') }}) $nextTick(() => setWidth()); Livewire?.hook?.('commit', ({succeed}) => { succeed(() => { $nextTick(() => { if ($el.isConnected && {{ $attributes->get('x-show', 'show') }}) setWidth() }) }) }) } if (anchor) { const overlay = anchor.closest('[x-data*=tallstackui_modal], [x-data*=tallstackui_slide]'); if (overlay) overlay.addEventListener('close', () => {{ $attributes->get('x-show', 'show') }} = false) } })()"
+x-init="window.tallstackui_floating($el, $watch, $nextTick, () => { try { return {{ $attributes->get('x-anchor', '$refs.anchor') }} } catch (error) { return null } }, '{{ $attributes->get('x-show', 'show') }}', () => {{ $attributes->get('x-show', 'show') }}, (value) => {{ $attributes->get('x-show', 'show') }} = value)"
 {{ $attributes->except(['floating', 'x-anchor'])->merge(['class' => $attributes->get('floating', $customization['wrapper']), 'data-floating' => true]) }}>
 {{ $slot }}
 {{ $footer }}

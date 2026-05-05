@@ -27,7 +27,7 @@
                 @if ($navigatePrevious)
                     <button type="button"
                             x-show="selected > 1"
-                            x-on:click="selected--; $refs.buttons.dispatchEvent(new CustomEvent('change', {detail: {step: selected}}));"
+                            x-on:click="window.dispatchEvent(new CustomEvent('tallstackui:floating-flush')); selected--; $refs.buttons.dispatchEvent(new CustomEvent('change', {detail: {step: selected}}));"
                             dusk="tallstackui_step_previous"
                             class="{{ $customization['button.base'] }}">
                         <x-dynamic-component :component="TallStackUi::prefix('icon')"
@@ -41,7 +41,7 @@
             <div>
                 <button type="button"
                         x-show="selected < steps.length"
-                        x-on:click="selected++; $refs.buttons.dispatchEvent(new CustomEvent('change', {detail: {step: selected}}));"
+                        x-on:click="window.dispatchEvent(new CustomEvent('tallstackui:floating-flush')); selected++; $refs.buttons.dispatchEvent(new CustomEvent('change', {detail: {step: selected}}));"
                         dusk="tallstackui_step_next"
                         class="{{ $customization['button.base'] }}">
                     {{ trans('ts-ui::messages.step.next') }}

@@ -13,6 +13,8 @@ export default (multiple = false) => ({
 
     if (!item) return;
 
+    window.dispatchEvent(new CustomEvent('tallstackui:floating-flush'));
+
     if (!this.multiple && !item.open) {
       this.items.forEach((i) => {
         if (i.id !== id) i.open = false;
@@ -48,6 +50,8 @@ export default (multiple = false) => ({
    * @return {void}
    */
   closeAll() {
+    window.dispatchEvent(new CustomEvent('tallstackui:floating-flush'));
+
     this.items.forEach((i) => (i.open = false));
   },
 });

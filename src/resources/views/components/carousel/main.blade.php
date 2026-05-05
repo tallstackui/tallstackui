@@ -82,7 +82,7 @@
             <div class="{{ $customization['indicators.wrapper'] }}">
                 <template x-for="(image, index) in images">
                     <button class="{{ $customization['indicators.buttons.base'] }}"
-                            x-on:click="(current = index + 1), reset()"
+                            x-on:click="seek(index + 1)"
                             x-bind:class="[
                                 current === index + 1 ? '{{ $customization['indicators.buttons.current'] }}' : '{{ $customization['indicators.buttons.inactive'] }}'
                             ]"></button>

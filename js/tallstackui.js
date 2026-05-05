@@ -14,6 +14,7 @@ import darkTheme from './helpers/dark-theme';
 import dial from '../src/Components/Dial/Main/alpine';
 import dialog from '../src/Components/Dialog/alpine';
 import dropdown from '../src/Components/Dropdown/Main/alpine';
+import floating from '../src/Components/Floating/alpine';
 import clearable from '../src/Components/Form/Input/clearable';
 import stripZeros from '../src/Components/Form//Input/strip-zeros';
 import loading from '../src/Components/Loading/alpine';
@@ -39,6 +40,8 @@ import upload from '../src/Components/Form/Upload/alpine';
 if (!window.__tsui_elements) {
   window.__tsui_elements = [];
 }
+
+window.tallstackui_floating = floating;
 
 document.addEventListener('alpine:init', () => {
   Alpine.plugin(alpineCollapse);
