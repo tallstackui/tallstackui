@@ -52,8 +52,7 @@ function findRelatedBladeFiles(string $mainBladePath, string $viewsDir): array
     $files = [$mainBladePath];
     $mainContent = file_get_contents($mainBladePath);
 
-    if (strpos($mainContent, ':$customization') === false
-        && strpos($mainContent, ':personalize=') === false) {
+    if (strpos($mainContent, ':$customization') === false) {
         return $files;
     }
 
@@ -93,47 +92,68 @@ function findRelatedBladeFiles(string $mainBladePath, string $viewsDir): array
 
 function extractMethodBody(string $source, string $methodName): ?string
 {
-    $pattern = '/function\s+'.preg_quote($methodName).'\s*\([^)]*\)\s*(?::\s*\w+\s*)?\{/';
+    // PHP's tokenizer correctly handles strings with embedded opposite quotes,
+    // escaped sequences, comments and heredocs — eliminating the entire class
+    // of bugs the previous char-by-char detector was vulnerable to.
+    $tokens = @token_get_all($source);
+    $count = count($tokens);
 
-    if (! preg_match($pattern, $source, $match, PREG_OFFSET_CAPTURE)) {
-        return null;
-    }
-
-    $start = $match[0][1] + strlen($match[0][0]);
-    $depth = 1;
-    $len = strlen($source);
-    $inString = false;
-    $stringChar = null;
-
-    for ($i = $start; $i < $len; $i++) {
-        $char = $source[$i];
-        $prev = $i > 0 ? $source[$i - 1] : '';
-
-        if ($inString) {
-            if ($char === $stringChar && $prev !== '\\') {
-                $inString = false;
-            }
-
+    for ($i = 0; $i < $count; $i++) {
+        if (! is_array($tokens[$i]) || $tokens[$i][0] !== T_FUNCTION) {
             continue;
         }
 
-        if ($char === "'" || $char === '"') {
-            $inString = true;
-            $stringChar = $char;
+        $j = $i + 1;
+        while ($j < $count && is_array($tokens[$j]) && $tokens[$j][0] === T_WHITESPACE) {
+            $j++;
+        }
 
+        if ($j >= $count
+            || ! is_array($tokens[$j])
+            || $tokens[$j][0] !== T_STRING
+            || $tokens[$j][1] !== $methodName) {
             continue;
         }
 
-        if ($char === '{') {
-            $depth++;
+        $bodyStart = null;
+        $parenDepth = 0;
+
+        for ($k = $j + 1; $k < $count; $k++) {
+            $token = $tokens[$k];
+            $text = is_array($token) ? $token[1] : $token;
+
+            if ($text === '(') {
+                $parenDepth++;
+            } elseif ($text === ')') {
+                $parenDepth--;
+            } elseif ($text === '{' && $parenDepth === 0) {
+                $bodyStart = $k + 1;
+                break;
+            }
         }
 
-        if ($char === '}') {
-            $depth--;
+        if ($bodyStart === null) {
+            continue;
+        }
 
-            if ($depth === 0) {
-                return substr($source, $start, $i - $start);
+        $bodyDepth = 1;
+        $bodyParts = [];
+
+        for ($m = $bodyStart; $m < $count; $m++) {
+            $token = $tokens[$m];
+            $text = is_array($token) ? $token[1] : $token;
+
+            if ($text === '{') {
+                $bodyDepth++;
+            } elseif ($text === '}') {
+                $bodyDepth--;
+
+                if ($bodyDepth === 0) {
+                    return implode('', $bodyParts);
+                }
             }
+
+            $bodyParts[] = $text;
         }
     }
 
@@ -240,24 +260,16 @@ function viewNameToPath(string $viewName, string $viewsDir): ?string
 
 function findPersonalizeUsage(string $content): array
 {
-    $staticKeys = [];
-    $dynamicPrefixes = [];
-
     // Static: $customization['exact.key']
-    preg_match_all('/\$customization\[[\'"]([^\'"]+)[\'"]\]/', $content, $matches);
-    $staticKeys = $matches[1] ?? [];
+    preg_match_all('/\$customization\[[\'"]([^\'"]+)[\'"]\]/', $content, $staticMatches);
 
-    // Dynamic concatenation: $customization['prefix.' . $var]
-    preg_match_all('/\$customization\[[\'"]([^\'"]+\.)[\'"]\\s*\\./', $content, $dynMatches);
-    $dynamicPrefixes = array_merge($dynamicPrefixes, $dynMatches[1] ?? []);
-
-    // Dynamic concatenation: $customization['prefix.'.expr]  (no space before dot)
-    preg_match_all('/\$customization\[[\'"]([^\'"]+\.)[\'"]\\./', $content, $dynMatches2);
-    $dynamicPrefixes = array_merge($dynamicPrefixes, $dynMatches2[1] ?? []);
+    // Dynamic concatenation: $customization['prefix.' . $var] — tolerates any
+    // whitespace around the concatenation dot.
+    preg_match_all('/\$customization\[[\'"]([^\'"]+\.)[\'"]\s*\./', $content, $dynamicMatches);
 
     return [
-        'static' => array_unique($staticKeys),
-        'prefixes' => array_unique($dynamicPrefixes),
+        'static' => array_unique($staticMatches[1] ?? []),
+        'prefixes' => array_unique($dynamicMatches[1] ?? []),
     ];
 }
 
