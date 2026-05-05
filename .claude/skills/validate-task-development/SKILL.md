@@ -79,6 +79,8 @@ If pass successfully, proceed and check the next one. If you noticed any issue, 
 
 Ensure all tests are passing using:
 
+> Do not run in parallel mode, otherwise this will cause problems with the browser tests. We need to run it in a single process. Also, run the tests filtering them whenever possible. Only in GitHub Actions do we run the entire suite of browser tests.
+
 ```shell
 composer test:browser:ci
 ```
