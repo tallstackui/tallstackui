@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\View\ViewException;
 use Tests\TestCase;
 
 uses(TestCase::class)->group('Feature');
@@ -28,6 +29,26 @@ it('can render round')
     ->toContain('Foo bar')
     ->toContain('rounded-full')
     ->not->toContain('rounded-md');
+
+it('can render round with named size', function (string $size, string $class) {
+    $component = "<x-badge round=\"$size\">Foo bar</x-badge>";
+
+    expect($component)->render()
+        ->toContain('Foo bar')
+        ->toContain($class);
+})->with([
+    ['xs', 'rounded-xs'],
+    ['sm', 'rounded-sm'],
+    ['md', 'rounded-md'],
+    ['lg', 'rounded-lg'],
+    ['xl', 'rounded-xl'],
+]);
+
+it('cannot accept invalid round value', function () {
+    $this->expectException(ViewException::class);
+
+    expect('<x-badge round="huge">Foo bar</x-badge>')->render();
+});
 
 it('can render size variations', function (array $size) {
     $key = array_key_first($size);

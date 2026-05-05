@@ -25,7 +25,7 @@ class Component extends TallStackUiComponent implements Customization
         public ?bool $lg = null,
         public ?string $color = 'primary',
         public ?bool $square = false,
-        public ?bool $round = false,
+        public bool|string|null $round = false,
         public ?bool $solid = true,
         public ?bool $outline = null,
         public ?bool $light = null,
@@ -34,6 +34,8 @@ class Component extends TallStackUiComponent implements Customization
         #[SkipDebug]
         public ?string $style = null,
         #[SkipDebug]
+        public ?string $rounded = null,
+        #[SkipDebug]
         public ?string $left = null,
         #[SkipDebug]
         public ?string $right = null,
@@ -41,6 +43,7 @@ class Component extends TallStackUiComponent implements Customization
         $this->style = $this->outline ? 'outline' : ($this->light ? 'light' : 'solid');
         $this->size = $this->lg ? 'lg' : ($this->md ? 'md' : ($this->sm ? 'sm' : 'xs'));
         $this->position = $this->position === 'right' ? 'right' : 'left';
+        $this->rounded = $this->round === true ? 'full' : (is_string($this->round) ? $this->round : 'md');
     }
 
     public function blade(): View
@@ -63,9 +66,26 @@ class Component extends TallStackUiComponent implements Customization
             'clickable' => 'cursor-pointer',
             'icon' => 'h-3 w-3',
             'border.radius' => [
-                'rounded' => 'rounded-md',
-                'circle' => 'rounded-full',
+                'xs' => 'rounded-xs',
+                'sm' => 'rounded-sm',
+                'md' => 'rounded-md',
+                'lg' => 'rounded-lg',
+                'xl' => 'rounded-xl',
+                'full' => 'rounded-full',
             ],
         ]);
+    }
+
+    protected function validate(): void
+    {
+        if (! is_string($this->round)) {
+            return;
+        }
+
+        $sizes = ['xs', 'sm', 'md', 'lg', 'xl'];
+
+        if (! in_array($this->round, $sizes, true)) {
+            __ts_validation_exception($this, 'The [round] must be true or one of: ['.implode(', ', $sizes).'].');
+        }
     }
 }
