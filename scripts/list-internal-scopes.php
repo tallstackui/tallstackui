@@ -46,7 +46,7 @@ function findBladeFiles(string $dir): array
 
 // ── Parsing ──────────────────────────────────────────────────
 
-function findTargetComponent(array $lines, int $scopeLineIndex, int $maxLookback = 15): ?string
+function findTargetComponent(array $lines, int $scopeLineIndex, int $maxLookback = 30): ?string
 {
     $start = max(0, $scopeLineIndex - $maxLookback);
 
@@ -60,7 +60,7 @@ function findTargetComponent(array $lines, int $scopeLineIndex, int $maxLookback
         if (preg_match('/<x-([\w\.\-]+)/', $line, $match)) {
             $name = $match[1];
 
-            if ($name === 'slot' || $name === 'dynamic-component') {
+            if ($name === 'slot' || $name === 'dynamic-component' || $name === 'template') {
                 continue;
             }
 

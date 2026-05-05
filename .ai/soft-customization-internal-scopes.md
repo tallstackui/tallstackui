@@ -62,7 +62,7 @@ TallStackUi::customize()
 
 | Scope                       | Target           | Line(s) |
 |-----------------------------|------------------|---------|
-| `dropdown.submenu.floating` | `<x-floating />` | 36      |
+| `dropdown.submenu.floating` | `<x-floating />` | 55      |
 
 ### `form/autocomplete`
 
