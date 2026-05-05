@@ -56,6 +56,28 @@ it('can thrown exception when size is unnaceptable', function (string $size) {
     '10xl',
 ]);
 
+it('clips overflow on the scrollable wrapper so the scrollbar respects rounded corners', function () {
+    $component = <<<'HTML'
+    <x-modal scrollable>
+    Long content
+    </x-modal>
+    HTML;
+
+    expect($component)->render()
+        ->toContain('max-h-[80vh] flex flex-col overflow-hidden');
+});
+
+it('does not apply overflow-hidden when not scrollable', function () {
+    $component = <<<'HTML'
+    <x-modal>
+    Short content
+    </x-modal>
+    HTML;
+
+    expect($component)->render()
+        ->not->toContain('max-h-[80vh] flex flex-col overflow-hidden');
+});
+
 it('can render centered modal with items-center on all viewports', function () {
     $component = <<<'HTML'
     <x-modal title="Centered" center>
