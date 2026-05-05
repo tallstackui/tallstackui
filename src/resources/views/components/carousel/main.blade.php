@@ -114,9 +114,49 @@
                                          internal
                                          class="{{ $customization['clickable.close.icon'] }}" />
                 </button>
-                <img class="{{ $customization['clickable.image'] }}"
-                     x-bind:src="expanded?.src"
-                     x-bind:alt="expanded?.alt" />
+                @if ($caption === 'overlay')
+                    <figure x-on:click.self="close()"
+                            class="{{ $customization['clickable.caption.overlay.figure'] }}">
+                        <img class="{{ $customization['clickable.caption.overlay.image'] }}"
+                             x-bind:src="expanded?.src"
+                             x-bind:alt="expanded?.alt" />
+                        <template x-if="expanded?.title || expanded?.description">
+                            <figcaption class="{{ $customization['clickable.caption.overlay.wrapper'] }}">
+                                <template x-if="expanded?.title">
+                                    <h3 class="{{ $customization['clickable.caption.overlay.title'] }}"
+                                        x-text="expanded?.title"></h3>
+                                </template>
+                                <template x-if="expanded?.description">
+                                    <p class="{{ $customization['clickable.caption.overlay.description'] }}"
+                                       x-text="expanded?.description"></p>
+                                </template>
+                            </figcaption>
+                        </template>
+                    </figure>
+                @elseif ($caption === 'footer')
+                    <figure x-on:click.self="close()"
+                            class="{{ $customization['clickable.caption.footer.figure'] }}">
+                        <img class="{{ $customization['clickable.caption.footer.image'] }}"
+                             x-bind:src="expanded?.src"
+                             x-bind:alt="expanded?.alt" />
+                        <template x-if="expanded?.title || expanded?.description">
+                            <figcaption class="{{ $customization['clickable.caption.footer.wrapper'] }}">
+                                <template x-if="expanded?.title">
+                                    <h3 class="{{ $customization['clickable.caption.footer.title'] }}"
+                                        x-text="expanded?.title"></h3>
+                                </template>
+                                <template x-if="expanded?.description">
+                                    <p class="{{ $customization['clickable.caption.footer.description'] }}"
+                                       x-text="expanded?.description"></p>
+                                </template>
+                            </figcaption>
+                        </template>
+                    </figure>
+                @else
+                    <img class="{{ $customization['clickable.image'] }}"
+                         x-bind:src="expanded?.src"
+                         x-bind:alt="expanded?.alt" />
+                @endif
             </div>
         </template>
     @endif

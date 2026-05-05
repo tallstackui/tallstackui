@@ -95,6 +95,66 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_expand_image_with_footer_caption(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-carousel clickable caption="footer" :images="[
+                        [
+                            'src' => 'https://penguinui.s3.amazonaws.com/component-assets/carousel/default-slide-1.webp',
+                            'alt' => 'image-1',
+                            'title' => 'Caption title in footer',
+                            'description' => 'Caption description in footer',
+                        ],
+                    ]" />
+                </div>
+            HTML;
+            }
+        })
+            ->click('@tallstackui_carousel_expand')
+            ->pause(300)
+            ->assertSee('Caption title in footer')
+            ->assertSee('Caption description in footer')
+            ->click('@tallstackui_carousel_close')
+            ->pause(300)
+            ->assertNotVisible('@tallstackui_carousel_close');
+    }
+
+    #[Test]
+    public function can_expand_image_with_overlay_caption(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-carousel clickable caption="overlay" :images="[
+                        [
+                            'src' => 'https://penguinui.s3.amazonaws.com/component-assets/carousel/default-slide-1.webp',
+                            'alt' => 'image-1',
+                            'title' => 'Caption title in overlay',
+                            'description' => 'Caption description in overlay',
+                        ],
+                    ]" />
+                </div>
+            HTML;
+            }
+        })
+            ->click('@tallstackui_carousel_expand')
+            ->pause(300)
+            ->assertSee('Caption title in overlay')
+            ->assertSee('Caption description in overlay')
+            ->click('@tallstackui_carousel_close')
+            ->pause(300)
+            ->assertNotVisible('@tallstackui_carousel_close');
+    }
+
+    #[Test]
     public function can_navigate_automatically(): void
     {
         Livewire::visit(new class extends Component
