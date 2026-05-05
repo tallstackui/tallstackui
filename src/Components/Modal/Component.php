@@ -45,7 +45,7 @@ class Component extends TallStackUiComponent implements Customization
                 'second' => 'fixed inset-0 z-50 w-screen overflow-y-auto',
                 'third' => 'mx-auto flex min-h-full w-full transform justify-center sm:p-4',
                 'fourth' => 'dark:bg-dark-700 relative flex w-full transform flex-col rounded-t-xl sm:rounded-xl bg-white text-left shadow-xl transition-all',
-                'scrollable' => 'max-h-[80vh] flex flex-col',
+                'scrollable' => 'max-h-[80vh] flex flex-col overflow-hidden',
             ],
             'positions' => [
                 'top' => 'items-end sm:items-start',
