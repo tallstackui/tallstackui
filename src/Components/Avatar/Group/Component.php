@@ -11,6 +11,11 @@ use TallStackUi\TallStackUiComponent;
 #[SoftCustomization('avatar.group')]
 class Component extends TallStackUiComponent implements Customization
 {
+    public function __construct(public ?bool $reverse = false)
+    {
+        //
+    }
+
     public function blade(): View
     {
         return view('ts-ui::components.avatar.group');
@@ -18,6 +23,11 @@ class Component extends TallStackUiComponent implements Customization
 
     public function customization(): array
     {
-        return Arr::dot(['wrapper' => 'flex -space-x-2']);
+        return Arr::dot([
+            'wrapper' => [
+                'base' => 'flex -space-x-2',
+                'reverse' => 'flex-row-reverse space-x-reverse',
+            ],
+        ]);
     }
 }

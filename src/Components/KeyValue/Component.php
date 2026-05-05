@@ -59,7 +59,7 @@ class Component extends TallStackUiComponent implements Customization
                 ],
             ],
             'button' => [
-                'add' => 'dark:bg-dark-700 dark:text-dark-300 w-full cursor-pointer bg-gray-200 px-4 py-2 text-center text-gray-600 hover:underline',
+                'add' => 'dark:bg-dark-700 dark:text-dark-300 w-full cursor-pointer bg-gray-200 px-4 py-2 text-center text-gray-600',
                 'delete' => 'absolute top-2 right-0 h-5 w-5 text-red-500',
             ],
         ]);
