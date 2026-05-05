@@ -1,6 +1,7 @@
-export default (model, limit, prefixes, livewire, property, value) => ({
+export default (model, limit, lazy, prefixes, livewire, property, value) => ({
   model: model,
   limit: limit,
+  lazy: lazy,
   prefixes: prefixes,
   livewire: livewire,
   property: property,
@@ -38,6 +39,14 @@ export default (model, limit, prefixes, livewire, property, value) => ({
     let tag = this.tag.trim();
 
     if (!tag || (this.prefixes && tag === this.prefixes)) {
+      this.clean();
+
+      return;
+    }
+
+    const content = this.prefixes && tag[0] === this.prefixes ? tag.slice(1) : tag;
+
+    if (this.lazy && content.length < this.lazy) {
       this.clean();
 
       return;

@@ -24,6 +24,7 @@ class Component extends TallStackUiComponent implements Customization
         public ComponentSlot|string|null $hint = null,
         public ?string $prefix = null,
         public ?int $limit = null,
+        public ?int $lazy = null,
         public ?bool $invalidate = null
     ) {
         //
@@ -57,6 +58,10 @@ class Component extends TallStackUiComponent implements Customization
     /** @throws Exception */
     protected function validate(): void
     {
+        if ($this->lazy !== null && $this->lazy < 1) {
+            __ts_validation_exception($this, 'The [lazy] must be greater than zero.');
+        }
+
         if (! $this->prefix) {
             return;
         }

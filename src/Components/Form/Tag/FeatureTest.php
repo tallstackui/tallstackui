@@ -40,3 +40,19 @@ it('cannot render with prefix with two strings', function () {
 
     expect($component)->render();
 });
+
+it('can render with lazy')
+    ->expect('<x-tag lazy="3" />')
+    ->render()
+    ->toContain('tallstackui_formTag')
+    ->toContain('3');
+
+it('cannot render with lazy less than one', function () {
+    $this->expectException(ViewException::class);
+
+    $component = <<<'HTML'
+    <x-tag lazy="0" />
+    HTML;
+
+    expect($component)->render();
+});
