@@ -231,7 +231,22 @@ If you find yourself producing anything resembling this shape, stop and trim. De
 
 Use a heredoc on `gh pr create` to preserve formatting. Always pass `--base` explicitly — never rely on the default.
 
-```shell
+## Escape rules — read this every time
+
+The command has two regions with **different** escaping rules. Get this wrong and the body renders broken on GitHub.
+
+| Region | Quoting | Backticks |
+|---|---|---|
+| `--title "..."` | shell double quotes | **must** be escaped as `\`` so the shell does not run them as command substitution |
+| `--body "$(cat <<'EOF' ... EOF)"` | heredoc with **single-quoted** delimiter (`'EOF'`) — no shell interpretation inside | **never escape**. Backticks are literal. Triple backticks for code fences are written as plain ` ``` ` |
+
+Escaping triple backticks inside the body is what broke PR #1264 (`\`\`\`blade` rendered literally). Do not repeat.
+
+## Full example
+
+The block below shows the full command — including a real ` ```blade ` fence inside the body, unescaped.
+
+````shell
 gh pr create --base 3.x --head feature/<branch> --title "[3.x] Add \`<component>\` <Description>" --body "$(cat <<'EOF'
 ### Checklist:
 
@@ -248,14 +263,16 @@ gh pr create --base 3.x --head feature/<branch> --title "[3.x] Add \`<component>
 
 ### Description:
 
-<...>
+<short factual paragraph(s) — see Filling each section above>
 
 ### Demonstration & Notes:
 
-<...>
+```blade
+<x-foo />
+```
 EOF
 )"
-```
+````
 
 # Before Pushing
 
