@@ -114,7 +114,7 @@
                                     @isset($sub_table)
                                         <button type="button"
                                                 x-on:click="toggle('{{ $id }}')"
-                                                class="{{ $customization['expandable.button'] }} cursor-pointer">
+                                                @class([$customization['expandable.button'], 'cursor-pointer'])>
                                             <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                                                  :icon="TallStackUi::icon('chevron-right')"
                                                                  internal
