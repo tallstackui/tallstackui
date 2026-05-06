@@ -57,6 +57,7 @@
       "composer run type",
       "./vendor/bin/pint --parallel --test",
       "@php scripts/find-unused-customization-blocks.php",
+      "@php scripts/check-html-escaped-tailwind-variants.php",
       "composer run test:feature",
       "composer run test:browser"
     ],

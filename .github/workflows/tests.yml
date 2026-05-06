@@ -82,6 +82,9 @@ jobs:
       - name: Unused Customization Blocks
         run: php scripts/find-unused-customization-blocks.php
 
+      - name: HTML-Escaped Tailwind Variants
+        run: php scripts/check-html-escaped-tailwind-variants.php
+
       - name: Type Coverage
         run: ./vendor/bin/pest --type-coverage
 
