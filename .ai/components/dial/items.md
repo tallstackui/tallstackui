@@ -52,8 +52,11 @@ TallStackUi::customize()
 
 ### Available Blocks
 
-| Block Name | Purpose                                                             |
-|------------|---------------------------------------------------------------------|
-| item       | Action button styles (dimensions, background, shadow, hover, focus) |
-| label      | Tooltip label styles (absolute positioning, background, text)       |
-| icon       | Icon dimensions                                                     |
+| Block Name         | Purpose                                                                             |
+|--------------------|-------------------------------------------------------------------------------------|
+| wrapper.base       | Item wrapper layout (relative flex, items-center)                                   |
+| wrapper.horizontal | Extra wrapper classes applied when the parent dial is horizontal and a label is set |
+| item               | Action button styles (dimensions, background, shadow, hover, focus)                 |
+| label.tooltip      | Tooltip-style label rendered absolutely beside the item (used in vertical mode)     |
+| label.inline       | Inline label rendered below the item (used when the parent dial is horizontal)      |
+| icon               | Icon dimensions                                                                     |
