@@ -67,7 +67,7 @@ class Component extends TallStackUiComponent implements Customization
                 'outer' => 'inline-flex flex-col gap-2',
                 'body' => 'relative p-3 rounded-lg bg-white dark:bg-dark-700 shadow-md',
                 'single' => 'w-[17rem]',
-                'dual' => 'grid grid-cols-1 sm:grid-cols-2 gap-4',
+                'dual' => 'grid grid-cols-1 gap-y-2 sm:grid-cols-2 sm:gap-x-4 sm:gap-y-0',
                 'helpers' => 'custom-scrollbar flex items-center justify-between space-x-2 overflow-auto pb-2',
             ],
             'floating' => [
