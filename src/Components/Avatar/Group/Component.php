@@ -25,7 +25,7 @@ class Component extends TallStackUiComponent implements Customization
     {
         return Arr::dot([
             'wrapper' => [
-                'base' => 'flex -space-x-2',
+                'base' => 'inline-flex -space-x-2',
                 'reverse' => 'flex-row-reverse space-x-reverse',
             ],
         ]);
