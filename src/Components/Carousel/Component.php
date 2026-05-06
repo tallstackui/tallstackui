@@ -89,8 +89,8 @@ class Component extends TallStackUiComponent implements Customization
                 ],
                 'caption' => [
                     'overlay' => [
-                        'figure' => 'relative flex max-h-full max-w-full items-center justify-center',
-                        'image' => 'max-h-full max-w-full object-contain',
+                        'figure' => 'relative w-fit max-h-full max-w-full',
+                        'image' => 'block max-h-[calc(100dvh-2rem)] max-w-[calc(100dvw-2rem)] sm:max-h-[calc(100dvh-4rem)] sm:max-w-[calc(100dvw-4rem)] object-contain',
                         'wrapper' => 'absolute inset-x-0 bottom-0 z-10 bg-gradient-to-t from-black/85 via-black/55 to-transparent px-6 py-6 sm:px-10 sm:py-8 text-center',
                         'title' => 'text-balance text-xl sm:text-2xl font-semibold text-white',
                         'description' => 'mt-1.5 text-sm text-white/85 max-w-3xl mx-auto',
