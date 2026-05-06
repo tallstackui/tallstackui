@@ -282,9 +282,12 @@ Run through this checklist before pushing the branch and opening the PR:
 2. Base branch is correct (`3.x` for features and enhancements; `2.x` only for stable hotfixes)
 3. Branch name follows the convention (`feature/`, `fix/`, `hotfix/`)
 4. `npm run build` was executed and any resulting `dist/` change is committed
-5. `git status` is clean — every pending file (related or not to the task) is committed or moved out of the working tree
-6. Commits are split by logical change and follow Conventional Commits; `dist/` sits in its own `building assets` commit
-7. Quality gate is green — invoke the `validate-task-development` skill if not already verified
-8. The PR title respects the format and the body fills the official template
+5. `php scripts/list-internal-scopes.php` was executed and any resulting `/.ai/soft-customization-internal-scopes.md` change is committed
+6. `php scripts/find-unused-customization-blocks.php` was executed and does not have any failing result; if it does, fix the issue and commit the change
+7. `python3 scripts/format-markdown-tables.py` was executed and any resulting formatting change is committed
+8. `git status` is clean — every pending file (related or not to the task) is committed or moved out of the working tree
+9. Commits are split by logical change and follow Conventional Commits; `dist/` sits in its own `building assets` commit
+10. Quality gate is green — invoke the `validate-task-development` skill if not already verified
+11. The PR title respects the format and the body fills the official template
 
 If any of these fail, fix it first. Do not open the PR with known violations.
