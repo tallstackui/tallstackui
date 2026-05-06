@@ -203,7 +203,7 @@
         </div>
 
         @if ($double)
-            <div class="relative {{ $customization['wrapper.single'] }} hidden sm:block">
+            <div @class(['relative', $customization['wrapper.single']])>
                 <div class="{{ $customization['box.picker.button'] }}">
                     <span>
                         <span x-text="calendar.months[secondaryMonth]" class="{{ $customization['label.month'] }}"></span>
