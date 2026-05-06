@@ -125,3 +125,102 @@ it('cannot render with custom without text', function () {
 
     expect($component)->render();
 });
+
+it('can render with rotate boolean defaulting to normal speed', function () {
+    $component = <<<'HTML'
+    <x-banner rotate text="Rolling text" />
+    HTML;
+
+    expect($component)->render()
+        ->toContain('Rolling text')
+        ->toContain('motion-safe:animate-banner-rotate-normal')
+        ->toContain('[container-type:inline-size]');
+});
+
+it('can render with rotate speed keywords', function (string $speed) {
+    $component = <<<HTML
+    <x-banner rotate="$speed" text="Foo" />
+    HTML;
+
+    expect($component)->render()
+        ->toContain('motion-safe:animate-banner-rotate-'.$speed);
+})->with(['slow', 'normal', 'fast']);
+
+it('can render rotate with array of texts joined by separator', function () {
+    $component = <<<'HTML'
+    <x-banner rotate :text="['Foo', 'Bar', 'Baz']" />
+    HTML;
+
+    expect($component)->render()
+        ->toContain('Foo • Bar • Baz');
+});
+
+it('can render rotate with array and custom separator', function () {
+    $component = <<<'HTML'
+    <x-banner rotate :text="['Foo', 'Bar']" separator=" — " />
+    HTML;
+
+    expect($component)->render()
+        ->toContain('Foo — Bar');
+});
+
+it('preserves random pick on array when rotate is off', function () {
+    $component = <<<'HTML'
+    <x-banner :text="['OnlyOne']" />
+    HTML;
+
+    expect($component)->render()
+        ->toContain('OnlyOne')
+        ->not->toContain('motion-safe:animate-banner-rotate');
+});
+
+it('cannot use rotate together with wire', function () {
+    $this->expectException(ViewException::class);
+
+    expect('<x-banner rotate wire />')->render();
+});
+
+it('cannot use rotate with invalid string', function () {
+    $this->expectException(ViewException::class);
+
+    expect('<x-banner rotate="ultrafast" text="Foo" />')->render();
+});
+
+it('reserves left spacing on rotate viewport when left slot is present', function () {
+    $component = <<<'HTML'
+    <x-banner rotate text="Rolling">
+        <x-slot:left>NEW</x-slot>
+    </x-banner>
+    HTML;
+
+    expect($component)->render()
+        ->toContain('ml-12');
+});
+
+it('reserves right spacing on rotate viewport when close button is present', function () {
+    $component = <<<'HTML'
+    <x-banner rotate close text="Rolling" />
+    HTML;
+
+    expect($component)->render()
+        ->toContain('mr-8');
+});
+
+it('does not reserve lateral spacing on rotate viewport when no slot or close', function () {
+    $component = <<<'HTML'
+    <x-banner rotate text="Rolling" />
+    HTML;
+
+    expect($component)->render()
+        ->not->toContain('ml-12')
+        ->not->toContain('mr-8');
+});
+
+it('applies an edge fade mask on the rotate viewport', function () {
+    $component = <<<'HTML'
+    <x-banner rotate text="Rolling" />
+    HTML;
+
+    expect($component)->render()
+        ->toContain('mask-image:linear-gradient');
+});

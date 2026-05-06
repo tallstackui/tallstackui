@@ -30,12 +30,17 @@ class Component extends TallStackUiComponent implements Customization
         public ?bool $light = false,
         public ?bool $show = true,
         public ?string $size = 'sm',
+        public bool|string $rotate = false,
+        public ?string $separator = ' • ',
         #[SkipDebug]
         public ?string $left = null,
         #[SkipDebug]
         public ?string $style = 'solid',
+        #[SkipDebug]
+        public ?string $speed = null,
     ) {
         $this->style = $this->light ? 'light' : $this->style;
+        $this->speed = $this->pick();
     }
 
     public function blade(): View
@@ -57,6 +62,20 @@ class Component extends TallStackUiComponent implements Customization
             'text' => 'grow text-center text-sm font-medium',
             'icon' => 'w-5 h-5 text-white',
             'close' => 'h-4 w-4 cursor-pointer',
+            'rotate' => [
+                'viewport' => 'flex-1 min-w-0 overflow-hidden [container-type:inline-size] [container-name:tsui-banner-rotate] [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]',
+                'track' => 'inline-block w-max hover:[animation-play-state:paused]',
+                'item' => 'whitespace-nowrap text-sm font-medium',
+                'spacing' => [
+                    'left' => 'ml-12',
+                    'right' => 'mr-8',
+                ],
+                'speeds' => [
+                    'slow' => 'motion-safe:animate-banner-rotate-slow',
+                    'normal' => 'motion-safe:animate-banner-rotate-normal',
+                    'fast' => 'motion-safe:animate-banner-rotate-fast',
+                ],
+            ],
         ]);
     }
 
@@ -74,7 +93,9 @@ class Component extends TallStackUiComponent implements Customization
         }
 
         if (is_array($this->text)) {
-            $this->text = $this->text[array_rand($this->text)];
+            $this->text = $this->rotate !== false
+                ? implode($this->separator, $this->text)
+                : $this->text[array_rand($this->text)];
         }
 
         if (is_null($this->until)) {
@@ -106,6 +127,14 @@ class Component extends TallStackUiComponent implements Customization
             }
         }
 
+        if ($this->rotate !== false && $this->wire) {
+            __ts_validation_exception($this, 'The [rotate] cannot be used together with [wire] mode.');
+        }
+
+        if ($this->rotate !== false && $this->rotate !== true && ! in_array($this->rotate, ['slow', 'normal', 'fast'], true)) {
+            __ts_validation_exception($this, 'The [rotate] must be one of [slow, normal, fast].');
+        }
+
         // If the banner is wire, we don't need to validate the until property
         // Because the banner will be displayed through the Livewire events
         if (is_null($this->until) || $this->wire) {
@@ -123,5 +152,18 @@ class Component extends TallStackUiComponent implements Customization
         if (blank($until)) {
             __ts_validation_exception($this, 'The [until] attribute must be a Carbon instance or a valid date string.');
         }
+    }
+
+    private function pick(): ?string
+    {
+        if ($this->rotate === false) {
+            return null;
+        }
+
+        if ($this->rotate === true) {
+            return 'normal';
+        }
+
+        return in_array($this->rotate, ['slow', 'normal', 'fast'], true) ? $this->rotate : null;
     }
 }
