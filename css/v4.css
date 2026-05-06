@@ -82,6 +82,9 @@ for accessibility (WCAG 2.4.7).
 
     --animate-progress: progress 2s linear forwards;
     --animate-indeterminate: indeterminate 1.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    --animate-banner-rotate-slow: ts-banner-rotate 40s linear infinite;
+    --animate-banner-rotate-normal: ts-banner-rotate 18s linear infinite;
+    --animate-banner-rotate-fast: ts-banner-rotate 8s linear infinite;
 
     @keyframes progress {
         0% {
@@ -99,5 +102,45 @@ for accessibility (WCAG 2.4.7).
         100% {
             transform: translateX(400%);
         }
+    }
+
+    @keyframes ts-banner-rotate {
+        0% {
+            transform: translateX(100cqi);
+        }
+        100% {
+            transform: translateX(-100%);
+        }
+    }
+}
+
+/*
+Normalizes the perceived rolling speed of <x-banner rotate>. Because the
+animation uses a fixed duration in seconds and the distance the text travels
+scales with the banner width (100cqi + text width), the same duration feels
+slower on mobile and faster on desktop. The rules below shorten the duration
+inside narrow banner viewports so px/second stays roughly consistent.
+*/
+@container tsui-banner-rotate (max-width: 768px) {
+    .animate-banner-rotate-slow {
+        animation-duration: 25s;
+    }
+    .animate-banner-rotate-normal {
+        animation-duration: 11s;
+    }
+    .animate-banner-rotate-fast {
+        animation-duration: 5s;
+    }
+}
+
+@container tsui-banner-rotate (max-width: 480px) {
+    .animate-banner-rotate-slow {
+        animation-duration: 16s;
+    }
+    .animate-banner-rotate-normal {
+        animation-duration: 7s;
+    }
+    .animate-banner-rotate-fast {
+        animation-duration: 3s;
     }
 }

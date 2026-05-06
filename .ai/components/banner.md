@@ -41,6 +41,8 @@ A top-of-page banner component for announcements or notifications. Supports stat
 | light     | bool                            | false     | Uses the light color style variant                                        |
 | show      | bool                            | true      | Controls initial visibility                                               |
 | size      | string\|null                    | 'sm'      | Vertical padding size: 'sm', 'md', or 'lg'                                |
+| rotate    | bool\|string                    | false     | Marquee mode (right→left infinite scroll). See "Rotate" section           |
+| separator | string\|null                    | ' • '     | Joiner used when `rotate` is on and `text` is an array                    |
 
 ## Slots
 
@@ -54,6 +56,51 @@ A top-of-page banner component for announcements or notifications. Supports stat
 - The `size` attribute must be one of: `sm`, `md`, `lg`.
 - When `color` is an array, it must contain both `background` and `text` keys.
 - The `until` attribute must be a valid date string or Carbon instance.
+- The `rotate` attribute, when a string, must be one of `slow`, `normal`, `fast`.
+- The `rotate` attribute cannot be combined with `wire` mode.
+
+## Rotate (Marquee Mode)
+
+`rotate` turns the banner text into a right-to-left marquee, useful for promotional ribbons or rolling announcements. The animation pauses on hover and is fully disabled when the user has `prefers-reduced-motion: reduce` set.
+
+Each loop has a clear cycle: the text **enters from the far right** of the banner, crosses the viewport, **exits to the left**, the banner stays empty briefly, and the text **reappears from the right**. It is not a continuous flow without pause.
+
+When `text` is an array, the behavior depends on `rotate`:
+
+- **Without `rotate`** — one item is picked randomly at render (unchanged historical behavior).
+- **With `rotate`** — all items are joined into a single rolling string using `separator` (default `" • "`).
+
+```blade
+{{-- Default speed (normal — 18s per loop) --}}
+<x-banner rotate text="Free shipping nationwide!" color="green" />
+
+{{-- Named speeds: slow (40s), normal (18s), fast (8s) --}}
+<x-banner rotate="slow" text="Take your time reading this." />
+<x-banner rotate="fast" text="Limited time offer!" color="red" />
+
+{{-- Array of messages joined with the default separator " • " --}}
+<x-banner rotate :text="['Free shipping', '15% off', 'Use code XYZ']" color="indigo" />
+
+{{-- Custom separator --}}
+<x-banner rotate :text="['One', 'Two', 'Three']" separator=" — " />
+
+{{-- Combined with the existing `animated` slide-down entrance --}}
+<x-banner animated rotate text="I slide in, then I roll." color="blue" />
+```
+
+`rotate` is only available in static mode. It cannot be combined with `wire` mode (the validation throws an exception). Both `<x-slot:left>` and `close` continue to work alongside `rotate`: when either is present, the rolling viewport reserves a lateral margin (`rotate.spacing.left` / `rotate.spacing.right`) so the text never travels beneath them.
+
+### Speed normalization across viewports
+
+Because the rolling distance scales with the banner width while the duration is fixed in seconds, the *perceived* speed (px/second) would naturally change between mobile and desktop. To compensate, the viewport is wrapped in a named container query (`tsui-banner-rotate`) and the durations shrink in narrower banners:
+
+| Speed    | Desktop (`> 768px`) | Tablet (`≤ 768px`) | Mobile (`≤ 480px`) |
+|----------|---------------------|--------------------|--------------------|
+| `slow`   | 40s                 | 25s                | 16s                |
+| `normal` | 18s                 | 11s                | 7s                 |
+| `fast`   | 8s                  | 5s                 | 3s                 |
+
+Result: the text covers a similar number of pixels per second on every device, but the cycle frequency is naturally higher on mobile (the loop completes more often). This is mathematically unavoidable when both viewport width and duration vary together.
 
 ## Livewire Programmatic Usage
 
@@ -128,14 +175,22 @@ TallStackUi::customize()
 
 ### Available Blocks
 
-| Block Name | Purpose                                        |
-|------------|------------------------------------------------|
-| wire       | Sticky positioning classes for wire mode       |
-| wrapper    | Main flex container with padding and alignment |
-| sizes.sm   | Small vertical padding                         |
-| sizes.md   | Medium vertical padding                        |
-| sizes.lg   | Large vertical padding                         |
-| slot.left  | Left slot absolute positioning and font styles |
-| text       | Centered text styles                           |
-| icon       | Icon dimensions for wire mode status icons     |
-| close      | Close button icon dimensions                   |
+| Block Name           | Purpose                                                               |
+|----------------------|-----------------------------------------------------------------------|
+| wire                 | Sticky positioning classes for wire mode                              |
+| wrapper              | Main flex container with padding and alignment                        |
+| sizes.sm             | Small vertical padding                                                |
+| sizes.md             | Medium vertical padding                                               |
+| sizes.lg             | Large vertical padding                                                |
+| slot.left            | Left slot absolute positioning and font styles                        |
+| text                 | Centered text styles                                                  |
+| icon                 | Icon dimensions for wire mode status icons                            |
+| close                | Close button icon dimensions                                          |
+| rotate.viewport      | Overflow-hidden container with container query + edge fade mask       |
+| rotate.track         | Inline-block track that translates from `100cqi` to `-100%` of itself |
+| rotate.item          | The rolling text node                                                 |
+| rotate.spacing.left  | Margin reserved on the viewport when the `<x-slot:left>` is present   |
+| rotate.spacing.right | Margin reserved on the viewport when the `close` button is present    |
+| rotate.speeds.slow   | Animation utility for the slow rotation (40s per loop)                |
+| rotate.speeds.normal | Animation utility for the normal rotation (18s per loop)              |
+| rotate.speeds.fast   | Animation utility for the fast rotation (8s per loop)                 |

@@ -74,6 +74,19 @@
                 </div>
                 <span class="text-white" x-html="text"></span>
             </div>
+        @elseif ($rotate)
+            <div @class([
+                $customization['rotate.viewport'],
+                $customization['rotate.spacing.left'] => $left,
+                $customization['rotate.spacing.right'] => $close,
+            ])>
+                <div @class([
+                    $customization['rotate.track'],
+                    $customization['rotate.speeds.'.$speed],
+                ])>
+                    <span @class([$customization['rotate.item'], $colors['text'] ?? $color['text']])>{!! $text ??= $slot->toHtml() !!}</span>
+                </div>
+            </div>
         @else
             <span @class([$customization['text'], $colors['text'] ?? $color['text']])>
                 {!! $text ??= $slot->toHtml() !!}
