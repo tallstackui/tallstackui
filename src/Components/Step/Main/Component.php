@@ -87,7 +87,7 @@ class Component extends TallStackUiComponent implements Customization
                 ],
             ],
             'panels' => [
-                'li' => 'relative md:flex md:flex-1 border-b last:border-b-0 border-gray-300 md:border-0',
+                'li' => 'relative md:flex md:flex-1 border-b last:border-b-0 border-gray-300 dark:border-dark-700 md:border-0',
                 'wrapper' => 'group flex w-full items-center',
                 'check' => 'h-5 w-5 text-white',
                 'item' => 'flex items-center px-6 py-4 text-sm font-medium',
