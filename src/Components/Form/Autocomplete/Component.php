@@ -59,7 +59,7 @@ class Component extends TallStackUiComponent implements Customization
     {
         return Arr::dot([
             'adornment' => [
-                'suffix' => 'dark:text-dark-400 flex select-none items-center whitespace-nowrap pr-3 text-gray-500 text-sm',
+                'suffix' => 'dark:text-dark-400 flex select-none items-center whitespace-nowrap text-gray-500 text-sm',
             ],
             'icon' => [
                 'wrapper' => 'mr-2 flex items-center gap-1.5',
