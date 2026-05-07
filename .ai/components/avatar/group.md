@@ -61,7 +61,7 @@ TallStackUi::customize()
 
 ### Available Blocks
 
-| Block Name      | Purpose                                                                  |
-|-----------------|--------------------------------------------------------------------------|
+| Block Name      | Purpose                                                                                                                                                                                |
+|-----------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | wrapper.base    | Inline-flex container with negative horizontal spacing for overlapping avatars; shrink-to-fit so the group stays anchored to the parent's flow start in both default and reverse modes |
-| wrapper.reverse | Extra classes applied only when `reverse` is enabled to flip the overlap |
+| wrapper.reverse | Extra classes applied only when `reverse` is enabled to flip the overlap                                                                                                               |
