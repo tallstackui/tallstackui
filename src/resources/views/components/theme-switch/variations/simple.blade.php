@@ -37,8 +37,8 @@
             <span class="{{ $customization['wrapper'] }}"
                   aria-hidden="true"
                   x-bind:class="{
-                      '{{ $customization['transition.leave.from'] }} {{ $customization['transition.leave.class'] }}': darkTheme === true,
-                      '{{ $customization['transition.enter.from'] }} {{ $customization['transition.enter.class'] }}': darkTheme === false
+                      '{{ $customization['transition.leave.to'] }} {{ $customization['transition.leave.class'] }}': darkTheme === true,
+                      '{{ $customization['transition.enter.to'] }} {{ $customization['transition.enter.class'] }}': darkTheme === false
                   }">
                <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                     :icon="TallStackUi::icon($onlyIcons ? 'moon' : 'sun')"
@@ -53,8 +53,8 @@
             <span class="{{ $customization['wrapper'] }}"
                   aria-hidden="true"
                   x-bind:class="{
-                      '{{ $customization['transition.enter.from'] }} {{ $customization['transition.enter.class'] }}': darkTheme === true,
-                      '{{ $customization['transition.leave.from'] }} {{ $customization['transition.leave.class'] }}': darkTheme === false
+                      '{{ $customization['transition.enter.to'] }} {{ $customization['transition.enter.class'] }}': darkTheme === true,
+                      '{{ $customization['transition.leave.to'] }} {{ $customization['transition.leave.class'] }}': darkTheme === false
                   }">
                <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                     :icon="TallStackUi::icon($onlyIcons ? 'sun' : 'moon')"

@@ -90,12 +90,10 @@ class Component extends TallStackUiComponent implements Customization
             'transition' => [
                 'enter' => [
                     'class' => 'duration-200 ease-in',
-                    'from' => 'opacity-0',
                     'to' => 'opacity-100',
                 ],
                 'leave' => [
                     'class' => 'duration-100 ease-out',
-                    'from' => 'opacity-100',
                     'to' => 'opacity-0',
                 ],
             ],
