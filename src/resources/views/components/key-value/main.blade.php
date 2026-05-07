@@ -12,14 +12,14 @@
             {{ $header }}
         @endif
     </div>
-    <div x-bind:class="{ 'divide-y divide-gray-300 dark:divide-dark-500' : rows.length > 0 }">
+    <div x-bind:class="{ '{{ $customization['list.divider'] }}' : rows.length > 0 }">
         <div class="{{ $customization['empty.wrapper'] }}" dusk="tallstackui_empty_message" x-show="rows.length === 0">
             <p class="{{ $customization['empty.text'] }}">{{ trans('ts-ui::messages.key-value.empty') }}</p>
         </div>
         <template x-for="(row, index) in rows" :key="row.index ?? index">
             <div @class([
                     $customization['list.wrapper'],
-                    'py-4' => ! $deletable,
+                    $customization['list.wrapper-default-padding'] => ! $deletable,
                 ])>
                 <div>
                     <input x-model="row.key"
@@ -32,8 +32,9 @@
                            class="{{ $customization['list.input.key'] }}" />
                 </div>
                 <div @class([
-                        'relative pr-8 mr-2',
-                        'top-2' => $deletable,
+                        'relative',
+                        $customization['list.value-wrapper'],
+                        $customization['list.value-wrapper-deletable'] => $deletable,
                     ])>
                     <div>
                         <input x-model="row.value"

@@ -19,8 +19,8 @@
             @endif
             aria-label="Back to top"
             @class([
-                'rounded-full' => !$square,
-                'rounded-lg' => $square,
+                $customization['shape.rounded'] => !$square,
+                $customization['shape.square'] => $square,
                 $colors['background'],
                 $customization['button.base'],
                 $customization['button.sizes.'.$size],

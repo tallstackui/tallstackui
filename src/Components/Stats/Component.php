@@ -55,12 +55,18 @@ class Component extends TallStackUiComponent implements Customization
         return Arr::dot([
             'wrapper' => [
                 'first' => 'dark:bg-dark-700 flex w-full flex-col rounded-lg bg-white shadow-md',
+                'first-clickable' => 'cursor-pointer',
                 'second' => 'flex h-full items-center justify-center gap-4',
+                'second-no-slot' => 'mx-4',
+                'second-no-header' => 'mt-4',
+                'second-no-footer' => 'mb-4',
                 'third' => 'flex h-12 w-12 items-center justify-center rounded-lg',
             ],
             'slots' => [
                 'header' => 'dark:text-dark-300 p-2 text-xs text-gray-600',
+                'header-string-wrapper' => 'mx-2',
                 'footer' => 'dark:text-dark-300 p-2 text-xs text-gray-600',
+                'footer-string-wrapper' => 'mx-2',
                 'right' => [
                     'increase' => [
                         'icon' => 'arrow-trending-up',

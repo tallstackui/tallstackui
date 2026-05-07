@@ -72,10 +72,10 @@
                 <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                      :$icon
                                      internal
-                                     @class(['h-3.5 w-3.5', $colors['icon'] ?? '']) />
+                                     @class([$customization['marker.icon-size'], $colors['icon'] ?? '']) />
             </span>
         @else
-            <span @class(['h-2 w-2 rounded-full', $customization['marker.bullet']])></span>
+            <span @class([$customization['marker.bullet-base'], $customization['marker.bullet']])></span>
         @endif
     </div>
 

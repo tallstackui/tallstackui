@@ -49,6 +49,20 @@ class Component extends TallStackUiComponent implements Customization
                 'third' => 'absolute inset-0 overflow-hidden',
                 'fourth' => 'pointer-events-none fixed flex max-w-full',
                 'fifth' => 'flex flex-col bg-white py-6 shadow-xl dark:bg-dark-700',
+                'panel' => [
+                    'inset-y' => 'inset-y-0',
+                    'bottom' => 'bottom-0',
+                    'left' => 'left-0',
+                    'pr-10' => 'pr-10',
+                    'right' => 'right-0',
+                    'pl-10' => 'pl-10',
+                    'h-full' => 'h-full',
+                    'w-full-dvw' => 'w-[100dvw]',
+                ],
+                'inner' => [
+                    'horizontal' => 'pointer-events-auto w-screen',
+                    'h-full' => 'h-full',
+                ],
             ],
             'blur' => [
                 'sm' => 'backdrop-blur-sm',
@@ -61,9 +75,20 @@ class Component extends TallStackUiComponent implements Customization
                 'close' => 'h-5 w-5 cursor-pointer text-secondary-300',
             ],
             'body' => 'soft-scrollbar dark:text-dark-300 grow overflow-y-auto rounded-b-xl px-6 py-5 text-gray-700',
-            'footer' => 'flex border-t border-t-gray-200 px-4 pt-4 dark:border-t-dark-600',
-            'header' => 'px-6',
-            'header.divider' => 'border-b border-b-gray-200 pb-4 dark:border-b-dark-600',
+            'footer' => [
+                'base' => 'flex border-t border-t-gray-200 px-4 pt-4 dark:border-t-dark-600',
+                'start' => 'justify-start',
+                'end' => 'justify-end',
+            ],
+            'header' => [
+                'base' => 'px-6',
+                'divider' => 'border-b border-b-gray-200 pb-4 dark:border-b-dark-600',
+                'layout' => [
+                    'base' => 'flex items-start',
+                    'with-title' => 'justify-between',
+                    'no-title' => 'justify-end',
+                ],
+            ],
         ]);
     }
 

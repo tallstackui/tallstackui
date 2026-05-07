@@ -41,6 +41,8 @@ class Component extends TallStackUiComponent implements Customization
             ],
             'slots' => [
                 'wrapper' => 'flex flex-1 items-center',
+                'wrapper-right-only' => 'justify-end',
+                'wrapper-multi-slot' => 'justify-between',
                 'left' => 'flex items-center gap-2',
                 'middle' => 'flex items-center',
                 'right' => 'flex items-center',

@@ -95,6 +95,10 @@ class Component extends TallStackUiComponent implements Customization
                 'base' => 'dark:divide-dark-500/50 min-w-full divide-y divide-gray-200',
                 'sort' => 'ml-2 h-4 w-4',
                 'th' => 'dark:text-dark-200 px-3 py-3.5 text-left text-sm font-semibold text-gray-700',
+                'th-uppercase' => 'uppercase',
+                'th-checkbox-width' => 'w-8',
+                'th-actions-width' => 'w-6',
+                'th-sort-wrapper' => 'inline-flex truncate',
                 'tbody' => 'dark:bg-dark-700 dark:divide-dark-500/20 divide-y divide-gray-200 bg-white',
                 'td' => 'dark:text-dark-300 whitespace-nowrap px-3 py-4 text-sm text-gray-500',
                 'tr' => '',
@@ -103,6 +107,9 @@ class Component extends TallStackUiComponent implements Customization
                     'striped' => 'bg-white dark:bg-dark-700',
                 ],
             ],
+            'row' => [
+                'striped' => 'bg-gray-50 dark:bg-dark-800/50',
+            ],
             'loading' => [
                 'table' => 'cursor-not-allowed select-none opacity-25',
                 'icon' => 'text-primary-500 dark:text-dark-300 absolute bottom-0 left-0 right-0 top-0 m-auto grid h-10 w-10 animate-spin place-items-center',
@@ -110,6 +117,9 @@ class Component extends TallStackUiComponent implements Customization
             'empty' => 'dark:text-dark-300 col-span-full whitespace-nowrap px-3 py-4 text-sm text-gray-500',
             'filter' => [
                 'wrapper' => 'mb-4 flex items-end gap-x-2 sm:gap-x-0',
+                'wrapper-with-search-and-quantity' => 'justify-between',
+                'wrapper-quantity-only' => 'justify-start',
+                'wrapper-search-only' => 'justify-end',
                 'quantity' => 'w-1/4 sm:w-1/5',
                 'search' => 'sm:w-1/5',
             ],
@@ -120,8 +130,11 @@ class Component extends TallStackUiComponent implements Customization
             'expandable' => [
                 'wrapper' => 'bg-gray-50 dark:bg-dark-800',
                 'button' => 'text-gray-500 dark:text-dark-300 hover:text-gray-700 dark:hover:text-dark-100 transition-transform duration-200',
+                'icon' => 'h-4 w-4 transition-transform duration-200',
+                'rotated' => 'rotate-90',
                 'content' => 'px-4 py-3',
             ],
+            'cell-clickable' => 'cursor-pointer',
         ]);
     }
 

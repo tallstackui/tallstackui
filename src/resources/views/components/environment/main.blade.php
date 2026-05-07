@@ -15,7 +15,7 @@
     {{ __('ts-ui::messages.environment.environment') }}: {{ str(app()->environment())->title() }}
     @if ($branch)
         ({{ __('ts-ui::messages.environment.branch') }}:
-        <x-ts-ui::icon.generic.fork class="w-4 h-4" /> {{ $branch }})
+        <x-ts-ui::icon.generic.fork :class="$customization['icon.fork-size']" /> {{ $branch }})
     @endif
     @if ($right)
         {{ $right }}

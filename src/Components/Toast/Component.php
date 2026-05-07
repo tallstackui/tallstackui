@@ -28,6 +28,12 @@ class Component extends TallStackUiComponent implements Customization
                 'second' => 'flex w-full flex-col items-center space-y-4',
                 'third' => 'dark:bg-dark-700 pointer-events-auto w-full max-w-sm overflow-hidden rounded-xl bg-white shadow-lg ring-1 ring-black/5',
                 'fourth' => 'flex p-4',
+                'position' => [
+                    'top-x' => 'md:justify-start',
+                    'bottom-x' => 'md:justify-end',
+                    'x-left' => 'md:items-start',
+                    'x-right' => 'md:items-end',
+                ],
             ],
             'icon' => [
                 'size' => 'h-6 w-6',
@@ -35,11 +41,13 @@ class Component extends TallStackUiComponent implements Customization
             'content' => [
                 'wrapper' => 'ml-3 w-0 flex-1 pt-0.5',
                 'text' => 'dark:text-dark-200 text-sm font-medium text-gray-800',
+                'text-confirm' => 'font-semibold',
                 'description' => 'dark:text-dark-300 mt-1 text-sm text-gray-700',
             ],
             'buttons' => [
                 'wrapper' => [
                     'first' => 'mt-2 flex items-baseline',
+                    'first-with-actions' => 'gap-x-2',
                     'second' => 'ml-4 flex min-h-full flex-col justify-between',
                 ],
                 'confirm' => 'text-sm font-medium focus:outline-hidden cursor-pointer',
@@ -58,6 +66,20 @@ class Component extends TallStackUiComponent implements Customization
             'progress' => [
                 'wrapper' => 'dark:bg-dark-600 relative h-1 w-full rounded-full bg-neutral-100',
                 'bar' => 'bg-primary-500 dark:bg-dark-400 absolute h-full w-24 duration-300 ease-linear',
+                'animation' => 'animate-progress',
+            ],
+            'colorful' => [
+                'icon' => 'text-white',
+                'title' => 'text-sm font-medium text-white',
+                'description' => 'mt-1 text-sm text-white/80',
+                'confirm' => 'text-white font-bold!',
+                'cancel' => 'text-white/80',
+                'close' => 'inline-flex text-white focus:outline-hidden focus:ring-0 cursor-pointer',
+                'expand' => 'inline-flex text-white focus:outline-hidden focus:ring-0',
+                'progress' => [
+                    'wrapper' => 'relative h-1 w-full rounded-full bg-white/20',
+                    'bar' => 'bg-white absolute h-full w-24 duration-300 ease-linear',
+                ],
             ],
         ]);
     }

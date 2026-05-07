@@ -8,7 +8,7 @@
         previous: @js($navigatePrevious),
         steps: [],
     }">
-    <nav @if ($variation === 'panels') class="overflow-hidden rounded-md" @endif>
+    <nav @if ($variation === 'panels') class="overflow-hidden {{ $customization['panels-shape'] }}" @endif>
         <ul role="list"
                 @class($customization['wrapper.' . $variation])>
             <template x-for="item in steps">
@@ -33,7 +33,7 @@
                         <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                              :icon="TallStackUi::icon('chevron-left')"
                                              internal
-                                @class(['mr-1', $customization['button.icon']]) />
+                                @class([$customization['button.icon-spacing.left'], $customization['button.icon']]) />
                         {{ trans('ts-ui::messages.step.previous') }}
                     </button>
                 @endif
@@ -48,7 +48,7 @@
                     <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                          :icon="TallStackUi::icon('chevron-right')"
                                          internal
-                            @class(['ml-1', $customization['button.icon']]) />
+                            @class([$customization['button.icon-spacing.right'], $customization['button.icon']]) />
                 </button>
                 @if ($finish)
                     @if ($finish instanceof \Illuminate\View\ComponentSlot)

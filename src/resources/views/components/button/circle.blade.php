@@ -9,7 +9,7 @@
         $customization['wrapper.sizes.' . $size],
         $colors['background']
     ]) }} type="{{ $attributes->get('type', $submit ? 'submit' : 'button') }}" @if ($livewire && $loading)
-    wire:loading.attr="disabled" wire:loading.class="cursor-wait!"
+    wire:loading.attr="disabled" wire:loading.class="{{ $customization['wire.loading-cursor'] }}"
 @endif>
 @if ($icon)
     <x-dynamic-component :component="TallStackUi::prefix('icon')"
@@ -24,7 +24,7 @@
 @endif
 @if ($livewire && $loading)
     <x-ts-ui::icon.generic.loading-button :$loading :$delay @class([
-        'animate-spin',
+        $customization['icon.spinner-animation'],
         $customization['icon.sizes.' . $size],
         $colors['icon']
     ]) />

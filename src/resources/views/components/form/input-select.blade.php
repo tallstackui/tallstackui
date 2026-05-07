@@ -16,7 +16,8 @@
             @endif
     @endif
     <div @class([
-            'relative flex-1 ring-0! focus-within:ring-0!',
+            'relative flex-1',
+            $customization['input.wrapper-fix'],
             $customization['input.wrapper.second'],
             $customization['input.wrapper.round.left'] => $left,
             $customization['input.wrapper.round.right'] => $right,
@@ -40,7 +41,7 @@
         @endif
         @if ($clearable)
             <div x-data="tallstackui_formInputClearable(@js($ref))"
-                 @class([$customization['clearable.wrapper'], $customization['clearable.padding'], 'pr-8!' => $icon && $position === 'right']) x-show="clearable">
+                 @class([$customization['clearable.wrapper'], $customization['clearable.padding'], $customization['input.paddings.icon-clearable-extra'] => $icon && $position === 'right']) x-show="clearable">
                 <button type="button" class="cursor-pointer" dusk="tallstackui_form_input_clearable">
                     <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                          :icon="TallStackUi::icon('x-mark')"
@@ -58,7 +59,7 @@
                 {{ $prefix }}
             </div>
         @elseif (is_string($prefix))
-            <span @class(['ml-2 mr-1', $customization['input.slot'], $customization['error'] => $error])>{{ $prefix }}</span>
+            <span @class([$customization['input.slot-prefix-spacing'], $customization['input.slot'], $customization['error'] => $error])>{{ $prefix }}</span>
         @endif
         <input @if ($id) id="{{ $id }}" @endif
         type="{{ $attributes->get('type', 'text') }}"
@@ -77,7 +78,7 @@
                 {{ $suffix }}
             </div>
         @elseif (is_string($suffix))
-            <span @class(['ml-1 mr-2', $customization['input.slot'], $customization['error'] => $error])>{{ $suffix }}</span>
+            <span @class([$customization['input.slot-suffix-spacing'], $customization['input.slot'], $customization['error'] => $error])>{{ $suffix }}</span>
         @endif
     </div>
     @if ($left || $right)

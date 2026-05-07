@@ -29,8 +29,8 @@
                          x-on:click="(disables['disabled'] ?? false) || (disables['readonly'] ?? false) ? false : show = !show"
                          x-on:keydown="$event.preventDefault()"
                          dusk="tallstackui_time_input"
-                         class="cursor-pointer caret-transparent">
-        <x-slot:suffix class="ml-1 mr-2">
+                         class="cursor-pointer {{ $customization['input.caret'] }}">
+        <x-slot:suffix :class="$customization['slot.spacing']">
             <div class="{{ $customization['icon.wrapper'] }}">
                 @if (!$attributes->has('required'))
                     <button type="button" class="cursor-pointer" x-on:click="clear()" x-show="model">
@@ -55,7 +55,7 @@
                          scope="form.time.floating"
                          :floating="$customization['floating.default']"
                          :class="$customization['floating.class']">
-        <div @class(['flex flex-col', 'mb-2' => $helper || $footer?->isNotEmpty(), 'w-full' => $format === '24'])>
+        <div @class(['flex', $customization['wrapper-floating.base'], $customization['wrapper-floating.with-helper-or-footer'] => $helper || $footer?->isNotEmpty(), $customization['wrapper-floating.wide-format'] => $format === '24'])>
             <div class="{{ $customization['wrapper'] }}">
                 <span x-text="formatted.hours" x-ref="hours" class="{{ $customization['time'] }}"></span>
                 <span class="{{ $customization['separator'] }}">:</span>
@@ -78,7 +78,7 @@
                        x-on:change="alert(1);"
                        x-on:mouseenter="$refs.hours.classList.add('{{ $customization['range.light'] }}', '{{ $customization['range.dark'] }}')"
                        x-on:mouseleave="$refs.hours.classList.remove('{{ $customization['range.light'] }}', '{{ $customization['range.dark'] }}')"
-                        @class(['focus:outline-hidden', $customization['range.base'], $customization['range.thumb']])>
+                        @class([$customization['range.focus'], $customization['range.base'], $customization['range.thumb']])>
                 <input type="range"
                        min="0"
                        max="59"
@@ -89,7 +89,7 @@
                        dusk="tallstackui_time_minutes"
                        x-on:mouseenter="$refs.minutes.classList.add('{{ $customization['range.light'] }}', '{{ $customization['range.dark'] }}')"
                        x-on:mouseleave="$refs.minutes.classList.remove('{{ $customization['range.light'] }}', '{{ $customization['range.dark'] }}')"
-                        @class(['focus:outline-hidden', $customization['range.base'], $customization['range.thumb']])>
+                        @class([$customization['range.focus'], $customization['range.base'], $customization['range.thumb']])>
             </div>
             @if ($format === '12')
                 <div x-ref="format"
@@ -114,7 +114,7 @@
                                          scope="form.time.button"
                                          :text="trans('ts-ui::messages.time.helper')"
                                          type="button"
-                                         @class([$customization['helper.button'], 'mt-2' => $format === '24'])
+                                         @class([$customization['helper.button'], $customization['helper.button-format-24'] => $format === '24'])
                                          x-on:click="current()"
                                          {{ $attributes->only('x-on:current') }}
                                          dusk="tallstackui_time_current"

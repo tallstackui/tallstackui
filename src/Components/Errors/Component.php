@@ -41,6 +41,7 @@ class Component extends TallStackUiComponent implements Customization
     public function customization(): array
     {
         return Arr::dot([
+            'outer' => 'w-full',
             'wrapper' => 'rounded-lg p-4 shadow',
             'title' => [
                 'wrapper' => 'flex items-center justify-between border-b pb-3',

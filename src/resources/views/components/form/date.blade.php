@@ -37,8 +37,8 @@
                          x-on:click="(disables['disabled'] ?? false) || (disables['readonly'] ?? false) ? false : show = !show"
                          x-on:keydown="$event.preventDefault()"
                          dusk="tallstackui_date_input"
-                         class="cursor-pointer caret-transparent">
-        <x-slot:suffix class="ml-1 mr-2">
+                         class="cursor-pointer {{ $customization['input.caret'] }}">
+        <x-slot:suffix :class="$customization['slot.icon-spacing']">
             <div class="{{ $customization['icon.wrapper'] }}">
                 <button type="button" class="cursor-pointer" x-on:click="clear()" x-show="quantity > 0"
                         {{ $attributes->only(['disabled', 'readonly', 'x-on:clear']) }} dusk="tallstackui_date_clear">
@@ -62,7 +62,7 @@
                          scope="form.date.floating"
                          :floating="$customization['floating.default']"
                          :class="$customization['floating.class']"
-                         x-bind:class="{ 'h-[17rem]' : picker.year || picker.month }">
+                         x-bind:class="{ '{{ $customization['floating.expanded'] }}' : picker.year || picker.month }">
         <div class="{{ $customization['box.picker.button'] }}">
             <span>
                 <button type="button" x-text="calendar.months[month]" x-on:click="picker.month = true"
@@ -79,7 +79,7 @@
                                 <span x-text="calendar.months[month]"
                                       class="{{ $customization['label.month'] }}"></span>
                             </button>
-                            <button type="button" class="mr-2 cursor-pointer" x-on:click="now()" x-show="!monthYearOnly">
+                            <button type="button" class="{{ $customization['slot.icon-spacing-right'] }} cursor-pointer" x-on:click="now()" x-show="!monthYearOnly">
                                 {{ trans('ts-ui::messages.date.helpers.today') }}
                             </button>
                         </div>
@@ -172,23 +172,23 @@
             </div>
         </div>
         <x-slot:footer>
-            <div class="grid grid-cols-7 mb-3" x-show="!monthYearOnly">
+            <div class="{{ $customization['wrapper.days-header'] }}" x-show="!monthYearOnly">
                 <template x-for="(day, index) in calendar.week" :key="index">
-                    <div class="px-0.5">
+                    <div class="{{ $customization['label.days-cell'] }}">
                         <div x-text="day.slice(0, 3)" class="{{ $customization['label.days'] }}"></div>
                     </div>
                 </template>
             </div>
-            <div class="grid grid-cols-7" x-show="!monthYearOnly">
+            <div class="{{ $customization['wrapper.days-grid'] }}" x-show="!monthYearOnly">
                 <template x-for="(blank, index) in blanks" :key="index">
                     <div class="{{ $customization['button.blank'] }}"></div>
                 </template>
                 <template x-for="(day, index) in days" :key="index">
-                    <div class="mb-2"
+                    <div class="{{ $customization['button.day-wrapper'] }}"
                          x-bind:class="{
-                            'rounded-l-full': day.isStart,
-                            'rounded-r-full w-7 h-7': day.isEnd,
-                            '{{ $customization['range'] }}': day.isBetween,
+                            '{{ $customization['range.start'] }}': day.isStart,
+                            '{{ $customization['range.end'] }}': day.isEnd,
+                            '{{ $customization['range.between'] }}': day.isBetween,
                          }">
                         <button type="button"
                                 x-text="day.day"

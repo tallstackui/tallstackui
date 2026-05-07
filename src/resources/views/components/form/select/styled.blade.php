@@ -69,7 +69,7 @@
                     <div x-show="empty || !multiple">
                         <div class="{{ $customization['items.placeholder.wrapper'] }}">
                             <img x-bind:src="image" class="{{ $customization['items.image'] }}" x-show="image" />
-                            <span @class(['text-red-500 dark:text-red-500' => $error && ! $side])
+                            <span @class([$customization['items.placeholder.error'] => $error && ! $side])
                                   x-bind:class="{
                                     '{{ $customization['items.placeholder.text'] }}': empty,
                                     '{{ $customization['items.single'] }}': !empty
@@ -242,7 +242,7 @@
                 <li x-show="@js($common) === true && available.length >= 10" x-intersect:once="load()"></li>
                 @if (!$after)
                     <template x-if="!loading && available.length === 0">
-                        <li class="m-2">
+                        <li class="{{ $customization['box.list.empty-wrapper'] }}">
                             <span class="{{ $customization['box.list.empty'] }}">
                                 {{ data_get($placeholders, 'empty') }}
                             </span>

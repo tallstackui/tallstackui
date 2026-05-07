@@ -52,6 +52,10 @@ class Component extends TallStackUiComponent implements Customization
                     'icon' => 'x-mark',
                 ],
                 'footer' => 'shrink-0 border-t border-gray-200 dark:border-dark-600 px-2 py-4',
+                'scrollbar' => [
+                    'thin' => 'soft-scrollbar',
+                    'thick' => 'custom-scrollbar',
+                ],
             ],
             'desktop' => [
                 'wrapper' => [
@@ -71,6 +75,10 @@ class Component extends TallStackUiComponent implements Customization
                     'collapsed' => 'w-22',
                 ],
                 'footer' => 'shrink-0 overflow-hidden border-t border-gray-200 dark:border-dark-600 px-2 pt-3',
+                'scrollbar' => [
+                    'thin' => 'soft-scrollbar',
+                    'thick' => 'custom-scrollbar',
+                ],
             ],
         ]);
     }

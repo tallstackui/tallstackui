@@ -20,7 +20,7 @@
          x-transition:leave-end="opacity-0"
          @endif
          class="{{ $customization['background'] }}"></div>
-    <div @class([$customization['wrapper.first'], 'backdrop-blur-sm' => $configurations['blur']])>
+    <div @class([$customization['wrapper.first'], $customization['wrapper.first-blur'] => $configurations['blur']])>
         <div class="{{ $customization['wrapper.second'] }}">
             <div x-show="show"
                  @if (!$ts_ui__flash)
@@ -48,14 +48,14 @@
                                              :icon="TallStackUi::icon('x-mark')"
                                              dusk="tallstackui_dialog_close"
                                              internal
-                                             class="{{ $ts_ui__colorful ? 'h-5 w-5 cursor-pointer text-white' : $customization['buttons.close.icon'] }}" />
+                                             class="{{ $ts_ui__colorful ? $customization['colorful.close'] : $customization['buttons.close.icon'] }}" />
                     </button>
                 </div>
                 <div>
                     <div class="{{ $customization['icon.wrapper'] }}"
                          x-bind:class="{
                             @if($ts_ui__colorful)
-                                'bg-white/20': true,
+                                '{{ $customization['colorful.icon-wrapper'] }}': true,
                             @else
                                 '{{ $colors['icon']['background']['success'] }}': dialog.type === 'success',
                                 '{{ $colors['icon']['background']['error'] }}': dialog.type === 'error',
@@ -69,48 +69,48 @@
                                                  :icon="TallStackUi::icon('check-circle')"
                                                  outline
                                                  internal
-                                    @class([$customization['icon.size'], $ts_ui__colorful ? 'text-white' : $colors['icon']['icon']['success']]) />
+                                    @class([$customization['icon.size'], $ts_ui__colorful ? $customization['colorful.icon'] : $colors['icon']['icon']['success']]) />
                         </div>
                         <div x-show="dialog.type === 'error'">
                             <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                                  :icon="TallStackUi::icon('x-circle')"
                                                  outline
                                                  internal
-                                    @class([$customization['icon.size'], $ts_ui__colorful ? 'text-white' : $colors['icon']['icon']['error']]) />
+                                    @class([$customization['icon.size'], $ts_ui__colorful ? $customization['colorful.icon'] : $colors['icon']['icon']['error']]) />
                         </div>
                         <div x-show="dialog.type === 'info'">
                             <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                                  :icon="TallStackUi::icon('information-circle')"
                                                  outline
                                                  internal
-                                    @class([$customization['icon.size'], $ts_ui__colorful ? 'text-white' : $colors['icon']['icon']['info']]) />
+                                    @class([$customization['icon.size'], $ts_ui__colorful ? $customization['colorful.icon'] : $colors['icon']['icon']['info']]) />
                         </div>
                         <div x-show="dialog.type === 'warning'">
                             <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                                  :icon="TallStackUi::icon('exclamation-circle')"
                                                  outline
                                                  internal
-                                    @class([$customization['icon.size'], $ts_ui__colorful ? 'text-white' : $colors['icon']['icon']['warning']]) />
+                                    @class([$customization['icon.size'], $ts_ui__colorful ? $customization['colorful.icon'] : $colors['icon']['icon']['warning']]) />
                         </div>
                         <div x-show="dialog.type === 'question'">
                             <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                                  :icon="TallStackUi::icon('question-mark-circle')"
                                                  outline
                                                  internal
-                                    @class([$customization['icon.size'], $ts_ui__colorful ? 'text-white' : $colors['icon']['icon']['question']]) />
+                                    @class([$customization['icon.size'], $ts_ui__colorful ? $customization['colorful.icon'] : $colors['icon']['icon']['question']]) />
                         </div>
                     </div>
                     <div class="{{ $customization['text.wrapper'] }}">
-                        <h3 @class([$ts_ui__colorful ? 'text-lg font-semibold leading-6 text-white' : $customization['text.title']]) x-html="dialog.title"></h3>
+                        <h3 @class([$ts_ui__colorful ? $customization['colorful.title'] : $customization['text.title']]) x-html="dialog.title"></h3>
                         <div class="{{ $customization['text.description.wrapper'] }}">
-                            <p @class([$ts_ui__colorful ? 'text-sm text-white/80' : $customization['text.description.text']]) x-html="dialog.description"></p>
+                            <p @class([$ts_ui__colorful ? $customization['colorful.description'] : $customization['text.description.text']]) x-html="dialog.description"></p>
                         </div>
                     </div>
                 </div>
                 <div class="{{ $customization['buttons.wrapper'] }}">
                     <div x-show="dialog.options?.cancel">
                         @if ($ts_ui__colorful)
-                            <button @class([$customization['buttons.confirm'], $colors['colorful']['cancel'], 'w-full'])
+                            <button @class([$customization['buttons.confirm'], $colors['colorful']['cancel'], $customization['colorful.cancel']])
                                     x-on:click="reject(dialog, $el)"
                                     x-text="dialog.options?.cancel?.text"
                                     dusk="tallstackui_dialog_rejection"></button>
@@ -118,7 +118,7 @@
                             <x-dynamic-component :component="TallStackUi::prefix('button')"
                                                  scope="dialog.button"
                                                  :color="$colors['cancel']"
-                                                 class="w-full text-sm focus:ring-0! focus:ring-offset-0!"
+                                                 :class="$customization['buttons.cancel.base']"
                                                  x-on:click="reject(dialog, $el)"
                                                  x-text="dialog.options?.cancel?.text"
                                                  dusk="tallstackui_dialog_rejection" />
@@ -126,17 +126,17 @@
                     </div>
                     @if ($ts_ui__colorful)
                         <button class="{{ $customization['buttons.confirm'] }}" x-bind:class="{
-                                'sm:w-auto' : dialog.options?.cancel,
-                                'col-span-full' : !dialog.options?.cancel,
-                                'bg-white/20 hover:bg-white/30 text-white font-bold! focus:ring-white/50': true,
+                                '{{ $customization['buttons.confirm-grid.with-cancel'] }}' : dialog.options?.cancel,
+                                '{{ $customization['buttons.confirm-grid.without-cancel'] }}' : !dialog.options?.cancel,
+                                '{{ $customization['colorful.confirm'] }}': true,
                             }" dusk="tallstackui_dialog_confirmation"
                                 x-on:click="accept(dialog, $el)"
                                 x-show="dialog.options?.confirm"
                                 x-text="dialog.options?.confirm?.text ?? text.ok"></button>
                     @else
                         <button class="{{ $customization['buttons.confirm'] }}" x-bind:class="{
-                                'sm:w-auto' : dialog.options?.cancel,
-                                'col-span-full' : !dialog.options?.cancel,
+                                '{{ $customization['buttons.confirm-grid.with-cancel'] }}' : dialog.options?.cancel,
+                                '{{ $customization['buttons.confirm-grid.without-cancel'] }}' : !dialog.options?.cancel,
                                 '{{ $colors['confirm']['success'] }}': dialog.type === 'success',
                                 '{{ $colors['confirm']['error'] }}': dialog.type === 'error',
                                 '{{ $colors['confirm']['info'] }}': dialog.type === 'info',

@@ -58,6 +58,10 @@ class Component extends TallStackUiComponent implements Customization
                     'lg' => 'h-6 w-6',
                 ],
             ],
+            'shape' => [
+                'rounded' => 'rounded-full',
+                'square' => 'rounded-lg',
+            ],
             'position' => [
                 'bottom-left' => 'fixed bottom-6 left-6 z-50',
                 'bottom-right' => 'fixed bottom-6 right-6 z-50',

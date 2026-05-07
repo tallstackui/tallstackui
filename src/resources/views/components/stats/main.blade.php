@@ -9,7 +9,7 @@
 @endif @endif
 {{ $attributes->class([
    $customization['wrapper.first'],
-   'cursor-pointer' => $tag === 'a' && $href !== null,
+   $customization['wrapper.first-clickable'] => $tag === 'a' && $href !== null,
 ]) }}
 x-data="tallstackui_stats(@js($number), @js($animated))"
 x-intersect:enter.full="visible = true"
@@ -19,15 +19,15 @@ x-cloak>
     @if ($header instanceof \Illuminate\View\ComponentSlot)
         {{ $header }}
     @else
-        <div class="mx-2">
+        <div class="{{ $customization['slots.header-string-wrapper'] }}">
             <p class="{{ $customization['slots.header'] }}">{{ $header }}</p>
         </div>
     @endif
 @endif
 <div @class([
-            'mx-4' => !$slot->isNotEmpty(),
-            'mt-4' => !$header, 
-            'mb-4' => !$footer, 
+            $customization['wrapper.second-no-slot'] => !$slot->isNotEmpty(),
+            $customization['wrapper.second-no-header'] => !$header,
+            $customization['wrapper.second-no-footer'] => !$footer,
             $customization['wrapper.second'],
         ])>
     @if ($icon)
@@ -76,7 +76,7 @@ x-cloak>
     @if ($footer instanceof \Illuminate\View\ComponentSlot)
         {{ $footer }}
     @else
-        <div class="mx-2">
+        <div class="{{ $customization['slots.footer-string-wrapper'] }}">
             <p class="{{ $customization['slots.footer'] }}">{{ $footer }}</p>
         </div>
     @endif

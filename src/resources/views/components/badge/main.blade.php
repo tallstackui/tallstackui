@@ -16,7 +16,7 @@
         <x-dynamic-component :component="TallStackUi::prefix('icon')"
                              :$icon
                              internal
-                             @class(['mr-1' => $position === 'left', $customization['icon'], $colors['icon']]) />
+                             @class([$customization['icon-spacing.left'] => $position === 'left', $customization['icon'], $colors['icon']]) />
     @endif
     {{ $text ?? $slot }}
     @if ($right)
@@ -25,6 +25,6 @@
         <x-dynamic-component :component="TallStackUi::prefix('icon')"
                              :$icon
                              internal
-                             @class(['ml-1' => $position === 'right', $customization['icon'], $colors['icon']]) />
+                             @class([$customization['icon-spacing.right'] => $position === 'right', $customization['icon'], $colors['icon']]) />
     @endif
 </span>

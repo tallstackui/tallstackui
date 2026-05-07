@@ -68,6 +68,7 @@ class Component extends TallStackUiComponent implements Customization
                 'wrapper' => 'inline-flex w-full gap-x-1.5',
                 'text' => 'text-sm text-gray-700 font-medium dark:text-dark-400',
                 'icon' => 'h-5 w-5 cursor-pointer text-gray-400 transition',
+                'icon-rotated' => 'rotate-180',
             ],
         ]);
     }

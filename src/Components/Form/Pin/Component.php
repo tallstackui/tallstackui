@@ -48,7 +48,7 @@ class Component extends TallStackUiComponent implements Customization
                     'prefix' => 'w-[60px]',
                     'base' => 'w-[38px]',
                 ],
-                'base' => 'mr-2 block rounded-md text-center text-lg font-medium shadow-sm ring-1 disabled:pointer-events-none disabled:opacity-50',
+                'base' => 'mr-2 block rounded-md text-center text-lg font-medium ring-1 disabled:pointer-events-none disabled:opacity-50',
                 'color' => [
                     'base' => 'dark:border-dark-600 dark:text-dark-300 focus:ring-primary-600 focus-within:focus:ring-primary-600 border-gray-300 text-gray-600 ring-transparent focus-within:ring-2 focus:border-0 focus:ring-2',
                     'background' => 'dark:bg-dark-800 bg-white',

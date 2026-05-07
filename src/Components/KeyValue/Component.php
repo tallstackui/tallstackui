@@ -53,6 +53,10 @@ class Component extends TallStackUiComponent implements Customization
             ],
             'list' => [
                 'wrapper' => 'grid grid-cols-2 px-4 items-center relative text-gray-600',
+                'wrapper-default-padding' => 'py-4',
+                'divider' => 'divide-y divide-gray-300 dark:divide-dark-500',
+                'value-wrapper' => 'pr-8 mr-2',
+                'value-wrapper-deletable' => 'top-2',
                 'input' => [
                     'key' => 'background-transparent dark:bg-dark-600 dark:placeholder:text-dark-400 w-full border-0 bg-gray-100 focus:ring-0 focus:outline-none dark:text-white',
                     'value' => 'background-transparent dark:bg-dark-600 dark:placeholder:text-dark-400 w-full border-0 bg-gray-100 focus:ring-0 focus:outline-none dark:text-white',

@@ -71,6 +71,10 @@ class Component extends TallStackUiComponent implements Customization
                 'md' => 'w-4 h-4',
                 'lg' => 'w-6 h-6',
             ],
+            'icon.spinner-animation' => 'animate-spin',
+            'wire' => [
+                'loading-cursor' => 'cursor-wait!',
+            ],
             'text.sizes' => [
                 'xs' => 'text-xs',
                 'sm' => 'text-sm',

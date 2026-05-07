@@ -51,7 +51,23 @@ class Component extends TallStackUiComponent implements Customization
     public function customization(): array
     {
         return Arr::dot([
-            'wire' => 'sticky top-0 z-50',
+            'wire' => [
+                'base' => 'sticky top-0 z-50',
+                'content' => 'flex justify-center items-center gap-2',
+                'background' => [
+                    'success' => 'bg-green-600',
+                    'error' => 'bg-red-600',
+                    'warning' => 'bg-yellow-600',
+                    'info' => 'bg-blue-600',
+                ],
+                'text' => [
+                    'base' => 'text-white',
+                    'success' => 'text-green-50',
+                    'error' => 'text-red-50',
+                    'warning' => 'text-yellow-50',
+                    'info' => 'text-blue-50',
+                ],
+            ],
             'wrapper' => 'relative flex flex-row items-center justify-between px-6 py-2',
             'sizes' => [
                 'sm' => 'py-2',

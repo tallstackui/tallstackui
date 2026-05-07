@@ -49,6 +49,7 @@ class Component extends TallStackUiComponent implements Customization
             'wrapper' => [
                 'first' => 'relative w-full overflow-hidden',
                 'second' => 'relative w-full',
+                'fallback-height' => 'min-h-[50svh]',
             ],
             'images' => [
                 'wrapper' => [
@@ -60,6 +61,7 @@ class Component extends TallStackUiComponent implements Customization
                     'description' => 'text-sm text-white',
                 ],
                 'base' => 'absolute w-full h-full inset-0 object-cover text-slate-700 dark:text-slate-300',
+                'rounded' => 'rounded-xl',
             ],
             'buttons' => [
                 'left' => [

@@ -48,6 +48,9 @@ class Component extends TallStackUiComponent implements Customization
     public function customization(): array
     {
         return Arr::dot([
+            'wrapper' => [
+                'spacing-top' => 'mt-1',
+            ],
             'input' => [
                 'wrapper' => 'relative flex grow items-stretch ring-inset focus-within:z-10',
                 'buttons' => [

@@ -16,11 +16,11 @@
                          x-on:paste="paste($event)"
                          x-on:keydown="indicator($event)"
                          x-on:keyup="indicator($event)">
-        <x-slot:suffix class="ml-1 mr-2">
-            <div @class([$customization['icon.wrapper'], 'justify-between gap-2']) x-cloak>
+        <x-slot:suffix :class="$customization['slot.spacing']">
+            <div @class([$customization['icon.wrapper'], $customization['icon.wrapper-extra']]) x-cloak>
                 @if (!$mixedCase)
                     <div x-show="caps">
-                        <x-ts-ui::icon.generic.password-capslock-indicator class="h-5 w-5 text-red-500" />
+                        <x-ts-ui::icon.generic.password-capslock-indicator :class="$customization['icon.capslock']" />
                     </div>
                 @endif
                 @if ($generator)
@@ -73,7 +73,7 @@
                                                  :class="$customization['rules.items.icons.success']"
                                                  internal
                                                  x-show="results.min" />
-                            <p x-bind:class="{ 'line-through' : results.min }">{{ trans('ts-ui::messages.password.rules.formats.min', ['min' => $rules->get('min')]) }}</p>
+                            <p x-bind:class="{ '{{ $customization['rules-strikethrough'] }}' : results.min }">{{ trans('ts-ui::messages.password.rules.formats.min', ['min' => $rules->get('min')]) }}</p>
                         </span>
                 @endif
                 @if ($rules->has('symbols'))
@@ -88,7 +88,7 @@
                                                  :class="$customization['rules.items.icons.success']"
                                                  internal
                                                  x-show="results.symbols" />
-                            <p x-bind:class="{ 'line-through' : results.symbols }">{{ trans('ts-ui::messages.password.rules.formats.symbols', ['symbols' => $rules->get('symbols')]) }}</p>
+                            <p x-bind:class="{ '{{ $customization['rules-strikethrough'] }}' : results.symbols }">{{ trans('ts-ui::messages.password.rules.formats.symbols', ['symbols' => $rules->get('symbols')]) }}</p>
                         </span>
                 @endif
                 @if ($rules->has('numbers'))
@@ -103,7 +103,7 @@
                                                  :class="$customization['rules.items.icons.success']"
                                                  internal
                                                  x-show="results.numbers" />
-                            <p x-bind:class="{ 'line-through' : results.numbers }">{{ trans('ts-ui::messages.password.rules.formats.numbers') }}</p>
+                            <p x-bind:class="{ '{{ $customization['rules-strikethrough'] }}' : results.numbers }">{{ trans('ts-ui::messages.password.rules.formats.numbers') }}</p>
                         </span>
                 @endif
                 @if ($rules->has('mixed'))
@@ -118,7 +118,7 @@
                                              :class="$customization['rules.items.icons.success']"
                                              internal
                                              x-show="results.mixed" />
-                        <p x-bind:class="{ 'line-through' : results.mixed }">{{ trans('ts-ui::messages.password.rules.formats.mixed') }}</p>
+                        <p x-bind:class="{ '{{ $customization['rules-strikethrough'] }}' : results.mixed }">{{ trans('ts-ui::messages.password.rules.formats.mixed') }}</p>
                     </span>
                 @endif
             </div>

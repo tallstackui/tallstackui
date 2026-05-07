@@ -19,7 +19,8 @@
             @endif
     @endif
     <div @class([
-            'relative flex-1 ring-0! focus-within:ring-0!' => $addon,
+            'relative flex-1' => $addon,
+            $customization['input.wrapper-fix'] => $addon,
             $customization['input.wrapper'],
             $customization['input.addon.round.left'] => $prefixed,
             $customization['input.addon.round.right'] => $suffixed,
@@ -43,7 +44,7 @@
         @endif
         @if ($clearable)
             <div x-data="tallstackui_formInputClearable(@js($ref))"
-                 @class([$customization['clearable.wrapper'], $customization['clearable.padding'], 'pr-8!' => $icon && $position === 'right']) x-show="clearable">
+                 @class([$customization['clearable.wrapper'], $customization['clearable.padding'], $customization['input.paddings.icon-clearable-extra'] => $icon && $position === 'right']) x-show="clearable">
                 <button type="button" class="cursor-pointer" dusk="tallstackui_form_input_clearable">
                     <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                          :icon="TallStackUi::icon('x-mark')"
@@ -62,7 +63,7 @@
                     {{ $prefix }}
                 </div>
             @elseif (is_string($prefix))
-                <span @class(['ml-2 mr-1', $customization['input.slot'], $customization['error'] => $error])>{{ $prefix }}</span>
+                <span @class([$customization['input.slot-prefix-spacing'], $customization['input.slot'], $customization['error'] => $error])>{{ $prefix }}</span>
             @endif
         @endif
         <input @if ($id) id="{{ $id }}" @endif
@@ -84,7 +85,7 @@
                     {{ $suffix }}
                 </div>
             @elseif (is_string($suffix))
-                <span @class(['ml-1 mr-2', $customization['input.slot'], $customization['error'] => $error])>{{ $suffix }}</span>
+                <span @class([$customization['input.slot-suffix-spacing'], $customization['input.slot'], $customization['error'] => $error])>{{ $suffix }}</span>
             @endif
         @endif
     </div>

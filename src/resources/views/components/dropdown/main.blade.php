@@ -22,7 +22,7 @@
                                          :icon="TallStackUi::icon('chevron-down')"
                                          internal
                                          class="{{ $customization['action.icon'] }}"
-                                         x-bind:class="{ 'transform rotate-180': animate && show }" />
+                                         x-bind:class="{ 'transform {{ $customization['action.icon-rotated'] }}': animate && show }" />
                 </button>
             </div>
         @elseif ($icon)
@@ -35,7 +35,7 @@
                                          :$icon
                                          internal
                                          class="{{ $customization['action.icon'] }}"
-                                         x-bind:class="{ 'transform rotate-180': animate && show }" />
+                                         x-bind:class="{ 'transform {{ $customization['action.icon-rotated'] }}': animate && show }" />
                 </button>
             </div>
         @else

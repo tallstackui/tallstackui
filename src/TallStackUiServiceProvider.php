@@ -31,6 +31,8 @@ class TallStackUiServiceProvider extends ServiceProvider
 
         $this->registerBreadcrumbs();
 
+        $this->registerPredefinedScopes();
+
         Directives::register();
     }
 
@@ -128,5 +130,30 @@ class TallStackUiServiceProvider extends ServiceProvider
         $this->publishes([__DIR__.'/resources/views' => resource_path('views/vendor/ts-ui')], 'tallstackui.views');
 
         $this->publishes([__DIR__.'/Support/Breadcrumbs/stubs/breadcrumbs.php.stub' => base_path('routes/breadcrumbs.php')], 'tallstackui.breadcrumbs');
+    }
+
+    private function registerPredefinedScopes(): void
+    {
+        $this->app[TallStackUi::class]->customize()
+            // card
+            ->scope('card-shadowless')
+            ->card()
+            ->block('wrapper.second')
+            ->remove('shadow-md')
+            ->append('border border-gray-200 dark:border-dark-600')
+            ->and()
+            // stats
+            ->scope('stats-shadowless')
+            ->stats()
+            ->block('wrapper.first')
+            ->remove('shadow-md')
+            ->append('border border-gray-200 dark:border-dark-600')
+            ->and()
+            // calendar
+            ->scope('calendar-shadowless')
+            ->calendar()
+            ->block('wrapper.body')
+            ->remove('shadow-md')
+            ->append('border border-gray-200 dark:border-dark-600');
     }
 }

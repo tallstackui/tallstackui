@@ -48,6 +48,7 @@ class Component extends TallStackUiComponent implements Customization
         return Arr::dot([
             'icon' => [
                 'base' => 'transition-transform duration-200',
+                'rotated' => 'rotate-45',
                 'sizes' => [
                     'xs' => 'h-4 w-4',
                     'sm' => 'h-5 w-5',
@@ -57,6 +58,7 @@ class Component extends TallStackUiComponent implements Customization
             ],
             'button' => [
                 'base' => 'flex items-center justify-center shadow-lg focus:outline-hidden focus:ring-2 focus:ring-offset-2 dark:focus:ring-offset-dark-900 cursor-pointer',
+                'rounded' => 'rounded-full',
                 'sizes' => [
                     'xs' => 'h-8 w-8',
                     'sm' => 'h-10 w-10',
@@ -71,6 +73,7 @@ class Component extends TallStackUiComponent implements Customization
                 'bottom-right' => 'fixed bottom-6 right-6 z-50',
             ],
             'items' => 'flex items-center gap-2',
+            'items-vertical' => 'flex-col',
         ]);
     }
 

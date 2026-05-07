@@ -62,12 +62,22 @@ class Component extends TallStackUiComponent implements Customization
     public function customization(): array
     {
         return Arr::dot([
+            'input' => [
+                'caret' => 'caret-transparent',
+            ],
+            'slot' => [
+                'icon-spacing' => 'ml-1 mr-2',
+                'icon-spacing-right' => 'mr-2',
+            ],
             'wrapper' => [
                 'helpers' => 'custom-scrollbar flex items-center justify-between space-x-2 overflow-auto pb-2',
+                'days-header' => 'grid grid-cols-7 mb-3',
+                'days-grid' => 'grid grid-cols-7',
             ],
             'floating' => [
                 'default' => collect(app(Floating::class)->customization())->get('wrapper'),
                 'class' => 'p-3 w-[17rem]',
+                'expanded' => 'h-[17rem]',
             ],
             'box' => [
                 'picker' => [
@@ -84,12 +94,14 @@ class Component extends TallStackUiComponent implements Customization
             ],
             'label' => [
                 'days' => 'text-gray-400 dark:text-dark-400 select-none text-center text-xs font-medium',
+                'days-cell' => 'px-0.5',
                 'month' => 'text-gray-800 dark:text-dark-100 cursor-pointer select-none text-lg font-bold',
                 'year' => 'text-gray-600 dark:text-dark-400 ml-1 cursor-pointer select-none text-lg font-normal',
             ],
             'button' => [
                 'blank' => 'border border-transparent p-1 text-center text-sm',
                 'day' => 'focus:shadow-outline disabled:text-gray-400 dark:disabled:text-dark-500 dark:active:bg-primary-500 ring-primary-500 active:bg-primary-600 flex h-7 w-7 items-center justify-center rounded-full text-center text-sm leading-none outline-hidden transition-all duration-200 ease-in-out hover:shadow-sm active:text-white disabled:cursor-not-allowed cursor-pointer',
+                'day-wrapper' => 'mb-2',
                 'select' => 'text-gray-600 dark:text-dark-400 hover:bg-dark-200 dark:hover:bg-dark-600',
                 'today' => 'text-primary-500 dark:text-dark-300 font-bold!',
                 'selected' => 'bg-primary-500 text-white! hover:bg-primary-500/75',
@@ -102,7 +114,11 @@ class Component extends TallStackUiComponent implements Customization
                 'clear' => 'hover:text-red-500',
                 'navigate' => 'text-gray-600 dark:text-dark-300 h-5 w-5',
             ],
-            'range' => 'bg-dark-200 dark:bg-dark-600',
+            'range' => [
+                'between' => 'bg-dark-200 dark:bg-dark-600',
+                'start' => 'rounded-l-full',
+                'end' => 'rounded-r-full w-7 h-7',
+            ],
         ]);
     }
 

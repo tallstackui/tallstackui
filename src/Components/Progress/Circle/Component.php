@@ -48,6 +48,11 @@ class Component extends TallStackUiComponent implements Customization
     public function customization(): array
     {
         return Arr::dot([
+            'svg' => [
+                'stack' => 'h-full w-full col-start-1 row-start-1',
+                'stroke' => 'stroke-current',
+                'rotation' => 'origin-center -rotate-90 transform',
+            ],
             'wrapper' => 'col-start-1 row-start-1 z-10 flex items-center justify-center',
             'text' => 'text-center font-bold text-gray-700 dark:text-dark-400',
             'background' => 'dark:text-dark-700 text-gray-200',

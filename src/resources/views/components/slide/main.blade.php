@@ -29,19 +29,19 @@
         <div class="{{ $customization['wrapper.third'] }}">
             <div @class([
                     $customization['wrapper.fourth'],
-                    'inset-y-0' => !$configurations['bottom'],
-                    'bottom-0' => $configurations['bottom'],
-                    'left-0' => $configurations['left'],    
-                    'pr-10' => $configurations['left'] && $configurations['size'] !== 'full',
-                    'right-0' => $configurations['left'] === false,
-                    'pl-10' =>
+                    $customization['wrapper.panel.inset-y'] => !$configurations['bottom'],
+                    $customization['wrapper.panel.bottom'] => $configurations['bottom'],
+                    $customization['wrapper.panel.left'] => $configurations['left'],
+                    $customization['wrapper.panel.pr-10'] => $configurations['left'] && $configurations['size'] !== 'full',
+                    $customization['wrapper.panel.right'] => $configurations['left'] === false,
+                    $customization['wrapper.panel.pl-10'] =>
                         $configurations['left'] === false &&
                         $configurations['size'] !== 'full' &&
-                        $configurations['top'] === false && 
+                        $configurations['top'] === false &&
                         $configurations['bottom'] === false,
                     $configurations['size'] => $configurations['top'] || $configurations['bottom'],
-                    'h-full' => !$configurations['top'] || !$configurations['bottom'],
-                    'w-[100dvw]' => $configurations['top'] || $configurations['bottom'],
+                    $customization['wrapper.panel.h-full'] => !$configurations['top'] || !$configurations['bottom'],
+                    $customization['wrapper.panel.w-full-dvw'] => $configurations['top'] || $configurations['bottom'],
                 ])>
                 <div x-show="show"
                      @if (!$ts_ui__flash)
@@ -52,18 +52,18 @@
                      x-transition:leave-start="@if ($configurations['left']) translate-x-0 @elseif ($configurations['top']) translate-y-0 @elseif ($configurations['bottom']) translate-y-0 @else translate-x-0 @endif"
                      x-transition:leave-end="@if ($configurations['left']) -translate-x-full @elseif ($configurations['top']) -translate-y-full @elseif ($configurations['bottom']) translate-y-full @else translate-x-full @endif"
                      @endif
-                     @class(['pointer-events-auto w-screen', $configurations['size'],  'h-full' => !$configurations['top'] || !$configurations['bottom']])
+                     @class([$customization['wrapper.inner.horizontal'], $configurations['size'],  $customization['wrapper.inner.h-full'] => !$configurations['top'] || !$configurations['bottom']])
                      @if (!$configurations['persistent']) x-on:mousedown.away="top_ui && (show = false)" @endif>
                     <div @class([
                             $customization['wrapper.fifth'],
                             $configurations['size'],
-                            'h-full' => !$configurations['top'] || !$configurations['bottom']
+                            $customization['wrapper.inner.h-full'] => !$configurations['top'] || !$configurations['bottom']
                         ])>
                         <div @class([
-                                $customization['header'],
+                                $customization['header.base'],
                                 $customization['header.divider'] => $title !== null,
                             ])>
-                            <div @class(['flex items-start', 'justify-between' => $title !== null, 'justify-end' => $title === null])>
+                            <div @class([$customization['header.layout.base'], $customization['header.layout.with-title'] => $title !== null, $customization['header.layout.no-title'] => $title === null])>
                                 @if ($title)
                                     <h2 @if ($title instanceof \Illuminate\View\ComponentSlot)
                                             {{ $title->attributes->class($customization['title.text']) }}
@@ -84,10 +84,10 @@
                         </div>
                         @if ($footer)
                             <div @if ($footer instanceof \Illuminate\View\ComponentSlot) {{ $footer->attributes->class([
-                                    $customization['footer'],
-                                    'justify-start' => $footer->attributes->get('start', false),
-                                    'justify-end' => $footer->attributes->get('end', false),
-                                ]) }} @else class="{{ $customization['footer'] }}" @endif>
+                                    $customization['footer.base'],
+                                    $customization['footer.start'] => $footer->attributes->get('start', false),
+                                    $customization['footer.end'] => $footer->attributes->get('end', false),
+                                ]) }} @else class="{{ $customization['footer.base'] }}" @endif>
                                 {{ $footer }}
                             </div>
                         @endif

@@ -39,7 +39,7 @@
     ])>
         <div @class(['relative', $customization['wrapper.single'] => $double])>
             <div class="{{ $customization['box.picker.button'] }}">
-                <span class="inline-flex items-center">
+                <span class="{{ $customization['box.picker.button-label-wrapper'] }}">
                     <button type="button"
                             x-ref="monthAnchor"
                             x-text="calendar.months[month]"
@@ -168,23 +168,23 @@
                     </button>
                 </div>
             </div>
-            <div class="grid grid-cols-7 mb-3" x-show="!monthYearOnly">
+            <div class="{{ $customization['wrapper.days-header'] }}" x-show="!monthYearOnly">
                 <template x-for="(day, index) in calendar.week" :key="index">
-                    <div class="px-0.5">
+                    <div class="{{ $customization['label.days-cell'] }}">
                         <div x-text="day.slice(0, 3)" class="{{ $customization['label.days'] }}"></div>
                     </div>
                 </template>
             </div>
-            <div class="grid grid-cols-7" x-show="!monthYearOnly">
+            <div class="{{ $customization['wrapper.days-grid'] }}" x-show="!monthYearOnly">
                 <template x-for="(blank, index) in blanks" :key="index">
                     <div class="{{ $customization['button.blank'] }}"></div>
                 </template>
                 <template x-for="(day, index) in days" :key="index">
-                    <div class="mb-2"
+                    <div class="{{ $customization['button.day-wrapper'] }}"
                          x-bind:class="{
-                            'rounded-l-full': day.isStart,
-                            'rounded-r-full w-7 h-7': day.isEnd,
-                            '{{ $customization['range'] }}': day.isBetween,
+                            '{{ $customization['range.start'] }}': day.isStart,
+                            '{{ $customization['range.end'] }}': day.isEnd,
+                            '{{ $customization['range.between'] }}': day.isBetween,
                          }">
                         <button type="button"
                                 x-text="day.day"
@@ -209,23 +209,23 @@
                         <span x-text="calendar.months[secondaryMonth]" class="{{ $customization['label.month'] }}"></span>
                     </span>
                 </div>
-                <div class="grid grid-cols-7 mb-3" x-show="!monthYearOnly">
+                <div class="{{ $customization['wrapper.days-header'] }}" x-show="!monthYearOnly">
                     <template x-for="(day, index) in calendar.week" :key="index">
-                        <div class="px-0.5">
+                        <div class="{{ $customization['label.days-cell'] }}">
                             <div x-text="day.slice(0, 3)" class="{{ $customization['label.days'] }}"></div>
                         </div>
                     </template>
                 </div>
-                <div class="grid grid-cols-7" x-show="!monthYearOnly">
+                <div class="{{ $customization['wrapper.days-grid'] }}" x-show="!monthYearOnly">
                     <template x-for="(blank, index) in blanksSecondary" :key="index">
                         <div class="{{ $customization['button.blank'] }}"></div>
                     </template>
                     <template x-for="(day, index) in daysSecondary" :key="index">
-                        <div class="mb-2"
+                        <div class="{{ $customization['button.day-wrapper'] }}"
                              x-bind:class="{
-                                'rounded-l-full': day.isStart,
-                                'rounded-r-full w-7 h-7': day.isEnd,
-                                '{{ $customization['range'] }}': day.isBetween,
+                                '{{ $customization['range.start'] }}': day.isStart,
+                                '{{ $customization['range.end'] }}': day.isEnd,
+                                '{{ $customization['range.between'] }}': day.isBetween,
                              }">
                             <button type="button"
                                     x-text="day.day"

@@ -86,6 +86,8 @@ class Component extends TallStackUiComponent implements Customization
                 'grid-vertical' => 'col-start-2 row-start-1',
                 'grid-horizontal' => 'row-start-2 col-start-1',
                 'bullet' => '',
+                'bullet-base' => 'h-2 w-2 rounded-full',
+                'icon-size' => 'h-3.5 w-3.5',
                 'icon-wrapper' => '',
                 'custom' => '',
             ],

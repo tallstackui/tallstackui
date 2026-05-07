@@ -134,6 +134,7 @@ class Component extends TallStackUiComponent implements Customization
                         ],
                     ],
                     'empty' => 'dark:text-dark-300 block w-full pr-2 text-gray-600',
+                    'empty-wrapper' => 'm-2',
                 ],
                 'searchable' => [
                     'wrapper' => 'relative px-2 my-2',
@@ -143,6 +144,7 @@ class Component extends TallStackUiComponent implements Customization
                 'wrapper' => 'truncate',
                 'placeholder' => [
                     'text' => 'dark:text-dark-400 truncate leading-6 text-gray-400',
+                    'error' => 'text-red-500 dark:text-red-500',
                     'wrapper' => 'flex items-center',
                 ],
                 'single' => 'dark:text-dark-300 truncate leading-6 text-gray-600',

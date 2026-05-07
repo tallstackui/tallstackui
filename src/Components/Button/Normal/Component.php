@@ -75,6 +75,10 @@ class Component extends TallStackUiComponent implements Customization
                     'rounded' => 'rounded-md',
                     'circle' => 'rounded-full',
                 ],
+                'block' => 'w-full',
+            ],
+            'wire' => [
+                'loading-cursor' => 'cursor-wait!',
             ],
             'icon.sizes' => [
                 'xs' => 'w-2 h-2',
@@ -82,6 +86,7 @@ class Component extends TallStackUiComponent implements Customization
                 'md' => 'w-4 h-4',
                 'lg' => 'w-5 h-5',
             ],
+            'icon.spinner-animation' => 'animate-spin',
         ]);
     }
 }

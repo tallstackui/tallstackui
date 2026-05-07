@@ -44,7 +44,18 @@ class Component extends TallStackUiComponent implements Customization
     public function customization(): array
     {
         return Arr::dot([
+            'input' => [
+                'caret' => 'caret-transparent',
+            ],
+            'slot' => [
+                'spacing' => 'ml-1 mr-2',
+            ],
             'wrapper' => 'flex select-none items-center justify-center gap-1',
+            'wrapper-floating' => [
+                'base' => 'flex-col',
+                'with-helper-or-footer' => 'mb-2',
+                'wide-format' => 'w-full',
+            ],
             'icon' => [
                 'size' => 'h-5 w-5',
                 'clear' => 'hover:text-red-500',
@@ -67,6 +78,7 @@ class Component extends TallStackUiComponent implements Customization
             ],
             'range' => [
                 'base' => 'dark:bg-dark-600 h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200',
+                'focus' => 'focus:outline-hidden',
                 'thumb' => '[&::-webkit-slider-thumb]:bg-primary-500 dark:[&::-webkit-slider-thumb]:bg-dark-400 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full',
                 'light' => 'bg-primary-50',
                 'dark' => 'dark:bg-dark-600',
@@ -74,6 +86,7 @@ class Component extends TallStackUiComponent implements Customization
             'helper' => [
                 'wrapper' => 'mt-2 flex flex-col space-y-6 outline-hidden',
                 'button' => 'w-full uppercase',
+                'button-format-24' => 'mt-2',
             ],
         ]);
     }

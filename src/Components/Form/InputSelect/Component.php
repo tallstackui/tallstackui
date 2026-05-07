@@ -62,7 +62,11 @@ class Component extends TallStackUiComponent implements Customization
                     'left' => 'pl-8',
                     'right' => 'pr-8',
                     'clearable' => 'pr-14!',
+                    'icon-clearable-extra' => 'pr-8!',
                 ],
+                'wrapper-fix' => 'ring-0! focus-within:ring-0!',
+                'slot-prefix-spacing' => 'ml-2 mr-1',
+                'slot-suffix-spacing' => 'ml-1 mr-2',
             ],
             'icon' => [
                 'wrapper' => 'pointer-events-none absolute inset-y-0 flex items-center text-gray-500 dark:text-dark-400',

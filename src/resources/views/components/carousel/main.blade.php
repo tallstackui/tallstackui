@@ -31,7 +31,7 @@
         @endif
         <div @class([
             $customization['wrapper.second'],
-            'min-h-[50svh]' => is_null($wrapper),
+            $customization['wrapper.fallback-height'] => is_null($wrapper),
             $wrapper => ! is_null($wrapper),
         ])>
             <template x-for="(image, index) in images" :key="index">
@@ -43,13 +43,13 @@
                                 x-on:click="expand(image)"
                                 dusk="tallstackui_carousel_expand">
                             <template x-if="image.title">
-                                <div @class([$customization['images.wrapper.second'], 'rounded-xl' => $round])>
+                                <div @class([$customization['images.wrapper.second'], $customization['images.rounded'] => $round])>
                                     <h3 class="{{ $customization['images.content.title'] }}" x-text="image.title"></h3>
                                     <p class="{{ $customization['images.content.description'] }}"
                                        x-text="image.description"></p>
                                 </div>
                             </template>
-                            <img @class([$customization['images.base'], 'rounded-xl' => $round])
+                            <img @class([$customization['images.base'], $customization['images.rounded'] => $round])
                                  x-bind:src="image.src"
                                  x-bind:alt="image.alt"
                                  @if ($autoplay && $stopOnHover)
@@ -60,13 +60,13 @@
                     @else
                         <a x-bind:href="image.url ?? null" x-bind:target="image.target">
                             <template x-if="image.title">
-                                <div @class([$customization['images.wrapper.second'], 'rounded-xl' => $round])>
+                                <div @class([$customization['images.wrapper.second'], $customization['images.rounded'] => $round])>
                                     <h3 class="{{ $customization['images.content.title'] }}" x-text="image.title"></h3>
                                     <p class="{{ $customization['images.content.description'] }}"
                                        x-text="image.description"></p>
                                 </div>
                             </template>
-                            <img @class([$customization['images.base'], 'rounded-xl' => $round])
+                            <img @class([$customization['images.base'], $customization['images.rounded'] => $round])
                                  x-bind:src="image.src"
                                  x-bind:alt="image.alt"
                                  @if ($autoplay && $stopOnHover)

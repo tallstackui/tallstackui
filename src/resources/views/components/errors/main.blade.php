@@ -3,7 +3,7 @@
 @endphp
 
 @if ($errors->isNotEmpty())
-    <div wire:key="errors-{{ uniqid() }}" class="w-full"
+    <div wire:key="errors-{{ uniqid() }}" class="{{ $customization['outer'] }}"
          x-data="{ show : true }"
          x-show="show">
         <div {{ $attributes->except('x-on:close')->class([

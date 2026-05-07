@@ -11,8 +11,8 @@
     @if ($label && !$withoutTooltip && !$horizontal)
         <span @class([
             $customization['label.tooltip'],
-            'right-full mr-2' => str_contains($position, 'right'),
-            'left-full ml-2' => str_contains($position, 'left'),
+            $customization['label.tooltip-right'] => str_contains($position, 'right'),
+            $customization['label.tooltip-left'] => str_contains($position, 'left'),
         ])>{{ $label }}</span>
     @endif
 

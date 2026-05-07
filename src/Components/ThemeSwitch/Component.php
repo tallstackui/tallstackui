@@ -67,6 +67,7 @@ class Component extends TallStackUiComponent implements Customization
             ],
             'segmented' => [
                 'wrapper' => 'dark:bg-dark-600 inline-flex items-center gap-1 rounded-lg bg-gray-100 p-1',
+                'wrapper-block' => 'w-full',
                 'button' => 'cursor-pointer rounded-md p-1.5 transition-colors',
                 'active' => 'dark:bg-dark-500 bg-white',
                 'inactive' => 'dark:text-dark-300 dark:hover:text-dark-100 text-gray-500 hover:text-gray-700',
@@ -85,11 +86,25 @@ class Component extends TallStackUiComponent implements Customization
                     ],
                 ],
             ],
+            'segmented-block' => 'flex flex-1 items-center justify-center focus:outline-hidden',
+            'transition' => [
+                'enter' => [
+                    'class' => 'duration-200 ease-in',
+                    'from' => 'opacity-0',
+                    'to' => 'opacity-100',
+                ],
+                'leave' => [
+                    'class' => 'duration-100 ease-out',
+                    'from' => 'opacity-100',
+                    'to' => 'opacity-0',
+                ],
+            ],
             'switch' => [
                 'button' => 'focus:ring-primary-500 dark:ring-offset-dark-900 relative shrink-0 cursor-pointer rounded-full border-2 border-transparent focus:outline-hidden focus:ring-0 focus:ring-offset-0',
                 'wrapper' => 'text-dark-500 pointer-events-none relative inline-block transform rounded-full bg-white shadow ring-0',
                 'on' => 'bg-primary-500',
                 'off' => 'bg-gray-200',
+                'translate-x-0' => 'translate-x-0',
                 'icons' => [
                     'sizes' => [
                         'xs' => 'h-2 w-2',

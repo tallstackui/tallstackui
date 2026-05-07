@@ -65,6 +65,10 @@ class Component extends TallStackUiComponent implements Customization
             ],
             'clickable' => 'cursor-pointer',
             'icon' => 'h-3 w-3',
+            'icon-spacing' => [
+                'left' => 'mr-1',
+                'right' => 'ml-1',
+            ],
             'border.radius' => [
                 'xs' => 'rounded-xs',
                 'sm' => 'rounded-sm',

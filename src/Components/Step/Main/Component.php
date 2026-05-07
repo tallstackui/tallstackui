@@ -87,6 +87,7 @@ class Component extends TallStackUiComponent implements Customization
                 ],
             ],
             'panels' => [
+                'text-layout' => 'flex-col',
                 'li' => 'relative md:flex md:flex-1 border-b last:border-b-0 border-gray-300 dark:border-dark-700 md:border-0',
                 'wrapper' => 'group flex w-full items-center',
                 'check' => 'h-5 w-5 text-white',
@@ -114,11 +115,16 @@ class Component extends TallStackUiComponent implements Customization
                     'description' => 'ml-4 whitespace-nowrap text-xs font-medium text-gray-500 dark:text-dark-400',
                 ],
             ],
+            'panels-shape' => 'rounded-md',
             'content' => 'my-2',
             'helpers.wrapper' => 'flex justify-between',
             'button' => [
                 'base' => 'cursor-pointer dark:text-dark-400 mb-2 me-2 inline-flex select-none items-center rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm font-medium text-gray-600 transition hover:bg-gray-100 focus:outline-hidden dark:border-gray-600 dark:bg-gray-800 dark:hover:border-gray-600 dark:hover:bg-gray-700',
                 'icon' => 'dark:text-dark-300 h-4 w-4',
+                'icon-spacing' => [
+                    'left' => 'mr-1',
+                    'right' => 'ml-1',
+                ],
             ],
         ]);
     }

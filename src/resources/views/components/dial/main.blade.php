@@ -19,7 +19,7 @@
              x-transition:leave-start="opacity-100 scale-100"
              x-transition:leave-end="opacity-0 scale-75"
          @endif
-         @class([$customization['items'], 'flex-col' => !$horizontal])>
+         @class([$customization['items'], $customization['items-vertical'] => !$horizontal])>
         {{ $slot }}
     </div>
     <button type="button"
@@ -29,7 +29,7 @@
             aria-haspopup="true"
             x-bind:aria-expanded="show"
             @class([
-                'rounded-full' => !$square,
+                $customization['button.rounded'] => !$square,
                 $colors['background'],
                 $customization['button.base'],
                 $customization['button.sizes.'.$size],
@@ -38,6 +38,6 @@
                              :icon="TallStackUi::icon($icon)"
                              internal
                              @class([$customization['icon.base'], $customization['icon.sizes.'.$size], $colors['icon']])
-                             x-bind:class="{ 'rotate-45': show }" />
+                             x-bind:class="{ '{{ $customization['icon.rotated'] }}': show }" />
     </button>
 </div>

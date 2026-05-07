@@ -23,7 +23,7 @@
                                      internal
                                      class="{{ $customization['panels.check'] }}" />
             </span>
-            <div class="flex flex-col">
+            <div class="flex {{ $customization['panels.text-layout'] }}">
                 <span class="{{ $customization['panels.text.title.wrapper'] }}"
                       x-bind:class="{
                         '{{ $customization['panels.text.title.inactive'] }}': parseInt(selected) === item.step && item.completed === false || parseInt(selected) < item.step,

@@ -43,7 +43,7 @@
              ])
              dusk="tallstackui_command_palette">
             <div @class([$customization['input.wrapper']])
-                 x-bind:class="{ 'border-b-0!': available.length === 0 && (!search || loading || !fetched) }">
+                 x-bind:class="{ '{{ $customization['input.border-empty'] }}': available.length === 0 && (!search || loading || !fetched) }">
                 <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                      :icon="TallStackUi::icon('magnifying-glass')"
                                      internal
@@ -58,12 +58,12 @@
                        dusk="tallstackui_command_palette_search"
                        @class([$customization['input.base']]) />
                 <div x-show="loading" @class([$customization['input.loading']])>
-                    <x-ts-ui::icon.generic.loading class="h-5 w-5 animate-spin text-dark-400" />
+                    <x-ts-ui::icon.generic.loading :class="$customization['loading.icon']" />
                 </div>
             </div>
             <div x-ref="list"
                  x-on:mousemove="_keyboard = false"
-                 @class([$customization['list'], 'command-palette-scrollbar' => $configurations['scrollbar']])
+                 @class([$customization['list'], $customization['list-scrollbar'] => $configurations['scrollbar']])
                  x-show="available.length > 0 || (search && !loading && fetched)">
                 <template x-for="(option, index) in available" :key="option.__tsui_key ?? index">
                     <button type="button"

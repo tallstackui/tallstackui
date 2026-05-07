@@ -26,6 +26,7 @@ class Component extends TallStackUiComponent implements Customization
             'background' => 'fixed inset-0 bg-gray-400/75 transform transition-opacity',
             'wrapper' => [
                 'first' => 'fixed inset-0 z-10 w-screen overflow-y-auto',
+                'first-blur' => 'backdrop-blur-sm',
                 'second' => 'flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0',
                 'third' => 'relative w-full max-w-sm transform overflow-hidden bg-white rounded-xl p-4 text-left shadow-xl transition-all sm:my-8 dark:bg-dark-700',
             ],
@@ -44,10 +45,26 @@ class Component extends TallStackUiComponent implements Customization
             'buttons' => [
                 'wrapper' => 'mt-4 space-y-2 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3 sm:space-y-0',
                 'confirm' => 'cursor-pointer group inline-flex w-full items-center justify-center rounded-md px-4 py-2 text-sm font-semibold text-white outline-hidden transition ease-in',
+                'confirm-grid' => [
+                    'with-cancel' => 'sm:w-auto',
+                    'without-cancel' => 'col-span-full',
+                ],
+                'cancel' => [
+                    'base' => 'w-full text-sm focus:ring-0! focus:ring-offset-0!',
+                ],
                 'close' => [
                     'wrapper' => 'flex justify-end',
                     'icon' => 'h-5 w-5 cursor-pointer text-gray-400',
                 ],
+            ],
+            'colorful' => [
+                'icon-wrapper' => 'bg-white/20',
+                'icon' => 'text-white',
+                'close' => 'h-5 w-5 cursor-pointer text-white',
+                'title' => 'text-lg font-semibold leading-6 text-white',
+                'description' => 'text-sm text-white/80',
+                'confirm' => 'bg-white/20 hover:bg-white/30 text-white font-bold! focus:ring-white/50',
+                'cancel' => 'w-full',
             ],
         ]);
     }

@@ -30,6 +30,6 @@ class Component extends TallStackUiComponent implements Customization
 
     public function customization(): array
     {
-        return ['wrapper' => 'relative rounded-md shadow-sm'];
+        return ['wrapper' => 'relative rounded-md'];
     }
 }

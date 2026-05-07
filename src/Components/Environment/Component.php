@@ -66,6 +66,9 @@ class Component extends TallStackUiComponent implements Customization
                 'xl' => 'rounded-xl',
                 'full' => 'rounded-full',
             ],
+            'icon' => [
+                'fork-size' => 'w-4 h-4',
+            ],
         ]);
     }
 

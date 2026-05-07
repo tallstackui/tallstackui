@@ -69,10 +69,12 @@ class Component extends TallStackUiComponent implements Customization
             ],
             'content' => [
                 'wrapper' => 'flex justify-between flex-wrap',
+                'wrapper-with-title' => 'items-start',
                 'base' => 'flex-1 flex',
             ],
             'text' => [
                 'title' => 'text-lg font-semibold',
+                'title-spacing' => 'mb-2',
                 'description' => 'text-sm',
             ],
             'close' => [
@@ -81,6 +83,7 @@ class Component extends TallStackUiComponent implements Customization
             ],
             'icon' => [
                 'wrapper' => 'mr-2',
+                'wrapper-with-title' => 'mt-1',
                 'size' => 'w-5 h-5',
             ],
         ]);

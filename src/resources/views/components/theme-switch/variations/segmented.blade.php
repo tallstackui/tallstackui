@@ -12,14 +12,14 @@
             }));
         }
      }">
-    <div @class([$customization['segmented.wrapper'], 'w-full' => $block]) {{ $attributes->only('x-on:change') }}>
+    <div @class([$customization['segmented.wrapper'], $customization['segmented.wrapper-block'] => $block]) {{ $attributes->only('x-on:change') }}>
         <button type="button"
                 x-on:click="setAs('dark')"
                 x-bind:class="{
                     '{{ $customization['segmented.active'] }}': mode === 'dark',
                     '{{ $customization['segmented.inactive'] }}': mode !== 'dark'
                 }"
-                @class([$customization['segmented.button'], 'flex flex-1 items-center justify-center focus:outline-hidden' => $block])>
+                @class([$customization['segmented.button'], $customization['segmented-block'] => $block])>
             <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                  :icon="TallStackUi::icon('moon')"
                                  internal
@@ -31,7 +31,7 @@
                     '{{ $customization['segmented.active'] }}': mode === 'system',
                     '{{ $customization['segmented.inactive'] }}': mode !== 'system'
                 }"
-                @class([$customization['segmented.button'], 'flex flex-1 items-center justify-center focus:outline-hidden' => $block])>
+                @class([$customization['segmented.button'], $customization['segmented-block'] => $block])>
             <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                  :icon="TallStackUi::icon('computer-desktop')"
                                  internal
@@ -43,7 +43,7 @@
                     '{{ $customization['segmented.active'] }}': mode === 'light',
                     '{{ $customization['segmented.inactive'] }}': mode !== 'light'
                 }"
-                @class([$customization['segmented.button'], 'flex flex-1 items-center justify-center focus:outline-hidden' => $block])>
+                @class([$customization['segmented.button'], $customization['segmented-block'] => $block])>
             <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                  :icon="TallStackUi::icon('sun')"
                                  internal

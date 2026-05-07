@@ -31,7 +31,7 @@
                          x-ref="input"
                          x-model="model"
                          maxlength="7">
-        <x-slot:prefix class="ml-2 mr-1">
+        <x-slot:prefix :class="$customization['icon.prefix-spacing']">
             <div class="{{ $customization['selected.wrapper'] }}">
                 <template x-if="model">
                     <button type="button"
@@ -41,7 +41,7 @@
                 </template>
             </div>
         </x-slot:prefix>
-        <x-slot:suffix class="mr-2">
+        <x-slot:suffix :class="$customization['icon.suffix-spacing']">
             <div class="{{ $customization['icon.wrapper'] }}">
                 @if ($clearable)
                     <button type="button" class="{{ $customization['clearable.button'] }}"
@@ -83,7 +83,7 @@
                     <button type="button" {{ $attributes->only('x-on:set') }} x-on:click="set(color)">
                         <div class="{{ $customization['box.button.color'] }}" :style="{ 'background-color': color }">
                             <span x-show="color === model"
-                                  x-bind:class="{'text-white': !check(color), 'text-dark-500': check(color)}">
+                                  x-bind:class="{'{{ $customization['check.light'] }}': !check(color), '{{ $customization['check.dark'] }}': check(color)}">
                                 <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                                      :icon="TallStackUi::icon('check')"
                                                      internal

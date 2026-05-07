@@ -51,8 +51,8 @@
                 @endif
                 <div @class([
                         $customization['mobile.wrapper.items'],
-                        'soft-scrollbar' => $thinScroll,
-                        'custom-scrollbar' => $thickScroll,
+                        $customization['mobile.scrollbar.thin'] => $thinScroll,
+                        $customization['mobile.scrollbar.thick'] => $thickScroll,
                      ])>
                     <div @class([$customization['mobile.wrapper.third'], $customization['mobile.wrapper.brand.margin'] => blank($brand)])>
                         <nav class="{{ $customization['mobile.wrapper.fifth'] }}">
@@ -94,8 +94,8 @@
         @endif
         <div @class([
                 $customization['desktop.wrapper.items'],
-                'soft-scrollbar' => $thinScroll,
-                'custom-scrollbar' => $thickScroll,
+                $customization['desktop.scrollbar.thin'] => $thinScroll,
+                $customization['desktop.scrollbar.thick'] => $thickScroll,
              ])>
             <div @class([$customization['desktop.wrapper.third'], $customization['desktop.wrapper.brand.margin'] => blank($brand)])>
                 <nav class="{{ $customization['desktop.wrapper.fourth'] }}">

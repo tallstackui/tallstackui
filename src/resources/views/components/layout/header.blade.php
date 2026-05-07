@@ -25,8 +25,8 @@
     @if ($left || $middle || $right)
         <div @class([
             $customization['slots.wrapper'],
-            'justify-end' => !$left && !$middle && $right,
-            'justify-between' => ((int) isset($left) + (int) isset($middle) + (int) isset($right)) >= 2,
+            $customization['slots.wrapper-right-only'] => !$left && !$middle && $right,
+            $customization['slots.wrapper-multi-slot'] => ((int) isset($left) + (int) isset($middle) + (int) isset($right)) >= 2,
         ])>
             @if ($left)
                 <div class="{{ $customization['slots.left'] }}">

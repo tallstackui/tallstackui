@@ -41,17 +41,25 @@ class Component extends TallStackUiComponent implements Customization
     public function customization(): array
     {
         return Arr::dot([
-            'input' => [...$this->input()],
+            'input' => [
+                ...$this->input(),
+                'centralized' => 'text-center',
+                'caret' => 'caret-transparent',
+                'appearance' => 'appearance-number-none',
+                'wrapper-centralized' => 'justify-between',
+            ],
             'buttons' => [
                 'wrapper' => 'flex w-full items-center',
                 'left' => [
                     'base' => 'inline-flex pr-3 items-center justify-center disabled:opacity-30 cursor-pointer',
+                    'centralized' => 'order-first',
                     'size' => 'ml-2 h-4 w-4',
                     'color' => 'dark:text-dark-400 text-gray-500',
                     'error' => 'text-red-500',
                 ],
                 'right' => [
                     'base' => 'inline-flex pl-3 items-center justify-center disabled:opacity-30 cursor-pointer',
+                    'separator' => 'border-l border-gray-200 dark:border-gray-600',
                     'size' => 'mr-2 h-4 w-4',
                     'color' => 'dark:text-dark-400 text-gray-500',
                     'error' => 'text-red-500',

@@ -67,10 +67,16 @@ class Component extends TallStackUiComponent implements Customization
     public function customization(): array
     {
         return Arr::dot([
+            'slot' => [
+                'spacing' => 'ml-1 mr-2',
+            ],
             'icon' => [
                 'wrapper' => 'flex items-center',
+                'wrapper-extra' => 'justify-between gap-2',
                 'class' => 'h-5 w-5 cursor-pointer',
+                'capslock' => 'h-5 w-5 text-red-500',
             ],
+            'rules-strikethrough' => 'line-through',
             'floating' => [
                 'default' => collect(app(Floating::class)->customization())->get('wrapper'),
                 'class' => 'w-full p-3',

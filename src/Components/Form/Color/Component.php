@@ -76,6 +76,12 @@ class Component extends TallStackUiComponent implements Customization
                 ],
             ],
             'icon.wrapper' => 'flex items-center min-w-full gap-1.5',
+            'icon.prefix-spacing' => 'ml-2 mr-1',
+            'icon.suffix-spacing' => 'mr-2',
+            'check' => [
+                'light' => 'text-white',
+                'dark' => 'text-dark-500',
+            ],
             'clearable' => [
                 'button' => 'cursor-pointer hover:text-red-500',
                 'size' => 'h-5 w-5',

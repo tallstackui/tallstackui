@@ -17,7 +17,7 @@
         </div>
     @endif
     <ul role="tablist"
-        @class([$customization['base.body'], 'hidden sm:flex' => ! $scrollOnMobile, 'justify-center' => $centered]) {{ $attributes->only('x-on:navigate') }} x-ref="ul">
+        @class([$customization['base.body'], 'hidden ' . $customization['base.body-mobile-show'] => ! $scrollOnMobile, $customization['base.centered'] => $centered]) {{ $attributes->only('x-on:navigate') }} x-ref="ul">
         <template x-for="item in tabs">
             <li role="tab"
                 tabindex="0"
@@ -28,7 +28,7 @@
                 x-bind:class="{
                     '{{ $customization['item.select'] }}' : selected === item.tab,
                     '{{ $customization['item.unselect'] }}' : selected !== item.tab,
-                    'hidden sm:flex': selected !== item.tab && ! @js($scrollOnMobile),
+                    'hidden {{ $customization['item.mobile-show'] }}': selected !== item.tab && ! @js($scrollOnMobile),
                 }">
                 <div class="{{ $customization['item.wrapper'] }}">
                     <template x-if="item.left">
@@ -42,7 +42,7 @@
             </li>
         </template>
     </ul>
-    <hr @class([$customization['base.divider'], 'hidden sm:block' => ! $scrollOnMobile])>
+    <hr @class([$customization['base.divider'], 'hidden ' . $customization['base.divider-mobile-show'] => ! $scrollOnMobile])>
     <div class="{{ $customization['base.content'] }}">
         {{ $slot }}
     </div>

@@ -71,11 +71,16 @@ class Component extends TallStackUiComponent implements Customization
             ],
             'input' => [
                 'wrapper' => 'flex items-center border-b border-dark-100 px-4 dark:border-dark-700',
+                'border-empty' => 'border-b-0!',
                 'icon' => 'h-5 w-5 text-dark-400 dark:text-dark-500',
                 'base' => 'h-12 w-full border-0 bg-transparent text-sm text-dark-900 placeholder-dark-400 focus:ring-0 focus:outline-none dark:text-dark-100 dark:placeholder-dark-500',
                 'loading' => 'flex items-center',
             ],
+            'loading' => [
+                'icon' => 'h-5 w-5 animate-spin text-dark-400',
+            ],
             'list' => 'max-h-72 scroll-py-2 overflow-y-auto p-2',
+            'list-scrollbar' => 'command-palette-scrollbar',
             'option' => [
                 'base' => 'flex w-full cursor-pointer items-center gap-x-3 rounded-lg px-3 py-2 text-left',
                 'active' => 'bg-primary-50 dark:bg-dark-700',
