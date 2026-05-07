@@ -32,6 +32,22 @@ A versatile card container with optional header, footer, image, color styling, m
 </x-card>
 ```
 
+```blade
+{{-- Default radius (rounded-lg). --}}
+<x-card>
+    Default
+</x-card>
+
+{{-- Bare flag preserves the default radius. --}}
+<x-card round>
+    Default (explicit flag)
+</x-card>
+
+{{-- Named sizes from xs to 2xl. --}}
+<x-card round="xs">Tiny corners</x-card>
+<x-card round="2xl">Generous corners</x-card>
+```
+
 ## Attributes
 
 | Attribute | Type               | Default | Description                                                                                                                   |
