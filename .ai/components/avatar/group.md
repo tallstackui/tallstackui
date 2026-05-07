@@ -25,9 +25,9 @@ A wrapper component that stacks multiple avatar components together with overlap
 
 ## Attributes
 
-| Attribute | Type | Default | Description                                                                                                                                                |
-|-----------|------|---------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| reverse   | bool | false   | Mirrors the visual stacking direction. The DOM order is preserved — only the painted overlap is reversed, so the first avatar in markup ends on the right. |
+| Attribute | Type | Default | Description                                                                                                                                             |
+|-----------|------|---------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
+| reverse   | bool | false   | Inverts the overlap layering so the first avatar in markup paints on top. Visual left-to-right order matches the DOM order in both default and reverse. |
 
 ## Slots
 
@@ -45,7 +45,9 @@ A wrapper component that stacks multiple avatar components together with overlap
 </x-avatar.group>
 ```
 
-Useful for activity feeds where the most-recent contributor is the first array entry but should appear on the right of the stack.
+Without `reverse`, the last avatar in markup paints on top (the natural browser paint order). With `reverse`, the first avatar in markup paints on top and each subsequent avatar slides under the previous one. The visual left-to-right order matches the DOM order in both modes — only the overlap layering changes.
+
+The z-stacking is explicit for the first six children (`z-50` → `z-10`); from the seventh onward they fall back to `z-0` and rely on natural paint order, which is rarely visible because of the heavy overlap.
 
 ## Soft Customization
 
@@ -64,4 +66,4 @@ TallStackUi::customize()
 | Block Name      | Purpose                                                                                                                                                                                |
 |-----------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | wrapper.base    | Inline-flex container with negative horizontal spacing for overlapping avatars; shrink-to-fit so the group stays anchored to the parent's flow start in both default and reverse modes |
-| wrapper.reverse | Extra classes applied only when `reverse` is enabled to flip the overlap                                                                                                               |
+| wrapper.reverse | When `reverse` is enabled: makes children `position: relative` and applies decreasing z-index to the first six (`z-50` → `z-10`) so the first avatar paints on top of the others       |

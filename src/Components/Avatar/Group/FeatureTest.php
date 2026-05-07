@@ -18,11 +18,13 @@ it('can render with overlap classes')
 it('can render reversed')
     ->expect('<x-avatar.group reverse><x-avatar text="AB" /><x-avatar text="CD" /></x-avatar.group>')
     ->render()
-    ->toContain('flex-row-reverse')
-    ->toContain('space-x-reverse');
+    ->toContain(htmlspecialchars('[&>*]:relative'))
+    ->toContain(htmlspecialchars('[&>*:nth-child(1)]:z-50'))
+    ->toContain(htmlspecialchars('[&>*:nth-child(5)]:z-10'))
+    ->toContain(htmlspecialchars('[&>*:nth-child(n+6)]:z-0'));
 
 it('does not apply reverse classes by default')
     ->expect('<x-avatar.group><x-avatar text="AB" /></x-avatar.group>')
     ->render()
-    ->not->toContain('flex-row-reverse')
-    ->not->toContain('space-x-reverse');
+    ->not->toContain(htmlspecialchars('[&>*]:relative'))
+    ->not->toContain(htmlspecialchars('[&>*:nth-child(1)]:z-50'));

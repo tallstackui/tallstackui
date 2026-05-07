@@ -26,7 +26,7 @@ class Component extends TallStackUiComponent implements Customization
         return Arr::dot([
             'wrapper' => [
                 'base' => 'inline-flex -space-x-2',
-                'reverse' => 'flex-row-reverse space-x-reverse',
+                'reverse' => '[&>*]:relative [&>*:nth-child(1)]:z-50 [&>*:nth-child(2)]:z-40 [&>*:nth-child(3)]:z-30 [&>*:nth-child(4)]:z-20 [&>*:nth-child(5)]:z-10 [&>*:nth-child(n+6)]:z-0',
             ],
         ]);
     }
