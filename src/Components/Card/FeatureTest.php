@@ -76,3 +76,35 @@ it('cannot use image and color together', function () {
     expect('<x-card image="https://via.placeholder.com/150" color="red">Foo bar</x-card>')
         ->render();
 });
+
+it('renders the default rounded-lg when round is absent')
+    ->expect('<x-card>Foo bar</x-card>')
+    ->render()
+    ->toContain('rounded-lg');
+
+it('keeps the default rounded-lg when round is used as a flag')
+    ->expect('<x-card round>Foo bar</x-card>')
+    ->render()
+    ->toContain('rounded-lg');
+
+it('can render round with named size', function (string $size, string $class) {
+    $component = "<x-card round=\"$size\">Foo bar</x-card>";
+
+    expect($component)->render()
+        ->toContain('Foo bar')
+        ->toContain($class);
+})->with([
+    ['xs', 'rounded-xs'],
+    ['sm', 'rounded-sm'],
+    ['md', 'rounded-md'],
+    ['lg', 'rounded-lg'],
+    ['xl', 'rounded-xl'],
+    ['2xl', 'rounded-2xl'],
+]);
+
+it('cannot accept invalid round value', function () {
+    $this->expectException(ViewException::class);
+    $this->expectExceptionMessage('[TallStackUI] Card: The [round] must be true or one of: [xs, sm, md, lg, xl, 2xl].');
+
+    expect('<x-card round="huge">Foo bar</x-card>')->render();
+});

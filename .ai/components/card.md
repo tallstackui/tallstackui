@@ -45,6 +45,7 @@ A versatile card container with optional header, footer, image, color styling, m
 | delay     | string\|null       | null    | Livewire loading delay modifier (e.g., 'long', 'longest')                                                                     |
 | image     | string\|null       | null    | URL for a card image                                                                                                          |
 | position  | string\|null       | 'top'   | Image position: 'top' or 'bottom'                                                                                             |
+| round     | bool\|string       | false   | Border radius size of the card wrapper. Accepts `xs`, `sm`, `md`, `lg`, `xl`, or `2xl`. When omitted or set to `true`, keeps the component default (`rounded-lg`). |
 
 ## Slots
 
@@ -76,6 +77,7 @@ The Card component dispatches Alpine.js `CustomEvent`s when its state changes. L
 ## Validation Constraints
 
 - The `image` and `color` attributes cannot be used together.
+- When `round` is set to a string, it must be one of: `xs`, `sm`, `md`, `lg`, `xl`, `2xl`.
 
 ## Soft Customization
 
@@ -113,3 +115,9 @@ TallStackUi::customize()
 | loading.wrapper         | Loading bar outer container                               |
 | loading.bar             | Loading bar animation element                             |
 | loading.overlay         | Semi-transparent overlay covering the card during loading |
+| border.radius.xs        | Border radius applied when `round="xs"`                   |
+| border.radius.sm        | Border radius applied when `round="sm"`                   |
+| border.radius.md        | Border radius applied when `round="md"`                   |
+| border.radius.lg        | Border radius applied when `round="lg"` (default)         |
+| border.radius.xl        | Border radius applied when `round="xl"`                   |
+| border.radius.2xl       | Border radius applied when `round="2xl"`                  |
