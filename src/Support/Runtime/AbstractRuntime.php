@@ -143,14 +143,34 @@ abstract class AbstractRuntime
     }
 
     /**
-     * Retrieves an array indicating the presence of 'left' and 'right' keys in the first slot.
+     * Tells whether the current component is rendering inside an ancestor's
+     * `<x-slot:left>` or `<x-slot:right>`. Used by select.native, select.styled
+     * and input.select to switch into "side" mode.
+     *
+     * Reads `slotStack` instead of `slots` because Laravel keeps closed slots
+     * in `slots` (the key stays, the value just becomes a ComponentSlot), so
+     * a closed slot on an ancestor would leak into a sibling that rendered
+     * after it (issue #1276). `slotStack` only holds slots whose body is
+     * currently being captured.
      */
     protected function slots(): array
     {
-        $slots = invade($this->factory)->slots;
+        $slotStack = invade($this->factory)->slotStack ?? [];
 
-        $left = ! empty(array_filter($slots, fn (array $item) => array_key_exists('left', $item)));
-        $right = ! empty(array_filter($slots, fn (array $item) => array_key_exists('right', $item)));
+        $left = false;
+        $right = false;
+
+        foreach ($slotStack as $frame) {
+            foreach ($frame as $entry) {
+                $name = $entry[0] ?? null;
+
+                if ($name === 'left') {
+                    $left = true;
+                } elseif ($name === 'right') {
+                    $right = true;
+                }
+            }
+        }
 
         return [$left, $right];
     }
