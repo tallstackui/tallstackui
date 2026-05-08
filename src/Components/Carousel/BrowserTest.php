@@ -2,8 +2,10 @@
 
 namespace TallStackUi\Components\Carousel;
 
+use Laravel\Dusk\Browser;
 use Livewire\Component;
 use Livewire\Livewire;
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\BrowserTestCase;
 
@@ -194,6 +196,57 @@ class BrowserTest extends BrowserTestCase
             ->assertSee('1-foo')
             ->assertSee('1-bar')
             ->waitFor('@next');
+    }
+
+    #[Test]
+    public function can_navigate_inside_lightbox_and_restore_body_overflow(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div style="height: 200vh">
+                    <x-carousel clickable navigable :images="[
+                        [
+                            'src' => 'https://penguinui.s3.amazonaws.com/component-assets/carousel/default-slide-1.webp',
+                            'alt' => 'image-1',
+                            'title' => '1-foo',
+                        ],
+                        [
+                            'src' => 'https://penguinui.s3.amazonaws.com/component-assets/carousel/default-slide-2.webp',
+                            'alt' => 'image-2',
+                            'title' => '2-foo',
+                        ],
+                        [
+                            'src' => 'https://penguinui.s3.amazonaws.com/component-assets/carousel/default-slide-3.webp',
+                            'alt' => 'image-3',
+                            'title' => '3-foo',
+                        ],
+                    ]" />
+                </div>
+            HTML;
+            }
+        })
+            ->click('@tallstackui_carousel_expand')
+            ->pause(300)
+            ->assertVisible('@tallstackui_carousel_expanded_next')
+            ->click('@tallstackui_carousel_expanded_next')
+            ->pause(150)
+            ->click('@tallstackui_carousel_expanded_next')
+            ->pause(150)
+            ->click('@tallstackui_carousel_expanded_previous')
+            ->pause(150)
+            ->click('@tallstackui_carousel_close')
+            ->pause(300)
+            ->assertNotVisible('@tallstackui_carousel_close')
+            ->tap(function (Browser $browser): void {
+                $overflow = $browser->script('return document.body.style.overflow;')[0];
+                $registry = $browser->script('return (window.__tsui_elements ?? []).length;')[0];
+
+                Assert::assertNotSame('hidden', $overflow, 'body overflow should be restored after closing the lightbox');
+                Assert::assertSame(0, $registry, 'the UI element registry should be empty after closing the lightbox');
+            });
     }
 
     #[Test]

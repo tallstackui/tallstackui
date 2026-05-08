@@ -21,13 +21,18 @@ export default (images, cover = 1, autoplay, interval, withoutLoop, shuffle, cli
 
     if (!clickable) return;
 
-    this.$watch('expanded', (value) => {
-      overflow(value !== null, 'carousel');
+    this.$watch('expanded', (value, previous) => {
+      const opening = previous === null && value !== null;
+      const closing = previous !== null && value === null;
 
-      value !== null ? register_ui_element(this.id, 'carousel') : unregister_ui_element(this.id);
+      if (!opening && !closing) return;
+
+      overflow(opening, 'carousel');
+
+      opening ? register_ui_element(this.id, 'carousel') : unregister_ui_element(this.id);
 
       this.$refs.carousel.dispatchEvent(
-        new CustomEvent(value !== null ? 'expand' : 'collapse', {
+        new CustomEvent(opening ? 'expand' : 'collapse', {
           detail: { image: value },
         })
       );
