@@ -81,6 +81,10 @@ export default (images, cover = 1, autoplay, interval, withoutLoop, shuffle, cli
    * @returns {void}
    */
   close() {
+    if (this.expandedIndex !== null) {
+      this.current = this.expandedIndex;
+    }
+
     this.expanded = null;
     this.expandedIndex = null;
   },

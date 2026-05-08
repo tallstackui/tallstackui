@@ -243,9 +243,11 @@ class BrowserTest extends BrowserTestCase
             ->tap(function (Browser $browser): void {
                 $overflow = $browser->script('return document.body.style.overflow;')[0];
                 $registry = $browser->script('return (window.__tsui_elements ?? []).length;')[0];
+                $current = $browser->script("var trigger = document.querySelector('[dusk=\"tallstackui_carousel_expand\"]'); return trigger ? Alpine.\$data(trigger.closest('[x-data]')).current : null;")[0];
 
                 Assert::assertNotSame('hidden', $overflow, 'body overflow should be restored after closing the lightbox');
                 Assert::assertSame(0, $registry, 'the UI element registry should be empty after closing the lightbox');
+                Assert::assertSame(2, $current, 'the main carousel should sync to the last image viewed inside the lightbox');
             });
     }
 

@@ -148,6 +148,8 @@ Looping behavior follows `withoutLoop`. By default the lightbox wraps from the l
 
 When the user navigates inside the lightbox, the same `next` / `previous` events the carousel uses for its main view are dispatched, so existing listeners keep working.
 
+The main carousel position stays in sync with the lightbox: when the user closes the overlay, the underlying carousel jumps to whichever image was last viewed in the lightbox. Opening the lightbox on image 1 and closing on image 4 leaves the main carousel showing image 4.
+
 ## Alpine.js Event Payloads
 
 ```blade
