@@ -6,7 +6,7 @@ import {
   top_ui_element,
 } from '../../../js/helpers';
 
-export default (images, cover = 1, autoplay, interval, withoutLoop, shuffle, clickable) => ({
+export default (images, cover = 1, autoplay, interval, withoutLoop, shuffle, clickable, navigable) => ({
   id: unique(),
   images: images,
   time: interval,
@@ -14,6 +14,7 @@ export default (images, cover = 1, autoplay, interval, withoutLoop, shuffle, cli
   interval: null,
   paused: false,
   expanded: null,
+  expandedIndex: null,
   init() {
     if (shuffle) this.shuffle();
     if (autoplay) this.play();
@@ -37,15 +38,37 @@ export default (images, cover = 1, autoplay, interval, withoutLoop, shuffle, cli
     return top_ui_element(this.id);
   },
   /**
+   * Whether the lightbox can step backward from the current expanded image.
+   *
+   * @return {Boolean}
+   */
+  get expandedHasPrevious() {
+    if (!navigable || this.expandedIndex === null) return false;
+
+    return !withoutLoop || this.expandedIndex > 1;
+  },
+  /**
+   * Whether the lightbox can step forward from the current expanded image.
+   *
+   * @return {Boolean}
+   */
+  get expandedHasNext() {
+    if (!navigable || this.expandedIndex === null) return false;
+
+    return !withoutLoop || this.expandedIndex < this.images.length;
+  },
+  /**
    * Open the lightbox with the given image.
    *
    * @param {Object} image
+   * @param {Number} index 1-based index of the image being expanded.
    * @returns {void}
    */
-  expand(image) {
+  expand(image, index) {
     if (!clickable) return;
 
     this.expanded = image;
+    this.expandedIndex = index;
   },
   /**
    * Close the lightbox.
@@ -54,6 +77,49 @@ export default (images, cover = 1, autoplay, interval, withoutLoop, shuffle, cli
    */
   close() {
     this.expanded = null;
+    this.expandedIndex = null;
+  },
+  /**
+   * Advance the lightbox to the next image.
+   *
+   * @returns {void}
+   */
+  expandNext() {
+    if (!navigable || this.expandedIndex === null) return;
+
+    if (withoutLoop && this.expandedIndex === this.images.length) return;
+
+    const next = this.expandedIndex < this.images.length ? this.expandedIndex + 1 : 1;
+
+    this.expandedIndex = next;
+    this.expanded = this.images[next - 1];
+
+    this.$refs.carousel.dispatchEvent(
+      new CustomEvent('next', {
+        detail: { current: next, image: this.expanded },
+      })
+    );
+  },
+  /**
+   * Step the lightbox to the previous image.
+   *
+   * @returns {void}
+   */
+  expandPrevious() {
+    if (!navigable || this.expandedIndex === null) return;
+
+    if (withoutLoop && this.expandedIndex === 1) return;
+
+    const previous = this.expandedIndex > 1 ? this.expandedIndex - 1 : this.images.length;
+
+    this.expandedIndex = previous;
+    this.expanded = this.images[previous - 1];
+
+    this.$refs.carousel.dispatchEvent(
+      new CustomEvent('previous', {
+        detail: { current: previous, image: this.expanded },
+      })
+    );
   },
   /**
    * Shuffle the carousel images.

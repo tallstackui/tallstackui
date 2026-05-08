@@ -62,3 +62,55 @@ it('cannot use caption without clickable', function () {
 
     expect('<x-carousel caption="overlay" :images="$images" />')->render(['images' => $images]);
 });
+
+it('renders lightbox navigation buttons and keyboard handlers when navigable is set', function () {
+    $images = [
+        ['src' => 'a.jpg', 'alt' => 'a'],
+        ['src' => 'b.jpg', 'alt' => 'b'],
+    ];
+
+    $component = '<x-carousel clickable navigable :images="$images" />';
+
+    expect($component)->render(['images' => $images])
+        ->toContain('tallstackui_carousel_expanded_previous')
+        ->toContain('tallstackui_carousel_expanded_next')
+        ->toContain('expandPrevious()')
+        ->toContain('expandNext()')
+        ->toContain('keydown.left.window')
+        ->toContain('keydown.right.window');
+});
+
+it('does not render lightbox navigation buttons when navigable is omitted', function () {
+    $images = [
+        ['src' => 'a.jpg', 'alt' => 'a'],
+        ['src' => 'b.jpg', 'alt' => 'b'],
+    ];
+
+    $component = '<x-carousel clickable :images="$images" />';
+
+    expect($component)->render(['images' => $images])
+        ->not->toContain('tallstackui_carousel_expanded_previous')
+        ->not->toContain('tallstackui_carousel_expanded_next')
+        ->not->toContain('expandPrevious()')
+        ->not->toContain('expandNext()');
+});
+
+it('forwards the slide index to the expand call when navigable is set', function () {
+    $images = [
+        ['src' => 'a.jpg', 'alt' => 'a'],
+        ['src' => 'b.jpg', 'alt' => 'b'],
+    ];
+
+    $component = '<x-carousel clickable navigable :images="$images" />';
+
+    expect($component)->render(['images' => $images])
+        ->toContain('expand(image, index + 1)');
+});
+
+it('cannot use navigable without clickable', function () {
+    $this->expectException(ViewException::class);
+
+    $images = [['src' => 'a.jpg', 'alt' => 'a']];
+
+    expect('<x-carousel navigable :images="$images" />')->render(['images' => $images]);
+});

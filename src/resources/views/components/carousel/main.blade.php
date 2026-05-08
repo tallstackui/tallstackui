@@ -2,7 +2,7 @@
     $customization = $classes();
 @endphp
 
-<div x-data="tallstackui_carousel(@js($images), @js($cover), @js($autoplay), @js($interval), @js($withoutLoop), @js($shuffle), @js($clickable))"
+<div x-data="tallstackui_carousel(@js($images), @js($cover), @js($autoplay), @js($interval), @js($withoutLoop), @js($shuffle), @js($clickable), @js($navigable))"
      {{ $attributes->only(['x-on:next', 'x-on:previous', 'x-on:expand', 'x-on:collapse']) }}
      x-ref="carousel">
     @if ($header)
@@ -40,7 +40,7 @@
                     @if ($clickable)
                         <button type="button"
                                 class="{{ $customization['clickable.trigger'] }}"
-                                x-on:click="expand(image)"
+                                x-on:click="expand(image, index + 1)"
                                 dusk="tallstackui_carousel_expand">
                             <template x-if="image.title">
                                 <div @class([$customization['images.wrapper.second'], $customization['images.rounded'] => $round])>
@@ -101,6 +101,10 @@
                      x-transition.opacity.duration.200ms
                  @endif
                  x-on:keydown.escape.window="top_ui && close()"
+                 @if ($navigable)
+                     x-on:keydown.left.window="top_ui && expandPrevious()"
+                     x-on:keydown.right.window="top_ui && expandNext()"
+                 @endif
                  x-on:click.self="close()"
                  role="dialog"
                  aria-modal="true"
@@ -114,6 +118,28 @@
                                          internal
                                          class="{{ $customization['clickable.close.icon'] }}" />
                 </button>
+                @if ($navigable)
+                    <button type="button"
+                            x-on:click.stop="expandPrevious()"
+                            x-bind:disabled="!expandedHasPrevious"
+                            class="{{ $customization['clickable.navigable.button.left.base'] }}"
+                            dusk="tallstackui_carousel_expanded_previous">
+                        <x-dynamic-component :component="TallStackUi::prefix('icon')"
+                                             :icon="TallStackUi::icon('chevron-left')"
+                                             internal
+                                             class="{{ $customization['clickable.navigable.button.left.icon.size'] }}" />
+                    </button>
+                    <button type="button"
+                            x-on:click.stop="expandNext()"
+                            x-bind:disabled="!expandedHasNext"
+                            class="{{ $customization['clickable.navigable.button.right.base'] }}"
+                            dusk="tallstackui_carousel_expanded_next">
+                        <x-dynamic-component :component="TallStackUi::prefix('icon')"
+                                             :icon="TallStackUi::icon('chevron-right')"
+                                             internal
+                                             class="{{ $customization['clickable.navigable.button.right.icon.size'] }}" />
+                    </button>
+                @endif
                 @if ($caption === 'overlay')
                     <figure x-on:click.self="close()"
                             class="{{ $customization['clickable.caption.overlay.figure'] }}">

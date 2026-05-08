@@ -44,6 +44,7 @@ An image carousel/slider component with manual navigation or autoplay, optional 
 | round             | bool                    | null    | Applies rounded corners to images and overlay                                                                                                                                                                                                                                                                                                              |
 | shuffle           | bool                    | null    | Randomizes the image order on initialization                                                                                                                                                                                                                                                                                                               |
 | clickable         | bool                    | null    | Renders each slide as a button that opens the image in a fullscreen lightbox (overlay teleported to the body, closes on the X button, ESC, or click outside the image). When enabled, `url`/`target` on image entries are ignored.                                                                                                                         |
+| navigable         | bool                    | null    | Adds prev/next arrow buttons and `←`/`→` keyboard shortcuts inside the lightbox so the user can step through every image without closing it. Requires `clickable`. Looping mirrors the carousel's own `withoutLoop` behavior — by default it wraps; with `withoutLoop` the buttons become disabled at the edges.                                           |
 | caption           | string\|null            | null    | Renders the expanded image's `title` and `description` inside the lightbox. Accepts `overlay` (caption sits on top of the image, anchored to its bottom edge with a fade gradient) or `footer` (caption sits below the image on a separate row). Requires `clickable`. When the expanded image carries no title or description, the figcaption is skipped. |
 | wrapper           | string\|null            | null    | Custom CSS class for the slide container height (overrides default `min-h-[50svh]`)                                                                                                                                                                                                                                                                        |
 | header            | ComponentSlot\|null     | null    | Header slot content displayed above the carousel                                                                                                                                                                                                                                                                                                           |
@@ -73,6 +74,7 @@ An image carousel/slider component with manual navigation or autoplay, optional 
 - The `images` attribute is required and cannot be empty.
 - The `caption` must be either `overlay` or `footer`.
 - The `caption` requires `clickable` to be enabled.
+- The `navigable` requires `clickable` to be enabled.
 
 ## Autoplay
 
@@ -126,6 +128,26 @@ When the lightbox is enabled, opt into a caption layout via `caption`. The `titl
 
 `overlay` keeps the caption visually attached to the image (good for short titles); `footer` separates the caption onto its own row beneath the image (good for long descriptions or print-style layouts).
 
+## Lightbox Navigation
+
+Add `navigable` together with `clickable` to let the user browse the whole gallery from inside the lightbox. The expanded view gets prev/next buttons on the sides and listens for the `←` / `→` keys.
+
+```blade
+<x-carousel clickable navigable :images="$images" />
+```
+
+```blade
+<x-carousel clickable navigable caption="overlay" :images="$images" />
+```
+
+Looping behavior follows `withoutLoop`. By default the lightbox wraps from the last image back to the first; with `withoutLoop` set, the buttons become disabled at the edges.
+
+```blade
+<x-carousel clickable navigable without-loop :images="$images" />
+```
+
+When the user navigates inside the lightbox, the same `next` / `previous` events the carousel uses for its main view are dispatched, so existing listeners keep working.
+
 ## Alpine.js Event Payloads
 
 ```blade
@@ -154,35 +176,39 @@ TallStackUi::customize()
 
 ### Available Blocks
 
-| Block Name                            | Purpose                                                          |
-|---------------------------------------|------------------------------------------------------------------|
-| wrapper.first                         | Outer overflow container                                         |
-| wrapper.second                        | Inner relative container for slides                              |
-| images.wrapper.first                  | Absolute positioning for each slide                              |
-| images.wrapper.second                 | Overlay container with gradient background for title/description |
-| images.content.title                  | Slide title text styles                                          |
-| images.content.description            | Slide description text styles                                    |
-| images.base                           | Image element base styles (object-cover, absolute positioning)   |
-| buttons.left.base                     | Left navigation button styles                                    |
-| buttons.left.icon.size                | Left button icon dimensions                                      |
-| buttons.right.base                    | Right navigation button styles                                   |
-| buttons.right.icon.size               | Right button icon dimensions                                     |
-| indicators.wrapper                    | Bottom indicator bar container                                   |
-| indicators.buttons.base               | Individual indicator dot base styles                             |
-| indicators.buttons.current            | Active indicator dot styles                                      |
-| indicators.buttons.inactive           | Inactive indicator dot styles                                    |
-| clickable.trigger                     | Button wrapping each slide when `clickable` is set               |
-| clickable.overlay                     | Fullscreen lightbox backdrop (teleported to body)                |
-| clickable.image                       | Expanded image inside the lightbox (no caption layout)           |
-| clickable.close.button                | Lightbox close button                                            |
-| clickable.close.icon                  | Lightbox close icon dimensions                                   |
-| clickable.caption.overlay.figure      | Figure container when `caption="overlay"`                        |
-| clickable.caption.overlay.image       | Image styles when `caption="overlay"`                            |
-| clickable.caption.overlay.wrapper     | Gradient caption wrapper anchored to the image bottom            |
-| clickable.caption.overlay.title       | Title styles inside the overlay caption                          |
-| clickable.caption.overlay.description | Description styles inside the overlay caption                    |
-| clickable.caption.footer.figure       | Flex column container when `caption="footer"`                    |
-| clickable.caption.footer.image        | Image styles when `caption="footer"`                             |
-| clickable.caption.footer.wrapper      | Caption row sitting below the image                              |
-| clickable.caption.footer.title        | Title styles inside the footer caption                           |
-| clickable.caption.footer.description  | Description styles inside the footer caption                     |
+| Block Name                                 | Purpose                                                          |
+|--------------------------------------------|------------------------------------------------------------------|
+| wrapper.first                              | Outer overflow container                                         |
+| wrapper.second                             | Inner relative container for slides                              |
+| images.wrapper.first                       | Absolute positioning for each slide                              |
+| images.wrapper.second                      | Overlay container with gradient background for title/description |
+| images.content.title                       | Slide title text styles                                          |
+| images.content.description                 | Slide description text styles                                    |
+| images.base                                | Image element base styles (object-cover, absolute positioning)   |
+| buttons.left.base                          | Left navigation button styles                                    |
+| buttons.left.icon.size                     | Left button icon dimensions                                      |
+| buttons.right.base                         | Right navigation button styles                                   |
+| buttons.right.icon.size                    | Right button icon dimensions                                     |
+| indicators.wrapper                         | Bottom indicator bar container                                   |
+| indicators.buttons.base                    | Individual indicator dot base styles                             |
+| indicators.buttons.current                 | Active indicator dot styles                                      |
+| indicators.buttons.inactive                | Inactive indicator dot styles                                    |
+| clickable.trigger                          | Button wrapping each slide when `clickable` is set               |
+| clickable.overlay                          | Fullscreen lightbox backdrop (teleported to body)                |
+| clickable.image                            | Expanded image inside the lightbox (no caption layout)           |
+| clickable.close.button                     | Lightbox close button                                            |
+| clickable.close.icon                       | Lightbox close icon dimensions                                   |
+| clickable.navigable.button.left.base       | Lightbox previous button (visible when `navigable` is set)       |
+| clickable.navigable.button.left.icon.size  | Lightbox previous button icon dimensions                         |
+| clickable.navigable.button.right.base      | Lightbox next button (visible when `navigable` is set)           |
+| clickable.navigable.button.right.icon.size | Lightbox next button icon dimensions                             |
+| clickable.caption.overlay.figure           | Figure container when `caption="overlay"`                        |
+| clickable.caption.overlay.image            | Image styles when `caption="overlay"`                            |
+| clickable.caption.overlay.wrapper          | Gradient caption wrapper anchored to the image bottom            |
+| clickable.caption.overlay.title            | Title styles inside the overlay caption                          |
+| clickable.caption.overlay.description      | Description styles inside the overlay caption                    |
+| clickable.caption.footer.figure            | Flex column container when `caption="footer"`                    |
+| clickable.caption.footer.image             | Image styles when `caption="footer"`                             |
+| clickable.caption.footer.wrapper           | Caption row sitting below the image                              |
+| clickable.caption.footer.title             | Title styles inside the footer caption                           |
+| clickable.caption.footer.description       | Description styles inside the footer caption                     |

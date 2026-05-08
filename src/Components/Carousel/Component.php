@@ -24,6 +24,7 @@ class Component extends TallStackUiComponent implements Customization
         public ?bool $round = null,
         public ?bool $shuffle = null,
         public ?bool $clickable = null,
+        public ?bool $navigable = null,
         public ?string $caption = null,
         public ?string $wrapper = null,
         public ?ComponentSlot $header = null,
@@ -89,6 +90,18 @@ class Component extends TallStackUiComponent implements Customization
                     'button' => 'absolute right-4 top-4 z-10 inline-flex cursor-pointer items-center justify-center text-white transition hover:opacity-80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white',
                     'icon' => 'h-6 w-6',
                 ],
+                'navigable' => [
+                    'button' => [
+                        'left' => [
+                            'base' => 'absolute left-4 sm:left-6 top-1/2 z-10 inline-flex -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-white/20 p-2 text-white backdrop-blur-sm transition hover:bg-white/35 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white disabled:cursor-not-allowed disabled:opacity-40',
+                            'icon.size' => 'h-6 w-6 pr-0.5',
+                        ],
+                        'right' => [
+                            'base' => 'absolute right-4 sm:right-6 top-1/2 z-10 inline-flex -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-white/20 p-2 text-white backdrop-blur-sm transition hover:bg-white/35 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white disabled:cursor-not-allowed disabled:opacity-40',
+                            'icon.size' => 'h-6 w-6 pl-0.5',
+                        ],
+                    ],
+                ],
                 'caption' => [
                     'overlay' => [
                         'figure' => 'relative w-fit max-h-full max-w-full',
@@ -121,6 +134,10 @@ class Component extends TallStackUiComponent implements Customization
 
         if ($this->caption !== null && ! $this->clickable) {
             __ts_validation_exception($this, 'The [caption] requires [clickable] to be enabled.');
+        }
+
+        if ($this->navigable && ! $this->clickable) {
+            __ts_validation_exception($this, 'The [navigable] requires [clickable] to be enabled.');
         }
     }
 }
