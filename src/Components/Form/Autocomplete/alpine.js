@@ -245,7 +245,14 @@ export default (model = null, items = [], request = null, strict = false, lazy =
     this.search = item.value;
     this.model = item.value;
 
-    this.$dispatch('select', { item });
+    this.$root.dispatchEvent(
+      new CustomEvent('select', {
+        detail: { item },
+        bubbles: true,
+        composed: true,
+        cancelable: true,
+      }),
+    );
 
     this.close();
 

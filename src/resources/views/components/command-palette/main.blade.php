@@ -50,6 +50,7 @@
                                      @class([$customization['input.icon']]) />
                 <input x-ref="search"
                        x-model="search"
+                       x-on:select.stop=""
                        x-on:keydown.arrow-down.prevent="navigate('next')"
                        x-on:keydown.arrow-up.prevent="navigate('previous')"
                        x-on:keydown.enter.prevent="available[selected] && selectOption(available[selected])"

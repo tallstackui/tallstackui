@@ -211,7 +211,14 @@ export default (
     const sanitized = this.sanitize(option);
 
     if (this._inline) {
-      this.$dispatch('select', sanitized);
+      this.$root.dispatchEvent(
+        new CustomEvent('select', {
+          detail: sanitized,
+          bubbles: true,
+          composed: true,
+          cancelable: true,
+        }),
+      );
       this.close();
 
       return;

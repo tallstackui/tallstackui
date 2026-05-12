@@ -28,6 +28,7 @@
                          x-ref="input"
                          x-model="search"
                          x-on:click="toggle()"
+                         x-on:select.stop=""
                          x-on:input.debounce.250ms="onInput()"
                          autocomplete="off"
                          spellcheck="false"
