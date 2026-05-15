@@ -503,7 +503,11 @@ export default (
       return;
     }
 
-    const items = this._flatItems(this.common && this.lazy ? this.options : this.available);
+    // For common selects we always cross-reference the model against the
+    // full `this.options` list. Using `this.available` here would lose
+    // selections that are not part of the currently rendered slice (e.g.,
+    // hidden by an active search filter or trimmed by `lazy`).
+    const items = this._flatItems(this.common ? this.options : this.available);
 
     if (!items || items.length === 0) {
       this.selects = [];

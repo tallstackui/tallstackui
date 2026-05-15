@@ -287,6 +287,39 @@ class SelectStyledCommonBrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_hydrate_searchable_multiple_with_default_values(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public array $array = ['alpha', 'gamma'];
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="array">{{ implode(',', $array) }}</p>
+
+                    <x-select.styled wire:model="array"
+                                     label="Select"
+                                     :options="[
+                                         ['label' => 'Alpha', 'value' => 'alpha'],
+                                         ['label' => 'Beta',  'value' => 'beta'],
+                                         ['label' => 'Gamma', 'value' => 'gamma'],
+                                     ]"
+                                     select="label:label|value:value"
+                                     multiple
+                                     searchable />
+                </div>
+                HTML;
+            }
+        })
+            ->pause(500)
+            ->assertSeeIn('@tallstackui_select_open_close', 'Alpha')
+            ->assertSeeIn('@tallstackui_select_open_close', 'Gamma')
+            ->assertDontSeeIn('@tallstackui_select_open_close', 'Beta');
+    }
+
+    #[Test]
     public function can_interact_with_multiples_selects(): void
     {
         $this->skipOnGitHubActions();
@@ -1112,6 +1145,66 @@ class SelectStyledCommonBrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_select_searchable_multiple_after_filtering(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?array $array = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="array">{{ implode(',', $array ?? []) }}</p>
+
+                    <x-select.styled wire:model="array"
+                                     label="Select"
+                                     :options="[
+                                         ['label' => 'Alpha', 'value' => 'alpha'],
+                                         ['label' => 'Beta',  'value' => 'beta'],
+                                         ['label' => 'Gamma', 'value' => 'gamma'],
+                                     ]"
+                                     select="label:label|value:value"
+                                     multiple
+                                     searchable />
+
+                    <x-button dusk="sync" wire:click="sync">Sync</x-button>
+                </div>
+                HTML;
+            }
+
+            public function sync(): void
+            {
+                // ...
+            }
+        })
+            ->assertSee('Select an option')
+            ->click('@tallstackui_select_open_close')
+            ->waitForText(['Alpha', 'Beta', 'Gamma'])
+            ->clickAtXPath('//ul[@dusk="tallstackui_select_options"]/li[1]')
+            ->clickAtXPath('//ul[@dusk="tallstackui_select_options"]/li[2]')
+            ->pause(250)
+            ->type('@tallstackui_select_search_input', 'Gamma')
+            ->pause(750)
+            ->clickAtXPath('//ul[@dusk="tallstackui_select_options"]/li[1]')
+            ->pause(500)
+            ->click('@tallstackui_select_open_close')
+            ->pause(250)
+            ->assertSeeIn('@tallstackui_select_open_close', 'Alpha')
+            ->assertSeeIn('@tallstackui_select_open_close', 'Beta')
+            ->assertSeeIn('@tallstackui_select_open_close', 'Gamma')
+            // Removing the first chip (Alpha) must keep Beta and Gamma in
+            // both the visual selects and the Livewire bind.
+            ->clickAtXPath('//button[@dusk="tallstackui_select_open_close"]//a[1]//button')
+            ->pause(500)
+            ->assertDontSeeIn('@tallstackui_select_open_close', 'Alpha')
+            ->assertSeeIn('@tallstackui_select_open_close', 'Beta')
+            ->assertSeeIn('@tallstackui_select_open_close', 'Gamma')
+            ->waitForLivewire()->click('@sync')
+            ->assertSeeIn('@array', 'beta,gamma');
+    }
+
+    #[Test]
     public function can_select_with_limit_option(): void
     {
         Livewire::visit(new class extends Component
@@ -1245,6 +1338,67 @@ class SelectStyledCommonBrowserTest extends BrowserTestCase
             ->clickAtXPath('//ul[@dusk="tallstackui_select_options"]/li[1]')
             ->waitForTextIn('@string', 'foo')
             ->assertDontSee('Select an option');
+    }
+
+    #[Test]
+    public function preserves_chips_when_model_updates_externally_during_search(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public array $array = ['alpha'];
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="array">{{ implode(',', $array) }}</p>
+
+                    <x-select.styled wire:model="array"
+                                     label="Select"
+                                     :options="[
+                                         ['label' => 'Alpha', 'value' => 'alpha'],
+                                         ['label' => 'Beta',  'value' => 'beta'],
+                                         ['label' => 'Gamma', 'value' => 'gamma'],
+                                     ]"
+                                     select="label:label|value:value"
+                                     multiple
+                                     searchable />
+
+                    <x-button dusk="setAll" wire:click="setAll">Set All</x-button>
+                    <x-button dusk="sync" wire:click="sync">Sync</x-button>
+                </div>
+                HTML;
+            }
+
+            public function setAll(): void
+            {
+                $this->array = ['alpha', 'beta', 'gamma'];
+            }
+
+            public function sync(): void
+            {
+                // ...
+            }
+        })
+            ->pause(500)
+            ->assertSeeIn('@tallstackui_select_open_close', 'Alpha')
+            // Open dropdown and apply a search filter that would hide Beta and Gamma
+            ->click('@tallstackui_select_open_close')
+            ->pause(250)
+            ->type('@tallstackui_select_search_input', 'Beta')
+            ->pause(750)
+            // Close the dropdown via outside click — search stays set internally.
+            ->click('@array')
+            ->pause(250)
+            // Server mutates the entire model while the search filter is still set.
+            ->waitForLivewire()->click('@setAll')
+            ->pause(500)
+            // All three chips must be visible because hydrate ran against the full options list
+            ->assertSeeIn('@tallstackui_select_open_close', 'Alpha')
+            ->assertSeeIn('@tallstackui_select_open_close', 'Beta')
+            ->assertSeeIn('@tallstackui_select_open_close', 'Gamma')
+            ->waitForLivewire()->click('@sync')
+            ->assertSeeIn('@array', 'alpha,beta,gamma');
     }
 }
 
