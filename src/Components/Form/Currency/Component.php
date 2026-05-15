@@ -27,6 +27,7 @@ class Component extends TallStackUiComponent implements Customization
         public bool|string|null $symbol = null,
         public bool|string|null $currency = null,
         public ?bool $mutate = null,
+        public ?bool $decimal = null,
         #[SkipDebug]
         public ?array $symbols = [],
     ) {
@@ -66,6 +67,10 @@ class Component extends TallStackUiComponent implements Customization
     {
         if ($this->precision < $this->decimals) {
             __ts_validation_exception($this, 'The [precision] must be greater than or equal to [decimals].');
+        }
+
+        if ($this->mutate && $this->decimal) {
+            __ts_validation_exception($this, 'The [mutate] and [decimal] cannot be used together.');
         }
     }
 }

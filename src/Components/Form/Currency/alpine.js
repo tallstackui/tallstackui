@@ -4,6 +4,7 @@ export default (
   precision,
   clearable,
   mutate,
+  decimal,
   livewire,
   property,
   value,
@@ -15,6 +16,7 @@ export default (
   precision: precision,
   clearable: clearable,
   mutate: mutate,
+  decimal: decimal,
   livewire: livewire,
   property: property,
   value: value,
@@ -79,7 +81,15 @@ export default (
    * @returns {void}
    */
   sync() {
-    const value = this.mutate ? this.input : this.input.replace(/\D/g, '');
+    let value;
+
+    if (this.decimal) {
+      value = this.numeric();
+    } else if (this.mutate) {
+      value = this.input;
+    } else {
+      value = this.input.replace(/\D/g, '');
+    }
 
     if (this.livewire) {
       this.$nextTick(() => (this.model = value));
@@ -94,6 +104,26 @@ export default (
     }
 
     input.value = value;
+  },
+  /**
+   * Strip the locale-specific group separator and normalize the decimal
+   * separator to `.` so the resulting string is directly castable to a
+   * number on the server.
+   *
+   * @returns {string}
+   */
+  numeric() {
+    const input = String(this.input ?? '');
+
+    if (input === '') {
+      return '';
+    }
+
+    const parts = new Intl.NumberFormat(this.locale).formatToParts(12345.6);
+    const group = parts.find((part) => part.type === 'group')?.value ?? ',';
+    const decimal = parts.find((part) => part.type === 'decimal')?.value ?? '.';
+
+    return input.split(group).join('').replace(decimal, '.');
   },
   /**
    * Clear the input.

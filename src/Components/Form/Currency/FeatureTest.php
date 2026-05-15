@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\View\ViewException;
+use TallStackUi\Components\Form\Currency\Component;
 use Tests\TestCase;
 
 uses(TestCase::class)->group('Feature');
@@ -53,4 +54,38 @@ it('cannot use precision lower than decimals', function () {
 
     expect('<x-currency :decimals="3" :precision="2" />')
         ->render();
+});
+
+it('cannot use mutate and decimal together', function () {
+    $this->expectException(ViewException::class);
+    $this->expectExceptionMessage('The [mutate] and [decimal] cannot be used together.');
+
+    expect('<x-currency mutate decimal />')->render();
+});
+
+it('inherits global mutate default from config', function () {
+    config()->set('ts-ui.components.currency.1.mutate', true);
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    expect('<x-currency />')
+        ->render()
+        ->toMatch('/tallstackui_formCurrency\(\s*null,\s*2,\s*4,\s*null,\s*true,\s*false,/');
+});
+
+it('inherits global decimal default from config', function () {
+    config()->set('ts-ui.components.currency.1.decimal', true);
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    expect('<x-currency />')
+        ->render()
+        ->toMatch('/tallstackui_formCurrency\(\s*null,\s*2,\s*4,\s*null,\s*false,\s*true,/');
+});
+
+it('per-instance prop overrides the global default', function () {
+    config()->set('ts-ui.components.currency.1.mutate', true);
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    expect('<x-currency :mutate="false" />')
+        ->render()
+        ->toMatch('/tallstackui_formCurrency\(\s*null,\s*2,\s*4,\s*null,\s*false,\s*false,/');
 });

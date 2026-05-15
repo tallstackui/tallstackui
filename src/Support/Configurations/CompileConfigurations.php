@@ -8,6 +8,7 @@ use TallStackUi\Components\CommandPalette\Component as CommandPalette;
 use TallStackUi\Components\Dialog\Component as Dialog;
 use TallStackUi\Components\Form\Autocomplete\Component as Autocomplete;
 use TallStackUi\Components\Form\Color\Component as Color;
+use TallStackUi\Components\Form\Currency\Component as Currency;
 use TallStackUi\Components\Form\Select\Styled\Component as SelectStyled;
 use TallStackUi\Components\Loading\Component as Loading;
 use TallStackUi\Components\Modal\Component as Modal;
@@ -27,6 +28,7 @@ class CompileConfigurations
             $component instanceof Autocomplete => fn () => self::autocomplete($component),
             $component instanceof CommandPalette => fn () => self::commandPalette($component),
             $component instanceof Color => fn () => self::color($component),
+            $component instanceof Currency => fn () => self::currency($component),
             $component instanceof Dialog => fn () => Dialog::class,
             $component instanceof Loading => fn () => self::loading($component),
             $component instanceof Modal => fn () => self::modal($component),
@@ -101,6 +103,16 @@ class CompileConfigurations
             'centered' => $component->centered,
             'overlay' => $component->overlay,
         ];
+    }
+
+    private static function currency(Currency $component): array
+    {
+        $configuration = __ts_get_component_configuration(Currency::class);
+
+        $component->mutate ??= $configuration['mutate'] ?? false;
+        $component->decimal ??= $configuration['decimal'] ?? false;
+
+        return ['mutate' => $component->mutate, 'decimal' => $component->decimal];
     }
 
     /**

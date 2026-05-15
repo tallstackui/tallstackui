@@ -169,7 +169,25 @@ return [
                 'overlay' => true,
             ],
         ],
-        'currency' => Components\Form\Currency\Component::class,
+        'currency' => [
+            Components\Form\Currency\Component::class,
+            /*
+            |----------------------------------------------------------------------
+            | Currency Global Settings
+            |----------------------------------------------------------------------
+            |
+            | mutate: when true, every currency component defaults to sending the
+            | formatted display string (e.g. "2,000.00") to the Livewire property.
+            | decimal: when true, every currency component defaults to sending the
+            | parsed decimal string (e.g. "2000.00") to the Livewire property.
+            | The two are mutually exclusive — setting both raises a validation
+            | exception at render time.
+            */
+            [
+                'mutate' => false,
+                'decimal' => false,
+            ],
+        ],
         'date' => Components\Form\Date\Component::class,
         'dialog' => [
             Components\Dialog\Component::class,

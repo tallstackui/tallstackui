@@ -44,6 +44,56 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_bind_decimal_value_across_thousand_separator(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $money = '';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="money">{{ $money }}</p>
+
+                    <x-currency dusk="input" wire:model.live="money" decimal />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->typeSlowly('@input', '200000')
+            ->assertInputValue('@input', '2,000.00')
+            ->waitForTextIn('@money', '2000.00')
+            ->assertSeeIn('@money', '2000.00');
+    }
+
+    #[Test]
+    public function can_bind_decimal_value_with_pt_br_locale(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $money = '';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="money">{{ $money }}</p>
+
+                    <x-currency dusk="input" locale="pt-BR" wire:model.live="money" decimal />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->typeSlowly('@input', '150055')
+            ->assertInputValue('@input', '1.500,55')
+            ->waitForTextIn('@money', '1500.55')
+            ->assertSeeIn('@money', '1500.55');
+    }
+
+    #[Test]
     public function can_bind_formatted(): void
     {
         Livewire::visit(new class extends Component
@@ -55,7 +105,7 @@ class BrowserTest extends BrowserTestCase
                 return <<<'HTML'
                 <div>
                     <p dusk="money">{{ $money }}</p>
-                
+
                     <x-currency dusk="input" wire:model.live="money" clearable mutate />
                 </div>
                 HTML;

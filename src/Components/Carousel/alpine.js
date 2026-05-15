@@ -6,7 +6,16 @@ import {
   top_ui_element,
 } from '../../../js/helpers';
 
-export default (images, cover = 1, autoplay, interval, withoutLoop, shuffle, clickable, navigable) => ({
+export default (
+  images,
+  cover = 1,
+  autoplay,
+  interval,
+  withoutLoop,
+  shuffle,
+  clickable,
+  navigable
+) => ({
   id: unique(),
   images: images,
   time: interval,
