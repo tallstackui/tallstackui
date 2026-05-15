@@ -38,9 +38,20 @@
                     <x-dynamic-component :component="TallStackUi::prefix('floating')"
                                          scope="list.items.menu"
                                          :floating="$customization['menu.floating']"
+                                         @class([
+                                             $customization['menu.widths.xxs'],
+                                             $customization['menu.widths.xs'],
+                                             $customization['menu.widths.sm'],
+                                             $customization['menu.widths.md'],
+                                             $customization['menu.widths.lg'],
+                                             $customization['menu.widths.xl'],
+                                             $customization['menu.widths.2xl'],
+                                         ])
                                          offset="5"
                                          position="bottom-end"
                                          x-anchor="$refs.dropdown"
+                                         :data-tsui-dropdown-size="$size"
+                                         :data-tsui-dropdown-width="$width"
                                          role="menu">{{ $menu }}</x-dynamic-component>
                 </div>
             </div>

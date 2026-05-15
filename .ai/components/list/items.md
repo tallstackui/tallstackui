@@ -44,10 +44,15 @@ Row with per-item menu:
 
 ## Attributes
 
-| Attribute | Type         | Default | Description                                   |
-|-----------|--------------|---------|-----------------------------------------------|
-| name      | string       | —       | Bold leading text. **Required** (non-empty)   |
-| caption   | string\|null | null    | Inline secondary text rendered after the name |
+| Attribute | Type         | Default | Description                                                                                                              |
+|-----------|--------------|---------|--------------------------------------------------------------------------------------------------------------------------|
+| name      | string       | —       | Bold leading text. **Required** (non-empty)                                                                              |
+| caption   | string\|null | null    | Inline secondary text rendered after the name                                                                            |
+| xs        | bool         | false   | Sets the menu **size** token to `xs` (`px-2 py-1 text-xs`)                                                              |
+| sm        | bool         | false   | Sets the menu **size** token to `sm` (`px-3 py-1.5 text-sm`). Same as the default when no flag is set                   |
+| md        | bool         | false   | Sets the menu **size** token to `md` (`px-4 py-2 text-sm`)                                                              |
+| lg        | bool         | false   | Sets the menu **size** token to `lg` (`px-5 py-2.5 text-base`)                                                          |
+| width     | string\|null | `xxs`   | Floating panel **width** token: `xxs`, `xs`, `sm`, `md`, `lg`, `xl`, `2xl`                                              |
 
 ## Slots
 
@@ -60,11 +65,53 @@ Row with per-item menu:
 
 The row registers itself with the parent `<x-list>` at Alpine init time via `register(name, caption)`. This populates the parent's `items[]` array used by `match()` for search filtering and by `hasResults` for the empty state.
 
-When `<x-slot:menu>` is provided, the row renders a self-contained dropdown menu (NOT `<x-dropdown>`) with a borderless `ellipsis-vertical` trigger and a narrow (`w-44`) floating panel pinned at `z-40` so Dialog/Modal/Slide/Toast overlays (all `z-50`) always render above it. The menu auto-closes when a `<x-dropdown.items>` entry is selected (via the `select` event) or when the user clicks outside.
+When `<x-slot:menu>` is provided, the row renders a self-contained dropdown menu (NOT `<x-dropdown>`) with a borderless `ellipsis-vertical` trigger and a floating panel pinned at `z-40` so Dialog/Modal/Slide/Toast overlays (all `z-50`) always render above it. The menu auto-closes when a `<x-dropdown.items>` entry is selected (via the `select` event) or when the user clicks outside.
+
+### Size and width
+
+The floating panel emits `data-tsui-dropdown-size` and `data-tsui-dropdown-width` so any `<x-dropdown.items>` and `<x-dropdown.submenu>` placed inside the slot resolve their padding, font-size, and icon-size against the same contract used by a standalone `<x-dropdown>` (selectors like `[[data-tsui-dropdown-size='md']_&]:px-4`).
+
+**Size and width are independent.** When no flag is passed the resolved size is `sm` (suited to the compact rhythm of list rows) and the width is `xxs` (`w-32`) so the floating panel stays narrow next to the row. Changing one does not change the other — opt in to wider panels or larger menu items explicitly:
+
+```blade
+{{-- Larger menu items, panel stays narrow --}}
+<x-list.items name="alpha" md>
+    <x-slot:menu>
+        <x-dropdown.items text="Edit" />
+    </x-slot:menu>
+</x-list.items>
+
+{{-- Wider panel, items stay at the default sm size --}}
+<x-list.items name="bravo" width="2xl">
+    <x-slot:menu>
+        <x-dropdown.items text="Edit description" />
+    </x-slot:menu>
+</x-list.items>
+
+{{-- Independently tuned --}}
+<x-list.items name="charlie" lg width="md">
+    <x-slot:menu>
+        <x-dropdown.items text="Edit" />
+    </x-slot:menu>
+</x-list.items>
+```
+
+| Width token | Panel width |
+|-------------|-------------|
+| `xxs`       | `w-32`      |
+| `xs`        | `w-40`      |
+| `sm`        | `w-48`      |
+| `md`        | `w-56`      |
+| `lg`        | `w-64`      |
+| `xl`        | `w-72`      |
+| `2xl`       | `w-80`      |
+
+The size flags (`xs`, `sm`, `md`, `lg`) are mutually exclusive — the first truthy flag in the order `xs → md → lg` wins, otherwise the size resolves to `sm`. Setting `sm` explicitly is allowed for readability but produces the same result as omitting every flag. The `width` prop is validated against the seven tokens above; anything else throws `InvalidArgumentException`.
 
 ## Validation
 
 - `name` must be a non-empty string.
+- `width` must be one of `xxs`, `xs`, `sm`, `md`, `lg`, `xl`, `2xl`.
 
 Failures throw `InvalidArgumentException` (wrapped by Blade as `ViewException`).
 
@@ -76,15 +123,16 @@ Each row applies `content-visibility: auto` + `contain-intrinsic-size: auto 2.5r
 
 The menu trigger and floating panel are exposed as customization blocks under the `list.items` namespace:
 
-| Block           | Default                                                                                                                                        |
-|-----------------|------------------------------------------------------------------------------------------------------------------------------------------------|
-| `wrapper`       | Row layout + `content-visibility:auto` + `contain-intrinsic-size:auto 2.5rem`                                                                  |
-| `menu.wrapper`  | `shrink-0`                                                                                                                                     |
-| `menu.trigger`  | Borderless icon button styling                                                                                                                 |
-| `menu.icon`     | `size-5`                                                                                                                                       |
-| `menu.floating` | `absolute z-40 w-44` + border + `bg-white` / `dark:bg-dark-700` + `shadow-md` + `rounded-md` (the entire wrapper class for the floating panel) |
+| Block                 | Default                                                                                                         |
+|-----------------------|-----------------------------------------------------------------------------------------------------------------|
+| `wrapper`             | Row layout + `content-visibility:auto` + `contain-intrinsic-size:auto 2.5rem`                                   |
+| `menu.wrapper`        | `shrink-0`                                                                                                      |
+| `menu.trigger`        | Borderless icon button styling                                                                                  |
+| `menu.icon`           | `size-5`                                                                                                        |
+| `menu.floating`       | `absolute z-40` + border + `bg-white` / `dark:bg-dark-700` + `rounded-md` (base wrapper for the floating panel) |
+| `menu.widths.{token}` | `data-[tsui-dropdown-width='{token}']:w-{n}` conditional class per width token (`xxs`, `xs`, `sm`, `md`, …)     |
 
-Override via `TallStackUi::customize()->list('items')->block('menu.floating', '...')` for richer customization.
+Override via `TallStackUi::customize()->list('items')->block('menu.floating', '...')` for richer customization, or override individual `menu.widths.*` blocks to retune a specific token.
 
 The internal `<x-floating>` is invoked with `scope="list.items.menu"` so any future Floating customization blocks can be targeted at this scope without affecting standalone `<x-floating>` usages. (The floating's `wrapper` class is currently overridden via the `menu.floating` block above and not via the floating's own customization.)
 

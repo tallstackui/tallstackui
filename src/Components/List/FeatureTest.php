@@ -237,7 +237,7 @@ it('does not render border-bottom from search row when searchable is false', fun
         ->not->toContain('border-b');
 });
 
-it('uses an inline floating dropdown with z-40 and narrow width', function () {
+it('uses an inline floating dropdown pinned at z-40', function () {
     $component = <<<'HTML'
     <x-list>
         <x-list.items name="x">
@@ -250,8 +250,85 @@ it('uses an inline floating dropdown with z-40 and narrow width', function () {
 
     expect($component)->render()
         ->toContain('z-40')
-        ->toContain('w-44')
         ->not->toContain('z-50');
+});
+
+it('renders default size as sm and width as xxs on the items menu floating', function () {
+    $component = <<<'HTML'
+    <x-list>
+        <x-list.items name="x">
+            <x-slot:menu>
+                <x-dropdown.items text="Edit" />
+            </x-slot:menu>
+        </x-list.items>
+    </x-list>
+    HTML;
+
+    expect($component)->render()
+        ->toContain('data-tsui-dropdown-size="sm"')
+        ->toContain('data-tsui-dropdown-width="xxs"');
+});
+
+it('renders the chosen size flag on the items menu', function (string $size) {
+    $component = <<<HTML
+    <x-list>
+        <x-list.items name="x" {$size}>
+            <x-slot:menu>
+                <x-dropdown.items text="Edit" />
+            </x-slot:menu>
+        </x-list.items>
+    </x-list>
+    HTML;
+
+    expect($component)->render()
+        ->toContain("data-tsui-dropdown-size=\"$size\"");
+})->with(['xs', 'md', 'lg']);
+
+it('keeps width at the xxs default regardless of size flag', function () {
+    $component = <<<'HTML'
+    <x-list>
+        <x-list.items name="x" md>
+            <x-slot:menu>
+                <x-dropdown.items text="Edit" />
+            </x-slot:menu>
+        </x-list.items>
+    </x-list>
+    HTML;
+
+    expect($component)->render()
+        ->toContain('data-tsui-dropdown-size="md"')
+        ->toContain('data-tsui-dropdown-width="xxs"');
+});
+
+it('respects width override on the items menu', function () {
+    $component = <<<'HTML'
+    <x-list>
+        <x-list.items name="x" width="2xl">
+            <x-slot:menu>
+                <x-dropdown.items text="Edit" />
+            </x-slot:menu>
+        </x-list.items>
+    </x-list>
+    HTML;
+
+    expect($component)->render()
+        ->toContain('data-tsui-dropdown-width="2xl"');
+});
+
+it('rejects invalid width on the items menu', function () {
+    $this->expectException(ViewException::class);
+
+    $component = <<<'HTML'
+    <x-list>
+        <x-list.items name="x" width="huge">
+            <x-slot:menu>
+                <x-dropdown.items text="Edit" />
+            </x-slot:menu>
+        </x-list.items>
+    </x-list>
+    HTML;
+
+    expect($component)->render();
 });
 
 it('does not use the dropdown component for the items menu', function () {

@@ -16,10 +16,17 @@ class Component extends TallStackUiComponent implements Customization
     public function __construct(
         public ?string $name = null,
         public ?string $caption = null,
+        public ?bool $xs = null,
+        public ?bool $sm = null,
+        public ?bool $md = null,
+        public ?bool $lg = null,
+        public ?string $width = 'xxs',
         #[SkipDebug]
         public ComponentSlot|string|null $menu = null,
+        #[SkipDebug]
+        public ?string $size = null,
     ) {
-        //
+        $this->size = $this->xs ? 'xs' : ($this->md ? 'md' : ($this->lg ? 'lg' : 'sm'));
     }
 
     public function blade(): View
@@ -41,7 +48,16 @@ class Component extends TallStackUiComponent implements Customization
                 'wrapper' => 'shrink-0',
                 'trigger' => 'dark:text-dark-400 dark:hover:bg-dark-700 dark:hover:text-dark-200 flex cursor-pointer items-center justify-center rounded-md p-1 text-secondary-400 hover:bg-secondary-100 hover:text-secondary-600 focus:outline-none',
                 'icon' => 'size-5',
-                'floating' => 'dark:bg-dark-700 dark:border-dark-600 absolute z-40 w-44 overflow-hidden rounded-md border border-secondary-200 bg-white',
+                'floating' => 'dark:bg-dark-700 dark:border-dark-600 absolute z-40 overflow-hidden rounded-md border border-secondary-200 bg-white',
+                'widths' => [
+                    'xxs' => "data-[tsui-dropdown-width='xxs']:w-32",
+                    'xs' => "data-[tsui-dropdown-width='xs']:w-40",
+                    'sm' => "data-[tsui-dropdown-width='sm']:w-48",
+                    'md' => "data-[tsui-dropdown-width='md']:w-56",
+                    'lg' => "data-[tsui-dropdown-width='lg']:w-64",
+                    'xl' => "data-[tsui-dropdown-width='xl']:w-72",
+                    '2xl' => "data-[tsui-dropdown-width='2xl']:w-80",
+                ],
             ],
         ]);
     }
@@ -50,6 +66,12 @@ class Component extends TallStackUiComponent implements Customization
     {
         if (! is_string($this->name) || trim($this->name) === '') {
             __ts_validation_exception($this, 'The [name] attribute is required.');
+        }
+
+        $allowed = ['xxs', 'xs', 'sm', 'md', 'lg', 'xl', '2xl'];
+
+        if (! in_array($this->width, $allowed, true)) {
+            __ts_validation_exception($this, 'The [width] must be one of: '.implode(', ', $allowed));
         }
     }
 }

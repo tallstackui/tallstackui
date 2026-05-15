@@ -69,7 +69,7 @@ TallStackUi::customize()
 | Scope                        | Target           | Line(s) |
 |------------------------------|------------------|---------|
 | `form.autocomplete.input`    | `<x-input />`    | 19      |
-| `form.autocomplete.floating` | `<x-floating />` | 63      |
+| `form.autocomplete.floating` | `<x-floating />` | 64      |
 
 ### `form/color`
 
@@ -82,7 +82,7 @@ TallStackUi::customize()
 
 | Scope                 | Target        | Line(s) |
 |-----------------------|---------------|---------|
-| `form.currency.input` | `<x-input />` | 20      |
+| `form.currency.input` | `<x-input />` | 21      |
 
 ### `form/date`
 
