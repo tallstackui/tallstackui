@@ -44,9 +44,7 @@ export default (selected = null) => ({
 
     window.dispatchEvent(new CustomEvent('tallstackui:floating-flush'));
 
-    this.$refs.ul.dispatchEvent(
-      new CustomEvent('navigate', { detail: { select: this.selected } })
-    );
+    this.$refs.ul.dispatchEvent(new CustomEvent('navigate', { detail: { select: this.selected } }));
   },
   /**
    * Prefetch the href on hover for tabs with navigateHover enabled.

@@ -217,7 +217,7 @@ export default (
           bubbles: true,
           composed: true,
           cancelable: true,
-        }),
+        })
       );
       this.close();
 

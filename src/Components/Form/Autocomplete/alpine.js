@@ -251,7 +251,7 @@ export default (model = null, items = [], request = null, strict = false, lazy =
         bubbles: true,
         composed: true,
         cancelable: true,
-      }),
+      })
     );
 
     this.close();

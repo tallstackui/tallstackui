@@ -25,22 +25,24 @@ A currency input component that formats numeric values with locale-aware decimal
 
 ## Attributes
 
-| Attribute  | Type                        | Default | Description                                                                           |
-|------------|-----------------------------|---------|---------------------------------------------------------------------------------------|
-| label      | string\|ComponentSlot\|null | null    | Label text displayed above the input                                                  |
-| hint       | string\|ComponentSlot\|null | null    | Hint text displayed below the input                                                   |
-| clearable  | bool\|null                  | null    | Shows a clear button when the input has a value                                       |
-| invalidate | bool\|null                  | null    | Prevents displaying validation error messages for this input                          |
-| locale     | string\|null                | 'en-US' | Locale for number formatting (e.g., 'en-US', 'pt-BR', 'de-DE')                        |
-| decimals   | int\|null                   | 2       | Number of decimal places displayed                                                    |
-| precision  | int\|null                   | 4       | Maximum digit precision for internal value storage                                    |
-| symbol     | bool\|string\|null          | null    | Shows the locale currency symbol prefix (true for locale default, or a custom string) |
-| currency   | bool\|string\|null          | null    | Shows the locale currency code suffix (true for locale default, or a custom string)   |
-| mutate     | bool\|null                  | null    | When true, sends the raw numeric value (without formatting) to the Livewire property  |
+| Attribute  | Type                        | Default | Description                                                                                                         |
+|------------|-----------------------------|---------|---------------------------------------------------------------------------------------------------------------------|
+| label      | string\|ComponentSlot\|null | null    | Label text displayed above the input                                                                                |
+| hint       | string\|ComponentSlot\|null | null    | Hint text displayed below the input                                                                                 |
+| clearable  | bool\|null                  | null    | Shows a clear button when the input has a value                                                                     |
+| invalidate | bool\|null                  | null    | Prevents displaying validation error messages for this input                                                        |
+| locale     | string\|null                | 'en-US' | Locale for number formatting (e.g., 'en-US', 'pt-BR', 'de-DE')                                                      |
+| decimals   | int\|null                   | 2       | Number of decimal places displayed                                                                                  |
+| precision  | int\|null                   | 4       | Maximum digit precision for internal value storage                                                                  |
+| symbol     | bool\|string\|null          | null    | Shows the locale currency symbol prefix (true for locale default, or a custom string)                               |
+| currency   | bool\|string\|null          | null    | Shows the locale currency code suffix (true for locale default, or a custom string)                                 |
+| mutate     | bool\|null                  | null    | When true, sends the formatted string exactly as displayed (e.g. `"2,000.00"`) to the Livewire property             |
+| decimal    | bool\|null                  | null    | When true, sends the parsed decimal string (e.g. `"2000.00"`) — group separator stripped, decimal normalized to `.` |
 
 ## Validation Constraints
 
 - The `precision` must be greater than or equal to `decimals`.
+- The `mutate` and `decimal` props cannot be used together.
 
 ## Locale & Formatting Details
 
@@ -98,13 +100,77 @@ Currencies whose fractional unit is not used in everyday transactions (Indonesia
 
 > Bundled translation files cover `ar`, `de`, `en`, `es`, `fr`, `id`, `it`, `km`, `ms`, `nl`, `pl`, `pt`, `pt_BR`, `tr`, and `vi`. For locales outside this list, pass `symbol="..."` and/or `currency="..."` as literal strings or publish your own `ts-ui::messages.currency` overrides.
 
-### Mutate Mode
+### Sync Modes
 
-When `mutate` is enabled, the raw numeric value (without formatting) is sent to the server instead of the formatted string:
+The Currency component offers three modes of sending the value to the Livewire
+property — pick the one that matches how you persist the value on the server.
+
+#### Default — digits-only ("cents")
+
+Without `mutate` or `decimal`, the component sends a digits-only string. With
+`decimals=2`, typing `1000` displays `10.00` but the property receives `"1000"`.
+Useful when monetary values are stored as integer cents in the database.
+
+| Typed digits | Display (en-US) | Display (pt-BR) | Sent to Livewire |
+|--------------|-----------------|-----------------|------------------|
+| `1000`       | `10.00`         | `10,00`         | `"1000"`         |
+| `200000`     | `2,000.00`      | `2.000,00`      | `"200000"`       |
+| `150055`     | `1,500.55`      | `1.500,55`      | `"150055"`       |
+
+#### Mutate — formatted display string
 
 ```blade
-<x-currency mutate />
+<x-currency mutate wire:model="price" />
 ```
+
+With `mutate`, the component sends the formatted string **exactly as it appears
+in the input** — group separator and decimal separator included. Use when you
+want to persist the user-facing representation verbatim (e.g. a free-text
+display label).
+
+| Typed digits | Display (en-US) | Display (pt-BR) | Sent to Livewire            |
+|--------------|-----------------|-----------------|-----------------------------|
+| `1000`       | `10.00`         | `10,00`         | `"10.00"` / `"10,00"`       |
+| `200000`     | `2,000.00`      | `2.000,00`      | `"2,000.00"` / `"2.000,00"` |
+| `150055`     | `1,500.55`      | `1.500,55`      | `"1,500.55"` / `"1.500,55"` |
+
+#### Decimal — parsed decimal string
+
+```blade
+<x-currency decimal wire:model="price" />
+```
+
+With `decimal`, the component strips the locale's group separator and
+normalizes the decimal separator to `.`, so the resulting string is directly
+castable via `(float)` / `(int)` or by Eloquent `decimal:2` / `float` casts —
+regardless of locale.
+
+| Typed digits | Display (en-US) | Display (pt-BR) | Sent to Livewire |
+|--------------|-----------------|-----------------|------------------|
+| `1000`       | `10.00`         | `10,00`         | `"10.00"`        |
+| `200000`     | `2,000.00`      | `2.000,00`      | `"2000.00"`      |
+| `150055`     | `1,500.55`      | `1.500,55`      | `"1500.55"`      |
+
+> `mutate` and `decimal` are mutually exclusive. Setting both raises a
+> validation exception at render time.
+
+#### Global defaults
+
+If most components in your application need the same mode, set it once in
+`config/ts-ui.php` to avoid repeating the prop on every usage:
+
+```php
+'currency' => [
+    Components\Form\Currency\Component::class,
+    [
+        'mutate' => false,
+        'decimal' => true,
+    ],
+],
+```
+
+Per-instance props always override the global default, so individual usages can
+still opt out (`<x-currency :decimal="false" wire:model="price" />`).
 
 ### Custom Symbols
 
