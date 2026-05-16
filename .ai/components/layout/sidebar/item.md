@@ -10,36 +10,36 @@ A sidebar navigation item component that renders as either a single link or a co
 Single navigation item:
 
 ```blade
-<x-layout.sidebar.item text="Dashboard" route="/dashboard" icon="home" />
+<x-side-bar.item text="Dashboard" route="/dashboard" icon="home" />
 ```
 
 Item with badge:
 
 ```blade
-<x-layout.sidebar.item text="Notifications" route="/notifications" icon="bell">
+<x-side-bar.item text="Notifications" route="/notifications" icon="bell">
     <x-slot:badge>5</x-slot:badge>
-</x-layout.sidebar.item>
+</x-side-bar.item>
 ```
 
 Collapsible group with nested items:
 
 ```blade
-<x-layout.sidebar.item text="Settings" icon="cog-6-tooth" opened>
-    <x-layout.sidebar.item text="General" route="/settings/general" />
-    <x-layout.sidebar.item text="Security" route="/settings/security" />
-</x-layout.sidebar.item>
+<x-side-bar.item text="Settings" icon="cog-6-tooth" opened>
+    <x-side-bar.item text="General" route="/settings/general" />
+    <x-side-bar.item text="Security" route="/settings/security" />
+</x-side-bar.item>
 ```
 
 Marking an item as current manually:
 
 ```blade
-<x-layout.sidebar.item text="Profile" href="/profile" icon="user" current />
+<x-side-bar.item text="Profile" href="/profile" icon="user" current />
 ```
 
 Using route pattern matching:
 
 ```blade
-<x-layout.sidebar.item text="Orders" route="/orders" icon="shopping-cart" match="orders.*" />
+<x-side-bar.item text="Orders" route="/orders" icon="shopping-cart" match="orders.*" />
 ```
 
 ## Attributes
@@ -61,20 +61,20 @@ Using route pattern matching:
 
 | Slot      | Description                                                                     |
 |-----------|---------------------------------------------------------------------------------|
-| (default) | Nested `<x-layout.sidebar.item>` children, making this item a collapsible group |
+| (default) | Nested `<x-side-bar.item>` children, making this item a collapsible group |
 | icon      | Custom icon content instead of a Heroicon name                                  |
 | badge     | Badge content displayed alongside the item text                                 |
 
 ## Inherited Attributes
 
-These attributes are inherited from the parent `<x-layout.sidebar>` via `@aware`:
+These attributes are inherited from the parent `<x-side-bar>` via `@aware`:
 
 | Attribute      | Source                                                                            |
 |----------------|-----------------------------------------------------------------------------------|
-| smart          | `<x-layout.sidebar smart>` enables automatic route-based active state detection   |
-| navigate       | `<x-layout.sidebar navigate>` adds `wire:navigate` to links                       |
-| navigate-hover | `<x-layout.sidebar navigate-hover>` adds `wire:navigate.hover` to links           |
-| collapsible    | `<x-layout.sidebar collapsible>` enables collapsed sidebar behavior with tooltips |
+| smart          | `<x-side-bar smart>` enables automatic route-based active state detection   |
+| navigate       | `<x-side-bar navigate>` adds `wire:navigate` to links                       |
+| navigate-hover | `<x-side-bar navigate-hover>` adds `wire:navigate.hover` to links           |
+| collapsible    | `<x-side-bar collapsible>` enables collapsed sidebar behavior with tooltips |
 
 ## Soft Customization
 

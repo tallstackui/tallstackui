@@ -10,25 +10,25 @@ A sidebar section separator component that visually divides navigation groups. A
 Simple text separator (default):
 
 ```blade
-<x-layout.sidebar.separator text="Main Navigation" />
+<x-side-bar.separator text="Main Navigation" />
 ```
 
 Centered line separator:
 
 ```blade
-<x-layout.sidebar.separator text="Settings" line />
+<x-side-bar.separator text="Settings" line />
 ```
 
 Right-aligned line separator:
 
 ```blade
-<x-layout.sidebar.separator text="Admin" line-right />
+<x-side-bar.separator text="Admin" line-right />
 ```
 
 Using slot content instead of text attribute:
 
 ```blade
-<x-layout.sidebar.separator>General</x-layout.sidebar.separator>
+<x-side-bar.separator>General</x-side-bar.separator>
 ```
 
 ## Attributes
@@ -50,7 +50,7 @@ Using slot content instead of text attribute:
 
 | Attribute   | Source                                                                              |
 |-------------|-------------------------------------------------------------------------------------|
-| collapsible | `<x-layout.sidebar collapsible>` enables visibility transitions for collapsed state |
+| collapsible | `<x-side-bar collapsible>` enables visibility transitions for collapsed state |
 
 ## Soft Customization
 
