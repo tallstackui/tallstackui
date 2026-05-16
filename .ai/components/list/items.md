@@ -44,15 +44,15 @@ Row with per-item menu:
 
 ## Attributes
 
-| Attribute | Type         | Default | Description                                                                                                              |
-|-----------|--------------|---------|--------------------------------------------------------------------------------------------------------------------------|
-| name      | string       | —       | Bold leading text. **Required** (non-empty)                                                                              |
-| caption   | string\|null | null    | Inline secondary text rendered after the name                                                                            |
-| xs        | bool         | false   | Sets the menu **size** token to `xs` (`px-2 py-1 text-xs`)                                                              |
-| sm        | bool         | false   | Sets the menu **size** token to `sm` (`px-3 py-1.5 text-sm`). Same as the default when no flag is set                   |
-| md        | bool         | false   | Sets the menu **size** token to `md` (`px-4 py-2 text-sm`)                                                              |
-| lg        | bool         | false   | Sets the menu **size** token to `lg` (`px-5 py-2.5 text-base`)                                                          |
-| width     | string\|null | `xxs`   | Floating panel **width** token: `xxs`, `xs`, `sm`, `md`, `lg`, `xl`, `2xl`                                              |
+| Attribute | Type         | Default | Description                                                                                           |
+|-----------|--------------|---------|-------------------------------------------------------------------------------------------------------|
+| name      | string       | —       | Bold leading text. **Required** (non-empty)                                                           |
+| caption   | string\|null | null    | Inline secondary text rendered after the name                                                         |
+| xs        | bool         | false   | Sets the menu **size** token to `xs` (`px-2 py-1 text-xs`)                                            |
+| sm        | bool         | false   | Sets the menu **size** token to `sm` (`px-3 py-1.5 text-sm`). Same as the default when no flag is set |
+| md        | bool         | false   | Sets the menu **size** token to `md` (`px-4 py-2 text-sm`)                                            |
+| lg        | bool         | false   | Sets the menu **size** token to `lg` (`px-5 py-2.5 text-base`)                                        |
+| width     | string\|null | `xxs`   | Floating panel **width** token: `xxs`, `xs`, `sm`, `md`, `lg`, `xl`, `2xl`                            |
 
 ## Slots
 

@@ -52,12 +52,12 @@ A responsive sidebar navigation component with mobile slide-out drawer and deskt
 
 ## Slots
 
-| Slot            | Description                                                                             |
-|-----------------|-----------------------------------------------------------------------------------------|
+| Slot            | Description                                                                 |
+|-----------------|-----------------------------------------------------------------------------|
 | (default)       | Sidebar navigation items (`<x-side-bar.item>` and `<x-side-bar.separator>`) |
-| brand           | Logo or branding content at the top                                                     |
-| brand-collapsed | Compact branding shown when sidebar is collapsed (requires `collapsible`)               |
-| footer          | Footer content pinned to the bottom of the sidebar                                      |
+| brand           | Logo or branding content at the top                                         |
+| brand-collapsed | Compact branding shown when sidebar is collapsed (requires `collapsible`)   |
+| footer          | Footer content pinned to the bottom of the sidebar                          |
 
 ## Soft Customization
 

@@ -59,18 +59,18 @@ Using route pattern matching:
 
 ## Slots
 
-| Slot      | Description                                                                     |
-|-----------|---------------------------------------------------------------------------------|
+| Slot      | Description                                                               |
+|-----------|---------------------------------------------------------------------------|
 | (default) | Nested `<x-side-bar.item>` children, making this item a collapsible group |
-| icon      | Custom icon content instead of a Heroicon name                                  |
-| badge     | Badge content displayed alongside the item text                                 |
+| icon      | Custom icon content instead of a Heroicon name                            |
+| badge     | Badge content displayed alongside the item text                           |
 
 ## Inherited Attributes
 
 These attributes are inherited from the parent `<x-side-bar>` via `@aware`:
 
-| Attribute      | Source                                                                            |
-|----------------|-----------------------------------------------------------------------------------|
+| Attribute      | Source                                                                      |
+|----------------|-----------------------------------------------------------------------------|
 | smart          | `<x-side-bar smart>` enables automatic route-based active state detection   |
 | navigate       | `<x-side-bar navigate>` adds `wire:navigate` to links                       |
 | navigate-hover | `<x-side-bar navigate-hover>` adds `wire:navigate.hover` to links           |

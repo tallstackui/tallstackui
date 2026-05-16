@@ -48,8 +48,8 @@ Using slot content instead of text attribute:
 
 ## Inherited Attributes
 
-| Attribute   | Source                                                                              |
-|-------------|-------------------------------------------------------------------------------------|
+| Attribute   | Source                                                                        |
+|-------------|-------------------------------------------------------------------------------|
 | collapsible | `<x-side-bar collapsible>` enables visibility transitions for collapsed state |
 
 ## Soft Customization
