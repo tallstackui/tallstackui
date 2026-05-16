@@ -8,32 +8,32 @@ A responsive sidebar navigation component with mobile slide-out drawer and deskt
 ## Basic Usage
 
 ```blade
-<x-layout.sidebar>
+<x-side-bar>
     <x-slot:brand>
         <div class="flex items-center px-4 py-6">
             <img src="/logo.svg" alt="Logo" class="h-8" />
             <span class="ml-2 font-bold">My App</span>
         </div>
     </x-slot:brand>
-    <x-layout.sidebar.item text="Dashboard" route="/dashboard" icon="home" />
-    <x-layout.sidebar.item text="Settings" route="/settings" icon="cog-6-tooth" />
-</x-layout.sidebar>
+    <x-side-bar.item text="Dashboard" route="/dashboard" icon="home" />
+    <x-side-bar.item text="Settings" route="/settings" icon="cog-6-tooth" />
+</x-side-bar>
 ```
 
 ```blade
-<x-layout.sidebar collapsible navigate thin-scroll>
+<x-side-bar collapsible navigate thin-scroll>
     <x-slot:brand>
         <div class="px-4 py-6"><img src="/logo.svg" class="h-8" /></div>
     </x-slot:brand>
     <x-slot:brand-collapsed>
         <div class="px-2 py-6"><img src="/icon.svg" class="h-8" /></div>
     </x-slot:brand-collapsed>
-    <x-layout.sidebar.separator text="Main" />
-    <x-layout.sidebar.item text="Dashboard" route="/dashboard" icon="home" />
+    <x-side-bar.separator text="Main" />
+    <x-side-bar.item text="Dashboard" route="/dashboard" icon="home" />
     <x-slot:footer>
         <p class="text-sm text-gray-400">v3.0</p>
     </x-slot:footer>
-</x-layout.sidebar>
+</x-side-bar>
 ```
 
 ## Attributes
@@ -54,7 +54,7 @@ A responsive sidebar navigation component with mobile slide-out drawer and deskt
 
 | Slot            | Description                                                                             |
 |-----------------|-----------------------------------------------------------------------------------------|
-| (default)       | Sidebar navigation items (`<x-layout.sidebar.item>` and `<x-layout.sidebar.separator>`) |
+| (default)       | Sidebar navigation items (`<x-side-bar.item>` and `<x-side-bar.separator>`) |
 | brand           | Logo or branding content at the top                                                     |
 | brand-collapsed | Compact branding shown when sidebar is collapsed (requires `collapsible`)               |
 | footer          | Footer content pinned to the bottom of the sidebar                                      |
