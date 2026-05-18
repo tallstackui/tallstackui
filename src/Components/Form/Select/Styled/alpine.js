@@ -444,9 +444,14 @@ export default (
 
     this.observer = new MutationObserver(this.sync.bind(this));
 
+    // `childList: true` is required so that `innerText = ...` assignments
+    // (which replace the text node rather than mutating it in place) also
+    // trigger `sync()`. Without it, programmatic updates via `$tsui.select`
+    // would not be picked up.
     this.observer.observe(this.$refs.options, {
       subtree: true,
       characterData: true,
+      childList: true,
     });
   },
   /**
@@ -477,7 +482,19 @@ export default (
   sync() {
     if (!this.$refs.options) return;
 
-    const raw = Alpine.evaluate(this, this.$refs.options.innerText);
+    const innerText = this.$refs.options.innerText;
+
+    // Short-circuit when nothing has changed. Without this guard, every
+    // call to `sync()` reassigns `this.options` to a freshly evaluated
+    // array reference, which retriggers `$watch('options')` ->
+    // `observed()` -> `observation()` -> `sync()` and creates a runaway
+    // loop allocating thousands of Alpine reactive effect cleanup
+    // closures per modal interaction.
+    if (this._lastSyncRaw === innerText) return;
+
+    this._lastSyncRaw = innerText;
+
+    const raw = Alpine.evaluate(this, innerText);
 
     this.options = Array.isArray(raw) ? raw : Object.values(raw);
 
