@@ -64,9 +64,7 @@ window.$tsui = {
     const el = root.querySelector('[x-data^="tallstackui_select"]');
 
     if (!el) {
-      return error(
-        `Element [#${name}] does not contain a select.styled component.`,
-      );
+      return error(`Element [#${name}] does not contain a select.styled component.`);
     }
 
     const data = Alpine.$data(el);
@@ -82,9 +80,7 @@ window.$tsui = {
        */
       setOptions: (options) => {
         if (!data.$refs.options) {
-          return error(
-            `Element [#${name}] select has no options ref to update.`,
-          );
+          return error(`Element [#${name}] select has no options ref to update.`);
         }
 
         const encoded = btoa(JSON.stringify(options));
