@@ -552,6 +552,43 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function respects_wire_model_debounce_on_controls(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?int $quantity = 0;
+
+            public int $syncs = 0;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="quantity">{{ $quantity }}</p>
+                    <p dusk="syncs">{{ $syncs }}</p>
+
+                    <x-number wire:model.live.debounce.1000ms="quantity" />
+                </div>
+                HTML;
+            }
+
+            public function updatedQuantity(): void
+            {
+                $this->syncs++;
+            }
+        })
+            ->assertSeeIn('@quantity', '0')
+            ->click('@tallstackui_form_number_increment')
+            ->click('@tallstackui_form_number_increment')
+            ->click('@tallstackui_form_number_increment')
+            ->assertSeeIn('@quantity', '0')
+            ->assertSeeIn('@syncs', '0')
+            ->waitForTextIn('@quantity', '3')
+            ->assertSeeIn('@quantity', '3')
+            ->assertSeeIn('@syncs', '1');
+    }
+
+    #[Test]
     public function uses_decimal_inputmode_for_positive_decimals(): void
     {
         Livewire::visit(new class extends Component

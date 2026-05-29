@@ -10,7 +10,7 @@
             $customization['input.color.background'] => !$attributes->get('disabled') && !$attributes->get('readonly'),
             $customization['input.color.disabled'] => $attributes->get('disabled') || $attributes->get('readonly'),
             $customization['error'] => $error === true
-        ]) x-data="tallstackui_formNumber({!! $entangle !!}, @js($min), @js($max), @js($delay), @js($step))">
+        ]) x-data="tallstackui_formNumber({!! $entangle !!}, @js($min), @js($max), @js($delay), @js($step), @js($debounce))">
         <div @class([$customization['buttons.wrapper'], $customization['input.wrapper-centralized'] => $centralized])>
             <input @if ($id) id="{{ $id }}" @endif
             type="number"

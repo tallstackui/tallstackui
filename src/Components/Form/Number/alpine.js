@@ -1,9 +1,10 @@
-export default (model, min, max, delay, step) => ({
+export default (model, min, max, delay, step, debounce) => ({
   model: model,
   min: min,
   max: max,
   interval: null,
   delay: delay,
+  debounce: debounce,
   init() {
     if (this.defined) {
       this.disableMinus = this.atMinus;
@@ -33,7 +34,7 @@ export default (model, min, max, delay, step) => ({
         this.$refs.input.stepUp(count);
       }
 
-      this.$refs.input.dispatchEvent(new Event('change'));
+      this.dispatch();
       this.update();
     };
 
@@ -85,7 +86,7 @@ export default (model, min, max, delay, step) => ({
         this.$refs.input.stepDown(count);
       }
 
-      this.$refs.input.dispatchEvent(new Event('change'));
+      this.dispatch();
       this.update();
     };
 
@@ -114,6 +115,21 @@ export default (model, min, max, delay, step) => ({
     }
 
     update(step);
+  },
+  /**
+   * Fire the sync events for the input.
+   *
+   * Always fire change so wire:change keeps working. If the wire:model is
+   * debounced, also fire a native input event so Livewire handles the sync.
+   *
+   * @return {void}
+   */
+  dispatch() {
+    this.$refs.input.dispatchEvent(new Event('change'));
+
+    if (this.debounce) {
+      this.$refs.input.dispatchEvent(new Event('input'));
+    }
   },
   /**
    * Update the value of the model.
