@@ -83,7 +83,15 @@ window.$tsui = {
           return error(`Element [#${name}] select has no options ref to update.`);
         }
 
-        const encoded = btoa(JSON.stringify(options));
+        // The inner template is decoded via `JSON.parse(atob(...))`, so the
+        // envelope must mirror PHP's ASCII-safe `json_encode`. Escape every
+        // non-Latin1 codepoint to `\uXXXX` before `btoa`, which would
+        // otherwise throw on accented labels, CJK, or emoji.
+        const json = JSON.stringify(options).replace(/[^ -~]/g, (char) =>
+          `\\u${char.charCodeAt(0).toString(16).padStart(4, '0')}`
+        );
+
+        const encoded = btoa(json);
         data.$refs.options.innerText = `JSON.parse(atob('${encoded}'))`;
       },
       /**
@@ -93,7 +101,14 @@ window.$tsui = {
        *
        * @return {void}
        */
-      refresh: () => data.sync(),
+      refresh: () => {
+        // Reset the sync cache so `sync()` re-reads the template even when
+        // its text is byte-identical to the last synced value, honoring
+        // this method's force-read contract.
+        data._lastSyncRaw = null;
+
+        data.sync();
+      },
     };
   },
   /**

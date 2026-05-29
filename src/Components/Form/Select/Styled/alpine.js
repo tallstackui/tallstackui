@@ -52,6 +52,10 @@ export default (
   // Performance: caches querySelectorAll result for keyboard navigation,
   // invalidated together with `_availableDirty` when options change.
   _navigateOptions: null,
+  // Caches the last synced `$refs.options` innerText so `sync()` can
+  // short-circuit redundant re-evaluations and break the watch -> observe
+  // -> sync recursion.
+  _lastSyncRaw: null,
   async init() {
     if (!this.livewire) {
       if (this.common) {
