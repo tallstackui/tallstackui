@@ -46,6 +46,73 @@ window.$tsui = {
     return new InteractionClass();
   },
   /**
+   * Programmatically interact with a `select.styled` instance by its
+   * wrapping element id. Returns a small handle exposing helpers like
+   * `setOptions(array)` so JS code can populate options without
+   * touching the inner template element directly.
+   *
+   * @param {String} name - The id of the element wrapping the select
+   * @return {{setOptions: function, refresh: function}|void}
+   */
+  select: (name) => {
+    const root = document.getElementById(name);
+
+    if (!root) {
+      return error(`Element [#${name}] was not found.`);
+    }
+
+    const el = root.querySelector('[x-data^="tallstackui_select"]');
+
+    if (!el) {
+      return error(`Element [#${name}] does not contain a select.styled component.`);
+    }
+
+    const data = Alpine.$data(el);
+
+    return {
+      /**
+       * Replace the select's options. The data is serialized into
+       * the inner template element; the select's MutationObserver
+       * picks up the change and syncs reactively.
+       *
+       * @param {Array<Object|String|Number>} options
+       * @return {void}
+       */
+      setOptions: (options) => {
+        if (!data.$refs.options) {
+          return error(`Element [#${name}] select has no options ref to update.`);
+        }
+
+        // The inner template is decoded via `JSON.parse(atob(...))`, so the
+        // envelope must mirror PHP's ASCII-safe `json_encode`. Escape every
+        // non-Latin1 codepoint to `\uXXXX` before `btoa`, which would
+        // otherwise throw on accented labels, CJK, or emoji.
+        const json = JSON.stringify(options).replace(
+          /[^ -~]/g,
+          (char) => `\\u${char.charCodeAt(0).toString(16).padStart(4, '0')}`
+        );
+
+        const encoded = btoa(json);
+        data.$refs.options.innerText = `JSON.parse(atob('${encoded}'))`;
+      },
+      /**
+       * Force a re-read of the inner template element. Useful when
+       * options were modified through a code path that bypassed
+       * `setOptions` (e.g. direct DOM manipulation).
+       *
+       * @return {void}
+       */
+      refresh: () => {
+        // Reset the sync cache so `sync()` re-reads the template even when
+        // its text is byte-identical to the last synced value, honoring
+        // this method's force-read contract.
+        data._lastSyncRaw = null;
+
+        data.sync();
+      },
+    };
+  },
+  /**
    * Focus an element by data-focus attribute, id, or x-ref.
    *
    * @param {String} name
