@@ -87,8 +87,9 @@ window.$tsui = {
         // envelope must mirror PHP's ASCII-safe `json_encode`. Escape every
         // non-Latin1 codepoint to `\uXXXX` before `btoa`, which would
         // otherwise throw on accented labels, CJK, or emoji.
-        const json = JSON.stringify(options).replace(/[^ -~]/g, (char) =>
-          `\\u${char.charCodeAt(0).toString(16).padStart(4, '0')}`
+        const json = JSON.stringify(options).replace(
+          /[^ -~]/g,
+          (char) => `\\u${char.charCodeAt(0).toString(16).padStart(4, '0')}`
         );
 
         const encoded = btoa(json);
