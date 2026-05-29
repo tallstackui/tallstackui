@@ -4,6 +4,7 @@ namespace TallStackUi\Support\Runtime\Components;
 
 use Exception;
 use TallStackUi\Facades\TallStackUi;
+use TallStackUi\Support\Blade\Wireable;
 use TallStackUi\Support\Runtime\AbstractRuntime;
 
 class NumberRuntime extends AbstractRuntime
@@ -19,11 +20,18 @@ class NumberRuntime extends AbstractRuntime
             $chevron ? 'chevron-up' : 'plus',
         ];
 
+        $support = new Wireable($this->data['attributes'], $this->wireable());
+        $debounce = $support->debounced();
+
         $data = [
             'property' => $property = $bind->get('property'),
             'error' => $bind->get('error'),
             'id' => $bind->get('id'),
-            'entangle' => $bind->get('entangle'),
+            // When the wire:model is debounced/throttled we defer the entangle
+            // so the control buttons rely on Livewire's native debounce instead
+            // of pushing the value to the server on every single click.
+            'entangle' => $debounce ? $support->entangle(defer: true) : $bind->get('entangle'),
+            'debounce' => $debounce,
             'icons' => [
                 'left' => TallStackUi::icon($left),
                 'right' => TallStackUi::icon($right),

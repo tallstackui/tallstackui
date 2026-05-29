@@ -21,17 +21,40 @@ class Wireable
     }
 
     /**
-     * Get the entangle directive.
+     * Whether the wire:model carries a debounce or throttle modifier.
      *
      * @throws Exception
      */
-    public function entangle(): string
+    public function debounced(): bool
+    {
+        if (! ($wire = $this->wire()) instanceof WireDirective) {
+            return false;
+        }
+
+        return $wire->hasModifier('debounce') || $wire->hasModifier('throttle');
+    }
+
+    /**
+     * Get the entangle directive.
+     *
+     * When $defer is true we always return a deferred entangle (without the
+     * `.live` chain), so the value is not pushed to the server immediately.
+     * This is used by the number component to let Livewire's own wire:model
+     * debounce/throttle drive the network sync of the control buttons.
+     *
+     * @throws Exception
+     */
+    public function entangle(bool $defer = false): string
     {
         if (! ($wire = $this->wire()) instanceof WireDirective) {
             return Blade::render('null');
         }
 
         $property = $wire->value();
+
+        if ($defer) {
+            return Blade::render("\$wire.entangle('{$property}')");
+        }
 
         return $wire->hasModifier('live') || $wire->hasModifier('blur')
             ? Blade::render("\$wire.entangle('{$property}').live")
