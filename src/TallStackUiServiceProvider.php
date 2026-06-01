@@ -161,6 +161,12 @@ class TallStackUiServiceProvider extends ServiceProvider
             ->tab()
             ->block('base.wrapper')
             ->remove('shadow-md')
-            ->append('border border-gray-300');
+            ->append('border border-gray-300')
+            ->and()
+            // table
+            ->scope('table-shadowless')
+            ->table()
+            ->block('wrapper')
+            ->remove('shadow');
     }
 }
