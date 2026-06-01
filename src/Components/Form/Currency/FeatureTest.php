@@ -36,7 +36,7 @@ it('can render with prefix and suffix', function () {
 });
 
 it('can render with different prefix and suffix', function () {
-    config()->set('app.locale', 'pt_BR');
+    app()->setLocale('pt_BR');
 
     $component = <<<'HTML'
     <x-currency locale="pt-BR" symbol currency />
