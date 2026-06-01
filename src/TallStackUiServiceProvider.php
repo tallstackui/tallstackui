@@ -154,6 +154,13 @@ class TallStackUiServiceProvider extends ServiceProvider
             ->calendar()
             ->block('wrapper.body')
             ->remove('shadow-md')
-            ->append('border border-gray-200 dark:border-dark-600');
+            ->append('border border-gray-200 dark:border-dark-600')
+            ->and()
+            // tab
+            ->scope('tab-shadowless')
+            ->tab()
+            ->block('base.wrapper')
+            ->remove('shadow-md')
+            ->append('border border-gray-300');
     }
 }
