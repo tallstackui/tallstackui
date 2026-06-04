@@ -57,6 +57,29 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_close_when_clicking_an_item(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-dial>
+                        <x-dial.items icon="pencil" label="Edit" />
+                    </x-dial>
+                </div>
+                HTML;
+            }
+        })
+            ->click('@tallstackui_dial_toggle')
+            ->waitFor('@tallstackui_dial_item')
+            ->assertVisible('@tallstackui_dial_item')
+            ->click('@tallstackui_dial_item')
+            ->waitUntilMissing('@tallstackui_dial_item');
+    }
+
+    #[Test]
     public function can_render(): void
     {
         Livewire::visit(new class extends Component
@@ -184,6 +207,28 @@ class BrowserTest extends BrowserTestCase
             ->click('@tallstackui_dial_toggle')
             ->waitFor('@tallstackui_dial_item')
             ->assertVisible('@tallstackui_dial_item');
+    }
+
+    #[Test]
+    public function can_render_with_item_color(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-dial>
+                        <x-dial.items icon="pencil" color="red" />
+                    </x-dial>
+                </div>
+                HTML;
+            }
+        })
+            ->click('@tallstackui_dial_toggle')
+            ->waitFor('@tallstackui_dial_item')
+            ->assertVisible('@tallstackui_dial_item')
+            ->assertAttributeContains('@tallstackui_dial_item', 'class', 'bg-red-500');
     }
 
     #[Test]

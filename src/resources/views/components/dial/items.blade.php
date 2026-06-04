@@ -19,14 +19,17 @@
     <{{ $tag }} @if ($href) href="{{ $href }}" @endif
         @if ($navigate) wire:navigate @elseif ($navigateHover) wire:navigate.hover @endif
         {{ $attributes->class([
-            $customization['item'],
+            $customization['item.base'],
+            $customization['item.default'] => blank($colors['background']),
+            $colors['background'] => filled($colors['background']),
+            $customization['item.bordered'] => filled($colors['background']),
             'rounded-full' => !$square,
         ]) }}
         dusk="tallstackui_dial_item">
         <x-dynamic-component :component="TallStackUi::prefix('icon')"
                              :$icon
                              internal
-                             class="{{ $customization['icon'] }}" />
+                             @class([$customization['icon'], $colors['icon'] => filled($colors['icon'])]) />
     </{{ $tag }}>
 
     @if ($label && !$withoutTooltip && $horizontal)

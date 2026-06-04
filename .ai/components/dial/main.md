@@ -3,7 +3,7 @@
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
 > component library providing 65+ Blade components for building modern web interfaces.
 
-A floating action button (FAB) / speed dial component that reveals a set of action items on click or hover. Supports fixed corner positioning, multiple sizes, color styles, and horizontal or vertical item layouts.
+A floating action button (FAB) / speed dial component that reveals a set of action items on click or hover. Supports fixed corner positioning, multiple sizes, color styles, and horizontal or vertical item layouts. The items animate in from the direction the dial expands (rising from a bottom corner, dropping from a top corner, or sliding sideways when horizontal) and the dial closes automatically when one of its items is clicked.
 
 ## Basic Usage
 
@@ -26,6 +26,14 @@ A floating action button (FAB) / speed dial component that reveals a set of acti
 <x-dial icon="plus" position="top-right" style="outline" color="secondary" lg hover square>
     <x-dial.items icon="document-plus" label="New Document" square />
     <x-dial.items icon="folder-plus" label="New Folder" square />
+</x-dial>
+```
+
+```blade
+<x-dial>
+    <x-dial.items icon="pencil" label="Edit" color="blue" />
+    <x-dial.items icon="trash" label="Delete" color="red" style="light" />
+    <x-dial.items icon="share" label="Share" color="green" style="outline" />
 </x-dial>
 ```
 

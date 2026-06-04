@@ -11,13 +11,14 @@
      {{ $attributes->only('x-on:open') }}>
     <div x-anchor.{{ $anchor }}.offset.10="$refs.button || $el"
          x-show="show"
+         x-on:click="show = false"
          @if (!$ts_ui__flash)
              x-transition:enter="transition ease-out duration-200"
-             x-transition:enter-start="opacity-0 scale-75"
-             x-transition:enter-end="opacity-100 scale-100"
+             x-transition:enter-start="{{ $transition['start'] }}"
+             x-transition:enter-end="{{ $transition['end'] }}"
              x-transition:leave="transition ease-in duration-150"
-             x-transition:leave-start="opacity-100 scale-100"
-             x-transition:leave-end="opacity-0 scale-75"
+             x-transition:leave-start="{{ $transition['end'] }}"
+             x-transition:leave-end="{{ $transition['start'] }}"
          @endif
          @class([$customization['items'], $customization['items-vertical'] => !$horizontal])>
         {{ $slot }}
