@@ -17,12 +17,20 @@ class TallStackUiAssetsController
     /** @throws Exception */
     public function script(?string $file = null): Response|BinaryFileResponse
     {
-        return Utils::pretendResponseIsFile(self::DIST_PATH.'/'.$file, 'text/javascript');
+        $path = self::DIST_PATH.'/'.$file;
+
+        abort_unless(is_file($path), 404);
+
+        return Utils::pretendResponseIsFile($path, 'text/javascript');
     }
 
     /** @throws Exception */
     public function style(?string $file = null): Response|BinaryFileResponse
     {
-        return Utils::pretendResponseIsFile(self::DIST_PATH.'/'.$file, 'text/css');
+        $path = self::DIST_PATH.'/'.$file;
+
+        abort_unless(is_file($path), 404);
+
+        return Utils::pretendResponseIsFile($path, 'text/css');
     }
 }
