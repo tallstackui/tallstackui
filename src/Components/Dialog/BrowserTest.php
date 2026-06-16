@@ -143,6 +143,36 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_close_interaction_dialog_with_escape(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            use Interactions;
+
+            public function success(): void
+            {
+                $this->dialog()->success('Foo bar success', 'Foo bar success description')->send();
+            }
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-button dusk="success" wire:click="success">Success</x-button>
+                </div>
+                HTML;
+            }
+        })
+            ->assertDontSee('Foo bar success')
+            ->click('@success')
+            ->waitForText('Foo bar success')
+            ->assertSee('Foo bar success')
+            ->keys('', '{escape}')
+            ->waitUntilMissingText('Foo bar success')
+            ->assertDontSee('Foo bar success');
+    }
+
+    #[Test]
     public function can_close_persistent_interaction_dialog_by_clicking_close_button(): void
     {
         Livewire::visit(new class extends Component
@@ -367,6 +397,41 @@ class BrowserTest extends BrowserTestCase
             ->assertSee('Foo bar success description')
             ->clickAtPoint(350, 350)
             ->pause(100)
+            ->assertPresent('@target');
+    }
+
+    #[Test]
+    public function can_dispatch_dismissed_event_when_closing_with_escape(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            use Interactions;
+
+            public ?string $target = null;
+
+            public function success(): void
+            {
+                $this->dialog()->success('Foo bar success', 'Foo bar success description')->send();
+            }
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div x-on:dialog:dismissed.window="$wire.set('target', 'Dismissed')">
+                    @if ($target)
+                        <p dusk="target">{{ $target }}</p>
+                    @endif
+
+                    <x-button dusk="success" wire:click="success">Success</x-button>
+                </div>
+                HTML;
+            }
+        })
+            ->assertNotPresent('@target')
+            ->click('@success')
+            ->waitForText('Foo bar success')
+            ->keys('', '{escape}')
+            ->waitForText('Dismissed')
             ->assertPresent('@target');
     }
 
@@ -776,6 +841,40 @@ class BrowserTest extends BrowserTestCase
             ->pause(300)
             ->assertSee('Persistent Dialog')
             ->assertSee('This should not close on outside click');
+    }
+
+    #[Test]
+    public function cannot_close_persistent_interaction_dialog_with_escape(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            use Interactions;
+
+            public function success(): void
+            {
+                $this->dialog()
+                    ->persistent()
+                    ->success('Persistent Dialog', 'This should not close on escape')
+                    ->send();
+            }
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-button dusk="success" wire:click="success">Success</x-button>
+                </div>
+                HTML;
+            }
+        })
+            ->assertDontSee('Persistent Dialog')
+            ->click('@success')
+            ->waitForText('Persistent Dialog')
+            ->assertSee('This should not close on escape')
+            ->keys('', '{escape}')
+            ->pause(300)
+            ->assertSee('Persistent Dialog')
+            ->assertSee('This should not close on escape');
     }
 
     #[Test]

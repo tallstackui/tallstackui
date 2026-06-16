@@ -114,6 +114,27 @@ export const unregister_ui_element = (id) => {
 };
 
 /**
+ * Clear the UI elements registry and restore the body scroll-lock.
+ *
+ * On SPA navigation (wire:navigate) an open overlay is destroyed without its
+ * close watcher ever running, leaving an orphaned entry in the global registry
+ * that survives the page swap. The orphan poisons the unlock gate on the next
+ * page and the body stays locked forever. Flushing on navigation drops the
+ * orphans and force-restores the body.
+ *
+ * @return {void}
+ */
+export const flush_ui_elements = () => {
+  window.__tsui_elements = [];
+
+  const element = document.body;
+
+  element.removeAttribute('data-overflow');
+  element.style.removeProperty('overflow');
+  element.style.paddingRight = '';
+};
+
+/**
  * @param {String} id
  * @returns {Boolean}
  */

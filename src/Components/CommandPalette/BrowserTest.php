@@ -2,13 +2,60 @@
 
 namespace TallStackUi\Components\CommandPalette;
 
+use Laravel\Dusk\Browser;
 use Livewire\Component;
 use Livewire\Livewire;
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\BrowserTestCase;
 
 class BrowserTest extends BrowserTestCase
 {
+    #[Test]
+    public function body_scroll_lock_uses_the_component_type_and_is_restored_on_close(): void
+    {
+        $browser = Livewire::visit(new class extends Component
+        {
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-command-palette id="custom" request="https://example.com/search" select="label:title|value:id" />
+                    <x-button dusk="open" x-on:click="$tsui.open.commandPalette('custom')">Open</x-button>
+                </div>
+                HTML;
+            }
+        });
+
+        $browser->click('@open')
+            ->waitFor('@tallstackui_command_palette')
+            ->tap(function (Browser $browser): void {
+                // The overflow marker must be the component type
+                // ('command-palette'), not the instance id ('custom'), so the
+                // unlock gate's same-type check stays consistent with the
+                // registry entry regardless of the palette id.
+                $attribute = $browser->script("return document.body.getAttribute('data-overflow');")[0];
+                $registry = $browser->script('return (window.__tsui_elements ?? []).length;')[0];
+
+                Assert::assertSame('hidden', $browser->script('return document.body.style.overflow;')[0]);
+                Assert::assertSame('command-palette', $attribute, 'the overflow marker must use the component type, not the id');
+                Assert::assertSame(1, $registry, 'the open palette should be registered');
+            });
+
+        $browser->script("\$tsui.close.commandPalette('custom')");
+
+        $browser->waitUntilMissing('@tallstackui_command_palette')
+            ->tap(function (Browser $browser): void {
+                $overflow = $browser->script('return document.body.style.overflow;')[0];
+                $attribute = $browser->script("return document.body.getAttribute('data-overflow');")[0];
+                $registry = $browser->script('return (window.__tsui_elements ?? []).length;')[0];
+
+                Assert::assertNotSame('hidden', $overflow, 'the body scroll-lock must be restored after closing the palette');
+                Assert::assertNull($attribute, 'the overflow marker must be cleared after closing the palette');
+                Assert::assertSame(0, $registry, 'the registry must be empty after closing the palette');
+            });
+    }
+
     #[Test]
     public function can_close_by_clicking_outside(): void
     {

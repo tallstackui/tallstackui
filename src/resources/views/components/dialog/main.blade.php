@@ -5,6 +5,7 @@
 <div x-cloak
      x-data="tallstackui_dialog(@js(session()->pull('ts-ui:dialog')), @js(trans('ts-ui::messages.dialog.button')), @js($configurations['overflow'] ?? false))"
      x-on:ts-ui:dialog.window="add($event.detail)"
+     @if (!$configurations['persistent']) x-on:keydown.escape.window="top_ui && remove(true)" @endif
      @class(['relative', $configurations['z-index']])
      aria-labelledby="modal-title"
      role="dialog"

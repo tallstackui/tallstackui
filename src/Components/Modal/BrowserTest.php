@@ -2,14 +2,113 @@
 
 namespace TallStackUi\Components\Modal;
 
+use Laravel\Dusk\Browser;
 use Livewire\Component;
 use Livewire\Livewire;
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\Attributes\Test;
 use TallStackUi\Traits\Interactions;
 use Tests\Browser\BrowserTestCase;
 
 class BrowserTest extends BrowserTestCase
 {
+    #[Test]
+    public function body_scroll_lock_is_flushed_when_navigating_away_with_an_open_overlay(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public bool $modal = false;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-modal wire>Foo bar</x-modal>
+
+                    <x-button dusk="open" wire:click="$toggle('modal')">Open</x-button>
+                </div>
+                HTML;
+            }
+        })
+            ->click('@open')
+            ->waitForText('Foo bar')
+            ->tap(function (Browser $browser): void {
+                $overflow = $browser->script('return document.body.style.overflow;')[0];
+                $attribute = $browser->script("return document.body.getAttribute('data-overflow');")[0];
+                $registry = $browser->script('return (window.__tsui_elements ?? []).length;')[0];
+
+                Assert::assertSame('hidden', $overflow, 'the body should be locked while the modal is open');
+                Assert::assertSame('modal', $attribute, 'the body should carry the modal overflow marker');
+                Assert::assertSame(1, $registry, 'the open modal should be registered');
+            })
+            ->tap(function (Browser $browser): void {
+                // Simulate leaving the page through wire:navigate while the
+                // overlay is still open: the SPA swap fires livewire:navigating,
+                // which must drop the orphaned registry entry and restore the
+                // body scroll-lock so the next page does not inherit a
+                // permanently locked body.
+                $browser->script("document.dispatchEvent(new Event('livewire:navigating'));");
+
+                $overflow = $browser->script('return document.body.style.overflow;')[0];
+                $attribute = $browser->script("return document.body.getAttribute('data-overflow');")[0];
+                $registry = $browser->script('return (window.__tsui_elements ?? []).length;')[0];
+
+                Assert::assertNotSame('hidden', $overflow, 'the body scroll-lock must be restored on navigation');
+                Assert::assertNull($attribute, 'the overflow marker must be cleared on navigation');
+                Assert::assertSame(0, $registry, 'the registry must be flushed on navigation so no orphan survives the swap');
+            });
+    }
+
+    #[Test]
+    public function body_scroll_lock_is_restored_when_an_open_overlay_is_removed_from_the_dom(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public bool $mounted = true;
+
+            public bool $modal = false;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    @if ($mounted)
+                        <x-modal wire>
+                            Foo bar
+                            <x-button dusk="remove" wire:click="$set('mounted', false)">Remove</x-button>
+                        </x-modal>
+                    @endif
+
+                    <x-button dusk="open" wire:click="$toggle('modal')">Open</x-button>
+                </div>
+                HTML;
+            }
+        })
+            ->click('@open')
+            ->waitForText('Foo bar')
+            ->tap(function (Browser $browser): void {
+                $registry = $browser->script('return (window.__tsui_elements ?? []).length;')[0];
+
+                Assert::assertSame('hidden', $browser->script('return document.body.style.overflow;')[0]);
+                Assert::assertSame(1, $registry, 'the open modal should be registered');
+            })
+            // Removing the modal element from the DOM (e.g. a conditional
+            // @if collapsing while it is open) tears the Alpine component down
+            // without its close watcher ever running. The destroy() hook must
+            // unregister it and restore the body scroll-lock.
+            ->click('@remove')
+            ->waitUntilMissingText('Foo bar')
+            ->tap(function (Browser $browser): void {
+                $overflow = $browser->script('return document.body.style.overflow;')[0];
+                $attribute = $browser->script("return document.body.getAttribute('data-overflow');")[0];
+                $registry = $browser->script('return (window.__tsui_elements ?? []).length;')[0];
+
+                Assert::assertNotSame('hidden', $overflow, 'the body scroll-lock must be restored when the overlay is destroyed');
+                Assert::assertNull($attribute, 'the overflow marker must be cleared when the overlay is destroyed');
+                Assert::assertSame(0, $registry, 'the destroyed overlay must be removed from the registry');
+            });
+    }
+
     #[Test]
     public function can_dispatch_events(): void
     {

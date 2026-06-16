@@ -47,6 +47,20 @@ export default (
       );
     });
   },
+  /**
+   * Drop this carousel from the registry when it is torn down (e.g. removed by
+   * Livewire/wire:navigate while the lightbox is open) and restore the body
+   * scroll-lock if no other overlay remains, preventing an orphaned scroll-lock.
+   *
+   * @return {void}
+   */
+  destroy() {
+    unregister_ui_element(this.id);
+
+    if (window.__tsui_elements.length === 0) {
+      overflow(false, 'carousel');
+    }
+  },
   /** @return {Boolean} Whether this carousel is the topmost UI element. */
   get top_ui() {
     return top_ui_element(this.id);

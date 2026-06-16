@@ -36,10 +36,13 @@ import textArea from '../src/Components/Form/Textarea/alpine';
 import toastBase from '../src/Components/Toast/toast-base';
 import toastLoop from '../src/Components/Toast/toast-loop';
 import upload from '../src/Components/Form/Upload/alpine';
+import { flush_ui_elements } from './helpers';
 
 if (!window.__tsui_elements) {
   window.__tsui_elements = [];
 }
+
+document.addEventListener('livewire:navigating', flush_ui_elements);
 
 window.tallstackui_floating = floating;
 

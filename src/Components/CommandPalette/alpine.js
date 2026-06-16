@@ -96,7 +96,7 @@ export default (
       this.response = [];
     }
 
-    overflow(true, id);
+    overflow(true, 'command-palette');
     register_ui_element(id, 'command-palette');
 
     this.$nextTick(() => this.$refs.search?.focus());
@@ -112,11 +112,25 @@ export default (
   close() {
     this.show = false;
 
-    overflow(false, id);
+    overflow(false, 'command-palette');
     unregister_ui_element(id);
 
     this.$dispatch('close');
     event(`command-palette:${id}:close`, null, false);
+  },
+  /**
+   * Drop this palette from the registry when it is torn down (e.g. removed by
+   * Livewire/wire:navigate while still open) and restore the body scroll-lock
+   * if no other overlay remains, preventing an orphaned scroll-lock.
+   *
+   * @return {void}
+   */
+  destroy() {
+    unregister_ui_element(id);
+
+    if (window.__tsui_elements.length === 0) {
+      overflow(false, 'command-palette');
+    }
   },
   /**
    * Fetch search results from the server endpoint.
