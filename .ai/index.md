@@ -157,6 +157,11 @@ $tsui.close.commandPalette()
 // Focus element
 $tsui.focus('element-id')
 
+// Programmatic clipboard copy
+// Resolves to a boolean (success) and dispatches the `ts-ui:copy`
+// event on `window` with `{ detail: { text } }`.
+const copied = await $tsui.copy('text to copy')
+
 // Programmatic interactions
 $tsui.interaction('dialog').success('Title', 'Description').send()
 $tsui.interaction('toast').warning('Title').send()
