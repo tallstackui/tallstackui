@@ -1,4 +1,5 @@
 import { event, error } from '../helpers';
+import copy from '../../src/Components/Clipboard/copy';
 import DialogInteraction from '../../src/Components/Dialog/frontend';
 import ToastInteraction from '../../src/Components/Toast/frontend';
 
@@ -25,6 +26,15 @@ window.$tsui = {
     /** @param {String} id @return {void} */
     commandPalette: (id = 'command-palette') => event(`command-palette:${id}-close`, null, false),
   },
+  /**
+   * Copy arbitrary text to the clipboard. Resolves to whether the copy
+   * succeeded and dispatches the `ts-ui:copy` event on `window` with
+   * `{ detail: { text } }`.
+   *
+   * @param {String} text
+   * @return {Promise<Boolean>}
+   */
+  copy,
   /**
    * Create a dialog or toast interaction instance.
    *
