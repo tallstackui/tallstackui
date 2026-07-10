@@ -23,7 +23,7 @@
                          :$label
                          :$hint
                          :$invalidate
-                         :alternative="$attributes->get('name')"
+                         :alternative="$property"
                          floatable
                          x-ref="input"
                          x-on:click="(disables['disabled'] ?? false) || (disables['readonly'] ?? false) ? false : show = !show"

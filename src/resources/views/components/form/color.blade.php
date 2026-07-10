@@ -26,7 +26,7 @@
                          :$label
                          :$hint
                          :$invalidate
-                         :alternative="$attributes->get('name')"
+                         :alternative="$property"
                          floatable
                          x-ref="input"
                          x-model="model"

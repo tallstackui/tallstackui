@@ -46,20 +46,20 @@ A floating action button (FAB) / speed dial component that reveals a set of acti
 
 ## Attributes
 
-| Attribute      | Type         | Default        | Description                                                             |
-|----------------|--------------|----------------|-------------------------------------------------------------------------|
-| icon           | string\|null | 'plus'         | Heroicon name for the main dial button (rotates 45deg when open)        |
-| square         | bool\|null   | false          | When true, uses rounded-lg instead of rounded-full for the button shape |
-| position       | string\|null | 'bottom-right' | Fixed screen position (top-left, top-right, bottom-left, bottom-right)  |
-| color          | string\|null | 'primary'      | Color theme for the dial button                                         |
-| style          | string\|null | 'solid'        | Color style variant (solid, light, outline)                             |
-| horizontal     | bool\|null   | false          | When true, arranges items horizontally instead of vertically            |
-| hover          | bool\|null   | false          | When true, opens the dial on hover instead of only on click             |
-| withoutTooltip | bool\|null   | null           | When true, hides tooltip labels on child dial items                     |
-| xs             | bool\|null   | null           | Extra-small size                                                        |
-| sm             | bool\|null   | null           | Small size                                                              |
-| md             | bool\|null   | null           | Medium size (default)                                                   |
-| lg             | bool\|null   | null           | Large size                                                              |
+| Attribute      | Type         | Default        | Description                                                                 |
+|----------------|--------------|----------------|-----------------------------------------------------------------------------|
+| icon           | string\|null | 'plus'         | Heroicon name for the main dial button (rotates 45deg when open)            |
+| square         | bool\|null   | false          | When true, uses rounded-lg instead of rounded-full for the button shape     |
+| position       | string\|null | 'bottom-right' | Fixed screen position (top-left, top-right, bottom-left, bottom-right)      |
+| color          | string\|null | 'primary'      | Color theme for the dial button                                             |
+| style          | string\|null | 'solid'        | Color style variant (solid, light, outline)                                 |
+| horizontal     | bool\|null   | false          | When true, arranges items horizontally instead of vertically                |
+| hover          | bool\|null   | false          | When true, opens the dial on hover instead of only on click                 |
+| withoutTooltip | bool\|null   | null           | When true, hides tooltip labels on child dial items                         |
+| xs             | bool\|null   | null           | Extra-small size                                                            |
+| sm             | bool\|null   | null           | Small size                                                                  |
+| md             | bool\|null   | null           | Medium size (default)                                                       |
+| lg             | bool\|null   | null           | Large size                                                                  |
 | preventRotate  | bool\|null   | null           | When true, keeps the button icon static instead of rotating 45deg when open |
 
 ## Slots

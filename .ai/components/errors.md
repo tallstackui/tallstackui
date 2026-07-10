@@ -53,9 +53,9 @@ Align footer content to the right with the smart `end` attribute:
 
 ## Slots
 
-| Slot   | Attribute | Description                                                                                       |
-|--------|-----------|--------------------------------------------------------------------------------------------------|
-| footer | —         | Content rendered below the error list; accepts plain string or ComponentSlot                     |
+| Slot   | Attribute | Description                                                                                           |
+|--------|-----------|-------------------------------------------------------------------------------------------------------|
+| footer | —         | Content rendered below the error list; accepts plain string or ComponentSlot                          |
 | footer | end       | When present on a ComponentSlot footer, wraps the content in a `flex justify-end` div (right-aligned) |
 
 ## Validation Constraints
@@ -76,14 +76,14 @@ TallStackUi::customize()
 
 ### Available Blocks
 
-| Block Name     | Purpose                                                   |
-|----------------|-----------------------------------------------------------|
-| wrapper        | Outer container with rounded corners, padding, and shadow |
-| title.wrapper  | Title bar flex layout                                     |
-| title.divider  | Title bar bottom border and spacing (hidden by `without-title`) |
-| title.text     | Title text font and inline-flex alignment                 |
-| title.icon     | Title icon dimensions                                     |
-| body.wrapper   | Error list container with left margin and padding         |
-| body.list      | List spacing and text size (marker style set by `list-numeric`) |
-| close          | Close button icon dimensions                              |
-| slots.footer   | Footer slot top margin                                    |
+| Block Name    | Purpose                                                         |
+|---------------|-----------------------------------------------------------------|
+| wrapper       | Outer container with rounded corners, padding, and shadow       |
+| title.wrapper | Title bar flex layout                                           |
+| title.divider | Title bar bottom border and spacing (hidden by `without-title`) |
+| title.text    | Title text font and inline-flex alignment                       |
+| title.icon    | Title icon dimensions                                           |
+| body.wrapper  | Error list container with left margin and padding               |
+| body.list     | List spacing and text size (marker style set by `list-numeric`) |
+| close         | Close button icon dimensions                                    |
+| slots.footer  | Footer slot top margin                                          |
