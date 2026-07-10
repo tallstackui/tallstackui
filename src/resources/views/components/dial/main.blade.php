@@ -39,6 +39,6 @@
                              :icon="TallStackUi::icon($icon)"
                              internal
                              @class([$customization['icon.base'], $customization['icon.sizes.'.$size], $colors['icon']])
-                             x-bind:class="{ '{{ $customization['icon.rotated'] }}': show }" />
+                             x-bind:class="{ '{{ $customization['icon.rotated'] }}': {{ $preventRotate ? 'false' : 'show' }} }" />
     </button>
 </div>

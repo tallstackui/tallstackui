@@ -1,6 +1,6 @@
 {
-  "_copy-06j0lMfm.js": {
-    "file": "copy-06j0lMfm.js",
+  "_copy-ByyOd8Ei.js": {
+    "file": "copy-ByyOd8Ei.js",
     "name": "copy",
     "imports": [
       "_helpers-DoHv-iUH.js"
@@ -11,13 +11,13 @@
     "name": "helpers"
   },
   "js/tallstackui-clipboard.js": {
-    "file": "tallstackui-clipboard-DSOmag6a.js",
+    "file": "tallstackui-clipboard-BbHE_iGT.js",
     "name": "tallstackui-clipboard",
     "src": "js/tallstackui-clipboard.js",
     "isEntry": true,
     "imports": [
       "_helpers-DoHv-iUH.js",
-      "_copy-06j0lMfm.js"
+      "_copy-ByyOd8Ei.js"
     ]
   },
   "js/tallstackui-date.js": {
@@ -30,7 +30,7 @@
     ]
   },
   "js/tallstackui-select.js": {
-    "file": "tallstackui-select-CNQ0HqL1.js",
+    "file": "tallstackui-select-BRpEVvIC.js",
     "name": "tallstackui-select",
     "src": "js/tallstackui-select.js",
     "isEntry": true,
@@ -39,7 +39,7 @@
     ]
   },
   "js/tallstackui-tooltip.js": {
-    "file": "tallstackui-tooltip-DcJrbEHD.js",
+    "file": "tallstackui-tooltip-D6KhsoNb.js",
     "name": "tallstackui-tooltip",
     "src": "js/tallstackui-tooltip.js",
     "isEntry": true,
@@ -48,13 +48,13 @@
     ]
   },
   "js/tallstackui.js": {
-    "file": "tallstackui-BcU-xdhg.js",
+    "file": "tallstackui-NrxCew1f.js",
     "name": "tallstackui",
     "src": "js/tallstackui.js",
     "isEntry": true,
     "imports": [
       "_helpers-DoHv-iUH.js",
-      "_copy-06j0lMfm.js"
+      "_copy-ByyOd8Ei.js"
     ]
   }
 }

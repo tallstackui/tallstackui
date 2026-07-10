@@ -37,6 +37,13 @@ A floating action button (FAB) / speed dial component that reveals a set of acti
 </x-dial>
 ```
 
+```blade
+<x-dial icon="bars-3" prevent-rotate>
+    <x-dial.items icon="pencil" label="Edit" />
+    <x-dial.items icon="trash" label="Delete" />
+</x-dial>
+```
+
 ## Attributes
 
 | Attribute      | Type         | Default        | Description                                                             |
@@ -53,6 +60,7 @@ A floating action button (FAB) / speed dial component that reveals a set of acti
 | sm             | bool\|null   | null           | Small size                                                              |
 | md             | bool\|null   | null           | Medium size (default)                                                   |
 | lg             | bool\|null   | null           | Large size                                                              |
+| preventRotate  | bool\|null   | null           | When true, keeps the button icon static instead of rotating 45deg when open |
 
 ## Slots
 

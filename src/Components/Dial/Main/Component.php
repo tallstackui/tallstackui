@@ -31,6 +31,7 @@ class Component extends TallStackUiComponent implements Customization
         public ?bool $sm = null,
         public ?bool $md = null,
         public ?bool $lg = null,
+        public ?bool $preventRotate = null,
         #[SkipDebug]
         public ?string $size = null,
     ) {
