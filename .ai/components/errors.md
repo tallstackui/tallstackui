@@ -23,25 +23,44 @@ A validation error summary component that displays all (or filtered) Laravel val
 </x-errors>
 ```
 
+Hide the title and its divider, and render a numbered list:
+
+```blade
+<x-errors without-title list-numeric />
+```
+
+Align footer content to the right with the smart `end` attribute:
+
+```blade
+<x-errors>
+    <x-slot:footer end>
+        <x-button>Fix now</x-button>
+    </x-slot:footer>
+</x-errors>
+```
+
 ## Attributes
 
-| Attribute | Type                | Default            | Description                                                                                         |
-|-----------|---------------------|--------------------|-----------------------------------------------------------------------------------------------------|
-| title     | string\|null        | Translated default | Title displayed at the top of the error box; supports `:count` placeholder for the number of errors |
-| only      | string\|array\|null | null               | Filter to show errors for specific field names only                                                 |
-| icon      | string\|null        | 'x-circle'         | Heroicon name displayed next to the title                                                           |
-| color     | string\|null        | 'red'              | Color theme for the error box                                                                       |
-| close     | bool                | false              | Shows a dismiss button to hide the error box                                                        |
+| Attribute     | Type                | Default            | Description                                                                                         |
+|---------------|---------------------|--------------------|-----------------------------------------------------------------------------------------------------|
+| title         | string\|null        | Translated default | Title displayed at the top of the error box; supports `:count` placeholder for the number of errors |
+| only          | string\|array\|null | null               | Filter to show errors for specific field names only                                                 |
+| icon          | string\|null        | 'x-circle'         | Heroicon name displayed next to the title                                                           |
+| color         | string\|null        | 'red'              | Color theme for the error box                                                                       |
+| close         | bool                | false              | Shows a dismiss button to hide the error box                                                        |
+| without-title | bool                | false              | Hides the title, icon, and the divider line between the title and the error list                    |
+| list-numeric  | bool                | false              | Renders the error list as an ordered (numbered) list instead of bullet points                       |
 
 ## Slots
 
-| Slot   | Description                                                                  |
-|--------|------------------------------------------------------------------------------|
-| footer | Content rendered below the error list; accepts plain string or ComponentSlot |
+| Slot   | Attribute | Description                                                                                       |
+|--------|-----------|--------------------------------------------------------------------------------------------------|
+| footer | —         | Content rendered below the error list; accepts plain string or ComponentSlot                     |
+| footer | end       | When present on a ComponentSlot footer, wraps the content in a `flex justify-end` div (right-aligned) |
 
 ## Validation Constraints
 
-- The `title` attribute cannot be empty.
+- The `title` attribute cannot be empty, unless `without-title` is used.
 
 ## Soft Customization
 
@@ -57,13 +76,14 @@ TallStackUi::customize()
 
 ### Available Blocks
 
-| Block Name    | Purpose                                                   |
-|---------------|-----------------------------------------------------------|
-| wrapper       | Outer container with rounded corners, padding, and shadow |
-| title.wrapper | Title bar flex layout with bottom border                  |
-| title.text    | Title text font and inline-flex alignment                 |
-| title.icon    | Title icon dimensions                                     |
-| body.wrapper  | Error list container with left margin and padding         |
-| body.list     | Unordered list styles (disc, spacing)                     |
-| close         | Close button icon dimensions                              |
-| slots.footer  | Footer slot top margin                                    |
+| Block Name     | Purpose                                                   |
+|----------------|-----------------------------------------------------------|
+| wrapper        | Outer container with rounded corners, padding, and shadow |
+| title.wrapper  | Title bar flex layout                                     |
+| title.divider  | Title bar bottom border and spacing (hidden by `without-title`) |
+| title.text     | Title text font and inline-flex alignment                 |
+| title.icon     | Title icon dimensions                                     |
+| body.wrapper   | Error list container with left margin and padding         |
+| body.list      | List spacing and text size (marker style set by `list-numeric`) |
+| close          | Close button icon dimensions                              |
+| slots.footer   | Footer slot top margin                                    |

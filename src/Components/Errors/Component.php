@@ -23,6 +23,8 @@ class Component extends TallStackUiComponent implements Customization
         public ?string $icon = 'x-circle',
         public ?string $color = 'red',
         public ?bool $close = false,
+        public ?bool $withoutTitle = false,
+        public ?bool $listNumeric = false,
         public ComponentSlot|string|null $footer = null,
     ) {
         $this->title ??= trans('ts-ui::messages.errors.title');
@@ -44,13 +46,14 @@ class Component extends TallStackUiComponent implements Customization
             'outer' => 'w-full',
             'wrapper' => 'rounded-lg p-4 shadow',
             'title' => [
-                'wrapper' => 'flex items-center justify-between border-b pb-3',
+                'wrapper' => 'flex items-center',
+                'divider' => 'border-b pb-3',
                 'text' => 'text-md inline-flex items-center gap-1 font-bold',
                 'icon' => 'w-5 h-5',
             ],
             'body' => [
                 'wrapper' => 'ml-5 mt-2 pl-1',
-                'list' => 'text-md list-disc space-y-1',
+                'list' => 'text-md space-y-1',
             ],
             'close' => 'w-5 h-5',
             'slots' => [
@@ -75,7 +78,7 @@ class Component extends TallStackUiComponent implements Customization
     /** @throws InvalidArgumentException */
     protected function validate(): void
     {
-        if (filled($this->title)) {
+        if ($this->withoutTitle || filled($this->title)) {
             return;
         }
 
