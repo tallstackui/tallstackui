@@ -18,7 +18,7 @@
                                          :icon="TallStackUi::icon('clipboard-document')"
                                          internal
                                          class="{{ $customization['input.buttons.icon.class'] }}" />
-                    <p x-ref="input-{{ $hash }}">{{ $placeholders['button']['copy'] }}</p>
+                    <p class="{{ $customization['input.buttons.text.left'] }}" x-ref="input-{{ $hash }}">{{ $placeholders['button']['copy'] }}</p>
                 </button>
             @endif
             <div class="{{ $customization['input.wrapper'] }}">
@@ -42,7 +42,7 @@
                                          :icon="TallStackUi::icon('clipboard-document')"
                                          internal
                                          class="{{ $customization['input.buttons.icon.class'] }}" />
-                    <p x-ref="input-{{ $hash }}">{{ $placeholders['button']['copy'] }}</p>
+                    <p class="{{ $customization['input.buttons.text.right'] }}" x-ref="input-{{ $hash }}">{{ $placeholders['button']['copy'] }}</p>
                 </button>
             @endif
         @endif

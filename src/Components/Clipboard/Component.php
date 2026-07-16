@@ -58,6 +58,10 @@ class Component extends TallStackUiComponent implements Customization
                     'left' => '-mr-px rounded-l-md',
                     'right' => '-ml-px rounded-r-md',
                     'icon.class' => 'text-primary-500 dark:text-dark-300 h-4 w-4 cursor-pointer',
+                    'text' => [
+                        'left' => '',
+                        'right' => '',
+                    ],
                 ],
                 'base' => 'focus:ring-primary-600 dark:focus:ring-primary-600 block w-full rounded-none border-0 py-1.5 text-gray-900 ring-1 ring-gray-300 placeholder:text-gray-400 focus:ring-2 sm:text-sm sm:leading-6',
                 'color' => [...$this->input()['color']],
