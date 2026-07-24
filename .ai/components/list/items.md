@@ -3,7 +3,7 @@
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
 > component library providing 65+ Blade components for building modern web interfaces.
 
-A row inside a `<x-list>`. Renders a bold `name`, an optional inline `caption`/default-slot content, and an optional ellipsis-vertical menu trigger that opens a dropdown with the consumer's menu items. **Must be used inside `<x-list>`** — relies on the parent's Alpine scope for search filtering.
+A row inside a `<x-list>`. Renders a bold `name`, an optional `caption` (plain text or arbitrary markup through its slot form), optional inline default-slot content, an optional `action` slot holding raw controls on the right, and an optional ellipsis-vertical menu trigger that opens a dropdown with the consumer's menu items. **Must be used inside `<x-list>`** — relies on the parent's Alpine scope for search filtering.
 
 ## Basic Usage
 
@@ -42,12 +42,57 @@ Row with per-item menu:
 </x-list>
 ```
 
+Caption carrying markup instead of plain text (slot form):
+
+```blade
+<x-list>
+    <x-list.items name="general">
+        <x-slot:caption>
+            <x-badge text="1 server" color="green" sm />
+        </x-slot:caption>
+    </x-list.items>
+    <x-list.items name="production">
+        <x-slot:caption>
+            <x-badge text="12 servers" color="red" sm />
+        </x-slot:caption>
+    </x-list.items>
+</x-list>
+```
+
+Row with a raw control on the right (no dropdown chrome):
+
+```blade
+<x-list>
+    <x-list.items name="general" caption="1 server">
+        <x-slot:action>
+            <x-button sm wire:click="deploy('general')">Deploy</x-button>
+        </x-slot:action>
+    </x-list.items>
+</x-list>
+```
+
+Action and menu side by side — the action sits to the left of the ellipsis trigger:
+
+```blade
+<x-list>
+    <x-list.items name="general" caption="1 server">
+        <x-slot:action>
+            <x-button sm wire:click="deploy('general')">Deploy</x-button>
+        </x-slot:action>
+        <x-slot:menu>
+            <x-dropdown.items text="Edit" wire:click="edit('general')" />
+            <x-dropdown.items text="Delete" wire:click="delete('general')" />
+        </x-slot:menu>
+    </x-list.items>
+</x-list>
+```
+
 ## Attributes
 
 | Attribute | Type         | Default | Description                                                                                           |
 |-----------|--------------|---------|-------------------------------------------------------------------------------------------------------|
 | name      | string       | —       | Bold leading text. **Required** (non-empty)                                                           |
-| caption   | string\|null | null    | Inline secondary text rendered after the name                                                         |
+| caption   | string\|null | null    | Inline secondary text rendered after the name. HTML-escaped — use `<x-slot:caption>` for markup       |
 | xs        | bool         | false   | Sets the menu **size** token to `xs` (`px-2 py-1 text-xs`)                                            |
 | sm        | bool         | false   | Sets the menu **size** token to `sm` (`px-3 py-1.5 text-sm`). Same as the default when no flag is set |
 | md        | bool         | false   | Sets the menu **size** token to `md` (`px-4 py-2 text-sm`)                                            |
@@ -56,14 +101,22 @@ Row with per-item menu:
 
 ## Slots
 
-| Slot            | Description                                                                                               |
-|-----------------|-----------------------------------------------------------------------------------------------------------|
-| (default)       | Inline content rendered after the name (badge, status indicator, custom text). Coexists with `caption`    |
-| `<x-slot:menu>` | Dropdown items shown when the user clicks the ellipsis trigger. When omitted, the trigger is not rendered |
+| Slot               | Description                                                                                                                              |
+|--------------------|------------------------------------------------------------------------------------------------------------------------------------------|
+| (default)          | Inline content rendered after the name (badge, status indicator, custom text). Coexists with `caption`                                   |
+| `<x-slot:caption>` | Renders arbitrary markup in the caption position. Takes precedence over the `caption` attribute and is **not** escaped                   |
+| `<x-slot:action>`  | Raw content on the right side of the row — buttons, toggles, links. Rendered without the dropdown trigger. Coexists with `<x-slot:menu>` |
+| `<x-slot:menu>`    | Dropdown items shown when the user clicks the ellipsis trigger. When omitted, the trigger is not rendered                                |
+
+When `<x-slot:action>` and/or `<x-slot:menu>` are present, both are grouped inside a shared right-side wrapper (`content.aside`) so the row keeps a single `justify-between` split between the name/caption block and the controls. Neither slot renders the wrapper when both are absent.
 
 ## Behavior
 
 The row registers itself with the parent `<x-list>` at Alpine init time via `register(name, caption)`. This populates the parent's `items[]` array used by `match()` for search filtering and by `hasResults` for the empty state.
+
+When the caption comes from `<x-slot:caption>`, the value handed to `register()`/`match()` is a **plain-text projection** of the slot (tags stripped, whitespace collapsed), so search keeps matching the caption's visible text. A `<x-slot:caption><x-badge text="12 servers" /></x-slot:caption>` row still matches the term `servers`.
+
+The row also carries `data-list-on`, an attribute bound to the same search predicate. Alpine removes it while the row is filtered out, and the parent's `items.wrapper` block keys its inter-row dividers on it (`[&>[data-list-on]~[data-list-on]]:border-t`). This is what keeps the first *visible* row free of a top border when the rows above it are hidden by a search — a DOM-position selector cannot do that, since `display: none` siblings still count for `+`/`:not(:first-child)`.
 
 When `<x-slot:menu>` is provided, the row renders a self-contained dropdown menu (NOT `<x-dropdown>`) with a borderless `ellipsis-vertical` trigger and a floating panel pinned at `z-40` so Dialog/Modal/Slide/Toast overlays (all `z-50`) always render above it. The menu auto-closes when a `<x-dropdown.items>` entry is selected (via the `select` event) or when the user clicks outside.
 
@@ -126,6 +179,7 @@ The menu trigger and floating panel are exposed as customization blocks under th
 | Block                 | Default                                                                                                         |
 |-----------------------|-----------------------------------------------------------------------------------------------------------------|
 | `wrapper`             | Row layout + `content-visibility:auto` + `contain-intrinsic-size:auto 2.5rem`                                   |
+| `content.aside`       | `flex shrink-0 items-center gap-x-2` — right-side group holding the `action` slot and the menu trigger          |
 | `menu.wrapper`        | `shrink-0`                                                                                                      |
 | `menu.trigger`        | Borderless icon button styling                                                                                  |
 | `menu.icon`           | `size-5`                                                                                                        |

@@ -3,7 +3,7 @@
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
 > component library providing 65+ Blade components for building modern web interfaces.
 
-A card-shaped, action-oriented list component for browsing or managing a collection of items. Each row displays a name, an optional caption (or arbitrary inline content), and an optional ellipsis-vertical menu trigger that opens a per-row dropdown. Optional client-side search filters rows by name and caption. Renders an optional `<x-label>` above the box and `<x-hint>` below.
+A card-shaped, action-oriented list component for browsing or managing a collection of items. Each row displays a name, an optional caption (plain text or arbitrary markup), optional raw controls on the right, and an optional ellipsis-vertical menu trigger that opens a per-row dropdown. Optional client-side search filters rows by name and caption. Renders an optional `<x-label>` above the box and `<x-hint>` below.
 
 ## Basic Usage
 
@@ -51,6 +51,24 @@ Data-driven mode using `:items` and `@interact('item_menu', $item)` for per-row 
 </x-list>
 ```
 
+Data-driven mode with raw captions and raw right-side controls. `@interact('item_caption', $item)` replaces the row's `caption` value and `@interact('item_action', $item)` fills the `action` slot:
+
+```blade
+<x-list :items="$tags" searchable>
+    @interact('item_caption', $item)
+        <x-badge :text="$item['region']" color="indigo" sm />
+    @endinteract
+
+    @interact('item_action', $item)
+        <x-button sm wire:click="deploy({{ $item['id'] }})">Deploy</x-button>
+    @endinteract
+
+    @interact('item_menu', $item)
+        <x-dropdown.items text="Edit" wire:click="edit({{ $item['id'] }})" />
+    @endinteract
+</x-list>
+```
+
 Custom empty state:
 
 ```blade
@@ -77,25 +95,41 @@ Custom empty state:
 
 ## Slots
 
-| Slot                            | Description                                                                                                               |
-|---------------------------------|---------------------------------------------------------------------------------------------------------------------------|
-| (default)                       | `<x-list.items>` children (slot mode). Ignored when `:items` is set                                                       |
-| `<x-slot:empty>`                | Replaces the default empty state (shown when no items registered or search filters all). Falls back to i18n if not passed |
-| `@interact('item_menu', $item)` | (Data-driven only) Blade injected into the dropdown menu for each row. Sees `$item` (the current array entry) in scope    |
+| Slot                               | Description                                                                                                                       |
+|------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------|
+| (default)                          | `<x-list.items>` children (slot mode). Ignored when `:items` is set                                                               |
+| `<x-slot:empty>`                   | Replaces the default empty state (shown when no items registered or search filters all). Falls back to i18n if not passed         |
+| `@interact('item_caption', $item)` | (Data-driven only) Blade rendered in the caption position of each row, overriding the item's `caption` key. Sees `$item` in scope |
+| `@interact('item_action', $item)`  | (Data-driven only) Blade rendered as raw content on the right of each row, without dropdown chrome. Sees `$item` in scope         |
+| `@interact('item_menu', $item)`    | (Data-driven only) Blade injected into the dropdown menu for each row. Sees `$item` (the current array entry) in scope            |
+
+All three `@interact` hooks are independent — a list may use any combination of them, and a row can render an `item_action` control next to the `item_menu` trigger.
 
 ## Item shape (data-driven)
 
 Each entry in `:items` (array, Collection, or any `Arrayable`) is read via `data_get`. Recognized keys:
 
-| Key       | Type         | Required | Description                                                           |
-|-----------|--------------|----------|-----------------------------------------------------------------------|
-| `name`    | string       | yes      | Bold leading text                                                     |
-| `caption` | string\|null | no       | Inline secondary text                                                 |
-| ...       | mixed        | no       | Additional keys are accessible inside `@interact('item_menu', $item)` |
+| Key       | Type         | Required | Description                                                                        |
+|-----------|--------------|----------|------------------------------------------------------------------------------------|
+| `name`    | string       | yes      | Bold leading text                                                                  |
+| `caption` | string\|null | no       | Inline secondary text. Ignored when `@interact('item_caption', $item)` is declared |
+| ...       | mixed        | no       | Additional keys are accessible inside every `@interact('item_*', $item)` hook      |
 
 ## Search behavior
 
 When `searchable` is true, the component initializes a small Alpine store (`tallstackui_list`) inside the box. Each row registers itself on init via `register(name, caption)`. The search input binds to a debounced (`150ms`) `search` term. Each row applies `x-show="match(name, caption)"`, hiding rows whose `name` and `caption` don't include the term (case-insensitive). The empty state binds to `x-show="!hasResults"`, which is true whenever zero registered items match the current term (or when no items are registered at all).
+
+Rows whose caption comes from `<x-slot:caption>` or `@interact('item_caption', $item)` register a plain-text projection of that markup (tags stripped, whitespace collapsed), so a caption rendered as a badge still matches its visible text.
+
+### Inter-row dividers
+
+Each row also carries `data-list-on`, bound to the same match predicate — Alpine drops the attribute while a row is filtered out. The `items.wrapper` customization block keys the dividers on that marker:
+
+```
+[&>[data-list-on]~[data-list-on]]:border-t
+```
+
+The general-sibling combinator gives a top border to every **visible** row except the first visible one. A DOM-position selector (`+`, `:not(:first-child)`, `divide-y`) cannot express this: `display: none` siblings still participate in sibling matching, so filtering down to a row that is not first in the DOM would paint a border directly against the search row's own `border-b` and read as one thick divider. If you override `items.wrapper`, preserve the `data-list-on` predicate or the artifact comes back.
 
 Filtering is **purely client-side** — the search input is **not** wired to Livewire by default. To filter server-side, the consumer can wrap `<x-list>` inside their Livewire component and re-pass a filtered `:items` collection on each search change.
 

@@ -50,7 +50,7 @@ TallStackUi::customize()
 
 | Scope           | Target         | Line(s) |
 |-----------------|----------------|---------|
-| `dialog.button` | `<x-button />` | 119     |
+| `dialog.button` | `<x-button />` | 120     |
 
 ### `dropdown`
 
@@ -151,14 +151,14 @@ TallStackUi::customize()
 
 | Scope             | Target           | Line(s) |
 |-------------------|------------------|---------|
-| `list.items.menu` | `<x-floating />` | 39      |
+| `list.items.menu` | `<x-floating />` | 44      |
 
 ### `list`
 
 | Scope        | Target        | Line(s) |
 |--------------|---------------|---------|
 | `list.label` | `<x-label />` | 8       |
-| `list.hint`  | `<x-hint />`  | 64      |
+| `list.hint`  | `<x-hint />`  | 70      |
 
 ### `table`
 

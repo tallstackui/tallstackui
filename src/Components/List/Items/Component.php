@@ -5,22 +5,28 @@ namespace TallStackUi\Components\List\Items;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\ComponentSlot;
+use TallStackUi\Attributes\PassThroughRuntime;
 use TallStackUi\Attributes\SkipDebug;
 use TallStackUi\Attributes\SoftCustomization;
 use TallStackUi\Customization\Contracts\Customization;
+use TallStackUi\Support\Runtime\Components\ListItemsRuntime;
 use TallStackUi\TallStackUiComponent;
 
+#[PassThroughRuntime(ListItemsRuntime::class)]
 #[SoftCustomization('list.items')]
 class Component extends TallStackUiComponent implements Customization
 {
     public function __construct(
         public ?string $name = null,
-        public ?string $caption = null,
         public ?bool $xs = null,
         public ?bool $sm = null,
         public ?bool $md = null,
         public ?bool $lg = null,
         public ?string $width = 'xxs',
+        #[SkipDebug]
+        public ComponentSlot|string|null $caption = null,
+        #[SkipDebug]
+        public ComponentSlot|string|null $action = null,
         #[SkipDebug]
         public ComponentSlot|string|null $menu = null,
         #[SkipDebug]
@@ -41,6 +47,7 @@ class Component extends TallStackUiComponent implements Customization
             'content' => [
                 'wrapper' => 'flex grow items-center justify-between',
                 'inner' => 'flex flex-row items-center gap-2',
+                'aside' => 'flex shrink-0 items-center gap-x-2',
             ],
             'name' => 'text-sm font-medium text-secondary-700 dark:text-dark-100',
             'caption' => 'text-xs text-secondary-500 dark:text-dark-400',

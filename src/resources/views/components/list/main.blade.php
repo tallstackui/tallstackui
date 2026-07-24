@@ -37,6 +37,12 @@
                     <x-dynamic-component :component="TallStackUi::prefix('list.items')"
                                          :name="data_get($item, 'name')"
                                          :caption="data_get($item, 'caption')">
+                        @isset($item_caption)
+                            <x-slot:caption>{{ $item_caption($item) }}</x-slot:caption>
+                        @endisset
+                        @isset($item_action)
+                            <x-slot:action>{{ $item_action($item) }}</x-slot:action>
+                        @endisset
                         @isset($item_menu)
                             <x-slot:menu>{{ $item_menu($item) }}</x-slot:menu>
                         @endisset

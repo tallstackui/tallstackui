@@ -50,7 +50,7 @@ class Component extends TallStackUiComponent implements Customization
                 'input' => 'h-full w-full border-0 bg-transparent pl-10 pr-3 text-sm text-secondary-700 placeholder:text-secondary-400 focus:outline-none focus:ring-0 dark:text-dark-100 dark:placeholder:text-dark-400',
             ],
             'items' => [
-                'wrapper' => '[&>[data-list-row]+[data-list-row]]:border-t [&>[data-list-row]+[data-list-row]]:border-secondary-200 dark:[&>[data-list-row]+[data-list-row]]:border-dark-600',
+                'wrapper' => '[&>[data-list-on]~[data-list-on]]:border-t [&>[data-list-on]~[data-list-on]]:border-secondary-200 dark:[&>[data-list-on]~[data-list-on]]:border-dark-600',
                 'scroll' => 'custom-scrollbar overflow-y-auto',
                 'height' => [
                     '40' => 'max-h-40',

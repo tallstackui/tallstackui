@@ -215,7 +215,7 @@ it('does not use divide-y on the box (avoids phantom dividers under last visible
         ->not->toContain('divide-y');
 });
 
-it('places inter-row dividers via an arbitrary adjacent-sibling selector on items.wrapper', function () {
+it('places inter-row dividers via a general-sibling selector keyed on the visibility marker', function () {
     $component = <<<'HTML'
     <x-list>
         <x-list.items name="a" />
@@ -224,7 +224,31 @@ it('places inter-row dividers via an arbitrary adjacent-sibling selector on item
     HTML;
 
     expect($component)->render()
-        ->toContain('[&>[data-list-row]+[data-list-row]]:border-t');
+        ->toContain('[&>[data-list-on]~[data-list-on]]:border-t');
+});
+
+it('does not key inter-row dividers on the adjacent-sibling combinator', function () {
+    $component = <<<'HTML'
+    <x-list>
+        <x-list.items name="a" />
+        <x-list.items name="b" />
+    </x-list>
+    HTML;
+
+    expect($component)->render()
+        ->not->toContain('[data-list-row]+[data-list-row]');
+});
+
+it('marks every row with the visibility attribute bound to the search match', function () {
+    $component = <<<'HTML'
+    <x-list>
+        <x-list.items name="general" caption="1 server" />
+    </x-list>
+    HTML;
+
+    expect($component)->render()
+        ->toContain('data-list-on')
+        ->toContain("x-bind:data-list-on=\"match('general', '1 server')\"");
 });
 
 it('renders a border-bottom on the search row when searchable', function () {
@@ -364,6 +388,136 @@ it('applies content-visibility on each row to skip layout/paint of off-screen it
     expect($component)->render()
         ->toContain('[content-visibility:auto]')
         ->toContain('[contain-intrinsic-size:auto_2.5rem]');
+});
+
+it('renders raw markup coming from the caption slot', function () {
+    $component = <<<'HTML'
+    <x-list>
+        <x-list.items name="production">
+            <x-slot:caption>
+                <span class="custom-caption">2 servers</span>
+            </x-slot>
+        </x-list.items>
+    </x-list>
+    HTML;
+
+    expect($component)->render()
+        ->toContain('<span class="custom-caption">2 servers</span>');
+});
+
+it('keeps escaping the caption when it comes as a plain attribute', function () {
+    $component = <<<'HTML'
+    <x-list>
+        <x-list.items name="production" caption="<b>2</b> servers" />
+    </x-list>
+    HTML;
+
+    expect($component)->render()
+        ->toContain('&lt;b&gt;2&lt;/b&gt; servers')
+        ->not->toContain('<b>2</b> servers');
+});
+
+it('feeds the alpine search with the plain text of a caption slot', function () {
+    $component = <<<'HTML'
+    <x-list>
+        <x-list.items name="production">
+            <x-slot:caption>
+                <span class="custom-caption">2 servers</span>
+            </x-slot>
+        </x-list.items>
+    </x-list>
+    HTML;
+
+    expect($component)->render()
+        ->toContain('data-list-caption="2 servers"')
+        ->toContain("register('production', '2 servers')");
+});
+
+it('renders raw markup coming from the action slot without the dropdown chrome', function () {
+    $component = <<<'HTML'
+    <x-list>
+        <x-list.items name="production">
+            <x-slot:action>
+                <button class="custom-action">Deploy</button>
+            </x-slot>
+        </x-list.items>
+    </x-list>
+    HTML;
+
+    expect($component)->render()
+        ->toContain('<button class="custom-action">Deploy</button>')
+        ->not->toContain('tallstackui_list_items_menu');
+});
+
+it('renders the action and the menu side by side', function () {
+    $component = <<<'HTML'
+    <x-list>
+        <x-list.items name="production">
+            <x-slot:action>
+                <button class="custom-action">Deploy</button>
+            </x-slot>
+            <x-slot:menu>
+                <x-dropdown.items text="Edit" />
+            </x-slot>
+        </x-list.items>
+    </x-list>
+    HTML;
+
+    expect($component)->render()
+        ->toContain('custom-action')
+        ->toContain('tallstackui_list_items_menu')
+        ->toContain('flex shrink-0 items-center gap-x-2');
+});
+
+it('does not render the aside wrapper when there is no action nor menu', function () {
+    $component = <<<'HTML'
+    <x-list>
+        <x-list.items name="production" caption="2 servers" />
+    </x-list>
+    HTML;
+
+    expect($component)->render()
+        ->not->toContain('flex shrink-0 items-center gap-x-2');
+});
+
+it('can render data-driven mode with @interact item_caption', function () {
+    $items = [
+        ['name' => 'general', 'caption' => '1 server'],
+        ['name' => 'production', 'caption' => '2 servers'],
+    ];
+
+    $component = <<<'BLADE'
+    <x-list :items="$items">
+        @interact('item_caption', $item)
+            <span class="custom-caption">{{ $item['caption'] }}</span>
+        @endinteract
+    </x-list>
+    BLADE;
+
+    expect(Blade::render($component, compact('items')))
+        ->toContain('<span class="custom-caption">1 server</span>')
+        ->toContain('<span class="custom-caption">2 servers</span>')
+        ->toContain('data-list-caption="1 server"');
+});
+
+it('can render data-driven mode with @interact item_action', function () {
+    $items = [
+        ['name' => 'general', 'id' => 1],
+        ['name' => 'production', 'id' => 2],
+    ];
+
+    $component = <<<'BLADE'
+    <x-list :items="$items">
+        @interact('item_action', $item)
+            <button class="custom-action">Go {{ $item['id'] }}</button>
+        @endinteract
+    </x-list>
+    BLADE;
+
+    expect(Blade::render($component, compact('items')))
+        ->toContain('<button class="custom-action">Go 1</button>')
+        ->toContain('<button class="custom-action">Go 2</button>')
+        ->not->toContain('tallstackui_list_items_menu');
 });
 
 it('scopes the floating menu under list.items.menu for soft customization', function () {
