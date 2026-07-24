@@ -3,12 +3,12 @@
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
 > component library providing 65+ Blade components for building modern web interfaces.
 
-A statistics card component for displaying numeric metrics with titles, icons, and trend indicators. Supports solid, light, and outline styles, animated number counting, and optional link behavior with Livewire navigation.
+A statistics card component for displaying numeric metrics with titles, icons, and trend indicators. Supports solid, light, and outline styles, animated number counting, colorized number text, and optional link/click behavior with Livewire navigation.
 
 ## Basic Usage
 
 ```blade
-<x-stats number="1,234" title="Total Users" icon="users" />
+<x-stats number="1234" title="Total Users" icon="users" />
 ```
 
 ```blade
@@ -16,7 +16,7 @@ A statistics card component for displaying numeric metrics with titles, icons, a
 ```
 
 ```blade
-<x-stats number="42" title="Open Issues" color="red" outline decrease animated />
+<x-stats number="42" title="Open Issues" color="red" outline decrease animated :duration="2" />
 ```
 
 ```blade
@@ -26,33 +26,56 @@ A statistics card component for displaying numeric metrics with titles, icons, a
 </x-stats>
 ```
 
+```blade
+{{-- Default slot is unstyled (free markup). Use :number for styled values. --}}
+<x-stats header="Revenue" footer="This month">
+    <p class="text-2xl font-bold text-primary-500">R$ 333,55</p>
+</x-stats>
+```
+
+```blade
+{{-- Livewire click stays a <div> (not <a>); cursor-pointer is applied --}}
+<x-stats number="10" wire:click="refresh" />
+```
+
 ## Attributes
 
-| Attribute      | Type                        | Default   | Description                                                           |
-|----------------|-----------------------------|-----------|-----------------------------------------------------------------------|
-| number         | string\|int\|null           | null      | Numeric value to display                                              |
-| title          | string\|null                | null      | Descriptive title above/beside the number                             |
-| icon           | ComponentSlot\|string\|null | null      | Heroicon name or a slot for fully custom icon markup                  |
-| color          | string\|null                | 'primary' | Color theme for the icon background (e.g., primary, red, green)       |
-| href           | string\|null                | null      | When set, renders as an anchor tag for click-through behavior         |
-| solid          | bool                        | true      | Uses the solid color style variant (default)                          |
-| light          | bool                        | false     | Uses the light color style variant                                    |
-| outline        | bool                        | false     | Uses the outline color style variant                                  |
-| animated       | bool                        | false     | Enables animated count-up effect when the element enters the viewport |
-| increase       | bool                        | false     | Shows an upward trend arrow icon on the right side                    |
-| decrease       | bool                        | false     | Shows a downward trend arrow icon on the right side                   |
-| navigate       | bool                        | null      | Enables Livewire's wire:navigate for SPA-style navigation             |
-| navigate-hover | bool                        | null      | Enables Livewire's wire:navigate.hover for prefetch on hover          |
+| Attribute      | Type                        | Default   | Description                                                                  |
+|----------------|-----------------------------|-----------|------------------------------------------------------------------------------|
+| number         | string\|int\|null           | null      | Value shown with number styles; preferred path for styled metrics            |
+| title          | string\|null                | null      | Descriptive title above/beside the number                                    |
+| icon           | ComponentSlot\|string\|null | null      | Heroicon name or a slot for fully custom icon markup                         |
+| color          | string\|null                | 'primary' | Color for icon background **and** number text (solid/light/outline palettes) |
+| href           | string\|null                | null      | When set, root renders as `<a>` for click-through                            |
+| solid          | bool                        | true      | Solid color style variant (default)                                          |
+| light          | bool                        | false     | Light color style variant                                                    |
+| outline        | bool                        | false     | Outline color style variant                                                  |
+| animated       | bool                        | false     | Count-up animation on viewport enter; **only when `number` is numeric**      |
+| duration       | int\|null                   | 1         | Animation duration in seconds (ignored when not animating)                   |
+| increase       | bool                        | false     | Upward trend arrow on the right (mutually exclusive with `decrease`)         |
+| decrease       | bool                        | false     | Downward trend arrow on the right (mutually exclusive with `increase`)       |
+| navigate       | bool                        | null      | Livewire `wire:navigate` when using `href`                                   |
+| navigate-hover | bool                        | null      | Livewire `wire:navigate.hover` when using `href`                             |
+
+### Root element
+
+| Condition                               | Tag     | Notes                                  |
+|-----------------------------------------|---------|----------------------------------------|
+| `href` filled                           | `<a>`   | Optional `navigate` / `navigate-hover` |
+| `wire:click` / `x-on:click` (no `href`) | `<div>` | Still gets `cursor-pointer`            |
+| Neither                                 | `<div>` | Static card                            |
 
 ## Slots
 
-| Slot      | Description                                                         |
-|-----------|---------------------------------------------------------------------|
-| (default) | Custom content replacing the number display area                    |
-| header    | Content displayed above the stats body (string or ComponentSlot)    |
-| footer    | Content displayed below the stats body (string or ComponentSlot)    |
-| right     | Custom content on the right side (replaces increase/decrease arrow) |
-| icon      | Fully custom icon markup (replaces the default icon rendering)      |
+| Slot      | Description                                                                                          |
+|-----------|------------------------------------------------------------------------------------------------------|
+| (default) | Free markup replacing the number area — **no** default number styles applied                         |
+| header    | Above the body (string prop or slot); strings get muted text styles; slots keep positioning wrappers |
+| footer    | Below the body (string prop or slot); same styling rules as header                                   |
+| right     | Right side content (replaces increase/decrease arrow)                                                |
+| icon      | Fully custom icon markup (replaces default icon rendering)                                           |
+
+String props `header="..."` / `footer="..."` and named slots both render with horizontal inset (`mx-2`) and muted typography for plain text.
 
 ## Soft Customization
 
@@ -68,17 +91,36 @@ TallStackUi::customize()
 
 ### Available Blocks
 
-| Block Name                 | Purpose                                              |
-|----------------------------|------------------------------------------------------|
-| wrapper.first              | Outer card container (flex column, rounded, shadow)  |
-| wrapper.second             | Inner content layout (flex, centered, gap)           |
-| wrapper.third              | Icon container (flex, centered, rounded, dimensions) |
-| slots.header               | Header slot text styles                              |
-| slots.footer               | Footer slot text styles                              |
-| slots.right.increase.icon  | Increase trend arrow icon name                       |
-| slots.right.increase.class | Increase trend arrow icon styles                     |
-| slots.right.decrease.icon  | Decrease trend arrow icon name                       |
-| slots.right.decrease.class | Decrease trend arrow icon styles                     |
-| icon                       | Icon dimensions inside the icon container            |
-| title                      | Title text styles                                    |
-| number                     | Number text styles (font size, weight, color)        |
+| Block Name                 | Purpose                                                                   |
+|----------------------------|---------------------------------------------------------------------------|
+| wrapper.first              | Outer card container (flex column, rounded, shadow)                       |
+| wrapper.first-clickable    | Cursor style when the card is clickable                                   |
+| wrapper.second             | Body row (includes horizontal margin `mx-4`, flex, gap)                   |
+| wrapper.second-no-header   | Extra top margin when header is absent                                    |
+| wrapper.second-no-footer   | Extra bottom margin when footer is absent                                 |
+| wrapper.third              | Icon container (flex, centered, rounded, dimensions)                      |
+| slots.header.wrapper       | Outer inset around header                                                 |
+| slots.header.text          | Header typography (string props / plain slot text)                        |
+| slots.footer.wrapper       | Outer inset around footer                                                 |
+| slots.footer.text          | Footer typography (string props / plain slot text)                        |
+| slots.right.increase.icon  | Increase trend arrow icon name                                            |
+| slots.right.increase.class | Increase trend arrow icon styles                                          |
+| slots.right.decrease.icon  | Decrease trend arrow icon name                                            |
+| slots.right.decrease.class | Decrease trend arrow icon styles                                          |
+| icon                       | Icon dimensions inside the icon container                                 |
+| title                      | Title text styles                                                         |
+| number                     | Number layout styles (size/weight/leading; color comes from `color` prop) |
+
+### Soft key renames (v4)
+
+| Removed                       | Replacement                                    |
+|-------------------------------|------------------------------------------------|
+| `slots.header`                | `slots.header.text`                            |
+| `slots.header-string-wrapper` | `slots.header.wrapper`                         |
+| `slots.footer`                | `slots.footer.text`                            |
+| `slots.footer-string-wrapper` | `slots.footer.wrapper`                         |
+| `wrapper.second-no-slot`      | removed (`mx-4` is always on `wrapper.second`) |
+
+### Predefined scope
+
+`scope="stats-shadowless"` — removes card shadow and adds a light border (registered in the service provider).

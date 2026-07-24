@@ -10,9 +10,14 @@ class StatsColors
 
     public function colors(): array
     {
+        [$background, $text] = $this->get('background', 'text');
+
         $getter = $this->format($this->component->style, $this->component->color); // @phpstan-ignore-line
 
-        return ['background' => data_get($this->get('background'), $getter) ?? data_get($this->background(), $getter)];
+        return [
+            'background' => data_get($background, $getter) ?? data_get($this->background(), $getter),
+            'text' => data_get($text, $getter) ?? data_get($this->text(), $getter),
+        ];
     }
 
     private function background(): array
@@ -48,6 +53,105 @@ class StatsColors
                 'olive' => 'bg-olive-500 text-white',
                 'mist' => 'bg-mist-500 text-white',
                 'taupe' => 'bg-taupe-500 text-white',
+            ],
+            'outline' => [
+                'black' => 'text-black/50',
+                'primary' => 'text-primary-600',
+                'secondary' => 'text-secondary-600',
+                'slate' => 'text-slate-600',
+                'gray' => 'text-gray-600',
+                'zinc' => 'text-zinc-600',
+                'neutral' => 'text-neutral-600',
+                'stone' => 'text-stone-600',
+                'red' => 'text-red-600',
+                'orange' => 'text-orange-600',
+                'amber' => 'text-amber-600',
+                'yellow' => 'text-yellow-600',
+                'lime' => 'text-lime-600',
+                'green' => 'text-green-600',
+                'emerald' => 'text-emerald-600',
+                'teal' => 'text-teal-600',
+                'cyan' => 'text-cyan-600',
+                'sky' => 'text-sky-600',
+                'blue' => 'text-blue-600',
+                'indigo' => 'text-indigo-600',
+                'violet' => 'text-violet-600',
+                'purple' => 'text-purple-600',
+                'fuchsia' => 'text-fuchsia-600',
+                'pink' => 'text-pink-600',
+                'rose' => 'text-rose-600',
+                'mauve' => 'text-mauve-600',
+                'olive' => 'text-olive-600',
+                'mist' => 'text-mist-600',
+                'taupe' => 'text-taupe-600',
+            ],
+            'light' => [
+                'black' => 'text-black',
+                'primary' => 'text-primary-400',
+                'secondary' => 'text-secondary-400',
+                'slate' => 'text-slate-400',
+                'gray' => 'text-gray-400',
+                'zinc' => 'text-zinc-400',
+                'neutral' => 'text-neutral-400',
+                'stone' => 'text-stone-400',
+                'red' => 'text-red-400',
+                'orange' => 'text-orange-400',
+                'amber' => 'text-amber-400',
+                'yellow' => 'text-yellow-400',
+                'lime' => 'text-lime-400',
+                'green' => 'text-green-400',
+                'emerald' => 'text-emerald-400',
+                'teal' => 'text-teal-400',
+                'cyan' => 'text-cyan-400',
+                'sky' => 'text-sky-400',
+                'blue' => 'text-blue-400',
+                'indigo' => 'text-indigo-400',
+                'violet' => 'text-violet-400',
+                'purple' => 'text-purple-400',
+                'fuchsia' => 'text-fuchsia-400',
+                'pink' => 'text-pink-400',
+                'rose' => 'text-rose-400',
+                'mauve' => 'text-mauve-400',
+                'olive' => 'text-olive-400',
+                'mist' => 'text-mist-400',
+                'taupe' => 'text-taupe-400',
+            ],
+        ];
+    }
+
+    private function text(): array
+    {
+        return [
+            'solid' => [
+                'black' => 'text-black dark:text-white',
+                'primary' => 'text-primary-500',
+                'secondary' => 'text-secondary-500',
+                'slate' => 'text-slate-500',
+                'gray' => 'text-gray-500',
+                'zinc' => 'text-zinc-500',
+                'neutral' => 'text-neutral-500',
+                'stone' => 'text-stone-500',
+                'red' => 'text-red-500',
+                'orange' => 'text-orange-500',
+                'amber' => 'text-amber-500',
+                'yellow' => 'text-yellow-500',
+                'lime' => 'text-lime-500',
+                'green' => 'text-green-500',
+                'emerald' => 'text-emerald-500',
+                'teal' => 'text-teal-500',
+                'cyan' => 'text-cyan-500',
+                'sky' => 'text-sky-500',
+                'blue' => 'text-blue-500',
+                'indigo' => 'text-indigo-500',
+                'violet' => 'text-violet-500',
+                'purple' => 'text-purple-500',
+                'fuchsia' => 'text-fuchsia-500',
+                'pink' => 'text-pink-500',
+                'rose' => 'text-rose-500',
+                'mauve' => 'text-mauve-500',
+                'olive' => 'text-olive-500',
+                'mist' => 'text-mist-500',
+                'taupe' => 'text-taupe-500',
             ],
             'outline' => [
                 'black' => 'text-black/50',

@@ -29,6 +29,7 @@ class Component extends TallStackUiComponent implements Customization
         public ?bool $light = false,
         public ?bool $outline = false,
         public ?bool $animated = false,
+        public ?int $duration = 1,
         public ?bool $increase = false,
         public ?bool $decrease = false,
         public ?bool $navigate = null,
@@ -43,6 +44,7 @@ class Component extends TallStackUiComponent implements Customization
         public ComponentSlot|string|null $footer = null,
     ) {
         $this->style = $this->outline ? 'outline' : ($this->light ? 'light' : 'solid');
+        $this->duration = max(0, (int) $this->duration);
     }
 
     public function blade(): View
@@ -56,17 +58,20 @@ class Component extends TallStackUiComponent implements Customization
             'wrapper' => [
                 'first' => 'dark:bg-dark-700 flex w-full flex-col rounded-lg bg-white shadow-md',
                 'first-clickable' => 'cursor-pointer',
-                'second' => 'flex h-full items-center justify-center gap-4',
-                'second-no-slot' => 'mx-4',
+                'second' => 'mx-4 flex h-full items-center justify-center gap-4',
                 'second-no-header' => 'mt-4',
                 'second-no-footer' => 'mb-4',
                 'third' => 'flex h-12 w-12 items-center justify-center rounded-lg',
             ],
             'slots' => [
-                'header' => 'dark:text-dark-300 p-2 text-xs text-gray-600',
-                'header-string-wrapper' => 'mx-2',
-                'footer' => 'dark:text-dark-300 p-2 text-xs text-gray-600',
-                'footer-string-wrapper' => 'mx-2',
+                'header' => [
+                    'wrapper' => 'mx-2',
+                    'text' => 'dark:text-dark-300 p-2 text-xs text-gray-600',
+                ],
+                'footer' => [
+                    'wrapper' => 'mx-2',
+                    'text' => 'dark:text-dark-300 p-2 text-xs text-gray-600',
+                ],
                 'right' => [
                     'increase' => [
                         'icon' => 'arrow-trending-up',
@@ -80,7 +85,14 @@ class Component extends TallStackUiComponent implements Customization
             ],
             'icon' => 'h-8 w-8',
             'title' => 'dark:text-dark-300 text-sm text-gray-600',
-            'number' => 'dark:text-dark-300 text-2xl font-bold text-primary-500',
+            'number' => 'dark:text-dark-300 text-2xl font-bold leading-none *:m-0',
         ]);
+    }
+
+    protected function validate(): void
+    {
+        if ($this->increase && $this->decrease) {
+            __ts_validation_exception($this, 'The [increase] and [decrease] cannot be used together.');
+        }
     }
 }

@@ -9,29 +9,30 @@
 @endif @endif
 {{ $attributes->class([
    $customization['wrapper.first'],
-   $customization['wrapper.first-clickable'] => $tag === 'a' && $href !== null,
+   $customization['wrapper.first-clickable'] => $clickable,
 ]) }}
-x-data="tallstackui_stats(@js($number), @js($animated))"
+x-data="tallstackui_stats(@js($number), @js($animate), @js($duration))"
 x-intersect:enter.full="visible = true"
 x-intersect:leave="visible = false; start = 0"
 x-cloak>
 @if ($header)
-    @if ($header instanceof \Illuminate\View\ComponentSlot)
-        {{ $header }}
-    @else
-        <div class="{{ $customization['slots.header-string-wrapper'] }}">
-            <p class="{{ $customization['slots.header'] }}">{{ $header }}</p>
+    <div @if ($header instanceof \Illuminate\View\ComponentSlot)
+             {{ $header->attributes->class([$customization['slots.header.wrapper']]) }}
+         @else
+             class="{{ $customization['slots.header.wrapper'] }}"
+         @endif>
+        <div class="{{ $customization['slots.header.text'] }}">
+            {{ $header }}
         </div>
-    @endif
+    </div>
 @endif
 <div @class([
-            $customization['wrapper.second-no-slot'] => !$slot->isNotEmpty(),
-            $customization['wrapper.second-no-header'] => !$header,
-            $customization['wrapper.second-no-footer'] => !$footer,
             $customization['wrapper.second'],
+            $customization['wrapper.second-no-header'] => ! $header,
+            $customization['wrapper.second-no-footer'] => ! $footer,
         ])>
     @if ($icon)
-        @if (!$icon instanceof \Illuminate\View\ComponentSlot)
+        @if (! $icon instanceof \Illuminate\View\ComponentSlot)
             <div @class([$customization['wrapper.third'], $colors['background']])>
                 <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                      :$icon
@@ -39,7 +40,7 @@ x-cloak>
                                      class="{{ $customization['icon'] }}" />
             </div>
         @else
-            <div class="{{ $customization['wrapper.third'] }}">
+            <div {{ $icon->attributes->class([$customization['wrapper.third']]) }}>
                 {{ $icon }}
             </div>
         @endif
@@ -49,13 +50,19 @@ x-cloak>
             <h2 class="{{ $customization['title'] }}">{{ $title }}</h2>
         @endif
         @if ($slot->isNotEmpty())
-            {{ $slot }}
+            <div x-ref="number">
+                {{ $slot }}
+            </div>
         @else
-            <h2 class="{{ $customization['number'] }}" x-ref="number">{{ $number }}</h2>
+            <h2 @class([$customization['number'], $colors['text']]) x-ref="number">{{ $number }}</h2>
         @endif
     </div>
     @if ($right)
-        {{ $right }}
+        <div @if ($right instanceof \Illuminate\View\ComponentSlot)
+                 {{ $right->attributes }}
+             @endif>
+            {{ $right }}
+        </div>
     @elseif ($increase || $decrease)
         <div>
             @if ($increase)
@@ -73,12 +80,14 @@ x-cloak>
     @endif
 </div>
 @if ($footer)
-    @if ($footer instanceof \Illuminate\View\ComponentSlot)
-        {{ $footer }}
-    @else
-        <div class="{{ $customization['slots.footer-string-wrapper'] }}">
-            <p class="{{ $customization['slots.footer'] }}">{{ $footer }}</p>
+    <div @if ($footer instanceof \Illuminate\View\ComponentSlot)
+             {{ $footer->attributes->class([$customization['slots.footer.wrapper']]) }}
+         @else
+             class="{{ $customization['slots.footer.wrapper'] }}"
+         @endif>
+        <div class="{{ $customization['slots.footer.text'] }}">
+            {{ $footer }}
         </div>
-    @endif
+    </div>
 @endif
 </{{ $tag }}>
