@@ -197,6 +197,83 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function metadata_defaults_to_null_when_the_item_omits_it(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public string $picked = '';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="picked">{{ $picked }}</p>
+                    <x-autocomplete :items="[
+                        ['value' => 'Bob'],
+                    ]" x-on:select="$wire.set('picked', JSON.stringify($event.detail.item.metadata))" />
+                </div>
+                HTML;
+            }
+        })
+            ->click('@tallstackui_autocomplete_input')
+            ->waitForText('Bob')
+            ->pause(150)
+            ->click('@tallstackui_autocomplete_option')
+            ->waitForTextIn('@picked', 'null');
+    }
+
+    #[Test]
+    public function metadata_of_local_items_reaches_the_select_event(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public string $picked = '';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="picked">{{ $picked }}</p>
+                    <x-autocomplete :items="[
+                        ['value' => 'Alice', 'metadata' => ['id' => 42, 'role' => 'admin']],
+                    ]" x-on:select="$wire.set('picked', $event.detail.item.metadata.role + ':' + $event.detail.item.metadata.id)" />
+                </div>
+                HTML;
+            }
+        })
+            ->click('@tallstackui_autocomplete_input')
+            ->waitForText('Alice')
+            ->pause(150)
+            ->click('@tallstackui_autocomplete_option')
+            ->waitForTextIn('@picked', 'admin:42');
+    }
+
+    #[Test]
+    public function metadata_survives_a_remote_request(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public string $picked = '';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="picked">{{ $picked }}</p>
+                    <x-autocomplete request="/searchable-with-metadata"
+                                    x-on:select="$wire.set('picked', $event.detail.item.metadata.role + ':' + $event.detail.item.metadata.id)" />
+                </div>
+                HTML;
+            }
+        })
+            ->type('@tallstackui_autocomplete_input', 'Alice')
+            ->waitForText('Alice')
+            ->pause(300)
+            ->click('@tallstackui_autocomplete_option')
+            ->waitForTextIn('@picked', 'admin:42');
+    }
+
+    #[Test]
     public function shows_after_slot_when_provided_and_empty(): void
     {
         Livewire::visit(new class extends Component

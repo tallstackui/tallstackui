@@ -166,6 +166,11 @@ class BrowserTestCase extends TestCase
                 ],
             };
         })->name('searchable.by-category');
+
+        $router->get('/searchable-with-metadata', fn () => [
+            ['value' => 'Alice', 'description' => 'admin', 'metadata' => ['id' => 42, 'role' => 'admin']],
+            ['value' => 'Bob', 'description' => 'editor'],
+        ])->name('searchable.with-metadata');
     }
 
     protected function getApplicationTimezone($app): string

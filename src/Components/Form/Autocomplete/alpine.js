@@ -79,13 +79,17 @@ export default (model = null, items = [], request = null, strict = false, lazy =
   /**
    * Normalize the items so optional fields exist on every entry.
    *
+   * `metadata` is an opaque passthrough: the component never reads it,
+   * it only keeps it reachable from `selected` and from the `select`
+   * event so consumers can act on the picked item.
+   *
    * @param {Array} items
    * @returns {Array}
    */
   normalizeItems(items) {
     return items.map((item) => {
       if (typeof item === 'string') {
-        return { value: item, description: null, image: null, disabled: false };
+        return { value: item, description: null, image: null, disabled: false, metadata: null };
       }
 
       return {
@@ -93,6 +97,7 @@ export default (model = null, items = [], request = null, strict = false, lazy =
         description: item.description ?? null,
         image: item.image ?? null,
         disabled: !!item.disabled,
+        metadata: item.metadata ?? null,
       };
     });
   },

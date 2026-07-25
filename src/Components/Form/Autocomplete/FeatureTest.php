@@ -52,6 +52,19 @@ HTML;
         ->toContain('Alice');
 });
 
+it('forwards the metadata object of local items untouched', function () {
+    $component = <<<'HTML'
+    <x-autocomplete :items="[
+        ['value' => 'Alice', 'metadata' => ['id' => 42, 'role' => 'admin']],
+    ]" />
+HTML;
+
+    expect($component)->render()
+        ->toContain('\u0022metadata\u0022')
+        ->toContain('\u0022id\u0022:42')
+        ->toContain('\u0022role\u0022:\u0022admin\u0022');
+});
+
 it('can render with remote request', function () {
     $component = <<<'HTML'
     <x-autocomplete request="https://api.example.com/cities" />

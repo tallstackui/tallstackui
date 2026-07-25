@@ -3,7 +3,7 @@
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
 > component library providing 65+ Blade components for building modern web interfaces.
 
-An input-first single-select component: a regular text `<input>` paired with a floating dropdown of suggestions that filters as the user types. Each item supports a `value`, an optional `description` shown as a subtitle line, and an optional `image` rendered as a circular avatar to the left. Free text is allowed by default; an opt-in `strict` mode constrains `wire:model` to predefined values only. Items can be supplied locally via `:items` or fetched on demand with `:request`.
+An input-first single-select component: a regular text `<input>` paired with a floating dropdown of suggestions that filters as the user types. Each item supports a `value`, an optional `description` shown as a subtitle line, an optional `image` rendered as a circular avatar to the left, and an optional `metadata` object carried through untouched for the consumer to read after selection. Free text is allowed by default; an opt-in `strict` mode constrains `wire:model` to predefined values only. Items can be supplied locally via `:items` or fetched on demand with `:request`.
 
 The component layers on top of `Form/Input` (so `floatable`, label, hint, error styling, and the input wrapper come from the same primitives as `Form/Date` and `Form/Password`) and uses `Floating` for the dropdown.
 
@@ -59,12 +59,39 @@ The component does **not** support `multiple`. Reach for `Form/Select/Styled` wh
 
 ## Item Object Structure
 
-| Key         | Type   | Required | Description                                                                                  |
-|-------------|--------|----------|----------------------------------------------------------------------------------------------|
-| value       | string | Yes      | Visible text in the input and value bound to `wire:model`. Filter matches against this.      |
-| description | string | No       | Subtitle line shown below `value` inside the dropdown row. Filter also matches against this. |
-| image       | string | No       | URL displayed as a circular avatar on the left of the dropdown row.                          |
-| disabled    | bool   | No       | Dims the row and blocks selection.                                                           |
+| Key         | Type   | Required | Description                                                                                                   |
+|-------------|--------|----------|---------------------------------------------------------------------------------------------------------------|
+| value       | string | Yes      | Visible text in the input and value bound to `wire:model`. Filter matches against this.                       |
+| description | string | No       | Subtitle line shown below `value` inside the dropdown row. Filter also matches against this.                  |
+| image       | string | No       | URL displayed as a circular avatar on the left of the dropdown row.                                           |
+| disabled    | bool   | No       | Dims the row and blocks selection.                                                                            |
+| metadata    | mixed  | No       | Opaque passthrough. Never read or rendered by the component; carried to `selected` and to the `select` event. |
+
+Keys outside this table are **dropped** during normalization. To carry your own data alongside an item, nest it under `metadata`:
+
+```php
+[
+    'value' => 'Alice',
+    'description' => 'admin',
+    'metadata' => ['id' => 42, 'role' => 'admin', 'team_id' => 7],
+]
+```
+
+```json
+[
+  { "value": "Alice", "description": "admin", "metadata": { "id": 42, "role": "admin" } }
+]
+```
+
+`metadata` is not filtered against, not rendered in the dropdown row, and not sent to `wire:model` — the model still receives `value`. It exists purely so the consumer can react to the picked item:
+
+```blade
+<x-autocomplete wire:model="user"
+                :request="route('api.users')"
+                x-on:select="$wire.userPicked($event.detail.item.metadata)" />
+```
+
+The bucket is deliberately namespaced rather than flattened onto the item: internal keys the component may add in future versions can never collide with consumer data.
 
 ## Slots
 
@@ -139,20 +166,20 @@ The highlighted row is auto-scrolled into view inside the dropdown.
 ## Alpine.js Event Payloads
 
 ```blade
-<!-- $event.detail.item: { value, description?, image?, disabled?, ...whatever you put there } -->
+<!-- $event.detail.item: { value, description, image, disabled, metadata } -->
 <x-autocomplete :items="$users"
-    x-on:select="$wire.set('userId', $event.detail.item.id)"
+    x-on:select="$wire.set('userId', $event.detail.item.metadata.id)"
     x-on:clear="$wire.set('userId', null)"
     x-on:open="console.log('opened')"
     x-on:close="console.log('closed')" />
 ```
 
-| Event  | `$event.detail`      | When                                     |
-|--------|----------------------|------------------------------------------|
-| select | `{ item: <object> }` | The user picked a row from the dropdown. |
-| clear  | `null`               | The user pressed the clear `×` button.   |
-| open   | `null`               | The floating dropdown opened.            |
-| close  | `null`               | The floating dropdown closed.            |
+| Event  | `$event.detail`                                               | When                                     |
+|--------|---------------------------------------------------------------|------------------------------------------|
+| select | `{ item: { value, description, image, disabled, metadata } }` | The user picked a row from the dropdown. |
+| clear  | `null`                                                        | The user pressed the clear `×` button.   |
+| open   | `null`                                                        | The floating dropdown opened.            |
+| close  | `null`                                                        | The floating dropdown closed.            |
 
 ## Soft Customization
 
