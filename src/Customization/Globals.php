@@ -46,13 +46,19 @@ class Globals
      */
     public function colorful(bool $toast = true, bool $dialog = true): self
     {
+        $components = [];
+
         if ($toast) {
-            self::$active['colorful'][] = Toast::class;
+            $components[] = Toast::class;
         }
 
         if ($dialog) {
-            self::$active['colorful'][] = Dialog::class;
+            $components[] = Dialog::class;
         }
+
+        // Assigning rather than appending, matching flash() and square()
+        // and keeping repeated calls from stacking duplicate entries.
+        self::$active['colorful'] = $components;
 
         return $this;
     }

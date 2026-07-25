@@ -147,7 +147,7 @@ Then in Blade: `<x-input scope="search" />`
 2. `src/TallStackUiComponent.php` - Base component with trait composition
 3. `src/Support/Concerns/BaseComponent/ManagesClasses.php` - Resolves customizations via `classes()` method
 4. `src/TallStackUiServiceProvider.php` - Registers singleton `CustomizationFactory` per component
-5. `src/Customization/CustomizationFactory.php` - Compiles customizations with Blade view composers
+5. `src/Customization/CustomizationFactory.php` - Compiles customizations into the block array read by `classes()`
 
 ### Deep Customization
 

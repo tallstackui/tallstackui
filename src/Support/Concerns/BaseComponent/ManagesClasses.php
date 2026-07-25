@@ -83,7 +83,13 @@ trait ManagesClasses
         if (__ts_global('square', static::class)) {
             foreach ($classes as $key => $value) {
                 if (is_string($value)) {
-                    $classes[$key] = preg_replace('/\s+/', ' ', trim((string) preg_replace('/(?:[\w-]+:)*rounded(?:-[a-z0-9]+)*/', '', $value)));
+                    // Dropping whole tokens rather than substrings, so that
+                    // arbitrary values survive intact (rounded-[10px]) and
+                    // unrelated classes are left alone (not-rounded).
+                    $classes[$key] = implode(' ', array_filter(
+                        preg_split('/\s+/', trim($value), -1, PREG_SPLIT_NO_EMPTY) ?: [],
+                        fn (string $token): bool => preg_match('/^(?:[^\s:]+:)*rounded(?:-\S+)?$/', $token) !== 1,
+                    ));
                 }
             }
         }

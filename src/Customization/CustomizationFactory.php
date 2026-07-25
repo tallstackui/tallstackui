@@ -98,7 +98,11 @@ class CustomizationFactory implements Arrayable
             $this->blocks = array_keys($this->original);
         }
 
-        $this->changes = $this->original;
+        // Resuming from what earlier chains already compiled, so that two
+        // customizations of the same block stack instead of the second one
+        // silently discarding the first. This is also what lets a predefined
+        // scope be extended: the factory is the same instance either way.
+        $this->changes = array_merge($this->original, $this->compiled());
 
         // If the $code was not set, then we
         // are interacting with the shortcuts.
@@ -121,6 +125,10 @@ class CustomizationFactory implements Arrayable
 
     public function get(string $block): ?string
     {
+        if ($this->scope !== null) {
+            return data_get($this->parts, $this->scope.'.'.$block);
+        }
+
         return $this->parts[$block] ?? null;
     }
 
@@ -179,6 +187,17 @@ class CustomizationFactory implements Arrayable
     {
         $block ??= $this->block;
 
+        if ($block === null) {
+            throw new RuntimeException('No block has been set. Call block() before append(), prepend(), replace() or remove().');
+        }
+
+        // Writing the code into the working copy instead of straight into the
+        // output, so that a shortcut chained after block($name, $code) builds
+        // on top of the code rather than on the untouched original.
+        if ($content !== null) {
+            $this->changes[$block] = $content;
+        }
+
         foreach (($this->interactions['replace'] ?? []) as $old => $new) {
             $this->changes[$block] = str_replace($old, $new, (string) ($this->changes[$block] ?? ''));
         }
@@ -192,18 +211,30 @@ class CustomizationFactory implements Arrayable
         }
 
         foreach (($this->interactions['remove'] ?? []) as $class) {
-            $this->changes[$block] = str_replace($class, '', (string) ($this->changes[$block] ?? ''));
+            $this->changes[$block] = $this->except((string) ($this->changes[$block] ?? ''), $class);
         }
 
-        $content = fn () => trim($content ?? preg_replace('/\s+/', ' ', trim($this->changes[$block] ?? '')));
+        $compiled = trim((string) preg_replace('/\s+/', ' ', trim((string) ($this->changes[$block] ?? ''))));
 
-        if ($this->scope) {
-            data_set($this->parts, $this->scope.'.'.$block, $content());
+        if ($this->scope !== null) {
+            data_set($this->parts, $this->scope.'.'.$block, $compiled);
         } else {
-            $this->parts[$block] = $content();
+            $this->parts[$block] = $compiled;
         }
 
         $this->interactions = [];
+    }
+
+    /**
+     * Blocks already compiled by earlier chains, flattened back to dot notation.
+     */
+    private function compiled(): array
+    {
+        $parts = $this->scope !== null
+            ? Arr::dot(data_get($this->parts, $this->scope, []))
+            : $this->parts;
+
+        return array_filter($parts, 'is_string');
     }
 
     /**
@@ -212,15 +243,28 @@ class CustomizationFactory implements Arrayable
     private function composer(string $block, string|callable|null $code = null): void
     {
         if (! in_array($block, $this->blocks)) {
-            $view = app($this->component)->blade()->name();
-
-            $component = str_contains((string) $view, DIRECTORY_SEPARATOR)
-                ? basename(dirname((string) $view))
-                : str_replace('ts-ui::components.', '', (string) $view);
+            // Naming the component after its customization key, which is what
+            // customize() accepts. The Blade view name would say "badge.main",
+            // and feeding that back turns "main" into a scope instead.
+            $component = str_replace('ts-ui::customization.', '', __ts_search_component($this->component));
 
             throw new InvalidArgumentException("Component [$component] does not have the block [$block] to be customized. Allowed: ".implode(', ', $this->blocks));
         }
 
+        $this->block = $block;
+
         $this->compile($block, is_callable($code) ? $code([]) : $code);
+    }
+
+    /**
+     * Drop whole classes from the block, matching by token rather than
+     * by substring so that removing "border" leaves "border-gray-300" alone.
+     */
+    private function except(string $classes, string $class): string
+    {
+        $remove = preg_split('/\s+/', trim($class), -1, PREG_SPLIT_NO_EMPTY) ?: [];
+        $tokens = preg_split('/\s+/', trim($classes), -1, PREG_SPLIT_NO_EMPTY) ?: [];
+
+        return implode(' ', array_filter($tokens, fn (string $token): bool => ! in_array($token, $remove, true)));
     }
 }

@@ -2,11 +2,14 @@
 
 namespace TallStackUi\Customization;
 
+use InvalidArgumentException;
+use ReflectionMethod;
 use RuntimeException;
 use TallStackUi\Components\Accordion\Items\Component as AccordionItems;
 use TallStackUi\Components\Accordion\Main\Component as Accordion;
 use TallStackUi\Components\Alert\Component as Alert;
 use TallStackUi\Components\Avatar\Component as Avatar;
+use TallStackUi\Components\Avatar\Group\Component as AvatarGroup;
 use TallStackUi\Components\BackToTop\Component as BackToTop;
 use TallStackUi\Components\Badge\Component as Badge;
 use TallStackUi\Components\Banner\Component as Banner;
@@ -86,6 +89,11 @@ use TallStackUi\Components\Wrapper\Radio\Component as RadioWrapper;
  */
 class Customization
 {
+    /**
+     * Whether the next component call should reuse an already defined scope.
+     */
+    private bool $extending = false;
+
     public function __construct(public ?string $component = null, public ?string $scope = null)
     {
         //
@@ -113,11 +121,19 @@ class Customization
         return $this->component(Alert::class);
     }
 
-    public function avatar(?string $scope = null): CustomizationFactory
+    public function avatar(?string $component = null, ?string $scope = null): CustomizationFactory
     {
         $this->scope ??= $scope;
 
-        return $this->component(Avatar::class);
+        $component ??= 'avatar';
+
+        $class = match ($component) {
+            'avatar' => Avatar::class,
+            'group' => AvatarGroup::class,
+            default => $component,
+        };
+
+        return $this->component($class);
     }
 
     public function backToTop(?string $scope = null): CustomizationFactory
@@ -266,6 +282,18 @@ class Customization
         return $this->component(Errors::class);
     }
 
+    /**
+     * Reuse a scope that has already been defined, so that its blocks
+     * can be changed instead of being redefined from the original classes.
+     */
+    public function extend(string $scope): self
+    {
+        $this->scope = $scope;
+        $this->extending = true;
+
+        return $this;
+    }
+
     public function floating(?string $scope = null): CustomizationFactory
     {
         $this->scope ??= $scope;
@@ -337,7 +365,14 @@ class Customization
             throw new RuntimeException("The method [{$main}] is not supported");
         }
 
-        return call_user_func([$this, $main], $main === $secondary ?: $secondary);
+        // Only the methods that expose a $component parameter accept a
+        // sub-component. Without this guard the extra segment would land
+        // on $scope and quietly create a scope nobody asked for.
+        if ($secondary !== null && (new ReflectionMethod($this, $main))->getParameters()[0]->getName() !== 'component') {
+            throw new RuntimeException("The component [{$main}] does not have the sub-component [{$secondary}]");
+        }
+
+        return call_user_func([$this, $main], $secondary);
     }
 
     public function globals(): Globals
@@ -588,9 +623,23 @@ class Customization
         if (($scope = $this->scope) !== null) {
             $this->scope = null; // Resetting the scope to avoid infinite recursion.
 
+            $key = __ts_scope_container_key($component, $scope);
+
+            if ($this->extending) {
+                $this->extending = false;
+
+                if (! app()->bound($key)) {
+                    $name = str_replace('ts-ui::customization.', '', $component);
+
+                    throw new InvalidArgumentException("The scope [$scope] was not defined for the component [$name] and therefore cannot be extended.");
+                }
+
+                return app($key);
+            }
+
             $instance = new CustomizationFactory($class, scope: $scope);
 
-            app()->singleton(__ts_scope_container_key($component, $scope), fn () => $instance);
+            app()->singleton($key, fn () => $instance);
 
             return $instance;
         }

@@ -7,6 +7,7 @@ use TallStackUi\Components\Dialog\Component as Dialog;
 use TallStackUi\Components\Floating\Component as Floating;
 use TallStackUi\Components\Modal\Component as Modal;
 use TallStackUi\Components\Slide\Component as Slide;
+use TallStackUi\Components\Toast\Component;
 use TallStackUi\Components\Toast\Component as Toast;
 use TallStackUi\Customization\Globals;
 use TallStackUi\Facades\TallStackUi;
@@ -418,4 +419,33 @@ it('does not apply colorful to dialog when only toast is enabled', function () {
         ->render()
         ->toContain('text-green-600')
         ->not->toContain('bg-green-500');
+});
+
+it('can keep arbitrary radius values intact when square strips them', function () {
+    TallStackUi::customize()
+        ->card()
+        ->block('wrapper.first', 'rounded-[10px] rounded-tl-[2px] not-rounded dark:rounded-lg p-4');
+
+    TallStackUi::customize()->globals()->square();
+
+    expect('<x-card>Foo</x-card>')->render()
+        ->not->toContain('rounded-[10px]')
+        ->not->toContain('rounded-tl-[2px]')
+        ->not->toContain('dark:rounded-lg')
+        ->not->toContain('-[2px]')
+        ->not->toContain('-[10px]')
+        ->toContain('not-rounded');
+});
+
+it('cannot stack duplicated entries when colorful is called twice', function () {
+    TallStackUi::customize()->globals()->colorful();
+    TallStackUi::customize()->globals()->colorful();
+
+    expect(__ts_global('colorful', Component::class))->toBeTrue()
+        ->and(__ts_global('colorful', Dialog::class))->toBeTrue();
+
+    TallStackUi::customize()->globals()->colorful(toast: false);
+
+    expect(__ts_global('colorful', Component::class))->toBeFalse()
+        ->and(__ts_global('colorful', Dialog::class))->toBeTrue();
 });

@@ -125,6 +125,13 @@ TallStackUi::customize()
 // Scoped customization
 TallStackUi::customize('alert', scope: 'hero')->block('wrapper', 'your-tailwind-classes');
 // Then: <x-alert scope="hero" />
+
+// Extending a scope that already exists, including the ones the package ships
+TallStackUi::customize()
+    ->extend(scope: 'card-shadowless')
+    ->card()
+    ->block('wrapper.second')
+    ->append('ring-1 ring-gray-100');
 ```
 
 ### Customization Methods
@@ -132,8 +139,13 @@ TallStackUi::customize('alert', scope: 'hero')->block('wrapper', 'your-tailwind-
 - `block(name, classes)` - Set classes for a block
 - `append(classes)` - Add classes to end
 - `prepend(classes)` - Add classes to beginning
-- `replace(from, to)` - Replace class patterns
-- `remove(class)` - Remove classes
+- `replace(from, to)` - Replace a substring, so `replace('gray-', 'zinc-')` swaps a palette
+- `remove(class)` - Remove whole classes, matched by token; accepts a list or a space-separated string
+- `scope(name)` - Define a scope, replacing it if the name is already taken
+- `extend(scope: name)` - Reuse a scope already defined for that component; throws when it does not exist
+
+Customizations of the same block stack: two chains, or two service providers,
+each add on top of what the other did rather than overwriting it.
 
 ## Global JavaScript API
 

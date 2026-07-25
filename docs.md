@@ -12,6 +12,189 @@ such change is listed under **Migration**.
 
 ---
 
+## Soft Customization
+
+### Added — `extend()` to change a scope that is already defined
+
+Scopes could only be created, never touched. That made the scopes the package
+ships in `registerPredefinedScopes()` — `card-shadowless`, `stats-shadowless`,
+`calendar-shadowless`, `tab-shadowless`, `table-shadowless` — read only from an
+application's point of view. Calling `scope()` with the same name did not extend
+the existing one, it started over from the component's original classes.
+
+`extend()` reuses the scope instead of redefining it:
+
+```php
+TallStackUi::customize()
+    ->extend(scope: 'card-shadowless')
+    ->card()
+    ->block('wrapper.second')
+    ->append('ring-1 ring-gray-100');
+```
+
+The block keeps everything the original definition did to it — the removed
+`shadow-md` stays removed, the appended border stays — and the new classes go on
+top.
+
+The scope has to exist for the component being customized. Scopes are stored per
+component, so `extend(scope: 'card-shadowless')->stats()` throws: that name was
+never defined for Stats.
+
+```
+InvalidArgumentException: The scope [card-shadowless] was not defined
+for the component [stats] and therefore cannot be extended.
+```
+
+Requiring the scope to exist is the point of having a separate verb. `scope()`
+creates and silently accepts a typo; `extend()` refuses one.
+
+Order matters: the package's own scopes are registered in the service provider's
+`boot()`, which runs before the application's providers under Laravel's default
+discovery. Applications that disable discovery for TallStackUI have to make sure
+their provider boots afterwards.
+
+### Fixed — customizing the same block twice kept only the last change
+
+Two chains touching one block did not stack. The second silently discarded the
+first:
+
+```php
+TallStackUi::customize('alert')->block('wrapper')->append('from-a');
+TallStackUi::customize('alert')->block('wrapper')->append('from-b');
+// 3.x: 'p-4 from-b'   — from-a lost
+// 4.x: 'p-4 from-a from-b'
+```
+
+Inside a single chain it already stacked, which is what made the behaviour hard
+to spot: `->append('one')->append('two')` produced both. The inconsistency came
+from `block()` reseeding its working copy from the component's original classes
+on every call, discarding whatever earlier chains had compiled.
+
+It now resumes from the compiled state, so a package and an application can each
+customize the same block without one erasing the other. This is also what makes
+`extend()` work.
+
+**Migration.** Anything relying on the last chain winning has to be collapsed
+into one chain, or the earlier customization removed. The practical case to watch
+is a customization that runs more than once in the same process — it now
+accumulates rather than settling on a fixed result.
+
+### Fixed — `remove()` matched substrings instead of classes
+
+`remove()` ran a plain `str_replace`, so removing a class also chewed through
+every longer class that contained its name:
+
+```php
+// block: 'mb-2 rounded-md border border-gray-300 dark:border-dark-700'
+->remove('border')
+// 3.x: 'mb-2 rounded-md -gray-300 dark:-dark-700'
+// 4.x: 'mb-2 rounded-md border-gray-300 dark:border-dark-700'
+```
+
+Removal now works on whitespace-separated tokens and drops only whole classes.
+Passing several at once still works, either as a list or as one string:
+
+```php
+->remove(['shadow-md', 'rounded-lg'])
+->remove('shadow-md rounded-lg')
+```
+
+`replace()` deliberately stays a substring operation — swapping a palette with
+`->replace('gray-', 'zinc-')` depends on it. Which means `replace('rounded',
+'rounded-full')` still turns `rounded-md` into `rounded-full-md`; target the full
+class name when that is not what you want.
+
+### Fixed — a shortcut chained after `block($name, $code)` was dropped
+
+Providing the code inline and then reaching for a shortcut wrote the shortcut's
+result to an empty key, and nothing reached the component:
+
+```php
+TallStackUi::customize('alert')->block('wrapper', 'p-8')->append('foo-bar');
+// 3.x: 'p-8'          — the append vanished
+// 4.x: 'p-8 foo-bar'
+```
+
+Calling a shortcut before any block now throws instead of writing nowhere:
+
+```
+RuntimeException: No block has been set. Call block() before
+append(), prepend(), replace() or remove().
+```
+
+### Fixed — `<x-avatar.group>` could not be customized
+
+`avatar.group` is a registered customization key with blocks of its own, but
+`Customization::avatar()` took no sub-component. `customize('avatar.group')`
+resolved to the plain Avatar and quietly treated `group` as a **scope name**, so
+the customization compiled against the wrong component and never applied.
+
+`avatar()` now accepts a sub-component, matching `accordion()`, `button()`,
+`dial()`, `dropdown()`, `timeline()` and `wrapper()`:
+
+```php
+TallStackUi::customize()->avatar('group')->block('wrapper', '...');
+TallStackUi::customize('avatar.group')->block('wrapper', '...');
+```
+
+All 78 registered customization keys now resolve to the component that declared
+them.
+
+### Fixed — an unknown sub-component became a scope instead of an error
+
+Any dotted name whose second segment was not a real sub-component fell through to
+the `$scope` parameter. `customize('badge.main')` built a scope called `main`
+that no component ever reads, and reported nothing.
+
+The segment is now rejected when the target does not accept one:
+
+```
+RuntimeException: The component [badge] does not have the sub-component [main]
+```
+
+This also fixes `customize('accordion.accordion')`, which used to fail with the
+nonsensical `Component [1] is not allowed to be customized`.
+
+### Fixed — the unknown-block error named a component you cannot pass back
+
+The message derived the component from its Blade view name, so it said
+`badge.main`. Feeding that back into `customize()` hit the bug above. It now
+reports the customization key:
+
+```
+Component [badge] does not have the block [nope] to be customized. Allowed: ...
+```
+
+### Fixed — `get()` returned null for scoped customizations
+
+Scoped blocks are stored nested under the scope name, and `get()` only looked at
+the flat top level. It is now scope-aware.
+
+### Fixed — the `square` global mangled arbitrary values and unrelated classes
+
+The global strips border-radius utilities with a regular expression that had no
+token boundaries, so it ate parts of classes it should not have touched and left
+fragments behind:
+
+| Class              | 3.x       | 4.x            |
+|--------------------|-----------|----------------|
+| `rounded-[10px]`   | `-[10px]` | removed        |
+| `rounded-tl-[2px]` | `-[2px]`  | removed        |
+| `not-rounded`      | `not-`    | `not-rounded`  |
+| `unrounded-md`     | `un`      | `unrounded-md` |
+
+It now matches whole tokens, so arbitrary values are removed cleanly and classes
+that merely contain `rounded` are left alone.
+
+### Changed — `colorful()` assigns instead of appending
+
+`colorful()` pushed onto its list where `flash()` and `square()` assign, so
+calling it twice registered duplicate entries and narrowing it never took effect:
+`colorful()` followed by `colorful(toast: false)` still left Toast enabled. It now
+replaces the list, matching the other two globals.
+
+---
+
 ## Step
 
 ### Fixed — the horizontal scrollbar of the `panels` variation squared off the rounded corners

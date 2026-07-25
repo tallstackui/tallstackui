@@ -1,6 +1,7 @@
 <?php
 
 use TallStackUi\Components\Alert\Component as Alert;
+use TallStackUi\Components\Avatar\Group\Component;
 use TallStackUi\Customization\Customization;
 use TallStackUi\Customization\CustomizationFactory;
 use TallStackUi\Facades\TallStackUi;
@@ -716,4 +717,130 @@ it('cannot duplicated append or prepend customization', function () {
         ->toBe(1)
         ->and(str($view)->substrCount('bar-baz-foo'))
         ->toBe(1);
+});
+
+it('can stack customizations of the same block across separate chains', function () {
+    TallStackUi::customize('alert')
+        ->block('wrapper')
+        ->append('from-a');
+
+    TallStackUi::customize('alert')
+        ->block('wrapper')
+        ->append('from-b');
+
+    expect(app('ts-ui::customization.alert')->get('wrapper'))
+        ->toContain('from-a')
+        ->toContain('from-b');
+});
+
+it('can remove a class without touching the ones that contain it', function () {
+    TallStackUi::customize('step')
+        ->block('panels-shape')
+        ->remove('border');
+
+    expect(app('ts-ui::customization.step')->get('panels-shape'))
+        ->not->toContain(' border ')
+        ->toContain('border-gray-300')
+        ->toContain('dark:border-dark-700');
+});
+
+it('can remove more than one class from a single string', function () {
+    TallStackUi::customize('step')
+        ->block('panels-shape')
+        ->remove('rounded-md border');
+
+    expect(app('ts-ui::customization.step')->get('panels-shape'))
+        ->not->toContain('rounded-md')
+        ->toContain('border-gray-300');
+});
+
+it('can chain a shortcut after replacing the whole block', function () {
+    TallStackUi::customize('alert')
+        ->block('wrapper', 'p-8')
+        ->append('foo-bar');
+
+    expect(app('ts-ui::customization.alert')->get('wrapper'))
+        ->toBe('p-8 foo-bar');
+});
+
+it('cannot use a shortcut before choosing a block', function () {
+    $this->expectException(RuntimeException::class);
+    $this->expectExceptionMessage('No block has been set.');
+
+    app('ts-ui::customization.alert')->append('foo-bar');
+});
+
+it('can read a block of a scoped customization', function () {
+    TallStackUi::customize('alert', scope: 'foo')
+        ->block('wrapper')
+        ->append('bar-baz');
+
+    $key = __ts_scope_container_key('ts-ui::customization.alert', 'foo');
+
+    expect(app($key)->get('wrapper'))->toContain('bar-baz');
+});
+
+it('can extend a scope that has already been defined', function () {
+    TallStackUi::customize()
+        ->scope('shadowless')
+        ->card()
+        ->block('wrapper.second')
+        ->remove('shadow-md')
+        ->append('border border-gray-200');
+
+    TallStackUi::customize()
+        ->extend(scope: 'shadowless')
+        ->card()
+        ->block('wrapper.second')
+        ->append('foo-bar');
+
+    $key = __ts_scope_container_key('ts-ui::customization.card', 'shadowless');
+
+    expect(app($key)->get('wrapper.second'))
+        ->not->toContain('shadow-md')
+        ->toContain('border border-gray-200')
+        ->toContain('foo-bar');
+});
+
+it('can extend one of the predefined scopes', function () {
+    TallStackUi::customize()
+        ->extend(scope: 'card-shadowless')
+        ->card()
+        ->block('wrapper.second')
+        ->append('foo-bar');
+
+    expect('<x-card scope="card-shadowless">Foo</x-card>')->render()
+        ->toContain('foo-bar')
+        ->toContain('border border-gray-200')
+        ->not->toContain('shadow-md');
+});
+
+it('cannot extend a scope that was never defined', function () {
+    $this->expectException(InvalidArgumentException::class);
+    $this->expectExceptionMessage('The scope [nope] was not defined for the component [card] and therefore cannot be extended.');
+
+    TallStackUi::customize()
+        ->extend(scope: 'nope')
+        ->card()
+        ->block('wrapper.second')
+        ->append('foo-bar');
+});
+
+it('can customize the avatar group through its own key', function () {
+    expect(TallStackUi::customize('avatar.group')->forward()->component)
+        ->toBe(Component::class);
+});
+
+it('cannot pass a sub-component to a component that has none', function () {
+    $this->expectException(RuntimeException::class);
+    $this->expectExceptionMessage('The component [badge] does not have the sub-component [main]');
+
+    TallStackUi::customize('badge.main')->forward();
+});
+
+it('names the component by its customization key when the block is unknown', function () {
+    $this->expectException(InvalidArgumentException::class);
+    $this->expectExceptionMessage('Component [badge] does not have the block [nope]');
+
+    TallStackUi::customize('badge')->block('nope', 'foo');
 });
