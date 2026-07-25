@@ -118,8 +118,9 @@ it('can render with grouped options', function () {
 
     expect($html)
         ->toContain('Cities')
-        ->toContain('option.value')
-        ->toContain('option[selectable.label]');
+        ->toContain('option[selectable.value]')
+        ->toContain('option[selectable.label]')
+        ->not->toContain('option.value');
 });
 
 it('can thrown exception when lazy is less than 10', function () {

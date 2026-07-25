@@ -955,10 +955,10 @@ class SelectStyledCommonBrowserTest extends BrowserTestCase
             ->assertSee('United States')
             ->assertSee('São Paulo')
             ->assertSee('New York')
-            ->clickAtXPath('//li[contains(., "São Paulo")]')
+            ->clickAtXPath('//li[not(.//li)][contains(., "São Paulo")]')
             ->click('@sync')
             ->waitForTextIn('@city', '4')
-            ->assertSeeIn('@tallstackui_select_open_close', 'São Paulo');
+            ->assertSeeIn('@tallstackui_select_open_close', 'Brazil > São Paulo');
     }
 
     #[Test]
@@ -1338,6 +1338,287 @@ class SelectStyledCommonBrowserTest extends BrowserTestCase
             ->clickAtXPath('//ul[@dusk="tallstackui_select_options"]/li[1]')
             ->waitForTextIn('@string', 'foo')
             ->assertDontSee('Select an option');
+    }
+
+    #[Test]
+    public function grouped_can_mix_groups_and_loose_options(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?int $city = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="city">{{ $city }}</p>
+
+                    <x-select.styled wire:model="city"
+                                     label="City"
+                                     :options="[
+                                        [
+                                            'label' => 'Brazil',
+                                            'value' => [
+                                                ['label' => 'São Paulo', 'value' => 4],
+                                            ]
+                                        ],
+                                        ['label' => 'Uncategorized', 'value' => 99],
+                                     ]"
+                                     select="label:label|value:value"
+                    />
+
+                    <x-button dusk="sync" wire:click="sync">Sync</x-button>
+                </div>
+                HTML;
+            }
+
+            public function sync(): void
+            {
+                // ...
+            }
+        })
+            ->click('@tallstackui_select_open_close')
+            ->waitForText(['Brazil', 'São Paulo', 'Uncategorized'])
+            ->assertSee('São Paulo')
+            ->assertSee('Uncategorized')
+            ->clickAtXPath('//li[not(.//li)][contains(., "Uncategorized")]')
+            ->click('@sync')
+            ->waitForTextIn('@city', '99')
+            ->assertSeeIn('@tallstackui_select_open_close', 'Uncategorized');
+    }
+
+    #[Test]
+    public function grouped_children_render_their_image_without_needing_a_description(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?int $city = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-select.styled wire:model="city"
+                                     label="City"
+                                     :options="[
+                                        [
+                                            'label' => 'Brazil',
+                                            'value' => [
+                                                ['label' => 'São Paulo', 'value' => 4, 'image' => 'https://example.com/sp.png'],
+                                            ]
+                                        ],
+                                     ]"
+                                     select="label:label|value:value"
+                    />
+                </div>
+                HTML;
+            }
+        })
+            ->click('@tallstackui_select_open_close')
+            ->waitForText('São Paulo')
+            ->assertVisible('img[src="https://example.com/sp.png"]');
+    }
+
+    #[Test]
+    public function grouped_children_resolve_through_a_custom_value_key(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?int $city = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="city">{{ $city }}</p>
+
+                    <x-select.styled wire:model="city"
+                                     label="City"
+                                     :options="[
+                                        ['name' => 'Brazil', 'id' => [['name' => 'São Paulo', 'id' => 4]]],
+                                        ['name' => 'United States', 'id' => [['name' => 'New York', 'id' => 7]]],
+                                     ]"
+                                     select="label:name|value:id"
+                    />
+
+                    <x-button dusk="sync" wire:click="sync">Sync</x-button>
+                </div>
+                HTML;
+            }
+
+            public function sync(): void
+            {
+                // ...
+            }
+        })
+            ->click('@tallstackui_select_open_close')
+            ->waitForText(['Brazil', 'São Paulo', 'United States', 'New York'])
+            ->assertSee('São Paulo')
+            ->assertSee('New York')
+            ->clickAtXPath('//li[not(.//li)][contains(., "São Paulo")]')
+            ->click('@sync')
+            ->waitForTextIn('@city', '4')
+            ->assertSeeIn('@tallstackui_select_open_close', 'Brazil > São Paulo');
+    }
+
+    #[Test]
+    public function grouped_hydration_shows_the_qualified_label(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?int $city = 5;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-select.styled wire:model="city"
+                                     label="City"
+                                     :options="[
+                                        [
+                                            'label' => 'Brazil',
+                                            'value' => [
+                                                ['label' => 'São Paulo', 'value' => 4],
+                                                ['label' => 'Rio de Janeiro', 'value' => 5],
+                                            ]
+                                        ],
+                                        [
+                                            'label' => 'United States',
+                                            'value' => [
+                                                ['label' => 'New York', 'value' => 7],
+                                            ]
+                                        ],
+                                     ]"
+                                     select="label:label|value:value"
+                    />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForTextIn('@tallstackui_select_open_close', 'Brazil > Rio de Janeiro')
+            ->assertSeeIn('@tallstackui_select_open_close', 'Brazil > Rio de Janeiro');
+    }
+
+    #[Test]
+    public function grouped_multiple_keeps_the_panel_open_until_every_item_is_taken(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public array $cities = [];
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-select.styled wire:model="cities"
+                                     label="Cities"
+                                     multiple
+                                     :options="[
+                                        [
+                                            'label' => 'Brazil',
+                                            'value' => [
+                                                ['label' => 'São Paulo', 'value' => 4],
+                                                ['label' => 'Rio de Janeiro', 'value' => 5],
+                                            ]
+                                        ],
+                                        [
+                                            'label' => 'United States',
+                                            'value' => [
+                                                ['label' => 'New York', 'value' => 7],
+                                                ['label' => 'Los Angeles', 'value' => 8],
+                                            ]
+                                        ],
+                                     ]"
+                                     select="label:label|value:value"
+                    />
+                </div>
+                HTML;
+            }
+        })
+            ->click('@tallstackui_select_open_close')
+            ->waitForText(['São Paulo', 'Rio de Janeiro', 'New York', 'Los Angeles'])
+            ->clickAtXPath('//li[not(.//li)][contains(., "São Paulo")]')
+            ->assertVisible('@tallstackui_select_options')
+            ->clickAtXPath('//li[not(.//li)][contains(., "Rio de Janeiro")]')
+            ->assertVisible('@tallstackui_select_options')
+            ->clickAtXPath('//li[not(.//li)][contains(., "New York")]')
+            ->assertVisible('@tallstackui_select_options')
+            ->clickAtXPath('//li[not(.//li)][contains(., "Los Angeles")]')
+            ->waitUntilMissing('@tallstackui_select_options')
+            ->assertMissing('@tallstackui_select_options');
+    }
+
+    #[Test]
+    public function grouped_multiple_selection_qualifies_every_chip(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public array $cities = [];
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-select.styled wire:model="cities"
+                                     label="Cities"
+                                     multiple
+                                     :options="[
+                                        [
+                                            'label' => 'Brazil',
+                                            'value' => [
+                                                ['label' => 'São Paulo', 'value' => 4],
+                                            ]
+                                        ],
+                                        [
+                                            'label' => 'United States',
+                                            'value' => [
+                                                ['label' => 'New York', 'value' => 7],
+                                            ]
+                                        ],
+                                     ]"
+                                     select="label:label|value:value"
+                    />
+                </div>
+                HTML;
+            }
+        })
+            ->click('@tallstackui_select_open_close')
+            ->waitForText(['São Paulo', 'New York'])
+            ->clickAtXPath('//li[not(.//li)][contains(., "São Paulo")]')
+            ->clickAtXPath('//li[not(.//li)][contains(., "New York")]')
+            ->waitForTextIn('@tallstackui_select_open_close', 'Brazil > São Paulo')
+            ->assertSeeIn('@tallstackui_select_open_close', 'Brazil > São Paulo')
+            ->assertSeeIn('@tallstackui_select_open_close', 'United States > New York');
+    }
+
+    #[Test]
+    public function non_grouped_selection_is_never_qualified(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?int $city = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-select.styled wire:model="city"
+                                     label="City"
+                                     :options="[
+                                        ['label' => 'São Paulo', 'value' => 4],
+                                        ['label' => 'New York', 'value' => 7],
+                                     ]"
+                                     select="label:label|value:value"
+                    />
+                </div>
+                HTML;
+            }
+        })
+            ->click('@tallstackui_select_open_close')
+            ->waitForText(['São Paulo', 'New York'])
+            ->clickAtXPath('//li[not(.//li)][contains(., "São Paulo")]')
+            ->waitForTextIn('@tallstackui_select_open_close', 'São Paulo')
+            ->assertDontSeeIn('@tallstackui_select_open_close', '>');
     }
 
     #[Test]

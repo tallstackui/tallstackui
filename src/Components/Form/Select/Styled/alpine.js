@@ -254,7 +254,7 @@ export default (
    * @param {Array} options
    * @returns {void}
    */
-  preNormalize(options) {
+  preNormalize(options, group = null) {
     if (!options || !Array.isArray(options)) return;
 
     for (let i = 0; i < options.length; i++) {
@@ -277,13 +277,34 @@ export default (
           option.__normalizedDesc = this.normalize(desc.toString().toLowerCase());
         }
 
+        if (group !== null) {
+          option.__tsui_group = group;
+        }
+
         const value = option[this.selectable.value];
 
         if (Array.isArray(value)) {
-          this.preNormalize(value);
+          this.preNormalize(value, label != null ? label.toString() : null);
         }
       }
     }
+  },
+  /**
+   * Resolve the text shown for an option once it is selected. Options
+   * coming from a grouped list are qualified with their group label so
+   * the selection stays unambiguous outside the open dropdown.
+   *
+   * @param option {Object|String|Number}
+   * @returns {String}
+   */
+  display(option) {
+    if (option === null || option === undefined) return '';
+
+    if (!this.dimensional || typeof option !== 'object') return String(option);
+
+    const label = option[this.selectable.label] ?? '';
+
+    return option.__tsui_group ? `${option.__tsui_group} > ${label}` : String(label);
   },
   /**
    * Select the `option`.
@@ -315,11 +336,14 @@ export default (
       this.selects = [option];
 
       this.model = this.dimensional ? option[this.selectable.value] : option;
-      this.placeholder = this.dimensional ? option[this.selectable.label] || '' : String(option);
+      this.placeholder = this.display(option) || '';
       this.image = option[this.selectable.image] ?? null;
     }
 
-    this.show = this.multiple && this.quantity !== this.available?.length;
+    // Grouped options make `available` a list of groups, so the count has to
+    // come from the flattened items or the panel closes after as many picks
+    // as there are groups instead of when every option is taken.
+    this.show = this.multiple && this.quantity !== this._flatItems(this.available)?.length;
 
     this.search = '';
 
@@ -551,7 +575,7 @@ export default (
       }
 
       if (!this.multiple && this.selects.length > 0) {
-        this.placeholder = this.selects[0]?.[this.selectable.label] ?? placeholder;
+        this.placeholder = this.display(this.selects[0]) || placeholder;
         this.image = this.selects[0]?.[this.selectable.image] ?? null;
       }
 
@@ -589,9 +613,7 @@ export default (
 
     if (selected) {
       this.selects = [selected];
-      this.placeholder = this.dimensional
-        ? (selected[this.selectable.label] ?? placeholder)
-        : String(selected);
+      this.placeholder = this.display(selected) || placeholder;
       this.image = selected[this.selectable.image] ?? null;
     } else {
       this.selects = [];
@@ -609,18 +631,22 @@ export default (
   _flatItems(items) {
     if (!items || items.length === 0 || !this.dimensional) return items;
 
-    const first = items[0];
-
-    if (!first || !Array.isArray(first[this.selectable.value])) return items;
+    // A list is grouped as soon as *any* option nests a list. Probing only the
+    // first entry hides the children of a group that follows a loose option.
+    if (!items.some((item) => item && Array.isArray(item[this.selectable.value]))) return items;
 
     const flat = [];
 
     for (const group of items) {
-      const children = group[this.selectable.value];
+      const children = group?.[this.selectable.value];
 
       if (Array.isArray(children)) {
         for (const child of children) flat.push(child);
+
+        continue;
       }
+
+      if (group) flat.push(group);
     }
 
     return flat;
@@ -877,17 +903,20 @@ export default (
     if (this.common) {
       const grouped =
         this.dimensional &&
-        available.length > 0 &&
-        available[0] &&
-        Array.isArray(available[0][this.selectable.value]);
+        available.some((option) => option && Array.isArray(option[this.selectable.value]));
 
       if (grouped) {
         const result = [];
 
         for (const group of available) {
-          const children = group[this.selectable.value];
+          const children = group?.[this.selectable.value];
 
-          if (!Array.isArray(children)) continue;
+          // Loose options living alongside groups are matched on their own.
+          if (!Array.isArray(children)) {
+            if (filter(group)) result.push(group);
+
+            continue;
+          }
 
           const filtered = children.filter(filter);
 

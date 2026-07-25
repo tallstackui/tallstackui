@@ -52,7 +52,21 @@ A feature-rich styled select component built with Alpine.js, supporting single a
 
 ## Grouped Options
 
-Options can be organized into groups. When an option's `value` is an array of sub-options, the component automatically detects grouped mode (the `grouped` attribute is auto-set).
+Options can be organized into groups. When **any** option's mapped `value` is an array of sub-options, the component switches to grouped mode (the `grouped` attribute is auto-set; passing it explicitly is also honoured).
+
+Groups and loose options may be mixed in the same list — loose entries render as ordinary selectable rows, without the group indent, the same way `<option>` and `<optgroup>` coexist in a native select.
+
+The mapped `value` key does double duty: on a group it holds the child list, on a child it holds the scalar value. Both levels use the same key.
+
+```php
+// select="label:name|value:id"
+[
+    ['name' => 'Brazil', 'id' => [
+        ['name' => 'São Paulo', 'id' => 4],
+    ]],
+    ['name' => 'Uncategorized', 'id' => 99],
+]
+```
 
 ```blade
 <x-select.styled wire:model="city" label="City"
@@ -79,11 +93,43 @@ Options can be organized into groups. When an option's `value` is an array of su
 
 Key behaviors:
 - Group headers display label, optional description, and optional image
-- Only nested items within groups are selectable (group headers are display-only)
+- Group headers are display-only; selectable rows are the nested items plus any loose options mixed into the list
 - Pre-selected values (via `wire:model`) are correctly resolved from nested items
-- Search filters items within groups and hides groups with no matching items
+- Search filters items within groups, hides groups with no matching items, and matches loose options on their own
+- An item's image and description are independent: a row with an image and no description still shows the image
 - Works with both single and multiple selection modes
 - The same `select` mapping applies to both groups and their nested items
+- Once selected, an item is displayed qualified by its group — see below
+- In multiple mode the panel stays open until every nested item across all groups has been picked
+
+Note for tests and automation: a group renders as an `<li>` containing the item
+`<li>` elements, so an XPath like `//li[contains(., "São Paulo")]` matches the
+group first. Target the leaf with `//li[not(.//li)][contains(., "São Paulo")]`.
+
+### Group-qualified selection label
+
+Inside the open dropdown an item sits visually under its group header, so its own
+label is enough. Once the dropdown closes that context is gone, and `São Paulo`
+alone does not say which country it belongs to — a problem as soon as two groups
+share an item name.
+
+Selected items are therefore rendered as `group > item`:
+
+```
+single:   [ Brazil > São Paulo                          ✕ ⌵ ]
+
+multiple: [ (Brazil > São Paulo ✕) (United States > New York ✕) ]
+```
+
+This applies to the closed single-select label, the chips in multiple mode, and to
+labels restored on page load from `wire:model`. It is the default for every grouped
+select — there is no attribute to turn it off, and the separator is fixed as ` > `.
+
+Only the **display** changes. `wire:model` still receives the item's raw `value`
+(`4`), never the qualified string, and the rows inside the open dropdown keep
+showing their plain label under the group header.
+
+Non-grouped selects are unaffected.
 
 ## Validation Constraints
 
@@ -219,53 +265,53 @@ TallStackUi::customize()
 
 ### Available Blocks
 
-| Block Name                           | Purpose                                                        |
-|--------------------------------------|----------------------------------------------------------------|
-| input.wrapper.base                   | Button trigger base styles (cursor, padding, ring, background) |
-| input.wrapper.color                  | Default focus ring and text color                              |
-| input.wrapper.error                  | Error state ring styles                                        |
-| input.wrapper.round.left             | Removes left border radius when used as right-side addon       |
-| input.wrapper.round.right            | Removes right border radius when used as left-side addon       |
-| input.wrapper.borderless             | Removes ring/border when used as a side addon                  |
-| input.content.wrapper.first          | Content area outer wrapper with overflow handling              |
-| input.content.wrapper.second         | Content area inner wrapper for items                           |
-| buttons.wrapper                      | Clear/chevron button container                                 |
-| buttons.size                         | Clear/chevron icon dimensions                                  |
-| buttons.base                         | Clear/chevron icon default color and hover                     |
-| buttons.error                        | Clear/chevron icon error state color                           |
-| floating.default                     | Floating panel wrapper styles                                  |
-| floating.class                       | Floating panel overflow and width                              |
-| floating.side                        | Floating panel min-width when used as side addon               |
-| box.button.class                     | Search clear button positioning                                |
-| box.button.icon                      | Search clear button icon styles                                |
-| box.list.wrapper                     | Options list scrollable container                              |
-| box.list.loading.wrapper             | Loading spinner container                                      |
-| box.list.loading.class               | Loading spinner icon styles                                    |
-| box.list.grouped.wrapper             | Group header wrapper styles                                    |
-| box.list.grouped.options             | Group header flex layout                                       |
-| box.list.grouped.base                | Group header content alignment                                 |
-| box.list.grouped.image               | Group header image styles                                      |
-| box.list.grouped.description.text    | Group header description text                                  |
-| box.list.grouped.description.wrapper | Group header description container                             |
-| box.list.item.wrapper                | Option item base styles (cursor, padding, hover)               |
-| box.list.item.options                | Option item flex layout                                        |
-| box.list.item.grouped                | Grouped option item indented layout                            |
-| box.list.item.base                   | Option item content alignment                                  |
-| box.list.item.selected               | Selected option highlight styles                               |
-| box.list.item.disabled               | Disabled option styles                                         |
-| box.list.item.image                  | Option item image styles                                       |
-| box.list.item.check                  | Checkmark icon for selected items                              |
-| box.list.item.description.text       | Option description text styles                                 |
-| box.list.item.description.wrapper    | Option description container                                   |
-| box.list.empty                       | Empty state text styles                                        |
-| box.searchable.wrapper               | Search input container                                         |
-| items.wrapper                        | Selected items display container                               |
-| items.placeholder.text               | Placeholder text styles                                        |
-| items.placeholder.wrapper            | Placeholder wrapper                                            |
-| items.single                         | Single selected item text styles                               |
-| items.multiple.item                  | Multiple selection tag/chip styles                             |
-| items.multiple.label                 | Multiple selection tag label text                              |
-| items.multiple.label.wrapper         | Multiple selection tag label container                         |
-| items.multiple.icon                  | Multiple selection tag remove icon                             |
-| items.multiple.image                 | Multiple selection tag image                                   |
-| items.image                          | Selected item image in single mode                             |
+| Block Name                           | Purpose                                                                      |
+|--------------------------------------|------------------------------------------------------------------------------|
+| input.wrapper.base                   | Button trigger base styles (cursor, padding, ring, background)               |
+| input.wrapper.color                  | Default focus ring and text color                                            |
+| input.wrapper.error                  | Error state ring styles                                                      |
+| input.wrapper.round.left             | Removes left border radius when used as right-side addon                     |
+| input.wrapper.round.right            | Removes right border radius when used as left-side addon                     |
+| input.wrapper.borderless             | Removes ring/border when used as a side addon                                |
+| input.content.wrapper.first          | Content area outer wrapper with overflow handling                            |
+| input.content.wrapper.second         | Content area inner wrapper for items                                         |
+| buttons.wrapper                      | Clear/chevron button container                                               |
+| buttons.size                         | Clear/chevron icon dimensions                                                |
+| buttons.base                         | Clear/chevron icon default color and hover                                   |
+| buttons.error                        | Clear/chevron icon error state color                                         |
+| floating.default                     | Floating panel wrapper styles                                                |
+| floating.class                       | Floating panel overflow and width                                            |
+| floating.side                        | Floating panel min-width when used as side addon                             |
+| box.button.class                     | Search clear button positioning                                              |
+| box.button.icon                      | Search clear button icon styles                                              |
+| box.list.wrapper                     | Options list scrollable container                                            |
+| box.list.loading.wrapper             | Loading spinner container                                                    |
+| box.list.loading.class               | Loading spinner icon styles                                                  |
+| box.list.grouped.wrapper             | Group header wrapper styles                                                  |
+| box.list.grouped.options             | Group header flex layout                                                     |
+| box.list.grouped.base                | Group header content alignment                                               |
+| box.list.grouped.image               | Group header image styles                                                    |
+| box.list.grouped.description.text    | Group header description text                                                |
+| box.list.grouped.description.wrapper | Group header description container                                           |
+| box.list.item.wrapper                | Option item base styles (cursor, padding, hover)                             |
+| box.list.item.options                | Option item flex layout. Also used by loose options sitting alongside groups |
+| box.list.item.grouped                | Indented layout, applied only to rows nested inside a group                  |
+| box.list.item.base                   | Option item content alignment                                                |
+| box.list.item.selected               | Selected option highlight styles                                             |
+| box.list.item.disabled               | Disabled option styles                                                       |
+| box.list.item.image                  | Option item image styles                                                     |
+| box.list.item.check                  | Checkmark icon for selected items                                            |
+| box.list.item.description.text       | Option description text styles                                               |
+| box.list.item.description.wrapper    | Option description container                                                 |
+| box.list.empty                       | Empty state text styles                                                      |
+| box.searchable.wrapper               | Search input container                                                       |
+| items.wrapper                        | Selected items display container                                             |
+| items.placeholder.text               | Placeholder text styles                                                      |
+| items.placeholder.wrapper            | Placeholder wrapper                                                          |
+| items.single                         | Single selected item text styles                                             |
+| items.multiple.item                  | Multiple selection tag/chip styles                                           |
+| items.multiple.label                 | Multiple selection tag label text                                            |
+| items.multiple.label.wrapper         | Multiple selection tag label container                                       |
+| items.multiple.icon                  | Multiple selection tag remove icon                                           |
+| items.multiple.image                 | Multiple selection tag image                                                 |
+| items.image                          | Selected item image in single mode                                           |

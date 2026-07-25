@@ -121,8 +121,8 @@ TallStackUi::customize()
 | `form.select-styled.label`    | `<x-label />`    | 41      |
 | `form.select-styled.floating` | `<x-floating />` | 134     |
 | `form.select-styled.input`    | `<x-input />`    | 143     |
-| `form.select-styled.hint`     | `<x-hint />`     | 260     |
-| `form.select-styled.error`    | `<x-error />`    | 263     |
+| `form.select-styled.hint`     | `<x-hint />`     | 267     |
+| `form.select-styled.error`    | `<x-error />`    | 270     |
 
 ### `form/time`
 

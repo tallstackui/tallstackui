@@ -39,6 +39,8 @@ trait SelectSetup
         $images = array_flip(['image', 'img', 'img_src']);
         $descriptions = array_flip(['description', 'note']);
 
+        $grouped = false;
+
         $this->options = collect($this->options)
             ->map(function (array $option, int $index) use (
                 $label,
@@ -46,7 +48,8 @@ trait SelectSetup
                 $image,
                 $images,
                 $description,
-                $descriptions
+                $descriptions,
+                &$grouped
             ): array {
                 if (! array_key_exists($label, $option)) {
                     __ts_validation_exception($this, "The key [$label] is missing in the options array.");
@@ -56,7 +59,9 @@ trait SelectSetup
                     __ts_validation_exception($this, "The [$value] is missing in the options array.");
                 }
 
-                $this->grouped = is_array($option[$value]);
+                // Any option carrying a nested list turns the whole select into
+                // grouped mode. Loose options keep rendering as plain rows.
+                $grouped = $grouped || is_array($option[$value]);
 
                 $result = $option;
 
@@ -77,6 +82,8 @@ trait SelectSetup
                 return $result;
             })
             ->toArray();
+
+        $this->grouped = $this->grouped || $grouped;
 
         $this->selectable = [
             'label' => $label,

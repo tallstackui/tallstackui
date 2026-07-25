@@ -87,7 +87,7 @@
                                                      class="{{ $customization['items.multiple.image'] }}" />
                                             </template>
                                             <span class="{{ $customization['items.multiple.label'] }}"
-                                                  x-text="select[selectable.label] ?? select"></span>
+                                                  x-text="display(select)"></span>
                                         </div>
                                         @if (!$disabled)
                                             <div class="{{ $customization['items.multiple.icon'] }}">
@@ -167,30 +167,37 @@
                 @if ($grouped)
                     <template x-for="(option, index) in available" :key="option.__tsui_key ?? index">
                         <li>
-                            <div class="{{ $customization['box.list.grouped.wrapper'] }}">
-                                <div class="{{ $customization['box.list.grouped.options'] }}">
-                                    <div class="{{ $customization['box.list.grouped.base'] }}">
-                                        <img class="{{ $customization['box.list.grouped.image'] }}"
-                                             x-bind:src="option.image" x-show="option.image">
-                                        <div class="{{ $customization['box.list.grouped.description.wrapper'] }}">
-                                            <span x-text="option[selectable.label] ?? option"></span>
-                                            <span class="{{ $customization['box.list.grouped.description.text'] }}"
-                                                  x-show="option.description" x-text="option.description"></span>
+                            <template x-if="Array.isArray(option[selectable.value])">
+                                <div class="{{ $customization['box.list.grouped.wrapper'] }}">
+                                    <div class="{{ $customization['box.list.grouped.options'] }}">
+                                        <div class="{{ $customization['box.list.grouped.base'] }}">
+                                            <img class="{{ $customization['box.list.grouped.image'] }}"
+                                                 x-bind:src="option[selectable.image]"
+                                                 x-show="option[selectable.image]">
+                                            <div class="{{ $customization['box.list.grouped.description.wrapper'] }}">
+                                                <span x-text="option[selectable.label] ?? option"></span>
+                                                <span class="{{ $customization['box.list.grouped.description.text'] }}"
+                                                      x-show="option[selectable.description]"
+                                                      x-text="option[selectable.description]"></span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <template x-for="(item, index) in option.value" :key="index">
-                                <li x-on:click="select(item)"
+                            </template>
+                            <template x-for="(item, position) in (Array.isArray(option[selectable.value]) ? option[selectable.value] : [option])"
+                                      :key="position">
+                                <li x-on:click.stop="select(item)"
                                     x-on:keypress.enter="select(item)"
                                     x-bind:class="{'{{ $customization['box.list.item.selected'] }}': selected(item), '{{ $customization['box.list.item.disabled'] }}': item.disabled === true}"
                                     role="option"
                                     class="{{ $customization['box.list.item.wrapper'] }}">
-                                    <div class="{{ $customization['box.list.item.grouped'] }}">
+                                    <div x-bind:class="Array.isArray(option[selectable.value])
+                                            ? '{{ $customization['box.list.item.grouped'] }}'
+                                            : '{{ $customization['box.list.item.options'] }}'">
                                         <div class="{{ $customization['box.list.item.base'] }}">
                                             <img class="{{ $customization['box.list.item.image'] }}"
                                                  x-bind:src="item[selectable.image]"
-                                                 x-show="item[selectable.description]">
+                                                 x-show="item[selectable.image]">
                                             <div class="{{ $customization['box.list.item.description.wrapper'] }}">
                                                 <span x-text="item[selectable.label] ?? item"></span>
                                                 <span class="{{ $customization['box.list.item.description.text'] }}"
