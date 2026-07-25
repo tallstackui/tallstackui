@@ -3,6 +3,12 @@
 namespace Tests\Browser;
 
 use Closure;
+use Facebook\WebDriver\Exception\ElementClickInterceptedException;
+use Facebook\WebDriver\Exception\ElementNotInteractableException;
+use Facebook\WebDriver\Exception\ElementNotVisibleException;
+use Facebook\WebDriver\Exception\NoSuchElementException;
+use Facebook\WebDriver\Exception\StaleElementReferenceException;
+use Facebook\WebDriver\WebDriverBy;
 use Illuminate\Config\Repository;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Router;
@@ -10,6 +16,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\View\Factory;
+use Laravel\Dusk\Browser;
 use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\Dusk\Options;
 use Orchestra\Testbench\Dusk\TestCase;
@@ -206,6 +213,47 @@ class BrowserTestCase extends TestCase
         return resource_path('views').'/livewire'.($path ? '/'.$path : '');
     }
 
+    /**
+     * clickAtVisibleXPath() covers clickAtXPath(), which drives the raw driver
+     * without waiting or retrying, so a click landing on a region that Alpine
+     * is still rendering fails outright. waitForAllText() waits for every
+     * entry of a list, where waitForText() resolves as soon as one is visible.
+     */
+    protected function macros(): void
+    {
+        Browser::macro('clickAtVisibleXPath', function (string $expression, ?int $seconds = null) {
+            $by = WebDriverBy::xpath($expression);
+
+            $this->driver->wait($seconds ?? Browser::$waitSeconds)->until(function () use ($by) {
+                try {
+                    $element = $this->driver->findElement($by);
+
+                    // Enablement is deliberately not part of the condition:
+                    // some tests click a disabled element to assert it is inert.
+                    if (! $element->isDisplayed()) {
+                        return false;
+                    }
+
+                    $element->click();
+
+                    return true;
+                } catch (NoSuchElementException|StaleElementReferenceException|ElementNotVisibleException|ElementNotInteractableException|ElementClickInterceptedException) {
+                    return false;
+                }
+            }, "Waited for the element at the XPath expression [{$expression}] to become clickable.");
+
+            return $this;
+        });
+
+        Browser::macro('waitForAllText', function (array $texts, ?int $seconds = null) {
+            foreach ($texts as $text) {
+                $this->waitForText($text, $seconds);
+            }
+
+            return $this;
+        });
+    }
+
     protected function paused(int $seconds = 3): int
     {
         return 1000 * $seconds;
@@ -214,6 +262,8 @@ class BrowserTestCase extends TestCase
     protected function setUp(): void
     {
         Options::withoutUI();
+
+        $this->macros();
 
         $this->afterApplicationCreated(fn () => $this->clean());
 

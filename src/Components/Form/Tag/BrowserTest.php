@@ -248,7 +248,7 @@ class BrowserTest extends BrowserTestCase
             ->waitForTextIn('@tagged', 'bar')
             ->assertSeeIn('@tagged', 'foo')
             ->assertSeeIn('@tagged', 'bar')
-            ->clickAtXPath('/html/body/div[3]/div/div/div/div[1]/span[2]/button')
+            ->clickAtVisibleXPath('/html/body/div[3]/div/div/div/div[1]/span[2]/button')
             ->waitUntilMissingText('bar')
             ->assertSeeIn('@tagged', 'foo')
             ->assertDontSeeIn('@tagged', 'bar');

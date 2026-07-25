@@ -38,7 +38,7 @@ class BrowserTest extends BrowserTestCase
             ->click('@tallstackui_select_open_close')
             ->waitFor('@tallstackui_select_options')
             ->waitForText('+55')
-            ->clickAtXPath('//ul[@dusk="tallstackui_select_options"]/li[1]')
+            ->clickAtVisibleXPath('//ul[@dusk="tallstackui_select_options"]/li[1]')
             ->waitForTextIn('@code', '+55')
             ->waitFor('@tallstackui_select_clear')
             ->click('@tallstackui_select_clear')
@@ -429,7 +429,7 @@ class BrowserTest extends BrowserTestCase
             ->click('@tallstackui_select_open_close')
             ->waitFor('@tallstackui_select_options')
             ->waitForText('+1')
-            ->clickAtXPath('//ul[@dusk="tallstackui_select_options"]/li[2]')
+            ->clickAtVisibleXPath('//ul[@dusk="tallstackui_select_options"]/li[2]')
             ->waitForTextIn('@code', '+1');
     }
 
@@ -461,7 +461,7 @@ class BrowserTest extends BrowserTestCase
             ->click('@tallstackui_select_open_close')
             ->waitFor('@tallstackui_select_options')
             ->waitForText('+55')
-            ->clickAtXPath('//ul[@dusk="tallstackui_select_options"]/li[1]')
+            ->clickAtVisibleXPath('//ul[@dusk="tallstackui_select_options"]/li[1]')
             ->waitForTextIn('@code', '+55');
     }
 
@@ -554,7 +554,7 @@ class BrowserTest extends BrowserTestCase
             ->click('@tallstackui_select_open_close')
             ->waitFor('@tallstackui_select_options')
             ->waitForText('+55')
-            ->clickAtXPath('//ul[@dusk="tallstackui_select_options"]/li[1]')
+            ->clickAtVisibleXPath('//ul[@dusk="tallstackui_select_options"]/li[1]')
             ->waitForTextIn('@code', '+55')
             ->type('@phone_input', '999888777')
             ->waitForTextIn('@phone', '999888777')

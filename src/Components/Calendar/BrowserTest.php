@@ -73,9 +73,9 @@ class BrowserTest extends BrowserTestCase
         })
             ->waitForLivewireToLoad()
             ->waitForText('April')
-            ->clickAtXPath('(//button[normalize-space(text())="April"])[1]')
+            ->clickAtVisibleXPath('(//button[normalize-space(text())="April"])[1]')
             ->waitForText('Aug')
-            ->clickAtXPath('(//button[normalize-space(text())="Aug"])[1]')
+            ->clickAtVisibleXPath('(//button[normalize-space(text())="Aug"])[1]')
             ->pause(300)
             ->waitForText('August')
             ->assertSee('August');
@@ -99,9 +99,9 @@ class BrowserTest extends BrowserTestCase
         })
             ->waitForLivewireToLoad()
             ->waitForText('2026')
-            ->clickAtXPath('(//button[normalize-space(text())="2026"])[1]')
+            ->clickAtVisibleXPath('(//button[normalize-space(text())="2026"])[1]')
             ->waitForText('2034')
-            ->clickAtXPath('(//button[normalize-space(text())="2020"])[1]')
+            ->clickAtVisibleXPath('(//button[normalize-space(text())="2020"])[1]')
             ->pause(300)
             ->waitForText('2020')
             ->assertSee('2020');
@@ -126,7 +126,7 @@ class BrowserTest extends BrowserTestCase
         })
             ->waitForLivewireToLoad()
             ->waitForText('Sun')
-            ->clickAtXPath('(//button[contains(@class, "rounded-full") and not(@disabled)])[8]')
+            ->clickAtVisibleXPath('(//button[contains(@class, "rounded-full") and not(@disabled)])[8]')
             ->pause(500)
             ->waitUntilMissingText('(none)')
             ->assertDontSeeIn('@date', '(none)');
@@ -150,9 +150,9 @@ class BrowserTest extends BrowserTestCase
         })
             ->waitForLivewireToLoad()
             ->waitForText('Sun')
-            ->clickAtXPath('(//button[contains(@class, "rounded-full") and not(@disabled)])[5]')
+            ->clickAtVisibleXPath('(//button[contains(@class, "rounded-full") and not(@disabled)])[5]')
             ->pause(300)
-            ->clickAtXPath('(//button[contains(@class, "rounded-full") and not(@disabled)])[15]')
+            ->clickAtVisibleXPath('(//button[contains(@class, "rounded-full") and not(@disabled)])[15]')
             ->pause(500)
             ->assertPresent('[class*="bg-primary-500"]');
     }
@@ -175,9 +175,9 @@ class BrowserTest extends BrowserTestCase
         })
             ->waitForLivewireToLoad()
             ->waitForText('Sun')
-            ->clickAtXPath('(//button[contains(@class, "rounded-full") and not(@disabled)])[5]')
+            ->clickAtVisibleXPath('(//button[contains(@class, "rounded-full") and not(@disabled)])[5]')
             ->pause(300)
-            ->clickAtXPath('(//button[contains(@class, "rounded-full") and not(@disabled)])[45]')
+            ->clickAtVisibleXPath('(//button[contains(@class, "rounded-full") and not(@disabled)])[45]')
             ->pause(500)
             ->assertPresent('[class*="bg-primary-500"]');
     }

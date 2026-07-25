@@ -85,7 +85,7 @@ class BrowserTest extends BrowserTestCase
             }
         })
             ->assertSeeIn('@rating', '4')
-            ->clickAtXPath('/html/body/div[3]/div/button[5]')
+            ->clickAtVisibleXPath('/html/body/div[3]/div/button[5]')
             ->waitForTextIn('@rating', '5')
             ->assertSeeIn('@rating', '5')
             ->assertSee('5');
@@ -121,7 +121,7 @@ class BrowserTest extends BrowserTestCase
             }
         })
             ->assertSeeIn('@rating', '3')
-            ->clickAtXPath('/html/body/div[3]/div/button[4]')
+            ->clickAtVisibleXPath('/html/body/div[3]/div/button[4]')
             ->waitForTextIn('@rating', '4')
             ->assertSeeIn('@rating', '4')
             ->assertVisible('@rated')
@@ -176,7 +176,7 @@ class BrowserTest extends BrowserTestCase
             }
         })
             ->assertSeeIn('@rating', '3')
-            ->clickAtXPath('/html/body/div[3]/div/button[4]')
+            ->clickAtVisibleXPath('/html/body/div[3]/div/button[4]')
             ->waitForTextIn('@rating', '3')
             ->assertSeeIn('@rating', '3')
             ->assertSee('3');

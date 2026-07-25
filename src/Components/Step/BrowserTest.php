@@ -174,7 +174,7 @@ class BrowserTest extends BrowserTestCase
             ->assertSee('Bar')
             ->assertSee('Foo bar baz')
             ->assertDontSee('Baz bar foo')
-            ->clickAtXPath('/html/body/div[3]/div/nav/ul/li[2]')
+            ->clickAtVisibleXPath('/html/body/div[3]/div/nav/ul/li[2]')
             ->waitForText('Baz bar foo')
             ->assertSee('Baz bar foo')
             ->assertDontSee('Foo bar baz');

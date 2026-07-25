@@ -392,7 +392,7 @@ class BrowserTest extends BrowserTestCase
             ->assertNotPresent('@target')
             ->assertSee('Success')
             ->click('@success')
-            ->waitForText(['Foo bar success', 'Foo bar success description'])
+            ->waitForAllText(['Foo bar success', 'Foo bar success description'])
             ->assertSee('Foo bar success')
             ->assertSee('Foo bar success description')
             ->clickAtPoint(350, 350)

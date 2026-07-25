@@ -44,7 +44,7 @@ class BrowserTest extends BrowserTestCase
             }
         })
             ->waitForLivewireToLoad()
-            ->clickAtXPath('/html/body/div[3]/form/div[2]/div/div/input[1]')
+            ->clickAtVisibleXPath('/html/body/div[3]/form/div[2]/div/div/input[1]')
             ->waitForLivewire()->type('@pin-1', '1')
             ->waitForTextIn('@value', '1')
             ->waitFor('@submitted')
@@ -172,7 +172,7 @@ class BrowserTest extends BrowserTestCase
                 //
             }
         })
-            ->clickAtXPath('/html/body/div[3]/div[2]/div/div/input[1]')
+            ->clickAtVisibleXPath('/html/body/div[3]/div[2]/div/div/input[1]')
             ->waitForLivewire()->type('@pin-1', '1')
             ->waitForTextIn('@value', '1')
             ->assertSeeIn('@value', '1')
@@ -203,7 +203,7 @@ class BrowserTest extends BrowserTestCase
                 //
             }
         })
-            ->clickAtXPath('/html/body/div[3]/div[2]/div/div/input[1]')
+            ->clickAtVisibleXPath('/html/body/div[3]/div[2]/div/div/input[1]')
             ->waitForLivewire()->type('@pin-1', '1')
             ->waitForTextIn('@value', '1')
             ->assertSeeIn('@value', '1');
@@ -232,7 +232,7 @@ class BrowserTest extends BrowserTestCase
                 //
             }
         })
-            ->clickAtXPath('/html/body/div[3]/div[2]/div/div/input[1]')
+            ->clickAtVisibleXPath('/html/body/div[3]/div[2]/div/div/input[1]')
             ->type('@pin-1', '1')
             ->waitForTextIn('@value', '1')
             ->assertSeeIn('@value', '1');
@@ -261,9 +261,9 @@ class BrowserTest extends BrowserTestCase
                 //
             }
         })
-            ->clickAtXPath('/html/body/div[3]/div[2]/div/div/input[1]')
+            ->clickAtVisibleXPath('/html/body/div[3]/div[2]/div/div/input[1]')
             ->waitForLivewire()->type('@pin-1', '1')
-            ->clickAtXPath('/html/body/div[3]/div[2]/div/div/input[2]')
+            ->clickAtVisibleXPath('/html/body/div[3]/div[2]/div/div/input[2]')
             ->waitForLivewire()->type('@pin-2', '5')
             ->waitForTextIn('@value', '15')
             ->assertSeeIn('@value', '15');
@@ -292,7 +292,7 @@ class BrowserTest extends BrowserTestCase
             ->click('@copy')
             ->keys('@copy', [OperatingSystem::onMac() ? WebDriverKeys::COMMAND : WebDriverKeys::CONTROL, 'a'])
             ->keys('@copy', [OperatingSystem::onMac() ? WebDriverKeys::COMMAND : WebDriverKeys::CONTROL, 'c'])
-            ->clickAtXPath('/html/body/div[3]/div[2]/div/div/input[1]')
+            ->clickAtVisibleXPath('/html/body/div[3]/div[2]/div/div/input[1]')
             ->keys('@pin-1', [OperatingSystem::onMac() ? WebDriverKeys::COMMAND : WebDriverKeys::CONTROL, 'v'])
             ->waitForTextIn('@value', 'FOO')
             ->assertSeeIn('@value', 'FOO');
@@ -321,7 +321,7 @@ class BrowserTest extends BrowserTestCase
             ->click('@copy')
             ->keys('@copy', [OperatingSystem::onMac() ? WebDriverKeys::COMMAND : WebDriverKeys::CONTROL, 'a'])
             ->keys('@copy', [OperatingSystem::onMac() ? WebDriverKeys::COMMAND : WebDriverKeys::CONTROL, 'c'])
-            ->clickAtXPath('/html/body/div[3]/div[2]/div/div/input[1]')
+            ->clickAtVisibleXPath('/html/body/div[3]/div[2]/div/div/input[1]')
             ->keys('@pin-1', [OperatingSystem::onMac() ? WebDriverKeys::COMMAND : WebDriverKeys::CONTROL, 'v'])
             ->waitForTextIn('@value', '15')
             ->assertSeeIn('@value', '15');
@@ -406,7 +406,7 @@ class BrowserTest extends BrowserTestCase
             }
         })
             ->waitForLivewireToLoad()
-            ->clickAtXPath('//input[@dusk="pin-1"]')
+            ->clickAtVisibleXPath('//input[@dusk="pin-1"]')
             ->waitForLivewire()->type('@pin-1', '1')
             ->waitForLivewire()->type('@pin-2', '2')
             ->waitForLivewire()->type('@pin-3', '3')
@@ -444,7 +444,7 @@ class BrowserTest extends BrowserTestCase
             ->click('@copy')
             ->keys('@copy', [OperatingSystem::onMac() ? WebDriverKeys::COMMAND : WebDriverKeys::CONTROL, 'a'])
             ->keys('@copy', [OperatingSystem::onMac() ? WebDriverKeys::COMMAND : WebDriverKeys::CONTROL, 'c'])
-            ->clickAtXPath('/html/body/div[3]/div[2]/div/div/input[1]')
+            ->clickAtVisibleXPath('/html/body/div[3]/div[2]/div/div/input[1]')
             ->keys('@pin-1', [OperatingSystem::onMac() ? WebDriverKeys::COMMAND : WebDriverKeys::CONTROL, 'v'])
             ->assertDontSee('FOO');
     }
@@ -472,7 +472,7 @@ class BrowserTest extends BrowserTestCase
             ->click('@copy')
             ->keys('@copy', [OperatingSystem::onMac() ? WebDriverKeys::COMMAND : WebDriverKeys::CONTROL, 'a'])
             ->keys('@copy', [OperatingSystem::onMac() ? WebDriverKeys::COMMAND : WebDriverKeys::CONTROL, 'c'])
-            ->clickAtXPath('/html/body/div[3]/div[2]/div/div/input[1]')
+            ->clickAtVisibleXPath('/html/body/div[3]/div[2]/div/div/input[1]')
             ->keys('@pin-1', [OperatingSystem::onMac() ? WebDriverKeys::COMMAND : WebDriverKeys::CONTROL, 'v'])
             ->assertDontSee('15');
     }

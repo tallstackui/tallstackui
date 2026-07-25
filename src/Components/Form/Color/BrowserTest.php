@@ -42,7 +42,7 @@ class BrowserTest extends BrowserTestCase
             ->waitForText('Color')
             ->click('@tallstackui_form_color_open_close')
             ->waitFor('@tallstackui_form_color_floating')
-            ->clickAtXPath('(//div[@data-floating])[1]/div/div[2]/button[1]')
+            ->clickAtVisibleXPath('(//div[@data-floating])[1]/div/div[2]/button[1]')
             ->click('@sync')
             ->waitForTextIn('@selected', '#f8fafc')
             ->assertVisible('@set');
@@ -74,7 +74,7 @@ class BrowserTest extends BrowserTestCase
             ->waitForText('Color')
             ->click('@tallstackui_form_color_open_close')
             ->waitFor('@tallstackui_form_color_floating')
-            ->clickAtXPath('(//div[@data-floating])[1]/div/div[2]/button[1]')
+            ->clickAtVisibleXPath('(//div[@data-floating])[1]/div/div[2]/button[1]')
             ->waitForTextIn('@selected', '#64748b')
             ->assertSeeIn('@selected', '#64748b');
     }
@@ -106,7 +106,7 @@ class BrowserTest extends BrowserTestCase
             ->waitForText('Color')
             ->click('@tallstackui_form_color_open_close')
             ->waitFor('@tallstackui_form_color_floating')
-            ->clickAtXPath('(//div[@data-floating])[1]/div/div[2]/button[1]')
+            ->clickAtVisibleXPath('(//div[@data-floating])[1]/div/div[2]/button[1]')
             ->click('@sync')
             ->waitForTextIn('@selected', '#64748b')
             ->assertSeeIn('@selected', '#64748b');
@@ -142,19 +142,19 @@ class BrowserTest extends BrowserTestCase
             ->waitForText('Color')
             ->click('@tallstackui_form_color_open_close')
             ->waitFor('@tallstackui_form_color_floating')
-            ->clickAtXPath('(//div[@data-floating])[1]/div/div[2]/button[1]')
+            ->clickAtVisibleXPath('(//div[@data-floating])[1]/div/div[2]/button[1]')
             ->click('@sync')
             ->waitForTextIn('@selected', '#FF0000')
             ->assertSee('#FF0000')
             ->click('@tallstackui_form_color_open_close')
             ->waitFor('@tallstackui_form_color_floating')
-            ->clickAtXPath('(//div[@data-floating])[1]/div/div[2]/button[2]')
+            ->clickAtVisibleXPath('(//div[@data-floating])[1]/div/div[2]/button[2]')
             ->click('@sync')
             ->waitForTextIn('@selected', '#FF5733')
             ->assertSee('#FF5733')
             ->click('@tallstackui_form_color_open_close')
             ->waitFor('@tallstackui_form_color_floating')
-            ->clickAtXPath('(//div[@data-floating])[1]/div/div[2]/button[3]')
+            ->clickAtVisibleXPath('(//div[@data-floating])[1]/div/div[2]/button[3]')
             ->click('@sync')
             ->waitForTextIn('@selected', '#D7E021')
             ->assertSee('#D7E021');
@@ -187,7 +187,7 @@ class BrowserTest extends BrowserTestCase
             ->waitForText('Color')
             ->click('@tallstackui_form_color_open_close')
             ->waitFor('@tallstackui_form_color_floating')
-            ->clickAtXPath('(//div[@data-floating])[1]/div/div[2]/button[1]')
+            ->clickAtVisibleXPath('(//div[@data-floating])[1]/div/div[2]/button[1]')
             ->click('@sync')
             ->waitForTextIn('@selected', '#f8fafc')
             ->assertSeeIn('@selected', '#f8fafc');
@@ -221,7 +221,7 @@ class BrowserTest extends BrowserTestCase
             ->click('@tallstackui_form_color_open_close')
             ->waitFor('@tallstackui_form_color_floating')
             ->dragRight('@tallstackui_form_range', 50)
-            ->clickAtXPath('(//div[@data-floating])[1]/div/div[2]/button[1]')
+            ->clickAtVisibleXPath('(//div[@data-floating])[1]/div/div[2]/button[1]')
             ->click('@sync')
             ->waitForTextIn('@selected', '#334155')
             ->assertSeeIn('@selected', '#334155');
@@ -253,7 +253,7 @@ class BrowserTest extends BrowserTestCase
             ->waitForText('Color')
             ->click('@tallstackui_form_color_open_close')
             ->waitFor('@tallstackui_form_color_floating')
-            ->clickAtXPath('(//div[@data-floating])[1]/div/div[2]/button[1]')
+            ->clickAtVisibleXPath('(//div[@data-floating])[1]/div/div[2]/button[1]')
             ->waitForTextIn('@selected', '#64748b')
             ->click('@tallstackui_form_color_clearable')
             ->waitUntilMissingText('#64748b');
@@ -286,7 +286,7 @@ class BrowserTest extends BrowserTestCase
             ->waitForText('Color')
             ->click('@tallstackui_form_color_open_close')
             ->waitFor('@tallstackui_form_color_floating')
-            ->clickAtXPath('(//div[@data-floating])[1]/div/div[2]/button[1]')
+            ->clickAtVisibleXPath('(//div[@data-floating])[1]/div/div[2]/button[1]')
             ->click('@sync')
             ->waitForTextIn('@selected', '#64748b')
             ->assertSeeIn('@selected', '#64748b');
@@ -319,7 +319,7 @@ class BrowserTest extends BrowserTestCase
             ->waitForText('Color')
             ->click('@tallstackui_form_color_open_close')
             ->waitFor('@tallstackui_form_color_floating')
-            ->clickAtXPath('(//div[@data-floating])[1]/div/div[2]/button[1]')
+            ->clickAtVisibleXPath('(//div[@data-floating])[1]/div/div[2]/button[1]')
             ->click('@sync')
             ->waitForTextIn('@selected', '#f9fafb')
             ->assertSeeIn('@selected', '#f9fafb');
@@ -352,7 +352,7 @@ class BrowserTest extends BrowserTestCase
             ->waitForText('Color')
             ->click('@tallstackui_form_color_open_close')
             ->waitFor('@tallstackui_form_color_floating')
-            ->clickAtXPath('(//div[@data-floating])[1]/div/div[2]/button[1]')
+            ->clickAtVisibleXPath('(//div[@data-floating])[1]/div/div[2]/button[1]')
             ->click('@sync')
             ->waitForTextIn('@selected', '#f1f5f9')
             ->assertSeeIn('@selected', '#f1f5f9');
@@ -385,7 +385,7 @@ class BrowserTest extends BrowserTestCase
             ->click('@tallstackui_form_color_open_close')
             ->waitFor('@tallstackui_form_color_floating')
             ->assertMissing('tallstackui_form_color_clearable')
-            ->clickAtXPath('(//div[@data-floating])[1]/div/div[2]/button[1]')
+            ->clickAtVisibleXPath('(//div[@data-floating])[1]/div/div[2]/button[1]')
             ->waitForTextIn('@selected', '#64748b')
             ->assertVisible('@tallstackui_form_color_clearable')
             ->click('@tallstackui_form_color_clearable')
@@ -418,7 +418,7 @@ class BrowserTest extends BrowserTestCase
             ->waitForText('Color')
             ->click('@tallstackui_form_color_open_close')
             ->waitFor('@tallstackui_form_color_floating')
-            ->clickAtXPath('(//div[@data-floating])[1]/div/div[2]/button[1]')
+            ->clickAtVisibleXPath('(//div[@data-floating])[1]/div/div[2]/button[1]')
             ->waitForTextIn('@selected', '#64748b')
             ->assertNotPresent('@tallstackui_form_color_clearable');
     }

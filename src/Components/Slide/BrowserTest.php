@@ -100,7 +100,7 @@ class BrowserTest extends BrowserTestCase
             ->assertDontSee('Foo bar')
             ->assertDontSee('Bar baz')
             ->click('@open')
-            ->waitForText(['Foo bar', 'Lorem'])
+            ->waitForAllText(['Foo bar', 'Lorem'])
             ->assertSee('Foo bar')
             ->assertSee('Lorem');
     }
@@ -129,7 +129,7 @@ class BrowserTest extends BrowserTestCase
             ->assertDontSee('Foo bar')
             ->assertDontSee('Bar baz')
             ->click('@open')
-            ->waitForText(['Foo bar', 'Bar baz'])
+            ->waitForAllText(['Foo bar', 'Bar baz'])
             ->assertSee('Foo bar')
             ->assertSee('Bar baz');
     }

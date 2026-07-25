@@ -38,7 +38,7 @@ class BrowserTest extends BrowserTestCase
         })
             ->assertDontSeeIn('@reaction', 'thumbs-up')
             ->click('@tallstackui_reaction_button')
-            ->clickAtXPath('html/body/div[3]/div/div/div/div[1]/div/button[7]')
+            ->clickAtVisibleXPath('html/body/div[3]/div/div/div/div[1]/div/button[7]')
             ->waitForTextIn('@reaction', 'thumbs-up')
             ->assertSeeIn('@reaction', 'thumbs-up')
             ->assertSee('2');
@@ -73,7 +73,7 @@ class BrowserTest extends BrowserTestCase
         })
             ->assertDontSeeIn('@reaction', 'thumbs-up')
             ->click('@tallstackui_reaction_button')
-            ->clickAtXPath('html/body/div[3]/div/div/div/div[1]/div/button[7]')
+            ->clickAtVisibleXPath('html/body/div[3]/div/div/div/div[1]/div/button[7]')
             ->waitForTextIn('@reaction', 'thumbs-up')
             ->assertSeeIn('@reaction', 'thumbs-up')
             ->assertSee('2');
@@ -147,7 +147,7 @@ class BrowserTest extends BrowserTestCase
         })
             ->assertDontSeeIn('@reaction', 'thumbs-up')
             ->click('@tallstackui_reaction_button')
-            ->clickAtXPath('html/body/div[3]/div/div/div/div[1]/div/button[7]')
+            ->clickAtVisibleXPath('html/body/div[3]/div/div/div/div[1]/div/button[7]')
             ->waitForTextIn('@reaction', 'thumbs-up')
             ->assertSeeIn('@reaction', 'thumbs-up')
             ->assertSee('2')

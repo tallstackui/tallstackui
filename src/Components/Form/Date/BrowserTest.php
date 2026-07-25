@@ -57,7 +57,7 @@ class BrowserTest extends BrowserTestCase
             ->waitForLivewireToLoad()
             ->click('@tallstackui_date_open_close')
             ->waitForText('2020')
-            ->clickAtXPath('(//div[@data-floating])[1]/div[1]/span/button[2]')
+            ->clickAtVisibleXPath('(//div[@data-floating])[1]/div[1]/span/button[2]')
             ->waitForText('2009')
             ->assertSee('2009')
             ->click('@tallstackui_date_previous_year')
@@ -209,7 +209,7 @@ class BrowserTest extends BrowserTestCase
             ->assertSeeIn('@date', '2020-01-01')
             ->click('@tallstackui_date_open_close')
             ->waitForText('January')
-            ->clickAtXPath('(//div[@data-floating])[1]/div[3]/div[5]/button')
+            ->clickAtVisibleXPath('(//div[@data-floating])[1]/div[3]/div[5]/button')
             ->waitForTextIn('@selected', '1')
             ->assertSeeIn('@selected', '1');
     }
@@ -235,7 +235,7 @@ class BrowserTest extends BrowserTestCase
             ->waitForLivewireToLoad()
             ->click('@tallstackui_date_open_close')
             ->waitForText('2020')
-            ->clickAtXPath('(//div[@data-floating])[1]/div[1]/span/button[2]')
+            ->clickAtVisibleXPath('(//div[@data-floating])[1]/div[1]/span/button[2]')
             ->waitForText('2009')
             ->assertSee('2009')
             ->click('@tallstackui_date_next_year')
@@ -290,8 +290,8 @@ class BrowserTest extends BrowserTestCase
             ->waitForLivewireToLoad()
             ->click('@tallstackui_date_open_close')
             ->waitForText('January')
-            ->clickAtXPath('(//div[@data-floating])[1]/div[1]/span/button[1]')
-            ->waitForText(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'])
+            ->clickAtVisibleXPath('(//div[@data-floating])[1]/div[1]/span/button[1]')
+            ->waitForAllText(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'])
             ->assertSee('Jan')
             ->assertSee('Mar')
             ->assertSee('Dec');
@@ -329,7 +329,7 @@ class BrowserTest extends BrowserTestCase
             ->waitForLivewireToLoad()
             ->click('@tallstackui_date_open_close')
             ->waitForText(now()->monthName)
-            ->clickAtXPath('(//div[@data-floating])[1]/div[3]/div[18]/button')
+            ->clickAtVisibleXPath('(//div[@data-floating])[1]/div[3]/div[18]/button')
             ->waitForTextIn('@changed', 'Changed');
     }
 
@@ -390,15 +390,15 @@ class BrowserTest extends BrowserTestCase
             ->waitForLivewireToLoad()
             ->click('@tallstackui_date_open_close')
             ->waitForText('January')
-            ->clickAtXPath('(//div[@data-floating])[1]/div[1]/div/button[2]')
+            ->clickAtVisibleXPath('(//div[@data-floating])[1]/div[1]/div/button[2]')
             ->pause(50)
-            ->clickAtXPath('(//div[@data-floating])[1]/div[1]/div/button[2]')
+            ->clickAtVisibleXPath('(//div[@data-floating])[1]/div[1]/div/button[2]')
             ->pause(50)
-            ->clickAtXPath('(//div[@data-floating])[1]/div[1]/div/button[2]')
+            ->clickAtVisibleXPath('(//div[@data-floating])[1]/div[1]/div/button[2]')
             ->pause(50)
-            ->clickAtXPath('(//div[@data-floating])[1]/div[1]/div/button[2]')
+            ->clickAtVisibleXPath('(//div[@data-floating])[1]/div[1]/div/button[2]')
             ->pause(50)
-            ->clickAtXPath('(//div[@data-floating])[1]/div[1]/div/button[2]')
+            ->clickAtVisibleXPath('(//div[@data-floating])[1]/div[1]/div/button[2]')
             ->pause(50)
             ->waitForText('June')
             ->assertSee('June')
@@ -432,7 +432,7 @@ class BrowserTest extends BrowserTestCase
             ->waitForTextIn('@date', '2020-01-01')
             ->assertSeeIn('@date', '2020-01-01')
             ->click('@tallstackui_date_open_close')
-            ->clickAtXPath('(//div[@data-floating])[1]/div[3]/div[5]/button')
+            ->clickAtVisibleXPath('(//div[@data-floating])[1]/div[3]/div[5]/button')
             ->waitForTextIn('@date', '2020-01-02')
             ->assertSeeIn('@date', '2020-01-02');
     }
@@ -459,10 +459,10 @@ class BrowserTest extends BrowserTestCase
             ->waitForTextIn('@date', '["2020-01-01","2020-01-03"]')
             ->assertSeeIn('@date', '["2020-01-01","2020-01-03"]')
             ->click('@tallstackui_date_open_close')
-            ->clickAtXPath('(//div[@data-floating])[1]/div[3]/div[4]/button')
+            ->clickAtVisibleXPath('(//div[@data-floating])[1]/div[3]/div[4]/button')
             ->waitForTextIn('@date', '["2020-01-03"]')
-            ->clickAtXPath('(//div[@data-floating])[1]/div[3]/div[5]/button')
-            ->clickAtXPath('(//div[@data-floating])[1]/div[3]/div[7]/button')
+            ->clickAtVisibleXPath('(//div[@data-floating])[1]/div[3]/div[5]/button')
+            ->clickAtVisibleXPath('(//div[@data-floating])[1]/div[3]/div[7]/button')
             ->waitForTextIn('@date', '["2020-01-03","2020-01-02","2020-01-04"]')
             ->assertSeeIn('@date', '["2020-01-03","2020-01-02","2020-01-04"]');
     }
@@ -489,8 +489,8 @@ class BrowserTest extends BrowserTestCase
             ->waitForTextIn('@date', '["2020-01-01","2020-01-03"]')
             ->assertSeeIn('@date', '["2020-01-01","2020-01-03"]')
             ->click('@tallstackui_date_open_close')
-            ->clickAtXPath('(//div[@data-floating])[1]/div[3]/div[7]/button')
-            ->clickAtXPath('(//div[@data-floating])[1]/div[3]/div[14]/button')
+            ->clickAtVisibleXPath('(//div[@data-floating])[1]/div[3]/div[7]/button')
+            ->clickAtVisibleXPath('(//div[@data-floating])[1]/div[3]/div[14]/button')
             ->waitForTextIn('@date', '["2020-01-04","2020-01-11"]')
             ->assertSeeIn('@date', '["2020-01-04","2020-01-11"]');
     }
@@ -525,8 +525,8 @@ class BrowserTest extends BrowserTestCase
             ->assertDontSee('Thu')
             ->assertDontSee('Fri')
             ->assertDontSee('Sat')
-            ->clickAtXPath('(//div[@data-floating])[1]/div[1]/div[1]/div/button[2]')
-            ->clickAtXPath('(//div[@data-floating])[1]/div[1]/div[1]/div/button[13]')
+            ->clickAtVisibleXPath('(//div[@data-floating])[1]/div[1]/div[1]/div/button[2]')
+            ->clickAtVisibleXPath('(//div[@data-floating])[1]/div[1]/div[1]/div/button[13]')
             ->waitForTextIn('@date', '2021-02')
             ->assertSeeIn('@date', '2021-02');
     }
@@ -552,13 +552,13 @@ class BrowserTest extends BrowserTestCase
             ->waitForLivewireToLoad()
             ->click('@tallstackui_date_open_close')
             ->waitForText('January')
-            ->clickAtXPath('(//div[@data-floating])[1]/div[1]/span/button[1]')
-            ->waitForText(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'])
+            ->clickAtVisibleXPath('(//div[@data-floating])[1]/div[1]/span/button[1]')
+            ->waitForAllText(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'])
             ->assertSee('Jan')
             ->assertSee('Mar')
             ->assertSee('Dec')
             ->assertSee('Today')
-            ->clickAtXPath('(//div[@data-floating])[1]/div[1]/div/div/div/button[2]')
+            ->clickAtVisibleXPath('(//div[@data-floating])[1]/div[1]/div/div/div/button[2]')
             ->waitUntilMissingText('Today')
             ->assertDontSee('Today');
     }
@@ -585,10 +585,10 @@ class BrowserTest extends BrowserTestCase
             ->waitForTextIn('@date', '2024-01-02')
             ->click('@tallstackui_date_open_close')
             ->waitForText('January')
-            ->clickAtXPath('(//div[@data-floating])[1]/div[3]/div[4]/button')
+            ->clickAtVisibleXPath('(//div[@data-floating])[1]/div[3]/div[4]/button')
             ->waitForTextIn('@date', '2024-01-02')
             ->assertSeeIn('@date', '2024-01-02')
-            ->clickAtXPath('(//div[@data-floating])[1]/div[3]/div[2]/button')
+            ->clickAtVisibleXPath('(//div[@data-floating])[1]/div[3]/div[2]/button')
             ->waitForTextIn('@date', '2024-01-01')
             ->assertSeeIn('@date', '2024-01-01');
     }
@@ -615,12 +615,12 @@ class BrowserTest extends BrowserTestCase
             ->waitForTextIn('@date', '2024-01-03')
             ->click('@tallstackui_date_open_close')
             ->waitForText('January')
-            ->clickAtXPath('(//div[@data-floating])[1]/div[3]/div[3]/button')
+            ->clickAtVisibleXPath('(//div[@data-floating])[1]/div[3]/div[3]/button')
             ->waitForTextIn('@date', '2024-01-02')
             ->assertSeeIn('@date', '2024-01-02')
             ->click('@tallstackui_date_open_close')
             ->waitForText('January')
-            ->clickAtXPath('(//div[@data-floating])[1]/div[3]/div[5]/button')
+            ->clickAtVisibleXPath('(//div[@data-floating])[1]/div[3]/div[5]/button')
             ->waitForTextIn('@date', '2024-01-04')
             ->assertSeeIn('@date', '2024-01-04');
     }
@@ -839,7 +839,7 @@ class BrowserTest extends BrowserTestCase
             ->waitForText('DatePicker')
             ->assertSee('DatePicker')
             ->click('@tallstackui_date_open_close')
-            ->clickAtXPath('(//div[@data-floating])[1]/div[3]/div[24]/button')
+            ->clickAtVisibleXPath('(//div[@data-floating])[1]/div[3]/div[24]/button')
             ->assertDontSeeIn('@date', '2025-05-20');
     }
 
@@ -867,7 +867,7 @@ class BrowserTest extends BrowserTestCase
             ->waitForText('DatePicker')
             ->assertSee('DatePicker')
             ->click('@tallstackui_date_open_close')
-            ->clickAtXPath('(//div[@data-floating])[1]/div[3]/div[23]/button')
+            ->clickAtVisibleXPath('(//div[@data-floating])[1]/div[3]/div[23]/button')
             ->assertDontSeeIn('@date', '2025-05-19');
 
         $element = $browser->driver->findElement(WebDriverBy::xpath('(//div[@data-floating])[1]/div[3]/div[23]/button'));
@@ -899,7 +899,7 @@ class BrowserTest extends BrowserTestCase
             ->waitForText('DatePicker')
             ->assertSee('DatePicker')
             ->click('@tallstackui_date_open_close')
-            ->clickAtXPath('(//div[@data-floating])[1]/div[3]/div[22]/button')
+            ->clickAtVisibleXPath('(//div[@data-floating])[1]/div[3]/div[22]/button')
             ->assertDontSeeIn('@date', '2025-05-18');
 
         $element = $browser->driver->findElement(WebDriverBy::xpath('(//div[@data-floating])[1]/div[3]/div[22]/button'));

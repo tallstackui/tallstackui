@@ -68,7 +68,7 @@ class BrowserTest extends BrowserTestCase
             ->assertSee('Bar Title')
             ->assertSee('Foo bar baz')
             ->assertDontSee('Baz bar foo')
-            ->clickAtXPath('/html/body/div[3]/div/ul/li[2]')
+            ->clickAtVisibleXPath('/html/body/div[3]/div/ul/li[2]')
             ->waitForText('Baz bar foo')
             ->assertDontSee('Foo bar baz')
             ->waitForTextIn('@selected', 'bar');
@@ -103,7 +103,7 @@ class BrowserTest extends BrowserTestCase
             ->assertSee('Bar')
             ->assertSee('Foo bar baz')
             ->assertDontSee('Baz bar foo')
-            ->clickAtXPath('/html/body/div[3]/div/ul/li[2]')
+            ->clickAtVisibleXPath('/html/body/div[3]/div/ul/li[2]')
             ->waitForText('Baz bar foo')
             ->assertDontSee('Foo bar baz')
             ->waitForTextIn('@selected', 'Bar');
@@ -167,7 +167,7 @@ class BrowserTest extends BrowserTestCase
             ->waitForLivewireToLoad()
             ->assertSee('Current Content')
             ->assertSee('Target')
-            ->clickAtXPath('/html/body/div[3]/div/ul/li[2]')
+            ->clickAtVisibleXPath('/html/body/div[3]/div/ul/li[2]')
             ->waitForText('Tab Navigation Target Page')
             ->assertSee('Tab Navigation Target Page')
             ->assertDontSee('Current Content');
@@ -227,7 +227,7 @@ class BrowserTest extends BrowserTestCase
             ->assertSee('Lorem ipsum dolor sit amet')
             ->assertSee('Données d\'accès incorrectes')
             ->assertDontSee('Consectetur adipiscing elit')
-            ->clickAtXPath('/html/body/div[3]/div/ul/li[2]')
+            ->clickAtVisibleXPath('/html/body/div[3]/div/ul/li[2]')
             ->waitForText('Consectetur adipiscing elit')
             ->assertSee('Consectetur adipiscing elit')
             ->assertDontSee('Lorem ipsum dolor sit amet');
@@ -414,7 +414,7 @@ class BrowserTest extends BrowserTestCase
             ->assertSee('Bar Title')
             ->assertSee('Foo bar baz')
             ->assertDontSee('Baz bar foo')
-            ->clickAtXPath('/html/body/div[3]/div/ul/li[2]')
+            ->clickAtVisibleXPath('/html/body/div[3]/div/ul/li[2]')
             ->waitForText('Baz bar foo')
             ->assertDontSee('Foo bar baz');
     }
@@ -444,10 +444,10 @@ class BrowserTest extends BrowserTestCase
             ->assertSee('Bar Title')
             ->assertSee('Foo bar baz')
             ->assertDontSee('Baz bar foo')
-            ->clickAtXPath('/html/body/div[3]/div/ul/li[2]')
+            ->clickAtVisibleXPath('/html/body/div[3]/div/ul/li[2]')
             ->waitForText('Baz bar foo')
             ->assertDontSee('Foo bar baz')
-            ->clickAtXPath('/html/body/div[3]/div/ul/li[1]')
+            ->clickAtVisibleXPath('/html/body/div[3]/div/ul/li[1]')
             ->waitForText('Foo bar baz')
             ->assertDontSee('Baz bar foo');
     }
@@ -515,7 +515,7 @@ class BrowserTest extends BrowserTestCase
             ->assertSee('Bar Title')
             ->assertSee('Baz bar foo')
             ->assertDontSee('Foo bar baz')
-            ->clickAtXPath('/html/body/div[3]/div/ul/li[1]')
+            ->clickAtVisibleXPath('/html/body/div[3]/div/ul/li[1]')
             ->waitForText('Foo bar baz')
             ->assertSee('Bar Title')
             ->assertDontSee('Baz bar foo');
