@@ -74,7 +74,7 @@ class ItemController extends Controller
 | question   | `question(string $title, ?string $description = null)`                      | Shows a question dialog with a question mark circle icon      |
 | confirm    | `confirm(?string $text, ?string $method, array\|string\|int\|null $params)` | Adds a confirm button that calls a Livewire method            |
 | cancel     | `cancel(?string $text, ?string $method, array\|string\|int\|null $params)`  | Adds a cancel button that optionally calls a Livewire method  |
-| persistent | `persistent()`                                                              | Prevents cl``osing the dialog by clicking outside             |
+| persistent | `persistent()`                                                              | Prevents closing the dialog by clicking outside               |
 | hook       | `hook(array $hooks)`                                                        | Registers lifecycle hooks (allowed: `ok`, `close`, `dismiss`) |
 | flash      | `flash(bool $dispatch = false)`                                             | Flashes the interaction to session for display after redirect |
 | send       | `send()`                                                                    | Dispatches the dialog                                         |
@@ -89,6 +89,28 @@ In `config/tallstackui.php` under `components.dialog`:
 | overflow   | bool   | false   | When true, avoids hiding body overflow                     |
 | blur       | bool   | false   | Enables background blur effect                             |
 | persistent | bool   | false   | When true, prevents closing by clicking outside by default |
+
+## Keyboard
+
+The dialog is driven from the keyboard without any extra markup:
+
+| Key      | Action                                                      | `persistent()` |
+|----------|-------------------------------------------------------------|----------------|
+| `Enter`  | Presses the confirm button (**OK**, or the `confirm()` one) | Works          |
+| `Escape` | Dismisses the dialog, like clicking outside                 | Blocked        |
+
+`Enter` closes a `success()`, `error()`, `info()` or `warning()` dialog and runs the
+method of a `question()->confirm(...)`, matching a click on the button. It fires only
+while the focus sits outside the dialog: a focused `<button>` already activates on
+`Enter`, so the guard keeps a `Tab`-reached cancel button from cancelling and
+confirming at once.
+
+`Escape` is blocked by `persistent()`, and by `components.dialog.persistent` in the
+config, because both exist to stop accidental dismissal. `Enter` is not: pressing the
+confirm button is the answer the dialog is waiting for.
+
+Both keys act only on the topmost overlay, so a dialog opened under a modal or slide
+does not answer for the element above it.
 
 ## Confirm/Cancel Method Signatures
 

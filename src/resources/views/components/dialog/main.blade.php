@@ -6,6 +6,7 @@
      x-data="tallstackui_dialog(@js(session()->pull('ts-ui:dialog')), @js(trans('ts-ui::messages.dialog.button')), @js($configurations['overflow'] ?? false))"
      x-on:ts-ui:dialog.window="add($event.detail)"
      @if (!$configurations['persistent']) x-on:keydown.escape.window="top_ui && remove(true)" @endif
+     x-on:keydown.enter.window="top_ui && !$el.contains($event.target) && $refs.confirm?.click()"
      @class(['relative', $configurations['z-index']])
      aria-labelledby="modal-title"
      role="dialog"
@@ -132,6 +133,7 @@
                                 '{{ $customization['colorful.confirm'] }}': true,
                             }" dusk="tallstackui_dialog_confirmation"
                                 x-on:click="accept(dialog, $el)"
+                                x-ref="confirm"
                                 x-show="dialog.options?.confirm"
                                 x-text="dialog.options?.confirm?.text ?? text.ok"></button>
                     @else
@@ -145,6 +147,7 @@
                                 '{{ $colors['confirm']['question'] }}': dialog.type === 'question'
                             }" dusk="tallstackui_dialog_confirmation"
                                 x-on:click="accept(dialog, $el)"
+                                x-ref="confirm"
                                 x-show="dialog.options?.confirm"
                                 x-text="dialog.options?.confirm?.text ?? text.ok"></button>
                     @endif

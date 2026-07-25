@@ -12,6 +12,51 @@ use Tests\Browser\BrowserTestCase;
 class BrowserTest extends BrowserTestCase
 {
     #[Test]
+    public function can_accept_interaction_dialog_with_enter(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            use Interactions;
+
+            public function cancelled(string $message): void
+            {
+                $this->dialog()->error($message)->send();
+            }
+
+            public function confirm(): void
+            {
+                $this->dialog()
+                    ->question('Foo bar confirmation', 'Are you sure?')
+                    ->confirm('Yes', 'confirmed', 'Confirmed with enter')
+                    ->cancel('No', 'cancelled', 'Cancelled with enter')
+                    ->send();
+            }
+
+            public function confirmed(string $message): void
+            {
+                $this->dialog()->success($message)->send();
+            }
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-button dusk="confirm" wire:click="confirm">Confirm</x-button>
+                </div>
+                HTML;
+            }
+        })
+            ->assertDontSee('Foo bar confirmation')
+            ->click('@confirm')
+            ->waitForText('Foo bar confirmation')
+            ->assertSee('Are you sure?')
+            ->keys('', '{enter}')
+            ->waitForText('Confirmed with enter')
+            ->assertSee('Confirmed with enter')
+            ->assertDontSee('Cancelled with enter');
+    }
+
+    #[Test]
     public function can_accept_persistent_interaction_dialog_with_confirmation(): void
     {
         Livewire::visit(new class extends Component
@@ -54,6 +99,45 @@ class BrowserTest extends BrowserTestCase
             ->click('@tallstackui_dialog_confirmation')
             ->waitForText('Confirmed persistent')
             ->assertSee('Confirmed persistent');
+    }
+
+    #[Test]
+    public function can_accept_persistent_interaction_dialog_with_enter(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            use Interactions;
+
+            public function confirm(): void
+            {
+                $this->dialog()
+                    ->persistent()
+                    ->question('Persistent Confirm', 'Are you sure?')
+                    ->confirm('Yes', 'confirmed', 'Confirmed persistent with enter')
+                    ->send();
+            }
+
+            public function confirmed(string $message): void
+            {
+                $this->dialog()->success($message)->send();
+            }
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-button dusk="confirm" wire:click="confirm">Confirm</x-button>
+                </div>
+                HTML;
+            }
+        })
+            ->assertDontSee('Persistent Confirm')
+            ->click('@confirm')
+            ->waitForText('Persistent Confirm')
+            ->assertSee('Are you sure?')
+            ->keys('', '{enter}')
+            ->waitForText('Confirmed persistent with enter')
+            ->assertSee('Confirmed persistent with enter');
     }
 
     #[Test]
@@ -140,6 +224,36 @@ class BrowserTest extends BrowserTestCase
             ->waitUntilMissingText('Foo bar confirmation')
             ->assertSee('Slide')
             ->assertSee('Click here to confirm');
+    }
+
+    #[Test]
+    public function can_close_interaction_dialog_with_enter(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            use Interactions;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-button dusk="success" wire:click="success">Success</x-button>
+                </div>
+                HTML;
+            }
+
+            public function success(): void
+            {
+                $this->dialog()->success('Foo bar success', 'Foo bar success description')->send();
+            }
+        })
+            ->assertDontSee('Foo bar success')
+            ->click('@success')
+            ->waitForText('Foo bar success')
+            ->assertSee('Foo bar success')
+            ->keys('', '{enter}')
+            ->waitUntilMissingText('Foo bar success')
+            ->assertDontSee('Foo bar success');
     }
 
     #[Test]
@@ -805,6 +919,49 @@ class BrowserTest extends BrowserTestCase
             ->click('@tallstackui_dialog_confirmation')
             ->waitForTextIn('@ok', 'ok')
             ->assertSee('ok');
+    }
+
+    #[Test]
+    public function cannot_accept_interaction_dialog_with_enter_when_the_focus_is_inside_the_dialog(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            use Interactions;
+
+            public function cancelled(string $message): void
+            {
+                $this->dialog()->error($message)->send();
+            }
+
+            public function confirm(): void
+            {
+                $this->dialog()
+                    ->question('Foo bar confirmation', 'Are you sure?')
+                    ->confirm('Yes', 'confirmed', 'Confirmed with enter')
+                    ->cancel('No', 'cancelled', 'Cancelled with enter')
+                    ->send();
+            }
+
+            public function confirmed(string $message): void
+            {
+                $this->dialog()->success($message)->send();
+            }
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-button dusk="confirm" wire:click="confirm">Confirm</x-button>
+                </div>
+                HTML;
+            }
+        })
+            ->click('@confirm')
+            ->waitForText('Foo bar confirmation')
+            ->keys('@tallstackui_dialog_rejection', '{enter}')
+            ->waitForText('Cancelled with enter')
+            ->assertSee('Cancelled with enter')
+            ->assertDontSee('Confirmed with enter');
     }
 
     #[Test]

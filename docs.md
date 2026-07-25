@@ -12,6 +12,45 @@ such change is listed under **Migration**.
 
 ---
 
+## Dialog
+
+### Added — `Enter` confirms the dialog
+
+A dialog could be dismissed from the keyboard but never accepted: `Escape` closed it,
+and the confirm button answered only to the mouse. Anyone using the keyboard had to
+reach for it, or `Tab` across to it first.
+
+`Enter` now presses the confirm button:
+
+| Dialog                                           | `Enter`                              |
+|--------------------------------------------------|--------------------------------------|
+| `success()` / `error()` / `info()` / `warning()` | closes it, like clicking **OK**      |
+| `question()->confirm('Yes', 'method')`           | runs `method`, like clicking **Yes** |
+
+The binding lives on the same root element as the `Escape` one and shares its
+`top_ui` guard, so a dialog opened underneath a modal or slide does not answer for
+the element on top of it.
+
+It fires only while the focus is **outside** the dialog:
+
+```blade
+x-on:keydown.enter.window="top_ui && !$el.contains($event.target) && $refs.confirm?.click()"
+```
+
+A `<button>` already activates on `Enter` while focused, so without that guard a
+dialog whose cancel button had been reached with `Tab` would cancel *and* confirm on
+a single keystroke.
+
+`Enter` works on a `persistent()` dialog, where `Escape` does not. Persistence exists
+to stop a dialog from being dismissed by accident — pressing the confirm button is
+the answer it is waiting for, not a way around it.
+
+The confirm button is always present, including for the four non-question types
+where it renders as a centered **OK**, so there is no dialog that `Enter` cannot
+answer.
+
+---
+
 ## Soft Customization
 
 ### Added — `extend()` to change a scope that is already defined
