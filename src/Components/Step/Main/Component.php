@@ -37,7 +37,7 @@ class Component extends TallStackUiComponent implements Customization
     {
         return Arr::dot([
             'wrapper' => [
-                'panels' => 'rounded-md border border-gray-300 dark:border-dark-700 dark:divide-dark-700 md:flex overflow-auto soft-scrollbar mb-2',
+                'panels' => 'md:flex overflow-auto soft-scrollbar',
                 'simple' => 'space-y-2 md:flex md:gap-8 md:space-y-0 overflow-auto soft-scrollbar pb-2',
                 'circles' => 'relative flex flex-col md:flex-row',
             ],
@@ -115,7 +115,7 @@ class Component extends TallStackUiComponent implements Customization
                     'description' => 'ml-4 whitespace-nowrap text-xs font-medium text-gray-500 dark:text-dark-400',
                 ],
             ],
-            'panels-shape' => 'rounded-md',
+            'panels-shape' => 'mb-2 rounded-md border border-gray-300 dark:border-dark-700',
             'content' => 'my-2',
             'helpers.wrapper' => 'flex justify-between',
             'button' => [

@@ -134,7 +134,8 @@ TallStackUi::customize()
 
 | Block Name                  | Purpose                             |
 |-----------------------------|-------------------------------------|
-| wrapper.panels              | Panels variation list container     |
+| panels-shape                | Panels outer frame, border and clip |
+| wrapper.panels              | Panels variation scroll container   |
 | wrapper.simple              | Simple variation list container     |
 | wrapper.circles             | Circles variation list container    |
 | circles.li                  | Circle variation list item          |

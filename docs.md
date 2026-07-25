@@ -12,6 +12,54 @@ such change is listed under **Migration**.
 
 ---
 
+## Step
+
+### Fixed — the horizontal scrollbar of the `panels` variation squared off the rounded corners
+
+With enough steps to overflow, the `panels` variation grows a horizontal scrollbar
+whose thumb ran flat into the bottom corners, flattening the radius and sitting on
+top of the bottom border instead of inside the frame.
+
+WebKit paints a scrollbar as chrome in the border box, outside the element's own
+content clip, so a border-radius on the scrolling element does not shape it. The
+only thing that does is an ancestor with `overflow-hidden` and the radius. The
+`<ul>` carried the border, the radius **and** the scroll all at once, and its
+`mb-2` pushed it clear of the `<nav>` that could otherwise have clipped it.
+
+The frame moved out to the `<nav>`, leaving the `<ul>` as a bare scroll container:
+
+```html
+<!-- before -->
+<nav class="overflow-hidden rounded-md">
+    <ul class="rounded-md border border-gray-300 md:flex overflow-auto soft-scrollbar mb-2">
+
+<!-- after -->
+<nav class="overflow-hidden mb-2 rounded-md border border-gray-300">
+    <ul class="md:flex overflow-auto soft-scrollbar">
+```
+
+This is the arrangement `<x-table>` already used, and the thumb now ends on the
+same curve there as it does here.
+
+The `simple` and `circles` variations are untouched — neither draws a border around
+the scroll area, so neither had a corner to lose.
+
+**Migration.** Soft customization keys kept their names but swapped roles:
+
+| Block            | 3.x                                      | 4.x                                                           |
+|------------------|------------------------------------------|---------------------------------------------------------------|
+| `panels-shape`   | `rounded-md`                             | `mb-2 rounded-md border border-gray-300 dark:border-dark-700` |
+| `wrapper.panels` | border, radius, bottom margin and scroll | scroll only                                                   |
+
+Applications restyling the panels frame through `wrapper.panels` have to target
+`panels-shape` instead. Moving the border back onto `wrapper.panels` brings the
+artifact back.
+
+The dead `dark:divide-dark-700` on `wrapper.panels` went away with it; the panels
+list separates its items with `border-b` on `panels.li`, never with `divide-*`.
+
+---
+
 ## Form / Select / Styled
 
 ### Fixed — grouped children were unreachable under a custom `value` key
@@ -82,12 +130,12 @@ for grouped options `available` holds the **groups**, not the selectable items.
 With two groups of two cities each, the panel closed after the second pick and then
 never closed at all:
 
-| Pick          | selections | `available.length` | result       | expected     |
-|---------------|------------|--------------------|--------------|--------------|
-| São Paulo     | 1          | 2                  | stays open   | stays open   |
-| Rio de Janeiro| 2          | 2                  | **closes**   | stays open   |
-| New York      | 3          | 2                  | stays open   | stays open   |
-| Los Angeles   | 4          | 2                  | **stays open** | closes     |
+| Pick           | selections | `available.length` | result         | expected   |
+|----------------|------------|--------------------|----------------|------------|
+| São Paulo      | 1          | 2                  | stays open     | stays open |
+| Rio de Janeiro | 2          | 2                  | **closes**     | stays open |
+| New York       | 3          | 2                  | stays open     | stays open |
+| Los Angeles    | 4          | 2                  | **stays open** | closes     |
 
 The count now comes from the flattened item list, which is what `_flatItems()`
 already produces for hydration. Non-grouped selects are unaffected — `_flatItems()`
@@ -278,11 +326,11 @@ anchor.
 
 **Migration.** Soft customization keys changed shape:
 
-| 3.x                            | 4.x                       |
-|--------------------------------|---------------------------|
-| `wrapper.second-no-slot`       | removed, folded into `wrapper.second` |
-| `header` / `header-string-wrapper` | `header.text` / `header.wrapper` |
-| `footer` / `footer-string-wrapper` | `footer.text` / `footer.wrapper` |
+| 3.x                                | 4.x                                   |
+|------------------------------------|---------------------------------------|
+| `wrapper.second-no-slot`           | removed, folded into `wrapper.second` |
+| `header` / `header-string-wrapper` | `header.text` / `header.wrapper`      |
+| `footer` / `footer-string-wrapper` | `footer.text` / `footer.wrapper`      |
 
 ### Added — validation for conflicting direction flags
 
