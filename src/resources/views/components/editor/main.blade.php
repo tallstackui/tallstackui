@@ -56,11 +56,6 @@
                                                                  class="h-3 w-3" />
                                         </button>
                                     </x-slot:action>
-                                    <x-dynamic-component :component="TallStackUi::prefix('dropdown.items')"
-                                                         :text="$i18n['style']['paragraph']"
-                                                         :class="$customization['toolbar.dropdown.style.paragraph']"
-                                                         x-on:mousedown.prevent="toggleBlock('p'); show = false"
-                                                         x-bind:class="blockType === 'p' && '{{ $customization['toolbar.dropdown.active'] }}'" />
                                     @foreach (['h1', 'h2', 'h3'] as $level)
                                         <x-dynamic-component :component="TallStackUi::prefix('dropdown.items')"
                                                              :text="$i18n['style'][$level]"
@@ -68,6 +63,11 @@
                                                              x-on:mousedown.prevent="toggleBlock('{{ $level }}'); show = false"
                                                              x-bind:class="blockType === '{{ $level }}' && '{{ $customization['toolbar.dropdown.active'] }}'" />
                                     @endforeach
+                                    <x-dynamic-component :component="TallStackUi::prefix('dropdown.items')"
+                                                         :text="$i18n['style']['paragraph']"
+                                                         :class="$customization['toolbar.dropdown.style.paragraph']"
+                                                         x-on:mousedown.prevent="toggleBlock('p'); show = false"
+                                                         x-bind:class="blockType === 'p' && '{{ $customization['toolbar.dropdown.active'] }}'" />
                                 </x-dynamic-component>
                                 @break
 
@@ -402,11 +402,18 @@
                 </div>
 
                 <x-slot:footer>
-                    <x-dynamic-component :component="TallStackUi::prefix('button')" color="secondary" outline sm
-                                         x-on:click="closeDialog()" :text="$i18n['link']['cancel']" />
-                    <x-dynamic-component :component="TallStackUi::prefix('button')" sm
-                                         x-on:click="insertLink()" x-bind:disabled="!linkUrl"
+                    <x-dynamic-component :component="TallStackUi::prefix('button')"
+                                         color="secondary"
+                                         sm
+                                         round
+                                         x-on:click="closeDialog()"
+                                         :text="$i18n['link']['cancel']" />
+                    <x-dynamic-component :component="TallStackUi::prefix('button')"
+                                         x-on:click="insertLink()"
+                                         x-bind:disabled="!linkUrl"
                                          dusk="tallstackui_editor_link_insert"
+                                         sm
+                                         round
                                          :text="$i18n['link']['insert']" />
                 </x-slot:footer>
             </x-dynamic-component>
@@ -480,12 +487,18 @@
                 </div>
 
                 <x-slot:footer>
-                    <x-dynamic-component :component="TallStackUi::prefix('button')" color="secondary" outline sm
-                                         x-on:click="closeDialog()" :text="$i18n['image']['cancel']" />
-                    <x-dynamic-component :component="TallStackUi::prefix('button')" sm
+                    <x-dynamic-component :component="TallStackUi::prefix('button')"
+                                         color="secondary"
+                                         sm
+                                         round
+                                         x-on:click="closeDialog()"
+                                         :text="$i18n['image']['cancel']" />
+                    <x-dynamic-component :component="TallStackUi::prefix('button')"
                                          x-on:click="insertImage()"
                                          x-bind:disabled="!imageUrl || !validImageUrl || uploading"
                                          dusk="tallstackui_editor_image_insert"
+                                         sm
+                                         round
                                          :text="$i18n['image']['insert']" />
                 </x-slot:footer>
             </x-dynamic-component>
