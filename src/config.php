@@ -472,21 +472,16 @@ return [
                 | Async Upload Global Settings
                 |----------------------------------------------------------------------
                 |
-                | chunk_size: bytes per chunk. Must stay below the app's PHP
-                |             upload_max_filesize / post_max_size, since every chunk
-                |             is a regular multipart upload.
-                | concurrency: chunks uploaded in parallel, globally per component.
-                | retries: attempts per chunk on transient failures.
-                | retry_delay: ms between retries (exponential backoff applied).
-                | max_size: max megabytes per file. Enforced on the client for UX
-                |           and re-enforced by the handler. null = unlimited.
-                | accept: default mime/extension filter. null = any.
-                | tmp_disk: disk used to stage in-flight chunks. Must be a local
-                |           driver, since assembly needs real filesystem paths.
-                | tmp_directory: chunk sessions directory, inside tmp_disk.
-                | disk: destination disk for finalized files. Any driver, incl. S3.
-                | session_ttl: seconds an upload session remains valid before the
-                |              tallstackui:async-upload:clear command discards it.
+                | chunk_size: controls the bytes sent on each chunk. Must stay below the application's PHP upload_max_filesize and post_max_size, since every chunk travels as a regular multipart upload.
+                | concurrency: controls how many chunks are uploaded in parallel, globally per component and not per file.
+                | retries: controls the attempts made on each chunk when the failure is transient (5xx, 408, 429 or a network error).
+                | retry_delay: controls the milliseconds waited between retries, growing exponentially on each new attempt.
+                | max_size: controls the maximum megabytes accepted per file. Enforced on the client for feedback and re-enforced by the handler, which a raw request cannot skip. null = unlimited.
+                | accept: controls the default mime/extension filter. null = any.
+                | tmp_disk: controls the disk used to stage the chunks still in flight. Must use the local driver, since assembling them needs real filesystem paths.
+                | tmp_directory: controls the directory, inside tmp_disk, where the chunk sessions are staged.
+                | disk: controls the destination disk of the finalized files. Accepts any driver, including S3.
+                | session_ttl: controls the seconds a staging session remains valid before the tallstackui:async-upload:clear command discards it.
                 */
                 'chunk_size' => 2 * 1024 * 1024,
                 'concurrency' => 3,

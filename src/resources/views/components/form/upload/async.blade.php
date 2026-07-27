@@ -128,16 +128,28 @@
 
         </div>
 
-        <div class="{{ $customization['dropzone.placeholder'] }}">
+        <div x-bind:class="files.length
+                ? '{{ $customization['dropzone.placeholder-compact'] }}'
+                : '{{ $customization['dropzone.placeholder-full'] }}'"
+             class="{{ $customization['dropzone.placeholder'] }}">
             <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                  :icon="TallStackUi::icon('cloud-arrow-up')"
                                  internal
-                                 x-bind:class="dragging ? '{{ $customization['dropzone.icon-bouncing'] }}' : ''"
+                                 x-bind:class="[
+                                    files.length ? '{{ $customization['dropzone.icon-compact'] }}' : '{{ $customization['dropzone.icon-full'] }}',
+                                    dragging ? '{{ $customization['dropzone.icon-bouncing'] }}' : '',
+                                 ]"
                                  class="{{ $customization['dropzone.icon'] }}" />
-            <p class="{{ $customization['dropzone.title'] }}">{{ $title }}</p>
-            <p class="{{ $customization['dropzone.description'] }}">{{ $description }}</p>
+            <p x-bind:class="files.length
+                    ? '{{ $customization['dropzone.title-compact'] }}'
+                    : '{{ $customization['dropzone.title-full'] }}'"
+               class="{{ $customization['dropzone.title'] }}">{{ $title }}</p>
+            <p x-bind:class="files.length
+                    ? '{{ $customization['dropzone.description-compact'] }}'
+                    : '{{ $customization['dropzone.description-full'] }}'"
+               class="{{ $customization['dropzone.description'] }}">{{ $description }}</p>
             @if ($tip)
-                <p class="{{ $customization['dropzone.tip'] }}">{{ $tip }}</p>
+                <p x-show="!files.length" class="{{ $customization['dropzone.tip'] }}">{{ $tip }}</p>
             @endif
         </div>
     </div>

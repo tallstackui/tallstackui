@@ -23,6 +23,8 @@ class AsyncUploadClearCommand extends Command
         $directory = $configuration['tmp_directory'];
 
         if (! $disk->exists($directory)) {
+            $this->components->info("There is nothing to remove: the directory [{$directory}] does not exist.");
+
             return self::SUCCESS;
         }
 
@@ -38,7 +40,7 @@ class AsyncUploadClearCommand extends Command
             }
         }
 
-        $this->info("Removed {$removed} orphan upload session(s).");
+        $this->components->info("Removed {$removed} orphan upload session(s).");
 
         return self::SUCCESS;
     }
