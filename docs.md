@@ -12,6 +12,120 @@ such change is listed under **Migration**.
 
 ---
 
+## Form / Upload / Async
+
+### Added — `<x-upload.async />`, chunked uploads straight to your own controller
+
+`<x-upload />` rides the Livewire upload pipeline, so a file has to fit inside PHP's
+request limits. The new component does not: the browser slices each file and posts
+the pieces to an endpoint you own, which means files around 1 GB stop being a
+problem. Nothing is shared between the two beyond the namespace, and unlike the old
+one this works outside Livewire too.
+
+```blade
+<x-upload.async wire:model="gallery"
+                :route="route('uploads.gallery')"
+                accept="image/*"
+                multiple
+                :limit="6"
+                :max-size="512" />
+```
+
+```php
+use TallStackUi\Http\AsyncUpload\Uploader;
+
+class UploadController
+{
+    use Uploader;
+
+    public function store(Request $request)
+    {
+        return $this->upload($request, [
+            'disk' => 'public',
+            'directory' => 'posts/attachments',
+            'rules' => ['file' => ['mimes:jpg,png,pdf']],
+        ]);
+    }
+}
+```
+
+The method is called once per chunk. Intermediate chunks answer `204`; the last one
+assembles the file, validates it, stores it and answers `200`.
+
+**Chunks are staged as one part file per index, joined at the end.** They are
+uploaded `concurrency`-at-a-time and arrive out of order, so appending them to a
+single file interleaves the payload. One `{index}.part` per chunk removes ordering
+from the equation and turns "is it complete?" into a file count.
+
+Two atomic filesystem operations carry the coordination. `mkdir()` elects the request
+that fires `AsyncUploadStarted`, and renaming the staging directory elects the single
+request that finalizes. Counting parts alone is not enough — two requests can observe
+a complete set at the same moment.
+
+**Staging is always local, the destination is not.** Joining the pieces needs real
+paths and stream handles, which object stores do not have. The finished file then
+goes wherever you name, S3 included.
+
+**There is no global default destination directory.** A package-wide fallback would
+quietly pile every upload in an application into one folder, so `directory` is
+required per endpoint and the handler throws without it. `disk` stays global,
+since a project usually has one uploads disk.
+
+**The size ceiling is re-checked server side.** The `max-size` prop is feedback for
+the user; a request built by hand ignores it. The handler compares the declared size
+on every chunk and the assembled bytes at the end, so neither can be lied about, and
+`rules` run against the real bytes rather than the mime the browser claimed.
+
+**State binds two ways.** Through `wire:model`, honouring the `.live` modifier the
+way Livewire itself does, or through a `name` attribute that generates hidden inputs
+for a plain form submit. Both receive the same array:
+
+```php
+[
+    ['id' => '...', 'path' => '...', 'real_name' => '...', 'size' => 0, 'mime' => '...', 'url' => '...'],
+]
+```
+
+**Three Laravel events** — `AsyncUploadStarted`, `AsyncUploadCompleted` and
+`AsyncUploadFailed` — cover the server side. They exist for side effects: queueing a
+thumbnail, scanning, auditing. A finished upload is not a submitted form, so writing
+a database row from `AsyncUploadCompleted` would orphan it; that write belongs where
+the form is handled, reading the array the component synced out. There is
+deliberately no per-chunk event, since a 500 MB file would fire hundreds.
+
+**Eight Alpine events** are dispatched on the component root: `added`, `rejected`,
+`start`, `progress`, `success`, `error`, `removed` and `complete`.
+
+`chunk_size` defaults to 2 MB because that is the stock PHP `upload_max_filesize`;
+anything larger has every chunk rejected before it reaches Laravel.
+
+`tallstackui:async-upload:clear` discards staging directories idle for longer than
+the `keep` setting. Nothing else collects them, so without scheduling it the staging
+directory grows forever. It never touches the destination disk: telling an orphan
+from a saved file there would need your database.
+
+Full reference in `.ai/components/form/upload/async.md`.
+
+### Changed — both upload components moved to their own bundle
+
+`js/tallstackui-upload.js` joined the entry points carrying `<x-upload />` and
+`<x-upload.async />`. The main bundle went from 56.4 kB to 47.9 kB and the new one
+weighs 8.55 kB, 3.24 kB gzipped.
+
+This is not lazy loading. The script directive emits every entry of the manifest on
+every page, so the bytes a visitor downloads are the same, only split across one more
+request. What it buys is cache granularity: a change to either upload component no
+longer invalidates the bundle every other component lives in.
+
+Splitting an entry made rolldown hoist a small shared runtime chunk, which the
+directive already preloads along with the other underscore-prefixed chunks, and
+redistributed the code shared between entries.
+
+**No migration.** Applications load the assets through `<tallstackui:script />`,
+which picks the new entry up on its own.
+
+---
+
 ## Dialog
 
 ### Added — `Enter` confirms the dialog

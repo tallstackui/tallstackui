@@ -89,6 +89,27 @@ return [
         'invalid' => 'Es gab einen Validierungsfehler.',
     ],
 
+    'upload_async' => [
+        'title' => 'Dateien hier ablegen',
+        'description' => 'oder klicken zum Auswählen',
+        'send' => 'Senden',
+        'clear' => 'Leeren',
+        'ready' => [
+            'single' => ':count Datei bereit · :size',
+            'multiple' => ':count Dateien bereit · :size',
+        ],
+        'errors' => [
+            'mime' => 'Dateityp nicht erlaubt.',
+            'size' => 'Die Datei überschreitet das Limit von :max MB.',
+            'limit' => 'Du kannst höchstens :max Dateien hochladen.',
+            'network' => 'Netzwerkfehler. Bitte versuche es erneut.',
+            'server' => 'Hochladen fehlgeschlagen. Bitte versuche es erneut.',
+            'integrity' => 'Der Upload ist unvollständig angekommen. Bitte versuche es erneut.',
+            'unauthorized' => 'Du darfst diese Datei nicht hochladen.',
+            'generic' => 'Ein Fehler ist aufgetreten.',
+        ],
+    ],
+
     'date' => [
         'calendar' => [
             'months' => [

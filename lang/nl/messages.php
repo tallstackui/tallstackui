@@ -89,6 +89,27 @@ return [
         'invalid' => 'Er trad een validatiefout op.',
     ],
 
+    'upload_async' => [
+        'title' => 'Sleep bestanden hierheen',
+        'description' => 'of klik om te selecteren',
+        'send' => 'Versturen',
+        'clear' => 'Wissen',
+        'ready' => [
+            'single' => ':count bestand gereed · :size',
+            'multiple' => ':count bestanden gereed · :size',
+        ],
+        'errors' => [
+            'mime' => 'Bestandstype niet toegestaan.',
+            'size' => 'Het bestand overschrijdt de limiet van :max MB.',
+            'limit' => 'Je kunt maximaal :max bestanden opladen.',
+            'network' => 'Netwerkfout. Probeer opnieuw.',
+            'server' => 'Opladen mislukt. Probeer opnieuw.',
+            'integrity' => 'De upload is onvolledig aangekomen. Probeer opnieuw.',
+            'unauthorized' => 'Je mag dit bestand niet opladen.',
+            'generic' => 'Er ging iets mis.',
+        ],
+    ],
+
     'date' => [
         'calendar' => [
             'months' => [

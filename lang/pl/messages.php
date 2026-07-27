@@ -89,6 +89,27 @@ return [
         'invalid' => 'Wystąpił błąd walidacji.',
     ],
 
+    'upload_async' => [
+        'title' => 'Upuść pliki tutaj',
+        'description' => 'lub kliknij, aby wybrać',
+        'send' => 'Wyślij',
+        'clear' => 'Wyczyść',
+        'ready' => [
+            'single' => ':count plik gotowy · :size',
+            'multiple' => ':count pliki gotowe · :size',
+        ],
+        'errors' => [
+            'mime' => 'Niedozwolony typ pliku.',
+            'size' => 'Plik przekracza limit :max MB.',
+            'limit' => 'Możesz przesłać maksymalnie :max plików.',
+            'network' => 'Błąd sieci. Spróbuj ponownie.',
+            'server' => 'Przesyłanie nie powiodło się. Spróbuj ponownie.',
+            'integrity' => 'Przesłany plik dotarł niekompletny. Spróbuj ponownie.',
+            'unauthorized' => 'Nie masz uprawnień do przesłania tego pliku.',
+            'generic' => 'Coś poszło nie tak.',
+        ],
+    ],
+
     'date' => [
         'calendar' => [
             'months' => [

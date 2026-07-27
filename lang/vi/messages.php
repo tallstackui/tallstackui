@@ -89,6 +89,27 @@ return [
         'invalid' => 'Đã xảy ra lỗi xác thực.',
     ],
 
+    'upload_async' => [
+        'title' => 'Thả tệp vào đây',
+        'description' => 'hoặc nhấp để chọn',
+        'send' => 'Gửi',
+        'clear' => 'Xóa',
+        'ready' => [
+            'single' => ':count tệp sẵn sàng · :size',
+            'multiple' => ':count tệp sẵn sàng · :size',
+        ],
+        'errors' => [
+            'mime' => 'Loại tệp không được phép.',
+            'size' => 'Tệp vượt quá giới hạn :max MB.',
+            'limit' => 'Bạn chỉ có thể tải lên tối đa :max tệp.',
+            'network' => 'Lỗi mạng. Vui lòng thử lại.',
+            'server' => 'Tải lên thất bại. Vui lòng thử lại.',
+            'integrity' => 'Tệp tải lên bị thiếu dữ liệu. Vui lòng thử lại.',
+            'unauthorized' => 'Bạn không được phép tải lên tệp này.',
+            'generic' => 'Đã xảy ra lỗi.',
+        ],
+    ],
+
     'date' => [
         'calendar' => [
             'months' => [

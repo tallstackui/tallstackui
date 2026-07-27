@@ -65,6 +65,7 @@
 - [Time Picker](components/form/time.md)
 - [Toggle](components/form/toggle.md)
 - [Upload](components/form/upload.md) *(Livewire only)*
+- [Upload Async](components/form/upload/async.md)
 
 ### Overlay & Interaction
 

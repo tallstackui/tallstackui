@@ -464,6 +464,37 @@ return [
         'toggle' => Components\Form\Toggle\Component::class,
         'tooltip' => Components\Tooltip\Component::class,
         'upload' => Components\Form\Upload\Component::class,
+        'upload.async' => [
+            Components\Form\Upload\Async\Component::class,
+            [
+                /*
+                |----------------------------------------------------------------------
+                | Async Upload Global Settings
+                |----------------------------------------------------------------------
+                |
+                | chunk_size: controls the bytes sent on each chunk (must stay below the PHP upload_max_filesize).
+                | concurrency: controls how many chunks are uploaded in parallel, per component.
+                | retries: controls the attempts per chunk on transient failures (5xx, 408, 429 and network).
+                | retry_delay: controls the milliseconds between retries, with exponential backoff.
+                | max_size: controls the maximum megabytes per file, on the client and on the handler (null = unlimited).
+                | accept: controls the default mime/extension filter (null = any).
+                | tmp_disk: controls the disk used to stage the chunks (must use the local driver).
+                | tmp_directory: controls the directory, inside tmp_disk, used to stage the chunks.
+                | disk: controls the destination disk of the finalized files (allowed: any driver).
+                | keep: controls the seconds an unfinished upload is kept (discarded by tallstackui:async-upload:clear).
+                */
+                'chunk_size' => 2 * 1024 * 1024,
+                'concurrency' => 3,
+                'retries' => 3,
+                'retry_delay' => 1000,
+                'max_size' => null,
+                'accept' => null,
+                'tmp_disk' => 'local',
+                'tmp_directory' => 'async-uploads',
+                'disk' => 'local',
+                'keep' => 60 * 60 * 6,
+            ],
+        ],
         'reaction' => Components\Reaction\Component::class,
         'wrapper.input' => Components\Wrapper\Input\Component::class,
         'wrapper.radio' => Components\Wrapper\Radio\Component::class,

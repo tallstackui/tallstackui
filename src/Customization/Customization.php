@@ -53,6 +53,7 @@ use TallStackUi\Components\Form\Tag\Component as Tag;
 use TallStackUi\Components\Form\Textarea\Component as Textarea;
 use TallStackUi\Components\Form\Time\Component as Time;
 use TallStackUi\Components\Form\Toggle\Component as Toggle;
+use TallStackUi\Components\Form\Upload\Async\Component as UploadAsync;
 use TallStackUi\Components\Form\Upload\Component as Upload;
 use TallStackUi\Components\Kbd\Component as Kbd;
 use TallStackUi\Components\KeyValue\Component as KeyValue;
@@ -320,6 +321,7 @@ class Customization
             'label' => Label::class,
             'number' => Number::class,
             'upload' => Upload::class,
+            'upload.async' => UploadAsync::class,
             'password' => Password::class,
             'pin' => Pin::class,
             'range' => Range::class,

@@ -89,6 +89,27 @@ return [
         'invalid' => 'Si è verificato un errore di convalida.',
     ],
 
+    'upload_async' => [
+        'title' => 'Trascina i file qui',
+        'description' => 'oppure clicca per selezionare',
+        'send' => 'Invia',
+        'clear' => 'Svuota',
+        'ready' => [
+            'single' => ':count file pronto · :size',
+            'multiple' => ':count file pronti · :size',
+        ],
+        'errors' => [
+            'mime' => 'Tipo di file non consentito.',
+            'size' => 'Il file supera il limite di :max MB.',
+            'limit' => 'Puoi inviare al massimo :max file.',
+            'network' => 'Errore di rete. Per favore riprova.',
+            'server' => 'L\'invio non è riuscito. Per favore riprova.',
+            'integrity' => 'L\'invio è arrivato incompleto. Per favore riprova.',
+            'unauthorized' => 'Non sei autorizzato a inviare questo file.',
+            'generic' => 'Qualcosa è andato storto.',
+        ],
+    ],
+
     'date' => [
         'calendar' => [
             'months' => [

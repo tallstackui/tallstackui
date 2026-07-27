@@ -89,6 +89,27 @@ return [
         'invalid' => 'Bir doğrulama hatası oluştu.',
     ],
 
+    'upload_async' => [
+        'title' => 'Dosyaları buraya bırakın',
+        'description' => 'veya seçmek için tıklayın',
+        'send' => 'Gönder',
+        'clear' => 'Temizle',
+        'ready' => [
+            'single' => ':count dosya hazır · :size',
+            'multiple' => ':count dosya hazır · :size',
+        ],
+        'errors' => [
+            'mime' => 'Dosya türüne izin verilmiyor.',
+            'size' => 'Dosya :max MB sınırını aşıyor.',
+            'limit' => 'En fazla :max dosya yükleyebilirsiniz.',
+            'network' => 'Ağ hatası. Lütfen tekrar deneyin.',
+            'server' => 'Yükleme başarısız oldu. Lütfen tekrar deneyin.',
+            'integrity' => 'Yükleme eksik olarak ulaştı. Lütfen tekrar deneyin.',
+            'unauthorized' => 'Bu dosyayı yükleme izniniz yok.',
+            'generic' => 'Bir şeyler yanlış gitti.',
+        ],
+    ],
+
     'date' => [
         'calendar' => [
             'months' => [
