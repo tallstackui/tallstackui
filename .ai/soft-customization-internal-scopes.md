@@ -50,7 +50,7 @@ TallStackUi::customize()
 
 | Scope           | Target         | Line(s) |
 |-----------------|----------------|---------|
-| `dialog.button` | `<x-button />` | 120     |
+| `dialog.button` | `<x-button />` | 121     |
 
 ### `dropdown`
 
@@ -141,6 +141,15 @@ TallStackUi::customize()
 | `form.upload.floating` | `<x-floating />` | 89      |
 | `form.upload.error`    | `<x-error />`    | 152     |
 
+### `form/upload/async`
+
+| Scope                     | Target         | Line(s) |
+|---------------------------|----------------|---------|
+| `form.upload.async.label` | `<x-label />`  | 30      |
+| `form.upload.async.hint`  | `<x-hint />`   | 156     |
+| `form.upload.async.clear` | `<x-button />` | 165     |
+| `form.upload.async.send`  | `<x-button />` | 173     |
+
 ### `layout/sidebar/item`
 
 | Scope                | Target        | Line(s)          |
@@ -184,6 +193,6 @@ TallStackUi::customize()
 
 ## Stats
 
-- Total internal scope occurrences: 51
-- Distinct scopes: 46
-- Files declaring scopes: 21
+- Total internal scope occurrences: 55
+- Distinct scopes: 50
+- Files declaring scopes: 22
