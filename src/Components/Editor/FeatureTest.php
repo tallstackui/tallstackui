@@ -29,7 +29,7 @@ it('can render the whole default toolbar', function () {
         'style', 'bold', 'italic', 'underline', 'strikethrough',
         'ordered_list', 'unordered_list', 'indent', 'outdent', 'align',
         'code', 'code_block', 'clear_format', 'link', 'image',
-        'undo', 'redo', 'preview', 'fullscreen',
+        'undo', 'redo', 'fullscreen',
     ] as $slug) {
         expect($html)->toContain('dusk="tallstackui_editor_'.$slug.'"');
     }
@@ -243,7 +243,6 @@ it('has the editor translations in every shipped locale', function () {
 
         foreach ([
             'editor.placeholder',
-            'editor.preview.empty',
             'editor.tooltip.bold',
             'editor.tooltip.fullscreen',
             'editor.style.h1',

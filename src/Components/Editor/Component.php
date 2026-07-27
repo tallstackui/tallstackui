@@ -82,12 +82,6 @@ class Component extends TallStackUiComponent implements Customization
                     'paragraph' => '[&_p]:my-1',
                 ],
             ],
-            'preview' => [
-                'wrapper' => 'grid flex-1 grid-cols-1 overflow-hidden sm:grid-cols-2',
-                'divider' => 'dark:border-dark-600 border-t border-gray-300 sm:border-t-0 sm:border-l',
-                'content' => 'dark:text-dark-200 overflow-y-auto px-4 py-3 text-sm text-gray-700 soft-scrollbar',
-                'empty' => 'dark:text-dark-500 flex items-center justify-center p-4 text-sm text-gray-400',
-            ],
             'footer' => [
                 'wrapper' => 'dark:border-dark-600 dark:bg-dark-900 dark:text-dark-400 flex items-center justify-end gap-x-3 border-t border-gray-300 bg-gray-50 px-3 py-1.5 text-xs text-gray-500',
                 'counter' => 'tabular-nums',

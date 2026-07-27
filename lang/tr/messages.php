@@ -178,9 +178,6 @@ return [
 
     'editor' => [
         'placeholder' => 'Yazmaya başlayın...',
-        'preview' => [
-            'empty' => 'Henüz önizlenecek bir şey yok.',
-        ],
         'tooltip' => [
             'style' => 'Paragraf stili',
             'bold' => 'Kalın',
@@ -199,7 +196,6 @@ return [
             'image' => 'Görsel ekle',
             'undo' => 'Geri al',
             'redo' => 'Yinele',
-            'preview' => 'Önizleme',
             'fullscreen' => 'Tam ekran',
         ],
         'style' => [

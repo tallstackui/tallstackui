@@ -178,9 +178,6 @@ return [
 
     'editor' => [
         'placeholder' => 'ابدأ الكتابة...',
-        'preview' => [
-            'empty' => 'لا يوجد شيء للمعاينة بعد.',
-        ],
         'tooltip' => [
             'style' => 'نمط الفقرة',
             'bold' => 'عريض',
@@ -199,7 +196,6 @@ return [
             'image' => 'إدراج صورة',
             'undo' => 'تراجع',
             'redo' => 'إعادة',
-            'preview' => 'معاينة',
             'fullscreen' => 'ملء الشاشة',
         ],
         'style' => [

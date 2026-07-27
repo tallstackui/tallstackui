@@ -178,9 +178,6 @@ return [
 
     'editor' => [
         'placeholder' => 'Zacznij pisać...',
-        'preview' => [
-            'empty' => 'Nie ma jeszcze czego podglądać.',
-        ],
         'tooltip' => [
             'style' => 'Styl akapitu',
             'bold' => 'Pogrubienie',
@@ -199,7 +196,6 @@ return [
             'image' => 'Wstaw obraz',
             'undo' => 'Cofnij',
             'redo' => 'Ponów',
-            'preview' => 'Podgląd',
             'fullscreen' => 'Pełny ekran',
         ],
         'style' => [

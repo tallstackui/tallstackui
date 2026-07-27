@@ -237,7 +237,7 @@ return [
                     'code', 'code-block', 'clear-format',
                     'link', 'image',
                     'undo', 'redo',
-                    'preview', 'fullscreen',
+                    'fullscreen',
                 ],
                 'counters' => true,
                 'min_height' => '12rem',

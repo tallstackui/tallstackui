@@ -178,9 +178,6 @@ return [
 
     'editor' => [
         'placeholder' => 'Comece a escrever...',
-        'preview' => [
-            'empty' => 'Nada para visualizar ainda.',
-        ],
         'tooltip' => [
             'style' => 'Estilo do parágrafo',
             'bold' => 'Negrito',
@@ -199,7 +196,6 @@ return [
             'image' => 'Inserir imagem',
             'undo' => 'Desfazer',
             'redo' => 'Refazer',
-            'preview' => 'Visualizar',
             'fullscreen' => 'Tela cheia',
         ],
         'style' => [

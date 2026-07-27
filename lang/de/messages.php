@@ -178,9 +178,6 @@ return [
 
     'editor' => [
         'placeholder' => 'Schreiben Sie los...',
-        'preview' => [
-            'empty' => 'Noch nichts zur Vorschau.',
-        ],
         'tooltip' => [
             'style' => 'Absatzformat',
             'bold' => 'Fett',
@@ -199,7 +196,6 @@ return [
             'image' => 'Bild einfügen',
             'undo' => 'Rückgängig',
             'redo' => 'Wiederholen',
-            'preview' => 'Vorschau',
             'fullscreen' => 'Vollbild',
         ],
         'style' => [

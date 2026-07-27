@@ -178,9 +178,6 @@ return [
 
     'editor' => [
         'placeholder' => 'Start writing...',
-        'preview' => [
-            'empty' => 'Nothing to preview yet.',
-        ],
         'tooltip' => [
             'style' => 'Paragraph style',
             'bold' => 'Bold',
@@ -199,7 +196,6 @@ return [
             'image' => 'Insert image',
             'undo' => 'Undo',
             'redo' => 'Redo',
-            'preview' => 'Preview',
             'fullscreen' => 'Fullscreen',
         ],
         'style' => [

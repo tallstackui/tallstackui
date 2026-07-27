@@ -178,9 +178,6 @@ return [
 
     'editor' => [
         'placeholder' => 'Mula menulis...',
-        'preview' => [
-            'empty' => 'Tiada apa-apa untuk pratonton lagi.',
-        ],
         'tooltip' => [
             'style' => 'Gaya perenggan',
             'bold' => 'Tebal',
@@ -199,7 +196,6 @@ return [
             'image' => 'Sisip imej',
             'undo' => 'Buat asal',
             'redo' => 'Buat semula',
-            'preview' => 'Pratonton',
             'fullscreen' => 'Skrin penuh',
         ],
         'style' => [

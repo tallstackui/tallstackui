@@ -178,9 +178,6 @@ return [
 
     'editor' => [
         'placeholder' => 'Mulai menulis...',
-        'preview' => [
-            'empty' => 'Belum ada yang bisa dipratinjau.',
-        ],
         'tooltip' => [
             'style' => 'Gaya paragraf',
             'bold' => 'Tebal',
@@ -199,7 +196,6 @@ return [
             'image' => 'Sisipkan gambar',
             'undo' => 'Urungkan',
             'redo' => 'Ulangi',
-            'preview' => 'Pratinjau',
             'fullscreen' => 'Layar penuh',
         ],
         'style' => [

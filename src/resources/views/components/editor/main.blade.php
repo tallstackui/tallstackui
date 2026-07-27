@@ -310,21 +310,6 @@
                                 </button>
                                 @break
 
-                            @case('preview')
-                                <button type="button"
-                                        x-on:mousedown.prevent="togglePreview()"
-                                        x-bind:aria-pressed="preview"
-                                        x-bind:class="{ @js($customization['toolbar.button.active']): preview }"
-                                        x-tooltip="{{ $i18n['tooltip']['preview'] }}"
-                                        data-position="bottom"
-                                        dusk="tallstackui_editor_preview"
-                                        class="{{ $customization['toolbar.button.base'] }}">
-                                    <x-dynamic-component :component="TallStackUi::prefix('icon')"
-                                                         :icon="TallStackUi::icon('eye')" internal
-                                                         class="{{ $customization['toolbar.icon'] }}" />
-                                </button>
-                                @break
-
                             @case('fullscreen')
                                 <button type="button"
                                         x-on:mousedown.prevent="toggleFullscreen()"
@@ -352,7 +337,7 @@
             </div>
         @endunless
 
-        <div x-bind:class="preview ? @js($customization['preview.wrapper']) : @js($customization['editable.container'])">
+        <div class="{{ $customization['editable.container'] }}">
             <div class="{{ $customization['editable.wrapper'] }}">
                 <div x-ref="editable"
                      role="textbox"
@@ -381,27 +366,6 @@
                          $customization['editable.typography.paragraph'],
                      ])></div>
             </div>
-
-            <template x-if="preview">
-                <div class="{{ $customization['preview.divider'] }}">
-                    <template x-if="empty">
-                        <div class="{{ $customization['preview.empty'] }}">{{ $i18n['preview']['empty'] }}</div>
-                    </template>
-                    <template x-if="!empty">
-                        <div x-html="html"
-                             dusk="tallstackui_editor_preview_pane"
-                             @class([
-                                 $customization['preview.content'],
-                                 $customization['editable.typography.headings'],
-                                 $customization['editable.typography.lists'],
-                                 $customization['editable.typography.code'],
-                                 $customization['editable.typography.link'],
-                                 $customization['editable.typography.image'],
-                                 $customization['editable.typography.paragraph'],
-                             ])></div>
-                    </template>
-                </div>
-            </template>
         </div>
 
         @if ($configurations['counters'])

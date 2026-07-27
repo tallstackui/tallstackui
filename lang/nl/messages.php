@@ -178,9 +178,6 @@ return [
 
     'editor' => [
         'placeholder' => 'Begin met schrijven...',
-        'preview' => [
-            'empty' => 'Nog niets om te bekijken.',
-        ],
         'tooltip' => [
             'style' => 'Alineastijl',
             'bold' => 'Vet',
@@ -199,7 +196,6 @@ return [
             'image' => 'Afbeelding invoegen',
             'undo' => 'Ongedaan maken',
             'redo' => 'Opnieuw',
-            'preview' => 'Voorbeeld',
             'fullscreen' => 'Volledig scherm',
         ],
         'style' => [

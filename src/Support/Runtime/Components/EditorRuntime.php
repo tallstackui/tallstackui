@@ -26,7 +26,6 @@ class EditorRuntime extends AbstractRuntime
         'image' => 'insert',
         'undo' => 'history',
         'redo' => 'history',
-        'preview' => 'view',
         'fullscreen' => 'view',
     ];
 

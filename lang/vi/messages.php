@@ -178,9 +178,6 @@ return [
 
     'editor' => [
         'placeholder' => 'Bắt đầu viết...',
-        'preview' => [
-            'empty' => 'Chưa có gì để xem trước.',
-        ],
         'tooltip' => [
             'style' => 'Kiểu đoạn văn',
             'bold' => 'Đậm',
@@ -199,7 +196,6 @@ return [
             'image' => 'Chèn hình ảnh',
             'undo' => 'Hoàn tác',
             'redo' => 'Làm lại',
-            'preview' => 'Xem trước',
             'fullscreen' => 'Toàn màn hình',
         ],
         'style' => [
