@@ -40,36 +40,36 @@ The `route` accepts a named route or a plain URL. Either `wire:model` or `name` 
 
 ## Attributes
 
-| Attribute   | Type                             | Default            | Description                                                             |
-|-------------|----------------------------------|--------------------|-------------------------------------------------------------------------|
-| route       | string **required**              | —                  | Named route or URL the chunks are posted to                             |
-| method      | string                           | 'POST'             | HTTP method used for every chunk                                        |
-| label       | string\|ComponentSlot\|null      | null               | Label text displayed above the drop area                                |
-| hint        | string\|ComponentSlot\|null      | null               | Hint text displayed below the drop area                                 |
-| title       | string\|null                     | translation        | Placeholder title inside the drop area                                  |
-| description | string\|null                     | translation        | Placeholder subtitle inside the drop area                               |
-| tip         | string\|ComponentSlot\|null      | null               | Extra line under the description, hidden once a file is picked          |
-| multiple    | bool                             | false              | Allows multiple file selection                                          |
-| manual      | bool                             | false              | Stages the files and waits for the Send button                          |
-| disabled    | bool                             | false              | Blocks drop, click and keyboard                                         |
-| limit       | int\|null                        | null               | Maximum number of files, only meaningful with `multiple`                |
-| max-size    | int\|null                        | config             | Maximum megabytes per file, also enforced by the handler                |
-| accept      | string\|null                     | config             | Mime/extension filter (e.g. `image/*,.pdf`)                             |
-| files       | array\|Collection\|null          | null               | Pre-existing files, same shape as the bound value                       |
-| height      | string\|null                     | 'min-h-48'         | Tailwind min-height of the drop area                                    |
-| columns     | int\|null                        | 6                  | Maximum grid columns, clamped to 1..6                                   |
-| chunk-size  | int\|null                        | config             | Bytes per chunk                                                         |
-| concurrency | int\|null                        | config             | Chunks uploaded in parallel, per component                              |
-| retries     | int\|null                        | config             | Attempts per chunk on transient failures                                |
-| headers     | array\|null                      | null               | Extra HTTP headers. The CSRF token is injected automatically            |
-| footer      | ComponentSlot\|null              | null               | Replaces the built-in Send/Clear footer of manual mode                  |
-| error       | string\|bool\|null               | translation        | Component-level fallback error message                                  |
+| Attribute   | Type                        | Default     | Description                                                    |
+|-------------|-----------------------------|-------------|----------------------------------------------------------------|
+| route       | string **required**         | —           | Named route or URL the chunks are posted to                    |
+| method      | string                      | 'POST'      | HTTP method used for every chunk                               |
+| label       | string\|ComponentSlot\|null | null        | Label text displayed above the drop area                       |
+| hint        | string\|ComponentSlot\|null | null        | Hint text displayed below the drop area                        |
+| title       | string\|null                | translation | Placeholder title inside the drop area                         |
+| description | string\|null                | translation | Placeholder subtitle inside the drop area                      |
+| tip         | string\|ComponentSlot\|null | null        | Extra line under the description, hidden once a file is picked |
+| multiple    | bool                        | false       | Allows multiple file selection                                 |
+| manual      | bool                        | false       | Stages the files and waits for the Send button                 |
+| disabled    | bool                        | false       | Blocks drop, click and keyboard                                |
+| limit       | int\|null                   | null        | Maximum number of files, only meaningful with `multiple`       |
+| max-size    | int\|null                   | config      | Maximum megabytes per file, also enforced by the handler       |
+| accept      | string\|null                | config      | Mime/extension filter (e.g. `image/*,.pdf`)                    |
+| files       | array\|Collection\|null     | null        | Pre-existing files, same shape as the bound value              |
+| height      | string\|null                | 'min-h-48'  | Tailwind min-height of the drop area                           |
+| columns     | int\|null                   | 6           | Maximum grid columns, clamped to 1..6                          |
+| chunk-size  | int\|null                   | config      | Bytes per chunk                                                |
+| concurrency | int\|null                   | config      | Chunks uploaded in parallel, per component                     |
+| retries     | int\|null                   | config      | Attempts per chunk on transient failures                       |
+| headers     | array\|null                 | null        | Extra HTTP headers. The CSRF token is injected automatically   |
+| footer      | ComponentSlot\|null         | null        | Replaces the built-in Send/Clear footer of manual mode         |
+| error       | string\|bool\|null          | translation | Component-level fallback error message                         |
 
 ## Slots
 
-| Slot   | Description                                                                                     |
-|--------|-------------------------------------------------------------------------------------------------|
-| footer | Replaces the Send and Clear buttons rendered by manual mode. Ignored when `manual` is not set.  |
+| Slot   | Description                                                                                    |
+|--------|------------------------------------------------------------------------------------------------|
+| footer | Replaces the Send and Clear buttons rendered by manual mode. Ignored when `manual` is not set. |
 
 ## Bound Value
 
@@ -121,15 +121,15 @@ The method is called once per chunk. Intermediate chunks answer `204`; the last 
 
 ### Options
 
-| Option    | Type     | Default          | Description                                                                     |
-|-----------|----------|------------------|---------------------------------------------------------------------------------|
-| disk      | string   | config           | Destination disk. Any driver, including S3                                      |
-| directory | string   | **required**     | Destination directory on that disk                                              |
-| rules     | array    | null             | Laravel rules applied to the assembled file, under the `file` key               |
-| store     | callable | null             | Receives `(SplFileInfo $file, AsyncUploadRequest $request)` and returns the final path, skipping the built-in move |
-| authorize | callable | null             | Receives `(AsyncUploadRequest $request)`; returning `false` aborts with `403`    |
-| max_size  | int      | config           | Per-endpoint override of the megabyte ceiling                                   |
-| tmp_disk  | string   | config           | Staging disk. Must use the local driver                                         |
+| Option    | Type     | Default      | Description                                                                                                        |
+|-----------|----------|--------------|--------------------------------------------------------------------------------------------------------------------|
+| disk      | string   | config       | Destination disk. Any driver, including S3                                                                         |
+| directory | string   | **required** | Destination directory on that disk                                                                                 |
+| rules     | array    | null         | Laravel rules applied to the assembled file, under the `file` key                                                  |
+| store     | callable | null         | Receives `(SplFileInfo $file, AsyncUploadRequest $request)` and returns the final path, skipping the built-in move |
+| authorize | callable | null         | Receives `(AsyncUploadRequest $request)`; returning `false` aborts with `403`                                      |
+| max_size  | int      | config       | Per-endpoint override of the megabyte ceiling                                                                      |
+| tmp_disk  | string   | config       | Staging disk. Must use the local driver                                                                            |
 
 ### Taking over persistence
 
@@ -175,16 +175,16 @@ Nothing else collects them, so without this the staging directory grows forever.
 
 Dispatched on the component root. All payloads arrive on `event.detail`.
 
-| Event    | When                                                     | Detail                                       |
-|----------|----------------------------------------------------------|----------------------------------------------|
-| added    | File passed the client-side checks and entered the queue | `{ file }`                                   |
-| rejected | File blocked by `accept`, `max-size` or `limit`          | `{ file, reason: 'mime'\|'size'\|'limit' }`  |
-| start    | Chunk loop began for a file                              | `{ file }`                                   |
-| progress | Per-file progress update                                 | `{ file, progress }` (0..100)                |
-| success  | Backend accepted the file                                | `{ file, response }`                         |
-| error    | Definitive failure, retries exhausted                    | `{ file, error, status }`                    |
-| removed  | File removed from the grid                               | `{ file }`                                   |
-| complete | Whole queue finished, whatever the outcome               | `{ files }`                                  |
+| Event    | When                                                     | Detail                                      |
+|----------|----------------------------------------------------------|---------------------------------------------|
+| added    | File passed the client-side checks and entered the queue | `{ file }`                                  |
+| rejected | File blocked by `accept`, `max-size` or `limit`          | `{ file, reason: 'mime'\|'size'\|'limit' }` |
+| start    | Chunk loop began for a file                              | `{ file }`                                  |
+| progress | Per-file progress update                                 | `{ file, progress }` (0..100)               |
+| success  | Backend accepted the file                                | `{ file, response }`                        |
+| error    | Definitive failure, retries exhausted                    | `{ file, error, status }`                   |
+| removed  | File removed from the grid                               | `{ file }`                                  |
+| complete | Whole queue finished, whatever the outcome               | `{ files }`                                 |
 
 ```blade
 <x-upload.async wire:model="files"
@@ -197,11 +197,11 @@ Dispatched on the component root. All payloads arrive on `event.detail`.
 
 Three events for side effects: queueing a thumbnail, scanning, auditing.
 
-| Event                | When                                                    | Payload                                                       |
-|----------------------|---------------------------------------------------------|---------------------------------------------------------------|
-| AsyncUploadStarted   | First chunk of a file landed                            | `uuid`, `realName`, `mime`, `totalSize`, `totalChunks`        |
-| AsyncUploadCompleted | File assembled, validated and stored                    | `response`, `disk`, `uuid`                                    |
-| AsyncUploadFailed    | A guard, the rules or the integrity check rejected it   | `reason`, `uuid`, `realName`, `errors`                        |
+| Event                | When                                                  | Payload                                                |
+|----------------------|-------------------------------------------------------|--------------------------------------------------------|
+| AsyncUploadStarted   | First chunk of a file landed                          | `uuid`, `realName`, `mime`, `totalSize`, `totalChunks` |
+| AsyncUploadCompleted | File assembled, validated and stored                  | `response`, `disk`, `uuid`                             |
+| AsyncUploadFailed    | A guard, the rules or the integrity check rejected it | `reason`, `uuid`, `realName`, `errors`                 |
 
 `$reason` is one of `unauthorized`, `size`, `integrity` or `rules`. There is deliberately no per-chunk event: a 500 MB file would fire hundreds.
 
@@ -211,18 +211,18 @@ Three events for side effects: queueing a thumbnail, scanning, auditing.
 
 Global defaults live under `components.upload.async` in the published config.
 
-| Setting       | Default          | Description                                                            |
-|---------------|------------------|------------------------------------------------------------------------|
-| chunk_size    | 2 MB             | Bytes per chunk. Must stay below the PHP `upload_max_filesize`         |
-| concurrency   | 3                | Chunks uploaded in parallel, per component                             |
-| retries       | 3                | Attempts per chunk on 5xx, 408, 429 and network errors                 |
-| retry_delay   | 1000             | Milliseconds between retries, with exponential backoff                 |
-| max_size      | null             | Maximum megabytes per file. null = unlimited                           |
-| accept        | null             | Default mime/extension filter. null = any                              |
-| tmp_disk      | 'local'          | Disk used to stage the chunks. Must use the local driver               |
-| tmp_directory | 'async-uploads'  | Directory, inside `tmp_disk`, used to stage the chunks                 |
-| disk          | 'local'          | Destination disk of the finalized files                                |
-| keep          | 6 hours          | Seconds an unfinished upload is kept before the clear command drops it |
+| Setting       | Default         | Description                                                            |
+|---------------|-----------------|------------------------------------------------------------------------|
+| chunk_size    | 2 MB            | Bytes per chunk. Must stay below the PHP `upload_max_filesize`         |
+| concurrency   | 3               | Chunks uploaded in parallel, per component                             |
+| retries       | 3               | Attempts per chunk on 5xx, 408, 429 and network errors                 |
+| retry_delay   | 1000            | Milliseconds between retries, with exponential backoff                 |
+| max_size      | null            | Maximum megabytes per file. null = unlimited                           |
+| accept        | null            | Default mime/extension filter. null = any                              |
+| tmp_disk      | 'local'         | Disk used to stage the chunks. Must use the local driver               |
+| tmp_directory | 'async-uploads' | Directory, inside `tmp_disk`, used to stage the chunks                 |
+| disk          | 'local'         | Destination disk of the finalized files                                |
+| keep          | 6 hours         | Seconds an unfinished upload is kept before the clear command drops it |
 
 The `aria-label` of the remove button and of the lightbox close button are not
 translated: they carry a fixed English string.
@@ -243,53 +243,53 @@ TallStackUi::customize()
 
 ### Available Blocks
 
-| Block Name                  | Purpose                                                          |
-|-----------------------------|------------------------------------------------------------------|
-| wrapper                     | Outermost container of the component                             |
-| dropzone.base               | Drop area frame: border, radius, padding and scrollbar clipping  |
-| dropzone.dragging           | Drop area while a file is being dragged over it                  |
-| dropzone.disabled           | Drop area while disabled                                         |
-| dropzone.input              | Hidden file input overlay                                        |
-| dropzone.placeholder        | Placeholder container, shared by both sizes                      |
-| dropzone.placeholder-full   | Placeholder layout while no file has been picked                 |
-| dropzone.placeholder-compact| Placeholder layout once files are in the grid                    |
-| dropzone.icon               | Placeholder icon colour                                          |
-| dropzone.icon-full          | Placeholder icon size while empty                                |
-| dropzone.icon-compact       | Placeholder icon size once filled                                |
-| dropzone.icon-bouncing      | Placeholder icon animation while dragging                        |
-| dropzone.title              | Placeholder title colour                                         |
-| dropzone.title-full         | Placeholder title size while empty                               |
-| dropzone.title-compact      | Placeholder title size once filled                               |
-| dropzone.description        | Placeholder description colour                                   |
-| dropzone.description-full   | Placeholder description size while empty                         |
-| dropzone.description-compact| Placeholder description size once filled                         |
-| dropzone.tip                | Placeholder tip text                                             |
-| grid.wrapper                | File grid scroll container                                       |
-| grid.multiple               | Grid width in multiple mode                                      |
-| grid.single                 | Grid width in single mode                                        |
-| grid.cols.1 … grid.cols.6   | Responsive column counts, picked by the `columns` attribute      |
-| tile.wrapper                | File tile container                                              |
-| tile.image                  | Image thumbnail inside the tile                                  |
-| tile.document               | Non-image tile container                                         |
-| tile.document-icon          | Non-image tile icon                                              |
-| tile.extension              | Uppercase extension pill of a non-image tile                     |
-| tile.name-overlay           | File name gradient at the top of the tile                        |
-| tile.size-overlay           | File size gradient at the bottom of the tile                     |
-| tile.remove                 | Remove button of the tile                                        |
-| tile.remove-icon            | Remove button icon                                               |
-| tile.progress               | Per-file progress bar                                            |
-| tile.success-mark           | Badge shown once the file is stored                              |
-| tile.error-ring             | Ring drawn around a rejected or failed tile                      |
-| tile.error-badge            | Badge shown on a rejected or failed tile                         |
-| tile.error-msg              | Error message rendered over the tile                             |
-| lightbox.backdrop           | Fullscreen image preview backdrop                                |
-| lightbox.wrapper            | Preview image container                                          |
-| lightbox.image              | Preview image                                                    |
-| lightbox.caption            | File name overlaid on the preview                                |
-| lightbox.close              | Preview close button                                             |
-| lightbox.close-icon         | Preview close button icon                                        |
-| footer.wrapper              | Manual mode footer container                                     |
-| footer.summary              | Manual mode file count and total size                            |
-| footer.actions              | Manual mode button group                                         |
-| error.wrapper               | Error message container                                          |
-| error.message               | Error message text                                               |
+| Block Name                   | Purpose                                                         |
+|------------------------------|-----------------------------------------------------------------|
+| wrapper                      | Outermost container of the component                            |
+| dropzone.base                | Drop area frame: border, radius, padding and scrollbar clipping |
+| dropzone.dragging            | Drop area while a file is being dragged over it                 |
+| dropzone.disabled            | Drop area while disabled                                        |
+| dropzone.input               | Hidden file input overlay                                       |
+| dropzone.placeholder         | Placeholder container, shared by both sizes                     |
+| dropzone.placeholder-full    | Placeholder layout while no file has been picked                |
+| dropzone.placeholder-compact | Placeholder layout once files are in the grid                   |
+| dropzone.icon                | Placeholder icon colour                                         |
+| dropzone.icon-full           | Placeholder icon size while empty                               |
+| dropzone.icon-compact        | Placeholder icon size once filled                               |
+| dropzone.icon-bouncing       | Placeholder icon animation while dragging                       |
+| dropzone.title               | Placeholder title colour                                        |
+| dropzone.title-full          | Placeholder title size while empty                              |
+| dropzone.title-compact       | Placeholder title size once filled                              |
+| dropzone.description         | Placeholder description colour                                  |
+| dropzone.description-full    | Placeholder description size while empty                        |
+| dropzone.description-compact | Placeholder description size once filled                        |
+| dropzone.tip                 | Placeholder tip text                                            |
+| grid.wrapper                 | File grid scroll container                                      |
+| grid.multiple                | Grid width in multiple mode                                     |
+| grid.single                  | Grid width in single mode                                       |
+| grid.cols.1 … grid.cols.6    | Responsive column counts, picked by the `columns` attribute     |
+| tile.wrapper                 | File tile container                                             |
+| tile.image                   | Image thumbnail inside the tile                                 |
+| tile.document                | Non-image tile container                                        |
+| tile.document-icon           | Non-image tile icon                                             |
+| tile.extension               | Uppercase extension pill of a non-image tile                    |
+| tile.name-overlay            | File name gradient at the top of the tile                       |
+| tile.size-overlay            | File size gradient at the bottom of the tile                    |
+| tile.remove                  | Remove button of the tile                                       |
+| tile.remove-icon             | Remove button icon                                              |
+| tile.progress                | Per-file progress bar                                           |
+| tile.success-mark            | Badge shown once the file is stored                             |
+| tile.error-ring              | Ring drawn around a rejected or failed tile                     |
+| tile.error-badge             | Badge shown on a rejected or failed tile                        |
+| tile.error-msg               | Error message rendered over the tile                            |
+| lightbox.backdrop            | Fullscreen image preview backdrop                               |
+| lightbox.wrapper             | Preview image container                                         |
+| lightbox.image               | Preview image                                                   |
+| lightbox.caption             | File name overlaid on the preview                               |
+| lightbox.close               | Preview close button                                            |
+| lightbox.close-icon          | Preview close button icon                                       |
+| footer.wrapper               | Manual mode footer container                                    |
+| footer.summary               | Manual mode file count and total size                           |
+| footer.actions               | Manual mode button group                                        |
+| error.wrapper                | Error message container                                         |
+| error.message                | Error message text                                              |
