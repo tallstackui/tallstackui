@@ -12,6 +12,7 @@ export default {
         'js/tallstackui-select.js',
         'js/tallstackui-tooltip.js',
         'js/tallstackui-clipboard.js',
+        'js/tallstackui-upload.js',
       ],
     },
   },
