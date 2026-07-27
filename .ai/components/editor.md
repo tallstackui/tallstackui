@@ -17,7 +17,7 @@ It is content focused rather than a document editor: no tables, no image resize 
 <x-editor wire:model="content"
           label="Article"
           hint="Keep it under a thousand words"
-          :toolbar="['style', 'bold', 'italic', 'link', 'preview']"
+          :toolbar="['style', 'bold', 'italic', 'link', 'image']"
           min-height="20rem"
           max-height="60vh" />
 ```
@@ -55,7 +55,7 @@ Either `wire:model` or `name` is required. With `name` the HTML is mirrored into
 
 ## Toolbar
 
-Nineteen buttons across seven groups. Dividers are inserted automatically wherever two consecutive buttons do not share a group.
+Eighteen buttons across seven groups. Dividers are inserted automatically wherever two consecutive buttons do not share a group.
 
 | Slug           | Group      | Does                                                  |
 |----------------|------------|-------------------------------------------------------|
@@ -76,7 +76,6 @@ Nineteen buttons across seven groups. Dividers are inserted automatically wherev
 | image          | insert     | Opens the image dialog                                |
 | undo           | history    | Undo                                                  |
 | redo           | history    | Redo                                                  |
-| preview        | view       | Splits the editor into edit and preview panes         |
 | fullscreen     | view       | Fills the viewport                                    |
 
 Passing a slug the list does not know throws. On a viewport too narrow to hold the toolbar it scrolls horizontally rather than collapsing, so a customized order stays as it was written.
@@ -123,9 +122,15 @@ class PostForm extends Component
 
 Both attributes are required together and only work inside Livewire; either rule broken throws. Without them the image dialog is URL only. The file rides the Livewire upload pipeline, so it has to fit inside the PHP request limits.
 
+## Livewire
+
+The component is rendered with `wire:ignore` inside Livewire. Its content travels through the entangle rather than through the HTML the server re-renders, which is what keeps the caret still while the editor is being typed into.
+
+The cost is that nothing else about the editor reacts to the server either. Changing `readonly`, `placeholder`, `toolbar` or any other attribute from a Livewire round trip leaves the rendered editor as it was. Reach for `wire:key` on the tag when an attribute has to change at runtime, so Livewire replaces the component instead of trying to update it in place.
+
 ## Security
 
-The paste sanitizer strips tags, attributes and style properties outside the configured whitelist before anything enters the editable. It is defense in depth, not the defense.
+The sanitizer strips tags, attributes and style properties outside the configured whitelist. It runs over pasted markup and over any HTML arriving from the bound property, including the value the editor boots with: setting `innerHTML` never runs a `<script>`, but it does fire an `<img onerror>`, and stored content is the path that reaches every reader. It is defense in depth, not the defense.
 
 **Sanitize the HTML on the server before persisting it and before rendering it back.** Use `mews/purifier`, `HTMLPurifier` or an equivalent. Nothing the browser does can be trusted by the time it reaches a database.
 
@@ -138,7 +143,6 @@ Dispatched on the component root, so `x-on:` on the tag itself picks them up.
 | editor:change             | `{ id, html, words, lines }` | After the debounced sync, on a real change           |
 | editor:link-inserted      | `{ id, href, text }`         | A link was inserted                                  |
 | editor:image-inserted     | `{ id, src, alt, source }`   | An image was inserted, `source` is `url` or `upload` |
-| editor:preview-toggled    | `{ id, on }`                 | The preview pane was toggled                         |
 | editor:fullscreen-toggled | `{ id, on }`                 | Fullscreen was toggled                               |
 
 ```blade
@@ -171,7 +175,7 @@ The editable is a `role="textbox"` with `aria-multiline`, labelled by the `label
 
 ```php
 'editor' => [
-    'toolbar' => ['style', 'bold', ..., 'preview', 'fullscreen'],
+    'toolbar' => ['style', 'bold', ..., 'redo', 'fullscreen'],
     'counters' => true,
     'min_height' => '12rem',
     'max_height' => '40rem',
@@ -218,47 +222,43 @@ TallStackUi::customize('dropdown', scope: 'editor-toolbar')->block('slot.wrapper
 
 ### Available Blocks
 
-| Block Name                       | Purpose                                                   |
-|----------------------------------|-----------------------------------------------------------|
-| wrapper.base                     | Outermost frame of the component                          |
-| wrapper.fullscreen               | Added to the frame while fullscreen is on                 |
-| wrapper.disabled                 | Added to the frame while disabled                         |
-| toolbar.wrapper                  | Toolbar bar, including its horizontal scrolling           |
-| toolbar.divider                  | Separator drawn between two groups                        |
-| toolbar.button.base              | Toolbar button                                            |
-| toolbar.button.active            | Toolbar button while its format is applied                |
-| toolbar.dropdown.trigger         | Button that opens a toolbar dropdown                      |
-| toolbar.dropdown.active          | Dropdown entry matching the current block                 |
-| toolbar.dropdown.style.paragraph | Preview size of the paragraph entry                       |
-| toolbar.dropdown.style.h1        | Preview size of the heading 1 entry                       |
-| toolbar.dropdown.style.h2        | Preview size of the heading 2 entry                       |
-| toolbar.dropdown.style.h3        | Preview size of the heading 3 entry                       |
-| toolbar.icon                     | Size of the icons inside the toolbar                      |
-| editable.container               | Row holding the editable, and the preview when it is open |
-| editable.wrapper                 | Scroll container around the editable                      |
-| editable.content                 | Editable itself: padding, colour and typography base      |
-| editable.placeholder             | Placeholder painted while the editable is empty           |
-| editable.typography.headings     | Headings rendered inside the content                      |
-| editable.typography.lists        | Lists rendered inside the content                         |
-| editable.typography.code         | Inline code and code blocks rendered inside the content   |
-| editable.typography.link         | Links rendered inside the content                         |
-| editable.typography.image        | Images rendered inside the content                        |
-| editable.typography.paragraph    | Paragraphs rendered inside the content                    |
-| preview.wrapper                  | Grid holding the editor and the preview side by side      |
-| preview.divider                  | Border between the two panes                              |
-| preview.content                  | Preview pane                                              |
-| preview.empty                    | Preview pane while there is nothing to show               |
-| footer.wrapper                   | Footer holding the counters                               |
-| footer.counter                   | A single counter                                          |
-| dialog.fields                    | Spacing between the fields inside a dialog                |
-| dialog.error                     | Error line inside the image dialog                        |
-| image.upload.area                | Drop area inside the image dialog                         |
-| image.upload.button              | Label and icon inside the drop area                       |
-| image.upload.hint                | Accepted types and size below the drop area               |
-| image.upload.progress.wrapper    | Progress bar track                                        |
-| image.upload.progress.bar        | Progress bar fill                                         |
-| image.divider                    | "or paste a URL" separator                                |
-| image.preview                    | Thumbnail of the image about to be inserted               |
+| Block Name                       | Purpose                                                 |
+|----------------------------------|---------------------------------------------------------|
+| wrapper.base                     | Outermost frame of the component                        |
+| wrapper.fullscreen               | Added to the frame while fullscreen is on               |
+| wrapper.disabled                 | Added to the frame while disabled                       |
+| toolbar.wrapper                  | Toolbar bar, including its horizontal scrolling         |
+| toolbar.divider                  | Separator drawn between two groups                      |
+| toolbar.button.base              | Toolbar button                                          |
+| toolbar.button.active            | Toolbar button while its format is applied              |
+| toolbar.dropdown.trigger         | Button that opens a toolbar dropdown                    |
+| toolbar.dropdown.active          | Dropdown entry matching the current block               |
+| toolbar.dropdown.style.paragraph | Preview size of the paragraph entry                     |
+| toolbar.dropdown.style.h1        | Preview size of the heading 1 entry                     |
+| toolbar.dropdown.style.h2        | Preview size of the heading 2 entry                     |
+| toolbar.dropdown.style.h3        | Preview size of the heading 3 entry                     |
+| toolbar.icon                     | Size of the icons inside the toolbar                    |
+| editable.container               | Row holding the editable                                |
+| editable.wrapper                 | Scroll container around the editable                    |
+| editable.content                 | Editable itself: padding, colour and typography base    |
+| editable.placeholder             | Placeholder painted while the editable is empty         |
+| editable.typography.headings     | Headings rendered inside the content                    |
+| editable.typography.lists        | Lists rendered inside the content                       |
+| editable.typography.code         | Inline code and code blocks rendered inside the content |
+| editable.typography.link         | Links rendered inside the content                       |
+| editable.typography.image        | Images rendered inside the content                      |
+| editable.typography.paragraph    | Paragraphs rendered inside the content                  |
+| footer.wrapper                   | Footer holding the counters                             |
+| footer.counter                   | A single counter                                        |
+| dialog.fields                    | Spacing between the fields inside a dialog              |
+| dialog.error                     | Error line inside the image dialog                      |
+| image.upload.area                | Drop area inside the image dialog                       |
+| image.upload.button              | Label and icon inside the drop area                     |
+| image.upload.hint                | Accepted types and size below the drop area             |
+| image.upload.progress.wrapper    | Progress bar track                                      |
+| image.upload.progress.bar        | Progress bar fill                                       |
+| image.divider                    | "or paste a URL" separator                              |
+| image.preview                    | Thumbnail of the image about to be inserted             |
 
 The content of the editable carries no classes of its own, so everything it renders is styled from the outside through the `editable.typography.*` blocks.
 

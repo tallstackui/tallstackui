@@ -33,171 +33,171 @@ TallStackUi::customize()
 
 ### `calendar`
 
-| Scope               | Target           | Line(s) |
-|---------------------|------------------|---------|
-| `calendar.label`    | `<x-label />`    | 32      |
-| `calendar.floating` | `<x-floating />` | 63, 92  |
-| `calendar.hint`     | `<x-hint />`     | 262     |
+| Scope | Target | Line(s) |
+|-------|--------|---------|
+| `calendar.label` | `<x-label />` | 32 |
+| `calendar.floating` | `<x-floating />` | 63, 92 |
+| `calendar.hint` | `<x-hint />` | 262 |
 
 ### `clipboard`
 
-| Scope             | Target        | Line(s) |
-|-------------------|---------------|---------|
-| `clipboard.label` | `<x-label />` | 7       |
-| `clipboard.hint`  | `<x-hint />`  | 68      |
+| Scope | Target | Line(s) |
+|-------|--------|---------|
+| `clipboard.label` | `<x-label />` | 7 |
+| `clipboard.hint` | `<x-hint />` | 68 |
 
 ### `dialog`
 
-| Scope           | Target         | Line(s) |
-|-----------------|----------------|---------|
-| `dialog.button` | `<x-button />` | 121     |
+| Scope | Target | Line(s) |
+|-------|--------|---------|
+| `dialog.button` | `<x-button />` | 121 |
 
 ### `dropdown`
 
-| Scope               | Target           | Line(s) |
-|---------------------|------------------|---------|
-| `dropdown.floating` | `<x-floating />` | 45      |
+| Scope | Target | Line(s) |
+|-------|--------|---------|
+| `dropdown.floating` | `<x-floating />` | 45 |
 
 ### `dropdown/submenu`
 
-| Scope                       | Target           | Line(s) |
-|-----------------------------|------------------|---------|
-| `dropdown.submenu.floating` | `<x-floating />` | 55      |
+| Scope | Target | Line(s) |
+|-------|--------|---------|
+| `dropdown.submenu.floating` | `<x-floating />` | 55 |
 
 ### `editor`
 
-| Scope            | Target           | Line(s) |
-|------------------|------------------|---------|
+| Scope | Target | Line(s) |
+|-------|--------|---------|
 | `editor-toolbar` | `<x-dropdown />` | 41, 186 |
-| `editor-link`    | `<x-modal />`    | 420     |
-| `editor-image`   | `<x-modal />`    | 452     |
+| `editor-link` | `<x-modal />` | 384 |
+| `editor-image` | `<x-modal />` | 416 |
 
 ### `form/autocomplete`
 
-| Scope                        | Target           | Line(s) |
-|------------------------------|------------------|---------|
-| `form.autocomplete.input`    | `<x-input />`    | 19      |
-| `form.autocomplete.floating` | `<x-floating />` | 64      |
+| Scope | Target | Line(s) |
+|-------|--------|---------|
+| `form.autocomplete.input` | `<x-input />` | 19 |
+| `form.autocomplete.floating` | `<x-floating />` | 64 |
 
 ### `form/color`
 
-| Scope                 | Target           | Line(s) |
-|-----------------------|------------------|---------|
-| `form.color.input`    | `<x-input />`    | 21      |
-| `form.color.floating` | `<x-floating />` | 67      |
+| Scope | Target | Line(s) |
+|-------|--------|---------|
+| `form.color.input` | `<x-input />` | 21 |
+| `form.color.floating` | `<x-floating />` | 67 |
 
 ### `form/currency`
 
-| Scope                 | Target        | Line(s) |
-|-----------------------|---------------|---------|
-| `form.currency.input` | `<x-input />` | 21      |
+| Scope | Target | Line(s) |
+|-------|--------|---------|
+| `form.currency.input` | `<x-input />` | 21 |
 
 ### `form/date`
 
-| Scope                | Target           | Line(s) |
-|----------------------|------------------|---------|
-| `form.date.input`    | `<x-input />`    | 29      |
-| `form.date.floating` | `<x-floating />` | 62      |
+| Scope | Target | Line(s) |
+|-------|--------|---------|
+| `form.date.input` | `<x-input />` | 29 |
+| `form.date.floating` | `<x-floating />` | 62 |
 
 ### `form/password`
 
-| Scope                    | Target           | Line(s) |
-|--------------------------|------------------|---------|
-| `form.password.input`    | `<x-input />`    | 8       |
-| `form.password.floating` | `<x-floating />` | 58      |
+| Scope | Target | Line(s) |
+|-------|--------|---------|
+| `form.password.input` | `<x-input />` | 8 |
+| `form.password.floating` | `<x-floating />` | 58 |
 
 ### `form/pin`
 
-| Scope            | Target        | Line(s) |
-|------------------|---------------|---------|
-| `form.pin.label` | `<x-label />` | 14      |
-| `form.pin.hint`  | `<x-hint />`  | 86      |
-| `form.pin.error` | `<x-error />` | 89      |
+| Scope | Target | Line(s) |
+|-------|--------|---------|
+| `form.pin.label` | `<x-label />` | 14 |
+| `form.pin.hint` | `<x-hint />` | 86 |
+| `form.pin.error` | `<x-error />` | 89 |
 
 ### `form/select/native`
 
-| Scope                      | Target        | Line(s) |
-|----------------------------|---------------|---------|
-| `form.select-native.label` | `<x-label />` | 7       |
-| `form.select-native.hint`  | `<x-hint />`  | 42      |
-| `form.select-native.error` | `<x-error />` | 45      |
+| Scope | Target | Line(s) |
+|-------|--------|---------|
+| `form.select-native.label` | `<x-label />` | 7 |
+| `form.select-native.hint` | `<x-hint />` | 42 |
+| `form.select-native.error` | `<x-error />` | 45 |
 
 ### `form/select/styled`
 
-| Scope                         | Target           | Line(s) |
-|-------------------------------|------------------|---------|
-| `form.select-styled.label`    | `<x-label />`    | 41      |
-| `form.select-styled.floating` | `<x-floating />` | 134     |
-| `form.select-styled.input`    | `<x-input />`    | 143     |
-| `form.select-styled.hint`     | `<x-hint />`     | 267     |
-| `form.select-styled.error`    | `<x-error />`    | 270     |
+| Scope | Target | Line(s) |
+|-------|--------|---------|
+| `form.select-styled.label` | `<x-label />` | 41 |
+| `form.select-styled.floating` | `<x-floating />` | 134 |
+| `form.select-styled.input` | `<x-input />` | 143 |
+| `form.select-styled.hint` | `<x-hint />` | 267 |
+| `form.select-styled.error` | `<x-error />` | 270 |
 
 ### `form/time`
 
-| Scope                | Target           | Line(s) |
-|----------------------|------------------|---------|
-| `form.time.input`    | `<x-input />`    | 21      |
-| `form.time.floating` | `<x-floating />` | 55      |
-| `form.time.button`   | `<x-button />`   | 114     |
+| Scope | Target | Line(s) |
+|-------|--------|---------|
+| `form.time.input` | `<x-input />` | 21 |
+| `form.time.floating` | `<x-floating />` | 55 |
+| `form.time.button` | `<x-button />` | 114 |
 
 ### `form/upload`
 
-| Scope                  | Target           | Line(s) |
-|------------------------|------------------|---------|
-| `form.upload.input`    | `<x-input />`    | 25      |
-| `form.upload.label`    | `<x-label />`    | 47      |
-| `form.upload.floating` | `<x-floating />` | 89      |
-| `form.upload.error`    | `<x-error />`    | 152     |
+| Scope | Target | Line(s) |
+|-------|--------|---------|
+| `form.upload.input` | `<x-input />` | 25 |
+| `form.upload.label` | `<x-label />` | 47 |
+| `form.upload.floating` | `<x-floating />` | 89 |
+| `form.upload.error` | `<x-error />` | 152 |
 
 ### `form/upload/async`
 
-| Scope                     | Target         | Line(s) |
-|---------------------------|----------------|---------|
-| `form.upload.async.label` | `<x-label />`  | 30      |
-| `form.upload.async.hint`  | `<x-hint />`   | 166     |
-| `form.upload.async.clear` | `<x-button />` | 175     |
-| `form.upload.async.send`  | `<x-button />` | 183     |
+| Scope | Target | Line(s) |
+|-------|--------|---------|
+| `form.upload.async.label` | `<x-label />` | 30 |
+| `form.upload.async.hint` | `<x-hint />` | 166 |
+| `form.upload.async.clear` | `<x-button />` | 175 |
+| `form.upload.async.send` | `<x-button />` | 183 |
 
 ### `layout/sidebar/item`
 
-| Scope                | Target        | Line(s)          |
-|----------------------|---------------|------------------|
+| Scope | Target | Line(s) |
+|-------|--------|---------|
 | `sidebar.item.badge` | `<x-badge />` | 38, 49, 107, 118 |
 
 ### `list/items`
 
-| Scope             | Target           | Line(s) |
-|-------------------|------------------|---------|
-| `list.items.menu` | `<x-floating />` | 44      |
+| Scope | Target | Line(s) |
+|-------|--------|---------|
+| `list.items.menu` | `<x-floating />` | 44 |
 
 ### `list`
 
-| Scope        | Target        | Line(s) |
-|--------------|---------------|---------|
-| `list.label` | `<x-label />` | 8       |
-| `list.hint`  | `<x-hint />`  | 70      |
+| Scope | Target | Line(s) |
+|-------|--------|---------|
+| `list.label` | `<x-label />` | 8 |
+| `list.hint` | `<x-hint />` | 70 |
 
 ### `table`
 
-| Scope                 | Target                | Line(s) |
-|-----------------------|-----------------------|---------|
-| `table.select-styled` | `<x-select.styled />` | 23      |
-| `table.input`         | `<x-input />`         | 34      |
-| `table.checkbox`      | `<x-checkbox />`      | 61, 130 |
+| Scope | Target | Line(s) |
+|-------|--------|---------|
+| `table.select-styled` | `<x-select.styled />` | 23 |
+| `table.input` | `<x-input />` | 34 |
+| `table.checkbox` | `<x-checkbox />` | 61, 130 |
 
 ### `wrapper/input`
 
-| Scope                 | Target        | Line(s) |
-|-----------------------|---------------|---------|
-| `wrapper.input.label` | `<x-label />` | 9       |
-| `wrapper.input.hint`  | `<x-hint />`  | 15      |
-| `wrapper.input.error` | `<x-error />` | 18      |
+| Scope | Target | Line(s) |
+|-------|--------|---------|
+| `wrapper.input.label` | `<x-label />` | 9 |
+| `wrapper.input.hint` | `<x-hint />` | 15 |
+| `wrapper.input.error` | `<x-error />` | 18 |
 
 ### `wrapper/radio`
 
-| Scope                 | Target        | Line(s) |
-|-----------------------|---------------|---------|
-| `wrapper.radio.error` | `<x-error />` | 24      |
+| Scope | Target | Line(s) |
+|-------|--------|---------|
+| `wrapper.radio.error` | `<x-error />` | 24 |
 
 ## Stats
 
