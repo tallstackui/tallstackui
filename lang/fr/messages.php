@@ -108,10 +108,6 @@ return [
             'unauthorized' => 'Vous n\'êtes pas autorisé à envoyer ce fichier.',
             'generic' => 'Une erreur est survenue.',
         ],
-        'remove' => 'Supprimer le fichier',
-        'preview' => [
-            'close' => 'Fermer l\'aperçu',
-        ],
     ],
 
     'date' => [

@@ -108,10 +108,6 @@ return [
             'unauthorized' => 'Je mag dit bestand niet opladen.',
             'generic' => 'Er ging iets mis.',
         ],
-        'remove' => 'Bestand verwijderen',
-        'preview' => [
-            'close' => 'Voorbeeld sluiten',
-        ],
     ],
 
     'date' => [

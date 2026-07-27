@@ -108,10 +108,6 @@ return [
             'unauthorized' => 'Anda tidak diizinkan mengunggah file ini.',
             'generic' => 'Terjadi kesalahan.',
         ],
-        'remove' => 'Hapus file',
-        'preview' => [
-            'close' => 'Tutup pratinjau',
-        ],
     ],
 
     'date' => [

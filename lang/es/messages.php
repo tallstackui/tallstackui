@@ -108,10 +108,6 @@ return [
             'unauthorized' => 'No tiene permiso para cargar este archivo.',
             'generic' => 'Algo salió mal.',
         ],
-        'remove' => 'Eliminar archivo',
-        'preview' => [
-            'close' => 'Cerrar vista previa',
-        ],
     ],
 
     'date' => [

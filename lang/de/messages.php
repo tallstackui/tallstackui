@@ -108,10 +108,6 @@ return [
             'unauthorized' => 'Du darfst diese Datei nicht hochladen.',
             'generic' => 'Ein Fehler ist aufgetreten.',
         ],
-        'remove' => 'Datei entfernen',
-        'preview' => [
-            'close' => 'Vorschau schließen',
-        ],
     ],
 
     'date' => [

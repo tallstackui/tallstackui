@@ -95,7 +95,7 @@
 
                     <button type="button"
                             x-on:click.stop="remove(file)"
-                            x-bind:aria-label="@js($i18n['remove'])"
+                            aria-label="Remove file"
                             class="{{ $customization['tile.remove'] }}"
                             dusk="tallstackui_upload_async_remove">
                         <x-dynamic-component :component="TallStackUi::prefix('icon')"
@@ -236,7 +236,7 @@
             <div x-on:click.stop class="{{ $customization['lightbox.positioner'] }}">
                 <button type="button"
                         x-on:click="collapse()"
-                        x-bind:aria-label="@js($i18n['preview']['close'])"
+                        aria-label="Close preview"
                         class="{{ $customization['lightbox.close'] }}">
                     <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                          :icon="TallStackUi::icon('x-mark')"

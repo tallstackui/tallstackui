@@ -108,10 +108,6 @@ return [
             'unauthorized' => 'You are not allowed to upload this file.',
             'generic' => 'Something went wrong.',
         ],
-        'remove' => 'Remove file',
-        'preview' => [
-            'close' => 'Close preview',
-        ],
     ],
 
     'date' => [

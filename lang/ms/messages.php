@@ -108,10 +108,6 @@ return [
             'unauthorized' => 'Anda tidak dibenarkan memuat naik fail ini.',
             'generic' => 'Terdapat ralat.',
         ],
-        'remove' => 'Buang fail',
-        'preview' => [
-            'close' => 'Tutup pratonton',
-        ],
     ],
 
     'date' => [

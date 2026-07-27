@@ -108,10 +108,6 @@ return [
             'unauthorized' => 'Bu dosyayı yükleme izniniz yok.',
             'generic' => 'Bir şeyler yanlış gitti.',
         ],
-        'remove' => 'Dosyayı kaldır',
-        'preview' => [
-            'close' => 'Önizlemeyi kapat',
-        ],
     ],
 
     'date' => [

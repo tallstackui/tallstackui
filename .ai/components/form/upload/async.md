@@ -224,6 +224,9 @@ Global defaults live under `components.upload.async` in the published config.
 | disk          | 'local'          | Destination disk of the finalized files                                |
 | keep          | 6 hours          | Seconds an unfinished upload is kept before the clear command drops it |
 
+The `aria-label` of the remove button and of the lightbox close button are not
+translated: they carry a fixed English string.
+
 Raising `chunk_size` requires raising the PHP limits with it, otherwise every chunk is rejected before reaching Laravel. The staging disk must be local because joining the pieces needs real filesystem paths; the destination has no such restriction.
 
 ## Soft Customization

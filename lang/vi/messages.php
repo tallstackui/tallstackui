@@ -108,10 +108,6 @@ return [
             'unauthorized' => 'Bạn không được phép tải lên tệp này.',
             'generic' => 'Đã xảy ra lỗi.',
         ],
-        'remove' => 'Xóa tệp',
-        'preview' => [
-            'close' => 'Đóng xem trước',
-        ],
     ],
 
     'date' => [
