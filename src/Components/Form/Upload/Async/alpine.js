@@ -38,6 +38,7 @@ const acceptable = (file, accept) => {
 export default (options) => ({
   files: [],
   dragging: false,
+  scrollable: false,
   preview: { open: false, src: null, name: null },
 
   id: options.id,
@@ -65,6 +66,15 @@ export default (options) => ({
     this.hydrate(options.existing);
 
     this.$watch('preview.open', (value) => overflow(value, 'upload-async', false));
+    this.$watch('files', () => this.$nextTick(() => this.measure()));
+  },
+
+  // The bottom fade only earns its place once there is something scrolled
+  // under it; over a fully visible last row it just washes the tiles out.
+  measure() {
+    const grid = this.$refs.grid;
+
+    this.scrollable = !!grid && grid.scrollHeight > grid.clientHeight;
   },
 
   get pending() {
@@ -88,7 +98,14 @@ export default (options) => ({
 
     this.files = list
       .filter((file) => file && file.path)
-      .map((file) => ({ ...file, preview: file.url, status: 'success', progress: 100, error: null }));
+      .map((file) => ({
+        ...file,
+        uuid: file.id ?? crypto.randomUUID(),
+        preview: file.url,
+        status: 'success',
+        progress: 100,
+        error: null,
+      }));
   },
 
   failed(file) {
@@ -165,7 +182,7 @@ export default (options) => ({
 
     // Single mode replaces whatever is there, aborting an upload in flight.
     if (!this.multiple && usable.length && this.files.length) {
-      this.aborts.get(this.files[0].id)?.abort();
+      this.aborts.get(this.files[0].uuid)?.abort();
       this.files = [];
     }
 
@@ -176,7 +193,7 @@ export default (options) => ({
 
   accept(raw) {
     const file = {
-      id: crypto.randomUUID(),
+      uuid: crypto.randomUUID(),
       raw,
       real_name: raw.name,
       size: raw.size,
@@ -188,7 +205,6 @@ export default (options) => ({
       preview: URL.createObjectURL(raw),
       url: null,
       path: null,
-      session: crypto.randomUUID(),
       status: 'pending',
       progress: 0,
       error: null,
@@ -227,10 +243,10 @@ export default (options) => ({
   },
 
   remove(file) {
-    this.aborts.get(file.id)?.abort();
-    this.aborts.delete(file.id);
+    this.aborts.get(file.uuid)?.abort();
+    this.aborts.delete(file.uuid);
 
-    this.files = this.files.filter((item) => item.id !== file.id);
+    this.files = this.files.filter((item) => item.uuid !== file.uuid);
 
     this.emit('removed', { file });
 
@@ -239,7 +255,7 @@ export default (options) => ({
 
   clear() {
     for (const file of this.files) {
-      this.aborts.get(file.id)?.abort();
+      this.aborts.get(file.uuid)?.abort();
     }
 
     this.aborts.clear();
@@ -266,7 +282,7 @@ export default (options) => ({
     const chunks = Math.max(1, Math.ceil(file.size / this.config.chunk_size));
     const abort = new AbortController();
 
-    this.aborts.set(file.id, abort);
+    this.aborts.set(file.uuid, abort);
 
     const tracker = { file, chunks, done: 0, payload: null, abort };
 
@@ -319,10 +335,9 @@ export default (options) => ({
     body.append('total_chunks', String(chunks));
     body.append('chunk_size', String(end - start));
     body.append('total_size', String(file.size));
-    body.append('session_id', file.session);
+    body.append('uuid', file.uuid);
     body.append('real_name', file.real_name);
     body.append('mime', file.mime);
-    body.append('client_id', file.id);
 
     const headers = {
       Accept: 'application/json',
@@ -425,7 +440,7 @@ export default (options) => ({
     file.progress = 100;
     file.status = 'success';
 
-    this.aborts.delete(file.id);
+    this.aborts.delete(file.uuid);
 
     this.emit('success', { file, response: payload });
 
@@ -438,7 +453,7 @@ export default (options) => ({
     file.status = 'error';
     file.error = message;
 
-    this.aborts.delete(file.id);
+    this.aborts.delete(file.uuid);
 
     this.emit('error', { file, error: message, status });
 
@@ -484,7 +499,7 @@ export default (options) => ({
     }
 
     const payload = this.uploaded.map((file) => ({
-      id: file.id,
+      id: file.uuid,
       path: file.path,
       real_name: file.real_name,
       size: file.size,

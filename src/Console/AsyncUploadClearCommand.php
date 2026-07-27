@@ -9,7 +9,7 @@ use TallStackUi\Components\Form\Upload\Async\Component;
 
 class AsyncUploadClearCommand extends Command
 {
-    public $description = 'Delete orphan async-upload chunk sessions older than session_ttl.';
+    public $description = 'Delete orphan async-upload chunk sessions older than the configured keep window.';
 
     public $signature = 'tallstackui:async-upload:clear';
 
@@ -28,7 +28,7 @@ class AsyncUploadClearCommand extends Command
             return self::SUCCESS;
         }
 
-        $threshold = now()->subSeconds((int) $configuration['session_ttl'])->getTimestamp();
+        $threshold = now()->subSeconds((int) $configuration['keep'])->getTimestamp();
         $removed = 0;
 
         // A directory's mtime moves whenever a part lands inside it, so this

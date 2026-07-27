@@ -21,10 +21,9 @@ class AsyncUploadRequest extends FormRequest
             'total_chunks' => ['required', 'integer', 'min:1', 'max:20000'],
             'chunk_size' => ['required', 'integer', 'min:1'],
             'total_size' => ['required', 'integer', 'min:1'],
-            'session_id' => ['required', 'string', 'uuid'],
+            'uuid' => ['required', 'string', 'uuid'],
             'real_name' => ['required', 'string', 'max:512'],
             'mime' => ['required', 'string', 'max:255'],
-            'client_id' => ['required', 'string', 'max:255'],
         ];
     }
 

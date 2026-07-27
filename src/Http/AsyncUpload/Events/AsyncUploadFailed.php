@@ -11,8 +11,7 @@ class AsyncUploadFailed
     /** @param array<string, array<int, string>> $errors */
     public function __construct(
         public readonly string $reason,
-        public readonly string $sessionId,
-        public readonly string $clientId,
+        public readonly string $uuid,
         public readonly string $realName,
         public readonly array $errors = [],
     ) {

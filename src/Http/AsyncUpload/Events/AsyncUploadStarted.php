@@ -9,8 +9,7 @@ class AsyncUploadStarted
     use Dispatchable;
 
     public function __construct(
-        public readonly string $sessionId,
-        public readonly string $clientId,
+        public readonly string $uuid,
         public readonly string $realName,
         public readonly string $mime,
         public readonly int $totalSize,

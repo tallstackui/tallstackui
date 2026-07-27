@@ -17,10 +17,24 @@ use TallStackUi\Http\AsyncUpload\Events\AsyncUploadStarted;
 
 class AsyncUploadHandler
 {
-    /** @param array<string, mixed> $options */
+    private const OPTIONS = [
+        'disk' => 'string',
+        'directory' => 'string',
+        'rules' => 'array',
+        'store' => 'callable',
+        'authorize' => 'callable',
+        'max_size' => 'integer',
+        'tmp_disk' => 'string',
+    ];
+
+    /**
+     * @param  array<string, mixed>  $options
+     *
+     * @throws AsyncUploadException
+     */
     public function __construct(private readonly array $options = [])
     {
-        //
+        $this->validate();
     }
 
     /** @throws AsyncUploadException */
@@ -35,15 +49,14 @@ class AsyncUploadHandler
         }
 
         $tmp = $this->tmp();
-        $session = $this->session($request);
+        $staging = $this->staging($request);
 
         // Atomic: only the request that actually creates the directory gets
         // true back, so the event fires once no matter which chunk index
         // happens to arrive first.
-        if (@mkdir($tmp->path($session), 0755, true)) {
+        if (@mkdir($tmp->path($staging), 0755, true)) {
             AsyncUploadStarted::dispatch(
-                (string) $request->input('session_id'),
-                (string) $request->input('client_id'),
+                (string) $request->input('uuid'),
                 (string) $request->input('real_name'),
                 (string) $request->input('mime'),
                 (int) $request->input('total_size'),
@@ -51,17 +64,17 @@ class AsyncUploadHandler
             );
         }
 
-        $tmp->putFileAs($session, $request->file('chunk'), $request->input('chunk_index').'.part');
+        $tmp->putFileAs($staging, $request->file('chunk'), $request->input('chunk_index').'.part');
 
-        if (count($tmp->files($session)) < (int) $request->input('total_chunks')) {
+        if (count($tmp->files($staging)) < (int) $request->input('total_chunks')) {
             return response()->noContent();
         }
 
         // Directory rename is atomic on POSIX: concurrent requests that also
         // see a complete set lose the race and stop here.
-        $sealed = $session.'.sealed';
+        $sealed = $staging.'.sealed';
 
-        if (! @rename($tmp->path($session), $tmp->path($sealed))) {
+        if (! @rename($tmp->path($staging), $tmp->path($sealed))) {
             return response()->noContent();
         }
 
@@ -122,8 +135,7 @@ class AsyncUploadHandler
     {
         AsyncUploadFailed::dispatch(
             $reason,
-            (string) $request->input('session_id'),
-            (string) $request->input('client_id'),
+            (string) $request->input('uuid'),
             (string) $request->input('real_name'),
             $errors,
         );
@@ -168,7 +180,7 @@ class AsyncUploadHandler
         $tmp->deleteDirectory($sealed);
 
         $response = new AsyncUploadResponse(
-            id: (string) $request->input('client_id'),
+            id: (string) $request->input('uuid'),
             path: $path,
             realName: (string) $request->input('real_name'),
             size: (int) $disk->size($path),
@@ -176,7 +188,7 @@ class AsyncUploadHandler
             url: rescue(fn () => $disk->url($path), null, false),
         );
 
-        AsyncUploadCompleted::dispatch($response, $this->name(), (string) $request->input('session_id'));
+        AsyncUploadCompleted::dispatch($response, $this->name(), (string) $request->input('uuid'));
 
         return response()->json($response->toArray());
     }
@@ -230,9 +242,9 @@ class AsyncUploadHandler
         return $directory.'/'.$name;
     }
 
-    protected function session(AsyncUploadRequest $request): string
+    protected function staging(AsyncUploadRequest $request): string
     {
-        return trim((string) $this->config('tmp_directory'), '/').'/'.$request->input('session_id');
+        return trim((string) $this->config('tmp_directory'), '/').'/'.$request->input('uuid');
     }
 
     protected function tmp(): FilesystemAdapter
@@ -241,5 +253,36 @@ class AsyncUploadHandler
         $disk = Storage::disk($this->options['tmp_disk'] ?? $this->config('tmp_disk'));
 
         return $disk;
+    }
+
+    /** @throws AsyncUploadException */
+    private function validate(): void
+    {
+        if ($unknown = array_diff(array_keys($this->options), array_keys(self::OPTIONS))) {
+            throw new AsyncUploadException(sprintf(
+                'Unknown async upload option(s) [%s]. Available: [%s].',
+                implode(', ', $unknown),
+                implode(', ', array_keys(self::OPTIONS)),
+            ));
+        }
+
+        foreach ($this->options as $key => $value) {
+            if ($value === null) {
+                continue;
+            }
+
+            $expected = self::OPTIONS[$key];
+
+            $valid = match ($expected) {
+                'callable' => is_callable($value),
+                'array' => is_array($value),
+                'integer' => is_int($value),
+                default => is_string($value) && trim($value) !== '',
+            };
+
+            if (! $valid) {
+                throw new AsyncUploadException("The async upload option [{$key}] must be of type [{$expected}].");
+            }
+        }
     }
 }

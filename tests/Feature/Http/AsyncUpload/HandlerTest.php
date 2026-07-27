@@ -9,23 +9,24 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use TallStackUi\Components\Form\Upload\Async\Component;
 use TallStackUi\Http\AsyncUpload\AsyncUploadException;
+use TallStackUi\Http\AsyncUpload\AsyncUploadHandler;
 use TallStackUi\Http\AsyncUpload\Events\AsyncUploadCompleted;
 use TallStackUi\Http\AsyncUpload\Events\AsyncUploadFailed;
 use TallStackUi\Http\AsyncUpload\Events\AsyncUploadStarted;
-use TallStackUi\Http\AsyncUpload\HandlesAsyncUpload;
+use TallStackUi\Http\AsyncUpload\Uploader;
 
 function endpoint(string $uri, array $options = []): void
 {
     Route::post($uri, function () use ($options) {
         $controller = new class
         {
-            use HandlesAsyncUpload;
+            use Uploader;
 
             public array $options = [];
 
             public function store(Request $request)
             {
-                return $this->handleAsyncUpload($request, $this->options);
+                return $this->upload($request, $this->options);
             }
         };
 
@@ -43,10 +44,9 @@ function chunk(array $overrides = []): array
         'total_chunks' => 1,
         'chunk_size' => 64,
         'total_size' => 64,
-        'session_id' => (string) Str::uuid(),
+        'uuid' => (string) Str::uuid(),
         'real_name' => 'file.bin',
         'mime' => 'application/octet-stream',
-        'client_id' => 'client-1',
     ], $overrides);
 }
 
@@ -65,10 +65,9 @@ it('cannot accept a chunk request with missing fields', function () {
             'total_chunks',
             'chunk_size',
             'total_size',
-            'session_id',
+            'uuid',
             'real_name',
             'mime',
-            'client_id',
         ]);
 });
 
@@ -84,7 +83,7 @@ it('can stage an intermediate chunk as a part file', function () {
     $session = (string) Str::uuid();
 
     $this->postJson('/_test/async-upload', chunk([
-        'session_id' => $session,
+        'uuid' => $session,
         'total_chunks' => 2,
         'total_size' => 128,
     ]))->assertNoContent();
@@ -99,7 +98,7 @@ it('can stage an intermediate chunk as a part file', function () {
 it('can accept chunks out of order without finalizing early', function () {
     $session = (string) Str::uuid();
 
-    $base = ['session_id' => $session, 'total_chunks' => 3, 'total_size' => 192];
+    $base = ['uuid' => $session, 'total_chunks' => 3, 'total_size' => 192];
 
     foreach ([2, 0] as $index) {
         $this->postJson('/_test/async-upload', chunk($base + ['chunk_index' => $index]))->assertNoContent();
@@ -117,12 +116,12 @@ it('can finalize once the part set is complete, in index order', function () {
     $session = (string) Str::uuid();
 
     $base = [
-        'session_id' => $session,
+        'uuid' => $session,
         'total_chunks' => 2,
         'chunk_size' => 1024,
         'total_size' => 2048,
         'real_name' => 'merged.bin',
-        'client_id' => 'client-7',
+
     ];
 
     // The last index is sent first: the assembled file must still read A then B.
@@ -138,7 +137,7 @@ it('can finalize once the part set is complete, in index order', function () {
 
     $response->assertOk()
         ->assertJsonStructure(['id', 'path', 'real_name', 'size', 'mime', 'url'])
-        ->assertJson(['id' => 'client-7', 'real_name' => 'merged.bin', 'size' => 2048]);
+        ->assertJson(['id' => $session, 'real_name' => 'merged.bin', 'size' => 2048]);
 
     expect(Storage::disk('local')->get($response->json('path')))
         ->toBe(str_repeat('A', 1024).str_repeat('B', 1024));
@@ -167,7 +166,7 @@ it('cannot exceed the server side size ceiling', function () {
     $session = (string) Str::uuid();
 
     $this->postJson('/_test/async-upload-capped', chunk([
-        'session_id' => $session,
+        'uuid' => $session,
         'total_size' => 50 * 1024 * 1024,
     ]))->assertStatus(422);
 
@@ -227,7 +226,7 @@ it('can clean up orphan sessions older than the ttl', function () {
         touch(Storage::disk('local')->path("async-uploads/{$session}"), now()->subDay()->getTimestamp());
     }
 
-    config()->set('ts-ui.components.upload.async.1.session_ttl', 60);
+    config()->set('ts-ui.components.upload.async.1.keep', 60);
 
     __ts_get_component_configuration(Component::class, flush: true);
 
@@ -236,4 +235,41 @@ it('can clean up orphan sessions older than the ttl', function () {
     Storage::disk('local')->assertMissing('async-uploads/old/0.part');
     Storage::disk('local')->assertMissing('async-uploads/stale.sealed/0.part');
     Storage::disk('local')->assertExists('async-uploads/fresh/0.part');
+});
+
+it('cannot accept an unknown option', function () {
+    new AsyncUploadHandler(['directories' => 'uploads']);
+})->throws(AsyncUploadException::class, 'Unknown async upload option(s) [directories]');
+
+it('cannot accept an option of the wrong type', function (string $key, mixed $value, string $expected) {
+    new AsyncUploadHandler([$key => $value]);
+
+    expect(true)->toBeFalse();
+})->with([
+    ['disk', 10, 'string'],
+    ['directory', '   ', 'string'],
+    ['rules', 'required|file', 'array'],
+    ['store', 'not-a-closure', 'callable'],
+    ['authorize', true, 'callable'],
+    ['max_size', '512', 'integer'],
+    ['tmp_disk', [], 'string'],
+])->throws(AsyncUploadException::class);
+
+it('can accept every option with the right type', function () {
+    $handler = new AsyncUploadHandler([
+        'disk' => 'public',
+        'directory' => 'uploads',
+        'rules' => ['file' => ['mimes:png']],
+        'store' => fn () => 'path',
+        'authorize' => fn () => true,
+        'max_size' => 512,
+        'tmp_disk' => 'local',
+    ]);
+
+    expect($handler)->toBeInstanceOf(AsyncUploadHandler::class);
+});
+
+it('can accept a null option, falling back to the configuration', function () {
+    expect(new AsyncUploadHandler(['max_size' => null, 'disk' => null]))
+        ->toBeInstanceOf(AsyncUploadHandler::class);
 });

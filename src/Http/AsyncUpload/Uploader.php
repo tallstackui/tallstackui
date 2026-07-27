@@ -6,10 +6,10 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-trait HandlesAsyncUpload
+trait Uploader
 {
     /** @param array<string, mixed> $options */
-    public function handleAsyncUpload(Request $request, array $options = []): JsonResponse|Response
+    public function upload(Request $request, array $options = []): JsonResponse|Response
     {
         return (new AsyncUploadHandler($options))->handle($request);
     }

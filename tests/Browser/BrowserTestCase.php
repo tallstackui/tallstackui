@@ -21,7 +21,7 @@ use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\Dusk\Options;
 use Orchestra\Testbench\Dusk\TestCase;
 use TallStackUi\Facades\TallStackUi;
-use TallStackUi\Http\AsyncUpload\HandlesAsyncUpload;
+use TallStackUi\Http\AsyncUpload\Uploader;
 use TallStackUi\TallStackUiServiceProvider;
 
 use function Livewire\trigger;
@@ -91,11 +91,11 @@ class BrowserTestCase extends TestCase
         $router->post('/async-upload', function (Request $request) {
             $controller = new class
             {
-                use HandlesAsyncUpload;
+                use Uploader;
 
                 public function store(Request $request)
                 {
-                    return $this->handleAsyncUpload($request, ['directory' => 'browser-uploads']);
+                    return $this->upload($request, ['directory' => 'browser-uploads']);
                 }
             };
 
@@ -105,11 +105,11 @@ class BrowserTestCase extends TestCase
         $router->post('/async-upload-strict', function (Request $request) {
             $controller = new class
             {
-                use HandlesAsyncUpload;
+                use Uploader;
 
                 public function store(Request $request)
                 {
-                    return $this->handleAsyncUpload($request, [
+                    return $this->upload($request, [
                         'directory' => 'browser-uploads',
                         'rules' => ['file' => ['mimes:png']],
                     ]);

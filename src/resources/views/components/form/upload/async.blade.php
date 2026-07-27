@@ -20,9 +20,6 @@
         headers: @js($headers ?? []),
      })"
      x-cloak
-     {{-- The subtree is entirely Alpine owned. Letting Livewire morph it would
-          re-run init() on every round trip, wiping the blob previews and
-          orphaning any upload still in flight. --}}
      @if ($wire) wire:ignore @endif
      class="{{ $customization['wrapper'] }}"
      {{ $attributes->whereStartsWith('x-on:') }}
@@ -60,17 +57,23 @@
                dusk="tallstackui_upload_async_input" />
 
         <div x-show="files.length"
-             role="list"
-             x-bind:class="multiple
-                ? '{{ $customization['grid.multiple'] }} {{ $customization['grid.cols.'.$columns] }}'
-                : '{{ $customization['grid.single'] }}'"
-             class="{{ $customization['grid.wrapper'] }}">
-            <template x-for="file in files" :key="file.id">
+             x-bind:class="multiple ? '{{ $customization['grid.multiple'] }}' : '{{ $customization['grid.single'] }}'"
+             class="{{ $customization['grid.frame'] }}">
+            <div role="list"
+                 x-ref="grid"
+                 x-on:resize.window="measure()"
+                 x-bind:class="multiple
+                    ? '{{ $customization['grid.cols.'.$columns] }}'
+                    : '{{ $customization['grid.single-cols'] }}'"
+                 class="{{ $customization['grid.wrapper'] }}">
+            <template x-for="file in files" :key="file.uuid">
                 <div role="listitem"
                      x-on:click.stop
-                     x-bind:class="{ '{{ $customization['tile.error-ring'] }}': failed(file) }"
                      class="{{ $customization['tile.wrapper'] }}"
                      dusk="tallstackui_upload_async_tile">
+                    {{-- An overlay rather than a ring on the tile itself: the
+                         thumbnail covers the whole box and would paint over it. --}}
+                    <div x-show="failed(file)" class="{{ $customization['tile.error-ring'] }}"></div>
                     <template x-if="image(file)">
                         <img x-bind:src="file.preview"
                              x-bind:alt="file.real_name"
@@ -88,7 +91,7 @@
                     </template>
 
                     <span x-text="file.real_name" class="{{ $customization['tile.name-overlay'] }}"></span>
-                    <span x-text="size(file.size)" class="{{ $customization['tile.size-overlay'] }}"></span>
+                    <span x-show="!failed(file)" x-text="size(file.size)" class="{{ $customization['tile.size-overlay'] }}"></span>
 
                     <button type="button"
                             x-on:click.stop="remove(file)"
@@ -124,8 +127,12 @@
                        x-bind:title="file.error"
                        class="{{ $customization['tile.error-msg'] }}"></p>
                 </div>
-            </template>
+                </template>
+            </div>
 
+            {{-- Only while the grid actually scrolls: sitting over a last row
+                 that is already fully visible would just wash it out. --}}
+            <div x-show="scrollable" class="{{ $customization['grid.fade'] }}"></div>
         </div>
 
         <div x-bind:class="files.length
@@ -192,11 +199,11 @@
     @endif
 
     @if ($name)
-        <template x-for="(file, index) in uploaded" :key="`hidden-${file.id}`">
+        <template x-for="(file, index) in uploaded" :key="`hidden-${file.uuid}`">
             <span>
                 <template x-if="multiple">
                     <span>
-                        <input type="hidden" x-bind:name="`{{ $name }}[${index}][id]`" x-bind:value="file.id" />
+                        <input type="hidden" x-bind:name="`{{ $name }}[${index}][id]`" x-bind:value="file.uuid" />
                         <input type="hidden" x-bind:name="`{{ $name }}[${index}][path]`" x-bind:value="file.path" />
                         <input type="hidden" x-bind:name="`{{ $name }}[${index}][real_name]`" x-bind:value="file.real_name" />
                         <input type="hidden" x-bind:name="`{{ $name }}[${index}][size]`" x-bind:value="file.size" />
@@ -206,7 +213,7 @@
                 </template>
                 <template x-if="!multiple">
                     <span>
-                        <input type="hidden" name="{{ $name }}[id]" x-bind:value="file.id" />
+                        <input type="hidden" name="{{ $name }}[id]" x-bind:value="file.uuid" />
                         <input type="hidden" name="{{ $name }}[path]" x-bind:value="file.path" />
                         <input type="hidden" name="{{ $name }}[real_name]" x-bind:value="file.real_name" />
                         <input type="hidden" name="{{ $name }}[size]" x-bind:value="file.size" />
@@ -226,20 +233,22 @@
              aria-modal="true"
              class="{{ $customization['lightbox.backdrop'] }}"
              dusk="tallstackui_upload_async_lightbox">
-            <button type="button"
-                    x-on:click="collapse()"
-                    x-bind:aria-label="@js($i18n['preview']['close'])"
-                    class="{{ $customization['lightbox.close'] }}">
-                <x-dynamic-component :component="TallStackUi::prefix('icon')"
-                                     :icon="TallStackUi::icon('x-mark')"
-                                     internal
-                                     class="{{ $customization['lightbox.close-icon'] }}" />
-            </button>
-            <div x-on:click.stop class="{{ $customization['lightbox.wrapper'] }}">
-                <img x-bind:src="preview.src" x-bind:alt="preview.name" class="{{ $customization['lightbox.image'] }}" />
-                <p x-text="preview.name"
-                   x-transition.opacity
-                   class="{{ $customization['lightbox.caption'] }}"></p>
+            <div x-on:click.stop class="{{ $customization['lightbox.positioner'] }}">
+                <button type="button"
+                        x-on:click="collapse()"
+                        x-bind:aria-label="@js($i18n['preview']['close'])"
+                        class="{{ $customization['lightbox.close'] }}">
+                    <x-dynamic-component :component="TallStackUi::prefix('icon')"
+                                         :icon="TallStackUi::icon('x-mark')"
+                                         internal
+                                         class="{{ $customization['lightbox.close-icon'] }}" />
+                </button>
+                <div class="{{ $customization['lightbox.wrapper'] }}">
+                    <img x-bind:src="preview.src" x-bind:alt="preview.name" class="{{ $customization['lightbox.image'] }}" />
+                    <p x-text="preview.name"
+                       x-transition.opacity
+                       class="{{ $customization['lightbox.caption'] }}"></p>
+                </div>
             </div>
         </div>
     </template>

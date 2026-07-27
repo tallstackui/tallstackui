@@ -12,7 +12,7 @@ class AsyncUploadCompleted
     public function __construct(
         public readonly AsyncUploadResponse $response,
         public readonly string $disk,
-        public readonly string $sessionId,
+        public readonly string $uuid,
     ) {
         //
     }
