@@ -64,6 +64,14 @@ TallStackUi::customize()
 |-----------------------------|------------------|---------|
 | `dropdown.submenu.floating` | `<x-floating />` | 55      |
 
+### `editor`
+
+| Scope            | Target           | Line(s) |
+|------------------|------------------|---------|
+| `editor-toolbar` | `<x-dropdown />` | 41, 186 |
+| `editor-link`    | `<x-modal />`    | 420     |
+| `editor-image`   | `<x-modal />`    | 452     |
+
 ### `form/autocomplete`
 
 | Scope                        | Target           | Line(s) |
@@ -146,9 +154,9 @@ TallStackUi::customize()
 | Scope                     | Target         | Line(s) |
 |---------------------------|----------------|---------|
 | `form.upload.async.label` | `<x-label />`  | 30      |
-| `form.upload.async.hint`  | `<x-hint />`   | 156     |
-| `form.upload.async.clear` | `<x-button />` | 165     |
-| `form.upload.async.send`  | `<x-button />` | 173     |
+| `form.upload.async.hint`  | `<x-hint />`   | 166     |
+| `form.upload.async.clear` | `<x-button />` | 175     |
+| `form.upload.async.send`  | `<x-button />` | 183     |
 
 ### `layout/sidebar/item`
 
@@ -193,6 +201,6 @@ TallStackUi::customize()
 
 ## Stats
 
-- Total internal scope occurrences: 55
-- Distinct scopes: 50
-- Files declaring scopes: 22
+- Total internal scope occurrences: 59
+- Distinct scopes: 53
+- Files declaring scopes: 23
