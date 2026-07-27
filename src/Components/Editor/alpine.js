@@ -47,7 +47,6 @@ export default (options) => ({
     link: false,
   },
 
-  preview: false,
   fullscreen: false,
 
   dialog: null,
@@ -69,7 +68,7 @@ export default (options) => ({
   config: options,
 
   init() {
-    this.$refs.editable.innerHTML = this.html ?? '';
+    this.$refs.editable.innerHTML = this.sanitize(this.html ?? '');
 
     this.refreshEmpty();
     this.recount();
@@ -94,7 +93,7 @@ export default (options) => ({
         return;
       }
 
-      this.$refs.editable.innerHTML = value ?? '';
+      this.$refs.editable.innerHTML = this.sanitize(value ?? '');
 
       this.refreshEmpty();
       this.recount();
@@ -712,12 +711,6 @@ export default (options) => ({
       },
       (event) => (this.uploadProgress = Math.round(event.detail.progress))
     );
-  },
-
-  togglePreview() {
-    this.preview = !this.preview;
-
-    this.dispatch('editor:preview-toggled', { on: this.preview });
   },
 
   toggleFullscreen() {

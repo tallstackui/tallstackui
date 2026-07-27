@@ -423,6 +423,32 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_sanitize_the_html_it_boots_with(): void
+    {
+        // innerHTML never runs a <script>, but it does fire an <img onerror>,
+        // and the stored value is the path that reaches every reader.
+        Livewire::visit(new class extends LivewireComponent
+        {
+            public string $content = '<p onclick="alert(1)">hi</p><iframe src="x"></iframe>';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-editor wire:model="content" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitUntil("!! document.querySelector('[dusk=tallstackui_editor_editable]')")
+            ->pause(700)
+            ->assertScript(
+                "document.querySelector('[dusk=tallstackui_editor_editable]').innerHTML",
+                '<p>hi</p>'
+            );
+    }
+
+    #[Test]
     public function can_toggle_fullscreen_and_leave_with_escape(): void
     {
         Livewire::visit(new class extends LivewireComponent
@@ -451,30 +477,6 @@ class BrowserTest extends BrowserTestCase
                 "document.querySelector('[dusk=tallstackui_editor]').classList.contains('fixed')",
                 false
             );
-    }
-
-    #[Test]
-    public function can_toggle_the_preview(): void
-    {
-        Livewire::visit(new class extends LivewireComponent
-        {
-            public string $content = '<p>foo</p>';
-
-            public function render(): string
-            {
-                return <<<'HTML'
-                <div>
-                    <x-editor wire:model="content" />
-                    <p dusk="output" x-text="$wire.content"></p>
-                </div>
-                HTML;
-            }
-        })
-            ->assertMissing('@tallstackui_editor_preview_pane')
-            ->click('@tallstackui_editor_preview')
-            ->pause(600)
-            ->assertVisible('@tallstackui_editor_preview_pane')
-            ->assertSeeIn('@tallstackui_editor_preview_pane', 'foo');
     }
 
     #[Test]
