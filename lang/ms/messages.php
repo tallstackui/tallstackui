@@ -89,6 +89,31 @@ return [
         'invalid' => 'Terdapat ralat pengesahan.',
     ],
 
+    'upload_async' => [
+        'title' => 'Lepaskan fail di sini',
+        'description' => 'atau klik untuk memilih',
+        'send' => 'Hantar',
+        'clear' => 'Kosongkan',
+        'ready' => [
+            'single' => ':count fail sedia · :size',
+            'multiple' => ':count fail sedia · :size',
+        ],
+        'errors' => [
+            'mime' => 'Jenis fail tidak dibenarkan.',
+            'size' => 'Fail melebihi had :max MB.',
+            'limit' => 'Anda hanya boleh memuat naik :max fail sahaja.',
+            'network' => 'Ralat rangkaian. Sila cuba lagi.',
+            'server' => 'Muat naik gagal. Sila cuba lagi.',
+            'integrity' => 'Muat naik diterima tidak lengkap. Sila cuba lagi.',
+            'unauthorized' => 'Anda tidak dibenarkan memuat naik fail ini.',
+            'generic' => 'Terdapat ralat.',
+        ],
+        'remove' => 'Buang fail',
+        'preview' => [
+            'close' => 'Tutup pratonton',
+        ],
+    ],
+
     'date' => [
         'calendar' => [
             'months' => [

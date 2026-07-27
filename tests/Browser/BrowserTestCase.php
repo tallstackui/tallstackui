@@ -21,6 +21,7 @@ use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\Dusk\Options;
 use Orchestra\Testbench\Dusk\TestCase;
 use TallStackUi\Facades\TallStackUi;
+use TallStackUi\Http\AsyncUpload\HandlesAsyncUpload;
 use TallStackUi\TallStackUiServiceProvider;
 
 use function Livewire\trigger;
@@ -87,6 +88,37 @@ class BrowserTestCase extends TestCase
     /** @param Router $router */
     protected function defineWebRoutes($router): void
     {
+        $router->post('/async-upload', function (Request $request) {
+            $controller = new class
+            {
+                use HandlesAsyncUpload;
+
+                public function store(Request $request)
+                {
+                    return $this->handleAsyncUpload($request, ['directory' => 'browser-uploads']);
+                }
+            };
+
+            return $controller->store($request);
+        })->name('async.upload');
+
+        $router->post('/async-upload-strict', function (Request $request) {
+            $controller = new class
+            {
+                use HandlesAsyncUpload;
+
+                public function store(Request $request)
+                {
+                    return $this->handleAsyncUpload($request, [
+                        'directory' => 'browser-uploads',
+                        'rules' => ['file' => ['mimes:png']],
+                    ]);
+                }
+            };
+
+            return $controller->store($request);
+        })->name('async.upload.strict');
+
         $router->get('/searchable-simple', fn () => [
             [
                 'label' => 'delectus aut autem',

@@ -89,6 +89,31 @@ return [
         'invalid' => 'Une erreur de validation s\'est produite.',
     ],
 
+    'upload_async' => [
+        'title' => 'Déposez les fichiers ici',
+        'description' => 'ou cliquez pour sélectionner',
+        'send' => 'Envoyer',
+        'clear' => 'Effacer',
+        'ready' => [
+            'single' => ':count fichier prêt · :size',
+            'multiple' => ':count fichiers prêts · :size',
+        ],
+        'errors' => [
+            'mime' => 'Type de fichier non autorisé.',
+            'size' => 'Le fichier dépasse la limite de :max Mo.',
+            'limit' => 'Vous pouvez envoyer au maximum :max fichiers.',
+            'network' => 'Erreur réseau. Veuillez réessayer.',
+            'server' => 'L\'envoi a échoué. Veuillez réessayer.',
+            'integrity' => 'L\'envoi est arrivé incomplet. Veuillez réessayer.',
+            'unauthorized' => 'Vous n\'êtes pas autorisé à envoyer ce fichier.',
+            'generic' => 'Une erreur est survenue.',
+        ],
+        'remove' => 'Supprimer le fichier',
+        'preview' => [
+            'close' => 'Fermer l\'aperçu',
+        ],
+    ],
+
     'date' => [
         'calendar' => [
             'months' => [

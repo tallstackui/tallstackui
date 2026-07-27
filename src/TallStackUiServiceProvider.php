@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
 use TallStackUi\Components\Icon\Component as Icon;
+use TallStackUi\Console\AsyncUploadClearCommand;
 use TallStackUi\Console\FindComponentCommand;
 use TallStackUi\Console\IdeCommand;
 use TallStackUi\Console\SetupColorCommand;
@@ -73,6 +74,7 @@ class TallStackUiServiceProvider extends ServiceProvider
             FindComponentCommand::class,
             SetupColorCommand::class,
             IdeCommand::class,
+            AsyncUploadClearCommand::class,
         ]);
     }
 

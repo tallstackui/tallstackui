@@ -36,6 +36,7 @@ import textArea from '../src/Components/Form/Textarea/alpine';
 import toastBase from '../src/Components/Toast/toast-base';
 import toastLoop from '../src/Components/Toast/toast-loop';
 import upload from '../src/Components/Form/Upload/alpine';
+import uploadAsync from '../src/Components/Form/Upload/Async/alpine';
 import { flush_ui_elements } from './helpers';
 
 if (!window.__tsui_elements) {
@@ -65,6 +66,7 @@ document.addEventListener('alpine:init', () => {
   Alpine.data('tallstackui_formTag', tag);
   Alpine.data('tallstackui_formTextArea', textArea);
   Alpine.data('tallstackui_formUpload', upload);
+  Alpine.data('tallstackui_formUploadAsync', uploadAsync);
   Alpine.data('tallstackui_darkTheme', darkTheme);
   Alpine.data('tallstackui_dial', dial);
   Alpine.data('tallstackui_dialog', dialog);

@@ -464,6 +464,42 @@ return [
         'toggle' => Components\Form\Toggle\Component::class,
         'tooltip' => Components\Tooltip\Component::class,
         'upload' => Components\Form\Upload\Component::class,
+        'upload.async' => [
+            Components\Form\Upload\Async\Component::class,
+            [
+                /*
+                |----------------------------------------------------------------------
+                | Async Upload Global Settings
+                |----------------------------------------------------------------------
+                |
+                | chunk_size: bytes per chunk. Must stay below the app's PHP
+                |             upload_max_filesize / post_max_size, since every chunk
+                |             is a regular multipart upload.
+                | concurrency: chunks uploaded in parallel, globally per component.
+                | retries: attempts per chunk on transient failures.
+                | retry_delay: ms between retries (exponential backoff applied).
+                | max_size: max megabytes per file. Enforced on the client for UX
+                |           and re-enforced by the handler. null = unlimited.
+                | accept: default mime/extension filter. null = any.
+                | tmp_disk: disk used to stage in-flight chunks. Must be a local
+                |           driver, since assembly needs real filesystem paths.
+                | tmp_directory: chunk sessions directory, inside tmp_disk.
+                | disk: destination disk for finalized files. Any driver, incl. S3.
+                | session_ttl: seconds an upload session remains valid before the
+                |              tallstackui:async-upload:clear command discards it.
+                */
+                'chunk_size' => 2 * 1024 * 1024,
+                'concurrency' => 3,
+                'retries' => 3,
+                'retry_delay' => 1000,
+                'max_size' => null,
+                'accept' => null,
+                'tmp_disk' => 'local',
+                'tmp_directory' => 'async-uploads',
+                'disk' => 'local',
+                'session_ttl' => 60 * 60 * 6,
+            ],
+        ],
         'reaction' => Components\Reaction\Component::class,
         'wrapper.input' => Components\Wrapper\Input\Component::class,
         'wrapper.radio' => Components\Wrapper\Radio\Component::class,

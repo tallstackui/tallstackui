@@ -89,6 +89,31 @@ return [
         'invalid' => 'Terjadi kesalahan validasi.',
     ],
 
+    'upload_async' => [
+        'title' => 'Letakkan file di sini',
+        'description' => 'atau klik untuk memilih',
+        'send' => 'Kirim',
+        'clear' => 'Bersihkan',
+        'ready' => [
+            'single' => ':count file siap · :size',
+            'multiple' => ':count file siap · :size',
+        ],
+        'errors' => [
+            'mime' => 'Tipe file tidak diizinkan.',
+            'size' => 'File melebihi batas :max MB.',
+            'limit' => 'Anda hanya dapat mengunggah maksimal :max file.',
+            'network' => 'Kesalahan jaringan. Silakan coba lagi.',
+            'server' => 'Gagal mengunggah. Silakan coba lagi.',
+            'integrity' => 'Unggahan diterima tidak lengkap. Silakan coba lagi.',
+            'unauthorized' => 'Anda tidak diizinkan mengunggah file ini.',
+            'generic' => 'Terjadi kesalahan.',
+        ],
+        'remove' => 'Hapus file',
+        'preview' => [
+            'close' => 'Tutup pratinjau',
+        ],
+    ],
+
     'date' => [
         'calendar' => [
             'months' => [

@@ -89,6 +89,31 @@ return [
         'invalid' => 'Hubo un error de validación.',
     ],
 
+    'upload_async' => [
+        'title' => 'Suelte los archivos aquí',
+        'description' => 'o haga clic para seleccionar',
+        'send' => 'Enviar',
+        'clear' => 'Limpiar',
+        'ready' => [
+            'single' => ':count archivo listo · :size',
+            'multiple' => ':count archivos listos · :size',
+        ],
+        'errors' => [
+            'mime' => 'Tipo de archivo no permitido.',
+            'size' => 'El archivo supera el límite de :max MB.',
+            'limit' => 'Puede cargar como máximo :max archivos.',
+            'network' => 'Error de red. Por favor, inténtelo de nuevo.',
+            'server' => 'Error al cargar. Por favor, inténtelo de nuevo.',
+            'integrity' => 'La carga llegó incompleta. Por favor, inténtelo de nuevo.',
+            'unauthorized' => 'No tiene permiso para cargar este archivo.',
+            'generic' => 'Algo salió mal.',
+        ],
+        'remove' => 'Eliminar archivo',
+        'preview' => [
+            'close' => 'Cerrar vista previa',
+        ],
+    ],
+
     'date' => [
         'calendar' => [
             'months' => [

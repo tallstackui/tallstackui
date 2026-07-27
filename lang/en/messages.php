@@ -89,6 +89,31 @@ return [
         'invalid' => 'There was some validation error.',
     ],
 
+    'upload_async' => [
+        'title' => 'Drop files here',
+        'description' => 'or click to select',
+        'send' => 'Send',
+        'clear' => 'Clear',
+        'ready' => [
+            'single' => ':count file ready · :size',
+            'multiple' => ':count files ready · :size',
+        ],
+        'errors' => [
+            'mime' => 'File type not allowed.',
+            'size' => 'File exceeds the :max MB limit.',
+            'limit' => 'You can upload at most :max files.',
+            'network' => 'Network error. Please try again.',
+            'server' => 'Upload failed. Please try again.',
+            'integrity' => 'The upload arrived incomplete. Please try again.',
+            'unauthorized' => 'You are not allowed to upload this file.',
+            'generic' => 'Something went wrong.',
+        ],
+        'remove' => 'Remove file',
+        'preview' => [
+            'close' => 'Close preview',
+        ],
+    ],
+
     'date' => [
         'calendar' => [
             'months' => [

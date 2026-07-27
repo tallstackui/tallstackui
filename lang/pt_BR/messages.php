@@ -89,6 +89,31 @@ return [
         'invalid' => 'Houve algum erro de validação.',
     ],
 
+    'upload_async' => [
+        'title' => 'Solte os arquivos aqui',
+        'description' => 'ou clique para selecionar',
+        'send' => 'Enviar',
+        'clear' => 'Limpar',
+        'ready' => [
+            'single' => ':count arquivo pronto · :size',
+            'multiple' => ':count arquivos prontos · :size',
+        ],
+        'errors' => [
+            'mime' => 'Tipo de arquivo não permitido.',
+            'size' => 'O arquivo excede o limite de :max MB.',
+            'limit' => 'Você pode enviar no máximo :max arquivos.',
+            'network' => 'Erro de rede. Tente novamente.',
+            'server' => 'Falha no envio. Tente novamente.',
+            'integrity' => 'O envio chegou incompleto. Tente novamente.',
+            'unauthorized' => 'Você não tem permissão para enviar este arquivo.',
+            'generic' => 'Algo deu errado.',
+        ],
+        'remove' => 'Remover arquivo',
+        'preview' => [
+            'close' => 'Fechar pré-visualização',
+        ],
+    ],
+
     'date' => [
         'calendar' => [
             'months' => [
