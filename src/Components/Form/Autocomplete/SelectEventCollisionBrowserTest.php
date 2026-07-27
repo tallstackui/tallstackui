@@ -2,6 +2,7 @@
 
 namespace TallStackUi\Components\Form\Autocomplete;
 
+use Laravel\Dusk\Browser;
 use Livewire\Component;
 use Livewire\Livewire;
 use PHPUnit\Framework\Attributes\Test;
@@ -63,7 +64,7 @@ class SelectEventCollisionBrowserTest extends BrowserTestCase
             ->click('@tallstackui_autocomplete_input')
             ->waitForText('Alice')
             ->pause(150)
-            ->tap(fn ($browser) => $browser->script(<<<'JS'
+            ->tap(fn (Browser $browser) => $browser->script(<<<'JS'
                 window.__tsuiAutocompleteCollision = { invocations: 0, errors: [] };
 
                 const input = document.querySelector('input[dusk=tallstackui_autocomplete_input]');
@@ -73,7 +74,7 @@ class SelectEventCollisionBrowserTest extends BrowserTestCase
                 input.dispatchEvent(new Event('select', { bubbles: true }));
             JS))
             ->pause(200)
-            ->tap(function ($browser): void {
+            ->tap(function (Browser $browser): void {
                 $state = $browser->script('return JSON.stringify(window.__tsuiAutocompleteCollision)')[0];
                 $payload = json_decode($state, true);
 
