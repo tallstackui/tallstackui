@@ -29,6 +29,7 @@ use TallStackUi\Components\Dialog\Component as Dialog;
 use TallStackUi\Components\Dropdown\Items\Component as DropdownItems;
 use TallStackUi\Components\Dropdown\Main\Component as Dropdown;
 use TallStackUi\Components\Dropdown\Submenu\Component as DropdownSubmenu;
+use TallStackUi\Components\Editor\Component as Editor;
 use TallStackUi\Components\Environment\Component as Environment;
 use TallStackUi\Components\Errors\Component as Errors;
 use TallStackUi\Components\Floating\Component as Floating;
@@ -267,6 +268,13 @@ class Customization
         };
 
         return $this->component($class);
+    }
+
+    public function editor(?string $scope = null): CustomizationFactory
+    {
+        $this->scope ??= $scope;
+
+        return $this->component(Editor::class);
     }
 
     public function environment(?string $scope = null): CustomizationFactory

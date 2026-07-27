@@ -13,6 +13,7 @@ export default {
         'js/tallstackui-tooltip.js',
         'js/tallstackui-clipboard.js',
         'js/tallstackui-upload.js',
+        'js/tallstackui-editor.js',
       ],
     },
   },

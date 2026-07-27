@@ -35,6 +35,15 @@
       "_helpers-DxYdMuFg.js"
     ]
   },
+  "js/tallstackui-editor.js": {
+    "file": "tallstackui-editor-CFS-SG8T.js",
+    "name": "tallstackui-editor",
+    "src": "js/tallstackui-editor.js",
+    "isEntry": true,
+    "imports": [
+      "_helpers-DxYdMuFg.js"
+    ]
+  },
   "js/tallstackui-select.js": {
     "file": "tallstackui-select-Da8ToIQj.js",
     "name": "tallstackui-select",

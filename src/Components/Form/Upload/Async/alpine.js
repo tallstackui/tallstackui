@@ -215,13 +215,21 @@ export default (options) => ({
     }
 
     if (this.config.max_size && raw.size > this.config.max_size * 1024 * 1024) {
-      return this.reject(file, 'size', (this.i18n.errors?.size ?? '').replace(':max', this.config.max_size));
+      return this.reject(
+        file,
+        'size',
+        (this.i18n.errors?.size ?? '').replace(':max', this.config.max_size)
+      );
     }
 
     const future = this.files.filter((item) => item.status !== 'rejected').length + 1;
 
     if (this.multiple && this.limit && future > this.limit) {
-      return this.reject(file, 'limit', (this.i18n.errors?.limit ?? '').replace(':max', this.limit));
+      return this.reject(
+        file,
+        'limit',
+        (this.i18n.errors?.limit ?? '').replace(':max', this.limit)
+      );
     }
 
     this.files.push(file);
@@ -342,7 +350,8 @@ export default (options) => ({
     const headers = {
       Accept: 'application/json',
       'X-Requested-With': 'XMLHttpRequest',
-      'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') ?? '',
+      'X-CSRF-TOKEN':
+        document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') ?? '',
       ...this.headers,
     };
 
@@ -396,7 +405,8 @@ export default (options) => ({
 
       const parsed = await response.json().catch(() => null);
       const errors = parsed?.errors ?? {};
-      const message = errors[Object.keys(errors)[0]]?.[0] ?? parsed?.message ?? this.i18n.errors?.generic;
+      const message =
+        errors[Object.keys(errors)[0]]?.[0] ?? parsed?.message ?? this.i18n.errors?.generic;
 
       this.fail(file, message, response.status);
 
@@ -420,7 +430,9 @@ export default (options) => ({
   },
 
   backoff(attempt) {
-    return new Promise((resolve) => setTimeout(resolve, this.config.retry_delay * Math.pow(2, attempt)));
+    return new Promise((resolve) =>
+      setTimeout(resolve, this.config.retry_delay * Math.pow(2, attempt))
+    );
   },
 
   settle(tracker) {

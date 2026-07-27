@@ -6,6 +6,7 @@ use Exception;
 use Illuminate\Support\Facades\URL;
 use TallStackUi\Components\CommandPalette\Component as CommandPalette;
 use TallStackUi\Components\Dialog\Component as Dialog;
+use TallStackUi\Components\Editor\Component as Editor;
 use TallStackUi\Components\Form\Autocomplete\Component as Autocomplete;
 use TallStackUi\Components\Form\Color\Component as Color;
 use TallStackUi\Components\Form\Currency\Component as Currency;
@@ -30,6 +31,7 @@ class CompileConfigurations
             $component instanceof Color => fn () => self::color($component),
             $component instanceof Currency => fn () => self::currency($component),
             $component instanceof Dialog => fn () => Dialog::class,
+            $component instanceof Editor => fn () => self::editor($component),
             $component instanceof Loading => fn () => self::loading($component),
             $component instanceof Modal => fn () => self::modal($component),
             $component instanceof SelectStyled => fn () => self::select($component),
@@ -113,6 +115,35 @@ class CompileConfigurations
         $component->decimal ??= $configuration['decimal'] ?? false;
 
         return ['mutate' => $component->mutate, 'decimal' => $component->decimal];
+    }
+
+    /**
+     * Define the Editor component configurations.
+     *
+     * @throws Exception
+     */
+    private static function editor(Editor $component): array
+    {
+        $configuration = __ts_get_component_configuration(Editor::class);
+
+        $component->toolbar ??= $configuration['toolbar'];
+        $component->counters ??= $configuration['counters'];
+        $component->minHeight ??= $configuration['min_height'];
+        $component->maxHeight ??= $configuration['max_height'];
+        $component->uploadMimes ??= $configuration['upload']['mimes'];
+        $component->uploadMaxSize ??= $configuration['upload']['max_size'];
+        $component->placeholder ??= trans('ts-ui::messages.editor.placeholder');
+
+        return [
+            'toolbar' => $component->toolbar,
+            'counters' => $component->counters,
+            'placeholder' => $component->placeholder,
+            'heights' => [
+                'min' => $component->minHeight,
+                'max' => $component->maxHeight,
+            ],
+            'sanitization' => $configuration['sanitization'],
+        ];
     }
 
     /**

@@ -12,6 +12,93 @@ such change is listed under **Migration**.
 
 ---
 
+## Editor
+
+### Added — `<x-editor />`, a WYSIWYG editor with no external dependency
+
+A rich text editor built on `contenteditable`, shipping nothing but the package
+itself. It outputs HTML, binds through `wire:model` or through a plain `name`,
+and carries eighteen buttons across seven groups: headings, the four inline
+marks, lists, indentation, alignment, code, links, images, history and
+fullscreen.
+
+```blade
+<x-editor wire:model="content" label="Post body" />
+```
+
+```blade
+<x-editor wire:model="content"
+          upload-property="picture"
+          upload-method="storeImage"
+          :toolbar="['style', 'bold', 'italic', 'link', 'image']"
+          min-height="20rem" />
+```
+
+**The engine is a hybrid.** `document.execCommand` where the browsers agree, and
+the Selection API by hand where they do not. Every structural change is routed
+through `insertHTML` rather than through the DOM, because a node inserted by hand
+is invisible to the browser's own undo stack and `Ctrl+Z` would walk straight past
+it.
+
+**Indentation is two different things.** Inside a list the browser nests, which is
+the right shape there. Anywhere else it is a `margin-left` on the block, in steps
+of `2rem` up to eight levels — the native command reaches for a `<blockquote>`
+there, which is a quote rather than an indent and would be stripped by the
+sanitizer on the way back in. That margin is the one action that stays outside the
+undo stack: re-serializing the block to get it in there would drop the caret.
+
+**Both dialogs are `<x-modal>` instances**, under the fixed scopes `editor-link`
+and `editor-image`. The modal already owns the scroll lock, the overlay registry,
+`Escape` with its topmost guard and the focus of its first field, and being
+teleported to `<body>` takes its inputs out of any surrounding `<form>`, where
+`Enter` would otherwise submit it. The toolbar dropdowns are `<x-dropdown>` under
+`editor-toolbar`. What is left in the editor's own surface is the content: 40
+blocks rather than the 55 a self-contained dialog would have needed.
+
+**The whole component is `wire:ignore`d under Livewire**, and nothing about it
+reacts to the server as a result: changing `readonly` or any other attribute
+from a round trip leaves the rendered editor as it was, so a runtime change
+needs a `wire:key` to force the replacement. The content travels
+through the entangle, never through the HTML the server re-renders — and the
+initial value is withheld from the `x-data` when a property is bound, since a
+changing `x-data` attribute makes Alpine tear the component down and rebuild it,
+which lands the caret back at the start of the document.
+
+**The HTML is sanitized against a whitelist** of tags, attributes and style
+properties, parsed in a `<template>` so nothing runs on the way through. It runs
+over pasted markup and over anything arriving from the bound property, the value
+the editor boots with included: setting `innerHTML` never runs a `<script>`, but
+it does fire an `<img onerror>`, and stored content is the path that reaches
+every reader. This is still defense in depth — the documentation is explicit that
+the HTML must be sanitized again on the server before it is persisted and before
+it is rendered back.
+
+`image/svg+xml` is deliberately absent from the default upload mimes: SVG can
+carry script, and a package default should not open that on its own.
+
+**Nineteen internal icons** were added to the guide and to the published icon
+map, so an application swapping its icon set keeps the toolbar working.
+
+Full reference in `.ai/components/editor.md`.
+
+### Changed — the editor ships in its own bundle
+
+`js/tallstackui-editor.js` joined the entry points, weighing 11.5 kB, 3.7 kB
+gzipped. Same reasoning as the upload split: not lazy loading, but cache
+granularity, so a change to the editor stops invalidating the bundle every other
+component lives in.
+
+### Fixed — the sanitizer discarded alignment on pasted paragraphs
+
+`allowed_attributes` let `style` through on `span` and `div` but not on `p` or the
+headings, while the browser writes `text-align` straight onto the paragraph.
+Copying a centered paragraph and pasting it back lost the alignment. `style` is
+now allowed on `p`, `h1`–`h5` and `li`, which cannot widen the surface: the
+`allowed_styles` whitelist is applied afterwards, so only `font-size`,
+`text-align` and `margin-left` survive on any of them.
+
+---
+
 ## Form / Upload / Async
 
 ### Added — `<x-upload.async />`, chunked uploads straight to your own controller

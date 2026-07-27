@@ -21,6 +21,7 @@
 - [Card](components/card.md)
 - [Carousel](components/carousel.md)
 - [Clipboard](components/clipboard.md)
+- [Editor](components/editor.md)
 - [Environment](components/environment.md)
 - [Errors](components/errors.md)
 - [Icon](components/icon.md)
