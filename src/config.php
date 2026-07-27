@@ -212,6 +212,69 @@ return [
         'dropdown' => Components\Dropdown\Main\Component::class,
         'dropdown.items' => Components\Dropdown\Items\Component::class,
         'dropdown.submenu' => Components\Dropdown\Submenu\Component::class,
+        'editor' => [
+            Components\Editor\Component::class,
+            /*
+            |----------------------------------------------------------------------
+            | Editor Settings
+            |----------------------------------------------------------------------
+            | toolbar: the canonical buttons and the order they are rendered in.
+            | counters: displays the word and line counters in the footer.
+            | min_height, max_height: the editable boundaries, in any CSS unit.
+            | upload: the constraints checked in the browser before uploading.
+            | sanitization: the whitelist applied to any pasted content.
+            |
+            | The sanitization whitelist is a defense in depth measure, not the
+            | defense itself. Always sanitize the HTML on the server before
+            | persisting it and before rendering it back.
+            */
+            [
+                'toolbar' => [
+                    'style',
+                    'bold', 'italic', 'underline', 'strikethrough',
+                    'ordered-list', 'unordered-list', 'indent', 'outdent',
+                    'align',
+                    'code', 'code-block', 'clear-format',
+                    'link', 'image',
+                    'undo', 'redo',
+                    'preview', 'fullscreen',
+                ],
+                'counters' => true,
+                'min_height' => '12rem',
+                'max_height' => '40rem',
+                'upload' => [
+                    'mimes' => ['image/png', 'image/jpeg', 'image/gif', 'image/webp'],
+                    'max_size' => 5120,
+                ],
+                'sanitization' => [
+                    'allowed_tags' => [
+                        'p', 'br', 'strong', 'em', 'u', 's', 'code', 'pre',
+                        'h1', 'h2', 'h3', 'h4', 'h5',
+                        'ul', 'ol', 'li',
+                        'a', 'img', 'span', 'div',
+                    ],
+                    'allowed_attributes' => [
+                        'a' => ['href', 'target', 'rel'],
+                        'img' => ['src', 'alt', 'width', 'height'],
+                        'span' => ['style'],
+                        'div' => ['style'],
+                        'p' => ['style'],
+                        'h1' => ['style'],
+                        'h2' => ['style'],
+                        'h3' => ['style'],
+                        'h4' => ['style'],
+                        'h5' => ['style'],
+                        'li' => ['style'],
+                    ],
+
+                    /*
+                    | Only these properties survive on an allowed style attribute,
+                    | so widening the tags above cannot widen what they can do.
+                    */
+                    'allowed_styles' => ['font-size', 'text-align', 'margin-left'],
+                ],
+            ],
+        ],
         'environment' => Components\Environment\Component::class,
         'error' => Components\Form\Error\Component::class,
         'errors' => Components\Errors\Component::class,
@@ -258,10 +321,18 @@ return [
                         'arrow-trending-up' => null,
                         'arrow-trending-down' => null,
                         'arrow-up-tray' => null,
+                        'arrow-uturn-left' => null,
+                        'arrow-uturn-right' => null,
+                        'arrows-pointing-in' => null,
+                        'arrows-pointing-out' => null,
+                        'backspace' => null,
+                        'bars-3-bottom-left' => null,
                         'bars-4' => null,
                         'calendar' => null,
                         'check' => null,
                         'check-circle' => null,
+                        'chevron-double-left' => null,
+                        'chevron-double-right' => null,
                         'chevron-down' => null,
                         'chevron-left' => null,
                         'chevron-right' => null,
@@ -271,15 +342,20 @@ return [
                         'clipboard-document' => null,
                         'cloud-arrow-up' => null,
                         'clock' => null,
+                        'code-bracket' => null,
+                        'code-bracket-square' => null,
                         'document-check' => null,
                         'document-text' => null,
                         'exclamation-circle' => null,
                         'eye' => null,
                         'eye-slash' => null,
                         'information-circle' => null,
+                        'link' => null,
+                        'list-bullet' => null,
                         'magnifying-glass' => null,
                         'minus' => null,
                         'moon' => null,
+                        'numbered-list' => null,
                         'photo' => null,
                         'plus' => null,
                         'question-mark-circle' => null,
