@@ -44,6 +44,15 @@
       "_helpers-DxYdMuFg.js"
     ]
   },
+  "js/tallstackui-gallery.js": {
+    "file": "tallstackui-gallery-B_nld_0y.js",
+    "name": "tallstackui-gallery",
+    "src": "js/tallstackui-gallery.js",
+    "isEntry": true,
+    "imports": [
+      "_helpers-DxYdMuFg.js"
+    ]
+  },
   "js/tallstackui-select.js": {
     "file": "tallstackui-select-Da8ToIQj.js",
     "name": "tallstackui-select",
