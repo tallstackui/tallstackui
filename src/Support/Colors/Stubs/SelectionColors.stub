@@ -4,7 +4,7 @@ namespace {{ namespace }};
 
 use Illuminate\View\Component;
 
-/** Colors of the `<x-radio.group />` and `<x-checkbox.group />` components. */
+// Colors of the `<x-radio.group />` and `<x-checkbox.group />` components.
 class SelectionColors
 {
     /**
