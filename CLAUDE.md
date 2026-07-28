@@ -252,6 +252,8 @@ class AlertColors
 
 **AbstractRuntime Methods:**
 
+- `alignable()` - Returns a slot's attributes without the alignment keywords
+- `alignment()` - Resolves a slot's alignment from `start`, `center`, `end`, `between` and `unwrapped`
 - `bind()` - Returns property binding info (property, error, id, entangle)
 - `change()` - Compiles `wire:change` event handlers
 - `wireable()` - Checks Livewire context
