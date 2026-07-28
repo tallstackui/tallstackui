@@ -11,8 +11,12 @@ use TallStackUi\TallStackUiComponent;
 #[SoftCustomization('tab')]
 class Component extends TallStackUiComponent implements Customization
 {
-    public function __construct(public ?string $selected = null, public ?bool $scrollOnMobile = null, public ?bool $centered = null)
-    {
+    public function __construct(
+        public ?string $selected = null,
+        public ?bool $scrollOnMobile = null,
+        public ?bool $centered = null,
+        public ?bool $paddingless = null,
+    ) {
         //
     }
 
@@ -31,6 +35,7 @@ class Component extends TallStackUiComponent implements Customization
                 'body-mobile-show' => 'sm:flex',
                 'centered' => 'justify-center',
                 'content' => 'text-secondary-700 dark:text-dark-300 p-4',
+                'content-paddingless' => 'p-0!',
                 'divider' => 'h-px border-0 bg-gray-300 dark:bg-dark-600',
                 'divider-mobile-show' => 'sm:block',
                 'select' => 'focus:border-primary-500 focus:ring-primary-500 dark:bg-dark-700 dark:border-dark-500 w-full rounded-lg border-gray-200 px-4 py-3 dark:text-dark-400 sm:hidden',

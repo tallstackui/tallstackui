@@ -48,20 +48,31 @@ A versatile card container with optional header, footer, image, color styling, m
 <x-card round="2xl">Generous corners</x-card>
 ```
 
+```blade
+{{-- The table draws its own spacing, so the body padding only doubles it. --}}
+<x-card paddingless header="Users">
+    <x-table :$headers :$rows />
+    <x-slot:footer>
+        <x-button text="Export" />
+    </x-slot:footer>
+</x-card>
+```
+
 ## Attributes
 
-| Attribute | Type               | Default | Description                                                                                                                                                        |
-|-----------|--------------------|---------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| color     | string\|null       | null    | Color theme for the header background                                                                                                                              |
-| light     | bool               | null    | Uses the light color style variant                                                                                                                                 |
-| bordered  | bool               | null    | Uses a bordered variation instead of background fill                                                                                                               |
-| minimize  | string\|null       | null    | Enables minimize/maximize toggle; set to 'mount' to start minimized                                                                                                |
-| close     | bool               | null    | Shows a close button to hide the entire card                                                                                                                       |
-| loading   | string\|bool\|null | null    | Livewire `wire:target` value that shows an indeterminate loading bar and a semi-transparent overlay that disables interaction                                      |
-| delay     | string\|null       | null    | Livewire loading delay modifier (e.g., 'long', 'longest')                                                                                                          |
-| image     | string\|null       | null    | URL for a card image                                                                                                                                               |
-| position  | string\|null       | 'top'   | Image position: 'top' or 'bottom'                                                                                                                                  |
-| round     | bool\|string       | false   | Border radius size of the card wrapper. Accepts `xs`, `sm`, `md`, `lg`, `xl`, or `2xl`. When omitted or set to `true`, keeps the component default (`rounded-lg`). |
+| Attribute   | Type               | Default | Description                                                                                                                                                        |
+|-------------|--------------------|---------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| color       | string\|null       | null    | Color theme for the header background                                                                                                                              |
+| light       | bool               | null    | Uses the light color style variant                                                                                                                                 |
+| bordered    | bool               | null    | Uses a bordered variation instead of background fill                                                                                                               |
+| minimize    | string\|null       | null    | Enables minimize/maximize toggle; set to 'mount' to start minimized                                                                                                |
+| close       | bool               | null    | Shows a close button to hide the entire card                                                                                                                       |
+| loading     | string\|bool\|null | null    | Livewire `wire:target` value that shows an indeterminate loading bar and a semi-transparent overlay that disables interaction                                      |
+| delay       | string\|null       | null    | Livewire loading delay modifier (e.g., 'long', 'longest')                                                                                                          |
+| image       | string\|null       | null    | URL for a card image                                                                                                                                               |
+| position    | string\|null       | 'top'   | Image position: 'top' or 'bottom'                                                                                                                                  |
+| round       | bool\|string       | false   | Border radius size of the card wrapper. Accepts `xs`, `sm`, `md`, `lg`, `xl`, or `2xl`. When omitted or set to `true`, keeps the component default (`rounded-lg`). |
+| paddingless | bool\|null         | null    | When true, removes the padding of the body, leaving the default slot flush against the card edges. Header and footer keep their padding.                           |
 
 ## Slots
 
@@ -119,6 +130,7 @@ TallStackUi::customize()
 | header.text.size        | Header text font size and weight                          |
 | header.text.color       | Header text color                                         |
 | body                    | Card body padding and text color                          |
+| body.paddingless        | Padding reset applied when `paddingless` is set           |
 | footer.wrapper          | Footer container with top border                          |
 | footer.text             | Footer content alignment (flex, end-aligned)              |
 | button.minimize         | Minimize button icon dimensions                           |

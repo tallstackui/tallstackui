@@ -108,3 +108,14 @@ it('cannot accept invalid round value', function () {
 
     expect('<x-card round="huge">Foo bar</x-card>')->render();
 });
+
+it('can render without body padding', function () {
+    expect('<x-card paddingless>Foo bar</x-card>')->render()
+        ->toContain('p-0!');
+});
+
+it('can render with body padding by default', function () {
+    expect('<x-card>Foo bar</x-card>')->render()
+        ->toContain('px-4 py-5')
+        ->not->toContain('p-0!');
+});

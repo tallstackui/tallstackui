@@ -105,3 +105,25 @@ it('can thrown exception when z-index does not contains prefix', function () {
     expect($component)->render()
         ->toContain('Bar Baz');
 });
+
+it('can render without body padding', function () {
+    $component = <<<'HTML'
+    <x-modal paddingless>
+    Bar Baz
+    </x-modal>
+    HTML;
+
+    expect($component)->render()
+        ->toContain('p-0!');
+});
+
+it('can render with body padding by default', function () {
+    $component = <<<'HTML'
+    <x-modal>
+    Bar Baz
+    </x-modal>
+    HTML;
+
+    expect($component)->render()
+        ->not->toContain('p-0!');
+});

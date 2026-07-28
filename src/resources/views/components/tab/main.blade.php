@@ -43,7 +43,7 @@
         </template>
     </ul>
     <hr @class([$customization['base.divider'], 'hidden ' . $customization['base.divider-mobile-show'] => ! $scrollOnMobile])>
-    <div class="{{ $customization['base.content'] }}">
+    <div @class([$customization['base.content'], $customization['base.content-paddingless'] => $paddingless])>
         {{ $slot }}
     </div>
 </div>

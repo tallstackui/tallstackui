@@ -44,24 +44,39 @@ Using `wire:model` for Livewire-controlled state:
 <x-button text="Toggle" wire:click="$toggle('showSlide')" />
 ```
 
+Removing the body padding. The result is flush horizontally but not vertically:
+the vertical inset lives on the outer panel, shared with the header and the
+footer, so removing it would move all three. Vertical bleed is a soft
+customization of `wrapper.fifth`:
+
+```blade
+<x-slide id="activity" title="Activity" paddingless>
+    <ul class="divide-y divide-gray-200">
+        <li class="px-4 py-3">First entry</li>
+        <li class="px-4 py-3">Second entry</li>
+    </ul>
+</x-slide>
+```
+
 ## Attributes
 
-| Attribute  | Type                        | Default                    | Description                                                                |
-|------------|-----------------------------|----------------------------|----------------------------------------------------------------------------|
-| id         | string\|null                | 'slide'                    | Unique identifier used for targeting with JS API and events                |
-| zIndex     | string\|null                | null (from config: 'z-50') | CSS z-index class                                                          |
-| wire       | string\|bool\|null          | null                       | Livewire entangle property name (string) or boolean to use default 'slide' |
-| title      | ComponentSlot\|string\|null | null                       | Title text or slot displayed in the slide header                           |
-| footer     | ComponentSlot\|string\|null | null                       | Footer content or slot                                                     |
-| blur       | bool\|string\|null          | null (from config: false)  | Backdrop blur effect (false, sm, md, lg, xl, or true for sm)               |
-| persistent | bool\|null                  | null (from config: false)  | When true, prevents closing via outside click or Escape key                |
-| size       | string\|null                | null (from config: 'lg')   | Panel size (sm, md, lg, xl, 2xl, 3xl, 4xl, 5xl, 6xl, 7xl, full)            |
-| entangle   | string\|null                | 'slide'                    | Livewire property name for entangle binding                                |
-| center     | bool\|null                  | null                       | Vertical centering (not commonly used with slides)                         |
-| overflow   | bool\|null                  | null (from config: false)  | When true, avoids hiding body overflow                                     |
-| left       | bool\|null                  | null                       | When true, slide enters from the left side                                 |
-| top        | bool\|null                  | null                       | When true, slide enters from the top                                       |
-| bottom     | bool\|null                  | null                       | When true, slide enters from the bottom                                    |
+| Attribute   | Type                        | Default                    | Description                                                                                                                                             |
+|-------------|-----------------------------|----------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
+| id          | string\|null                | 'slide'                    | Unique identifier used for targeting with JS API and events                                                                                             |
+| zIndex      | string\|null                | null (from config: 'z-50') | CSS z-index class                                                                                                                                       |
+| wire        | string\|bool\|null          | null                       | Livewire entangle property name (string) or boolean to use default 'slide'                                                                              |
+| title       | ComponentSlot\|string\|null | null                       | Title text or slot displayed in the slide header                                                                                                        |
+| footer      | ComponentSlot\|string\|null | null                       | Footer content or slot                                                                                                                                  |
+| blur        | bool\|string\|null          | null (from config: false)  | Backdrop blur effect (false, sm, md, lg, xl, or true for sm)                                                                                            |
+| persistent  | bool\|null                  | null (from config: false)  | When true, prevents closing via outside click or Escape key                                                                                             |
+| size        | string\|null                | null (from config: 'lg')   | Panel size (sm, md, lg, xl, 2xl, 3xl, 4xl, 5xl, 6xl, 7xl, full)                                                                                         |
+| entangle    | string\|null                | 'slide'                    | Livewire property name for entangle binding                                                                                                             |
+| center      | bool\|null                  | null                       | Vertical centering (not commonly used with slides)                                                                                                      |
+| overflow    | bool\|null                  | null (from config: false)  | When true, avoids hiding body overflow                                                                                                                  |
+| left        | bool\|null                  | null                       | When true, slide enters from the left side                                                                                                              |
+| top         | bool\|null                  | null                       | When true, slide enters from the top                                                                                                                    |
+| bottom      | bool\|null                  | null                       | When true, slide enters from the bottom                                                                                                                 |
+| paddingless | bool\|null                  | null                       | When true, removes the padding of the body. Flush horizontally only: the vertical inset lives on the outer panel, shared with the header and the footer |
 
 ## Slots
 
@@ -164,19 +179,20 @@ TallStackUi::customize()
 
 ### Available Blocks
 
-| Block Name     | Purpose                                      |
-|----------------|----------------------------------------------|
-| wrapper.first  | Fixed overlay backdrop                       |
-| wrapper.second | Fixed full-screen overflow container         |
-| wrapper.third  | Absolute overflow wrapper                    |
-| wrapper.fourth | Pointer-events container with positioning    |
-| wrapper.fifth  | Panel flex column with background and shadow |
-| blur.sm        | Small backdrop blur effect                   |
-| blur.md        | Medium backdrop blur effect                  |
-| blur.lg        | Large backdrop blur effect                   |
-| blur.xl        | Extra-large backdrop blur effect             |
-| title.text     | Title heading styles                         |
-| title.close    | Close button icon styles                     |
-| body           | Scrollable body content area styles          |
-| footer         | Footer container with border styles          |
-| header         | Header padding container                     |
+| Block Name       | Purpose                                         |
+|------------------|-------------------------------------------------|
+| wrapper.first    | Fixed overlay backdrop                          |
+| wrapper.second   | Fixed full-screen overflow container            |
+| wrapper.third    | Absolute overflow wrapper                       |
+| wrapper.fourth   | Pointer-events container with positioning       |
+| wrapper.fifth    | Panel flex column with background and shadow    |
+| blur.sm          | Small backdrop blur effect                      |
+| blur.md          | Medium backdrop blur effect                     |
+| blur.lg          | Large backdrop blur effect                      |
+| blur.xl          | Extra-large backdrop blur effect                |
+| title.text       | Title heading styles                            |
+| title.close      | Close button icon styles                        |
+| body             | Scrollable body content area styles             |
+| body.paddingless | Padding reset applied when `paddingless` is set |
+| footer           | Footer container with border styles             |
+| header           | Header padding container                        |

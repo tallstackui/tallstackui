@@ -40,22 +40,36 @@ Using `wire:model` for Livewire-controlled state:
 <x-button text="Toggle" wire:click="$toggle('showModal')" />
 ```
 
+Removing the body padding so the content bleeds to the edges. The title and the
+footer keep theirs:
+
+```blade
+<x-modal id="preview" title="Preview" paddingless>
+    <img src="https://example.com/cover.jpg" class="w-full" />
+
+    <x-slot:footer>
+        <x-button text="Close" x-on:click="$tsui.close.modal('preview')" />
+    </x-slot:footer>
+</x-modal>
+```
+
 ## Attributes
 
-| Attribute  | Type               | Default                    | Description                                                                                                  |
-|------------|--------------------|----------------------------|--------------------------------------------------------------------------------------------------------------|
-| id         | string\|null       | 'modal'                    | Unique identifier used for targeting with JS API and events                                                  |
-| zIndex     | string\|null       | null (from config: 'z-50') | CSS z-index class                                                                                            |
-| wire       | string\|bool\|null | null                       | Livewire entangle property name (string) or boolean to use default 'modal'                                   |
-| title      | string\|null       | null                       | Title text displayed in the modal header with a close button                                                 |
-| footer     | string\|null       | null                       | Footer slot content                                                                                          |
-| blur       | bool\|string\|null | null (from config: false)  | Backdrop blur effect (false, sm, md, lg, xl, or true for sm)                                                 |
-| persistent | bool\|null         | null (from config: false)  | When true, prevents closing via outside click or Escape key                                                  |
-| size       | string\|null       | null (from config: '2xl')  | Modal width (sm, md, lg, xl, 2xl, 3xl, 4xl, 5xl, 6xl, 7xl, full)                                             |
-| entangle   | string\|null       | 'modal'                    | Livewire property name for entangle binding                                                                  |
-| center     | bool\|null         | null (from config: false)  | When true, vertically centers the modal on all viewport sizes with full border radius and padding (v2-style) |
-| overflow   | bool\|null         | null (from config: false)  | When true, avoids hiding body overflow                                                                       |
-| scrollable | bool\|null         | null (from config: false)  | When true, fixes title and footer while body scrolls                                                         |
+| Attribute   | Type               | Default                    | Description                                                                                                                             |
+|-------------|--------------------|----------------------------|-----------------------------------------------------------------------------------------------------------------------------------------|
+| id          | string\|null       | 'modal'                    | Unique identifier used for targeting with JS API and events                                                                             |
+| zIndex      | string\|null       | null (from config: 'z-50') | CSS z-index class                                                                                                                       |
+| wire        | string\|bool\|null | null                       | Livewire entangle property name (string) or boolean to use default 'modal'                                                              |
+| title       | string\|null       | null                       | Title text displayed in the modal header with a close button                                                                            |
+| footer      | string\|null       | null                       | Footer slot content                                                                                                                     |
+| blur        | bool\|string\|null | null (from config: false)  | Backdrop blur effect (false, sm, md, lg, xl, or true for sm)                                                                            |
+| persistent  | bool\|null         | null (from config: false)  | When true, prevents closing via outside click or Escape key                                                                             |
+| size        | string\|null       | null (from config: '2xl')  | Modal width (sm, md, lg, xl, 2xl, 3xl, 4xl, 5xl, 6xl, 7xl, full)                                                                        |
+| entangle    | string\|null       | 'modal'                    | Livewire property name for entangle binding                                                                                             |
+| center      | bool\|null         | null (from config: false)  | When true, vertically centers the modal on all viewport sizes with full border radius and padding (v2-style)                            |
+| overflow    | bool\|null         | null (from config: false)  | When true, avoids hiding body overflow                                                                                                  |
+| scrollable  | bool\|null         | null (from config: false)  | When true, fixes title and footer while body scrolls                                                                                    |
+| paddingless | bool\|null         | null                       | When true, removes the padding of the body, leaving the default slot flush against the modal edges. Title and footer keep their padding |
 
 ## Slots
 
@@ -165,23 +179,24 @@ TallStackUi::customize()
 
 ### Available Blocks
 
-| Block Name         | Purpose                                       |
-|--------------------|-----------------------------------------------|
-| wrapper.first      | Fixed overlay backdrop                        |
-| wrapper.second     | Fixed full-screen scroll container            |
-| wrapper.third      | Centering flex container with size constraint |
-| wrapper.fourth     | Modal card with rounded corners and shadow    |
-| wrapper.scrollable | Max-height constraint for scrollable mode     |
-| positions.top      | Alignment classes for top-positioned modal    |
-| positions.center   | Alignment classes for centered modal          |
-| blur.sm            | Small backdrop blur effect                    |
-| blur.md            | Medium backdrop blur effect                   |
-| blur.lg            | Large backdrop blur effect                    |
-| blur.xl            | Extra-large backdrop blur effect              |
-| title.wrapper      | Title bar container with border               |
-| title.text         | Title heading styles                          |
-| title.close        | Close button icon styles                      |
-| body               | Body content area styles                      |
-| body.scrollable    | Scrollable body overflow styles               |
-| footer             | Footer container styles                       |
-| footer.scrollable  | Sticky footer styles for scrollable mode      |
+| Block Name         | Purpose                                         |
+|--------------------|-------------------------------------------------|
+| wrapper.first      | Fixed overlay backdrop                          |
+| wrapper.second     | Fixed full-screen scroll container              |
+| wrapper.third      | Centering flex container with size constraint   |
+| wrapper.fourth     | Modal card with rounded corners and shadow      |
+| wrapper.scrollable | Max-height constraint for scrollable mode       |
+| positions.top      | Alignment classes for top-positioned modal      |
+| positions.center   | Alignment classes for centered modal            |
+| blur.sm            | Small backdrop blur effect                      |
+| blur.md            | Medium backdrop blur effect                     |
+| blur.lg            | Large backdrop blur effect                      |
+| blur.xl            | Extra-large backdrop blur effect                |
+| title.wrapper      | Title bar container with border                 |
+| title.text         | Title heading styles                            |
+| title.close        | Close button icon styles                        |
+| body               | Body content area styles                        |
+| body.scrollable    | Scrollable body overflow styles                 |
+| body.paddingless   | Padding reset applied when `paddingless` is set |
+| footer             | Footer container styles                         |
+| footer.scrollable  | Sticky footer styles for scrollable mode        |

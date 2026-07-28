@@ -113,3 +113,17 @@ it('auto selects tab when url matches', function () {
     expect($component)->render()
         ->toContain("selected = 'A'");
 });
+
+it('can render without content padding', function () {
+    $component = '<x-tab paddingless><x-tab.items tab="A">Content A</x-tab.items></x-tab>';
+
+    expect($component)->render()
+        ->toContain('p-0!');
+});
+
+it('can render with content padding by default', function () {
+    $component = '<x-tab><x-tab.items tab="A">Content A</x-tab.items></x-tab>';
+
+    expect($component)->render()
+        ->not->toContain('p-0!');
+});

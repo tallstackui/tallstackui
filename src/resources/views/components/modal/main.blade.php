@@ -61,6 +61,7 @@
                 @endif
                 <div @class([
                         $customization['body'],
+                        $customization['body.paddingless'] => $paddingless,
                         $customization['body.scrollable'] => $configurations['scrollable'],
                         $customization['scrollbar.thin'] => $configurations['scrollable'] && $configurations['scrollbar'] === 'thin',
                         $customization['scrollbar.thick'] => $configurations['scrollable'] && $configurations['scrollbar'] === 'thick',

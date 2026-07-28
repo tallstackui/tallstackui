@@ -12,6 +12,40 @@ such change is listed under **Migration**.
 
 ---
 
+## Modal, Slide, Card & Tab
+
+### Added — `paddingless`, removing the padding of the main slot
+
+The four components that wrap content in a padded area now share a flag that
+strips that padding, leaving the slot flush against the edges of the component.
+It is what a table, an image or a nested list wants: whatever draws its own
+spacing, or is meant to bleed.
+
+```blade
+<x-card paddingless>
+    <x-table :$headers :$rows />
+</x-card>
+```
+
+Only the main slot is affected. Headers and footers keep their padding, so a
+titled modal holding a flush body still reads as a modal.
+
+The flag maps to a new customization block per component — `body.paddingless`
+on Modal, Slide and Card, `base.content-paddingless` on Tab — carrying `p-0!`.
+The block is appended to the existing one rather than replacing it, so the
+importance modifier is what wins over the padding already there. An application
+customizing `body` is unaffected, and one that wants the flush body everywhere
+can reach for the new block instead of passing the flag at every call site.
+
+On Slide the result is flush horizontally but not vertically: the `py-6` that
+insets the body lives on the outer panel, shared with the header and the footer,
+and removing it would move all three. Vertical bleed on a Slide is a soft
+customization of `wrapper.fifth`.
+
+**Migration:** nothing. The flag defaults to off and no existing block changed.
+
+---
+
 ## Editor
 
 ### Added — `<x-editor />`, a WYSIWYG editor with no external dependency

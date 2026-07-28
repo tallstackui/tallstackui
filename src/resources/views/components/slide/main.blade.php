@@ -79,7 +79,7 @@
                                 </button>
                             </div>
                         </div>
-                        <div class="{{ $customization['body'] }}">
+                        <div @class([$customization['body'], $customization['body.paddingless'] => $paddingless])>
                             {{ $slot }}
                         </div>
                         @if ($footer)

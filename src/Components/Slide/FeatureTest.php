@@ -76,3 +76,25 @@ it('can thrown exception when z-index does not contains prefix', function () {
     expect($slide)->render()
         ->toContain('Bar Baz');
 });
+
+it('can render without body padding', function () {
+    $slide = <<<'HTML'
+    <x-slide paddingless>
+    Bar Baz
+    </x-slide>
+    HTML;
+
+    expect($slide)->render()
+        ->toContain('p-0!');
+});
+
+it('can render with body padding by default', function () {
+    $slide = <<<'HTML'
+    <x-slide>
+    Bar Baz
+    </x-slide>
+    HTML;
+
+    expect($slide)->render()
+        ->not->toContain('p-0!');
+});

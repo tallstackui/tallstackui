@@ -96,7 +96,7 @@
                 @endif
             </div>
         @endif
-        <div {{ $attributes->whereDoesntStartWith('x-on:')->class($customization['body']) }}
+        <div {{ $attributes->whereDoesntStartWith('x-on:')->class([$customization['body'], $customization['body.paddingless'] => $paddingless]) }}
              x-show="!minimize"
              @if (!$ts_ui__flash)
                  x-transition:enter="transition ease-out duration-100"

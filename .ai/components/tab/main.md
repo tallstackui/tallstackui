@@ -53,13 +53,28 @@ Listening for tab navigation events:
 </x-tab>
 ```
 
+Removing the padding of the content area. The padding sits on the single wrapper
+around the slot, so the flag reaches every panel:
+
+```blade
+<x-tab selected="users" paddingless>
+    <x-tab.items tab="users">
+        <x-table :$headers :$rows />
+    </x-tab.items>
+    <x-tab.items tab="invoices">
+        <x-table :headers="$invoiceHeaders" :rows="$invoices" />
+    </x-tab.items>
+</x-tab>
+```
+
 ## Attributes
 
-| Attribute        | Type         | Default | Description                                                                  |
-|------------------|--------------|---------|------------------------------------------------------------------------------|
-| selected         | string\|null | null    | Initially selected tab identifier (or use `wire:model` for Livewire binding) |
-| scroll-on-mobile | bool\|null   | null    | Shows horizontal scrollable tabs on mobile instead of a select dropdown      |
-| centered         | bool\|null   | null    | Centers the tab navigation items                                             |
+| Attribute        | Type         | Default | Description                                                                                                                                 |
+|------------------|--------------|---------|---------------------------------------------------------------------------------------------------------------------------------------------|
+| selected         | string\|null | null    | Initially selected tab identifier (or use `wire:model` for Livewire binding)                                                                |
+| scroll-on-mobile | bool\|null   | null    | Shows horizontal scrollable tabs on mobile instead of a select dropdown                                                                     |
+| centered         | bool\|null   | null    | Centers the tab navigation items                                                                                                            |
+| paddingless      | bool\|null   | null    | When true, removes the padding of the content area. The padding sits on the single wrapper around the slot, so the flag reaches every panel |
 
 ## Slots
 
@@ -155,14 +170,15 @@ TallStackUi::customize()
 
 ### Available Blocks
 
-| Block Name    | Purpose                                             |
-|---------------|-----------------------------------------------------|
-| base.wrapper  | Outer card container with background and shadow     |
-| base.padding  | Padding wrapper for the mobile select dropdown      |
-| base.body     | Flex container for the tab navigation list          |
-| base.content  | Content area padding and text color                 |
-| base.divider  | Horizontal divider between tabs and content         |
-| base.select   | Mobile select dropdown styling                      |
-| item.wrapper  | Individual tab item flex layout and padding         |
-| item.select   | Active/selected tab underline border and text color |
-| item.unselect | Inactive tab border and text color                  |
+| Block Name               | Purpose                                             |
+|--------------------------|-----------------------------------------------------|
+| base.wrapper             | Outer card container with background and shadow     |
+| base.padding             | Padding wrapper for the mobile select dropdown      |
+| base.body                | Flex container for the tab navigation list          |
+| base.content             | Content area padding and text color                 |
+| base.content-paddingless | Padding reset applied when `paddingless` is set     |
+| base.divider             | Horizontal divider between tabs and content         |
+| base.select              | Mobile select dropdown styling                      |
+| item.wrapper             | Individual tab item flex layout and padding         |
+| item.select              | Active/selected tab underline border and text color |
+| item.unselect            | Inactive tab border and text color                  |

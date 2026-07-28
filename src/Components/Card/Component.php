@@ -27,6 +27,7 @@ class Component extends TallStackUiComponent implements Customization
         public ?string $image = null,
         public ?string $position = 'top',
         public bool|string|null $round = false,
+        public ?bool $paddingless = null,
         #[SkipDebug]
         public ?bool $initializeMinimized = false,
         #[SkipDebug]
@@ -73,6 +74,7 @@ class Component extends TallStackUiComponent implements Customization
                 ],
             ],
             'body' => 'text-secondary-700 dark:text-dark-300 grow rounded-b-xl px-4 py-5',
+            'body.paddingless' => 'p-0!',
             'footer' => [
                 'wrapper' => 'text-secondary-700 dark:text-dark-300 dark:border-t-dark-600 rounded-lg rounded-t-none border-t border-t-secondary-200 p-4',
                 'text' => 'flex items-center justify-end gap-2',
