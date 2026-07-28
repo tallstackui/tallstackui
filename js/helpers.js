@@ -3,6 +3,11 @@ if (!window.__tsui_elements) {
   window.__tsui_elements = [];
 }
 
+// Initialize the floating scroll-lock registry if it doesn't exist
+if (!window.__tsui_floating_locks) {
+  window.__tsui_floating_locks = [];
+}
+
 /**
  * @param message {String}
  * @return {void}
@@ -66,12 +71,60 @@ export const overflow = (status, component = null, skip = false) => {
 
   if (!has) return;
 
-  const last = window.__tsui_elements.length === 1;
-  const same = window.__tsui_elements.some((el) => el.type === component);
-  const others = window.__tsui_elements.length > 0;
+  // Only whoever took the lock may give it back. Without this an inner
+  // element (a Loading inside a Modal, a Floating inside a Slide) unlocks
+  // the body while the outer one is still on screen.
+  if (current !== component) {
+    return;
+  }
 
-  if (last || (!same && !others)) {
+  const foreign = window.__tsui_elements.some((element) => element.type !== component);
+  const siblings = window.__tsui_elements.filter((element) => element.type === component).length;
+
+  // `siblings` still counts the caller, since components unregister only
+  // after releasing the lock. More than one means a same-type element
+  // (a stacked modal) is still open.
+  if (!foreign && siblings <= 1) {
     reset();
+  }
+};
+
+/**
+ * Refcounted scroll-lock for floating popups.
+ *
+ * Nested floatings (a Dropdown submenu inside its own dropdown) must neither
+ * re-lock nor release early: the first to open takes the lock and only the
+ * last to close gives it back. Deliberately kept out of `__tsui_elements` so
+ * floatings never join the stack that decides which overlay owns escape and
+ * click-outside.
+ *
+ * @param status {Boolean}
+ * @param id {String}
+ */
+export const floating_overflow = (status, id) => {
+  const stack = window.__tsui_floating_locks;
+  const index = stack.indexOf(id);
+
+  if (status) {
+    if (index === -1) {
+      stack.push(id);
+    }
+
+    if (stack.length === 1) {
+      overflow(true, 'floating');
+    }
+
+    return;
+  }
+
+  if (index === -1) {
+    return;
+  }
+
+  stack.splice(index, 1);
+
+  if (stack.length === 0) {
+    overflow(false, 'floating');
   }
 };
 
@@ -126,6 +179,7 @@ export const unregister_ui_element = (id) => {
  */
 export const flush_ui_elements = () => {
   window.__tsui_elements = [];
+  window.__tsui_floating_locks = [];
 
   const element = document.body;
 

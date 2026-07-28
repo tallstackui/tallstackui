@@ -39,6 +39,22 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Floating Scroll Lock
+    |--------------------------------------------------------------------------
+    |
+    | Controls whether the page scroll is locked while any component built on
+    | top of the floating component is open, the same way modals and slides
+    | already lock it. This affects every floating consumer at once: dropdowns
+    | (including submenus), autocomplete, color, date, time, password, select
+    | styled, upload, calendar and list menus.
+    |
+    | Nested and stacked floatings are reference counted, so the lock is taken
+    | by the first one to open and released only by the last one to close.
+    */
+    'floating_scroll_lock' => false,
+
+    /*
+    |--------------------------------------------------------------------------
     | Debug Mode
     |--------------------------------------------------------------------------
     |

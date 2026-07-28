@@ -26,7 +26,7 @@
         {!! $attributes->except(['x-show', 'x-anchor', 'class']) !!}
     @endif
 @endif
-x-init="window.tallstackui_floating($el, $watch, $nextTick, () => { try { return {{ $attributes->get('x-anchor', '$refs.anchor') }} } catch (error) { return null } }, '{{ $attributes->get('x-show', 'show') }}', () => {{ $attributes->get('x-show', 'show') }}, (value) => {{ $attributes->get('x-show', 'show') }} = value)"
+x-init="window.tallstackui_floating($el, $watch, $nextTick, () => { try { return {{ $attributes->get('x-anchor', '$refs.anchor') }} } catch (error) { return null } }, '{{ $attributes->get('x-show', 'show') }}', () => {{ $attributes->get('x-show', 'show') }}, (value) => {{ $attributes->get('x-show', 'show') }} = value, @js($lockable()))"
 {{ $attributes->except(['floating', 'x-anchor'])->merge(['class' => $attributes->get('floating', $customization['wrapper']), 'data-floating' => true]) }}>
 {{ $slot }}
 {{ $footer }}

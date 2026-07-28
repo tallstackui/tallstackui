@@ -36,6 +36,45 @@ A floating panel utility component powered by Alpine.js `x-anchor` for positioni
 | transition | Custom Alpine.js transition directives      |
 | footer     | Footer content rendered after the main slot |
 
+## Configuration
+
+In `config/tallstackui.php`, at the top level — not under `components`:
+
+| Option                 | Type | Default | Description                                               |
+|------------------------|------|---------|-----------------------------------------------------------|
+| `floating_scroll_lock` | bool | false   | When true, locks the page scroll while a floating is open |
+
+The lock is the same one modals and slides use: `overflow: hidden` plus a
+compensating `padding-right` on the `<body>`. Because every consumer renders this
+component, the flag reaches all of them at once:
+
+Dropdown, Dropdown Submenu, Autocomplete, Color, Date, Password, Select Styled,
+Time, Upload and Calendar, plus the List Items menu.
+
+There is no per-instance opt out. The flag is off by default, and the
+compensating `padding-right` shifts the layout on every open — noticeable on a
+small dropdown in a way it is not on a modal.
+
+### Reference counting
+
+Nested and stacked floatings share a single lock, tracked in
+`window.__tsui_floating_locks`. The first to open takes it and only the last to
+close gives it back, so a Dropdown Submenu opening inside its parent adds a
+reference instead of re-locking, and closing it does not unlock the body while
+the parent is still open.
+
+The lock is also released when a floating is torn out of the DOM while open (a
+Livewire morph, a collapsing `@if`) and when its anchor leaves layout (a Tab
+swap, an Accordion collapse), neither of which runs a normal close.
+
+A floating opened inside a Modal or a Slide never takes the lock: the overlay
+already owns it, and only whoever wrote the `data-overflow` marker on the
+`<body>` is allowed to clear it.
+
+Floatings are deliberately kept out of `window.__tsui_elements`, the registry
+that decides which overlay owns `Escape` and click-outside. An open dropdown
+therefore does not take those away from the modal behind it.
+
 ## Soft Customization
 
 Soft customization allows you to override default Tailwind CSS classes used by this component at runtime, either through a service provider or scoped per-instance.

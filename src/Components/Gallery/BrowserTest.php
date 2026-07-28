@@ -29,7 +29,7 @@ class BrowserTest extends BrowserTestCase
             ->click('@tallstackui_gallery_expand_0')
             ->pause(300)
             ->assertVisible('@tallstackui_gallery_close')
-            ->keys('body', ['{escape}'])
+            ->keys('', '{escape}')
             ->pause(300)
             ->assertNotVisible('@tallstackui_gallery_close');
     }
@@ -161,10 +161,10 @@ class BrowserTest extends BrowserTestCase
             ->click('@tallstackui_gallery_expand_0')
             ->pause(300)
             ->assertSee('title-1')
-            ->keys('body', ['{right}'])
+            ->keys('', '{right}')
             ->pause(300)
             ->assertSee('title-2')
-            ->keys('body', ['{left}'])
+            ->keys('', '{left}')
             ->pause(300)
             ->assertSee('title-1');
     }

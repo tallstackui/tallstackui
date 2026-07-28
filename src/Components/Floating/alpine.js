@@ -1,3 +1,5 @@
+import { floating_overflow, unique } from '../../../js/helpers';
+
 /**
  * Wires the teleported `<x-floating>` popup to its anchor: width sync for
  * `w-full`, modal/slide close hooks, and proactive close when the anchor
@@ -7,9 +9,20 @@
  * `x-show="show"` against the parent (reverted in 6bde57b0). Alpine magics
  * are passed in as callbacks instead.
  */
-export default function floating(el, watch, nextTick, getAnchor, showName, getShow, setShow) {
+export default function floating(el, watch, nextTick, getAnchor, showName, getShow, setShow, lock = false) {
   const anchor = getAnchor();
   const isWidthFull = el.classList.contains('w-full');
+  const id = unique();
+
+  // No-op unless `floating_scroll_lock` is on. Releasing an id that never
+  // took the lock is safe, so every teardown path can call this blindly.
+  const scrollLock = (status) => {
+    if (!lock) {
+      return;
+    }
+
+    floating_overflow(status, id);
+  };
 
   const setWidth = () => {
     const current = getAnchor();
@@ -35,6 +48,7 @@ export default function floating(el, watch, nextTick, getAnchor, showName, getSh
 
   const guard = () => {
     if (!el.isConnected) {
+      scrollLock(false);
       guardRaf = null;
       return;
     }
@@ -61,6 +75,8 @@ export default function floating(el, watch, nextTick, getAnchor, showName, getSh
   };
 
   watch(showName, (value) => {
+    scrollLock(value);
+
     if (!value) {
       return;
     }
@@ -75,6 +91,7 @@ export default function floating(el, watch, nextTick, getAnchor, showName, getSh
   });
 
   if (getShow()) {
+    scrollLock(true);
     startGuard();
   }
 
@@ -116,6 +133,7 @@ export default function floating(el, watch, nextTick, getAnchor, showName, getSh
   // piling up listeners across Livewire morphs.
   const flush = () => {
     if (!el.isConnected) {
+      scrollLock(false);
       window.removeEventListener('tallstackui:floating-flush', flush);
       return;
     }

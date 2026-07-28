@@ -37,4 +37,9 @@ class Component extends TallStackUiComponent implements Customization
     {
         return ['wrapper' => 'dark:bg-dark-700 border-dark-200 dark:border-dark-600 absolute z-50 rounded-lg border bg-white'];
     }
+
+    final public function lockable(): bool
+    {
+        return (bool) config('ts-ui.floating_scroll_lock', false);
+    }
 }

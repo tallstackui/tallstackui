@@ -117,6 +117,23 @@
 - [Wrapper Input](components/wrapper/input.md) *(internal)*
 - [Wrapper Radio](components/wrapper/radio.md) *(internal)*
 
+## Global Configuration
+
+Top-level keys in `config/tallstackui.php`, applying across components rather
+than to a single one. Per-component options live under `components.<name>` and
+are documented on each component's page.
+
+| Key                    | Type   | Default | Description                                                  |
+|------------------------|--------|---------|--------------------------------------------------------------|
+| `prefix`               | string | null    | Prefixes every component, so `ts-` gives `<x-ts-alert />`    |
+| `invalidate_global`    | bool   | false   | Suppresses validation errors on every form component         |
+| `floating_scroll_lock` | bool   | false   | Locks the page scroll while any floating-based popup is open |
+
+`floating_scroll_lock` covers Dropdown and its Submenu, Autocomplete, Color,
+Date, Password, Select Styled, Time, Upload, Calendar and the List Items menu —
+every component built on [Floating](components/floating.md), where the reference
+counting and the interaction with modals are described.
+
 ## Soft Customization
 
 All components support runtime customization of their Tailwind CSS classes:

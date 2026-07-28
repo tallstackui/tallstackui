@@ -12,6 +12,65 @@ such change is listed under **Migration**.
 
 ---
 
+## Floating
+
+### Added — `floating_scroll_lock`, locking the page scroll while a popup is open
+
+A modal locks the page behind it; a dropdown never did, so the content under an
+open popup kept scrolling while the popup stayed anchored where it was. The lock
+is now available to every component built on `<x-floating>`, through a single
+top-level key rather than one per component:
+
+```php
+// config/tallstackui.php
+'floating_scroll_lock' => true,
+```
+
+It reaches Dropdown and its Submenu, Autocomplete, Color, Date, Password, Select
+Styled, Time, Upload, Calendar and the List Items menu at once. The mechanics are
+the ones Modal and Slide already use: `overflow: hidden` on the `<body>` plus the
+compensating `padding-right`.
+
+Off by default, and there is no per-instance opt out. That compensating
+`padding-right` shifts the layout on every open, which reads very differently on a
+three-item dropdown than it does on a modal — enabling it is a deliberate choice
+about how the whole application should feel, not a per-call-site one.
+
+**Nested and stacked popups share a single lock.** A Dropdown Submenu renders a
+floating of its own inside its parent, so a naive implementation would re-lock on
+open and unlock on close, dropping the lock while the parent menu was still on
+screen. References are counted in `window.__tsui_floating_locks`: the first popup
+to open takes the lock, the last to close returns it.
+
+The release also covers the paths that never run a close — a floating torn out of
+the DOM by a Livewire morph or a collapsing `@if`, and an anchor leaving layout on
+a Tab swap or an Accordion collapse.
+
+**A popup opened inside a Modal or a Slide does not touch the lock.** The overlay
+already owns it, and closing the popup leaves the body locked.
+
+Floatings are deliberately kept out of `window.__tsui_elements`, the registry
+behind `top_ui_element()`. Joining it would have given a refcount for free, but it
+would also have made an open dropdown the topmost element, taking `Escape` and
+click-outside away from the modal behind it — a behavioural change well outside
+what a scroll-lock flag should carry.
+
+**Migration:** nothing. The flag defaults to off and no customization block
+changed.
+
+### Fixed — an inner element could unlock a body it did not lock
+
+`overflow()` let any component release the lock regardless of which one had taken
+it. The gate for restoring the body tested `__tsui_elements.length === 1`, which a
+single open overlay satisfies — so a Loading or an Upload preview closing inside
+an open Modal restored the page scroll with the modal still on screen.
+
+Releasing now requires owning the `data-overflow` marker, and the reset itself
+requires that no other overlay is still registered. This predates the floating
+work; the lock is reachable from more places now, which is what surfaced it.
+
+---
+
 ## Modal, Slide, Card & Errors
 
 ### Added — footer slot alignment through `start`, `center`, `end`, `between` and `unwrapped`
