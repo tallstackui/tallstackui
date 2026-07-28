@@ -69,11 +69,6 @@ class Component extends TallStackUiComponent implements Customization
                     'right' => 'relative flex flex-col gap-2 sm:block',
                 ],
                 'cover' => [
-                    // The side arrangements leave room for the absolutely
-                    // positioned column: the 6rem width plus the 0.5rem gap.
-                    // Width drops to auto there because a margin cannot shrink
-                    // an element that is already 100% wide — it would overflow
-                    // on the left and do nothing at all on the right.
                     'wrapper' => [
                         'bottom' => 'w-full min-w-0',
                         'left' => 'w-full min-w-0 sm:ml-26 sm:w-auto',
@@ -81,9 +76,6 @@ class Component extends TallStackUiComponent implements Customization
                     ],
                 ],
                 'thumbnails' => [
-                    // Absolute positioning makes the side column inherit the
-                    // cover's height, so it scrolls inside instead of growing
-                    // past the image beside it.
                     'wrapper' => [
                         'bottom' => 'grid grid-cols-3 gap-2 sm:grid-cols-6',
                         'left' => 'custom-scrollbar grid grid-cols-4 gap-2 sm:absolute sm:inset-y-0 sm:left-0 sm:w-24 sm:auto-rows-min sm:grid-cols-1 sm:overflow-y-auto',

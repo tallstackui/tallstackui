@@ -140,13 +140,6 @@ Resolving `grid` to `true` in the constructor would make `<x-gallery masonry />`
 carry two layout flags by the time validation ran, and the mutual-exclusivity rule
 would reject valid usage.
 
-### Added — the Alpine factory ships in its own bundle
-
-`js/tallstackui-gallery.js` is a separate Vite entry rather than part of
-`js/tallstackui.js`. `Directives::script()` walks the manifest and emits a
-`<script type="module">` for every entry, so no extra wiring is needed. The main
-bundle drops from 50.98 kB to 49.62 kB; the gallery adds 1.48 kB on its own.
-
 ### Notes on internals
 
 `layout` and the defaults for `columns`, `ratio` and `limit` resolve in
