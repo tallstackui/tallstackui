@@ -7,6 +7,7 @@
             id: @js($id),
             value: @js($wireable ? '' : $value),
             entangle: {!! $entangle !!},
+            markdown: @js($configurations['markdown']),
             toolbar: @js($configurations['toolbar']),
             upload: @js($upload),
             sanitization: @js($configurations['sanitization']),
@@ -71,6 +72,19 @@
                                 </x-dynamic-component>
                                 @break
 
+                            @case('blockquote')
+                                <button type="button"
+                                        x-on:mousedown.prevent="toggleBlockquote()"
+                                        x-bind:aria-pressed="activeFormats.blockquote"
+                                        x-bind:class="{ @js($customization['toolbar.button.active']): activeFormats.blockquote }"
+                                        x-tooltip="{{ $i18n['tooltip']['blockquote'] }}"
+                                        data-position="bottom"
+                                        dusk="tallstackui_editor_blockquote"
+                                        class="{{ $customization['toolbar.button.base'] }}">
+                                    <span class="font-serif text-base leading-none">&rdquo;</span>
+                                </button>
+                            @break
+
                             @case('bold')
                                 <button type="button"
                                         x-on:mousedown.prevent="exec('bold')"
@@ -83,7 +97,7 @@
                                         class="{{ $customization['toolbar.button.base'] }}">
                                     <strong>B</strong>
                                 </button>
-                                @break
+                            @break
 
                             @case('italic')
                                 <button type="button"
@@ -97,7 +111,7 @@
                                         class="{{ $customization['toolbar.button.base'] }}">
                                     <em>I</em>
                                 </button>
-                                @break
+                            @break
 
                             @case('underline')
                                 <button type="button"
@@ -111,7 +125,7 @@
                                         class="{{ $customization['toolbar.button.base'] }}">
                                     <span class="underline">U</span>
                                 </button>
-                                @break
+                            @break
 
                             @case('strikethrough')
                                 <button type="button"
@@ -124,7 +138,7 @@
                                         class="{{ $customization['toolbar.button.base'] }}">
                                     <span class="line-through">S</span>
                                 </button>
-                                @break
+                            @break
 
                             @case('ordered-list')
                                 <button type="button"
@@ -139,7 +153,7 @@
                                                          :icon="TallStackUi::icon('numbered-list')" internal
                                                          class="{{ $customization['toolbar.icon'] }}" />
                                 </button>
-                                @break
+                            @break
 
                             @case('unordered-list')
                                 <button type="button"
@@ -154,7 +168,7 @@
                                                          :icon="TallStackUi::icon('list-bullet')" internal
                                                          class="{{ $customization['toolbar.icon'] }}" />
                                 </button>
-                                @break
+                            @break
 
                             @case('indent')
                                 <button type="button"
@@ -180,7 +194,7 @@
                                                          :icon="TallStackUi::icon('chevron-double-left')" internal
                                                          class="{{ $customization['toolbar.icon'] }}" />
                                 </button>
-                                @break
+                            @break
 
                             @case('align')
                                 <x-dynamic-component :component="TallStackUi::prefix('dropdown')" scope="editor-toolbar"
@@ -207,7 +221,7 @@
                                                              x-bind:class="activeFormats.{{ $command }} && '{{ $customization['toolbar.dropdown.active'] }}'" />
                                     @endforeach
                                 </x-dynamic-component>
-                                @break
+                            @break
 
                             @case('code')
                                 <button type="button"
@@ -282,6 +296,19 @@
                                 </button>
                                 @break
 
+                            @case('hr')
+                                <button type="button"
+                                        x-on:mousedown.prevent="insertRule()"
+                                        x-tooltip="{{ $i18n['tooltip']['hr'] }}"
+                                        data-position="bottom"
+                                        dusk="tallstackui_editor_hr"
+                                        class="{{ $customization['toolbar.button.base'] }}">
+                                    <x-dynamic-component :component="TallStackUi::prefix('icon')"
+                                                         :icon="TallStackUi::icon('minus')" internal
+                                                         class="{{ $customization['toolbar.icon'] }}" />
+                                </button>
+                            @break
+
                             @case('undo')
                                 <button type="button"
                                         x-on:mousedown.prevent="exec('undo')"
@@ -294,7 +321,7 @@
                                                          :icon="TallStackUi::icon('arrow-uturn-left')" internal
                                                          class="{{ $customization['toolbar.icon'] }}" />
                                 </button>
-                                @break
+                            @break
 
                             @case('redo')
                                 <button type="button"
@@ -308,7 +335,7 @@
                                                          :icon="TallStackUi::icon('arrow-uturn-right')" internal
                                                          class="{{ $customization['toolbar.icon'] }}" />
                                 </button>
-                                @break
+                            @break
 
                             @case('fullscreen')
                                 <button type="button"
@@ -330,7 +357,7 @@
                                                              class="{{ $customization['toolbar.icon'] }}" />
                                     </template>
                                 </button>
-                                @break
+                            @break
                         @endswitch
                     @endif
                 @endforeach
@@ -349,7 +376,7 @@
                      contenteditable="{{ $readonly || $disabled ? 'false' : 'true' }}"
                      data-placeholder="{{ $configurations['placeholder'] }}"
                      x-bind:data-empty="empty"
-                     x-on:input="scheduleSync()"
+                     x-on:input="handleInput($event)"
                      x-on:blur="syncFromDom()"
                      x-on:paste="handlePaste($event)"
                      x-on:keydown="handleKeydown($event)"
@@ -364,6 +391,8 @@
                          $customization['editable.typography.link'],
                          $customization['editable.typography.image'],
                          $customization['editable.typography.paragraph'],
+                         $customization['editable.typography.quote'],
+                         $customization['editable.typography.rule'],
                      ])></div>
             </div>
         </div>
@@ -506,7 +535,7 @@
         @endunless
 
         @if ($name)
-            <input type="hidden" name="{{ $name }}" x-bind:value="html" />
+            <input type="hidden" name="{{ $name }}" x-bind:value="content" />
         @endif
     </div>
 </x-dynamic-component>

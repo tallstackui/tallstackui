@@ -180,6 +180,7 @@ return [
         'placeholder' => 'Yazmaya başlayın...',
         'tooltip' => [
             'style' => 'Paragraf stili',
+            'blockquote' => 'Alıntı',
             'bold' => 'Kalın',
             'italic' => 'İtalik',
             'underline' => 'Altı çizili',
@@ -194,6 +195,7 @@ return [
             'clear_format' => 'Biçimlendirmeyi temizle',
             'link' => 'Bağlantı ekle',
             'image' => 'Görsel ekle',
+            'hr' => 'Yatay çizgi',
             'undo' => 'Geri al',
             'redo' => 'Yinele',
             'fullscreen' => 'Tam ekran',

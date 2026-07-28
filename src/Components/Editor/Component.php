@@ -19,6 +19,7 @@ class Component extends TallStackUiComponent implements Customization
         public ComponentSlot|string|null $label = null,
         public ComponentSlot|string|null $hint = null,
         public ?string $placeholder = null,
+        public ?bool $markdown = null,
         public ?array $toolbar = null,
         public ?string $uploadProperty = null,
         public ?string $uploadMethod = null,
@@ -80,6 +81,8 @@ class Component extends TallStackUiComponent implements Customization
                     'link' => 'dark:[&_a]:text-primary-400 [&_a]:text-primary-600 [&_a]:underline',
                     'image' => '[&_img]:my-2 [&_img]:inline-block [&_img]:max-w-full [&_img]:rounded',
                     'paragraph' => '[&_p]:my-1',
+                    'quote' => 'dark:[&_blockquote]:border-dark-600 dark:[&_blockquote]:text-dark-400 [&_blockquote]:my-2 [&_blockquote]:border-l-4 [&_blockquote]:border-gray-300 [&_blockquote]:pl-4 [&_blockquote]:text-gray-500 [&_blockquote]:italic',
+                    'rule' => 'dark:[&_hr]:border-dark-600 [&_hr]:my-4 [&_hr]:border-t [&_hr]:border-gray-300',
                 ],
             ],
             'footer' => [

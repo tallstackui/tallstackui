@@ -180,6 +180,7 @@ return [
         'placeholder' => 'ابدأ الكتابة...',
         'tooltip' => [
             'style' => 'نمط الفقرة',
+            'blockquote' => 'اقتباس',
             'bold' => 'عريض',
             'italic' => 'مائل',
             'underline' => 'تسطير',
@@ -194,6 +195,7 @@ return [
             'clear_format' => 'مسح التنسيق',
             'link' => 'إدراج رابط',
             'image' => 'إدراج صورة',
+            'hr' => 'خط أفقي',
             'undo' => 'تراجع',
             'redo' => 'إعادة',
             'fullscreen' => 'ملء الشاشة',

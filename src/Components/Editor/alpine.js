@@ -1,4 +1,7 @@
 import { overflow } from '../../../js/helpers';
+import autoformat from './autoformat';
+import parse from './parse';
+import serialize from './serialize';
 
 // Fixed on purpose: the value is written into the HTML that gets saved.
 const INDENT_STEP = 2;
@@ -24,7 +27,8 @@ const normalize = (root) => {
 };
 
 export default (options) => ({
-  html: options.entangle ?? options.value ?? '',
+  // Holds Markdown or HTML, whichever the component was told to store.
+  content: options.entangle ?? options.value ?? '',
   empty: true,
 
   blockType: 'p',
@@ -44,6 +48,7 @@ export default (options) => ({
     justifyFull: false,
     code: false,
     codeBlock: false,
+    blockquote: false,
     link: false,
   },
 
@@ -68,7 +73,7 @@ export default (options) => ({
   config: options,
 
   init() {
-    this.$refs.editable.innerHTML = this.sanitize(this.html ?? '');
+    this.$refs.editable.innerHTML = this.sanitize(this.incoming(this.content ?? ''));
 
     this.refreshEmpty();
     this.recount();
@@ -82,22 +87,31 @@ export default (options) => ({
 
     // The property can also be written from the outside, either by the parent
     // Livewire component or by another editor bound to the same property.
-    this.$watch('html', (value) => {
+    this.$watch('content', (value) => {
       // While the caret is here the DOM is the source of truth: a live echo
       // arrives a round trip late and would scramble what came after it.
       if (this.focused()) {
         return;
       }
 
-      if ((value ?? '') === this.$refs.editable.innerHTML) {
+      if ((value ?? '') === this.outgoing()) {
         return;
       }
 
-      this.$refs.editable.innerHTML = this.sanitize(value ?? '');
+      this.$refs.editable.innerHTML = this.sanitize(this.incoming(value ?? ''));
 
       this.refreshEmpty();
       this.recount();
     });
+  },
+
+  // The two ends of the stored format. Both are the identity in HTML mode.
+  incoming(value) {
+    return this.config.markdown ? parse(value) : value;
+  },
+
+  outgoing() {
+    return this.config.markdown ? serialize(this.$refs.editable) : this.$refs.editable.innerHTML;
   },
 
   destroy() {
@@ -132,17 +146,25 @@ export default (options) => ({
     normalize(this.$refs.editable);
 
     const html = this.$refs.editable.innerHTML;
+    const output = this.outgoing();
 
     this.refreshEmpty();
 
-    if (html === this.html) {
+    if (output === this.content) {
       return;
     }
 
-    this.html = html;
+    this.content = output;
 
     this.recount();
-    this.dispatch('editor:change', { html, words: this.words, lines: this.lines });
+
+    const detail = { html, words: this.words, lines: this.lines };
+
+    if (this.config.markdown) {
+      detail.markdown = output;
+    }
+
+    this.dispatch('editor:change', detail);
   },
 
   focused() {
@@ -200,6 +222,7 @@ export default (options) => ({
       justifyFull: document.queryCommandState('justifyFull'),
       code: this.ancestor('CODE') !== null && this.ancestor('PRE') === null,
       codeBlock: this.ancestor('PRE') !== null,
+      blockquote: this.ancestor('BLOCKQUOTE') !== null,
       link: this.ancestor('A') !== null,
     };
 
@@ -317,6 +340,11 @@ export default (options) => ({
       return;
     }
 
+    // Markdown carries no block indent, so it would be dropped on the next sync.
+    if (this.config.markdown) {
+      return;
+    }
+
     this.$refs.editable.focus();
 
     let block = this.block();
@@ -362,6 +390,19 @@ export default (options) => ({
 
     this.exec('formatBlock', `<${tag}>`);
     this.blockType = tag;
+  },
+
+  toggleBlockquote() {
+    this.$refs.editable.focus();
+
+    this.exec('formatBlock', this.ancestor('BLOCKQUOTE') ? '<p>' : '<blockquote>');
+  },
+
+  // The trailing paragraph gives the caret somewhere to land after the rule.
+  insertRule() {
+    this.$refs.editable.focus();
+
+    this.replaceSelection('<hr><p><br></p>');
   },
 
   blockLabel() {
@@ -468,19 +509,49 @@ export default (options) => ({
     this.replaceSelection(container.innerHTML);
   },
 
+  handleInput(event) {
+    if (this.config.markdown && event.inputType === 'insertText' && event.data) {
+      autoformat(this, event.data);
+    }
+
+    this.scheduleSync();
+  },
+
   handlePaste(event) {
     event.preventDefault();
 
     const html = event.clipboardData.getData('text/html');
     const text = event.clipboardData.getData('text/plain');
 
-    if (html) {
+    // A code editor ships its syntax highlighting as a text/html flavour, so
+    // the flavour being there does not mean the clipboard carries structure.
+    const rich = html !== '' && (!this.config.markdown || this.structured(html));
+
+    if (rich) {
       document.execCommand('insertHTML', false, this.sanitize(html));
+    } else if (this.config.markdown) {
+      // Text pasted into a Markdown editor is read as Markdown: anything else
+      // drops the source on the floor.
+      document.execCommand('insertHTML', false, this.sanitize(parse(text)));
     } else {
       document.execCommand('insertText', false, text);
     }
 
     this.scheduleSync();
+  },
+
+  // Everything the serializer can name. A payload holding none of it says
+  // nothing the plain text does not already say.
+  structured(html) {
+    const template = document.createElement('template');
+
+    template.innerHTML = html;
+
+    return (
+      template.content.querySelector(
+        'h1, h2, h3, h4, h5, h6, ul, ol, li, blockquote, pre, hr, table, a, img, strong, b, em, i, s, del, code'
+      ) !== null
+    );
   },
 
   sanitize(raw) {
@@ -757,6 +828,12 @@ export default (options) => ({
       return;
     }
 
+    if (event.key === 'Enter' && this.config.markdown && autoformat(this, 'Enter')) {
+      event.preventDefault();
+
+      return;
+    }
+
     if (!modifier) {
       return;
     }
@@ -764,11 +841,16 @@ export default (options) => ({
     const shortcuts = {
       b: () => this.exec('bold'),
       i: () => this.exec('italic'),
-      u: () => this.exec('underline'),
       k: () => this.openLink(),
       '\\': () => this.clearFormat(),
       y: () => this.exec('redo'),
     };
+
+    // Markdown has no underline, so the shortcut would write something the
+    // next sync throws away.
+    if (!this.config.markdown) {
+      shortcuts.u = () => this.exec('underline');
+    }
 
     if (event.key === 'z') {
       event.preventDefault();

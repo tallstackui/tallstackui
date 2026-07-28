@@ -219,6 +219,7 @@ return [
             |----------------------------------------------------------------------
             | Editor Settings
             |----------------------------------------------------------------------
+            | markdown: stores the content as Markdown instead of HTML.
             | toolbar: the canonical buttons and the order they are rendered in.
             | counters: displays the word and line counters in the footer.
             | min_height, max_height: the editable boundaries, in any CSS unit.
@@ -226,17 +227,18 @@ return [
             | sanitization: the whitelist applied to any pasted content.
             |
             | The sanitization whitelist is a defense in depth measure, not the
-            | defense itself. Always sanitize the HTML on the server before
+            | defense itself. Always sanitize the content on the server before
             | persisting it and before rendering it back.
             */
             [
+                'markdown' => false,
                 'toolbar' => [
-                    'style',
+                    'style', 'blockquote',
                     'bold', 'italic', 'underline', 'strikethrough',
                     'ordered-list', 'unordered-list', 'indent', 'outdent',
                     'align',
                     'code', 'code-block', 'clear-format',
-                    'link', 'image',
+                    'link', 'image', 'hr',
                     'undo', 'redo',
                     'fullscreen',
                 ],
@@ -252,6 +254,7 @@ return [
                         'p', 'br', 'strong', 'em', 'u', 's', 'code', 'pre',
                         'h1', 'h2', 'h3', 'h4', 'h5',
                         'ul', 'ol', 'li',
+                        'blockquote', 'hr',
                         'a', 'img', 'span', 'div',
                     ],
                     'allowed_attributes' => [
@@ -267,11 +270,6 @@ return [
                         'h5' => ['style'],
                         'li' => ['style'],
                     ],
-
-                    /*
-                    | Only these properties survive on an allowed style attribute,
-                    | so widening the tags above cannot widen what they can do.
-                    */
                     'allowed_styles' => ['font-size', 'text-align', 'margin-left'],
                 ],
             ],

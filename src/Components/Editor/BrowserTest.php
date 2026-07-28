@@ -115,6 +115,74 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_autoformat_a_heading(): void
+    {
+        Livewire::visit(new class extends LivewireComponent
+        {
+            public string $content = '';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-editor wire:model="content" markdown />
+                    <p dusk="output" x-text="$wire.content"></p>
+                </div>
+                HTML;
+            }
+        })
+            ->click('@tallstackui_editor_editable')
+            ->keys('@tallstackui_editor_editable', '## Title')
+            ->pause(900)
+            ->assertSeeIn('@output', '## Title');
+    }
+
+    #[Test]
+    public function can_autoformat_bold(): void
+    {
+        Livewire::visit(new class extends LivewireComponent
+        {
+            public string $content = '';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-editor wire:model="content" markdown />
+                    <p dusk="output" x-text="$wire.content"></p>
+                </div>
+                HTML;
+            }
+        })
+            ->click('@tallstackui_editor_editable')
+            ->keys('@tallstackui_editor_editable', '**loud**')
+            ->pause(900)
+            ->assertSeeIn('@output', '**loud**');
+    }
+
+    #[Test]
+    public function can_boot_from_markdown(): void
+    {
+        Livewire::visit(new class extends LivewireComponent
+        {
+            public string $content = "# Title\n\nSome **bold** text.\n\n- one\n- two";
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-editor wire:model="content" markdown />
+                </div>
+                HTML;
+            }
+        })
+            ->pause(700)
+            ->assertPresent('[dusk=tallstackui_editor_editable] h1')
+            ->assertPresent('[dusk=tallstackui_editor_editable] strong')
+            ->assertPresent('[dusk=tallstackui_editor_editable] ul li');
+    }
+
+    #[Test]
     public function can_count_the_words_and_the_lines(): void
     {
         Livewire::visit(new class extends LivewireComponent
@@ -241,6 +309,52 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_insert_a_blockquote(): void
+    {
+        Livewire::visit(new class extends LivewireComponent
+        {
+            public string $content = 'foo';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-editor wire:model="content" markdown />
+                    <p dusk="output" x-text="$wire.content"></p>
+                </div>
+                HTML;
+            }
+        })
+            ->tap(fn (Browser $browser) => $browser->script($this->selectAll()))
+            ->click('@tallstackui_editor_blockquote')
+            ->pause(700)
+            ->assertSeeIn('@output', '> foo');
+    }
+
+    #[Test]
+    public function can_insert_a_horizontal_rule(): void
+    {
+        Livewire::visit(new class extends LivewireComponent
+        {
+            public string $content = 'foo';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-editor wire:model="content" markdown />
+                    <p dusk="output" x-text="$wire.content"></p>
+                </div>
+                HTML;
+            }
+        })
+            ->tap(fn (Browser $browser) => $browser->script($this->selectAll()))
+            ->click('@tallstackui_editor_hr')
+            ->pause(700)
+            ->assertSeeIn('@output', '---');
+    }
+
+    #[Test]
     public function can_insert_a_link_via_the_dialog(): void
     {
         Livewire::visit(new class extends LivewireComponent
@@ -332,6 +446,122 @@ class BrowserTest extends BrowserTestCase
             ->click('@tallstackui_editor_image_insert')
             ->pause(800)
             ->assertSeeIn('@output', '<img src="/storage/uploaded.jpeg"');
+    }
+
+    #[Test]
+    public function can_paste_markdown_copied_from_a_code_editor(): void
+    {
+        // VS Code and friends ship the syntax highlighting as a text/html
+        // flavour next to the text. Reading that as rich content is what makes
+        // pasting a .md file arrive as literal characters.
+        Livewire::visit(new class extends LivewireComponent
+        {
+            public string $content = '';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-editor wire:model="content" markdown />
+                    <p dusk="output" x-text="$wire.content"></p>
+                </div>
+                HTML;
+            }
+        })
+            ->click('@tallstackui_editor_editable')
+            ->tap(fn (Browser $browser) => $browser->script(<<<'JS'
+                const editable = document.querySelector('[dusk=tallstackui_editor_editable]');
+                editable.focus();
+                const transfer = new DataTransfer();
+                transfer.setData(
+                    'text/html',
+                    '<div style="color:#d4d4d4;background:#1e1e1e"><div><span style="color:#569cd6"># Title</span></div>'
+                        + '<div><span style="color:#6a9955">- one</span></div></div>'
+                );
+                transfer.setData('text/plain', '# Title\n\n- one');
+                editable.dispatchEvent(
+                    new ClipboardEvent('paste', { clipboardData: transfer, bubbles: true, cancelable: true })
+                );
+            JS))
+            ->pause(800)
+            ->assertPresent('[dusk=tallstackui_editor_editable] h1')
+            ->assertPresent('[dusk=tallstackui_editor_editable] ul li')
+            ->assertSeeIn('@output', '# Title')
+            ->assertSeeIn('@output', '- one');
+    }
+
+    #[Test]
+    public function can_paste_plain_text_as_markdown(): void
+    {
+        // A clipboard holding only text/plain is the one case the rich paste
+        // cannot serve: pasting a .md file would otherwise land as literal
+        // characters and be escaped straight back out.
+        Livewire::visit(new class extends LivewireComponent
+        {
+            public string $content = '';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-editor wire:model="content" markdown />
+                    <p dusk="output" x-text="$wire.content"></p>
+                </div>
+                HTML;
+            }
+        })
+            ->click('@tallstackui_editor_editable')
+            ->tap(fn (Browser $browser) => $browser->script(<<<'JS'
+                const editable = document.querySelector('[dusk=tallstackui_editor_editable]');
+                editable.focus();
+                const transfer = new DataTransfer();
+                transfer.setData('text/plain', '# Title\n\n- one\n- two\n\nSome **bold** text.');
+                editable.dispatchEvent(
+                    new ClipboardEvent('paste', { clipboardData: transfer, bubbles: true, cancelable: true })
+                );
+            JS))
+            ->pause(800)
+            ->assertPresent('[dusk=tallstackui_editor_editable] h1')
+            ->assertPresent('[dusk=tallstackui_editor_editable] ul li')
+            ->assertPresent('[dusk=tallstackui_editor_editable] strong')
+            ->assertSeeIn('@output', '# Title')
+            ->assertSeeIn('@output', '- one')
+            ->assertSeeIn('@output', '**bold**');
+    }
+
+    #[Test]
+    public function can_paste_structured_html_while_storing_markdown(): void
+    {
+        // The other side of the same gate: a payload that does carry structure
+        // is still read as rich content, then serialized to markdown.
+        Livewire::visit(new class extends LivewireComponent
+        {
+            public string $content = '';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-editor wire:model="content" markdown />
+                    <p dusk="output" x-text="$wire.content"></p>
+                </div>
+                HTML;
+            }
+        })
+            ->click('@tallstackui_editor_editable')
+            ->tap(fn (Browser $browser) => $browser->script(<<<'JS'
+                const editable = document.querySelector('[dusk=tallstackui_editor_editable]');
+                editable.focus();
+                const transfer = new DataTransfer();
+                transfer.setData('text/html', '<h2>From a page</h2><p>with <strong>bold</strong> in it</p>');
+                transfer.setData('text/plain', 'From a page\nwith bold in it');
+                editable.dispatchEvent(
+                    new ClipboardEvent('paste', { clipboardData: transfer, bubbles: true, cancelable: true })
+                );
+            JS))
+            ->pause(800)
+            ->assertSeeIn('@output', '## From a page')
+            ->assertSeeIn('@output', '**bold**');
     }
 
     #[Test]
@@ -449,6 +679,52 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_store_a_list_as_markdown(): void
+    {
+        Livewire::visit(new class extends LivewireComponent
+        {
+            public string $content = 'foo';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-editor wire:model="content" markdown />
+                    <p dusk="output" x-text="$wire.content"></p>
+                </div>
+                HTML;
+            }
+        })
+            ->tap(fn (Browser $browser) => $browser->script($this->selectAll()))
+            ->click('@tallstackui_editor_unordered_list')
+            ->pause(700)
+            ->assertSeeIn('@output', '- foo');
+    }
+
+    #[Test]
+    public function can_store_bold_as_markdown(): void
+    {
+        Livewire::visit(new class extends LivewireComponent
+        {
+            public string $content = 'foo';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-editor wire:model="content" markdown />
+                    <p dusk="output" x-text="$wire.content"></p>
+                </div>
+                HTML;
+            }
+        })
+            ->tap(fn (Browser $browser) => $browser->script($this->selectAll()))
+            ->click('@tallstackui_editor_bold')
+            ->pause(700)
+            ->assertSeeIn('@output', '**foo**');
+    }
+
+    #[Test]
     public function can_toggle_fullscreen_and_leave_with_escape(): void
     {
         Livewire::visit(new class extends LivewireComponent
@@ -505,6 +781,35 @@ class BrowserTest extends BrowserTestCase
             ->click('@tallstackui_editor_undo')
             ->pause(700)
             ->assertDontSeeIn('@output', '<pre>');
+    }
+
+    #[Test]
+    public function can_undo_an_autoformat(): void
+    {
+        // Every transform goes through execCommand precisely so that it lands
+        // in the native undo stack: this is the way out for anyone who meant
+        // to type the marker.
+        Livewire::visit(new class extends LivewireComponent
+        {
+            public string $content = '';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-editor wire:model="content" markdown />
+                    <p dusk="output" x-text="$wire.content"></p>
+                </div>
+                HTML;
+            }
+        })
+            ->click('@tallstackui_editor_editable')
+            ->keys('@tallstackui_editor_editable', '# Title')
+            ->pause(900)
+            ->assertSeeIn('@output', '# Title')
+            ->click('@tallstackui_editor_undo')
+            ->pause(900)
+            ->assertDontSeeIn('@output', '# Title');
     }
 
     #[Test]
@@ -565,7 +870,7 @@ class BrowserTest extends BrowserTestCase
                 first.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
             JS))
             ->pause(500)
-            ->assertScript("document.activeElement.getAttribute('dusk')", 'tallstackui_editor_bold');
+            ->assertScript("document.activeElement.getAttribute('dusk')", 'tallstackui_editor_blockquote');
     }
 
     #[Test]
@@ -592,6 +897,38 @@ class BrowserTest extends BrowserTestCase
         }
 
         $browser->pause(500)->assertSeeIn('@output', 'margin-left: 16rem');
+    }
+
+    #[Test]
+    public function cannot_paste_plain_text_as_markdown_outside_of_markdown_mode(): void
+    {
+        Livewire::visit(new class extends LivewireComponent
+        {
+            public string $content = '';
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-editor wire:model="content" />
+                    <p dusk="output" x-text="$wire.content"></p>
+                </div>
+                HTML;
+            }
+        })
+            ->click('@tallstackui_editor_editable')
+            ->tap(fn (Browser $browser) => $browser->script(<<<'JS'
+                const editable = document.querySelector('[dusk=tallstackui_editor_editable]');
+                editable.focus();
+                const transfer = new DataTransfer();
+                transfer.setData('text/plain', '# Title');
+                editable.dispatchEvent(
+                    new ClipboardEvent('paste', { clipboardData: transfer, bubbles: true, cancelable: true })
+                );
+            JS))
+            ->pause(800)
+            ->assertMissing('[dusk=tallstackui_editor_editable] h1')
+            ->assertSeeIn('@output', '# Title');
     }
 
     #[Test]

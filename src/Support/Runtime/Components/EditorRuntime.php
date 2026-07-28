@@ -10,6 +10,7 @@ class EditorRuntime extends AbstractRuntime
 {
     private const GROUPS = [
         'style' => 'formatting',
+        'blockquote' => 'formatting',
         'bold' => 'inline',
         'italic' => 'inline',
         'underline' => 'inline',
@@ -24,10 +25,14 @@ class EditorRuntime extends AbstractRuntime
         'clear-format' => 'code',
         'link' => 'insert',
         'image' => 'insert',
+        'hr' => 'insert',
         'undo' => 'history',
         'redo' => 'history',
         'fullscreen' => 'view',
     ];
+
+    /** Buttons without a Markdown equivalent. */
+    private const MARKDOWN_INCOMPATIBLE = ['underline', 'align'];
 
     /** @throws Exception */
     public function runtime(): array
@@ -46,24 +51,22 @@ class EditorRuntime extends AbstractRuntime
         $this->validateToolbar($component->toolbar);
         $this->validateUpload();
 
-        // Unlike most form components, this one also renders outside of
-        // Livewire, where there is neither a component to read nor an error bag.
+        // This component also renders outside of Livewire, where there is no
+        // component to read from.
         $value = $property && $this->wireable() ? $this->property($property) : $component->attributes->get('value');
 
-        // Everything below is deliberately named apart from the component's own
-        // properties: a public property always shadows a runtime key that
-        // carries the same name in the view data.
+        // The keys below avoid the component property names: a public property
+        // shadows a runtime key of the same name.
         return [
             'id' => $id = $bind->get('id') ?? uniqid('tsui-editor-'),
             'property' => $property,
             'name' => $name,
             'error' => $bind->get('error'),
-            // Mirrors Livewire itself: wire:model defers the round trip and
-            // wire:model.live pushes the HTML to the server right away.
+            // As Livewire itself: wire:model defers, wire:model.live pushes.
             'entangle' => $bind->get('entangle'),
             'wireable' => $this->wireable(),
             'value' => is_string($value) ? $value : '',
-            'layout' => $this->layout($component->toolbar),
+            'layout' => $this->layout($this->compatible($component->toolbar, $component->markdown)),
             'upload' => [
                 'enabled' => $component->uploadProperty !== null && $component->uploadMethod !== null,
                 'property' => $component->uploadProperty,
@@ -72,8 +75,7 @@ class EditorRuntime extends AbstractRuntime
                 'max_size' => $component->uploadMaxSize,
                 'readable' => $this->readable($component->uploadMaxSize),
             ],
-            // Slugged here because the modal derives its open and close events
-            // from the id the same way, and the browser has to name them.
+            // Slugged the same way the modal derives its open and close events.
             'dialogs' => [
                 'link' => str($id.'-link')->slug()->kebab()->value(),
                 'image' => str($id.'-image')->slug()->kebab()->value(),
@@ -82,10 +84,17 @@ class EditorRuntime extends AbstractRuntime
         ];
     }
 
-    /**
-     * Build the toolbar as a flat list the view can loop over without holding
-     * any local state, since the template is allowed a single @php block.
-     */
+    /** Drop the buttons the output format cannot express. */
+    private function compatible(array $toolbar, bool $markdown): array
+    {
+        if (! $markdown) {
+            return $toolbar;
+        }
+
+        return array_values(array_diff($toolbar, self::MARKDOWN_INCOMPATIBLE));
+    }
+
+    /** Flatten the toolbar into buttons and dividers the view can loop over. */
     private function layout(array $toolbar): array
     {
         $layout = [];
@@ -105,10 +114,7 @@ class EditorRuntime extends AbstractRuntime
         return $layout;
     }
 
-    /**
-     * Turn the upload ceiling, always given in KB, into something worth
-     * painting next to the file picker.
-     */
+    /** Turn the upload ceiling, given in KB, into a readable label. */
     private function readable(int $size): string
     {
         return $size >= 1024

@@ -180,6 +180,7 @@ return [
         'placeholder' => 'Zacznij pisać...',
         'tooltip' => [
             'style' => 'Styl akapitu',
+            'blockquote' => 'Cytat',
             'bold' => 'Pogrubienie',
             'italic' => 'Kursywa',
             'underline' => 'Podkreślenie',
@@ -194,6 +195,7 @@ return [
             'clear_format' => 'Wyczyść formatowanie',
             'link' => 'Wstaw link',
             'image' => 'Wstaw obraz',
+            'hr' => 'Linia pozioma',
             'undo' => 'Cofnij',
             'redo' => 'Ponów',
             'fullscreen' => 'Pełny ekran',

@@ -128,6 +128,7 @@ class CompileConfigurations
     {
         $configuration = __ts_get_component_configuration(Editor::class);
 
+        $component->markdown ??= $configuration['markdown'];
         $component->toolbar ??= $configuration['toolbar'];
         $component->counters ??= $configuration['counters'];
         $component->minHeight ??= $configuration['min_height'];
@@ -137,6 +138,7 @@ class CompileConfigurations
         $component->placeholder ??= trans('ts-ui::messages.editor.placeholder');
 
         return [
+            'markdown' => $component->markdown,
             'toolbar' => $component->toolbar,
             'counters' => $component->counters,
             'placeholder' => $component->placeholder,

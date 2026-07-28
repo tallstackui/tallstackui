@@ -3,7 +3,7 @@
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
 > component library providing 65+ Blade components for building modern web interfaces.
 
-A WYSIWYG rich text editor with no external JavaScript dependency. It is built on `contenteditable`, outputs HTML, and exposes a curated toolbar covering inline formatting, headings, lists, indentation, alignment, code, links, images, history and fullscreen.
+A WYSIWYG rich text editor with no external JavaScript dependency. It is built on `contenteditable`, outputs HTML or Markdown, and exposes a curated toolbar covering inline formatting, headings, lists, indentation, alignment, quotes, rules, code, links, images, history and fullscreen.
 
 It is content focused rather than a document editor: no tables, no image resize handles, no slash commands, no embeds.
 
@@ -39,6 +39,7 @@ Either `wire:model` or `name` is required. With `name` the HTML is mirrored into
 | label           | string, slot | —                | Label rendered above the editor                                |
 | hint            | string, slot | —                | Hint rendered below the editor                                 |
 | placeholder     | string       | from translation | Painted over the editable while it is empty                    |
+| markdown        | bool         | from config      | Stores Markdown instead of HTML                                |
 | toolbar         | array        | from config      | Whitelist and order of the buttons                             |
 | upload-property | string       | —                | `WithFileUploads` property the image dialog uploads to         |
 | upload-method   | string       | —                | Component method returning the final URL of the uploaded image |
@@ -55,11 +56,12 @@ Either `wire:model` or `name` is required. With `name` the HTML is mirrored into
 
 ## Toolbar
 
-Eighteen buttons across seven groups. Dividers are inserted automatically wherever two consecutive buttons do not share a group.
+Twenty buttons across eight groups. Dividers are inserted automatically wherever two consecutive buttons do not share a group.
 
 | Slug           | Group      | Does                                                  |
 |----------------|------------|-------------------------------------------------------|
 | style          | formatting | Dropdown: Paragraph, Heading 1 to 3                   |
+| blockquote     | formatting | Quote                                                 |
 | bold           | inline     | Bold                                                  |
 | italic         | inline     | Italic                                                |
 | underline      | inline     | Underline                                             |
@@ -74,6 +76,7 @@ Eighteen buttons across seven groups. Dividers are inserted automatically wherev
 | clear-format   | code       | Strips formatting from the selection                  |
 | link           | insert     | Opens the link dialog                                 |
 | image          | insert     | Opens the image dialog                                |
+| hr             | insert     | Inserts a horizontal rule                             |
 | undo           | history    | Undo                                                  |
 | redo           | history    | Redo                                                  |
 | fullscreen     | view       | Fills the viewport                                    |
@@ -84,13 +87,80 @@ Indentation outside a list is a `margin-left` on the block, in steps of 2rem up 
 
 ## Bound Value
 
-The property receives the HTML of the editable.
+The property receives the HTML of the editable, or its Markdown when `markdown` is on.
 
 ```php
 public string $content = '';
 ```
 
 `wire:model` defers the round trip and `wire:model.live` pushes on every sync, exactly as Livewire itself behaves. The sync is debounced at 250ms, so `.live` costs one round trip per pause in typing rather than one per keystroke. The payload is the whole document, which is the cost worth watching.
+
+## Markdown
+
+```blade
+<x-editor wire:model="content" markdown />
+```
+
+The editing surface does not change: it stays a WYSIWYG, and bold text still looks bold while it is being written. Markdown is a serialization format at the boundary, so the property holds `**bold**` where it would otherwise hold `<strong>bold</strong>`. An initial value is read as Markdown too.
+
+Turn it on for every editor at once through the `markdown` key in the config.
+
+### Mapping
+
+| HTML        | Markdown                |
+|-------------|-------------------------|
+| h1 to h5    | `#` to `#####`          |
+| p           | line, then a blank line |
+| strong      | `**text**`              |
+| em          | `*text*`                |
+| s           | `~~text~~`              |
+| code        | `` `text` ``            |
+| pre > code  | triple backtick fence   |
+| ul > li     | `- `                    |
+| ol > li     | `1. `                   |
+| nested list | two-space indent        |
+| blockquote  | `> `                    |
+| hr          | `---`                   |
+| a           | `[text](href)`          |
+| img         | `![alt](src)`           |
+| br          | two trailing spaces     |
+
+Tables, task lists and footnotes are not covered, in either direction.
+
+### What Markdown Cannot Carry
+
+`underline` and `align` have no syntax, so they are dropped from the toolbar and their shortcut with them. `indent` and `outdent` survive, but only inside a list, where they nest: outside one they write a `margin-left` that would be lost on the next sync, so they do nothing.
+
+The dropped buttons are removed quietly rather than refused, so a global `markdown` in the config does not invalidate an app-wide toolbar. A slug the component does not know still throws, exactly as it does in HTML mode.
+
+### Pasting
+
+A clipboard carrying structured `text/html`, which is what copying from a page or a document produces, is sanitized and inserted as rich content, then serialized to Markdown on the next sync. That path is the same in both modes.
+
+While `markdown` is on, a clipboard that carries no structure is read as Markdown instead, so pasting the contents of a `.md` file arrives formatted rather than as literal characters. The parsed result still passes through the sanitizer. In HTML mode the same clipboard is inserted verbatim, exactly as before.
+
+"No structure" is decided by looking for anything the serializer can name — a heading, a list, a quote, a fence, a rule, a link, an image or an inline mark. A code editor ships its syntax highlighting as a `text/html` flavour of nested `<span style>`, which holds none of those: the flavour being present is not the same as the clipboard carrying structure, and reading it as rich content is what would make a pasted `.md` file arrive as literal characters.
+
+Ordinary prose is left alone: an isolated `*`, an `A-B-C`, a `snake_case_name` and a URL holding underscores all survive the parse untouched. What does change is a line opening with `- ` or `1. `, which becomes the list it reads as.
+
+### Autoformat
+
+While `markdown` is on, the syntax is applied as it is typed.
+
+| Type                       | Get             |
+|----------------------------|-----------------|
+| `# `, `## `, `### `        | Heading 1 to 3  |
+| `- `, `* `                 | Bulleted list   |
+| `1. `                      | Numbered list   |
+| `> `                       | Quote           |
+| `---` then Enter           | Horizontal rule |
+| triple backtick then Enter | Code block      |
+| `**text**`                 | Bold            |
+| `*text*`                   | Italic          |
+| `` `text` ``               | Inline code     |
+| `~~text~~`                 | Strikethrough   |
+
+Every transform goes through the same command the toolbar uses, so it lands in the browser's undo stack: Ctrl+Z right after one reverts the formatting and leaves the characters that were typed. That is the way out when the marker was meant literally. Inside a code block nothing is transformed, since there the syntax is the content.
 
 ## Image Upload
 
@@ -132,7 +202,9 @@ The cost is that nothing else about the editor reacts to the server either. Chan
 
 The sanitizer strips tags, attributes and style properties outside the configured whitelist. It runs over pasted markup and over any HTML arriving from the bound property, including the value the editor boots with: setting `innerHTML` never runs a `<script>`, but it does fire an `<img onerror>`, and stored content is the path that reaches every reader. It is defense in depth, not the defense.
 
-**Sanitize the HTML on the server before persisting it and before rendering it back.** Use `mews/purifier`, `HTMLPurifier` or an equivalent. Nothing the browser does can be trusted by the time it reaches a database.
+Markdown mode is not the safer path it reads as: Markdown permits raw HTML. The parser refuses to emit any it finds, and the sanitizer runs over the result anyway. Both are defense in depth.
+
+**Sanitize the content on the server before persisting it and before rendering it back.** Use `mews/purifier`, `HTMLPurifier` or an equivalent, and sanitize the HTML your Markdown renderer produces. Nothing the browser does can be trusted by the time it reaches a database.
 
 ## Events
 
@@ -149,11 +221,13 @@ Dispatched on the component root, so `x-on:` on the tag itself picks them up.
 <x-editor wire:model="content" x-on:editor:change="words = $event.detail.words" />
 ```
 
+`editor:change` always carries the internal `html`, and adds a `markdown` key while `markdown` is on.
+
 ## Keyboard
 
 | Shortcut                         | Does                                            |
 |----------------------------------|-------------------------------------------------|
-| Ctrl/Cmd + B, I, U               | Bold, italic, underline                         |
+| Ctrl/Cmd + B, I, U               | Bold, italic, underline (no U in Markdown mode) |
 | Ctrl/Cmd + Z                     | Undo                                            |
 | Ctrl/Cmd + Shift + Z, Ctrl + Y   | Redo                                            |
 | Ctrl/Cmd + K                     | Opens the link dialog with the selection filled |
@@ -175,7 +249,8 @@ The editable is a `role="textbox"` with `aria-multiline`, labelled by the `label
 
 ```php
 'editor' => [
-    'toolbar' => ['style', 'bold', ..., 'redo', 'fullscreen'],
+    'markdown' => false,
+    'toolbar' => ['style', 'blockquote', 'bold', ..., 'redo', 'fullscreen'],
     'counters' => true,
     'min_height' => '12rem',
     'max_height' => '40rem',
@@ -184,7 +259,7 @@ The editable is a `role="textbox"` with `aria-multiline`, labelled by the `label
         'max_size' => 5120,
     ],
     'sanitization' => [
-        'allowed_tags' => ['p', 'br', 'strong', ...],
+        'allowed_tags' => ['p', 'br', 'strong', ..., 'blockquote', 'hr'],
         'allowed_attributes' => ['a' => ['href', 'target', 'rel'], ...],
         'allowed_styles' => ['font-size', 'text-align', 'margin-left'],
     ],
@@ -248,6 +323,8 @@ TallStackUi::customize('dropdown', scope: 'editor-toolbar')->block('slot.wrapper
 | editable.typography.link         | Links rendered inside the content                       |
 | editable.typography.image        | Images rendered inside the content                      |
 | editable.typography.paragraph    | Paragraphs rendered inside the content                  |
+| editable.typography.quote        | Blockquotes rendered inside the content                 |
+| editable.typography.rule         | Horizontal rules rendered inside the content            |
 | footer.wrapper                   | Footer holding the counters                             |
 | footer.counter                   | A single counter                                        |
 | dialog.fields                    | Spacing between the fields inside a dialog              |

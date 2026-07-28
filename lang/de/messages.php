@@ -180,6 +180,7 @@ return [
         'placeholder' => 'Schreiben Sie los...',
         'tooltip' => [
             'style' => 'Absatzformat',
+            'blockquote' => 'Zitat',
             'bold' => 'Fett',
             'italic' => 'Kursiv',
             'underline' => 'Unterstrichen',
@@ -194,6 +195,7 @@ return [
             'clear_format' => 'Formatierung entfernen',
             'link' => 'Link einfügen',
             'image' => 'Bild einfügen',
+            'hr' => 'Trennlinie',
             'undo' => 'Rückgängig',
             'redo' => 'Wiederholen',
             'fullscreen' => 'Vollbild',

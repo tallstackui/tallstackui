@@ -180,6 +180,7 @@ return [
         'placeholder' => 'Start writing...',
         'tooltip' => [
             'style' => 'Paragraph style',
+            'blockquote' => 'Quote',
             'bold' => 'Bold',
             'italic' => 'Italic',
             'underline' => 'Underline',
@@ -194,6 +195,7 @@ return [
             'clear_format' => 'Clear formatting',
             'link' => 'Insert link',
             'image' => 'Insert image',
+            'hr' => 'Horizontal rule',
             'undo' => 'Undo',
             'redo' => 'Redo',
             'fullscreen' => 'Fullscreen',

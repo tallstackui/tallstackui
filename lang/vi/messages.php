@@ -180,6 +180,7 @@ return [
         'placeholder' => 'Bắt đầu viết...',
         'tooltip' => [
             'style' => 'Kiểu đoạn văn',
+            'blockquote' => 'Trích dẫn',
             'bold' => 'Đậm',
             'italic' => 'Nghiêng',
             'underline' => 'Gạch chân',
@@ -194,6 +195,7 @@ return [
             'clear_format' => 'Xóa định dạng',
             'link' => 'Chèn liên kết',
             'image' => 'Chèn hình ảnh',
+            'hr' => 'Đường kẻ ngang',
             'undo' => 'Hoàn tác',
             'redo' => 'Làm lại',
             'fullscreen' => 'Toàn màn hình',

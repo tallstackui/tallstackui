@@ -180,6 +180,7 @@ return [
         'placeholder' => 'Mula menulis...',
         'tooltip' => [
             'style' => 'Gaya perenggan',
+            'blockquote' => 'Petikan',
             'bold' => 'Tebal',
             'italic' => 'Condong',
             'underline' => 'Garis bawah',
@@ -194,6 +195,7 @@ return [
             'clear_format' => 'Kosongkan format',
             'link' => 'Sisip pautan',
             'image' => 'Sisip imej',
+            'hr' => 'Garis melintang',
             'undo' => 'Buat asal',
             'redo' => 'Buat semula',
             'fullscreen' => 'Skrin penuh',

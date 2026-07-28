@@ -180,6 +180,7 @@ return [
         'placeholder' => 'Commencez à écrire...',
         'tooltip' => [
             'style' => 'Style de paragraphe',
+            'blockquote' => 'Citation',
             'bold' => 'Gras',
             'italic' => 'Italique',
             'underline' => 'Souligné',
@@ -194,6 +195,7 @@ return [
             'clear_format' => 'Effacer la mise en forme',
             'link' => 'Insérer un lien',
             'image' => 'Insérer une image',
+            'hr' => 'Ligne horizontale',
             'undo' => 'Annuler',
             'redo' => 'Rétablir',
             'fullscreen' => 'Plein écran',

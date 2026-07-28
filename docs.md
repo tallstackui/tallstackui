@@ -12,6 +12,388 @@ such change is listed under **Migration**.
 
 ---
 
+## Editor
+
+### Added — `<x-editor />`, a WYSIWYG editor with no external dependency
+
+A rich text editor built on `contenteditable`, shipping nothing but the package
+itself. It outputs HTML, binds through `wire:model` or through a plain `name`,
+and carries twenty buttons across eight groups: headings, the four inline marks,
+lists, indentation, alignment, quotes, rules, code, links, images, history and
+fullscreen.
+
+```blade
+<x-editor wire:model="content" label="Post body" />
+```
+
+```blade
+<x-editor wire:model="content"
+          upload-property="picture"
+          upload-method="storeImage"
+          :toolbar="['style', 'bold', 'italic', 'link', 'image']"
+          min-height="20rem" />
+```
+
+**The engine is a hybrid.** `document.execCommand` where the browsers agree, and
+the Selection API by hand where they do not. Every structural change is routed
+through `insertHTML` rather than through the DOM, because a node inserted by hand
+is invisible to the browser's own undo stack and `Ctrl+Z` would walk straight past
+it.
+
+**Indentation is two different things.** Inside a list the browser nests, which is
+the right shape there. Anywhere else it is a `margin-left` on the block, in steps
+of `2rem` up to eight levels — the native command reaches for a `<blockquote>`
+there, which is a quote rather than an indent and would be stripped by the
+sanitizer on the way back in. That margin is the one action that stays outside the
+undo stack: re-serializing the block to get it in there would drop the caret.
+
+**Both dialogs are `<x-modal>` instances**, under the fixed scopes `editor-link`
+and `editor-image`. The modal already owns the scroll lock, the overlay registry,
+`Escape` with its topmost guard and the focus of its first field, and being
+teleported to `<body>` takes its inputs out of any surrounding `<form>`, where
+`Enter` would otherwise submit it. The toolbar dropdowns are `<x-dropdown>` under
+`editor-toolbar`. What is left in the editor's own surface is the content: 40
+blocks rather than the 55 a self-contained dialog would have needed.
+
+**The whole component is `wire:ignore`d under Livewire**, and nothing about it
+reacts to the server as a result: changing `readonly` or any other attribute
+from a round trip leaves the rendered editor as it was, so a runtime change
+needs a `wire:key` to force the replacement. The content travels
+through the entangle, never through the HTML the server re-renders — and the
+initial value is withheld from the `x-data` when a property is bound, since a
+changing `x-data` attribute makes Alpine tear the component down and rebuild it,
+which lands the caret back at the start of the document.
+
+**The HTML is sanitized against a whitelist** of tags, attributes and style
+properties, parsed in a `<template>` so nothing runs on the way through. It runs
+over pasted markup and over anything arriving from the bound property, the value
+the editor boots with included: setting `innerHTML` never runs a `<script>`, but
+it does fire an `<img onerror>`, and stored content is the path that reaches
+every reader. This is still defense in depth — the documentation is explicit that
+the HTML must be sanitized again on the server before it is persisted and before
+it is rendered back.
+
+`image/svg+xml` is deliberately absent from the default upload mimes: SVG can
+carry script, and a package default should not open that on its own.
+
+**Nineteen internal icons** were added to the guide and to the published icon
+map, so an application swapping its icon set keeps the toolbar working.
+
+Full reference in `.ai/components/editor.md`.
+
+### Changed — the editor ships in its own bundle
+
+`js/tallstackui-editor.js` joined the entry points, weighing 11.5 kB, 3.7 kB
+gzipped. Same reasoning as the upload split: not lazy loading, but cache
+granularity, so a change to the editor stops invalidating the bundle every other
+component lives in.
+
+### Fixed — the sanitizer discarded alignment on pasted paragraphs
+
+`allowed_attributes` let `style` through on `span` and `div` but not on `p` or the
+headings, while the browser writes `text-align` straight onto the paragraph.
+Copying a centered paragraph and pasting it back lost the alignment. `style` is
+now allowed on `p`, `h1`–`h5` and `li`, which cannot widen the surface: the
+`allowed_styles` whitelist is applied afterwards, so only `font-size`,
+`text-align` and `margin-left` survive on any of them.
+
+### Added — `markdown`, storing Markdown instead of HTML
+
+The editing surface does not change: it stays a WYSIWYG, and bold text still
+looks bold while it is written. Markdown is a serialization format at the
+boundary, so the property receives `**bold**` where it would otherwise receive
+`<strong>bold</strong>`. An initial value is read as Markdown too.
+
+```blade
+<x-editor wire:model="content" markdown />
+```
+
+Turn it on for every editor at once through the `markdown` key in the config.
+Conversion happens in the browser, in two hand-written modules of roughly two
+hundred lines each, so nothing is added to the dependency tree: the editor
+bundle grows from 11.4 kB to 18.4 kB, 6.2 kB gzipped.
+
+Covered in both directions: `h1`–`h5`, paragraphs, `strong`, `em`, `s`, inline
+code, fenced code, ordered and unordered lists including nesting, blockquotes,
+horizontal rules, links, images and hard breaks. Tables, task lists and
+footnotes are not.
+
+`underline` and `align` have no Markdown syntax, so they are dropped from the
+toolbar along with their shortcut. They are removed quietly rather than refused,
+so a global `markdown` in the config does not invalidate an app-wide toolbar; a
+slug the component does not know still throws. `indent` and `outdent` survive,
+but only inside a list, where they nest: outside one they write a `margin-left`
+that would be lost on the next sync, so they do nothing.
+
+`editor:change` keeps its `html` key and gains a `markdown` one while the mode
+is on, so nothing already listening breaks.
+
+### Added — `blockquote` and `hr` toolbar buttons
+
+Two constructs Markdown names and the editor had no way to write, in either
+mode. `blockquote` serializes to `> ` and `hr` to `---`. Both tags joined the
+sanitization whitelist and both carry a customization block of their own,
+`editable.typography.quote` and `editable.typography.rule`.
+
+They also joined the default toolbar, which now holds twenty buttons across
+eight groups. An application pinning its own `toolbar` array is unaffected.
+
+### Added — Markdown autoformat while typing
+
+While `markdown` is on, the syntax is applied as it is typed: `# `, `## ` and
+`### ` open a heading, `- ` and `* ` a bulleted list, `1. ` a numbered one, `> `
+a quote, `---` and a triple backtick followed by Enter a rule and a code block,
+and `**text**`, `*text*`, `` `text` `` and `~~text~~` their inline marks.
+
+Every transform goes through the same command the toolbar uses, so it lands in
+the browser's undo stack: Ctrl+Z right after one reverts the formatting and
+leaves the characters that were typed. That is the way out when the marker was
+meant literally. Inside a code block nothing is transformed, since there the
+syntax is the content.
+
+### Changed — pasting text into a Markdown editor reads it as Markdown
+
+A clipboard carrying structured HTML is sanitized and inserted as rich content,
+exactly as before, in both modes. While `markdown` is on, a clipboard carrying
+no structure is parsed as Markdown instead, so pasting the contents of a `.md`
+file arrives formatted rather than as literal characters. The parsed result
+still passes through the sanitizer.
+
+"No structure" means holding none of the tags the serializer can name — a
+heading, a list, a quote, a fence, a rule, a link, an image or an inline mark.
+The distinction matters because a code editor ships its syntax highlighting as a
+`text/html` flavour of nested `<span style>`: the flavour being present is not
+the same as the clipboard carrying structure, and reading it as rich content is
+what would make a pasted `.md` file arrive as literal characters anyway.
+
+Ordinary prose is left alone. An isolated `*`, an `A-B-C`, a `snake_case_name`
+and a URL holding underscores all survive untouched. What does change is a line
+opening with `- ` or `1. `, which becomes the list it reads as.
+
+**Migration:** nothing, unless an application relied on pasting raw Markdown
+into a Markdown editor and getting literal characters back.
+
+---
+
+## Form / Radio & Checkbox / Group
+
+### Added — `<x-radio.group />` and `<x-checkbox.group />`, a whole set of options from one array
+
+`<x-radio />` and `<x-checkbox />` render a single control. Anything resembling a
+plan picker, a segmented control or a feature list meant writing the loop, the
+`<label>`, the wrapper and the selected-state classes by hand, every time. Two new
+components take the array instead, and are otherwise unrelated to the singular ones,
+which are untouched:
+
+```blade
+<x-radio.group wire:model="plan" label="Plan" :options="[
+    ['label' => 'Startup', 'value' => 'startup', 'description' => 'Up to 5 job postings', 'aside' => '$29 / mo'],
+    ['label' => 'Business', 'value' => 'business', 'description' => 'Up to 25 job postings', 'aside' => '$99 / mo'],
+]" />
+
+<x-checkbox.group wire:model="features" card :columns="2" color="green" :options="$features" />
+```
+
+Extending `<x-radio />` with an `options` attribute was considered and rejected: the
+singular component is one input inside a `<x-wrapper.radio>`, while a group is a
+`<fieldset>` with a `<legend>` and its own layout, and the two share no markup. The
+attribute would have been a second component hiding inside the first.
+
+### Added — four presentations, selected by flag
+
+```blade
+<x-radio.group panel :options="$options" />
+```
+
+| Variant  | Layout                                        | Control     |
+|----------|-----------------------------------------------|-------------|
+| `list`   | Stacked rows sharing borders                  | Visible     |
+| `card`   | Independent cards in a responsive grid        | Visible     |
+| `panel`  | Cards with a check icon marking the selection | `sr-only`   |
+| `inline` | Horizontal segmented control with solid fill  | `sr-only`   |
+
+Each presentation is a boolean flag rather than a `variant="panel"` string, matching
+how `<x-gallery>` and `<x-carousel>` already read. `variant` survives as an internal
+`#[SkipDebug]` property resolved in `SelectionSetup::setup()`, so the templates keep
+a single string to switch on.
+
+Passing none renders `list`. Passing more than one resolves to the first of `card`,
+`panel`, `inline` — silent precedence, the same rule `xs`/`sm`/`lg` already follow in
+the same trait. Throwing on the combination was considered; it would have been the
+only size-style flag group in the library that does.
+
+`panel` is `card` plus an `sr-only` control and a check icon. It deliberately does
+**not** thicken the border when selected: a `border-2` on the checked state shifts
+the card's content by a pixel, and a grid of panels visibly twitches as the selection
+moves across it.
+
+`inline` drops `description`, `aside`, `image` and `badge` — a segmented control has
+no room for them, and rendering them would break the row rather than merely look
+crowded. They are ignored, not rejected, so the same `$options` array can be handed
+to any variant.
+
+### Added — selected state with no JavaScript at all
+
+The whole selected appearance is CSS, through the `has-checked` and
+`group-has-checked` Tailwind variants:
+
+```html
+<label class="group ... has-checked:bg-primary-50 has-checked:border-primary-500">
+    <input type="radio" value="business">
+    <span class="group-has-checked:text-primary-900">Business</span>
+</label>
+```
+
+`has-*` styles the `<label>` from the state of the input inside it; `group-has-*`
+reaches the descendants that are not the input's siblings. Neither needs `peer`,
+which only walks forward from a sibling and could not reach the wrapper.
+
+No `x-data`, no Alpine component, no new entry in the bundle — only
+`dist/tallstackui.css` grew. Which also means the groups work identically in plain
+Blade and under Livewire, and that a `wire:model` round trip cannot desynchronize the
+highlight from the checked input, because the highlight *is* the checked input.
+
+`has-focus-visible` puts the focus ring on the `<label>` rather than the control, so
+the `sr-only` variants stay keyboard-navigable: the control keeps its place in the
+tab order and toggles with Space, and the ring is drawn around what the user actually
+sees.
+
+### Added — the option array, and an escape hatch when it is not enough
+
+| Key           | Type   | Required | Ignored by |
+|---------------|--------|----------|------------|
+| `label`       | string | yes      | —          |
+| `value`       | scalar | yes      | —          |
+| `description` | string | no       | `inline`   |
+| `aside`       | string | no       | `inline`   |
+| `icon`        | string | no       | —          |
+| `image`       | string | no       | `inline`   |
+| `badge`       | string | no       | `inline`   |
+| `disabled`    | bool   | no       | —          |
+
+`image` wins over `icon` when both are present. A missing `label` or `value`, or an
+option that is not an array, throws rather than rendering an empty row.
+
+`select` remaps the source keys with the syntax `<x-select.styled>` already uses, so
+an array coming from the database does not have to be reshaped first:
+
+```blade
+<x-radio.group select="label:name|value:id|description:note" :options="$plans" />
+```
+
+`@interact('option', $option)` replaces the body of every item while the `<label>`,
+the `<input>` and the selected-state classes stay owned by the component. The closure
+receives the option with its **original** keys still reachable, since normalization
+spreads the source array before writing the canonical keys over it:
+
+```blade
+<x-checkbox.group card :options="$addons">
+    @interact('option', $option)
+        <span class="font-semibold">{{ $option['name'] }}</span>
+        <span class="font-mono">${{ $option['price'] }}</span>
+    @endinteract
+</x-checkbox.group>
+```
+
+The loop variable inside the item template is `$item`, not `$option`, precisely so it
+cannot collide with the slot variable the directive introduces.
+
+### Added — one shared `name`, derived when it is not given
+
+Every input carries the same `name`, falling back to `id` and then to the bound
+property, suffixed with `[]` on checkbox groups:
+
+```html
+<input type="radio"    id="plan-0"     name="plan">
+<input type="checkbox" id="features-0" name="features[]">
+```
+
+Without it a radio group is not a group. In plain Blade the options stop being
+mutually exclusive, and — more subtly — under Livewire a `required` group inside a
+`<form wire:submit>` never submits: each input is its own constraint-validation
+group, so the browser demands all of them be checked and blocks the submit event
+before Livewire's listener ever runs.
+
+`required` behaves differently across the two components, which is why the attribute
+tables differ. On the radio group it marks the legend **and** sets the native
+attribute. On the checkbox group it marks the legend only: the native attribute there
+would demand every box be ticked.
+
+Out of Livewire, `value` drives the checked state — a scalar for radio, an array for
+checkbox. Inside Livewire it is ignored, since the bound property is the source of
+truth.
+
+### Added — `SelectionColors`, six palettes across 29 colors
+
+`color` drives more than one thing, so the class exposes six palettes rather than the
+usual two:
+
+| Palette      | Drives                                                  |
+|--------------|---------------------------------------------------------|
+| `background` | The selected item's background                          |
+| `border`     | The selected item's border                              |
+| `control`    | The input itself, and its focus ring                    |
+| `text`       | The selected label and icon                             |
+| `muted`      | The selected description and aside                      |
+| `solid`      | The fill of a selected segment on `inline`              |
+
+`muted` exists because a single `text` palette rendered the label and the description
+in the same tint, which flattened the row — the description has to stay secondary
+after selection, not just before it. `solid` carries only the background: the label
+on top of it switches to white through the `content.inline` block, since
+`text-primary-900` on `bg-primary-500` is unreadable.
+
+One class serves both components, the way `ProgressColors` and `TimelineColors`
+already serve two each. `SetupColors` resolves a published override through the
+`class_basename` of the `#[ColorsThroughOf]` argument, so a single
+`SelectionColors.php` in an application customizes both groups at once.
+
+### Changed — the radio and checkbox views moved into their own directories
+
+```
+form/radio.blade.php     →  form/radio/main.blade.php
+form/checkbox.blade.php  →  form/checkbox/main.blade.php
+                            form/radio/group/{main,item}.blade.php
+                            form/checkbox/group/{main,item}.blade.php
+```
+
+This follows the `main.blade.php` convention the package already uses for `card`,
+`dropdown`, `modal`, `timeline` and others. The group templates started life in a
+shared `form/selection-group/` directory rendering both components from one copy;
+they were split so each component owns its markup, at the cost of `item.blade.php`
+existing twice.
+
+**No migration.** Customization block names, scope names and the component classes are
+unchanged; only the view paths behind them moved, and nothing publishes these views.
+
+### Notes on internals
+
+`SelectionSetup` normalizes the options and resolves `variant`, `size`, `position`
+and the `select` mapping. `SelectionCustomization` returns the block tree, taking the
+control's shape (`form-radio rounded-full` / `form-checkbox rounded`) as its only
+argument. `SelectionGroupRuntime` resolves the legend, the shared `name`, the
+out-of-Livewire selection and a per-variant render profile — that last one is what
+lets a single `item.blade.php` serve all four presentations instead of four
+near-identical partials. Each template keeps a single `@php` block.
+
+The `<legend>` renders its text directly rather than nesting a `<x-label>`: a
+`<label>` with no control inside a `<legend>` is invalid, so the group carries its own
+`wrapper.legend`, `wrapper.legend-error` and `wrapper.asterisk` blocks mirroring the
+Label's styling. The `label="Plan *"` asterisk convention is preserved.
+
+Attributes are routed rather than merged wholesale — `class` lands on the
+`<fieldset>`, everything else (`wire:model`, `x-on:*`, `data-*`) lands on every
+`<input>`.
+
+Customization blocks: `wrapper.*`, `container.*`, `columns.*`, `item.*`, `control.*`,
+`check` and `content.*`. Internal scopes `form.radio.group.{hint,error}` and
+`form.checkbox.group.{hint,error}`.
+
+Covered by 52 feature tests and 6 browser tests. Full reference in
+`.ai/components/form/radio/group.md` and `.ai/components/form/checkbox/group.md`.
+
+---
+
 ## Gallery
 
 ### Added — `<x-gallery />`, an image gallery with three layouts and a shared lightbox
@@ -160,93 +542,6 @@ customization blocks — numeric keys such as `grid.columns.4` would be awkward 
 target and inconsistent with the rest of the library. The feature wrappers are
 keyed by thumbnail position (`feature.wrapper.left`,
 `feature.thumbnails.wrapper.left`), so each arrangement can be restyled on its own.
-
----
-
-## Editor
-
-### Added — `<x-editor />`, a WYSIWYG editor with no external dependency
-
-A rich text editor built on `contenteditable`, shipping nothing but the package
-itself. It outputs HTML, binds through `wire:model` or through a plain `name`,
-and carries eighteen buttons across seven groups: headings, the four inline
-marks, lists, indentation, alignment, code, links, images, history and
-fullscreen.
-
-```blade
-<x-editor wire:model="content" label="Post body" />
-```
-
-```blade
-<x-editor wire:model="content"
-          upload-property="picture"
-          upload-method="storeImage"
-          :toolbar="['style', 'bold', 'italic', 'link', 'image']"
-          min-height="20rem" />
-```
-
-**The engine is a hybrid.** `document.execCommand` where the browsers agree, and
-the Selection API by hand where they do not. Every structural change is routed
-through `insertHTML` rather than through the DOM, because a node inserted by hand
-is invisible to the browser's own undo stack and `Ctrl+Z` would walk straight past
-it.
-
-**Indentation is two different things.** Inside a list the browser nests, which is
-the right shape there. Anywhere else it is a `margin-left` on the block, in steps
-of `2rem` up to eight levels — the native command reaches for a `<blockquote>`
-there, which is a quote rather than an indent and would be stripped by the
-sanitizer on the way back in. That margin is the one action that stays outside the
-undo stack: re-serializing the block to get it in there would drop the caret.
-
-**Both dialogs are `<x-modal>` instances**, under the fixed scopes `editor-link`
-and `editor-image`. The modal already owns the scroll lock, the overlay registry,
-`Escape` with its topmost guard and the focus of its first field, and being
-teleported to `<body>` takes its inputs out of any surrounding `<form>`, where
-`Enter` would otherwise submit it. The toolbar dropdowns are `<x-dropdown>` under
-`editor-toolbar`. What is left in the editor's own surface is the content: 40
-blocks rather than the 55 a self-contained dialog would have needed.
-
-**The whole component is `wire:ignore`d under Livewire**, and nothing about it
-reacts to the server as a result: changing `readonly` or any other attribute
-from a round trip leaves the rendered editor as it was, so a runtime change
-needs a `wire:key` to force the replacement. The content travels
-through the entangle, never through the HTML the server re-renders — and the
-initial value is withheld from the `x-data` when a property is bound, since a
-changing `x-data` attribute makes Alpine tear the component down and rebuild it,
-which lands the caret back at the start of the document.
-
-**The HTML is sanitized against a whitelist** of tags, attributes and style
-properties, parsed in a `<template>` so nothing runs on the way through. It runs
-over pasted markup and over anything arriving from the bound property, the value
-the editor boots with included: setting `innerHTML` never runs a `<script>`, but
-it does fire an `<img onerror>`, and stored content is the path that reaches
-every reader. This is still defense in depth — the documentation is explicit that
-the HTML must be sanitized again on the server before it is persisted and before
-it is rendered back.
-
-`image/svg+xml` is deliberately absent from the default upload mimes: SVG can
-carry script, and a package default should not open that on its own.
-
-**Nineteen internal icons** were added to the guide and to the published icon
-map, so an application swapping its icon set keeps the toolbar working.
-
-Full reference in `.ai/components/editor.md`.
-
-### Changed — the editor ships in its own bundle
-
-`js/tallstackui-editor.js` joined the entry points, weighing 11.5 kB, 3.7 kB
-gzipped. Same reasoning as the upload split: not lazy loading, but cache
-granularity, so a change to the editor stops invalidating the bundle every other
-component lives in.
-
-### Fixed — the sanitizer discarded alignment on pasted paragraphs
-
-`allowed_attributes` let `style` through on `span` and `div` but not on `p` or the
-headings, while the browser writes `text-align` straight onto the paragraph.
-Copying a centered paragraph and pasting it back lost the alignment. `style` is
-now allowed on `p`, `h1`–`h5` and `li`, which cannot widen the surface: the
-`allowed_styles` whitelist is applied afterwards, so only `font-size`,
-`text-align` and `margin-left` survive on any of them.
 
 ---
 

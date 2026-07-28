@@ -180,6 +180,7 @@ return [
         'placeholder' => 'Mulai menulis...',
         'tooltip' => [
             'style' => 'Gaya paragraf',
+            'blockquote' => 'Kutipan',
             'bold' => 'Tebal',
             'italic' => 'Miring',
             'underline' => 'Garis bawah',
@@ -194,6 +195,7 @@ return [
             'clear_format' => 'Hapus format',
             'link' => 'Sisipkan tautan',
             'image' => 'Sisipkan gambar',
+            'hr' => 'Garis horizontal',
             'undo' => 'Urungkan',
             'redo' => 'Ulangi',
             'fullscreen' => 'Layar penuh',

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\File;
 use Illuminate\View\ViewException;
+use TallStackUi\Components\Editor\Component;
 use TallStackUi\Facades\TallStackUi;
 use Tests\TestCase;
 
@@ -26,9 +27,9 @@ it('can render the whole default toolbar', function () {
     $html = (string) expect('<x-editor name="content" />')->render()->value;
 
     foreach ([
-        'style', 'bold', 'italic', 'underline', 'strikethrough',
+        'style', 'blockquote', 'bold', 'italic', 'underline', 'strikethrough',
         'ordered_list', 'unordered_list', 'indent', 'outdent', 'align',
-        'code', 'code_block', 'clear_format', 'link', 'image',
+        'code', 'code_block', 'clear_format', 'link', 'image', 'hr',
         'undo', 'redo', 'fullscreen',
     ] as $slug) {
         expect($html)->toContain('dusk="tallstackui_editor_'.$slug.'"');
@@ -121,10 +122,10 @@ it('can render the heights coming from the attributes', function () {
 });
 
 it('can render the label and the hint', function () {
-    expect('<x-editor name="content" label="Body" hint="Markdown is not supported" />')
+    expect('<x-editor name="content" label="Body" hint="Keep it short" />')
         ->render()
         ->toContain('Body')
-        ->toContain('Markdown is not supported');
+        ->toContain('Keep it short');
 });
 
 it('can render the placeholder coming from the translations', function () {
@@ -233,6 +234,80 @@ it('can render applying a scoped customization', function () {
         ->not->toContain('scoped-toolbar');
 });
 
+it('can render storing html by default', function () {
+    expect('<x-editor name="content" />')
+        ->render()
+        ->toContain('markdown: false');
+});
+
+it('can render storing markdown through the attribute', function () {
+    expect('<x-editor name="content" markdown />')
+        ->render()
+        ->toContain('markdown: true');
+});
+
+it('can render storing markdown through the configuration', function () {
+    config()->set('ts-ui.components.editor.1.markdown', true);
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    expect('<x-editor name="content" />')
+        ->render()
+        ->toContain('markdown: true');
+})->after(function () {
+    // The resolved configuration is cached in a static, so it outlives the
+    // application the test case rebuilds.
+    config()->set('ts-ui.components.editor.1.markdown', false);
+    __ts_get_component_configuration(Component::class, flush: true);
+});
+
+it('can render dropping the buttons markdown cannot express', function () {
+    expect('<x-editor name="content" markdown />')
+        ->render()
+        ->not->toContain('dusk="tallstackui_editor_underline"')
+        ->not->toContain('dusk="tallstackui_editor_align"')
+        ->toContain('dusk="tallstackui_editor_bold"')
+        ->toContain('dusk="tallstackui_editor_blockquote"');
+});
+
+it('can render dropping the incompatible buttons written by hand', function () {
+    expect('<x-editor name="content" markdown :toolbar="[\'bold\', \'underline\', \'align\']" />')
+        ->render()
+        ->toContain('dusk="tallstackui_editor_bold"')
+        ->not->toContain('dusk="tallstackui_editor_underline"')
+        ->not->toContain('dusk="tallstackui_editor_align"');
+});
+
+it('can render a toolbar left empty by the markdown filter', function () {
+    // The empty check answers for the attribute as it was written: a toolbar
+    // emptied by the filter renders empty rather than throwing.
+    expect('<x-editor name="content" markdown :toolbar="[\'underline\']" />')
+        ->render()
+        ->toContain('role="toolbar"')
+        ->not->toContain('dusk="tallstackui_editor_underline"');
+});
+
+it('cannot render an unknown toolbar button while storing markdown', function () {
+    $this->expectException(ViewException::class);
+    $this->expectExceptionMessageMatches('/unknown button\(s\): \[banana\]/');
+
+    expect('<x-editor name="content" markdown :toolbar="[\'bold\', \'banana\']" />')->render();
+});
+
+it('can render the blockquote and the horizontal rule', function () {
+    expect('<x-editor name="content" :toolbar="[\'blockquote\', \'hr\']" />')
+        ->render()
+        ->toContain('toggleBlockquote()')
+        ->toContain('insertRule()')
+        ->toContain('activeFormats.blockquote');
+});
+
+it('can render the blockquote and the horizontal rule in the whitelist', function () {
+    expect('<x-editor name="content" />')
+        ->render()
+        ->toContain('blockquote')
+        ->toContain('hr');
+});
+
 it('has the editor translations in every shipped locale', function () {
     $locales = collect(File::directories(__DIR__.'/../../../lang'))->map(fn (string $path) => basename($path));
 
@@ -244,6 +319,8 @@ it('has the editor translations in every shipped locale', function () {
         foreach ([
             'editor.placeholder',
             'editor.tooltip.bold',
+            'editor.tooltip.blockquote',
+            'editor.tooltip.hr',
             'editor.tooltip.fullscreen',
             'editor.style.h1',
             'editor.style.h3',
@@ -268,7 +345,7 @@ it('has every toolbar icon registered in the icon guide', function () {
     foreach ([
         'numbered-list', 'list-bullet', 'chevron-double-right', 'chevron-double-left',
         'bars-3-bottom-left', 'code-bracket', 'code-bracket-square', 'backspace',
-        'link', 'photo', 'arrow-uturn-left', 'arrow-uturn-right', 'eye',
+        'link', 'photo', 'arrow-uturn-left', 'arrow-uturn-right', 'eye', 'minus',
         'arrows-pointing-out', 'arrows-pointing-in', 'arrow-up-tray', 'x-mark',
     ] as $icon) {
         expect($registered)->toContain($icon);

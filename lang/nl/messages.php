@@ -180,6 +180,7 @@ return [
         'placeholder' => 'Begin met schrijven...',
         'tooltip' => [
             'style' => 'Alineastijl',
+            'blockquote' => 'Citaat',
             'bold' => 'Vet',
             'italic' => 'Cursief',
             'underline' => 'Onderstrepen',
@@ -194,6 +195,7 @@ return [
             'clear_format' => 'Opmaak wissen',
             'link' => 'Link invoegen',
             'image' => 'Afbeelding invoegen',
+            'hr' => 'Horizontale lijn',
             'undo' => 'Ongedaan maken',
             'redo' => 'Opnieuw',
             'fullscreen' => 'Volledig scherm',
