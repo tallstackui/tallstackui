@@ -58,6 +58,35 @@ customization of `wrapper.fifth`:
 </x-slide>
 ```
 
+Distributing the footer actions instead of pushing them all to the end:
+
+```blade
+<x-slide id="record" title="Record">
+    <p>Body content.</p>
+
+    <x-slot:footer between>
+        <x-button text="Delete" color="red" wire:click="delete" />
+        <x-button text="Save" wire:click="save" />
+    </x-slot:footer>
+</x-slide>
+```
+
+Taking over the footer layout with `unwrapped`. The border and the padding of
+the footer area stay; only the aligning wrapper is dropped:
+
+```blade
+<x-slide id="wizard" title="Wizard">
+    <p>Body content.</p>
+
+    <x-slot:footer unwrapped>
+        <div class="grid grid-cols-2 gap-2">
+            <x-button text="Back" />
+            <x-button text="Next" />
+        </div>
+    </x-slot:footer>
+</x-slide>
+```
+
 ## Attributes
 
 | Attribute   | Type                        | Default                    | Description                                                                                                                                             |
@@ -80,15 +109,30 @@ customization of `wrapper.fifth`:
 
 ## Slots
 
-| Slot      | Description                                                                             |
-|-----------|-----------------------------------------------------------------------------------------|
-| (default) | Main body content of the slide panel                                                    |
-| title     | Title content (supports ComponentSlot with custom attributes)                           |
-| footer    | Footer content (supports ComponentSlot with `start` and `end` attributes for alignment) |
+| Slot      | Description                                                                   |
+|-----------|-------------------------------------------------------------------------------|
+| (default) | Main body content of the slide panel                                          |
+| title     | Title content (supports ComponentSlot with custom attributes)                 |
+| footer    | Footer content; accepts plain string or ComponentSlot, end-aligned by default |
+
+### Footer Slot Attributes
+
+| Attribute | Description                                                        |
+|-----------|--------------------------------------------------------------------|
+| start     | Aligns the footer content to the start                             |
+| center    | Centers the footer content                                         |
+| end       | Aligns the footer content to the end (default when none is passed) |
+| between   | Distributes the footer content with space between                  |
+| unwrapped | Drops the aligning wrapper, keeping the footer border and padding  |
+
+Any other attribute on the slot — `class`, `x-on:*`, `dusk` — is merged into the
+footer container.
 
 ## Validation Constraints
 
 - The `wire` property cannot be an empty string.
+- The `footer` slot cannot combine two or more alignments.
+- The `footer` slot cannot use `unwrapped` together with an alignment.
 - The `size` must be one of: sm, md, lg, xl, 2xl, 3xl, 4xl, 5xl, 6xl, 7xl, full.
 - The `zIndex` must start with `z-` prefix.
 - The position must be one of: right, left, top, bottom.
@@ -194,5 +238,10 @@ TallStackUi::customize()
 | title.close      | Close button icon styles                        |
 | body             | Scrollable body content area styles             |
 | body.paddingless | Padding reset applied when `paddingless` is set |
-| footer           | Footer container with border styles             |
+| footer.wrapper   | Footer container with border and padding        |
+| footer.base      | Footer aligning wrapper (flex row)              |
+| footer.start     | Footer alignment applied by `start`             |
+| footer.center    | Footer alignment applied by `center`            |
+| footer.end       | Footer alignment applied by `end` (default)     |
+| footer.between   | Footer alignment applied by `between`           |
 | header           | Header padding container                        |

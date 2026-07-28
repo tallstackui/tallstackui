@@ -58,6 +58,33 @@ A versatile card container with optional header, footer, image, color styling, m
 </x-card>
 ```
 
+```blade
+{{-- Pushing a destructive action away from the primary one. --}}
+<x-card header="Account">
+    <p>Body content.</p>
+
+    <x-slot:footer between>
+        <x-button text="Delete" color="red" wire:click="delete" />
+        <x-button text="Save" wire:click="save" />
+    </x-slot:footer>
+</x-card>
+```
+
+```blade
+{{-- The footer draws its own layout, so the aligning wrapper only gets in the way. --}}
+<x-card header="Plan">
+    <p>Body content.</p>
+
+    <x-slot:footer unwrapped>
+        <div class="grid grid-cols-3 gap-2">
+            <x-button text="Monthly" />
+            <x-button text="Yearly" />
+            <x-button text="Lifetime" />
+        </div>
+    </x-slot:footer>
+</x-card>
+```
+
 ## Attributes
 
 | Attribute   | Type               | Default | Description                                                                                                                                                        |
@@ -76,11 +103,21 @@ A versatile card container with optional header, footer, image, color styling, m
 
 ## Slots
 
-| Slot      | Description                                                                               |
-|-----------|-------------------------------------------------------------------------------------------|
-| (default) | Main card body content                                                                    |
-| header    | Card header area; accepts plain string or ComponentSlot for custom markup                 |
-| footer    | Card footer area; accepts plain string (right-aligned) or ComponentSlot for custom layout |
+| Slot      | Description                                                                     |
+|-----------|---------------------------------------------------------------------------------|
+| (default) | Main card body content                                                          |
+| header    | Card header area; accepts plain string or ComponentSlot for custom markup       |
+| footer    | Card footer area; accepts plain string or ComponentSlot, end-aligned by default |
+
+### Footer Slot Attributes
+
+| Attribute | Description                                                        |
+|-----------|--------------------------------------------------------------------|
+| start     | Aligns the footer content to the start                             |
+| center    | Centers the footer content                                         |
+| end       | Aligns the footer content to the end (default when none is passed) |
+| between   | Distributes the footer content with space between                  |
+| unwrapped | Drops the aligning wrapper, keeping the footer border and padding  |
 
 ## Events
 
@@ -105,6 +142,8 @@ The Card component dispatches Alpine.js `CustomEvent`s when its state changes. L
 
 - The `image` and `color` attributes cannot be used together.
 - When `round` is set to a string, it must be one of: `xs`, `sm`, `md`, `lg`, `xl`, `2xl`.
+- The `footer` slot cannot combine two or more alignments.
+- The `footer` slot cannot use `unwrapped` together with an alignment.
 
 ## Soft Customization
 
@@ -132,7 +171,11 @@ TallStackUi::customize()
 | body                    | Card body padding and text color                          |
 | body.paddingless        | Padding reset applied when `paddingless` is set           |
 | footer.wrapper          | Footer container with top border                          |
-| footer.text             | Footer content alignment (flex, end-aligned)              |
+| footer.base             | Footer aligning wrapper (flex row)                        |
+| footer.start            | Footer alignment applied by `start`                       |
+| footer.center           | Footer alignment applied by `center`                      |
+| footer.end              | Footer alignment applied by `end` (default)               |
+| footer.between          | Footer alignment applied by `between`                     |
 | button.minimize         | Minimize button icon dimensions                           |
 | button.maximize         | Maximize button icon dimensions                           |
 | button.close            | Close button icon dimensions                              |

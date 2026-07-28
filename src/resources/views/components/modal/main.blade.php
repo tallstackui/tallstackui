@@ -69,8 +69,14 @@
                     {{ $slot }}
                 </div>
                 @if ($footer)
-                    <div @class([$customization['footer'], $customization['footer.scrollable'] => $configurations['scrollable']])>
-                        {{ $footer }}
+                    <div {{ $bag->class([$customization['footer.wrapper'], $customization['footer.scrollable'] => $configurations['scrollable']]) }}>
+                        @if ($align)
+                            <div @class([$customization['footer.base'], $customization['footer.'.$align]])>
+                                {{ $footer }}
+                            </div>
+                        @else
+                            {{ $footer }}
+                        @endif
                     </div>
                 @endif
             </div>

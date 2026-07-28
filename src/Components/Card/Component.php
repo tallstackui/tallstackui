@@ -6,14 +6,17 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\ComponentSlot;
 use TallStackUi\Attributes\ColorsThroughOf;
+use TallStackUi\Attributes\PassThroughRuntime;
 use TallStackUi\Attributes\SkipDebug;
 use TallStackUi\Attributes\SoftCustomization;
 use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\Support\Colors\Components\CardColors;
+use TallStackUi\Support\Runtime\Components\CardRuntime;
 use TallStackUi\TallStackUiComponent;
 
 #[SoftCustomization('card')]
 #[ColorsThroughOf(CardColors::class)]
+#[PassThroughRuntime(CardRuntime::class)]
 class Component extends TallStackUiComponent implements Customization
 {
     public function __construct(
@@ -77,7 +80,11 @@ class Component extends TallStackUiComponent implements Customization
             'body.paddingless' => 'p-0!',
             'footer' => [
                 'wrapper' => 'text-secondary-700 dark:text-dark-300 dark:border-t-dark-600 rounded-lg rounded-t-none border-t border-t-secondary-200 p-4',
-                'text' => 'flex items-center justify-end gap-2',
+                'base' => 'flex items-center gap-2',
+                'start' => 'justify-start',
+                'center' => 'justify-center',
+                'end' => 'justify-end',
+                'between' => 'justify-between',
             ],
             'button' => [
                 'minimize' => 'w-6 h-6',

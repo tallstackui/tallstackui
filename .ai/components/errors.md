@@ -29,12 +29,28 @@ Hide the title and its divider, and render a numbered list:
 <x-errors without-title list-numeric />
 ```
 
-Align footer content to the right with the smart `end` attribute:
+A footer slot is aligned to the end by default. Pass another alignment to change
+it:
 
 ```blade
 <x-errors>
-    <x-slot:footer end>
+    <x-slot:footer between>
+        <x-button>Dismiss</x-button>
         <x-button>Fix now</x-button>
+    </x-slot:footer>
+</x-errors>
+```
+
+Taking over the footer layout with `unwrapped`. The top margin of the footer
+area stays; only the aligning wrapper is dropped:
+
+```blade
+<x-errors>
+    <x-slot:footer unwrapped>
+        <div class="grid grid-cols-2 gap-2">
+            <x-button>Dismiss</x-button>
+            <x-button>Fix now</x-button>
+        </div>
     </x-slot:footer>
 </x-errors>
 ```
@@ -53,14 +69,31 @@ Align footer content to the right with the smart `end` attribute:
 
 ## Slots
 
-| Slot   | Attribute | Description                                                                                           |
-|--------|-----------|-------------------------------------------------------------------------------------------------------|
-| footer | —         | Content rendered below the error list; accepts plain string or ComponentSlot                          |
-| footer | end       | When present on a ComponentSlot footer, wraps the content in a `flex justify-end` div (right-aligned) |
+| Slot   | Description                                                                                         |
+|--------|-----------------------------------------------------------------------------------------------------|
+| footer | Content rendered below the error list; a plain string stays a paragraph, a ComponentSlot is aligned |
+
+### Footer Slot Attributes
+
+Only apply when the footer comes in as a `<x-slot:footer>`. A footer passed as a
+string attribute is rendered as a plain paragraph and takes no alignment.
+
+| Attribute | Description                                                        |
+|-----------|--------------------------------------------------------------------|
+| start     | Aligns the footer content to the start                             |
+| center    | Centers the footer content                                         |
+| end       | Aligns the footer content to the end (default when none is passed) |
+| between   | Distributes the footer content with space between                  |
+| unwrapped | Drops the aligning wrapper, keeping the footer top margin          |
+
+Any other attribute on the slot — `class`, `x-on:*`, `dusk` — is merged into the
+footer container.
 
 ## Validation Constraints
 
 - The `title` attribute cannot be empty, unless `without-title` is used.
+- The `footer` slot cannot combine two or more alignments.
+- The `footer` slot cannot use `unwrapped` together with an alignment.
 
 ## Soft Customization
 
@@ -76,14 +109,19 @@ TallStackUi::customize()
 
 ### Available Blocks
 
-| Block Name    | Purpose                                                         |
-|---------------|-----------------------------------------------------------------|
-| wrapper       | Outer container with rounded corners, padding, and shadow       |
-| title.wrapper | Title bar flex layout                                           |
-| title.divider | Title bar bottom border and spacing (hidden by `without-title`) |
-| title.text    | Title text font and inline-flex alignment                       |
-| title.icon    | Title icon dimensions                                           |
-| body.wrapper  | Error list container with left margin and padding               |
-| body.list     | List spacing and text size (marker style set by `list-numeric`) |
-| close         | Close button icon dimensions                                    |
-| slots.footer  | Footer slot top margin                                          |
+| Block Name           | Purpose                                                         |
+|----------------------|-----------------------------------------------------------------|
+| wrapper              | Outer container with rounded corners, padding, and shadow       |
+| title.wrapper        | Title bar flex layout                                           |
+| title.divider        | Title bar bottom border and spacing (hidden by `without-title`) |
+| title.text           | Title text font and inline-flex alignment                       |
+| title.icon           | Title icon dimensions                                           |
+| body.wrapper         | Error list container with left margin and padding               |
+| body.list            | List spacing and text size (marker style set by `list-numeric`) |
+| close                | Close button icon dimensions                                    |
+| slots.footer.wrapper | Footer container top margin                                     |
+| slots.footer.base    | Footer aligning wrapper (flex row)                              |
+| slots.footer.start   | Footer alignment applied by `start`                             |
+| slots.footer.center  | Footer alignment applied by `center`                            |
+| slots.footer.end     | Footer alignment applied by `end` (default)                     |
+| slots.footer.between | Footer alignment applied by `between`                           |

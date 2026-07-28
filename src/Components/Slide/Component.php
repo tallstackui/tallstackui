@@ -78,9 +78,12 @@ class Component extends TallStackUiComponent implements Customization
             'body' => 'soft-scrollbar dark:text-dark-300 grow overflow-y-auto rounded-b-xl px-6 py-5 text-gray-700',
             'body.paddingless' => 'p-0!',
             'footer' => [
-                'base' => 'flex border-t border-t-gray-200 px-4 pt-4 dark:border-t-dark-600',
+                'wrapper' => 'border-t border-t-gray-200 px-4 pt-4 dark:border-t-dark-600',
+                'base' => 'flex gap-2',
                 'start' => 'justify-start',
+                'center' => 'justify-center',
                 'end' => 'justify-end',
+                'between' => 'justify-between',
             ],
             'header' => [
                 'base' => 'px-6',

@@ -119,3 +119,106 @@ it('can render with body padding by default', function () {
         ->toContain('px-4 py-5')
         ->not->toContain('p-0!');
 });
+
+it('can align the footer slot', function (string $attribute, string $class) {
+    $component = <<<'HTML'
+    <x-card>
+    Foo bar
+    <x-slot:footer {{ attribute }}>
+        Baz
+    </x-slot:footer>
+    </x-card>
+    HTML;
+
+    expect(str_replace('{{ attribute }}', $attribute, $component))->render()
+        ->toContain('flex items-center gap-2 '.$class);
+})->with([
+    ['', 'justify-end'],
+    ['start', 'justify-start'],
+    ['center', 'justify-center'],
+    ['end', 'justify-end'],
+    ['between', 'justify-between'],
+]);
+
+it('can align the footer attribute to the end by default', function () {
+    expect('<x-card footer="Baz">Foo bar</x-card>')->render()
+        ->toContain('flex items-center gap-2 justify-end');
+});
+
+it('can render the footer slot without the aligning wrapper', function () {
+    $component = <<<'HTML'
+    <x-card>
+    Foo bar
+    <x-slot:footer unwrapped>
+        Baz
+    </x-slot:footer>
+    </x-card>
+    HTML;
+
+    expect($component)->render()
+        ->toContain('Baz')
+        ->toContain('border-t border-t-secondary-200')
+        ->not->toContain('flex items-center gap-2');
+});
+
+it('can merge the footer slot attributes without leaking the alignment keywords', function () {
+    $component = <<<'HTML'
+    <x-card>
+    Foo bar
+    <x-slot:footer between class="foo-bar-baz-bah">
+        Baz
+    </x-slot:footer>
+    </x-card>
+    HTML;
+
+    expect($component)->render()
+        ->toContain('foo-bar-baz-bah')
+        ->toContain('justify-between')
+        ->not->toContain('between="between"');
+});
+
+it('cannot let the footer slot attributes override the minimize behavior', function () {
+    $component = <<<'HTML'
+    <x-card>
+    Foo bar
+    <x-slot:footer x-show="whatever">
+        Baz
+    </x-slot:footer>
+    </x-card>
+    HTML;
+
+    expect($component)->render()
+        ->toContain('<div x-show="!minimize"');
+});
+
+it('can thrown exception when the footer slot combines alignments', function () {
+    $this->expectException(ViewException::class);
+    $this->expectExceptionMessage('[TallStackUI] Card: The [footer] slot cannot combine the alignments [center, between]');
+
+    $component = <<<'HTML'
+    <x-card>
+    Foo bar
+    <x-slot:footer center between>
+        Baz
+    </x-slot:footer>
+    </x-card>
+    HTML;
+
+    expect($component)->render();
+});
+
+it('can thrown exception when the footer slot mixes unwrapped with alignments', function () {
+    $this->expectException(ViewException::class);
+    $this->expectExceptionMessage('[TallStackUI] Card: The [footer] slot cannot use [unwrapped] together with [start]');
+
+    $component = <<<'HTML'
+    <x-card>
+    Foo bar
+    <x-slot:footer unwrapped start>
+        Baz
+    </x-slot:footer>
+    </x-card>
+    HTML;
+
+    expect($component)->render();
+});

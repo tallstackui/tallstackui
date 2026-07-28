@@ -12,6 +12,8 @@ class ModalRuntime extends AbstractRuntime
             'event' => $event = str($this->data('id'))->slug()->kebab(),
             'open' => $event.'-open',
             'close' => $event.'-close',
+            'align' => $this->alignment(),
+            'bag' => $this->alignable(),
         ];
     }
 }

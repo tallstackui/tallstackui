@@ -83,12 +83,14 @@
                             {{ $slot }}
                         </div>
                         @if ($footer)
-                            <div @if ($footer instanceof \Illuminate\View\ComponentSlot) {{ $footer->attributes->class([
-                                    $customization['footer.base'],
-                                    $customization['footer.start'] => $footer->attributes->get('start', false),
-                                    $customization['footer.end'] => $footer->attributes->get('end', false),
-                                ]) }} @else class="{{ $customization['footer.base'] }}" @endif>
-                                {{ $footer }}
+                            <div {{ $bag->class([$customization['footer.wrapper']]) }}>
+                                @if ($align)
+                                    <div @class([$customization['footer.base'], $customization['footer.'.$align]])>
+                                        {{ $footer }}
+                                    </div>
+                                @else
+                                    {{ $footer }}
+                                @endif
                             </div>
                         @endif
                     </div>

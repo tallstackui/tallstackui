@@ -8,13 +8,16 @@ use Illuminate\Support\ViewErrorBag;
 use Illuminate\View\ComponentSlot;
 use InvalidArgumentException;
 use TallStackUi\Attributes\ColorsThroughOf;
+use TallStackUi\Attributes\PassThroughRuntime;
 use TallStackUi\Attributes\SoftCustomization;
 use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\Support\Colors\Components\ErrorsColors;
+use TallStackUi\Support\Runtime\Components\ErrorsRuntime;
 use TallStackUi\TallStackUiComponent;
 
 #[SoftCustomization('errors')]
 #[ColorsThroughOf(ErrorsColors::class)]
+#[PassThroughRuntime(ErrorsRuntime::class)]
 class Component extends TallStackUiComponent implements Customization
 {
     public function __construct(
@@ -57,7 +60,14 @@ class Component extends TallStackUiComponent implements Customization
             ],
             'close' => 'w-5 h-5',
             'slots' => [
-                'footer' => 'mt-2',
+                'footer' => [
+                    'wrapper' => 'mt-2',
+                    'base' => 'flex gap-2',
+                    'start' => 'justify-start',
+                    'center' => 'justify-center',
+                    'end' => 'justify-end',
+                    'between' => 'justify-between',
+                ],
             ],
         ]);
     }

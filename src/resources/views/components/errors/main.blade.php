@@ -56,11 +56,17 @@
                 </ul>
             </div>
             @if (is_string($footer))
-                <p class="{{ $customization['slots.footer'] }}">{{ $footer }}</p>
-            @elseif ($footer !== null && $footer->attributes->has('end'))
-                <div @class([$customization['slots.footer'], 'flex justify-end'])>{{ $footer }}</div>
-            @else
-                {{ $footer }}
+                <p class="{{ $customization['slots.footer.wrapper'] }}">{{ $footer }}</p>
+            @elseif ($footer !== null)
+                <div {{ $bag->class([$customization['slots.footer.wrapper']]) }}>
+                    @if ($align)
+                        <div @class([$customization['slots.footer.base'], $customization['slots.footer.'.$align]])>
+                            {{ $footer }}
+                        </div>
+                    @else
+                        {{ $footer }}
+                    @endif
+                </div>
             @endif
         </div>
     </div>

@@ -12,6 +12,90 @@ such change is listed under **Migration**.
 
 ---
 
+## Modal, Slide, Card & Errors
+
+### Added — footer slot alignment through `start`, `center`, `end`, `between` and `unwrapped`
+
+The footer is where actions live, and until now the way they were distributed was
+decided by the component, differently in each one. Modal always pushed them to
+the right. Card pushed them right only when the footer came in as a string, and
+left a `<x-slot:footer>` untouched. Slide understood `start` and `end` but
+defaulted to neither. Errors understood `end` alone. The four now read the
+alignment from the slot itself, through the same attributes.
+
+```blade
+<x-modal>
+    Content
+
+    <x-slot:footer between>
+        <x-button color="red">Delete</x-button>
+        <x-button>Save</x-button>
+    </x-slot:footer>
+</x-modal>
+```
+
+Five attributes, identical across the four:
+
+| Attribute   | Result                                     |
+|-------------|--------------------------------------------|
+| *(none)*    | `justify-end` — the previous Modal default |
+| `start`     | `justify-start`                            |
+| `center`    | `justify-center`                           |
+| `end`       | `justify-end`, written out                 |
+| `between`   | `justify-between`                          |
+| `unwrapped` | no aligning wrapper at all                 |
+
+`unwrapped` drops the flex wrapper and nothing else: the footer area keeps its
+border, its padding and its margin, and the slot content becomes their direct
+child. It is for footers that lay themselves out — a grid, a full-width bar, a
+form row that has its own idea of spacing.
+
+Combining alignments, or mixing one with `unwrapped`, throws.
+
+Every other attribute on the slot — `class`, `x-on:*`, `dusk` — is merged into
+the footer container. Slide already did this and leaked the alignment keywords
+into the markup as `start="start"`; the keywords are now stripped, and the other
+three gained the merge they never had.
+
+Alignment applies to the slot form only. A footer passed as a string attribute
+carries no attributes to read, and keeps whatever the component already did with
+it — the end-aligned row on Modal, Slide and Card, the plain paragraph on Errors.
+
+The resolution lives in `AbstractRuntime::alignment()` and
+`AbstractRuntime::alignable()`, so the two components still carrying an unaligned
+footer — Table and Stats — can adopt the same attributes without repeating it.
+
+**Migration:** the footer blocks were split.
+
+| Component | Before          | After                                                                    |
+|-----------|-----------------|--------------------------------------------------------------------------|
+| Modal     | `footer`        | `footer.wrapper` (border, padding, color) + `footer.base` (`flex gap-2`) |
+| Slide     | `footer.base`   | `footer.wrapper` (border, padding) + `footer.base` (`flex gap-2`)        |
+| Card      | `footer.text`   | `footer.base` (`flex items-center gap-2`)                                |
+| Errors    | `slots.footer`  | `slots.footer.wrapper` (margin) + `slots.footer.base` (`flex gap-2`)     |
+
+All four gained the four alignment blocks under the same prefix — `footer.start`
+and siblings, `slots.footer.start` and siblings on Errors. `footer.scrollable` on
+Modal and `footer.wrapper` on Card are unchanged. An application customizing
+`modal.footer`, `slide.footer.base`, `card.footer.text` or `errors.slots.footer`
+has to point at the new block, choosing between the chrome and the alignment row.
+
+Rendering changed in four ways:
+
+- Modal, Slide and Errors footers now nest an extra `<div>` for the alignment.
+- A Card footer passed as `<x-slot:footer>` is aligned to the end instead of
+  falling through raw — the behaviour a string footer already had. A Card relying
+  on that raw fall-through wants `unwrapped`.
+- A Slide footer with no attribute used to sit at the start, since the base block
+  carried `flex` with no `justify-*`. It now defaults to the end, and `start`
+  restores the old look. The Slide base also gained `gap-2`, which it lacked
+  while Modal and Card had it.
+- An Errors footer slot with no attribute used to render raw, with no container
+  at all. It now gets the `mt-2` container and the end alignment. `unwrapped`
+  brings back the container without the alignment; the fully raw output is gone.
+
+---
+
 ## Modal, Slide, Card & Tab
 
 ### Added — `paddingless`, removing the padding of the main slot

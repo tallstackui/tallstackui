@@ -53,6 +53,35 @@ footer keep theirs:
 </x-modal>
 ```
 
+Distributing the footer actions instead of pushing them all to the end:
+
+```blade
+<x-modal id="record" title="Record">
+    <p>Body content.</p>
+
+    <x-slot:footer between>
+        <x-button text="Delete" color="red" wire:click="delete" />
+        <x-button text="Save" wire:click="save" />
+    </x-slot:footer>
+</x-modal>
+```
+
+Taking over the footer layout with `unwrapped`. The border and the padding of
+the footer area stay; only the aligning wrapper is dropped:
+
+```blade
+<x-modal id="wizard" title="Wizard">
+    <p>Body content.</p>
+
+    <x-slot:footer unwrapped>
+        <div class="grid grid-cols-2 gap-2">
+            <x-button text="Back" />
+            <x-button text="Next" />
+        </div>
+    </x-slot:footer>
+</x-modal>
+```
+
 ## Attributes
 
 | Attribute   | Type               | Default                    | Description                                                                                                                             |
@@ -79,11 +108,23 @@ footer keep theirs:
 | title     | Title text or custom markup in the modal header (as attribute) |
 | footer    | Content rendered in the modal footer area                      |
 
+### Footer Slot Attributes
+
+| Attribute | Description                                                        |
+|-----------|--------------------------------------------------------------------|
+| start     | Aligns the footer content to the start                             |
+| center    | Centers the footer content                                         |
+| end       | Aligns the footer content to the end (default when none is passed) |
+| between   | Distributes the footer content with space between                  |
+| unwrapped | Drops the aligning wrapper, keeping the footer border and padding  |
+
 ## Validation Constraints
 
 - The `wire` property cannot be an empty string.
 - The `size` must be one of: sm, md, lg, xl, 2xl, 3xl, 4xl, 5xl, 6xl, 7xl, full.
 - The `zIndex` must start with `z-` prefix.
+- The `footer` slot cannot combine two or more alignments.
+- The `footer` slot cannot use `unwrapped` together with an alignment.
 
 ## JavaScript Control
 
@@ -198,5 +239,10 @@ TallStackUi::customize()
 | body               | Body content area styles                        |
 | body.scrollable    | Scrollable body overflow styles                 |
 | body.paddingless   | Padding reset applied when `paddingless` is set |
-| footer             | Footer container styles                         |
+| footer.wrapper     | Footer container with border and padding        |
 | footer.scrollable  | Sticky footer styles for scrollable mode        |
+| footer.base        | Footer aligning wrapper (flex row)              |
+| footer.start       | Footer alignment applied by `start`             |
+| footer.center      | Footer alignment applied by `center`            |
+| footer.end         | Footer alignment applied by `end` (default)     |
+| footer.between     | Footer alignment applied by `between`           |

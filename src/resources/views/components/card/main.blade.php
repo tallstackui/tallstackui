@@ -109,8 +109,7 @@
             {{ $slot }}
         </div>
         @if ($footer)
-            <div class="{{ $customization['footer.wrapper'] }}"
-                 x-show="!minimize"
+            <div x-show="!minimize"
                  @if (!$ts_ui__flash)
                      x-transition:enter="transition ease-out duration-100"
                  x-transition:enter-start="opacity-0 -translate-y-10"
@@ -118,9 +117,10 @@
                  x-transition:leave="transition ease-in duration-100"
                  x-transition:leave-start="opacity-100 translate-y-0"
                  x-transition:leave-end="opacity-0 -translate-y-10"
-                    @endif>
-                @if (! $footer instanceof \Illuminate\View\ComponentSlot)
-                    <div class="{{ $customization['footer.text'] }}">
+                    @endif
+                    {{ $bag->class([$customization['footer.wrapper']]) }}>
+                @if ($align)
+                    <div @class([$customization['footer.base'], $customization['footer.'.$align]])>
                         {{ $footer }}
                     </div>
                 @else

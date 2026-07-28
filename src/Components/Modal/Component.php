@@ -72,8 +72,15 @@ class Component extends TallStackUiComponent implements Customization
             'body' => 'dark:text-dark-300 grow rounded-b-xl py-5 text-gray-700 px-4',
             'body.scrollable' => 'overflow-y-auto',
             'body.paddingless' => 'p-0!',
-            'footer' => 'dark:text-dark-300 dark:border-t-dark-600 flex justify-end gap-2 rounded-b-xl border-t border-t-gray-100 p-4 text-gray-700',
-            'footer.scrollable' => 'sticky bottom-0 z-10 bg-white dark:bg-dark-700',
+            'footer' => [
+                'wrapper' => 'dark:text-dark-300 dark:border-t-dark-600 rounded-b-xl border-t border-t-gray-100 p-4 text-gray-700',
+                'scrollable' => 'sticky bottom-0 z-10 bg-white dark:bg-dark-700',
+                'base' => 'flex gap-2',
+                'start' => 'justify-start',
+                'center' => 'justify-center',
+                'end' => 'justify-end',
+                'between' => 'justify-between',
+            ],
         ]);
     }
 

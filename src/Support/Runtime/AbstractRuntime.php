@@ -8,6 +8,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Support\Collection;
 use Illuminate\Support\ViewErrorBag;
 use Illuminate\View\ComponentAttributeBag;
+use Illuminate\View\ComponentSlot;
 use Livewire\Component;
 use Livewire\WireDirective;
 use TallStackUi\Support\Blade\BindProperty;
@@ -17,6 +18,10 @@ use function Livewire\invade;
 
 abstract class AbstractRuntime
 {
+    private const ALIGNMENTS = ['start', 'center', 'end', 'between'];
+
+    private const UNWRAPPED = 'unwrapped';
+
     public function __construct(
         protected TallStackUiComponent $component,
         protected array $data,
@@ -31,6 +36,48 @@ abstract class AbstractRuntime
      * Determine the runtime properties for the component.
      */
     abstract public function runtime(): array;
+
+    /**
+     * Attributes of an alignable slot, without the alignment keywords.
+     */
+    protected function alignable(string $slot = 'footer'): ComponentAttributeBag
+    {
+        $content = $this->data[$slot] ?? null;
+
+        return $content instanceof ComponentSlot
+            ? $content->attributes->except([...self::ALIGNMENTS, self::UNWRAPPED])
+            : new ComponentAttributeBag;
+    }
+
+    /**
+     * Resolves the slot alignment. Returns null
+     * when the slot opts out through [unwrapped].
+     */
+    protected function alignment(string $slot = 'footer', string $default = 'end'): ?string
+    {
+        $content = $this->data[$slot] ?? null;
+
+        if (! $content instanceof ComponentSlot) {
+            return $default;
+        }
+
+        $alignments = array_values(array_filter(
+            self::ALIGNMENTS,
+            fn (string $alignment): bool => (bool) $content->attributes->get($alignment, false)
+        ));
+
+        $unwrapped = (bool) $content->attributes->get(self::UNWRAPPED, false);
+
+        if ($unwrapped && $alignments !== []) {
+            __ts_validation_exception($this->component, "The [{$slot}] slot cannot use [unwrapped] together with [".implode(', ', $alignments).'].');
+        }
+
+        if (count($alignments) > 1) {
+            __ts_validation_exception($this->component, "The [{$slot}] slot cannot combine the alignments [".implode(', ', $alignments).'].');
+        }
+
+        return $unwrapped ? null : ($alignments[0] ?? $default);
+    }
 
     /**
      * Shortcut to retrieve the bind data ready to use as a collection.
