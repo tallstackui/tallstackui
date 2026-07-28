@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-TallStackUI is a suite of Blade components for Laravel TALL Stack applications (Tailwind CSS, Alpine.js, Laravel, Livewire). It provides 40+ reusable components for building modern web interfaces. Our current goal is prepare the release of v3.0.  Check it out it to understand more about the components: https://context7.com/websites/tallstackui_v2/llms.txt?tokens=10000
+TallStackUI is a suite of Blade components for Laravel TALL Stack applications (Tailwind CSS, Alpine.js, Laravel, Livewire). It provides 40+ reusable components for building modern web interfaces. Our current goal is prepare the release of v3.0.  Check it out it to understand more about the components: [https://context7.com/websites/tallstackui_v2/llms.txt?tokens=10000](https://context7.com/websites/tallstackui_v2/llms.txt?tokens=10000)
 
 **Stack:**
 
@@ -64,6 +64,20 @@ This ensures the built assets in `dist/` are updated and reflect your changes.
 - **Feature tests**: CAN run with `--parallel`. Example: `composer test:feature --parallel`
 - Never run browser tests in parallel mode.
 
+## Playground
+
+Playground is a special folder on the AJ computer that allows basic testing of functionalities: `/Users/aj/Workspace/tallstack/playground`. The Playground can be used to publish, for example, new components for testing as AJ's QA. Furthermore, whenever a new change is made to the Playground, it must be synchronized using the special bash function `tallstackui` within the Playground folder. The link between the playground and the changes made in the TallStackUI branch (regardless of whether it's the main directory or a worktree) should be made using something like:
+
+```json
+"repositories": [
+    {
+        "type": "path",
+        "url": "{path-to-tallstackui-locally}"
+    }
+]
+```
+
+
 ## Architecture
 
 ### Component Structure
@@ -76,8 +90,9 @@ Components live in `src/View/Components/` and extend `TallStackUiComponent`. Eac
 
 **Component Organization (70+ classes):**
 
+
 | Directory      | Components                                                                                                                                                                                                            |
-|----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Root           | Alert, Avatar, Badge, Banner, Boolean, Card, Carousel, Clipboard, Environment, Errors, Floating, Icon, KeyValue, Link, Loading, Modal, Rating, Reaction, Signature, Slide, Stats, Table, ThemeSwitch, Tooltip, Upload |
 | `Button/`      | Button, Circle                                                                                                                                                                                                        |
 | `Dropdown/`    | Dropdown, Items, Submenu                                                                                                                                                                                              |
@@ -90,13 +105,14 @@ Components live in `src/View/Components/` and extend `TallStackUiComponent`. Eac
 | `Tab/`         | Tab, Items                                                                                                                                                                                                            |
 | `Wrapper/`     | Input, Radio (utility wrappers used internally by form components)                                                                                                                                                    |
 
+
 ### Soft Customization System
 
 The soft personalization involves personalizing components at runtime, either through a service provider like AppServiceProvider or object classes. The idea behind soft personalization is to explore the building blocks of personalization for each component.
 
 Components use `#[SoftCustomization('unique-name')]` attribute for class-based customization. The `customization()` method returns a dot-notation array of Tailwind classes that can be overridden.
 
-```php  
+```php
 #[SoftCustomization('alert')]
 class Alert extends TallStackUiComponent
 {
@@ -105,13 +121,13 @@ class Alert extends TallStackUiComponent
         return ['wrapper' => 'flex rounded-lg p-4', 'icon.wrapper' => 'flex-shrink-0'];
     }
 } 
-```  
+```
 
 #### Usage
 
 In `app/Providers/AppServiceProvider.php` (or any other provider) of a Laravel project:
 
-```php  
+```php
 class AppServiceProvider extends ServiceProvider
 {
     public function boot(): void
@@ -119,7 +135,7 @@ class AppServiceProvider extends ServiceProvider
         TallStackUi::customize()->form('input')->block('input.base', 'w-full rounded-full');
     }
 }
-```  
+```
 
 #### Customization Methods
 
@@ -135,9 +151,9 @@ class AppServiceProvider extends ServiceProvider
 
 For component-specific customizations:
 
-```php  
+```php
 TallStackUi::customize('input', scope: 'search')->block('input.base', 'rounded-full');  
-```  
+```
 
 Then in Blade: `<x-input scope="search" />`
 
@@ -156,20 +172,20 @@ Override component classes by extending the original:
 1. Create component: `php artisan make:component Input`
 2. Update config to use your class:
 
-```php  
+```php
 'components' => [  
     'input' => \App\View\Components\Input::class,
 ],  
-```  
+```
 
 3. Extend the original:
 
-```php  
+```php
 class Input extends \TallStackUi\View\Components\Form\Input  
 {  
     // Override methods as needed
 }  
-```  
+```
 
 ### Color Personalization
 
@@ -184,7 +200,7 @@ Components with color support use the `#[ColorsThroughOf(ColorClass::class)]` at
 
 **Color Class Pattern:**
 
-```php  
+```php
 class AlertColors
 {
     use SetupColors;
@@ -210,7 +226,7 @@ class AlertColors
         /* color palettes */
     }
 }
-```  
+```
 
 **Available Styles:** solid, light, outline
 
@@ -222,8 +238,9 @@ class AlertColors
 
 **Supported Components:**
 
+
 | Component | Configuration Options                                         |
-|-----------|---------------------------------------------------------------|
+| --------- | ------------------------------------------------------------- |
 | Modal     | z-index, size, overflow, blur, persistent, center, scrollable |
 | Slide     | z-index, size, position, blur, persistent                     |
 | Dialog    | Delegates to config                                           |
@@ -231,6 +248,7 @@ class AlertColors
 | Loading   | z-index, overflow, blur, opacity                              |
 | Color     | Initializes color palettes                                    |
 | Select    | Unfiltered flag                                               |
+
 
 **Size Mapping:**
 
@@ -264,7 +282,7 @@ class AlertColors
 
 **Example Runtime:**
 
-```php  
+```php
 class InputRuntime extends AbstractRuntime
 {
     public function runtime(): array
@@ -279,7 +297,7 @@ class InputRuntime extends AbstractRuntime
         ];
     }
 }
-```  
+```
 
 The idea behind this is to avoid having too many `@php` tags in the components. So each component only has one `@php` tag at the top of the file related to Soft Customization.
 
@@ -344,21 +362,25 @@ class MyController extends Controller
 
 #### Blade Utilities (`src/Support/Blade/`)
 
+
 | Class             | Purpose                                                                               |
-|-------------------|---------------------------------------------------------------------------------------|
+| ----------------- | ------------------------------------------------------------------------------------- |
 | `BindProperty`    | Extracts wire:model bindings, validates against error bag                             |
 | `ComponentPrefix` | Manages component name prefixing (`add()`, `remove()`)                                |
 | `Directives`      | Registers `@tallStackUiScript`, `@tallStackUiStyle`, `@tallStackUiSetup`, `@interact` |
 | `Wireable`        | Generates `$wire.entangle()` directives, handles JSON encoding                        |
 
+
 #### Component Concerns (`src/Support/Concerns/BaseComponent/`)
 
+
 | Trait                | Purpose                                               |
-|----------------------|-------------------------------------------------------|
+| -------------------- | ----------------------------------------------------- |
 | `ManagesClasses`     | Resolves soft/scoped customizations via `classes()`   |
 | `ManagesCompilation` | Compiles colors and configurations into data array    |
 | `ManagesRender`      | Orchestrates render pipeline with runtime compilation |
 | `ManagesOutput`      | Wraps output with debug information in dev mode       |
+
 
 #### Icons (`src/Support/Icons/`)
 
@@ -372,8 +394,9 @@ class MyController extends Controller
 
 ### Core Files
 
+
 | File                                         | Purpose                                                                |
-|----------------------------------------------|------------------------------------------------------------------------|
+| -------------------------------------------- | ---------------------------------------------------------------------- |
 | `src/config.php`                             | Component registry with 40+ components, settings per component         |
 | `src/helpers.php`                            | Global `__ts_*` functions (see below)                                  |
 | `src/TallStackUi.php`                        | Facade: `blade()`, `customize()`, `directives()`, `icon()`, `prefix()` |
@@ -381,6 +404,7 @@ class MyController extends Controller
 | `src/TallStackUiServiceProvider.php`         | Registers components, singletons, commands, directives                 |
 | `src/Customization/Customization.php`        | Entry point with fluent component methods                              |
 | `src/Customization/CustomizationFactory.php` | Customization engine with block manipulation                           |
+
 
 **Helper Functions (`src/helpers.php`):**
 
@@ -396,13 +420,15 @@ class MyController extends Controller
 
 5 PHP attributes in `src/Attributes/`:
 
+
 | Attribute                                    | Target             | Purpose                                        |
-|----------------------------------------------|--------------------|------------------------------------------------|
+| -------------------------------------------- | ------------------ | ---------------------------------------------- |
 | `#[SoftCustomization('key')]`                | Class              | Marks customizable components                  |
 | `#[ColorsThroughOf(ColorClass::class)]`      | Class              | Links component to color definitions           |
 | `#[PassThroughRuntime(RuntimeClass::class)]` | Class              | Links component to runtime compilation         |
 | `#[RequireLivewireContext]`                  | Class              | Marks components that require Livewire context |
 | `#[SkipDebug]`                               | Property/Parameter | Excludes properties from debug output          |
+
 
 ### Custom Exceptions
 
@@ -456,14 +482,14 @@ The `__ts_validation_exception()` helper throws `InvalidArgumentException` with 
 
 **Component Pattern:**
 
-```javascript  
+```javascript
 export default (options) => ({  
   show: false, 
   init() { /* setup */ }, 
   get computed() { /* ... */ }, 
   method() { /* ... */ },
 })  
-```  
+```
 
 **Plugins (`js/plugins/`):**
 
@@ -473,9 +499,9 @@ export default (options) => ({
 
 ### CSS Structure
 
-**`css/v4.css`** - Tailwind CSS 4 with CSS Cascade Layers:
+`**css/v4.css**` - Tailwind CSS 4 with CSS Cascade Layers:
 
-```css  
+```css
 @import 'tailwindcss';  
 @import '../js/plugins/custom-scrollbar.css';  
   
@@ -494,7 +520,7 @@ export default (options) => ({
  --z-index-*: /* Z-index tokens 0-50 */; 
  --animate-progress: /* Progress animation */;
 }  
-```  
+```
 
 **Features:**
 
@@ -505,9 +531,9 @@ export default (options) => ({
 - Alpine x-cloak support
 - Tailwind Forms plugin integration
 
-**`css/v3.css`** - Legacy Tailwind CSS 3 support
+`**css/v3.css**` - Legacy Tailwind CSS 3 support
 
-### Routes & Asset Serving
+### Routes &amp; Asset Serving
 
 `routes/web.php` registers two routes under `/tallstackui` prefix:
 
@@ -518,9 +544,9 @@ Controller: `src/Http/Controllers/TallStackUiAssetsController.php` with configur
 
 ### Build System
 
-**`vite.config.mjs`** entry points: `js/tallstackui.js`, `css/v3.css`, `tippy.js/dist/tippy.css` with `@tailwindcss/vite` plugin.
+`**vite.config.mjs**` entry points: `js/tallstackui.js`, `css/v3.css`, `tippy.js/dist/tippy.css` with `@tailwindcss/vite` plugin.
 
-**`npm run build`** = Vite build + `@tailwindcss/cli -i css/v4.css -o ./dist/tallstackui.css --minify`
+`**npm run build**` = Vite build + `@tailwindcss/cli -i css/v4.css -o ./dist/tallstackui.css --minify`
 
 **Build output in `dist/`:**
 
@@ -589,16 +615,16 @@ Livewire::visit(new class extends Component {
 
 ❌ Wrong:
 
-```php  
+```php
 // Adipisicing laborum sit reprehenderit adipisicing irure ex sunt et occaecat. Ex officia amet do cupidatat duis.  
-```  
+```
 
 ✅ Correct:
 
-```php  
+```php
 // Adipisicing laborum sit reprehenderit adipisicing irure  
 // ex sunt et occaecat. Ex officia amet do cupidatat duis.  
-```  
+```
 
 ## Creating a New Component
 
@@ -615,12 +641,14 @@ Livewire::visit(new class extends Component {
 
 4 commands in `src/Console/`:
 
+
 | Command                      | Purpose                                                       |
-|------------------------------|---------------------------------------------------------------|
+| ---------------------------- | ------------------------------------------------------------- |
 | `tallstackui:setup-prefix`   | Configure component prefix (updates `.env` or config)         |
 | `tallstackui:find-component` | Search Blade files for component usage with file/line results |
 | `tallstackui:setup-color`    | Publish customizable color class stubs to user's project      |
 | `tallstackui:ide`            | Generate `ide.json` for IDE component autocompletion          |
+
 
 ## Environment Variables
 
@@ -667,6 +695,7 @@ Behavioral guidelines to reduce common LLM coding mistakes. Merge with project-s
 **Don't assume. Don't hide confusion. Surface tradeoffs.**
 
 Before implementing:
+
 - State your assumptions explicitly. If uncertain, ask.
 - If multiple interpretations exist, present them - don't pick silently.
 - If a simpler approach exists, say so. Push back when warranted.
@@ -689,12 +718,14 @@ Ask yourself: "Would a senior engineer say this is overcomplicated?" If yes, sim
 **Touch only what you must. Clean up only your own mess.**
 
 When editing existing code:
+
 - Don't "improve" adjacent code, comments, or formatting.
 - Don't refactor things that aren't broken.
 - Match existing style, even if you'd do it differently.
 - If you notice unrelated dead code, mention it - don't delete it.
 
 When your changes create orphans:
+
 - Remove imports/variables/functions that YOUR changes made unused.
 - Don't remove pre-existing dead code unless asked.
 
@@ -705,11 +736,13 @@ The test: Every changed line should trace directly to the user's request.
 **Define success criteria. Loop until verified.**
 
 Transform tasks into verifiable goals:
+
 - "Add validation" → "Write tests for invalid inputs, then make them pass"
 - "Fix the bug" → "Write a test that reproduces it, then make it pass"
 - "Refactor X" → "Ensure tests pass before and after"
 
 For multi-step tasks, state a brief plan:
+
 ```
 1. [Step] → verify: [check]
 2. [Step] → verify: [check]
