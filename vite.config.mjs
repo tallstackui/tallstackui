@@ -14,6 +14,7 @@ export default {
         'js/tallstackui-clipboard.js',
         'js/tallstackui-upload.js',
         'js/tallstackui-editor.js',
+        'js/tallstackui-gallery.js',
       ],
     },
   },

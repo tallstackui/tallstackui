@@ -11,6 +11,7 @@ use TallStackUi\Components\Form\Autocomplete\Component as Autocomplete;
 use TallStackUi\Components\Form\Color\Component as Color;
 use TallStackUi\Components\Form\Currency\Component as Currency;
 use TallStackUi\Components\Form\Select\Styled\Component as SelectStyled;
+use TallStackUi\Components\Gallery\Component as Gallery;
 use TallStackUi\Components\Loading\Component as Loading;
 use TallStackUi\Components\Modal\Component as Modal;
 use TallStackUi\Components\Slide\Component as Slide;
@@ -32,6 +33,7 @@ class CompileConfigurations
             $component instanceof Currency => fn () => self::currency($component),
             $component instanceof Dialog => fn () => Dialog::class,
             $component instanceof Editor => fn () => self::editor($component),
+            $component instanceof Gallery => fn () => self::gallery($component),
             $component instanceof Loading => fn () => self::loading($component),
             $component instanceof Modal => fn () => self::modal($component),
             $component instanceof SelectStyled => fn () => self::select($component),
@@ -143,6 +145,55 @@ class CompileConfigurations
                 'max' => $component->maxHeight,
             ],
             'sanitization' => $configuration['sanitization'],
+        ];
+    }
+
+    /**
+     * Define the Gallery component configurations.
+     *
+     * @throws Exception
+     */
+    private static function gallery(Gallery $component): array
+    {
+        $configuration = __ts_get_component_configuration(Gallery::class);
+
+        $layout = match (true) {
+            (bool) $component->masonry => 'masonry',
+            (bool) $component->feature => 'feature',
+            default => 'grid',
+        };
+
+        $component->columns ??= $configuration['columns'] ?? 3;
+        $component->limit ??= $configuration['limit'] ?? 7;
+        $component->thumbnails ??= $configuration['thumbnails'] ?? 'bottom';
+
+        // The feature layout uses the ratio to shape the cover image,
+        // where a wide default reads better than the grid's square.
+        $component->ratio ??= $configuration['ratio'] ?? ($layout === 'feature' ? 'video' : 'square');
+
+        return [
+            'layout' => $layout,
+            'thumbnails' => $component->thumbnails,
+            'columns' => $layout === 'masonry'
+                ? match ($component->columns) {
+                    2 => 'columns-1 sm:columns-2',
+                    4 => 'columns-2 sm:columns-3 lg:columns-4',
+                    5 => 'columns-2 sm:columns-3 lg:columns-5',
+                    6 => 'columns-2 sm:columns-4 lg:columns-6',
+                    default => 'columns-2 sm:columns-3',
+                }
+                : match ($component->columns) {
+                    2 => 'grid-cols-1 sm:grid-cols-2',
+                    4 => 'grid-cols-2 sm:grid-cols-3 lg:grid-cols-4',
+                    5 => 'grid-cols-2 sm:grid-cols-3 lg:grid-cols-5',
+                    6 => 'grid-cols-2 sm:grid-cols-4 lg:grid-cols-6',
+                    default => 'grid-cols-2 sm:grid-cols-3',
+                },
+            'ratio' => match ($component->ratio) {
+                'video' => 'aspect-video',
+                'portrait' => 'aspect-[3/4]',
+                default => 'aspect-square',
+            },
         ];
     }
 

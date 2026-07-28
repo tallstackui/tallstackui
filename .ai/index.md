@@ -24,6 +24,7 @@
 - [Editor](components/editor.md)
 - [Environment](components/environment.md)
 - [Errors](components/errors.md)
+- [Gallery](components/gallery.md)
 - [Icon](components/icon.md)
 - [Kbd](components/kbd.md)
 - [Key-Value](components/key-value.md) *(Livewire only)*
