@@ -279,6 +279,22 @@ return [
         'error' => Components\Form\Error\Component::class,
         'errors' => Components\Errors\Component::class,
         'floating' => Components\Floating\Component::class,
+        'gallery' => [
+            Components\Gallery\Component::class,
+            /*
+            |----------------------------------------------------------------------
+            | Gallery Settings
+            |----------------------------------------------------------------------
+            | columns: default column count (2-6) for the grid and masonry layouts.
+            | ratio: default tile shape: square, video or portrait.
+            | limit: default number of tiles rendered by the feature layout.
+            */
+            [
+                'columns' => 3,
+                'ratio' => null,
+                'limit' => 7,
+            ],
+        ],
         'hint' => Components\Form\Hint\Component::class,
         'icon' => [
             Components\Icon\Component::class,

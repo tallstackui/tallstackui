@@ -12,6 +12,157 @@ such change is listed under **Migration**.
 
 ---
 
+## Gallery
+
+### Added — `<x-gallery />`, an image gallery with three layouts and a shared lightbox
+
+One component covering the three arrangements an image gallery usually needs,
+selected by mutually exclusive boolean flags rather than a string attribute, which
+matches how `<x-carousel>` already reads:
+
+```blade
+<x-gallery :images="$images" />                          {{-- grid, the fallback --}}
+<x-gallery masonry :columns="4" :images="$images" />
+<x-gallery feature :limit="7" :images="$images" />
+```
+
+`grid` lays out uniform tiles whose shape comes from `ratio` (`square`, `video`,
+`portrait`). `masonry` uses CSS multi-column, so each image keeps its natural
+height; reading order runs down each column before moving to the next, which is
+inherent to multi-column and the reason the CSS Grid alternative was rejected — it
+would require a known aspect ratio for every image.
+
+`feature` renders one cover above a thumbnail row. The cover is the entry flagged
+`'cover' => true`, falling back to the first, the same rule `<x-carousel>` uses.
+When the array holds more images than `limit`, the last thumbnail gets a `+N`
+overlay where `N = count($images) - $limit`; clicking it opens the lightbox at that
+image and the arrows traverse the whole array, so nothing is silently dropped.
+When the array is shorter than `limit`, the row simply renders fewer tiles.
+
+`thumbnails` moves that row beside the cover for product-page layouts:
+
+```blade
+<x-gallery feature thumbnails="left" ratio="square" :limit="5" :images="$images" class="max-w-md" />
+```
+
+Below `sm` the thumbnails always wrap under the cover, so the arrangement stays
+usable on mobile.
+
+The side column is locked to the cover's height instead of growing past it, which
+is what a product page expects. It is absolutely positioned with `inset-y-0`, so it
+inherits the height the cover sets, and scrolls inside with `custom-scrollbar`; the
+cover reserves the space with `ml-26`/`mr-26`, the column's `w-24` plus the `gap-2`.
+Raising `limit` adds scrollable thumbnails rather than a column taller than the
+image beside it.
+
+Flexbox alternatives were tried and discarded: `h-0` plus `min-h-full` on a flex
+item collapses the column, because a percentage `min-height` needs a resolved
+height on the parent and a flex container without an explicit height gives it
+`auto` — with `overflow-y-auto` on top, the thumbnails disappear entirely.
+
+### Added — an opt-in lightbox mirroring the Carousel
+
+`clickable` expands a tile fullscreen through an overlay teleported to the `<body>`,
+with a close button, `Esc`, backdrop click, and — with `navigable` — side arrows
+and the `←`/`→` keys. `caption` renders the entry's `title`/`description` as
+`overlay` or `footer`, and `without-loop` stops the traversal at both ends. Events
+`expand`, `collapse`, `next` and `previous` fire on the root element.
+
+The behaviour, the scroll-lock through `overflow()`, the overlay stacking through
+`register_ui_element`/`top_ui_element`, and the teardown that releases an orphaned
+lock are a deliberate mirror of `Carousel/alpine.js`. It was implemented inside
+`Gallery/` rather than extracted from the Carousel: extraction would have moved the
+Carousel's `clickable.*` customization blocks and broken every application
+targeting them, for no gain in this release.
+
+Without `clickable` the component emits no JavaScript at all — no `x-data`, no
+teleported template. Tiles fall back to the `url`/`target` from the array, or to
+plain images.
+
+### Added — sizing through merged attributes and a `height` attribute
+
+Attributes from the consumer are merged onto the root element, so `class`, `id`,
+`style`, `data-*` and Livewire directives reach it:
+
+```blade
+<x-gallery feature ratio="square" :limit="5" :images="$images" class="max-w-md" />
+```
+
+`height` caps the tile area and scrolls inside it, taking the same enumerated
+values as `<x-list>` — `40`, `60`, `80`, `96`, mapping to `max-h-40` and friends —
+rather than a free CSS length, so the two components stay consistent. The wrapper
+is rendered by the component and carries `custom-scrollbar`, following how every
+other scrolling container in the library is styled. The `header` and `footer` slots
+stay outside the scrolling region, and the lightbox is unaffected because it
+teleports out of the container:
+
+```blade
+<x-gallery grid height="80" :columns="3" :images="$images" />
+```
+
+An arbitrary height is still reachable through utilities, since attributes reach
+the root — but the scrollbar styling then belongs to the consumer:
+
+```blade
+<x-gallery grid :images="$images" class="custom-scrollbar max-h-64 overflow-y-auto" />
+```
+
+### Changed — no DOM virtualization; lazy loading and `content-visibility` instead
+
+Every tile carries `loading="lazy"`, `decoding="async"` and, when the entry
+supplies `width`/`height`, those attributes too, plus `content-visibility: auto`
+with `contain-intrinsic-size`. The browser skips downloading off-screen images and
+skips their layout and paint, which is most of what virtualization buys, with no
+JavaScript and without breaking browser find or anchors.
+
+Virtualizing the DOM was considered and rejected: it needs a known item height, so
+it could only ever work in `grid` and would make the attribute inconsistent across
+layouts; it forces a fixed container height with internal scrolling; it breaks
+browser find, anchor deep-links and printing; it conflicts with Livewire DOM
+morphing; and it makes the lightbox index map to rendered DOM rather than to the
+full array.
+
+Supplying `width`/`height` matters most in `masonry`, where no aspect-ratio class
+reserves the space in advance.
+
+### Added — validation that fails loudly on the wrong layout
+
+Attributes passed to a layout that ignores them raise rather than being dropped,
+following how `<x-carousel>` rejects `caption` without `clickable`: `columns`
+cannot be used with `feature`, `limit` only with `feature`, `ratio` not with
+`masonry`, `thumbnails` only with `feature`. `caption`, `navigable` and
+`without-loop` all require `clickable`.
+
+This is why the layout flags default to `null` and are never mutated. `validate()`
+runs before configurations in `ManagesCompilation::compile()`, so it always sees
+the raw attributes and can tell an explicitly passed value from a resolved default.
+Resolving `grid` to `true` in the constructor would make `<x-gallery masonry />`
+carry two layout flags by the time validation ran, and the mutual-exclusivity rule
+would reject valid usage.
+
+### Notes on internals
+
+`layout` and the defaults for `columns`, `ratio` and `limit` resolve in
+`CompileConfigurations::gallery()`, which maps them to classes through `match`
+exactly as the Modal maps `size`. The feature slicing — cover, thumbnail row and
+the `+N` count — lives in `GalleryRuntime`. The component constructor holds no
+logic beyond normalising `images` into a zero-indexed array, and the template keeps
+a single `@php` block.
+
+The tile markup is a sub-view rendered through
+`<x-dynamic-component component="ts-ui::gallery.tile" />`, the mechanism `Progress`,
+`Step` and `ThemeSwitch` already use, so the tile is defined once instead of
+repeated across layouts.
+
+Customization blocks: `wrapper`, `scroll`, `height.*`, `grid.*`, `masonry.*`,
+`feature.*`, `tile.*` and `lightbox.*`. The `columns` and `ratio` maps are *not*
+customization blocks — numeric keys such as `grid.columns.4` would be awkward to
+target and inconsistent with the rest of the library. The feature wrappers are
+keyed by thumbnail position (`feature.wrapper.left`,
+`feature.thumbnails.wrapper.left`), so each arrangement can be restyled on its own.
+
+---
+
 ## Editor
 
 ### Added — `<x-editor />`, a WYSIWYG editor with no external dependency
