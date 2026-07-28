@@ -35,6 +35,7 @@ use TallStackUi\Components\Errors\Component as Errors;
 use TallStackUi\Components\Floating\Component as Floating;
 use TallStackUi\Components\Form\Autocomplete\Component as Autocomplete;
 use TallStackUi\Components\Form\Checkbox\Component as Checkbox;
+use TallStackUi\Components\Form\Checkbox\Group\Component as CheckboxGroup;
 use TallStackUi\Components\Form\Color\Component as Color;
 use TallStackUi\Components\Form\Currency\Component as Currency;
 use TallStackUi\Components\Form\Date\Component as Date;
@@ -47,6 +48,7 @@ use TallStackUi\Components\Form\Number\Component as Number;
 use TallStackUi\Components\Form\Password\Component as Password;
 use TallStackUi\Components\Form\Pin\Component as Pin;
 use TallStackUi\Components\Form\Radio\Component as Radio;
+use TallStackUi\Components\Form\Radio\Group\Component as RadioGroup;
 use TallStackUi\Components\Form\Range\Component as Range;
 use TallStackUi\Components\Form\Select\Native\Component as SelectNative;
 use TallStackUi\Components\Form\Select\Styled\Component as SelectStyled;
@@ -319,6 +321,7 @@ class Customization
         $class = match ($component) {
             'autocomplete' => Autocomplete::class,
             'checkbox' => Checkbox::class,
+            'checkbox.group' => CheckboxGroup::class,
             'color' => Color::class,
             'currency' => Currency::class,
             'date' => Date::class,
@@ -334,6 +337,7 @@ class Customization
             'pin' => Pin::class,
             'range' => Range::class,
             'radio' => Radio::class,
+            'radio.group' => RadioGroup::class,
             'tag' => Tag::class,
             'textarea' => Textarea::class,
             'time' => Time::class,

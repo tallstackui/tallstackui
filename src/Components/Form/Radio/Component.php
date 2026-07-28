@@ -39,7 +39,7 @@ class Component extends TallStackUiComponent implements Customization
 
     public function blade(): View
     {
-        return view('ts-ui::components.form.radio');
+        return view('ts-ui::components.form.radio.main');
     }
 
     public function customization(): array

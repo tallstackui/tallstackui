@@ -79,6 +79,13 @@ TallStackUi::customize()
 | `form.autocomplete.input`    | `<x-input />`    | 19      |
 | `form.autocomplete.floating` | `<x-floating />` | 64      |
 
+### `form/checkbox/group`
+
+| Scope                       | Target        | Line(s) |
+|-----------------------------|---------------|---------|
+| `form.checkbox.group.hint`  | `<x-hint />`  | 23      |
+| `form.checkbox.group.error` | `<x-error />` | 26      |
+
 ### `form/color`
 
 | Scope                 | Target           | Line(s) |
@@ -113,6 +120,13 @@ TallStackUi::customize()
 | `form.pin.label` | `<x-label />` | 14      |
 | `form.pin.hint`  | `<x-hint />`  | 86      |
 | `form.pin.error` | `<x-error />` | 89      |
+
+### `form/radio/group`
+
+| Scope                    | Target        | Line(s) |
+|--------------------------|---------------|---------|
+| `form.radio.group.hint`  | `<x-hint />`  | 23      |
+| `form.radio.group.error` | `<x-error />` | 26      |
 
 ### `form/select/native`
 
@@ -201,6 +215,6 @@ TallStackUi::customize()
 
 ## Stats
 
-- Total internal scope occurrences: 59
-- Distinct scopes: 53
-- Files declaring scopes: 23
+- Total internal scope occurrences: 63
+- Distinct scopes: 57
+- Files declaring scopes: 25

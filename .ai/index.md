@@ -47,6 +47,7 @@
 
 - [Autocomplete](components/form/autocomplete.md)
 - [Checkbox](components/form/checkbox.md)
+- [Checkbox Group](components/form/checkbox/group.md)
 - [Color Picker](components/form/color.md)
 - [Currency](components/form/currency.md)
 - [Date Picker](components/form/date.md)
@@ -59,6 +60,7 @@
 - [Password](components/form/password.md)
 - [Pin](components/form/pin.md)
 - [Radio](components/form/radio.md)
+- [Radio Group](components/form/radio/group.md)
 - [Range](components/form/range.md)
 - [Select Native](components/form/select/native.md)
 - [Select Styled](components/form/select/styled.md)
