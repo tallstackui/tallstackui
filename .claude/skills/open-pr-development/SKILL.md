@@ -235,9 +235,9 @@ Use a heredoc on `gh pr create` to preserve formatting. Always pass `--base` exp
 
 The command has two regions with **different** escaping rules. Get this wrong and the body renders broken on GitHub.
 
-| Region | Quoting | Backticks |
-|---|---|---|
-| `--title "..."` | shell double quotes | **must** be escaped as `\`` so the shell does not run them as command substitution |
+| Region                            | Quoting                                                                             | Backticks                                                                                              |
+|-----------------------------------|-------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------|
+| `--title "..."`                   | shell double quotes                                                                 | **must** be escaped as `\`` so the shell does not run them as command substitution                     |
 | `--body "$(cat <<'EOF' ... EOF)"` | heredoc with **single-quoted** delimiter (`'EOF'`) — no shell interpretation inside | **never escape**. Backticks are literal. Triple backticks for code fences are written as plain ` ``` ` |
 
 Escaping triple backticks inside the body is what broke PR #1264 (`\`\`\`blade` rendered literally). Do not repeat.

@@ -222,15 +222,15 @@ class AlertColors
 
 **Supported Components:**
 
-| Component | Configuration Options                                         |  
-|-----------|---------------------------------------------------------------|  
-| Modal     | z-index, size, overflow, blur, persistent, center, scrollable |  
-| Slide     | z-index, size, position, blur, persistent                     |  
-| Dialog    | Delegates to config                                           |  
-| Toast     | Delegates to config                                           |  
-| Loading   | z-index, overflow, blur, opacity                              |  
-| Color     | Initializes color palettes                                    |  
-| Select    | Unfiltered flag                                               |  
+| Component | Configuration Options                                         |
+|-----------|---------------------------------------------------------------|
+| Modal     | z-index, size, overflow, blur, persistent, center, scrollable |
+| Slide     | z-index, size, position, blur, persistent                     |
+| Dialog    | Delegates to config                                           |
+| Toast     | Delegates to config                                           |
+| Loading   | z-index, overflow, blur, opacity                              |
+| Color     | Initializes color palettes                                    |
+| Select    | Unfiltered flag                                               |
 
 **Size Mapping:**
 
@@ -342,21 +342,21 @@ class MyController extends Controller
 
 #### Blade Utilities (`src/Support/Blade/`)
 
-| Class             | Purpose                                                                               |  
-|-------------------|---------------------------------------------------------------------------------------|  
-| `BindProperty`    | Extracts wire:model bindings, validates against error bag                             |  
-| `ComponentPrefix` | Manages component name prefixing (`add()`, `remove()`)                                |  
-| `Directives`      | Registers `@tallStackUiScript`, `@tallStackUiStyle`, `@tallStackUiSetup`, `@interact` |  
-| `Wireable`        | Generates `$wire.entangle()` directives, handles JSON encoding                        |  
+| Class             | Purpose                                                                               |
+|-------------------|---------------------------------------------------------------------------------------|
+| `BindProperty`    | Extracts wire:model bindings, validates against error bag                             |
+| `ComponentPrefix` | Manages component name prefixing (`add()`, `remove()`)                                |
+| `Directives`      | Registers `@tallStackUiScript`, `@tallStackUiStyle`, `@tallStackUiSetup`, `@interact` |
+| `Wireable`        | Generates `$wire.entangle()` directives, handles JSON encoding                        |
 
 #### Component Concerns (`src/Support/Concerns/BaseComponent/`)
 
-| Trait                | Purpose                                               |  
-|----------------------|-------------------------------------------------------|  
-| `ManagesClasses`     | Resolves soft/scoped customizations via `classes()`   |  
-| `ManagesCompilation` | Compiles colors and configurations into data array    |  
-| `ManagesRender`      | Orchestrates render pipeline with runtime compilation |  
-| `ManagesOutput`      | Wraps output with debug information in dev mode       |  
+| Trait                | Purpose                                               |
+|----------------------|-------------------------------------------------------|
+| `ManagesClasses`     | Resolves soft/scoped customizations via `classes()`   |
+| `ManagesCompilation` | Compiles colors and configurations into data array    |
+| `ManagesRender`      | Orchestrates render pipeline with runtime compilation |
+| `ManagesOutput`      | Wraps output with debug information in dev mode       |
 
 #### Icons (`src/Support/Icons/`)
 
@@ -370,15 +370,15 @@ class MyController extends Controller
 
 ### Core Files
 
-| File                                         | Purpose                                                                |  
-|----------------------------------------------|------------------------------------------------------------------------|  
-| `src/config.php`                             | Component registry with 40+ components, settings per component         |  
-| `src/helpers.php`                            | Global `__ts_*` functions (see below)                                  |  
-| `src/TallStackUi.php`                        | Facade: `blade()`, `customize()`, `directives()`, `icon()`, `prefix()` |  
-| `src/TallStackUiComponent.php`               | Abstract base using 4 traits                                           |  
-| `src/TallStackUiServiceProvider.php`         | Registers components, singletons, commands, directives                 |  
-| `src/Customization/Customization.php`        | Entry point with fluent component methods                              |  
-| `src/Customization/CustomizationFactory.php` | Customization engine with block manipulation                           |  
+| File                                         | Purpose                                                                |
+|----------------------------------------------|------------------------------------------------------------------------|
+| `src/config.php`                             | Component registry with 40+ components, settings per component         |
+| `src/helpers.php`                            | Global `__ts_*` functions (see below)                                  |
+| `src/TallStackUi.php`                        | Facade: `blade()`, `customize()`, `directives()`, `icon()`, `prefix()` |
+| `src/TallStackUiComponent.php`               | Abstract base using 4 traits                                           |
+| `src/TallStackUiServiceProvider.php`         | Registers components, singletons, commands, directives                 |
+| `src/Customization/Customization.php`        | Entry point with fluent component methods                              |
+| `src/Customization/CustomizationFactory.php` | Customization engine with block manipulation                           |
 
 **Helper Functions (`src/helpers.php`):**
 

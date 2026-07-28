@@ -16,7 +16,9 @@ use TallStackUi\Components\Dialog\Component as Dialog;
 use TallStackUi\Components\Environment\Component as Environment;
 use TallStackUi\Components\Errors\Component as Errors;
 use TallStackUi\Components\Form\Checkbox\Component as Checkbox;
+use TallStackUi\Components\Form\Checkbox\Group\Component as CheckboxGroup;
 use TallStackUi\Components\Form\Radio\Component as Radio;
+use TallStackUi\Components\Form\Radio\Group\Component as RadioGroup;
 use TallStackUi\Components\Form\Range\Component as Range;
 use TallStackUi\Components\Form\Toggle\Component as Toggle;
 use TallStackUi\Components\Link\Component as Link;
@@ -47,6 +49,7 @@ test('should use attribute', function (string $component) {
     Card::class,
     Circle::class,
     Checkbox::class,
+    CheckboxGroup::class,
     Dial::class,
     DialItems::class,
     Dialog::class,
@@ -54,6 +57,7 @@ test('should use attribute', function (string $component) {
     Errors::class,
     Link::class,
     Radio::class,
+    RadioGroup::class,
     Range::class,
     Rating::class,
     Progress::class,
@@ -82,6 +86,7 @@ test('attribute should only be used in the components', function () {
             Card::class,
             Circle::class,
             Checkbox::class,
+            CheckboxGroup::class,
             Dial::class,
             DialItems::class,
             Dialog::class,
@@ -89,6 +94,7 @@ test('attribute should only be used in the components', function () {
             Errors::class,
             Link::class,
             Radio::class,
+            RadioGroup::class,
             Range::class,
             Rating::class,
             Progress::class,

@@ -123,6 +123,7 @@ return [
         'carousel' => Components\Carousel\Component::class,
         'card' => Components\Card\Component::class,
         'checkbox' => Components\Form\Checkbox\Component::class,
+        'checkbox.group' => Components\Form\Checkbox\Group\Component::class,
         'color' => [
             Components\Form\Color\Component::class,
             /*
@@ -476,6 +477,7 @@ return [
         'progress' => Components\Progress\Bar\Component::class,
         'progress.circle' => Components\Progress\Circle\Component::class,
         'radio' => Components\Form\Radio\Component::class,
+        'radio.group' => Components\Form\Radio\Group\Component::class,
         'range' => Components\Form\Range\Component::class,
         'rating' => Components\Rating\Component::class,
         'side-bar' => Components\Layout\SideBar\Main\Component::class,

@@ -1,0 +1,237 @@
+<?php
+
+namespace {{ namespace }};
+
+use Illuminate\View\Component;
+
+// Colors of the `<x-radio.group />` and `<x-checkbox.group />` components.
+class SelectionColors
+{
+    /**
+     * Background colors of the selected option.
+     */
+    public function backgroundColors(Component $component): array
+    {
+        return [
+            'black' => null,
+            'primary' => null,
+            'secondary' => null,
+            'slate' => null,
+            'gray' => null,
+            'zinc' => null,
+            'neutral' => null,
+            'stone' => null,
+            'red' => null,
+            'orange' => null,
+            'amber' => null,
+            'yellow' => null,
+            'lime' => null,
+            'green' => null,
+            'emerald' => null,
+            'teal' => null,
+            'cyan' => null,
+            'sky' => null,
+            'blue' => null,
+            'indigo' => null,
+            'violet' => null,
+            'purple' => null,
+            'fuchsia' => null,
+            'pink' => null,
+            'rose' => null,
+            'mauve' => null,
+            'olive' => null,
+            'mist' => null,
+            'taupe' => null,
+        ];
+    }
+
+    /**
+     * Border colors of the selected option.
+     */
+    public function borderColors(Component $component): array
+    {
+        return [
+            'black' => null,
+            'primary' => null,
+            'secondary' => null,
+            'slate' => null,
+            'gray' => null,
+            'zinc' => null,
+            'neutral' => null,
+            'stone' => null,
+            'red' => null,
+            'orange' => null,
+            'amber' => null,
+            'yellow' => null,
+            'lime' => null,
+            'green' => null,
+            'emerald' => null,
+            'teal' => null,
+            'cyan' => null,
+            'sky' => null,
+            'blue' => null,
+            'indigo' => null,
+            'violet' => null,
+            'purple' => null,
+            'fuchsia' => null,
+            'pink' => null,
+            'rose' => null,
+            'mauve' => null,
+            'olive' => null,
+            'mist' => null,
+            'taupe' => null,
+        ];
+    }
+
+    /**
+     * Colors of the radio or checkbox control itself.
+     */
+    public function controlColors(Component $component): array
+    {
+        return [
+            'black' => null,
+            'primary' => null,
+            'secondary' => null,
+            'slate' => null,
+            'gray' => null,
+            'zinc' => null,
+            'neutral' => null,
+            'stone' => null,
+            'red' => null,
+            'orange' => null,
+            'amber' => null,
+            'yellow' => null,
+            'lime' => null,
+            'green' => null,
+            'emerald' => null,
+            'teal' => null,
+            'cyan' => null,
+            'sky' => null,
+            'blue' => null,
+            'indigo' => null,
+            'violet' => null,
+            'purple' => null,
+            'fuchsia' => null,
+            'pink' => null,
+            'rose' => null,
+            'mauve' => null,
+            'olive' => null,
+            'mist' => null,
+            'taupe' => null,
+        ];
+    }
+
+    /**
+     * Text colors of the selected option description and aside.
+     */
+    public function mutedColors(Component $component): array
+    {
+        return [
+            'black' => null,
+            'primary' => null,
+            'secondary' => null,
+            'slate' => null,
+            'gray' => null,
+            'zinc' => null,
+            'neutral' => null,
+            'stone' => null,
+            'red' => null,
+            'orange' => null,
+            'amber' => null,
+            'yellow' => null,
+            'lime' => null,
+            'green' => null,
+            'emerald' => null,
+            'teal' => null,
+            'cyan' => null,
+            'sky' => null,
+            'blue' => null,
+            'indigo' => null,
+            'violet' => null,
+            'purple' => null,
+            'fuchsia' => null,
+            'pink' => null,
+            'rose' => null,
+            'mauve' => null,
+            'olive' => null,
+            'mist' => null,
+            'taupe' => null,
+        ];
+    }
+
+    /**
+     * Solid fill colors of the selected option, used by the inline variant.
+     */
+    public function solidColors(Component $component): array
+    {
+        return [
+            'black' => null,
+            'primary' => null,
+            'secondary' => null,
+            'slate' => null,
+            'gray' => null,
+            'zinc' => null,
+            'neutral' => null,
+            'stone' => null,
+            'red' => null,
+            'orange' => null,
+            'amber' => null,
+            'yellow' => null,
+            'lime' => null,
+            'green' => null,
+            'emerald' => null,
+            'teal' => null,
+            'cyan' => null,
+            'sky' => null,
+            'blue' => null,
+            'indigo' => null,
+            'violet' => null,
+            'purple' => null,
+            'fuchsia' => null,
+            'pink' => null,
+            'rose' => null,
+            'mauve' => null,
+            'olive' => null,
+            'mist' => null,
+            'taupe' => null,
+        ];
+    }
+
+    /**
+     * Text colors of the selected option label and description.
+     */
+    public function textColors(Component $component): array
+    {
+        return [
+            'black' => null,
+            'primary' => null,
+            'secondary' => null,
+            'slate' => null,
+            'gray' => null,
+            'zinc' => null,
+            'neutral' => null,
+            'stone' => null,
+            'red' => null,
+            'orange' => null,
+            'amber' => null,
+            'yellow' => null,
+            'lime' => null,
+            'green' => null,
+            'emerald' => null,
+            'teal' => null,
+            'cyan' => null,
+            'sky' => null,
+            'blue' => null,
+            'indigo' => null,
+            'violet' => null,
+            'purple' => null,
+            'fuchsia' => null,
+            'pink' => null,
+            'rose' => null,
+            'mauve' => null,
+            'olive' => null,
+            'mist' => null,
+            'taupe' => null,
+        ];
+    }
+}
