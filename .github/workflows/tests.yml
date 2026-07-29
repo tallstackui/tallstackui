@@ -86,7 +86,7 @@ jobs:
         run: php scripts/check-html-escaped-tailwind-variants.php
 
       - name: Type Coverage
-        run: ./vendor/bin/pest --type-coverage
+        run: ./vendor/bin/pest --type-coverage --parallel --compact
 
       - name: Setup Google Chrome
         run: vendor/bin/dusk-updater detect --auto-update
