@@ -89,8 +89,8 @@ class Toast extends AbstractInteraction
      */
     public function position(string $position): self
     {
-        if (! in_array($position, ['top-right', 'top-left', 'bottom-right', 'bottom-left'])) {
-            __ts_validation_exception(Component::class, "Invalid position: {$position}. Allowed: top-right, top-left, bottom-right, bottom-left.");
+        if (! in_array($position, ['top-right', 'top-left', 'top-center', 'bottom-right', 'bottom-left', 'bottom-center'])) {
+            __ts_validation_exception(Component::class, "Invalid position: {$position}. Allowed: top-right, top-left, top-center, bottom-right, bottom-left, bottom-center.");
         }
 
         $this->position = $position;
