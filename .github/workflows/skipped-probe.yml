@@ -6,6 +6,15 @@ name: Skipped Probe
 # inspected. Manual dispatch only — it never runs on push or pull request.
 
 on:
+  # workflow_dispatch alone is not enough: GitHub only exposes it for workflows
+  # that exist on the default branch, and this one lives on 4.x. Triggering on
+  # pushes that touch this very file keeps it self-contained and off the path of
+  # the regular pipeline.
+  push:
+    branches:
+      - 4.x
+    paths:
+      - '.github/workflows/skipped-probe.yml'
   workflow_dispatch:
 
 jobs:
