@@ -251,8 +251,7 @@ class Component extends TallStackUiComponent implements Customization
 
         $messages = trans('ts-ui::messages.table');
 
-        // A skeleton renders no text at all, so the messages it would
-        // otherwise need are not part of what it draws.
+        // A skeleton renders no text, so these messages are never reached.
         if (! $this->skeletonized()) {
             if (blank($this->empty) && blank($messages['empty'] ?? null)) {
                 __ts_validation_exception($this, 'The [empty] message cannot be empty.');

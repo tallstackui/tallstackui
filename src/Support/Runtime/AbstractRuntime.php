@@ -189,10 +189,6 @@ abstract class AbstractRuntime
         return array_map($sanitize, explode(',', $decoded));
     }
 
-    /**
-     * The resolved skeleton count, falling back to the
-     * component default when the prop is a bare flag.
-     */
     protected function skeleton(int $default): int
     {
         $skeleton = $this->data('skeleton');
@@ -200,9 +196,6 @@ abstract class AbstractRuntime
         return is_int($skeleton) ? $skeleton : $default;
     }
 
-    /**
-     * Whether the component is drawing its placeholder instead of its content.
-     */
     protected function skeletonized(): bool
     {
         $skeleton = $this->data('skeleton');

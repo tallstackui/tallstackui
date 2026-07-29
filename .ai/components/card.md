@@ -170,7 +170,7 @@ Any integer below `1` throws.
 - The `footer` slot cannot combine two or more alignments.
 - The `footer` slot cannot use `unwrapped` together with an alignment.
 
-### Customizations carry over
+### Customizations Carry Over
 
 The `skeleton.*` blocks are only the bars. Everything structural is resolved
 from this component's **own, existing blocks**, because the skeleton view calls

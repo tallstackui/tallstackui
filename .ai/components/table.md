@@ -247,7 +247,7 @@ validation still runs. Any integer below `1` throws.
 `skeleton` is not `loading`: `loading` dims rows already on screen during a sort,
 search or pagination round trip, `skeleton` stands in for rows that do not exist yet.
 
-### Customizations carry over
+### Customizations Carry Over
 
 The `skeleton.*` blocks are only the bars. Everything structural is resolved
 from this component's **own, existing blocks**, because the skeleton view calls

@@ -139,7 +139,7 @@ skeleton mode there are no children, so the count comes from the prop instead.
 
 Any integer below `1` throws.
 
-### Customizations carry over
+### Customizations Carry Over
 
 The `skeleton.*` blocks are only the bars. Everything structural is resolved
 from this component's **own, existing blocks**, because the skeleton view calls

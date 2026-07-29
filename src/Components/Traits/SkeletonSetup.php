@@ -25,9 +25,6 @@ trait SkeletonSetup
         }
     }
 
-    /**
-     * Whether the placeholder must be rendered instead of the content.
-     */
     protected function skeletonized(): bool
     {
         return $this->skeleton !== null && $this->skeleton !== false;

@@ -126,8 +126,7 @@ class Component extends TallStackUiComponent implements Customization
     {
         $this->guard();
 
-        // The series is the content, and a placeholder stands in for
-        // content that does not exist yet.
+        // The series is the content, which is what a placeholder stands in for.
         if (! $this->skeletonized() && ($violation = Series::violation($this->series))) {
             __ts_validation_exception($this, $violation);
         }

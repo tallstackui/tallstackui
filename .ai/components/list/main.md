@@ -167,7 +167,7 @@ Failures throw `InvalidArgumentException` (wrapped by Blade as `ViewException`).
 
 When `label` is set, the component renders `<x-label>` internally with `scope="list.label"`. When `hint` is set, renders `<x-hint>` with `scope="list.hint"`. Customizations targeted to those scoped instances do not affect standalone `<x-label>`/`<x-hint>` usages.
 
-### Customizations carry over
+### Customizations Carry Over
 
 The `skeleton.*` blocks are only the bars. Everything structural is resolved
 from this component's **own, existing blocks**, because the skeleton view calls

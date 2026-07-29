@@ -243,12 +243,6 @@ class ChartRuntime extends AbstractRuntime
      * One Tailwind text-* class per series, so each group can paint its stroke
      * and its gradient stops from a single currentColor.
      */
-    /**
-     * The placeholder runs the same geometry as a real chart over invented
-     * values, so it lands in the same viewBox with the same proportions.
-     * Everything that would let it be read as data - axes, legend, tooltip,
-     * markers, grid - is left out by the skeleton view.
-     */
     private function placeholder(string $type, bool $radial): array
     {
         $values = $this->shape($this->skeleton(6));

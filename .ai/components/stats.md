@@ -133,7 +133,7 @@ see [`<x-chart skeleton>`](chart.md#skeleton).
 `skeleton` is not `loading`: it stands in for content that does not exist yet,
 rather than dimming content already on screen.
 
-### Customizations carry over
+### Customizations Carry Over
 
 The `skeleton.*` blocks are only the bars. Everything structural is resolved
 from this component's **own, existing blocks**, because the skeleton view calls

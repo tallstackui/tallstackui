@@ -303,7 +303,7 @@ highest value in the order they appeared, so peaks and the scale anchors always
 survive. The chosen indexes are shared across every series, so multiple curves
 stay aligned, and each point keeps the horizontal position of its original index.
 
-### Customizations carry over
+### Customizations Carry Over
 
 The `skeleton.*` blocks are only the bars. Everything structural is resolved
 from this component's **own, existing blocks**, because the skeleton view calls
