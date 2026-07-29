@@ -116,7 +116,7 @@
                 @endforeach
             </svg>
 
-            @if ($markers && ! $radial && $variant !== 'bar')
+            @if ($chrome['markers'] && ! $radial && $variant !== 'bar')
                 <div class="{{ $customization['plot.markers'] }}">
                     @foreach ($plots as $index => $plot)
                         <div class="{{ $plot['color'] }}" @if ($interactive) x-show="visible({{ $index }})" x-cloak @endif>
@@ -130,7 +130,7 @@
                 </div>
             @endif
 
-            @if ($interactive && $tooltip)
+            @if ($interactive && $chrome['tooltip'])
                 <div class="{{ $customization['tooltip.wrapper'] }}"
                      x-bind:class="{ 'invisible': active === null }"
                      x-bind:style="position"
@@ -169,7 +169,7 @@
         <div></div>
     </div>
 
-    @if ($legend && $entries)
+    @if ($chrome['legend'] && $entries)
         <div class="{{ $customization['legend.wrapper'] }}">
             @foreach ($entries as $index => $entry)
                 <button type="button"

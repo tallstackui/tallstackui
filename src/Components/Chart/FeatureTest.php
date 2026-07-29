@@ -322,38 +322,29 @@ it('can override the palette per series')
     ->toContain('text-amber-500');
 
 it('can default every chart through the config', function () {
+    // Presentation only: the type stays a per-chart decision, since a
+    // dashboard mixes bars, lines and pies rather than picking one.
     config()->set('ts-ui.components.chart.1', [
-        'type' => 'bar',
         'height' => 180,
         'grid' => true,
         'legend' => true,
         'tooltip' => true,
         'markers' => true,
-        'decimals' => 1,
     ]);
 
     __ts_get_component_configuration(Component::class, flush: true);
 
-    expect('<x-chart :series="[10, 40, 25]" />')
+    expect('<x-chart :series="[[\'name\' => \'a\', \'data\' => [10, 40, 25]]]" />')
         ->render()
-        ->toContain('<rect')
         ->toContain('min-height: 180px')
         ->toContain('<line')
-        ->toContain('>10.0<')
+        // These three reach the markup through the runtime: the view data is
+        // captured before the config defaults are written onto the props.
+        ->toContain('rounded-full')
+        ->toContain('tallstackui_chart_legend_0')
+        ->toContain('tallstackui_chart_tooltip')
         ->toContain('tallstackui_chart(');
 });
-
-it('cannot let a config type reach a flag that rejects it', function (string $type) {
-    // The mirror of the case below: the flag is explicit and the type comes
-    // from the config, so validate() sees a null type and lets it through.
-    config()->set('ts-ui.components.chart.1', ['type' => $type]);
-
-    __ts_get_component_configuration(Component::class, flush: true);
-
-    expect('<x-chart :series="[[\'name\' => \'a\', \'data\' => [10, 40]], [\'name\' => \'b\', \'data\' => [5, 20]]]" stacked legend />')
-        ->render()
-        ->toMatch('/stacked.{0,8}:false/');
-})->with(['line', 'pie', 'donut']);
 
 it('cannot let a config default reach a type that rejects it', function () {
     // validate() runs before configurations, so a global grid would otherwise

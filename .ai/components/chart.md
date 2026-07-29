@@ -139,20 +139,20 @@ standalone chart inside `<x-card>` and as the background layer of `<x-stats>`.
     'chart' => [
         \TallStackUi\Components\Chart\Component::class,
         [
-            'type' => 'area',
             'height' => 64,
             'grid' => false,
             'legend' => false,
             'tooltip' => false,
             'markers' => false,
-            'decimals' => null,
         ],
     ],
 ],
 ```
 
-Each one is only consulted when the matching attribute is absent, so a chart
-always wins over the default.
+Presentation only, and each one is only consulted when the matching attribute
+is absent. `type` is deliberately absent: a dashboard mixes bars, lines and
+pies, so the type stays a per-chart decision rather than an application-wide
+one.
 
 `grid` is the one exception: a radial type has no axis to label, so a global
 `true` is dropped there rather than throwing. Passing `grid` explicitly on a

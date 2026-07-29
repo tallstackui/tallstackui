@@ -81,24 +81,16 @@ class CompileConfigurations
     {
         $configuration = __ts_get_component_configuration(Chart::class);
 
-        $component->type ??= $configuration['type'] ?? 'area';
         $component->height ??= $configuration['height'] ?? 64;
         $component->legend ??= $configuration['legend'] ?? false;
         $component->tooltip ??= $configuration['tooltip'] ?? false;
         $component->markers ??= $configuration['markers'] ?? false;
-        $component->decimals ??= $configuration['decimals'] ?? null;
 
-        // validate() has already run, so a type resolved from the config here
-        // escapes the rules that reject these combinations. Dropping the flag
-        // rather than throwing: neither side is wrong on its own, and a config
-        // change should not break every call site that asked for one of them.
-        $radial = in_array($component->type, ['pie', 'donut'], true);
-
-        $component->grid ??= $radial ? false : ($configuration['grid'] ?? false);
-
-        if ($component->stacked && ($radial || $component->type === 'line')) {
-            $component->stacked = false;
-        }
+        // validate() has already run, so a global default would slip past the
+        // rule that rejects a labelled axis on a type that has none.
+        $component->grid ??= in_array($component->type, ['pie', 'donut'], true)
+            ? false
+            : ($configuration['grid'] ?? false);
 
         return ['height' => $component->height];
     }

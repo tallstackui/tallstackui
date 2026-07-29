@@ -56,7 +56,16 @@ class ChartRuntime extends AbstractRuntime
             'entries' => $radial
                 ? array_map(static fn (array $slice): array => ['name' => $slice['label'], 'color' => $slice['color']], $slices)
                 : array_map(static fn (array $plot): array => ['name' => $plot['name'], 'color' => $plot['color']], $plots),
+            // Read through the runtime, not straight off the props: the view
+            // data was captured before CompileConfigurations wrote the config
+            // defaults onto them, so a global flag would never reach the
+            // markup. The keys are renamed for the same reason.
             'interactive' => (bool) ($component->tooltip || $component->legend),
+            'chrome' => [
+                'legend' => (bool) $component->legend,
+                'tooltip' => (bool) $component->tooltip,
+                'markers' => (bool) $component->markers,
+            ],
             'interaction' => $this->interaction($series, $type, $palette, $plots, $slices),
         ];
     }

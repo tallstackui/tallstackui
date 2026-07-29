@@ -41,8 +41,9 @@ Types: `area` (default), `line`, `bar`, `pie` and `donut`. Area and bar also
 accept `stacked`. Chrome is opt-in through `grid`, `legend`, `tooltip` and
 `markers`, and values are formatted with `prefix`, `suffix` and `decimals`.
 
-`type`, `height`, the four chrome flags and `decimals` all take an
-application-wide default from the config, each overridable at the call site.
+`height` and the four chrome flags take an application-wide default from the
+config, each overridable at the call site. `type` deliberately does not: a
+dashboard mixes bars, lines and pies, so it stays a per-chart decision.
 
 **Formatting beyond a prefix takes a closure**, because a locale or a currency
 is a decision per chart rather than per application:

@@ -144,22 +144,18 @@ return [
             |----------------------------------------------------------------------
             | Chart Settings
             |----------------------------------------------------------------------
-            | type: default chart type: area, line, bar, pie or donut.
             | height: default rendered height, in pixels.
             | grid: default gridlines and labelled vertical axis.
             | legend: default series names with a clickable color swatch.
             | tooltip: default crosshair and tooltip following the pointer.
             | markers: default dot on every plotted point.
-            | decimals: default decimal places, or null to infer from the value.
             */
             [
-                'type' => 'area',
                 'height' => 64,
                 'grid' => false,
                 'legend' => false,
                 'tooltip' => false,
                 'markers' => false,
-                'decimals' => null,
             ],
         ],
         'checkbox' => Components\Form\Checkbox\Component::class,
