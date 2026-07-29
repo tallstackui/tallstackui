@@ -80,7 +80,7 @@ class ItemController extends Controller
 | cancel     | `cancel(?string $text, ?string $method, array\|string\|int\|null $params)`  | Adds a cancel button that optionally calls a Livewire method               |
 | expandable | `expandable(bool $expand = true)`                                           | Enables the expandable effect for long descriptions                        |
 | persistent | `persistent()`                                                              | Removes timeout and progress bar, toast stays until manually closed        |
-| position   | `position(string $position)`                                                | Sets position dynamically (top-right, top-left, bottom-right, bottom-left) |
+| position   | `position(string $position)`                                                | Sets position dynamically (top-right, top-left, top-center, bottom-right, bottom-left, bottom-center) |
 | sole       | `sole(bool $sole = true)`                                                   | When true, flushes all previous toasts and shows only this one             |
 | timeout    | `timeout(?int $seconds = null)`                                             | Sets the auto-dismiss timeout in seconds                                   |
 | hook       | `hook(array $hooks)`                                                        | Registers lifecycle hooks (allowed: `close`, `timeout`)                    |
@@ -96,7 +96,7 @@ In `config/tallstackui.php` under `components.toast`:
 | z-index    | string | 'z-50'      | Default z-index class                                             |
 | progress   | bool   | true        | Enables the progress bar                                          |
 | expandable | bool   | false       | Enables the expandable effect by default                          |
-| position   | string | 'top-right' | Default position (top-right, top-left, bottom-right, bottom-left) |
+| position   | string | 'top-right' | Default position (top-right, top-left, top-center, bottom-right, bottom-left, bottom-center) |
 | timeout    | int    | 3           | Default auto-dismiss timeout in seconds                           |
 
 ## Confirm/Cancel Method Signatures
@@ -130,7 +130,7 @@ $this->toast()->persistent()->success('...')->send();
 // Expandable (for long descriptions 30+ chars)
 $this->toast()->expandable()->success('...')->send();
 
-// Position: top-left, top-right, bottom-left, bottom-right
+// Position: top-left, top-right, top-center, bottom-left, bottom-right, bottom-center
 $this->toast()->position('top-left')->success('...')->send();
 
 // Sole (only one toast at a time)

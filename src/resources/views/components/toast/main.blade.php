@@ -16,7 +16,7 @@
              x-on:mouseenter="toast.expandable = false"
              class="{{ $customization['wrapper.second'] }}"
              x-bind="transition"
-             x-bind:class="{ '{{ $customization['wrapper.position.x-left'] }}' : position === 'top-left' || position === 'bottom-left', '{{ $customization['wrapper.position.x-right'] }}' : position === 'top-right' || position === 'bottom-right' }">
+             x-bind:class="{ '{{ $customization['wrapper.position.x-left'] }}' : position.includes('-left') === true, '{{ $customization['wrapper.position.x-right'] }}' : position.includes('-right') === true, '{{ $customization['wrapper.position.x-center'] }}' : position.includes('-center') === true }">
             <div class="{{ $customization['wrapper.third'] }}"
                  @if($ts_ui__colorful)
                      x-bind:class="({

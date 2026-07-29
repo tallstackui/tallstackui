@@ -33,6 +33,7 @@ class Component extends TallStackUiComponent implements Customization
                     'bottom-x' => 'md:justify-end',
                     'x-left' => 'md:items-start',
                     'x-right' => 'md:items-end',
+                    'x-center' => 'md:items-center',
                 ],
             ],
             'icon' => [
@@ -88,7 +89,7 @@ class Component extends TallStackUiComponent implements Customization
     protected function validate(): void
     {
         $configuration = __ts_get_component_configuration(self::class);
-        $positions = ['top-right', 'top-left', 'bottom-right', 'bottom-left'];
+        $positions = ['top-right', 'top-left', 'top-center', 'bottom-right', 'bottom-left', 'bottom-center'];
         $messages = trans('ts-ui::messages.toast.button');
 
         if (! in_array($configuration['position'] ?? 'top-right', $positions)) {
