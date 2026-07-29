@@ -277,6 +277,19 @@ class BrowserTestCase extends TestCase
      */
     protected function macros(): void
     {
+        // Dusk clicks an element's centre point, so a control that wraps other
+        // interactive content can have that centre land on a child instead. The
+        // select toggle is filled with chips once options are selected, and a
+        // chip's remove button calls stopPropagation(), swallowing the click.
+        // Dispatching on the element itself sidesteps the geometry entirely.
+        Browser::macro('clickDirectly', function (string $selector) {
+            $element = $this->resolver->findOrFail($selector);
+
+            $this->driver->executeScript('arguments[0].click()', [$element]);
+
+            return $this;
+        });
+
         Browser::macro('clickAtVisibleXPath', function (string $expression, ?int $seconds = null) {
             $by = WebDriverBy::xpath($expression);
 

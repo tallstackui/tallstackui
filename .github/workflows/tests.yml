@@ -103,6 +103,6 @@ jobs:
         run: ./vendor/bin/testbench view:clear
 
       - name: Tests (Browser)
-        run: ./vendor/bin/pest --stop-on-failure --stop-on-error --filter Browser --order-by random
+        run: ./vendor/bin/pest --filter Browser --order-by random
         env:
           CI: true
