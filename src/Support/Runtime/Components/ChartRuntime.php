@@ -209,6 +209,10 @@ class ChartRuntime extends AbstractRuntime
         ];
     }
 
+    /**
+     * One Tailwind text-* class per series, so each group can paint its stroke
+     * and its gradient stops from a single currentColor.
+     */
     private function palette(array $series, bool $radial): array
     {
         /** @var Chart $component */
@@ -239,10 +243,6 @@ class ChartRuntime extends AbstractRuntime
         return $resolved;
     }
 
-    /**
-     * One Tailwind text-* class per series, so each group can paint its stroke
-     * and its gradient stops from a single currentColor.
-     */
     private function placeholder(string $type, bool $radial): array
     {
         $values = $this->shape($this->skeleton(6));
