@@ -20,6 +20,7 @@
 - [Calendar](components/calendar.md)
 - [Card](components/card.md)
 - [Carousel](components/carousel.md)
+- [Chart](components/chart.md)
 - [Clipboard](components/clipboard.md)
 - [Editor](components/editor.md)
 - [Environment](components/environment.md)

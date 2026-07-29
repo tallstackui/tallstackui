@@ -15,6 +15,12 @@
     "file": "rolldown-runtime-Bh1tDfsg.js",
     "name": "rolldown-runtime"
   },
+  "js/tallstackui-chart.js": {
+    "file": "tallstackui-chart-DR3B-z4M.js",
+    "name": "tallstackui-chart",
+    "src": "js/tallstackui-chart.js",
+    "isEntry": true
+  },
   "js/tallstackui-clipboard.js": {
     "file": "tallstackui-clipboard-oa0UDIwJ.js",
     "name": "tallstackui-clipboard",

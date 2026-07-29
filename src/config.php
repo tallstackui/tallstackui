@@ -138,6 +138,35 @@ return [
         'calendar' => Components\Calendar\Component::class,
         'carousel' => Components\Carousel\Component::class,
         'card' => Components\Card\Component::class,
+        'chart' => [
+            Components\Chart\Component::class,
+            /*
+            |----------------------------------------------------------------------
+            | Chart Settings
+            |----------------------------------------------------------------------
+            | Defaults for every chart, each one overridable per instance through
+            | the attribute of the same name.
+            |
+            | type: one of area, line, bar, pie or donut.
+            | height: rendered height, in pixels. Any CSS height class wins over it.
+            | grid: horizontal gridlines plus a labelled vertical axis. Ignored by
+            | the radial types, which have no axis to label.
+            | legend: series names with a color swatch, clickable to toggle.
+            | tooltip: crosshair and a tooltip following the pointer.
+            | markers: a dot on every plotted point.
+            | decimals: decimal places. Null reads whole numbers as 0 and the rest
+            | as 2, which is usually what a mixed series wants.
+            */
+            [
+                'type' => 'area',
+                'height' => 64,
+                'grid' => false,
+                'legend' => false,
+                'tooltip' => false,
+                'markers' => false,
+                'decimals' => null,
+            ],
+        ],
         'checkbox' => Components\Form\Checkbox\Component::class,
         'checkbox.group' => Components\Form\Checkbox\Group\Component::class,
         'color' => [

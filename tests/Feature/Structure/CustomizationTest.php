@@ -17,6 +17,7 @@ test('contains method', function (string $method) {
     'boolean',
     'button',
     'card',
+    'chart',
     'clipboard',
     'dialog',
     'dropdown',
