@@ -14,8 +14,8 @@ class Component extends TallStackUiComponent implements Customization
     public function __construct(
         public ?string $offset = '10',
         public ?string $position = 'bottom-end',
-        public ?ComponentSlot $transition = null,
-        public ?ComponentSlot $footer = null,
+        public ComponentSlot|string|null $transition = null,
+        public ComponentSlot|string|null $footer = null,
     ) {
         //
     }

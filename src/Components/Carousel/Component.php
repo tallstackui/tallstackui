@@ -27,8 +27,8 @@ class Component extends TallStackUiComponent implements Customization
         public ?bool $navigable = null,
         public ?string $caption = null,
         public ?string $wrapper = null,
-        public ?ComponentSlot $header = null,
-        public ?ComponentSlot $footer = null,
+        public ComponentSlot|string|null $header = null,
+        public ComponentSlot|string|null $footer = null,
     ) {
         $this->images = collect($this->images);
 

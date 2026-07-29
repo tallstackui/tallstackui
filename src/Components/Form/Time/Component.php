@@ -31,7 +31,7 @@ class Component extends TallStackUiComponent implements Customization
         public ?string $stepHour = '1',
         public ?string $stepMinute = '1',
         #[SkipDebug]
-        public ?ComponentSlot $footer = null,
+        public ComponentSlot|string|null $footer = null,
     ) {
         $this->format = $this->format === '12' ? '12' : '24';
     }

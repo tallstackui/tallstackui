@@ -28,7 +28,7 @@ class Component extends TallStackUiComponent implements Customization
         public ?bool $placeholders = true,
         public ComponentSlot|string|null $icon = null,
         #[SkipDebug]
-        public ?ComponentSlot $header = null,
+        public ComponentSlot|string|null $header = null,
     ) {
         //
     }

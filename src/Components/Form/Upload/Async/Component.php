@@ -37,7 +37,7 @@ class Component extends TallStackUiComponent implements Customization
         public ?int $concurrency = null,
         public ?int $retries = null,
         public ?array $headers = null,
-        public ?ComponentSlot $footer = null,
+        public ComponentSlot|string|null $footer = null,
         public string|bool|null $error = null,
     ) {
         $this->method ??= 'POST';

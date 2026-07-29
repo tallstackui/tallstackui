@@ -31,7 +31,7 @@ class Component extends TallStackUiComponent implements Customization
         public ?int $strokeCircle = 2,
         public ?int $strokePercent = 2,
         public ?int $sizeCircle = 36,
-        public ?ComponentSlot $footer = null,
+        public ComponentSlot|string|null $footer = null,
         #[SkipDebug]
         public ?string $style = null,
         #[SkipDebug]

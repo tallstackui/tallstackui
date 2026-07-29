@@ -32,7 +32,7 @@ class Component extends TallStackUiComponent implements Customization
         public ?string $placeholder = null,
         public string $deleteMethod = 'deleteUpload',
         public string|bool|null $error = null,
-        public ?ComponentSlot $footer = null,
+        public ComponentSlot|string|null $footer = null,
         public ?bool $overflow = null,
         public ?bool $closeAfterUpload = null,
     ) {

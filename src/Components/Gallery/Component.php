@@ -31,8 +31,8 @@ class Component extends TallStackUiComponent implements Customization
         public ?string $caption = null,
         public ?bool $withoutLoop = null,
         public ?bool $round = null,
-        public ?ComponentSlot $header = null,
-        public ?ComponentSlot $footer = null,
+        public ComponentSlot|string|null $header = null,
+        public ComponentSlot|string|null $footer = null,
     ) {
         $this->images = collect($this->images)->values()->toArray();
     }
