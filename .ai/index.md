@@ -135,6 +135,58 @@ Date, Password, Select Styled, Time, Upload, Calendar and the List Items menu �
 every component built on [Floating](components/floating.md), where the reference
 counting and the interaction with modals are described.
 
+## Skeleton
+
+Six components accept a `skeleton` prop that renders a structural placeholder
+shaped like the component itself, for the first paint before any data exists:
+[Card](components/card.md#skeleton), [Stats](components/stats.md#skeleton),
+[Table](components/table.md#skeleton), [List](components/list/main.md#skeleton),
+[Step](components/step/main.md#skeleton) and [Chart](components/chart.md#skeleton).
+
+```blade
+<x-card skeleton />                          {{-- bare flag: 3 body lines --}}
+<x-table :$headers skeleton="8" paginate />  {{-- integer: 8 rows --}}
+```
+
+| Component | Unit                    | Default |
+|-----------|-------------------------|---------|
+| Card      | body lines              | 3       |
+| Table     | rows                    | 5       |
+| List      | items                   | 4       |
+| Step      | step indicators         | 3       |
+| Chart     | data points (or slices) | 6       |
+| Stats     | — (flag only)           | n/a     |
+
+Everything else is derived from props the component already has. The prop is
+`bool|int|null` everywhere except `Stats`, where an integer throws. Any integer
+below `1` throws.
+
+What is already known stays legible; only the unknown becomes a bar — the table
+keeps its real header labels, for instance.
+
+It belongs in the `placeholder()` of a `#[Lazy]` Livewire component, but works
+anywhere, including plain Blade with no Livewire at all. `<x-table>` waives its
+Livewire requirement in skeleton mode so it can be drawn inside a placeholder.
+
+**It does not replace `loading`.** `loading` (Card and Table only) dims content
+already on screen during a Livewire round trip; `skeleton` stands in for content
+that does not exist yet. And it defers nothing: Blade evaluates slot content
+before the component renders, so deferral is Livewire's job.
+
+**Existing soft customizations carry over.** The skeleton view calls the same
+`classes()` as the normal one, so every structural block a component already has
+— wrappers, radius, padding, header and footer chrome — applies to the
+placeholder too, scopes included. Only the bars come from the `skeleton.*`
+blocks. Blocks the placeholder does not render simply have no target there.
+
+```php
+TallStackUi::customize()->card()->block('wrapper.second', 'rounded-3xl bg-white');
+```
+
+```blade
+<x-card skeleton />   {{-- rounded-3xl, exactly like the real card --}}
+```
+
 ## Soft Customization
 
 All components support runtime customization of their Tailwind CSS classes:

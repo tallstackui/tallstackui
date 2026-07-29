@@ -57,6 +57,7 @@ A statistics card component for displaying numeric metrics with titles, icons, a
 | navigate       | bool                                   | null      | Livewire `wire:navigate` when using `href`                                                    |
 | navigate-hover | bool                                   | null      | Livewire `wire:navigate.hover` when using `href`                                              |
 | chart          | array\|Collection\|ComponentSlot\|null | null      | Background sparkline; the array shorthand renders `<x-chart>` internally and inherits `color` |
+| skeleton       | bool\|null                             | null      | Renders a structural placeholder instead of the content. Flag only — an integer throws        |
 
 ### Root element
 
@@ -110,6 +111,43 @@ In `solid` style the icon tile is opaque and covers the watermark behind it.
 
 String props `header="..."` / `footer="..."` and named slots both render with horizontal inset (`mx-2`) and muted typography for plain text.
 
+## Skeleton
+
+Renders a placeholder shaped like the card, for the first paint before any data
+exists. Meant for the `placeholder()` of a `#[Lazy]` Livewire component.
+
+```blade
+<x-stats skeleton />
+<x-stats skeleton icon="users" title="Total Users" header="Monthly" footer="Updated" />
+```
+
+The icon tile, title, header and footer are drawn only when the matching prop or
+slot is present. There is nothing to count here, so `skeleton` is a flag: passing
+an integer throws.
+
+The background chart layer is deliberately omitted. It renders at
+`absolute inset-0 -z-10`, taking no space in the flow, so leaving it out produces
+no layout shift when the real content arrives. For a standalone placeholder chart,
+see [`<x-chart skeleton>`](chart.md#skeleton).
+
+`skeleton` is not `loading`: it stands in for content that does not exist yet,
+rather than dimming content already on screen.
+
+### Customizations carry over
+
+The `skeleton.*` blocks are only the bars. Everything structural is resolved
+from this component's **own, existing blocks**, because the skeleton view calls
+the same `classes()` as the normal one — customization is resolved on the
+component, not on the view. Whatever you already changed applies to the
+placeholder too, so the box keeps matching the box it stands in for. Scopes
+work the same, including when they target the placeholder alone.
+
+Stats reuses `wrapper.first`, `wrapper.second`, `wrapper.second-no-header`, `wrapper.second-no-footer`, `slots.header.*` and `slots.footer.*`.
+
+Blocks the placeholder does not render have nothing to act on there.
+Customizing them is not an error; it simply has no effect while the skeleton
+is on screen.
+
 ## Soft Customization
 
 Soft customization allows you to override default Tailwind CSS classes used by this component at runtime, either through a service provider or scoped per-instance.
@@ -146,6 +184,13 @@ TallStackUi::customize()
 | icon                       | Icon dimensions inside the icon container                                 |
 | title                      | Title text styles                                                         |
 | number                     | Number layout styles (size/weight/leading; color comes from `color` prop) |
+| skeleton.animation         | Pulse animation applied to the whole placeholder                          |
+| skeleton.bar               | Base look of every placeholder bar                                        |
+| skeleton.icon              | Icon tile placeholder dimensions                                          |
+| skeleton.title             | Title bar dimensions                                                      |
+| skeleton.number            | Number bar dimensions                                                     |
+| skeleton.header            | Header bar dimensions                                                     |
+| skeleton.footer            | Footer bar dimensions                                                     |
 
 ### Soft key renames (v4)
 

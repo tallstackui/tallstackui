@@ -12,6 +12,180 @@ such change is listed under **Migration**.
 
 ---
 
+## Skeleton
+
+### Added — `skeleton` on Card, Stats, Table, List, Step and Chart
+
+A structural placeholder shaped like the component itself, for the first paint,
+before any data exists. One prop, typed `bool|int`:
+
+```blade
+<x-card skeleton />                                  {{-- 3 body lines --}}
+<x-card skeleton="5" image round="xl" />
+<x-table :$headers skeleton="8" selectable paginate />
+<x-list skeleton="6" searchable label="Tags" />
+<x-step skeleton="4" circles />
+<x-chart skeleton="8" type="bar" :height="240" />
+<x-stats skeleton />
+```
+
+A bare flag uses the component's default count; an integer sets it. Nothing else
+needs describing — column count, checkbox column, filter bar, pagination footer,
+search input, label, hint, image block, footer, radius, variation, chart type and
+height are all derived from props the component already has.
+
+| Component | Unit                    | Default |
+|-----------|-------------------------|---------|
+| Card      | body lines              | 3       |
+| Table     | rows                    | 5       |
+| List      | items                   | 4       |
+| Step      | step indicators         | 3       |
+| Chart     | data points (or slices) | 6       |
+| Stats     | —                       | n/a     |
+
+`skeleton` on `Stats` is a flag only: passing an integer throws, because there is
+nothing to count. Any integer below `1` throws on every component.
+
+**This does not replace `loading`.** They cover different moments:
+
+| State                           | Tool       | Situation                           |
+|---------------------------------|------------|-------------------------------------|
+| First paint, no data yet        | `skeleton` | `#[Lazy]` placeholder, initial load |
+| Refetch, data already on screen | `loading`  | Sort, paginate, search, save        |
+
+Swapping on-screen content for a skeleton during a refetch jumps the layout and
+costs the user their visual anchor, so `loading` is left exactly as it was.
+
+#### Where it belongs: the `#[Lazy]` placeholder
+
+```php
+#[Lazy]
+class UsersTable extends Component
+{
+    public array $headers = [
+        ['index' => 'name', 'label' => 'Name'],
+        ['index' => 'email', 'label' => 'E-mail'],
+    ];
+
+    public function placeholder(): string
+    {
+        return <<<'HTML'
+        <div>
+            <x-table :$headers skeleton="5" />
+        </div>
+        HTML;
+    }
+}
+```
+
+Livewire skips `mount()` when rendering a placeholder but does hand the
+component's **class-level property defaults** to that view. Headers declared as a
+class default — the shape this library already documents — therefore survive into
+the placeholder, and the skeleton draws the real column count and the real
+labels. Headers assigned inside `mount()` do not, and the skeleton falls back to
+four generic columns.
+
+`<x-table>` normally requires the Livewire context and throws without it. In
+skeleton mode that requirement is waived: a placeholder renders outside the
+component's context, and a skeleton binds nothing to Livewire anyway.
+
+#### What it does not do
+
+`skeleton` does not defer anything. Blade evaluates slot content *before* the
+component renders, so in:
+
+```blade
+<x-card :skeleton="$loading">
+    @foreach ($users as $user) ... @endforeach
+</x-card>
+```
+
+the loop has already run and the query has already hit the database. The
+component can only discard the output. Deferral is Livewire's job, through
+`#[Lazy]`; the skeleton is what gets drawn while it happens.
+
+#### Appearance
+
+Skeletons are always neutral: the `color` prop is ignored, and every bar is
+`bg-gray-200` / `dark:bg-dark-600` under `animate-pulse`. No new CSS enters the
+bundle. The root carries `aria-busy="true"` and `aria-live="polite"`.
+
+For Chart, the placeholder runs the same geometry as a real plot
+(`Series`, `Scale`, `Bars`, `Spline`, `Slices`) over invented values, so it lands
+in the same `viewBox` with the same proportions. Everything that would let it be
+misread as data — axis labels, legend, tooltip, markers, grid — is omitted.
+
+`<x-stats>` omits its background chart layer in skeleton mode. That layer is
+`absolute inset-0 -z-10`, so it takes no space in the flow and leaving it out
+produces no layout shift.
+
+### Added — soft customization blocks
+
+Every component in scope gained a `skeleton.*` namespace, so the placeholder is
+as customizable as the component:
+
+```php
+TallStackUi::customize()->table()->block('skeleton.bar', 'rounded-full bg-slate-100');
+```
+
+| Component | Blocks                                                                                                                        |
+|-----------|-------------------------------------------------------------------------------------------------------------------------------|
+| Card      | `animation`, `bar`, `header`, `image`, `body.wrapper`, `body.line`, `body.line-last`, `footer.wrapper`, `footer.button`        |
+| Stats     | `animation`, `bar`, `icon`, `title`, `number`, `header`, `footer`                                                              |
+| Table     | `animation`, `bar`, `cell`, `checkbox`, `expand`, `header`, `filter.quantity`, `filter.search`, `paginate.wrapper`, `paginate.bar` |
+| List      | `animation`, `bar`, `label`, `hint`, `search`, `items.wrapper`, `items.row`, `items.content`, `name`, `caption`, `menu`        |
+| Step      | `animation`, `bar`, `circle`, `panel-circle`, `simple-bar`, `title`, `description`, `content`, `helper`                        |
+| Chart     | `animation`, `bar`, `fill`, `stroke`, `header`, `footer`                                                                       |
+
+`animation` and `bar` are shared defaults (`animate-pulse` and
+`dark:bg-dark-600 rounded bg-gray-200`) contributed by a common trait, then
+merged into each component's own block set.
+
+#### Existing customizations carry over
+
+The `skeleton.*` blocks are only the bars. Everything structural is resolved
+from the component's **own, existing blocks**, because the skeleton view calls
+the same `classes()` as the normal one — customization is resolved on the
+component, not on the view. A card whose `wrapper.second` lost its shadow, or
+whose `body` gained padding, keeps that in skeleton mode, so the placeholder box
+still matches the box it stands in for:
+
+```php
+TallStackUi::customize()->card()->block('wrapper.second', 'rounded-3xl bg-white');
+```
+
+```blade
+<x-card skeleton />   {{-- rounded-3xl, exactly like the real card --}}
+```
+
+Scopes behave the same, including when they target the placeholder alone:
+
+```php
+TallStackUi::customize('card', scope: 'fancy')->block('skeleton.bar', 'rounded-full bg-slate-100');
+```
+
+```blade
+<x-card skeleton scope="fancy" />
+```
+
+Blocks the skeleton does not render — `header.text.*`, `button.*`, `loading.*`,
+`footer.base` and the `footer.{alignment}` set on Card, for instance — have
+nothing to act on there. Customizing them is not an error; it simply has no
+effect while the placeholder is on screen.
+
+Structural blocks each skeleton reuses from its own component:
+
+| Component | Reused blocks                                                                                                                                                      |
+|-----------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Card      | `wrapper.first`, `wrapper.second`, `border.radius.*`, `header.wrapper.base`, `header.wrapper.border`, `body`, `body.paddingless`, `footer.wrapper`, `image.wrapper` |
+| Stats     | `wrapper.first`, `wrapper.second`, `wrapper.second-no-header`, `wrapper.second-no-footer`, `slots.header.*`, `slots.footer.*`                                       |
+| Table     | `wrapper`, `table.*`, `row.striped`, `filter.*`                                                                                                                    |
+| List      | `wrapper`, `box`, `search.wrapper`, `items.scroll`, `items.height.*`                                                                                                |
+| Step      | `wrapper.{variation}`, `panels-shape`, `circles.*`, `simple.*`, `panels.*`, `content`, `helpers.wrapper`                                                            |
+| Chart     | `wrapper`, `plot.wrapper`, `plot.svg`, `plot.slice`, `axis.*.wrapper`                                                                                               |
+
+---
+
 ## Chart
 
 ### Added — `<x-chart />`, a dependency-free chart

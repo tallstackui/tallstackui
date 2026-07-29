@@ -92,6 +92,7 @@ Custom empty state:
 | search-placeholder | string\|null           | i18n `ts-ui::messages.list.search` | Placeholder for the search input; falls back to translation key                                            |
 | height             | string\|null           | null                               | Tailwind size token (`'40'`, `'60'`, `'80'`, `'96'`) → `max-h-{n} overflow-y-auto`. `null` = no max height |
 | :items             | array\|Arrayable\|null | null                               | Data-driven mode. Iterated to render rows. When set, default slot children are ignored                     |
+| skeleton           | bool\|int\|null        | null                               | Renders a structural placeholder instead of the rows. A bare flag draws 4 rows; an integer sets the count  |
 
 ## Slots
 
@@ -133,6 +134,25 @@ The general-sibling combinator gives a top border to every **visible** row excep
 
 Filtering is **purely client-side** — the search input is **not** wired to Livewire by default. To filter server-side, the consumer can wrap `<x-list>` inside their Livewire component and re-pass a filtered `:items` collection on each search change.
 
+## Skeleton
+
+Renders a placeholder shaped like the list, for the first paint before any items
+exist. Meant for the `placeholder()` of a `#[Lazy]` Livewire component.
+
+```blade
+<x-list skeleton />                                          {{-- 4 rows --}}
+<x-list skeleton="6" searchable label="Tags" hint="..." />
+```
+
+Each row draws a name bar, a caption bar and a menu dot. The label bar, search
+block and hint bar appear only when the matching prop is set, and `height` is
+honoured, so the placeholder occupies the same box the real list will.
+
+The Alpine search store is not initialized in skeleton mode — there is nothing to
+filter — so the placeholder ships no behaviour, only shape.
+
+Any integer below `1` throws.
+
 ## Validation
 
 The component validates at render time:
@@ -147,6 +167,21 @@ Failures throw `InvalidArgumentException` (wrapped by Blade as `ViewException`).
 
 When `label` is set, the component renders `<x-label>` internally with `scope="list.label"`. When `hint` is set, renders `<x-hint>` with `scope="list.hint"`. Customizations targeted to those scoped instances do not affect standalone `<x-label>`/`<x-hint>` usages.
 
+### Customizations carry over
+
+The `skeleton.*` blocks are only the bars. Everything structural is resolved
+from this component's **own, existing blocks**, because the skeleton view calls
+the same `classes()` as the normal one — customization is resolved on the
+component, not on the view. Whatever you already changed applies to the
+placeholder too, so the box keeps matching the box it stands in for. Scopes
+work the same, including when they target the placeholder alone.
+
+List reuses `wrapper`, `box`, `search.wrapper`, `items.scroll` and `items.height.*`.
+
+Blocks the placeholder does not render have nothing to act on there.
+Customizing them is not an error; it simply has no effect while the skeleton
+is on screen.
+
 ## Soft customization scopes
 
 | Scope             | Target                                                                                                                                                                                          |
@@ -154,6 +189,22 @@ When `label` is set, the component renders `<x-label>` internally with `scope="l
 | `list.label`      | The internal `<x-label>` rendered when `label` is set                                                                                                                                           |
 | `list.hint`       | The internal `<x-hint>` rendered when `hint` is set                                                                                                                                             |
 | `list.items.menu` | The internal `<x-floating>` rendered for each row's menu (NB: the floating panel class is overridden via the `menu.floating` block on `<x-list.items>` and not by floating's own customization) |
+
+### Skeleton blocks
+
+| Block                    | Purpose                                          |
+|--------------------------|--------------------------------------------------|
+| `skeleton.animation`     | Pulse animation applied to the whole placeholder |
+| `skeleton.bar`           | Base look of every placeholder bar               |
+| `skeleton.label`         | Label bar dimensions                             |
+| `skeleton.hint`          | Hint bar dimensions                              |
+| `skeleton.search`        | Search input placeholder dimensions              |
+| `skeleton.items.wrapper` | Divider between placeholder rows                 |
+| `skeleton.items.row`     | Row layout and padding                           |
+| `skeleton.items.content` | Name and caption grouping                        |
+| `skeleton.name`          | Name bar dimensions                              |
+| `skeleton.caption`       | Caption bar dimensions                           |
+| `skeleton.menu`          | Menu trigger placeholder dimensions              |
 
 The per-row menu is rendered via an internal floating dropdown (NOT `<x-dropdown>`); customize its blocks via `<x-list.items>` directly (`menu.trigger`, `menu.icon`, `menu.floating`, etc. — see [list/items.md](items.md)).
 
