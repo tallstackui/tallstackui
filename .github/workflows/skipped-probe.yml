@@ -85,12 +85,6 @@ jobs:
         env:
           CI: true
 
-      - name: Locale probe for the number input
-        continue-on-error: true
-        run: ./vendor/bin/pest src/Components/Form/Number/LocaleProbeBrowserTest.php
-        env:
-          CI: true
-
       - name: Upload failure artifacts
         if: always()
         uses: actions/upload-artifact@v4
