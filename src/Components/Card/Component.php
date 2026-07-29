@@ -9,6 +9,7 @@ use TallStackUi\Attributes\ColorsThroughOf;
 use TallStackUi\Attributes\PassThroughRuntime;
 use TallStackUi\Attributes\SkipDebug;
 use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Components\Traits\SkeletonSetup;
 use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\Support\Colors\Components\CardColors;
 use TallStackUi\Support\Runtime\Components\CardRuntime;
@@ -19,6 +20,8 @@ use TallStackUi\TallStackUiComponent;
 #[PassThroughRuntime(CardRuntime::class)]
 class Component extends TallStackUiComponent implements Customization
 {
+    use SkeletonSetup;
+
     public function __construct(
         public ?string $color = null,
         public ?bool $light = null,
@@ -31,6 +34,7 @@ class Component extends TallStackUiComponent implements Customization
         public ?string $position = 'top',
         public bool|string|null $round = false,
         public ?bool $paddingless = null,
+        public bool|int|null $skeleton = null,
         #[SkipDebug]
         public ?bool $initializeMinimized = false,
         #[SkipDebug]
@@ -55,7 +59,7 @@ class Component extends TallStackUiComponent implements Customization
 
     public function blade(): View
     {
-        return view('ts-ui::components.card.main');
+        return view($this->skeletonized() ? 'ts-ui::components.card.skeleton' : 'ts-ui::components.card.main');
     }
 
     public function customization(): array
@@ -104,6 +108,20 @@ class Component extends TallStackUiComponent implements Customization
                 'bar' => 'h-full w-1/4 bg-primary-500 animate-indeterminate',
                 'overlay' => 'absolute inset-0 z-10 cursor-not-allowed rounded-lg bg-white/50 dark:bg-dark-700/50',
             ],
+            'skeleton' => [
+                ...$this->blocks(),
+                'header' => 'h-5 w-1/3',
+                'image' => 'h-40 w-full',
+                'body' => [
+                    'wrapper' => 'space-y-3',
+                    'line' => 'h-4 w-full',
+                    'line-last' => 'h-4 w-3/5',
+                ],
+                'footer' => [
+                    'wrapper' => 'flex justify-end gap-2',
+                    'button' => 'h-8 w-20',
+                ],
+            ],
             'border.radius' => [
                 'xs' => 'rounded-xs',
                 'sm' => 'rounded-sm',
@@ -117,6 +135,8 @@ class Component extends TallStackUiComponent implements Customization
 
     protected function validate(): void
     {
+        $this->guard();
+
         if ($this->image !== null && $this->color !== null) {
             __ts_validation_exception($this, 'The [image] and [color] cannot be used together.');
         }

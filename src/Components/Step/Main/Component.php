@@ -5,14 +5,20 @@ namespace TallStackUi\Components\Step\Main;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\ComponentSlot;
+use TallStackUi\Attributes\PassThroughRuntime;
 use TallStackUi\Attributes\SkipDebug;
 use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Components\Traits\SkeletonSetup;
 use TallStackUi\Customization\Contracts\Customization;
+use TallStackUi\Support\Runtime\Components\StepRuntime;
 use TallStackUi\TallStackUiComponent;
 
 #[SoftCustomization('step')]
+#[PassThroughRuntime(StepRuntime::class)]
 class Component extends TallStackUiComponent implements Customization
 {
+    use SkeletonSetup;
+
     public function __construct(
         public ?int $selected = null,
         public ?bool $panels = false,
@@ -22,6 +28,7 @@ class Component extends TallStackUiComponent implements Customization
         public ?bool $navigate = false,
         public ?bool $navigatePrevious = false,
         public ?string $variation = null,
+        public bool|int|null $skeleton = null,
         #[SkipDebug]
         public ComponentSlot|string|null $finish = null,
     ) {
@@ -30,7 +37,7 @@ class Component extends TallStackUiComponent implements Customization
 
     public function blade(): View
     {
-        return view('ts-ui::components.step.main');
+        return view($this->skeletonized() ? 'ts-ui::components.step.skeleton' : 'ts-ui::components.step.main');
     }
 
     public function customization(): array
@@ -126,6 +133,21 @@ class Component extends TallStackUiComponent implements Customization
                     'right' => 'ml-1',
                 ],
             ],
+            'skeleton' => [
+                ...$this->blocks(),
+                'circle' => 'size-8 rounded-full',
+                'panel-circle' => 'size-10 rounded-full',
+                'simple-bar' => 'h-1 w-full rounded-none',
+                'title' => 'h-4 w-24',
+                'description' => 'h-3 w-32',
+                'content' => 'h-24 w-full',
+                'helper' => 'h-10 w-24',
+            ],
         ]);
+    }
+
+    protected function validate(): void
+    {
+        $this->guard();
     }
 }

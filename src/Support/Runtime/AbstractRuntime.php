@@ -190,6 +190,27 @@ abstract class AbstractRuntime
     }
 
     /**
+     * The resolved skeleton count, falling back to the
+     * component default when the prop is a bare flag.
+     */
+    protected function skeleton(int $default): int
+    {
+        $skeleton = $this->data('skeleton');
+
+        return is_int($skeleton) ? $skeleton : $default;
+    }
+
+    /**
+     * Whether the component is drawing its placeholder instead of its content.
+     */
+    protected function skeletonized(): bool
+    {
+        $skeleton = $this->data('skeleton');
+
+        return $skeleton !== null && $skeleton !== false;
+    }
+
+    /**
      * Tells whether the current component is rendering inside an ancestor's
      * `<x-slot:left>` or `<x-slot:right>`. Used by select.native, select.styled
      * and input.select to switch into "side" mode.

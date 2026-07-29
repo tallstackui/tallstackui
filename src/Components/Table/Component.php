@@ -15,6 +15,7 @@ use TallStackUi\Attributes\PassThroughRuntime;
 use TallStackUi\Attributes\RequireLivewireContext;
 use TallStackUi\Attributes\SkipDebug;
 use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Components\Traits\SkeletonSetup;
 use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\Support\Runtime\Components\TableRuntime;
 use TallStackUi\TallStackUiComponent;
@@ -24,6 +25,8 @@ use TallStackUi\TallStackUiComponent;
 #[PassThroughRuntime(TableRuntime::class)]
 class Component extends TallStackUiComponent implements Customization
 {
+    use SkeletonSetup;
+
     public function __construct(
         public Collection|array $headers = [],
         public LengthAwarePaginator|Paginator|Collection|array $rows = [],
@@ -44,6 +47,7 @@ class Component extends TallStackUiComponent implements Customization
         public ?string $link = null,
         public ?bool $blank = false,
         public ?int $onEachSide = 1,
+        public bool|int|null $skeleton = null,
         #[SkipDebug]
         public ?array $placeholders = null,
         #[SkipDebug]
@@ -83,7 +87,7 @@ class Component extends TallStackUiComponent implements Customization
 
     public function blade(): View
     {
-        return view('ts-ui::components.table.main');
+        return view($this->skeletonized() ? 'ts-ui::components.table.skeleton' : 'ts-ui::components.table.main');
     }
 
     public function customization(): array
@@ -135,6 +139,21 @@ class Component extends TallStackUiComponent implements Customization
                 'content' => 'px-4 py-3',
             ],
             'cell-clickable' => 'cursor-pointer',
+            'skeleton' => [
+                ...$this->blocks(),
+                'cell' => 'h-4 w-3/4',
+                'checkbox' => 'size-4 rounded',
+                'expand' => 'size-4 rounded',
+                'header' => 'h-3 w-2/3',
+                'filter' => [
+                    'quantity' => 'h-9 w-full',
+                    'search' => 'h-9 w-full',
+                ],
+                'paginate' => [
+                    'wrapper' => 'flex justify-end px-3 py-3',
+                    'bar' => 'h-8 w-64',
+                ],
+            ],
         ]);
     }
 
@@ -228,18 +247,24 @@ class Component extends TallStackUiComponent implements Customization
     /** @throws InvalidArgumentException */
     protected function validate(): void
     {
+        $this->guard();
+
         $messages = trans('ts-ui::messages.table');
 
-        if (blank($this->empty) && blank($messages['empty'] ?? null)) {
-            __ts_validation_exception($this, 'The [empty] message cannot be empty.');
-        }
+        // A skeleton renders no text at all, so the messages it would
+        // otherwise need are not part of what it draws.
+        if (! $this->skeletonized()) {
+            if (blank($this->empty) && blank($messages['empty'] ?? null)) {
+                __ts_validation_exception($this, 'The [empty] message cannot be empty.');
+            }
 
-        if (blank($messages['quantity'] ?? null)) {
-            __ts_validation_exception($this, 'The [quantity] message cannot be empty.');
-        }
+            if (blank($messages['quantity'] ?? null)) {
+                __ts_validation_exception($this, 'The [quantity] message cannot be empty.');
+            }
 
-        if (blank($messages['search'] ?? null)) {
-            __ts_validation_exception($this, 'The [search] message cannot be empty.');
+            if (blank($messages['search'] ?? null)) {
+                __ts_validation_exception($this, 'The [search] message cannot be empty.');
+            }
         }
 
         if ($this->selectable && blank($this->selectableProperty)) {

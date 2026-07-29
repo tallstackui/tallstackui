@@ -34,7 +34,13 @@ trait ManagesRender
 
             $require = app(ReflectComponent::class, ['component' => static::class])->attribute(RequireLivewireContext::class);
 
-            if (! $livewire && $require !== null) {
+            // A skeleton binds nothing to Livewire, and the placeholder of a
+            // #[Lazy] component renders outside its context. Requiring it there
+            // would make the placeholder unable to draw the very component it
+            // stands in for.
+            $skeleton = method_exists($this, 'skeletonized') && $this->skeletonized();
+
+            if (! $livewire && $require !== null && ! $skeleton) {
                 throw new MissingLivewireException(app(ComponentPrefix::class)->remove($this->componentName));
             }
 

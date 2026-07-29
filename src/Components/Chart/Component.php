@@ -11,6 +11,7 @@ use TallStackUi\Attributes\ColorsThroughOf;
 use TallStackUi\Attributes\PassThroughRuntime;
 use TallStackUi\Attributes\SkipDebug;
 use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Components\Traits\SkeletonSetup;
 use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\Support\Charts\Series;
 use TallStackUi\Support\Colors\Components\ChartColors;
@@ -22,6 +23,8 @@ use TallStackUi\TallStackUiComponent;
 #[PassThroughRuntime(ChartRuntime::class)]
 class Component extends TallStackUiComponent implements Customization
 {
+    use SkeletonSetup;
+
     public const TYPES = ['area', 'line', 'bar', 'pie', 'donut'];
 
     public function __construct(
@@ -39,6 +42,7 @@ class Component extends TallStackUiComponent implements Customization
         public string|array|null $prefix = null,
         public string|array|null $suffix = null,
         public int|array|null $decimals = null,
+        public bool|int|null $skeleton = null,
         #[SkipDebug]
         public ?Closure $formatter = null,
         #[SkipDebug]
@@ -52,7 +56,7 @@ class Component extends TallStackUiComponent implements Customization
 
     public function blade(): View
     {
-        return view('ts-ui::components.chart.main');
+        return view($this->skeletonized() ? 'ts-ui::components.chart.skeleton' : 'ts-ui::components.chart.main');
     }
 
     public function customization(): array
@@ -108,12 +112,23 @@ class Component extends TallStackUiComponent implements Customization
                 'from' => '0.35',
                 'to' => '0',
             ],
+            'skeleton' => [
+                ...$this->blocks(),
+                'fill' => 'fill-gray-200 dark:fill-dark-600',
+                'stroke' => 'fill-none stroke-gray-200 stroke-2 dark:stroke-dark-600',
+                'header' => 'h-4 w-32',
+                'footer' => 'h-3 w-24',
+            ],
         ]);
     }
 
     protected function validate(): void
     {
-        if ($violation = Series::violation($this->series)) {
+        $this->guard();
+
+        // The series is the content, and a placeholder stands in for
+        // content that does not exist yet.
+        if (! $this->skeletonized() && ($violation = Series::violation($this->series))) {
             __ts_validation_exception($this, $violation);
         }
 
