@@ -3,7 +3,7 @@ name: Tests
 on:
   push:
     branches:
-      - 3.x
+      - 4.x
     paths-ignore:
       - '.github/**'
       - '.claude/**'
@@ -11,7 +11,7 @@ on:
       - '**.md'
   pull_request:
     branches:
-      - 3.x
+      - 4.x
   workflow_dispatch:
 
 jobs:
@@ -23,8 +23,8 @@ jobs:
       matrix:
         os: [ ubuntu-latest ]
         php: [ 8.4 ]
-        laravel: [ '11.*' ]
-        livewire: [ '^4.0' ]
+        laravel: [ '13.*' ]
+        livewire: [ '^4.3' ]
 
     name: Laravel:${{ matrix.laravel }} / Livewire:${{ matrix.livewire }}
 

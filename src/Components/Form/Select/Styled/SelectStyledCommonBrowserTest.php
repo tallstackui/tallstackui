@@ -1250,6 +1250,7 @@ class SelectStyledCommonBrowserTest extends BrowserTestCase
             ->clickAtVisibleXPath('//ul[@dusk="tallstackui_select_options"]/li[3]')
             ->clickAtVisibleXPath('//ul[@dusk="tallstackui_select_options"]/li[4]')
             ->click('@tallstackui_select_open_close')
+            ->waitUntilMissing('@tallstackui_select_options')
             ->click('@sync')
             ->waitForText(['foo', 'baz'])
             ->waitUntilMissingText('bah')
@@ -1272,6 +1273,7 @@ class SelectStyledCommonBrowserTest extends BrowserTestCase
             ->waitForText(['foo', 'bar'])
             ->clickAtVisibleXPath('//ul[@dusk="tallstackui_select_options"]/li[1]')
             ->click('@tallstackui_select_open_close')
+            ->waitUntilMissing('@tallstackui_select_options')
             ->click('@sync')
             ->waitForText('Select an option')
             ->waitUntilMissingText('foo')
@@ -1297,6 +1299,7 @@ class SelectStyledCommonBrowserTest extends BrowserTestCase
             ->waitForText(['foo', 'bar', 'baz'])
             ->clickAtVisibleXPath('//ul[@dusk="tallstackui_select_options"]/li[3]')
             ->click('@tallstackui_select_open_close')
+            ->waitUntilMissing('@tallstackui_select_options')
             ->click('@sync')
             ->waitForText(['foo', 'bar']);
     }

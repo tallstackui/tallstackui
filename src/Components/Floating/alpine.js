@@ -9,7 +9,16 @@ import { floating_overflow, unique } from '../../../js/helpers';
  * `x-show="show"` against the parent (reverted in 6bde57b0). Alpine magics
  * are passed in as callbacks instead.
  */
-export default function floating(el, watch, nextTick, getAnchor, showName, getShow, setShow, lock = false) {
+export default function floating(
+  el,
+  watch,
+  nextTick,
+  getAnchor,
+  showName,
+  getShow,
+  setShow,
+  lock = false
+) {
   const anchor = getAnchor();
   const isWidthFull = el.classList.contains('w-full');
   const id = unique();

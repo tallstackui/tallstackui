@@ -173,6 +173,7 @@ class SelectStyledApiBrowserTest extends BrowserTestCase
             ->clickAtVisibleXPath('//ul[@dusk="tallstackui_select_options"]/li[2]')
             ->clickAtVisibleXPath('//ul[@dusk="tallstackui_select_options"]/li[3]')
             ->click('@tallstackui_select_open_close')
+            ->waitUntilMissing('@tallstackui_select_options')
             ->click('@sync')
             ->waitForText(['delectus aut autem', 'quis ut nam facilis et officia qui', 'fugiat veniam minus']);
     }
@@ -328,12 +329,14 @@ class SelectStyledApiBrowserTest extends BrowserTestCase
             ->clickAtVisibleXPath('//ul[@dusk="tallstackui_select_options"]/li[2]')
             ->clickAtVisibleXPath('//ul[@dusk="tallstackui_select_options"]/li[3]')
             ->click('@tallstackui_select_open_close')
+            ->waitUntilMissing('@tallstackui_select_options')
             ->click('@sync')
             ->waitForText(['delectus aut autem', 'quis ut nam facilis et officia qui', 'fugiat veniam minus'])
             ->click('@tallstackui_select_open_close')
             ->waitForText(['delectus aut autem', 'quis ut nam facilis et officia qui', 'fugiat veniam minus', 'et porro tempora', 'laboriosam mollitia et enim quasi adipisci quia provident illum'])
             ->clickAtVisibleXPath('//ul[@dusk="tallstackui_select_options"]/li[3]')
             ->click('@tallstackui_select_open_close')
+            ->waitUntilMissing('@tallstackui_select_options')
             ->click('@sync')
             ->waitForText(['delectus aut autem', 'quis ut nam facilis et officia qui']);
     }
