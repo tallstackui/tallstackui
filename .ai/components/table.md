@@ -99,27 +99,28 @@ Rows should include a `highlight` property (or custom property via `highlight-pr
 
 ## Attributes
 
-| Attribute           | Type                                               | Default           | Description                                                                                                   |
-|---------------------|----------------------------------------------------|-------------------|---------------------------------------------------------------------------------------------------------------|
-| headers             | Collection\|array                                  | []                | Array of column definitions with `index`, `label`, and optional `sortable` and `unescaped` keys               |
-| rows                | LengthAwarePaginator\|Paginator\|Collection\|array | []                | Data rows to display                                                                                          |
-| headerless          | bool                                               | false             | Hides the table header row                                                                                    |
-| striped             | bool                                               | false             | Applies alternating row background colors                                                                     |
-| sort                | array\|null                                        | []                | Current sort state with `column` and `direction` keys (bind to a Livewire property)                           |
-| filter              | bool\|array\|null                                  | null              | Enables filter controls. `true` for defaults, or `['quantity' => 'propertyName', 'search' => 'propertyName']` |
-| loading             | bool                                               | false             | Shows a loading spinner overlay during Livewire updates                                                       |
-| quantity            | array\|null                                        | [10, 25, 50, 100] | Options for the per-page quantity select                                                                      |
-| paginate            | bool                                               | false             | Enables pagination links below the table                                                                      |
-| persistent          | bool                                               | false             | Scrolls to table top after pagination                                                                         |
-| simple-pagination   | bool                                               | false             | Uses simple (previous/next) pagination instead of full pagination                                             |
-| selectable          | bool\|null                                         | null              | Enables row selection checkboxes (bind to a Livewire property via `wire:model`)                               |
-| selectable-property | string\|null                                       | 'id'              | Row property used as the value for selection                                                                  |
-| expandable          | bool                                               | false             | Enables expandable row sub-content via `@interact('sub_table', $row)`                                         |
-| highlight           | bool                                               | false             | Enables row highlighting based on a color property in each row                                                |
-| highlight-property  | string\|null                                       | 'highlight'       | Row property name containing the highlight color                                                              |
-| link                | string\|null                                       | null              | URL template for clickable rows. Use `{column}` tokens (e.g., `/users/{id}`)                                  |
-| blank               | bool                                               | false             | Opens row links in a new tab                                                                                  |
-| on-each-side        | int\|null                                          | 1                 | Number of pagination links on each side of the current page                                                   |
+| Attribute           | Type                                               | Default           | Description                                                                                                                          |
+|---------------------|----------------------------------------------------|-------------------|--------------------------------------------------------------------------------------------------------------------------------------|
+| headers             | Collection\|array                                  | []                | Array of column definitions with `index`, `label`, and optional `sortable` and `unescaped` keys                                      |
+| rows                | LengthAwarePaginator\|Paginator\|Collection\|array | []                | Data rows to display                                                                                                                 |
+| headerless          | bool                                               | false             | Hides the table header row                                                                                                           |
+| striped             | bool                                               | false             | Applies alternating row background colors                                                                                            |
+| sort                | array\|null                                        | []                | Current sort state with `column` and `direction` keys (bind to a Livewire property)                                                  |
+| filter              | bool\|array\|null                                  | null              | Enables filter controls. `true` for defaults, or `['quantity' => 'propertyName', 'search' => 'propertyName']`                        |
+| loading             | bool                                               | false             | Shows a loading spinner overlay during Livewire updates                                                                              |
+| quantity            | array\|null                                        | [10, 25, 50, 100] | Options for the per-page quantity select                                                                                             |
+| paginate            | bool                                               | false             | Enables pagination links below the table                                                                                             |
+| persistent          | bool                                               | false             | Scrolls to table top after pagination                                                                                                |
+| simple-pagination   | bool                                               | false             | Uses simple (previous/next) pagination instead of full pagination                                                                    |
+| selectable          | bool\|null                                         | null              | Enables row selection checkboxes (bind to a Livewire property via `wire:model`)                                                      |
+| selectable-property | string\|null                                       | 'id'              | Row property used as the value for selection                                                                                         |
+| expandable          | bool                                               | false             | Enables expandable row sub-content via `@interact('sub_table', $row)`                                                                |
+| highlight           | bool                                               | false             | Enables row highlighting based on a color property in each row                                                                       |
+| highlight-property  | string\|null                                       | 'highlight'       | Row property name containing the highlight color                                                                                     |
+| link                | string\|null                                       | null              | URL template for clickable rows. Use `{column}` tokens (e.g., `/users/{id}`)                                                         |
+| blank               | bool                                               | false             | Opens row links in a new tab                                                                                                         |
+| on-each-side        | int\|null                                          | 1                 | Number of pagination links on each side of the current page                                                                          |
+| skeleton            | bool\|int\|null                                    | null              | Renders a structural placeholder instead of the rows. A bare flag draws 5 rows; an integer sets the count. See [Skeleton](#skeleton) |
 
 ## Slots
 
@@ -191,6 +192,76 @@ Use `@interact` directive to render sub-tables inside expandable rows:
 </x-table>
 ```
 
+## Skeleton
+
+Renders a placeholder shaped like the table, for the first paint before any rows
+exist. This is the one place where `<x-table>` does **not** require the Livewire
+context: a `#[Lazy]` placeholder renders outside it, and a skeleton binds nothing
+to Livewire anyway.
+
+```blade
+<x-table :$headers skeleton />                        {{-- 5 rows --}}
+<x-table :$headers skeleton="8" selectable paginate />
+```
+
+Everything is derived from props the table already has: columns and their real
+labels from `$headers`, a checkbox column when `selectable`, a toggle column when
+`expandable`, a filter bar when `filter`, a pagination footer when `paginate`.
+Without headers it falls back to four generic columns.
+
+Only the cells become bars — the header row keeps its real labels, since it is
+already known and serves as the visual anchor while the data loads.
+
+### With `#[Lazy]`
+
+```php
+#[Lazy]
+class UsersTable extends Component
+{
+    // A class-level default, which is what survives into the placeholder.
+    public array $headers = [
+        ['index' => 'name', 'label' => 'Name'],
+        ['index' => 'email', 'label' => 'E-mail'],
+    ];
+
+    public function placeholder(): string
+    {
+        return <<<'HTML'
+        <div>
+            <x-table :$headers skeleton="5" />
+        </div>
+        HTML;
+    }
+}
+```
+
+Livewire skips `mount()` when rendering a placeholder but hands the component's
+class-level property defaults to that view. Headers declared as a class default
+therefore reach the skeleton; headers assigned inside `mount()` do not, and the
+fallback column count applies.
+
+The messages normally required by `validate()` (`empty`, `quantity`, `search`)
+are not checked in skeleton mode, because a skeleton renders no text. Every other
+validation still runs. Any integer below `1` throws.
+
+`skeleton` is not `loading`: `loading` dims rows already on screen during a sort,
+search or pagination round trip, `skeleton` stands in for rows that do not exist yet.
+
+### Customizations Carry Over
+
+The `skeleton.*` blocks are only the bars. Everything structural is resolved
+from this component's **own, existing blocks**, because the skeleton view calls
+the same `classes()` as the normal one — customization is resolved on the
+component, not on the view. Whatever you already changed applies to the
+placeholder too, so the box keeps matching the box it stands in for. Scopes
+work the same, including when they target the placeholder alone.
+
+Table reuses `wrapper`, the `table.*` set, `row.striped` and `filter.*`.
+
+Blocks the placeholder does not render have nothing to act on there.
+Customizing them is not an error; it simply has no effect while the skeleton
+is on screen.
+
 ## Soft Customization
 
 Soft customization allows you to override default Tailwind CSS classes used by this component at runtime, either through a service provider or scoped per-instance.
@@ -205,26 +276,36 @@ TallStackUi::customize()
 
 ### Available Blocks
 
-| Block Name          | Purpose                                              |
-|---------------------|------------------------------------------------------|
-| wrapper             | Outer container with rounded corners and ring border |
-| table.wrapper       | Scrollable table container                           |
-| table.base          | Table element with dividers                          |
-| table.sort          | Sort icon dimensions                                 |
-| table.th            | Table header cell padding and text styling           |
-| table.tbody         | Table body background and row dividers               |
-| table.td            | Table data cell padding and text styling             |
-| table.tr            | Table row base classes                               |
-| table.thead.normal  | Default header row background                        |
-| table.thead.striped | Header background when striped is enabled            |
-| loading.table       | Loading state overlay opacity and cursor             |
-| loading.icon        | Loading spinner positioning and animation            |
-| empty               | Empty state cell text styling                        |
-| filter.wrapper      | Filter controls container flex layout                |
-| filter.quantity     | Quantity select width                                |
-| filter.search       | Search input width                                   |
-| slots.header        | Header slot text styling                             |
-| slots.footer        | Footer slot text styling                             |
-| expandable.wrapper  | Expandable row background                            |
-| expandable.button   | Expand toggle button styling                         |
-| expandable.content  | Expanded content padding                             |
+| Block Name                | Purpose                                              |
+|---------------------------|------------------------------------------------------|
+| wrapper                   | Outer container with rounded corners and ring border |
+| table.wrapper             | Scrollable table container                           |
+| table.base                | Table element with dividers                          |
+| table.sort                | Sort icon dimensions                                 |
+| table.th                  | Table header cell padding and text styling           |
+| table.tbody               | Table body background and row dividers               |
+| table.td                  | Table data cell padding and text styling             |
+| table.tr                  | Table row base classes                               |
+| table.thead.normal        | Default header row background                        |
+| table.thead.striped       | Header background when striped is enabled            |
+| loading.table             | Loading state overlay opacity and cursor             |
+| loading.icon              | Loading spinner positioning and animation            |
+| empty                     | Empty state cell text styling                        |
+| filter.wrapper            | Filter controls container flex layout                |
+| filter.quantity           | Quantity select width                                |
+| filter.search             | Search input width                                   |
+| slots.header              | Header slot text styling                             |
+| slots.footer              | Footer slot text styling                             |
+| expandable.wrapper        | Expandable row background                            |
+| expandable.button         | Expand toggle button styling                         |
+| expandable.content        | Expanded content padding                             |
+| skeleton.animation        | Pulse animation applied to the whole placeholder     |
+| skeleton.bar              | Base look of every placeholder bar                   |
+| skeleton.cell             | Body cell bar dimensions                             |
+| skeleton.checkbox         | Selection checkbox placeholder dimensions            |
+| skeleton.expand           | Expand toggle placeholder dimensions                 |
+| skeleton.header           | Header bar dimensions, used only without `$headers`  |
+| skeleton.filter.quantity  | Quantity filter placeholder dimensions               |
+| skeleton.filter.search    | Search filter placeholder dimensions                 |
+| skeleton.paginate.wrapper | Pagination footer alignment                          |
+| skeleton.paginate.bar     | Pagination placeholder dimensions                    |

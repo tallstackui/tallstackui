@@ -189,6 +189,20 @@ abstract class AbstractRuntime
         return array_map($sanitize, explode(',', $decoded));
     }
 
+    protected function skeleton(int $default): int
+    {
+        $skeleton = $this->data('skeleton');
+
+        return is_int($skeleton) ? $skeleton : $default;
+    }
+
+    protected function skeletonized(): bool
+    {
+        $skeleton = $this->data('skeleton');
+
+        return $skeleton !== null && $skeleton !== false;
+    }
+
     /**
      * Tells whether the current component is rendering inside an ancestor's
      * `<x-slot:left>` or `<x-slot:right>`. Used by select.native, select.styled

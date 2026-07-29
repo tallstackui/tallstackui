@@ -536,3 +536,38 @@ it('scopes the floating menu under list.items.menu for soft customization', func
         ->and(TallStackUi::customize('floating', scope: 'list.items.menu'))
         ->not->toBeNull();
 });
+
+it('can render the skeleton instead of the content')
+    ->expect('<x-list skeleton><x-list.items name="general" /></x-list>')
+    ->render()
+    ->toContain('animate-pulse')
+    ->not->toContain('general');
+
+it('can render the skeleton with the default item count', function () {
+    $html = Blade::render('<x-list skeleton />');
+
+    expect(substr_count($html, 'bg-gray-200'))->toBe(12);
+});
+
+it('can render the skeleton with a custom item count', function () {
+    $html = Blade::render('<x-list skeleton="6" />');
+
+    expect(substr_count($html, 'bg-gray-200'))->toBe(18);
+});
+
+it('can render the skeleton with the label, the search and the hint', function () {
+    $html = Blade::render('<x-list skeleton="1" searchable label="Tags" hint="Foo" />');
+
+    expect(substr_count($html, 'bg-gray-200'))->toBe(6);
+});
+
+it('can render the skeleton honoring the height')
+    ->expect('<x-list skeleton height="60" />')
+    ->render()
+    ->toContain('max-h-60');
+
+it('cannot render the skeleton with a count below one', function () {
+    $this->expectException(ViewException::class);
+
+    expect('<x-list skeleton="0" />')->render();
+});

@@ -54,16 +54,17 @@ Panel variation with finish button:
 
 ## Attributes
 
-| Attribute         | Type         | Default | Description                                                               |
-|-------------------|--------------|---------|---------------------------------------------------------------------------|
-| selected          | int\|null    | null    | Initially selected step number (or use `wire:model` for Livewire binding) |
-| panels            | bool         | false   | Uses the bordered panels variation                                        |
-| circles           | bool         | false   | Uses the numbered circles variation                                       |
-| simple            | bool         | false   | Uses the simple bar indicators variation (default)                        |
-| helpers           | bool         | false   | Shows next/previous/finish navigation buttons                             |
-| navigate          | bool         | false   | Allows forward navigation by clicking step indicators                     |
-| navigate-previous | bool         | false   | Shows a "Previous" button in the helpers area                             |
-| variation         | string\|null | null    | Visual variation type (automatically set from panels/circles/simple)      |
+| Attribute         | Type            | Default | Description                                                                                                      |
+|-------------------|-----------------|---------|------------------------------------------------------------------------------------------------------------------|
+| selected          | int\|null       | null    | Initially selected step number (or use `wire:model` for Livewire binding)                                        |
+| panels            | bool            | false   | Uses the bordered panels variation                                                                               |
+| circles           | bool            | false   | Uses the numbered circles variation                                                                              |
+| simple            | bool            | false   | Uses the simple bar indicators variation (default)                                                               |
+| helpers           | bool            | false   | Shows next/previous/finish navigation buttons                                                                    |
+| navigate          | bool            | false   | Allows forward navigation by clicking step indicators                                                            |
+| navigate-previous | bool            | false   | Shows a "Previous" button in the helpers area                                                                    |
+| variation         | string\|null    | null    | Visual variation type (automatically set from panels/circles/simple)                                             |
+| skeleton          | bool\|int\|null | null    | Renders a structural placeholder instead of the steps. A bare flag draws 3 indicators; an integer sets the count |
 
 ## Slots
 
@@ -118,6 +119,41 @@ Use `wire:model.live` for real-time server sync on every step change.
 </x-step>
 ```
 
+## Skeleton
+
+Renders a placeholder shaped like the wizard, for the first paint before the
+steps exist. Meant for the `placeholder()` of a `#[Lazy]` Livewire component.
+
+```blade
+<x-step skeleton />                             {{-- 3 indicators, simple --}}
+<x-step skeleton="4" circles helpers />
+<x-step skeleton="3" panels />
+```
+
+The indicator strip is drawn in the current variation — `simple`, `circles` or
+`panels` — followed by a content block. Helper buttons appear when `helpers` is
+set, and the previous button when `navigate-previous` is set.
+
+The real strip is built by Alpine from the registered `<x-step.items>`; in
+skeleton mode there are no children, so the count comes from the prop instead.
+
+Any integer below `1` throws.
+
+### Customizations Carry Over
+
+The `skeleton.*` blocks are only the bars. Everything structural is resolved
+from this component's **own, existing blocks**, because the skeleton view calls
+the same `classes()` as the normal one — customization is resolved on the
+component, not on the view. Whatever you already changed applies to the
+placeholder too, so the box keeps matching the box it stands in for. Scopes
+work the same, including when they target the placeholder alone.
+
+Step reuses `wrapper.{variation}`, `panels-shape`, `circles.*`, `simple.*`, `panels.*`, `content` and `helpers.wrapper`.
+
+Blocks the placeholder does not render have nothing to act on there.
+Customizing them is not an error; it simply has no effect while the skeleton
+is on screen.
+
 ## Soft Customization
 
 Soft customization allows you to override default Tailwind CSS classes used by this component at runtime, either through a service provider or scoped per-instance.
@@ -132,56 +168,65 @@ TallStackUi::customize()
 
 ### Available Blocks
 
-| Block Name                  | Purpose                             |
-|-----------------------------|-------------------------------------|
-| panels-shape                | Panels outer frame, border and clip |
-| wrapper.panels              | Panels variation scroll container   |
-| wrapper.simple              | Simple variation list container     |
-| wrapper.circles             | Circles variation list container    |
-| circles.li                  | Circle variation list item          |
-| circles.wrapper             | Circle item flex/alignment wrapper  |
-| circles.check               | Completed check icon size and color |
-| circles.circle.wrapper      | Circle badge container              |
-| circles.circle.inactive     | Inactive circle border and text     |
-| circles.circle.current      | Current step circle border and text |
-| circles.circle.border       | Completed circle border             |
-| circles.circle.active       | Completed circle background         |
-| circles.highlighter.wrapper | Small dot indicator container       |
-| circles.highlighter.current | Current step dot color              |
-| circles.highlighter.active  | Completed step dot color            |
-| circles.divider.wrapper     | Connecting line between circles     |
-| circles.divider.inactive    | Inactive divider color              |
-| circles.divider.active      | Completed divider color             |
-| circles.text.wrapper        | Step text container                 |
-| circles.text.title          | Step title text styling             |
-| circles.text.description    | Step description text styling       |
-| simple.li                   | Simple variation list item          |
-| simple.bar.wrapper          | Simple bar indicator wrapper        |
-| simple.bar.inactive         | Inactive bar border                 |
-| simple.bar.current          | Current step bar border             |
-| simple.bar.active           | Completed bar border                |
-| simple.text.title.wrapper   | Simple title text wrapper           |
-| simple.text.title.inactive  | Inactive title color                |
-| simple.text.title.current   | Current title color                 |
-| simple.text.title.active    | Completed title color               |
-| simple.text.description     | Simple description text styling     |
-| panels.li                   | Panel variation list item           |
-| panels.wrapper              | Panel group flex wrapper            |
-| panels.check                | Completed check icon size           |
-| panels.item                 | Panel item padding and font         |
-| panels.circle.wrapper       | Panel circle badge container        |
-| panels.circle.inactive      | Inactive panel circle border        |
-| panels.circle.current       | Current panel circle background     |
-| panels.circle.active        | Completed panel circle background   |
-| panels.divider.wrapper      | Panel arrow divider container       |
-| panels.divider.svg          | Panel arrow SVG color               |
-| panels.text.number.active   | Active step number text color       |
-| panels.text.number.inactive | Inactive step number text color     |
-| panels.text.title.wrapper   | Panel title text wrapper            |
-| panels.text.title.inactive  | Inactive panel title color          |
-| panels.text.title.active    | Completed panel title color         |
-| panels.text.description     | Panel description text styling      |
-| content                     | Step content area margin            |
-| helpers.wrapper             | Helper buttons flex container       |
-| button.base                 | Navigation button base styling      |
-| button.icon                 | Navigation button icon dimensions   |
+| Block Name                  | Purpose                              |
+|-----------------------------|--------------------------------------|
+| panels-shape                | Panels outer frame, border and clip  |
+| wrapper.panels              | Panels variation scroll container    |
+| wrapper.simple              | Simple variation list container      |
+| wrapper.circles             | Circles variation list container     |
+| circles.li                  | Circle variation list item           |
+| circles.wrapper             | Circle item flex/alignment wrapper   |
+| circles.check               | Completed check icon size and color  |
+| circles.circle.wrapper      | Circle badge container               |
+| circles.circle.inactive     | Inactive circle border and text      |
+| circles.circle.current      | Current step circle border and text  |
+| circles.circle.border       | Completed circle border              |
+| circles.circle.active       | Completed circle background          |
+| circles.highlighter.wrapper | Small dot indicator container        |
+| circles.highlighter.current | Current step dot color               |
+| circles.highlighter.active  | Completed step dot color             |
+| circles.divider.wrapper     | Connecting line between circles      |
+| circles.divider.inactive    | Inactive divider color               |
+| circles.divider.active      | Completed divider color              |
+| circles.text.wrapper        | Step text container                  |
+| circles.text.title          | Step title text styling              |
+| circles.text.description    | Step description text styling        |
+| simple.li                   | Simple variation list item           |
+| simple.bar.wrapper          | Simple bar indicator wrapper         |
+| simple.bar.inactive         | Inactive bar border                  |
+| simple.bar.current          | Current step bar border              |
+| simple.bar.active           | Completed bar border                 |
+| simple.text.title.wrapper   | Simple title text wrapper            |
+| simple.text.title.inactive  | Inactive title color                 |
+| simple.text.title.current   | Current title color                  |
+| simple.text.title.active    | Completed title color                |
+| simple.text.description     | Simple description text styling      |
+| panels.li                   | Panel variation list item            |
+| panels.wrapper              | Panel group flex wrapper             |
+| panels.check                | Completed check icon size            |
+| panels.item                 | Panel item padding and font          |
+| panels.circle.wrapper       | Panel circle badge container         |
+| panels.circle.inactive      | Inactive panel circle border         |
+| panels.circle.current       | Current panel circle background      |
+| panels.circle.active        | Completed panel circle background    |
+| panels.divider.wrapper      | Panel arrow divider container        |
+| panels.divider.svg          | Panel arrow SVG color                |
+| panels.text.number.active   | Active step number text color        |
+| panels.text.number.inactive | Inactive step number text color      |
+| panels.text.title.wrapper   | Panel title text wrapper             |
+| panels.text.title.inactive  | Inactive panel title color           |
+| panels.text.title.active    | Completed panel title color          |
+| panels.text.description     | Panel description text styling       |
+| content                     | Step content area margin             |
+| helpers.wrapper             | Helper buttons flex container        |
+| button.base                 | Navigation button base styling       |
+| button.icon                 | Navigation button icon dimensions    |
+| skeleton.animation          | Pulse animation on the placeholder   |
+| skeleton.bar                | Base look of every placeholder bar   |
+| skeleton.circle             | Circle placeholder (circles)         |
+| skeleton.panel-circle       | Circle placeholder (panels)          |
+| skeleton.simple-bar         | Top bar placeholder (simple)         |
+| skeleton.title              | Step title bar dimensions            |
+| skeleton.description        | Step description bar dimensions      |
+| skeleton.content            | Content block placeholder dimensions |
+| skeleton.helper             | Helper button placeholder dimensions |

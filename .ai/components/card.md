@@ -100,6 +100,7 @@ A versatile card container with optional header, footer, image, color styling, m
 | position    | string\|null       | 'top'   | Image position: 'top' or 'bottom'                                                                                                                                  |
 | round       | bool\|string       | false   | Border radius size of the card wrapper. Accepts `xs`, `sm`, `md`, `lg`, `xl`, or `2xl`. When omitted or set to `true`, keeps the component default (`rounded-lg`). |
 | paddingless | bool\|null         | null    | When true, removes the padding of the body, leaving the default slot flush against the card edges. Header and footer keep their padding.                           |
+| skeleton    | bool\|int\|null    | null    | Renders a structural placeholder instead of the content. A bare flag draws 3 body lines; an integer sets the count. See [Skeleton](#skeleton)                      |
 
 ## Slots
 
@@ -138,12 +139,51 @@ The Card component dispatches Alpine.js `CustomEvent`s when its state changes. L
 </x-card>
 ```
 
+## Skeleton
+
+Renders a placeholder shaped like the card, for the first paint before any data
+exists. Meant for the `placeholder()` of a `#[Lazy]` Livewire component.
+
+```blade
+<x-card skeleton />                                {{-- 3 body lines --}}
+<x-card skeleton="6" />                            {{-- 6 body lines --}}
+<x-card skeleton="2" header="Users" round="xl">    {{-- header, radius honoured --}}
+    <x-slot:footer>Saved</x-slot:footer>
+</x-card>
+```
+
+The header bar, image block and footer bar are drawn only when the matching prop
+or slot is present, and `round` / `paddingless` are honoured, so the placeholder
+occupies the same box the real card will.
+
+`skeleton` is not `loading`: `loading` dims content already on screen during a
+Livewire refetch, `skeleton` stands in for content that does not exist yet.
+Neither replaces the other. Note that `skeleton` defers nothing — Blade evaluates
+slot content before the component renders.
+
+Any integer below `1` throws.
+
 ## Validation Constraints
 
 - The `image` and `color` attributes cannot be used together.
 - When `round` is set to a string, it must be one of: `xs`, `sm`, `md`, `lg`, `xl`, `2xl`.
 - The `footer` slot cannot combine two or more alignments.
 - The `footer` slot cannot use `unwrapped` together with an alignment.
+
+### Customizations Carry Over
+
+The `skeleton.*` blocks are only the bars. Everything structural is resolved
+from this component's **own, existing blocks**, because the skeleton view calls
+the same `classes()` as the normal one — customization is resolved on the
+component, not on the view. Whatever you already changed applies to the
+placeholder too, so the box keeps matching the box it stands in for. Scopes
+work the same, including when they target the placeholder alone.
+
+Card reuses `wrapper.first`, `wrapper.second`, `border.radius.*`, `header.wrapper.base`, `header.wrapper.border`, `body`, `body.paddingless`, `footer.wrapper` and `image.wrapper`.
+
+Blocks the placeholder does not render have nothing to act on there.
+Customizing them is not an error; it simply has no effect while the skeleton
+is on screen.
 
 ## Soft Customization
 
@@ -186,6 +226,15 @@ TallStackUi::customize()
 | loading.wrapper         | Loading bar outer container                               |
 | loading.bar             | Loading bar animation element                             |
 | loading.overlay         | Semi-transparent overlay covering the card during loading |
+| skeleton.animation      | Pulse animation applied to the whole placeholder          |
+| skeleton.bar            | Base look of every placeholder bar                        |
+| skeleton.header         | Header bar dimensions                                     |
+| skeleton.image          | Image block dimensions                                    |
+| skeleton.body.wrapper   | Spacing between body lines                                |
+| skeleton.body.line      | Body line dimensions                                      |
+| skeleton.body.line-last | Last body line, shortened so the block reads as text      |
+| skeleton.footer.wrapper | Footer alignment                                          |
+| skeleton.footer.button  | Footer button placeholder dimensions                      |
 | border.radius.xs        | Border radius applied when `round="xs"`                   |
 | border.radius.sm        | Border radius applied when `round="sm"`                   |
 | border.radius.md        | Border radius applied when `round="md"`                   |

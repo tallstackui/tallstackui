@@ -10,6 +10,7 @@ use TallStackUi\Attributes\ColorsThroughOf;
 use TallStackUi\Attributes\PassThroughRuntime;
 use TallStackUi\Attributes\SkipDebug;
 use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Components\Traits\SkeletonSetup;
 use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\Support\Colors\Components\StatsColors;
 use TallStackUi\Support\Runtime\Components\StatsRuntime;
@@ -20,6 +21,8 @@ use TallStackUi\TallStackUiComponent;
 #[PassThroughRuntime(StatsRuntime::class)]
 class Component extends TallStackUiComponent implements Customization
 {
+    use SkeletonSetup;
+
     public function __construct(
         public string|int|null $number = null,
         public ?string $title = null,
@@ -35,6 +38,7 @@ class Component extends TallStackUiComponent implements Customization
         public ?bool $decrease = false,
         public ?bool $navigate = null,
         public ?bool $navigateHover = null,
+        public bool|int|null $skeleton = null,
         #[SkipDebug]
         public ?string $style = null,
         #[SkipDebug]
@@ -56,7 +60,7 @@ class Component extends TallStackUiComponent implements Customization
 
     public function blade(): View
     {
-        return view('ts-ui::components.stats.main');
+        return view($this->skeletonized() ? 'ts-ui::components.stats.skeleton' : 'ts-ui::components.stats.main');
     }
 
     public function customization(): array
@@ -98,11 +102,25 @@ class Component extends TallStackUiComponent implements Customization
             'icon' => 'h-8 w-8',
             'title' => 'dark:text-dark-300 text-sm text-gray-600',
             'number' => 'dark:text-dark-300 text-2xl font-bold leading-none *:m-0',
+            'skeleton' => [
+                ...$this->blocks(),
+                'icon' => 'size-12 rounded-lg',
+                'title' => 'h-3 w-24',
+                'number' => 'h-6 w-16',
+                'header' => 'h-3 w-20',
+                'footer' => 'h-3 w-28',
+            ],
         ]);
     }
 
     protected function validate(): void
     {
+        $this->guard();
+
+        if (is_int($this->skeleton)) {
+            __ts_validation_exception($this, 'The [skeleton] must be a flag: there is nothing to count.');
+        }
+
         if ($this->increase && $this->decrease) {
             __ts_validation_exception($this, 'The [increase] and [decrease] cannot be used together.');
         }

@@ -11,6 +11,7 @@ class CardRuntime extends AbstractRuntime
         return [
             'align' => $this->alignment(),
             'bag' => $this->alignable(),
+            'lines' => $this->skeleton(3),
         ];
     }
 }

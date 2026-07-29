@@ -16,6 +16,9 @@ use TallStackUi\Support\Runtime\AbstractRuntime;
 
 class ChartRuntime extends AbstractRuntime
 {
+    /** Invented values, so the placeholder keeps the proportions of a real plot. */
+    private const SHAPE = [4.0, 7.0, 5.0, 9.0, 6.0, 8.0, 5.5, 7.5];
+
     public function runtime(): array
     {
         /** @var Chart $component */
@@ -26,6 +29,10 @@ class ChartRuntime extends AbstractRuntime
         $series = Series::normalize($component->series);
         $type = $component->type ?? 'area';
         $radial = in_array($type, ['pie', 'donut'], true);
+
+        if ($this->skeletonized()) {
+            return $this->placeholder($type, $radial);
+        }
 
         $palette = $this->palette($series, $radial);
         $ticks = $radial ? [] : $this->ticks($series, $type);
@@ -236,6 +243,45 @@ class ChartRuntime extends AbstractRuntime
         return $resolved;
     }
 
+    private function placeholder(string $type, bool $radial): array
+    {
+        $values = $this->shape($this->skeleton(6));
+
+        $payload = [
+            'variant' => $type,
+            'radial' => $radial,
+            'aspect' => $radial ? 'xMidYMid meet' : 'none',
+            'viewbox' => Plot::viewbox(),
+            'slices' => [],
+            'bars' => [],
+            'line' => '',
+            'area' => '',
+        ];
+
+        if ($radial) {
+            return [...$payload, 'slices' => Slices::of($values, donut: $type === 'donut')];
+        }
+
+        $series = Series::normalize($values);
+        $length = Series::length($series);
+        $scale = Scale::of($values, zero: $type === 'bar');
+
+        if ($type === 'bar') {
+            return [...$payload, 'bars' => Bars::of($series, [$scale], $length)[0] ?? []];
+        }
+
+        $points = Spline::points($values, $scale, Spline::indexes($series, $length), $length);
+        $line = Spline::path($points);
+
+        return [
+            ...$payload,
+            'line' => $line,
+            'area' => $type === 'area' && $line !== ''
+                ? $line.' L'.Plot::WIDTH.','.Plot::bottom().' L0,'.Plot::bottom().' Z'
+                : '',
+        ];
+    }
+
     private function plots(array $series, string $type, array $palette): array
     {
         /** @var Chart $component */
@@ -311,6 +357,17 @@ class ChartRuntime extends AbstractRuntime
     private function secondary(array $series): bool
     {
         return Series::on($series, 'right') !== [];
+    }
+
+    private function shape(int $count): array
+    {
+        $values = [];
+
+        for ($index = 0; $index < $count; $index++) {
+            $values[] = self::SHAPE[$index % count(self::SHAPE)];
+        }
+
+        return $values;
     }
 
     private function slices(array $series, string $type, array $palette): array

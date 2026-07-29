@@ -6,14 +6,20 @@ use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\ComponentSlot;
+use TallStackUi\Attributes\PassThroughRuntime;
 use TallStackUi\Attributes\SkipDebug;
 use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Components\Traits\SkeletonSetup;
 use TallStackUi\Customization\Contracts\Customization;
+use TallStackUi\Support\Runtime\Components\ListRuntime;
 use TallStackUi\TallStackUiComponent;
 
 #[SoftCustomization('list')]
+#[PassThroughRuntime(ListRuntime::class)]
 class Component extends TallStackUiComponent implements Customization
 {
+    use SkeletonSetup;
+
     public function __construct(
         public ?string $label = null,
         public ?string $hint = null,
@@ -21,6 +27,7 @@ class Component extends TallStackUiComponent implements Customization
         public ?string $searchPlaceholder = null,
         public ?string $height = null,
         public array|Arrayable|null $items = null,
+        public bool|int|null $skeleton = null,
         #[SkipDebug]
         public ComponentSlot|string|null $empty = null,
         #[SkipDebug]
@@ -35,7 +42,7 @@ class Component extends TallStackUiComponent implements Customization
 
     public function blade(): View
     {
-        return view('ts-ui::components.list.main');
+        return view($this->skeletonized() ? 'ts-ui::components.list.skeleton' : 'ts-ui::components.list.main');
     }
 
     public function customization(): array
@@ -63,11 +70,27 @@ class Component extends TallStackUiComponent implements Customization
                 'wrapper' => 'flex items-center justify-center px-3 py-6',
                 'text' => 'text-sm text-secondary-500 dark:text-dark-400',
             ],
+            'skeleton' => [
+                ...$this->blocks(),
+                'label' => 'h-3 w-24',
+                'hint' => 'h-3 w-40',
+                'search' => 'mx-3 h-4 w-1/3',
+                'items' => [
+                    'wrapper' => 'dark:divide-dark-600 divide-y divide-secondary-200',
+                    'row' => 'flex items-center justify-between gap-x-2 px-3 py-2.5',
+                    'content' => 'flex items-center gap-x-2',
+                ],
+                'name' => 'h-4 w-32',
+                'caption' => 'h-3 w-20',
+                'menu' => 'size-5 rounded',
+            ],
         ]);
     }
 
     protected function validate(): void
     {
+        $this->guard();
+
         $allowed = ['40', '60', '80', '96'];
 
         if ($this->height !== null && ! in_array($this->height, $allowed, true)) {

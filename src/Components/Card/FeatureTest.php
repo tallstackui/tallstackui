@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Blade;
 use Illuminate\View\ViewException;
 use Tests\TestCase;
 
@@ -221,4 +222,42 @@ it('can thrown exception when the footer slot mixes unwrapped with alignments', 
     HTML;
 
     expect($component)->render();
+});
+it('can render the skeleton instead of the content')
+    ->expect('<x-card skeleton>Real content</x-card>')
+    ->render()
+    ->toContain('animate-pulse')
+    ->not->toContain('Real content');
+
+it('can render the skeleton with the default line count', function () {
+    $html = Blade::render('<x-card skeleton />');
+
+    expect(substr_count($html, 'bg-gray-200'))->toBe(3);
+});
+
+it('can render the skeleton with a custom line count', function () {
+    $html = Blade::render('<x-card skeleton="6" />');
+
+    expect(substr_count($html, 'bg-gray-200'))->toBe(6);
+});
+
+it('can render the skeleton with the header, the image and the footer', function () {
+    $html = Blade::render(<<<'HTML'
+    <x-card skeleton="2" header="Foo" image="https://foo.bar/baz.png">
+        <x-slot:footer>Bar</x-slot:footer>
+    </x-card>
+    HTML);
+
+    expect(substr_count($html, 'bg-gray-200'))->toBe(5);
+});
+
+it('can render the skeleton honoring the round size')
+    ->expect('<x-card skeleton round="2xl" />')
+    ->render()
+    ->toContain('rounded-2xl');
+
+it('cannot render the skeleton with a count below one', function () {
+    $this->expectException(ViewException::class);
+
+    expect('<x-card skeleton="0" />')->render();
 });

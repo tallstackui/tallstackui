@@ -44,23 +44,24 @@ its code ships in its own bundle rather than in the main one.
 
 ## Attributes
 
-| Attribute | Type                    | Default   | Description                                                   |
-|-----------|-------------------------|-----------|---------------------------------------------------------------|
-| series    | array\|Collection\|null | null      | Values to plot, flat or grouped. Required                     |
-| labels    | array\|Collection\|null | null      | Horizontal axis captions, or slice names on radial types      |
-| type      | string\|null            | 'area'    | One of: area, line, bar, pie, donut                           |
-| stacked   | bool\|null              | null      | Stacks series instead of overlaying them. Area and bar only   |
-| color     | string\|null            | 'primary' | Base color, and the first of the cycled palette               |
-| colors    | array\|Collection\|null | null      | Explicit color names, cycled across series or slices          |
-| height    | int\|null               | null      | Minimum rendered height in pixels, falling back to the config |
-| grid      | bool\|null              | null      | Horizontal gridlines plus a labelled vertical axis            |
-| legend    | bool\|null              | null      | Series names with a color swatch. Clicking one toggles it     |
-| tooltip   | bool\|null              | null      | Crosshair and a tooltip following the pointer                 |
-| markers   | bool\|null              | null      | A dot on every plotted point                                  |
-| prefix    | string\|array\|null     | null      | Prepended to formatted values. Per axis when an array         |
-| suffix    | string\|array\|null     | null      | Appended to formatted values. Per axis when an array          |
-| decimals  | int\|array\|null        | null      | Decimal places. Defaults to 0 for whole numbers, 2 otherwise  |
-| formatter | Closure\|null           | null      | Formats every value, winning over the three above             |
+| Attribute | Type                    | Default   | Description                                                                                                                            |
+|-----------|-------------------------|-----------|----------------------------------------------------------------------------------------------------------------------------------------|
+| series    | array\|Collection\|null | null      | Values to plot, flat or grouped. Required                                                                                              |
+| labels    | array\|Collection\|null | null      | Horizontal axis captions, or slice names on radial types                                                                               |
+| type      | string\|null            | 'area'    | One of: area, line, bar, pie, donut                                                                                                    |
+| stacked   | bool\|null              | null      | Stacks series instead of overlaying them. Area and bar only                                                                            |
+| color     | string\|null            | 'primary' | Base color, and the first of the cycled palette                                                                                        |
+| colors    | array\|Collection\|null | null      | Explicit color names, cycled across series or slices                                                                                   |
+| height    | int\|null               | null      | Minimum rendered height in pixels, falling back to the config                                                                          |
+| grid      | bool\|null              | null      | Horizontal gridlines plus a labelled vertical axis                                                                                     |
+| legend    | bool\|null              | null      | Series names with a color swatch. Clicking one toggles it                                                                              |
+| tooltip   | bool\|null              | null      | Crosshair and a tooltip following the pointer                                                                                          |
+| markers   | bool\|null              | null      | A dot on every plotted point                                                                                                           |
+| prefix    | string\|array\|null     | null      | Prepended to formatted values. Per axis when an array                                                                                  |
+| suffix    | string\|array\|null     | null      | Appended to formatted values. Per axis when an array                                                                                   |
+| decimals  | int\|array\|null        | null      | Decimal places. Defaults to 0 for whole numbers, 2 otherwise                                                                           |
+| formatter | Closure\|null           | null      | Formats every value, winning over the three above                                                                                      |
+| skeleton  | bool\|int\|null         | null      | Renders a structural placeholder instead of the plot. A bare flag draws 6 points; an integer sets the count. See [Skeleton](#skeleton) |
 
 ### Formatting
 
@@ -239,24 +240,61 @@ appears complete the moment the placeholder is replaced. Hit-testing measures
 the element on the pointer event and never on `init()`, which is the usual
 failure mode for charting libraries mounted before their container has a size.
 
+For the placeholder itself, see [Skeleton](#skeleton) below.
+
+## Skeleton
+
+Renders a structural placeholder in place of the plot, for the first paint
+before any series exists. Meant for the `placeholder()` of a `#[Lazy]` component,
+where a chart is usually the slowest thing on the page.
+
+```blade
+<x-chart skeleton />                                {{-- 6 points, area --}}
+<x-chart skeleton="10" type="bar" :height="240" />
+<x-chart skeleton="5" type="donut" />
+```
+
+The placeholder runs the same geometry as a real chart — `Series`, `Scale`,
+`Bars`, `Spline`, `Slices` — over invented values, so it lands in the same
+`viewBox` with the same proportions, and honours the resolved `height`. Three
+shape families cover all five types:
+
+| Family | Types          | Produced by |
+|--------|----------------|-------------|
+| Curve  | `area`, `line` | `Spline`    |
+| Bars   | `bar`          | `Bars`      |
+| Slices | `pie`, `donut` | `Slices`    |
+
+Real geometry filled with invented numbers would read as *a chart showing wrong
+data*, so three things keep it unambiguous: every fill and stroke is neutral grey
+(`color` and the palette are ignored), the plot pulses, and **no axis labels,
+legend, tooltip, markers, grid or crosshair are rendered**. The placeholder is a
+shape, never a reading.
+
+`series` is required everywhere else, but not here: it is the content, and a
+placeholder stands in for content that does not exist yet. Every configuration
+validation still runs — an unknown `type`, a `height` below `1`, `stacked` on a
+radial type and `grid` on a radial type all still throw. Any `skeleton` integer
+below `1` throws.
+
 ### Degenerate input
 
-| Input                                        | Result                                                    |
-|----------------------------------------------|-----------------------------------------------------------|
-| Absent `series`                              | Throws `The [series] attribute is required.`              |
-| Empty array                                  | The plot renders at full height with no path              |
-| Single value                                 | Spans the plot as a constant series, like `[7, 7, 7]`     |
-| All values identical                         | A flat line centred in the band, not on the baseline      |
-| Negative values                              | Handled natively; bars anchor on zero                     |
-| Non-numeric, `NAN`, `INF`                    | Throws `The [series] must contain only numeric values.`   |
-| Entry without `data`                         | Throws `Every entry of [series] must carry a [data] key.` |
-| Unknown `type`                               | Throws, naming the accepted values                        |
-| Unknown `axis`                               | Throws; only `left` and `right` exist                     |
-| `stacked` on line or pie                     | Throws                                                    |
-| `stacked` with a secondary axis              | Throws; one running total cannot span two domains         |
-| `grid` on pie or donut                       | Throws                                                    |
-| Negative or non-integer `decimals`           | Throws                                                    |
-| Formatting array keyed other than left/right | Throws                                                    |
+| Input                                        | Result                                                                 |
+|----------------------------------------------|------------------------------------------------------------------------|
+| Absent `series`                              | Throws `The [series] attribute is required.`, unless `skeleton` is set |
+| Empty array                                  | The plot renders at full height with no path                           |
+| Single value                                 | Spans the plot as a constant series, like `[7, 7, 7]`                  |
+| All values identical                         | A flat line centred in the band, not on the baseline                   |
+| Negative values                              | Handled natively; bars anchor on zero                                  |
+| Non-numeric, `NAN`, `INF`                    | Throws `The [series] must contain only numeric values.`                |
+| Entry without `data`                         | Throws `Every entry of [series] must carry a [data] key.`              |
+| Unknown `type`                               | Throws, naming the accepted values                                     |
+| Unknown `axis`                               | Throws; only `left` and `right` exist                                  |
+| `stacked` on line or pie                     | Throws                                                                 |
+| `stacked` with a secondary axis              | Throws; one running total cannot span two domains                      |
+| `grid` on pie or donut                       | Throws                                                                 |
+| Negative or non-integer `decimals`           | Throws                                                                 |
+| Formatting array keyed other than left/right | Throws                                                                 |
 
 ### Long series
 
@@ -264,6 +302,21 @@ Above 120 points the series is bucketed, keeping each bucket's lowest and
 highest value in the order they appeared, so peaks and the scale anchors always
 survive. The chosen indexes are shared across every series, so multiple curves
 stay aligned, and each point keeps the horizontal position of its original index.
+
+### Customizations Carry Over
+
+The `skeleton.*` blocks are only the bars. Everything structural is resolved
+from this component's **own, existing blocks**, because the skeleton view calls
+the same `classes()` as the normal one — customization is resolved on the
+component, not on the view. Whatever you already changed applies to the
+placeholder too, so the box keeps matching the box it stands in for. Scopes
+work the same, including when they target the placeholder alone.
+
+Chart reuses `wrapper`, `plot.wrapper`, `plot.svg`, `plot.slice` and the `axis.*.wrapper` set.
+
+Blocks the placeholder does not render have nothing to act on there.
+Customizing them is not an error; it simply has no effect while the skeleton
+is on screen.
 
 ## Soft Customization
 
@@ -313,6 +366,12 @@ TallStackUi::customize()
 | slots.footer         | Footer slot styles                                        |
 | opacity.from         | Gradient stop opacity at the top of the area, as a number |
 | opacity.to           | Gradient stop opacity at the baseline, as a number        |
+| skeleton.animation   | Pulse animation applied to the whole placeholder          |
+| skeleton.bar         | Base look of the header and footer placeholder bars       |
+| skeleton.fill        | Neutral fill of placeholder areas, bars and slices        |
+| skeleton.stroke      | Neutral stroke of the placeholder curve                   |
+| skeleton.header      | Header bar dimensions                                     |
+| skeleton.footer      | Footer bar dimensions                                     |
 
 `opacity.from` and `opacity.to` hold plain numbers rather than classes because
 Tailwind has no `stop-opacity` utility.

@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Blade;
 use Illuminate\View\ViewException;
 use TallStackUi\Components\Chart\Component;
 use Tests\TestCase;
@@ -473,3 +474,63 @@ it('cannot combine grid with a radial type', function (string $type) {
 
     expect("<x-chart :series=\"[1, 2, 3]\" type=\"{$type}\" grid />")->render();
 })->with(['pie', 'donut']);
+
+it('can render the skeleton without a series')
+    ->expect('<x-chart skeleton />')
+    ->render()
+    ->toContain('animate-pulse')
+    ->toContain('tallstackui_chart_skeleton');
+
+it('can render the skeleton as a curve')
+    ->expect('<x-chart skeleton type="line" />')
+    ->render()
+    ->toContain('stroke-gray-200')
+    ->not->toContain('<rect');
+
+it('can render the skeleton as an area with the closed path')
+    ->expect('<x-chart skeleton type="area" />')
+    ->render()
+    ->toContain('fill-gray-200')
+    ->toContain('stroke-gray-200');
+
+it('can render the skeleton as bars', function () {
+    $html = Blade::render('<x-chart skeleton="4" type="bar" />');
+
+    expect(substr_count($html, '<rect'))->toBe(4);
+});
+
+it('can render the skeleton as slices', function () {
+    $html = Blade::render('<x-chart skeleton="5" type="donut" />');
+
+    expect(substr_count($html, '<path'))->toBe(5);
+});
+
+it('can render the skeleton keeping the resolved height')
+    ->expect('<x-chart skeleton :height="320" />')
+    ->render()
+    ->toContain('min-height: 320px');
+
+it('can render the skeleton without any element that would read as data')
+    ->expect('<x-chart skeleton legend tooltip markers grid />')
+    ->render()
+    ->not->toContain('tallstackui_chart(')
+    ->not->toContain('flex flex-wrap items-center justify-center gap-x-4')
+    ->not->toContain('absolute right-2 -translate-y-1/2');
+
+it('still validates the type in skeleton mode', function () {
+    $this->expectException(ViewException::class);
+
+    expect('<x-chart skeleton type="foo" />')->render();
+});
+
+it('still validates the height in skeleton mode', function () {
+    $this->expectException(ViewException::class);
+
+    expect('<x-chart skeleton :height="0" />')->render();
+});
+
+it('cannot render the skeleton with a count below one', function () {
+    $this->expectException(ViewException::class);
+
+    expect('<x-chart skeleton="0" />')->render();
+});

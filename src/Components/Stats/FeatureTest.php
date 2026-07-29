@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Blade;
 use Illuminate\View\ViewException;
 use Tests\TestCase;
 
@@ -254,3 +255,21 @@ it('keeps the shadowless scope working alongside a chart')
     ->toContain('border border-gray-200')
     ->toContain('isolate')
     ->not->toContain('shadow-md');
+
+it('can render the skeleton instead of the content')
+    ->expect('<x-stats skeleton number="1234" title="Users" />')
+    ->render()
+    ->toContain('animate-pulse')
+    ->not->toContain('1234');
+
+it('can render the skeleton with the icon, the title, the header and the footer', function () {
+    $html = Blade::render('<x-stats skeleton icon="users" title="Users" header="Foo" footer="Bar" />');
+
+    expect(substr_count($html, 'bg-gray-200'))->toBe(5);
+});
+
+it('cannot render the skeleton with a count', function () {
+    $this->expectException(ViewException::class);
+
+    expect('<x-stats skeleton="3" />')->render();
+});
