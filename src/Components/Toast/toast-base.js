@@ -82,8 +82,6 @@ export default (
     }
   },
   /**
-   * Drop every toast at once, along with the heights they had reported.
-   *
    * @return {void}
    */
   flush() {
@@ -93,9 +91,6 @@ export default (
     this.collapse();
   },
   /**
-   * Store the height a toast reported, so the pile knows how far
-   * apart the cards must sit once it expands.
-   *
    * @param {Object} detail
    * @return {void}
    */
@@ -103,8 +98,6 @@ export default (
     this.heights[detail.id] = detail.height;
   },
   /**
-   * Open the pile back into a list.
-   *
    * @return {void}
    */
   expand() {
@@ -115,8 +108,6 @@ export default (
     this.expanded = true;
   },
   /**
-   * Close the list back into a pile.
-   *
    * @return {void}
    */
   collapse() {
@@ -127,7 +118,7 @@ export default (
     this.expanded = false;
   },
   /**
-   * The measured height of a toast, or zero until it reports one.
+   * Zero until the toast reports a height of its own.
    *
    * @param {Object} toast
    * @return {Number}
@@ -136,8 +127,7 @@ export default (
     return this.heights[toast.id] ?? 0;
   },
   /**
-   * How many toasts sit in front of the one at the given index. The most
-   * recent toast is always the front of the pile, at depth zero.
+   * The most recent toast is always the front of the pile, at depth zero.
    *
    * @param {Number} index
    * @return {Number}
@@ -146,8 +136,8 @@ export default (
     return this.toasts.length - 1 - index;
   },
   /**
-   * The height the pile occupies. The cards are absolute, so this is what
-   * gives the wrapper a hover area to begin with.
+   * The cards are absolute, so this is what gives the wrapper a hover area
+   * to begin with.
    *
    * @return {Number}
    */
@@ -165,9 +155,8 @@ export default (
     return this.height(front) + Math.min(this.toasts.length - 1, VISIBLE) * OFFSET;
   },
   /**
-   * The opacity of a toast's content. While piled, only the front card shows
-   * anything: the ones behind are reduced to their card shape, so the pile
-   * reads as stacked paper instead of overlapping paragraphs.
+   * While piled, only the front card shows content. Letting the buried ones
+   * keep theirs puts two paragraphs in the same space mid-transition.
    *
    * @param {Number} index
    * @return {Number}
@@ -180,8 +169,6 @@ export default (
     return 0;
   },
   /**
-   * The scale of a toast, shrinking the deeper it sits in the pile.
-   *
    * @param {Number} index
    * @return {Number}
    */
@@ -206,9 +193,9 @@ export default (
     return this.position.includes('bottom-');
   },
   /**
-   * The style of a toast in the pile. Every card is anchored to the edge the
-   * position points at and pushed away from it by whatever stands in front:
-   * a fixed offset while piled, the real heights once expanded.
+   * Every card is anchored to the edge the position points at and pushed away
+   * from it by whatever stands in front: a fixed offset while piled, the real
+   * heights once expanded.
    *
    * @param {Number} index
    * @return {Object}
@@ -226,10 +213,10 @@ export default (
     // Both edges are always written, since a toast sent to the opposite
     // position flips the anchor and the previous one has to be undone.
     //
-    // visibility rides along with opacity to take the buried cards out of
-    // hit-testing and out of the accessibility tree, which opacity alone does
-    // not do. It does not cut the fade: CSS Transitions maps every step
-    // between the endpoints to visible, so the flip lands at the very end.
+    // visibility is what takes the buried cards out of hit-testing and out of
+    // the accessibility tree, which opacity alone does not. It costs no fade:
+    // CSS Transitions maps every intermediate step to visible, so the flip
+    // lands at the very end.
     return {
       top: reversed ? 'auto' : '0px',
       bottom: reversed ? '0px' : 'auto',
@@ -241,7 +228,8 @@ export default (
     };
   },
   /**
-   * The horizontal offset used when the toast enters.
+   * The horizontal offset the toast enters from. A centered one has no edge to
+   * come from, so it only moves vertically.
    *
    * @returns {String}
    */

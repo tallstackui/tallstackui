@@ -97,16 +97,12 @@ export default (toast, stacked = false) => ({
     }
   },
   /**
-   * Whether the countdown is on hold, for any reason.
-   *
    * @return {Boolean}
    */
   get frozen() {
     return this.paused === true || this.piled === true;
   },
   /**
-   * Play or pause the progress bar.
-   *
    * @param {Boolean} running
    * @return {void}
    */
@@ -123,8 +119,7 @@ export default (toast, stacked = false) => ({
     progress.style.animationPlayState = state;
   },
   /**
-   * Hold the countdown while the pile this toast belongs to is expanded,
-   * which freezes every toast in it at once.
+   * Driven by the pile, which holds every toast in it at once.
    *
    * @param {Boolean} expanded
    * @return {void}
@@ -135,8 +130,8 @@ export default (toast, stacked = false) => ({
     this.animate(!this.frozen);
   },
   /**
-   * Report the rendered height to the pile and keep reporting it, since the
-   * description collapsing or expanding changes how tall the card is.
+   * Keeps reporting, not just once: a description collapsing or expanding
+   * changes how tall the card is, and the pile has to re-seat around it.
    *
    * @return {void}
    */
@@ -145,8 +140,8 @@ export default (toast, stacked = false) => ({
       return;
     }
 
-    // ResizeObserver already notifies once on observe, with the settled
-    // height, so there is no need to report an initial value by hand.
+    // ResizeObserver notifies once on observe, with the settled height, so
+    // there is no initial value to report by hand.
     this.observer = new ResizeObserver(() =>
       this.$dispatch('ts-ui:toast-measured', {
         id: this.toast.id,
