@@ -12,6 +12,118 @@ such change is listed under **Migration**.
 
 ---
 
+## Chart
+
+### Added — `<x-chart />`, a dependency-free chart
+
+Five types rendered as inline SVG, with no charting library involved. Every
+path, rectangle and arc is computed server-side and shipped as markup, so there
+is nothing to hydrate and no flash before Alpine boots:
+
+```blade
+{{-- A flat list of numbers is a single unnamed series --}}
+<x-chart :series="[10, 40, 25, 60, 30, 80]" />
+
+{{-- Several named series share one scale, so they compare at a glance --}}
+<x-chart :labels="['Jan', 'Fev', 'Mar', 'Abr']"
+         :series="[
+             ['name' => '2026', 'data' => [10, 40, 25, 60]],
+             ['name' => '2025', 'data' => [8, 30, 33, 41]],
+         ]"
+         type="bar"
+         grid
+         legend
+         tooltip
+         prefix="R$ " />
+```
+
+Types: `area` (default), `line`, `bar`, `pie` and `donut`. Area and bar also
+accept `stacked`. Chrome is opt-in through `grid`, `legend`, `tooltip` and
+`markers`, and values are formatted with `prefix`, `suffix` and `decimals`.
+
+`height` and the four chrome flags take an application-wide default from the
+config, each overridable at the call site. `type` deliberately does not: a
+dashboard mixes bars, lines and pies, so it stays a per-chart decision.
+
+**Formatting beyond a prefix takes a closure**, because a locale or a currency
+is a decision per chart rather than per application:
+
+```blade
+<x-chart :series="$revenue" grid :formatter="fn (float $value) => Number::currency($value, 'BRL', 'pt_BR')" />
+```
+
+It receives the axis as a second argument, wins over `prefix`/`suffix`/
+`decimals`, and covers the axis labels and the tooltip alike — every displayed
+number is formatted server-side, so nothing has to cross over to JavaScript.
+
+**A series can bind itself to a secondary axis** with `'axis' => 'right'`, for
+when its magnitude would flatten everything else against a shared scale. Both
+axes are pinned to the same tick count, so one set of gridlines serves either
+side. Formatting resolves per axis: a scalar `prefix`, `suffix` or `decimals`
+applies to both, an array picks the side.
+
+**Interaction runs on Pointer Events**, so it works from mouse, touch and pen.
+On touch a tap opens the tooltip and a tap outside closes it; dragging is left
+to the page, because capturing it would need `preventDefault` and lock scrolling
+inside a chart that often fills a small screen.
+
+The component ships **no card of its own**, so the same class serves a
+standalone chart inside `<x-card paddingless>` and the background layer of
+`<x-stats>`.
+
+**Interpolation is monotone cubic (Fritsch-Carlson), not Catmull-Rom.** The
+curve is guaranteed never to leave the range of the data it passes through. A
+plain Catmull-Rom spline overshoots by up to 7% of the plot height on the common
+flat-then-jump series, which on an area chart self-intersects the fill under its
+own baseline and draws a value lower than the series minimum.
+
+**Nothing textual or circular lives inside the SVG.** The plot stretches through
+`preserveAspectRatio="none"`, which would distort both, so axis labels and point
+markers are HTML positioned over it — and gain Tailwind typography and dark mode
+in the process.
+
+**Toggling a series in the legend rescales the rest through an SVG `transform`,
+not a recomputed curve.** Rescaling a domain is an affine map in y and Beziers
+are affine invariant, so the interpolation exists in exactly one place, in PHP.
+Rescaling is skipped where it would mislead: on a labelled grid, on stacked or
+bar charts, and whenever a secondary axis exists.
+
+A pie is the exception: removing a slice redistributes every remaining angle,
+which is a real recomputation rather than a transform, so its arc trigonometry
+is mirrored in the Alpine layer and the tooltip percentages follow along.
+
+**Livewire lazy loading works natively.** The markup arrives already drawn, and
+hit-testing measures the element on the pointer event rather than on `init()`,
+which is the usual failure mode for charting libraries mounted before their
+container has a size.
+
+Series longer than 120 points are bucketed down, keeping each bucket's lowest
+and highest value in the order they appeared, so peaks and the scale anchors
+always survive. The chosen indexes are shared across series so multiple curves
+stay aligned.
+
+An empty series renders the plot at full height with no path, so a card holding
+it does not jump, and a single value spans the plot as a constant series, the
+same as `[7, 7, 7]` would.
+
+Everything else fails loudly rather than degrading: non-numeric values, `NAN`
+and `INF`, an unknown `type` or `axis`, `stacked` on a line or radial type,
+`stacked` alongside a secondary axis, `grid` on a radial type, a negative or
+non-integer `decimals`, and a formatting array keyed by anything other than
+`left` and `right`. The last one is the quietest of them — an unrecognized key
+used to be dropped without a word, which reads as if it had worked.
+
+Full reference in `.ai/components/chart.md`.
+
+### Changed — the chart ships in its own bundle
+
+`js/tallstackui-chart.js` joined the entry points, weighing 3.9 kB, 1.6 kB
+gzipped. Same reasoning as the editor and upload splits: not lazy loading —
+`Directives::script()` emits every entry of the manifest on every page — but
+cache granularity, so a change to the chart stops invalidating the bundle every
+other component lives in. What a static chart skips is the work, not the bytes:
+no `tallstackui_chart` instance is created without `tooltip` or `legend`.
+
 ## Floating
 
 ### Added — `floating_scroll_lock`, locking the page scroll while a popup is open
@@ -1354,6 +1466,46 @@ caption no longer appears in the overlay when `TALLSTACKUI_DEBUG_MODE` is on.
 ---
 
 ## Stats
+
+### Added — optional background chart
+
+A card can now carry a `<x-chart>` behind its content, full-bleed and dimmed, in
+two forms. The array shorthand renders the chart internally and inherits the
+card's `color`:
+
+```blade
+<x-stats number="45231" title="Revenue" increase :chart="[10, 40, 25, 60, 30, 80]" />
+```
+
+The slot takes over completely, for a chart that should differ from the card:
+
+```blade
+<x-stats number="45231" title="Revenue">
+    <x-slot:chart>
+        <x-chart :series="$revenue" color="emerald" class="h-full w-full" />
+    </x-slot:chart>
+</x-stats>
+```
+
+The two are mutually exclusive and throw when combined. An absent chart, an empty
+array and an empty slot are all treated as no chart, and none of the positioning
+classes are applied in that case.
+
+Three new soft customization blocks:
+
+| Block               | Purpose                                                       |
+|---------------------|---------------------------------------------------------------|
+| `wrapper.first-chart` | Stacking context on the card, only when a chart is present  |
+| `chart.wrapper`     | The full-bleed layer: placement, clipping and opacity          |
+| `chart.element`     | Sizing handed to the internal chart                            |
+
+The layer clips itself rather than the card, so nothing a slot renders outside
+the box gets cut. Two behaviours change on a charted card: it becomes the
+containing block for absolutely positioned slot content, and it traps positive
+`z-index` inside itself. Everything TallStackUI teleports (floating, modal,
+tooltip) is unaffected.
+
+In `solid` style the icon tile is opaque and covers the watermark behind it.
 
 ### Added — `duration` prop
 

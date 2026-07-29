@@ -4,6 +4,7 @@ namespace TallStackUi\Components\Stats;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Illuminate\View\ComponentSlot;
 use TallStackUi\Attributes\ColorsThroughOf;
 use TallStackUi\Attributes\PassThroughRuntime;
@@ -42,9 +43,15 @@ class Component extends TallStackUiComponent implements Customization
         public ComponentSlot|string|null $right = null,
         #[SkipDebug]
         public ComponentSlot|string|null $footer = null,
+        #[SkipDebug]
+        public array|Collection|ComponentSlot|null $chart = null,
     ) {
         $this->style = $this->outline ? 'outline' : ($this->light ? 'light' : 'solid');
         $this->duration = max(0, (int) $this->duration);
+
+        if ($this->chart instanceof Collection) {
+            $this->chart = $this->chart->values()->toArray();
+        }
     }
 
     public function blade(): View
@@ -58,6 +65,7 @@ class Component extends TallStackUiComponent implements Customization
             'wrapper' => [
                 'first' => 'dark:bg-dark-700 flex w-full flex-col rounded-lg bg-white shadow-md',
                 'first-clickable' => 'cursor-pointer',
+                'first-chart' => 'relative isolate',
                 'second' => 'mx-4 flex h-full items-center justify-center gap-4',
                 'second-no-header' => 'mt-4',
                 'second-no-footer' => 'mb-4',
@@ -82,6 +90,10 @@ class Component extends TallStackUiComponent implements Customization
                         'class' => 'w-6 h-6 text-red-500',
                     ],
                 ],
+            ],
+            'chart' => [
+                'wrapper' => 'pointer-events-none absolute inset-0 -z-10 overflow-hidden rounded-[inherit] opacity-20 dark:opacity-30',
+                'element' => 'h-full w-full',
             ],
             'icon' => 'h-8 w-8',
             'title' => 'dark:text-dark-300 text-sm text-gray-600',

@@ -138,6 +138,26 @@ return [
         'calendar' => Components\Calendar\Component::class,
         'carousel' => Components\Carousel\Component::class,
         'card' => Components\Card\Component::class,
+        'chart' => [
+            Components\Chart\Component::class,
+            /*
+            |----------------------------------------------------------------------
+            | Chart Settings
+            |----------------------------------------------------------------------
+            | height: default rendered height, in pixels.
+            | grid: default gridlines and labelled vertical axis.
+            | legend: default series names with a clickable color swatch.
+            | tooltip: default crosshair and tooltip following the pointer.
+            | markers: default dot on every plotted point.
+            */
+            [
+                'height' => 64,
+                'grid' => false,
+                'legend' => false,
+                'tooltip' => false,
+                'markers' => false,
+            ],
+        ],
         'checkbox' => Components\Form\Checkbox\Component::class,
         'checkbox.group' => Components\Form\Checkbox\Group\Component::class,
         'color' => [

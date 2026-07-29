@@ -4,6 +4,7 @@ namespace TallStackUi\Support\Configurations;
 
 use Exception;
 use Illuminate\Support\Facades\URL;
+use TallStackUi\Components\Chart\Component as Chart;
 use TallStackUi\Components\CommandPalette\Component as CommandPalette;
 use TallStackUi\Components\Dialog\Component as Dialog;
 use TallStackUi\Components\Editor\Component as Editor;
@@ -28,6 +29,7 @@ class CompileConfigurations
         /** @var string|array|null $data */
         $data = (match (true) { // @phpstan-ignore-line
             $component instanceof Autocomplete => fn () => self::autocomplete($component),
+            $component instanceof Chart => fn () => self::chart($component),
             $component instanceof CommandPalette => fn () => self::commandPalette($component),
             $component instanceof Color => fn () => self::color($component),
             $component instanceof Currency => fn () => self::currency($component),
@@ -68,6 +70,29 @@ class CompileConfigurations
         $component->strict ??= $configuration['strict'] ?? false;
 
         return ['strict' => $component->strict];
+    }
+
+    /**
+     * Define the Chart component configurations.
+     *
+     * @throws Exception
+     */
+    private static function chart(Chart $component): array
+    {
+        $configuration = __ts_get_component_configuration(Chart::class);
+
+        $component->height ??= $configuration['height'] ?? 64;
+        $component->legend ??= $configuration['legend'] ?? false;
+        $component->tooltip ??= $configuration['tooltip'] ?? false;
+        $component->markers ??= $configuration['markers'] ?? false;
+
+        // validate() has already run, so a global default would slip past the
+        // rule that rejects a labelled axis on a type that has none.
+        $component->grid ??= in_array($component->type, ['pie', 'donut'], true)
+            ? false
+            : ($configuration['grid'] ?? false);
+
+        return ['height' => $component->height];
     }
 
     /**

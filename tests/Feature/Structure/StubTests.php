@@ -19,6 +19,7 @@ test('contains methods', function (string $component, string|array $methods) {
     ['Banner', ['background', 'text']],
     ['Boolean', ['icon']],
     ['Button', ['background', 'icon']],
+    ['Chart', 'text'],
     ['Dialog', ['cancel', 'confirm', 'icon']],
     ['Environment', ['background', 'text']],
     ['Errors', ['background', 'border', 'text']],

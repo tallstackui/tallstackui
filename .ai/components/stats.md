@@ -40,22 +40,23 @@ A statistics card component for displaying numeric metrics with titles, icons, a
 
 ## Attributes
 
-| Attribute      | Type                        | Default   | Description                                                                  |
-|----------------|-----------------------------|-----------|------------------------------------------------------------------------------|
-| number         | string\|int\|null           | null      | Value shown with number styles; preferred path for styled metrics            |
-| title          | string\|null                | null      | Descriptive title above/beside the number                                    |
-| icon           | ComponentSlot\|string\|null | null      | Heroicon name or a slot for fully custom icon markup                         |
-| color          | string\|null                | 'primary' | Color for icon background **and** number text (solid/light/outline palettes) |
-| href           | string\|null                | null      | When set, root renders as `<a>` for click-through                            |
-| solid          | bool                        | true      | Solid color style variant (default)                                          |
-| light          | bool                        | false     | Light color style variant                                                    |
-| outline        | bool                        | false     | Outline color style variant                                                  |
-| animated       | bool                        | false     | Count-up animation on viewport enter; **only when `number` is numeric**      |
-| duration       | int\|null                   | 1         | Animation duration in seconds (ignored when not animating)                   |
-| increase       | bool                        | false     | Upward trend arrow on the right (mutually exclusive with `decrease`)         |
-| decrease       | bool                        | false     | Downward trend arrow on the right (mutually exclusive with `increase`)       |
-| navigate       | bool                        | null      | Livewire `wire:navigate` when using `href`                                   |
-| navigate-hover | bool                        | null      | Livewire `wire:navigate.hover` when using `href`                             |
+| Attribute      | Type                                   | Default   | Description                                                                                   |
+|----------------|----------------------------------------|-----------|-----------------------------------------------------------------------------------------------|
+| number         | string\|int\|null                      | null      | Value shown with number styles; preferred path for styled metrics                             |
+| title          | string\|null                           | null      | Descriptive title above/beside the number                                                     |
+| icon           | ComponentSlot\|string\|null            | null      | Heroicon name or a slot for fully custom icon markup                                          |
+| color          | string\|null                           | 'primary' | Color for icon background **and** number text (solid/light/outline palettes)                  |
+| href           | string\|null                           | null      | When set, root renders as `<a>` for click-through                                             |
+| solid          | bool                                   | true      | Solid color style variant (default)                                                           |
+| light          | bool                                   | false     | Light color style variant                                                                     |
+| outline        | bool                                   | false     | Outline color style variant                                                                   |
+| animated       | bool                                   | false     | Count-up animation on viewport enter; **only when `number` is numeric**                       |
+| duration       | int\|null                              | 1         | Animation duration in seconds (ignored when not animating)                                    |
+| increase       | bool                                   | false     | Upward trend arrow on the right (mutually exclusive with `decrease`)                          |
+| decrease       | bool                                   | false     | Downward trend arrow on the right (mutually exclusive with `increase`)                        |
+| navigate       | bool                                   | null      | Livewire `wire:navigate` when using `href`                                                    |
+| navigate-hover | bool                                   | null      | Livewire `wire:navigate.hover` when using `href`                                              |
+| chart          | array\|Collection\|ComponentSlot\|null | null      | Background sparkline; the array shorthand renders `<x-chart>` internally and inherits `color` |
 
 ### Root element
 
@@ -74,6 +75,38 @@ A statistics card component for displaying numeric metrics with titles, icons, a
 | footer    | Below the body (string prop or slot); same styling rules as header                                   |
 | right     | Right side content (replaces increase/decrease arrow)                                                |
 | icon      | Fully custom icon markup (replaces default icon rendering)                                           |
+| chart     | Full-control replacement for the background layer, rendered full-bleed behind the content            |
+
+### Background Chart
+
+```blade
+{{-- Array shorthand: renders <x-chart> internally, inheriting the card color --}}
+<x-stats number="45231" title="Revenue" increase :chart="[10, 40, 25, 60, 30, 80]" />
+```
+
+```blade
+{{-- Slot: full control, for a chart that should differ from the card --}}
+<x-stats number="45231" title="Revenue">
+    <x-slot:chart>
+        <x-chart :series="$revenue" color="emerald" class="h-full w-full" />
+    </x-slot:chart>
+</x-stats>
+```
+
+The array shorthand and the `chart` slot are mutually exclusive; combining them
+throws. An absent chart, an empty array and an empty slot are all treated as no
+chart, and none of the positioning classes are applied.
+
+The layer sits at `absolute inset-0` with a negative z-index, inside a stacking
+context created on the card. It clips itself rather than the card, so nothing a
+slot renders outside the box gets cut.
+
+Two behaviours change on a charted card: it becomes the containing block for
+absolutely positioned slot content, and it traps positive `z-index` inside
+itself. Everything TallStackUI teleports (floating, modal, tooltip) is
+unaffected; only hand-rolled escaping markup is.
+
+In `solid` style the icon tile is opaque and covers the watermark behind it.
 
 String props `header="..."` / `footer="..."` and named slots both render with horizontal inset (`mx-2`) and muted typography for plain text.
 
@@ -95,6 +128,9 @@ TallStackUi::customize()
 |----------------------------|---------------------------------------------------------------------------|
 | wrapper.first              | Outer card container (flex column, rounded, shadow)                       |
 | wrapper.first-clickable    | Cursor style when the card is clickable                                   |
+| wrapper.first-chart        | Stacking context on the card, applied only when a chart is present        |
+| chart.wrapper              | Full-bleed chart layer: placement, clipping and opacity                   |
+| chart.element              | Sizing handed to the internal chart                                       |
 | wrapper.second             | Body row (includes horizontal margin `mx-4`, flex, gap)                   |
 | wrapper.second-no-header   | Extra top margin when header is absent                                    |
 | wrapper.second-no-footer   | Extra bottom margin when footer is absent                                 |

@@ -10,11 +10,24 @@
 {{ $attributes->class([
    $customization['wrapper.first'],
    $customization['wrapper.first-clickable'] => $clickable,
+   $customization['wrapper.first-chart'] => $charted,
 ]) }}
 x-data="tallstackui_stats(@js($number), @js($animate), @js($duration))"
 x-intersect:enter.full="visible = true"
 x-intersect:leave="visible = false; start = 0"
 x-cloak>
+@if ($charted)
+    <div class="{{ $customization['chart.wrapper'] }}" aria-hidden="true" dusk="tallstackui_stats_chart">
+        @if ($chart instanceof \Illuminate\View\ComponentSlot)
+            {{ $chart }}
+        @else
+            <x-dynamic-component :component="TallStackUi::prefix('chart')"
+                                 :series="$chart"
+                                 :$color
+                                 class="{{ $customization['chart.element'] }}" />
+        @endif
+    </div>
+@endif
 @if ($header)
     <div @if ($header instanceof \Illuminate\View\ComponentSlot)
              {{ $header->attributes->class([$customization['slots.header.wrapper']]) }}
