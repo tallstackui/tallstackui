@@ -20,6 +20,7 @@ use Laravel\Dusk\Browser;
 use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\Dusk\Options;
 use Orchestra\Testbench\Dusk\TestCase;
+use Symfony\Component\Process\Process;
 use TallStackUi\Facades\TallStackUi;
 use TallStackUi\Http\AsyncUpload\Uploader;
 use TallStackUi\TallStackUiServiceProvider;
@@ -212,6 +213,29 @@ class BrowserTestCase extends TestCase
         ])->name('searchable.with-metadata');
     }
 
+    /**
+     * The Dusk server is a `php -S` that logs every request to a pipe Testbench
+     * starts but never reads. Once that buffer fills, the server blocks inside
+     * php_cli_server_logf and stops answering, which hangs the whole suite
+     * mid-test. Request-heavy files reach the limit first. Draining the pipe
+     * between tests keeps it from ever filling.
+     *
+     * @see https://github.com/orchestral/testbench-dusk
+     */
+    protected function drainServerOutput(): void
+    {
+        $process = static::$server?->getProcess();
+
+        if (! $process instanceof Process) {
+            return;
+        }
+
+        rescue(function () use ($process) {
+            $process->getIncrementalOutput();
+            $process->getIncrementalErrorOutput();
+        }, rescue: null, report: false);
+    }
+
     protected function getApplicationTimezone($app): string
     {
         return (bool) getenv('GITHUB_ACTIONS') === false ? 'America/Sao_Paulo' : $app['config']['app.timezone'];
@@ -253,6 +277,19 @@ class BrowserTestCase extends TestCase
      */
     protected function macros(): void
     {
+        // Dusk clicks an element's centre point, so a control that wraps other
+        // interactive content can have that centre land on a child instead. The
+        // select toggle is filled with chips once options are selected, and a
+        // chip's remove button calls stopPropagation(), swallowing the click.
+        // Dispatching on the element itself sidesteps the geometry entirely.
+        Browser::macro('clickDirectly', function (string $selector) {
+            $element = $this->resolver->findOrFail($selector);
+
+            $this->driver->executeScript('arguments[0].click()', [$element]);
+
+            return $this;
+        });
+
         Browser::macro('clickAtVisibleXPath', function (string $expression, ?int $seconds = null) {
             $by = WebDriverBy::xpath($expression);
 
@@ -293,6 +330,8 @@ class BrowserTestCase extends TestCase
 
     protected function setUp(): void
     {
+        $this->drainServerOutput();
+
         Options::withoutUI();
 
         $this->macros();
@@ -317,6 +356,8 @@ class BrowserTestCase extends TestCase
 
     protected function tearDown(): void
     {
+        $this->drainServerOutput();
+
         trigger('browser.testCase.tearDown', $this);
 
         if (! $this->status()->isSuccess()) {
