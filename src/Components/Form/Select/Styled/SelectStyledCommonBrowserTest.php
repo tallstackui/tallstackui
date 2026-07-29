@@ -1249,7 +1249,9 @@ class SelectStyledCommonBrowserTest extends BrowserTestCase
             ->clickAtVisibleXPath('//ul[@dusk="tallstackui_select_options"]/li[1]')
             ->clickAtVisibleXPath('//ul[@dusk="tallstackui_select_options"]/li[3]')
             ->clickAtVisibleXPath('//ul[@dusk="tallstackui_select_options"]/li[4]')
-            ->click('@tallstackui_select_open_close')
+            // Escape closes the panel deterministically. Clicking the toggle would land on
+            // whichever chip happens to sit at its centre, and those have their own handlers.
+            ->keys('', '{escape}')
             ->waitUntilMissing('@tallstackui_select_options')
             ->click('@sync')
             ->waitForText(['foo', 'baz'])
@@ -1272,7 +1274,7 @@ class SelectStyledCommonBrowserTest extends BrowserTestCase
             ->click('@tallstackui_select_open_close')
             ->waitForText(['foo', 'bar'])
             ->clickAtVisibleXPath('//ul[@dusk="tallstackui_select_options"]/li[1]')
-            ->click('@tallstackui_select_open_close')
+            ->keys('', '{escape}')
             ->waitUntilMissing('@tallstackui_select_options')
             ->click('@sync')
             ->waitForText('Select an option')
@@ -1298,7 +1300,7 @@ class SelectStyledCommonBrowserTest extends BrowserTestCase
             ->click('@tallstackui_select_open_close')
             ->waitForText(['foo', 'bar', 'baz'])
             ->clickAtVisibleXPath('//ul[@dusk="tallstackui_select_options"]/li[3]')
-            ->click('@tallstackui_select_open_close')
+            ->keys('', '{escape}')
             ->waitUntilMissing('@tallstackui_select_options')
             ->click('@sync')
             ->waitForText(['foo', 'bar']);

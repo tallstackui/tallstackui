@@ -172,7 +172,9 @@ class SelectStyledApiBrowserTest extends BrowserTestCase
             ->clickAtVisibleXPath('//ul[@dusk="tallstackui_select_options"]/li[1]')
             ->clickAtVisibleXPath('//ul[@dusk="tallstackui_select_options"]/li[2]')
             ->clickAtVisibleXPath('//ul[@dusk="tallstackui_select_options"]/li[3]')
-            ->click('@tallstackui_select_open_close')
+            // Escape closes the panel deterministically. Clicking the toggle would land on
+            // whichever chip happens to sit at its centre, and those have their own handlers.
+            ->keys('', '{escape}')
             ->waitUntilMissing('@tallstackui_select_options')
             ->click('@sync')
             ->waitForText(['delectus aut autem', 'quis ut nam facilis et officia qui', 'fugiat veniam minus']);
@@ -328,14 +330,14 @@ class SelectStyledApiBrowserTest extends BrowserTestCase
             ->clickAtVisibleXPath('//ul[@dusk="tallstackui_select_options"]/li[1]')
             ->clickAtVisibleXPath('//ul[@dusk="tallstackui_select_options"]/li[2]')
             ->clickAtVisibleXPath('//ul[@dusk="tallstackui_select_options"]/li[3]')
-            ->click('@tallstackui_select_open_close')
+            ->keys('', '{escape}')
             ->waitUntilMissing('@tallstackui_select_options')
             ->click('@sync')
             ->waitForText(['delectus aut autem', 'quis ut nam facilis et officia qui', 'fugiat veniam minus'])
             ->click('@tallstackui_select_open_close')
             ->waitForText(['delectus aut autem', 'quis ut nam facilis et officia qui', 'fugiat veniam minus', 'et porro tempora', 'laboriosam mollitia et enim quasi adipisci quia provident illum'])
             ->clickAtVisibleXPath('//ul[@dusk="tallstackui_select_options"]/li[3]')
-            ->click('@tallstackui_select_open_close')
+            ->keys('', '{escape}')
             ->waitUntilMissing('@tallstackui_select_options')
             ->click('@sync')
             ->waitForText(['delectus aut autem', 'quis ut nam facilis et officia qui']);
