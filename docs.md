@@ -12,6 +12,164 @@ such change is listed under **Migration**.
 
 ---
 
+## Toast
+
+### Added — `top-center` and `bottom-center` positions
+
+The toast accepted four positions, all of them cornered. The two centered variants
+now join them, both in the fluent method and in the global default:
+
+```php
+$this->toast()->position('top-center')->success('Saved!')->send();
+```
+
+```php
+'toast' => [
+    'position' => 'bottom-center',
+],
+```
+
+The allowed list lived in two places that had drifted apart: `Interactions\Toast`
+validated the fluent argument, and `Toast\Component::validate()` validated the config
+value. Adding a position to only one of them left the other rejecting it, so both were
+updated together.
+
+Centered alignment comes from its own customization block instead of leaning on the
+base classes of `wrapper.second`, and the enter transition no longer slides
+horizontally when the position is centered — a toast in the middle of the screen has
+no edge to come from.
+
+Based on the proposal in #1330.
+
+### Added — `stacked`, piling the toasts instead of listing them
+
+Off by default.
+
+Sending many toasts grew an endless vertical list that eventually ran past the
+viewport. With `stacked` on, they overlap into a pile, and the pile expands back into
+the list while the pointer is over it:
+
+```php
+'toast' => [
+    'stacked' => true,
+],
+```
+
+The most recent toast is the front of the pile, anchored to the edge its position
+points at. Older ones sit behind it, offset toward the center of the screen and
+slightly smaller. Three layers peek out; deeper toasts wait at `opacity: 0` and
+reappear as the ones in front leave.
+
+In the closed pile **only the front card renders content** — the ones behind are
+reduced to their card shape. Showing every card's text at once put two paragraphs in
+the same space during the transition, and in `top-*` the visible strip of a card
+behind is its bottom edge, which is where the progress bar sits: the pile turned into
+stacked progress bars.
+
+Hovering the pile expands it and **freezes every timer and progress bar in it** until
+the pointer leaves.
+
+Cards are absolutely positioned in both states, with `translateY` computed per state —
+a fixed step per layer while piled, the summed measured heights once expanded. Keeping
+one positioning mode is what lets the pile and the list be a single continuous
+animation; swapping `position` between `absolute` and static does not animate. Each
+toast reports its own height through a `ResizeObserver`, so a card that changes size —
+`expandable` opening its description — re-seats the pile.
+
+The geometry is fixed, not configurable: a 16px step per layer, a 12px gap once
+expanded, three visible layers. Only the switch is exposed.
+
+Because the front of the pile is always the newest toast, turning the switch on
+**reverses the reading order of the `top-*` positions**: the plain list puts the oldest
+toast at the edge, following DOM order, while the expanded pile puts the newest there.
+The `bottom-*` positions read the same either way.
+
+**Known limitation:** there is no cap on how many toasts the expanded pile shows, so a
+long queue overflows the viewport and its lower cards become unreachable. That is the
+behaviour the plain list already has today — an unbounded list inside `fixed inset-0`
+with no scroll — so the pile degrades to the status quo rather than below it.
+
+### Added — `top-on-mobile`, pinning the toasts to the top on narrow screens
+
+Off by default.
+
+Below the `md` breakpoint the toast never honoured its position: `wrapper.first` has
+`justify-end` as its base and only `md:justify-start` / `md:justify-end` tell the
+positions apart, so a `top-right` toast has always landed at the bottom of a phone
+screen. That was never documented.
+
+`top-on-mobile` pins them to the top instead, whatever the position says:
+
+```php
+'toast' => [
+    'top-on-mobile' => true,
+],
+```
+
+The plain list resolves this in CSS, through a `max-md:justify-start` block. The pile
+cannot: it computes its anchor in JavaScript, in `style()`, where a media query is not
+available. It therefore watches Tailwind's `md` breakpoint with `matchMedia` and flips
+the anchor — and the sign of the `translateY` — when the viewport is narrow. The
+breakpoint is mirrored as a constant in `toast-base.js`, next to the pile geometry; it
+is the one place where a Tailwind value is duplicated in script.
+
+The enter transition follows the edge the toast comes from, so with the flag on it
+enters downward rather than upward.
+
+### Fixed — a hovered toast could stop expiring
+
+A toast held its countdown through a `paused` closure driven by `mouseover` and
+`mouseout` on its own card, and each handler also wrote `animationPlayState` on the
+progress bar directly. Two consequences:
+
+- A card that moves out from under a **stationary** pointer never receives
+  `mouseout` — the mouse did not move, the element did. `paused` latched at `true`
+  and that toast's timer never resumed. In normal mode this needed a toast above to
+  expire and the ones below to rise under the cursor; the pile made the cards move on
+  every event.
+- The bar and the timer could disagree, because each was paused from its own place.
+
+The hold is now a single derived value, and the bar follows it from one method:
+
+| Before                                        | After                                    |
+|-----------------------------------------------|------------------------------------------|
+| `paused` closure plus a separate pile flag    | `paused` and `piled` properties          |
+| both summed inline in the `setInterval` guard | a `frozen` getter deriving the two       |
+| each handler writing to the bar               | one `animate(running)`, driven by `frozen` |
+
+In stacked mode the per-card hover listeners are not registered at all: the pile's
+wrapper does not move, so its hover is the only reliable one. In normal mode they still
+are, so the latch itself remains reachable there — rare, and recoverable by moving the
+mouse. What the unification fixes in both modes is the bar disagreeing with the timer.
+
+`animate()` also guards for a missing progress bar, which repairs a latent crash: with
+`progress` set to `false` the span is never rendered, and the old hover handler reached
+into `undefined` on every hover.
+
+### Migration
+
+`wrapper.position` gained `x-center`, and a new `stack` group was added:
+
+| Block                            | Purpose                                             |
+|----------------------------------|-----------------------------------------------------|
+| `wrapper.position.x-center`      | horizontal alignment for the centered positions     |
+| `wrapper.position.top-on-mobile` | vertical alignment below `md` when the flag is on   |
+| `stack.inert`               | `display: contents`, applied when `stacked` is off  |
+| `stack.wrapper`             | the pile's box, which owns the hover area           |
+| `stack.item`                | the positioned card inside the pile                 |
+| `stack.content`             | opacity transition for what the pile hides          |
+| `stack.align.*`             | `left`, `right` and `center` alignment of the pile   |
+
+No existing block was renamed or removed, so nothing that targets the toast through
+`TallStackUi::customize()` breaks. Applications overriding `wrapper.second` to change
+horizontal alignment should know the centered positions now read
+`wrapper.position.x-center` instead.
+
+With `stacked` off, both pile wrappers render with `display: contents` and generate no
+box, so the layout is the one that shipped before.
+
+---
+
 ## Skeleton
 
 ### Added — `skeleton` on Card, Stats, Table, List, Step and Chart

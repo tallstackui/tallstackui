@@ -15,6 +15,8 @@ use TallStackUi\TallStackUiComponent;
 #[ColorsThroughOf(ToastColors::class)]
 class Component extends TallStackUiComponent implements Customization
 {
+    public const POSITIONS = ['top-right', 'top-left', 'top-center', 'bottom-right', 'bottom-left', 'bottom-center'];
+
     public function blade(): View
     {
         return view('ts-ui::components.toast.main');
@@ -31,9 +33,21 @@ class Component extends TallStackUiComponent implements Customization
                 'position' => [
                     'top-x' => 'md:justify-start',
                     'bottom-x' => 'md:justify-end',
+                    'top-on-mobile' => 'max-md:justify-start',
                     'x-left' => 'md:items-start',
                     'x-right' => 'md:items-end',
                     'x-center' => 'md:items-center',
+                ],
+            ],
+            'stack' => [
+                'inert' => 'contents',
+                'wrapper' => 'pointer-events-auto relative w-full max-w-sm transition-all duration-300 ease-out',
+                'item' => 'absolute inset-x-0 transition-all duration-300 ease-out',
+                'content' => 'transition-opacity duration-200 ease-out',
+                'align' => [
+                    'left' => 'self-center md:self-start',
+                    'right' => 'self-center md:self-end',
+                    'center' => 'self-center',
                 ],
             ],
             'icon' => [
@@ -89,11 +103,10 @@ class Component extends TallStackUiComponent implements Customization
     protected function validate(): void
     {
         $configuration = __ts_get_component_configuration(self::class);
-        $positions = ['top-right', 'top-left', 'top-center', 'bottom-right', 'bottom-left', 'bottom-center'];
         $messages = trans('ts-ui::messages.toast.button');
 
-        if (! in_array($configuration['position'] ?? 'top-right', $positions)) {
-            __ts_validation_exception($this, 'The [position] must be one of the following: ['.implode(', ', $positions).']');
+        if (! in_array($configuration['position'] ?? 'top-right', self::POSITIONS)) {
+            __ts_validation_exception($this, 'The [position] must be one of the following: ['.implode(', ', self::POSITIONS).']');
         }
 
         if (! str($configuration['z-index'] ?? 'z-50')->startsWith('z-')) {

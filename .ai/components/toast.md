@@ -69,35 +69,82 @@ class ItemController extends Controller
 
 ## Interaction Methods
 
-| Method     | Signature                                                                   | Description                                                                |
-|------------|-----------------------------------------------------------------------------|----------------------------------------------------------------------------|
-| success    | `success(string $title, ?string $description = null)`                       | Shows a success toast with a check circle icon                             |
-| error      | `error(string $title, ?string $description = null)`                         | Shows an error toast with an X circle icon                                 |
-| info       | `info(string $title, ?string $description = null)`                          | Shows an info toast with an information circle icon                        |
-| warning    | `warning(string $title, ?string $description = null)`                       | Shows a warning toast with an exclamation circle icon                      |
-| question   | `question(string $title, ?string $description = null)`                      | Shows a question toast with a question mark circle icon                    |
-| confirm    | `confirm(?string $text, ?string $method, array\|string\|int\|null $params)` | Adds a confirm button that calls a Livewire method                         |
-| cancel     | `cancel(?string $text, ?string $method, array\|string\|int\|null $params)`  | Adds a cancel button that optionally calls a Livewire method               |
-| expandable | `expandable(bool $expand = true)`                                           | Enables the expandable effect for long descriptions                        |
-| persistent | `persistent()`                                                              | Removes timeout and progress bar, toast stays until manually closed        |
+| Method     | Signature                                                                   | Description                                                                                           |
+|------------|-----------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------|
+| success    | `success(string $title, ?string $description = null)`                       | Shows a success toast with a check circle icon                                                        |
+| error      | `error(string $title, ?string $description = null)`                         | Shows an error toast with an X circle icon                                                            |
+| info       | `info(string $title, ?string $description = null)`                          | Shows an info toast with an information circle icon                                                   |
+| warning    | `warning(string $title, ?string $description = null)`                       | Shows a warning toast with an exclamation circle icon                                                 |
+| question   | `question(string $title, ?string $description = null)`                      | Shows a question toast with a question mark circle icon                                               |
+| confirm    | `confirm(?string $text, ?string $method, array\|string\|int\|null $params)` | Adds a confirm button that calls a Livewire method                                                    |
+| cancel     | `cancel(?string $text, ?string $method, array\|string\|int\|null $params)`  | Adds a cancel button that optionally calls a Livewire method                                          |
+| expandable | `expandable(bool $expand = true)`                                           | Enables the expandable effect for long descriptions                                                   |
+| persistent | `persistent()`                                                              | Removes timeout and progress bar, toast stays until manually closed                                   |
 | position   | `position(string $position)`                                                | Sets position dynamically (top-right, top-left, top-center, bottom-right, bottom-left, bottom-center) |
-| sole       | `sole(bool $sole = true)`                                                   | When true, flushes all previous toasts and shows only this one             |
-| timeout    | `timeout(?int $seconds = null)`                                             | Sets the auto-dismiss timeout in seconds                                   |
-| hook       | `hook(array $hooks)`                                                        | Registers lifecycle hooks (allowed: `close`, `timeout`)                    |
-| flash      | `flash(bool $dispatch = false)`                                             | Flashes the interaction to session for display after redirect              |
-| send       | `send()`                                                                    | Dispatches the toast                                                       |
+| sole       | `sole(bool $sole = true)`                                                   | When true, flushes all previous toasts and shows only this one                                        |
+| timeout    | `timeout(?int $seconds = null)`                                             | Sets the auto-dismiss timeout in seconds                                                              |
+| hook       | `hook(array $hooks)`                                                        | Registers lifecycle hooks (allowed: `close`, `timeout`)                                               |
+| flash      | `flash(bool $dispatch = false)`                                             | Flashes the interaction to session for display after redirect                                         |
+| send       | `send()`                                                                    | Dispatches the toast                                                                                  |
 
 ## Configuration
 
 In `config/tallstackui.php` under `components.toast`:
 
-| Option     | Type   | Default     | Description                                                       |
-|------------|--------|-------------|-------------------------------------------------------------------|
-| z-index    | string | 'z-50'      | Default z-index class                                             |
-| progress   | bool   | true        | Enables the progress bar                                          |
-| expandable | bool   | false       | Enables the expandable effect by default                          |
-| position   | string | 'top-right' | Default position (top-right, top-left, top-center, bottom-right, bottom-left, bottom-center) |
-| timeout    | int    | 3           | Default auto-dismiss timeout in seconds                           |
+| Option        | Type   | Default     | Description                                                                                  |
+|---------------|--------|-------------|----------------------------------------------------------------------------------------------|
+| z-index       | string | 'z-50'      | Default z-index class                                                                        |
+| progress      | bool   | true        | Enables the progress bar                                                                     |
+| expandable    | bool   | false       | Enables the expandable effect by default                                                     |
+| position      | string | 'top-right' | Default position (top-right, top-left, top-center, bottom-right, bottom-left, bottom-center) |
+| timeout       | int    | 3           | Default auto-dismiss timeout in seconds                                                      |
+| stacked       | bool   | false       | Piles the toasts instead of listing them                                                     |
+| top-on-mobile | bool   | false       | Pins the toasts to the top below the `md` breakpoint                                         |
+
+### Stacked Toasts
+
+With `stacked` on, the toasts overlap into a pile instead of growing a vertical list.
+The pile expands back into the list while the pointer is over it, and every timer and
+progress bar in it freezes until the pointer leaves.
+
+```php
+'toast' => [
+    'stacked' => true,
+],
+```
+
+The most recent toast is the front of the pile, anchored to the edge its position
+points at. Three layers peek out; deeper toasts wait at `opacity: 0` and reappear as
+the ones in front leave. In the closed pile only the front card renders content — the
+ones behind are reduced to their card shape.
+
+It is a global switch only: there is no per-toast opt-in and the geometry (16px step
+per layer, 12px gap when expanded, three visible layers) is not configurable. There is
+also no cap on how many toasts the expanded pile shows, so a long queue can overflow
+the viewport — the same as the plain list does today.
+
+Since the front of the pile is always the newest toast, the switch reverses the reading
+order of the `top-*` positions: the plain list puts the oldest toast at the edge, the
+expanded pile puts the newest. `bottom-*` reads the same either way.
+
+Not to be confused with `expandable`, which is per-toast and truncates a long
+*description* until the card is hovered. What Sonner and Nuxt UI call `expand` is this
+`stacked` switch, inverted.
+
+### Top on Mobile
+
+Below the `md` breakpoint the toast ignores its position and sits at the bottom — the
+base of `wrapper.first` is `justify-end`, and only `md:` variants tell the positions
+apart. `top-on-mobile` pins them to the top instead, whatever the position says:
+
+```php
+'toast' => [
+    'top-on-mobile' => true,
+],
+```
+
+Works with `stacked`: the pile flips its anchor and the direction it grows. The enter
+transition also follows the edge the toast comes from.
 
 ## Confirm/Cancel Method Signatures
 
@@ -200,25 +247,38 @@ TallStackUi::customize()
 
 ### Available Blocks
 
-| Block Name             | Purpose                                       |
-|------------------------|-----------------------------------------------|
-| wrapper.first          | Fixed full-screen positioning container       |
-| wrapper.second         | Flex container for individual toast alignment |
-| wrapper.third          | Toast card with rounded corners and shadow    |
-| wrapper.fourth         | Inner flex container for icon and content     |
-| icon.size              | Type icon dimensions                          |
-| content.wrapper        | Text content flex wrapper                     |
-| content.text           | Title text styles                             |
-| content.description    | Description text styles                       |
-| buttons.wrapper.first  | Confirm/cancel buttons container              |
-| buttons.wrapper.second | Close and expand buttons container            |
-| buttons.confirm        | Confirm button text styles                    |
-| buttons.cancel         | Cancel button text styles                     |
-| buttons.close.wrapper  | Close button container                        |
-| buttons.close.class    | Close button styles                           |
-| buttons.close.size     | Close icon dimensions                         |
-| buttons.expand.wrapper | Expand button container                       |
-| buttons.expand.class   | Expand button styles                          |
-| buttons.expand.size    | Expand icon dimensions                        |
-| progress.wrapper       | Progress bar background container             |
-| progress.bar           | Progress bar fill styles                      |
+| Block Name                     | Purpose                                                  |
+|--------------------------------|----------------------------------------------------------|
+| wrapper.first                  | Fixed full-screen positioning container                  |
+| wrapper.second                 | Flex container for individual toast alignment            |
+| wrapper.third                  | Toast card with rounded corners and shadow               |
+| wrapper.fourth                 | Inner flex container for icon and content                |
+| wrapper.position.top-x         | Vertical alignment for the `top-*` positions             |
+| wrapper.position.bottom-x      | Vertical alignment for the `bottom-*` positions          |
+| wrapper.position.x-left        | Horizontal alignment for `top-left` / `bottom-left`      |
+| wrapper.position.x-right       | Horizontal alignment for `top-right` / `bottom-right`    |
+| wrapper.position.x-center      | Horizontal alignment for `top-center` / `bottom-center`  |
+| stack.inert                    | `display: contents`, applied when `stacked` is off       |
+| stack.wrapper                  | The pile's box, which owns the hover area                |
+| stack.item                     | The positioned card inside the pile                      |
+| stack.content                  | Opacity transition for what the pile hides               |
+| stack.align.left               | Alignment of the pile for the `-left` positions          |
+| stack.align.right              | Alignment of the pile for the `-right` positions         |
+| stack.align.center             | Alignment of the pile for the `-center` positions        |
+| wrapper.position.top-on-mobile | Vertical alignment below `md` when `top-on-mobile` is on |
+| icon.size                      | Type icon dimensions                                     |
+| content.wrapper                | Text content flex wrapper                                |
+| content.text                   | Title text styles                                        |
+| content.description            | Description text styles                                  |
+| buttons.wrapper.first          | Confirm/cancel buttons container                         |
+| buttons.wrapper.second         | Close and expand buttons container                       |
+| buttons.confirm                | Confirm button text styles                               |
+| buttons.cancel                 | Cancel button text styles                                |
+| buttons.close.wrapper          | Close button container                                   |
+| buttons.close.class            | Close button styles                                      |
+| buttons.close.size             | Close icon dimensions                                    |
+| buttons.expand.wrapper         | Expand button container                                  |
+| buttons.expand.class           | Expand button styles                                     |
+| buttons.expand.size            | Expand icon dimensions                                   |
+| progress.wrapper               | Progress bar background container                        |
+| progress.bar                   | Progress bar fill styles                                 |

@@ -581,12 +581,18 @@ return [
                 | expandable: enables the expanded effect by default.
                 | position: controls the default toast position (Allowed: top-right, top-left, top-center, bottom-right, bottom-left, bottom-center).
                 | timeout: controls the default timeout in seconds.
+                | stacked: piles the toasts on top of each other instead of listing them,
+                | expanding the pile back into a list while the pointer is over it.
+                | top-on-mobile: pins the toasts to the top of the screen below the md
+                | breakpoint, whatever the position says. Off, they sit at the bottom.
                 */
                 'z-index' => 'z-50',
                 'progress' => true,
                 'expandable' => false,
                 'position' => 'top-right',
                 'timeout' => 3,
+                'stacked' => false,
+                'top-on-mobile' => false,
             ],
         ],
         'toggle' => Components\Form\Toggle\Component::class,

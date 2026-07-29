@@ -1,10 +1,14 @@
 import { event } from '../../../js/helpers';
 
-export default (toast) => ({
+export default (toast, stacked = false) => ({
   toast: toast,
   show: false,
+  stacked: stacked,
+  paused: false,
+  piled: false,
+  observer: null,
+  listener: null,
   init() {
-    let paused = false;
     let elapsed = 0;
 
     const time = this.toast.timeout * 10;
@@ -13,6 +17,8 @@ export default (toast) => ({
     this.$nextTick(() => {
       this.show = true;
 
+      this.measure();
+
       if (this.toast.persistent) {
         return;
       }
@@ -20,7 +26,7 @@ export default (toast) => ({
       const interval = setInterval(() => {
         if (!this.show) {
           clearInterval(interval);
-        } else if (!paused) {
+        } else if (!this.frozen) {
           elapsed += time;
 
           if (elapsed >= max) {
@@ -42,34 +48,113 @@ export default (toast) => ({
 
       const progress = this.$refs.progress;
 
-      this.$refs.toast.addEventListener('mouseover', () => {
-        paused = true;
-        progress.style.webkitAnimationPlayState = 'paused';
-        progress.style.animationPlayState = 'paused';
-      });
+      // While piled, the hover belongs to the pile wrapper: the cards slide
+      // under a still pointer, so mouseout on them never fires reliably.
+      if (!this.stacked) {
+        this.$refs.toast.addEventListener('mouseover', () => {
+          this.paused = true;
+          this.animate(false);
+        });
 
-      this.$refs.toast.addEventListener('mouseout', () => {
-        paused = false;
-        progress.style.webkitAnimationPlayState = 'running';
-        progress.style.animationPlayState = 'running';
-      });
+        this.$refs.toast.addEventListener('mouseout', () => {
+          this.paused = false;
+          this.animate(!this.frozen);
+        });
+      }
 
-      document.addEventListener('visibilitychange', () => {
-        if (document.hidden) return;
+      this.listener = () => {
+        if (document.hidden) {
+          return;
+        }
 
         const remaining = max - elapsed;
 
-        if (remaining > 2000) {
-          progress.style.animationDuration = max - elapsed + 'ms';
-          progress.classList.remove('animate-progress');
-          progress.offsetWidth;
-          progress.classList.add('animate-progress');
-          progress.style.animationDuration = max - elapsed + 'ms';
-        } else {
+        if (remaining <= 2000) {
           this.hide();
+
+          return;
         }
-      });
+
+        if (!progress) {
+          return;
+        }
+
+        progress.style.animationDuration = max - elapsed + 'ms';
+        progress.classList.remove('animate-progress');
+        progress.offsetWidth;
+        progress.classList.add('animate-progress');
+        progress.style.animationDuration = max - elapsed + 'ms';
+      };
+
+      document.addEventListener('visibilitychange', this.listener);
     });
+  },
+  destroy() {
+    this.observer?.disconnect();
+
+    if (this.listener) {
+      document.removeEventListener('visibilitychange', this.listener);
+    }
+  },
+  /**
+   * Whether the countdown is on hold, for any reason.
+   *
+   * @return {Boolean}
+   */
+  get frozen() {
+    return this.paused === true || this.piled === true;
+  },
+  /**
+   * Play or pause the progress bar.
+   *
+   * @param {Boolean} running
+   * @return {void}
+   */
+  animate(running) {
+    const progress = this.$refs.progress;
+
+    if (!progress) {
+      return;
+    }
+
+    const state = running ? 'running' : 'paused';
+
+    progress.style.webkitAnimationPlayState = state;
+    progress.style.animationPlayState = state;
+  },
+  /**
+   * Hold the countdown while the pile this toast belongs to is expanded,
+   * which freezes every toast in it at once.
+   *
+   * @param {Boolean} expanded
+   * @return {void}
+   */
+  freeze(expanded) {
+    this.piled = expanded === true;
+
+    this.animate(!this.frozen);
+  },
+  /**
+   * Report the rendered height to the pile and keep reporting it, since the
+   * description collapsing or expanding changes how tall the card is.
+   *
+   * @return {void}
+   */
+  measure() {
+    if (!this.stacked) {
+      return;
+    }
+
+    // ResizeObserver already notifies once on observe, with the settled
+    // height, so there is no need to report an initial value by hand.
+    this.observer = new ResizeObserver(() =>
+      this.$dispatch('ts-ui:toast-measured', {
+        id: this.toast.id,
+        height: this.$refs.toast.offsetHeight,
+      })
+    );
+
+    this.observer.observe(this.$refs.toast);
   },
   /**
    * Accept the toast (by confirming).

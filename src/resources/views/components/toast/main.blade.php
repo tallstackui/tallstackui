@@ -3,19 +3,31 @@
 @endphp
 
 <div x-cloak
-     x-data="tallstackui_toastBase(@js(session()->pull('ts-ui:toast')), @js($configurations['position']), @js($ts_ui__flash))"
+     x-data="tallstackui_toastBase(@js(session()->pull('ts-ui:toast')), @js($configurations['position']), @js($ts_ui__flash), @js($configurations['stacked']), @js($configurations['top-on-mobile']))"
      x-on:ts-ui:toast.window="add($event)"
      @class([
         $customization['wrapper.first'],
-        $configurations['z-index']
+        $configurations['z-index'],
+        $customization['wrapper.position.top-on-mobile'] => $configurations['top-on-mobile'],
     ]) x-bind:class="{ '{{ $customization['wrapper.position.top-x'] }}' : position.includes('top-') === true, '{{ $customization['wrapper.position.bottom-x'] }}' : position.includes('bottom-') === true }">
-    <template x-for="toast in toasts" :key="toast.id">
-        <div x-data="tallstackui_toastLoop(toast)"
+    <div @class([$configurations['stacked'] ? $customization['stack.wrapper'] : $customization['stack.inert']])
+         @if ($configurations['stacked'])
+             x-on:mouseenter="expand()"
+             x-on:mouseleave="collapse()"
+             x-on:ts-ui:toast-measured="register($event.detail)"
+             x-bind:style="{ height: `${container}px` }"
+             x-bind:class="{ '{{ $customization['stack.align.left'] }}' : position.includes('-left') === true, '{{ $customization['stack.align.right'] }}' : position.includes('-right') === true, '{{ $customization['stack.align.center'] }}' : position.includes('-center') === true }"
+        @endif>
+    <template x-for="(toast, index) in toasts" :key="toast.id">
+        <div @class([$configurations['stacked'] ? $customization['stack.item'] : $customization['stack.inert']])
+             @if ($configurations['stacked']) x-bind:style="style(index)" @endif>
+        <div x-data="tallstackui_toastLoop(toast, @js($configurations['stacked']))"
              x-show="show"
              x-ref="toast"
              x-on:mouseenter="toast.expandable = false"
              class="{{ $customization['wrapper.second'] }}"
              x-bind="transition"
+             @if ($configurations['stacked']) x-effect="freeze(expanded)" @endif
              x-bind:class="{ '{{ $customization['wrapper.position.x-left'] }}' : position.includes('-left') === true, '{{ $customization['wrapper.position.x-right'] }}' : position.includes('-right') === true, '{{ $customization['wrapper.position.x-center'] }}' : position.includes('-center') === true }">
             <div class="{{ $customization['wrapper.third'] }}"
                  @if($ts_ui__colorful)
@@ -27,7 +39,11 @@
                          'question': @js($colors['background']['question']),
                      })[toast.type]"
                     @endif>
-                <div class="{{ $customization['wrapper.fourth'] }}">
+                <div @class([
+                        $customization['wrapper.fourth'],
+                        $customization['stack.content'] => $configurations['stacked'],
+                     ])
+                     @if ($configurations['stacked']) x-bind:style="{ opacity: content(index) }" @endif>
                     <div class="shrink-0">
                         <div x-show="toast.type === 'success'">
                             <x-dynamic-component :component="TallStackUi::prefix('icon')"
@@ -117,12 +133,18 @@
                 </div>
                 @if ($configurations['progress'])
                     <div x-show="!toast.persistent"
-                         class="{{ $ts_ui__colorful ? $customization['colorful.progress.wrapper'] : $customization['progress.wrapper'] }}">
+                         @class([
+                            $ts_ui__colorful ? $customization['colorful.progress.wrapper'] : $customization['progress.wrapper'],
+                            $customization['stack.content'] => $configurations['stacked'],
+                         ])
+                         @if ($configurations['stacked']) x-bind:style="{ opacity: content(index) }" @endif>
                         <span x-ref="progress" x-bind:style="`animation-duration:${toast.timeout * 1000}ms`"
                               @class([$customization['progress.animation'], $ts_ui__colorful ? $customization['colorful.progress.bar'] : $customization['progress.bar']]) x-cloak></span>
                     </div>
                 @endif
             </div>
         </div>
+        </div>
     </template>
+    </div>
 </div>
