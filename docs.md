@@ -44,6 +44,17 @@ accept `stacked`. Chrome is opt-in through `grid`, `legend`, `tooltip` and
 `type`, `height`, the four chrome flags and `decimals` all take an
 application-wide default from the config, each overridable at the call site.
 
+**Formatting beyond a prefix takes a closure**, because a locale or a currency
+is a decision per chart rather than per application:
+
+```blade
+<x-chart :series="$revenue" grid :formatter="fn (float $value) => Number::currency($value, 'BRL', 'pt_BR')" />
+```
+
+It receives the axis as a second argument, wins over `prefix`/`suffix`/
+`decimals`, and covers the axis labels and the tooltip alike — every displayed
+number is formatted server-side, so nothing has to cross over to JavaScript.
+
 **A series can bind itself to a secondary axis** with `'axis' => 'right'`, for
 when its magnitude would flatten everything else against a shared scale. Both
 axes are pinned to the same tick count, so one set of gridlines serves either
@@ -106,10 +117,11 @@ Full reference in `.ai/components/chart.md`.
 ### Changed — the chart ships in its own bundle
 
 `js/tallstackui-chart.js` joined the entry points, weighing 3.9 kB, 1.6 kB
-gzipped. Same reasoning as the editor and upload splits: cache granularity, so a
-change to the chart stops invalidating the bundle every other component lives
-in. Nothing of it loads for a static chart anyway, since Alpine is only attached
-when `tooltip` or `legend` is on.
+gzipped. Same reasoning as the editor and upload splits: not lazy loading —
+`Directives::script()` emits every entry of the manifest on every page — but
+cache granularity, so a change to the chart stops invalidating the bundle every
+other component lives in. What a static chart skips is the work, not the bytes:
+no `tallstackui_chart` instance is created without `tooltip` or `legend`.
 
 ## Floating
 

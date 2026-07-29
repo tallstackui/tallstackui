@@ -131,8 +131,6 @@
             @endif
 
             @if ($interactive && $tooltip)
-                {{-- Hidden through visibility, not display: the position getter
-                     has to measure its width to keep it inside the plot. --}}
                 <div class="{{ $customization['tooltip.wrapper'] }}"
                      x-bind:class="{ 'invisible': active === null }"
                      x-bind:style="position"

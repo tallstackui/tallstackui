@@ -5,9 +5,7 @@ namespace Tests\Browser\Fixtures;
 use Livewire\Component;
 
 /**
- * Shared fixture for the browser tests. It lives as a real class rather than
- * an anonymous one so it can also be registered as a Livewire component and
- * mounted lazily.
+ * Named rather than anonymous so it can also be mounted lazily.
  *
  * @internal
  */

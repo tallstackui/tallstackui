@@ -3,10 +3,8 @@
 namespace TallStackUi\Support\Charts;
 
 /**
- * Monotone cubic interpolation (Fritsch-Carlson) expressed as cubic Beziers.
- * Unlike a Catmull-Rom spline, the curve never leaves the range of the points
- * it passes through, which is what keeps an area fill from dipping under its
- * own baseline.
+ * Monotone cubic interpolation (Fritsch-Carlson) as cubic Beziers, so the
+ * curve never leaves the range of the points it passes through.
  *
  * @internal
  */
@@ -78,12 +76,9 @@ final class Spline
     }
 
     /**
-     * Place values on the plot. Rounding happens here and not in path() so the
-     * tangents are computed from the same numbers that end up in the markup,
-     * which keeps the no-overshoot guarantee true for the string rendered.
-     *
-     * The horizontal position follows the original index, so a downsampled
-     * series still reads on the same time axis as a dense one.
+     * Rounding happens here and not in path() so the tangents come from the
+     * same numbers that end up in the markup. The horizontal position follows
+     * the original index, keeping a downsampled series on the same time axis.
      */
     public static function points(array $values, Scale $scale, array $indexes, int $length, array $offsets = []): array
     {

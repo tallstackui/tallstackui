@@ -144,18 +144,13 @@ return [
             |----------------------------------------------------------------------
             | Chart Settings
             |----------------------------------------------------------------------
-            | Defaults for every chart, each one overridable per instance through
-            | the attribute of the same name.
-            |
-            | type: one of area, line, bar, pie or donut.
-            | height: rendered height, in pixels. Any CSS height class wins over it.
-            | grid: horizontal gridlines plus a labelled vertical axis. Ignored by
-            | the radial types, which have no axis to label.
-            | legend: series names with a color swatch, clickable to toggle.
-            | tooltip: crosshair and a tooltip following the pointer.
-            | markers: a dot on every plotted point.
-            | decimals: decimal places. Null reads whole numbers as 0 and the rest
-            | as 2, which is usually what a mixed series wants.
+            | type: default chart type: area, line, bar, pie or donut.
+            | height: default rendered height, in pixels.
+            | grid: default gridlines and labelled vertical axis.
+            | legend: default series names with a clickable color swatch.
+            | tooltip: default crosshair and tooltip following the pointer.
+            | markers: default dot on every plotted point.
+            | decimals: default decimal places, or null to infer from the value.
             */
             [
                 'type' => 'area',

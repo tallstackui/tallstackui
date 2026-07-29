@@ -3,9 +3,7 @@
 namespace TallStackUi\Support\Charts;
 
 /**
- * The internal coordinate space every chart type draws into. It is square
- * because preserveAspectRatio="none" discards the ratio anyway, which leaves
- * one user unit reading as exactly one percent of the rendered box.
+ * Square because preserveAspectRatio="none" discards the ratio anyway.
  *
  * @internal
  */
@@ -13,10 +11,7 @@ final class Plot
 {
     public const HEIGHT = 100.0;
 
-    /**
-     * Vertical breathing room. The stroke is centred on the path, so a peak
-     * sitting on y = 0 would lose half its width to the viewBox edge.
-     */
+    /** A peak on y = 0 would lose half its stroke to the viewBox edge. */
     public const INSET = 4.0;
 
     public const WIDTH = 100.0;

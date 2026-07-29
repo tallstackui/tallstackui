@@ -2,6 +2,7 @@
 
 namespace TallStackUi\Components\Chart;
 
+use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -38,6 +39,8 @@ class Component extends TallStackUiComponent implements Customization
         public string|array|null $prefix = null,
         public string|array|null $suffix = null,
         public int|array|null $decimals = null,
+        #[SkipDebug]
+        public ?Closure $formatter = null,
         #[SkipDebug]
         public ComponentSlot|string|null $header = null,
         #[SkipDebug]

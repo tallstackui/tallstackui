@@ -2,6 +2,7 @@
 
 namespace TallStackUi\Support\Runtime\Components;
 
+use Closure;
 use TallStackUi\Components\Chart\Component as Chart;
 use TallStackUi\Support\Charts\Bars;
 use TallStackUi\Support\Charts\Plot;
@@ -20,10 +21,8 @@ class ChartRuntime extends AbstractRuntime
         /** @var Chart $component */
         $component = $this->component;
 
-        // Read off the component instead of $this->data(): ManagesRender hands
-        // CompileRuntime the same snapshot it took before compile() let
-        // CompileConfigurations fill the props, so anything defaulted from the
-        // config file still reads as null in there.
+        // Read off the component, not $this->data(): the snapshot predates
+        // the config defaults CompileConfigurations writes onto the props.
         $series = Series::normalize($component->series);
         $type = $component->type ?? 'area';
         $radial = in_array($type, ['pie', 'donut'], true);
@@ -129,6 +128,10 @@ class ChartRuntime extends AbstractRuntime
     {
         /** @var Chart $component */
         $component = $this->component;
+
+        if ($component->formatter instanceof Closure) {
+            return (string) ($component->formatter)($value, $axis);
+        }
 
         $decimals = $this->affix($component->decimals, $axis) ?? (floor($value) === $value ? 0 : 2);
 

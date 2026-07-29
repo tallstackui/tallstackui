@@ -142,6 +142,48 @@ it('keeps the aspect ratio only on radial types', function (string $type, string
     'donut' => ['donut', 'xMidYMid meet'],
 ]);
 
+it('can stack areas onto the curve below', function () {
+    // An unstacked area drops to the baseline; a stacked one closes on the
+    // curve under it, so only the first band ends up flat at the bottom.
+    $html = expect(<<<'HTML'
+    <x-chart stacked :series="[
+        ['name' => 'a', 'data' => [10, 20, 15]],
+        ['name' => 'b', 'data' => [5, 10, 8]],
+    ]" />
+    HTML)->render()->value;
+
+    preg_match_all('/class="stroke-none"\s+fill="url\(#[^)]+\)"\s+d="([^"]+)"/', $html, $areas);
+
+    expect($areas[1])->toHaveCount(2)
+        ->and($areas[1][0])->toContain('L0,96 Z')
+        ->and($areas[1][1])->not->toContain('L0,96 Z');
+});
+
+it('can stack bars onto the running total', function () {
+    $html = expect(<<<'HTML'
+    <x-chart type="bar" stacked :series="[
+        ['name' => 'a', 'data' => [10, 20]],
+        ['name' => 'b', 'data' => [5, 10]],
+    ]" />
+    HTML)->render()->value;
+
+    preg_match_all('/<rect[^>]*x="([\d.]+)"[^>]*y="([\d.]+)"/', $html, $rects, PREG_SET_ORDER);
+
+    expect($rects)->toHaveCount(4);
+
+    // Stacked bars share the slot instead of splitting it, so both series sit
+    // on the same x, and the second one starts higher up the plot.
+    expect($rects[0][1])->toBe($rects[2][1])
+        ->and((float) $rects[2][2])->toBeLessThan((float) $rects[0][2]);
+});
+
+it('scales a stacked chart against the column total', function () {
+    // Against the tallest single value the stack would run off the plot.
+    expect('<x-chart type="bar" stacked grid :series="[[\'name\' => \'a\', \'data\' => [60]], [\'name\' => \'b\', \'data\' => [40]]]" />')
+        ->render()
+        ->toContain('>100<');
+});
+
 it('can render a line type without filling the area')
     ->expect('<x-chart :series="[10, 40, 25, 60]" type="line" />')
     ->render()
@@ -182,6 +224,42 @@ it('can render a grid with rounded tick values', function () {
         ->toContain('>40<')
         ->toContain('>60<');
 });
+
+it('can format through a closure', function () {
+    // Every displayed number is formatted server-side, so a closure covers
+    // the axis and the tooltip alike without crossing over to JavaScript.
+    $component = <<<'HTML'
+    <x-chart :series="[12000, 25000, 18000]" grid tooltip
+             :formatter="fn (float $value) => 'R$ '.number_format($value, 2, ',', '.')" />
+    HTML;
+
+    expect($component)
+        ->render()
+        ->toContain('>R$ 10.000,00<')
+        ->toContain('R$ 12.000,00');
+});
+
+it('can format each axis through the same closure', function () {
+    $component = <<<'HTML'
+    <x-chart grid
+             :series="[
+                 ['name' => 'Receita', 'data' => [1200, 1900]],
+                 ['name' => 'Pedidos', 'data' => [8, 14], 'axis' => 'right'],
+             ]"
+             :formatter="fn (float $value, string $axis) => $axis === 'right' ? $value.' un' : 'R$ '.number_format($value, 0, ',', '.')" />
+    HTML;
+
+    expect($component)
+        ->render()
+        ->toContain('>R$ 1.200<')
+        ->toContain('>8 un<');
+});
+
+it('lets the closure win over prefix, suffix and decimals')
+    ->expect('<x-chart :series="[1000, 2000]" grid prefix="US$ " :decimals="2" :formatter="fn (float $value) => \'BRL \'.$value" />')
+    ->render()
+    ->toContain('BRL 1000')
+    ->not->toContain('US$');
 
 it('can format the axis values')
     ->expect('<x-chart :series="[1000, 4000, 2500]" grid prefix="R$ " :decimals="2" />')
@@ -264,6 +342,18 @@ it('can default every chart through the config', function () {
         ->toContain('>10.0<')
         ->toContain('tallstackui_chart(');
 });
+
+it('cannot let a config type reach a flag that rejects it', function (string $type) {
+    // The mirror of the case below: the flag is explicit and the type comes
+    // from the config, so validate() sees a null type and lets it through.
+    config()->set('ts-ui.components.chart.1', ['type' => $type]);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    expect('<x-chart :series="[[\'name\' => \'a\', \'data\' => [10, 40]], [\'name\' => \'b\', \'data\' => [5, 20]]]" stacked legend />')
+        ->render()
+        ->toMatch('/stacked.{0,8}:false/');
+})->with(['line', 'pie', 'donut']);
 
 it('cannot let a config default reach a type that rejects it', function () {
     // validate() runs before configurations, so a global grid would otherwise

@@ -60,6 +60,42 @@ its code ships in its own bundle rather than in the main one.
 | prefix    | string\|array\|null     | null      | Prepended to formatted values. Per axis when an array         |
 | suffix    | string\|array\|null     | null      | Appended to formatted values. Per axis when an array          |
 | decimals  | int\|array\|null        | null      | Decimal places. Defaults to 0 for whole numbers, 2 otherwise  |
+| formatter | Closure\|null           | null      | Formats every value, winning over the three above             |
+
+### Formatting
+
+`prefix`, `suffix` and `decimals` cover the common case. Anything beyond it —
+a locale, a currency, a rule that changes with the data — takes a closure:
+
+```blade
+<x-chart :series="$revenue"
+         grid
+         :formatter="fn (float $value) => 'R$ '.number_format($value, 2, ',', '.')" />
+```
+
+```blade
+{{-- Or through Laravel's own helper --}}
+<x-chart :series="$revenue" grid :formatter="fn (float $value) => Number::currency($value, 'BRL', 'pt_BR')" />
+```
+
+The axis arrives as a second argument, so two axes can read differently:
+
+```blade
+<x-chart :formatter="fn (float $value, string $axis) => $axis === 'right'
+             ? $value.' un'
+             : Number::currency($value, 'BRL', 'pt_BR')"
+         :series="[
+             ['name' => 'Receita', 'data' => $revenue],
+             ['name' => 'Pedidos', 'data' => $orders, 'axis' => 'right'],
+         ]"
+         grid />
+```
+
+Every displayed number is formatted server-side — the axis labels and the
+tooltip payload alike — so the closure never has to cross over to JavaScript.
+The one exception is the percentage a radial tooltip shows: hiding a slice
+redistributes the circle, so it is recomputed in the browser and does not pass
+through the formatter.
 
 ### Secondary axis
 

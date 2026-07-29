@@ -88,11 +88,17 @@ class CompileConfigurations
         $component->markers ??= $configuration['markers'] ?? false;
         $component->decimals ??= $configuration['decimals'] ?? null;
 
-        // A radial type has no axis to label, and validate() has already run by
-        // now, so a global default would slip past the rule that rejects it.
-        $component->grid ??= in_array($component->type, ['pie', 'donut'], true)
-            ? false
-            : ($configuration['grid'] ?? false);
+        // validate() has already run, so a type resolved from the config here
+        // escapes the rules that reject these combinations. Dropping the flag
+        // rather than throwing: neither side is wrong on its own, and a config
+        // change should not break every call site that asked for one of them.
+        $radial = in_array($component->type, ['pie', 'donut'], true);
+
+        $component->grid ??= $radial ? false : ($configuration['grid'] ?? false);
+
+        if ($component->stacked && ($radial || $component->type === 'line')) {
+            $component->stacked = false;
+        }
 
         return ['height' => $component->height];
     }
