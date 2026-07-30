@@ -241,4 +241,9 @@ return [
             'lines' => ':count regel|:count regels',
         ],
     ],
+
+    'spinner' => [
+        'thinking' => 'Aan het denken...',
+        'loading' => 'Laden...',
+    ],
 ];

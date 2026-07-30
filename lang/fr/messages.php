@@ -241,4 +241,9 @@ return [
             'lines' => ':count ligne|:count lignes',
         ],
     ],
+
+    'spinner' => [
+        'thinking' => 'Réflexion...',
+        'loading' => 'Chargement...',
+    ],
 ];

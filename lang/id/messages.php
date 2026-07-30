@@ -241,4 +241,9 @@ return [
             'lines' => ':count baris|:count baris',
         ],
     ],
+
+    'spinner' => [
+        'thinking' => 'Berpikir...',
+        'loading' => 'Memuat...',
+    ],
 ];

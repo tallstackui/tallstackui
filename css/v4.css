@@ -86,6 +86,14 @@ for accessibility (WCAG 2.4.7).
     --animate-banner-rotate-normal: ts-banner-rotate 18s linear infinite;
     --animate-banner-rotate-fast: ts-banner-rotate 8s linear infinite;
 
+    --animate-spinner-dots: ts-spinner-dots 0.7s ease-in-out infinite;
+    --animate-spinner-pulse: ts-spinner-pulse 1s ease-in-out infinite;
+    --animate-spinner-typing: ts-spinner-typing 1.2s ease-in-out infinite;
+    --animate-spinner-bars: ts-spinner-bars 1s ease-in-out infinite;
+    --animate-spinner-wave: ts-spinner-wave 1s ease-in-out infinite;
+    --animate-spinner-shimmer: ts-spinner-shimmer 1.5s linear infinite;
+    --animate-spinner-caret: ts-spinner-caret 1s steps(1, end) infinite;
+
     @keyframes progress {
         0% {
             width: 0;
@@ -110,6 +118,82 @@ for accessibility (WCAG 2.4.7).
         }
         100% {
             transform: translateX(-100%);
+        }
+    }
+
+    @keyframes ts-spinner-dots {
+        0%,
+        60%,
+        100% {
+            transform: translateY(0);
+        }
+        30% {
+            transform: translateY(-60%);
+        }
+    }
+
+    @keyframes ts-spinner-pulse {
+        0%,
+        100% {
+            transform: scale(0.7);
+            opacity: 0.45;
+        }
+        50% {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+
+    @keyframes ts-spinner-typing {
+        0%,
+        60%,
+        100% {
+            transform: scale(0.65);
+            opacity: 0.4;
+        }
+        30% {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+
+    @keyframes ts-spinner-bars {
+        0%,
+        100% {
+            transform: scaleY(0.4);
+        }
+        50% {
+            transform: scaleY(1);
+        }
+    }
+
+    @keyframes ts-spinner-wave {
+        0%,
+        100% {
+            transform: scaleY(0.35);
+        }
+        50% {
+            transform: scaleY(1);
+        }
+    }
+
+    @keyframes ts-spinner-shimmer {
+        0% {
+            background-position: 200% 50%;
+        }
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+
+    @keyframes ts-spinner-caret {
+        0%,
+        49% {
+            opacity: 1;
+        }
+        50%,
+        100% {
+            opacity: 0;
         }
     }
 }

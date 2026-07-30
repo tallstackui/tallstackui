@@ -12,6 +12,166 @@ such change is listed under **Migration**.
 
 ---
 
+## Spinner
+
+### Added — `<x-spinner>`
+
+A purely visual loading indicator. It binds nothing to Livewire, holds no state and
+requires no context, so it can sit inside a card, next to a button, in an empty state
+or in a `#[Lazy]` placeholder:
+
+```blade
+<x-spinner />
+<x-spinner lg bars color="red" />
+<x-spinner wave text="Sending the file" />
+<x-spinner thinking />
+```
+
+Thirteen variants, one boolean flag each:
+
+| Flag       | Appearance                                       |
+|------------|--------------------------------------------------|
+| `ring`     | Spinning border with a transparent top (default) |
+| `throbber` | Twelve SVG segments in ramping opacity           |
+| `gradient` | Two-tone SVG arc                                 |
+| `ping`     | Hollow ring with an expanding echo               |
+| `dots`     | Three bouncing dots                              |
+| `pulse`    | One scaling dot                                  |
+| `typing`   | Three chat-style dots                            |
+| `bars`     | Three vertical bars                              |
+| `wave`     | Five vertical bars travelling as a wave          |
+| `shimmer`  | Gradient sweeping across the text                |
+| `caret`    | Text followed by a blinking block                |
+| `terminal` | Prompt sign with a blinking block                |
+| `thinking` | Cycling braille glyphs with a translated label   |
+
+Two flags at once throws, because a mistyped variant is a different component and
+silence would hide it:
+
+```blade
+<x-spinner wave bars />   {{-- throws --}}
+```
+
+Size flags follow the library's own convention instead, resolving by precedence
+(`lg`, `md`, `sm`, `xs`) with `md` as the default.
+
+`shimmer` and `caret` animate the text itself, so one of `text` or the default slot
+is required — without content there is nothing on the screen to animate. `terminal`
+draws the prompt and the caret on its own.
+
+**This does not replace `loading` or `skeleton`.** The three cover different moments:
+
+| State                           | Tool       | Situation                           |
+|---------------------------------|------------|-------------------------------------|
+| First paint, no data yet        | `skeleton` | `#[Lazy]` placeholder, initial load |
+| Refetch, data already on screen | `loading`  | Sort, paginate, search, save        |
+| Anything else that has to spin  | `spinner`  | Inline, in a button, in an empty state |
+
+#### Color through `currentColor`
+
+Every variant paints itself from `currentColor`, so the whole palette is a single
+`text-*` class on the root — it drives borders, dot fills, bar fills, SVG strokes and
+the shimmer gradient at once. That is one map of 29 colors instead of the four a
+`solid`/`light` pair would need, and it makes the escape hatch a plain utility:
+
+```blade
+<x-spinner bars color="emerald" />
+<x-spinner class="text-[#ff5f1f]" />
+```
+
+`php artisan tallstackui:setup-color` publishes a `SpinnerColors` class with a single
+`textColors()` palette.
+
+One consequence worth recording, since it is easy to undo by accident: `shimmer` paints
+its fill transparent through `[-webkit-text-fill-color:transparent]` rather than
+`text-transparent`. The gradient stops are `currentColor`, and `text-transparent`
+compiles to `color: transparent` on the very element that carries the gradient, so all
+three stops would resolve to transparent and the text would render as nothing.
+`shimmer_paints_a_visible_gradient` in the browser suite asserts the computed gradient,
+not the class string, so swapping the technique back fails the test.
+
+#### The `thinking` variant
+
+The braille frames cycle through Alpine, one timer per spinner, cleared on
+`destroy()`. The label defaults to a translation and `text` overrides it:
+
+```blade
+<x-spinner thinking />                     {{-- ⠋ Thinking... --}}
+<x-spinner thinking text="Analyzing" />    {{-- ⠋ Analyzing --}}
+<x-spinner thinking :text="false" />       {{-- ⠋ only --}}
+<x-spinner thinking :interval="250" />     {{-- slower --}}
+```
+
+The first frame is rendered server-side, so there is no empty gap before Alpine boots.
+
+#### Accessibility
+
+The root carries `role="status"`. Without any label the component emits a `sr-only`
+fallback, so a screen reader never announces an empty region:
+
+```php
+'spinner' => [
+    'thinking' => 'Thinking...',
+    'loading' => 'Loading...',
+],
+```
+
+Both keys ship in all 15 locales.
+
+Animations are not disabled under `prefers-reduced-motion`, matching every other
+animated component in the library — a frozen loading indicator reads as a stuck one.
+Applications that want it can neutralize the animation blocks through customization.
+
+### Added — global settings
+
+```php
+'spinner' => [
+    'type' => 'ring',
+    'size' => 'md',
+],
+```
+
+An unknown `type` or `size` throws when the component renders, rather than falling
+back and hiding the typo.
+
+### Added — soft customization blocks
+
+Each variant owns its namespace, plus a shared `wrapper`, `text.*` and `delays.*`:
+
+| Namespace   | Blocks                                                                    |
+|-------------|---------------------------------------------------------------------------|
+| shared      | `wrapper`, `text.base`, `text.sizes.*`, `delays.0` … `delays.4`            |
+| `ring`      | `base`, `sizes.*`                                                          |
+| `throbber`  | `base`, `segment`, `sizes.*`                                               |
+| `gradient`  | `base`, `track`, `head`, `sizes.*`                                         |
+| `ping`      | `wrapper`, `echo`, `core`, `sizes.wrapper.*`, `sizes.border.*`             |
+| `dots`      | `wrapper`, `dot`, `sizes.wrapper.*`, `sizes.dot.*`                         |
+| `pulse`     | `dot`, `sizes.*`                                                           |
+| `typing`    | `wrapper`, `dot`, `sizes.wrapper.*`, `sizes.dot.*`                         |
+| `bars`      | `wrapper`, `bar`, `sizes.wrapper.*`, `sizes.bar.*`                         |
+| `wave`      | `wrapper`, `bar`, `sizes.wrapper.*`, `sizes.bar.*`                         |
+| `shimmer`   | `base`, `sizes.*`                                                          |
+| `caret`     | `wrapper`, `caret`, `sizes.text.*`, `sizes.caret.*`                        |
+| `terminal`  | `wrapper`, `prompt`, `caret`, `sizes.text.*`, `sizes.caret.*`              |
+| `thinking`  | `wrapper`, `glyph`, `label`, `sizes.glyph.*`, `sizes.text.*`               |
+
+`delays` is a single indexed list shared by `dots`, `typing`, `bars` and `wave`, so the
+stagger is tuned in one place instead of four.
+
+```php
+TallStackUi::customize()->spinner()->block('bars.bar', 'rounded-none bg-slate-400');
+TallStackUi::customize('spinner', scope: 'chat')->block('typing.dot', 'size-2');
+```
+
+### Added — seven keyframes
+
+`ts-spinner-dots`, `ts-spinner-pulse`, `ts-spinner-typing`, `ts-spinner-bars`,
+`ts-spinner-wave`, `ts-spinner-shimmer` and `ts-spinner-caret` join the `@theme`
+block. `ring`, `throbber` and `gradient` reuse `animate-spin`, `ping` reuses
+`animate-ping`, and `terminal` shares the caret keyframe with `caret`.
+
+---
+
 ## Toast
 
 ### Added — `top-center` and `bottom-center` positions
@@ -1031,6 +1191,21 @@ Covered by 52 feature tests and 6 browser tests. Full reference in
 ---
 
 ## Gallery
+
+### Fixed — soft customization was unreachable
+
+`<x-gallery>` carries `#[SoftCustomization('gallery')]` and declares its blocks, but
+`Customization` never gained the matching fluent method, so every documented entry
+point threw `RuntimeException: The method [gallery] is not supported`:
+
+```php
+TallStackUi::customize()->gallery()->block('lightbox.image', '...');
+TallStackUi::customize('gallery', scope: 'compact')->block('grid.item', '...');
+```
+
+Both work now. `tests/Feature/Structure/CustomizationTest.php` derives its coverage
+from the `#[SoftCustomization]` attribute instead of a hand-kept list, so the next
+component cannot ship with its customization entry point missing.
 
 ### Added — `<x-gallery />`, an image gallery with three layouts and a shared lightbox
 

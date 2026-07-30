@@ -26,6 +26,7 @@ use TallStackUi\Components\Link\Component as Link;
 use TallStackUi\Components\Progress\Bar\Component as Progress;
 use TallStackUi\Components\Progress\Circle\Component as ProgressCircle;
 use TallStackUi\Components\Rating\Component as Rating;
+use TallStackUi\Components\Spinner\Component as Spinner;
 use TallStackUi\Components\Stats\Component as Stats;
 use TallStackUi\Components\Timeline\Items\Component as TimelineItems;
 use TallStackUi\Components\Timeline\Main\Component as Timeline;
@@ -64,6 +65,7 @@ test('should use attribute', function (string $component) {
     Rating::class,
     Progress::class,
     ProgressCircle::class,
+    Spinner::class,
     Stats::class,
     Timeline::class,
     TimelineItems::class,
@@ -102,6 +104,7 @@ test('attribute should only be used in the components', function () {
             Rating::class,
             Progress::class,
             ProgressCircle::class,
+            Spinner::class,
             Stats::class,
             Timeline::class,
             TimelineItems::class,

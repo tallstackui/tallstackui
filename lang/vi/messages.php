@@ -241,4 +241,9 @@ return [
             'lines' => ':count dòng|:count dòng',
         ],
     ],
+
+    'spinner' => [
+        'thinking' => 'Đang suy nghĩ...',
+        'loading' => 'Đang tải...',
+    ],
 ];

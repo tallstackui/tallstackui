@@ -241,4 +241,9 @@ return [
             'lines' => ':count سطر|:count سطر',
         ],
     ],
+
+    'spinner' => [
+        'thinking' => 'يفكر...',
+        'loading' => 'جار التحميل...',
+    ],
 ];

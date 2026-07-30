@@ -59,6 +59,7 @@ use TallStackUi\Components\Form\Time\Component as Time;
 use TallStackUi\Components\Form\Toggle\Component as Toggle;
 use TallStackUi\Components\Form\Upload\Async\Component as UploadAsync;
 use TallStackUi\Components\Form\Upload\Component as Upload;
+use TallStackUi\Components\Gallery\Component as Gallery;
 use TallStackUi\Components\Kbd\Component as Kbd;
 use TallStackUi\Components\KeyValue\Component as KeyValue;
 use TallStackUi\Components\Layout\Header\Component as Header;
@@ -77,6 +78,7 @@ use TallStackUi\Components\Rating\Component as Rating;
 use TallStackUi\Components\Reaction\Component as Reaction;
 use TallStackUi\Components\Signature\Component as Signature;
 use TallStackUi\Components\Slide\Component as Slide;
+use TallStackUi\Components\Spinner\Component as Spinner;
 use TallStackUi\Components\Stats\Component as Stats;
 use TallStackUi\Components\Step\Main\Component as Step;
 use TallStackUi\Components\Tab\Main\Component as Tab;
@@ -397,6 +399,13 @@ class Customization
         return call_user_func([$this, $main], $secondary);
     }
 
+    public function gallery(?string $scope = null): CustomizationFactory
+    {
+        $this->scope ??= $scope;
+
+        return $this->component(Gallery::class);
+    }
+
     public function globals(): Globals
     {
         return new Globals;
@@ -551,6 +560,13 @@ class Customization
         $this->scope ??= $scope;
 
         return $this->component(Slide::class);
+    }
+
+    public function spinner(?string $scope = null): CustomizationFactory
+    {
+        $this->scope ??= $scope;
+
+        return $this->component(Spinner::class);
     }
 
     public function stats(?string $scope = null): CustomizationFactory

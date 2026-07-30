@@ -27,6 +27,7 @@ import number from '../src/Components/Form/Number/alpine';
 import rating from '../src/Components/Rating/alpine';
 import signature from '../src/Components/Signature/alpine';
 import slide from '../src/Components/Slide/alpine';
+import spinner from '../src/Components/Spinner/alpine';
 import stats from '../src/Components/Stats/alpine';
 import password from '../src/Components/Form/Password/alpine';
 import pin from '../src/Components/Form/Pin/alpine';
@@ -77,6 +78,7 @@ document.addEventListener('alpine:init', () => {
   Alpine.data('tallstackui_rating', rating);
   Alpine.data('tallstackui_signature', signature);
   Alpine.data('tallstackui_slide', slide);
+  Alpine.data('tallstackui_spinner', spinner);
   Alpine.data('tallstackui_stats', stats);
   Alpine.data('tallstackui_tab', tab);
   Alpine.data('tallstackui_table', table);

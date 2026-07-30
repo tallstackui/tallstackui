@@ -241,4 +241,9 @@ return [
             'lines' => ':count satır|:count satır',
         ],
     ],
+
+    'spinner' => [
+        'thinking' => 'Düşünüyor...',
+        'loading' => 'Yükleniyor...',
+    ],
 ];

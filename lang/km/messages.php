@@ -241,4 +241,9 @@ return [
             'lines' => ':count បន្ទាត់|:count បន្ទាត់',
         ],
     ],
+
+    'spinner' => [
+        'thinking' => 'កំពុងគិត...',
+        'loading' => 'កំពុងផ្ទុក...',
+    ],
 ];

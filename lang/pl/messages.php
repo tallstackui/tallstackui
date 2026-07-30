@@ -241,4 +241,9 @@ return [
             'lines' => ':count wiersz|:count wiersze',
         ],
     ],
+
+    'spinner' => [
+        'thinking' => 'Myślę...',
+        'loading' => 'Ładowanie...',
+    ],
 ];

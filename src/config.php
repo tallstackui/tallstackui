@@ -556,6 +556,22 @@ return [
                 'position' => 'right',
             ],
         ],
+        'spinner' => [
+            Components\Spinner\Component::class,
+            [
+                /*
+                |----------------------------------------------------------------------
+                | Spinner Global Settings
+                |----------------------------------------------------------------------
+                |
+                | type: controls the default variant (Allowed: ring, throbber, gradient,
+                | ping, dots, pulse, typing, bars, wave, shimmer, caret, terminal, thinking).
+                | size: controls the default size (Allowed: xs, sm, md, lg).
+                */
+                'type' => 'ring',
+                'size' => 'md',
+            ],
+        ],
         'stats' => Components\Stats\Component::class,
         'step' => Components\Step\Main\Component::class,
         'step.items' => Components\Step\Items\Component::class,

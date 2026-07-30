@@ -107,6 +107,7 @@
 - [Rating](components/rating.md)
 - [Reaction](components/reaction.md) *(Livewire only)*
 - [Signature](components/signature.md) *(Livewire only)*
+- [Spinner](components/spinner.md)
 
 ### Theme
 
