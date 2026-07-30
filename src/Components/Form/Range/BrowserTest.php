@@ -13,8 +13,6 @@ class BrowserTest extends BrowserTestCase
     #[Test]
     public function can_increase(): void
     {
-        $this->skipOnGitHubActions();
-
         Livewire::visit(new class extends Component
         {
             public int $quantity = 0;
@@ -46,8 +44,6 @@ class BrowserTest extends BrowserTestCase
     #[Test]
     public function can_increase_with_live_entangle(): void
     {
-        $this->skipOnGitHubActions();
-
         Livewire::visit(new class extends Component
         {
             public int $quantity = 0;

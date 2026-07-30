@@ -473,11 +473,4 @@ class BrowserTest extends BrowserTestCase
         })
             ->assertSee('[TallStackUI] Carousel: The [images] attribute is required.');
     }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->skipOnGitHubActions('This test is not compatible with GitHub Actions');
-    }
 }

@@ -115,8 +115,6 @@ class BrowserTest extends BrowserTestCase
     #[Test]
     public function can_open_and_select_first_color_in_mode_custom(): void
     {
-        $this->skipOnGitHubActions();
-
         Livewire::visit(new class extends Component
         {
             public ?string $color = null;

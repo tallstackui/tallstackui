@@ -477,8 +477,6 @@ class BrowserTest extends BrowserTestCase
     #[Test]
     public function can_dispatch_dismissed_event(): void
     {
-        $this->skipOnGitHubActions();
-
         Livewire::visit(new class extends Component
         {
             use Interactions;
@@ -967,8 +965,6 @@ class BrowserTest extends BrowserTestCase
     #[Test]
     public function cannot_close_persistent_interaction_dialog_by_clicking_outside(): void
     {
-        $this->skipOnGitHubActions();
-
         Livewire::visit(new class extends Component
         {
             use Interactions;
