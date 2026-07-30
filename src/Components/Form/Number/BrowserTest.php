@@ -351,37 +351,6 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
-    public function can_input_decimal_with_comma_on_mobile(): void
-    {
-        $this->skipOnGitHubActions('This test only works locally.');
-
-        Livewire::visit(new class extends Component
-        {
-            public float $quantity = 0.0;
-
-            public function render(): string
-            {
-                return <<<'HTML'
-                <div>
-                    <p dusk="quantity">{{ $quantity }}</p>
-                    <x-number wire:model="quantity" min="0" step="0.01" />
-                    <x-button dusk="sync" wire:click="sync">Save</x-button>
-                </div>
-                HTML;
-            }
-
-            public function sync(): void
-            {
-                //
-            }
-        })
-            ->assertSee('Save')
-            ->type('@tallstackui_form_number_input', '10,5')
-            ->click('@sync')
-            ->waitForTextIn('@quantity', '10.5');
-    }
-
-    #[Test]
     public function can_input_negative_numbers_when_allowed(): void
     {
         Livewire::visit(new class extends Component

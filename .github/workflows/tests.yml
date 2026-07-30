@@ -15,18 +15,17 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
-    runs-on: ${{ matrix.os }}
+  checks:
+    runs-on: ubuntu-latest
 
     strategy:
       fail-fast: false
       matrix:
-        os: [ ubuntu-latest ]
         php: [ 8.4 ]
         laravel: [ '13.*' ]
         livewire: [ '^4.3' ]
 
-    name: Laravel:${{ matrix.laravel }} / Livewire:${{ matrix.livewire }}
+    name: Checks / Laravel:${{ matrix.laravel }} / Livewire:${{ matrix.livewire }}
 
     steps:
       - name: Checkout
@@ -43,7 +42,7 @@ jobs:
           path: node_modules
           key: node-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
           restore-keys: |
-            node-${{ runner.os }}-    
+            node-${{ runner.os }}-
 
       - name: Install Node Dependencies
         run: |
@@ -88,21 +87,81 @@ jobs:
       - name: Type Coverage
         run: ./vendor/bin/pest --type-coverage --parallel --compact
 
+      - name: Clear Orchestra Cache
+        run: ./vendor/bin/testbench view:clear
+
+      - name: Tests (Feature)
+        run: ./vendor/bin/pest --stop-on-failure --stop-on-error --testsuite=Feature --parallel --order-by random
+        env:
+          CI: true
+
+  browser:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php: [ 8.4 ]
+        laravel: [ '13.*' ]
+        livewire: [ '^4.3' ]
+        # The browser suite cannot use --parallel: testbench-dusk serves on a
+        # fixed 127.0.0.1:8001, so concurrent processes fight over the port.
+        # Sharding sidesteps that by giving each slice its own runner.
+        shard: [ 1, 2, 3, 4 ]
+
+    name: Browser ${{ matrix.shard }}/4
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+
+      - name: Cache Node modules
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: node-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            node-${{ runner.os }}-
+
+      - name: Install Node Dependencies
+        run: |
+          npm install
+          npm run build
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick
+          tools: composer:v2
+          coverage: none
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: composer-${{ runner.os }}-${{ hashFiles('composer.lock') }}
+          restore-keys: |
+            composer-${{ runner.os }}-
+
+      - name: Install Composer
+        run: |
+          composer require "laravel/framework:${{ matrix.laravel }}" --no-interaction --no-progress --ansi --no-update
+          composer update --prefer-dist --no-interaction --no-progress --ansi
+          composer require livewire/livewire:${{ matrix.livewire }} --no-interaction --no-progress --ansi
+
       - name: Setup Google Chrome
         run: vendor/bin/dusk-updater detect --auto-update
 
       - name: Clear Orchestra Cache
         run: ./vendor/bin/testbench view:clear
 
-      - name: Tests (Feature)
-        run: ./vendor/bin/pest --stop-on-failure --stop-on-error --filter Feature --parallel --order-by random
-        env:
-          CI: true
-
-      - name: Clear Orchestra Cache
-        run: ./vendor/bin/testbench view:clear
-
       - name: Tests (Browser)
-        run: ./vendor/bin/pest --filter Browser --order-by random
+        run: ./vendor/bin/pest --stop-on-failure --stop-on-error --testsuite=Browser --shard=${{ matrix.shard }}/4
         env:
           CI: true

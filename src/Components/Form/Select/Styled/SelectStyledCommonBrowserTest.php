@@ -322,8 +322,6 @@ class SelectStyledCommonBrowserTest extends BrowserTestCase
     #[Test]
     public function can_interact_with_multiples_selects(): void
     {
-        $this->skipOnGitHubActions();
-
         Livewire::visit(new class extends Component
         {
             public ?Collection $devices = null;
