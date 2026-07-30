@@ -11,6 +11,7 @@ parameters:
         - src/Components/**/FeatureTest.php
         - src/Components/**/BrowserTest.php
         - src/Components/**/SearchableBrowserTest.php
+        - src/Components/**/StackedBrowserTest.php
 
     # Level 10 is the highest level
     level: 5

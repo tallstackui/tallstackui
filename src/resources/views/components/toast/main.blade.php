@@ -12,6 +12,7 @@
     ]) x-bind:class="{ '{{ $customization['wrapper.position.top-x'] }}' : position.includes('top-') === true, '{{ $customization['wrapper.position.bottom-x'] }}' : position.includes('bottom-') === true }">
     <div @class([$configurations['stacked'] ? $customization['stack.wrapper'] : $customization['stack.inert']])
          @if ($configurations['stacked'])
+             dusk="tallstackui_toast_stack"
              x-on:mouseenter="expand()"
              x-on:mouseleave="collapse()"
              x-on:ts-ui:toast-measured="register($event.detail)"

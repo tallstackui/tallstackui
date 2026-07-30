@@ -168,32 +168,20 @@ horizontal alignment should know the centered positions now read
 With `stacked` off, both pile wrappers render with `display: contents` and generate no
 box, so the layout is the one that shipped before.
 
-### Pending — no test coverage
+### Tests
 
-**Nothing here is covered by automated tests yet.** Everything above was verified by
-hand, in the playground and by driving a headless browser, but not a single assertion
-guards it against regression. `src/Components/Toast/BrowserTest.php` predates this work
-and covers none of it.
+`FeatureTest.php` covers the rendered markup: the six positions through both the fluent
+method and the configuration, an unknown one rejected by each, and the switches being
+off by default and taking effect when on. `StackedBrowserTest.php` covers what only a
+browser can show — the pile expanding on hover, the buried cards losing their content,
+every countdown held while it is open and resuming once the pointer leaves, and a
+drained pile still accepting the next toast.
 
-What needs coverage, roughly in order of how much a silent regression would cost:
-
-- The countdown hold. It touches code that ships today, in both modes, and the latch it
-  came from was only found by manual QA.
-- The pile expanding on hover and collapsing on leave, and every timer freezing while it
-  is open.
-- Off mode rendering exactly as before, which rests on `display: contents` being
-  transparent at two nesting levels.
-- The six positions accepted by both validators, and an unknown one rejected by each.
-- `top-on-mobile` flipping the anchor on a narrow viewport, including the crossed case
-  of a `bottom-*` position below `md`.
-
-One note for whoever writes the browser side, since it is not obvious: turning
-`stacked` on for the Dusk server does not work through `beforeServingApplication` —
-Livewire already claims that slot to register anonymous test components, and taking it
-leaves the page with `Unable to find component`. It works from `defineEnvironment`,
-setting `ts-ui.components.toast.1.stacked` **and** calling
-`__ts_get_component_configuration(..., flush: true)`, because the helper memoizes the
-configuration in a static that the service provider has already filled by then.
+Turning `stacked` on for the Dusk server goes through `defineEnvironment`, together with
+a `__ts_get_component_configuration(..., flush: true)`: the helper memoizes the
+component configuration in a static that the service provider has already filled by the
+time the server boots. It cannot go through `beforeServingApplication`, which Livewire
+already claims to register the anonymous test components.
 
 ---
 
