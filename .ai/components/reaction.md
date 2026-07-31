@@ -92,6 +92,21 @@ To show a live-updating reaction count, bind a Livewire property with `wire:mode
 <x-reaction wire:model="quantity" :$quantity />
 ```
 
+## Styling the Panel
+
+The panel is created by JavaScript, so it is **not** reachable through `TallStackUi::customize()`. It is styled in `css/plugins/popover.css` and overridden through a stable selector:
+
+```css
+[data-tsui-popover] {
+    background-color: #101828;
+    border-color: #1d2939;
+}
+```
+
+Its position is resolved by the same placement helper the tooltip uses: the requested `position` flips to the opposite side when it does not fit and slides along the cross axis to stay inside the viewport. Clicking outside or pressing <kbd>Escape</kbd> closes it.
+
+The emoji grid inside the panel is regular soft customization, through the `box.*` and `icon` blocks below.
+
 ## Soft Customization
 
 Soft customization allows you to override default Tailwind CSS classes used by this component at runtime, either through a service provider or scoped per-instance.

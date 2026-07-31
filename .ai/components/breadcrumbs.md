@@ -50,6 +50,10 @@ Each item in the `items` array supports these keys:
 | icon    | string\|null | No       | Heroicon name displayed before the label                                             |
 | tooltip | string\|null | No       | Tooltip text shown on hover                                                          |
 
+Items render the tooltip at the default position and delay. Overriding either per item is
+not exposed; the global defaults under `components.tooltip` still apply. See
+[Tooltip](tooltip.md#global-configuration).
+
 ## Slots
 
 | Slot  | Description                                 |

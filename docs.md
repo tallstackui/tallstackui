@@ -12,6 +12,237 @@ such change is listed under **Migration**.
 
 ---
 
+## Tooltip
+
+### Changed — tippy.js is gone
+
+`x-tooltip` was a thin wrapper over tippy.js. The dependency cost a bundle of its own,
+its instance API leaked into Blade, and its viewport handling was the part nobody could
+adjust. The directive is now built by the package.
+
+`js/helpers/placement.js` holds the geometry, and nothing else:
+
+```js
+place(reference, floating, { placement, offset, padding, arrow })
+// → { x, y, side, alignment, arrow }
+```
+
+It resolves a Popper-style placement (`bottom-end`, `auto-start`, the fifteen the
+package already accepted), flips to the opposite side when the requested one does not
+fit, shifts along the cross axis to stay inside the viewport, and reports where the
+arrow has to sit after the shift. The caller applies the result through `translate` on a
+`position: fixed` element, so there is no scroll offset math anywhere.
+
+Two decisions in there are not obvious. Sizes are read from
+`offsetWidth`/`offsetHeight` rather than a bounding rect, because the balloon is
+measured while it still carries the closed state's `scale` and a rect would report the
+scaled size. And **both** axes are clamped, not only the cross one: when neither side
+fits — a viewport shorter than anchor plus balloon, which is what a narrow phone does to
+a long tooltip — overlapping the anchor beats rendering off-screen.
+
+**One balloon serves the whole page.** Tooltips are mutually exclusive by nature, and a
+node per anchor piles up detached elements every time Livewire morphs a toolbar — the
+editor alone renders two dozen of them. The single node is created on first use,
+reused by every anchor, and dropped on `livewire:navigating`.
+
+Long text no longer pushes the balloon away from its anchor. `max-width` is
+`min(20rem, calc(100vw - 2rem))`, so the text wraps instead of forcing an extreme shift,
+with `text-wrap: balance` and `overflow-wrap: anywhere` for long words and URLs.
+
+### Changed — how it opens and closes
+
+Under a mouse, hovering opens after a delay and scrolling repositions. Under a touch, a
+tap opens and a tap outside or a scroll closes — a tapped tooltip has no pointer to
+follow, so dragging it along the scroll reads as stuck. Keyboard focus opens without
+waiting, blur closes, and <kbd>Escape</kbd> closes from anywhere.
+
+The anchor carries `aria-describedby` pointing at the balloon while it is open, and the
+balloon carries `role="tooltip"`. Neither existed before.
+
+### Added — `delay`
+
+Four named steps, because a number in a Blade attribute invites values nobody wants:
+
+| Name     | Delay |
+|----------|-------|
+| `slow`   | 400ms |
+| `fast`   | 150ms |
+| `faster` | 75ms  |
+| `flash`  | 0     |
+
+```blade
+<x-tooltip text="Foo" delay="flash" />
+<x-button tooltip="Foo" data-tooltip-delay="slow" />
+<span x-data x-tooltip="Foo" data-tooltip-delay="faster"></span>
+```
+
+It applies to the pointer only. Keyboard focus and taps open immediately — delaying a
+deliberate action rather than an accidental hover has no reason to exist.
+
+### Added — `balloon`, coloring the balloon
+
+`color` still paints the icon. `balloon` paints the balloon:
+
+```blade
+<x-tooltip text="Foo" balloon="red" />
+<x-button tooltip="Foo" data-tooltip-color="emerald" />
+<x-kbd tooltip="Foo" data-tooltip-color="amber" />
+```
+
+The directive never holds a color map. It writes `--tsui-tooltip-bg` as
+`var(--color-<name>-600)`, so any palette the application adds to `@theme` works with no
+list to keep in sync — a project that redefines `--color-primary-*` gets its own primary
+here for free. `black` maps to `var(--color-black)`.
+
+A colored balloon keeps its color in both themes. Only the default one inverts, dark on
+light themes and light on dark ones.
+
+### Added — `data-tooltip-disabled`
+
+Turns a tooltip off without removing the directive:
+
+```blade
+<span x-tooltip="Foo" x-bind:data-tooltip-disabled="condition"></span>
+```
+
+The flag is watched, not only read when the balloon opens: the sidebar disables its
+tooltips the moment the menu expands, while the pointer is still sitting on the item, and
+the balloon has to disappear right then.
+
+### Added — global settings
+
+```php
+'tooltip' => [
+    Components\Tooltip\Component::class,
+    [
+        'delay' => null,
+        'color' => null,
+    ],
+],
+```
+
+Both reach every `x-tooltip` on the page, including the ones rendered by Button, Kbd,
+Breadcrumbs, Editor and the sidebar. These are defaults: the inline prop always wins.
+
+The tooltip lives in a directive, not in a component, so those anchors have no PHP
+instance to read the config from. `@tallStackUiScript` publishes it as attributes on the
+main script tag, which keeps it out of an inline script that a strict CSP would reject:
+
+```html
+<script type="module" src="/tallstackui/script/tallstackui-*.js"
+        data-tsui-tooltip-delay="flash" data-tsui-tooltip-color="rose"></script>
+```
+
+### Changed — where the balloon's classes live
+
+The balloon is created by JavaScript and shared by anchors that have no component behind
+them, so it cannot go through `customization()`. It is styled in `css/plugins/tooltip.css`
+and overridden through a stable selector:
+
+```css
+[data-tsui-tooltip] { border-radius: 0; }
+[data-tsui-tooltip] > [data-arrow] { display: none; }
+```
+
+`translate` is deliberately left out of the transition: only the open and close states
+animate, so repositioning on scroll stays instant instead of lagging behind the anchor.
+
+### Fixed — the selection highlight left behind by a click
+
+Clicking the icon selected it, and the browser painted its selection highlight as a box
+around the icon that outlived the click. The component's `wrapper` block gained
+`select-none`. `[x-tooltip]` also gets `-webkit-tap-highlight-color: transparent`, for
+the same flash on touch.
+
+`select-none` is not applied to `[x-tooltip]` globally on purpose — a `<span>` of real
+text carrying a tooltip has to stay selectable.
+
+### Migration
+
+**`$el._tippy` no longer exists.** Anything reaching for the tippy instance to enable or
+disable a tooltip has to move to the attribute. The sidebar did:
+
+```blade
+{{-- before --}}
+x-effect="$el._tippy && ($store['tsui.side-bar'].open ? $el._tippy.disable() : $el._tippy.enable())"
+
+{{-- after --}}
+x-bind:data-tooltip-disabled="$store['tsui.side-bar'].open"
+```
+
+**`tippy.js` left `package.json`**, and with it the `tippy.css` the package used to
+serve. An application importing either directly has to install it on its own.
+
+**`js/tallstackui-tooltip.js` is gone.** It existed only to keep tippy out of the main
+bundle; the directive and Reaction moved into `js/tallstackui.js`. Loading is driven by
+the manifest, so `@tallStackUiScript` needs no change — three files totalling ~87 KB
+became one at ~58 KB, and one request less.
+
+**A balloon styled through tippy's theme classes has to be restyled** through
+`[data-tsui-tooltip]`.
+
+---
+
+## Reaction
+
+### Changed — off tippy, onto the shared placement helper
+
+Reaction was the other tippy consumer, and it is not a tooltip: it is a click-triggered
+interactive popover. It keeps its own trigger, click-outside and <kbd>Escape</kbd>
+handling, and asks `place()` for coordinates like the tooltip does.
+
+The panel is built once and appended **inside** the `wire:ignore` wrapper, next to the
+trigger. Not to `<body>`, which is where a floating element would normally go: `$wire`
+walks upwards looking for a Livewire root, and outside of one it degrades to a no-op
+that swallows the call without an error. The emoji buttons run `$wire.call`, so a panel
+in `<body>` would open, animate and react to clicks while nothing ever reached the
+server. Staying inside `wire:ignore` keeps it clear of the morph all the same.
+
+It does not need to escape an `overflow: hidden` ancestor to be visible either — the
+panel is `position: fixed`, placed in viewport coordinates.
+
+### Changed — the panel look
+
+Tippy's default theme is a black box, which is what the emoji panel used to be. It is now
+a real panel — `dark-900` with a `dark-700` border, `dark-800`/`dark-600` in dark mode,
+rounded with a shadow.
+
+Like the tooltip balloon, it is built by JavaScript and therefore outside
+`customization()`. It is styled in `css/plugins/popover.css` and overridden through
+`[data-tsui-popover]`:
+
+```css
+[data-tsui-popover] { background-color: #101828; }
+```
+
+### Migration
+
+**Panel markup changed shape.** It used to be tippy's root, box and content wrappers,
+in `<body>`; it is now a single `[data-tsui-popover]` element next to the trigger,
+holding the emoji grid. Anything selecting into the old structure — a browser test
+walking an XPath, most of all — has to be repointed.
+
+The panel carries `dusk="tallstackui_reaction_popover"`, and every emoji button now
+carries `dusk="tallstackui_reaction_<name>"`, so a test names the reaction it clicks
+instead of counting nodes:
+
+```php
+->click('@tallstackui_reaction_button')
+->waitFor('@tallstackui_reaction_thumbs-up')
+->click('@tallstackui_reaction_thumbs-up')
+```
+
+### Tests
+
+`BrowserTest.php` traded `clickAtVisibleXPath('html/body/div[3]/div/div/div/div[1]/div/button[7]')`
+for the named hook above, in the three tests that react.
+
+That XPath was worth more than a refactor: pointed at the old markup it kept passing
+against a panel whose `$wire.call` had silently become a no-op, because the assertion
+never got as far as the server. Naming the button is what surfaced it.
+
+---
+
 ## List
 
 ### Added — `lazy`, rendering the rows on the client

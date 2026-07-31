@@ -634,7 +634,23 @@ return [
             ],
         ],
         'toggle' => Components\Form\Toggle\Component::class,
-        'tooltip' => Components\Tooltip\Component::class,
+        'tooltip' => [
+            Components\Tooltip\Component::class,
+            /*
+            |----------------------------------------------------------------------
+            | Tooltip Global Settings
+            |----------------------------------------------------------------------
+            |
+            | delay: controls the pointer delay before opening (Allowed: slow, fast, faster, flash).
+            | color: controls the balloon color (Allowed: any palette key, or black).
+            |
+            | These are defaults for every x-tooltip: the inline prop always wins.
+            */
+            [
+                'delay' => null,
+                'color' => null,
+            ],
+        ],
         'upload' => Components\Form\Upload\Component::class,
         'upload.async' => [
             Components\Form\Upload\Async\Component::class,

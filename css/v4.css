@@ -3,6 +3,8 @@
 @import './plugins/number-appearance-none.css';
 @import './plugins/soft-scrollbar.css';
 @import './plugins/command-palette-scrollbar.css';
+@import './plugins/tooltip.css';
+@import './plugins/popover.css';
 
 [x-cloak] {
     display: none;

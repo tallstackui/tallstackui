@@ -61,6 +61,7 @@ This ensures the built assets in `dist/` are updated and reflect your changes.
 ## Testing Rules
 
 - **Browser tests**: NEVER run with `--parallel`. Always run with `--filter` to target specific test classes or methods. Example: `./vendor/bin/pest --filter="can_render_with_highlighted"`
+- **Browser tests**: never run the entire browser suite locally. We only do that in GitHub CI where the full suite run in 4 minutes using Pest shards.
 - **Feature tests**: CAN run with `--parallel`. Example: `composer test:feature --parallel`
 - Never run browser tests in parallel mode.
 

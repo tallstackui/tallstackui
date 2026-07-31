@@ -76,6 +76,14 @@ These attributes are inherited from the parent `<x-side-bar>` via `@aware`:
 | navigate-hover | `<x-side-bar navigate-hover>` adds `wire:navigate.hover` to links           |
 | collapsible    | `<x-side-bar collapsible>` enables collapsed sidebar behavior with tooltips |
 
+## Tooltips While Collapsed
+
+With `collapsible`, each item carries `x-tooltip` with its `text`, positioned to the
+`right`, and binds `data-tooltip-disabled` to the sidebar store. Expanding the menu — or
+switching to mobile, where the labels are visible — suppresses the balloon immediately,
+even with the pointer already resting on the item. See
+[Tooltip](../../tooltip.md#the-x-tooltip-directive).
+
 ## Soft Customization
 
 Soft customization allows you to override default Tailwind CSS classes used by this component at runtime, either through a service provider or scoped per-instance.

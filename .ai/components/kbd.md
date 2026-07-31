@@ -31,6 +31,14 @@ A keyboard key indicator component for displaying keyboard shortcuts or key refe
 | borderless | bool         | false   | Removes the border and shadow for a minimal appearance |
 | tooltip    | string\|null | null    | Tooltip text shown on hover                            |
 
+The balloon accepts the same attributes as anywhere else — `data-position`,
+`data-tooltip-delay`, `data-tooltip-color` and `data-tooltip-disabled`. See
+[Tooltip](tooltip.md#the-x-tooltip-directive).
+
+```blade
+<x-kbd text="⌘" tooltip="Command" data-tooltip-color="amber" data-position="bottom" />
+```
+
 ## Slots
 
 | Slot      | Description                                      |

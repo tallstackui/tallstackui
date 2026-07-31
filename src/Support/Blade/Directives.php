@@ -3,6 +3,7 @@
 namespace TallStackUi\Support\Blade;
 
 use Illuminate\Support\Facades\Blade;
+use TallStackUi\Components\Tooltip\Component as Tooltip;
 use TallStackUi\Facades\TallStackUi as Facade;
 
 class Directives
@@ -65,12 +66,12 @@ class Directives
         $manifest = $this->manifest();
         $html = '';
 
-        foreach ($manifest as $entry) {
+        foreach ($manifest as $key => $entry) {
             if (! ($entry['isEntry'] ?? false) || ! str_ends_with($entry['file'], '.js')) {
                 continue;
             }
 
-            $html .= $this->format($entry['file']);
+            $html .= $this->format($entry['file'], $key === 'js/tallstackui.js' ? $this->configuration() : '');
 
             foreach ($entry['css'] ?? [] as $css) {
                 $html .= $this->format($css);
@@ -95,12 +96,27 @@ class Directives
     }
 
     /**
+     * Get the settings the tooltip directive cannot read from a component.
+     */
+    private function configuration(): string
+    {
+        $tooltip = __ts_get_component_configuration(Tooltip::class) ?? [];
+
+        return collect([
+            'tooltip-delay' => $tooltip['delay'] ?? null,
+            'tooltip-color' => $tooltip['color'] ?? null,
+        ])->filter(fn (?string $value): bool => filled($value))
+            ->map(fn (string $value, string $key): string => ' data-tsui-'.$key.'="'.e($value).'"')
+            ->implode('');
+    }
+
+    /**
      * Format, according to the file extension.
      */
-    private function format(string $file): string
+    private function format(string $file, string $attributes = ''): string
     {
         return (match (true) { // @phpstan-ignore-line
-            str_ends_with($file, '.js') => fn () => "<script type=\"module\" src=\"/tallstackui/script/{$file}\"></script>",
+            str_ends_with($file, '.js') => fn () => "<script type=\"module\" src=\"/tallstackui/script/{$file}\"{$attributes}></script>",
             str_ends_with($file, '.css') => fn () => "<link href=\"/tallstackui/style/{$file}\" rel=\"stylesheet\" type=\"text/css\">",
         })();
     }

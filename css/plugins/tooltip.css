@@ -1,0 +1,60 @@
+/*
+The `x-tooltip` balloon. A single node is built by JavaScript and reused by
+every anchor on the page, so its look cannot live in a component
+customization block: `x-tooltip` is a directive and runs on elements that
+have no component behind them. Override through `[data-tsui-tooltip]`.
+*/
+[data-tsui-tooltip] {
+    @apply pointer-events-none fixed top-0 left-0 z-50 w-max rounded-md px-2.5 py-1.5 text-xs leading-snug font-medium shadow-lg;
+
+    background-color: var(--tsui-tooltip-bg, var(--color-dark-900));
+    color: var(--tsui-tooltip-fg, var(--color-white));
+
+    /* Long text wraps instead of pushing the balloon away from its anchor. */
+    max-width: min(20rem, calc(100vw - 2rem));
+    text-wrap: balance;
+    overflow-wrap: anywhere;
+
+    visibility: hidden;
+    opacity: 0;
+    scale: 0.96;
+
+    /* `translate` is left out on purpose: repositioning on scroll must be
+       instant, only the open and close states animate. */
+    transition:
+        opacity 150ms ease-out,
+        scale 150ms ease-out,
+        visibility 0s linear 150ms;
+}
+
+[data-tsui-tooltip][data-show] {
+    visibility: visible;
+    opacity: 1;
+    scale: 1;
+    transition:
+        opacity 150ms ease-out,
+        scale 150ms ease-out,
+        visibility 0s;
+}
+
+[data-tsui-tooltip] > [data-arrow] {
+    @apply absolute h-2 w-2 rotate-45;
+
+    background-color: var(--tsui-tooltip-bg, var(--color-dark-900));
+    border-radius: 1px;
+}
+
+/* Tapping a trigger must not flash the platform highlight behind it. */
+[x-tooltip] {
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Dark mode styles */
+.dark [data-tsui-tooltip]:not([data-color]) {
+    background-color: var(--color-white);
+    color: var(--color-dark-900);
+}
+
+.dark [data-tsui-tooltip]:not([data-color]) > [data-arrow] {
+    background-color: var(--color-white);
+}

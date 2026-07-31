@@ -24,11 +24,22 @@ class Component extends TallStackUiComponent implements Customization
 {
     use BuildRawIcon;
 
+    public const BALLOONS = [
+        'black', 'primary', 'secondary', 'slate', 'gray', 'zinc', 'neutral', 'stone',
+        'red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal',
+        'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink',
+        'rose', 'mauve', 'olive', 'mist', 'taupe',
+    ];
+
+    public const DELAYS = ['slow', 'fast', 'faster', 'flash'];
+
     /** @throws Exception */
     public function __construct(
         public ?string $text = null,
         public ?string $icon = 'question-mark-circle',
         public string $color = 'primary',
+        public ?string $balloon = null,
+        public ?string $delay = null,
         public ?bool $xs = null,
         public ?bool $sm = null,
         public ?bool $md = null,
@@ -51,7 +62,7 @@ class Component extends TallStackUiComponent implements Customization
     public function customization(): array
     {
         return Arr::dot([
-            'wrapper' => 'inline-flex',
+            'wrapper' => 'inline-flex select-none',
             'sizes' => [
                 'xs' => 'h-4 w-4',
                 'sm' => 'h-5 w-5',
@@ -65,5 +76,13 @@ class Component extends TallStackUiComponent implements Customization
     protected function validate(): void
     {
         InvalidSelectedPositionException::validate(static::class, $this->position);
+
+        if ($this->delay !== null && ! in_array($this->delay, self::DELAYS)) {
+            __ts_validation_exception($this, 'The [delay] must be one of the following: ['.implode(', ', self::DELAYS).']');
+        }
+
+        if ($this->balloon !== null && ! in_array($this->balloon, self::BALLOONS)) {
+            __ts_validation_exception($this, 'The [balloon] must be one of the following: ['.implode(', ', self::BALLOONS).']');
+        }
     }
 }
