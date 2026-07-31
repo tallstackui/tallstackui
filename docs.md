@@ -12,6 +12,124 @@ such change is listed under **Migration**.
 
 ---
 
+## Icon
+
+### Added — size and color shorthands
+
+Sizing an icon meant writing the utilities by hand every single time, which is why
+`h-5 w-5` is scattered across the package and across every application using it. The
+component now carries its own scale:
+
+```blade
+<x-icon name="users" xs red />
+<x-icon name="users" 2xl secondary />
+```
+
+Eleven steps, one bare attribute each:
+
+| Shorthand | Classes     | Size |
+|-----------|-------------|------|
+| `xs`      | `h-3 w-3`   | 12px |
+| `sm`      | `h-4 w-4`   | 16px |
+| `md`      | `h-5 w-5`   | 20px |
+| `lg`      | `h-6 w-6`   | 24px |
+| `xl`      | `h-7 w-7`   | 28px |
+| `2xl`     | `h-8 w-8`   | 32px |
+| `3xl`     | `h-10 w-10` | 40px |
+| `4xl`     | `h-12 w-12` | 48px |
+| `5xl`     | `h-14 w-14` | 56px |
+| `6xl`     | `h-16 w-16` | 64px |
+| `7xl`     | `h-20 w-20` | 80px |
+
+Two sizes or two colors at once throws, on the same reasoning as Spinner — a mistyped
+shorthand is a different icon and silence would hide it:
+
+```blade
+<x-icon name="users" xs 2xl />    {{-- throws --}}
+<x-icon name="users" red blue />  {{-- throws --}}
+```
+
+**The shorthands are read from the attribute bag, not from constructor properties**,
+and that is not a stylistic choice. Spinner and Avatar can declare `xs`, `sm`, `md` and
+`lg` as booleans because those are valid PHP variable names; `2xl` is not, and neither
+is any other step past `xl`. Declaring half the scale as properties and half as
+attributes would be worse than reading all of it from one place. The same applies to the
+29 color keys.
+
+Because they are attributes, they are also **removed from the bag before the icon
+renders**. `x-dynamic-component` builds a template out of the attribute names it
+receives, so a surviving `2xl` compiles to the invalid variable `$2xl` and the render
+dies with a PHP syntax error. Anything touching that path has to keep the removal.
+
+#### Color through `currentColor`
+
+Colors reuse Spinner's approach: one `text-*` class on the `<svg>`, painting the icon
+through `currentColor`. The palette is the same 29 keys, and
+`php artisan tallstackui:setup-color` publishes an `IconColors` class with a single
+`textColors()` map.
+
+`error` still wins over any color, since a validation state is not a style choice:
+
+```blade
+<x-icon name="exclamation-circle" error blue />  {{-- stays red --}}
+```
+
+### Changed — a bare icon now has a size
+
+`<x-icon name="users" />` used to reach the browser with no width and no height, which
+left the SVG to the default sizing of an inline element — never what anyone wanted, so
+in practice a class was always passed. It now falls back to `md`, and the fallback is
+configurable:
+
+```php
+'icon' => [
+    Components\Icon\Component::class,
+    [
+        'size' => 'md',
+    ],
+],
+```
+
+An invalid value there throws, the same way Spinner's does.
+
+### Added — soft customization
+
+`icon` joins the soft customization surface with a `sizes.*` block per step, so the
+scale can be retuned without touching the component:
+
+```php
+TallStackUi::customize()->icon()->block('sizes.md', 'h-9 w-9');
+TallStackUi::customize('icon', scope: 'hero')->block('sizes.md', 'h-12 w-12');
+```
+
+### Migration
+
+**A bare `<x-icon>` renders at 20px now.** Only calls that pass no `class` at all are
+affected, and those were rendering at an unusable default size before, so the change is
+almost always a fix. An application that was sizing icons through a wrapper rule still
+wins on specificity — `.wrapper svg` outranks `.h-5` — but one relying on the absent
+dimension has to pass `class` explicitly.
+
+**Declaring `class` turns both shorthands off**, including an empty `class=""`:
+
+```blade
+<x-icon name="users" 2xl red class="size-4" />  {{-- size-4, nothing else --}}
+```
+
+This is what keeps the package itself untouched: all 190 internal icon usages pass a
+class, so none of them picked up a size or a color from this change.
+
+**Forty attribute names are now reserved on `x-icon`** — eleven sizes and 29 colors.
+They are consumed and stripped, so they cannot be forwarded to the `<svg>` for any
+other purpose.
+
+**IDE autocompletion does not know them.** `ide.json` maps a component to its class and
+the IDE reads props off the constructor, so the shorthands do not appear in completion
+and may be flagged as unknown attributes. That is the cost of the attribute-bag
+approach described above.
+
+---
+
 ## Tooltip
 
 ### Changed — tippy.js is gone

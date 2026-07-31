@@ -60,6 +60,7 @@ dataset('customization.keys', [
     'ts-ui::customization.form.toggle',
     'ts-ui::customization.form.upload',
     'ts-ui::customization.form.upload.async',
+    'ts-ui::customization.icon',
     'ts-ui::customization.kbd',
     'ts-ui::customization.keyValue',
     'ts-ui::customization.layout',

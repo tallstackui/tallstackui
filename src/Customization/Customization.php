@@ -60,6 +60,7 @@ use TallStackUi\Components\Form\Toggle\Component as Toggle;
 use TallStackUi\Components\Form\Upload\Async\Component as UploadAsync;
 use TallStackUi\Components\Form\Upload\Component as Upload;
 use TallStackUi\Components\Gallery\Component as Gallery;
+use TallStackUi\Components\Icon\Component as Icon;
 use TallStackUi\Components\Kbd\Component as Kbd;
 use TallStackUi\Components\KeyValue\Component as KeyValue;
 use TallStackUi\Components\Layout\Header\Component as Header;
@@ -409,6 +410,13 @@ class Customization
     public function globals(): Globals
     {
         return new Globals;
+    }
+
+    public function icon(?string $scope = null): CustomizationFactory
+    {
+        $this->scope ??= $scope;
+
+        return $this->component(Icon::class);
     }
 
     public function kbd(?string $scope = null): CustomizationFactory
