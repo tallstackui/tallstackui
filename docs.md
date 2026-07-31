@@ -12,6 +12,128 @@ such change is listed under **Migration**.
 
 ---
 
+## List
+
+### Added — `lazy`, rendering the rows on the client
+
+A `:items` list pays one full Blade component per row: attribute reflection, runtime
+compilation, customization resolution and the nested `<x-icon>`/`<x-floating>` of the
+menu. At a few hundred rows that cost lands on the response that opens the modal or
+the page holding the list, before the user sees anything.
+
+`lazy` moves the rows to the client. The server serializes `:items` into a single JSON
+array and Alpine renders a slice of it through `x-for`, growing the slice as a sentinel
+at the bottom of the scroll container comes into view:
+
+```blade
+<x-list :items="$tags" height="60" lazy />        {{-- first slice of 20 --}}
+<x-list :items="$tags" height="60" lazy="10" />   {{-- first slice of 10 --}}
+```
+
+The row markup is still the same component. `<x-list.items>` renders once inside the
+`x-for` template, with `x-text` bindings in place of values, so every soft customization
+of `list.items` reaches the lazy rows unchanged.
+
+**Search still sees the whole dataset.** The filter runs over the JSON array, not over
+the rendered rows, so a term matching only the five-hundredth item finds it while twenty
+rows are on screen. `register()` becomes a no-op in this mode — the array is already the
+source, and the per-row `x-init` disappears with the rows themselves.
+
+`height` is required: the sentinel needs a scroll container to intersect with. And
+`lazy` refuses `@interact('item_caption')`, `@interact('item_action')` and
+`@interact('item_menu')` — those slots are closures the server resolves while rendering
+each row, and there is no per-row server render left to resolve them. Degrading silently
+would trade a visible error for an invisible one, so the combination throws. A list that
+needs per-row Blade keeps working exactly as before, without `lazy`.
+
+When the revealed slice is shorter than the container, nothing can scroll, the sentinel
+never leaves the viewport and `x-intersect` does not fire a second time. After each
+growth `more()` waits a frame and keeps going while the rows still fit — overflow is the
+signal that the scroll, and with it the sentinel, is back in play. Measuring the
+overflow rather than the sentinel's position is deliberate: rows carry
+`content-visibility: auto`, so an off-screen row reports the reserved
+`contain-intrinsic-size` until the browser lays it out for real, and a position read
+taken mid-flight can stall the fill half-way with no scroll left to recover it.
+
+The name matches the `lazy` of `<x-select.styled>`, which is also a render slice, and
+not the `lazy` of `<x-tag>` and `<x-autocomplete>`, which is a minimum typing length.
+
+### Fixed — phantom divider above the first visible row after a search
+
+Filtering a searchable list down to a row that was not the first row in the DOM
+painted a spurious top border against the search row's bottom border, reading as a
+single thick divider.
+
+The dividers were keyed on an adjacent-sibling selector over `data-list-row`. Rows
+are hidden with `x-show`, which sets `display: none`, and hidden elements still
+participate in CSS sibling matching — so a visible row preceded only by *hidden*
+rows still matched `[data-list-row] + [data-list-row]` and got a `border-t`.
+
+Every row now also carries `data-list-on`, which Alpine drops while the row is
+filtered out, and the divider is keyed on the general-sibling combinator:
+
+```
+[&>[data-list-on]~[data-list-on]]:border-t
+```
+
+`A ~ B` matches a visible row that has at least one *visible* row before it, which
+is exactly "every visible row except the first visible one". No DOM-position
+selector (`+`, `:not(:first-child)`, `divide-y`) can express this while hidden
+siblings are still in the tree.
+
+**Migration.** Applications overriding the `items.wrapper` block of `<x-list>` must
+key their dividers on `data-list-on` rather than `data-list-row`, or the artifact
+comes back.
+
+### Added — raw content in the caption and a new `action` slot
+
+`<x-list.items>` accepts consumer markup in two positions.
+
+`caption` keeps working as a plain string attribute (HTML-escaped) and additionally
+accepts a slot for arbitrary markup:
+
+```blade
+<x-list.items name="production">
+    <x-slot:caption>
+        <x-badge text="12 servers" color="red" sm />
+    </x-slot:caption>
+</x-list.items>
+```
+
+The new `action` slot renders controls on the right of the row without the ellipsis
+dropdown chrome, and coexists with `<x-slot:menu>`:
+
+```blade
+<x-list.items name="general" caption="1 server">
+    <x-slot:action>
+        <x-button sm wire:click="deploy('general')">Deploy</x-button>
+    </x-slot:action>
+    <x-slot:menu>
+        <x-dropdown.items text="Edit" wire:click="edit('general')" />
+    </x-slot:menu>
+</x-list.items>
+```
+
+Both are mirrored in data-driven mode through `@interact('item_caption', $item)` and
+`@interact('item_action', $item)`, alongside the existing `@interact('item_menu')`.
+
+Search still works when the caption is markup: the component registers a plain-text
+projection of the slot (tags stripped, whitespace collapsed), so a caption rendered
+as a badge continues to match its visible text.
+
+**Migration.** When `action` and/or `menu` are present, both are grouped inside a new
+`content.aside` wrapper (`flex shrink-0 items-center gap-x-2`). Rows that previously
+rendered only a menu now carry one extra `<div>`. Applications selecting the menu
+wrapper by DOM position rather than by class may need adjusting.
+
+### Changed — `caption` excluded from the debug overlay
+
+`caption` gained `#[SkipDebug]`, matching `menu` and `empty`, because a
+`ComponentSlot` value would otherwise dump raw HTML into the debug panel. The
+caption no longer appears in the overlay when `TALLSTACKUI_DEBUG_MODE` is on.
+
+---
+
 ## Table
 
 ### Added — the table renders outside Livewire
@@ -2325,84 +2447,6 @@ The 3.x documentation described `$event.detail.item` as
 each item from the four known keys and dropped everything else, so any extra field
 arrived as `undefined`. The docs now describe the real shape, and `metadata` is the
 supported way to attach custom data.
-
----
-
-## List
-
-### Fixed — phantom divider above the first visible row after a search
-
-Filtering a searchable list down to a row that was not the first row in the DOM
-painted a spurious top border against the search row's bottom border, reading as a
-single thick divider.
-
-The dividers were keyed on an adjacent-sibling selector over `data-list-row`. Rows
-are hidden with `x-show`, which sets `display: none`, and hidden elements still
-participate in CSS sibling matching — so a visible row preceded only by *hidden*
-rows still matched `[data-list-row] + [data-list-row]` and got a `border-t`.
-
-Every row now also carries `data-list-on`, which Alpine drops while the row is
-filtered out, and the divider is keyed on the general-sibling combinator:
-
-```
-[&>[data-list-on]~[data-list-on]]:border-t
-```
-
-`A ~ B` matches a visible row that has at least one *visible* row before it, which
-is exactly "every visible row except the first visible one". No DOM-position
-selector (`+`, `:not(:first-child)`, `divide-y`) can express this while hidden
-siblings are still in the tree.
-
-**Migration.** Applications overriding the `items.wrapper` block of `<x-list>` must
-key their dividers on `data-list-on` rather than `data-list-row`, or the artifact
-comes back.
-
-### Added — raw content in the caption and a new `action` slot
-
-`<x-list.items>` accepts consumer markup in two positions.
-
-`caption` keeps working as a plain string attribute (HTML-escaped) and additionally
-accepts a slot for arbitrary markup:
-
-```blade
-<x-list.items name="production">
-    <x-slot:caption>
-        <x-badge text="12 servers" color="red" sm />
-    </x-slot:caption>
-</x-list.items>
-```
-
-The new `action` slot renders controls on the right of the row without the ellipsis
-dropdown chrome, and coexists with `<x-slot:menu>`:
-
-```blade
-<x-list.items name="general" caption="1 server">
-    <x-slot:action>
-        <x-button sm wire:click="deploy('general')">Deploy</x-button>
-    </x-slot:action>
-    <x-slot:menu>
-        <x-dropdown.items text="Edit" wire:click="edit('general')" />
-    </x-slot:menu>
-</x-list.items>
-```
-
-Both are mirrored in data-driven mode through `@interact('item_caption', $item)` and
-`@interact('item_action', $item)`, alongside the existing `@interact('item_menu')`.
-
-Search still works when the caption is markup: the component registers a plain-text
-projection of the slot (tags stripped, whitespace collapsed), so a caption rendered
-as a badge continues to match its visible text.
-
-**Migration.** When `action` and/or `menu` are present, both are grouped inside a new
-`content.aside` wrapper (`flex shrink-0 items-center gap-x-2`). Rows that previously
-rendered only a menu now carry one extra `<div>`. Applications selecting the menu
-wrapper by DOM position rather than by class may need adjusting.
-
-### Changed — `caption` excluded from the debug overlay
-
-`caption` gained `#[SkipDebug]`, matching `menu` and `empty`, because a
-`ComponentSlot` value would otherwise dump raw HTML into the debug panel. The
-caption no longer appears in the overlay when `TALLSTACKUI_DEBUG_MODE` is on.
 
 ---
 

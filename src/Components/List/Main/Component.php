@@ -20,6 +20,8 @@ class Component extends TallStackUiComponent implements Customization
 {
     use SkeletonSetup;
 
+    public const CHUNK = 20;
+
     public function __construct(
         public ?string $label = null,
         public ?string $hint = null,
@@ -27,6 +29,7 @@ class Component extends TallStackUiComponent implements Customization
         public ?string $searchPlaceholder = null,
         public ?string $height = null,
         public array|Arrayable|null $items = null,
+        public bool|int|null $lazy = null,
         public bool|int|null $skeleton = null,
         #[SkipDebug]
         public ComponentSlot|string|null $empty = null,
@@ -38,6 +41,12 @@ class Component extends TallStackUiComponent implements Customization
 
             $this->resolved = array_values($items);
         }
+
+        $this->lazy = match ($this->lazy) {
+            true => self::CHUNK,
+            false => null,
+            default => $this->lazy,
+        };
     }
 
     public function blade(): View
@@ -95,6 +104,20 @@ class Component extends TallStackUiComponent implements Customization
 
         if ($this->height !== null && ! in_array($this->height, $allowed, true)) {
             __ts_validation_exception($this, 'The [height] must be one of: ['.implode(', ', $allowed).'].');
+        }
+
+        if ($this->lazy !== null) {
+            if ($this->items === null) {
+                __ts_validation_exception($this, 'The [lazy] requires the [items] because there is nothing to slice without them.');
+            }
+
+            if ($this->height === null) {
+                __ts_validation_exception($this, 'The [lazy] requires the [height] to create the scroll container that loads the next rows.');
+            }
+
+            if ($this->lazy < 1) {
+                __ts_validation_exception($this, 'The [lazy] must be greater than 0.');
+            }
         }
 
         foreach ($this->resolved as $index => $item) {

@@ -23,6 +23,7 @@ class Component extends TallStackUiComponent implements Customization
         public ?bool $md = null,
         public ?bool $lg = null,
         public ?string $width = 'xxs',
+        public ?bool $lazy = null,
         #[SkipDebug]
         public ComponentSlot|string|null $caption = null,
         #[SkipDebug]
@@ -37,7 +38,7 @@ class Component extends TallStackUiComponent implements Customization
 
     public function blade(): View
     {
-        return view('ts-ui::components.list.items');
+        return view($this->lazy ? 'ts-ui::components.list.items-lazy' : 'ts-ui::components.list.items');
     }
 
     public function customization(): array
@@ -71,7 +72,8 @@ class Component extends TallStackUiComponent implements Customization
 
     protected function validate(): void
     {
-        if (! is_string($this->name) || trim($this->name) === '') {
+        // The lazy row is a template: the name only exists on the client side.
+        if (! $this->lazy && (! is_string($this->name) || trim($this->name) === '')) {
             __ts_validation_exception($this, 'The [name] attribute is required.');
         }
 

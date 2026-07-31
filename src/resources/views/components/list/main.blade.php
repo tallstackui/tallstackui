@@ -9,7 +9,7 @@
                              :$label />
     @endif
 
-    <div x-data="tallstackui_list()"
+    <div x-data="tallstackui_list(@js($slice ?? []))"
          class="{{ $customization['box'] }}">
         @if ($searchable)
             <div class="{{ $customization['search.wrapper'] }}">
@@ -27,12 +27,21 @@
             </div>
         @endif
 
-        <div @class([
+        <div x-ref="scroll"
+             @class([
                 $customization['items.wrapper'],
                 $customization['items.scroll'] => $height !== null,
                 ($customization['items.height.'.$height] ?? '') => $height !== null,
              ])>
-            @if ($items !== null)
+            @if ($slice !== null)
+                <template x-for="(item, index) in visible" :key="index">
+                    <x-dynamic-component :component="TallStackUi::prefix('list.items')" lazy />
+                </template>
+
+                <div x-ref="sentinel"
+                     x-intersect.margin.100px="more()"
+                     dusk="tallstackui_list_sentinel"></div>
+            @elseif ($items !== null)
                 @foreach ($resolved as $item)
                     <x-dynamic-component :component="TallStackUi::prefix('list.items')"
                                          :name="data_get($item, 'name')"

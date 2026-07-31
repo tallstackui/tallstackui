@@ -98,6 +98,7 @@ Action and menu side by side — the action sits to the left of the ellipsis tri
 | md        | bool         | false   | Sets the menu **size** token to `md` (`px-4 py-2 text-sm`)                                            |
 | lg        | bool         | false   | Sets the menu **size** token to `lg` (`px-5 py-2.5 text-base`)                                        |
 | width     | string\|null | `xxs`   | Floating panel **width** token: `xxs`, `xs`, `sm`, `md`, `lg`, `xl`, `2xl`                            |
+| lazy      | bool\|null   | null    | **Internal.** Renders the row as an Alpine template for `<x-list lazy>`. Not meant to be set by hand  |
 
 ## Slots
 
@@ -161,16 +162,24 @@ The floating panel emits `data-tsui-dropdown-size` and `data-tsui-dropdown-width
 
 The size flags (`xs`, `sm`, `md`, `lg`) are mutually exclusive — the first truthy flag in the order `xs → md → lg` wins, otherwise the size resolves to `sm`. Setting `sm` explicitly is allowed for readability but produces the same result as omitting every flag. The `width` prop is validated against the seven tokens above; anything else throws `InvalidArgumentException`.
 
+## Lazy template row
+
+When the parent runs in [lazy mode](main.md#lazy-mode) it renders `<x-list.items lazy />` once, inside its `x-for` template. That row switches to `list/items-lazy.blade.php`: the name and caption become `x-text` bindings against the `item` of the loop, `data-list-name` becomes an `x-bind`, and `register()`/`match()` are dropped since the parent filters the array instead of the DOM.
+
+It resolves `customization()` from this same component, so overrides of `wrapper`, `name` and `caption` reach the lazy rows unchanged. The slots do not — `caption`, `action`, `menu` and the default slot have no per-row Blade to render in this mode, which is why the parent rejects `lazy` together with any `@interact('item_*')` hook.
+
+`lazy` also lifts the `name` requirement, since the name only exists on the client in that mode.
+
 ## Validation
 
-- `name` must be a non-empty string.
+- `name` must be a non-empty string, unless `lazy` is set.
 - `width` must be one of `xxs`, `xs`, `sm`, `md`, `lg`, `xl`, `2xl`.
 
 Failures throw `InvalidArgumentException` (wrapped by Blade as `ViewException`).
 
 ## Performance
 
-Each row applies `content-visibility: auto` + `contain-intrinsic-size: auto 2.5rem`. The browser skips layout/paint for rows scrolled off-screen, keeping scroll smooth even with hundreds of items. The intrinsic-size hint reserves ~40px per row so the scrollbar doesn't jump as rows are activated. See the parent [`<x-list>` docs](main.md) for guidance on lists larger than ~500 items.
+Each row applies `content-visibility: auto` + `contain-intrinsic-size: auto 2.5rem`. The browser skips layout/paint for rows scrolled off-screen, keeping scroll smooth even with hundreds of items. The intrinsic-size hint reserves ~40px per row so the scrollbar doesn't jump as rows are activated. That addresses paint cost only — the row is still a Blade component per item. When the render cost itself is the problem, the parent's [lazy mode](main.md#lazy-mode) renders the rows from a JSON array instead.
 
 ## Soft customization
 

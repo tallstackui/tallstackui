@@ -2,6 +2,7 @@
 
 namespace TallStackUi\Components\List;
 
+use Laravel\Dusk\Browser;
 use Livewire\Component;
 use Livewire\Livewire;
 use PHPUnit\Framework\Attributes\Test;
@@ -138,6 +139,99 @@ class BrowserTest extends BrowserTestCase
         })
             ->waitForText('alpha')
             ->assertPresent('.max-h-60.overflow-y-auto');
+    }
+
+    #[Test]
+    public function lazy_fills_a_container_taller_than_the_first_slice(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public array $items = [];
+
+            public function mount(): void
+            {
+                $this->items = collect(range(1, 60))
+                    ->map(fn (int $number): array => ['name' => "item-{$number}"])
+                    ->all();
+            }
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-list height="96" lazy="2" :items="$items" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForText('item-1')
+            ->waitForText('item-10')
+            ->assertSee('item-10');
+    }
+
+    #[Test]
+    public function lazy_reveals_the_next_slice_on_scroll(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public array $items = [];
+
+            public function mount(): void
+            {
+                $this->items = collect(range(1, 60))
+                    ->map(fn (int $number): array => ['name' => "item-{$number}", 'caption' => "caption-{$number}"])
+                    ->all();
+            }
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-list height="60" lazy="10" :items="$items" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForText('item-1')
+            ->assertSee('item-10')
+            ->assertDontSee('item-11')
+            ->tap(fn (Browser $browser) => $browser->script('document.querySelector(\'[x-ref="scroll"]\').scrollTop = 99999'))
+            ->waitForText('item-20')
+            ->assertSee('item-20')
+            ->tap(fn (Browser $browser) => $browser->script('document.querySelector(\'[x-ref="scroll"]\').scrollTop = 99999'))
+            ->waitForText('item-30')
+            ->assertSee('item-30');
+    }
+
+    #[Test]
+    public function lazy_search_matches_an_item_outside_the_rendered_slice(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public array $items = [];
+
+            public function mount(): void
+            {
+                $this->items = collect(range(1, 60))
+                    ->map(fn (int $number): array => ['name' => "item-{$number}", 'caption' => "caption-{$number}"])
+                    ->all();
+            }
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-list searchable height="60" lazy="10" :items="$items" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForText('item-1')
+            ->assertDontSee('item-57')
+            ->type('@tallstackui_list_search', 'item-57')
+            ->pause(300)
+            ->assertSee('item-57')
+            ->assertDontSee('item-10');
     }
 
     #[Test]

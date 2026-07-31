@@ -7,6 +7,23 @@ use Tests\TestCase;
 
 uses(TestCase::class)->group('Feature');
 
+/**
+ * The lazy payload reaches the browser through `@js()`, which hex-escapes the
+ * quotes for the JS lexer to resolve before `JSON.parse` ever sees them.
+ */
+function list_lazy_payload(string $html): array
+{
+    preg_match("/tallstackui_list\(JSON\.parse\('(.*?)'\)\)/", $html, $matches);
+
+    $json = preg_replace_callback(
+        '/\\\\u([0-9a-fA-F]{4})/',
+        fn (array $escape): string => (string) mb_chr((int) hexdec($escape[1])),
+        $matches[1] ?? ''
+    );
+
+    return (array) json_decode((string) $json, true);
+}
+
 it('can render an empty list', function () {
     expect('<x-list />')->render()
         ->toContain('tallstackui_list')
@@ -536,6 +553,142 @@ it('scopes the floating menu under list.items.menu for soft customization', func
         ->and(TallStackUi::customize('floating', scope: 'list.items.menu'))
         ->not->toBeNull();
 });
+
+it('can render the lazy mode serializing the items into the alpine payload', function () {
+    $items = [
+        ['name' => 'general', 'caption' => '1 server'],
+        ['name' => 'production', 'caption' => '2 servers'],
+    ];
+
+    $payload = list_lazy_payload(Blade::render('<x-list :items="$items" height="60" lazy />', compact('items')));
+
+    expect($payload)->toBe([
+        'chunk' => 20,
+        'items' => [
+            ['name' => 'general', 'caption' => '1 server'],
+            ['name' => 'production', 'caption' => '2 servers'],
+        ],
+    ]);
+});
+
+it('can render the lazy mode with a custom slice', function () {
+    $items = [['name' => 'general']];
+
+    $payload = list_lazy_payload(Blade::render('<x-list :items="$items" height="60" lazy="5" />', compact('items')));
+
+    expect($payload['chunk'])->toBe(5);
+});
+
+it('serializes only the name and the caption to the lazy payload', function () {
+    $items = [['id' => 1, 'name' => 'general', 'caption' => '1 server', 'region' => 'sa-east-1']];
+
+    $payload = list_lazy_payload(Blade::render('<x-list :items="$items" height="60" lazy />', compact('items')));
+
+    expect($payload['items'][0])->toBe(['name' => 'general', 'caption' => '1 server']);
+});
+
+it('keeps a missing caption as null in the lazy payload', function () {
+    $items = [['name' => 'general']];
+
+    $payload = list_lazy_payload(Blade::render('<x-list :items="$items" height="60" lazy />', compact('items')));
+
+    expect($payload['items'][0]['caption'])->toBeNull();
+});
+
+it('renders the lazy rows through a template instead of one component per item', function () {
+    $items = [
+        ['name' => 'general', 'caption' => '1 server'],
+        ['name' => 'production', 'caption' => '2 servers'],
+    ];
+
+    $html = Blade::render('<x-list :items="$items" height="60" lazy />', compact('items'));
+
+    expect($html)
+        ->toContain('<template x-for="(item, index) in visible"')
+        ->toContain('x-text="item.name"')
+        ->toContain('x-text="item.caption"')
+        ->toContain('x-bind:data-list-name="item.name"')
+        ->and(substr_count($html, 'data-list-row'))->toBe(1)
+        ->and($html)->not->toContain('>general<');
+});
+
+it('renders the sentinel that reveals the next lazy slice', function () {
+    $items = [['name' => 'general']];
+
+    expect(Blade::render('<x-list :items="$items" height="60" lazy />', compact('items')))
+        ->toContain('tallstackui_list_sentinel')
+        ->toContain('x-intersect.margin.100px="more()"')
+        ->toContain('x-ref="sentinel"')
+        ->toContain('x-ref="scroll"');
+});
+
+it('keeps the lazy rows under the list.items customization', function () {
+    $items = [['name' => 'general']];
+    $customization = TallStackUi::customize('list', scope: 'items');
+
+    expect(Blade::render('<x-list :items="$items" height="60" lazy />', compact('items')))
+        ->toContain('text-sm font-medium text-secondary-700')
+        ->toContain('text-xs text-secondary-500')
+        ->and($customization)->not->toBeNull();
+});
+
+it('renders the label, the hint, the search and the empty state in lazy mode', function () {
+    $items = [['name' => 'general']];
+
+    $component = '<x-list :items="$items" height="60" lazy searchable label="Tags" hint="Manage your tags." />';
+
+    expect(Blade::render($component, compact('items')))
+        ->toContain('Tags', 'Manage your tags.')
+        ->toContain('tallstackui_list_search')
+        ->toContain('tallstackui_list_empty');
+});
+
+it('does not enter the lazy mode when the attribute is disabled', function () {
+    $items = [['name' => 'general']];
+
+    expect(Blade::render('<x-list :items="$items" height="60" :lazy="false" />', compact('items')))
+        ->toContain('tallstackui_list([])')
+        ->toContain('>general<')
+        ->not->toContain('tallstackui_list_sentinel');
+});
+
+it('cannot render the lazy mode without the items', function () {
+    $this->expectException(ViewException::class);
+
+    expect('<x-list height="60" lazy><x-list.items name="general" /></x-list>')->render();
+});
+
+it('cannot render the lazy mode without the height', function () {
+    $items = [['name' => 'general']];
+
+    $this->expectException(ViewException::class);
+
+    Blade::render('<x-list :items="$items" lazy />', compact('items'));
+});
+
+it('cannot render the lazy mode with a slice below one', function () {
+    $items = [['name' => 'general']];
+
+    $this->expectException(ViewException::class);
+
+    Blade::render('<x-list :items="$items" height="60" lazy="0" />', compact('items'));
+});
+
+it('cannot render the lazy mode with @interact', function (string $interaction) {
+    $items = [['name' => 'general', 'id' => 1]];
+
+    $component = <<<BLADE
+    <x-list :items="\$items" height="60" lazy>
+        @interact('{$interaction}', \$item)
+            <span>Foo</span>
+        @endinteract
+    </x-list>
+    BLADE;
+
+    $this->expectException(ViewException::class);
+
+    Blade::render($component, compact('items'));
+})->with(['item_caption', 'item_action', 'item_menu']);
 
 it('can render the skeleton instead of the content')
     ->expect('<x-list skeleton><x-list.items name="general" /></x-list>')
