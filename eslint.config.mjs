@@ -3,7 +3,7 @@ import js from '@eslint/js';
 
 export default [
   {
-    ignores: ['**/*.md'],
+    ignores: ['**/*.md', 'vendor/**', 'dist/**'],
   },
   js.configs.recommended,
   {

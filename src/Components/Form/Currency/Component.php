@@ -46,10 +46,10 @@ class Component extends TallStackUiComponent implements Customization
                 'appearance' => 'appearance-number-none',
             ],
             'symbol' => [
-                'spacing' => 'ml-2',
+                'spacing' => 'ml-2 mr-1',
             ],
             'currency' => [
-                'spacing' => 'mr-2',
+                'spacing' => 'ml-1 mr-2',
             ],
             'clearable' => [
                 'wrapper' => 'cursor-pointer absolute inset-y-0 flex items-center text-gray-500 dark:text-dark-400',

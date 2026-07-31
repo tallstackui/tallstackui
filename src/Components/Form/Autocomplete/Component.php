@@ -61,8 +61,11 @@ class Component extends TallStackUiComponent implements Customization
             'adornment' => [
                 'suffix' => 'dark:text-dark-400 flex select-none items-center whitespace-nowrap text-gray-500 text-sm',
             ],
+            'slot' => [
+                'spacing' => 'ml-1 mr-2 gap-1.5',
+            ],
             'icon' => [
-                'wrapper' => 'mr-2 flex items-center gap-1.5',
+                'wrapper' => 'flex items-center gap-1.5',
                 'clear' => 'h-5 w-5 cursor-pointer text-gray-500 hover:text-red-500 dark:text-dark-400 dark:hover:text-red-500',
                 'loading' => 'h-5 w-5 animate-spin text-primary-500 dark:text-dark-400',
             ],

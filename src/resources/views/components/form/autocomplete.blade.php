@@ -35,29 +35,31 @@
                          role="combobox"
                          :aria-expanded="'show'"
                          dusk="tallstackui_autocomplete_input">
-        <x-slot:suffix>
+        <x-slot:suffix :class="$customization['slot.spacing']">
             @if ($suffix)
                 <span class="{{ $customization['adornment.suffix'] }}">{{ $suffix }}</span>
             @endif
-            <div class="{{ $customization['icon.wrapper'] }}">
-                <template x-if="loading">
-                    <x-dynamic-component :component="TallStackUi::prefix('icon')"
-                                         :icon="TallStackUi::icon('arrow-path')"
-                                         internal
-                                         class="{{ $customization['icon.loading'] }}" />
-                </template>
-                @if ($clearable)
-                    <button type="button"
-                            x-show="!loading && (search || selected)"
-                            x-on:click="clear()"
-                            dusk="tallstackui_autocomplete_clear">
+            @if ($request || $clearable)
+                <div class="{{ $customization['icon.wrapper'] }}">
+                    <template x-if="loading">
                         <x-dynamic-component :component="TallStackUi::prefix('icon')"
-                                             :icon="TallStackUi::icon('x-mark')"
+                                             :icon="TallStackUi::icon('arrow-path')"
                                              internal
-                                             class="{{ $customization['icon.clear'] }}" />
-                    </button>
-                @endif
-            </div>
+                                             class="{{ $customization['icon.loading'] }}" />
+                    </template>
+                    @if ($clearable)
+                        <button type="button"
+                                x-show="!loading && (search || selected)"
+                                x-on:click="clear()"
+                                dusk="tallstackui_autocomplete_clear">
+                            <x-dynamic-component :component="TallStackUi::prefix('icon')"
+                                                 :icon="TallStackUi::icon('x-mark')"
+                                                 internal
+                                                 class="{{ $customization['icon.clear'] }}" />
+                        </button>
+                    @endif
+                </div>
+            @endif
         </x-slot:suffix>
     </x-dynamic-component>
     <x-dynamic-component :component="TallStackUi::prefix('floating')"

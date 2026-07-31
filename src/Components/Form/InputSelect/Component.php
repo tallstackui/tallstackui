@@ -57,8 +57,8 @@ class Component extends TallStackUiComponent implements Customization
                     'error' => 'ring-red-300 focus-within:ring-red-500 dark:ring-red-500 dark:focus-within:ring-red-500',
                 ],
                 'paddings' => [
-                    'prefix' => 'pr-2 pl-0',
-                    'suffix' => 'pl-2 pr-0',
+                    'prefix' => 'pr-2 pl-0!',
+                    'suffix' => 'pl-2 pr-0!',
                     'left' => 'pl-8',
                     'right' => 'pr-8',
                     'clearable' => 'pr-14!',

@@ -47,8 +47,8 @@ class Component extends TallStackUiComponent implements Customization
             'input' => [
                 ...$this->input(),
                 'paddings' => [
-                    'prefix' => 'pr-3 pl-0',
-                    'suffix' => 'pl-3 pr-0',
+                    'prefix' => 'pr-3 pl-0!',
+                    'suffix' => 'pl-3 pr-0!',
                     'left' => 'pl-8',
                     'right' => 'pr-8',
                     'clearable' => 'pr-14!',
