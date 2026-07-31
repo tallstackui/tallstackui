@@ -12,7 +12,6 @@ use Illuminate\View\ComponentAttributeBag;
 use Illuminate\View\ComponentSlot;
 use InvalidArgumentException;
 use TallStackUi\Attributes\PassThroughRuntime;
-use TallStackUi\Attributes\RequireLivewireContext;
 use TallStackUi\Attributes\SkipDebug;
 use TallStackUi\Attributes\SoftCustomization;
 use TallStackUi\Components\Traits\SkeletonSetup;
@@ -20,12 +19,13 @@ use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\Support\Runtime\Components\TableRuntime;
 use TallStackUi\TallStackUiComponent;
 
-#[RequireLivewireContext]
 #[SoftCustomization('table')]
 #[PassThroughRuntime(TableRuntime::class)]
 class Component extends TallStackUiComponent implements Customization
 {
     use SkeletonSetup;
+
+    public const PAGINATORS = ['simple', 'minimal', 'compact'];
 
     public function __construct(
         public Collection|array $headers = [],
@@ -35,10 +35,10 @@ class Component extends TallStackUiComponent implements Customization
         public ?array $sort = [],
         public bool|array|null $filter = null,
         public ?bool $loading = false,
-        public ?array $quantity = [10, 25, 50, 100],
-        public ?bool $paginate = false,
-        public ?bool $persistent = false,
-        public ?bool $simplePagination = false,
+        public ?array $quantity = null,
+        public ?bool $paginate = null,
+        public bool|string|null $persistent = false,
+        public ?bool $simplePagination = null,
         public ?bool $selectable = null,
         public ?string $selectableProperty = 'id',
         public ?bool $expandable = false,
@@ -50,8 +50,7 @@ class Component extends TallStackUiComponent implements Customization
         public bool|int|null $skeleton = null,
         #[SkipDebug]
         public ?array $placeholders = null,
-        #[SkipDebug]
-        public ?string $paginator = 'ts-ui::components.table.paginators',
+        public ?string $paginator = null,
         #[SkipDebug]
         public mixed $loop = null,
         #[SkipDebug]
@@ -64,25 +63,6 @@ class Component extends TallStackUiComponent implements Customization
         public ComponentSlot|string|null $empty = null
     ) {
         $this->placeholders = array_merge(trans('ts-ui::messages.table'), $this->placeholders ?? []);
-
-        if (is_bool($filter) && $this->filter === true) {
-            $this->filter = ['quantity' => 'quantity', 'search' => 'search'];
-        } else {
-            $this->filter = is_array($filter) ? $filter : null;
-        }
-
-        // This is necessary to `wire:target` the properties linked with filter
-        // in order to make the spinner displayed during Livewire updates.
-        if ($quantity = ($this->filter['quantity'] ?? null)) {
-            $this->target[] = $quantity;
-        }
-
-        if ($search = ($this->filter['search'] ?? null)) {
-            $this->target[] = $search;
-        }
-
-        // Imploding to transform into "wire:target="quantity,search""
-        $this->target = implode(',', $this->target);
     }
 
     public function blade(): View
@@ -234,6 +214,15 @@ class Component extends TallStackUiComponent implements Customization
         return new ComponentAttributeBag(['x-model'.$modifier => 'model']);
     }
 
+    // A dot or a namespace separator means the developer handed over their
+    // own view; anything else is one of the bundled variants.
+    public function paginatorView(): string
+    {
+        return str_contains($this->paginator, '::') || str_contains($this->paginator, '.')
+            ? $this->paginator
+            : 'ts-ui::components.table.paginators.'.$this->paginator;
+    }
+
     final public function sortable(Collection|array $header): bool
     {
         return data_get($header, 'index') !== 'action' && filled($this->sort) && ($header['sortable'] ?? true);
@@ -244,10 +233,47 @@ class Component extends TallStackUiComponent implements Customization
         return $this->sortable($header) && $this->sort['column'] === $header['index'];
     }
 
+    // The sort URL used outside the Livewire context.
+    public function sorting(Collection|array $header): string
+    {
+        $head = $this->head($header);
+
+        return request()->fullUrlWithQuery([
+            'sort' => ['column' => $head['column'], 'direction' => $head['direction']],
+            'page' => null,
+        ]);
+    }
+
+    protected function setup(): void
+    {
+        // Null means "not given", so an explicit :paginate="false" still wins
+        // over a global default that turns it on.
+        $this->paginator ??= __ts_get_component_configuration(self::class, 'paginator') ?? 'simple';
+        $this->paginate ??= __ts_get_component_configuration(self::class, 'paginate') ?? false;
+        $this->simplePagination ??= __ts_get_component_configuration(self::class, 'simple-pagination') ?? false;
+        $this->quantity ??= __ts_get_component_configuration(self::class, 'quantity') ?? [10, 25, 50, 100];
+        $this->filter ??= __ts_get_component_configuration(self::class, 'filter') ?? null;
+
+        $this->filter = $this->filter === true
+            ? ['quantity' => 'quantity', 'search' => 'search']
+            : (is_array($this->filter) ? $this->filter : null);
+
+        // This is necessary to `wire:target` the properties linked with filter
+        // in order to make the spinner displayed during Livewire updates.
+        $this->target = implode(',', array_filter([
+            $this->filter['quantity'] ?? null,
+            $this->filter['search'] ?? null,
+        ]));
+    }
+
     /** @throws InvalidArgumentException */
     protected function validate(): void
     {
         $this->guard();
+
+        if (! str_contains($this->paginator, '.') && ! in_array($this->paginator, self::PAGINATORS, true)) {
+            __ts_validation_exception($this, 'The [paginator] must be one of ['.implode(', ', self::PAGINATORS).'] or a view path.');
+        }
 
         $messages = trans('ts-ui::messages.table');
 
@@ -272,6 +298,10 @@ class Component extends TallStackUiComponent implements Customization
 
         if ($this->highlight && blank($this->highlightProperty)) {
             __ts_validation_exception($this, 'The [highlightProperty] property is required when [highlight] is set.');
+        }
+
+        if (is_string($this->persistent) && blank($this->persistent)) {
+            __ts_validation_exception($this, 'The [persistent] must be the id of an existing element when given as a string.');
         }
     }
 }

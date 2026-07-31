@@ -577,7 +577,29 @@ return [
         'step.items' => Components\Step\Items\Component::class,
         'tab' => Components\Tab\Main\Component::class,
         'tag' => Components\Form\Tag\Component::class,
-        'table' => Components\Table\Component::class,
+        'table' => [
+            Components\Table\Component::class,
+            /*
+            |----------------------------------------------------------------------
+            | Table Global Settings
+            |----------------------------------------------------------------------
+            |
+            | paginator: controls the pagination look (Allowed: simple, minimal, compact, or a view path).
+            | paginate: controls the rendering of the pagination.
+            | simple-pagination: controls the reduction to previous and next only.
+            | filter: controls the filter bar (true, or an array mapping the property names).
+            | quantity: controls the options of the per-page select.
+            |
+            | These are defaults: the inline prop always wins, including :paginate="false".
+            */
+            [
+                'paginator' => 'simple',
+                'paginate' => false,
+                'simple-pagination' => false,
+                'filter' => false,
+                'quantity' => [10, 25, 50, 100],
+            ],
+        ],
         'tab.items' => Components\Tab\Items\Component::class,
         'textarea' => Components\Form\Textarea\Component::class,
         'theme-switch' => Components\ThemeSwitch\Component::class,

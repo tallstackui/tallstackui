@@ -13,6 +13,31 @@ use Tests\Browser\BrowserTestCase;
 class BrowserTest extends BrowserTestCase
 {
     #[Test]
+    public function a_crafted_persistent_cannot_escape_the_scroll_snippet(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            use WithPagination;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    @php
+                        $headers = [['index' => 'id', 'label' => '#']];
+                        $rows = new Illuminate\Pagination\LengthAwarePaginator(collect([['id' => 1]]), 30, 10, 1, ['path' => '/']);
+                        $crafted = "x'); alert(1); //";
+                    @endphp
+                    <x-table :$headers :$rows paginate :persistent="$crafted" />
+                </div>
+                HTML;
+            }
+        })
+            ->assertSourceMissing("getElementById('x'); alert")
+            ->assertSee('#');
+    }
+
+    #[Test]
     public function can_render(): void
     {
         Livewire::visit(new class extends Component
@@ -426,6 +451,29 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function persistent_string_scrolls_to_the_given_element(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            use WithPagination;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div id="anchor">
+                    @php
+                        $headers = [['index' => 'id', 'label' => '#']];
+                        $rows = new Illuminate\Pagination\LengthAwarePaginator(collect([['id' => 1]]), 30, 10, 1, ['path' => '/']);
+                    @endphp
+                    <x-table :$headers :$rows paginate persistent="anchor" />
+                </div>
+                HTML;
+            }
+        })
+            ->assertSourceHas("document.getElementById('anchor')?.scrollIntoView();");
+    }
+
+    #[Test]
     public function selectable_select_all_reflects_only_current_page_after_pagination(): void
     {
         Livewire::visit(new class extends Component
@@ -484,5 +532,77 @@ class BrowserTest extends BrowserTestCase
             ->waitForTextIn('@selected', '1,2,3')
             ->pause(150)
             ->assertNotChecked('@tallstackui_table_select_all');
+    }
+
+    #[Test]
+    public function selected_event_also_fires_on_select_all(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public array $rows = [
+                ['id' => 1, 'name' => 'Foo'],
+                ['id' => 2, 'name' => 'Bar'],
+            ];
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div x-data="{ picked: [] }" x-on:selected="picked = $event.detail.rows">
+                    <p dusk="picked" x-text="picked.length ? picked.join(',') : 'none'"></p>
+
+                    @php
+                        $headers = [
+                            ['index' => 'id', 'label' => '#'],
+                            ['index' => 'name', 'label' => 'Name'],
+                        ];
+                    @endphp
+
+                    <x-table :$headers :$rows selectable />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForTextIn('@picked', 'none')
+            ->click('@tallstackui_table_select_all')
+            ->waitForTextIn('@picked', '1,2')
+            ->click('@tallstackui_table_select_all')
+            ->waitForTextIn('@picked', 'none');
+    }
+
+    #[Test]
+    public function selected_event_carries_the_whole_selection_outside_livewire(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public array $rows = [
+                ['id' => 1, 'name' => 'Foo'],
+                ['id' => 2, 'name' => 'Bar'],
+            ];
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div x-data="{ picked: [] }" x-on:selected="picked = $event.detail.rows">
+                    <p dusk="picked" x-text="picked.length ? picked.join(',') : 'none'"></p>
+
+                    @php
+                        $headers = [
+                            ['index' => 'id', 'label' => '#'],
+                            ['index' => 'name', 'label' => 'Name'],
+                        ];
+                    @endphp
+
+                    <x-table :$headers :$rows selectable />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForTextIn('@picked', 'none')
+            ->click('#checkbox-0')
+            ->waitForTextIn('@picked', '1')
+            ->click('#checkbox-1')
+            ->waitForTextIn('@picked', '1,2')
+            ->click('#checkbox-0')
+            ->waitForTextIn('@picked', '2');
     }
 }

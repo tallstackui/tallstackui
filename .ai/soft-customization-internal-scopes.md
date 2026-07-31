@@ -195,9 +195,9 @@ TallStackUi::customize()
 
 | Scope                 | Target                | Line(s) |
 |-----------------------|-----------------------|---------|
-| `table.select-styled` | `<x-select.styled />` | 23      |
-| `table.input`         | `<x-input />`         | 34      |
-| `table.checkbox`      | `<x-checkbox />`      | 61, 130 |
+| `table.select-styled` | `<x-select.styled />` | 26, 34  |
+| `table.input`         | `<x-input />`         | 48, 56  |
+| `table.checkbox`      | `<x-checkbox />`      | 84, 157 |
 
 ### `wrapper/input`
 
@@ -215,6 +215,6 @@ TallStackUi::customize()
 
 ## Stats
 
-- Total internal scope occurrences: 63
+- Total internal scope occurrences: 65
 - Distinct scopes: 57
 - Files declaring scopes: 25

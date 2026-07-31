@@ -1,5 +1,6 @@
 export default (model, selectable) => ({
-  model: model,
+  // Outside the Livewire context there is nothing to entangle.
+  model: model ?? [],
   rows: [],
   _observer: null,
   init() {
@@ -8,6 +9,10 @@ export default (model, selectable) => ({
     }
 
     this.checked();
+
+    // Watching covers the individual rows, "select all" and any external
+    // change to the entangled property through a single path.
+    this.$watch('model', () => this.$dispatch('selected', { rows: this.model }));
 
     // The list of ids changes whenever Livewire re-renders the table
     // (pagination, filter, search). Re-syncing the "select all" checkbox
@@ -93,6 +98,34 @@ export default (model, selectable) => ({
    */
   remove(ids) {
     this.model = this.model.filter((id) => !ids.includes(id));
+  },
+  /**
+   * Navigate through the query string. Used by the filter when the
+   * table renders outside the Livewire context.
+   *
+   * @param {Object} params
+   * @param {String|null} anchor
+   * @returns {void}
+   */
+  navigate(params, anchor = null) {
+    const url = new URL(window.location.href);
+
+    Object.entries(params).forEach(([key, value]) => {
+      if (value === null || value === undefined || value === '') {
+        url.searchParams.delete(key);
+
+        return;
+      }
+
+      url.searchParams.set(key, value);
+    });
+
+    // A new filter always sends the results back to the first page.
+    url.searchParams.delete('page');
+
+    url.hash = anchor ?? '';
+
+    window.location.assign(url);
   },
   /**
    * Redirect to a new page

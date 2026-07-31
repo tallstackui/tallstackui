@@ -3,9 +3,7 @@
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
 > component library providing 65+ Blade components for building modern web interfaces.
 
-> **Requires Livewire:** This component must be used within a Livewire component.
-
-A full-featured data table component with server-side sorting, search filtering, pagination, row selection, expandable rows, row highlighting, and clickable row links. Designed to work with Livewire properties for reactive updates.
+A full-featured data table component with server-side sorting, search filtering, pagination, row selection, expandable rows, row highlighting, and clickable row links. Inside Livewire it drives everything through wire directives; outside it, sorting, filtering and pagination travel through the query string. See [Outside Livewire](#outside-livewire).
 
 ## Basic Usage
 
@@ -106,12 +104,13 @@ Rows should include a `highlight` property (or custom property via `highlight-pr
 | headerless          | bool                                               | false             | Hides the table header row                                                                                                           |
 | striped             | bool                                               | false             | Applies alternating row background colors                                                                                            |
 | sort                | array\|null                                        | []                | Current sort state with `column` and `direction` keys (bind to a Livewire property)                                                  |
-| filter              | bool\|array\|null                                  | null              | Enables filter controls. `true` for defaults, or `['quantity' => 'propertyName', 'search' => 'propertyName']`                        |
+| filter              | bool\|array\|null                                  | null              | Enables filter controls. `true` for defaults, or `['quantity' => 'propertyName', 'search' => 'propertyName']`. Globally configurable |
 | loading             | bool                                               | false             | Shows a loading spinner overlay during Livewire updates                                                                              |
-| quantity            | array\|null                                        | [10, 25, 50, 100] | Options for the per-page quantity select                                                                                             |
-| paginate            | bool                                               | false             | Enables pagination links below the table                                                                                             |
-| persistent          | bool                                               | false             | Scrolls to table top after pagination                                                                                                |
-| simple-pagination   | bool                                               | false             | Uses simple (previous/next) pagination instead of full pagination                                                                    |
+| quantity            | array\|null                                        | [10, 25, 50, 100] | Options for the per-page quantity select. Globally configurable                                                                      |
+| paginate            | bool                                               | false             | Enables pagination links below the table. Globally configurable                                                                      |
+| persistent          | bool\|string                                       | false             | Keeps the table in view after paginating or filtering. A bare flag anchors on the table itself; a string anchors on the element with that id. See [Persistent](#persistent) |
+| simple-pagination   | bool                                               | false             | Uses simple (previous/next) pagination instead of full pagination. Globally configurable                                             |
+| paginator           | string\|null                                       | 'simple'          | The look of the pagination: `simple`, `minimal` or `compact`, or a view path of your own. See [Paginator](#paginator)                |
 | selectable          | bool\|null                                         | null              | Enables row selection checkboxes (bind to a Livewire property via `wire:model`)                                                      |
 | selectable-property | string\|null                                       | 'id'              | Row property used as the value for selection                                                                                         |
 | expandable          | bool                                               | false             | Enables expandable row sub-content via `@interact('sub_table', $row)`                                                                |
@@ -149,6 +148,28 @@ Each header in the `headers` array supports these keys:
 - The `quantity` and `search` translation keys must be present in `ts-ui::messages.table`.
 - When `selectable` is true, `selectable-property` must not be blank.
 - When `highlight` is true, `highlight-property` must not be blank.
+- When `persistent` is a string, it must not be empty.
+- `paginator` must be one of `simple`, `minimal`, `compact`, or contain a dot (a view path).
+
+## Events
+
+| Event      | Payload  | Fires on                                                    |
+|------------|----------|-------------------------------------------------------------|
+| `select`   | `{ row }`  | a row checkbox only — **not** the select-all checkbox      |
+| `selected` | `{ rows }` | any change to the selection, including select-all           |
+
+`row` is the whole row object; `rows` is an array of `selectable-property` values.
+
+```blade
+<div x-data="{ rows: [] }" x-on:selected="rows = $event.detail.rows">
+    <x-table :$headers :$rows selectable />
+</div>
+```
+
+Prefer `selected` when you need the current selection: `select` never fires for
+select-all, so listening to it alone misses that path. Inside Livewire, `selected` also
+fires when the server pushes a new value into the entangled property, so it can run on a
+re-render and not only on a click.
 
 ## Selectable Rows
 
@@ -159,6 +180,140 @@ Bind selected rows to a Livewire array property:
 ```
 
 `$selected` will be an array of selected row data.
+
+Outside Livewire there is nothing to entangle; the selection lives in Alpine and is
+reported through the events above.
+
+## Outside Livewire
+
+The table renders in a plain Blade view or from a controller. Sorting, filtering and
+pagination move to the query string, and the application reads them back:
+
+```php
+class UserController
+{
+    public function index(Request $request): View
+    {
+        $sort = $request->query('sort', ['column' => 'id', 'direction' => 'desc']);
+
+        return view('users', [
+            'sort' => $sort,
+            'rows' => User::query()
+                ->when($request->query('search'), fn (Builder $query, string $search) => $query->whereAny(['name', 'email'], 'like', "%{$search}%"))
+                ->orderBy($sort['column'], $sort['direction'])
+                ->paginate((int) $request->query('quantity', 10)),
+        ]);
+    }
+}
+```
+
+```blade
+<x-table :$headers :$rows :$sort filter paginate />
+```
+
+```
+?search=foo&quantity=25&sort[column]=name&sort[direction]=asc&page=2
+```
+
+The `search` and `quantity` parameter names come from `filter`, so you control them.
+Filtering or sorting resets `page`; every other parameter is preserved.
+
+| Feature    | Inside Livewire         | Outside                        |
+|------------|-------------------------|--------------------------------|
+| pagination | `wire:click="gotoPage"` | `<a href>`                     |
+| sorting    | `wire:click="$set"`     | `<a href>`                     |
+| filter     | `wire:model.live`       | Alpine rewriting the URL       |
+| loading    | `wire:loading`          | not rendered                   |
+| selectable | entangled array         | Alpine array plus events       |
+
+Two caveats:
+
+- `loading` needs `wire:loading` and is not rendered.
+- Always validate `sort[column]` against a whitelist before it reaches `orderBy`. It
+  comes from the URL, and the table does not sanitize it for you.
+
+## Paginator
+
+`paginator` names the look of the pagination. The same name styles both the numbered mode
+and `simple-pagination`.
+
+```blade
+<x-table :$headers :$rows paginate />                      {{-- the configured default --}}
+<x-table :$headers :$rows paginate paginator="compact" />  {{-- this table only --}}
+```
+
+| Variant   | Numbered                                          | `simple-pagination`               |
+|-----------|---------------------------------------------------|-----------------------------------|
+| `simple`  | rail with a floating pill, chevrons outside it     | two tinted `rounded-full` buttons |
+| `minimal` | no surfaces at all, current page ruled underneath  | two underline-on-hover text links |
+| `compact` | one bordered shell holding `‹ 3 / 12 ›`            | the same shell, page number only  |
+
+`compact` collapses the page list into an indicator, so one control serves every width.
+It needs `lastPage()`, which a simple paginator does not have — in that mode it shows the
+current page alone.
+
+A value containing a dot is treated as a view path, for a paginator of your own:
+
+```blade
+<x-table :$headers :$rows paginate paginator="components.my-paginator" />
+```
+
+Such a view receives `paginator`, `elements`, and `livewire`, `simple`, `name`, `dusk`,
+`fragment` and `scroll` already resolved.
+
+## Global Defaults
+
+Five props can be set once for every table, in `config/ts-ui.php`:
+
+```php
+'table' => [
+    TallStackUi\Components\Table\Component::class,
+    [
+        'paginator' => 'simple',
+        'paginate' => true,
+        'simple-pagination' => false,
+        'filter' => true,
+        'quantity' => [5, 10, 25],
+    ],
+],
+```
+
+Each is a default, not a lock — passing the prop inline always wins, including turning a
+global default back off:
+
+```blade
+<x-table :$headers :$rows :paginate="false" :filter="false" />
+```
+
+## Persistent
+
+Keeps the reader in place after paginating or filtering.
+
+```blade
+{{-- anchors on the table itself --}}
+<x-table :$headers :$rows paginate persistent />
+
+{{-- anchors on an element you own, so the card header stays in view --}}
+<div id="users">
+    <x-card>
+        <x-table :$headers :$rows paginate persistent="users" />
+    </x-card>
+</div>
+```
+
+| Value                | Inside Livewire                                      | Outside                                               |
+|----------------------|------------------------------------------------------|-------------------------------------------------------|
+| `false`              | nothing                                              | nothing                                               |
+| `persistent`         | scrolls to the table                                 | `id` on the wrapper, `#table-{pageName}` on every link |
+| `persistent="users"` | scrolls to `#users`                                  | `#users` on every link, no `id` on the wrapper        |
+
+Inside Livewire nothing reloads, so the scroll is done in script. Outside, every link is
+a full page load and the URL fragment is what survives it.
+
+When the table anchors itself it uses the `id` you passed, falling back to
+`table-{pageName}` derived from the paginator. Without a paginator and without an `id`
+there is nothing stable to derive from, and `persistent` has no effect outside Livewire —
+pass an `id` in that case.
 
 ## Clickable Rows (Link)
 
@@ -195,9 +350,7 @@ Use `@interact` directive to render sub-tables inside expandable rows:
 ## Skeleton
 
 Renders a placeholder shaped like the table, for the first paint before any rows
-exist. This is the one place where `<x-table>` does **not** require the Livewire
-context: a `#[Lazy]` placeholder renders outside it, and a skeleton binds nothing
-to Livewire anyway.
+exist.
 
 ```blade
 <x-table :$headers skeleton />                        {{-- 5 rows --}}

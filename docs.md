@@ -12,6 +12,346 @@ such change is listed under **Migration**.
 
 ---
 
+## Table
+
+### Added — the table renders outside Livewire
+
+`<x-table>` carried `#[RequireLivewireContext]`, so reaching for it from a controller
+or a plain Blade view threw `MissingLivewireException`. The attribute is gone, and the
+three features that depended on a round trip now travel through the query string:
+
+```blade
+{{-- routes/web.php → a plain controller, no Livewire anywhere --}}
+<x-table :$headers
+         :rows="$users"
+         :sort="request('sort', ['column' => 'id', 'direction' => 'desc'])"
+         filter
+         paginate />
+```
+
+```
+?search=foo&quantity=25&sort[column]=name&sort[direction]=asc&page=2
+```
+
+The `search` and `quantity` parameter names come from `:filter`, so the application
+still owns them. Filtering or sorting drops `page`; every other parameter survives.
+
+| Feature    | Inside Livewire        | Outside                                          |
+|------------|------------------------|--------------------------------------------------|
+| pagination | `wire:click="gotoPage"` | `<a href>`, built from the URLs the paginator already exposes |
+| sorting    | `wire:click="$set"`     | `<a href>` with the inverted direction           |
+| filter     | `wire:model.live`       | Alpine rewriting `location`                      |
+| loading    | `wire:loading`          | not rendered                                     |
+| selectable | entangled array         | plain array, reported through events             |
+
+Most of this was already prepared: `filter`, `loading`, `sort` and `wire:key` were
+guarded by `$livewire` in the template long before this change. What was missing was
+the attribute, the anchor branch in the paginator, and the entangle fallback.
+
+The page links come from `$elements`, which has always carried `[$page => $url]` and
+whose `$url` the template discarded. Outside Livewire the paginator is also passed
+through `withQueryString()`: without it Laravel builds `?page=2` alone, and paginating
+would silently drop the active filter and sort.
+
+Two things do not survive the trip. `loading` needs `wire:loading` and is not rendered.
+And a `Collection` passed together with `paginate` used to reach `$rows->hasPages()` and
+fatal; the guard is now an `AbstractPaginator` check, which matters more here because a
+controller is far more likely to hand over a plain collection.
+
+The quantity select is bound with `x-on:select.capture`, not `x-on:select`.
+`select.styled` dispatches `new CustomEvent('select')` on its `$refs.button` **without**
+`bubbles`, so the event never reaches the wrapper on the way up; only the capture phase
+sees it.
+
+### Added — `persistent` accepts an element id
+
+`persistent` scrolled back to the table after paginating, through
+`$refs.persist.scrollIntoView()`. That works inside Livewire, where nothing reloads.
+Outside it every link is a full page load: the document is destroyed and the handler
+never runs.
+
+The fragment is the native answer — the browser scrolls after the load, with no script,
+and it survives back and forward. But anchoring on the table itself pins it to the top
+of the viewport, leaving the card header and the filter bar out of frame. So the prop
+now takes an id as well:
+
+```blade
+<div id="users">
+    <x-card>
+        <x-table :$headers :$rows paginate persistent="users" />
+    </x-card>
+</div>
+```
+
+| Value                 | Anchor              | Inside Livewire                        | Outside                                   |
+|-----------------------|---------------------|----------------------------------------|-------------------------------------------|
+| `false`               | —                   | nothing                                | nothing                                   |
+| `persistent`          | the table itself    | `$refs.persist.scrollIntoView()`       | `id` on the wrapper, `#table-{pageName}` on the links |
+| `persistent="users"`  | the given element   | `document.getElementById('users')?.scrollIntoView()` | `#users` on the links, no `id` on the wrapper |
+
+Inside Livewire the string form cannot use `x-ref`, which only reaches refs declared in
+the table's own `x-data` — hence `getElementById`, guarded with `?.` for an id that is
+not on the page.
+
+A self-anchored id has to be **the same on the next request**. Were it a `uniqid()`, page
+two would render a different one, the fragment would point at nothing and the scroll
+would simply not happen, with no error anywhere. The fallback is therefore the
+paginator's page name, which is stable and already unique per table on the page. Without
+a paginator and without an `id` there is no stable name to derive, and the anchor stays
+null.
+
+The anchor is carried into the filter too: filtering from the bottom of a page reloads
+exactly like paginating does.
+
+An empty string is rejected by `validate()` — it would render `href="...#"`, which
+scrolls to the top, and the failure would be silent.
+
+### Added — `selected`, carrying the whole selection
+
+`select` fires from the row checkbox with the full row, and is untouched. It never fired
+for **select all**, though: the header checkbox goes through `all()` → `push()`/`remove()`,
+which never reach `select()`. Anyone listening only to `select` never heard about it.
+
+```blade
+<div x-data="{ rows: [] }" x-on:selected="rows = $event.detail.rows">
+    <x-table :$headers :$rows selectable />
+</div>
+```
+
+`selected` carries `{ rows }` — the values of `selectable-property` — and covers both
+paths. It comes from a `$watch('model')` rather than a call at each mutation point:
+`x-model` and `x-on:change` answer the same event on the row checkbox, so emitting from
+inside `select()` would race with the model being updated. Watching also picks up
+changes pushed from the server into the entangled property, which means that inside
+Livewire `selected` can fire on a re-render and not only on a click.
+
+`model` also falls back to `[]`. Outside Livewire there is nothing to entangle and
+`Wireable::entangle()` resolves to the string `null`, so the first `push()` threw.
+
+### Added — three paginator variants, and a global default for them
+
+`paginator` used to be the view path handed to `links()`. It now names a look, and the
+same name styles **both** the numbered mode and `simple-pagination`:
+
+```blade
+<x-table :$headers :$rows paginate />                      {{-- the configured default --}}
+<x-table :$headers :$rows paginate paginator="compact" />  {{-- this table only --}}
+```
+
+```php
+'table' => [
+    Components\Table\Component::class,
+    ['paginator' => 'minimal'],
+],
+```
+
+| Variant   | Numbered                                        | `simple-pagination`              |
+|-----------|-------------------------------------------------|----------------------------------|
+| `simple`  | rail with a floating pill, chevrons outside it   | two tinted `rounded-full` buttons |
+| `minimal` | no surfaces at all, current page ruled underneath | two underline-on-hover text links |
+| `compact` | one bordered shell holding `‹ 3 / 12 ›`          | the same shell, page number only  |
+
+`compact` is the one that changes the shape rather than the skin: the page list collapses
+into an indicator, so a single control serves every width and there is no separate mobile
+block. The figures are `tabular-nums`, which stops the shell resizing between 9 and 10.
+It reads `lastPage()`, which a simple paginator does not have — hence the page number
+alone in that mode.
+
+A dotted value is still treated as a view path, so a paginator of your own keeps working:
+
+```blade
+<x-table :$headers :$rows paginate paginator="components.my-paginator" />
+```
+
+Anything else raises a validation exception listing the bundled names.
+
+Each variant is a view under `components/table/paginators/`, and what they share —
+the page name, the dusk suffix, the URL fragment and the scroll snippet — is resolved
+once in `TableRuntime` and handed over as data, so a variant is only classes and markup.
+
+### Added — global defaults for `paginate`, `filter`, `quantity` and `simple-pagination`
+
+Four props that were repeated on every table can now be set once:
+
+```php
+'table' => [
+    Components\Table\Component::class,
+    [
+        'paginate' => true,
+        'filter' => true,
+        'quantity' => [5, 10, 25],
+        'simple-pagination' => false,
+    ],
+],
+```
+
+Each is a default, not a lock. The props default to `null`, which means "not given", so
+an explicit value always wins — including turning a global default back off:
+
+```blade
+<x-table :$headers :$rows :paginate="false" />
+<x-table :$headers :$rows :filter="false" />
+```
+
+`filter` takes the same values it takes inline: `true` for the conventional `quantity`
+and `search` property names, or an array mapping them to your own.
+
+This moved the `filter` normalisation and the `wire:target` list out of the constructor
+and into `setup()`, which is where a component may read its configuration — the
+constructor runs before the global default is available to merge with.
+
+### Changed — the pagination restyle
+
+The paginator view was the last untouched corner of the component: every class hardcoded,
+no hover on any button, and `focus:shadow-outline-blue` — a Tailwind 2 class that does
+not exist in 4 — as the only focus treatment, which left keyboard navigation with no
+visible focus at all. Disabled states used `cursor-pointer`, and `dark:border-transparent`
+erased the dividers in dark mode, collapsing the group into one solid block.
+
+It was a bordered button group: every page a boxed cell, welded to its neighbour with
+`-ml-px`, the whole thing framed. That shape is now a **rail with a floating pill** — the
+numbers sit on a rounded track, the current one is the only filled surface, and the
+chevrons step outside the track as free-standing round buttons.
+
+```
+      ╭─────────────────────────────╮
+  ‹   │  ⬤1   2    3    4    5     │   ›
+      ╰─────────────────────────────╯
+```
+
+| Before                             | After                                          |
+|------------------------------------|------------------------------------------------|
+| bordered cells welded by `-ml-px`  | borderless slots on a `rounded-full` rail      |
+| chevrons inside the group          | round buttons outside it                       |
+| no hover                           | idle slots lift to a white pill on hover       |
+| `focus:shadow-outline-blue` (dead) | `focus-visible:ring-2 ring-primary-500`        |
+| `cursor-pointer` when disabled     | `cursor-not-allowed`                           |
+| `bg-primary-100` active            | `bg-primary-600` pill, white text, `shadow-sm` |
+| width from content                 | `min-w-8 justify-center`                       |
+| `w-5 h-5` chevrons                 | `size-4` in a `size-9` button                  |
+| dots styled like a button          | `text-gray-400`, no surface                    |
+| flat summary                       | numbers in `font-semibold`, connectives in `text-gray-500` |
+
+Dropping the borders removes the three problems the bordered group kept generating rather
+than fixing: no border means no `-ml-px`, no `-ml-px` means no overlap to compensate for,
+and no box per item means no divider to keep visible in dark mode. What is left is one
+surface — the rail — and one accent — the pill.
+
+The uniform slot width still matters: without it the rail resizes as the digit count
+changes, and going from page 9 to 10 shifts every number.
+
+`simple-pagination` follows the same language: the two buttons lose their borders and
+become `rounded-full` tinted surfaces.
+
+`mb-4` was dropped from the mobile block. It produced dead space in both modes: in the
+default one the block is `sm:hidden` and is the only content on a phone, and with
+`simple-pagination` it is the only content at any width.
+
+**No soft customization key was added, renamed or removed.** The pagination stays
+outside `TallStackUi::customize()`, exactly as before.
+
+### Fixed — the current page sat on a different baseline
+
+With a filled surface behind it, the active page was visibly a pixel or two off from its
+neighbours. The cause predates the restyle; `bg-primary-100` was simply too light to
+show it.
+
+The group is `inline-flex`, and its direct children are the `<span>` wrappers that carry
+`wire:key` and the ARIA roles. As plain spans they became flex items, but their content
+stayed inline-level — so each created a line box and aligned on the *baseline*, against
+the strut of the inherited line-height. The page links are nested one level deep; the
+current page and the chevrons are nested two. Different nesting, different baseline.
+
+The wrappers are `inline-flex` themselves now, which turns their content into flex items:
+no line box, no strut, no baseline.
+
+### Fixed — a crafted `persistent` could run script
+
+Introduced and closed inside this same branch, recorded because the mechanism is easy to
+reproduce elsewhere.
+
+The Livewire scroll snippet interpolated the id straight into a JavaScript string:
+
+```php
+"document.getElementById('{$scrollTo}')?.scrollIntoView();"
+```
+
+Escaping it with `{{ }}` does not help. The value lands in an HTML attribute, and the
+browser decodes entities **before** Alpine ever evaluates the expression, so `&#039;`
+becomes a quote again and closes the call:
+
+```
+document.getElementById('x'); alert(1); //')?.scrollIntoView();
+```
+
+It is now built with `Js::from` and printed with `{!! !!}`, so the id arrives as a
+JavaScript string literal with its quotes escaped as `'`.
+
+### Migration
+
+No soft customization block was added, renamed or removed, so nothing targeting the
+table through `TallStackUi::customize()` breaks.
+
+`persistent` widened from `?bool` to `bool|string|null`. Existing boolean usage is
+unaffected.
+
+Three behaviours to be aware of:
+
+- The paginator markup changed class by class. Applications with their own CSS aimed at
+  the old classes need to re-point it. Applications that already replace the view through
+  the `paginator` prop are untouched.
+- **`components/table/paginators.blade.php` no longer exists.** It became
+  `paginators/simple.blade.php`, and the directory now holds one file per variant. A
+  `paginator` pointing at the old path has to be updated; the prop itself keeps accepting
+  view paths, so only the path changed.
+- The data the paginator view receives changed shape: `scrollTo` and `simplePagination`
+  became `scroll`, `simple`, `name`, `dusk` and `fragment`, precomputed by `TableRuntime`.
+  This only matters to a custom paginator view, which now reads those instead of deriving
+  them.
+
+Still open, and deliberately out of scope: the summary reads `Showing`, `to`, `of` and
+`results` through loose JSON translation keys rather than `ts-ui::messages`, so the
+fifteen languages this package ships do not cover that line.
+
+### Tests
+
+`FeatureTest.php` grew three groups. *Outside the livewire context* covers rendering,
+anchor pagination, the filter surviving a page change, sort links carrying the inverted
+direction and dropping the page, and the filter emitting `navigate()` instead of
+`wire:model`. *The persistent anchor* covers all three anchor sources, the string form
+not claiming the id, the anchor reaching the filter, and the empty string throwing.
+
+*Backward compatibility inside the livewire context* is the one that guards the
+regression surface: `gotoPage`/`nextPage`/`previousPage` still on `wire:click` with no
+anchor anywhere, the four `dusk` hooks including a custom page name, `wire:key` per page
+element, `$refs.persist` for the boolean `persistent` and `getElementById` for the
+string, a crafted id not breaking out of the snippet, and `simple-pagination` rendering
+neither `gotoPage` nor the summary.
+
+Reaching that branch needs no Livewire component: the paginator view is rendered on its
+own with `livewire => true`, fed by `invade($paginator)->elements()` — `elements()` is
+protected, and it is what `links()` passes, so `linkCollection()` is not a substitute.
+
+*The paginator variants* renders each bundled name, checks the configured default and the
+inline override, and covers what makes two of them distinct: the collapsed indicator on
+`compact` and the rule under the current page on `minimal`. A view path of its own still
+resolves, and an unknown name throws.
+
+*The global defaults* covers each of the four in both directions — read from the
+configuration, then turned back off inline. Every one of these goes through a
+`tableConfig()` helper that calls `__ts_get_component_configuration(..., flush: true)`:
+the helper memoizes the component map in a static, so a `config()` set afterwards is
+invisible without it, and several of these tests passed for the wrong reason until the
+flush was added.
+
+`BrowserTest.php` adds what only a browser shows: `selected` reporting the whole array as
+rows are ticked and unticked and firing for select all in both directions, plus the scroll
+snippet — a string `persistent` reaching `getElementById`, and a crafted one failing to
+break out of it. That pair lives here rather than in the feature suite because the snippet
+is only generated inside a Livewire context, which `Blade::render` does not provide.
+
+---
+
 ## Spinner
 
 ### Added — `<x-spinner>`

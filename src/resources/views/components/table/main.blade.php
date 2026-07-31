@@ -3,14 +3,15 @@
 @endphp
 
 <div x-data="tallstackui_table({!! $entangle !!}, @js($selectable))"
+     @if ($anchored) id="{{ $anchor }}" @endif
      @if ($selectable) data-ids='@json($ids())' @endif
-     @if ($persistent) x-ref="persist" @endif>
+     @if ($persistent === true) x-ref="persist" @endif>
     @if (is_string($header))
         <p class="{{ $customization['slots.header'] }}">{{ $header }}</p>
     @else
         {{ $header }}
     @endif
-    @if (count((array) $rows) > 0 && $livewire && !is_null($filter))
+    @if (count((array) $rows) > 0 && !is_null($filter))
         <div @class([
                 $customization['filter.wrapper'],
                 $customization['filter.wrapper-with-search-and-quantity'] => isset($filter['quantity']) && isset($filter['search']),
@@ -18,25 +19,47 @@
                 $customization['filter.wrapper-search-only']     => ! isset($filter['quantity']) && isset($filter['search']),
             ])>
             @isset ($filter['quantity'])
-                <div class="{{ $customization['filter.quantity'] }}">
-                    <x-dynamic-component :component="TallStackUi::prefix('select.styled')"
-                                         scope="table.select-styled"
-                                         :label="data_get($placeholders, 'quantity')"
-                                         :options="$quantity"
-                                         wire:model.live="{{ $filter['quantity'] }}"
-                                         required
-                                         invalidate />
+                <div class="{{ $customization['filter.quantity'] }}"
+                     @if (!$livewire) x-on:select.capture="navigate({ '{{ $filter['quantity'] }}': $event.detail.select }, @js($anchor))" @endif>
+                    @if ($livewire)
+                        <x-dynamic-component :component="TallStackUi::prefix('select.styled')"
+                                             scope="table.select-styled"
+                                             :label="data_get($placeholders, 'quantity')"
+                                             :options="$quantity"
+                                             wire:model.live="{{ $filter['quantity'] }}"
+                                             required
+                                             invalidate />
+                    @else
+                        <x-dynamic-component :component="TallStackUi::prefix('select.styled')"
+                                             scope="table.select-styled"
+                                             :label="data_get($placeholders, 'quantity')"
+                                             :options="$quantity"
+                                             :value="$quantifying"
+                                             required
+                                             invalidate />
+                    @endif
                 </div>
             @endisset
             @isset ($filter['search'])
-                <div class="{{ $customization['filter.search'] }}">
-                    <x-dynamic-component :component="TallStackUi::prefix('input')"
-                                         scope="table.input"
-                                         :icon="TallStackUi::icon('magnifying-glass')"
-                                         wire:model.live.debounce.500ms="{{ $filter['search'] }}"
-                                         :placeholder="data_get($placeholders, 'search')"
-                                         type="search"
-                                         invalidate />
+                <div class="{{ $customization['filter.search'] }}"
+                     @if (!$livewire) x-on:input.debounce.500ms="navigate({ '{{ $filter['search'] }}': $event.target.value }, @js($anchor))" @endif>
+                    @if ($livewire)
+                        <x-dynamic-component :component="TallStackUi::prefix('input')"
+                                             scope="table.input"
+                                             :icon="TallStackUi::icon('magnifying-glass')"
+                                             wire:model.live.debounce.500ms="{{ $filter['search'] }}"
+                                             :placeholder="data_get($placeholders, 'search')"
+                                             type="search"
+                                             invalidate />
+                    @else
+                        <x-dynamic-component :component="TallStackUi::prefix('input')"
+                                             scope="table.input"
+                                             :icon="TallStackUi::icon('magnifying-glass')"
+                                             :value="$searching"
+                                             :placeholder="data_get($placeholders, 'search')"
+                                             type="search"
+                                             invalidate />
+                    @endif
                 </div>
             @endisset
         </div>
@@ -67,16 +90,20 @@
                         @endif
                         @foreach ($headers as $header)
                             <th scope="col" class="{{ $customization['table.th'] }}">
-                                <a @if ($livewire && $sortable($header))
+                                <a @if ($sortable($header))
                                        class="{{ $customization['table.th-sort-wrapper'] }} cursor-pointer"
-                                   wire:click="$set('sort', {column: '{{ $head($header)['column'] }}', direction: '{{ $head($header)['direction'] }}' })"
+                                       @if ($livewire)
+                                           wire:click="$set('sort', {column: '{{ $head($header)['column'] }}', direction: '{{ $head($header)['direction'] }}' })"
+                                       @else
+                                           href="{{ $sorting($header) }}"
+                                       @endif
                                         @endif>
                                     @if ($header['unescaped'] ?? false)
                                         {!! $header['label'] ?? '' !!}
                                     @else
                                         {{ $header['label'] ?? '' }}
                                     @endif
-                                    @if ($livewire && $sortable($header))
+                                    @if ($sortable($header))
                                         <x-dynamic-component :component="TallStackUi::prefix('icon')"
                                                              :icon="TallStackUi::icon($sorted($header) ? ($head($header)['direction'] === 'desc' ? 'chevron-up' : 'chevron-down') : 'chevron-up-down')"
                                                              internal
@@ -183,10 +210,7 @@
     @else
         {{ $footer }}
     @endif
-    @if ($paginate && (!is_array($rows) && $rows->hasPages()))
-        {{ $rows->onEachSide($onEachSide)->links($paginator, [
-            'simplePagination' => $simplePagination,
-            'scrollTo' => $persistent ?? false,
-        ]) }}
+    @if ($paginate && $paginated)
+        {{ $pagination->links($paginatorView(), $paginating) }}
     @endif
 </div>

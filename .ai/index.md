@@ -33,7 +33,7 @@
 - [List](components/list/main.md)
 - [List Items](components/list/items.md)
 - [Stats](components/stats.md)
-- [Table](components/table.md) *(Livewire only)*
+- [Table](components/table.md)
 - [Timeline](components/timeline/main.md)
 - [Timeline Items](components/timeline/items.md)
 - [Tooltip](components/tooltip.md)
@@ -166,8 +166,7 @@ What is already known stays legible; only the unknown becomes a bar — the tabl
 keeps its real header labels, for instance.
 
 It belongs in the `placeholder()` of a `#[Lazy]` Livewire component, but works
-anywhere, including plain Blade with no Livewire at all. `<x-table>` waives its
-Livewire requirement in skeleton mode so it can be drawn inside a placeholder.
+anywhere, including plain Blade with no Livewire at all.
 
 **It does not replace `loading`.** `loading` (Card and Table only) dims content
 already on screen during a Livewire round trip; `skeleton` stands in for content
