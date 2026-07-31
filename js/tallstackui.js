@@ -37,6 +37,7 @@ import tag from '../src/Components/Form/Tag/alpine';
 import textArea from '../src/Components/Form/Textarea/alpine';
 import toastBase from '../src/Components/Toast/toast-base';
 import toastLoop from '../src/Components/Toast/toast-loop';
+import unfocus from './helpers/unfocus';
 import { flush_ui_elements } from './helpers';
 
 if (!window.__tsui_elements) {
@@ -44,6 +45,8 @@ if (!window.__tsui_elements) {
 }
 
 document.addEventListener('livewire:navigating', flush_ui_elements);
+
+unfocus();
 
 window.tallstackui_floating = floating;
 

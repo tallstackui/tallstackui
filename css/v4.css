@@ -8,22 +8,6 @@
     display: none;
 }
 
-/*
-Cancels the focus ring + offset halo on <x-button>/<x-button.circle>
-when the `unfocus` prop is on. Zeroes out the Tailwind ring/inset
-shadow variables so any utility composing box-shadow (focus:ring-2,
-hover:shadow-sm, inset-ring-*, etc.) renders no halo while the button
-is focused via mouse. The `:not(:focus-visible)` guard preserves the
-ring during keyboard navigation, where the focus indicator is required
-for accessibility (WCAG 2.4.7).
-*/
-[data-tsui-unfocus]:focus:not(:focus-visible) {
-    --tw-ring-shadow: 0 0 #0000;
-    --tw-ring-offset-shadow: 0 0 #0000;
-    --tw-inset-shadow: 0 0 #0000;
-    --tw-inset-ring-shadow: 0 0 #0000;
-}
-
 @custom-variant dark (&:where(.dark, .dark *));
 
 @plugin '@tailwindcss/forms' {
