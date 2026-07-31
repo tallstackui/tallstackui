@@ -622,6 +622,85 @@ used to be dropped without a word, which reads as if it had worked.
 
 Full reference in `.ai/components/chart.md`.
 
+### Added — bars and curves in the same chart
+
+A series can declare a `type` of its own, which is what puts a trend line over
+a stack of bars:
+
+```blade
+<x-chart :labels="$months"
+         type="bar"
+         stacked
+         :series="[
+             ['name' => 'Novos', 'data' => $new],
+             ['name' => 'Recorrentes', 'data' => $returning],
+             ['name' => 'Total', 'data' => $total, 'type' => 'line'],
+         ]"
+         grid
+         legend
+         tooltip />
+```
+
+It accepts `area`, `line` and `bar`, falls back to the chart's own `type`, and
+is refused on a radial chart. Everything else stays where it was: the override
+sits next to `axis` in the same series entry, and a chart that declares none
+renders exactly as before.
+
+**A single bar anywhere divides the horizontal axis into slots.** A curve owns
+the full width and puts its ends on the edges; a bar owns a slot and is read
+from the middle of it. Mixed, the slot wins for everything — the curve, the
+axis captions, the crosshair and the pointer — because a curve left on the
+edges reads half a slot out of line with the bars underneath it. That decision
+is a single flag shared by the geometry in PHP and the hit testing in Alpine,
+so the two cannot disagree.
+
+**Stacking accumulates within each type.** Bars pile onto bars, areas onto
+areas, and anything drawn over them keeps its own values, so the running total
+never lifts a line off the number it is reporting. The total line above is a
+series you pass rather than one derived behind your back: it appears in the
+legend, toggles like the rest, and shows up in the tooltip next to the bars it
+sums.
+
+Legend rescaling is disabled while a bar is on the plot, on top of the cases
+that already disabled it.
+
+### Fixed — a pie dropped every series but the first
+
+A radial type draws `$series[0]` and nothing else, so a pie built from grouped
+series — the shape every other type takes — rendered half its data and said
+nothing. It now throws `The [pie] type accepts only one series.`, which is what
+the rest of the component already did for anything it could not draw.
+
+### Fixed — a negative value in a stack was painted over the positive ones
+
+`Bars::offsets()` kept one running total per group, so a negative value pulled
+that total down and the next segment started from a lower base. Drawn, the
+negative segment landed above the axis on top of the positive ones, visually
+indistinguishable from a positive of its own.
+
+Each group now accumulates per sign: positives pile up from zero, negatives
+hang below it, and the domain reaches both ends. Corner rounding follows,
+resolved per index rather than per series, and the axis counts as an end only
+while the column stops there — carried past zero it is a seam like any other,
+so the two rounded ends are the extremes of the whole column.
+
+### Fixed — a stacked column showed the card through its own seams
+
+Bars were `<rect rx="0.6">`, and `rx` rounds all four corners at once. Stacked,
+the segment above rounded its base while the one below rounded its top, so the
+two arcs pulled apart at both edges and the card showed through the gap. Under
+`preserveAspectRatio="none"` the radius is stretched with the plot, which made
+each notch about 4px wide against 2px tall — wide, shallow, and impossible to
+miss once seen.
+
+Bars are now paths with per-corner control, so only the two ends of a column
+round and the seams between segments meet flush. An unstacked bar keeps all
+four corners, and the radius shrinks to fit whatever it is applied to, so the
+hairline a zero value renders as cannot fold through itself. That hairline is
+also not what ends a column: counted as an end it would take the rounding onto
+a sliver and leave the visible segment above it square. The skeleton draws its
+bars from the same geometry and picked up the same corners.
+
 ### Changed — the chart ships in its own bundle
 
 `js/tallstackui-chart.js` joined the entry points, weighing 3.9 kB, 1.6 kB

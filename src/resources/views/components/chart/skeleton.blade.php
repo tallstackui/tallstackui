@@ -25,11 +25,7 @@
                     @endforeach
                 @else
                     @foreach ($bars as $bar)
-                        <rect class="{{ $customization['skeleton.fill'] }}"
-                              x="{{ $bar['x'] }}"
-                              y="{{ $bar['y'] }}"
-                              width="{{ $bar['width'] }}"
-                              height="{{ $bar['height'] }}" />
+                        <path class="{{ $customization['skeleton.fill'] }}" d="{{ $bar['path'] }}" />
                     @endforeach
                     @if ($area)
                         <path class="{{ $customization['skeleton.fill'] }}" d="{{ $area }}" />

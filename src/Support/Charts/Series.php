@@ -11,6 +11,8 @@ final class Series
 {
     public const AXES = ['left', 'right'];
 
+    public const TYPES = ['area', 'line', 'bar'];
+
     public static function length(array $series): int
     {
         return array_reduce($series, static fn (int $carry, array $entry): int => max($carry, count($entry['data'])), 0);
@@ -27,7 +29,7 @@ final class Series
         }
 
         if (! self::grouped($series)) {
-            return [['name' => null, 'data' => self::floats($series), 'axis' => 'left']];
+            return [['name' => null, 'data' => self::floats($series), 'axis' => 'left', 'type' => null]];
         }
 
         $normalized = [];
@@ -40,6 +42,8 @@ final class Series
                 'name' => isset($entry['name']) ? (string) $entry['name'] : null,
                 'data' => self::floats($data instanceof Collection ? $data->all() : (array) $data),
                 'axis' => $entry['axis'] ?? 'left',
+                // Left null because the chart type is only known to the runtime.
+                'type' => $entry['type'] ?? null,
             ];
         }
 
@@ -49,6 +53,23 @@ final class Series
     public static function on(array $series, string $axis): array
     {
         return array_values(array_filter($series, static fn (array $entry): bool => $entry['axis'] === $axis));
+    }
+
+    public static function overrides(array $series): array
+    {
+        return array_values(array_filter(array_column($series, 'type')));
+    }
+
+    /** A single bar is enough to divide the horizontal axis into slots, curves included. */
+    public static function slotted(array $series, string $type): bool
+    {
+        foreach ($series as $entry) {
+            if (($entry['type'] ?? $type) === 'bar') {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public static function values(array $series): array
@@ -86,6 +107,10 @@ final class Series
 
                 if (isset($entry['axis']) && ! in_array($entry['axis'], self::AXES, true)) {
                     return 'The [axis] of every series must be one of: '.implode(', ', self::AXES).'.';
+                }
+
+                if (isset($entry['type']) && ! in_array($entry['type'], self::TYPES, true)) {
+                    return 'The [type] of every series must be one of: '.implode(', ', self::TYPES).'.';
                 }
 
                 if ($violation = self::numeric($data)) {

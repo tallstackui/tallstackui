@@ -8,6 +8,7 @@ use Livewire\Livewire;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\BrowserTestCase;
+use Tests\Browser\Fixtures\ChartCombined;
 use Tests\Browser\Fixtures\ChartComparison;
 use Tests\Browser\Fixtures\ChartSlices;
 
@@ -75,6 +76,27 @@ class BrowserTest extends BrowserTestCase
             ->tap(fn (Browser $browser) => $browser->script("document.body.dispatchEvent(new MouseEvent('click', { bubbles: true }));"))
             ->pause(250)
             ->tap(fn (Browser $browser) => Assert::assertSame('', $this->tooltip($browser), 'tapping outside should close it'));
+    }
+
+    #[Test]
+    public function can_read_a_combined_chart_from_the_slots(): void
+    {
+        Livewire::visit(new ChartCombined)
+            ->waitFor('@tallstackui_chart')
+            ->tap(fn (Browser $browser) => Assert::assertSame(3, $this->drawn($browser), 'the bars and the curve should all be painted'))
+            ->tap(fn (Browser $browser) => $browser->script($this->hover(0.4)))
+            ->pause(300)
+            ->tap(function (Browser $browser): void {
+                // Read from the edges the pointer would snap to 33.33 here, so
+                // this is what proves the curve and the bars agree on the axis.
+                Assert::assertSame('37.5', $this->attribute($browser, '[dusk=tallstackui_chart] line', 'x1'));
+
+                $tooltip = $this->tooltip($browser);
+
+                Assert::assertStringContainsString('09/25', $tooltip);
+                Assert::assertStringContainsString('Recorrentes', $tooltip);
+                Assert::assertStringContainsString('Total', $tooltip);
+            });
     }
 
     #[Test]

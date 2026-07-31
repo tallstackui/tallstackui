@@ -126,7 +126,7 @@ it('can render each type', function (string $type, string $expected) {
 })->with([
     'area' => ['area', '<path'],
     'line' => ['line', 'stroke-current'],
-    'bar' => ['bar', '<rect'],
+    'bar' => ['bar', 'A0.6,0.6'],
     'pie' => ['pie', 'A46,46'],
     'donut' => ['donut', 'A26.68,26.68'],
 ]);
@@ -168,14 +168,97 @@ it('can stack bars onto the running total', function () {
     ]" />
     HTML)->render()->value;
 
-    preg_match_all('/<rect[^>]*x="([\d.]+)"[^>]*y="([\d.]+)"/', $html, $rects, PREG_SET_ORDER);
+    preg_match_all('/d="M([\d.]+),([\d.]+)/', $html, $bars, PREG_SET_ORDER);
 
-    expect($rects)->toHaveCount(4);
+    expect($bars)->toHaveCount(4);
 
     // Stacked bars share the slot instead of splitting it, so both series sit
     // on the same x, and the second one starts higher up the plot.
-    expect($rects[0][1])->toBe($rects[2][1])
-        ->and((float) $rects[2][2])->toBeLessThan((float) $rects[0][2]);
+    expect($bars[0][1])->toBe($bars[2][1])
+        ->and((float) $bars[2][2])->toBeLessThan((float) $bars[0][2]);
+});
+
+it('hangs a negative segment below the axis', function () {
+    // Accumulated into one running total the negative segment would be painted
+    // over the positive ones, above the axis, reading as another positive.
+    $html = expect(<<<'HTML'
+    <x-chart type="bar" stacked :series="[
+        ['name' => 'a', 'data' => [10]],
+        ['name' => 'b', 'data' => [-6]],
+        ['name' => 'c', 'data' => [8]],
+    ]" />
+    HTML)->render()->value;
+
+    preg_match_all('/d="M[\d.]+,([\d.]+).*?V([\d.]+)/', $html, $spans, PREG_SET_ORDER);
+
+    [$first, $negative, $last] = array_map(
+        static fn (array $span): array => [(float) $span[1], (float) $span[2]],
+        $spans
+    );
+
+    // Every seam of the column meets exactly, the axis included.
+    expect(min($negative))->toBe(max($first))
+        ->and(max($last))->toBe(min($first));
+});
+
+it('does not let a zero value end a stacked column', function () {
+    // Zero renders as a hairline so the category does not vanish, but counting
+    // it as the end of the column spends the rounding on that sliver and
+    // leaves the segment above it square.
+    $html = expect(<<<'HTML'
+    <x-chart type="bar" stacked :series="[
+        ['name' => 'a', 'data' => [0]],
+        ['name' => 'b', 'data' => [20]],
+        ['name' => 'c', 'data' => [40]],
+    ]" />
+    HTML)->render()->value;
+
+    preg_match_all('/d="([^"]+)"/', $html, $bars);
+
+    // The hairline is a bar of its own; the two ends of the column are the
+    // base of [b] and the top of [c].
+    expect(array_map(static fn (string $path): int => preg_match_all('/A[\d.]+,/', $path), $bars[1]))->toBe([4, 2, 2]);
+});
+
+it('treats the axis as a seam when the column crosses it', function () {
+    // The zero line only ends a column while the column stops there. Carried
+    // past it, rounding both of its sides opens the same gap any other seam
+    // would, so the two ends are the extremes of the whole thing.
+    $html = expect(<<<'HTML'
+    <x-chart type="bar" stacked :series="[
+        ['name' => 'a', 'data' => [10]],
+        ['name' => 'b', 'data' => [-6]],
+        ['name' => 'c', 'data' => [8]],
+    ]" />
+    HTML)->render()->value;
+
+    preg_match_all('/d="([^"]+)"/', $html, $bars);
+
+    // [a] sits between the axis and [c], so it rounds nothing at all.
+    expect(array_map(static fn (string $path): int => substr_count($path, 'A0.6,0.6'), $bars[1]))->toBe([0, 2, 2]);
+});
+
+it('rounds only the two ends of a stacked column', function () {
+    // An arc on both sides of a seam opens a gap the card shows through, so
+    // the segments in between have to meet flush.
+    $html = expect(<<<'HTML'
+    <x-chart type="bar" stacked :series="[
+        ['name' => 'a', 'data' => [10]],
+        ['name' => 'b', 'data' => [5]],
+        ['name' => 'c', 'data' => [8]],
+    ]" />
+    HTML)->render()->value;
+
+    preg_match_all('/d="([^"]+)"/', $html, $bars);
+
+    [$foot, $middle, $head] = array_map(
+        static fn (string $path): int => substr_count($path, 'A0.6,0.6'),
+        $bars[1]
+    );
+
+    expect($foot)->toBe(2)
+        ->and($middle)->toBe(0)
+        ->and($head)->toBe(2);
 });
 
 it('scales a stacked chart against the column total', function () {
@@ -185,6 +268,86 @@ it('scales a stacked chart against the column total', function () {
         ->toContain('>100<');
 });
 
+it('can combine bars and a curve in the same chart', function () {
+    $html = expect(<<<'HTML'
+    <x-chart type="bar" :series="[
+        ['name' => 'a', 'data' => [10, 20]],
+        ['name' => 'total', 'data' => [15, 30], 'type' => 'line'],
+    ]" />
+    HTML)->render()->value;
+
+    expect(substr_count($html, 'class="fill-current"'))->toBe(2)
+        ->and(substr_count($html, 'class="fill-none stroke-current stroke-2"'))->toBe(1);
+});
+
+it('aligns a combined curve with the middle of each bar slot', function () {
+    // Left on the edges the curve would read half a slot out of line with the
+    // bars it is drawn over.
+    $html = expect(<<<'HTML'
+    <x-chart type="bar" :series="[
+        ['name' => 'a', 'data' => [10, 20]],
+        ['name' => 'total', 'data' => [15, 30], 'type' => 'line'],
+    ]" />
+    HTML)->render()->value;
+
+    preg_match_all('/class="fill-current" d="([^"]+)"/', $html, $bars);
+
+    // The move, the horizontal lines and the point each corner arc lands on
+    // are the coordinates that carry an x, and they bound the bar.
+    $centres = array_map(static function (string $path): float {
+        preg_match_all('/(?:M|H|0,1 )([\d.]+)/', $path, $abscissas);
+
+        $abscissas = array_map('floatval', $abscissas[1]);
+
+        return (min($abscissas) + max($abscissas)) / 2;
+    }, $bars[1]);
+
+    expect($centres)->toBe([25.0, 75.0])
+        ->and($html)->toContain('d="M25,')
+        ->and($html)->toContain(' 75,');
+});
+
+it('keeps a combined curve out of the stack', function () {
+    // The running total the bars pile onto must not lift the curve off its
+    // own value.
+    $html = expect(<<<'HTML'
+    <x-chart type="bar" stacked :series="[
+        ['name' => 'a', 'data' => [10, 20]],
+        ['name' => 'b', 'data' => [5, 10]],
+        ['name' => 'total', 'data' => [10, 20], 'type' => 'line'],
+    ]" />
+    HTML)->render()->value;
+
+    // The domain tops out at the column total of 30, so 10 lands on 65.33.
+    // Stacked, the same value would have been drawn at 25.
+    expect($html)->toContain('d="M25,65.33');
+});
+
+it('reads the axis in slots whenever a bar is combined in', function () {
+    // A line chart, but one bar is enough to make every index own a slot.
+    $html = expect(<<<'HTML'
+    <x-chart type="line" tooltip :labels="['Jan', 'Fev']" :series="[
+        ['name' => 'a', 'data' => [10, 20]],
+        ['name' => 'b', 'data' => [15, 30], 'type' => 'bar'],
+    ]" />
+    HTML)->render()->value;
+
+    expect($html)->toContain('left: 25%')
+        ->and($html)->toContain('left: 75%')
+        ->and($html)->toContain('slotted\\u0022:true');
+});
+
+it('draws markers only over the series that have a curve', function () {
+    $html = expect(<<<'HTML'
+    <x-chart type="bar" markers :series="[
+        ['name' => 'a', 'data' => [10, 20]],
+        ['name' => 'total', 'data' => [15, 30], 'type' => 'line'],
+    ]" />
+    HTML)->render()->value;
+
+    expect(substr_count($html, 'rounded-full'))->toBe(2);
+});
+
 it('can render a line type without filling the area')
     ->expect('<x-chart :series="[10, 40, 25, 60]" type="line" />')
     ->render()
@@ -192,13 +355,14 @@ it('can render a line type without filling the area')
     ->not->toContain('L100,96 L0,96 Z');
 
 it('can render bars anchored on zero', function () {
-    // Bars measured from their own minimum would misreport every proportion.
+    // Bars measured from their own minimum would misreport every proportion,
+    // and the smallest of them would collapse onto the baseline.
     $html = expect('<x-chart :series="[10, 40, 25, 60]" type="bar" />')->render()->value;
 
-    preg_match_all('/height="([\d.]+)"/', $html, $heights);
+    preg_match_all('/M[\d.]+,([\d.]+)/', $html, $tops);
 
-    expect(min(array_map('floatval', $heights[1])))->toBeGreaterThan(0.0)
-        ->and($html)->toContain('<rect');
+    expect($tops[1])->toHaveCount(4)
+        ->and(max(array_map('floatval', $tops[1])))->toBeLessThan(90.0);
 });
 
 it('can render a full turn as a closed ring', function () {
@@ -443,6 +607,28 @@ it('cannot render with an unknown axis', function () {
     expect('<x-chart :series="[[\'name\' => \'a\', \'data\' => [1, 2], \'axis\' => \'top\']]" />')->render();
 });
 
+it('cannot render with an unknown series type', function () {
+    $this->expectException(ViewException::class);
+    $this->expectExceptionMessage('The [type] of every series must be one of: area, line, bar.');
+
+    expect('<x-chart :series="[[\'name\' => \'a\', \'data\' => [1, 2], \'type\' => \'donut\']]" />')->render();
+});
+
+it('cannot render a radial type from more than one series', function (string $type) {
+    // A circle divides one set of values; the extra ones used to be dropped.
+    $this->expectException(ViewException::class);
+    $this->expectExceptionMessage('The ['.$type.'] type accepts only one series.');
+
+    expect("<x-chart :series=\"[['name' => 'a', 'data' => [1, 2]], ['name' => 'b', 'data' => [3, 4]]]\" type=\"{$type}\" />")->render();
+})->with(['pie', 'donut']);
+
+it('cannot combine a series type with a radial type', function (string $type) {
+    $this->expectException(ViewException::class);
+    $this->expectExceptionMessage('The [type] of a series cannot be used with the ['.$type.'] type.');
+
+    expect("<x-chart :series=\"[['name' => 'a', 'data' => [1, 2], 'type' => 'line']]\" type=\"{$type}\" />")->render();
+})->with(['pie', 'donut']);
+
 it('cannot format with an unknown axis key', function (string $prop) {
     $this->expectException(ViewException::class);
     $this->expectExceptionMessage('The ['.$prop.'] must only use the keys: left, right.');
@@ -496,7 +682,7 @@ it('can render the skeleton as an area with the closed path')
 it('can render the skeleton as bars', function () {
     $html = Blade::render('<x-chart skeleton="4" type="bar" />');
 
-    expect(substr_count($html, '<rect'))->toBe(4);
+    expect(substr_count($html, '<path'))->toBe(4);
 });
 
 it('can render the skeleton as slices', function () {

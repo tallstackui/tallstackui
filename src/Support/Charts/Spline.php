@@ -80,7 +80,7 @@ final class Spline
      * same numbers that end up in the markup. The horizontal position follows
      * the original index, keeping a downsampled series on the same time axis.
      */
-    public static function points(array $values, Scale $scale, array $indexes, int $length, array $offsets = []): array
+    public static function points(array $values, Scale $scale, array $indexes, int $length, array $offsets = [], bool $slotted = false): array
     {
         // A single value is a constant series, the same as [7, 7, 7], so it
         // spans the plot instead of collapsing into nothing. Rendering an
@@ -91,7 +91,16 @@ final class Spline
             return [[0.0, $ordinate], [Plot::WIDTH, $ordinate]];
         }
 
-        $step = $length > 1 ? Plot::WIDTH / ($length - 1) : 0.0;
+        // A curve owns the whole width, so its ends sit on the edges. Drawn
+        // over bars it has to follow their slots, or it reads half a slot out
+        // of line at either end.
+        $step = match (true) {
+            $slotted => $length > 0 ? Plot::WIDTH / $length : 0.0,
+            $length > 1 => Plot::WIDTH / ($length - 1),
+            default => 0.0,
+        };
+
+        $offset = $slotted ? $step / 2 : 0.0;
         $points = [];
 
         foreach ($indexes as $index) {
@@ -100,7 +109,7 @@ final class Spline
             }
 
             $points[] = [
-                round($index * $step, 2),
+                round($index * $step + $offset, 2),
                 $scale->y($values[$index] + ($offsets[$index] ?? 0.0)),
             ];
         }

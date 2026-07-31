@@ -11,6 +11,7 @@ export default (options) => ({
   plot: options.plot ?? { bottom: 96, band: 92, width: 100 },
   geometry: options.arc ?? { center: 50, radius: 46, inner: 0 },
   type: options.type ?? 'area',
+  slotted: options.slotted ?? false,
   rescale: options.rescale ?? false,
   get crosshair() {
     return this.active === null ? 0 : this.abscissa(this.active);
@@ -78,7 +79,7 @@ export default (options) => ({
       return 0;
     }
 
-    if (this.type === 'bar') {
+    if (this.slotted) {
       return ((index + 0.5) * this.plot.width) / this.length;
     }
 
@@ -261,8 +262,9 @@ export default (options) => ({
 
     // A bar owns a slot, so the pointer falls inside one. A curve has points
     // on the edges, so the pointer snaps to the nearest of them.
-    const index =
-      this.type === 'bar' ? Math.floor(ratio * this.length) : Math.round(ratio * (this.length - 1));
+    const index = this.slotted
+      ? Math.floor(ratio * this.length)
+      : Math.round(ratio * (this.length - 1));
 
     this.active = Math.max(0, Math.min(this.length - 1, index));
 

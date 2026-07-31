@@ -83,15 +83,10 @@
                         @endif
 
                         @foreach ($plot['bars'] as $bar)
-                            <rect class="{{ $customization['plot.bar'] }}"
-                                  x="{{ $bar['x'] }}"
-                                  y="{{ $bar['y'] }}"
-                                  width="{{ $bar['width'] }}"
-                                  height="{{ $bar['height'] }}"
-                                  rx="0.6" />
+                            <path class="{{ $customization['plot.bar'] }}" d="{{ $bar['path'] }}" />
                         @endforeach
 
-                        @if ($plot['line'] && $variant !== 'bar')
+                        @if ($plot['line'])
                             <path class="{{ $customization['plot.line'] }}"
                                   vector-effect="non-scaling-stroke"
                                   stroke-linecap="round"
@@ -116,9 +111,11 @@
                 @endforeach
             </svg>
 
-            @if ($chrome['markers'] && ! $radial && $variant !== 'bar')
+            @if ($chrome['markers'] && ! $radial)
                 <div class="{{ $customization['plot.markers'] }}">
                     @foreach ($plots as $index => $plot)
+                        @continue (! $plot['points'])
+
                         <div class="{{ $plot['color'] }}" @if ($interactive) x-show="visible({{ $index }})" x-cloak @endif>
                             @foreach ($plot['points'] as $point)
                                 <span class="{{ $customization['plot.marker'] }}"

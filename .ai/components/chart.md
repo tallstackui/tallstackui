@@ -122,6 +122,60 @@ side.
 Legend rescaling is disabled while a secondary axis exists, since one affine
 pair cannot carry two domains.
 
+### Combining Types
+
+A series can be drawn as something other than the chart it lives in, which is
+what puts a trend line over a stack of bars:
+
+```blade
+<x-chart :labels="$months"
+         type="bar"
+         stacked
+         :series="[
+             ['name' => 'Novos', 'data' => $new],
+             ['name' => 'Recorrentes', 'data' => $returning],
+             ['name' => 'Total', 'data' => $total, 'type' => 'line'],
+         ]"
+         grid
+         legend
+         tooltip />
+```
+
+`type` on a series accepts `area`, `line` and `bar` and falls back to the
+chart's own. A radial chart takes no override, and no series can become one.
+
+A single bar anywhere divides the horizontal axis into slots, so the curves,
+the axis captions, the crosshair and the pointer all read from the middle of a
+slot rather than from the edges. Left on the edges a curve would sit half a
+slot out of line with the bars underneath it.
+
+Stacking accumulates within each type — bars pile onto bars, areas onto areas —
+and anything drawn over them keeps its own values. The total line above is
+therefore a series you pass rather than something derived, and it appears in
+the legend and the tooltip like any other.
+
+It also accumulates within each sign, so a negative value hangs below the axis
+on a running total of its own instead of pulling the positive stack down.
+
+Legend rescaling is disabled while a bar is on the plot, whose baseline is
+anchored.
+
+### Rounded corners
+
+Bars are drawn as paths rather than rectangles, because SVG rounds all four
+corners of a `rect` at once. Inside a stack only the two ends of the column
+round — an arc on both sides of a seam pulls the two segments apart and the
+card shows through the gap. Everything else keeps the corner it had.
+
+The axis is an end only while the column stops there. A stack that carries on
+past zero meets it like any other seam, so its ends are the extremes of the
+whole column rather than one pair on either side of the line.
+
+The radius shrinks to fit whatever it is applied to, so the hairline a zero
+value renders as never folds through itself. That hairline never counts as the
+end of a column either, or it would take the rounding and leave the visible
+segment above it square.
+
 ## Slots
 
 | Slot   | Description                              |
@@ -285,10 +339,14 @@ below `1` throws.
 | Empty array                                  | The plot renders at full height with no path                           |
 | Single value                                 | Spans the plot as a constant series, like `[7, 7, 7]`                  |
 | All values identical                         | A flat line centred in the band, not on the baseline                   |
-| Negative values                              | Handled natively; bars anchor on zero                                  |
+| Negative values                              | Handled natively; bars anchor on zero, and stack below it              |
+| Negative values on a pie or donut            | Clamped to zero; a slice cannot sweep backwards                        |
+| More than one series on a pie or donut       | Throws; a circle divides one set of values                             |
 | Non-numeric, `NAN`, `INF`                    | Throws `The [series] must contain only numeric values.`                |
 | Entry without `data`                         | Throws `Every entry of [series] must carry a [data] key.`              |
 | Unknown `type`                               | Throws, naming the accepted values                                     |
+| Unknown `type` on a series                   | Throws; only `area`, `line` and `bar` exist                            |
+| `type` on a series of a pie or donut         | Throws                                                                 |
 | Unknown `axis`                               | Throws; only `left` and `right` exist                                  |
 | `stacked` on line or pie                     | Throws                                                                 |
 | `stacked` with a secondary axis              | Throws; one running total cannot span two domains                      |
@@ -339,7 +397,7 @@ TallStackUi::customize()
 | plot.svg             | The SVG itself                                            |
 | plot.line            | The curve stroke                                          |
 | plot.area            | The filled area under a curve                             |
-| plot.bar             | Bar rectangles                                            |
+| plot.bar             | Bar shapes                                                |
 | plot.slice           | Pie and donut arcs                                        |
 | plot.markers         | Container for the point markers                           |
 | plot.marker          | A single point marker                                     |

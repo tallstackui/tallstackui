@@ -159,8 +159,24 @@ class Component extends TallStackUiComponent implements Customization
             __ts_validation_exception($this, 'The [grid] cannot be used with the ['.$this->type.'] type.');
         }
 
-        if ($this->stacked && Series::on(Series::normalize($this->series), 'right') !== []) {
+        $series = Series::normalize($this->series);
+
+        if ($this->stacked && Series::on($series, 'right') !== []) {
             __ts_validation_exception($this, 'The [stacked] cannot be used together with a secondary axis.');
+        }
+
+        if (! in_array($this->type, ['pie', 'donut'], true)) {
+            return;
+        }
+
+        if (Series::overrides($series) !== []) {
+            __ts_validation_exception($this, 'The [type] of a series cannot be used with the ['.$this->type.'] type.');
+        }
+
+        // A circle divides one set of values. Every extra series used to be
+        // dropped without a word, which reads as if it had worked.
+        if (count($series) > 1) {
+            __ts_validation_exception($this, 'The ['.$this->type.'] type accepts only one series.');
         }
     }
 }
