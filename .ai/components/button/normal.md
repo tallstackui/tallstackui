@@ -49,6 +49,14 @@ A versatile button component supporting solid, light, outline, and flat styles w
 | unfocus   | bool         | false     | No focus on mouse click (no ring/color); keyboard focus kept     |
 | tooltip   | string\|null | null      | Tooltip text shown on hover                                      |
 
+The balloon accepts the same attributes as anywhere else — `data-position`,
+`data-tooltip-delay`, `data-tooltip-color` and `data-tooltip-disabled`. See
+[Tooltip](../tooltip.md#the-x-tooltip-directive).
+
+```blade
+<x-button text="Save" tooltip="Saves and closes" data-tooltip-delay="flash" />
+```
+
 ## Slots
 
 | Slot      | Description                                                           |

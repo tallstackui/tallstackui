@@ -77,7 +77,10 @@ class Component extends TallStackUiComponent implements Customization
             $class = $customization['icon'];
 
             return <<<HTML
-            <button type="button" class="cursor-pointer" x-on:click.prevent="react('$method', '$reaction')">
+            <button type="button"
+                    class="cursor-pointer"
+                    dusk="tallstackui_reaction_$reaction"
+                    x-on:click.prevent="react('$method', '$reaction')">
                 <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/$icon/512.$extension" class="$class">
             </button>
             HTML;

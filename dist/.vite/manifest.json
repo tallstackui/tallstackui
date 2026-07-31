@@ -60,15 +60,6 @@
       "_helpers-BE00oGS0.js"
     ]
   },
-  "js/tallstackui-tooltip.js": {
-    "file": "tallstackui-tooltip-D6KhsoNb.js",
-    "name": "tallstackui-tooltip",
-    "src": "js/tallstackui-tooltip.js",
-    "isEntry": true,
-    "css": [
-      "tallstackui-tooltip-Lcq2UOUK.css"
-    ]
-  },
   "js/tallstackui-upload.js": {
     "file": "tallstackui-upload-CCvoQzmx.js",
     "name": "tallstackui-upload",
@@ -79,7 +70,7 @@
     ]
   },
   "js/tallstackui.js": {
-    "file": "tallstackui-O5vNN4C6.js",
+    "file": "tallstackui-BF_RIiK0.js",
     "name": "tallstackui",
     "src": "js/tallstackui.js",
     "isEntry": true,

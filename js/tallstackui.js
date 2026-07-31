@@ -25,6 +25,7 @@ import keyValue from '../src/Components/KeyValue/alpine';
 import modal from '../src/Components/Modal/alpine';
 import number from '../src/Components/Form/Number/alpine';
 import rating from '../src/Components/Rating/alpine';
+import reaction from '../src/Components/Reaction/alpine';
 import signature from '../src/Components/Signature/alpine';
 import slide from '../src/Components/Slide/alpine';
 import spinner from '../src/Components/Spinner/alpine';
@@ -37,6 +38,7 @@ import tag from '../src/Components/Form/Tag/alpine';
 import textArea from '../src/Components/Form/Textarea/alpine';
 import toastBase from '../src/Components/Toast/toast-base';
 import toastLoop from '../src/Components/Toast/toast-loop';
+import tooltip from '../src/Components/Tooltip/alpine';
 import unfocus from './helpers/unfocus';
 import { flush_ui_elements } from './helpers';
 
@@ -52,6 +54,7 @@ window.tallstackui_floating = floating;
 
 document.addEventListener('alpine:init', () => {
   Alpine.plugin(alpineCollapse);
+  Alpine.plugin(tooltip);
   Alpine.data('tallstackui_accordion', accordion);
   Alpine.data('tallstackui_alert', alert);
   Alpine.data('tallstackui_autocomplete', autocomplete);
@@ -79,6 +82,7 @@ document.addEventListener('alpine:init', () => {
   Alpine.data('tallstackui_keyValue', keyValue);
   Alpine.data('tallstackui_modal', modal);
   Alpine.data('tallstackui_rating', rating);
+  Alpine.data('tallstackui_reaction', reaction);
   Alpine.data('tallstackui_signature', signature);
   Alpine.data('tallstackui_slide', slide);
   Alpine.data('tallstackui_spinner', spinner);

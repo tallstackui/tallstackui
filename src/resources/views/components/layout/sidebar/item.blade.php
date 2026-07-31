@@ -13,7 +13,7 @@
                     @if ($collapsible)
                         x-tooltip="{{ $text }}"
                         data-position="right"
-                        x-effect="$el._tippy && ($store['tsui.side-bar'].open || $store['tsui.side-bar'].mobile ? $el._tippy.disable() : $el._tippy.enable())"
+                        x-bind:data-tooltip-disabled="$store['tsui.side-bar'].open || $store['tsui.side-bar'].mobile"
                     @endif>
                 @if ($icon instanceof \Illuminate\View\ComponentSlot)
                     {{ $icon }}
@@ -76,7 +76,7 @@
                @if ($collapsible)
                    x-tooltip="{{ $text }}"
                    data-position="right"
-                   x-effect="$el._tippy && ($store['tsui.side-bar'].open || $store['tsui.side-bar'].mobile ? $el._tippy.disable() : $el._tippy.enable())"
+                   x-bind:data-tooltip-disabled="$store['tsui.side-bar'].open || $store['tsui.side-bar'].mobile"
                @endif
                @if ($navigate && ! $href)
                    wire:navigate
