@@ -12,6 +12,70 @@ such change is listed under **Migration**.
 
 ---
 
+## Clipboard
+
+### Changed — clipboard.js is gone
+
+`<x-clipboard />` and the exported `copy()` helper were built on clipboard.js, a library
+from the era before browsers had a clipboard API of their own. Its entire copy path was
+one call:
+
+```js
+document.execCommand('copy')
+```
+
+`execCommand` copies the current selection rather than an argument, which is why the
+library created a throwaway `<textarea>` on every copy, filled it, selected it and tore
+it down again. The package carried ~9.6 KB to orchestrate that.
+
+The write now goes through `navigator.clipboard.writeText()`, with the same
+`execCommand` underneath as a fallback. Both live in one place:
+
+```js
+// src/Components/Clipboard/write.js
+write(text) // → Promise<Boolean>
+```
+
+**The fallback is not a courtesy, it is the behaviour the package already had.**
+`navigator.clipboard` is only exposed in a secure context — HTTPS, `localhost` or
+`127.0.0.1` — and is plain `undefined` everywhere else. An application served over
+`http://myapp.test` by Valet or Herd, or reached at `http://192.168.0.10:8000` from a
+phone on the same network, is not a secure context. Going straight to the native API
+would have broken copying in the setups developers use day to day, and broken it
+silently: a click that does nothing, with no error to read.
+
+So the native path is tried first and `execCommand` catches everything else — including
+the rejections that happen *inside* a secure context, when the document is not focused,
+when an iframe carries no `clipboard-write` permission, or when the user gesture has
+expired.
+
+**Both paths require a user gesture.** A browser only allows a clipboard write while a
+real interaction is being handled, which is why `write()` is called straight from the
+click with nothing awaited before it — Safari rejects the write once the transient
+activation is gone. Since `copy()` is exported publicly, this is worth stating plainly:
+calling it from a timer or after an API response fails in every browser, and always did.
+
+### Migration
+
+**`clipboard` left `package.json`.** An application importing clipboard.js directly has
+to install it on its own.
+
+The component's public surface is unchanged: `copy()` still resolves to a boolean, still
+dispatches `ts-ui:copy` on `window`, and `<x-clipboard />` still emits its local `copy`
+event.
+
+### Tests
+
+`BrowserTest.php` gained `can_copy_when_the_clipboard_api_is_unavailable`, which deletes
+`navigator.clipboard` before clicking.
+
+The five tests that already existed copy for real and paste with <kbd>Ctrl</kbd>+<kbd>V</kbd>,
+so they cover the native path — Dusk serves on `127.0.0.1`, which is a secure context.
+Without the new one the fallback would never run under test, and that is the branch
+carrying every application on plain HTTP.
+
+---
+
 ## Icon
 
 ### Added — size and color shorthands
@@ -2631,6 +2695,46 @@ list separates its items with `border-b` on `panels.li`, never with `divide-*`.
 ---
 
 ## Form / Select / Styled
+
+### Changed — qs is gone
+
+A `request` sent with `method: 'get'` had its parameters serialised by qs, of which the
+package used exactly one function, `stringify`. That single call cost ~39 KB of the
+select bundle.
+
+`helpers.js` now builds the query string itself, matching what qs emitted:
+
+- nested values use bracket notation, `filters[status]=active`, which is what PHP
+  expands back into an array on the other side;
+- arrays are keyed by index, `tags[0]=alpha`, qs's default `indices` format;
+- `null` serialises to an empty value, `undefined` is dropped, and an empty array or
+  object contributes nothing at all;
+- a `Date` goes out as an ISO string;
+- encoding follows RFC 3986, so `!'()*` are escaped as well.
+
+That last point is the one thing `encodeURIComponent` gets wrong on its own: it leaves
+those five characters untouched while qs percent-encodes them. PHP decodes both forms
+identically, so nothing here would have failed a test — but a query string that quietly
+changes shape between versions is what surfaces months later inside a signature check or
+a cache key, far from the change that caused it.
+
+The select bundle went from ~54 KB to ~14.8 KB.
+
+### Migration
+
+**`qs` left `package.json`.** An application importing it directly has to install it on
+its own. The parameters the component puts on the wire are unchanged.
+
+### Tests
+
+`SelectStyledApiBrowserTest.php` gained
+`request_params_are_encoded_preserving_nesting_and_special_characters`, pointed at a new
+`searchable.echoing-parameters` route that echoes back what PHP actually received. It
+sends a nested object, an array, and `raw = 'a b&c=d'` to cover the escaping.
+
+The GET path had no coverage whatsoever: every request-parameter test that already
+existed declares `method: 'post'`, which goes out through `JSON.stringify` and never
+reaches the serialiser.
 
 ### Fixed — grouped children were unreachable under a custom `value` key
 
