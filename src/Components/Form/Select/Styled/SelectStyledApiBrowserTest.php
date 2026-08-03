@@ -342,6 +342,38 @@ class SelectStyledApiBrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function request_params_are_encoded_preserving_nesting_and_special_characters(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $item = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-select.styled wire:model.live="item"
+                                    :request="[
+                                        'url' => route('searchable.echoing-parameters'),
+                                        'params' => [
+                                            'filters' => ['status' => 'active', 'tags' => ['alpha', 'beta']],
+                                            'raw' => 'a b&c=d',
+                                        ],
+                                    ]"
+                                    label="Items"
+                                    select="label:label|value:value"
+                    />
+                </div>
+                HTML;
+            }
+        })
+            ->clickDirectly('@tallstackui_select_open_close')
+            ->waitForText('status:active')
+            ->assertSee('tags:alpha|beta')
+            ->assertSee('raw:a b&c=d');
+    }
+
+    #[Test]
     public function request_params_update_across_multiple_sequential_changes(): void
     {
         Livewire::visit(new class extends Component

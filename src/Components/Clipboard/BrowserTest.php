@@ -3,6 +3,7 @@
 namespace TallStackUi\Components\Clipboard;
 
 use Facebook\WebDriver\WebDriverKeys;
+use Laravel\Dusk\Browser;
 use Laravel\Dusk\OperatingSystem;
 use Livewire\Component;
 use Livewire\Livewire;
@@ -87,6 +88,32 @@ class BrowserTest extends BrowserTestCase
             ->click('@tallstackui_clipboard_input_copy')
             ->keys('@paste', [OperatingSystem::onMac() ? WebDriverKeys::COMMAND : WebDriverKeys::CONTROL, 'v'])
             ->assertInputValue('@paste', '5f4dcc3b5aa765d61d8327deb882cf99');
+    }
+
+    #[Test]
+    public function can_copy_when_the_clipboard_api_is_unavailable(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $foo = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-clipboard label="Your API" text="8f14e45fceea167a5a36dedd4bea2543" />
+                    <input dusk="paste">
+                </div>
+            HTML;
+            }
+        })
+            ->assertSee('Your API')
+            // Reproduces a page served over plain HTTP, where the browser does
+            // not expose the Clipboard API at all, to reach the legacy path.
+            ->tap(fn (Browser $browser) => $browser->script('Object.defineProperty(navigator, "clipboard", { value: undefined, configurable: true });'))
+            ->click('@tallstackui_clipboard_input_copy')
+            ->keys('@paste', [OperatingSystem::onMac() ? WebDriverKeys::COMMAND : WebDriverKeys::CONTROL, 'v'])
+            ->assertInputValue('@paste', '8f14e45fceea167a5a36dedd4bea2543');
     }
 
     #[Test]
