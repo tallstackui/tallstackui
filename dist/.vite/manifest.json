@@ -1,19 +1,14 @@
 {
-  "_copy-BEj8SDcr.js": {
-    "file": "copy-BEj8SDcr.js",
+  "_copy-CjO8r4-F.js": {
+    "file": "copy-CjO8r4-F.js",
     "name": "copy",
     "imports": [
-      "_rolldown-runtime-Bh1tDfsg.js",
       "_helpers-BE00oGS0.js"
     ]
   },
   "_helpers-BE00oGS0.js": {
     "file": "helpers-BE00oGS0.js",
     "name": "helpers"
-  },
-  "_rolldown-runtime-Bh1tDfsg.js": {
-    "file": "rolldown-runtime-Bh1tDfsg.js",
-    "name": "rolldown-runtime"
   },
   "js/tallstackui-chart.js": {
     "file": "tallstackui-chart-BAGkWiIn.js",
@@ -22,22 +17,20 @@
     "isEntry": true
   },
   "js/tallstackui-clipboard.js": {
-    "file": "tallstackui-clipboard-oa0UDIwJ.js",
+    "file": "tallstackui-clipboard-BlmJOfFi.js",
     "name": "tallstackui-clipboard",
     "src": "js/tallstackui-clipboard.js",
     "isEntry": true,
     "imports": [
-      "_rolldown-runtime-Bh1tDfsg.js",
-      "_copy-BEj8SDcr.js"
+      "_copy-CjO8r4-F.js"
     ]
   },
   "js/tallstackui-date.js": {
-    "file": "tallstackui-date-CQoB-O8G.js",
+    "file": "tallstackui-date-CUKzZHth.js",
     "name": "tallstackui-date",
     "src": "js/tallstackui-date.js",
     "isEntry": true,
     "imports": [
-      "_rolldown-runtime-Bh1tDfsg.js",
       "_helpers-BE00oGS0.js"
     ]
   },
@@ -51,12 +44,11 @@
     ]
   },
   "js/tallstackui-select.js": {
-    "file": "tallstackui-select-DlXObol8.js",
+    "file": "tallstackui-select-DPVXLolz.js",
     "name": "tallstackui-select",
     "src": "js/tallstackui-select.js",
     "isEntry": true,
     "imports": [
-      "_rolldown-runtime-Bh1tDfsg.js",
       "_helpers-BE00oGS0.js"
     ]
   },
@@ -70,13 +62,13 @@
     ]
   },
   "js/tallstackui.js": {
-    "file": "tallstackui-BF_RIiK0.js",
+    "file": "tallstackui-Dg5k90IC.js",
     "name": "tallstackui",
     "src": "js/tallstackui.js",
     "isEntry": true,
     "imports": [
       "_helpers-BE00oGS0.js",
-      "_copy-BEj8SDcr.js"
+      "_copy-CjO8r4-F.js"
     ]
   }
 }

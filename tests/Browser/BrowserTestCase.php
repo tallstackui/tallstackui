@@ -211,6 +211,18 @@ class BrowserTestCase extends TestCase
             ['value' => 'Alice', 'description' => 'admin', 'metadata' => ['id' => 42, 'role' => 'admin']],
             ['value' => 'Bob', 'description' => 'editor'],
         ])->name('searchable.with-metadata');
+
+        // Echoes the received parameters back as options so the query string
+        // encoding can be asserted after PHP has expanded it again.
+        $router->get('/searchable-echoing-parameters', function (Request $request) {
+            $filters = $request->input('filters', []);
+
+            return [
+                ['label' => 'status:'.($filters['status'] ?? 'none'), 'value' => 'status'],
+                ['label' => 'tags:'.implode('|', $filters['tags'] ?? []), 'value' => 'tags'],
+                ['label' => 'raw:'.$request->input('raw', 'none'), 'value' => 'raw'],
+            ];
+        })->name('searchable.echoing-parameters');
     }
 
     /**

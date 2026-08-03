@@ -1,4 +1,4 @@
-import ClipboardJS from 'clipboard/dist/clipboard';
+import write from './write';
 
 export default (text = null, hash = null, type, placeholders) => ({
   text: text,
@@ -23,28 +23,26 @@ export default (text = null, hash = null, type, placeholders) => ({
   /**
    * Copy the content to the clipboard.
    */
-  copy() {
+  async copy() {
     // Using this.notification here to prevent the copy again during the text effect.
     if (!text || !hash || Boolean(this.notification) === true) {
       return;
     }
 
-    const clipboard = new ClipboardJS(`[data-hash="${hash}"]`, {
-      text: () => this.text,
-    });
+    // Resolved before awaiting because $el points at the element that
+    // triggered the expression, which is where the copy listener lives.
+    const element = this.$el;
 
-    clipboard.on('success', (event) => {
-      this.notification = true;
+    if (!(await write(this.text))) {
+      this.notification = false;
 
-      event.clearSelection();
+      return;
+    }
 
-      setTimeout(() => (this.notification = false), this.time);
+    this.notification = true;
 
-      this.$el.dispatchEvent(new CustomEvent('copy', { detail: { text: this.text } }));
+    setTimeout(() => (this.notification = false), this.time);
 
-      clipboard.destroy();
-    });
-
-    clipboard.on('error', () => (this.notification = false));
+    element.dispatchEvent(new CustomEvent('copy', { detail: { text: this.text } }));
   },
 });
