@@ -17,6 +17,10 @@ return [
         'selected' => ':count محدد',
     ],
 
+    'tag' => [
+        'empty' => 'لا توجد نتائج',
+    ],
+
     'autocomplete' => [
         'default' => 'اكتب للبحث...',
         'empty' => 'لا توجد نتائج',

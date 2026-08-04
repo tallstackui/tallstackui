@@ -42,8 +42,20 @@ it('can render size variations', function (array $size) {
     fn () => ['lg' => 'text-lg'],
 ]);
 
-it('can render borderless')
+it('can render borderless keeping the shadow')
     ->expect('<x-kbd borderless>Ctrl</x-kbd>')
+    ->render()
+    ->toContain('border-transparent')
+    ->not->toContain('shadow-none');
+
+it('can render shadowless keeping the border')
+    ->expect('<x-kbd shadowless>Ctrl</x-kbd>')
+    ->render()
+    ->toContain('shadow-none')
+    ->not->toContain('border-transparent');
+
+it('can render borderless and shadowless together')
+    ->expect('<x-kbd borderless shadowless>Ctrl</x-kbd>')
     ->render()
     ->toContain('border-transparent')
     ->toContain('shadow-none');

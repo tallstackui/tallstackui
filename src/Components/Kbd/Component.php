@@ -18,6 +18,7 @@ class Component extends TallStackUiComponent implements Customization
         public ?bool $md = null,
         public ?bool $lg = null,
         public ?bool $borderless = false,
+        public ?bool $shadowless = false,
         public ?string $tooltip = null,
         public ?string $size = null,
     ) {
@@ -41,7 +42,8 @@ class Component extends TallStackUiComponent implements Customization
                     'lg' => 'text-lg px-2.5 py-1 min-w-8',
                 ],
             ],
-            'borderless' => 'border-transparent! shadow-none',
+            'borderless' => 'border-transparent!',
+            'shadowless' => 'shadow-none!',
         ]);
     }
 }

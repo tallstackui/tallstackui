@@ -12,6 +12,92 @@ such change is listed under **Migration**.
 
 ---
 
+## Form / Tag
+
+### Added — `options`, a floating list of tags to reuse
+
+```blade
+<x-tag wire:model="tags" :options="Tag::pluck('name')" />
+```
+
+Free typing still works; the list is an extra way in, for the case where tags are records
+that get reused rather than invented each time. It opens on focus and while typing, and
+narrows as the term is typed. Options already added drop out of it, since they are
+visible as tags right above.
+
+Arrow keys move through the list, Enter takes the highlighted option and Escape closes
+it. With nothing highlighted, Enter falls through to the typed value, so the two ways of
+adding never fight over the key. A `prefix` is ignored while matching, so typing `foo`
+still finds `#foo`. Reaching `limit` closes the list and keeps it from opening again.
+
+Values are cast to strings and de-duplicated, and a `Collection` is accepted, so
+`pluck()` can be passed straight in.
+
+### Added — `<x-slot:after>`, an action under the list
+
+```blade
+<x-tag wire:model="tags" :options="$existing">
+    <x-slot:after>
+        <x-button sm x-on:click="$tsui.open.modal('create-tag')">New tag</x-button>
+    </x-slot:after>
+</x-tag>
+```
+
+Rendered under the list and always reachable, including when nothing matches — which is
+exactly when creating a new tag is what the reader wants. The slot alone is enough to
+make the list open, so a field whose reusable tags are still an empty set offers the
+action anyway.
+
+Two new events, `open` and `close`, fire as the list is toggled.
+
+The list messages come from `ts-ui::messages.tag`, new in all 15 bundled languages, and
+`placeholders` overrides them per instance.
+
+## Table
+
+### Added — `compact`, a denser row rhythm
+
+```blade
+<x-table :$headers :$rows compact />
+```
+
+Tightens the vertical padding of the header cells, the data cells, the empty message and
+the expandable content, leaving the horizontal padding, the type scale and the colors
+alone. The skeleton follows the flag, so a lazy table does not change height when the
+real rows arrive.
+
+Each affected block gained a `-compact` twin — `table.th-compact`, `table.td-compact`,
+`empty-compact` and `expandable.content-compact` — and the flag swaps the whole string
+instead of layering an override on top of it. An application customizing `table.td` has
+to customize `table.td-compact` too if it uses both modes.
+
+Unrelated to `paginator="compact"`, which names a pagination look. The two combine.
+
+## Kbd
+
+### Changed — `borderless` no longer removes the shadow
+
+`borderless` stripped the border **and** the shadow, which left no way to drop one
+without the other. It now removes only the border, and a new `shadowless` removes only
+the shadow. Passing both reproduces the old behaviour:
+
+```blade
+<x-kbd borderless />              {{-- no border, still raised --}}
+<x-kbd shadowless />              {{-- bordered, flat --}}
+<x-kbd borderless shadowless />   {{-- what borderless alone used to do --}}
+```
+
+**Migration.** An application passing `borderless` to hide the shadow keeps the shadow
+after upgrading and has to add `shadowless`.
+
+The `borderless` customization block lost its `shadow-none`, which now lives in a new
+`shadowless` block:
+
+| 3.x                                       | 4.x                                       |
+|-------------------------------------------|-------------------------------------------|
+| `borderless` → `border-transparent! shadow-none` | `borderless` → `border-transparent!` |
+| —                                         | `shadowless` → `shadow-none!`             |
+
 ## Form / Input
 
 ### Changed — the slot paddings became `!important`

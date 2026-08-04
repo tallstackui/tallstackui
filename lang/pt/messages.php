@@ -17,6 +17,10 @@ return [
         'selected' => ':count selecionados',
     ],
 
+    'tag' => [
+        'empty' => 'Nenhum resultado encontrado',
+    ],
+
     'autocomplete' => [
         'default' => 'Digite para pesquisar...',
         'empty' => 'Nenhum resultado encontrado',

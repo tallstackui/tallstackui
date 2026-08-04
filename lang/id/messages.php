@@ -17,6 +17,10 @@ return [
         'selected' => ':count dipilih',
     ],
 
+    'tag' => [
+        'empty' => 'Tidak ada hasil ditemukan',
+    ],
+
     'autocomplete' => [
         'default' => 'Ketik untuk mencari...',
         'empty' => 'Tidak ada hasil ditemukan',

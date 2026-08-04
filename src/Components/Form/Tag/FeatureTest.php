@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\View\ViewException;
+use TallStackUi\Components\Form\Tag\Component;
 use Tests\TestCase;
 
 uses(TestCase::class)->group('Feature');
@@ -55,4 +56,52 @@ it('cannot render with lazy less than one', function () {
     HTML;
 
     expect($component)->render();
+});
+
+describe('options', function () {
+    it('can render the floating list of reusable tags')
+        ->expect('<x-tag :options="[\'php\', \'laravel\']" />')
+        ->render()
+        ->toContain('tallstackui_tag_options')
+        ->toContain('php')
+        ->toContain('laravel');
+
+    it('cannot render the floating list without options nor the after slot')
+        ->expect('<x-tag />')
+        ->render()
+        ->not->toContain('tallstackui_tag_options');
+
+    it('can render the after slot')
+        ->expect('<x-tag :options="[\'php\']"><x-slot:after>Create</x-slot:after></x-tag>')
+        ->render()
+        ->toContain('tallstackui_tag_after')
+        ->toContain('Create');
+
+    it('can render the after slot as the only reason to open the list')
+        ->expect('<x-tag><x-slot:after>Create</x-slot:after></x-tag>')
+        ->render()
+        ->toContain('tallstackui_tag_options')
+        ->toContain('Create');
+
+    it('can render the empty message')
+        ->expect('<x-tag :options="[\'php\']" />')
+        ->render()
+        ->toContain('No results found');
+
+    it('can override the empty message')
+        ->expect('<x-tag :options="[\'php\']" :placeholders="[\'empty\' => \'Nothing here\']" />')
+        ->render()
+        ->toContain('Nothing here');
+
+    it('casts the options to strings and drops the duplicates', function () {
+        $component = new Component(options: [1, '1', 2]);
+
+        expect($component->options)->toBe(['1', '2']);
+    });
+
+    it('accepts the options as a collection', function () {
+        $component = new Component(options: collect(['php', 'laravel']));
+
+        expect($component->options)->toBe(['php', 'laravel']);
+    });
 });

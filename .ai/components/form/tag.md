@@ -3,7 +3,7 @@
 > TallStackUI is a TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
 > component library providing 65+ Blade components for building modern web interfaces.
 
-A tag input component that allows users to add multiple tag values by pressing Enter, with individual tag removal, a bulk erase button, optional prefix character filtering, and configurable tag limits. The value is stored as an array.
+A tag input component that allows users to add multiple tag values by pressing Enter, with individual tag removal, a bulk erase button, optional prefix character filtering, and configurable tag limits. It can also offer a floating list of tags to reuse. The value is stored as an array.
 
 ## Basic Usage
 
@@ -17,6 +17,10 @@ A tag input component that allows users to add multiple tag values by pressing E
 
 ```blade
 <x-tag wire:model="tags" label="Hashtags" prefix="#" />
+```
+
+```blade
+<x-tag wire:model="tags" label="Tags" :options="['php', 'laravel', 'livewire']" />
 ```
 
 Outside Livewire, give it a `name` and it backs a plain form through a hidden input.
@@ -43,13 +47,18 @@ over the key.
 | limit      | int\|null                   | null    | Maximum number of tags allowed                                                                                                           |
 | lazy       | int\|null                   | null    | Minimum length the typed content must reach before a tag is accepted on Enter or comma. The `prefix` character does not count toward it. |
 | invalidate | bool\|null                  | null    | Prevents displaying validation error messages                                                                                            |
+| options    | Collection\|array\|null     | null    | Tags offered for reuse in a floating list. Values are cast to strings and de-duplicated.                                                 |
+| placeholders | array\|null               | null    | Overrides the list messages. Only `empty` is used.                                                                                       |
 
 ## Alpine.js Events
 
 | Event       | Description                                     |
 |-------------|-------------------------------------------------|
+| x-on:add    | Triggered when a tag is added                   |
 | x-on:remove | Triggered when an individual tag is removed     |
 | x-on:erase  | Triggered when the bulk erase button is clicked |
+| x-on:open   | Triggered when the floating list opens          |
+| x-on:close  | Triggered when the floating list closes         |
 
 ## Validation Constraints
 
@@ -65,6 +74,40 @@ over the key.
 ```
 
 Note: for the `erase` event the key is `$event.detail.tags` (plural), not `$event.detail.tag`.
+
+## Reusing tags
+
+`options` turns the field into a picker over tags that already exist, without giving up
+free typing — whatever is typed and confirmed with Enter still becomes a tag.
+
+```blade
+<x-tag wire:model="tags" :options="$existing" />
+```
+
+The list opens on focus and while typing, and it narrows as the term is typed. Options
+already added drop out of it, since they are visible as tags right above. Arrow keys move
+through it, Enter takes the highlighted option, and Escape closes it. With nothing
+highlighted, Enter falls through to the typed value as usual.
+
+A `prefix` is ignored while matching, so typing `foo` still finds `#foo`.
+
+Reaching `limit` closes the list and keeps it from opening again.
+
+### `<x-slot:after>`
+
+Rendered under the list and always reachable, including when nothing matches. This is
+where an action to create a tag that does not exist yet belongs:
+
+```blade
+<x-tag wire:model="tags" :options="$existing">
+    <x-slot:after>
+        <x-button sm x-on:click="$tsui.open.modal('create-tag')">New tag</x-button>
+    </x-slot:after>
+</x-tag>
+```
+
+The slot alone is enough to make the list open, so a field with no reusable tags yet
+still offers the action.
 
 ## Soft Customization
 
@@ -93,4 +136,11 @@ TallStackUi::customize()
 | input.wrapper          | Outer input wrapper with ring and focus styles |
 | button.wrapper         | Erase button positioning                       |
 | button.icon            | Erase button icon size and hover color         |
+| floating.default       | Floating panel surface                         |
+| floating.class         | Floating panel overflow and stacking           |
+| box.wrapper            | Scrollable list wrapper                        |
+| box.item               | One option in the list                         |
+| box.highlighted        | Option under the cursor or the arrow keys      |
+| box.empty              | Message shown when nothing matches             |
+| box.after              | Divider above the `after` slot                 |
 | error                  | Error state ring and text styles               |

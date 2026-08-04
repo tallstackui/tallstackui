@@ -29,15 +29,15 @@
                     <thead @class([$customization['table.th-uppercase'], $customization['table.thead.normal'] => ! $striped, $customization['table.thead.striped'] => $striped])>
                     <tr>
                         @if ($expandable)
-                            <th @class([$customization['table.th-checkbox-width'], $customization['table.th']])></th>
+                            <th @class([$customization['table.th-checkbox-width'], $customization['table.th'.$compacted]])></th>
                         @endif
                         @if ($selectable)
-                            <th @class([$customization['table.th-actions-width'], $customization['table.th']])>
+                            <th @class([$customization['table.th-actions-width'], $customization['table.th'.$compacted]])>
                                 <div @class([$customization['skeleton.bar'], $customization['skeleton.checkbox']])></div>
                             </th>
                         @endif
                         @forelse ($headers as $header)
-                            <th scope="col" class="{{ $customization['table.th'] }}">
+                            <th scope="col" class="{{ $customization['table.th'.$compacted] }}">
                                 @if ($header['unescaped'] ?? false)
                                     {!! $header['label'] ?? '' !!}
                                 @else
@@ -46,7 +46,7 @@
                             </th>
                         @empty
                             @for ($column = 1; $column <= $columns; $column++)
-                                <th scope="col" class="{{ $customization['table.th'] }}">
+                                <th scope="col" class="{{ $customization['table.th'.$compacted] }}">
                                     <div @class([$customization['skeleton.bar'], $customization['skeleton.header']])></div>
                                 </th>
                             @endfor
@@ -61,17 +61,17 @@
                         $customization['row.striped'] => $striped && $line % 2 !== 0,
                     ])>
                         @if ($expandable)
-                            <td class="{{ $customization['table.td'] }}">
+                            <td class="{{ $customization['table.td'.$compacted] }}">
                                 <div @class([$customization['skeleton.bar'], $customization['skeleton.expand']])></div>
                             </td>
                         @endif
                         @if ($selectable)
-                            <td class="{{ $customization['table.td'] }}">
+                            <td class="{{ $customization['table.td'.$compacted] }}">
                                 <div @class([$customization['skeleton.bar'], $customization['skeleton.checkbox']])></div>
                             </td>
                         @endif
                         @for ($column = 1; $column <= $columns; $column++)
-                            <td class="{{ $customization['table.td'] }}">
+                            <td class="{{ $customization['table.td'.$compacted] }}">
                                 <div @class([$customization['skeleton.bar'], $customization['skeleton.cell']])></div>
                             </td>
                         @endfor
