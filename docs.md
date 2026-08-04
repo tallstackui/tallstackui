@@ -90,30 +90,16 @@ exactly when creating a new tag is what the reader wants. The slot alone is enou
 make the list open, so a field whose reusable tags are still an empty set offers the
 action anyway.
 
+Worth knowing if you already use the slot of the same name elsewhere: on
+`<x-select.styled>` and `<x-autocomplete>`, `after` **replaces** the empty message and
+appears only when nothing matches. Here it sits below the list at all times, because it
+exists to reach an action rather than to explain an empty result — and that action stays
+useful while matches are still on screen.
+
 Two new events, `open` and `close`, fire as the list is toggled.
 
 The list messages come from `ts-ui::messages.tag`, new in all 15 bundled languages, and
 `placeholders` overrides them per instance.
-
-## Table
-
-### Added — `compact`, a denser row rhythm
-
-```blade
-<x-table :$headers :$rows compact />
-```
-
-Tightens the vertical padding of the header cells, the data cells, the empty message and
-the expandable content, leaving the horizontal padding, the type scale and the colors
-alone. The skeleton follows the flag, so a lazy table does not change height when the
-real rows arrive.
-
-Each affected block gained a `-compact` twin — `table.th-compact`, `table.td-compact`,
-`empty-compact` and `expandable.content-compact` — and the flag swaps the whole string
-instead of layering an override on top of it. An application customizing `table.td` has
-to customize `table.td-compact` too if it uses both modes.
-
-Unrelated to `paginator="compact"`, which names a pagination look. The two combine.
 
 ## Kbd
 
@@ -1424,6 +1410,24 @@ caption no longer appears in the overlay when `TALLSTACKUI_DEBUG_MODE` is on.
 ---
 
 ## Table
+
+### Added — `compact`, a denser row rhythm
+
+```blade
+<x-table :$headers :$rows compact />
+```
+
+Tightens the vertical padding of the header cells, the data cells, the empty message and
+the expandable content, leaving the horizontal padding, the type scale and the colors
+alone. The skeleton follows the flag, so a lazy table does not change height when the
+real rows arrive.
+
+Each affected block gained a `-compact` twin — `table.th-compact`, `table.td-compact`,
+`empty-compact` and `expandable.content-compact` — and the flag swaps the whole string
+instead of layering an override on top of it. An application customizing `table.td` has
+to customize `table.td-compact` too if it uses both modes.
+
+Unrelated to `paginator="compact"`, which names a pagination look. The two combine.
 
 ### Fixed — `simplePaginate()` was fatal
 

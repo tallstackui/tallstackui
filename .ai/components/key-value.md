@@ -86,3 +86,17 @@ TallStackUi::customize()
 | button.add       | Add row button layout (full-width, border, padding)          |
 | button.neutral   | Add row button color, applied only when no `color` is given  |
 | button.delete    | Delete icon button styles (positioning, color)               |
+
+## Color Personalization
+
+```bash
+php artisan tallstackui:setup-color
+```
+
+Publishes a `KeyValueColors` class with two palettes: `headerColors()` for the header text
+and `buttonColors()` for the add button. Returning `null` for an entry falls back to the
+bundled value, so only the colors you actually change need filling in.
+
+Both palettes are consulted only when `color` is given. Without it the component takes
+`header.neutral` and `button.neutral` from the customization blocks instead, which is why
+neither has to out-specify the other.

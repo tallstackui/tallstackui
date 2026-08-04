@@ -50,6 +50,18 @@ over the key.
 | options    | Collection\|array\|null     | null    | Tags offered for reuse in a floating list. Values are cast to strings and de-duplicated.                                                 |
 | placeholders | array\|null               | null    | Overrides the list messages. Only `empty` is used.                                                                                       |
 
+## Slots
+
+| Slot  | Description                                                                                                                                                                       |
+|-------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| after | Rendered under the floating list, always — including when the list is empty. The slot on its own is enough to open the list, so a field with no reusable tags still offers it. |
+
+> Note the difference from the slot of the same name on `Form/Select/Styled` and
+> `Form/Autocomplete`. There, `after` **replaces** the empty message and shows only when
+> nothing matches. Here it sits below the list at all times, because it exists to reach an
+> action — creating a tag that does not exist yet — which stays useful while matches are
+> still on screen.
+
 ## Alpine.js Events
 
 | Event       | Description                                     |
