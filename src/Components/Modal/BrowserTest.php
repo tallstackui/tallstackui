@@ -314,6 +314,47 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function center_from_a_breakpoint_only_takes_effect_from_that_breakpoint_upwards(): void
+    {
+        // The breakpoints are Tailwind's own: sm at 640px and md at 768px. Each
+        // width below sits far enough from the edges that the gap between the
+        // window and the viewport cannot flip the assertion.
+        $alignment = fn (Browser $browser): string => $browser->script(
+            "return getComputedStyle(document.querySelector('#modal .min-h-full')).alignItems;"
+        )[0];
+
+        Livewire::visit(new class extends Component
+        {
+            public bool $modal = false;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-modal wire center="md" title="Responsive">Modal body</x-modal>
+
+                    <x-button dusk="open" wire:click="$toggle('modal')">Open</x-button>
+                </div>
+                HTML;
+            }
+        })
+            ->resize(1400, 800)
+            ->click('@open')
+            ->waitForText('Modal body')
+            ->tap(function (Browser $browser) use ($alignment): void {
+                Assert::assertSame('center', $alignment($browser), 'the modal should be centered above md');
+            })
+            ->resize(720, 800)
+            ->tap(function (Browser $browser) use ($alignment): void {
+                Assert::assertSame('flex-start', $alignment($browser), 'between sm and md the modal should behave as not centered');
+            })
+            ->resize(400, 800)
+            ->tap(function (Browser $browser) use ($alignment): void {
+                Assert::assertSame('flex-end', $alignment($browser), 'below sm the modal should stick to the bottom');
+            });
+    }
+
+    #[Test]
     public function closing_dialog_via_ok_button_keeps_modal_open(): void
     {
         Livewire::visit(new class extends Component

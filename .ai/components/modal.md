@@ -5,6 +5,8 @@
 
 A modal overlay component for displaying content in a centered or top-aligned dialog with optional title, footer, blur backdrop, scrollable body, and configurable sizes. Can be controlled via `wire:model`, JavaScript API, or Livewire events.
 
+The vertical alignment is responsive: `center` accepts a boolean or a Tailwind breakpoint, so the modal can be a bottom sheet on the phone and a centered dialog on the desktop.
+
 ## Basic Usage
 
 ```blade
@@ -39,6 +41,33 @@ Using `wire:model` for Livewire-controlled state:
 
 <x-button text="Toggle" wire:click="$toggle('showModal')" />
 ```
+
+Centering only from a breakpoint upwards. Below it the modal behaves exactly like
+`<x-modal>` without `center` &mdash; a bottom sheet flush against the screen edges:
+
+```blade
+<x-modal id="create-user" title="Create user" center="md" scrollable>
+    <x-input label="Name" />
+
+    <x-slot:footer>
+        <x-button text="Save" wire:click="save" />
+    </x-slot:footer>
+</x-modal>
+```
+
+| Value   | Alignment classes                           |
+|---------|---------------------------------------------|
+| `false` | `items-end sm:items-start`                  |
+| `true`  | `items-center` plus `p-4` and `rounded-xl`  |
+| `"sm"`  | `items-end sm:items-center`                 |
+| `"md"`  | `items-end sm:items-start md:items-center`  |
+| `"lg"`  | `items-end sm:items-start lg:items-center`  |
+| `"xl"`  | `items-end sm:items-start xl:items-center`  |
+| `"2xl"` | `items-end sm:items-start 2xl:items-center` |
+
+Only `center` as a boolean forces `p-4` and `rounded-xl`, which makes the modal float
+free of the screen edges on mobile too. A breakpoint keeps the mobile bottom sheet flush
+and relies on the `sm:` variants the wrapper blocks already carry.
 
 Removing the body padding so the content bleeds to the edges. The title and the
 footer keep theirs:
@@ -95,7 +124,7 @@ the footer area stay; only the aligning wrapper is dropped:
 | persistent  | bool\|null         | null (from config: false)  | When true, prevents closing via outside click or Escape key                                                                             |
 | size        | string\|null       | null (from config: '2xl')  | Modal width (sm, md, lg, xl, 2xl, 3xl, 4xl, 5xl, 6xl, 7xl, full)                                                                        |
 | entangle    | string\|null       | 'modal'                    | Livewire property name for entangle binding                                                                                             |
-| center      | bool\|null         | null (from config: false)  | When true, vertically centers the modal on all viewport sizes with full border radius and padding (v2-style)                            |
+| center      | bool\|string\|null | null (from config: false)  | `true` centers on all viewport sizes with full border radius and padding (v2-style). A breakpoint (sm, md, lg, xl, 2xl) centers only from that width upwards, behaving as not centered below it |
 | overflow    | bool\|null         | null (from config: false)  | When true, avoids hiding body overflow                                                                                                  |
 | scrollable  | bool\|null         | null (from config: false)  | When true, fixes title and footer while body scrolls                                                                                    |
 | paddingless | bool\|null         | null                       | When true, removes the padding of the body, leaving the default slot flush against the modal edges. Title and footer keep their padding |
@@ -122,6 +151,7 @@ the footer area stay; only the aligning wrapper is dropped:
 
 - The `wire` property cannot be an empty string.
 - The `size` must be one of: sm, md, lg, xl, 2xl, 3xl, 4xl, 5xl, 6xl, 7xl, full.
+- The `center` must be a boolean or one of: sm, md, lg, xl, 2xl. This rejects `center="desktop"` and `center="true"`, since Blade hands a quoted attribute over as a string. Arbitrary values such as `center="min-[900px]"` are not supported: Tailwind only generates classes it can read literally in the source.
 - The `zIndex` must start with `z-` prefix.
 - The `footer` slot cannot combine two or more alignments.
 - The `footer` slot cannot use `unwrapped` together with an alignment.
@@ -144,7 +174,7 @@ In `config/tallstackui.php` under `components.modal`:
 | blur       | false\|string | false   | Backdrop blur effect (false, sm, md, lg, xl)            |
 | persistent | bool          | false   | When true, prevents closing by clicking outside         |
 | size       | string        | '2xl'   | Default modal width                                     |
-| center     | bool          | false   | When true, vertically centers the modal                 |
+| center     | bool\|string  | false   | When true, centers on every viewport. A breakpoint (sm, md, lg, xl, 2xl) centers only from that width upwards |
 | scrollable | bool          | false   | When true, fixes title/footer while body scrolls        |
 | scrollbar  | string\|null  | 'thin'  | Scrollbar style for scrollable mode (null, thin, thick) |
 
@@ -227,8 +257,13 @@ TallStackUi::customize()
 | wrapper.third      | Centering flex container with size constraint   |
 | wrapper.fourth     | Modal card with rounded corners and shadow      |
 | wrapper.scrollable | Max-height constraint for scrollable mode       |
-| positions.top      | Alignment classes for top-positioned modal      |
-| positions.center   | Alignment classes for centered modal            |
+| positions.top        | Alignment classes for top-positioned modal      |
+| positions.center     | Alignment classes for centered modal            |
+| positions.center-sm  | Alignment when centering from `sm` upwards      |
+| positions.center-md  | Alignment when centering from `md` upwards      |
+| positions.center-lg  | Alignment when centering from `lg` upwards      |
+| positions.center-xl  | Alignment when centering from `xl` upwards      |
+| positions.center-2xl | Alignment when centering from `2xl` upwards     |
 | blur.sm            | Small backdrop blur effect                      |
 | blur.md            | Medium backdrop blur effect                     |
 | blur.lg            | Large backdrop blur effect                      |

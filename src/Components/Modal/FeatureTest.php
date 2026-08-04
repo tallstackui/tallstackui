@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\View\ViewException;
+use TallStackUi\Components\Modal\Component;
 use Tests\TestCase;
 
 uses(TestCase::class)->group('Feature');
@@ -91,6 +92,87 @@ it('can render centered modal with items-center on all viewports', function () {
         ->toContain('rounded-xl')
         ->not->toContain('items-end');
 });
+
+it('can anchor the modal to the top by default', function () {
+    $component = <<<'HTML'
+    <x-modal title="Default">
+    Content
+    </x-modal>
+    HTML;
+
+    expect($component)->render()
+        ->toContain('sm:max-w-2xl items-end sm:items-start')
+        ->not->toContain('sm:max-w-2xl items-center');
+});
+
+it('can center the modal only from a breakpoint upwards', function (string $breakpoint, string $class) {
+    $component = <<<'HTML'
+    <x-modal title="Centered" center="{{ breakpoint }}">
+    Content
+    </x-modal>
+    HTML;
+
+    expect(str_replace('{{ breakpoint }}', $breakpoint, $component))->render()
+        ->toContain('sm:max-w-2xl '.$class);
+})->with([
+    ['sm', 'items-end sm:items-center'],
+    ['md', 'items-end sm:items-start md:items-center'],
+    ['lg', 'items-end sm:items-start lg:items-center'],
+    ['xl', 'items-end sm:items-start xl:items-center'],
+    ['2xl', 'items-end sm:items-start 2xl:items-center'],
+]);
+
+it('cannot force the centered padding and rounding when centering from a breakpoint', function () {
+    $component = <<<'HTML'
+    <x-modal title="Centered" center="md">
+    Content
+    </x-modal>
+    HTML;
+
+    // The bottom sheet on mobile depends on the sm: variants that
+    // wrapper.third and wrapper.fourth already carry on their own.
+    expect($component)->render()
+        ->not->toContain('md:items-center p-4')
+        ->not->toContain('sm:max-w-2xl rounded-xl');
+});
+
+it('can center from a breakpoint defined through the config', function () {
+    config()->set('ts-ui.components.modal.1.center', 'lg');
+
+    __ts_get_component_configuration(Component::class, flush: true);
+
+    $component = <<<'HTML'
+    <x-modal title="Centered">
+    Content
+    </x-modal>
+    HTML;
+
+    expect($component)->render()
+        ->toContain('sm:max-w-2xl items-end sm:items-start lg:items-center');
+
+    config()->set('ts-ui.components.modal.1.center', false);
+
+    __ts_get_component_configuration(Component::class, flush: true);
+});
+
+it('can thrown exception when center is unnaceptable', function (string $center) {
+    $this->expectException(ViewException::class);
+    $this->expectExceptionMessage('[TallStackUI] Modal: The [center] must be a boolean or one of the following: [sm, md, lg, xl, 2xl]');
+
+    $component = <<<'HTML'
+    <x-modal center="{{ center }}">
+    Bar Baz
+    </x-modal>
+    HTML;
+
+    expect(str_replace('{{ center }}', $center, $component))->render()
+        ->toContain('Bar Baz');
+})->with([
+    'foo',
+    'true',
+    'desktop',
+    '3xl',
+]);
 
 it('can thrown exception when z-index does not contains prefix', function () {
     $this->expectException(ViewException::class);

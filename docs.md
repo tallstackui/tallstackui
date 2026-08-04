@@ -12,6 +12,97 @@ such change is listed under **Migration**.
 
 ---
 
+## Modal
+
+### Added — `center` accepts a breakpoint
+
+`center` was a boolean: the modal was either centered on every viewport or on none of
+them. The layout most applications actually want sits between the two — a bottom sheet
+on the phone, a centered dialog on the desktop — and there was no way to ask for it.
+
+It now also takes a Tailwind breakpoint:
+
+```blade
+<x-modal center="md">
+    Bottom sheet below 768px, centered from there upwards.
+</x-modal>
+```
+
+Accepted values are `sm`, `md`, `lg`, `xl` and `2xl`, alongside the booleans that
+already worked.
+
+**A breakpoint means "not centered below it".** `center="md"` is not `items-end
+md:items-center`: below `md` the modal behaves exactly like `<x-modal>` with no
+`center` at all, which includes the `sm:items-start` step. Dropping that step would
+have turned the 640px–768px range into a bottom sheet, and today it is not one.
+
+| value          | classes                                     |
+|----------------|---------------------------------------------|
+| `false`        | `items-end sm:items-start`                  |
+| `true`         | `items-center`                              |
+| `"sm"`         | `items-end sm:items-center`                 |
+| `"md"`         | `items-end sm:items-start md:items-center`  |
+| `"lg"`         | `items-end sm:items-start lg:items-center`  |
+| `"xl"`         | `items-end sm:items-start xl:items-center`  |
+| `"2xl"`        | `items-end sm:items-start 2xl:items-center` |
+
+The boolean also forces `p-4` on the flex container and `rounded-xl` on the card, so a
+centered modal floats free of the screen edges on a phone too. A breakpoint does not:
+below it the modal is a bottom sheet and has to stay flush, and above it `wrapper.third`
+and `wrapper.fourth` already carry `sm:p-4` and `sm:rounded-xl` on their own. Those two
+blocks are therefore untouched, and no new ones were needed for them.
+
+The resolution lives in `CompileConfigurations::modal()`, next to the mapping that turns
+`size` into a width class, and reaches the view as a `position` key. The template picks
+the block by name and gained no `@php` of its own.
+
+The same values work as a global default:
+
+```php
+'modal' => [
+    'center' => 'md',
+],
+```
+
+Anything outside the five breakpoints throws at render time. That includes
+`center="desktop"`, which reads well but names no breakpoint, and `center="true"` —
+Blade hands a quoted attribute over as a string, and without the check it would have
+resolved to a `positions.center-true` block that does not exist.
+
+Arbitrary values such as `center="min-[900px]"` are out by construction: Tailwind only
+generates a class it can see written out in the source, and a class assembled at runtime
+is invisible to it.
+
+### Added — five `positions.center-*` blocks
+
+| Block                  | Purpose                                   |
+|------------------------|-------------------------------------------|
+| `positions.center-sm`  | alignment when centering from `sm` upwards  |
+| `positions.center-md`  | alignment when centering from `md` upwards  |
+| `positions.center-lg`  | alignment when centering from `lg` upwards  |
+| `positions.center-xl`  | alignment when centering from `xl` upwards  |
+| `positions.center-2xl` | alignment when centering from `2xl` upwards |
+
+`positions.top` and `positions.center` keep their names and their classes, so a
+customization written against either still applies.
+
+### Migration
+
+None. `<x-modal>` and `<x-modal center>` render what they rendered before.
+
+### Tests
+
+`FeatureTest.php` covers the default, the boolean, one case per breakpoint, the config
+default, and the rejected values — `desktop` and `true` among them.
+
+`BrowserTest.php` resizes across all three bands rather than only across the breakpoint
+being tested: 1400px asserts `center`, 720px asserts `flex-start` and 400px asserts
+`flex-end`. The middle band is the one that proves the `sm:items-start` step survived;
+without it the test would pass against an `items-end md:items-center` that silently turns
+tablets into bottom sheets.
+
+---
+
 ## Clipboard
 
 ### Changed — clipboard.js is gone

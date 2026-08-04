@@ -25,7 +25,7 @@ class Component extends TallStackUiComponent implements Customization
         public ?bool $persistent = null,
         public ?string $size = null,
         public ?string $entangle = 'modal',
-        public ?bool $center = null,
+        public bool|string|null $center = null,
         public ?bool $overflow = null,
         public ?bool $scrollable = null,
         public ?bool $paddingless = null,
@@ -57,6 +57,11 @@ class Component extends TallStackUiComponent implements Customization
             'positions' => [
                 'top' => 'items-end sm:items-start',
                 'center' => 'items-center',
+                'center-sm' => 'items-end sm:items-center',
+                'center-md' => 'items-end sm:items-start md:items-center',
+                'center-lg' => 'items-end sm:items-start lg:items-center',
+                'center-xl' => 'items-end sm:items-start xl:items-center',
+                'center-2xl' => 'items-end sm:items-start 2xl:items-center',
             ],
             'blur' => [
                 'sm' => 'backdrop-blur-sm',
@@ -96,6 +101,13 @@ class Component extends TallStackUiComponent implements Customization
 
         if (! in_array($this->size ?? $configuration['size'] ?? '2xl', $sizes)) {
             __ts_validation_exception($this, 'The [size] must be one of the following: ['.implode(', ', $sizes).']');
+        }
+
+        $center = $this->center ?? $configuration['center'] ?? false;
+        $breakpoints = ['sm', 'md', 'lg', 'xl', '2xl'];
+
+        if (is_string($center) && ! in_array($center, $breakpoints)) {
+            __ts_validation_exception($this, 'The [center] must be a boolean or one of the following: ['.implode(', ', $breakpoints).']');
         }
 
         if (! str($this->zIndex ?? $configuration['z-index'] ?? 'z-50')->startsWith('z-')) {

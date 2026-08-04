@@ -280,6 +280,11 @@ class CompileConfigurations
             'blur' => $component->blur,
             'persistent' => $component->persistent,
             'center' => $component->center,
+            'position' => match (true) {
+                $component->center === true => 'center',
+                is_string($component->center) => 'center-'.$component->center,
+                default => 'top',
+            },
             'scrollable' => $component->scrollable,
             'scrollbar' => $configuration['scrollbar'] ?? null,
         ];

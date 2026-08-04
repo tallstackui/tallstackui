@@ -484,7 +484,8 @@ return [
                 | blur: enables the background blur effect by default (Allowed: false, sm, md, lg, xl).
                 | persistent: enables the modal to not be closed by clicking outside by default.
                 | size: controls the default modal size (Allowed: sm, md, lg, xl, 2xl, 3xl, 4xl, 5xl, 6xl, 7xl).
-                | center: controls if the modal is centered by default.
+                | center: controls if the modal is centered by default. A breakpoint centers only from
+                | it upwards, behaving as not centered below (Allowed: true, false, sm, md, lg, xl, 2xl).
                 | scrollable: when enabled, fixes the title and footer while allowing only the body content to scroll.
                 | scrollbar: controls the type of scrollbar (Allowed: null, thin, thick),
                 */
