@@ -63,8 +63,9 @@ class Component extends TallStackUiComponent implements Customization
             ],
             'floating' => [
                 'default' => collect(app(Floating::class)->customization())->get('wrapper'),
-                // z-40! keeps the panel under the Dialog and Modal overlays, which also sit at z-50.
-                'class' => 'overflow-auto z-40!',
+                // w-full opts into the anchor width sync the Floating already
+                // owns; z-40! keeps the panel under Dialog and Modal, also z-50.
+                'class' => 'w-full overflow-auto z-40!',
             ],
             'box' => [
                 'wrapper' => 'custom-scrollbar max-h-60 w-full overflow-auto text-base focus:outline-hidden sm:text-sm',

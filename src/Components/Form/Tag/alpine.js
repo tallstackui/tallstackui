@@ -28,10 +28,6 @@ export default (model, limit, lazy, prefixes, livewire, property, value, options
 
     this.prefix();
   },
-  /**
-   * The options still worth offering: what was typed narrows them
-   * down and what is already a tag drops out.
-   */
   get available() {
     const tags = (this.model ?? []).map((tag) => this.strip(tag).toLowerCase());
     const term = this.strip(this.tag.trim()).toLowerCase();
@@ -42,9 +38,6 @@ export default (model, limit, lazy, prefixes, livewire, property, value, options
         (term === '' || option.toLowerCase().includes(term))
     );
   },
-  /**
-   * Opens the list, unless the tag limit is already reached.
-   */
   open() {
     if (!this.listable || (this.limit && this.model?.length >= this.limit)) {
       return;
@@ -53,10 +46,18 @@ export default (model, limit, lazy, prefixes, livewire, property, value, options
     this.show = true;
   },
   /**
-   * Adds an option from the list as a tag.
-   *
-   * @param option {String}
+   * The panel closes itself on any click outside it, and the field is outside
+   * it. Toggling makes a click on the field mean one thing either way.
    */
+  toggle() {
+    if (this.show) {
+      this.show = false;
+
+      return;
+    }
+
+    this.open();
+  },
   pick(option) {
     this.tag = option;
 
@@ -64,13 +65,7 @@ export default (model, limit, lazy, prefixes, livewire, property, value, options
 
     this.$refs.input.focus();
   },
-  /**
-   * Keyboard control of the list. Returns whether the event was consumed,
-   * so the typed-tag path only runs when the list did not take it.
-   *
-   * @param event {KeyboardEvent}
-   * @returns {Boolean}
-   */
+  /** Returns whether the list consumed the key, so the typed-tag path only runs when it did not. */
   navigate(event) {
     if (!this.listable) {
       return false;
@@ -114,12 +109,7 @@ export default (model, limit, lazy, prefixes, livewire, property, value, options
 
     return false;
   },
-  /**
-   * Drops the prefix so typing "foo" still matches the "#foo" already stored.
-   *
-   * @param tag {String}
-   * @returns {String}
-   */
+  /** Drops the prefix so typing "foo" still matches the "#foo" already stored. */
   strip(tag) {
     return this.prefixes && tag[0] === this.prefixes ? tag.slice(1) : tag;
   },
@@ -174,8 +164,6 @@ export default (model, limit, lazy, prefixes, livewire, property, value, options
 
     this.highlighted = -1;
 
-    // Reaching the limit closes the list, the same way it refuses
-    // to open once the limit is already reached.
     if (this.limit && this.model.length >= this.limit) {
       this.show = false;
     }

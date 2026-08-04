@@ -63,9 +63,9 @@ has to out-specify the other.
 ```
 
 Free typing still works; the list is an extra way in, for the case where tags are records
-that get reused rather than invented each time. It opens on focus and while typing, and
-narrows as the term is typed. Options already added drop out of it, since they are
-visible as tags right above.
+that get reused rather than invented each time. Clicking the field toggles the list and
+typing opens it, and it narrows as the term is typed. Options already added drop out of
+it, since they are visible as tags right above.
 
 Arrow keys move through the list, Enter takes the highlighted option and Escape closes
 it. With nothing highlighted, Enter falls through to the typed value, so the two ways of

@@ -96,10 +96,14 @@ free typing — whatever is typed and confirmed with Enter still becomes a tag.
 <x-tag wire:model="tags" :options="$existing" />
 ```
 
-The list opens on focus and while typing, and it narrows as the term is typed. Options
-already added drop out of it, since they are visible as tags right above. Arrow keys move
-through it, Enter takes the highlighted option, and Escape closes it. With nothing
-highlighted, Enter falls through to the typed value as usual.
+Clicking the field toggles the list and typing opens it, and it narrows as the term is
+typed. Options already added drop out of it, since they are visible as tags right above.
+Arrow keys move through it, Enter takes the highlighted option, and Escape closes it.
+With nothing highlighted, Enter falls through to the typed value as usual.
+
+The click toggles rather than only opening because the panel closes itself on any click
+outside it, and the field is outside it — so a click that only opened would be undone by
+that handler on the way out.
 
 A `prefix` is ignored while matching, so typing `foo` still finds `#foo`.
 

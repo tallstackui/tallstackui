@@ -10,10 +10,7 @@
                      :$invalidate>
     <div x-data="tallstackui_formTag({!! $entangle !!}, @js($limit), @js($lazy), @js($prefix), @js($livewire), @js($property), @js($value), @js($options), @js($listable))"
          x-cloak
-         @if ($listable)
-             x-ref="anchor"
-             x-effect="show && $refs.anchor && $refs.floating && $nextTick(() => $refs.floating.style.width = $refs.anchor.offsetWidth + 'px')"
-         @endif
+         @if ($listable) x-ref="anchor" @endif
          x-on:click="$refs.input.focus()"
             {{ $attributes->whereStartsWith('x-on')->except('x-on:erase') }}
             @class([
@@ -50,7 +47,7 @@
                    x-on:keydown="navigate($event) || add($event)"
                    x-on:keydown.backspace="remove(model?.length - 1, $event)"
                    @if ($listable)
-                       x-on:focus="open()"
+                       x-on:click="toggle()"
                        x-on:input="open()"
                    @endif
                    x-model="tag"
