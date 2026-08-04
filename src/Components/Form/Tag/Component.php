@@ -5,9 +5,12 @@ namespace TallStackUi\Components\Form\Tag;
 use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Illuminate\View\ComponentSlot;
 use TallStackUi\Attributes\PassThroughRuntime;
+use TallStackUi\Attributes\SkipDebug;
 use TallStackUi\Attributes\SoftCustomization;
+use TallStackUi\Components\Floating\Component as Floating;
 use TallStackUi\Components\Traits\FormDefaultInputClasses;
 use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\Support\Runtime\Components\TagRuntime;
@@ -25,9 +28,16 @@ class Component extends TallStackUiComponent implements Customization
         public ?string $prefix = null,
         public ?int $limit = null,
         public ?int $lazy = null,
-        public ?bool $invalidate = null
+        public ?bool $invalidate = null,
+        public Collection|array|null $options = null,
+        #[SkipDebug]
+        public ?array $placeholders = null,
+        #[SkipDebug]
+        public ComponentSlot|string|null $after = null,
     ) {
-        //
+        $this->options = collect($this->options)->map('strval')->unique()->values()->all();
+
+        $this->placeholders = array_merge(trans('ts-ui::messages.tag'), $this->placeholders ?? []);
     }
 
     public function blade(): View
@@ -50,6 +60,19 @@ class Component extends TallStackUiComponent implements Customization
             'button' => [
                 'wrapper' => 'text-secondary-500 dark:text-dark-400 absolute inset-y-0 right-2 flex cursor-pointer items-center',
                 'icon' => 'h-5 w-5 hover:text-red-500',
+            ],
+            'floating' => [
+                'default' => collect(app(Floating::class)->customization())->get('wrapper'),
+                // w-full opts into the anchor width sync the Floating already
+                // owns; z-40! keeps the panel under Dialog and Modal, also z-50.
+                'class' => 'w-full overflow-auto z-40!',
+            ],
+            'box' => [
+                'wrapper' => 'custom-scrollbar max-h-60 w-full overflow-auto text-base focus:outline-hidden sm:text-sm',
+                'item' => 'dark:text-dark-300 dark:hover:bg-dark-500 relative cursor-pointer select-none truncate px-3 py-2 text-gray-700 hover:bg-gray-100',
+                'highlighted' => 'bg-gray-100 dark:bg-dark-500',
+                'empty' => 'block w-full px-3 py-2 text-sm text-gray-600 dark:text-dark-300',
+                'after' => 'dark:border-dark-600 border-t border-gray-200',
             ],
             'error' => $this->error(),
         ]);

@@ -17,6 +17,10 @@ return [
         'selected' => ':count geselecteerd',
     ],
 
+    'tag' => [
+        'empty' => 'Geen resultaten gevonden',
+    ],
+
     'autocomplete' => [
         'default' => 'Typ om te zoeken...',
         'empty' => 'Geen resultaten gevonden',

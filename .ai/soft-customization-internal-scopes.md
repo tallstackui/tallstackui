@@ -146,6 +146,12 @@ TallStackUi::customize()
 | `form.select-styled.hint`     | `<x-hint />`     | 267     |
 | `form.select-styled.error`    | `<x-error />`    | 270     |
 
+### `form/tag`
+
+| Scope               | Target           | Line(s) |
+|---------------------|------------------|---------|
+| `form.tag.floating` | `<x-floating />` | 73      |
+
 ### `form/time`
 
 | Scope                | Target           | Line(s) |

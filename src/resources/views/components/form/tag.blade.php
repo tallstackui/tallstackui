@@ -8,8 +8,9 @@
 
 <x-dynamic-component :component="TallStackUi::prefix('wrapper.input')" :$id :$property :$error :$label :$hint
                      :$invalidate>
-    <div x-data="tallstackui_formTag({!! $entangle !!}, @js($limit), @js($lazy), @js($prefix), @js($livewire), @js($property), @js($value))"
+    <div x-data="tallstackui_formTag({!! $entangle !!}, @js($limit), @js($lazy), @js($prefix), @js($livewire), @js($property), @js($value), @js($options), @js($listable))"
          x-cloak
+         @if ($listable) x-ref="anchor" @endif
          x-on:click="$refs.input.focus()"
             {{ $attributes->whereStartsWith('x-on')->except('x-on:erase') }}
             @class([
@@ -43,8 +44,12 @@
                             $customization['input.color.background'],
                             $customization['error'] => $error
                         ]) }}
-                   x-on:keydown="add($event)"
+                   x-on:keydown="navigate($event) || add($event)"
                    x-on:keydown.backspace="remove(model?.length - 1, $event)"
+                   @if ($listable)
+                       x-on:click="toggle()"
+                       x-on:input="open()"
+                   @endif
                    x-model="tag"
                    x-ref="input"
                    enterkeyhint="done">
@@ -60,5 +65,35 @@
                                  internal
                                  :class="$customization['button.icon']" />
         </button>
+        @if ($listable)
+            <x-dynamic-component :component="TallStackUi::prefix('floating')"
+                                 scope="form.tag.floating"
+                                 :floating="$customization['floating.default']"
+                                 :class="$customization['floating.class']"
+                                 position="bottom-start"
+                                 x-show="show"
+                                 x-ref="floating">
+                <ul class="{{ $customization['box.wrapper'] }}"
+                    role="listbox"
+                    dusk="tallstackui_tag_options">
+                    <template x-for="(option, index) in available" :key="option">
+                        <li role="option"
+                            x-text="option"
+                            x-bind:aria-selected="highlighted === index"
+                            x-bind:class="{ '{{ $customization['box.highlighted'] }}': highlighted === index }"
+                            x-on:mouseenter="highlighted = index"
+                            x-on:click="pick(option)"
+                            class="{{ $customization['box.item'] }}"
+                            dusk="tallstackui_tag_option"></li>
+                    </template>
+                    <template x-if="available.length === 0">
+                        <li class="{{ $customization['box.empty'] }}">{{ data_get($placeholders, 'empty') }}</li>
+                    </template>
+                </ul>
+                @if ($after)
+                    <div class="{{ $customization['box.after'] }}" dusk="tallstackui_tag_after">{{ $after }}</div>
+                @endif
+            </x-dynamic-component>
+        @endif
     </div>
 </x-dynamic-component>

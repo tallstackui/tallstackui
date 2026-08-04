@@ -5,22 +5,27 @@ namespace TallStackUi\Components\KeyValue;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\ComponentSlot;
+use TallStackUi\Attributes\ColorsThroughOf;
 use TallStackUi\Attributes\PassThroughRuntime;
 use TallStackUi\Attributes\RequireLivewireContext;
 use TallStackUi\Attributes\SkipDebug;
 use TallStackUi\Attributes\SoftCustomization;
 use TallStackUi\Customization\Contracts\Customization;
+use TallStackUi\Support\Colors\Components\KeyValueColors;
 use TallStackUi\Support\Runtime\Components\KeyValueRuntime;
 use TallStackUi\TallStackUiComponent;
 
 #[RequireLivewireContext]
 #[SoftCustomization('keyValue')]
+#[ColorsThroughOf(KeyValueColors::class)]
 #[PassThroughRuntime(KeyValueRuntime::class)]
 class Component extends TallStackUiComponent implements Customization
 {
     public function __construct(
         public ?string $label = null,
         public ?string $value = null,
+        public ?string $color = null,
+        public ?bool $colorless = null,
         public ?int $limit = null,
         public ?bool $static = null,
         public ?bool $deletable = null,
@@ -41,29 +46,31 @@ class Component extends TallStackUiComponent implements Customization
     public function customization(): array
     {
         return Arr::dot([
-            'wrapper' => 'dark:bg-dark-600 dark:border-dark-600 overflow-hidden rounded-lg border border-gray-200 bg-gray-100 text-sm',
+            'wrapper' => 'dark:bg-dark-700 dark:border-dark-600 overflow-hidden rounded-lg border border-gray-200 bg-white text-sm',
             'header' => [
-                'wrapper' => 'dark:text-dark-300 dark:bg-dark-700 grid grid-cols-2 bg-gray-200 px-4 py-2 text-gray-600',
-                'key' => 'font-semibold',
-                'value' => 'font-semibold',
+                'wrapper' => 'dark:border-dark-600 grid grid-cols-2 border-b border-gray-100 px-4 py-2 text-xs tracking-wide',
+                'neutral' => 'dark:text-dark-400 text-gray-400',
+                'key' => 'font-medium',
+                'value' => 'font-medium',
             ],
             'empty' => [
                 'wrapper' => 'flex items-center justify-center py-5',
-                'text' => 'dark:text-dark-300 text-gray-500',
+                'text' => 'dark:text-dark-400 text-gray-500',
             ],
             'list' => [
-                'wrapper' => 'grid grid-cols-2 px-4 items-center relative text-gray-600',
+                'wrapper' => 'grid grid-cols-2 px-4 items-center relative dark:text-dark-200 text-gray-600',
                 'wrapper-default-padding' => 'py-4',
-                'divider' => 'divide-y divide-gray-300 dark:divide-dark-500',
+                'divider' => 'divide-y divide-gray-100 dark:divide-dark-600',
                 'value-wrapper' => 'pr-8 mr-2',
                 'value-wrapper-deletable' => 'top-2',
                 'input' => [
-                    'key' => 'background-transparent dark:bg-dark-600 dark:placeholder:text-dark-400 w-full border-0 bg-gray-100 focus:ring-0 focus:outline-none dark:text-white',
-                    'value' => 'background-transparent dark:bg-dark-600 dark:placeholder:text-dark-400 w-full border-0 bg-gray-100 focus:ring-0 focus:outline-none dark:text-white',
+                    'key' => 'dark:bg-dark-700 dark:placeholder:text-dark-400 w-full border-0 bg-transparent focus:ring-0 focus:outline-none dark:text-white',
+                    'value' => 'dark:bg-dark-700 dark:placeholder:text-dark-400 w-full border-0 bg-transparent focus:ring-0 focus:outline-none dark:text-white',
                 ],
             ],
             'button' => [
-                'add' => 'dark:bg-dark-700 dark:text-dark-300 w-full cursor-pointer bg-gray-200 px-4 py-2 text-center text-gray-600',
+                'add' => 'dark:border-dark-600 w-full cursor-pointer border-t border-gray-100 px-4 py-2.5 text-center font-medium',
+                'neutral' => 'dark:text-dark-300 dark:hover:bg-dark-600 text-gray-600 hover:bg-gray-50',
                 'delete' => 'absolute top-2 right-0 h-5 w-5 text-red-500',
             ],
         ]);

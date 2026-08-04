@@ -23,6 +23,7 @@ use TallStackUi\Components\Form\Radio\Group\Component as RadioGroup;
 use TallStackUi\Components\Form\Range\Component as Range;
 use TallStackUi\Components\Form\Toggle\Component as Toggle;
 use TallStackUi\Components\Icon\Component as Icon;
+use TallStackUi\Components\KeyValue\Component as KeyValue;
 use TallStackUi\Components\Link\Component as Link;
 use TallStackUi\Components\Progress\Bar\Component as Progress;
 use TallStackUi\Components\Progress\Circle\Component as ProgressCircle;
@@ -60,6 +61,7 @@ test('should use attribute', function (string $component) {
     Environment::class,
     Errors::class,
     Icon::class,
+    KeyValue::class,
     Link::class,
     Radio::class,
     RadioGroup::class,
@@ -100,6 +102,7 @@ test('attribute should only be used in the components', function () {
             Environment::class,
             Errors::class,
             Icon::class,
+            KeyValue::class,
             Link::class,
             Radio::class,
             RadioGroup::class,

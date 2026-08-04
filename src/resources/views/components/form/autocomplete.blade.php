@@ -14,7 +14,6 @@
      x-cloak
      translate="no"
      x-on:keydown="navigate($event)"
-     x-effect="show && $refs.anchor && $refs.floating && $nextTick(() => $refs.floating.style.width = $refs.anchor.offsetWidth + 'px')"
      {{ $attributes->only(['x-on:select', 'x-on:clear', 'x-on:open', 'x-on:close']) }}>
     @if ($request['params'] ?? null)
         <div hidden x-ref="params">{{ TallStackUi::blade()->json($request['params']) }}</div>
@@ -71,8 +70,7 @@
                          :floating="$customization['floating.default']"
                          :class="$customization['floating.class']"
                          position="bottom-start"
-                         x-show="show"
-                         x-ref="floating">
+                         x-show="show">
         <ul class="{{ $customization['box.list.wrapper'] }}"
             role="listbox"
             dusk="tallstackui_autocomplete_options">

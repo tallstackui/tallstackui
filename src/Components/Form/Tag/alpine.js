@@ -1,4 +1,4 @@
-export default (model, limit, lazy, prefixes, livewire, property, value) => ({
+export default (model, limit, lazy, prefixes, livewire, property, value, options = [], listable = false) => ({
   model: model,
   limit: limit,
   lazy: lazy,
@@ -6,7 +6,11 @@ export default (model, limit, lazy, prefixes, livewire, property, value) => ({
   livewire: livewire,
   property: property,
   value: value,
+  options: Array.isArray(options) ? options : [],
+  listable: listable,
   tag: '',
+  show: false,
+  highlighted: -1,
   init() {
     if (!this.livewire) {
       this.model = typeof this.value === 'string' ? [this.value] : this.value;
@@ -16,7 +20,98 @@ export default (model, limit, lazy, prefixes, livewire, property, value) => ({
 
     this.$watch('model', (value) => (this.input = value));
 
+    this.$watch('show', (value) => {
+      this.highlighted = -1;
+
+      this.$el.dispatchEvent(new CustomEvent(value ? 'open' : 'close'));
+    });
+
     this.prefix();
+  },
+  get available() {
+    const tags = (this.model ?? []).map((tag) => this.strip(tag).toLowerCase());
+    const term = this.strip(this.tag.trim()).toLowerCase();
+
+    return this.options.filter(
+      (option) =>
+        !tags.includes(option.toLowerCase()) &&
+        (term === '' || option.toLowerCase().includes(term))
+    );
+  },
+  open() {
+    if (!this.listable || (this.limit && this.model?.length >= this.limit)) {
+      return;
+    }
+
+    this.show = true;
+  },
+  /**
+   * The panel closes itself on any click outside it, and the field is outside
+   * it. Toggling makes a click on the field mean one thing either way.
+   */
+  toggle() {
+    if (this.show) {
+      this.show = false;
+
+      return;
+    }
+
+    this.open();
+  },
+  pick(option) {
+    this.tag = option;
+
+    this.add(new KeyboardEvent('keydown', { key: 'Enter' }));
+
+    this.$refs.input.focus();
+  },
+  /** Returns whether the list consumed the key, so the typed-tag path only runs when it did not. */
+  navigate(event) {
+    if (!this.listable) {
+      return false;
+    }
+
+    if (event.key === 'Escape' && this.show) {
+      this.show = false;
+
+      return true;
+    }
+
+    if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+      event.preventDefault();
+
+      this.open();
+
+      const total = this.available.length;
+
+      if (total === 0) {
+        return true;
+      }
+
+      const step = event.key === 'ArrowDown' ? 1 : -1;
+
+      this.highlighted = (this.highlighted + step + total) % total;
+
+      return true;
+    }
+
+    if (event.key === 'Enter' && this.show && this.highlighted >= 0) {
+      event.preventDefault();
+
+      const option = this.available[this.highlighted];
+
+      if (option) {
+        this.pick(option);
+      }
+
+      return true;
+    }
+
+    return false;
+  },
+  /** Drops the prefix so typing "foo" still matches the "#foo" already stored. */
+  strip(tag) {
+    return this.prefixes && tag[0] === this.prefixes ? tag.slice(1) : tag;
   },
   /**
    * Adds a tag.
@@ -66,6 +161,12 @@ export default (model, limit, lazy, prefixes, livewire, property, value) => ({
 
     this.model = Array.isArray(this.model) ? [...this.model, tag] : [tag];
     this.prefix();
+
+    this.highlighted = -1;
+
+    if (this.limit && this.model.length >= this.limit) {
+      this.show = false;
+    }
 
     this.$el.dispatchEvent(new CustomEvent('add', { detail: { tag: tag } }));
 

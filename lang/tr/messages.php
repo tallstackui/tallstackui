@@ -17,6 +17,10 @@ return [
         'selected' => ':count seçildi',
     ],
 
+    'tag' => [
+        'empty' => 'Sonuç bulunamadı',
+    ],
+
     'autocomplete' => [
         'default' => 'Aramak için yazın...',
         'empty' => 'Sonuç bulunamadı',

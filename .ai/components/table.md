@@ -103,6 +103,7 @@ Rows should include a `highlight` property (or custom property via `highlight-pr
 | rows                | LengthAwarePaginator\|Paginator\|Collection\|array | []                | Data rows to display                                                                                                                                                        |
 | headerless          | bool                                               | false             | Hides the table header row                                                                                                                                                  |
 | striped             | bool                                               | false             | Applies alternating row background colors                                                                                                                                   |
+| compact             | bool                                               | false             | Tightens the vertical padding of the header, the rows, the empty message and the expandable content                                                                        |
 | sort                | array\|null                                        | []                | Current sort state with `column` and `direction` keys (bind to a Livewire property)                                                                                         |
 | filter              | bool\|array\|null                                  | null              | Enables filter controls. `true` for defaults, or `['quantity' => 'propertyName', 'search' => 'propertyName']`. Globally configurable                                        |
 | loading             | bool                                               | false             | Shows a loading spinner overlay during Livewire updates                                                                                                                     |
@@ -231,6 +232,30 @@ Two caveats:
 - `loading` needs `wire:loading` and is not rendered.
 - Always validate `sort[column]` against a whitelist before it reaches `orderBy`. It
   comes from the URL, and the table does not sanitize it for you.
+
+## Compact
+
+`compact` tightens the vertical padding so more rows fit on a screen. It reaches the
+header cells, the data cells, the empty message and the expandable content; the
+horizontal padding, the type scale and the colors are untouched.
+
+```blade
+<x-table :$headers :$rows compact />
+```
+
+It works with everything else — `striped`, `selectable`, `expandable`, `paginate` — and
+the skeleton follows it, so a lazy table does not jump when the real rows arrive:
+
+```blade
+<x-table :$headers :$rows compact skeleton />
+```
+
+Each affected block has a `-compact` twin, and `compact` swaps the whole string rather
+than layering on top of it. Customizing `table.td` therefore leaves a compact table
+alone; customize `table.td-compact` as well when both modes are in use.
+
+> Not to be confused with `paginator="compact"`, which is one of the pagination looks
+> below and says nothing about row density. The two combine freely.
 
 ## Paginator
 
@@ -446,14 +471,17 @@ TallStackUi::customize()
 | table.base                | Table element with dividers                          |
 | table.sort                | Sort icon dimensions                                 |
 | table.th                  | Table header cell padding and text styling           |
+| table.th-compact          | Header cell used instead of `table.th` under `compact` |
 | table.tbody               | Table body background and row dividers               |
 | table.td                  | Table data cell padding and text styling             |
+| table.td-compact          | Data cell used instead of `table.td` under `compact`   |
 | table.tr                  | Table row base classes                               |
 | table.thead.normal        | Default header row background                        |
 | table.thead.striped       | Header background when striped is enabled            |
 | loading.table             | Loading state overlay opacity and cursor             |
 | loading.icon              | Loading spinner positioning and animation            |
 | empty                     | Empty state cell text styling                        |
+| empty-compact             | Empty state cell used instead of `empty` under `compact` |
 | filter.wrapper            | Filter controls container flex layout                |
 | filter.quantity           | Quantity select width                                |
 | filter.search             | Search input width                                   |
@@ -462,6 +490,7 @@ TallStackUi::customize()
 | expandable.wrapper        | Expandable row background                            |
 | expandable.button         | Expand toggle button styling                         |
 | expandable.content        | Expanded content padding                             |
+| expandable.content-compact | Expanded content used instead of `expandable.content` under `compact` |
 | skeleton.animation        | Pulse animation applied to the whole placeholder     |
 | skeleton.bar              | Base look of every placeholder bar                   |
 | skeleton.cell             | Body cell bar dimensions                             |

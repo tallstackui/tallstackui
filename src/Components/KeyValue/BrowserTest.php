@@ -99,6 +99,27 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_color_the_header_and_the_add_row(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public array $metadata = [];
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-key-value wire:model="metadata" color="green" />
+                </div>
+                HTML;
+            }
+        })
+            ->assertSee('No rows added.')
+            ->assertScript('document.querySelector("[dusk=tallstackui_add_row_button]").className.includes("text-green-600")')
+            ->assertScript('!document.querySelector("[dusk=tallstackui_add_row_button]").className.includes("text-primary-600")');
+    }
+
+    #[Test]
     public function can_delete_row(): void
     {
         Livewire::visit(new class extends Component
@@ -160,6 +181,27 @@ class BrowserTest extends BrowserTestCase
             ->pause(100)
             ->assertNotPresent('@tallstackui_input_key')
             ->assertPresent('@deleted');
+    }
+
+    #[Test]
+    public function can_drop_the_color_of_the_add_row(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public array $metadata = [];
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-key-value wire:model="metadata" colorless />
+                </div>
+                HTML;
+            }
+        })
+            ->assertSee('No rows added.')
+            ->assertScript('document.querySelector("[dusk=tallstackui_add_row_button]").className.includes("text-gray-600")')
+            ->assertScript('!document.querySelector("[dusk=tallstackui_add_row_button]").className.includes("text-primary-600")');
     }
 
     #[Test]
@@ -378,6 +420,48 @@ class BrowserTest extends BrowserTestCase
             }
         })
             ->assertSee('[TallStackUI] KeyValue: The [static] and [limit] attributes cannot be used at the same time.');
+    }
+
+    #[Test]
+    public function colorless_wins_over_an_explicit_color(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public array $metadata = [];
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-key-value wire:model="metadata" color="green" colorless />
+                </div>
+                HTML;
+            }
+        })
+            ->assertSee('No rows added.')
+            ->assertScript('document.querySelector("[dusk=tallstackui_add_row_button]").className.includes("text-gray-600")')
+            ->assertScript('!document.querySelector("[dusk=tallstackui_add_row_button]").className.includes("text-green-600")');
+    }
+
+    #[Test]
+    public function follows_the_primary_color_by_default(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public array $metadata = [];
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-key-value wire:model="metadata" />
+                </div>
+                HTML;
+            }
+        })
+            ->assertSee('No rows added.')
+            ->assertScript('document.querySelector("[dusk=tallstackui_add_row_button]").className.includes("text-primary-600")')
+            ->assertScript('!document.querySelector("[dusk=tallstackui_add_row_button]").className.includes("text-green-600")');
     }
 }
 

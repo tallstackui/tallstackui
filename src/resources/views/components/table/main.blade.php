@@ -76,10 +76,10 @@
                     <thead @class([$customization['table.th-uppercase'], $customization['table.thead.normal'] => !$striped, $customization['table.thead.striped'] => $striped])>
                     <tr>
                         @if ($expandable)
-                            <th @class([$customization['table.th-checkbox-width'], $customization['table.th']])></th>
+                            <th @class([$customization['table.th-checkbox-width'], $customization['table.th'] => ! $compact, $customization['table.th-compact'] => $compact])></th>
                         @endif
                         @if ($selectable)
-                            <th @class([$customization['table.th-actions-width'], $customization['table.th']]) wire:key="checkall-{{ implode(',', $ids()) }}">
+                            <th @class([$customization['table.th-actions-width'], $customization['table.th'] => ! $compact, $customization['table.th-compact'] => $compact]) wire:key="checkall-{{ implode(',', $ids()) }}">
                                 <x-dynamic-component :component="TallStackUi::prefix('checkbox')"
                                                      scope="table.checkbox"
                                                      x-ref="checkbox"
@@ -89,7 +89,7 @@
                             </th>
                         @endif
                         @foreach ($headers as $header)
-                            <th scope="col" class="{{ $customization['table.th'] }}">
+                            <th scope="col" @class([$customization['table.th'] => ! $compact, $customization['table.th-compact'] => $compact])>
                                 <a @if ($sortable($header))
                                        class="{{ $customization['table.th-sort-wrapper'] }} cursor-pointer"
                                        @if ($livewire)
@@ -118,7 +118,7 @@
                 <tbody class="{{ $customization['table.tbody'] }}">
                 @if (is_array($rows) && (count($rows) === 1 && empty($rows[0])))
                     <tr>
-                        <td class="{{ $customization['empty'] }}" colspan="100%">
+                        <td @class([$customization['empty'] => ! $compact, $customization['empty-compact'] => $compact]) colspan="100%">
                             @if ($empty)
                                 {{ $empty }}
                             @else
@@ -137,7 +137,7 @@
                             $highlighted($value),
                         ]) @if ($livewire) wire:key="{{ $id }}" @endif>
                             @if ($expandable)
-                                <td class="{{ $customization['table.td'] }}">
+                                <td @class([$customization['table.td'] => ! $compact, $customization['table.td-compact'] => $compact])>
                                     @isset($sub_table)
                                         <button type="button"
                                                 x-on:click="toggle('{{ $id }}')"
@@ -152,7 +152,7 @@
                                 </td>
                             @endif
                             @if ($selectable)
-                                <td class="{{ $customization['table.td'] }}">
+                                <td @class([$customization['table.td'] => ! $compact, $customization['table.td-compact'] => $compact])>
                                     <x-dynamic-component :component="TallStackUi::prefix('checkbox')"
                                                          scope="table.checkbox"
                                                          id="checkbox-{{ $key }}"
@@ -169,11 +169,11 @@
                                     $clickable = $link !== null;
                                 @endphp
                                 @isset(${"column_".$row})
-                                    <td @if ($clickable) x-on:click.prevent="redirect(@js($url), @js($blank))" @endif @class([$customization['table.td'], $customization['cell-clickable'] => $clickable])>
+                                    <td @if ($clickable) x-on:click.prevent="redirect(@js($url), @js($blank))" @endif @class([$customization['table.td'] => ! $compact, $customization['table.td-compact'] => $compact, $customization['cell-clickable'] => $clickable])>
                                         {{ ${"column_".$row}($value) }}
                                     </td>
                                 @else
-                                    <td @if ($clickable) x-on:click.prevent="redirect(@js($url), @js($blank))" @endif @class([$customization['table.td'], $customization['cell-clickable'] => $clickable])>
+                                    <td @if ($clickable) x-on:click.prevent="redirect(@js($url), @js($blank))" @endif @class([$customization['table.td'] => ! $compact, $customization['table.td-compact'] => $compact, $customization['cell-clickable'] => $clickable])>
                                         {{ data_get($value, $header['index']) }}
                                     </td>
                                 @endisset
@@ -183,7 +183,7 @@
                             @isset($sub_table)
                                 <tr x-show="expanded('{{ $id }}')" x-cloak @if ($livewire) wire:key="sub-{{ $id }}"
                                     @endif class="{{ $customization['expandable.wrapper'] }}">
-                                    <td colspan="100%" class="{{ $customization['expandable.content'] }}">
+                                    <td colspan="100%" @class([$customization['expandable.content'] => ! $compact, $customization['expandable.content-compact'] => $compact])>
                                         {{ $sub_table($value) }}
                                     </td>
                                 </tr>
@@ -191,7 +191,7 @@
                         @endif
                     @empty
                         <tr>
-                            <td class="{{ $customization['empty'] }}" colspan="100%">
+                            <td @class([$customization['empty'] => ! $compact, $customization['empty-compact'] => $compact]) colspan="100%">
                                 @if ($empty)
                                     {{ $empty }}
                                 @else

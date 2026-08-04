@@ -12,6 +12,133 @@ such change is listed under **Migration**.
 
 ---
 
+## KeyValue
+
+### Changed — a lighter surface, and the fields stop hiding in it
+
+The component stacked three grays: a gray body, a darker gray header and footer, and
+inputs sharing the body's gray. The last one was the real problem — nothing read as
+editable, because the fields had the same fill as the thing behind them.
+
+It is now a white surface with hairline rules. The header is a small caption over a
+bottom border rather than a filled bar, the footer is an action rather than a gray
+strip, and the inputs are transparent, so the only thing drawing a box is the component
+itself.
+
+**Migration.** The blocks kept their names, but four of them changed shape and two are
+new. An application that customized the old palette has to revisit it:
+
+| Block            | Was                                    | Is                                  |
+|------------------|----------------------------------------|-------------------------------------|
+| `wrapper`        | `bg-gray-100`                          | `bg-white`                          |
+| `header.wrapper` | filled bar, carried its own text color | border and layout only              |
+| `header.neutral` | —                                      | new: the header color, when uncolored |
+| `button.add`     | filled strip, carried its own colors   | border and layout only              |
+| `button.neutral` | —                                      | new: the button color, when uncolored |
+| `list.divider`   | `divide-gray-300`                      | `divide-gray-100`                   |
+
+### Added — `color`, an accent on the header and the add button
+
+```blade
+<x-key-value wire:model="metadata" color="green" />
+```
+
+Tints the header text and the add button, keeping the flat treatment — no filled bars,
+so the accent reads without the component turning into a colored block. Accepts every
+TallStackUI color plus `black`, and is backed by a `KeyValueColors` class, so
+`php artisan tallstackui:setup-color` can publish and override the palette like any
+other colored component.
+
+The header and the button do not default alike. The header is a caption, so it stays
+neutral until a color is asked for; the button is an action, so it carries `primary`
+unasked.
+
+### Added — `colorless`, for an add button with no accent
+
+```blade
+<x-key-value wire:model="metadata" colorless />
+```
+
+`color` has no "off" value: leaving it out is what gives the button its `primary`, so
+there was no way to ask for a neutral one. `colorless` is that way, in light and dark,
+and it wins over an explicit `color`.
+
+It hands the header and the button back to `header.neutral` and `button.neutral`. A
+color and a neutral never land on the same element, which is why neither has to
+out-specify the other.
+
+## Form / Tag
+
+### Added — `options`, a floating list of tags to reuse
+
+```blade
+<x-tag wire:model="tags" :options="Tag::pluck('name')" />
+```
+
+Free typing still works; the list is an extra way in, for the case where tags are records
+that get reused rather than invented each time. Clicking the field toggles the list and
+typing opens it, and it narrows as the term is typed. Options already added drop out of
+it, since they are visible as tags right above.
+
+Arrow keys move through the list, Enter takes the highlighted option and Escape closes
+it. With nothing highlighted, Enter falls through to the typed value, so the two ways of
+adding never fight over the key. A `prefix` is ignored while matching, so typing `foo`
+still finds `#foo`. Reaching `limit` closes the list and keeps it from opening again.
+
+Values are cast to strings and de-duplicated, and a `Collection` is accepted, so
+`pluck()` can be passed straight in.
+
+### Added — `<x-slot:after>`, an action under the list
+
+```blade
+<x-tag wire:model="tags" :options="$existing">
+    <x-slot:after>
+        <x-button sm x-on:click="$tsui.open.modal('create-tag')">New tag</x-button>
+    </x-slot:after>
+</x-tag>
+```
+
+Rendered under the list and always reachable, including when nothing matches — which is
+exactly when creating a new tag is what the reader wants. The slot alone is enough to
+make the list open, so a field whose reusable tags are still an empty set offers the
+action anyway.
+
+Worth knowing if you already use the slot of the same name elsewhere: on
+`<x-select.styled>` and `<x-autocomplete>`, `after` **replaces** the empty message and
+appears only when nothing matches. Here it sits below the list at all times, because it
+exists to reach an action rather than to explain an empty result — and that action stays
+useful while matches are still on screen.
+
+Two new events, `open` and `close`, fire as the list is toggled.
+
+The list messages come from `ts-ui::messages.tag`, new in all 15 bundled languages, and
+`placeholders` overrides them per instance.
+
+## Kbd
+
+### Changed — `borderless` no longer removes the shadow
+
+`borderless` stripped the border **and** the shadow, which left no way to drop one
+without the other. It now removes only the border, and a new `shadowless` removes only
+the shadow. Passing both reproduces the old behaviour:
+
+```blade
+<x-kbd borderless />              {{-- no border, still raised --}}
+<x-kbd shadowless />              {{-- bordered, flat --}}
+<x-kbd borderless shadowless />   {{-- what borderless alone used to do --}}
+```
+
+**Migration.** An application passing `borderless` to hide the shadow keeps the shadow
+after upgrading and has to add `shadowless`.
+
+The `borderless` customization block lost its `shadow-none`, which now lives in a new
+`shadowless` block:
+
+| 3.x                                       | 4.x                                       |
+|-------------------------------------------|-------------------------------------------|
+| `borderless` → `border-transparent! shadow-none` | `borderless` → `border-transparent!` |
+| —                                         | `shadowless` → `shadow-none!`             |
+
 ## Form / Input
 
 ### Changed — the slot paddings became `!important`
@@ -1296,6 +1423,24 @@ caption no longer appears in the overlay when `TALLSTACKUI_DEBUG_MODE` is on.
 ---
 
 ## Table
+
+### Added — `compact`, a denser row rhythm
+
+```blade
+<x-table :$headers :$rows compact />
+```
+
+Tightens the vertical padding of the header cells, the data cells, the empty message and
+the expandable content, leaving the horizontal padding, the type scale and the colors
+alone. The skeleton follows the flag, so a lazy table does not change height when the
+real rows arrive.
+
+Each affected block gained a `-compact` twin — `table.th-compact`, `table.td-compact`,
+`empty-compact` and `expandable.content-compact` — and the flag swaps the whole string
+instead of layering an override on top of it. An application customizing `table.td` has
+to customize `table.td-compact` too if it uses both modes.
+
+Unrelated to `paginator="compact"`, which names a pagination look. The two combine.
 
 ### Fixed — `simplePaginate()` was fatal
 
@@ -3723,6 +3868,18 @@ expect the qualified form.
 ---
 
 ## Form / Autocomplete
+
+### Changed — the panel width comes from the Floating now
+
+The panel matched the input by reading `offsetWidth` in an `x-effect` on the component
+root. Floating already does that, opt-in through `w-full` on the panel, and it does more:
+it re-applies on every open, on a MutationObserver over the panel content, and on
+Livewire's `commit` hook. The local copy only re-ran when `show` changed, so a round trip
+that replaced the teleported panel while it was open left the width behind.
+
+Autocomplete was the one component in the library still hand-rolling this — Select/Styled
+already opted in. `floating.class` gained `w-full` and the `x-effect` is gone. Nothing
+renders differently.
 
 ### Added — `metadata` passthrough on items
 
