@@ -2,8 +2,10 @@
 
 namespace TallStackUi\Components\Signature;
 
+use Laravel\Dusk\Browser;
 use Livewire\Component;
 use Livewire\Livewire;
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\BrowserTestCase;
 
@@ -216,5 +218,100 @@ class BrowserTest extends BrowserTestCase
             }
         })
             ->assertSee('[TallStackUI] Signature: The [line] must be a number.');
+    }
+
+    #[Test]
+    public function keeps_the_drawing_when_the_window_is_resized(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $signature = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                    <div>
+                        <x-signature wire:model="signature" clearable />
+                    </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->resize(1400, 900)
+            ->pause(250)
+            ->dragRight('@tallstackui_signature_canva', 120)
+            ->dragUp('@tallstackui_signature_canva', 60)
+            ->pause(250)
+            ->tap(function (Browser $browser): void {
+                $before = $this->ink($browser);
+
+                Assert::assertGreaterThan(0, $before, 'the drag should have drawn something on the canvas');
+
+                // resize used to reach size() through bind(), which forwarded the
+                // Event as the `clear` flag and wiped the canvas on every resize.
+                $browser->resize(900, 900)->pause(500);
+
+                Assert::assertGreaterThan(0, $this->ink($browser), 'resizing must not wipe the drawing');
+            });
+    }
+
+    #[Test]
+    public function keeps_the_model_null_when_resized_without_drawing(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $signature = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                    <div>
+                        @if ($signature)
+                            <p dusk="signature">{!! $signature !!}</p>
+                        @endif
+
+                        <x-signature wire:model="signature" clearable />
+
+                        <x-button dusk="sync" wire:click="sync">Sync</x-button>
+                    </div>
+                HTML;
+            }
+
+            public function sync(): void
+            {
+                //
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->resize(1400, 900)
+            ->pause(250)
+            ->resize(900, 900)
+            ->pause(500)
+            ->waitForLivewire()->click('@sync')
+            // An untouched canvas must not start reporting a blank data URL.
+            ->assertNotPresent('@signature');
+    }
+
+    /** Non-background pixels currently painted on the signature canvas. */
+    private function ink(Browser $browser): int
+    {
+        return $browser->script(
+            "const canvas = document.querySelector('[dusk=tallstackui_signature_canva]');
+             const data = canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height).data;
+
+             let count = 0;
+
+             for (let index = 0; index < data.length; index += 4) {
+                if (data[index] !== 0 || data[index + 1] !== 0 || data[index + 2] !== 0) {
+                    continue;
+                }
+
+                if (data[index + 3] > 0) {
+                    count++;
+                }
+             }
+
+             return count;"
+        )[0];
     }
 }

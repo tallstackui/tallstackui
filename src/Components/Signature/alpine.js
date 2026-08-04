@@ -6,6 +6,8 @@ export default (model, color, background, line, height, jpeg) => ({
   lastX: 0,
   lastY: 0,
   stacks: {},
+  resizing: null,
+  drawn: false,
   color: color,
   background: background,
   line: line,
@@ -25,7 +27,16 @@ export default (model, color, background, line, height, jpeg) => ({
 
     this.$nextTick(() => this.size(true));
 
-    window.addEventListener('resize', this.size.bind(this));
+    // Not size.bind(this): the listener would forward the Event as the `clear`
+    // argument and wipe the drawing on every resize.
+    this.resizing = () => this.size();
+
+    window.addEventListener('resize', this.resizing);
+  },
+  destroy() {
+    window.removeEventListener('resize', this.resizing);
+
+    this.stacks = { undo: [], redo: [] };
   },
   /**
    * Clean the drawing on the canvas.
@@ -38,6 +49,7 @@ export default (model, color, background, line, height, jpeg) => ({
     this.backgroundColor();
     this.store();
 
+    this.drawn = false;
     this.model = null;
   },
   /**
@@ -112,6 +124,7 @@ export default (model, color, background, line, height, jpeg) => ({
     event.preventDefault();
 
     this.drawing = false;
+    this.drawn = true;
 
     this.store();
   },
@@ -206,12 +219,57 @@ export default (model, color, background, line, height, jpeg) => ({
    * @return {void}
    */
   size(clear = false) {
-    this.canvas.width = this.$refs.canvas.parentElement.clientWidth;
+    const width = this.$refs.canvas.parentElement.clientWidth;
+    const resized = this.canvas.width !== width || this.canvas.height !== this.height;
+
+    if (!clear && !resized) {
+      return;
+    }
+
+    // Nothing drawn means nothing worth carrying over, and going through clear()
+    // keeps the model null instead of turning a blank canvas into a data URL.
+    if (clear || !this.drawn) {
+      this.canvas.width = width;
+      this.canvas.height = this.height;
+
+      this.clear();
+
+      return;
+    }
+
+    // Assigning width or height wipes the canvas, so the drawing is copied out
+    // first and painted back scaled to the new size.
+    const snapshot = document.createElement('canvas');
+
+    snapshot.width = this.canvas.width;
+    snapshot.height = this.canvas.height;
+    snapshot.getContext('2d').drawImage(this.canvas, 0, 0);
+
+    this.canvas.width = width;
     this.canvas.height = this.height;
 
-    if (!clear) return;
+    this.context.lineCap = 'round';
+    this.context.lineJoin = 'round';
 
-    this.clear();
+    this.backgroundColor();
+
+    this.context.drawImage(
+      snapshot,
+      0,
+      0,
+      snapshot.width,
+      snapshot.height,
+      0,
+      0,
+      this.canvas.width,
+      this.canvas.height
+    );
+
+    // The undo stack holds ImageData sized for the old canvas, which putImageData
+    // would paint back unscaled, so it restarts from what is on screen now.
+    this.stacks = { undo: [], redo: [] };
+
+    this.store();
   },
   /**
    * Gets the event (mouse or touch) coordinates on the canvas

@@ -57,3 +57,13 @@ it('can render with size lg')
     ->toContain('type="radio"')
     ->toContain('h-6')
     ->toContain('w-6');
+
+it('can render the label on the left through the slot', function () {
+    $component = <<<'HTML'
+    <x-radio id="plan">
+        <x-slot:label left>Basic</x-slot:label>
+    </x-radio>
+    HTML;
+
+    expect($component)->render()->toMatch('/Basic.*<input/s');
+});

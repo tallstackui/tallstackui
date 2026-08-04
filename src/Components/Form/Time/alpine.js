@@ -117,12 +117,14 @@ export default (
 
     if (!full) this.interval = hours >= 12 ? 'PM' : 'AM';
 
-    this.hours = hours;
+    // The 12-hour slider runs from 1 to 12, so the 24-hour clock reading has to
+    // be folded into it: 13 becomes 1 PM and 0 becomes 12 AM.
+    this.hours = full ? hours : hours % 12 || 12;
     this.minutes = minutes;
 
     this.$el.dispatchEvent(
       new CustomEvent('current', {
-        detail: { time: { hour: hours, minute: minutes, interval: this.interval } },
+        detail: { time: { hour: this.hours, minute: minutes, interval: this.interval } },
       })
     );
 

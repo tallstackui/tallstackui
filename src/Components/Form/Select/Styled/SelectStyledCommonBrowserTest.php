@@ -2,7 +2,10 @@
 
 namespace TallStackUi\Components\Form\Select\Styled;
 
+use Illuminate\Http\Request;
+use Illuminate\Routing\Router;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Blade;
 use Laravel\Dusk\Browser;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
@@ -649,6 +652,41 @@ class SelectStyledCommonBrowserTest extends BrowserTestCase
             ->assertSee('bar')
             ->waitUntilMissingText('foo')
             ->assertDontSee('foo');
+    }
+
+    #[Test]
+    public function can_search_beyond_the_lazy_window(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $number = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="number">{{ $number }}</p>
+
+                    <x-select.styled dusk="select"
+                                     wire:model.live="number"
+                                     :options="collect(range(1, 500))->map(fn ($value) => ['label' => 'Option '.$value, 'value' => $value])->all()"
+                                     select="label:label|value:value"
+                                     :lazy="10"
+                                     searchable />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->click('@tallstackui_select_open_close')
+            ->waitForText('Option 1')
+            // Option 499 sits far past the lazy window; the search has to reach the
+            // whole list, not just the first slice rendered.
+            ->type('@tallstackui_select_search_input', 'Option 499')
+            ->waitForText('Option 499')
+            ->assertSee('Option 499')
+            ->waitUntilMissingText('Option 1 ')
+            ->assertDontSee('Option 2 ');
     }
 
     #[Test]
@@ -1593,6 +1631,50 @@ class SelectStyledCommonBrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function keeps_the_lazy_window_while_no_search_is_active(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $number = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-select.styled dusk="select"
+                                     wire:model.live="number"
+                                     :options="collect(range(1, 500))->map(fn ($value) => ['label' => 'Option '.$value, 'value' => $value])->all()"
+                                     select="label:label|value:value"
+                                     :lazy="10"
+                                     searchable />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->click('@tallstackui_select_open_close')
+            ->waitForText('Option 1')
+            ->assertDontSee('Option 499');
+    }
+
+    #[Test]
+    public function native_form_submits_a_zero_value(): void
+    {
+        // 0 is a legitimate option value, and the hidden input used to receive
+        // an empty string for it because the setter tested truthiness.
+        $this->browse(fn (Browser $browser) => $browser->visit('/native-select')
+            ->waitFor('@tallstackui_select_open_close')
+            ->click('@tallstackui_select_open_close')
+            ->waitForText('Inactive')
+            ->clickAtXPath("//li[contains(., 'Inactive')]")
+            ->pause(250)
+            ->assertScript("document.getElementsByName('status')[0].value", '0')
+            ->click('@submit')
+            ->waitForText('received:')
+            ->assertSee('received:0'));
+    }
+
+    #[Test]
     public function non_grouped_selection_is_never_qualified(): void
     {
         Livewire::visit(new class extends Component
@@ -1681,6 +1763,38 @@ class SelectStyledCommonBrowserTest extends BrowserTestCase
             ->assertSeeIn('@tallstackui_select_open_close', 'Gamma')
             ->waitForLivewire()->click('@sync')
             ->assertSeeIn('@array', 'alpha,beta,gamma');
+    }
+
+    /**
+     * A plain Blade page with no Livewire component. Livewire's script still
+     * loads because that is where Alpine comes from in a real application.
+     *
+     * @param  Router  $router
+     */
+    protected function defineWebRoutes($router): void
+    {
+        parent::defineWebRoutes($router);
+
+        $router->get('/native-select', fn (): string => Blade::render(<<<'HTML'
+        <html>
+        <head>
+            <meta name="csrf-token" content="{{ csrf_token() }}">
+            <tallstackui:setup />
+            @livewireScripts
+        </head>
+        <body>
+            <form method="GET" action="/native-select/result">
+                <x-select.styled name="status"
+                                 :options="[['label' => 'Inactive', 'value' => 0], ['label' => 'Active', 'value' => 1]]"
+                                 select="label:label|value:value" />
+
+                <button type="submit" dusk="submit">Send</button>
+            </form>
+        </body>
+        </html>
+        HTML));
+
+        $router->get('/native-select/result', fn (Request $request): string => 'received:'.$request->query('status'));
     }
 }
 

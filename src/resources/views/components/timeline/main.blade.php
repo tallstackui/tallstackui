@@ -20,10 +20,6 @@
                                  :icon="$item['icon']"
                                  :color="$item['color']"
                                  :reversed="$item['reversed']"
-                                 :style="$style"
-                                 :horizontal="$horizontal"
-                                 :alternate="$alternate"
-                                 :compact="$compact"
             />
         @endforeach
     @else

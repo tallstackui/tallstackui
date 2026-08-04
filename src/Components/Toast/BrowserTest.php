@@ -2,14 +2,102 @@
 
 namespace TallStackUi\Components\Toast;
 
+use Laravel\Dusk\Browser;
 use Livewire\Component;
 use Livewire\Livewire;
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\Attributes\Test;
 use TallStackUi\Traits\Interactions;
 use Tests\Browser\BrowserTestCase;
 
 class BrowserTest extends BrowserTestCase
 {
+    #[Test]
+    public function a_flashed_toast_is_consumed_once(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            use Interactions;
+
+            public function later(): void
+            {
+                $this->toast()->success('Flashed Toast')->flash()->send();
+            }
+
+            public function now(): void
+            {
+                $this->toast()->info('Live Toast')->persistent()->send();
+            }
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-button dusk="later" wire:click="later">Flash</x-button>
+                    <x-button dusk="now" wire:click="now">Now</x-button>
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewire()->click('@later')
+            ->refresh()
+            ->waitForText('Flashed Toast', 10)
+            ->assertSee('Flashed Toast')
+            // Let it time out on its own before asking for another toast.
+            ->waitUntilMissingText('Flashed Toast', 10)
+            ->waitForLivewire()->click('@now')
+            ->waitForText('Live Toast')
+            // add() also handles the window event, and the flash closure parameter
+            // never empties: the flash used to flush the screen and come back with
+            // a fresh timer on every later toast.
+            ->assertSee('Live Toast')
+            ->assertDontSee('Flashed Toast');
+    }
+
+    #[Test]
+    public function a_toast_dropped_by_sole_does_not_keep_its_timer_running(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            use Interactions;
+
+            public function first(): void
+            {
+                $this->toast()->info('First Toast')->timeout(3)->send();
+            }
+
+            public function second(): void
+            {
+                $this->toast()->info('Second Toast')->sole()->persistent()->send();
+            }
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-button dusk="first" wire:click="first">First</x-button>
+                    <x-button dusk="second" wire:click="second">Second</x-button>
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->tap(fn (Browser $browser) => $browser->script("window.__tsui_timeouts = 0; window.addEventListener('toast:timeout', () => window.__tsui_timeouts++);"))
+            ->waitForLivewire()->click('@first')
+            ->waitForText('First Toast')
+            ->waitForLivewire()->click('@second')
+            ->waitForText('Second Toast')
+            ->waitUntilMissingText('First Toast', 10)
+            // sole() drops the first card while show is still true, so its interval
+            // never self-cleared and went on to fire a timeout for a toast nobody saw.
+            ->pause(4000)
+            ->tap(fn (Browser $browser) => Assert::assertSame(
+                0,
+                $browser->script('return window.__tsui_timeouts;')[0],
+                'the discarded toast must not fire its timeout',
+            ));
+    }
+
     #[Test]
     public function can_dispatch_confirmation_toast_without_livewire_specifing_component_id(): void
     {

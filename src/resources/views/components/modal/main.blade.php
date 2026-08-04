@@ -15,7 +15,7 @@
          x-data="tallstackui_modal(false, @js($configurations['overflow'] ?? false))"
      @endif
      x-show="show"
-     @if (!$configurations['persistent']) x-on:keydown.escape.window="top_ui && (show = false)" @endif
+     @if (!$configurations['persistent']) x-on:keydown.escape.window="top_ui && !window.tallstackui_escapeClaimed($event) && (show = false)" @endif
      x-on:modal:{{ $open }}.window="show = true;"
      x-on:modal:{{ $close }}.window="show = false;"
         {{ $attributes->whereStartsWith('x-on:') }}>

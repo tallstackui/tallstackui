@@ -2,6 +2,7 @@
 
 namespace TallStackUi\Components\Form\Time;
 
+use Laravel\Dusk\Browser;
 use Livewire\Component;
 use Livewire\Livewire;
 use PHPUnit\Framework\Attributes\Test;
@@ -453,5 +454,115 @@ class BrowserTest extends BrowserTestCase
                 HTML;
             }
         })->assertSee('[TallStackUI] Form\Time: The [format] is not 24 and the value does not contain the interval (AM/PM).');
+    }
+
+    #[Test]
+    public function current_time_helper_keeps_the_twenty_four_hour_reading(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $time = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="time">{{ $time }}</p>
+
+                    <x-time label="Time" format="24" helper wire:model.live="time" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->tap(fn (Browser $browser) => $this->freeze($browser, 13, 45))
+            ->click('@tallstackui_time_input')
+            ->waitForText('00')
+            ->waitForLivewire()->click('@tallstackui_time_current')
+            ->pause(500)
+            ->assertSeeIn('@time', '13:45');
+    }
+
+    #[Test]
+    public function current_time_helper_stays_within_the_twelve_hour_range(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $time = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="time">{{ $time }}</p>
+
+                    <x-time label="Time" format="12" helper wire:model.live="time" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->tap(fn (Browser $browser) => $this->freeze($browser, 13, 45))
+            ->click('@tallstackui_time_input')
+            ->waitForText('00')
+            ->waitForLivewire()->click('@tallstackui_time_current')
+            ->pause(500)
+            ->tap(function (Browser $browser): void {
+                // 13:45 off a 24-hour clock used to be written as "13:45 PM",
+                // outside the 1-12 range the slider accepts.
+                $browser->assertSeeIn('@time', '01:45 PM');
+            });
+    }
+
+    #[Test]
+    public function current_time_helper_writes_midnight_as_twelve_am(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $time = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="time">{{ $time }}</p>
+
+                    <x-time label="Time" format="12" helper wire:model.live="time" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->tap(fn (Browser $browser) => $this->freeze($browser, 0, 30))
+            ->click('@tallstackui_time_input')
+            ->waitForText('00')
+            ->waitForLivewire()->click('@tallstackui_time_current')
+            ->pause(500)
+            // Hour 0 used to be written as "00:30 AM" instead of "12:30 AM".
+            ->assertSeeIn('@time', '12:30 AM');
+    }
+
+    /**
+     * Pins the browser clock so the helper's reading does not depend on the
+     * hour the suite happens to run at.
+     */
+    private function freeze(Browser $browser, int $hour, int $minute): void
+    {
+        $browser->script(
+            "(() => {
+                const Original = Date;
+                const frozen = () => new Original(2026, 0, 15, {$hour}, {$minute}, 0);
+
+                window.Date = class extends Original {
+                    constructor(...args) {
+                        super(...(args.length === 0 ? [frozen().getTime()] : args));
+                    }
+
+                    static now() {
+                        return frozen().getTime();
+                    }
+                };
+            })();"
+        );
     }
 }

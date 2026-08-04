@@ -231,13 +231,24 @@ function parseCustomizationKeys(string $methodBody): array
 
 // ── View Resolution ──────────────────────────────────────────
 
-function extractBladeViewName(string $source): ?string
+/**
+ * Every view literal the blade() method can return. A single-literal regex
+ * missed the ternary form — view($this->skeletonized() ? 'a' : 'b') — and the
+ * component was skipped while still being counted as scanned.
+ *
+ * @return array<int, string>
+ */
+function extractBladeViewNames(string $source): array
 {
-    if (preg_match("/view\s*\(\s*'([^']+)'\s*\)/", $source, $match)) {
-        return $match[1];
+    $body = extractMethodBody($source, 'blade');
+
+    if ($body === null) {
+        return [];
     }
 
-    return null;
+    preg_match_all("/'((?:ts-ui|tallstack-ui)::[^']+)'/", $body, $matches);
+
+    return array_values(array_unique($matches[1] ?? []));
 }
 
 function viewNameToPath(string $viewName, string $viewsDir): ?string
@@ -313,6 +324,7 @@ $totalUnused = 0;
 $totalComponents = 0;
 $totalKeys = 0;
 $results = [];
+$unresolved = [];
 
 foreach ($componentFiles as $componentFile) {
     $source = file_get_contents($componentFile);
@@ -323,28 +335,35 @@ foreach ($componentFiles as $componentFile) {
         continue;
     }
 
-    $totalComponents++;
-
     $parsed = parseCustomizationKeys($methodBody);
     $definedKeys = $parsed['keys'];
     $hasSpread = $parsed['hasSpread'];
-    $totalKeys += count($definedKeys);
 
     if (empty($definedKeys)) {
+        $totalComponents++;
+
         continue;
     }
 
-    $viewName = extractBladeViewName($source);
+    $viewNames = extractBladeViewNames($source);
 
-    if ($viewName === null) {
+    $bladePaths = array_values(array_filter(array_map(
+        fn (string $viewName): ?string => viewNameToPath($viewName, $viewsDir),
+        $viewNames,
+    )));
+
+    // Counting a component as scanned before its views resolve is what let the
+    // summary claim coverage it never had.
+    if ($bladePaths === []) {
+        $unresolved[] = str_replace($root.'/', '', $componentFile);
+
         continue;
     }
 
-    $bladePath = viewNameToPath($viewName, $viewsDir);
+    $totalComponents++;
+    $totalKeys += count($definedKeys);
 
-    if ($bladePath === null) {
-        continue;
-    }
+    $bladePath = $bladePaths[0];
 
     // Collect all static keys and dynamic prefixes from all sources
     $allStaticKeys = [];
@@ -355,8 +374,14 @@ foreach ($componentFiles as $componentFile) {
     $allStaticKeys = array_merge($allStaticKeys, $phpUsage['static']);
     $allDynamicPrefixes = array_merge($allDynamicPrefixes, $phpUsage['prefixes']);
 
-    // 2. Scan main blade + related sub-views (variations)
-    $bladeFiles = findRelatedBladeFiles($bladePath, $viewsDir);
+    // 2. Scan every blade the component can return, plus their sub-views
+    $bladeFiles = [];
+
+    foreach ($bladePaths as $path) {
+        $bladeFiles = array_merge($bladeFiles, findRelatedBladeFiles($path, $viewsDir));
+    }
+
+    $bladeFiles = array_values(array_unique($bladeFiles));
 
     foreach ($bladeFiles as $bladeFile) {
         $bladeContent = file_get_contents($bladeFile);
@@ -411,6 +436,26 @@ foreach ($componentFiles as $componentFile) {
 // ── Output ───────────────────────────────────────────────────
 
 note("Scanned {$totalComponents} components, {$totalKeys} customization keys.");
+
+// A component whose view cannot be resolved is not verified, and saying so is
+// the whole point: a silent skip reads as coverage.
+if (! empty($unresolved)) {
+    error('Could not resolve the blade view of '.count($unresolved).' component(s), so their blocks were never checked.');
+
+    foreach ($unresolved as $component) {
+        note("  {$component}");
+    }
+
+    exit(1);
+}
+
+if (! empty($results)) {
+    foreach ($results as $result) {
+        if ($result['hasSpread'] === true) {
+            note("Note: {$result['component']} spreads another array into its customization, so some blocks may be reported as unused while being defined elsewhere.");
+        }
+    }
+}
 
 if (empty($results)) {
     info('All customization blocks are in use!');

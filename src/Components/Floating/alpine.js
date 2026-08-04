@@ -1,4 +1,4 @@
-import { floating_overflow, unique } from '../../../js/helpers';
+import { floating_overflow, floating_visibility, unique } from '../../../js/helpers';
 
 const FOCUSABLE = [
   'button:not([disabled])',
@@ -128,6 +128,7 @@ export default function floating(
 
   watch(showName, (value) => {
     scrollLock(value);
+    floating_visibility(value, id);
 
     if (!value) {
       restore();
@@ -146,6 +147,7 @@ export default function floating(
 
   if (getShow()) {
     scrollLock(true);
+    floating_visibility(true, id);
     startGuard();
   }
 
@@ -188,6 +190,7 @@ export default function floating(
   const flush = () => {
     if (!el.isConnected) {
       scrollLock(false);
+      floating_visibility(false, id);
       window.removeEventListener('tallstackui:floating-flush', flush);
       return;
     }

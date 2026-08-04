@@ -129,6 +129,46 @@ class BrowserTest extends BrowserTestCase
             });
     }
 
+    #[Test]
+    public function escape_closes_the_floating_without_closing_the_modal(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public bool $modal = false;
+
+            public ?string $role = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-button dusk="open" wire:click="$set('modal', true)">Open</x-button>
+
+                    <x-modal wire title="Edit" dusk="modal">
+                        <x-select.styled dusk="select"
+                                         :options="[['label' => 'Admin', 'value' => 1], ['label' => 'User', 'value' => 2]]"
+                                         wire:model="role" />
+                    </x-modal>
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->waitForLivewire()->click('@open')
+            ->waitForText('Edit')
+            ->click('@tallstackui_select_open_close')
+            ->waitForText('Admin')
+            ->keys('', '{escape}')
+            ->pause(350)
+            // The popup owns this press. Both listeners sit on window, so without
+            // the claim the modal would take it too and drop the form.
+            ->assertDontSee('Admin')
+            ->assertSee('Edit')
+            ->keys('', '{escape}')
+            ->pause(350)
+            ->assertDontSee('Edit');
+    }
+
     /**
      * Two sibling floatings never stay open together, because opening one
      * fires the other's click-outside. What this guards is the handover: each

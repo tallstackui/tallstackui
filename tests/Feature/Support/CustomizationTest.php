@@ -844,3 +844,34 @@ it('names the component by its customization key when the block is unknown', fun
 
     TallStackUi::customize('badge')->block('nope', 'foo');
 });
+
+it('keeps the global customization on a scoped instance', function () {
+    TallStackUi::customize('alert')
+        ->block('wrapper')
+        ->append('brand-shadow');
+
+    TallStackUi::customize('alert', 'flat')
+        ->block('text.title')
+        ->append('text-xl');
+
+    expect('<x-alert title="Foo bar" />')->render()->toContain('brand-shadow');
+
+    // The scope only spoke about text.title, so every other block has to keep
+    // whatever the global customization did to it.
+    expect('<x-alert title="Foo bar" scope="flat" />')->render()
+        ->toContain('brand-shadow')
+        ->toContain('text-xl');
+});
+
+it('does not let a scoped block swallow its dot notation sibling', function () {
+    TallStackUi::customize('card', 'flat')->block([
+        'body' => 'grow px-2 py-2',
+        'body.paddingless' => 'p-0!',
+    ]);
+
+    expect('<x-card scope="flat" paddingless>Foo bar</x-card>')->render()
+        ->toContain('p-0!');
+
+    expect('<x-card scope="flat">Foo bar</x-card>')->render()
+        ->toContain('px-2 py-2');
+});
