@@ -188,12 +188,8 @@ if (! function_exists('__ts_global')) {
 
 if (! function_exists('__ts_merge_configuration')) {
     /**
-     * Merge the published configuration over the internal one.
-     *
-     * A list of scalars is replaced as a whole instead of being merged index
-     * by index, so a shorter list published by the user actually shortens the
-     * result. Everything else keeps merging, so keys added by newer releases
-     * survive an outdated published file.
+     * Merge the published configuration over the internal one, replacing scalar
+     * lists so a shorter published list actually shortens the result.
      *
      * @internal This function should not be used outside the package.
      */

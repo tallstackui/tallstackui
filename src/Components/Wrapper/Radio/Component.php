@@ -4,6 +4,7 @@ namespace TallStackUi\Components\Wrapper\Radio;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
+use Illuminate\View\ComponentSlot;
 use TallStackUi\Attributes\SoftCustomization;
 use TallStackUi\Customization\Contracts\Customization;
 use TallStackUi\TallStackUiComponent;
@@ -13,7 +14,7 @@ class Component extends TallStackUiComponent implements Customization
 {
     public function __construct(
         public ?string $property = null,
-        public ?string $label = null,
+        public string|ComponentSlot|null $label = null,
         public ?string $id = null,
         public ?string $position = 'left',
         public ?string $alignment = 'middle',
@@ -48,5 +49,25 @@ class Component extends TallStackUiComponent implements Customization
                 ],
             ],
         ]);
+    }
+
+    /**
+     * The label arrives here as a prop rather than a slot, so its attributes are
+     * already readable — which is not true of the component that owns the slot,
+     * where the body is only captured after the props are snapshotted.
+     */
+    protected function setup(): void
+    {
+        if (! $this->label instanceof ComponentSlot) {
+            return;
+        }
+
+        if ($this->label->attributes->has('left')) {
+            $this->position = 'left';
+        }
+
+        if ($this->label->attributes->has('start')) {
+            $this->alignment = 'start';
+        }
     }
 }
