@@ -215,7 +215,7 @@ The Autocomplete delegates the input rendering to `Form/Input`, so any styling r
 | icon.clear                | Clear `×` icon.                                                                       |
 | icon.loading              | Spinner shown next to the input while remote requests are in flight.                  |
 | floating.default          | Inherits `Floating::customization()['wrapper']`.                                      |
-| floating.class            | Overflow tweaks for the panel (the panel width is auto-synced to the input wrapper).  |
+| floating.class            | Overflow and stacking for the panel. Carries `w-full`, which is what opts the panel into the Floating's anchor width sync — drop it and the panel sizes to its content. |
 | box.list.wrapper          | The `<ul>` container of the dropdown.                                                 |
 | box.list.item.wrapper     | Each option row.                                                                      |
 | box.list.item.base        | Inner flex container (image + content).                                               |

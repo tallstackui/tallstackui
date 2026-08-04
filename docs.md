@@ -3869,6 +3869,18 @@ expect the qualified form.
 
 ## Form / Autocomplete
 
+### Changed — the panel width comes from the Floating now
+
+The panel matched the input by reading `offsetWidth` in an `x-effect` on the component
+root. Floating already does that, opt-in through `w-full` on the panel, and it does more:
+it re-applies on every open, on a MutationObserver over the panel content, and on
+Livewire's `commit` hook. The local copy only re-ran when `show` changed, so a round trip
+that replaced the teleported panel while it was open left the width behind.
+
+Autocomplete was the one component in the library still hand-rolling this — Select/Styled
+already opted in. `floating.class` gained `w-full` and the `x-effect` is gone. Nothing
+renders differently.
+
 ### Added — `metadata` passthrough on items
 
 Items now accept a `metadata` key carrying arbitrary consumer data. The component
