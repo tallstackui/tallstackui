@@ -12,6 +12,48 @@ such change is listed under **Migration**.
 
 ---
 
+## KeyValue
+
+### Changed — a lighter surface, and the fields stop hiding in it
+
+The component stacked three grays: a gray body, a darker gray header and footer, and
+inputs sharing the body's gray. The last one was the real problem — nothing read as
+editable, because the fields had the same fill as the thing behind them.
+
+It is now a white surface with hairline rules. The header is a small caption over a
+bottom border rather than a filled bar, the footer is an action rather than a gray
+strip, and the inputs are transparent, so the only thing drawing a box is the component
+itself.
+
+**Migration.** The blocks kept their names, but four of them changed shape and two are
+new. An application that customized the old palette has to revisit it:
+
+| Block            | Was                                    | Is                                  |
+|------------------|----------------------------------------|-------------------------------------|
+| `wrapper`        | `bg-gray-100`                          | `bg-white`                          |
+| `header.wrapper` | filled bar, carried its own text color | border and layout only              |
+| `header.neutral` | —                                      | new: the header color, when uncolored |
+| `button.add`     | filled strip, carried its own colors   | border and layout only              |
+| `button.neutral` | —                                      | new: the button color, when uncolored |
+| `list.divider`   | `divide-gray-300`                      | `divide-gray-100`                   |
+
+### Added — `color`, an accent on the header and the add button
+
+```blade
+<x-key-value wire:model="metadata" color="green" />
+```
+
+Tints the header text and the add button, keeping the flat treatment — no filled bars,
+so the accent reads without the component turning into a colored block. Accepts every
+TallStackUI color plus `black`, and is backed by a `KeyValueColors` class, so
+`php artisan tallstackui:setup-color` can publish and override the palette like any
+other colored component.
+
+Without it the header stays neutral gray and the button follows `primary`. Those two
+defaults live in `header.neutral` and `button.neutral`, which are applied only when no
+color is given — the color never lands on the same element as the neutral, so neither
+has to out-specify the other.
+
 ## Form / Tag
 
 ### Added — `options`, a floating list of tags to reuse

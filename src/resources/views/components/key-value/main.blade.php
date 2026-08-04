@@ -5,7 +5,11 @@
 <div x-cloak
      x-data="tallstackui_keyValue({!! $entangle !!}, @js($this->getId()), @js($limit), @js($static), @js($deleteMethod))"
      class="{{ $customization['wrapper'] }}">
-    <div class="{{ $customization['header.wrapper'] }}">
+    <div @class([
+            $customization['header.wrapper'],
+            $customization['header.neutral'] => ! $color,
+            $colors['header'] ?? '' => true,
+        ])>
         <p class="{{ $customization['header.key'] }}">{{ $label ?? trans('ts-ui::messages.key-value.headers.key') }}</p>
         <p class="{{ $customization['header.value'] }}">{{ $value ?? trans('ts-ui::messages.key-value.headers.value') }}</p>
         @if ($header)
@@ -70,7 +74,11 @@
             type="button"
             dusk="tallstackui_add_row_button"
             {{ $attributes->only('x-on:add') }}
-            class="{{ $customization['button.add'] }}"
+            @class([
+                $customization['button.add'],
+                $customization['button.neutral'] => ! $color,
+                $colors['button'] ?? '' => true,
+            ])
             x-show="addable">
         {{ trans('ts-ui::messages.key-value.add-row') }}
     </button>
