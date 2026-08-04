@@ -12,6 +12,51 @@ such change is listed under **Migration**.
 
 ---
 
+## Floating
+
+### Fixed — closing a popup dropped the focus on the body
+
+The panel is teleported to the end of `<body>`, and keyboard navigation moves the
+focus into it: the styled select's arrow keys call `options[next].focus()`, so the
+focus sits on an option that lives nowhere near the form. Closing the panel hid that
+option, the browser handed `activeElement` back to `<body>`, and the next Tab
+restarted from the first focusable element on the page.
+
+Reported in [#1286](https://github.com/tallstackui/tallstackui/issues/1286) as tabbing
+through a form and landing back at the top after touching a field.
+
+The panel now returns the focus to its anchor when it closes holding it. Since the
+anchor is not always focusable (the select passes its toggle button, most components
+pass the wrapper `div`), the first focusable descendant is used when the anchor itself
+cannot take the focus.
+
+Whether the focus was inside is tracked as it happens rather than read on close, since
+`x-show` may have hidden the panel by the time the watcher runs:
+
+```js
+el.addEventListener('focusin', () => (held = true));
+
+el.addEventListener('focusout', (event) => {
+    if (event.relatedTarget && !el.contains(event.relatedTarget)) {
+        held = false;
+    }
+});
+```
+
+A `relatedTarget` outside the panel means the user moved on by themselves, and their
+focus is left alone. A null one means the panel took the focus down with it.
+
+Nothing is restored when the anchor is no longer visible, which is the case where the
+popup closed precisely because the anchor left layout.
+
+The fix sits in the `show` watcher, the single funnel every close path already goes
+through: the component's own choice, the anchor-visibility guard, the modal and slide
+close hooks, and the flush event. Every component built on `<x-floating>` gets it —
+Dropdown and its Submenu, Select Styled, Autocomplete, Color, Date, Password, Time,
+Upload, Calendar and the List Items menu.
+
+---
+
 ## Scroll lock
 
 ### Fixed — the scrollbar compensation was a hardcoded 15px

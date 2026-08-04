@@ -90,6 +90,45 @@ class BrowserTest extends BrowserTestCase
             });
     }
 
+    #[Test]
+    public function does_not_take_the_focus_back_when_the_user_moved_it_out_themselves(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $role = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div class="space-y-4">
+                    <x-select.styled label="Role" wire:model="role" :options="['Admin', 'Editor']" />
+                    <x-input id="last" label="Last" />
+                </div>
+                HTML;
+            }
+        })
+            ->click('@tallstackui_select_open_close')
+            ->pause($this->paused(1))
+            ->keys('@tallstackui_select_open_close', '{arrow_down}')
+            ->pause($this->paused(1))
+            ->tap(function (Browser $browser): void {
+                Assert::assertSame('LI', $this->focused($browser)['tag'], 'the arrow should move the focus into the panel');
+            })
+            // Clicking away closes the panel through click.outside, but the
+            // focus left on its own before that. Restoring here would yank the
+            // caret out of the field the user just clicked into. Driven by
+            // script because the open panel covers the field.
+            ->tap(fn (Browser $browser) => $browser->script(
+                "const input = document.getElementById('last');
+                 input.focus();
+                 input.dispatchEvent(new MouseEvent('click', {bubbles: true}));"
+            ))
+            ->pause($this->paused(1))
+            ->tap(function (Browser $browser): void {
+                Assert::assertSame('last', $this->focused($browser)['id'], 'the focus must stay where the user put it');
+            });
+    }
+
     /**
      * Two sibling floatings never stay open together, because opening one
      * fires the other's click-outside. What this guards is the handover: each
@@ -331,9 +370,60 @@ class BrowserTest extends BrowserTestCase
             });
     }
 
+    #[Test]
+    public function returns_the_focus_to_the_anchor_when_the_panel_closes_holding_it(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $role = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div class="space-y-4">
+                    <x-input id="first" label="First" />
+                    <x-select.styled label="Role" wire:model="role" :options="['Admin', 'Editor']" />
+                    <x-input id="last" label="Last" />
+                </div>
+                HTML;
+            }
+        })
+            ->click('@tallstackui_select_open_close')
+            ->pause($this->paused(1))
+            ->keys('@tallstackui_select_open_close', '{arrow_down}')
+            ->pause($this->paused(1))
+            ->tap(function (Browser $browser): void {
+                Assert::assertSame('LI', $this->focused($browser)['tag'], 'the arrow should move the focus into the teleported panel');
+            })
+            // The panel lives at the end of <body>, so hiding it while it holds
+            // the focus hands activeElement back to <body> and the next Tab
+            // restarts at the top of the document.
+            ->tap(fn (Browser $browser) => $browser->script('document.activeElement.click();'))
+            ->pause($this->paused(1))
+            ->tap(function (Browser $browser): void {
+                $focused = $this->focused($browser);
+
+                Assert::assertNotSame('BODY', $focused['tag'], 'the closing panel must not drop the focus on the body');
+                Assert::assertSame('tallstackui_select_open_close', $focused['dusk'], 'the focus belongs back on the anchor');
+            });
+    }
+
     private function elements(Browser $browser): int
     {
         return $browser->script('return (window.__tsui_elements ?? []).length;')[0];
+    }
+
+    private function focused(Browser $browser): array
+    {
+        return $browser->script(
+            "const el = document.activeElement;
+
+             return {
+                tag: el ? el.tagName : null,
+                id: el ? el.id : null,
+                dusk: el ? el.getAttribute('dusk') : null,
+             };"
+        )[0];
     }
 
     private function locks(Browser $browser): int

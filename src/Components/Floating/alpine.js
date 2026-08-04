@@ -1,5 +1,14 @@
 import { floating_overflow, unique } from '../../../js/helpers';
 
+const FOCUSABLE = [
+  'button:not([disabled])',
+  '[href]',
+  'input:not([disabled]):not([type="hidden"])',
+  'select:not([disabled])',
+  'textarea:not([disabled])',
+  '[tabindex]:not([tabindex="-1"])',
+].join(',');
+
 /**
  * Wires the teleported `<x-floating>` popup to its anchor: width sync for
  * `w-full`, modal/slide close hooks, and proactive close when the anchor
@@ -53,6 +62,40 @@ export default function floating(
     return current.getClientRects().length > 0;
   };
 
+  // The panel is teleported to the end of `<body>`, so focus that lives inside
+  // it dies with it: hiding the element hands activeElement back to `<body>`
+  // and the next Tab restarts at the top of the document. Tracked as it happens
+  // rather than read on close, since `x-show` may have hidden the panel first.
+  let held = false;
+
+  el.addEventListener('focusin', () => (held = true));
+
+  // A relatedTarget outside the panel means the user moved on by themselves.
+  // A null one means the panel took the focus down with it, which is the only
+  // case worth restoring.
+  el.addEventListener('focusout', (event) => {
+    if (event.relatedTarget && !el.contains(event.relatedTarget)) {
+      held = false;
+    }
+  });
+
+  const restore = () => {
+    if (!held) {
+      return;
+    }
+
+    held = false;
+
+    if (!anchorVisible()) {
+      return;
+    }
+
+    const current = getAnchor();
+    const target = current.matches(FOCUSABLE) ? current : current.querySelector(FOCUSABLE);
+
+    target?.focus({ preventScroll: true });
+  };
+
   let guardRaf = null;
 
   const guard = () => {
@@ -87,6 +130,8 @@ export default function floating(
     scrollLock(value);
 
     if (!value) {
+      restore();
+
       return;
     }
 
