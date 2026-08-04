@@ -420,4 +420,39 @@ class BrowserTest extends BrowserTestCase
             ->waitForTextIn('@selected', '#64748b')
             ->assertNotPresent('@tallstackui_form_color_clearable');
     }
+
+    #[Test]
+    public function keeps_the_value_clear_of_the_left_edge_and_of_the_swatch(): void
+    {
+        // The swatch is a sibling of the input, not something the input reserves
+        // room for, so the value has to start after where the prefix slot ends.
+        $script = <<<'JS'
+        (() => {
+            const input = document.querySelectorAll('[x-data^="tallstackui_formColor"]')[%d].querySelector('input[type=text]');
+            const value = input.getBoundingClientRect().left + parseFloat(getComputedStyle(input).paddingLeft);
+
+            return value >= input.previousElementSibling.getBoundingClientRect().right;
+        })()
+        JS;
+
+        Livewire::visit(new class extends Component
+        {
+            public ?string $color = '#a1a1aa';
+
+            public ?string $empty = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-color label="Filled" wire:model.live="color" />
+                    <x-color label="Empty" wire:model.live="empty" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForText('Filled')
+            ->assertScript(sprintf($script, 0))
+            ->assertScript(sprintf($script, 1));
+    }
 }

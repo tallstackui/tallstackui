@@ -19,10 +19,7 @@
      x-cloak>
     <x-dynamic-component :component="TallStackUi::prefix('input')"
                          scope="form.color.input"
-                         {{ $attributes->merge($select)->class([
-                            '-ml-3',
-                            'cursor-pointer caret-transparent' => $selectable,
-                         ])->except(['name', 'value']) }}
+                         {{ $attributes->merge($select)->class(['cursor-pointer caret-transparent' => $selectable])->except(['name', 'value']) }}
                          :$label
                          :$hint
                          :$invalidate

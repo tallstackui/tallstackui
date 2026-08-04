@@ -12,6 +12,41 @@ such change is listed under **Migration**.
 
 ---
 
+## Form / Input
+
+### Changed — the slot paddings became `!important`
+
+`input.paddings.prefix` and `input.paddings.suffix` zero the padding on the side the
+slot occupies, since the slot supplies that spacing itself. Those zeros are now
+`pl-0!` / `pr-0!` instead of `pl-0` / `pr-0`.
+
+The non-important form only worked by accident. Tailwind emits `.pl-0` before `.pl-3`,
+so on a component carrying **both** slots the two rules collided and the later one won:
+the input kept `pl-3 pr-3` and the zeros did nothing. Only Color and Currency pass both
+slots — every other component in the library passes a suffix alone, where there was
+nothing to collide with and nothing changed.
+
+Currency is therefore 12px tighter on each side than it was on `3.x`; the space between
+the symbol and the value is now the `ml-2 mr-1` of the slot alone.
+
+## Form / Color
+
+### Fixed — the value sat on top of the selected swatch
+
+The input carried `-ml-3` to cancel the margins of the prefix slot, which is where the
+swatch lives. That offset only balanced out while the input still had `pl-3` — the
+padding the change above actually removed. With the padding gone, the negative margin
+had nothing left to cancel and pulled the value 12px too far left:
+
+```blade
+{{-- the value overlapped the swatch, and the caret touched the border when empty --}}
+<x-color wire:model="color" />
+```
+
+`-ml-3` is gone. The prefix slot positions the value on its own now, which leaves it
+12px from the edge while no color is selected — where a plain input puts its text — and
+4px past the swatch once one is.
+
 ## Runtime
 
 ### Fixed — a nested `wire:model` read as null on the server

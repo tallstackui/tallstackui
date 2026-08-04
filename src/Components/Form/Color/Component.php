@@ -53,7 +53,7 @@ class Component extends TallStackUiComponent implements Customization
         return Arr::dot([
             'selected' => [
                 'wrapper' => 'flex items-center',
-                'base' => 'dark:border-dark-700 h-6 w-6 rounded-sm shadow',
+                'base' => 'dark:border-dark-700 h-6 w-6 rounded-sm shadow cursor-pointer',
             ],
             'icon' => [
                 'class' => 'h-5 w-5',
