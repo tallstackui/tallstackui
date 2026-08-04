@@ -12,6 +12,40 @@ such change is listed under **Migration**.
 
 ---
 
+## Runtime
+
+### Fixed — a nested `wire:model` read as null on the server
+
+```php
+if (is_null($property) || ! property_exists($this->livewire, $property)) {
+    return null;
+}
+
+return data_get($this->livewire, $property);
+```
+
+`property_exists()` cannot resolve `"form.files"`; the `data_get()` on the next line
+can. The guard rejected exactly what it was there to protect, so every component asking
+the runtime for its value got `null` whenever the binding was nested — which is what a
+Livewire Form object and any nested array look like.
+
+```blade
+{{-- threw: The [value] must be an array --}}
+<x-key-value wire:model="form.metadata" />
+
+{{-- uploaded, then listed nothing: no thumbnail, no name, no delete, no per-file error --}}
+<x-upload wire:model="form.files" multiple delete />
+```
+
+Written as `wire:model="files"` both worked, which is why it went unnoticed: no test in
+the suite used a dotted binding.
+
+Only the head of the path is a property, so only the head is checked. `Number`, `Rating`,
+`UploadAsync`, `Calendar`, `Date` and `Time` were degrading quietly through the same
+path.
+
+---
+
 ## Form components outside Livewire
 
 ### Added — coverage for the plain-form path, and the fixes it surfaced
@@ -65,6 +99,35 @@ existing strays and the `NativeBrowserTest` files added here.
 ---
 
 ## Form / Checkbox, Radio & Toggle
+
+### Fixed — every option of a group rendered with the same id
+
+`BindProperty::id()` falls back to the bound property when no `id` is given, and every
+option of a group carries the same property:
+
+```blade
+<x-radio wire:model="plan" label="Basic" value="basic" />
+<x-radio wire:model="plan" label="Pro"   value="pro" />
+<x-radio wire:model="plan" label="Team"  value="team" />
+```
+
+That produced three `<input id="plan">` and three `<label for="plan">`. A label with
+`for` wins over the input nested inside it, and `for` resolves to the first element
+carrying the id, so clicking "Pro" or "Team" selected "Basic". Only hitting the dot
+itself worked.
+
+The value is what tells the options apart, so it joins the id: `plan-basic`, `plan-pro`,
+`plan-team`. An explicit `id` is still used as given, and an option with no value keeps
+the property alone.
+
+### Fixed — the validation message repeated once per option
+
+Each option is its own wrapper resolving the same property, so a failing `plan` printed
+"The plan field is required." three times, stacked. The `.group` components never had
+this, since they centralise the message on the `<fieldset>`.
+
+The first wrapper to render a property now claims the message for that request and the
+rest stay quiet. `invalidate` still suppresses it everywhere, as before.
 
 ### Added — `<x-slot:label left>` places the label before the input
 

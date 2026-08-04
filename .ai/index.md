@@ -119,6 +119,17 @@
 - [Wrapper Input](components/wrapper/input.md) *(internal)*
 - [Wrapper Radio](components/wrapper/radio.md) *(internal)*
 
+## Binding to a nested property
+
+`wire:model` accepts a nested path, which is what a Livewire Form object and any nested
+array look like. Only the head of the path has to be a real property on the component:
+
+```blade
+<x-key-value wire:model="form.metadata" />
+<x-upload wire:model="form.files" multiple delete />
+<x-date wire:model="filters.period" range />
+```
+
 ## Outside Livewire
 
 The library was built for Livewire, but the form components also work on a plain Blade

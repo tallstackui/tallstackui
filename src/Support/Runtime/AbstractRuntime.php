@@ -139,7 +139,9 @@ abstract class AbstractRuntime
      */
     protected function property(?string $property): mixed
     {
-        if (is_null($property) || ! property_exists($this->livewire, $property)) {
+        // Only the first segment names a real property; data_get() walks the rest.
+        // Checking the whole path rejects wire:model="form.files".
+        if (is_null($property) || ! property_exists($this->livewire, str($property)->before('.')->value())) {
             return null;
         }
 
@@ -238,7 +240,8 @@ abstract class AbstractRuntime
 
     protected function value(?string $property = null, mixed $value = null): mixed
     {
-        return $this->wireable() && ! is_null($property) && property_exists($this->livewire, $property)
+        // Mirrors property(): the path may be nested, only its head is a property.
+        return $this->wireable() && ! is_null($property) && property_exists($this->livewire, str($property)->before('.')->value())
             ? $this->property($property)
             : ($value ?: $this->data['attributes']->get('value'));
     }

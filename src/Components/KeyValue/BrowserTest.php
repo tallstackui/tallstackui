@@ -4,12 +4,38 @@ namespace TallStackUi\Components\KeyValue;
 
 use Facebook\WebDriver\WebDriverBy;
 use Livewire\Component;
+use Livewire\Form;
 use Livewire\Livewire;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Browser\BrowserTestCase;
 
 class BrowserTest extends BrowserTestCase
 {
+    #[Test]
+    public function binds_to_a_nested_property(): void
+    {
+        // The Livewire Form object shape, which used to read null and throw on it.
+        Livewire::visit(new class extends Component
+        {
+            public KeyValueForm $form;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="metadata">@json($form->metadata)</p>
+
+                    <x-key-value wire:model="form.metadata" />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->waitForText('foo')
+            ->assertInputValue('@tallstackui_input_key', 'foo')
+            ->assertInputValue('@tallstackui_input_value', 'bar');
+    }
+
     #[Test]
     public function can_add_row(): void
     {
@@ -353,4 +379,9 @@ class BrowserTest extends BrowserTestCase
         })
             ->assertSee('[TallStackUI] KeyValue: The [static] and [limit] attributes cannot be used at the same time.');
     }
+}
+
+class KeyValueForm extends Form
+{
+    public array $metadata = [['key' => 'foo', 'value' => 'bar']];
 }

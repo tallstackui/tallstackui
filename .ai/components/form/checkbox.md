@@ -33,6 +33,15 @@ The label also accepts a slot, which is what you need when it carries markup. Th
 `start` on the same slot aligns the label to the top instead of centering it, which
 matters when the text wraps over more than one line.
 
+## Ids and the validation message
+
+When no `id` is given, one is generated from the bound property plus the `value`, so
+several checkboxes sharing a property keep distinct ids and each label's `for` points at
+its own input. An explicit `id` is always used as given.
+
+The validation message is printed once per property, by the first checkbox that renders
+it, rather than repeated under every one bound to it.
+
 ## Attributes
 
 | Attribute  | Type                        | Default   | Description                                                                 |
