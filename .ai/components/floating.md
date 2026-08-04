@@ -97,6 +97,28 @@ Reaction, which resolve them through a different engine. Here they resolve to
 `bottom`, `bottom-start` and `bottom-end`, because Alpine's anchor plugin only knows
 the concrete twelve. Prefer naming the placement you want.
 
+## Matching the anchor width
+
+The panel is teleported to the end of `<body>`, so it cannot inherit its anchor's width
+and sizes to its own content by default — a list of short options comes out narrow.
+
+Adding `w-full` to the panel opts into the width sync:
+
+```blade
+<x-floating class="w-full">
+```
+
+The class doubles as the switch. Nothing reads it as CSS; the component checks for it and
+then writes the anchor's `offsetWidth` onto the panel, re-applying it on every open, on a
+`MutationObserver` over the panel content, and on Livewire's `commit` hook — so the width
+survives a round trip that replaces the teleported node while the panel is open.
+
+`Form/Select/Styled`, `Form/Autocomplete` and `Form/Tag` carry it in their
+`floating.class` block. Customizing that block without keeping `w-full` silently drops the
+sync and the panel starts sizing to its longest option.
+
+Leave it off for panels that should size to their content, such as `Dropdown`.
+
 ## Soft Customization
 
 Soft customization allows you to override default Tailwind CSS classes used by this component at runtime, either through a service provider or scoped per-instance.

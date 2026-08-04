@@ -153,7 +153,7 @@ TallStackUi::customize()
 | button.wrapper         | Erase button positioning                       |
 | button.icon            | Erase button icon size and hover color         |
 | floating.default       | Floating panel surface                         |
-| floating.class         | Floating panel overflow and stacking           |
+| floating.class         | Floating panel overflow and stacking. Carries `w-full`, which opts the panel into the Floating's anchor width sync. |
 | box.wrapper            | Scrollable list wrapper                        |
 | box.item               | One option in the list                         |
 | box.highlighted        | Option under the cursor or the arrow keys      |
