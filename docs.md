@@ -12,6 +12,58 @@ such change is listed under **Migration**.
 
 ---
 
+## Form components outside Livewire
+
+### Added — coverage for the plain-form path, and the fixes it surfaced
+
+The library started as UI for Livewire components. Support for plain Blade pages posting
+to a controller arrived later, component by component, on request — and nothing tested
+it. Every browser test drove a Livewire component, so the `name`/hidden-input path was
+exercised by no one.
+
+Nine components now carry a `NativeBrowserTest`, each rendering a real `<form>` on a
+plain Blade page with no Livewire component anywhere, submitting it, and asserting what
+the controller received: Currency, Date, Time, Color, Pin, Tag, Select Styled,
+Autocomplete and Calendar.
+
+Writing them turned up three things.
+
+**Calendar never filled its hidden input.** It received `property` and stored it, but
+nothing ever read it back — no `getElementsByName` anywhere in the component. The hidden
+input was rendered and left empty, so `<x-calendar name="scheduled_at" />` submitted
+nothing at all. The `model` watcher even had `if (!this.livewire) return;` at the top,
+skipping the one case that needed it. It now mirrors the model into the input, the same
+way Date already did.
+
+**Tag submitted the form on the first tag.** `x-on:keydown="add($event)"` let Enter
+through, so inside a `<form>` the key that adds a tag also submitted the page. Adding a
+second tag was impossible. `add()` now calls `preventDefault()` when it handles the key.
+
+**Autocomplete had never been adapted.** It rendered no hidden input and dropped `name`
+entirely, so the value reached the server under no circumstances. It now follows the same
+contract as its siblings:
+
+```blade
+<form method="POST" action="/subscriptions">
+    @csrf
+    {{-- request('city') is the value of the picked item --}}
+    <x-autocomplete name="city" :items="$cities" clearable />
+</form>
+```
+
+### Fixed — packaging and analysis globs missed non-canonical test names
+
+`.gitattributes`, `composer.json` and `phpstan.neon` all excluded test files by exact
+name, `src/**/BrowserTest.php`, which requires a `/` right before it. Four files named
+otherwise slipped through into `git archive` and into the optimised classmap, and
+`phpstan.neon` had grown two hand-written entries for individual offenders — one of them
+for a file that no longer exists.
+
+All three now match on `*BrowserTest.php` and `*FeatureTest.php`, which covers the
+existing strays and the `NativeBrowserTest` files added here.
+
+---
+
 ## Form / Checkbox, Radio & Toggle
 
 ### Added — `<x-slot:label left>` places the label before the input

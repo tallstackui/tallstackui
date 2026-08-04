@@ -119,6 +119,36 @@
 - [Wrapper Input](components/wrapper/input.md) *(internal)*
 - [Wrapper Radio](components/wrapper/radio.md) *(internal)*
 
+## Outside Livewire
+
+The library was built for Livewire, but the form components also work on a plain Blade
+page posting to a controller. Give the component a `name` instead of a `wire:model` and
+it renders a hidden input carrying the value, so the server receives it like any other
+field. `value` seeds the initial state.
+
+```blade
+<form method="POST" action="/products">
+    @csrf
+    <x-currency name="price" symbol currency />
+    <x-date name="published_at" />
+    <x-time name="starts_at" />
+    <x-color name="brand" />
+    <x-pin name="code" :length="4" />
+    <x-tag name="tags" />
+    <x-select.styled name="status" :options="$options" select="label:label|value:value" />
+    <x-autocomplete name="city" :items="$cities" />
+    <x-calendar name="scheduled_at" />
+</form>
+```
+
+What arrives on the server depends on the component: a single value goes as is, and a
+multi-value selection is JSON encoded. Each component's page states its own shape, and
+`Currency` additionally offers three formats through `mutate` and `decimal`.
+
+Components that carry no value — Modal, Slide, Toast and friends — are unaffected either
+way. Livewire's script still has to be on the page, since that is where Alpine comes
+from.
+
 ## Global Configuration
 
 Top-level keys in `config/tallstackui.php`, applying across components rather

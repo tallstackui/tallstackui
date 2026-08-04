@@ -17,8 +17,8 @@
       "src/helpers.php"
     ],
     "exclude-from-classmap": [
-      "src/**/FeatureTest.php",
-      "src/**/BrowserTest.php"
+      "src/**/*FeatureTest.php",
+      "src/**/*BrowserTest.php"
     ]
   },
   "autoload-dev": {

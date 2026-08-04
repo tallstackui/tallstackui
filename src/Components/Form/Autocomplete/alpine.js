@@ -2,12 +2,24 @@ import { error, wireChange } from '../../../../js/helpers';
 
 const normalize = (text) => String(text ?? '').toLowerCase();
 
-export default (model = null, items = [], request = null, strict = false, lazy = null) => ({
+export default (
+  model = null,
+  items = [],
+  request = null,
+  strict = false,
+  lazy = null,
+  livewire = false,
+  property = null,
+  value = null
+) => ({
   model: model,
   items: Array.isArray(items) ? items : [],
   request: request,
   strict: strict,
   lazy: lazy,
+  livewire: livewire,
+  property: property,
+  value: value,
   show: false,
   loading: false,
   search: '',
@@ -18,6 +30,10 @@ export default (model = null, items = [], request = null, strict = false, lazy =
   _debounce: null,
   init() {
     this.items = this.normalizeItems(this.items);
+
+    if (!this.livewire && !this.model && this.value) {
+      this.model = this.value;
+    }
 
     if (this.model) {
       this.selected = this.findByValue(this.model);
@@ -55,6 +71,8 @@ export default (model = null, items = [], request = null, strict = false, lazy =
     });
 
     this.$watch('model', (value) => {
+      this.native();
+
       if (this.show) {
         return;
       }
@@ -74,6 +92,28 @@ export default (model = null, items = [], request = null, strict = false, lazy =
 
       row?.scrollIntoView({ block: 'nearest' });
     });
+
+    this.$nextTick(() => this.native());
+  },
+
+  /**
+   * Mirror the model into the hidden input that backs a plain form, which is
+   * the only way the value reaches the server outside Livewire.
+   *
+   * @returns {void}
+   */
+  native() {
+    if (this.livewire || !this.property) {
+      return;
+    }
+
+    const input = document.getElementsByName(this.property)[0];
+
+    if (!input) {
+      return;
+    }
+
+    input.value = this.model ?? '';
   },
 
   /**

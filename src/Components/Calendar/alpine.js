@@ -91,10 +91,41 @@ export default (
     }
 
     this.$watch('model', () => {
-      if (!this.livewire) return;
+      if (!this.livewire) {
+        this.native();
+
+        return;
+      }
 
       this.hydrate();
     });
+
+    if (!this.livewire) {
+      this.$nextTick(() => this.native());
+    }
+  },
+  /**
+   * Mirror the model into the hidden input that backs a plain form, which is
+   * the only way the value reaches the server outside Livewire.
+   *
+   * @return {void}
+   */
+  native() {
+    if (this.livewire || !this.property) {
+      return;
+    }
+
+    const input = document.getElementsByName(this.property)[0];
+
+    if (!input) {
+      return;
+    }
+
+    input.value = !this.model
+      ? ''
+      : typeof this.model === 'string'
+        ? this.model
+        : JSON.stringify(this.model);
   },
   /**
    * Translate the calendar.
@@ -175,7 +206,11 @@ export default (
    * @return {void}
    */
   sync() {
-    if (!this.model) return;
+    if (!this.model) {
+      this.native();
+
+      return;
+    }
 
     this.$el.dispatchEvent(
       new CustomEvent('select', { detail: { type: this.type, date: this.model } })

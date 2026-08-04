@@ -19,6 +19,20 @@ A tag input component that allows users to add multiple tag values by pressing E
 <x-tag wire:model="tags" label="Hashtags" prefix="#" />
 ```
 
+Outside Livewire, give it a `name` and it backs a plain form through a hidden input.
+A single tag arrives as a plain value and several arrive JSON encoded:
+
+```blade
+<form method="POST" action="/posts">
+    @csrf
+    {{-- one tag: "php" — several: ["php","laravel"] --}}
+    <x-tag name="tags" />
+</form>
+```
+
+Enter adds a tag rather than submitting the surrounding form, so the two do not fight
+over the key.
+
 ## Attributes
 
 | Attribute  | Type                        | Default | Description                                                                                                                              |
