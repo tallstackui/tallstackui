@@ -69,6 +69,25 @@ Only `center` as a boolean forces `p-4` and `rounded-xl`, which makes the modal 
 free of the screen edges on mobile too. A breakpoint keeps the mobile bottom sheet flush
 and relies on the `sm:` variants the wrapper blocks already carry.
 
+## Open Animation
+
+Below `sm` the modal is a bottom sheet and slides in opaque from off screen, with no
+fade, over 400ms of `ease-emphasized-decelerate`. It leaves over 200ms of
+`ease-emphasized-accelerate`. From `sm` up it is a floating dialog again and fades while
+it scales. The backdrop fades in both cases.
+
+`center` as a boolean never slides: it is a centered dialog at every width, so it scales
+in even on a phone. A breakpoint keeps the sheet, and therefore the slide, below `sm`.
+
+Under `prefers-reduced-motion` the sheet stops travelling and fades instead.
+
+The two easing tokens live in `css/v4.css` and are available to any component:
+
+```css
+--ease-emphasized-decelerate: cubic-bezier(0.05, 0.7, 0.1, 1);
+--ease-emphasized-accelerate: cubic-bezier(0.3, 0, 0.8, 0.15);
+```
+
 Removing the body padding so the content bleeds to the edges. The title and the
 footer keep theirs:
 

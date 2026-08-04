@@ -31,13 +31,39 @@ export const event = (name, params = null, prefix = true) => {
   window.dispatchEvent(new CustomEvent(identification, params ? { detail: params } : {}));
 };
 
+// Locking components that keep a countable live holder. Loading, Editor and
+// Upload lock the body without registering anywhere, so an absent entry proves
+// nothing about them and they are never treated as gone.
+const COUNTABLE = ['modal', 'slide', 'dialog', 'carousel', 'gallery', 'command-palette'];
+
+/**
+ * How many elements of a type still hold the body lock, or null when the type
+ * keeps no record of itself.
+ *
+ * @param type {String|Null}
+ * @return {Number|Null}
+ */
+const holders = (type) => {
+  if (type === 'floating') {
+    return window.__tsui_floating_locks.length;
+  }
+
+  if (!COUNTABLE.includes(type)) {
+    return null;
+  }
+
+  return window.__tsui_elements.filter((element) => element.type === type).length;
+};
+
 /**
  * @param status {Boolean}
  * @param component {String|Null}
  * @param skip {Boolean|Null}
  */
 export const overflow = (status, component = null, skip = false) => {
-  if (skip) return;
+  if (skip) {
+    return;
+  }
 
   const element = document.body;
   const key = 'data-overflow';
@@ -45,13 +71,20 @@ export const overflow = (status, component = null, skip = false) => {
   const has = current !== null;
 
   const set = () => {
+    // Must be read before locking, and it is the width the scrollbar takes
+    // from layout rather than whether the page scrolls. Overlay scrollbars
+    // take none, so there is nothing to give back.
+    const gutter = window.innerWidth - document.documentElement.clientWidth;
+
     element.style.setProperty('overflow', 'hidden', 'important');
     element.setAttribute(key, component);
 
-    const scroll = document.documentElement.scrollHeight > document.documentElement.clientHeight;
+    if (gutter > 0) {
+      element.style.paddingRight = `${gutter}px`;
 
-    if (scroll) {
-      element.style.paddingRight = '15px';
+      // Published so full bleed elements can bleed back into the reserved
+      // strip. Unset while the body is free, so the fallback is what applies.
+      document.documentElement.style.setProperty('--tsui-scrollbar-offset', `${gutter}px`);
     }
   };
 
@@ -59,6 +92,8 @@ export const overflow = (status, component = null, skip = false) => {
     element.removeAttribute(key);
     element.style.removeProperty('overflow');
     element.style.paddingRight = '';
+
+    document.documentElement.style.removeProperty('--tsui-scrollbar-offset');
   };
 
   if (status) {
@@ -69,12 +104,18 @@ export const overflow = (status, component = null, skip = false) => {
     return;
   }
 
-  if (!has) return;
+  if (!has) {
+    return;
+  }
 
   // Only whoever took the lock may give it back. Without this an inner
   // element (a Loading inside a Modal, a Floating inside a Slide) unlocks
   // the body while the outer one is still on screen.
-  if (current !== component) {
+  //
+  // Unless the owner is provably gone: a floating can take the lock before a
+  // modal opens, and the modal is then the last one out with a marker it does
+  // not own. Bailing there leaves the body locked for good.
+  if (current !== component && holders(current) !== 0) {
     return;
   }
 
@@ -186,6 +227,8 @@ export const flush_ui_elements = () => {
   element.removeAttribute('data-overflow');
   element.style.removeProperty('overflow');
   element.style.paddingRight = '';
+
+  document.documentElement.style.removeProperty('--tsui-scrollbar-offset');
 };
 
 /**

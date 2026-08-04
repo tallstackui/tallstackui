@@ -46,29 +46,29 @@ that exact radius. `square` drops the radius altogether and wins over `round`:
 
 ## Attributes
 
-| Attribute | Type         | Default   | Description                                                     |
-|-----------|--------------|-----------|-----------------------------------------------------------------|
-| text      | string\|null | null      | Button label text                                               |
-| icon      | string\|null | null      | Heroicon name displayed alongside the text                      |
-| position  | string\|null | 'left'    | Icon position relative to text: 'left' or 'right'               |
-| xs        | bool         | null      | Extra-small size                                                |
-| sm        | bool         | null      | Small size                                                      |
-| md        | bool         | null      | Medium size (default)                                           |
-| lg        | bool         | null      | Large size                                                      |
-| color     | string\|null | 'primary' | Color theme (e.g., primary, red, green, yellow)                 |
-| square    | string\|null       | null      | Removes border radius for square corners. Wins over `round`               |
+| Attribute | Type               | Default   | Description                                                                                                                            |
+|-----------|--------------------|-----------|----------------------------------------------------------------------------------------------------------------------------------------|
+| text      | string\|null       | null      | Button label text                                                                                                                      |
+| icon      | string\|null       | null      | Heroicon name displayed alongside the text                                                                                             |
+| position  | string\|null       | 'left'    | Icon position relative to text: 'left' or 'right'                                                                                      |
+| xs        | bool               | null      | Extra-small size                                                                                                                       |
+| sm        | bool               | null      | Small size                                                                                                                             |
+| md        | bool               | null      | Medium size (default)                                                                                                                  |
+| lg        | bool               | null      | Large size                                                                                                                             |
+| color     | string\|null       | 'primary' | Color theme (e.g., primary, red, green, yellow)                                                                                        |
+| square    | string\|null       | null      | Removes border radius for square corners. Wins over `round`                                                                            |
 | round     | bool\|string\|null | false     | `true` gives a pill (`rounded-full`). A size (xs, sm, md, lg, xl, full) gives that exact radius. Defaults to `rounded-md` when omitted |
-| block     | bool         | false     | Expands button to full width (`w-full`)                         |
-| href      | string\|null | null      | When set, renders as an anchor tag instead of a button          |
-| loading   | string\|null | null      | Livewire action name to show a loading spinner during execution |
-| delay     | string\|null | null      | Delay duration for the loading indicator (e.g., 'longest')      |
-| solid     | bool         | true      | Uses the solid color style variant (default)                    |
-| outline   | bool         | false     | Uses the outline color style variant                            |
-| light     | bool         | false     | Uses the light color style variant                              |
-| flat      | bool         | false     | Uses the flat color style variant (no border)                   |
-| submit    | bool         | false     | Sets button type to 'submit' for form submission                |
-| unfocus   | bool         | false     | No focus on mouse click (no ring/color); keyboard focus kept    |
-| tooltip   | string\|null | null      | Tooltip text shown on hover                                     |
+| block     | bool               | false     | Expands button to full width (`w-full`)                                                                                                |
+| href      | string\|null       | null      | When set, renders as an anchor tag instead of a button                                                                                 |
+| loading   | string\|null       | null      | Livewire action name to show a loading spinner during execution                                                                        |
+| delay     | string\|null       | null      | Delay duration for the loading indicator (e.g., 'longest')                                                                             |
+| solid     | bool               | true      | Uses the solid color style variant (default)                                                                                           |
+| outline   | bool               | false     | Uses the outline color style variant                                                                                                   |
+| light     | bool               | false     | Uses the light color style variant                                                                                                     |
+| flat      | bool               | false     | Uses the flat color style variant (no border)                                                                                          |
+| submit    | bool               | false     | Sets button type to 'submit' for form submission                                                                                       |
+| unfocus   | bool               | false     | No focus on mouse click (no ring/color); keyboard focus kept                                                                           |
+| tooltip   | string\|null       | null      | Tooltip text shown on hover                                                                                                            |
 
 The balloon accepts the same attributes as anywhere else — `data-position`,
 `data-tooltip-delay`, `data-tooltip-color` and `data-tooltip-disabled`. See
@@ -100,23 +100,23 @@ TallStackUi::customize()
 
 ### Available Blocks
 
-| Block Name                    | Purpose                                                             |
-|-------------------------------|---------------------------------------------------------------------|
-| wrapper.class                 | Base button styles (inline-flex, border, transition, cursor states) |
-| wrapper.sizes.xs              | Extra-small text and padding                                        |
-| wrapper.sizes.sm              | Small text and padding                                              |
-| wrapper.sizes.md              | Medium text and padding                                             |
-| wrapper.sizes.lg              | Large text and padding                                              |
-| wrapper.block                 | Full-width class applied by `block`                                 |
-| border.radius.xs              | Radius applied by `round="xs"`                                      |
-| border.radius.sm              | Radius applied by `round="sm"`                                      |
-| border.radius.md              | Radius applied by `round="md"` and by default                       |
-| border.radius.lg              | Radius applied by `round="lg"`                                      |
-| border.radius.xl              | Radius applied by `round="xl"`                                      |
-| border.radius.full            | Radius applied by `round` and by `round="full"`                     |
-| wire.loading-cursor           | Cursor applied while a `loading` action runs                        |
-| icon.sizes.xs                 | Extra-small icon dimensions                                         |
-| icon.sizes.sm                 | Small icon dimensions                                               |
-| icon.sizes.md                 | Medium icon dimensions                                              |
-| icon.sizes.lg                 | Large icon dimensions                                               |
-| icon.spinner-animation        | Spin animation applied to the loading icon                          |
+| Block Name             | Purpose                                                             |
+|------------------------|---------------------------------------------------------------------|
+| wrapper.class          | Base button styles (inline-flex, border, transition, cursor states) |
+| wrapper.sizes.xs       | Extra-small text and padding                                        |
+| wrapper.sizes.sm       | Small text and padding                                              |
+| wrapper.sizes.md       | Medium text and padding                                             |
+| wrapper.sizes.lg       | Large text and padding                                              |
+| wrapper.block          | Full-width class applied by `block`                                 |
+| border.radius.xs       | Radius applied by `round="xs"`                                      |
+| border.radius.sm       | Radius applied by `round="sm"`                                      |
+| border.radius.md       | Radius applied by `round="md"` and by default                       |
+| border.radius.lg       | Radius applied by `round="lg"`                                      |
+| border.radius.xl       | Radius applied by `round="xl"`                                      |
+| border.radius.full     | Radius applied by `round` and by `round="full"`                     |
+| wire.loading-cursor    | Cursor applied while a `loading` action runs                        |
+| icon.sizes.xs          | Extra-small icon dimensions                                         |
+| icon.sizes.sm          | Small icon dimensions                                               |
+| icon.sizes.md          | Medium icon dimensions                                              |
+| icon.sizes.lg          | Large icon dimensions                                               |
+| icon.spinner-animation | Spin animation applied to the loading icon                          |

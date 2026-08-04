@@ -110,6 +110,40 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function bottom_sheet_settles_flush_without_leaving_the_scroll_container_scrollable(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public bool $modal = false;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-modal wire title="Sheet">Modal body</x-modal>
+
+                    <x-button dusk="open" wire:click="$toggle('modal')">Open</x-button>
+                </div>
+                HTML;
+            }
+        })
+            ->resize(400, 800)
+            ->click('@open')
+            ->waitForText('Modal body')
+            ->pause(600)
+            ->tap(function (Browser $browser): void {
+                [$scroll, $client, $transform] = $browser->script(
+                    "const el = document.querySelector('#modal > div:last-child');
+                     const card = el.querySelector('.min-h-full > div');
+                     return [el.scrollHeight, el.clientHeight, getComputedStyle(card).transform];"
+                )[0];
+
+                Assert::assertLessThanOrEqual($client, $scroll, 'the settled sheet must not leave the scroll container scrollable');
+                Assert::assertContains($transform, ['none', 'matrix(1, 0, 0, 1, 0, 0)'], 'the settled sheet must not keep a residual transform');
+            });
+    }
+
+    #[Test]
     public function can_dispatch_events(): void
     {
         Livewire::visit(new class extends Component

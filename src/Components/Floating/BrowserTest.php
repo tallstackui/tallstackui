@@ -149,6 +149,55 @@ class BrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function hands_the_marker_over_when_a_modal_outlives_the_floating_that_took_it(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public function boot(): void
+            {
+                config(['ts-ui.floating_scroll_lock' => true]);
+            }
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-dropdown text="Menu">
+                        <x-dropdown.items text="Lorem" />
+                    </x-dropdown>
+
+                    <x-modal id="outliving" title="Outliving">Modal body</x-modal>
+                </div>
+                HTML;
+            }
+        })
+            ->click('@tallstackui_open_dropdown')
+            ->waitForText('Lorem')
+            ->tap(function (Browser $browser): void {
+                Assert::assertSame('floating', $this->marker($browser), 'the floating opened first, so it owns the marker');
+            })
+            // The modal opens while the floating still holds the lock, so it
+            // never gets to write a marker of its own.
+            ->tap(fn (Browser $browser) => $browser->script("window.\$tsui.open.modal('outliving');"))
+            ->waitForText('Modal body')
+            ->tap(fn (Browser $browser) => $browser->script("document.querySelector('[dusk=tallstackui_open_dropdown]').click();"))
+            ->pause($this->paused(1))
+            ->tap(function (Browser $browser): void {
+                Assert::assertSame(0, $this->locks($browser), 'the floating must drop its reference');
+                Assert::assertSame('hidden', $this->overflow($browser), 'the modal still needs the body locked');
+            })
+            // The marker still says floating, and the modal is the last one out.
+            // Bailing on a marker it does not own would lock the body forever.
+            ->tap(fn (Browser $browser) => $browser->script("window.\$tsui.close.modal('outliving');"))
+            ->waitUntilMissingText('Modal body')
+            ->pause($this->paused(1))
+            ->tap(function (Browser $browser): void {
+                Assert::assertNotSame('hidden', $this->overflow($browser), 'the body must unlock once nothing is left holding it');
+                Assert::assertNull($this->marker($browser), 'the orphaned marker must not survive');
+            });
+    }
+
+    #[Test]
     public function keeps_the_lock_when_a_nested_submenu_closes(): void
     {
         Livewire::visit(new class extends Component

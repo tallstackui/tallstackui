@@ -12,6 +12,95 @@ such change is listed under **Migration**.
 
 ---
 
+## Scroll lock
+
+### Fixed — the scrollbar compensation was a hardcoded 15px
+
+Every overlay that locks the page — Modal, Slide, Loading, and Floating when
+`floating_scroll_lock` is on — puts `overflow: hidden` on the `<body>` and gives the
+scrollbar's width back as `padding-right`, so the content does not jump sideways when
+the scrollbar disappears.
+
+The width was the constant `15px`, applied whenever the page happened to be
+scrollable:
+
+```js
+const scroll = document.documentElement.scrollHeight > document.documentElement.clientHeight;
+
+if (scroll) {
+    element.style.paddingRight = '15px';
+}
+```
+
+That asks whether the page scrolls. The question that matters is whether the scrollbar
+takes width away from the layout, and the two part company on **overlay scrollbars** —
+the macOS default, and what any Mac on a trackpad is using. Those float above the
+content and take nothing, so removing them frees nothing, and 15px of padding pushed
+the whole page off the right edge to make room for a scrollbar that had never been
+there. On a classic scrollbar the constant happened to be close enough to be invisible,
+which is why it survived.
+
+It is measured now, and read before the lock, since afterwards the scrollbar is already
+gone and the measurement would always come back zero:
+
+```js
+const gutter = window.innerWidth - document.documentElement.clientWidth;
+```
+
+Zero on overlay scrollbars, so nothing is written at all. The real width elsewhere.
+
+This is the same expression Vuetify computes for `--v-scrollbar-offset`, down to the
+`padding-inline-end` it feeds.
+
+### Added — `--tsui-scrollbar-offset` and `.tsui-scrollbar-bleed`
+
+Reserving the scrollbar's width keeps the content still, but it also leaves a strip of
+canvas along the right edge, and anything full bleed stops short of the viewport. A
+sticky header with its own background suddenly ends 15px early, against a strip in
+whatever colour the canvas happens to be. Whether that reads as a seam is pure luck:
+dark app on a dark canvas hides it, a white header on a grey canvas does not.
+
+The lock now publishes what it measured, so an element can grow back over the strip:
+
+```css
+:root { --tsui-scrollbar-offset: 15px; } /* only while the body is locked */
+```
+
+And `css/plugins/scrollbar-bleed.css` ships the utility that uses it:
+
+```css
+.tsui-scrollbar-bleed {
+    margin-right: calc(-1 * var(--tsui-scrollbar-offset, 0px));
+    border-right: var(--tsui-scrollbar-offset, 0px) solid transparent;
+}
+```
+
+The negative margin grows the box out over the strip so the background reaches the
+edge. The transparent border pushes the content back by the same amount, and since
+backgrounds paint under the border, the fill stays while nothing inside moves. Both
+terms collapse to zero while the body is free, so the class is inert the rest of the
+time.
+
+`<x-layout.header>` and `<x-banner>` carry it. They are the only two components that
+are in flow and full bleed with a background of their own — everything else that
+touches the edge is `position: fixed` and never sees the body's padding. Applications
+with a header of their own can add the class to it.
+
+Vuetify solves the same thing the same way, one component at a time:
+
+```css
+.v-overlay-scroll-blocked .v-navigation-drawer--right.v-navigation-drawer--active {
+    margin-right: var(--v-scrollbar-offset);
+}
+```
+
+### Migration
+
+None. The variable and the utility are additive, and the measurement only ever writes
+less padding than the constant did.
+
+---
+
 ## Button
 
 ### Added — `round` accepts a size
@@ -89,6 +178,46 @@ name of the block that no longer exists.
 ---
 
 ## Modal
+
+### Changed — the mobile open reads as a sheet instead of a nudge
+
+Below `sm` the modal is already a bottom sheet: anchored to the bottom edge, flush,
+with only its top corners rounded. It opened like a dialog anyway — a 16px lift plus a
+fade, over 300ms of `ease-out`:
+
+```
+enter-start = opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95
+```
+
+Sixteen pixels is a nudge, not a sheet, and the fade is what gives it away: a native
+sheet never fades, it travels opaque from off screen. It now does the same:
+
+```
+enter = ease-emphasized-decelerate duration-400
+enter-start = translate-y-full motion-reduce:translate-y-0 motion-reduce:opacity-0 sm:translate-y-0 sm:opacity-0 sm:scale-95
+leave = ease-emphasized-accelerate duration-200
+```
+
+There is no opacity class below `sm`, so only the transform animates and the sheet
+stays solid the whole way. The backdrop still fades, which is what a scrim does.
+
+From `sm` up nothing changed — it is a floating dialog again, and it fades while it
+scales, exactly as before.
+
+`center` as a boolean opts out entirely: it is a centered dialog at every width, and
+sliding a centered box up from the bottom edge would be wrong. A breakpoint does not
+opt out, since the phone is still a sheet.
+
+### Added — two Material 3 easing tokens
+
+```css
+--ease-emphasized-decelerate: cubic-bezier(0.05, 0.7, 0.1, 1);
+--ease-emphasized-accelerate: cubic-bezier(0.3, 0, 0.8, 0.15);
+```
+
+Paired asymmetrically — 400ms in, 200ms out — which is most of what separates a native
+open from a symmetric web fade. Available to every component as `ease-emphasized-*`,
+not only to the modal.
 
 ### Added — `center` accepts a breakpoint
 
@@ -1771,10 +1900,11 @@ Styled, Time, Upload, Calendar and the List Items menu at once. The mechanics ar
 the ones Modal and Slide already use: `overflow: hidden` on the `<body>` plus the
 compensating `padding-right`.
 
-Off by default, and there is no per-instance opt out. That compensating
-`padding-right` shifts the layout on every open, which reads very differently on a
-three-item dropdown than it does on a modal — enabling it is a deliberate choice
-about how the whole application should feel, not a per-call-site one.
+Off by default, and there is no per-instance opt out. Locking the page reads very
+differently on a three-item dropdown than it does on a modal: the scrollbar
+disappearing from under the cursor is a lot of movement to trade for a menu —
+enabling it is a deliberate choice about how the whole application should feel, not
+a per-call-site one.
 
 **Nested and stacked popups share a single lock.** A Dropdown Submenu renders a
 floating of its own inside its parent, so a naive implementation would re-lock on

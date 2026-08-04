@@ -175,22 +175,22 @@ TallStackUi::customize()
 
 ### Available Blocks
 
-| Block Name           | Purpose                                                               |
-|----------------------|-----------------------------------------------------------------------|
-| wire                 | Sticky positioning classes for wire mode                              |
-| wrapper              | Main flex container with padding and alignment                        |
-| sizes.sm             | Small vertical padding                                                |
-| sizes.md             | Medium vertical padding                                               |
-| sizes.lg             | Large vertical padding                                                |
-| slot.left            | Left slot absolute positioning and font styles                        |
-| text                 | Centered text styles                                                  |
-| icon                 | Icon dimensions for wire mode status icons                            |
-| close                | Close button icon dimensions                                          |
-| rotate.viewport      | Overflow-hidden container with container query + edge fade mask       |
-| rotate.track         | Inline-block track that translates from `100cqi` to `-100%` of itself |
-| rotate.item          | The rolling text node                                                 |
-| rotate.spacing.left  | Margin reserved on the viewport when the `<x-slot:left>` is present   |
-| rotate.spacing.right | Margin reserved on the viewport when the `close` button is present    |
-| rotate.speeds.slow   | Animation utility for the slow rotation (40s per loop)                |
-| rotate.speeds.normal | Animation utility for the normal rotation (18s per loop)              |
-| rotate.speeds.fast   | Animation utility for the fast rotation (8s per loop)                 |
+| Block Name           | Purpose                                                                                                                                                              |
+|----------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| wire                 | Sticky positioning classes for wire mode                                                                                                                             |
+| wrapper              | Main flex container with padding and alignment. Carries `tsui-scrollbar-bleed`, which lets the banner reach the viewport edge while an overlay holds the scroll lock |
+| sizes.sm             | Small vertical padding                                                                                                                                               |
+| sizes.md             | Medium vertical padding                                                                                                                                              |
+| sizes.lg             | Large vertical padding                                                                                                                                               |
+| slot.left            | Left slot absolute positioning and font styles                                                                                                                       |
+| text                 | Centered text styles                                                                                                                                                 |
+| icon                 | Icon dimensions for wire mode status icons                                                                                                                           |
+| close                | Close button icon dimensions                                                                                                                                         |
+| rotate.viewport      | Overflow-hidden container with container query + edge fade mask                                                                                                      |
+| rotate.track         | Inline-block track that translates from `100cqi` to `-100%` of itself                                                                                                |
+| rotate.item          | The rolling text node                                                                                                                                                |
+| rotate.spacing.left  | Margin reserved on the viewport when the `<x-slot:left>` is present                                                                                                  |
+| rotate.spacing.right | Margin reserved on the viewport when the `close` button is present                                                                                                   |
+| rotate.speeds.slow   | Animation utility for the slow rotation (40s per loop)                                                                                                               |
+| rotate.speeds.normal | Animation utility for the normal rotation (18s per loop)                                                                                                             |
+| rotate.speeds.fast   | Animation utility for the fast rotation (8s per loop)                                                                                                                |

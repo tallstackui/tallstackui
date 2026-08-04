@@ -68,7 +68,7 @@ class Component extends TallStackUiComponent implements Customization
                     'info' => 'text-blue-50',
                 ],
             ],
-            'wrapper' => 'relative flex flex-row items-center justify-between px-6 py-2',
+            'wrapper' => 'relative flex flex-row items-center justify-between px-6 py-2 tsui-scrollbar-bleed',
             'sizes' => [
                 'sm' => 'py-2',
                 'md' => 'py-3',

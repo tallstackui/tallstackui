@@ -62,15 +62,15 @@ TallStackUi::customize()
 
 ### Available Blocks
 
-| Block Name         | Purpose                                                   |
-|--------------------|-----------------------------------------------------------|
-| wrapper            | Outer sticky header container with flex layout and shadow |
-| button.class       | Mobile hamburger menu button visibility and cursor        |
-| button.icon.size   | Mobile hamburger icon dimensions and color                |
-| collapse.class     | Desktop sidebar collapse toggle button visibility         |
-| collapse.icon      | Icon name used for the collapse toggle (default: bars-4)  |
-| collapse.icon.size | Collapse toggle icon dimensions and color                 |
-| slots.wrapper      | Flex container wrapping all three slot areas              |
-| slots.left         | Flex container for the left slot                          |
-| slots.middle       | Flex container for the middle slot                        |
-| slots.right        | Flex container for the right slot                         |
+| Block Name         | Purpose                                                                                                                                                                         |
+|--------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| wrapper            | Outer sticky header container with flex layout and shadow. Carries `tsui-scrollbar-bleed`, which lets the header reach the viewport edge while an overlay holds the scroll lock |
+| button.class       | Mobile hamburger menu button visibility and cursor                                                                                                                              |
+| button.icon.size   | Mobile hamburger icon dimensions and color                                                                                                                                      |
+| collapse.class     | Desktop sidebar collapse toggle button visibility                                                                                                                               |
+| collapse.icon      | Icon name used for the collapse toggle (default: bars-4)                                                                                                                        |
+| collapse.icon.size | Collapse toggle icon dimensions and color                                                                                                                                       |
+| slots.wrapper      | Flex container wrapping all three slot areas                                                                                                                                    |
+| slots.left         | Flex container for the left slot                                                                                                                                                |
+| slots.middle       | Flex container for the middle slot                                                                                                                                              |
+| slots.right        | Flex container for the right slot                                                                                                                                               |

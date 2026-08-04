@@ -21,10 +21,10 @@
         {{ $attributes->whereStartsWith('x-on:') }}>
     <div x-show="show"
          @if (!$ts_ui__flash)
-             x-transition:enter="ease-out duration-300"
+             x-transition:enter="ease-emphasized-decelerate duration-400"
          x-transition:enter-start="opacity-0"
          x-transition:enter-end="opacity-100"
-         x-transition:leave="ease-in duration-200"
+         x-transition:leave="ease-emphasized-accelerate duration-200"
          x-transition:leave-start="opacity-100"
          x-transition:leave-end="opacity-0"
             @endif
@@ -39,13 +39,20 @@
             <div x-show="show"
                  @if (!$configurations['persistent']) x-on:mousedown.away="top_ui && (show = false)" @endif
                  @if (!$ts_ui__flash)
-                     x-transition:enter="ease-out duration-300"
-                 x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                 x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
-                 x-transition:leave="ease-in duration-200"
-                 x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
-                 x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                    @endif
+                     x-transition:enter="ease-emphasized-decelerate duration-400"
+                 x-transition:leave="ease-emphasized-accelerate duration-200"
+                 @if ($configurations['center'] === true)
+                     x-transition:enter-start="opacity-0 scale-95"
+                 x-transition:enter-end="opacity-100 scale-100"
+                 x-transition:leave-start="opacity-100 scale-100"
+                 x-transition:leave-end="opacity-0 scale-95"
+                 @else
+                     x-transition:enter-start="translate-y-full motion-reduce:translate-y-0 motion-reduce:opacity-0 sm:translate-y-0 sm:opacity-0 sm:scale-95"
+                 x-transition:enter-end="translate-y-0 motion-reduce:opacity-100 sm:opacity-100 sm:scale-100"
+                 x-transition:leave-start="translate-y-0 motion-reduce:opacity-100 sm:opacity-100 sm:scale-100"
+                 x-transition:leave-end="translate-y-full motion-reduce:translate-y-0 motion-reduce:opacity-0 sm:translate-y-0 sm:opacity-0 sm:scale-95"
+                 @endif
+                 @endif
                     @class([$customization['wrapper.fourth'], $configurations['size'], $customization['wrapper.scrollable'] => $configurations['scrollable'], $customization['wrapper.fourth-centered-rounded'] => $configurations['center'] === true])>
                 @if ($title)
                     <div class="{{ $customization['title.wrapper'] }}">

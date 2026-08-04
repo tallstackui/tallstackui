@@ -4,13 +4,25 @@ export default (data = {}) => ({
     const storage = localStorage.getItem(data?.name ?? 'dark-theme');
 
     // Migrate an old boolean format
-    if (storage === 'true') return 'dark';
-    if (storage === 'false') return 'light';
+    if (storage === 'true') {
+      return 'dark';
+    }
 
-    if (['light', 'dark', 'system'].includes(storage)) return storage;
+    if (storage === 'false') {
+      return 'light';
+    }
 
-    if (data?.default === 'dark' || data?.default === true) return 'dark';
-    if (data?.default === 'system') return 'system';
+    if (['light', 'dark', 'system'].includes(storage)) {
+      return storage;
+    }
+
+    if (data?.default === 'dark' || data?.default === true) {
+      return 'dark';
+    }
+
+    if (data?.default === 'system') {
+      return 'system';
+    }
 
     return 'light';
   })(),
@@ -56,7 +68,9 @@ export default (data = {}) => ({
       this.media = null;
     }
 
-    if (this.mode !== 'system') return;
+    if (this.mode !== 'system') {
+      return;
+    }
 
     this.media = (e) => {
       this.darkTheme = e.matches;

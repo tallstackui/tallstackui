@@ -1,0 +1,9 @@
+/* Full bleed elements are in flow, so the scroll-lock padding on the body
+   pulls them off the viewport edge and leaves a strip of canvas next to them.
+   The negative margin grows the box back over that strip, and the transparent
+   border pushes the content back to where it was, since the background paints
+   under it. Both collapse to zero while the body is free. */
+.tsui-scrollbar-bleed {
+    margin-right: calc(-1 * var(--tsui-scrollbar-offset, 0px));
+    border-right: var(--tsui-scrollbar-offset, 0px) solid transparent;
+}
