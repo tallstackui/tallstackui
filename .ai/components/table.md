@@ -248,6 +248,16 @@ and `simple-pagination`.
 | `minimal` | no surfaces at all, current page ruled underneath | two underline-on-hover text links |
 | `compact` | one bordered shell holding `‹ 3 / 12 ›`           | the same shell, page number only  |
 
+The numbered mode needs a total and a last page, which only a `LengthAwarePaginator`
+carries. Rows coming from `simplePaginate()` have neither, so they render the simple
+mode whether or not the flag was given:
+
+```blade
+{{-- both render previous/next --}}
+<x-table :$headers :rows="User::simplePaginate(10)" paginate />
+<x-table :$headers :rows="User::paginate(10)" paginate simple-pagination />
+```
+
 `compact` collapses the page list into an indicator, so one control serves every width.
 It needs `lastPage()`, which a simple paginator does not have — in that mode it shows the
 current page alone.

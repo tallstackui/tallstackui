@@ -222,6 +222,24 @@ TallStackUi::customize()
 Customizations of the same block stack: two chains, or two service providers,
 each add on top of what the other did rather than overwriting it.
 
+### Scopes layer over the global customization
+
+A scope only overrides the blocks it names. Every other block keeps whatever the
+global customization did to it, so a scoped instance is the global look plus the
+scope's changes, not a reset:
+
+```php
+TallStackUi::customize()->alert()->block('wrapper')->append('brand-shadow');
+TallStackUi::customize('alert', scope: 'flat')->block('text.title')->append('text-xl');
+```
+
+`<x-alert scope="flat" />` renders with both `brand-shadow` and `text-xl`. This applies
+to the scopes the package ships as well, such as `<x-card scope="card-shadowless">`.
+
+Block names containing a dot (`body.paddingless`, `wrapper.second`) are keys, not paths.
+A scope can set `body` and `body.paddingless` in the same call without one replacing the
+other.
+
 ## Global JavaScript API
 
 ```javascript

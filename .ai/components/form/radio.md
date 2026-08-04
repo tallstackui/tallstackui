@@ -19,6 +19,20 @@ A radio button input component with configurable sizes, label positioning, and c
 <x-radio wire:model="option" label="Option A" value="a" lg position="left" />
 ```
 
+The label also accepts a slot, which is what you need when it carries markup. The
+`left` attribute on the slot places it before the radio, the same as `position="left"`:
+
+```blade
+<x-radio wire:model="plan" value="pro">
+    <x-slot:label left>
+        Pro <span class="text-xs text-gray-500">$29/mo</span>
+    </x-slot:label>
+</x-radio>
+```
+
+`start` on the same slot aligns the label to the top instead of centering it, which
+matters when the text wraps over more than one line.
+
 ## Attributes
 
 | Attribute  | Type                        | Default   | Description                                                                     |

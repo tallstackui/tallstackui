@@ -19,6 +19,20 @@ A checkbox input component with configurable sizes, label positioning, and color
 <x-checkbox wire:model="active" label="Active" lg position="left" />
 ```
 
+The label also accepts a slot, which is what you need when it carries markup. The
+`left` attribute on the slot places it before the checkbox, the same as `position="left"`:
+
+```blade
+<x-checkbox wire:model="agree">
+    <x-slot:label left>
+        I agree to the <a href="/terms">terms</a>
+    </x-slot:label>
+</x-checkbox>
+```
+
+`start` on the same slot aligns the label to the top instead of centering it, which
+matters when the text wraps over more than one line.
+
 ## Attributes
 
 | Attribute  | Type                        | Default   | Description                                                                 |

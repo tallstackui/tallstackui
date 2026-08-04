@@ -38,6 +38,13 @@ A full-screen loading overlay that displays automatically during Livewire reques
 | opacity   | bool\|null   | true (from config: true)   | Enables background opacity effect                                                               |
 | overflow  | bool\|null   | null (from config: false)  | When true, avoids hiding body overflow                                                          |
 
+## Body overflow
+
+By default the page scroll is locked while the request is in flight and released once the
+response is morphed in, so the page cannot be scrolled behind the overlay. `overflow`
+opts out of that. The lock is also released when a request fails or is cancelled, which
+never reaches the morph.
+
 ## Slots
 
 | Slot      | Description                                                       |

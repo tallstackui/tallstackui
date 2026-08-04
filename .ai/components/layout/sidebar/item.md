@@ -69,12 +69,12 @@ Using route pattern matching:
 
 These attributes are inherited from the parent `<x-side-bar>` via `@aware`:
 
-| Attribute      | Source                                                                      |
-|----------------|-----------------------------------------------------------------------------|
-| smart          | `<x-side-bar smart>` enables automatic route-based active state detection   |
-| navigate       | `<x-side-bar navigate>` adds `wire:navigate` to links                       |
-| navigate-hover | `<x-side-bar navigate-hover>` adds `wire:navigate.hover` to links           |
-| collapsible    | `<x-side-bar collapsible>` enables collapsed sidebar behavior with tooltips |
+| Attribute      | Source                                                                                                                                                                                                                                            |
+|----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| smart          | `<x-side-bar smart>` enables automatic route-based active state detection. An item never matches where there is no current route to compare against, which is the case on error views, or where the current route was declared without `->name()` |
+| navigate       | `<x-side-bar navigate>` adds `wire:navigate` to links                                                                                                                                                                                             |
+| navigate-hover | `<x-side-bar navigate-hover>` adds `wire:navigate.hover` to links                                                                                                                                                                                 |
+| collapsible    | `<x-side-bar collapsible>` enables collapsed sidebar behavior with tooltips                                                                                                                                                                       |
 
 ## Tooltips While Collapsed
 

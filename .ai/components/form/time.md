@@ -62,6 +62,16 @@ A time picker component with a floating panel featuring range sliders for hours 
 | x-on:interval | Triggered when the AM/PM interval changes (12-hour format only) |
 | x-on:current  | Triggered when the "Current Time" helper button is clicked      |
 
+The `x-on:current` detail carries the hour already expressed in the component's own
+format: on `format="12"` an afternoon press reports `1`, not `13`, matching the value
+written to the model.
+
+## Current time helper
+
+`helper` writes the current time in the component's format. On `format="12"` the reading
+is folded into the 1-12 range and paired with the interval, so 13:45 becomes `01:45 PM`
+and 00:30 becomes `12:30 AM`. On `format="24"` the clock reading is written as is.
+
 ## Validation Constraints
 
 - The `min-hour` must be between 0 and 23.

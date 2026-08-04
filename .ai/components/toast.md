@@ -195,6 +195,9 @@ $this->toast()
 return $this->redirect(route('dashboard'));
 ```
 
+A flashed toast is shown once, on the page it lands on. It is not replayed when a later
+toast is dispatched on that same page, and it does not clear toasts already on screen.
+
 ### Controller Usage
 
 ```php

@@ -100,6 +100,23 @@ Currencies whose fractional unit is not used in everyday transactions (Indonesia
 
 > Bundled translation files cover `ar`, `de`, `en`, `es`, `fr`, `id`, `it`, `km`, `ms`, `nl`, `pl`, `pt`, `pt_BR`, `tr`, and `vi`. For locales outside this list, pass `symbol="..."` and/or `currency="..."` as literal strings or publish your own `ts-ui::messages.currency` overrides.
 
+### Outside Livewire
+
+In a plain form the component renders a hidden input carrying `name`, and the visible
+input is left unnamed so the server receives the raw value rather than the formatted one.
+The sync mode below decides what that raw value looks like:
+
+```blade
+<form method="POST" action="/products">
+    @csrf
+    {{-- request('price') is "123456", not "1.234,56" --}}
+    <x-currency name="price" symbol currency locale="pt-BR" />
+</form>
+```
+
+Use `decimal` when the server expects something directly castable to a number
+(`1234.56`), and `mutate` when it expects the formatted string.
+
 ### Sync Modes
 
 The Currency component offers three modes of sending the value to the Livewire

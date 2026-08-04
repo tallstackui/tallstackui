@@ -68,21 +68,24 @@ Per-item color override (wins over the container's `color`):
 | description | string\|null                | null      | Body text shown under the title.                                                                                           |
 | date        | string\|null                | null      | Small label rendered before the title (e.g. `"Apr 2026"`). Free-form text — not a date type.                               |
 | icon        | string\|null                | null      | Heroicon name rendered as the marker instead of the default bullet.                                                        |
-| color       | string\|null                | `primary` | Per-item color for the marker. Overrides the container's color.                                                            |
+| color       | string\|null                | inherited | Per-item color for the marker. Overrides the container's color; falls back to `primary`.                                   |
 | marker      | ComponentSlot\|string\|null | null      | Custom marker replacement via `<x-slot:marker>` — the slot content is emitted verbatim, replacing the default bullet/icon. |
 
-### Slot-mode propagation
+### Propagation from the container
 
-The container props `horizontal`, `compact`, `style`, `alternate` do NOT propagate automatically to `<x-timeline.items>` children declared inside a slot (a Laravel `@aware` limitation for class-based components). When using slot mode, pass these props explicitly on each `<x-timeline.items>`. In array mode (`:items`), the container handles propagation internally.
-
-Example (slot-mode horizontal):
+`horizontal`, `alternate`, `compact`, `color` and `style` are inherited from
+`<x-timeline>` in both render modes, so they do not have to be repeated on each item:
 
 ```blade
-<x-timeline horizontal>
-    <x-timeline.items title="A" horizontal />
-    <x-timeline.items title="B" horizontal />
+<x-timeline horizontal color="green">
+    <x-timeline.items title="A" />
+    <x-timeline.items title="B" color="red" />   {{-- overrides just this one --}}
 </x-timeline>
 ```
+
+Only `color` and `style` are meant to be overridden per item. The layout flags describe
+the timeline as a whole, and setting them on a single item leaves it out of step with
+its siblings.
 
 ## Slots
 

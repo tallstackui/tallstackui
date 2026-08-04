@@ -42,6 +42,15 @@ A canvas-based signature pad component for capturing handwritten signatures. Sup
 |-------------|--------------------------------------------------|
 | x-on:export | Fires when the export/download button is clicked |
 
+## Resizing
+
+The canvas tracks the width of its container, so a window resize, a device rotation or
+the mobile keyboard opening all reflow it. A drawing already on the canvas is carried
+over and scaled to the new size instead of being cleared.
+
+Because the undo history is stored as pixel data sized for the old canvas, it restarts
+from the reflowed drawing: undo is available again from that point on, not before it.
+
 ## Validation Constraints
 
 - The `line` attribute must be a number (cannot be null).
