@@ -136,6 +136,24 @@ Date, Password, Select Styled, Time, Upload, Calendar and the List Items menu â€
 every component built on [Floating](components/floating.md), where the reference
 counting and the interaction with modals are described.
 
+### How the published file is merged
+
+`php artisan vendor:publish --tag=tallstackui.config` writes `config/tallstackui.php`,
+which is merged over the package defaults. Keys the file does not mention keep their
+default, so a file written against an older release does not lose options added since.
+
+Lists of scalars are the exception: they are taken as published rather than merged
+entry by entry, which is what lets a published list be shorter than the default.
+
+```php
+// package default: [10, 25, 50, 100]
+'quantity' => [15, 30],   // the table offers exactly 15 and 30
+```
+
+The same applies to `editor.toolbar`, `editor.sanitization.allowed_tags`,
+`editor.upload.mimes` and `debug.environments`: publishing a shorter list narrows
+what is allowed instead of adding to it.
+
 ## Skeleton
 
 Six components accept a `skeleton` prop that renders a structural placeholder
