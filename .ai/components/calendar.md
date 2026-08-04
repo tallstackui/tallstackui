@@ -21,6 +21,16 @@ With a label and hint:
 />
 ```
 
+Outside Livewire, give it a `name` and it backs a plain form through a hidden input.
+A single date arrives as `Y-m-d`; `range` and `multiple` arrive JSON encoded:
+
+```blade
+<form method="POST" action="/bookings">
+    @csrf
+    <x-calendar name="scheduled_at" />
+</form>
+```
+
 Range selection:
 
 ```blade

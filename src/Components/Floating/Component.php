@@ -22,9 +22,14 @@ class Component extends TallStackUiComponent implements Customization
 
     final public function anchor(): string
     {
+        // Alpine's anchor plugin only knows the 12 concrete placements, so auto*
+        // leaves it undefined and Floating UI drops the start/end alignment along
+        // with it. Tooltip and Reaction resolve auto* through a different engine.
+        $position = str_replace('auto', 'bottom', (string) $this->position);
+
         return match ($this->offset !== null) {
-            true => "x-anchor.{$this->position}.offset.{$this->offset}",
-            default => "x-anchor.{$this->position}",
+            true => "x-anchor.{$position}.offset.{$this->offset}",
+            default => "x-anchor.{$position}",
         };
     }
 

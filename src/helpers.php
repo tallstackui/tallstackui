@@ -186,6 +186,35 @@ if (! function_exists('__ts_global')) {
     }
 }
 
+if (! function_exists('__ts_merge_configuration')) {
+    /**
+     * Merge the published configuration over the internal one, replacing scalar
+     * lists so a shorter published list actually shortens the result.
+     *
+     * @internal This function should not be used outside the package.
+     */
+    function __ts_merge_configuration(array $internal, array $published): array
+    {
+        foreach ($published as $key => $value) {
+            if (! is_array($value) || ! is_array($internal[$key] ?? null)) {
+                $internal[$key] = $value;
+
+                continue;
+            }
+
+            if (array_is_list($value) && array_filter($value, 'is_array') === []) {
+                $internal[$key] = $value;
+
+                continue;
+            }
+
+            $internal[$key] = __ts_merge_configuration($internal[$key], $value);
+        }
+
+        return $internal;
+    }
+}
+
 if (! function_exists('__ts_scope_container_key')) {
     /**
      * Creates the key that will be used to look up the

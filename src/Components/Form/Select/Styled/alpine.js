@@ -86,7 +86,9 @@ export default (
    * @returns {void}
    */
   initAsVanilla() {
-    if (!this.value) return;
+    if (this.value === null || this.value === undefined || this.value === '') {
+      return;
+    }
 
     this.input = this.model = this.value;
   },
@@ -819,11 +821,13 @@ export default (
 
     if (!input) return;
 
-    input.value = !value
-      ? ''
-      : (typeof value === 'string' && value.indexOf(',') !== -1) || typeof value === 'object'
-        ? JSON.stringify(value)
-        : value;
+    // Not !value: 0 is a legitimate option value and would be submitted empty.
+    input.value =
+      value === null || value === undefined || value === ''
+        ? ''
+        : (typeof value === 'string' && value.indexOf(',') !== -1) || typeof value === 'object'
+          ? JSON.stringify(value)
+          : value;
   },
   /**
    * The `selects` quantity.
@@ -865,7 +869,9 @@ export default (
     }
 
     if (this.common) {
-      available = this.lazy ? available.slice(0, this.lazy) : available;
+      // The lazy window trims the browsable list, not the searchable universe.
+      // Under an active term it is applied to the matches instead, further down.
+      available = this.lazy && this.search === '' ? available.slice(0, this.lazy) : available;
     }
 
     if (this.search === '') {

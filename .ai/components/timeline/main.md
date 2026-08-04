@@ -18,13 +18,15 @@ Horizontal orientation:
 
 ```blade
 <x-timeline horizontal>
-    <x-timeline.items title="Step A" description="Initial setup" horizontal />
-    <x-timeline.items title="Step B" description="Configuration" horizontal />
-    <x-timeline.items title="Step C" description="Production" horizontal />
+    <x-timeline.items title="Step A" description="Initial setup" />
+    <x-timeline.items title="Step B" description="Configuration" />
+    <x-timeline.items title="Step C" description="Production" />
 </x-timeline>
 ```
 
-> **Slot-mode note:** Laravel's `@aware` directive does not reliably propagate props from class-based parents to slot children. For slot-mode timelines, pass the `horizontal` flag explicitly on each `<x-timeline.items>`. In array mode (`:items`) the container's props propagate automatically.
+`horizontal`, `alternate`, `compact`, `color` and `style` reach the items in both render
+modes, so there is no need to repeat them on each `<x-timeline.items>`. An item may still
+override `color` and `style` for itself.
 
 Items from an array / Collection:
 

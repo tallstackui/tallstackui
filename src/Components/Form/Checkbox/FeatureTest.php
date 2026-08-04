@@ -57,3 +57,15 @@ it('can render with size lg')
     ->toContain('type="checkbox"')
     ->toContain('h-6')
     ->toContain('w-6');
+
+it('can render the label on the left through the slot', function () {
+    $component = <<<'HTML'
+    <x-checkbox id="agree">
+        <x-slot:label left>I agree</x-slot:label>
+    </x-checkbox>
+    HTML;
+
+    // The left label is emitted before the input, the right one after it.
+    expect($component)->render()
+        ->toMatch('/I agree.*<input/s');
+});

@@ -131,6 +131,29 @@ showing their plain label under the group header.
 
 Non-grouped selects are unaffected.
 
+## Lazy loading and search
+
+`lazy` renders the first N options and grows the window as the list is scrolled. It
+bounds what is **browsable**, not what is **searchable**: with a term typed into
+`searchable`, the filter runs over the whole option list and the window applies to the
+matches instead. A list of ten thousand with `lazy="10"` still finds the last entry.
+
+Selecting a match found that way behaves normally. What is displayed on the trigger
+comes from the selection itself, not from the slice currently rendered, so it survives
+clearing the search and reopening the panel.
+
+## Values
+
+Option values are compared and submitted as they are given, including falsy scalars.
+`0` is a legitimate value and reaches both `wire:model` and, outside Livewire, the
+hidden input backing the form:
+
+```blade
+<x-select.styled name="status"
+                 :options="[['label' => 'Inactive', 'value' => 0], ['label' => 'Active', 'value' => 1]]"
+                 select="label:label|value:value" />
+```
+
 ## Validation Constraints
 
 - The `options` and `request` cannot be defined at the same time.

@@ -652,6 +652,41 @@ class SelectStyledCommonBrowserTest extends BrowserTestCase
     }
 
     #[Test]
+    public function can_search_beyond_the_lazy_window(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $number = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <p dusk="number">{{ $number }}</p>
+
+                    <x-select.styled dusk="select"
+                                     wire:model.live="number"
+                                     :options="collect(range(1, 500))->map(fn ($value) => ['label' => 'Option '.$value, 'value' => $value])->all()"
+                                     select="label:label|value:value"
+                                     :lazy="10"
+                                     searchable />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->click('@tallstackui_select_open_close')
+            ->waitForText('Option 1')
+            // Option 499 sits far past the lazy window; the search has to reach the
+            // whole list, not just the first slice rendered.
+            ->type('@tallstackui_select_search_input', 'Option 499')
+            ->waitForText('Option 499')
+            ->assertSee('Option 499')
+            ->waitUntilMissingText('Option 1 ')
+            ->assertDontSee('Option 2 ');
+    }
+
+    #[Test]
     public function can_search_using_description(): void
     {
         Livewire::visit(new class extends Component
@@ -1590,6 +1625,33 @@ class SelectStyledCommonBrowserTest extends BrowserTestCase
             ->waitForTextIn('@tallstackui_select_open_close', 'Brazil > São Paulo')
             ->assertSeeIn('@tallstackui_select_open_close', 'Brazil > São Paulo')
             ->assertSeeIn('@tallstackui_select_open_close', 'United States > New York');
+    }
+
+    #[Test]
+    public function keeps_the_lazy_window_while_no_search_is_active(): void
+    {
+        Livewire::visit(new class extends Component
+        {
+            public ?string $number = null;
+
+            public function render(): string
+            {
+                return <<<'HTML'
+                <div>
+                    <x-select.styled dusk="select"
+                                     wire:model.live="number"
+                                     :options="collect(range(1, 500))->map(fn ($value) => ['label' => 'Option '.$value, 'value' => $value])->all()"
+                                     select="label:label|value:value"
+                                     :lazy="10"
+                                     searchable />
+                </div>
+                HTML;
+            }
+        })
+            ->waitForLivewireToLoad()
+            ->click('@tallstackui_select_open_close')
+            ->waitForText('Option 1')
+            ->assertDontSee('Option 499');
     }
 
     #[Test]

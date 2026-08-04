@@ -89,10 +89,17 @@ class Component extends TallStackUiComponent implements Customization
 
             $route = Route::getCurrentRoute();
 
+            // Error views have no current route, and a route declared without ->name()
+            // has no name to feed back into the route() helper. Both would throw and
+            // take the whole page down, so an item simply cannot match either one.
+            if (blank($name = $route?->getName())) {
+                return false;
+            }
+
             // If contains the app.url, then we assume it is a
             // route created in the route helper: route('dashboard')
             return $this->route === route(
-                $route->getName(),
+                $name,
                 // This is necessary to correctly resolve routes of a view type
                 $route->getActionMethod() === "\Illuminate\Routing\ViewController" ? [] : $route->parameters()
             );

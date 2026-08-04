@@ -62,7 +62,10 @@ trait ManagesClasses
             }
         }
 
-        $merge = $scoped === [] ? $soft : Arr::only(array_merge($soft, $scoped), array_keys($scoped));
+        // array_merge already gives the scope precedence over the global customization.
+        // Restricting the result to the scoped keys on top of that would drop every
+        // block the scope did not mention, discarding the global customization.
+        $merge = array_merge($soft, $scoped);
 
         // Here we do a second merge, now with the original classes and the result
         // of the previous operation that will use the scope smooth prioritization

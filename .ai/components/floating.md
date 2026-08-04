@@ -24,7 +24,7 @@ A floating panel utility component powered by Alpine.js `x-anchor` for positioni
 | Attribute  | Type                | Default      | Description                                                       |
 |------------|---------------------|--------------|-------------------------------------------------------------------|
 | offset     | string\|null        | '10'         | Distance in pixels between the anchor and the floating panel      |
-| position   | string\|null        | 'bottom-end' | Anchor position relative to the reference element                 |
+| position   | string\|null        | 'bottom-end' | Anchor position relative to the reference element. See Position   |
 | transition | ComponentSlot\|null | null         | Custom transition slot to override default enter/leave animations |
 | footer     | ComponentSlot\|null | null         | Footer content slot                                               |
 
@@ -71,9 +71,31 @@ A floating opened inside a Modal or a Slide never takes the lock: the overlay
 already owns it, and only whoever wrote the `data-overflow` marker on the
 `<body>` is allowed to clear it.
 
-Floatings are deliberately kept out of `window.__tsui_elements`, the registry
-that decides which overlay owns `Escape` and click-outside. An open dropdown
-therefore does not take those away from the modal behind it.
+Floatings are deliberately kept out of `window.__tsui_elements`, the registry that
+decides which overlay owns click-outside, so an open dropdown does not take that
+away from the modal behind it.
+
+## Escape
+
+`Escape` closes the panel, and an open panel owns that press: pressing it inside a
+Modal or a Slide closes the popup and leaves the overlay open, so a form in progress
+survives. A second press then closes the overlay.
+
+Ownership is tracked in `window.__tsui_floating_open`, a registry separate from
+`__tsui_elements` for the reason above. The open panel also marks the event itself.
+Both halves are needed because every listener sits on `window` and runs in
+registration order: an overlay running before the panel sees it still open in the
+registry, and one running after sees the mark left on the event.
+
+## Position
+
+`position` accepts the twelve concrete placements, `top`, `bottom`, `left` and
+`right`, each optionally suffixed with `-start` or `-end`.
+
+`auto`, `auto-start` and `auto-end` are accepted for compatibility with Tooltip and
+Reaction, which resolve them through a different engine. Here they resolve to
+`bottom`, `bottom-start` and `bottom-end`, because Alpine's anchor plugin only knows
+the concrete twelve. Prefer naming the placement you want.
 
 ## Soft Customization
 

@@ -8,7 +8,7 @@
      x-on:click.stop
      x-on:mousedown.stop
      x-on:click.outside="{{ $attributes->get('x-show', 'show') }} = false"
-     x-on:keydown.escape.window="{{ $attributes->get('x-show', 'show') }} = false"
+     x-on:keydown.escape.window="{{ $attributes->get('x-show', 'show') }} && window.tallstackui_escapeClaim($event) && ({{ $attributes->get('x-show', 'show') }} = false)"
      x-intersect:leave="{{ $attributes->get('x-show', 'show') }} = false"
 {{ $anchor() }}="{{ $attributes->get('x-anchor', '$refs.anchor') }} || $el"
 {{ $attributes->whereStartsWith('x-on') }}

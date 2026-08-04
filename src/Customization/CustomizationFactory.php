@@ -126,7 +126,11 @@ class CustomizationFactory implements Arrayable
     public function get(string $block): ?string
     {
         if ($this->scope !== null) {
-            return data_get($this->parts, $this->scope.'.'.$block);
+            // Blocks live as flat keys inside the scope container, so the block
+            // name must not be walked as a path. See compile().
+            $scoped = data_get($this->parts, $this->scope, []);
+
+            return is_array($scoped) ? ($scoped[$block] ?? null) : null;
         }
 
         return $this->parts[$block] ?? null;
@@ -217,7 +221,14 @@ class CustomizationFactory implements Arrayable
         $compiled = trim((string) preg_replace('/\s+/', ' ', trim((string) ($this->changes[$block] ?? ''))));
 
         if ($this->scope !== null) {
-            data_set($this->parts, $this->scope.'.'.$block, $compiled);
+            // Resolving the scope container first, then writing the block as a flat key
+            // inside it. Passing "scope.block" straight to data_set would read the dots
+            // of the block as a path and let "body" overwrite its "body.paddingless" sibling.
+            $scoped = data_get($this->parts, $this->scope, []);
+
+            $scoped[$block] = $compiled;
+
+            data_set($this->parts, $this->scope, $scoped);
         } else {
             $this->parts[$block] = $compiled;
         }

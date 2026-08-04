@@ -55,9 +55,13 @@ class BrowserTest extends BrowserTestCase
         })
             ->assertSee('1-foo')
             ->assertSee('1-bar')
+            // The event sets the property through a Livewire round trip, which the
+            // button being enabled again says nothing about.
             ->pressAndWaitFor('@tallstackui_carousel_next')
+            ->waitFor('@next')
             ->assertPresent('@next')
             ->pressAndWaitFor('@tallstackui_carousel_previous')
+            ->waitFor('@previous')
             ->assertPresent('@previous');
     }
 

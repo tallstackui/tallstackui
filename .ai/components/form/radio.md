@@ -19,6 +19,31 @@ A radio button input component with configurable sizes, label positioning, and c
 <x-radio wire:model="option" label="Option A" value="a" lg position="left" />
 ```
 
+The label also accepts a slot, which is what you need when it carries markup. The
+`left` attribute on the slot places it before the radio, the same as `position="left"`:
+
+```blade
+<x-radio wire:model="plan" value="pro">
+    <x-slot:label left>
+        Pro <span class="text-xs text-gray-500">$29/mo</span>
+    </x-slot:label>
+</x-radio>
+```
+
+`start` on the same slot aligns the label to the top instead of centering it, which
+matters when the text wraps over more than one line.
+
+## Ids and the validation message
+
+Options of a group share the bound property, so the value joins the generated id to keep
+them apart: `plan-basic`, `plan-pro`, `plan-team`. Without that every label's `for` would
+resolve to the first input and clicking any label would select the first option. An
+explicit `id` is always used as given.
+
+The validation message is printed once per property, by the first option that renders
+it, rather than repeated under every option. `<x-radio.group>` centralises it on the
+`<fieldset>` instead.
+
 ## Attributes
 
 | Attribute  | Type                        | Default   | Description                                                                     |

@@ -19,7 +19,7 @@
     @js($locale))">
     <x-dynamic-component :component="TallStackUi::prefix('input')"
                          scope="form.currency.input"
-                         {{ $attributes->whereDoesntStartWith('wire:model') }}
+                         {{ $attributes->except(['name', 'value'])->whereDoesntStartWith('wire:model') }}
                          :class="$customization['input.appearance']"
                          inputmode="numeric"
                          :$label

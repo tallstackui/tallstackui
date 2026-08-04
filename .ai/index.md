@@ -119,6 +119,47 @@
 - [Wrapper Input](components/wrapper/input.md) *(internal)*
 - [Wrapper Radio](components/wrapper/radio.md) *(internal)*
 
+## Binding to a nested property
+
+`wire:model` accepts a nested path, which is what a Livewire Form object and any nested
+array look like. Only the head of the path has to be a real property on the component:
+
+```blade
+<x-key-value wire:model="form.metadata" />
+<x-upload wire:model="form.files" multiple delete />
+<x-date wire:model="filters.period" range />
+```
+
+## Outside Livewire
+
+The library was built for Livewire, but the form components also work on a plain Blade
+page posting to a controller. Give the component a `name` instead of a `wire:model` and
+it renders a hidden input carrying the value, so the server receives it like any other
+field. `value` seeds the initial state.
+
+```blade
+<form method="POST" action="/products">
+    @csrf
+    <x-currency name="price" symbol currency />
+    <x-date name="published_at" />
+    <x-time name="starts_at" />
+    <x-color name="brand" />
+    <x-pin name="code" :length="4" />
+    <x-tag name="tags" />
+    <x-select.styled name="status" :options="$options" select="label:label|value:value" />
+    <x-autocomplete name="city" :items="$cities" />
+    <x-calendar name="scheduled_at" />
+</form>
+```
+
+What arrives on the server depends on the component: a single value goes as is, and a
+multi-value selection is JSON encoded. Each component's page states its own shape, and
+`Currency` additionally offers three formats through `mutate` and `decimal`.
+
+Components that carry no value — Modal, Slide, Toast and friends — are unaffected either
+way. Livewire's script still has to be on the page, since that is where Alpine comes
+from.
+
 ## Global Configuration
 
 Top-level keys in `config/tallstackui.php`, applying across components rather
@@ -135,6 +176,24 @@ are documented on each component's page.
 Date, Password, Select Styled, Time, Upload, Calendar and the List Items menu —
 every component built on [Floating](components/floating.md), where the reference
 counting and the interaction with modals are described.
+
+### How the published file is merged
+
+`php artisan vendor:publish --tag=tallstackui.config` writes `config/tallstackui.php`,
+which is merged over the package defaults. Keys the file does not mention keep their
+default, so a file written against an older release does not lose options added since.
+
+Lists of scalars are the exception: they are taken as published rather than merged
+entry by entry, which is what lets a published list be shorter than the default.
+
+```php
+// package default: [10, 25, 50, 100]
+'quantity' => [15, 30],   // the table offers exactly 15 and 30
+```
+
+The same applies to `editor.toolbar`, `editor.sanitization.allowed_tags`,
+`editor.upload.mimes` and `debug.environments`: publishing a shorter list narrows
+what is allowed instead of adding to it.
 
 ## Skeleton
 
@@ -221,6 +280,24 @@ TallStackUi::customize()
 
 Customizations of the same block stack: two chains, or two service providers,
 each add on top of what the other did rather than overwriting it.
+
+### Scopes layer over the global customization
+
+A scope only overrides the blocks it names. Every other block keeps whatever the
+global customization did to it, so a scoped instance is the global look plus the
+scope's changes, not a reset:
+
+```php
+TallStackUi::customize()->alert()->block('wrapper')->append('brand-shadow');
+TallStackUi::customize('alert', scope: 'flat')->block('text.title')->append('text-xl');
+```
+
+`<x-alert scope="flat" />` renders with both `brand-shadow` and `text-xl`. This applies
+to the scopes the package ships as well, such as `<x-card scope="card-shadowless">`.
+
+Block names containing a dot (`body.paddingless`, `wrapper.second`) are keys, not paths.
+A scope can set `body` and `body.paddingless` in the same call without one replacing the
+other.
 
 ## Global JavaScript API
 

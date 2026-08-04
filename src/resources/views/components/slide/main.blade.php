@@ -10,7 +10,7 @@
          x-data="tallstackui_slide(false, @js($configurations['overflow'] ?? false))"
      @endif
      x-show="show"
-     @if (!$configurations['persistent']) x-on:keydown.escape.window="top_ui && (show = false)" @endif
+     @if (!$configurations['persistent']) x-on:keydown.escape.window="top_ui && !window.tallstackui_escapeClaimed($event) && (show = false)" @endif
      x-on:slide:{{ $open }}.window="show = true;"
      x-on:slide:{{ $close }}.window="show = false;"
         @class(['relative', $configurations['zIndex']])

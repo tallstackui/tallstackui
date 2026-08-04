@@ -8,6 +8,7 @@ export default (toast, stacked = false) => ({
   piled: false,
   observer: null,
   listener: null,
+  interval: null,
   init() {
     let elapsed = 0;
 
@@ -23,9 +24,12 @@ export default (toast, stacked = false) => ({
         return;
       }
 
-      const interval = setInterval(() => {
+      // Kept on the instance so destroy() can reach it. A toast dropped by the
+      // parent's flush() keeps `show === true`, so the self-clear below never
+      // runs and the timer would outlive the card it belongs to.
+      this.interval = setInterval(() => {
         if (!this.show) {
-          clearInterval(interval);
+          this.stop();
         } else if (!this.frozen) {
           elapsed += time;
 
@@ -41,7 +45,7 @@ export default (toast, stacked = false) => ({
 
             event('toast:timeout', this.toast, false);
 
-            clearInterval(interval);
+            this.stop();
           }
         }
       }, time);
@@ -90,11 +94,25 @@ export default (toast, stacked = false) => ({
     });
   },
   destroy() {
+    this.stop();
+
     this.observer?.disconnect();
 
     if (this.listener) {
       document.removeEventListener('visibilitychange', this.listener);
     }
+  },
+  /**
+   * @return {void}
+   */
+  stop() {
+    if (this.interval === null) {
+      return;
+    }
+
+    clearInterval(this.interval);
+
+    this.interval = null;
   },
   /**
    * @return {Boolean}

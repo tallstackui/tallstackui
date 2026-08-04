@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Blade;
 use Tests\TestCase;
 
 uses(TestCase::class)->group('Feature');
@@ -57,3 +58,58 @@ it('can render with size lg')
     ->toContain('type="radio"')
     ->toContain('h-6')
     ->toContain('w-6');
+
+it('can render the label on the left through the slot', function () {
+    $component = <<<'HTML'
+    <x-radio id="plan">
+        <x-slot:label left>Basic</x-slot:label>
+    </x-radio>
+    HTML;
+
+    expect($component)->render()->toMatch('/Basic.*<input/s');
+});
+
+it('gives each option of a group its own id', function () {
+    $component = <<<'HTML'
+    <div>
+        <x-radio name="plan" label="Basic" value="basic" />
+        <x-radio name="plan" label="Pro" value="pro" />
+        <x-radio name="plan" label="Team" value="team" />
+    </div>
+    HTML;
+
+    expect($component)->render()
+        ->toContain('id="plan-basic"')
+        ->toContain('id="plan-pro"')
+        ->toContain('id="plan-team"')
+        ->toContain('for="plan-basic"')
+        ->toContain('for="plan-pro"')
+        ->toContain('for="plan-team"');
+});
+
+it('keeps an explicit id untouched', function () {
+    expect('<x-radio name="plan" label="Basic" value="basic" id="custom" />')->render()
+        ->toContain('id="custom"')
+        ->toContain('for="custom"');
+});
+
+it('prints the validation error once for a group of options', function () {
+    $this->withViewErrors(['plan' => 'The plan field is required.']);
+
+    $component = <<<'HTML'
+    <div>
+        <x-radio name="plan" label="Basic" value="basic" />
+        <x-radio name="plan" label="Pro" value="pro" />
+        <x-radio name="plan" label="Team" value="team" />
+    </div>
+    HTML;
+
+    expect(substr_count(Blade::render($component), '>The plan field is required.<'))->toBe(1);
+});
+
+it('still prints the error for a property nobody claimed yet', function () {
+    $this->withViewErrors(['newsletter' => 'The newsletter field is required.']);
+
+    expect('<x-checkbox name="newsletter" label="Subscribe" />')->render()
+        ->toContain('The newsletter field is required.');
+});

@@ -58,3 +58,13 @@ it('can render with size lg')
     ->toContain('type="checkbox"')
     ->toContain('h-5')
     ->toContain('w-5');
+
+it('can render the label on the left through the slot', function () {
+    $component = <<<'HTML'
+    <x-toggle id="dark">
+        <x-slot:label left>Dark mode</x-slot:label>
+    </x-toggle>
+    HTML;
+
+    expect($component)->render()->toMatch('/Dark mode.*<input/s');
+});

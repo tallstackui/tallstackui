@@ -8,6 +8,11 @@ if (!window.__tsui_floating_locks) {
   window.__tsui_floating_locks = [];
 }
 
+// Initialize the registry of floatings currently on screen if it doesn't exist
+if (!window.__tsui_floating_open) {
+  window.__tsui_floating_open = [];
+}
+
 /**
  * @param message {String}
  * @return {void}
@@ -54,6 +59,57 @@ const holders = (type) => {
 
   return window.__tsui_elements.filter((element) => element.type === type).length;
 };
+
+/**
+ * Track which floatings are on screen, so an overlay can tell whether a popup
+ * of its own owns the escape key. Floatings stay out of `__tsui_elements` on
+ * purpose (see `floating_overflow`), so they need a registry of their own.
+ *
+ * @param status {Boolean}
+ * @param id {String}
+ * @return {void}
+ */
+export const floating_visibility = (status, id) => {
+  const stack = window.__tsui_floating_open;
+  const index = stack.indexOf(id);
+
+  if (status && index === -1) {
+    stack.push(id);
+
+    return;
+  }
+
+  if (!status && index !== -1) {
+    stack.splice(index, 1);
+  }
+};
+
+/**
+ * Claim the escape key for a floating, marking the event so overlays further
+ * along the propagation can tell it was already spent.
+ *
+ * @param event {Event}
+ * @return {Boolean}
+ */
+export const escape_claim = (event) => {
+  if (event) {
+    event.__tsui_escape_claimed = true;
+  }
+
+  return true;
+};
+
+/**
+ * Whether a floating owns this escape press. Both halves are needed because
+ * the listeners all sit on `window` and their order is the order they were
+ * registered: an overlay running first sees the popup still open, and one
+ * running last sees the claim the popup left on the event.
+ *
+ * @param event {Event}
+ * @return {Boolean}
+ */
+export const escape_claimed = (event) =>
+  event?.__tsui_escape_claimed === true || window.__tsui_floating_open.length > 0;
 
 /**
  * @param status {Boolean}
@@ -221,6 +277,7 @@ export const unregister_ui_element = (id) => {
 export const flush_ui_elements = () => {
   window.__tsui_elements = [];
   window.__tsui_floating_locks = [];
+  window.__tsui_floating_open = [];
 
   const element = document.body;
 

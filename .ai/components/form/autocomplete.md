@@ -36,6 +36,17 @@ The component layers on top of `Form/Input` (so `floatable`, label, hint, error 
 <x-autocomplete wire:model="user" label="User" request="/api/users" lazy="2" clearable />
 ```
 
+Outside Livewire, give it a `name` and it backs a plain form: a hidden input carries the
+picked value to the server, and `value` seeds the initial selection.
+
+```blade
+<form method="POST" action="/subscriptions">
+    @csrf
+    {{-- request('city') is the value of the picked item --}}
+    <x-autocomplete name="city" :items="$cities" clearable />
+</form>
+```
+
 ## Attributes
 
 | Attribute    | Type                    | Default                                             | Description                                                                                                                   |

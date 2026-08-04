@@ -1,10 +1,7 @@
 @aware([
-    'color' => 'primary',
-    'style' => 'solid',
     'horizontal' => false,
     'alternate' => false,
     'compact' => false,
-    'reversed' => false,
 ])
 
 @php

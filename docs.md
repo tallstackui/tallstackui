@@ -12,7 +12,379 @@ such change is listed under **Migration**.
 
 ---
 
+## Runtime
+
+### Fixed — a nested `wire:model` read as null on the server
+
+```php
+if (is_null($property) || ! property_exists($this->livewire, $property)) {
+    return null;
+}
+
+return data_get($this->livewire, $property);
+```
+
+`property_exists()` cannot resolve `"form.files"`; the `data_get()` on the next line
+can. The guard rejected exactly what it was there to protect, so every component asking
+the runtime for its value got `null` whenever the binding was nested — which is what a
+Livewire Form object and any nested array look like.
+
+```blade
+{{-- threw: The [value] must be an array --}}
+<x-key-value wire:model="form.metadata" />
+
+{{-- uploaded, then listed nothing: no thumbnail, no name, no delete, no per-file error --}}
+<x-upload wire:model="form.files" multiple delete />
+```
+
+Written as `wire:model="files"` both worked, which is why it went unnoticed: no test in
+the suite used a dotted binding.
+
+Only the head of the path is a property, so only the head is checked. `Number`, `Rating`,
+`UploadAsync`, `Calendar`, `Date` and `Time` were degrading quietly through the same
+path.
+
+---
+
+## Form components outside Livewire
+
+### Added — coverage for the plain-form path, and the fixes it surfaced
+
+The library started as UI for Livewire components. Support for plain Blade pages posting
+to a controller arrived later, component by component, on request — and nothing tested
+it. Every browser test drove a Livewire component, so the `name`/hidden-input path was
+exercised by no one.
+
+Nine components now carry a `NativeBrowserTest`, each rendering a real `<form>` on a
+plain Blade page with no Livewire component anywhere, submitting it, and asserting what
+the controller received: Currency, Date, Time, Color, Pin, Tag, Select Styled,
+Autocomplete and Calendar.
+
+Writing them turned up three things.
+
+**Calendar never filled its hidden input.** It received `property` and stored it, but
+nothing ever read it back — no `getElementsByName` anywhere in the component. The hidden
+input was rendered and left empty, so `<x-calendar name="scheduled_at" />` submitted
+nothing at all. The `model` watcher even had `if (!this.livewire) return;` at the top,
+skipping the one case that needed it. It now mirrors the model into the input, the same
+way Date already did.
+
+**Tag submitted the form on the first tag.** `x-on:keydown="add($event)"` let Enter
+through, so inside a `<form>` the key that adds a tag also submitted the page. Adding a
+second tag was impossible. `add()` now calls `preventDefault()` when it handles the key.
+
+**Autocomplete had never been adapted.** It rendered no hidden input and dropped `name`
+entirely, so the value reached the server under no circumstances. It now follows the same
+contract as its siblings:
+
+```blade
+<form method="POST" action="/subscriptions">
+    @csrf
+    {{-- request('city') is the value of the picked item --}}
+    <x-autocomplete name="city" :items="$cities" clearable />
+</form>
+```
+
+### Fixed — packaging and analysis globs missed non-canonical test names
+
+`.gitattributes`, `composer.json` and `phpstan.neon` all excluded test files by exact
+name, `src/**/BrowserTest.php`, which requires a `/` right before it. Four files named
+otherwise slipped through into `git archive` and into the optimised classmap, and
+`phpstan.neon` had grown two hand-written entries for individual offenders — one of them
+for a file that no longer exists.
+
+All three now match on `*BrowserTest.php` and `*FeatureTest.php`, which covers the
+existing strays and the `NativeBrowserTest` files added here.
+
+---
+
+## Form / Checkbox, Radio & Toggle
+
+### Fixed — every option of a group rendered with the same id
+
+`BindProperty::id()` falls back to the bound property when no `id` is given, and every
+option of a group carries the same property:
+
+```blade
+<x-radio wire:model="plan" label="Basic" value="basic" />
+<x-radio wire:model="plan" label="Pro"   value="pro" />
+<x-radio wire:model="plan" label="Team"  value="team" />
+```
+
+That produced three `<input id="plan">` and three `<label for="plan">`. A label with
+`for` wins over the input nested inside it, and `for` resolves to the first element
+carrying the id, so clicking "Pro" or "Team" selected "Basic". Only hitting the dot
+itself worked.
+
+The value is what tells the options apart, so it joins the id: `plan-basic`, `plan-pro`,
+`plan-team`. An explicit `id` is still used as given, and an option with no value keeps
+the property alone.
+
+### Fixed — the validation message repeated once per option
+
+Each option is its own wrapper resolving the same property, so a failing `plan` printed
+"The plan field is required." three times, stacked. The `.group` components never had
+this, since they centralise the message on the `<fieldset>`.
+
+The first wrapper to render a property now claims the message for that request and the
+rest stay quiet. `invalidate` still suppresses it everywhere, as before.
+
+### Added — `<x-slot:label left>` places the label before the input
+
+The runtime already computed the position from the slot, and it was dead code. Laravel
+applies the component's prop snapshot after the runtime data — `View::with()` is an
+`array_merge` — so the `position` prop, declared `'right'` on all three, always won.
+
+The slot cannot be read from the component that owns it either: its body is captured
+after the props are snapshotted, so `$this->label` is still `null` in `setup()`.
+
+`Wrapper\Radio` receives the label as a prop rather than a slot, so its attributes are
+readable there. Typing it `string|ComponentSlot|null` stops them from being coerced
+away, and both keywords are resolved next to the markup that renders the label:
+
+```blade
+<x-checkbox wire:model="agree">
+    <x-slot:label left>I agree to the <a href="/terms">terms</a></x-slot:label>
+</x-checkbox>
+```
+
+`start`, which aligns a multi-line label to the top, already worked and moved along with
+it. The `position` prop is unchanged.
+
+---
+
+## Form / Currency
+
+### Fixed — a native form received the formatted value
+
+`name` is not a constructor parameter, so it survived
+`whereDoesntStartWith('wire:model')` and was re-emitted on the visible input. The DOM
+ended up with two inputs of the same name — the hidden one carrying the raw value, then
+the visible one carrying `1.234,56` — and PHP keeps the last.
+
+Every sibling already stripped it: `date` and `color` through `except(['name', 'value'])`,
+`time` through `except('name')`, `tag` through `except(['value', 'name'])`. Currency was
+the only one that did not.
+
+```blade
+{{-- request('price') was "1.234,56", numeric validation broke on it --}}
+<x-currency name="price" symbol currency />
+```
+
+Alpine's `sync()` is unaffected: it writes through `getElementsByName(...)[0]`, which
+was already the hidden input.
+
+---
+
+## Form / Time
+
+### Fixed — the current-time helper wrote an out-of-range hour
+
+`current()` read the hour off a 24-hour clock and assigned it as is, setting the
+interval separately. On `format="12"` that produced `"13:45 PM"` at a quarter to two,
+and `"00:30 AM"` at half past midnight. The slider runs from 1 to 12, so the value was
+outside its own range, and `TimeRuntime::validate()` only checks that `AM|PM` is present.
+
+The reading is folded into the 12-hour range when the format asks for it, and the
+`x-on:current` event carries the same converted hour.
+
+---
+
+## Signature
+
+### Fixed — resizing the window erased the signature
+
+`window.addEventListener('resize', this.size.bind(this))` forwards the event object as
+the first argument, and `size(clear = false)` takes a flag there. Every resize therefore
+ran `size(Event)`, which is truthy, and called `clear()`.
+
+Rotating a phone, opening the mobile keyboard or dragging the window edge wiped the
+drawing and set the model to `null`, so a save right after went out empty.
+
+Assigning `width` or `height` clears a canvas by specification, so the fix is not just
+the listener: the drawing is copied to an offscreen canvas, the canvas is resized, and
+the copy is painted back scaled to the new size. A `drawn` flag distinguishes a real
+stroke from a blank canvas, so a resize before anything is drawn still leaves the model
+`null` rather than storing a blank data URL.
+
+The undo stack holds `ImageData` sized for the old canvas, which `putImageData` would
+paint back unscaled, so it restarts from the reflowed drawing.
+
+The component also had no `destroy()`, leaving the listener — and the canvas and undo
+stack behind it — alive across morphs and `wire:navigate`. It has one now.
+
+---
+
+## Banner
+
+### Fixed — an empty text array took the page down
+
+```php
+$this->text = $this->rotate !== false
+    ? implode($this->separator, $this->text)
+    : $this->text[array_rand($this->text)];
+```
+
+`array_rand()` throws `ValueError: Argument #1 ($array) must not be empty`. Arrays and
+Collections are documented input, so `:text="$notices"` with a query that returned
+nothing was enough to reach it. The `rotate` branch was already safe, since `implode()`
+accepts an empty array.
+
+An empty array now renders no text instead of throwing.
+
+---
+
+## Timeline
+
+### Fixed — items in the slot ignored the container
+
+`Timeline\Items` declared `horizontal`, `alternate`, `compact`, `color` and `style` with
+defaults of its own. `@aware` reads the child's own component data first, so it never
+reached the parent, and the documentation told people to repeat every prop on each item.
+
+`<x-timeline horizontal>` with slot children produced a `flex-row` wrapper whose items
+still drew the single vertical line, and `<x-timeline color="red">` rendered every
+marker `primary`.
+
+The three layout flags left the constructor, which is all `@aware` needed. `color` and
+`style` could not: `CompileColors` reads them off the component before the view runs.
+They default to `null` and are inherited in `setup()`, which runs earlier, through the
+same `getConsumableComponentData()` that backs `@aware`.
+
+Passing `:items="[...]"` was never affected, and an item can still override its own
+`color` and `style`.
+
+---
+
+## Layout / SideBar
+
+### Fixed — `smart` took down error pages and unnamed routes
+
+```php
+$route = Route::getCurrentRoute();
+
+return $this->route === route($route->getName(), ...);
+```
+
+Two ways to reach a fatal. An error view has no current route at all, so `getName()` was
+called on `null` — turning a 404 into a 500, on the one page where a second error hurts
+most. And a route declared without `->name()` returns `null` from `getName()`, which
+makes `route(null)` throw `RouteNotFoundException`, so the whole page became
+`ViewException: Route [] not defined.`
+
+Both are the same guard: an item cannot match where there is nothing to compare against,
+so it reports no match instead of throwing.
+
+---
+
+## Loading
+
+### Fixed — the body overflow was never locked
+
+```js
+Livewire.hook('commit.prepare', ...)
+```
+
+Livewire 4 has no such hook. `Livewire.hook` is a bare `listeners[name].push(callback)`
+with no name validation, so it failed silently. Only the `morph.updated` half ran, which
+is the one that *unlocks*, and the `'overflow' => false` option documented as avoiding
+the hidden overflow described a lock that never happened.
+
+`commit` is the hook that fires while the request is being assembled. Its payload also
+carries `fail`, used to release the lock when a request fails or is cancelled — neither
+of which reaches the morph, so the lock would otherwise outlive the spinner.
+
+---
+
+## Configuration
+
+### Fixed — a published config could not shorten a list
+
+`array_replace_recursive` merges numerically indexed arrays index by index, so a
+published list could only grow or be replaced entry by entry:
+
+| Key                     | Default            | Published        | Result                 |
+|-------------------------|--------------------|------------------|------------------------|
+| `table.quantity`        | `[10, 25, 50, 100]`| `[15, 30]`       | `[15, 30, 50, 100]`    |
+| `editor.toolbar`        | 20 buttons         | `['bold']`       | 20, first one replaced |
+| `editor.allowed_tags`   | 24 tags            | a shorter list   | never narrows          |
+| `debug.environments`    | 3                  | `['local']`      | still 3                |
+
+The `allowed_tags` and `mimes` rows are the ones that matter: the config presents them
+as defence in depth, and the whitelist could not be tightened.
+
+`__ts_merge_configuration()` replaces lists of scalars wholesale and keeps merging
+everything else. Component entries are `[Class::class, [...options]]` tuples, which are
+not scalar lists, so they still merge and a published file written against an older
+release keeps options added since.
+
+---
+
+## Tooling
+
+### Fixed — the customization check counted components it never read
+
+`find-unused-customization-blocks.php` resolved the component's view with a regex
+requiring a string literal directly inside `view(`. Seven components build the name with
+a ternary — Chart, Card, Stats, Table, `List\Items`, `List\Main` and `Step\Main` — so
+the match failed and they were skipped.
+
+The skip was a `continue` placed *after* the counters, so the summary read
+`Scanned 86 components, 1672 customization keys. All customization blocks are in use!`
+while roughly 252 of those keys had never been looked at. The check passed and reported
+a guarantee it did not have.
+
+It now collects every view literal the `blade()` body can return, so both branches of
+the ternary are scanned, and a component whose view cannot be resolved fails the run
+instead of being counted. The `hasSpread` flag, detected and then ignored, is reported.
+
+---
+
 ## Floating
+
+### Fixed — Escape closed the popup and the overlay behind it
+
+Both listeners sit on `window`, so neither could stop the other: pressing Escape with a
+select open inside a modal closed the select **and** the modal, taking the form in
+progress with it.
+
+The modal and the slide guard their listener with `top_ui`, but a floating is
+deliberately kept out of `window.__tsui_elements` — the registry that answers that
+question — so the modal believed it was the topmost element. That exclusion is what
+keeps the scroll lock from deadlocking and was not worth undoing.
+
+An open panel now claims the press, and the overlays ask before acting:
+
+```blade
+{{-- floating --}}
+x-on:keydown.escape.window="show && window.tallstackui_escapeClaim($event) && (show = false)"
+
+{{-- modal and slide --}}
+x-on:keydown.escape.window="top_ui && !window.tallstackui_escapeClaimed($event) && (show = false)"
+```
+
+`escapeClaimed` answers from two sources, and both are needed because the listeners run
+in registration order, which nothing controls. An overlay running before the panel sees
+it still listed in `window.__tsui_floating_open`; one running after sees the mark the
+panel left on the event itself.
+
+The first Escape now closes the popup and the second closes the overlay. Reaches every
+component built on `<x-floating>`.
+
+### Fixed — `auto` positions were validated and then ignored
+
+`InvalidSelectedPositionException` accepts fifteen values, including `auto`,
+`auto-start` and `auto-end`. Alpine's anchor plugin knows twelve, and `auto*` is not
+among them: the placement came out `undefined` and Floating UI fell back to `bottom`,
+so `position="auto-end"` rendered centered below the anchor with no warning anywhere.
+
+The shared allow-list is left alone, because Tooltip and Reaction resolve positions
+through `js/helpers/placement.js`, which supports all fifteen for real — `<x-reaction>`
+even defaults to `auto`. Removing the values there would have broken both.
+
+`Floating\Component::anchor()` resolves them instead, mapping `auto*` onto `bottom*`.
+That keeps the side Floating UI already fell back to while recovering the `-start` /
+`-end` alignment that used to be silently dropped.
 
 ### Fixed — closing a popup dropped the focus on the body
 
@@ -890,6 +1262,24 @@ caption no longer appears in the overlay when `TALLSTACKUI_DEBUG_MODE` is on.
 
 ## Table
 
+### Fixed — `simplePaginate()` was fatal
+
+The constructor accepts `LengthAwarePaginator|Paginator|Collection|array`, and the
+runtime treated anything extending `AbstractPaginator` as paginated. The three paginator
+views then called `total()`, `lastPage()` and walked `$elements`, none of which a simple
+paginator carries:
+
+```blade
+{{-- Method Illuminate\Support\Collection::total does not exist. --}}
+<x-table :$headers :rows="User::simplePaginate(10)" paginate />
+```
+
+It only worked when `simple-pagination` happened to be set as well.
+
+Rows that are not length-aware now render the simple views on their own, flag or no
+flag. The flag still forces the simple look on a length-aware paginator, so nothing
+that worked before changes.
+
 ### Added — the table renders outside Livewire
 
 `<x-table>` carried `#[RequireLivewireContext]`, so reaching for it from a controller
@@ -1389,6 +1779,38 @@ block. `ring`, `throbber` and `gradient` reuse `animate-spin`, `ping` reuses
 ---
 
 ## Toast
+
+### Fixed — a flashed toast came back on every later toast
+
+`add()` handles both the initial page load and the `ts-ui:toast` window event, and the
+`flash` it reads is a closure parameter that never empties. The guard was written for
+the load path, where the two entry points (`window.onload` and `livewire:navigated`)
+could otherwise show it twice.
+
+Reached through the window event, the same block flushed everything on screen and
+pushed the old flash back with a fresh timer — for the rest of the page's life, and
+destroying the whole pile in `stacked` mode.
+
+The flash is consumed once now. Both load paths stay covered: the first to arrive shows
+it, the second finds it spent.
+
+Dialog and Banner never had this; they only assign.
+
+### Fixed — the toast timer outlived the card
+
+The interval id was a `const` inside `$nextTick`, out of reach of `destroy()`, which
+disconnected the `ResizeObserver` and removed the `visibilitychange` listener but left
+the timer running. The self-clear inside the loop only covers `hide()`, and a toast
+dropped by the parent's `flush()` keeps `show === true`, so it never ran.
+
+`$this->toast()->info('B')->sole()->send()` with A on screen therefore left A's interval
+alive: it fired `toast:timeout` for a toast nobody saw expire, and called
+`Livewire.find(...)` for it when A carried a timeout hook. Frozen by a hover or an
+expanded pile, `elapsed >= max` never arrived and the interval simply never stopped.
+After a `wire:navigate`, `Livewire.find()` returns `undefined` and the orphan threw.
+
+The id moved onto the instance, behind an idempotent `stop()` that `destroy()`, the
+self-clear and the timeout path all call.
 
 ### Added — `top-center` and `bottom-center` positions
 
@@ -2807,6 +3229,47 @@ answer.
 
 ## Soft Customization
 
+### Fixed — a scope threw away the global customization
+
+`array_merge($soft, $scoped)` already gives the scope precedence. Restricting the
+result to the scoped keys on top of that dropped every block the scope did not name,
+and those blocks then fell back to the component's original classes.
+
+```php
+TallStackUi::customize()->alert()->block('wrapper')->append('brand-shadow');
+TallStackUi::customize('alert', scope: 'flat')->block('text.title')->append('text-xl');
+```
+
+`<x-alert title="X" />` carried `brand-shadow`; `<x-alert title="X" scope="flat" />`
+lost it. The same happened with the scopes the package ships, so
+`<x-card scope="card-shadowless">` discarded every global customization of Card.
+
+A scope now layers over the global customization instead of replacing it.
+
+### Fixed — a scoped block swallowed its dot notation sibling
+
+Block names are keys that happen to contain dots. Writing them through
+`data_set($this->parts, $this->scope.'.'.$block, ...)` read those dots as a path, so
+`body` became a node on the way to `body.paddingless` and whichever was written last
+survived:
+
+```php
+TallStackUi::customize('card', scope: 'flat')->block([
+    'body'             => 'grow px-2 py-2',
+    'body.paddingless' => 'p-0!',
+]);
+```
+
+`CustomizationFactory::get()` is typed `?string` but would then return the array left
+behind by the collision, raising a `TypeError`.
+
+The scope container is resolved first and the block written as a flat key inside it,
+which keeps nested scope names such as `form.currency.input` working while leaving the
+block's own dots alone. `get()` reads it back the same way.
+
+Affected every component with a colliding pair: Card, Modal, Slide, CommandPalette,
+Select Styled, Layout Header, SideBar Item and SideBar Separator.
+
 ### Added — `extend()` to change a scope that is already defined
 
 Scopes could only be created, never touched. That made the scopes the package
@@ -3037,6 +3500,38 @@ list separates its items with `border-b` on `panels.li`, never with `divide-*`.
 ---
 
 ## Form / Select / Styled
+
+### Fixed — the search only reached the lazy window
+
+`available` sliced the options down to `lazy` **before** filtering them, so the search
+ran over the first N entries and nothing else. `lazy` exists for long lists, which is
+exactly where the search matters most:
+
+```blade
+{{-- typing 9999 found nothing --}}
+<x-select.styled searchable :options="range(1, 10000)" :lazy="10" />
+```
+
+The window is now applied only while no term is typed; with a term, the filter runs over
+the whole list and the window bounds the matches instead.
+
+Nothing was needed for the selection to survive: `hydrate()` already cross-references
+the model against the full `options` list rather than the rendered slice, so an option
+picked from a search result keeps displaying after the search is cleared.
+
+### Fixed — `0` was submitted as an empty value
+
+Both the hidden input setter and the vanilla initializer tested truthiness, so a
+legitimate `0` came out as `''`:
+
+```blade
+{{-- picking Inactive submitted status= --}}
+<x-select.styled name="status"
+                 :options="[['label' => 'Inactive', 'value' => 0], ['label' => 'Active', 'value' => 1]]"
+                 select="label:label|value:value" />
+```
+
+Both now test for `null`, `undefined` and `''` explicitly.
 
 ### Changed — qs is gone
 

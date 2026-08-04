@@ -23,6 +23,7 @@ export default (
   desktop: true,
   expanded: false,
   heights: {},
+  flashed: false,
   init() {
     if (flash) window.onload = () => this.add(flash);
     if (flash)
@@ -45,7 +46,12 @@ export default (
   add(event) {
     this.$nextTick(() => (this.show = true));
 
-    if (flash) {
+    // This same method also handles the window event, and `flash` is a closure
+    // parameter that never empties. Without the guard every later toast would
+    // flush whatever is on screen and resurrect the flash with a fresh timer.
+    if (flash && !this.flashed) {
+      this.flashed = true;
+
       // Since flash tends to be something to be
       // displayed later, we clear the array before
       // sending to prevent duplication.

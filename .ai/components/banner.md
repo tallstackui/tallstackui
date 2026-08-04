@@ -28,21 +28,21 @@ A top-of-page banner component for announcements or notifications. Supports stat
 
 ## Attributes
 
-| Attribute | Type                            | Default   | Description                                                               |
-|-----------|---------------------------------|-----------|---------------------------------------------------------------------------|
-| text      | string\|array\|Collection\|null | null      | Banner message text; arrays/collections pick a random entry               |
-| color     | string\|array\|null             | 'primary' | Color theme, or array with `background` and `text` keys for custom colors |
-| close     | bool                            | false     | Shows a dismiss button                                                    |
-| animated  | bool                            | false     | Enables slide-down entrance and exit transitions                          |
-| enter     | int\|null                       | 3         | Delay in seconds before the banner enters (used with animation)           |
-| leave     | int\|null                       | null      | Delay in seconds before the banner auto-hides                             |
-| until     | string\|Carbon\|null            | null      | Date after which the banner stops displaying                              |
-| wire      | bool                            | false     | Enables Livewire-driven banner mode (controlled via `$this->banner()`)    |
-| light     | bool                            | false     | Uses the light color style variant                                        |
-| show      | bool                            | true      | Controls initial visibility                                               |
-| size      | string\|null                    | 'sm'      | Vertical padding size: 'sm', 'md', or 'lg'                                |
-| rotate    | bool\|string                    | false     | Marquee mode (right→left infinite scroll). See "Rotate" section           |
-| separator | string\|null                    | ' • '     | Joiner used when `rotate` is on and `text` is an array                    |
+| Attribute | Type                            | Default   | Description                                                                                   |
+|-----------|---------------------------------|-----------|-----------------------------------------------------------------------------------------------|
+| text      | string\|array\|Collection\|null | null      | Banner message text; arrays/collections pick a random entry, and an empty one renders no text |
+| color     | string\|array\|null             | 'primary' | Color theme, or array with `background` and `text` keys for custom colors                     |
+| close     | bool                            | false     | Shows a dismiss button                                                                        |
+| animated  | bool                            | false     | Enables slide-down entrance and exit transitions                                              |
+| enter     | int\|null                       | 3         | Delay in seconds before the banner enters (used with animation)                               |
+| leave     | int\|null                       | null      | Delay in seconds before the banner auto-hides                                                 |
+| until     | string\|Carbon\|null            | null      | Date after which the banner stops displaying                                                  |
+| wire      | bool                            | false     | Enables Livewire-driven banner mode (controlled via `$this->banner()`)                        |
+| light     | bool                            | false     | Uses the light color style variant                                                            |
+| show      | bool                            | true      | Controls initial visibility                                                                   |
+| size      | string\|null                    | 'sm'      | Vertical padding size: 'sm', 'md', or 'lg'                                                    |
+| rotate    | bool\|string                    | false     | Marquee mode (right→left infinite scroll). See "Rotate" section                               |
+| separator | string\|null                    | ' • '     | Joiner used when `rotate` is on and `text` is an array                                        |
 
 ## Slots
 

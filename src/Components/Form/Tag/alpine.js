@@ -26,6 +26,10 @@ export default (model, limit, lazy, prefixes, livewire, property, value) => ({
   add(event) {
     if (event.key !== 'Enter' && event.key !== ',') return;
 
+    // Enter means "add a tag" here. Left alone it also submits the surrounding
+    // form, so outside Livewire the first tag would send the page away.
+    event.preventDefault();
+
     if (this.limit && this.model?.length >= this.limit) {
       this.clean();
 

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\View\ViewException;
@@ -416,3 +417,13 @@ describe('the global defaults', function () {
             ->toContain('Showing');
     });
 });
+
+it('renders the simple paginator when the rows are not length aware', function (array $headers) {
+    $rows = collect(range(1, 11))->map(fn (int $index): array => ['name' => "User {$index}", 'email' => "user{$index}@bar.com"]);
+
+    $paginator = new Paginator($rows, 10, 1, ['path' => 'http://localhost/users']);
+
+    expect('<x-table :$headers :rows="$rows" paginate />')
+        ->render(['headers' => $headers, 'rows' => $paginator])
+        ->toContain('User 1');
+})->with('table.headers');

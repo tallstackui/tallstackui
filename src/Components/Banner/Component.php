@@ -109,9 +109,11 @@ class Component extends TallStackUiComponent implements Customization
         }
 
         if (is_array($this->text)) {
-            $this->text = $this->rotate !== false
-                ? implode($this->separator, $this->text)
-                : $this->text[array_rand($this->text)];
+            $this->text = match (true) {
+                $this->rotate !== false => implode($this->separator, $this->text),
+                $this->text === [] => null,
+                default => $this->text[array_rand($this->text)],
+            };
         }
 
         if (is_null($this->until)) {

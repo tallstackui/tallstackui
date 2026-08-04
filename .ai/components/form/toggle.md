@@ -19,6 +19,20 @@ A toggle switch component for boolean inputs with multiple sizes, label position
 <x-toggle wire:model="darkMode" label="Dark mode" lg />
 ```
 
+The label also accepts a slot, which is what you need when it carries markup. The
+`left` attribute on the slot places it before the toggle, the same as `position="left"`:
+
+```blade
+<x-toggle wire:model="notifications">
+    <x-slot:label left>
+        Notifications <span class="text-xs text-gray-500">email and push</span>
+    </x-slot:label>
+</x-toggle>
+```
+
+`start` on the same slot aligns the label to the top instead of centering it, which
+matters when the text wraps over more than one line.
+
 ## Attributes
 
 | Attribute  | Type                        | Default   | Description                                                           |

@@ -5,6 +5,7 @@ namespace TallStackUi\Components\Timeline\Items;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\View\ComponentSlot;
+use Illuminate\View\Factory;
 use TallStackUi\Attributes\ColorsThroughOf;
 use TallStackUi\Attributes\PassThroughRuntime;
 use TallStackUi\Attributes\SkipDebug;
@@ -24,17 +25,11 @@ class Component extends TallStackUiComponent implements Customization
         public ?string $description = null,
         public ?string $date = null,
         public ?string $icon = null,
-        public ?string $color = 'primary',
+        public ?string $color = null,
         #[SkipDebug]
         public ComponentSlot|string|null $marker = null,
         #[SkipDebug]
-        public ?string $style = 'solid',
-        #[SkipDebug]
-        public ?bool $horizontal = false,
-        #[SkipDebug]
-        public ?bool $alternate = false,
-        #[SkipDebug]
-        public ?bool $compact = false,
+        public ?string $style = null,
         #[SkipDebug]
         public ?bool $reversed = false,
     ) {
@@ -92,5 +87,21 @@ class Component extends TallStackUiComponent implements Customization
                 'custom' => '',
             ],
         ]);
+    }
+
+    protected function setup(): void
+    {
+        // Items written in the parent slot receive no props from it, and @aware cannot
+        // reach the parent for a prop declared here. Colors are compiled from these two
+        // before the view runs, so they are inherited here rather than in the template.
+        $factory = $this->factory();
+
+        if ($factory instanceof Factory) {
+            $this->color ??= $factory->getConsumableComponentData('color');
+            $this->style ??= $factory->getConsumableComponentData('style');
+        }
+
+        $this->color ??= 'primary';
+        $this->style ??= 'solid';
     }
 }
