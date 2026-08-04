@@ -22,9 +22,6 @@ class TableRuntime extends AbstractRuntime
 
         return [
             ...$this->bind()->only('entangle'),
-            // Suffix appended to the cell blocks so every one of them switches to
-            // its tighter variant at once, instead of a ternary at each cell.
-            'compacted' => $this->data('compact') === true ? '-compact' : '',
             'lines' => $this->skeleton(5),
             'columns' => count($headers) ?: self::FALLBACK_COLUMNS,
             'anchor' => $anchor = $this->anchor($rows),
