@@ -27,18 +27,18 @@ The content also accepts HTML, through the slot or the `text` prop:
 
 ## Attributes
 
-| Attribute | Type         | Default                | Description                                                       |
-|-----------|--------------|------------------------|-------------------------------------------------------------------|
-| text      | string\|null | null                   | Balloon content displayed on hover; accepts HTML                  |
-| icon      | string\|null | 'question-mark-circle' | Heroicon name used as the tooltip trigger                         |
-| color     | string       | 'primary'              | Color of the **icon** (e.g., primary, red, blue, gray)            |
-| balloon   | string\|null | null                   | Color of the **balloon**; null keeps the high contrast default    |
+| Attribute | Type         | Default                | Description                                                                                  |
+|-----------|--------------|------------------------|----------------------------------------------------------------------------------------------|
+| text      | string\|null | null                   | Balloon content displayed on hover; accepts HTML                                             |
+| icon      | string\|null | 'question-mark-circle' | Heroicon name used as the tooltip trigger                                                    |
+| color     | string       | 'primary'              | Color of the **icon** (e.g., primary, red, blue, gray)                                       |
+| balloon   | string\|null | null                   | Color of the **balloon**; null keeps the high contrast default                               |
 | delay     | string\|null | null                   | How long the pointer must rest before opening; null falls back to the config, then to `fast` |
-| xs        | bool\|null   | null                   | Extra-small icon size                                             |
-| sm        | bool\|null   | null                   | Small icon size (default)                                         |
-| md        | bool\|null   | null                   | Medium icon size                                                  |
-| lg        | bool\|null   | null                   | Large icon size                                                   |
-| position  | string\|null | 'top'                  | Balloon position relative to the icon                             |
+| xs        | bool\|null   | null                   | Extra-small icon size                                                                        |
+| sm        | bool\|null   | null                   | Small icon size (default)                                                                    |
+| md        | bool\|null   | null                   | Medium icon size                                                                             |
+| lg        | bool\|null   | null                   | Large icon size                                                                              |
+| position  | string\|null | 'top'                  | Balloon position relative to the icon                                                        |
 
 ## The `x-tooltip` Directive
 
@@ -52,11 +52,11 @@ The component is a convenience wrapper. The directive works on any element insid
 
 Every option below is available to the directive as a plain attribute, so it also works on components that expose only a `tooltip` prop:
 
-| Attribute               | Description                                                    |
-|-------------------------|----------------------------------------------------------------|
-| `data-position`         | Balloon position; same values as the `position` prop           |
-| `data-tooltip-delay`    | Delay step; same values as the `delay` prop                    |
-| `data-tooltip-color`    | Balloon color; same values as the `balloon` prop               |
+| Attribute               | Description                                                     |
+|-------------------------|-----------------------------------------------------------------|
+| `data-position`         | Balloon position; same values as the `position` prop            |
+| `data-tooltip-delay`    | Delay step; same values as the `delay` prop                     |
+| `data-tooltip-color`    | Balloon color; same values as the `balloon` prop                |
 | `data-tooltip-disabled` | Suppresses the tooltip while truthy; watched, so it reacts live |
 
 ```blade
@@ -76,12 +76,12 @@ Long text wraps rather than pushing the balloon away from its trigger: the ballo
 
 ## Delay
 
-| Name     | Delay |
-|----------|-------|
-| `slow`   | 400ms |
+| Name     | Delay           |
+|----------|-----------------|
+| `slow`   | 400ms           |
 | `fast`   | 150ms (default) |
-| `faster` | 75ms  |
-| `flash`  | 0     |
+| `faster` | 75ms            |
+| `flash`  | 0               |
 
 Applies to the pointer only. Keyboard focus and taps always open immediately.
 
@@ -97,11 +97,11 @@ Without a color, the balloon is high contrast and follows the theme: dark on lig
 
 ## Behavior
 
-| Trigger        | Opens                    | Closes                                      |
-|----------------|--------------------------|---------------------------------------------|
-| Mouse          | On hover, after the delay | On leave; scrolling repositions it          |
-| Touch          | On tap, immediately       | Tap outside, or scroll                      |
-| Keyboard focus | Immediately               | On blur, or <kbd>Escape</kbd>               |
+| Trigger        | Opens                     | Closes                             |
+|----------------|---------------------------|------------------------------------|
+| Mouse          | On hover, after the delay | On leave; scrolling repositions it |
+| Touch          | On tap, immediately       | Tap outside, or scroll             |
+| Keyboard focus | Immediately               | On blur, or <kbd>Escape</kbd>      |
 
 A single balloon is shared by the whole page, so only one is ever visible. While open, the trigger carries `aria-describedby` pointing at the balloon, which carries `role="tooltip"`.
 
@@ -109,10 +109,10 @@ A single balloon is shared by the whole page, so only one is ever visible. While
 
 Under `components.tooltip` in `config/tallstackui.php`:
 
-| Key     | Type         | Default | Description                                                     |
-|---------|--------------|---------|-----------------------------------------------------------------|
-| `delay` | string\|null | null    | Default delay step for every tooltip on the page                |
-| `color` | string\|null | null    | Default balloon color for every tooltip on the page             |
+| Key     | Type         | Default | Description                                         |
+|---------|--------------|---------|-----------------------------------------------------|
+| `delay` | string\|null | null    | Default delay step for every tooltip on the page    |
+| `color` | string\|null | null    | Default balloon color for every tooltip on the page |
 
 ```php
 'tooltip' => [
@@ -163,10 +163,10 @@ TallStackUi::customize()
 
 ### Available Blocks
 
-| Block Name | Purpose                                    |
-|------------|--------------------------------------------|
+| Block Name | Purpose                                     |
+|------------|---------------------------------------------|
 | wrapper    | Outer inline-flex container, non-selectable |
-| sizes.xs   | Extra-small icon dimensions                |
-| sizes.sm   | Small icon dimensions                      |
-| sizes.md   | Medium icon dimensions                     |
-| sizes.lg   | Large icon dimensions                      |
+| sizes.xs   | Extra-small icon dimensions                 |
+| sizes.sm   | Small icon dimensions                       |
+| sizes.md   | Medium icon dimensions                      |
+| sizes.lg   | Large icon dimensions                       |

@@ -97,29 +97,29 @@ Rows should include a `highlight` property (or custom property via `highlight-pr
 
 ## Attributes
 
-| Attribute           | Type                                               | Default           | Description                                                                                                                          |
-|---------------------|----------------------------------------------------|-------------------|--------------------------------------------------------------------------------------------------------------------------------------|
-| headers             | Collection\|array                                  | []                | Array of column definitions with `index`, `label`, and optional `sortable` and `unescaped` keys                                      |
-| rows                | LengthAwarePaginator\|Paginator\|Collection\|array | []                | Data rows to display                                                                                                                 |
-| headerless          | bool                                               | false             | Hides the table header row                                                                                                           |
-| striped             | bool                                               | false             | Applies alternating row background colors                                                                                            |
-| sort                | array\|null                                        | []                | Current sort state with `column` and `direction` keys (bind to a Livewire property)                                                  |
-| filter              | bool\|array\|null                                  | null              | Enables filter controls. `true` for defaults, or `['quantity' => 'propertyName', 'search' => 'propertyName']`. Globally configurable |
-| loading             | bool                                               | false             | Shows a loading spinner overlay during Livewire updates                                                                              |
-| quantity            | array\|null                                        | [10, 25, 50, 100] | Options for the per-page quantity select. Globally configurable                                                                      |
-| paginate            | bool                                               | false             | Enables pagination links below the table. Globally configurable                                                                      |
+| Attribute           | Type                                               | Default           | Description                                                                                                                                                                 |
+|---------------------|----------------------------------------------------|-------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| headers             | Collection\|array                                  | []                | Array of column definitions with `index`, `label`, and optional `sortable` and `unescaped` keys                                                                             |
+| rows                | LengthAwarePaginator\|Paginator\|Collection\|array | []                | Data rows to display                                                                                                                                                        |
+| headerless          | bool                                               | false             | Hides the table header row                                                                                                                                                  |
+| striped             | bool                                               | false             | Applies alternating row background colors                                                                                                                                   |
+| sort                | array\|null                                        | []                | Current sort state with `column` and `direction` keys (bind to a Livewire property)                                                                                         |
+| filter              | bool\|array\|null                                  | null              | Enables filter controls. `true` for defaults, or `['quantity' => 'propertyName', 'search' => 'propertyName']`. Globally configurable                                        |
+| loading             | bool                                               | false             | Shows a loading spinner overlay during Livewire updates                                                                                                                     |
+| quantity            | array\|null                                        | [10, 25, 50, 100] | Options for the per-page quantity select. Globally configurable                                                                                                             |
+| paginate            | bool                                               | false             | Enables pagination links below the table. Globally configurable                                                                                                             |
 | persistent          | bool\|string                                       | false             | Keeps the table in view after paginating or filtering. A bare flag anchors on the table itself; a string anchors on the element with that id. See [Persistent](#persistent) |
-| simple-pagination   | bool                                               | false             | Uses simple (previous/next) pagination instead of full pagination. Globally configurable                                             |
-| paginator           | string\|null                                       | 'simple'          | The look of the pagination: `simple`, `minimal` or `compact`, or a view path of your own. See [Paginator](#paginator)                |
-| selectable          | bool\|null                                         | null              | Enables row selection checkboxes (bind to a Livewire property via `wire:model`)                                                      |
-| selectable-property | string\|null                                       | 'id'              | Row property used as the value for selection                                                                                         |
-| expandable          | bool                                               | false             | Enables expandable row sub-content via `@interact('sub_table', $row)`                                                                |
-| highlight           | bool                                               | false             | Enables row highlighting based on a color property in each row                                                                       |
-| highlight-property  | string\|null                                       | 'highlight'       | Row property name containing the highlight color                                                                                     |
-| link                | string\|null                                       | null              | URL template for clickable rows. Use `{column}` tokens (e.g., `/users/{id}`)                                                         |
-| blank               | bool                                               | false             | Opens row links in a new tab                                                                                                         |
-| on-each-side        | int\|null                                          | 1                 | Number of pagination links on each side of the current page                                                                          |
-| skeleton            | bool\|int\|null                                    | null              | Renders a structural placeholder instead of the rows. A bare flag draws 5 rows; an integer sets the count. See [Skeleton](#skeleton) |
+| simple-pagination   | bool                                               | false             | Uses simple (previous/next) pagination instead of full pagination. Globally configurable                                                                                    |
+| paginator           | string\|null                                       | 'simple'          | The look of the pagination: `simple`, `minimal` or `compact`, or a view path of your own. See [Paginator](#paginator)                                                       |
+| selectable          | bool\|null                                         | null              | Enables row selection checkboxes (bind to a Livewire property via `wire:model`)                                                                                             |
+| selectable-property | string\|null                                       | 'id'              | Row property used as the value for selection                                                                                                                                |
+| expandable          | bool                                               | false             | Enables expandable row sub-content via `@interact('sub_table', $row)`                                                                                                       |
+| highlight           | bool                                               | false             | Enables row highlighting based on a color property in each row                                                                                                              |
+| highlight-property  | string\|null                                       | 'highlight'       | Row property name containing the highlight color                                                                                                                            |
+| link                | string\|null                                       | null              | URL template for clickable rows. Use `{column}` tokens (e.g., `/users/{id}`)                                                                                                |
+| blank               | bool                                               | false             | Opens row links in a new tab                                                                                                                                                |
+| on-each-side        | int\|null                                          | 1                 | Number of pagination links on each side of the current page                                                                                                                 |
+| skeleton            | bool\|int\|null                                    | null              | Renders a structural placeholder instead of the rows. A bare flag draws 5 rows; an integer sets the count. See [Skeleton](#skeleton)                                        |
 
 ## Slots
 
@@ -153,10 +153,10 @@ Each header in the `headers` array supports these keys:
 
 ## Events
 
-| Event      | Payload  | Fires on                                                    |
-|------------|----------|-------------------------------------------------------------|
-| `select`   | `{ row }`  | a row checkbox only — **not** the select-all checkbox      |
-| `selected` | `{ rows }` | any change to the selection, including select-all           |
+| Event      | Payload    | Fires on                                              |
+|------------|------------|-------------------------------------------------------|
+| `select`   | `{ row }`  | a row checkbox only — **not** the select-all checkbox |
+| `selected` | `{ rows }` | any change to the selection, including select-all     |
 
 `row` is the whole row object; `rows` is an array of `selectable-property` values.
 
@@ -218,13 +218,13 @@ class UserController
 The `search` and `quantity` parameter names come from `filter`, so you control them.
 Filtering or sorting resets `page`; every other parameter is preserved.
 
-| Feature    | Inside Livewire         | Outside                        |
-|------------|-------------------------|--------------------------------|
-| pagination | `wire:click="gotoPage"` | `<a href>`                     |
-| sorting    | `wire:click="$set"`     | `<a href>`                     |
-| filter     | `wire:model.live`       | Alpine rewriting the URL       |
-| loading    | `wire:loading`          | not rendered                   |
-| selectable | entangled array         | Alpine array plus events       |
+| Feature    | Inside Livewire         | Outside                  |
+|------------|-------------------------|--------------------------|
+| pagination | `wire:click="gotoPage"` | `<a href>`               |
+| sorting    | `wire:click="$set"`     | `<a href>`               |
+| filter     | `wire:model.live`       | Alpine rewriting the URL |
+| loading    | `wire:loading`          | not rendered             |
+| selectable | entangled array         | Alpine array plus events |
 
 Two caveats:
 
@@ -244,9 +244,9 @@ and `simple-pagination`.
 
 | Variant   | Numbered                                          | `simple-pagination`               |
 |-----------|---------------------------------------------------|-----------------------------------|
-| `simple`  | rail with a floating pill, chevrons outside it     | two tinted `rounded-full` buttons |
-| `minimal` | no surfaces at all, current page ruled underneath  | two underline-on-hover text links |
-| `compact` | one bordered shell holding `‹ 3 / 12 ›`            | the same shell, page number only  |
+| `simple`  | rail with a floating pill, chevrons outside it    | two tinted `rounded-full` buttons |
+| `minimal` | no surfaces at all, current page ruled underneath | two underline-on-hover text links |
+| `compact` | one bordered shell holding `‹ 3 / 12 ›`           | the same shell, page number only  |
 
 `compact` collapses the page list into an indicator, so one control serves every width.
 It needs `lastPage()`, which a simple paginator does not have — in that mode it shows the
@@ -301,11 +301,11 @@ Keeps the reader in place after paginating or filtering.
 </div>
 ```
 
-| Value                | Inside Livewire                                      | Outside                                               |
-|----------------------|------------------------------------------------------|-------------------------------------------------------|
-| `false`              | nothing                                              | nothing                                               |
-| `persistent`         | scrolls to the table                                 | `id` on the wrapper, `#table-{pageName}` on every link |
-| `persistent="users"` | scrolls to `#users`                                  | `#users` on every link, no `id` on the wrapper        |
+| Value                | Inside Livewire      | Outside                                                |
+|----------------------|----------------------|--------------------------------------------------------|
+| `false`              | nothing              | nothing                                                |
+| `persistent`         | scrolls to the table | `id` on the wrapper, `#table-{pageName}` on every link |
+| `persistent="users"` | scrolls to `#users`  | `#users` on every link, no `id` on the wrapper         |
 
 Inside Livewire nothing reloads, so the scroll is done in script. Outside, every link is
 a full page load and the URL fragment is what survives it.

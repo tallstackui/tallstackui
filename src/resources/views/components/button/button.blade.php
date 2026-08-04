@@ -9,8 +9,7 @@
         $customization['wrapper.sizes.' . $size],
         $colors['background'],
         $customization['wrapper.block'] => $block,
-        $customization['wrapper.border.radius.rounded'] => !$square && !$round,
-        $customization['wrapper.border.radius.circle'] => !$square && $round !== null,
+        $customization['border.radius.' . $rounded] => !$square,
     ]) }} type="{{ $attributes->get('type', $submit ? 'submit' : 'button') }}" @if ($livewire && $loading)
     wire:loading.attr="disabled" wire:loading.class="{{ $customization['wire.loading-cursor'] }}"
 @endif @if ($tooltip)

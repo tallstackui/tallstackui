@@ -77,7 +77,7 @@ TallStackUi::customize()
 | Scope                        | Target           | Line(s) |
 |------------------------------|------------------|---------|
 | `form.autocomplete.input`    | `<x-input />`    | 19      |
-| `form.autocomplete.floating` | `<x-floating />` | 64      |
+| `form.autocomplete.floating` | `<x-floating />` | 66      |
 
 ### `form/checkbox/group`
 
@@ -189,7 +189,7 @@ TallStackUi::customize()
 | Scope        | Target        | Line(s) |
 |--------------|---------------|---------|
 | `list.label` | `<x-label />` | 8       |
-| `list.hint`  | `<x-hint />`  | 70      |
+| `list.hint`  | `<x-hint />`  | 79      |
 
 ### `table`
 

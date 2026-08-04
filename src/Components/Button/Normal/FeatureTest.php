@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\View\ViewException;
 use Tests\TestCase;
 
 uses(TestCase::class)->group('Feature');
@@ -43,6 +44,48 @@ it('can render round')
     ->expect('<x-button text="Foo bar" round />')
     ->render()
     ->toContain('rounded-full');
+
+it('can render rounded-md by default')
+    ->expect('<x-button text="Foo bar" />')
+    ->render()
+    ->toContain('rounded-md');
+
+it('can render round with a size', function (string $round, string $class) {
+    $component = <<<HTML
+    <x-button text="Foo bar" round="$round" />
+    HTML;
+
+    expect($component)->render()
+        ->toContain($class);
+})->with([
+    ['xs', 'rounded-xs'],
+    ['sm', 'rounded-sm'],
+    ['md', 'rounded-md'],
+    ['lg', 'rounded-lg'],
+    ['xl', 'rounded-xl'],
+    ['full', 'rounded-full'],
+]);
+
+it('cannot render round when square is on')
+    ->expect('<x-button text="Foo bar" square round="lg" />')
+    ->render()
+    ->not->toContain('rounded');
+
+it('can thrown exception when round is unnaceptable', function (string $round) {
+    $this->expectException(ViewException::class);
+    $this->expectExceptionMessage('[TallStackUI] Button\Normal: The [round] must be true or one of: [xs, sm, md, lg, xl, full].');
+
+    $component = <<<HTML
+    <x-button text="Foo bar" round="$round" />
+    HTML;
+
+    expect($component)->render();
+})->with([
+    'foo',
+    'true',
+    '2xl',
+    'circle',
+]);
 
 it('can render as tag a')
     ->expect('<x-button href="https://google.com.br" text="Foo bar" round />')->render()

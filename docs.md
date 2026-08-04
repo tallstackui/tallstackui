@@ -12,6 +12,82 @@ such change is listed under **Migration**.
 
 ---
 
+## Button
+
+### Added — `round` accepts a size
+
+`round` was a switch: on it gave `rounded-full`, off it gave `rounded-md`, and there was
+nothing in between. Anything else meant reaching for soft customization or writing the
+class by hand.
+
+It now also takes a size:
+
+```blade
+<x-button round>Pill</x-button>
+<x-button round="lg">Large radius</x-button>
+```
+
+| Value          | Class          |
+|----------------|----------------|
+| (none)         | `rounded-md`   |
+| `round`        | `rounded-full` |
+| `round="xs"`   | `rounded-xs`   |
+| `round="sm"`   | `rounded-sm`   |
+| `round="md"`   | `rounded-md`   |
+| `round="lg"`   | `rounded-lg`   |
+| `round="xl"`   | `rounded-xl`   |
+| `round="full"` | `rounded-full` |
+
+The default and the pill are what they always were, so nothing renders differently until
+a size is passed.
+
+`square` is unchanged and still wins: it drops the radius outright, which is what makes
+the global `TallStackUi::globals()->square()` work while a button asks for a radius of
+its own.
+
+This is the shape Badge and Environment already use, down to the derivation:
+
+```php
+$this->rounded = $this->round === true ? 'full' : (is_string($this->round) ? $this->round : 'md');
+```
+
+Card is the odd one out — it has no `square`, so it resolves the radius with a single
+unconditional lookup instead.
+
+`round="full"` is accepted here, which is the one place Button diverges from Badge and
+Environment: they define a `full` block but reject the string, so only the boolean
+reaches it.
+
+Anything outside the six sizes throws at render time. Button had no `validate()` at all
+until now.
+
+### Migration
+
+**`wrapper.border.radius.rounded` and `wrapper.border.radius.circle` are gone.** They
+were a two-entry map for a two-state prop. The radius blocks are now a size map, and
+they moved out of `wrapper` to sit where Badge and Environment keep theirs:
+
+```php
+// before
+TallStackUi::customize()->button()->block('wrapper.border.radius.rounded', 'rounded-2xl');
+TallStackUi::customize()->button()->block('wrapper.border.radius.circle', '...');
+
+// after
+TallStackUi::customize()->button()->block('border.radius.md', 'rounded-2xl');
+TallStackUi::customize()->button()->block('border.radius.full', '...');
+```
+
+`border.radius.md` is the one the default button reads, since an omitted `round`
+resolves to `md`.
+
+### Tests
+
+`FeatureTest.php` covers the default, the boolean, one case per size, `square` beating
+`round`, and the rejected values — `2xl` and `circle` among them, the second being the
+name of the block that no longer exists.
+
+---
+
 ## Modal
 
 ### Added — `center` accepts a breakpoint

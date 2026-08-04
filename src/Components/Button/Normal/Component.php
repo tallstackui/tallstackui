@@ -31,7 +31,7 @@ class Component extends TallStackUiComponent implements Customization
         public ?bool $lg = null,
         public ?string $color = 'primary',
         public ?string $square = null,
-        public ?string $round = null,
+        public bool|string|null $round = false,
         public ?bool $block = false,
         public ?string $href = null,
         public ?string $loading = null,
@@ -48,11 +48,13 @@ class Component extends TallStackUiComponent implements Customization
         #[SkipDebug]
         public ?string $style = null,
         #[SkipDebug]
+        public ?string $rounded = null,
+        #[SkipDebug]
         public ?string $left = null,
         #[SkipDebug]
         public ?string $right = null,
     ) {
-        //
+        $this->rounded = $this->round === true ? 'full' : (is_string($this->round) ? $this->round : 'md');
     }
 
     public function blade(): View
@@ -71,11 +73,15 @@ class Component extends TallStackUiComponent implements Customization
                     'md' => 'text-md px-4 py-2',
                     'lg' => 'text-lg px-6 py-3',
                 ],
-                'border.radius' => [
-                    'rounded' => 'rounded-md',
-                    'circle' => 'rounded-full',
-                ],
                 'block' => 'w-full',
+            ],
+            'border.radius' => [
+                'xs' => 'rounded-xs',
+                'sm' => 'rounded-sm',
+                'md' => 'rounded-md',
+                'lg' => 'rounded-lg',
+                'xl' => 'rounded-xl',
+                'full' => 'rounded-full',
             ],
             'wire' => [
                 'loading-cursor' => 'cursor-wait!',
@@ -88,5 +94,18 @@ class Component extends TallStackUiComponent implements Customization
             ],
             'icon.spinner-animation' => 'animate-spin',
         ]);
+    }
+
+    protected function validate(): void
+    {
+        if (! is_string($this->round)) {
+            return;
+        }
+
+        $sizes = ['xs', 'sm', 'md', 'lg', 'xl', 'full'];
+
+        if (! in_array($this->round, $sizes, true)) {
+            __ts_validation_exception($this, 'The [round] must be true or one of: ['.implode(', ', $sizes).'].');
+        }
     }
 }

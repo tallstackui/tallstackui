@@ -90,16 +90,16 @@ Custom empty state:
 
 ## Attributes
 
-| Attribute          | Type                   | Default                            | Description                                                                                                |
-|--------------------|------------------------|------------------------------------|------------------------------------------------------------------------------------------------------------|
-| label              | string\|null           | null                               | Renders as `<x-label>` above the box                                                                       |
-| hint               | string\|null           | null                               | Renders as `<x-hint>` below the box                                                                        |
-| searchable         | bool                   | false                              | When true, renders a search input above the items (Alpine-filtered, client-side)                           |
-| search-placeholder | string\|null           | i18n `ts-ui::messages.list.search` | Placeholder for the search input; falls back to translation key                                            |
-| height             | string\|null           | null                               | Tailwind size token (`'40'`, `'60'`, `'80'`, `'96'`) → `max-h-{n} overflow-y-auto`. `null` = no max height |
-| :items             | array\|Arrayable\|null | null                               | Data-driven mode. Iterated to render rows. When set, default slot children are ignored                     |
+| Attribute          | Type                   | Default                            | Description                                                                                                                                                      |
+|--------------------|------------------------|------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| label              | string\|null           | null                               | Renders as `<x-label>` above the box                                                                                                                             |
+| hint               | string\|null           | null                               | Renders as `<x-hint>` below the box                                                                                                                              |
+| searchable         | bool                   | false                              | When true, renders a search input above the items (Alpine-filtered, client-side)                                                                                 |
+| search-placeholder | string\|null           | i18n `ts-ui::messages.list.search` | Placeholder for the search input; falls back to translation key                                                                                                  |
+| height             | string\|null           | null                               | Tailwind size token (`'40'`, `'60'`, `'80'`, `'96'`) → `max-h-{n} overflow-y-auto`. `null` = no max height                                                       |
+| :items             | array\|Arrayable\|null | null                               | Data-driven mode. Iterated to render rows. When set, default slot children are ignored                                                                           |
 | lazy               | bool\|int\|null        | null                               | Renders the rows on the client, revealing a slice at a time on scroll. A bare flag starts at 20; an integer sets the first slice. Requires `:items` and `height` |
-| skeleton           | bool\|int\|null        | null                               | Renders a structural placeholder instead of the rows. A bare flag draws 4 rows; an integer sets the count  |
+| skeleton           | bool\|int\|null        | null                               | Renders a structural placeholder instead of the rows. A bare flag draws 4 rows; an integer sets the count                                                        |
 
 ## Slots
 

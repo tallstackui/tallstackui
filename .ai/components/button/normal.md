@@ -23,31 +23,52 @@ A versatile button component supporting solid, light, outline, and flat styles w
 <x-button text="Visit Site" href="https://example.com" flat />
 ```
 
+Controlling the border radius. `round` on its own gives a pill; with a size it gives
+that exact radius. `square` drops the radius altogether and wins over `round`:
+
+```blade
+<x-button text="Default" />           {{-- rounded-md --}}
+<x-button text="Pill" round />        {{-- rounded-full --}}
+<x-button text="Large" round="lg" />  {{-- rounded-lg --}}
+<x-button text="Sharp" square />      {{-- no radius --}}
+```
+
+| Value          | Class          |
+|----------------|----------------|
+| (none)         | `rounded-md`   |
+| `round`        | `rounded-full` |
+| `round="xs"`   | `rounded-xs`   |
+| `round="sm"`   | `rounded-sm`   |
+| `round="md"`   | `rounded-md`   |
+| `round="lg"`   | `rounded-lg`   |
+| `round="xl"`   | `rounded-xl`   |
+| `round="full"` | `rounded-full` |
+
 ## Attributes
 
-| Attribute | Type         | Default   | Description                                                      |
-|-----------|--------------|-----------|------------------------------------------------------------------|
-| text      | string\|null | null      | Button label text                                                |
-| icon      | string\|null | null      | Heroicon name displayed alongside the text                       |
-| position  | string\|null | 'left'    | Icon position relative to text: 'left' or 'right'                |
-| xs        | bool         | null      | Extra-small size                                                 |
-| sm        | bool         | null      | Small size                                                       |
-| md        | bool         | null      | Medium size (default)                                            |
-| lg        | bool         | null      | Large size                                                       |
-| color     | string\|null | 'primary' | Color theme (e.g., primary, red, green, yellow)                  |
-| square    | string\|null | null      | Removes border radius for square corners                         |
-| round     | string\|null | null      | Uses fully rounded (pill) border radius                          |
-| block     | bool         | false     | Expands button to full width (`w-full`)                          |
-| href      | string\|null | null      | When set, renders as an anchor tag instead of a button           |
-| loading   | string\|null | null      | Livewire action name to show a loading spinner during execution  |
-| delay     | string\|null | null      | Delay duration for the loading indicator (e.g., 'longest')       |
-| solid     | bool         | true      | Uses the solid color style variant (default)                     |
-| outline   | bool         | false     | Uses the outline color style variant                             |
-| light     | bool         | false     | Uses the light color style variant                               |
-| flat      | bool         | false     | Uses the flat color style variant (no border)                    |
-| submit    | bool         | false     | Sets button type to 'submit' for form submission                 |
-| unfocus   | bool         | false     | No focus on mouse click (no ring/color); keyboard focus kept     |
-| tooltip   | string\|null | null      | Tooltip text shown on hover                                      |
+| Attribute | Type         | Default   | Description                                                     |
+|-----------|--------------|-----------|-----------------------------------------------------------------|
+| text      | string\|null | null      | Button label text                                               |
+| icon      | string\|null | null      | Heroicon name displayed alongside the text                      |
+| position  | string\|null | 'left'    | Icon position relative to text: 'left' or 'right'               |
+| xs        | bool         | null      | Extra-small size                                                |
+| sm        | bool         | null      | Small size                                                      |
+| md        | bool         | null      | Medium size (default)                                           |
+| lg        | bool         | null      | Large size                                                      |
+| color     | string\|null | 'primary' | Color theme (e.g., primary, red, green, yellow)                 |
+| square    | string\|null       | null      | Removes border radius for square corners. Wins over `round`               |
+| round     | bool\|string\|null | false     | `true` gives a pill (`rounded-full`). A size (xs, sm, md, lg, xl, full) gives that exact radius. Defaults to `rounded-md` when omitted |
+| block     | bool         | false     | Expands button to full width (`w-full`)                         |
+| href      | string\|null | null      | When set, renders as an anchor tag instead of a button          |
+| loading   | string\|null | null      | Livewire action name to show a loading spinner during execution |
+| delay     | string\|null | null      | Delay duration for the loading indicator (e.g., 'longest')      |
+| solid     | bool         | true      | Uses the solid color style variant (default)                    |
+| outline   | bool         | false     | Uses the outline color style variant                            |
+| light     | bool         | false     | Uses the light color style variant                              |
+| flat      | bool         | false     | Uses the flat color style variant (no border)                   |
+| submit    | bool         | false     | Sets button type to 'submit' for form submission                |
+| unfocus   | bool         | false     | No focus on mouse click (no ring/color); keyboard focus kept    |
+| tooltip   | string\|null | null      | Tooltip text shown on hover                                     |
 
 The balloon accepts the same attributes as anywhere else — `data-position`,
 `data-tooltip-delay`, `data-tooltip-color` and `data-tooltip-disabled`. See
@@ -86,9 +107,16 @@ TallStackUi::customize()
 | wrapper.sizes.sm              | Small text and padding                                              |
 | wrapper.sizes.md              | Medium text and padding                                             |
 | wrapper.sizes.lg              | Large text and padding                                              |
-| wrapper.border.radius.rounded | Default rounded border radius                                       |
-| wrapper.border.radius.circle  | Fully rounded (pill) border radius                                  |
+| wrapper.block                 | Full-width class applied by `block`                                 |
+| border.radius.xs              | Radius applied by `round="xs"`                                      |
+| border.radius.sm              | Radius applied by `round="sm"`                                      |
+| border.radius.md              | Radius applied by `round="md"` and by default                       |
+| border.radius.lg              | Radius applied by `round="lg"`                                      |
+| border.radius.xl              | Radius applied by `round="xl"`                                      |
+| border.radius.full            | Radius applied by `round` and by `round="full"`                     |
+| wire.loading-cursor           | Cursor applied while a `loading` action runs                        |
 | icon.sizes.xs                 | Extra-small icon dimensions                                         |
 | icon.sizes.sm                 | Small icon dimensions                                               |
 | icon.sizes.md                 | Medium icon dimensions                                              |
 | icon.sizes.lg                 | Large icon dimensions                                               |
+| icon.spinner-animation        | Spin animation applied to the loading icon                          |
