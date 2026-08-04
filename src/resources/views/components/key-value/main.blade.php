@@ -7,7 +7,7 @@
      class="{{ $customization['wrapper'] }}">
     <div @class([
             $customization['header.wrapper'],
-            $customization['header.neutral'] => ! $color,
+            $customization['header.neutral'] => blank($colors['header'] ?? null),
             $colors['header'] ?? '' => true,
         ])>
         <p class="{{ $customization['header.key'] }}">{{ $label ?? trans('ts-ui::messages.key-value.headers.key') }}</p>
@@ -76,7 +76,7 @@
             {{ $attributes->only('x-on:add') }}
             @class([
                 $customization['button.add'],
-                $customization['button.neutral'] => ! $color,
+                $customization['button.neutral'] => blank($colors['button'] ?? null),
                 $colors['button'] ?? '' => true,
             ])
             x-show="addable">

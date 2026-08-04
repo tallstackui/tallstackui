@@ -12,17 +12,19 @@ class KeyValueColors
     {
         [$header, $button] = $this->get('header', 'button');
 
-        $getter = $this->component->color; // @phpstan-ignore-line
-
-        // No color means the neutral look, which the customization blocks
-        // carry themselves so the two never end up on the same element.
-        if (! $getter) {
+        // An empty string hands the element back to its neutral customization
+        // block, so a color and a neutral never land on the same element.
+        if ($this->component->colorless === true) { // @phpstan-ignore-line
             return ['header' => '', 'button' => ''];
         }
 
+        $getter = $this->component->color; // @phpstan-ignore-line
+
+        // The header is a caption and stays neutral until a color is asked for.
+        // The button is an action, so it carries the accent unasked.
         return [
-            'header' => data_get($header, $getter) ?? data_get($this->header(), $getter) ?? '',
-            'button' => data_get($button, $getter) ?? data_get($this->button(), $getter) ?? '',
+            'header' => $getter ? (data_get($header, $getter) ?? data_get($this->header(), $getter) ?? '') : '',
+            'button' => data_get($button, $getter ?? 'primary') ?? data_get($this->button(), $getter ?? 'primary') ?? '',
         ];
     }
 

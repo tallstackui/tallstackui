@@ -25,13 +25,18 @@ A dynamic key-value pair editor that allows users to add, edit, and remove entri
 <x-key-value wire:model="metadata" color="green" />
 ```
 
+```blade
+<x-key-value wire:model="metadata" colorless />
+```
+
 ## Attributes
 
 | Attribute     | Type                        | Default | Description                                                                                       |
 |---------------|-----------------------------|---------|---------------------------------------------------------------------------------------------------|
 | label         | string\|null                | null    | Custom header label for the key column (defaults to translation)                                  |
 | value         | string\|null                | null    | Custom header label for the value column (defaults to translation)                                |
-| color         | string\|null                | null    | Accent for the header and the add button. Any TallStackUI color, or `black`. Without it the header is neutral gray and the button follows `primary`. |
+| color         | string\|null                | null    | Accent for the header and the add button. Any TallStackUI color, or `black`. Without it the header stays neutral and the button follows `primary`. |
+| colorless     | bool\|null                  | null    | Drops the accent entirely, in light and dark. Wins over `color`.                                  |
 | limit         | int\|null                   | null    | Maximum number of rows allowed                                                                    |
 | static        | bool                        | null    | Makes all inputs read-only and hides the add button                                               |
 | deletable     | bool                        | null    | Shows a delete button on each row                                                                 |
@@ -75,7 +80,7 @@ TallStackUi::customize()
 |------------------|--------------------------------------------------------------|
 | wrapper          | Outer container styles (background, border, rounded corners) |
 | header.wrapper   | Header row layout (grid, border, padding)                    |
-| header.neutral   | Header text color, applied only when no `color` is given     |
+| header.neutral   | Header text color, applied when no accent resolves            |
 | header.key       | Header key column text style                                 |
 | header.value     | Header value column text style                               |
 | empty.wrapper    | Empty state container (centered flex)                        |
@@ -84,7 +89,7 @@ TallStackUi::customize()
 | list.input.key   | Input styles for the key field                               |
 | list.input.value | Input styles for the value field                             |
 | button.add       | Add row button layout (full-width, border, padding)          |
-| button.neutral   | Add row button color, applied only when no `color` is given  |
+| button.neutral   | Add row button color under `colorless`                        |
 | button.delete    | Delete icon button styles (positioning, color)               |
 
 ## Color Personalization
@@ -97,6 +102,10 @@ Publishes a `KeyValueColors` class with two palettes: `headerColors()` for the h
 and `buttonColors()` for the add button. Returning `null` for an entry falls back to the
 bundled value, so only the colors you actually change need filling in.
 
-Both palettes are consulted only when `color` is given. Without it the component takes
-`header.neutral` and `button.neutral` from the customization blocks instead, which is why
-neither has to out-specify the other.
+The button reads its palette whether or not `color` is given, falling back to `primary`.
+The header only reads its own when a color is asked for, since it is a caption rather than
+an action.
+
+`colorless` short-circuits both, handing the header and the button back to
+`header.neutral` and `button.neutral`. A color and a neutral never land on the same
+element, which is why neither has to out-specify the other.

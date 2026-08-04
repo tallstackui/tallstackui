@@ -49,10 +49,23 @@ TallStackUI color plus `black`, and is backed by a `KeyValueColors` class, so
 `php artisan tallstackui:setup-color` can publish and override the palette like any
 other colored component.
 
-Without it the header stays neutral gray and the button follows `primary`. Those two
-defaults live in `header.neutral` and `button.neutral`, which are applied only when no
-color is given — the color never lands on the same element as the neutral, so neither
-has to out-specify the other.
+The header and the button do not default alike. The header is a caption, so it stays
+neutral until a color is asked for; the button is an action, so it carries `primary`
+unasked.
+
+### Added — `colorless`, for an add button with no accent
+
+```blade
+<x-key-value wire:model="metadata" colorless />
+```
+
+`color` has no "off" value: leaving it out is what gives the button its `primary`, so
+there was no way to ask for a neutral one. `colorless` is that way, in light and dark,
+and it wins over an explicit `color`.
+
+It hands the header and the button back to `header.neutral` and `button.neutral`. A
+color and a neutral never land on the same element, which is why neither has to
+out-specify the other.
 
 ## Form / Tag
 

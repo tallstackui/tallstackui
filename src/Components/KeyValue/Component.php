@@ -25,6 +25,7 @@ class Component extends TallStackUiComponent implements Customization
         public ?string $label = null,
         public ?string $value = null,
         public ?string $color = null,
+        public ?bool $colorless = null,
         public ?int $limit = null,
         public ?bool $static = null,
         public ?bool $deletable = null,
@@ -69,7 +70,7 @@ class Component extends TallStackUiComponent implements Customization
             ],
             'button' => [
                 'add' => 'dark:border-dark-600 w-full cursor-pointer border-t border-gray-100 px-4 py-2.5 text-center font-medium',
-                'neutral' => 'dark:text-primary-400 dark:hover:bg-dark-600 text-primary-600 hover:bg-primary-50',
+                'neutral' => 'dark:text-dark-300 dark:hover:bg-dark-600 text-gray-600 hover:bg-gray-50',
                 'delete' => 'absolute top-2 right-0 h-5 w-5 text-red-500',
             ],
         ]);
