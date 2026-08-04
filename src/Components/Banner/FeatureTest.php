@@ -226,7 +226,6 @@ it('applies an edge fade mask on the rotate viewport', function () {
 });
 
 it('does not throw when the text array is empty', function () {
-    // An empty collection is the natural degenerate case of :text="$notices".
     expect('<x-banner :text="[]" />')->render()->toBeString();
 });
 

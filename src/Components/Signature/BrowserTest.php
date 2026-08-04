@@ -247,8 +247,6 @@ class BrowserTest extends BrowserTestCase
 
                 Assert::assertGreaterThan(0, $before, 'the drag should have drawn something on the canvas');
 
-                // resize used to reach size() through bind(), which forwarded the
-                // Event as the `clear` flag and wiped the canvas on every resize.
                 $browser->resize(900, 900)->pause(500);
 
                 Assert::assertGreaterThan(0, $this->ink($browser), 'resizing must not wipe the drawing');

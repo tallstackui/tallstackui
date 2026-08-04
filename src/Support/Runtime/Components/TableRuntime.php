@@ -65,9 +65,8 @@ class TableRuntime extends AbstractRuntime
 
         return [
             'livewire' => $this->wireable(),
-            // The full paginator views call total(), lastPage() and $elements, which only
-            // a length-aware paginator answers. simplePaginate() has none of them, so it
-            // renders simple whether or not the flag was given.
+            // The full paginator views call total(), lastPage() and $elements, which
+            // only a length-aware paginator answers.
             'simple' => $this->data('simplePagination') || ! $rows instanceof LengthAwarePaginator,
             'name' => $name,
             'dusk' => $name === 'page' ? '' : '.'.$name,

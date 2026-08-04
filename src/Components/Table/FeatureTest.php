@@ -419,8 +419,6 @@ describe('the global defaults', function () {
 });
 
 it('renders the simple paginator when the rows are not length aware', function (array $headers) {
-    // simplePaginate() answers none of total(), lastPage() or $elements, which is
-    // what the full paginator views ask for.
     $rows = collect(range(1, 11))->map(fn (int $index): array => ['name' => "User {$index}", 'email' => "user{$index}@bar.com"]);
 
     $paginator = new Paginator($rows, 10, 1, ['path' => 'http://localhost/users']);

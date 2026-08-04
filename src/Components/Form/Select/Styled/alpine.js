@@ -870,9 +870,7 @@ export default (
 
     if (this.common) {
       // The lazy window trims the browsable list, not the searchable universe.
-      // Slicing before the filter would hide every match past the window, which
-      // is exactly where a long list needs the search the most. When a term is
-      // active the window is applied to the matches instead, further down.
+      // Under an active term it is applied to the matches instead, further down.
       available = this.lazy && this.search === '' ? available.slice(0, this.lazy) : available;
     }
 

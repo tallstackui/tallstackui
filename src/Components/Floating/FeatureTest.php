@@ -17,8 +17,6 @@ it('can render', function () {
 });
 
 it('resolves an auto position into a concrete placement', function (string $position, string $expected) {
-    // Alpine's anchor plugin knows only the 12 concrete placements; an auto*
-    // modifier left the placement undefined and dropped the alignment.
     expect("<x-floating position=\"{$position}\">Foo bar</x-floating>")->render()
         ->toContain("x-anchor.{$expected}.offset.10");
 })->with([

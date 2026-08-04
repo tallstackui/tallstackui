@@ -352,8 +352,6 @@ foreach ($componentFiles as $componentFile) {
         $viewNames,
     )));
 
-    // Counting a component as scanned before its views resolve is what let the
-    // summary claim coverage it never had.
     if ($bladePaths === []) {
         $unresolved[] = str_replace($root.'/', '', $componentFile);
 
@@ -437,8 +435,7 @@ foreach ($componentFiles as $componentFile) {
 
 note("Scanned {$totalComponents} components, {$totalKeys} customization keys.");
 
-// A component whose view cannot be resolved is not verified, and saying so is
-// the whole point: a silent skip reads as coverage.
+// A silent skip reads as coverage, which is the failure this check exists to avoid.
 if (! empty($unresolved)) {
     error('Could not resolve the blade view of '.count($unresolved).' component(s), so their blocks were never checked.');
 
