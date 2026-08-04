@@ -434,10 +434,10 @@ describe('compact', function () {
 
         expect('<x-table :$headers :$rows compact />')
             ->render(['headers' => $headers, 'rows' => $rows])
-            ->toContain('py-2')
-            ->toContain('py-1.5')
+            ->toContain('px-3 py-2 text-left')
+            ->toContain('px-3 py-2.5 text-sm')
             ->not->toContain('py-3.5')
-            ->not->toContain('py-4');
+            ->not->toContain('px-3 py-4');
     })->with('table.headers');
 
     it('keeps the roomy padding by default', function (array $headers) {
@@ -446,13 +446,14 @@ describe('compact', function () {
         expect('<x-table :$headers :$rows />')
             ->render(['headers' => $headers, 'rows' => $rows])
             ->toContain('py-3.5')
-            ->toContain('py-4');
+            ->toContain('px-3 py-4')
+            ->not->toContain('py-2.5');
     })->with('table.headers');
 
     it('tightens the empty message', function (array $headers) {
         expect('<x-table :$headers compact />')
             ->render(['headers' => $headers])
-            ->toContain('py-1.5');
+            ->toContain('col-span-full whitespace-nowrap px-3 py-2.5');
     })->with('table.headers');
 
     it('tightens the expandable content', function (array $headers) {
@@ -468,13 +469,15 @@ describe('compact', function () {
 
         expect($component)
             ->render(['headers' => $headers, 'rows' => $rows])
-            ->toContain('px-4 py-1.5');
+            ->toContain('px-4 py-2')
+            ->not->toContain('px-4 py-3');
     })->with('table.headers');
 
     it('tightens the skeleton too', function (array $headers) {
         expect('<x-table skeleton :$headers compact />')
             ->render(['headers' => $headers])
-            ->toContain('py-2')
+            ->toContain('px-3 py-2 text-left')
+            ->toContain('px-3 py-2.5 text-sm')
             ->not->toContain('py-3.5');
     })->with('table.headers');
 });

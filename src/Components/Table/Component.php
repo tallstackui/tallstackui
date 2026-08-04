@@ -87,7 +87,7 @@ class Component extends TallStackUiComponent implements Customization
                 'th-sort-wrapper' => 'inline-flex truncate',
                 'tbody' => 'dark:bg-dark-700 dark:divide-dark-500/20 divide-y divide-gray-200 bg-white',
                 'td' => 'dark:text-dark-300 whitespace-nowrap px-3 py-4 text-sm text-gray-500',
-                'td-compact' => 'dark:text-dark-300 whitespace-nowrap px-3 py-1.5 text-sm text-gray-500',
+                'td-compact' => 'dark:text-dark-300 whitespace-nowrap px-3 py-2.5 text-sm text-gray-500',
                 'tr' => '',
                 'thead' => [
                     'normal' => 'bg-gray-50 dark:bg-dark-600',
@@ -102,7 +102,7 @@ class Component extends TallStackUiComponent implements Customization
                 'icon' => 'text-primary-500 dark:text-dark-300 absolute bottom-0 left-0 right-0 top-0 m-auto grid h-10 w-10 animate-spin place-items-center',
             ],
             'empty' => 'dark:text-dark-300 col-span-full whitespace-nowrap px-3 py-4 text-sm text-gray-500',
-            'empty-compact' => 'dark:text-dark-300 col-span-full whitespace-nowrap px-3 py-1.5 text-sm text-gray-500',
+            'empty-compact' => 'dark:text-dark-300 col-span-full whitespace-nowrap px-3 py-2.5 text-sm text-gray-500',
             'filter' => [
                 'wrapper' => 'mb-4 flex items-end gap-x-2 sm:gap-x-0',
                 'wrapper-with-search-and-quantity' => 'justify-between',
@@ -121,7 +121,7 @@ class Component extends TallStackUiComponent implements Customization
                 'icon' => 'h-4 w-4 transition-transform duration-200',
                 'rotated' => 'rotate-90',
                 'content' => 'px-4 py-3',
-                'content-compact' => 'px-4 py-1.5',
+                'content-compact' => 'px-4 py-2',
             ],
             'cell-clickable' => 'cursor-pointer',
             'skeleton' => [
