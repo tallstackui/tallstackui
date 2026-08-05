@@ -87,12 +87,29 @@ class Component extends TallStackUiComponent implements Customization
         }
 
         $configuration = __ts_get_component_configuration(Icon::class);
+        $type = $configuration['type'] ?? 'heroicons';
 
-        if (! in_array($configuration['type'] ?? null, ['hero', 'heroicons'], true)) {
+        if (in_array($type, ['hero', 'heroicons'], true)) {
+            return Views::exists('ts-ui::components.icon.heroicons.'.($configuration['style'] ?? 'solid').'.'.$this->watermark);
+        }
+
+        // A local set is plain Blade components, so the same check applies once
+        // the configured path is turned back into a view name. A package set is
+        // resolved by its own factory, which this cannot see into.
+        if (str_contains($type, '/blade-')) {
             return true;
         }
 
-        return Views::exists('ts-ui::components.icon.heroicons.'.($configuration['style'] ?? 'solid').'.'.$this->watermark);
+        return Views::exists('components.'.str_replace(['views/components/', '/'], ['', '.'], $type).'.'.$this->watermark);
+    }
+
+    /**
+     * The highest level is what pays for the modules a watermark removes, so
+     * it is not offered as a choice: asking for a watermark asks for it.
+     */
+    public function level(): string
+    {
+        return $this->watermark !== null ? 'H' : 'M';
     }
 
     protected function validate(): void
@@ -128,7 +145,7 @@ class Component extends TallStackUiComponent implements Customization
 
         // Checked here so the failure names the property, instead of surfacing
         // as the encoder's own exception from inside the runtime.
-        if (strlen($this->link) > ($limit = Encoder::limit($this->watermark !== null ? 'H' : 'M'))) {
+        if (strlen($this->link) > ($limit = Encoder::limit($this->level()))) {
             __ts_validation_exception($this, 'The [link] must not be longer than '.$limit.' characters.');
         }
     }

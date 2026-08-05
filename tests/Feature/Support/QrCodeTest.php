@@ -225,6 +225,20 @@ it('leaves the watermark region blank', function () {
         ->and($removed)->toBeGreaterThan(0);
 });
 
+it('keeps a caption from eating the symbol', function (int $version) {
+    $size = Version::size($version);
+
+    // A strip that grows with the caption until it hits the outer bound takes
+    // most of the width of a large symbol, and no reader takes that code. The
+    // budget is the share the square watermark was measured against.
+    foreach (range(1, 8) as $length) {
+        $knockout = Watermark::text($version, $length)['knockout'];
+
+        expect($knockout['width'] / $size)->toBeLessThanOrEqual(0.42)
+            ->and($knockout['width'] * $knockout['height'] / ($size * $size))->toBeLessThanOrEqual(0.08);
+    }
+})->with([2, 7, 13, 21, 27, 34, 40]);
+
 it('keeps the watermark clear of the timing and format modules', function (int $version) {
     $size = Version::size($version);
 

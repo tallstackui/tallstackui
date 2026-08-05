@@ -4145,8 +4145,11 @@ exported file.
 
 The modules under a watermark are **removed rather than covered**. The
 component draws no background, so anything painted over them would still show
-them through. The region is bounded so it never reaches the timing patterns or
-either format information block.
+them through. The region never reaches the timing patterns or either format
+information block, and both kinds are capped at roughly six per cent of the
+symbol area — a caption strip that grew with its text would take most of the
+width of a large symbol and no reader would take that code. A long caption
+shrinks its font rather than widening the strip.
 
 **`copy` and `download` export the code as a file.** Copy always writes a PNG,
 because pasting a vector into a chat or a document does not work anywhere it

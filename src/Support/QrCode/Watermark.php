@@ -16,6 +16,13 @@ final class Watermark
     /** Strip width granted per character, relative to its height. */
     private const PITCH = 0.75;
 
+    /**
+     * Widest a caption strip may get. Without it the strip grows with the
+     * caption until it hits the outer bound, which on a large symbol means
+     * most of the width and a code no reader will take.
+     */
+    private const SPAN = 0.40;
+
     /** Share of the width a square watermark takes. */
     private const SQUARE = 0.26;
 
@@ -39,7 +46,7 @@ final class Watermark
     {
         $size = Version::size($version);
         $height = self::odd(round($size * self::STRIP), $version);
-        $width = self::odd(max($height, round($height * $length * self::PITCH)), $version);
+        $width = self::odd(min(round($size * self::SPAN), max($height, round($height * $length * self::PITCH))), $version);
 
         $knockout = self::box($size, $width, $height);
         $inner = self::inner($knockout);

@@ -34,9 +34,7 @@ class QrCodeRuntime extends AbstractRuntime
             return ['scale' => $component->size, 'blocks' => self::SHAPE, 'viewbox' => '0 0 15 15'];
         }
 
-        // The highest level is what pays for the modules a watermark removes,
-        // so it is not offered as a choice: asking for a watermark asks for it.
-        $matrix = Encoder::make($component->link, $component->watermark !== null ? 'H' : 'M');
+        $matrix = Encoder::make($component->link, $component->level());
         $mark = $this->watermark($matrix->version);
         $format = $this->format();
 

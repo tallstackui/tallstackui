@@ -96,8 +96,11 @@ accepted here, as `<foreignObject>` is dropped during rasterization.
 
 The modules underneath are **removed, not covered**: the component draws no
 background, so anything painted over them would still show them through. The
-region is bounded so it never reaches the timing patterns or either format
-information block.
+region never reaches the timing patterns or either format information block,
+and both kinds are capped at roughly six per cent of the symbol area — a
+caption strip that grew with its text would take most of the width of a large
+symbol and no reader would take that code. A long caption shrinks its font
+rather than widening the strip.
 
 ### Copy and download
 
